@@ -10,10 +10,10 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	peerpresenceobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/jetstream/prometheus"
+	peerpresenceobserversredisprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/redis/prometheus"
 )
 
-var errSnapshot = errors.New("the bucket did not answer")
+var errSnapshot = errors.New("the server did not answer")
 
 func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
 	t.Helper()
@@ -31,7 +31,7 @@ func TestEverySnapshotFailureIsPublishedApartFromTheSnapshotsWritten(t *testing.
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := peerpresenceobserversjetstreamprometheus.New(registry)
+	metrics := peerpresenceobserversredisprometheus.New(registry)
 
 	metrics.SnapshotsReadFailed(t.Context(), errSnapshot)
 	metrics.SnapshotUndecodable(t.Context(), "aaaaaaaaaaaa.bbb", errSnapshot)
@@ -55,7 +55,7 @@ func TestEverySnapshotFailureIsPublishedBeforeTheFirstSnapshot(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	peerpresenceobserversjetstreamprometheus.New(registry)
+	peerpresenceobserversredisprometheus.New(registry)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{

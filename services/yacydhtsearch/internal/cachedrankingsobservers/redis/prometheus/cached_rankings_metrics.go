@@ -1,4 +1,4 @@
-// Package prometheus reports how often caching rankings in NATS failed.
+// Package prometheus reports how often caching rankings on the shared server failed.
 package prometheus
 
 import (

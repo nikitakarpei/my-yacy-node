@@ -5,18 +5,18 @@ import (
 	"testing"
 	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/alicebob/miniredis/v2"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
 	networkName      = "yacydhtsearch"
-	streamName       = "probe-answer-history"
 	answeringAddress = "http://10.0.0.1:8090"
 	readingDeadline  = 5 * time.Second
+	keptFor          = time.Hour
 )
 
 type silentObserver struct{}
@@ -48,21 +48,39 @@ func hashOf(t *testing.T, symbol byte) yacymodel.Hash {
 	return hash
 }
 
-func historyOver(t *testing.T) (probeanswerhistory.History, natsjetstream.JetStream) {
+type manualClock struct{ now time.Time }
+
+func (c *manualClock) Now() time.Time { return c.now }
+
+type historyOnATestServer struct {
+	history probeanswerhistory.History
+	server  *miniredis.Miniredis
+	clock   *manualClock
+}
+
+func historyOver(t *testing.T) historyOnATestServer {
 	t.Helper()
 
-	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	_, err := stream.CreateOrUpdateStream(t.Context(), natsjetstream.StreamConfig{
-		Name:     streamName,
-		Subjects: []string{probeanswerhistory.SubjectOfEveryProbeAnswerIn(networkName)},
-	})
-	if err != nil {
-		t.Fatalf("create stream: %v", err)
-	}
+	server := miniredis.RunT(t)
+	server.SetTime(startOfObservation())
+	clock := &manualClock{now: startOfObservation()}
 
-	return probeanswerhistory.New(
-		stream, streamName, networkName, probeanswerhistory.HistoryObservers{silentObserver{}},
-	), stream
+	return historyOnATestServer{
+		history: probeanswerhistory.New(
+			redis.NewClient(&redis.Options{Addr: server.Addr()}),
+			networkName,
+			keptFor,
+			clock,
+			probeanswerhistory.HistoryObservers{silentObserver{}},
+		),
+		server: server,
+		clock:  clock,
+	}
+}
+
+func (h historyOnATestServer) passTime(elapsed time.Duration) {
+	h.clock.now = h.clock.now.Add(elapsed)
+	h.server.SetTime(h.clock.now)
 }
 
 func answerOf(t *testing.T, symbol byte, at time.Time) probeanswerhistory.ProbeAnswer {
@@ -107,11 +125,11 @@ func readAfter(
 func TestEveryAppendedAnswerIsReadBackInTheOrderItWasAppended(t *testing.T) {
 	t.Parallel()
 
-	history, _ := historyOver(t)
+	history := historyOver(t).history
 	history.Append(t.Context(), answerOf(t, 'a', startOfObservation()))
 	history.Append(t.Context(), answerOf(t, 'b', startOfObservation().Add(time.Minute)))
 
-	_, answers := readAfter(t, history, 0, 2)
+	_, answers := readAfter(t, history, probeanswerhistory.ProbeAnswerPosition{}, 2)
 
 	if answers[0].Hash != hashOf(t, 'a') || answers[1].Hash != hashOf(t, 'b') {
 		t.Fatalf("read %+v, want the answers in the order they were appended", answers)
@@ -124,10 +142,10 @@ func TestEveryAppendedAnswerIsReadBackInTheOrderItWasAppended(t *testing.T) {
 func TestAReaderReadsOnFromThePositionItKept(t *testing.T) {
 	t.Parallel()
 
-	history, _ := historyOver(t)
+	history := historyOver(t).history
 	history.Append(t.Context(), answerOf(t, 'a', startOfObservation()))
 	history.Append(t.Context(), answerOf(t, 'b', startOfObservation().Add(time.Minute)))
-	positions, _ := readAfter(t, history, 0, 2)
+	positions, _ := readAfter(t, history, probeanswerhistory.ProbeAnswerPosition{}, 2)
 
 	_, readAgain := readAfter(t, history, positions[0], 1)
 
@@ -139,37 +157,61 @@ func TestAReaderReadsOnFromThePositionItKept(t *testing.T) {
 func TestAReaderStartsAtTheEarliestAnswerTheHistoryStillHolds(t *testing.T) {
 	t.Parallel()
 
-	history, stream := historyOver(t)
-	history.Append(t.Context(), answerOf(t, 'a', startOfObservation()))
-	readAfter(t, history, 0, 1)
-	dropEveryAnswer(t, stream)
-	history.Append(t.Context(), answerOf(t, 'b', startOfObservation().Add(time.Minute)))
+	shared := historyOver(t)
+	shared.history.Append(t.Context(), answerOf(t, 'a', startOfObservation()))
+	shared.passTime(keptFor + time.Minute)
+	shared.history.Append(t.Context(), answerOf(t, 'b', startOfObservation().Add(keptFor)))
 
-	_, answers := readAfter(t, history, 0, 1)
+	_, answers := readAfter(t, shared.history, probeanswerhistory.ProbeAnswerPosition{}, 1)
 
 	if answers[0].Hash != hashOf(t, 'b') {
 		t.Fatalf("read %+v, want the earliest answer the history still holds", answers[0])
 	}
 }
 
-func dropEveryAnswer(t *testing.T, stream natsjetstream.JetStream) {
-	t.Helper()
+func TestAPositionReadsBackFromTheTextItIsKeptAs(t *testing.T) {
+	t.Parallel()
 
-	answers, err := stream.Stream(t.Context(), streamName)
+	history := historyOver(t).history
+	history.Append(t.Context(), answerOf(t, 'a', startOfObservation()))
+	positions, _ := readAfter(t, history, probeanswerhistory.ProbeAnswerPosition{}, 1)
+
+	text, err := positions[0].MarshalText()
 	if err != nil {
-		t.Fatalf("open stream: %v", err)
+		t.Fatalf("marshal: %v", err)
 	}
-	if err := answers.Purge(t.Context()); err != nil {
-		t.Fatalf("drop the answers: %v", err)
+	var kept probeanswerhistory.ProbeAnswerPosition
+	if err := kept.UnmarshalText(text); err != nil {
+		t.Fatalf("unmarshal %q: %v", text, err)
+	}
+
+	if kept != positions[0] {
+		t.Fatalf("kept %v, want %v", kept, positions[0])
+	}
+}
+
+func TestTextThatIsNotAPositionIsRefused(t *testing.T) {
+	t.Parallel()
+
+	for _, text := range []string{"7", "x-1", "7-y"} {
+		var kept probeanswerhistory.ProbeAnswerPosition
+		if err := kept.UnmarshalText([]byte(text)); err == nil {
+			t.Errorf("UnmarshalText(%q) accepted text that is not a position", text)
+		}
 	}
 }
 
 func TestTheEarliestPositionIsTheOneEveryReaderHasReached(t *testing.T) {
 	t.Parallel()
 
-	earliest := probeanswerhistory.EarliestOf(7, 3, 9)
+	earliest := probeanswerhistory.EarliestOf(
+		probeanswerhistory.ProbeAnswerPosition{AppendedAtMillis: 7},
+		probeanswerhistory.ProbeAnswerPosition{AppendedAtMillis: 3, Sequence: 2},
+		probeanswerhistory.ProbeAnswerPosition{AppendedAtMillis: 3, Sequence: 1},
+		probeanswerhistory.ProbeAnswerPosition{AppendedAtMillis: 9},
+	)
 
-	if earliest != 3 {
+	if earliest != (probeanswerhistory.ProbeAnswerPosition{AppendedAtMillis: 3, Sequence: 1}) {
 		t.Fatalf("EarliestOf = %v, want the earliest position given", earliest)
 	}
 }
@@ -177,7 +219,7 @@ func TestTheEarliestPositionIsTheOneEveryReaderHasReached(t *testing.T) {
 func TestNoPositionAtAllIsTheStartOfTheHistory(t *testing.T) {
 	t.Parallel()
 
-	if earliest := probeanswerhistory.EarliestOf(); earliest != 0 {
+	if earliest := probeanswerhistory.EarliestOf(); !earliest.IsZero() {
 		t.Fatalf("EarliestOf = %v, want the start of the history", earliest)
 	}
 }

@@ -1,12 +1,12 @@
-// Package jetstream folds the probe answer history into the presence each peer
+// Package redis folds the probe answer history into the presence each peer
 // has earned. An instance credits nothing it observes directly: it appends the
 // answer to the history, and its own answers reach it the same way its
 // siblings' answers do, so every instance folds the same answers in the same
-// order and holds the same presence. A snapshot in a key-value bucket carries
+// order and holds the same presence. A snapshot on a Redis-protocol server carries
 // the presence one peer has earned and the position in the history that
 // presence includes, so an instance that starts again reads every snapshot and
 // folds on from the earliest position any of them is missing.
-package jetstream
+package redis
 
 import (
 	"context"
@@ -15,12 +15,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
+
+const snapshotsKey = "peer-presence"
 
 type snapshottedPeer struct {
 	presenceaccrual.ObservedPeer
@@ -34,7 +36,7 @@ type PeerPresenceLimits struct {
 
 type PeerPresence struct {
 	answers          probeanswerhistory.History
-	snapshots        natsjetstream.KeyValue
+	client           redis.UniversalClient
 	accrualLimits    presenceaccrual.PresenceAccrualLimits
 	accrual          atomic.Pointer[presenceaccrual.PresenceAccrual]
 	changedPeers     map[probeanswerhistory.PeerAtAddress]snapshottedPeer
@@ -46,14 +48,14 @@ type PeerPresence struct {
 
 func New(
 	answers probeanswerhistory.History,
-	snapshots natsjetstream.KeyValue,
+	client redis.UniversalClient,
 	limits PeerPresenceLimits,
 	accrualObserver presenceaccrual.PresenceAccrualObserver,
 	presenceObserver PeerPresenceObserver,
 ) *PeerPresence {
 	presence := &PeerPresence{
 		answers:          answers,
-		snapshots:        snapshots,
+		client:           client,
 		accrualLimits:    limits.AccrualLimits,
 		changedPeers:     map[probeanswerhistory.PeerAtAddress]snapshottedPeer{},
 		snapshotInterval: limits.SnapshotInterval,
@@ -107,22 +109,18 @@ func (h *PeerPresence) FoldTheProbeAnswerHistory(ctx context.Context) {
 }
 
 func (h *PeerPresence) peersSnapshotted(ctx context.Context) []snapshottedPeer {
-	watcher, err := h.snapshots.Watch(ctx, keyOfEveryPeer, natsjetstream.IgnoreDeletes())
+	snapshots, err := h.client.HGetAll(ctx, snapshotsKey).Result()
 	if err != nil {
 		h.presenceObserver.SnapshotsReadFailed(ctx, err)
 
 		return nil
 	}
-	defer func() { _ = watcher.Stop() }()
 
-	var peersSnapshotted []snapshottedPeer
-	for entry := range watcher.Updates() {
-		if entry == nil {
-			break
-		}
+	peersSnapshotted := make([]snapshottedPeer, 0, len(snapshots))
+	for key, encoded := range snapshots {
 		var peerSnapshotted snapshottedPeer
-		if err := json.Unmarshal(entry.Value(), &peerSnapshotted); err != nil {
-			h.presenceObserver.SnapshotUndecodable(ctx, entry.Key(), err)
+		if err := json.Unmarshal([]byte(encoded), &peerSnapshotted); err != nil {
+			h.presenceObserver.SnapshotUndecodable(ctx, key, err)
 
 			continue
 		}
@@ -131,8 +129,6 @@ func (h *PeerPresence) peersSnapshotted(ctx context.Context) []snapshottedPeer {
 
 	return peersSnapshotted
 }
-
-const keyOfEveryPeer = "*.*"
 
 func observedPeersAmong(peersSnapshotted []snapshottedPeer) []presenceaccrual.ObservedPeer {
 	observedPeers := make([]presenceaccrual.ObservedPeer, 0, len(peersSnapshotted))
@@ -211,7 +207,7 @@ func (h *PeerPresence) snapshot(
 
 		return false
 	}
-	if _, err := h.snapshots.Put(ctx, key, encoded); err != nil {
+	if err := h.client.HSet(ctx, snapshotsKey, key, encoded).Err(); err != nil {
 		h.presenceObserver.SnapshotWriteFailed(ctx, key, err)
 
 		return false

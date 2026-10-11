@@ -1,4 +1,4 @@
-package jetstream
+package redis
 
 import "context"
 

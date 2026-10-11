@@ -1,14 +1,15 @@
-// Package jetstream remembers in a NATS key-value bucket the amount of documents
-// in one partition for each query word, so that every service instance leads
-// with the rarest word from the same amounts.
-package jetstream
+// Package redis remembers on a Redis-protocol server, for the lifetime of an amount,
+// the amount of documents in one partition for each query word, so that every service
+// instance leads with the rarest word from the same amounts.
+package redis
 
 import (
 	"context"
 	"errors"
 	"strconv"
+	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -18,16 +19,20 @@ type QueryWordDocumentAmountsObserver interface {
 	DocumentAmountStoreFailed(ctx context.Context, word yacymodel.Hash, err error)
 }
 
+const keyPrefix = "query-word-document-amounts:"
+
 type QueryWordDocumentAmounts struct {
-	bucket   natsjetstream.KeyValue
+	client   redis.UniversalClient
+	lifetime time.Duration
 	observer QueryWordDocumentAmountsObserver
 }
 
 func New(
-	bucket natsjetstream.KeyValue,
+	client redis.UniversalClient,
+	lifetime time.Duration,
 	observer QueryWordDocumentAmountsObserver,
 ) *QueryWordDocumentAmounts {
-	return &QueryWordDocumentAmounts{bucket: bucket, observer: observer}
+	return &QueryWordDocumentAmounts{client: client, lifetime: lifetime, observer: observer}
 }
 
 func (a *QueryWordDocumentAmounts) DocumentAmountsOf(
@@ -47,8 +52,8 @@ func (a *QueryWordDocumentAmounts) DocumentAmountsOf(
 }
 
 func (a *QueryWordDocumentAmounts) amountOf(ctx context.Context, word yacymodel.Hash) (int, bool) {
-	entry, err := a.bucket.Get(ctx, word.String())
-	if errors.Is(err, natsjetstream.ErrKeyNotFound) {
+	stored, err := a.client.Get(ctx, keyOf(word)).Result()
+	if errors.Is(err, redis.Nil) {
 		return 0, false
 	}
 	if err != nil {
@@ -56,7 +61,7 @@ func (a *QueryWordDocumentAmounts) amountOf(ctx context.Context, word yacymodel.
 
 		return 0, false
 	}
-	amount, err := strconv.Atoi(string(entry.Value()))
+	amount, err := strconv.Atoi(stored)
 	if err != nil {
 		a.observer.DocumentAmountLookupFailed(ctx, word, err)
 
@@ -71,10 +76,15 @@ func (a *QueryWordDocumentAmounts) Remember(
 	documentAmounts map[yacymodel.Hash]int,
 ) {
 	for word, amount := range documentAmounts {
-		if _, err := a.bucket.Put(ctx, word.String(), []byte(strconv.Itoa(amount))); err != nil {
+		if err := a.client.Set(ctx, keyOf(word), strconv.Itoa(amount), a.lifetime).
+			Err(); err != nil {
 			a.observer.DocumentAmountStoreFailed(ctx, word, err)
 		}
 	}
+}
+
+func keyOf(word yacymodel.Hash) string {
+	return keyPrefix + word.String()
 }
 
 type QueryWordDocumentAmountsObservers []QueryWordDocumentAmountsObserver

@@ -14,7 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/hermeticnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/kvrocks"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/searxngsearch"
@@ -81,14 +81,14 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 
 	network := hermeticnetwork.New(t, ctx)
 	egressproxy.Start(t, ctx, network.Name)
-	natsjetstream.Start(t, ctx, network.Name)
+	kvrocks.Start(t, ctx, network.Name)
 
 	_, holderURL := yacypeer.Start(
 		t, ctx, probe, network.Name, cacheProbeAlias, yacypeer.RemoteSearchOverrides()...,
 	)
 	documentAddress := yacypeer.PushDocument(t, ctx, probe, holderURL, []string{cacheProbeToken})
 
-	rankingCacheSettings := map[string]string{"YACYDHTSEARCH_NATS_URL": natsjetstream.NetworkURL()}
+	rankingCacheSettings := map[string]string{"YACYDHTSEARCH_STATE_REDIS_URL": kvrocks.NetworkURL()}
 	asking := startYacydhtsearch(
 		t,
 		ctx,

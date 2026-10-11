@@ -47,10 +47,10 @@ components:
     in: internal/presenceaccrualobservers/applog/**
   presenceaccrualobserversprometheus:
     in: internal/presenceaccrualobservers/prometheus/**
-  peerpresenceobserversjetstreamapplog:
-    in: internal/peerpresenceobservers/jetstream/applog/**
-  peerpresenceobserversjetstreamprometheus:
-    in: internal/peerpresenceobservers/jetstream/prometheus/**
+  peerpresenceobserversredisapplog:
+    in: internal/peerpresenceobservers/redis/applog/**
+  peerpresenceobserversredisprometheus:
+    in: internal/peerpresenceobservers/redis/prometheus/**
   probeanswerhistoryobserversapplog:
     in: internal/probeanswerhistoryobservers/applog/**
   peerlivenessobserversapplog:
@@ -89,24 +89,24 @@ components:
     in: internal/rankingcache/**
   cachedrankingsmemory:
     in: internal/cachedrankings/memory/**
-  cachedrankingsjetstream:
-    in: internal/cachedrankings/jetstream/**
+  cachedrankingsredis:
+    in: internal/cachedrankings/redis/**
   rankingcacheobserversapplog:
     in: internal/rankingcacheobservers/applog/**
   rankingcacheobserversprometheus:
     in: internal/rankingcacheobservers/prometheus/**
-  cachedrankingsobserversjetstreamapplog:
-    in: internal/cachedrankingsobservers/jetstream/applog/**
-  cachedrankingsobserversjetstreamprometheus:
-    in: internal/cachedrankingsobservers/jetstream/prometheus/**
+  cachedrankingsobserversredisapplog:
+    in: internal/cachedrankingsobservers/redis/applog/**
+  cachedrankingsobserversredisprometheus:
+    in: internal/cachedrankingsobservers/redis/prometheus/**
   queryworddocumentamountsmemory:
     in: internal/queryworddocumentamounts/memory/**
-  queryworddocumentamountsjetstream:
-    in: internal/queryworddocumentamounts/jetstream/**
-  queryworddocumentamountsobserversjetstreamapplog:
-    in: internal/queryworddocumentamountsobservers/jetstream/applog/**
-  queryworddocumentamountsobserversjetstreamprometheus:
-    in: internal/queryworddocumentamountsobservers/jetstream/prometheus/**
+  queryworddocumentamountsredis:
+    in: internal/queryworddocumentamounts/redis/**
+  queryworddocumentamountsobserversredisapplog:
+    in: internal/queryworddocumentamountsobservers/redis/applog/**
+  queryworddocumentamountsobserversredisprometheus:
+    in: internal/queryworddocumentamountsobservers/redis/prometheus/**
   peerasks:
     in: internal/peerasks/**
   peerchoice:
@@ -175,8 +175,8 @@ components:
     in: internal/probeanswerhistory/**
   presenceaccrual:
     in: internal/presenceaccrual/**
-  peerpresencejetstream:
-    in: internal/peerpresence/jetstream/**
+  peerpresenceredis:
+    in: internal/peerpresence/redis/**
   peerpresencememory:
     in: internal/peerpresence/memory/**
   peerreliability:
@@ -234,9 +234,9 @@ vendors:
   hashicorplru:
     in:
       - github.com/hashicorp/golang-lru/v2/**
-  nats:
+  redis:
     in:
-      - github.com/nats-io/nats.go/**
+      - github.com/redis/go-redis/v9
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
@@ -244,7 +244,6 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
-      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
 
@@ -307,15 +306,15 @@ deps:
   probeanswerhistory:
     canUse:
       - yacymodel
-      - nats
+      - redis
   presenceaccrual:
     canUse:
       - yacymodel
       - hashicorplru
-  peerpresencejetstream:
+  peerpresenceredis:
     canUse:
       - yacymodel
-      - nats
+      - redis
   peerpresencememory:
     canUse:
       - yacymodel
@@ -448,9 +447,9 @@ deps:
     mayDependOn:
       - searchquery
       - searchresult
-  cachedrankingsjetstream:
+  cachedrankingsredis:
     canUse:
-      - nats
+      - redis
     mayDependOn:
       - searchquery
       - searchresult
@@ -462,10 +461,10 @@ deps:
       - prometheus
     mayDependOn:
       - searchquery
-  cachedrankingsobserversjetstreamapplog:
+  cachedrankingsobserversredisapplog:
     mayDependOn:
       - searchquery
-  cachedrankingsobserversjetstreamprometheus:
+  cachedrankingsobserversredisprometheus:
     canUse:
       - prometheus
     mayDependOn:
@@ -474,14 +473,14 @@ deps:
     canUse:
       - hashicorplru
       - yacymodel
-  queryworddocumentamountsjetstream:
+  queryworddocumentamountsredis:
     canUse:
-      - nats
+      - redis
       - yacymodel
-  queryworddocumentamountsobserversjetstreamapplog:
+  queryworddocumentamountsobserversredisapplog:
     canUse:
       - yacymodel
-  queryworddocumentamountsobserversjetstreamprometheus:
+  queryworddocumentamountsobserversredisprometheus:
     canUse:
       - prometheus
       - yacymodel
@@ -544,7 +543,7 @@ deps:
     canUse:
       - prometheus
       - yacymodel
-  peerpresenceobserversjetstreamprometheus:
+  peerpresenceobserversredisprometheus:
     canUse:
       - prometheus
   peerlivenessobserversprometheus:

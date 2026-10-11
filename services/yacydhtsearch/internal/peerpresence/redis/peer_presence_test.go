@@ -1,14 +1,14 @@
-package jetstream_test
+package redis_test
 
 import (
 	"context"
 	"testing"
 	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/alicebob/miniredis/v2"
+	goredis "github.com/redis/go-redis/v9"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	peerpresencejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/jetstream"
+	peerpresenceredis "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/probeanswerhistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -16,8 +16,8 @@ import (
 
 const (
 	networkName      = "yacydhtsearch"
-	streamName       = "peers-answered"
-	bucketName       = "peer-presence"
+	answersKeptFor   = 24 * time.Hour
+	snapshotsKey     = "peer-presence"
 	answeringAddress = "http://10.0.0.1:8090"
 	continuityLimit  = 10 * time.Minute
 	wideCapacity     = 16
@@ -58,49 +58,30 @@ func hashOf(t *testing.T, symbol byte) yacymodel.Hash {
 	return hash
 }
 
-func sharedJetStream(t *testing.T) natsjetstream.JetStream {
-	t.Helper()
+type wallClock struct{}
 
-	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	_, err := stream.CreateOrUpdateStream(t.Context(), natsjetstream.StreamConfig{
-		Name:     streamName,
-		Subjects: []string{probeanswerhistory.SubjectOfEveryProbeAnswerIn(networkName)},
-	})
-	if err != nil {
-		t.Fatalf("create stream: %v", err)
-	}
-	_, err = stream.CreateOrUpdateKeyValue(t.Context(), natsjetstream.KeyValueConfig{
-		Bucket: bucketName,
-	})
-	if err != nil {
-		t.Fatalf("create bucket: %v", err)
-	}
-
-	return stream
-}
+func (wallClock) Now() time.Time { return time.Now() }
 
 func presenceOver(
 	t *testing.T,
-	stream natsjetstream.JetStream,
+	shared *miniredis.Miniredis,
 	limits presenceaccrual.PresenceAccrualLimits,
 	snapshotInterval time.Duration,
-) *peerpresencejetstream.PeerPresence {
+) *peerpresenceredis.PeerPresence {
 	t.Helper()
 
-	bucket, err := stream.KeyValue(t.Context(), bucketName)
-	if err != nil {
-		t.Fatalf("open bucket: %v", err)
-	}
+	client := goredis.NewClient(&goredis.Options{Addr: shared.Addr()})
 
-	return peerpresencejetstream.New(
+	return peerpresenceredis.New(
 		probeanswerhistory.New(
-			stream,
-			streamName,
+			client,
 			networkName,
+			answersKeptFor,
+			wallClock{},
 			probeanswerhistory.HistoryObservers{},
 		),
-		bucket,
-		peerpresencejetstream.PeerPresenceLimits{
+		client,
+		peerpresenceredis.PeerPresenceLimits{
 			AccrualLimits:    limits,
 			SnapshotInterval: snapshotInterval,
 		},
@@ -111,7 +92,7 @@ func presenceOver(
 
 func consuming(
 	t *testing.T,
-	presence *peerpresencejetstream.PeerPresence,
+	presence *peerpresenceredis.PeerPresence,
 ) context.CancelFunc {
 	t.Helper()
 
@@ -127,7 +108,7 @@ func peerAtAddress(peer yacymodel.Hash) probeanswerhistory.PeerAtAddress {
 
 func foldedWithin(
 	t *testing.T,
-	presence *peerpresencejetstream.PeerPresence,
+	presence *peerpresenceredis.PeerPresence,
 	peer probeanswerhistory.PeerAtAddress,
 	folded func(earnedPresence time.Duration, latestAnswer time.Time) bool,
 ) {
@@ -161,7 +142,7 @@ func presenceEarned(earned time.Duration) func(time.Duration, time.Time) bool {
 func TestAnAnsweringPeerBecomesObservedOnceTheStreamIsFolded(t *testing.T) {
 	t.Parallel()
 
-	presence := presenceOver(t, sharedJetStream(t), wideAccrualLimits, snapshotSeldom)
+	presence := presenceOver(t, miniredis.RunT(t), wideAccrualLimits, snapshotSeldom)
 	defer consuming(t, presence)()
 	peer := hashOf(t, 'a')
 
@@ -173,10 +154,10 @@ func TestAnAnsweringPeerBecomesObservedOnceTheStreamIsFolded(t *testing.T) {
 func TestAnInstanceEarnsPresenceFromAnswersItDidNotPublish(t *testing.T) {
 	t.Parallel()
 
-	stream := sharedJetStream(t)
-	publishing := presenceOver(t, stream, wideAccrualLimits, snapshotSeldom)
+	shared := miniredis.RunT(t)
+	publishing := presenceOver(t, shared, wideAccrualLimits, snapshotSeldom)
 	defer consuming(t, publishing)()
-	sibling := presenceOver(t, stream, wideAccrualLimits, snapshotSeldom)
+	sibling := presenceOver(t, shared, wideAccrualLimits, snapshotSeldom)
 	defer consuming(t, sibling)()
 	peer := hashOf(t, 'a')
 
@@ -191,8 +172,8 @@ func TestAnInstanceEarnsPresenceFromAnswersItDidNotPublish(t *testing.T) {
 func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T) {
 	t.Parallel()
 
-	stream := sharedJetStream(t)
-	before := presenceOver(t, stream, wideAccrualLimits, snapshotOnEvery)
+	shared := miniredis.RunT(t)
+	before := presenceOver(t, shared, wideAccrualLimits, snapshotOnEvery)
 	stop := consuming(t, before)
 	peer := hashOf(t, 'a')
 	before.PeerAnswered(t.Context(), peer, answeringAddress, startOfObservation())
@@ -200,26 +181,22 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 		t.Context(), peer, answeringAddress, startOfObservation().Add(time.Minute),
 	)
 	foldedWithin(t, before, peerAtAddress(peer), presenceEarned(time.Minute))
-	snapshottedWithin(t, stream)
+	snapshottedWithin(t, shared)
 	stop()
-	dropEveryAnswer(t, stream)
+	dropEveryAnswer(shared)
 
-	after := presenceOver(t, stream, wideAccrualLimits, snapshotOnEvery)
+	after := presenceOver(t, shared, wideAccrualLimits, snapshotOnEvery)
 	defer consuming(t, after)()
 
 	foldedWithin(t, after, peerAtAddress(peer), presenceEarned(time.Minute))
 }
 
-func snapshottedWithin(t *testing.T, stream natsjetstream.JetStream) {
+func snapshottedWithin(t *testing.T, server *miniredis.Miniredis) {
 	t.Helper()
 
-	bucket, err := stream.KeyValue(t.Context(), bucketName)
-	if err != nil {
-		t.Fatalf("open bucket: %v", err)
-	}
 	deadline := time.Now().Add(foldingDeadline)
 	for {
-		if keys, err := bucket.Keys(t.Context()); err == nil && len(keys) > 0 {
+		if keys, err := server.HKeys(snapshotsKey); err == nil && len(keys) > 0 {
 			return
 		}
 		if time.Now().After(deadline) {
@@ -230,14 +207,6 @@ func snapshottedWithin(t *testing.T, stream natsjetstream.JetStream) {
 	}
 }
 
-func dropEveryAnswer(t *testing.T, stream natsjetstream.JetStream) {
-	t.Helper()
-
-	answers, err := stream.Stream(t.Context(), streamName)
-	if err != nil {
-		t.Fatalf("open stream: %v", err)
-	}
-	if err := answers.Purge(t.Context()); err != nil {
-		t.Fatalf("drop the answers: %v", err)
-	}
+func dropEveryAnswer(shared *miniredis.Miniredis) {
+	shared.Del("probe-answers:" + networkName)
 }

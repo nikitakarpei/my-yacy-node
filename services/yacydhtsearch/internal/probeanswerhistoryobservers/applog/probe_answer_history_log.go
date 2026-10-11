@@ -26,7 +26,7 @@ func (ProbeAnswerHistoryLog) ProbeAnswerUnreadable(
 	err error,
 ) {
 	slog.WarnContext(ctx, msgProbeAnswerUnreadable,
-		slog.Uint64("position", uint64(position)),
+		slog.String("position", position.String()),
 		slog.Any("error", err),
 	)
 }

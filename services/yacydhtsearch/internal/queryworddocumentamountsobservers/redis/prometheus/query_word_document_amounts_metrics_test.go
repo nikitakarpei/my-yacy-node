@@ -10,7 +10,7 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	queryworddocumentamountsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/prometheus"
+	queryworddocumentamountsobserversredisprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/redis/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -30,9 +30,9 @@ func TestAFailedStoreIsPublishedApartFromAFailedLookup(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	metrics := queryworddocumentamountsobserversjetstreamprometheus.New(registry)
+	metrics := queryworddocumentamountsobserversredisprometheus.New(registry)
 	berlin := yacymodel.WordHash("berlin")
-	refused := errors.New("bucket refused")
+	refused := errors.New("server refused")
 
 	metrics.DocumentAmountLookupFailed(t.Context(), berlin, refused)
 	metrics.DocumentAmountStoreFailed(t.Context(), berlin, refused)
@@ -52,7 +52,7 @@ func TestEveryQueryWordDocumentAmountsFailureIsPublishedBeforeTheFirstFailure(t 
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
-	queryworddocumentamountsobserversjetstreamprometheus.New(registry)
+	queryworddocumentamountsobserversredisprometheus.New(registry)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{

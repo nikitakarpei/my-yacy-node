@@ -1,23 +1,20 @@
-package jetstream_test
+package redis_test
 
 import (
 	"context"
 	"testing"
 	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/alicebob/miniredis/v2"
+	goredis "github.com/redis/go-redis/v9"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	cachedrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/jetstream"
+	cachedrankingsredis "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	bucketName   = "rankings"
-	valueCeiling = 1024
-)
+const lifetime = time.Hour
 
 type recordedFailure struct {
 	lookups int
@@ -50,27 +47,20 @@ func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	}
 }
 
-func bucketFor(t *testing.T, config natsjetstream.KeyValueConfig) natsjetstream.KeyValue {
-	t.Helper()
+func cacheOn(
+	server *miniredis.Miniredis,
+	observer cachedrankingsredis.CachedRankingsObserver,
+) *cachedrankingsredis.CachedRankings {
+	client := goredis.NewClient(&goredis.Options{Addr: server.Addr()})
 
-	stream := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	config.Bucket = bucketName
-	bucket, err := stream.CreateOrUpdateKeyValue(t.Context(), config)
-	if err != nil {
-		t.Fatalf("create bucket: %v", err)
-	}
-
-	return bucket
+	return cachedrankingsredis.New(client, lifetime, observer)
 }
 
 func TestARankingIsReadBackForTheQueryItWasCachedFor(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := cachedrankingsjetstream.New(
-		bucketFor(t, natsjetstream.KeyValueConfig{}),
-		cachedrankingsjetstream.CachedRankingsObservers{failures},
-	)
+	cache := cacheOn(miniredis.RunT(t), failures)
 	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
@@ -92,10 +82,7 @@ func TestNoRankingIsCachedForAQueryNobodyAsked(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := cachedrankingsjetstream.New(
-		bucketFor(t, natsjetstream.KeyValueConfig{}),
-		cachedrankingsjetstream.CachedRankingsObservers{failures},
-	)
+	cache := cacheOn(miniredis.RunT(t), failures)
 
 	_, found := cache.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
 
@@ -111,40 +98,57 @@ func TestNoRankingIsCachedForAQueryNobodyAsked(t *testing.T) {
 func TestARankingIsGoneOnceItsLifetimeIsSpent(t *testing.T) {
 	t.Parallel()
 
-	cache := cachedrankingsjetstream.New(
-		bucketFor(t, natsjetstream.KeyValueConfig{TTL: 100 * time.Millisecond}),
-		cachedrankingsjetstream.CachedRankingsObservers{&recordedFailure{}},
-	)
+	server := miniredis.RunT(t)
+	cache := cacheOn(server, &recordedFailure{})
 	query := searchquery.Query{Words: []string{"berlin"}}
 	cache.Store(t.Context(), query, rankingOver(t, "https://a.example/"))
 
-	time.Sleep(time.Second)
+	server.FastForward(lifetime)
 
 	if _, found := cache.RankingFor(t.Context(), query); found {
 		t.Fatal("RankingFor still stores a ranking past its lifetime")
 	}
 }
 
-func TestARankingTheBucketRefusesIsReported(t *testing.T) {
+func refusingServer(t *testing.T) *miniredis.Miniredis {
+	t.Helper()
+
+	server := miniredis.RunT(t)
+	server.SetError("server down")
+
+	return server
+}
+
+func TestARankingTheServerRefusesIsReported(t *testing.T) {
 	t.Parallel()
 
 	failures := &recordedFailure{}
-	cache := cachedrankingsjetstream.New(
-		bucketFor(t, natsjetstream.KeyValueConfig{MaxValueSize: valueCeiling}),
-		cachedrankingsjetstream.CachedRankingsObservers{failures},
-	)
-	query := searchquery.Query{Words: []string{"berlin"}}
+	cache := cacheOn(refusingServer(t), failures)
 
-	items := make([]searchresult.Item, 0, 100)
-	for range 100 {
-		items = append(items, rankingOver(t, "https://a.example/").Items[0])
-	}
-	cache.Store(t.Context(), query, searchresult.Ranking{Items: items})
+	cache.Store(
+		t.Context(),
+		searchquery.Query{Words: []string{"berlin"}},
+		rankingOver(t, "https://a.example/"),
+	)
 
 	if failures.stores != 1 {
 		t.Fatalf("store failures = %d, want one", failures.stores)
 	}
-	if _, found := cache.RankingFor(t.Context(), query); found {
-		t.Fatal("RankingFor stores a ranking the bucket refused")
+}
+
+func TestALookupTheServerRefusesIsReportedAndIsAMiss(t *testing.T) {
+	t.Parallel()
+
+	failures := &recordedFailure{}
+	cache := cacheOn(refusingServer(t), failures)
+
+	_, found := cache.RankingFor(t.Context(), searchquery.Query{Words: []string{"berlin"}})
+
+	if found || failures.lookups != 1 {
+		t.Fatalf(
+			"RankingFor found %t with %d failures, want a reported miss",
+			found,
+			failures.lookups,
+		)
 	}
 }

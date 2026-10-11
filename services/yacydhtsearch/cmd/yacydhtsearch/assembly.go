@@ -8,9 +8,9 @@ import (
 	"net/http/pprof"
 	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/redis/go-redis/v9"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
@@ -18,14 +18,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	cachedrankingsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/jetstream"
 	cachedrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/memory"
-	cachedrankingsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/jetstream/applog"
-	cachedrankingsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/jetstream/prometheus"
+	cachedrankingsredis "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/redis"
+	cachedrankingsobserversredisapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/redis/applog"
+	cachedrankingsobserversredisprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankingsobservers/redis/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/spamlast"
@@ -50,10 +49,10 @@ import (
 	peerlivenessobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenessobservers/applog"
 	peerlivenessobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenessobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
-	peerpresencejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/jetstream"
 	peerpresencememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/memory"
-	peerpresenceobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/jetstream/applog"
-	peerpresenceobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/jetstream/prometheus"
+	peerpresenceredis "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresence/redis"
+	peerpresenceobserversredisapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/redis/applog"
+	peerpresenceobserversredisprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerpresenceobservers/redis/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerreliability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrual"
 	presenceaccrualobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/presenceaccrualobservers/applog"
@@ -77,10 +76,10 @@ import (
 	queryspreadsobserverswordjoinedprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/prometheus"
 	queryspreadsobserverswordjoinedurlmetadataasksapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/urlmetadataasks/applog"
 	queryspreadsobserverswordjoinedurlmetadataasksprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreadsobservers/wordjoined/urlmetadataasks/prometheus"
-	queryworddocumentamountsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/jetstream"
 	queryworddocumentamountsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/memory"
-	queryworddocumentamountsobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/applog"
-	queryworddocumentamountsobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/jetstream/prometheus"
+	queryworddocumentamountsredis "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamounts/redis"
+	queryworddocumentamountsobserversredisapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/redis/applog"
+	queryworddocumentamountsobserversredisprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryworddocumentamountsobservers/redis/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache"
 	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
 	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
@@ -99,18 +98,11 @@ import (
 )
 
 const (
-	opsReadHeaderLimit                 = 10 * time.Second
-	shutdownLimit                      = 15 * time.Second
-	rankingBucket                      = "yacydhtsearch-rankings"
-	rankingByteCeiling                 = 32 * 1024
-	queryWordDocumentAmountsBucket     = "yacydhtsearch-query-word-document-amounts-in-a-partition"
-	queryWordDocumentAmountByteCeiling = 64
-	probeAnswerHistoryStream           = "yacydhtsearch-probe-answer-history"
-	peerPresenceBucket                 = "yacydhtsearch-peer-presence"
-	presenceByteCeiling                = 512
-	msgServiceStarted                  = "yacydhtsearch started"
-	msgServiceStopped                  = "yacydhtsearch stopped"
-	pageFetchUserAgent                 = "yacydhtsearch (+https://yacy.net)"
+	opsReadHeaderLimit = 10 * time.Second
+	shutdownLimit      = 15 * time.Second
+	msgServiceStarted  = "yacydhtsearch started"
+	msgServiceStopped  = "yacydhtsearch stopped"
+	pageFetchUserAgent = "yacydhtsearch (+https://yacy.net)"
 )
 
 func RunService(
@@ -119,10 +111,14 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	outbound := outboundClient(cfg)
-	presence, err := peerPresenceFor(ctx, cfg, registry)
+	redisClient, err := openRedisClient(ctx, cfg)
 	if err != nil {
 		return err
 	}
+	if redisClient != nil {
+		defer func() { _ = redisClient.Close() }()
+	}
+	presence := peerPresenceFor(ctx, cfg, redisClient, registry)
 
 	reliability := peerreliability.New(
 		presence,
@@ -182,12 +178,9 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	queryWordDocumentAmounts, err := queryWordDocumentAmountsFor(
-		ctx, cfg, queryworddocumentamountsobserversjetstreamprometheus.New(registry),
+	queryWordDocumentAmounts := queryWordDocumentAmountsFor(
+		cfg, redisClient, queryworddocumentamountsobserversredisprometheus.New(registry),
 	)
-	if err != nil {
-		return err
-	}
 	network := networksearch.New(
 		directory,
 		choice,
@@ -211,11 +204,8 @@ func RunService(
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
-	cachedRankingsMetrics := cachedrankingsobserversjetstreamprometheus.New(registry)
-	cachedRankings, err := cachedRankingsFor(ctx, cfg, cachedRankingsMetrics)
-	if err != nil {
-		return err
-	}
+	cachedRankingsMetrics := cachedrankingsobserversredisprometheus.New(registry)
+	cachedRankings := cachedRankingsFor(cfg, redisClient, cachedRankingsMetrics)
 	rankingCache := rankingcache.New(cachedRankings, network, rankingcache.RankingCacheObservers{
 		rankingcacheobserversapplog.RankingCacheLog{},
 		rankingcacheobserversprometheus.New(registry),
@@ -370,53 +360,24 @@ type queryWordDocumentAmounts interface {
 }
 
 func queryWordDocumentAmountsFor(
-	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *queryworddocumentamountsobserversjetstreamprometheus.QueryWordDocumentAmountsMetrics,
-) (queryWordDocumentAmounts, error) {
-	if cfg.NATSURL == "" {
+	redisClient redis.UniversalClient,
+	metrics *queryworddocumentamountsobserversredisprometheus.QueryWordDocumentAmountsMetrics,
+) queryWordDocumentAmounts {
+	if redisClient == nil {
 		return queryworddocumentamountsmemory.New(
 			cfg.QueryWordDocumentAmountsCapacity, cfg.QueryWordDocumentAmountLifetime,
-		), nil
+		)
 	}
 
-	bucket, err := queryWordDocumentAmountsBucketAt(ctx, cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	return queryworddocumentamountsjetstream.New(
-		bucket,
-		queryworddocumentamountsjetstream.QueryWordDocumentAmountsObservers{
-			queryworddocumentamountsobserversjetstreamapplog.QueryWordDocumentAmountsLog{},
+	return queryworddocumentamountsredis.New(
+		redisClient,
+		cfg.QueryWordDocumentAmountLifetime,
+		queryworddocumentamountsredis.QueryWordDocumentAmountsObservers{
+			queryworddocumentamountsobserversredisapplog.QueryWordDocumentAmountsLog{},
 			metrics,
 		},
-	), nil
-}
-
-func queryWordDocumentAmountsBucketAt(
-	ctx context.Context,
-	cfg ServiceConfig,
-) (natsjetstream.KeyValue, error) {
-	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
-	if err != nil {
-		return nil, fmt.Errorf("%s: %w", EnvNATSURL, err)
-	}
-
-	bucket, err := stream.CreateOrUpdateKeyValue(ctx, natsjetstream.KeyValueConfig{
-		Bucket: queryWordDocumentAmountsBucket,
-		TTL:    cfg.QueryWordDocumentAmountLifetime,
-		MaxBytes: int64(
-			cfg.QueryWordDocumentAmountsCapacity,
-		) * queryWordDocumentAmountByteCeiling,
-		MaxValueSize: queryWordDocumentAmountByteCeiling,
-		History:      1,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("open bucket %s: %w", queryWordDocumentAmountsBucket, err)
-	}
-
-	return bucket, nil
+	)
 }
 
 func pageReadingFor(
@@ -457,11 +418,26 @@ type peerPresence interface {
 	peerdirectoryrefresh.PeerPresence
 }
 
+func openRedisClient(ctx context.Context, cfg ServiceConfig) (redis.UniversalClient, error) {
+	if cfg.StateRedis == nil {
+		return nil, nil
+	}
+	redisClient := redis.NewClient(cfg.StateRedis)
+	if err := redisClient.Ping(ctx).Err(); err != nil {
+		_ = redisClient.Close()
+
+		return nil, fmt.Errorf("%s: %w", EnvStateRedisURL, err)
+	}
+
+	return redisClient, nil
+}
+
 func peerPresenceFor(
 	ctx context.Context,
 	cfg ServiceConfig,
+	redisClient redis.UniversalClient,
 	registry *prometheus.Registry,
-) (peerPresence, error) {
+) peerPresence {
 	accrualLimits := presenceaccrual.PresenceAccrualLimits{
 		Capacity:        cfg.DirectoryCapacity,
 		ContinuityLimit: cfg.ContinuityLimit,
@@ -470,127 +446,60 @@ func peerPresenceFor(
 		presenceaccrualobserversapplog.PresenceAccrualLog{},
 		presenceaccrualobserversprometheus.New(registry),
 	}
-	if cfg.NATSURL == "" {
-		return peerpresencememory.New(accrualLimits, accrualObservers), nil
+	if redisClient == nil {
+		return peerpresencememory.New(accrualLimits, accrualObservers)
 	}
 
-	answers, err := probeAnswerHistoryAt(ctx, cfg)
-	if err != nil {
-		return nil, err
-	}
-	snapshots, err := peerPresenceBucketAt(ctx, cfg)
-	if err != nil {
-		return nil, err
-	}
-	presence := peerpresencejetstream.New(
-		answers,
-		snapshots,
-		peerpresencejetstream.PeerPresenceLimits{
+	presence := peerpresenceredis.New(
+		probeAnswerHistoryOn(redisClient, cfg),
+		redisClient,
+		peerpresenceredis.PeerPresenceLimits{
 			AccrualLimits:    accrualLimits,
 			SnapshotInterval: cfg.SnapshotInterval,
 		},
 		accrualObservers,
-		peerpresencejetstream.PeerPresenceObservers{
-			peerpresenceobserversjetstreamapplog.PeerPresenceLog{},
-			peerpresenceobserversjetstreamprometheus.New(registry),
+		peerpresenceredis.PeerPresenceObservers{
+			peerpresenceobserversredisapplog.PeerPresenceLog{},
+			peerpresenceobserversredisprometheus.New(registry),
 		},
 	)
 	go presence.FoldTheProbeAnswerHistory(ctx)
 
-	return presence, nil
+	return presence
 }
 
-func probeAnswerHistoryAt(
-	ctx context.Context,
+func probeAnswerHistoryOn(
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
-) (probeanswerhistory.History, error) {
-	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
-	if err != nil {
-		return probeanswerhistory.History{}, fmt.Errorf("%s: %w", EnvNATSURL, err)
-	}
-
-	_, err = stream.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
-		Name: probeAnswerHistoryStream,
-		Subjects: []string{
-			probeanswerhistory.SubjectOfEveryProbeAnswerIn(cfg.NetworkName),
-		},
-		MaxAge: cfg.ProbeAnswerHistoryKeptFor,
-	})
-	if err != nil {
-		return probeanswerhistory.History{},
-			fmt.Errorf("open stream %s: %w", probeAnswerHistoryStream, err)
-	}
-
+) probeanswerhistory.History {
 	return probeanswerhistory.New(
-		stream,
-		probeAnswerHistoryStream,
+		redisClient,
 		cfg.NetworkName,
+		cfg.ProbeAnswerHistoryKeptFor,
+		wallclock.Clock{},
 		probeanswerhistory.HistoryObservers{
 			probeanswerhistoryobserversapplog.ProbeAnswerHistoryLog{},
 		},
-	), nil
-}
-
-func peerPresenceBucketAt(
-	ctx context.Context,
-	cfg ServiceConfig,
-) (natsjetstream.KeyValue, error) {
-	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
-	if err != nil {
-		return nil, fmt.Errorf("%s: %w", EnvNATSURL, err)
-	}
-
-	bucket, err := stream.CreateOrUpdateKeyValue(ctx, natsjetstream.KeyValueConfig{
-		Bucket:       peerPresenceBucket,
-		MaxBytes:     int64(cfg.DirectoryCapacity) * presenceByteCeiling,
-		MaxValueSize: presenceByteCeiling,
-		History:      1,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("open bucket %s: %w", peerPresenceBucket, err)
-	}
-
-	return bucket, nil
+	)
 }
 
 func cachedRankingsFor(
-	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *cachedrankingsobserversjetstreamprometheus.CachedRankingsMetrics,
-) (rankingcache.CachedRankings, error) {
-	if cfg.NATSURL == "" {
-		return cachedrankingsmemory.New(cfg.RankingCacheCapacity, cfg.RankingLifetime), nil
+	redisClient redis.UniversalClient,
+	metrics *cachedrankingsobserversredisprometheus.CachedRankingsMetrics,
+) rankingcache.CachedRankings {
+	if redisClient == nil {
+		return cachedrankingsmemory.New(cfg.RankingCacheCapacity, cfg.RankingLifetime)
 	}
 
-	bucket, err := rankingBucketAt(ctx, cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	return cachedrankingsjetstream.New(bucket, cachedrankingsjetstream.CachedRankingsObservers{
-		cachedrankingsobserversjetstreamapplog.CachedRankingsLog{},
-		metrics,
-	}), nil
-}
-
-func rankingBucketAt(ctx context.Context, cfg ServiceConfig) (natsjetstream.KeyValue, error) {
-	stream, _, err := jetstreamconnect.Open(cfg.NATSURL)
-	if err != nil {
-		return nil, fmt.Errorf("%s: %w", EnvNATSURL, err)
-	}
-
-	bucket, err := stream.CreateOrUpdateKeyValue(ctx, natsjetstream.KeyValueConfig{
-		Bucket:       rankingBucket,
-		TTL:          cfg.RankingLifetime,
-		MaxBytes:     int64(cfg.RankingCacheCapacity) * rankingByteCeiling,
-		MaxValueSize: rankingByteCeiling,
-		History:      1,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("open bucket %s: %w", rankingBucket, err)
-	}
-
-	return bucket, nil
+	return cachedrankingsredis.New(
+		redisClient,
+		cfg.RankingLifetime,
+		cachedrankingsredis.CachedRankingsObservers{
+			cachedrankingsobserversredisapplog.CachedRankingsLog{},
+			metrics,
+		},
+	)
 }
 
 func serveProfilerOn(mux *http.ServeMux) {

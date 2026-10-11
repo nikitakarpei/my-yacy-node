@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/redis/go-redis/v9"
+
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
@@ -53,7 +55,7 @@ const (
 	EnvURLMetadataAskTargetTime         = "YACYDHTSEARCH_URL_METADATA_ASK_TARGET_TIME"
 	EnvURLMetadataAsksPerDocument       = "YACYDHTSEARCH_URL_METADATA_ASKS_PER_DOCUMENT"
 	EnvRankedItemsCeiling               = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
-	EnvNATSURL                          = "YACYDHTSEARCH_NATS_URL"
+	EnvStateRedisURL                    = "YACYDHTSEARCH_STATE_REDIS_URL"
 	EnvRankingCacheCapacity             = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
 	EnvRankingLifetime                  = "YACYDHTSEARCH_RANKING_LIFETIME"
 	EnvQueryWordDocumentAmountLifetime  = "YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNT_LIFETIME"
@@ -159,7 +161,7 @@ type ServiceConfig struct {
 	URLMetadataAsksPerDocument       int
 	URLMetadataLookupCutoff          urlmetadataasks.Cutoff
 	RankedItemsCeiling               int
-	NATSURL                          string
+	StateRedis                       *redis.Options
 	RankingCacheCapacity             int
 	RankingLifetime                  time.Duration
 	QueryWordDocumentAmountLifetime  time.Duration
@@ -228,6 +230,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	stateRedis, err := stateRedisFromEnv(getenv)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 	serveProfiler, err := envconfig.Bool(getenv, EnvServeProfiler, DefaultServeProfiler)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -283,7 +289,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			Grace:              durations.urlMetadataLookupCutoffGrace,
 		},
 		RankedItemsCeiling:               counts.rankedItemsCeiling,
-		NATSURL:                          strings.TrimSpace(getenv(EnvNATSURL)),
+		StateRedis:                       stateRedis,
 		RankingCacheCapacity:             counts.rankingCacheCapacity,
 		RankingLifetime:                  durations.rankingLifetime,
 		QueryWordDocumentAmountLifetime:  durations.queryWordDocumentAmountLifetime,
@@ -302,6 +308,19 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		SnippetLengthCeiling:    counts.snippetLengthCeiling,
 		HideUnreadResults:       hideUnreadResults,
 	}, nil
+}
+
+func stateRedisFromEnv(getenv func(string) string) (*redis.Options, error) {
+	stateRedisURL := strings.TrimSpace(getenv(EnvStateRedisURL))
+	if stateRedisURL == "" {
+		return nil, nil
+	}
+	options, err := redis.ParseURL(stateRedisURL)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", EnvStateRedisURL, err)
+	}
+
+	return options, nil
 }
 
 type configuredDurations struct {

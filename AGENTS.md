@@ -1,6 +1,6 @@
 Structure: new capability → new unit (file or package) on the smallest seam; behavior change → edit in place. A unit owns durable state, a protocol endpoint, or a value type and the rule computing it; a stage of a procedure is not ownable, and stages that only run in sequence are one unit. Split a unit when responsibilities diverge; collapse a seam when it couples units tightly.
 
-Shared state: the service that owns a stream, bucket, or table is the only one that creates it. A contract package holds vocabulary — names, subjects, keys — never provisioning. A consumer opens what it reads and adds no precondition check.
+Shared state: the service that owns a stream, bucket, or table is the only one that creates it. A contract package holds vocabulary — names, subjects, keys — never provisioning. A consumer opens what it reads and adds no precondition check. NATS JetStream carries streams only.
 
 Abstraction: a function orchestrates or it works, never both. An orchestrator only names steps and reads as the scenario in plain language; log attributes, struct assembly, and error wrapping are detail. A call chain deeper than one step means the middle level speaks its own vocabulary and needs its own unit.
 
