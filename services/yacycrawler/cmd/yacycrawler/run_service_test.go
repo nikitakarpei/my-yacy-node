@@ -70,7 +70,7 @@ func TestRunServiceRejectsAnUnreachableCrawlStateServer(t *testing.T) {
 	}
 	registry := prometheus.NewRegistry()
 	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {
-		t.Fatal("an unreachable crawl state server should fail")
+		t.Fatal("a Redis address that does not answer should fail")
 	}
 }
 
