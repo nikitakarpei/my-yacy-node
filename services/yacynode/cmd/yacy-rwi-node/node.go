@@ -273,7 +273,7 @@ func assembleNode(
 		servedURLMetadataPerRequest,
 	)
 	rwiingress.Mount(router, identity, postingReceiver)
-	nodestatus.MountQuery(router, identity, vault, postings, urlReferences, urlDirectory)
+	nodestatus.MountQuery(router, identity, now, vault, postings, postingAmounts, urlDirectory)
 	documentsearch.MountSearch(
 		vault,
 		router,

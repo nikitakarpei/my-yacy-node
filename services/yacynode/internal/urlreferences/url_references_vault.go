@@ -8,24 +8,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 )
 
-const (
-	wordsByURLBucket    vault.Name = "urlreferences_words"
-	referencedURLBucket vault.Name = "rwi_refs"
-)
+const wordsByURLBucket vault.Name = "urlreferences_words"
 
-func registerURLReferences(
-	v *vault.Vault,
-) (*vault.Set[wordByURL], *vault.Set[yacymodel.URLHash], error) {
+func registerWordsByURL(v *vault.Vault) (*vault.Set[wordByURL], error) {
 	words, err := v.RegisterSet(wordsByURLBucket, wordByURLKeyLayout)
 	if err != nil {
-		return nil, nil, fmt.Errorf("register words by url: %w", err)
-	}
-	referenced, err := v.RegisterSet(referencedURLBucket, referencedURLKeyLayout)
-	if err != nil {
-		return nil, nil, fmt.Errorf("register referenced urls: %w", err)
+		return nil, fmt.Errorf("register words by url: %w", err)
 	}
 
-	return words, referenced, nil
+	return words, nil
 }
 
 var wordByURLKeyParts = vault.PairKey(hashkeypart.URLHash, hashkeypart.Hash)
@@ -42,13 +33,3 @@ var wordByURLKeyLayout = wordByURLKeyParts.KeyLayoutFor(
 func everyWordReferencing(url yacymodel.URLHash) vault.KeyRange {
 	return wordByURLKeyParts.KeysWithFirst(url)
 }
-
-func wordsAfter(purged wordByURL) vault.KeyRange {
-	return wordByURLKeyParts.KeysWithFirstAfterSecond(purged.url, purged.word)
-}
-
-func wordsBefore(purged wordByURL) vault.KeyRange {
-	return wordByURLKeyParts.KeysWithFirstBeforeSecond(purged.url, purged.word)
-}
-
-var referencedURLKeyLayout = vault.SingleKey(hashkeypart.URLHash).KeyLayout()

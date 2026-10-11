@@ -100,95 +100,30 @@ func TestWordsReferencingListsStoredWords(t *testing.T) {
 	}
 }
 
-func TestPurgedPostingForgetsURLWhenLastWordGoes(t *testing.T) {
+func TestPurgedPostingDropsOnlyItsWordFromTheURL(t *testing.T) {
 	vault, index := openReferences(t)
 	url := urlHash("u1")
 	store(t, vault, index, yacymodel.WordHash("w1"), url)
 	store(t, vault, index, yacymodel.WordHash("w2"), url)
 
 	purge(t, vault, index, yacymodel.WordHash("w1"), url)
-	if count := referencedURLCount(t, vault, index); count != 1 {
-		t.Fatalf("ReferencedURLCount after one purge = %d, want 1", count)
-	}
 
-	purge(t, vault, index, yacymodel.WordHash("w2"), url)
-	if count := referencedURLCount(t, vault, index); count != 0 {
-		t.Fatalf("ReferencedURLCount after last purge = %d, want 0", count)
-	}
-}
-
-func TestPurgedPostingsKeepURLUntilItsLastWordGoesInEveryOrder(t *testing.T) {
-	words := []yacymodel.Hash{
-		yacymodel.WordHash("w1"), yacymodel.WordHash("w2"), yacymodel.WordHash("w3"),
-	}
-	for _, purgeOrder := range [][]int{
-		{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {1, 2, 0}, {2, 0, 1}, {2, 1, 0},
-	} {
-		t.Run(fmt.Sprint(purgeOrder), func(t *testing.T) {
-			vault, index := openReferences(t)
-			url := urlHash("u1")
-			for _, word := range words {
-				store(t, vault, index, word, url)
-			}
-
-			for purged, position := range purgeOrder {
-				purge(t, vault, index, words[position], url)
-
-				want := 1
-				if purged == len(purgeOrder)-1 {
-					want = 0
-				}
-				if count := referencedURLCount(t, vault, index); count != want {
-					t.Fatalf(
-						"ReferencedURLCount after %d purges = %d, want %d",
-						purged+1,
-						count,
-						want,
-					)
-				}
-			}
-		})
+	got := wordsReferencing(t, vault, index, url)
+	if len(got) != 1 || got[0] != yacymodel.WordHash("w2") {
+		t.Fatalf("words referencing %q after purge = %v, want only w2", url, got)
 	}
 }
 
 func TestPurgedUnknownPostingIsHarmless(t *testing.T) {
 	vault, index := openReferences(t)
+	url := urlHash("u1")
+	store(t, vault, index, yacymodel.WordHash("w1"), url)
 
-	purge(t, vault, index, yacymodel.WordHash("w1"), urlHash("absent"))
-	if count := referencedURLCount(t, vault, index); count != 0 {
-		t.Fatalf("ReferencedURLCount = %d, want 0", count)
+	purge(t, vault, index, yacymodel.WordHash("w2"), url)
+
+	if got := wordsReferencing(t, vault, index, url); len(got) != 1 {
+		t.Fatalf("words referencing %q = %v, want w1 kept", url, got)
 	}
-}
-
-func TestReferencedURLCountTracksDistinctURLs(t *testing.T) {
-	vault, index := openReferences(t)
-	store(t, vault, index, yacymodel.WordHash("w1"), urlHash("u1"))
-	store(t, vault, index, yacymodel.WordHash("w2"), urlHash("u1"))
-	store(t, vault, index, yacymodel.WordHash("w1"), urlHash("u2"))
-
-	if count := referencedURLCount(t, vault, index); count != 2 {
-		t.Fatalf("ReferencedURLCount = %d, want 2 distinct urls", count)
-	}
-}
-
-func referencedURLCount(
-	t *testing.T,
-	v *vault.Vault,
-	index urlreferences.ReferenceProjection,
-) int {
-	t.Helper()
-
-	var count int
-	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		measured, err := index.ReferencedURLCount(tx)
-		count = measured
-
-		return err
-	}); err != nil {
-		t.Fatalf("ReferencedURLCount: %v", err)
-	}
-
-	return count
 }
 
 func urlHash(raw string) yacymodel.URLHash {
@@ -211,8 +146,5 @@ func TestAPostingPurgedAndStoredAgainLeavesTheReferenceIntact(t *testing.T) {
 	words := wordsReferencing(t, v, index, url)
 	if len(words) != 1 || words[0] != word {
 		t.Fatalf("words referencing url = %v, want [%v]", words, word)
-	}
-	if count := referencedURLCount(t, v, index); count != 1 {
-		t.Fatalf("ReferencedURLCount = %d, want 1", count)
 	}
 }

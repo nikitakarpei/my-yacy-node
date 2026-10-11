@@ -14,15 +14,19 @@ import (
 )
 
 type stubCounter struct {
-	rwi  int
-	refs int
-	urls int
-	err  error
+	rwi            int
+	postingAmounts map[yacymodel.Hash]int
+	urls           int
+	err            error
 }
 
-func (c stubCounter) RWICount(*vault.Txn) (int, error)           { return c.rwi, c.err }
-func (c stubCounter) ReferencedURLCount(*vault.Txn) (int, error) { return c.refs, c.err }
-func (c stubCounter) Count(*vault.Txn) (int, error)              { return c.urls, c.err }
+func (c stubCounter) RWICount(*vault.Txn) (int, error) { return c.rwi, c.err }
+
+func (c stubCounter) AmountOfPostingsOf(_ *vault.Txn, word yacymodel.Hash) (int, error) {
+	return c.postingAmounts[word], c.err
+}
+
+func (c stubCounter) Count(*vault.Txn) (int, error) { return c.urls, c.err }
 
 func openVault(t *testing.T) *vault.Vault {
 	t.Helper()
