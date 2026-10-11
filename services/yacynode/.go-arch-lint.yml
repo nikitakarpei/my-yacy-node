@@ -82,6 +82,8 @@ components:
     in: internal/pagerwi/**
   pageadmission:
     in: internal/pageadmission/**
+  stopwordhashes:
+    in: internal/stopwordhashes/**
   pageintake:
     in: internal/pageintake/**
   pageintakeobserversapplog:
@@ -119,6 +121,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   storedfields:
     in: github.com/nikitakarpei/yacy-rwi-node/storedfields
+  stopwords:
+    in: github.com/nikitakarpei/yacy-rwi-node/stopwords
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   pebblevault:
@@ -359,6 +363,9 @@ deps:
       - rwipostings
     canUse:
       - vault
+  stopwordhashes:
+    canUse:
+      - stopwords
   pageintake:
     mayDependOn:
       - pagerwi

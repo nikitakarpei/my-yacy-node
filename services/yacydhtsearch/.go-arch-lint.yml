@@ -21,8 +21,6 @@ components:
     in: internal/searchquery/**
   queryreading:
     in: internal/queryreading/**
-  stopwords:
-    in: internal/stopwords/**
   searchresult:
     in: internal/searchresult/**
   queryfindings:
@@ -190,6 +188,9 @@ vendors:
   budgetbuckets:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets
+  stopwords:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/stopwords
   yacymodel:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacymodel
@@ -262,11 +263,7 @@ deps:
       - yacymodel
   queryreading:
     canUse:
-      - yacymodel
-    mayDependOn:
       - stopwords
-  stopwords:
-    canUse:
       - yacymodel
   documentrelevance:
     canUse:

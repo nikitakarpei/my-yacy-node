@@ -41,6 +41,12 @@ func (r refusedAdmitter) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) erro
 	return r.admitter.Admit(tx, posting)
 }
 
+type stopwordThe struct{}
+
+func (stopwordThe) Contains(word yacymodel.Hash, language yacymodel.Language) bool {
+	return word == yacymodel.WordHash("the") && language == yacymodel.LanguageOfUndeclaredDocument
+}
+
 type harness struct {
 	vault     *vault.Vault
 	index     rwipostings.PostingIndex
@@ -99,6 +105,7 @@ func openHarnessWithAdmitter(
 			evictor,
 			metadataAdmitter,
 			admitter,
+			stopwordThe{},
 			pageadmission.Config{Pause: busyPause},
 		),
 	}
@@ -211,6 +218,20 @@ func TestRecrawledPageReplacesEveryPostingItHeld(t *testing.T) {
 	}
 	if got := h.storedTitle(t, recrawled); got != "after" {
 		t.Errorf("stored title = %q, want the recrawled title", got)
+	}
+}
+
+func TestPageKeepsNoPostingOfAStopword(t *testing.T) {
+	h := openHarness(t, 0)
+	crawled := pageTitled(t, "page", pageWord{"the", 9}, pageWord{"kernel", 2})
+
+	h.receive(t, crawled)
+
+	if _, found := h.storedPosting(t, "the", crawled); found {
+		t.Error("the stopword of the page has a posting, want none")
+	}
+	if _, found := h.storedPosting(t, "kernel", crawled); !found {
+		t.Error("a word that carries meaning has no posting")
 	}
 }
 

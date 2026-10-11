@@ -1,7 +1,8 @@
 // Package rwiadmission decides where an inbound RWI posting lands. A posting
-// whose URL metadata this node already holds joins the index at once; a posting
-// whose URL is still unknown waits in escrow until the sender delivers that
-// metadata. The receipt names the unknown URLs so the sender can send them.
+// whose word is a stopword of its language is dropped; a posting whose URL
+// metadata this node already holds joins the index at once; a posting whose URL
+// is still unknown waits in escrow until the sender delivers that metadata. The
+// receipt names the unknown URLs so the sender can send them.
 package rwiadmission
 
 import (
@@ -21,6 +22,10 @@ type PostingReceiver interface {
 type PostingHolder interface {
 	AtCapacity(ctx context.Context) (bool, error)
 	Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error
+}
+
+type Stopwords interface {
+	Contains(word yacymodel.Hash, language yacymodel.Language) bool
 }
 
 type RefusalReason string
@@ -47,19 +52,22 @@ type Config struct {
 	Observer   RefusalObserver
 }
 
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func Open(
 	v *vault.Vault,
 	urls urlmeta.URLDirectory,
 	admitter rwipostings.PostingAdmitter,
 	escrow PostingHolder,
+	stopwords Stopwords,
 	config Config,
 ) PostingReceiver {
 	return postingAdmission{
-		vault:    v,
-		urls:     urls,
-		admitter: admitter,
-		escrow:   escrow,
-		observer: config.Observer,
+		vault:     v,
+		urls:      urls,
+		admitter:  admitter,
+		escrow:    escrow,
+		stopwords: stopwords,
+		observer:  config.Observer,
 
 		postingCap: config.PostingCap,
 		pause:      config.Pause,

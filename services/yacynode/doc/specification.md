@@ -40,6 +40,7 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL answer RWI capacity and status queries.
 * The node SHALL reject remote crawl work.
 * The node SHALL store accepted RWI postings and the URL metadata those postings reference.
+* The node SHALL NOT store a posting whose word is a stopword of the posting language.
 * The node SHALL allow operators to configure its storage quota.
 * The node SHALL NOT store full document bodies.
 * The node SHALL let operators enable outbound DHT distribution of its stored postings; it

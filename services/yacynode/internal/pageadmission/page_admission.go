@@ -14,11 +14,12 @@ import (
 )
 
 type pageAdmission struct {
-	vault    *vault.Vault
-	urls     urlmeta.URLEvictor
-	metadata urlmeta.URLMetadataAdmitter
-	postings rwipostings.PostingAdmitter
-	pause    time.Duration
+	vault     *vault.Vault
+	urls      urlmeta.URLEvictor
+	metadata  urlmeta.URLMetadataAdmitter
+	postings  rwipostings.PostingAdmitter
+	stopwords Stopwords
+	pause     time.Duration
 }
 
 func (a pageAdmission) Receive(ctx context.Context, page pagerwi.PageRWI) (Receipt, error) {
@@ -70,6 +71,9 @@ func (a pageAdmission) admitEachPosting(
 	for _, posting := range postings {
 		if err := ctx.Err(); err != nil {
 			return fmt.Errorf("context: %w", err)
+		}
+		if a.stopwords.Contains(posting.WordHash, posting.Language) {
+			continue
 		}
 		if err := a.postings.Admit(tx, posting); err != nil {
 			return fmt.Errorf("admit page posting: %w", err)

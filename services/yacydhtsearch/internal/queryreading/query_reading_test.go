@@ -81,6 +81,66 @@ func TestQueryFromLeavesTheStopwordsOfTheQueryLanguageOut(t *testing.T) {
 	}
 }
 
+func TestQueryFromLeavesTheStopwordsOfTheLanguageTheClientNamedOut(t *testing.T) {
+	t.Parallel()
+
+	query := queryreading.QueryFrom("die hard filme", languageFrom(t, "de"))
+
+	if !slices.Equal(query.Words, []string{"hard", "filme"}) {
+		t.Fatalf("Words = %v, want hard filme", query.Words)
+	}
+}
+
+func TestTheLanguageTheClientNamedHoldsAgainstTheWordsThemselves(t *testing.T) {
+	t.Parallel()
+
+	query := queryreading.QueryFrom("die hard", english(t))
+
+	if !slices.Equal(query.Words, []string{"die", "hard"}) {
+		t.Fatalf("Words = %v, want die hard", query.Words)
+	}
+}
+
+func TestTheLanguageCoveringMostWordsGovernsWhenTheNamedLanguageHasNoList(t *testing.T) {
+	t.Parallel()
+
+	query := queryreading.QueryFrom("how do i reset my router", languageFrom(t, "nl"))
+
+	if !slices.Equal(query.Words, []string{"reset", "router"}) {
+		t.Fatalf("Words = %v, want reset router", query.Words)
+	}
+}
+
+func TestQueryWordsTwoLanguagesCoverAsOftenStay(t *testing.T) {
+	t.Parallel()
+
+	query := queryreading.QueryFrom("mejores playas de", yacymodel.Language{})
+
+	if !slices.Equal(query.Words, []string{"mejores", "playas", "de"}) {
+		t.Fatalf("Words = %v, want mejores playas de", query.Words)
+	}
+}
+
+func TestQueryWordsNoLanguageCoversStay(t *testing.T) {
+	t.Parallel()
+
+	query := queryreading.QueryFrom("recette crepes", yacymodel.Language{})
+
+	if !slices.Equal(query.Words, []string{"recette", "crepes"}) {
+		t.Fatalf("Words = %v, want recette crepes", query.Words)
+	}
+}
+
+func TestAQueryOfStopwordsAloneKeepsEveryWord(t *testing.T) {
+	t.Parallel()
+
+	query := queryreading.QueryFrom("the who", english(t))
+
+	if !slices.Equal(query.Words, []string{"the", "who"}) {
+		t.Fatalf("Words = %v, want the who", query.Words)
+	}
+}
+
 func TestQueryFromKeepsAStopwordAmongTheExclusions(t *testing.T) {
 	t.Parallel()
 
@@ -119,9 +179,15 @@ func TestQueriesThatDifferOnlyInTheirStopwordsAreSpelledAlike(t *testing.T) {
 func english(t *testing.T) yacymodel.Language {
 	t.Helper()
 
-	language, err := yacymodel.ParseLanguage("en")
+	return languageFrom(t, "en")
+}
+
+func languageFrom(t *testing.T, code string) yacymodel.Language {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(code)
 	if err != nil {
-		t.Fatalf("ParseLanguage(en): %v", err)
+		t.Fatalf("ParseLanguage(%s): %v", code, err)
 	}
 
 	return language

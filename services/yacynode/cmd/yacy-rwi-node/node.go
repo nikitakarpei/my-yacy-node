@@ -46,6 +46,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/stopwordhashes"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
@@ -226,12 +227,14 @@ func assembleNode(
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
 	}
 
+	stopwordHashes := stopwordhashes.New()
 	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
 	postingReceiver := rwiadmission.Open(
 		vault,
 		urlDirectory,
 		postingAdmitter,
 		postingEscrow,
+		stopwordHashes,
 		rwiadmission.Config{
 			PostingCap: peerPostingTransferCap,
 			Pause:      postingAdmissionBusyPause,
@@ -244,6 +247,7 @@ func assembleNode(
 		urlEvictor,
 		urlMetadataAdmitter,
 		postingAdmitter,
+		stopwordHashes,
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 

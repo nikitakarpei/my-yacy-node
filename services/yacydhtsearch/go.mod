@@ -15,6 +15,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
@@ -53,6 +54,8 @@ require (
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
+
+replace github.com/nikitakarpei/yacy-rwi-node/stopwords => ../../libraries/stopwords
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

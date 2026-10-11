@@ -68,6 +68,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyp
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
 
+replace github.com/nikitakarpei/yacy-rwi-node/stopwords => ../../libraries/stopwords
+
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
 
 replace github.com/nikitakarpei/yacy-rwi-node/vault => ../../libraries/vault
@@ -92,6 +94,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault v0.0.0
