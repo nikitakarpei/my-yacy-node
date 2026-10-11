@@ -2,6 +2,7 @@ package distributioncycle_test
 
 import (
 	"context"
+	"sync"
 	"testing"
 	"time"
 
@@ -40,6 +41,7 @@ type cycleOptions struct {
 	metadataOutcome   urlmetadatacourier.Outcome
 	minReachablePeers int
 	drainBudget       time.Duration
+	batchConcurrency  int
 }
 
 type cycleHarness struct {
@@ -71,6 +73,9 @@ func withCycleDefaults(opts cycleOptions) cycleOptions {
 	}
 	if opts.drainBudget == 0 {
 		opts.drainBudget = drainBudget
+	}
+	if opts.batchConcurrency == 0 {
+		opts.batchConcurrency = 1
 	}
 	if opts.metadataOutcome == "" {
 		opts.metadataOutcome = urlmetadatacourier.Accepted
@@ -107,7 +112,6 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.redundancy,
 	)
 	handoff := postinghandoff.New(
-		replicas,
 		postings,
 		opts.reachability,
 		postinghandoff.Config{
@@ -134,6 +138,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		distributioncycle.Config{
 			OfferInterval:     offerInterval,
 			PostingsPerBatch:  postingsPerBatch,
+			BatchConcurrency:  opts.batchConcurrency,
 			CycleInterval:     time.Minute,
 			DrainBudget:       opts.drainBudget,
 			MinReachablePeers: opts.minReachablePeers,
@@ -163,10 +168,15 @@ func (h *cycleHarness) duePostings(t *testing.T, limit int) []postingidentity.Id
 
 	var due []postingidentity.Identity
 	if err := h.v.View(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		due, err = h.schedule.DuePostings(tx, limit)
+		for sector := range yacymodel.DHTRingSectorCount {
+			inSector, err := h.schedule.DuePostingsIn(tx, sector, limit-len(due))
+			if err != nil {
+				return err
+			}
+			due = append(due, inSector...)
+		}
 
-		return err
+		return nil
 	}); err != nil {
 		t.Fatalf("DuePostings: %v", err)
 	}
@@ -253,7 +263,7 @@ func openCycleVault(
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
-	replicas, err := postingreplicas.Open(v, schedule)
+	replicas, err := postingreplicas.Open(v)
 	if err != nil {
 		t.Fatalf("postingreplicas.Open: %v", err)
 	}
@@ -262,9 +272,11 @@ func openCycleVault(
 }
 
 type fakePostingIndex struct {
+	guard    sync.Mutex
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
 	unread   error
 	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
+	onRead   func()
 }
 
 func (f *fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
@@ -274,11 +286,19 @@ func (f *fakePostingIndex) PurgePosting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (bool, error) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	key := fakePostingKey(word, url)
 	if _, found := f.postings[key]; !found {
 		return false, nil
 	}
-	tx.RunAfterCommit(func() { delete(f.postings, key) })
+	tx.RunAfterCommit(func() {
+		f.guard.Lock()
+		defer f.guard.Unlock()
+
+		delete(f.postings, key)
+	})
 
 	return true, f.purged(tx, word, url)
 }
@@ -288,6 +308,12 @@ func (f *fakePostingIndex) PostingOf(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
+	if f.onRead != nil {
+		f.onRead()
+	}
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	if f.unread != nil {
 		return yacymodel.RWIPosting{}, false, f.unread
 	}
@@ -336,6 +362,7 @@ type offeredCall struct {
 }
 
 type fakeCourier struct {
+	guard    sync.Mutex
 	receipts map[yacymodel.Hash]postingcourier.Receipt
 	offered  []offeredCall
 	onOffer  func()
@@ -347,15 +374,19 @@ func (f *fakeCourier) Offer(
 	recipient yacymodel.Seed,
 	postings []yacymodel.RWIPosting,
 ) postingcourier.Receipt {
+	f.guard.Lock()
 	f.offered = append(f.offered, offeredCall{Peer: recipient, Postings: postings})
+	receipt := f.receipts[recipient.Hash]
+	f.guard.Unlock()
 	if f.onOffer != nil {
 		f.onOffer()
 	}
 
-	return f.receipts[recipient.Hash]
+	return receipt
 }
 
 type fakeURLMetadataCourier struct {
+	guard     sync.Mutex
 	receipt   urlmetadatacourier.Receipt
 	delivered []yacymodel.URLMetadata
 }
@@ -366,6 +397,9 @@ func (f *fakeURLMetadataCourier) Deliver(
 	_ yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
 ) urlmetadatacourier.Receipt {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
 	f.delivered = append(f.delivered, metadata...)
 
 	return f.receipt
@@ -430,9 +464,23 @@ func recordAccepted(
 	t.Helper()
 
 	if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.replicas.RecordAccepted(tx, peer, postings)
+		for _, posting := range postings {
+			identity := postingidentity.IdentityOf(posting)
+			recordedHolders, err := h.replicas.HoldersOf(tx, identity)
+			if err != nil {
+				return err
+			}
+			change := postingreplicas.HolderChange{AcceptingPeers: []yacymodel.Hash{peer}}
+			if err := h.replicas.RecordHolders(
+				tx, identity, recordedHolders, change.HoldersFrom(recordedHolders),
+			); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	}); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
+		t.Fatalf("RecordHolders: %v", err)
 	}
 }
 

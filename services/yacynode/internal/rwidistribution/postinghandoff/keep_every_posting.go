@@ -9,10 +9,11 @@ import (
 
 type KeepEveryPosting struct{}
 
-func (KeepEveryPosting) HandOffPostingsHeldByCloserPeers(
+func (KeepEveryPosting) HandOffIfHeldByCloserPeers(
 	context.Context,
 	*vault.Txn,
-	[]yacymodel.RWIPosting,
-) (int, error) {
-	return 0, nil
+	yacymodel.RWIPosting,
+	[]yacymodel.Hash,
+) (bool, error) {
+	return false, nil
 }

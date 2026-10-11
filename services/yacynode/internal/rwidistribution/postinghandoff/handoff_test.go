@@ -3,19 +3,16 @@ package postinghandoff_test
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 )
 
 const handoffRedundancy = 1
 
 type fakePostingPurger struct {
+	postingGone    bool
 	purgedPostings []yacymodel.RWIPosting
 }
 
@@ -24,6 +21,9 @@ func (f *fakePostingPurger) PurgePosting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (bool, error) {
+	if f.postingGone {
+		return false, nil
+	}
 	f.purgedPostings = append(f.purgedPostings, yacymodel.RWIPosting{WordHash: word, URLHash: url})
 
 	return true, nil
@@ -43,188 +43,109 @@ func (f fakeReachability) IsReachable(_ context.Context, peer yacymodel.Hash) bo
 	return false
 }
 
-func urlHash() yacymodel.URLHash {
-	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash("u1").String())
+func testPosting() yacymodel.RWIPosting {
+	url, err := yacymodel.ParseURLHash(yacymodel.WordHash("u1").String())
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.RWIPosting{WordHash: yacymodel.WordHash("w1"), URLHash: url}
 }
+
+func closerPeer() yacymodel.Hash { return yacymodel.WordHash("peer") }
 
 func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
-
-type handoffHarness struct {
-	vault    *vault.Vault
-	schedule *postingofferschedule.Schedule
-	replicas *postingreplicas.Replicas
-	purger   *fakePostingPurger
-	handoff  *postinghandoff.Handoff
-}
 
 func openHandoff(
 	t *testing.T,
 	reachability postinghandoff.Reachability,
 	redundancy int,
-) handoffHarness {
+) (*postinghandoff.Handoff, *fakePostingPurger) {
 	t.Helper()
-
-	v, err := memoryvault.Open(0, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
-			t.Fatalf("Close: %v", err)
-		}
-	})
 
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
-	schedule, err := postingofferschedule.Open(
-		v,
-		partitions,
-		func() time.Time { return time.Unix(1000, 0) },
-		discardedScheduleObservations{},
-	)
-	if err != nil {
-		t.Fatalf("postingofferschedule.Open: %v", err)
-	}
-	replicas, err := postingreplicas.Open(v, schedule)
-	if err != nil {
-		t.Fatalf("postingreplicas.Open: %v", err)
-	}
-
 	purger := &fakePostingPurger{}
-	handoff := postinghandoff.New(replicas, purger, reachability, postinghandoff.Config{
+
+	return postinghandoff.New(purger, reachability, postinghandoff.Config{
 		Partitions: partitions,
 		Self:       thisNodeFartherThanEveryPeer(),
 		Redundancy: redundancy,
-	})
-
-	return handoffHarness{
-		vault:    v,
-		schedule: schedule,
-		replicas: replicas,
-		purger:   purger,
-		handoff:  handoff,
-	}
+	}), purger
 }
 
-func (h handoffHarness) store(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
-	t.Helper()
-
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
-	}); err != nil {
-		t.Fatalf("PostingStored: %v", err)
-	}
-}
-
-func (h handoffHarness) recordAccepted(
+func handOff(
 	t *testing.T,
-	peer yacymodel.Hash,
-	postings ...yacymodel.RWIPosting,
-) {
+	handoff *postinghandoff.Handoff,
+	holders ...yacymodel.Hash,
+) bool {
 	t.Helper()
 
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.replicas.RecordAccepted(tx, peer, postings)
-	}); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
-}
-
-func (h handoffHarness) handOff(t *testing.T, posting yacymodel.RWIPosting) int {
-	t.Helper()
-
-	var handedOffPostings int
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		handedOffPostings, err = h.handoff.HandOffPostingsHeldByCloserPeers(
-			context.Background(), tx, []yacymodel.RWIPosting{posting},
-		)
-
-		return err
-	}); err != nil {
-		t.Fatalf("HandOffPostingsHeldByCloserPeers: %v", err)
+	wasHandedOff, err := handoff.HandOffIfHeldByCloserPeers(
+		context.Background(), nil, testPosting(), holders,
+	)
+	if err != nil {
+		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
 	}
 
-	return handedOffPostings
+	return wasHandedOff
 }
 
 func TestPostingHandedOffOnceEnoughReachableCloserHoldersExist(t *testing.T) {
-	word, url := yacymodel.WordHash("w1"), urlHash()
-	closerPeer := yacymodel.WordHash("peer")
-	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
-	h := openHandoff(
-		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer}}, handoffRedundancy,
+	handoff, purger := openHandoff(
+		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer()}}, handoffRedundancy,
 	)
 
-	h.store(t, word, url)
-	h.recordAccepted(t, closerPeer, posting)
-
-	if handedOffPostings := h.handOff(t, posting); handedOffPostings != 1 {
-		t.Fatalf(
-			"handed off = %d, want 1: redundancy is met by a closer peer", handedOffPostings,
-		)
+	if !handOff(t, handoff, closerPeer()) {
+		t.Fatal("posting kept, want it handed off: redundancy is met by a closer peer")
 	}
-	if len(h.purger.purgedPostings) != 1 {
-		t.Fatalf("purged = %+v, want the handed-off posting", h.purger.purgedPostings)
+	if len(purger.purgedPostings) != 1 {
+		t.Fatalf("purged = %+v, want the handed-off posting", purger.purgedPostings)
 	}
 }
 
 func TestPostingKeptBelowRedundancy(t *testing.T) {
-	word, url := yacymodel.WordHash("w1"), urlHash()
-	closerPeer := yacymodel.WordHash("peer")
-	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
-	h := openHandoff(t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer}}, 2)
+	handoff, purger := openHandoff(
+		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer()}}, 2,
+	)
 
-	h.store(t, word, url)
-	h.recordAccepted(t, closerPeer, posting)
-
-	if handedOffPostings := h.handOff(t, posting); handedOffPostings != 0 {
-		t.Fatalf(
-			"handed off = %d, want 0: only one of two owed peers holds it", handedOffPostings,
-		)
+	if handOff(t, handoff, closerPeer()) {
+		t.Fatal("posting handed off, want it kept: only one of two owed peers holds it")
 	}
-	if len(h.purger.purgedPostings) != 0 {
-		t.Fatalf("purged = %+v, want none", h.purger.purgedPostings)
+	if len(purger.purgedPostings) != 0 {
+		t.Fatalf("purged = %+v, want none", purger.purgedPostings)
 	}
 }
 
 func TestPostingKeptWhileTheCloserHolderIsUnreachable(t *testing.T) {
-	word, url := yacymodel.WordHash("w1"), urlHash()
-	closerPeer := yacymodel.WordHash("peer")
-	posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
-	h := openHandoff(t, fakeReachability{}, handoffRedundancy)
+	handoff, _ := openHandoff(t, fakeReachability{}, handoffRedundancy)
 
-	h.store(t, word, url)
-	h.recordAccepted(t, closerPeer, posting)
+	if handOff(t, handoff, closerPeer()) {
+		t.Fatal("posting handed off, want it kept: the holder is unreachable")
+	}
+}
 
-	if handedOffPostings := h.handOff(t, posting); handedOffPostings != 0 {
-		t.Fatalf("handed off = %d, want 0: the holder is unreachable", handedOffPostings)
+func TestPostingGoneFromTheIndexIsNotHandedOff(t *testing.T) {
+	handoff, purger := openHandoff(
+		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer()}}, handoffRedundancy,
+	)
+	purger.postingGone = true
+
+	if handOff(t, handoff, closerPeer()) {
+		t.Fatal("posting handed off, want nothing: the index no longer holds it")
 	}
 }
 
 func TestKeepEveryPostingHandsOffNothing(t *testing.T) {
-	handedOffPostings, err := postinghandoff.KeepEveryPosting{}.HandOffPostingsHeldByCloserPeers(
-		context.Background(),
-		nil,
-		[]yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("w1"), URLHash: urlHash()}},
+	wasHandedOff, err := postinghandoff.KeepEveryPosting{}.HandOffIfHeldByCloserPeers(
+		context.Background(), nil, testPosting(), []yacymodel.Hash{closerPeer()},
 	)
 	if err != nil {
-		t.Fatalf("HandOffPostingsHeldByCloserPeers: %v", err)
+		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
 	}
-	if handedOffPostings != 0 {
-		t.Fatalf("handed off = %d, want 0: every posting is kept", handedOffPostings)
+	if wasHandedOff {
+		t.Fatal("posting handed off, want every posting kept")
 	}
 }
-
-type discardedScheduleObservations struct{}
-
-func (discardedScheduleObservations) ObserveScheduledPostings(string, int) {}
-
-func (discardedScheduleObservations) ObserveLongestOfferLateness(string, time.Duration) {}

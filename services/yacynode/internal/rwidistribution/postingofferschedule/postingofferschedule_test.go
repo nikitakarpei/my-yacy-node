@@ -137,56 +137,49 @@ func (h *scheduleHarness) pauseOffer(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 	requestedPause time.Duration,
-) {
+) bool {
 	t.Helper()
 
+	var wasRescheduled bool
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.schedule.SetNextOfferAfterRedundancyMissed(
+		var err error
+		wasRescheduled, err = h.schedule.SetNextOfferAfterRedundancyMissed(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
 			testInterval,
 			requestedPause,
 		)
+
+		return err
 	}); err != nil {
 		t.Fatalf("SetNextOfferAfterRedundancyMissed: %v", err)
 	}
+
+	return wasRescheduled
 }
 
-func (h *scheduleHarness) meetRedundancy(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
-	t.Helper()
-
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.schedule.SetNextOfferAfterRedundancyMet(
-			tx,
-			postingidentity.Identity{Word: word, URL: url},
-			testInterval,
-		)
-	}); err != nil {
-		t.Fatalf("SetNextOfferAfterRedundancyMet: %v", err)
-	}
-}
-
-func (h *scheduleHarness) isScheduled(
+func (h *scheduleHarness) meetRedundancy(
 	t *testing.T,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) bool {
 	t.Helper()
 
-	var postingScheduled bool
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+	var wasRescheduled bool
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		postingScheduled, err = h.schedule.IsScheduled(
+		wasRescheduled, err = h.schedule.SetNextOfferAfterRedundancyMet(
 			tx,
 			postingidentity.Identity{Word: word, URL: url},
+			testInterval,
 		)
 
 		return err
 	}); err != nil {
-		t.Fatalf("IsScheduled: %v", err)
+		t.Fatalf("SetNextOfferAfterRedundancyMet: %v", err)
 	}
 
-	return postingScheduled
+	return wasRescheduled
 }
 
 func (h *scheduleHarness) observeBacklog(t *testing.T) {
@@ -204,12 +197,37 @@ func (h *scheduleHarness) duePostings(t *testing.T, limit int) []postingidentity
 
 	var due []postingidentity.Identity
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		for sector := range yacymodel.DHTRingSectorCount {
+			inSector, err := h.schedule.DuePostingsIn(tx, sector, limit-len(due))
+			if err != nil {
+				return err
+			}
+			due = append(due, inSector...)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("due postings: %v", err)
+	}
+
+	return due
+}
+
+func (h *scheduleHarness) duePostingsIn(
+	t *testing.T,
+	sector yacymodel.DHTRingSector,
+	limit int,
+) []postingidentity.Identity {
+	t.Helper()
+
+	var due []postingidentity.Identity
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		due, err = h.schedule.DuePostings(tx, limit)
+		due, err = h.schedule.DuePostingsIn(tx, sector, limit)
 
 		return err
 	}); err != nil {
-		t.Fatalf("DuePostings: %v", err)
+		t.Fatalf("DuePostingsIn: %v", err)
 	}
 
 	return due

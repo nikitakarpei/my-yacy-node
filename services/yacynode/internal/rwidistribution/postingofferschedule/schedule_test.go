@@ -73,8 +73,9 @@ func TestPostingPurgedLeavesNothingScheduled(t *testing.T) {
 	if due := schedule.duePostings(t, 10); len(due) != 0 {
 		t.Fatalf("due = %v, want none after purge", due)
 	}
-	if schedule.isScheduled(t, word, url) {
-		t.Fatal("purged posting is still scheduled")
+	schedule.observeBacklog(t)
+	if schedule.observed.scheduled[shortfall] != 0 || schedule.observed.scheduled[refresh] != 0 {
+		t.Fatalf("scheduled = %v, want nothing left after the purge", schedule.observed.scheduled)
 	}
 }
 
@@ -84,10 +85,31 @@ func TestPausedOfferDoesNotResurrectPurgedPosting(t *testing.T) {
 	schedule.store(t, word, url)
 
 	schedule.purge(t, word, url)
-	schedule.pauseOffer(t, word, url, time.Hour)
 
-	if schedule.isScheduled(t, word, url) {
+	if schedule.pauseOffer(t, word, url, time.Hour) {
 		t.Fatal("purged posting came back when its offer was paused")
+	}
+}
+
+func TestMetRedundancyLeavesAPurgedPostingUnscheduled(t *testing.T) {
+	schedule := openSchedule(t, testStart)
+	word, url := testWord, urlHash("u1")
+	schedule.store(t, word, url)
+
+	schedule.purge(t, word, url)
+
+	if schedule.meetRedundancy(t, word, url) {
+		t.Fatal("purged posting came back when its redundancy was met")
+	}
+}
+
+func TestMetRedundancyReschedulesAStoredPosting(t *testing.T) {
+	schedule := openSchedule(t, testStart)
+	word, url := testWord, urlHash("u1")
+	schedule.store(t, word, url)
+
+	if !schedule.meetRedundancy(t, word, url) {
+		t.Fatal("stored posting was not rescheduled when its redundancy was met")
 	}
 }
 

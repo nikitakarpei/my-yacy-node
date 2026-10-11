@@ -160,8 +160,8 @@ func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
 	d.staleReplicasDropped.Add(float64(dropped))
 }
 
-func (d *DistributionMetrics) ObservePostingsHandedOff(handedOff int) {
-	d.postingsHandedOff.Add(float64(handedOff))
+func (d *DistributionMetrics) ObservePostingHandedOff() {
+	d.postingsHandedOff.Inc()
 }
 
 func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {

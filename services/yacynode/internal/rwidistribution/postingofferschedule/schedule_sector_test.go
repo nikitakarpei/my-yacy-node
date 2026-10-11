@@ -8,57 +8,29 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 )
 
-func TestABatchTakesTheSectorOfTheEarliestDuePostingFirst(t *testing.T) {
+func TestABatchTakesTheDuePostingsOfItsSectorOnly(t *testing.T) {
 	schedule := openSchedule(t, testStart)
-	sectorWords, otherSector := wordsIn(5, 2), wordIn(2)
-	earliest, sameSector := sectorWords[0], sectorWords[1]
-	schedule.storeInTurn(t, earliest, otherSector, sameSector)
+	sectorWords, nextSector := wordsIn(5, 2), wordIn(6)
+	schedule.storeInTurn(t, sectorWords[0], nextSector, sectorWords[1])
 
-	due := schedule.duePostings(t, 2)
+	due := schedule.duePostingsIn(t, 5, 10)
 
-	assertWordsInOrder(t, due, earliest, sameSector)
+	assertWordsInOrder(t, due, sectorWords...)
 }
 
-func TestABatchWalksOnFromTheLastSectorToTheFirst(t *testing.T) {
+func TestRefreshesFillTheBatchOfTheirSector(t *testing.T) {
 	schedule := openSchedule(t, testStart)
-	lastSector := wordIn(yacymodel.MaxDHTRingSector)
-	middleSector := wordIn(10)
-	firstSector := wordIn(0)
-	schedule.storeInTurn(t, lastSector, middleSector, firstSector)
-
-	due := schedule.duePostings(t, 2)
-
-	assertWordsInOrder(t, due, lastSector, firstSector)
-}
-
-func TestRefreshesFillTheBatchFromTheSectorWhereItStarts(t *testing.T) {
-	schedule := openSchedule(t, testStart)
-	refreshBefore, refreshAfter := wordIn(3), wordIn(21)
-	schedule.storeInTurn(t, refreshBefore, refreshAfter)
-	schedule.meetRedundancy(t, refreshBefore, urlHash("u1"))
-	schedule.meetRedundancy(t, refreshAfter, urlHash("u1"))
+	sectorWords, nextSector := wordsIn(20, 2), wordIn(21)
+	refresh, shortfallWord := sectorWords[0], sectorWords[1]
+	schedule.storeInTurn(t, refresh, nextSector)
+	schedule.meetRedundancy(t, refresh, urlHash("u1"))
+	schedule.meetRedundancy(t, nextSector, urlHash("u1"))
 	schedule.clock = testStart.Add(2 * testInterval.Longest)
-	shortfallWord := wordIn(20)
 	schedule.store(t, shortfallWord, urlHash("u1"))
 
-	due := schedule.duePostings(t, 2)
+	due := schedule.duePostingsIn(t, 20, 10)
 
-	assertWordsInOrder(t, due, shortfallWord, refreshAfter)
-}
-
-func TestABatchStartsAtTheEarliestRefreshWhileNoShortfallIsDue(t *testing.T) {
-	schedule := openSchedule(t, testStart)
-	paused, earlierRefresh, laterRefresh := wordIn(1), wordIn(30), wordIn(3)
-	schedule.storeInTurn(t, earlierRefresh, laterRefresh)
-	schedule.meetRedundancy(t, earlierRefresh, urlHash("u1"))
-	schedule.meetRedundancy(t, laterRefresh, urlHash("u1"))
-	schedule.clock = testStart.Add(2 * testInterval.Longest)
-	schedule.store(t, paused, urlHash("u1"))
-	schedule.pauseOffer(t, paused, urlHash("u1"), time.Hour)
-
-	due := schedule.duePostings(t, 1)
-
-	assertWordsInOrder(t, due, earlierRefresh)
+	assertWordsInOrder(t, due, shortfallWord, refresh)
 }
 
 func TestAPostingIsClearedFromItsSectorAfterThePartitionsChange(t *testing.T) {

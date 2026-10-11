@@ -326,7 +326,6 @@ func assembleNode(
 		var handoff distributioncycle.PostingHandoff = postinghandoff.KeepEveryPosting{}
 		if config.Distribution.HandoffEnabled {
 			handoff = postinghandoff.New(
-				postingReplicas,
 				postingPurger,
 				peerRoster,
 				postinghandoff.Config{
@@ -382,6 +381,7 @@ func assembleNode(
 					Longest:  config.Distribution.OfferInterval.Longest,
 				},
 				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
+				BatchConcurrency:  config.Distribution.BatchConcurrency,
 				CycleInterval:     config.Distribution.CycleInterval,
 				DrainBudget:       config.Distribution.DrainBudget,
 				MinReachablePeers: config.Distribution.MinReachablePeers,

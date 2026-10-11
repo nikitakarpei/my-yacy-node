@@ -2,6 +2,7 @@ package distributioncycle
 
 import (
 	"context"
+	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -47,11 +48,13 @@ func offerDuePostings(
 	answers OfferAnswers,
 	offers []postingoffer.PostingOffer,
 ) offerRound {
+	offersPerPeer := peerOffersFrom(offers)
+	offerAnswers := sendOffers(ctx, transfers, offersPerPeer)
 	pauses := make(requestedPauses)
 
 	var acceptances []peerAcceptance
-	for _, offer := range peerOffers(offers) {
-		postingsAcceptedByPeer := sendOffer(ctx, transfers, answers, offer, pauses)
+	for index, offer := range offersPerPeer {
+		postingsAcceptedByPeer := recordAnswer(answers, offer, offerAnswers[index], pauses)
 		if len(postingsAcceptedByPeer) == 0 {
 			continue
 		}
@@ -64,7 +67,7 @@ func offerDuePostings(
 	return offerRound{acceptances: acceptances, pauses: pauses}
 }
 
-func peerOffers(offers []postingoffer.PostingOffer) []peerOffer {
+func peerOffersFrom(offers []postingoffer.PostingOffer) []peerOffer {
 	byPeer := make(map[yacymodel.Hash]*peerOffer)
 	order := make([]yacymodel.Hash, 0, len(offers))
 	for _, offer := range offers {
@@ -79,22 +82,37 @@ func peerOffers(offers []postingoffer.PostingOffer) []peerOffer {
 		}
 	}
 
-	toPeers := make([]peerOffer, 0, len(order))
+	offersPerPeer := make([]peerOffer, 0, len(order))
 	for _, peer := range order {
-		toPeers = append(toPeers, *byPeer[peer])
+		offersPerPeer = append(offersPerPeer, *byPeer[peer])
 	}
 
-	return toPeers
+	return offersPerPeer
 }
 
-func sendOffer(
+func sendOffers(
 	ctx context.Context,
 	transfers *postingtransfer.PostingTransfers,
+	offersPerPeer []peerOffer,
+) []postingtransfer.OfferAnswer {
+	offerAnswers := make([]postingtransfer.OfferAnswer, len(offersPerPeer))
+	var sends sync.WaitGroup
+	for index, offer := range offersPerPeer {
+		sends.Go(func() {
+			offerAnswers[index] = transfers.Send(ctx, offer.peer, offer.postings)
+		})
+	}
+	sends.Wait()
+
+	return offerAnswers
+}
+
+func recordAnswer(
 	answers OfferAnswers,
 	offer peerOffer,
+	answer postingtransfer.OfferAnswer,
 	pauses requestedPauses,
 ) []yacymodel.RWIPosting {
-	answer := transfers.Send(ctx, offer.peer, offer.postings)
 	if answer.Accepted {
 		answers.OfferAccepted(offer.peer.Hash)
 	} else {

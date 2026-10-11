@@ -64,7 +64,7 @@ func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHa
 	if err != nil {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
-	replicas, err := postingreplicas.Open(v, schedule)
+	replicas, err := postingreplicas.Open(v)
 	if err != nil {
 		t.Fatalf("postingreplicas.Open: %v", err)
 	}
@@ -133,9 +133,23 @@ func (h postingOfferHarness) recordAccepted(
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.replicas.RecordAccepted(tx, peer, postings)
+		for _, posting := range postings {
+			identity := postingidentity.IdentityOf(posting)
+			recordedHolders, err := h.replicas.HoldersOf(tx, identity)
+			if err != nil {
+				return err
+			}
+			change := postingreplicas.HolderChange{AcceptingPeers: []yacymodel.Hash{peer}}
+			if err := h.replicas.RecordHolders(
+				tx, identity, recordedHolders, change.HoldersFrom(recordedHolders),
+			); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	}); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
+		t.Fatalf("RecordHolders: %v", err)
 	}
 }
 
@@ -165,9 +179,19 @@ func (h postingOfferHarness) dueNow(
 ) ([]postingoffer.PostingOffer, []postingidentity.Identity) {
 	t.Helper()
 
-	offers, gonePostings, err := h.postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("DueNow: %v", err)
+	var (
+		offers       []postingoffer.PostingOffer
+		gonePostings []postingidentity.Identity
+	)
+	for sector := range yacymodel.DHTRingSectorCount {
+		sectorOffers, sectorGonePostings, err := h.postingOffers.DueNowIn(
+			context.Background(), sector, 10, peers,
+		)
+		if err != nil {
+			t.Fatalf("DueNowIn: %v", err)
+		}
+		offers = append(offers, sectorOffers...)
+		gonePostings = append(gonePostings, sectorGonePostings...)
 	}
 
 	return offers, gonePostings
@@ -708,8 +732,11 @@ func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
 	harness.storePosting(t, word, url)
 	harness.dueNow(t, peers)
 
-	if len(observer.peersPerSector) != 1 {
-		t.Fatalf("reports = %d, want one report per DueNow", len(observer.peersPerSector))
+	if len(observer.peersPerSector) != int(yacymodel.DHTRingSectorCount) {
+		t.Fatalf(
+			"reports = %d, want one report per DueNowIn, one for each sector",
+			len(observer.peersPerSector),
+		)
 	}
 	perSector := observer.peersPerSector[0]
 	if len(perSector) != int(yacymodel.MaxDHTRingSector)+1 {

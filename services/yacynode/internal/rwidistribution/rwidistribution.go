@@ -30,7 +30,7 @@ func Open(
 		return nil, nil, nil, fmt.Errorf("open offer schedule: %w", err)
 	}
 
-	replicas, err := postingreplicas.Open(v, schedule)
+	replicas, err := postingreplicas.Open(v)
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("open replica ledger: %w", err)
 	}

@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
@@ -346,6 +347,37 @@ func TestCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 	}
 }
 
+func TestCycleRecordsNoReplicaOfAPostingPurgedWhileOffered(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings:   postings,
+		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		redundancy: 2,
+		self:       thisNodeCloserThanEveryPeer(),
+	})
+	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.courier.onOffer = func() {
+		if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
+			return h.schedule.PostingPurged(tx, fakePosting(word, url))
+		}); err != nil {
+			t.Errorf("PostingPurged: %v", err)
+		}
+	}
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.runCycle(t)
+
+	if replicas := holdersOf(t, h, word, url); len(replicas) != 0 {
+		t.Fatalf("replicas = %v, want none for a posting purged while offered", replicas)
+	}
+}
+
 func TestCycleReschedulesAtLongestBackoffAcrossPeers(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
@@ -405,6 +437,23 @@ func TestCycleCountsPostingGoneFromIndex(t *testing.T) {
 			"offered = %v, want no offers for a posting gone from the index",
 			h.courier.offered,
 		)
+	}
+}
+
+func TestCycleForgetsAPostingGoneFromIndex(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.runCycle(t)
+
+	if due := h.duePostings(t, 10); len(due) != 0 {
+		t.Fatalf("due = %v, want the gone posting forgotten", due)
 	}
 }
 

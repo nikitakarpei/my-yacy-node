@@ -1,8 +1,8 @@
 // Package postingofferschedule tracks when each stored posting is next due for
 // a distribution offer. A posting that misses its redundancy comes back after
 // the offer interval this package stores for it, and before the postings that
-// only refresh their holders. Each batch starts in the sector of the earliest
-// due posting and walks the ring from there, so a batch goes to few peers.
+// only refresh their holders. The due postings are read one ring sector at a
+// time, so a batch goes to few peers.
 package postingofferschedule
 
 import (
@@ -180,24 +180,21 @@ func (s *Schedule) SetNextOfferAfterRedundancyMet(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
 	bounds postingofferinterval.Bounds,
-) error {
+) (bool, error) {
 	previousPlace, found, err := s.placeOf(tx, identity)
-	if err != nil {
-		return err
-	}
-	if !found {
-		return nil
+	if err != nil || !found {
+		return false, err
 	}
 
 	if err := s.forgetOfferInterval(tx, identity); err != nil {
-		return err
+		return false, err
 	}
 	if err := s.dropPlace(tx, identity, previousPlace); err != nil {
-		return err
+		return false, err
 	}
 	nextDueAt := bounds.NextOfferDueFrom(previousPlace.DueAt, s.now())
 
-	return s.placeAt(tx, s.refreshOrder, identity, nextDueAt)
+	return true, s.placeAt(tx, s.refreshOrder, identity, nextDueAt)
 }
 
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
@@ -205,141 +202,76 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	identity postingidentity.Identity,
 	bounds postingofferinterval.Bounds,
 	requestedPause time.Duration,
-) error {
+) (bool, error) {
 	previousPlace, found, err := s.placeOf(tx, identity)
-	if err != nil {
-		return err
-	}
-	if !found {
-		return nil
+	if err != nil || !found {
+		return false, err
 	}
 
 	previousInterval, _, err := s.offerIntervals.Get(tx, identity)
 	if err != nil {
-		return fmt.Errorf("read offer interval: %w", err)
+		return false, fmt.Errorf("read offer interval: %w", err)
 	}
 	if _, err := s.offerIntervals.Put(
 		tx,
 		identity,
 		bounds.WidenedFrom(previousInterval),
 	); err != nil {
-		return fmt.Errorf("record offer interval: %w", err)
+		return false, fmt.Errorf("record offer interval: %w", err)
 	}
 	if err := s.dropPlace(tx, identity, previousPlace); err != nil {
-		return err
+		return false, err
 	}
 	pause := bounds.PauseFrom(previousInterval, requestedPause)
 
-	return s.placeAt(tx, s.shortfallOrder, identity, s.now().Add(pause))
+	return true, s.placeAt(tx, s.shortfallOrder, identity, s.now().Add(pause))
 }
 
-func (s *Schedule) IsScheduled(
+func (s *Schedule) DuePostingsIn(
 	tx *vault.Txn,
-	identity postingidentity.Identity,
-) (bool, error) {
-	_, found, err := s.placeOf(tx, identity)
-
-	return found, err
-}
-
-func (s *Schedule) DuePostings(
-	tx *vault.Txn,
+	sector yacymodel.DHTRingSector,
 	limit int,
 ) ([]postingidentity.Identity, error) {
-	if limit <= 0 {
-		return nil, nil
-	}
-	firstSector, found, err := s.sectorWhereTheBatchStarts(tx)
-	if err != nil || !found {
-		return nil, err
-	}
-
-	duePostings := make([]postingidentity.Identity, 0, limit)
-	duePostings, err = s.appendDuePostingsOf(tx, s.shortfallOrder, firstSector, duePostings, limit)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.appendDuePostingsOf(tx, s.refreshOrder, firstSector, duePostings, limit)
-}
-
-func (s *Schedule) sectorWhereTheBatchStarts(
-	tx *vault.Txn,
-) (yacymodel.DHTRingSector, bool, error) {
+	duePostings := make([]postingidentity.Identity, 0, max(limit, 0))
 	for _, order := range []*vault.Set[scheduledPostingOffer]{s.shortfallOrder, s.refreshOrder} {
-		earliestOffer, found, err := earliestOfferOf(tx, order)
-		if err != nil {
-			return 0, false, err
-		}
-		if found && !earliestOffer.Place.DueAt.After(s.now()) {
-			return earliestOffer.Place.Sector, true, nil
-		}
-	}
-
-	return 0, false, nil
-}
-
-func earliestOfferOf(
-	tx *vault.Txn,
-	order *vault.Set[scheduledPostingOffer],
-) (scheduledPostingOffer, bool, error) {
-	var (
-		earliestOffer scheduledPostingOffer
-		found         bool
-	)
-	for sector := range yacymodel.DHTRingSectorCount {
-		if err := order.Scan(
+		var err error
+		if duePostings, err = s.appendDuePostingsOf(
 			tx,
-			everyOfferInSector(sector),
-			func(scheduledOffer scheduledPostingOffer) (bool, error) {
-				if !found || scheduledOffer.Place.DueAt.Before(earliestOffer.Place.DueAt) {
-					earliestOffer, found = scheduledOffer, true
-				}
-
-				return false, nil
-			},
+			order,
+			sector,
+			duePostings,
+			limit,
 		); err != nil {
-			return scheduledPostingOffer{}, false, fmt.Errorf("select earliest offer due: %w", err)
-		}
-	}
-
-	return earliestOffer, found, nil
-}
-
-func (s *Schedule) appendDuePostingsOf(
-	tx *vault.Txn,
-	order *vault.Set[scheduledPostingOffer],
-	firstSector yacymodel.DHTRingSector,
-	duePostings []postingidentity.Identity,
-	limit int,
-) ([]postingidentity.Identity, error) {
-	for _, sector := range dhtRingSectorsFrom(firstSector) {
-		if len(duePostings) >= limit {
-			return duePostings, nil
-		}
-		if err := order.Scan(
-			tx,
-			everyOfferInSectorDueBy(sector, s.now()),
-			func(scheduledOffer scheduledPostingOffer) (bool, error) {
-				duePostings = append(duePostings, scheduledOffer.Identity)
-
-				return len(duePostings) < limit, nil
-			},
-		); err != nil {
-			return nil, fmt.Errorf("select due postings: %w", err)
+			return nil, err
 		}
 	}
 
 	return duePostings, nil
 }
 
-func dhtRingSectorsFrom(firstSector yacymodel.DHTRingSector) []yacymodel.DHTRingSector {
-	sectors := make([]yacymodel.DHTRingSector, 0, yacymodel.DHTRingSectorCount)
-	for step := range yacymodel.DHTRingSectorCount {
-		sectors = append(sectors, (firstSector+step)%yacymodel.DHTRingSectorCount)
+func (s *Schedule) appendDuePostingsOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+	sector yacymodel.DHTRingSector,
+	duePostings []postingidentity.Identity,
+	limit int,
+) ([]postingidentity.Identity, error) {
+	if len(duePostings) >= limit {
+		return duePostings, nil
+	}
+	if err := order.Scan(
+		tx,
+		everyOfferInSectorDueBy(sector, s.now()),
+		func(scheduledOffer scheduledPostingOffer) (bool, error) {
+			duePostings = append(duePostings, scheduledOffer.Identity)
+
+			return len(duePostings) < limit, nil
+		},
+	); err != nil {
+		return nil, fmt.Errorf("select due postings: %w", err)
 	}
 
-	return sectors
+	return duePostings, nil
 }
 
 func (s *Schedule) ObserveBacklog(tx *vault.Txn) error {
@@ -383,6 +315,33 @@ func (s *Schedule) longestOfferLatenessOf(
 	}
 
 	return max(s.now().Sub(earliestOffer.Place.DueAt), 0), nil
+}
+
+func earliestOfferOf(
+	tx *vault.Txn,
+	order *vault.Set[scheduledPostingOffer],
+) (scheduledPostingOffer, bool, error) {
+	var (
+		earliestOffer scheduledPostingOffer
+		found         bool
+	)
+	for sector := range yacymodel.DHTRingSectorCount {
+		if err := order.Scan(
+			tx,
+			everyOfferInSector(sector),
+			func(scheduledOffer scheduledPostingOffer) (bool, error) {
+				if !found || scheduledOffer.Place.DueAt.Before(earliestOffer.Place.DueAt) {
+					earliestOffer, found = scheduledOffer, true
+				}
+
+				return false, nil
+			},
+		); err != nil {
+			return scheduledPostingOffer{}, false, fmt.Errorf("select earliest offer due: %w", err)
+		}
+	}
+
+	return earliestOffer, found, nil
 }
 
 var _ rwipostings.PostingObserver = (*Schedule)(nil)

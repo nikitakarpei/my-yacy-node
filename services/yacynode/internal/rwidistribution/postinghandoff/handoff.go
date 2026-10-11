@@ -6,13 +6,10 @@ package postinghandoff
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -27,69 +24,43 @@ type Config struct {
 }
 
 type Handoff struct {
-	replicas     *postingreplicas.Replicas
 	purger       rwipostings.PostingPurger
 	reachability Reachability
 	config       Config
 }
 
 func New(
-	replicas *postingreplicas.Replicas,
 	purger rwipostings.PostingPurger,
 	reachability Reachability,
 	config Config,
 ) *Handoff {
 	return &Handoff{
-		replicas:     replicas,
 		purger:       purger,
 		reachability: reachability,
 		config:       config,
 	}
 }
 
-func (h *Handoff) HandOffPostingsHeldByCloserPeers(
-	ctx context.Context,
-	tx *vault.Txn,
-	postings []yacymodel.RWIPosting,
-) (int, error) {
-	var handedOffPostings int
-	for _, posting := range postings {
-		heldByCloserPeers, err := h.isHeldByCloserPeers(ctx, tx, posting)
-		if err != nil {
-			return 0, err
-		}
-		if !heldByCloserPeers {
-			continue
-		}
-
-		if _, err := h.purger.PurgePosting(
-			tx, posting.WordHash, posting.URLHash,
-		); err != nil {
-			return 0, err
-		}
-		slog.DebugContext(ctx, "posting handed off to closer peers",
-			slog.String("word", posting.WordHash.String()),
-			slog.String("url", posting.URLHash.String()))
-		handedOffPostings++
-	}
-
-	return handedOffPostings, nil
-}
-
-func (h *Handoff) isHeldByCloserPeers(
+func (h *Handoff) HandOffIfHeldByCloserPeers(
 	ctx context.Context,
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
+	holders []yacymodel.Hash,
 ) (bool, error) {
-	identity := postingidentity.IdentityOf(posting)
-	holders, err := h.replicas.HoldersOf(tx, identity)
-	if err != nil {
-		return false, fmt.Errorf("read replica ledger: %w", err)
+	position := yacymodel.DHTRingPositionOfPosting(posting, h.config.Partitions)
+	if len(h.holdersCloserThanThisNode(ctx, holders, position)) < h.config.Redundancy {
+		return false, nil
 	}
 
-	position := yacymodel.DHTRingPositionOfPosting(posting, h.config.Partitions)
+	wasPurged, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash)
+	if err != nil || !wasPurged {
+		return false, err
+	}
+	slog.DebugContext(ctx, "posting handed off to closer peers",
+		slog.String("word", posting.WordHash.String()),
+		slog.String("url", posting.URLHash.String()))
 
-	return len(h.holdersCloserThanThisNode(ctx, holders, position)) >= h.config.Redundancy, nil
+	return true, nil
 }
 
 func (h *Handoff) holdersCloserThanThisNode(
