@@ -3,7 +3,6 @@ package pagevisit
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 )
 
@@ -13,34 +12,22 @@ const (
 	PageVisitTerminal PageVisitConclusion = iota
 	PageVisitRetryable
 	PageVisitDeferred
+	PageVisitReturned
 )
 
 type PageVisitOutcome struct {
-	Conclusion     PageVisitConclusion
-	DeferFor       time.Duration
-	DiscoveredURLs []canonicalurl.CanonicalURL
-	RedirectTarget canonicalurl.CanonicalURL
-	Disposal       disposal.Reason
+	Conclusion  PageVisitConclusion
+	DeferFor    time.Duration
+	Disposal    disposal.Reason
+	ReturnCause error
 }
 
 func disposedOutcome(reason disposal.Reason) PageVisitOutcome {
 	return PageVisitOutcome{Conclusion: PageVisitTerminal, Disposal: reason}
 }
 
-func crawledOutcome(discoveredURLs []canonicalurl.CanonicalURL) PageVisitOutcome {
-	return PageVisitOutcome{
-		Conclusion:     PageVisitTerminal,
-		DiscoveredURLs: discoveredURLs,
-		Disposal:       disposal.NotDisposed,
-	}
-}
-
-func redirectedOutcome(redirectTarget canonicalurl.CanonicalURL) PageVisitOutcome {
-	return PageVisitOutcome{
-		Conclusion:     PageVisitTerminal,
-		RedirectTarget: redirectTarget,
-		Disposal:       disposal.NotDisposed,
-	}
+func completedOutcome() PageVisitOutcome {
+	return PageVisitOutcome{Conclusion: PageVisitTerminal, Disposal: disposal.NotDisposed}
 }
 
 func deferredOutcome(deferFor time.Duration) PageVisitOutcome {
@@ -49,4 +36,8 @@ func deferredOutcome(deferFor time.Duration) PageVisitOutcome {
 
 func retryableOutcome() PageVisitOutcome {
 	return PageVisitOutcome{Conclusion: PageVisitRetryable}
+}
+
+func returnedOutcome(cause error) PageVisitOutcome {
+	return PageVisitOutcome{Conclusion: PageVisitReturned, ReturnCause: cause}
 }

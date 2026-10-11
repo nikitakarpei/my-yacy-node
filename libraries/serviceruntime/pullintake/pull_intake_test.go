@@ -3,12 +3,14 @@ package pullintake_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 )
@@ -82,8 +84,9 @@ func TestRunReturnsNilOnContextCancel(t *testing.T) {
 	}
 }
 
-func TestRunFailsWhenSourceCannotOpen(t *testing.T) {
-	source := pullintaketest.MessageSourceThatCannotOpen(errors.New("no iterator"))
+func TestRunFailsWhenTheSourceFails(t *testing.T) {
+	want := errors.New("consumer deleted")
+	source := pullintaketest.MessageSourceThatFails(want)
 	err := pullintake.Run(
 		context.Background(),
 		source,
@@ -92,8 +95,169 @@ func TestRunFailsWhenSourceCannotOpen(t *testing.T) {
 			return nil
 		},
 	)
-	if err == nil {
-		t.Fatal("expected error when source cannot open")
+	if !errors.Is(err, want) {
+		t.Fatalf("run error = %v, want %v", err, want)
+	}
+}
+
+func TestRunTakesAMessageOnlyWhenAWorkerIsFree(t *testing.T) {
+	source := pullintaketest.MessageSourceOf(messages(3)...)
+	working := make(chan struct{})
+	release := make(chan struct{})
+	done := make(chan error, 1)
+	go func() {
+		done <- pullintake.Run(context.Background(), source, 1,
+			func(context.Context, pullintake.PendingMessage) error {
+				working <- struct{}{}
+				<-release
+				return nil
+			})
+	}()
+	<-working
+	if taken := source.AmountOfTakenMessages(); taken != 1 {
+		t.Errorf("took %d messages while the only worker was busy, want 1", taken)
+	}
+	close(release)
+	<-working
+	<-working
+	if err := <-done; err != nil {
+		t.Fatalf("run: %v", err)
+	}
+}
+
+func consumerOfPublished(t *testing.T, amount int) jetstream.Consumer {
+	t.Helper()
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
+	stream, err := js.CreateStream(t.Context(), jetstream.StreamConfig{
+		Name:     "WORK",
+		Subjects: []string{"work"},
+	})
+	if err != nil {
+		t.Fatalf("create stream: %v", err)
+	}
+	for range amount {
+		if _, err := js.Publish(t.Context(), "work", []byte("payload")); err != nil {
+			t.Fatalf("publish: %v", err)
+		}
+	}
+	consumer, err := stream.CreateConsumer(t.Context(), jetstream.ConsumerConfig{
+		Durable:   "worker",
+		AckPolicy: jetstream.AckExplicitPolicy,
+	})
+	if err != nil {
+		t.Fatalf("create consumer: %v", err)
+	}
+	return consumer
+}
+
+func TestRunTakesEveryBrokerMessageThenWaitsUntilTheContextEnds(t *testing.T) {
+	consumer := consumerOfPublished(t, 2)
+	ctx, cancel := context.WithCancel(t.Context())
+	defer cancel()
+	processed := make(chan struct{}, 2)
+	done := make(chan error, 1)
+	go func() {
+		done <- pullintake.Run(ctx, consumer, 1,
+			func(ctx context.Context, message pullintake.PendingMessage) error {
+				message.Acknowledge(ctx)
+				processed <- struct{}{}
+				return nil
+			})
+	}()
+	<-processed
+	<-processed
+	cancel()
+
+	if err := <-done; err != nil {
+		t.Fatalf("run: %v", err)
+	}
+}
+
+type contextPastItsDeadline struct {
+	context.Context
+}
+
+func (contextPastItsDeadline) Deadline() (time.Time, bool) {
+	return time.Unix(0, 0), true
+}
+
+func TestRunTakesBrokerMessagesUntilAContextPastItsDeadlineEnds(t *testing.T) {
+	consumer := consumerOfPublished(t, 2)
+	ctx, cancel := context.WithCancel(t.Context())
+	defer cancel()
+	processed := make(chan struct{}, 2)
+	done := make(chan error, 1)
+	go func() {
+		done <- pullintake.Run(contextPastItsDeadline{ctx}, consumer, 1,
+			func(ctx context.Context, message pullintake.PendingMessage) error {
+				message.Acknowledge(ctx)
+				processed <- struct{}{}
+				return nil
+			})
+	}()
+	for range 2 {
+		select {
+		case <-processed:
+		case err := <-done:
+			t.Fatalf("run ended before it took every message: %v", err)
+		}
+	}
+	cancel()
+
+	if err := <-done; err != nil {
+		t.Fatalf("run: %v", err)
+	}
+}
+
+type admissionOf struct {
+	admitted int
+}
+
+func (a *admissionOf) AwaitAdmission(ctx context.Context) error {
+	if a.admitted == 0 {
+		<-ctx.Done()
+		return fmt.Errorf("await admission: %w", ctx.Err())
+	}
+	a.admitted--
+	return nil
+}
+
+func TestRunAdmittedByTakesOnlyAdmittedMessages(t *testing.T) {
+	source := pullintaketest.MessageSourceOf(messages(3)...)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	processed := make(chan struct{}, 3)
+	done := make(chan error, 1)
+	go func() {
+		done <- pullintake.RunAdmittedBy(ctx, source, 1, &admissionOf{admitted: 2},
+			func(context.Context, pullintake.PendingMessage) error {
+				processed <- struct{}{}
+				return nil
+			})
+	}()
+	<-processed
+	<-processed
+	cancel()
+	if err := <-done; err != nil {
+		t.Fatalf("run: %v", err)
+	}
+	if extra := len(processed); extra != 0 {
+		t.Errorf("processed %d messages past the admission", extra)
+	}
+	if taken := source.AmountOfTakenMessages(); taken != 2 {
+		t.Errorf("took %d messages, want only the 2 admitted", taken)
+	}
+}
+
+func TestRunAdmittedByHaltsOnFatalErrorWhileHeldBack(t *testing.T) {
+	source := pullintaketest.MessageSourceOf(messages(2)...)
+	want := errors.New("poison")
+	err := pullintake.RunAdmittedBy(context.Background(), source, 1, &admissionOf{admitted: 1},
+		func(context.Context, pullintake.PendingMessage) error {
+			return want
+		})
+	if !errors.Is(err, want) {
+		t.Fatalf("run error = %v, want %v", err, want)
 	}
 }
 
@@ -151,6 +315,31 @@ func TestPendingMessageIdentityFallsBackToTheSubjectAlone(t *testing.T) {
 
 	if identity != pullintaketest.Subject {
 		t.Errorf("identity = %q, want the subject alone", identity)
+	}
+}
+
+func TestPendingMessageArrivalIsWhenTheMessageEnteredItsStream(t *testing.T) {
+	entered := time.Date(2026, time.October, 11, 9, 0, 0, 0, time.UTC)
+	var arrival time.Time
+	deliver(t, &pullintaketest.Message{Arrival: entered},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			arrival = message.Arrival()
+		})
+
+	if !arrival.Equal(entered) {
+		t.Errorf("arrival = %v, want %v", arrival, entered)
+	}
+}
+
+func TestPendingMessageArrivalIsUnknownWithoutMetadata(t *testing.T) {
+	var arrival time.Time
+	deliver(t, &pullintaketest.Message{MetadataError: errors.New("no metadata")},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			arrival = message.Arrival()
+		})
+
+	if !arrival.IsZero() {
+		t.Errorf("arrival = %v, want none", arrival)
 	}
 }
 

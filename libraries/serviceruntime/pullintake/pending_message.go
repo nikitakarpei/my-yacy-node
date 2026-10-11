@@ -19,6 +19,7 @@ const (
 type PendingMessage interface {
 	Body() []byte
 	Identity() string
+	Arrival() time.Time
 	Acknowledge(ctx context.Context)
 	Return(ctx context.Context)
 	ReturnAfter(ctx context.Context, delay time.Duration)
@@ -40,6 +41,14 @@ func (m pendingMessage) Identity() string {
 	return fmt.Sprintf("%s %s/%d",
 		m.message.Subject(), metadata.Stream, metadata.Sequence.Stream,
 	)
+}
+
+func (m pendingMessage) Arrival() time.Time {
+	metadata, err := m.message.Metadata()
+	if err != nil {
+		return time.Time{}
+	}
+	return metadata.Timestamp
 }
 
 func (m pendingMessage) Acknowledge(ctx context.Context) {

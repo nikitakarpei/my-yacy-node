@@ -2,6 +2,7 @@ package scrapeintake_test
 
 import (
 	"context"
+	"errors"
 	"testing"
 	"time"
 
@@ -20,22 +21,9 @@ const (
 )
 
 type scrapeIntake struct {
-	message   *pullintaketest.Message
-	offers    *pageOffers
-	schedules *scrapeSchedules
-	feed      *scrapeOutcomeFeed
-}
-
-type scrapeBroker struct {
-	offers    *pageOffers
-	schedules *scrapeSchedules
-}
-
-func acceptingScrapeBroker() scrapeBroker {
-	return scrapeBroker{
-		offers:    &pageOffers{},
-		schedules: &scrapeSchedules{},
-	}
+	message *pullintaketest.Message
+	offers  *pageOffers
+	feed    *scrapeOutcomeFeed
 }
 
 func runScrapeIntake(
@@ -45,30 +33,39 @@ func runScrapeIntake(
 	fetchTime time.Time,
 ) scrapeIntake {
 	t.Helper()
-	return runScrapeIntakeAgainst(t, request, fetches, fetchTime, acceptingScrapeBroker())
+	message := scrapeRequestMessage(t, request, fetchTime)
+	return runScrapeIntakeAgainst(t, message, fetches, fetchTime, &pageOffers{})
 }
 
-func runScrapeIntakeAgainst(
+func scrapeRequestMessage(
 	t *testing.T,
 	request pagescrapecontract.ScrapeRequest,
-	fetches pageFetches,
-	fetchTime time.Time,
-	broker scrapeBroker,
-) scrapeIntake {
+	arrival time.Time,
+) *pullintaketest.Message {
 	t.Helper()
 	body, err := pagescrapecontract.MarshalScrapeRequest(request)
 	if err != nil {
 		t.Fatalf("marshal scrape request: %v", err)
 	}
-	message := &pullintaketest.Message{Body: body}
+	return &pullintaketest.Message{Body: body, Arrival: arrival}
+}
+
+func runScrapeIntakeAgainst(
+	t *testing.T,
+	message *pullintaketest.Message,
+	fetches pageFetches,
+	fetchTime time.Time,
+	offers *pageOffers,
+) scrapeIntake {
+	t.Helper()
 	feed := &scrapeOutcomeFeed{}
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		fetches,
-		broker.offers,
-		broker.schedules,
+		offers,
 		feed,
 		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
+		everyRequestAdmitted{},
 		deferralWindow,
 		1,
 		fixedClock{now: fetchTime},
@@ -77,10 +74,9 @@ func runScrapeIntakeAgainst(
 		t.Fatalf("run intake: %v", err)
 	}
 	return scrapeIntake{
-		message:   message,
-		offers:    broker.offers,
-		schedules: broker.schedules,
-		feed:      feed,
+		message: message,
+		offers:  offers,
+		feed:    feed,
 	}
 }
 
@@ -213,28 +209,22 @@ func TestFetchThatFailsWithoutAnAnswerNamesNoReason(t *testing.T) {
 	}
 }
 
-func TestDeferredFetchIsScheduledForALaterFetchAndSettled(t *testing.T) {
-	request := scrapeRequestForThePage(t)
-	fetchTime := time.Now()
+func TestDeferredFetchComesBackAfterTheOriginAskedToWait(t *testing.T) {
 	fetch := pageFetches{outcome: pagefetch.FetchOutcome{
 		Status:   pagefetch.FetchDeferred,
 		DeferFor: time.Minute,
 	}}
 
-	intake := runScrapeIntake(t, request, fetch, fetchTime)
+	intake := runScrapeIntake(t, scrapeRequestForThePage(t), fetch, time.Now())
 
-	if len(intake.schedules.scheduled) != 1 {
-		t.Fatalf("scheduled %d scrapes, want exactly one", len(intake.schedules.scheduled))
+	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
+		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.HeldBack)
 	}
-	scheduled := intake.schedules.scheduled[0]
-	if scheduled.after != time.Minute {
-		t.Errorf("scheduled in %s, want %s", scheduled.after, time.Minute)
+	if after := intake.message.HeldBackFor(); after != time.Minute {
+		t.Errorf("the request comes back in %s, want %s", after, time.Minute)
 	}
-	if !scheduled.request.DeferredSince.Equal(fetchTime) {
-		t.Errorf("deferred since %s, want %s", scheduled.request.DeferredSince, fetchTime)
-	}
-	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
-		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
+	if len(intake.offers.failures) != 0 {
+		t.Errorf("reported %d failures, want none", len(intake.offers.failures))
 	}
 }
 
@@ -248,9 +238,6 @@ func TestDeferredFetchOfARequestThatGivesUpOnDeferralFails(t *testing.T) {
 
 	intake := runScrapeIntake(t, request, fetch, time.Now())
 
-	if len(intake.schedules.scheduled) != 0 {
-		t.Errorf("scheduled %d scrapes, want none", len(intake.schedules.scheduled))
-	}
 	if len(intake.offers.failures) != 1 {
 		t.Fatalf("reported %d failures, want exactly one", len(intake.offers.failures))
 	}
@@ -261,18 +248,16 @@ func TestDeferredFetchOfARequestThatGivesUpOnDeferralFails(t *testing.T) {
 
 func TestFetchDeferredPastTheDeferralWindowFails(t *testing.T) {
 	fetchTime := time.Now()
-	request := scrapeRequestForThePage(t)
-	request.DeferredSince = fetchTime.Add(-deferralWindow - time.Minute)
+	arrival := fetchTime.Add(-deferralWindow - time.Minute)
 	fetch := pageFetches{outcome: pagefetch.FetchOutcome{
 		Status:   pagefetch.FetchDeferred,
 		DeferFor: time.Minute,
 	}}
 
-	intake := runScrapeIntake(t, request, fetch, fetchTime)
+	message := scrapeRequestMessage(t, scrapeRequestForThePage(t), arrival)
 
-	if len(intake.schedules.scheduled) != 0 {
-		t.Errorf("scheduled %d scrapes, want none", len(intake.schedules.scheduled))
-	}
+	intake := runScrapeIntakeAgainst(t, message, fetch, fetchTime, &pageOffers{})
+
 	if len(intake.offers.failures) != 1 {
 		t.Fatalf("reported %d failures, want exactly one", len(intake.offers.failures))
 	}
@@ -285,25 +270,10 @@ func TestRequestComesBackWhenTheBrokerTakesNoOffer(t *testing.T) {
 	fetch := pageFetches{outcome: pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 	}}
-	broker := acceptingScrapeBroker()
-	broker.offers = &pageOffers{err: errBrokerRefused}
+	now := time.Now()
+	message := scrapeRequestMessage(t, scrapeRequestForThePage(t), now)
 
-	intake := runScrapeIntakeAgainst(t, scrapeRequestForThePage(t), fetch, time.Now(), broker)
-
-	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
-		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.HeldBack)
-	}
-}
-
-func TestRequestComesBackWhenTheBrokerSchedulesNoLaterFetch(t *testing.T) {
-	fetch := pageFetches{outcome: pagefetch.FetchOutcome{
-		Status:   pagefetch.FetchDeferred,
-		DeferFor: time.Minute,
-	}}
-	broker := acceptingScrapeBroker()
-	broker.schedules = &scrapeSchedules{err: errBrokerRefused}
-
-	intake := runScrapeIntakeAgainst(t, scrapeRequestForThePage(t), fetch, time.Now(), broker)
+	intake := runScrapeIntakeAgainst(t, message, fetch, now, &pageOffers{err: errBrokerRefused})
 
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
 		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.HeldBack)
@@ -316,9 +286,9 @@ func TestScrapeRequestNoOneCanTakeHaltsIntake(t *testing.T) {
 		pullintaketest.MessageSourceOf(message),
 		pageFetches{},
 		&pageOffers{},
-		&scrapeSchedules{},
 		&scrapeOutcomeFeed{},
 		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
+		everyRequestAdmitted{},
 		deferralWindow,
 		1,
 		wallclock.Clock{},
@@ -326,5 +296,39 @@ func TestScrapeRequestNoOneCanTakeHaltsIntake(t *testing.T) {
 
 	if err := consumer.Run(context.Background()); err == nil {
 		t.Fatal("want intake to halt on a request it cannot take")
+	}
+}
+
+type everyRequestAdmitted struct{}
+
+func (everyRequestAdmitted) AwaitAdmission(context.Context) error {
+	return nil
+}
+
+type noRequestAdmitted struct{}
+
+func (noRequestAdmitted) AwaitAdmission(context.Context) error {
+	return errors.New("the page offers are not read")
+}
+
+func TestARequestTheAdmissionHoldsBackStaysUnsettled(t *testing.T) {
+	message := &pullintaketest.Message{}
+	consumer := scrapeintake.NewScrapeRequestConsumer(
+		pullintaketest.MessageSourceOf(message),
+		pageFetches{},
+		&pageOffers{},
+		&scrapeOutcomeFeed{},
+		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
+		noRequestAdmitted{},
+		deferralWindow,
+		1,
+		wallclock.Clock{},
+	)
+
+	if err := consumer.Run(context.Background()); err != nil {
+		t.Fatalf("run intake: %v", err)
+	}
+	if settled := message.Settlements(); len(settled) != 0 {
+		t.Errorf("the held back request was settled %v, want it untouched", settled)
 	}
 }

@@ -9,16 +9,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
-type VisitedPages struct{}
+type PageVisitRecords struct{}
 
-func (VisitedPages) LastPageVisitOf(
+func (PageVisitRecords) LastPageVisitOf(
 	context.Context,
 	canonicalurl.CanonicalURL,
 ) (pagevisit.LastPageVisit, bool) {
 	return pagevisit.LastPageVisit{}, false
 }
 
-func (VisitedPages) RecordPageVisit(
+func (PageVisitRecords) RecordPageVisit(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	pagefetch.PageVersion,

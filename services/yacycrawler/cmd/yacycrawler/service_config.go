@@ -32,7 +32,8 @@ const (
 	acceptedOrderRetention = 7 * 24 * time.Hour
 	acceptedOrderMaxBytes  = 64 << 20
 
-	crawledPageRetention = 7 * 24 * time.Hour
+	crawledPageRetention    = 7 * 24 * time.Hour
+	crawledPageBacklogLimit = 5000
 )
 
 type ServiceConfig struct {
@@ -107,6 +108,10 @@ func (ServiceConfig) OrderIntakeConcurrency() int {
 
 func (ServiceConfig) CrawledPageRetention() time.Duration {
 	return crawledPageRetention
+}
+
+func (ServiceConfig) CrawledPageBacklogLimit() uint64 {
+	return crawledPageBacklogLimit
 }
 
 func (ServiceConfig) PendingPageVisitDuplicateWindow() time.Duration {

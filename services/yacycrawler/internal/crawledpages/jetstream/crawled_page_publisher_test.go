@@ -61,8 +61,11 @@ func TestAnIndexablePageIsPublishedOnTheIndexableSubject(t *testing.T) {
 	publisher := jetstream.New(js, observer)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 
-	publisher.PublishIndexablePage(context.Background(), pageURL)
+	published := publisher.PublishIndexablePage(context.Background(), pageURL)
 
+	if !published {
+		t.Fatal("published = false for a page that left")
+	}
 	page := publishedPageOn(t, js, yacycrawlcontract.IndexablePageSubject)
 	if page.PageURL != pageURL {
 		t.Fatalf("page url = %q, want %q", page.PageURL, pageURL)
@@ -97,10 +100,13 @@ func TestAPageThatNeverLeavesIsObserved(t *testing.T) {
 	observer := &recordingCrawledPagePublicationObserver{}
 	publisher := jetstream.New(js, observer)
 
-	publisher.PublishIndexablePage(
+	published := publisher.PublishIndexablePage(
 		context.Background(), canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 	)
 
+	if published {
+		t.Fatal("published = true for a page that never left")
+	}
 	if observer.publishingFailures != 1 {
 		t.Fatalf("publishing failures = %d, want 1", observer.publishingFailures)
 	}

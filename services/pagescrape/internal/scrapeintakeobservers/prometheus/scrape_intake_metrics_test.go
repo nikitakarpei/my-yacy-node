@@ -32,7 +32,6 @@ func TestScrapeIntakeMetricsCountDisposalsAndRetries(t *testing.T) {
 	metrics.ScrapeDeferred(ctx, page, time.Second)
 	metrics.ScrapeFailed(ctx, page, pagescrapecontract.Oversized)
 	metrics.PageNotOffered(ctx, page, cause)
-	metrics.ScrapeScheduleFailed(ctx, page, cause)
 
 	body := exposition(t, registry)
 	for _, want := range []string{
@@ -41,7 +40,6 @@ func TestScrapeIntakeMetricsCountDisposalsAndRetries(t *testing.T) {
 		`pagescrape_scrape_requests_disposed_total{disposal="scheduled"} 1`,
 		`pagescrape_scrape_requests_disposed_total{disposal="oversized"} 1`,
 		`pagescrape_scrape_requests_left_for_retry_total{cause="offer-refused"} 1`,
-		`pagescrape_scrape_requests_left_for_retry_total{cause="schedule-refused"} 1`,
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("metrics output missing %q", want)

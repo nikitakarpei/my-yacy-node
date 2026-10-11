@@ -3,7 +3,6 @@ package pagescrapecontract
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
@@ -11,7 +10,6 @@ import (
 type ScrapeRequest struct {
 	PageURL           canonicalurl.CanonicalURL `json:"PageURL"`
 	FetchURL          canonicalurl.CanonicalURL `json:"FetchURL,omitzero"`
-	DeferredSince     time.Time                 `json:"DeferredSince,omitzero"`
 	GivesUpOnDeferral bool                      `json:"GivesUpOnDeferral,omitzero"`
 }
 

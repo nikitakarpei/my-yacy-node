@@ -669,7 +669,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 16,
         "x": 0,
         "y": 54
       },
@@ -693,6 +693,49 @@
           "refId": "A",
           "expr": "sum by (outcome) (clamp_min(yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 36,
+      "title": "Crawl held back by a reader of crawled pages",
+      "description": "The crawler takes no new page visit while this reader has too many crawled pages left to read.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 54
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "never",
+        "legend": {
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max by (consumer) (yacycrawler_intake_held_back{instance=~\"$service_instance\"})",
+          "legendFormat": "{{consumer}}"
         }
       ],
       "interval": "$window"

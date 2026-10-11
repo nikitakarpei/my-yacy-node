@@ -8,10 +8,8 @@ The service is configured entirely through environment variables.
 |---|---|---|
 | `SCRAPE_NATS_URL` | required | NATS server that holds scrape requests and page offers. |
 | `SCRAPE_REQUEST_DURABLE` | `pagescrape` | Durable consumer name shared across service instances. |
-| `SCRAPE_REQUESTS_IN_FLIGHT` | `64` | Unacknowledged scrape requests allowed across the durable consumer. |
-| `SCRAPE_REQUESTS_KEPT` | `100000` | Requests and deferred requests the request stream keeps. |
+| `SCRAPE_REQUESTS_KEPT` | `100000` | Unfinished requests, deferred ones included, the request stream holds. A full stream refuses new requests. |
 | `SCRAPE_PAGE_OFFER_MAX_BYTES` | `1GB` | Total bytes the page offer stream keeps. |
-| `SCRAPE_PAGE_OFFER_MAX_AGE` | `24h` | Longest time the page offer stream keeps a message. |
 
 ## Page fetches
 
@@ -29,7 +27,7 @@ The service is configured entirely through environment variables.
 | Variable | Default | Meaning |
 |---|---|---|
 | `SCRAPE_INTAKE_CONCURRENCY` | `4` | Scrape requests the service works on at once. |
-| `SCRAPE_DEFERRAL_WINDOW` | `6h` | Total time a request can remain deferred before it fails. |
+| `SCRAPE_DEFERRAL_WINDOW` | `6h` | Time from the arrival of a request after which a deferral fails it. |
 
 ## Operations
 

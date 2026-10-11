@@ -35,14 +35,10 @@ var scrapeRequestDisposals = []string{
 	string(pagescrapecontract.DeferredTooLong),
 }
 
-const (
-	retryCauseOfferRefused    = "offer-refused"
-	retryCauseScheduleRefused = "schedule-refused"
-)
+const retryCauseOfferRefused = "offer-refused"
 
 var retryCauses = []string{
 	retryCauseOfferRefused,
-	retryCauseScheduleRefused,
 }
 
 type ScrapeIntakeMetrics struct {
@@ -114,14 +110,6 @@ func (m *ScrapeIntakeMetrics) ScrapeDeferred(
 	_ time.Duration,
 ) {
 	m.dispose(disposalScheduled)
-}
-
-func (m *ScrapeIntakeMetrics) ScrapeScheduleFailed(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	m.leaveForRetry(retryCauseScheduleRefused)
 }
 
 func (m *ScrapeIntakeMetrics) ScrapeFailed(

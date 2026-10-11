@@ -1,4 +1,4 @@
-package pagevisit
+package observedfetch
 
 import (
 	"context"

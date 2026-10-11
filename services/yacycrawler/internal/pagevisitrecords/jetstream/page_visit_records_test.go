@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	jetstreamrecord "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
-	visitedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/visitedpages/jetstream"
+	pagevisitrecordsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/jetstream"
 )
 
 type manualClock struct{ now time.Time }
@@ -23,14 +23,14 @@ func (c *manualClock) Now() time.Time { return c.now }
 func newBucket(t *testing.T) natsjetstream.KeyValue {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	if err := visitedpagesjetstream.Ensure(
+	if err := pagevisitrecordsjetstream.Ensure(
 		context.Background(),
 		js,
 		jetstreamrecord.BucketSpec{MaxBytes: 1 << 20, Retention: time.Hour},
 	); err != nil {
 		t.Fatal(err)
 	}
-	bucket, err := js.KeyValue(context.Background(), visitedpagesjetstream.BucketName)
+	bucket, err := js.KeyValue(context.Background(), pagevisitrecordsjetstream.BucketName)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,9 +38,9 @@ func newBucket(t *testing.T) natsjetstream.KeyValue {
 }
 
 func TestNoPageVisitOfAPageNeverVisited(t *testing.T) {
-	pages := visitedpagesjetstream.New(newBucket(t), &manualClock{}, silentPageVisitRecords{})
+	records := pagevisitrecordsjetstream.New(newBucket(t), &manualClock{}, silentPageVisitRecords{})
 
-	visit, visited := pages.LastPageVisitOf(
+	visit, visited := records.LastPageVisitOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 	)
@@ -52,14 +52,14 @@ func TestNoPageVisitOfAPageNeverVisited(t *testing.T) {
 func TestARecordedPageVisitKeepsItsTimeAndPageVersion(t *testing.T) {
 	now := time.Date(2026, time.July, 25, 12, 0, 0, 0, time.UTC)
 	clock := &manualClock{now: now}
-	pages := visitedpagesjetstream.New(newBucket(t), clock, silentPageVisitRecords{})
+	records := pagevisitrecordsjetstream.New(newBucket(t), clock, silentPageVisitRecords{})
 
 	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 	version := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
-	pages.RecordPageVisit(context.Background(), url, version)
+	records.RecordPageVisit(context.Background(), url, version)
 
 	clock.now = now.Add(30 * time.Minute)
-	visit, visited := pages.LastPageVisitOf(context.Background(), url)
+	visit, visited := records.LastPageVisitOf(context.Background(), url)
 	if !visited || !visit.VisitedAt.Equal(now) {
 		t.Fatalf("visited at %v, want the page visit recorded at %v", visit.VisitedAt, now)
 	}
@@ -120,13 +120,13 @@ func (f failingBucket) Put(context.Context, string, []byte) (uint64, error) {
 func TestALastPageVisitTheBucketRefusesIsReportedAsNeverVisited(t *testing.T) {
 	boom := errors.New("bucket down")
 	failures := &recordedFailures{}
-	pages := visitedpagesjetstream.New(
+	records := pagevisitrecordsjetstream.New(
 		failingBucket{getErr: boom},
 		&manualClock{},
 		failures,
 	)
 
-	visit, visited := pages.LastPageVisitOf(
+	visit, visited := records.LastPageVisitOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 	)
@@ -142,11 +142,11 @@ func TestALastPageVisitTheBucketRefusesIsReportedAsNeverVisited(t *testing.T) {
 func TestAPageVisitTheBucketRefusesIsReported(t *testing.T) {
 	boom := errors.New("bucket down")
 	failures := &recordedFailures{}
-	pages := visitedpagesjetstream.New(
+	records := pagevisitrecordsjetstream.New(
 		failingBucket{putErr: boom}, &manualClock{}, failures,
 	)
 
-	pages.RecordPageVisit(
+	records.RecordPageVisit(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 		pagefetch.PageVersion{},

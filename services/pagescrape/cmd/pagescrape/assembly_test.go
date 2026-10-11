@@ -45,11 +45,9 @@ func serviceConfig(natsURL string, proxy *url.URL) pagescrape.ServiceConfig {
 		FetchDeadline:           time.Second,
 		ScrapeRequestDurable:    pagescrape.DefaultScrapeRequestDurable,
 		ScrapeIntakeConcurrency: pagescrape.DefaultScrapeIntakeConcurrency,
-		ScrapeRequestsInFlight:  pagescrape.DefaultScrapeRequestsInFlight,
 		ScrapeRequestsKept:      pagescrape.DefaultScrapeRequestsKept,
 		ScrapeDeferralWindow:    pagescrape.DefaultScrapeDeferralWindow,
 		PageOfferMaxBytes:       8 << 20,
-		PageOfferMaxAge:         time.Hour,
 		OpsAddr:                 "127.0.0.1:0",
 	}
 }

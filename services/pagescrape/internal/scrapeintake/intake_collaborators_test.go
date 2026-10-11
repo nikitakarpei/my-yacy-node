@@ -64,28 +64,6 @@ func (o *pageOffers) ReportScrapeFailure(
 	return nil
 }
 
-type scrapeSchedule struct {
-	request pagescrapecontract.ScrapeRequest
-	after   time.Duration
-}
-
-type scrapeSchedules struct {
-	scheduled []scrapeSchedule
-	err       error
-}
-
-func (s *scrapeSchedules) ScheduleScrape(
-	_ context.Context,
-	request pagescrapecontract.ScrapeRequest,
-	after time.Duration,
-) error {
-	if s.err != nil {
-		return s.err
-	}
-	s.scheduled = append(s.scheduled, scrapeSchedule{request: request, after: after})
-	return nil
-}
-
 type scrapeOutcomeFeed struct {
 	announced []pagescrapecontract.ScrapeFailure
 }
@@ -132,13 +110,6 @@ func (silentScrapeIntakeObserver) ScrapeDeferred(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ time.Duration,
-) {
-}
-
-func (silentScrapeIntakeObserver) ScrapeScheduleFailed(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
 ) {
 }
 

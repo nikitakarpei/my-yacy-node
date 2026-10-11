@@ -1,4 +1,6 @@
-// Package pagevisit fetches one URL and turns what it holds into the outcome of a page visit.
+// Package pagevisit visits one page of a crawl order: it fetches the page, reads it,
+// publishes the crawled page, and puts visits to the pages it links or redirects to on
+// the frontier. It records the visit last, so a visit that delivered only part comes back.
 package pagevisit
 
 import (
@@ -7,120 +9,110 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
+var errCrawledPageUnpublished = errors.New("crawled page not published")
+
 type PageVisitor interface {
-	VisitPage(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) PageVisitOutcome
+	VisitPage(
+		ctx context.Context,
+		order acceptedorder.AcceptedOrder,
+		pendingPageVisit pendingpagevisit.PendingPageVisit,
+	) PageVisitOutcome
 }
 
 type pageVisitor struct {
-	pageFetcher                PageFetcher
-	recrawlRule                RecrawlRule
-	visitedPages               VisitedPages
-	htmlPageReading            HTMLPageReading
-	refusalEnforcementObserver RefusalEnforcementObserver
-	crawledPages               CrawledPages
+	pageFetcher      PageFetcher
+	recrawlRule      RecrawlRule
+	pageVisitRecords PageVisitRecords
+	htmlPageReading  HTMLPageReading
+	crawledPages     CrawledPages
+	frontier         PendingPageVisits
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
 func New(
 	pageFetcher PageFetcher,
 	recrawlRule RecrawlRule,
-	visitedPages VisitedPages,
+	pageVisitRecords PageVisitRecords,
 	htmlPageReading HTMLPageReading,
-	refusalEnforcementObserver RefusalEnforcementObserver,
 	crawledPages CrawledPages,
+	frontier PendingPageVisits,
 ) PageVisitor {
 	return &pageVisitor{
-		pageFetcher:                pageFetcher,
-		recrawlRule:                recrawlRule,
-		visitedPages:               visitedPages,
-		htmlPageReading:            htmlPageReading,
-		refusalEnforcementObserver: refusalEnforcementObserver,
-		crawledPages:               crawledPages,
+		pageFetcher:      pageFetcher,
+		recrawlRule:      recrawlRule,
+		pageVisitRecords: pageVisitRecords,
+		htmlPageReading:  htmlPageReading,
+		crawledPages:     crawledPages,
+		frontier:         frontier,
 	}
 }
 
 func (visitor *pageVisitor) VisitPage(
 	ctx context.Context,
-	url canonicalurl.CanonicalURL,
+	order acceptedorder.AcceptedOrder,
+	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) PageVisitOutcome {
-	lastVisit, visited := visitor.visitedPages.LastPageVisitOf(ctx, url)
+	url := pendingPageVisit.URL
+	lastVisit, visited := visitor.pageVisitRecords.LastPageVisitOf(ctx, url)
 	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
 		return disposedOutcome(disposal.NotDue)
 	}
-	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, lastVisit.Version)
-	if originAnsweredAboutPage(fetchOutcome.Status) {
-		visitor.visitedPages.RecordPageVisit(ctx, url, fetchOutcome.Version)
+	visitedPage := visitor.fetchAndRead(ctx, url, lastVisit.Version)
+	if visitedPage.isReadable() && !visitor.publishCrawledPage(ctx, url, visitedPage) {
+		return returnedOutcome(errCrawledPageUnpublished)
 	}
-	return visitor.outcomeOfPageFetch(ctx, url, fetchOutcome)
+	if err := visitor.putOnFrontier(
+		ctx, order, visitedPage.nextPageVisitsFrom(pendingPageVisit),
+	); err != nil {
+		return returnedOutcome(err)
+	}
+	if visitedPage.startsRecrawlGrace() {
+		visitor.pageVisitRecords.RecordPageVisit(ctx, url, visitedPage.fetchOutcome.Version)
+	}
+	return visitedPage.outcome()
 }
 
-func originAnsweredAboutPage(status pagefetch.FetchStatus) bool {
-	return status == pagefetch.FetchSucceeded ||
-		status == pagefetch.FetchNotModified ||
-		status == pagefetch.FetchRedirected ||
-		status == pagefetch.FetchAccessRefused
-}
-
-func (visitor *pageVisitor) outcomeOfPageFetch(
+func (visitor *pageVisitor) fetchAndRead(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
-	fetchOutcome pagefetch.FetchOutcome,
-) PageVisitOutcome {
-	switch fetchOutcome.Status {
-	case pagefetch.FetchSucceeded:
-		return visitor.outcomeOfPageHTML(ctx, url, fetchOutcome.Page)
-	case pagefetch.FetchNotModified:
-		return disposedOutcome(disposal.NotModified)
-	case pagefetch.FetchRedirected:
-		return redirectedOutcome(fetchOutcome.RedirectTarget)
-	case pagefetch.FetchAccessRefused:
-		return disposedOutcome(disposal.AccessRefused)
-	case pagefetch.FetchRejected, pagefetch.FetchGone:
-		return disposedOutcome(disposal.FetchRejected)
-	case pagefetch.FetchRedirectTargetInvalid:
-		return disposedOutcome(disposal.RedirectTargetInvalid)
-	case pagefetch.FetchOversized:
-		return disposedOutcome(disposal.Oversized)
-	case pagefetch.FetchDeferred:
-		return deferredOutcome(fetchOutcome.DeferFor)
-	case pagefetch.FetchFailed, pagefetch.FetchDeadlinePassed:
-		return retryableOutcome()
+	knownVersion pagefetch.PageVersion,
+) visitedPage {
+	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, knownVersion)
+	if fetchOutcome.Status != pagefetch.FetchSucceeded {
+		return visitedPage{fetchOutcome: fetchOutcome}
 	}
-	return retryableOutcome()
-}
-
-func (visitor *pageVisitor) outcomeOfPageHTML(
-	ctx context.Context,
-	url canonicalurl.CanonicalURL,
-	page pagefetch.FetchedPage,
-) PageVisitOutcome {
-	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, url, page)
-	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
-		return disposedOutcome(disposal.UnsupportedMediaType)
-	}
-	if err != nil {
-		return disposedOutcome(disposal.UnreadableHTML)
-	}
-	if reading.Refusals.RefusesLinkDiscovery {
-		visitor.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, url)
-	}
-	visitor.publishCrawledPage(ctx, url, reading.Refusals)
-	return crawledOutcome(reading.DiscoveredURLs)
+	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, url, fetchOutcome.Page)
+	return visitedPage{fetchOutcome: fetchOutcome, reading: reading, readingErr: err}
 }
 
 func (visitor *pageVisitor) publishCrawledPage(
 	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	refusals robotsmeta.Refusals,
-) {
-	if refusals.RefusesIndexing {
-		visitor.crawledPages.PublishIndexingRefusedPage(ctx, pageURL)
-		return
+	url canonicalurl.CanonicalURL,
+	page visitedPage,
+) bool {
+	if page.reading.Refusals.RefusesIndexing {
+		return visitor.crawledPages.PublishIndexingRefusedPage(ctx, url)
 	}
-	visitor.crawledPages.PublishIndexablePage(ctx, pageURL)
+	return visitor.crawledPages.PublishIndexablePage(ctx, url)
+}
+
+func (visitor *pageVisitor) putOnFrontier(
+	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+	nextPageVisits []pendingpagevisit.PendingPageVisit,
+) error {
+	for _, nextPageVisit := range nextPageVisits {
+		if !order.Admits(nextPageVisit.URL, nextPageVisit.Depth) {
+			continue
+		}
+		if err := visitor.frontier.Publish(ctx, nextPageVisit); err != nil {
+			return err
+		}
+	}
+	return nil
 }
