@@ -48,12 +48,12 @@ func offerDuePostings(
 	answers OfferAnswers,
 	offers []postingoffer.PostingOffer,
 ) offerRound {
-	toPeers := peerOffers(offers)
-	offerAnswers := sendOffers(ctx, transfers, toPeers)
+	offersPerPeer := peerOffersFrom(offers)
+	offerAnswers := sendOffers(ctx, transfers, offersPerPeer)
 	pauses := make(requestedPauses)
 
 	var acceptances []peerAcceptance
-	for index, offer := range toPeers {
+	for index, offer := range offersPerPeer {
 		postingsAcceptedByPeer := recordAnswer(answers, offer, offerAnswers[index], pauses)
 		if len(postingsAcceptedByPeer) == 0 {
 			continue
@@ -67,7 +67,7 @@ func offerDuePostings(
 	return offerRound{acceptances: acceptances, pauses: pauses}
 }
 
-func peerOffers(offers []postingoffer.PostingOffer) []peerOffer {
+func peerOffersFrom(offers []postingoffer.PostingOffer) []peerOffer {
 	byPeer := make(map[yacymodel.Hash]*peerOffer)
 	order := make([]yacymodel.Hash, 0, len(offers))
 	for _, offer := range offers {
@@ -82,22 +82,22 @@ func peerOffers(offers []postingoffer.PostingOffer) []peerOffer {
 		}
 	}
 
-	toPeers := make([]peerOffer, 0, len(order))
+	offersPerPeer := make([]peerOffer, 0, len(order))
 	for _, peer := range order {
-		toPeers = append(toPeers, *byPeer[peer])
+		offersPerPeer = append(offersPerPeer, *byPeer[peer])
 	}
 
-	return toPeers
+	return offersPerPeer
 }
 
 func sendOffers(
 	ctx context.Context,
 	transfers *postingtransfer.PostingTransfers,
-	toPeers []peerOffer,
+	offersPerPeer []peerOffer,
 ) []postingtransfer.OfferAnswer {
-	offerAnswers := make([]postingtransfer.OfferAnswer, len(toPeers))
+	offerAnswers := make([]postingtransfer.OfferAnswer, len(offersPerPeer))
 	var sends sync.WaitGroup
-	for index, offer := range toPeers {
+	for index, offer := range offersPerPeer {
 		sends.Go(func() {
 			offerAnswers[index] = transfers.Send(ctx, offer.peer, offer.postings)
 		})

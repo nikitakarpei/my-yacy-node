@@ -195,20 +195,6 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 	if amountOfDuePostings == 0 {
 		return true
 	}
-
-	return c.offerBatch(ctx, offers, gonePostings)
-}
-
-func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
-	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
-	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
-}
-
-func (c *Cycle) offerBatch(
-	ctx context.Context,
-	offers []postingoffer.PostingOffer,
-	gonePostings []postingidentity.Identity,
-) bool {
 	c.reportPostingsGone(ctx, gonePostings)
 
 	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
@@ -219,6 +205,11 @@ func (c *Cycle) offerBatch(
 	}
 
 	return true
+}
+
+func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
+	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
+	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
 }
 
 func (c *Cycle) reportPostingsGone(
