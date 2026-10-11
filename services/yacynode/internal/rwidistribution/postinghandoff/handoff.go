@@ -41,7 +41,7 @@ func New(
 	}
 }
 
-func (h *Handoff) HandOff(
+func (h *Handoff) HandOffIfHeldByCloserPeers(
 	ctx context.Context,
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,

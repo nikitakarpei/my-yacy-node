@@ -83,9 +83,11 @@ func handOff(
 ) bool {
 	t.Helper()
 
-	wasHandedOff, err := handoff.HandOff(context.Background(), nil, testPosting(), holders)
+	wasHandedOff, err := handoff.HandOffIfHeldByCloserPeers(
+		context.Background(), nil, testPosting(), holders,
+	)
 	if err != nil {
-		t.Fatalf("HandOff: %v", err)
+		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
 	}
 
 	return wasHandedOff
@@ -137,11 +139,11 @@ func TestPostingGoneFromTheIndexIsNotHandedOff(t *testing.T) {
 }
 
 func TestKeepEveryPostingHandsOffNothing(t *testing.T) {
-	wasHandedOff, err := postinghandoff.KeepEveryPosting{}.HandOff(
+	wasHandedOff, err := postinghandoff.KeepEveryPosting{}.HandOffIfHeldByCloserPeers(
 		context.Background(), nil, testPosting(), []yacymodel.Hash{closerPeer()},
 	)
 	if err != nil {
-		t.Fatalf("HandOff: %v", err)
+		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
 	}
 	if wasHandedOff {
 		t.Fatal("posting handed off, want every posting kept")

@@ -9,7 +9,7 @@ import (
 
 type KeepEveryPosting struct{}
 
-func (KeepEveryPosting) HandOff(
+func (KeepEveryPosting) HandOffIfHeldByCloserPeers(
 	context.Context,
 	*vault.Txn,
 	yacymodel.RWIPosting,
