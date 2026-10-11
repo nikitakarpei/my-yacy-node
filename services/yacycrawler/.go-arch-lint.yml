@@ -38,26 +38,30 @@ components:
     in: internal/crawl/pagevisitallowance/**
   pagevisitrecordsnorecords:
     in: internal/pagevisitrecords/norecords/**
-  pagevisitrecordsjetstream:
-    in: internal/pagevisitrecords/jetstream/**
+  pagevisitrecordsredis:
+    in: internal/pagevisitrecords/redis/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
-  acceptedordersjetstream:
-    in: internal/acceptedorders/jetstream/**
-  pendingpagevisitsjetstream:
-    in: internal/pendingpagevisits/jetstream/**
-  jetstreamrecord:
-    in: internal/jetstreamrecord/**
-  takenpagevisitsjetstream:
-    in: internal/takenpagevisits/jetstream/**
-  pagevisitlimitsjetstream:
-    in: internal/pagevisitlimits/jetstream/**
+  acceptedordersredis:
+    in: internal/acceptedorders/redis/**
+  pendingpagevisitsredis:
+    in: internal/pendingpagevisits/redis/**
+  redisrecord:
+    in: internal/redisrecord/**
+  takenpagevisitsredis:
+    in: internal/takenpagevisits/redis/**
+  pagevisitlimitsredis:
+    in: internal/pagevisitlimits/redis/**
   crawlorderobserversapplog:
     in: internal/crawlorderobservers/applog/**
   crawlorderobserversprometheus:
     in: internal/crawlorderobservers/prometheus/**
   pendingpagevisitobserversapplog:
     in: internal/pendingpagevisitobservers/applog/**
+  frontierobserversapplog:
+    in: internal/frontierobservers/applog/**
+  frontiermetricsprometheus:
+    in: internal/frontiermetrics/prometheus/**
   pendingpagevisitobserversprometheus:
     in: internal/pendingpagevisitobservers/prometheus/**
   pagefetchobserversapplog:
@@ -105,6 +109,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  redis:
+    in:
+      - github.com/redis/go-redis/v9
   wallclock:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/wallclock
@@ -201,42 +208,44 @@ deps:
       - pagevisit
     canUse:
       - pagefetch
-  pagevisitrecordsjetstream:
+  pagevisitrecordsredis:
     mayDependOn:
       - pagevisit
-      - jetstreamrecord
+      - redisrecord
     canUse:
-      - nats
+      - redis
       - pagefetch
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
-  acceptedordersjetstream:
+  acceptedordersredis:
     mayDependOn:
       - acceptedorder
-      - jetstreamrecord
+      - redisrecord
     canUse:
-      - nats
+      - redis
       - yacycrawlcontract
-  pendingpagevisitsjetstream:
+  pendingpagevisitsredis:
     mayDependOn:
       - pendingpagevisit
+      - redisrecord
     canUse:
-      - nats
-  jetstreamrecord:
+      - redis
+      - serviceruntime
+  redisrecord:
     canUse:
-      - nats
-  takenpagevisitsjetstream:
+      - redis
+  takenpagevisitsredis:
     mayDependOn:
-      - jetstreamrecord
+      - redisrecord
     canUse:
-      - nats
+      - redis
       - canonicalurl
-  pagevisitlimitsjetstream:
+  pagevisitlimitsredis:
     mayDependOn:
-      - jetstreamrecord
+      - redisrecord
     canUse:
-      - nats
+      - redis
       - canonicalurl
       - yacycrawlcontract
   crawledpagesjetstream:
@@ -254,6 +263,9 @@ deps:
     mayDependOn:
       - disposal
       - pendingpagevisit
+  frontiermetricsprometheus:
+    canUse:
+      - prometheus
   pendingpagevisitobserversprometheus:
     mayDependOn:
       - disposal

@@ -1,4 +1,4 @@
-package jetstreamrecord
+package redisrecord
 
 import (
 	"crypto/sha256"
@@ -6,11 +6,11 @@ import (
 	"strings"
 )
 
-func KeyOf(parts ...string) string {
+func KeyOf(kind string, parts ...string) string {
 	digests := make([]string, 0, len(parts))
 	for _, part := range parts {
 		sum := sha256.Sum256([]byte(part))
 		digests = append(digests, hex.EncodeToString(sum[:]))
 	}
-	return strings.Join(digests, ".")
+	return kind + ":" + strings.Join(digests, ".")
 }

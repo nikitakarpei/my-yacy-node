@@ -1,4 +1,4 @@
-package jetstreamrecord
+package redisrecord
 
 import (
 	"context"
@@ -9,23 +9,35 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 )
 
 const (
 	contendedAttempts = 5
 	contendedPause    = 20 * time.Millisecond
-	absentRevision    = 0
+	existingFlag      = "1"
 )
 
 var ErrContended = errors.New("another writer changed the record first")
 
+var replaceStandingRecord = redis.NewScript(`
+local standing = redis.call('GET', KEYS[1])
+if ARGV[1] == '' then
+  if standing then return 0 end
+elseif standing ~= ARGV[2] then
+  return 0
+end
+redis.call('SET', KEYS[1], ARGV[3], 'PX', ARGV[4])
+return 1
+`)
+
 type Records[R any] struct {
-	bucket jetstream.KeyValue
+	client    redis.UniversalClient
+	retention time.Duration
 }
 
-func New[R any](bucket jetstream.KeyValue) *Records[R] {
-	return &Records[R]{bucket: bucket}
+func New[R any](client redis.UniversalClient, retention time.Duration) *Records[R] {
+	return &Records[R]{client: client, retention: retention}
 }
 
 func (r *Records[R]) Revise(
@@ -56,7 +68,7 @@ func (r *Records[R]) reviseOnce(
 	revise func(R) (R, bool),
 ) (R, bool, error) {
 	var absent R
-	standing, revision, err := r.standingRecordAt(ctx, key)
+	standing, standingRevision, err := r.standingRecordAt(ctx, key)
 	if err != nil {
 		return absent, false, err
 	}
@@ -64,7 +76,7 @@ func (r *Records[R]) reviseOnce(
 	if !changed {
 		return standing, false, nil
 	}
-	if err := r.writeRecord(ctx, key, revised, revision); err != nil {
+	if err := r.writeRecord(ctx, key, revised, standingRevision); err != nil {
 		return absent, false, err
 	}
 	return revised, true, nil
@@ -75,62 +87,54 @@ func (r *Records[R]) RecordAt(ctx context.Context, key string) (R, error) {
 	return record, err
 }
 
-func (r *Records[R]) standingRecordAt(ctx context.Context, key string) (R, uint64, error) {
+type revision struct {
+	payload string
+	exists  bool
+}
+
+func (r *Records[R]) standingRecordAt(ctx context.Context, key string) (R, revision, error) {
 	var absent R
-	entry, err := r.bucket.Get(ctx, key)
-	if errors.Is(err, jetstream.ErrKeyNotFound) {
-		return absent, absentRevision, nil
+	payload, err := r.client.Get(ctx, key).Result()
+	if errors.Is(err, redis.Nil) {
+		return absent, revision{}, nil
 	}
 	if err != nil {
-		return absent, absentRevision, fmt.Errorf("read the record at %s: %w", key, err)
+		return absent, revision{}, fmt.Errorf("read the record at %s: %w", key, err)
 	}
 	var record R
-	if err := json.Unmarshal(entry.Value(), &record); err != nil {
-		return absent, absentRevision, fmt.Errorf("unmarshal the record at %s: %w", key, err)
+	if err := json.Unmarshal([]byte(payload), &record); err != nil {
+		return absent, revision{}, fmt.Errorf("unmarshal the record at %s: %w", key, err)
 	}
-	return record, entry.Revision(), nil
+	return record, revision{payload: payload, exists: true}, nil
 }
 
 func (r *Records[R]) writeRecord(
 	ctx context.Context,
 	key string,
 	record R,
-	revision uint64,
+	standing revision,
 ) error {
 	data, err := json.Marshal(record)
 	if err != nil {
 		return fmt.Errorf("marshal the record at %s: %w", key, err)
 	}
-	if revision == absentRevision {
-		return r.openRecord(ctx, key, data)
+	replaced, err := replaceStandingRecord.Run(ctx, r.client, []string{key},
+		existenceFlagOf(standing), standing.payload, data, r.retention.Milliseconds(),
+	).Int()
+	if err != nil {
+		return fmt.Errorf("write the record at %s: %w", key, err)
 	}
-	return r.replaceRecord(ctx, key, data, revision)
-}
-
-func (r *Records[R]) openRecord(ctx context.Context, key string, data []byte) error {
-	if _, err := r.bucket.Create(ctx, key, data); err != nil {
-		return writeFailureAt(key, err)
-	}
-	return nil
-}
-
-func (r *Records[R]) replaceRecord(
-	ctx context.Context,
-	key string,
-	data []byte,
-	revision uint64,
-) error {
-	if _, err := r.bucket.Update(ctx, key, data, revision); err != nil {
-		return writeFailureAt(key, err)
-	}
-	return nil
-}
-
-func writeFailureAt(key string, err error) error {
-	if errors.Is(err, jetstream.ErrKeyExists) {
+	if replaced == 0 {
 		return ErrContended
 	}
-	return fmt.Errorf("write the record at %s: %w", key, err)
+	return nil
+}
+
+func existenceFlagOf(standing revision) string {
+	if standing.exists {
+		return existingFlag
+	}
+	return ""
 }
 
 func pauseAfterContention(ctx context.Context, attempt int) error {

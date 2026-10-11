@@ -1,30 +1,29 @@
-package jetstream_test
+package redis_test
 
 import (
 	"context"
 	"testing"
+	"time"
+
+	"github.com/alicebob/miniredis/v2"
+	goredis "github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	jetstreamrecord "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
 )
 
-func acceptedOrders(t *testing.T) *jetstream.Orders {
+const retention = time.Hour
+
+func acceptedOrdersOn(server *miniredis.Miniredis) *redis.Orders {
+	return redis.New(goredis.NewClient(&goredis.Options{Addr: server.Addr()}), retention)
+}
+
+func acceptedOrders(t *testing.T) *redis.Orders {
 	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	ctx := context.Background()
-	if err := jetstream.Ensure(ctx, js, jetstreamrecord.BucketSpec{}); err != nil {
-		t.Fatalf("ensure bucket: %v", err)
-	}
-	bucket, err := js.KeyValue(ctx, jetstream.BucketName)
-	if err != nil {
-		t.Fatalf("open bucket: %v", err)
-	}
-	return jetstream.New(bucket)
+	return acceptedOrdersOn(miniredis.RunT(t))
 }
 
 func order(t *testing.T) yacycrawlcontract.CrawlOrder {
@@ -90,5 +89,21 @@ func TestKeepingTheSameOrderTwiceKeepsIt(t *testing.T) {
 func TestOrderOfAnUnknownOrderFails(t *testing.T) {
 	if _, err := acceptedOrders(t).OrderOf(context.Background(), "missing"); err == nil {
 		t.Fatal("an order the crawler never accepted should not read back")
+	}
+}
+
+func TestAnOrderIsForgottenOnceItsRetentionPasses(t *testing.T) {
+	server := miniredis.RunT(t)
+	orders := acceptedOrdersOn(server)
+	ctx := context.Background()
+	accepted := acceptedOrderOf(t, order(t))
+	if err := orders.Keep(ctx, accepted); err != nil {
+		t.Fatalf("keep: %v", err)
+	}
+
+	server.FastForward(retention)
+
+	if _, err := orders.OrderOf(ctx, accepted.OrderID()); err == nil {
+		t.Fatal("an order past its retention should not read back")
 	}
 }

@@ -4,15 +4,17 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/redis/go-redis/v9"
+
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
 const (
-	EnvCrawlNATSURL            = "CRAWL_NATS_URL"
-	EnvCrawlOrdersSubject      = "CRAWL_ORDERS_SUBJECT"
-	EnvCrawlOrdersDurable      = "CRAWL_ORDERS_DURABLE"
-	EnvPendingPageVisitDurable = "PENDING_PAGE_VISIT_DURABLE"
+	EnvCrawlNATSURL       = "CRAWL_NATS_URL"
+	EnvCrawlStateRedisURL = "CRAWL_STATE_REDIS_URL"
+	EnvCrawlOrdersSubject = "CRAWL_ORDERS_SUBJECT"
+	EnvCrawlOrdersDurable = "CRAWL_ORDERS_DURABLE"
 
 	EnvProxyURL         = "YACYCRAWLER_FETCH_PROXY_URL"
 	EnvProxyDialMode    = "YACYCRAWLER_FETCH_PROXY_DIAL_MODE"
@@ -26,20 +28,23 @@ const (
 )
 
 const (
-	DefaultCrawlOrdersSubject      = "yacy.crawl.orders"
-	DefaultCrawlOrdersDurable      = "yacycrawler"
-	DefaultPendingPageVisitDurable = "yacycrawler-page-visits"
-	DefaultFetchConcurrency        = 4
-	DefaultMaxBodyBytes            = 2 << 20
-	DefaultFetchDeadline           = 30 * time.Second
-	DefaultOpsAddr                 = ":9090"
-	DefaultUserAgent               = "yacycrawler (+https://yacy.net)"
-	DefaultProxyDialMode           = "tunnel"
-	DefaultRecrawlGrace            = time.Hour
+	DefaultCrawlOrdersSubject = "yacy.crawl.orders"
+	DefaultCrawlOrdersDurable = "yacycrawler"
+	DefaultFetchConcurrency   = 4
+	DefaultMaxBodyBytes       = 2 << 20
+	DefaultFetchDeadline      = 30 * time.Second
+	DefaultOpsAddr            = ":9090"
+	DefaultUserAgent          = "yacycrawler (+https://yacy.net)"
+	DefaultProxyDialMode      = "tunnel"
+	DefaultRecrawlGrace       = time.Hour
 )
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+	crawlStateRedis, err := crawlStateRedisFromEnv(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -61,7 +66,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL: crawlNATSURL,
+		CrawlNATSURL:    crawlNATSURL,
+		CrawlStateRedis: crawlStateRedis,
 		CrawlOrdersSubject: envconfig.String(
 			getenv,
 			EnvCrawlOrdersSubject,
@@ -71,11 +77,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			getenv,
 			EnvCrawlOrdersDurable,
 			DefaultCrawlOrdersDurable,
-		),
-		PendingPageVisitDurable: envconfig.String(
-			getenv,
-			EnvPendingPageVisitDurable,
-			DefaultPendingPageVisitDurable,
 		),
 		ProxyURL:         proxyURL,
 		ProxyDialMode:    proxyDialMode,
@@ -117,6 +118,18 @@ func loadFetchLimits(getenv func(string) string) (fetchLimits, error) {
 		maxBodyBytes:     maxBodyBytes,
 		fetchDeadline:    fetchDeadline,
 	}, nil
+}
+
+func crawlStateRedisFromEnv(getenv func(string) string) (*redis.Options, error) {
+	crawlStateRedisURL, err := envconfig.Required(getenv, EnvCrawlStateRedisURL)
+	if err != nil {
+		return nil, err
+	}
+	options, err := redis.ParseURL(crawlStateRedisURL)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", EnvCrawlStateRedisURL, err)
+	}
+	return options, nil
 }
 
 func proxyDialModeFromEnv(getenv func(string) string) (http.ProxyDialMode, error) {

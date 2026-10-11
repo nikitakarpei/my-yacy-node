@@ -1,44 +1,36 @@
-package jetstream_test
+package redis_test
 
 import (
 	"context"
-	"errors"
 	"testing"
 	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/alicebob/miniredis/v2"
+	goredis "github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	jetstreamrecord "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
-	pagevisitrecordsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/redis"
 )
+
+const retention = time.Hour
 
 type manualClock struct{ now time.Time }
 
 func (c *manualClock) Now() time.Time { return c.now }
 
-func newBucket(t *testing.T) natsjetstream.KeyValue {
-	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	if err := pagevisitrecordsjetstream.Ensure(
-		context.Background(),
-		js,
-		jetstreamrecord.BucketSpec{MaxBytes: 1 << 20, Retention: time.Hour},
-	); err != nil {
-		t.Fatal(err)
-	}
-	bucket, err := js.KeyValue(context.Background(), pagevisitrecordsjetstream.BucketName)
-	if err != nil {
-		t.Fatal(err)
-	}
-	return bucket
+func pageVisitRecordsOn(
+	server *miniredis.Miniredis,
+	clock redis.Clock,
+	observer redis.PageVisitRecordObserver,
+) *redis.PageVisitRecords {
+	client := goredis.NewClient(&goredis.Options{Addr: server.Addr()})
+	return redis.New(client, retention, clock, observer)
 }
 
 func TestNoPageVisitOfAPageNeverVisited(t *testing.T) {
-	records := pagevisitrecordsjetstream.New(newBucket(t), &manualClock{}, silentPageVisitRecords{})
+	records := pageVisitRecordsOn(miniredis.RunT(t), &manualClock{}, silentPageVisitRecords{})
 
 	visit, visited := records.LastPageVisitOf(
 		context.Background(),
@@ -52,7 +44,7 @@ func TestNoPageVisitOfAPageNeverVisited(t *testing.T) {
 func TestARecordedPageVisitKeepsItsTimeAndPageVersion(t *testing.T) {
 	now := time.Date(2026, time.July, 25, 12, 0, 0, 0, time.UTC)
 	clock := &manualClock{now: now}
-	records := pagevisitrecordsjetstream.New(newBucket(t), clock, silentPageVisitRecords{})
+	records := pageVisitRecordsOn(miniredis.RunT(t), clock, silentPageVisitRecords{})
 
 	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 	version := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
@@ -103,28 +95,16 @@ func (f *recordedFailures) LastPageVisitNotRead(
 	f.causes = append(f.causes, cause)
 }
 
-type failingBucket struct {
-	natsjetstream.KeyValue
-	getErr error
-	putErr error
+func refusingServer(t *testing.T) *miniredis.Miniredis {
+	t.Helper()
+	server := miniredis.RunT(t)
+	server.SetError("server down")
+	return server
 }
 
-func (f failingBucket) Get(context.Context, string) (natsjetstream.KeyValueEntry, error) {
-	return nil, f.getErr
-}
-
-func (f failingBucket) Put(context.Context, string, []byte) (uint64, error) {
-	return 0, f.putErr
-}
-
-func TestALastPageVisitTheBucketRefusesIsReportedAsNeverVisited(t *testing.T) {
-	boom := errors.New("bucket down")
+func TestALastPageVisitTheServerRefusesIsReportedAsNeverVisited(t *testing.T) {
 	failures := &recordedFailures{}
-	records := pagevisitrecordsjetstream.New(
-		failingBucket{getErr: boom},
-		&manualClock{},
-		failures,
-	)
+	records := pageVisitRecordsOn(refusingServer(t), &manualClock{}, failures)
 
 	visit, visited := records.LastPageVisitOf(
 		context.Background(),
@@ -134,17 +114,14 @@ func TestALastPageVisitTheBucketRefusesIsReportedAsNeverVisited(t *testing.T) {
 	if visited {
 		t.Fatalf("want no page visit, got %+v", visit)
 	}
-	if len(failures.causes) != 1 || !errors.Is(failures.causes[0], boom) {
-		t.Fatalf("reported %v, want the refusal of the bucket", failures.causes)
+	if len(failures.causes) != 1 {
+		t.Fatalf("reported %v, want the refusal of the server", failures.causes)
 	}
 }
 
-func TestAPageVisitTheBucketRefusesIsReported(t *testing.T) {
-	boom := errors.New("bucket down")
+func TestAPageVisitTheServerRefusesIsReported(t *testing.T) {
 	failures := &recordedFailures{}
-	records := pagevisitrecordsjetstream.New(
-		failingBucket{putErr: boom}, &manualClock{}, failures,
-	)
+	records := pageVisitRecordsOn(refusingServer(t), &manualClock{}, failures)
 
 	records.RecordPageVisit(
 		context.Background(),
@@ -152,7 +129,20 @@ func TestAPageVisitTheBucketRefusesIsReported(t *testing.T) {
 		pagefetch.PageVersion{},
 	)
 
-	if len(failures.causes) != 1 || !errors.Is(failures.causes[0], boom) {
-		t.Fatalf("reported %v, want the refusal of the bucket", failures.causes)
+	if len(failures.causes) != 1 {
+		t.Fatalf("reported %v, want the refusal of the server", failures.causes)
+	}
+}
+
+func TestAPageVisitIsForgottenOnceItsRetentionPasses(t *testing.T) {
+	server := miniredis.RunT(t)
+	records := pageVisitRecordsOn(server, &manualClock{}, silentPageVisitRecords{})
+	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
+	records.RecordPageVisit(context.Background(), url, pagefetch.PageVersion{})
+
+	server.FastForward(retention)
+
+	if visit, visited := records.LastPageVisitOf(context.Background(), url); visited {
+		t.Fatalf("a page visit past its retention read back as %+v", visit)
 	}
 }

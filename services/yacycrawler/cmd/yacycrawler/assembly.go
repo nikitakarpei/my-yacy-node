@@ -10,6 +10,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/redis/go-redis/v9"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
@@ -18,7 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	acceptedordersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
+	acceptedordersredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/observedfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
@@ -27,30 +28,31 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	crawledpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/applog"
 	crawledpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/prometheus"
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
+	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
+	frontierobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontierobservers/applog"
 	linkresolutionobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/applog"
 	linkresolutionobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/prometheus"
 	mediatypeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/applog"
 	mediatypeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/prometheus"
 	pagefetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/applog"
 	pagefetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
-	pagevisitlimitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/jetstream"
+	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
 	pagevisitrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/applog"
 	pagevisitrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/prometheus"
-	pagevisitrecordsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/norecords"
+	pagevisitrecordsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/redis"
 	pendingpagevisitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/applog"
 	pendingpagevisitobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/prometheus"
-	pendingpagevisitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/jetstream"
+	pendingpagevisitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
 	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
-	takenpagevisitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/jetstream"
+	takenpagevisitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/redis"
 )
 
 const (
@@ -95,7 +97,7 @@ func RunService(
 		crawledpageobserversapplog.CrawledPagePublicationLog{},
 		crawledpageobserversprometheus.New(registry),
 	}
-	pageVisitRecordObservers := pagevisitrecordsjetstream.PageVisitRecordObservers{
+	pageVisitRecordObservers := pagevisitrecordsredis.PageVisitRecordObservers{
 		pagevisitrecordobserversapplog.PageVisitRecordLog{},
 		pagevisitrecordobserversprometheus.New(registry),
 	}
@@ -107,7 +109,19 @@ func RunService(
 	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
-	orders, err := buildOrderConsumer(ctx, js, cfg, crawlOrderObservers)
+	redisClient, err := openRedisClient(ctx, cfg)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = redisClient.Close() }()
+	frontier := pendingpagevisitsredis.New(
+		redisClient,
+		cfg.PendingPageVisitLease(),
+		wallclock.Clock{},
+		frontierobserversapplog.FrontierLog{},
+	)
+	frontiermetricsprometheus.New(registry, frontier)
+	orders, err := buildOrderConsumer(ctx, js, redisClient, frontier, cfg, crawlOrderObservers)
 	if err != nil {
 		return err
 	}
@@ -115,13 +129,18 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	visits, err := buildPageVisitConsumer(
-		ctx, js, cfg, crawledPageAdmission, pendingPageVisitObservers, pageFetchObservers,
-		htmlPageReading, crawledPageObservers, pageVisitRecordObservers,
+	visits := buildPageVisitConsumer(
+		js,
+		redisClient,
+		frontier,
+		cfg,
+		crawledPageAdmission,
+		pendingPageVisitObservers,
+		pageFetchObservers,
+		htmlPageReading,
+		crawledPageObservers,
+		pageVisitRecordObservers,
 	)
-	if err != nil {
-		return err
-	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.CrawlOrdersSubject),
@@ -148,24 +167,7 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureOrdersStream(ctx, js, cfg); err != nil {
 		return err
 	}
-	if err := ensureFrontierStream(ctx, js, cfg); err != nil {
-		return err
-	}
-	if err := ensureCrawledPagesStream(ctx, js, cfg); err != nil {
-		return err
-	}
-	if err := takenpagevisitsjetstream.Ensure(ctx, js, cfg.TakenPageVisitBucketSpec()); err != nil {
-		return err
-	}
-	if err := pagevisitlimitsjetstream.Ensure(
-		ctx, js, cfg.PageVisitLimitBucketSpec(),
-	); err != nil {
-		return err
-	}
-	if err := acceptedordersjetstream.Ensure(ctx, js, cfg.AcceptedOrderBucketSpec()); err != nil {
-		return err
-	}
-	return ensurePageVisitBucket(ctx, js, cfg)
+	return ensureCrawledPagesStream(ctx, js, cfg)
 }
 
 func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
@@ -175,18 +177,6 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, cfg Service
 		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
-	}
-	return nil
-}
-
-func ensureFrontierStream(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
-	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:       pendingpagevisit.StreamName,
-		Subjects:   []string{pendingpagevisit.Subject},
-		Retention:  jetstream.WorkQueuePolicy,
-		Duplicates: cfg.PendingPageVisitDuplicateWindow(),
-	}); err != nil {
-		return fmt.Errorf("ensure frontier stream: %w", err)
 	}
 	return nil
 }
@@ -208,20 +198,20 @@ func ensureCrawledPagesStream(
 	return nil
 }
 
-func ensurePageVisitBucket(
-	ctx context.Context,
-	js jetstream.JetStream,
-	cfg ServiceConfig,
-) error {
-	if !cfg.SuppressesRecrawl() {
-		return nil
+func openRedisClient(ctx context.Context, cfg ServiceConfig) (*redis.Client, error) {
+	redisClient := redis.NewClient(cfg.CrawlStateRedis)
+	if err := redisClient.Ping(ctx).Err(); err != nil {
+		_ = redisClient.Close()
+		return nil, fmt.Errorf("%s: %w", EnvCrawlStateRedisURL, err)
 	}
-	return pagevisitrecordsjetstream.Ensure(ctx, js, cfg.PageVisitBucketSpec())
+	return redisClient, nil
 }
 
 func buildOrderConsumer(
 	ctx context.Context,
 	js jetstream.JetStream,
+	redisClient redis.UniversalClient,
+	frontier *pendingpagevisitsredis.PendingPageVisits,
 	cfg ServiceConfig,
 	observer orderintake.CrawlOrderObserver,
 ) (*orderintake.OrderConsumer, error) {
@@ -229,14 +219,10 @@ func buildOrderConsumer(
 	if err != nil {
 		return nil, err
 	}
-	orders, err := acceptedOrders(ctx, js)
-	if err != nil {
-		return nil, err
-	}
 	return orderintake.NewOrderConsumer(
 		consumer,
-		orders,
-		pendingpagevisitsjetstream.New(js),
+		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
+		frontier,
 		observer,
 		cfg.OrderIntakeConcurrency(),
 	), nil
@@ -260,17 +246,6 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func acceptedOrders(
-	ctx context.Context,
-	js jetstream.JetStream,
-) (*acceptedordersjetstream.Orders, error) {
-	bucket, err := js.KeyValue(ctx, acceptedordersjetstream.BucketName)
-	if err != nil {
-		return nil, fmt.Errorf("open accepted order bucket: %w", err)
-	}
-	return acceptedordersjetstream.New(bucket), nil
-}
-
 func openCrawledPageAdmission(
 	ctx context.Context,
 	js jetstream.JetStream,
@@ -287,109 +262,59 @@ func openCrawledPageAdmission(
 }
 
 func buildPageVisitConsumer(
-	ctx context.Context,
 	js jetstream.JetStream,
+	redisClient redis.UniversalClient,
+	frontier *pendingpagevisitsredis.PendingPageVisits,
 	cfg ServiceConfig,
 	crawledPageAdmission *consumerbacklog.Admission,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
-	pageVisitRecordObserver pagevisitrecordsjetstream.PageVisitRecordObserver,
-) (*pagevisitintake.PageVisitConsumer, error) {
-	consumer, err := visitsConsumer(ctx, js, cfg)
-	if err != nil {
-		return nil, err
-	}
-	takenPageVisits, err := takenPageVisitsOf(ctx, js)
-	if err != nil {
-		return nil, err
-	}
-	allowances, err := pageVisitAllowances(ctx, js, cfg)
-	if err != nil {
-		return nil, err
-	}
-	orders, err := acceptedOrders(ctx, js)
-	if err != nil {
-		return nil, err
-	}
-	pageVisitor, err := buildPageVisitor(
-		ctx,
+	pageVisitRecordObserver pagevisitrecordsredis.PageVisitRecordObserver,
+) *pagevisitintake.PageVisitConsumer {
+	pageVisitor := buildPageVisitor(
 		js,
+		redisClient,
+		frontier,
 		cfg,
 		pageFetchObserver,
 		htmlPageReading,
 		crawledPageObserver,
 		pageVisitRecordObserver,
 	)
-	if err != nil {
-		return nil, err
-	}
 	return pagevisitintake.NewPageVisitConsumer(
-		consumer,
-		takenPageVisits,
-		allowances,
-		orders,
+		frontier,
+		takenpagevisitsredis.New(redisClient, cfg.TakenPageVisitRetention()),
+		pageVisitAllowances(redisClient, cfg),
+		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
 		pageVisitor,
 		pendingPageVisitObserver,
 		crawledPageAdmission,
 		cfg.FetchConcurrency,
-	), nil
-}
-
-func visitsConsumer(
-	ctx context.Context,
-	js jetstream.JetStream,
-	cfg ServiceConfig,
-) (jetstream.Consumer, error) {
-	consumer, err := js.CreateOrUpdateConsumer(ctx, pendingpagevisit.StreamName,
-		jetstream.ConsumerConfig{
-			Durable:       cfg.PendingPageVisitDurable,
-			FilterSubject: pendingpagevisit.Subject,
-			AckPolicy:     jetstream.AckExplicitPolicy,
-			AckWait:       cfg.PendingPageVisitAckWait(),
-		})
-	if err != nil {
-		return nil, fmt.Errorf("create pending page visit consumer: %w", err)
-	}
-	return consumer, nil
-}
-
-func takenPageVisitsOf(
-	ctx context.Context,
-	js jetstream.JetStream,
-) (*takenpagevisitsjetstream.TakenPageVisits, error) {
-	bucket, err := js.KeyValue(ctx, takenpagevisitsjetstream.BucketName)
-	if err != nil {
-		return nil, fmt.Errorf("open taken page visit bucket: %w", err)
-	}
-	return takenpagevisitsjetstream.New(bucket), nil
+	)
 }
 
 func pageVisitAllowances(
-	ctx context.Context,
-	js jetstream.JetStream,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
-) (*pagevisitallowance.Allowances, error) {
-	bucket, err := js.KeyValue(ctx, pagevisitlimitsjetstream.BucketName)
-	if err != nil {
-		return nil, fmt.Errorf("open page visit limit bucket: %w", err)
-	}
+) *pagevisitallowance.Allowances {
 	return pagevisitallowance.New(
-		pagevisitlimitsjetstream.New(bucket, cfg.MaxPerURL()),
+		pagevisitlimitsredis.New(redisClient, cfg.PageVisitLimitRetention(), cfg.MaxPerURL()),
 		cfg.FetchRetryBounds(),
-	), nil
+	)
 }
 
 func buildPageVisitor(
-	ctx context.Context,
 	js jetstream.JetStream,
+	redisClient redis.UniversalClient,
+	frontier *pendingpagevisitsredis.PendingPageVisits,
 	cfg ServiceConfig,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
-	pageVisitRecordObserver pagevisitrecordsjetstream.PageVisitRecordObserver,
-) (pagevisit.PageVisitor, error) {
+	pageVisitRecordObserver pagevisitrecordsredis.PageVisitRecordObserver,
+) pagevisit.PageVisitor {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
 		cfg.ProxyDialMode,
@@ -397,32 +322,25 @@ func buildPageVisitor(
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	pageVisitRecords, err := pageVisitRecordsOf(ctx, js, cfg, pageVisitRecordObserver)
-	if err != nil {
-		return nil, err
-	}
 	return pagevisit.New(
 		observedfetch.New(fetch, wallclock.Clock{}, pageFetchObserver),
 		dueaftergrace.New(wallclock.Clock{}, cfg.RecrawlGrace),
-		pageVisitRecords,
+		pageVisitRecordsOf(redisClient, cfg, pageVisitRecordObserver),
 		htmlPageReading,
 		crawledpagesjetstream.New(js, crawledPageObserver),
-		pendingpagevisitsjetstream.New(js),
-	), nil
+		frontier,
+	)
 }
 
 func pageVisitRecordsOf(
-	ctx context.Context,
-	js jetstream.JetStream,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
-	observer pagevisitrecordsjetstream.PageVisitRecordObserver,
-) (pagevisit.PageVisitRecords, error) {
+	observer pagevisitrecordsredis.PageVisitRecordObserver,
+) pagevisit.PageVisitRecords {
 	if !cfg.SuppressesRecrawl() {
-		return norecords.PageVisitRecords{}, nil
+		return norecords.PageVisitRecords{}
 	}
-	bucket, err := js.KeyValue(ctx, pagevisitrecordsjetstream.BucketName)
-	if err != nil {
-		return nil, fmt.Errorf("open page visit bucket: %w", err)
-	}
-	return pagevisitrecordsjetstream.New(bucket, wallclock.Clock{}, observer), nil
+	return pagevisitrecordsredis.New(
+		redisClient, cfg.PageVisitRetention(), wallclock.Clock{}, observer,
+	)
 }

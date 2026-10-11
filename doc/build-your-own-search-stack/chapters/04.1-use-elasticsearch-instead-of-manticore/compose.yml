@@ -14,6 +14,12 @@ services:
       - ../../building-blocks/nats/nats.conf:/etc/nats/nats.conf:ro
       - nats-data:/data
 
+  kvrocks:
+    image: apache/kvrocks:2.17.0
+    restart: unless-stopped
+    volumes:
+      - kvrocks-data:/var/lib/kvrocks
+
   pagescrape:
     image: ghcr.io/nikitakarpei/my-yacy-node/pagescrape:latest
     restart: unless-stopped
@@ -51,12 +57,15 @@ services:
     image: ghcr.io/nikitakarpei/my-yacy-node/yacycrawler:latest
     restart: unless-stopped
     depends_on:
+      kvrocks:
+        condition: service_started
       pagescrape:
         condition: service_started
       smokescreen:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
+      CRAWL_STATE_REDIS_URL: redis://kvrocks:6666
       YACYCRAWLER_FETCH_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
@@ -162,6 +171,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
 volumes:
+  kvrocks-data:
   nats-data:
   yacy-data:
   elasticsearch-data:

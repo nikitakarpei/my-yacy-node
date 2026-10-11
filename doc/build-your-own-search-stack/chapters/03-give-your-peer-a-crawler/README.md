@@ -16,9 +16,15 @@ and sends them to the network.
 - `pagescrape` reads each requested page once and offers it to the indexes.
 - `scrape-request-bridge` makes a scrape request from each crawled page that
   allows indexing.
-- `nats` keeps unfinished crawl and indexing work on disk, so services can
-  continue after a restart.
+- `nats` carries work from one service to the next: crawl orders, pages to
+  fetch and fetched pages to index.
+- `kvrocks` keeps the record of each crawl: its limits, the pages it has yet
+  to visit and the pages it already took, so the crawler visits no page twice
+  and keeps each crawl within its limits.
 - `crawl-console` lets you submit a crawl from the command line.
+
+`nats` and `kvrocks` keep their data on disk, so a crawl continues after a
+restart.
 
 ## Start
 

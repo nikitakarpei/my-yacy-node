@@ -15,6 +15,7 @@ func envFrom(values map[string]string) func(string) string {
 func baseEnv() map[string]string {
 	return map[string]string{
 		"CRAWL_NATS_URL":              "nats://localhost:4222",
+		"CRAWL_STATE_REDIS_URL":       "redis://localhost:6379/0",
 		"YACYCRAWLER_FETCH_PROXY_URL": "http://proxy:8080",
 	}
 }
@@ -29,9 +30,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	}
 	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency {
 		t.Fatalf("unexpected defaults: %+v", cfg)
-	}
-	if cfg.PendingPageVisitDurable != yacycrawler.DefaultPendingPageVisitDurable {
-		t.Fatalf("pending page visit durable = %q", cfg.PendingPageVisitDurable)
 	}
 	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -84,6 +82,24 @@ func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	}
 }
 
+func TestLoadServiceConfigReadsTheCrawlStateServer(t *testing.T) {
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(baseEnv()))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.CrawlStateRedis.Addr != "localhost:6379" {
+		t.Fatalf("Redis address = %q, want localhost:6379", cfg.CrawlStateRedis.Addr)
+	}
+}
+
+func TestLoadServiceConfigRequiresCrawlStateRedisURL(t *testing.T) {
+	env := baseEnv()
+	delete(env, "CRAWL_STATE_REDIS_URL")
+	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
+		t.Fatal("missing CRAWL_STATE_REDIS_URL should error")
+	}
+}
+
 func TestLoadServiceConfigRequiresProxy(t *testing.T) {
 	env := baseEnv()
 	delete(env, "YACYCRAWLER_FETCH_PROXY_URL")
@@ -113,16 +129,16 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 }
 
-func TestPendingVisitAckWaitOutlastsTheFetchDeadline(t *testing.T) {
+func TestPendingVisitLeaseOutlastsTheFetchDeadline(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if cfg.PendingPageVisitAckWait() <= 5*time.Second {
-		t.Fatalf("pending page visit ack wait = %v, want longer than the fetch deadline",
-			cfg.PendingPageVisitAckWait())
+	if cfg.PendingPageVisitLease() <= 5*time.Second {
+		t.Fatalf("pending page visit lease = %v, want longer than the fetch deadline",
+			cfg.PendingPageVisitLease())
 	}
 }
 
@@ -132,6 +148,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_FETCH_CONCURRENCY": "notint"},
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
+		{"CRAWL_STATE_REDIS_URL": "http://localhost:6379"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {

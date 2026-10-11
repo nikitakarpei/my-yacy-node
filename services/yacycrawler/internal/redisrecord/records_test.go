@@ -1,18 +1,19 @@
-package jetstreamrecord_test
+package redisrecord_test
 
 import (
 	"context"
 	"errors"
 	"sync"
 	"testing"
+	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/alicebob/miniredis/v2"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redisrecord"
 )
 
-const bucketName = "RECORDS"
+const retention = time.Hour
 
 type tally struct {
 	Count int
@@ -27,21 +28,14 @@ func refusedTally(counted tally) (tally, bool) {
 	return tally{Count: counted.Count + 1}, false
 }
 
-func tallies(t *testing.T) *jetstreamrecord.Records[tally] {
-	t.Helper()
-	return jetstreamrecord.New[tally](bucket(t))
+func talliesOn(server *miniredis.Miniredis) *redisrecord.Records[tally] {
+	client := redis.NewClient(&redis.Options{Addr: server.Addr()})
+	return redisrecord.New[tally](client, retention)
 }
 
-func bucket(t *testing.T) natsjetstream.KeyValue {
+func tallies(t *testing.T) *redisrecord.Records[tally] {
 	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	opened, err := js.CreateKeyValue(context.Background(), natsjetstream.KeyValueConfig{
-		Bucket: bucketName,
-	})
-	if err != nil {
-		t.Fatalf("create bucket: %v", err)
-	}
-	return opened
+	return talliesOn(miniredis.RunT(t))
 }
 
 func TestARecordNobodyWroteArrivesAsTheZeroRecord(t *testing.T) {
@@ -123,23 +117,45 @@ func TestARefusedRevisionLeavesTheRecordUntouched(t *testing.T) {
 	}
 }
 
-func TestAFailureOfTheBucketIsNotReportedAsContention(t *testing.T) {
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
+func TestARevisedRecordIsGoneOnceItsRetentionPasses(t *testing.T) {
+	server := miniredis.RunT(t)
+	records := talliesOn(server)
 	ctx := context.Background()
-	opened, err := js.CreateKeyValue(ctx, natsjetstream.KeyValueConfig{Bucket: bucketName})
-	if err != nil {
-		t.Fatalf("create bucket: %v", err)
-	}
-	records := jetstreamrecord.New[tally](opened)
-	if err := js.DeleteKeyValue(ctx, bucketName); err != nil {
-		t.Fatalf("delete bucket: %v", err)
+	if _, _, err := records.Revise(ctx, "kept", countedTally); err != nil {
+		t.Fatalf("revise: %v", err)
 	}
 
-	_, _, err = records.Revise(ctx, "orphaned", countedTally)
-	if err == nil {
-		t.Fatal("revising a record of a deleted bucket should fail")
+	server.FastForward(retention)
+
+	standing, err := records.RecordAt(ctx, "kept")
+	if err != nil {
+		t.Fatalf("read the expired record: %v", err)
 	}
-	if errors.Is(err, jetstreamrecord.ErrContended) {
-		t.Fatalf("a deleted bucket was reported as contention: %v", err)
+	if standing.Count != 0 {
+		t.Fatalf("a record past its retention read as %d, want the zero record", standing.Count)
+	}
+}
+
+func TestAFailureOfTheServerIsNotReportedAsContention(t *testing.T) {
+	server := miniredis.RunT(t)
+	records := talliesOn(server)
+	server.Close()
+
+	_, _, err := records.Revise(context.Background(), "orphaned", countedTally)
+	if err == nil {
+		t.Fatal("revising a record on a closed server should fail")
+	}
+	if errors.Is(err, redisrecord.ErrContended) {
+		t.Fatalf("a closed server was reported as contention: %v", err)
+	}
+}
+
+func TestKeysOfOneKindDifferByWhatTheyWereMadeFrom(t *testing.T) {
+	first := redisrecord.KeyOf("KIND", "o1", "http://host/a")
+	second := redisrecord.KeyOf("KIND", "o1", "http://host/b")
+	otherKind := redisrecord.KeyOf("OTHER", "o1", "http://host/a")
+
+	if first == second || first == otherKind {
+		t.Fatalf("keys collide: %s %s %s", first, second, otherKind)
 	}
 }

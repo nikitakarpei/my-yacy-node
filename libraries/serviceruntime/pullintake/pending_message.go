@@ -13,7 +13,7 @@ const (
 	msgAcknowledgeFailed = "message acknowledgement failed"
 	msgReturnFailed      = "message not returned for redelivery"
 
-	redeliveryPause = 30 * time.Second
+	ReturnPause = 30 * time.Second
 )
 
 type PendingMessage interface {
@@ -61,7 +61,7 @@ func (m pendingMessage) Acknowledge(ctx context.Context) {
 }
 
 func (m pendingMessage) Return(ctx context.Context) {
-	m.ReturnAfter(ctx, redeliveryPause)
+	m.ReturnAfter(ctx, ReturnPause)
 }
 
 func (m pendingMessage) ReturnAfter(ctx context.Context, delay time.Duration) {

@@ -1,36 +1,38 @@
-package jetstream_test
+package redis_test
 
 import (
 	"context"
 	"fmt"
 	"sync"
 	"testing"
+	"time"
+
+	"github.com/alicebob/miniredis/v2"
+	goredis "github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
 )
 
 const (
-	orderID = "o1"
-	host    = "host"
+	orderID   = "o1"
+	host      = "host"
+	retention = time.Hour
 )
 
-func pageVisitLimits(t *testing.T) *jetstream.PageVisitLimits {
+func pageVisitLimitsOn(server *miniredis.Miniredis) *redis.PageVisitLimits {
+	return redis.New(
+		goredis.NewClient(&goredis.Options{Addr: server.Addr()}),
+		retention,
+		redis.MaxPerURL{Deferrals: 2, Attempts: 2},
+	)
+}
+
+func pageVisitLimits(t *testing.T) *redis.PageVisitLimits {
 	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	ctx := context.Background()
-	if err := jetstream.Ensure(ctx, js, jetstreamrecord.BucketSpec{}); err != nil {
-		t.Fatalf("ensure bucket: %v", err)
-	}
-	bucket, err := js.KeyValue(ctx, jetstream.BucketName)
-	if err != nil {
-		t.Fatalf("open bucket: %v", err)
-	}
-	return jetstream.New(bucket, jetstream.MaxPerURL{Deferrals: 2, Attempts: 2})
+	return pageVisitLimitsOn(miniredis.RunT(t))
 }
 
 func pageURL(t *testing.T) canonicalurl.CanonicalURL {
@@ -40,7 +42,7 @@ func pageURL(t *testing.T) canonicalurl.CanonicalURL {
 
 func admitsAnotherPageOfHost(
 	t *testing.T,
-	limits *jetstream.PageVisitLimits,
+	limits *redis.PageVisitLimits,
 	url canonicalurl.CanonicalURL,
 	maxPages int,
 ) bool {
@@ -223,5 +225,20 @@ func TestTakingThePageOfAHostLeavesTheDeferralsUntouched(t *testing.T) {
 	}
 	if !admitted {
 		t.Fatal("a page visit holding the page of its host should still defer")
+	}
+}
+
+func TestAHostTakesPagesAgainOnceItsRetentionPasses(t *testing.T) {
+	server := miniredis.RunT(t)
+	limits := pageVisitLimitsOn(server)
+	if !admitsAnotherPageOfHost(t, limits, pageURL(t), 1) {
+		t.Fatal("the first page of the host should be admitted")
+	}
+
+	server.FastForward(retention)
+
+	other := canonicalurltest.CanonicalURLOf(t, "http://host/other")
+	if !admitsAnotherPageOfHost(t, limits, other, 1) {
+		t.Fatal("a host past its retention should take pages again")
 	}
 }

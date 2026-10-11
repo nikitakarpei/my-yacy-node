@@ -97,6 +97,12 @@ services:
       - ../../building-blocks/nats/nats.conf:/etc/nats/nats.conf:ro
       - nats-data:/data
 
+  kvrocks:
+    image: apache/kvrocks:2.17.0
+    restart: unless-stopped
+    volumes:
+      - kvrocks-data:/var/lib/kvrocks
+
   pagescrape:
     image: ghcr.io/nikitakarpei/my-yacy-node/pagescrape:latest
     restart: unless-stopped
@@ -179,12 +185,15 @@ services:
     image: ghcr.io/nikitakarpei/my-yacy-node/yacycrawler:latest
     restart: unless-stopped
     depends_on:
+      kvrocks:
+        condition: service_started
       pagescrape:
         condition: service_started
       squid:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
+      CRAWL_STATE_REDIS_URL: redis://kvrocks:6666
       YACYCRAWLER_FETCH_PROXY_URL: http://squid:3128
       YACYCRAWLER_FETCH_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
@@ -404,6 +413,7 @@ volumes:
   warcprox-state:
   warcprox-trust:
   pywb-indexes:
+  kvrocks-data:
   nats-data:
   squid-data:
   yacy-data:

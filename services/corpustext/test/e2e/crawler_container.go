@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/kvrocks"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -21,6 +22,7 @@ const (
 
 func startCrawler(t *testing.T, ctx context.Context, networkName string) {
 	t.Helper()
+	kvrocks.Start(t, ctx, networkName)
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
@@ -29,6 +31,7 @@ func startCrawler(t *testing.T, ctx context.Context, networkName string) {
 			NetworkAliases: map[string][]string{networkName: {crawlerAlias}},
 			Env: map[string]string{
 				"CRAWL_NATS_URL":                natsjetstream.NetworkURL(),
+				"CRAWL_STATE_REDIS_URL":         kvrocks.NetworkURL(),
 				"YACYCRAWLER_FETCH_PROXY_URL":   egressproxy.NetworkURL(),
 				"YACYCRAWLER_FETCH_CONCURRENCY": "1",
 				"LOG_LEVEL":                     "debug",
