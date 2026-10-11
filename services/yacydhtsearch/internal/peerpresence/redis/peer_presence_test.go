@@ -191,12 +191,12 @@ func TestPresenceSurvivesAnInstanceThatStartsAgainOverTheSameStream(t *testing.T
 	foldedWithin(t, after, peerAtAddress(peer), presenceEarned(time.Minute))
 }
 
-func snapshottedWithin(t *testing.T, snapshots *miniredis.Miniredis) {
+func snapshottedWithin(t *testing.T, server *miniredis.Miniredis) {
 	t.Helper()
 
 	deadline := time.Now().Add(foldingDeadline)
 	for {
-		if keys, err := snapshots.HKeys(snapshotsKey); err == nil && len(keys) > 0 {
+		if keys, err := server.HKeys(snapshotsKey); err == nil && len(keys) > 0 {
 			return
 		}
 		if time.Now().After(deadline) {

@@ -111,14 +111,14 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	outbound := outboundClient(cfg)
-	sharedState, err := openSharedState(ctx, cfg)
+	redisClient, err := openRedisClient(ctx, cfg)
 	if err != nil {
 		return err
 	}
-	if sharedState != nil {
-		defer func() { _ = sharedState.Close() }()
+	if redisClient != nil {
+		defer func() { _ = redisClient.Close() }()
 	}
-	presence := peerPresenceFor(ctx, cfg, sharedState, registry)
+	presence := peerPresenceFor(ctx, cfg, redisClient, registry)
 
 	reliability := peerreliability.New(
 		presence,
@@ -179,7 +179,7 @@ func RunService(
 		return err
 	}
 	queryWordDocumentAmounts := queryWordDocumentAmountsFor(
-		cfg, sharedState, queryworddocumentamountsobserversredisprometheus.New(registry),
+		cfg, redisClient, queryworddocumentamountsobserversredisprometheus.New(registry),
 	)
 	network := networksearch.New(
 		directory,
@@ -205,7 +205,7 @@ func RunService(
 		},
 	)
 	cachedRankingsMetrics := cachedrankingsobserversredisprometheus.New(registry)
-	cachedRankings := cachedRankingsFor(cfg, sharedState, cachedRankingsMetrics)
+	cachedRankings := cachedRankingsFor(cfg, redisClient, cachedRankingsMetrics)
 	rankingCache := rankingcache.New(cachedRankings, network, rankingcache.RankingCacheObservers{
 		rankingcacheobserversapplog.RankingCacheLog{},
 		rankingcacheobserversprometheus.New(registry),
@@ -361,17 +361,17 @@ type queryWordDocumentAmounts interface {
 
 func queryWordDocumentAmountsFor(
 	cfg ServiceConfig,
-	sharedState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	metrics *queryworddocumentamountsobserversredisprometheus.QueryWordDocumentAmountsMetrics,
 ) queryWordDocumentAmounts {
-	if sharedState == nil {
+	if redisClient == nil {
 		return queryworddocumentamountsmemory.New(
 			cfg.QueryWordDocumentAmountsCapacity, cfg.QueryWordDocumentAmountLifetime,
 		)
 	}
 
 	return queryworddocumentamountsredis.New(
-		sharedState,
+		redisClient,
 		cfg.QueryWordDocumentAmountLifetime,
 		queryworddocumentamountsredis.QueryWordDocumentAmountsObservers{
 			queryworddocumentamountsobserversredisapplog.QueryWordDocumentAmountsLog{},
@@ -418,24 +418,24 @@ type peerPresence interface {
 	peerdirectoryrefresh.PeerPresence
 }
 
-func openSharedState(ctx context.Context, cfg ServiceConfig) (redis.UniversalClient, error) {
+func openRedisClient(ctx context.Context, cfg ServiceConfig) (redis.UniversalClient, error) {
 	if cfg.StateRedis == nil {
 		return nil, nil
 	}
-	sharedState := redis.NewClient(cfg.StateRedis)
-	if err := sharedState.Ping(ctx).Err(); err != nil {
-		_ = sharedState.Close()
+	redisClient := redis.NewClient(cfg.StateRedis)
+	if err := redisClient.Ping(ctx).Err(); err != nil {
+		_ = redisClient.Close()
 
 		return nil, fmt.Errorf("%s: %w", EnvStateRedisURL, err)
 	}
 
-	return sharedState, nil
+	return redisClient, nil
 }
 
 func peerPresenceFor(
 	ctx context.Context,
 	cfg ServiceConfig,
-	sharedState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	registry *prometheus.Registry,
 ) peerPresence {
 	accrualLimits := presenceaccrual.PresenceAccrualLimits{
@@ -446,13 +446,13 @@ func peerPresenceFor(
 		presenceaccrualobserversapplog.PresenceAccrualLog{},
 		presenceaccrualobserversprometheus.New(registry),
 	}
-	if sharedState == nil {
+	if redisClient == nil {
 		return peerpresencememory.New(accrualLimits, accrualObservers)
 	}
 
 	presence := peerpresenceredis.New(
-		probeAnswerHistoryOn(sharedState, cfg),
-		sharedState,
+		probeAnswerHistoryOn(redisClient, cfg),
+		redisClient,
 		peerpresenceredis.PeerPresenceLimits{
 			AccrualLimits:    accrualLimits,
 			SnapshotInterval: cfg.SnapshotInterval,
@@ -469,11 +469,11 @@ func peerPresenceFor(
 }
 
 func probeAnswerHistoryOn(
-	sharedState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	cfg ServiceConfig,
 ) probeanswerhistory.History {
 	return probeanswerhistory.New(
-		sharedState,
+		redisClient,
 		cfg.NetworkName,
 		cfg.ProbeAnswerHistoryKeptFor,
 		wallclock.Clock{},
@@ -485,15 +485,15 @@ func probeAnswerHistoryOn(
 
 func cachedRankingsFor(
 	cfg ServiceConfig,
-	sharedState redis.UniversalClient,
+	redisClient redis.UniversalClient,
 	metrics *cachedrankingsobserversredisprometheus.CachedRankingsMetrics,
 ) rankingcache.CachedRankings {
-	if sharedState == nil {
+	if redisClient == nil {
 		return cachedrankingsmemory.New(cfg.RankingCacheCapacity, cfg.RankingLifetime)
 	}
 
 	return cachedrankingsredis.New(
-		sharedState,
+		redisClient,
 		cfg.RankingLifetime,
 		cachedrankingsredis.CachedRankingsObservers{
 			cachedrankingsobserversredisapplog.CachedRankingsLog{},
