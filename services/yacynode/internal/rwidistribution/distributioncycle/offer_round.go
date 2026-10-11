@@ -44,7 +44,7 @@ type offerRound struct {
 
 func offerDuePostings(
 	ctx context.Context,
-	transfers *postingtransfer.PostingTransfers,
+	transfers PostingTransfers,
 	answers OfferAnswers,
 	offers []postingoffer.PostingOffer,
 ) offerRound {
@@ -92,7 +92,7 @@ func peerOffersFrom(offers []postingoffer.PostingOffer) []peerOffer {
 
 func sendOffers(
 	ctx context.Context,
-	transfers *postingtransfer.PostingTransfers,
+	transfers PostingTransfers,
 	offersPerPeer []peerOffer,
 ) []postingtransfer.OfferAnswer {
 	offerAnswers := make([]postingtransfer.OfferAnswer, len(offersPerPeer))

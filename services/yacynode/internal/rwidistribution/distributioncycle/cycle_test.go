@@ -10,8 +10,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
 func TestCycleRunOffersOnceThenStops(t *testing.T) {
@@ -25,16 +23,16 @@ func TestCycleRunOffersOnceThenStops(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
 	ctx, cancel := context.WithCancel(context.Background())
-	h.courier.onOffer = cancel
+	h.transfers.onOffer = cancel
 	h.cycle.Run(ctx)
 
-	if len(h.courier.offered) != 1 {
-		t.Fatalf("offered = %v, want a single offer from the initial run", h.courier.offered)
+	if len(h.transfers.offered) != 1 {
+		t.Fatalf("offered = %v, want a single offer from the initial run", h.transfers.offered)
 	}
 }
 
@@ -55,10 +53,10 @@ func TestCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 
 	h.runCycle(t)
 
-	if len(h.courier.offered) != 0 {
+	if len(h.transfers.offered) != 0 {
 		t.Fatalf(
 			"offered = %v, want no offers while below the reachable-peer floor",
-			h.courier.offered,
+			h.transfers.offered,
 		)
 	}
 	if h.observer.cyclesSkipped[string(distributioncycle.SkipTooFewReachablePeers)] != 1 {
@@ -91,8 +89,8 @@ func TestCycleReportsLongestOfferLatenessOnSkippedCycle(t *testing.T) {
 	clk.at = now.Add(90 * time.Second)
 	h.runCycle(t)
 
-	if len(h.courier.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers on a skipped cycle", h.courier.offered)
+	if len(h.transfers.offered) != 0 {
+		t.Fatalf("offered = %v, want no offers on a skipped cycle", h.transfers.offered)
 	}
 	if got := h.observer.longestOfferLateness[shortfall]; got != 90*time.Second {
 		t.Fatalf("shortfall longestOfferLateness = %v, want 90s", got)
@@ -110,7 +108,7 @@ func TestCycleDropsStaleReplicaFromLedger(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(fresh)}},
 	})
-	h.courier.receipts[fresh] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[fresh] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 	recordAccepted(t, h, stalePeer, fakePosting(word, url))
@@ -156,10 +154,10 @@ func TestCycleKeepsRecentlyReachableReplicaFromLedger(t *testing.T) {
 	if h.observer.staleReplicasDropped != 0 {
 		t.Fatalf("staleReplicasDropped = %v, want 0", h.observer.staleReplicasDropped)
 	}
-	if len(h.courier.offered) != 0 {
+	if len(h.transfers.offered) != 0 {
 		t.Fatalf(
 			"offered = %v, want no offer once the credible peer already holds a replica",
-			h.courier.offered,
+			h.transfers.offered,
 		)
 	}
 }
@@ -177,7 +175,7 @@ func TestCycleReschedulesAcceptedPostingAtTheLongestOfferInterval(t *testing.T) 
 		redundancy: 2,
 		self:       thisNodeCloserThanEveryPeer(),
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -201,7 +199,7 @@ func TestCycleRetriesRejectedPostingAtBackoffInterval(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Refused}
+	h.transfers.answers[peer] = declinedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -219,7 +217,7 @@ func TestCycleRetriesRejectedPostingAtBackoffInterval(t *testing.T) {
 	}
 }
 
-func TestCycleHonoursCourierRetryAfter(t *testing.T) {
+func TestCycleHonoursThePauseAPeerRequests(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
@@ -231,10 +229,7 @@ func TestCycleHonoursCourierRetryAfter(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{
-		Outcome:        postingcourier.Deferred,
-		RequestedPause: 5 * time.Minute,
-	}
+	h.transfers.answers[peer] = fakeAnswer{requestedPause: 5 * time.Minute}
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -266,8 +261,8 @@ func TestCycleReschedulesUnofferedPostingAtBackoffInterval(t *testing.T) {
 
 	h.runCycle(t)
 
-	if len(h.courier.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers for an unoffered posting", h.courier.offered)
+	if len(h.transfers.offered) != 0 {
+		t.Fatalf("offered = %v, want no offers for an unoffered posting", h.transfers.offered)
 	}
 
 	due := h.duePostings(t, 10)
@@ -302,10 +297,10 @@ func TestCycleReschedulesAlreadySatisfiedPostingAtTheLongestOfferInterval(t *tes
 
 	h.runCycle(t)
 
-	if len(h.courier.offered) != 1 || h.courier.offered[0].Peer.Hash != peer {
+	if len(h.transfers.offered) != 1 || h.transfers.offered[0].Peer.Hash != peer {
 		t.Fatalf(
 			"offered = %v, want the posting renewed with the peer that holds it",
-			h.courier.offered,
+			h.transfers.offered,
 		)
 	}
 
@@ -329,7 +324,7 @@ func TestCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 		redundancy: 2,
 		self:       thisNodeCloserThanEveryPeer(),
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -338,12 +333,6 @@ func TestCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 1 || replicas[0] != peer {
 		t.Fatalf("replicas = %v, want [%v]", replicas, peer)
-	}
-	if h.observer.postingsOffered[string(postingcourier.Accepted)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for outcome %q",
-			h.observer.postingsOffered, postingcourier.Accepted,
-		)
 	}
 }
 
@@ -360,8 +349,8 @@ func TestCycleRecordsNoReplicaOfAPostingPurgedWhileOffered(t *testing.T) {
 		redundancy: 2,
 		self:       thisNodeCloserThanEveryPeer(),
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
-	h.courier.onOffer = func() {
+	h.transfers.answers[peer] = acceptedAnswer
+	h.transfers.onOffer = func() {
 		if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
 			return h.schedule.PostingPurged(tx, fakePosting(word, url))
 		}); err != nil {
@@ -391,14 +380,8 @@ func TestCycleReschedulesAtLongestBackoffAcrossPeers(t *testing.T) {
 		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peerA), seed(peerB)}},
 		redundancy: 2,
 	})
-	h.courier.receipts[peerA] = postingcourier.Receipt{
-		Outcome:        postingcourier.Deferred,
-		RequestedPause: time.Minute,
-	}
-	h.courier.receipts[peerB] = postingcourier.Receipt{
-		Outcome:        postingcourier.Deferred,
-		RequestedPause: 5 * time.Minute,
-	}
+	h.transfers.answers[peerA] = fakeAnswer{requestedPause: time.Minute}
+	h.transfers.answers[peerB] = fakeAnswer{requestedPause: 5 * time.Minute}
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -432,10 +415,10 @@ func TestCycleCountsPostingGoneFromIndex(t *testing.T) {
 	if h.observer.gone != 1 {
 		t.Fatalf("gone = %v, want 1", h.observer.gone)
 	}
-	if len(h.courier.offered) != 0 {
+	if len(h.transfers.offered) != 0 {
 		t.Fatalf(
 			"offered = %v, want no offers for a posting gone from the index",
-			h.courier.offered,
+			h.transfers.offered,
 		)
 	}
 }
@@ -474,8 +457,8 @@ func TestCycleCountsUnreadPostingOffer(t *testing.T) {
 		t.Fatalf("batchesAborted = %v, want one abort for an unread offer",
 			h.observer.batchesAborted)
 	}
-	if len(h.courier.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers when offer is unread", h.courier.offered)
+	if len(h.transfers.offered) != 0 {
+		t.Fatalf("offered = %v, want no offers when offer is unread", h.transfers.offered)
 	}
 }
 
@@ -489,8 +472,8 @@ func TestCycleCountsAnUnwrittenBatch(t *testing.T) {
 		},
 		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
-	h.courier.onOffer = func() {
+	h.transfers.answers[peer] = acceptedAnswer
+	h.transfers.onOffer = func() {
 		if err := h.v.Close(); err != nil {
 			t.Errorf("Close: %v", err)
 		}
@@ -556,7 +539,7 @@ func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Refused}
+	h.transfers.answers[peer] = declinedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -565,149 +548,6 @@ func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 0 {
 		t.Fatalf("replicas = %v, want none after a refused offer", replicas)
-	}
-	if h.observer.postingsOffered[string(postingcourier.Refused)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for outcome %q",
-			h.observer.postingsOffered, postingcourier.Refused,
-		)
-	}
-}
-
-func TestCycleReportsUnaddressablePeer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	unaddressable := yacymodel.Seed{
-		Hash:         peer,
-		Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{unaddressable}},
-	})
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if len(h.courier.offered) != 0 {
-		t.Fatalf("offered = %v, want no offer sent to an unaddressable peer", h.courier.offered)
-	}
-	if h.observer.postingsOffered[string(postingcourier.Unaddressable)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for outcome %q",
-			h.observer.postingsOffered, postingcourier.Unaddressable,
-		)
-	}
-	replicas := holdersOf(t, h, word, url)
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none for an unaddressable peer", replicas)
-	}
-}
-
-func TestCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		urls: fakeURLDirectory{
-			metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
-				url: {Address: "http://example.com/u1"},
-			},
-		},
-		metadataOutcome: urlmetadatacourier.Deferred,
-	})
-	h.courier.receipts[peer] = postingcourier.Receipt{
-		Outcome:           postingcourier.Accepted,
-		URLsUnknownToPeer: []yacymodel.URLHash{url},
-	}
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	replicas := holdersOf(t, h, word, url)
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none recorded when url metadata delivery fails", replicas)
-	}
-	if h.observer.urlMetadataDeliveries[string(urlmetadatacourier.Deferred)] != 1 {
-		t.Fatalf(
-			"observed url metadata deliveries = %+v, want 1 for outcome %q",
-			h.observer.urlMetadataDeliveries, urlmetadatacourier.Deferred,
-		)
-	}
-
-	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due := h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf(
-			"due = %v, want [word] retried after a failed url metadata delivery",
-			due,
-		)
-	}
-}
-
-func TestCycleDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word := yacymodel.WordHash("w1")
-	present, absent := urlHash("u1"), urlHash("u2")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, present): fakePosting(word, present),
-		fakePostingKey(word, absent):  fakePosting(word, absent),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-		self:       thisNodeCloserThanEveryPeer(),
-		urls: fakeURLDirectory{
-			metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
-				present: {Address: "http://example.com/u1"},
-			},
-		},
-	})
-	h.courier.receipts[peer] = postingcourier.Receipt{
-		Outcome:           postingcourier.Accepted,
-		URLsUnknownToPeer: []yacymodel.URLHash{present, absent},
-	}
-
-	store(t, h.v, h.schedule, word, present)
-	store(t, h.v, h.schedule, word, absent)
-
-	h.runCycle(t)
-
-	if len(h.metadataCourier.delivered) != 1 {
-		t.Fatalf(
-			"delivered = %v, want the one url whose metadata this node holds",
-			h.metadataCourier.delivered,
-		)
-	}
-	if h.observer.urlsUnknownToUs != 1 {
-		t.Fatalf(
-			"observed urls unknown to us = %d, want the one url whose metadata this node lacks",
-			h.observer.urlsUnknownToUs,
-		)
-	}
-
-	replicas := holdersOf(t, h, word, present)
-	if len(replicas) != 1 {
-		t.Fatalf("replicas = %v, want the deliverable posting recorded", replicas)
-	}
-
-	replicas = holdersOf(t, h, word, absent)
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none for the posting with no url metadata", replicas)
 	}
 }
 
@@ -728,9 +568,7 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 		cooldown: time.Hour,
 	})
 	for _, peer := range peers {
-		h.courier.receipts[peer.Hash] = postingcourier.Receipt{
-			Outcome: postingcourier.Unreachable,
-		}
+		h.transfers.answers[peer.Hash] = declinedAnswer
 	}
 
 	store(t, h.v, h.schedule, word, url)
@@ -739,13 +577,13 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 	clk.at = clk.at.Add(2 * h.offerInterval.Shortest)
 	h.runCycle(t)
 
-	if len(h.courier.offered) != 2 {
-		t.Fatalf("offered = %v, want one offer from each cycle", h.courier.offered)
+	if len(h.transfers.offered) != 2 {
+		t.Fatalf("offered = %v, want one offer from each cycle", h.transfers.offered)
 	}
-	if h.courier.offered[0].Peer.Hash == h.courier.offered[1].Peer.Hash {
+	if h.transfers.offered[0].Peer.Hash == h.transfers.offered[1].Peer.Hash {
 		t.Fatalf(
 			"both offers went to %v, want the second cycle to try another peer",
-			h.courier.offered[0].Peer.Hash,
+			h.transfers.offered[0].Peer.Hash,
 		)
 	}
 }
@@ -789,7 +627,7 @@ func TestCycleHandsOffPostingAcceptedByACloserPeer(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -826,7 +664,7 @@ func TestCycleKeepsPostingThisNodeIsResponsibleFor(t *testing.T) {
 		redundancy: 2,
 		self:       thisNodeCloserThanEveryPeer(),
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -854,8 +692,8 @@ func TestCycleKeepsPostingAcceptedOnlyByAFartherPeer(t *testing.T) {
 		self:     thisNodeFartherThanTheClosestPeer(),
 		cooldown: time.Hour,
 	})
-	h.courier.receipts[closer] = postingcourier.Receipt{Outcome: postingcourier.Refused}
-	h.courier.receipts[farther] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[closer] = declinedAnswer
+	h.transfers.answers[farther] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -882,7 +720,7 @@ func TestCycleReportsRingFractionOfAcceptedReplica(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -920,7 +758,7 @@ func TestCycleReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
 		postings: postings,
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Refused}
+	h.transfers.answers[peer] = declinedAnswer
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -942,7 +780,7 @@ func TestCycleDrainsABacklogLargerThanOneBatch(t *testing.T) {
 		postings: backlogPostings(backlog),
 		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.transfers.answers[peer] = acceptedAnswer
 
 	storeBacklog(t, h, backlog)
 
@@ -964,17 +802,17 @@ func TestCycleStopsDrainingWhenTheBudgetIsSpent(t *testing.T) {
 		roster:      fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 		drainBudget: 30 * time.Second,
 	})
-	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
-	h.courier.onOffer = func() { clk.at = clk.at.Add(30 * time.Second) }
+	h.transfers.answers[peer] = acceptedAnswer
+	h.transfers.onOffer = func() { clk.at = clk.at.Add(30 * time.Second) }
 
 	storeBacklog(t, h, backlog)
 
 	h.runCycle(t)
 
-	if len(h.courier.offered) != 1 {
+	if len(h.transfers.offered) != 1 {
 		t.Fatalf(
 			"offered %d batches, want the drain to stop after the batch that spends the budget",
-			len(h.courier.offered),
+			len(h.transfers.offered),
 		)
 	}
 	due := h.duePostings(t, backlog)

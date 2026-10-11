@@ -45,6 +45,14 @@ type PostingHandoff interface {
 	) (bool, error)
 }
 
+type PostingTransfers interface {
+	Send(
+		ctx context.Context,
+		peer yacymodel.Seed,
+		offeredPostings []yacymodel.RWIPosting,
+	) postingtransfer.OfferAnswer
+}
+
 type Config struct {
 	OfferInterval     postingofferinterval.Bounds
 	PostingsPerBatch  int
@@ -58,7 +66,7 @@ type Cycle struct {
 	vault           *vault.Vault
 	postingOffers   *postingoffer.PostingOffers
 	handoff         PostingHandoff
-	transfers       *postingtransfer.PostingTransfers
+	transfers       PostingTransfers
 	answers         OfferAnswers
 	replicas        *postingreplicas.Replicas
 	schedule        *postingofferschedule.Schedule
@@ -75,7 +83,7 @@ func New(
 	v *vault.Vault,
 	postingOffers *postingoffer.PostingOffers,
 	handoff PostingHandoff,
-	transfers *postingtransfer.PostingTransfers,
+	transfers PostingTransfers,
 	answers OfferAnswers,
 	replicas *postingreplicas.Replicas,
 	schedule *postingofferschedule.Schedule,
