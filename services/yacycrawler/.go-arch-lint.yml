@@ -46,8 +46,8 @@ components:
     in: internal/recrawlrules/dueaftergrace/**
   acceptedordersredis:
     in: internal/acceptedorders/redis/**
-  pendingpagevisitsjetstream:
-    in: internal/pendingpagevisits/jetstream/**
+  pendingpagevisitsredis:
+    in: internal/pendingpagevisits/redis/**
   redisrecord:
     in: internal/redisrecord/**
   takenpagevisitsredis:
@@ -60,6 +60,10 @@ components:
     in: internal/crawlorderobservers/prometheus/**
   pendingpagevisitobserversapplog:
     in: internal/pendingpagevisitobservers/applog/**
+  frontierobserversapplog:
+    in: internal/frontierobservers/applog/**
+  frontiermetricsprometheus:
+    in: internal/frontiermetrics/prometheus/**
   pendingpagevisitobserversprometheus:
     in: internal/pendingpagevisitobservers/prometheus/**
   pagefetchobserversapplog:
@@ -225,11 +229,13 @@ deps:
     canUse:
       - redis
       - yacycrawlcontract
-  pendingpagevisitsjetstream:
+  pendingpagevisitsredis:
     mayDependOn:
       - pendingpagevisit
+      - redisrecord
     canUse:
-      - nats
+      - redis
+      - serviceruntime
   redisrecord:
     canUse:
       - redis
@@ -262,6 +268,9 @@ deps:
       - pagevisitdrop
       - pagevisitresult
       - pendingpagevisit
+  frontiermetricsprometheus:
+    canUse:
+      - prometheus
   pendingpagevisitobserversprometheus:
     mayDependOn:
       - pagevisitdrop

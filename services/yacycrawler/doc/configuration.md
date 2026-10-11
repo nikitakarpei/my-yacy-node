@@ -9,7 +9,6 @@ The crawler is configured entirely through environment variables.
 | `CRAWL_NATS_URL` | required | NATS server the crawler consumes crawl orders from and publishes crawled pages to. |
 | `CRAWL_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `CRAWL_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
-| `PENDING_PAGE_VISIT_DURABLE` | `yacycrawler-page-visits` | Durable queue-consumer name every instance reads pending page visits from. |
 
 The crawler publishes every page it read on the `YACY_CRAWL_PAGES` stream, which it creates
 and owns. A page that states no indexing refusal goes to `crawl.page.indexable`, a page
@@ -31,7 +30,7 @@ indexing as well. That choice applies to every crawl the deployment runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_STATE_REDIS_URL` | required | Address of the Redis server that keeps the accepted orders and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
+| `CRAWL_STATE_REDIS_URL` | required | Address of the Redis server that keeps the accepted orders, the frontier, and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
 
 Every crawler instance must use the same server. Redis and Valkey keep every key in memory,
 so their memory grows with the URLs the crawler meets. Apache Kvrocks keeps the keys on

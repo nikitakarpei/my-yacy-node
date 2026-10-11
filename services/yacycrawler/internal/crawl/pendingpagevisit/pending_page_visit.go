@@ -1,7 +1,6 @@
-// Package pendingpagevisit names one URL a crawl order still owes a page visit, and the
-// frontier stream that carries it from the worker that found it to the worker
-// that pays it. A page links to visits one level deeper, and redirects to a visit at
-// its own depth.
+// Package pendingpagevisit names one URL a crawl order still owes a page visit, as the
+// frontier holds it from the worker that found it to the worker that pays it. A page
+// links to visits one level deeper, and redirects to a visit at its own depth.
 package pendingpagevisit
 
 import (
@@ -9,11 +8,6 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-)
-
-const (
-	StreamName = "YACY_CRAWL_FRONTIER"
-	Subject    = "yacy.crawl.frontier"
 )
 
 type PendingPageVisit struct {

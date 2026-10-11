@@ -12,14 +12,13 @@ import (
 )
 
 const (
-	fetchRetryFloor                          = 500 * time.Millisecond
-	fetchRetryCeiling                        = 30 * time.Second
-	maxDeferralsPerURL                       = 3
-	maxAttemptsPerURL                        = 3
-	crawlOrdersAckWait                       = 30 * time.Second
-	orderIntakeConcurrency                   = 4
-	pendingPageVisitDuplicateWindow          = 2 * time.Minute
-	pendingPageVisitAckWaitsPerFetchDeadline = 3
+	fetchRetryFloor        = 500 * time.Millisecond
+	fetchRetryCeiling      = 30 * time.Second
+	maxDeferralsPerURL     = 3
+	maxAttemptsPerURL      = 3
+	crawlOrdersAckWait     = 30 * time.Second
+	orderIntakeConcurrency = 4
+	fetchDeadlinesPerLease = 3
 
 	pageVisitRetention = 30 * 24 * time.Hour
 
@@ -34,27 +33,26 @@ const (
 )
 
 type ServiceConfig struct {
-	CrawlNATSURL            string
-	CrawlStateRedis         *redis.Options
-	CrawlOrdersSubject      string
-	CrawlOrdersDurable      string
-	PendingPageVisitDurable string
-	ProxyURL                *url.URL
-	ProxyDialMode           http.ProxyDialMode
-	FetchConcurrency        int
-	MaxBodyBytes            int64
-	FetchDeadline           time.Duration
-	RecrawlGrace            time.Duration
-	OpsAddr                 string
-	UserAgent               string
+	CrawlNATSURL       string
+	CrawlStateRedis    *redis.Options
+	CrawlOrdersSubject string
+	CrawlOrdersDurable string
+	ProxyURL           *url.URL
+	ProxyDialMode      http.ProxyDialMode
+	FetchConcurrency   int
+	MaxBodyBytes       int64
+	FetchDeadline      time.Duration
+	RecrawlGrace       time.Duration
+	OpsAddr            string
+	UserAgent          string
 }
 
 func (cfg ServiceConfig) SuppressesRecrawl() bool {
 	return cfg.RecrawlGrace > 0
 }
 
-func (cfg ServiceConfig) PendingPageVisitAckWait() time.Duration {
-	return cfg.FetchDeadline * pendingPageVisitAckWaitsPerFetchDeadline
+func (cfg ServiceConfig) PendingPageVisitLease() time.Duration {
+	return cfg.FetchDeadline * fetchDeadlinesPerLease
 }
 
 func (ServiceConfig) PageVisitRetention() time.Duration {
@@ -98,8 +96,4 @@ func (ServiceConfig) CrawledPageRetention() time.Duration {
 
 func (ServiceConfig) CrawledPageBacklogLimit() uint64 {
 	return crawledPageBacklogLimit
-}
-
-func (ServiceConfig) PendingPageVisitDuplicateWindow() time.Duration {
-	return pendingPageVisitDuplicateWindow
 }
