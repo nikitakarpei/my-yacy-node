@@ -311,7 +311,7 @@ func (c *Cycle) observeStaleReplicasDropped(tx *vault.Txn, droppedReplicas int) 
 }
 
 func (c *Cycle) observePostingHandedOff(tx *vault.Txn) {
-	tx.RunAfterCommit(func() { c.cycleObserver.ObservePostingsHandedOff(1) })
+	tx.RunAfterCommit(func() { c.cycleObserver.ObservePostingHandedOff() })
 }
 
 func (c *Cycle) setNextOffer(

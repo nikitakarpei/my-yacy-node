@@ -104,11 +104,11 @@ func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {
 	f.staleReplicasDropped += dropped
 }
 
-func (f *fakeObserver) ObservePostingsHandedOff(handedOff int) {
+func (f *fakeObserver) ObservePostingHandedOff() {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.postingsHandedOff += handedOff
+	f.postingsHandedOff++
 }
 
 func (f *fakeObserver) ObserveCycleSkipped(reason string) {
