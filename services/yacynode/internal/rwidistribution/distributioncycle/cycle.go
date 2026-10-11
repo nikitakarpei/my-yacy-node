@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
@@ -55,7 +54,6 @@ type PostingTransfers interface {
 }
 
 type Config struct {
-	OfferInterval     postingofferinterval.Bounds
 	PostingsPerBatch  int
 	BatchConcurrency  int
 	CycleInterval     time.Duration
@@ -298,12 +296,10 @@ func (c *Cycle) setNextOffer(
 	answers postingAnswers,
 ) (bool, error) {
 	if len(answers.acceptingPeers) >= acceptancesNeeded {
-		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity, c.config.OfferInterval)
+		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity)
 	}
 
-	return c.schedule.SetNextOfferAfterRedundancyMissed(
-		tx, identity, c.config.OfferInterval, answers.requestedPause,
-	)
+	return c.schedule.SetNextOfferAfterRedundancyMissed(tx, identity, answers.requestedPause)
 }
 
 func replicaRingFractionsOf(offers []postingoffer.PostingOffer, round offerRound) []float64 {

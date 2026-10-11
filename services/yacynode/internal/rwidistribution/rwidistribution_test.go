@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -36,7 +37,11 @@ func openPostingRecords(t *testing.T) postingRecordsHarness {
 	})
 
 	schedule, replicas, records, err := rwidistribution.Open(
-		v, yacymodel.DHTRingPartitions(1), frozenNow, discardedScheduleObservations{},
+		v,
+		yacymodel.DHTRingPartitions(1),
+		postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour},
+		frozenNow,
+		discardedScheduleObservations{},
 	)
 	if err != nil {
 		t.Fatalf("rwidistribution.Open: %v", err)

@@ -173,6 +173,10 @@ func assembleNode(
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
 		vault,
 		dhtRingPartitions,
+		postingofferinterval.Bounds{
+			Shortest: config.Distribution.OfferInterval.Shortest,
+			Longest:  config.Distribution.OfferInterval.Longest,
+		},
 		now,
 		distributionObserver,
 	)
@@ -377,10 +381,6 @@ func assembleNode(
 			distributionObserver,
 			dhtRingObserver,
 			distributioncycle.Config{
-				OfferInterval: postingofferinterval.Bounds{
-					Shortest: config.Distribution.OfferInterval.Shortest,
-					Longest:  config.Distribution.OfferInterval.Longest,
-				},
 				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
 				BatchConcurrency:  config.Distribution.BatchConcurrency,
 				CycleInterval:     config.Distribution.CycleInterval,

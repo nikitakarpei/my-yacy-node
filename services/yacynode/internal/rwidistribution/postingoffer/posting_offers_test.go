@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
@@ -58,6 +59,7 @@ func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHa
 	schedule, err := postingofferschedule.Open(
 		v,
 		partitions,
+		postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour},
 		frozenNow,
 		discardedScheduleObservations{},
 	)
