@@ -21,10 +21,6 @@ func (c boundedCourier) Deliver(
 	recipient yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
-	if len(metadata) == 0 {
-		return Receipt{Outcome: Accepted}
-	}
-
 	var rejectedURLs []yacymodel.URLHash
 	for start := 0; start < len(metadata); start += c.batchSize {
 		end := min(start+c.batchSize, len(metadata))
