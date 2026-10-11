@@ -239,12 +239,9 @@ func (c *Cycle) commitBatch(
 	round offerRound,
 ) error {
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
-		acceptingPeers := acceptingPeersByPosting(round.acceptances)
 		for _, offer := range offers {
-			identity := postingidentity.IdentityOf(offer.Posting)
-			if err := c.recordOfferOutcome(
-				ctx, tx, offer, acceptingPeers[identity], round.pauses[identity],
-			); err != nil {
+			answers := round[postingidentity.IdentityOf(offer.Posting)]
+			if err := c.recordOfferOutcome(ctx, tx, offer, answers); err != nil {
 				return err
 			}
 		}
@@ -255,33 +252,16 @@ func (c *Cycle) commitBatch(
 		return err
 	}
 
-	c.dhtRingObserver.ObserveReplicaRingFractions(
-		replicaRingFractionsOf(offers, round.acceptances),
-	)
+	c.dhtRingObserver.ObserveReplicaRingFractions(replicaRingFractionsOf(offers, round))
 
 	return nil
-}
-
-func acceptingPeersByPosting(
-	acceptances []peerAcceptance,
-) map[postingidentity.Identity][]yacymodel.Hash {
-	byPosting := make(map[postingidentity.Identity][]yacymodel.Hash)
-	for _, acceptance := range acceptances {
-		for _, posting := range acceptance.postings {
-			identity := postingidentity.IdentityOf(posting)
-			byPosting[identity] = append(byPosting[identity], acceptance.holder)
-		}
-	}
-
-	return byPosting
 }
 
 func (c *Cycle) recordOfferOutcome(
 	ctx context.Context,
 	tx *vault.Txn,
 	offer postingoffer.PostingOffer,
-	acceptingPeers []yacymodel.Hash,
-	requestedPause time.Duration,
+	answers postingAnswers,
 ) error {
 	identity := postingidentity.IdentityOf(offer.Posting)
 	recordedHolders, err := c.replicas.HoldersOf(tx, identity)
@@ -290,26 +270,27 @@ func (c *Cycle) recordOfferOutcome(
 	}
 	change := postingreplicas.HolderChange{
 		StaleHolders:   offer.StaleHolders,
-		AcceptingPeers: acceptingPeers,
+		AcceptingPeers: answers.acceptingPeers,
 	}
 	holders := change.HoldersFrom(recordedHolders)
+	droppedReplicas := change.AmountOfStaleHoldersIn(recordedHolders)
 
 	wasHandedOff, err := c.handoff.HandOffIfHeldByCloserPeers(ctx, tx, offer.Posting, holders)
 	if err != nil {
 		return err
 	}
 	if wasHandedOff {
-		c.observeStaleReplicasDropped(tx, change.AmountOfStaleHoldersIn(recordedHolders))
+		c.observeStaleReplicasDropped(tx, droppedReplicas)
 		c.observePostingHandedOff(tx)
 
 		return nil
 	}
 
-	wasRescheduled, err := c.setNextOffer(tx, offer, acceptingPeers, requestedPause)
+	wasRescheduled, err := c.setNextOffer(tx, identity, offer.AcceptancesNeeded, answers)
 	if err != nil || !wasRescheduled {
 		return err
 	}
-	c.observeStaleReplicasDropped(tx, change.AmountOfStaleHoldersIn(recordedHolders))
+	c.observeStaleReplicasDropped(tx, droppedReplicas)
 
 	return c.replicas.RecordHolders(tx, identity, recordedHolders, holders)
 }
@@ -324,40 +305,25 @@ func (c *Cycle) observePostingHandedOff(tx *vault.Txn) {
 
 func (c *Cycle) setNextOffer(
 	tx *vault.Txn,
-	offer postingoffer.PostingOffer,
-	acceptingPeers []yacymodel.Hash,
-	requestedPause time.Duration,
+	identity postingidentity.Identity,
+	acceptancesNeeded int,
+	answers postingAnswers,
 ) (bool, error) {
-	identity := postingidentity.IdentityOf(offer.Posting)
-	if len(acceptingPeers) >= offer.AcceptancesNeeded {
+	if len(answers.acceptingPeers) >= acceptancesNeeded {
 		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity, c.config.OfferInterval)
 	}
 
 	return c.schedule.SetNextOfferAfterRedundancyMissed(
-		tx, identity, c.config.OfferInterval, requestedPause,
+		tx, identity, c.config.OfferInterval, answers.requestedPause,
 	)
 }
 
-func replicaRingFractionsOf(
-	offers []postingoffer.PostingOffer,
-	acceptances []peerAcceptance,
-) []float64 {
-	offerByPosting := make(map[postingidentity.Identity]postingoffer.PostingOffer, len(offers))
-	for _, offer := range offers {
-		identity := postingidentity.IdentityOf(offer.Posting)
-		offerByPosting[identity] = offer
-	}
-
+func replicaRingFractionsOf(offers []postingoffer.PostingOffer, round offerRound) []float64 {
 	var ringFractions []float64
-	for _, acceptance := range acceptances {
-		for _, posting := range acceptance.postings {
-			identity := postingidentity.IdentityOf(posting)
-			offer, offered := offerByPosting[identity]
-			if !offered {
-				continue
-			}
+	for _, offer := range offers {
+		for _, peer := range round[postingidentity.IdentityOf(offer.Posting)].acceptingPeers {
 			ringFractions = append(ringFractions, offer.PostingPosition.DistanceTo(
-				yacymodel.DHTRingPositionOf(acceptance.holder),
+				yacymodel.DHTRingPositionOf(peer),
 			).FractionOfDHTRing())
 		}
 	}
