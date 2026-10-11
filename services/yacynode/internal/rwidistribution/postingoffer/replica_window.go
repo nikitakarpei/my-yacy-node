@@ -5,7 +5,8 @@ import (
 )
 
 type replicaWindow struct {
-	closest          []yacymodel.Seed
+	farthestPeer     yacymodel.Hash
+	coversWholeRing  bool
 	position         yacymodel.DHTRingPosition
 	requiredReplicas int
 }
@@ -22,20 +23,22 @@ func replicaWindowFor(
 		!yacymodel.CloserToDHTRingPosition(closest[redundancy-1].Hash, self, position) {
 		requiredReplicas = redundancy - 1
 	}
+	if requiredReplicas == 0 || len(closest) < requiredReplicas {
+		return replicaWindow{
+			coversWholeRing:  true,
+			position:         position,
+			requiredReplicas: requiredReplicas,
+		}
+	}
 
 	return replicaWindow{
-		closest:          closest[:min(requiredReplicas, len(closest))],
+		farthestPeer:     closest[requiredReplicas-1].Hash,
 		position:         position,
 		requiredReplicas: requiredReplicas,
 	}
 }
 
 func (r replicaWindow) contains(peer yacymodel.Hash) bool {
-	if len(r.closest) < max(r.requiredReplicas, 1) {
-		return true
-	}
-	farthest := r.closest[len(r.closest)-1].Hash
-
-	return r.position.DistanceTo(yacymodel.DHTRingPositionOf(peer)) <=
-		r.position.DistanceTo(yacymodel.DHTRingPositionOf(farthest))
+	return r.coversWholeRing ||
+		!yacymodel.CloserToDHTRingPosition(r.farthestPeer, peer, r.position)
 }

@@ -230,8 +230,10 @@ func refreshOfferFor(
 	return PostingOffer{
 		Posting:         posting,
 		PostingPosition: window.position,
-		Peers:           holders.peersHoldingReplica(acceptingPeers.Seeds()),
-		StaleHolders:    slices.Concat(holders.expired, holders.outsideWindow),
+		Peers: holders.peersHoldingReplica(
+			acceptingPeers.SeedsClockwiseFrom(window.position),
+		),
+		StaleHolders: slices.Concat(holders.expired, holders.outsideWindow),
 	}
 }
 
