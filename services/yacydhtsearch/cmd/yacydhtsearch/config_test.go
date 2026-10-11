@@ -365,3 +365,41 @@ func TestTheServiceRefusesAPageReadDialModeItCannotSpeak(t *testing.T) {
 		t.Fatal("LoadServiceConfig accepted a dial mode the fetcher cannot speak")
 	}
 }
+
+func TestInstancesShareStateThroughTheStateServerTheyAreGiven(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvStateRedisURL] = "redis://kvrocks:6666"
+
+	cfg, err := main.LoadServiceConfig(environmentOf(environment))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.StateRedis == nil || cfg.StateRedis.Addr != "kvrocks:6666" {
+		t.Fatalf("state server = %+v, want kvrocks:6666", cfg.StateRedis)
+	}
+}
+
+func TestEachInstanceKeepsItsOwnStateWithoutAStateServer(t *testing.T) {
+	t.Parallel()
+
+	cfg, err := main.LoadServiceConfig(environmentOf(minimalEnvironment()))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.StateRedis != nil {
+		t.Fatalf("state server = %+v, want none", cfg.StateRedis)
+	}
+}
+
+func TestTheServiceRefusesAStateServerAddressThatIsNotRedis(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[main.EnvStateRedisURL] = "http://kvrocks:6666"
+
+	if _, err := main.LoadServiceConfig(environmentOf(environment)); err == nil {
+		t.Fatal("LoadServiceConfig accepted a state server address that is not redis://")
+	}
+}

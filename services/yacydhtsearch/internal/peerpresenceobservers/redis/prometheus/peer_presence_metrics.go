@@ -29,7 +29,7 @@ func New(registry prometheusclient.Registerer) *PeerPresenceMetrics {
 	}, []string{labelFailure})
 	snapshotsWritten := prometheusclient.NewCounter(prometheusclient.CounterOpts{
 		Name: "yacydhtsearch_peer_presence_snapshots_written_total",
-		Help: "Snapshots of earned presence written to the bucket.",
+		Help: "Snapshots of earned presence written to the shared server.",
 	})
 	registry.MustRegister(snapshotFailures, snapshotsWritten)
 

@@ -4,7 +4,7 @@ Date: 2026-09-06
 
 ## Status
 
-Accepted
+Superseded by [11. Share state through the Redis protocol with go-redis](0011-share-state-through-the-redis-protocol-with-go-redis.md)
 
 ## Context
 

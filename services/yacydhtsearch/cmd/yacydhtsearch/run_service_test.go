@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/redis/go-redis/v9"
 
 	yacydhtsearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/cmd/yacydhtsearch"
 )
@@ -166,4 +167,13 @@ func TestTheOpsAddressServesTheProfilerWhenTheOperatorOptsIn(t *testing.T) {
 
 	stop()
 	awaitStop(t, stopped)
+}
+
+func TestTheServiceRefusesToStartWhenItsStateServerDoesNotAnswer(t *testing.T) {
+	cfg := serviceConfigOnReservedPorts(t)
+	cfg.StateRedis = &redis.Options{Addr: "127.0.0.1:1"}
+
+	if err := yacydhtsearch.RunService(t.Context(), cfg, prometheus.NewRegistry()); err == nil {
+		t.Fatal("RunService started without a state server that answers")
+	}
 }

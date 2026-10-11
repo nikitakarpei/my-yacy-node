@@ -1,6 +1,6 @@
-// Package jetstream caches query rankings in a NATS key-value bucket, so that
-// every service instance answers a repeated query from the same ranking.
-package jetstream
+// Package redis caches query rankings on a Redis-protocol server for the lifetime of a
+// ranking, so that every service instance answers a repeated query from the same ranking.
+package redis
 
 import (
 	"context"
@@ -8,8 +8,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"time"
 
-	natsjetstream "github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
@@ -20,21 +21,28 @@ type CachedRankingsObserver interface {
 	RankingStoreFailed(ctx context.Context, query searchquery.Query, err error)
 }
 
+const keyPrefix = "yacydhtsearch:rankings:"
+
 type CachedRankings struct {
-	bucket   natsjetstream.KeyValue
+	client   redis.UniversalClient
+	lifetime time.Duration
 	observer CachedRankingsObserver
 }
 
-func New(bucket natsjetstream.KeyValue, observer CachedRankingsObserver) *CachedRankings {
-	return &CachedRankings{bucket: bucket, observer: observer}
+func New(
+	client redis.UniversalClient,
+	lifetime time.Duration,
+	observer CachedRankingsObserver,
+) *CachedRankings {
+	return &CachedRankings{client: client, lifetime: lifetime, observer: observer}
 }
 
 func (h *CachedRankings) RankingFor(
 	ctx context.Context,
 	query searchquery.Query,
 ) (searchresult.Ranking, bool) {
-	entry, err := h.bucket.Get(ctx, keyFor(query))
-	if errors.Is(err, natsjetstream.ErrKeyNotFound) {
+	encoded, err := h.client.Get(ctx, keyFor(query)).Bytes()
+	if errors.Is(err, redis.Nil) {
 		return searchresult.Ranking{}, false
 	}
 	if err != nil {
@@ -44,7 +52,7 @@ func (h *CachedRankings) RankingFor(
 	}
 
 	var ranking searchresult.Ranking
-	if err := json.Unmarshal(entry.Value(), &ranking); err != nil {
+	if err := json.Unmarshal(encoded, &ranking); err != nil {
 		h.observer.RankingLookupFailed(ctx, query, err)
 
 		return searchresult.Ranking{}, false
@@ -64,7 +72,7 @@ func (h *CachedRankings) Store(
 
 		return
 	}
-	if _, err := h.bucket.Put(ctx, keyFor(query), encoded); err != nil {
+	if err := h.client.Set(ctx, keyFor(query), encoded, h.lifetime).Err(); err != nil {
 		h.observer.RankingStoreFailed(ctx, query, err)
 	}
 }
@@ -72,7 +80,7 @@ func (h *CachedRankings) Store(
 func keyFor(query searchquery.Query) string {
 	spelled := sha256.Sum256([]byte(query.String()))
 
-	return base64.RawURLEncoding.EncodeToString(spelled[:])
+	return keyPrefix + base64.RawURLEncoding.EncodeToString(spelled[:])
 }
 
 type CachedRankingsObservers []CachedRankingsObserver

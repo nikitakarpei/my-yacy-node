@@ -1,4 +1,4 @@
-// Package applog reports to the service log where caching rankings in NATS failed.
+// Package applog reports to the service log where caching rankings on the shared server failed.
 package applog
 
 import (
