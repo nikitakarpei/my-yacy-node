@@ -17,7 +17,7 @@ import (
 const (
 	networkName      = "yacydhtsearch"
 	answersKeptFor   = 24 * time.Hour
-	snapshotsKey     = "yacydhtsearch:peer-presence"
+	snapshotsKey     = "peer-presence"
 	answeringAddress = "http://10.0.0.1:8090"
 	continuityLimit  = 10 * time.Minute
 	wideCapacity     = 16
@@ -208,5 +208,5 @@ func snapshottedWithin(t *testing.T, server *miniredis.Miniredis) {
 }
 
 func dropEveryAnswer(shared *miniredis.Miniredis) {
-	shared.Del("yacydhtsearch:probe-answers:" + networkName)
+	shared.Del("probe-answers:" + networkName)
 }

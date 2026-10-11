@@ -32,7 +32,7 @@ Without a Redis address each instance caches its own rankings, and a restart dro
 | `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings an instance without a Redis address keeps at one time. |
 | `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNT_LIFETIME` | `6h` | Time the service remembers the amount of documents in one partition for a query word. When all words of a query have a remembered document amount, the query asks the leading word first. Otherwise it asks every word in all partitions at once. |
 | `YACYDHTSEARCH_QUERY_WORD_DOCUMENT_AMOUNTS_CAPACITY` | `100000` | Most query words whose document amount an instance without a Redis address remembers. |
-| `YACYDHTSEARCH_STATE_REDIS_URL` | in-memory | Address of the Redis server, as `redis://[user:password@]host:port[/db]`, that keeps the rankings, the query word document amounts, the probe answers and the peer presence for every instance. |
+| `YACYDHTSEARCH_STATE_REDIS_URL` | in-memory | Address of the Redis server, as `redis://[user:password@]host:port[/db]`, that keeps the rankings, the query word document amounts, the probe answers and the peer presence for every instance. Do not share this server with other services. |
 
 ## Peer directory
 

@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	keyPrefix      = "yacydhtsearch:probe-answers:"
+	keyPrefix      = "probe-answers:"
 	answerField    = "answer"
 	answerWait     = time.Second
 	answersPerRead = 100

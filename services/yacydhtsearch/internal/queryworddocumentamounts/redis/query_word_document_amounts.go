@@ -19,7 +19,7 @@ type QueryWordDocumentAmountsObserver interface {
 	DocumentAmountStoreFailed(ctx context.Context, word yacymodel.Hash, err error)
 }
 
-const keyPrefix = "yacydhtsearch:query-word-document-amounts:"
+const keyPrefix = "query-word-document-amounts:"
 
 type QueryWordDocumentAmounts struct {
 	client   redis.UniversalClient
