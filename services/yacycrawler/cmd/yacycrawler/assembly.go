@@ -122,8 +122,16 @@ func RunService(
 		return err
 	}
 	visits, err := buildPageVisitConsumer(
-		ctx, js, crawlState, cfg, crawledPageAdmission, pendingPageVisitObservers, pageFetchObservers,
-		htmlPageReading, crawledPageObservers, pageVisitRecordObservers,
+		ctx,
+		js,
+		crawlState,
+		cfg,
+		crawledPageAdmission,
+		pendingPageVisitObservers,
+		pageFetchObservers,
+		htmlPageReading,
+		crawledPageObservers,
+		pageVisitRecordObservers,
 	)
 	if err != nil {
 		return err
