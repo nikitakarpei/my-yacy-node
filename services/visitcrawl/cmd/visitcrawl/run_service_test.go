@@ -20,6 +20,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	visitcrawl "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/cmd/visitcrawl"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -78,6 +79,11 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 		t.Fatalf("location = %q", got)
 	}
 
+	if endpoints := servedEndpointsOf(t, registry); len(endpoints) != 1 ||
+		endpoints[0] != visitintake.PathVisit {
+		t.Errorf("served endpoints = %v, want [%s]", endpoints, visitintake.PathVisit)
+	}
+
 	order := nextPlacedOrder(t, consumer)
 	if len(order.SeedURLs) != 1 ||
 		order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, "https://example.org/a") {
@@ -112,6 +118,28 @@ func signedVisitURL(listenAddr, visitedPage, secret string) string {
 	seal.Write([]byte(seconds + "\n" + visitedPage))
 	return fmt.Sprintf("http://%s/visit?url=%s&expires=%s&signature=%s",
 		listenAddr, url.QueryEscape(visitedPage), seconds, hex.EncodeToString(seal.Sum(nil)))
+}
+
+func servedEndpointsOf(t *testing.T, registry *prometheus.Registry) []string {
+	t.Helper()
+	families, err := registry.Gather()
+	if err != nil {
+		t.Fatalf("gather metrics: %v", err)
+	}
+	var endpoints []string
+	for _, family := range families {
+		if family.GetName() != "visitcrawl_http_requests_total" {
+			continue
+		}
+		for _, metric := range family.GetMetric() {
+			for _, label := range metric.GetLabel() {
+				if label.GetName() == "endpoint" {
+					endpoints = append(endpoints, label.GetValue())
+				}
+			}
+		}
+	}
+	return endpoints
 }
 
 func ordersConsumer(t *testing.T, ctx context.Context, crawlNATSURL string) jetstream.Consumer {

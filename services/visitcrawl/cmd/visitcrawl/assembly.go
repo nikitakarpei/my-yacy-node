@@ -68,10 +68,13 @@ func RunService(
 
 	publicServer := &http.Server{
 		Addr: cfg.ListenAddr,
-		Handler: httpobservation.NewHandler(
-			http.MaxBytesHandler(mux, cfg.MaxBodyBytes),
-			httpaccesslog.New(),
-			httpmetrics.NewEndpointMetrics(registry, "visitcrawl"),
+		Handler: http.MaxBytesHandler(
+			httpobservation.NewHandler(
+				mux,
+				httpaccesslog.New(),
+				httpmetrics.NewEndpointMetrics(registry, "visitcrawl"),
+			),
+			cfg.MaxBodyBytes,
 		),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
