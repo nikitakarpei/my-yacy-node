@@ -188,7 +188,7 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 	}
 	defer c.sectorTurns.release(sector)
 
-	offers, gonePostings, err := c.postingOffers.DueNowIn(
+	offers, err := c.postingOffers.DueNowIn(
 		ctx, sector, c.config.PostingsPerBatch, peers,
 	)
 	if err != nil {
@@ -196,17 +196,15 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 
 		return false
 	}
-	amountOfDuePostings := len(offers) + len(gonePostings)
-	if amountOfDuePostings < c.config.PostingsPerBatch {
+	if len(offers) < c.config.PostingsPerBatch {
 		c.sectorTurns.markDrained(sector)
 	}
-	if amountOfDuePostings == 0 {
+	if len(offers) == 0 {
 		return true
 	}
-	c.reportPostingsGone(ctx, gonePostings)
 
 	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
-	if err := c.commitBatch(ctx, offers, gonePostings, round); err != nil {
+	if err := c.commitBatch(ctx, offers, round); err != nil {
 		c.reportBatchUnwritten(ctx, err)
 
 		return false
@@ -220,22 +218,9 @@ func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
 	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
 }
 
-func (c *Cycle) reportPostingsGone(
-	ctx context.Context,
-	gonePostings []postingidentity.Identity,
-) {
-	c.cycleObserver.ObservePostingsGone(len(gonePostings))
-	for _, identity := range gonePostings {
-		slog.DebugContext(ctx, "due posting gone from index",
-			slog.String("word", identity.Word.String()),
-			slog.String("url", identity.URL.String()))
-	}
-}
-
 func (c *Cycle) commitBatch(
 	ctx context.Context,
 	offers []postingoffer.PostingOffer,
-	gonePostings []postingidentity.Identity,
 	round offerRound,
 ) error {
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
@@ -246,7 +231,7 @@ func (c *Cycle) commitBatch(
 			}
 		}
 
-		return c.forgetGonePostings(tx, gonePostings)
+		return nil
 	})
 	if err != nil {
 		return err
@@ -329,23 +314,6 @@ func replicaRingFractionsOf(offers []postingoffer.PostingOffer, round offerRound
 	}
 
 	return ringFractions
-}
-
-func (c *Cycle) forgetGonePostings(
-	tx *vault.Txn,
-	gonePostings []postingidentity.Identity,
-) error {
-	for _, identity := range gonePostings {
-		gonePosting := yacymodel.RWIPosting{WordHash: identity.Word, URLHash: identity.URL}
-		if err := c.schedule.PostingPurged(tx, gonePosting); err != nil {
-			return err
-		}
-		if err := c.replicas.PostingPurged(tx, gonePosting); err != nil {
-			return err
-		}
-	}
-
-	return nil
 }
 
 func (c *Cycle) reportBatchUnwritten(ctx context.Context, err error) {

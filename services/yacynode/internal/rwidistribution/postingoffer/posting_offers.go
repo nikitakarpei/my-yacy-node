@@ -6,6 +6,7 @@ package postingoffer
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -91,7 +92,7 @@ func (o *PostingOffers) DueNowIn(
 	sector yacymodel.DHTRingSector,
 	limit int,
 	reachablePeers []yacymodel.Seed,
-) ([]PostingOffer, []postingidentity.Identity, error) {
+) ([]PostingOffer, error) {
 	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
 	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
 		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
@@ -99,61 +100,57 @@ func (o *PostingOffers) DueNowIn(
 	acceptingPeerRing := yacymodel.SeedRingFrom(acceptingPeers)
 	eligiblePeerRing := yacymodel.SeedRingFrom(o.eligibility.EligiblePeers(acceptingPeers))
 
-	var (
-		offers       []PostingOffer
-		gonePostings []postingidentity.Identity
-	)
+	var offers []PostingOffer
 	err := o.vault.View(ctx, func(tx *vault.Txn) error {
 		duePostings, err := o.schedule.DuePostingsIn(tx, sector, limit)
 		if err != nil {
 			return err
 		}
-		postings, gone, err := o.storedPostings(tx, duePostings)
+		postings, err := o.storedPostings(ctx, tx, duePostings)
 		if err != nil {
 			return err
 		}
 
-		dueOffers := make([]PostingOffer, 0, len(postings))
+		offers = make([]PostingOffer, 0, len(postings))
 		for _, posting := range postings {
 			offer, err := o.offerFor(ctx, tx, posting, acceptingPeerRing, eligiblePeerRing)
 			if err != nil {
 				return err
 			}
-			dueOffers = append(dueOffers, offer)
+			offers = append(offers, offer)
 		}
-		offers, gonePostings = dueOffers, gone
 
 		return nil
 	})
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	return offers, gonePostings, nil
+	return offers, nil
 }
 
 func (o *PostingOffers) storedPostings(
+	ctx context.Context,
 	tx *vault.Txn,
 	duePostings []postingidentity.Identity,
-) ([]yacymodel.RWIPosting, []postingidentity.Identity, error) {
-	var (
-		postings     []yacymodel.RWIPosting
-		gonePostings []postingidentity.Identity
-	)
+) ([]yacymodel.RWIPosting, error) {
+	postings := make([]yacymodel.RWIPosting, 0, len(duePostings))
 	for _, identity := range duePostings {
 		posting, found, err := o.postings.PostingOf(tx, identity.Word, identity.URL)
 		if err != nil {
-			return nil, nil, fmt.Errorf("read posting: %w", err)
+			return nil, fmt.Errorf("read posting: %w", err)
 		}
 		if !found {
-			gonePostings = append(gonePostings, identity)
+			slog.WarnContext(ctx, "due posting missing from the index",
+				slog.String("word", identity.Word.String()),
+				slog.String("url", identity.URL.String()))
 
 			continue
 		}
 		postings = append(postings, posting)
 	}
 
-	return postings, gonePostings, nil
+	return postings, nil
 }
 
 func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {

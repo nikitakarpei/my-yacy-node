@@ -15,7 +15,6 @@ type fakeObserver struct {
 	guard                sync.Mutex
 	staleReplicasDropped int
 	postingsHandedOff    int
-	gone                 int
 	scheduledPostings    map[string]int
 	longestOfferLateness map[string]time.Duration
 	cyclesSkipped        map[string]int
@@ -33,13 +32,6 @@ func newFakeObserver() *fakeObserver {
 		longestOfferLateness: make(map[string]time.Duration),
 		cycleEnds:            make(chan struct{}, cycleEndBuffer),
 	}
-}
-
-func (f *fakeObserver) ObservePostingsGone(gone int) {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	f.gone = gone
 }
 
 func (f *fakeObserver) ObserveScheduledPostings(order string, postings int) {
