@@ -6,8 +6,10 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
@@ -22,10 +24,16 @@ func (queryRuntimeStatus) Version(context.Context) string { return "1.0" }
 
 func (queryRuntimeStatus) Uptime(context.Context) int { return 0 }
 
+var (
+	queryNodeStart  = time.Date(2026, 10, 11, 6, 0, 0, 0, time.UTC)
+	queryAnsweredAt = queryNodeStart.Add(90 * time.Minute)
+)
+
 func queryIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{
 		Hash:        yacymodel.WordHash("self"),
 		NetworkName: "freeworld",
+		Start:       queryNodeStart,
 	}
 }
 
@@ -41,7 +49,15 @@ func muxWithQuery(t *testing.T, counts stubCounter) *http.ServeMux {
 		Respond: httpguard.NewWireResponder(queryRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	nodestatus.MountQuery(router, queryIdentity(), openVault(t), counts, counts, counts)
+	nodestatus.MountQuery(
+		router,
+		queryIdentity(),
+		clockAt(queryAnsweredAt),
+		openVault(t),
+		counts,
+		counts,
+		counts,
+	)
 
 	return mux
 }
@@ -90,15 +106,14 @@ func queryRequest(object yacyproto.QueryObject) yacyproto.QueryRequest {
 	}
 }
 
-func TestQueryAnswersSupportedObjects(t *testing.T) {
-	mux := muxWithQuery(t, stubCounter{rwi: 11, refs: 4, urls: 6})
+func TestQueryAnswersNodeCounts(t *testing.T) {
+	mux := muxWithQuery(t, stubCounter{rwi: 11, urls: 6})
 
 	cases := []struct {
 		object yacyproto.QueryObject
 		want   int
 	}{
 		{yacyproto.ObjectRWICount, 11},
-		{yacyproto.ObjectRWIURLCount, 4},
 		{yacyproto.ObjectLURLCount, 6},
 	}
 	for _, c := range cases {
@@ -109,12 +124,42 @@ func TestQueryAnswersSupportedObjects(t *testing.T) {
 	}
 }
 
-func TestQueryRejectsUnsupportedObject(t *testing.T) {
+func TestQueryAnswersPostingAmountOfTheWordInEnv(t *testing.T) {
+	word := yacymodel.WordHash("linux")
+	mux := muxWithQuery(t, stubCounter{postingAmounts: map[yacymodel.Hash]int{word: 4}})
+
+	cases := []struct {
+		env  string
+		want int
+	}{
+		{word.String(), 4},
+		{yacymodel.WordHash("absent").String(), 0},
+		{"", 0},
+		{"not-a-hash", 0},
+	}
+	for _, c := range cases {
+		req := queryRequest(yacyproto.ObjectRWIURLCount)
+		req.Env = c.env
+		resp := serveQuery(t, mux, req)
+		if resp.Response != c.want {
+			t.Fatalf("env %q: Response = %d, want %d", c.env, resp.Response, c.want)
+		}
+	}
+}
+
+func TestQueryAnswersZeroForWantedObjects(t *testing.T) {
 	mux := muxWithQuery(t, stubCounter{rwi: 11})
 
-	resp := serveQuery(t, mux, queryRequest(yacyproto.ObjectWantedSeeds))
-	if resp.Response != yacyproto.QueryResponseRejected {
-		t.Fatalf("Response = %d, want rejected", resp.Response)
+	for _, object := range []yacyproto.QueryObject{
+		yacyproto.ObjectWantedLURLs,
+		yacyproto.ObjectWantedPURLs,
+		yacyproto.ObjectWantedWord,
+		yacyproto.ObjectWantedRWI,
+		yacyproto.ObjectWantedSeeds,
+	} {
+		if resp := serveQuery(t, mux, queryRequest(object)); resp.Response != 0 {
+			t.Fatalf("%s: Response = %d, want 0", object, resp.Response)
+		}
 	}
 }
 
@@ -130,21 +175,49 @@ func TestQueryRejectsWrongTarget(t *testing.T) {
 	}
 }
 
+func TestQueryRepliesCarryTimeAndMagic(t *testing.T) {
+	mux := muxWithQuery(t, stubCounter{rwi: 11})
+	wrongTarget := queryRequest(yacyproto.ObjectRWICount)
+	wrongTarget.YouAre = yacymodel.WordHash("other")
+	wantMagic := strconv.FormatInt(queryNodeStart.UnixMilli(), 10)
+
+	for _, req := range []yacyproto.QueryRequest{
+		queryRequest(yacyproto.ObjectRWICount),
+		wrongTarget,
+	} {
+		resp := serveQuery(t, mux, req)
+		if !resp.MyTime.Equal(queryAnsweredAt) {
+			t.Fatalf("youare %s: MyTime = %v, want %v", req.YouAre, resp.MyTime, queryAnsweredAt)
+		}
+		if resp.Magic != wantMagic {
+			t.Fatalf("youare %s: Magic = %q, want %q", req.YouAre, resp.Magic, wantMagic)
+		}
+	}
+}
+
 func TestQueryFailsOnCountError(t *testing.T) {
 	mux := muxWithQuery(t, stubCounter{err: errors.New("boom")})
+	wordCount := queryRequest(yacyproto.ObjectRWIURLCount)
+	wordCount.Env = yacymodel.WordHash("linux").String()
 
-	rec := httptest.NewRecorder()
-	httpReq := httptest.NewRequestWithContext(
-		context.Background(),
-		http.MethodPost,
-		yacyproto.PathQuery,
-		strings.NewReader(queryRequest(yacyproto.ObjectRWICount).Form().Encode()),
-	)
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	for _, req := range []yacyproto.QueryRequest{
+		queryRequest(yacyproto.ObjectRWICount),
+		wordCount,
+		queryRequest(yacyproto.ObjectLURLCount),
+	} {
+		rec := httptest.NewRecorder()
+		httpReq := httptest.NewRequestWithContext(
+			context.Background(),
+			http.MethodPost,
+			yacyproto.PathQuery,
+			strings.NewReader(req.Form().Encode()),
+		)
+		httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	mux.ServeHTTP(rec, httpReq)
+		mux.ServeHTTP(rec, httpReq)
 
-	if rec.Code != http.StatusInternalServerError {
-		t.Fatalf("status = %d, want 500 on count failure", rec.Code)
+		if rec.Code != http.StatusInternalServerError {
+			t.Fatalf("%s: status = %d, want 500 on count failure", req.Object, rec.Code)
+		}
 	}
 }
