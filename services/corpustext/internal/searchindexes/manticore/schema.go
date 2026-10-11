@@ -53,8 +53,8 @@ func (schema *Schema) createIfAbsent(
 		index.Name,
 		strings.Join(columnDeclarations(), ", "),
 	)
-	if morphology := morphologyOf(index.Language); morphology != "" {
-		statement += fmt.Sprintf(" morphology='%s'", morphology)
+	if analysis, analyzed := textAnalysisOf(index.Language); analyzed {
+		statement += " " + analysis.tableSettings()
 	}
 	if _, err := schema.rowsOf(ctx, statement); err != nil {
 		return fmt.Errorf("create table %s: %w", index.Name, err)

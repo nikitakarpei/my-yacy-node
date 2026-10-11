@@ -21,7 +21,12 @@ service recreates that table at every start, with the configured tables as its m
 ## Text analysis
 
 The morphology of a table is the stemmer of its language: `stem_en`, `libstemmer_de`,
-`libstemmer_fr` or `libstemmer_ru`. The `und` table has no morphology.
+`libstemmer_fr` or `libstemmer_ru`. The stopwords of a table are the built-in Manticore
+list of its language. Search and highlight ignore stopwords. The `und` table has no
+morphology and no stopwords.
+
+The service creates a table only when it is absent. It does not change the text
+analysis of a table that exists.
 
 ## Documents
 
