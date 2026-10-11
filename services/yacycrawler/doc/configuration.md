@@ -31,7 +31,7 @@ indexing as well. That choice applies to every crawl the deployment runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_STATE_REDIS_URL` | required | Redis-protocol server that keeps the accepted orders and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
+| `CRAWL_STATE_REDIS_URL` | required | Address of the Redis server that keeps the accepted orders and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
 
 Every crawler instance must use the same server. Redis and Valkey keep every key in memory,
 so their memory grows with the URLs the crawler meets. Apache Kvrocks keeps the keys on

@@ -91,7 +91,7 @@ func TestLoadServiceConfigReadsTheCrawlStateServer(t *testing.T) {
 		t.Fatalf("load: %v", err)
 	}
 	if cfg.CrawlStateRedis.Addr != "localhost:6379" {
-		t.Fatalf("crawl state server = %q, want localhost:6379", cfg.CrawlStateRedis.Addr)
+		t.Fatalf("Redis address = %q, want localhost:6379", cfg.CrawlStateRedis.Addr)
 	}
 }
 

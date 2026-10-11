@@ -212,7 +212,7 @@ func openRedisClient(ctx context.Context, cfg ServiceConfig) (*redis.Client, err
 	redisClient := redis.NewClient(cfg.CrawlStateRedis)
 	if err := redisClient.Ping(ctx).Err(); err != nil {
 		_ = redisClient.Close()
-		return nil, fmt.Errorf("reach the crawl state server: %w", err)
+		return nil, fmt.Errorf("%s: %w", EnvCrawlStateRedisURL, err)
 	}
 	return redisClient, nil
 }
