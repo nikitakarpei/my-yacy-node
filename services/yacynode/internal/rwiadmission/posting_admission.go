@@ -51,8 +51,8 @@ func (a postingAdmission) Receive(
 		return Receipt{}, fmt.Errorf("check escrow capacity: %w", err)
 	}
 
-	contentPostings := a.contentPostingsOf(postings)
-	referenced := urlHashesOf(contentPostings)
+	postingsWithoutStopwords := a.postingsWithoutStopwordsOf(postings)
+	referenced := urlHashesOf(postingsWithoutStopwords)
 
 	var unknown []yacymodel.URLHash
 
@@ -64,7 +64,12 @@ func (a postingAdmission) Receive(
 		if escrowFull && len(missing) > 0 {
 			return errEscrowFull
 		}
-		if err := a.routeEach(ctx, tx, contentPostings, awaitedURLsOf(missing)); err != nil {
+		if err := a.routeEach(
+			ctx,
+			tx,
+			postingsWithoutStopwords,
+			awaitedURLsOf(missing),
+		); err != nil {
 			return err
 		}
 		unknown = missing
@@ -92,18 +97,17 @@ func (a postingAdmission) busyReceipt() Receipt {
 	return Receipt{Busy: true, Pause: a.pause}
 }
 
-func (a postingAdmission) contentPostingsOf(
+func (a postingAdmission) postingsWithoutStopwordsOf(
 	postings []yacymodel.RWIPosting,
 ) []yacymodel.RWIPosting {
-	contentPostings := make([]yacymodel.RWIPosting, 0, len(postings))
+	postingsWithoutStopwords := make([]yacymodel.RWIPosting, 0, len(postings))
 	for _, posting := range postings {
-		if a.stopwords.Contains(posting.WordHash, posting.Language) {
-			continue
+		if !a.stopwords.Contains(posting.WordHash, posting.Language) {
+			postingsWithoutStopwords = append(postingsWithoutStopwords, posting)
 		}
-		contentPostings = append(contentPostings, posting)
 	}
 
-	return contentPostings
+	return postingsWithoutStopwords
 }
 
 func urlHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {

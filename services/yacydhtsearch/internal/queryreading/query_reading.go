@@ -20,11 +20,11 @@ func QueryFrom(text string, language yacymodel.Language) searchquery.Query {
 		}
 		words = appendUnseen(words, token.word)
 	}
-	contentWords := contentWordsOf(words, language)
+	searchedWords := searchedWordsOf(words, language)
 
 	return searchquery.Query{
-		Words:         contentWords,
-		CompoundWords: compoundWordsOf(tokens, contentWords),
+		Words:         searchedWords,
+		CompoundWords: compoundWordsOf(tokens, searchedWords),
 		Exclusions:    exclusions,
 		Language:      language,
 	}
