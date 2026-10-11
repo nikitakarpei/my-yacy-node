@@ -221,8 +221,6 @@ type fakePostingIndex struct {
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
 }
 
-func (f fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
-
 func (f fakePostingIndex) PostingOf(
 	_ *vault.Txn,
 	word yacymodel.Hash,
@@ -231,15 +229,6 @@ func (f fakePostingIndex) PostingOf(
 	entry, found := f.postings[fakePostingKey(word, url)]
 
 	return entry, found, nil
-}
-
-func (f fakePostingIndex) ScanWord(
-	context.Context,
-	*vault.Txn,
-	yacymodel.Hash,
-	func(yacymodel.RWIPosting) (bool, error),
-) error {
-	return nil
 }
 
 func fakePostingKey(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.Hash {

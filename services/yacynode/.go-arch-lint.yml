@@ -273,7 +273,6 @@ deps:
       - rwidistribution
       - rwipostings
       - hashkeypart
-      - urlmeta
       - postingcourier
       - urlmetadatacourier
     canUse:

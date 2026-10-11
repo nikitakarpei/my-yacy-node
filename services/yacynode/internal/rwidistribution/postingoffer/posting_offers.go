@@ -13,7 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 const replicaLedgerUnread = "read replica ledger: %w"
@@ -30,6 +29,14 @@ type Observer interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
 
+type PostingIndex interface {
+	PostingOf(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+	) (yacymodel.RWIPosting, bool, error)
+}
+
 type Reachability interface {
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
@@ -43,7 +50,7 @@ type PostingOffers struct {
 	vault        *vault.Vault
 	schedule     *postingofferschedule.Schedule
 	replicas     *postingreplicas.Replicas
-	postings     rwipostings.PostingIndex
+	postings     PostingIndex
 	reachability Reachability
 	eligibility  ReplicaEligibility
 	observer     Observer
@@ -57,7 +64,7 @@ func New(
 	v *vault.Vault,
 	schedule *postingofferschedule.Schedule,
 	replicas *postingreplicas.Replicas,
-	postings rwipostings.PostingIndex,
+	postings PostingIndex,
 	reachability Reachability,
 	eligibility ReplicaEligibility,
 	observer Observer,

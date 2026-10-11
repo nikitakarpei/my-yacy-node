@@ -279,8 +279,6 @@ type fakePostingIndex struct {
 	onRead   func()
 }
 
-func (f *fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
-
 func (f *fakePostingIndex) PurgePosting(
 	tx *vault.Txn,
 	word yacymodel.Hash,
@@ -320,15 +318,6 @@ func (f *fakePostingIndex) PostingOf(
 	entry, found := f.postings[fakePostingKey(word, url)]
 
 	return entry, found, nil
-}
-
-func (f *fakePostingIndex) ScanWord(
-	context.Context,
-	*vault.Txn,
-	yacymodel.Hash,
-	func(yacymodel.RWIPosting) (bool, error),
-) error {
-	return nil
 }
 
 type fakeRoster struct {
@@ -422,22 +411,6 @@ func (f fakeURLDirectory) MetadataPerHash(
 
 	return found, nil
 }
-
-func (f fakeURLDirectory) MissingURLs(
-	_ *vault.Txn,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	missing := make([]yacymodel.URLHash, 0, len(hashes))
-	for _, hash := range hashes {
-		if _, ok := f.metadata[hash]; !ok {
-			missing = append(missing, hash)
-		}
-	}
-
-	return missing, nil
-}
-
-func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 func store(
 	t *testing.T,

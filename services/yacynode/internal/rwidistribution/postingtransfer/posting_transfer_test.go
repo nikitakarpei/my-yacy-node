@@ -73,22 +73,6 @@ func (f fakeURLDirectory) MetadataPerHash(
 	return found, nil
 }
 
-func (f fakeURLDirectory) MissingURLs(
-	_ *vault.Txn,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	missing := make([]yacymodel.URLHash, 0, len(hashes))
-	for _, hash := range hashes {
-		if _, ok := f.metadata[hash]; !ok {
-			missing = append(missing, hash)
-		}
-	}
-
-	return missing, nil
-}
-
-func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
-
 type fakeObserver struct {
 	offers                map[string]int
 	postingsOffered       map[string]int

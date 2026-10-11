@@ -14,8 +14,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
+
+type URLDirectory interface {
+	MetadataPerHash(
+		tx *vault.Txn,
+		hashes []yacymodel.URLHash,
+	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
+}
 
 type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
@@ -33,7 +39,7 @@ type PostingTransfers struct {
 	vault    *vault.Vault
 	postings postingcourier.Courier
 	metadata urlmetadatacourier.Courier
-	urls     urlmeta.URLDirectory
+	urls     URLDirectory
 	observer Observer
 }
 
@@ -41,7 +47,7 @@ func New(
 	v *vault.Vault,
 	postings postingcourier.Courier,
 	metadata urlmetadatacourier.Courier,
-	urls urlmeta.URLDirectory,
+	urls URLDirectory,
 	observer Observer,
 ) *PostingTransfers {
 	return &PostingTransfers{
