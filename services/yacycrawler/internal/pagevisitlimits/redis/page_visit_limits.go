@@ -1,25 +1,18 @@
-package jetstream
+package redis
 
 import (
 	"context"
 	"fmt"
+	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redisrecord"
 )
 
-const BucketName = "YACY_PAGE_VISIT_LIMITS"
-
-func Ensure(
-	ctx context.Context,
-	js jetstream.JetStream,
-	spec jetstreamrecord.BucketSpec,
-) error {
-	return jetstreamrecord.EnsureBucket(ctx, js, BucketName, spec)
-}
+const recordKind = "YACY_PAGE_VISIT_LIMITS"
 
 type MaxPerURL struct {
 	Deferrals int
@@ -27,15 +20,19 @@ type MaxPerURL struct {
 }
 
 type PageVisitLimits struct {
-	hostPages  *jetstreamrecord.Records[hostPages]
-	pageVisits *jetstreamrecord.Records[pageVisitTaken]
+	hostPages  *redisrecord.Records[hostPages]
+	pageVisits *redisrecord.Records[pageVisitTaken]
 	maxPerURL  MaxPerURL
 }
 
-func New(bucket jetstream.KeyValue, maxPerURL MaxPerURL) *PageVisitLimits {
+func New(
+	client redis.UniversalClient,
+	retention time.Duration,
+	maxPerURL MaxPerURL,
+) *PageVisitLimits {
 	return &PageVisitLimits{
-		hostPages:  jetstreamrecord.New[hostPages](bucket),
-		pageVisits: jetstreamrecord.New[pageVisitTaken](bucket),
+		hostPages:  redisrecord.New[hostPages](client, retention),
+		pageVisits: redisrecord.New[pageVisitTaken](client, retention),
 		maxPerURL:  maxPerURL,
 	}
 }
@@ -173,9 +170,9 @@ type pageVisitTaken struct {
 }
 
 func hostKeyOf(orderID string, host string) string {
-	return jetstreamrecord.KeyOf(orderID, "host", host)
+	return redisrecord.KeyOf(recordKind, orderID, "host", host)
 }
 
 func pageVisitKeyOf(orderID string, url canonicalurl.CanonicalURL) string {
-	return jetstreamrecord.KeyOf(orderID, "page-visit", url.String())
+	return redisrecord.KeyOf(recordKind, orderID, "page-visit", url.String())
 }

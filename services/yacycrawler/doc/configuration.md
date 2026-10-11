@@ -27,6 +27,17 @@ nats consumer add YACY_CRAWL_PAGES scrape_request_bridge \
 Bind `crawl.page.>` instead of `crawl.page.indexable` to scrape pages that refuse
 indexing as well. That choice applies to every crawl the deployment runs.
 
+## Crawl state
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `CRAWL_STATE_REDIS_URL` | required | Redis-protocol server that keeps the accepted orders and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
+
+Every crawler instance must use the same server. Redis and Valkey keep every key in memory,
+so their memory grows with the URLs the crawler meets. Apache Kvrocks keeps the keys on
+disk, and `rocksdb.block_cache_size` sets the memory it uses. On Kvrocks, set
+`lua-strict-key-accessing yes` so that scripts run in parallel.
+
 ## Fetching
 
 | Variable | Default | Meaning |

@@ -1,33 +1,31 @@
-package jetstream_test
+package redis_test
 
 import (
 	"context"
 	"testing"
+	"time"
+
+	"github.com/alicebob/miniredis/v2"
+	goredis "github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/redis"
 )
 
 const (
-	orderID = "o1"
-	taker   = "yacy.crawl.frontier YACY_CRAWL_FRONTIER/1"
+	orderID   = "o1"
+	taker     = "yacy.crawl.frontier YACY_CRAWL_FRONTIER/1"
+	retention = time.Hour
 )
 
-func takenPageVisits(t *testing.T) *jetstream.TakenPageVisits {
+func takenPageVisitsOn(server *miniredis.Miniredis) *redis.TakenPageVisits {
+	return redis.New(goredis.NewClient(&goredis.Options{Addr: server.Addr()}), retention)
+}
+
+func takenPageVisits(t *testing.T) *redis.TakenPageVisits {
 	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	ctx := context.Background()
-	if err := jetstream.Ensure(ctx, js, jetstreamrecord.BucketSpec{}); err != nil {
-		t.Fatalf("ensure bucket: %v", err)
-	}
-	bucket, err := js.KeyValue(ctx, jetstream.BucketName)
-	if err != nil {
-		t.Fatalf("open bucket: %v", err)
-	}
-	return jetstream.New(bucket)
+	return takenPageVisitsOn(miniredis.RunT(t))
 }
 
 func pageURL(t *testing.T) canonicalurl.CanonicalURL {
@@ -37,7 +35,7 @@ func pageURL(t *testing.T) canonicalurl.CanonicalURL {
 
 func takePageVisit(
 	t *testing.T,
-	visits *jetstream.TakenPageVisits,
+	visits *redis.TakenPageVisits,
 	url canonicalurl.CanonicalURL,
 	taker string,
 ) bool {
@@ -82,5 +80,18 @@ func TestTheSameURLIsTakableAgainUnderAnotherOrder(t *testing.T) {
 	}
 	if !took {
 		t.Fatal("another order should take the same url")
+	}
+}
+
+func TestAPageVisitIsTakableAgainOnceItsRetentionPasses(t *testing.T) {
+	server := miniredis.RunT(t)
+	visits := takenPageVisitsOn(server)
+	url := pageURL(t)
+	takePageVisit(t, visits, url, taker)
+
+	server.FastForward(retention)
+
+	if !takePageVisit(t, visits, url, "another taker") {
+		t.Fatal("a page visit past its retention should be takable again")
 	}
 }

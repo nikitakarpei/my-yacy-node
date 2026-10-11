@@ -1,31 +1,24 @@
-package jetstream
+package redis
 
 import (
 	"context"
 	"fmt"
+	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redisrecord"
 )
 
-const BucketName = "YACY_TAKEN_PAGE_VISITS"
-
-func Ensure(
-	ctx context.Context,
-	js jetstream.JetStream,
-	spec jetstreamrecord.BucketSpec,
-) error {
-	return jetstreamrecord.EnsureBucket(ctx, js, BucketName, spec)
-}
+const recordKind = "YACY_TAKEN_PAGE_VISITS"
 
 type TakenPageVisits struct {
-	pageVisits *jetstreamrecord.Records[takenPageVisit]
+	pageVisits *redisrecord.Records[takenPageVisit]
 }
 
-func New(bucket jetstream.KeyValue) *TakenPageVisits {
-	return &TakenPageVisits{pageVisits: jetstreamrecord.New[takenPageVisit](bucket)}
+func New(client redis.UniversalClient, retention time.Duration) *TakenPageVisits {
+	return &TakenPageVisits{pageVisits: redisrecord.New[takenPageVisit](client, retention)}
 }
 
 func (visits *TakenPageVisits) TakePageVisit(
@@ -58,5 +51,5 @@ type takenPageVisit struct {
 }
 
 func pageVisitKeyOf(orderID string, url canonicalurl.CanonicalURL) string {
-	return jetstreamrecord.KeyOf(orderID, url.String())
+	return redisrecord.KeyOf(recordKind, orderID, url.String())
 }

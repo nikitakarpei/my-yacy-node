@@ -4,10 +4,11 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/redis/go-redis/v9"
+
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
-	pagevisitlimitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/jetstream"
+	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
 )
 
 const (
@@ -21,16 +22,12 @@ const (
 	pendingPageVisitAckWaitsPerFetchDeadline = 3
 
 	pageVisitRetention = 30 * 24 * time.Hour
-	pageVisitMaxBytes  = 256 << 20
 
 	takenPageVisitRetention = 7 * 24 * time.Hour
-	takenPageVisitMaxBytes  = 1 << 30
 
 	pageVisitLimitRetention = 7 * 24 * time.Hour
-	pageVisitLimitMaxBytes  = 256 << 20
 
 	acceptedOrderRetention = 7 * 24 * time.Hour
-	acceptedOrderMaxBytes  = 64 << 20
 
 	crawledPageRetention    = 7 * 24 * time.Hour
 	crawledPageBacklogLimit = 5000
@@ -38,6 +35,7 @@ const (
 
 type ServiceConfig struct {
 	CrawlNATSURL            string
+	CrawlStateRedis         *redis.Options
 	CrawlOrdersSubject      string
 	CrawlOrdersDurable      string
 	PendingPageVisitDurable string
@@ -59,40 +57,28 @@ func (cfg ServiceConfig) PendingPageVisitAckWait() time.Duration {
 	return cfg.FetchDeadline * pendingPageVisitAckWaitsPerFetchDeadline
 }
 
-func (ServiceConfig) PageVisitBucketSpec() jetstreamrecord.BucketSpec {
-	return jetstreamrecord.BucketSpec{
-		MaxBytes:  pageVisitMaxBytes,
-		Retention: pageVisitRetention,
-	}
+func (ServiceConfig) PageVisitRetention() time.Duration {
+	return pageVisitRetention
 }
 
-func (ServiceConfig) TakenPageVisitBucketSpec() jetstreamrecord.BucketSpec {
-	return jetstreamrecord.BucketSpec{
-		MaxBytes:  takenPageVisitMaxBytes,
-		Retention: takenPageVisitRetention,
-	}
+func (ServiceConfig) TakenPageVisitRetention() time.Duration {
+	return takenPageVisitRetention
 }
 
-func (ServiceConfig) PageVisitLimitBucketSpec() jetstreamrecord.BucketSpec {
-	return jetstreamrecord.BucketSpec{
-		MaxBytes:  pageVisitLimitMaxBytes,
-		Retention: pageVisitLimitRetention,
-	}
+func (ServiceConfig) PageVisitLimitRetention() time.Duration {
+	return pageVisitLimitRetention
 }
 
-func (ServiceConfig) AcceptedOrderBucketSpec() jetstreamrecord.BucketSpec {
-	return jetstreamrecord.BucketSpec{
-		MaxBytes:  acceptedOrderMaxBytes,
-		Retention: acceptedOrderRetention,
-	}
+func (ServiceConfig) AcceptedOrderRetention() time.Duration {
+	return acceptedOrderRetention
 }
 
 func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
 	return retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling}
 }
 
-func (ServiceConfig) MaxPerURL() pagevisitlimitsjetstream.MaxPerURL {
-	return pagevisitlimitsjetstream.MaxPerURL{
+func (ServiceConfig) MaxPerURL() pagevisitlimitsredis.MaxPerURL {
+	return pagevisitlimitsredis.MaxPerURL{
 		Deferrals: maxDeferralsPerURL,
 		Attempts:  maxAttemptsPerURL,
 	}

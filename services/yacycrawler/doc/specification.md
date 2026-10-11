@@ -61,6 +61,8 @@ a more capable host than an always-on node.
   change to crawl logic.
 * The page visit records SHALL sit behind a narrow interface; the default keeps none, so the
   recrawl rule holds every page due.
+* The service SHALL keep accepted orders and page visit state on a Redis-protocol server,
+  and SHALL NOT start when that server does not answer.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations

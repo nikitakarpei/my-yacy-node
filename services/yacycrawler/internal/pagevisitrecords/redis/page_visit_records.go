@@ -1,6 +1,6 @@
-// Package jetstream keeps the last page visit of every page in a key-value
-// bucket, with the page version that visit saw.
-package jetstream
+// Package redis keeps the last page visit of every page for the retention of page
+// visits, with the page version that visit saw.
+package redis
 
 import (
 	"context"
@@ -8,30 +8,34 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redisrecord"
 )
+
+const recordKind = "YACY_PAGE_VISITS"
 
 type Clock interface {
 	Now() time.Time
 }
 
 type PageVisitRecords struct {
-	bucket   jetstream.KeyValue
-	clock    Clock
-	observer PageVisitRecordObserver
+	client    redis.UniversalClient
+	retention time.Duration
+	clock     Clock
+	observer  PageVisitRecordObserver
 }
 
 func New(
-	bucket jetstream.KeyValue,
+	client redis.UniversalClient,
+	retention time.Duration,
 	clock Clock,
 	observer PageVisitRecordObserver,
 ) *PageVisitRecords {
-	return &PageVisitRecords{bucket: bucket, clock: clock, observer: observer}
+	return &PageVisitRecords{client: client, retention: retention, clock: clock, observer: observer}
 }
 
 func (records *PageVisitRecords) LastPageVisitOf(
@@ -50,8 +54,8 @@ func (records *PageVisitRecords) readLastPageVisit(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
 ) (pagevisit.LastPageVisit, bool, error) {
-	entry, err := records.bucket.Get(ctx, lastPageVisitKeyOf(canonicalURL))
-	if errors.Is(err, jetstream.ErrKeyNotFound) {
+	payload, err := records.client.Get(ctx, lastPageVisitKeyOf(canonicalURL)).Bytes()
+	if errors.Is(err, redis.Nil) {
 		return pagevisit.LastPageVisit{}, false, nil
 	}
 	if err != nil {
@@ -59,7 +63,7 @@ func (records *PageVisitRecords) readLastPageVisit(
 			"get last page visit %s: %w", canonicalURL, err,
 		)
 	}
-	record, err := unmarshalLastPageVisit(entry.Value())
+	record, err := unmarshalLastPageVisit(payload)
 	if err != nil {
 		return pagevisit.LastPageVisit{}, false, err
 	}
@@ -73,7 +77,7 @@ func (records *PageVisitRecords) readLastPageVisit(
 }
 
 func lastPageVisitKeyOf(canonicalURL canonicalurl.CanonicalURL) string {
-	return jetstreamrecord.KeyOf(canonicalURL.String())
+	return redisrecord.KeyOf(recordKind, canonicalURL.String())
 }
 
 func (records *PageVisitRecords) RecordPageVisit(
@@ -99,7 +103,9 @@ func (records *PageVisitRecords) putLastPageVisit(
 	if err != nil {
 		return err
 	}
-	if _, err := records.bucket.Put(ctx, lastPageVisitKeyOf(canonicalURL), payload); err != nil {
+	err = records.client.Set(ctx, lastPageVisitKeyOf(canonicalURL), payload, records.retention).
+		Err()
+	if err != nil {
 		return fmt.Errorf("put last page visit %s: %w", canonicalURL, err)
 	}
 	return nil

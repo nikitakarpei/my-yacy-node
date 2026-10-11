@@ -1,34 +1,29 @@
-// Package jetstream keeps every crawl order the crawler accepted, so that any
-// worker can rebuild the profile a URL of that order was admitted under.
-package jetstream
+// Package redis keeps every crawl order the crawler accepted for the retention of
+// accepted orders, so that any worker can rebuild the profile a URL of that order was
+// admitted under.
+package redis
 
 import (
 	"context"
 	"fmt"
+	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redisrecord"
 )
 
-const BucketName = "YACY_ACCEPTED_ORDERS"
-
-func Ensure(
-	ctx context.Context,
-	js jetstream.JetStream,
-	spec jetstreamrecord.BucketSpec,
-) error {
-	return jetstreamrecord.EnsureBucket(ctx, js, BucketName, spec)
-}
+const recordKind = "YACY_ACCEPTED_ORDERS"
 
 type Orders struct {
-	bucket jetstream.KeyValue
+	client    redis.UniversalClient
+	retention time.Duration
 }
 
-func New(bucket jetstream.KeyValue) *Orders {
-	return &Orders{bucket: bucket}
+func New(client redis.UniversalClient, retention time.Duration) *Orders {
+	return &Orders{client: client, retention: retention}
 }
 
 func (o *Orders) Keep(ctx context.Context, order acceptedorder.AcceptedOrder) error {
@@ -36,7 +31,7 @@ func (o *Orders) Keep(ctx context.Context, order acceptedorder.AcceptedOrder) er
 	if err != nil {
 		return fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
-	if _, err := o.bucket.Put(ctx, orderKeyOf(order.OrderID()), data); err != nil {
+	if err := o.client.Set(ctx, orderKeyOf(order.OrderID()), data, o.retention).Err(); err != nil {
 		return fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
 	return nil
@@ -46,11 +41,11 @@ func (o *Orders) OrderOf(
 	ctx context.Context,
 	orderID string,
 ) (acceptedorder.AcceptedOrder, error) {
-	entry, err := o.bucket.Get(ctx, orderKeyOf(orderID))
+	data, err := o.client.Get(ctx, orderKeyOf(orderID)).Bytes()
 	if err != nil {
 		return acceptedorder.AcceptedOrder{}, fmt.Errorf("read order %s: %w", orderID, err)
 	}
-	storedOrder, err := yacycrawlcontract.UnmarshalCrawlOrder(entry.Value())
+	storedOrder, err := yacycrawlcontract.UnmarshalCrawlOrder(data)
 	if err != nil {
 		return acceptedorder.AcceptedOrder{}, err
 	}
@@ -58,5 +53,5 @@ func (o *Orders) OrderOf(
 }
 
 func orderKeyOf(orderID string) string {
-	return jetstreamrecord.KeyOf(orderID)
+	return redisrecord.KeyOf(recordKind, orderID)
 }
