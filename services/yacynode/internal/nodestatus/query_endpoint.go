@@ -80,18 +80,20 @@ func (e queryEndpoint) count(ctx context.Context, req yacyproto.QueryRequest) (i
 func (e queryEndpoint) countOf(tx *vault.Txn, req yacyproto.QueryRequest) (int, error) {
 	switch req.Object {
 	case yacyproto.ObjectRWICount:
-		n, err := e.rwi.RWICount(tx)
-
-		return n, wrapCount(errRWICount, err)
+		return e.rwiCount(tx)
 	case yacyproto.ObjectRWIURLCount:
 		return e.postingAmountOf(tx, req.Env)
 	case yacyproto.ObjectLURLCount:
-		n, err := e.urls.Count(tx)
-
-		return n, wrapCount(errLURLCount, err)
+		return e.urlCount(tx)
 	default:
 		return 0, nil
 	}
+}
+
+func (e queryEndpoint) rwiCount(tx *vault.Txn) (int, error) {
+	n, err := e.rwi.RWICount(tx)
+
+	return n, wrapCount(errRWICount, err)
 }
 
 func (e queryEndpoint) postingAmountOf(tx *vault.Txn, env string) (int, error) {
@@ -102,6 +104,12 @@ func (e queryEndpoint) postingAmountOf(tx *vault.Txn, env string) (int, error) {
 	n, err := e.postingAmounts.AmountOfPostingsOf(tx, word)
 
 	return n, wrapCount(errPostingAmount, err)
+}
+
+func (e queryEndpoint) urlCount(tx *vault.Txn) (int, error) {
+	n, err := e.urls.Count(tx)
+
+	return n, wrapCount(errLURLCount, err)
 }
 
 func wrapCount(sentinel error, err error) error {
