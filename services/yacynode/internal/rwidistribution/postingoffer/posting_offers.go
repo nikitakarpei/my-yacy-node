@@ -47,6 +47,12 @@ type ReplicaEligibility interface {
 	EligiblePeers(peers []yacymodel.Seed) []yacymodel.Seed
 }
 
+type Config struct {
+	Partitions yacymodel.DHTRingPartitions
+	Self       yacymodel.Hash
+	Redundancy int
+}
+
 type PostingOffers struct {
 	vault        *vault.Vault
 	schedule     *postingofferschedule.Schedule
@@ -55,12 +61,10 @@ type PostingOffers struct {
 	reachability Reachability
 	eligibility  ReplicaEligibility
 	observer     Observer
-	partitions   yacymodel.DHTRingPartitions
-	self         yacymodel.Hash
-	redundancy   int
+	config       Config
 }
 
-//nolint:revive // argument-limit: ten explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
 	schedule *postingofferschedule.Schedule,
@@ -69,9 +73,7 @@ func New(
 	reachability Reachability,
 	eligibility ReplicaEligibility,
 	observer Observer,
-	partitions yacymodel.DHTRingPartitions,
-	self yacymodel.Hash,
-	redundancy int,
+	config Config,
 ) *PostingOffers {
 	return &PostingOffers{
 		vault:        v,
@@ -81,9 +83,7 @@ func New(
 		reachability: reachability,
 		eligibility:  eligibility,
 		observer:     observer,
-		partitions:   partitions,
-		self:         self,
-		redundancy:   redundancy,
+		config:       config,
 	}
 }
 
@@ -183,8 +183,8 @@ func (o *PostingOffers) offerFor(
 		return PostingOffer{}, fmt.Errorf(replicaLedgerUnread, err)
 	}
 
-	position := yacymodel.DHTRingPositionOfPosting(posting, o.partitions)
-	window := replicaWindowFor(position, acceptingPeers, o.self, o.redundancy)
+	position := yacymodel.DHTRingPositionOfPosting(posting, o.config.Partitions)
+	window := replicaWindowFor(position, acceptingPeers, o.config.Self, o.config.Redundancy)
 	holders := o.replicaHoldersFrom(ctx, recordedHolders, window)
 
 	if len(holders.insideWindow) >= window.requiredReplicas {

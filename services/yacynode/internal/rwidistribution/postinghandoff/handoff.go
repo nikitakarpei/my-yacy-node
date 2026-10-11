@@ -18,7 +18,6 @@ type Reachability interface {
 }
 
 type Config struct {
-	Partitions yacymodel.DHTRingPartitions
 	Self       yacymodel.Hash
 	Redundancy int
 }
@@ -45,9 +44,9 @@ func (h *Handoff) HandOffIfHeldByCloserPeers(
 	ctx context.Context,
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
+	position yacymodel.DHTRingPosition,
 	holders []yacymodel.Hash,
 ) (bool, error) {
-	position := yacymodel.DHTRingPositionOfPosting(posting, h.config.Partitions)
 	if len(h.holdersCloserThanThisNode(ctx, holders, position)) < h.config.Redundancy {
 		return false, nil
 	}

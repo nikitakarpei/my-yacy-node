@@ -329,7 +329,6 @@ func assembleNode(
 				postingPurger,
 				peerRoster,
 				postinghandoff.Config{
-					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
 					Redundancy: config.Distribution.Redundancy,
 				},
@@ -349,9 +348,11 @@ func assembleNode(
 				peerRoster,
 				replicaEligibility,
 				dhtRingObserver,
-				dhtRingPartitions,
-				identity.Hash,
-				config.Distribution.Redundancy,
+				postingoffer.Config{
+					Partitions: dhtRingPartitions,
+					Self:       identity.Hash,
+					Redundancy: config.Distribution.Redundancy,
+				},
 			),
 			handoff,
 			postingtransfer.New(

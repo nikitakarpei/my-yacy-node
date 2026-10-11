@@ -13,6 +13,7 @@ func (KeepEveryPosting) HandOffIfHeldByCloserPeers(
 	context.Context,
 	*vault.Txn,
 	yacymodel.RWIPosting,
+	yacymodel.DHTRingPosition,
 	[]yacymodel.Hash,
 ) (bool, error) {
 	return false, nil

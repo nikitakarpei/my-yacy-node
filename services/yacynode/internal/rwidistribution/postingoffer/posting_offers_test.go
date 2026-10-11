@@ -83,9 +83,11 @@ func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHa
 			options.reachability,
 			eligibility,
 			options.observer,
-			partitions,
-			options.self,
-			options.redundancy,
+			postingoffer.Config{
+				Partitions: partitions,
+				Self:       options.self,
+				Redundancy: options.redundancy,
+			},
 		),
 	}
 }

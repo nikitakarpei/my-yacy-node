@@ -97,15 +97,16 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.reachability,
 		eligibility,
 		observer,
-		partitions,
-		opts.self,
-		opts.redundancy,
+		postingoffer.Config{
+			Partitions: partitions,
+			Self:       opts.self,
+			Redundancy: opts.redundancy,
+		},
 	)
 	handoff := postinghandoff.New(
 		postings,
 		opts.reachability,
 		postinghandoff.Config{
-			Partitions: partitions,
 			Self:       opts.self,
 			Redundancy: opts.redundancy,
 		},

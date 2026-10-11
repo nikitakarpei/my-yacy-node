@@ -63,14 +63,9 @@ func openHandoff(
 ) (*postinghandoff.Handoff, *fakePostingPurger) {
 	t.Helper()
 
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
-	if err != nil {
-		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
-	}
 	purger := &fakePostingPurger{}
 
 	return postinghandoff.New(purger, reachability, postinghandoff.Config{
-		Partitions: partitions,
 		Self:       thisNodeFartherThanEveryPeer(),
 		Redundancy: redundancy,
 	}), purger
@@ -84,13 +79,24 @@ func handOff(
 	t.Helper()
 
 	wasHandedOff, err := handoff.HandOffIfHeldByCloserPeers(
-		context.Background(), nil, testPosting(), holders,
+		context.Background(), nil, testPosting(), testPostingPosition(t), holders,
 	)
 	if err != nil {
 		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
 	}
 
 	return wasHandedOff
+}
+
+func testPostingPosition(t *testing.T) yacymodel.DHTRingPosition {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
+	return yacymodel.DHTRingPositionOfPosting(testPosting(), partitions)
 }
 
 func TestPostingHandedOffOnceEnoughReachableCloserHoldersExist(t *testing.T) {
@@ -140,7 +146,11 @@ func TestPostingGoneFromTheIndexIsNotHandedOff(t *testing.T) {
 
 func TestKeepEveryPostingHandsOffNothing(t *testing.T) {
 	wasHandedOff, err := postinghandoff.KeepEveryPosting{}.HandOffIfHeldByCloserPeers(
-		context.Background(), nil, testPosting(), []yacymodel.Hash{closerPeer()},
+		context.Background(),
+		nil,
+		testPosting(),
+		testPostingPosition(t),
+		[]yacymodel.Hash{closerPeer()},
 	)
 	if err != nil {
 		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
