@@ -47,21 +47,11 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		cfg.FetchDeadline != pagescrape.DefaultScrapeFetchDeadline {
 		t.Errorf("fetch limits = %d bytes, %s", cfg.MaxBodyBytes, cfg.FetchDeadline)
 	}
-	if cfg.ScrapeIntakeConcurrency != pagescrape.DefaultScrapeIntakeConcurrency ||
-		cfg.ScrapeRequestsInFlight != pagescrape.DefaultScrapeRequestsInFlight {
-		t.Errorf(
-			"intake concurrency/in flight = %d %d",
-			cfg.ScrapeIntakeConcurrency,
-			cfg.ScrapeRequestsInFlight,
-		)
+	if cfg.ScrapeIntakeConcurrency != pagescrape.DefaultScrapeIntakeConcurrency {
+		t.Errorf("intake concurrency = %d", cfg.ScrapeIntakeConcurrency)
 	}
-	if cfg.ScrapeDeferralWindow != pagescrape.DefaultScrapeDeferralWindow ||
-		cfg.PageOfferMaxAge != pagescrape.DefaultScrapePageOfferMaxAge {
-		t.Errorf(
-			"deferral window/offer max age = %s %s",
-			cfg.ScrapeDeferralWindow,
-			cfg.PageOfferMaxAge,
-		)
+	if cfg.ScrapeDeferralWindow != pagescrape.DefaultScrapeDeferralWindow {
+		t.Errorf("deferral window = %s", cfg.ScrapeDeferralWindow)
 	}
 	if cfg.OpsAddr != pagescrape.DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
@@ -76,11 +66,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env[pagescrape.EnvScrapeMaxBodyBytes] = "4096"
 	env[pagescrape.EnvScrapeFetchDeadline] = "5s"
 	env[pagescrape.EnvScrapeIntakeConcurrency] = "3"
-	env[pagescrape.EnvScrapeRequestsInFlight] = "7"
 	env[pagescrape.EnvScrapeRequestsKept] = "9"
 	env[pagescrape.EnvScrapeDeferralWindow] = "2h"
 	env[pagescrape.EnvScrapePageOfferMaxBytes] = "8MB"
-	env[pagescrape.EnvScrapePageOfferMaxAge] = "30m"
 	env[pagescrape.EnvOpsAddr] = "127.0.0.1:9099"
 
 	cfg, err := pagescrape.LoadServiceConfig(envFrom(env))
@@ -96,22 +84,18 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if cfg.MaxBodyBytes != 4096 || cfg.FetchDeadline != 5*time.Second {
 		t.Errorf("fetch limits = %d bytes, %s", cfg.MaxBodyBytes, cfg.FetchDeadline)
 	}
-	if cfg.ScrapeIntakeConcurrency != 3 || cfg.ScrapeRequestsInFlight != 7 ||
-		cfg.ScrapeRequestsKept != 9 {
+	if cfg.ScrapeIntakeConcurrency != 3 || cfg.ScrapeRequestsKept != 9 {
 		t.Errorf(
-			"intake concurrency/in flight/kept = %d %d %d",
+			"intake concurrency/kept = %d %d",
 			cfg.ScrapeIntakeConcurrency,
-			cfg.ScrapeRequestsInFlight,
 			cfg.ScrapeRequestsKept,
 		)
 	}
-	if cfg.ScrapeDeferralWindow != 2*time.Hour || cfg.PageOfferMaxBytes != 8<<20 ||
-		cfg.PageOfferMaxAge != 30*time.Minute {
+	if cfg.ScrapeDeferralWindow != 2*time.Hour || cfg.PageOfferMaxBytes != 8<<20 {
 		t.Errorf(
-			"deferral window/offer limits = %s %d %s",
+			"deferral window/offer max bytes = %s %d",
 			cfg.ScrapeDeferralWindow,
 			cfg.PageOfferMaxBytes,
-			cfg.PageOfferMaxAge,
 		)
 	}
 	if cfg.OpsAddr != "127.0.0.1:9099" {
@@ -122,13 +106,11 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 func TestLoadServiceConfigRejectsWhatItCannotRead(t *testing.T) {
 	rejected := map[string]map[string]string{
 		"intake concurrency": {pagescrape.EnvScrapeIntakeConcurrency: "abc"},
-		"requests in flight": {pagescrape.EnvScrapeRequestsInFlight: "0"},
 		"requests kept":      {pagescrape.EnvScrapeRequestsKept: "-1"},
 		"max body bytes":     {pagescrape.EnvScrapeMaxBodyBytes: "-1"},
 		"fetch deadline":     {pagescrape.EnvScrapeFetchDeadline: "soon"},
 		"deferral window":    {pagescrape.EnvScrapeDeferralWindow: "eventually"},
 		"offer max bytes":    {pagescrape.EnvScrapePageOfferMaxBytes: "a lot"},
-		"offer max age":      {pagescrape.EnvScrapePageOfferMaxAge: "a while"},
 		"proxy dial mode":    {pagescrape.EnvProxyDialMode: "carrier-pigeon"},
 		"proxy url":          {pagescrape.EnvProxyURL: "ftp://egress:3128"},
 	}

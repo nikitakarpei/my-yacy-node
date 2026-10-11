@@ -15,8 +15,7 @@ const (
 	msgOriginFetchFailed     = "page fetch from the origin failed"
 	msgPageOffered           = "page offered to the corpora"
 	msgPageNotOffered        = "nothing offered to the corpora for this page, the request comes back"
-	msgScrapeDeferred        = "scrape deferred by the origin, scheduled for a later fetch"
-	msgScrapeScheduleFailed  = "scrape not scheduled, the request comes back"
+	msgScrapeDeferred        = "scrape deferred by the origin, the request comes back later"
 	msgScrapeFailed          = "scrape failed, the page is given up"
 )
 
@@ -77,17 +76,6 @@ func (ScrapeIntakeLog) ScrapeDeferred(
 	slog.DebugContext(ctx, msgScrapeDeferred,
 		slog.String("pageUrl", pageURL.String()),
 		slog.Duration("deferFor", deferFor),
-	)
-}
-
-func (ScrapeIntakeLog) ScrapeScheduleFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.ErrorContext(ctx, msgScrapeScheduleFailed,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
 	)
 }
 

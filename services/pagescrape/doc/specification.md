@@ -34,7 +34,7 @@ Scrape requests and page offers pass through NATS JetStream.
 * The service SHALL defer the scrape when the origin answers `429` or `503`. It SHALL wait
   for the time in `Retry-After`, or one minute when that time is absent or unreadable.
 * The service SHALL scrape a deferred request again, until it succeeds or until the
-  configured deferral window ends.
+  configured deferral window ends. The window starts when the request enters the stream.
 * A request that forbids deferral SHALL fail as soon as the origin defers it.
 * A request SHALL stay pending when the broker does not accept its offered page or its
   deferral.
@@ -42,12 +42,17 @@ Scrape requests and page offers pass through NATS JetStream.
 * The outcome feed SHALL tell which corpus kept the page and which corpus rejected it.
 * At startup, the service SHALL create the scrape request stream and the page offer stream
   with the configured retention limits.
+* The scrape request stream SHALL keep a request, deferred or not, until the service
+  finishes it, and SHALL refuse a new request while it is full.
+* The page offer stream SHALL keep an offer until every corpus took it, and SHALL refuse a
+  new offer while it is full.
+* The service SHALL take no new request while a durable consumer of the page offers has
+  more unfinished offers than the backlog limit.
 
 ## Non-Functional Requirements
 
 * The service SHALL stop an origin fetch that goes past its deadline or its size limit.
-* The service SHALL limit how many requests it takes at the same time, and how many stay
-  unacknowledged.
+* The service SHALL limit how many requests it takes at the same time.
 * Pending and deferred requests SHALL stay after a service restart, within the configured
   retention limits.
 * Instances that share a durable consumer name SHALL divide the requests. Each request SHALL
@@ -63,5 +68,7 @@ Scrape requests and page offers pass through NATS JetStream.
 * The service does not publish one outcome that says every corpus has finished.
 * The broker does not retain a page offer when no corpus consumer has interest in it.
 * A request the service cannot decode stops intake until an operator resolves it.
+* A durable page offer consumer that no corpus reads stops intake until an operator
+  removes it.
 * An outcome announcement can be lost if publication fails after the request is complete.
 * A transient origin failure has the reason `no-reason-given`. It carries no cause.

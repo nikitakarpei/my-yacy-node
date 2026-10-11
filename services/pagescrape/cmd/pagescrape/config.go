@@ -19,11 +19,9 @@ const (
 	EnvScrapeMaxRedirectHops   = "SCRAPE_MAX_REDIRECT_HOPS"
 	EnvScrapeRequestDurable    = "SCRAPE_REQUEST_DURABLE"
 	EnvScrapeIntakeConcurrency = "SCRAPE_INTAKE_CONCURRENCY"
-	EnvScrapeRequestsInFlight  = "SCRAPE_REQUESTS_IN_FLIGHT"
 	EnvScrapeRequestsKept      = "SCRAPE_REQUESTS_KEPT"
 	EnvScrapeDeferralWindow    = "SCRAPE_DEFERRAL_WINDOW"
 	EnvScrapePageOfferMaxBytes = "SCRAPE_PAGE_OFFER_MAX_BYTES"
-	EnvScrapePageOfferMaxAge   = "SCRAPE_PAGE_OFFER_MAX_AGE"
 	EnvOpsAddr                 = "PAGESCRAPE_OPS_ADDR"
 
 	DefaultProxyDialMode           = "tunnel"
@@ -33,11 +31,9 @@ const (
 	DefaultScrapeMaxRedirectHops   = 10
 	DefaultScrapeRequestDurable    = "pagescrape"
 	DefaultScrapeIntakeConcurrency = 4
-	DefaultScrapeRequestsInFlight  = 64
 	DefaultScrapeRequestsKept      = 100_000
 	DefaultScrapeDeferralWindow    = 6 * time.Hour
 	DefaultScrapePageOfferMaxBytes = "1GB"
-	DefaultScrapePageOfferMaxAge   = 24 * time.Hour
 	DefaultOpsAddr                 = ":9090"
 )
 
@@ -51,11 +47,9 @@ type ServiceConfig struct {
 	MaxRedirectHops         int
 	ScrapeRequestDurable    string
 	ScrapeIntakeConcurrency int
-	ScrapeRequestsInFlight  int
 	ScrapeRequestsKept      int64
 	ScrapeDeferralWindow    time.Duration
 	PageOfferMaxBytes       int64
-	PageOfferMaxAge         time.Duration
 	OpsAddr                 string
 }
 
@@ -70,7 +64,6 @@ type fetchSettings struct {
 type streamSettings struct {
 	scrapeRequestsKept int64
 	pageOfferMaxBytes  int64
-	pageOfferMaxAge    time.Duration
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -88,12 +81,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 	scrapeIntakeConcurrency, err := envconfig.PositiveInt(
 		getenv, EnvScrapeIntakeConcurrency, DefaultScrapeIntakeConcurrency,
-	)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
-	scrapeRequestsInFlight, err := envconfig.PositiveInt(
-		getenv, EnvScrapeRequestsInFlight, DefaultScrapeRequestsInFlight,
 	)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -116,11 +103,9 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			getenv, EnvScrapeRequestDurable, DefaultScrapeRequestDurable,
 		),
 		ScrapeIntakeConcurrency: scrapeIntakeConcurrency,
-		ScrapeRequestsInFlight:  scrapeRequestsInFlight,
 		ScrapeRequestsKept:      streams.scrapeRequestsKept,
 		ScrapeDeferralWindow:    scrapeDeferralWindow,
 		PageOfferMaxBytes:       streams.pageOfferMaxBytes,
-		PageOfferMaxAge:         streams.pageOfferMaxAge,
 		OpsAddr:                 envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
 }
@@ -176,15 +161,8 @@ func loadStreamSettings(getenv func(string) string) (streamSettings, error) {
 	if err != nil {
 		return streamSettings{}, err
 	}
-	pageOfferMaxAge, err := envconfig.Duration(
-		getenv, EnvScrapePageOfferMaxAge, DefaultScrapePageOfferMaxAge,
-	)
-	if err != nil {
-		return streamSettings{}, err
-	}
 	return streamSettings{
 		scrapeRequestsKept: scrapeRequestsKept,
 		pageOfferMaxBytes:  pageOfferMaxBytes,
-		pageOfferMaxAge:    pageOfferMaxAge,
 	}, nil
 }

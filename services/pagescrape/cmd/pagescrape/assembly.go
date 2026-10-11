@@ -21,18 +21,20 @@ import (
 	scrapeoutcomefeedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeedobservers/applog"
 	scrapeoutcomefeedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeedobservers/prometheus"
 	scrapeoutcomefeedsnats "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeeds/nats"
-	scrapeschedulesjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeschedules/jetstream"
 	scrapestreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapestreams/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
 const (
-	opsReadHeaderLimit = 10 * time.Second
-	opsShutdownLimit   = 15 * time.Second
+	opsReadHeaderLimit    = 10 * time.Second
+	opsShutdownLimit      = 15 * time.Second
+	metricNamespace       = "pagescrape"
+	pageOfferBacklogLimit = 1000
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
@@ -50,12 +52,12 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	if err := scrapestreamsjetstream.CreateScrapePageOffersStream(
+	pageOffers, err := scrapestreamsjetstream.CreateScrapePageOffersStream(
 		ctx, broker, scrapestreamsjetstream.ScrapePageOffersStreamLimits{
 			MaxBytes: cfg.PageOfferMaxBytes,
-			MaxAge:   cfg.PageOfferMaxAge,
 		},
-	); err != nil {
+	)
+	if err != nil {
 		return err
 	}
 	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequests, cfg)
@@ -66,7 +68,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
 		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "pagescrape_info",
+			Name: metricNamespace + "_info",
 			Help: "Page scrape application identity.",
 		}, func() float64 { return 1 }),
 		collectors.NewGoCollector(),
@@ -92,12 +94,14 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 			cfg.MaxRedirectHops,
 		),
 		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
-		scrapeschedulesjetstream.NewScrapeSchedules(broker, wallclock.Clock{}),
 		outcomeFeed,
 		scrapeintakepkg.ScrapeIntakeObservers{
 			scrapeintakeobserversapplog.ScrapeIntakeLog{},
 			scrapeintakeobserversprometheus.New(registry),
 		},
+		consumerbacklog.New(
+			pageOffers, pageOfferBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+		),
 		cfg.ScrapeDeferralWindow,
 		cfg.ScrapeIntakeConcurrency,
 		wallclock.Clock{},
@@ -138,7 +142,7 @@ func scrapeRequestConsumerFor(
 		Durable:       cfg.ScrapeRequestDurable,
 		FilterSubject: pagescrapecontract.ScrapeRequestSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: cfg.ScrapeRequestsInFlight,
+		MaxAckPending: int(cfg.ScrapeRequestsKept),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)

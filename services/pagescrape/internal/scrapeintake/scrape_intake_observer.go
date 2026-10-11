@@ -38,11 +38,6 @@ type ScrapeIntakeObserver interface {
 		pageURL canonicalurl.CanonicalURL,
 		deferFor time.Duration,
 	)
-	ScrapeScheduleFailed(
-		ctx context.Context,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
 	ScrapeFailed(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
@@ -108,16 +103,6 @@ func (observers ScrapeIntakeObservers) ScrapeDeferred(
 ) {
 	for _, observer := range observers {
 		observer.ScrapeDeferred(ctx, pageURL, deferFor)
-	}
-}
-
-func (observers ScrapeIntakeObservers) ScrapeScheduleFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.ScrapeScheduleFailed(ctx, pageURL, cause)
 	}
 }
 
