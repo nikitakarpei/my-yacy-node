@@ -117,13 +117,21 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	crawledPageBacklog, err := openCrawledPageBacklog(ctx, js, cfg, registry)
+	crawledPageAdmission, err := openCrawledPageAdmission(ctx, js, cfg, registry)
 	if err != nil {
 		return err
 	}
 	visits, err := buildPageVisitConsumer(
-		ctx, js, crawlState, cfg, crawledPageBacklog, pendingPageVisitObservers, pageFetchObservers,
-		htmlPageReading, crawledPageObservers, pageVisitRecordObservers,
+		ctx,
+		js,
+		crawlState,
+		cfg,
+		crawledPageAdmission,
+		pendingPageVisitObservers,
+		pageFetchObservers,
+		htmlPageReading,
+		crawledPageObservers,
+		pageVisitRecordObservers,
 	)
 	if err != nil {
 		return err
@@ -247,7 +255,7 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func openCrawledPageBacklog(
+func openCrawledPageAdmission(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
@@ -267,7 +275,7 @@ func buildPageVisitConsumer(
 	js jetstream.JetStream,
 	crawlState redis.UniversalClient,
 	cfg ServiceConfig,
-	crawledPageBacklog *consumerbacklog.Admission,
+	crawledPageAdmission *consumerbacklog.Admission,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
@@ -294,7 +302,7 @@ func buildPageVisitConsumer(
 		acceptedordersredis.New(crawlState, cfg.AcceptedOrderRetention()),
 		pageVisitor,
 		pendingPageVisitObserver,
-		crawledPageBacklog,
+		crawledPageAdmission,
 		cfg.FetchConcurrency,
 	), nil
 }

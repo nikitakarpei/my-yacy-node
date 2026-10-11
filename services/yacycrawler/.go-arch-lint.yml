@@ -10,8 +10,10 @@ commonVendors:
   - canonicalurl
 
 components:
-  disposal:
-    in: internal/crawl/disposal/**
+  pagevisitdrop:
+    in: internal/crawl/pagevisitdrop/**
+  pagevisitresult:
+    in: internal/crawl/pagevisitresult/**
   retrydelay:
     in: internal/crawl/retrydelay/**
   pendingpagevisit:
@@ -154,7 +156,8 @@ deps:
       - serviceruntime
   pagevisitintake:
     mayDependOn:
-      - disposal
+      - pagevisitdrop
+      - pagevisitresult
       - pagevisitallowance
       - pendingpagevisit
       - acceptedorder
@@ -174,7 +177,8 @@ deps:
   pagevisit:
     mayDependOn:
       - acceptedorder
-      - disposal
+      - pagevisitdrop
+      - pagevisitresult
       - pagehtmlreading
       - pendingpagevisit
     canUse:
@@ -194,7 +198,7 @@ deps:
       - robotsmeta
   pagevisitallowance:
     mayDependOn:
-      - disposal
+      - pagevisitdrop
       - pendingpagevisit
       - retrydelay
     canUse:
@@ -255,11 +259,13 @@ deps:
       - prometheus
   pendingpagevisitobserversapplog:
     mayDependOn:
-      - disposal
+      - pagevisitdrop
+      - pagevisitresult
       - pendingpagevisit
   pendingpagevisitobserversprometheus:
     mayDependOn:
-      - disposal
+      - pagevisitdrop
+      - pagevisitresult
       - pendingpagevisit
     canUse:
       - prometheus

@@ -6,25 +6,27 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 const (
 	labelOutcome = "outcome"
 	labelReason  = "reason"
+	labelResult  = "result"
 
 	outcomeReturned       = "returned"
-	outcomeTakenByAnother = "taken-by-another"
 	outcomeDeferred       = "deferred"
 	outcomeRetryScheduled = "retry-scheduled"
-	outcomeDisposed       = "disposed"
+	outcomeDropped        = "dropped"
 	outcomeCompleted      = "completed"
 )
 
 type PendingPageVisitMetrics struct {
-	pageVisitAttempts *prometheusclient.CounterVec
-	pagesDisposed     *prometheusclient.CounterVec
+	pageVisitAttempts   *prometheusclient.CounterVec
+	droppedPageVisits   *prometheusclient.CounterVec
+	completedPageVisits *prometheusclient.CounterVec
 }
 
 func New(registry prometheusclient.Registerer) *PendingPageVisitMetrics {
@@ -33,12 +35,18 @@ func New(registry prometheusclient.Registerer) *PendingPageVisitMetrics {
 			Name: "yacycrawler_page_visit_attempts_total",
 			Help: "Attempts to visit a page, by the outcome each attempt reached.",
 		}, []string{labelOutcome}),
-		pagesDisposed: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacycrawler_pages_disposed_total",
-			Help: "Pages disposed before a visit could complete, by reason.",
+		droppedPageVisits: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+			Name: "yacycrawler_page_visits_dropped_total",
+			Help: "Pending page visits dropped without a visit to the page, by reason.",
 		}, []string{labelReason}),
+		completedPageVisits: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+			Name: "yacycrawler_page_visits_completed_total",
+			Help: "Page visits completed, by result.",
+		}, []string{labelResult}),
 	}
-	registry.MustRegister(metrics.pageVisitAttempts, metrics.pagesDisposed)
+	registry.MustRegister(
+		metrics.pageVisitAttempts, metrics.droppedPageVisits, metrics.completedPageVisits,
+	)
 	return metrics
 }
 
@@ -48,10 +56,11 @@ func (metrics *PendingPageVisitMetrics) PendingPageVisitReturned(
 	metrics.pageVisitAttempts.WithLabelValues(outcomeReturned).Inc()
 }
 
-func (metrics *PendingPageVisitMetrics) PendingPageVisitDroppedAsTakenByAnother(
-	context.Context, pendingpagevisit.PendingPageVisit,
+func (metrics *PendingPageVisitMetrics) PendingPageVisitDropped(
+	_ context.Context, _ pendingpagevisit.PendingPageVisit, reason pagevisitdrop.Reason,
 ) {
-	metrics.pageVisitAttempts.WithLabelValues(outcomeTakenByAnother).Inc()
+	metrics.pageVisitAttempts.WithLabelValues(outcomeDropped).Inc()
+	metrics.droppedPageVisits.WithLabelValues(string(reason)).Inc()
 }
 
 func (metrics *PendingPageVisitMetrics) PendingPageVisitDeferred(
@@ -66,16 +75,9 @@ func (metrics *PendingPageVisitMetrics) PendingPageVisitRetryScheduled(
 	metrics.pageVisitAttempts.WithLabelValues(outcomeRetryScheduled).Inc()
 }
 
-func (metrics *PendingPageVisitMetrics) PendingPageVisitDisposedPage(
-	_ context.Context, _ pendingpagevisit.PendingPageVisit, reason disposal.Reason,
-) {
-	metrics.pageVisitAttempts.WithLabelValues(outcomeDisposed).Inc()
-	metrics.pagesDisposed.WithLabelValues(string(reason)).Inc()
-}
-
 func (metrics *PendingPageVisitMetrics) PendingPageVisitCompleted(
-	context.Context,
-	pendingpagevisit.PendingPageVisit,
+	_ context.Context, _ pendingpagevisit.PendingPageVisit, result pagevisitresult.Result,
 ) {
 	metrics.pageVisitAttempts.WithLabelValues(outcomeCompleted).Inc()
+	metrics.completedPageVisits.WithLabelValues(string(result)).Inc()
 }

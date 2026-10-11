@@ -5,16 +5,16 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 const (
 	msgPendingPageVisitReturned       = "pending page visit returned for redelivery"
-	msgPendingPageVisitTakenByAnother = "pending page visit dropped because another message took it"
+	msgPendingPageVisitDropped        = "pending page visit dropped"
 	msgPendingPageVisitDeferred       = "pending page visit deferred"
 	msgPendingPageVisitRetryScheduled = "pending page visit scheduled for another attempt"
-	msgPendingPageVisitDisposedPage   = "pending page visit disposed page"
 	msgPendingPageVisitCompleted      = "pending page visit completed"
 )
 
@@ -32,19 +32,25 @@ func (PendingPageVisitLog) PendingPageVisitReturned(
 	)
 }
 
-func (PendingPageVisitLog) PendingPageVisitDroppedAsTakenByAnother(
+func (PendingPageVisitLog) PendingPageVisitDropped(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	reason pagevisitdrop.Reason,
 ) {
-	slog.DebugContext(
-		ctx,
-		msgPendingPageVisitTakenByAnother,
-		slog.String(
-			"order",
-			pendingPageVisit.OrderID,
-		),
+	slog.Log(ctx, levelOfDrop(reason), msgPendingPageVisitDropped,
+		slog.String("order", pendingPageVisit.OrderID),
 		slog.String("url", pendingPageVisit.URL.String()),
+		slog.String("reason", string(reason)),
 	)
+}
+
+func levelOfDrop(reason pagevisitdrop.Reason) slog.Level {
+	switch reason {
+	case pagevisitdrop.DeferralsExhausted, pagevisitdrop.RetriesExhausted:
+		return slog.LevelWarn
+	default:
+		return slog.LevelDebug
+	}
 }
 
 func (PendingPageVisitLog) PendingPageVisitDeferred(
@@ -81,34 +87,26 @@ func (PendingPageVisitLog) PendingPageVisitRetryScheduled(
 	)
 }
 
-func (PendingPageVisitLog) PendingPageVisitDisposedPage(
-	ctx context.Context,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason disposal.Reason,
-) {
-	slog.WarnContext(
-		ctx,
-		msgPendingPageVisitDisposedPage,
-		slog.String(
-			"order",
-			pendingPageVisit.OrderID,
-		),
-		slog.String("url", pendingPageVisit.URL.String()),
-		slog.String("reason", string(reason)),
-	)
-}
-
 func (PendingPageVisitLog) PendingPageVisitCompleted(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	result pagevisitresult.Result,
 ) {
-	slog.DebugContext(
-		ctx,
-		msgPendingPageVisitCompleted,
-		slog.String(
-			"order",
-			pendingPageVisit.OrderID,
-		),
+	slog.Log(ctx, levelOfResult(result), msgPendingPageVisitCompleted,
+		slog.String("order", pendingPageVisit.OrderID),
 		slog.String("url", pendingPageVisit.URL.String()),
+		slog.String("result", string(result)),
 	)
+}
+
+func levelOfResult(result pagevisitresult.Result) slog.Level {
+	switch result {
+	case pagevisitresult.Published,
+		pagevisitresult.Redirected,
+		pagevisitresult.NotModified,
+		pagevisitresult.AccessRefused:
+		return slog.LevelDebug
+	default:
+		return slog.LevelWarn
+	}
 }

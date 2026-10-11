@@ -285,8 +285,8 @@
     },
     {
       "id": 32,
-      "title": "Pages disposed, by reason",
-      "description": "A disposed page is one the crawler ended without publishing.",
+      "title": "Page visits dropped, by reason",
+      "description": "A dropped page visit ends without a visit to the page.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -294,7 +294,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 18
       },
@@ -316,8 +316,47 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} - (yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (reason) (clamp_min(yacycrawler_page_visits_dropped_total{instance=~\"$service_instance\"} - (yacycrawler_page_visits_dropped_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{reason}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 107,
+      "title": "Page visits completed, by result",
+      "description": "How each visited page ended: published, redirected, or why it published no page.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (result) (clamp_min(yacycrawler_page_visits_completed_total{instance=~\"$service_instance\"} - (yacycrawler_page_visits_completed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{result}}"
         }
       ],
       "interval": "$window"

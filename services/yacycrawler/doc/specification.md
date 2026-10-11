@@ -36,9 +36,9 @@ a more capable host than an always-on node.
   that a consumer, not the crawler, decides what to do with it.
 * The service SHALL publish the canonical URL of each page it read, and never the page's
   content.
-* Every URL a run admits SHALL be visited by exactly one instance, and SHALL reach one
-  terminal outcome: published as a crawled page, or disposed, counted against the reason
-  for it.
+* Every URL a run admits SHALL be taken by exactly one instance, and SHALL end either
+  dropped without a visit, counted by reason, or visited and completed, counted by
+  result.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure returns the URL for redelivery.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.

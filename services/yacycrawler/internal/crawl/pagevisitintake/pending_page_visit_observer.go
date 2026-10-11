@@ -4,7 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -14,9 +15,10 @@ type PendingPageVisitObserver interface {
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
 		cause error,
 	)
-	PendingPageVisitDroppedAsTakenByAnother(
+	PendingPageVisitDropped(
 		ctx context.Context,
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
+		reason pagevisitdrop.Reason,
 	)
 	PendingPageVisitDeferred(
 		ctx context.Context,
@@ -28,14 +30,10 @@ type PendingPageVisitObserver interface {
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
 		pauseFor time.Duration,
 	)
-	PendingPageVisitDisposedPage(
-		ctx context.Context,
-		pendingPageVisit pendingpagevisit.PendingPageVisit,
-		reason disposal.Reason,
-	)
 	PendingPageVisitCompleted(
 		ctx context.Context,
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
+		result pagevisitresult.Result,
 	)
 }
 
@@ -51,12 +49,13 @@ func (observers PendingPageVisitObservers) PendingPageVisitReturned(
 	}
 }
 
-func (observers PendingPageVisitObservers) PendingPageVisitDroppedAsTakenByAnother(
+func (observers PendingPageVisitObservers) PendingPageVisitDropped(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	reason pagevisitdrop.Reason,
 ) {
 	for _, observer := range observers {
-		observer.PendingPageVisitDroppedAsTakenByAnother(ctx, pendingPageVisit)
+		observer.PendingPageVisitDropped(ctx, pendingPageVisit, reason)
 	}
 }
 
@@ -80,21 +79,12 @@ func (observers PendingPageVisitObservers) PendingPageVisitRetryScheduled(
 	}
 }
 
-func (observers PendingPageVisitObservers) PendingPageVisitDisposedPage(
-	ctx context.Context,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason disposal.Reason,
-) {
-	for _, observer := range observers {
-		observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, reason)
-	}
-}
-
 func (observers PendingPageVisitObservers) PendingPageVisitCompleted(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	result pagevisitresult.Result,
 ) {
 	for _, observer := range observers {
-		observer.PendingPageVisitCompleted(ctx, pendingPageVisit)
+		observer.PendingPageVisitCompleted(ctx, pendingPageVisit, result)
 	}
 }
