@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stopwords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -21,7 +20,7 @@ func QueryFrom(text string, language yacymodel.Language) searchquery.Query {
 		}
 		words = appendUnseen(words, token.word)
 	}
-	contentWords := stopwords.ContentWordsOf(words, language)
+	contentWords := contentWordsOf(words, language)
 
 	return searchquery.Query{
 		Words:         contentWords,

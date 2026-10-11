@@ -4,7 +4,9 @@ Date: 2026-09-12
 
 ## Status
 
-Accepted
+Accepted. The lists moved to the stopwords library, as its
+[ADR 1](../../../../libraries/stopwords/doc/adr/0001-embed-the-snowball-stopword-lists.md)
+records.
 
 ## Context
 
