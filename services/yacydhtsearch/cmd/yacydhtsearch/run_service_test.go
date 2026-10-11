@@ -174,6 +174,6 @@ func TestTheServiceRefusesToStartWhenItsStateServerDoesNotAnswer(t *testing.T) {
 	cfg.StateRedis = &redis.Options{Addr: "127.0.0.1:1"}
 
 	if err := yacydhtsearch.RunService(t.Context(), cfg, prometheus.NewRegistry()); err == nil {
-		t.Fatal("RunService started without a state server that answers")
+		t.Fatal("RunService started with a Redis address that does not answer")
 	}
 }

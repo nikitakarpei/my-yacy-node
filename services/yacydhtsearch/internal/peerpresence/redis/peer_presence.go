@@ -36,7 +36,7 @@ type PeerPresenceLimits struct {
 
 type PeerPresence struct {
 	answers          probeanswerhistory.History
-	snapshots        redis.UniversalClient
+	client           redis.UniversalClient
 	accrualLimits    presenceaccrual.PresenceAccrualLimits
 	accrual          atomic.Pointer[presenceaccrual.PresenceAccrual]
 	changedPeers     map[probeanswerhistory.PeerAtAddress]snapshottedPeer
@@ -48,14 +48,14 @@ type PeerPresence struct {
 
 func New(
 	answers probeanswerhistory.History,
-	snapshots redis.UniversalClient,
+	client redis.UniversalClient,
 	limits PeerPresenceLimits,
 	accrualObserver presenceaccrual.PresenceAccrualObserver,
 	presenceObserver PeerPresenceObserver,
 ) *PeerPresence {
 	presence := &PeerPresence{
 		answers:          answers,
-		snapshots:        snapshots,
+		client:           client,
 		accrualLimits:    limits.AccrualLimits,
 		changedPeers:     map[probeanswerhistory.PeerAtAddress]snapshottedPeer{},
 		snapshotInterval: limits.SnapshotInterval,
@@ -109,7 +109,7 @@ func (h *PeerPresence) FoldTheProbeAnswerHistory(ctx context.Context) {
 }
 
 func (h *PeerPresence) peersSnapshotted(ctx context.Context) []snapshottedPeer {
-	snapshots, err := h.snapshots.HGetAll(ctx, snapshotsKey).Result()
+	snapshots, err := h.client.HGetAll(ctx, snapshotsKey).Result()
 	if err != nil {
 		h.presenceObserver.SnapshotsReadFailed(ctx, err)
 
@@ -207,7 +207,7 @@ func (h *PeerPresence) snapshot(
 
 		return false
 	}
-	if err := h.snapshots.HSet(ctx, snapshotsKey, key, encoded).Err(); err != nil {
+	if err := h.client.HSet(ctx, snapshotsKey, key, encoded).Err(); err != nil {
 		h.presenceObserver.SnapshotWriteFailed(ctx, key, err)
 
 		return false
