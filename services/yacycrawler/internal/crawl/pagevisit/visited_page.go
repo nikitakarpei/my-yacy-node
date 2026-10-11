@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -57,17 +57,17 @@ func (page visitedPage) outcome() PageVisitOutcome {
 	case pagefetch.FetchSucceeded:
 		return outcomeOfReading(page.readingErr)
 	case pagefetch.FetchRedirected:
-		return completedOutcome()
+		return completedOutcome(pagevisitresult.Redirected)
 	case pagefetch.FetchNotModified:
-		return disposedOutcome(disposal.NotModified)
+		return completedOutcome(pagevisitresult.NotModified)
 	case pagefetch.FetchAccessRefused:
-		return disposedOutcome(disposal.AccessRefused)
+		return completedOutcome(pagevisitresult.AccessRefused)
 	case pagefetch.FetchRejected, pagefetch.FetchGone:
-		return disposedOutcome(disposal.FetchRejected)
+		return completedOutcome(pagevisitresult.FetchRejected)
 	case pagefetch.FetchRedirectTargetInvalid:
-		return disposedOutcome(disposal.RedirectTargetInvalid)
+		return completedOutcome(pagevisitresult.RedirectTargetInvalid)
 	case pagefetch.FetchOversized:
-		return disposedOutcome(disposal.Oversized)
+		return completedOutcome(pagevisitresult.Oversized)
 	case pagefetch.FetchDeferred:
 		return deferredOutcome(page.fetchOutcome.DeferFor)
 	default:
@@ -77,10 +77,10 @@ func (page visitedPage) outcome() PageVisitOutcome {
 
 func outcomeOfReading(readingErr error) PageVisitOutcome {
 	if errors.Is(readingErr, pagehtmlreading.ErrPageNotHTML) {
-		return disposedOutcome(disposal.UnsupportedMediaType)
+		return completedOutcome(pagevisitresult.UnsupportedMediaType)
 	}
 	if readingErr != nil {
-		return disposedOutcome(disposal.UnreadableHTML)
+		return completedOutcome(pagevisitresult.UnreadableHTML)
 	}
-	return completedOutcome()
+	return completedOutcome(pagevisitresult.Published)
 }

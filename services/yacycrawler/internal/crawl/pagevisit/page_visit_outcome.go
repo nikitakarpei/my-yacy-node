@@ -3,13 +3,15 @@ package pagevisit
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 )
 
 type PageVisitConclusion int
 
 const (
-	PageVisitTerminal PageVisitConclusion = iota
+	PageVisitCompleted PageVisitConclusion = iota
+	PageVisitDropped
 	PageVisitRetryable
 	PageVisitDeferred
 	PageVisitReturned
@@ -17,17 +19,18 @@ const (
 
 type PageVisitOutcome struct {
 	Conclusion  PageVisitConclusion
+	Result      pagevisitresult.Result
+	DropReason  pagevisitdrop.Reason
 	DeferFor    time.Duration
-	Disposal    disposal.Reason
 	ReturnCause error
 }
 
-func disposedOutcome(reason disposal.Reason) PageVisitOutcome {
-	return PageVisitOutcome{Conclusion: PageVisitTerminal, Disposal: reason}
+func completedOutcome(result pagevisitresult.Result) PageVisitOutcome {
+	return PageVisitOutcome{Conclusion: PageVisitCompleted, Result: result}
 }
 
-func completedOutcome() PageVisitOutcome {
-	return PageVisitOutcome{Conclusion: PageVisitTerminal, Disposal: disposal.NotDisposed}
+func droppedOutcome(reason pagevisitdrop.Reason) PageVisitOutcome {
+	return PageVisitOutcome{Conclusion: PageVisitDropped, DropReason: reason}
 }
 
 func deferredOutcome(deferFor time.Duration) PageVisitOutcome {

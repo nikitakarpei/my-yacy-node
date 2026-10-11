@@ -11,9 +11,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -132,18 +133,19 @@ func (c *PageVisitConsumer) takePageVisit(
 		return false
 	}
 	if !took {
-		c.dropPageVisitTakenByAnother(ctx, message, pendingPageVisit)
+		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.TakenByAnother)
 		return false
 	}
 	return c.holdsHostPage(ctx, message, order, pendingPageVisit)
 }
 
-func (c *PageVisitConsumer) dropPageVisitTakenByAnother(
+func (c *PageVisitConsumer) dropPageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	reason pagevisitdrop.Reason,
 ) {
-	c.observer.PendingPageVisitDroppedAsTakenByAnother(ctx, pendingPageVisit)
+	c.observer.PendingPageVisitDropped(ctx, pendingPageVisit, reason)
 	message.Acknowledge(ctx)
 }
 
@@ -168,21 +170,11 @@ func (c *PageVisitConsumer) carryOutAllowance(
 		c.returnPageVisit(ctx, message, pendingPageVisit, cause)
 		return false
 	}
-	if allowance.Disposal.DisposedThePage() {
-		c.dropExhaustedPageVisit(ctx, message, pendingPageVisit, allowance.Disposal)
+	if !allowance.Granted {
+		c.dropPageVisit(ctx, message, pendingPageVisit, allowance.DropReason)
 		return false
 	}
 	return true
-}
-
-func (c *PageVisitConsumer) dropExhaustedPageVisit(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason disposal.Reason,
-) {
-	c.observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, reason)
-	message.Acknowledge(ctx)
 }
 
 func (c *PageVisitConsumer) carryOutConclusion(
@@ -192,15 +184,27 @@ func (c *PageVisitConsumer) carryOutConclusion(
 	outcome pagevisit.PageVisitOutcome,
 ) {
 	switch outcome.Conclusion {
+	case pagevisit.PageVisitCompleted:
+		c.completePageVisit(ctx, message, pendingPageVisit, outcome.Result)
+	case pagevisit.PageVisitDropped:
+		c.dropPageVisit(ctx, message, pendingPageVisit, outcome.DropReason)
 	case pagevisit.PageVisitDeferred:
 		c.deferPageVisit(ctx, message, pendingPageVisit, outcome.DeferFor)
 	case pagevisit.PageVisitRetryable:
 		c.retryPageVisit(ctx, message, pendingPageVisit)
 	case pagevisit.PageVisitReturned:
 		c.returnPageVisit(ctx, message, pendingPageVisit, outcome.ReturnCause)
-	case pagevisit.PageVisitTerminal:
-		c.completePageVisit(ctx, message, pendingPageVisit, outcome.Disposal)
 	}
+}
+
+func (c *PageVisitConsumer) completePageVisit(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	result pagevisitresult.Result,
+) {
+	message.Acknowledge(ctx)
+	c.observer.PendingPageVisitCompleted(ctx, pendingPageVisit, result)
 }
 
 func (c *PageVisitConsumer) deferPageVisit(
@@ -228,17 +232,4 @@ func (c *PageVisitConsumer) retryPageVisit(
 	}
 	c.observer.PendingPageVisitRetryScheduled(ctx, pendingPageVisit, allowance.PauseFor)
 	message.ReturnAfter(ctx, allowance.PauseFor)
-}
-
-func (c *PageVisitConsumer) completePageVisit(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason disposal.Reason,
-) {
-	if reason.DisposedThePage() {
-		c.observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, reason)
-	}
-	message.Acknowledge(ctx)
-	c.observer.PendingPageVisitCompleted(ctx, pendingPageVisit)
 }

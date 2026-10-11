@@ -8,8 +8,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -65,7 +65,7 @@ func TestAHostPageIsGrantedWhenTheHostStillHasPagesLeft(t *testing.T) {
 		t.Fatalf("HostPageFor: %v", err)
 	}
 
-	if allowance.Disposal.DisposedThePage() {
+	if !allowance.Granted {
 		t.Fatalf("allowance = %+v, want a host with pages left to grant one", allowance)
 	}
 	if limits.host != "host" {
@@ -79,7 +79,7 @@ func TestAHostPageNamesTheLimitThatStoppedIt(t *testing.T) {
 		t.Fatalf("HostPageFor: %v", err)
 	}
 
-	if allowance.Disposal != disposal.HostPagesExhausted {
+	if allowance.Granted || allowance.DropReason != pagevisitdrop.HostPagesExhausted {
 		t.Fatalf("allowance = %+v, want host pages exhausted", allowance)
 	}
 }
@@ -91,7 +91,7 @@ func TestADeferralPausesForAsLongAsThePageVisitAsked(t *testing.T) {
 		t.Fatalf("DeferralFor: %v", err)
 	}
 
-	if allowance.Disposal.DisposedThePage() || allowance.PauseFor != 90*time.Second {
+	if !allowance.Granted || allowance.PauseFor != 90*time.Second {
 		t.Fatalf("allowance = %+v, want a granted 90s pause", allowance)
 	}
 }
@@ -103,7 +103,7 @@ func TestADeferralNamesTheLimitThatStoppedIt(t *testing.T) {
 		t.Fatalf("DeferralFor: %v", err)
 	}
 
-	if allowance.Disposal != disposal.DeferralsExhausted {
+	if allowance.Granted || allowance.DropReason != pagevisitdrop.DeferralsExhausted {
 		t.Fatalf("allowance = %+v, want deferrals exhausted", allowance)
 	}
 }
@@ -116,7 +116,7 @@ func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
 	}
 
 	want := retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute}.Delay(2)
-	if allowance.Disposal.DisposedThePage() || allowance.PauseFor != want {
+	if !allowance.Granted || allowance.PauseFor != want {
 		t.Fatalf("allowance = %+v, want a granted pause of %s", allowance, want)
 	}
 }
@@ -127,7 +127,7 @@ func TestAnAttemptNamesTheLimitThatStoppedIt(t *testing.T) {
 		t.Fatalf("AnotherAttemptFor: %v", err)
 	}
 
-	if allowance.Disposal != disposal.RetriesExhausted {
+	if allowance.Granted || allowance.DropReason != pagevisitdrop.RetriesExhausted {
 		t.Fatalf("allowance = %+v, want retries exhausted", allowance)
 	}
 }

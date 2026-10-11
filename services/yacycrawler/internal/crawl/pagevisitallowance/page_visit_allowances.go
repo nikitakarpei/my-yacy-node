@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -34,8 +34,9 @@ type PageVisitLimits interface {
 }
 
 type Allowance struct {
-	Disposal disposal.Reason
-	PauseFor time.Duration
+	Granted    bool
+	PauseFor   time.Duration
+	DropReason pagevisitdrop.Reason
 }
 
 type Allowances struct {
@@ -59,7 +60,7 @@ func (allowances *Allowances) HostPageFor(
 		return Allowance{}, err
 	}
 	if !admitted {
-		return exhaustedAllowance(disposal.HostPagesExhausted), nil
+		return exhaustedAllowance(pagevisitdrop.HostPagesExhausted), nil
 	}
 	return grantedAllowance(), nil
 }
@@ -76,7 +77,7 @@ func (allowances *Allowances) DeferralFor(
 		return Allowance{}, err
 	}
 	if !admitted {
-		return exhaustedAllowance(disposal.DeferralsExhausted), nil
+		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
 	}
 	return grantedAllowanceAfter(deferFor), nil
 }
@@ -92,19 +93,19 @@ func (allowances *Allowances) AnotherAttemptFor(
 		return Allowance{}, err
 	}
 	if !admitted {
-		return exhaustedAllowance(disposal.RetriesExhausted), nil
+		return exhaustedAllowance(pagevisitdrop.RetriesExhausted), nil
 	}
 	return grantedAllowanceAfter(allowances.retryDelay.Delay(attempt)), nil
 }
 
 func grantedAllowance() Allowance {
-	return Allowance{Disposal: disposal.NotDisposed}
+	return Allowance{Granted: true}
 }
 
 func grantedAllowanceAfter(pauseFor time.Duration) Allowance {
-	return Allowance{Disposal: disposal.NotDisposed, PauseFor: pauseFor}
+	return Allowance{Granted: true, PauseFor: pauseFor}
 }
 
-func exhaustedAllowance(reason disposal.Reason) Allowance {
-	return Allowance{Disposal: reason}
+func exhaustedAllowance(reason pagevisitdrop.Reason) Allowance {
+	return Allowance{DropReason: reason}
 }

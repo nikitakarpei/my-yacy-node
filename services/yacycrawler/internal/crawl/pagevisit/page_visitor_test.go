@@ -11,11 +11,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -174,8 +175,8 @@ func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 func (scene *pageVisitScene) completedVisit(t *testing.T) pagevisit.PageVisitOutcome {
 	t.Helper()
 	outcome := scene.visit(t)
-	if outcome.Conclusion != pagevisit.PageVisitTerminal {
-		t.Fatalf("conclusion = %v, want terminal", outcome.Conclusion)
+	if outcome.Conclusion != pagevisit.PageVisitCompleted {
+		t.Fatalf("conclusion = %v, want completed", outcome.Conclusion)
 	}
 	return outcome
 }
@@ -196,8 +197,8 @@ func TestAReadPageIsPublishedAndItsLinksGoOnTheFrontier(t *testing.T) {
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("a published page carries no disposal, got %q", outcome.Disposal)
+	if outcome.Result != pagevisitresult.Published {
+		t.Fatalf("result = %q, want published", outcome.Result)
 	}
 	if len(scene.crawledPages.indexable) != 1 || scene.crawledPages.indexable[0] != "http://host/" {
 		t.Fatalf("want the page published as indexable once, got %v", scene.crawledPages.indexable)
@@ -248,8 +249,8 @@ func TestARedirectTargetGoesOnTheFrontierAtTheSameDepth(t *testing.T) {
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("a redirect carries no disposal reason, got %q", outcome.Disposal)
+	if outcome.Result != pagevisitresult.Redirected {
+		t.Fatalf("result = %q, want redirected", outcome.Result)
 	}
 	want := pendingpagevisit.PendingPageVisit{OrderID: orderID, URL: redirectTarget, Depth: 1}
 	if len(scene.frontier.published) != 1 || scene.frontier.published[0] != want {
@@ -328,50 +329,50 @@ func TestAReadPageRecordsTheVersionTheOriginAnswered(t *testing.T) {
 	}
 }
 
-func TestAPageThatIsNotHTMLIsDisposedAndRecorded(t *testing.T) {
+func TestAPageThatIsNotHTMLCompletesUnpublishedAndRecorded(t *testing.T) {
 	fetchOutcome := fetchedOutcome(pageLinkingNext)
 	fetchOutcome.Page.ContentType = "application/pdf"
 	scene := sceneFetching(fetchOutcome)
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Disposal != disposal.UnsupportedMediaType {
-		t.Fatalf("disposal = %q, want unsupported media type", outcome.Disposal)
+	if outcome.Result != pagevisitresult.UnsupportedMediaType {
+		t.Fatalf("result = %q, want unsupported media type", outcome.Result)
 	}
 	if len(scene.pageVisitRecords.visitedCalls) != 1 {
 		t.Fatalf("recorded visits %v, want one", scene.pageVisitRecords.visitedCalls)
 	}
 	if len(scene.crawledPages.indexable) != 0 {
-		t.Fatalf("a disposed page publishes nothing, got %v", scene.crawledPages.indexable)
+		t.Fatalf("a page that is not HTML publishes nothing, got %v", scene.crawledPages.indexable)
 	}
 }
 
-func TestUnreadablePageHTMLIsDisposed(t *testing.T) {
+func TestUnreadablePageHTMLCompletesUnpublished(t *testing.T) {
 	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
 	scene.htmlPageReading = unreadableHTMLPage{err: errors.New("boom")}
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Disposal != disposal.UnreadableHTML {
-		t.Fatalf("disposal = %q, want unreadable html", outcome.Disposal)
+	if outcome.Result != pagevisitresult.UnreadableHTML {
+		t.Fatalf("result = %q, want unreadable html", outcome.Result)
 	}
 }
 
 func TestAFetchThatEndsWithoutAPageConcludesByItsStatus(t *testing.T) {
-	for status, want := range map[pagefetch.FetchStatus]disposal.Reason{
-		pagefetch.FetchRejected:              disposal.FetchRejected,
-		pagefetch.FetchGone:                  disposal.FetchRejected,
-		pagefetch.FetchOversized:             disposal.Oversized,
-		pagefetch.FetchRedirectTargetInvalid: disposal.RedirectTargetInvalid,
-		pagefetch.FetchAccessRefused:         disposal.AccessRefused,
-		pagefetch.FetchNotModified:           disposal.NotModified,
+	for status, want := range map[pagefetch.FetchStatus]pagevisitresult.Result{
+		pagefetch.FetchRejected:              pagevisitresult.FetchRejected,
+		pagefetch.FetchGone:                  pagevisitresult.FetchRejected,
+		pagefetch.FetchOversized:             pagevisitresult.Oversized,
+		pagefetch.FetchRedirectTargetInvalid: pagevisitresult.RedirectTargetInvalid,
+		pagefetch.FetchAccessRefused:         pagevisitresult.AccessRefused,
+		pagefetch.FetchNotModified:           pagevisitresult.NotModified,
 	} {
 		scene := sceneFetching(pagefetch.FetchOutcome{Status: status})
 
 		outcome := scene.completedVisit(t)
 
-		if outcome.Disposal != want {
-			t.Fatalf("status %v: disposal = %q, want %q", status, outcome.Disposal, want)
+		if outcome.Result != want {
+			t.Fatalf("status %v: result = %q, want %q", status, outcome.Result, want)
 		}
 		if len(scene.crawledPages.indexable) != 0 || len(scene.frontier.published) != 0 {
 			t.Fatalf("status %v: want nothing published", status)
@@ -425,10 +426,11 @@ func TestAPageNotDueIsNotFetched(t *testing.T) {
 	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
 	scene.pageVisitRecords.due = false
 
-	outcome := scene.completedVisit(t)
+	outcome := scene.visit(t)
 
-	if outcome.Disposal != disposal.NotDue {
-		t.Fatalf("disposal = %q, want not due", outcome.Disposal)
+	if outcome.Conclusion != pagevisit.PageVisitDropped ||
+		outcome.DropReason != pagevisitdrop.NotDue {
+		t.Fatalf("outcome = %+v, want dropped as not due", outcome)
 	}
 	if scene.fetch.sawFetch {
 		t.Fatal("a page not due was fetched")

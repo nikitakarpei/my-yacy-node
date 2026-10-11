@@ -43,7 +43,7 @@ disk, and `rocksdb.block_cache_size` sets the memory it uses. On Kvrocks, set
 |---|---|---|
 | `YACYCRAWLER_FETCH_PROXY_URL` | required | Egress proxy every outbound fetch passes through. |
 | `YACYCRAWLER_FETCH_PROXY_DIAL_MODE` | `tunnel` | How fetches reach the egress proxy: `tunnel` (HTTP CONNECT) or `absolute-url` (plain absolute-URL requests, for proxies that refuse CONNECT). |
-| `YACYCRAWLER_MAX_BODY_BYTES` | `2097152` | Largest response body accepted; larger is disposed. |
+| `YACYCRAWLER_MAX_BODY_BYTES` | `2097152` | Largest response body accepted; a larger page is not published. |
 | `YACYCRAWLER_FETCH_DEADLINE` | `30s` | Deadline for a single fetch. |
 | `YACYCRAWLER_FETCH_CONCURRENCY` | `4` | Concurrent fetches on one instance. |
 | `YACYCRAWLER_FETCH_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. |
