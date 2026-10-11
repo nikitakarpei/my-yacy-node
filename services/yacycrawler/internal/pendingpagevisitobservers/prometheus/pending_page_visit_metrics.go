@@ -37,7 +37,7 @@ func New(registry prometheusclient.Registerer) *PendingPageVisitMetrics {
 		}, []string{labelOutcome}),
 		droppedPageVisits: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "yacycrawler_page_visits_dropped_total",
-			Help: "Pending page visits dropped without a visit to the page, by reason.",
+			Help: "Pages the crawler stopped trying to visit, by reason.",
 		}, []string{labelReason}),
 		completedPageVisits: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "yacycrawler_page_visits_completed_total",

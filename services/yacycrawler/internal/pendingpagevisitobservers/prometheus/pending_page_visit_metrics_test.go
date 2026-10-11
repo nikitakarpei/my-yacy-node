@@ -38,7 +38,7 @@ yacycrawler_page_visit_attempts_total{outcome="returned"} 1
 # HELP yacycrawler_page_visits_completed_total Page visits completed, by result.
 # TYPE yacycrawler_page_visits_completed_total counter
 yacycrawler_page_visits_completed_total{result="fetch-rejected"} 1
-# HELP yacycrawler_page_visits_dropped_total Pending page visits dropped without a visit to the page, by reason.
+# HELP yacycrawler_page_visits_dropped_total Pages the crawler stopped trying to visit, by reason.
 # TYPE yacycrawler_page_visits_dropped_total counter
 yacycrawler_page_visits_dropped_total{reason="taken-by-another"} 1
 `

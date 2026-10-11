@@ -1,5 +1,4 @@
-// Package pagevisitdrop names why a pending page visit was dropped without a visit to
-// its page.
+// Package pagevisitdrop names why the crawler stopped trying to visit a page.
 package pagevisitdrop
 
 type Reason string
