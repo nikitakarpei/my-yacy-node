@@ -39,7 +39,7 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 	}
 }
 
-func TestAdmittingAChangedPostingPurgesTheOneItReplaces(t *testing.T) {
+func TestAdmittingAChangedPostingReplacesTheStoredOne(t *testing.T) {
 	h := openHarness(t)
 
 	arrived := posting("w1", "u1")
@@ -49,33 +49,11 @@ func TestAdmittingAChangedPostingPurgesTheOneItReplaces(t *testing.T) {
 	refreshed.Hits = 7
 	h.admit(t, refreshed)
 
-	wantedNotifications := []string{storedNotification, purgedNotification, storedNotification}
-	if !slices.Equal(h.observer.notificationsInOrder, wantedNotifications) {
-		t.Fatalf(
-			"notifications = %v, want the replaced posting purged before the one that replaces it",
-			h.observer.notificationsInOrder,
-		)
+	if stored, _ := h.postingOf(t, arrived.WordHash, arrived.URLHash); stored != refreshed {
+		t.Fatalf("PostingOf = %+v, want the posting as it is", stored)
 	}
-	if len(h.observer.purged) != 1 || h.observer.purged[0] != arrived {
-		t.Fatalf("purged notifications = %+v, want the posting as it was", h.observer.purged)
-	}
-	if len(h.observer.stored) != 2 || h.observer.stored[1] != refreshed {
-		t.Fatalf("stored notifications = %+v, want the posting as it is", h.observer.stored)
-	}
-}
-
-func TestAdmittingAnEqualPostingAgainNotifiesNobody(t *testing.T) {
-	h := openHarness(t)
-
-	arrived := posting("w1", "u1")
-	h.admit(t, arrived)
-	h.admit(t, arrived)
-
-	if !slices.Equal(h.observer.notificationsInOrder, []string{storedNotification}) {
-		t.Fatalf(
-			"notifications = %v, want only the first admission",
-			h.observer.notificationsInOrder,
-		)
+	if rwiCount := h.rwiCount(t); rwiCount != 1 {
+		t.Fatalf("RWICount = %d, want 1", rwiCount)
 	}
 }
 

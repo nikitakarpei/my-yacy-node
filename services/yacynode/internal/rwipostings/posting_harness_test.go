@@ -17,7 +17,6 @@ type harness struct {
 	index    rwipostings.PostingIndex
 	admitter rwipostings.PostingAdmitter
 	purger   rwipostings.PostingPurger
-	observer *recordingObserver
 }
 
 func (h harness) rwiCount(t *testing.T) int {
@@ -99,47 +98,20 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	observer := &recordingObserver{}
 	index, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions,
 		nil,
-		observer,
 	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
-	return harness{vault: v, index: index, admitter: admitter, purger: purger, observer: observer}
+	return harness{vault: v, index: index, admitter: admitter, purger: purger}
 }
 
 var ringPartitions = yacymodel.DHTRingPartitions(1) << 4
-
-const (
-	storedNotification = "stored"
-	purgedNotification = "purged"
-)
-
-type recordingObserver struct {
-	stored               []yacymodel.RWIPosting
-	purged               []yacymodel.RWIPosting
-	notificationsInOrder []string
-}
-
-func (o *recordingObserver) PostingStored(_ *vault.Txn, posting yacymodel.RWIPosting) error {
-	o.stored = append(o.stored, posting)
-	o.notificationsInOrder = append(o.notificationsInOrder, storedNotification)
-
-	return nil
-}
-
-func (o *recordingObserver) PostingPurged(_ *vault.Txn, posting yacymodel.RWIPosting) error {
-	o.purged = append(o.purged, posting)
-	o.notificationsInOrder = append(o.notificationsInOrder, purgedNotification)
-
-	return nil
-}
 
 func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
