@@ -24,6 +24,8 @@ components:
     in: internal/htmlflattening/**
   articlefootnotes:
     in: internal/articlefootnotes/**
+  articlepermalinks:
+    in: internal/articlepermalinks/**
   derivationreach:
     in: internal/derivationreach/**
   text:
@@ -78,6 +80,7 @@ deps:
   pagederivationsreadabletext:
     mayDependOn:
       - articlefootnotes
+      - articlepermalinks
       - htmlflattening
       - text
     canUse:
@@ -86,6 +89,9 @@ deps:
     canUse:
       - xnet
   articlefootnotes:
+    canUse:
+      - xnet
+  articlepermalinks:
     canUse:
       - xnet
 
