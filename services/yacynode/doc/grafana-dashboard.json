@@ -2102,7 +2102,7 @@
     },
     {
       "id": 130,
-      "title": "Word index distribution cycles",
+      "title": "Word index distribution batches",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -2115,7 +2115,8 @@
     },
     {
       "id": 59,
-      "title": "Distribution cycles skipped, by reason",
+      "title": "Distribution batches skipped, by reason",
+      "description": "Batches the node did not start, for example because it knew too few reachable peers.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2144,7 +2145,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_batches_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_batches_skipped_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{reason}}"
         }
       ],

@@ -1,11 +1,9 @@
-package distributioncycle_test
+package distributionloop_test
 
 import (
 	"sync"
 	"time"
 )
-
-const cycleEndBuffer = 16
 
 type fakeObserver struct {
 	guard                  sync.Mutex
@@ -13,18 +11,16 @@ type fakeObserver struct {
 	longestRefreshLateness time.Duration
 	staleReplicasDropped   int
 	postingsHandedOff      int
-	cyclesSkipped          map[string]int
-	cyclesCompleted        int
+	batchesSkipped         map[string]int
+	batchesCompleted       int
 	batchesAborted         map[string]int
 	replicaRingFractions   []float64
-	cycleEnds              chan struct{}
 }
 
 func newFakeObserver() *fakeObserver {
 	return &fakeObserver{
-		cyclesSkipped:  make(map[string]int),
+		batchesSkipped: make(map[string]int),
 		batchesAborted: make(map[string]int),
-		cycleEnds:      make(chan struct{}, cycleEndBuffer),
 	}
 }
 
@@ -56,20 +52,18 @@ func (f *fakeObserver) ObservePostingsHandedOff(amountOfPostings int) {
 	f.postingsHandedOff += amountOfPostings
 }
 
-func (f *fakeObserver) ObserveCycleSkipped(reason string) {
+func (f *fakeObserver) ObserveBatchSkipped(reason string) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.cyclesSkipped[reason]++
-	f.cycleEnds <- struct{}{}
+	f.batchesSkipped[reason]++
 }
 
-func (f *fakeObserver) ObserveCycleCompleted() {
+func (f *fakeObserver) ObserveBatchCompleted() {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.cyclesCompleted++
-	f.cycleEnds <- struct{}{}
+	f.batchesCompleted++
 }
 
 func (f *fakeObserver) ObserveBatchAborted(reason string) {

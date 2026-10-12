@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
@@ -31,7 +32,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
@@ -60,7 +61,7 @@ type node struct {
 	evictionObserver      *metrics.EvictionMetrics
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
-	distributionCycle     *distributioncycle.Cycle
+	distributionLoop      *distributionloop.Loop
 	pageOfferIntake       *pageOfferIntake
 }
 
@@ -332,10 +333,10 @@ func assembleNode(
 		pageOffers = intake
 	}
 
-	var distributionCycle *distributioncycle.Cycle
+	var distributionLoop *distributionloop.Loop
 
 	if config.Distribution.Enabled {
-		var handoff distributioncycle.WordPartitionHandoff = wordpartitionhandoff.KeepEveryWordPartition{}
+		var handoff distributionloop.WordPartitionHandoff = wordpartitionhandoff.KeepEveryWordPartition{}
 		if config.Distribution.HandoffEnabled {
 			handoff = wordpartitionhandoff.New(
 				postings,
@@ -354,7 +355,7 @@ func assembleNode(
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
 
-		distributionCycle = distributioncycle.New(
+		distributionLoop = distributionloop.New(
 			storage,
 			wordpartitionoffer.New(
 				storage,
@@ -390,14 +391,14 @@ func assembleNode(
 			),
 			recipientCooldowns,
 			peerRoster,
-			now,
+			wallclock.Clock{},
+			distributionObserver,
 			distributionObserver,
 			dhtRingObserver,
-			distributioncycle.Config{
+			distributionloop.Config{
 				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
 				BatchConcurrency:  config.Distribution.BatchConcurrency,
-				CycleInterval:     config.Distribution.CycleInterval,
-				DrainBudget:       config.Distribution.DrainBudget,
+				SectorRescanDelay: config.Distribution.SectorRescanDelay,
 				MinReachablePeers: config.Distribution.MinReachablePeers,
 			},
 		)
@@ -423,7 +424,7 @@ func assembleNode(
 		evictionObserver:      metrics.NewEvictionMetrics(registry),
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
-		distributionCycle:     distributionCycle,
+		distributionLoop:      distributionLoop,
 		pageOfferIntake:       pageOffers,
 	}, nil
 }

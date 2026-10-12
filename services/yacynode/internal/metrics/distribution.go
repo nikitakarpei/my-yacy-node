@@ -21,8 +21,8 @@ type DistributionMetrics struct {
 	longestRefreshLateness prometheus.Gauge
 	staleReplicasDropped   prometheus.Counter
 	postingsHandedOff      prometheus.Counter
-	cyclesSkipped          *prometheus.CounterVec
-	cyclesCompleted        prometheus.Counter
+	batchesSkipped         *prometheus.CounterVec
+	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
 }
 
@@ -75,14 +75,14 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_postings_handed_off_total",
 			"Postings deleted after peers closer to their DHT position accepted them.",
 		),
-		cyclesSkipped: counterPerLabelFor(
-			"yacynode_rwidistribution_cycles_skipped_total",
-			"Distribution cycles that ran no batch, by reason.",
+		batchesSkipped: counterPerLabelFor(
+			"yacynode_rwidistribution_batches_skipped_total",
+			"Distribution batches the node did not start, by reason.",
 			labelReason,
 		),
-		cyclesCompleted: counterFor(
-			"yacynode_rwidistribution_cycles_completed_total",
-			"Distribution cycles that ran to the end of their due postings.",
+		batchesCompleted: counterFor(
+			"yacynode_rwidistribution_batches_completed_total",
+			"Distribution batches that recorded their outcome or found no posting to send.",
 		),
 		batchesAborted: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_aborted_total",
@@ -103,8 +103,8 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.longestRefreshLateness,
 		d.staleReplicasDropped,
 		d.postingsHandedOff,
-		d.cyclesSkipped,
-		d.cyclesCompleted,
+		d.batchesSkipped,
+		d.batchesCompleted,
 		d.batchesAborted,
 	}
 }
@@ -151,12 +151,12 @@ func (d *DistributionMetrics) ObservePostingsHandedOff(amountOfPostings int) {
 	d.postingsHandedOff.Add(float64(amountOfPostings))
 }
 
-func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {
-	d.cyclesSkipped.WithLabelValues(reason).Inc()
+func (d *DistributionMetrics) ObserveBatchSkipped(reason string) {
+	d.batchesSkipped.WithLabelValues(reason).Inc()
 }
 
-func (d *DistributionMetrics) ObserveCycleCompleted() {
-	d.cyclesCompleted.Inc()
+func (d *DistributionMetrics) ObserveBatchCompleted() {
+	d.batchesCompleted.Inc()
 }
 
 func (d *DistributionMetrics) ObserveBatchAborted(reason string) {

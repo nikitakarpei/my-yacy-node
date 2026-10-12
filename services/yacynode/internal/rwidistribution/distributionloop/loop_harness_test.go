@@ -1,4 +1,4 @@
-package distributioncycle_test
+package distributionloop_test
 
 import (
 	"cmp"
@@ -7,13 +7,14 @@ import (
 	"strconv"
 	"sync"
 	"testing"
+	"testing/synctest"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
@@ -24,47 +25,43 @@ import (
 )
 
 const (
-	cycleEndWait     = 10 * time.Second
-	postingsPerBatch = 10
-	drainBudget      = time.Minute
-	refreshInterval  = time.Hour
-	retryDelay       = 10 * time.Minute
-	positionStep     = 8
+	postingsPerBatch  = 10
+	sectorRescanDelay = time.Second
+	refreshInterval   = time.Hour
+	retryDelay        = 10 * time.Minute
+	positionStep      = 8
 )
 
-type cycleOptions struct {
+type loopOptions struct {
 	self              yacymodel.Hash
 	redundancy        int
 	cooldown          time.Duration
 	minReachablePeers int
-	drainBudget       time.Duration
 	batchConcurrency  int
 	postingsPerBatch  int
 	handoffEnabled    bool
 }
 
-type cycleHarness struct {
+type loopHarness struct {
 	v           *vault.Vault
 	clk         *clock
 	index       *observedPostingIndex
 	admitter    rwipostings.PostingAdmitter
 	undelivered *undeliveredpostings.UndeliveredPostings
 	holders     *wordpartitionholders.Holders
+	cooldowns   *replicaeligibility.Peers
 	roster      *fakeRoster
 	observer    *fakeObserver
 	transfers   *fakeTransfers
-	cycle       *distributioncycle.Cycle
+	loop        *distributionloop.Loop
 }
 
-func withCycleDefaults(opts cycleOptions) cycleOptions {
+func withLoopDefaults(opts loopOptions) loopOptions {
 	if opts.redundancy == 0 {
 		opts.redundancy = 1
 	}
 	if opts.self.IsZero() {
 		opts.self = thisNodeFartherThan(fixtureWordPartition())
-	}
-	if opts.drainBudget == 0 {
-		opts.drainBudget = drainBudget
 	}
 	if opts.batchConcurrency == 0 {
 		opts.batchConcurrency = 1
@@ -76,11 +73,11 @@ func withCycleDefaults(opts cycleOptions) cycleOptions {
 	return opts
 }
 
-func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
+func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	t.Helper()
 
-	opts = withCycleDefaults(opts)
-	v := openCycleVault(t)
+	opts = withLoopDefaults(opts)
+	v := openLoopVault(t)
 	undelivered, projection, err := undeliveredpostings.Open(v, partitions())
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
@@ -94,27 +91,27 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	holders, err := wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, clk.now)
+	holders, err := wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, clk.Now)
 	if err != nil {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
 
-	h := &cycleHarness{
+	h := &loopHarness{
 		v:           v,
 		clk:         clk,
 		index:       &observedPostingIndex{index: index},
 		admitter:    admitter,
 		undelivered: undelivered,
 		holders:     holders,
+		cooldowns:   replicaeligibility.New(opts.cooldown, clk.Now),
 		roster:      &fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{}},
 		observer:    newFakeObserver(),
 		transfers:   &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)},
 	}
-	cooldowns := replicaeligibility.New(opts.cooldown, clk.now)
-	h.cycle = distributioncycle.New(
+	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, holders, h.index, h.roster, cooldowns, h.observer,
+			v, undelivered, holders, h.index, h.roster, h.cooldowns, h.observer,
 			wordpartitionoffer.Config{
 				Partitions:       partitions(),
 				Self:             opts.self,
@@ -126,16 +123,16 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		holders,
 		handoffFor(opts, h.index, purger, undelivered, holders),
 		h.transfers,
-		cooldowns,
+		h.cooldowns,
 		h.roster,
-		clk.now,
+		clk,
 		h.observer,
 		h.observer,
-		distributioncycle.Config{
+		h.observer,
+		distributionloop.Config{
 			PostingsPerBatch:  opts.postingsPerBatch,
 			BatchConcurrency:  opts.batchConcurrency,
-			CycleInterval:     time.Minute,
-			DrainBudget:       opts.drainBudget,
+			SectorRescanDelay: sectorRescanDelay,
 			MinReachablePeers: opts.minReachablePeers,
 		},
 	)
@@ -143,7 +140,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	return h
 }
 
-func openCycleVault(t *testing.T) *vault.Vault {
+func openLoopVault(t *testing.T) *vault.Vault {
 	t.Helper()
 
 	v, err := vault.New(
@@ -163,12 +160,12 @@ func openCycleVault(t *testing.T) *vault.Vault {
 }
 
 func handoffFor(
-	opts cycleOptions,
+	opts loopOptions,
 	index *observedPostingIndex,
 	purger rwipostings.PostingPurger,
 	undelivered *undeliveredpostings.UndeliveredPostings,
 	holders *wordpartitionholders.Holders,
-) distributioncycle.WordPartitionHandoff {
+) distributionloop.WordPartitionHandoff {
 	if !opts.handoffEnabled {
 		return wordpartitionhandoff.KeepEveryWordPartition{}
 	}
@@ -181,32 +178,32 @@ func handoffFor(
 		})
 }
 
-func (h *cycleHarness) runCycle(t *testing.T) {
+func (h *loopHarness) start(t *testing.T) {
 	t.Helper()
 
 	ctx, cancel := context.WithCancel(context.Background())
 	stopped := make(chan struct{})
 	go func() {
 		defer close(stopped)
-		h.cycle.Run(ctx)
+		h.loop.Run(ctx)
 	}()
-
-	select {
-	case <-h.observer.cycleEnds:
-	case <-time.After(cycleEndWait):
+	t.Cleanup(func() {
 		cancel()
-		t.Fatal("timed out waiting for the distribution cycle to end")
-	}
-
-	cancel()
-	<-stopped
+		<-stopped
+	})
+	synctest.Wait()
 }
 
-func (h *cycleHarness) reach(peers ...yacymodel.Seed) {
+func (h *loopHarness) advance(elapsed time.Duration) {
+	h.clk.advance(elapsed)
+	synctest.Wait()
+}
+
+func (h *loopHarness) reach(peers ...yacymodel.Seed) {
 	h.roster.reachable = peers
 }
 
-func (h *cycleHarness) admit(
+func (h *loopHarness) admit(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
 	urls ...yacymodel.URLHash,
@@ -224,7 +221,7 @@ func (h *cycleHarness) admit(
 	})
 }
 
-func (h *cycleHarness) recordHolders(
+func (h *loopHarness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
 	holders ...yacymodel.Hash,
@@ -236,7 +233,7 @@ func (h *cycleHarness) recordHolders(
 	})
 }
 
-func (h *cycleHarness) holdersOf(
+func (h *loopHarness) holdersOf(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
 ) []yacymodel.Hash {
@@ -253,7 +250,7 @@ func (h *cycleHarness) holdersOf(
 	return recordedHolders
 }
 
-func (h *cycleHarness) amountOfUndeliveredPostings(t *testing.T) int {
+func (h *loopHarness) amountOfUndeliveredPostings(t *testing.T) int {
 	t.Helper()
 
 	var amountOfPostings int
@@ -267,7 +264,7 @@ func (h *cycleHarness) amountOfUndeliveredPostings(t *testing.T) int {
 	return amountOfPostings
 }
 
-func (h *cycleHarness) postingsOf(
+func (h *loopHarness) postingsOf(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
 ) []yacymodel.URLHash {
@@ -290,7 +287,7 @@ func (h *cycleHarness) postingsOf(
 	return urls
 }
 
-func (h *cycleHarness) write(t *testing.T, change func(tx *vault.Txn) error) {
+func (h *loopHarness) write(t *testing.T, change func(tx *vault.Txn) error) {
 	t.Helper()
 
 	if err := h.v.Update(context.Background(), change); err != nil {
@@ -298,7 +295,7 @@ func (h *cycleHarness) write(t *testing.T, change func(tx *vault.Txn) error) {
 	}
 }
 
-func (h *cycleHarness) read(t *testing.T, view func(tx *vault.Txn) error) {
+func (h *loopHarness) read(t *testing.T, view func(tx *vault.Txn) error) {
 	t.Helper()
 
 	if err := h.v.View(context.Background(), view); err != nil {
@@ -393,7 +390,7 @@ type fakeTransfers struct {
 	guard   sync.Mutex
 	answers map[yacymodel.Hash]fakeAnswer
 	offered []offeredCall
-	onOffer func()
+	onOffer func(peer yacymodel.Seed)
 }
 
 func (f *fakeTransfers) Send(
@@ -406,7 +403,7 @@ func (f *fakeTransfers) Send(
 	answer := f.answers[peer.Hash]
 	f.guard.Unlock()
 	if f.onOffer != nil {
-		f.onOffer()
+		f.onOffer(peer)
 	}
 	if !answer.accepted {
 		return postingtransfer.OfferAnswer{RequestedPause: answer.requestedPause}
@@ -437,11 +434,61 @@ func (f *fakeTransfers) offeredTo(peer yacymodel.Seed) []offeredCall {
 	return offeredToPeer
 }
 
-type clock struct{ at time.Time }
+type clock struct {
+	guard       sync.Mutex
+	at          time.Time
+	timers      map[int]pendingTimer
+	nextTimerID int
+}
 
-func (c *clock) now() time.Time { return c.at }
+type pendingTimer struct {
+	firesAt time.Time
+	expire  func()
+}
 
-func startClock() *clock { return &clock{at: time.Unix(1_700_000_000, 0).UTC()} }
+func startClock() *clock {
+	return &clock{at: time.Unix(1_700_000_000, 0).UTC(), timers: make(map[int]pendingTimer)}
+}
+
+func (c *clock) Now() time.Time {
+	c.guard.Lock()
+	defer c.guard.Unlock()
+
+	return c.at
+}
+
+func (c *clock) After(timeout time.Duration, expire func()) (stop func()) {
+	c.guard.Lock()
+	defer c.guard.Unlock()
+
+	timerID := c.nextTimerID
+	c.nextTimerID++
+	c.timers[timerID] = pendingTimer{firesAt: c.at.Add(timeout), expire: expire}
+
+	return func() {
+		c.guard.Lock()
+		defer c.guard.Unlock()
+
+		delete(c.timers, timerID)
+	}
+}
+
+func (c *clock) advance(elapsed time.Duration) {
+	c.guard.Lock()
+	c.at = c.at.Add(elapsed)
+	var dueTimers []func()
+	for timerID, timer := range c.timers {
+		if !timer.firesAt.After(c.at) {
+			dueTimers = append(dueTimers, timer.expire)
+			delete(c.timers, timerID)
+		}
+	}
+	c.guard.Unlock()
+
+	for _, expire := range dueTimers {
+		expire()
+	}
+}
 
 func partitions() yacymodel.DHTRingPartitions {
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)

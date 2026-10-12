@@ -108,43 +108,43 @@ yacynode_rwidistribution_stale_replicas_dropped_total 2
 	}
 }
 
-func TestDistributionCountsSkippedCyclesByReason(t *testing.T) {
+func TestDistributionCountsSkippedBatchesByReason(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveCycleSkipped("too_few_reachable_peers")
-	observer.ObserveCycleSkipped("too_few_reachable_peers")
+	observer.ObserveBatchSkipped("too_few_reachable_peers")
+	observer.ObserveBatchSkipped("too_few_reachable_peers")
 
 	expected := `
-# HELP yacynode_rwidistribution_cycles_skipped_total Distribution cycles that ran no batch, by reason.
-# TYPE yacynode_rwidistribution_cycles_skipped_total counter
-yacynode_rwidistribution_cycles_skipped_total{reason="too_few_reachable_peers"} 2
+# HELP yacynode_rwidistribution_batches_skipped_total Distribution batches the node did not start, by reason.
+# TYPE yacynode_rwidistribution_batches_skipped_total counter
+yacynode_rwidistribution_batches_skipped_total{reason="too_few_reachable_peers"} 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_cycles_skipped_total",
+		"yacynode_rwidistribution_batches_skipped_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
-func TestDistributionCountsCompletedCycles(t *testing.T) {
+func TestDistributionCountsCompletedBatches(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveCycleCompleted()
-	observer.ObserveCycleCompleted()
+	observer.ObserveBatchCompleted()
+	observer.ObserveBatchCompleted()
 
 	expected := `
-# HELP yacynode_rwidistribution_cycles_completed_total Distribution cycles that ran to the end of their due postings.
-# TYPE yacynode_rwidistribution_cycles_completed_total counter
-yacynode_rwidistribution_cycles_completed_total 2
+# HELP yacynode_rwidistribution_batches_completed_total Distribution batches that recorded their outcome or found no posting to send.
+# TYPE yacynode_rwidistribution_batches_completed_total counter
+yacynode_rwidistribution_batches_completed_total 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_cycles_completed_total",
+		"yacynode_rwidistribution_batches_completed_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

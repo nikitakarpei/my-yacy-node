@@ -19,8 +19,10 @@ the postings that enough responsible peers hold.
 
 ## Behavior
 
-- Each cycle first sends the undelivered postings. Then it sends the postings
-  of the word partitions that are due for a refresh.
+- Batches take the ring sectors in turn. A batch sends the undelivered
+  postings of its sector first, then the postings of the word partitions due
+  for a refresh. After a pass to the end of a sector, the sector waits the
+  rescan delay.
 - A holder gets the undelivered postings. A missing holder gets all postings of
   the word partition. It becomes a holder only when it accepts all of them.
 - After the refresh interval, each holder gets all postings again. A holder that
