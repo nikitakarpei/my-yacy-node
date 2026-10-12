@@ -73,7 +73,7 @@ func openHarness(t *testing.T) harness {
 	})
 
 	observer := &recordingObserver{}
-	index, admitter, purger, err := rwipostings.Open(v, observer)
+	index, admitter, purger, err := rwipostings.Open(context.Background(), v, nil, observer)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}

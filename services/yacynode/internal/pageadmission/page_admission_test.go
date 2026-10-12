@@ -77,11 +77,15 @@ func openHarnessWithAdmitter(
 		}
 	})
 
-	references, err := urlreferences.Open(v)
+	references, referenceProjection, err := urlreferences.Open(v)
 	if err != nil {
 		t.Fatalf("urlreferences.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(v, references)
+	index, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		[]vault.Projection[yacymodel.RWIPosting]{referenceProjection},
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
@@ -281,7 +285,7 @@ func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
 }
 
 func TestReceiveBusyAtCapacity(t *testing.T) {
-	h := openHarness(t, 1)
+	h := openHarness(t, usedBytesOfAnEmptyNode(t)+1)
 	crawled := pageTitled(t, "before", pageWord{"w1", 1})
 	h.receive(t, crawled)
 
@@ -300,4 +304,15 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if got := h.storedTitle(t, crawled); got != "before" {
 		t.Errorf("stored title = %q, want the title stored before the refusal", got)
 	}
+}
+
+func usedBytesOfAnEmptyNode(t *testing.T) int64 {
+	t.Helper()
+
+	usedBytes, err := openHarness(t, 0).vault.UsedBytes(context.Background())
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+
+	return usedBytes
 }

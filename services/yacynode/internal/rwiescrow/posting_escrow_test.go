@@ -63,7 +63,7 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		}
 	})
 
-	index, admitter, _, err := rwipostings.Open(v)
+	index, admitter, _, err := rwipostings.Open(context.Background(), v, nil)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}

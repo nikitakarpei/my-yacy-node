@@ -8,10 +8,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
-func openReferences(t *testing.T) (*vault.Vault, urlreferences.ReferenceProjection) {
+type harness struct {
+	vault      *vault.Vault
+	references urlreferences.ReferenceQuery
+	admitter   rwipostings.PostingAdmitter
+	purger     rwipostings.PostingPurger
+}
+
+func openReferences(t *testing.T) harness {
 	t.Helper()
 
 	v, err := memoryvault.Open(0, nil)
@@ -24,57 +32,54 @@ func openReferences(t *testing.T) (*vault.Vault, urlreferences.ReferenceProjecti
 		}
 	})
 
-	index, err := urlreferences.Open(v)
+	references, projection, err := urlreferences.Open(v)
 	if err != nil {
 		t.Fatalf("urlreferences.Open: %v", err)
 	}
+	_, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		[]vault.Projection[yacymodel.RWIPosting]{projection},
+	)
+	if err != nil {
+		t.Fatalf("rwipostings.Open: %v", err)
+	}
 
-	return v, index
+	return harness{vault: v, references: references, admitter: admitter, purger: purger}
 }
 
-func store(
-	t *testing.T,
-	v *vault.Vault,
-	index urlreferences.ReferenceProjection,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) {
+func (h harness) store(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
 	t.Helper()
 
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return index.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.admitter.Admit(tx, yacymodel.RWIPosting{
+			WordHash: word,
+			URLHash:  url,
+			Language: yacymodel.LanguageOfUndeclaredDocument,
+		})
 	}); err != nil {
-		t.Fatalf("PostingStored: %v", err)
+		t.Fatalf("Admit: %v", err)
 	}
 }
 
-func purge(
-	t *testing.T,
-	v *vault.Vault,
-	index urlreferences.ReferenceProjection,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) {
+func (h harness) purge(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
 	t.Helper()
 
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return index.PostingPurged(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		_, err := h.purger.PurgePosting(tx, word, url)
+
+		return err
 	}); err != nil {
-		t.Fatalf("PostingPurged: %v", err)
+		t.Fatalf("PurgePosting: %v", err)
 	}
 }
 
-func wordsReferencing(
-	t *testing.T,
-	v *vault.Vault,
-	index urlreferences.ReferenceProjection,
-	url yacymodel.URLHash,
-) []yacymodel.Hash {
+func (h harness) wordsReferencing(t *testing.T, url yacymodel.URLHash) []yacymodel.Hash {
 	t.Helper()
 
 	var words []yacymodel.Hash
-	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		found, err := index.WordsReferencing(tx, url)
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		found, err := h.references.WordsReferencing(tx, url)
 		if err != nil {
 			return fmt.Errorf("words referencing: %w", err)
 		}
@@ -89,39 +94,39 @@ func wordsReferencing(
 }
 
 func TestWordsReferencingListsStoredWords(t *testing.T) {
-	vault, index := openReferences(t)
+	h := openReferences(t)
 	url := urlHash("u1")
-	store(t, vault, index, yacymodel.WordHash("w1"), url)
-	store(t, vault, index, yacymodel.WordHash("w2"), url)
-	store(t, vault, index, yacymodel.WordHash("w3"), urlHash("other"))
+	h.store(t, yacymodel.WordHash("w1"), url)
+	h.store(t, yacymodel.WordHash("w2"), url)
+	h.store(t, yacymodel.WordHash("w3"), urlHash("other"))
 
-	if got := wordsReferencing(t, vault, index, url); len(got) != 2 {
+	if got := h.wordsReferencing(t, url); len(got) != 2 {
 		t.Fatalf("words referencing %q = %v, want 2", url, got)
 	}
 }
 
 func TestPurgedPostingDropsOnlyItsWordFromTheURL(t *testing.T) {
-	vault, index := openReferences(t)
+	h := openReferences(t)
 	url := urlHash("u1")
-	store(t, vault, index, yacymodel.WordHash("w1"), url)
-	store(t, vault, index, yacymodel.WordHash("w2"), url)
+	h.store(t, yacymodel.WordHash("w1"), url)
+	h.store(t, yacymodel.WordHash("w2"), url)
 
-	purge(t, vault, index, yacymodel.WordHash("w1"), url)
+	h.purge(t, yacymodel.WordHash("w1"), url)
 
-	got := wordsReferencing(t, vault, index, url)
+	got := h.wordsReferencing(t, url)
 	if len(got) != 1 || got[0] != yacymodel.WordHash("w2") {
 		t.Fatalf("words referencing %q after purge = %v, want only w2", url, got)
 	}
 }
 
 func TestPurgedUnknownPostingIsHarmless(t *testing.T) {
-	vault, index := openReferences(t)
+	h := openReferences(t)
 	url := urlHash("u1")
-	store(t, vault, index, yacymodel.WordHash("w1"), url)
+	h.store(t, yacymodel.WordHash("w1"), url)
 
-	purge(t, vault, index, yacymodel.WordHash("w2"), url)
+	h.purge(t, yacymodel.WordHash("w2"), url)
 
-	if got := wordsReferencing(t, vault, index, url); len(got) != 1 {
+	if got := h.wordsReferencing(t, url); len(got) != 1 {
 		t.Fatalf("words referencing %q = %v, want w1 kept", url, got)
 	}
 }
@@ -136,14 +141,14 @@ func urlHash(raw string) yacymodel.URLHash {
 }
 
 func TestAPostingPurgedAndStoredAgainLeavesTheReferenceIntact(t *testing.T) {
-	v, index := openReferences(t)
+	h := openReferences(t)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	store(t, v, index, word, url)
+	h.store(t, word, url)
 
-	purge(t, v, index, word, url)
-	store(t, v, index, word, url)
+	h.purge(t, word, url)
+	h.store(t, word, url)
 
-	words := wordsReferencing(t, v, index, url)
+	words := h.wordsReferencing(t, url)
 	if len(words) != 1 || words[0] != word {
 		t.Fatalf("words referencing url = %v, want [%v]", words, word)
 	}

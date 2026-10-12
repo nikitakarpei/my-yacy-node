@@ -8,16 +8,7 @@ import (
 )
 
 type postingAmounts struct {
-	amountPerWord *vault.Amounts[yacymodel.Hash]
-}
-
-func openPostingAmounts(v *vault.Vault) (*postingAmounts, error) {
-	amountPerWord, err := registerPostingAmounts(v)
-	if err != nil {
-		return nil, err
-	}
-
-	return &postingAmounts{amountPerWord: amountPerWord}, nil
+	amountPerWord *vault.CountIndex[yacymodel.RWIPosting, yacymodel.Hash]
 }
 
 func (a *postingAmounts) AmountOfPostingsOf(
@@ -32,20 +23,4 @@ func (a *postingAmounts) AmountOfPostingsOf(
 	return amountOfPostings, nil
 }
 
-func (a *postingAmounts) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if err := a.amountPerWord.Raise(tx, posting.WordHash, 1); err != nil {
-		return fmt.Errorf("raise posting amount: %w", err)
-	}
-
-	return nil
-}
-
-func (a *postingAmounts) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if err := a.amountPerWord.Lower(tx, posting.WordHash, 1); err != nil {
-		return fmt.Errorf("lower posting amount: %w", err)
-	}
-
-	return nil
-}
-
-var _ PostingAmountProjection = (*postingAmounts)(nil)
+var _ PostingAmountQuery = (*postingAmounts)(nil)

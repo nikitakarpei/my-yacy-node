@@ -7,18 +7,19 @@ package rwipostingamount
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type PostingAmountQuery interface {
 	AmountOfPostingsOf(tx *vault.Txn, word yacymodel.Hash) (int, error)
 }
 
-type PostingAmountProjection interface {
-	PostingAmountQuery
-	rwipostings.PostingObserver
-}
+func Open(
+	v *vault.Vault,
+) (PostingAmountQuery, vault.Projection[yacymodel.RWIPosting], error) {
+	amountPerWord, err := registerPostingAmounts(v)
+	if err != nil {
+		return nil, nil, err
+	}
 
-func Open(v *vault.Vault) (PostingAmountProjection, error) {
-	return openPostingAmounts(v)
+	return &postingAmounts{amountPerWord: amountPerWord}, amountPerWord, nil
 }

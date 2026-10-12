@@ -8,20 +8,7 @@ import (
 )
 
 type ringOccupancy struct {
-	occupancyPerSector *vault.Amounts[yacymodel.DHTRingSector]
-	partitions         yacymodel.DHTRingPartitions
-}
-
-func openRingOccupancy(
-	v *vault.Vault,
-	partitions yacymodel.DHTRingPartitions,
-) (*ringOccupancy, error) {
-	occupancyPerSector, err := registerRingOccupancy(v)
-	if err != nil {
-		return nil, err
-	}
-
-	return &ringOccupancy{occupancyPerSector: occupancyPerSector, partitions: partitions}, nil
+	occupancyPerSector *vault.CountIndex[yacymodel.RWIPosting, yacymodel.DHTRingSector]
 }
 
 func (o *ringOccupancy) OccupancyOfDHTRingSectors(
@@ -43,34 +30,4 @@ func (o *ringOccupancy) OccupancyOfDHTRingSectors(
 	return occupancyPerSector, nil
 }
 
-func (o *ringOccupancy) PostingStored(
-	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
-) error {
-	if err := o.occupancyPerSector.Raise(tx, o.dhtRingSectorOf(posting), 1); err != nil {
-		return fmt.Errorf("raise ring occupancy of sector: %w", err)
-	}
-
-	return nil
-}
-
-func (o *ringOccupancy) PostingPurged(
-	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
-) error {
-	if err := o.occupancyPerSector.Lower(tx, o.dhtRingSectorOf(posting), 1); err != nil {
-		return fmt.Errorf("lower ring occupancy of sector: %w", err)
-	}
-
-	return nil
-}
-
-func (o *ringOccupancy) dhtRingSectorOf(
-	posting yacymodel.RWIPosting,
-) yacymodel.DHTRingSector {
-	return yacymodel.DHTRingSectorOf(
-		yacymodel.DHTRingPositionOfPosting(posting, o.partitions),
-	)
-}
-
-var _ RingOccupancyProjection = (*ringOccupancy)(nil)
+var _ RingOccupancyQuery = (*ringOccupancy)(nil)
