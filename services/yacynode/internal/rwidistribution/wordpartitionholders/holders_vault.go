@@ -109,6 +109,7 @@ func (wordPartitionRecordValueCodec) Encode(record wordPartitionRecord) ([]byte,
 		stored.Fixed(holder.Bytes())
 	}
 	stored.Time(record.refreshAt)
+	stored.Varint(int64(record.retryDelay))
 
 	return stored.Record(), nil
 }
@@ -117,11 +118,12 @@ func (wordPartitionRecordValueCodec) Decode(raw []byte) (wordPartitionRecord, er
 	stored := storedfields.ReaderOf(raw, errBadWordPartitionRecord)
 	holders := holdersFrom(stored)
 	refreshAt := stored.Time("refresh at")
+	retryDelay := time.Duration(stored.Varint("retry delay"))
 	if err := stored.Err(); err != nil {
 		return wordPartitionRecord{}, err
 	}
 
-	return wordPartitionRecord{holders: holders, refreshAt: refreshAt}, nil
+	return wordPartitionRecord{holders: holders, refreshAt: refreshAt, retryDelay: retryDelay}, nil
 }
 
 func holdersFrom(stored *storedfields.Reader) []yacymodel.Hash {

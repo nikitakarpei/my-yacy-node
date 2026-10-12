@@ -17,7 +17,7 @@ const (
 	partitionExponent = 4
 	amountOfWords     = 16
 	refreshInterval   = time.Hour
-	retryDelay        = time.Minute
+	firstRetryDelay   = time.Minute
 )
 
 type harness struct {
@@ -45,7 +45,7 @@ func openHarness(t *testing.T) *harness {
 	}
 
 	h := &harness{vault: v, partitions: partitions, clock: time.Unix(1_700_000_000, 0).UTC()}
-	opened, err := wordpartitionholders.Open(v, partitions, refreshInterval, retryDelay, h.now)
+	opened, err := wordpartitionholders.Open(v, partitions, refreshInterval, firstRetryDelay, h.now)
 	if err != nil {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
@@ -364,7 +364,7 @@ func TestAWordPartitionShortOfRedundancyIsDueAfterTheRetryDelay(t *testing.T) {
 
 	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
 
-	h.assertDueOnlyAfter(t, wordPartition, retryDelay)
+	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
 }
 
 func TestAWordPartitionWithNoHoldersStaysDue(t *testing.T) {
@@ -377,7 +377,7 @@ func TestAWordPartitionWithNoHoldersStaysDue(t *testing.T) {
 	if got := h.holdersOf(t, wordPartition); len(got) != 0 {
 		t.Fatalf("Of = %v, want no holders", got)
 	}
-	h.assertDueOnlyAfter(t, wordPartition, retryDelay)
+	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
 }
 
 func TestNoRefreshIsEarliestWhileNoneIsScheduled(t *testing.T) {
@@ -397,7 +397,42 @@ func TestEarliestRefreshAtIsTheEarliestOverEverySector(t *testing.T) {
 	start := h.clock
 	h.recordHoldersShortOfRedundancy(t, wordPartitions[0], peer("peer0"))
 
-	if got, found := h.earliestRefreshAt(t); !found || !got.Equal(start.Add(retryDelay)) {
-		t.Fatalf("EarliestRefreshAt = %v, %v, want %v", got, found, start.Add(retryDelay))
+	if got, found := h.earliestRefreshAt(t); !found || !got.Equal(start.Add(firstRetryDelay)) {
+		t.Fatalf("EarliestRefreshAt = %v, %v, want %v", got, found, start.Add(firstRetryDelay))
 	}
+}
+
+func TestEachRetryShortOfRedundancyDoublesTheDelay(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+
+	for _, delay := range []time.Duration{firstRetryDelay, 2 * firstRetryDelay, 4 * firstRetryDelay} {
+		h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+
+		h.assertDueOnlyAfter(t, wordPartition, delay)
+	}
+}
+
+func TestTheRetryDelayStopsAtTheRefreshInterval(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	for delay := firstRetryDelay; delay < refreshInterval; delay *= 2 {
+		h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+	}
+
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval)
+}
+
+func TestReachingRedundancyStartsTheRetryDelayOver(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+	h.recordHolders(t, wordPartition, peer("peer0"), peer("peer1"))
+
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
 }
