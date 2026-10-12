@@ -190,24 +190,26 @@ func (e *Engine) updateOptimistically(
 }
 
 type stagedWrite struct {
-	changes        *pebble.Batch
-	writtenKeys    sortedKeys
-	loweredAmounts *amountKeys
-	footprint      *readFootprint
+	changes     *pebble.Batch
+	writtenKeys sortedKeys
+	loweredKeys [][]byte
+	footprint   *readFootprint
 }
 
 func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
-	write := stagedWrite{
-		changes:        e.db.NewIndexedBatch(),
-		loweredAmounts: &amountKeys{},
-		footprint:      newReadFootprint(),
-	}
+	write := stagedWrite{changes: e.db.NewIndexedBatch(), footprint: newReadFootprint()}
+	heldValues := heldValues{}
+	amountChanges := newAmountChanges(write.changes, heldValues)
 	if err := fn(&pebbleTxn{
-		reader:         write.changes,
-		changes:        write.changes,
-		loweredAmounts: write.loweredAmounts,
-		footprint:      write.footprint,
+		reader:        write.changes,
+		changes:       write.changes,
+		amountChanges: amountChanges,
+		footprint:     write.footprint,
+		heldValues:    heldValues,
 	}); err != nil {
+		return stagedWrite{}, errors.Join(err, release(write.changes))
+	}
+	if err := amountChanges.stageAll(); err != nil {
 		return stagedWrite{}, errors.Join(err, release(write.changes))
 	}
 	writtenKeys, err := writtenKeysOf(write.changes)
@@ -215,6 +217,7 @@ func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
 		return stagedWrite{}, errors.Join(err, release(write.changes))
 	}
 	write.writtenKeys = writtenKeys
+	write.loweredKeys = amountChanges.loweredKeys()
 
 	return write, nil
 }
@@ -228,7 +231,7 @@ func (e *Engine) commit(ctx context.Context, write stagedWrite) error {
 	if err != nil {
 		return err
 	}
-	e.deleteAmountsAtZero(ctx, write.loweredAmounts)
+	e.deleteAmountsAtZero(ctx, write.loweredKeys)
 
 	return nil
 }
@@ -242,8 +245,8 @@ func (e *Engine) commitRecorded(write stagedWrite) error {
 	return nil
 }
 
-func (e *Engine) deleteAmountsAtZero(ctx context.Context, loweredAmounts *amountKeys) {
-	amountsAtZero, err := amountsAtZeroAmong(e.db, loweredAmounts)
+func (e *Engine) deleteAmountsAtZero(ctx context.Context, loweredKeys [][]byte) {
+	amountsAtZero, err := amountsAtZeroAmong(e.db, loweredKeys)
 	if err == nil && len(amountsAtZero) > 0 {
 		err = e.commitDeletesOf(amountsAtZero)
 	}
@@ -254,11 +257,11 @@ func (e *Engine) deleteAmountsAtZero(ctx context.Context, loweredAmounts *amount
 
 func amountsAtZeroAmong(
 	committedState pebble.Reader,
-	loweredAmounts *amountKeys,
+	loweredKeys [][]byte,
 ) ([][]byte, error) {
 	amountEntries := storedEntries{reader: committedState}
 	var amountsAtZero [][]byte
-	for _, key := range loweredAmounts.keys {
+	for _, key := range loweredKeys {
 		raw, err := amountEntries.valueAt(key)
 		if err != nil {
 			return nil, err
@@ -266,11 +269,11 @@ func amountsAtZeroAmong(
 		if raw == nil {
 			continue
 		}
-		amount, err := countFrom(raw)
+		amount, err := amountFrom(raw)
 		if err != nil {
 			return nil, err
 		}
-		if amount == 0 {
+		if countFrom(amount) == 0 {
 			amountsAtZero = append(amountsAtZero, key)
 		}
 	}
@@ -331,7 +334,7 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 
 	snapshot := e.db.NewSnapshot()
 
-	if err := fn(&pebbleTxn{reader: snapshot, loweredAmounts: &amountKeys{}}); err != nil {
+	if err := fn(&pebbleTxn{reader: snapshot, amountChanges: &amountChanges{}}); err != nil {
 		return errors.Join(fmt.Errorf("read storage: %w", err), release(snapshot))
 	}
 

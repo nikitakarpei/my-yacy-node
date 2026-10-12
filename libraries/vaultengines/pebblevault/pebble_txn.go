@@ -9,8 +9,9 @@ import (
 type pebbleTxn struct {
 	reader          pebble.Reader
 	changes         *pebble.Batch
-	loweredAmounts  *amountKeys
+	amountChanges   *amountChanges
 	footprint       *readFootprint
+	heldValues      heldValues
 	recordsByBucket map[vault.Name]*pebbleRecords
 	amountsByBucket map[vault.Name]*pebbleAmounts
 }
@@ -26,7 +27,11 @@ func (t *pebbleTxn) Records(name vault.Name) vault.EngineRecords {
 	}
 	records := &pebbleRecords{
 		entries: t.entriesWithin(recordsRegionOf(name)),
-		tally:   storedBucketTallyFor(name, t.reader, t.footprint, t.changes),
+		tally: storedBucketTally{
+			recordCounts: t.amountsWithin(recordCountsRegion),
+			heldBytes:    t.amountsWithin(heldBytesRegion),
+			tallyKey:     []byte(name),
+		},
 	}
 	t.recordsByBucket[name] = records
 
@@ -40,20 +45,22 @@ func (t *pebbleTxn) Amounts(name vault.Name) vault.EngineAmounts {
 	if t.amountsByBucket == nil {
 		t.amountsByBucket = map[vault.Name]*pebbleAmounts{}
 	}
-	amounts := &pebbleAmounts{
-		entries:        t.entriesWithin(amountsRegionOf(name)),
-		loweredAmounts: t.loweredAmounts,
-	}
-	t.amountsByBucket[name] = amounts
+	amounts := t.amountsWithin(amountsRegionOf(name))
+	t.amountsByBucket[name] = &amounts
 
-	return amounts
+	return &amounts
+}
+
+func (t *pebbleTxn) amountsWithin(region keyspaceRegion) pebbleAmounts {
+	return pebbleAmounts{entries: t.entriesWithin(region), changes: t.amountChanges}
 }
 
 func (t *pebbleTxn) entriesWithin(region keyspaceRegion) storedEntries {
 	return storedEntries{
-		region:    region,
-		reader:    t.reader,
-		changes:   t.changes,
-		footprint: t.footprint,
+		region:     region,
+		reader:     t.reader,
+		changes:    t.changes,
+		footprint:  t.footprint,
+		heldValues: t.heldValues,
 	}
 }
