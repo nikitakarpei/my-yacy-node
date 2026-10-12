@@ -16,19 +16,14 @@ type fakeObserver struct {
 	batchesAborted         map[string]int
 	replicaRingFractions   []float64
 	peersExcluded          int
-	wordPartitionsWaiting  map[skipKind]int
-}
-
-type skipKind struct {
-	offerKind  string
-	skipReason string
+	wordPartitionsWaiting  map[string]int
 }
 
 func newFakeObserver() *fakeObserver {
 	return &fakeObserver{
 		batchesSkipped:        make(map[string]int),
 		batchesAborted:        make(map[string]int),
-		wordPartitionsWaiting: make(map[skipKind]int),
+		wordPartitionsWaiting: make(map[string]int),
 	}
 }
 
@@ -84,14 +79,13 @@ func (f *fakeObserver) ObserveBatchAborted(reason string) {
 func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int) {}
 
 func (f *fakeObserver) ObserveWordPartitionsWaiting(
-	offerKind string,
 	skipReason string,
 	amountOfWordPartitions int,
 ) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.wordPartitionsWaiting[skipKind{offerKind: offerKind, skipReason: skipReason}] = amountOfWordPartitions
+	f.wordPartitionsWaiting[skipReason] = amountOfWordPartitions
 }
 
 func (f *fakeObserver) ObserveReplicaRingFractions(ringFractions []float64) {

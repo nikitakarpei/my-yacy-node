@@ -2,7 +2,8 @@
 // the postings of each word partition, and when each word partition is next due
 // for a refresh. A word partition short of redundancy is in retry: it is due
 // again after a retry delay that doubles on each try, up to the refresh
-// interval. The due refreshes are read one ring sector at a time.
+// interval. Due refreshes are read ring sector by ring sector, oldest first in
+// each, after the last one read.
 package wordpartitionholders
 
 import (
@@ -19,15 +20,15 @@ type wordPartitionRecord struct {
 	retryDelay time.Duration
 }
 
-type scheduledRefresh struct {
+type ScheduledRefresh struct {
+	WordPartition yacymodel.WordPartition
 	sector        yacymodel.DHTRingSector
 	refreshAt     time.Time
-	wordPartition yacymodel.WordPartition
 }
 
 type Holders struct {
 	records         *vault.Collection[yacymodel.WordPartition, wordPartitionRecord]
-	refreshOrder    *vault.Set[scheduledRefresh]
+	refreshOrder    *vault.Set[ScheduledRefresh]
 	partitions      yacymodel.DHTRingPartitions
 	refreshInterval time.Duration
 	firstRetryDelay time.Duration
@@ -173,13 +174,13 @@ func (h *Holders) unscheduleRefresh(
 func (h *Holders) scheduledRefreshOf(
 	wordPartition yacymodel.WordPartition,
 	refreshAt time.Time,
-) scheduledRefresh {
-	return scheduledRefresh{
+) ScheduledRefresh {
+	return ScheduledRefresh{
 		sector: yacymodel.DHTRingSectorOf(
 			yacymodel.DHTRingPositionOfWordPartition(wordPartition, h.partitions),
 		),
 		refreshAt:     refreshAt,
-		wordPartition: wordPartition,
+		WordPartition: wordPartition,
 	}
 }
 
@@ -219,25 +220,37 @@ func (h *Holders) deleteRecord(
 	return previousRecord.refreshAt, wasDeleted, nil
 }
 
-func (h *Holders) DueRefreshesIn(
+func (h *Holders) DueRefreshesAfter(
 	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
-	limit int,
-) ([]yacymodel.WordPartition, error) {
-	dueWordPartitions := make([]yacymodel.WordPartition, 0, max(limit, 0))
-	if err := h.refreshOrder.Scan(
-		tx,
-		refreshesInSectorDueBy(sector, h.now()),
-		func(refresh scheduledRefresh) (bool, error) {
-			dueWordPartitions = append(dueWordPartitions, refresh.wordPartition)
+	lastReadRefresh ScheduledRefresh,
+	refreshesBudget int,
+) (dueRefreshes []ScheduledRefresh, reachedEnd bool, err error) {
+	now := h.now()
+	stoppedOnBudget := false
+	for sector := lastReadRefresh.sector; sector < yacymodel.DHTRingSectorCount &&
+		!stoppedOnBudget; sector++ {
+		if err := h.refreshOrder.Scan(
+			tx,
+			refreshesInSectorDueBy(
+				sector,
+				now,
+			).After(refreshOrderKeyLayout.Encode(lastReadRefresh)),
+			func(refresh ScheduledRefresh) (bool, error) {
+				if len(dueRefreshes) == refreshesBudget {
+					stoppedOnBudget = true
 
-			return len(dueWordPartitions) < limit, nil
-		},
-	); err != nil {
-		return nil, fmt.Errorf("select due word partition refreshes: %w", err)
+					return false, nil
+				}
+				dueRefreshes = append(dueRefreshes, refresh)
+
+				return true, nil
+			},
+		); err != nil {
+			return nil, false, fmt.Errorf("select due word partition refreshes: %w", err)
+		}
 	}
 
-	return dueWordPartitions, nil
+	return dueRefreshes, !stoppedOnBudget, nil
 }
 
 func (h *Holders) EarliestRefreshAt(tx *vault.Txn) (time.Time, bool, error) {
@@ -249,7 +262,7 @@ func (h *Holders) EarliestRefreshAt(tx *vault.Txn) (time.Time, bool, error) {
 		if err := h.refreshOrder.Scan(
 			tx,
 			everyRefreshInSector(sector),
-			func(refresh scheduledRefresh) (bool, error) {
+			func(refresh ScheduledRefresh) (bool, error) {
 				if !found || refresh.refreshAt.Before(earliestRefreshAt) {
 					earliestRefreshAt, found = refresh.refreshAt, true
 				}

@@ -1,6 +1,8 @@
 // Package undeliveredpostings owns the record of the postings that were added
 // or replaced and are not yet delivered to all their responsible peers. The
-// record follows the ring, so a walk takes one sector at a time.
+// record follows the ring: a read takes the next word partitions after the last
+// posting read, up to a budget of postings, never splits a word partition, and
+// tells when it reached the end of the record.
 package undeliveredpostings
 
 import (
@@ -27,23 +29,23 @@ func Open(
 	return &UndeliveredPostings{postings: postings, partitions: partitions}, postings, nil
 }
 
-func (u *UndeliveredPostings) PostingsIn(
+func (u *UndeliveredPostings) WordPartitionsAfter(
 	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
-	lastVisited UndeliveredPosting,
-	visit func(UndeliveredPosting) (bool, error),
-) error {
+	lastReadPosting UndeliveredPosting,
+	postingsBudget int,
+) (wordPartitions []UndeliveredWordPartition, reachedEnd bool, err error) {
+	reading := wordPartitionReadingWithin(postingsBudget)
 	if err := u.postings.Scan(
 		tx,
-		entriesIn(sector, lastVisited),
+		entriesAfter(lastReadPosting),
 		func(change vault.Change[undeliveredEntry]) (bool, error) {
-			return visit(undeliveredPostingFrom(change, u.partitions))
+			return reading.visit(undeliveredPostingFrom(change, u.partitions)), nil
 		},
 	); err != nil {
-		return fmt.Errorf("walk undelivered postings: %w", err)
+		return nil, false, fmt.Errorf("read undelivered word partitions: %w", err)
 	}
 
-	return nil
+	return reading.wordPartitions(), !reading.stoppedOnBudget, nil
 }
 
 func (u *UndeliveredPostings) MarkDelivered(
@@ -70,7 +72,7 @@ func (u *UndeliveredPostings) PostingsOf(
 			return visit(undeliveredPostingFrom(change, u.partitions))
 		},
 	); err != nil {
-		return fmt.Errorf("walk undelivered postings of a word partition: %w", err)
+		return fmt.Errorf("read undelivered postings of a word partition: %w", err)
 	}
 
 	return nil

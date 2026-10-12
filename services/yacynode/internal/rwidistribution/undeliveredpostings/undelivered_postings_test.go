@@ -137,40 +137,57 @@ func (h harness) read(t *testing.T, view func(tx *vault.Txn) error) {
 	}
 }
 
-func (h harness) walk(
+func (h harness) wordPartitionsAfter(
 	t *testing.T,
-	sector yacymodel.DHTRingSector,
-	lastVisited undeliveredpostings.UndeliveredPosting,
-	limit int,
-) []undeliveredpostings.UndeliveredPosting {
+	lastReadPosting undeliveredpostings.UndeliveredPosting,
+	postingsBudget int,
+) []undeliveredpostings.UndeliveredWordPartition {
 	t.Helper()
 
-	var visited []undeliveredpostings.UndeliveredPosting
-	h.read(t, func(tx *vault.Txn) error {
-		visited = nil
+	wordPartitions, _ := h.wordPartitionsAndEndAfter(t, lastReadPosting, postingsBudget)
 
-		return h.undelivered.PostingsIn(
-			tx,
-			sector,
-			lastVisited,
-			func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-				visited = append(visited, posting)
-
-				return len(visited) < limit, nil
-			},
-		)
-	})
-
-	return visited
+	return wordPartitions
 }
 
-func (h harness) walkWhole(
+func (h harness) wordPartitionsAndEndAfter(
 	t *testing.T,
-	sector yacymodel.DHTRingSector,
-) []undeliveredpostings.UndeliveredPosting {
+	lastReadPosting undeliveredpostings.UndeliveredPosting,
+	postingsBudget int,
+) ([]undeliveredpostings.UndeliveredWordPartition, bool) {
 	t.Helper()
 
-	return h.walk(t, sector, undeliveredpostings.UndeliveredPosting{}, len(everyPosting()))
+	var (
+		wordPartitions []undeliveredpostings.UndeliveredWordPartition
+		reachedEnd     bool
+	)
+	h.read(t, func(tx *vault.Txn) error {
+		var err error
+		wordPartitions, reachedEnd, err = h.undelivered.WordPartitionsAfter(
+			tx, lastReadPosting, postingsBudget)
+
+		return err
+	})
+
+	return wordPartitions, reachedEnd
+}
+
+func (h harness) readWhole(t *testing.T) []undeliveredpostings.UndeliveredPosting {
+	t.Helper()
+
+	return postingsIn(
+		h.wordPartitionsAfter(t, undeliveredpostings.UndeliveredPosting{}, len(everyPosting())),
+	)
+}
+
+func postingsIn(
+	wordPartitions []undeliveredpostings.UndeliveredWordPartition,
+) []undeliveredpostings.UndeliveredPosting {
+	var postings []undeliveredpostings.UndeliveredPosting
+	for _, wordPartition := range wordPartitions {
+		postings = append(postings, wordPartition.Postings...)
+	}
+
+	return postings
 }
 
 func (h harness) markDelivered(
@@ -214,26 +231,6 @@ func (h harness) positionOf(
 	)
 }
 
-func (h harness) sectorOf(identity postingIdentity) yacymodel.DHTRingSector {
-	return yacymodel.DHTRingSectorOf(
-		yacymodel.DHTRingPositionOfWordAndURL(identity.word, identity.url, h.partitions),
-	)
-}
-
-func (h harness) busiestSector() yacymodel.DHTRingSector {
-	amountPerSector := map[yacymodel.DHTRingSector]int{}
-	busiest := yacymodel.DHTRingSector(0)
-	for _, identity := range everyPosting() {
-		sector := h.sectorOf(identity)
-		amountPerSector[sector]++
-		if amountPerSector[sector] > amountPerSector[busiest] {
-			busiest = sector
-		}
-	}
-
-	return busiest
-}
-
 func everyPosting() []postingIdentity {
 	identities := make([]postingIdentity, 0, amountOfWords*amountOfDocuments)
 	for word := range amountOfWords {
@@ -270,120 +267,168 @@ func identitiesOf(postings []undeliveredpostings.UndeliveredPosting) []postingId
 	return identities
 }
 
-func TestAddedPostingsShowInTheirSectorInRingOrder(t *testing.T) {
+func TestAReadVisitsEveryPostingOnceInRingOrder(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
 
-	sector := h.busiestSector()
-	visited := h.walkWhole(t, sector)
+	readPostings := h.readWhole(t)
 
-	var want []postingIdentity
+	if len(readPostings) != len(everyPosting()) {
+		t.Fatalf("read %d postings, want %d", len(readPostings), len(everyPosting()))
+	}
 	for _, identity := range everyPosting() {
-		if h.sectorOf(identity) == sector {
-			want = append(want, identity)
+		if !slices.Contains(identitiesOf(readPostings), identity) {
+			t.Fatalf("read did not visit %v", identity)
 		}
 	}
-	if len(visited) != len(want) || len(want) < 2 {
-		t.Fatalf("walk of sector %d visited %d postings, want %d", sector, len(visited), len(want))
-	}
-	for _, identity := range identitiesOf(visited) {
-		if !slices.Contains(want, identity) {
-			t.Fatalf("walk of sector %d visited %v, which sits in sector %d",
-				sector, identity, h.sectorOf(identity))
-		}
-	}
-	for index := 1; index < len(visited); index++ {
-		if h.positionOf(visited[index]) < h.positionOf(visited[index-1]) {
-			t.Fatalf("walk of sector %d goes back on the ring at %d", sector, index)
+	for index := 1; index < len(readPostings); index++ {
+		if h.positionOf(readPostings[index]) < h.positionOf(readPostings[index-1]) {
+			t.Fatalf("read goes back on the ring at %d", index)
 		}
 	}
 }
 
-func TestEveryPostingShowsInExactlyOneSector(t *testing.T) {
+func TestAReadGroupsThePostingsOfEachWordPartition(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
 
-	visited := make([]postingIdentity, 0, len(everyPosting()))
-	for sector := range yacymodel.DHTRingSectorCount {
-		visited = append(visited, identitiesOf(h.walkWhole(t, sector))...)
-	}
+	wordPartitions := h.wordPartitionsAfter(
+		t, undeliveredpostings.UndeliveredPosting{}, len(everyPosting()))
 
-	if len(visited) != len(everyPosting()) {
-		t.Fatalf("walks of all sectors visited %d postings, want %d",
-			len(visited), len(everyPosting()))
-	}
-	for _, identity := range everyPosting() {
-		if !slices.Contains(visited, identity) {
-			t.Fatalf("no sector walk visited %v", identity)
+	seen := map[yacymodel.WordPartition]bool{}
+	for _, wordPartition := range wordPartitions {
+		if seen[wordPartition.WordPartition] {
+			t.Fatalf("word partition %+v comes in two groups", wordPartition.WordPartition)
+		}
+		seen[wordPartition.WordPartition] = true
+		for _, posting := range wordPartition.Postings {
+			if posting.WordPartition != wordPartition.WordPartition {
+				t.Fatalf("group %+v holds a posting of %+v",
+					wordPartition.WordPartition, posting.WordPartition)
+			}
 		}
 	}
 }
 
-func TestAWalkResumesAfterTheLastVisitedPosting(t *testing.T) {
+func TestAReadStopsAtTheFirstWordPartitionEndPastItsBudget(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	sector := h.busiestSector()
-	whole := h.walkWhole(t, sector)
+	whole := h.wordPartitionsAfter(
+		t, undeliveredpostings.UndeliveredPosting{}, len(everyPosting()))
+	if len(whole[0].Postings) < 2 {
+		t.Fatalf("first word partition holds %d postings, want at least 2", len(whole[0].Postings))
+	}
 
-	head := h.walk(t, sector, undeliveredpostings.UndeliveredPosting{}, len(whole)/2)
-	rest := h.walk(t, sector, head[len(head)-1], len(whole))
+	read := h.wordPartitionsAfter(t, undeliveredpostings.UndeliveredPosting{}, 1)
 
-	if got, want := identitiesOf(
-		append(head, rest...),
-	), identitiesOf(
+	if len(read) != 1 || len(read[0].Postings) != len(whole[0].Postings) {
+		t.Fatalf("read with a budget of 1 = %+v, want all of the first word partition", read)
+	}
+}
+
+func TestAReadTellsWhetherItReachedTheEndOfTheRecord(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, 1, everyPosting()...)
+	whole := h.wordPartitionsAfter(
+		t, undeliveredpostings.UndeliveredPosting{}, len(everyPosting()))
+
+	head, headReachedEnd := h.wordPartitionsAndEndAfter(
+		t,
+		undeliveredpostings.UndeliveredPosting{},
+		1,
+	)
+	rest, restReachedEnd := h.wordPartitionsAndEndAfter(
+		t, whole[len(whole)-2].LastPosting(), len(everyPosting()))
+	past, pastReachedEnd := h.wordPartitionsAndEndAfter(t, rest[0].LastPosting(), 1)
+
+	if len(head) != 1 || headReachedEnd {
+		t.Fatalf("read with a budget of 1 = %d word partitions, end %v; want 1 and no end",
+			len(head), headReachedEnd)
+	}
+	if len(rest) != 1 || rest[0].WordPartition != whole[len(whole)-1].WordPartition ||
+		!restReachedEnd {
+		t.Fatalf("read of the last word partition = %+v, end %v; want it and the end",
+			rest, restReachedEnd)
+	}
+	if len(past) != 0 || !pastReachedEnd {
+		t.Fatalf("read past the end = %+v, end %v; want none and the end", past, pastReachedEnd)
+	}
+}
+
+func TestAReadAfterNoPostingStartsAtTheFirstPosting(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, 1, everyPosting()...)
+
+	first := h.wordPartitionsAfter(t, undeliveredpostings.UndeliveredPosting{}, 1)
+	whole := h.readWhole(t)
+
+	if identityOf(first[0].Postings[0]) != identityOf(whole[0]) {
+		t.Fatalf("first read starts at %v, want %v", identityOf(first[0].Postings[0]),
+			identityOf(whole[0]))
+	}
+	for _, posting := range whole[1:] {
+		if h.positionOf(posting) < h.positionOf(whole[0]) {
+			t.Fatalf("posting %v sits before the first read", identityOf(posting))
+		}
+	}
+}
+
+func TestAReadResumesAfterTheLastPostingRead(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, 1, everyPosting()...)
+	whole := h.readWhole(t)
+
+	head := h.wordPartitionsAfter(t, undeliveredpostings.UndeliveredPosting{}, len(whole)/2)
+	rest := h.wordPartitionsAfter(t, head[len(head)-1].LastPosting(), len(whole))
+
+	if got, want := identitiesOf(postingsIn(append(head, rest...))), identitiesOf(
 		whole,
-	); !slices.Equal(
-		got,
-		want,
-	) {
-		t.Fatalf("resumed walk visited %v, want %v", got, want)
+	); !slices.Equal(got, want) {
+		t.Fatalf("resumed read %v, want %v", got, want)
 	}
 }
 
-func TestADeliveredPostingLeavesItsSector(t *testing.T) {
+func TestADeliveredPostingLeavesTheRead(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	sector := h.busiestSector()
 
-	for _, posting := range h.walkWhole(t, sector) {
+	for _, posting := range h.readWhole(t) {
 		if !h.markDelivered(t, posting) {
 			t.Fatalf("MarkDelivered(%v) = false, want true", identityOf(posting))
 		}
 	}
 
-	if left := h.walkWhole(t, sector); len(left) != 0 {
-		t.Fatalf("sector %d holds %v after delivery", sector, identitiesOf(left))
+	if left := h.readWhole(t); len(left) != 0 {
+		t.Fatalf("read visits %v after delivery", identitiesOf(left))
 	}
 }
 
-func TestAPostingReplacedAfterTheWalkStaysUndelivered(t *testing.T) {
+func TestAPostingReplacedAfterTheReadStaysUndelivered(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	sector := h.busiestSector()
-	walked := h.walkWhole(t, sector)[0]
+	readPosting := h.readWhole(t)[0]
 
-	h.store(t, 2, identityOf(walked))
+	h.store(t, 2, identityOf(readPosting))
 
-	if h.markDelivered(t, walked) {
-		t.Fatal("MarkDelivered of a posting replaced after the walk = true, want false")
+	if h.markDelivered(t, readPosting) {
+		t.Fatal("MarkDelivered of a posting replaced after the read = true, want false")
 	}
-	if !slices.Contains(identitiesOf(h.walkWhole(t, sector)), identityOf(walked)) {
-		t.Fatalf("replaced posting %v left its sector", identityOf(walked))
+	if !slices.Contains(identitiesOf(h.readWhole(t)), identityOf(readPosting)) {
+		t.Fatalf("replaced posting %v left the read", identityOf(readPosting))
 	}
 }
 
-func TestARemovedPostingLeavesItsSector(t *testing.T) {
+func TestARemovedPostingLeavesTheRead(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	sector := h.busiestSector()
-	walked := h.walkWhole(t, sector)[0]
+	readPosting := h.readWhole(t)[0]
 
-	h.remove(t, identityOf(walked))
+	h.remove(t, identityOf(readPosting))
 
-	if slices.Contains(identitiesOf(h.walkWhole(t, sector)), identityOf(walked)) {
-		t.Fatalf("removed posting %v stays in its sector", identityOf(walked))
+	if slices.Contains(identitiesOf(h.readWhole(t)), identityOf(readPosting)) {
+		t.Fatalf("removed posting %v stays in the read", identityOf(readPosting))
 	}
-	if h.markDelivered(t, walked) {
+	if h.markDelivered(t, readPosting) {
 		t.Fatal("MarkDelivered of a removed posting = true, want false")
 	}
 }
@@ -394,20 +439,20 @@ func (h harness) postingsOf(
 ) []postingIdentity {
 	t.Helper()
 
-	var visited []undeliveredpostings.UndeliveredPosting
+	var readPostings []undeliveredpostings.UndeliveredPosting
 	h.read(t, func(tx *vault.Txn) error {
 		return h.undelivered.PostingsOf(
 			tx,
 			wordPartition,
 			func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-				visited = append(visited, posting)
+				readPostings = append(readPostings, posting)
 
 				return true, nil
 			},
 		)
 	})
 
-	return identitiesOf(visited)
+	return identitiesOf(readPostings)
 }
 
 func TestPostingsOfAWordPartitionAreExactlyItsUndeliveredPostings(t *testing.T) {
@@ -436,7 +481,7 @@ func TestPostingsOfAWordPartitionAreExactlyItsUndeliveredPostings(t *testing.T) 
 		}
 	}
 
-	for _, posting := range h.walkWhole(t, h.sectorOf(want[0])) {
+	for _, posting := range h.readWhole(t) {
 		h.markDelivered(t, posting)
 	}
 	if left := h.postingsOf(t, wordPartition); len(left) != 0 {
@@ -471,15 +516,14 @@ func TestAnyInSeesOnlyItsOwnWordPartition(t *testing.T) {
 func TestAnyInIsFalseOnceTheWordPartitionIsDelivered(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	sector := h.busiestSector()
-	walked := h.walkWhole(t, sector)
+	readPostings := h.readWhole(t)
 
-	for _, posting := range walked {
+	for _, posting := range readPostings {
 		h.markDelivered(t, posting)
 	}
 
-	if h.anyIn(t, walked[0].WordPartition) {
-		t.Fatalf("AnyIn(%+v) = true after delivery, want false", walked[0].WordPartition)
+	if h.anyIn(t, readPostings[0].WordPartition) {
+		t.Fatalf("AnyIn(%+v) = true after delivery, want false", readPostings[0].WordPartition)
 	}
 }
 
@@ -500,14 +544,15 @@ func (h harness) amountOfPostings(t *testing.T) int {
 func TestAmountOfPostingsCountsTheUndeliveredOnes(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	sector := h.busiestSector()
-	walked := h.walkWhole(t, sector)
+	readPostings := postingsIn(
+		h.wordPartitionsAfter(t, undeliveredpostings.UndeliveredPosting{}, len(everyPosting())/2),
+	)
 
-	for _, posting := range walked {
+	for _, posting := range readPostings {
 		h.markDelivered(t, posting)
 	}
 
-	if got, want := h.amountOfPostings(t), len(everyPosting())-len(walked); got != want {
+	if got, want := h.amountOfPostings(t), len(everyPosting())-len(readPostings); got != want {
 		t.Fatalf("AmountOfPostings = %d, want %d", got, want)
 	}
 }

@@ -72,7 +72,7 @@ func TestLoopOffersAgainOnceEnoughPeersAreReachable(t *testing.T) {
 		h.start(t)
 
 		h.reach(peer, farPeer)
-		h.advance(sectorRescanDelay)
+		h.advance(rescanDelay)
 
 		if got := urlsIn(h.transfers.offeredTo(peer)); !slices.Equal(got, urlsOf(1)) {
 			t.Fatalf("peer got %v, want the posting once enough peers are reachable", got)
@@ -180,7 +180,7 @@ func TestLoopSendsTheWholeWordPartitionToAMissingHolder(t *testing.T) {
 
 		h.reach(holder, missingHolder)
 		h.admit(t, wordPartition, urls[3])
-		h.advance(sectorRescanDelay)
+		h.advance(rescanDelay)
 
 		if got := urlsIn(h.transfers.offeredTo(holder)); !slices.Equal(got, sortedURLs(urls)) {
 			t.Fatalf("holder got %v, want its first postings and then only the new one", got)
@@ -452,12 +452,7 @@ func TestLoopResumesTheWalkAfterTheLastBatch(t *testing.T) {
 
 		h.start(t)
 
-		offersPerWord := map[yacymodel.Hash]int{}
-		for _, call := range h.transfers.offered {
-			for _, posting := range call.Postings {
-				offersPerWord[posting.WordHash]++
-			}
-		}
+		offersPerWord := offersPerWordIn(h.transfers.offered)
 		for index, want := range []int{2, 1, 1} {
 			if got := offersPerWord[wordPartitions[index].Word]; got != want {
 				t.Fatalf("postings of word partition %d sent %d times, want %d: %v",

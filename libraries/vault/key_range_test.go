@@ -75,3 +75,49 @@ func holdsKey(keys vault.KeyRange, key []byte) bool {
 
 	return firstExcluded == nil || bytes.Compare(key, firstExcluded) < 0
 }
+
+func TestKeysAfterAKeyHoldOnlyTheKeysOfTheRangePastIt(t *testing.T) {
+	parts := vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart)
+	texts := []string{"", "a", "b", "\xff\xff"}
+	for _, bound := range firstValuesSpanningTheEncodings {
+		for _, afterFirst := range firstValuesSpanningTheEncodings {
+			for _, afterSecond := range texts {
+				keys := parts.KeysThroughFirst(bound).After(parts.Key(afterFirst, afterSecond))
+				for _, first := range firstValuesSpanningTheEncodings {
+					for _, second := range texts {
+						isAfter := first > afterFirst || first == afterFirst && second > afterSecond
+
+						assertRangeAnswers(
+							t, keys, parts.Key(first, second).Bytes(), isAfter && first <= bound)
+					}
+				}
+			}
+		}
+	}
+}
+
+func TestKeysAfterAKeyPastTheRangeHoldNoKeyAndStayInOrder(t *testing.T) {
+	parts := vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart)
+	keys := parts.KeysThroughFirst(0).After(parts.Key(math.MaxInt64, "\xff\xff"))
+
+	firstIncluded, firstExcluded := keys.Bounds()
+	if bytes.Compare(firstIncluded, firstExcluded) > 0 {
+		t.Fatalf("bounds %x, %x are inverted", firstIncluded, firstExcluded)
+	}
+	for _, first := range firstValuesSpanningTheEncodings {
+		assertRangeAnswers(t, keys, parts.Key(first, "").Bytes(), false)
+	}
+}
+
+func TestEveryKeyAfterAKeyHoldsEveryLaterKey(t *testing.T) {
+	parts := vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart)
+	keys := vault.EveryKey().After(parts.Key(1, "a"))
+
+	for _, first := range firstValuesSpanningTheEncodings {
+		for _, second := range []string{"", "a", "b"} {
+			isAfter := first > 1 || first == 1 && second > "a"
+
+			assertRangeAnswers(t, keys, parts.Key(first, second).Bytes(), isAfter)
+		}
+	}
+}

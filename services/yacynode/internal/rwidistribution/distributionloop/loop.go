@@ -1,8 +1,8 @@
-// Package distributionloop keeps sending postings: it asks wordpartitionoffer
-// which word partitions are due now and what each peer gets, sends the
-// postings, and writes down what happened. Workers take the ring sectors in
-// turn, one batch at a time, each in a sector no other batch holds. After a
-// pass, a sector waits the rescan delay; a batch sends to all its peers at once.
+// Package distributionloop keeps sending postings. Workers take batches in turn
+// from two walks around the ring, one over undelivered postings and one over due
+// refreshes; no word partition is in two batches at once. After a pass, a walk
+// waits the rescan delay. A batch asks wordpartitionoffer what each peer gets,
+// sends to all its peers at once, and writes down what happened.
 package distributionloop
 
 import (
@@ -54,8 +54,8 @@ type PostingTransfers interface {
 
 type Config struct {
 	PostingsPerBatch  int
-	BatchConcurrency  int
-	SectorRescanDelay time.Duration
+	AmountOfWorkers   int
+	RescanDelay       time.Duration
 	MinReachablePeers int
 }
 
@@ -71,8 +71,7 @@ type Loop struct {
 	clock           Clock
 	batchObserver   BatchObserver
 	dhtRingObserver DHTRingObserver
-	sectorTurns     *sectorTurns
-	waiting         *waitingWordPartitions
+	walks           *ringWalks
 	gauges          *gaugeObservation
 	config          Config
 }
@@ -105,8 +104,23 @@ func New(
 		clock:           clock,
 		batchObserver:   batchObserver,
 		dhtRingObserver: dhtRingObserver,
-		sectorTurns:     newSectorTurns(clock, config.SectorRescanDelay),
-		waiting:         newWaitingWordPartitions(),
+		walks: newRingWalks(
+			clock,
+			config.RescanDelay,
+			batchObserver,
+			&undeliveredPostingsList{
+				vault:          v,
+				undelivered:    undelivered,
+				offers:         offers,
+				postingsBudget: config.PostingsPerBatch,
+			},
+			&dueRefreshesList{
+				vault:           v,
+				holders:         holders,
+				offers:          offers,
+				refreshesBudget: config.PostingsPerBatch,
+			},
+		),
 		gauges: &gaugeObservation{
 			vault:           v,
 			offers:          offers,
@@ -121,12 +135,12 @@ func New(
 }
 
 func (l *Loop) Run(ctx context.Context) {
-	var activities sync.WaitGroup
-	activities.Go(func() { l.gauges.observeUntilDone(ctx) })
-	for range l.config.BatchConcurrency {
-		activities.Go(func() { l.offerBatchesUntilDone(ctx) })
+	var workers sync.WaitGroup
+	for range l.config.AmountOfWorkers {
+		workers.Go(func() { l.offerBatchesUntilDone(ctx) })
 	}
-	activities.Wait()
+	l.gauges.observeUntilDone(ctx)
+	workers.Wait()
 }
 
 func (l *Loop) offerBatchesUntilDone(ctx context.Context) {
@@ -139,19 +153,24 @@ func (l *Loop) offerNextBatch(ctx context.Context) {
 	peers := l.roster.ReachablePeers(ctx)
 	if len(peers) < l.config.MinReachablePeers {
 		l.skipTooFewReachablePeers(ctx, len(peers))
-		sleepOn(ctx, l.clock, l.config.SectorRescanDelay)
+		sleepOn(ctx, l.clock, l.config.RescanDelay)
 
 		return
 	}
-	sector, found := l.sectorTurns.claimNext()
+	batch, found, err := l.walks.reserveNext(ctx)
+	if err != nil {
+		l.reportDuePostingsUnread(ctx, err)
+		sleepOn(ctx, l.clock, l.config.RescanDelay)
+
+		return
+	}
 	if !found {
-		sleepOn(ctx, l.clock, l.sectorTurns.shortestRescanDelayLeft())
+		sleepOn(ctx, l.clock, l.walks.shortestRescanDelayLeft())
 
 		return
 	}
-	defer l.sectorTurns.release(sector)
 
-	l.offerDueBatchIn(ctx, sector, peers)
+	l.offerReservedBatch(ctx, batch, peers)
 }
 
 func (l *Loop) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
@@ -164,15 +183,15 @@ func (l *Loop) skipTooFewReachablePeers(ctx context.Context, reachablePeers int)
 	l.batchObserver.ObserveBatchSkipped(string(SkipTooFewReachablePeers))
 }
 
-func (l *Loop) offerDueBatchIn(
+func (l *Loop) offerReservedBatch(
 	ctx context.Context,
-	sector yacymodel.DHTRingSector,
+	reserved reservedBatch,
 	peers []yacymodel.Seed,
 ) {
-	batch, err := l.offers.DueNowIn(ctx, sector, l.sectorTurns.cursorOf(sector), peers)
+	batch, err := reserved.batch.offersFor(ctx, peers)
 	if err != nil {
 		l.reportDuePostingsUnread(ctx, err)
-		l.sectorTurns.delayRescan(sector)
+		l.abortBatch(ctx, reserved)
 
 		return
 	}
@@ -186,18 +205,18 @@ func (l *Loop) offerDueBatchIn(
 		)
 		if err := l.commitBatch(ctx, batch.Offers, answers); err != nil {
 			l.reportBatchUnwritten(ctx, err)
-			l.sectorTurns.delayRescan(sector)
+			l.abortBatch(ctx, reserved)
 
 			return
 		}
 	}
-	l.sectorTurns.advance(sector, batch.Next)
-	l.waiting.add(sector, batch.Skips)
-	if endsSectorPass(batch.Next) {
-		l.sectorTurns.delayRescan(sector)
-		l.reportWaiting(l.waiting.endPassIn(sector))
-	}
+	l.walks.complete(reserved, batch.Skips)
 	l.batchObserver.ObserveBatchCompleted()
+}
+
+func (l *Loop) abortBatch(ctx context.Context, reserved reservedBatch) {
+	l.walks.complete(reserved, nil)
+	sleepOn(ctx, l.clock, l.config.RescanDelay)
 }
 
 func (l *Loop) reportDuePostingsUnread(ctx context.Context, err error) {
@@ -306,18 +325,4 @@ func ringFractionsOf(
 func (l *Loop) reportBatchUnwritten(ctx context.Context, err error) {
 	slog.ErrorContext(ctx, "distribution batch not written", slog.Any("error", err))
 	l.batchObserver.ObserveBatchAborted(string(AbortBatchUnwritten))
-}
-
-func endsSectorPass(next wordpartitionoffer.Cursor) bool {
-	return next == (wordpartitionoffer.Cursor{})
-}
-
-func (l *Loop) reportWaiting(amountsPerKind map[waitingKind]int) {
-	for kind, amountOfWordPartitions := range amountsPerKind {
-		l.batchObserver.ObserveWordPartitionsWaiting(
-			string(kind.offer),
-			string(kind.reason),
-			amountOfWordPartitions,
-		)
-	}
 }

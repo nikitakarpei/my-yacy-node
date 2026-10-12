@@ -72,21 +72,12 @@ func positionFromKey(positionKey int64) yacymodel.DHTRingPosition {
 	return yacymodel.DHTRingPosition(positionKey)
 }
 
-func entriesIn(sector yacymodel.DHTRingSector, lastVisited UndeliveredPosting) vault.KeyRange {
-	highestPosition := positionKeyOf(yacymodel.HighestDHTRingPositionIn(sector))
-	if lastVisited == (UndeliveredPosting{}) {
-		return undeliveredEntryKeyParts.KeysBetweenFirsts(
-			positionKeyOf(yacymodel.LowestDHTRingPositionIn(sector)),
-			highestPosition,
-		)
-	}
-
-	return undeliveredEntryKeyParts.KeysAfterKeyThroughFirst(
-		positionKeyOf(lastVisited.change.Entry.position),
-		lastVisited.change.Entry.word,
-		lastVisited.change.Entry.url,
-		highestPosition,
-	)
+func entriesAfter(lastReadPosting UndeliveredPosting) vault.KeyRange {
+	return vault.EveryKey().After(undeliveredEntryKeyParts.Key(
+		positionKeyOf(lastReadPosting.change.Entry.position),
+		lastReadPosting.change.Entry.word,
+		lastReadPosting.change.Entry.url,
+	))
 }
 
 func entriesOf(

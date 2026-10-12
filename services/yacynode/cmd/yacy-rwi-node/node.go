@@ -374,10 +374,9 @@ func assembleNode(
 				peerEligibility,
 				dhtRingObserver,
 				wordpartitionoffer.Config{
-					Partitions:       dhtRingPartitions,
-					Self:             identity.Hash,
-					Redundancy:       config.Distribution.Redundancy,
-					PostingsPerBatch: config.Distribution.PostingsPerBatch,
+					Partitions: dhtRingPartitions,
+					Self:       identity.Hash,
+					Redundancy: config.Distribution.Redundancy,
 				},
 			),
 			undeliveredPostings,
@@ -405,8 +404,8 @@ func assembleNode(
 			dhtRingObserver,
 			distributionloop.Config{
 				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
-				BatchConcurrency:  config.Distribution.BatchConcurrency,
-				SectorRescanDelay: config.Distribution.SectorRescanDelay,
+				AmountOfWorkers:   config.Distribution.AmountOfWorkers,
+				RescanDelay:       config.Distribution.RescanDelay,
 				MinReachablePeers: config.Distribution.MinReachablePeers,
 			},
 		)

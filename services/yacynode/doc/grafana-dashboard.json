@@ -2303,7 +2303,7 @@
     {
       "id": 137,
       "title": "Word partitions waiting, by reason",
-      "description": "Different word partitions the last pass over each ring sector could not send.",
+      "description": "Word partitions not sent in the last pass, averaged over 5 minutes.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2335,8 +2335,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason, offer) (yacynode_rwidistribution_word_partitions_waiting{instance=~\"$service_instance\"})",
-          "legendFormat": "{{reason}} ({{offer}})"
+          "expr": "sum by (reason) (avg_over_time(yacynode_rwidistribution_word_partitions_waiting{instance=~\"$service_instance\"}[5m]))",
+          "legendFormat": "{{reason}}"
         }
       ],
       "interval": "$window"
