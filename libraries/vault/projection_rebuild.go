@@ -3,6 +3,8 @@ package vault
 import (
 	"context"
 	"fmt"
+	"log/slog"
+	"time"
 )
 
 const projectionVersionsBucket Name = "vault_projection_versions"
@@ -45,19 +47,17 @@ func (v *Vault) rebuildStaleProjections[K, V any](
 	if err != nil || len(stale) == 0 {
 		return err
 	}
-	for _, bucket := range stale {
-		if err := v.updateInBatches(ctx, bucket.clearFrom); err != nil {
-			return fmt.Errorf("clear stale projection: %w", err)
-		}
+	rebuildBegan := time.Now()
+	reportRebuildBegan(ctx, collection.name, stale)
+	if err := v.rebuildProjections(ctx, collection, projections, stale); err != nil {
+		return err
 	}
-	staleProjections := projections.narrowedTo(stale)
-	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
-		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
-	}); err != nil {
-		return fmt.Errorf("rebuild stale projections: %w", err)
+	if err := v.recordProjectionVersions(ctx, versions, stale); err != nil {
+		return err
 	}
+	reportRebuilt(ctx, collection.name, stale, time.Since(rebuildBegan))
 
-	return v.recordProjectionVersions(ctx, versions, stale)
+	return nil
 }
 
 func (v *Vault) staleProjectionsAmong(
@@ -84,6 +84,45 @@ func (v *Vault) staleProjectionsAmong(
 	}
 
 	return stale, nil
+}
+
+func reportRebuildBegan(ctx context.Context, collection Name, stale []projectionBucket) {
+	slog.InfoContext(
+		ctx,
+		"vault projections rebuild began",
+		slog.String("collection", string(collection)),
+		slog.Any("projections", bucketNamesOf(stale)),
+	)
+}
+
+func bucketNamesOf(buckets []projectionBucket) []Name {
+	names := make([]Name, 0, len(buckets))
+	for _, bucket := range buckets {
+		names = append(names, bucket.bucketName())
+	}
+
+	return names
+}
+
+func (v *Vault) rebuildProjections[K, V any](
+	ctx context.Context,
+	collection *Collection[K, V],
+	projections Projections[K, V],
+	stale []projectionBucket,
+) error {
+	for _, bucket := range stale {
+		if err := v.updateInBatches(ctx, bucket.clearFrom); err != nil {
+			return fmt.Errorf("clear stale projection: %w", err)
+		}
+	}
+	staleProjections := projections.narrowedTo(stale)
+	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
+		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
+	}); err != nil {
+		return fmt.Errorf("rebuild stale projections: %w", err)
+	}
+
+	return nil
 }
 
 func (v *Vault) updateInBatches(
@@ -127,4 +166,19 @@ func (v *Vault) recordProjectionVersions(
 	}
 
 	return nil
+}
+
+func reportRebuilt(
+	ctx context.Context,
+	collection Name,
+	rebuilt []projectionBucket,
+	took time.Duration,
+) {
+	slog.InfoContext(
+		ctx,
+		"vault projections rebuilt",
+		slog.String("collection", string(collection)),
+		slog.Any("projections", bucketNamesOf(rebuilt)),
+		slog.Duration("took", took),
+	)
 }

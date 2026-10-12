@@ -19,6 +19,7 @@ type Projection[R any] interface {
 }
 
 type projectionBucket interface {
+	bucketName() Name
 	follow() error
 	staleIn(tx *Txn, versions *Collection[Name, string]) (bool, error)
 	recordVersionIn(tx *Txn, versions *Collection[Name, string]) error
@@ -29,6 +30,10 @@ type projectionRegistration struct {
 	bucket   Name
 	version  string
 	followed atomic.Bool
+}
+
+func (r *projectionRegistration) bucketName() Name {
+	return r.bucket
 }
 
 func (r *projectionRegistration) follow() error {
