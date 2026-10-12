@@ -14,9 +14,14 @@ also matches any other index with that prefix.
 |---|---|---|
 | `title` | `text` | `corpus_text` |
 | `content` | `text` | `corpus_text` |
+| `auxiliary_text` | `text` | `corpus_text` |
 | `url` | `keyword` | — |
 | `language` | `keyword` | — |
 | `crawled_at` | `date` | — |
+
+The `content` field holds the readable text of the page. The `auxiliary_text` field
+holds the notes of the page. At start, the service adds each missing field to an
+index that exists.
 
 ## Text analysis
 

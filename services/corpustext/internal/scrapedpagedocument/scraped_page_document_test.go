@@ -15,9 +15,11 @@ func TestOfMapsFields(t *testing.T) {
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		documentextraction.Document{Title: "Hi", Language: "en"},
 		[]byte("words here"),
+		[]byte("notes here"),
 		scrapedAt,
 	)
 	if doc.URL != "https://example.com/" || doc.Title != "Hi" || doc.Content != "words here" ||
+		doc.AuxiliaryText != "notes here" ||
 		!doc.CrawledAt.Equal(scrapedAt) || doc.Language != "en" {
 		t.Errorf("document = %+v", doc)
 	}

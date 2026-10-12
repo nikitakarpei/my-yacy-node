@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
@@ -71,14 +72,29 @@ func analyzerTypeIn(t *testing.T, definition map[string]any) string {
 	return analyzer["type"].(string)
 }
 
-func TestElasticsearchSchemaAcceptsAnExistingIndex(t *testing.T) {
+const mappingWithoutAuxiliaryText = `{"mappings":{"properties":{` +
+	`"title":{},"content":{},"url":{},"language":{},"crawled_at":{}}}}`
+
+func TestElasticsearchSchemaAddsAMissingFieldToAnExistingIndex(t *testing.T) {
+	added := map[string]map[string]any{}
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPut {
+		index, mapping := strings.CutSuffix(r.URL.Path, "/_mapping")
+		switch {
+		case r.Method == http.MethodPut && mapping:
+			var properties struct {
+				Properties map[string]any `json:"properties"`
+			}
+			if err := json.NewDecoder(r.Body).Decode(&properties); err != nil {
+				t.Errorf("decode mapping: %v", err)
+			}
+			added[index] = properties.Properties
+		case r.Method == http.MethodPut:
 			w.WriteHeader(http.StatusBadRequest)
 			_, _ = io.WriteString(w, `{"error":{"type":"resource_already_exists_exception"}}`)
-			return
+		default:
+			_, _ = io.WriteString(w, `{"yacy_text_v1_und":`+mappingWithoutAuxiliaryText+
+				`,"yacy_text_v1_en":`+mappingWithoutAuxiliaryText+`}`)
 		}
-		_, _ = io.WriteString(w, "{}")
 	}))
 	defer server.Close()
 
@@ -87,6 +103,11 @@ func TestElasticsearchSchemaAcceptsAnExistingIndex(t *testing.T) {
 	)
 	if err := schema.Bootstrap(context.Background()); err != nil {
 		t.Fatalf("bootstrap: %v", err)
+	}
+
+	english := added["/yacy_text_v1_en"]
+	if _, present := english["auxiliary_text"]; len(english) != 1 || !present {
+		t.Errorf("fields added to the english index = %v, want auxiliary_text only", english)
 	}
 }
 

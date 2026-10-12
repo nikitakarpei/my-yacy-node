@@ -12,13 +12,15 @@ func Of(
 	pageURL canonicalurl.CanonicalURL,
 	document documentextraction.Document,
 	text []byte,
+	auxiliaryText []byte,
 	scrapedAt time.Time,
 ) searchdocument.Document {
 	return searchdocument.Document{
-		Title:     document.Title,
-		URL:       pageURL.String(),
-		Content:   string(text),
-		CrawledAt: scrapedAt,
-		Language:  document.Language,
+		Title:         document.Title,
+		URL:           pageURL.String(),
+		Content:       string(text),
+		AuxiliaryText: string(auxiliaryText),
+		CrawledAt:     scrapedAt,
+		Language:      document.Language,
 	}
 }

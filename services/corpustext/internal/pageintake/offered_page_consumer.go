@@ -87,11 +87,14 @@ func (c *OfferedPageConsumer) takeIn(
 		c.pageIntakeObserver.NoReadableTextDerived(ctx, page.PageURL)
 		return c.reject(ctx, message, page.PageURL)
 	}
+	auxiliaryText, _ := c.formatDerivations.BytesIn(
+		ctx, documentextraction.FormatAuxiliaryText, document, page.LandedURL,
+	)
 	return c.index(
 		ctx,
 		message,
 		page.PageURL,
-		scrapedpagedocument.Of(page.PageURL, document, text, indexedAt),
+		scrapedpagedocument.Of(page.PageURL, document, text, auxiliaryText, indexedAt),
 	)
 }
 
