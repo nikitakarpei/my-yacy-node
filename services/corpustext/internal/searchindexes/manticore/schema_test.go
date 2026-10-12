@@ -97,6 +97,45 @@ func contains(statements []string, wanted string) bool {
 	return false
 }
 
+func TestManticoreSchemaAddsAMissingColumnToAnExistingTable(t *testing.T) {
+	var statements []string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			t.Errorf("parse form: %v", err)
+		}
+		statement := r.PostForm.Get("query")
+		statements = append(statements, statement)
+		if strings.HasPrefix(statement, "DESC ") {
+			_, _ = io.WriteString(w, `[{"data":[{"Field":"id","Type":"bigint"},`+
+				`{"Field":"title","Type":"text"},{"Field":"content","Type":"text"},`+
+				`{"Field":"url","Type":"string"},{"Field":"language","Type":"string"},`+
+				`{"Field":"crawled_at","Type":"string"}],"error":""}]`)
+			return
+		}
+		_, _ = io.WriteString(w, `[{"total":0,"error":"","warning":""}]`)
+	}))
+	defer server.Close()
+
+	schema := manticore.NewSchema(server.URL, tablesFor(t), server.Client())
+	if err := schema.Bootstrap(context.Background()); err != nil {
+		t.Fatalf("bootstrap: %v", err)
+	}
+
+	var alterations []string
+	for _, statement := range statements {
+		if strings.HasPrefix(statement, "ALTER TABLE") {
+			alterations = append(alterations, statement)
+		}
+	}
+	want := []string{
+		"ALTER TABLE yacy_text_v1_und ADD COLUMN auxiliary_text text",
+		"ALTER TABLE yacy_text_v1_en ADD COLUMN auxiliary_text text",
+	}
+	if strings.Join(alterations, "; ") != strings.Join(want, "; ") {
+		t.Errorf("alterations = %v, want %v", alterations, want)
+	}
+}
+
 func TestManticoreSchemaFailsOnStatementError(t *testing.T) {
 	var statements []string
 	server := statementRecorder(t, &statements, `[{"total":0,"error":"syntax error","warning":""}]`)

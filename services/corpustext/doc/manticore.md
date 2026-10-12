@@ -14,9 +14,14 @@ service recreates that table at every start, with the configured tables as its m
 |---|---|
 | `title` | `text` |
 | `content` | `text` |
+| `auxiliary_text` | `text` |
 | `url` | `string` |
 | `language` | `string` |
 | `crawled_at` | `string` |
+
+The `content` column holds the readable text of the page. The `auxiliary_text`
+column holds the text that the page has beside its article, such as notes. At start,
+the service adds each missing column to a table that exists.
 
 ## Text analysis
 

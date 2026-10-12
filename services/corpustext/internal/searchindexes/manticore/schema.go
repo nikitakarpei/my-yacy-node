@@ -39,7 +39,14 @@ func (schema *Schema) Bootstrap(ctx context.Context) error {
 		if err := schema.createIfAbsent(ctx, index); err != nil {
 			return err
 		}
-		schema.reportColumnDrift(ctx, index)
+		liveColumnTypes, err := schema.columnTypesOf(ctx, index)
+		if err != nil {
+			return err
+		}
+		if err := schema.addMissingColumns(ctx, index, liveColumnTypes); err != nil {
+			return err
+		}
+		schema.reportColumnDrift(ctx, index, liveColumnTypes)
 	}
 	return schema.recreateFanOutTable(ctx)
 }
@@ -71,6 +78,7 @@ type tableColumn struct {
 var documentColumns = []tableColumn{
 	{name: "title", dataType: "text"},
 	{name: "content", dataType: "text"},
+	{name: "auxiliary_text", dataType: "text"},
 	{name: "url", dataType: "string"},
 	{name: "language", dataType: "string"},
 	{name: "crawled_at", dataType: "string"},
@@ -136,27 +144,54 @@ func rowsIn(detail []byte) ([]map[string]any, error) {
 	return rows, nil
 }
 
+func (schema *Schema) columnTypesOf(
+	ctx context.Context,
+	index languageindex.LanguageIndex,
+) (map[string]string, error) {
+	rows, err := schema.rowsOf(ctx, "DESC "+index.Name)
+	if err != nil {
+		return nil, fmt.Errorf("describe table %s: %w", index.Name, err)
+	}
+	return columnTypesIn(rows), nil
+}
+
+func (schema *Schema) addMissingColumns(
+	ctx context.Context,
+	index languageindex.LanguageIndex,
+	liveColumnTypes map[string]string,
+) error {
+	for _, column := range documentColumns {
+		if _, present := liveColumnTypes[column.name]; present {
+			continue
+		}
+		statement := fmt.Sprintf(
+			"ALTER TABLE %s ADD COLUMN %s %s", index.Name, column.name, column.dataType,
+		)
+		if _, err := schema.rowsOf(ctx, statement); err != nil {
+			return fmt.Errorf("add column %s to table %s: %w", column.name, index.Name, err)
+		}
+		slog.DebugContext(ctx, "manticore column added",
+			slog.String("table", index.Name),
+			slog.String("column", column.name),
+		)
+	}
+	return nil
+}
+
 func (schema *Schema) reportColumnDrift(
 	ctx context.Context,
 	index languageindex.LanguageIndex,
+	liveColumnTypes map[string]string,
 ) {
-	rows, err := schema.rowsOf(ctx, "DESC "+index.Name)
-	if err != nil {
-		slog.WarnContext(ctx, "manticore table schema unreadable",
-			slog.String("table", index.Name),
-			slog.Any("error", err),
-		)
-		return
-	}
-	live := columnTypesIn(rows)
 	for _, column := range documentColumns {
-		if live[column.name] == column.dataType {
+		liveType, present := liveColumnTypes[column.name]
+		if !present || liveType == column.dataType {
 			continue
 		}
 		slog.WarnContext(ctx, "manticore table differs from the schema",
 			slog.String("table", index.Name),
 			slog.String("column", column.name),
-			slog.String("type", live[column.name]),
+			slog.String("type", liveType),
 		)
 	}
 }

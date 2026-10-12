@@ -4,11 +4,12 @@
   "title": "search document",
   "type": "object",
   "additionalProperties": false,
-  "required": ["title", "url", "content", "crawled_at", "language"],
+  "required": ["title", "url", "content", "auxiliary_text", "crawled_at", "language"],
   "properties": {
     "title": { "type": "string" },
     "url": { "type": "string", "format": "uri" },
     "content": { "type": "string" },
+    "auxiliary_text": { "type": "string" },
     "crawled_at": { "type": "string", "format": "date-time" },
     "language": { "type": "string" }
   }

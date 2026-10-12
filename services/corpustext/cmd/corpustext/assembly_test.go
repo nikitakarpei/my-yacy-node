@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -38,6 +39,10 @@ func (e *recordingElasticsearch) serve(t *testing.T) string {
 		e.mu.Lock()
 		e.lastPath = r.URL.Path
 		e.mu.Unlock()
+		if r.Method == http.MethodGet {
+			_, _ = io.WriteString(w, "{}")
+			return
+		}
 		w.WriteHeader(http.StatusCreated)
 	}))
 	t.Cleanup(server.Close)

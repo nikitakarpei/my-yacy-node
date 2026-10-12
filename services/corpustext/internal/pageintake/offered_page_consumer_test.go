@@ -189,6 +189,22 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	}
 }
 
+func TestOfferedPageIsIndexedWithItsNotesAsAuxiliaryText(t *testing.T) {
+	intake := runPageIntake(
+		t,
+		offeredPage(t, "<html lang=\"en\"><head><title>Bicycles</title></head>"+
+			"<body><p>Bicycles are ridden every day.<sup><a href=\"#note-1\">[1]</a></sup></p>"+
+			"<ol><li id=\"note-1\">Survey of commuters.</li></ol></body></html>"),
+	)
+
+	if len(intake.index.documents) != 1 {
+		t.Fatalf("indexed %d documents, want exactly one", len(intake.index.documents))
+	}
+	if got := intake.index.documents[0].AuxiliaryText; got != "Survey of commuters." {
+		t.Errorf("indexed auxiliary text %q, want the note", got)
+	}
+}
+
 func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 	intake := runPageIntake(t, offeredPageOfType(t, "application/octet-stream", "\x00\x01"))
 

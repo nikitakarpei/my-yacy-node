@@ -22,7 +22,9 @@ index.
 * The service SHALL consume only the offered pages of the scrape service.
 * For each offered page, the service SHALL derive the text of the document it holds.
 * The service SHALL produce a search-index document carrying the offered page's canonical
-  URL, text, title, and language.
+  URL, text, auxiliary text, title, and language.
+* The auxiliary text of a page SHALL be the text that the page has beside its article,
+  such as notes.
 * An offered page from which no text derives SHALL leave the index unchanged.
 * The service SHALL send back a receipt for every page it disposes of, saying whether it
   kept the page or rejected it.
@@ -37,8 +39,10 @@ index.
   release of the service.
 * The service SHALL publish one name per version that a search client reads
   every index of that version through.
-* At startup the service SHALL create each missing index and SHALL NOT change or delete
-  an existing index.
+* At startup the service SHALL give each index of its version every field it writes,
+  creating the index when it is missing.
+* Starting the service SHALL keep every document an index holds.
+* A schema change that the documents of an index cannot take SHALL get a new version.
 * The service SHALL let operators choose which supported search index to use.
 * The service SHALL drop no page's content while the search index is unavailable.
 

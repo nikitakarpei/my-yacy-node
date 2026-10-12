@@ -43,7 +43,14 @@ func (schema *Schema) Bootstrap(ctx context.Context) error {
 		if err := schema.createIfAbsent(ctx, index); err != nil {
 			return err
 		}
-		schema.reportMappingDrift(ctx, index)
+		liveProperties, err := schema.livePropertiesOf(ctx, index.Name)
+		if err != nil {
+			return err
+		}
+		if err := schema.addMissingFields(ctx, index, liveProperties); err != nil {
+			return err
+		}
+		schema.reportMappingDrift(ctx, index, liveProperties)
 	}
 	return nil
 }
@@ -86,11 +93,12 @@ func definitionOf(index languageindex.LanguageIndex) map[string]any {
 
 func documentProperties() map[string]any {
 	return map[string]any{
-		"title":      map[string]any{"type": "text", "analyzer": textAnalyzerName},
-		"content":    map[string]any{"type": "text", "analyzer": textAnalyzerName},
-		"url":        map[string]any{"type": "keyword"},
-		"language":   map[string]any{"type": "keyword"},
-		"crawled_at": map[string]any{"type": "date"},
+		"title":          map[string]any{"type": "text", "analyzer": textAnalyzerName},
+		"content":        map[string]any{"type": "text", "analyzer": textAnalyzerName},
+		"auxiliary_text": map[string]any{"type": "text", "analyzer": textAnalyzerName},
+		"url":            map[string]any{"type": "keyword"},
+		"language":       map[string]any{"type": "keyword"},
+		"crawled_at":     map[string]any{"type": "date"},
 	}
 }
 
@@ -118,26 +126,51 @@ func (schema *Schema) send(
 	return resp.StatusCode, detail, nil
 }
 
+func (schema *Schema) addMissingFields(
+	ctx context.Context,
+	index languageindex.LanguageIndex,
+	liveProperties map[string]any,
+) error {
+	missingProperties := map[string]any{}
+	for field, expected := range documentProperties() {
+		if _, present := liveProperties[field]; !present {
+			missingProperties[field] = expected
+		}
+	}
+	if len(missingProperties) == 0 {
+		return nil
+	}
+	body, err := json.Marshal(map[string]any{"properties": missingProperties})
+	if err != nil {
+		return fmt.Errorf("marshal missing fields of %s: %w", index.Name, err)
+	}
+	status, detail, err := schema.send(
+		ctx, http.MethodPut, index.Name+"/_mapping", bytes.NewReader(body),
+	)
+	if err != nil {
+		return fmt.Errorf("add missing fields to %s: %w", index.Name, err)
+	}
+	if status >= http.StatusMultipleChoices {
+		return fmt.Errorf("add missing fields to %s: status %d: %s", index.Name, status, detail)
+	}
+	slog.DebugContext(ctx, "elasticsearch fields added", slog.String("index", index.Name))
+	return nil
+}
+
 func (schema *Schema) reportMappingDrift(
 	ctx context.Context,
 	index languageindex.LanguageIndex,
+	liveProperties map[string]any,
 ) {
-	live, err := schema.livePropertiesOf(ctx, index.Name)
-	if err != nil {
-		slog.WarnContext(ctx, "elasticsearch mapping unreadable",
-			slog.String("index", index.Name),
-			slog.Any("error", err),
-		)
-		return
-	}
 	for field, expected := range documentProperties() {
-		if reflect.DeepEqual(live[field], expected) {
+		live, present := liveProperties[field]
+		if !present || reflect.DeepEqual(live, expected) {
 			continue
 		}
 		slog.WarnContext(ctx, "elasticsearch mapping differs from the schema",
 			slog.String("index", index.Name),
 			slog.String("field", field),
-			slog.Any("mapping", live[field]),
+			slog.Any("mapping", live),
 		)
 	}
 }
@@ -148,7 +181,7 @@ func (schema *Schema) livePropertiesOf(
 ) (map[string]any, error) {
 	status, detail, err := schema.send(ctx, http.MethodGet, name+"/_mapping", nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read mapping %s: %w", name, err)
 	}
 	if status != http.StatusOK {
 		return nil, fmt.Errorf("read mapping %s: status %d: %s", name, status, detail)
