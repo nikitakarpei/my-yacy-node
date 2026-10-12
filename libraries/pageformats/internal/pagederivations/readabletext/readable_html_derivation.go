@@ -6,6 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articlefootnotes"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/bodies/text"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
 )
@@ -29,6 +30,8 @@ func (ReadableHTMLDerivation) BodyFrom(
 	_ canonicalurl.CanonicalURL,
 	source documentextraction.Body,
 ) (documentextraction.Body, bool, error) {
-	readableText := htmlflattening.Flatten(source.(htmltree.Body).CopiedTree())
+	article := source.(htmltree.Body).CopiedTree()
+	articlefootnotes.RemoveFootnoteMarks(article)
+	readableText := htmlflattening.Flatten(article)
 	return text.New([]byte(readableText)), true, nil
 }

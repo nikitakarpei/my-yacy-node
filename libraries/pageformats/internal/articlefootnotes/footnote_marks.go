@@ -1,4 +1,6 @@
-package htmlflattening
+// Package articlefootnotes finds the footnote marks of an article: the
+// markers in its text and the links from its notes back to them.
+package articlefootnotes
 
 import (
 	"strings"
@@ -7,14 +9,20 @@ import (
 	"golang.org/x/net/html/atom"
 )
 
+func RemoveFootnoteMarks(article *html.Node) {
+	for _, mark := range footnoteMarksOf(article).nodesIn(article) {
+		mark.Parent.RemoveChild(mark)
+	}
+}
+
 type footnoteMarks struct {
 	markers   map[*html.Node]struct{}
 	markerIDs map[string]struct{}
 }
 
-func footnoteMarksOf(root *html.Node) footnoteMarks {
+func footnoteMarksOf(article *html.Node) footnoteMarks {
 	marks := footnoteMarks{markers: map[*html.Node]struct{}{}, markerIDs: map[string]struct{}{}}
-	for node := range root.Descendants() {
+	for node := range article.Descendants() {
 		if isFootnoteMarker(node) {
 			marks.add(node)
 		}
@@ -92,6 +100,16 @@ func (marks footnoteMarks) addID(node *html.Node) {
 	if id := attributeOf(node, "id"); id != "" {
 		marks.markerIDs[id] = struct{}{}
 	}
+}
+
+func (marks footnoteMarks) nodesIn(article *html.Node) []*html.Node {
+	var markNodes []*html.Node
+	for node := range article.Descendants() {
+		if marks.contain(node) {
+			markNodes = append(markNodes, node)
+		}
+	}
+	return markNodes
 }
 
 func (marks footnoteMarks) contain(node *html.Node) bool {
