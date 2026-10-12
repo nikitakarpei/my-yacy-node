@@ -7,7 +7,7 @@ import (
 )
 
 type KeyPart[A any] struct {
-	items      func(A) []any
+	appendTo   func([]byte, A) []byte
 	holder     func() ([]any, func() (A, error))
 	descending bool
 }
@@ -49,11 +49,11 @@ func (part KeyPart[A]) keysBefore(value A) KeyRange {
 }
 
 func (part KeyPart[A]) encodingOf(value A) []byte {
-	return keyOf(part.items(value)).encoded
+	return part.appendTo(nil, value)
 }
 
 var TextKeyPart = KeyPart[string]{
-	items: func(text string) []any { return []any{text} },
+	appendTo: appendOrderedText[string],
 	holder: func() ([]any, func() (string, error)) {
 		var text string
 
@@ -65,7 +65,9 @@ var TextKeyPartDescending = descendingFrom(TextKeyPart)
 
 func TextKeyPartFrom[A any](text func(A) string, valueOf func(string) (A, error)) KeyPart[A] {
 	return KeyPart[A]{
-		items: func(value A) []any { return TextKeyPart.items(text(value)) },
+		appendTo: func(encoded []byte, value A) []byte {
+			return appendOrderedText(encoded, text(value))
+		},
 		holder: func() ([]any, func() (A, error)) {
 			targets, textInKey := TextKeyPart.holder()
 
@@ -89,7 +91,9 @@ func BytesKeyPartFrom[A any](
 	valueOf func([]byte) (A, error),
 ) KeyPart[A] {
 	return KeyPart[A]{
-		items: func(value A) []any { return TextKeyPart.items(string(byteForm(value))) },
+		appendTo: func(encoded []byte, value A) []byte {
+			return appendOrderedText(encoded, byteForm(value))
+		},
 		holder: func() ([]any, func() (A, error)) {
 			targets, textInKey := TextKeyPart.holder()
 
@@ -109,8 +113,8 @@ func BytesKeyPartFrom[A any](
 }
 
 var TimeKeyPart = KeyPart[time.Time]{
-	items: func(instant time.Time) []any {
-		return []any{instant.Unix()}
+	appendTo: func(encoded []byte, instant time.Time) []byte {
+		return appendOrderedInteger(encoded, instant.Unix())
 	},
 	holder: func() ([]any, func() (time.Time, error)) {
 		var seconds int64
@@ -124,7 +128,7 @@ var TimeKeyPart = KeyPart[time.Time]{
 var TimeKeyPartDescending = descendingFrom(TimeKeyPart)
 
 var IntegerKeyPart = KeyPart[int64]{
-	items: func(number int64) []any { return []any{number} },
+	appendTo: appendOrderedInteger,
 	holder: func() ([]any, func() (int64, error)) {
 		var number int64
 
@@ -136,8 +140,12 @@ var IntegerKeyPartDescending = descendingFrom(IntegerKeyPart)
 
 func descendingFrom[A any](ascending KeyPart[A]) KeyPart[A] {
 	return KeyPart[A]{
-		items: func(value A) []any {
-			return descendingItemsFrom(ascending.items(value))
+		appendTo: func(encoded []byte, value A) []byte {
+			start := len(encoded)
+			encoded = ascending.appendTo(encoded, value)
+			invert(encoded[start:])
+
+			return encoded
 		},
 		holder: func() ([]any, func() (A, error)) {
 			targets, value := ascending.holder()
