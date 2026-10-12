@@ -13,13 +13,29 @@ import (
 type storedEntries struct {
 	region    keyspaceRegion
 	reader    pebble.Reader
+	changes   *pebble.Batch
 	footprint *readFootprint
 }
 
 func (e storedEntries) valueAt(key []byte) ([]byte, error) {
-	absoluteKey := e.region.absoluteKeyFrom(key)
-	e.footprint.addKey(absoluteKey)
+	return e.valueAtAbsoluteKey(e.region.absoluteKeyFrom(key))
+}
 
+func (e storedEntries) valueAtAbsoluteKey(absoluteKey []byte) ([]byte, error) {
+	if value, known := e.footprint.valueKnownAt(absoluteKey); known {
+		return value, nil
+	}
+
+	value, err := e.storedValueAt(absoluteKey)
+	if err != nil {
+		return nil, err
+	}
+	e.footprint.addKeyHolding(absoluteKey, value)
+
+	return value, nil
+}
+
+func (e storedEntries) storedValueAt(absoluteKey []byte) ([]byte, error) {
 	value, valueHandle, err := e.reader.Get(absoluteKey)
 	if errors.Is(err, pebble.ErrNotFound) {
 		return nil, nil
@@ -28,10 +44,52 @@ func (e storedEntries) valueAt(key []byte) ([]byte, error) {
 		return nil, fmt.Errorf("read: %w", err)
 	}
 
-	heldValue := make([]byte, len(value))
-	copy(heldValue, value)
+	copiedValue := make([]byte, len(value))
+	copy(copiedValue, value)
 
-	return heldValue, release(valueHandle)
+	return copiedValue, release(valueHandle)
+}
+
+func (e storedEntries) store(key, value []byte) (replacedValue []byte, err error) {
+	absoluteKey := e.region.absoluteKeyFrom(key)
+	replacedValue, err = e.valueAtAbsoluteKey(absoluteKey)
+	if err != nil {
+		return nil, err
+	}
+	if err := e.changes.Set(absoluteKey, value, pebble.NoSync); err != nil {
+		return nil, fmt.Errorf("store: %w", err)
+	}
+	e.footprint.addKeyHolding(absoluteKey, value)
+
+	return replacedValue, nil
+}
+
+func (e storedEntries) remove(key []byte) (removedValue []byte, err error) {
+	absoluteKey := e.region.absoluteKeyFrom(key)
+	removedValue, err = e.valueAtAbsoluteKey(absoluteKey)
+	if err != nil || removedValue == nil {
+		return nil, err
+	}
+	if err := e.changes.Delete(absoluteKey, pebble.NoSync); err != nil {
+		return nil, fmt.Errorf("delete: %w", err)
+	}
+	e.footprint.addKeyHolding(absoluteKey, nil)
+
+	return removedValue, nil
+}
+
+func (e storedEntries) merge(key, operand []byte) error {
+	absoluteKey := e.region.absoluteKeyFrom(key)
+	if err := e.changes.Merge(absoluteKey, operand, pebble.NoSync); err != nil {
+		return fmt.Errorf("store amount: %w", err)
+	}
+	e.footprint.forgetValueAt(absoluteKey)
+
+	return nil
+}
+
+func (e storedEntries) absoluteKeyFrom(key []byte) []byte {
+	return e.region.absoluteKeyFrom(key)
 }
 
 func (e storedEntries) visit(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {

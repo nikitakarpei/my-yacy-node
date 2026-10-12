@@ -1,16 +1,11 @@
 package pebblevault
 
 import (
-	"fmt"
-
-	"github.com/cockroachdb/pebble/v2"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 type pebbleAmounts struct {
 	entries        storedEntries
-	changes        *pebble.Batch
 	loweredAmounts *amountKeys
 }
 
@@ -38,15 +33,7 @@ func (a pebbleAmounts) Raise(key []byte, by uint) error {
 }
 
 func (a pebbleAmounts) stageChange(key []byte, change int64) error {
-	if err := a.changes.Merge(
-		a.entries.region.absoluteKeyFrom(key),
-		encodedAmount(change),
-		pebble.NoSync,
-	); err != nil {
-		return fmt.Errorf("store amount: %w", err)
-	}
-
-	return nil
+	return a.entries.merge(key, encodedAmount(change))
 }
 
 func (a pebbleAmounts) Lower(key []byte, by uint) error {
@@ -54,7 +41,7 @@ func (a pebbleAmounts) Lower(key []byte, by uint) error {
 	if err := a.stageChange(key, -int64(by)); err != nil {
 		return err
 	}
-	a.loweredAmounts.add(a.entries.region.absoluteKeyFrom(key))
+	a.loweredAmounts.add(a.entries.absoluteKeyFrom(key))
 
 	return nil
 }
