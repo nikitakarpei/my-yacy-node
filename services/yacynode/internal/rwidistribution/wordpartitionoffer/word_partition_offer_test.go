@@ -254,3 +254,29 @@ func TestAWordPartitionIsAtRedundancyOnceEveryResponsiblePeerHoldsIt(t *testing.
 		})
 	}
 }
+
+func TestAWordPartitionIsShortOfRedundancyWhileAnOfferedPostingStaysUndelivered(t *testing.T) {
+	urls := urlsOfPartition(1)
+	newPostings := postingsOf(urls...)
+	holder, decliningHolder := outcomePeer(0), outcomePeer(1)
+	offer := wordpartitionoffer.WordPartitionOffer{
+		WordPartition:       outcomeWordPartition(),
+		ResponsiblePeers:    []yacymodel.Hash{holder.Hash, decliningHolder.Hash},
+		Holders:             []yacymodel.Hash{holder.Hash, decliningHolder.Hash},
+		UndeliveredPostings: undeliveredOf(urls...),
+		Recipients: []wordpartitionoffer.Recipient{
+			{Peer: holder, Postings: newPostings},
+			{Peer: decliningHolder, Postings: newPostings},
+		},
+	}
+
+	outcome := offer.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
+		holder.Hash:          accepted(newPostings),
+		decliningHolder.Hash: declined(),
+	})
+
+	if outcome.HoldersChanged || outcome.IsAtRedundancy {
+		t.Fatalf("HoldersChanged = %v, IsAtRedundancy = %v, want the same holders short of "+
+			"redundancy", outcome.HoldersChanged, outcome.IsAtRedundancy)
+	}
+}

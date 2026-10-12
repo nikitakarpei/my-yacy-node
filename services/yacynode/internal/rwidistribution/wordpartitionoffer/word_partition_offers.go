@@ -2,7 +2,8 @@
 // partitions to offer now and what each peer gets. A holder gets the postings
 // it does not have yet, a missing holder gets the whole word partition, and a
 // due refresh sends the whole word partition again. A word partition waits
-// while it has no recipient or one of its recipients is in cooldown.
+// while it has no recipient or one of its recipients is in cooldown. A word
+// partition in retry goes out only as a due refresh.
 package wordpartitionoffer
 
 import (
@@ -155,6 +156,13 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return nil
 		}
 		batch.walkedPast(undelivered)
+		isInRetry, err := o.holders.IsInRetry(tx, undelivered[0].WordPartition)
+		if err != nil {
+			return err
+		}
+		if isInRetry {
+			continue
+		}
 		peers, err := o.peersOf(ctx, tx, undelivered[0].WordPartition, acceptingPeers)
 		if err != nil {
 			return err

@@ -227,7 +227,7 @@ func (l *Loop) recordOutcome(
 	offer wordpartitionoffer.WordPartitionOffer,
 	outcome wordpartitionoffer.Outcome,
 ) error {
-	if outcome.HoldersChanged || offer.IsRefresh {
+	if outcome.HoldersChanged || offer.IsRefresh || !outcome.IsAtRedundancy {
 		if err := l.recordHolders(tx, offer.WordPartition, outcome); err != nil {
 			return err
 		}

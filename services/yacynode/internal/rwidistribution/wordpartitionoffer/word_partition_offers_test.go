@@ -763,3 +763,27 @@ func TestReportCountsOnlyThePeersAcceptingRemoteIndexPerSector(t *testing.T) {
 			h.observer.peersPerSector, accepting.Hash, sector)
 	}
 }
+
+func TestAWordPartitionInRetryGoesOutOnlyAsADueRefresh(t *testing.T) {
+	h := openHarness(t, options{})
+	inRetry := wordPartitionsInRingOrder(t, 1)[0]
+	peer := peerAfter(inRetry, 0)
+	urls := urlsOfPartition(1)
+	h.admit(t, inRetry, urls...)
+	h.recordNoHolders(t, inRetry)
+
+	offers, next := h.dueNow(t, wordpartitionoffer.Cursor{}, peer)
+	if len(offers) != 0 || next != (wordpartitionoffer.Cursor{}) {
+		t.Fatalf("offers before the retry = %v, want none and the sector end", offers)
+	}
+
+	h.clock = h.clock.Add(retryDelay)
+	refresh := onlyOffer(t, withoutCursor(h.dueNow(t, wordpartitionoffer.Cursor{}, peer)))
+
+	if !refresh.IsRefresh {
+		t.Fatalf("offer = %+v, want the retry as a refresh", refresh)
+	}
+	if got := undeliveredURLsOf(refresh); !slices.Equal(got, urls) {
+		t.Fatalf("UndeliveredPostings = %v, want %v", got, urls)
+	}
+}

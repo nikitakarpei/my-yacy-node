@@ -1,8 +1,8 @@
 // Package wordpartitionholders owns the record of the peers that hold a copy of
 // the postings of each word partition, and when each word partition is next due
-// for a refresh. A word partition short of redundancy is due again after a
-// retry delay that doubles on each try, up to the refresh interval. The due
-// refreshes are read one ring sector at a time.
+// for a refresh. A word partition short of redundancy is in retry: it is due
+// again after a retry delay that doubles on each try, up to the refresh
+// interval. The due refreshes are read one ring sector at a time.
 package wordpartitionholders
 
 import (
@@ -70,6 +70,18 @@ func (h *Holders) Of(
 	}
 
 	return record.holders, nil
+}
+
+func (h *Holders) IsInRetry(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) (bool, error) {
+	record, _, err := h.records.Get(tx, wordPartition)
+	if err != nil {
+		return false, fmt.Errorf("read word partition retry delay: %w", err)
+	}
+
+	return record.retryDelay > 0, nil
 }
 
 func (h *Holders) RecordAtRedundancy(
