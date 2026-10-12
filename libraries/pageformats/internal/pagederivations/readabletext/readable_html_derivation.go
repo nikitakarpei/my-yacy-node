@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articlefootnotes"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articlepermalinks"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/bodies/text"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
 )
@@ -32,6 +33,7 @@ func (ReadableHTMLDerivation) BodyFrom(
 ) (documentextraction.Body, bool, error) {
 	article := source.(htmltree.Body).CopiedTree()
 	articlefootnotes.RemoveFootnoteMarks(article)
+	articlepermalinks.RemovePermalinks(article)
 	readableText := htmlflattening.Flatten(article)
 	return text.New([]byte(readableText)), true, nil
 }
