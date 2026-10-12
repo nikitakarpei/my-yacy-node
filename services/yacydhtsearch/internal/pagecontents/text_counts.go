@@ -32,10 +32,10 @@ func (c *textCounts) countTheWord(word string) {
 	}
 }
 
-func (c textCounts) hitsPerWordHash() map[yacymodel.Hash]int {
+func (c textCounts) hitsPerWordHashWith(otherCounts textCounts) map[yacymodel.Hash]int {
 	hitsPerWordHash := make(map[yacymodel.Hash]int, len(c.hitsPerQueryWord))
 	for queryWord, hits := range c.hitsPerQueryWord {
-		hitsPerWordHash[yacymodel.WordHash(queryWord)] = hits
+		hitsPerWordHash[yacymodel.WordHash(queryWord)] = hits + otherCounts.hitsPerQueryWord[queryWord]
 	}
 
 	return hitsPerWordHash

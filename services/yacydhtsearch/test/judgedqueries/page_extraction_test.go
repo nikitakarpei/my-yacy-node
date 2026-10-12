@@ -58,13 +58,11 @@ func (extraction pageExtraction) pageContentsPerDocumentOf(
 			continue
 		}
 		extractedPage := extraction.extractedPageOf(ctx, page)
-		if extractedPage.text == "" {
+		if extractedPage.Text == "" {
 			continue
 		}
 		pageContentsPerDocument[foundDocument.Hash] = pagecontents.PageContentsFrom(
-			extractedPage.title,
-			extractedPage.text,
-			extractedPage.linkCounts,
+			extractedPage,
 			queryWords,
 			snippetLengthCeiling,
 		)
@@ -73,51 +71,43 @@ func (extraction pageExtraction) pageContentsPerDocumentOf(
 	return pageContentsPerDocument
 }
 
-type extractedPage struct {
-	title      string
-	text       string
-	linkCounts pagecontents.LinkCounts
-}
-
 func (extraction pageExtraction) extractedPageOf(
 	ctx context.Context, page storedPage,
-) extractedPage {
+) pagecontents.ExtractedPage {
 	pageURL, err := canonicalurl.CanonicalURLOf(page.address)
 	if err != nil {
-		return extractedPage{}
+		return pagecontents.ExtractedPage{}
 	}
 	document, err := documentextraction.DocumentFrom(ctx, page.body, page.contentType, pageURL)
 	if err != nil {
-		return extractedPage{}
+		return pagecontents.ExtractedPage{}
 	}
-
-	return extractedPage{
-		title: document.Title,
-		text:  extraction.textOf(ctx, document, pageURL),
-		linkCounts: pagecontents.LinkCounts{
-			LocalLinks:    document.LocalLinks,
-			ExternalLinks: document.ExternalLinks,
-		},
-	}
-}
-
-func (extraction pageExtraction) textOf(
-	ctx context.Context,
-	document documentextraction.Document,
-	pageURL canonicalurl.CanonicalURL,
-) string {
 	readableText, readableTextDerived := extraction.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatReadableText, document, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
-		return string(readableText)
+		auxiliaryText, _ := extraction.formatDerivations.BytesIn(
+			ctx, documentextraction.FormatAuxiliaryText, document, pageURL,
+		)
+		return extractedPageFrom(document, string(readableText), string(auxiliaryText))
 	}
-	fullText, fullTextDerived := extraction.formatDerivations.BytesIn(
+	fullText, _ := extraction.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatFullText, document, pageURL,
 	)
-	if !fullTextDerived {
-		return ""
-	}
 
-	return string(bytes.TrimSpace(fullText))
+	return extractedPageFrom(document, string(bytes.TrimSpace(fullText)), "")
+}
+
+func extractedPageFrom(
+	document documentextraction.Document, text string, auxiliaryText string,
+) pagecontents.ExtractedPage {
+	return pagecontents.ExtractedPage{
+		Title:         document.Title,
+		Text:          text,
+		AuxiliaryText: auxiliaryText,
+		LinkCounts: pagecontents.LinkCounts{
+			LocalLinks:    document.LocalLinks,
+			ExternalLinks: document.ExternalLinks,
+		},
+	}
 }

@@ -241,7 +241,10 @@ func (extraction pageExtraction) withTextFrom(
 	if len(page.body) == 0 || statusOf(page) >= http.StatusBadRequest {
 		return document, false
 	}
-	text := strings.Join(strings.Fields(extraction.extractedPageOf(t.Context(), page).text), " ")
+	text := strings.Join(
+		strings.Fields(extraction.extractedPageOf(t.Context(), page).Text),
+		" ",
+	)
 	if text == "" {
 		return document, false
 	}
