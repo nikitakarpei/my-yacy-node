@@ -14,7 +14,7 @@ type WordPartitionOffer struct {
 	Holders             []yacymodel.Hash
 	StaleHolders        []yacymodel.Hash
 	UndeliveredPostings []undeliveredpostings.UndeliveredPosting
-	IsRefresh           bool
+	isRefresh           bool
 	Recipients          []Recipient
 }
 
@@ -29,9 +29,12 @@ type PeerAnswer struct {
 }
 
 type Outcome struct {
+	WordPartition          yacymodel.WordPartition
+	Position               yacymodel.DHTRingPosition
+	ResponsiblePeers       []yacymodel.Hash
 	Holders                []yacymodel.Hash
-	HoldersChanged         bool
 	IsAtRedundancy         bool
+	MustRecordHolders      bool
 	DeliveredPostings      []undeliveredpostings.UndeliveredPosting
 	AmountOfDroppedHolders int
 	Acceptances            []Acceptance
@@ -48,12 +51,15 @@ func (o WordPartitionOffer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) O
 	acceptedURLsPerPeer := o.acceptedURLsPerPeerFrom(answers)
 	holders := o.holdersFrom(answers, acceptedURLsPerPeer)
 	deliveredPostings := o.deliveredPostingsFrom(acceptedURLsPerPeer)
+	isAtRedundancy := o.isAtRedundancyWith(holders, deliveredPostings)
 
 	return Outcome{
-		Holders:        holders,
-		HoldersChanged: !sameHolders(holders, o.Holders),
-		IsAtRedundancy: len(holders) >= len(o.ResponsiblePeers) &&
-			len(deliveredPostings) == len(o.UndeliveredPostings),
+		WordPartition:          o.WordPartition,
+		Position:               o.Position,
+		ResponsiblePeers:       o.ResponsiblePeers,
+		Holders:                holders,
+		IsAtRedundancy:         isAtRedundancy,
+		MustRecordHolders:      o.mustRecordHoldersWith(holders, isAtRedundancy),
 		DeliveredPostings:      deliveredPostings,
 		AmountOfDroppedHolders: len(o.StaleHolders),
 		Acceptances:            o.acceptancesFrom(acceptedURLsPerPeer),
@@ -116,7 +122,7 @@ func (o WordPartitionOffer) lostReplicaOn(
 	answers map[yacymodel.Hash]PeerAnswer,
 	acceptedURLsPerPeer map[yacymodel.Hash]acceptedURLs,
 ) bool {
-	if !o.IsRefresh || !answers[holder].Accepted {
+	if !o.isRefresh || !answers[holder].Accepted {
 		return false
 	}
 	for _, recipient := range o.Recipients {
@@ -140,13 +146,6 @@ func (urls acceptedURLs) hold(url yacymodel.URLHash) bool {
 	return found
 }
 
-func sameHolders(holders, otherHolders []yacymodel.Hash) bool {
-	return len(holders) == len(otherHolders) &&
-		!slices.ContainsFunc(holders, func(holder yacymodel.Hash) bool {
-			return !slices.Contains(otherHolders, holder)
-		})
-}
-
 func (o WordPartitionOffer) deliveredPostingsFrom(
 	acceptedURLsPerPeer map[yacymodel.Hash]acceptedURLs,
 ) []undeliveredpostings.UndeliveredPosting {
@@ -160,6 +159,28 @@ func (o WordPartitionOffer) deliveredPostingsFrom(
 	}
 
 	return deliveredPostings
+}
+
+func (o WordPartitionOffer) isAtRedundancyWith(
+	holders []yacymodel.Hash,
+	deliveredPostings []undeliveredpostings.UndeliveredPosting,
+) bool {
+	return len(holders) >= len(o.ResponsiblePeers) &&
+		len(deliveredPostings) == len(o.UndeliveredPostings)
+}
+
+func (o WordPartitionOffer) mustRecordHoldersWith(
+	holders []yacymodel.Hash,
+	isAtRedundancy bool,
+) bool {
+	return o.isRefresh || !isAtRedundancy || !sameHolders(holders, o.Holders)
+}
+
+func sameHolders(holders, otherHolders []yacymodel.Hash) bool {
+	return len(holders) == len(otherHolders) &&
+		!slices.ContainsFunc(holders, func(holder yacymodel.Hash) bool {
+			return !slices.Contains(otherHolders, holder)
+		})
 }
 
 func (o WordPartitionOffer) acceptancesFrom(

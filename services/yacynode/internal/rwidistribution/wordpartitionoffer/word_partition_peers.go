@@ -144,7 +144,7 @@ func (p wordPartitionPeers) refreshOfferWith(
 ) WordPartitionOffer {
 	offer := p.offerWith(wholeWordPartition, wholeWordPartition)
 	offer.UndeliveredPostings = undelivered
-	offer.IsRefresh = true
+	offer.isRefresh = true
 
 	return offer
 }

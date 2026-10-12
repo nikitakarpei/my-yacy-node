@@ -229,13 +229,10 @@ func (l *Loop) commitBatch(
 	offers []wordpartitionoffer.WordPartitionOffer,
 	answers map[yacymodel.Hash]wordpartitionoffer.PeerAnswer,
 ) error {
-	outcomes := make([]wordpartitionoffer.Outcome, 0, len(offers))
-	for _, offer := range offers {
-		outcomes = append(outcomes, offer.OutcomeFrom(answers))
-	}
+	outcomes := outcomesFrom(offers, answers)
 	if err := l.vault.Update(ctx, func(tx *vault.Txn) error {
-		for index, offer := range offers {
-			if err := l.recordOutcome(ctx, tx, offer, outcomes[index]); err != nil {
+		for _, outcome := range outcomes {
+			if err := l.recordOutcome(ctx, tx, outcome); err != nil {
 				return err
 			}
 		}
@@ -245,19 +242,30 @@ func (l *Loop) commitBatch(
 		return err
 	}
 
-	l.dhtRingObserver.ObserveReplicaRingFractions(ringFractionsOf(offers, outcomes))
+	l.dhtRingObserver.ObserveReplicaRingFractions(ringFractionsOf(outcomes))
 
 	return nil
+}
+
+func outcomesFrom(
+	offers []wordpartitionoffer.WordPartitionOffer,
+	answers map[yacymodel.Hash]wordpartitionoffer.PeerAnswer,
+) []wordpartitionoffer.Outcome {
+	outcomes := make([]wordpartitionoffer.Outcome, 0, len(offers))
+	for _, offer := range offers {
+		outcomes = append(outcomes, offer.OutcomeFrom(answers))
+	}
+
+	return outcomes
 }
 
 func (l *Loop) recordOutcome(
 	ctx context.Context,
 	tx *vault.Txn,
-	offer wordpartitionoffer.WordPartitionOffer,
 	outcome wordpartitionoffer.Outcome,
 ) error {
-	if outcome.HoldersChanged || offer.IsRefresh || !outcome.IsAtRedundancy {
-		if err := l.recordHolders(tx, offer.WordPartition, outcome); err != nil {
+	if outcome.MustRecordHolders {
+		if err := l.recordHolders(tx, outcome); err != nil {
 			return err
 		}
 	}
@@ -265,7 +273,7 @@ func (l *Loop) recordOutcome(
 		return err
 	}
 	amountOfPostingsHandedOff, err := l.handoff.HandOffIfHeldByResponsiblePeers(
-		ctx, tx, offer.WordPartition, outcome.Holders, offer.ResponsiblePeers,
+		ctx, tx, outcome.WordPartition, outcome.Holders, outcome.ResponsiblePeers,
 	)
 	if err != nil {
 		return err
@@ -278,16 +286,12 @@ func (l *Loop) recordOutcome(
 	return nil
 }
 
-func (l *Loop) recordHolders(
-	tx *vault.Txn,
-	wordPartition yacymodel.WordPartition,
-	outcome wordpartitionoffer.Outcome,
-) error {
+func (l *Loop) recordHolders(tx *vault.Txn, outcome wordpartitionoffer.Outcome) error {
 	if outcome.IsAtRedundancy {
-		return l.holders.RecordAtRedundancy(tx, wordPartition, outcome.Holders)
+		return l.holders.RecordAtRedundancy(tx, outcome.WordPartition, outcome.Holders)
 	}
 
-	return l.holders.RecordShortOfRedundancy(tx, wordPartition, outcome.Holders)
+	return l.holders.RecordShortOfRedundancy(tx, outcome.WordPartition, outcome.Holders)
 }
 
 func (l *Loop) markDelivered(
@@ -303,14 +307,11 @@ func (l *Loop) markDelivered(
 	return nil
 }
 
-func ringFractionsOf(
-	offers []wordpartitionoffer.WordPartitionOffer,
-	outcomes []wordpartitionoffer.Outcome,
-) []float64 {
+func ringFractionsOf(outcomes []wordpartitionoffer.Outcome) []float64 {
 	var ringFractions []float64
-	for index, offer := range offers {
-		for _, acceptance := range outcomes[index].Acceptances {
-			ringFraction := offer.Position.DistanceTo(
+	for _, outcome := range outcomes {
+		for _, acceptance := range outcome.Acceptances {
+			ringFraction := outcome.Position.DistanceTo(
 				yacymodel.DHTRingPositionOf(acceptance.Peer),
 			).FractionOfDHTRing()
 			for range acceptance.AmountOfPostings {

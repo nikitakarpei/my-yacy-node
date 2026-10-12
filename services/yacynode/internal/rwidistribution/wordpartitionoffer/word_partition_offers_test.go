@@ -535,7 +535,7 @@ func TestADueRefreshSendsTheWholeWordPartitionToEveryRecipient(t *testing.T) {
 
 	refresh := onlyOffer(t, h.refreshBatch(t, holder, missingHolder).Offers)
 
-	if !refresh.IsRefresh || refresh.WordPartition != refreshed {
+	if refresh.WordPartition != refreshed {
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
 	}
 	for _, peer := range []yacymodel.Seed{holder, missingHolder} {
@@ -558,7 +558,7 @@ func TestADueRefreshCarriesTheUndeliveredPostingsOfItsWordPartition(t *testing.T
 
 	refresh := onlyOffer(t, h.refreshBatch(t, holder).Offers)
 
-	if !refresh.IsRefresh || refresh.WordPartition != refreshed {
+	if refresh.WordPartition != refreshed {
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
 	}
 	if got, want := undeliveredURLsOf(refresh), urls[2:]; !slices.Equal(got, want) {
@@ -583,7 +583,7 @@ func TestADueRefreshWithoutHoldersSendsTheWholeWordPartitionToEveryResponsiblePe
 
 	refresh := onlyOffer(t, h.refreshBatch(t, responsiblePeers...).Offers)
 
-	if !refresh.IsRefresh || len(refresh.Holders) != 0 {
+	if len(refresh.Holders) != 0 {
 		t.Fatalf("offer = %+v, want a refresh without holders", refresh)
 	}
 	for _, peer := range responsiblePeers {
@@ -701,9 +701,6 @@ func TestAWordPartitionInRetryGoesOutOnlyAsADueRefresh(t *testing.T) {
 	}
 	refresh := onlyOffer(t, h.refreshBatch(t, peer).Offers)
 
-	if !refresh.IsRefresh {
-		t.Fatalf("offer = %+v, want the retry as a refresh", refresh)
-	}
 	if got := undeliveredURLsOf(refresh); !slices.Equal(got, urls) {
 		t.Fatalf("UndeliveredPostings = %v, want %v", got, urls)
 	}
