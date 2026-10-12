@@ -16,7 +16,9 @@ manticore_table = "yacy_text_v1"
 
 _content_fragment_length = 300
 _words_around_a_match = 25
-_title_weight = 3
+_title_weight = 6
+_content_weight = 2
+_auxiliary_text_weight = 1
 
 
 class SearchResponse(Protocol):
@@ -80,7 +82,11 @@ def _elasticsearch_query(query: str, language: str) -> dict[str, Any]:
     match = {
         "combined_fields": {
             "query": query,
-            "fields": [f"title^{_title_weight}", "content"],
+            "fields": [
+                f"title^{_title_weight}",
+                f"content^{_content_weight}",
+                f"auxiliary_text^{_auxiliary_text_weight}",
+            ],
             "operator": "and",
         }
     }
@@ -98,7 +104,11 @@ def _manticore_request(query: str, params: dict[str, Any]) -> None:
             "limit": results_per_page,
             "query": _manticore_query(query, _search_language(params)),
             "options": {
-                "field_weights": {"title": _title_weight, "content": 1},
+                "field_weights": {
+                    "title": _title_weight,
+                    "content": _content_weight,
+                    "auxiliary_text": _auxiliary_text_weight,
+                },
             },
             "highlight": {
                 "fields": ["content"],
@@ -115,7 +125,9 @@ def _manticore_request(query: str, params: dict[str, Any]) -> None:
 
 
 def _manticore_query(query: str, language: str) -> dict[str, Any]:
-    match = {"match": {"title,content": {"query": query, "operator": "and"}}}
+    match = {
+        "match": {"title,content,auxiliary_text": {"query": query, "operator": "and"}}
+    }
     if not language:
         return match
     return {"bool": {"must": [match, {"equals": {"language": language}}]}}
