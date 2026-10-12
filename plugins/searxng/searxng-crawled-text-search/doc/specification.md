@@ -26,8 +26,10 @@ re-crawlable click.
   document's title, canonical URL, and matched text, reading the fields `searchdocument` defines.
 * A result's URL SHALL be the document's canonical URL, unchanged, so a plugin such as
   `searxng-result-router` can still rewrite it.
-* The engine SHALL match a document's title and content, favouring a title match, and return as
-  matched text the one content sentence that matches the search terms best.
+* The engine SHALL match a document's title, content and auxiliary text, favouring title over
+  content and content over auxiliary text.
+* The engine SHALL return as matched text the one content sentence that matches the search
+  terms best.
 * The engine SHALL let operators choose which supported search index to query and configure its
   endpoint and the name it reads documents through.
 * The engine SHALL read every language index that name spans.
@@ -46,7 +48,7 @@ re-crawlable click.
 
 ## Known Limitations
 
-* Relevance ordering is whatever the search index's full-text match returns beyond ranking a
-  title match above a content match; the engine reranks nothing of its own.
+* Relevance ordering is whatever the search index's full-text match returns beyond the field
+  weights; the engine reranks nothing of its own.
 * The engine depends on the document shape `searchdocument` defines; a change there is a change
   to this engine's contract, not something its configuration can absorb.

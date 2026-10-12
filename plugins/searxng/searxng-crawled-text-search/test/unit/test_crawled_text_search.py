@@ -48,7 +48,11 @@ def test_request_body_carries_combined_fields_query() -> None:
     params = crawled_text_search.request("wildflower", build_params())
     body = json.loads(params["data"])
     assert body["query"]["combined_fields"]["query"] == "wildflower"
-    assert body["query"]["combined_fields"]["fields"] == ["title^3", "content"]
+    assert body["query"]["combined_fields"]["fields"] == [
+        "title^6",
+        "content^2",
+        "auxiliary_text^1",
+    ]
     assert body["query"]["combined_fields"]["operator"] == "and"
 
 
@@ -68,16 +72,20 @@ def test_manticore_request_targets_configured_table(manticore: None) -> None:
     assert body["table"] == "yacy_text_v1"
 
 
-def test_manticore_request_matches_both_fields_with_title_weight(
+def test_manticore_request_matches_every_field_favouring_title_over_content(
     manticore: None,
 ) -> None:
     params = crawled_text_search.request("wildflower", build_params())
     body = json.loads(params["data"])
-    assert body["query"]["match"]["title,content"] == {
+    assert body["query"]["match"]["title,content,auxiliary_text"] == {
         "query": "wildflower",
         "operator": "and",
     }
-    assert body["options"]["field_weights"]["title"] == 3
+    assert body["options"]["field_weights"] == {
+        "title": 6,
+        "content": 2,
+        "auxiliary_text": 1,
+    }
 
 
 def test_manticore_request_highlights_the_one_best_matching_sentence(
