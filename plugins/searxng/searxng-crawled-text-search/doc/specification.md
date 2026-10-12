@@ -27,7 +27,7 @@ re-crawlable click.
 * A result's URL SHALL be the document's canonical URL, unchanged, so a plugin such as
   `searxng-result-router` can still rewrite it.
 * The engine SHALL match a document's title and content, favouring a title match, and return as
-  matched text a content fragment around the search terms.
+  matched text the one content sentence that matches the search terms best.
 * The engine SHALL let operators choose which supported search index to query and configure its
   endpoint and the name it reads documents through.
 * The engine SHALL read every language index that name spans.

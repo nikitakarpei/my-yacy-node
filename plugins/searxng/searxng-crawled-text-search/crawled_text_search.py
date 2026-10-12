@@ -15,6 +15,7 @@ manticore_url = ""
 manticore_table = "yacy_text_v1"
 
 _content_fragment_length = 300
+_words_around_a_match = 25
 _title_weight = 3
 
 
@@ -103,6 +104,11 @@ def _manticore_request(query: str, params: dict[str, Any]) -> None:
                 "fields": ["content"],
                 "before_match": "",
                 "after_match": "",
+                "limit": _content_fragment_length,
+                "around": _words_around_a_match,
+                "passage_boundary": "sentence",
+                "limit_passages": 1,
+                "weight_order": True,
             },
         }
     )

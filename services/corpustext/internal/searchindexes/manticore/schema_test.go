@@ -32,7 +32,7 @@ func statementRecorder(t *testing.T, statements *[]string, response string) *htt
 	}))
 }
 
-func TestManticoreSchemaStemsOnlyTheLanguageTable(t *testing.T) {
+func TestManticoreSchemaAnalyzesOnlyTheLanguageTable(t *testing.T) {
 	var statements []string
 	server := statementRecorder(t, &statements, `[{"total":0,"error":"","warning":""}]`)
 	defer server.Close()
@@ -46,9 +46,12 @@ func TestManticoreSchemaStemsOnlyTheLanguageTable(t *testing.T) {
 	if !strings.Contains(english, "morphology='stem_en'") {
 		t.Errorf("english table = %q, want it stemmed", english)
 	}
+	if !strings.Contains(english, "stopwords='en'") {
+		t.Errorf("english table = %q, want english stopwords", english)
+	}
 	catchAll := creationOf(t, statements, "yacy_text_v1_und")
-	if strings.Contains(catchAll, "morphology") {
-		t.Errorf("catch-all table = %q, want no morphology", catchAll)
+	if strings.Contains(catchAll, "morphology") || strings.Contains(catchAll, "stopwords") {
+		t.Errorf("catch-all table = %q, want no text analysis", catchAll)
 	}
 }
 

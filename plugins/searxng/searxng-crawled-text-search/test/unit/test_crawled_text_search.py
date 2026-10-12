@@ -80,6 +80,17 @@ def test_manticore_request_matches_both_fields_with_title_weight(
     assert body["options"]["field_weights"]["title"] == 3
 
 
+def test_manticore_request_highlights_the_one_best_matching_sentence(
+    manticore: None,
+) -> None:
+    params = crawled_text_search.request("wildflower", build_params())
+    highlight = json.loads(params["data"])["highlight"]
+    assert highlight["fields"] == ["content"]
+    assert highlight["passage_boundary"] == "sentence"
+    assert highlight["limit_passages"] == 1
+    assert highlight["weight_order"] is True
+
+
 def test_manticore_request_paginates_from_pageno(
     manticore: None, monkeypatch: pytest.MonkeyPatch
 ) -> None:
