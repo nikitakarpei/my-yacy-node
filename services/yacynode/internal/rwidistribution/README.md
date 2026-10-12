@@ -31,7 +31,7 @@ the postings that enough responsible peers hold.
   it gets them all. A holder that declines stays a holder.
 - When a responsible peer does not accept all postings it gets, the word
   partition goes into retry. The node sends its postings again only after the
-  recipient cooldown. Each next try waits double the previous wait, up to the
+  peer cooldown. Each next try waits double the previous wait, up to the
   refresh interval.
 - A peer accepted a posting only when it also got the URL metadata of that
   posting. Only peers that accept a remote index get postings.

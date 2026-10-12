@@ -177,7 +177,7 @@ func assembleNode(
 		storage,
 		dhtRingPartitions,
 		config.Distribution.RefreshInterval,
-		config.Distribution.RecipientCooldown,
+		config.Distribution.PeerCooldown,
 		now,
 	)
 	if err != nil {
@@ -354,7 +354,7 @@ func assembleNode(
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		peerEligibility := peereligibility.New(
 			peereligibility.Config{
-				Cooldown:                    config.Distribution.RecipientCooldown,
+				Cooldown:                    config.Distribution.PeerCooldown,
 				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
 				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
 			},
@@ -402,10 +402,12 @@ func assembleNode(
 			distributionObserver,
 			dhtRingObserver,
 			distributionloop.Config{
-				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
-				AmountOfWorkers:   config.Distribution.AmountOfWorkers,
-				RescanDelay:       config.Distribution.RescanDelay,
-				MinReachablePeers: config.Distribution.MinReachablePeers,
+				UndeliveredPostingsPerBatch: config.Distribution.PostingsPerBatch,
+				RefreshesPerBatch:           config.Distribution.PostingsPerBatch,
+				PostingsPerTransfer:         config.Distribution.PostingsPerBatch,
+				AmountOfWorkers:             config.Distribution.AmountOfWorkers,
+				RescanDelay:                 config.Distribution.RescanDelay,
+				MinReachablePeers:           config.Distribution.MinReachablePeers,
 			},
 		)
 	}
@@ -439,7 +441,7 @@ func openDistributionRecords(
 	storage *vault.Vault,
 	dhtRingPartitions yacymodel.DHTRingPartitions,
 	refreshInterval time.Duration,
-	retryDelay time.Duration,
+	firstRetryDelay time.Duration,
 	now func() time.Time,
 ) (
 	*undeliveredpostings.UndeliveredPostings,
@@ -459,7 +461,7 @@ func openDistributionRecords(
 		storage,
 		dhtRingPartitions,
 		refreshInterval,
-		retryDelay,
+		firstRetryDelay,
 		now,
 	)
 	if err != nil {

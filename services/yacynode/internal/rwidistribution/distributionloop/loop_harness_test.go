@@ -138,10 +138,12 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		h.observer,
 		h.observer,
 		distributionloop.Config{
-			PostingsPerBatch:  opts.postingsPerBatch,
-			AmountOfWorkers:   opts.amountOfWorkers,
-			RescanDelay:       rescanDelay,
-			MinReachablePeers: opts.minReachablePeers,
+			UndeliveredPostingsPerBatch: opts.postingsPerBatch,
+			RefreshesPerBatch:           opts.postingsPerBatch,
+			PostingsPerTransfer:         opts.postingsPerBatch,
+			AmountOfWorkers:             opts.amountOfWorkers,
+			RescanDelay:                 rescanDelay,
+			MinReachablePeers:           opts.minReachablePeers,
 		},
 	)
 

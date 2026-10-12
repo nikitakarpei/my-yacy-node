@@ -53,10 +53,12 @@ type PostingTransfers interface {
 }
 
 type Config struct {
-	PostingsPerBatch  int
-	AmountOfWorkers   int
-	RescanDelay       time.Duration
-	MinReachablePeers int
+	UndeliveredPostingsPerBatch int
+	RefreshesPerBatch           int
+	PostingsPerTransfer         int
+	AmountOfWorkers             int
+	RescanDelay                 time.Duration
+	MinReachablePeers           int
 }
 
 type Loop struct {
@@ -112,13 +114,13 @@ func New(
 				vault:          v,
 				undelivered:    undelivered,
 				offers:         offers,
-				postingsBudget: config.PostingsPerBatch,
+				postingsBudget: config.UndeliveredPostingsPerBatch,
 			},
 			&dueRefreshesList{
 				vault:           v,
 				holders:         holders,
 				offers:          offers,
-				refreshesBudget: config.PostingsPerBatch,
+				refreshesBudget: config.RefreshesPerBatch,
 			},
 		),
 		gauges: &gaugeObservation{
@@ -201,7 +203,7 @@ func (l *Loop) offerReservedBatch(
 			l.transfers,
 			l.eligibility,
 			batch.Offers,
-			l.config.PostingsPerBatch,
+			l.config.PostingsPerTransfer,
 		)
 		if err := l.commitBatch(ctx, batch.Offers, answers); err != nil {
 			l.reportBatchUnwritten(ctx, err)

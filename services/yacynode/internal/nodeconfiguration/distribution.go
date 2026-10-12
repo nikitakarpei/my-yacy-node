@@ -15,7 +15,7 @@ const (
 	EnvDistributionWorkers                     = "YACY_DISTRIBUTION_WORKERS"
 	EnvDistributionRescanDelay                 = "YACY_DISTRIBUTION_RESCAN_DELAY"
 	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
-	EnvDistributionRecipientCooldown           = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
+	EnvDistributionPeerCooldown                = "YACY_DISTRIBUTION_PEER_COOLDOWN"
 	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
 	EnvDistributionPeerExclusionDuration       = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
 	EnvDistributionMinReachablePeers           = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
@@ -29,7 +29,7 @@ const (
 	DefaultDistributionWorkers                     = 2
 	DefaultDistributionRescanDelay                 = 10 * time.Second
 	DefaultDistributionRefreshInterval             = 24 * time.Hour
-	DefaultDistributionRecipientCooldown           = 10 * time.Minute
+	DefaultDistributionPeerCooldown                = 10 * time.Minute
 	DefaultDistributionFailedOffersBeforeExclusion = 3
 	DefaultDistributionPeerExclusionDuration       = time.Hour
 	DefaultDistributionMinReachablePeers           = 32
@@ -45,7 +45,7 @@ type DistributionConfig struct {
 	AmountOfWorkers             int
 	RescanDelay                 time.Duration
 	RefreshInterval             time.Duration
-	RecipientCooldown           time.Duration
+	PeerCooldown                time.Duration
 	FailedOffersBeforeExclusion int
 	PeerExclusionDuration       time.Duration
 	MinReachablePeers           int
@@ -108,8 +108,8 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	recipientCooldown, err := envconfig.Duration(
-		getenv, EnvDistributionRecipientCooldown, DefaultDistributionRecipientCooldown,
+	peerCooldown, err := envconfig.Duration(
+		getenv, EnvDistributionPeerCooldown, DefaultDistributionPeerCooldown,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -156,7 +156,7 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		AmountOfWorkers:             amountOfWorkers,
 		RescanDelay:                 rescanDelay,
 		RefreshInterval:             refreshInterval,
-		RecipientCooldown:           recipientCooldown,
+		PeerCooldown:                peerCooldown,
 		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,
 		PeerExclusionDuration:       peerExclusionDuration,
 		MinReachablePeers:           minReachablePeers,
