@@ -1,5 +1,6 @@
 // Package htmlflattening removes the markup from an html tree and keeps its
-// text, with one line for each block element.
+// text, with one line for each block element. It leaves out the footnote
+// markers and the links back to them.
 package htmlflattening
 
 import (
@@ -11,20 +12,20 @@ import (
 
 func Flatten(root *html.Node) string {
 	var text strings.Builder
-	writeText(&text, root)
+	writeText(&text, root, footnoteMarksOf(root))
 	return collapseWhitespace(text.String())
 }
 
-func writeText(text *strings.Builder, node *html.Node) {
+func writeText(text *strings.Builder, node *html.Node, marks footnoteMarks) {
 	if node.Type == html.TextNode {
 		text.WriteString(strings.ReplaceAll(node.Data, "\n", " "))
 		return
 	}
-	if node.Type == html.ElementNode && isSkipped(node.DataAtom) {
+	if node.Type == html.ElementNode && (isSkipped(node.DataAtom) || marks.contain(node)) {
 		return
 	}
 	for child := node.FirstChild; child != nil; child = child.NextSibling {
-		writeText(text, child)
+		writeText(text, child, marks)
 	}
 	if node.Type == html.ElementNode && !keepsTextJoined(node.DataAtom) {
 		text.WriteString("\n")
