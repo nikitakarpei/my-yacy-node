@@ -47,8 +47,12 @@ func tallyAmountsWithin(
 	changes *pebble.Batch,
 ) pebbleAmounts {
 	return pebbleAmounts{
-		entries:        storedEntries{region: region, reader: reader, footprint: footprint},
-		changes:        changes,
+		entries: storedEntries{
+			region:    region,
+			reader:    reader,
+			changes:   changes,
+			footprint: footprint,
+		},
 		loweredAmounts: &amountKeys{},
 	}
 }

@@ -75,6 +75,64 @@ func TestUsedBytesFollowsTheValueAnOverwriteLeaves(t *testing.T) {
 	}
 }
 
+func TestUsedBytesCountsOnlyWhatATransactionLeaves(t *testing.T) {
+	ctx := context.Background()
+	rewritten := openVault(t, 0)
+	rewrittenWords := registerWords(t, rewritten)
+	written := openVault(t, 0)
+	writtenWords := registerWords(t, written)
+
+	if err := rewritten.Update(ctx, func(tx *vault.Txn) error {
+		return rewriteWords(tx, rewrittenWords)
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+	if err := written.Update(ctx, func(tx *vault.Txn) error {
+		_, err := writtenWords.Put(tx, "a", "beta")
+
+		return err
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	rewrittenBytes, err := rewritten.UsedBytes(ctx)
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+	writtenBytes, err := written.UsedBytes(ctx)
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+	if rewrittenBytes != writtenBytes {
+		t.Fatalf(
+			"UsedBytes = %d, want %d, as for the value the transaction leaves",
+			rewrittenBytes,
+			writtenBytes,
+		)
+	}
+}
+
+func rewriteWords(tx *vault.Txn, words *vault.Collection[string, string]) error {
+	for _, value := range []string{"alpha", "alpha-and-then-some", "beta"} {
+		if _, _, err := words.Get(tx, "a"); err != nil {
+			return err
+		}
+		if _, err := words.Put(tx, "a", value); err != nil {
+			return err
+		}
+	}
+	for range 2 {
+		if _, err := words.Put(tx, "b", "gamma"); err != nil {
+			return err
+		}
+		if _, err := words.Delete(tx, "b"); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func TestUsedBytesStopsOnACancelledContext(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
