@@ -1,5 +1,5 @@
-// Package articlefootnotes finds the footnote marks of an article: the
-// markers in its text and the links from its notes back to them.
+// Package articlefootnotes finds the footnotes of an article: the markers in
+// its text, the notes they link to, and the links from the notes back to them.
 package articlefootnotes
 
 import (
@@ -121,4 +121,16 @@ func (marks footnoteMarks) contain(node *html.Node) bool {
 	}
 	_, backToAMarker := marks.markerIDs[targetIDOf(node)]
 	return backToAMarker
+}
+
+func (marks footnoteMarks) holdOrContain(node *html.Node) bool {
+	if marks.contain(node) {
+		return true
+	}
+	for ancestor := range node.Ancestors() {
+		if marks.contain(ancestor) {
+			return true
+		}
+	}
+	return false
 }

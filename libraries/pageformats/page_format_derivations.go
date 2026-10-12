@@ -2,6 +2,7 @@
 package pageformats
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/auxiliarytext"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/fulltext"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/markdown"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readablehtml"
@@ -18,6 +19,7 @@ func pageFormatDerivations() []formatDerivation {
 		readablehtml.FromDocumentHTML(),
 		readabletext.FromReadableHTML(),
 		readabletext.FromFullText(),
+		auxiliarytext.FromReadableHTML(),
 		markdown.FromReadableHTML(),
 		markdown.FromDocumentHTML(),
 	}

@@ -20,6 +20,11 @@ const article = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</tit
 <article><h1>Sample Article</h1><p>` + longText + `</p><p>` + longText + `</p></article>
 </body></html>`
 
+const articleWithANote = `<!DOCTYPE html><html lang="en"><head><title>Notes</title></head>
+<body><article><h1>Notes</h1><p>` + longText + `<sup><a href="#note-1">[1]</a></sup></p>
+<p>` + longText + `</p><ol><li id="note-1">Stevens, TCP/IP Illustrated.</li></ol></article>
+</body></html>`
+
 const pageWithoutAnArticle = `<!DOCTYPE html><html lang="en"><head><title>Index</title></head>
 <body><nav>navigation menu links elsewhere</nav></body></html>`
 
@@ -129,6 +134,16 @@ func TestBytesInFallsBackToFullTextWhenNoArticleIsReadable(t *testing.T) {
 	}
 	if text := string(bodyBytes); !strings.Contains(text, "navigation menu") {
 		t.Fatalf("fallback text dropped the page content: %q", text)
+	}
+}
+
+func TestBytesInDerivesTheNotesOfAnArticleAsAuxiliaryText(t *testing.T) {
+	bodyBytes, derived := bytesIn(t, documentextraction.FormatAuxiliaryText, articleWithANote)
+	if !derived {
+		t.Fatal("auxiliary text is derivable from an article")
+	}
+	if text := string(bodyBytes); text != "Stevens, TCP/IP Illustrated." {
+		t.Fatalf("auxiliary text = %q", text)
 	}
 }
 
