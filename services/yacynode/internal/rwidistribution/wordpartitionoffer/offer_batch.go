@@ -2,13 +2,13 @@ package wordpartitionoffer
 
 type Batch struct {
 	Offers []WordPartitionOffer
-	Skips  []SkipReason
+	Waits  []WaitReason
 }
 
-func (b *Batch) add(offer WordPartitionOffer) {
+func (b *Batch) addOffer(offer WordPartitionOffer) {
 	b.Offers = append(b.Offers, offer)
 }
 
-func (b *Batch) skip(skipReason SkipReason) {
-	b.Skips = append(b.Skips, skipReason)
+func (b *Batch) addWait(waitReason WaitReason) {
+	b.Waits = append(b.Waits, waitReason)
 }

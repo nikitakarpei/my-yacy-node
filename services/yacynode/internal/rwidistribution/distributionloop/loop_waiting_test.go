@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
-var waitingForCooldown = string(wordpartitionoffer.SkipRecipientInCooldown)
+var waitingForCooldown = string(wordpartitionoffer.WaitRecipientInCooldown)
 
 func TestLoopCountsAWordPartitionWaitingOnSeveralPassesOnce(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
@@ -153,7 +153,7 @@ func TestLoopCountsAWordPartitionInRetryAsWaiting(t *testing.T) {
 		h.advance(rescanDelay)
 
 		if got := h.observer.wordPartitionsWaiting[string(
-			wordpartitionoffer.SkipWordPartitionInRetry)]; got != 1 {
+			wordpartitionoffer.WaitWordPartitionInRetry)]; got != 1 {
 			t.Fatalf("word partitions in retry = %d, want 1", got)
 		}
 	})

@@ -79,13 +79,13 @@ func (f *fakeObserver) ObserveBatchAborted(reason string) {
 func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int) {}
 
 func (f *fakeObserver) ObserveWordPartitionsWaiting(
-	skipReason string,
+	waitReason string,
 	amountOfWordPartitions int,
 ) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.wordPartitionsWaiting[skipReason] = amountOfWordPartitions
+	f.wordPartitionsWaiting[waitReason] = amountOfWordPartitions
 }
 
 func (f *fakeObserver) ObserveReplicaRingFractions(ringFractions []float64) {

@@ -745,7 +745,7 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	}
 }
 
-func TestAnUndeliveredWordPartitionWithARecipientInCooldownIsSkipped(t *testing.T) {
+func TestAnUndeliveredWordPartitionWithARecipientInCooldownWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	peer := peerAfter(wordPartition, 0)
@@ -754,12 +754,12 @@ func TestAnUndeliveredWordPartitionWithARecipientInCooldownIsSkipped(t *testing.
 
 	batch := h.undeliveredBatch(t, peer)
 
-	assertSkips(t, batch.Skips,
-		wordpartitionoffer.SkipRecipientInCooldown,
+	assertWaits(t, batch.Waits,
+		wordpartitionoffer.WaitRecipientInCooldown,
 	)
 }
 
-func TestAnUndeliveredWordPartitionInRetryIsSkipped(t *testing.T) {
+func TestAnUndeliveredWordPartitionInRetryWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
@@ -767,12 +767,12 @@ func TestAnUndeliveredWordPartitionInRetryIsSkipped(t *testing.T) {
 
 	batch := h.undeliveredBatch(t, peerAfter(wordPartition, 0))
 
-	assertSkips(t, batch.Skips,
-		wordpartitionoffer.SkipWordPartitionInRetry,
+	assertWaits(t, batch.Waits,
+		wordpartitionoffer.WaitWordPartitionInRetry,
 	)
 }
 
-func TestAnUndeliveredWordPartitionWithoutRecipientsIsSkipped(t *testing.T) {
+func TestAnUndeliveredWordPartitionWithoutRecipientsWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	absentHolder := peerAfter(wordPartition, 1<<40)
@@ -782,14 +782,14 @@ func TestAnUndeliveredWordPartitionWithoutRecipientsIsSkipped(t *testing.T) {
 
 	batch := h.undeliveredBatch(t, peerAfter(wordPartition, 0))
 
-	assertSkips(
+	assertWaits(
 		t,
-		batch.Skips,
-		wordpartitionoffer.SkipNoRecipient,
+		batch.Waits,
+		wordpartitionoffer.WaitNoRecipient,
 	)
 }
 
-func TestADueRefreshWithARecipientInCooldownIsSkipped(t *testing.T) {
+func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	holder := peerAfter(wordPartition, 0)
@@ -801,14 +801,14 @@ func TestADueRefreshWithARecipientInCooldownIsSkipped(t *testing.T) {
 
 	batch := h.refreshBatch(t, holder)
 
-	assertSkips(
+	assertWaits(
 		t,
-		batch.Skips,
-		wordpartitionoffer.SkipRecipientInCooldown,
+		batch.Waits,
+		wordpartitionoffer.WaitRecipientInCooldown,
 	)
 }
 
-func TestADueRefreshWithoutRecipientsIsSkipped(t *testing.T) {
+func TestADueRefreshWithoutRecipientsWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	absentHolder := peerAfter(wordPartition, 1<<40)
@@ -820,14 +820,14 @@ func TestADueRefreshWithoutRecipientsIsSkipped(t *testing.T) {
 
 	batch := h.refreshBatch(t, peerAfter(wordPartition, 0))
 
-	assertSkips(
+	assertWaits(
 		t,
-		batch.Skips,
-		wordpartitionoffer.SkipNoRecipient,
+		batch.Waits,
+		wordpartitionoffer.WaitNoRecipient,
 	)
 }
 
-func TestAnOfferedWordPartitionIsNotSkipped(t *testing.T) {
+func TestAnOfferedWordPartitionDoesNotWait(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	holder := peerAfter(wordPartition, 0)
@@ -837,19 +837,19 @@ func TestAnOfferedWordPartitionIsNotSkipped(t *testing.T) {
 
 	batch := h.refreshBatch(t, holder)
 
-	if len(batch.Offers) == 0 || len(batch.Skips) != 0 {
-		t.Fatalf("offers = %v and skips = %v, want an offer and no skip", batch.Offers, batch.Skips)
+	if len(batch.Offers) == 0 || len(batch.Waits) != 0 {
+		t.Fatalf("offers = %v and waits = %v, want an offer and no wait", batch.Offers, batch.Waits)
 	}
 }
 
-func assertSkips(
+func assertWaits(
 	t *testing.T,
-	skips []wordpartitionoffer.SkipReason,
-	skipReason wordpartitionoffer.SkipReason,
+	waits []wordpartitionoffer.WaitReason,
+	waitReason wordpartitionoffer.WaitReason,
 ) {
 	t.Helper()
 
-	if want := []wordpartitionoffer.SkipReason{skipReason}; !slices.Equal(skips, want) {
-		t.Fatalf("skips = %v, want %v", skips, want)
+	if want := []wordpartitionoffer.WaitReason{waitReason}; !slices.Equal(waits, want) {
+		t.Fatalf("waits = %v, want %v", waits, want)
 	}
 }

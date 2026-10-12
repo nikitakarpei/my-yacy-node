@@ -43,12 +43,12 @@ type DHTRingObserver interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
 
-type SkipReason string
+type WaitReason string
 
 const (
-	SkipRecipientInCooldown  SkipReason = "recipient_in_cooldown"
-	SkipWordPartitionInRetry SkipReason = "word_partition_in_retry"
-	SkipNoRecipient          SkipReason = "no_recipient"
+	WaitRecipientInCooldown  WaitReason = "recipient_in_cooldown"
+	WaitWordPartitionInRetry WaitReason = "word_partition_in_retry"
+	WaitNoRecipient          WaitReason = "no_recipient"
 )
 
 type Config struct {
@@ -185,7 +185,7 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if isInRetry {
-			batch.skip(SkipWordPartitionInRetry)
+			batch.addWait(WaitWordPartitionInRetry)
 
 			continue
 		}
@@ -193,8 +193,8 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 		if err != nil {
 			return err
 		}
-		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			batch.skip(skipReason)
+		if waitReason, mustWait := peers.waitReasonFrom(o.eligibility); mustWait {
+			batch.addWait(waitReason)
 
 			continue
 		}
@@ -202,7 +202,7 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 		if err != nil {
 			return err
 		}
-		batch.add(offer)
+		batch.addOffer(offer)
 	}
 
 	return nil
@@ -346,8 +346,8 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			batch.skip(skipReason)
+		if waitReason, mustWait := peers.waitReasonFrom(o.eligibility); mustWait {
+			batch.addWait(waitReason)
 
 			continue
 		}
@@ -355,7 +355,7 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		batch.add(offer)
+		batch.addOffer(offer)
 	}
 
 	return nil

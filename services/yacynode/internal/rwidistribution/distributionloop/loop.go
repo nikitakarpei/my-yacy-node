@@ -210,7 +210,7 @@ func (l *Loop) offerReservedBatch(
 			return
 		}
 	}
-	l.walks.complete(reserved, batch.Skips)
+	l.walks.complete(reserved, batch.Waits)
 	l.batchObserver.ObserveBatchCompleted()
 }
 

@@ -185,8 +185,8 @@ func (d *DistributionMetrics) ObservePeerExcluded() {
 }
 
 func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
-	skipReason string,
+	waitReason string,
 	amountOfWordPartitions int,
 ) {
-	d.wordPartitionsWaiting.WithLabelValues(skipReason).Set(float64(amountOfWordPartitions))
+	d.wordPartitionsWaiting.WithLabelValues(waitReason).Set(float64(amountOfWordPartitions))
 }

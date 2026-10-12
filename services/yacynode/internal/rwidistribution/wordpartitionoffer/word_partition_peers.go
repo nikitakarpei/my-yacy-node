@@ -87,15 +87,15 @@ func missingHoldersIn(
 	return missingHolders
 }
 
-func (p wordPartitionPeers) skipReasonFrom(eligibility PeerEligibility) (SkipReason, bool) {
+func (p wordPartitionPeers) waitReasonFrom(eligibility PeerEligibility) (WaitReason, bool) {
 	recipients := p.recipients()
 	if len(recipients) == 0 {
-		return SkipNoRecipient, true
+		return WaitNoRecipient, true
 	}
 	if slices.ContainsFunc(recipients, func(seed yacymodel.Seed) bool {
 		return eligibility.CooldownLeftOf(seed.Hash) > 0
 	}) {
-		return SkipRecipientInCooldown, true
+		return WaitRecipientInCooldown, true
 	}
 
 	return "", false

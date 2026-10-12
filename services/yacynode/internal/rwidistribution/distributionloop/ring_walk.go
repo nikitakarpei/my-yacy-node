@@ -9,7 +9,7 @@ import (
 type passProgress struct {
 	batchesOut       int
 	hasEnded         bool
-	amountsPerReason map[wordpartitionoffer.SkipReason]int
+	amountsPerReason map[wordpartitionoffer.WaitReason]int
 }
 
 type ringWalk struct {
@@ -36,7 +36,7 @@ func (w *ringWalk) startBatch() int {
 func (w *ringWalk) progressOf(pass int) *passProgress {
 	progress, started := w.passes[pass]
 	if !started {
-		progress = &passProgress{amountsPerReason: make(map[wordpartitionoffer.SkipReason]int)}
+		progress = &passProgress{amountsPerReason: make(map[wordpartitionoffer.WaitReason]int)}
 		w.passes[pass] = progress
 	}
 
@@ -46,7 +46,7 @@ func (w *ringWalk) progressOf(pass int) *passProgress {
 func (w *ringWalk) endPassAt(
 	now time.Time,
 	rescanDelay time.Duration,
-) (map[wordpartitionoffer.SkipReason]int, bool) {
+) (map[wordpartitionoffer.WaitReason]int, bool) {
 	endedPass := w.currentPass
 	w.progressOf(endedPass).hasEnded = true
 	w.currentPass++
@@ -57,18 +57,18 @@ func (w *ringWalk) endPassAt(
 
 func (w *ringWalk) completeBatchOf(
 	pass int,
-	skips []wordpartitionoffer.SkipReason,
-) (map[wordpartitionoffer.SkipReason]int, bool) {
+	waits []wordpartitionoffer.WaitReason,
+) (map[wordpartitionoffer.WaitReason]int, bool) {
 	progress := w.progressOf(pass)
 	progress.batchesOut--
-	for _, skipReason := range skips {
-		progress.amountsPerReason[skipReason]++
+	for _, waitReason := range waits {
+		progress.amountsPerReason[waitReason]++
 	}
 
 	return w.closePassIfDone(pass)
 }
 
-func (w *ringWalk) closePassIfDone(pass int) (map[wordpartitionoffer.SkipReason]int, bool) {
+func (w *ringWalk) closePassIfDone(pass int) (map[wordpartitionoffer.WaitReason]int, bool) {
 	progress := w.progressOf(pass)
 	if !progress.hasEnded || progress.batchesOut > 0 {
 		return nil, false

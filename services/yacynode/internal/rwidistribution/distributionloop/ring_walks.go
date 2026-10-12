@@ -23,8 +23,8 @@ type ringWalks struct {
 	walks           []*ringWalk
 	walkInTurn      int
 	inFlight        map[yacymodel.WordPartition]struct{}
-	lastPassWaiting map[*ringWalk]map[wordpartitionoffer.SkipReason]int
-	reportedReasons map[wordpartitionoffer.SkipReason]struct{}
+	lastPassWaiting map[*ringWalk]map[wordpartitionoffer.WaitReason]int
+	reportedReasons map[wordpartitionoffer.WaitReason]struct{}
 }
 
 func newRingWalks(
@@ -44,8 +44,8 @@ func newRingWalks(
 		observer:        observer,
 		walks:           walks,
 		inFlight:        make(map[yacymodel.WordPartition]struct{}),
-		lastPassWaiting: make(map[*ringWalk]map[wordpartitionoffer.SkipReason]int),
-		reportedReasons: make(map[wordpartitionoffer.SkipReason]struct{}),
+		lastPassWaiting: make(map[*ringWalk]map[wordpartitionoffer.WaitReason]int),
+		reportedReasons: make(map[wordpartitionoffer.WaitReason]struct{}),
 	}
 }
 
@@ -105,42 +105,42 @@ func (w *ringWalks) reserve(walk *ringWalk, batch listBatch) reservedBatch {
 	return reservedBatch{walk: walk, pass: walk.startBatch(), batch: batch}
 }
 
-func (w *ringWalks) complete(reserved reservedBatch, skips []wordpartitionoffer.SkipReason) {
+func (w *ringWalks) complete(reserved reservedBatch, waits []wordpartitionoffer.WaitReason) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
 
 	for _, wordPartition := range reserved.batch.wordPartitions() {
 		delete(w.inFlight, wordPartition)
 	}
-	lastPassWaiting, passClosed := reserved.walk.completeBatchOf(reserved.pass, skips)
+	lastPassWaiting, passClosed := reserved.walk.completeBatchOf(reserved.pass, waits)
 	w.reportLastPassOf(reserved.walk, lastPassWaiting, passClosed)
 }
 
 func (w *ringWalks) reportLastPassOf(
 	walk *ringWalk,
-	lastPassWaiting map[wordpartitionoffer.SkipReason]int,
+	lastPassWaiting map[wordpartitionoffer.WaitReason]int,
 	passClosed bool,
 ) {
 	if !passClosed {
 		return
 	}
 	w.lastPassWaiting[walk] = lastPassWaiting
-	for skipReason := range lastPassWaiting {
-		w.reportedReasons[skipReason] = struct{}{}
+	for waitReason := range lastPassWaiting {
+		w.reportedReasons[waitReason] = struct{}{}
 	}
-	for skipReason, amountOfWordPartitions := range w.waitingOverAllWalks() {
-		w.observer.ObserveWordPartitionsWaiting(string(skipReason), amountOfWordPartitions)
+	for waitReason, amountOfWordPartitions := range w.waitingOverAllWalks() {
+		w.observer.ObserveWordPartitionsWaiting(string(waitReason), amountOfWordPartitions)
 	}
 }
 
-func (w *ringWalks) waitingOverAllWalks() map[wordpartitionoffer.SkipReason]int {
-	waiting := make(map[wordpartitionoffer.SkipReason]int, len(w.reportedReasons))
-	for skipReason := range w.reportedReasons {
-		waiting[skipReason] = 0
+func (w *ringWalks) waitingOverAllWalks() map[wordpartitionoffer.WaitReason]int {
+	waiting := make(map[wordpartitionoffer.WaitReason]int, len(w.reportedReasons))
+	for waitReason := range w.reportedReasons {
+		waiting[waitReason] = 0
 	}
 	for _, lastPassWaiting := range w.lastPassWaiting {
-		for skipReason, amountOfWordPartitions := range lastPassWaiting {
-			waiting[skipReason] += amountOfWordPartitions
+		for waitReason, amountOfWordPartitions := range lastPassWaiting {
+			waiting[waitReason] += amountOfWordPartitions
 		}
 	}
 
