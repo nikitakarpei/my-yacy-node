@@ -106,7 +106,6 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	)
 	handoff := postinghandoff.New(
 		postings,
-		opts.reachability,
 		postinghandoff.Config{
 			Self:       opts.self,
 			Redundancy: opts.redundancy,

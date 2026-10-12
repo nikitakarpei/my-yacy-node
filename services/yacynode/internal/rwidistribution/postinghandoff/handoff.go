@@ -1,21 +1,18 @@
 // Package postinghandoff decides which postings this node may stop holding,
-// and deletes them. A posting may go once at least the redundancy in peers
-// strictly closer to its DHT position than this node hold a replica of it. A
-// node that keeps every posting hands off none.
+// and deletes them. A posting may go once the redundancy in its responsible
+// peers, strictly closer to its DHT position than this node, hold a replica of
+// it. A node that keeps every posting hands off none.
 package postinghandoff
 
 import (
 	"context"
 	"log/slog"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
-
-type Reachability interface {
-	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
-}
 
 type Config struct {
 	Self       yacymodel.Hash
@@ -23,31 +20,27 @@ type Config struct {
 }
 
 type Handoff struct {
-	purger       rwipostings.PostingPurger
-	reachability Reachability
-	config       Config
+	purger rwipostings.PostingPurger
+	config Config
 }
 
-func New(
-	purger rwipostings.PostingPurger,
-	reachability Reachability,
-	config Config,
-) *Handoff {
+func New(purger rwipostings.PostingPurger, config Config) *Handoff {
 	return &Handoff{
-		purger:       purger,
-		reachability: reachability,
-		config:       config,
+		purger: purger,
+		config: config,
 	}
 }
 
-func (h *Handoff) HandOffIfHeldByCloserPeers(
+//nolint:revive // argument-limit: the posting, its DHT position, its holders and its responsible peers each feed the rule
+func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 	ctx context.Context,
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 	position yacymodel.DHTRingPosition,
 	holders []yacymodel.Hash,
+	responsiblePeers []yacymodel.Hash,
 ) (bool, error) {
-	if len(h.holdersCloserThanThisNode(ctx, holders, position)) < h.config.Redundancy {
+	if len(h.closerResponsibleHolders(holders, responsiblePeers, position)) < h.config.Redundancy {
 		return false, nil
 	}
 
@@ -55,24 +48,22 @@ func (h *Handoff) HandOffIfHeldByCloserPeers(
 	if err != nil || !wasPurged {
 		return false, err
 	}
-	slog.DebugContext(ctx, "posting handed off to closer peers",
+	slog.DebugContext(ctx, "posting handed off to responsible peers",
 		slog.String("word", posting.WordHash.String()),
 		slog.String("url", posting.URLHash.String()))
 
 	return true, nil
 }
 
-func (h *Handoff) holdersCloserThanThisNode(
-	ctx context.Context,
+func (h *Handoff) closerResponsibleHolders(
 	holders []yacymodel.Hash,
+	responsiblePeers []yacymodel.Hash,
 	position yacymodel.DHTRingPosition,
 ) []yacymodel.Hash {
 	closerHolders := make([]yacymodel.Hash, 0, len(holders))
 	for _, peer := range holders {
-		if !h.reachability.IsReachable(ctx, peer) {
-			continue
-		}
-		if yacymodel.CloserToDHTRingPosition(peer, h.config.Self, position) {
+		if slices.Contains(responsiblePeers, peer) &&
+			yacymodel.CloserToDHTRingPosition(peer, h.config.Self, position) {
 			closerHolders = append(closerHolders, peer)
 		}
 	}

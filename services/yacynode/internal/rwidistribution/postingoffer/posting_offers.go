@@ -1,7 +1,7 @@
-// Package postingoffer works out, for each posting due an offer, which peers
-// to offer it to under the DHT, how many peers must accept for the posting to
-// be at redundancy, how long peers in cooldown make it wait, and which ledger
-// entries the DHT no longer justifies.
+// Package postingoffer works out, for each posting due an offer, its
+// responsible peers, which peers to offer it to under the DHT, how many peers
+// must accept for the posting to be at redundancy, how long peers in cooldown
+// make it wait, and which ledger entries the DHT no longer justifies.
 package postingoffer
 
 import (
@@ -23,6 +23,7 @@ const replicaLedgerUnread = "read replica ledger: %w"
 type PostingOffer struct {
 	Posting                 yacymodel.RWIPosting
 	PostingPosition         yacymodel.DHTRingPosition
+	ResponsiblePeers        []yacymodel.Hash
 	Peers                   []yacymodel.Seed
 	AcceptancesNeeded       int
 	PauseForPeersInCooldown time.Duration
@@ -187,34 +188,39 @@ func (o *PostingOffers) offerFor(
 	}
 
 	position := yacymodel.DHTRingPositionOfPosting(posting, o.config.Partitions)
-	window := replicaWindowFor(position, acceptingPeers, o.config.Self, o.config.Redundancy)
-	holders := o.replicaHoldersFrom(ctx, recordedHolders, window)
+	responsiblePeers := responsiblePeersFor(
+		position,
+		acceptingPeers,
+		o.config.Self,
+		o.config.Redundancy,
+	)
+	holders := o.replicaHoldersFrom(ctx, recordedHolders, responsiblePeers)
 
-	if len(holders.insideWindow) >= window.requiredReplicas {
-		return refreshOfferFor(posting, acceptingPeers, holders, window), nil
+	if len(holders.amongResponsiblePeers) >= responsiblePeers.requiredReplicas {
+		return refreshOfferFor(posting, acceptingPeers, holders, responsiblePeers), nil
 	}
 
-	return o.replicaOfferFor(posting, acceptingPeers, holders, window), nil
+	return o.replicaOfferFor(posting, acceptingPeers, holders, responsiblePeers), nil
 }
 
 func (o *PostingOffers) replicaHoldersFrom(
 	ctx context.Context,
 	recordedHolders []yacymodel.Hash,
-	window replicaWindow,
+	responsiblePeers responsiblePeers,
 ) replicaHolders {
 	var holders replicaHolders
 	for _, peer := range recordedHolders {
 		switch {
 		case !o.reachability.IsReachable(ctx, peer):
 			if o.reachability.IsRecentlyReachable(ctx, peer) {
-				holders.insideWindow = append(holders.insideWindow, peer)
+				holders.amongResponsiblePeers = append(holders.amongResponsiblePeers, peer)
 			} else {
 				holders.expired = append(holders.expired, peer)
 			}
-		case window.contains(peer):
-			holders.insideWindow = append(holders.insideWindow, peer)
+		case responsiblePeers.contains(peer):
+			holders.amongResponsiblePeers = append(holders.amongResponsiblePeers, peer)
 		default:
-			holders.outsideWindow = append(holders.outsideWindow, peer)
+			holders.beyondResponsiblePeers = append(holders.beyondResponsiblePeers, peer)
 		}
 	}
 
@@ -225,15 +231,16 @@ func refreshOfferFor(
 	posting yacymodel.RWIPosting,
 	acceptingPeers yacymodel.SeedRing,
 	holders replicaHolders,
-	window replicaWindow,
+	responsiblePeers responsiblePeers,
 ) PostingOffer {
 	return PostingOffer{
-		Posting:         posting,
-		PostingPosition: window.position,
+		Posting:          posting,
+		PostingPosition:  responsiblePeers.position,
+		ResponsiblePeers: responsiblePeers.hashes,
 		Peers: holders.peersHoldingReplica(
-			acceptingPeers.SeedsClockwiseFrom(window.position),
+			acceptingPeers.SeedsClockwiseFrom(responsiblePeers.position),
 		),
-		StaleHolders: slices.Concat(holders.expired, holders.outsideWindow),
+		StaleHolders: slices.Concat(holders.expired, holders.beyondResponsiblePeers),
 	}
 }
 
@@ -241,17 +248,22 @@ func (o *PostingOffers) replicaOfferFor(
 	posting yacymodel.RWIPosting,
 	acceptingPeers yacymodel.SeedRing,
 	holders replicaHolders,
-	window replicaWindow,
+	responsiblePeers responsiblePeers,
 ) PostingOffer {
-	missingReplicas := window.requiredReplicas - len(holders.insideWindow)
+	missingReplicas := responsiblePeers.requiredReplicas - len(holders.amongResponsiblePeers)
 	peersMissingReplica := missingPeersFrom(
-		holders.closestPeersMissingReplica(acceptingPeers, window.position, missingReplicas),
+		holders.closestPeersMissingReplica(
+			acceptingPeers,
+			responsiblePeers.position,
+			missingReplicas,
+		),
 		o.cooldowns,
 	)
 
 	return PostingOffer{
 		Posting:                 posting,
-		PostingPosition:         window.position,
+		PostingPosition:         responsiblePeers.position,
+		ResponsiblePeers:        responsiblePeers.hashes,
 		Peers:                   peersMissingReplica.outOfCooldown,
 		AcceptancesNeeded:       missingReplicas,
 		PauseForPeersInCooldown: peersMissingReplica.longestCooldownLeft,
