@@ -2123,7 +2123,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 6,
         "x": 0,
         "y": 181
       },
@@ -2160,8 +2160,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 6,
         "y": 181
       },
       "fieldConfig": {
@@ -2188,8 +2188,9 @@
       "interval": "$window"
     },
     {
-      "id": 56,
-      "title": "Lateness of the most overdue posting offer",
+      "id": 133,
+      "title": "Postings not yet delivered to their peers",
+      "description": "Postings that still wait for at least one responsible peer to accept them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2197,8 +2198,45 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 12,
+        "y": 181
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_rwidistribution_undelivered_postings{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 134,
+      "title": "Lateness of the most overdue refresh",
+      "description": "How long the most overdue word partition has waited past its refresh time.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
         "y": 181
       },
       "fieldConfig": {
@@ -2217,8 +2255,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "yacynode_rwidistribution_longest_offer_lateness_seconds{instance=~\"$service_instance\"}",
-          "legendFormat": "{{order}}"
+          "expr": "yacynode_rwidistribution_longest_refresh_lateness_seconds{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
         }
       ],
       "interval": "$window"

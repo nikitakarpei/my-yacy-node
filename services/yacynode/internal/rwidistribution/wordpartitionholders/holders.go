@@ -27,6 +27,7 @@ type Holders struct {
 	refreshOrder    *vault.Set[scheduledRefresh]
 	partitions      yacymodel.DHTRingPartitions
 	refreshInterval time.Duration
+	retryDelay      time.Duration
 	now             func() time.Time
 }
 
@@ -34,6 +35,7 @@ func Open(
 	v *vault.Vault,
 	partitions yacymodel.DHTRingPartitions,
 	refreshInterval time.Duration,
+	retryDelay time.Duration,
 	now func() time.Time,
 ) (*Holders, error) {
 	records, err := registerWordPartitionRecords(v)
@@ -50,6 +52,7 @@ func Open(
 		refreshOrder:    refreshOrder,
 		partitions:      partitions,
 		refreshInterval: refreshInterval,
+		retryDelay:      retryDelay,
 		now:             now,
 	}, nil
 }
@@ -66,15 +69,28 @@ func (h *Holders) Of(
 	return record.holders, nil
 }
 
-func (h *Holders) Record(
+func (h *Holders) RecordAtRedundancy(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 	holders []yacymodel.Hash,
 ) error {
-	if len(holders) == 0 {
-		return h.Forget(tx, wordPartition)
-	}
-	refreshAt := h.now().Add(h.refreshInterval)
+	return h.record(tx, wordPartition, holders, h.now().Add(h.refreshInterval))
+}
+
+func (h *Holders) RecordShortOfRedundancy(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+	holders []yacymodel.Hash,
+) error {
+	return h.record(tx, wordPartition, holders, h.now().Add(h.retryDelay))
+}
+
+func (h *Holders) record(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+	holders []yacymodel.Hash,
+	refreshAt time.Time,
+) error {
 	previousRefreshAt, found, err := h.replaceRecord(
 		tx,
 		wordPartition,
@@ -188,4 +204,28 @@ func (h *Holders) DueRefreshesIn(
 	}
 
 	return dueWordPartitions, nil
+}
+
+func (h *Holders) EarliestRefreshAt(tx *vault.Txn) (time.Time, bool, error) {
+	var (
+		earliestRefreshAt time.Time
+		found             bool
+	)
+	for sector := range yacymodel.DHTRingSectorCount {
+		if err := h.refreshOrder.Scan(
+			tx,
+			everyRefreshInSector(sector),
+			func(refresh scheduledRefresh) (bool, error) {
+				if !found || refresh.refreshAt.Before(earliestRefreshAt) {
+					earliestRefreshAt, found = refresh.refreshAt, true
+				}
+
+				return false, nil
+			},
+		); err != nil {
+			return time.Time{}, false, fmt.Errorf("read earliest word partition refresh: %w", err)
+		}
+	}
+
+	return earliestRefreshAt, found, nil
 }

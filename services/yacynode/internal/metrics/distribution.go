@@ -9,22 +9,21 @@ import (
 const (
 	labelOutcome = "result"
 	labelReason  = "reason"
-	labelOrder   = "order"
 )
 
 type DistributionMetrics struct {
-	postingOffers         *prometheus.CounterVec
-	postingsOffered       *prometheus.CounterVec
-	urlMetadataDeliveries *prometheus.CounterVec
-	urlsDelivered         *prometheus.CounterVec
-	urlsUnknownToUs       prometheus.Counter
-	scheduledPostings     *prometheus.GaugeVec
-	longestOfferLateness  *prometheus.GaugeVec
-	staleReplicasDropped  prometheus.Counter
-	postingsHandedOff     prometheus.Counter
-	cyclesSkipped         *prometheus.CounterVec
-	cyclesCompleted       prometheus.Counter
-	batchesAborted        *prometheus.CounterVec
+	postingOffers          *prometheus.CounterVec
+	postingsOffered        *prometheus.CounterVec
+	urlMetadataDeliveries  *prometheus.CounterVec
+	urlsDelivered          *prometheus.CounterVec
+	urlsUnknownToUs        prometheus.Counter
+	undeliveredPostings    prometheus.Gauge
+	longestRefreshLateness prometheus.Gauge
+	staleReplicasDropped   prometheus.Counter
+	postingsHandedOff      prometheus.Counter
+	cyclesSkipped          *prometheus.CounterVec
+	cyclesCompleted        prometheus.Counter
+	batchesAborted         *prometheus.CounterVec
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -60,15 +59,13 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_urls_unknown_to_us_total",
 			"URLs a peer asked for whose metadata this node does not hold, so no delivery carried them.",
 		),
-		scheduledPostings: gaugePerLabelFor(
-			"yacynode_rwidistribution_scheduled_postings",
-			"Postings holding a due entry on the offer schedule, by offer order.",
-			labelOrder,
+		undeliveredPostings: gaugeFor(
+			"yacynode_rwidistribution_undelivered_postings",
+			"Postings not yet delivered to all their responsible peers.",
 		),
-		longestOfferLateness: gaugePerLabelFor(
-			"yacynode_rwidistribution_longest_offer_lateness_seconds",
-			"Time the most overdue posting offer is past its scheduled time, by offer order.",
-			labelOrder,
+		longestRefreshLateness: gaugeFor(
+			"yacynode_rwidistribution_longest_refresh_lateness_seconds",
+			"How long the most overdue word partition refresh has waited past its refresh time.",
 		),
 		staleReplicasDropped: counterFor(
 			"yacynode_rwidistribution_stale_replicas_dropped_total",
@@ -89,7 +86,7 @@ func distributionMetrics() *DistributionMetrics {
 		),
 		batchesAborted: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_aborted_total",
-			"Distribution batches aborted before their postings were rescheduled, by reason.",
+			"Distribution batches aborted before their outcome was recorded, by reason.",
 			labelReason,
 		),
 	}
@@ -102,8 +99,8 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlMetadataDeliveries,
 		d.urlsDelivered,
 		d.urlsUnknownToUs,
-		d.scheduledPostings,
-		d.longestOfferLateness,
+		d.undeliveredPostings,
+		d.longestRefreshLateness,
 		d.staleReplicasDropped,
 		d.postingsHandedOff,
 		d.cyclesSkipped,
@@ -120,8 +117,8 @@ func counterFor(name string, help string) prometheus.Counter {
 	return prometheus.NewCounter(prometheus.CounterOpts{Name: name, Help: help})
 }
 
-func gaugePerLabelFor(name string, help string, label string) *prometheus.GaugeVec {
-	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, []string{label})
+func gaugeFor(name string, help string) prometheus.Gauge {
+	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -138,20 +135,20 @@ func (d *DistributionMetrics) ObserveURLsUnknownToUs(urls int) {
 	d.urlsUnknownToUs.Add(float64(urls))
 }
 
-func (d *DistributionMetrics) ObserveScheduledPostings(order string, postings int) {
-	d.scheduledPostings.WithLabelValues(order).Set(float64(postings))
+func (d *DistributionMetrics) ObserveUndeliveredPostings(amountOfPostings int) {
+	d.undeliveredPostings.Set(float64(amountOfPostings))
 }
 
-func (d *DistributionMetrics) ObserveLongestOfferLateness(order string, lateness time.Duration) {
-	d.longestOfferLateness.WithLabelValues(order).Set(lateness.Seconds())
+func (d *DistributionMetrics) ObserveLongestRefreshLateness(lateness time.Duration) {
+	d.longestRefreshLateness.Set(lateness.Seconds())
 }
 
 func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
 	d.staleReplicasDropped.Add(float64(dropped))
 }
 
-func (d *DistributionMetrics) ObservePostingHandedOff() {
-	d.postingsHandedOff.Inc()
+func (d *DistributionMetrics) ObservePostingsHandedOff(amountOfPostings int) {
+	d.postingsHandedOff.Add(float64(amountOfPostings))
 }
 
 func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {

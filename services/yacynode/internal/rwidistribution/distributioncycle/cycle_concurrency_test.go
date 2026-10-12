@@ -1,7 +1,7 @@
 package distributioncycle_test
 
 import (
-	"fmt"
+	"slices"
 	"sync"
 	"testing"
 	"testing/synctest"
@@ -14,19 +14,12 @@ const callMeetingWait = time.Second
 
 func TestCycleOffersABatchToAllItsPeersAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		word, url := yacymodel.WordHash("w1"), urlHash("u1")
-		peerA, peerB := yacymodel.WordHash("a"), yacymodel.WordHash("b")
-		h := openCycle(t, &clock{at: time.Unix(1000, 0)}, cycleOptions{
-			postings: map[yacymodel.Hash]yacymodel.RWIPosting{
-				fakePostingKey(word, url): fakePosting(word, url),
-			},
-			roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peerA), seed(peerB)}},
-			redundancy: 2,
-		})
+		wordPartition := fixtureWordPartition()
+		h := openCycle(t, startClock(), cycleOptions{redundancy: 3})
+		h.reach(peerAfter(wordPartition, 1), peerAfter(wordPartition, 2))
 		meeting := newCallMeeting(2)
 		h.transfers.onOffer = meeting.arrive
-
-		store(t, h.v, h.schedule, word, url)
+		h.admit(t, wordPartition, urlsOf(1)...)
 
 		h.runCycle(t)
 
@@ -36,52 +29,22 @@ func TestCycleOffersABatchToAllItsPeersAtTheSameTime(t *testing.T) {
 
 func TestCycleOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		peer := yacymodel.WordHash("peer")
-		sectorPostings := append(
-			postingsInSector(1, postingsPerBatch),
-			postingsInSector(40, postingsPerBatch)...,
-		)
-		h := openCycle(t, &clock{at: time.Unix(1000, 0)}, cycleOptions{
-			postings:         postingsByKey(sectorPostings),
-			roster:           fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-			redundancy:       2,
-			batchConcurrency: 2,
-		})
-		h.transfers.answers[peer] = acceptedAnswer
+		h, wordPartitions := openTwoSectors(t)
 		meeting := newCallMeeting(2)
 		h.transfers.onOffer = meeting.arrive
-
-		for _, posting := range sectorPostings {
-			store(t, h.v, h.schedule, posting.WordHash, posting.URLHash)
-		}
 
 		h.runCycle(t)
 
 		meeting.assertMet(t)
-		assertEachPostingOfferedOnce(t, h.transfers.offered, sectorPostings)
+		assertEachWordPartitionOfferedOnce(t, h.transfers.offered, wordPartitions)
 	})
 }
 
 func TestCycleReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		peer := yacymodel.WordHash("peer")
-		sectorPostings := append(
-			postingsInSector(1, postingsPerBatch),
-			postingsInSector(40, postingsPerBatch)...,
-		)
-		h := openCycle(t, &clock{at: time.Unix(1000, 0)}, cycleOptions{
-			postings:         postingsByKey(sectorPostings),
-			roster:           fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-			redundancy:       2,
-			batchConcurrency: 2,
-		})
-		h.transfers.answers[peer] = acceptedAnswer
+		h, _ := openTwoSectors(t)
 		meeting := newCallMeeting(2)
-		h.postings.onRead = meeting.arrive
-
-		for _, posting := range sectorPostings {
-			store(t, h.v, h.schedule, posting.WordHash, posting.URLHash)
-		}
+		h.index.onRead = meeting.arrive
 
 		h.runCycle(t)
 
@@ -89,53 +52,40 @@ func TestCycleReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 	})
 }
 
-func postingsInSector(
-	sector yacymodel.DHTRingSector,
-	amountOfPostings int,
-) []yacymodel.RWIPosting {
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
-	if err != nil {
-		panic(err)
+func openTwoSectors(t *testing.T) (*cycleHarness, []yacymodel.WordPartition) {
+	t.Helper()
+
+	wordPartitions := slices.Concat(
+		wordPartitionsIn(1, postingsPerBatch),
+		wordPartitionsIn(40, postingsPerBatch),
+	)
+	peer := peerAfter(fixtureWordPartition(), 1)
+	h := openCycle(t, startClock(), cycleOptions{redundancy: 2, batchConcurrency: 2})
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	for _, wordPartition := range wordPartitions {
+		h.admit(t, wordPartition, urlsOf(1)...)
 	}
 
-	var postings []yacymodel.RWIPosting
-	for attempt := 0; len(postings) < amountOfPostings; attempt++ {
-		name := fmt.Sprintf("sector%d-%d", sector, attempt)
-		posting := fakePosting(yacymodel.WordHash(name), urlHash(name))
-		position := yacymodel.DHTRingPositionOfPosting(posting, partitions)
-		if yacymodel.DHTRingSectorOf(position) == sector {
-			postings = append(postings, posting)
-		}
-	}
-
-	return postings
+	return h, wordPartitions
 }
 
-func postingsByKey(postings []yacymodel.RWIPosting) map[yacymodel.Hash]yacymodel.RWIPosting {
-	byKey := make(map[yacymodel.Hash]yacymodel.RWIPosting, len(postings))
-	for _, posting := range postings {
-		byKey[fakePostingKey(posting.WordHash, posting.URLHash)] = posting
-	}
-
-	return byKey
-}
-
-func assertEachPostingOfferedOnce(
+func assertEachWordPartitionOfferedOnce(
 	t *testing.T,
 	offered []offeredCall,
-	postings []yacymodel.RWIPosting,
+	wordPartitions []yacymodel.WordPartition,
 ) {
 	t.Helper()
 
-	offers := make(map[yacymodel.RWIPosting]int)
+	offersPerWord := make(map[yacymodel.Hash]int)
 	for _, call := range offered {
 		for _, posting := range call.Postings {
-			offers[posting]++
+			offersPerWord[posting.WordHash]++
 		}
 	}
-	for _, posting := range postings {
-		if offers[posting] != 1 {
-			t.Fatalf("offers = %v, want every posting offered once", offers)
+	for _, wordPartition := range wordPartitions {
+		if offersPerWord[wordPartition.Word] != 1 {
+			t.Fatalf("offers per word = %v, want every word partition offered once", offersPerWord)
 		}
 	}
 }

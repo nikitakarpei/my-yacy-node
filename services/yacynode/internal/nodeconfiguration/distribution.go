@@ -7,33 +7,31 @@ import (
 )
 
 const (
-	EnvDistributionEnabled               = "YACY_DISTRIBUTION_ENABLED"
-	EnvDistributionHandoffEnabled        = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
-	EnvDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
-	EnvDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	EnvDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
-	EnvDistributionBatchConcurrency      = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
-	EnvDistributionCycleInterval         = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
-	EnvDistributionDrainBudget           = "YACY_DISTRIBUTION_DRAIN_BUDGET"
-	EnvDistributionLongestOfferInterval  = "YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"
-	EnvDistributionShortestOfferInterval = "YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL"
-	EnvDistributionRecipientCooldown     = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
-	EnvDistributionMinReachablePeers     = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
-	EnvDistributionURLMetadataBatchSize  = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
+	EnvDistributionEnabled              = "YACY_DISTRIBUTION_ENABLED"
+	EnvDistributionHandoffEnabled       = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
+	EnvDistributionRedundancy           = "YACY_DISTRIBUTION_REDUNDANCY"
+	EnvDistributionPartitionExponent    = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	EnvDistributionPostingsPerBatch     = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
+	EnvDistributionBatchConcurrency     = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
+	EnvDistributionCycleInterval        = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
+	EnvDistributionDrainBudget          = "YACY_DISTRIBUTION_DRAIN_BUDGET"
+	EnvDistributionRefreshInterval      = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
+	EnvDistributionRecipientCooldown    = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
+	EnvDistributionMinReachablePeers    = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	EnvDistributionURLMetadataBatchSize = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
-	DefaultDistributionEnabled               = false
-	DefaultDistributionHandoffEnabled        = true
-	DefaultDistributionRedundancy            = 3
-	DefaultDistributionPartitionExponent     = 4
-	DefaultDistributionPostingsPerBatch      = 1000
-	DefaultDistributionBatchConcurrency      = 2
-	DefaultDistributionCycleInterval         = time.Minute
-	DefaultDistributionDrainBudget           = time.Minute
-	DefaultDistributionLongestOfferInterval  = 24 * time.Hour
-	DefaultDistributionShortestOfferInterval = 5 * time.Minute
-	DefaultDistributionRecipientCooldown     = 10 * time.Minute
-	DefaultDistributionMinReachablePeers     = 32
-	DefaultDistributionURLMetadataBatchSize  = 50
+	DefaultDistributionEnabled              = false
+	DefaultDistributionHandoffEnabled       = true
+	DefaultDistributionRedundancy           = 3
+	DefaultDistributionPartitionExponent    = 4
+	DefaultDistributionPostingsPerBatch     = 1000
+	DefaultDistributionBatchConcurrency     = 2
+	DefaultDistributionCycleInterval        = time.Minute
+	DefaultDistributionDrainBudget          = time.Minute
+	DefaultDistributionRefreshInterval      = 24 * time.Hour
+	DefaultDistributionRecipientCooldown    = 10 * time.Minute
+	DefaultDistributionMinReachablePeers    = 32
+	DefaultDistributionURLMetadataBatchSize = 50
 )
 
 type DistributionConfig struct {
@@ -45,7 +43,7 @@ type DistributionConfig struct {
 	BatchConcurrency     int
 	CycleInterval        time.Duration
 	DrainBudget          time.Duration
-	OfferInterval        OfferIntervalConfig
+	RefreshInterval      time.Duration
 	RecipientCooldown    time.Duration
 	MinReachablePeers    int
 	URLMetadataBatchSize int
@@ -107,7 +105,9 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	offerInterval, err := loadOfferIntervalConfig(getenv)
+	refreshInterval, err := envconfig.Duration(
+		getenv, EnvDistributionRefreshInterval, DefaultDistributionRefreshInterval,
+	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
@@ -142,32 +142,9 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		BatchConcurrency:     batchConcurrency,
 		CycleInterval:        cycleInterval,
 		DrainBudget:          drainBudget,
-		OfferInterval:        offerInterval,
+		RefreshInterval:      refreshInterval,
 		RecipientCooldown:    recipientCooldown,
 		MinReachablePeers:    minReachablePeers,
 		URLMetadataBatchSize: urlMetadataBatchSize,
 	}, nil
-}
-
-type OfferIntervalConfig struct {
-	Longest  time.Duration
-	Shortest time.Duration
-}
-
-func loadOfferIntervalConfig(getenv func(string) string) (OfferIntervalConfig, error) {
-	longest, err := envconfig.Duration(
-		getenv, EnvDistributionLongestOfferInterval, DefaultDistributionLongestOfferInterval,
-	)
-	if err != nil {
-		return OfferIntervalConfig{}, err
-	}
-
-	shortest, err := envconfig.Duration(
-		getenv, EnvDistributionShortestOfferInterval, DefaultDistributionShortestOfferInterval,
-	)
-	if err != nil {
-		return OfferIntervalConfig{}, err
-	}
-
-	return OfferIntervalConfig{Longest: longest, Shortest: shortest}, nil
 }

@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
 type sectorTurns struct {
@@ -12,6 +13,11 @@ type sectorTurns struct {
 	nextSector      yacymodel.DHTRingSector
 	sectorsInFlight []yacymodel.DHTRingSector
 	drainedSectors  []yacymodel.DHTRingSector
+	cursors         map[yacymodel.DHTRingSector]wordpartitionoffer.Cursor
+}
+
+func newSectorTurns() *sectorTurns {
+	return &sectorTurns{cursors: make(map[yacymodel.DHTRingSector]wordpartitionoffer.Cursor)}
 }
 
 func (t *sectorTurns) forgetDrainedSectors() {
@@ -39,6 +45,13 @@ func (t *sectorTurns) claimNext() (yacymodel.DHTRingSector, bool) {
 	return 0, false
 }
 
+func (t *sectorTurns) cursorOf(sector yacymodel.DHTRingSector) wordpartitionoffer.Cursor {
+	t.guard.Lock()
+	defer t.guard.Unlock()
+
+	return t.cursors[sector]
+}
+
 func (t *sectorTurns) markDrained(sector yacymodel.DHTRingSector) {
 	t.guard.Lock()
 	defer t.guard.Unlock()
@@ -54,4 +67,11 @@ func (t *sectorTurns) release(sector yacymodel.DHTRingSector) {
 		t.sectorsInFlight,
 		func(heldSector yacymodel.DHTRingSector) bool { return heldSector == sector },
 	)
+}
+
+func (t *sectorTurns) advance(sector yacymodel.DHTRingSector, next wordpartitionoffer.Cursor) {
+	t.guard.Lock()
+	defer t.guard.Unlock()
+
+	t.cursors[sector] = next
 }

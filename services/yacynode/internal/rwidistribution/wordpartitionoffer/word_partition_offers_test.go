@@ -20,6 +20,7 @@ import (
 const (
 	partitionExponent = 2
 	refreshInterval   = time.Hour
+	retryDelay        = time.Minute
 	positionStep      = 8
 	defaultBatchSize  = 100
 )
@@ -38,6 +39,7 @@ type harness struct {
 	offers       *wordpartitionoffer.WordPartitionOffers
 	reachability *fakeReachability
 	cooldowns    fakeCooldowns
+	observer     *fakeObserver
 	clock        time.Time
 }
 
@@ -72,14 +74,15 @@ func openHarness(t *testing.T, opts options) *harness {
 		undelivered:  undelivered,
 		reachability: &fakeReachability{recentlyReachable: map[yacymodel.Hash]bool{}},
 		cooldowns:    fakeCooldowns{},
+		observer:     &fakeObserver{},
 		clock:        time.Unix(1_700_000_000, 0).UTC(),
 	}
-	h.holders, err = wordpartitionholders.Open(v, partitions(), refreshInterval, h.now)
+	h.holders, err = wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, h.now)
 	if err != nil {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
 	h.offers = wordpartitionoffer.New(
-		v, undelivered, h.holders, index, h.reachability, h.cooldowns,
+		v, undelivered, h.holders, index, h.reachability, h.cooldowns, h.observer,
 		configFrom(opts),
 	)
 
@@ -170,7 +173,15 @@ func (h *harness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.Record(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+	})
+}
+
+func (h *harness) recordNoHolders(t *testing.T, wordPartition yacymodel.WordPartition) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.holders.RecordShortOfRedundancy(tx, wordPartition, nil)
 	})
 }
 
@@ -402,6 +413,14 @@ func (f fakeCooldowns) CooldownLeftOf(peer yacymodel.Hash) time.Duration {
 	return f[peer]
 }
 
+type fakeObserver struct {
+	peersPerSector []int
+}
+
+func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int) {
+	f.peersPerSector = peersPerSector
+}
+
 func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordPartition(
 	t *testing.T,
 ) {
@@ -600,6 +619,33 @@ func TestADueRefreshCarriesTheUndeliveredPostingsOfItsWordPartition(t *testing.T
 	}
 }
 
+func TestADueRefreshWithoutHoldersSendsTheWholeWordPartitionToEveryResponsiblePeer(
+	t *testing.T,
+) {
+	h := openHarness(t, options{redundancy: 2})
+	refreshed := wordPartitionsInRingOrder(t, 1)[0]
+	responsiblePeers := []yacymodel.Seed{peerAfter(refreshed, 0), peerAfter(refreshed, 1)}
+	urls := urlsOfPartition(2)
+	h.admit(t, refreshed, urls...)
+	h.deliverEverything(t)
+	h.recordNoHolders(t, refreshed)
+	h.clock = h.clock.Add(retryDelay)
+
+	refresh := onlyOffer(
+		t,
+		withoutCursor(h.dueNow(t, wordpartitionoffer.Cursor{}, responsiblePeers...)),
+	)
+
+	if !refresh.IsRefresh || len(refresh.Holders) != 0 {
+		t.Fatalf("offer = %+v, want a refresh without holders", refresh)
+	}
+	for _, peer := range responsiblePeers {
+		if got := urlsSentTo(t, refresh, peer); !slices.Equal(got, sortedURLs(urls)) {
+			t.Fatalf("%v gets %v, want the whole word partition %v", peer.Hash, got, urls)
+		}
+	}
+}
+
 func TestDueRefreshesStopOnceTheBatchIsFull(t *testing.T) {
 	h := openHarness(t, options{postingsPerBatch: 2})
 	wordPartitions := wordPartitionsInRingOrder(t, 2)
@@ -697,4 +743,23 @@ func withoutCursor(
 	_ wordpartitionoffer.Cursor,
 ) []wordpartitionoffer.WordPartitionOffer {
 	return offers
+}
+
+func TestReportCountsOnlyThePeersAcceptingRemoteIndexPerSector(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	accepting, refusing := peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)
+	refusing.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
+
+	h.offers.ReportPeersAcceptingRemoteIndex([]yacymodel.Seed{accepting, refusing})
+
+	sector := yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(accepting.Hash))
+	sumOfPeers := 0
+	for _, peers := range h.observer.peersPerSector {
+		sumOfPeers += peers
+	}
+	if sumOfPeers != 1 || h.observer.peersPerSector[sector] != 1 {
+		t.Fatalf("peers per sector = %v, want only %v in sector %d",
+			h.observer.peersPerSector, accepting.Hash, sector)
+	}
 }

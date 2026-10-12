@@ -62,30 +62,31 @@ func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 	wordPartition yacymodel.WordPartition,
 	holders []yacymodel.Hash,
 	responsiblePeers []yacymodel.Hash,
-) (bool, error) {
+) (amountOfPostingsHandedOff int, err error) {
 	if !h.isHeldByResponsiblePeers(wordPartition, holders, responsiblePeers) {
-		return false, nil
+		return 0, nil
 	}
 	hasUndeliveredPostings, err := h.undelivered.AnyIn(tx, wordPartition)
 	if err != nil || hasUndeliveredPostings {
-		return false, err
+		return 0, err
 	}
 	heldPostings, err := h.postingsOf(tx, wordPartition)
 	if err != nil {
-		return false, err
+		return 0, err
 	}
-	if err := h.purge(tx, heldPostings); err != nil {
-		return false, err
+	amountOfPostingsHandedOff, err = h.purge(tx, heldPostings)
+	if err != nil {
+		return 0, err
 	}
 	if err := h.holders.Forget(tx, wordPartition); err != nil {
-		return false, err
+		return 0, err
 	}
 	slog.DebugContext(ctx, "word partition handed off to responsible peers",
 		slog.String("word", wordPartition.Word.String()),
 		slog.Uint64("partition", uint64(wordPartition.Partition)),
-		slog.Int("postings", len(heldPostings)))
+		slog.Int("postings", amountOfPostingsHandedOff))
 
-	return true, nil
+	return amountOfPostingsHandedOff, nil
 }
 
 func (h *Handoff) isHeldByResponsiblePeers(
@@ -124,12 +125,19 @@ func (h *Handoff) postingsOf(
 	return heldPostings, err
 }
 
-func (h *Handoff) purge(tx *vault.Txn, heldPostings []yacymodel.RWIPosting) error {
+func (h *Handoff) purge(
+	tx *vault.Txn,
+	heldPostings []yacymodel.RWIPosting,
+) (amountOfPurgedPostings int, err error) {
 	for _, posting := range heldPostings {
-		if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
-			return err
+		wasPurged, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash)
+		if err != nil {
+			return 0, err
+		}
+		if wasPurged {
+			amountOfPurgedPostings++
 		}
 	}
 
-	return nil
+	return amountOfPurgedPostings, nil
 }

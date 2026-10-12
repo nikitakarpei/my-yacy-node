@@ -18,6 +18,7 @@ import (
 const (
 	partitionExponent  = 2
 	refreshInterval    = time.Hour
+	retryDelay         = time.Minute
 	positionStep       = 8
 	farAwaySteps       = 1000
 	handoffRedundancy  = 1
@@ -58,7 +59,13 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	holders, err := wordpartitionholders.Open(v, partitions(), refreshInterval, fixedNow)
+	holders, err := wordpartitionholders.Open(
+		v,
+		partitions(),
+		refreshInterval,
+		retryDelay,
+		fixedNow,
+	)
 	if err != nil {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
@@ -144,7 +151,7 @@ func (h *harness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.Record(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
 	})
 }
 
@@ -153,20 +160,20 @@ func (h *harness) handOff(
 	wordPartition yacymodel.WordPartition,
 	holders []yacymodel.Hash,
 	responsiblePeers []yacymodel.Hash,
-) bool {
+) int {
 	t.Helper()
 
-	var wasHandedOff bool
+	var amountOfPostingsHandedOff int
 	h.write(t, func(tx *vault.Txn) error {
-		handedOff, err := h.handoff.HandOffIfHeldByResponsiblePeers(
+		amount, err := h.handoff.HandOffIfHeldByResponsiblePeers(
 			context.Background(), tx, wordPartition, holders, responsiblePeers,
 		)
-		wasHandedOff = handedOff
+		amountOfPostingsHandedOff = amount
 
 		return err
 	})
 
-	return wasHandedOff
+	return amountOfPostingsHandedOff
 }
 
 func (h *harness) postingsOf(
@@ -315,9 +322,15 @@ func TestWordPartitionHandedOffOnceResponsiblePeersCloserThanThisNodeHoldIt(t *t
 	h := deliveredFixture(t, thisNodeFartherThanEveryPeer(), handoffRedundancy)
 
 	responsiblePeers := []yacymodel.Hash{closerPeer()}
-	if !h.handOff(t, fixtureWordPartition(), responsiblePeers, responsiblePeers) {
-		t.Fatal(
-			"word partition kept, want it handed off: redundancy is met by a closer responsible peer",
+	if got := h.handOff(
+		t,
+		fixtureWordPartition(),
+		responsiblePeers,
+		responsiblePeers,
+	); got != postingsPerFixture {
+		t.Fatalf(
+			"postings handed off = %d, want all %d: redundancy is met by a closer responsible peer",
+			got, postingsPerFixture,
 		)
 	}
 	if held := h.postingsOf(t, fixtureWordPartition()); len(held) != 0 {
@@ -366,7 +379,7 @@ func TestWordPartitionKeptWhileOneOfItsPostingsIsUndelivered(t *testing.T) {
 		urlsIn(fixtureWordPartition().Partition, postingsPerFixture+1)...)
 
 	responsiblePeers := []yacymodel.Hash{closerPeer()}
-	if h.handOff(t, fixtureWordPartition(), responsiblePeers, responsiblePeers) {
+	if h.handOff(t, fixtureWordPartition(), responsiblePeers, responsiblePeers) != 0 {
 		t.Fatal("word partition handed off, want it kept: one of its postings is undelivered")
 	}
 	assertKept(t, h, fixtureWordPartition(), postingsPerFixture+1)
@@ -376,7 +389,7 @@ func TestWordPartitionKeptBelowRedundancy(t *testing.T) {
 	h := deliveredFixture(t, thisNodeFartherThanEveryPeer(), 2)
 
 	responsiblePeers := []yacymodel.Hash{closerPeer(), otherCloserPeer()}
-	if h.handOff(t, fixtureWordPartition(), []yacymodel.Hash{closerPeer()}, responsiblePeers) {
+	if h.handOff(t, fixtureWordPartition(), []yacymodel.Hash{closerPeer()}, responsiblePeers) != 0 {
 		t.Fatal("word partition handed off, want it kept: only one of two owed peers holds it")
 	}
 	assertKept(t, h, fixtureWordPartition(), postingsPerFixture)
@@ -390,7 +403,7 @@ func TestWordPartitionKeptWhileItsHoldersAreNotResponsiblePeers(t *testing.T) {
 		fixtureWordPartition(),
 		[]yacymodel.Hash{otherCloserPeer()},
 		[]yacymodel.Hash{closerPeer()},
-	) {
+	) != 0 {
 		t.Fatal("word partition handed off, want it kept: the holder is not a responsible peer")
 	}
 	assertKept(t, h, fixtureWordPartition(), postingsPerFixture)
@@ -400,7 +413,7 @@ func TestWordPartitionKeptWhileItsHolderIsNotCloserThanThisNode(t *testing.T) {
 	h := deliveredFixture(t, thisNodeCloserThanEveryPeer(), handoffRedundancy)
 
 	responsiblePeers := []yacymodel.Hash{closerPeer()}
-	if h.handOff(t, fixtureWordPartition(), responsiblePeers, responsiblePeers) {
+	if h.handOff(t, fixtureWordPartition(), responsiblePeers, responsiblePeers) != 0 {
 		t.Fatal("word partition handed off, want it kept: this node is closer than the holder")
 	}
 	assertKept(t, h, fixtureWordPartition(), postingsPerFixture)
@@ -408,7 +421,7 @@ func TestWordPartitionKeptWhileItsHolderIsNotCloserThanThisNode(t *testing.T) {
 
 func TestKeepEveryWordPartitionHandsOffNothing(t *testing.T) {
 	responsiblePeers := []yacymodel.Hash{closerPeer()}
-	wasHandedOff, err := wordpartitionhandoff.KeepEveryWordPartition{}.HandOffIfHeldByResponsiblePeers(
+	amountOfPostingsHandedOff, err := wordpartitionhandoff.KeepEveryWordPartition{}.HandOffIfHeldByResponsiblePeers(
 		context.Background(),
 		nil,
 		fixtureWordPartition(),
@@ -418,7 +431,7 @@ func TestKeepEveryWordPartitionHandsOffNothing(t *testing.T) {
 	if err != nil {
 		t.Fatalf("HandOffIfHeldByResponsiblePeers: %v", err)
 	}
-	if wasHandedOff {
+	if amountOfPostingsHandedOff != 0 {
 		t.Fatal("word partition handed off, want every word partition kept")
 	}
 }

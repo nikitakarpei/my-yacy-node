@@ -31,15 +31,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
@@ -172,20 +172,15 @@ func assembleNode(
 		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
 	)
 
-	distributionObserver := metrics.NewDistributionMetrics(registry)
-
-	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
+	undeliveredPostings, undeliveredPostingProjection, wordPartitionHolders, err := openDistributionRecords(
 		storage,
 		dhtRingPartitions,
-		postingofferinterval.Bounds{
-			Shortest: config.Distribution.OfferInterval.Shortest,
-			Longest:  config.Distribution.OfferInterval.Longest,
-		},
+		config.Distribution.RefreshInterval,
+		config.Distribution.RecipientCooldown,
 		now,
-		distributionObserver,
 	)
 	if err != nil {
-		return node{}, fmt.Errorf("rwi distribution: %w", err)
+		return node{}, err
 	}
 
 	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
@@ -197,8 +192,8 @@ func assembleNode(
 			postingImpactProjection,
 			postingAmountProjection,
 			ringOccupancyProjection,
+			undeliveredPostingProjection,
 		},
-		postingRecords,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
@@ -340,11 +335,15 @@ func assembleNode(
 	var distributionCycle *distributioncycle.Cycle
 
 	if config.Distribution.Enabled {
-		var handoff distributioncycle.PostingHandoff = postinghandoff.KeepEveryPosting{}
+		var handoff distributioncycle.WordPartitionHandoff = wordpartitionhandoff.KeepEveryWordPartition{}
 		if config.Distribution.HandoffEnabled {
-			handoff = postinghandoff.New(
+			handoff = wordpartitionhandoff.New(
+				postings,
 				postingPurger,
-				postinghandoff.Config{
+				undeliveredPostings,
+				wordPartitionHolders,
+				wordpartitionhandoff.Config{
+					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
 					Redundancy: config.Distribution.Redundancy,
 				},
@@ -352,24 +351,28 @@ func assembleNode(
 		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
 		recipientCooldowns := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
+		distributionObserver := metrics.NewDistributionMetrics(registry)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
 
 		distributionCycle = distributioncycle.New(
 			storage,
-			postingoffer.New(
+			wordpartitionoffer.New(
 				storage,
-				offerSchedule,
-				postingReplicas,
+				undeliveredPostings,
+				wordPartitionHolders,
 				postings,
 				peerRoster,
 				recipientCooldowns,
 				dhtRingObserver,
-				postingoffer.Config{
-					Partitions: dhtRingPartitions,
-					Self:       identity.Hash,
-					Redundancy: config.Distribution.Redundancy,
+				wordpartitionoffer.Config{
+					Partitions:       dhtRingPartitions,
+					Self:             identity.Hash,
+					Redundancy:       config.Distribution.Redundancy,
+					PostingsPerBatch: config.Distribution.PostingsPerBatch,
 				},
 			),
+			undeliveredPostings,
+			wordPartitionHolders,
 			handoff,
 			postingtransfer.New(
 				storage,
@@ -386,8 +389,6 @@ func assembleNode(
 				distributionObserver,
 			),
 			recipientCooldowns,
-			postingReplicas,
-			offerSchedule,
 			peerRoster,
 			now,
 			distributionObserver,
@@ -425,4 +426,38 @@ func assembleNode(
 		distributionCycle:     distributionCycle,
 		pageOfferIntake:       pageOffers,
 	}, nil
+}
+
+func openDistributionRecords(
+	storage *vault.Vault,
+	dhtRingPartitions yacymodel.DHTRingPartitions,
+	refreshInterval time.Duration,
+	retryDelay time.Duration,
+	now func() time.Time,
+) (
+	*undeliveredpostings.UndeliveredPostings,
+	vault.Projection[yacymodel.RWIPosting],
+	*wordpartitionholders.Holders,
+	error,
+) {
+	undeliveredPostings, undeliveredPostingProjection, err := undeliveredpostings.Open(
+		storage,
+		dhtRingPartitions,
+	)
+	if err != nil {
+		return nil, nil, nil, fmt.Errorf("undelivered postings: %w", err)
+	}
+
+	wordPartitionHolders, err := wordpartitionholders.Open(
+		storage,
+		dhtRingPartitions,
+		refreshInterval,
+		retryDelay,
+		now,
+	)
+	if err != nil {
+		return nil, nil, nil, fmt.Errorf("word partition holders: %w", err)
+	}
+
+	return undeliveredPostings, undeliveredPostingProjection, wordPartitionHolders, nil
 }

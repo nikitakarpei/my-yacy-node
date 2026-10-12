@@ -15,22 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 )
 
-type WordPartitionOffer struct {
-	WordPartition       yacymodel.WordPartition
-	Position            yacymodel.DHTRingPosition
-	ResponsiblePeers    []yacymodel.Hash
-	Holders             []yacymodel.Hash
-	StaleHolders        []yacymodel.Hash
-	UndeliveredPostings []undeliveredpostings.UndeliveredPosting
-	IsRefresh           bool
-	Recipients          []Recipient
-}
-
-type Recipient struct {
-	Peer     yacymodel.Seed
-	Postings []yacymodel.RWIPosting
-}
-
 type Cursor struct {
 	lastVisited undeliveredpostings.UndeliveredPosting
 }
@@ -58,6 +42,10 @@ type Cooldowns interface {
 	CooldownLeftOf(peer yacymodel.Hash) time.Duration
 }
 
+type Observer interface {
+	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
+}
+
 type Config struct {
 	Partitions       yacymodel.DHTRingPartitions
 	Self             yacymodel.Hash
@@ -72,10 +60,11 @@ type WordPartitionOffers struct {
 	postings     PostingIndex
 	reachability Reachability
 	cooldowns    Cooldowns
+	observer     Observer
 	config       Config
 }
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators and the config
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
 	undelivered *undeliveredpostings.UndeliveredPostings,
@@ -83,6 +72,7 @@ func New(
 	postings PostingIndex,
 	reachability Reachability,
 	cooldowns Cooldowns,
+	observer Observer,
 	config Config,
 ) *WordPartitionOffers {
 	return &WordPartitionOffers{
@@ -92,8 +82,32 @@ func New(
 		postings:     postings,
 		reachability: reachability,
 		cooldowns:    cooldowns,
+		observer:     observer,
 		config:       config,
 	}
+}
+
+func (o *WordPartitionOffers) ReportPeersAcceptingRemoteIndex(reachablePeers []yacymodel.Seed) {
+	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+		yacymodel.SeedsPerDHTRingSector(peersAcceptingRemoteIndex(reachablePeers)),
+	)
+}
+
+func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {
+	acceptingPeers := make([]yacymodel.Seed, 0, len(peers))
+	for _, seed := range peers {
+		if acceptsRemoteIndex(seed) {
+			acceptingPeers = append(acceptingPeers, seed)
+		}
+	}
+
+	return acceptingPeers
+}
+
+func acceptsRemoteIndex(seed yacymodel.Seed) bool {
+	capabilities, capabilitiesKnown := seed.Capabilities.Get()
+
+	return capabilitiesKnown && capabilities.AcceptRemoteIndex
 }
 
 func (o *WordPartitionOffers) DueNowIn(
@@ -121,23 +135,6 @@ func (o *WordPartitionOffers) DueNowIn(
 	}
 
 	return batch.offers, batch.next, nil
-}
-
-func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {
-	acceptingPeers := make([]yacymodel.Seed, 0, len(peers))
-	for _, seed := range peers {
-		if acceptsRemoteIndex(seed) {
-			acceptingPeers = append(acceptingPeers, seed)
-		}
-	}
-
-	return acceptingPeers
-}
-
-func acceptsRemoteIndex(seed yacymodel.Seed) bool {
-	capabilities, capabilitiesKnown := seed.Capabilities.Get()
-
-	return capabilitiesKnown && capabilities.AcceptRemoteIndex
 }
 
 func (o *WordPartitionOffers) addUndeliveredWordPartitions(
