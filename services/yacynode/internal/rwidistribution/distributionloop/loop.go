@@ -39,7 +39,7 @@ type WordPartitionHandoff interface {
 		ctx context.Context,
 		tx *vault.Txn,
 		wordPartition yacymodel.WordPartition,
-		holders []yacymodel.Hash,
+		currentHolders []yacymodel.Hash,
 		responsiblePeers []yacymodel.Hash,
 	) (int, error)
 }
@@ -242,7 +242,7 @@ func (l *Loop) commitBatch(
 		return err
 	}
 
-	l.dhtRingObserver.ObserveReplicaRingFractions(ringFractionsOf(outcomes))
+	l.dhtRingObserver.ObserveHolderRingFractions(ringFractionsOf(outcomes))
 
 	return nil
 }
@@ -279,7 +279,7 @@ func (l *Loop) recordOutcome(
 		return err
 	}
 	tx.RunAfterCommit(func() {
-		l.batchObserver.ObserveStaleReplicasDropped(outcome.AmountOfDroppedHolders)
+		l.batchObserver.ObserveStaleHoldersDropped(outcome.AmountOfStaleHolders)
 		l.batchObserver.ObservePostingsHandedOff(amountOfPostingsHandedOff)
 	})
 

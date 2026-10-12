@@ -88,11 +88,11 @@ yacynode_rwidistribution_urls_delivered_total{result="deferred"} 1
 	}
 }
 
-func TestDistributionCountsStaleReplicasDropped(t *testing.T) {
+func TestDistributionCountsStaleHoldersDropped(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveStaleReplicasDropped(2)
+	observer.ObserveStaleHoldersDropped(2)
 
 	expected := `
 # HELP yacynode_rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.

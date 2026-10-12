@@ -352,8 +352,8 @@ func TestLoopDropsAStaleHolder(t *testing.T) {
 		if got := h.holdersOf(t, wordPartition); !slices.Equal(got, want) {
 			t.Fatalf("holders = %v, want %v in place of the stale holder", got, want)
 		}
-		if h.observer.staleReplicasDropped != 1 {
-			t.Fatalf("staleReplicasDropped = %d, want 1", h.observer.staleReplicasDropped)
+		if h.observer.staleHoldersDropped != 1 {
+			t.Fatalf("staleHoldersDropped = %d, want 1", h.observer.staleHoldersDropped)
 		}
 	})
 }
@@ -539,9 +539,9 @@ func TestLoopReportsTheRingFractionOfEveryAcceptedPosting(t *testing.T) {
 		want := positionOf(wordPartition).DistanceTo(
 			yacymodel.DHTRingPositionOf(peer.Hash),
 		).FractionOfDHTRing()
-		if !slices.Equal(h.observer.replicaRingFractions, []float64{want, want}) {
-			t.Fatalf("replicaRingFractions = %v, want %v for each accepted posting",
-				h.observer.replicaRingFractions, want)
+		if !slices.Equal(h.observer.holderRingFractions, []float64{want, want}) {
+			t.Fatalf("holderRingFractions = %v, want %v for each accepted posting",
+				h.observer.holderRingFractions, want)
 		}
 	})
 }
@@ -557,9 +557,9 @@ func TestLoopReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
 
 		h.start(t)
 
-		if len(h.observer.replicaRingFractions) != 0 {
-			t.Fatalf("replicaRingFractions = %v, want none when no peer accepted",
-				h.observer.replicaRingFractions)
+		if len(h.observer.holderRingFractions) != 0 {
+			t.Fatalf("holderRingFractions = %v, want none when no peer accepted",
+				h.observer.holderRingFractions)
 		}
 	})
 }

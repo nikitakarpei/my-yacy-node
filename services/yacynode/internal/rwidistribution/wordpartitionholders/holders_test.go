@@ -65,24 +65,24 @@ func (h *harness) advance(duration time.Duration) {
 func (h *harness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
 func (h *harness) recordHoldersShortOfRedundancy(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordShortOfRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordShortOfRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -100,15 +100,15 @@ func (h *harness) holdersOf(
 ) []yacymodel.Hash {
 	t.Helper()
 
-	var holders []yacymodel.Hash
+	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		holders, err = h.holders.Of(tx, wordPartition)
+		recordedHolders, err = h.holders.Of(tx, wordPartition)
 
 		return err
 	})
 
-	return holders
+	return recordedHolders
 }
 
 func (h *harness) isInRetry(t *testing.T, wordPartition yacymodel.WordPartition) bool {

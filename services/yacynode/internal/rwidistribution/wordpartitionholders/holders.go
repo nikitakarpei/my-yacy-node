@@ -1,4 +1,4 @@
-// Package wordpartitionholders owns the record of the peers that hold a copy of
+// Package wordpartitionholders records the peers that hold a copy of
 // the postings of each word partition, and when each word partition is next due
 // for a refresh. A word partition short of redundancy is in retry: it is due
 // again after a retry delay that doubles on each try, up to the refresh
@@ -14,7 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type wordPartitionRecord struct {
+type wordPartitionEntry struct {
 	holders    []yacymodel.Hash
 	refreshAt  time.Time
 	retryDelay time.Duration
@@ -27,7 +27,7 @@ type ScheduledRefresh struct {
 }
 
 type Holders struct {
-	records         *vault.Collection[yacymodel.WordPartition, wordPartitionRecord]
+	entries         *vault.Collection[yacymodel.WordPartition, wordPartitionEntry]
 	refreshOrder    *vault.Set[ScheduledRefresh]
 	partitions      yacymodel.DHTRingPartitions
 	refreshInterval time.Duration
@@ -42,7 +42,7 @@ func Open(
 	firstRetryDelay time.Duration,
 	now func() time.Time,
 ) (*Holders, error) {
-	records, err := registerWordPartitionRecords(v)
+	entries, err := registerWordPartitionEntries(v)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func Open(
 	}
 
 	return &Holders{
-		records:         records,
+		entries:         entries,
 		refreshOrder:    refreshOrder,
 		partitions:      partitions,
 		refreshInterval: refreshInterval,
@@ -65,24 +65,24 @@ func (h *Holders) Of(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 ) ([]yacymodel.Hash, error) {
-	record, _, err := h.records.Get(tx, wordPartition)
+	entry, _, err := h.entries.Get(tx, wordPartition)
 	if err != nil {
 		return nil, fmt.Errorf("read word partition holders: %w", err)
 	}
 
-	return record.holders, nil
+	return entry.holders, nil
 }
 
 func (h *Holders) IsInRetry(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 ) (bool, error) {
-	record, _, err := h.records.Get(tx, wordPartition)
+	entry, _, err := h.entries.Get(tx, wordPartition)
 	if err != nil {
 		return false, fmt.Errorf("read word partition retry delay: %w", err)
 	}
 
-	return record.retryDelay > 0, nil
+	return entry.retryDelay > 0, nil
 }
 
 func (h *Holders) RecordAtRedundancy(
@@ -90,7 +90,7 @@ func (h *Holders) RecordAtRedundancy(
 	wordPartition yacymodel.WordPartition,
 	holders []yacymodel.Hash,
 ) error {
-	return h.record(tx, wordPartition, wordPartitionRecord{
+	return h.record(tx, wordPartition, wordPartitionEntry{
 		holders:   holders,
 		refreshAt: h.now().Add(h.refreshInterval),
 	})
@@ -106,7 +106,7 @@ func (h *Holders) RecordShortOfRedundancy(
 		return err
 	}
 
-	return h.record(tx, wordPartition, wordPartitionRecord{
+	return h.record(tx, wordPartition, wordPartitionEntry{
 		holders:    holders,
 		refreshAt:  h.now().Add(retryDelay),
 		retryDelay: retryDelay,
@@ -117,20 +117,20 @@ func (h *Holders) retryDelayFor(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 ) (time.Duration, error) {
-	previousRecord, _, err := h.records.Get(tx, wordPartition)
+	previousEntry, _, err := h.entries.Get(tx, wordPartition)
 	if err != nil {
 		return 0, fmt.Errorf("read word partition retry delay: %w", err)
 	}
 
-	return min(max(previousRecord.retryDelay*2, h.firstRetryDelay), h.refreshInterval), nil
+	return min(max(previousEntry.retryDelay*2, h.firstRetryDelay), h.refreshInterval), nil
 }
 
 func (h *Holders) record(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
-	record wordPartitionRecord,
+	entry wordPartitionEntry,
 ) error {
-	previousRefreshAt, found, err := h.replaceRecord(tx, wordPartition, record)
+	previousRefreshAt, found, err := h.replaceEntry(tx, wordPartition, entry)
 	if err != nil {
 		return err
 	}
@@ -140,20 +140,20 @@ func (h *Holders) record(
 		}
 	}
 
-	return h.scheduleRefresh(tx, wordPartition, record.refreshAt)
+	return h.scheduleRefresh(tx, wordPartition, entry.refreshAt)
 }
 
-func (h *Holders) replaceRecord(
+func (h *Holders) replaceEntry(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
-	record wordPartitionRecord,
+	entry wordPartitionEntry,
 ) (previousRefreshAt time.Time, wasReplaced bool, err error) {
-	previousRecord, wasReplaced, err := h.records.PutReturning(tx, wordPartition, record)
+	previousEntry, wasReplaced, err := h.entries.PutReturning(tx, wordPartition, entry)
 	if err != nil {
 		return time.Time{}, false, fmt.Errorf("record word partition holders: %w", err)
 	}
 
-	return previousRecord.refreshAt, wasReplaced, nil
+	return previousEntry.refreshAt, wasReplaced, nil
 }
 
 func (h *Holders) unscheduleRefresh(
@@ -200,7 +200,7 @@ func (h *Holders) scheduleRefresh(
 }
 
 func (h *Holders) Forget(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
-	previousRefreshAt, found, err := h.deleteRecord(tx, wordPartition)
+	previousRefreshAt, found, err := h.deleteEntry(tx, wordPartition)
 	if err != nil || !found {
 		return err
 	}
@@ -208,16 +208,16 @@ func (h *Holders) Forget(tx *vault.Txn, wordPartition yacymodel.WordPartition) e
 	return h.unscheduleRefresh(tx, wordPartition, previousRefreshAt)
 }
 
-func (h *Holders) deleteRecord(
+func (h *Holders) deleteEntry(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 ) (previousRefreshAt time.Time, wasDeleted bool, err error) {
-	previousRecord, wasDeleted, err := h.records.DeleteReturning(tx, wordPartition)
+	previousEntry, wasDeleted, err := h.entries.DeleteReturning(tx, wordPartition)
 	if err != nil {
 		return time.Time{}, false, fmt.Errorf("drop word partition holders: %w", err)
 	}
 
-	return previousRecord.refreshAt, wasDeleted, nil
+	return previousEntry.refreshAt, wasDeleted, nil
 }
 
 func (h *Holders) DueRefreshesAfter(

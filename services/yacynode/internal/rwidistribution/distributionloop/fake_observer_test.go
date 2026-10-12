@@ -9,12 +9,12 @@ type fakeObserver struct {
 	guard                  sync.Mutex
 	undeliveredPostings    int
 	longestRefreshLateness time.Duration
-	staleReplicasDropped   int
+	staleHoldersDropped    int
 	postingsHandedOff      int
 	batchesSkipped         map[string]int
 	batchesCompleted       int
 	batchesAborted         map[string]int
-	replicaRingFractions   []float64
+	holderRingFractions    []float64
 	peersExcluded          int
 	wordPartitionsWaiting  map[string]int
 	peersPerSector         []int
@@ -42,11 +42,11 @@ func (f *fakeObserver) ObserveLongestRefreshLateness(lateness time.Duration) {
 	f.longestRefreshLateness = lateness
 }
 
-func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {
+func (f *fakeObserver) ObserveStaleHoldersDropped(amountOfStaleHolders int) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.staleReplicasDropped += dropped
+	f.staleHoldersDropped += amountOfStaleHolders
 }
 
 func (f *fakeObserver) ObservePostingsHandedOff(amountOfPostings int) {
@@ -94,11 +94,11 @@ func (f *fakeObserver) ObserveWordPartitionsWaiting(
 	f.wordPartitionsWaiting[waitReason] = amountOfWordPartitions
 }
 
-func (f *fakeObserver) ObserveReplicaRingFractions(ringFractions []float64) {
+func (f *fakeObserver) ObserveHolderRingFractions(ringFractions []float64) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.replicaRingFractions = append(f.replicaRingFractions, ringFractions...)
+	f.holderRingFractions = append(f.holderRingFractions, ringFractions...)
 }
 
 func (f *fakeObserver) ObservePeerExcluded() {

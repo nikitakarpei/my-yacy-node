@@ -33,9 +33,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
@@ -352,8 +352,8 @@ func assembleNode(
 		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
 		distributionObserver := metrics.NewDistributionMetrics(registry)
-		peerEligibility := replicaeligibility.New(
-			replicaeligibility.Config{
+		peerEligibility := peereligibility.New(
+			peereligibility.Config{
 				Cooldown:                    config.Distribution.RecipientCooldown,
 				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
 				ExclusionDuration:           config.Distribution.PeerExclusionDuration,

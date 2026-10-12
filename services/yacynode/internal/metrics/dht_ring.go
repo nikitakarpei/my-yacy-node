@@ -46,7 +46,7 @@ func (d *DHTRingMetrics) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersP
 	}
 }
 
-func (d *DHTRingMetrics) ObserveReplicaRingFractions(ringFractions []float64) {
+func (d *DHTRingMetrics) ObserveHolderRingFractions(ringFractions []float64) {
 	for _, fraction := range ringFractions {
 		d.ringFractionFromPostingToHolder.Observe(fraction)
 	}

@@ -186,12 +186,12 @@ func (h *harness) dueWordPartitions(t *testing.T) []yacymodel.WordPartition {
 func (h *harness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -354,7 +354,7 @@ func onlyOffer(
 func wordPartitionsOf(offers []wordpartitionoffer.WordPartitionOffer) []yacymodel.WordPartition {
 	wordPartitions := make([]yacymodel.WordPartition, 0, len(offers))
 	for _, offer := range offers {
-		wordPartitions = append(wordPartitions, offer.WordPartition)
+		wordPartitions = append(wordPartitions, offer.OutcomeFrom(nil).WordPartition)
 	}
 
 	return wordPartitions
@@ -403,8 +403,23 @@ func urlsSentTo(
 }
 
 func undeliveredURLsOf(offer wordpartitionoffer.WordPartitionOffer) []yacymodel.URLHash {
-	urls := make([]yacymodel.URLHash, 0, len(offer.UndeliveredPostings))
-	for _, posting := range offer.UndeliveredPostings {
+	return urlsOfUndelivered(offer.OutcomeFrom(everythingAcceptedIn(offer)).DeliveredPostings)
+}
+
+func everythingAcceptedIn(
+	offer wordpartitionoffer.WordPartitionOffer,
+) map[yacymodel.Hash]wordpartitionoffer.PeerAnswer {
+	answers := make(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer, len(offer.Recipients))
+	for _, recipient := range offer.Recipients {
+		answers[recipient.Peer.Hash] = accepted(recipient.Postings)
+	}
+
+	return answers
+}
+
+func urlsOfUndelivered(postings []undeliveredpostings.UndeliveredPosting) []yacymodel.URLHash {
+	urls := make([]yacymodel.URLHash, 0, len(postings))
+	for _, posting := range postings {
 		urls = append(urls, posting.URL)
 	}
 
@@ -415,6 +430,20 @@ func sortedURLs(urls []yacymodel.URLHash) []yacymodel.URLHash {
 	return slices.SortedFunc(slices.Values(urls), func(url, other yacymodel.URLHash) int {
 		return cmp.Compare(url.String(), other.String())
 	})
+}
+
+func assertOnlyStaleHolder(
+	t *testing.T,
+	offer wordpartitionoffer.WordPartitionOffer,
+	staleHolder yacymodel.Seed,
+) {
+	t.Helper()
+
+	outcome := offer.OutcomeFrom(nil)
+	if outcome.AmountOfStaleHolders != 1 || slices.Contains(outcome.Holders, staleHolder.Hash) {
+		t.Fatalf("AmountOfStaleHolders = %d with holders %v, want only %v stale",
+			outcome.AmountOfStaleHolders, outcome.Holders, staleHolder.Hash)
+	}
 }
 
 type fakeReachability struct {
@@ -524,7 +553,7 @@ func TestADueRefreshSendsTheWholeWordPartitionToEveryRecipient(t *testing.T) {
 
 	refresh := onlyOffer(t, h.refreshBatch(t, holder, missingHolder).Offers)
 
-	if refresh.WordPartition != refreshed {
+	if refresh.OutcomeFrom(nil).WordPartition != refreshed {
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
 	}
 	for _, peer := range []yacymodel.Seed{holder, missingHolder} {
@@ -547,7 +576,7 @@ func TestADueRefreshCarriesTheUndeliveredPostingsOfItsWordPartition(t *testing.T
 
 	refresh := onlyOffer(t, h.refreshBatch(t, holder).Offers)
 
-	if refresh.WordPartition != refreshed {
+	if refresh.OutcomeFrom(nil).WordPartition != refreshed {
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
 	}
 	if got, want := undeliveredURLsOf(refresh), urls[2:]; !slices.Equal(got, want) {
@@ -572,7 +601,7 @@ func TestADueRefreshWithoutHoldersSendsTheWholeWordPartitionToEveryResponsiblePe
 
 	refresh := onlyOffer(t, h.refreshBatch(t, responsiblePeers...).Offers)
 
-	if len(refresh.Holders) != 0 {
+	if len(refresh.OutcomeFrom(nil).Holders) != 0 {
 		t.Fatalf("offer = %+v, want a refresh without holders", refresh)
 	}
 	for _, peer := range responsiblePeers {
@@ -594,10 +623,11 @@ func TestThisNodeAmongTheResponsiblePeersIsNeverARecipient(t *testing.T) {
 	offer := onlyOffer(t, h.undeliveredBatch(t, closest, farther).Offers)
 
 	want := []yacymodel.Hash{closest.Hash}
-	if !slices.Equal(offer.ResponsiblePeers, want) || !slices.Equal(recipientPeersOf(offer), want) {
+	responsiblePeers := offer.OutcomeFrom(nil).ResponsiblePeers
+	if !slices.Equal(responsiblePeers, want) || !slices.Equal(recipientPeersOf(offer), want) {
 		t.Fatalf(
 			"responsible peers %v and recipients %v, want only %v: this node holds the other copy",
-			offer.ResponsiblePeers, recipientPeersOf(offer), want,
+			responsiblePeers, recipientPeersOf(offer), want,
 		)
 	}
 }
@@ -646,9 +676,7 @@ func TestAHolderOutsideTheResponsiblePeersIsStaleAndReplaced(t *testing.T) {
 			if got := recipientPeersOf(offer); !slices.Equal(got, want) {
 				t.Fatalf("recipients = %v, want %v", got, want)
 			}
-			if want := []yacymodel.Hash{holder.Hash}; !slices.Equal(offer.StaleHolders, want) {
-				t.Fatalf("StaleHolders = %v, want %v", offer.StaleHolders, want)
-			}
+			assertOnlyStaleHolder(t, offer, holder)
 		})
 	}
 }
@@ -725,11 +753,10 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	if got, want := urlsSentTo(t, offer, nextPeer), sortedURLs(urls); !slices.Equal(got, want) {
 		t.Fatalf("next peer gets %v, want the whole word partition %v", got, want)
 	}
-	if want := []yacymodel.Hash{excludedHolder.Hash}; !slices.Equal(offer.StaleHolders, want) {
-		t.Fatalf("StaleHolders = %v, want %v", offer.StaleHolders, want)
-	}
-	if !slices.Equal(offer.ResponsiblePeers, []yacymodel.Hash{holder.Hash, nextPeer.Hash}) {
-		t.Fatalf("ResponsiblePeers = %v, want the holder and the next peer", offer.ResponsiblePeers)
+	assertOnlyStaleHolder(t, offer, excludedHolder)
+	responsiblePeers := offer.OutcomeFrom(nil).ResponsiblePeers
+	if !slices.Equal(responsiblePeers, []yacymodel.Hash{holder.Hash, nextPeer.Hash}) {
+		t.Fatalf("ResponsiblePeers = %v, want the holder and the next peer", responsiblePeers)
 	}
 }
 

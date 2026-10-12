@@ -1,4 +1,4 @@
-package replicaeligibility_test
+package peereligibility_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 )
 
 type clock struct{ at time.Time }
@@ -17,9 +17,9 @@ type exclusionCounter struct{ amountOfExclusions int }
 
 func (c *exclusionCounter) ObservePeerExcluded() { c.amountOfExclusions++ }
 
-func peersWith(cooldown time.Duration, clk *clock) *replicaeligibility.Peers {
-	return replicaeligibility.New(
-		replicaeligibility.Config{
+func peersWith(cooldown time.Duration, clk *clock) *peereligibility.Peers {
+	return peereligibility.New(
+		peereligibility.Config{
 			Cooldown:                    cooldown,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,
@@ -31,7 +31,7 @@ func peersWith(cooldown time.Duration, clk *clock) *replicaeligibility.Peers {
 
 func assertCooldownLasts(
 	t *testing.T,
-	peers *replicaeligibility.Peers,
+	peers *peereligibility.Peers,
 	clk *clock,
 	peer yacymodel.Hash,
 	cooldown time.Duration,
@@ -94,7 +94,7 @@ func TestAcceptanceEndsCooldown(t *testing.T) {
 type exclusionHarness struct {
 	clk      *clock
 	counter  *exclusionCounter
-	peers    *replicaeligibility.Peers
+	peers    *peereligibility.Peers
 	peer     yacymodel.Hash
 	cooldown time.Duration
 }
@@ -106,8 +106,8 @@ func newExclusionHarness() *exclusionHarness {
 		peer:     yacymodel.WordHash("peer"),
 		cooldown: time.Minute,
 	}
-	h.peers = replicaeligibility.New(
-		replicaeligibility.Config{
+	h.peers = peereligibility.New(
+		peereligibility.Config{
 			Cooldown:                    h.cooldown,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,

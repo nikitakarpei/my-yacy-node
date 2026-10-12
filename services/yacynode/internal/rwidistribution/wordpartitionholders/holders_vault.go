@@ -12,23 +12,23 @@ import (
 )
 
 const (
-	wordPartitionRecordBucket vault.Name = "rwidistribution_word_partition_holders"
-	refreshOrderBucket        vault.Name = "rwidistribution_word_partition_refresh_order"
+	wordPartitionEntryBucket vault.Name = "rwidistribution_word_partition_holders"
+	refreshOrderBucket       vault.Name = "rwidistribution_word_partition_refresh_order"
 )
 
-func registerWordPartitionRecords(
+func registerWordPartitionEntries(
 	v *vault.Vault,
-) (*vault.Collection[yacymodel.WordPartition, wordPartitionRecord], error) {
-	records, err := v.RegisterCollection(
-		wordPartitionRecordBucket,
+) (*vault.Collection[yacymodel.WordPartition, wordPartitionEntry], error) {
+	entries, err := v.RegisterCollection(
+		wordPartitionEntryBucket,
 		wordPartitionKeyLayout,
-		wordPartitionRecordValueCodec{},
+		wordPartitionEntryValueCodec{},
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register word partition holders: %w", err)
 	}
 
-	return records, nil
+	return entries, nil
 }
 
 func registerRefreshOrder(v *vault.Vault) (*vault.Set[ScheduledRefresh], error) {
@@ -98,32 +98,32 @@ func refreshesInSectorDueBy(sector yacymodel.DHTRingSector, now time.Time) vault
 	return refreshOrderKeyParts.KeysWithFirstThroughSecond(sectorKeyOf(sector), now)
 }
 
-var errBadWordPartitionRecord = errors.New("bad word partition holders")
+var errBadWordPartitionEntry = errors.New("bad word partition holders")
 
-type wordPartitionRecordValueCodec struct{}
+type wordPartitionEntryValueCodec struct{}
 
-func (wordPartitionRecordValueCodec) Encode(record wordPartitionRecord) ([]byte, error) {
+func (wordPartitionEntryValueCodec) Encode(entry wordPartitionEntry) ([]byte, error) {
 	var stored storedfields.Writer
-	stored.Count(len(record.holders))
-	for _, holder := range record.holders {
+	stored.Count(len(entry.holders))
+	for _, holder := range entry.holders {
 		stored.Fixed(holder.Bytes())
 	}
-	stored.Time(record.refreshAt)
-	stored.Varint(int64(record.retryDelay))
+	stored.Time(entry.refreshAt)
+	stored.Varint(int64(entry.retryDelay))
 
 	return stored.Record(), nil
 }
 
-func (wordPartitionRecordValueCodec) Decode(raw []byte) (wordPartitionRecord, error) {
-	stored := storedfields.ReaderOf(raw, errBadWordPartitionRecord)
+func (wordPartitionEntryValueCodec) Decode(raw []byte) (wordPartitionEntry, error) {
+	stored := storedfields.ReaderOf(raw, errBadWordPartitionEntry)
 	holders := holdersFrom(stored)
 	refreshAt := stored.Time("refresh at")
 	retryDelay := time.Duration(stored.Varint("retry delay"))
 	if err := stored.Err(); err != nil {
-		return wordPartitionRecord{}, err
+		return wordPartitionEntry{}, err
 	}
 
-	return wordPartitionRecord{holders: holders, refreshAt: refreshAt, retryDelay: retryDelay}, nil
+	return wordPartitionEntry{holders: holders, refreshAt: refreshAt, retryDelay: retryDelay}, nil
 }
 
 func holdersFrom(stored *storedfields.Reader) []yacymodel.Hash {

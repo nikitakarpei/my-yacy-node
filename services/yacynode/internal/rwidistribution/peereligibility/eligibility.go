@@ -1,9 +1,9 @@
-// Package replicaeligibility tracks which known peers are able to receive
-// posting replicas right now, from the outcome of the offers sent to each.
+// Package peereligibility tracks which known peers are able to receive
+// postings right now, from the outcome of the offers sent to each.
 // A peer that does not accept an offer goes into a cooldown, and postings that
 // need it wait until the cooldown ends. A peer whose offers fail too often in a
 // row is excluded for a while, so that the next peer takes its place.
-package replicaeligibility
+package peereligibility
 
 import (
 	"context"

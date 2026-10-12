@@ -15,8 +15,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
@@ -50,7 +50,7 @@ type loopHarness struct {
 	admitter    rwipostings.PostingAdmitter
 	undelivered *undeliveredpostings.UndeliveredPostings
 	holders     *wordpartitionholders.Holders
-	eligibility *replicaeligibility.Peers
+	eligibility *peereligibility.Peers
 	roster      *fakeRoster
 	observer    *fakeObserver
 	transfers   *fakeTransfers
@@ -108,8 +108,8 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		observer:    newFakeObserver(),
 		transfers:   &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)},
 	}
-	h.eligibility = replicaeligibility.New(
-		replicaeligibility.Config{
+	h.eligibility = peereligibility.New(
+		peereligibility.Config{
 			Cooldown:                    opts.cooldown,
 			FailedOffersBeforeExclusion: 1,
 			ExclusionDuration:           exclusionDuration,
@@ -232,12 +232,12 @@ func (h *loopHarness) admit(
 func (h *loopHarness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -249,8 +249,8 @@ func (h *loopHarness) holdersOf(
 
 	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
-		holders, err := h.holders.Of(tx, wordPartition)
-		recordedHolders = holders
+		var err error
+		recordedHolders, err = h.holders.Of(tx, wordPartition)
 
 		return err
 	})

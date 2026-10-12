@@ -199,26 +199,26 @@ func (o *WordPartitionOffers) peersOf(
 		responsiblePeers,
 		acceptingPeers,
 		recordedHolders,
-		o.holdersAmong(ctx, recordedHolders, responsiblePeers),
+		o.keptHoldersOf(ctx, recordedHolders, responsiblePeers),
 	), nil
 }
 
-func (o *WordPartitionOffers) holdersAmong(
+func (o *WordPartitionOffers) keptHoldersOf(
 	ctx context.Context,
 	recordedHolders []yacymodel.Hash,
 	responsiblePeers responsiblePeers,
 ) []yacymodel.Hash {
-	var holdersAmongResponsiblePeers []yacymodel.Hash
+	var keptHolders []yacymodel.Hash
 	for _, holder := range recordedHolders {
-		if o.countsAmong(ctx, holder, responsiblePeers) {
-			holdersAmongResponsiblePeers = append(holdersAmongResponsiblePeers, holder)
+		if o.isKept(ctx, holder, responsiblePeers) {
+			keptHolders = append(keptHolders, holder)
 		}
 	}
 
-	return holdersAmongResponsiblePeers
+	return keptHolders
 }
 
-func (o *WordPartitionOffers) countsAmong(
+func (o *WordPartitionOffers) isKept(
 	ctx context.Context,
 	holder yacymodel.Hash,
 	responsiblePeers responsiblePeers,

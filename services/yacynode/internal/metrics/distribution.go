@@ -19,7 +19,7 @@ type DistributionMetrics struct {
 	urlsUnknownToUs        prometheus.Counter
 	undeliveredPostings    prometheus.Gauge
 	longestRefreshLateness prometheus.Gauge
-	staleReplicasDropped   prometheus.Counter
+	staleHoldersDropped    prometheus.Counter
 	postingsHandedOff      prometheus.Counter
 	batchesSkipped         *prometheus.CounterVec
 	batchesCompleted       prometheus.Counter
@@ -69,7 +69,7 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_longest_refresh_lateness_seconds",
 			"How long the most overdue word partition refresh has waited past its refresh time.",
 		),
-		staleReplicasDropped: counterFor(
+		staleHoldersDropped: counterFor(
 			"yacynode_rwidistribution_stale_replicas_dropped_total",
 			"Replicas dropped for peers no longer responsible.",
 		),
@@ -112,7 +112,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlsUnknownToUs,
 		d.undeliveredPostings,
 		d.longestRefreshLateness,
-		d.staleReplicasDropped,
+		d.staleHoldersDropped,
 		d.postingsHandedOff,
 		d.batchesSkipped,
 		d.batchesCompleted,
@@ -160,8 +160,8 @@ func (d *DistributionMetrics) ObserveLongestRefreshLateness(lateness time.Durati
 	d.longestRefreshLateness.Set(lateness.Seconds())
 }
 
-func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
-	d.staleReplicasDropped.Add(float64(dropped))
+func (d *DistributionMetrics) ObserveStaleHoldersDropped(amountOfStaleHolders int) {
+	d.staleHoldersDropped.Add(float64(amountOfStaleHolders))
 }
 
 func (d *DistributionMetrics) ObservePostingsHandedOff(amountOfPostings int) {

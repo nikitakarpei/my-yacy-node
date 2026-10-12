@@ -32,11 +32,11 @@ yacynode_rwidistribution_peers_accepting_remote_index{sector="02"} 0
 	}
 }
 
-func TestDHTRingTracksReplicaRingFractions(t *testing.T) {
+func TestDHTRingTracksHolderRingFractions(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDHTRingMetrics(registry)
 
-	observer.ObserveReplicaRingFractions([]float64{0.1, 0.4})
+	observer.ObserveHolderRingFractions([]float64{0.1, 0.4})
 
 	if got := testutil.CollectAndCount(
 		registry,
