@@ -1432,7 +1432,7 @@
         },
         "color": {
           "mode": "scheme",
-          "scheme": "RdYlGn",
+          "scheme": "Viridis",
           "reverse": false,
           "min": 0
         },
