@@ -388,6 +388,62 @@ func TestARemovedPostingLeavesItsSector(t *testing.T) {
 	}
 }
 
+func (h harness) postingsOf(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+) []postingIdentity {
+	t.Helper()
+
+	var visited []undeliveredpostings.UndeliveredPosting
+	h.read(t, func(tx *vault.Txn) error {
+		return h.undelivered.PostingsOf(
+			tx,
+			wordPartition,
+			func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
+				visited = append(visited, posting)
+
+				return true, nil
+			},
+		)
+	})
+
+	return identitiesOf(visited)
+}
+
+func TestPostingsOfAWordPartitionAreExactlyItsUndeliveredPostings(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, 1, everyPosting()...)
+	wordPartition := yacymodel.WordPartitionOfWordAndURL(
+		everyPosting()[0].word,
+		everyPosting()[0].url,
+		h.partitions,
+	)
+
+	var want []postingIdentity
+	for _, identity := range everyPosting() {
+		if yacymodel.WordPartitionOfWordAndURL(identity.word, identity.url, h.partitions) ==
+			wordPartition {
+			want = append(want, identity)
+		}
+	}
+	got := h.postingsOf(t, wordPartition)
+	if len(got) != len(want) {
+		t.Fatalf("PostingsOf(%+v) = %v, want %v", wordPartition, got, want)
+	}
+	for _, identity := range got {
+		if !slices.Contains(want, identity) {
+			t.Fatalf("PostingsOf(%+v) holds %v of another word partition", wordPartition, identity)
+		}
+	}
+
+	for _, posting := range h.walkWhole(t, h.sectorOf(want[0])) {
+		h.markDelivered(t, posting)
+	}
+	if left := h.postingsOf(t, wordPartition); len(left) != 0 {
+		t.Fatalf("PostingsOf(%+v) after delivery = %v, want none", wordPartition, left)
+	}
+}
+
 func TestAnyInSeesOnlyItsOwnWordPartition(t *testing.T) {
 	h := openHarness(t)
 	word := yacymodel.WordHash("word0")

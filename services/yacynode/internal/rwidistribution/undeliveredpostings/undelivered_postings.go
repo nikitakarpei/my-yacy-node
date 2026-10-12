@@ -58,6 +58,24 @@ func (u *UndeliveredPostings) MarkDelivered(
 	return wasMarked, nil
 }
 
+func (u *UndeliveredPostings) PostingsOf(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+	visit func(UndeliveredPosting) (bool, error),
+) error {
+	if err := u.postings.Scan(
+		tx,
+		entriesOf(wordPartition, u.partitions),
+		func(change vault.Change[undeliveredEntry]) (bool, error) {
+			return visit(undeliveredPostingFrom(change, u.partitions))
+		},
+	); err != nil {
+		return fmt.Errorf("walk undelivered postings of a word partition: %w", err)
+	}
+
+	return nil
+}
+
 func (u *UndeliveredPostings) AnyIn(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
