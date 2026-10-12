@@ -82,3 +82,21 @@ func TestReadableHTMLDerivationLeavesOutPermalinks(t *testing.T) {
 		t.Fatalf("permalink survived: %q", readableText)
 	}
 }
+
+func TestReadableHTMLDerivationLeavesOutMediaWikiChrome(t *testing.T) {
+	body, derived, err := readabletext.FromReadableHTML().BodyFrom(
+		t.Context(),
+		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+		htmlBodyOf(
+			t,
+			`<h2>History<span class="mw-editsection">[<a href="/edit">edit</a>]</span></h2>`+
+				`<p>TCP is reliable.</p>`,
+		),
+	)
+	if err != nil || !derived {
+		t.Fatalf("derive: derived=%v err=%v", derived, err)
+	}
+	if readableText := bytesOf(t, body); readableText != "History\nTCP is reliable." {
+		t.Fatalf("MediaWiki chrome survived: %q", readableText)
+	}
+}

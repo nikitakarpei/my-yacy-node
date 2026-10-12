@@ -34,6 +34,7 @@ func (DocumentHTMLDerivation) BodyFrom(
 	source documentextraction.Body,
 ) (documentextraction.Body, bool, error) {
 	parser := readability.NewParser()
+	parser.KeepClasses = true
 	article, err := parser.ParseAndMutate(
 		source.(htmltree.Body).CopiedTree(), pageURL.WebAddress(),
 	)
