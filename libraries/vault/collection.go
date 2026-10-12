@@ -28,7 +28,7 @@ func (v *Vault) RegisterCollection[K, V any](
 func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	record, err := tx.etx.Records(c.name).Get(c.keys.Encode(key).Bytes())
+	record, err := tx.etx.Records(c.name).Get(c.keys.Encode(key).encoded)
 	if err != nil {
 		return zero, false, fmt.Errorf("read %s: %w", c.name, err)
 	}
@@ -85,7 +85,7 @@ func (c *Collection[K, V]) storeRecord(
 	}
 
 	replacedRecord, err = tx.etx.Records(c.name).Put(
-		c.keys.Encode(key).Bytes(),
+		c.keys.Encode(key).encoded,
 		recordFrom(payload),
 	)
 	if err != nil {
@@ -133,7 +133,7 @@ func (c *Collection[K, V]) deleteRecord(tx *Txn, key K) (deletedRecord []byte, e
 	}
 	tx.calledWriteOperation = true
 
-	deletedRecord, err = tx.etx.Records(c.name).Delete(c.keys.Encode(key).Bytes())
+	deletedRecord, err = tx.etx.Records(c.name).Delete(c.keys.Encode(key).encoded)
 	if err != nil {
 		return nil, fmt.Errorf("delete %s: %w", c.name, err)
 	}

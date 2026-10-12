@@ -202,7 +202,7 @@ func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
 		loweredAmounts: &amountKeys{},
 		footprint:      newReadFootprint(),
 	}
-	if err := fn(pebbleTxn{
+	if err := fn(&pebbleTxn{
 		reader:         write.changes,
 		changes:        write.changes,
 		loweredAmounts: write.loweredAmounts,
@@ -331,7 +331,7 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 
 	snapshot := e.db.NewSnapshot()
 
-	if err := fn(pebbleTxn{reader: snapshot, loweredAmounts: &amountKeys{}}); err != nil {
+	if err := fn(&pebbleTxn{reader: snapshot, loweredAmounts: &amountKeys{}}); err != nil {
 		return errors.Join(fmt.Errorf("read storage: %w", err), release(snapshot))
 	}
 
