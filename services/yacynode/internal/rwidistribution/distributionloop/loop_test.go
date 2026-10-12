@@ -435,6 +435,23 @@ func TestLoopMergesTheSendsToOnePeerAndSplitsThemIntoTransfers(t *testing.T) {
 	})
 }
 
+func TestLoopSendsNoMoreTransfersToAPeerThatDeclinedOne(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{postingsPerBatch: 2})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = declinedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		if offered := h.transfers.offeredTo(peer); len(offered) != 1 {
+			t.Fatalf("offered = %+v, want one transfer before the peer declined", offered)
+		}
+	})
+}
+
 func TestLoopResumesTheWalkAfterTheLastBatch(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 3)
@@ -567,6 +584,23 @@ func TestLoopDrainsABacklogLargerThanOneBatch(t *testing.T) {
 		if h.observer.batchesCompleted < amountOfWordPartitions/postingsPerBatch {
 			t.Fatalf("batchesCompleted = %d, want at least one per full batch",
 				h.observer.batchesCompleted)
+		}
+	})
+}
+
+func TestLoopReportsThePeersAcceptingRemoteIndexPerRingSector(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		acceptingPeer, refusingPeer := peerAfter(wordPartition, 1), peerAfter(wordPartition, 1<<40)
+		refusingPeer.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
+		h := openLoop(t, startClock(), loopOptions{minReachablePeers: 3})
+		h.reach(acceptingPeer, refusingPeer)
+
+		h.start(t)
+
+		want := yacymodel.SeedsPerDHTRingSector([]yacymodel.Seed{acceptingPeer})
+		if !slices.Equal(h.observer.peersPerSector, want) {
+			t.Fatalf("peers per sector = %v, want only %v counted", h.observer.peersPerSector, want)
 		}
 	})
 }

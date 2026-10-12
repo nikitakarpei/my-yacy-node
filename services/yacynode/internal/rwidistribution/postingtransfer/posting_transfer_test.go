@@ -3,6 +3,7 @@ package postingtransfer_test
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
@@ -128,7 +129,7 @@ func TestSendAcceptsPostingsWithNoUnknownURLs(t *testing.T) {
 		context.Background(), seed(peer), []yacymodel.RWIPosting{posting},
 	)
 
-	if !answer.Accepted || len(answer.AcceptedPostings) != 1 {
+	if answer.Result != postingtransfer.OfferAccepted || len(answer.AcceptedPostings) != 1 {
 		t.Fatalf("answer = %+v, want the posting accepted", answer)
 	}
 }
@@ -232,15 +233,15 @@ func openVault(t *testing.T) *vault.Vault {
 }
 
 func TestSendFailsOnlyWhenThePeerGivesNoAnswer(t *testing.T) {
-	failedPerOutcome := map[postingcourier.Outcome]bool{
-		postingcourier.Unreachable:   true,
-		postingcourier.Unaddressable: true,
-		postingcourier.Deferred:      false,
-		postingcourier.Overloaded:    false,
-		postingcourier.Refused:       false,
-		postingcourier.Accepted:      false,
+	resultPerOutcome := map[postingcourier.Outcome]postingtransfer.OfferResult{
+		postingcourier.Unreachable:   postingtransfer.OfferFailed,
+		postingcourier.Unaddressable: postingtransfer.OfferFailed,
+		postingcourier.Deferred:      postingtransfer.OfferDeclined,
+		postingcourier.Overloaded:    postingtransfer.OfferDeclined,
+		postingcourier.Refused:       postingtransfer.OfferDeclined,
+		postingcourier.Accepted:      postingtransfer.OfferAccepted,
 	}
-	for outcome, wantFailed := range failedPerOutcome {
+	for outcome, wantResult := range resultPerOutcome {
 		t.Run(string(outcome), func(t *testing.T) {
 			postingTransfers := postingtransfer.New(
 				openVault(t),
@@ -256,9 +257,33 @@ func TestSendFailsOnlyWhenThePeerGivesNoAnswer(t *testing.T) {
 				[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
 			)
 
-			if answer.Failed != wantFailed {
-				t.Fatalf("Failed = %v, want %v", answer.Failed, wantFailed)
+			if answer.Result != wantResult {
+				t.Fatalf("Result = %v, want %v", answer.Result, wantResult)
 			}
 		})
+	}
+}
+
+func TestADeclinedOfferCarriesThePausePeerRequested(t *testing.T) {
+	requestedPause := 30 * time.Second
+	postingTransfers := postingtransfer.New(
+		openVault(t),
+		fakePostingCourier{receipt: postingcourier.Receipt{
+			Outcome:        postingcourier.Deferred,
+			RequestedPause: requestedPause,
+		}},
+		&fakeURLMetadataCourier{},
+		fakeURLDirectory{},
+		newFakeObserver(),
+	)
+
+	answer := postingTransfers.Send(
+		context.Background(),
+		seed(yacymodel.WordHash("peer")),
+		[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
+	)
+
+	if answer.Result != postingtransfer.OfferDeclined || answer.RequestedPause != requestedPause {
+		t.Fatalf("answer = %+v, want declined with pause %v", answer, requestedPause)
 	}
 }

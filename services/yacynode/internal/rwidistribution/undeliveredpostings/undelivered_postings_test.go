@@ -441,15 +441,10 @@ func (h harness) postingsOf(
 
 	var readPostings []undeliveredpostings.UndeliveredPosting
 	h.read(t, func(tx *vault.Txn) error {
-		return h.undelivered.PostingsOf(
-			tx,
-			wordPartition,
-			func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-				readPostings = append(readPostings, posting)
+		var err error
+		readPostings, err = h.undelivered.PostingsOf(tx, wordPartition)
 
-				return true, nil
-			},
-		)
+		return err
 	})
 
 	return identitiesOf(readPostings)

@@ -39,7 +39,6 @@ type harness struct {
 	offers       *wordpartitionoffer.WordPartitionOffers
 	reachability *fakeReachability
 	eligibility  fakeEligibility
-	observer     *fakeObserver
 	clock        time.Time
 }
 
@@ -74,19 +73,17 @@ func openHarness(t *testing.T, opts options) *harness {
 		undelivered:  undelivered,
 		reachability: &fakeReachability{recentlyReachable: map[yacymodel.Hash]bool{}},
 		eligibility: fakeEligibility{
-			cooldowns:     map[yacymodel.Hash]time.Duration{},
-			excludedPeers: map[yacymodel.Hash]bool{},
+			peersInCooldown: map[yacymodel.Hash]bool{},
+			excludedPeers:   map[yacymodel.Hash]bool{},
 		},
-		observer: &fakeObserver{},
-		clock:    time.Unix(1_700_000_000, 0).UTC(),
+		clock: time.Unix(1_700_000_000, 0).UTC(),
 	}
 	h.holders, err = wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, h.now)
 	if err != nil {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
 	h.offers = wordpartitionoffer.New(
-		v, undelivered, h.holders, index, h.reachability, h.eligibility, h.observer,
-		configFrom(opts),
+		v, undelivered, h.holders, index, h.reachability, h.eligibility, configFrom(opts),
 	)
 
 	return h
@@ -436,24 +433,16 @@ func (f *fakeReachability) IsRecentlyReachable(_ context.Context, peer yacymodel
 }
 
 type fakeEligibility struct {
-	cooldowns     map[yacymodel.Hash]time.Duration
-	excludedPeers map[yacymodel.Hash]bool
+	peersInCooldown map[yacymodel.Hash]bool
+	excludedPeers   map[yacymodel.Hash]bool
 }
 
-func (f fakeEligibility) CooldownLeftOf(peer yacymodel.Hash) time.Duration {
-	return f.cooldowns[peer]
+func (f fakeEligibility) IsInCooldown(peer yacymodel.Hash) bool {
+	return f.peersInCooldown[peer]
 }
 
 func (f fakeEligibility) IsExcluded(peer yacymodel.Hash) bool {
 	return f.excludedPeers[peer]
-}
-
-type fakeObserver struct {
-	peersPerSector []int
-}
-
-func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int) {
-	f.peersPerSector = peersPerSector
 }
 
 func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordPartition(
@@ -498,7 +487,7 @@ func TestAWordPartitionWithARecipientInCooldownWaitsWhileTheOthersGoOut(t *testi
 	peerInCooldown, peerOutOfCooldown := peerAfter(waiting, 0), peerAfter(free, 0)
 	h.admit(t, waiting, urlsOfPartition(1)...)
 	h.admit(t, free, urlsOfPartition(1)...)
-	h.eligibility.cooldowns[peerInCooldown.Hash] = time.Minute
+	h.eligibility.peersInCooldown[peerInCooldown.Hash] = true
 
 	offers := h.undeliveredBatch(t, peerInCooldown, peerOutOfCooldown).Offers
 
@@ -664,22 +653,24 @@ func TestAHolderOutsideTheResponsiblePeersIsStaleAndReplaced(t *testing.T) {
 	}
 }
 
-func TestReportCountsOnlyThePeersAcceptingRemoteIndexPerSector(t *testing.T) {
+func TestAPeerRefusingRemoteIndexIsNeverARecipient(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
-	accepting, refusing := peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)
-	refusing.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
+	refusingPeer, acceptingPeer := peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)
+	refusingPeer.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
 
-	h.offers.ReportPeersAcceptingRemoteIndex([]yacymodel.Seed{accepting, refusing})
+	offer := onlyOffer(t, h.undeliveredBatch(t, refusingPeer, acceptingPeer).Offers)
 
-	sector := yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(accepting.Hash))
-	sumOfPeers := 0
-	for _, peers := range h.observer.peersPerSector {
-		sumOfPeers += peers
-	}
-	if sumOfPeers != 1 || h.observer.peersPerSector[sector] != 1 {
-		t.Fatalf("peers per sector = %v, want only %v in sector %d",
-			h.observer.peersPerSector, accepting.Hash, sector)
+	if got, want := recipientPeersOf(
+		offer,
+	), []yacymodel.Hash{
+		acceptingPeer.Hash,
+	}; !slices.Equal(
+		got,
+		want,
+	) {
+		t.Fatalf("recipients = %v, want only %v", got, want)
 	}
 }
 
@@ -747,7 +738,7 @@ func TestAnUndeliveredWordPartitionWithARecipientInCooldownWaits(t *testing.T) {
 	wordPartition := fixtureWordPartitions(1)[0]
 	peer := peerAfter(wordPartition, 0)
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.eligibility.cooldowns[peer.Hash] = time.Minute
+	h.eligibility.peersInCooldown[peer.Hash] = true
 
 	batch := h.undeliveredBatch(t, peer)
 
@@ -794,7 +785,7 @@ func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
 	h.deliverEverything(t)
 	h.recordHolders(t, wordPartition, holder.Hash)
 	h.clock = h.clock.Add(refreshInterval)
-	h.eligibility.cooldowns[holder.Hash] = time.Minute
+	h.eligibility.peersInCooldown[holder.Hash] = true
 
 	batch := h.refreshBatch(t, holder)
 

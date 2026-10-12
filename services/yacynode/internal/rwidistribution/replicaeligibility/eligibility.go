@@ -95,11 +95,11 @@ func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
 	return wasExcluded
 }
 
-func (p *Peers) CooldownLeftOf(peer yacymodel.Hash) time.Duration {
+func (p *Peers) IsInCooldown(peer yacymodel.Hash) bool {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	return max(p.peerStates[peer].cooldownEndsAt.Sub(p.now()), 0)
+	return p.now().Before(p.peerStates[peer].cooldownEndsAt)
 }
 
 func (p *Peers) IsExcluded(peer yacymodel.Hash) bool {

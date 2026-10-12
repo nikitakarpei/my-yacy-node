@@ -63,19 +63,21 @@ func (u *UndeliveredPostings) MarkDelivered(
 func (u *UndeliveredPostings) PostingsOf(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
-	visit func(UndeliveredPosting) (bool, error),
-) error {
+) ([]UndeliveredPosting, error) {
+	var postings []UndeliveredPosting
 	if err := u.postings.Scan(
 		tx,
 		entriesOf(wordPartition, u.partitions),
 		func(change vault.Change[undeliveredEntry]) (bool, error) {
-			return visit(undeliveredPostingFrom(change, u.partitions))
+			postings = append(postings, undeliveredPostingFrom(change, u.partitions))
+
+			return true, nil
 		},
 	); err != nil {
-		return fmt.Errorf("read undelivered postings of a word partition: %w", err)
+		return nil, fmt.Errorf("read undelivered postings of a word partition: %w", err)
 	}
 
-	return nil
+	return postings, nil
 }
 
 func (u *UndeliveredPostings) AnyIn(

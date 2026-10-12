@@ -65,3 +65,27 @@ func TestSeedIsAddressable(t *testing.T) {
 		t.Fatal("seed with additional address not addressable")
 	}
 }
+
+func TestSeedAcceptsRemoteIndexOnlyWhenItsCapabilitiesSaySo(t *testing.T) {
+	for name, scenario := range map[string]struct {
+		seed        yacymodel.Seed
+		wantAccepts bool
+	}{
+		"unknown capabilities": {seed: yacymodel.Seed{}},
+		"refuses remote index": {
+			seed: yacymodel.Seed{Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{})},
+		},
+		"accepts remote index": {
+			seed: yacymodel.Seed{
+				Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
+			},
+			wantAccepts: true,
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			if got := scenario.seed.AcceptsRemoteIndex(); got != scenario.wantAccepts {
+				t.Fatalf("AcceptsRemoteIndex = %v, want %v", got, scenario.wantAccepts)
+			}
+		})
+	}
+}

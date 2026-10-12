@@ -120,7 +120,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, holders, h.index, h.roster, h.eligibility, h.observer,
+			v, undelivered, holders, h.index, h.roster, h.eligibility,
 			wordpartitionoffer.Config{
 				Partitions: partitions(),
 				Self:       opts.self,
@@ -380,20 +380,18 @@ type offeredCall struct {
 }
 
 type fakeAnswer struct {
-	accepted         bool
-	failed           bool
+	result           postingtransfer.OfferResult
 	acceptedPostings int
-	requestedPause   time.Duration
 }
 
 var (
-	acceptedAnswer = fakeAnswer{accepted: true}
-	declinedAnswer = fakeAnswer{}
-	failedAnswer   = fakeAnswer{failed: true}
+	acceptedAnswer = fakeAnswer{result: postingtransfer.OfferAccepted}
+	declinedAnswer = fakeAnswer{result: postingtransfer.OfferDeclined}
+	failedAnswer   = fakeAnswer{result: postingtransfer.OfferFailed}
 )
 
 func acceptedInPart(acceptedPostings int) fakeAnswer {
-	return fakeAnswer{accepted: true, acceptedPostings: acceptedPostings}
+	return fakeAnswer{result: postingtransfer.OfferAccepted, acceptedPostings: acceptedPostings}
 }
 
 type fakeTransfers struct {
@@ -410,16 +408,16 @@ func (f *fakeTransfers) Send(
 ) postingtransfer.OfferAnswer {
 	f.guard.Lock()
 	f.offered = append(f.offered, offeredCall{Peer: peer, Postings: offeredPostings})
-	answer := f.answers[peer.Hash]
+	answer, answered := f.answers[peer.Hash]
+	if !answered {
+		answer = declinedAnswer
+	}
 	f.guard.Unlock()
 	if f.onOffer != nil {
 		f.onOffer(peer)
 	}
-	if !answer.accepted {
-		return postingtransfer.OfferAnswer{
-			Failed:         answer.failed,
-			RequestedPause: answer.requestedPause,
-		}
+	if answer.result != postingtransfer.OfferAccepted {
+		return postingtransfer.OfferAnswer{Result: answer.result}
 	}
 	acceptedPostings := offeredPostings
 	if answer.acceptedPostings > 0 {
@@ -427,9 +425,8 @@ func (f *fakeTransfers) Send(
 	}
 
 	return postingtransfer.OfferAnswer{
-		Accepted:         true,
+		Result:           postingtransfer.OfferAccepted,
 		AcceptedPostings: acceptedPostings,
-		RequestedPause:   answer.requestedPause,
 	}
 }
 

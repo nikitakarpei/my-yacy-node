@@ -93,12 +93,20 @@ func (p wordPartitionPeers) waitReasonFrom(eligibility PeerEligibility) (WaitRea
 		return WaitNoRecipient, true
 	}
 	if slices.ContainsFunc(recipients, func(seed yacymodel.Seed) bool {
-		return eligibility.CooldownLeftOf(seed.Hash) > 0
+		return eligibility.IsInCooldown(seed.Hash)
 	}) {
 		return WaitRecipientInCooldown, true
 	}
 
 	return "", false
+}
+
+func (p wordPartitionPeers) hasHoldingPeers() bool {
+	return len(p.holdingPeers) > 0
+}
+
+func (p wordPartitionPeers) hasMissingHolders() bool {
+	return len(p.missingHolders) > 0
 }
 
 func (p wordPartitionPeers) recipients() []yacymodel.Seed {

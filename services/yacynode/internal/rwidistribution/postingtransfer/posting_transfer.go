@@ -29,9 +29,16 @@ type Observer interface {
 	ObserveURLsUnknownToUs(urls int)
 }
 
+type OfferResult string
+
+const (
+	OfferAccepted OfferResult = "accepted"
+	OfferDeclined OfferResult = "declined"
+	OfferFailed   OfferResult = "failed"
+)
+
 type OfferAnswer struct {
-	Accepted         bool
-	Failed           bool
+	Result           OfferResult
 	AcceptedPostings []yacymodel.RWIPosting
 	RequestedPause   time.Duration
 }
@@ -68,24 +75,19 @@ func (t *PostingTransfers) Send(
 	receipt := t.postings.Offer(ctx, peer, offeredPostings)
 	t.observer.ObservePostingOffer(string(receipt.Outcome), len(offeredPostings))
 
-	if receipt.Outcome != postingcourier.Accepted {
+	switch receipt.Outcome {
+	case postingcourier.Accepted:
+		undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
+
 		return OfferAnswer{
-			Failed:         isFailure(receipt.Outcome),
-			RequestedPause: receipt.RequestedPause,
+			Result:           OfferAccepted,
+			AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, undeliveredURLs),
 		}
+	case postingcourier.Unreachable, postingcourier.Unaddressable:
+		return OfferAnswer{Result: OfferFailed}
+	default:
+		return OfferAnswer{Result: OfferDeclined, RequestedPause: receipt.RequestedPause}
 	}
-
-	undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
-
-	return OfferAnswer{
-		Accepted:         true,
-		AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, undeliveredURLs),
-		RequestedPause:   receipt.RequestedPause,
-	}
-}
-
-func isFailure(outcome postingcourier.Outcome) bool {
-	return outcome == postingcourier.Unreachable || outcome == postingcourier.Unaddressable
 }
 
 func (t *PostingTransfers) deliverURLMetadata(

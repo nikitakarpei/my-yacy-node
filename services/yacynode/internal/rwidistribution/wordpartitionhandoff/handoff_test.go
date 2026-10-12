@@ -117,17 +117,11 @@ func (h *harness) deliver(t *testing.T, wordPartitions ...yacymodel.WordPartitio
 	var undelivered []undeliveredpostings.UndeliveredPosting
 	h.read(t, func(tx *vault.Txn) error {
 		for _, wordPartition := range wordPartitions {
-			if err := h.undelivered.PostingsOf(
-				tx,
-				wordPartition,
-				func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-					undelivered = append(undelivered, posting)
-
-					return true, nil
-				},
-			); err != nil {
+			postings, err := h.undelivered.PostingsOf(tx, wordPartition)
+			if err != nil {
 				return err
 			}
+			undelivered = append(undelivered, postings...)
 		}
 
 		return nil

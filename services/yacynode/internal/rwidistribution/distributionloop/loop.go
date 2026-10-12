@@ -123,12 +123,12 @@ func New(
 		),
 		gauges: &gaugeObservation{
 			vault:           v,
-			offers:          offers,
 			undelivered:     undelivered,
 			holders:         holders,
 			roster:          roster,
 			clock:           clock,
 			backlogObserver: backlogObserver,
+			dhtRingObserver: dhtRingObserver,
 		},
 		config: config,
 	}

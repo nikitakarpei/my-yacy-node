@@ -372,7 +372,6 @@ func assembleNode(
 				postings,
 				peerRoster,
 				peerEligibility,
-				dhtRingObserver,
 				wordpartitionoffer.Config{
 					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,

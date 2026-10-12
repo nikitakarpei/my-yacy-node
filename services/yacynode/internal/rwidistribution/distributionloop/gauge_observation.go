@@ -6,27 +6,27 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
 const gaugeObservationInterval = 15 * time.Second
 
 type gaugeObservation struct {
 	vault           *vault.Vault
-	offers          *wordpartitionoffer.WordPartitionOffers
 	undelivered     *undeliveredpostings.UndeliveredPostings
 	holders         *wordpartitionholders.Holders
 	roster          ReachablePeers
 	clock           Clock
 	backlogObserver BacklogObserver
+	dhtRingObserver DHTRingObserver
 }
 
 func (g *gaugeObservation) observeUntilDone(ctx context.Context) {
 	for ctx.Err() == nil {
 		g.observeBacklog(ctx)
-		g.offers.ReportPeersAcceptingRemoteIndex(g.roster.ReachablePeers(ctx))
+		g.observePeersAcceptingRemoteIndex(ctx)
 		sleepOn(ctx, g.clock, gaugeObservationInterval)
 	}
 }
@@ -70,4 +70,23 @@ func (g *gaugeObservation) longestRefreshLatenessIn(tx *vault.Txn) (time.Duratio
 	}
 
 	return max(g.clock.Now().Sub(earliestRefreshAt), 0), nil
+}
+
+func (g *gaugeObservation) observePeersAcceptingRemoteIndex(ctx context.Context) {
+	g.dhtRingObserver.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+		yacymodel.SeedsPerDHTRingSector(
+			peersAcceptingRemoteIndexAmong(g.roster.ReachablePeers(ctx)),
+		),
+	)
+}
+
+func peersAcceptingRemoteIndexAmong(peers []yacymodel.Seed) []yacymodel.Seed {
+	acceptingPeers := make([]yacymodel.Seed, 0, len(peers))
+	for _, seed := range peers {
+		if seed.AcceptsRemoteIndex() {
+			acceptingPeers = append(acceptingPeers, seed)
+		}
+	}
+
+	return acceptingPeers
 }
