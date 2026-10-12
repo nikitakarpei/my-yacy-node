@@ -78,3 +78,17 @@ func TestAPageWithNoArticleDerivesNothing(t *testing.T) {
 		t.Fatal("a page with no article should derive nothing")
 	}
 }
+
+func TestDeriveKeepsTheClassesOfTheArticle(t *testing.T) {
+	body, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
+		t.Context(),
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
+		htmlBodyOf(t, strings.Replace(document, "<p>", `<p class="lead">`, 1)),
+	)
+	if err != nil || !derived {
+		t.Fatalf("derive: derived=%v err=%v", derived, err)
+	}
+	if readable := bytesOf(t, body); !strings.Contains(readable, `class="lead"`) {
+		t.Fatalf("classes stripped: %q", readable)
+	}
+}

@@ -26,6 +26,8 @@ components:
     in: internal/articlefootnotes/**
   articlepermalinks:
     in: internal/articlepermalinks/**
+  articlemediawikichrome:
+    in: internal/articlemediawikichrome/**
   derivationreach:
     in: internal/derivationreach/**
   text:
@@ -80,6 +82,7 @@ deps:
   pagederivationsreadabletext:
     mayDependOn:
       - articlefootnotes
+      - articlemediawikichrome
       - articlepermalinks
       - htmlflattening
       - text
@@ -92,6 +95,9 @@ deps:
     canUse:
       - xnet
   articlepermalinks:
+    canUse:
+      - xnet
+  articlemediawikichrome:
     canUse:
       - xnet
 
