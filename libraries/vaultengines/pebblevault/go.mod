@@ -17,7 +17,6 @@ require (
 	github.com/getsentry/sentry-go v0.27.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/snappy v0.0.5-0.20231225225746-43d5d4cd4e0e // indirect
-	github.com/google/orderedcode v0.0.1 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
@@ -43,4 +42,3 @@ require (
 	github.com/cockroachdb/pebble/v2 v2.1.7
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 )
-

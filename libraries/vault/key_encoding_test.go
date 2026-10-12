@@ -104,3 +104,67 @@ func expectStoredByteForm(t *testing.T, key vault.Key, storedItems ...any) {
 		t.Fatalf("key of %v = %x, want the stored byte form %x", storedItems, key.Bytes(), stored)
 	}
 }
+
+func TestKeysReadBackTheEdgeValuesTheyHold(t *testing.T) {
+	for _, part := range []vault.KeyPart[string]{vault.TextKeyPart, vault.TextKeyPartDescending} {
+		parts := vault.PairKey(part, vault.TextKeyPart)
+		for _, text := range textsInKeys {
+			first, second, err := parts.PartsOf(parts.Key(text, "after").Bytes())
+			if err != nil || first != text || second != "after" {
+				t.Fatalf("PartsOf(Key(%q)) = %q, %q, %v", text, first, second, err)
+			}
+		}
+	}
+	for _, part := range []vault.KeyPart[int64]{vault.IntegerKeyPart, vault.IntegerKeyPartDescending} {
+		parts := vault.PairKey(part, vault.TextKeyPart)
+		for _, integer := range integersInKeys() {
+			first, second, err := parts.PartsOf(parts.Key(integer, "after").Bytes())
+			if err != nil || first != integer || second != "after" {
+				t.Fatalf("PartsOf(Key(%d)) = %d, %q, %v", integer, first, second, err)
+			}
+		}
+	}
+}
+
+func TestPartsOfRejectsMalformedKeys(t *testing.T) {
+	text := vault.SingleKey(vault.TextKeyPart)
+	integer := vault.SingleKey(vault.IntegerKeyPart)
+	textOfDomain := vault.SingleKey(vault.TextKeyPartFrom(
+		func(text string) string { return text },
+		func(text string) (string, error) { return text, nil },
+	))
+	bytesOfDomain := vault.SingleKey(vault.BytesKeyPartFrom(
+		func(text string) []byte { return []byte(text) },
+		func(stored []byte) (string, error) { return string(stored), nil },
+	))
+	for _, scenario := range []struct {
+		name      string
+		storedKey []byte
+		partsOf   func([]byte) error
+	}{
+		{"UnterminatedText", []byte("word"), failureOfPartsOf(text)},
+		{"TextWithABadEscape", []byte{'a', 0x00, 0x05}, failureOfPartsOf(text)},
+		{"UnterminatedDomainText", []byte("word"), failureOfPartsOf(textOfDomain)},
+		{"UnterminatedDomainBytes", []byte("word"), failureOfPartsOf(bytesOfDomain)},
+		{"TrailingBytes", append(text.Key("word").Bytes(), 'x'), failureOfPartsOf(text)},
+		{"MissingInteger", nil, failureOfPartsOf(integer)},
+		{"IntegerShorterThanItsHeader", []byte{0xC0}, failureOfPartsOf(integer)},
+		{"IntegerHeaderTooLong", []byte{0xFF, 0xFF, 0x00}, failureOfPartsOf(integer)},
+		{"IntegerAboveInt64", []byte{0xFF, 0xC0, 0x80, 0, 0, 0, 0, 0, 0, 0}, failureOfPartsOf(integer)},
+		{"IntegerWithBitsAboveInt64", []byte{0xFF, 0xDF, 0, 0, 0, 0, 0, 0, 0, 0}, failureOfPartsOf(integer)},
+	} {
+		t.Run(scenario.name, func(t *testing.T) {
+			if err := scenario.partsOf(scenario.storedKey); err == nil {
+				t.Fatalf("PartsOf(%x) succeeded, want an error", scenario.storedKey)
+			}
+		})
+	}
+}
+
+func failureOfPartsOf[A any](parts vault.SingleKeyParts[A]) func([]byte) error {
+	return func(storedKey []byte) error {
+		_, err := parts.PartsOf(storedKey)
+
+		return err
+	}
+}

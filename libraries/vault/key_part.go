@@ -1,14 +1,13 @@
 package vault
 
 import (
+	"bytes"
 	"time"
-
-	"github.com/google/orderedcode"
 )
 
 type KeyPart[A any] struct {
 	appendTo   func([]byte, A) []byte
-	holder     func() ([]any, func() (A, error))
+	parseFrom  func(orderedBytes) (A, orderedBytes, error)
 	descending bool
 }
 
@@ -54,10 +53,10 @@ func (part KeyPart[A]) encodingOf(value A) []byte {
 
 var TextKeyPart = KeyPart[string]{
 	appendTo: appendOrderedText[string],
-	holder: func() ([]any, func() (string, error)) {
-		var text string
+	parseFrom: func(stored orderedBytes) (string, orderedBytes, error) {
+		text, rest, err := parseOrderedText(stored)
 
-		return []any{&text}, func() (string, error) { return text, nil }
+		return string(text), rest, err
 	},
 }
 
@@ -68,21 +67,17 @@ func TextKeyPartFrom[A any](text func(A) string, valueOf func(string) (A, error)
 		appendTo: func(encoded []byte, value A) []byte {
 			return appendOrderedText(encoded, text(value))
 		},
-		holder: func() ([]any, func() (A, error)) {
-			targets, textInKey := TextKeyPart.holder()
+		parseFrom: func(stored orderedBytes) (A, orderedBytes, error) {
+			parsedText, rest, err := parseOrderedText(stored)
+			if err != nil {
+				var unparsed A
 
-			return targets, func() (A, error) {
-				parsedText, err := textInKey()
-				if err != nil {
-					var unparsed A
-
-					return unparsed, err
-				}
-
-				return valueOf(parsedText)
+				return unparsed, rest, err
 			}
+			value, err := valueOf(string(parsedText))
+
+			return value, rest, err
 		},
-		descending: TextKeyPart.descending,
 	}
 }
 
@@ -94,21 +89,17 @@ func BytesKeyPartFrom[A any](
 		appendTo: func(encoded []byte, value A) []byte {
 			return appendOrderedText(encoded, byteForm(value))
 		},
-		holder: func() ([]any, func() (A, error)) {
-			targets, textInKey := TextKeyPart.holder()
+		parseFrom: func(stored orderedBytes) (A, orderedBytes, error) {
+			storedBytes, rest, err := parseOrderedText(stored)
+			if err != nil {
+				var unparsed A
 
-			return targets, func() (A, error) {
-				storedBytes, err := textInKey()
-				if err != nil {
-					var unparsed A
-
-					return unparsed, err
-				}
-
-				return valueOf([]byte(storedBytes))
+				return unparsed, rest, err
 			}
+			value, err := valueOf(bytes.Clone(storedBytes))
+
+			return value, rest, err
 		},
-		descending: TextKeyPart.descending,
 	}
 }
 
@@ -116,24 +107,18 @@ var TimeKeyPart = KeyPart[time.Time]{
 	appendTo: func(encoded []byte, instant time.Time) []byte {
 		return appendOrderedInteger(encoded, instant.Unix())
 	},
-	holder: func() ([]any, func() (time.Time, error)) {
-		var seconds int64
+	parseFrom: func(stored orderedBytes) (time.Time, orderedBytes, error) {
+		seconds, rest, err := parseOrderedInteger(stored)
 
-		return []any{&seconds}, func() (time.Time, error) {
-			return time.Unix(seconds, 0).UTC(), nil
-		}
+		return time.Unix(seconds, 0).UTC(), rest, err
 	},
 }
 
 var TimeKeyPartDescending = descendingFrom(TimeKeyPart)
 
 var IntegerKeyPart = KeyPart[int64]{
-	appendTo: appendOrderedInteger,
-	holder: func() ([]any, func() (int64, error)) {
-		var number int64
-
-		return []any{&number}, func() (int64, error) { return number, nil }
-	},
+	appendTo:  appendOrderedInteger,
+	parseFrom: parseOrderedInteger,
 }
 
 var IntegerKeyPartDescending = descendingFrom(IntegerKeyPart)
@@ -147,20 +132,11 @@ func descendingFrom[A any](ascending KeyPart[A]) KeyPart[A] {
 
 			return encoded
 		},
-		holder: func() ([]any, func() (A, error)) {
-			targets, value := ascending.holder()
+		parseFrom: func(stored orderedBytes) (A, orderedBytes, error) {
+			value, rest, err := ascending.parseFrom(stored.flipped())
 
-			return descendingItemsFrom(targets), value
+			return value, rest.flipped(), err
 		},
 		descending: true,
 	}
-}
-
-func descendingItemsFrom(ascendingItems []any) []any {
-	descendingItems := make([]any, len(ascendingItems))
-	for position, item := range ascendingItems {
-		descendingItems[position] = orderedcode.Decr(item)
-	}
-
-	return descendingItems
 }
