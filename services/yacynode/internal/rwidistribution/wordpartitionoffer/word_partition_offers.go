@@ -154,7 +154,10 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if isInRetry {
-			batch.addWait(WaitWordPartitionInRetry)
+			batch.addWait(Wait{
+				Position: o.positionOf(undelivered.WordPartition),
+				Reason:   WaitWordPartitionInRetry,
+			})
 
 			continue
 		}
@@ -162,8 +165,8 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 		if err != nil {
 			return err
 		}
-		if waitReason, mustWait := peers.waitReasonFrom(o.eligibility); mustWait {
-			batch.addWait(waitReason)
+		if wait, mustWait := peers.waitFrom(o.eligibility); mustWait {
+			batch.addWait(wait)
 
 			continue
 		}
@@ -188,7 +191,7 @@ func (o *WordPartitionOffers) peersOf(
 		return wordPartitionPeers{}, err
 	}
 	responsiblePeers := responsiblePeersFor(
-		yacymodel.DHTRingPositionOfWordPartition(wordPartition, o.config.Partitions),
+		o.positionOf(wordPartition),
 		acceptingPeers,
 		o.config.Self,
 		o.config.Redundancy,
@@ -201,6 +204,12 @@ func (o *WordPartitionOffers) peersOf(
 		recordedHolders,
 		o.keptHoldersOf(ctx, recordedHolders, responsiblePeers),
 	), nil
+}
+
+func (o *WordPartitionOffers) positionOf(
+	wordPartition yacymodel.WordPartition,
+) yacymodel.DHTRingPosition {
+	return yacymodel.DHTRingPositionOfWordPartition(wordPartition, o.config.Partitions)
 }
 
 func (o *WordPartitionOffers) keptHoldersOf(
@@ -309,8 +318,8 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		if waitReason, mustWait := peers.waitReasonFrom(o.eligibility); mustWait {
-			batch.addWait(waitReason)
+		if wait, mustWait := peers.waitFrom(o.eligibility); mustWait {
+			batch.addWait(wait)
 
 			continue
 		}

@@ -288,6 +288,17 @@ func TestAReadVisitsEveryPostingOnceInRingOrder(t *testing.T) {
 	}
 }
 
+func TestAReadPostingTellsItsRingPosition(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, 1, everyPosting()...)
+
+	for _, posting := range h.readWhole(t) {
+		if got, want := posting.Position(), h.positionOf(posting); got != want {
+			t.Fatalf("Position of %+v = %v, want %v", identityOf(posting), got, want)
+		}
+	}
+}
+
 func TestAReadGroupsThePostingsOfEachWordPartition(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)

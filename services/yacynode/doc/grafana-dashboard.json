@@ -2303,7 +2303,7 @@
     {
       "id": 137,
       "title": "Word partitions waiting, by reason",
-      "description": "Word partitions not sent in the last pass, averaged over 5 minutes.",
+      "description": "Word partitions not sent over the last full read of the ring, averaged over 5 minutes.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

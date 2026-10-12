@@ -25,3 +25,7 @@ func undeliveredPostingFrom(
 		change: change,
 	}
 }
+
+func (p UndeliveredPosting) Position() yacymodel.DHTRingPosition {
+	return p.change.Entry.position
+}

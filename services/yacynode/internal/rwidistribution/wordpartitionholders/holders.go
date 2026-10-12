@@ -26,6 +26,10 @@ type ScheduledRefresh struct {
 	refreshAt     time.Time
 }
 
+func (r ScheduledRefresh) Sector() yacymodel.DHTRingSector {
+	return r.sector
+}
+
 type Holders struct {
 	entries         *vault.Collection[yacymodel.WordPartition, wordPartitionEntry]
 	refreshOrder    *vault.Set[ScheduledRefresh]

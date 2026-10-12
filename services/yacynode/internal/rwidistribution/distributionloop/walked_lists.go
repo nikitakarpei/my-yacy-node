@@ -15,6 +15,7 @@ type walkedList interface {
 		ctx context.Context,
 		isInFlight func(yacymodel.WordPartition) bool,
 	) (listBatch, bool, error)
+	lastReadSector() yacymodel.DHTRingSector
 }
 
 type listBatch interface {
@@ -59,6 +60,10 @@ func (l *undeliveredPostingsList) batchAfterLastRead(
 		offers:      l.offers,
 		undelivered: undeliveredOutside(readWordPartitions, isInFlight),
 	}, reachedEnd, nil
+}
+
+func (l *undeliveredPostingsList) lastReadSector() yacymodel.DHTRingSector {
+	return yacymodel.DHTRingSectorOf(l.lastReadPosting.Position())
 }
 
 func undeliveredOutside(
@@ -130,6 +135,10 @@ func (l *dueRefreshesList) batchAfterLastRead(
 		offers:    l.offers,
 		refreshes: refreshesOutside(readRefreshes, isInFlight),
 	}, reachedEnd, nil
+}
+
+func (l *dueRefreshesList) lastReadSector() yacymodel.DHTRingSector {
+	return l.lastReadRefresh.Sector()
 }
 
 func refreshesOutside(

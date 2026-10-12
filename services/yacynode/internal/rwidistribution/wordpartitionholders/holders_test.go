@@ -321,6 +321,23 @@ func TestDueRefreshesGoOnceAroundTheRingSectorBySector(t *testing.T) {
 	}
 }
 
+func TestADueRefreshTellsTheSectorOfItsWordPartition(t *testing.T) {
+	h := openHarness(t)
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+	}
+	h.advance(refreshInterval)
+
+	dueRefreshes, _ := h.dueRefreshesAfter(
+		t, wordpartitionholders.ScheduledRefresh{}, len(h.everyWordPartition()))
+
+	for _, dueRefresh := range dueRefreshes {
+		if got, want := dueRefresh.Sector(), h.sectorOf(dueRefresh.WordPartition); got != want {
+			t.Fatalf("Sector of %+v = %d, want %d", dueRefresh.WordPartition, got, want)
+		}
+	}
+}
+
 func TestDueRefreshesComeOldestFirstUpToTheLimit(t *testing.T) {
 	h := openHarness(t)
 	wordPartitions := h.wordPartitionsOfBusiestSector()

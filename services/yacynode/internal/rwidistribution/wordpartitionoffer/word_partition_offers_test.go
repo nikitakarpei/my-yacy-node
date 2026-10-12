@@ -769,9 +769,7 @@ func TestAnUndeliveredWordPartitionWithARecipientInCooldownWaits(t *testing.T) {
 
 	batch := h.undeliveredBatch(t, peer)
 
-	assertWaits(t, batch.Waits,
-		wordpartitionoffer.WaitRecipientInCooldown,
-	)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientInCooldown)
 }
 
 func TestAnUndeliveredWordPartitionInRetryWaits(t *testing.T) {
@@ -782,9 +780,7 @@ func TestAnUndeliveredWordPartitionInRetryWaits(t *testing.T) {
 
 	batch := h.undeliveredBatch(t, peerAfter(wordPartition, 0))
 
-	assertWaits(t, batch.Waits,
-		wordpartitionoffer.WaitWordPartitionInRetry,
-	)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitWordPartitionInRetry)
 }
 
 func TestAnUndeliveredWordPartitionWithoutRecipientsWaits(t *testing.T) {
@@ -797,11 +793,7 @@ func TestAnUndeliveredWordPartitionWithoutRecipientsWaits(t *testing.T) {
 
 	batch := h.undeliveredBatch(t, peerAfter(wordPartition, 0))
 
-	assertWaits(
-		t,
-		batch.Waits,
-		wordpartitionoffer.WaitNoRecipient,
-	)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitNoRecipient)
 }
 
 func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
@@ -816,11 +808,7 @@ func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
 
 	batch := h.refreshBatch(t, holder)
 
-	assertWaits(
-		t,
-		batch.Waits,
-		wordpartitionoffer.WaitRecipientInCooldown,
-	)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientInCooldown)
 }
 
 func TestADueRefreshWithoutRecipientsWaits(t *testing.T) {
@@ -835,11 +823,7 @@ func TestADueRefreshWithoutRecipientsWaits(t *testing.T) {
 
 	batch := h.refreshBatch(t, peerAfter(wordPartition, 0))
 
-	assertWaits(
-		t,
-		batch.Waits,
-		wordpartitionoffer.WaitNoRecipient,
-	)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitNoRecipient)
 }
 
 func TestAnOfferedWordPartitionDoesNotWait(t *testing.T) {
@@ -859,12 +843,14 @@ func TestAnOfferedWordPartitionDoesNotWait(t *testing.T) {
 
 func assertWaits(
 	t *testing.T,
-	waits []wordpartitionoffer.WaitReason,
+	waits []wordpartitionoffer.Wait,
+	wordPartition yacymodel.WordPartition,
 	waitReason wordpartitionoffer.WaitReason,
 ) {
 	t.Helper()
 
-	if want := []wordpartitionoffer.WaitReason{waitReason}; !slices.Equal(waits, want) {
+	want := []wordpartitionoffer.Wait{{Position: positionOf(wordPartition), Reason: waitReason}}
+	if !slices.Equal(waits, want) {
 		t.Fatalf("waits = %v, want %v", waits, want)
 	}
 }

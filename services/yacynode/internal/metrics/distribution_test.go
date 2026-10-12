@@ -266,7 +266,7 @@ func TestDistributionReportsWaitingWordPartitionsByReason(t *testing.T) {
 	observer.ObserveWordPartitionsWaiting("no_recipient", 1)
 
 	expected := `
-# HELP yacynode_rwidistribution_word_partitions_waiting Word partitions not sent in the last pass, by reason.
+# HELP yacynode_rwidistribution_word_partitions_waiting Word partitions not sent over the last full read of the ring, by reason.
 # TYPE yacynode_rwidistribution_word_partitions_waiting gauge
 yacynode_rwidistribution_word_partitions_waiting{reason="no_recipient"} 1
 yacynode_rwidistribution_word_partitions_waiting{reason="recipient_in_cooldown"} 3

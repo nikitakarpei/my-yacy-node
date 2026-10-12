@@ -97,7 +97,7 @@ func distributionMetrics() *DistributionMetrics {
 		),
 		wordPartitionsWaiting: gaugePerLabelFor(
 			"yacynode_rwidistribution_word_partitions_waiting",
-			"Word partitions not sent in the last pass, by reason.",
+			"Word partitions not sent over the last full read of the ring, by reason.",
 			labelReason,
 		),
 	}

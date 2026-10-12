@@ -94,6 +94,13 @@ func (f *fakeObserver) ObserveWordPartitionsWaiting(
 	f.wordPartitionsWaiting[waitReason] = amountOfWordPartitions
 }
 
+func (f *fakeObserver) wordPartitionsWaitingFor(waitReason string) int {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	return f.wordPartitionsWaiting[waitReason]
+}
+
 func (f *fakeObserver) ObserveHolderRingFractions(ringFractions []float64) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
