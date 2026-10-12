@@ -40,6 +40,7 @@ func openHarness(t *testing.T) harness {
 	_, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
+		yacymodel.DHTRingPartitions(1),
 		[]vault.Projection[yacymodel.RWIPosting]{projection},
 	)
 	if err != nil {

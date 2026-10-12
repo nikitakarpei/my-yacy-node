@@ -31,6 +31,10 @@ func (parts PairKeyParts[A, B]) KeysBeforeFirst(first A) KeyRange {
 	return parts.first.keysBefore(first)
 }
 
+func (parts PairKeyParts[A, B]) KeysWithFirstBetweenSeconds(first A, lowest, highest B) KeyRange {
+	return parts.second.keysBetween(lowest, highest).withPrefix(parts.first.encodingOf(first))
+}
+
 func (parts PairKeyParts[A, B]) PartsOf(storedKey []byte) (A, B, error) {
 	var second B
 

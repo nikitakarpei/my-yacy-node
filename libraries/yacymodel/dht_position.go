@@ -1,6 +1,8 @@
 package yacymodel
 
 import (
+	"bytes"
+	"encoding/binary"
 	"fmt"
 	"math/bits"
 )
@@ -35,7 +37,11 @@ func PeersHoldingOneWordOf(partitions DHTRingPartitions, networkRedundancy int) 
 }
 
 func (p DHTRingPartitions) shiftLength() uint {
-	return 63 - uint(bits.Len(uint(p))-1)
+	return 63 - p.exponent()
+}
+
+func (p DHTRingPartitions) exponent() uint {
+	return uint(bits.Len(uint(p)) - 1)
 }
 
 const dhtRingPositionSymbols = 10
@@ -145,4 +151,23 @@ func DHTRingPositionOfWordInPartition(
 
 func (p DHTRingPartitions) PartitionOf(url URLHash) uint {
 	return uint(uint64(DHTRingPositionOf(url.hash)) >> p.shiftLength())
+}
+
+func (p DHTRingPartitions) LowestURLHashIn(partition uint) URLHash {
+	return p.urlHashIn(partition, 0x00)
+}
+
+func (p DHTRingPartitions) HighestURLHashIn(partition uint) URLHash {
+	return p.urlHashIn(partition, 0xFF)
+}
+
+func (p DHTRingPartitions) urlHashIn(partition uint, filler byte) URLHash {
+	raw := bytes.Repeat([]byte{filler}, HashByteLength)
+	partitionShift := 64 - p.exponent()
+	fillerBits := binary.BigEndian.Uint64(raw) &^ (^uint64(0) << partitionShift)
+	binary.BigEndian.PutUint64(raw, uint64(partition)<<partitionShift|fillerBits)
+
+	url, _ := ParseURLHashBytes(raw)
+
+	return url
 }

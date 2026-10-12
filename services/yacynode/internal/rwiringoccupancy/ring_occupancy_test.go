@@ -45,16 +45,15 @@ func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) 
 		}
 	})
 
-	ringOccupancy, projection, err := rwiringoccupancy.Open(
-		v,
-		ringPartitionsOf(t, partitionExponent),
-	)
+	partitions := ringPartitionsOf(t, partitionExponent)
+	ringOccupancy, projection, err := rwiringoccupancy.Open(v, partitions)
 	if err != nil {
 		t.Fatalf("rwiringoccupancy.Open: %v", err)
 	}
 	_, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
+		partitions,
 		[]vault.Projection[yacymodel.RWIPosting]{projection},
 	)
 	if err != nil {

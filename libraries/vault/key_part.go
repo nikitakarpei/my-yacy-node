@@ -47,6 +47,16 @@ func (part KeyPart[A]) keysBefore(value A) KeyRange {
 	return KeyRange{firstExcluded: encoding}
 }
 
+func (part KeyPart[A]) keysBetween(lowest, highest A) KeyRange {
+	lowestEncoding, highestEncoding := part.encodingOf(lowest), part.encodingOf(highest)
+
+	if part.descending {
+		return KeyRange{firstIncluded: highestEncoding, firstExcluded: successorOf(lowestEncoding)}
+	}
+
+	return KeyRange{firstIncluded: lowestEncoding, firstExcluded: successorOf(highestEncoding)}
+}
+
 func (part KeyPart[A]) encodingOf(value A) []byte {
 	return part.appendTo(nil, value)
 }

@@ -63,7 +63,12 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		}
 	})
 
-	index, admitter, _, err := rwipostings.Open(context.Background(), v, nil)
+	index, admitter, _, err := rwipostings.Open(
+		context.Background(),
+		v,
+		yacymodel.DHTRingPartitions(1),
+		nil,
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}

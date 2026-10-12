@@ -191,6 +191,7 @@ func assembleNode(
 	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
 		ctx,
 		storage,
+		dhtRingPartitions,
 		[]vault.Projection[yacymodel.RWIPosting]{
 			urlReferenceProjection,
 			postingImpactProjection,
