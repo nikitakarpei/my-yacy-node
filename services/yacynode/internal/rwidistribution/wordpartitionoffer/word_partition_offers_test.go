@@ -85,7 +85,7 @@ func openHarness(t *testing.T, opts options) *harness {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
 	h.offers = wordpartitionoffer.New(
-		v, undelivered, h.holders, index, h.reachability, h.eligibility, h.observer, h.observer,
+		v, undelivered, h.holders, index, h.reachability, h.eligibility, h.observer,
 		configFrom(opts),
 	)
 
@@ -195,8 +195,20 @@ func (h *harness) dueNow(
 ) ([]wordpartitionoffer.WordPartitionOffer, wordpartitionoffer.Cursor) {
 	t.Helper()
 
+	batch := h.dueBatch(t, from, reachablePeers...)
+
+	return batch.Offers, batch.Next
+}
+
+func (h *harness) dueBatch(
+	t *testing.T,
+	from wordpartitionoffer.Cursor,
+	reachablePeers ...yacymodel.Seed,
+) wordpartitionoffer.DueBatch {
+	t.Helper()
+
 	h.reachability.reachable = reachablePeers
-	offers, next, err := h.offers.DueNowIn(
+	batch, err := h.offers.DueNowIn(
 		context.Background(),
 		fixtureSector(),
 		from,
@@ -206,7 +218,7 @@ func (h *harness) dueNow(
 		t.Fatalf("DueNowIn: %v", err)
 	}
 
-	return offers, next
+	return batch
 }
 
 func (h *harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -425,20 +437,10 @@ func (f fakeEligibility) IsExcluded(peer yacymodel.Hash) bool {
 
 type fakeObserver struct {
 	peersPerSector []int
-	skips          []skip
-}
-
-type skip struct {
-	offerKind  string
-	skipReason string
 }
 
 func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int) {
 	f.peersPerSector = peersPerSector
-}
-
-func (f *fakeObserver) ObserveWordPartitionSkipped(offerKind string, skipReason string) {
-	f.skips = append(f.skips, skip{offerKind: offerKind, skipReason: skipReason})
 }
 
 func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordPartition(
@@ -847,40 +849,36 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	}
 }
 
-func TestAnUndeliveredWordPartitionWithARecipientInCooldownIsReportedAsSkipped(t *testing.T) {
+func TestAnUndeliveredWordPartitionWithARecipientInCooldownIsSkipped(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
 	peer := peerAfter(wordPartition, 0)
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
 	h.eligibility.cooldowns[peer.Hash] = time.Minute
 
-	h.dueNow(t, wordpartitionoffer.Cursor{}, peer)
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peer)
 
-	assertSkips(
-		t,
-		h,
+	assertSkips(t, batch.Skips,
 		wordpartitionoffer.UndeliveredOffer,
 		wordpartitionoffer.SkipRecipientInCooldown,
 	)
 }
 
-func TestAnUndeliveredWordPartitionInRetryIsReportedAsSkipped(t *testing.T) {
+func TestAnUndeliveredWordPartitionInRetryIsSkipped(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
 	h.recordNoHolders(t, wordPartition)
 
-	h.dueNow(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
 
-	assertSkips(
-		t,
-		h,
+	assertSkips(t, batch.Skips,
 		wordpartitionoffer.UndeliveredOffer,
 		wordpartitionoffer.SkipWordPartitionInRetry,
 	)
 }
 
-func TestAnUndeliveredWordPartitionWithoutRecipientsIsReportedAsSkipped(t *testing.T) {
+func TestAnUndeliveredWordPartitionWithoutRecipientsIsSkipped(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
 	absentHolder := peerAfter(wordPartition, 1<<40)
@@ -888,12 +886,17 @@ func TestAnUndeliveredWordPartitionWithoutRecipientsIsReportedAsSkipped(t *testi
 	h.recordHolders(t, wordPartition, absentHolder.Hash)
 	h.reachability.recentlyReachable[absentHolder.Hash] = true
 
-	h.dueNow(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
 
-	assertSkips(t, h, wordpartitionoffer.UndeliveredOffer, wordpartitionoffer.SkipNoRecipient)
+	assertSkips(
+		t,
+		batch.Skips,
+		wordpartitionoffer.UndeliveredOffer,
+		wordpartitionoffer.SkipNoRecipient,
+	)
 }
 
-func TestADueRefreshWithARecipientInCooldownIsReportedAsSkipped(t *testing.T) {
+func TestADueRefreshWithARecipientInCooldownIsSkipped(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
 	holder := peerAfter(wordPartition, 0)
@@ -903,12 +906,17 @@ func TestADueRefreshWithARecipientInCooldownIsReportedAsSkipped(t *testing.T) {
 	h.clock = h.clock.Add(refreshInterval)
 	h.eligibility.cooldowns[holder.Hash] = time.Minute
 
-	h.dueNow(t, wordpartitionoffer.Cursor{}, holder)
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, holder)
 
-	assertSkips(t, h, wordpartitionoffer.RefreshOffer, wordpartitionoffer.SkipRecipientInCooldown)
+	assertSkips(
+		t,
+		batch.Skips,
+		wordpartitionoffer.RefreshOffer,
+		wordpartitionoffer.SkipRecipientInCooldown,
+	)
 }
 
-func TestADueRefreshWithoutRecipientsIsReportedAsSkipped(t *testing.T) {
+func TestADueRefreshWithoutRecipientsIsSkipped(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
 	absentHolder := peerAfter(wordPartition, 1<<40)
@@ -918,12 +926,17 @@ func TestADueRefreshWithoutRecipientsIsReportedAsSkipped(t *testing.T) {
 	h.reachability.recentlyReachable[absentHolder.Hash] = true
 	h.clock = h.clock.Add(refreshInterval)
 
-	h.dueNow(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
 
-	assertSkips(t, h, wordpartitionoffer.RefreshOffer, wordpartitionoffer.SkipNoRecipient)
+	assertSkips(
+		t,
+		batch.Skips,
+		wordpartitionoffer.RefreshOffer,
+		wordpartitionoffer.SkipNoRecipient,
+	)
 }
 
-func TestAnOfferedWordPartitionIsNotReportedAsSkipped(t *testing.T) {
+func TestAnOfferedWordPartitionIsNotSkipped(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
 	holder := peerAfter(wordPartition, 0)
@@ -931,23 +944,25 @@ func TestAnOfferedWordPartitionIsNotReportedAsSkipped(t *testing.T) {
 	h.recordHolders(t, wordPartition, holder.Hash)
 	h.clock = h.clock.Add(refreshInterval)
 
-	offers, _ := h.dueNow(t, wordpartitionoffer.Cursor{}, holder)
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, holder)
 
-	if len(offers) == 0 || len(h.observer.skips) != 0 {
-		t.Fatalf("offers = %v and skips = %v, want an offer and no skip", offers, h.observer.skips)
+	if len(batch.Offers) == 0 || len(batch.Skips) != 0 {
+		t.Fatalf("offers = %v and skips = %v, want an offer and no skip", batch.Offers, batch.Skips)
 	}
 }
 
 func assertSkips(
 	t *testing.T,
-	h *harness,
+	skips []wordpartitionoffer.Skip,
 	offerKind wordpartitionoffer.OfferKind,
 	skipReason wordpartitionoffer.SkipReason,
 ) {
 	t.Helper()
 
-	want := []skip{{offerKind: string(offerKind), skipReason: string(skipReason)}}
-	if !slices.Equal(h.observer.skips, want) {
-		t.Fatalf("skips = %v, want %v", h.observer.skips, want)
+	want := []wordpartitionoffer.Skip{
+		{Offer: offerKind, Reason: skipReason},
+	}
+	if !slices.Equal(skips, want) {
+		t.Fatalf("skips = %v, want %v", skips, want)
 	}
 }

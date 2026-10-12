@@ -26,7 +26,7 @@ type DistributionMetrics struct {
 	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
 	peersExcluded          prometheus.Counter
-	wordPartitionsSkipped  *prometheus.CounterVec
+	wordPartitionsWaiting  *prometheus.GaugeVec
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -38,22 +38,22 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
-		postingOffers: counterPerLabelsFor(
+		postingOffers: counterPerLabelFor(
 			"yacynode_rwidistribution_posting_offers_sent_total",
 			"Posting offers sent to peers, by offer outcome.",
 			labelOutcome,
 		),
-		postingsOffered: counterPerLabelsFor(
+		postingsOffered: counterPerLabelFor(
 			"yacynode_rwidistribution_postings_offered_total",
 			"RWI postings offered to peers, by offer outcome.",
 			labelOutcome,
 		),
-		urlMetadataDeliveries: counterPerLabelsFor(
+		urlMetadataDeliveries: counterPerLabelFor(
 			"yacynode_rwidistribution_url_metadata_deliveries_total",
 			"URL metadata deliveries sent to peers, by delivery outcome.",
 			labelOutcome,
 		),
-		urlsDelivered: counterPerLabelsFor(
+		urlsDelivered: counterPerLabelFor(
 			"yacynode_rwidistribution_urls_delivered_total",
 			"URLs delivered to peers as metadata, by delivery outcome.",
 			labelOutcome,
@@ -78,7 +78,7 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_postings_handed_off_total",
 			"Postings deleted after peers closer to their DHT position accepted them.",
 		),
-		batchesSkipped: counterPerLabelsFor(
+		batchesSkipped: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_skipped_total",
 			"Distribution batches the node did not start, by reason.",
 			labelReason,
@@ -87,7 +87,7 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_batches_completed_total",
 			"Distribution batches that recorded their outcome or found no posting to send.",
 		),
-		batchesAborted: counterPerLabelsFor(
+		batchesAborted: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_aborted_total",
 			"Distribution batches aborted before their outcome was recorded, by reason.",
 			labelReason,
@@ -96,9 +96,9 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_peers_excluded_total",
 			"Peers excluded from distribution after failed offers in a row.",
 		),
-		wordPartitionsSkipped: counterPerLabelsFor(
-			"yacynode_rwidistribution_word_partitions_skipped_total",
-			"Word partitions the node read but did not send, by offer and reason. They wait for the next pass over their ring sector.",
+		wordPartitionsWaiting: gaugePerLabelsFor(
+			"yacynode_rwidistribution_word_partitions_waiting",
+			"Different word partitions the last pass over each ring sector did not send, by offer and reason.",
 			labelOfferKind,
 			labelReason,
 		),
@@ -120,12 +120,12 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.batchesCompleted,
 		d.batchesAborted,
 		d.peersExcluded,
-		d.wordPartitionsSkipped,
+		d.wordPartitionsWaiting,
 	}
 }
 
-func counterPerLabelsFor(name string, help string, labels ...string) *prometheus.CounterVec {
-	return prometheus.NewCounterVec(prometheus.CounterOpts{Name: name, Help: help}, labels)
+func counterPerLabelFor(name string, help string, label string) *prometheus.CounterVec {
+	return prometheus.NewCounterVec(prometheus.CounterOpts{Name: name, Help: help}, []string{label})
 }
 
 func counterFor(name string, help string) prometheus.Counter {
@@ -134,6 +134,10 @@ func counterFor(name string, help string) prometheus.Counter {
 
 func gaugeFor(name string, help string) prometheus.Gauge {
 	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
+}
+
+func gaugePerLabelsFor(name string, help string, labels ...string) *prometheus.GaugeVec {
+	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, labels)
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -182,6 +186,11 @@ func (d *DistributionMetrics) ObservePeerExcluded() {
 	d.peersExcluded.Inc()
 }
 
-func (d *DistributionMetrics) ObserveWordPartitionSkipped(offerKind string, skipReason string) {
-	d.wordPartitionsSkipped.WithLabelValues(offerKind, skipReason).Inc()
+func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
+	offerKind string,
+	skipReason string,
+	amountOfWordPartitions int,
+) {
+	d.wordPartitionsWaiting.WithLabelValues(offerKind, skipReason).
+		Set(float64(amountOfWordPartitions))
 }

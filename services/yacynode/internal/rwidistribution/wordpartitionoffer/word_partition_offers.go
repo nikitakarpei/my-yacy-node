@@ -47,10 +47,6 @@ type DHTRingObserver interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
 
-type SkipObserver interface {
-	ObserveWordPartitionSkipped(offerKind string, skipReason string)
-}
-
 type OfferKind string
 
 const (
@@ -65,6 +61,17 @@ const (
 	SkipWordPartitionInRetry SkipReason = "word_partition_in_retry"
 	SkipNoRecipient          SkipReason = "no_recipient"
 )
+
+type Skip struct {
+	Offer  OfferKind
+	Reason SkipReason
+}
+
+type DueBatch struct {
+	Offers []WordPartitionOffer
+	Next   Cursor
+	Skips  []Skip
+}
 
 type Config struct {
 	Partitions       yacymodel.DHTRingPartitions
@@ -81,11 +88,10 @@ type WordPartitionOffers struct {
 	reachability    Reachability
 	eligibility     PeerEligibility
 	dhtRingObserver DHTRingObserver
-	skipObserver    SkipObserver
 	config          Config
 }
 
-//nolint:revive // argument-limit: eight explicit, independently-meaningful collaborators and the config
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
 	undelivered *undeliveredpostings.UndeliveredPostings,
@@ -94,7 +100,6 @@ func New(
 	reachability Reachability,
 	eligibility PeerEligibility,
 	dhtRingObserver DHTRingObserver,
-	skipObserver SkipObserver,
 	config Config,
 ) *WordPartitionOffers {
 	return &WordPartitionOffers{
@@ -105,7 +110,6 @@ func New(
 		reachability:    reachability,
 		eligibility:     eligibility,
 		dhtRingObserver: dhtRingObserver,
-		skipObserver:    skipObserver,
 		config:          config,
 	}
 }
@@ -138,7 +142,7 @@ func (o *WordPartitionOffers) DueNowIn(
 	sector yacymodel.DHTRingSector,
 	from Cursor,
 	reachablePeers []yacymodel.Seed,
-) (offers []WordPartitionOffer, next Cursor, err error) {
+) (DueBatch, error) {
 	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
 	batch := offerBatchFrom(from, o.config.PostingsPerBatch)
 	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
@@ -154,10 +158,10 @@ func (o *WordPartitionOffers) DueNowIn(
 
 		return o.addDueRefreshes(ctx, tx, sector, acceptingPeers, &batch)
 	}); err != nil {
-		return nil, Cursor{}, err
+		return DueBatch{}, err
 	}
 
-	return batch.offers, batch.next, nil
+	return DueBatch{Offers: batch.offers, Next: batch.next, Skips: batch.skips}, nil
 }
 
 func (o *WordPartitionOffers) acceptingPeersAmong(
@@ -196,7 +200,7 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if isInRetry {
-			o.reportSkip(UndeliveredOffer, SkipWordPartitionInRetry)
+			batch.skip(UndeliveredOffer, SkipWordPartitionInRetry)
 
 			continue
 		}
@@ -205,7 +209,7 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			o.reportSkip(UndeliveredOffer, skipReason)
+			batch.skip(UndeliveredOffer, skipReason)
 
 			continue
 		}
@@ -240,10 +244,6 @@ func (o *WordPartitionOffers) nextUndeliveredWordPartition(
 	)
 
 	return undelivered, err
-}
-
-func (o *WordPartitionOffers) reportSkip(offerKind OfferKind, skipReason SkipReason) {
-	o.skipObserver.ObserveWordPartitionSkipped(string(offerKind), string(skipReason))
 }
 
 func (o *WordPartitionOffers) peersOf(
@@ -398,7 +398,7 @@ func (o *WordPartitionOffers) addDueRefreshes(
 			return err
 		}
 		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			o.reportSkip(RefreshOffer, skipReason)
+			batch.skip(RefreshOffer, skipReason)
 
 			continue
 		}

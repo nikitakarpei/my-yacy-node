@@ -6,4 +6,5 @@ type BatchObserver interface {
 	ObserveBatchSkipped(reason string)
 	ObserveBatchCompleted()
 	ObserveBatchAborted(reason string)
+	ObserveWordPartitionsWaiting(offerKind string, skipReason string, amountOfWordPartitions int)
 }

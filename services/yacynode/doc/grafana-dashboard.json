@@ -2301,9 +2301,9 @@
       "interval": "$window"
     },
     {
-      "id": 136,
-      "title": "Word partitions skipped, by reason",
-      "description": "Word partitions the node read but did not send. Each one waits and is read again on the next pass over its ring sector.",
+      "id": 137,
+      "title": "Word partitions waiting, by reason",
+      "description": "Different word partitions the last pass over each ring sector could not send.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2319,8 +2319,11 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            }
           }
         }
       },
@@ -2332,7 +2335,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason, offer) (clamp_min(yacynode_rwidistribution_word_partitions_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_word_partitions_skipped_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (reason, offer) (yacynode_rwidistribution_word_partitions_waiting{instance=~\"$service_instance\"})",
           "legendFormat": "{{reason}} ({{offer}})"
         }
       ],

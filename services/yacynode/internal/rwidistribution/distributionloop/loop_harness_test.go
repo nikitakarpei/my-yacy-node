@@ -120,7 +120,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, holders, h.index, h.roster, h.eligibility, h.observer, h.observer,
+			v, undelivered, holders, h.index, h.roster, h.eligibility, h.observer,
 			wordpartitionoffer.Config{
 				Partitions:       partitions(),
 				Self:             opts.self,

@@ -257,24 +257,24 @@ yacynode_rwidistribution_peers_excluded_total 2
 	}
 }
 
-func TestDistributionCountsSkippedWordPartitionsByOfferAndReason(t *testing.T) {
+func TestDistributionReportsWaitingWordPartitionsByOfferAndReason(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveWordPartitionSkipped("undelivered", "recipient_in_cooldown")
-	observer.ObserveWordPartitionSkipped("undelivered", "recipient_in_cooldown")
-	observer.ObserveWordPartitionSkipped("refresh", "no_recipient")
+	observer.ObserveWordPartitionsWaiting("undelivered", "recipient_in_cooldown", 5)
+	observer.ObserveWordPartitionsWaiting("undelivered", "recipient_in_cooldown", 3)
+	observer.ObserveWordPartitionsWaiting("refresh", "no_recipient", 1)
 
 	expected := `
-# HELP yacynode_rwidistribution_word_partitions_skipped_total Word partitions the node read but did not send, by offer and reason. They wait for the next pass over their ring sector.
-# TYPE yacynode_rwidistribution_word_partitions_skipped_total counter
-yacynode_rwidistribution_word_partitions_skipped_total{offer="refresh",reason="no_recipient"} 1
-yacynode_rwidistribution_word_partitions_skipped_total{offer="undelivered",reason="recipient_in_cooldown"} 2
+# HELP yacynode_rwidistribution_word_partitions_waiting Different word partitions the last pass over each ring sector did not send, by offer and reason.
+# TYPE yacynode_rwidistribution_word_partitions_waiting gauge
+yacynode_rwidistribution_word_partitions_waiting{offer="refresh",reason="no_recipient"} 1
+yacynode_rwidistribution_word_partitions_waiting{offer="undelivered",reason="recipient_in_cooldown"} 3
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_word_partitions_skipped_total",
+		"yacynode_rwidistribution_word_partitions_waiting",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
