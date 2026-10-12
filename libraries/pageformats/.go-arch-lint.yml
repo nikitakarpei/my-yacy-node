@@ -20,6 +20,8 @@ components:
     in: internal/pagederivations/readablehtml/**
   pagederivationsreadabletext:
     in: internal/pagederivations/readabletext/**
+  pagederivationsauxiliarytext:
+    in: internal/pagederivations/auxiliarytext/**
   htmlflattening:
     in: internal/htmlflattening/**
   articlefootnotes:
@@ -28,6 +30,8 @@ components:
     in: internal/articlepermalinks/**
   articlemediawikichrome:
     in: internal/articlemediawikichrome/**
+  articleauxiliary:
+    in: internal/articleauxiliary/**
   derivationreach:
     in: internal/derivationreach/**
   text:
@@ -62,6 +66,7 @@ deps:
       - pagederivationsmarkdown
       - pagederivationsreadablehtml
       - pagederivationsreadabletext
+      - pagederivationsauxiliarytext
   pagederivationsfulltext:
     mayDependOn:
       - htmlflattening
@@ -88,6 +93,19 @@ deps:
       - text
     canUse:
       - htmltree
+  pagederivationsauxiliarytext:
+    mayDependOn:
+      - articleauxiliary
+      - articlefootnotes
+      - text
+    canUse:
+      - htmltree
+  articleauxiliary:
+    mayDependOn:
+      - articlefootnotes
+      - htmlflattening
+    canUse:
+      - xnet
   htmlflattening:
     canUse:
       - xnet
