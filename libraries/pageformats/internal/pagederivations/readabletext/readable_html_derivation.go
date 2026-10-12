@@ -6,6 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction/bodies/htmltree"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articleauxiliary"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articlefootnotes"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articlemediawikichrome"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/articlepermalinks"
@@ -33,7 +34,9 @@ func (ReadableHTMLDerivation) BodyFrom(
 	source documentextraction.Body,
 ) (documentextraction.Body, bool, error) {
 	article := source.(htmltree.Body).CopiedTree()
+	auxiliaryParts := articleauxiliary.PartsOf(article)
 	articlefootnotes.RemoveFootnoteMarks(article)
+	auxiliaryParts.Remove()
 	articlepermalinks.RemovePermalinks(article)
 	articlemediawikichrome.RemoveMediaWikiChrome(article)
 	readableText := htmlflattening.Flatten(article)

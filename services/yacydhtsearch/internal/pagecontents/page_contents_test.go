@@ -19,9 +19,7 @@ func TestTheTextGivesTheHitsOfEachQueryWordAndNoOtherWord(t *testing.T) {
 	t.Parallel()
 
 	pageContents := pagecontents.PageContentsFrom(
-		"",
-		textOfThePage,
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{Text: textOfThePage},
 		[]string{"berlin", "river", "paris"},
 		snippetLengthCeiling,
 	)
@@ -41,21 +39,19 @@ func TestTheTextGivesTheHitsOfEachQueryPhraseInEitherOrder(t *testing.T) {
 	t.Parallel()
 
 	inOrder := pagecontents.PageContentsFrom(
-		"",
-		textOfThePage,
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{Text: textOfThePage},
 		[]string{"berlin", "holds"},
 		snippetLengthCeiling,
 	)
 	inTheOtherOrder := pagecontents.PageContentsFrom(
-		"",
-		textOfThePage,
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{Text: textOfThePage},
 		[]string{"holds", "berlin"},
 		snippetLengthCeiling,
 	)
 	ofOneWord := pagecontents.PageContentsFrom(
-		"", textOfThePage, pagecontents.LinkCounts{}, []string{"berlin"}, snippetLengthCeiling,
+		pagecontents.ExtractedPage{Text: textOfThePage},
+		[]string{"berlin"},
+		snippetLengthCeiling,
 	)
 
 	if inOrder.QueryPhraseHits != 2 || inTheOtherOrder.QueryPhraseHits != 2 ||
@@ -71,9 +67,10 @@ func TestTheTitleGivesTheHitsOfEachQueryPhraseAndNoWordHit(t *testing.T) {
 	t.Parallel()
 
 	contents := pagecontents.PageContentsFrom(
-		"Berlin holds",
-		"The city holds a wall.",
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{
+			Title: "Berlin holds",
+			Text:  "The city holds a wall.",
+		},
 		[]string{"berlin", "holds"},
 		snippetLengthCeiling,
 	)
@@ -94,8 +91,12 @@ func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
 	t.Parallel()
 
 	snippet := pagecontents.PageContentsFrom(
-		"", "Berlin holds a wall. The wall and the river of Berlin.",
-		pagecontents.LinkCounts{}, []string{"berlin", "river"}, snippetLengthCeiling,
+		pagecontents.ExtractedPage{
+			Title: "",
+			Text:  "Berlin holds a wall. The wall and the river of Berlin.",
+		},
+		[]string{"berlin", "river"},
+		snippetLengthCeiling,
 	).Snippet
 
 	if snippet != "The wall and the river of Berlin." {
@@ -107,8 +108,12 @@ func TestTheSnippetIsThePassageThatHoldsTheQueryPhraseWhenBothHoldTheSameWords(t
 	t.Parallel()
 
 	snippet := pagecontents.PageContentsFrom(
-		"", "The wall stands near Berlin. The Berlin wall is famous.",
-		pagecontents.LinkCounts{}, []string{"berlin", "wall"}, snippetLengthCeiling,
+		pagecontents.ExtractedPage{
+			Title: "",
+			Text:  "The wall stands near Berlin. The Berlin wall is famous.",
+		},
+		[]string{"berlin", "wall"},
+		snippetLengthCeiling,
 	).Snippet
 
 	if snippet != "The Berlin wall is famous." {
@@ -120,9 +125,7 @@ func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesAnswerTheQueryTheSame(t *te
 	t.Parallel()
 
 	snippet := pagecontents.PageContentsFrom(
-		"",
-		"Berlin is old. Berlin is new.",
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{Text: "Berlin is old. Berlin is new."},
 		[]string{"berlin"},
 		shortSnippetLengthCeiling,
 	).Snippet
@@ -136,8 +139,12 @@ func TestTheSnippetJoinsShortSentencesUpToTheLengthCeiling(t *testing.T) {
 	t.Parallel()
 
 	snippet := pagecontents.PageContentsFrom(
-		"", "One. Two. Three. This other sentence holds no query word at all.",
-		pagecontents.LinkCounts{}, []string{"three"}, snippetLengthCeiling,
+		pagecontents.ExtractedPage{
+			Title: "",
+			Text:  "One. Two. Three. This other sentence holds no query word at all.",
+		},
+		[]string{"three"},
+		snippetLengthCeiling,
 	).Snippet
 
 	if snippet != "One. Two. Three." {
@@ -149,7 +156,9 @@ func TestTheSnippetIsCutAtAWordBoundaryBeforeTheLengthCeiling(t *testing.T) {
 	t.Parallel()
 
 	snippet := pagecontents.PageContentsFrom(
-		"", textOfThePage, pagecontents.LinkCounts{}, []string{"city"}, snippetLengthCeiling,
+		pagecontents.ExtractedPage{Text: textOfThePage},
+		[]string{"city"},
+		snippetLengthCeiling,
 	).Snippet
 
 	if len([]rune(snippet)) > snippetLengthCeiling ||
@@ -165,9 +174,7 @@ func TestTheSnippetOfATextWithoutAQueryWordIsItsFirstPassage(t *testing.T) {
 	t.Parallel()
 
 	snippet := pagecontents.PageContentsFrom(
-		"",
-		"Über kurz oder lang. Und dann.",
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{Text: "Über kurz oder lang. Und dann."},
 		[]string{"paris"},
 		shortSnippetLengthCeiling,
 	).Snippet
@@ -181,9 +188,7 @@ func TestTheTextCarriesTheTitleOfThePageWithItsSpacesCollapsed(t *testing.T) {
 	t.Parallel()
 
 	pageContents := pagecontents.PageContentsFrom(
-		"Berlin |\n    the city",
-		textOfThePage,
-		pagecontents.LinkCounts{},
+		pagecontents.ExtractedPage{Title: "Berlin |\n    the city", Text: textOfThePage},
 		[]string{"berlin"},
 		snippetLengthCeiling,
 	)
@@ -193,5 +198,28 @@ func TestTheTextCarriesTheTitleOfThePageWithItsSpacesCollapsed(t *testing.T) {
 			"the text carries the title %q, want the title of the page with its spaces collapsed",
 			pageContents.Title,
 		)
+	}
+}
+
+func TestTheAuxiliaryTextGivesHitsButNoWordsAndNoSnippet(t *testing.T) {
+	t.Parallel()
+
+	contents := pagecontents.PageContentsFrom(
+		pagecontents.ExtractedPage{
+			Title:         "",
+			Text:          "The city holds a wall.",
+			AuxiliaryText: "Berlin holds a river.",
+		},
+		[]string{"berlin", "holds"},
+		snippetLengthCeiling,
+	)
+
+	if contents.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
+		contents.HitsPerQueryWord[yacymodel.WordHash("holds")] != 2 ||
+		contents.QueryPhraseHits != 1 ||
+		contents.AmountOfWords != len(yacymodel.WordsIn("The city holds a wall.")) ||
+		strings.Contains(contents.Snippet, "Berlin") {
+		t.Fatalf("the auxiliary text gives %+v, want hits of berlin 1, of holds 2, "+
+			"1 phrase hit, the words of the text and a snippet from the text", contents)
 	}
 }

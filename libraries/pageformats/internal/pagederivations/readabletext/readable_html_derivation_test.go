@@ -54,7 +54,7 @@ func TestReadableHTMLDerivationFlattensMarkup(t *testing.T) {
 	}
 }
 
-func TestReadableHTMLDerivationLeavesOutFootnoteMarks(t *testing.T) {
+func TestReadableHTMLDerivationLeavesOutFootnoteMarksAndNotes(t *testing.T) {
 	body, derived, err := readabletext.FromReadableHTML().BodyFrom(
 		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
@@ -64,8 +64,8 @@ func TestReadableHTMLDerivationLeavesOutFootnoteMarks(t *testing.T) {
 	if err != nil || !derived {
 		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
-	if readableText := bytesOf(t, body); readableText != "TCP.\nStevens." {
-		t.Fatalf("footnote marks survived: %q", readableText)
+	if readableText := bytesOf(t, body); readableText != "TCP." {
+		t.Fatalf("footnotes survived: %q", readableText)
 	}
 }
 

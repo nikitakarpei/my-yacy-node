@@ -19,17 +19,17 @@ func TestTheExtractedPageOfAnHTMLPageCountsItsLinksAndHoldsItsTitleAndText(t *te
 		</body></html>`),
 	})
 
-	if extractedPage.title != "Weather in Berlin" {
+	if extractedPage.Title != "Weather in Berlin" {
 		t.Fatalf("the extractedPage page holds the title %q, want %q",
-			extractedPage.title, "Weather in Berlin")
+			extractedPage.Title, "Weather in Berlin")
 	}
-	if !strings.Contains(extractedPage.text, "Rain is falling") {
+	if !strings.Contains(extractedPage.Text, "Rain is falling") {
 		t.Fatalf("the extractedPage page holds the text %q, want the text of the page",
-			extractedPage.text)
+			extractedPage.Text)
 	}
-	if extractedPage.linkCounts.LocalLinks != 2 || extractedPage.linkCounts.ExternalLinks != 1 {
+	if extractedPage.LinkCounts.LocalLinks != 2 || extractedPage.LinkCounts.ExternalLinks != 1 {
 		t.Fatalf("the extractedPage page holds the link counts %+v, want 2 local and 1 external",
-			extractedPage.linkCounts)
+			extractedPage.LinkCounts)
 	}
 }
 
@@ -42,7 +42,7 @@ func TestTheExtractedPageOfAPageOfNoKnownFormatHoldsNothing(t *testing.T) {
 		body:        []byte{0x00, 0x01, 0x02},
 	})
 
-	if extractedPage.title != "" || extractedPage.text != "" {
+	if extractedPage.Title != "" || extractedPage.Text != "" {
 		t.Fatalf("the extractedPage page reads %+v, want nothing", extractedPage)
 	}
 }

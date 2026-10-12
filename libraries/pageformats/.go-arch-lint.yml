@@ -86,6 +86,7 @@ deps:
       - xnet
   pagederivationsreadabletext:
     mayDependOn:
+      - articleauxiliary
       - articlefootnotes
       - articlemediawikichrome
       - articlepermalinks

@@ -110,15 +110,13 @@ func (reader pageReader) pageContentsOfTheFetchedPage(
 	if err != nil {
 		return pagecontents.PageContents{}, readOutcomeFromAnExtractionFailure(err)
 	}
-	text, derived := reader.textOfTheExtractedDocument(ctx, extractedDocument, pageURL)
+	extractedPage, derived := reader.extractedPageFrom(ctx, extractedDocument, pageURL)
 	if !derived {
 		return pagecontents.PageContents{}, pageWasUnreadable
 	}
 
 	return pagecontents.PageContentsFrom(
-		extractedDocument.Title,
-		string(text),
-		linkCountsOfTheExtractedDocument(extractedDocument),
+		extractedPage,
 		queryWords,
 		reader.snippetLengthCeiling,
 	), pageWasRead
@@ -129,15 +127,6 @@ func robotsRefusalsOf(fetchedPage pagefetch.FetchedPage) robotsmeta.Refusals {
 		With(htmlmeta.RefusalsOf(fetchedPage.ContentType, fetchedPage.Body))
 }
 
-func linkCountsOfTheExtractedDocument(
-	extractedDocument documentextraction.Document,
-) pagecontents.LinkCounts {
-	return pagecontents.LinkCounts{
-		LocalLinks:    extractedDocument.LocalLinks,
-		ExternalLinks: extractedDocument.ExternalLinks,
-	}
-}
-
 func readOutcomeFromAnExtractionFailure(extractionFailure error) readOutcome {
 	if errors.Is(extractionFailure, documentextraction.ErrUnsupportedMediaType) {
 		return pageWasOfAnUnsupportedKind
@@ -146,19 +135,41 @@ func readOutcomeFromAnExtractionFailure(extractionFailure error) readOutcome {
 	return pageWasUnreadable
 }
 
-func (reader pageReader) textOfTheExtractedDocument(
+func (reader pageReader) extractedPageFrom(
 	ctx context.Context,
 	extractedDocument documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
-) ([]byte, bool) {
+) (pagecontents.ExtractedPage, bool) {
 	readableText, readableTextDerived := reader.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatReadableText, extractedDocument, pageURL,
 	)
 	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
-		return readableText, true
+		auxiliaryText, _ := reader.formatDerivations.BytesIn(
+			ctx, documentextraction.FormatAuxiliaryText, extractedDocument, pageURL,
+		)
+		return pagecontents.ExtractedPage{
+			Title:         extractedDocument.Title,
+			Text:          string(readableText),
+			AuxiliaryText: string(auxiliaryText),
+			LinkCounts:    linkCountsOfTheExtractedDocument(extractedDocument),
+		}, true
 	}
-
-	return reader.formatDerivations.BytesIn(
+	fullText, fullTextDerived := reader.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatFullText, extractedDocument, pageURL,
 	)
+
+	return pagecontents.ExtractedPage{
+		Title:      extractedDocument.Title,
+		Text:       string(fullText),
+		LinkCounts: linkCountsOfTheExtractedDocument(extractedDocument),
+	}, fullTextDerived
+}
+
+func linkCountsOfTheExtractedDocument(
+	extractedDocument documentextraction.Document,
+) pagecontents.LinkCounts {
+	return pagecontents.LinkCounts{
+		LocalLinks:    extractedDocument.LocalLinks,
+		ExternalLinks: extractedDocument.ExternalLinks,
+	}
 }
