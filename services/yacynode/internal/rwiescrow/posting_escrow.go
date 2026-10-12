@@ -68,11 +68,7 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 	return nil
 }
 
-func (e *PostingEscrow) URLStored(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-	_ yacymodel.Optional[yacymodel.CalendarDay],
-) error {
+func (e *PostingEscrow) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
 	waiting, err := e.postingsWaitingFor(tx, hash)
 	if err != nil {
 		return err

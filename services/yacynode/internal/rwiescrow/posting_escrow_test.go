@@ -113,7 +113,7 @@ func (h *harness) storeURL(t *testing.T, hash yacymodel.URLHash) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.escrow.URLStored(tx, hash, yacymodel.Optional[yacymodel.CalendarDay]{})
+		return h.escrow.URLStored(tx, hash)
 	}); err != nil {
 		t.Fatalf("URLStored: %v", err)
 	}

@@ -22,18 +22,12 @@ type rankedURL struct {
 	hash yacymodel.URLHash
 }
 
-type stalenessRanking struct {
-	order     *vault.Set[rankedURL]
-	freshness *vault.Collection[yacymodel.URLHash, freshnessRank]
+func rankedURLOf(metadata yacymodel.URLMetadata) rankedURL {
+	return rankedURL{rank: rankOf(metadata.Freshness()), hash: metadata.Hash}
 }
 
-func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
-	order, freshness, err := registerStalenessRanking(v)
-	if err != nil {
-		return nil, err
-	}
-
-	return &stalenessRanking{order: order, freshness: freshness}, nil
+type stalenessRanking struct {
+	order *vault.ValueIndex[yacymodel.URLMetadata, rankedURL]
 }
 
 func (o *stalenessRanking) StalestURLs(tx *vault.Txn, limit int) ([]yacymodel.URLHash, error) {
@@ -57,38 +51,4 @@ func (o *stalenessRanking) StalestURLs(tx *vault.Txn, limit int) ([]yacymodel.UR
 	return stalest, nil
 }
 
-func (o *stalenessRanking) URLStored(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-	freshness yacymodel.Optional[yacymodel.CalendarDay],
-) error {
-	rank := rankOf(freshness)
-	if _, err := o.order.Add(tx, rankedURL{rank: rank, hash: hash}); err != nil {
-		return fmt.Errorf("record staleness order: %w", err)
-	}
-	if _, err := o.freshness.Put(tx, hash, rank); err != nil {
-		return fmt.Errorf("record staleness freshness: %w", err)
-	}
-
-	return nil
-}
-
-var _ StalenessRanking = (*stalenessRanking)(nil)
-
-func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
-	rank, found, err := o.freshness.Get(tx, hash)
-	if err != nil {
-		return fmt.Errorf("read staleness freshness: %w", err)
-	}
-	if !found {
-		return nil
-	}
-	if _, err := o.order.Remove(tx, rankedURL{rank: rank, hash: hash}); err != nil {
-		return fmt.Errorf("drop staleness order: %w", err)
-	}
-	if _, err := o.freshness.Delete(tx, hash); err != nil {
-		return fmt.Errorf("drop staleness freshness: %w", err)
-	}
-
-	return nil
-}
+var _ StaleURLSource = (*stalenessRanking)(nil)

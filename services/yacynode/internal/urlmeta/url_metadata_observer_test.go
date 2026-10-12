@@ -18,11 +18,7 @@ type recordingObserver struct {
 	fail   bool
 }
 
-func (r *recordingObserver) URLStored(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-	_ yacymodel.Optional[yacymodel.CalendarDay],
-) error {
+func (r *recordingObserver) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
 	tx.RunAfterCommit(func() { r.stored = append(r.stored, hash) })
 	if r.fail {
 		return fmt.Errorf("observer refused store")
@@ -59,7 +55,7 @@ func openObservedModule(
 		}
 	})
 
-	directory, evictor, _, receiver, err := urlmeta.Open(v, watchers...)
+	directory, evictor, _, receiver, err := urlmeta.Open(context.Background(), v, nil, watchers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

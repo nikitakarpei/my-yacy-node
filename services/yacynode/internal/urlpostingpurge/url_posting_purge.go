@@ -15,11 +15,7 @@ type URLPostingPurge struct {
 	observer   Observer
 }
 
-func (p URLPostingPurge) URLStored(
-	*vault.Txn,
-	yacymodel.URLHash,
-	yacymodel.Optional[yacymodel.CalendarDay],
-) error {
+func (p URLPostingPurge) URLStored(*vault.Txn, yacymodel.URLHash) error {
 	return nil
 }
 

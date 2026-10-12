@@ -138,7 +138,7 @@ func assembleNode(
 	metrics.NewVaultCapacityMetrics(registry, storage)
 	metrics.NewVaultBucketRecordMetrics(registry, storage)
 
-	urlMetadataStaleness, err := urlmetastaleness.Open(storage)
+	urlMetadataStaleness, stalenessProjection, err := urlmetastaleness.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("url metadata staleness: %w", err)
 	}
@@ -224,8 +224,9 @@ func assembleNode(
 	)
 
 	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
+		ctx,
 		storage,
-		urlMetadataStaleness,
+		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		postingEscrow,
 		urlPostingPurge,
 	)
