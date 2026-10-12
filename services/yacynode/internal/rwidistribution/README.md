@@ -31,9 +31,11 @@ The ring is divided into equal sectors. A batch starts in the sector that holds
 the posting that is most late. It then takes the postings from the next sectors
 of the ring. Thus each batch goes to a small number of peers.
 
-A peer that declines an offer gets no new replicas, and the postings it holds are
-still offered to it. When it asks for a pause, the posting waits that pause if
-the pause is longer than the interval.
+A peer that declines an offer goes into a cooldown. During the cooldown, the
+peer gets no new replicas, and the postings it holds are still offered to it. A
+posting that needs a replica on that peer waits until the cooldown ends. It is
+not offered to a peer farther away. When the peer asks for a pause, the posting
+waits that pause if the pause is longer than the interval.
 
 The node deletes a posting when the redundancy is reached in holders closer to
 the posting's DHT position than this node. A holder counts only while the node

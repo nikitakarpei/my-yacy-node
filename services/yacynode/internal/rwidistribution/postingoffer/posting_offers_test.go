@@ -111,8 +111,8 @@ func withPostingOfferDefaults(options postingOfferOptions) postingOfferOptions {
 	return options
 }
 
-func (h postingOfferHarness) holdBack(peer yacymodel.Hash) {
-	h.eligibility.OfferDeclined(peer, 0)
+func (h postingOfferHarness) declineOffer(peer yacymodel.Hash, requestedPause time.Duration) {
+	h.eligibility.OfferDeclined(peer, requestedPause)
 }
 
 func (h postingOfferHarness) storePosting(
@@ -561,37 +561,74 @@ func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
 	}
 }
 
-func TestDueOffersToNextPeerWhenClosestIsHeldBack(t *testing.T) {
+func TestDueOffersOnlyToWindowPeersOutOfCooldown(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peers := peerSeeds("p1", "p2")
+	peers := peerSeeds("p1", "p2", "p3")
 	harness := openPostingOffers(t, postingOfferOptions{
 		postings:     storedPostings(fakePosting(word, url)),
 		reachability: fakeReachability{reachable: peers},
+		redundancy:   2,
 	})
 
 	harness.storePosting(t, word, url)
 
 	first := harness.dueOffer(t, peers)
-	if len(first.Peers) != 1 {
-		t.Fatalf("offer = %+v, want one posting offered to the closest peer", first)
+	if len(first.Peers) != 2 || first.PauseForPeersInCooldown != 0 {
+		t.Fatalf("offer = %+v, want both window peers and no pause", first)
 	}
-	closest := first.Peers[0].Hash
+	inCooldown, outOfCooldown := first.Peers[0].Hash, first.Peers[1].Hash
 
-	harness.holdBack(closest)
+	harness.declineOffer(inCooldown, 0)
 
 	second := harness.dueOffer(t, peers)
-	if len(second.Peers) != 1 {
-		t.Fatalf("offer = %+v, want one posting still offered somewhere", second)
-	}
-	if next := second.Peers[0].Hash; next == closest {
+	if len(second.Peers) != 1 || second.Peers[0].Hash != outOfCooldown {
 		t.Fatalf(
-			"Peers[0] = %v, want a peer other than the held-back closest peer %v",
-			next, closest,
+			"Peers = %v, want only %v: a peer past the window never stands in for %v",
+			second.Peers, outOfCooldown, inCooldown,
+		)
+	}
+	if second.AcceptancesNeeded != 2 {
+		t.Fatalf("AcceptancesNeeded = %d, want both missing replicas", second.AcceptancesNeeded)
+	}
+	if second.PauseForPeersInCooldown != recipientCooldown {
+		t.Fatalf(
+			"PauseForPeersInCooldown = %v, want the cooldown left %v",
+			second.PauseForPeersInCooldown, recipientCooldown,
 		)
 	}
 }
 
-func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
+func TestDueWaitsForTheLongestCooldownWhenEveryWindowPeerIsInCooldown(t *testing.T) {
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peers := peerSeeds("p1", "p2", "p3")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		redundancy:   2,
+	})
+
+	harness.storePosting(t, word, url)
+
+	windowPeers := harness.dueOffer(t, peers).Peers
+	harness.declineOffer(windowPeers[0].Hash, 0)
+	harness.declineOffer(windowPeers[1].Hash, time.Hour)
+
+	offer := harness.dueOffer(t, peers)
+	if len(offer.Peers) != 0 {
+		t.Fatalf("Peers = %v, want none while every window peer is in cooldown", offer.Peers)
+	}
+	if offer.AcceptancesNeeded != 2 {
+		t.Fatalf("AcceptancesNeeded = %d, want both missing replicas", offer.AcceptancesNeeded)
+	}
+	if offer.PauseForPeersInCooldown != time.Hour {
+		t.Fatalf(
+			"PauseForPeersInCooldown = %v, want the longest cooldown left %v",
+			offer.PauseForPeersInCooldown, time.Hour,
+		)
+	}
+}
+
+func TestDueKeepsHolderInCooldown(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peers := peerSeeds("peer")
 	harness := openPostingOffers(t, postingOfferOptions{
@@ -601,7 +638,7 @@ func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
 
 	harness.storePosting(t, word, url)
 	harness.recordAccepted(t, peers[0].Hash, fakePosting(word, url))
-	harness.holdBack(peers[0].Hash)
+	harness.declineOffer(peers[0].Hash, 0)
 
 	offer := harness.dueOffer(t, peers)
 	if len(offer.StaleHolders) != 0 {
@@ -614,39 +651,7 @@ func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
 		t.Fatalf("AcceptancesNeeded = %d, want no further replicas", offer.AcceptancesNeeded)
 	}
 	if len(offer.Peers) != 1 || offer.Peers[0].Hash != peers[0].Hash {
-		t.Fatalf("Peers = %v, want the held-back peer that holds the replica", offer.Peers)
-	}
-}
-
-func TestDueNarrowsResponsibilityWindowToPeersInCooldown(t *testing.T) {
-	word, url := yacymodel.WordHash("w1"), urlHash()
-	peers := peerSeeds("p1", "p2", "p3")
-	harness := openPostingOffers(t, postingOfferOptions{
-		postings:     storedPostings(fakePosting(word, url)),
-		reachability: fakeReachability{reachable: peers},
-	})
-
-	harness.storePosting(t, word, url)
-
-	closest := harness.dueOffer(t, peers).Peers[0].Hash
-	harness.holdBack(closest)
-
-	eligible := harness.dueOffer(t, peers)
-	harness.recordAccepted(t, eligible.Peers[0].Hash, fakePosting(word, url))
-
-	offer := harness.dueOffer(t, peers)
-	if offer.AcceptancesNeeded != 1 {
-		t.Fatalf(
-			"AcceptancesNeeded = %d, want one replica needed: a peer in cooldown does not widen"+
-				" the responsibility window",
-			offer.AcceptancesNeeded,
-		)
-	}
-	if len(offer.StaleHolders) != 0 {
-		t.Fatalf(
-			"StaleHolders = %+v, want none while the posting is below redundancy",
-			offer.StaleHolders,
-		)
+		t.Fatalf("Peers = %v, want the peer in cooldown that holds the replica", offer.Peers)
 	}
 }
 

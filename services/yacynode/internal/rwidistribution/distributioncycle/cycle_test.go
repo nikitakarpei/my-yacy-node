@@ -511,7 +511,7 @@ func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 	}
 }
 
-func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
+func TestCycleWaitsForTheWindowPeerInCooldown(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
@@ -534,17 +534,24 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 	store(t, h.v, h.schedule, word, url)
 
 	h.runCycle(t)
-	clk.at = clk.at.Add(2 * h.offerInterval.Shortest)
+	clk.at = now.Add(2 * h.offerInterval.Shortest)
 	h.runCycle(t)
 
-	if len(h.transfers.offered) != 2 {
-		t.Fatalf("offered = %v, want one offer from each cycle", h.transfers.offered)
-	}
-	if h.transfers.offered[0].Peer.Hash == h.transfers.offered[1].Peer.Hash {
+	if len(h.transfers.offered) != 1 {
 		t.Fatalf(
-			"both offers went to %v, want the second cycle to try another peer",
-			h.transfers.offered[0].Peer.Hash,
+			"offered = %v, want only the first offer: the closest peer is in cooldown",
+			h.transfers.offered,
 		)
+	}
+
+	clk.at = now.Add(time.Hour - time.Second)
+	if due := h.duePostings(t, 10); len(due) != 0 {
+		t.Fatalf("due = %v, want none before the cooldown of the closest peer ends", due)
+	}
+
+	clk.at = now.Add(time.Hour)
+	if due := h.duePostings(t, 10); len(due) != 1 || due[0].Word != word {
+		t.Fatalf("due = %v, want [word] once the cooldown of the closest peer ends", due)
 	}
 }
 
