@@ -27,6 +27,8 @@ type EngineRecords interface {
 	Get([]byte) ([]byte, error)
 	Put(key, record []byte) (replacedRecord []byte, err error)
 	Delete(key []byte) (deletedRecord []byte, err error)
+	PutAbsent(key, record []byte) error
+	DeleteHeld(key, heldRecord []byte) error
 	Len() (int, error)
 	Scan(keys KeyRange, fn func(key, value []byte) (bool, error)) error
 }

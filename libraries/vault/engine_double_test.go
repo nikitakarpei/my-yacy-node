@@ -189,6 +189,18 @@ func (b doubleBucket) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
+func (b doubleBucket) PutAbsent(key []byte, record []byte) error {
+	b.entries[string(key)] = copyBytes(record)
+
+	return nil
+}
+
+func (b doubleBucket) DeleteHeld(key []byte, _ []byte) error {
+	delete(b.entries, string(key))
+
+	return nil
+}
+
 func (b doubleBucket) Len() (int, error) {
 	return len(b.entries), nil
 }

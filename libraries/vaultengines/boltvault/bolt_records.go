@@ -46,6 +46,22 @@ func (b boltRecords) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
+func (b boltRecords) PutAbsent(key []byte, record []byte) error {
+	if err := b.entries.Put(key, record); err != nil {
+		return fmt.Errorf("store: %w", err)
+	}
+
+	return adjustLength(b.lengths, b.name, 1)
+}
+
+func (b boltRecords) DeleteHeld(key []byte, _ []byte) error {
+	if err := b.entries.Delete(key); err != nil {
+		return fmt.Errorf("delete: %w", err)
+	}
+
+	return adjustLength(b.lengths, b.name, -1)
+}
+
 func (b boltRecords) Len() (int, error) {
 	return lengthOf(b.lengths, b.name)
 }

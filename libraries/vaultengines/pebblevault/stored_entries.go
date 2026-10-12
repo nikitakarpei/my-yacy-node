@@ -56,12 +56,21 @@ func (e storedEntries) store(key, value []byte) (replacedValue []byte, err error
 	if err != nil {
 		return nil, err
 	}
+
+	return replacedValue, e.storeAtAbsoluteKey(absoluteKey, value)
+}
+
+func (e storedEntries) storeAtAbsoluteKey(absoluteKey, value []byte) error {
 	if err := e.changes.Set(absoluteKey, value, pebble.NoSync); err != nil {
-		return nil, fmt.Errorf("store: %w", err)
+		return fmt.Errorf("store: %w", err)
 	}
 	e.footprint.addKeyHolding(absoluteKey, value)
 
-	return replacedValue, nil
+	return nil
+}
+
+func (e storedEntries) storeAbsent(key, value []byte) error {
+	return e.storeAtAbsoluteKey(e.region.absoluteKeyFrom(key), value)
 }
 
 func (e storedEntries) remove(key []byte) (removedValue []byte, err error) {
@@ -70,12 +79,21 @@ func (e storedEntries) remove(key []byte) (removedValue []byte, err error) {
 	if err != nil || removedValue == nil {
 		return nil, err
 	}
+
+	return removedValue, e.removeAtAbsoluteKey(absoluteKey)
+}
+
+func (e storedEntries) removeAtAbsoluteKey(absoluteKey []byte) error {
 	if err := e.changes.Delete(absoluteKey, pebble.NoSync); err != nil {
-		return nil, fmt.Errorf("delete: %w", err)
+		return fmt.Errorf("delete: %w", err)
 	}
 	e.footprint.addKeyHolding(absoluteKey, nil)
 
-	return removedValue, nil
+	return nil
+}
+
+func (e storedEntries) removeHeld(key []byte) error {
+	return e.removeAtAbsoluteKey(e.region.absoluteKeyFrom(key))
 }
 
 func (e storedEntries) merge(key, operand []byte) error {

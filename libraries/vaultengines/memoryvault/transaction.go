@@ -53,6 +53,18 @@ func (b memRecords) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
+func (b memRecords) PutAbsent(key []byte, record []byte) error {
+	b.entries[string(key)] = copyValue(record)
+
+	return nil
+}
+
+func (b memRecords) DeleteHeld(key []byte, _ []byte) error {
+	delete(b.entries, string(key))
+
+	return nil
+}
+
 func (b memRecords) Len() (int, error) {
 	return len(b.entries), nil
 }
