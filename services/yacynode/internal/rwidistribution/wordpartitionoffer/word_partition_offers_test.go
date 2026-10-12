@@ -85,7 +85,7 @@ func openHarness(t *testing.T, opts options) *harness {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
 	h.offers = wordpartitionoffer.New(
-		v, undelivered, h.holders, index, h.reachability, h.eligibility, h.observer,
+		v, undelivered, h.holders, index, h.reachability, h.eligibility, h.observer, h.observer,
 		configFrom(opts),
 	)
 
@@ -425,10 +425,20 @@ func (f fakeEligibility) IsExcluded(peer yacymodel.Hash) bool {
 
 type fakeObserver struct {
 	peersPerSector []int
+	skips          []skip
+}
+
+type skip struct {
+	offerKind  string
+	skipReason string
 }
 
 func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int) {
 	f.peersPerSector = peersPerSector
+}
+
+func (f *fakeObserver) ObserveWordPartitionSkipped(offerKind string, skipReason string) {
+	f.skips = append(f.skips, skip{offerKind: offerKind, skipReason: skipReason})
 }
 
 func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordPartition(
@@ -834,5 +844,110 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	}
 	if !slices.Equal(offer.ResponsiblePeers, []yacymodel.Hash{holder.Hash, nextPeer.Hash}) {
 		t.Fatalf("ResponsiblePeers = %v, want the holder and the next peer", offer.ResponsiblePeers)
+	}
+}
+
+func TestAnUndeliveredWordPartitionWithARecipientInCooldownIsReportedAsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	peer := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.eligibility.cooldowns[peer.Hash] = time.Minute
+
+	h.dueNow(t, wordpartitionoffer.Cursor{}, peer)
+
+	assertSkips(
+		t,
+		h,
+		wordpartitionoffer.UndeliveredOffer,
+		wordpartitionoffer.SkipRecipientInCooldown,
+	)
+}
+
+func TestAnUndeliveredWordPartitionInRetryIsReportedAsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.recordNoHolders(t, wordPartition)
+
+	h.dueNow(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+
+	assertSkips(
+		t,
+		h,
+		wordpartitionoffer.UndeliveredOffer,
+		wordpartitionoffer.SkipWordPartitionInRetry,
+	)
+}
+
+func TestAnUndeliveredWordPartitionWithoutRecipientsIsReportedAsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	absentHolder := peerAfter(wordPartition, 1<<40)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.recordHolders(t, wordPartition, absentHolder.Hash)
+	h.reachability.recentlyReachable[absentHolder.Hash] = true
+
+	h.dueNow(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+
+	assertSkips(t, h, wordpartitionoffer.UndeliveredOffer, wordpartitionoffer.SkipNoRecipient)
+}
+
+func TestADueRefreshWithARecipientInCooldownIsReportedAsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	holder := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.clock = h.clock.Add(refreshInterval)
+	h.eligibility.cooldowns[holder.Hash] = time.Minute
+
+	h.dueNow(t, wordpartitionoffer.Cursor{}, holder)
+
+	assertSkips(t, h, wordpartitionoffer.RefreshOffer, wordpartitionoffer.SkipRecipientInCooldown)
+}
+
+func TestADueRefreshWithoutRecipientsIsReportedAsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	absentHolder := peerAfter(wordPartition, 1<<40)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, absentHolder.Hash)
+	h.reachability.recentlyReachable[absentHolder.Hash] = true
+	h.clock = h.clock.Add(refreshInterval)
+
+	h.dueNow(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+
+	assertSkips(t, h, wordpartitionoffer.RefreshOffer, wordpartitionoffer.SkipNoRecipient)
+}
+
+func TestAnOfferedWordPartitionIsNotReportedAsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	holder := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(2)...)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.clock = h.clock.Add(refreshInterval)
+
+	offers, _ := h.dueNow(t, wordpartitionoffer.Cursor{}, holder)
+
+	if len(offers) == 0 || len(h.observer.skips) != 0 {
+		t.Fatalf("offers = %v and skips = %v, want an offer and no skip", offers, h.observer.skips)
+	}
+}
+
+func assertSkips(
+	t *testing.T,
+	h *harness,
+	offerKind wordpartitionoffer.OfferKind,
+	skipReason wordpartitionoffer.SkipReason,
+) {
+	t.Helper()
+
+	want := []skip{{offerKind: string(offerKind), skipReason: string(skipReason)}}
+	if !slices.Equal(h.observer.skips, want) {
+		t.Fatalf("skips = %v, want %v", h.observer.skips, want)
 	}
 }

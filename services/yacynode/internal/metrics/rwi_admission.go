@@ -11,7 +11,7 @@ type RWIAdmissionMetrics struct {
 }
 
 func NewRWIAdmissionMetrics(registry prometheus.Registerer) *RWIAdmissionMetrics {
-	postingsRefused := counterPerLabelFor(
+	postingsRefused := counterPerLabelsFor(
 		"yacynode_rwiadmission_postings_refused_total",
 		"Inbound postings the node refused, by the reason it refused them.",
 		"reason",

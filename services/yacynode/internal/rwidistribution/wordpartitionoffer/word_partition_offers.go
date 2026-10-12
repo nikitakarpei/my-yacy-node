@@ -43,9 +43,28 @@ type PeerEligibility interface {
 	IsExcluded(peer yacymodel.Hash) bool
 }
 
-type Observer interface {
+type DHTRingObserver interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
+
+type SkipObserver interface {
+	ObserveWordPartitionSkipped(offerKind string, skipReason string)
+}
+
+type OfferKind string
+
+const (
+	UndeliveredOffer OfferKind = "undelivered"
+	RefreshOffer     OfferKind = "refresh"
+)
+
+type SkipReason string
+
+const (
+	SkipRecipientInCooldown  SkipReason = "recipient_in_cooldown"
+	SkipWordPartitionInRetry SkipReason = "word_partition_in_retry"
+	SkipNoRecipient          SkipReason = "no_recipient"
+)
 
 type Config struct {
 	Partitions       yacymodel.DHTRingPartitions
@@ -55,17 +74,18 @@ type Config struct {
 }
 
 type WordPartitionOffers struct {
-	vault        *vault.Vault
-	undelivered  *undeliveredpostings.UndeliveredPostings
-	holders      *wordpartitionholders.Holders
-	postings     PostingIndex
-	reachability Reachability
-	eligibility  PeerEligibility
-	observer     Observer
-	config       Config
+	vault           *vault.Vault
+	undelivered     *undeliveredpostings.UndeliveredPostings
+	holders         *wordpartitionholders.Holders
+	postings        PostingIndex
+	reachability    Reachability
+	eligibility     PeerEligibility
+	dhtRingObserver DHTRingObserver
+	skipObserver    SkipObserver
+	config          Config
 }
 
-//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
+//nolint:revive // argument-limit: eight explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
 	undelivered *undeliveredpostings.UndeliveredPostings,
@@ -73,23 +93,25 @@ func New(
 	postings PostingIndex,
 	reachability Reachability,
 	eligibility PeerEligibility,
-	observer Observer,
+	dhtRingObserver DHTRingObserver,
+	skipObserver SkipObserver,
 	config Config,
 ) *WordPartitionOffers {
 	return &WordPartitionOffers{
-		vault:        v,
-		undelivered:  undelivered,
-		holders:      holders,
-		postings:     postings,
-		reachability: reachability,
-		eligibility:  eligibility,
-		observer:     observer,
-		config:       config,
+		vault:           v,
+		undelivered:     undelivered,
+		holders:         holders,
+		postings:        postings,
+		reachability:    reachability,
+		eligibility:     eligibility,
+		dhtRingObserver: dhtRingObserver,
+		skipObserver:    skipObserver,
+		config:          config,
 	}
 }
 
 func (o *WordPartitionOffers) ReportPeersAcceptingRemoteIndex(reachablePeers []yacymodel.Seed) {
-	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+	o.dhtRingObserver.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
 		yacymodel.SeedsPerDHTRingSector(peersAcceptingRemoteIndex(reachablePeers)),
 	)
 }
@@ -174,13 +196,17 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if isInRetry {
+			o.reportSkip(UndeliveredOffer, SkipWordPartitionInRetry)
+
 			continue
 		}
 		peers, err := o.peersOf(ctx, tx, undelivered[0].WordPartition, acceptingPeers)
 		if err != nil {
 			return err
 		}
-		if peers.mustWaitFor(o.eligibility) {
+		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
+			o.reportSkip(UndeliveredOffer, skipReason)
+
 			continue
 		}
 		offer, err := o.undeliveredOfferFor(tx, undelivered, peers)
@@ -214,6 +240,10 @@ func (o *WordPartitionOffers) nextUndeliveredWordPartition(
 	)
 
 	return undelivered, err
+}
+
+func (o *WordPartitionOffers) reportSkip(offerKind OfferKind, skipReason SkipReason) {
+	o.skipObserver.ObserveWordPartitionSkipped(string(offerKind), string(skipReason))
 }
 
 func (o *WordPartitionOffers) peersOf(
@@ -367,7 +397,9 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		if peers.mustWaitFor(o.eligibility) {
+		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
+			o.reportSkip(RefreshOffer, skipReason)
+
 			continue
 		}
 		offer, err := o.refreshOfferFor(tx, peers)
