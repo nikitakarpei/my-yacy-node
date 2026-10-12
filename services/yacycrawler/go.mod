@@ -24,6 +24,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/ca
 
 require (
 	github.com/alicebob/miniredis/v2 v2.39.0
+	github.com/jimsmart/grobotstxt v1.0.3
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000

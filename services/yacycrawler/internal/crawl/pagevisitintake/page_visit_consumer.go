@@ -1,6 +1,7 @@
 // Package pagevisitintake pays one pending page visit per delivered message: it claims
-// the URL for that message, has the page visited, and settles the message by what the
-// visit concluded. It takes the next message only when its admission lets it.
+// the URL for that message, lets robots.txt and the host page limit stop the visit, has the
+// page visited, and settles the message by what the visit concluded. It takes the next
+// message only when its admission lets it.
 package pagevisitintake
 
 import (
@@ -16,6 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/robotsexclusion"
 )
 
 type TakenPageVisits interface {
@@ -44,6 +46,13 @@ type PageVisitAllowances interface {
 	) (pagevisitallowance.Allowance, error)
 }
 
+type RobotsExclusion interface {
+	FetchPermissionOf(
+		ctx context.Context,
+		pageURL canonicalurl.CanonicalURL,
+	) robotsexclusion.FetchPermission
+}
+
 type AcceptedOrders interface {
 	OrderOf(ctx context.Context, orderID string) (acceptedorder.AcceptedOrder, error)
 }
@@ -51,6 +60,7 @@ type AcceptedOrders interface {
 type PageVisitConsumer struct {
 	pendingPageVisits pullintake.PendingMessages
 	takenPageVisits   TakenPageVisits
+	robotsExclusion   RobotsExclusion
 	allowances        PageVisitAllowances
 	orders            AcceptedOrders
 	pageVisitor       pagevisit.PageVisitor
@@ -63,6 +73,7 @@ type PageVisitConsumer struct {
 func NewPageVisitConsumer(
 	pendingPageVisits pullintake.PendingMessages,
 	takenPageVisits TakenPageVisits,
+	robotsExclusion RobotsExclusion,
 	allowances PageVisitAllowances,
 	orders AcceptedOrders,
 	pageVisitor pagevisit.PageVisitor,
@@ -73,6 +84,7 @@ func NewPageVisitConsumer(
 	return &PageVisitConsumer{
 		pendingPageVisits: pendingPageVisits,
 		takenPageVisits:   takenPageVisits,
+		robotsExclusion:   robotsExclusion,
 		allowances:        allowances,
 		orders:            orders,
 		pageVisitor:       pageVisitor,
@@ -101,7 +113,13 @@ func (c *PageVisitConsumer) payPageVisit(
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return nil
 	}
-	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
+	if !c.takePageVisit(ctx, message, pendingPageVisit) {
+		return nil
+	}
+	if c.enforceRobotsExclusion(ctx, message, pendingPageVisit) {
+		return nil
+	}
+	if c.enforceHostPageLimit(ctx, message, order, pendingPageVisit) {
 		return nil
 	}
 	outcome := c.pageVisitor.VisitPage(ctx, order, pendingPageVisit)
@@ -122,7 +140,6 @@ func (c *PageVisitConsumer) returnPageVisit(
 func (c *PageVisitConsumer) takePageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
 	took, err := c.takenPageVisits.TakePageVisit(
@@ -136,7 +153,7 @@ func (c *PageVisitConsumer) takePageVisit(
 		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.TakenByAnother)
 		return false
 	}
-	return c.holdsHostPage(ctx, message, order, pendingPageVisit)
+	return true
 }
 
 func (c *PageVisitConsumer) dropPageVisit(
@@ -149,14 +166,35 @@ func (c *PageVisitConsumer) dropPageVisit(
 	message.Acknowledge(ctx)
 }
 
-func (c *PageVisitConsumer) holdsHostPage(
+func (c *PageVisitConsumer) enforceRobotsExclusion(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	allowance, err := c.allowances.HostPageFor(ctx, pendingPageVisit, order.MaxPagesPerHost())
-	return c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err)
+	permission := c.robotsExclusion.FetchPermissionOf(ctx, pendingPageVisit.URL)
+	switch permission.Verdict {
+	case robotsexclusion.Allowed:
+		return false
+	case robotsexclusion.Disallowed:
+		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.DisallowedByRobots)
+	default:
+		c.deferPageVisit(ctx, message, pendingPageVisit, permission.DeferFor)
+	}
+	return true
+}
+
+func (c *PageVisitConsumer) deferPageVisit(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	deferFor time.Duration,
+) {
+	allowance, err := c.allowances.DeferralFor(ctx, pendingPageVisit, deferFor)
+	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
+		return
+	}
+	c.observer.PendingPageVisitDeferred(ctx, pendingPageVisit, allowance.PauseFor)
+	message.ReturnAfter(ctx, allowance.PauseFor)
 }
 
 func (c *PageVisitConsumer) carryOutAllowance(
@@ -175,6 +213,16 @@ func (c *PageVisitConsumer) carryOutAllowance(
 		return false
 	}
 	return true
+}
+
+func (c *PageVisitConsumer) enforceHostPageLimit(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	order acceptedorder.AcceptedOrder,
+	pendingPageVisit pendingpagevisit.PendingPageVisit,
+) bool {
+	allowance, err := c.allowances.HostPageFor(ctx, pendingPageVisit, order.MaxPagesPerHost())
+	return !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err)
 }
 
 func (c *PageVisitConsumer) carryOutConclusion(
@@ -205,20 +253,6 @@ func (c *PageVisitConsumer) completePageVisit(
 ) {
 	message.Acknowledge(ctx)
 	c.observer.PendingPageVisitCompleted(ctx, pendingPageVisit, result)
-}
-
-func (c *PageVisitConsumer) deferPageVisit(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	deferFor time.Duration,
-) {
-	allowance, err := c.allowances.DeferralFor(ctx, pendingPageVisit, deferFor)
-	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
-		return
-	}
-	c.observer.PendingPageVisitDeferred(ctx, pendingPageVisit, allowance.PauseFor)
-	message.ReturnAfter(ctx, allowance.PauseFor)
 }
 
 func (c *PageVisitConsumer) retryPageVisit(

@@ -28,6 +28,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/robotsexclusion"
 	crawledpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/applog"
 	crawledpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/prometheus"
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
@@ -52,6 +53,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
 	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
+	robotsrulesorigin "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/robotsrules/origin"
+	robotsrulesredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/robotsrules/redis"
+	robotsrulesobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/robotsrulesobservers/applog"
+	robotsrulesobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/robotsrulesobservers/prometheus"
+	robotstxtfetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/robotstxtfetchobservers/applog"
+	robotstxtfetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/robotstxtfetchobservers/prometheus"
 	takenpagevisitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/redis"
 )
 
@@ -101,6 +108,14 @@ func RunService(
 		pagevisitrecordobserversapplog.PageVisitRecordLog{},
 		pagevisitrecordobserversprometheus.New(registry),
 	}
+	robotsTxtFetchObservers := robotsrulesorigin.RobotsTxtFetchObservers{
+		robotstxtfetchobserversapplog.RobotsTxtFetchLog{},
+		robotstxtfetchobserversprometheus.New(registry),
+	}
+	robotsRulesObservers := robotsrulesredis.RobotsRulesObservers{
+		robotsrulesobserversapplog.RobotsRulesLog{},
+		robotsrulesobserversprometheus.New(registry),
+	}
 	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
 		return err
@@ -135,6 +150,7 @@ func RunService(
 		frontier,
 		cfg,
 		crawledPageAdmission,
+		buildRobotsExclusion(redisClient, cfg, robotsTxtFetchObservers, robotsRulesObservers),
 		pendingPageVisitObservers,
 		pageFetchObservers,
 		htmlPageReading,
@@ -267,6 +283,7 @@ func buildPageVisitConsumer(
 	frontier *pendingpagevisitsredis.PendingPageVisits,
 	cfg ServiceConfig,
 	crawledPageAdmission *consumerbacklog.Admission,
+	robotsExclusion pagevisitintake.RobotsExclusion,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
@@ -286,12 +303,36 @@ func buildPageVisitConsumer(
 	return pagevisitintake.NewPageVisitConsumer(
 		frontier,
 		takenpagevisitsredis.New(redisClient, cfg.TakenPageVisitRetention()),
+		robotsExclusion,
 		pageVisitAllowances(redisClient, cfg),
 		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
 		pageVisitor,
 		pendingPageVisitObserver,
 		crawledPageAdmission,
 		cfg.FetchConcurrency,
+	)
+}
+
+func buildRobotsExclusion(
+	redisClient redis.UniversalClient,
+	cfg ServiceConfig,
+	robotsTxtFetchObserver robotsrulesorigin.RobotsTxtFetchObserver,
+	robotsRulesObserver robotsrulesredis.RobotsRulesObserver,
+) *robotsexclusion.RobotsExclusion {
+	robotsTxtFetch := pagefetchershttp.New(
+		cfg.ProxyURL,
+		cfg.ProxyDialMode,
+		cfg.UserAgent,
+		robotsrulesorigin.RobotsTxtParseLimit,
+		cfg.FetchDeadline,
+	)
+	return robotsexclusion.New(
+		robotsrulesredis.New(
+			redisClient,
+			robotsrulesorigin.New(robotsTxtFetch, cfg.FetchDeadline, robotsTxtFetchObserver),
+			robotsRulesObserver,
+		),
+		cfg.RobotsProductToken,
 	)
 }
 

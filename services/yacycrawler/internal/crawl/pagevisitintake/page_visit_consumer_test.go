@@ -21,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/robotsexclusion"
 )
 
 const (
@@ -49,6 +50,16 @@ func (visits *fakeTakenPageVisits) TakePageVisit(
 		return true, nil
 	}
 	return standing == taker, nil
+}
+
+type stubRobotsExclusion struct {
+	permission robotsexclusion.FetchPermission
+}
+
+func (exclusion *stubRobotsExclusion) FetchPermissionOf(
+	context.Context, canonicalurl.CanonicalURL,
+) robotsexclusion.FetchPermission {
+	return exclusion.permission
 }
 
 type fakeAllowances struct {
@@ -242,16 +253,20 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 }
 
 type crawlWorker struct {
-	pageVisits  *fakeTakenPageVisits
-	allowances  *fakeAllowances
-	orders      *fakeAcceptedOrders
-	pageVisitor *fakePageVisitor
-	observer    *recordingObserver
+	pageVisits      *fakeTakenPageVisits
+	robotsExclusion *stubRobotsExclusion
+	allowances      *fakeAllowances
+	orders          *fakeAcceptedOrders
+	pageVisitor     *fakePageVisitor
+	observer        *recordingObserver
 }
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
-		pageVisits:  newTakenPageVisits(),
+		pageVisits: newTakenPageVisits(),
+		robotsExclusion: &stubRobotsExclusion{permission: robotsexclusion.FetchPermission{
+			Verdict: robotsexclusion.Allowed,
+		}},
 		allowances:  newAllowances(),
 		orders:      &fakeAcceptedOrders{profile: wideProfile()},
 		pageVisitor: &fakePageVisitor{},
@@ -273,6 +288,7 @@ func (w *crawlWorker) consumeAdmittedBy(
 	return pagevisitintake.NewPageVisitConsumer(
 		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
 		w.pageVisits,
+		w.robotsExclusion,
 		w.allowances,
 		w.orders,
 		w.pageVisitor,
@@ -324,6 +340,47 @@ func TestARedeliveredMessageResumesItsOwnClaim(t *testing.T) {
 
 	if worker.pageVisitor.pageVisitCount() != 2 {
 		t.Fatal("a redelivery should visit the claim it left behind")
+	}
+}
+
+func TestAPageRobotsTxtDisallowsIsDroppedWithoutSpendingAHostPage(t *testing.T) {
+	worker := newWorker()
+	worker.robotsExclusion.permission = robotsexclusion.FetchPermission{
+		Verdict: robotsexclusion.Disallowed,
+	}
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if worker.pageVisitor.pageVisitCount() != 0 || len(worker.allowances.hostPageLimits) != 0 {
+		t.Fatal("a disallowed page was visited or spent a host page")
+	}
+	if worker.observer.dropped[pagevisitdrop.DisallowedByRobots] != 1 {
+		t.Fatalf("observer dropped %v, want disallowed by robots", worker.observer.dropped)
+	}
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
+		t.Fatalf("message settled %v, want one ack", got)
+	}
+}
+
+func TestAPageRobotsTxtDefersReturnsLaterWithoutSpendingAHostPage(t *testing.T) {
+	worker := newWorker()
+	worker.robotsExclusion.permission = robotsexclusion.FetchPermission{
+		Verdict: robotsexclusion.Deferred, DeferFor: 3 * time.Minute,
+	}
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if worker.pageVisitor.pageVisitCount() != 0 || len(worker.allowances.hostPageLimits) != 0 {
+		t.Fatal("a deferred page was visited or spent a host page")
+	}
+	if message.HeldBackFor() != 3*time.Minute {
+		t.Fatalf("held back for %v, want the wait robots.txt asked", message.HeldBackFor())
 	}
 }
 
