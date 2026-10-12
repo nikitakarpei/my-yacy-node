@@ -15,8 +15,6 @@ The node is configured through environment variables.
 
 ## Peer identity
 
-Every peer publishes a seed that says who it is and where to reach it.
-
 | Variable | Default | Description |
 | --- | --- | --- |
 | `YACY_INITIAL_PEER_HASH` | _(empty)_ | The 12-character enhanced-Base64 peer hash to start with. Leave it empty to let the node generate one. |
@@ -51,9 +49,8 @@ Every peer publishes a seed that says who it is and where to reach it.
 
 ## Page offer intake
 
-The node does not crawl and does not read pages. A separate scrape service reads each page
-and offers it; the node derives the page's words from the offered page and stores them as
-postings. Without a page offer server it is a pure peer.
+A separate scrape service reads pages and offers them. The node stores the words of each
+offered page as postings. Without a page offer server it is a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |
@@ -77,5 +74,7 @@ A word partition is one word in one ring partition. Its postings are the posting
 | `YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE` | `50` | How many URL metadata records travel in one transfer to a peer. |
 | `YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY` | `10s` | How long a ring sector waits after a pass before the node reads it again. A pass ends when the batches reach the end of the sector. While the node knows too few reachable peers, it checks again after this time. |
 | `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again (refresh). |
-| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition with too few holders is sent again after this time, then after double the previous wait on each try, up to the refresh interval. |
+| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition that a responsible peer did not fully accept is sent again after this time, then after double the previous wait on each try, up to the refresh interval. |
+| `YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION` | `3` | How many offers in a row a peer can fail before the node excludes it. An offer fails when the peer gives no answer, for example after a timeout or a connection error. A decline is not a failure. |
+| `YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION` | `1h` | How long an excluded peer gets no postings. The next peer on the ring takes its place. Until the peer accepts an offer, one more failed offer excludes it again. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

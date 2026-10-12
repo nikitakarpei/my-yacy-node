@@ -230,3 +230,35 @@ func openVault(t *testing.T) *vault.Vault {
 
 	return v
 }
+
+func TestSendFailsOnlyWhenThePeerGivesNoAnswer(t *testing.T) {
+	failedPerOutcome := map[postingcourier.Outcome]bool{
+		postingcourier.Unreachable:   true,
+		postingcourier.Unaddressable: true,
+		postingcourier.Deferred:      false,
+		postingcourier.Overloaded:    false,
+		postingcourier.Refused:       false,
+		postingcourier.Accepted:      false,
+	}
+	for outcome, wantFailed := range failedPerOutcome {
+		t.Run(string(outcome), func(t *testing.T) {
+			postingTransfers := postingtransfer.New(
+				openVault(t),
+				fakePostingCourier{receipt: postingcourier.Receipt{Outcome: outcome}},
+				&fakeURLMetadataCourier{},
+				fakeURLDirectory{},
+				newFakeObserver(),
+			)
+
+			answer := postingTransfers.Send(
+				context.Background(),
+				seed(yacymodel.WordHash("peer")),
+				[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
+			)
+
+			if answer.Failed != wantFailed {
+				t.Fatalf("Failed = %v, want %v", answer.Failed, wantFailed)
+			}
+		})
+	}
+}

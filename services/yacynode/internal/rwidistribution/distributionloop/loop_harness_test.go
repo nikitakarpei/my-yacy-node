@@ -29,6 +29,7 @@ const (
 	sectorRescanDelay = time.Second
 	refreshInterval   = time.Hour
 	retryDelay        = 10 * time.Minute
+	exclusionDuration = time.Hour
 	positionStep      = 8
 )
 
@@ -49,7 +50,7 @@ type loopHarness struct {
 	admitter    rwipostings.PostingAdmitter
 	undelivered *undeliveredpostings.UndeliveredPostings
 	holders     *wordpartitionholders.Holders
-	cooldowns   *replicaeligibility.Peers
+	eligibility *replicaeligibility.Peers
 	roster      *fakeRoster
 	observer    *fakeObserver
 	transfers   *fakeTransfers
@@ -103,15 +104,23 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		admitter:    admitter,
 		undelivered: undelivered,
 		holders:     holders,
-		cooldowns:   replicaeligibility.New(opts.cooldown, clk.Now),
 		roster:      &fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{}},
 		observer:    newFakeObserver(),
 		transfers:   &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)},
 	}
+	h.eligibility = replicaeligibility.New(
+		replicaeligibility.Config{
+			Cooldown:                    opts.cooldown,
+			FailedOffersBeforeExclusion: 1,
+			ExclusionDuration:           exclusionDuration,
+		},
+		clk.Now,
+		h.observer,
+	)
 	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, holders, h.index, h.roster, h.cooldowns, h.observer,
+			v, undelivered, holders, h.index, h.roster, h.eligibility, h.observer,
 			wordpartitionoffer.Config{
 				Partitions:       partitions(),
 				Self:             opts.self,
@@ -123,7 +132,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		holders,
 		handoffFor(opts, h.index, purger, undelivered, holders),
 		h.transfers,
-		h.cooldowns,
+		h.eligibility,
 		h.roster,
 		clk,
 		h.observer,
@@ -373,6 +382,7 @@ type offeredCall struct {
 
 type fakeAnswer struct {
 	accepted         bool
+	failed           bool
 	acceptedPostings int
 	requestedPause   time.Duration
 }
@@ -380,6 +390,7 @@ type fakeAnswer struct {
 var (
 	acceptedAnswer = fakeAnswer{accepted: true}
 	declinedAnswer = fakeAnswer{}
+	failedAnswer   = fakeAnswer{failed: true}
 )
 
 func acceptedInPart(acceptedPostings int) fakeAnswer {
@@ -406,7 +417,10 @@ func (f *fakeTransfers) Send(
 		f.onOffer(peer)
 	}
 	if !answer.accepted {
-		return postingtransfer.OfferAnswer{RequestedPause: answer.requestedPause}
+		return postingtransfer.OfferAnswer{
+			Failed:         answer.failed,
+			RequestedPause: answer.requestedPause,
+		}
 	}
 	acceptedPostings := offeredPostings
 	if answer.acceptedPostings > 0 {

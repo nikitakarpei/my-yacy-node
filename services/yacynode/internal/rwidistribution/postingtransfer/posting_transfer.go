@@ -1,7 +1,7 @@
 // Package postingtransfer sends the postings offered to one peer through the
 // two-step wire exchange: a posting offer, then the metadata for the URLs the
 // peer does not recognize. A posting counts as delivered only once both steps
-// reach the peer.
+// reach the peer. An offer fails when the peer gives no answer to it.
 package postingtransfer
 
 import (
@@ -31,6 +31,7 @@ type Observer interface {
 
 type OfferAnswer struct {
 	Accepted         bool
+	Failed           bool
 	AcceptedPostings []yacymodel.RWIPosting
 	RequestedPause   time.Duration
 }
@@ -68,7 +69,10 @@ func (t *PostingTransfers) Send(
 	t.observer.ObservePostingOffer(string(receipt.Outcome), len(offeredPostings))
 
 	if receipt.Outcome != postingcourier.Accepted {
-		return OfferAnswer{RequestedPause: receipt.RequestedPause}
+		return OfferAnswer{
+			Failed:         isFailure(receipt.Outcome),
+			RequestedPause: receipt.RequestedPause,
+		}
 	}
 
 	undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
@@ -78,6 +82,10 @@ func (t *PostingTransfers) Send(
 		AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, undeliveredURLs),
 		RequestedPause:   receipt.RequestedPause,
 	}
+}
+
+func isFailure(outcome postingcourier.Outcome) bool {
+	return outcome == postingcourier.Unreachable || outcome == postingcourier.Unaddressable
 }
 
 func (t *PostingTransfers) deliverURLMetadata(

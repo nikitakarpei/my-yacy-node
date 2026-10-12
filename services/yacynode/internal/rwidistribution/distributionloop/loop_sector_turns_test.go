@@ -108,7 +108,7 @@ func TestLoopReadsASectorAgainAtOnceAfterABatchThatEndedNoPass(t *testing.T) {
 		})
 		h.reach(peerInCooldown, peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
-		h.cooldowns.OfferDeclined(peerInCooldown.Hash, 0)
+		h.eligibility.OfferDeclined(peerInCooldown.Hash, 0)
 		for _, wordPartition := range wordPartitions {
 			h.admit(t, wordPartition, urlsOf(1)...)
 		}
