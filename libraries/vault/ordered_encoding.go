@@ -10,23 +10,40 @@ import (
 const (
 	zeroByte        byte = 0x00
 	fullByte        byte = 0xFF
-	textEnd         byte = 0x01
+	textEndByte     byte = 0x01
 	integerBytesMax      = 10
 )
 
 func appendOrderedText[T string | []byte](encoded []byte, text T) []byte {
-	for position := range len(text) {
-		switch text[position] {
-		case zeroByte:
-			encoded = append(encoded, zeroByte, fullByte)
-		case fullByte:
-			encoded = append(encoded, fullByte, zeroByte)
-		default:
-			encoded = append(encoded, text[position])
+	textStart := len(encoded)
+
+	return escapedTextFrom(append(encoded, text...), textStart)
+}
+
+func escapedTextFrom(encoded []byte, textStart int) []byte {
+	escapes := 0
+	for _, textByte := range encoded[textStart:] {
+		if textByte == zeroByte || textByte == fullByte {
+			escapes++
 		}
 	}
 
-	return append(encoded, zeroByte, textEnd)
+	textEnd := len(encoded)
+	encoded = append(encoded, make([]byte, escapes)...)
+	written := len(encoded)
+	for position := textEnd - 1; position >= textStart && escapes > 0; position-- {
+		switch textByte := encoded[position]; textByte {
+		case zeroByte, fullByte:
+			written -= 2
+			encoded[written], encoded[written+1] = textByte, ^textByte
+			escapes--
+		default:
+			written--
+			encoded[written] = textByte
+		}
+	}
+
+	return append(encoded, zeroByte, textEndByte)
 }
 
 func appendOrderedInteger(encoded []byte, number int64) []byte {
@@ -105,7 +122,7 @@ func textEndOf(stored orderedBytes) (textEndAt, escapes int, err error) {
 	for position := 0; position+1 < len(stored.encoded); position++ {
 		current, next := stored.byteAt(position), stored.byteAt(position+1)
 		switch {
-		case current == zeroByte && next == textEnd:
+		case current == zeroByte && next == textEndByte:
 			return position, escapes, nil
 		case current == zeroByte && next == fullByte, current == fullByte && next == zeroByte:
 			escapes++

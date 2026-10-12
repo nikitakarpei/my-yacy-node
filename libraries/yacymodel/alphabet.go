@@ -40,7 +40,11 @@ func Encode(src []byte) string {
 	if len(src) == 0 {
 		return ""
 	}
-	out := make([]byte, 0, (len(src)*8+5)/6)
+
+	return string(appendEncoded(make([]byte, 0, (len(src)*8+5)/6), src))
+}
+
+func appendEncoded(encoded, src []byte) []byte {
 	var buf uint32
 	var bits uint
 	for _, b := range src {
@@ -48,13 +52,14 @@ func Encode(src []byte) string {
 		bits += 8
 		for bits >= 6 {
 			bits -= 6
-			out = append(out, Alphabet[(buf>>bits)&0x3f])
+			encoded = append(encoded, Alphabet[(buf>>bits)&0x3f])
 		}
 	}
 	if bits > 0 {
-		out = append(out, Alphabet[(buf<<(6-bits))&0x3f])
+		encoded = append(encoded, Alphabet[(buf<<(6-bits))&0x3f])
 	}
-	return string(out)
+
+	return encoded
 }
 
 func Decode(s string) ([]byte, error) {
