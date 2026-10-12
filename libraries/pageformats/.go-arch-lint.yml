@@ -22,6 +22,8 @@ components:
     in: internal/pagederivations/readabletext/**
   htmlflattening:
     in: internal/htmlflattening/**
+  articlefootnotes:
+    in: internal/articlefootnotes/**
   derivationreach:
     in: internal/derivationreach/**
   text:
@@ -75,11 +77,15 @@ deps:
       - xnet
   pagederivationsreadabletext:
     mayDependOn:
+      - articlefootnotes
       - htmlflattening
       - text
     canUse:
       - htmltree
   htmlflattening:
+    canUse:
+      - xnet
+  articlefootnotes:
     canUse:
       - xnet
 
