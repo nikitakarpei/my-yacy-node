@@ -23,7 +23,8 @@ index.
 * For each offered page, the service SHALL derive the text of the document it holds.
 * The service SHALL produce a search-index document carrying the offered page's canonical
   URL, text, auxiliary text, title, and language.
-* Auxiliary text SHALL hold the notes of the page: the text its footnote markers link to.
+* The auxiliary text of a page SHALL be the text that the page has beside its article,
+  such as notes.
 * An offered page from which no text derives SHALL leave the index unchanged.
 * The service SHALL send back a receipt for every page it disposes of, saying whether it
   kept the page or rejected it.

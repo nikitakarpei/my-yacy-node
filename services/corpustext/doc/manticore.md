@@ -20,8 +20,8 @@ service recreates that table at every start, with the configured tables as its m
 | `crawled_at` | `string` |
 
 The `content` column holds the readable text of the page. The `auxiliary_text`
-column holds the notes of the page. At start, the service adds each missing column
-to a table that exists.
+column holds the text that the page has beside its article, such as notes. At start,
+the service adds each missing column to a table that exists.
 
 ## Text analysis
 
