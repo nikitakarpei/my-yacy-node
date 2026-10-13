@@ -11,10 +11,11 @@ import (
 )
 
 type storedEntries struct {
-	region    keyspaceRegion
-	reader    pebble.Reader
-	changes   *pebble.Batch
-	footprint *readFootprint
+	region     keyspaceRegion
+	reader     pebble.Reader
+	changes    *pebble.Batch
+	footprint  *readFootprint
+	heldValues heldValues
 }
 
 func (e storedEntries) valueAt(key []byte) ([]byte, error) {
@@ -22,7 +23,7 @@ func (e storedEntries) valueAt(key []byte) ([]byte, error) {
 }
 
 func (e storedEntries) valueAtAbsoluteKey(absoluteKey []byte) ([]byte, error) {
-	if value, known := e.footprint.valueKnownAt(absoluteKey); known {
+	if value, held := e.heldValues.valueAt(absoluteKey); held {
 		return value, nil
 	}
 
@@ -30,9 +31,14 @@ func (e storedEntries) valueAtAbsoluteKey(absoluteKey []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	e.footprint.addKeyHolding(absoluteKey, value)
+	e.track(absoluteKey, value)
 
 	return value, nil
+}
+
+func (e storedEntries) track(absoluteKey, value []byte) {
+	e.footprint.addKey(absoluteKey)
+	e.heldValues.hold(absoluteKey, value)
 }
 
 func (e storedEntries) storedValueAt(absoluteKey []byte) ([]byte, error) {
@@ -64,7 +70,7 @@ func (e storedEntries) storeAtAbsoluteKey(absoluteKey, value []byte) error {
 	if err := e.changes.Set(absoluteKey, value, pebble.NoSync); err != nil {
 		return fmt.Errorf("store: %w", err)
 	}
-	e.footprint.addKeyHolding(absoluteKey, value)
+	e.track(absoluteKey, value)
 
 	return nil
 }
@@ -87,7 +93,7 @@ func (e storedEntries) removeAtAbsoluteKey(absoluteKey []byte) error {
 	if err := e.changes.Delete(absoluteKey, pebble.NoSync); err != nil {
 		return fmt.Errorf("delete: %w", err)
 	}
-	e.footprint.addKeyHolding(absoluteKey, nil)
+	e.track(absoluteKey, nil)
 
 	return nil
 }
@@ -96,22 +102,16 @@ func (e storedEntries) removeHeld(key []byte) error {
 	return e.removeAtAbsoluteKey(e.region.absoluteKeyFrom(key))
 }
 
-func (e storedEntries) merge(key, operand []byte) error {
-	absoluteKey := e.region.absoluteKeyFrom(key)
-	if err := e.changes.Merge(absoluteKey, operand, pebble.NoSync); err != nil {
-		return fmt.Errorf("store amount: %w", err)
-	}
-	e.footprint.forgetValueAt(absoluteKey)
-
-	return nil
-}
-
 func (e storedEntries) absoluteKeyFrom(key []byte) []byte {
 	return e.region.absoluteKeyFrom(key)
 }
 
+func (e storedEntries) boundsFor(keys vault.KeyRange) (firstIncluded, firstExcluded []byte) {
+	return e.region.boundsFor(keys)
+}
+
 func (e storedEntries) visit(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
-	firstIncluded, firstExcluded := e.region.boundsFor(keys)
+	firstIncluded, firstExcluded := e.boundsFor(keys)
 
 	found, err := e.reader.NewIter(&pebble.IterOptions{
 		LowerBound: firstIncluded,
