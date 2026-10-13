@@ -6,8 +6,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 type walkedList interface {
@@ -101,12 +101,14 @@ func (b undeliveredBatch) offersFor(
 	return b.offers.UndeliveredOffersFor(ctx, b.undelivered, reachablePeers)
 }
 
+var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
+
 type dueRefreshesList struct {
 	vault           *vault.Vault
-	holders         *wordpartitionholders.Holders
+	schedule        *wordpartitionschedule.Schedule
 	offers          *wordpartitionoffer.Offers
 	refreshesBudget int
-	lastReadRefresh wordpartitionholders.ScheduledRefresh
+	lastReadRefresh wordpartitionschedule.ScheduledWordPartition
 }
 
 func (l *dueRefreshesList) batchAfterLastRead(
@@ -114,19 +116,19 @@ func (l *dueRefreshesList) batchAfterLastRead(
 	isInFlight func(yacymodel.WordPartition) bool,
 ) (listBatch, bool, error) {
 	var (
-		readRefreshes []wordpartitionholders.ScheduledRefresh
+		readRefreshes []wordpartitionschedule.ScheduledWordPartition
 		reachedEnd    bool
 	)
 	if err := l.vault.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		readRefreshes, reachedEnd, err = l.holders.DueRefreshesAfter(
-			tx, l.lastReadRefresh, l.refreshesBudget)
+		readRefreshes, reachedEnd, err = l.schedule.WordPartitionsDueWithin(
+			tx, wholeRing, l.lastReadRefresh, l.refreshesBudget)
 
 		return err
 	}); err != nil {
 		return nil, false, err
 	}
-	l.lastReadRefresh = wordpartitionholders.ScheduledRefresh{}
+	l.lastReadRefresh = wordpartitionschedule.ScheduledWordPartition{}
 	if !reachedEnd {
 		l.lastReadRefresh = readRefreshes[len(readRefreshes)-1]
 	}
@@ -142,7 +144,7 @@ func (l *dueRefreshesList) lastReadSector() yacymodel.DHTRingSector {
 }
 
 func refreshesOutside(
-	readRefreshes []wordpartitionholders.ScheduledRefresh,
+	readRefreshes []wordpartitionschedule.ScheduledWordPartition,
 	isInFlight func(yacymodel.WordPartition) bool,
 ) []yacymodel.WordPartition {
 	var outsideInFlight []yacymodel.WordPartition

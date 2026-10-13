@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -30,7 +30,7 @@ type harness struct {
 	index       rwipostings.PostingIndex
 	admitter    rwipostings.PostingAdmitter
 	undelivered *undeliveredpostings.Postings
-	holders     *wordpartitionholders.Holders
+	schedule    *wordpartitionschedule.Schedule
 	handoff     *wordpartitionhandoff.Handoff
 }
 
@@ -59,7 +59,8 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	holders, err := wordpartitionholders.Open(
+	schedule, err := wordpartitionschedule.Open(
+		context.Background(),
 		v,
 		partitions(),
 		refreshInterval,
@@ -67,7 +68,7 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 		fixedNow,
 	)
 	if err != nil {
-		t.Fatalf("wordpartitionholders.Open: %v", err)
+		t.Fatalf("wordpartitionschedule.Open: %v", err)
 	}
 
 	return &harness{
@@ -75,8 +76,8 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 		index:       index,
 		admitter:    admitter,
 		undelivered: undelivered,
-		holders:     holders,
-		handoff: wordpartitionhandoff.New(index, purger, undelivered, holders,
+		schedule:    schedule,
+		handoff: wordpartitionhandoff.New(index, purger, undelivered, schedule,
 			wordpartitionhandoff.Config{
 				Partitions: partitions(),
 				Self:       self,
@@ -145,7 +146,7 @@ func (h *harness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
+		return h.schedule.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -199,7 +200,7 @@ func (h *harness) holdersOf(t *testing.T, wordPartition yacymodel.WordPartition)
 	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		recordedHolders, err = h.holders.Of(tx, wordPartition)
+		recordedHolders, err = h.schedule.HoldersOf(tx, wordPartition)
 
 		return err
 	})

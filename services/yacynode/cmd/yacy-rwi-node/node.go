@@ -39,8 +39,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
@@ -173,7 +173,8 @@ func assembleNode(
 		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
 	)
 
-	undeliveredPostings, undeliveredPostingProjection, wordPartitionHolders, err := openDistributionRecords(
+	undeliveredPostings, undeliveredPostingProjection, wordPartitionSchedule, err := openDistributionRecords(
+		ctx,
 		storage,
 		dhtRingPartitions,
 		config.Distribution.RefreshInterval,
@@ -342,7 +343,7 @@ func assembleNode(
 				postings,
 				postingPurger,
 				undeliveredPostings,
-				wordPartitionHolders,
+				wordPartitionSchedule,
 				wordpartitionhandoff.Config{
 					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
@@ -369,7 +370,7 @@ func assembleNode(
 			wordpartitionoffer.New(
 				storage,
 				undeliveredPostings,
-				wordPartitionHolders,
+				wordPartitionSchedule,
 				postings,
 				peerRoster,
 				peerEligibility,
@@ -380,7 +381,7 @@ func assembleNode(
 				},
 			),
 			undeliveredPostings,
-			wordPartitionHolders,
+			wordPartitionSchedule,
 			handoff,
 			postingtransfer.New(
 				storage,
@@ -447,6 +448,7 @@ func assembleNode(
 }
 
 func openDistributionRecords(
+	ctx context.Context,
 	storage *vault.Vault,
 	dhtRingPartitions yacymodel.DHTRingPartitions,
 	refreshInterval time.Duration,
@@ -455,7 +457,7 @@ func openDistributionRecords(
 ) (
 	*undeliveredpostings.Postings,
 	vault.Projection[yacymodel.RWIPosting],
-	*wordpartitionholders.Holders,
+	*wordpartitionschedule.Schedule,
 	error,
 ) {
 	undeliveredPostings, undeliveredPostingProjection, err := undeliveredpostings.Open(
@@ -466,7 +468,8 @@ func openDistributionRecords(
 		return nil, nil, nil, fmt.Errorf("undelivered postings: %w", err)
 	}
 
-	wordPartitionHolders, err := wordpartitionholders.Open(
+	wordPartitionSchedule, err := wordpartitionschedule.Open(
+		ctx,
 		storage,
 		dhtRingPartitions,
 		refreshInterval,
@@ -474,8 +477,8 @@ func openDistributionRecords(
 		now,
 	)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("word partition holders: %w", err)
+		return nil, nil, nil, fmt.Errorf("word partition schedule: %w", err)
 	}
 
-	return undeliveredPostings, undeliveredPostingProjection, wordPartitionHolders, nil
+	return undeliveredPostings, undeliveredPostingProjection, wordPartitionSchedule, nil
 }

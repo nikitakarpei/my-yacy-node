@@ -1,6 +1,7 @@
-package wordpartitionholders
+package wordpartitionschedule
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"time"
@@ -13,31 +14,62 @@ import (
 
 const (
 	wordPartitionEntryBucket vault.Name = "rwidistribution_word_partition_holders"
-	refreshOrderBucket       vault.Name = "rwidistribution_word_partition_refresh_order"
+	scheduleBucket           vault.Name = "rwidistribution_word_partition_schedule"
 )
 
+const scheduleVersion = "1"
+
 func registerWordPartitionEntries(
+	ctx context.Context,
 	v *vault.Vault,
-) (*vault.Collection[yacymodel.WordPartition, wordPartitionEntry], error) {
-	entries, err := v.RegisterCollection(
+	partitions yacymodel.DHTRingPartitions,
+) (
+	*vault.Collection[yacymodel.WordPartition, wordPartitionEntry],
+	*vault.ValueIndex[ScheduledWordPartition, ScheduledWordPartition],
+	error,
+) {
+	schedule, err := v.RegisterValueIndex(
+		scheduleBucket,
+		scheduleVersion,
+		scheduleKeyLayout,
+		scheduledWordPartitionItself,
+	)
+	if err != nil {
+		return nil, nil, fmt.Errorf("register word partition schedule: %w", err)
+	}
+	entries, err := v.RegisterProjectedCollection(
+		ctx,
 		wordPartitionEntryBucket,
 		wordPartitionKeyLayout,
 		wordPartitionEntryValueCodec{},
+		vault.ProjectedAs(scheduledWordPartitionFor(partitions), schedule),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("register word partition holders: %w", err)
+		return nil, nil, fmt.Errorf("register word partition holders: %w", err)
 	}
 
-	return entries, nil
+	return entries, schedule, nil
 }
 
-func registerRefreshOrder(v *vault.Vault) (*vault.Set[ScheduledRefresh], error) {
-	refreshOrder, err := v.RegisterSet(refreshOrderBucket, refreshOrderKeyLayout)
-	if err != nil {
-		return nil, fmt.Errorf("register word partition refresh order: %w", err)
+func scheduledWordPartitionFor(
+	partitions yacymodel.DHTRingPartitions,
+) func(yacymodel.WordPartition, wordPartitionEntry) ScheduledWordPartition {
+	return func(
+		wordPartition yacymodel.WordPartition,
+		entry wordPartitionEntry,
+	) ScheduledWordPartition {
+		return ScheduledWordPartition{
+			WordPartition: wordPartition,
+			slice: scheduleSliceOf(
+				yacymodel.DHTRingPositionOfWordPartition(wordPartition, partitions),
+			),
+			dueAt: entry.dueAt,
+		}
 	}
+}
 
-	return refreshOrder, nil
+func scheduledWordPartitionItself(scheduled ScheduledWordPartition) ScheduledWordPartition {
+	return scheduled
 }
 
 var wordPartitionKeyLayout = vault.PairKey(
@@ -52,24 +84,24 @@ var wordPartitionKeyLayout = vault.PairKey(
 	},
 )
 
-var refreshOrderKeyParts = vault.QuadKey(
+var scheduleKeyParts = vault.QuadKey(
 	vault.IntegerKeyPart,
 	vault.TimeKeyPart,
 	hashkeypart.Hash,
 	vault.IntegerKeyPart,
 )
 
-var refreshOrderKeyLayout = refreshOrderKeyParts.KeyLayoutFor(
-	func(refresh ScheduledRefresh) (int64, time.Time, yacymodel.Hash, int64) {
-		return sectorKeyOf(refresh.sector),
-			refresh.refreshAt,
-			refresh.WordPartition.Word,
-			partitionKeyOf(refresh.WordPartition.Partition)
+var scheduleKeyLayout = scheduleKeyParts.KeyLayoutFor(
+	func(scheduled ScheduledWordPartition) (int64, time.Time, yacymodel.Hash, int64) {
+		return sliceKeyOf(scheduled.slice),
+			scheduled.dueAt,
+			scheduled.WordPartition.Word,
+			partitionKeyOf(scheduled.WordPartition.Partition)
 	},
-	func(sector int64, refreshAt time.Time, word yacymodel.Hash, partition int64) ScheduledRefresh {
-		return ScheduledRefresh{
-			sector:    yacymodel.DHTRingSector(sector),
-			refreshAt: refreshAt,
+	func(slice int64, dueAt time.Time, word yacymodel.Hash, partition int64) ScheduledWordPartition {
+		return ScheduledWordPartition{
+			slice: scheduleSlice(slice),
+			dueAt: dueAt,
 			WordPartition: yacymodel.WordPartition{
 				Word:      word,
 				Partition: partitionFromKey(partition),
@@ -86,16 +118,16 @@ func partitionFromKey(partitionKey int64) uint {
 	return uint(partitionKey) //nolint:gosec // G115: keys hold partitions only.
 }
 
-func sectorKeyOf(sector yacymodel.DHTRingSector) int64 {
-	return int64(sector) //nolint:gosec // G115: a sector is at most MaxDHTRingSector.
+func sliceKeyOf(slice scheduleSlice) int64 {
+	return int64(slice) //nolint:gosec // G115: a slice is below scheduleSliceCount.
 }
 
-func everyRefreshInSector(sector yacymodel.DHTRingSector) vault.KeyRange {
-	return refreshOrderKeyParts.KeysWithFirst(sectorKeyOf(sector))
+func everyWordPartitionInSlice(slice scheduleSlice) vault.KeyRange {
+	return scheduleKeyParts.KeysWithFirst(sliceKeyOf(slice))
 }
 
-func refreshesInSectorDueBy(sector yacymodel.DHTRingSector, now time.Time) vault.KeyRange {
-	return refreshOrderKeyParts.KeysWithFirstThroughSecond(sectorKeyOf(sector), now)
+func dueWordPartitionsInSlice(slice scheduleSlice, now time.Time) vault.KeyRange {
+	return scheduleKeyParts.KeysWithFirstThroughSecond(sliceKeyOf(slice), now)
 }
 
 var errBadWordPartitionEntry = errors.New("bad word partition holders")
@@ -108,7 +140,7 @@ func (wordPartitionEntryValueCodec) Encode(entry wordPartitionEntry) ([]byte, er
 	for _, holder := range entry.holders {
 		stored.Fixed(holder.Bytes())
 	}
-	stored.Time(entry.refreshAt)
+	stored.Time(entry.dueAt)
 	stored.Varint(int64(entry.retryDelay))
 
 	return stored.Record(), nil
@@ -117,13 +149,13 @@ func (wordPartitionEntryValueCodec) Encode(entry wordPartitionEntry) ([]byte, er
 func (wordPartitionEntryValueCodec) Decode(raw []byte) (wordPartitionEntry, error) {
 	stored := storedfields.ReaderOf(raw, errBadWordPartitionEntry)
 	holders := holdersFrom(stored)
-	refreshAt := stored.Time("refresh at")
+	dueAt := stored.Time("due at")
 	retryDelay := time.Duration(stored.Varint("retry delay"))
 	if err := stored.Err(); err != nil {
 		return wordPartitionEntry{}, err
 	}
 
-	return wordPartitionEntry{holders: holders, refreshAt: refreshAt, retryDelay: retryDelay}, nil
+	return wordPartitionEntry{holders: holders, dueAt: dueAt, retryDelay: retryDelay}, nil
 }
 
 func holdersFrom(stored *storedfields.Reader) []yacymodel.Hash {
