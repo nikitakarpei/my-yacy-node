@@ -1028,3 +1028,35 @@ func TestMakingAHeldWordPartitionDueKeepsItsRefreshTime(t *testing.T) {
 
 	h.assertDueOnlyAfter(t, wordPartition, refreshInterval/2)
 }
+
+func (h *harness) isRefreshDue(t *testing.T, wordPartition yacymodel.WordPartition) bool {
+	t.Helper()
+
+	var isRefreshDue bool
+	h.read(t, func(tx *vault.Txn) error {
+		var err error
+		isRefreshDue, err = h.schedule.IsRefreshDue(tx, wordPartition)
+
+		return err
+	})
+
+	return isRefreshDue
+}
+
+func TestARefreshIsDueWithoutAnEntryAndOnceTheRefreshIntervalPassed(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	if !h.isRefreshDue(t, wordPartition) {
+		t.Fatal("IsRefreshDue = false, want true without an entry")
+	}
+
+	h.recordHolders(t, wordPartition, peer("peer0"))
+	if h.isRefreshDue(t, wordPartition) {
+		t.Fatal("IsRefreshDue = true, want false right after the refresh")
+	}
+
+	h.advance(refreshInterval)
+	if !h.isRefreshDue(t, wordPartition) {
+		t.Fatal("IsRefreshDue = false, want true after the refresh interval")
+	}
+}

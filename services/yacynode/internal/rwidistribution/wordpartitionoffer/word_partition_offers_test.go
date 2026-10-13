@@ -245,6 +245,32 @@ func (h *harness) refreshBatch(
 	return batch
 }
 
+func (h *harness) dueOffers(
+	t *testing.T,
+	reachablePeers ...yacymodel.Seed,
+) []wordpartitionoffer.Offer {
+	t.Helper()
+
+	h.reachability.reachable = reachablePeers
+	offers, err := h.offers.DueOffersFor(
+		context.Background(), h.dueWordPartitions(t), reachablePeers)
+	if err != nil {
+		t.Fatalf("DueOffersFor: %v", err)
+	}
+
+	return offers
+}
+
+func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		_, err := h.schedule.MakeDue(tx, wordPartition)
+
+		return err
+	})
+}
+
 func (h *harness) write(t *testing.T, change func(tx *vault.Txn) error) {
 	t.Helper()
 
@@ -894,5 +920,118 @@ func assertWaits(
 	want := []wordpartitionoffer.Wait{{Position: positionOf(wordPartition), Reason: waitReason}}
 	if !slices.Equal(waits, want) {
 		t.Fatalf("waits = %v, want %v", waits, want)
+	}
+}
+
+func TestADueWordPartitionWithUndeliveredPostingsAndARecentRefreshGetsAnUndeliveredOffer(
+	t *testing.T,
+) {
+	h := openHarness(t, options{redundancy: 2})
+	wordPartition := fixtureWordPartitions(1)[0]
+	urls := urlsOfPartition(3)
+	holder, missingHolder := peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)
+	h.admit(t, wordPartition, urls[:2]...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.admit(t, wordPartition, urls[2])
+	h.makeDue(t, wordPartition)
+
+	offer := onlyOffer(t, h.dueOffers(t, holder, missingHolder))
+
+	if got, want := urlsSentTo(t, offer, holder), urls[2:]; !slices.Equal(got, want) {
+		t.Fatalf("holder gets %v, want only the undelivered %v", got, want)
+	}
+	if got, want := urlsSentTo(
+		t,
+		offer,
+		missingHolder,
+	), sortedURLs(
+		urls,
+	); !slices.Equal(
+		got,
+		want,
+	) {
+		t.Fatalf("missing holder gets %v, want the whole word partition %v", got, want)
+	}
+}
+
+func TestADueWordPartitionWithUndeliveredPostingsAndADueRefreshGetsARefreshOffer(t *testing.T) {
+	h := openHarness(t, options{redundancy: 2})
+	wordPartition := fixtureWordPartitions(1)[0]
+	urls := urlsOfPartition(3)
+	holder, missingHolder := peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)
+	h.admit(t, wordPartition, urls[:2]...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.clock = h.clock.Add(refreshInterval)
+	h.admit(t, wordPartition, urls[2])
+	h.makeDue(t, wordPartition)
+
+	offer := onlyOffer(t, h.dueOffers(t, holder, missingHolder))
+
+	if !offer.OutcomeFrom(nil).IsRefresh {
+		t.Fatalf("offer = %+v, want a refresh", offer)
+	}
+	for _, peer := range []yacymodel.Seed{holder, missingHolder} {
+		if got := urlsSentTo(t, offer, peer); !slices.Equal(got, sortedURLs(urls)) {
+			t.Fatalf("%v gets %v, want the whole word partition %v", peer.Hash, got, urls)
+		}
+	}
+}
+
+func TestADueWordPartitionWithoutUndeliveredPostingsGetsARefreshOffer(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := fixtureWordPartitions(1)[0]
+	holder := peerAfter(wordPartition, 0)
+	urls := urlsOfPartition(2)
+	h.admit(t, wordPartition, urls...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.makeDue(t, wordPartition)
+
+	offer := onlyOffer(t, h.dueOffers(t, holder))
+
+	if !offer.OutcomeFrom(nil).IsRefresh {
+		t.Fatalf("offer = %+v, want a refresh", offer)
+	}
+	if got := urlsSentTo(t, offer, holder); !slices.Equal(got, sortedURLs(urls)) {
+		t.Fatalf("holder gets %v, want the whole word partition %v", got, urls)
+	}
+}
+
+func TestANeverRefreshedWordPartitionGetsTheWholeWordPartitionSentToEveryRecipient(t *testing.T) {
+	h := openHarness(t, options{redundancy: 2})
+	wordPartition := fixtureWordPartitions(1)[0]
+	urls := urlsOfPartition(2)
+	peers := []yacymodel.Seed{peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)}
+	h.admit(t, wordPartition, urls...)
+	h.makeDue(t, wordPartition)
+
+	offer := onlyOffer(t, h.dueOffers(t, peers...))
+
+	if !offer.OutcomeFrom(nil).IsRefresh {
+		t.Fatalf("offer = %+v, want a refresh", offer)
+	}
+	for _, peer := range peers {
+		if got := urlsSentTo(t, offer, peer); !slices.Equal(got, sortedURLs(urls)) {
+			t.Fatalf("%v gets %v, want the whole word partition %v", peer.Hash, got, urls)
+		}
+	}
+}
+
+func TestADueWordPartitionWithAPausedOrBusyRecipientIsLeftOut(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartitions := fixtureWordPartitions(2)
+	paused, busy := wordPartitions[0], wordPartitions[1]
+	pausedPeer, busyPeer := peerAfter(paused, 0), peerAfter(busy, 0)
+	h.admit(t, paused, urlsOfPartition(1)...)
+	h.admit(t, busy, urlsOfPartition(1)...)
+	h.makeDue(t, paused)
+	h.makeDue(t, busy)
+	h.eligibility.pausedPeers[pausedPeer.Hash] = true
+	h.eligibility.busyPeers[busyPeer.Hash] = true
+
+	if offers := h.dueOffers(t, pausedPeer, busyPeer); len(offers) != 0 {
+		t.Fatalf("offers = %+v, want none", offers)
 	}
 }

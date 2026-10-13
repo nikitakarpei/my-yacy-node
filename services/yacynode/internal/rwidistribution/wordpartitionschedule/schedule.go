@@ -90,6 +90,18 @@ func (s *Schedule) IsInRetry(
 	return entry.retryDelay > 0, nil
 }
 
+func (s *Schedule) IsRefreshDue(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) (bool, error) {
+	entry, _, err := s.entries.Get(tx, wordPartition)
+	if err != nil {
+		return false, fmt.Errorf("read word partition refresh time: %w", err)
+	}
+
+	return !entry.refreshedAt.Add(s.refreshInterval).After(s.now()), nil
+}
+
 func (s *Schedule) RecordRefreshed(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
