@@ -31,7 +31,9 @@ func registerPostings(
 	return collection, nil
 }
 
-var postingKeyLayout = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash).KeyLayoutFor(
+var postingKeyParts = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash)
+
+var postingKeyLayout = postingKeyParts.KeyLayoutFor(
 	func(posting postingIdentity) (yacymodel.Hash, yacymodel.URLHash) {
 		return posting.word, posting.url
 	},
@@ -39,6 +41,13 @@ var postingKeyLayout = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash).KeyL
 		return postingIdentity{word: word, url: url}
 	},
 )
+
+func postingsOfWordBetween(
+	word yacymodel.Hash,
+	lowestURL, highestURL yacymodel.URLHash,
+) vault.KeyRange {
+	return postingKeyParts.KeysWithFirstBetweenSeconds(word, lowestURL, highestURL)
+}
 
 type postingValueCodec struct{}
 

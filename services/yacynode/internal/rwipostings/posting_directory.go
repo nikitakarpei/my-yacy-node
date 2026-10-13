@@ -13,8 +13,9 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	postings  *vault.Collection[postingIdentity, yacymodel.RWIPosting]
-	observers postingObservers
+	postings   *vault.Collection[postingIdentity, yacymodel.RWIPosting]
+	partitions yacymodel.DHTRingPartitions
+	observers  postingObservers
 }
 
 func (d postingDirectory) RWICount(tx *vault.Txn) (int, error) {
@@ -36,6 +37,30 @@ func (d postingDirectory) PostingOf(
 	}
 
 	return postingWithIdentity(identity, storedPosting), true, nil
+}
+
+func (d postingDirectory) PostingsOfWordIn(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	partition uint,
+	visit func(yacymodel.RWIPosting) (bool, error),
+) error {
+	err := d.postings.Scan(
+		tx,
+		postingsOfWordBetween(
+			word,
+			d.partitions.LowestURLHashIn(partition),
+			d.partitions.HighestURLHashIn(partition),
+		),
+		func(identity postingIdentity, storedPosting yacymodel.RWIPosting) (bool, error) {
+			return visit(postingWithIdentity(identity, storedPosting))
+		},
+	)
+	if err != nil {
+		return fmt.Errorf("scan rwi postings of a word in a partition: %w", err)
+	}
+
+	return nil
 }
 
 func postingWithIdentity(

@@ -27,6 +27,7 @@ func (keys KeyRange) withPrefix(prefix []byte) KeyRange {
 	return prefixed
 }
 
+// TECHDEBT: comments — an explanatory comment on successorOf is not an allowed comment form
 // No codec emits an all-0xFF encoding, so the nil successor never stands for a real key.
 func successorOf(prefix []byte) []byte {
 	for position := len(prefix) - 1; position >= 0; position-- {

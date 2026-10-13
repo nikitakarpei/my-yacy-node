@@ -59,6 +59,33 @@ func (h harness) postingOf(
 	return entry, found
 }
 
+func (h harness) postingsOfWordIn(
+	t *testing.T,
+	word yacymodel.Hash,
+	partition uint,
+	wantedPostings int,
+) []yacymodel.RWIPosting {
+	t.Helper()
+
+	var visitedPostings []yacymodel.RWIPosting
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		return h.index.PostingsOfWordIn(
+			tx,
+			word,
+			partition,
+			func(posting yacymodel.RWIPosting) (bool, error) {
+				visitedPostings = append(visitedPostings, posting)
+
+				return len(visitedPostings) < wantedPostings, nil
+			},
+		)
+	}); err != nil {
+		t.Fatalf("PostingsOfWordIn: %v", err)
+	}
+
+	return visitedPostings
+}
+
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
@@ -73,13 +100,21 @@ func openHarness(t *testing.T) harness {
 	})
 
 	observer := &recordingObserver{}
-	index, admitter, purger, err := rwipostings.Open(context.Background(), v, nil, observer)
+	index, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		ringPartitions,
+		nil,
+		observer,
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
 	return harness{vault: v, index: index, admitter: admitter, purger: purger, observer: observer}
 }
+
+var ringPartitions = yacymodel.DHTRingPartitions(1) << 4
 
 const (
 	storedNotification = "stored"

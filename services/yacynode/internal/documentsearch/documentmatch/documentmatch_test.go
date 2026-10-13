@@ -54,6 +54,12 @@ type searchIndex interface {
 	) error
 	LargestImpactOf(tx *vault.Txn, term yacymodel.Hash) (rwipostingimpactorder.Impact, bool, error)
 	AmountOfPostingsOf(tx *vault.Txn, term yacymodel.Hash) (int, error)
+	PostingsOfWordIn(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		partition uint,
+		visit func(yacymodel.RWIPosting) (bool, error),
+	) error
 }
 
 func matchesFor(

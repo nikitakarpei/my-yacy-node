@@ -1,6 +1,7 @@
 package yacymodel_test
 
 import (
+	"math/big"
 	"strconv"
 	"testing"
 
@@ -252,5 +253,52 @@ func TestPartitionOfTheWholeRingIsTheFirstPartition(t *testing.T) {
 
 	if partition := wholeRing.PartitionOf(url); partition != 0 {
 		t.Fatalf("PartitionOf on the whole ring = %d, want 0", partition)
+	}
+}
+
+func TestLowestAndHighestURLHashInAPartitionMapBackToThatPartition(t *testing.T) {
+	for _, exponent := range []uint{0, 4, 7} {
+		partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
+		if err != nil {
+			t.Fatalf("dht ring partitions: %v", err)
+		}
+		last := uint(partitions) - 1
+		for _, partition := range []uint{0, last / 2, last} {
+			lowest := partitions.LowestURLHashIn(partition)
+			highest := partitions.HighestURLHashIn(partition)
+
+			if got := partitions.PartitionOf(lowest); got != partition {
+				t.Fatalf("%d partitions: lowest %v sits in %d, want %d",
+					partitions, lowest, got, partition)
+			}
+			if got := partitions.PartitionOf(highest); got != partition {
+				t.Fatalf("%d partitions: highest %v sits in %d, want %d",
+					partitions, highest, got, partition)
+			}
+		}
+	}
+}
+
+func TestURLHashesOfThePartitionsCoverTheWholeHashRange(t *testing.T) {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatalf("dht ring partitions: %v", err)
+	}
+	last := uint(partitions) - 1
+
+	if lowest := partitions.LowestURLHashIn(0).String(); lowest != "AAAAAAAAAAAA" {
+		t.Fatalf("lowest url hash of the first partition = %s", lowest)
+	}
+	if highest := partitions.HighestURLHashIn(last).String(); highest != "____________" {
+		t.Fatalf("highest url hash of the last partition = %s", highest)
+	}
+	for partition := range last {
+		highest := new(big.Int).SetBytes(partitions.HighestURLHashIn(partition).Bytes())
+		nextLowest := new(big.Int).SetBytes(partitions.LowestURLHashIn(partition + 1).Bytes())
+
+		if successor := highest.Add(highest, big.NewInt(1)); successor.Cmp(nextLowest) != 0 {
+			t.Fatalf("highest url hash of %d is not just before the lowest of %d",
+				partition, partition+1)
+		}
 	}
 }
