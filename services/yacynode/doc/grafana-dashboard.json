@@ -2332,44 +2332,6 @@
       "panels": []
     },
     {
-      "id": 59,
-      "title": "Distribution batches skipped, by reason",
-      "description": "Batches the node did not start, for example because it knew too few reachable peers.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 0,
-        "y": 205
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_batches_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_batches_skipped_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{reason}}"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
       "id": 85,
       "title": "Distribution batches aborted, by reason",
       "type": "timeseries",
@@ -2379,8 +2341,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 6,
+        "w": 12,
+        "x": 0,
         "y": 205
       },
       "fieldConfig": {
@@ -2482,8 +2444,8 @@
     },
     {
       "id": 137,
-      "title": "Word partitions waiting, by reason",
-      "description": "Word partitions not sent over the last full read of the ring, averaged over 5 minutes.",
+      "title": "Arcs by state",
+      "description": "Arcs of the DHT ring by what each is doing now, averaged over 5 minutes. Peer failed or declined: a window peer is paused.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2515,8 +2477,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (avg_over_time(yacynode_rwidistribution_word_partitions_waiting{instance=~\"$service_instance\"}[5m]))",
-          "legendFormat": "{{reason}}"
+          "expr": "sum by (state) (avg_over_time(yacynode_rwidistribution_arcs{instance=~\"$service_instance\"}[5m]))",
+          "legendFormat": "{{state}}"
         }
       ],
       "interval": "$window"
