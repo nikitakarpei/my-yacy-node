@@ -32,6 +32,12 @@ type PostingIndex interface {
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
 	) (yacymodel.RWIPosting, bool, error)
+	PostingsOfWordIn(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		partition uint,
+		visit func(yacymodel.RWIPosting) (bool, error),
+	) error
 }
 
 type PostingAdmitter interface {
@@ -41,6 +47,7 @@ type PostingAdmitter interface {
 func Open(
 	ctx context.Context,
 	vault *vault.Vault,
+	partitions yacymodel.DHTRingPartitions,
 	projections []vault.Projection[yacymodel.RWIPosting],
 	observers ...PostingObserver,
 ) (PostingIndex, PostingAdmitter, PostingPurger, error) {
@@ -50,8 +57,9 @@ func Open(
 	}
 
 	directory := postingDirectory{
-		postings:  postings,
-		observers: postingObservers(observers),
+		postings:   postings,
+		partitions: partitions,
+		observers:  postingObservers(observers),
 	}
 
 	return directory, directory, directory, nil

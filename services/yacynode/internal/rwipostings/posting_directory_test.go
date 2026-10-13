@@ -1,7 +1,9 @@
 package rwipostings_test
 
 import (
+	"bytes"
 	"slices"
+	"strconv"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -75,4 +77,89 @@ func TestAdmittingAnEqualPostingAgainNotifiesNobody(t *testing.T) {
 			h.observer.notificationsInOrder,
 		)
 	}
+}
+
+func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartitionInKeyOrder(t *testing.T) {
+	h := openHarness(t)
+	words := neighbouringWordHashes(t)
+	for _, word := range words {
+		for document := range documentsPerWord {
+			h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+		}
+	}
+	word := words[1]
+	partition, wantedPostings := busiestPartitionOf(word)
+
+	visitedPostings := h.postingsOfWordIn(t, word, partition, len(wantedPostings)+1)
+
+	if !slices.Equal(visitedPostings, wantedPostings) {
+		t.Fatalf("PostingsOfWordIn = %v, want %v", visitedPostings, wantedPostings)
+	}
+}
+
+func TestPostingsOfWordInAPartitionStopWhenTheVisitorAsks(t *testing.T) {
+	h := openHarness(t)
+	word := neighbouringWordHashes(t)[1]
+	for document := range documentsPerWord {
+		h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+	}
+	partition, wantedPostings := busiestPartitionOf(word)
+
+	visitedPostings := h.postingsOfWordIn(t, word, partition, 1)
+
+	if !slices.Equal(visitedPostings, wantedPostings[:1]) {
+		t.Fatalf("PostingsOfWordIn = %v, want %v", visitedPostings, wantedPostings[:1])
+	}
+}
+
+const documentsPerWord = 64
+
+func neighbouringWordHashes(t *testing.T) []yacymodel.Hash {
+	t.Helper()
+
+	words := make([]yacymodel.Hash, 0, 3)
+	for _, text := range []string{"neighbourAAz", "neighbourAA0", "neighbourAA1"} {
+		word, err := yacymodel.ParseHash(text)
+		if err != nil {
+			t.Fatalf("ParseHash(%s): %v", text, err)
+		}
+		words = append(words, word)
+	}
+
+	return words
+}
+
+func postingOfWordOn(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		WordHash:   word,
+		URLHash:    url,
+		Language:   yacymodel.LanguageOfUndeclaredDocument,
+		LocalLinks: 1,
+		Hits:       1,
+	}
+}
+
+func busiestPartitionOf(word yacymodel.Hash) (uint, []yacymodel.RWIPosting) {
+	postingsPerPartition := make(map[uint][]yacymodel.RWIPosting)
+	for document := range documentsPerWord {
+		url := urlHash(strconv.Itoa(document))
+		partition := ringPartitions.PartitionOf(url)
+		postingsPerPartition[partition] = append(
+			postingsPerPartition[partition],
+			postingOfWordOn(word, url),
+		)
+	}
+
+	var busiestPartition uint
+	for partition, postings := range postingsPerPartition {
+		if len(postings) > len(postingsPerPartition[busiestPartition]) {
+			busiestPartition = partition
+		}
+	}
+	busiestPostings := postingsPerPartition[busiestPartition]
+	slices.SortFunc(busiestPostings, func(a, b yacymodel.RWIPosting) int {
+		return bytes.Compare(a.URLHash.Bytes(), b.URLHash.Bytes())
+	})
+
+	return busiestPartition, busiestPostings
 }

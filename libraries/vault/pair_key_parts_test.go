@@ -89,3 +89,29 @@ func TestPairKeyLayoutForRoundTripsTheDomainValue(t *testing.T) {
 		}
 	}
 }
+
+func TestPairKeyRangeOfOneFirstBetweenTwoSecondsHoldsOnlyThoseKeys(t *testing.T) {
+	for _, directed := range []struct {
+		direction string
+		parts     vault.PairKeyParts[string, int64]
+	}{
+		{"Ascending", vault.PairKey(vault.TextKeyPart, vault.IntegerKeyPart)},
+		{"Descending", vault.PairKey(vault.TextKeyPart, vault.IntegerKeyPartDescending)},
+	} {
+		t.Run(directed.direction, func(t *testing.T) {
+			firsts, seconds := orderedTexts(), orderedIntegers()
+			firstBound := firsts[len(firsts)/2]
+			lowest, highest := seconds[2], seconds[len(seconds)-3]
+			keys := directed.parts.KeysWithFirstBetweenSeconds(firstBound, lowest, highest)
+
+			for _, first := range firsts {
+				for _, second := range seconds {
+					key := directed.parts.Key(first, second).Bytes()
+
+					assertRangeAnswers(t, keys, key,
+						first == firstBound && lowest <= second && second <= highest)
+				}
+			}
+		})
+	}
+}
