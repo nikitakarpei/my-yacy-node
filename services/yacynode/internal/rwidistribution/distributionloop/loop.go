@@ -67,8 +67,7 @@ type Loop struct {
 	undelivered     *undeliveredpostings.Postings
 	holders         *wordpartitionholders.Holders
 	handoff         WordPartitionHandoff
-	transfers       PostingTransfers
-	eligibility     PeerEligibility
+	sender          offerSender
 	roster          ReachablePeers
 	clock           Clock
 	batchObserver   BatchObserver
@@ -95,13 +94,17 @@ func New(
 	config Config,
 ) *Loop {
 	return &Loop{
-		vault:           v,
-		offers:          offers,
-		undelivered:     undelivered,
-		holders:         holders,
-		handoff:         handoff,
-		transfers:       transfers,
-		eligibility:     eligibility,
+		vault:       v,
+		offers:      offers,
+		undelivered: undelivered,
+		holders:     holders,
+		handoff:     handoff,
+		sender: offerSender{
+			transfers:           transfers,
+			eligibility:         eligibility,
+			clock:               clock,
+			postingsPerTransfer: config.PostingsPerTransfer,
+		},
 		roster:          roster,
 		clock:           clock,
 		batchObserver:   batchObserver,
@@ -198,13 +201,7 @@ func (l *Loop) offerReservedBatch(
 		return
 	}
 	if len(batch.Offers) > 0 {
-		answers := sendOffers(
-			ctx,
-			l.transfers,
-			l.eligibility,
-			batch.Offers,
-			l.config.PostingsPerTransfer,
-		)
+		answers := l.sender.send(ctx, batch.Offers)
 		if err := l.commitBatch(ctx, batch.Offers, answers); err != nil {
 			l.reportBatchUnwritten(ctx, err)
 			l.abortBatch(ctx, reserved)

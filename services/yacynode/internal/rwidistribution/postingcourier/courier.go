@@ -1,5 +1,5 @@
 // Package postingcourier sends stored postings to a peer over the transferRWI
-// protocol endpoint and reports how the peer responded.
+// protocol endpoint and reports how the peer responded and how long it took.
 package postingcourier
 
 import (
@@ -19,18 +19,32 @@ type Receipt struct {
 	URLsUnknownToPeer []yacymodel.URLHash
 }
 
+type Observer interface {
+	ObservePostingOfferAnswerTime(answerTime time.Duration)
+}
+
 type Courier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
+	now         func() time.Time
+	observer    Observer
 }
 
 func New(
 	exchange peerwire.MessageExchange,
 	networkName string,
 	self yacymodel.Hash,
+	now func() time.Time,
+	observer Observer,
 ) Courier {
-	return Courier{exchange: exchange, networkName: networkName, self: self}
+	return Courier{
+		exchange:    exchange,
+		networkName: networkName,
+		self:        self,
+		now:         now,
+		observer:    observer,
+	}
 }
 
 func (c Courier) Offer(
@@ -109,7 +123,9 @@ func (c Courier) postTransferRWI(
 		Key:         yacyproto.TransferRWIKey(len(postings)),
 	}
 
+	sentAt := c.now()
 	msg, err := c.exchange.Exchange(ctx, endpoint, yacyproto.PathTransferRWI, req.Form())
+	c.observer.ObservePostingOfferAnswerTime(c.now().Sub(sentAt))
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, err
 	}

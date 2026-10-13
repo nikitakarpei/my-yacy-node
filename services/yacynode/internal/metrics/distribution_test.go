@@ -1,6 +1,7 @@
 package metrics_test
 
 import (
+	"maps"
 	"strings"
 	"testing"
 	"time"
@@ -275,6 +276,82 @@ yacynode_rwidistribution_word_partitions_waiting{reason="recipient_in_cooldown"}
 		registry,
 		strings.NewReader(expected),
 		"yacynode_rwidistribution_word_partitions_waiting",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionTimesPeerRequestsByKind(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingOfferAnswerTime(200 * time.Millisecond)
+	observer.ObservePostingOfferAnswerTime(time.Second)
+	observer.ObserveURLMetadataDeliveryAnswerTime(300 * time.Millisecond)
+
+	samples := histogramSamplesOf(t, registry, "yacynode_rwidistribution_peer_request_seconds")
+	want := map[string]uint64{"request=postings": 2, "request=url_metadata": 1}
+	if !maps.Equal(samples, want) {
+		t.Fatalf("samples = %v, want %v", samples, want)
+	}
+}
+
+func histogramSamplesOf(
+	t *testing.T,
+	registry *prometheus.Registry,
+	name string,
+) map[string]uint64 {
+	t.Helper()
+
+	families, err := registry.Gather()
+	if err != nil {
+		t.Fatalf("Gather: %v", err)
+	}
+	samples := make(map[string]uint64)
+	for _, family := range families {
+		if family.GetName() != name {
+			continue
+		}
+		for _, metric := range family.GetMetric() {
+			labels := make([]string, 0, len(metric.GetLabel()))
+			for _, label := range metric.GetLabel() {
+				labels = append(labels, label.GetName()+"="+label.GetValue())
+			}
+			samples[strings.Join(labels, ",")] = metric.GetHistogram().GetSampleCount()
+		}
+	}
+
+	return samples
+}
+
+func TestDistributionTimesPeerSends(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePeerSendTime(2 * time.Second)
+
+	samples := histogramSamplesOf(t, registry, "yacynode_rwidistribution_peer_send_seconds")
+	if want := map[string]uint64{"": 1}; !maps.Equal(samples, want) {
+		t.Fatalf("samples = %v, want %v", samples, want)
+	}
+}
+
+func TestDistributionReportsPeersAtTheirSendLimit(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePeersAtSendLimit(3)
+	observer.ObservePeersAtSendLimit(1)
+
+	expected := `
+# HELP yacynode_rwidistribution_peers_at_send_limit Peers with as many sends in flight as they may have; word partitions that need them wait.
+# TYPE yacynode_rwidistribution_peers_at_send_limit gauge
+yacynode_rwidistribution_peers_at_send_limit 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_peers_at_send_limit",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

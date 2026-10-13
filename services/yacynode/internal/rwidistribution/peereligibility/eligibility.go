@@ -1,8 +1,8 @@
-// Package peereligibility tracks which known peers are able to receive
-// postings right now, from the outcome of the offers sent to each.
-// A peer that does not accept an offer goes into a cooldown, and postings that
-// need it wait until the cooldown ends. A peer whose offers fail too often in a
-// row is excluded for a while, so that the next peer takes its place.
+// Package peereligibility tracks which known peers can receive postings now.
+// A peer that does not accept an offer goes into a cooldown. A peer whose
+// offers fail too often in a row is excluded for a while, so that the next peer
+// takes its place. A peer is busy while its sends in flight, at its usual send
+// time, fill the work in flight.
 package peereligibility
 
 import (
@@ -16,17 +16,21 @@ import (
 
 type Observer interface {
 	ObservePeerExcluded()
+	ObservePeerSendTime(sendTime time.Duration)
+	ObservePeersAtSendLimit(amountOfPeers int)
 }
 
 type Config struct {
 	Cooldown                    time.Duration
 	FailedOffersBeforeExclusion int
 	ExclusionDuration           time.Duration
+	WorkInFlight                time.Duration
 }
 
 type Peers struct {
 	mutex      sync.Mutex
 	peerStates map[yacymodel.Hash]peerState
+	peerLoads  map[yacymodel.Hash]peerLoad
 	config     Config
 	now        func() time.Time
 	observer   Observer
@@ -41,6 +45,7 @@ type peerState struct {
 func New(config Config, now func() time.Time, observer Observer) *Peers {
 	return &Peers{
 		peerStates: make(map[yacymodel.Hash]peerState),
+		peerLoads:  make(map[yacymodel.Hash]peerLoad),
 		config:     config,
 		now:        now,
 		observer:   observer,
@@ -107,4 +112,39 @@ func (p *Peers) IsExcluded(peer yacymodel.Hash) bool {
 	defer p.mutex.Unlock()
 
 	return p.now().Before(p.peerStates[peer].exclusionEndsAt)
+}
+
+func (p *Peers) SendStarted(peer yacymodel.Hash) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	p.peerLoads[peer] = p.peerLoads[peer].withSendStarted()
+	p.observer.ObservePeersAtSendLimit(p.amountOfPeersAtSendLimit())
+}
+
+func (p *Peers) amountOfPeersAtSendLimit() int {
+	amountOfPeers := 0
+	for _, load := range p.peerLoads {
+		if load.isAtLimitWithin(p.config.WorkInFlight) {
+			amountOfPeers++
+		}
+	}
+
+	return amountOfPeers
+}
+
+func (p *Peers) SendEnded(peer yacymodel.Hash, sendTime time.Duration) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	p.peerLoads[peer] = p.peerLoads[peer].withSendEndedAfter(sendTime)
+	p.observer.ObservePeerSendTime(sendTime)
+	p.observer.ObservePeersAtSendLimit(p.amountOfPeersAtSendLimit())
+}
+
+func (p *Peers) IsBusy(peer yacymodel.Hash) bool {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	return p.peerLoads[peer].isAtLimitWithin(p.config.WorkInFlight)
 }

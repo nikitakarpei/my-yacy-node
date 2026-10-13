@@ -75,6 +75,7 @@ func openHarness(t *testing.T, opts options) *harness {
 		eligibility: fakeEligibility{
 			peersInCooldown: map[yacymodel.Hash]bool{},
 			excludedPeers:   map[yacymodel.Hash]bool{},
+			busyPeers:       map[yacymodel.Hash]bool{},
 		},
 		clock: time.Unix(1_700_000_000, 0).UTC(),
 	}
@@ -464,6 +465,7 @@ func (f *fakeReachability) IsRecentlyReachable(_ context.Context, peer yacymodel
 type fakeEligibility struct {
 	peersInCooldown map[yacymodel.Hash]bool
 	excludedPeers   map[yacymodel.Hash]bool
+	busyPeers       map[yacymodel.Hash]bool
 }
 
 func (f fakeEligibility) IsInCooldown(peer yacymodel.Hash) bool {
@@ -472,6 +474,10 @@ func (f fakeEligibility) IsInCooldown(peer yacymodel.Hash) bool {
 
 func (f fakeEligibility) IsExcluded(peer yacymodel.Hash) bool {
 	return f.excludedPeers[peer]
+}
+
+func (f fakeEligibility) IsBusy(peer yacymodel.Hash) bool {
+	return f.busyPeers[peer]
 }
 
 func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordPartition(
@@ -772,6 +778,18 @@ func TestAnUndeliveredWordPartitionWithARecipientInCooldownWaits(t *testing.T) {
 	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientInCooldown)
 }
 
+func TestAnUndeliveredWordPartitionWithABusyRecipientWaits(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := fixtureWordPartitions(1)[0]
+	peer := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.eligibility.busyPeers[peer.Hash] = true
+
+	batch := h.undeliveredBatch(t, peer)
+
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientBusy)
+}
+
 func TestAnUndeliveredWordPartitionInRetryWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
@@ -809,6 +827,21 @@ func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
 	batch := h.refreshBatch(t, holder)
 
 	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientInCooldown)
+}
+
+func TestADueRefreshWithABusyRecipientWaits(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := fixtureWordPartitions(1)[0]
+	holder := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.clock = h.clock.Add(refreshInterval)
+	h.eligibility.busyPeers[holder.Hash] = true
+
+	batch := h.refreshBatch(t, holder)
+
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientBusy)
 }
 
 func TestADueRefreshWithoutRecipientsWaits(t *testing.T) {

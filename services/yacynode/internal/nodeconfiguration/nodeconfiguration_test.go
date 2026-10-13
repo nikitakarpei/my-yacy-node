@@ -371,3 +371,17 @@ func TestLoadReadsPeerExclusionOverrides(t *testing.T) {
 		)
 	}
 }
+
+func TestLoadReadsPeerWorkInFlight(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvEgressProxyURL:               "http://proxy:4750",
+		nodeconfiguration.EnvDistributionPeerWorkInFlight: "3s",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if config.Distribution.PeerWorkInFlight != 3*time.Second {
+		t.Errorf("PeerWorkInFlight = %v, want 3s", config.Distribution.PeerWorkInFlight)
+	}
+}

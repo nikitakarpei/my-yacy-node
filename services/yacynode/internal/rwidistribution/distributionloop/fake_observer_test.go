@@ -114,3 +114,7 @@ func (f *fakeObserver) ObservePeerExcluded() {
 
 	f.peersExcluded++
 }
+
+func (f *fakeObserver) ObservePeerSendTime(time.Duration) {}
+
+func (f *fakeObserver) ObservePeersAtSendLimit(int) {}

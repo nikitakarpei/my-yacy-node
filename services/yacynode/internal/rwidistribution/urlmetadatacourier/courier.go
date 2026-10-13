@@ -1,10 +1,12 @@
 // Package urlmetadatacourier delivers URL metadata to a peer over the
-// transferURL protocol endpoint and reports how the peer responded.
+// transferURL protocol endpoint and reports how the peer responded and how long
+// it took.
 package urlmetadatacourier
 
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
@@ -16,18 +18,32 @@ type Receipt struct {
 	URLsRejected []yacymodel.URLHash
 }
 
+type Observer interface {
+	ObserveURLMetadataDeliveryAnswerTime(answerTime time.Duration)
+}
+
 type Courier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
+	now         func() time.Time
+	observer    Observer
 }
 
 func New(
 	exchange peerwire.MessageExchange,
 	networkName string,
 	self yacymodel.Hash,
+	now func() time.Time,
+	observer Observer,
 ) Courier {
-	return Courier{exchange: exchange, networkName: networkName, self: self}
+	return Courier{
+		exchange:    exchange,
+		networkName: networkName,
+		self:        self,
+		now:         now,
+		observer:    observer,
+	}
 }
 
 func (c Courier) Deliver(
@@ -56,7 +72,9 @@ func (c Courier) Deliver(
 		URLs:        metadata,
 	}
 
+	sentAt := c.now()
 	msg, err := c.exchange.Exchange(ctx, endpoint, yacyproto.PathTransferURL, req.Form())
+	c.observer.ObserveURLMetadataDeliveryAnswerTime(c.now().Sub(sentAt))
 	if err != nil {
 		slog.WarnContext(
 			ctx,

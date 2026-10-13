@@ -1,7 +1,7 @@
 // Package wordpartitionoffer decides what each peer gets for the word partitions
 // of a batch: a holder the postings it lacks, a missing holder or a due refresh
 // the whole word partition. A word partition waits while a recipient is in
-// cooldown, and one in retry goes out only as a due refresh. Excluded peers are
+// cooldown or busy, and one in retry goes out only as a due refresh. Excluded peers are
 // left out of the DHT ring.
 package wordpartitionoffer
 
@@ -36,12 +36,14 @@ type Reachability interface {
 type PeerEligibility interface {
 	IsInCooldown(peer yacymodel.Hash) bool
 	IsExcluded(peer yacymodel.Hash) bool
+	IsBusy(peer yacymodel.Hash) bool
 }
 
 type WaitReason string
 
 const (
 	WaitRecipientInCooldown  WaitReason = "recipient_in_cooldown"
+	WaitRecipientBusy        WaitReason = "recipient_busy"
 	WaitWordPartitionInRetry WaitReason = "word_partition_in_retry"
 	WaitNoRecipient          WaitReason = "no_recipient"
 )

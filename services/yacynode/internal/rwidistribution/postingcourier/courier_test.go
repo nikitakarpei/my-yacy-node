@@ -67,13 +67,42 @@ func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
 	}
 }
 
+type steppingClock struct {
+	at   time.Time
+	step time.Duration
+}
+
+func (c *steppingClock) now() time.Time {
+	c.at = c.at.Add(c.step)
+
+	return c.at
+}
+
+type answerTimeRecorder struct{ answerTimes []time.Duration }
+
+func (r *answerTimeRecorder) ObservePostingOfferAnswerTime(answerTime time.Duration) {
+	r.answerTimes = append(r.answerTimes, answerTime)
+}
+
 func openCourierHarness(t *testing.T, server *httptest.Server) postingcourier.Courier {
+	t.Helper()
+
+	return openTimedCourierHarness(t, server, &answerTimeRecorder{})
+}
+
+func openTimedCourierHarness(
+	t *testing.T,
+	server *httptest.Server,
+	recorder *answerTimeRecorder,
+) postingcourier.Courier {
 	t.Helper()
 
 	return postingcourier.New(
 		peerwire.NewMessageExchange(server.Client()),
 		"freeworld",
 		courierHash("self"),
+		(&steppingClock{at: time.Unix(1000, 0), step: time.Second}).now,
+		recorder,
 	)
 }
 
@@ -212,5 +241,21 @@ func TestOfferReportsUnaddressablePeer(t *testing.T) {
 	)
 	if receipt.Outcome != postingcourier.Unaddressable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Unaddressable)
+	}
+}
+
+func TestOfferReportsHowLongThePeerTookToAnswer(t *testing.T) {
+	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	defer server.Close()
+	recorder := &answerTimeRecorder{}
+
+	openTimedCourierHarness(t, server, recorder).Offer(
+		context.Background(),
+		courierSeed(t, server),
+		singlePosting(),
+	)
+
+	if len(recorder.answerTimes) != 1 || recorder.answerTimes[0] != time.Second {
+		t.Fatalf("answer times = %v, want one of 1s", recorder.answerTimes)
 	}
 }
