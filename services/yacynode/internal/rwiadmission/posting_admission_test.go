@@ -66,7 +66,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		}
 	})
 
-	index, admitter, _, err := rwipostings.Open(v)
+	index, admitter, _, err := rwipostings.Open(context.Background(), v, nil)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}

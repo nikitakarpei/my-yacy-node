@@ -9,15 +9,36 @@ import (
 
 const ringOccupancyBucket vault.Name = "rwi_ring_occupancy"
 
+const ringOccupancyVersion = "1"
+
 func registerRingOccupancy(
 	v *vault.Vault,
-) (*vault.Amounts[yacymodel.DHTRingSector], error) {
-	occupancyPerSector, err := v.RegisterAmounts(ringOccupancyBucket, dhtRingSectorKeyLayout)
+	partitions yacymodel.DHTRingPartitions,
+) (*vault.CountIndex[yacymodel.RWIPosting, yacymodel.DHTRingSector], error) {
+	occupancyPerSector, err := v.RegisterCountIndex(
+		ringOccupancyBucket,
+		ringOccupancyVersionFor(partitions),
+		dhtRingSectorKeyLayout,
+		func(posting yacymodel.RWIPosting) yacymodel.DHTRingSector {
+			return dhtRingSectorOf(posting, partitions)
+		},
+	)
 	if err != nil {
 		return nil, fmt.Errorf("register ring occupancy of sectors: %w", err)
 	}
 
 	return occupancyPerSector, nil
+}
+
+func ringOccupancyVersionFor(partitions yacymodel.DHTRingPartitions) string {
+	return fmt.Sprintf("%s over %d partitions", ringOccupancyVersion, uint(partitions))
+}
+
+func dhtRingSectorOf(
+	posting yacymodel.RWIPosting,
+	partitions yacymodel.DHTRingPartitions,
+) yacymodel.DHTRingSector {
+	return yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOfPosting(posting, partitions))
 }
 
 var dhtRingSectorKeyLayout = vault.SingleKey(vault.IntegerKeyPart).KeyLayoutFor(

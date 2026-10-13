@@ -1,6 +1,7 @@
 package rwipostings
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
@@ -12,12 +13,16 @@ import (
 const postingsBucket vault.Name = "rwi"
 
 func registerPostings(
+	ctx context.Context,
 	v *vault.Vault,
+	projections []vault.Projection[yacymodel.RWIPosting],
 ) (*vault.Collection[postingIdentity, yacymodel.RWIPosting], error) {
-	collection, err := v.RegisterCollection(
+	collection, err := v.RegisterProjectedCollection(
+		ctx,
 		postingsBucket,
 		postingKeyLayout,
 		postingValueCodec{},
+		vault.ProjectedAs(postingWithIdentity, projections...),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register rwi posting collection: %w", err)
