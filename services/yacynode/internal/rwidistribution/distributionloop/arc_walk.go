@@ -218,6 +218,22 @@ func (w *arcWalk) signalReachablePeers() {
 	w.wakeWorkers()
 }
 
+func (w *arcWalk) amountOfArcsPerState() map[ArcState]int {
+	w.guard.Lock()
+	defer w.guard.Unlock()
+
+	amounts := make(map[ArcState]int, len(arcStates))
+	for _, state := range arcStates {
+		amounts[state] = 0
+	}
+	now := w.clock.Now()
+	for _, counted := range w.arcs {
+		amounts[counted.stateAt(now, w.eligibility)]++
+	}
+
+	return amounts
+}
+
 func (w *arcWalk) wakeSignal() <-chan struct{} {
 	w.guard.Lock()
 	defer w.guard.Unlock()

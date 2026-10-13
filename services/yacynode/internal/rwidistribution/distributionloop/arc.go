@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
@@ -32,16 +33,46 @@ func (a *arc) isDrainedAt(now time.Time) bool {
 }
 
 func (a *arc) isOpenFor(eligibility PeerEligibility) bool {
+	_, hasPausedPeer := a.pauseEndAt(eligibility)
+
+	return !hasPausedPeer && !a.hasBusyPeer(eligibility)
+}
+
+func (a *arc) stateAt(now time.Time, eligibility PeerEligibility) ArcState {
+	switch {
+	case a.isInBatch:
+		return ArcInBatch
+	case a.hasPeerPausedBy(peereligibility.PauseFailed, eligibility):
+		return ArcPeerFailed
+	case a.hasPeerPausedBy(peereligibility.PauseDeclined, eligibility):
+		return ArcPeerDeclined
+	case a.hasBusyPeer(eligibility):
+		return ArcPeerBusy
+	case a.isDrainedAt(now):
+		return ArcDrained
+	default:
+		return ArcWaitingForWorker
+	}
+}
+
+func (a *arc) hasPeerPausedBy(cause peereligibility.PauseCause, eligibility PeerEligibility) bool {
 	for _, seed := range a.seedArc.Window {
-		if eligibility.IsBusy(seed.Hash) {
-			return false
-		}
-		if _, isPaused := eligibility.PauseOf(seed.Hash); isPaused {
-			return false
+		if pause, isPaused := eligibility.PauseOf(seed.Hash); isPaused && pause.Cause == cause {
+			return true
 		}
 	}
 
-	return true
+	return false
+}
+
+func (a *arc) hasBusyPeer(eligibility PeerEligibility) bool {
+	for _, seed := range a.seedArc.Window {
+		if eligibility.IsBusy(seed.Hash) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (a *arc) holds(position yacymodel.DHTRingPosition) bool {

@@ -4,12 +4,15 @@ import (
 	"slices"
 	"sync"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
 )
 
 type fakeObserver struct {
 	guard                  sync.Mutex
 	undeliveredPostings    int
 	longestRefreshLateness time.Duration
+	arcsPerState           map[string]int
 	staleHoldersDropped    int
 	postingsHandedOff      int
 	postingsDelivered      int
@@ -39,6 +42,20 @@ func (f *fakeObserver) ObserveLongestRefreshLateness(lateness time.Duration) {
 	defer f.guard.Unlock()
 
 	f.longestRefreshLateness = lateness
+}
+
+func (f *fakeObserver) ObserveArcs(amountPerState map[string]int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	f.arcsPerState = amountPerState
+}
+
+func (f *fakeObserver) arcsIn(state distributionloop.ArcState) int {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	return f.arcsPerState[string(state)]
 }
 
 func (f *fakeObserver) ObserveStaleHoldersDropped(amountOfStaleHolders int) {

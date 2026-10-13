@@ -370,3 +370,25 @@ yacynode_rwidistribution_peers_at_send_limit 1
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
+
+func TestDistributionReportsArcsPerState(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObserveArcs(map[string]int{"in_batch": 2, "drained": 0})
+	observer.ObserveArcs(map[string]int{"in_batch": 1, "drained": 3})
+
+	expected := `
+# HELP yacynode_rwidistribution_arcs Arcs of the DHT ring by what each is doing now.
+# TYPE yacynode_rwidistribution_arcs gauge
+yacynode_rwidistribution_arcs{state="drained"} 3
+yacynode_rwidistribution_arcs{state="in_batch"} 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_arcs",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}

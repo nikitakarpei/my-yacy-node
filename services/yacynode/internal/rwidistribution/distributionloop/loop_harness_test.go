@@ -34,13 +34,14 @@ const (
 )
 
 type loopOptions struct {
-	self              yacymodel.Hash
-	redundancy        int
-	leastPause        time.Duration
-	minReachablePeers int
-	amountOfWorkers   int
-	postingsPerBatch  int
-	handoffEnabled    bool
+	self                        yacymodel.Hash
+	redundancy                  int
+	leastPause                  time.Duration
+	minReachablePeers           int
+	amountOfWorkers             int
+	postingsPerBatch            int
+	handoffEnabled              bool
+	failedOffersBeforeExclusion int
 }
 
 type loopHarness struct {
@@ -68,6 +69,9 @@ func withLoopDefaults(opts loopOptions) loopOptions {
 	}
 	if opts.amountOfWorkers == 0 {
 		opts.amountOfWorkers = 1
+	}
+	if opts.failedOffersBeforeExclusion == 0 {
+		opts.failedOffersBeforeExclusion = 1
 	}
 	if opts.postingsPerBatch == 0 {
 		opts.postingsPerBatch = postingsPerBatch
@@ -112,7 +116,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	h.eligibility = peereligibility.New(
 		peereligibility.Config{
 			LeastPause:                  opts.leastPause,
-			FailedOffersBeforeExclusion: 1,
+			FailedOffersBeforeExclusion: opts.failedOffersBeforeExclusion,
 			ExclusionDuration:           exclusionDuration,
 			WorkInFlight:                workInFlight,
 		},

@@ -126,6 +126,7 @@ func New(
 			schedule:        schedule,
 			roster:          roster,
 			clock:           clock,
+			walk:            walk,
 			backlogObserver: backlogObserver,
 			dhtRingObserver: dhtRingObserver,
 		},

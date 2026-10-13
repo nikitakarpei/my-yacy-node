@@ -10,6 +10,7 @@ const (
 	labelOutcome = "outcome"
 	labelReason  = "reason"
 	labelRequest = "request"
+	labelState   = "state"
 
 	requestPostings    = "postings"
 	requestURLMetadata = "url_metadata"
@@ -30,6 +31,7 @@ type DistributionMetrics struct {
 	urlsUnknownToUs        prometheus.Counter
 	undeliveredPostings    prometheus.Gauge
 	longestRefreshLateness prometheus.Gauge
+	arcs                   *prometheus.GaugeVec
 	staleHoldersDropped    prometheus.Counter
 	postingsHandedOff      prometheus.Counter
 	postingsDelivered      prometheus.Counter
@@ -49,6 +51,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
+//nolint:funlen // one literal declaring every distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -82,6 +85,11 @@ func distributionMetrics() *DistributionMetrics {
 		longestRefreshLateness: gaugeFor(
 			"yacynode_rwidistribution_longest_refresh_lateness_seconds",
 			"How long the most overdue word partition refresh has waited past its refresh time.",
+		),
+		arcs: gaugePerLabelFor(
+			"yacynode_rwidistribution_arcs",
+			"Arcs of the DHT ring by what each is doing now.",
+			labelState,
 		),
 		staleHoldersDropped: counterFor(
 			"yacynode_rwidistribution_stale_holders_dropped_total",
@@ -140,6 +148,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlsUnknownToUs,
 		d.undeliveredPostings,
 		d.longestRefreshLateness,
+		d.arcs,
 		d.staleHoldersDropped,
 		d.postingsHandedOff,
 		d.postingsDelivered,
@@ -163,6 +172,10 @@ func counterFor(name string, help string) prometheus.Counter {
 
 func gaugeFor(name string, help string) prometheus.Gauge {
 	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
+}
+
+func gaugePerLabelFor(name string, help string, label string) *prometheus.GaugeVec {
+	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, []string{label})
 }
 
 func histogramPerLabelFor(
@@ -203,6 +216,12 @@ func (d *DistributionMetrics) ObserveUndeliveredPostings(amountOfPostings int) {
 
 func (d *DistributionMetrics) ObserveLongestRefreshLateness(lateness time.Duration) {
 	d.longestRefreshLateness.Set(lateness.Seconds())
+}
+
+func (d *DistributionMetrics) ObserveArcs(amountPerState map[string]int) {
+	for state, amount := range amountPerState {
+		d.arcs.WithLabelValues(state).Set(float64(amount))
+	}
 }
 
 func (d *DistributionMetrics) ObserveStaleHoldersDropped(amountOfStaleHolders int) {
