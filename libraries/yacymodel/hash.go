@@ -39,7 +39,9 @@ func ParseHashBytes(raw []byte) (Hash, error) {
 		)
 	}
 
-	return Hash{value: Encode(raw)}, nil
+	var text [HashLength]byte
+
+	return Hash{value: string(appendEncoded(text[:0], raw))}, nil
 }
 
 func (h Hash) Reserved() bool {

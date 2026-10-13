@@ -29,15 +29,12 @@ func (parts SingleKeyParts[A]) KeysBeforeFirst(first A) KeyRange {
 }
 
 func (parts SingleKeyParts[A]) PartsOf(storedKey []byte) (A, error) {
-	firstTargets, firstValue := parts.first.holder()
-
-	if err := parseInto(storedKey, firstTargets); err != nil {
-		var unparsed A
-
-		return unparsed, err
+	first, rest, err := parts.first.parseFrom(orderedBytes{encoded: storedKey})
+	if err != nil {
+		return first, err
 	}
 
-	return firstValue()
+	return first, rest.leftoverError()
 }
 
 func (parts SingleKeyParts[A]) KeyLayout() KeyLayout[A] {
