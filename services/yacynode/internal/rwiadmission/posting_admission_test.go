@@ -74,7 +74,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
-	urlDirectory, _, _, urlReceiver, err := urlmeta.Open(v, escrow)
+	urlDirectory, _, _, urlReceiver, err := urlmeta.Open(context.Background(), v, nil, escrow)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}

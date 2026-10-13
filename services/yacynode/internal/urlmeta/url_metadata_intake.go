@@ -91,7 +91,7 @@ func (i urlIntake) Admit(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
 		return fmt.Errorf("%w: %w", errURLMetadataRefused, err)
 	}
 
-	return i.observers.stored(tx, metadata.Hash, metadata.Freshness())
+	return i.observers.stored(tx, metadata.Hash)
 }
 
 var (

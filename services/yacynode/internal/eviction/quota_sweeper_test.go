@@ -279,13 +279,14 @@ func openIndexedPage(t *testing.T) indexedPage {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	staleness, err := urlmetastaleness.Open(v)
+	staleness, stalenessProjection, err := urlmetastaleness.Open(v)
 	if err != nil {
 		t.Fatalf("urlmetastaleness.Open: %v", err)
 	}
 	_, evictor, _, receiver, err := urlmeta.Open(
+		context.Background(),
 		v,
-		staleness,
+		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlpostingpurge.New(references, purger, discardedPurges{}),
 	)
 	if err != nil {

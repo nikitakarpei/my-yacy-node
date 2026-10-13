@@ -8,10 +8,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 )
 
-func openOrder(t *testing.T) (*vault.Vault, urlmetastaleness.StalenessRanking) {
+type harness struct {
+	vault    *vault.Vault
+	order    urlmetastaleness.StaleURLSource
+	admitter urlmeta.URLMetadataAdmitter
+	evictor  urlmeta.URLEvictor
+}
+
+func openOrder(t *testing.T) harness {
 	t.Helper()
 
 	v, err := memoryvault.Open(0, nil)
@@ -24,41 +32,58 @@ func openOrder(t *testing.T) (*vault.Vault, urlmetastaleness.StalenessRanking) {
 		}
 	})
 
-	order, err := urlmetastaleness.Open(v)
+	order, projection, err := urlmetastaleness.Open(v)
 	if err != nil {
 		t.Fatalf("Open order: %v", err)
 	}
+	_, evictor, admitter, _, err := urlmeta.Open(
+		context.Background(),
+		v,
+		[]vault.Projection[yacymodel.URLMetadata]{projection},
+	)
+	if err != nil {
+		t.Fatalf("urlmeta.Open: %v", err)
+	}
 
-	return v, order
+	return harness{vault: v, order: order, admitter: admitter, evictor: evictor}
 }
 
-func store(
+func (h harness) store(
 	t *testing.T,
-	v *vault.Vault,
-	order urlmetastaleness.StalenessRanking,
 	hash yacymodel.URLHash,
-	freshness yacymodel.Optional[yacymodel.CalendarDay],
+	loaded yacymodel.Optional[yacymodel.CalendarDay],
 ) {
 	t.Helper()
 
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return order.URLStored(tx, hash, freshness)
-	}); err != nil {
-		t.Fatalf("URLStored: %v", err)
+	h.write(t, func(tx *vault.Txn) error {
+		return h.admitter.Admit(tx, yacymodel.URLMetadata{Hash: hash, Loaded: loaded})
+	})
+}
+
+func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
+	t.Helper()
+
+	if err := h.vault.Update(context.Background(), change); err != nil {
+		t.Fatalf("Update: %v", err)
 	}
 }
 
-func stalestURLs(
-	t *testing.T,
-	v *vault.Vault,
-	order urlmetastaleness.StalenessRanking,
-	limit int,
-) []yacymodel.URLHash {
+func (h harness) purge(t *testing.T, hash yacymodel.URLHash) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		_, err := h.evictor.Purge(context.Background(), tx, []yacymodel.URLHash{hash})
+
+		return err
+	})
+}
+
+func (h harness) stalestURLs(t *testing.T, limit int) []yacymodel.URLHash {
 	t.Helper()
 
 	var stalest []yacymodel.URLHash
-	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		selected, err := order.StalestURLs(tx, limit)
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		selected, err := h.order.StalestURLs(tx, limit)
 		stalest = selected
 
 		return err
@@ -69,69 +94,69 @@ func stalestURLs(
 	return stalest
 }
 
+func dayIn(year int) yacymodel.Optional[yacymodel.CalendarDay] {
+	return yacymodel.Some(yacymodel.NewCalendarDay(year, time.January, 1))
+}
+
 func TestStalestURLsReturnsStalestFirst(t *testing.T) {
-	v, order := openOrder(t)
+	h := openOrder(t)
 	fresh := urlHash("fresh")
 	stale := urlHash("stale")
 	middle := urlHash("middle")
-	store(t, v, order, fresh, yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)))
-	store(t, v, order, stale, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
-	store(t, v, order, middle, yacymodel.Some(yacymodel.NewCalendarDay(2023, time.January, 1)))
+	h.store(t, fresh, dayIn(2026))
+	h.store(t, stale, dayIn(2020))
+	h.store(t, middle, dayIn(2023))
 
-	candidates := stalestURLs(t, v, order, 2)
+	candidates := h.stalestURLs(t, 2)
 	if len(candidates) != 2 || candidates[0] != stale || candidates[1] != middle {
 		t.Fatalf("candidates = %v, want [stale middle]", candidates)
 	}
 }
 
 func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
-	v, order := openOrder(t)
+	h := openOrder(t)
 	dated := urlHash("dated")
 	undated := urlHash("undated")
-	store(t, v, order, dated, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
-	store(t, v, order, undated, yacymodel.None[yacymodel.CalendarDay]())
+	h.store(t, dated, dayIn(2020))
+	h.store(t, undated, yacymodel.None[yacymodel.CalendarDay]())
 
-	candidates := stalestURLs(t, v, order, 1)
+	candidates := h.stalestURLs(t, 1)
 	if len(candidates) != 1 || candidates[0] != undated {
 		t.Fatalf("candidates = %v, want [undated]", candidates)
 	}
 }
 
 func TestStalestURLsZeroLimit(t *testing.T) {
-	v, order := openOrder(t)
+	h := openOrder(t)
 
-	candidates := stalestURLs(t, v, order, 0)
+	candidates := h.stalestURLs(t, 0)
 	if candidates != nil {
 		t.Fatalf("candidates = %v, want nil", candidates)
 	}
 }
 
 func TestPurgedURLLeavesOrder(t *testing.T) {
-	v, order := openOrder(t)
+	h := openOrder(t)
 	kept := urlHash("kept")
 	gone := urlHash("gone")
-	store(t, v, order, kept, yacymodel.Some(yacymodel.NewCalendarDay(2025, time.January, 1)))
-	store(t, v, order, gone, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
+	h.store(t, kept, dayIn(2025))
+	h.store(t, gone, dayIn(2020))
 
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return order.URLPurged(tx, gone)
-	}); err != nil {
-		t.Fatalf("URLPurged: %v", err)
-	}
+	h.purge(t, gone)
 
-	candidates := stalestURLs(t, v, order, 10)
+	candidates := h.stalestURLs(t, 10)
 	if len(candidates) != 1 || candidates[0] != kept {
 		t.Fatalf("candidates = %v, want [kept]", candidates)
 	}
 }
 
 func TestPurgeUnknownURLIsHarmless(t *testing.T) {
-	v, order := openOrder(t)
+	h := openOrder(t)
 
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return order.URLPurged(tx, urlHash("absent"))
-	}); err != nil {
-		t.Fatalf("URLPurged: %v", err)
+	h.purge(t, urlHash("absent"))
+
+	if candidates := h.stalestURLs(t, 10); len(candidates) != 0 {
+		t.Fatalf("candidates = %v, want none", candidates)
 	}
 }
 
@@ -142,4 +167,19 @@ func urlHash(raw string) yacymodel.URLHash {
 	}
 
 	return hash
+}
+
+func TestAURLStoredAgainOnAnotherDayKeepsOnlyItsNewPlace(t *testing.T) {
+	h := openOrder(t)
+	moved := urlHash("moved")
+	kept := urlHash("kept")
+	h.store(t, moved, dayIn(2020))
+	h.store(t, kept, dayIn(2023))
+
+	h.store(t, moved, dayIn(2026))
+
+	candidates := h.stalestURLs(t, 10)
+	if len(candidates) != 2 || candidates[0] != kept || candidates[1] != moved {
+		t.Fatalf("candidates = %v, want [kept moved]", candidates)
+	}
 }
