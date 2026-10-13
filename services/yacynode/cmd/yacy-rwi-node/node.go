@@ -343,7 +343,6 @@ func assembleNode(
 		if config.Distribution.HandoffEnabled {
 			handoff = postinghandoff.New(
 				postingPurger,
-				peerRoster,
 				postinghandoff.Config{
 					Self:       identity.Hash,
 					Redundancy: config.Distribution.Redundancy,

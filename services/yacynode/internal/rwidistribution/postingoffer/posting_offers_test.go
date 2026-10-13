@@ -2,6 +2,7 @@ package postingoffer_test
 
 import (
 	"context"
+	"slices"
 	"testing"
 	"time"
 
@@ -421,7 +422,7 @@ func TestDueLowersReplicasOwedWhenThisNodeIsResponsible(t *testing.T) {
 	}
 }
 
-func TestDueLeavesReplicasOwedWhenThisNodeIsOutsideTheWindow(t *testing.T) {
+func TestDueLeavesReplicasOwedWhenThisNodeIsNotResponsible(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peers := peerSeeds("p1", "p2", "p3")
 	harness := openPostingOffers(t, postingOfferOptions{
@@ -441,7 +442,7 @@ func TestDueLeavesReplicasOwedWhenThisNodeIsOutsideTheWindow(t *testing.T) {
 	}
 }
 
-func TestDueNarrowsTheLedgerWindowWhenThisNodeIsResponsible(t *testing.T) {
+func TestDueNarrowsTheResponsiblePeersWhenThisNodeIsResponsible(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peers := peerSeeds("p1", "p2")
 	harness := openPostingOffers(t, postingOfferOptions{
@@ -561,7 +562,7 @@ func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
 	}
 }
 
-func TestDueOffersOnlyToWindowPeersOutOfCooldown(t *testing.T) {
+func TestDueOffersOnlyToResponsiblePeersOutOfCooldown(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peers := peerSeeds("p1", "p2", "p3")
 	harness := openPostingOffers(t, postingOfferOptions{
@@ -574,7 +575,7 @@ func TestDueOffersOnlyToWindowPeersOutOfCooldown(t *testing.T) {
 
 	first := harness.dueOffer(t, peers)
 	if len(first.Peers) != 2 || first.PauseForPeersInCooldown != 0 {
-		t.Fatalf("offer = %+v, want both window peers and no pause", first)
+		t.Fatalf("offer = %+v, want both responsible peers and no pause", first)
 	}
 	inCooldown, outOfCooldown := first.Peers[0].Hash, first.Peers[1].Hash
 
@@ -583,7 +584,7 @@ func TestDueOffersOnlyToWindowPeersOutOfCooldown(t *testing.T) {
 	second := harness.dueOffer(t, peers)
 	if len(second.Peers) != 1 || second.Peers[0].Hash != outOfCooldown {
 		t.Fatalf(
-			"Peers = %v, want only %v: a peer past the window never stands in for %v",
+			"Peers = %v, want only %v: a peer beyond the responsible peers never stands in for %v",
 			second.Peers, outOfCooldown, inCooldown,
 		)
 	}
@@ -598,7 +599,7 @@ func TestDueOffersOnlyToWindowPeersOutOfCooldown(t *testing.T) {
 	}
 }
 
-func TestDueWaitsForTheLongestCooldownWhenEveryWindowPeerIsInCooldown(t *testing.T) {
+func TestDueWaitsForTheLongestCooldownWhenEveryResponsiblePeerIsInCooldown(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peers := peerSeeds("p1", "p2", "p3")
 	harness := openPostingOffers(t, postingOfferOptions{
@@ -609,13 +610,13 @@ func TestDueWaitsForTheLongestCooldownWhenEveryWindowPeerIsInCooldown(t *testing
 
 	harness.storePosting(t, word, url)
 
-	windowPeers := harness.dueOffer(t, peers).Peers
-	harness.declineOffer(windowPeers[0].Hash, 0)
-	harness.declineOffer(windowPeers[1].Hash, time.Hour)
+	responsiblePeers := harness.dueOffer(t, peers).Peers
+	harness.declineOffer(responsiblePeers[0].Hash, 0)
+	harness.declineOffer(responsiblePeers[1].Hash, time.Hour)
 
 	offer := harness.dueOffer(t, peers)
 	if len(offer.Peers) != 0 {
-		t.Fatalf("Peers = %v, want none while every window peer is in cooldown", offer.Peers)
+		t.Fatalf("Peers = %v, want none while every responsible peer is in cooldown", offer.Peers)
 	}
 	if offer.AcceptancesNeeded != 2 {
 		t.Fatalf("AcceptancesNeeded = %d, want both missing replicas", offer.AcceptancesNeeded)
@@ -655,7 +656,7 @@ func TestDueKeepsHolderInCooldown(t *testing.T) {
 	}
 }
 
-func TestDueKeepsHolderOutsideWindowUntilRedundancyIsMet(t *testing.T) {
+func TestDueKeepsHolderBeyondTheResponsiblePeersUntilRedundancyIsMet(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peers := peerSeeds("p1", "p2")
 	harness := openPostingOffers(t, postingOfferOptions{
@@ -666,14 +667,14 @@ func TestDueKeepsHolderOutsideWindowUntilRedundancyIsMet(t *testing.T) {
 	harness.storePosting(t, word, url)
 
 	closest := harness.dueOffer(t, peers).Peers[0].Hash
-	outside := otherThan(peers, closest)
+	fartherPeer := otherThan(peers, closest)
 
-	harness.recordAccepted(t, outside, fakePosting(word, url))
+	harness.recordAccepted(t, fartherPeer, fakePosting(word, url))
 
 	kept := harness.dueOffer(t, peers)
 	if len(kept.StaleHolders) != 0 {
 		t.Fatalf(
-			"StaleHolders = %+v, want none: a reachable holder outside the window still serves it",
+			"StaleHolders = %+v, want none: a reachable holder beyond the responsible peers still serves it",
 			kept.StaleHolders,
 		)
 	}
@@ -681,10 +682,10 @@ func TestDueKeepsHolderOutsideWindowUntilRedundancyIsMet(t *testing.T) {
 	harness.recordAccepted(t, closest, fakePosting(word, url))
 
 	dropped := harness.dueOffer(t, peers)
-	if len(dropped.StaleHolders) != 1 || dropped.StaleHolders[0] != outside {
+	if len(dropped.StaleHolders) != 1 || dropped.StaleHolders[0] != fartherPeer {
 		t.Fatalf(
 			"StaleHolders = %+v, want [%v] once redundancy is met",
-			dropped.StaleHolders, outside,
+			dropped.StaleHolders, fartherPeer,
 		)
 	}
 }
@@ -767,5 +768,101 @@ func TestDueCarriesThePostingPosition(t *testing.T) {
 				)
 			}
 		})
+	}
+}
+
+func TestDueReplicaOfferCarriesTheResponsiblePeers(t *testing.T) {
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peers := peerSeeds("p1", "p2", "p3")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		redundancy:   2,
+	})
+
+	harness.storePosting(t, word, url)
+
+	offer := harness.dueOffer(t, peers)
+	if !slices.Equal(offer.ResponsiblePeers, yacymodel.PeerHashesOf(offer.Peers)) {
+		t.Fatalf(
+			"ResponsiblePeers = %v, want the two closest peers %v",
+			offer.ResponsiblePeers, yacymodel.PeerHashesOf(offer.Peers),
+		)
+	}
+}
+
+func TestDueRefreshOfferCarriesTheResponsiblePeers(t *testing.T) {
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peers := peerSeeds("p1", "p2")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
+
+	harness.storePosting(t, word, url)
+	closest := harness.dueOffer(t, peers).Peers[0].Hash
+	harness.recordAccepted(t, closest, fakePosting(word, url))
+
+	offer := harness.dueOffer(t, peers)
+	if offer.AcceptancesNeeded != 0 {
+		t.Fatalf("AcceptancesNeeded = %d, want a refresh offer", offer.AcceptancesNeeded)
+	}
+	if !slices.Equal(offer.ResponsiblePeers, []yacymodel.Hash{closest}) {
+		t.Fatalf(
+			"ResponsiblePeers = %v, want only the closest peer %v",
+			offer.ResponsiblePeers,
+			closest,
+		)
+	}
+}
+
+func TestDueResponsiblePeersAreEveryAcceptingPeerWhenTooFewExist(t *testing.T) {
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peers := peerSeeds("p1", "p2")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		redundancy:   3,
+	})
+
+	harness.storePosting(t, word, url)
+
+	offer := harness.dueOffer(t, append(peers, indexDecliningSeed(yacymodel.WordHash("p3"))))
+	if len(offer.ResponsiblePeers) != len(peers) {
+		t.Fatalf(
+			"ResponsiblePeers = %v, want every accepting peer of %v",
+			offer.ResponsiblePeers,
+			peers,
+		)
+	}
+	for _, peer := range peers {
+		if !slices.Contains(offer.ResponsiblePeers, peer.Hash) {
+			t.Fatalf(
+				"ResponsiblePeers = %v, want accepting peer %v",
+				offer.ResponsiblePeers,
+				peer.Hash,
+			)
+		}
+	}
+}
+
+func TestDueResponsiblePeersLeaveOutThisNodeWhenItIsResponsible(t *testing.T) {
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peers := peerSeeds("p1", "p2")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		self:         thisNodeCloserThanEveryPeer(),
+		redundancy:   2,
+	})
+
+	harness.storePosting(t, word, url)
+
+	offer := harness.dueOffer(t, peers)
+	if len(offer.ResponsiblePeers) != 1 {
+		t.Fatalf(
+			"ResponsiblePeers = %v, want one peer: this node holds the other replica",
+			offer.ResponsiblePeers,
+		)
 	}
 }

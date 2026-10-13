@@ -8,15 +8,15 @@ import (
 )
 
 type replicaHolders struct {
-	insideWindow  []yacymodel.Hash
-	outsideWindow []yacymodel.Hash
-	expired       []yacymodel.Hash
+	amongResponsiblePeers  []yacymodel.Hash
+	beyondResponsiblePeers []yacymodel.Hash
+	expired                []yacymodel.Hash
 }
 
 func (h replicaHolders) peersHoldingReplica(peers iter.Seq[yacymodel.Seed]) []yacymodel.Seed {
-	holdingPeers := make([]yacymodel.Seed, 0, len(h.insideWindow))
+	holdingPeers := make([]yacymodel.Seed, 0, len(h.amongResponsiblePeers))
 	for seed := range peers {
-		if slices.Contains(h.insideWindow, seed.Hash) {
+		if slices.Contains(h.amongResponsiblePeers, seed.Hash) {
 			holdingPeers = append(holdingPeers, seed)
 		}
 	}
@@ -45,5 +45,5 @@ func (h replicaHolders) closestPeersMissingReplica(
 }
 
 func (h replicaHolders) unexpiredHolders() []yacymodel.Hash {
-	return slices.Concat(h.insideWindow, h.outsideWindow)
+	return slices.Concat(h.amongResponsiblePeers, h.beyondResponsiblePeers)
 }

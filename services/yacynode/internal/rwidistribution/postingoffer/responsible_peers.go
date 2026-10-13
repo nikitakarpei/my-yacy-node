@@ -4,41 +4,39 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type replicaWindow struct {
-	farthestPeer     yacymodel.Hash
+type responsiblePeers struct {
+	hashes           []yacymodel.Hash
 	coversWholeRing  bool
 	position         yacymodel.DHTRingPosition
 	requiredReplicas int
 }
 
-func replicaWindowFor(
+func responsiblePeersFor(
 	position yacymodel.DHTRingPosition,
 	acceptingPeers yacymodel.SeedRing,
 	self yacymodel.Hash,
 	redundancy int,
-) replicaWindow {
+) responsiblePeers {
 	closest := acceptingPeers.SeedsClosestTo(position, redundancy)
 	requiredReplicas := redundancy
 	if len(closest) < redundancy ||
 		!yacymodel.CloserToDHTRingPosition(closest[redundancy-1].Hash, self, position) {
 		requiredReplicas = redundancy - 1
 	}
-	if requiredReplicas == 0 || len(closest) < requiredReplicas {
-		return replicaWindow{
-			coversWholeRing:  true,
-			position:         position,
-			requiredReplicas: requiredReplicas,
-		}
-	}
 
-	return replicaWindow{
-		farthestPeer:     closest[requiredReplicas-1].Hash,
+	return responsiblePeers{
+		hashes:           yacymodel.PeerHashesOf(closest[:min(requiredReplicas, len(closest))]),
+		coversWholeRing:  requiredReplicas == 0 || len(closest) < requiredReplicas,
 		position:         position,
 		requiredReplicas: requiredReplicas,
 	}
 }
 
-func (r replicaWindow) contains(peer yacymodel.Hash) bool {
+func (r responsiblePeers) contains(peer yacymodel.Hash) bool {
 	return r.coversWholeRing ||
-		!yacymodel.CloserToDHTRingPosition(r.farthestPeer, peer, r.position)
+		!yacymodel.CloserToDHTRingPosition(r.farthestPeer(), peer, r.position)
+}
+
+func (r responsiblePeers) farthestPeer() yacymodel.Hash {
+	return r.hashes[len(r.hashes)-1]
 }

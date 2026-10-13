@@ -1529,7 +1529,7 @@
     {
       "id": 58,
       "title": "Peers no longer counted as replica holders",
-      "description": "A peer stops counting as a holder when it is unreachable for too long, or when it drifts outside the replica window of the posting.",
+      "description": "A peer stops counting as a holder when it is unreachable for too long, or when it is no longer one of the responsible peers of the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
