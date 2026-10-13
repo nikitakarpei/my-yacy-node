@@ -27,36 +27,6 @@ type storedBucketTally struct {
 	tallyKey     []byte
 }
 
-func storedBucketTallyFor(
-	bucket vault.Name,
-	reader pebble.Reader,
-	footprint *readFootprint,
-	changes *pebble.Batch,
-) storedBucketTally {
-	return storedBucketTally{
-		recordCounts: tallyAmountsWithin(recordCountsRegion, reader, footprint, changes),
-		heldBytes:    tallyAmountsWithin(heldBytesRegion, reader, footprint, changes),
-		tallyKey:     []byte(bucket),
-	}
-}
-
-func tallyAmountsWithin(
-	region keyspaceRegion,
-	reader pebble.Reader,
-	footprint *readFootprint,
-	changes *pebble.Batch,
-) pebbleAmounts {
-	return pebbleAmounts{
-		entries: storedEntries{
-			region:    region,
-			reader:    reader,
-			changes:   changes,
-			footprint: footprint,
-		},
-		loweredAmounts: &amountKeys{},
-	}
-}
-
 func (t storedBucketTally) value() (bucketTally, error) {
 	records, err := t.recordCounts.Get(t.tallyKey)
 	if err != nil {
@@ -70,17 +40,9 @@ func (t storedBucketTally) value() (bucketTally, error) {
 	return bucketTally{records: records, heldBytes: int64(heldBytes)}, nil
 }
 
-func (t storedBucketTally) adjustBy(recordsDelta int, heldBytesDelta int64) error {
-	if recordsDelta != 0 {
-		if err := t.recordCounts.stageChange(t.tallyKey, int64(recordsDelta)); err != nil {
-			return err
-		}
-	}
-	if heldBytesDelta != 0 {
-		return t.heldBytes.stageChange(t.tallyKey, heldBytesDelta)
-	}
-
-	return nil
+func (t storedBucketTally) adjustBy(recordsDelta int, heldBytesDelta int64) {
+	t.recordCounts.change(t.tallyKey, int64(recordsDelta))
+	t.heldBytes.change(t.tallyKey, heldBytesDelta)
 }
 
 func tallyBucketFrom(tallyKey []byte) vault.Name {
@@ -90,7 +52,11 @@ func tallyBucketFrom(tallyKey []byte) vault.Name {
 func heldBytesOf(reader pebble.Reader) (int64, error) {
 	var heldBytes int64
 
-	err := tallyAmountsWithin(heldBytesRegion, reader, nil, nil).Scan(
+	heldBytesAmounts := pebbleAmounts{
+		entries: storedEntries{region: heldBytesRegion, reader: reader},
+		changes: &amountChanges{},
+	}
+	err := heldBytesAmounts.Scan(
 		vault.EveryKey(),
 		func(_ []byte, bytes int) (bool, error) {
 			heldBytes += int64(bytes)
