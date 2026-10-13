@@ -704,3 +704,100 @@ func TestAWordPartitionIsInRetryOnlyWhileShortOfRedundancy(t *testing.T) {
 		t.Fatalf("IsInRetry = true, want false once at redundancy")
 	}
 }
+
+func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.schedule.MakeDue(tx, wordPartition)
+	})
+}
+
+func TestAnUnknownWordPartitionBecomesDueNowWithNoHolders(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+
+	h.makeDue(t, wordPartition)
+
+	if due := h.dueWordPartitions(
+		t,
+		10,
+	); !slices.Equal(
+		due,
+		[]yacymodel.WordPartition{wordPartition},
+	) {
+		t.Fatalf("due word partitions = %v, want %v", due, wordPartition)
+	}
+	if got := h.holdersOf(t, wordPartition); len(got) != 0 {
+		t.Fatalf("Of = %v, want no holders", got)
+	}
+	if h.isInRetry(t, wordPartition) {
+		t.Fatal("IsInRetry = true, want false")
+	}
+}
+
+func TestAWordPartitionAtRedundancyBecomesDueNowAndKeepsItsHolders(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"), peer("peer1"))
+
+	h.makeDue(t, wordPartition)
+
+	if due := h.dueWordPartitions(
+		t,
+		10,
+	); !slices.Equal(
+		due,
+		[]yacymodel.WordPartition{wordPartition},
+	) {
+		t.Fatalf("due word partitions = %v, want %v", due, wordPartition)
+	}
+	if got := h.holdersOf(
+		t,
+		wordPartition,
+	); !slices.Equal(
+		got,
+		[]yacymodel.Hash{peer("peer0"), peer("peer1")},
+	) {
+		t.Fatalf("Of = %v, want both holders", got)
+	}
+	if h.isInRetry(t, wordPartition) {
+		t.Fatal("IsInRetry = true, want false")
+	}
+}
+
+func TestAWordPartitionInRetryIsNotMadeDueBeforeItsRetryTime(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+
+	h.makeDue(t, wordPartition)
+
+	if !h.isInRetry(t, wordPartition) {
+		t.Fatal("IsInRetry = false, want true")
+	}
+	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
+}
+
+func TestAWordPartitionAlreadyDueStaysDueOnceWithItsHolders(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"))
+	h.advance(refreshInterval)
+
+	h.makeDue(t, wordPartition)
+	h.makeDue(t, wordPartition)
+
+	if due := h.dueWordPartitions(
+		t,
+		10,
+	); !slices.Equal(
+		due,
+		[]yacymodel.WordPartition{wordPartition},
+	) {
+		t.Fatalf("due word partitions = %v, want %v", due, wordPartition)
+	}
+	if got := h.holdersOf(t, wordPartition); !slices.Equal(got, []yacymodel.Hash{peer("peer0")}) {
+		t.Fatalf("Of = %v, want the recorded holder", got)
+	}
+}

@@ -139,6 +139,20 @@ func (s *Schedule) record(
 	return nil
 }
 
+func (s *Schedule) MakeDue(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
+	entry, found, err := s.entries.Get(tx, wordPartition)
+	if err != nil {
+		return fmt.Errorf("read word partition due time: %w", err)
+	}
+	now := s.now()
+	if found && (entry.retryDelay > 0 || !entry.dueAt.After(now)) {
+		return nil
+	}
+	entry.dueAt = now
+
+	return s.record(tx, wordPartition, entry)
+}
+
 func (s *Schedule) Forget(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
 	if _, err := s.entries.Delete(tx, wordPartition); err != nil {
 		return fmt.Errorf("drop word partition holders: %w", err)
