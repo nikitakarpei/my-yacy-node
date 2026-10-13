@@ -75,7 +75,7 @@ func TestLoopOffersOtherBatchesWhileABatchWaitsForASlowPeer(t *testing.T) {
 		h.start(t)
 
 		h.admit(t, fastWordPartition[1], urlsOf(1)...)
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := h.holdersOf(
 			t,
@@ -103,14 +103,19 @@ func TestLoopOffersAtMostTheConcurrentBatchesItIsAllowed(t *testing.T) {
 		wordPartitions := []yacymodel.WordPartition{
 			wordPartitionsIn(1, 1)[0], wordPartitionsIn(20, 1)[0], wordPartitionsIn(40, 1)[0],
 		}
-		peer := peerAfter(fixtureWordPartition(), 1)
 		h := openLoop(t, startClock(), loopOptions{
-			redundancy:       2,
 			amountOfWorkers:  2,
 			postingsPerBatch: 1,
 		})
-		h.reach(peer)
-		h.transfers.answers[peer.Hash] = acceptedAnswer
+		for _, wordPartition := range wordPartitions {
+			peer := peerAfter(wordPartition, 1)
+			h.transfers.answers[peer.Hash] = acceptedAnswer
+		}
+		h.reach(
+			peerAfter(wordPartitions[0], 1),
+			peerAfter(wordPartitions[1], 1),
+			peerAfter(wordPartitions[2], 1),
+		)
 		answers := make(chan struct{})
 		h.transfers.onOffer = func(yacymodel.Seed) { <-answers }
 		for _, wordPartition := range wordPartitions {
@@ -132,14 +137,15 @@ func TestLoopOffersAtMostTheConcurrentBatchesItIsAllowed(t *testing.T) {
 func openTwoBatches(t *testing.T) (*loopHarness, []yacymodel.WordPartition) {
 	t.Helper()
 
-	wordPartitions := slices.Concat(
-		wordPartitionsIn(1, postingsPerBatch),
-		wordPartitionsIn(40, postingsPerBatch),
-	)
-	peer := peerAfter(fixtureWordPartition(), 1)
-	h := openLoop(t, startClock(), loopOptions{redundancy: 2, amountOfWorkers: 2})
-	h.reach(peer)
-	h.transfers.answers[peer.Hash] = acceptedAnswer
+	firstWordPartitions := wordPartitionsIn(1, postingsPerBatch)
+	secondWordPartitions := wordPartitionsIn(40, postingsPerBatch)
+	firstPeer := peerAfter(firstWordPartitions[len(firstWordPartitions)-1], 1)
+	secondPeer := peerAfter(secondWordPartitions[len(secondWordPartitions)-1], 1)
+	h := openLoop(t, startClock(), loopOptions{amountOfWorkers: 2})
+	h.reach(firstPeer, secondPeer)
+	h.transfers.answers[firstPeer.Hash] = acceptedAnswer
+	h.transfers.answers[secondPeer.Hash] = acceptedAnswer
+	wordPartitions := slices.Concat(firstWordPartitions, secondWordPartitions)
 	for _, wordPartition := range wordPartitions {
 		h.admit(t, wordPartition, urlsOf(1)...)
 	}

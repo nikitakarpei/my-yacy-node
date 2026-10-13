@@ -34,7 +34,7 @@ func TestLoopRunReturnsWhenItsContextEnds(t *testing.T) {
 	})
 }
 
-func TestLoopSkipsBatchesWhileTooFewPeersAreReachable(t *testing.T) {
+func TestLoopOffersNothingWhileTooFewPeersAreReachable(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartition := fixtureWordPartition()
 		peer := peerAfter(wordPartition, 1)
@@ -50,10 +50,6 @@ func TestLoopSkipsBatchesWhileTooFewPeersAreReachable(t *testing.T) {
 				"offered = %v, want no offers below the reachable-peer floor",
 				h.transfers.offered,
 			)
-		}
-		if h.observer.batchesSkipped[string(distributionloop.SkipTooFewReachablePeers)] != 1 {
-			t.Fatalf("batchesSkipped = %v, want one skip below the reachable-peer floor",
-				h.observer.batchesSkipped)
 		}
 		if got := h.amountOfUndeliveredPostings(t); got != 1 {
 			t.Fatalf("undelivered postings = %d, want 1 left untouched by a skipped batch", got)
@@ -72,10 +68,10 @@ func TestLoopOffersAgainOnceEnoughPeersAreReachable(t *testing.T) {
 		h.start(t)
 
 		h.reach(peer, farPeer)
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := urlsIn(h.transfers.offeredTo(peer)); !slices.Equal(got, urlsOf(1)) {
-			t.Fatalf("peer got %v, want the posting once enough peers are reachable", got)
+			t.Fatalf("peer got %v, want the posting at once when enough peers are reachable", got)
 		}
 		if got := h.amountOfUndeliveredPostings(t); got != 0 {
 			t.Fatalf("undelivered postings = %d, want none", got)
@@ -83,7 +79,7 @@ func TestLoopOffersAgainOnceEnoughPeersAreReachable(t *testing.T) {
 	})
 }
 
-func TestLoopReportsTheBacklogWhileItSkipsBatches(t *testing.T) {
+func TestLoopReportsTheBacklogWhileTooFewPeersAreReachable(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		clk := startClock()
 		delivered, undelivered := wordPartitionOf(0), wordPartitionOf(1)
@@ -94,8 +90,9 @@ func TestLoopReportsTheBacklogWhileItSkipsBatches(t *testing.T) {
 
 		h.start(t)
 
-		if h.observer.undeliveredPostings != 3 || h.observer.longestRefreshLateness != time.Minute {
-			t.Fatalf("undelivered postings = %d, longest refresh lateness = %v, want 3 and 1m",
+		if h.observer.undeliveredPostings != 3 ||
+			h.observer.longestRefreshLateness != refreshInterval+time.Minute {
+			t.Fatalf("undelivered postings = %d, longest refresh lateness = %v, want 3 and 1h1m",
 				h.observer.undeliveredPostings, h.observer.longestRefreshLateness)
 		}
 	})
@@ -180,7 +177,7 @@ func TestLoopSendsTheWholeWordPartitionToAMissingHolder(t *testing.T) {
 
 		h.reach(holder, missingHolder)
 		h.admit(t, wordPartition, urls[3])
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := urlsIn(h.transfers.offeredTo(holder)); !slices.Equal(got, sortedURLs(urls)) {
 			t.Fatalf("holder got %v, want its first postings and then only the new one", got)
@@ -377,8 +374,8 @@ func TestLoopDropsAStaleHolder(t *testing.T) {
 		h := openLoop(t, startClock(), loopOptions{})
 		h.reach(responsiblePeer)
 		h.transfers.answers[responsiblePeer.Hash] = acceptedAnswer
-		h.admit(t, wordPartition, urlsOf(1)...)
 		h.recordHolders(t, wordPartition, staleHolder.Hash)
+		h.admit(t, wordPartition, urlsOf(1)...)
 
 		h.start(t)
 
@@ -439,7 +436,7 @@ func TestLoopKeepsAWordPartitionThisNodeIsResponsibleFor(t *testing.T) {
 	})
 }
 
-func TestLoopMergesTheSendsToOnePeerAndSplitsThemIntoTransfers(t *testing.T) {
+func TestLoopMergesTheWordPartitionsOfABatchIntoOneSendToAPeer(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 2)
 		peer := peerAfter(wordPartitions[1], 1)
@@ -451,28 +448,49 @@ func TestLoopMergesTheSendsToOnePeerAndSplitsThemIntoTransfers(t *testing.T) {
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
 		h.admit(t, wordPartitions[0], urlsOf(1)...)
-		h.admit(t, wordPartitions[1], urlsOf(3)...)
+		h.admit(t, wordPartitions[1], urlsOf(1)...)
 
 		h.start(t)
 
 		offered := h.transfers.offeredTo(peer)
-		if len(offered) != 2 || len(offered[0].Postings) != 2 || len(offered[1].Postings) != 2 {
-			t.Fatalf("offered = %+v, want two transfers of two postings", offered)
+		if len(offered) != 1 || len(offered[0].Postings) != 2 {
+			t.Fatalf("offered = %+v, want one transfer of both word partitions", offered)
 		}
 		if offered[0].Postings[0].WordHash != wordPartitions[0].Word ||
 			offered[0].Postings[1].WordHash != wordPartitions[1].Word {
-			t.Fatalf(
-				"first transfer = %+v, want postings of both word partitions",
-				offered[0].Postings,
-			)
+			t.Fatalf("transfer = %+v, want postings of both word partitions", offered[0].Postings)
+		}
+		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{2}) {
+			t.Fatalf("postings per send = %v, want one send of 2 postings", got)
 		}
 	})
 }
 
-func TestLoopObservesThePostingsOfASendSplitIntoTransfers(t *testing.T) {
+func TestLoopSplitsTheSendOfABigWordPartitionIntoTransfers(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 2)
-		peer := peerAfter(wordPartitions[1], 1)
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{postingsPerBatch: 2})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		offered := h.transfers.offeredTo(peer)
+		if len(offered) != 2 || len(offered[0].Postings) != 2 || len(offered[1].Postings) != 1 {
+			t.Fatalf("offered = %+v, want a transfer of two postings and one of one", offered)
+		}
+		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{3}) {
+			t.Fatalf("postings per send = %v, want one send of 3 postings", got)
+		}
+	})
+}
+
+func TestLoopKeepsABatchWithinThePostingsPerBatchOfEachPeer(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 3)
+		peer := peerAfter(wordPartitions[2], 1)
 		h := openLoop(t, startClock(), loopOptions{
 			self:             thisNodeFartherThan(wordPartitions[0]),
 			redundancy:       2,
@@ -480,13 +498,20 @@ func TestLoopObservesThePostingsOfASendSplitIntoTransfers(t *testing.T) {
 		})
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
-		h.admit(t, wordPartitions[0], urlsOf(1)...)
-		h.admit(t, wordPartitions[1], urlsOf(3)...)
+		for _, wordPartition := range wordPartitions {
+			h.admit(t, wordPartition, urlsOf(1)...)
+		}
 
 		h.start(t)
 
-		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{4}) {
-			t.Fatalf("postings per send = %v, want one send of 4 postings", got)
+		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{1, 2}) {
+			t.Fatalf("postings per send = %v, want a batch of 2 postings and then one of 1", got)
+		}
+		if got := h.amountOfUndeliveredPostings(t); got != 0 {
+			t.Fatalf(
+				"undelivered postings = %d, want the rest of the arc sent in the next batch",
+				got,
+			)
 		}
 	})
 }
@@ -504,7 +529,7 @@ func TestLoopObservesOneSendPerPeerOfABatch(t *testing.T) {
 
 		h.reach(holder, missingHolder)
 		h.admit(t, wordPartition, urlsOf(4)[3])
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{1, 3, 4}) {
 			t.Fatalf("postings per send = %v, want 3 to the holder, then 1 and 4", got)
@@ -529,7 +554,7 @@ func TestLoopSendsNoMoreTransfersToAPeerThatDeclinedOne(t *testing.T) {
 	})
 }
 
-func TestLoopResumesTheWalkAfterTheLastBatch(t *testing.T) {
+func TestLoopResumesTheArcAfterTheLastBatch(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 3)
 		peer := peerAfter(wordPartitions[2], 1)

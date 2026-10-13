@@ -33,11 +33,9 @@ type DistributionMetrics struct {
 	staleHoldersDropped    prometheus.Counter
 	postingsHandedOff      prometheus.Counter
 	postingsDelivered      prometheus.Counter
-	batchesSkipped         *prometheus.CounterVec
 	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
 	peersExcluded          prometheus.Counter
-	wordPartitionsWaiting  *prometheus.GaugeVec
 	peerRequestTime        *prometheus.HistogramVec
 	peerSendTime           prometheus.Histogram
 	postingsPerSend        prometheus.Histogram
@@ -51,7 +49,6 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
-//nolint:funlen // one literal that lists every distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -98,14 +95,9 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_postings_delivered_total",
 			"Postings accepted by all peers of their DHT window and marked delivered.",
 		),
-		batchesSkipped: counterPerLabelFor(
-			"yacynode_rwidistribution_batches_skipped_total",
-			"Distribution batches the node did not start, by reason.",
-			labelReason,
-		),
 		batchesCompleted: counterFor(
 			"yacynode_rwidistribution_batches_completed_total",
-			"Distribution batches that recorded their outcome or found no posting to send.",
+			"Distribution batches that recorded their outcome.",
 		),
 		batchesAborted: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_aborted_total",
@@ -115,11 +107,6 @@ func distributionMetrics() *DistributionMetrics {
 		peersExcluded: counterFor(
 			"yacynode_rwidistribution_peers_excluded_total",
 			"Peers excluded from distribution after failed offers in a row.",
-		),
-		wordPartitionsWaiting: gaugePerLabelFor(
-			"yacynode_rwidistribution_word_partitions_waiting",
-			"Word partitions not sent over the last full read of the ring, by reason.",
-			labelReason,
 		),
 		peerRequestTime: histogramPerLabelFor(
 			"yacynode_rwidistribution_peer_request_seconds",
@@ -156,11 +143,9 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.staleHoldersDropped,
 		d.postingsHandedOff,
 		d.postingsDelivered,
-		d.batchesSkipped,
 		d.batchesCompleted,
 		d.batchesAborted,
 		d.peersExcluded,
-		d.wordPartitionsWaiting,
 		d.peerRequestTime,
 		d.peerSendTime,
 		d.postingsPerSend,
@@ -178,10 +163,6 @@ func counterFor(name string, help string) prometheus.Counter {
 
 func gaugeFor(name string, help string) prometheus.Gauge {
 	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
-}
-
-func gaugePerLabelFor(name string, help string, label string) *prometheus.GaugeVec {
-	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, []string{label})
 }
 
 func histogramPerLabelFor(
@@ -236,10 +217,6 @@ func (d *DistributionMetrics) ObservePostingsDelivered(amountOfPostings int) {
 	d.postingsDelivered.Add(float64(amountOfPostings))
 }
 
-func (d *DistributionMetrics) ObserveBatchSkipped(reason string) {
-	d.batchesSkipped.WithLabelValues(reason).Inc()
-}
-
 func (d *DistributionMetrics) ObserveBatchCompleted() {
 	d.batchesCompleted.Inc()
 }
@@ -250,13 +227,6 @@ func (d *DistributionMetrics) ObserveBatchAborted(reason string) {
 
 func (d *DistributionMetrics) ObservePeerExcluded() {
 	d.peersExcluded.Inc()
-}
-
-func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
-	waitReason string,
-	amountOfWordPartitions int,
-) {
-	d.wordPartitionsWaiting.WithLabelValues(waitReason).Set(float64(amountOfWordPartitions))
 }
 
 func (d *DistributionMetrics) ObservePostingOfferAnswerTime(answerTime time.Duration) {

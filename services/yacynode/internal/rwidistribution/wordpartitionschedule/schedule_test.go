@@ -131,20 +131,6 @@ func (h *harness) holdersOf(
 	return recordedHolders
 }
 
-func (h *harness) isInRetry(t *testing.T, wordPartition yacymodel.WordPartition) bool {
-	t.Helper()
-
-	var isInRetry bool
-	h.read(t, func(tx *vault.Txn) error {
-		var err error
-		isInRetry, err = h.schedule.IsInRetry(tx, wordPartition)
-
-		return err
-	})
-
-	return isInRetry
-}
-
 var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
 
 func (h *harness) dueWithin(
@@ -202,10 +188,6 @@ func (h *harness) read(t *testing.T, view func(tx *vault.Txn) error) {
 	if err := h.vault.View(context.Background(), view); err != nil {
 		t.Fatalf("View: %v", err)
 	}
-}
-
-func (h *harness) sectorOf(wordPartition yacymodel.WordPartition) yacymodel.DHTRingSector {
-	return yacymodel.DHTRingSectorOf(h.positionOf(wordPartition))
 }
 
 func (h *harness) everyWordPartition() []yacymodel.WordPartition {
@@ -358,23 +340,6 @@ func TestDueWordPartitionsGoOnceAroundTheRingSliceBySlice(t *testing.T) {
 	for index := 1; index < len(due); index++ {
 		if h.ringSliceOf(due[index]) < h.ringSliceOf(due[index-1]) {
 			t.Fatalf("due word partitions go back to an earlier ring slice at %d", index)
-		}
-	}
-}
-
-func TestADueWordPartitionTellsTheSectorOfItsPosition(t *testing.T) {
-	h := openHarness(t)
-	for _, wordPartition := range h.everyWordPartition() {
-		h.recordHolders(t, wordPartition, peer("peer0"))
-	}
-	h.advance(refreshInterval)
-
-	due, _ := h.dueWithin(
-		t, wholeRing, wordpartitionschedule.ScheduledWordPartition{}, len(h.everyWordPartition()))
-
-	for _, scheduled := range due {
-		if got, want := scheduled.Sector(), h.sectorOf(scheduled.WordPartition); got != want {
-			t.Fatalf("Sector of %+v = %d, want %d", scheduled.WordPartition, got, want)
 		}
 	}
 }
@@ -699,24 +664,6 @@ func TestReachingRedundancyStartsTheRetryDelayOver(t *testing.T) {
 	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
 }
 
-func TestAWordPartitionIsInRetryOnlyWhileShortOfRedundancy(t *testing.T) {
-	h := openHarness(t)
-	wordPartition := someWordPartition()
-	if h.isInRetry(t, wordPartition) {
-		t.Fatalf("IsInRetry = true, want false for an unknown word partition")
-	}
-
-	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
-	if !h.isInRetry(t, wordPartition) {
-		t.Fatalf("IsInRetry = false, want true while short of redundancy")
-	}
-
-	h.recordHolders(t, wordPartition, peer("peer0"), peer("peer1"))
-	if h.isInRetry(t, wordPartition) {
-		t.Fatalf("IsInRetry = true, want false once at redundancy")
-	}
-}
-
 func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) (wasMadeDue bool) {
 	t.Helper()
 
@@ -907,9 +854,6 @@ func TestAnUnknownWordPartitionBecomesDueNowWithNoHolders(t *testing.T) {
 	if got := h.holdersOf(t, wordPartition); len(got) != 0 {
 		t.Fatalf("Of = %v, want no holders", got)
 	}
-	if h.isInRetry(t, wordPartition) {
-		t.Fatal("IsInRetry = true, want false")
-	}
 }
 
 func TestAWordPartitionAtRedundancyBecomesDueNowAndKeepsItsHolders(t *testing.T) {
@@ -937,9 +881,6 @@ func TestAWordPartitionAtRedundancyBecomesDueNowAndKeepsItsHolders(t *testing.T)
 	) {
 		t.Fatalf("Of = %v, want both holders", got)
 	}
-	if h.isInRetry(t, wordPartition) {
-		t.Fatal("IsInRetry = true, want false")
-	}
 }
 
 func TestAWordPartitionInRetryIsNotMadeDueBeforeItsRetryTime(t *testing.T) {
@@ -949,9 +890,6 @@ func TestAWordPartitionInRetryIsNotMadeDueBeforeItsRetryTime(t *testing.T) {
 
 	h.makeDue(t, wordPartition)
 
-	if !h.isInRetry(t, wordPartition) {
-		t.Fatal("IsInRetry = false, want true")
-	}
 	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
 }
 

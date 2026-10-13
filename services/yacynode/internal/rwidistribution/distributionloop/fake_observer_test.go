@@ -13,21 +13,17 @@ type fakeObserver struct {
 	staleHoldersDropped    int
 	postingsHandedOff      int
 	postingsDelivered      int
-	batchesSkipped         map[string]int
 	batchesCompleted       int
 	batchesAborted         map[string]int
 	holderRingFractions    []float64
 	peersExcluded          int
-	wordPartitionsWaiting  map[string]int
 	peersPerSector         []int
 	postingsPerSend        []int
 }
 
 func newFakeObserver() *fakeObserver {
 	return &fakeObserver{
-		batchesSkipped:        make(map[string]int),
-		batchesAborted:        make(map[string]int),
-		wordPartitionsWaiting: make(map[string]int),
+		batchesAborted: make(map[string]int),
 	}
 }
 
@@ -66,13 +62,6 @@ func (f *fakeObserver) ObservePostingsDelivered(amountOfPostings int) {
 	f.postingsDelivered += amountOfPostings
 }
 
-func (f *fakeObserver) ObserveBatchSkipped(reason string) {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	f.batchesSkipped[reason]++
-}
-
 func (f *fakeObserver) ObserveBatchCompleted() {
 	f.guard.Lock()
 	defer f.guard.Unlock()
@@ -92,23 +81,6 @@ func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPer
 	defer f.guard.Unlock()
 
 	f.peersPerSector = peersPerSector
-}
-
-func (f *fakeObserver) ObserveWordPartitionsWaiting(
-	waitReason string,
-	amountOfWordPartitions int,
-) {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	f.wordPartitionsWaiting[waitReason] = amountOfWordPartitions
-}
-
-func (f *fakeObserver) wordPartitionsWaitingFor(waitReason string) int {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	return f.wordPartitionsWaiting[waitReason]
 }
 
 func (f *fakeObserver) ObserveHolderRingFractions(ringFractions []float64) {

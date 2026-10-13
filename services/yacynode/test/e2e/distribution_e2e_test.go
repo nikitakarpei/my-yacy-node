@@ -56,7 +56,6 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 			Redundancy:        2,
 			PartitionExponent: 1,
 			PostingsPerBatch:  10,
-			RescanDelay:       time.Second,
 			RefreshInterval:   5 * time.Second,
 			MinReachablePeers: 1,
 		},

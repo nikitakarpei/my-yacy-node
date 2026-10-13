@@ -25,7 +25,3 @@ func undeliveredPostingFrom(
 		change: change,
 	}
 }
-
-func (p Posting) Position() yacymodel.DHTRingPosition {
-	return p.change.Entry.position
-}

@@ -47,6 +47,10 @@ type Acceptance struct {
 
 type acceptedURLs map[yacymodel.URLHash]struct{}
 
+func (o Offer) WordPartition() yacymodel.WordPartition {
+	return o.wordPartition
+}
+
 func (o Offer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) Outcome {
 	acceptedURLsPerPeer := o.acceptedURLsPerPeerFrom(answers)
 	holders := o.holdersFrom(answers, acceptedURLsPerPeer)

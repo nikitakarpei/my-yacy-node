@@ -13,7 +13,6 @@ const (
 	EnvDistributionPartitionExponent           = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
 	EnvDistributionPostingsPerBatch            = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
 	EnvDistributionWorkers                     = "YACY_DISTRIBUTION_WORKERS"
-	EnvDistributionRescanDelay                 = "YACY_DISTRIBUTION_RESCAN_DELAY"
 	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
 	EnvDistributionPeerPause                   = "YACY_DISTRIBUTION_PEER_PAUSE"
 	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
@@ -28,7 +27,6 @@ const (
 	DefaultDistributionPartitionExponent           = 4
 	DefaultDistributionPostingsPerBatch            = 1000
 	DefaultDistributionWorkers                     = 2
-	DefaultDistributionRescanDelay                 = 10 * time.Second
 	DefaultDistributionRefreshInterval             = 24 * time.Hour
 	DefaultDistributionPeerPause                   = 10 * time.Minute
 	DefaultDistributionFailedOffersBeforeExclusion = 3
@@ -45,7 +43,6 @@ type DistributionConfig struct {
 	PartitionExponent           uint
 	PostingsPerBatch            int
 	AmountOfWorkers             int
-	RescanDelay                 time.Duration
 	RefreshInterval             time.Duration
 	PeerPause                   time.Duration
 	FailedOffersBeforeExclusion int
@@ -92,13 +89,6 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 
 	amountOfWorkers, err := envconfig.PositiveInt(
 		getenv, EnvDistributionWorkers, DefaultDistributionWorkers,
-	)
-	if err != nil {
-		return DistributionConfig{}, err
-	}
-
-	rescanDelay, err := envconfig.Duration(
-		getenv, EnvDistributionRescanDelay, DefaultDistributionRescanDelay,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -164,7 +154,6 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		PartitionExponent:           uint(partitionExponent),
 		PostingsPerBatch:            postingsPerBatch,
 		AmountOfWorkers:             amountOfWorkers,
-		RescanDelay:                 rescanDelay,
 		RefreshInterval:             refreshInterval,
 		PeerPause:                   peerPause,
 		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,

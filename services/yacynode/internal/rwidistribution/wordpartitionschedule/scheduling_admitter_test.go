@@ -6,7 +6,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 type fakeAdmitter struct {
@@ -26,7 +25,7 @@ func (f *fakeAdmitter) Admit(_ *vault.Txn, posting yacymodel.RWIPosting) error {
 func TestSchedulingAdmitterStoresPostingAndMakesItsWordPartitionDue(t *testing.T) {
 	h := openHarness(t)
 	wrapped := &fakeAdmitter{}
-	admitter := h.schedule.AdmitterFrom(wrapped, wordpartitionschedule.DiscardDueObserver)
+	admitter := h.schedule.AdmitterFrom(wrapped, &recordingDueObserver{})
 	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
 
 	h.write(t, func(tx *vault.Txn) error { return admitter.Admit(tx, posting) })
@@ -46,7 +45,7 @@ func TestSchedulingAdmitterReturnsWrappedErrorAndMakesNothingDue(t *testing.T) {
 	failure := errors.New("admit failed")
 	admitter := h.schedule.AdmitterFrom(
 		&fakeAdmitter{err: failure},
-		wordpartitionschedule.DiscardDueObserver,
+		&recordingDueObserver{},
 	)
 
 	err := h.vault.Update(t.Context(), func(tx *vault.Txn) error {

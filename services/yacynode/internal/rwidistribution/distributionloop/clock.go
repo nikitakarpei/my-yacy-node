@@ -20,3 +20,17 @@ func sleepOn(ctx context.Context, clock Clock, pause time.Duration) {
 	case <-elapsed:
 	}
 }
+
+func waitOn(ctx context.Context, clock Clock, wake <-chan struct{}, alarm wakeAlarm) {
+	elapsed := make(chan struct{})
+	if alarm.isSet {
+		stop := clock.After(max(alarm.at.Sub(clock.Now()), 0), func() { close(elapsed) })
+		defer stop()
+	}
+
+	select {
+	case <-ctx.Done():
+	case <-wake:
+	case <-elapsed:
+	}
+}
