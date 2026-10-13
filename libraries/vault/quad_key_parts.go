@@ -17,12 +17,11 @@ func QuadKey[A, B, C, D any](
 }
 
 func (parts QuadKeyParts[A, B, C, D]) Key(first A, second B, third C, fourth D) Key {
-	items := parts.first.items(first)
-	items = append(items, parts.second.items(second)...)
-	items = append(items, parts.third.items(third)...)
-	items = append(items, parts.fourth.items(fourth)...)
+	encoded := parts.first.appendTo(make([]byte, 0, keyCapacity), first)
+	encoded = parts.second.appendTo(encoded, second)
+	encoded = parts.third.appendTo(encoded, third)
 
-	return keyOf(items)
+	return Key{encoded: parts.fourth.appendTo(encoded, fourth)}
 }
 
 func (parts QuadKeyParts[A, B, C, D]) KeysWithFirst(first A) KeyRange {

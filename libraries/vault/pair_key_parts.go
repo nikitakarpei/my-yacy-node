@@ -10,10 +10,9 @@ func PairKey[A, B any](first KeyPart[A], second KeyPart[B]) PairKeyParts[A, B] {
 }
 
 func (parts PairKeyParts[A, B]) Key(first A, second B) Key {
-	items := parts.first.items(first)
-	items = append(items, parts.second.items(second)...)
+	encoded := parts.first.appendTo(make([]byte, 0, keyCapacity), first)
 
-	return keyOf(items)
+	return Key{encoded: parts.second.appendTo(encoded, second)}
 }
 
 func (parts PairKeyParts[A, B]) KeysWithFirst(first A) KeyRange {

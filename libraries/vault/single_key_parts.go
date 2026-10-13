@@ -9,7 +9,7 @@ func SingleKey[A any](first KeyPart[A]) SingleKeyParts[A] {
 }
 
 func (parts SingleKeyParts[A]) Key(first A) Key {
-	return keyOf(parts.first.items(first))
+	return Key{encoded: parts.first.appendTo(make([]byte, 0, keyCapacity), first)}
 }
 
 func (parts SingleKeyParts[A]) KeysWithFirst(first A) KeyRange {
