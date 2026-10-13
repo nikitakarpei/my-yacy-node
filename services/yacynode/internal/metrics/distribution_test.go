@@ -379,7 +379,7 @@ func TestDistributionReportsArcsPerState(t *testing.T) {
 	observer.ObserveArcs(map[string]int{"in_batch": 1, "drained": 3})
 
 	expected := `
-# HELP yacynode_rwidistribution_arcs Arcs of the DHT ring by what each is doing now.
+# HELP yacynode_rwidistribution_arcs Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now.
 # TYPE yacynode_rwidistribution_arcs gauge
 yacynode_rwidistribution_arcs{state="drained"} 3
 yacynode_rwidistribution_arcs{state="in_batch"} 1

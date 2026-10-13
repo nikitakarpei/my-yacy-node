@@ -88,7 +88,7 @@ func distributionMetrics() *DistributionMetrics {
 		),
 		arcs: gaugePerLabelFor(
 			"yacynode_rwidistribution_arcs",
-			"Arcs of the DHT ring by what each is doing now.",
+			"Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now.",
 			labelState,
 		),
 		staleHoldersDropped: counterFor(

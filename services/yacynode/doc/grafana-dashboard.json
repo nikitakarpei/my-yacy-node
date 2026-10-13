@@ -2445,7 +2445,7 @@
     {
       "id": 137,
       "title": "Arcs by state",
-      "description": "Arcs of the DHT ring by what each is doing now, averaged over 5 minutes. Peer failed or declined: a window peer is paused.",
+      "description": "Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now, averaged over 5 minutes.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
