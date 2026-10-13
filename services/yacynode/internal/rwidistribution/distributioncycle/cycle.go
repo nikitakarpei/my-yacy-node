@@ -36,12 +36,13 @@ type ReachablePeers interface {
 }
 
 type PostingHandoff interface {
-	HandOffIfHeldByCloserPeers(
+	HandOffIfHeldByResponsiblePeers(
 		ctx context.Context,
 		tx *vault.Txn,
 		posting yacymodel.RWIPosting,
 		position yacymodel.DHTRingPosition,
 		holders []yacymodel.Hash,
+		responsiblePeers []yacymodel.Hash,
 	) (bool, error)
 }
 
@@ -260,8 +261,8 @@ func (c *Cycle) recordOfferOutcome(
 	holders := change.HoldersFrom(recordedHolders)
 	droppedReplicas := change.AmountOfStaleHoldersIn(recordedHolders)
 
-	wasHandedOff, err := c.handoff.HandOffIfHeldByCloserPeers(
-		ctx, tx, offer.Posting, offer.PostingPosition, holders,
+	wasHandedOff, err := c.handoff.HandOffIfHeldByResponsiblePeers(
+		ctx, tx, offer.Posting, offer.PostingPosition, holders, offer.ResponsiblePeers,
 	)
 	if err != nil {
 		return err

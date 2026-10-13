@@ -511,7 +511,7 @@ func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 	}
 }
 
-func TestCycleWaitsForTheWindowPeerInCooldown(t *testing.T) {
+func TestCycleWaitsForTheResponsiblePeerInCooldown(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
@@ -670,6 +670,32 @@ func TestCycleKeepsPostingAcceptedOnlyByAFartherPeer(t *testing.T) {
 
 	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
 		t.Fatal("posting handed off, want it kept: only a farther peer holds it")
+	}
+	if h.observer.postingsHandedOff != 0 {
+		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)
+	}
+}
+
+func TestCycleKeepsPostingHeldOnlyByACloserPeerBeyondTheResponsiblePeers(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	responsiblePeer, fartherPeer := yacymodel.WordHash("second"), yacymodel.WordHash("p1")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings: postings,
+		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(responsiblePeer), seed(fartherPeer)}},
+	})
+	h.transfers.answers[responsiblePeer] = declinedAnswer
+
+	store(t, h.v, h.schedule, word, url)
+	recordAccepted(t, h, fartherPeer, fakePosting(word, url))
+
+	h.runCycle(t)
+
+	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
+		t.Fatal("posting handed off, want it kept: its only holder is not a responsible peer")
 	}
 	if h.observer.postingsHandedOff != 0 {
 		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)

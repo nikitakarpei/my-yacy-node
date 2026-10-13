@@ -1,8 +1,8 @@
 # RWI distribution
 
-This package offers this node's stored RWI postings to the peers the DHT makes
-responsible for them. With handoff enabled, it deletes a posting when enough
-closer peers hold it.
+This package offers each RWI posting this node stores to its responsible peers:
+the peers the DHT makes responsible for it. With handoff enabled, it deletes a
+posting when enough of its responsible peers hold it.
 
 ## Behavior
 
@@ -37,9 +37,10 @@ posting that needs a replica on that peer waits until the cooldown ends. It is
 not offered to a peer farther away. When the peer asks for a pause, the posting
 waits that pause if the pause is longer than the interval.
 
-The node deletes a posting when the redundancy is reached in holders closer to
-the posting's DHT position than this node. A holder counts only while the node
-can reach it. A deleted posting leaves the local index, the work queue, and the
+The node deletes a posting when the redundancy is reached in holders that are
+its responsible peers and closer to its DHT position than this node. A holder
+that is not a responsible peer does not count. A holder counts only while the
+node can reach it. A deleted posting leaves the local index, the work queue, and the
 replica record. Its URL metadata stays until storage eviction reclaims it.
 
 A holder goes stale when closer peers replace it, or when the peer stays
@@ -51,7 +52,8 @@ replaced peer does not.
 ## Divergence from YaCy
 
 YaCy removes a posting from local storage when it selects that posting for
-transfer. This node deletes a posting only after enough closer peers hold it.
+transfer. This node deletes a posting only after enough of its responsible
+peers hold it.
 
 YaCy keeps no record of which peer holds which posting. This node keeps the
 record and offers the posting again when a replica is lost. YaCy takes work from

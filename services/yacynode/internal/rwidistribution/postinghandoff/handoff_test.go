@@ -29,20 +29,6 @@ func (f *fakePostingPurger) PurgePosting(
 	return true, nil
 }
 
-type fakeReachability struct {
-	reachablePeers []yacymodel.Hash
-}
-
-func (f fakeReachability) IsReachable(_ context.Context, peer yacymodel.Hash) bool {
-	for _, reachable := range f.reachablePeers {
-		if reachable == peer {
-			return true
-		}
-	}
-
-	return false
-}
-
 func testPosting() yacymodel.RWIPosting {
 	url, err := yacymodel.ParseURLHash(yacymodel.WordHash("u1").String())
 	if err != nil {
@@ -54,19 +40,20 @@ func testPosting() yacymodel.RWIPosting {
 
 func closerPeer() yacymodel.Hash { return yacymodel.WordHash("peer") }
 
+func otherCloserPeer() yacymodel.Hash { return yacymodel.WordHash("p1") }
+
 func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
 
+func thisNodeCloserThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self22") }
+
 func openHandoff(
-	t *testing.T,
-	reachability postinghandoff.Reachability,
+	self yacymodel.Hash,
 	redundancy int,
 ) (*postinghandoff.Handoff, *fakePostingPurger) {
-	t.Helper()
-
 	purger := &fakePostingPurger{}
 
-	return postinghandoff.New(purger, reachability, postinghandoff.Config{
-		Self:       thisNodeFartherThanEveryPeer(),
+	return postinghandoff.New(purger, postinghandoff.Config{
+		Self:       self,
 		Redundancy: redundancy,
 	}), purger
 }
@@ -74,15 +61,16 @@ func openHandoff(
 func handOff(
 	t *testing.T,
 	handoff *postinghandoff.Handoff,
-	holders ...yacymodel.Hash,
+	holders []yacymodel.Hash,
+	responsiblePeers []yacymodel.Hash,
 ) bool {
 	t.Helper()
 
-	wasHandedOff, err := handoff.HandOffIfHeldByCloserPeers(
-		context.Background(), nil, testPosting(), testPostingPosition(t), holders,
+	wasHandedOff, err := handoff.HandOffIfHeldByResponsiblePeers(
+		context.Background(), nil, testPosting(), testPostingPosition(t), holders, responsiblePeers,
 	)
 	if err != nil {
-		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
+		t.Fatalf("HandOffIfHeldByResponsiblePeers: %v", err)
 	}
 
 	return wasHandedOff
@@ -99,13 +87,12 @@ func testPostingPosition(t *testing.T) yacymodel.DHTRingPosition {
 	return yacymodel.DHTRingPositionOfPosting(testPosting(), partitions)
 }
 
-func TestPostingHandedOffOnceEnoughReachableCloserHoldersExist(t *testing.T) {
-	handoff, purger := openHandoff(
-		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer()}}, handoffRedundancy,
-	)
+func TestPostingHandedOffOnceEveryResponsiblePeerHoldsIt(t *testing.T) {
+	handoff, purger := openHandoff(thisNodeFartherThanEveryPeer(), handoffRedundancy)
 
-	if !handOff(t, handoff, closerPeer()) {
-		t.Fatal("posting kept, want it handed off: redundancy is met by a closer peer")
+	responsiblePeers := []yacymodel.Hash{closerPeer()}
+	if !handOff(t, handoff, responsiblePeers, responsiblePeers) {
+		t.Fatal("posting kept, want it handed off: redundancy is met by a responsible peer")
 	}
 	if len(purger.purgedPostings) != 1 {
 		t.Fatalf("purged = %+v, want the handed-off posting", purger.purgedPostings)
@@ -113,11 +100,10 @@ func TestPostingHandedOffOnceEnoughReachableCloserHoldersExist(t *testing.T) {
 }
 
 func TestPostingKeptBelowRedundancy(t *testing.T) {
-	handoff, purger := openHandoff(
-		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer()}}, 2,
-	)
+	handoff, purger := openHandoff(thisNodeFartherThanEveryPeer(), 2)
 
-	if handOff(t, handoff, closerPeer()) {
+	responsiblePeers := []yacymodel.Hash{closerPeer(), otherCloserPeer()}
+	if handOff(t, handoff, []yacymodel.Hash{closerPeer()}, responsiblePeers) {
 		t.Fatal("posting handed off, want it kept: only one of two owed peers holds it")
 	}
 	if len(purger.purgedPostings) != 0 {
@@ -125,35 +111,50 @@ func TestPostingKeptBelowRedundancy(t *testing.T) {
 	}
 }
 
-func TestPostingKeptWhileTheCloserHolderIsUnreachable(t *testing.T) {
-	handoff, _ := openHandoff(t, fakeReachability{}, handoffRedundancy)
+func TestPostingKeptWhileOnlyCloserPeersBeyondTheResponsiblePeersHoldIt(t *testing.T) {
+	handoff, purger := openHandoff(thisNodeFartherThanEveryPeer(), handoffRedundancy)
 
-	if handOff(t, handoff, closerPeer()) {
-		t.Fatal("posting handed off, want it kept: the holder is unreachable")
+	if handOff(
+		t, handoff, []yacymodel.Hash{otherCloserPeer()}, []yacymodel.Hash{closerPeer()},
+	) {
+		t.Fatal("posting handed off, want it kept: the holder is not a responsible peer")
+	}
+	if len(purger.purgedPostings) != 0 {
+		t.Fatalf("purged = %+v, want none", purger.purgedPostings)
+	}
+}
+
+func TestPostingKeptWhileTheResponsibleHolderIsNotCloserThanThisNode(t *testing.T) {
+	handoff, _ := openHandoff(thisNodeCloserThanEveryPeer(), handoffRedundancy)
+
+	responsiblePeers := []yacymodel.Hash{closerPeer()}
+	if handOff(t, handoff, responsiblePeers, responsiblePeers) {
+		t.Fatal("posting handed off, want it kept: this node is closer than the holder")
 	}
 }
 
 func TestPostingGoneFromTheIndexIsNotHandedOff(t *testing.T) {
-	handoff, purger := openHandoff(
-		t, fakeReachability{reachablePeers: []yacymodel.Hash{closerPeer()}}, handoffRedundancy,
-	)
+	handoff, purger := openHandoff(thisNodeFartherThanEveryPeer(), handoffRedundancy)
 	purger.postingGone = true
 
-	if handOff(t, handoff, closerPeer()) {
+	responsiblePeers := []yacymodel.Hash{closerPeer()}
+	if handOff(t, handoff, responsiblePeers, responsiblePeers) {
 		t.Fatal("posting handed off, want nothing: the index no longer holds it")
 	}
 }
 
 func TestKeepEveryPostingHandsOffNothing(t *testing.T) {
-	wasHandedOff, err := postinghandoff.KeepEveryPosting{}.HandOffIfHeldByCloserPeers(
+	responsiblePeers := []yacymodel.Hash{closerPeer()}
+	wasHandedOff, err := postinghandoff.KeepEveryPosting{}.HandOffIfHeldByResponsiblePeers(
 		context.Background(),
 		nil,
 		testPosting(),
 		testPostingPosition(t),
-		[]yacymodel.Hash{closerPeer()},
+		responsiblePeers,
+		responsiblePeers,
 	)
 	if err != nil {
-		t.Fatalf("HandOffIfHeldByCloserPeers: %v", err)
+		t.Fatalf("HandOffIfHeldByResponsiblePeers: %v", err)
 	}
 	if wasHandedOff {
 		t.Fatal("posting handed off, want every posting kept")
