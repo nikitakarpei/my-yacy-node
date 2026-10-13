@@ -10,14 +10,24 @@ import (
 
 const postingAmountBucket vault.Name = "rwi_amount"
 
-func registerPostingAmounts(v *vault.Vault) (*vault.Amounts[yacymodel.Hash], error) {
-	amountPerWord, err := v.RegisterAmounts(
+const postingAmountVersion = "1"
+
+func registerPostingAmounts(
+	v *vault.Vault,
+) (*vault.CountIndex[yacymodel.RWIPosting, yacymodel.Hash], error) {
+	amountPerWord, err := v.RegisterCountIndex(
 		postingAmountBucket,
+		postingAmountVersion,
 		vault.SingleKey(hashkeypart.Hash).KeyLayout(),
+		wordOf,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register posting amounts: %w", err)
 	}
 
 	return amountPerWord, nil
+}
+
+func wordOf(posting yacymodel.RWIPosting) yacymodel.Hash {
+	return posting.WordHash
 }

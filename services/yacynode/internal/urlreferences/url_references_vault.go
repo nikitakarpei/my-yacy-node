@@ -10,8 +10,17 @@ import (
 
 const wordsByURLBucket vault.Name = "urlreferences_words"
 
-func registerWordsByURL(v *vault.Vault) (*vault.Set[wordByURL], error) {
-	words, err := v.RegisterSet(wordsByURLBucket, wordByURLKeyLayout)
+const wordsByURLVersion = "1"
+
+func registerWordsByURL(
+	v *vault.Vault,
+) (*vault.ValueIndex[yacymodel.RWIPosting, wordByURL], error) {
+	words, err := v.RegisterValueIndex(
+		wordsByURLBucket,
+		wordsByURLVersion,
+		wordByURLKeyLayout,
+		wordByURLOf,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("register words by url: %w", err)
 	}

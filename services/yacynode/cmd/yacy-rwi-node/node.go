@@ -87,12 +87,12 @@ const indexAbstractDocumentsPerAnswer = 10000
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
-	vault *vault.Vault,
+	storage *vault.Vault,
 	registry *prometheus.Registry,
 ) (node, error) {
 	now := time.Now
 
-	selfPeerHash, err := nodepeerhash.Open(vault)
+	selfPeerHash, err := nodepeerhash.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("open peer hash: %w", err)
 	}
@@ -135,36 +135,39 @@ func assembleNode(
 		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL)},
 	}
 
-	metrics.NewVaultCapacityMetrics(registry, vault)
-	metrics.NewVaultBucketRecordMetrics(registry, vault)
+	metrics.NewVaultCapacityMetrics(registry, storage)
+	metrics.NewVaultBucketRecordMetrics(registry, storage)
 
-	urlMetadataStaleness, err := urlmetastaleness.Open(vault)
+	urlMetadataStaleness, err := urlmetastaleness.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("url metadata staleness: %w", err)
 	}
 
-	urlReferences, err := urlreferences.Open(vault)
+	urlReferences, urlReferenceProjection, err := urlreferences.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("url references: %w", err)
 	}
 
-	postingImpactOrder, err := rwipostingimpactorder.Open(vault)
+	postingImpactOrder, postingImpactProjection, err := rwipostingimpactorder.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
 	}
 
-	postingAmounts, err := rwipostingamount.Open(vault)
+	postingAmounts, postingAmountProjection, err := rwipostingamount.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
 	}
 
-	ringOccupancy, err := rwiringoccupancy.Open(vault, dhtRingPartitions)
+	ringOccupancy, ringOccupancyProjection, err := rwiringoccupancy.Open(
+		storage,
+		dhtRingPartitions,
+	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi ring occupancy: %w", err)
 	}
 	metrics.NewRWIRingOccupancyMetrics(
 		registry,
-		vault,
+		storage,
 		ringOccupancy,
 		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
 	)
@@ -172,7 +175,7 @@ func assembleNode(
 	distributionObserver := metrics.NewDistributionMetrics(registry)
 
 	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
-		vault,
+		storage,
 		dhtRingPartitions,
 		postingofferinterval.Bounds{
 			Shortest: config.Distribution.OfferInterval.Shortest,
@@ -186,12 +189,15 @@ func assembleNode(
 	}
 
 	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
-		vault,
-		urlReferences,
+		ctx,
+		storage,
+		[]vault.Projection[yacymodel.RWIPosting]{
+			urlReferenceProjection,
+			postingImpactProjection,
+			postingAmountProjection,
+			ringOccupancyProjection,
+		},
 		postingRecords,
-		postingImpactOrder,
-		postingAmounts,
-		ringOccupancy,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
@@ -200,7 +206,7 @@ func assembleNode(
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
 	postingEscrow, err := rwiescrow.Open(
-		vault,
+		storage,
 		postingAdmitter,
 		postingEscrowObserver,
 		config.Escrow.PostingCapacity,
@@ -209,7 +215,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("rwi escrow: %w", err)
 	}
-	metrics.NewRWIEscrowCapacityMetrics(registry, vault, postingEscrow)
+	metrics.NewRWIEscrowCapacityMetrics(registry, storage, postingEscrow)
 
 	urlPostingPurge := urlpostingpurge.New(
 		urlReferences,
@@ -218,7 +224,7 @@ func assembleNode(
 	)
 
 	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
-		vault,
+		storage,
 		urlMetadataStaleness,
 		postingEscrow,
 		urlPostingPurge,
@@ -230,7 +236,7 @@ func assembleNode(
 	stopwordHashes := stopwordhashes.New()
 	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
 	postingReceiver := rwiadmission.Open(
-		vault,
+		storage,
 		urlDirectory,
 		postingAdmitter,
 		postingEscrow,
@@ -243,7 +249,7 @@ func assembleNode(
 	)
 
 	pageReceiver := pageadmission.Open(
-		vault,
+		storage,
 		urlEvictor,
 		urlMetadataAdmitter,
 		postingAdmitter,
@@ -251,7 +257,7 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, vault, postings, urlDirectory)
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, postings, urlDirectory)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -268,14 +274,14 @@ func assembleNode(
 	urlmeta.MountURLMetadataLookup(
 		router,
 		identity,
-		vault,
+		storage,
 		urlDirectory,
 		servedURLMetadataPerRequest,
 	)
 	rwiingress.Mount(router, identity, postingReceiver)
-	nodestatus.MountQuery(router, identity, now, vault, postings, postingAmounts, urlDirectory)
+	nodestatus.MountQuery(router, identity, now, storage, postings, postingAmounts, urlDirectory)
 	documentsearch.MountSearch(
-		vault,
+		storage,
 		router,
 		identity,
 		postings,
@@ -288,7 +294,7 @@ func assembleNode(
 	)
 
 	peerRoster, err := peerroster.Open(
-		vault,
+		storage,
 		now,
 		config.PeerExchange.KnownRosterCapacity,
 		config.PeerExchange.ReachableRosterCapacity,
@@ -347,9 +353,9 @@ func assembleNode(
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
 
 		distributionCycle = distributioncycle.New(
-			vault,
+			storage,
 			postingoffer.New(
-				vault,
+				storage,
 				offerSchedule,
 				postingReplicas,
 				postings,
@@ -364,7 +370,7 @@ func assembleNode(
 			),
 			handoff,
 			postingtransfer.New(
-				vault,
+				storage,
 				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
@@ -401,7 +407,7 @@ func assembleNode(
 			httpmetrics.NewEndpointMetrics(registry, "yacynode"),
 		),
 		evictionSweeper: eviction.NewSweeper(
-			vault,
+			storage,
 			urlEvictor,
 			urlMetadataStaleness,
 			eviction.Config{

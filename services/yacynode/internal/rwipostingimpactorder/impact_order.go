@@ -22,32 +22,7 @@ func postingByImpactOf(posting yacymodel.RWIPosting) postingByImpact {
 }
 
 type impactOrder struct {
-	postings *vault.Set[postingByImpact]
-}
-
-func openImpactOrder(v *vault.Vault) (*impactOrder, error) {
-	postings, err := registerImpactOrder(v)
-	if err != nil {
-		return nil, err
-	}
-
-	return &impactOrder{postings: postings}, nil
-}
-
-func (o *impactOrder) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if _, err := o.postings.Add(tx, postingByImpactOf(posting)); err != nil {
-		return fmt.Errorf("record posting impact: %w", err)
-	}
-
-	return nil
-}
-
-func (o *impactOrder) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if _, err := o.postings.Remove(tx, postingByImpactOf(posting)); err != nil {
-		return fmt.Errorf("drop posting impact: %w", err)
-	}
-
-	return nil
+	postings *vault.ValueIndex[yacymodel.RWIPosting, postingByImpact]
 }
 
 func (o *impactOrder) ScanPostingsInImpactOrder(
@@ -91,4 +66,4 @@ func (o *impactOrder) LargestImpactOf(
 	return largestImpact, found, nil
 }
 
-var _ ImpactOrderProjection = (*impactOrder)(nil)
+var _ ImpactOrderQuery = (*impactOrder)(nil)

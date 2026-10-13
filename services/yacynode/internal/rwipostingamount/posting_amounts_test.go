@@ -10,11 +10,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type harness struct {
 	vault          *vault.Vault
-	postingAmounts rwipostingamount.PostingAmountProjection
+	postingAmounts rwipostingamount.PostingAmountQuery
+	admitter       rwipostings.PostingAdmitter
+	purger         rwipostings.PostingPurger
 }
 
 func openHarness(t *testing.T) harness {
@@ -30,12 +33,20 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	postingAmounts, err := rwipostingamount.Open(v)
+	postingAmounts, projection, err := rwipostingamount.Open(v)
 	if err != nil {
 		t.Fatalf("rwipostingamount.Open: %v", err)
 	}
+	_, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		[]vault.Projection[yacymodel.RWIPosting]{projection},
+	)
+	if err != nil {
+		t.Fatalf("rwipostings.Open: %v", err)
+	}
 
-	return harness{vault: v, postingAmounts: postingAmounts}
+	return harness{vault: v, postingAmounts: postingAmounts, admitter: admitter, purger: purger}
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -51,12 +62,22 @@ func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.postingAmounts.PostingStored(tx, posting); err != nil {
+			if err := h.admitter.Admit(tx, posting); err != nil {
 				return fmt.Errorf("store posting: %w", err)
 			}
 		}
 
 		return nil
+	})
+}
+
+func (h harness) purge(t *testing.T, posting yacymodel.RWIPosting) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		_, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash)
+
+		return err
 	})
 }
 
@@ -115,9 +136,7 @@ func TestEachPurgedPostingLowersTheAmountOfItsWord(t *testing.T) {
 	h := openHarness(t)
 
 	h.store(t, postingOf("w1", "u1"), postingOf("w1", "u2"))
-	h.write(t, func(tx *vault.Txn) error {
-		return h.postingAmounts.PostingPurged(tx, postingOf("w1", "u2"))
-	})
+	h.purge(t, postingOf("w1", "u2"))
 
 	if amount := h.amountOfPostingsOf(t, yacymodel.WordHash("w1")); amount != 1 {
 		t.Errorf("amount of w1 = %d, want 1", amount)
@@ -128,9 +147,7 @@ func TestTheLastPurgedPostingLeavesTheWordAtNone(t *testing.T) {
 	h := openHarness(t)
 
 	h.store(t, postingOf("w1", "u1"))
-	h.write(t, func(tx *vault.Txn) error {
-		return h.postingAmounts.PostingPurged(tx, postingOf("w1", "u1"))
-	})
+	h.purge(t, postingOf("w1", "u1"))
 
 	if amount := h.amountOfPostingsOf(t, yacymodel.WordHash("w1")); amount != 0 {
 		t.Errorf("amount of w1 = %d, want 0", amount)
@@ -142,11 +159,12 @@ func TestAPostingPurgedAndStoredAgainLeavesTheAmountAlone(t *testing.T) {
 
 	h.store(t, postingOf("w1", "u1"))
 	h.write(t, func(tx *vault.Txn) error {
-		if err := h.postingAmounts.PostingPurged(tx, postingOf("w1", "u1")); err != nil {
+		posting := postingOf("w1", "u1")
+		if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
 			return err
 		}
 
-		return h.postingAmounts.PostingStored(tx, postingOf("w1", "u1"))
+		return h.admitter.Admit(tx, posting)
 	})
 
 	if amount := h.amountOfPostingsOf(t, yacymodel.WordHash("w1")); amount != 1 {

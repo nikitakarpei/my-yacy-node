@@ -267,11 +267,15 @@ func openIndexedPage(t *testing.T) indexedPage {
 	t.Helper()
 
 	v := openVault(t, quotaFarAboveUsage)
-	references, err := urlreferences.Open(v)
+	references, referenceProjection, err := urlreferences.Open(v)
 	if err != nil {
 		t.Fatalf("urlreferences.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(v, references)
+	index, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		[]vault.Projection[yacymodel.RWIPosting]{referenceProjection},
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
