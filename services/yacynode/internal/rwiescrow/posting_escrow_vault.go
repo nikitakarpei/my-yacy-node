@@ -1,6 +1,7 @@
 package rwiescrow
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"time"
@@ -17,23 +18,41 @@ const (
 	postingHoldBucket     vault.Name = "rwi_escrow_expiry"
 )
 
+const postingHoldsVersion = "1"
+
 func registerPostingEscrow(
+	ctx context.Context,
 	v *vault.Vault,
-) (*vault.Collection[postingIdentity, escrowedPosting], *vault.Set[postingHold], error) {
-	escrowed, err := v.RegisterCollection(
+) (
+	*vault.Collection[postingIdentity, escrowedPosting],
+	*vault.ValueIndex[postingHold, postingHold],
+	error,
+) {
+	holds, err := v.RegisterValueIndex(
+		postingHoldBucket,
+		postingHoldsVersion,
+		postingHoldKeyLayout,
+		func(hold postingHold) postingHold { return hold },
+	)
+	if err != nil {
+		return nil, nil, fmt.Errorf("register posting holds: %w", err)
+	}
+	escrowed, err := v.RegisterProjectedCollection(
+		ctx,
 		escrowedPostingBucket,
 		escrowedPostingKeyLayout,
 		escrowedPostingValueCodec{},
+		vault.ProjectedAs(postingHoldOf, holds),
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register escrowed postings: %w", err)
 	}
-	holds, err := v.RegisterSet(postingHoldBucket, postingHoldKeyLayout)
-	if err != nil {
-		return nil, nil, fmt.Errorf("register posting holds: %w", err)
-	}
 
 	return escrowed, holds, nil
+}
+
+func postingHoldOf(identity postingIdentity, escrowed escrowedPosting) postingHold {
+	return postingHold{HeldAt: escrowed.HeldAt, Posting: identity}
 }
 
 var escrowedPostingKeyParts = vault.PairKey(hashkeypart.URLHash, hashkeypart.Hash)

@@ -75,6 +75,7 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		clock:    time.Unix(1700000000, 123456789),
 	}
 	escrow, err := rwiescrow.Open(
+		context.Background(),
 		v,
 		admitter,
 		h.observer,

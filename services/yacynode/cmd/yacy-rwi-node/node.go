@@ -206,6 +206,7 @@ func assembleNode(
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
 	postingEscrow, err := rwiescrow.Open(
+		ctx,
 		storage,
 		postingAdmitter,
 		postingEscrowObserver,

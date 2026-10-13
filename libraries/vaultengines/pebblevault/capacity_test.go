@@ -141,3 +141,100 @@ func TestUsedBytesStopsOnACancelledContext(t *testing.T) {
 		t.Fatal("UsedBytes on a cancelled context succeeded, want error")
 	}
 }
+
+func TestIndexEntriesCountTowardUsedBytes(t *testing.T) {
+	plain := openVault(t, 0)
+	plainWords := registerWords(t, plain)
+	indexed := openVault(t, 0)
+	indexedWords := registerIndexedWords(t, indexed)
+
+	plainGrowth := usedBytesGrowthOf(t, plain, func(tx *vault.Txn) error {
+		_, err := plainWords.Put(tx, "a", "alpha")
+
+		return err
+	})
+	indexedGrowth := usedBytesGrowthOf(t, indexed, func(tx *vault.Txn) error {
+		_, err := indexedWords.Put(tx, "a", "alpha")
+
+		return err
+	})
+
+	if indexedGrowth <= plainGrowth {
+		t.Fatalf(
+			"UsedBytes rose by %d with an index, want more than %d",
+			indexedGrowth,
+			plainGrowth,
+		)
+	}
+}
+
+func TestDeletedRecordsGiveBackTheBytesOfTheirIndexEntries(t *testing.T) {
+	store := openVault(t, 0)
+	words := registerIndexedWords(t, store)
+
+	growth := usedBytesGrowthOf(t, store, func(tx *vault.Txn) error {
+		for _, value := range []string{"alpha", "alpha-and-then-some"} {
+			if _, err := words.Put(tx, "a", value); err != nil {
+				return err
+			}
+		}
+		if _, err := words.Put(tx, "b", "beta"); err != nil {
+			return err
+		}
+		if _, err := words.Delete(tx, "a"); err != nil {
+			return err
+		}
+		_, err := words.Delete(tx, "b")
+
+		return err
+	})
+
+	if growth != 0 {
+		t.Fatalf("UsedBytes changed by %d after every record left, want 0", growth)
+	}
+}
+
+func registerIndexedWords(t *testing.T, store *vault.Vault) *vault.Collection[string, string] {
+	t.Helper()
+
+	byValue, err := store.RegisterValueIndex(
+		vault.Name("words_by_value"),
+		"1",
+		stringKeyLayout,
+		func(entry string) string { return entry },
+	)
+	if err != nil {
+		t.Fatalf("RegisterValueIndex: %v", err)
+	}
+	words, err := store.RegisterProjectedCollection(
+		context.Background(),
+		vault.Name("words"),
+		stringKeyLayout,
+		stringValueCodec{},
+		vault.ProjectedAs(func(word, value string) string { return value + " " + word }, byValue),
+	)
+	if err != nil {
+		t.Fatalf("RegisterProjectedCollection: %v", err)
+	}
+
+	return words
+}
+
+func usedBytesGrowthOf(t *testing.T, store *vault.Vault, change func(tx *vault.Txn) error) int64 {
+	t.Helper()
+
+	ctx := context.Background()
+	before, err := store.UsedBytes(ctx)
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+	if err := store.Update(ctx, change); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+	after, err := store.UsedBytes(ctx)
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+
+	return after - before
+}
