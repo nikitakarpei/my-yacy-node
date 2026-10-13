@@ -70,7 +70,14 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	escrow, err := rwiescrow.Open(v, admitter, discardedHolds{}, escrowCapacity, time.Now)
+	escrow, err := rwiescrow.Open(
+		context.Background(),
+		v,
+		admitter,
+		discardedHolds{},
+		escrowCapacity,
+		time.Now,
+	)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
@@ -283,7 +290,7 @@ func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
 }
 
 func TestReceiveBusyAtCapacity(t *testing.T) {
-	h := openHarness(t, 1, 100)
+	h := openHarness(t, usedBytesOfAnEmptyNode(t)+1, 100)
 
 	if _, err := h.receiver.Receive(
 		context.Background(),
@@ -305,6 +312,17 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if got := h.refusals.postings[rwiadmission.RefusalStorageFull]; got != 1 {
 		t.Fatalf("postings refused for a full storage = %d, want all 1 received", got)
 	}
+}
+
+func usedBytesOfAnEmptyNode(t *testing.T) int64 {
+	t.Helper()
+
+	usedBytes, err := openHarness(t, 0, 100).vault.UsedBytes(context.Background())
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+
+	return usedBytes
 }
 
 func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {

@@ -1,10 +1,8 @@
 // Package vaultenginetest holds the storage-contract suite every vault Engine driver
-// runs against itself. A driver passes its own opener to RunConformance and the
-// suite exercises the guarantees a backend must honour: durable round trips,
-// bounded scans, transaction atomicity, bucket isolation, byte accounting, and
-// amounts that add up without a read.
-// Engine-independent behaviour the port enforces lives with the port's own
-// tests, not here.
+// runs against itself: durable round trips, bounded scans, transaction atomicity,
+// bucket isolation, byte accounting, amounts that add up without a read, and index
+// entries that follow their records. Engine-independent behaviour lives with the
+// port's own tests.
 package vaultenginetest
 
 import (
@@ -70,6 +68,7 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 		func(t *testing.T) { repeatedWriteSeesTheSameStoredState(t, open) },
 	)
 	runAmountConformance(t, open)
+	runIndexConformance(t, open)
 }
 
 func openVault(

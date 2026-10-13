@@ -55,7 +55,7 @@ func (i *ValueIndex[R, E]) entryKeyOf(record R) []byte {
 }
 
 func (i *ValueIndex[R, E]) addEntry(tx *Txn, entryKey []byte) error {
-	if _, err := tx.etx.Records(i.bucket).Put(entryKey, recordFrom(nil)); err != nil {
+	if err := tx.etx.Records(i.bucket).PutAbsent(entryKey, recordFrom(nil)); err != nil {
 		return fmt.Errorf("add %s entry: %w", i.bucket, err)
 	}
 
@@ -67,7 +67,7 @@ func (i *ValueIndex[R, E]) recordRemoved(tx *Txn, record R) error {
 }
 
 func (i *ValueIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
-	if _, err := tx.etx.Records(i.bucket).Delete(entryKey); err != nil {
+	if err := tx.etx.Records(i.bucket).DeleteHeld(entryKey, recordFrom(nil)); err != nil {
 		return fmt.Errorf("remove %s entry: %w", i.bucket, err)
 	}
 

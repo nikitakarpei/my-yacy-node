@@ -37,6 +37,22 @@ func (b pebbleRecords) Delete(key []byte) ([]byte, error) {
 	return deletedRecord, nil
 }
 
+func (b pebbleRecords) PutAbsent(key []byte, record []byte) error {
+	if err := b.entries.storeAbsent(key, record); err != nil {
+		return err
+	}
+
+	return b.tally.adjustBy(1, int64(len(key)+len(record)))
+}
+
+func (b pebbleRecords) DeleteHeld(key []byte, heldRecord []byte) error {
+	if err := b.entries.removeHeld(key); err != nil {
+		return err
+	}
+
+	return b.tally.adjustBy(-1, -int64(len(key)+len(heldRecord)))
+}
+
 func (b pebbleRecords) Len() (int, error) {
 	tally, err := b.tally.value()
 
