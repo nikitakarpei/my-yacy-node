@@ -16,16 +16,7 @@ func (key Key) Bytes() []byte {
 	return bytes.Clone(key.encoded)
 }
 
-var errUnorderableItem = errors.New("key layout offered an item that has no ordered encoding")
-
-func keyOf(items []any) Key {
-	encoded, err := orderedcode.Append(nil, items...)
-	if err != nil {
-		panic(fmt.Errorf("%w: %w", errUnorderableItem, err))
-	}
-
-	return Key{encoded: encoded}
-}
+const keyCapacity = 48
 
 var errKeyLayoutMismatch = errors.New("key does not match layout")
 

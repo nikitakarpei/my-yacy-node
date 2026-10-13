@@ -15,11 +15,10 @@ func TripleKey[A, B, C any](
 }
 
 func (parts TripleKeyParts[A, B, C]) Key(first A, second B, third C) Key {
-	items := parts.first.items(first)
-	items = append(items, parts.second.items(second)...)
-	items = append(items, parts.third.items(third)...)
+	encoded := parts.first.appendTo(make([]byte, 0, keyCapacity), first)
+	encoded = parts.second.appendTo(encoded, second)
 
-	return keyOf(items)
+	return Key{encoded: parts.third.appendTo(encoded, third)}
 }
 
 func (parts TripleKeyParts[A, B, C]) KeysWithFirst(first A) KeyRange {
