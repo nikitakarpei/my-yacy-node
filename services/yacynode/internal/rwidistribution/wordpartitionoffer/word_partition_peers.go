@@ -92,8 +92,8 @@ func (p wordPartitionPeers) waitFrom(eligibility PeerEligibility) (Wait, bool) {
 	switch {
 	case len(recipients) == 0:
 		return p.waitFor(WaitNoRecipient), true
-	case anyRecipient(recipients, eligibility.IsInCooldown):
-		return p.waitFor(WaitRecipientInCooldown), true
+	case anyRecipient(recipients, eligibility.IsPaused):
+		return p.waitFor(WaitRecipientPaused), true
 	case anyRecipient(recipients, eligibility.IsBusy):
 		return p.waitFor(WaitRecipientBusy), true
 	}

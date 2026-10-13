@@ -37,7 +37,7 @@ const (
 type loopOptions struct {
 	self              yacymodel.Hash
 	redundancy        int
-	cooldown          time.Duration
+	leastPause        time.Duration
 	minReachablePeers int
 	amountOfWorkers   int
 	postingsPerBatch  int
@@ -111,7 +111,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	}
 	h.eligibility = peereligibility.New(
 		peereligibility.Config{
-			Cooldown:                    opts.cooldown,
+			LeastPause:                  opts.leastPause,
 			FailedOffersBeforeExclusion: 1,
 			ExclusionDuration:           exclusionDuration,
 			WorkInFlight:                workInFlight,

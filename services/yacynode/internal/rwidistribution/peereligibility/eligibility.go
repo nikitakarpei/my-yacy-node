@@ -1,5 +1,5 @@
 // Package peereligibility tracks which known peers can receive postings now.
-// A peer that does not accept an offer goes into a cooldown. A peer whose
+// A peer that does not accept an offer is paused. A peer whose
 // offers fail too often in a row is excluded for a while, so that the next peer
 // takes its place. A peer is busy while its sends in flight, at its usual send
 // time, fill the work in flight.
@@ -21,7 +21,7 @@ type Observer interface {
 }
 
 type Config struct {
-	Cooldown                    time.Duration
+	LeastPause                  time.Duration
 	FailedOffersBeforeExclusion int
 	ExclusionDuration           time.Duration
 	WorkInFlight                time.Duration
@@ -37,7 +37,7 @@ type Peers struct {
 }
 
 type peerState struct {
-	cooldownEndsAt             time.Time
+	pauseEndsAt                time.Time
 	exclusionEndsAt            time.Time
 	amountOfFailedOffersInARow int
 }
@@ -64,7 +64,7 @@ func (p *Peers) OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration)
 	defer p.mutex.Unlock()
 
 	state := p.peerStates[peer]
-	state.cooldownEndsAt = p.now().Add(max(requestedPause, p.config.Cooldown))
+	state.pauseEndsAt = p.now().Add(max(requestedPause, p.config.LeastPause))
 	p.peerStates[peer] = state
 }
 
@@ -88,7 +88,7 @@ func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
 
 	now := p.now()
 	state := p.peerStates[peer]
-	state.cooldownEndsAt = now.Add(p.config.Cooldown)
+	state.pauseEndsAt = now.Add(p.config.LeastPause)
 	state.amountOfFailedOffersInARow++
 	wasExcluded = state.amountOfFailedOffersInARow >= p.config.FailedOffersBeforeExclusion &&
 		!now.Before(state.exclusionEndsAt)
@@ -100,11 +100,11 @@ func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
 	return wasExcluded
 }
 
-func (p *Peers) IsInCooldown(peer yacymodel.Hash) bool {
+func (p *Peers) IsPaused(peer yacymodel.Hash) bool {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	return p.now().Before(p.peerStates[peer].cooldownEndsAt)
+	return p.now().Before(p.peerStates[peer].pauseEndsAt)
 }
 
 func (p *Peers) IsExcluded(peer yacymodel.Hash) bool {

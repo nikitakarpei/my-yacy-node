@@ -177,7 +177,7 @@ func assembleNode(
 		storage,
 		dhtRingPartitions,
 		config.Distribution.RefreshInterval,
-		config.Distribution.PeerCooldown,
+		config.Distribution.PeerPause,
 		now,
 	)
 	if err != nil {
@@ -354,7 +354,7 @@ func assembleNode(
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		peerEligibility := peereligibility.New(
 			peereligibility.Config{
-				Cooldown:                    config.Distribution.PeerCooldown,
+				LeastPause:                  config.Distribution.PeerPause,
 				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
 				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
 				WorkInFlight:                config.Distribution.PeerWorkInFlight,

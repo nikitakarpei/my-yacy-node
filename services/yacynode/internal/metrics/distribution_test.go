@@ -262,15 +262,15 @@ func TestDistributionReportsWaitingWordPartitionsByReason(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveWordPartitionsWaiting("recipient_in_cooldown", 5)
-	observer.ObserveWordPartitionsWaiting("recipient_in_cooldown", 3)
+	observer.ObserveWordPartitionsWaiting("recipient_paused", 5)
+	observer.ObserveWordPartitionsWaiting("recipient_paused", 3)
 	observer.ObserveWordPartitionsWaiting("no_recipient", 1)
 
 	expected := `
 # HELP yacynode_rwidistribution_word_partitions_waiting Word partitions not sent over the last full read of the ring, by reason.
 # TYPE yacynode_rwidistribution_word_partitions_waiting gauge
 yacynode_rwidistribution_word_partitions_waiting{reason="no_recipient"} 1
-yacynode_rwidistribution_word_partitions_waiting{reason="recipient_in_cooldown"} 3
+yacynode_rwidistribution_word_partitions_waiting{reason="recipient_paused"} 3
 `
 	if err := testutil.GatherAndCompare(
 		registry,

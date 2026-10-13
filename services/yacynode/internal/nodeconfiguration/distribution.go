@@ -15,7 +15,7 @@ const (
 	EnvDistributionWorkers                     = "YACY_DISTRIBUTION_WORKERS"
 	EnvDistributionRescanDelay                 = "YACY_DISTRIBUTION_RESCAN_DELAY"
 	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
-	EnvDistributionPeerCooldown                = "YACY_DISTRIBUTION_PEER_COOLDOWN"
+	EnvDistributionPeerPause                   = "YACY_DISTRIBUTION_PEER_PAUSE"
 	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
 	EnvDistributionPeerExclusionDuration       = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
 	EnvDistributionPeerWorkInFlight            = "YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT"
@@ -30,7 +30,7 @@ const (
 	DefaultDistributionWorkers                     = 2
 	DefaultDistributionRescanDelay                 = 10 * time.Second
 	DefaultDistributionRefreshInterval             = 24 * time.Hour
-	DefaultDistributionPeerCooldown                = 10 * time.Minute
+	DefaultDistributionPeerPause                   = 10 * time.Minute
 	DefaultDistributionFailedOffersBeforeExclusion = 3
 	DefaultDistributionPeerExclusionDuration       = time.Hour
 	DefaultDistributionPeerWorkInFlight            = time.Second
@@ -47,7 +47,7 @@ type DistributionConfig struct {
 	AmountOfWorkers             int
 	RescanDelay                 time.Duration
 	RefreshInterval             time.Duration
-	PeerCooldown                time.Duration
+	PeerPause                   time.Duration
 	FailedOffersBeforeExclusion int
 	PeerExclusionDuration       time.Duration
 	PeerWorkInFlight            time.Duration
@@ -111,8 +111,8 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	peerCooldown, err := envconfig.Duration(
-		getenv, EnvDistributionPeerCooldown, DefaultDistributionPeerCooldown,
+	peerPause, err := envconfig.Duration(
+		getenv, EnvDistributionPeerPause, DefaultDistributionPeerPause,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -166,7 +166,7 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		AmountOfWorkers:             amountOfWorkers,
 		RescanDelay:                 rescanDelay,
 		RefreshInterval:             refreshInterval,
-		PeerCooldown:                peerCooldown,
+		PeerPause:                   peerPause,
 		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,
 		PeerExclusionDuration:       peerExclusionDuration,
 		PeerWorkInFlight:            peerWorkInFlight,
