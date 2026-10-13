@@ -15,7 +15,12 @@ const (
 	requestURLMetadata = "url_metadata"
 )
 
-var peerAnswerSecondsBuckets = prometheus.ExponentialBucketsRange(0.01, 100, 17)
+var (
+	peerAnswerSecondsBuckets = prometheus.ExponentialBucketsRange(0.01, 100, 17)
+	postingsPerSendBuckets   = []float64{
+		1, 10, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000,
+	}
+)
 
 type DistributionMetrics struct {
 	postingOffers          *prometheus.CounterVec
@@ -34,6 +39,7 @@ type DistributionMetrics struct {
 	wordPartitionsWaiting  *prometheus.GaugeVec
 	peerRequestTime        *prometheus.HistogramVec
 	peerSendTime           prometheus.Histogram
+	postingsPerSend        prometheus.Histogram
 	peersAtSendLimit       prometheus.Gauge
 }
 
@@ -44,6 +50,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
+//nolint:funlen // one literal that lists every distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -120,6 +127,11 @@ func distributionMetrics() *DistributionMetrics {
 			"How long a peer took for all postings of one batch and their URL metadata.",
 			peerAnswerSecondsBuckets,
 		),
+		postingsPerSend: histogramFor(
+			"yacynode_rwidistribution_postings_per_send",
+			"Postings in one send: all postings of one batch to one peer.",
+			postingsPerSendBuckets,
+		),
 		peersAtSendLimit: gaugeFor(
 			"yacynode_rwidistribution_peers_at_send_limit",
 			"Peers with as many sends in flight as they may have; word partitions that need them wait.",
@@ -145,6 +157,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.wordPartitionsWaiting,
 		d.peerRequestTime,
 		d.peerSendTime,
+		d.postingsPerSend,
 		d.peersAtSendLimit,
 	}
 }
@@ -246,6 +259,10 @@ func (d *DistributionMetrics) ObserveURLMetadataDeliveryAnswerTime(answerTime ti
 
 func (d *DistributionMetrics) ObservePeerSendTime(sendTime time.Duration) {
 	d.peerSendTime.Observe(sendTime.Seconds())
+}
+
+func (d *DistributionMetrics) ObservePostingsPerSend(amountOfPostings int) {
+	d.postingsPerSend.Observe(float64(amountOfPostings))
 }
 
 func (d *DistributionMetrics) ObservePeersAtSendLimit(amountOfPeers int) {

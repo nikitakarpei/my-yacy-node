@@ -336,6 +336,42 @@ func TestDistributionTimesPeerSends(t *testing.T) {
 	}
 }
 
+func TestDistributionCountsPostingsPerSend(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingsPerSend(3)
+	observer.ObservePostingsPerSend(30000)
+
+	expected := `
+# HELP yacynode_rwidistribution_postings_per_send Postings in one send: all postings of one batch to one peer.
+# TYPE yacynode_rwidistribution_postings_per_send histogram
+yacynode_rwidistribution_postings_per_send_bucket{le="1"} 0
+yacynode_rwidistribution_postings_per_send_bucket{le="10"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="50"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="100"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="250"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="500"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="1000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="2500"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="5000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="10000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="25000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="50000"} 2
+yacynode_rwidistribution_postings_per_send_bucket{le="100000"} 2
+yacynode_rwidistribution_postings_per_send_bucket{le="+Inf"} 2
+yacynode_rwidistribution_postings_per_send_sum 30003
+yacynode_rwidistribution_postings_per_send_count 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_postings_per_send",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
 func TestDistributionReportsPeersAtTheirSendLimit(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)

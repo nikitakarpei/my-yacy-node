@@ -23,6 +23,7 @@ type offerSender struct {
 	transfers           PostingTransfers
 	eligibility         PeerEligibility
 	clock               Clock
+	observer            BatchObserver
 	postingsPerTransfer int
 }
 
@@ -83,6 +84,7 @@ func (s offerSender) sendTimed(
 	ctx context.Context,
 	offer peerOffer,
 ) wordpartitionoffer.PeerAnswer {
+	s.observer.ObservePostingsPerSend(len(offer.postings))
 	s.eligibility.SendStarted(offer.peer.Hash)
 	startedAt := s.clock.Now()
 	answer := s.sendInTransfers(ctx, offer)

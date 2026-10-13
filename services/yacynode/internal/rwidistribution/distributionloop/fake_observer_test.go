@@ -1,6 +1,7 @@
 package distributionloop_test
 
 import (
+	"slices"
 	"sync"
 	"time"
 )
@@ -18,6 +19,7 @@ type fakeObserver struct {
 	peersExcluded          int
 	wordPartitionsWaiting  map[string]int
 	peersPerSector         []int
+	postingsPerSend        []int
 }
 
 func newFakeObserver() *fakeObserver {
@@ -113,6 +115,20 @@ func (f *fakeObserver) ObservePeerExcluded() {
 	defer f.guard.Unlock()
 
 	f.peersExcluded++
+}
+
+func (f *fakeObserver) ObservePostingsPerSend(amountOfPostings int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	f.postingsPerSend = append(f.postingsPerSend, amountOfPostings)
+}
+
+func (f *fakeObserver) sortedPostingsPerSend() []int {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	return slices.Sorted(slices.Values(f.postingsPerSend))
 }
 
 func (f *fakeObserver) ObservePeerSendTime(time.Duration) {}

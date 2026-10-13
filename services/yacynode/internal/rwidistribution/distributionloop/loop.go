@@ -103,6 +103,7 @@ func New(
 			transfers:           transfers,
 			eligibility:         eligibility,
 			clock:               clock,
+			observer:            batchObserver,
 			postingsPerTransfer: config.PostingsPerTransfer,
 		},
 		roster:          roster,
