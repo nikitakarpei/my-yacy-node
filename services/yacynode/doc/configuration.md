@@ -78,5 +78,5 @@ The node can offer its stored postings to the peers the DHT makes responsible fo
 | `YACY_DISTRIBUTION_DRAIN_BUDGET` | `1m` | How long one cycle offers batches before it stops and waits for the next cycle. |
 | `YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL` | `24h` | How long a posting with enough replicas waits after its due time before it is offered again. |
 | `YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL` | `5m` | How long a posting with too few replicas waits before it is offered again. The interval doubles on every further miss, up to `YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL`. |
-| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer is passed over when new replicas are placed. |
+| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no new replicas. A posting that needs a replica on that peer waits until this time ends. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

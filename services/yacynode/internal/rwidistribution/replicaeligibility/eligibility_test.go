@@ -12,34 +12,24 @@ type clock struct{ at time.Time }
 
 func (c *clock) now() time.Time { return c.at }
 
-func eligible(peers *replicaeligibility.Peers, peer yacymodel.Hash) bool {
-	return len(peers.EligiblePeers([]yacymodel.Seed{{Hash: peer}})) == 1
-}
-
-func TestUnknownPeerIsEligible(t *testing.T) {
+func TestUnknownPeerHasNoCooldownLeft(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := replicaeligibility.New(time.Minute, clk.now)
 
-	if !eligible(peers, yacymodel.WordHash("peer")) {
-		t.Fatal("EligiblePeers = false, want true for a peer that was never offered a posting")
+	if left := peers.CooldownLeftOf(yacymodel.WordHash("peer")); left != 0 {
+		t.Fatalf("CooldownLeftOf = %v, want 0 for a peer that was never offered a posting", left)
 	}
 }
 
-func TestRefusedPeerIsHeldBackForCooldown(t *testing.T) {
+func TestDeclinedPeerHasTheCooldownLeft(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := replicaeligibility.New(time.Minute, clk.now)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, 0)
 
-	if eligible(peers, peer) {
-		t.Fatal("EligiblePeers = true, want false within the cooldown")
-	}
-
-	clk.at = clk.at.Add(time.Minute)
-
-	if !eligible(peers, peer) {
-		t.Fatal("EligiblePeers = false, want true once the cooldown has passed")
+	if left := peers.CooldownLeftOf(peer); left != time.Minute {
+		t.Fatalf("CooldownLeftOf = %v, want the whole cooldown %v", left, time.Minute)
 	}
 }
 
@@ -50,14 +40,38 @@ func TestRequestedPauseOutlastsCooldown(t *testing.T) {
 
 	peers.OfferDeclined(peer, time.Hour)
 
-	clk.at = clk.at.Add(30 * time.Minute)
-
-	if eligible(peers, peer) {
-		t.Fatal("EligiblePeers = true, want false while the peer's own pause is unexpired")
+	if left := peers.CooldownLeftOf(peer); left != time.Hour {
+		t.Fatalf("CooldownLeftOf = %v, want the requested pause %v", left, time.Hour)
 	}
 }
 
-func TestAcceptanceClearsHoldBack(t *testing.T) {
+func TestCooldownLeftShrinksAsTimePasses(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := replicaeligibility.New(time.Hour, clk.now)
+	peer := yacymodel.WordHash("peer")
+
+	peers.OfferDeclined(peer, 0)
+	clk.at = clk.at.Add(20 * time.Minute)
+
+	if left := peers.CooldownLeftOf(peer); left != 40*time.Minute {
+		t.Fatalf("CooldownLeftOf = %v, want %v", left, 40*time.Minute)
+	}
+}
+
+func TestCooldownEndsAfterItsDuration(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := replicaeligibility.New(time.Minute, clk.now)
+	peer := yacymodel.WordHash("peer")
+
+	peers.OfferDeclined(peer, 0)
+	clk.at = clk.at.Add(time.Minute)
+
+	if left := peers.CooldownLeftOf(peer); left != 0 {
+		t.Fatalf("CooldownLeftOf = %v, want 0 once the cooldown has passed", left)
+	}
+}
+
+func TestAcceptanceEndsCooldown(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := replicaeligibility.New(time.Hour, clk.now)
 	peer := yacymodel.WordHash("peer")
@@ -65,7 +79,7 @@ func TestAcceptanceClearsHoldBack(t *testing.T) {
 	peers.OfferDeclined(peer, 0)
 	peers.OfferAccepted(peer)
 
-	if !eligible(peers, peer) {
-		t.Fatal("EligiblePeers = false, want true after the peer accepted an offer")
+	if left := peers.CooldownLeftOf(peer); left != 0 {
+		t.Fatalf("CooldownLeftOf = %v, want 0 after the peer accepted an offer", left)
 	}
 }

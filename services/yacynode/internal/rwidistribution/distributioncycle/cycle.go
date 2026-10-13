@@ -273,7 +273,7 @@ func (c *Cycle) recordOfferOutcome(
 		return nil
 	}
 
-	wasRescheduled, err := c.setNextOffer(tx, identity, offer.AcceptancesNeeded, answers)
+	wasRescheduled, err := c.setNextOffer(tx, identity, offer, answers)
 	if err != nil || !wasRescheduled {
 		return err
 	}
@@ -293,14 +293,16 @@ func (c *Cycle) observePostingHandedOff(tx *vault.Txn) {
 func (c *Cycle) setNextOffer(
 	tx *vault.Txn,
 	identity postingidentity.Identity,
-	acceptancesNeeded int,
+	offer postingoffer.PostingOffer,
 	answers postingAnswers,
 ) (bool, error) {
-	if len(answers.acceptingPeers) >= acceptancesNeeded {
+	if len(answers.acceptingPeers) >= offer.AcceptancesNeeded {
 		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity)
 	}
 
-	return c.schedule.SetNextOfferAfterRedundancyMissed(tx, identity, answers.requestedPause)
+	return c.schedule.SetNextOfferAfterRedundancyMissed(
+		tx, identity, max(answers.requestedPause, offer.PauseForPeersInCooldown),
+	)
 }
 
 func replicaRingFractionsOf(offers []postingoffer.PostingOffer, round offerRound) []float64 {
