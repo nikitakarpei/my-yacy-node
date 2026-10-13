@@ -336,6 +336,40 @@ func TestLoopMovesTheNextRefreshOnceTheHoldersGotTheWordPartitionAgain(t *testin
 	})
 }
 
+func TestLoopCountsThePostingsEveryWindowPeerAccepted(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		if h.observer.postingsDelivered != 3 {
+			t.Fatalf("postingsDelivered = %d, want 3", h.observer.postingsDelivered)
+		}
+	})
+}
+
+func TestLoopCountsNoDeliveryForPostingsADeclinedSendLeavesUndelivered(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = declinedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		if h.observer.postingsDelivered != 0 {
+			t.Fatalf("postingsDelivered = %d, want 0", h.observer.postingsDelivered)
+		}
+	})
+}
+
 func TestLoopDropsAStaleHolder(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartition := fixtureWordPartition()

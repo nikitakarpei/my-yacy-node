@@ -3,6 +3,7 @@ package distributionloop
 type BatchObserver interface {
 	ObserveStaleHoldersDropped(amountOfStaleHolders int)
 	ObservePostingsHandedOff(amountOfPostings int)
+	ObservePostingsDelivered(amountOfPostings int)
 	ObserveBatchSkipped(reason string)
 	ObserveBatchCompleted()
 	ObserveBatchAborted(reason string)

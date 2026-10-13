@@ -269,7 +269,8 @@ func (l *Loop) recordOutcome(
 			return err
 		}
 	}
-	if err := l.markDelivered(tx, outcome.DeliveredPostings); err != nil {
+	amountOfPostingsDelivered, err := l.markDelivered(tx, outcome.DeliveredPostings)
+	if err != nil {
 		return err
 	}
 	amountOfPostingsHandedOff, err := l.handoff.HandOffIfHeldByResponsiblePeers(
@@ -281,6 +282,7 @@ func (l *Loop) recordOutcome(
 	tx.RunAfterCommit(func() {
 		l.batchObserver.ObserveStaleHoldersDropped(outcome.AmountOfStaleHolders)
 		l.batchObserver.ObservePostingsHandedOff(amountOfPostingsHandedOff)
+		l.batchObserver.ObservePostingsDelivered(amountOfPostingsDelivered)
 	})
 
 	return nil
@@ -297,14 +299,18 @@ func (l *Loop) recordHolders(tx *vault.Txn, outcome wordpartitionoffer.Outcome) 
 func (l *Loop) markDelivered(
 	tx *vault.Txn,
 	deliveredPostings []undeliveredpostings.Posting,
-) error {
+) (amountOfPostingsDelivered int, err error) {
 	for _, posting := range deliveredPostings {
-		if _, err := l.undelivered.MarkDelivered(tx, posting); err != nil {
-			return err
+		wasMarked, err := l.undelivered.MarkDelivered(tx, posting)
+		if err != nil {
+			return 0, err
+		}
+		if wasMarked {
+			amountOfPostingsDelivered++
 		}
 	}
 
-	return nil
+	return amountOfPostingsDelivered, nil
 }
 
 func ringFractionsOf(outcomes []wordpartitionoffer.Outcome) []float64 {
