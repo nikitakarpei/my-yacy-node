@@ -35,6 +35,7 @@ type dictionary struct {
 	words      *vault.Collection[string, string]
 	byMeaning  *vault.ValueIndex[definition, definition]
 	perMeaning *vault.CountIndex[definition, string]
+	changes    *vault.ChangeIndex[definition, definition]
 }
 
 func openDictionary(
@@ -51,7 +52,7 @@ func openDictionary(
 		vault.Name("words"),
 		stringKeyLayout,
 		stringValueCodec{},
-		vault.ProjectedAs(definitionOf, d.byMeaning, d.perMeaning),
+		vault.ProjectedAs(definitionOf, d.byMeaning, d.perMeaning, d.changes),
 	)
 	if err != nil {
 		t.Fatalf("RegisterProjectedCollection: %v", err)
@@ -73,13 +74,14 @@ func openDictionaryIndexes(
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
+	entryOf := func(record definition) definition {
+		return definition{word: record.word, meaning: meaningOf(record.meaning)}
+	}
 	byMeaning, err := v.RegisterValueIndex(
 		vault.Name("words_by_meaning"),
 		version,
 		definitionEntries,
-		func(record definition) definition {
-			return definition{word: record.word, meaning: meaningOf(record.meaning)}
-		},
+		entryOf,
 	)
 	if err != nil {
 		t.Fatalf("RegisterValueIndex: %v", err)
@@ -93,8 +95,17 @@ func openDictionaryIndexes(
 	if err != nil {
 		t.Fatalf("RegisterCountIndex: %v", err)
 	}
+	changes, err := v.RegisterChangeIndex(
+		vault.Name("words_changed"),
+		version,
+		definitionEntries,
+		entryOf,
+	)
+	if err != nil {
+		t.Fatalf("RegisterChangeIndex: %v", err)
+	}
 
-	return dictionary{vault: v, byMeaning: byMeaning, perMeaning: perMeaning}
+	return dictionary{vault: v, byMeaning: byMeaning, perMeaning: perMeaning, changes: changes}
 }
 
 func plainMeaning(meaning string) string { return meaning }

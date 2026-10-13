@@ -119,33 +119,46 @@ func (c *Collection[K, V]) storeRecord(
 		return nil, fmt.Errorf("encode %s: %w", c.name, err)
 	}
 
-	replacedRecord, err = tx.etx.Records(c.name).Put(
-		c.keys.Encode(key).encoded,
-		recordFrom(payload),
-	)
+	record := recordFrom(payload)
+	replacedRecord, err = tx.etx.Records(c.name).Put(c.keys.Encode(key).encoded, record)
 	if err != nil {
 		return nil, fmt.Errorf("store %s: %w", c.name, err)
 	}
-	if err := c.followStored(tx, key, val, replacedRecord); err != nil {
+	storedValue := storedForm[V]{form: val, stored: record}
+	if err := c.followStored(tx, key, storedValue, replacedRecord); err != nil {
 		return nil, err
 	}
 
 	return replacedRecord, nil
 }
 
-func (c *Collection[K, V]) followStored(tx *Txn, key K, val V, replacedRecord []byte) error {
+func (c *Collection[K, V]) followStored(
+	tx *Txn,
+	key K,
+	storedValue storedForm[V],
+	replacedRecord []byte,
+) error {
 	if c.projections == nil {
 		return nil
 	}
 	if replacedRecord == nil {
-		return c.projections.recordAdded(tx, key, val)
+		return c.projections.recordAdded(tx, key, storedValue)
 	}
-	replacedValue, err := c.valueFrom(replacedRecord)
+	replacedValue, err := c.storedFormFrom(replacedRecord)
 	if err != nil {
 		return err
 	}
 
-	return c.projections.recordReplaced(tx, key, replacedValue, val)
+	return c.projections.recordReplaced(tx, key, replacedValue, storedValue)
+}
+
+func (c *Collection[K, V]) storedFormFrom(record []byte) (storedForm[V], error) {
+	val, err := c.valueFrom(record)
+	if err != nil {
+		return storedForm[V]{}, err
+	}
+
+	return storedForm[V]{form: val, stored: record}, nil
 }
 
 func (c *Collection[K, V]) PutReturning(
@@ -201,7 +214,7 @@ func (c *Collection[K, V]) followDeleted(tx *Txn, key K, deletedRecord []byte) e
 	if c.projections == nil || deletedRecord == nil {
 		return nil
 	}
-	deletedValue, err := c.valueFrom(deletedRecord)
+	deletedValue, err := c.storedFormFrom(deletedRecord)
 	if err != nil {
 		return err
 	}
@@ -289,12 +302,12 @@ func (c *Collection[K, V]) projectRecord(
 	if err != nil {
 		return fmt.Errorf("decode %s key: %w", c.name, err)
 	}
-	val, err := c.valueFrom(record)
+	storedValue, err := c.storedFormFrom(record)
 	if err != nil {
 		return err
 	}
 
-	return projections.recordAdded(tx, decodedKey, val)
+	return projections.recordAdded(tx, decodedKey, storedValue)
 }
 
 func (c *Collection[K, V]) Len(tx *Txn) (int, error) {

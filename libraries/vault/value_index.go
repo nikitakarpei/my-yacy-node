@@ -46,8 +46,8 @@ func (i *ValueIndex[R, E]) Scan(tx *Txn, entries KeyRange, fn func(E) (bool, err
 	return nil
 }
 
-func (i *ValueIndex[R, E]) recordAdded(tx *Txn, record R) error {
-	return i.addEntry(tx, i.entryKeyOf(record))
+func (i *ValueIndex[R, E]) recordAdded(tx *Txn, record storedForm[R]) error {
+	return i.addEntry(tx, i.entryKeyOf(record.form))
 }
 
 func (i *ValueIndex[R, E]) entryKeyOf(record R) []byte {
@@ -62,8 +62,8 @@ func (i *ValueIndex[R, E]) addEntry(tx *Txn, entryKey []byte) error {
 	return nil
 }
 
-func (i *ValueIndex[R, E]) recordRemoved(tx *Txn, record R) error {
-	return i.removeEntry(tx, i.entryKeyOf(record))
+func (i *ValueIndex[R, E]) recordRemoved(tx *Txn, record storedForm[R]) error {
+	return i.removeEntry(tx, i.entryKeyOf(record.form))
 }
 
 func (i *ValueIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
@@ -74,8 +74,8 @@ func (i *ValueIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
 	return nil
 }
 
-func (i *ValueIndex[R, E]) recordReplaced(tx *Txn, previous, current R) error {
-	previousKey, currentKey := i.entryKeyOf(previous), i.entryKeyOf(current)
+func (i *ValueIndex[R, E]) recordReplaced(tx *Txn, previous, current storedForm[R]) error {
+	previousKey, currentKey := i.entryKeyOf(previous.form), i.entryKeyOf(current.form)
 	if bytes.Equal(previousKey, currentKey) {
 		return nil
 	}

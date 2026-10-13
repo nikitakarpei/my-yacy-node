@@ -58,8 +58,8 @@ func (i *CountIndex[R, G]) Scan(tx *Txn, groups KeyRange, fn func(G, int) (bool,
 	return nil
 }
 
-func (i *CountIndex[R, G]) recordAdded(tx *Txn, record R) error {
-	return i.raiseCount(tx, i.groupKeyOf(record), 1)
+func (i *CountIndex[R, G]) recordAdded(tx *Txn, record storedForm[R]) error {
+	return i.raiseCount(tx, i.groupKeyOf(record.form), 1)
 }
 
 func (i *CountIndex[R, G]) groupKeyOf(record R) []byte {
@@ -74,8 +74,8 @@ func (i *CountIndex[R, G]) raiseCount(tx *Txn, groupKey []byte, by uint) error {
 	return nil
 }
 
-func (i *CountIndex[R, G]) recordRemoved(tx *Txn, record R) error {
-	return i.lowerCount(tx, i.groupKeyOf(record), 1)
+func (i *CountIndex[R, G]) recordRemoved(tx *Txn, record storedForm[R]) error {
+	return i.lowerCount(tx, i.groupKeyOf(record.form), 1)
 }
 
 func (i *CountIndex[R, G]) lowerCount(tx *Txn, groupKey []byte, by uint) error {
@@ -86,8 +86,8 @@ func (i *CountIndex[R, G]) lowerCount(tx *Txn, groupKey []byte, by uint) error {
 	return nil
 }
 
-func (i *CountIndex[R, G]) recordReplaced(tx *Txn, previous, current R) error {
-	previousKey, currentKey := i.groupKeyOf(previous), i.groupKeyOf(current)
+func (i *CountIndex[R, G]) recordReplaced(tx *Txn, previous, current storedForm[R]) error {
+	previousKey, currentKey := i.groupKeyOf(previous.form), i.groupKeyOf(current.form)
 	if bytes.Equal(previousKey, currentKey) {
 		return nil
 	}
