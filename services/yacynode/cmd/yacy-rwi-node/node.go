@@ -200,7 +200,10 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
 	}
-	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter)
+	postingAdmitter = wordPartitionSchedule.AdmitterFrom(
+		postingAdmitter,
+		wordpartitionschedule.DiscardDueObserver,
+	)
 
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 

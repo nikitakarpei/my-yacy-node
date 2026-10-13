@@ -717,12 +717,176 @@ func TestAWordPartitionIsInRetryOnlyWhileShortOfRedundancy(t *testing.T) {
 	}
 }
 
-func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) {
+func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) (wasMadeDue bool) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.schedule.MakeDue(tx, wordPartition)
+		var err error
+		wasMadeDue, err = h.schedule.MakeDue(tx, wordPartition)
+
+		return err
 	})
+
+	return wasMadeDue
+}
+
+func (h *harness) assertMadeDue(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+	wantMadeDue bool,
+) {
+	t.Helper()
+
+	if got := h.makeDue(t, wordPartition); got != wantMadeDue {
+		t.Fatalf("MakeDue = %v, want %v", got, wantMadeDue)
+	}
+}
+
+func TestMakingANewWordPartitionDueReportsThatItWrote(t *testing.T) {
+	h := openHarness(t)
+
+	h.assertMadeDue(t, someWordPartition(), true)
+}
+
+func TestMakingAHeldWordPartitionDueReportsThatItWrote(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"))
+
+	h.assertMadeDue(t, wordPartition, true)
+}
+
+func TestMakingAnAlreadyDueWordPartitionDueReportsNoWrite(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.makeDue(t, wordPartition)
+
+	h.assertMadeDue(t, wordPartition, false)
+}
+
+func TestMakingAWordPartitionInRetryDueReportsNoWrite(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertMadeDue(t, wordPartition, false)
+}
+
+func (h *harness) earliestDueWithin(
+	t *testing.T,
+	span yacymodel.DHTRingSpan,
+) (time.Time, bool) {
+	t.Helper()
+
+	var (
+		earliestDueAt time.Time
+		found         bool
+	)
+	h.read(t, func(tx *vault.Txn) error {
+		var err error
+		earliestDueAt, found, err = h.schedule.EarliestDueWithin(tx, span)
+
+		return err
+	})
+
+	return earliestDueAt, found
+}
+
+func (h *harness) assertEarliestDueWithin(
+	t *testing.T,
+	span yacymodel.DHTRingSpan,
+	want time.Time,
+) {
+	t.Helper()
+
+	if got, found := h.earliestDueWithin(t, span); !found || !got.Equal(want) {
+		t.Fatalf("EarliestDueWithin = %v, %v, want %v", got, found, want)
+	}
+}
+
+func (h *harness) sortedWordPartitionsSharingARingSlice(
+	t *testing.T,
+	amount int,
+) []yacymodel.WordPartition {
+	t.Helper()
+
+	sharing := h.wordPartitionsSharingARingSlice(t, amount)
+	slices.SortFunc(sharing, func(a, b yacymodel.WordPartition) int {
+		return cmp.Compare(h.positionOf(a), h.positionOf(b))
+	})
+
+	return sharing
+}
+
+func TestEarliestDueWithinASpanInsideOneRingSliceIgnoresTheRestOfTheRing(t *testing.T) {
+	h := openHarness(t)
+	sharing := h.sortedWordPartitionsSharingARingSlice(t, 3)
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+	}
+	start := h.clock
+	h.advance(time.Second)
+	h.recordHoldersShortOfRedundancy(t, sharing[1], peer("peer0"))
+	h.advance(time.Second)
+	h.recordHoldersShortOfRedundancy(t, sharing[2], peer("peer0"))
+	span := yacymodel.DHTRingSpan{First: h.positionOf(sharing[0]), Last: h.positionOf(sharing[2])}
+
+	h.assertEarliestDueWithin(t, span, start.Add(time.Second+firstRetryDelay))
+}
+
+func TestEarliestDueWithinASpanAcrossRingSlicesComesFromThatSpan(t *testing.T) {
+	h := openHarness(t)
+	span := yacymodel.DHTRingSpan{
+		First: yacymodel.MaxDHTRingPosition / 4,
+		Last:  yacymodel.MaxDHTRingPosition / 2,
+	}
+	var inside, outside yacymodel.WordPartition
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+		if span.Contains(h.positionOf(wordPartition)) {
+			inside = wordPartition
+		} else {
+			outside = wordPartition
+		}
+	}
+	start := h.clock
+	h.recordHoldersShortOfRedundancy(t, outside, peer("peer0"))
+	h.advance(time.Second)
+	h.recordHoldersShortOfRedundancy(t, inside, peer("peer0"))
+
+	h.assertEarliestDueWithin(t, span, start.Add(time.Second+firstRetryDelay))
+}
+
+func TestEarliestDueWithinASpanIgnoresEntriesJustOutsideBothEdges(t *testing.T) {
+	h := openHarness(t)
+	sharing := h.sortedWordPartitionsSharingARingSlice(t, 3)
+	start := h.clock
+	h.recordHolders(t, sharing[1], peer("peer0"))
+	h.recordHoldersShortOfRedundancy(t, sharing[0], peer("peer0"))
+	h.recordHoldersShortOfRedundancy(t, sharing[2], peer("peer0"))
+	middle := h.positionOf(sharing[1])
+
+	h.assertEarliestDueWithin(
+		t,
+		yacymodel.DHTRingSpan{First: middle, Last: middle},
+		start.Add(refreshInterval),
+	)
+}
+
+func TestNoDueTimeIsEarliestWithinAnEmptySpan(t *testing.T) {
+	h := openHarness(t)
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+	}
+
+	for _, span := range []yacymodel.DHTRingSpan{
+		{First: 10, Last: 5},
+		{First: yacymodel.MaxDHTRingPosition / 2, Last: 0},
+	} {
+		if earliestDueAt, found := h.earliestDueWithin(t, span); found {
+			t.Fatalf("EarliestDueWithin %+v = %v, want none", span, earliestDueAt)
+		}
+	}
 }
 
 func TestAnUnknownWordPartitionBecomesDueNowWithNoHolders(t *testing.T) {

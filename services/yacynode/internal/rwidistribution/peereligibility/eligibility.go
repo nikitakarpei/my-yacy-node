@@ -38,6 +38,7 @@ type Peers struct {
 
 type peerState struct {
 	pauseEndsAt                time.Time
+	pauseCause                 PauseCause
 	exclusionEndsAt            time.Time
 	amountOfFailedOffersInARow int
 }
@@ -65,6 +66,7 @@ func (p *Peers) OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration)
 
 	state := p.peerStates[peer]
 	state.pauseEndsAt = p.now().Add(max(requestedPause, p.config.LeastPause))
+	state.pauseCause = PauseDeclined
 	p.peerStates[peer] = state
 }
 
@@ -89,6 +91,7 @@ func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
 	now := p.now()
 	state := p.peerStates[peer]
 	state.pauseEndsAt = now.Add(p.config.LeastPause)
+	state.pauseCause = PauseFailed
 	state.amountOfFailedOffersInARow++
 	wasExcluded = state.amountOfFailedOffersInARow >= p.config.FailedOffersBeforeExclusion &&
 		!now.Before(state.exclusionEndsAt)
@@ -105,6 +108,18 @@ func (p *Peers) IsPaused(peer yacymodel.Hash) bool {
 	defer p.mutex.Unlock()
 
 	return p.now().Before(p.peerStates[peer].pauseEndsAt)
+}
+
+func (p *Peers) PauseOf(peer yacymodel.Hash) (Pause, bool) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	state := p.peerStates[peer]
+	if !p.now().Before(state.pauseEndsAt) {
+		return Pause{}, false
+	}
+
+	return Pause{EndsAt: state.pauseEndsAt, Cause: state.pauseCause}, true
 }
 
 func (p *Peers) IsExcluded(peer yacymodel.Hash) bool {
