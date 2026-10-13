@@ -33,48 +33,30 @@ func (parts QuadKeyParts[A, B, C, D]) KeysWithFirstThroughSecond(first A, second
 }
 
 func (parts QuadKeyParts[A, B, C, D]) PartsOf(storedKey []byte) (A, B, C, D, error) {
-	firstTargets, firstValue := parts.first.holder()
-	secondTargets, secondValue := parts.second.holder()
-	thirdTargets, thirdValue := parts.third.holder()
-	fourthTargets, fourthValue := parts.fourth.holder()
-
-	targets := firstTargets
-	targets = append(targets, secondTargets...)
-	targets = append(targets, thirdTargets...)
-	targets = append(targets, fourthTargets...)
-
 	var (
-		first  A
 		second B
 		third  C
 		fourth D
 	)
 
-	if err := parseInto(storedKey, targets); err != nil {
+	first, rest, err := parts.first.parseFrom(orderedBytes{encoded: storedKey})
+	if err != nil {
 		return first, second, third, fourth, err
 	}
-
-	first, err := firstValue()
+	second, rest, err = parts.second.parseFrom(rest)
+	if err != nil {
+		return first, second, third, fourth, err
+	}
+	third, rest, err = parts.third.parseFrom(rest)
+	if err != nil {
+		return first, second, third, fourth, err
+	}
+	fourth, rest, err = parts.fourth.parseFrom(rest)
 	if err != nil {
 		return first, second, third, fourth, err
 	}
 
-	second, err = secondValue()
-	if err != nil {
-		return first, second, third, fourth, err
-	}
-
-	third, err = thirdValue()
-	if err != nil {
-		return first, second, third, fourth, err
-	}
-
-	fourth, err = fourthValue()
-	if err != nil {
-		return first, second, third, fourth, err
-	}
-
-	return first, second, third, fourth, nil
+	return first, second, third, fourth, rest.leftoverError()
 }
 
 func (parts QuadKeyParts[A, B, C, D]) KeyLayoutFor[K any](
