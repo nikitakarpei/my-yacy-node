@@ -13,9 +13,14 @@ var (
 
 type Projection[R any] interface {
 	projectionBucket
-	recordAdded(tx *Txn, record R) error
-	recordRemoved(tx *Txn, record R) error
-	recordReplaced(tx *Txn, previous, current R) error
+	recordAdded(tx *Txn, record storedForm[R]) error
+	recordRemoved(tx *Txn, record storedForm[R]) error
+	recordReplaced(tx *Txn, previous, current storedForm[R]) error
+}
+
+type storedForm[T any] struct {
+	form   T
+	stored []byte
 }
 
 type projectionBucket interface {
@@ -74,9 +79,9 @@ func (r *projectionRegistration) refuseUnfollowed() error {
 }
 
 type Projections[K, V any] interface {
-	recordAdded(tx *Txn, key K, value V) error
-	recordRemoved(tx *Txn, key K, value V) error
-	recordReplaced(tx *Txn, key K, previous, current V) error
+	recordAdded(tx *Txn, key K, value storedForm[V]) error
+	recordRemoved(tx *Txn, key K, value storedForm[V]) error
+	recordReplaced(tx *Txn, key K, previous, current storedForm[V]) error
 	buckets() []projectionBucket
 	narrowedTo(buckets []projectionBucket) Projections[K, V]
 }
@@ -93,8 +98,8 @@ type projectedForms[K, V, R any] struct {
 	projections []Projection[R]
 }
 
-func (f projectedForms[K, V, R]) recordAdded(tx *Txn, key K, value V) error {
-	record := f.formOf(key, value)
+func (f projectedForms[K, V, R]) recordAdded(tx *Txn, key K, value storedForm[V]) error {
+	record := f.projectedFrom(key, value)
 	for _, projection := range f.projections {
 		if err := projection.recordAdded(tx, record); err != nil {
 			return err
@@ -104,8 +109,12 @@ func (f projectedForms[K, V, R]) recordAdded(tx *Txn, key K, value V) error {
 	return nil
 }
 
-func (f projectedForms[K, V, R]) recordRemoved(tx *Txn, key K, value V) error {
-	record := f.formOf(key, value)
+func (f projectedForms[K, V, R]) projectedFrom(key K, value storedForm[V]) storedForm[R] {
+	return storedForm[R]{form: f.formOf(key, value.form), stored: value.stored}
+}
+
+func (f projectedForms[K, V, R]) recordRemoved(tx *Txn, key K, value storedForm[V]) error {
+	record := f.projectedFrom(key, value)
 	for _, projection := range f.projections {
 		if err := projection.recordRemoved(tx, record); err != nil {
 			return err
@@ -115,8 +124,12 @@ func (f projectedForms[K, V, R]) recordRemoved(tx *Txn, key K, value V) error {
 	return nil
 }
 
-func (f projectedForms[K, V, R]) recordReplaced(tx *Txn, key K, previous, current V) error {
-	previousRecord, currentRecord := f.formOf(key, previous), f.formOf(key, current)
+func (f projectedForms[K, V, R]) recordReplaced(
+	tx *Txn,
+	key K,
+	previous, current storedForm[V],
+) error {
+	previousRecord, currentRecord := f.projectedFrom(key, previous), f.projectedFrom(key, current)
 	for _, projection := range f.projections {
 		if err := projection.recordReplaced(tx, previousRecord, currentRecord); err != nil {
 			return err
