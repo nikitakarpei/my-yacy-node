@@ -5,7 +5,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type UndeliveredPosting struct {
+type Posting struct {
 	WordPartition yacymodel.WordPartition
 	URL           yacymodel.URLHash
 	change        vault.Change[undeliveredEntry]
@@ -14,8 +14,8 @@ type UndeliveredPosting struct {
 func undeliveredPostingFrom(
 	change vault.Change[undeliveredEntry],
 	partitions yacymodel.DHTRingPartitions,
-) UndeliveredPosting {
-	return UndeliveredPosting{
+) Posting {
+	return Posting{
 		WordPartition: yacymodel.WordPartitionOfWordAndURL(
 			change.Entry.word,
 			change.Entry.url,
@@ -26,6 +26,6 @@ func undeliveredPostingFrom(
 	}
 }
 
-func (p UndeliveredPosting) Position() yacymodel.DHTRingPosition {
+func (p Posting) Position() yacymodel.DHTRingPosition {
 	return p.change.Entry.position
 }

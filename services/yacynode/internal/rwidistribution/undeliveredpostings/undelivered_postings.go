@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type UndeliveredPostings struct {
+type Postings struct {
 	postings   *vault.ChangeIndex[yacymodel.RWIPosting, undeliveredEntry]
 	partitions yacymodel.DHTRingPartitions
 }
@@ -20,20 +20,20 @@ type UndeliveredPostings struct {
 func Open(
 	v *vault.Vault,
 	partitions yacymodel.DHTRingPartitions,
-) (*UndeliveredPostings, vault.Projection[yacymodel.RWIPosting], error) {
+) (*Postings, vault.Projection[yacymodel.RWIPosting], error) {
 	postings, err := registerUndeliveredPostings(v, partitions)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return &UndeliveredPostings{postings: postings, partitions: partitions}, postings, nil
+	return &Postings{postings: postings, partitions: partitions}, postings, nil
 }
 
-func (u *UndeliveredPostings) WordPartitionsAfter(
+func (u *Postings) WordPartitionsAfter(
 	tx *vault.Txn,
-	lastReadPosting UndeliveredPosting,
+	lastReadPosting Posting,
 	postingsBudget int,
-) (wordPartitions []UndeliveredWordPartition, reachedEnd bool, err error) {
+) (wordPartitions []WordPartition, reachedEnd bool, err error) {
 	reading := wordPartitionReadingWithin(postingsBudget)
 	if err := u.postings.Scan(
 		tx,
@@ -48,9 +48,9 @@ func (u *UndeliveredPostings) WordPartitionsAfter(
 	return reading.wordPartitions(), !reading.stoppedOnBudget, nil
 }
 
-func (u *UndeliveredPostings) MarkDelivered(
+func (u *Postings) MarkDelivered(
 	tx *vault.Txn,
-	posting UndeliveredPosting,
+	posting Posting,
 ) (wasMarked bool, err error) {
 	wasMarked, err = u.postings.Acknowledge(tx, posting.change)
 	if err != nil {
@@ -60,11 +60,11 @@ func (u *UndeliveredPostings) MarkDelivered(
 	return wasMarked, nil
 }
 
-func (u *UndeliveredPostings) PostingsOf(
+func (u *Postings) PostingsOf(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
-) ([]UndeliveredPosting, error) {
-	var postings []UndeliveredPosting
+) ([]Posting, error) {
+	var postings []Posting
 	if err := u.postings.Scan(
 		tx,
 		entriesOf(wordPartition, u.partitions),
@@ -80,7 +80,7 @@ func (u *UndeliveredPostings) PostingsOf(
 	return postings, nil
 }
 
-func (u *UndeliveredPostings) AnyIn(
+func (u *Postings) AnyIn(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 ) (bool, error) {
@@ -100,7 +100,7 @@ func (u *UndeliveredPostings) AnyIn(
 	return found, nil
 }
 
-func (u *UndeliveredPostings) AmountOfPostings(tx *vault.Txn) (int, error) {
+func (u *Postings) AmountOfPostings(tx *vault.Txn) (int, error) {
 	amountOfPostings, err := u.postings.Len(tx)
 	if err != nil {
 		return 0, fmt.Errorf("count undelivered postings: %w", err)

@@ -34,9 +34,9 @@ type options struct {
 type harness struct {
 	vault        *vault.Vault
 	admitter     rwipostings.PostingAdmitter
-	undelivered  *undeliveredpostings.UndeliveredPostings
+	undelivered  *undeliveredpostings.Postings
 	holders      *wordpartitionholders.Holders
-	offers       *wordpartitionoffer.WordPartitionOffers
+	offers       *wordpartitionoffer.Offers
 	reachability *fakeReachability
 	eligibility  fakeEligibility
 	clock        time.Time
@@ -151,14 +151,14 @@ func (h *harness) deliverEverything(t *testing.T) {
 
 func (h *harness) undeliveredWordPartitions(
 	t *testing.T,
-) []undeliveredpostings.UndeliveredWordPartition {
+) []undeliveredpostings.WordPartition {
 	t.Helper()
 
-	var wordPartitions []undeliveredpostings.UndeliveredWordPartition
+	var wordPartitions []undeliveredpostings.WordPartition
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
 		wordPartitions, _, err = h.undelivered.WordPartitionsAfter(
-			tx, undeliveredpostings.UndeliveredPosting{}, everyEntryBudget)
+			tx, undeliveredpostings.Posting{}, everyEntryBudget)
 
 		return err
 	})
@@ -340,8 +340,8 @@ func seedAt(position yacymodel.DHTRingPosition) yacymodel.Seed {
 
 func onlyOffer(
 	t *testing.T,
-	offers []wordpartitionoffer.WordPartitionOffer,
-) wordpartitionoffer.WordPartitionOffer {
+	offers []wordpartitionoffer.Offer,
+) wordpartitionoffer.Offer {
 	t.Helper()
 
 	if len(offers) != 1 {
@@ -351,7 +351,7 @@ func onlyOffer(
 	return offers[0]
 }
 
-func wordPartitionsOf(offers []wordpartitionoffer.WordPartitionOffer) []yacymodel.WordPartition {
+func wordPartitionsOf(offers []wordpartitionoffer.Offer) []yacymodel.WordPartition {
 	wordPartitions := make([]yacymodel.WordPartition, 0, len(offers))
 	for _, offer := range offers {
 		wordPartitions = append(wordPartitions, offer.OutcomeFrom(nil).WordPartition)
@@ -360,7 +360,7 @@ func wordPartitionsOf(offers []wordpartitionoffer.WordPartitionOffer) []yacymode
 	return wordPartitions
 }
 
-func recipientPeersOf(offer wordpartitionoffer.WordPartitionOffer) []yacymodel.Hash {
+func recipientPeersOf(offer wordpartitionoffer.Offer) []yacymodel.Hash {
 	peers := make([]yacymodel.Hash, 0, len(offer.Recipients))
 	for _, recipient := range offer.Recipients {
 		peers = append(peers, recipient.Peer.Hash)
@@ -371,7 +371,7 @@ func recipientPeersOf(offer wordpartitionoffer.WordPartitionOffer) []yacymodel.H
 
 func postingsSentTo(
 	t *testing.T,
-	offer wordpartitionoffer.WordPartitionOffer,
+	offer wordpartitionoffer.Offer,
 	peer yacymodel.Seed,
 ) []yacymodel.RWIPosting {
 	t.Helper()
@@ -388,7 +388,7 @@ func postingsSentTo(
 
 func urlsSentTo(
 	t *testing.T,
-	offer wordpartitionoffer.WordPartitionOffer,
+	offer wordpartitionoffer.Offer,
 	peer yacymodel.Seed,
 ) []yacymodel.URLHash {
 	t.Helper()
@@ -402,12 +402,12 @@ func urlsSentTo(
 	return sortedURLs(urls)
 }
 
-func undeliveredURLsOf(offer wordpartitionoffer.WordPartitionOffer) []yacymodel.URLHash {
+func undeliveredURLsOf(offer wordpartitionoffer.Offer) []yacymodel.URLHash {
 	return urlsOfUndelivered(offer.OutcomeFrom(everythingAcceptedIn(offer)).DeliveredPostings)
 }
 
 func everythingAcceptedIn(
-	offer wordpartitionoffer.WordPartitionOffer,
+	offer wordpartitionoffer.Offer,
 ) map[yacymodel.Hash]wordpartitionoffer.PeerAnswer {
 	answers := make(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer, len(offer.Recipients))
 	for _, recipient := range offer.Recipients {
@@ -417,7 +417,7 @@ func everythingAcceptedIn(
 	return answers
 }
 
-func urlsOfUndelivered(postings []undeliveredpostings.UndeliveredPosting) []yacymodel.URLHash {
+func urlsOfUndelivered(postings []undeliveredpostings.Posting) []yacymodel.URLHash {
 	urls := make([]yacymodel.URLHash, 0, len(postings))
 	for _, posting := range postings {
 		urls = append(urls, posting.URL)
@@ -434,7 +434,7 @@ func sortedURLs(urls []yacymodel.URLHash) []yacymodel.URLHash {
 
 func assertOnlyStaleHolder(
 	t *testing.T,
-	offer wordpartitionoffer.WordPartitionOffer,
+	offer wordpartitionoffer.Offer,
 	staleHolder yacymodel.Seed,
 ) {
 	t.Helper()
@@ -505,7 +505,7 @@ func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordParti
 		t.Fatalf("missing holder gets %v, want the whole word partition %v", got, want)
 	}
 	if got, want := undeliveredURLsOf(offer), urls[2:]; !slices.Equal(got, want) {
-		t.Fatalf("UndeliveredPostings = %v, want %v", got, want)
+		t.Fatalf("undelivered postings = %v, want %v", got, want)
 	}
 }
 
@@ -580,7 +580,7 @@ func TestADueRefreshCarriesTheUndeliveredPostingsOfItsWordPartition(t *testing.T
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
 	}
 	if got, want := undeliveredURLsOf(refresh), urls[2:]; !slices.Equal(got, want) {
-		t.Fatalf("UndeliveredPostings = %v, want %v", got, want)
+		t.Fatalf("undelivered postings = %v, want %v", got, want)
 	}
 	if got := urlsSentTo(t, refresh, holder); !slices.Equal(got, sortedURLs(urls)) {
 		t.Fatalf("holder gets %v, want the whole word partition %v", got, urls)
@@ -721,7 +721,7 @@ func TestAWordPartitionInRetryGoesOutOnlyAsADueRefresh(t *testing.T) {
 	refresh := onlyOffer(t, h.refreshBatch(t, peer).Offers)
 
 	if got := undeliveredURLsOf(refresh); !slices.Equal(got, urls) {
-		t.Fatalf("UndeliveredPostings = %v, want %v", got, urls)
+		t.Fatalf("undelivered postings = %v, want %v", got, urls)
 	}
 }
 

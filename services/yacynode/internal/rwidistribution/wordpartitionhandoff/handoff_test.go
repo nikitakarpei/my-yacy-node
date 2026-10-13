@@ -29,7 +29,7 @@ type harness struct {
 	vault       *vault.Vault
 	index       rwipostings.PostingIndex
 	admitter    rwipostings.PostingAdmitter
-	undelivered *undeliveredpostings.UndeliveredPostings
+	undelivered *undeliveredpostings.Postings
 	holders     *wordpartitionholders.Holders
 	handoff     *wordpartitionhandoff.Handoff
 }
@@ -114,7 +114,7 @@ func (h *harness) admit(
 func (h *harness) deliver(t *testing.T, wordPartitions ...yacymodel.WordPartition) {
 	t.Helper()
 
-	var undelivered []undeliveredpostings.UndeliveredPosting
+	var undelivered []undeliveredpostings.Posting
 	h.read(t, func(tx *vault.Txn) error {
 		for _, wordPartition := range wordPartitions {
 			postings, err := h.undelivered.PostingsOf(tx, wordPartition)

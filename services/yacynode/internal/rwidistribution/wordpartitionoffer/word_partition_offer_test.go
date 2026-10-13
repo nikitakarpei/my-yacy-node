@@ -56,13 +56,13 @@ type offerToPeer func(
 	t *testing.T,
 	h *harness,
 	peer yacymodel.Seed,
-) wordpartitionoffer.WordPartitionOffer
+) wordpartitionoffer.Offer
 
 func firstOfferTo(
 	t *testing.T,
 	h *harness,
 	missingHolder yacymodel.Seed,
-) wordpartitionoffer.WordPartitionOffer {
+) wordpartitionoffer.Offer {
 	t.Helper()
 
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
@@ -74,7 +74,7 @@ func undeliveredOfferTo(
 	t *testing.T,
 	h *harness,
 	holder yacymodel.Seed,
-) wordpartitionoffer.WordPartitionOffer {
+) wordpartitionoffer.Offer {
 	t.Helper()
 
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
@@ -87,7 +87,7 @@ func dueRefreshTo(
 	t *testing.T,
 	h *harness,
 	holder yacymodel.Seed,
-) wordpartitionoffer.WordPartitionOffer {
+) wordpartitionoffer.Offer {
 	t.Helper()
 
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)

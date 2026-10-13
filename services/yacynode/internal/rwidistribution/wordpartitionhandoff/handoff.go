@@ -35,7 +35,7 @@ type Config struct {
 type Handoff struct {
 	postings    PostingIndex
 	purger      rwipostings.PostingPurger
-	undelivered *undeliveredpostings.UndeliveredPostings
+	undelivered *undeliveredpostings.Postings
 	holders     *wordpartitionholders.Holders
 	config      Config
 }
@@ -43,7 +43,7 @@ type Handoff struct {
 func New(
 	postings PostingIndex,
 	purger rwipostings.PostingPurger,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 	config Config,
 ) *Handoff {

@@ -15,7 +15,7 @@ const gaugeObservationInterval = 15 * time.Second
 
 type gaugeObservation struct {
 	vault           *vault.Vault
-	undelivered     *undeliveredpostings.UndeliveredPostings
+	undelivered     *undeliveredpostings.Postings
 	holders         *wordpartitionholders.Holders
 	roster          ReachablePeers
 	clock           Clock

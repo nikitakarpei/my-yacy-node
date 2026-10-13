@@ -23,6 +23,22 @@ type URLDirectory interface {
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
 }
 
+type PostingCourier interface {
+	Offer(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		postings []yacymodel.RWIPosting,
+	) postingcourier.Receipt
+}
+
+type URLMetadataCourier interface {
+	Deliver(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		metadata []yacymodel.URLMetadata,
+	) urlmetadatacourier.Receipt
+}
+
 type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
 	ObserveURLMetadataDelivery(outcome string, urls int)
@@ -43,22 +59,22 @@ type OfferAnswer struct {
 	RequestedPause   time.Duration
 }
 
-type PostingTransfers struct {
+type Transfers struct {
 	vault    *vault.Vault
-	postings postingcourier.Courier
-	metadata urlmetadatacourier.Courier
+	postings PostingCourier
+	metadata URLMetadataCourier
 	urls     URLDirectory
 	observer Observer
 }
 
 func New(
 	v *vault.Vault,
-	postings postingcourier.Courier,
-	metadata urlmetadatacourier.Courier,
+	postings PostingCourier,
+	metadata URLMetadataCourier,
 	urls URLDirectory,
 	observer Observer,
-) *PostingTransfers {
-	return &PostingTransfers{
+) *Transfers {
+	return &Transfers{
 		vault:    v,
 		postings: postings,
 		metadata: metadata,
@@ -67,7 +83,7 @@ func New(
 	}
 }
 
-func (t *PostingTransfers) Send(
+func (t *Transfers) Send(
 	ctx context.Context,
 	peer yacymodel.Seed,
 	offeredPostings []yacymodel.RWIPosting,
@@ -90,7 +106,7 @@ func (t *PostingTransfers) Send(
 	}
 }
 
-func (t *PostingTransfers) deliverURLMetadata(
+func (t *Transfers) deliverURLMetadata(
 	ctx context.Context,
 	peer yacymodel.Seed,
 	urlsUnknownToPeer []yacymodel.URLHash,
@@ -134,7 +150,7 @@ func (t *PostingTransfers) deliverURLMetadata(
 	return append(urlsUnknownToUs, delivery.URLsRejected...)
 }
 
-func (t *PostingTransfers) metadataOfUnknownURLs(
+func (t *Transfers) metadataOfUnknownURLs(
 	ctx context.Context,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, []yacymodel.URLHash, error) {

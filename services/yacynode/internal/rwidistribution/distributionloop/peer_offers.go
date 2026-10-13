@@ -26,7 +26,7 @@ func sendOffers(
 	ctx context.Context,
 	transfers PostingTransfers,
 	eligibility PeerEligibility,
-	offers []wordpartitionoffer.WordPartitionOffer,
+	offers []wordpartitionoffer.Offer,
 	postingsPerTransfer int,
 ) map[yacymodel.Hash]wordpartitionoffer.PeerAnswer {
 	offersPerPeer := peerOffersFrom(offers)
@@ -49,7 +49,7 @@ func sendOffers(
 	return answers
 }
 
-func peerOffersFrom(offers []wordpartitionoffer.WordPartitionOffer) []peerOffer {
+func peerOffersFrom(offers []wordpartitionoffer.Offer) []peerOffer {
 	byPeer := make(map[yacymodel.Hash]*peerOffer)
 	order := make([]yacymodel.Hash, 0, len(offers))
 	for _, offer := range offers {

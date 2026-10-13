@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	labelOutcome = "result"
+	labelOutcome = "outcome"
 	labelReason  = "reason"
 )
 
@@ -70,8 +70,8 @@ func distributionMetrics() *DistributionMetrics {
 			"How long the most overdue word partition refresh has waited past its refresh time.",
 		),
 		staleHoldersDropped: counterFor(
-			"yacynode_rwidistribution_stale_replicas_dropped_total",
-			"Replicas dropped for peers no longer responsible.",
+			"yacynode_rwidistribution_stale_holders_dropped_total",
+			"Holders dropped because they are no longer responsible.",
 		),
 		postingsHandedOff: counterFor(
 			"yacynode_rwidistribution_postings_handed_off_total",

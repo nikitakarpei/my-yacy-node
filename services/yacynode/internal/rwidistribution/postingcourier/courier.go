@@ -19,15 +19,7 @@ type Receipt struct {
 	URLsUnknownToPeer []yacymodel.URLHash
 }
 
-type Courier interface {
-	Offer(
-		ctx context.Context,
-		recipient yacymodel.Seed,
-		postings []yacymodel.RWIPosting,
-	) Receipt
-}
-
-type httpCourier struct {
+type Courier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
@@ -38,10 +30,10 @@ func New(
 	networkName string,
 	self yacymodel.Hash,
 ) Courier {
-	return httpCourier{exchange: exchange, networkName: networkName, self: self}
+	return Courier{exchange: exchange, networkName: networkName, self: self}
 }
 
-func (c httpCourier) Offer(
+func (c Courier) Offer(
 	ctx context.Context,
 	recipient yacymodel.Seed,
 	postings []yacymodel.RWIPosting,
@@ -101,7 +93,7 @@ func (c httpCourier) Offer(
 	}
 }
 
-func (c httpCourier) postTransferRWI(
+func (c Courier) postTransferRWI(
 	ctx context.Context,
 	endpoint string,
 	recipient yacymodel.Seed,

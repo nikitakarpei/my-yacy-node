@@ -22,12 +22,12 @@ func TestDistributionCountsOffersByResult(t *testing.T) {
 	expected := `
 # HELP yacynode_rwidistribution_posting_offers_sent_total Posting offers sent to peers, by offer outcome.
 # TYPE yacynode_rwidistribution_posting_offers_sent_total counter
-yacynode_rwidistribution_posting_offers_sent_total{result="busy"} 1
-yacynode_rwidistribution_posting_offers_sent_total{result="ok"} 2
+yacynode_rwidistribution_posting_offers_sent_total{outcome="busy"} 1
+yacynode_rwidistribution_posting_offers_sent_total{outcome="ok"} 2
 # HELP yacynode_rwidistribution_postings_offered_total RWI postings offered to peers, by offer outcome.
 # TYPE yacynode_rwidistribution_postings_offered_total counter
-yacynode_rwidistribution_postings_offered_total{result="busy"} 1
-yacynode_rwidistribution_postings_offered_total{result="ok"} 5
+yacynode_rwidistribution_postings_offered_total{outcome="busy"} 1
+yacynode_rwidistribution_postings_offered_total{outcome="ok"} 5
 `
 	if err := testutil.GatherAndCompare(
 		registry,
@@ -71,12 +71,12 @@ func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
 	expected := `
 # HELP yacynode_rwidistribution_url_metadata_deliveries_total URL metadata deliveries sent to peers, by delivery outcome.
 # TYPE yacynode_rwidistribution_url_metadata_deliveries_total counter
-yacynode_rwidistribution_url_metadata_deliveries_total{result="accepted"} 2
-yacynode_rwidistribution_url_metadata_deliveries_total{result="deferred"} 1
+yacynode_rwidistribution_url_metadata_deliveries_total{outcome="accepted"} 2
+yacynode_rwidistribution_url_metadata_deliveries_total{outcome="deferred"} 1
 # HELP yacynode_rwidistribution_urls_delivered_total URLs delivered to peers as metadata, by delivery outcome.
 # TYPE yacynode_rwidistribution_urls_delivered_total counter
-yacynode_rwidistribution_urls_delivered_total{result="accepted"} 5
-yacynode_rwidistribution_urls_delivered_total{result="deferred"} 1
+yacynode_rwidistribution_urls_delivered_total{outcome="accepted"} 5
+yacynode_rwidistribution_urls_delivered_total{outcome="deferred"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
@@ -95,14 +95,14 @@ func TestDistributionCountsStaleHoldersDropped(t *testing.T) {
 	observer.ObserveStaleHoldersDropped(2)
 
 	expected := `
-# HELP yacynode_rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.
-# TYPE yacynode_rwidistribution_stale_replicas_dropped_total counter
-yacynode_rwidistribution_stale_replicas_dropped_total 2
+# HELP yacynode_rwidistribution_stale_holders_dropped_total Holders dropped because they are no longer responsible.
+# TYPE yacynode_rwidistribution_stale_holders_dropped_total counter
+yacynode_rwidistribution_stale_holders_dropped_total 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_stale_replicas_dropped_total",
+		"yacynode_rwidistribution_stale_holders_dropped_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

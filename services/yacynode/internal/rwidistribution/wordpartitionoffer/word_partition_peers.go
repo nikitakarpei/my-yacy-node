@@ -114,10 +114,10 @@ func (p wordPartitionPeers) recipients() []yacymodel.Seed {
 }
 
 func (p wordPartitionPeers) undeliveredOfferWith(
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 	undeliveredValues []yacymodel.RWIPosting,
 	wholeWordPartition []yacymodel.RWIPosting,
-) WordPartitionOffer {
+) Offer {
 	offer := p.offerWith(undeliveredValues, wholeWordPartition)
 	offer.undeliveredPostings = undelivered
 
@@ -127,7 +127,7 @@ func (p wordPartitionPeers) undeliveredOfferWith(
 func (p wordPartitionPeers) offerWith(
 	holdingPeerPostings []yacymodel.RWIPosting,
 	missingHolderPostings []yacymodel.RWIPosting,
-) WordPartitionOffer {
+) Offer {
 	recipients := make([]Recipient, 0, len(p.holdingPeers)+len(p.missingHolders))
 	for _, seed := range p.holdingPeers {
 		recipients = append(recipients, Recipient{Peer: seed, Postings: holdingPeerPostings})
@@ -136,7 +136,7 @@ func (p wordPartitionPeers) offerWith(
 		recipients = append(recipients, Recipient{Peer: seed, Postings: missingHolderPostings})
 	}
 
-	return WordPartitionOffer{
+	return Offer{
 		Recipients:       recipients,
 		wordPartition:    p.wordPartition,
 		position:         p.responsiblePeers.position,
@@ -147,9 +147,9 @@ func (p wordPartitionPeers) offerWith(
 }
 
 func (p wordPartitionPeers) refreshOfferWith(
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 	wholeWordPartition []yacymodel.RWIPosting,
-) WordPartitionOffer {
+) Offer {
 	offer := p.offerWith(wholeWordPartition, wholeWordPartition)
 	offer.undeliveredPostings = undelivered
 	offer.isRefresh = true

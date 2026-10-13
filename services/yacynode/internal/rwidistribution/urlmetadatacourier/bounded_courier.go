@@ -7,16 +7,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type boundedCourier struct {
-	inner     Courier
+type UnboundedCourier interface {
+	Deliver(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		metadata []yacymodel.URLMetadata,
+	) Receipt
+}
+
+type BoundedCourier struct {
+	inner     UnboundedCourier
 	batchSize int
 }
 
-func NewBounded(inner Courier, batchSize int) Courier {
-	return boundedCourier{inner: inner, batchSize: batchSize}
+func NewBounded(inner UnboundedCourier, batchSize int) BoundedCourier {
+	return BoundedCourier{inner: inner, batchSize: batchSize}
 }
 
-func (c boundedCourier) Deliver(
+func (c BoundedCourier) Deliver(
 	ctx context.Context,
 	recipient yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,

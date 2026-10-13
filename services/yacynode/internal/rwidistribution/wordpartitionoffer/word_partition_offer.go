@@ -7,14 +7,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 )
 
-type WordPartitionOffer struct {
+type Offer struct {
 	Recipients          []Recipient
 	wordPartition       yacymodel.WordPartition
 	position            yacymodel.DHTRingPosition
 	responsiblePeers    []yacymodel.Hash
 	recordedHolders     []yacymodel.Hash
 	staleHolders        []yacymodel.Hash
-	undeliveredPostings []undeliveredpostings.UndeliveredPosting
+	undeliveredPostings []undeliveredpostings.Posting
 	isRefresh           bool
 }
 
@@ -35,7 +35,7 @@ type Outcome struct {
 	Holders              []yacymodel.Hash
 	IsAtRedundancy       bool
 	MustRecordHolders    bool
-	DeliveredPostings    []undeliveredpostings.UndeliveredPosting
+	DeliveredPostings    []undeliveredpostings.Posting
 	AmountOfStaleHolders int
 	Acceptances          []Acceptance
 }
@@ -47,7 +47,7 @@ type Acceptance struct {
 
 type acceptedURLs map[yacymodel.URLHash]struct{}
 
-func (o WordPartitionOffer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) Outcome {
+func (o Offer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) Outcome {
 	acceptedURLsPerPeer := o.acceptedURLsPerPeerFrom(answers)
 	holders := o.holdersFrom(answers, acceptedURLsPerPeer)
 	deliveredPostings := o.deliveredPostingsFrom(acceptedURLsPerPeer)
@@ -66,7 +66,7 @@ func (o WordPartitionOffer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) O
 	}
 }
 
-func (o WordPartitionOffer) acceptedURLsPerPeerFrom(
+func (o Offer) acceptedURLsPerPeerFrom(
 	answers map[yacymodel.Hash]PeerAnswer,
 ) map[yacymodel.Hash]acceptedURLs {
 	acceptedURLsPerPeer := make(map[yacymodel.Hash]acceptedURLs)
@@ -79,7 +79,7 @@ func (o WordPartitionOffer) acceptedURLsPerPeerFrom(
 	return acceptedURLsPerPeer
 }
 
-func (o WordPartitionOffer) isRecipient(peer yacymodel.Hash) bool {
+func (o Offer) isRecipient(peer yacymodel.Hash) bool {
 	return slices.ContainsFunc(o.Recipients, func(recipient Recipient) bool {
 		return recipient.Peer.Hash == peer
 	})
@@ -96,7 +96,7 @@ func acceptedURLsOfWord(answer PeerAnswer, word yacymodel.Hash) acceptedURLs {
 	return urls
 }
 
-func (o WordPartitionOffer) holdersFrom(
+func (o Offer) holdersFrom(
 	answers map[yacymodel.Hash]PeerAnswer,
 	acceptedURLsPerPeer map[yacymodel.Hash]acceptedURLs,
 ) []yacymodel.Hash {
@@ -117,7 +117,7 @@ func (o WordPartitionOffer) holdersFrom(
 	return holders
 }
 
-func (o WordPartitionOffer) isLostHolder(
+func (o Offer) isLostHolder(
 	holder yacymodel.Hash,
 	answers map[yacymodel.Hash]PeerAnswer,
 	acceptedURLsPerPeer map[yacymodel.Hash]acceptedURLs,
@@ -146,10 +146,10 @@ func (urls acceptedURLs) hold(url yacymodel.URLHash) bool {
 	return found
 }
 
-func (o WordPartitionOffer) deliveredPostingsFrom(
+func (o Offer) deliveredPostingsFrom(
 	acceptedURLsPerPeer map[yacymodel.Hash]acceptedURLs,
-) []undeliveredpostings.UndeliveredPosting {
-	var deliveredPostings []undeliveredpostings.UndeliveredPosting
+) []undeliveredpostings.Posting {
+	var deliveredPostings []undeliveredpostings.Posting
 	for _, posting := range o.undeliveredPostings {
 		if !slices.ContainsFunc(o.responsiblePeers, func(peer yacymodel.Hash) bool {
 			return !acceptedURLsPerPeer[peer].hold(posting.URL)
@@ -161,15 +161,15 @@ func (o WordPartitionOffer) deliveredPostingsFrom(
 	return deliveredPostings
 }
 
-func (o WordPartitionOffer) isAtRedundancyWith(
+func (o Offer) isAtRedundancyWith(
 	holders []yacymodel.Hash,
-	deliveredPostings []undeliveredpostings.UndeliveredPosting,
+	deliveredPostings []undeliveredpostings.Posting,
 ) bool {
 	return len(holders) >= len(o.responsiblePeers) &&
 		len(deliveredPostings) == len(o.undeliveredPostings)
 }
 
-func (o WordPartitionOffer) mustRecordHoldersWith(
+func (o Offer) mustRecordHoldersWith(
 	holders []yacymodel.Hash,
 	isAtRedundancy bool,
 ) bool {
@@ -183,7 +183,7 @@ func sameHolders(holders, otherHolders []yacymodel.Hash) bool {
 		})
 }
 
-func (o WordPartitionOffer) acceptancesFrom(
+func (o Offer) acceptancesFrom(
 	acceptedURLsPerPeer map[yacymodel.Hash]acceptedURLs,
 ) []Acceptance {
 	var acceptances []Acceptance

@@ -1474,7 +1474,7 @@
     },
     {
       "id": 74,
-      "title": "Ring distance from a posting to the peer that accepted its replica",
+      "title": "Ring distance from a posting to the holder that accepted it",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1494,22 +1494,22 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.10, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.10, sum by (le) (clamp_min(yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p10"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p50"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p90"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_holder_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p99"
         }
       ],
@@ -1528,7 +1528,7 @@
     },
     {
       "id": 58,
-      "title": "Peers no longer counted as replica holders",
+      "title": "Peers no longer counted as holders",
       "description": "A peer stops counting as a holder when it is unreachable for too long, or when it is no longer one of the responsible peers of the posting.",
       "type": "timeseries",
       "datasource": {
@@ -1558,7 +1558,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} offset $__interval), 0)",
+          "expr": "clamp_min(yacynode_rwidistribution_stale_holders_dropped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_stale_holders_dropped_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "dropped"
         }
       ],
@@ -1688,8 +1688,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{result}}"
+          "expr": "sum by (outcome) (clamp_min(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
       ],
       "interval": "$window"
@@ -1818,8 +1818,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(yacynode_rwidistribution_postings_offered_total{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "{{result}}"
+          "expr": "sum by (outcome) (rate(yacynode_rwidistribution_postings_offered_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "{{outcome}}"
         }
       ],
       "interval": "$window"
@@ -1918,8 +1918,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{result}}"
+          "expr": "sum by (outcome) (clamp_min(yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
         }
       ],
       "interval": "$window"
@@ -2018,8 +2018,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(yacynode_rwidistribution_urls_delivered_total{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "{{result}}"
+          "expr": "sum by (outcome) (rate(yacynode_rwidistribution_urls_delivered_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "{{outcome}}"
         }
       ],
       "interval": "$window"
@@ -2056,7 +2056,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{result=\"accepted\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{outcome=\"accepted\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "accepted"
         }
       ],

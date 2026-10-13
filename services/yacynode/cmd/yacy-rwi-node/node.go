@@ -444,7 +444,7 @@ func openDistributionRecords(
 	firstRetryDelay time.Duration,
 	now func() time.Time,
 ) (
-	*undeliveredpostings.UndeliveredPostings,
+	*undeliveredpostings.Postings,
 	vault.Projection[yacymodel.RWIPosting],
 	*wordpartitionholders.Holders,
 	error,

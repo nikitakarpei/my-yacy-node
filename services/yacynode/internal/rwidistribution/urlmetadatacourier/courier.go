@@ -16,15 +16,7 @@ type Receipt struct {
 	URLsRejected []yacymodel.URLHash
 }
 
-type Courier interface {
-	Deliver(
-		ctx context.Context,
-		recipient yacymodel.Seed,
-		metadata []yacymodel.URLMetadata,
-	) Receipt
-}
-
-type httpCourier struct {
+type Courier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
@@ -35,10 +27,10 @@ func New(
 	networkName string,
 	self yacymodel.Hash,
 ) Courier {
-	return httpCourier{exchange: exchange, networkName: networkName, self: self}
+	return Courier{exchange: exchange, networkName: networkName, self: self}
 }
 
-func (c httpCourier) Deliver(
+func (c Courier) Deliver(
 	ctx context.Context,
 	recipient yacymodel.Seed,
 	metadata []yacymodel.URLMetadata,

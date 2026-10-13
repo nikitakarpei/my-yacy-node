@@ -40,7 +40,7 @@ func TestDHTRingTracksHolderRingFractions(t *testing.T) {
 
 	if got := testutil.CollectAndCount(
 		registry,
-		"yacynode_rwidistribution_replica_ring_fraction",
+		"yacynode_rwidistribution_holder_ring_fraction",
 	); got != 1 {
 		t.Errorf("series = %v, want 1", got)
 	}
@@ -50,7 +50,7 @@ func TestDHTRingTracksHolderRingFractions(t *testing.T) {
 		t.Fatalf("Gather: %v", err)
 	}
 	for _, family := range families {
-		if family.GetName() != "yacynode_rwidistribution_replica_ring_fraction" {
+		if family.GetName() != "yacynode_rwidistribution_holder_ring_fraction" {
 			continue
 		}
 		histogram := family.GetMetric()[0].GetHistogram()

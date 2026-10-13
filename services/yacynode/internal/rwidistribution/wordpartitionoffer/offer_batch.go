@@ -3,7 +3,7 @@ package wordpartitionoffer
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type Batch struct {
-	Offers []WordPartitionOffer
+	Offers []Offer
 	Waits  []Wait
 }
 
@@ -12,7 +12,7 @@ type Wait struct {
 	Reason   WaitReason
 }
 
-func (b *Batch) addOffer(offer WordPartitionOffer) {
+func (b *Batch) addOffer(offer Offer) {
 	b.Offers = append(b.Offers, offer)
 }
 

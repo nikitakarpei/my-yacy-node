@@ -52,9 +52,9 @@ type Config struct {
 	Redundancy int
 }
 
-type WordPartitionOffers struct {
+type Offers struct {
 	vault        *vault.Vault
-	undelivered  *undeliveredpostings.UndeliveredPostings
+	undelivered  *undeliveredpostings.Postings
 	holders      *wordpartitionholders.Holders
 	postings     PostingIndex
 	reachability Reachability
@@ -65,14 +65,14 @@ type WordPartitionOffers struct {
 //nolint:revive // argument-limit: six explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 	postings PostingIndex,
 	reachability Reachability,
 	eligibility PeerEligibility,
 	config Config,
-) *WordPartitionOffers {
-	return &WordPartitionOffers{
+) *Offers {
+	return &Offers{
 		vault:        v,
 		undelivered:  undelivered,
 		holders:      holders,
@@ -83,9 +83,9 @@ func New(
 	}
 }
 
-func (o *WordPartitionOffers) UndeliveredOffersFor(
+func (o *Offers) UndeliveredOffersFor(
 	ctx context.Context,
-	undeliveredWordPartitions []undeliveredpostings.UndeliveredWordPartition,
+	undeliveredWordPartitions []undeliveredpostings.WordPartition,
 	reachablePeers []yacymodel.Seed,
 ) (Batch, error) {
 	return o.batchFor(
@@ -98,7 +98,7 @@ func (o *WordPartitionOffers) UndeliveredOffersFor(
 	)
 }
 
-func (o *WordPartitionOffers) RefreshOffersFor(
+func (o *Offers) RefreshOffersFor(
 	ctx context.Context,
 	dueWordPartitions []yacymodel.WordPartition,
 	reachablePeers []yacymodel.Seed,
@@ -112,7 +112,7 @@ func (o *WordPartitionOffers) RefreshOffersFor(
 	)
 }
 
-func (o *WordPartitionOffers) batchFor(
+func (o *Offers) batchFor(
 	ctx context.Context,
 	reachablePeers []yacymodel.Seed,
 	addTo func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error,
@@ -128,7 +128,7 @@ func (o *WordPartitionOffers) batchFor(
 	return batch, nil
 }
 
-func (o *WordPartitionOffers) acceptingPeersAmong(
+func (o *Offers) acceptingPeersAmong(
 	reachablePeers []yacymodel.Seed,
 ) yacymodel.SeedRing {
 	acceptingPeers := make([]yacymodel.Seed, 0, len(reachablePeers))
@@ -141,10 +141,10 @@ func (o *WordPartitionOffers) acceptingPeersAmong(
 	return yacymodel.SeedRingFrom(acceptingPeers)
 }
 
-func (o *WordPartitionOffers) addUndeliveredWordPartitions(
+func (o *Offers) addUndeliveredWordPartitions(
 	ctx context.Context,
 	tx *vault.Txn,
-	undeliveredWordPartitions []undeliveredpostings.UndeliveredWordPartition,
+	undeliveredWordPartitions []undeliveredpostings.WordPartition,
 	acceptingPeers yacymodel.SeedRing,
 	batch *Batch,
 ) error {
@@ -180,7 +180,7 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 	return nil
 }
 
-func (o *WordPartitionOffers) peersOf(
+func (o *Offers) peersOf(
 	ctx context.Context,
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
@@ -206,13 +206,13 @@ func (o *WordPartitionOffers) peersOf(
 	), nil
 }
 
-func (o *WordPartitionOffers) positionOf(
+func (o *Offers) positionOf(
 	wordPartition yacymodel.WordPartition,
 ) yacymodel.DHTRingPosition {
 	return yacymodel.DHTRingPositionOfWordPartition(wordPartition, o.config.Partitions)
 }
 
-func (o *WordPartitionOffers) keptHoldersOf(
+func (o *Offers) keptHoldersOf(
 	ctx context.Context,
 	recordedHolders []yacymodel.Hash,
 	responsiblePeers responsiblePeers,
@@ -227,7 +227,7 @@ func (o *WordPartitionOffers) keptHoldersOf(
 	return keptHolders
 }
 
-func (o *WordPartitionOffers) isKept(
+func (o *Offers) isKept(
 	ctx context.Context,
 	holder yacymodel.Hash,
 	responsiblePeers responsiblePeers,
@@ -242,23 +242,23 @@ func (o *WordPartitionOffers) isKept(
 	return o.reachability.IsRecentlyReachable(ctx, holder)
 }
 
-func (o *WordPartitionOffers) undeliveredOfferFor(
+func (o *Offers) undeliveredOfferFor(
 	tx *vault.Txn,
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 	peers wordPartitionPeers,
-) (WordPartitionOffer, error) {
+) (Offer, error) {
 	var undeliveredValues []yacymodel.RWIPosting
 	if peers.hasHoldingPeers() {
 		var err error
 		if undeliveredValues, err = o.storedPostingsOf(tx, undelivered); err != nil {
-			return WordPartitionOffer{}, err
+			return Offer{}, err
 		}
 	}
 	var wholeWordPartition []yacymodel.RWIPosting
 	if peers.hasMissingHolders() {
 		var err error
 		if wholeWordPartition, err = o.postingsIn(tx, peers.wordPartition); err != nil {
-			return WordPartitionOffer{}, err
+			return Offer{}, err
 		}
 	}
 
@@ -269,9 +269,9 @@ func (o *WordPartitionOffers) undeliveredOfferFor(
 	), nil
 }
 
-func (o *WordPartitionOffers) storedPostingsOf(
+func (o *Offers) storedPostingsOf(
 	tx *vault.Txn,
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 ) ([]yacymodel.RWIPosting, error) {
 	storedPostings := make([]yacymodel.RWIPosting, 0, len(undelivered))
 	for _, posting := range undelivered {
@@ -287,7 +287,7 @@ func (o *WordPartitionOffers) storedPostingsOf(
 	return storedPostings, nil
 }
 
-func (o *WordPartitionOffers) postingsIn(
+func (o *Offers) postingsIn(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 ) ([]yacymodel.RWIPosting, error) {
@@ -306,7 +306,7 @@ func (o *WordPartitionOffers) postingsIn(
 	return wholeWordPartition, err
 }
 
-func (o *WordPartitionOffers) addDueRefreshes(
+func (o *Offers) addDueRefreshes(
 	ctx context.Context,
 	tx *vault.Txn,
 	dueWordPartitions []yacymodel.WordPartition,
@@ -333,17 +333,17 @@ func (o *WordPartitionOffers) addDueRefreshes(
 	return nil
 }
 
-func (o *WordPartitionOffers) refreshOfferFor(
+func (o *Offers) refreshOfferFor(
 	tx *vault.Txn,
 	peers wordPartitionPeers,
-) (WordPartitionOffer, error) {
+) (Offer, error) {
 	undelivered, err := o.undelivered.PostingsOf(tx, peers.wordPartition)
 	if err != nil {
-		return WordPartitionOffer{}, err
+		return Offer{}, err
 	}
 	wholeWordPartition, err := o.postingsIn(tx, peers.wordPartition)
 	if err != nil {
-		return WordPartitionOffer{}, err
+		return Offer{}, err
 	}
 
 	return peers.refreshOfferWith(undelivered, wholeWordPartition), nil

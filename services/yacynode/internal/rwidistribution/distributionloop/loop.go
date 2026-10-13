@@ -63,8 +63,8 @@ type Config struct {
 
 type Loop struct {
 	vault           *vault.Vault
-	offers          *wordpartitionoffer.WordPartitionOffers
-	undelivered     *undeliveredpostings.UndeliveredPostings
+	offers          *wordpartitionoffer.Offers
+	undelivered     *undeliveredpostings.Postings
 	holders         *wordpartitionholders.Holders
 	handoff         WordPartitionHandoff
 	transfers       PostingTransfers
@@ -81,8 +81,8 @@ type Loop struct {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	v *vault.Vault,
-	offers *wordpartitionoffer.WordPartitionOffers,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	offers *wordpartitionoffer.Offers,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 	handoff WordPartitionHandoff,
 	transfers PostingTransfers,
@@ -228,7 +228,7 @@ func (l *Loop) reportDuePostingsUnread(ctx context.Context, err error) {
 
 func (l *Loop) commitBatch(
 	ctx context.Context,
-	offers []wordpartitionoffer.WordPartitionOffer,
+	offers []wordpartitionoffer.Offer,
 	answers map[yacymodel.Hash]wordpartitionoffer.PeerAnswer,
 ) error {
 	outcomes := outcomesFrom(offers, answers)
@@ -250,7 +250,7 @@ func (l *Loop) commitBatch(
 }
 
 func outcomesFrom(
-	offers []wordpartitionoffer.WordPartitionOffer,
+	offers []wordpartitionoffer.Offer,
 	answers map[yacymodel.Hash]wordpartitionoffer.PeerAnswer,
 ) []wordpartitionoffer.Outcome {
 	outcomes := make([]wordpartitionoffer.Outcome, 0, len(offers))
@@ -298,7 +298,7 @@ func (l *Loop) recordHolders(tx *vault.Txn, outcome wordpartitionoffer.Outcome) 
 
 func (l *Loop) markDelivered(
 	tx *vault.Txn,
-	deliveredPostings []undeliveredpostings.UndeliveredPosting,
+	deliveredPostings []undeliveredpostings.Posting,
 ) error {
 	for _, posting := range deliveredPostings {
 		if _, err := l.undelivered.MarkDelivered(tx, posting); err != nil {

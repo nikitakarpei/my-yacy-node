@@ -48,7 +48,7 @@ type loopHarness struct {
 	clk         *clock
 	index       *observedPostingIndex
 	admitter    rwipostings.PostingAdmitter
-	undelivered *undeliveredpostings.UndeliveredPostings
+	undelivered *undeliveredpostings.Postings
 	holders     *wordpartitionholders.Holders
 	eligibility *peereligibility.Peers
 	roster      *fakeRoster
@@ -173,7 +173,7 @@ func handoffFor(
 	opts loopOptions,
 	index *observedPostingIndex,
 	purger rwipostings.PostingPurger,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 ) distributionloop.WordPartitionHandoff {
 	if !opts.handoffEnabled {

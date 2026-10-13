@@ -72,7 +72,7 @@ func positionFromKey(positionKey int64) yacymodel.DHTRingPosition {
 	return yacymodel.DHTRingPosition(positionKey)
 }
 
-func entriesAfter(lastReadPosting UndeliveredPosting) vault.KeyRange {
+func entriesAfter(lastReadPosting Posting) vault.KeyRange {
 	return vault.EveryKey().After(undeliveredEntryKeyParts.Key(
 		positionKeyOf(lastReadPosting.change.Entry.position),
 		lastReadPosting.change.Entry.word,
