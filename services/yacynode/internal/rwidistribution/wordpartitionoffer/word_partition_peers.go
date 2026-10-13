@@ -153,6 +153,7 @@ func (p wordPartitionPeers) offerWith(
 		responsiblePeers: p.responsiblePeers.hashes,
 		recordedHolders:  p.recordedHolders,
 		staleHolders:     p.staleHolders,
+		isRefresh:        !p.hasHoldingPeers(),
 	}
 }
 

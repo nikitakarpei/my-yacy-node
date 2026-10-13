@@ -162,16 +162,14 @@ func TestAHolderThatGetsNoPostingsInThisBatchStaysAHolder(t *testing.T) {
 	}
 }
 
-func TestHoldersAreRecordedUnlessAnUndeliveredOfferLeavesThemUnchangedAtRedundancy(t *testing.T) {
+func TestAnOutcomeIsARefreshWhenEveryRecipientGotTheWholeWordPartition(t *testing.T) {
 	for name, scenario := range map[string]struct {
-		offerTo      offerToPeer
-		answerTo     func(sent []yacymodel.RWIPosting) wordpartitionoffer.PeerAnswer
-		wantRecorded bool
+		offerTo     offerToPeer
+		wantRefresh bool
 	}{
-		"undelivered accepted by the holder":   {offerTo: undeliveredOfferTo, answerTo: accepted},
-		"undelivered declined by the holder":   {offerTo: undeliveredOfferTo, answerTo: declinedWhole, wantRecorded: true},
-		"undelivered accepted by a new holder": {offerTo: firstOfferTo, answerTo: accepted, wantRecorded: true},
-		"refresh accepted by the holder":       {offerTo: dueRefreshTo, answerTo: accepted, wantRecorded: true},
+		"refresh offer":                      {offerTo: dueRefreshTo, wantRefresh: true},
+		"undelivered offer with no holders":  {offerTo: firstOfferTo, wantRefresh: true},
+		"undelivered offer to holding peers": {offerTo: undeliveredOfferTo},
 	} {
 		t.Run(name, func(t *testing.T) {
 			h := openHarness(t, options{})
@@ -179,12 +177,11 @@ func TestHoldersAreRecordedUnlessAnUndeliveredOfferLeavesThemUnchangedAtRedundan
 			offer := scenario.offerTo(t, h, peer)
 
 			outcome := offer.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
-				peer.Hash: scenario.answerTo(postingsSentTo(t, offer, peer)),
+				peer.Hash: declined(),
 			})
 
-			if outcome.MustRecordHolders != scenario.wantRecorded {
-				t.Fatalf("MustRecordHolders = %v with holders %v, want %v",
-					outcome.MustRecordHolders, outcome.Holders, scenario.wantRecorded)
+			if outcome.IsRefresh != scenario.wantRefresh {
+				t.Fatalf("IsRefresh = %v, want %v", outcome.IsRefresh, scenario.wantRefresh)
 			}
 		})
 	}

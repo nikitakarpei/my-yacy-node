@@ -15,9 +15,10 @@ import (
 )
 
 type wordPartitionEntry struct {
-	holders    []yacymodel.Hash
-	dueAt      time.Time
-	retryDelay time.Duration
+	holders     []yacymodel.Hash
+	dueAt       time.Time
+	retryDelay  time.Duration
+	refreshedAt time.Time
 }
 
 type ScheduledWordPartition struct {
@@ -87,14 +88,34 @@ func (s *Schedule) IsInRetry(
 	return entry.retryDelay > 0, nil
 }
 
+func (s *Schedule) RecordRefreshed(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+	holders []yacymodel.Hash,
+) error {
+	now := s.now()
+
+	return s.record(tx, wordPartition, wordPartitionEntry{
+		holders:     holders,
+		dueAt:       now.Add(s.refreshInterval),
+		refreshedAt: now,
+	})
+}
+
 func (s *Schedule) RecordAtRedundancy(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
 	holders []yacymodel.Hash,
 ) error {
+	previousEntry, err := s.previousEntryOf(tx, wordPartition)
+	if err != nil {
+		return err
+	}
+
 	return s.record(tx, wordPartition, wordPartitionEntry{
-		holders: holders,
-		dueAt:   s.now().Add(s.refreshInterval),
+		holders:     holders,
+		dueAt:       previousEntry.refreshedAt.Add(s.refreshInterval),
+		refreshedAt: previousEntry.refreshedAt,
 	})
 }
 
@@ -103,28 +124,34 @@ func (s *Schedule) RecordShortOfRedundancy(
 	wordPartition yacymodel.WordPartition,
 	holders []yacymodel.Hash,
 ) error {
-	retryDelay, err := s.retryDelayFor(tx, wordPartition)
+	previousEntry, err := s.previousEntryOf(tx, wordPartition)
 	if err != nil {
 		return err
 	}
+	retryDelay := s.retryDelayAfter(previousEntry.retryDelay)
 
 	return s.record(tx, wordPartition, wordPartitionEntry{
-		holders:    holders,
-		dueAt:      s.now().Add(retryDelay),
-		retryDelay: retryDelay,
+		holders:     holders,
+		dueAt:       s.now().Add(retryDelay),
+		retryDelay:  retryDelay,
+		refreshedAt: previousEntry.refreshedAt,
 	})
 }
 
-func (s *Schedule) retryDelayFor(
+func (s *Schedule) previousEntryOf(
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
-) (time.Duration, error) {
+) (wordPartitionEntry, error) {
 	previousEntry, _, err := s.entries.Get(tx, wordPartition)
 	if err != nil {
-		return 0, fmt.Errorf("read word partition retry delay: %w", err)
+		return wordPartitionEntry{}, fmt.Errorf("read previous word partition holders: %w", err)
 	}
 
-	return min(max(previousEntry.retryDelay*2, s.firstRetryDelay), s.refreshInterval), nil
+	return previousEntry, nil
+}
+
+func (s *Schedule) retryDelayAfter(previousRetryDelay time.Duration) time.Duration {
+	return min(max(previousRetryDelay*2, s.firstRetryDelay), s.refreshInterval)
 }
 
 func (s *Schedule) record(

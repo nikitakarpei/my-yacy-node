@@ -142,6 +142,7 @@ func (wordPartitionEntryValueCodec) Encode(entry wordPartitionEntry) ([]byte, er
 	}
 	stored.Time(entry.dueAt)
 	stored.Varint(int64(entry.retryDelay))
+	stored.Time(entry.refreshedAt)
 
 	return stored.Record(), nil
 }
@@ -151,11 +152,17 @@ func (wordPartitionEntryValueCodec) Decode(raw []byte) (wordPartitionEntry, erro
 	holders := holdersFrom(stored)
 	dueAt := stored.Time("due at")
 	retryDelay := time.Duration(stored.Varint("retry delay"))
+	refreshedAt := stored.Time("refreshed at")
 	if err := stored.Err(); err != nil {
 		return wordPartitionEntry{}, err
 	}
 
-	return wordPartitionEntry{holders: holders, dueAt: dueAt, retryDelay: retryDelay}, nil
+	return wordPartitionEntry{
+		holders:     holders,
+		dueAt:       dueAt,
+		retryDelay:  retryDelay,
+		refreshedAt: refreshedAt,
+	}, nil
 }
 
 func holdersFrom(stored *storedfields.Reader) []yacymodel.Hash {

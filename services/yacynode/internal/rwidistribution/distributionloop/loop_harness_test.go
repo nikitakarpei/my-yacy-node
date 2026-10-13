@@ -264,7 +264,7 @@ func (h *loopHarness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.schedule.RecordAtRedundancy(tx, wordPartition, recordedHolders)
+		return h.schedule.RecordRefreshed(tx, wordPartition, recordedHolders)
 	})
 }
 

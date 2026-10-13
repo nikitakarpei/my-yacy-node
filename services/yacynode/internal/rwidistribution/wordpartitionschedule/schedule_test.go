@@ -78,6 +78,18 @@ func (h *harness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
+		return h.schedule.RecordRefreshed(tx, wordPartition, recordedHolders)
+	})
+}
+
+func (h *harness) recordHoldersAtRedundancy(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+	recordedHolders ...yacymodel.Hash,
+) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
 		return h.schedule.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
@@ -800,4 +812,55 @@ func TestAWordPartitionAlreadyDueStaysDueOnceWithItsHolders(t *testing.T) {
 	if got := h.holdersOf(t, wordPartition); !slices.Equal(got, []yacymodel.Hash{peer("peer0")}) {
 		t.Fatalf("Of = %v, want the recorded holder", got)
 	}
+}
+
+func TestAnUndeliveredSendAtRedundancyKeepsTheRefreshTime(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"))
+	h.advance(refreshInterval / 2)
+
+	h.recordHoldersAtRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval/2)
+}
+
+func TestAWordPartitionNeverRefreshedIsDueAtOnceAfterASendAtRedundancy(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.makeDue(t, wordPartition)
+
+	h.recordHoldersAtRedundancy(t, wordPartition, peer("peer0"))
+
+	if due := h.dueWordPartitions(t, 10); !slices.Equal(
+		due,
+		[]yacymodel.WordPartition{wordPartition},
+	) {
+		t.Fatalf("due word partitions = %v, want %v at once", due, wordPartition)
+	}
+}
+
+func TestShortOfRedundancyKeepsTheLastRefreshTime(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"))
+	h.advance(refreshInterval / 4)
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+	h.advance(refreshInterval / 4)
+
+	h.recordHoldersAtRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval/2)
+}
+
+func TestMakingAHeldWordPartitionDueKeepsItsRefreshTime(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"))
+	h.advance(refreshInterval / 2)
+	h.makeDue(t, wordPartition)
+
+	h.recordHoldersAtRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval/2)
 }

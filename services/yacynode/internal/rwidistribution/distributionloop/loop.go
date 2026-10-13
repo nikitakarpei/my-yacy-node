@@ -264,10 +264,8 @@ func (l *Loop) recordOutcome(
 	tx *vault.Txn,
 	outcome wordpartitionoffer.Outcome,
 ) error {
-	if outcome.MustRecordHolders {
-		if err := l.recordHolders(tx, outcome); err != nil {
-			return err
-		}
+	if err := l.recordHolders(tx, outcome); err != nil {
+		return err
 	}
 	amountOfPostingsDelivered, err := l.markDelivered(tx, outcome.DeliveredPostings)
 	if err != nil {
@@ -289,7 +287,10 @@ func (l *Loop) recordOutcome(
 }
 
 func (l *Loop) recordHolders(tx *vault.Txn, outcome wordpartitionoffer.Outcome) error {
-	if outcome.IsAtRedundancy {
+	switch {
+	case outcome.IsAtRedundancy && outcome.IsRefresh:
+		return l.schedule.RecordRefreshed(tx, outcome.WordPartition, outcome.Holders)
+	case outcome.IsAtRedundancy:
 		return l.schedule.RecordAtRedundancy(tx, outcome.WordPartition, outcome.Holders)
 	}
 
