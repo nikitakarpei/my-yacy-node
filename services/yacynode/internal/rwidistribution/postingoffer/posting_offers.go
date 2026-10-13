@@ -1,6 +1,7 @@
 // Package postingoffer works out, for each posting due an offer, which peers
-// to offer it to under the DHT, how many of them must accept for the posting
-// to be at redundancy, and which ledger entries the DHT no longer justifies.
+// to offer it to under the DHT, how many peers must accept for the posting to
+// be at redundancy, how long peers in cooldown make it wait, and which ledger
+// entries the DHT no longer justifies.
 package postingoffer
 
 import (
@@ -8,6 +9,7 @@ import (
 	"fmt"
 	"log/slog"
 	"slices"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -19,11 +21,12 @@ import (
 const replicaLedgerUnread = "read replica ledger: %w"
 
 type PostingOffer struct {
-	Posting           yacymodel.RWIPosting
-	PostingPosition   yacymodel.DHTRingPosition
-	Peers             []yacymodel.Seed
-	AcceptancesNeeded int
-	StaleHolders      []yacymodel.Hash
+	Posting                 yacymodel.RWIPosting
+	PostingPosition         yacymodel.DHTRingPosition
+	Peers                   []yacymodel.Seed
+	AcceptancesNeeded       int
+	PauseForPeersInCooldown time.Duration
+	StaleHolders            []yacymodel.Hash
 }
 
 type Observer interface {
@@ -43,8 +46,8 @@ type Reachability interface {
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 }
 
-type ReplicaEligibility interface {
-	EligiblePeers(peers []yacymodel.Seed) []yacymodel.Seed
+type Cooldowns interface {
+	CooldownLeftOf(peer yacymodel.Hash) time.Duration
 }
 
 type Config struct {
@@ -59,7 +62,7 @@ type PostingOffers struct {
 	replicas     *postingreplicas.Replicas
 	postings     PostingIndex
 	reachability Reachability
-	eligibility  ReplicaEligibility
+	cooldowns    Cooldowns
 	observer     Observer
 	config       Config
 }
@@ -71,7 +74,7 @@ func New(
 	replicas *postingreplicas.Replicas,
 	postings PostingIndex,
 	reachability Reachability,
-	eligibility ReplicaEligibility,
+	cooldowns Cooldowns,
 	observer Observer,
 	config Config,
 ) *PostingOffers {
@@ -81,7 +84,7 @@ func New(
 		replicas:     replicas,
 		postings:     postings,
 		reachability: reachability,
-		eligibility:  eligibility,
+		cooldowns:    cooldowns,
 		observer:     observer,
 		config:       config,
 	}
@@ -116,9 +119,7 @@ func (o *PostingOffers) DueNowIn(
 	limit int,
 	reachablePeers []yacymodel.Seed,
 ) ([]PostingOffer, error) {
-	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
-	acceptingPeerRing := yacymodel.SeedRingFrom(acceptingPeers)
-	eligiblePeerRing := yacymodel.SeedRingFrom(o.eligibility.EligiblePeers(acceptingPeers))
+	acceptingPeerRing := yacymodel.SeedRingFrom(peersAcceptingRemoteIndex(reachablePeers))
 
 	var offers []PostingOffer
 	err := o.vault.View(ctx, func(tx *vault.Txn) error {
@@ -133,7 +134,7 @@ func (o *PostingOffers) DueNowIn(
 
 		offers = make([]PostingOffer, 0, len(postings))
 		for _, posting := range postings {
-			offer, err := o.offerFor(ctx, tx, posting, acceptingPeerRing, eligiblePeerRing)
+			offer, err := o.offerFor(ctx, tx, posting, acceptingPeerRing)
 			if err != nil {
 				return err
 			}
@@ -178,7 +179,6 @@ func (o *PostingOffers) offerFor(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 	acceptingPeers yacymodel.SeedRing,
-	eligiblePeers yacymodel.SeedRing,
 ) (PostingOffer, error) {
 	identity := postingidentity.IdentityOf(posting)
 	recordedHolders, err := o.replicas.HoldersOf(tx, identity)
@@ -194,7 +194,7 @@ func (o *PostingOffers) offerFor(
 		return refreshOfferFor(posting, acceptingPeers, holders, window), nil
 	}
 
-	return replicaOfferFor(posting, eligiblePeers, holders, window), nil
+	return o.replicaOfferFor(posting, acceptingPeers, holders, window), nil
 }
 
 func (o *PostingOffers) replicaHoldersFrom(
@@ -237,21 +237,24 @@ func refreshOfferFor(
 	}
 }
 
-func replicaOfferFor(
+func (o *PostingOffers) replicaOfferFor(
 	posting yacymodel.RWIPosting,
-	eligiblePeers yacymodel.SeedRing,
+	acceptingPeers yacymodel.SeedRing,
 	holders replicaHolders,
 	window replicaWindow,
 ) PostingOffer {
 	missingReplicas := window.requiredReplicas - len(holders.insideWindow)
+	peersMissingReplica := missingPeersFrom(
+		holders.closestPeersMissingReplica(acceptingPeers, window.position, missingReplicas),
+		o.cooldowns,
+	)
 
 	return PostingOffer{
-		Posting:         posting,
-		PostingPosition: window.position,
-		Peers: holders.closestPeersMissingReplica(
-			eligiblePeers, window.position, missingReplicas,
-		),
-		AcceptancesNeeded: missingReplicas,
-		StaleHolders:      holders.expired,
+		Posting:                 posting,
+		PostingPosition:         window.position,
+		Peers:                   peersMissingReplica.outOfCooldown,
+		AcceptancesNeeded:       missingReplicas,
+		PauseForPeersInCooldown: peersMissingReplica.longestCooldownLeft,
+		StaleHolders:            holders.expired,
 	}
 }

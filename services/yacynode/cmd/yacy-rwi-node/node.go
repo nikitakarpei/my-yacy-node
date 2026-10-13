@@ -351,7 +351,7 @@ func assembleNode(
 			)
 		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
-		replicaEligibility := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
+		recipientCooldowns := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
 
 		distributionCycle = distributioncycle.New(
@@ -362,7 +362,7 @@ func assembleNode(
 				postingReplicas,
 				postings,
 				peerRoster,
-				replicaEligibility,
+				recipientCooldowns,
 				dhtRingObserver,
 				postingoffer.Config{
 					Partitions: dhtRingPartitions,
@@ -385,7 +385,7 @@ func assembleNode(
 				urlDirectory,
 				distributionObserver,
 			),
-			replicaEligibility,
+			recipientCooldowns,
 			postingReplicas,
 			offerSchedule,
 			peerRoster,
