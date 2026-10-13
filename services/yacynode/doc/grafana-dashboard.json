@@ -2139,61 +2139,6 @@
       "interval": "$window"
     },
     {
-      "id": 138,
-      "title": "Peer answer time",
-      "description": "How long peers take to answer one request, by request kind, and to take all postings of one batch with their URL metadata.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 180
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le, request) (clamp_min(yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{request}} p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le, request) (clamp_min(yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "{{request}} p90"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "whole batch p50"
-        },
-        {
-          "refId": "D",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
-          "legendFormat": "whole batch p90"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "min": 0,
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        }
-      },
-      "interval": "$window"
-    },
-    {
       "id": 139,
       "title": "Peers at their send limit",
       "description": "Peers that have as many batches in flight as their usual answer time allows. Word partitions that must go to them wait.",
@@ -2205,8 +2150,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 188
+        "x": 12,
+        "y": 180
       },
       "fieldConfig": {
         "defaults": {
@@ -2231,6 +2176,96 @@
           "legendFormat": "peers at their limit"
         }
       ],
+      "interval": "$window"
+    },
+    {
+      "id": 138,
+      "title": "Peer answer time, median",
+      "description": "Median time peers take to answer one request, by request kind, and to take all postings of one batch with their URL metadata.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 188
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le, request) (clamp_min(yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{request}}"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "whole batch"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "interval": "$window"
+    },
+    {
+      "id": 140,
+      "title": "Peer answer time, 90th percentile",
+      "description": "Time within which peers answer 90% of requests, by request kind, and take 90% of batches with their URL metadata.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 188
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.90, sum by (le, request) (clamp_min(yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{request}}"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "whole batch"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
       "interval": "$window"
     },
     {
