@@ -13,9 +13,21 @@ type clock struct{ at time.Time }
 
 func (c *clock) now() time.Time { return c.at }
 
-type exclusionCounter struct{ amountOfExclusions int }
+type fakeObserver struct {
+	amountOfExclusions int
+	sendTimes          []time.Duration
+	peersAtSendLimit   int
+}
 
-func (c *exclusionCounter) ObservePeerExcluded() { c.amountOfExclusions++ }
+func (f *fakeObserver) ObservePeerExcluded() { f.amountOfExclusions++ }
+
+func (f *fakeObserver) ObservePeerSendTime(sendTime time.Duration) {
+	f.sendTimes = append(f.sendTimes, sendTime)
+}
+
+func (f *fakeObserver) ObservePeersAtSendLimit(amountOfPeers int) {
+	f.peersAtSendLimit = amountOfPeers
+}
 
 func peersWith(cooldown time.Duration, clk *clock) *peereligibility.Peers {
 	return peereligibility.New(
@@ -25,7 +37,7 @@ func peersWith(cooldown time.Duration, clk *clock) *peereligibility.Peers {
 			ExclusionDuration:           time.Hour,
 		},
 		clk.now,
-		&exclusionCounter{},
+		&fakeObserver{},
 	)
 }
 
@@ -93,7 +105,7 @@ func TestAcceptanceEndsCooldown(t *testing.T) {
 
 type exclusionHarness struct {
 	clk      *clock
-	counter  *exclusionCounter
+	counter  *fakeObserver
 	peers    *peereligibility.Peers
 	peer     yacymodel.Hash
 	cooldown time.Duration
@@ -102,7 +114,7 @@ type exclusionHarness struct {
 func newExclusionHarness() *exclusionHarness {
 	h := &exclusionHarness{
 		clk:      &clock{at: time.Unix(1000, 0)},
-		counter:  &exclusionCounter{},
+		counter:  &fakeObserver{},
 		peer:     yacymodel.WordHash("peer"),
 		cooldown: time.Minute,
 	}

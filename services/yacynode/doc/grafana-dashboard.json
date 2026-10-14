@@ -2139,6 +2139,186 @@
       "interval": "$window"
     },
     {
+      "id": 139,
+      "title": "Peers at their send limit",
+      "description": "Peers that have as many batches in flight as their usual answer time allows. Word partitions that must go to them wait.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 180
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max_over_time(yacynode_rwidistribution_peers_at_send_limit{instance=~\"$service_instance\"}[$__interval])",
+          "legendFormat": "peers at their limit"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 138,
+      "title": "Peer answer time, median",
+      "description": "Median time peers take to answer one request, by request kind, and to take all postings of one batch with their URL metadata.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 188
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le, request) (clamp_min(yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{request}}"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "whole batch"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "interval": "$window"
+    },
+    {
+      "id": 140,
+      "title": "Peer answer time, 90th percentile",
+      "description": "Time within which peers answer 90% of requests, by request kind, and take 90% of batches with their URL metadata.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 188
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.90, sum by (le, request) (clamp_min(yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_request_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{request}}"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peer_send_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "whole batch"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "interval": "$window"
+    },
+    {
+      "id": 141,
+      "title": "Postings per send to one peer",
+      "description": "Postings one batch sends to one peer, as median, 90th and 99th percentile.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 196
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_postings_per_send_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_per_send_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "median"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_postings_per_send_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_per_send_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "90th percentile"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacynode_rwidistribution_postings_per_send_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_per_send_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "99th percentile"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "interval": "$window"
+    },
+    {
       "id": 130,
       "title": "Word index distribution batches",
       "type": "row",
@@ -2147,7 +2327,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 188
+        "y": 204
       },
       "panels": []
     },
@@ -2164,7 +2344,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 189
+        "y": 205
       },
       "fieldConfig": {
         "defaults": {
@@ -2201,7 +2381,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 189
+        "y": 205
       },
       "fieldConfig": {
         "defaults": {
@@ -2239,7 +2419,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 189
+        "y": 205
       },
       "fieldConfig": {
         "defaults": {
@@ -2276,7 +2456,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 189
+        "y": 205
       },
       "fieldConfig": {
         "defaults": {
@@ -2313,7 +2493,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 197
+        "y": 213
       },
       "fieldConfig": {
         "defaults": {
@@ -2350,7 +2530,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 205
+        "y": 221
       },
       "panels": []
     },
@@ -2366,7 +2546,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 206
+        "y": 222
       },
       "fieldConfig": {
         "defaults": {
@@ -2403,7 +2583,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 206
+        "y": 222
       },
       "fieldConfig": {
         "defaults": {
@@ -2444,7 +2624,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 206
+        "y": 222
       },
       "fieldConfig": {
         "defaults": {
@@ -2499,7 +2679,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 214
+        "y": 230
       },
       "panels": []
     },
@@ -2515,7 +2695,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 215
+        "y": 231
       },
       "fieldConfig": {
         "defaults": {
@@ -2558,7 +2738,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 215
+        "y": 231
       },
       "fieldConfig": {
         "defaults": {
@@ -2627,7 +2807,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 223
+        "y": 239
       },
       "fieldConfig": {
         "defaults": {
@@ -2663,7 +2843,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 223
+        "y": 239
       },
       "fieldConfig": {
         "defaults": {
@@ -2701,7 +2881,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 223
+        "y": 239
       },
       "fieldConfig": {
         "defaults": {
@@ -2739,7 +2919,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 231
+        "y": 247
       },
       "options": {
         "calculate": false,
@@ -2793,7 +2973,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 231
+        "y": 247
       },
       "options": {
         "calculate": false,
@@ -2847,7 +3027,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 231
+        "y": 247
       },
       "options": {
         "calculate": false,
@@ -2900,7 +3080,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 239
+        "y": 255
       },
       "fieldConfig": {
         "defaults": {
@@ -2933,7 +3113,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 247
+        "y": 263
       },
       "panels": []
     },
@@ -2950,7 +3130,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 248
+        "y": 264
       },
       "fieldConfig": {
         "defaults": {
@@ -2988,7 +3168,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 248
+        "y": 264
       },
       "fieldConfig": {
         "defaults": {
@@ -3026,7 +3206,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 256
+        "y": 272
       },
       "fieldConfig": {
         "defaults": {
@@ -3085,7 +3265,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 256
+        "y": 272
       },
       "fieldConfig": {
         "defaults": {
@@ -3123,7 +3303,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 262
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3166,7 +3346,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 262
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3204,7 +3384,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 262
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3247,7 +3427,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 270
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3313,7 +3493,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 270
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3356,7 +3536,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 270
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3427,7 +3607,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 278
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -3470,7 +3650,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 278
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -3508,7 +3688,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 286
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -3546,7 +3726,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 286
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -3604,7 +3784,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 294
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -3647,7 +3827,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 294
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -3706,7 +3886,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 294
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -3745,7 +3925,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 302
+        "y": 318
       },
       "panels": []
     },
@@ -3761,7 +3941,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 303
+        "y": 319
       },
       "fieldConfig": {
         "defaults": {
@@ -3809,7 +3989,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 303
+        "y": 319
       },
       "fieldConfig": {
         "defaults": {
@@ -3847,7 +4027,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 303
+        "y": 319
       },
       "fieldConfig": {
         "defaults": {
@@ -3885,7 +4065,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 311
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -3923,7 +4103,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 311
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -3962,7 +4142,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 311
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {

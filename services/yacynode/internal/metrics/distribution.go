@@ -9,6 +9,17 @@ import (
 const (
 	labelOutcome = "outcome"
 	labelReason  = "reason"
+	labelRequest = "request"
+
+	requestPostings    = "postings"
+	requestURLMetadata = "url_metadata"
+)
+
+var (
+	peerAnswerSecondsBuckets = prometheus.ExponentialBucketsRange(0.01, 100, 17)
+	postingsPerSendBuckets   = []float64{
+		1, 10, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000,
+	}
 )
 
 type DistributionMetrics struct {
@@ -26,6 +37,10 @@ type DistributionMetrics struct {
 	batchesAborted         *prometheus.CounterVec
 	peersExcluded          prometheus.Counter
 	wordPartitionsWaiting  *prometheus.GaugeVec
+	peerRequestTime        *prometheus.HistogramVec
+	peerSendTime           prometheus.Histogram
+	postingsPerSend        prometheus.Histogram
+	peersAtSendLimit       prometheus.Gauge
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -35,6 +50,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
+//nolint:funlen // one literal that lists every distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -100,6 +116,26 @@ func distributionMetrics() *DistributionMetrics {
 			"Word partitions not sent over the last full read of the ring, by reason.",
 			labelReason,
 		),
+		peerRequestTime: histogramPerLabelFor(
+			"yacynode_rwidistribution_peer_request_seconds",
+			"How long a peer took to answer one request, by request kind.",
+			peerAnswerSecondsBuckets,
+			labelRequest,
+		),
+		peerSendTime: histogramFor(
+			"yacynode_rwidistribution_peer_send_seconds",
+			"How long a peer took for all postings of one batch and their URL metadata.",
+			peerAnswerSecondsBuckets,
+		),
+		postingsPerSend: histogramFor(
+			"yacynode_rwidistribution_postings_per_send",
+			"Postings in one send: all postings of one batch to one peer.",
+			postingsPerSendBuckets,
+		),
+		peersAtSendLimit: gaugeFor(
+			"yacynode_rwidistribution_peers_at_send_limit",
+			"Peers with as many sends in flight as they may have; word partitions that need them wait.",
+		),
 	}
 }
 
@@ -119,6 +155,10 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.batchesAborted,
 		d.peersExcluded,
 		d.wordPartitionsWaiting,
+		d.peerRequestTime,
+		d.peerSendTime,
+		d.postingsPerSend,
+		d.peersAtSendLimit,
 	}
 }
 
@@ -136,6 +176,24 @@ func gaugeFor(name string, help string) prometheus.Gauge {
 
 func gaugePerLabelFor(name string, help string, label string) *prometheus.GaugeVec {
 	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, []string{label})
+}
+
+func histogramPerLabelFor(
+	name string,
+	help string,
+	buckets []float64,
+	label string,
+) *prometheus.HistogramVec {
+	return prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{Name: name, Help: help, Buckets: buckets},
+		[]string{label},
+	)
+}
+
+func histogramFor(name string, help string, buckets []float64) prometheus.Histogram {
+	return prometheus.NewHistogram(
+		prometheus.HistogramOpts{Name: name, Help: help, Buckets: buckets},
+	)
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -189,4 +247,24 @@ func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
 	amountOfWordPartitions int,
 ) {
 	d.wordPartitionsWaiting.WithLabelValues(waitReason).Set(float64(amountOfWordPartitions))
+}
+
+func (d *DistributionMetrics) ObservePostingOfferAnswerTime(answerTime time.Duration) {
+	d.peerRequestTime.WithLabelValues(requestPostings).Observe(answerTime.Seconds())
+}
+
+func (d *DistributionMetrics) ObserveURLMetadataDeliveryAnswerTime(answerTime time.Duration) {
+	d.peerRequestTime.WithLabelValues(requestURLMetadata).Observe(answerTime.Seconds())
+}
+
+func (d *DistributionMetrics) ObservePeerSendTime(sendTime time.Duration) {
+	d.peerSendTime.Observe(sendTime.Seconds())
+}
+
+func (d *DistributionMetrics) ObservePostingsPerSend(amountOfPostings int) {
+	d.postingsPerSend.Observe(float64(amountOfPostings))
+}
+
+func (d *DistributionMetrics) ObservePeersAtSendLimit(amountOfPeers int) {
+	d.peersAtSendLimit.Set(float64(amountOfPeers))
 }

@@ -1,7 +1,5 @@
 # Configuration
 
-The node is configured through environment variables.
-
 ## Process
 
 | Variable | Default | Description |
@@ -77,4 +75,5 @@ A word partition is one word in one ring partition. Its postings are the posting
 | `YACY_DISTRIBUTION_PEER_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition that a responsible peer did not fully accept is sent again after this time, then after double the previous wait on each try, up to the refresh interval. |
 | `YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION` | `3` | How many offers in a row a peer can fail before the node excludes it. An offer fails when the peer gives no answer, for example after a timeout or a connection error. A decline is not a failure. |
 | `YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION` | `1h` | How long an excluded peer gets no postings. The next peer on the ring takes its place. Until the peer accepts an offer, one more failed offer excludes it again. |
+| `YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT` | `1s` | How much work a peer can have in flight. The node measures how long each peer takes for all postings of one batch. A peer gets as many batches at the same time as this time divided by its usual time, and at least one. A word partition that must go to a busy peer waits. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

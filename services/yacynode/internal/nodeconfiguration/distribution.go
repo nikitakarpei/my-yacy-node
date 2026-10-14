@@ -18,6 +18,7 @@ const (
 	EnvDistributionPeerCooldown                = "YACY_DISTRIBUTION_PEER_COOLDOWN"
 	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
 	EnvDistributionPeerExclusionDuration       = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
+	EnvDistributionPeerWorkInFlight            = "YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT"
 	EnvDistributionMinReachablePeers           = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
 	EnvDistributionURLMetadataBatchSize        = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
@@ -32,6 +33,7 @@ const (
 	DefaultDistributionPeerCooldown                = 10 * time.Minute
 	DefaultDistributionFailedOffersBeforeExclusion = 3
 	DefaultDistributionPeerExclusionDuration       = time.Hour
+	DefaultDistributionPeerWorkInFlight            = time.Second
 	DefaultDistributionMinReachablePeers           = 32
 	DefaultDistributionURLMetadataBatchSize        = 50
 )
@@ -48,6 +50,7 @@ type DistributionConfig struct {
 	PeerCooldown                time.Duration
 	FailedOffersBeforeExclusion int
 	PeerExclusionDuration       time.Duration
+	PeerWorkInFlight            time.Duration
 	MinReachablePeers           int
 	URLMetadataBatchSize        int
 }
@@ -133,6 +136,13 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
+	peerWorkInFlight, err := envconfig.Duration(
+		getenv, EnvDistributionPeerWorkInFlight, DefaultDistributionPeerWorkInFlight,
+	)
+	if err != nil {
+		return DistributionConfig{}, err
+	}
+
 	minReachablePeers, err := envconfig.PositiveInt(
 		getenv, EnvDistributionMinReachablePeers, DefaultDistributionMinReachablePeers,
 	)
@@ -159,6 +169,7 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		PeerCooldown:                peerCooldown,
 		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,
 		PeerExclusionDuration:       peerExclusionDuration,
+		PeerWorkInFlight:            peerWorkInFlight,
 		MinReachablePeers:           minReachablePeers,
 		URLMetadataBatchSize:        urlMetadataBatchSize,
 	}, nil

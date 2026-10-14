@@ -37,6 +37,9 @@ the postings that enough responsible peers hold.
   posting. Only peers that accept a remote index get postings.
 - A peer that declines goes into a cooldown. A word partition that must go to
   that peer waits. The node does not send it to a peer farther away.
+- A peer is busy while it has as many batches in flight as fit into the work in
+  flight at its usual time per batch. A word partition that must go to a busy
+  peer waits, and the node does not send it to a peer farther away.
 - When a peer gives no answer to a number of offers in a row, the node excludes
   it for a time. An excluded peer is not a responsible peer, so the next peer
   takes its place.

@@ -357,6 +357,7 @@ func assembleNode(
 				Cooldown:                    config.Distribution.PeerCooldown,
 				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
 				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
+				WorkInFlight:                config.Distribution.PeerWorkInFlight,
 			},
 			now,
 			distributionObserver,
@@ -383,12 +384,20 @@ func assembleNode(
 			handoff,
 			postingtransfer.New(
 				storage,
-				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
+				postingcourier.New(
+					peerMessageExchange,
+					identity.NetworkName,
+					identity.Hash,
+					now,
+					distributionObserver,
+				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
 						peerMessageExchange,
 						identity.NetworkName,
 						identity.Hash,
+						now,
+						distributionObserver,
 					),
 					config.Distribution.URLMetadataBatchSize,
 				),

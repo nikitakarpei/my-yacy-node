@@ -30,6 +30,7 @@ const (
 	refreshInterval   = time.Hour
 	retryDelay        = 10 * time.Minute
 	exclusionDuration = time.Hour
+	workInFlight      = time.Second
 	positionStep      = 8
 )
 
@@ -113,6 +114,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 			Cooldown:                    opts.cooldown,
 			FailedOffersBeforeExclusion: 1,
 			ExclusionDuration:           exclusionDuration,
+			WorkInFlight:                workInFlight,
 		},
 		clk.Now,
 		h.observer,
@@ -191,6 +193,12 @@ func handoffFor(
 func (h *loopHarness) start(t *testing.T) {
 	t.Helper()
 
+	h.startCancellable(t)
+}
+
+func (h *loopHarness) startCancellable(t *testing.T) (cancel func()) {
+	t.Helper()
+
 	ctx, cancel := context.WithCancel(context.Background())
 	stopped := make(chan struct{})
 	go func() {
@@ -202,6 +210,8 @@ func (h *loopHarness) start(t *testing.T) {
 		<-stopped
 	})
 	synctest.Wait()
+
+	return cancel
 }
 
 func (h *loopHarness) advance(elapsed time.Duration) {
@@ -404,7 +414,7 @@ type fakeTransfers struct {
 }
 
 func (f *fakeTransfers) Send(
-	_ context.Context,
+	ctx context.Context,
 	peer yacymodel.Seed,
 	offeredPostings []yacymodel.RWIPosting,
 ) postingtransfer.OfferAnswer {
@@ -417,6 +427,9 @@ func (f *fakeTransfers) Send(
 	f.guard.Unlock()
 	if f.onOffer != nil {
 		f.onOffer(peer)
+	}
+	if ctx.Err() != nil {
+		return postingtransfer.OfferAnswer{Result: postingtransfer.OfferFailed}
 	}
 	if answer.result != postingtransfer.OfferAccepted {
 		return postingtransfer.OfferAnswer{Result: answer.result}
