@@ -265,6 +265,36 @@ func TestALargeIndexEstimatesItsWordsClosely(t *testing.T) {
 	assertEstimateOfLargeIndex(t, h.estimatedAmountOfWords(t))
 }
 
+func TestALargeIndexEstimatesItsWordsNotItsPostings(t *testing.T) {
+	h := openHarnessOnDisk(t)
+
+	h.store(t, postingsOfWords(wordsOfALargeIndex, func(word yacymodel.Hash) yacymodel.Hash {
+		return word
+	})...)
+	h.store(t, postingsOfFrequentWords()...)
+
+	assertEstimateOfLargeIndex(t, h.estimatedAmountOfWords(t))
+}
+
+func postingsOfFrequentWords() []yacymodel.RWIPosting {
+	const (
+		wordsPerFrequentWord     = 100
+		documentsOfFrequentWords = 50
+	)
+
+	var postings []yacymodel.RWIPosting
+	for number := 0; number < wordsOfALargeIndex; number += wordsPerFrequentWord {
+		for document := range documentsOfFrequentWords {
+			postings = append(postings, postingOf(
+				fmt.Sprintf("word%d", number),
+				fmt.Sprintf("document%d", document),
+			))
+		}
+	}
+
+	return postings
+}
+
 func TestALargeIndexOnOneArcOfTheRingEstimatesItsWordsClosely(t *testing.T) {
 	h := openHarnessOnDisk(t)
 
