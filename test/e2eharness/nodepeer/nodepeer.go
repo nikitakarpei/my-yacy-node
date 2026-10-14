@@ -37,11 +37,12 @@ const (
 )
 
 type Config struct {
-	NetworkName  string
-	Alias        string
-	Hash         yacymodel.Hash
-	SeedlistURL  string
-	Distribution DistributionConfig
+	NetworkName       string
+	Alias             string
+	Hash              yacymodel.Hash
+	SeedlistURL       string
+	MessageWebhookURL string
+	Distribution      DistributionConfig
 }
 
 // DistributionConfig turns on the node's outbound RWI distribution.
@@ -77,6 +78,9 @@ func Start(
 	}
 	if cfg.SeedlistURL != "" {
 		env["YACY_SEEDLIST_URLS"] = cfg.SeedlistURL
+	}
+	if cfg.MessageWebhookURL != "" {
+		env["YACY_MESSAGE_WEBHOOK_URL"] = cfg.MessageWebhookURL
 	}
 	if cfg.Distribution.Enabled {
 		env["YACY_DISTRIBUTION_ENABLED"] = "true"
