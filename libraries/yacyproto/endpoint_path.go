@@ -14,6 +14,7 @@ const (
 	PathSearch      = "/yacy/search.html"
 	PathURLMetadata = "/yacy/urls.xml"
 	PathQuery       = "/yacy/query.html"
+	PathMessage     = "/yacy/message.html"
 )
 
 const (
@@ -28,4 +29,5 @@ const (
 	SearchEndpointMethods      = EndpointMethodsGetPost
 	URLMetadataEndpointMethods = EndpointMethodsGetPost
 	QueryEndpointMethods       = EndpointMethodsGetPost
+	MessageEndpointMethods     = EndpointMethodsPost
 )

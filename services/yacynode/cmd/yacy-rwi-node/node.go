@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -21,6 +23,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/messageadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/messageinboxes/webhook"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
@@ -282,6 +286,7 @@ func assembleNode(
 	)
 	rwiingress.Mount(router, identity, postingReceiver)
 	nodestatus.MountQuery(router, identity, now, storage, wordAmounts, postingAmounts, urlDirectory)
+	mountMessageAdmission(router, identity, now, config.MessageInbox, config.Egress.ProxyURL)
 	documentsearch.MountSearch(
 		storage,
 		router,
@@ -484,4 +489,25 @@ func openDistributionRecords(
 	}
 
 	return undeliveredPostings, undeliveredPostingProjection, wordPartitionSchedule, nil
+}
+
+func mountMessageAdmission(
+	router httpguard.WireRouter,
+	identity nodeidentity.Identity,
+	now func() time.Time,
+	inbox nodeconfiguration.MessageInboxConfig,
+	egressProxy *url.URL,
+) {
+	if !inbox.Enabled() {
+		messageadmission.MountRefusing(router)
+
+		return
+	}
+
+	messageadmission.MountAccepting(
+		router,
+		identity,
+		now,
+		webhook.New(inbox.WebhookURL, egressProxy, net.DefaultResolver),
+	)
 }

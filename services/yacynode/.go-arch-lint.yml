@@ -20,6 +20,10 @@ components:
     in: internal/nodeidentity/**
   peeradmission:
     in: internal/peeradmission/**
+  messageadmission:
+    in: internal/messageadmission/**
+  messageinboxeswebhook:
+    in: internal/messageinboxes/webhook/**
   peerroster:
     in: internal/peerroster/**
   peerannouncement:
@@ -180,6 +184,15 @@ deps:
       - nodeidentity
     canUse:
       - yacyproto
+  messageadmission:
+    mayDependOn:
+      - httpguard
+      - nodeidentity
+    canUse:
+      - yacyproto
+  messageinboxeswebhook:
+    mayDependOn:
+      - messageadmission
   peerroster:
     mayDependOn:
       - hashkeypart
