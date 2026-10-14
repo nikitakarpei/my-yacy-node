@@ -21,6 +21,18 @@ func (a SeedArc) Spans() []DHTRingSpan {
 	return append(spans, DHTRingSpan{First: 0, Last: a.Through})
 }
 
+func (a SeedArc) Holds(position DHTRingPosition) bool {
+	if a.After < a.Through {
+		return a.After < position && position <= a.Through
+	}
+
+	return position > a.After || position <= a.Through
+}
+
+func (a SeedArc) Overlaps(other SeedArc) bool {
+	return a.Holds(other.Through) || other.Holds(a.Through)
+}
+
 // Arcs divides the ring into one arc per seed position, each with the first
 // windowSize seeds clockwise from its end.
 func (r SeedRing) Arcs(windowSize int) []SeedArc {
