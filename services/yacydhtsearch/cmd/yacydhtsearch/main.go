@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -11,6 +12,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/collectors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 func main() {
@@ -31,6 +33,11 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
+	listeners, err := listenersFor(ctx, cfg)
+	if err != nil {
+		return err
+	}
+
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
 		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -41,5 +48,18 @@ func run() error {
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
 
-	return RunService(ctx, cfg, registry)
+	return RunService(ctx, cfg, listeners, registry)
+}
+
+func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
+	search, err := servergroup.Listen(ctx, cfg.ListenAddr)
+	if err != nil {
+		return Listeners{}, err
+	}
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	if err != nil {
+		return Listeners{}, errors.Join(err, search.Close())
+	}
+
+	return Listeners{Search: search, Ops: ops}, nil
 }

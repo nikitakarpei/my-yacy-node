@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -14,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	pagescrape "github.com/nikitakarpei/yacy-rwi-node/pagescrape/cmd/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 const (
@@ -48,7 +50,6 @@ func serviceConfig(natsURL string, proxy *url.URL) pagescrape.ServiceConfig {
 		ScrapeRequestsKept:      pagescrape.DefaultScrapeRequestsKept,
 		ScrapeDeferralWindow:    pagescrape.DefaultScrapeDeferralWindow,
 		PageOfferMaxBytes:       8 << 20,
-		OpsAddr:                 "127.0.0.1:0",
 	}
 }
 
@@ -63,8 +64,9 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	listeners := pagescrape.Listeners{Ops: listenerFor(t)}
 	runDone := make(chan error, 1)
-	go func() { runDone <- pagescrape.RunService(ctx, cfg) }()
+	go func() { runDone <- pagescrape.RunService(ctx, cfg, listeners) }()
 
 	offers := pageOfferConsumer(t, ctx, broker)
 	publishScrapeRequest(t, ctx, broker, originPageURL)
@@ -92,19 +94,11 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	}
 }
 
-func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
-	cfg := serviceConfig(natstestserver.Start(t), originServing(t, "<html></html>"))
-	cfg.OpsAddr = "127.0.0.1:99999"
-
-	if err := pagescrape.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected an error when the ops address cannot bind")
-	}
-}
-
 func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1", originServing(t, "<html></html>"))
+	listeners := pagescrape.Listeners{Ops: listenerFor(t)}
 
-	if err := pagescrape.RunService(context.Background(), cfg); err == nil {
+	if err := pagescrape.RunService(context.Background(), cfg, listeners); err == nil {
 		t.Fatal("expected an error when the broker is unreachable")
 	}
 }
@@ -151,4 +145,16 @@ func publishScrapeRequest(
 	if _, err := broker.Publish(ctx, pagescrapecontract.ScrapeRequestSubject, data); err != nil {
 		t.Fatalf("publish scrape request: %v", err)
 	}
+}
+
+func listenerFor(t *testing.T) net.Listener {
+	t.Helper()
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
+	if err != nil {
+		t.Fatalf("listen: %v", err)
+	}
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }

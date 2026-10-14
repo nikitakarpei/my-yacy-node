@@ -19,6 +19,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	visitcrawl "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/cmd/visitcrawl"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -29,8 +30,6 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	cfg := visitcrawl.ServiceConfig{
 		CrawlNATSURL:       crawlNATSURL,
 		CrawlOrdersSubject: visitcrawl.DefaultCrawlOrdersSubject,
-		ListenAddr:         freeAddr(t),
-		OpsAddr:            freeAddr(t),
 		OrderTimeout:       visitcrawl.DefaultOrderTimeout,
 		MaxInFlight:        visitcrawl.DefaultMaxInFlight,
 		MaxBodyBytes:       visitcrawl.DefaultMaxBodyBytes,
@@ -41,17 +40,18 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 			MaxPagesPerHost: visitcrawl.DefaultCrawlMaxPagesPerHost,
 		},
 	}
+	listeners := visitcrawl.Listeners{Intake: listenerFor(t), Ops: listenerFor(t)}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	serviceErr := make(chan error, 1)
 	registry := prometheus.NewRegistry()
 	go func() {
-		serviceErr <- visitcrawl.RunService(ctx, cfg, registry)
+		serviceErr <- visitcrawl.RunService(ctx, cfg, listeners, registry)
 	}()
 
 	consumer := ordersConsumer(t, ctx, crawlNATSURL)
-	waitForListening(t, cfg.ListenAddr)
+	waitForListening(t, listeners.Intake.Addr().String())
 
 	client := &http.Client{
 		CheckRedirect: func(_ *http.Request, _ []*http.Request) error {
@@ -61,7 +61,7 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	visitReq, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		signedVisitURL(cfg.ListenAddr, "https://example.org/a", cfg.LinkSecret),
+		signedVisitURL(listeners.Intake.Addr().String(), "https://example.org/a", cfg.LinkSecret),
 		nil,
 	)
 	if err != nil {
@@ -97,13 +97,12 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 }
 
 func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
-	cfg := visitcrawl.ServiceConfig{
-		CrawlNATSURL: "nats://127.0.0.1:1", ListenAddr: "127.0.0.1:0", OpsAddr: "127.0.0.1:0",
-	}
+	cfg := visitcrawl.ServiceConfig{CrawlNATSURL: "nats://127.0.0.1:1"}
+	listeners := visitcrawl.Listeners{Intake: listenerFor(t), Ops: listenerFor(t)}
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 	registry := prometheus.NewRegistry()
-	err := visitcrawl.RunService(ctx, cfg, registry)
+	err := visitcrawl.RunService(ctx, cfg, listeners, registry)
 	if err == nil {
 		t.Fatal("unreachable nats should fail")
 	}
@@ -189,14 +188,16 @@ func waitForListening(t *testing.T, addr string) {
 	})
 }
 
-func freeAddr(t *testing.T) string {
+func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
-	listener, err := (&net.ListenConfig{}).Listen(context.Background(), "tcp", "127.0.0.1:0")
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("listen: %v", err)
 	}
-	defer func() { _ = listener.Close() }()
-	return listener.Addr().String()
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }
 
 func waitFor(t *testing.T, condition func() bool) {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"net/http/pprof"
 	"time"
@@ -105,9 +106,15 @@ const (
 	pageFetchUserAgent = "yacydhtsearch (+https://yacy.net)"
 )
 
+type Listeners struct {
+	Search net.Listener
+	Ops    net.Listener
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
+	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
 	outbound := outboundClient(cfg)
@@ -232,7 +239,6 @@ func RunService(
 	go refresh.Run(ctx, cfg.RefreshInterval)
 
 	searchServer := &http.Server{
-		Addr: cfg.ListenAddr,
 		Handler: httpobservation.NewHandler(
 			yacysearchendpoint.NewMux(rankingCache),
 			httpaccesslog.New(),
@@ -245,19 +251,18 @@ func RunService(
 		serveProfilerOn(opsMux)
 	}
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsMux,
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
-		slog.String("listenAddr", cfg.ListenAddr),
+		slog.String("listenAddr", listeners.Search.Addr().String()),
 		slog.String("networkName", cfg.NetworkName),
 		slog.Int("seedlists", len(cfg.SeedlistURLs)),
 	)
 	err = servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{
-		{Name: "search", Server: searchServer},
-		{Name: "ops", Server: opsServer},
+		{Name: "search", Listener: listeners.Search, Server: searchServer},
+		{Name: "ops", Listener: listeners.Ops, Server: opsServer},
 	})
 	slog.InfoContext(ctx, msgServiceStopped)
 

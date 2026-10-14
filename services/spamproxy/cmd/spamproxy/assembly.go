@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"runtime"
@@ -46,7 +47,17 @@ const (
 	msgServiceStopped = "spamproxy stopped"
 )
 
-func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Registry) error {
+type Listeners struct {
+	Proxy net.Listener
+	Ops   net.Listener
+}
+
+func RunService(
+	ctx context.Context,
+	cfg ServiceConfig,
+	listeners Listeners,
+	registry *prometheus.Registry,
+) error {
 	modelFile, err := os.ReadFile(cfg.SafetensorsModelPath)
 	if err != nil {
 		return fmt.Errorf("read spam model: %w", err)
@@ -104,23 +115,21 @@ func RunService(ctx context.Context, cfg ServiceConfig, registry *prometheus.Reg
 		},
 	)
 	proxyServer := &http.Server{
-		Addr:              cfg.ListenAddr,
 		Handler:           proxyintake.New(responder, proxyintakeobserversapplog.IntakeLog{}),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
-		slog.String("listenAddr", cfg.ListenAddr),
+		slog.String("listenAddr", listeners.Proxy.Addr().String()),
 		slog.String("model", model.Version),
 	)
 	err = servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{
-		{Name: "proxy", Server: proxyServer},
-		{Name: "ops", Server: opsServer},
+		{Name: "proxy", Listener: listeners.Proxy, Server: proxyServer},
+		{Name: "ops", Listener: listeners.Ops, Server: opsServer},
 	})
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err

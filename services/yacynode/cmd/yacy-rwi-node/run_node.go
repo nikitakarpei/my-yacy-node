@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -28,9 +29,15 @@ const (
 	escrowExpiryInterval  = time.Minute
 )
 
+type Listeners struct {
+	PeerProtocol net.Listener
+	Ops          net.Listener
+}
+
 func RunNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
+	listeners Listeners,
 	vault *vault.Vault,
 	registry *prometheus.Registry,
 ) error {
@@ -40,17 +47,22 @@ func RunNode(
 	}
 	servers := []servergroup.NamedServer{
 		{
-			Name:   "peer protocol",
-			Server: serverOn(config.Serving.PeerAddr, assembledNode.peerHandler),
+			Name:     "peer protocol",
+			Listener: listeners.PeerProtocol,
+			Server:   serverFor(assembledNode.peerHandler),
 		},
-		{Name: "ops", Server: serverOn(config.Serving.OpsAddr, opsmetrics.NewMux(
-			promhttp.HandlerFor(registry, promhttp.HandlerOpts{}),
-		))},
+		{
+			Name:     "ops",
+			Listener: listeners.Ops,
+			Server: serverFor(opsmetrics.NewMux(
+				promhttp.HandlerFor(registry, promhttp.HandlerOpts{}),
+			)),
+		},
 	}
 	for _, server := range servers {
 		slog.InfoContext(ctx, "serving",
 			slog.String("service", server.Name),
-			slog.String("addr", server.Server.Addr),
+			slog.String("addr", server.Listener.Addr().String()),
 		)
 	}
 
@@ -91,9 +103,8 @@ func RunNode(
 
 const serverReadHeaderTimeout = 10 * time.Second
 
-func serverOn(addr string, handler http.Handler) *http.Server {
+func serverFor(handler http.Handler) *http.Server {
 	return &http.Server{
-		Addr:              addr,
 		Handler:           handler,
 		ReadHeaderTimeout: serverReadHeaderTimeout,
 	}

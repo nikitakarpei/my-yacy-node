@@ -1,12 +1,14 @@
-// Package servergroup runs a set of HTTP servers alongside background workers
-// until the context is cancelled or any server or worker returns, then shuts
-// every server down gracefully.
+// Package servergroup binds the addresses a service serves on, and runs a set
+// of HTTP servers on their listeners alongside background workers until the
+// context is cancelled or any server or worker returns, then shuts every
+// server down gracefully.
 package servergroup
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"net"
 	"net/http"
 	"time"
 
@@ -14,8 +16,9 @@ import (
 )
 
 type NamedServer struct {
-	Name   string
-	Server *http.Server
+	Name     string
+	Listener net.Listener
+	Server   *http.Server
 }
 
 // Run serves every server and runs every worker until ctx is cancelled or any
@@ -35,7 +38,7 @@ func Run(
 	for _, s := range servers {
 		group.Go(func() error {
 			defer cancel()
-			if err := s.Server.ListenAndServe(); err != nil &&
+			if err := s.Server.Serve(s.Listener); err != nil &&
 				!errors.Is(err, http.ErrServerClosed) {
 				return fmt.Errorf("serve %s: %w", s.Name, err)
 			}

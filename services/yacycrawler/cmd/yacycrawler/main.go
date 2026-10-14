@@ -11,6 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/collectors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 func main() {
@@ -31,6 +32,11 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
+	listeners, err := listenersFor(ctx, cfg)
+	if err != nil {
+		return err
+	}
+
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
 		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -40,5 +46,14 @@ func run() error {
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
-	return RunService(ctx, cfg, registry)
+	return RunService(ctx, cfg, listeners, registry)
+}
+
+func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	if err != nil {
+		return Listeners{}, err
+	}
+
+	return Listeners{Ops: ops}, nil
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -63,9 +64,14 @@ const (
 	msgServiceStopped  = "crawler stopped"
 )
 
+type Listeners struct {
+	Ops net.Listener
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
+	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
 	crawlOrderObservers := orderintake.CrawlOrderObservers{
@@ -147,7 +153,9 @@ func RunService(
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,
-		[]servergroup.NamedServer{{Name: "ops", Server: opsServer(cfg, registry)}},
+		[]servergroup.NamedServer{
+			{Name: "ops", Listener: listeners.Ops, Server: opsServerFor(registry)},
+		},
 		orders.Run,
 		visits.Run,
 	)
@@ -155,9 +163,8 @@ func RunService(
 	return err
 }
 
-func opsServer(cfg ServiceConfig, registry *prometheus.Registry) *http.Server {
+func opsServerFor(registry *prometheus.Registry) *http.Server {
 	return &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -31,9 +32,15 @@ const (
 	msgServiceStopped  = "renderproxy stopped"
 )
 
+type Listeners struct {
+	Proxy net.Listener
+	Ops   net.Listener
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
+	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
 	renderObservers := rendergate.RenderObservers{
@@ -58,7 +65,6 @@ func RunService(
 		renderCapacityObservers,
 	)
 	proxyServer := &http.Server{
-		Addr: cfg.ListenAddr,
 		Handler: httpobservation.NewHandler(
 			proxyintake.New(capacityLimitedRenderer),
 			httpaccesslog.New(),
@@ -67,19 +73,18 @@ func RunService(
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
-		slog.String("listenAddr", cfg.ListenAddr),
+		slog.String("listenAddr", listeners.Proxy.Addr().String()),
 		slog.Int("renderConcurrency", cfg.RenderConcurrency),
 	)
 
 	err := servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{
-		{Name: "proxy", Server: proxyServer},
-		{Name: "ops", Server: opsServer},
+		{Name: "proxy", Listener: listeners.Proxy, Server: proxyServer},
+		{Name: "ops", Listener: listeners.Ops, Server: opsServer},
 	})
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
