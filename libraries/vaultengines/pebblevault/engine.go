@@ -21,7 +21,6 @@ import (
 
 const (
 	bloomFilterBitsPerKey         = 10
-	tombstoneDensityCompactionOff = -1
 	conflictsBeforeExclusiveWrite = 3
 	amountsAtZeroKeptMessage      = "amounts at zero kept until their next change"
 )
@@ -86,7 +85,6 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 		MaxOpenFiles: limits.OpenFileLimit,
 		Merger:       amountMerger,
 	}
-	options.Experimental.TombstoneDenseCompactionThreshold = tombstoneDensityCompactionOff
 	addBloomFiltersToEveryLevel(options)
 	if limits.BlockCacheBytes > 0 {
 		options.Cache = pebble.NewCache(limits.BlockCacheBytes)
