@@ -52,9 +52,6 @@ func TestAdmittingAChangedPostingReplacesTheStoredOne(t *testing.T) {
 	if stored, _ := h.postingOf(t, arrived.WordHash, arrived.URLHash); stored != refreshed {
 		t.Fatalf("PostingOf = %+v, want the posting as it is", stored)
 	}
-	if rwiCount := h.rwiCount(t); rwiCount != 1 {
-		t.Fatalf("RWICount = %d, want 1", rwiCount)
-	}
 }
 
 func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartitionInKeyOrder(t *testing.T) {

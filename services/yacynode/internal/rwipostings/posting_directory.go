@@ -17,10 +17,6 @@ type postingDirectory struct {
 	partitions yacymodel.DHTRingPartitions
 }
 
-func (d postingDirectory) RWICount(tx *vault.Txn) (int, error) {
-	return collectionLength(tx, d.postings)
-}
-
 func (d postingDirectory) PostingOf(
 	tx *vault.Txn,
 	word yacymodel.Hash,
@@ -93,18 +89,6 @@ func (d postingDirectory) PurgePosting(
 	}
 
 	return wasDeleted, nil
-}
-
-func collectionLength[K, V any](
-	tx *vault.Txn,
-	collection *vault.Collection[K, V],
-) (int, error) {
-	length, err := collection.Len(tx)
-	if err != nil {
-		return 0, fmt.Errorf("read length: %w", err)
-	}
-
-	return length, nil
 }
 
 var (

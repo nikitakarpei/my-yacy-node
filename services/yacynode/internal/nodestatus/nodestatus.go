@@ -1,9 +1,10 @@
 // Package nodestatus owns the node's runtime status: its self-seed, the
 // version/uptime header every endpoint echoes, and the query.html capacity
 // answers. Its published port, RuntimeStatus, is the only surface other modules
-// import. Live counts arrive through the RWICounter, PostingAmountCounter and
-// URLCounter ports, which read in the transaction nodestatus opens, so
-// nodestatus never reads another module's schema.
+// import. Live counts arrive through the WordAmountEstimate, PostingAmountCounter
+// and URLCounter ports, which read in the transaction nodestatus opens, so
+// nodestatus never reads another module's schema. NewWordAmountCache serves one
+// estimate of the words for its whole lifetime.
 package nodestatus
 
 import (
@@ -24,8 +25,8 @@ type RuntimeStatus interface {
 	SelfSeed(ctx context.Context) yacymodel.Seed
 }
 
-type RWICounter interface {
-	RWICount(tx *vault.Txn) (int, error)
+type WordAmountEstimate interface {
+	EstimatedAmountOfWords(tx *vault.Txn) (int, error)
 }
 
 type PostingAmountCounter interface {
@@ -40,7 +41,7 @@ func NewRuntimeStatus(
 	id nodeidentity.Identity,
 	now func() time.Time,
 	v *vault.Vault,
-	rwi RWICounter,
+	words WordAmountEstimate,
 	urls URLCounter,
 ) RuntimeStatus {
 	return runtimeStatus{
@@ -48,9 +49,17 @@ func NewRuntimeStatus(
 		base:  baseSeed(id),
 		now:   now,
 		vault: v,
-		rwi:   rwi,
+		words: words,
 		urls:  urls,
 	}
+}
+
+func NewWordAmountCache(
+	words WordAmountEstimate,
+	now func() time.Time,
+	lifetime time.Duration,
+) WordAmountEstimate {
+	return &wordAmountCache{words: words, now: now, lifetime: lifetime}
 }
 
 //nolint:revive // argument-limit
@@ -59,7 +68,7 @@ func MountQuery(
 	identity nodeidentity.Identity,
 	now func() time.Time,
 	v *vault.Vault,
-	rwi RWICounter,
+	words WordAmountEstimate,
 	postingAmounts PostingAmountCounter,
 	urls URLCounter,
 ) {
@@ -72,7 +81,7 @@ func MountQuery(
 			identity:       identity,
 			now:            now,
 			vault:          v,
-			rwi:            rwi,
+			words:          words,
 			postingAmounts: postingAmounts,
 			urls:           urls,
 		}.Serve,

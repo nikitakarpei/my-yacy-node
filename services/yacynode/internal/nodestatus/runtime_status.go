@@ -18,7 +18,7 @@ type runtimeStatus struct {
 	base  yacymodel.Seed
 	now   func() time.Time
 	vault *vault.Vault
-	rwi   RWICounter
+	words WordAmountEstimate
 	urls  URLCounter
 }
 
@@ -40,7 +40,7 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	seed.Uptime = time.Duration(r.id.Uptime(now)) * time.Minute
 	seed.UTCOffset = yacymodel.Some(yacymodel.UTCOffsetOf(now))
 	seed.LastSeen = yacymodel.Some(now.UTC())
-	seed.IndexedWords = r.countOrZero(ctx, r.rwi.RWICount)
+	seed.IndexedWords = r.countOrZero(ctx, r.words.EstimatedAmountOfWords)
 	seed.StoredURLs = r.countOrZero(ctx, r.urls.Count)
 
 	return seed

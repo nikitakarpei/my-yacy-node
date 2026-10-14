@@ -20,7 +20,6 @@ type PostingPurger interface {
 }
 
 type PostingIndex interface {
-	RWICount(tx *vault.Txn) (int, error)
 	PostingOf(
 		tx *vault.Txn,
 		word yacymodel.Hash,

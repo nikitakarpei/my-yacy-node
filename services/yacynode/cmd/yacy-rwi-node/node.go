@@ -75,6 +75,8 @@ const (
 	postingAdmissionBusyPause = 30 * time.Second
 )
 
+const wordAmountLifetime = 5 * time.Minute
+
 const (
 	evictionTargetFraction  = 0.9
 	evictionURLsPerBatch    = 16
@@ -83,6 +85,7 @@ const (
 
 const servedURLMetadataPerRequest = 1000
 
+// TECHDEBT: comments — an explanatory comment on indexAbstractDocumentsPerAnswer is not an allowed comment form
 // (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
 const indexAbstractDocumentsPerAnswer = 10000
 
@@ -155,7 +158,9 @@ func assembleNode(
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
 	}
 
-	postingAmounts, postingAmountProjection, err := rwipostingamount.Open(storage)
+	postingAmounts, wordAmountEstimate, postingAmountProjection, err := rwipostingamount.Open(
+		storage,
+	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
 	}
@@ -260,7 +265,8 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, postings, urlDirectory)
+	wordAmounts := nodestatus.NewWordAmountCache(wordAmountEstimate, now, wordAmountLifetime)
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, wordAmounts, urlDirectory)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -282,7 +288,7 @@ func assembleNode(
 		servedURLMetadataPerRequest,
 	)
 	rwiingress.Mount(router, identity, postingReceiver)
-	nodestatus.MountQuery(router, identity, now, storage, postings, postingAmounts, urlDirectory)
+	nodestatus.MountQuery(router, identity, now, storage, wordAmounts, postingAmounts, urlDirectory)
 	documentsearch.MountSearch(
 		storage,
 		router,

@@ -17,10 +17,6 @@ type PostingIndex struct {
 	Postings map[yacymodel.Hash][]yacymodel.RWIPosting
 }
 
-func (s PostingIndex) RWICount(*vault.Txn) (int, error) {
-	return len(s.Postings), nil
-}
-
 func (s PostingIndex) PostingOf(
 	_ *vault.Txn,
 	word yacymodel.Hash,
@@ -99,10 +95,6 @@ func (s PostingIndex) PostingsOfWordIn(
 
 type FailingPostingIndex struct {
 	Err error
-}
-
-func (s FailingPostingIndex) RWICount(*vault.Txn) (int, error) {
-	return 0, s.Err
 }
 
 func (s FailingPostingIndex) PostingOf(
