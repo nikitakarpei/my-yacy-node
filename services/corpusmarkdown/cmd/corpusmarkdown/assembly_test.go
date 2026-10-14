@@ -3,6 +3,7 @@ package main_test
 import (
 	"context"
 	"io"
+	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -32,6 +33,17 @@ const (
 func objectStoreServer(t *testing.T, objects *s3mem.Backend) string {
 	t.Helper()
 	server := httptest.NewServer(gofakes3.New(objects).Server())
+	t.Cleanup(server.Close)
+	return server.URL
+}
+
+func objectStoreRefusingEverything(t *testing.T) string {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/xml")
+		w.WriteHeader(http.StatusForbidden)
+		_, _ = w.Write([]byte(`<Error><Code>AccessDenied</Code><Message>refused</Message></Error>`))
+	}))
 	t.Cleanup(server.Close)
 	return server.URL
 }
@@ -212,13 +224,13 @@ func TestRunServiceFailsWhenPageOfferNATSUnreachable(t *testing.T) {
 	}
 }
 
-func TestRunServiceFailsWhenPageMarkdownObjectStoreUnreachable(t *testing.T) {
+func TestRunServiceFailsWhenPageMarkdownObjectStoreRefuses(t *testing.T) {
 	pageOfferNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(pageOfferNATSURL, "http://127.0.0.1:1")
+	cfg := serviceConfig(pageOfferNATSURL, objectStoreRefusingEverything(t))
 	createScrapePageOffersStream(t, natstestserver.ConnectJetStream(t, pageOfferNATSURL))
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when the page markdown object store is unreachable")
+		t.Fatal("expected error when the page markdown object store refuses")
 	}
 }
 
