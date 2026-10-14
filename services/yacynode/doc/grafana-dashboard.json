@@ -3842,6 +3842,49 @@
       "interval": "$window"
     },
     {
+      "id": 142,
+      "title": "Stored amounts scans step over",
+      "description": "Stored amounts per second that scans step over. Amounts at zero stay stored until raised again; scans skip them.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 318
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(yacynode_pebble_amounts_scanned_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "all amounts"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(yacynode_pebble_amounts_at_zero_scanned_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "amounts at zero"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 100,
       "title": "Go process",
       "type": "row",
@@ -3850,7 +3893,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 318
+        "y": 326
       },
       "panels": []
     },
@@ -3866,7 +3909,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 319
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -3914,7 +3957,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 319
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -3952,7 +3995,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 319
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -3990,7 +4033,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 327
+        "y": 335
       },
       "fieldConfig": {
         "defaults": {
@@ -4028,7 +4071,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 327
+        "y": 335
       },
       "fieldConfig": {
         "defaults": {
@@ -4067,7 +4110,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 327
+        "y": 335
       },
       "fieldConfig": {
         "defaults": {

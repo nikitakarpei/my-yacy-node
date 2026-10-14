@@ -132,6 +132,7 @@ func engineReadings() []engineReading {
 	readings = append(readings, fileCacheReadings()...)
 	readings = append(readings, bloomFilterReadings()...)
 	readings = append(readings, diskFootprintReadings()...)
+	readings = append(readings, amountScanReadings()...)
 
 	return readings
 }
@@ -313,6 +314,21 @@ func reclaimableReadings() []engineReading {
 			"yacynode_pebble_snapshot_pinned_bytes",
 			"Bytes a compaction kept because an open snapshot can still see them.",
 			func(c pebblevault.EngineCondition) float64 { return float64(c.SnapshotPinnedBytes) },
+		),
+	}
+}
+
+func amountScanReadings() []engineReading {
+	return []engineReading{
+		engineCounterReading(
+			"yacynode_pebble_amounts_scanned_total",
+			"Stored amounts that scans stepped over, at zero or above.",
+			func(c pebblevault.EngineCondition) float64 { return float64(c.AmountsScanned) },
+		),
+		engineCounterReading(
+			"yacynode_pebble_amounts_at_zero_scanned_total",
+			"Stored amounts at zero that scans stepped over and skipped.",
+			func(c pebblevault.EngineCondition) float64 { return float64(c.AmountsAtZeroScanned) },
 		),
 	}
 }

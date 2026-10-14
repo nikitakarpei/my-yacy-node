@@ -55,6 +55,7 @@ func heldBytesOf(reader pebble.Reader) (int64, error) {
 	heldBytesAmounts := pebbleAmounts{
 		entries: storedEntries{region: heldBytesRegion, reader: reader},
 		changes: &amountChanges{},
+		scans:   &scanTally{},
 	}
 	err := heldBytesAmounts.Scan(
 		vault.EveryKey(),

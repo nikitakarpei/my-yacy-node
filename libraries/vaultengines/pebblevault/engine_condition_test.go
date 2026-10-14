@@ -3,6 +3,7 @@ package pebblevault_test
 import (
 	"bytes"
 	"context"
+	"errors"
 	"path/filepath"
 	"strconv"
 	"testing"
@@ -143,6 +144,41 @@ func TestConditionReportsTheSnapshotAReadHoldsOpen(t *testing.T) {
 	}
 	if after := engine.Condition().OpenSnapshots; after != 0 {
 		t.Errorf("OpenSnapshots after a read = %d, want 0", after)
+	}
+}
+
+func TestConditionCountsTheAmountsAtZeroAScanStepsOver(t *testing.T) {
+	engine := openEngine(t, pebblevault.MachineLimits{})
+	tallies := vault.Name("tallies")
+	if err := engine.Update(context.Background(), func(tx vault.EngineTxn) error {
+		return errors.Join(
+			tx.Amounts(tallies).Raise([]byte("a"), 2),
+			tx.Amounts(tallies).Raise([]byte("b"), 1),
+		)
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+	if err := engine.Update(context.Background(), func(tx vault.EngineTxn) error {
+		return tx.Amounts(tallies).Lower([]byte("a"), 2)
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if err := engine.View(context.Background(), func(tx vault.EngineTxn) error {
+		return tx.Amounts(tallies).Scan(vault.EveryKey(), func([]byte, int) (bool, error) {
+			return true, nil
+		})
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+
+	condition := engine.Condition()
+	if condition.AmountsScanned != 2 || condition.AmountsAtZeroScanned != 1 {
+		t.Fatalf(
+			"amounts scanned = %d, at zero = %d, want 2 and 1",
+			condition.AmountsScanned,
+			condition.AmountsAtZeroScanned,
+		)
 	}
 }
 
