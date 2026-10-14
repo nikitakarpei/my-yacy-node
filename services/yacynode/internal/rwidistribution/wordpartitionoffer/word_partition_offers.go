@@ -1,7 +1,8 @@
 // Package wordpartitionoffer decides what each peer gets for the due word
 // partitions of a batch: a holder the postings it lacks, a missing holder or a
 // due refresh the whole word partition. A word partition gets no offer while a
-// recipient is paused or busy. Excluded peers are left out of the DHT ring.
+// recipient is paused or busy. Excluded peers are left out of the DHT ring. A
+// batch stops before an offer that would give a peer more postings than its budget.
 package wordpartitionoffer
 
 import (
@@ -75,48 +76,54 @@ func New(
 	}
 }
 
-func (o *Offers) DueOffersFor(
+func (o *Offers) DueOffersWithin(
 	ctx context.Context,
 	dueWordPartitions []yacymodel.WordPartition,
 	reachablePeers []yacymodel.Seed,
-) ([]Offer, error) {
+	amountOfPostingsPerPeer int,
+) (offers []Offer, isBudgetSpent bool, err error) {
 	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
-	var offers []Offer
+	budget := postingsBudgetOf(amountOfPostingsPerPeer)
 	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		offers, err = o.offersForFreePeers(ctx, tx, dueWordPartitions, acceptingPeers)
+		offers, isBudgetSpent, err = o.offersWithin(
+			ctx, tx, dueWordPartitions, acceptingPeers, budget)
 
 		return err
 	}); err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
-	return offers, nil
+	return offers, isBudgetSpent, nil
 }
 
-func (o *Offers) offersForFreePeers(
+func (o *Offers) offersWithin(
 	ctx context.Context,
 	tx *vault.Txn,
 	dueWordPartitions []yacymodel.WordPartition,
 	acceptingPeers yacymodel.SeedRing,
-) ([]Offer, error) {
-	var offers []Offer
+	budget *postingsBudget,
+) (offers []Offer, isBudgetSpent bool, err error) {
 	for _, wordPartition := range dueWordPartitions {
 		peers, err := o.peersOf(ctx, tx, wordPartition, acceptingPeers)
 		if err != nil {
-			return nil, err
+			return nil, false, err
 		}
 		if peers.mustWaitFor(o.eligibility) {
 			continue
 		}
 		offer, err := o.dueOfferFor(tx, peers)
 		if err != nil {
-			return nil, err
+			return nil, false, err
 		}
+		if len(offers) > 0 && budget.wouldOverflowWith(offer) {
+			return offers, true, nil
+		}
+		budget.take(offer)
 		offers = append(offers, offer)
 	}
 
-	return offers, nil
+	return offers, false, nil
 }
 
 func (o *Offers) dueOfferFor(tx *vault.Txn, peers wordPartitionPeers) (Offer, error) {

@@ -38,14 +38,18 @@ func (b arcBatches) nextFrom(
 		if !found {
 			return batchSearch{alarm: alarm}, nil
 		}
-		offers, err := b.offersFrom(ctx, pick, reachablePeers)
-		if err == nil && len(offers) > 0 {
+		offersOfArc, err := b.offersFrom(ctx, pick, reachablePeers)
+		switch {
+		case err == nil && len(offersOfArc.offers) > 0:
 			return batchSearch{
-				batch:    dueBatch{arc: pick.arc, offers: offers},
+				batch:    dueBatch{arc: pick.arc, offers: offersOfArc.offers},
 				hasBatch: true,
 			}, nil
-		}
-		if err == nil {
+		case err == nil && offersOfArc.isWindowClosed:
+			b.walk.putBack(pick.arc)
+
+			continue
+		case err == nil:
 			err = b.settleEndOf(ctx, pick)
 		}
 		if err != nil {
@@ -56,30 +60,35 @@ func (b arcBatches) nextFrom(
 	}
 }
 
+type arcOffers struct {
+	offers         []wordpartitionoffer.Offer
+	isWindowClosed bool
+}
+
 func (b arcBatches) offersFrom(
 	ctx context.Context,
 	pick arcPick,
 	reachablePeers []yacymodel.Seed,
-) ([]wordpartitionoffer.Offer, error) {
+) (arcOffers, error) {
 	if err := b.schedule.ScheduleAdmissionsWithin(ctx, pick.spans); err != nil {
-		return nil, err
+		return arcOffers{}, err
 	}
 	position := pick.position
 	for {
+		if !b.walk.hasFreeWindow(pick.arc) {
+			return arcOffers{isWindowClosed: true}, nil
+		}
 		read, err := b.reader.dueEntriesFrom(ctx, pick.spans, position)
 		if err != nil {
-			return nil, err
+			return arcOffers{}, err
 		}
 		chunk, err := b.chunkOf(ctx, read, reachablePeers)
 		if err != nil {
-			return nil, err
+			return arcOffers{}, err
 		}
 		b.walk.moveTo(pick.arc, chunk.position)
-		if len(chunk.offers) > 0 {
-			return chunk.offers, nil
-		}
-		if read.reachedEnd {
-			return nil, nil
+		if len(chunk.offers) > 0 || read.reachedEnd {
+			return arcOffers{offers: chunk.offers}, nil
 		}
 		position = chunk.position
 	}
@@ -105,15 +114,15 @@ func (b arcBatches) chunkOf(
 	read arcRead,
 	reachablePeers []yacymodel.Seed,
 ) (readChunk, error) {
-	offers, err := b.offers.DueOffersFor(ctx, wordPartitionsOf(read.entries), reachablePeers)
+	offers, isBudgetSpent, err := b.offers.DueOffersWithin(
+		ctx, wordPartitionsOf(read.entries), reachablePeers, b.postingsBudget)
 	if err != nil {
 		return readChunk{}, err
 	}
-	kept := offersWithin(b.postingsBudget, offers)
 
 	return readChunk{
-		offers:   kept,
-		position: positionAfter(read, len(kept) < len(offers), kept),
+		offers:   offers,
+		position: positionAfter(read, isBudgetSpent, offers),
 	}, nil
 }
 
@@ -128,12 +137,12 @@ func wordPartitionsOf(entries []readEntry) []yacymodel.WordPartition {
 
 func positionAfter(
 	read arcRead,
-	wasTrimmed bool,
-	kept []wordpartitionoffer.Offer,
+	isBudgetSpent bool,
+	offers []wordpartitionoffer.Offer,
 ) arcPosition {
 	switch {
-	case wasTrimmed:
-		lastKept := kept[len(kept)-1].WordPartition()
+	case isBudgetSpent:
+		lastKept := offers[len(offers)-1].WordPartition()
 		index := slices.IndexFunc(read.entries, func(entry readEntry) bool {
 			return entry.scheduled.WordPartition == lastKept
 		})
