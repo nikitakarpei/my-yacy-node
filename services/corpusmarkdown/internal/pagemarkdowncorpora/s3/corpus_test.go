@@ -2,6 +2,7 @@ package s3_test
 
 import (
 	"context"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
@@ -30,6 +31,31 @@ func objectStoreServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(gofakes3.New(s3mem.New()).Server())
 	t.Cleanup(server.Close)
 	return server
+}
+
+func objectStoreRefusingEverything(t *testing.T) *httptest.Server {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(refuse))
+	t.Cleanup(server.Close)
+	return server
+}
+
+func objectStoreRefusingObjects(t *testing.T) *httptest.Server {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodHead && r.URL.Path == "/"+bucket {
+			return
+		}
+		refuse(w, r)
+	}))
+	t.Cleanup(server.Close)
+	return server
+}
+
+func refuse(w http.ResponseWriter, _ *http.Request) {
+	w.Header().Set("Content-Type", "application/xml")
+	w.WriteHeader(http.StatusForbidden)
+	_, _ = w.Write([]byte(`<Error><Code>AccessDenied</Code><Message>refused</Message></Error>`))
 }
 
 func objectStoreAt(endpoint string) pagemarkdowncorporas3.ObjectStore {
@@ -152,8 +178,7 @@ func TestOpenCorpusKeepsTheMarkdownOfAnEarlierOpening(t *testing.T) {
 }
 
 func TestOpenCorpusFailsWhenTheBucketCannotBeCreated(t *testing.T) {
-	server := objectStoreServer(t)
-	server.Close()
+	server := objectStoreRefusingEverything(t)
 
 	if _, err := pagemarkdowncorporas3.OpenCorpus(
 		context.Background(), objectStoreAt(server.URL), bucket, fixedClock{},
@@ -163,9 +188,7 @@ func TestOpenCorpusFailsWhenTheBucketCannotBeCreated(t *testing.T) {
 }
 
 func TestPutFailsWhenTheMarkdownCannotBeWritten(t *testing.T) {
-	server := objectStoreServer(t)
-	corpus := openedCorpus(t, server.URL)
-	server.Close()
+	corpus := openedCorpus(t, objectStoreRefusingObjects(t).URL)
 
 	if err := corpus.Put(
 		context.Background(),
@@ -177,9 +200,7 @@ func TestPutFailsWhenTheMarkdownCannotBeWritten(t *testing.T) {
 }
 
 func TestMarkdownOfFailsWhenTheMarkdownCannotBeRead(t *testing.T) {
-	server := objectStoreServer(t)
-	corpus := openedCorpus(t, server.URL)
-	server.Close()
+	corpus := openedCorpus(t, objectStoreRefusingObjects(t).URL)
 
 	if _, _, err := corpus.MarkdownOf(
 		context.Background(),
