@@ -310,3 +310,45 @@ func TestAnOverloadedOfferCarriesThePausePeerRequested(t *testing.T) {
 		t.Fatalf("answer = %+v, want declined with pause 1m", answer)
 	}
 }
+
+func TestSendLeavesOutPostingsOfURLsThePeerRejectedAndSendsNoMetadataForThem(t *testing.T) {
+	rejected, unknown, known := urlHash("u1"), urlHash("u2"), urlHash("u3")
+	word := yacymodel.WordHash("w1")
+	metadataCourier := &fakeURLMetadataCourier{
+		receipt: urlmetadatacourier.Receipt{Outcome: urlmetadatacourier.Accepted},
+	}
+	postingTransfers := postingtransfer.New(
+		openVault(t),
+		fakePostingCourier{receipt: postingcourier.Receipt{
+			Outcome:           postingcourier.Accepted,
+			URLsUnknownToPeer: []yacymodel.URLHash{rejected, unknown},
+			URLsRejected:      []yacymodel.URLHash{rejected},
+		}},
+		metadataCourier,
+		fakeURLDirectory{metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
+			rejected: {Hash: rejected},
+			unknown:  {Hash: unknown},
+		}},
+		newFakeObserver(),
+	)
+
+	answer := postingTransfers.Send(
+		context.Background(),
+		seed(yacymodel.WordHash("peer")),
+		[]yacymodel.RWIPosting{
+			fakePosting(word, rejected), fakePosting(word, unknown), fakePosting(word, known),
+		},
+	)
+
+	if answer.Result != postingtransfer.OfferAccepted || len(answer.AcceptedPostings) != 2 {
+		t.Fatalf("answer = %+v, want the postings of unknown and known accepted", answer)
+	}
+	for _, posting := range answer.AcceptedPostings {
+		if posting.URLHash == rejected {
+			t.Fatalf("accepted postings %v include the rejected url", answer.AcceptedPostings)
+		}
+	}
+	if len(metadataCourier.delivered) != 1 || metadataCourier.delivered[0].Hash != unknown {
+		t.Fatalf("delivered metadata = %v, want only the unknown url", metadataCourier.delivered)
+	}
+}

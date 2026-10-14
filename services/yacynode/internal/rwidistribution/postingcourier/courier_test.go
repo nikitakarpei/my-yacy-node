@@ -156,6 +156,25 @@ func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 	}
 }
 
+func TestOfferReturnsURLsThePeerRejected(t *testing.T) {
+	rejected := urlHash("u1")
+	server := rwiResponder(yacyproto.TransferRWIResponse{
+		Result:   yacyproto.ResultOK,
+		ErrorURL: []yacymodel.URLHash{rejected},
+	})
+	defer server.Close()
+
+	receipt := openCourierHarness(t, server).Offer(
+		context.Background(),
+		courierSeed(t, server),
+		singlePosting(),
+	)
+
+	if len(receipt.URLsRejected) != 1 || receipt.URLsRejected[0] != rejected {
+		t.Fatalf("URLsRejected = %v, want [%v]", receipt.URLsRejected, rejected)
+	}
+}
+
 func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 	server := rwiResponder(yacyproto.TransferRWIResponse{
 		Result: yacyproto.ResultBusy,
