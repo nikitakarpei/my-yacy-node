@@ -75,8 +75,8 @@ func (p callerBackPing) confirms(ctx context.Context, resp *http.Response) bool 
 		return false
 	}
 
-	msg := yacyproto.ParseMessage(string(body))
-	if _, err := yacyproto.ParseQueryResponse(msg); err != nil {
+	fields := yacyproto.ParseResponseFields(string(body))
+	if _, err := yacyproto.ParseQueryResponse(fields); err != nil {
 		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
 
 		return false

@@ -39,7 +39,7 @@ func TestExchangePostsFormAndParsesReply(t *testing.T) {
 	}))
 	defer server.Close()
 
-	msg, err := peerwire.NewMessageExchange(server.Client()).Exchange(
+	msg, err := peerwire.NewFormExchange(server.Client()).Exchange(
 		context.Background(),
 		exchangeEndpoint(t, server),
 		"/yacy/transferRWI.html",
@@ -68,7 +68,7 @@ func TestExchangeReportsStatusAndReportedBody(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, err := peerwire.NewMessageExchange(server.Client()).Exchange(
+	_, err := peerwire.NewFormExchange(server.Client()).Exchange(
 		context.Background(),
 		exchangeEndpoint(t, server),
 		"/yacy/transferRWI.html",
@@ -91,7 +91,7 @@ func TestExchangeReportsStatusWithoutReportedBody(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, err := peerwire.NewMessageExchange(server.Client()).Exchange(
+	_, err := peerwire.NewFormExchange(server.Client()).Exchange(
 		context.Background(),
 		exchangeEndpoint(t, server),
 		"/yacy/transferRWI.html",
@@ -106,7 +106,7 @@ func TestExchangeReportsStatusWithoutReportedBody(t *testing.T) {
 }
 
 func TestExchangeRejectsEmptyEndpoint(t *testing.T) {
-	_, err := peerwire.NewMessageExchange(http.DefaultClient).Exchange(
+	_, err := peerwire.NewFormExchange(http.DefaultClient).Exchange(
 		context.Background(),
 		"  ",
 		"/yacy/transferRWI.html",
@@ -123,7 +123,7 @@ func TestExchangeReportsUnreachablePeer(t *testing.T) {
 	client := server.Client()
 	server.Close()
 
-	_, err := peerwire.NewMessageExchange(client).Exchange(
+	_, err := peerwire.NewFormExchange(client).Exchange(
 		context.Background(),
 		endpoint,
 		"/yacy/transferRWI.html",

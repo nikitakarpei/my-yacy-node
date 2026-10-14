@@ -11,8 +11,8 @@ import (
 
 const feedContentType = "text/xml; charset=UTF-8"
 
-type MessageResponse interface {
-	Encode() yacyproto.Message
+type FieldsResponse interface {
+	Encode() yacyproto.ResponseFields
 }
 
 type FeedResponse interface {
@@ -25,7 +25,7 @@ type WireGate struct {
 	Address ClientAddressResolver
 }
 
-func ServeMessage[Req any, Resp MessageResponse](
+func ServeFields[Req any, Resp FieldsResponse](
 	gate WireGate,
 	methods yacyproto.EndpointMethodSet,
 	parse func(ctx context.Context, form url.Values) (Req, error),

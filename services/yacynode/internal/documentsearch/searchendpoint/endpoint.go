@@ -25,7 +25,7 @@ func Mount(
 	partitions yacymodel.DHTRingPartitions,
 ) {
 	nodePosition := yacymodel.DHTRingPositionOf(identity.Hash)
-	httpguard.MountMessage(
+	httpguard.MountFields(
 		router,
 		yacyproto.PathSearch,
 		yacyproto.SearchEndpointMethods,

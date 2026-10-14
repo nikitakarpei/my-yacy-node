@@ -200,26 +200,26 @@ func searchRequestCounts(form url.Values) (searchCounts, error) {
 	return counts, nil
 }
 
-func (r SearchResponse) Encode() Message {
-	msg := Message{}
-	setInt(msg, FieldSearchTime, r.SearchTime)
-	setString(msg, FieldReferences, r.References)
-	setInt(msg, FieldJoinCount, r.JoinCount)
-	setInt(msg, FieldCount, r.Count)
+func (r SearchResponse) Encode() ResponseFields {
+	fields := ResponseFields{}
+	setInt(fields, FieldSearchTime, r.SearchTime)
+	setString(fields, FieldReferences, r.References)
+	setInt(fields, FieldJoinCount, r.JoinCount)
+	setInt(fields, FieldCount, r.Count)
 	for i, row := range r.Resources {
-		setString(msg, indexedKey(prefixResource, i), searchResourceWireCodec{}.encode(row))
+		setString(fields, indexedKey(prefixResource, i), searchResourceWireCodec{}.encode(row))
 	}
 	for hash, count := range r.IndexCount {
-		setInt(msg, prefixIndexCount+hash.String(), count)
+		setInt(fields, prefixIndexCount+hash.String(), count)
 	}
 	for hash, documents := range r.IndexAbstract {
-		setString(msg, prefixIndexAbstract+hash.String(), encodeSearchIndexAbstract(documents))
+		setString(fields, prefixIndexAbstract+hash.String(), encodeSearchIndexAbstract(documents))
 	}
 
-	return msg
+	return fields
 }
 
-func ParseSearchResponse(ctx context.Context, m Message) (SearchResponse, error) {
+func ParseSearchResponse(ctx context.Context, m ResponseFields) (SearchResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return SearchResponse{}, err
@@ -253,7 +253,7 @@ func ParseSearchResponse(ctx context.Context, m Message) (SearchResponse, error)
 
 func parseSearchResources(
 	ctx context.Context,
-	m Message,
+	m ResponseFields,
 	count int,
 ) []SearchResource {
 	var resources []SearchResource
@@ -287,7 +287,7 @@ func parseSearchResources(
 }
 
 func parseSearchIndexes(
-	m Message,
+	m ResponseFields,
 ) (map[yacymodel.Hash]int, map[yacymodel.Hash][]yacymodel.URLHash, error) {
 	var (
 		counts    map[yacymodel.Hash]int

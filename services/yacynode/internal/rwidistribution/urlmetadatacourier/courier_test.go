@@ -103,7 +103,7 @@ func openTimedURLMetadataCourierHarness(
 	t.Helper()
 
 	return urlmetadatacourier.New(
-		peerwire.NewMessageExchange(server.Client()),
+		peerwire.NewFormExchange(server.Client()),
 		"freeworld",
 		courierHash("self"),
 		(&steppingClock{at: time.Unix(1000, 0), step: time.Second}).now,

@@ -5,12 +5,12 @@ type ResponseHeader struct {
 	Uptime  int
 }
 
-func InjectResponseHeader(dst Message, version string, uptime int) {
+func InjectResponseHeader(dst ResponseFields, version string, uptime int) {
 	setString(dst, FieldVersion, version)
 	setInt(dst, FieldUptime, uptime)
 }
 
-func parseResponseHeader(m Message) (ResponseHeader, error) {
+func parseResponseHeader(m ResponseFields) (ResponseHeader, error) {
 	uptime, err := optionalInt(FieldUptime, m[FieldUptime])
 	if err != nil {
 		return ResponseHeader{}, err

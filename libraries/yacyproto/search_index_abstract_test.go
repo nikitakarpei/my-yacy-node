@@ -26,7 +26,7 @@ func indexAbstractOfQueryWord(
 ) []yacymodel.URLHash {
 	t.Helper()
 
-	response, err := yacyproto.ParseSearchResponse(context.Background(), yacyproto.Message{
+	response, err := yacyproto.ParseSearchResponse(context.Background(), yacyproto.ResponseFields{
 		"indexabstract." + queryWord.String(): wireForm,
 	})
 	if err != nil {
@@ -46,10 +46,10 @@ func TestASearchResponseCarriesTheDocumentsHeldForAQueryWord(t *testing.T) {
 		mustParseURLHash(t, "aaaaaaBBBBBB"),
 	}
 
-	message := yacyproto.SearchResponse{
+	fields := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{queryWord: documents},
 	}.Encode()
-	response, err := yacyproto.ParseSearchResponse(context.Background(), message)
+	response, err := yacyproto.ParseSearchResponse(context.Background(), fields)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
@@ -65,7 +65,7 @@ func TestASearchResponseGroupsTheDocumentsItCarriesByHost(t *testing.T) {
 	t.Parallel()
 
 	queryWord := sampleHash(t, "alpha")
-	message := yacyproto.SearchResponse{
+	fields := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{queryWord: {
 			mustParseURLHash(t, "bbbbbbAAAAAA"),
 			mustParseURLHash(t, "aaaaaaBBBBBB"),
@@ -74,7 +74,7 @@ func TestASearchResponseGroupsTheDocumentsItCarriesByHost(t *testing.T) {
 	}.Encode()
 
 	want := "{AAAAAA:bbbbbbcccccc,BBBBBB:aaaaaa}"
-	if got := message["indexabstract."+queryWord.String()]; got != want {
+	if got := fields["indexabstract."+queryWord.String()]; got != want {
 		t.Fatalf("index abstract = %q, want %q", got, want)
 	}
 }
@@ -83,11 +83,11 @@ func TestASearchResponseCarriesNoDocumentForAQueryWordItHoldsNoneFor(t *testing.
 	t.Parallel()
 
 	queryWord := sampleHash(t, "alpha")
-	message := yacyproto.SearchResponse{
+	fields := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{queryWord: nil},
 	}.Encode()
 
-	if got := message["indexabstract."+queryWord.String()]; got != "{}" {
+	if got := fields["indexabstract."+queryWord.String()]; got != "{}" {
 		t.Fatalf("index abstract = %q, want {}", got)
 	}
 	if got := indexAbstractOfQueryWord(t, queryWord, "{}"); len(got) != 0 {

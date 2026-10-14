@@ -84,8 +84,8 @@ func ResolveHash(
 	if !result.OK {
 		t.Fatal("hello request failed")
 	}
-	msg := yacyproto.ParseMessage(result.Body)
-	resp, err := yacyproto.ParseHelloResponse(ctx, msg)
+	fields := yacyproto.ParseResponseFields(result.Body)
+	resp, err := yacyproto.ParseHelloResponse(ctx, fields)
 	if err != nil {
 		t.Fatalf("parse hello response: %v", err)
 	}

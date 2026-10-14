@@ -39,19 +39,19 @@ func putBoolOptional(dst url.Values, key string, value bool) {
 	}
 }
 
-func setString(dst Message, key, value string) {
+func setString(dst ResponseFields, key, value string) {
 	if value != "" {
 		dst[key] = value
 	}
 }
 
-func setInstant(dst Message, key string, instant time.Time) {
+func setInstant(dst ResponseFields, key string, instant time.Time) {
 	if !instant.IsZero() {
 		dst[key] = instantWireCodec{}.encode(instant)
 	}
 }
 
-func setInt(dst Message, key string, value int) {
+func setInt(dst ResponseFields, key string, value int) {
 	dst[key] = strconv.Itoa(value)
 }
 

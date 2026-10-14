@@ -69,9 +69,9 @@ func TestSearchResponseRoundTrip(t *testing.T) {
 		},
 	}
 
-	msg := resp.Encode()
-	yacyproto.InjectResponseHeader(msg, resp.Version, resp.Uptime)
-	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
+	fields := resp.Encode()
+	yacyproto.InjectResponseHeader(fields, resp.Version, resp.Uptime)
+	got, err := yacyproto.ParseSearchResponse(context.Background(), fields)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
@@ -130,8 +130,8 @@ func TestParseSearchRequestRejectsUnknownStrictContentDom(t *testing.T) {
 func TestSearchResponseUsesYaCyCountField(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldCount: "5"}
-	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
+	fields := yacyproto.ResponseFields{yacyproto.FieldCount: "5"}
+	got, err := yacyproto.ParseSearchResponse(context.Background(), fields)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
@@ -145,12 +145,12 @@ func TestParseSearchResponseSkipsMissingAndBadResources(t *testing.T) {
 	t.Parallel()
 
 	valid := sampleURLMetadata(t, "url-a")
-	msg := yacyproto.Message{
+	fields := yacyproto.ResponseFields{
 		yacyproto.FieldCount: "3",
 		"resource0":          sampleURLMetadataWireForm(t, valid),
 		"resource2":          "bad",
 	}
-	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
+	got, err := yacyproto.ParseSearchResponse(context.Background(), fields)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
@@ -166,12 +166,12 @@ func TestSearchResponsePostingNamesTheDocumentOfItsRow(t *testing.T) {
 	t.Parallel()
 
 	resource := sampleSearchResource(t, "url-a")
-	msg := yacyproto.SearchResponse{
+	fields := yacyproto.SearchResponse{
 		Count:     1,
 		Resources: []yacyproto.SearchResource{resource},
 	}.Encode()
 
-	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
+	got, err := yacyproto.ParseSearchResponse(context.Background(), fields)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}

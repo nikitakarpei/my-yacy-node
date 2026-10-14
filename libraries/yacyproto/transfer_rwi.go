@@ -79,17 +79,17 @@ func ParseTransferRWIRequest(ctx context.Context, form url.Values) (TransferRWIR
 	return req, nil
 }
 
-func (r TransferRWIResponse) Encode() Message {
-	msg := Message{}
-	setString(msg, FieldResult, string(r.Result))
-	setInt(msg, FieldPause, int(r.Pause/time.Millisecond))
-	msg[FieldUnknownURL] = joinURLHashes(r.UnknownURL)
-	msg[FieldErrorURL] = joinURLHashes(r.ErrorURL)
+func (r TransferRWIResponse) Encode() ResponseFields {
+	fields := ResponseFields{}
+	setString(fields, FieldResult, string(r.Result))
+	setInt(fields, FieldPause, int(r.Pause/time.Millisecond))
+	fields[FieldUnknownURL] = joinURLHashes(r.UnknownURL)
+	fields[FieldErrorURL] = joinURLHashes(r.ErrorURL)
 
-	return msg
+	return fields
 }
 
-func ParseTransferRWIResponse(m Message) (TransferRWIResponse, error) {
+func ParseTransferRWIResponse(m ResponseFields) (TransferRWIResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return TransferRWIResponse{}, err

@@ -371,10 +371,10 @@ func searchAnswerHolding(t *testing.T, addresses ...string) string {
 }
 
 func searchAnswerFrom(response yacyproto.SearchResponse) string {
-	message := response.Encode()
-	yacyproto.InjectResponseHeader(message, response.Version, response.Uptime)
+	fields := response.Encode()
+	yacyproto.InjectResponseHeader(fields, response.Version, response.Uptime)
 
-	return message.Encode()
+	return fields.Encode()
 }
 
 func mustParseURLHash(t *testing.T, raw string) yacymodel.URLHash {

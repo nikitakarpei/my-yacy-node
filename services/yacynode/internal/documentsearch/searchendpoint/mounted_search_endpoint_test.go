@@ -145,7 +145,7 @@ func search(
 
 	resp, err := yacyproto.ParseSearchResponse(
 		context.Background(),
-		yacyproto.ParseMessage(string(body)),
+		yacyproto.ParseResponseFields(string(body)),
 	)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)

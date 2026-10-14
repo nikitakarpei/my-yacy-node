@@ -87,16 +87,16 @@ func ParseTransferURLRequest(ctx context.Context, form url.Values) (TransferURLR
 	return req, nil
 }
 
-func (r TransferURLResponse) Encode() Message {
-	msg := Message{}
-	setString(msg, FieldResult, string(r.Result))
-	setInt(msg, FieldDouble, r.Double)
-	setString(msg, FieldErrorURL, joinURLHashes(r.ErrorURL))
+func (r TransferURLResponse) Encode() ResponseFields {
+	fields := ResponseFields{}
+	setString(fields, FieldResult, string(r.Result))
+	setInt(fields, FieldDouble, r.Double)
+	setString(fields, FieldErrorURL, joinURLHashes(r.ErrorURL))
 
-	return msg
+	return fields
 }
 
-func ParseTransferURLResponse(m Message) (TransferURLResponse, error) {
+func ParseTransferURLResponse(m ResponseFields) (TransferURLResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return TransferURLResponse{}, err

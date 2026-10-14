@@ -89,7 +89,7 @@ func serveQuery(
 		t.Fatalf("read body: %v", err)
 	}
 
-	resp, err := yacyproto.ParseQueryResponse(yacyproto.ParseMessage(string(body)))
+	resp, err := yacyproto.ParseQueryResponse(yacyproto.ParseResponseFields(string(body)))
 	if err != nil {
 		t.Fatalf("ParseQueryResponse: %v", err)
 	}

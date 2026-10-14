@@ -17,8 +17,8 @@ type echoResponse struct {
 	addr string
 }
 
-func (r echoResponse) Encode() yacyproto.Message {
-	return yacyproto.Message{"yourip": r.addr}
+func (r echoResponse) Encode() yacyproto.ResponseFields {
+	return yacyproto.ResponseFields{"yourip": r.addr}
 }
 
 type echoFeed struct {
@@ -77,8 +77,8 @@ func postForm(target string) *http.Request {
 	return req
 }
 
-func TestServeMessageWritesResponseWithRemoteAddr(t *testing.T) {
-	handler := httpguard.ServeMessage(
+func TestServeFieldsWritesResponseWithRemoteAddr(t *testing.T) {
+	handler := httpguard.ServeFields(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(ctx context.Context, _ url.Values) (echoResponse, error) {
@@ -102,8 +102,8 @@ func TestServeMessageWritesResponseWithRemoteAddr(t *testing.T) {
 	}
 }
 
-func TestServeMessageMapsParseErrorToBadRequest(t *testing.T) {
-	handler := httpguard.ServeMessage(
+func TestServeFieldsMapsParseErrorToBadRequest(t *testing.T) {
+	handler := httpguard.ServeFields(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(context.Context, url.Values) (echoResponse, error) {
@@ -122,8 +122,8 @@ func TestServeMessageMapsParseErrorToBadRequest(t *testing.T) {
 	}
 }
 
-func TestServeMessageMapsServeErrorToInternal(t *testing.T) {
-	handler := httpguard.ServeMessage(
+func TestServeFieldsMapsServeErrorToInternal(t *testing.T) {
+	handler := httpguard.ServeFields(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(context.Context, url.Values) (echoResponse, error) {
@@ -142,8 +142,8 @@ func TestServeMessageMapsServeErrorToInternal(t *testing.T) {
 	}
 }
 
-func TestServeMessageRejectsDisallowedMethod(t *testing.T) {
-	handler := httpguard.ServeMessage(
+func TestServeFieldsRejectsDisallowedMethod(t *testing.T) {
+	handler := httpguard.ServeFields(
 		testGate(),
 		yacyproto.TransferURLEndpointMethods,
 		func(context.Context, url.Values) (echoResponse, error) {
