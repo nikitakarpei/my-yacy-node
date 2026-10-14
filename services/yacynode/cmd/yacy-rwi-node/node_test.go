@@ -233,14 +233,11 @@ func (n runningNode) wait(t *testing.T) error {
 func (n runningNode) get(t *testing.T, path string) {
 	t.Helper()
 
-	n.awaitReady(t)
 	n.answerTo(t, http.MethodGet, "http://"+n.peerAddr+path, nil)
 }
 
 func (n runningNode) hello(t *testing.T, req yacyproto.HelloRequest) yacyproto.HelloResponse {
 	t.Helper()
-
-	n.awaitReady(t)
 
 	status, body := n.answerTo(
 		t,
@@ -266,39 +263,9 @@ func (n runningNode) hello(t *testing.T, req yacyproto.HelloRequest) yacyproto.H
 func (n runningNode) metrics(t *testing.T) string {
 	t.Helper()
 
-	n.awaitReady(t)
 	_, published := n.answerTo(t, http.MethodGet, "http://"+n.opsAddr+"/metrics", nil)
 
 	return published
-}
-
-func (n runningNode) awaitReady(t *testing.T) {
-	t.Helper()
-
-	deadline := time.Now().Add(settleFor)
-	for time.Now().Before(deadline) {
-		req, err := http.NewRequestWithContext(
-			t.Context(),
-			http.MethodGet,
-			"http://"+n.opsAddr+"/metrics",
-			nil,
-		)
-		if err != nil {
-			t.Fatalf("build readiness request: %v", err)
-		}
-		if resp, err := http.DefaultClient.Do(req); err == nil {
-			_ = resp.Body.Close()
-			if resp.StatusCode == http.StatusOK {
-				return
-			}
-		}
-		select {
-		case err := <-n.stopped:
-			t.Fatalf("RunNode stopped before it served: %v", err)
-		case <-time.After(20 * time.Millisecond):
-		}
-	}
-	t.Fatalf("ops endpoint never answered at %s", n.opsAddr)
 }
 
 func (n runningNode) answerTo(
@@ -308,7 +275,9 @@ func (n runningNode) answerTo(
 ) (int, string) {
 	t.Helper()
 
-	req, err := http.NewRequestWithContext(t.Context(), method, address, sent)
+	ctx, cancel := context.WithTimeout(t.Context(), settleFor)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, method, address, sent)
 	if err != nil {
 		t.Fatalf("build request: %v", err)
 	}
@@ -318,7 +287,7 @@ func (n runningNode) answerTo(
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		t.Fatalf("%s %s: %v", method, address, err)
+		n.failUnanswered(t, err)
 	}
 	defer func() { _ = resp.Body.Close() }()
 
@@ -328,6 +297,17 @@ func (n runningNode) answerTo(
 	}
 
 	return resp.StatusCode, string(body)
+}
+
+func (n runningNode) failUnanswered(t *testing.T, err error) {
+	t.Helper()
+
+	select {
+	case stopErr := <-n.stopped:
+		t.Fatalf("RunNode stopped before it served: %v", stopErr)
+	default:
+		t.Fatalf("node never answered: %v", err)
+	}
 }
 
 func envFrom(values map[string]string) func(string) string {

@@ -51,7 +51,6 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	}()
 
 	consumer := ordersConsumer(t, ctx, crawlNATSURL)
-	waitForListening(t, listeners.Intake.Addr().String())
 
 	client := &http.Client{
 		CheckRedirect: func(_ *http.Request, _ []*http.Request) error {
@@ -175,19 +174,6 @@ func nextPlacedOrder(t *testing.T, consumer jetstream.Consumer) yacycrawlcontrac
 	return order
 }
 
-func waitForListening(t *testing.T, addr string) {
-	t.Helper()
-	dialer := &net.Dialer{}
-	waitFor(t, func() bool {
-		conn, err := dialer.DialContext(context.Background(), "tcp", addr)
-		if err != nil {
-			return false
-		}
-		_ = conn.Close()
-		return true
-	})
-}
-
 func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
 
@@ -198,16 +184,4 @@ func listenerFor(t *testing.T) net.Listener {
 	t.Cleanup(func() { _ = listener.Close() })
 
 	return listener
-}
-
-func waitFor(t *testing.T, condition func() bool) {
-	t.Helper()
-	deadline := time.Now().Add(5 * time.Second)
-	for time.Now().Before(deadline) {
-		if condition() {
-			return
-		}
-		time.Sleep(20 * time.Millisecond)
-	}
-	t.Fatal("condition not met before deadline")
 }

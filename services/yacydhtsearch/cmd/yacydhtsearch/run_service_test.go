@@ -100,27 +100,23 @@ func listenerFor(t *testing.T) net.Listener {
 func bodyOnceServed(t *testing.T, address string) string {
 	t.Helper()
 
-	deadline := time.Now().Add(5 * time.Second)
-	for time.Now().Before(deadline) {
-		request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, address, nil)
-		if err != nil {
-			t.Fatalf("build request for %s: %v", address, err)
-		}
-		response, err := http.DefaultClient.Do(request)
-		if err != nil {
-			time.Sleep(20 * time.Millisecond)
-			continue
-		}
-		body, _ := io.ReadAll(response.Body)
-		_ = response.Body.Close()
-		if response.StatusCode == http.StatusOK {
-			return string(body)
-		}
-		time.Sleep(20 * time.Millisecond)
+	ctx, cancel := context.WithTimeout(t.Context(), 5*time.Second)
+	defer cancel()
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, address, nil)
+	if err != nil {
+		t.Fatalf("build request for %s: %v", address, err)
 	}
-	t.Fatalf("%s never answered", address)
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		t.Fatalf("%s never answered: %v", address, err)
+	}
+	body, _ := io.ReadAll(response.Body)
+	_ = response.Body.Close()
+	if response.StatusCode != http.StatusOK {
+		t.Fatalf("%s answered %d, want %d", address, response.StatusCode, http.StatusOK)
+	}
 
-	return ""
+	return string(body)
 }
 
 func statusOf(t *testing.T, address string) int {
