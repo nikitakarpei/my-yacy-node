@@ -219,3 +219,38 @@ func (m *callMeeting) assertMet(t *testing.T) {
 		t.Fatalf("%d calls arrived, want %d of them at the same time", m.arrived, m.awaited)
 	}
 }
+
+func TestLoopTakesNoArcOverABatchStillInFlightFromBeforeARingChange(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		first, second := fixtureWordPartition(), wordPartitionsIn(40, 1)[0]
+		firstPeer, secondPeer := peerAfter(first, 1), peerAfter(second, 1)
+		h := openLoop(t, startClock(), loopOptions{amountOfWorkers: 2})
+		h.reach(firstPeer)
+		h.transfers.answers[firstPeer.Hash] = acceptedAnswer
+		h.transfers.answers[secondPeer.Hash] = acceptedAnswer
+		firstAnswer := make(chan struct{})
+		h.transfers.onOffer = func(peer yacymodel.Seed) {
+			if peer.Hash == firstPeer.Hash {
+				<-firstAnswer
+			}
+		}
+		h.admit(t, first, urlsOf(1)...)
+		h.start(t)
+		h.admit(t, second, urlsOf(1)...)
+
+		h.reach(firstPeer, secondPeer)
+		h.settle()
+
+		if got := len(h.transfers.offeredTo(secondPeer)); got != 0 {
+			t.Fatalf(
+				"transfers to the new peer = %d, want none while the older batch is in flight",
+				got,
+			)
+		}
+		close(firstAnswer)
+		h.settle()
+		if got := len(h.transfers.offeredTo(secondPeer)); got != 1 {
+			t.Fatalf("transfers to the new peer = %d, want 1 once the older batch settled", got)
+		}
+	})
+}
