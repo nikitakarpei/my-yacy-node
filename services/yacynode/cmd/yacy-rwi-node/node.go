@@ -75,7 +75,7 @@ const (
 	postingAdmissionBusyPause = 30 * time.Second
 )
 
-const wordAmountLifetime = 5 * time.Minute
+const wordSampleLifetime = 5 * time.Minute
 
 const (
 	evictionTargetFraction  = 0.9
@@ -157,8 +157,10 @@ func assembleNode(
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
 	}
 
-	postingAmounts, wordAmountEstimate, postingAmountProjection, err := rwipostingamount.Open(
+	postingAmounts, wordAmounts, postingAmountProjection, err := rwipostingamount.Open(
 		storage,
+		now,
+		wordSampleLifetime,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
@@ -264,7 +266,6 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	wordAmounts := nodestatus.NewWordAmountCache(wordAmountEstimate, now, wordAmountLifetime)
 	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, wordAmounts, urlDirectory)
 
 	mux := http.NewServeMux()

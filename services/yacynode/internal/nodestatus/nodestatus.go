@@ -3,8 +3,7 @@
 // answers. Its published port, RuntimeStatus, is the only surface other modules
 // import. Live counts arrive through the WordAmountEstimate, PostingAmountCounter
 // and URLCounter ports, which read in the transaction nodestatus opens, so
-// nodestatus never reads another module's schema. NewWordAmountCache serves one
-// estimate of the words for its whole lifetime.
+// nodestatus never reads another module's schema.
 package nodestatus
 
 import (
@@ -52,14 +51,6 @@ func NewRuntimeStatus(
 		words: words,
 		urls:  urls,
 	}
-}
-
-func NewWordAmountCache(
-	words WordAmountEstimate,
-	now func() time.Time,
-	lifetime time.Duration,
-) WordAmountEstimate {
-	return &wordAmountCache{words: words, now: now, lifetime: lifetime}
 }
 
 //nolint:revive // argument-limit
