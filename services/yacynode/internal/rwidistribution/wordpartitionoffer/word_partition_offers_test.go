@@ -229,14 +229,26 @@ func (h *harness) dueOffers(
 ) []wordpartitionoffer.Offer {
 	t.Helper()
 
-	h.reachability.reachable = reachablePeers
-	offers, err := h.offers.DueOffersFor(
-		context.Background(), h.dueWordPartitions(t), reachablePeers)
-	if err != nil {
-		t.Fatalf("DueOffersFor: %v", err)
-	}
+	offers, _ := h.dueOffersWithin(t, everyEntryBudget, reachablePeers...)
 
 	return offers
+}
+
+func (h *harness) dueOffersWithin(
+	t *testing.T,
+	amountOfPostingsPerPeer int,
+	reachablePeers ...yacymodel.Seed,
+) ([]wordpartitionoffer.Offer, bool) {
+	t.Helper()
+
+	h.reachability.reachable = reachablePeers
+	offers, isBudgetSpent, err := h.offers.DueOffersWithin(
+		context.Background(), h.dueWordPartitions(t), reachablePeers, amountOfPostingsPerPeer)
+	if err != nil {
+		t.Fatalf("DueOffersWithin: %v", err)
+	}
+
+	return offers, isBudgetSpent
 }
 
 func (h *harness) scheduleAdmissions(t *testing.T) {
@@ -924,5 +936,45 @@ func TestArcsAmongLeaveOutPeersThatRefuseRemoteIndexOrAreExcluded(t *testing.T) 
 
 	if len(arcs) != 1 || len(arcs[0].Window) != 1 || arcs[0].Window[0].Hash != accepting.Hash {
 		t.Fatalf("arcs = %+v, want one arc with only the accepting peer", arcs)
+	}
+}
+
+func TestOffersStopBeforeOneThatWouldGiveAPeerMoreThanItsBudget(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartitions := fixtureWordPartitions(2)
+	peer := peerAfter(wordPartitions[1], 0)
+	for _, wordPartition := range wordPartitions {
+		h.admit(t, wordPartition, urlsOfPartition(2)...)
+	}
+	h.scheduleAdmissions(t)
+
+	offers, isBudgetSpent := h.dueOffersWithin(t, 3, peer)
+
+	if got, want := wordPartitionsOf(offers), h.dueWordPartitions(t)[:1]; !slices.Equal(got, want) {
+		t.Fatalf("offers = %v, want only the first due word partition %v", got, want)
+	}
+	if !isBudgetSpent {
+		t.Fatalf("budget spent = false, want true with a word partition left")
+	}
+}
+
+func TestOffersKeepTheFirstOneEvenWhenItAloneIsOverTheBudget(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := fixtureWordPartitions(1)[0]
+	h.admit(t, wordPartition, urlsOfPartition(2)...)
+	h.scheduleAdmissions(t)
+
+	offers, isBudgetSpent := h.dueOffersWithin(t, 1, peerAfter(wordPartition, 0))
+
+	if got := wordPartitionsOf(
+		offers,
+	); !slices.Equal(
+		got,
+		[]yacymodel.WordPartition{wordPartition},
+	) {
+		t.Fatalf("offers = %v, want %v", got, wordPartition)
+	}
+	if isBudgetSpent {
+		t.Fatalf("budget spent = true, want false with nothing left")
 	}
 }

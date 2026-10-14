@@ -172,6 +172,20 @@ func (w *arcWalk) settleReadEnd(pick arcPick, earliestDueAt time.Time, isAnyDue 
 	w.wakeWorkers()
 }
 
+func (w *arcWalk) hasFreeWindow(picked *arc) bool {
+	w.guard.Lock()
+	defer w.guard.Unlock()
+
+	return picked.isOpenFor(w.eligibility)
+}
+
+func (w *arcWalk) putBack(picked *arc) {
+	w.guard.Lock()
+	defer w.guard.Unlock()
+
+	picked.isInBatch = false
+}
+
 func (w *arcWalk) complete(picked *arc) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
