@@ -91,9 +91,9 @@ func TestLoopReportsTheBacklogWhileTooFewPeersAreReachable(t *testing.T) {
 		h.start(t)
 
 		if h.observer.undeliveredPostings != 3 ||
-			h.observer.longestRefreshLateness != refreshInterval+time.Minute {
-			t.Fatalf("undelivered postings = %d, longest refresh lateness = %v, want 3 and 1h1m",
-				h.observer.undeliveredPostings, h.observer.longestRefreshLateness)
+			h.observer.longestDueWait != refreshInterval+time.Minute {
+			t.Fatalf("undelivered postings = %d, longest due wait = %v, want 3 and 1h1m",
+				h.observer.undeliveredPostings, h.observer.longestDueWait)
 		}
 	})
 }
@@ -120,17 +120,17 @@ func TestLoopReportsTheBacklogAgainOnlyWhenItsTimerFires(t *testing.T) {
 	})
 }
 
-func TestLoopReportsNoRefreshLatenessBeforeTheRefreshTime(t *testing.T) {
+func TestLoopReportsNoDueWaitBeforeTheRefreshTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		delivered := wordPartitionOf(0)
 		h := openLoop(t, startClock(), loopOptions{minReachablePeers: 2})
 		h.recordHolders(t, delivered, peerAfter(delivered, 1).Hash)
-		h.observer.longestRefreshLateness = time.Hour
+		h.observer.longestDueWait = time.Hour
 
 		h.start(t)
 
-		if h.observer.longestRefreshLateness != 0 {
-			t.Fatalf("longest refresh lateness = %v, want 0", h.observer.longestRefreshLateness)
+		if h.observer.longestDueWait != 0 {
+			t.Fatalf("longest due wait = %v, want 0", h.observer.longestDueWait)
 		}
 	})
 }

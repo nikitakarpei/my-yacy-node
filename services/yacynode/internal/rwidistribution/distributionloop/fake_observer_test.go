@@ -9,19 +9,19 @@ import (
 )
 
 type fakeObserver struct {
-	guard                  sync.Mutex
-	undeliveredPostings    int
-	longestRefreshLateness time.Duration
-	arcsPerState           map[string]int
-	staleHoldersDropped    int
-	postingsHandedOff      int
-	postingsDelivered      int
-	batchesCompleted       int
-	batchesAborted         map[string]int
-	holderRingFractions    []float64
-	peersExcluded          int
-	peersPerSector         []int
-	postingsPerSend        []int
+	guard               sync.Mutex
+	undeliveredPostings int
+	longestDueWait      time.Duration
+	arcsPerState        map[string]int
+	staleHoldersDropped int
+	postingsHandedOff   int
+	postingsDelivered   int
+	batchesCompleted    int
+	batchesAborted      map[string]int
+	holderRingFractions []float64
+	peersExcluded       int
+	peersPerSector      []int
+	postingsPerSend     []int
 }
 
 func newFakeObserver() *fakeObserver {
@@ -37,11 +37,11 @@ func (f *fakeObserver) ObserveUndeliveredPostings(amountOfPostings int) {
 	f.undeliveredPostings = amountOfPostings
 }
 
-func (f *fakeObserver) ObserveLongestRefreshLateness(lateness time.Duration) {
+func (f *fakeObserver) ObserveLongestDueWait(wait time.Duration) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 
-	f.longestRefreshLateness = lateness
+	f.longestDueWait = wait
 }
 
 func (f *fakeObserver) ObserveArcs(amountPerState map[string]int) {
