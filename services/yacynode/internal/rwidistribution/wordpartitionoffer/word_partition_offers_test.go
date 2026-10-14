@@ -195,8 +195,20 @@ func (h *harness) dueNow(
 ) ([]wordpartitionoffer.WordPartitionOffer, wordpartitionoffer.Cursor) {
 	t.Helper()
 
+	batch := h.dueBatch(t, from, reachablePeers...)
+
+	return batch.Offers, batch.Next
+}
+
+func (h *harness) dueBatch(
+	t *testing.T,
+	from wordpartitionoffer.Cursor,
+	reachablePeers ...yacymodel.Seed,
+) wordpartitionoffer.DueBatch {
+	t.Helper()
+
 	h.reachability.reachable = reachablePeers
-	offers, next, err := h.offers.DueNowIn(
+	batch, err := h.offers.DueNowIn(
 		context.Background(),
 		fixtureSector(),
 		from,
@@ -206,7 +218,7 @@ func (h *harness) dueNow(
 		t.Fatalf("DueNowIn: %v", err)
 	}
 
-	return offers, next
+	return batch
 }
 
 func (h *harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -834,5 +846,123 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	}
 	if !slices.Equal(offer.ResponsiblePeers, []yacymodel.Hash{holder.Hash, nextPeer.Hash}) {
 		t.Fatalf("ResponsiblePeers = %v, want the holder and the next peer", offer.ResponsiblePeers)
+	}
+}
+
+func TestAnUndeliveredWordPartitionWithARecipientInCooldownIsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	peer := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.eligibility.cooldowns[peer.Hash] = time.Minute
+
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peer)
+
+	assertSkips(t, batch.Skips,
+		wordpartitionoffer.UndeliveredOffer,
+		wordpartitionoffer.SkipRecipientInCooldown,
+	)
+}
+
+func TestAnUndeliveredWordPartitionInRetryIsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.recordNoHolders(t, wordPartition)
+
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+
+	assertSkips(t, batch.Skips,
+		wordpartitionoffer.UndeliveredOffer,
+		wordpartitionoffer.SkipWordPartitionInRetry,
+	)
+}
+
+func TestAnUndeliveredWordPartitionWithoutRecipientsIsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	absentHolder := peerAfter(wordPartition, 1<<40)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.recordHolders(t, wordPartition, absentHolder.Hash)
+	h.reachability.recentlyReachable[absentHolder.Hash] = true
+
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+
+	assertSkips(
+		t,
+		batch.Skips,
+		wordpartitionoffer.UndeliveredOffer,
+		wordpartitionoffer.SkipNoRecipient,
+	)
+}
+
+func TestADueRefreshWithARecipientInCooldownIsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	holder := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.clock = h.clock.Add(refreshInterval)
+	h.eligibility.cooldowns[holder.Hash] = time.Minute
+
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, holder)
+
+	assertSkips(
+		t,
+		batch.Skips,
+		wordpartitionoffer.RefreshOffer,
+		wordpartitionoffer.SkipRecipientInCooldown,
+	)
+}
+
+func TestADueRefreshWithoutRecipientsIsSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	absentHolder := peerAfter(wordPartition, 1<<40)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.deliverEverything(t)
+	h.recordHolders(t, wordPartition, absentHolder.Hash)
+	h.reachability.recentlyReachable[absentHolder.Hash] = true
+	h.clock = h.clock.Add(refreshInterval)
+
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, peerAfter(wordPartition, 0))
+
+	assertSkips(
+		t,
+		batch.Skips,
+		wordpartitionoffer.RefreshOffer,
+		wordpartitionoffer.SkipNoRecipient,
+	)
+}
+
+func TestAnOfferedWordPartitionIsNotSkipped(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := wordPartitionsInRingOrder(t, 1)[0]
+	holder := peerAfter(wordPartition, 0)
+	h.admit(t, wordPartition, urlsOfPartition(2)...)
+	h.recordHolders(t, wordPartition, holder.Hash)
+	h.clock = h.clock.Add(refreshInterval)
+
+	batch := h.dueBatch(t, wordpartitionoffer.Cursor{}, holder)
+
+	if len(batch.Offers) == 0 || len(batch.Skips) != 0 {
+		t.Fatalf("offers = %v and skips = %v, want an offer and no skip", batch.Offers, batch.Skips)
+	}
+}
+
+func assertSkips(
+	t *testing.T,
+	skips []wordpartitionoffer.Skip,
+	offerKind wordpartitionoffer.OfferKind,
+	skipReason wordpartitionoffer.SkipReason,
+) {
+	t.Helper()
+
+	want := []wordpartitionoffer.Skip{
+		{Offer: offerKind, Reason: skipReason},
+	}
+	if !slices.Equal(skips, want) {
+		t.Fatalf("skips = %v, want %v", skips, want)
 	}
 }

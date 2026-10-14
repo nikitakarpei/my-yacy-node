@@ -72,6 +72,7 @@ type Loop struct {
 	batchObserver   BatchObserver
 	dhtRingObserver DHTRingObserver
 	sectorTurns     *sectorTurns
+	waiting         *waitingWordPartitions
 	gauges          *gaugeObservation
 	config          Config
 }
@@ -105,6 +106,7 @@ func New(
 		batchObserver:   batchObserver,
 		dhtRingObserver: dhtRingObserver,
 		sectorTurns:     newSectorTurns(clock, config.SectorRescanDelay),
+		waiting:         newWaitingWordPartitions(),
 		gauges: &gaugeObservation{
 			vault:           v,
 			offers:          offers,
@@ -167,25 +169,33 @@ func (l *Loop) offerDueBatchIn(
 	sector yacymodel.DHTRingSector,
 	peers []yacymodel.Seed,
 ) {
-	offers, next, err := l.offers.DueNowIn(ctx, sector, l.sectorTurns.cursorOf(sector), peers)
+	batch, err := l.offers.DueNowIn(ctx, sector, l.sectorTurns.cursorOf(sector), peers)
 	if err != nil {
 		l.reportDuePostingsUnread(ctx, err)
 		l.sectorTurns.delayRescan(sector)
 
 		return
 	}
-	if len(offers) > 0 {
-		answers := sendOffers(ctx, l.transfers, l.eligibility, offers, l.config.PostingsPerBatch)
-		if err := l.commitBatch(ctx, offers, answers); err != nil {
+	if len(batch.Offers) > 0 {
+		answers := sendOffers(
+			ctx,
+			l.transfers,
+			l.eligibility,
+			batch.Offers,
+			l.config.PostingsPerBatch,
+		)
+		if err := l.commitBatch(ctx, batch.Offers, answers); err != nil {
 			l.reportBatchUnwritten(ctx, err)
 			l.sectorTurns.delayRescan(sector)
 
 			return
 		}
 	}
-	l.sectorTurns.advance(sector, next)
-	if endsSectorPass(next) {
+	l.sectorTurns.advance(sector, batch.Next)
+	l.waiting.add(sector, batch.Skips)
+	if endsSectorPass(batch.Next) {
 		l.sectorTurns.delayRescan(sector)
+		l.reportWaiting(l.waiting.endPassIn(sector))
 	}
 	l.batchObserver.ObserveBatchCompleted()
 }
@@ -300,4 +310,14 @@ func (l *Loop) reportBatchUnwritten(ctx context.Context, err error) {
 
 func endsSectorPass(next wordpartitionoffer.Cursor) bool {
 	return next == (wordpartitionoffer.Cursor{})
+}
+
+func (l *Loop) reportWaiting(amountsPerKind map[waitingKind]int) {
+	for kind, amountOfWordPartitions := range amountsPerKind {
+		l.batchObserver.ObserveWordPartitionsWaiting(
+			string(kind.offer),
+			string(kind.reason),
+			amountOfWordPartitions,
+		)
+	}
 }

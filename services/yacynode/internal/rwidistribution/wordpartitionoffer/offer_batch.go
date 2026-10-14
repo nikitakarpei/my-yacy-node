@@ -9,6 +9,7 @@ const readBudgetPerPosting = 10
 
 type offerBatch struct {
 	offers           []WordPartitionOffer
+	skips            []Skip
 	next             Cursor
 	amountOfPostings int
 	amountOfReads    int
@@ -38,6 +39,10 @@ func (b *offerBatch) add(offer WordPartitionOffer) {
 	for _, recipient := range offer.Recipients {
 		b.amountOfPostings += len(recipient.Postings)
 	}
+}
+
+func (b *offerBatch) skip(offerKind OfferKind, skipReason SkipReason) {
+	b.skips = append(b.skips, Skip{Offer: offerKind, Reason: skipReason})
 }
 
 func (b *offerBatch) roomLeft() int {

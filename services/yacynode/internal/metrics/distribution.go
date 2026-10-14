@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	labelOutcome = "result"
-	labelReason  = "reason"
+	labelOutcome   = "result"
+	labelReason    = "reason"
+	labelOfferKind = "offer"
 )
 
 type DistributionMetrics struct {
@@ -25,6 +26,7 @@ type DistributionMetrics struct {
 	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
 	peersExcluded          prometheus.Counter
+	wordPartitionsWaiting  *prometheus.GaugeVec
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -94,6 +96,12 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_peers_excluded_total",
 			"Peers excluded from distribution after failed offers in a row.",
 		),
+		wordPartitionsWaiting: gaugePerLabelsFor(
+			"yacynode_rwidistribution_word_partitions_waiting",
+			"Different word partitions the last pass over each ring sector did not send, by offer and reason.",
+			labelOfferKind,
+			labelReason,
+		),
 	}
 }
 
@@ -112,6 +120,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.batchesCompleted,
 		d.batchesAborted,
 		d.peersExcluded,
+		d.wordPartitionsWaiting,
 	}
 }
 
@@ -125,6 +134,10 @@ func counterFor(name string, help string) prometheus.Counter {
 
 func gaugeFor(name string, help string) prometheus.Gauge {
 	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
+}
+
+func gaugePerLabelsFor(name string, help string, labels ...string) *prometheus.GaugeVec {
+	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, labels)
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -171,4 +184,13 @@ func (d *DistributionMetrics) ObserveBatchAborted(reason string) {
 
 func (d *DistributionMetrics) ObservePeerExcluded() {
 	d.peersExcluded.Inc()
+}
+
+func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
+	offerKind string,
+	skipReason string,
+	amountOfWordPartitions int,
+) {
+	d.wordPartitionsWaiting.WithLabelValues(offerKind, skipReason).
+		Set(float64(amountOfWordPartitions))
 }

@@ -256,3 +256,26 @@ yacynode_rwidistribution_peers_excluded_total 2
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
+
+func TestDistributionReportsWaitingWordPartitionsByOfferAndReason(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObserveWordPartitionsWaiting("undelivered", "recipient_in_cooldown", 5)
+	observer.ObserveWordPartitionsWaiting("undelivered", "recipient_in_cooldown", 3)
+	observer.ObserveWordPartitionsWaiting("refresh", "no_recipient", 1)
+
+	expected := `
+# HELP yacynode_rwidistribution_word_partitions_waiting Different word partitions the last pass over each ring sector did not send, by offer and reason.
+# TYPE yacynode_rwidistribution_word_partitions_waiting gauge
+yacynode_rwidistribution_word_partitions_waiting{offer="refresh",reason="no_recipient"} 1
+yacynode_rwidistribution_word_partitions_waiting{offer="undelivered",reason="recipient_in_cooldown"} 3
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_word_partitions_waiting",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}

@@ -43,8 +43,34 @@ type PeerEligibility interface {
 	IsExcluded(peer yacymodel.Hash) bool
 }
 
-type Observer interface {
+type DHTRingObserver interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
+}
+
+type OfferKind string
+
+const (
+	UndeliveredOffer OfferKind = "undelivered"
+	RefreshOffer     OfferKind = "refresh"
+)
+
+type SkipReason string
+
+const (
+	SkipRecipientInCooldown  SkipReason = "recipient_in_cooldown"
+	SkipWordPartitionInRetry SkipReason = "word_partition_in_retry"
+	SkipNoRecipient          SkipReason = "no_recipient"
+)
+
+type Skip struct {
+	Offer  OfferKind
+	Reason SkipReason
+}
+
+type DueBatch struct {
+	Offers []WordPartitionOffer
+	Next   Cursor
+	Skips  []Skip
 }
 
 type Config struct {
@@ -55,14 +81,14 @@ type Config struct {
 }
 
 type WordPartitionOffers struct {
-	vault        *vault.Vault
-	undelivered  *undeliveredpostings.UndeliveredPostings
-	holders      *wordpartitionholders.Holders
-	postings     PostingIndex
-	reachability Reachability
-	eligibility  PeerEligibility
-	observer     Observer
-	config       Config
+	vault           *vault.Vault
+	undelivered     *undeliveredpostings.UndeliveredPostings
+	holders         *wordpartitionholders.Holders
+	postings        PostingIndex
+	reachability    Reachability
+	eligibility     PeerEligibility
+	dhtRingObserver DHTRingObserver
+	config          Config
 }
 
 //nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
@@ -73,23 +99,23 @@ func New(
 	postings PostingIndex,
 	reachability Reachability,
 	eligibility PeerEligibility,
-	observer Observer,
+	dhtRingObserver DHTRingObserver,
 	config Config,
 ) *WordPartitionOffers {
 	return &WordPartitionOffers{
-		vault:        v,
-		undelivered:  undelivered,
-		holders:      holders,
-		postings:     postings,
-		reachability: reachability,
-		eligibility:  eligibility,
-		observer:     observer,
-		config:       config,
+		vault:           v,
+		undelivered:     undelivered,
+		holders:         holders,
+		postings:        postings,
+		reachability:    reachability,
+		eligibility:     eligibility,
+		dhtRingObserver: dhtRingObserver,
+		config:          config,
 	}
 }
 
 func (o *WordPartitionOffers) ReportPeersAcceptingRemoteIndex(reachablePeers []yacymodel.Seed) {
-	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+	o.dhtRingObserver.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
 		yacymodel.SeedsPerDHTRingSector(peersAcceptingRemoteIndex(reachablePeers)),
 	)
 }
@@ -116,7 +142,7 @@ func (o *WordPartitionOffers) DueNowIn(
 	sector yacymodel.DHTRingSector,
 	from Cursor,
 	reachablePeers []yacymodel.Seed,
-) (offers []WordPartitionOffer, next Cursor, err error) {
+) (DueBatch, error) {
 	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
 	batch := offerBatchFrom(from, o.config.PostingsPerBatch)
 	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
@@ -132,10 +158,10 @@ func (o *WordPartitionOffers) DueNowIn(
 
 		return o.addDueRefreshes(ctx, tx, sector, acceptingPeers, &batch)
 	}); err != nil {
-		return nil, Cursor{}, err
+		return DueBatch{}, err
 	}
 
-	return batch.offers, batch.next, nil
+	return DueBatch{Offers: batch.offers, Next: batch.next, Skips: batch.skips}, nil
 }
 
 func (o *WordPartitionOffers) acceptingPeersAmong(
@@ -174,13 +200,17 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if isInRetry {
+			batch.skip(UndeliveredOffer, SkipWordPartitionInRetry)
+
 			continue
 		}
 		peers, err := o.peersOf(ctx, tx, undelivered[0].WordPartition, acceptingPeers)
 		if err != nil {
 			return err
 		}
-		if peers.mustWaitFor(o.eligibility) {
+		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
+			batch.skip(UndeliveredOffer, skipReason)
+
 			continue
 		}
 		offer, err := o.undeliveredOfferFor(tx, undelivered, peers)
@@ -367,7 +397,9 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		if peers.mustWaitFor(o.eligibility) {
+		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
+			batch.skip(RefreshOffer, skipReason)
+
 			continue
 		}
 		offer, err := o.refreshOfferFor(tx, peers)
