@@ -36,8 +36,6 @@ components:
     in: internal/urlmeta/**
   urlmetastaleness:
     in: internal/urlmetastaleness/**
-  urlreferences:
-    in: internal/urlreferences/**
   urlpostingpurge:
     in: internal/urlpostingpurge/**
   rwipostings:
@@ -218,12 +216,6 @@ deps:
       - hashkeypart
     canUse:
       - vault
-  urlreferences:
-    mayDependOn:
-      - rwipostings
-      - hashkeypart
-    canUse:
-      - vault
   rwipostings:
     mayDependOn:
       - hashkeypart
@@ -262,7 +254,6 @@ deps:
       - rwipostings
       - rwiescrow
       - urlmeta
-      - urlreferences
     canUse:
       - vault
   rwiingress:
@@ -332,7 +323,6 @@ deps:
   urlpostingpurge:
     mayDependOn:
       - rwipostings
-      - urlreferences
     canUse:
       - vault
   eviction:

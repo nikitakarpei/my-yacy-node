@@ -51,7 +51,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -147,11 +146,6 @@ func assembleNode(
 		return node{}, fmt.Errorf("url metadata staleness: %w", err)
 	}
 
-	urlReferences, urlReferenceProjection, err := urlreferences.Open(storage)
-	if err != nil {
-		return node{}, fmt.Errorf("url references: %w", err)
-	}
-
 	postingImpactOrder, postingImpactProjection, err := rwipostingimpactorder.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
@@ -192,12 +186,11 @@ func assembleNode(
 		return node{}, err
 	}
 
-	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
+	postings, urlReferences, postingAdmitter, postingPurger, err := rwipostings.Open(
 		ctx,
 		storage,
 		dhtRingPartitions,
 		[]vault.Projection[yacymodel.RWIPosting]{
-			urlReferenceProjection,
 			postingImpactProjection,
 			postingAmountProjection,
 			ringOccupancyProjection,

@@ -13,8 +13,9 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	postings   *vault.Collection[postingIdentity, yacymodel.RWIPosting]
-	partitions yacymodel.DHTRingPartitions
+	postings      *vault.Collection[postingIdentity, yacymodel.RWIPosting]
+	urlReferences *vault.SecondPartIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity]
+	partitions    yacymodel.DHTRingPartitions
 }
 
 func (d postingDirectory) PostingOf(
@@ -68,13 +69,49 @@ func postingWithIdentity(
 	return storedPosting
 }
 
-func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	identity := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	if _, err := d.postings.Put(tx, identity, posting); err != nil {
-		return fmt.Errorf("store rwi posting: %w", err)
+func (d postingDirectory) WordsReferencing(
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+) ([]yacymodel.Hash, error) {
+	var words []yacymodel.Hash
+	if err := d.urlReferences.Scan(tx, url, func(identity postingIdentity) (bool, error) {
+		words = append(words, identity.word)
+
+		return true, nil
+	}); err != nil {
+		return nil, fmt.Errorf("scan words referencing a url: %w", err)
+	}
+
+	return words, nil
+}
+
+func (d postingDirectory) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+	if err := d.postings.PutEach(tx, keyedPostingsOf(postings)); err != nil {
+		return fmt.Errorf("store rwi postings: %w", err)
 	}
 
 	return nil
+}
+
+func keyedPostingsOf(
+	postings []yacymodel.RWIPosting,
+) []vault.KeyedValue[postingIdentity, yacymodel.RWIPosting] {
+	keyedPostings := make(
+		[]vault.KeyedValue[postingIdentity, yacymodel.RWIPosting],
+		0,
+		len(postings),
+	)
+	for _, posting := range postings {
+		keyedPostings = append(
+			keyedPostings,
+			vault.KeyedValue[postingIdentity, yacymodel.RWIPosting]{
+				Key:   postingIdentity{word: posting.WordHash, url: posting.URLHash},
+				Value: posting,
+			},
+		)
+	}
+
+	return keyedPostings
 }
 
 func (d postingDirectory) PurgePosting(
@@ -93,6 +130,7 @@ func (d postingDirectory) PurgePosting(
 
 var (
 	_ PostingIndex    = postingDirectory{}
+	_ URLReferences   = postingDirectory{}
 	_ PostingAdmitter = postingDirectory{}
 	_ PostingPurger   = postingDirectory{}
 )

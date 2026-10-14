@@ -6,11 +6,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 type URLPostingPurge struct {
-	references urlreferences.ReferenceQuery
+	references rwipostings.URLReferences
 	purger     rwipostings.PostingPurger
 	observer   Observer
 }

@@ -89,7 +89,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(
+	index, _, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),

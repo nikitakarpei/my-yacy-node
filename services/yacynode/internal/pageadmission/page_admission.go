@@ -60,27 +60,20 @@ func (a pageAdmission) replaceEverythingHeldForPage(
 		return fmt.Errorf("admit page url metadata: %w", err)
 	}
 
-	return a.admitEachPosting(ctx, tx, page.Postings)
+	return a.postings.Admit(tx, a.postingsWithoutStopwordsOf(page.Postings)...)
 }
 
-func (a pageAdmission) admitEachPosting(
-	ctx context.Context,
-	tx *vault.Txn,
+func (a pageAdmission) postingsWithoutStopwordsOf(
 	postings []yacymodel.RWIPosting,
-) error {
+) []yacymodel.RWIPosting {
+	postingsWithoutStopwords := make([]yacymodel.RWIPosting, 0, len(postings))
 	for _, posting := range postings {
-		if err := ctx.Err(); err != nil {
-			return fmt.Errorf("context: %w", err)
-		}
-		if a.stopwords.Contains(posting.WordHash, posting.Language) {
-			continue
-		}
-		if err := a.postings.Admit(tx, posting); err != nil {
-			return fmt.Errorf("admit page posting: %w", err)
+		if !a.stopwords.Contains(posting.WordHash, posting.Language) {
+			postingsWithoutStopwords = append(postingsWithoutStopwords, posting)
 		}
 	}
 
-	return nil
+	return postingsWithoutStopwords
 }
 
 var _ PageReceiver = pageAdmission{}

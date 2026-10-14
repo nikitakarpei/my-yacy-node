@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
@@ -267,15 +266,11 @@ func openIndexedPage(t *testing.T) indexedPage {
 	t.Helper()
 
 	v := openVault(t, quotaFarAboveUsage)
-	references, referenceProjection, err := urlreferences.Open(v)
-	if err != nil {
-		t.Fatalf("urlreferences.Open: %v", err)
-	}
-	index, admitter, purger, err := rwipostings.Open(
+	index, references, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
-		[]vault.Projection[yacymodel.RWIPosting]{referenceProjection},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)

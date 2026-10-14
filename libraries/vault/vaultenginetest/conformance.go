@@ -1,7 +1,7 @@
 // Package vaultenginetest holds the storage-contract suite every vault Engine driver
 // runs against itself: durable round trips, bounded scans, transaction atomicity,
-// bucket isolation, byte accounting, amounts that add up without a read, and index
-// entries that follow their records. Engine-independent behaviour lives with the
+// bucket isolation, byte accounting, amounts that add up without a read, index
+// entries that follow their records, and puts of many records that count each once. Engine-independent behaviour lives with the
 // port's own tests.
 package vaultenginetest
 
@@ -69,6 +69,7 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 	)
 	runAmountConformance(t, open)
 	runIndexConformance(t, open)
+	runPutEachConformance(t, open)
 }
 
 func openVault(
