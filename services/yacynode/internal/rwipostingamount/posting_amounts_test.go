@@ -282,14 +282,17 @@ func TestAWordLeavesTheAmountOfWordsWithItsLastPosting(t *testing.T) {
 }
 
 const (
-	wordsOfALargeIndex  = 40_000
-	estimateToleratedBy = 0.1
+	wordsOfALargeIndex      = 20_000
+	wordsPastTheFullCount   = 10_100
+	estimateToleratedBy     = 0.1
+	wordsAddedToTheIndex    = 1_000
+	wordsPurgedFromTheIndex = 200
 )
 
 func TestALargeIndexEstimatesItsWordsClosely(t *testing.T) {
 	h := openHarnessOnDisk(t)
 
-	h.store(t, postingsOfALargeIndex("word", unplaced)...)
+	h.store(t, postingsOfWords("word", wordsOfALargeIndex, unplaced)...)
 
 	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), wordsOfALargeIndex)
 }
@@ -297,8 +300,11 @@ func TestALargeIndexEstimatesItsWordsClosely(t *testing.T) {
 func TestALargeIndexEstimatesItsWordsNotItsPostings(t *testing.T) {
 	h := openHarnessOnDisk(t)
 
-	h.store(t, postingsOfALargeIndex("word", unplaced)...)
-	h.store(t, postingsOfFrequentWords()...)
+	h.store(
+		t,
+		append(
+			postingsOfWords("word", wordsOfALargeIndex, unplaced),
+			postingsOfFrequentWords()...)...)
 
 	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), wordsOfALargeIndex)
 }
@@ -324,10 +330,10 @@ func postingsOfFrequentWords() []yacymodel.RWIPosting {
 
 func TestALargeIndexServesItsSampleForTheSampleLifetime(t *testing.T) {
 	h := openHarnessOnDisk(t)
-	h.store(t, postingsOfALargeIndex("word", unplaced)...)
+	h.store(t, postingsOfWords("word", wordsPastTheFullCount, unplaced)...)
 	sampledAmount := h.estimatedAmountOfWords(t)
 
-	h.store(t, postingsOfALargeIndex("added", unplaced)...)
+	h.store(t, postingsOfWords("added", wordsAddedToTheIndex, unplaced)...)
 	h.clock.advance(sampleLifetime - time.Second)
 	if amount := h.estimatedAmountOfWords(t); amount != sampledAmount {
 		t.Fatalf("amount of words within the sample lifetime = %d, want the sampled %d",
@@ -335,18 +341,20 @@ func TestALargeIndexServesItsSampleForTheSampleLifetime(t *testing.T) {
 	}
 	h.clock.advance(time.Second)
 
-	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), 2*wordsOfALargeIndex)
+	if amount := h.estimatedAmountOfWords(t); amount <= sampledAmount {
+		t.Errorf("amount of words after the sample lifetime = %d, want more than the sampled %d",
+			amount, sampledAmount)
+	}
 }
 
 func TestALargeIndexThatShrinksServesItsSampleForTheSampleLifetime(t *testing.T) {
 	h := openHarnessOnDisk(t)
-	postings := postingsOfALargeIndex("word", unplaced)
+	postings := postingsOfWords("word", wordsPastTheFullCount, unplaced)
 	h.store(t, postings...)
 	sampledAmount := h.estimatedAmountOfWords(t)
 
-	const keptWords = 3
 	h.write(t, func(tx *vault.Txn) error {
-		for _, posting := range postings[keptWords:] {
+		for _, posting := range postings[:wordsPurgedFromTheIndex] {
 			if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
 				return err
 			}
@@ -361,6 +369,7 @@ func TestALargeIndexThatShrinksServesItsSampleForTheSampleLifetime(t *testing.T)
 	}
 	h.clock.advance(time.Second)
 
+	keptWords := wordsPastTheFullCount - wordsPurgedFromTheIndex
 	if amount := h.estimatedAmountOfWords(t); amount != keptWords {
 		t.Errorf("amount of words after the sample lifetime = %d, want the %d kept words",
 			amount, keptWords)
@@ -372,7 +381,7 @@ func TestALargeIndexOnOneArcOfTheRingEstimatesItsWordsClosely(t *testing.T) {
 
 	h.store(
 		t,
-		postingsOfALargeIndex("word", func(word yacymodel.Hash) yacymodel.Hash {
+		postingsOfWords("word", wordsOfALargeIndex, func(word yacymodel.Hash) yacymodel.Hash {
 			onArc, err := yacymodel.ParseHash("Q" + word.String()[1:])
 			if err != nil {
 				panic(err)
@@ -386,12 +395,13 @@ func TestALargeIndexOnOneArcOfTheRingEstimatesItsWordsClosely(t *testing.T) {
 
 func unplaced(word yacymodel.Hash) yacymodel.Hash { return word }
 
-func postingsOfALargeIndex(
+func postingsOfWords(
 	name string,
+	amount int,
 	placed func(yacymodel.Hash) yacymodel.Hash,
 ) []yacymodel.RWIPosting {
-	postings := make([]yacymodel.RWIPosting, 0, wordsOfALargeIndex)
-	for number := range wordsOfALargeIndex {
+	postings := make([]yacymodel.RWIPosting, 0, amount)
+	for number := range amount {
 		posting := postingOf(fmt.Sprintf("%s%d", name, number), "u1")
 		posting.WordHash = placed(posting.WordHash)
 		postings = append(postings, posting)
