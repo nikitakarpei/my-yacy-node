@@ -14,7 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
 const (
@@ -33,12 +32,14 @@ type refusedAdmitter struct {
 	word     yacymodel.Hash
 }
 
-func (r refusedAdmitter) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if posting.WordHash == r.word {
-		return errAdmissionRefused
+func (r refusedAdmitter) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+	for _, posting := range postings {
+		if posting.WordHash == r.word {
+			return errAdmissionRefused
+		}
 	}
 
-	return r.admitter.Admit(tx, posting)
+	return r.admitter.Admit(tx, postings...)
 }
 
 type stopwordThe struct{}
@@ -77,15 +78,11 @@ func openHarnessWithAdmitter(
 		}
 	})
 
-	references, referenceProjection, err := urlreferences.Open(v)
-	if err != nil {
-		t.Fatalf("urlreferences.Open: %v", err)
-	}
-	index, admitter, purger, err := rwipostings.Open(
+	index, references, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
-		[]vault.Projection[yacymodel.RWIPosting]{referenceProjection},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)

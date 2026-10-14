@@ -25,10 +25,20 @@ func (s *Schedule) AdmitterFrom(
 	}
 }
 
-func (a schedulingAdmitter) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if err := a.admitter.Admit(tx, posting); err != nil {
+func (a schedulingAdmitter) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+	if err := a.admitter.Admit(tx, postings...); err != nil {
 		return err
 	}
+	for _, posting := range postings {
+		if err := a.countAdmission(tx, posting); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (a schedulingAdmitter) countAdmission(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	wordPartition := yacymodel.WordPartitionOfPosting(posting, a.partitions)
 	if err := a.admissions.count(tx, wordPartition); err != nil {
 		return err

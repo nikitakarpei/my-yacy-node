@@ -59,7 +59,7 @@ func openHarness(t *testing.T, opts options) *harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, admitter, _, err := rwipostings.Open(
+	index, _, admitter, _, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),

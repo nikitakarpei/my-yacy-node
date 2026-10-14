@@ -10,37 +10,48 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 )
 
-const postingsBucket vault.Name = "rwi"
+const (
+	postingsBucket      vault.Name = "rwi"
+	urlReferencesBucket vault.Name = "urlreferences_words"
+)
 
 func registerPostings(
 	ctx context.Context,
 	v *vault.Vault,
 	projections []vault.Projection[yacymodel.RWIPosting],
-) (*vault.Collection[postingIdentity, yacymodel.RWIPosting], error) {
-	collection, err := v.RegisterProjectedCollection(
+) (
+	*vault.Collection[postingIdentity, yacymodel.RWIPosting],
+	*vault.SecondPartIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
+	error,
+) {
+	urlReferences, err := v.RegisterSecondPartIndex(
+		urlReferencesBucket,
+		postingKeyParts,
+		func(posting postingIdentity) (yacymodel.Hash, yacymodel.URLHash) {
+			return posting.word, posting.url
+		},
+		func(word yacymodel.Hash, url yacymodel.URLHash) postingIdentity {
+			return postingIdentity{word: word, url: url}
+		},
+	)
+	if err != nil {
+		return nil, nil, fmt.Errorf("register url references: %w", err)
+	}
+	postings, err := v.RegisterIndexedCollection(
 		ctx,
 		postingsBucket,
-		postingKeyLayout,
+		urlReferences,
 		postingValueCodec{},
 		vault.ProjectedAs(postingWithIdentity, projections...),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("register rwi posting collection: %w", err)
+		return nil, nil, fmt.Errorf("register rwi posting collection: %w", err)
 	}
 
-	return collection, nil
+	return postings, urlReferences, nil
 }
 
 var postingKeyParts = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash)
-
-var postingKeyLayout = postingKeyParts.KeyLayoutFor(
-	func(posting postingIdentity) (yacymodel.Hash, yacymodel.URLHash) {
-		return posting.word, posting.url
-	},
-	func(word yacymodel.Hash, url yacymodel.URLHash) postingIdentity {
-		return postingIdentity{word: word, url: url}
-	},
-)
 
 func postingsOfWordBetween(
 	word yacymodel.Hash,

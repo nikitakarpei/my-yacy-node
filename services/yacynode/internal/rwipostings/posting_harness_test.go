@@ -13,10 +13,11 @@ import (
 )
 
 type harness struct {
-	vault    *vault.Vault
-	index    rwipostings.PostingIndex
-	admitter rwipostings.PostingAdmitter
-	purger   rwipostings.PostingPurger
+	vault      *vault.Vault
+	index      rwipostings.PostingIndex
+	references rwipostings.URLReferences
+	admitter   rwipostings.PostingAdmitter
+	purger     rwipostings.PostingPurger
 }
 
 func (h harness) postingOf(
@@ -82,7 +83,7 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	index, admitter, purger, err := rwipostings.Open(
+	index, references, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions,
@@ -92,7 +93,13 @@ func openHarness(t *testing.T) harness {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
-	return harness{vault: v, index: index, admitter: admitter, purger: purger}
+	return harness{
+		vault:      v,
+		index:      index,
+		references: references,
+		admitter:   admitter,
+		purger:     purger,
+	}
 }
 
 var ringPartitions = yacymodel.DHTRingPartitions(1) << 4

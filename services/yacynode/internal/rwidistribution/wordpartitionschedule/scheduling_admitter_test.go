@@ -14,11 +14,11 @@ type fakeAdmitter struct {
 	err      error
 }
 
-func (f *fakeAdmitter) Admit(_ *vault.Txn, posting yacymodel.RWIPosting) error {
+func (f *fakeAdmitter) Admit(_ *vault.Txn, postings ...yacymodel.RWIPosting) error {
 	if f.err != nil {
 		return f.err
 	}
-	f.admitted = append(f.admitted, posting)
+	f.admitted = append(f.admitted, postings...)
 
 	return nil
 }
@@ -38,6 +38,26 @@ func TestSchedulingAdmitterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	want := yacymodel.WordPartitionOfPosting(posting, h.partitions)
 	if due := h.dueWordPartitions(t, 10); !slices.Equal(due, []yacymodel.WordPartition{want}) {
 		t.Fatalf("due word partitions = %v, want [%v]", due, want)
+	}
+}
+
+func TestSchedulingAdmitterCountsEachPostingAdmittedAtOnce(t *testing.T) {
+	h := openHarness(t)
+	observer := &recordingAdmissionObserver{}
+	admitter := h.schedule.AdmitterFrom(&fakeAdmitter{}, observer)
+	postings := []yacymodel.RWIPosting{
+		{WordHash: yacymodel.WordHash("first")},
+		{WordHash: yacymodel.WordHash("second")},
+	}
+
+	h.write(t, func(tx *vault.Txn) error { return admitter.Admit(tx, postings...) })
+	h.scheduleAdmissionsWithin(t, wholeRing)
+
+	if len(observer.positions) != len(postings) {
+		t.Fatalf("reported positions = %v, want one per posting", observer.positions)
+	}
+	if due := h.dueWordPartitions(t, 10); len(due) != len(postings) {
+		t.Fatalf("due word partitions = %v, want one per posting", due)
 	}
 }
 

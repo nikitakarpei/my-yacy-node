@@ -37,19 +37,18 @@ func (v *Vault) registerProjectionVersions() (*Collection[Name, string], error) 
 func (v *Vault) rebuildStaleProjections[K, V any](
 	ctx context.Context,
 	collection *Collection[K, V],
-	projections Projections[K, V],
 ) error {
 	versions, err := v.projectionVersions()
 	if err != nil {
 		return err
 	}
-	stale, err := v.staleProjectionsAmong(ctx, versions, projections.buckets())
+	stale, err := v.staleProjectionsAmong(ctx, versions, collection.projections.buckets())
 	if err != nil || len(stale) == 0 {
 		return err
 	}
 	rebuildBegan := time.Now()
 	reportRebuildBegan(ctx, collection.name, stale)
-	if err := v.rebuildProjections(ctx, collection, projections, stale); err != nil {
+	if err := v.rebuildProjections(ctx, collection, stale); err != nil {
 		return err
 	}
 	if err := v.recordProjectionVersions(ctx, versions, stale); err != nil {
@@ -107,7 +106,6 @@ func bucketNamesOf(buckets []projectionBucket) []Name {
 func (v *Vault) rebuildProjections[K, V any](
 	ctx context.Context,
 	collection *Collection[K, V],
-	projections Projections[K, V],
 	stale []projectionBucket,
 ) error {
 	for _, bucket := range stale {
@@ -115,7 +113,7 @@ func (v *Vault) rebuildProjections[K, V any](
 			return fmt.Errorf("clear stale projection: %w", err)
 		}
 	}
-	staleProjections := projections.narrowedTo(stale)
+	staleProjections := collection.projections.narrowedTo(stale)
 	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
 		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
 	}); err != nil {

@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"maps"
 )
 
 var errReadOnly = errors.New("write inside read-only transaction")
@@ -14,7 +15,20 @@ type Collection[K, V any] struct {
 	keys        KeyLayout[K]
 	values      ValueCodec[V]
 	projections Projections[K, V]
+	secondParts secondPartLookup[K]
 }
+
+type KeyedValue[K, V any] struct {
+	Key   K
+	Value V
+}
+
+type secondPartLookup[K any] interface {
+	secondPartOf(key K) string
+	storedNeighboursOf(tx *Txn, key K) (map[string]struct{}, error)
+}
+
+const fewestRecordsPerSecondPartRead = 8
 
 func (v *Vault) RegisterCollection[K, V any](
 	bucket Name,
@@ -35,15 +49,25 @@ func (v *Vault) RegisterProjectedCollection[K, V any](
 	values ValueCodec[V],
 	projections Projections[K, V],
 ) (*Collection[K, V], error) {
-	collection, err := v.RegisterCollection(bucket, keys, values)
-	if err != nil {
+	return v.registerProjected(ctx, &Collection[K, V]{
+		name:        bucket,
+		keys:        keys,
+		values:      values,
+		projections: projections,
+	})
+}
+
+func (v *Vault) registerProjected[K, V any](
+	ctx context.Context,
+	collection *Collection[K, V],
+) (*Collection[K, V], error) {
+	if err := v.provisionRecordsBucket(collection.name); err != nil {
 		return nil, err
 	}
-	if err := followEach(projections.buckets()); err != nil {
+	if err := followEach(collection.projections.buckets()); err != nil {
 		return nil, err
 	}
-	collection.projections = projections
-	if err := v.rebuildStaleProjections(ctx, collection, projections); err != nil {
+	if err := v.rebuildStaleProjections(ctx, collection); err != nil {
 		return nil, err
 	}
 
@@ -159,6 +183,98 @@ func (c *Collection[K, V]) storedFormFrom(record []byte) (storedForm[V], error) 
 	}
 
 	return storedForm[V]{form: val, stored: record}, nil
+}
+
+func (c *Collection[K, V]) PutEach(tx *Txn, keyedValues []KeyedValue[K, V]) error {
+	absentPositions, err := c.absentPositionsAmong(tx, keyedValues)
+	if err != nil {
+		return err
+	}
+	for position, keyedValue := range keyedValues {
+		if _, isAbsent := absentPositions[position]; isAbsent {
+			err = c.storeAbsentRecord(tx, keyedValue.Key, keyedValue.Value)
+		} else {
+			_, err = c.storeRecord(tx, keyedValue.Key, keyedValue.Value)
+		}
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (c *Collection[K, V]) absentPositionsAmong(
+	tx *Txn,
+	keyedValues []KeyedValue[K, V],
+) (map[int]struct{}, error) {
+	if c.secondParts == nil {
+		return nil, nil
+	}
+	storedKeysPerSecondPart, err := c.storedKeysWithin(tx, c.crowdedSecondPartsAmong(keyedValues))
+	if err != nil {
+		return nil, err
+	}
+	absentPositions := make(map[int]struct{})
+	for position, keyedValue := range keyedValues {
+		storedKeys, isRead := storedKeysPerSecondPart[c.secondParts.secondPartOf(keyedValue.Key)]
+		storedKey := string(c.keys.Encode(keyedValue.Key).encoded)
+		if _, isStored := storedKeys[storedKey]; isRead && !isStored {
+			absentPositions[position] = struct{}{}
+			storedKeys[storedKey] = struct{}{}
+		}
+	}
+
+	return absentPositions, nil
+}
+
+func (c *Collection[K, V]) crowdedSecondPartsAmong(keyedValues []KeyedValue[K, V]) map[string]K {
+	amountPerSecondPart := make(map[string]int)
+	keyPerSecondPart := make(map[string]K)
+	for _, keyedValue := range keyedValues {
+		secondPart := c.secondParts.secondPartOf(keyedValue.Key)
+		amountPerSecondPart[secondPart]++
+		keyPerSecondPart[secondPart] = keyedValue.Key
+	}
+	maps.DeleteFunc(keyPerSecondPart, func(secondPart string, _ K) bool {
+		return amountPerSecondPart[secondPart] < fewestRecordsPerSecondPartRead
+	})
+
+	return keyPerSecondPart
+}
+
+func (c *Collection[K, V]) storedKeysWithin(
+	tx *Txn,
+	keyPerSecondPart map[string]K,
+) (map[string]map[string]struct{}, error) {
+	storedKeysPerSecondPart := make(map[string]map[string]struct{}, len(keyPerSecondPart))
+	for secondPart, key := range keyPerSecondPart {
+		storedKeys, err := c.secondParts.storedNeighboursOf(tx, key)
+		if err != nil {
+			return nil, err
+		}
+		storedKeysPerSecondPart[secondPart] = storedKeys
+	}
+
+	return storedKeysPerSecondPart, nil
+}
+
+func (c *Collection[K, V]) storeAbsentRecord(tx *Txn, key K, val V) error {
+	if !tx.etx.Writable() {
+		return errReadOnly
+	}
+	tx.calledWriteOperation = true
+
+	payload, err := c.values.Encode(val)
+	if err != nil {
+		return fmt.Errorf("encode %s: %w", c.name, err)
+	}
+	record := recordFrom(payload)
+	if err := tx.etx.Records(c.name).PutAbsent(c.keys.Encode(key).encoded, record); err != nil {
+		return fmt.Errorf("store %s: %w", c.name, err)
+	}
+
+	return c.followStored(tx, key, storedForm[V]{form: val, stored: record}, nil)
 }
 
 func (c *Collection[K, V]) PutReturning(
