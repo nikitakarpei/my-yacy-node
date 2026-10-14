@@ -25,9 +25,10 @@ the postings that enough responsible peers hold.
   the word partition. It becomes a holder only when it accepts all of them.
 - After the refresh interval, each holder gets all postings again. A holder that
   answers a refresh but does not accept every posting stops being a holder until
-  it gets them all. A holder that declines stays a holder. A word partition with
-  fewer holders than its responsible peers is sent again after the recipient
-  cooldown.
+  it gets them all. A holder that declines stays a holder.
+- A word partition with fewer holders than its responsible peers is sent again
+  after the recipient cooldown. Each next try waits double the previous wait, up
+  to the refresh interval.
 - A peer accepted a posting only when it also got the URL metadata of that
   posting. Only peers that accept a remote index get postings.
 - A peer that declines goes into a cooldown. A word partition that must go to

@@ -78,5 +78,5 @@ A word partition is one word in one ring partition. Its postings are the posting
 | `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often a cycle starts (e.g. `30s`, `1m`, `10m`). |
 | `YACY_DISTRIBUTION_DRAIN_BUDGET` | `1m` | How long one cycle offers batches before it stops and waits for the next cycle. |
 | `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again (refresh). |
-| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition with too few holders is sent again after this time. |
+| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition with too few holders is sent again after this time, then after double the previous wait on each try, up to the refresh interval. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |
