@@ -352,8 +352,8 @@ func TestLoopDropsAStaleHolder(t *testing.T) {
 		if got := h.holdersOf(t, wordPartition); !slices.Equal(got, want) {
 			t.Fatalf("holders = %v, want %v in place of the stale holder", got, want)
 		}
-		if h.observer.staleReplicasDropped != 1 {
-			t.Fatalf("staleReplicasDropped = %d, want 1", h.observer.staleReplicasDropped)
+		if h.observer.staleHoldersDropped != 1 {
+			t.Fatalf("staleHoldersDropped = %d, want 1", h.observer.staleHoldersDropped)
 		}
 	})
 }
@@ -431,6 +431,23 @@ func TestLoopMergesTheSendsToOnePeerAndSplitsThemIntoTransfers(t *testing.T) {
 				"first transfer = %+v, want postings of both word partitions",
 				offered[0].Postings,
 			)
+		}
+	})
+}
+
+func TestLoopSendsNoMoreTransfersToAPeerThatDeclinedOne(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{postingsPerBatch: 2})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = declinedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		if offered := h.transfers.offeredTo(peer); len(offered) != 1 {
+			t.Fatalf("offered = %+v, want one transfer before the peer declined", offered)
 		}
 	})
 }
@@ -522,9 +539,9 @@ func TestLoopReportsTheRingFractionOfEveryAcceptedPosting(t *testing.T) {
 		want := positionOf(wordPartition).DistanceTo(
 			yacymodel.DHTRingPositionOf(peer.Hash),
 		).FractionOfDHTRing()
-		if !slices.Equal(h.observer.replicaRingFractions, []float64{want, want}) {
-			t.Fatalf("replicaRingFractions = %v, want %v for each accepted posting",
-				h.observer.replicaRingFractions, want)
+		if !slices.Equal(h.observer.holderRingFractions, []float64{want, want}) {
+			t.Fatalf("holderRingFractions = %v, want %v for each accepted posting",
+				h.observer.holderRingFractions, want)
 		}
 	})
 }
@@ -540,9 +557,9 @@ func TestLoopReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
 
 		h.start(t)
 
-		if len(h.observer.replicaRingFractions) != 0 {
-			t.Fatalf("replicaRingFractions = %v, want none when no peer accepted",
-				h.observer.replicaRingFractions)
+		if len(h.observer.holderRingFractions) != 0 {
+			t.Fatalf("holderRingFractions = %v, want none when no peer accepted",
+				h.observer.holderRingFractions)
 		}
 	})
 }
@@ -567,6 +584,23 @@ func TestLoopDrainsABacklogLargerThanOneBatch(t *testing.T) {
 		if h.observer.batchesCompleted < amountOfWordPartitions/postingsPerBatch {
 			t.Fatalf("batchesCompleted = %d, want at least one per full batch",
 				h.observer.batchesCompleted)
+		}
+	})
+}
+
+func TestLoopReportsThePeersAcceptingRemoteIndexPerRingSector(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		acceptingPeer, refusingPeer := peerAfter(wordPartition, 1), peerAfter(wordPartition, 1<<40)
+		refusingPeer.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
+		h := openLoop(t, startClock(), loopOptions{minReachablePeers: 3})
+		h.reach(acceptingPeer, refusingPeer)
+
+		h.start(t)
+
+		want := yacymodel.SeedsPerDHTRingSector([]yacymodel.Seed{acceptingPeer})
+		if !slices.Equal(h.observer.peersPerSector, want) {
+			t.Fatalf("peers per sector = %v, want only %v counted", h.observer.peersPerSector, want)
 		}
 	})
 }

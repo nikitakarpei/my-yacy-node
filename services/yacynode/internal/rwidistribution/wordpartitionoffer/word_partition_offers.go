@@ -7,7 +7,6 @@ package wordpartitionoffer
 
 import (
 	"context"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -35,20 +34,16 @@ type Reachability interface {
 }
 
 type PeerEligibility interface {
-	CooldownLeftOf(peer yacymodel.Hash) time.Duration
+	IsInCooldown(peer yacymodel.Hash) bool
 	IsExcluded(peer yacymodel.Hash) bool
 }
 
-type DHTRingObserver interface {
-	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
-}
-
-type SkipReason string
+type WaitReason string
 
 const (
-	SkipRecipientInCooldown  SkipReason = "recipient_in_cooldown"
-	SkipWordPartitionInRetry SkipReason = "word_partition_in_retry"
-	SkipNoRecipient          SkipReason = "no_recipient"
+	WaitRecipientInCooldown  WaitReason = "recipient_in_cooldown"
+	WaitWordPartitionInRetry WaitReason = "word_partition_in_retry"
+	WaitNoRecipient          WaitReason = "no_recipient"
 )
 
 type Config struct {
@@ -57,66 +52,40 @@ type Config struct {
 	Redundancy int
 }
 
-type WordPartitionOffers struct {
-	vault           *vault.Vault
-	undelivered     *undeliveredpostings.UndeliveredPostings
-	holders         *wordpartitionholders.Holders
-	postings        PostingIndex
-	reachability    Reachability
-	eligibility     PeerEligibility
-	dhtRingObserver DHTRingObserver
-	config          Config
+type Offers struct {
+	vault        *vault.Vault
+	undelivered  *undeliveredpostings.Postings
+	holders      *wordpartitionholders.Holders
+	postings     PostingIndex
+	reachability Reachability
+	eligibility  PeerEligibility
+	config       Config
 }
 
-//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators and the config
+//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators and the config
 func New(
 	v *vault.Vault,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 	postings PostingIndex,
 	reachability Reachability,
 	eligibility PeerEligibility,
-	dhtRingObserver DHTRingObserver,
 	config Config,
-) *WordPartitionOffers {
-	return &WordPartitionOffers{
-		vault:           v,
-		undelivered:     undelivered,
-		holders:         holders,
-		postings:        postings,
-		reachability:    reachability,
-		eligibility:     eligibility,
-		dhtRingObserver: dhtRingObserver,
-		config:          config,
+) *Offers {
+	return &Offers{
+		vault:        v,
+		undelivered:  undelivered,
+		holders:      holders,
+		postings:     postings,
+		reachability: reachability,
+		eligibility:  eligibility,
+		config:       config,
 	}
 }
 
-func (o *WordPartitionOffers) ReportPeersAcceptingRemoteIndex(reachablePeers []yacymodel.Seed) {
-	o.dhtRingObserver.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
-		yacymodel.SeedsPerDHTRingSector(peersAcceptingRemoteIndex(reachablePeers)),
-	)
-}
-
-func peersAcceptingRemoteIndex(peers []yacymodel.Seed) []yacymodel.Seed {
-	acceptingPeers := make([]yacymodel.Seed, 0, len(peers))
-	for _, seed := range peers {
-		if acceptsRemoteIndex(seed) {
-			acceptingPeers = append(acceptingPeers, seed)
-		}
-	}
-
-	return acceptingPeers
-}
-
-func acceptsRemoteIndex(seed yacymodel.Seed) bool {
-	capabilities, capabilitiesKnown := seed.Capabilities.Get()
-
-	return capabilitiesKnown && capabilities.AcceptRemoteIndex
-}
-
-func (o *WordPartitionOffers) UndeliveredOffersFor(
+func (o *Offers) UndeliveredOffersFor(
 	ctx context.Context,
-	undeliveredWordPartitions []undeliveredpostings.UndeliveredWordPartition,
+	undeliveredWordPartitions []undeliveredpostings.WordPartition,
 	reachablePeers []yacymodel.Seed,
 ) (Batch, error) {
 	return o.batchFor(
@@ -129,7 +98,7 @@ func (o *WordPartitionOffers) UndeliveredOffersFor(
 	)
 }
 
-func (o *WordPartitionOffers) RefreshOffersFor(
+func (o *Offers) RefreshOffersFor(
 	ctx context.Context,
 	dueWordPartitions []yacymodel.WordPartition,
 	reachablePeers []yacymodel.Seed,
@@ -143,7 +112,7 @@ func (o *WordPartitionOffers) RefreshOffersFor(
 	)
 }
 
-func (o *WordPartitionOffers) batchFor(
+func (o *Offers) batchFor(
 	ctx context.Context,
 	reachablePeers []yacymodel.Seed,
 	addTo func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error,
@@ -159,12 +128,12 @@ func (o *WordPartitionOffers) batchFor(
 	return batch, nil
 }
 
-func (o *WordPartitionOffers) acceptingPeersAmong(
+func (o *Offers) acceptingPeersAmong(
 	reachablePeers []yacymodel.Seed,
 ) yacymodel.SeedRing {
 	acceptingPeers := make([]yacymodel.Seed, 0, len(reachablePeers))
-	for _, seed := range peersAcceptingRemoteIndex(reachablePeers) {
-		if !o.eligibility.IsExcluded(seed.Hash) {
+	for _, seed := range reachablePeers {
+		if seed.AcceptsRemoteIndex() && !o.eligibility.IsExcluded(seed.Hash) {
 			acceptingPeers = append(acceptingPeers, seed)
 		}
 	}
@@ -172,10 +141,10 @@ func (o *WordPartitionOffers) acceptingPeersAmong(
 	return yacymodel.SeedRingFrom(acceptingPeers)
 }
 
-func (o *WordPartitionOffers) addUndeliveredWordPartitions(
+func (o *Offers) addUndeliveredWordPartitions(
 	ctx context.Context,
 	tx *vault.Txn,
-	undeliveredWordPartitions []undeliveredpostings.UndeliveredWordPartition,
+	undeliveredWordPartitions []undeliveredpostings.WordPartition,
 	acceptingPeers yacymodel.SeedRing,
 	batch *Batch,
 ) error {
@@ -185,7 +154,10 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 			return err
 		}
 		if isInRetry {
-			batch.skip(SkipWordPartitionInRetry)
+			batch.addWait(Wait{
+				Position: o.positionOf(undelivered.WordPartition),
+				Reason:   WaitWordPartitionInRetry,
+			})
 
 			continue
 		}
@@ -193,8 +165,8 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 		if err != nil {
 			return err
 		}
-		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			batch.skip(skipReason)
+		if wait, mustWait := peers.waitFrom(o.eligibility); mustWait {
+			batch.addWait(wait)
 
 			continue
 		}
@@ -202,13 +174,13 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 		if err != nil {
 			return err
 		}
-		batch.add(offer)
+		batch.addOffer(offer)
 	}
 
 	return nil
 }
 
-func (o *WordPartitionOffers) peersOf(
+func (o *Offers) peersOf(
 	ctx context.Context,
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
@@ -219,7 +191,7 @@ func (o *WordPartitionOffers) peersOf(
 		return wordPartitionPeers{}, err
 	}
 	responsiblePeers := responsiblePeersFor(
-		yacymodel.DHTRingPositionOfWordPartition(wordPartition, o.config.Partitions),
+		o.positionOf(wordPartition),
 		acceptingPeers,
 		o.config.Self,
 		o.config.Redundancy,
@@ -230,26 +202,32 @@ func (o *WordPartitionOffers) peersOf(
 		responsiblePeers,
 		acceptingPeers,
 		recordedHolders,
-		o.holdersAmong(ctx, recordedHolders, responsiblePeers),
+		o.keptHoldersOf(ctx, recordedHolders, responsiblePeers),
 	), nil
 }
 
-func (o *WordPartitionOffers) holdersAmong(
+func (o *Offers) positionOf(
+	wordPartition yacymodel.WordPartition,
+) yacymodel.DHTRingPosition {
+	return yacymodel.DHTRingPositionOfWordPartition(wordPartition, o.config.Partitions)
+}
+
+func (o *Offers) keptHoldersOf(
 	ctx context.Context,
 	recordedHolders []yacymodel.Hash,
 	responsiblePeers responsiblePeers,
 ) []yacymodel.Hash {
-	var holdersAmongResponsiblePeers []yacymodel.Hash
+	var keptHolders []yacymodel.Hash
 	for _, holder := range recordedHolders {
-		if o.countsAmong(ctx, holder, responsiblePeers) {
-			holdersAmongResponsiblePeers = append(holdersAmongResponsiblePeers, holder)
+		if o.isKept(ctx, holder, responsiblePeers) {
+			keptHolders = append(keptHolders, holder)
 		}
 	}
 
-	return holdersAmongResponsiblePeers
+	return keptHolders
 }
 
-func (o *WordPartitionOffers) countsAmong(
+func (o *Offers) isKept(
 	ctx context.Context,
 	holder yacymodel.Hash,
 	responsiblePeers responsiblePeers,
@@ -264,22 +242,24 @@ func (o *WordPartitionOffers) countsAmong(
 	return o.reachability.IsRecentlyReachable(ctx, holder)
 }
 
-func (o *WordPartitionOffers) undeliveredOfferFor(
+func (o *Offers) undeliveredOfferFor(
 	tx *vault.Txn,
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 	peers wordPartitionPeers,
-) (WordPartitionOffer, error) {
-	undeliveredValues, err := o.storedPostingsFor(tx, peers.holdingPeers, undelivered)
-	if err != nil {
-		return WordPartitionOffer{}, err
+) (Offer, error) {
+	var undeliveredValues []yacymodel.RWIPosting
+	if peers.hasHoldingPeers() {
+		var err error
+		if undeliveredValues, err = o.storedPostingsOf(tx, undelivered); err != nil {
+			return Offer{}, err
+		}
 	}
-	wholeWordPartition, err := o.wholeWordPartitionFor(
-		tx,
-		peers.missingHolders,
-		peers.wordPartition,
-	)
-	if err != nil {
-		return WordPartitionOffer{}, err
+	var wholeWordPartition []yacymodel.RWIPosting
+	if peers.hasMissingHolders() {
+		var err error
+		if wholeWordPartition, err = o.postingsIn(tx, peers.wordPartition); err != nil {
+			return Offer{}, err
+		}
 	}
 
 	return peers.undeliveredOfferWith(
@@ -289,14 +269,10 @@ func (o *WordPartitionOffers) undeliveredOfferFor(
 	), nil
 }
 
-func (o *WordPartitionOffers) storedPostingsFor(
+func (o *Offers) storedPostingsOf(
 	tx *vault.Txn,
-	recipients []yacymodel.Seed,
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 ) ([]yacymodel.RWIPosting, error) {
-	if len(recipients) == 0 {
-		return nil, nil
-	}
 	storedPostings := make([]yacymodel.RWIPosting, 0, len(undelivered))
 	for _, posting := range undelivered {
 		stored, found, err := o.postings.PostingOf(tx, posting.WordPartition.Word, posting.URL)
@@ -311,14 +287,10 @@ func (o *WordPartitionOffers) storedPostingsFor(
 	return storedPostings, nil
 }
 
-func (o *WordPartitionOffers) wholeWordPartitionFor(
+func (o *Offers) postingsIn(
 	tx *vault.Txn,
-	recipients []yacymodel.Seed,
 	wordPartition yacymodel.WordPartition,
 ) ([]yacymodel.RWIPosting, error) {
-	if len(recipients) == 0 {
-		return nil, nil
-	}
 	var wholeWordPartition []yacymodel.RWIPosting
 	err := o.postings.PostingsOfWordIn(
 		tx,
@@ -334,7 +306,7 @@ func (o *WordPartitionOffers) wholeWordPartitionFor(
 	return wholeWordPartition, err
 }
 
-func (o *WordPartitionOffers) addDueRefreshes(
+func (o *Offers) addDueRefreshes(
 	ctx context.Context,
 	tx *vault.Txn,
 	dueWordPartitions []yacymodel.WordPartition,
@@ -346,8 +318,8 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			batch.skip(skipReason)
+		if wait, mustWait := peers.waitFrom(o.eligibility); mustWait {
+			batch.addWait(wait)
 
 			continue
 		}
@@ -355,42 +327,24 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		batch.add(offer)
+		batch.addOffer(offer)
 	}
 
 	return nil
 }
 
-func (o *WordPartitionOffers) refreshOfferFor(
+func (o *Offers) refreshOfferFor(
 	tx *vault.Txn,
 	peers wordPartitionPeers,
-) (WordPartitionOffer, error) {
-	undelivered, err := o.undeliveredPostingsOf(tx, peers.wordPartition)
+) (Offer, error) {
+	undelivered, err := o.undelivered.PostingsOf(tx, peers.wordPartition)
 	if err != nil {
-		return WordPartitionOffer{}, err
+		return Offer{}, err
 	}
-	wholeWordPartition, err := o.wholeWordPartitionFor(tx, peers.recipients(), peers.wordPartition)
+	wholeWordPartition, err := o.postingsIn(tx, peers.wordPartition)
 	if err != nil {
-		return WordPartitionOffer{}, err
+		return Offer{}, err
 	}
 
 	return peers.refreshOfferWith(undelivered, wholeWordPartition), nil
-}
-
-func (o *WordPartitionOffers) undeliveredPostingsOf(
-	tx *vault.Txn,
-	wordPartition yacymodel.WordPartition,
-) ([]undeliveredpostings.UndeliveredPosting, error) {
-	var undelivered []undeliveredpostings.UndeliveredPosting
-	err := o.undelivered.PostingsOf(
-		tx,
-		wordPartition,
-		func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-			undelivered = append(undelivered, posting)
-
-			return true, nil
-		},
-	)
-
-	return undelivered, err
 }

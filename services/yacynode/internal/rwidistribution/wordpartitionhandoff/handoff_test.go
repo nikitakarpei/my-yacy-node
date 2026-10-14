@@ -29,7 +29,7 @@ type harness struct {
 	vault       *vault.Vault
 	index       rwipostings.PostingIndex
 	admitter    rwipostings.PostingAdmitter
-	undelivered *undeliveredpostings.UndeliveredPostings
+	undelivered *undeliveredpostings.Postings
 	holders     *wordpartitionholders.Holders
 	handoff     *wordpartitionhandoff.Handoff
 }
@@ -114,20 +114,14 @@ func (h *harness) admit(
 func (h *harness) deliver(t *testing.T, wordPartitions ...yacymodel.WordPartition) {
 	t.Helper()
 
-	var undelivered []undeliveredpostings.UndeliveredPosting
+	var undelivered []undeliveredpostings.Posting
 	h.read(t, func(tx *vault.Txn) error {
 		for _, wordPartition := range wordPartitions {
-			if err := h.undelivered.PostingsOf(
-				tx,
-				wordPartition,
-				func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-					undelivered = append(undelivered, posting)
-
-					return true, nil
-				},
-			); err != nil {
+			postings, err := h.undelivered.PostingsOf(tx, wordPartition)
+			if err != nil {
 				return err
 			}
+			undelivered = append(undelivered, postings...)
 		}
 
 		return nil
@@ -146,19 +140,19 @@ func (h *harness) deliver(t *testing.T, wordPartitions ...yacymodel.WordPartitio
 func (h *harness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
 func (h *harness) handOff(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders []yacymodel.Hash,
+	currentHolders []yacymodel.Hash,
 	responsiblePeers []yacymodel.Hash,
 ) int {
 	t.Helper()
@@ -166,7 +160,7 @@ func (h *harness) handOff(
 	var amountOfPostingsHandedOff int
 	h.write(t, func(tx *vault.Txn) error {
 		amount, err := h.handoff.HandOffIfHeldByResponsiblePeers(
-			context.Background(), tx, wordPartition, holders, responsiblePeers,
+			context.Background(), tx, wordPartition, currentHolders, responsiblePeers,
 		)
 		amountOfPostingsHandedOff = amount
 
@@ -204,8 +198,8 @@ func (h *harness) holdersOf(t *testing.T, wordPartition yacymodel.WordPartition)
 
 	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
-		holders, err := h.holders.Of(tx, wordPartition)
-		recordedHolders = holders
+		var err error
+		recordedHolders, err = h.holders.Of(tx, wordPartition)
 
 		return err
 	})

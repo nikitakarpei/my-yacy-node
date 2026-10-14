@@ -2,20 +2,20 @@ package undeliveredpostings
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
-type UndeliveredWordPartition struct {
+type WordPartition struct {
 	WordPartition yacymodel.WordPartition
-	Postings      []UndeliveredPosting
+	Postings      []Posting
 }
 
-func (w UndeliveredWordPartition) LastPosting() UndeliveredPosting {
+func (w WordPartition) LastPosting() Posting {
 	return w.Postings[len(w.Postings)-1]
 }
 
 type wordPartitionReading struct {
 	postingsBudget         int
 	amountOfPostingsRead   int
-	finishedWordPartitions []UndeliveredWordPartition
-	openWordPartition      UndeliveredWordPartition
+	finishedWordPartitions []WordPartition
+	openWordPartition      WordPartition
 	stoppedOnBudget        bool
 }
 
@@ -23,11 +23,11 @@ func wordPartitionReadingWithin(postingsBudget int) *wordPartitionReading {
 	return &wordPartitionReading{postingsBudget: postingsBudget}
 }
 
-func (r *wordPartitionReading) visit(posting UndeliveredPosting) bool {
+func (r *wordPartitionReading) visit(posting Posting) bool {
 	if len(r.openWordPartition.Postings) > 0 &&
 		posting.WordPartition != r.openWordPartition.WordPartition {
 		r.finishedWordPartitions = append(r.finishedWordPartitions, r.openWordPartition)
-		r.openWordPartition = UndeliveredWordPartition{}
+		r.openWordPartition = WordPartition{}
 		if r.amountOfPostingsRead >= r.postingsBudget {
 			r.stoppedOnBudget = true
 
@@ -41,7 +41,7 @@ func (r *wordPartitionReading) visit(posting UndeliveredPosting) bool {
 	return true
 }
 
-func (r *wordPartitionReading) wordPartitions() []UndeliveredWordPartition {
+func (r *wordPartitionReading) wordPartitions() []WordPartition {
 	if len(r.openWordPartition.Postings) == 0 {
 		return r.finishedWordPartitions
 	}

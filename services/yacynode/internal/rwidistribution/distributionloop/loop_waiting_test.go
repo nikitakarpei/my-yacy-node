@@ -5,11 +5,12 @@ import (
 	"testing/synctest"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
-var waitingForCooldown = string(wordpartitionoffer.SkipRecipientInCooldown)
+var waitingForCooldown = string(wordpartitionoffer.WaitRecipientInCooldown)
 
 func TestLoopCountsAWordPartitionWaitingOnSeveralPassesOnce(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
@@ -153,9 +154,139 @@ func TestLoopCountsAWordPartitionInRetryAsWaiting(t *testing.T) {
 		h.advance(rescanDelay)
 
 		if got := h.observer.wordPartitionsWaiting[string(
-			wordpartitionoffer.SkipWordPartitionInRetry)]; got != 1 {
+			wordpartitionoffer.WaitWordPartitionInRetry)]; got != 1 {
 			t.Fatalf("word partitions in retry = %d, want 1", got)
 		}
+	})
+}
+
+func TestLoopReportsAWaitingWordPartitionBeforeItsPassEnds(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		waiting, offered := wordPartitionsIn(3, 1)[0], wordPartitionsIn(40, 1)[0]
+		offeredPeer := peerAfter(offered, 1)
+		h := openLoop(t, startClock(), loopOptions{cooldown: time.Hour, postingsPerBatch: 1})
+		h.putInCooldown(peerAfter(waiting, 1))
+		h.reach(append(h.roster.reachable, offeredPeer)...)
+		h.transfers.answers[offeredPeer.Hash] = acceptedAnswer
+		waitingAtTheOffer := h.waitingWhenOffered(offeredPeer)
+		h.admit(t, waiting, urlsOf(1)...)
+		h.admit(t, offered, urlsOf(1)...)
+
+		h.start(t)
+
+		if *waitingAtTheOffer != 1 {
+			t.Fatalf("word partitions waiting = %d at the next batch, want 1", *waitingAtTheOffer)
+		}
+	})
+}
+
+func TestLoopReportsAWordPartitionNoLongerWaitingOnceItsSectorIsReadAgain(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openWaitingLoop(t)
+		h.putInCooldown(peer)
+		h.admit(t, wordPartition, urlsOf(1)...)
+		h.start(t)
+		h.eligibility.OfferAccepted(peer.Hash)
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+		waitingAtTheOffer := h.waitingWhenOffered(peer)
+
+		h.advance(rescanDelay)
+
+		if *waitingAtTheOffer != 0 {
+			t.Fatalf("word partitions waiting = %d at its offer, want 0", *waitingAtTheOffer)
+		}
+	})
+}
+
+func TestLoopReportsNoWaitingInASectorThatEmptiedOnceItIsReadAgain(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		emptied, next, last := wordPartitionsIn(3, 1)[0], wordPartitionsIn(40, 1)[0],
+			wordPartitionsIn(50, 1)[0]
+		nextPeer, lastPeer := peerAfter(next, 1), peerAfter(last, 1)
+		h := openLoop(t, startClock(), loopOptions{cooldown: time.Hour, postingsPerBatch: 1})
+		h.putInCooldown(peerAfter(emptied, 1))
+		h.admit(t, emptied, urlsOf(1)...)
+		h.start(t)
+		h.markDelivered(t, emptied)
+		h.reach(append(h.roster.reachable, nextPeer, lastPeer)...)
+		h.transfers.answers[nextPeer.Hash] = acceptedAnswer
+		h.transfers.answers[lastPeer.Hash] = acceptedAnswer
+		waitingAtTheOffer := h.waitingWhenOffered(nextPeer)
+		h.admit(t, next, urlsOf(1)...)
+		h.admit(t, last, urlsOf(1)...)
+
+		h.advance(rescanDelay)
+
+		if *waitingAtTheOffer != 0 {
+			t.Fatalf("word partitions waiting = %d past the emptied sector, want 0",
+				*waitingAtTheOffer)
+		}
+	})
+}
+
+func TestLoopDropsTheWaitingOfABatchFromAnEarlierPass(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartitions := wordPartitionsIn(3, 2)
+		waiting, slow := wordPartitions[0], wordPartitions[1]
+		slowPeer := peerAfter(slow, 1)
+		h := openLoop(t, startClock(), loopOptions{
+			cooldown:         time.Hour,
+			amountOfWorkers:  2,
+			postingsPerBatch: 2,
+		})
+		h.putInCooldown(peerAfter(waiting, 1))
+		h.reach(append(h.roster.reachable, slowPeer)...)
+		h.transfers.answers[slowPeer.Hash] = acceptedAnswer
+		slowAnswer := make(chan struct{})
+		h.transfers.onOffer = func(peer yacymodel.Seed) {
+			if peer.Hash == slowPeer.Hash {
+				<-slowAnswer
+			}
+		}
+		h.admit(t, waiting, urlsOf(1)...)
+		h.admit(t, slow, urlsOf(1)...)
+		h.start(t)
+		h.advance(rescanDelay)
+		waitingBefore := h.observer.wordPartitionsWaitingFor(waitingForCooldown)
+
+		close(slowAnswer)
+		synctest.Wait()
+
+		if got := h.observer.wordPartitionsWaitingFor(waitingForCooldown); got != waitingBefore {
+			t.Fatalf("word partitions waiting = %d after the late batch, want %d unchanged",
+				got, waitingBefore)
+		}
+	})
+}
+
+func (h *loopHarness) waitingWhenOffered(peer yacymodel.Seed) *int {
+	waitingAtTheOffer := -1
+	h.transfers.onOffer = func(offeredPeer yacymodel.Seed) {
+		if offeredPeer.Hash == peer.Hash {
+			waitingAtTheOffer = h.observer.wordPartitionsWaitingFor(waitingForCooldown)
+		}
+	}
+
+	return &waitingAtTheOffer
+}
+
+func (h *loopHarness) markDelivered(t *testing.T, wordPartition yacymodel.WordPartition) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		postings, err := h.undelivered.PostingsOf(tx, wordPartition)
+		if err != nil {
+			return err
+		}
+		for _, posting := range postings {
+			if _, err := h.undelivered.MarkDelivered(tx, posting); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	})
 }
 

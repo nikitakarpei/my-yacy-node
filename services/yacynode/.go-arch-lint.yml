@@ -60,8 +60,8 @@ components:
     in: internal/rwidistribution/postingcourier/**
   urlmetadatacourier:
     in: internal/rwidistribution/urlmetadatacourier/**
-  replicaeligibility:
-    in: internal/rwidistribution/replicaeligibility/**
+  peereligibility:
+    in: internal/rwidistribution/peereligibility/**
   documentsearch:
     in: internal/documentsearch/**
   searchmetrics:

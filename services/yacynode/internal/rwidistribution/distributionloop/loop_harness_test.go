@@ -15,8 +15,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
@@ -48,9 +48,9 @@ type loopHarness struct {
 	clk         *clock
 	index       *observedPostingIndex
 	admitter    rwipostings.PostingAdmitter
-	undelivered *undeliveredpostings.UndeliveredPostings
+	undelivered *undeliveredpostings.Postings
 	holders     *wordpartitionholders.Holders
-	eligibility *replicaeligibility.Peers
+	eligibility *peereligibility.Peers
 	roster      *fakeRoster
 	observer    *fakeObserver
 	transfers   *fakeTransfers
@@ -108,8 +108,8 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		observer:    newFakeObserver(),
 		transfers:   &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)},
 	}
-	h.eligibility = replicaeligibility.New(
-		replicaeligibility.Config{
+	h.eligibility = peereligibility.New(
+		peereligibility.Config{
 			Cooldown:                    opts.cooldown,
 			FailedOffersBeforeExclusion: 1,
 			ExclusionDuration:           exclusionDuration,
@@ -120,7 +120,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, holders, h.index, h.roster, h.eligibility, h.observer,
+			v, undelivered, holders, h.index, h.roster, h.eligibility,
 			wordpartitionoffer.Config{
 				Partitions: partitions(),
 				Self:       opts.self,
@@ -138,10 +138,12 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		h.observer,
 		h.observer,
 		distributionloop.Config{
-			PostingsPerBatch:  opts.postingsPerBatch,
-			AmountOfWorkers:   opts.amountOfWorkers,
-			RescanDelay:       rescanDelay,
-			MinReachablePeers: opts.minReachablePeers,
+			UndeliveredPostingsPerBatch: opts.postingsPerBatch,
+			RefreshesPerBatch:           opts.postingsPerBatch,
+			PostingsPerTransfer:         opts.postingsPerBatch,
+			AmountOfWorkers:             opts.amountOfWorkers,
+			RescanDelay:                 rescanDelay,
+			MinReachablePeers:           opts.minReachablePeers,
 		},
 	)
 
@@ -171,7 +173,7 @@ func handoffFor(
 	opts loopOptions,
 	index *observedPostingIndex,
 	purger rwipostings.PostingPurger,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 ) distributionloop.WordPartitionHandoff {
 	if !opts.handoffEnabled {
@@ -232,12 +234,12 @@ func (h *loopHarness) admit(
 func (h *loopHarness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -249,8 +251,8 @@ func (h *loopHarness) holdersOf(
 
 	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
-		holders, err := h.holders.Of(tx, wordPartition)
-		recordedHolders = holders
+		var err error
+		recordedHolders, err = h.holders.Of(tx, wordPartition)
 
 		return err
 	})
@@ -380,20 +382,18 @@ type offeredCall struct {
 }
 
 type fakeAnswer struct {
-	accepted         bool
-	failed           bool
+	result           postingtransfer.OfferResult
 	acceptedPostings int
-	requestedPause   time.Duration
 }
 
 var (
-	acceptedAnswer = fakeAnswer{accepted: true}
-	declinedAnswer = fakeAnswer{}
-	failedAnswer   = fakeAnswer{failed: true}
+	acceptedAnswer = fakeAnswer{result: postingtransfer.OfferAccepted}
+	declinedAnswer = fakeAnswer{result: postingtransfer.OfferDeclined}
+	failedAnswer   = fakeAnswer{result: postingtransfer.OfferFailed}
 )
 
 func acceptedInPart(acceptedPostings int) fakeAnswer {
-	return fakeAnswer{accepted: true, acceptedPostings: acceptedPostings}
+	return fakeAnswer{result: postingtransfer.OfferAccepted, acceptedPostings: acceptedPostings}
 }
 
 type fakeTransfers struct {
@@ -410,16 +410,16 @@ func (f *fakeTransfers) Send(
 ) postingtransfer.OfferAnswer {
 	f.guard.Lock()
 	f.offered = append(f.offered, offeredCall{Peer: peer, Postings: offeredPostings})
-	answer := f.answers[peer.Hash]
+	answer, answered := f.answers[peer.Hash]
+	if !answered {
+		answer = declinedAnswer
+	}
 	f.guard.Unlock()
 	if f.onOffer != nil {
 		f.onOffer(peer)
 	}
-	if !answer.accepted {
-		return postingtransfer.OfferAnswer{
-			Failed:         answer.failed,
-			RequestedPause: answer.requestedPause,
-		}
+	if answer.result != postingtransfer.OfferAccepted {
+		return postingtransfer.OfferAnswer{Result: answer.result}
 	}
 	acceptedPostings := offeredPostings
 	if answer.acceptedPostings > 0 {
@@ -427,9 +427,8 @@ func (f *fakeTransfers) Send(
 	}
 
 	return postingtransfer.OfferAnswer{
-		Accepted:         true,
+		Result:           postingtransfer.OfferAccepted,
 		AcceptedPostings: acceptedPostings,
-		RequestedPause:   answer.requestedPause,
 	}
 }
 

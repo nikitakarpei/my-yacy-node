@@ -26,7 +26,7 @@ func sendOffers(
 	ctx context.Context,
 	transfers PostingTransfers,
 	eligibility PeerEligibility,
-	offers []wordpartitionoffer.WordPartitionOffer,
+	offers []wordpartitionoffer.Offer,
 	postingsPerTransfer int,
 ) map[yacymodel.Hash]wordpartitionoffer.PeerAnswer {
 	offersPerPeer := peerOffersFrom(offers)
@@ -49,7 +49,7 @@ func sendOffers(
 	return answers
 }
 
-func peerOffersFrom(offers []wordpartitionoffer.WordPartitionOffer) []peerOffer {
+func peerOffersFrom(offers []wordpartitionoffer.Offer) []peerOffer {
 	byPeer := make(map[yacymodel.Hash]*peerOffer)
 	order := make([]yacymodel.Hash, 0, len(offers))
 	for _, offer := range offers {
@@ -86,7 +86,7 @@ func (o peerOffer) sendInTransfersOf(
 		offerAnswer := transfers.Send(ctx, o.peer, transfer)
 		reportAnswerTo(ctx, eligibility, o.peer.Hash, offerAnswer)
 		answer.AcceptedPostings = append(answer.AcceptedPostings, offerAnswer.AcceptedPostings...)
-		if !offerAnswer.Accepted {
+		if offerAnswer.Result != postingtransfer.OfferAccepted {
 			answer.Accepted = false
 
 			return answer
@@ -102,12 +102,12 @@ func reportAnswerTo(
 	peer yacymodel.Hash,
 	answer postingtransfer.OfferAnswer,
 ) {
-	switch {
-	case answer.Accepted:
+	switch answer.Result {
+	case postingtransfer.OfferAccepted:
 		eligibility.OfferAccepted(peer)
-	case answer.Failed:
+	case postingtransfer.OfferFailed:
 		eligibility.OfferFailed(ctx, peer)
-	default:
+	case postingtransfer.OfferDeclined:
 		eligibility.OfferDeclined(peer, answer.RequestedPause)
 	}
 }

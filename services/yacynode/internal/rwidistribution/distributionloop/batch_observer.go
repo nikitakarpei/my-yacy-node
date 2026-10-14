@@ -1,10 +1,10 @@
 package distributionloop
 
 type BatchObserver interface {
-	ObserveStaleReplicasDropped(droppedReplicas int)
+	ObserveStaleHoldersDropped(amountOfStaleHolders int)
 	ObservePostingsHandedOff(amountOfPostings int)
 	ObserveBatchSkipped(reason string)
 	ObserveBatchCompleted()
 	ObserveBatchAborted(reason string)
-	ObserveWordPartitionsWaiting(skipReason string, amountOfWordPartitions int)
+	ObserveWordPartitionsWaiting(waitReason string, amountOfWordPartitions int)
 }

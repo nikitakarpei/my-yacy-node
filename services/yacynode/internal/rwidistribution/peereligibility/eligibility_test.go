@@ -1,4 +1,4 @@
-package replicaeligibility_test
+package peereligibility_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 )
 
 type clock struct{ at time.Time }
@@ -17,9 +17,9 @@ type exclusionCounter struct{ amountOfExclusions int }
 
 func (c *exclusionCounter) ObservePeerExcluded() { c.amountOfExclusions++ }
 
-func peersWith(cooldown time.Duration, clk *clock) *replicaeligibility.Peers {
-	return replicaeligibility.New(
-		replicaeligibility.Config{
+func peersWith(cooldown time.Duration, clk *clock) *peereligibility.Peers {
+	return peereligibility.New(
+		peereligibility.Config{
 			Cooldown:                    cooldown,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,
@@ -29,25 +29,43 @@ func peersWith(cooldown time.Duration, clk *clock) *replicaeligibility.Peers {
 	)
 }
 
-func TestUnknownPeerHasNoCooldownLeft(t *testing.T) {
-	clk := &clock{at: time.Unix(1000, 0)}
-	peers := peersWith(time.Minute, clk)
+func assertCooldownLasts(
+	t *testing.T,
+	peers *peereligibility.Peers,
+	clk *clock,
+	peer yacymodel.Hash,
+	cooldown time.Duration,
+) {
+	t.Helper()
 
-	if left := peers.CooldownLeftOf(yacymodel.WordHash("peer")); left != 0 {
-		t.Fatalf("CooldownLeftOf = %v, want 0 for a peer that was never offered a posting", left)
+	cooldownStart := clk.at
+	clk.at = cooldownStart.Add(cooldown - time.Second)
+	if !peers.IsInCooldown(peer) {
+		t.Fatalf("IsInCooldown = false, want true before %v pass", cooldown)
+	}
+	clk.at = cooldownStart.Add(cooldown)
+	if peers.IsInCooldown(peer) {
+		t.Fatalf("IsInCooldown = true, want false once %v pass", cooldown)
 	}
 }
 
-func TestDeclinedPeerHasTheCooldownLeft(t *testing.T) {
+func TestUnknownPeerIsNotInCooldown(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Minute, clk)
+
+	if peers.IsInCooldown(yacymodel.WordHash("peer")) {
+		t.Fatal("IsInCooldown = true, want false for a peer that was never offered a posting")
+	}
+}
+
+func TestDeclinedPeerIsInCooldownForTheCooldown(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, 0)
 
-	if left := peers.CooldownLeftOf(peer); left != time.Minute {
-		t.Fatalf("CooldownLeftOf = %v, want the whole cooldown %v", left, time.Minute)
-	}
+	assertCooldownLasts(t, peers, clk, peer, time.Minute)
 }
 
 func TestRequestedPauseOutlastsCooldown(t *testing.T) {
@@ -57,35 +75,7 @@ func TestRequestedPauseOutlastsCooldown(t *testing.T) {
 
 	peers.OfferDeclined(peer, time.Hour)
 
-	if left := peers.CooldownLeftOf(peer); left != time.Hour {
-		t.Fatalf("CooldownLeftOf = %v, want the requested pause %v", left, time.Hour)
-	}
-}
-
-func TestCooldownLeftShrinksAsTimePasses(t *testing.T) {
-	clk := &clock{at: time.Unix(1000, 0)}
-	peers := peersWith(time.Hour, clk)
-	peer := yacymodel.WordHash("peer")
-
-	peers.OfferDeclined(peer, 0)
-	clk.at = clk.at.Add(20 * time.Minute)
-
-	if left := peers.CooldownLeftOf(peer); left != 40*time.Minute {
-		t.Fatalf("CooldownLeftOf = %v, want %v", left, 40*time.Minute)
-	}
-}
-
-func TestCooldownEndsAfterItsDuration(t *testing.T) {
-	clk := &clock{at: time.Unix(1000, 0)}
-	peers := peersWith(time.Minute, clk)
-	peer := yacymodel.WordHash("peer")
-
-	peers.OfferDeclined(peer, 0)
-	clk.at = clk.at.Add(time.Minute)
-
-	if left := peers.CooldownLeftOf(peer); left != 0 {
-		t.Fatalf("CooldownLeftOf = %v, want 0 once the cooldown has passed", left)
-	}
+	assertCooldownLasts(t, peers, clk, peer, time.Hour)
 }
 
 func TestAcceptanceEndsCooldown(t *testing.T) {
@@ -96,15 +86,15 @@ func TestAcceptanceEndsCooldown(t *testing.T) {
 	peers.OfferDeclined(peer, 0)
 	peers.OfferAccepted(peer)
 
-	if left := peers.CooldownLeftOf(peer); left != 0 {
-		t.Fatalf("CooldownLeftOf = %v, want 0 after the peer accepted an offer", left)
+	if peers.IsInCooldown(peer) {
+		t.Fatal("IsInCooldown = true, want false after the peer accepted an offer")
 	}
 }
 
 type exclusionHarness struct {
 	clk      *clock
 	counter  *exclusionCounter
-	peers    *replicaeligibility.Peers
+	peers    *peereligibility.Peers
 	peer     yacymodel.Hash
 	cooldown time.Duration
 }
@@ -116,8 +106,8 @@ func newExclusionHarness() *exclusionHarness {
 		peer:     yacymodel.WordHash("peer"),
 		cooldown: time.Minute,
 	}
-	h.peers = replicaeligibility.New(
-		replicaeligibility.Config{
+	h.peers = peereligibility.New(
+		peereligibility.Config{
 			Cooldown:                    h.cooldown,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,
@@ -143,12 +133,10 @@ func TestFailedOffersBelowTheThresholdOnlyCoolThePeerDown(t *testing.T) {
 	if h.peers.IsExcluded(h.peer) {
 		t.Fatal("IsExcluded = true, want false below the threshold")
 	}
-	if left := h.peers.CooldownLeftOf(h.peer); left != h.cooldown {
-		t.Fatalf("CooldownLeftOf = %v, want the cooldown %v", left, h.cooldown)
-	}
 	if h.counter.amountOfExclusions != 0 {
 		t.Fatalf("exclusions = %d, want 0", h.counter.amountOfExclusions)
 	}
+	assertCooldownLasts(t, h.peers, h.clk, h.peer, h.cooldown)
 }
 
 func TestFailedOffersInARowExcludeThePeerForTheExclusionDuration(t *testing.T) {

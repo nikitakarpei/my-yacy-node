@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	labelOutcome = "result"
+	labelOutcome = "outcome"
 	labelReason  = "reason"
 )
 
@@ -19,7 +19,7 @@ type DistributionMetrics struct {
 	urlsUnknownToUs        prometheus.Counter
 	undeliveredPostings    prometheus.Gauge
 	longestRefreshLateness prometheus.Gauge
-	staleReplicasDropped   prometheus.Counter
+	staleHoldersDropped    prometheus.Counter
 	postingsHandedOff      prometheus.Counter
 	batchesSkipped         *prometheus.CounterVec
 	batchesCompleted       prometheus.Counter
@@ -69,9 +69,9 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_longest_refresh_lateness_seconds",
 			"How long the most overdue word partition refresh has waited past its refresh time.",
 		),
-		staleReplicasDropped: counterFor(
-			"yacynode_rwidistribution_stale_replicas_dropped_total",
-			"Replicas dropped for peers no longer responsible.",
+		staleHoldersDropped: counterFor(
+			"yacynode_rwidistribution_stale_holders_dropped_total",
+			"Holders dropped because they are no longer responsible.",
 		),
 		postingsHandedOff: counterFor(
 			"yacynode_rwidistribution_postings_handed_off_total",
@@ -97,7 +97,7 @@ func distributionMetrics() *DistributionMetrics {
 		),
 		wordPartitionsWaiting: gaugePerLabelFor(
 			"yacynode_rwidistribution_word_partitions_waiting",
-			"Word partitions not sent in the last pass, by reason.",
+			"Word partitions not sent over the last full read of the ring, by reason.",
 			labelReason,
 		),
 	}
@@ -112,7 +112,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlsUnknownToUs,
 		d.undeliveredPostings,
 		d.longestRefreshLateness,
-		d.staleReplicasDropped,
+		d.staleHoldersDropped,
 		d.postingsHandedOff,
 		d.batchesSkipped,
 		d.batchesCompleted,
@@ -160,8 +160,8 @@ func (d *DistributionMetrics) ObserveLongestRefreshLateness(lateness time.Durati
 	d.longestRefreshLateness.Set(lateness.Seconds())
 }
 
-func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
-	d.staleReplicasDropped.Add(float64(dropped))
+func (d *DistributionMetrics) ObserveStaleHoldersDropped(amountOfStaleHolders int) {
+	d.staleHoldersDropped.Add(float64(amountOfStaleHolders))
 }
 
 func (d *DistributionMetrics) ObservePostingsHandedOff(amountOfPostings int) {
@@ -185,8 +185,8 @@ func (d *DistributionMetrics) ObservePeerExcluded() {
 }
 
 func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
-	skipReason string,
+	waitReason string,
 	amountOfWordPartitions int,
 ) {
-	d.wordPartitionsWaiting.WithLabelValues(skipReason).Set(float64(amountOfWordPartitions))
+	d.wordPartitionsWaiting.WithLabelValues(waitReason).Set(float64(amountOfWordPartitions))
 }

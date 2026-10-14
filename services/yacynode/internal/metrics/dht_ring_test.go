@@ -32,15 +32,15 @@ yacynode_rwidistribution_peers_accepting_remote_index{sector="02"} 0
 	}
 }
 
-func TestDHTRingTracksReplicaRingFractions(t *testing.T) {
+func TestDHTRingTracksHolderRingFractions(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDHTRingMetrics(registry)
 
-	observer.ObserveReplicaRingFractions([]float64{0.1, 0.4})
+	observer.ObserveHolderRingFractions([]float64{0.1, 0.4})
 
 	if got := testutil.CollectAndCount(
 		registry,
-		"yacynode_rwidistribution_replica_ring_fraction",
+		"yacynode_rwidistribution_holder_ring_fraction",
 	); got != 1 {
 		t.Errorf("series = %v, want 1", got)
 	}
@@ -50,7 +50,7 @@ func TestDHTRingTracksReplicaRingFractions(t *testing.T) {
 		t.Fatalf("Gather: %v", err)
 	}
 	for _, family := range families {
-		if family.GetName() != "yacynode_rwidistribution_replica_ring_fraction" {
+		if family.GetName() != "yacynode_rwidistribution_holder_ring_fraction" {
 			continue
 		}
 		histogram := family.GetMetric()[0].GetHistogram()

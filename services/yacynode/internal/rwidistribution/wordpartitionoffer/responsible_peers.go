@@ -5,10 +5,10 @@ import (
 )
 
 type responsiblePeers struct {
-	hashes           []yacymodel.Hash
-	coversWholeRing  bool
-	position         yacymodel.DHTRingPosition
-	requiredReplicas int
+	hashes                  []yacymodel.Hash
+	coversWholeRing         bool
+	position                yacymodel.DHTRingPosition
+	amountOfRequiredHolders int
 }
 
 func responsiblePeersFor(
@@ -18,17 +18,20 @@ func responsiblePeersFor(
 	redundancy int,
 ) responsiblePeers {
 	closest := acceptingPeers.SeedsClosestTo(position, redundancy)
-	requiredReplicas := redundancy
+	amountOfRequiredHolders := redundancy
 	if len(closest) < redundancy ||
 		!yacymodel.CloserToDHTRingPosition(closest[redundancy-1].Hash, self, position) {
-		requiredReplicas = redundancy - 1
+		amountOfRequiredHolders = redundancy - 1
 	}
 
 	return responsiblePeers{
-		hashes:           yacymodel.PeerHashesOf(closest[:min(requiredReplicas, len(closest))]),
-		coversWholeRing:  requiredReplicas == 0 || len(closest) < requiredReplicas,
-		position:         position,
-		requiredReplicas: requiredReplicas,
+		hashes: yacymodel.PeerHashesOf(
+			closest[:min(amountOfRequiredHolders, len(closest))],
+		),
+		coversWholeRing: amountOfRequiredHolders == 0 ||
+			len(closest) < amountOfRequiredHolders,
+		position:                position,
+		amountOfRequiredHolders: amountOfRequiredHolders,
 	}
 }
 

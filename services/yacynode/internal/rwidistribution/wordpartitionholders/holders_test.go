@@ -65,24 +65,24 @@ func (h *harness) advance(duration time.Duration) {
 func (h *harness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
 func (h *harness) recordHoldersShortOfRedundancy(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
-	holders ...yacymodel.Hash,
+	recordedHolders ...yacymodel.Hash,
 ) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordShortOfRedundancy(tx, wordPartition, holders)
+		return h.holders.RecordShortOfRedundancy(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -100,15 +100,15 @@ func (h *harness) holdersOf(
 ) []yacymodel.Hash {
 	t.Helper()
 
-	var holders []yacymodel.Hash
+	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		holders, err = h.holders.Of(tx, wordPartition)
+		recordedHolders, err = h.holders.Of(tx, wordPartition)
 
 		return err
 	})
 
-	return holders
+	return recordedHolders
 }
 
 func (h *harness) isInRetry(t *testing.T, wordPartition yacymodel.WordPartition) bool {
@@ -317,6 +317,23 @@ func TestDueRefreshesGoOnceAroundTheRingSectorBySector(t *testing.T) {
 	for index := 1; index < len(due); index++ {
 		if h.sectorOf(due[index]) < h.sectorOf(due[index-1]) {
 			t.Fatalf("due refreshes go back to an earlier sector at %d", index)
+		}
+	}
+}
+
+func TestADueRefreshTellsTheSectorOfItsWordPartition(t *testing.T) {
+	h := openHarness(t)
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+	}
+	h.advance(refreshInterval)
+
+	dueRefreshes, _ := h.dueRefreshesAfter(
+		t, wordpartitionholders.ScheduledRefresh{}, len(h.everyWordPartition()))
+
+	for _, dueRefresh := range dueRefreshes {
+		if got, want := dueRefresh.Sector(), h.sectorOf(dueRefresh.WordPartition); got != want {
+			t.Fatalf("Sector of %+v = %d, want %d", dueRefresh.WordPartition, got, want)
 		}
 	}
 }

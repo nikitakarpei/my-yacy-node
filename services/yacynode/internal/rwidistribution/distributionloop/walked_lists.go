@@ -15,6 +15,7 @@ type walkedList interface {
 		ctx context.Context,
 		isInFlight func(yacymodel.WordPartition) bool,
 	) (listBatch, bool, error)
+	lastReadSector() yacymodel.DHTRingSector
 }
 
 type listBatch interface {
@@ -27,10 +28,10 @@ type listBatch interface {
 
 type undeliveredPostingsList struct {
 	vault           *vault.Vault
-	undelivered     *undeliveredpostings.UndeliveredPostings
-	offers          *wordpartitionoffer.WordPartitionOffers
+	undelivered     *undeliveredpostings.Postings
+	offers          *wordpartitionoffer.Offers
 	postingsBudget  int
-	lastReadPosting undeliveredpostings.UndeliveredPosting
+	lastReadPosting undeliveredpostings.Posting
 }
 
 func (l *undeliveredPostingsList) batchAfterLastRead(
@@ -38,7 +39,7 @@ func (l *undeliveredPostingsList) batchAfterLastRead(
 	isInFlight func(yacymodel.WordPartition) bool,
 ) (listBatch, bool, error) {
 	var (
-		readWordPartitions []undeliveredpostings.UndeliveredWordPartition
+		readWordPartitions []undeliveredpostings.WordPartition
 		reachedEnd         bool
 	)
 	if err := l.vault.View(ctx, func(tx *vault.Txn) error {
@@ -50,7 +51,7 @@ func (l *undeliveredPostingsList) batchAfterLastRead(
 	}); err != nil {
 		return nil, false, err
 	}
-	l.lastReadPosting = undeliveredpostings.UndeliveredPosting{}
+	l.lastReadPosting = undeliveredpostings.Posting{}
 	if !reachedEnd {
 		l.lastReadPosting = readWordPartitions[len(readWordPartitions)-1].LastPosting()
 	}
@@ -61,11 +62,15 @@ func (l *undeliveredPostingsList) batchAfterLastRead(
 	}, reachedEnd, nil
 }
 
+func (l *undeliveredPostingsList) lastReadSector() yacymodel.DHTRingSector {
+	return yacymodel.DHTRingSectorOf(l.lastReadPosting.Position())
+}
+
 func undeliveredOutside(
-	readWordPartitions []undeliveredpostings.UndeliveredWordPartition,
+	readWordPartitions []undeliveredpostings.WordPartition,
 	isInFlight func(yacymodel.WordPartition) bool,
-) []undeliveredpostings.UndeliveredWordPartition {
-	var outsideInFlight []undeliveredpostings.UndeliveredWordPartition
+) []undeliveredpostings.WordPartition {
+	var outsideInFlight []undeliveredpostings.WordPartition
 	for _, undelivered := range readWordPartitions {
 		if !isInFlight(undelivered.WordPartition) {
 			outsideInFlight = append(outsideInFlight, undelivered)
@@ -76,8 +81,8 @@ func undeliveredOutside(
 }
 
 type undeliveredBatch struct {
-	offers      *wordpartitionoffer.WordPartitionOffers
-	undelivered []undeliveredpostings.UndeliveredWordPartition
+	offers      *wordpartitionoffer.Offers
+	undelivered []undeliveredpostings.WordPartition
 }
 
 func (b undeliveredBatch) wordPartitions() []yacymodel.WordPartition {
@@ -99,7 +104,7 @@ func (b undeliveredBatch) offersFor(
 type dueRefreshesList struct {
 	vault           *vault.Vault
 	holders         *wordpartitionholders.Holders
-	offers          *wordpartitionoffer.WordPartitionOffers
+	offers          *wordpartitionoffer.Offers
 	refreshesBudget int
 	lastReadRefresh wordpartitionholders.ScheduledRefresh
 }
@@ -132,6 +137,10 @@ func (l *dueRefreshesList) batchAfterLastRead(
 	}, reachedEnd, nil
 }
 
+func (l *dueRefreshesList) lastReadSector() yacymodel.DHTRingSector {
+	return l.lastReadRefresh.Sector()
+}
+
 func refreshesOutside(
 	readRefreshes []wordpartitionholders.ScheduledRefresh,
 	isInFlight func(yacymodel.WordPartition) bool,
@@ -147,7 +156,7 @@ func refreshesOutside(
 }
 
 type refreshBatch struct {
-	offers    *wordpartitionoffer.WordPartitionOffers
+	offers    *wordpartitionoffer.Offers
 	refreshes []yacymodel.WordPartition
 }
 

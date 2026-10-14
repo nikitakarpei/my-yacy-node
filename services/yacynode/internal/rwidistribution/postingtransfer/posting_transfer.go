@@ -23,35 +23,58 @@ type URLDirectory interface {
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
 }
 
+type PostingCourier interface {
+	Offer(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		postings []yacymodel.RWIPosting,
+	) postingcourier.Receipt
+}
+
+type URLMetadataCourier interface {
+	Deliver(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		metadata []yacymodel.URLMetadata,
+	) urlmetadatacourier.Receipt
+}
+
 type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
 	ObserveURLMetadataDelivery(outcome string, urls int)
 	ObserveURLsUnknownToUs(urls int)
 }
 
+type OfferResult string
+
+const (
+	OfferAccepted OfferResult = "accepted"
+	OfferDeclined OfferResult = "declined"
+	OfferFailed   OfferResult = "failed"
+)
+
 type OfferAnswer struct {
-	Accepted         bool
-	Failed           bool
+	Result           OfferResult
 	AcceptedPostings []yacymodel.RWIPosting
 	RequestedPause   time.Duration
 }
 
-type PostingTransfers struct {
+type Transfers struct {
 	vault    *vault.Vault
-	postings postingcourier.Courier
-	metadata urlmetadatacourier.Courier
+	postings PostingCourier
+	metadata URLMetadataCourier
 	urls     URLDirectory
 	observer Observer
 }
 
 func New(
 	v *vault.Vault,
-	postings postingcourier.Courier,
-	metadata urlmetadatacourier.Courier,
+	postings PostingCourier,
+	metadata URLMetadataCourier,
 	urls URLDirectory,
 	observer Observer,
-) *PostingTransfers {
-	return &PostingTransfers{
+) *Transfers {
+	return &Transfers{
 		vault:    v,
 		postings: postings,
 		metadata: metadata,
@@ -60,7 +83,7 @@ func New(
 	}
 }
 
-func (t *PostingTransfers) Send(
+func (t *Transfers) Send(
 	ctx context.Context,
 	peer yacymodel.Seed,
 	offeredPostings []yacymodel.RWIPosting,
@@ -68,27 +91,22 @@ func (t *PostingTransfers) Send(
 	receipt := t.postings.Offer(ctx, peer, offeredPostings)
 	t.observer.ObservePostingOffer(string(receipt.Outcome), len(offeredPostings))
 
-	if receipt.Outcome != postingcourier.Accepted {
+	switch receipt.Outcome {
+	case postingcourier.Accepted:
+		undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
+
 		return OfferAnswer{
-			Failed:         isFailure(receipt.Outcome),
-			RequestedPause: receipt.RequestedPause,
+			Result:           OfferAccepted,
+			AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, undeliveredURLs),
 		}
-	}
-
-	undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
-
-	return OfferAnswer{
-		Accepted:         true,
-		AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, undeliveredURLs),
-		RequestedPause:   receipt.RequestedPause,
+	case postingcourier.Unreachable, postingcourier.Unaddressable:
+		return OfferAnswer{Result: OfferFailed}
+	default:
+		return OfferAnswer{Result: OfferDeclined, RequestedPause: receipt.RequestedPause}
 	}
 }
 
-func isFailure(outcome postingcourier.Outcome) bool {
-	return outcome == postingcourier.Unreachable || outcome == postingcourier.Unaddressable
-}
-
-func (t *PostingTransfers) deliverURLMetadata(
+func (t *Transfers) deliverURLMetadata(
 	ctx context.Context,
 	peer yacymodel.Seed,
 	urlsUnknownToPeer []yacymodel.URLHash,
@@ -132,7 +150,7 @@ func (t *PostingTransfers) deliverURLMetadata(
 	return append(urlsUnknownToUs, delivery.URLsRejected...)
 }
 
-func (t *PostingTransfers) metadataOfUnknownURLs(
+func (t *Transfers) metadataOfUnknownURLs(
 	ctx context.Context,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, []yacymodel.URLHash, error) {

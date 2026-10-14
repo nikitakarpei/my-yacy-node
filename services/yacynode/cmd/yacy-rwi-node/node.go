@@ -33,9 +33,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
@@ -177,7 +177,7 @@ func assembleNode(
 		storage,
 		dhtRingPartitions,
 		config.Distribution.RefreshInterval,
-		config.Distribution.RecipientCooldown,
+		config.Distribution.PeerCooldown,
 		now,
 	)
 	if err != nil {
@@ -352,9 +352,9 @@ func assembleNode(
 		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
 		distributionObserver := metrics.NewDistributionMetrics(registry)
-		peerEligibility := replicaeligibility.New(
-			replicaeligibility.Config{
-				Cooldown:                    config.Distribution.RecipientCooldown,
+		peerEligibility := peereligibility.New(
+			peereligibility.Config{
+				Cooldown:                    config.Distribution.PeerCooldown,
 				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
 				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
 			},
@@ -372,7 +372,6 @@ func assembleNode(
 				postings,
 				peerRoster,
 				peerEligibility,
-				dhtRingObserver,
 				wordpartitionoffer.Config{
 					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
@@ -403,10 +402,12 @@ func assembleNode(
 			distributionObserver,
 			dhtRingObserver,
 			distributionloop.Config{
-				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
-				AmountOfWorkers:   config.Distribution.AmountOfWorkers,
-				RescanDelay:       config.Distribution.RescanDelay,
-				MinReachablePeers: config.Distribution.MinReachablePeers,
+				UndeliveredPostingsPerBatch: config.Distribution.PostingsPerBatch,
+				RefreshesPerBatch:           config.Distribution.PostingsPerBatch,
+				PostingsPerTransfer:         config.Distribution.PostingsPerBatch,
+				AmountOfWorkers:             config.Distribution.AmountOfWorkers,
+				RescanDelay:                 config.Distribution.RescanDelay,
+				MinReachablePeers:           config.Distribution.MinReachablePeers,
 			},
 		)
 	}
@@ -440,10 +441,10 @@ func openDistributionRecords(
 	storage *vault.Vault,
 	dhtRingPartitions yacymodel.DHTRingPartitions,
 	refreshInterval time.Duration,
-	retryDelay time.Duration,
+	firstRetryDelay time.Duration,
 	now func() time.Time,
 ) (
-	*undeliveredpostings.UndeliveredPostings,
+	*undeliveredpostings.Postings,
 	vault.Projection[yacymodel.RWIPosting],
 	*wordpartitionholders.Holders,
 	error,
@@ -460,7 +461,7 @@ func openDistributionRecords(
 		storage,
 		dhtRingPartitions,
 		refreshInterval,
-		retryDelay,
+		firstRetryDelay,
 		now,
 	)
 	if err != nil {

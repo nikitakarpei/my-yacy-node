@@ -1,79 +1,77 @@
 package distributionloop
 
 import (
+	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
-type passProgress struct {
-	batchesOut       int
-	hasEnded         bool
-	amountsPerReason map[wordpartitionoffer.SkipReason]int
+type sectorWaiting struct {
+	pass             int
+	amountsPerReason map[wordpartitionoffer.WaitReason]int
 }
 
 type ringWalk struct {
-	list        walkedList
-	currentPass int
-	passes      map[int]*passProgress
-	nextPassAt  time.Time
+	list           walkedList
+	currentPass    int
+	lastReadSector yacymodel.DHTRingSector
+	sectors        [yacymodel.DHTRingSectorCount]sectorWaiting
+	nextPassAt     time.Time
 }
 
 func newRingWalk(list walkedList) *ringWalk {
-	return &ringWalk{list: list, passes: make(map[int]*passProgress)}
+	return &ringWalk{list: list, currentPass: 1}
 }
 
 func (w *ringWalk) rescanDelayLeftAt(now time.Time) time.Duration {
 	return w.nextPassAt.Sub(now)
 }
 
-func (w *ringWalk) startBatch() int {
-	w.progressOf(w.currentPass).batchesOut++
-
-	return w.currentPass
+func (w *ringWalk) batchAfterLastRead(
+	ctx context.Context,
+	isInFlight func(yacymodel.WordPartition) bool,
+) (listBatch, bool, error) {
+	return w.list.batchAfterLastRead(ctx, isInFlight)
 }
 
-func (w *ringWalk) progressOf(pass int) *passProgress {
-	progress, started := w.passes[pass]
-	if !started {
-		progress = &passProgress{amountsPerReason: make(map[wordpartitionoffer.SkipReason]int)}
-		w.passes[pass] = progress
+func (w *ringWalk) readUpToLastRead() {
+	w.readUpTo(w.list.lastReadSector())
+}
+
+func (w *ringWalk) readUpTo(sector yacymodel.DHTRingSector) {
+	for readSector := w.lastReadSector; readSector <= sector; readSector++ {
+		if w.sectors[readSector].pass < w.currentPass {
+			w.sectors[readSector] = sectorWaiting{
+				pass:             w.currentPass,
+				amountsPerReason: make(map[wordpartitionoffer.WaitReason]int),
+			}
+		}
 	}
-
-	return progress
+	w.lastReadSector = sector
 }
 
-func (w *ringWalk) endPassAt(
-	now time.Time,
-	rescanDelay time.Duration,
-) (map[wordpartitionoffer.SkipReason]int, bool) {
-	endedPass := w.currentPass
-	w.progressOf(endedPass).hasEnded = true
+func (w *ringWalk) endPassAt(now time.Time, rescanDelay time.Duration) {
+	w.readUpTo(yacymodel.MaxDHTRingSector)
 	w.currentPass++
+	w.lastReadSector = 0
 	w.nextPassAt = now.Add(rescanDelay)
-
-	return w.closePassIfDone(endedPass)
 }
 
-func (w *ringWalk) completeBatchOf(
-	pass int,
-	skips []wordpartitionoffer.SkipReason,
-) (map[wordpartitionoffer.SkipReason]int, bool) {
-	progress := w.progressOf(pass)
-	progress.batchesOut--
-	for _, skipReason := range skips {
-		progress.amountsPerReason[skipReason]++
+func (w *ringWalk) addWaitsOf(pass int, waits []wordpartitionoffer.Wait) {
+	for _, wait := range waits {
+		waiting := w.sectors[yacymodel.DHTRingSectorOf(wait.Position)]
+		if waiting.pass == pass {
+			waiting.amountsPerReason[wait.Reason]++
+		}
 	}
-
-	return w.closePassIfDone(pass)
 }
 
-func (w *ringWalk) closePassIfDone(pass int) (map[wordpartitionoffer.SkipReason]int, bool) {
-	progress := w.progressOf(pass)
-	if !progress.hasEnded || progress.batchesOut > 0 {
-		return nil, false
+func (w *ringWalk) addWaitingTo(waiting map[wordpartitionoffer.WaitReason]int) {
+	for _, sector := range w.sectors {
+		for waitReason, amountOfWordPartitions := range sector.amountsPerReason {
+			waiting[waitReason] += amountOfWordPartitions
+		}
 	}
-	delete(w.passes, pass)
-
-	return progress.amountsPerReason, true
 }

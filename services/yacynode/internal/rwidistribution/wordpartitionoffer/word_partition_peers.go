@@ -22,32 +22,32 @@ func wordPartitionPeersFrom(
 	responsiblePeers responsiblePeers,
 	acceptingPeers yacymodel.SeedRing,
 	recordedHolders []yacymodel.Hash,
-	holdersAmongResponsiblePeers []yacymodel.Hash,
+	keptHolders []yacymodel.Hash,
 ) wordPartitionPeers {
 	return wordPartitionPeers{
 		wordPartition:    wordPartition,
 		responsiblePeers: responsiblePeers,
 		recordedHolders:  recordedHolders,
-		staleHolders:     staleHoldersFrom(recordedHolders, holdersAmongResponsiblePeers),
+		staleHolders:     staleHoldersFrom(recordedHolders, keptHolders),
 		holdingPeers: holdingPeersIn(
 			acceptingPeers.SeedsClockwiseFrom(responsiblePeers.position),
-			holdersAmongResponsiblePeers,
+			keptHolders,
 		),
 		missingHolders: missingHoldersIn(
 			acceptingPeers.SeedsClockwiseFrom(responsiblePeers.position),
 			recordedHolders,
-			responsiblePeers.requiredReplicas-len(holdersAmongResponsiblePeers),
+			responsiblePeers.amountOfRequiredHolders-len(keptHolders),
 		),
 	}
 }
 
 func staleHoldersFrom(
 	recordedHolders []yacymodel.Hash,
-	holdersAmongResponsiblePeers []yacymodel.Hash,
+	keptHolders []yacymodel.Hash,
 ) []yacymodel.Hash {
 	var staleHolders []yacymodel.Hash
 	for _, holder := range recordedHolders {
-		if !slices.Contains(holdersAmongResponsiblePeers, holder) {
+		if !slices.Contains(keptHolders, holder) {
 			staleHolders = append(staleHolders, holder)
 		}
 	}
@@ -57,11 +57,11 @@ func staleHoldersFrom(
 
 func holdingPeersIn(
 	ringPeers iter.Seq[yacymodel.Seed],
-	holdersAmongResponsiblePeers []yacymodel.Hash,
+	keptHolders []yacymodel.Hash,
 ) []yacymodel.Seed {
 	var holdingPeers []yacymodel.Seed
 	for seed := range ringPeers {
-		if slices.Contains(holdersAmongResponsiblePeers, seed.Hash) {
+		if slices.Contains(keptHolders, seed.Hash) {
 			holdingPeers = append(holdingPeers, seed)
 		}
 	}
@@ -87,18 +87,26 @@ func missingHoldersIn(
 	return missingHolders
 }
 
-func (p wordPartitionPeers) skipReasonFrom(eligibility PeerEligibility) (SkipReason, bool) {
+func (p wordPartitionPeers) waitFrom(eligibility PeerEligibility) (Wait, bool) {
 	recipients := p.recipients()
 	if len(recipients) == 0 {
-		return SkipNoRecipient, true
+		return Wait{Position: p.responsiblePeers.position, Reason: WaitNoRecipient}, true
 	}
 	if slices.ContainsFunc(recipients, func(seed yacymodel.Seed) bool {
-		return eligibility.CooldownLeftOf(seed.Hash) > 0
+		return eligibility.IsInCooldown(seed.Hash)
 	}) {
-		return SkipRecipientInCooldown, true
+		return Wait{Position: p.responsiblePeers.position, Reason: WaitRecipientInCooldown}, true
 	}
 
-	return "", false
+	return Wait{}, false
+}
+
+func (p wordPartitionPeers) hasHoldingPeers() bool {
+	return len(p.holdingPeers) > 0
+}
+
+func (p wordPartitionPeers) hasMissingHolders() bool {
+	return len(p.missingHolders) > 0
 }
 
 func (p wordPartitionPeers) recipients() []yacymodel.Seed {
@@ -106,12 +114,12 @@ func (p wordPartitionPeers) recipients() []yacymodel.Seed {
 }
 
 func (p wordPartitionPeers) undeliveredOfferWith(
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 	undeliveredValues []yacymodel.RWIPosting,
 	wholeWordPartition []yacymodel.RWIPosting,
-) WordPartitionOffer {
+) Offer {
 	offer := p.offerWith(undeliveredValues, wholeWordPartition)
-	offer.UndeliveredPostings = undelivered
+	offer.undeliveredPostings = undelivered
 
 	return offer
 }
@@ -119,7 +127,7 @@ func (p wordPartitionPeers) undeliveredOfferWith(
 func (p wordPartitionPeers) offerWith(
 	holdingPeerPostings []yacymodel.RWIPosting,
 	missingHolderPostings []yacymodel.RWIPosting,
-) WordPartitionOffer {
+) Offer {
 	recipients := make([]Recipient, 0, len(p.holdingPeers)+len(p.missingHolders))
 	for _, seed := range p.holdingPeers {
 		recipients = append(recipients, Recipient{Peer: seed, Postings: holdingPeerPostings})
@@ -128,23 +136,23 @@ func (p wordPartitionPeers) offerWith(
 		recipients = append(recipients, Recipient{Peer: seed, Postings: missingHolderPostings})
 	}
 
-	return WordPartitionOffer{
-		WordPartition:    p.wordPartition,
-		Position:         p.responsiblePeers.position,
-		ResponsiblePeers: p.responsiblePeers.hashes,
-		Holders:          p.recordedHolders,
-		StaleHolders:     p.staleHolders,
+	return Offer{
 		Recipients:       recipients,
+		wordPartition:    p.wordPartition,
+		position:         p.responsiblePeers.position,
+		responsiblePeers: p.responsiblePeers.hashes,
+		recordedHolders:  p.recordedHolders,
+		staleHolders:     p.staleHolders,
 	}
 }
 
 func (p wordPartitionPeers) refreshOfferWith(
-	undelivered []undeliveredpostings.UndeliveredPosting,
+	undelivered []undeliveredpostings.Posting,
 	wholeWordPartition []yacymodel.RWIPosting,
-) WordPartitionOffer {
+) Offer {
 	offer := p.offerWith(wholeWordPartition, wholeWordPartition)
-	offer.UndeliveredPostings = undelivered
-	offer.IsRefresh = true
+	offer.undeliveredPostings = undelivered
+	offer.isRefresh = true
 
 	return offer
 }

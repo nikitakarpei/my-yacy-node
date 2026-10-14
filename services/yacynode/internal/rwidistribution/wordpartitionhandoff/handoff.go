@@ -35,7 +35,7 @@ type Config struct {
 type Handoff struct {
 	postings    PostingIndex
 	purger      rwipostings.PostingPurger
-	undelivered *undeliveredpostings.UndeliveredPostings
+	undelivered *undeliveredpostings.Postings
 	holders     *wordpartitionholders.Holders
 	config      Config
 }
@@ -43,7 +43,7 @@ type Handoff struct {
 func New(
 	postings PostingIndex,
 	purger rwipostings.PostingPurger,
-	undelivered *undeliveredpostings.UndeliveredPostings,
+	undelivered *undeliveredpostings.Postings,
 	holders *wordpartitionholders.Holders,
 	config Config,
 ) *Handoff {
@@ -60,10 +60,10 @@ func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 	ctx context.Context,
 	tx *vault.Txn,
 	wordPartition yacymodel.WordPartition,
-	holders []yacymodel.Hash,
+	currentHolders []yacymodel.Hash,
 	responsiblePeers []yacymodel.Hash,
 ) (amountOfPostingsHandedOff int, err error) {
-	if !h.isHeldByResponsiblePeers(wordPartition, holders, responsiblePeers) {
+	if !h.isHeldByResponsiblePeers(wordPartition, currentHolders, responsiblePeers) {
 		return 0, nil
 	}
 	hasUndeliveredPostings, err := h.undelivered.AnyIn(tx, wordPartition)
@@ -91,12 +91,12 @@ func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 
 func (h *Handoff) isHeldByResponsiblePeers(
 	wordPartition yacymodel.WordPartition,
-	holders []yacymodel.Hash,
+	currentHolders []yacymodel.Hash,
 	responsiblePeers []yacymodel.Hash,
 ) bool {
 	position := yacymodel.DHTRingPositionOfWordPartition(wordPartition, h.config.Partitions)
 	amountOfCloserResponsibleHolders := 0
-	for _, peer := range holders {
+	for _, peer := range currentHolders {
 		if slices.Contains(responsiblePeers, peer) &&
 			yacymodel.CloserToDHTRingPosition(peer, h.config.Self, position) {
 			amountOfCloserResponsibleHolders++

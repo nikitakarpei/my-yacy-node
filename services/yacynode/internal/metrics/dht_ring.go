@@ -25,9 +25,9 @@ func NewDHTRingMetrics(registry prometheus.Registerer) *DHTRingMetrics {
 		[]string{labelDHTRingSector},
 	)
 	ringFractionFromPostingToHolder := prometheus.NewHistogram(prometheus.HistogramOpts{
-		Name: "yacynode_rwidistribution_replica_ring_fraction",
+		Name: "yacynode_rwidistribution_holder_ring_fraction",
 		Help: "Fraction of the DHT ring between a posting's position and the peer " +
-			"that accepted its replica.",
+			"that accepted it as a holder.",
 		Buckets: prometheus.ExponentialBucketsRange(1e-6, 1, 13),
 	})
 	registry.MustRegister(peersAcceptingRemoteIndexPerSector, ringFractionFromPostingToHolder)
@@ -46,7 +46,7 @@ func (d *DHTRingMetrics) ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersP
 	}
 }
 
-func (d *DHTRingMetrics) ObserveReplicaRingFractions(ringFractions []float64) {
+func (d *DHTRingMetrics) ObserveHolderRingFractions(ringFractions []float64) {
 	for _, fraction := range ringFractions {
 		d.ringFractionFromPostingToHolder.Observe(fraction)
 	}

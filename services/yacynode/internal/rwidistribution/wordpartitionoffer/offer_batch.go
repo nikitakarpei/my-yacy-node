@@ -1,14 +1,21 @@
 package wordpartitionoffer
 
+import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+
 type Batch struct {
-	Offers []WordPartitionOffer
-	Skips  []SkipReason
+	Offers []Offer
+	Waits  []Wait
 }
 
-func (b *Batch) add(offer WordPartitionOffer) {
+type Wait struct {
+	Position yacymodel.DHTRingPosition
+	Reason   WaitReason
+}
+
+func (b *Batch) addOffer(offer Offer) {
 	b.Offers = append(b.Offers, offer)
 }
 
-func (b *Batch) skip(skipReason SkipReason) {
-	b.Skips = append(b.Skips, skipReason)
+func (b *Batch) addWait(wait Wait) {
+	b.Waits = append(b.Waits, wait)
 }
