@@ -78,16 +78,16 @@ func TestLoopTakesTheNextBatchAtOnceAfterABatchThatEndedNoPass(t *testing.T) {
 		const postingsPerSmallBatch = 2
 		wordPartitions := wordPartitionsIn(3, 10*postingsPerSmallBatch+1)
 		lastWordPartition := wordPartitions[len(wordPartitions)-1]
-		peerInCooldown := peerAfter(wordPartitions[len(wordPartitions)-2], 1)
+		pausedPeer := peerAfter(wordPartitions[len(wordPartitions)-2], 1)
 		peer := peerAfter(lastWordPartition, 1)
 		h := openLoop(t, startClock(), loopOptions{
 			self:             thisNodeFartherThan(wordPartitions[0]),
-			cooldown:         time.Hour,
+			leastPause:       time.Hour,
 			postingsPerBatch: postingsPerSmallBatch,
 		})
-		h.reach(peerInCooldown, peer)
+		h.reach(pausedPeer, peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
-		h.eligibility.OfferDeclined(peerInCooldown.Hash, 0)
+		h.eligibility.OfferDeclined(pausedPeer.Hash, 0)
 		for _, wordPartition := range wordPartitions {
 			h.admit(t, wordPartition, urlsOf(1)...)
 		}

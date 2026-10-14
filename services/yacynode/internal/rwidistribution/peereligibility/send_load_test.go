@@ -19,7 +19,7 @@ func newSendHarness(workInFlight time.Duration) *sendHarness {
 	h := &sendHarness{observer: &fakeObserver{}, peer: yacymodel.WordHash("peer")}
 	h.peers = peereligibility.New(
 		peereligibility.Config{
-			Cooldown:                    time.Minute,
+			LeastPause:                  time.Minute,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,
 			WorkInFlight:                workInFlight,

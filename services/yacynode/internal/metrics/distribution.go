@@ -32,6 +32,7 @@ type DistributionMetrics struct {
 	longestRefreshLateness prometheus.Gauge
 	staleHoldersDropped    prometheus.Counter
 	postingsHandedOff      prometheus.Counter
+	postingsDelivered      prometheus.Counter
 	batchesSkipped         *prometheus.CounterVec
 	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
@@ -93,6 +94,10 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_postings_handed_off_total",
 			"Postings deleted after peers closer to their DHT position accepted them.",
 		),
+		postingsDelivered: counterFor(
+			"yacynode_rwidistribution_postings_delivered_total",
+			"Postings accepted by all peers of their DHT window and marked delivered.",
+		),
 		batchesSkipped: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_skipped_total",
 			"Distribution batches the node did not start, by reason.",
@@ -150,6 +155,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.longestRefreshLateness,
 		d.staleHoldersDropped,
 		d.postingsHandedOff,
+		d.postingsDelivered,
 		d.batchesSkipped,
 		d.batchesCompleted,
 		d.batchesAborted,
@@ -224,6 +230,10 @@ func (d *DistributionMetrics) ObserveStaleHoldersDropped(amountOfStaleHolders in
 
 func (d *DistributionMetrics) ObservePostingsHandedOff(amountOfPostings int) {
 	d.postingsHandedOff.Add(float64(amountOfPostings))
+}
+
+func (d *DistributionMetrics) ObservePostingsDelivered(amountOfPostings int) {
+	d.postingsDelivered.Add(float64(amountOfPostings))
 }
 
 func (d *DistributionMetrics) ObserveBatchSkipped(reason string) {

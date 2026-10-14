@@ -12,6 +12,7 @@ type fakeObserver struct {
 	longestRefreshLateness time.Duration
 	staleHoldersDropped    int
 	postingsHandedOff      int
+	postingsDelivered      int
 	batchesSkipped         map[string]int
 	batchesCompleted       int
 	batchesAborted         map[string]int
@@ -56,6 +57,13 @@ func (f *fakeObserver) ObservePostingsHandedOff(amountOfPostings int) {
 	defer f.guard.Unlock()
 
 	f.postingsHandedOff += amountOfPostings
+}
+
+func (f *fakeObserver) ObservePostingsDelivered(amountOfPostings int) {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	f.postingsDelivered += amountOfPostings
 }
 
 func (f *fakeObserver) ObserveBatchSkipped(reason string) {

@@ -29,10 +29,10 @@ func (f *fakeObserver) ObservePeersAtSendLimit(amountOfPeers int) {
 	f.peersAtSendLimit = amountOfPeers
 }
 
-func peersWith(cooldown time.Duration, clk *clock) *peereligibility.Peers {
+func peersWith(leastPause time.Duration, clk *clock) *peereligibility.Peers {
 	return peereligibility.New(
 		peereligibility.Config{
-			Cooldown:                    cooldown,
+			LeastPause:                  leastPause,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,
 		},
@@ -41,56 +41,56 @@ func peersWith(cooldown time.Duration, clk *clock) *peereligibility.Peers {
 	)
 }
 
-func assertCooldownLasts(
+func assertPauseLasts(
 	t *testing.T,
 	peers *peereligibility.Peers,
 	clk *clock,
 	peer yacymodel.Hash,
-	cooldown time.Duration,
+	leastPause time.Duration,
 ) {
 	t.Helper()
 
-	cooldownStart := clk.at
-	clk.at = cooldownStart.Add(cooldown - time.Second)
-	if !peers.IsInCooldown(peer) {
-		t.Fatalf("IsInCooldown = false, want true before %v pass", cooldown)
+	pauseStart := clk.at
+	clk.at = pauseStart.Add(leastPause - time.Second)
+	if !peers.IsPaused(peer) {
+		t.Fatalf("IsPaused = false, want true before %v pass", leastPause)
 	}
-	clk.at = cooldownStart.Add(cooldown)
-	if peers.IsInCooldown(peer) {
-		t.Fatalf("IsInCooldown = true, want false once %v pass", cooldown)
+	clk.at = pauseStart.Add(leastPause)
+	if peers.IsPaused(peer) {
+		t.Fatalf("IsPaused = true, want false once %v pass", leastPause)
 	}
 }
 
-func TestUnknownPeerIsNotInCooldown(t *testing.T) {
+func TestUnknownPeerIsNotPaused(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := peersWith(time.Minute, clk)
 
-	if peers.IsInCooldown(yacymodel.WordHash("peer")) {
-		t.Fatal("IsInCooldown = true, want false for a peer that was never offered a posting")
+	if peers.IsPaused(yacymodel.WordHash("peer")) {
+		t.Fatal("IsPaused = true, want false for a peer that was never offered a posting")
 	}
 }
 
-func TestDeclinedPeerIsInCooldownForTheCooldown(t *testing.T) {
+func TestDeclinedPeerIsPausedForTheLeastPause(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, 0)
 
-	assertCooldownLasts(t, peers, clk, peer, time.Minute)
+	assertPauseLasts(t, peers, clk, peer, time.Minute)
 }
 
-func TestRequestedPauseOutlastsCooldown(t *testing.T) {
+func TestRequestedPauseOutlastsLeastPause(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, time.Hour)
 
-	assertCooldownLasts(t, peers, clk, peer, time.Hour)
+	assertPauseLasts(t, peers, clk, peer, time.Hour)
 }
 
-func TestAcceptanceEndsCooldown(t *testing.T) {
+func TestAcceptanceEndsPause(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := peersWith(time.Hour, clk)
 	peer := yacymodel.WordHash("peer")
@@ -98,29 +98,29 @@ func TestAcceptanceEndsCooldown(t *testing.T) {
 	peers.OfferDeclined(peer, 0)
 	peers.OfferAccepted(peer)
 
-	if peers.IsInCooldown(peer) {
-		t.Fatal("IsInCooldown = true, want false after the peer accepted an offer")
+	if peers.IsPaused(peer) {
+		t.Fatal("IsPaused = true, want false after the peer accepted an offer")
 	}
 }
 
 type exclusionHarness struct {
-	clk      *clock
-	counter  *fakeObserver
-	peers    *peereligibility.Peers
-	peer     yacymodel.Hash
-	cooldown time.Duration
+	clk        *clock
+	counter    *fakeObserver
+	peers      *peereligibility.Peers
+	peer       yacymodel.Hash
+	leastPause time.Duration
 }
 
 func newExclusionHarness() *exclusionHarness {
 	h := &exclusionHarness{
-		clk:      &clock{at: time.Unix(1000, 0)},
-		counter:  &fakeObserver{},
-		peer:     yacymodel.WordHash("peer"),
-		cooldown: time.Minute,
+		clk:        &clock{at: time.Unix(1000, 0)},
+		counter:    &fakeObserver{},
+		peer:       yacymodel.WordHash("peer"),
+		leastPause: time.Minute,
 	}
 	h.peers = peereligibility.New(
 		peereligibility.Config{
-			Cooldown:                    h.cooldown,
+			LeastPause:                  h.leastPause,
 			FailedOffersBeforeExclusion: 3,
 			ExclusionDuration:           time.Hour,
 		},
@@ -148,7 +148,7 @@ func TestFailedOffersBelowTheThresholdOnlyCoolThePeerDown(t *testing.T) {
 	if h.counter.amountOfExclusions != 0 {
 		t.Fatalf("exclusions = %d, want 0", h.counter.amountOfExclusions)
 	}
-	assertCooldownLasts(t, h.peers, h.clk, h.peer, h.cooldown)
+	assertPauseLasts(t, h.peers, h.clk, h.peer, h.leastPause)
 }
 
 func TestFailedOffersInARowExcludeThePeerForTheExclusionDuration(t *testing.T) {

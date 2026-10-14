@@ -206,14 +206,14 @@ func TestLoopSendsTheWholeWordPartitionToAMissingHolder(t *testing.T) {
 	})
 }
 
-func TestLoopLetsAWordPartitionWaitForAResponsiblePeerInCooldown(t *testing.T) {
+func TestLoopLetsAWordPartitionWaitForAResponsiblePeerPaused(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartition := fixtureWordPartition()
-		holder, peerInCooldown := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
-		h := openLoop(t, startClock(), loopOptions{redundancy: 3, cooldown: time.Hour})
-		h.reach(holder, peerInCooldown)
+		holder, pausedPeer := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
+		h := openLoop(t, startClock(), loopOptions{redundancy: 3, leastPause: time.Hour})
+		h.reach(holder, pausedPeer)
 		h.transfers.answers[holder.Hash] = acceptedAnswer
-		h.transfers.answers[peerInCooldown.Hash] = declinedAnswer
+		h.transfers.answers[pausedPeer.Hash] = declinedAnswer
 		h.admit(t, wordPartition, urlsOf(2)...)
 		h.start(t)
 
@@ -221,22 +221,22 @@ func TestLoopLetsAWordPartitionWaitForAResponsiblePeerInCooldown(t *testing.T) {
 
 		if len(h.transfers.offered) != 2 {
 			t.Fatalf(
-				"offered = %v, want only the first two: one peer is in cooldown",
+				"offered = %v, want only the first two: one peer is paused",
 				h.transfers.offered,
 			)
 		}
 		if got := h.amountOfUndeliveredPostings(t); got != 2 {
-			t.Fatalf("undelivered postings = %d, want 2 waiting for the peer in cooldown", got)
+			t.Fatalf("undelivered postings = %d, want 2 waiting for the paused peer", got)
 		}
 
-		h.transfers.answers[peerInCooldown.Hash] = acceptedAnswer
+		h.transfers.answers[pausedPeer.Hash] = acceptedAnswer
 		h.advance(time.Hour)
 
-		if got := urlsIn(h.transfers.offeredTo(peerInCooldown)); len(got) != 4 {
-			t.Fatalf("peer after its cooldown got %v, want the word partition again", got)
+		if got := urlsIn(h.transfers.offeredTo(pausedPeer)); len(got) != 4 {
+			t.Fatalf("peer after its pause got %v, want the word partition again", got)
 		}
 		if got := h.amountOfUndeliveredPostings(t); got != 0 {
-			t.Fatalf("undelivered postings = %d, want none once the cooldown ended", got)
+			t.Fatalf("undelivered postings = %d, want none once the pause ended", got)
 		}
 	})
 }
@@ -332,6 +332,40 @@ func TestLoopMovesTheNextRefreshOnceTheHoldersGotTheWordPartitionAgain(t *testin
 
 		if got := len(h.transfers.offeredTo(holder)); got != 2 {
 			t.Fatalf("transfers to the holder = %d, want the delivery and one refresh", got)
+		}
+	})
+}
+
+func TestLoopCountsThePostingsEveryWindowPeerAccepted(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		if h.observer.postingsDelivered != 3 {
+			t.Fatalf("postingsDelivered = %d, want 3", h.observer.postingsDelivered)
+		}
+	})
+}
+
+func TestLoopCountsNoDeliveryForPostingsADeclinedSendLeavesUndelivered(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = declinedAnswer
+		h.admit(t, wordPartition, urlsOf(3)...)
+
+		h.start(t)
+
+		if h.observer.postingsDelivered != 0 {
+			t.Fatalf("postingsDelivered = %d, want 0", h.observer.postingsDelivered)
 		}
 	})
 }

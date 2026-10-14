@@ -73,9 +73,9 @@ func openHarness(t *testing.T, opts options) *harness {
 		undelivered:  undelivered,
 		reachability: &fakeReachability{recentlyReachable: map[yacymodel.Hash]bool{}},
 		eligibility: fakeEligibility{
-			peersInCooldown: map[yacymodel.Hash]bool{},
-			excludedPeers:   map[yacymodel.Hash]bool{},
-			busyPeers:       map[yacymodel.Hash]bool{},
+			pausedPeers:   map[yacymodel.Hash]bool{},
+			excludedPeers: map[yacymodel.Hash]bool{},
+			busyPeers:     map[yacymodel.Hash]bool{},
 		},
 		clock: time.Unix(1_700_000_000, 0).UTC(),
 	}
@@ -463,13 +463,13 @@ func (f *fakeReachability) IsRecentlyReachable(_ context.Context, peer yacymodel
 }
 
 type fakeEligibility struct {
-	peersInCooldown map[yacymodel.Hash]bool
-	excludedPeers   map[yacymodel.Hash]bool
-	busyPeers       map[yacymodel.Hash]bool
+	pausedPeers   map[yacymodel.Hash]bool
+	excludedPeers map[yacymodel.Hash]bool
+	busyPeers     map[yacymodel.Hash]bool
 }
 
-func (f fakeEligibility) IsInCooldown(peer yacymodel.Hash) bool {
-	return f.peersInCooldown[peer]
+func (f fakeEligibility) IsPaused(peer yacymodel.Hash) bool {
+	return f.pausedPeers[peer]
 }
 
 func (f fakeEligibility) IsExcluded(peer yacymodel.Hash) bool {
@@ -515,16 +515,16 @@ func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordParti
 	}
 }
 
-func TestAWordPartitionWithARecipientInCooldownWaitsWhileTheOthersGoOut(t *testing.T) {
+func TestAWordPartitionWithARecipientPausedWaitsWhileTheOthersGoOut(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartitions := fixtureWordPartitions(2)
 	waiting, free := wordPartitions[0], wordPartitions[1]
-	peerInCooldown, peerOutOfCooldown := peerAfter(waiting, 0), peerAfter(free, 0)
+	pausedPeer, freePeer := peerAfter(waiting, 0), peerAfter(free, 0)
 	h.admit(t, waiting, urlsOfPartition(1)...)
 	h.admit(t, free, urlsOfPartition(1)...)
-	h.eligibility.peersInCooldown[peerInCooldown.Hash] = true
+	h.eligibility.pausedPeers[pausedPeer.Hash] = true
 
-	offers := h.undeliveredBatch(t, peerInCooldown, peerOutOfCooldown).Offers
+	offers := h.undeliveredBatch(t, pausedPeer, freePeer).Offers
 
 	if got := wordPartitionsOf(offers); !slices.Equal(got, []yacymodel.WordPartition{free}) {
 		t.Fatalf("offers = %v, want only %v while %v waits", got, free, waiting)
@@ -766,16 +766,16 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	}
 }
 
-func TestAnUndeliveredWordPartitionWithARecipientInCooldownWaits(t *testing.T) {
+func TestAnUndeliveredWordPartitionWithARecipientPausedWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	peer := peerAfter(wordPartition, 0)
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.eligibility.peersInCooldown[peer.Hash] = true
+	h.eligibility.pausedPeers[peer.Hash] = true
 
 	batch := h.undeliveredBatch(t, peer)
 
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientInCooldown)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientPaused)
 }
 
 func TestAnUndeliveredWordPartitionWithABusyRecipientWaits(t *testing.T) {
@@ -814,7 +814,7 @@ func TestAnUndeliveredWordPartitionWithoutRecipientsWaits(t *testing.T) {
 	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitNoRecipient)
 }
 
-func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
+func TestADueRefreshWithARecipientPausedWaits(t *testing.T) {
 	h := openHarness(t, options{})
 	wordPartition := fixtureWordPartitions(1)[0]
 	holder := peerAfter(wordPartition, 0)
@@ -822,11 +822,11 @@ func TestADueRefreshWithARecipientInCooldownWaits(t *testing.T) {
 	h.deliverEverything(t)
 	h.recordHolders(t, wordPartition, holder.Hash)
 	h.clock = h.clock.Add(refreshInterval)
-	h.eligibility.peersInCooldown[holder.Hash] = true
+	h.eligibility.pausedPeers[holder.Hash] = true
 
 	batch := h.refreshBatch(t, holder)
 
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientInCooldown)
+	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientPaused)
 }
 
 func TestADueRefreshWithABusyRecipientWaits(t *testing.T) {
