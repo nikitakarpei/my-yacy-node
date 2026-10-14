@@ -37,6 +37,26 @@ func (parts TripleKeyParts[A, B, C]) KeysBeforeFirst(first A) KeyRange {
 	return parts.first.keysBefore(first)
 }
 
+func (parts TripleKeyParts[A, B, C]) KeysBetweenFirsts(lowest, highest A) KeyRange {
+	return parts.first.keysBetween(lowest, highest)
+}
+
+func (parts TripleKeyParts[A, B, C]) KeysWithFirstAndSecond(first A, second B) KeyRange {
+	return parts.second.keysWith(second).withPrefix(parts.first.encodingOf(first))
+}
+
+func (parts TripleKeyParts[A, B, C]) KeysAfterKeyThroughFirst(
+	first A,
+	second B,
+	third C,
+	lastFirst A,
+) KeyRange {
+	return KeyRange{
+		firstIncluded: append(parts.Key(first, second, third).encoded, zeroByte),
+		firstExcluded: successorOf(parts.first.encodingOf(lastFirst)),
+	}
+}
+
 func (parts TripleKeyParts[A, B, C]) PartsOf(storedKey []byte) (A, B, C, error) {
 	var (
 		second B
