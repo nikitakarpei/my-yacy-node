@@ -195,6 +195,7 @@ type runningNode struct {
 	opsAddr  string
 	stop     context.CancelFunc
 	stopped  chan error
+	finished chan struct{}
 }
 
 func startNode(t *testing.T, config nodeconfiguration.Settings) runningNode {
@@ -207,14 +208,27 @@ func startNode(t *testing.T, config nodeconfiguration.Settings) runningNode {
 		opsAddr:  listeners.Ops.Addr().String(),
 		stop:     cancel,
 		stopped:  make(chan error, 1),
+		finished: make(chan struct{}),
 	}
 	storage := openTestVault(t)
 	go func() {
+		defer close(node.finished)
 		node.stopped <- yacynode.RunNode(ctx, config, listeners, storage, prometheus.NewRegistry())
 	}()
-	t.Cleanup(cancel)
+	t.Cleanup(func() { node.stopAndAwait(t) })
 
 	return node
+}
+
+func (n runningNode) stopAndAwait(t *testing.T) {
+	t.Helper()
+
+	n.stop()
+	select {
+	case <-n.finished:
+	case <-time.After(settleFor):
+		t.Error("RunNode did not stop after it was cancelled")
+	}
 }
 
 func (n runningNode) wait(t *testing.T) error {
