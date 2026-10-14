@@ -352,3 +352,36 @@ func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {
 		})
 	}
 }
+
+func TestLoadReadsPeerExclusionOverrides(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvEgressProxyURL:                          "http://proxy:4750",
+		nodeconfiguration.EnvDistributionFailedOffersBeforeExclusion: "5",
+		nodeconfiguration.EnvDistributionPeerExclusionDuration:       "2h",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if config.Distribution.FailedOffersBeforeExclusion != 5 ||
+		config.Distribution.PeerExclusionDuration != 2*time.Hour {
+		t.Errorf(
+			"Distribution = %+v, want 5 failed offers before a 2h exclusion",
+			config.Distribution,
+		)
+	}
+}
+
+func TestLoadReadsPeerWorkInFlight(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvEgressProxyURL:               "http://proxy:4750",
+		nodeconfiguration.EnvDistributionPeerWorkInFlight: "3s",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if config.Distribution.PeerWorkInFlight != 3*time.Second {
+		t.Errorf("PeerWorkInFlight = %v, want 3s", config.Distribution.PeerWorkInFlight)
+	}
+}

@@ -7,48 +7,49 @@ import (
 )
 
 const (
-	EnvDistributionEnabled               = "YACY_DISTRIBUTION_ENABLED"
-	EnvDistributionHandoffEnabled        = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
-	EnvDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
-	EnvDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	EnvDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
-	EnvDistributionBatchConcurrency      = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
-	EnvDistributionCycleInterval         = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
-	EnvDistributionDrainBudget           = "YACY_DISTRIBUTION_DRAIN_BUDGET"
-	EnvDistributionLongestOfferInterval  = "YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"
-	EnvDistributionShortestOfferInterval = "YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL"
-	EnvDistributionRecipientCooldown     = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
-	EnvDistributionMinReachablePeers     = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
-	EnvDistributionURLMetadataBatchSize  = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
+	EnvDistributionEnabled                     = "YACY_DISTRIBUTION_ENABLED"
+	EnvDistributionHandoffEnabled              = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
+	EnvDistributionRedundancy                  = "YACY_DISTRIBUTION_REDUNDANCY"
+	EnvDistributionPartitionExponent           = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	EnvDistributionPostingsPerBatch            = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
+	EnvDistributionWorkers                     = "YACY_DISTRIBUTION_WORKERS"
+	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
+	EnvDistributionPeerPause                   = "YACY_DISTRIBUTION_PEER_PAUSE"
+	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
+	EnvDistributionPeerExclusionDuration       = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
+	EnvDistributionPeerWorkInFlight            = "YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT"
+	EnvDistributionMinReachablePeers           = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	EnvDistributionURLMetadataBatchSize        = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
-	DefaultDistributionEnabled               = false
-	DefaultDistributionHandoffEnabled        = true
-	DefaultDistributionRedundancy            = 3
-	DefaultDistributionPartitionExponent     = 4
-	DefaultDistributionPostingsPerBatch      = 1000
-	DefaultDistributionBatchConcurrency      = 2
-	DefaultDistributionCycleInterval         = time.Minute
-	DefaultDistributionDrainBudget           = time.Minute
-	DefaultDistributionLongestOfferInterval  = 24 * time.Hour
-	DefaultDistributionShortestOfferInterval = 5 * time.Minute
-	DefaultDistributionRecipientCooldown     = 10 * time.Minute
-	DefaultDistributionMinReachablePeers     = 32
-	DefaultDistributionURLMetadataBatchSize  = 50
+	DefaultDistributionEnabled                     = false
+	DefaultDistributionHandoffEnabled              = true
+	DefaultDistributionRedundancy                  = 3
+	DefaultDistributionPartitionExponent           = 4
+	DefaultDistributionPostingsPerBatch            = 1000
+	DefaultDistributionWorkers                     = 2
+	DefaultDistributionRefreshInterval             = 24 * time.Hour
+	DefaultDistributionPeerPause                   = 10 * time.Minute
+	DefaultDistributionFailedOffersBeforeExclusion = 3
+	DefaultDistributionPeerExclusionDuration       = time.Hour
+	DefaultDistributionPeerWorkInFlight            = time.Second
+	DefaultDistributionMinReachablePeers           = 32
+	DefaultDistributionURLMetadataBatchSize        = 50
 )
 
 type DistributionConfig struct {
-	Enabled              bool
-	HandoffEnabled       bool
-	Redundancy           int
-	PartitionExponent    uint
-	PostingsPerBatch     int
-	BatchConcurrency     int
-	CycleInterval        time.Duration
-	DrainBudget          time.Duration
-	OfferInterval        OfferIntervalConfig
-	RecipientCooldown    time.Duration
-	MinReachablePeers    int
-	URLMetadataBatchSize int
+	Enabled                     bool
+	HandoffEnabled              bool
+	Redundancy                  int
+	PartitionExponent           uint
+	PostingsPerBatch            int
+	AmountOfWorkers             int
+	RefreshInterval             time.Duration
+	PeerPause                   time.Duration
+	FailedOffersBeforeExclusion int
+	PeerExclusionDuration       time.Duration
+	PeerWorkInFlight            time.Duration
+	MinReachablePeers           int
+	URLMetadataBatchSize        int
 }
 
 //nolint:funlen // one flat read per distribution setting
@@ -86,34 +87,47 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	batchConcurrency, err := envconfig.PositiveInt(
-		getenv, EnvDistributionBatchConcurrency, DefaultDistributionBatchConcurrency,
+	amountOfWorkers, err := envconfig.PositiveInt(
+		getenv, EnvDistributionWorkers, DefaultDistributionWorkers,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
 
-	cycleInterval, err := envconfig.Duration(
-		getenv, EnvDistributionCycleInterval, DefaultDistributionCycleInterval,
+	refreshInterval, err := envconfig.Duration(
+		getenv, EnvDistributionRefreshInterval, DefaultDistributionRefreshInterval,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
 
-	drainBudget, err := envconfig.Duration(
-		getenv, EnvDistributionDrainBudget, DefaultDistributionDrainBudget,
+	peerPause, err := envconfig.Duration(
+		getenv, EnvDistributionPeerPause, DefaultDistributionPeerPause,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
 
-	offerInterval, err := loadOfferIntervalConfig(getenv)
+	failedOffersBeforeExclusion, err := envconfig.PositiveInt(
+		getenv,
+		EnvDistributionFailedOffersBeforeExclusion,
+		DefaultDistributionFailedOffersBeforeExclusion,
+	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
 
-	recipientCooldown, err := envconfig.Duration(
-		getenv, EnvDistributionRecipientCooldown, DefaultDistributionRecipientCooldown,
+	peerExclusionDuration, err := envconfig.Duration(
+		getenv,
+		EnvDistributionPeerExclusionDuration,
+		DefaultDistributionPeerExclusionDuration,
+	)
+	if err != nil {
+		return DistributionConfig{}, err
+	}
+
+	peerWorkInFlight, err := envconfig.Duration(
+		getenv, EnvDistributionPeerWorkInFlight, DefaultDistributionPeerWorkInFlight,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -134,40 +148,18 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 	}
 
 	return DistributionConfig{
-		Enabled:              enabled,
-		HandoffEnabled:       handoffEnabled,
-		Redundancy:           redundancy,
-		PartitionExponent:    uint(partitionExponent),
-		PostingsPerBatch:     postingsPerBatch,
-		BatchConcurrency:     batchConcurrency,
-		CycleInterval:        cycleInterval,
-		DrainBudget:          drainBudget,
-		OfferInterval:        offerInterval,
-		RecipientCooldown:    recipientCooldown,
-		MinReachablePeers:    minReachablePeers,
-		URLMetadataBatchSize: urlMetadataBatchSize,
+		Enabled:                     enabled,
+		HandoffEnabled:              handoffEnabled,
+		Redundancy:                  redundancy,
+		PartitionExponent:           uint(partitionExponent),
+		PostingsPerBatch:            postingsPerBatch,
+		AmountOfWorkers:             amountOfWorkers,
+		RefreshInterval:             refreshInterval,
+		PeerPause:                   peerPause,
+		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,
+		PeerExclusionDuration:       peerExclusionDuration,
+		PeerWorkInFlight:            peerWorkInFlight,
+		MinReachablePeers:           minReachablePeers,
+		URLMetadataBatchSize:        urlMetadataBatchSize,
 	}, nil
-}
-
-type OfferIntervalConfig struct {
-	Longest  time.Duration
-	Shortest time.Duration
-}
-
-func loadOfferIntervalConfig(getenv func(string) string) (OfferIntervalConfig, error) {
-	longest, err := envconfig.Duration(
-		getenv, EnvDistributionLongestOfferInterval, DefaultDistributionLongestOfferInterval,
-	)
-	if err != nil {
-		return OfferIntervalConfig{}, err
-	}
-
-	shortest, err := envconfig.Duration(
-		getenv, EnvDistributionShortestOfferInterval, DefaultDistributionShortestOfferInterval,
-	)
-	if err != nil {
-		return OfferIntervalConfig{}, err
-	}
-
-	return OfferIntervalConfig{Longest: longest, Shortest: shortest}, nil
 }

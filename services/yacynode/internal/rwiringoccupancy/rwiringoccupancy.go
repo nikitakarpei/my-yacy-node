@@ -7,7 +7,6 @@ package rwiringoccupancy
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type RingOccupancyQuery interface {
@@ -16,14 +15,14 @@ type RingOccupancyQuery interface {
 	) (map[yacymodel.DHTRingSector]int, error)
 }
 
-type RingOccupancyProjection interface {
-	RingOccupancyQuery
-	rwipostings.PostingObserver
-}
-
 func Open(
 	v *vault.Vault,
 	partitions yacymodel.DHTRingPartitions,
-) (RingOccupancyProjection, error) {
-	return openRingOccupancy(v, partitions)
+) (RingOccupancyQuery, vault.Projection[yacymodel.RWIPosting], error) {
+	occupancyPerSector, err := registerRingOccupancy(v, partitions)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &ringOccupancy{occupancyPerSector: occupancyPerSector}, occupancyPerSector, nil
 }

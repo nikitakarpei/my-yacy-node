@@ -10,10 +10,9 @@ func PairKey[A, B any](first KeyPart[A], second KeyPart[B]) PairKeyParts[A, B] {
 }
 
 func (parts PairKeyParts[A, B]) Key(first A, second B) Key {
-	items := parts.first.items(first)
-	items = append(items, parts.second.items(second)...)
+	encoded := parts.first.appendTo(make([]byte, 0, keyCapacity), first)
 
-	return keyOf(items)
+	return Key{encoded: parts.second.appendTo(encoded, second)}
 }
 
 func (parts PairKeyParts[A, B]) KeysWithFirst(first A) KeyRange {
@@ -32,30 +31,23 @@ func (parts PairKeyParts[A, B]) KeysBeforeFirst(first A) KeyRange {
 	return parts.first.keysBefore(first)
 }
 
+func (parts PairKeyParts[A, B]) KeysWithFirstBetweenSeconds(first A, lowest, highest B) KeyRange {
+	return parts.second.keysBetween(lowest, highest).withPrefix(parts.first.encodingOf(first))
+}
+
 func (parts PairKeyParts[A, B]) PartsOf(storedKey []byte) (A, B, error) {
-	firstTargets, firstValue := parts.first.holder()
-	secondTargets, secondValue := parts.second.holder()
+	var second B
 
-	var (
-		first  A
-		second B
-	)
-
-	if err := parseInto(storedKey, append(firstTargets, secondTargets...)); err != nil {
+	first, rest, err := parts.first.parseFrom(orderedBytes{encoded: storedKey})
+	if err != nil {
 		return first, second, err
 	}
-
-	first, err := firstValue()
+	second, rest, err = parts.second.parseFrom(rest)
 	if err != nil {
 		return first, second, err
 	}
 
-	second, err = secondValue()
-	if err != nil {
-		return first, second, err
-	}
-
-	return first, second, nil
+	return first, second, rest.leftoverError()
 }
 
 func (parts PairKeyParts[A, B]) KeyLayoutFor[K any](

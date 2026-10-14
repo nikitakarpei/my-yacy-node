@@ -1,0 +1,89 @@
+// Package undeliveredpostings owns the record of the postings that were added
+// or replaced and are not yet delivered to all their responsible peers. It
+// tells the undelivered postings of a word partition and marks postings delivered.
+package undeliveredpostings
+
+import (
+	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+type Postings struct {
+	postings   *vault.ChangeIndex[yacymodel.RWIPosting, undeliveredEntry]
+	partitions yacymodel.DHTRingPartitions
+}
+
+func Open(
+	v *vault.Vault,
+	partitions yacymodel.DHTRingPartitions,
+) (*Postings, vault.Projection[yacymodel.RWIPosting], error) {
+	postings, err := registerUndeliveredPostings(v, partitions)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &Postings{postings: postings, partitions: partitions}, postings, nil
+}
+
+func (u *Postings) MarkDelivered(
+	tx *vault.Txn,
+	posting Posting,
+) (wasMarked bool, err error) {
+	wasMarked, err = u.postings.Acknowledge(tx, posting.change)
+	if err != nil {
+		return false, fmt.Errorf("mark posting delivered: %w", err)
+	}
+
+	return wasMarked, nil
+}
+
+func (u *Postings) PostingsOf(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) ([]Posting, error) {
+	var postings []Posting
+	if err := u.postings.Scan(
+		tx,
+		entriesOf(wordPartition, u.partitions),
+		func(change vault.Change[undeliveredEntry]) (bool, error) {
+			postings = append(postings, undeliveredPostingFrom(change, u.partitions))
+
+			return true, nil
+		},
+	); err != nil {
+		return nil, fmt.Errorf("read undelivered postings of a word partition: %w", err)
+	}
+
+	return postings, nil
+}
+
+func (u *Postings) AnyIn(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) (bool, error) {
+	var found bool
+	if err := u.postings.Scan(
+		tx,
+		entriesOf(wordPartition, u.partitions),
+		func(vault.Change[undeliveredEntry]) (bool, error) {
+			found = true
+
+			return false, nil
+		},
+	); err != nil {
+		return false, fmt.Errorf("find undelivered postings of a word partition: %w", err)
+	}
+
+	return found, nil
+}
+
+func (u *Postings) AmountOfPostings(tx *vault.Txn) (int, error) {
+	amountOfPostings, err := u.postings.Len(tx)
+	if err != nil {
+		return 0, fmt.Errorf("count undelivered postings: %w", err)
+	}
+
+	return amountOfPostings, nil
+}

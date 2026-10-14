@@ -10,8 +10,17 @@ import (
 
 const impactOrderBucket vault.Name = "rwi_impact"
 
-func registerImpactOrder(v *vault.Vault) (*vault.Set[postingByImpact], error) {
-	postings, err := v.RegisterSet(impactOrderBucket, postingByImpactKeyLayout)
+const impactOrderVersion = "1"
+
+func registerImpactOrder(
+	v *vault.Vault,
+) (*vault.ValueIndex[yacymodel.RWIPosting, postingByImpact], error) {
+	postings, err := v.RegisterValueIndex(
+		impactOrderBucket,
+		impactOrderVersion,
+		postingByImpactKeyLayout,
+		postingByImpactOf,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("register postings by impact: %w", err)
 	}

@@ -27,6 +27,22 @@ func (keys KeyRange) withPrefix(prefix []byte) KeyRange {
 	return prefixed
 }
 
+func (keys KeyRange) After(key Key) KeyRange {
+	firstIncluded := keys.firstIncluded
+	if keyAfter := append(bytes.Clone(key.encoded), zeroByte); bytes.Compare(
+		keyAfter,
+		firstIncluded,
+	) > 0 {
+		firstIncluded = keyAfter
+	}
+	if keys.firstExcluded != nil && bytes.Compare(firstIncluded, keys.firstExcluded) >= 0 {
+		return KeyRange{firstIncluded: keys.firstExcluded, firstExcluded: keys.firstExcluded}
+	}
+
+	return KeyRange{firstIncluded: firstIncluded, firstExcluded: keys.firstExcluded}
+}
+
+// TECHDEBT: comments — an explanatory comment on successorOf is not an allowed comment form
 // No codec emits an all-0xFF encoding, so the nil successor never stands for a real key.
 func successorOf(prefix []byte) []byte {
 	for position := len(prefix) - 1; position >= 0; position-- {

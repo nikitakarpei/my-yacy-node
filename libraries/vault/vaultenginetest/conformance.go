@@ -1,10 +1,8 @@
 // Package vaultenginetest holds the storage-contract suite every vault Engine driver
-// runs against itself. A driver passes its own opener to RunConformance and the
-// suite exercises the guarantees a backend must honour: durable round trips,
-// bounded scans, transaction atomicity, bucket isolation, byte accounting, and
-// amounts that add up without a read.
-// Engine-independent behaviour the port enforces lives with the port's own
-// tests, not here.
+// runs against itself: durable round trips, bounded scans, transaction atomicity,
+// bucket isolation, byte accounting, amounts that add up without a read, and index
+// entries that follow their records. Engine-independent behaviour lives with the
+// port's own tests.
 package vaultenginetest
 
 import (
@@ -32,6 +30,10 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 	t.Run(
 		"ReturningWritesReportTheValueTheyReplacedOrDeleted",
 		func(t *testing.T) { returningWritesReportTheValueTheyReplacedOrDeleted(t, open) },
+	)
+	t.Run(
+		"TransactionReadsItsOwnWritesAfterReadingTheKey",
+		func(t *testing.T) { transactionReadsItsOwnWritesAfterReadingTheKey(t, open) },
 	)
 	t.Run("ScanVisitsRangeInOrder", func(t *testing.T) { scanVisitsRangeInOrder(t, open) })
 	t.Run("ScanStopsWhenAsked", func(t *testing.T) { scanStopsWhenAsked(t, open) })
@@ -66,6 +68,7 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 		func(t *testing.T) { repeatedWriteSeesTheSameStoredState(t, open) },
 	)
 	runAmountConformance(t, open)
+	runIndexConformance(t, open)
 }
 
 func openVault(
@@ -265,6 +268,69 @@ func returningWritesReportTheValueTheyReplacedOrDeleted(
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
+}
+
+func transactionReadsItsOwnWritesAfterReadingTheKey(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	ctx := context.Background()
+	v := openVault(t, open, 0)
+	words := register(t, v, "words")
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		if err := expectRewrittenWord(tx, words, "", false); err != nil {
+			return err
+		}
+		if _, err := words.Put(tx, rewrittenWordKey, "alpha"); err != nil {
+			return wrapTest(err)
+		}
+		if err := expectRewrittenWord(tx, words, "alpha", true); err != nil {
+			return err
+		}
+		if _, err := words.Delete(tx, rewrittenWordKey); err != nil {
+			return wrapTest(err)
+		}
+		if err := expectRewrittenWord(tx, words, "", false); err != nil {
+			return err
+		}
+		replacedValue, wasReplaced, err := words.PutReturning(tx, rewrittenWordKey, "again")
+		if err != nil {
+			return wrapTest(err)
+		}
+		if wasReplaced {
+			t.Fatalf("PutReturning after a Delete replaced %q", replacedValue)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if err := v.View(ctx, func(tx *vault.Txn) error {
+		return expectRewrittenWord(tx, words, "again", true)
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+const rewrittenWordKey = "a"
+
+func expectRewrittenWord(
+	tx *vault.Txn,
+	words *vault.Collection[string, string],
+	wantValue string,
+	wantFound bool,
+) error {
+	value, found, err := words.Get(tx, rewrittenWordKey)
+	if err != nil {
+		return wrapTest(err)
+	}
+	if found != wantFound || value != wantValue {
+		return fmt.Errorf("read %q, %v, want %q, %v", value, found, wantValue, wantFound)
+	}
+
+	return nil
 }
 
 func scanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, error)) {

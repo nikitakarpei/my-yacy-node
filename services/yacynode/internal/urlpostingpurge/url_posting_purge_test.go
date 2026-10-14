@@ -50,17 +50,24 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	references, err := urlreferences.Open(v)
+	references, referenceProjection, err := urlreferences.Open(v)
 	if err != nil {
 		t.Fatalf("urlreferences.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(v, references)
+	index, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		yacymodel.DHTRingPartitions(1),
+		[]vault.Projection[yacymodel.RWIPosting]{referenceProjection},
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 	observing := &recordedPurges{postingsPerURL: map[yacymodel.URLHash]int{}}
 	_, evictor, _, receiver, err := urlmeta.Open(
+		context.Background(),
 		v,
+		nil,
 		urlpostingpurge.New(references, purger, observing),
 	)
 	if err != nil {

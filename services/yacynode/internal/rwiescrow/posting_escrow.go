@@ -28,7 +28,7 @@ type postingHold struct {
 type PostingEscrow struct {
 	vault    *vault.Vault
 	escrowed *vault.Collection[postingIdentity, escrowedPosting]
-	holds    *vault.Set[postingHold]
+	holds    *vault.ValueIndex[postingHold, postingHold]
 	admitter rwipostings.PostingAdmitter
 	observer HoldObserver
 	capacity int
@@ -36,43 +36,25 @@ type PostingEscrow struct {
 }
 
 func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	identity := postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
-	heldAt := e.now()
-
-	previous, found, err := e.escrowed.Get(tx, identity)
-	if err != nil {
-		return fmt.Errorf("read escrowed posting: %w", err)
-	}
-	if found {
-		if _, err := e.holds.Remove(
-			tx,
-			postingHold{HeldAt: previous.HeldAt, Posting: identity},
-		); err != nil {
-			return fmt.Errorf("drop stale posting hold: %w", err)
-		}
-	}
-
-	if _, err := e.escrowed.Put(tx, identity, escrowedPosting{
-		HeldAt:  heldAt,
+	wasReplaced, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
+		HeldAt:  e.now(),
 		Posting: posting,
-	}); err != nil {
+	})
+	if err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
 	}
-	if _, err := e.holds.Add(tx, postingHold{HeldAt: heldAt, Posting: identity}); err != nil {
-		return fmt.Errorf("record posting hold: %w", err)
-	}
-	if !found {
+	if !wasReplaced {
 		e.observer.ObserveHeld(tx, 1)
 	}
 
 	return nil
 }
 
-func (e *PostingEscrow) URLStored(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-	_ yacymodel.Optional[yacymodel.CalendarDay],
-) error {
+func identityOf(posting yacymodel.RWIPosting) postingIdentity {
+	return postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
+}
+
+func (e *PostingEscrow) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
 	waiting, err := e.postingsWaitingFor(tx, hash)
 	if err != nil {
 		return err
@@ -112,7 +94,7 @@ func (e *PostingEscrow) Expire(
 			return err
 		}
 		for _, hold := range expiredHolds {
-			if err := e.drop(tx, hold); err != nil {
+			if err := e.drop(tx, hold.Posting); err != nil {
 				return err
 			}
 		}
@@ -201,21 +183,12 @@ func (e *PostingEscrow) release(tx *vault.Txn, escrowed escrowedPosting) error {
 		return fmt.Errorf("admit released posting: %w", err)
 	}
 
-	return e.drop(tx, postingHold{
-		HeldAt: escrowed.HeldAt,
-		Posting: postingIdentity{
-			Word: escrowed.Posting.WordHash,
-			URL:  escrowed.Posting.URLHash,
-		},
-	})
+	return e.drop(tx, identityOf(escrowed.Posting))
 }
 
-func (e *PostingEscrow) drop(tx *vault.Txn, hold postingHold) error {
-	if _, err := e.escrowed.Delete(tx, hold.Posting); err != nil {
+func (e *PostingEscrow) drop(tx *vault.Txn, identity postingIdentity) error {
+	if _, err := e.escrowed.Delete(tx, identity); err != nil {
 		return fmt.Errorf("drop escrowed posting: %w", err)
-	}
-	if _, err := e.holds.Remove(tx, hold); err != nil {
-		return fmt.Errorf("drop posting hold: %w", err)
 	}
 
 	return nil

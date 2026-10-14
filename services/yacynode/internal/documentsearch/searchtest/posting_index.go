@@ -88,6 +88,15 @@ func (s PostingIndex) LargestImpactOf(
 	return rwipostingimpactorder.ImpactOf(ordered[0]), true, nil
 }
 
+func (s PostingIndex) PostingsOfWordIn(
+	*vault.Txn,
+	yacymodel.Hash,
+	uint,
+	func(yacymodel.RWIPosting) (bool, error),
+) error {
+	return nil
+}
+
 type FailingPostingIndex struct {
 	Err error
 }
@@ -121,4 +130,13 @@ func (s FailingPostingIndex) LargestImpactOf(
 	yacymodel.Hash,
 ) (rwipostingimpactorder.Impact, bool, error) {
 	return 0, false, s.Err
+}
+
+func (s FailingPostingIndex) PostingsOfWordIn(
+	*vault.Txn,
+	yacymodel.Hash,
+	uint,
+	func(yacymodel.RWIPosting) (bool, error),
+) error {
+	return s.Err
 }

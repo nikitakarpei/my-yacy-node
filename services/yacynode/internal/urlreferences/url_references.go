@@ -12,35 +12,12 @@ type wordByURL struct {
 	word yacymodel.Hash
 }
 
+func wordByURLOf(posting yacymodel.RWIPosting) wordByURL {
+	return wordByURL{url: posting.URLHash, word: posting.WordHash}
+}
+
 type urlReferences struct {
-	words *vault.Set[wordByURL]
-}
-
-func openURLReferences(v *vault.Vault) (*urlReferences, error) {
-	words, err := registerWordsByURL(v)
-	if err != nil {
-		return nil, err
-	}
-
-	return &urlReferences{words: words}, nil
-}
-
-func (r *urlReferences) PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	reference := wordByURL{url: posting.URLHash, word: posting.WordHash}
-	if _, err := r.words.Add(tx, reference); err != nil {
-		return fmt.Errorf("record word by url: %w", err)
-	}
-
-	return nil
-}
-
-func (r *urlReferences) PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	purged := wordByURL{url: posting.URLHash, word: posting.WordHash}
-	if _, err := r.words.Remove(tx, purged); err != nil {
-		return fmt.Errorf("drop word by url: %w", err)
-	}
-
-	return nil
+	words *vault.ValueIndex[yacymodel.RWIPosting, wordByURL]
 }
 
 func (r *urlReferences) WordsReferencing(
@@ -64,4 +41,4 @@ func (r *urlReferences) WordsReferencing(
 	return words, nil
 }
 
-var _ ReferenceProjection = (*urlReferences)(nil)
+var _ ReferenceQuery = (*urlReferences)(nil)

@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
@@ -31,15 +32,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
@@ -51,6 +52,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type node struct {
@@ -60,7 +62,7 @@ type node struct {
 	evictionObserver      *metrics.EvictionMetrics
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
-	distributionCycle     *distributioncycle.Cycle
+	distributionLoop      *distributionloop.Loop
 	pageOfferIntake       *pageOfferIntake
 }
 
@@ -87,12 +89,12 @@ const indexAbstractDocumentsPerAnswer = 10000
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
-	vault *vault.Vault,
+	storage *vault.Vault,
 	registry *prometheus.Registry,
 ) (node, error) {
 	now := time.Now
 
-	selfPeerHash, err := nodepeerhash.Open(vault)
+	selfPeerHash, err := nodepeerhash.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("open peer hash: %w", err)
 	}
@@ -135,72 +137,78 @@ func assembleNode(
 		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL)},
 	}
 
-	metrics.NewVaultCapacityMetrics(registry, vault)
-	metrics.NewVaultBucketRecordMetrics(registry, vault)
+	metrics.NewVaultCapacityMetrics(registry, storage)
+	metrics.NewVaultBucketRecordMetrics(registry, storage)
 
-	urlMetadataStaleness, err := urlmetastaleness.Open(vault)
+	urlMetadataStaleness, stalenessProjection, err := urlmetastaleness.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("url metadata staleness: %w", err)
 	}
 
-	urlReferences, err := urlreferences.Open(vault)
+	urlReferences, urlReferenceProjection, err := urlreferences.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("url references: %w", err)
 	}
 
-	postingImpactOrder, err := rwipostingimpactorder.Open(vault)
+	postingImpactOrder, postingImpactProjection, err := rwipostingimpactorder.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
 	}
 
-	postingAmounts, err := rwipostingamount.Open(vault)
+	postingAmounts, postingAmountProjection, err := rwipostingamount.Open(storage)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
 	}
 
-	ringOccupancy, err := rwiringoccupancy.Open(vault, dhtRingPartitions)
+	ringOccupancy, ringOccupancyProjection, err := rwiringoccupancy.Open(
+		storage,
+		dhtRingPartitions,
+	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi ring occupancy: %w", err)
 	}
 	metrics.NewRWIRingOccupancyMetrics(
 		registry,
-		vault,
+		storage,
 		ringOccupancy,
 		yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(identity.Hash)),
 	)
 
-	distributionObserver := metrics.NewDistributionMetrics(registry)
-
-	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
-		vault,
+	undeliveredPostings, undeliveredPostingProjection, wordPartitionSchedule, err := openDistributionRecords(
+		ctx,
+		storage,
 		dhtRingPartitions,
-		postingofferinterval.Bounds{
-			Shortest: config.Distribution.OfferInterval.Shortest,
-			Longest:  config.Distribution.OfferInterval.Longest,
-		},
+		config.Distribution.RefreshInterval,
+		config.Distribution.PeerPause,
 		now,
-		distributionObserver,
 	)
 	if err != nil {
-		return node{}, fmt.Errorf("rwi distribution: %w", err)
+		return node{}, err
 	}
 
 	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
-		vault,
-		urlReferences,
-		postingRecords,
-		postingImpactOrder,
-		postingAmounts,
-		ringOccupancy,
+		ctx,
+		storage,
+		dhtRingPartitions,
+		[]vault.Projection[yacymodel.RWIPosting]{
+			urlReferenceProjection,
+			postingImpactProjection,
+			postingAmountProjection,
+			ringOccupancyProjection,
+			undeliveredPostingProjection,
+		},
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
 	}
+	loopRelay := &distributionLoopRelay{}
+	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter, loopRelay)
 
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
 	postingEscrow, err := rwiescrow.Open(
-		vault,
+		ctx,
+		storage,
 		postingAdmitter,
 		postingEscrowObserver,
 		config.Escrow.PostingCapacity,
@@ -209,7 +217,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("rwi escrow: %w", err)
 	}
-	metrics.NewRWIEscrowCapacityMetrics(registry, vault, postingEscrow)
+	metrics.NewRWIEscrowCapacityMetrics(registry, storage, postingEscrow)
 
 	urlPostingPurge := urlpostingpurge.New(
 		urlReferences,
@@ -218,8 +226,9 @@ func assembleNode(
 	)
 
 	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
-		vault,
-		urlMetadataStaleness,
+		ctx,
+		storage,
+		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		postingEscrow,
 		urlPostingPurge,
 	)
@@ -230,7 +239,7 @@ func assembleNode(
 	stopwordHashes := stopwordhashes.New()
 	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
 	postingReceiver := rwiadmission.Open(
-		vault,
+		storage,
 		urlDirectory,
 		postingAdmitter,
 		postingEscrow,
@@ -243,7 +252,7 @@ func assembleNode(
 	)
 
 	pageReceiver := pageadmission.Open(
-		vault,
+		storage,
 		urlEvictor,
 		urlMetadataAdmitter,
 		postingAdmitter,
@@ -251,7 +260,7 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, vault, postings, urlDirectory)
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, postings, urlDirectory)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -268,14 +277,14 @@ func assembleNode(
 	urlmeta.MountURLMetadataLookup(
 		router,
 		identity,
-		vault,
+		storage,
 		urlDirectory,
 		servedURLMetadataPerRequest,
 	)
 	rwiingress.Mount(router, identity, postingReceiver)
-	nodestatus.MountQuery(router, identity, now, vault, postings, postingAmounts, urlDirectory)
+	nodestatus.MountQuery(router, identity, now, storage, postings, postingAmounts, urlDirectory)
 	documentsearch.MountSearch(
-		vault,
+		storage,
 		router,
 		identity,
 		postings,
@@ -288,13 +297,16 @@ func assembleNode(
 	)
 
 	peerRoster, err := peerroster.Open(
-		vault,
+		storage,
 		now,
 		config.PeerExchange.KnownRosterCapacity,
 		config.PeerExchange.ReachableRosterCapacity,
 		config.PeerExchange.AnnounceInterval,
 		identity.Hash,
-		metrics.NewPeerRosterMetrics(registry),
+		rosterObserverFanOut{
+			metrics: metrics.NewPeerRosterMetrics(registry),
+			relay:   loopRelay,
+		},
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("open peer roster: %w", err)
@@ -328,70 +340,91 @@ func assembleNode(
 		pageOffers = intake
 	}
 
-	var distributionCycle *distributioncycle.Cycle
+	var distributionLoop *distributionloop.Loop
 
 	if config.Distribution.Enabled {
-		var handoff distributioncycle.PostingHandoff = postinghandoff.KeepEveryPosting{}
+		var handoff distributionloop.WordPartitionHandoff = wordpartitionhandoff.KeepEveryWordPartition{}
 		if config.Distribution.HandoffEnabled {
-			handoff = postinghandoff.New(
+			handoff = wordpartitionhandoff.New(
+				postings,
 				postingPurger,
-				peerRoster,
-				postinghandoff.Config{
+				undeliveredPostings,
+				wordPartitionSchedule,
+				wordpartitionhandoff.Config{
+					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
 					Redundancy: config.Distribution.Redundancy,
 				},
 			)
 		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
-		replicaEligibility := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
+		distributionObserver := metrics.NewDistributionMetrics(registry)
+		peerEligibility := peereligibility.New(
+			peereligibility.Config{
+				LeastPause:                  config.Distribution.PeerPause,
+				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
+				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
+				WorkInFlight:                config.Distribution.PeerWorkInFlight,
+			},
+			now,
+			distributionObserver,
+		)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
 
-		distributionCycle = distributioncycle.New(
-			vault,
-			postingoffer.New(
-				vault,
-				offerSchedule,
-				postingReplicas,
+		distributionLoop = distributionloop.New(
+			storage,
+			wordpartitionoffer.New(
+				storage,
+				undeliveredPostings,
+				wordPartitionSchedule,
 				postings,
 				peerRoster,
-				replicaEligibility,
-				dhtRingObserver,
-				postingoffer.Config{
+				peerEligibility,
+				wordpartitionoffer.Config{
 					Partitions: dhtRingPartitions,
 					Self:       identity.Hash,
 					Redundancy: config.Distribution.Redundancy,
 				},
 			),
+			undeliveredPostings,
+			wordPartitionSchedule,
 			handoff,
 			postingtransfer.New(
-				vault,
-				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
+				storage,
+				postingcourier.New(
+					peerMessageExchange,
+					identity.NetworkName,
+					identity.Hash,
+					now,
+					distributionObserver,
+				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
 						peerMessageExchange,
 						identity.NetworkName,
 						identity.Hash,
+						now,
+						distributionObserver,
 					),
 					config.Distribution.URLMetadataBatchSize,
 				),
 				urlDirectory,
 				distributionObserver,
 			),
-			replicaEligibility,
-			postingReplicas,
-			offerSchedule,
+			peerEligibility,
 			peerRoster,
-			now,
+			wallclock.Clock{},
+			distributionObserver,
 			distributionObserver,
 			dhtRingObserver,
-			distributioncycle.Config{
-				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
-				BatchConcurrency:  config.Distribution.BatchConcurrency,
-				CycleInterval:     config.Distribution.CycleInterval,
-				DrainBudget:       config.Distribution.DrainBudget,
-				MinReachablePeers: config.Distribution.MinReachablePeers,
+			distributionloop.Config{
+				PostingsPerBatch:    config.Distribution.PostingsPerBatch,
+				PostingsPerTransfer: yacyproto.MaxTransferRWIEntryCount,
+				AmountOfWorkers:     config.Distribution.AmountOfWorkers,
+				MinReachablePeers:   config.Distribution.MinReachablePeers,
 			},
 		)
+		loopRelay.forwardTo(distributionLoop)
 	}
 
 	return node{
@@ -401,7 +434,7 @@ func assembleNode(
 			httpmetrics.NewEndpointMetrics(registry, "yacynode"),
 		),
 		evictionSweeper: eviction.NewSweeper(
-			vault,
+			storage,
 			urlEvictor,
 			urlMetadataStaleness,
 			eviction.Config{
@@ -414,7 +447,43 @@ func assembleNode(
 		evictionObserver:      metrics.NewEvictionMetrics(registry),
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
-		distributionCycle:     distributionCycle,
+		distributionLoop:      distributionLoop,
 		pageOfferIntake:       pageOffers,
 	}, nil
+}
+
+func openDistributionRecords(
+	ctx context.Context,
+	storage *vault.Vault,
+	dhtRingPartitions yacymodel.DHTRingPartitions,
+	refreshInterval time.Duration,
+	firstRetryDelay time.Duration,
+	now func() time.Time,
+) (
+	*undeliveredpostings.Postings,
+	vault.Projection[yacymodel.RWIPosting],
+	*wordpartitionschedule.Schedule,
+	error,
+) {
+	undeliveredPostings, undeliveredPostingProjection, err := undeliveredpostings.Open(
+		storage,
+		dhtRingPartitions,
+	)
+	if err != nil {
+		return nil, nil, nil, fmt.Errorf("undelivered postings: %w", err)
+	}
+
+	wordPartitionSchedule, err := wordpartitionschedule.Open(
+		ctx,
+		storage,
+		dhtRingPartitions,
+		refreshInterval,
+		firstRetryDelay,
+		now,
+	)
+	if err != nil {
+		return nil, nil, nil, fmt.Errorf("word partition schedule: %w", err)
+	}
+
+	return undeliveredPostings, undeliveredPostingProjection, wordPartitionSchedule, nil
 }

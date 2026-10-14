@@ -1,6 +1,7 @@
 package metrics_test
 
 import (
+	"maps"
 	"strings"
 	"testing"
 	"time"
@@ -22,12 +23,12 @@ func TestDistributionCountsOffersByResult(t *testing.T) {
 	expected := `
 # HELP yacynode_rwidistribution_posting_offers_sent_total Posting offers sent to peers, by offer outcome.
 # TYPE yacynode_rwidistribution_posting_offers_sent_total counter
-yacynode_rwidistribution_posting_offers_sent_total{result="busy"} 1
-yacynode_rwidistribution_posting_offers_sent_total{result="ok"} 2
+yacynode_rwidistribution_posting_offers_sent_total{outcome="busy"} 1
+yacynode_rwidistribution_posting_offers_sent_total{outcome="ok"} 2
 # HELP yacynode_rwidistribution_postings_offered_total RWI postings offered to peers, by offer outcome.
 # TYPE yacynode_rwidistribution_postings_offered_total counter
-yacynode_rwidistribution_postings_offered_total{result="busy"} 1
-yacynode_rwidistribution_postings_offered_total{result="ok"} 5
+yacynode_rwidistribution_postings_offered_total{outcome="busy"} 1
+yacynode_rwidistribution_postings_offered_total{outcome="ok"} 5
 `
 	if err := testutil.GatherAndCompare(
 		registry,
@@ -71,12 +72,12 @@ func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
 	expected := `
 # HELP yacynode_rwidistribution_url_metadata_deliveries_total URL metadata deliveries sent to peers, by delivery outcome.
 # TYPE yacynode_rwidistribution_url_metadata_deliveries_total counter
-yacynode_rwidistribution_url_metadata_deliveries_total{result="accepted"} 2
-yacynode_rwidistribution_url_metadata_deliveries_total{result="deferred"} 1
+yacynode_rwidistribution_url_metadata_deliveries_total{outcome="accepted"} 2
+yacynode_rwidistribution_url_metadata_deliveries_total{outcome="deferred"} 1
 # HELP yacynode_rwidistribution_urls_delivered_total URLs delivered to peers as metadata, by delivery outcome.
 # TYPE yacynode_rwidistribution_urls_delivered_total counter
-yacynode_rwidistribution_urls_delivered_total{result="accepted"} 5
-yacynode_rwidistribution_urls_delivered_total{result="deferred"} 1
+yacynode_rwidistribution_urls_delivered_total{outcome="accepted"} 5
+yacynode_rwidistribution_urls_delivered_total{outcome="deferred"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
@@ -88,63 +89,42 @@ yacynode_rwidistribution_urls_delivered_total{result="deferred"} 1
 	}
 }
 
-func TestDistributionCountsStaleReplicasDropped(t *testing.T) {
+func TestDistributionCountsStaleHoldersDropped(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveStaleReplicasDropped(2)
+	observer.ObserveStaleHoldersDropped(2)
 
 	expected := `
-# HELP yacynode_rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.
-# TYPE yacynode_rwidistribution_stale_replicas_dropped_total counter
-yacynode_rwidistribution_stale_replicas_dropped_total 2
+# HELP yacynode_rwidistribution_stale_holders_dropped_total Holders dropped because they are no longer responsible.
+# TYPE yacynode_rwidistribution_stale_holders_dropped_total counter
+yacynode_rwidistribution_stale_holders_dropped_total 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_stale_replicas_dropped_total",
+		"yacynode_rwidistribution_stale_holders_dropped_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
-func TestDistributionCountsSkippedCyclesByReason(t *testing.T) {
+func TestDistributionCountsCompletedBatches(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveCycleSkipped("too_few_reachable_peers")
-	observer.ObserveCycleSkipped("too_few_reachable_peers")
+	observer.ObserveBatchCompleted()
+	observer.ObserveBatchCompleted()
 
 	expected := `
-# HELP yacynode_rwidistribution_cycles_skipped_total Distribution cycles that ran no batch, by reason.
-# TYPE yacynode_rwidistribution_cycles_skipped_total counter
-yacynode_rwidistribution_cycles_skipped_total{reason="too_few_reachable_peers"} 2
+# HELP yacynode_rwidistribution_batches_completed_total Distribution batches that recorded their outcome.
+# TYPE yacynode_rwidistribution_batches_completed_total counter
+yacynode_rwidistribution_batches_completed_total 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_cycles_skipped_total",
-	); err != nil {
-		t.Fatalf("GatherAndCompare: %v", err)
-	}
-}
-
-func TestDistributionCountsCompletedCycles(t *testing.T) {
-	registry := prometheus.NewRegistry()
-	observer := metrics.NewDistributionMetrics(registry)
-
-	observer.ObserveCycleCompleted()
-	observer.ObserveCycleCompleted()
-
-	expected := `
-# HELP yacynode_rwidistribution_cycles_completed_total Distribution cycles that ran to the end of their due postings.
-# TYPE yacynode_rwidistribution_cycles_completed_total counter
-yacynode_rwidistribution_cycles_completed_total 2
-`
-	if err := testutil.GatherAndCompare(
-		registry,
-		strings.NewReader(expected),
-		"yacynode_rwidistribution_cycles_completed_total",
+		"yacynode_rwidistribution_batches_completed_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -159,7 +139,7 @@ func TestDistributionCountsAbortedBatchesByReason(t *testing.T) {
 	observer.ObserveBatchAborted("not_written")
 
 	expected := `
-# HELP yacynode_rwidistribution_batches_aborted_total Distribution batches aborted before their postings were rescheduled, by reason.
+# HELP yacynode_rwidistribution_batches_aborted_total Distribution batches aborted before their outcome was recorded, by reason.
 # TYPE yacynode_rwidistribution_batches_aborted_total counter
 yacynode_rwidistribution_batches_aborted_total{reason="due_postings_unread"} 1
 yacynode_rwidistribution_batches_aborted_total{reason="not_written"} 2
@@ -173,43 +153,241 @@ yacynode_rwidistribution_batches_aborted_total{reason="not_written"} 2
 	}
 }
 
-func TestDistributionTracksScheduledPostings(t *testing.T) {
+func TestDistributionTracksUndeliveredPostings(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveScheduledPostings("shortfall", 7)
-	observer.ObserveScheduledPostings("refresh", 2)
+	observer.ObserveUndeliveredPostings(7)
+	observer.ObserveUndeliveredPostings(4)
 
 	expected := `
-# HELP yacynode_rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule, by offer order.
-# TYPE yacynode_rwidistribution_scheduled_postings gauge
-yacynode_rwidistribution_scheduled_postings{order="refresh"} 2
-yacynode_rwidistribution_scheduled_postings{order="shortfall"} 7
+# HELP yacynode_rwidistribution_undelivered_postings Postings not yet delivered to all their responsible peers.
+# TYPE yacynode_rwidistribution_undelivered_postings gauge
+yacynode_rwidistribution_undelivered_postings 4
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_scheduled_postings",
+		"yacynode_rwidistribution_undelivered_postings",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
-func TestDistributionTracksLongestOfferLateness(t *testing.T) {
+func TestDistributionTracksTheLongestDueWait(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveLongestOfferLateness("shortfall", 90*time.Second)
+	observer.ObserveLongestDueWait(90 * time.Second)
 
 	expected := `
-# HELP yacynode_rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time, by offer order.
-# TYPE yacynode_rwidistribution_longest_offer_lateness_seconds gauge
-yacynode_rwidistribution_longest_offer_lateness_seconds{order="shortfall"} 90
+# HELP yacynode_rwidistribution_longest_due_wait_seconds How long the word partition due longest has waited to be sent.
+# TYPE yacynode_rwidistribution_longest_due_wait_seconds gauge
+yacynode_rwidistribution_longest_due_wait_seconds 90
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_longest_offer_lateness_seconds",
+		"yacynode_rwidistribution_longest_due_wait_seconds",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionCountsPostingsHandedOff(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingsHandedOff(3)
+	observer.ObservePostingsHandedOff(0)
+	observer.ObservePostingsHandedOff(2)
+
+	expected := `
+# HELP yacynode_rwidistribution_postings_handed_off_total Postings deleted after peers closer to their DHT position accepted them.
+# TYPE yacynode_rwidistribution_postings_handed_off_total counter
+yacynode_rwidistribution_postings_handed_off_total 5
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_postings_handed_off_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionCountsPostingsDelivered(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingsDelivered(4)
+	observer.ObservePostingsDelivered(0)
+	observer.ObservePostingsDelivered(1)
+
+	expected := `
+# HELP yacynode_rwidistribution_postings_delivered_total Postings accepted by all peers of their DHT window and marked delivered.
+# TYPE yacynode_rwidistribution_postings_delivered_total counter
+yacynode_rwidistribution_postings_delivered_total 5
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_postings_delivered_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionCountsExcludedPeers(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePeerExcluded()
+	observer.ObservePeerExcluded()
+
+	expected := `
+# HELP yacynode_rwidistribution_peers_excluded_total Peers excluded from distribution after failed offers in a row.
+# TYPE yacynode_rwidistribution_peers_excluded_total counter
+yacynode_rwidistribution_peers_excluded_total 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_peers_excluded_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionTimesPeerRequestsByKind(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingOfferAnswerTime(200 * time.Millisecond)
+	observer.ObservePostingOfferAnswerTime(time.Second)
+	observer.ObserveURLMetadataDeliveryAnswerTime(300 * time.Millisecond)
+
+	samples := histogramSamplesOf(t, registry, "yacynode_rwidistribution_peer_request_seconds")
+	want := map[string]uint64{"request=postings": 2, "request=url_metadata": 1}
+	if !maps.Equal(samples, want) {
+		t.Fatalf("samples = %v, want %v", samples, want)
+	}
+}
+
+func histogramSamplesOf(
+	t *testing.T,
+	registry *prometheus.Registry,
+	name string,
+) map[string]uint64 {
+	t.Helper()
+
+	families, err := registry.Gather()
+	if err != nil {
+		t.Fatalf("Gather: %v", err)
+	}
+	samples := make(map[string]uint64)
+	for _, family := range families {
+		if family.GetName() != name {
+			continue
+		}
+		for _, metric := range family.GetMetric() {
+			labels := make([]string, 0, len(metric.GetLabel()))
+			for _, label := range metric.GetLabel() {
+				labels = append(labels, label.GetName()+"="+label.GetValue())
+			}
+			samples[strings.Join(labels, ",")] = metric.GetHistogram().GetSampleCount()
+		}
+	}
+
+	return samples
+}
+
+func TestDistributionTimesPeerSends(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePeerSendTime(2 * time.Second)
+
+	samples := histogramSamplesOf(t, registry, "yacynode_rwidistribution_peer_send_seconds")
+	if want := map[string]uint64{"": 1}; !maps.Equal(samples, want) {
+		t.Fatalf("samples = %v, want %v", samples, want)
+	}
+}
+
+func TestDistributionCountsPostingsPerSend(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingsPerSend(3)
+	observer.ObservePostingsPerSend(30000)
+
+	expected := `
+# HELP yacynode_rwidistribution_postings_per_send Postings in one send: all postings of one batch to one peer.
+# TYPE yacynode_rwidistribution_postings_per_send histogram
+yacynode_rwidistribution_postings_per_send_bucket{le="1"} 0
+yacynode_rwidistribution_postings_per_send_bucket{le="10"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="50"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="100"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="250"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="500"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="1000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="2500"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="5000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="10000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="25000"} 1
+yacynode_rwidistribution_postings_per_send_bucket{le="50000"} 2
+yacynode_rwidistribution_postings_per_send_bucket{le="100000"} 2
+yacynode_rwidistribution_postings_per_send_bucket{le="+Inf"} 2
+yacynode_rwidistribution_postings_per_send_sum 30003
+yacynode_rwidistribution_postings_per_send_count 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_postings_per_send",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionReportsPeersAtTheirSendLimit(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePeersAtSendLimit(3)
+	observer.ObservePeersAtSendLimit(1)
+
+	expected := `
+# HELP yacynode_rwidistribution_peers_at_send_limit Peers with as many sends in flight as they may have; word partitions that need them wait.
+# TYPE yacynode_rwidistribution_peers_at_send_limit gauge
+yacynode_rwidistribution_peers_at_send_limit 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_peers_at_send_limit",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionReportsArcsPerState(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObserveArcs(map[string]int{"in_batch": 2, "drained": 0})
+	observer.ObserveArcs(map[string]int{"in_batch": 1, "drained": 3})
+
+	expected := `
+# HELP yacynode_rwidistribution_arcs Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now.
+# TYPE yacynode_rwidistribution_arcs gauge
+yacynode_rwidistribution_arcs{state="drained"} 3
+yacynode_rwidistribution_arcs{state="in_batch"} 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_arcs",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

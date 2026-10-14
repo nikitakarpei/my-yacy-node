@@ -1,13 +1,15 @@
 // Package postingtransfer sends the postings offered to one peer through the
 // two-step wire exchange: a posting offer, then the metadata for the URLs the
 // peer does not recognize. A posting counts as delivered only once both steps
-// reach the peer.
+// reach the peer and the peer did not refuse its URL. An offer fails when the
+// peer gives no answer to it or refuses it.
 package postingtransfer
 
 import (
 	"context"
 	"fmt"
 	"log/slog"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -23,34 +25,58 @@ type URLDirectory interface {
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
 }
 
+type PostingCourier interface {
+	Offer(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		postings []yacymodel.RWIPosting,
+	) postingcourier.Receipt
+}
+
+type URLMetadataCourier interface {
+	Deliver(
+		ctx context.Context,
+		recipient yacymodel.Seed,
+		metadata []yacymodel.URLMetadata,
+	) urlmetadatacourier.Receipt
+}
+
 type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
 	ObserveURLMetadataDelivery(outcome string, urls int)
 	ObserveURLsUnknownToUs(urls int)
 }
 
+type OfferResult string
+
+const (
+	OfferAccepted OfferResult = "accepted"
+	OfferDeclined OfferResult = "declined"
+	OfferFailed   OfferResult = "failed"
+)
+
 type OfferAnswer struct {
-	Accepted         bool
+	Result           OfferResult
 	AcceptedPostings []yacymodel.RWIPosting
 	RequestedPause   time.Duration
 }
 
-type PostingTransfers struct {
+type Transfers struct {
 	vault    *vault.Vault
-	postings postingcourier.Courier
-	metadata urlmetadatacourier.Courier
+	postings PostingCourier
+	metadata URLMetadataCourier
 	urls     URLDirectory
 	observer Observer
 }
 
 func New(
 	v *vault.Vault,
-	postings postingcourier.Courier,
-	metadata urlmetadatacourier.Courier,
+	postings PostingCourier,
+	metadata URLMetadataCourier,
 	urls URLDirectory,
 	observer Observer,
-) *PostingTransfers {
-	return &PostingTransfers{
+) *Transfers {
+	return &Transfers{
 		vault:    v,
 		postings: postings,
 		metadata: metadata,
@@ -59,7 +85,7 @@ func New(
 	}
 }
 
-func (t *PostingTransfers) Send(
+func (t *Transfers) Send(
 	ctx context.Context,
 	peer yacymodel.Seed,
 	offeredPostings []yacymodel.RWIPosting,
@@ -67,20 +93,24 @@ func (t *PostingTransfers) Send(
 	receipt := t.postings.Offer(ctx, peer, offeredPostings)
 	t.observer.ObservePostingOffer(string(receipt.Outcome), len(offeredPostings))
 
-	if receipt.Outcome != postingcourier.Accepted {
-		return OfferAnswer{RequestedPause: receipt.RequestedPause}
-	}
+	switch receipt.Outcome {
+	case postingcourier.Accepted:
+		urlsToDeliver := urlsWithout(receipt.URLsUnknownToPeer, receipt.URLsRejected)
+		undeliveredURLs := t.deliverURLMetadata(ctx, peer, urlsToDeliver)
+		unacceptedURLs := slices.Concat(undeliveredURLs, receipt.URLsRejected)
 
-	undeliveredURLs := t.deliverURLMetadata(ctx, peer, receipt.URLsUnknownToPeer)
-
-	return OfferAnswer{
-		Accepted:         true,
-		AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, undeliveredURLs),
-		RequestedPause:   receipt.RequestedPause,
+		return OfferAnswer{
+			Result:           OfferAccepted,
+			AcceptedPostings: postingsWithout(offeredPostings, unacceptedURLs),
+		}
+	case postingcourier.Unreachable, postingcourier.Unaddressable, postingcourier.Refused:
+		return OfferAnswer{Result: OfferFailed}
+	default:
+		return OfferAnswer{Result: OfferDeclined, RequestedPause: receipt.RequestedPause}
 	}
 }
 
-func (t *PostingTransfers) deliverURLMetadata(
+func (t *Transfers) deliverURLMetadata(
 	ctx context.Context,
 	peer yacymodel.Seed,
 	urlsUnknownToPeer []yacymodel.URLHash,
@@ -124,7 +154,7 @@ func (t *PostingTransfers) deliverURLMetadata(
 	return append(urlsUnknownToUs, delivery.URLsRejected...)
 }
 
-func (t *PostingTransfers) metadataOfUnknownURLs(
+func (t *Transfers) metadataOfUnknownURLs(
 	ctx context.Context,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, []yacymodel.URLHash, error) {
@@ -159,18 +189,35 @@ func (t *PostingTransfers) metadataOfUnknownURLs(
 	return metadata, missing, nil
 }
 
-func postingsWithMetadataDelivered(
+func urlsWithout(urls []yacymodel.URLHash, excluded []yacymodel.URLHash) []yacymodel.URLHash {
+	excludedURLs := make(map[yacymodel.URLHash]struct{}, len(excluded))
+	for _, url := range excluded {
+		excludedURLs[url] = struct{}{}
+	}
+
+	remaining := make([]yacymodel.URLHash, 0, len(urls))
+	for _, url := range urls {
+		if _, isExcluded := excludedURLs[url]; isExcluded {
+			continue
+		}
+		remaining = append(remaining, url)
+	}
+
+	return remaining
+}
+
+func postingsWithout(
 	postings []yacymodel.RWIPosting,
-	undeliveredURLs []yacymodel.URLHash,
+	unacceptedURLs []yacymodel.URLHash,
 ) []yacymodel.RWIPosting {
-	withoutMetadata := make(map[yacymodel.URLHash]struct{}, len(undeliveredURLs))
-	for _, url := range undeliveredURLs {
-		withoutMetadata[url] = struct{}{}
+	excludedURLs := make(map[yacymodel.URLHash]struct{}, len(unacceptedURLs))
+	for _, url := range unacceptedURLs {
+		excludedURLs[url] = struct{}{}
 	}
 
 	keptPostings := make([]yacymodel.RWIPosting, 0, len(postings))
 	for _, posting := range postings {
-		if _, excluded := withoutMetadata[posting.URLHash]; excluded {
+		if _, isExcluded := excludedURLs[posting.URLHash]; isExcluded {
 			continue
 		}
 		keptPostings = append(keptPostings, posting)

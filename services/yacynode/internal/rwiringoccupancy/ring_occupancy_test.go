@@ -10,22 +10,34 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 )
 
-const ringPartitionExponent = 6
+const (
+	ringPartitionExponent   = 6
+	fewerPartitionsExponent = 1
+)
 
 type harness struct {
 	vault         *vault.Vault
-	ringOccupancy rwiringoccupancy.RingOccupancyProjection
+	ringOccupancy rwiringoccupancy.RingOccupancyQuery
+	admitter      rwipostings.PostingAdmitter
+	purger        rwipostings.PostingPurger
 }
 
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	return openHarnessOver(t, memoryvault.OpenEngine(0), ringPartitionExponent)
+}
+
+func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) harness {
+	t.Helper()
+
+	v, err := vault.New(engine, nil)
 	if err != nil {
-		t.Fatalf("Open: %v", err)
+		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
@@ -33,12 +45,22 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	ringOccupancy, err := rwiringoccupancy.Open(v, ringPartitions(t))
+	partitions := ringPartitionsOf(t, partitionExponent)
+	ringOccupancy, projection, err := rwiringoccupancy.Open(v, partitions)
 	if err != nil {
 		t.Fatalf("rwiringoccupancy.Open: %v", err)
 	}
+	_, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		partitions,
+		[]vault.Projection[yacymodel.RWIPosting]{projection},
+	)
+	if err != nil {
+		t.Fatalf("rwipostings.Open: %v", err)
+	}
 
-	return harness{vault: v, ringOccupancy: ringOccupancy}
+	return harness{vault: v, ringOccupancy: ringOccupancy, admitter: admitter, purger: purger}
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -54,7 +76,7 @@ func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.ringOccupancy.PostingStored(tx, posting); err != nil {
+			if err := h.admitter.Admit(tx, posting); err != nil {
 				return fmt.Errorf("store posting: %w", err)
 			}
 		}
@@ -68,7 +90,7 @@ func (h harness) purge(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.ringOccupancy.PostingPurged(tx, posting); err != nil {
+			if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
 				return fmt.Errorf("purge posting: %w", err)
 			}
 		}
@@ -95,10 +117,10 @@ func (h harness) occupancyOfDHTRingSectors(
 	return occupancyPerSector
 }
 
-func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
+func ringPartitionsOf(t *testing.T, exponent uint) yacymodel.DHTRingPartitions {
 	t.Helper()
 
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(ringPartitionExponent)
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
@@ -123,9 +145,34 @@ func postingOf(word, document string) yacymodel.RWIPosting {
 func sectorOf(t *testing.T, posting yacymodel.RWIPosting) yacymodel.DHTRingSector {
 	t.Helper()
 
+	return sectorWithin(t, posting, ringPartitionExponent)
+}
+
+func sectorWithin(
+	t *testing.T,
+	posting yacymodel.RWIPosting,
+	partitionExponent uint,
+) yacymodel.DHTRingSector {
+	t.Helper()
+
 	return yacymodel.DHTRingSectorOf(
-		yacymodel.DHTRingPositionOfPosting(posting, ringPartitions(t)),
+		yacymodel.DHTRingPositionOfPosting(posting, ringPartitionsOf(t, partitionExponent)),
 	)
+}
+
+func occupancyWithin(
+	t *testing.T,
+	partitionExponent uint,
+	postings ...yacymodel.RWIPosting,
+) map[yacymodel.DHTRingSector]int {
+	t.Helper()
+
+	occupancyPerSector := map[yacymodel.DHTRingSector]int{}
+	for _, posting := range postings {
+		occupancyPerSector[sectorWithin(t, posting, partitionExponent)]++
+	}
+
+	return occupancyPerSector
 }
 
 func TestANodeHoldingNoPostingOccupiesNoSector(t *testing.T) {
@@ -185,6 +232,29 @@ func TestAPostingPurgedAndStoredAgainLeavesTheOccupancyAlone(t *testing.T) {
 	h.store(t, posting)
 
 	want := map[yacymodel.DHTRingSector]int{sectorOf(t, posting): 1}
+	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
+		t.Fatalf("occupancy = %v, want %v", got, want)
+	}
+}
+
+func TestAChangedPartitionCountRecountsTheSectorsAtOpen(t *testing.T) {
+	engine := memoryvault.OpenEngine(0)
+	postings := []yacymodel.RWIPosting{
+		postingOf("w1", "u1"),
+		postingOf("w2", "u2"),
+		postingOf("w3", "u3"),
+		postingOf("w4", "u4"),
+	}
+	openHarnessOver(t, engine, ringPartitionExponent).store(t, postings...)
+	want := occupancyWithin(t, fewerPartitionsExponent, postings...)
+	if maps.Equal(want, occupancyWithin(t, ringPartitionExponent, postings...)) {
+		t.Fatal(
+			"both partition counts put the postings in the same sectors, want postings that move",
+		)
+	}
+
+	h := openHarnessOver(t, engine, fewerPartitionsExponent)
+
 	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
 		t.Fatalf("occupancy = %v, want %v", got, want)
 	}

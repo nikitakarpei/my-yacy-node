@@ -1,5 +1,5 @@
 // Package postingcourier sends stored postings to a peer over the transferRWI
-// protocol endpoint and reports how the peer responded.
+// protocol endpoint and reports how the peer responded and how long it took.
 package postingcourier
 
 import (
@@ -17,31 +17,38 @@ type Receipt struct {
 	Outcome           Outcome
 	RequestedPause    time.Duration
 	URLsUnknownToPeer []yacymodel.URLHash
+	URLsRejected      []yacymodel.URLHash
 }
 
-type Courier interface {
-	Offer(
-		ctx context.Context,
-		recipient yacymodel.Seed,
-		postings []yacymodel.RWIPosting,
-	) Receipt
+type Observer interface {
+	ObservePostingOfferAnswerTime(answerTime time.Duration)
 }
 
-type httpCourier struct {
+type Courier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
+	now         func() time.Time
+	observer    Observer
 }
 
 func New(
 	exchange peerwire.MessageExchange,
 	networkName string,
 	self yacymodel.Hash,
+	now func() time.Time,
+	observer Observer,
 ) Courier {
-	return httpCourier{exchange: exchange, networkName: networkName, self: self}
+	return Courier{
+		exchange:    exchange,
+		networkName: networkName,
+		self:        self,
+		now:         now,
+		observer:    observer,
+	}
 }
 
-func (c httpCourier) Offer(
+func (c Courier) Offer(
 	ctx context.Context,
 	recipient yacymodel.Seed,
 	postings []yacymodel.RWIPosting,
@@ -76,6 +83,7 @@ func (c httpCourier) Offer(
 		return Receipt{
 			Outcome:           Accepted,
 			URLsUnknownToPeer: resp.UnknownURL,
+			URLsRejected:      resp.ErrorURL,
 		}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
 		return Receipt{Outcome: Deferred, RequestedPause: resp.Pause}
@@ -87,7 +95,7 @@ func (c httpCourier) Offer(
 			slog.String("endpoint", endpoint),
 		)
 
-		return Receipt{Outcome: Overloaded}
+		return Receipt{Outcome: Overloaded, RequestedPause: resp.Pause}
 	default:
 		slog.WarnContext(
 			ctx,
@@ -101,7 +109,7 @@ func (c httpCourier) Offer(
 	}
 }
 
-func (c httpCourier) postTransferRWI(
+func (c Courier) postTransferRWI(
 	ctx context.Context,
 	endpoint string,
 	recipient yacymodel.Seed,
@@ -117,7 +125,9 @@ func (c httpCourier) postTransferRWI(
 		Key:         yacyproto.TransferRWIKey(len(postings)),
 	}
 
+	sentAt := c.now()
 	msg, err := c.exchange.Exchange(ctx, endpoint, yacyproto.PathTransferRWI, req.Form())
+	c.observer.ObservePostingOfferAnswerTime(c.now().Sub(sentAt))
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, err
 	}

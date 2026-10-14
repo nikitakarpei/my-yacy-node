@@ -6,9 +6,8 @@ exactly. Two vocabularies under one name are two units.
 
 ## Packages
 
-A package name is `<subject><head>`: `postingcourier`, `postingoffer`,
-`postingreplicas`. Siblings repeat the subject. A package that owns nothing is
-not a package.
+A package name is `<subject><head>`: `postingcourier`, `postingtransfer`.
+Siblings repeat the subject. A package that owns nothing is not a package.
 
 Port implementations live under a plural directory named for the port, which
 holds no code. Each is named for its technology or variant and takes `New`:

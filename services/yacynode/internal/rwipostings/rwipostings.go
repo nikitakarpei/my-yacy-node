@@ -1,18 +1,15 @@
 // Package rwipostings owns the RWI postings of this node, and is their only
 // writer: callers read through PostingIndex, add through PostingAdmitter, and
-// drop through PostingPurger, while projections follow through PostingObserver.
-// PostingCodec publishes the stored value codec of a posting.
+// drop through PostingPurger. Vault keeps the projections handed to Open in
+// step. PostingCodec publishes the stored value codec of a posting.
 package rwipostings
 
 import (
+	"context"
+
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-type PostingObserver interface {
-	PostingStored(tx *vault.Txn, posting yacymodel.RWIPosting) error
-	PostingPurged(tx *vault.Txn, posting yacymodel.RWIPosting) error
-}
 
 type PostingPurger interface {
 	PurgePosting(
@@ -29,6 +26,12 @@ type PostingIndex interface {
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
 	) (yacymodel.RWIPosting, bool, error)
+	PostingsOfWordIn(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		partition uint,
+		visit func(yacymodel.RWIPosting) (bool, error),
+	) error
 }
 
 type PostingAdmitter interface {
@@ -36,17 +39,19 @@ type PostingAdmitter interface {
 }
 
 func Open(
+	ctx context.Context,
 	vault *vault.Vault,
-	observers ...PostingObserver,
+	partitions yacymodel.DHTRingPartitions,
+	projections []vault.Projection[yacymodel.RWIPosting],
 ) (PostingIndex, PostingAdmitter, PostingPurger, error) {
-	postings, err := registerPostings(vault)
+	postings, err := registerPostings(ctx, vault, projections)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
 	directory := postingDirectory{
-		postings:  postings,
-		observers: postingObservers(observers),
+		postings:   postings,
+		partitions: partitions,
 	}
 
 	return directory, directory, directory, nil

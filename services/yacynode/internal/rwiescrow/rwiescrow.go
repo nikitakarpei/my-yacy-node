@@ -38,14 +38,16 @@ type ExpiryConfig struct {
 	Batch    int
 }
 
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func Open(
+	ctx context.Context,
 	v *vault.Vault,
 	admitter rwipostings.PostingAdmitter,
 	observer HoldObserver,
 	capacity int,
 	now func() time.Time,
 ) (*PostingEscrow, error) {
-	escrowed, holds, err := registerPostingEscrow(v)
+	escrowed, holds, err := registerPostingEscrow(ctx, v)
 	if err != nil {
 		return nil, err
 	}

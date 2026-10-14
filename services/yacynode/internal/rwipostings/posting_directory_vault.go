@@ -1,6 +1,7 @@
 package rwipostings
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
@@ -12,12 +13,16 @@ import (
 const postingsBucket vault.Name = "rwi"
 
 func registerPostings(
+	ctx context.Context,
 	v *vault.Vault,
+	projections []vault.Projection[yacymodel.RWIPosting],
 ) (*vault.Collection[postingIdentity, yacymodel.RWIPosting], error) {
-	collection, err := v.RegisterCollection(
+	collection, err := v.RegisterProjectedCollection(
+		ctx,
 		postingsBucket,
 		postingKeyLayout,
 		postingValueCodec{},
+		vault.ProjectedAs(postingWithIdentity, projections...),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register rwi posting collection: %w", err)
@@ -26,7 +31,9 @@ func registerPostings(
 	return collection, nil
 }
 
-var postingKeyLayout = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash).KeyLayoutFor(
+var postingKeyParts = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash)
+
+var postingKeyLayout = postingKeyParts.KeyLayoutFor(
 	func(posting postingIdentity) (yacymodel.Hash, yacymodel.URLHash) {
 		return posting.word, posting.url
 	},
@@ -34,6 +41,13 @@ var postingKeyLayout = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash).KeyL
 		return postingIdentity{word: word, url: url}
 	},
 )
+
+func postingsOfWordBetween(
+	word yacymodel.Hash,
+	lowestURL, highestURL yacymodel.URLHash,
+) vault.KeyRange {
+	return postingKeyParts.KeysWithFirstBetweenSeconds(word, lowestURL, highestURL)
+}
 
 type postingValueCodec struct{}
 

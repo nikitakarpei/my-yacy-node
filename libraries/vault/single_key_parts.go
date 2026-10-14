@@ -9,7 +9,7 @@ func SingleKey[A any](first KeyPart[A]) SingleKeyParts[A] {
 }
 
 func (parts SingleKeyParts[A]) Key(first A) Key {
-	return keyOf(parts.first.items(first))
+	return Key{encoded: parts.first.appendTo(make([]byte, 0, keyCapacity), first)}
 }
 
 func (parts SingleKeyParts[A]) KeysWithFirst(first A) KeyRange {
@@ -29,15 +29,12 @@ func (parts SingleKeyParts[A]) KeysBeforeFirst(first A) KeyRange {
 }
 
 func (parts SingleKeyParts[A]) PartsOf(storedKey []byte) (A, error) {
-	firstTargets, firstValue := parts.first.holder()
-
-	if err := parseInto(storedKey, firstTargets); err != nil {
-		var unparsed A
-
-		return unparsed, err
+	first, rest, err := parts.first.parseFrom(orderedBytes{encoded: storedKey})
+	if err != nil {
+		return first, err
 	}
 
-	return firstValue()
+	return first, rest.leftoverError()
 }
 
 func (parts SingleKeyParts[A]) KeyLayout() KeyLayout[A] {

@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
@@ -68,9 +69,36 @@ func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {
 	}))
 }
 
+type steppingClock struct {
+	at   time.Time
+	step time.Duration
+}
+
+func (c *steppingClock) now() time.Time {
+	c.at = c.at.Add(c.step)
+
+	return c.at
+}
+
+type answerTimeRecorder struct{ answerTimes []time.Duration }
+
+func (r *answerTimeRecorder) ObserveURLMetadataDeliveryAnswerTime(answerTime time.Duration) {
+	r.answerTimes = append(r.answerTimes, answerTime)
+}
+
 func openURLMetadataCourierHarness(
 	t *testing.T,
 	server *httptest.Server,
+) urlmetadatacourier.Courier {
+	t.Helper()
+
+	return openTimedURLMetadataCourierHarness(t, server, &answerTimeRecorder{})
+}
+
+func openTimedURLMetadataCourierHarness(
+	t *testing.T,
+	server *httptest.Server,
+	recorder *answerTimeRecorder,
 ) urlmetadatacourier.Courier {
 	t.Helper()
 
@@ -78,6 +106,8 @@ func openURLMetadataCourierHarness(
 		peerwire.NewMessageExchange(server.Client()),
 		"freeworld",
 		courierHash("self"),
+		(&steppingClock{at: time.Unix(1000, 0), step: time.Second}).now,
+		recorder,
 	)
 }
 
@@ -175,5 +205,19 @@ func TestDeliverReportsUnaddressablePeer(t *testing.T) {
 	)
 	if receipt.Outcome != urlmetadatacourier.Unaddressable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unaddressable)
+	}
+}
+
+func TestDeliverReportsHowLongThePeerTookToAnswer(t *testing.T) {
+	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
+	defer server.Close()
+	recorder := &answerTimeRecorder{}
+
+	openTimedURLMetadataCourierHarness(t, server, recorder).Deliver(
+		context.Background(), courierSeed(t, server), singleURLMetadata(),
+	)
+
+	if len(recorder.answerTimes) != 1 || recorder.answerTimes[0] != time.Second {
+		t.Fatalf("answer times = %v, want one of 1s", recorder.answerTimes)
 	}
 }

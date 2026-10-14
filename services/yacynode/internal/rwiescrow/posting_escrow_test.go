@@ -63,7 +63,12 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		}
 	})
 
-	index, admitter, _, err := rwipostings.Open(v)
+	index, admitter, _, err := rwipostings.Open(
+		context.Background(),
+		v,
+		yacymodel.DHTRingPartitions(1),
+		nil,
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
@@ -75,6 +80,7 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		clock:    time.Unix(1700000000, 123456789),
 	}
 	escrow, err := rwiescrow.Open(
+		context.Background(),
 		v,
 		admitter,
 		h.observer,
@@ -113,7 +119,7 @@ func (h *harness) storeURL(t *testing.T, hash yacymodel.URLHash) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.escrow.URLStored(tx, hash, yacymodel.Optional[yacymodel.CalendarDay]{})
+		return h.escrow.URLStored(tx, hash)
 	}); err != nil {
 		t.Fatalf("URLStored: %v", err)
 	}

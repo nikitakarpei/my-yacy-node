@@ -13,5 +13,9 @@ const (
 
 // DHTRingSectorOf is the sector that holds a position.
 func DHTRingSectorOf(position DHTRingPosition) DHTRingSector {
-	return DHTRingSector(position >> (63 - bits.Len(uint(MaxDHTRingSector))))
+	return DHTRingSector(position >> dhtRingSectorShift())
+}
+
+func dhtRingSectorShift() int {
+	return 63 - bits.Len(uint(MaxDHTRingSector))
 }

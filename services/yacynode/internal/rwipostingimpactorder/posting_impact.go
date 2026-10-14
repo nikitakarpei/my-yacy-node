@@ -6,8 +6,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-// The impact is the stored key of the order: a change here needs the order
-// rebuilt, or old and new keys interleave.
+// The impact is the stored key of the order: a change here needs
+// impactOrderVersion raised, or old and new keys interleave.
 const (
 	// The unit the other two are set against; only its ratio to
 	// textHitsWeight carries meaning.

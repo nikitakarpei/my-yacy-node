@@ -77,8 +77,8 @@ func RunNode(
 			)
 		}),
 	}
-	if assembledNode.distributionCycle != nil {
-		loops = append(loops, neverFailingLoop(assembledNode.distributionCycle.Run))
+	if assembledNode.distributionLoop != nil {
+		loops = append(loops, neverFailingLoop(assembledNode.distributionLoop.Run))
 	}
 	if assembledNode.pageOfferIntake != nil {
 		defer assembledNode.pageOfferIntake.Close()

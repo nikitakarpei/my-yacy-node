@@ -15,11 +15,10 @@ func TripleKey[A, B, C any](
 }
 
 func (parts TripleKeyParts[A, B, C]) Key(first A, second B, third C) Key {
-	items := parts.first.items(first)
-	items = append(items, parts.second.items(second)...)
-	items = append(items, parts.third.items(third)...)
+	encoded := parts.first.appendTo(make([]byte, 0, keyCapacity), first)
+	encoded = parts.second.appendTo(encoded, second)
 
-	return keyOf(items)
+	return Key{encoded: parts.third.appendTo(encoded, third)}
 }
 
 func (parts TripleKeyParts[A, B, C]) KeysWithFirst(first A) KeyRange {
@@ -38,41 +37,30 @@ func (parts TripleKeyParts[A, B, C]) KeysBeforeFirst(first A) KeyRange {
 	return parts.first.keysBefore(first)
 }
 
+func (parts TripleKeyParts[A, B, C]) KeysWithFirstAndSecond(first A, second B) KeyRange {
+	return parts.second.keysWith(second).withPrefix(parts.first.encodingOf(first))
+}
+
 func (parts TripleKeyParts[A, B, C]) PartsOf(storedKey []byte) (A, B, C, error) {
-	firstTargets, firstValue := parts.first.holder()
-	secondTargets, secondValue := parts.second.holder()
-	thirdTargets, thirdValue := parts.third.holder()
-
-	targets := firstTargets
-	targets = append(targets, secondTargets...)
-	targets = append(targets, thirdTargets...)
-
 	var (
-		first  A
 		second B
 		third  C
 	)
 
-	if err := parseInto(storedKey, targets); err != nil {
+	first, rest, err := parts.first.parseFrom(orderedBytes{encoded: storedKey})
+	if err != nil {
 		return first, second, third, err
 	}
-
-	first, err := firstValue()
+	second, rest, err = parts.second.parseFrom(rest)
+	if err != nil {
+		return first, second, third, err
+	}
+	third, rest, err = parts.third.parseFrom(rest)
 	if err != nil {
 		return first, second, third, err
 	}
 
-	second, err = secondValue()
-	if err != nil {
-		return first, second, third, err
-	}
-
-	third, err = thirdValue()
-	if err != nil {
-		return first, second, third, err
-	}
-
-	return first, second, third, nil
+	return first, second, third, rest.leftoverError()
 }
 
 func (parts TripleKeyParts[A, B, C]) KeyLayoutFor[K any](

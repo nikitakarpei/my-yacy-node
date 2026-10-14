@@ -13,8 +13,8 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	postings  *vault.Collection[postingIdentity, yacymodel.RWIPosting]
-	observers postingObservers
+	postings   *vault.Collection[postingIdentity, yacymodel.RWIPosting]
+	partitions yacymodel.DHTRingPartitions
 }
 
 func (d postingDirectory) RWICount(tx *vault.Txn) (int, error) {
@@ -38,6 +38,30 @@ func (d postingDirectory) PostingOf(
 	return postingWithIdentity(identity, storedPosting), true, nil
 }
 
+func (d postingDirectory) PostingsOfWordIn(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	partition uint,
+	visit func(yacymodel.RWIPosting) (bool, error),
+) error {
+	err := d.postings.Scan(
+		tx,
+		postingsOfWordBetween(
+			word,
+			d.partitions.LowestURLHashIn(partition),
+			d.partitions.HighestURLHashIn(partition),
+		),
+		func(identity postingIdentity, storedPosting yacymodel.RWIPosting) (bool, error) {
+			return visit(postingWithIdentity(identity, storedPosting))
+		},
+	)
+	if err != nil {
+		return fmt.Errorf("scan rwi postings of a word in a partition: %w", err)
+	}
+
+	return nil
+}
+
 func postingWithIdentity(
 	identity postingIdentity,
 	storedPosting yacymodel.RWIPosting,
@@ -50,22 +74,11 @@ func postingWithIdentity(
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	identity := postingIdentity{word: posting.WordHash, url: posting.URLHash}
-	replacedPosting, wasReplaced, err := d.postings.PutReturning(tx, identity, posting)
-	if err != nil {
+	if _, err := d.postings.Put(tx, identity, posting); err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
-	if !wasReplaced {
-		return d.observers.stored(tx, posting)
-	}
-	previousPosting := postingWithIdentity(identity, replacedPosting)
-	if previousPosting == posting {
-		return nil
-	}
-	if err := d.observers.purged(tx, previousPosting); err != nil {
-		return err
-	}
 
-	return d.observers.stored(tx, posting)
+	return nil
 }
 
 func (d postingDirectory) PurgePosting(
@@ -74,18 +87,12 @@ func (d postingDirectory) PurgePosting(
 	url yacymodel.URLHash,
 ) (wasPurged bool, err error) {
 	identity := postingIdentity{word: word, url: url}
-	purgedPosting, wasDeleted, err := d.postings.DeleteReturning(tx, identity)
+	wasDeleted, err := d.postings.Delete(tx, identity)
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}
-	if !wasDeleted {
-		return false, nil
-	}
-	if err := d.observers.purged(tx, postingWithIdentity(identity, purgedPosting)); err != nil {
-		return false, err
-	}
 
-	return true, nil
+	return wasDeleted, nil
 }
 
 func collectionLength[K, V any](

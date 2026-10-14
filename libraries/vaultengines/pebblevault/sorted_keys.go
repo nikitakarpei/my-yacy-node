@@ -12,7 +12,9 @@ import (
 type sortedKeys [][]byte
 
 func writtenKeysOf(changes *pebble.Batch) (sortedKeys, error) {
-	var writtenKeys sortedKeys
+	writtenKeys := make(sortedKeys, 0, changes.Count())
+	var keyBytes []byte
+	var keyEnds []int
 
 	entries := changes.Reader()
 	for {
@@ -23,7 +25,13 @@ func writtenKeysOf(changes *pebble.Batch) (sortedKeys, error) {
 		if !found {
 			break
 		}
-		writtenKeys = append(writtenKeys, bytes.Clone(key))
+		keyBytes = append(keyBytes, key...)
+		keyEnds = append(keyEnds, len(keyBytes))
+	}
+	keyStart := 0
+	for _, keyEnd := range keyEnds {
+		writtenKeys = append(writtenKeys, keyBytes[keyStart:keyEnd:keyEnd])
+		keyStart = keyEnd
 	}
 	slices.SortFunc(writtenKeys, bytes.Compare)
 

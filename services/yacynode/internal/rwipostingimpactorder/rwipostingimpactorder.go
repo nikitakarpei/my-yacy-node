@@ -7,7 +7,6 @@ package rwipostingimpactorder
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type ImpactOrderQuery interface {
@@ -19,11 +18,13 @@ type ImpactOrderQuery interface {
 	LargestImpactOf(tx *vault.Txn, word yacymodel.Hash) (Impact, bool, error)
 }
 
-type ImpactOrderProjection interface {
-	ImpactOrderQuery
-	rwipostings.PostingObserver
-}
+func Open(
+	v *vault.Vault,
+) (ImpactOrderQuery, vault.Projection[yacymodel.RWIPosting], error) {
+	postings, err := registerImpactOrder(v)
+	if err != nil {
+		return nil, nil, err
+	}
 
-func Open(v *vault.Vault) (ImpactOrderProjection, error) {
-	return openImpactOrder(v)
+	return &impactOrder{postings: postings}, postings, nil
 }

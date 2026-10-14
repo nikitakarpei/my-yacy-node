@@ -1,25 +1,23 @@
 // Package urlreferences knows, for every url, the words that reference it, so
 // eviction can drop a url's postings without scanning the word index. It is a
-// read-only projection of rwi: it mutates its own bucket only in reaction to
-// rwi posting arrivals and departures inside the caller's transaction, so its
-// knowledge never drifts from the postings it mirrors.
+// projection of the postings this node holds, and vault keeps it in step with
+// them.
 package urlreferences
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type ReferenceQuery interface {
 	WordsReferencing(tx *vault.Txn, url yacymodel.URLHash) ([]yacymodel.Hash, error)
 }
 
-type ReferenceProjection interface {
-	ReferenceQuery
-	rwipostings.PostingObserver
-}
+func Open(v *vault.Vault) (ReferenceQuery, vault.Projection[yacymodel.RWIPosting], error) {
+	words, err := registerWordsByURL(v)
+	if err != nil {
+		return nil, nil, err
+	}
 
-func Open(vault *vault.Vault) (ReferenceProjection, error) {
-	return openURLReferences(vault)
+	return &urlReferences{words: words}, words, nil
 }

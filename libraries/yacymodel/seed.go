@@ -64,6 +64,12 @@ func (s Seed) IsAddressable() bool {
 	return false
 }
 
+func (s Seed) AcceptsRemoteIndex() bool {
+	capabilities, known := s.Capabilities.Get()
+
+	return known && capabilities.AcceptRemoteIndex
+}
+
 func (s Seed) NetworkAddress() (NetworkAddress, bool) {
 	host, ok := s.PrimaryAddress.Get()
 	if !ok {

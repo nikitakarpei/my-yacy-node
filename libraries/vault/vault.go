@@ -1,8 +1,8 @@
 // Package vault lends callers typed, transactional views over named buckets.
-// A records bucket holds one record per key and backs a Collection or a Set.
-// An amounts bucket holds one number per key that writers raise and lower
-// without reading it. An Engine stores the buckets, keeps each write whole and
-// can run its closure again, and counts the bytes used against its quota.
+// Records buckets back a Collection, a Set, a ValueIndex or a ChangeIndex;
+// amounts buckets hold numbers raised and lowered blind, or a CountIndex. Only
+// vault adds to an index, in step with the collection it follows. An Engine stores
+// the buckets, keeps each write whole, may rerun its closure, and counts bytes to a quota.
 package vault
 
 import (
@@ -20,10 +20,11 @@ var (
 )
 
 type Vault struct {
-	engine     Engine
-	observer   TransactionObserver
-	mu         sync.Mutex
-	registered map[Name]bucketKind
+	engine             Engine
+	observer           TransactionObserver
+	mu                 sync.Mutex
+	registered         map[Name]bucketKind
+	projectionVersions func() (*Collection[Name, string], error)
 }
 
 func New(engine Engine, observer TransactionObserver) (*Vault, error) {
@@ -33,11 +34,14 @@ func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 	if observer == nil {
 		observer = silentObserver{}
 	}
-	return &Vault{
+	storage := &Vault{
 		engine:     engine,
 		observer:   observer,
 		registered: map[Name]bucketKind{},
-	}, nil
+	}
+	storage.projectionVersions = sync.OnceValues(storage.registerProjectionVersions)
+
+	return storage, nil
 }
 
 func (v *Vault) Close() error {

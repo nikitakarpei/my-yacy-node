@@ -14,7 +14,9 @@ import (
 
 var testLimits = pebblevault.MachineLimits{BlockCacheBytes: 8 << 20, WriteConcurrency: 2}
 
-var stringKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
+var stringKeyParts = vault.SingleKey(vault.TextKeyPart)
+
+var stringKeyLayout = stringKeyParts.KeyLayout()
 
 type stringValueCodec struct{}
 

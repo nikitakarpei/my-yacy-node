@@ -22,6 +22,10 @@ func runAmountConformance(t *testing.T, open func(quotaBytes int64) (vault.Engin
 		func(t *testing.T) { transactionReadsItsOwnAmountChanges(t, open) },
 	)
 	t.Run(
+		"TransactionReadsAnAmountItChangedAfterReadingIt",
+		func(t *testing.T) { transactionReadsAnAmountItChangedAfterReadingIt(t, open) },
+	)
+	t.Run(
 		"AmountLoweredToZeroIsAbsent",
 		func(t *testing.T) { amountLoweredToZeroIsAbsent(t, open) },
 	)
@@ -110,6 +114,39 @@ func transactionReadsItsOwnAmountChanges(t *testing.T, open func(int64) (vault.E
 		}
 		if amount != 8 {
 			t.Fatalf("amount inside the transaction = %d, want 8", amount)
+		}
+
+		return nil
+	})
+}
+
+func transactionReadsAnAmountItChangedAfterReadingIt(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	v := openVault(t, open, 0)
+	tallies := registerTallies(t, v)
+	changeAmounts(t, v, func(tx *vault.Txn) error { return tallies.Raise(tx, "a", 5) })
+
+	changeAmounts(t, v, func(tx *vault.Txn) error {
+		var amounts []int
+		for _, raise := range []uint{3, 2} {
+			amount, err := tallies.Get(tx, "a")
+			if err != nil {
+				return wrapTest(err)
+			}
+			amounts = append(amounts, amount)
+			if err := tallies.Raise(tx, "a", raise); err != nil {
+				return wrapTest(err)
+			}
+		}
+		amount, err := tallies.Get(tx, "a")
+		if err != nil {
+			return wrapTest(err)
+		}
+		amounts = append(amounts, amount)
+		if !slices.Equal(amounts, []int{5, 8, 10}) {
+			t.Fatalf("amounts read inside the transaction = %v, want [5 8 10]", amounts)
 		}
 
 		return nil

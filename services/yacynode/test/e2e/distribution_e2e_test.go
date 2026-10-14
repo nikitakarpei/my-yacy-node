@@ -52,15 +52,12 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 		Hash:        nodeHash,
 		SeedlistURL: seedlistURL,
 		Distribution: nodepeer.DistributionConfig{
-			Enabled:               true,
-			Redundancy:            2,
-			PartitionExponent:     1,
-			PostingsPerBatch:      10,
-			CycleInterval:         time.Second,
-			DrainBudget:           time.Second,
-			LongestOfferInterval:  5 * time.Second,
-			ShortestOfferInterval: 2 * time.Second,
-			MinReachablePeers:     1,
+			Enabled:           true,
+			Redundancy:        2,
+			PartitionExponent: 1,
+			PostingsPerBatch:  10,
+			RefreshInterval:   5 * time.Second,
+			MinReachablePeers: 1,
 		},
 	})
 

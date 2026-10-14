@@ -267,21 +267,27 @@ func openIndexedPage(t *testing.T) indexedPage {
 	t.Helper()
 
 	v := openVault(t, quotaFarAboveUsage)
-	references, err := urlreferences.Open(v)
+	references, referenceProjection, err := urlreferences.Open(v)
 	if err != nil {
 		t.Fatalf("urlreferences.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(v, references)
+	index, admitter, purger, err := rwipostings.Open(
+		context.Background(),
+		v,
+		yacymodel.DHTRingPartitions(1),
+		[]vault.Projection[yacymodel.RWIPosting]{referenceProjection},
+	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	staleness, err := urlmetastaleness.Open(v)
+	staleness, stalenessProjection, err := urlmetastaleness.Open(v)
 	if err != nil {
 		t.Fatalf("urlmetastaleness.Open: %v", err)
 	}
 	_, evictor, _, receiver, err := urlmeta.Open(
+		context.Background(),
 		v,
-		staleness,
+		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlpostingpurge.New(references, purger, discardedPurges{}),
 	)
 	if err != nil {

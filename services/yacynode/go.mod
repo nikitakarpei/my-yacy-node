@@ -26,7 +26,6 @@ require (
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/golang/snappy v0.0.5-0.20231225225746-43d5d4cd4e0e // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
-	github.com/google/orderedcode v0.0.1 // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
@@ -99,6 +98,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -110,3 +110,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../servic
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
 
 replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../libraries/processenvironmentlease
+
+replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock

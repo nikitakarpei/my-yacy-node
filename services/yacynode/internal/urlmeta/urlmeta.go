@@ -37,11 +37,7 @@ type URLEvictor interface {
 }
 
 type URLMetadataObserver interface {
-	URLStored(
-		tx *vault.Txn,
-		hash yacymodel.URLHash,
-		freshness yacymodel.Optional[yacymodel.CalendarDay],
-	) error
+	URLStored(tx *vault.Txn, hash yacymodel.URLHash) error
 	URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error
 }
 
@@ -56,10 +52,12 @@ type PurgeResult struct {
 }
 
 func Open(
+	ctx context.Context,
 	vault *vault.Vault,
+	projections []vault.Projection[yacymodel.URLMetadata],
 	watchers ...URLMetadataObserver,
 ) (URLDirectory, URLEvictor, URLMetadataAdmitter, URLReceiver, error) {
-	collection, err := registerCollection(vault)
+	collection, err := registerCollection(ctx, vault, projections)
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}

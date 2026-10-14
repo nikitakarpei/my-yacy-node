@@ -48,6 +48,27 @@ func TestTripleKeyRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 	}
 }
 
+func TestTripleKeysWithFirstAndSecondHoldOnlyThatPair(t *testing.T) {
+	parts := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart)
+	texts := orderedTexts()
+	pickedFirst, pickedSecond := texts[len(texts)/2], texts[len(texts)/3]
+
+	for _, first := range texts {
+		for _, second := range texts {
+			for _, third := range texts {
+				key := parts.Key(first, second, third).Bytes()
+
+				assertRangeAnswers(
+					t,
+					parts.KeysWithFirstAndSecond(pickedFirst, pickedSecond),
+					key,
+					first == pickedFirst && second == pickedSecond,
+				)
+			}
+		}
+	}
+}
+
 func TestTripleKeyPartsRejectsAKeyOfAnotherPartList(t *testing.T) {
 	parts := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart)
 	foreign := vault.PairKey(vault.TextKeyPart, vault.TextKeyPart).Key("one", "two")
