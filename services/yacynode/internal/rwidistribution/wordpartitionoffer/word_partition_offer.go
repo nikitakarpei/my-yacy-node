@@ -47,12 +47,14 @@ type acceptedURLs map[yacymodel.URLHash]struct{}
 func (o WordPartitionOffer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) Outcome {
 	acceptedURLsPerPeer := o.acceptedURLsPerPeerFrom(answers)
 	holders := o.holdersFrom(answers, acceptedURLsPerPeer)
+	deliveredPostings := o.deliveredPostingsFrom(acceptedURLsPerPeer)
 
 	return Outcome{
-		Holders:                holders,
-		HoldersChanged:         !sameHolders(holders, o.Holders),
-		IsAtRedundancy:         len(holders) >= len(o.ResponsiblePeers),
-		DeliveredPostings:      o.deliveredPostingsFrom(acceptedURLsPerPeer),
+		Holders:        holders,
+		HoldersChanged: !sameHolders(holders, o.Holders),
+		IsAtRedundancy: len(holders) >= len(o.ResponsiblePeers) &&
+			len(deliveredPostings) == len(o.UndeliveredPostings),
+		DeliveredPostings:      deliveredPostings,
 		AmountOfDroppedHolders: len(o.StaleHolders),
 		Acceptances:            o.acceptancesFrom(acceptedURLsPerPeer),
 	}

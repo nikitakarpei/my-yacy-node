@@ -111,6 +111,20 @@ func (h *harness) holdersOf(
 	return holders
 }
 
+func (h *harness) isInRetry(t *testing.T, wordPartition yacymodel.WordPartition) bool {
+	t.Helper()
+
+	var isInRetry bool
+	h.read(t, func(tx *vault.Txn) error {
+		var err error
+		isInRetry, err = h.holders.IsInRetry(tx, wordPartition)
+
+		return err
+	})
+
+	return isInRetry
+}
+
 func (h *harness) dueRefreshesIn(
 	t *testing.T,
 	sector yacymodel.DHTRingSector,
@@ -435,4 +449,22 @@ func TestReachingRedundancyStartsTheRetryDelayOver(t *testing.T) {
 	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
 
 	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
+}
+
+func TestAWordPartitionIsInRetryOnlyWhileShortOfRedundancy(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	if h.isInRetry(t, wordPartition) {
+		t.Fatalf("IsInRetry = true, want false for an unknown word partition")
+	}
+
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+	if !h.isInRetry(t, wordPartition) {
+		t.Fatalf("IsInRetry = false, want true while short of redundancy")
+	}
+
+	h.recordHolders(t, wordPartition, peer("peer0"), peer("peer1"))
+	if h.isInRetry(t, wordPartition) {
+		t.Fatalf("IsInRetry = true, want false once at redundancy")
+	}
 }
