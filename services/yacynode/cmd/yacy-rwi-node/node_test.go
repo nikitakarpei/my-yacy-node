@@ -265,7 +265,7 @@ func (n runningNode) hello(t *testing.T, req yacyproto.HelloRequest) yacyproto.H
 
 	parsed, err := yacyproto.ParseHelloResponse(
 		context.Background(),
-		yacyproto.ParseMessage(body),
+		yacyproto.ParseResponseFields(body),
 	)
 	if err != nil {
 		t.Fatalf("ParseHelloResponse: %v", err)

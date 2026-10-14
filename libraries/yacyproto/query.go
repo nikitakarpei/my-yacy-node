@@ -74,16 +74,16 @@ func ParseQueryRequest(_ context.Context, form url.Values) (QueryRequest, error)
 	return req, nil
 }
 
-func (r QueryResponse) Encode() Message {
-	msg := Message{}
-	setInt(msg, FieldResponse, r.Response)
-	setInstant(msg, FieldMyTime, r.MyTime)
-	setString(msg, FieldMagic, r.Magic)
+func (r QueryResponse) Encode() ResponseFields {
+	fields := ResponseFields{}
+	setInt(fields, FieldResponse, r.Response)
+	setInstant(fields, FieldMyTime, r.MyTime)
+	setString(fields, FieldMagic, r.Magic)
 
-	return msg
+	return fields
 }
 
-func ParseQueryResponse(m Message) (QueryResponse, error) {
+func ParseQueryResponse(m ResponseFields) (QueryResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return QueryResponse{}, err

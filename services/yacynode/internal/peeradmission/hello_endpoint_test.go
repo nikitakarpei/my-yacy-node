@@ -114,7 +114,7 @@ func serveHello(
 
 	resp, err := yacyproto.ParseHelloResponse(
 		context.Background(),
-		yacyproto.ParseMessage(string(body)),
+		yacyproto.ParseResponseFields(string(body)),
 	)
 	if err != nil {
 		t.Fatalf("ParseHelloResponse: %v", err)

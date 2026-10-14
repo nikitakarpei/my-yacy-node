@@ -355,7 +355,7 @@ func assembleNode(
 				},
 			)
 		}
-		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
+		peerFormExchange := peerwire.NewFormExchange(egressClient)
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		peerEligibility := peereligibility.New(
 			peereligibility.Config{
@@ -390,7 +390,7 @@ func assembleNode(
 			postingtransfer.New(
 				storage,
 				postingcourier.New(
-					peerMessageExchange,
+					peerFormExchange,
 					identity.NetworkName,
 					identity.Hash,
 					now,
@@ -398,7 +398,7 @@ func assembleNode(
 				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
-						peerMessageExchange,
+						peerFormExchange,
 						identity.NetworkName,
 						identity.Hash,
 						now,

@@ -1,5 +1,5 @@
 // Package peerwire posts a form-encoded request to a peer endpoint and returns
-// the reply as a wire message. It reports what the peer answered on a failure,
+// the reply as response fields. It reports what the peer answered on a failure,
 // including the status line and the start of the reported body.
 package peerwire
 
@@ -19,19 +19,19 @@ const responseMaxBodyBytes int64 = 1 << 20
 
 var errPeerExchange = errors.New("peer exchange failed")
 
-type MessageExchange struct {
+type FormExchange struct {
 	client *http.Client
 }
 
-func NewMessageExchange(client *http.Client) MessageExchange {
-	return MessageExchange{client: client}
+func NewFormExchange(client *http.Client) FormExchange {
+	return FormExchange{client: client}
 }
 
-func (e MessageExchange) Exchange(
+func (e FormExchange) Exchange(
 	ctx context.Context,
 	endpoint, path string,
 	form url.Values,
-) (yacyproto.Message, error) {
+) (yacyproto.ResponseFields, error) {
 	endpoint = strings.TrimSpace(endpoint)
 	if endpoint == "" {
 		return nil, fmt.Errorf("%w: empty endpoint", errPeerExchange)
@@ -69,5 +69,5 @@ func (e MessageExchange) Exchange(
 		return nil, fmt.Errorf("%w: %w", errPeerExchange, err)
 	}
 
-	return yacyproto.ParseMessage(string(raw)), nil
+	return yacyproto.ParseResponseFields(string(raw)), nil
 }

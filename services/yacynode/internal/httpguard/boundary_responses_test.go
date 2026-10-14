@@ -54,7 +54,7 @@ func TestWireResponderEncodesBody(t *testing.T) {
 	httpguard.NewWireResponder(stubStatus{}).Write(
 		context.Background(),
 		rec,
-		yacyproto.Message{"k": "v"},
+		yacyproto.ResponseFields{"k": "v"},
 	)
 
 	if got := rec.Header().Get("Content-Type"); got != "text/plain; charset=UTF-8" {

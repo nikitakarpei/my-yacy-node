@@ -12,7 +12,7 @@ func Mount(
 	identity nodeidentity.Identity,
 	receiver rwiadmission.PostingReceiver,
 ) {
-	httpguard.MountMessage(
+	httpguard.MountFields(
 		router,
 		yacyproto.PathTransferRWI,
 		yacyproto.TransferRWIEndpointMethods,

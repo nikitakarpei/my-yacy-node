@@ -18,13 +18,13 @@ type greetResult struct {
 }
 
 type httpPeerGreeter struct {
-	exchange    peerwire.MessageExchange
+	exchange    peerwire.FormExchange
 	networkName string
 }
 
 func newHTTPPeerGreeter(client *http.Client, networkName string) httpPeerGreeter {
 	return httpPeerGreeter{
-		exchange:    peerwire.NewMessageExchange(client),
+		exchange:    peerwire.NewFormExchange(client),
 		networkName: networkName,
 	}
 }

@@ -48,9 +48,9 @@ func TestHelloResponseRoundTrip(t *testing.T) {
 		},
 	}
 
-	msg := resp.Encode()
-	yacyproto.InjectResponseHeader(msg, resp.Version, resp.Uptime)
-	got, err := yacyproto.ParseHelloResponse(t.Context(), msg)
+	fields := resp.Encode()
+	yacyproto.InjectResponseHeader(fields, resp.Version, resp.Uptime)
+	got, err := yacyproto.ParseHelloResponse(t.Context(), fields)
 	if err != nil {
 		t.Fatalf("ParseHelloResponse: %v", err)
 	}
@@ -81,8 +81,8 @@ func TestParseHelloRequestRejectsBadIam(t *testing.T) {
 func TestParseHelloResponseRejectsBadPeerType(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldYourType: "overlord"}
-	if _, err := yacyproto.ParseHelloResponse(t.Context(), msg); err == nil {
+	fields := yacyproto.ResponseFields{yacyproto.FieldYourType: "overlord"}
+	if _, err := yacyproto.ParseHelloResponse(t.Context(), fields); err == nil {
 		t.Fatal("expected error for unknown peer type")
 	}
 }
@@ -92,13 +92,13 @@ func TestParseHelloResponseDropsMalformedKnownSeed(t *testing.T) {
 
 	own := sampleSeed(t, "alpha", "peer-self")
 	known := sampleSeed(t, "gamma", "peer-c")
-	msg := yacyproto.Message{
+	fields := yacyproto.ResponseFields{
 		"seed0": seedWireForm(own),
 		"seed1": "not-a-valid-seed",
 		"seed2": seedWireForm(known),
 	}
 
-	got, err := yacyproto.ParseHelloResponse(t.Context(), msg)
+	got, err := yacyproto.ParseHelloResponse(t.Context(), fields)
 	if err != nil {
 		t.Fatalf("ParseHelloResponse: %v", err)
 	}
@@ -112,8 +112,8 @@ func TestParseHelloResponseDropsMalformedKnownSeed(t *testing.T) {
 func TestParseHelloResponseRejectsMalformedOwnSeed(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{"seed0": "not-a-valid-seed"}
-	if _, err := yacyproto.ParseHelloResponse(t.Context(), msg); err == nil {
+	fields := yacyproto.ResponseFields{"seed0": "not-a-valid-seed"}
+	if _, err := yacyproto.ParseHelloResponse(t.Context(), fields); err == nil {
 		t.Fatal("expected error for malformed own seed")
 	}
 }

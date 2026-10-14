@@ -75,7 +75,7 @@ func transferURL(
 		t.Fatalf("read body: %v", err)
 	}
 
-	resp, err := yacyproto.ParseTransferURLResponse(yacyproto.ParseMessage(string(body)))
+	resp, err := yacyproto.ParseTransferURLResponse(yacyproto.ParseResponseFields(string(body)))
 	if err != nil {
 		t.Fatalf("ParseTransferURLResponse: %v", err)
 	}

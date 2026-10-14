@@ -25,7 +25,7 @@ type Observer interface {
 }
 
 type Courier struct {
-	exchange    peerwire.MessageExchange
+	exchange    peerwire.FormExchange
 	networkName string
 	self        yacymodel.Hash
 	now         func() time.Time
@@ -33,7 +33,7 @@ type Courier struct {
 }
 
 func New(
-	exchange peerwire.MessageExchange,
+	exchange peerwire.FormExchange,
 	networkName string,
 	self yacymodel.Hash,
 	now func() time.Time,

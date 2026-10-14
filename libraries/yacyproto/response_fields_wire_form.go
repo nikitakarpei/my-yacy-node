@@ -5,14 +5,14 @@ import (
 	"strings"
 )
 
-// Message is a peer response envelope: newline-separated key=value lines, with
-// backslash escapes inside either part.
-type Message map[string]string
+// ResponseFields is the body of a peer response: newline-separated key=value lines,
+// with backslash escapes inside either part.
+type ResponseFields map[string]string
 
-// ParseMessage skips blank lines, comments and lines without an unescaped
+// ParseResponseFields skips blank lines, comments and lines without an unescaped
 // separator. A peer cannot make this fail.
-func ParseMessage(data string) Message {
-	msg := make(Message)
+func ParseResponseFields(data string) ResponseFields {
+	fields := make(ResponseFields)
 	for line := range strings.SplitSeq(data, "\n") {
 		line = strings.TrimSpace(line)
 		if line == "" || line[0] == '#' {
@@ -22,11 +22,11 @@ func ParseMessage(data string) Message {
 		if pos <= 0 {
 			continue
 		}
-		key := unescapeMessagePart(strings.TrimSpace(line[:pos]))
-		value := unescapeMessagePart(strings.TrimSpace(line[pos+1:]))
-		msg[key] = value
+		key := unescapeResponseFieldPart(strings.TrimSpace(line[:pos]))
+		value := unescapeResponseFieldPart(strings.TrimSpace(line[pos+1:]))
+		fields[key] = value
 	}
-	return msg
+	return fields
 }
 
 func unescapedEquals(line string) int {
@@ -43,7 +43,7 @@ func unescapedEquals(line string) int {
 	}
 }
 
-func unescapeMessagePart(s string) string {
+func unescapeResponseFieldPart(s string) string {
 	replacer := strings.NewReplacer(
 		`\\`, `\`,
 		`\n`, "\n",
@@ -52,7 +52,7 @@ func unescapeMessagePart(s string) string {
 	return replacer.Replace(s)
 }
 
-func (m Message) Encode() string {
+func (m ResponseFields) Encode() string {
 	keys := make([]string, 0, len(m))
 	for k := range m {
 		keys = append(keys, k)

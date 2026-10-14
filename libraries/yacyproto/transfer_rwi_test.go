@@ -53,9 +53,9 @@ func TestTransferRWIResponseRoundTrip(t *testing.T) {
 		},
 	}
 
-	msg := resp.Encode()
-	yacyproto.InjectResponseHeader(msg, resp.Version, resp.Uptime)
-	got, err := yacyproto.ParseTransferRWIResponse(msg)
+	fields := resp.Encode()
+	yacyproto.InjectResponseHeader(fields, resp.Version, resp.Uptime)
+	got, err := yacyproto.ParseTransferRWIResponse(fields)
 	if err != nil {
 		t.Fatalf("ParseTransferRWIResponse: %v", err)
 	}
@@ -69,12 +69,12 @@ func TestTransferRWIResponseIncludesEmptyURLFields(t *testing.T) {
 	t.Parallel()
 
 	resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK}
-	msg := resp.Encode()
+	fields := resp.Encode()
 
-	if _, ok := msg[yacyproto.FieldUnknownURL]; !ok {
+	if _, ok := fields[yacyproto.FieldUnknownURL]; !ok {
 		t.Fatal("missing empty unknownURL field")
 	}
-	if _, ok := msg[yacyproto.FieldErrorURL]; !ok {
+	if _, ok := fields[yacyproto.FieldErrorURL]; !ok {
 		t.Fatal("missing empty errorURL field")
 	}
 }
@@ -106,7 +106,7 @@ func TestTransferRWIResponsePausesInMilliseconds(t *testing.T) {
 	}
 
 	parsed, err := yacyproto.ParseTransferRWIResponse(
-		yacyproto.Message{yacyproto.FieldPause: "60000", yacyproto.FieldResult: "busy"},
+		yacyproto.ResponseFields{yacyproto.FieldPause: "60000", yacyproto.FieldResult: "busy"},
 	)
 	if err != nil {
 		t.Fatalf("ParseTransferRWIResponse: %v", err)
@@ -119,8 +119,8 @@ func TestTransferRWIResponsePausesInMilliseconds(t *testing.T) {
 func TestParseTransferRWIResponseRejectsBadPause(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldPause: "soon"}
-	if _, err := yacyproto.ParseTransferRWIResponse(msg); err == nil {
+	fields := yacyproto.ResponseFields{yacyproto.FieldPause: "soon"}
+	if _, err := yacyproto.ParseTransferRWIResponse(fields); err == nil {
 		t.Fatal("expected error for non-numeric pause")
 	}
 }
@@ -128,8 +128,8 @@ func TestParseTransferRWIResponseRejectsBadPause(t *testing.T) {
 func TestParseTransferRWIResponseRejectsUnknownResult(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldResult: "later"}
-	if _, err := yacyproto.ParseTransferRWIResponse(msg); err == nil {
+	fields := yacyproto.ResponseFields{yacyproto.FieldResult: "later"}
+	if _, err := yacyproto.ParseTransferRWIResponse(fields); err == nil {
 		t.Fatal("expected error for unknown transferRWI result")
 	}
 }

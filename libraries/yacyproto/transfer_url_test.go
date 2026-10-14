@@ -46,9 +46,9 @@ func TestTransferURLResponseRoundTrip(t *testing.T) {
 		},
 	}
 
-	msg := resp.Encode()
-	yacyproto.InjectResponseHeader(msg, resp.Version, resp.Uptime)
-	got, err := yacyproto.ParseTransferURLResponse(msg)
+	fields := resp.Encode()
+	yacyproto.InjectResponseHeader(fields, resp.Version, resp.Uptime)
+	got, err := yacyproto.ParseTransferURLResponse(fields)
 	if err != nil {
 		t.Fatalf("ParseTransferURLResponse: %v", err)
 	}
@@ -88,8 +88,8 @@ func TestParseTransferURLRequestSkipsMissingDeclaredURL(t *testing.T) {
 func TestParseTransferURLResponseRejectsUnknownResult(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldResult: "later"}
-	if _, err := yacyproto.ParseTransferURLResponse(msg); err == nil {
+	fields := yacyproto.ResponseFields{yacyproto.FieldResult: "later"}
+	if _, err := yacyproto.ParseTransferURLResponse(fields); err == nil {
 		t.Fatal("expected error for unknown transferURL result")
 	}
 }

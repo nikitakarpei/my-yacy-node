@@ -96,22 +96,22 @@ func ParseHelloRequest(ctx context.Context, form url.Values) (HelloRequest, erro
 	return req, nil
 }
 
-func (r HelloResponse) Encode() Message {
-	msg := Message{}
-	setString(msg, FieldYourIP, r.YourIP)
+func (r HelloResponse) Encode() ResponseFields {
+	fields := ResponseFields{}
+	setString(fields, FieldYourIP, r.YourIP)
 	if yourType, ok := r.YourType.Get(); ok {
-		setString(msg, FieldYourType, yourType.String())
+		setString(fields, FieldYourType, yourType.String())
 	}
-	setInstant(msg, FieldMyTime, r.MyTime)
-	setString(msg, FieldMessage, r.Message)
+	setInstant(fields, FieldMyTime, r.MyTime)
+	setString(fields, FieldMessage, r.Message)
 	for i, seed := range r.Seeds {
-		setString(msg, indexedKey(prefixSeed, i), seedWireCodec{}.encode(seed))
+		setString(fields, indexedKey(prefixSeed, i), seedWireCodec{}.encode(seed))
 	}
 
-	return msg
+	return fields
 }
 
-func ParseHelloResponse(ctx context.Context, m Message) (HelloResponse, error) {
+func ParseHelloResponse(ctx context.Context, m ResponseFields) (HelloResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return HelloResponse{}, err
@@ -158,7 +158,7 @@ func decodeSeed(ctx context.Context, raw string) (yacymodel.Seed, error) {
 // peer's own seed and must parse for the response to be usable; a malformed
 // entry beyond that is a peer we can't identify, not a reason to discard the
 // rest of the batch, so it is dropped with a WARN instead.
-func decodeSeeds(ctx context.Context, m Message) ([]yacymodel.Seed, error) {
+func decodeSeeds(ctx context.Context, m ResponseFields) ([]yacymodel.Seed, error) {
 	var seeds []yacymodel.Seed
 	for i := 0; ; i++ {
 		raw, ok := m[indexedKey(prefixSeed, i)]

@@ -315,7 +315,7 @@ func (w Wire) searchResponse(
 		return yacyproto.SearchResponse{}, false
 	}
 
-	response, err := yacyproto.ParseSearchResponse(ctx, yacyproto.ParseMessage(body))
+	response, err := yacyproto.ParseSearchResponse(ctx, yacyproto.ParseResponseFields(body))
 	if err != nil {
 		w.observer.PeerAnswerUnreadable(
 			ctx,

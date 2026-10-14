@@ -41,9 +41,9 @@ func TestQueryResponseRoundTrip(t *testing.T) {
 		Magic:          "deadbeef",
 	}
 
-	msg := resp.Encode()
-	yacyproto.InjectResponseHeader(msg, resp.Version, resp.Uptime)
-	got, err := yacyproto.ParseQueryResponse(msg)
+	fields := resp.Encode()
+	yacyproto.InjectResponseHeader(fields, resp.Version, resp.Uptime)
+	got, err := yacyproto.ParseQueryResponse(fields)
 	if err != nil {
 		t.Fatalf("ParseQueryResponse: %v", err)
 	}
@@ -77,8 +77,8 @@ func TestParseQueryRequestRejectsUnknownObject(t *testing.T) {
 func TestParseQueryResponseRejectsBadResponse(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldResponse: "many"}
-	if _, err := yacyproto.ParseQueryResponse(msg); err == nil {
+	fields := yacyproto.ResponseFields{yacyproto.FieldResponse: "many"}
+	if _, err := yacyproto.ParseQueryResponse(fields); err == nil {
 		t.Fatal("expected error for non-numeric response")
 	}
 }

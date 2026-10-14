@@ -74,7 +74,7 @@ func MountTransferURL(
 	identity nodeidentity.Identity,
 	receiver URLReceiver,
 ) {
-	httpguard.MountMessage(
+	httpguard.MountFields(
 		router,
 		yacyproto.PathTransferURL,
 		yacyproto.TransferURLEndpointMethods,
