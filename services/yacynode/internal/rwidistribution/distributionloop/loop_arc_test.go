@@ -131,6 +131,7 @@ func TestLoopReadsADrainedArcAtItsEarliestDueTime(t *testing.T) {
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
 		h.admit(t, wordPartition, urlsOf(1)...)
+		h.scheduleAdmissions(t)
 		h.recordHolders(t, wordPartition, peer.Hash)
 		h.start(t)
 
@@ -196,6 +197,31 @@ func TestLoopKeepsAnArcReadableWhenAPostingIsAdmittedWhileItIsRead(t *testing.T)
 				"offered = %d calls, want one transfer of the posting admitted during the read",
 				len(offered),
 			)
+		}
+	})
+}
+
+func TestLoopOffersAPostingAdmittedWhileItsWordPartitionIsSent(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		peer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+		urls := urlsOf(2)
+		h.admit(t, wordPartition, urls[0])
+		sends := 0
+		h.transfers.onOffer = func(yacymodel.Seed) {
+			sends++
+			if sends == 1 {
+				h.admit(t, wordPartition, urls[1])
+			}
+		}
+
+		h.start(t)
+
+		if got := urlsIn(h.transfers.offeredTo(peer)); !slices.Equal(got, sortedURLs(urls)) {
+			t.Fatalf("peer got %v, want the posting admitted during the send too", got)
 		}
 	})
 }

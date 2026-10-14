@@ -30,7 +30,6 @@ type DistributionMetrics struct {
 	urlsDelivered         *prometheus.CounterVec
 	urlsUnknownToUs       prometheus.Counter
 	undeliveredPostings   prometheus.Gauge
-	longestDueWait        prometheus.Gauge
 	arcs                  *prometheus.GaugeVec
 	staleHoldersDropped   prometheus.Counter
 	postingsHandedOff     prometheus.Counter
@@ -51,7 +50,6 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
-//nolint:funlen // one literal declaring every distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -81,10 +79,6 @@ func distributionMetrics() *DistributionMetrics {
 		undeliveredPostings: gaugeFor(
 			"yacynode_rwidistribution_undelivered_postings",
 			"Postings not yet delivered to all their responsible peers.",
-		),
-		longestDueWait: gaugeFor(
-			"yacynode_rwidistribution_longest_due_wait_seconds",
-			"How long the word partition due longest has waited to be sent.",
 		),
 		arcs: gaugePerLabelFor(
 			"yacynode_rwidistribution_arcs",
@@ -147,7 +141,6 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlsDelivered,
 		d.urlsUnknownToUs,
 		d.undeliveredPostings,
-		d.longestDueWait,
 		d.arcs,
 		d.staleHoldersDropped,
 		d.postingsHandedOff,
@@ -212,10 +205,6 @@ func (d *DistributionMetrics) ObserveURLsUnknownToUs(urls int) {
 
 func (d *DistributionMetrics) ObserveUndeliveredPostings(amountOfPostings int) {
 	d.undeliveredPostings.Set(float64(amountOfPostings))
-}
-
-func (d *DistributionMetrics) ObserveLongestDueWait(wait time.Duration) {
-	d.longestDueWait.Set(wait.Seconds())
 }
 
 func (d *DistributionMetrics) ObserveArcs(amountPerState map[string]int) {

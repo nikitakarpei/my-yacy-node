@@ -1,8 +1,8 @@
 // Package wordpartitionschedule keeps for each word partition when it is next
 // due, when it was last refreshed, and the peers that hold it. Admitting a posting
-// makes its word partition due. A send short of redundancy is due again after a
-// retry delay that doubles on each try, up to the refresh interval. Due word
-// partitions are read by ring span.
+// counts it; scheduling the admissions of a ring span makes their word partitions
+// due. A send short of redundancy is due again after a retry delay that doubles on
+// each try, up to the refresh interval. Due word partitions are read by ring span.
 package wordpartitionschedule
 
 import (
@@ -13,8 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
 
 type wordPartitionEntry struct {
 	holders     []yacymodel.Hash
@@ -30,8 +28,10 @@ type ScheduledWordPartition struct {
 }
 
 type Schedule struct {
+	vault           *vault.Vault
 	entries         *vault.Collection[yacymodel.WordPartition, wordPartitionEntry]
 	schedule        *vault.ValueIndex[ScheduledWordPartition, ScheduledWordPartition]
+	admissions      *admissions
 	partitions      yacymodel.DHTRingPartitions
 	refreshInterval time.Duration
 	firstRetryDelay time.Duration
@@ -51,10 +51,16 @@ func Open(
 	if err != nil {
 		return nil, err
 	}
+	admissions, err := openAdmissions(v, partitions)
+	if err != nil {
+		return nil, err
+	}
 
 	return &Schedule{
+		vault:           v,
 		entries:         entries,
 		schedule:        schedule,
+		admissions:      admissions,
 		partitions:      partitions,
 		refreshInterval: refreshInterval,
 		firstRetryDelay: firstRetryDelay,
@@ -164,21 +170,94 @@ func (s *Schedule) record(
 	return nil
 }
 
-func (s *Schedule) MakeDue(
-	tx *vault.Txn,
-	wordPartition yacymodel.WordPartition,
-) (wasMadeDue bool, err error) {
-	entry, found, err := s.entries.Get(tx, wordPartition)
-	if err != nil {
-		return false, fmt.Errorf("read word partition due time: %w", err)
+func (s *Schedule) ScheduleAdmissionsWithin(
+	ctx context.Context,
+	spans []yacymodel.DHTRingSpan,
+) error {
+	unscheduled, err := s.unscheduledAdmissionsWithin(ctx, spans)
+	if err != nil || len(unscheduled.admitted) == 0 {
+		return err
 	}
-	now := s.now()
-	if found && (entry.retryDelay > 0 || !entry.dueAt.After(now)) {
-		return false, nil
-	}
-	entry.dueAt = now
 
-	return true, s.record(tx, wordPartition, entry)
+	return s.makeDueAfter(ctx, unscheduled)
+}
+
+type unscheduledAdmissions struct {
+	admitted       []admittedWordPartition
+	dueByAdmission []yacymodel.WordPartition
+}
+
+func (s *Schedule) unscheduledAdmissionsWithin(
+	ctx context.Context,
+	spans []yacymodel.DHTRingSpan,
+) (unscheduledAdmissions, error) {
+	var unscheduled unscheduledAdmissions
+	err := s.vault.View(ctx, func(tx *vault.Txn) error {
+		unscheduled = unscheduledAdmissions{}
+		for _, span := range spans {
+			admittedInSpan, err := s.admissions.within(tx, span)
+			if err != nil {
+				return err
+			}
+			unscheduled.admitted = append(unscheduled.admitted, admittedInSpan...)
+		}
+		var err error
+		unscheduled.dueByAdmission, err = s.dueByAdmissionAmong(tx, unscheduled.admitted)
+
+		return err
+	})
+
+	return unscheduled, err
+}
+
+func (s *Schedule) dueByAdmissionAmong(
+	tx *vault.Txn,
+	admittedWordPartitions []admittedWordPartition,
+) ([]yacymodel.WordPartition, error) {
+	now := s.now()
+	var dueByAdmission []yacymodel.WordPartition
+	for _, admitted := range admittedWordPartitions {
+		entry, found, err := s.entries.Get(tx, admitted.wordPartition)
+		if err != nil {
+			return nil, fmt.Errorf("read word partition due time: %w", err)
+		}
+		if !found || entry.waitsForAdmissionAt(now) {
+			dueByAdmission = append(dueByAdmission, admitted.wordPartition)
+		}
+	}
+
+	return dueByAdmission, nil
+}
+
+func (e wordPartitionEntry) waitsForAdmissionAt(now time.Time) bool {
+	return e.retryDelay == 0 && e.dueAt.After(now)
+}
+
+func (s *Schedule) makeDueAfter(ctx context.Context, unscheduled unscheduledAdmissions) error {
+	return s.vault.Update(ctx, func(tx *vault.Txn) error {
+		for _, wordPartition := range unscheduled.dueByAdmission {
+			if err := s.makeDue(tx, wordPartition); err != nil {
+				return err
+			}
+		}
+		for _, admitted := range unscheduled.admitted {
+			if err := s.admissions.markScheduled(tx, admitted); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+}
+
+func (s *Schedule) makeDue(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
+	entry, _, err := s.entries.Get(tx, wordPartition)
+	if err != nil {
+		return fmt.Errorf("read word partition holders to make it due: %w", err)
+	}
+	entry.dueAt = s.now()
+
+	return s.record(tx, wordPartition, entry)
 }
 
 func (s *Schedule) Forget(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
@@ -223,10 +302,6 @@ func (s *Schedule) WordPartitionsDueWithin(
 	}
 
 	return due, !stoppedOnBudget, nil
-}
-
-func (s *Schedule) EarliestDueAt(tx *vault.Txn) (time.Time, bool, error) {
-	return s.EarliestDueWithin(tx, wholeRing)
 }
 
 func (s *Schedule) EarliestDueWithin(

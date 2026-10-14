@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 type dueBatch struct {
@@ -21,6 +22,7 @@ type batchSearch struct {
 
 type arcBatches struct {
 	walk           *arcWalk
+	schedule       *wordpartitionschedule.Schedule
 	reader         arcReader
 	offers         *wordpartitionoffer.Offers
 	postingsBudget int
@@ -47,7 +49,7 @@ func (b arcBatches) nextFrom(
 			err = b.settleEndOf(ctx, pick)
 		}
 		if err != nil {
-			b.walk.abandon(pick.arc, nil)
+			b.walk.abandon(pick.arc)
 
 			return batchSearch{}, err
 		}
@@ -59,6 +61,9 @@ func (b arcBatches) offersFrom(
 	pick arcPick,
 	reachablePeers []yacymodel.Seed,
 ) ([]wordpartitionoffer.Offer, error) {
+	if err := b.schedule.ScheduleAdmissionsWithin(ctx, pick.spans); err != nil {
+		return nil, err
+	}
 	position := pick.position
 	for {
 		read, err := b.reader.dueEntriesFrom(ctx, pick.spans, position)
@@ -90,15 +95,6 @@ func (b arcBatches) settleEndOf(ctx context.Context, pick arcPick) error {
 	return nil
 }
 
-func (b dueBatch) wordPartitions() []yacymodel.WordPartition {
-	wordPartitions := make([]yacymodel.WordPartition, 0, len(b.offers))
-	for _, offer := range b.offers {
-		wordPartitions = append(wordPartitions, offer.WordPartition())
-	}
-
-	return wordPartitions
-}
-
 type readChunk struct {
 	offers   []wordpartitionoffer.Offer
 	position arcPosition
@@ -109,15 +105,11 @@ func (b arcBatches) chunkOf(
 	read arcRead,
 	reachablePeers []yacymodel.Seed,
 ) (readChunk, error) {
-	reserved := b.walk.reserve(read.entries)
-	offers, err := b.offers.DueOffersFor(ctx, wordPartitionsOf(reserved), reachablePeers)
+	offers, err := b.offers.DueOffersFor(ctx, wordPartitionsOf(read.entries), reachablePeers)
 	if err != nil {
-		b.walk.release(wordPartitionsOf(reserved))
-
 		return readChunk{}, err
 	}
 	kept := offersWithin(b.postingsBudget, offers)
-	b.walk.release(unkeptWordPartitions(reserved, kept))
 
 	return readChunk{
 		offers:   kept,
@@ -132,22 +124,6 @@ func wordPartitionsOf(entries []readEntry) []yacymodel.WordPartition {
 	}
 
 	return wordPartitions
-}
-
-func unkeptWordPartitions(
-	reserved []readEntry,
-	kept []wordpartitionoffer.Offer,
-) []yacymodel.WordPartition {
-	var unkept []yacymodel.WordPartition
-	for _, entry := range reserved {
-		if !slices.ContainsFunc(kept, func(offer wordpartitionoffer.Offer) bool {
-			return offer.WordPartition() == entry.scheduled.WordPartition
-		}) {
-			unkept = append(unkept, entry.scheduled.WordPartition)
-		}
-	}
-
-	return unkept
 }
 
 func positionAfter(

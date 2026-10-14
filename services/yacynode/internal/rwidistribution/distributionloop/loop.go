@@ -1,8 +1,8 @@
 // Package distributionloop keeps sending postings. It walks the ring by arc: the
 // stretch of ring whose window peers are the same. A worker takes an arc whose
 // window peers are free and reads only its due word partitions. A batch sends
-// them to the window peers at once and writes down what happened. A due word
-// partition or a roster change wakes the workers; no worker polls.
+// them to the window peers at once and writes down what happened. A new posting
+// or a roster change wakes the workers; no worker polls.
 package distributionloop
 
 import (
@@ -111,7 +111,8 @@ func New(
 		dhtRingObserver: dhtRingObserver,
 		walk:            walk,
 		batches: arcBatches{
-			walk: walk,
+			walk:     walk,
+			schedule: schedule,
 			reader: arcReader{
 				vault:                  v,
 				schedule:               schedule,
@@ -123,7 +124,6 @@ func New(
 		gauges: &gaugeObservation{
 			vault:           v,
 			undelivered:     undelivered,
-			schedule:        schedule,
 			roster:          roster,
 			clock:           clock,
 			walk:            walk,
@@ -143,8 +143,8 @@ func (l *Loop) Run(ctx context.Context) {
 	workers.Wait()
 }
 
-func (l *Loop) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
-	l.walk.signalDue(position)
+func (l *Loop) ObservePostingAdmitted(position yacymodel.DHTRingPosition) {
+	l.walk.signalAdmission(position)
 }
 
 func (l *Loop) ObserveReachablePeers(int) {
@@ -185,12 +185,12 @@ func (l *Loop) offerBatch(ctx context.Context, batch dueBatch) {
 	answers := l.sender.send(ctx, batch.offers)
 	if err := l.commitBatch(ctx, batch.offers, answers); err != nil {
 		l.reportBatchUnwritten(ctx, err)
-		l.walk.abandon(batch.arc, batch.wordPartitions())
+		l.walk.abandon(batch.arc)
 		sleepOn(ctx, l.clock, retryDelayAfterVaultError)
 
 		return
 	}
-	l.walk.complete(batch.arc, batch.wordPartitions())
+	l.walk.complete(batch.arc)
 	l.batchObserver.ObserveBatchCompleted()
 }
 

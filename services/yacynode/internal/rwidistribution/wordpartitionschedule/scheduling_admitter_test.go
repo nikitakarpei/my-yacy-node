@@ -2,6 +2,7 @@ package wordpartitionschedule_test
 
 import (
 	"errors"
+	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -22,35 +23,36 @@ func (f *fakeAdmitter) Admit(_ *vault.Txn, posting yacymodel.RWIPosting) error {
 	return nil
 }
 
-func TestSchedulingAdmitterStoresPostingAndMakesItsWordPartitionDue(t *testing.T) {
+func TestSchedulingAdmitterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	h := openHarness(t)
 	wrapped := &fakeAdmitter{}
-	admitter := h.schedule.AdmitterFrom(wrapped, &recordingDueObserver{})
+	admitter := h.schedule.AdmitterFrom(wrapped, &recordingAdmissionObserver{})
 	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
 
 	h.write(t, func(tx *vault.Txn) error { return admitter.Admit(tx, posting) })
+	h.scheduleAdmissionsWithin(t, wholeRing)
 
 	if len(wrapped.admitted) != 1 || wrapped.admitted[0] != posting {
 		t.Fatalf("wrapped admitter got %v, want [%v]", wrapped.admitted, posting)
 	}
 	want := yacymodel.WordPartitionOfPosting(posting, h.partitions)
-	due := h.dueWordPartitions(t, 10)
-	if len(due) != 1 || due[0] != want {
+	if due := h.dueWordPartitions(t, 10); !slices.Equal(due, []yacymodel.WordPartition{want}) {
 		t.Fatalf("due word partitions = %v, want [%v]", due, want)
 	}
 }
 
-func TestSchedulingAdmitterReturnsWrappedErrorAndMakesNothingDue(t *testing.T) {
+func TestSchedulingAdmitterReturnsWrappedErrorAndCountsNothing(t *testing.T) {
 	h := openHarness(t)
 	failure := errors.New("admit failed")
 	admitter := h.schedule.AdmitterFrom(
 		&fakeAdmitter{err: failure},
-		&recordingDueObserver{},
+		&recordingAdmissionObserver{},
 	)
 
 	err := h.vault.Update(t.Context(), func(tx *vault.Txn) error {
 		return admitter.Admit(tx, yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")})
 	})
+	h.scheduleAdmissionsWithin(t, wholeRing)
 
 	if !errors.Is(err, failure) {
 		t.Fatalf("Admit error = %v, want %v", err, failure)
@@ -60,17 +62,17 @@ func TestSchedulingAdmitterReturnsWrappedErrorAndMakesNothingDue(t *testing.T) {
 	}
 }
 
-type recordingDueObserver struct {
+type recordingAdmissionObserver struct {
 	positions []yacymodel.DHTRingPosition
 }
 
-func (r *recordingDueObserver) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
+func (r *recordingAdmissionObserver) ObservePostingAdmitted(position yacymodel.DHTRingPosition) {
 	r.positions = append(r.positions, position)
 }
 
-func TestSchedulingAdmitterReportsTheDuePositionOnlyAfterCommit(t *testing.T) {
+func TestSchedulingAdmitterReportsThePositionOnlyAfterCommit(t *testing.T) {
 	h := openHarness(t)
-	observer := &recordingDueObserver{}
+	observer := &recordingAdmissionObserver{}
 	admitter := h.schedule.AdmitterFrom(&fakeAdmitter{}, observer)
 	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
 	var reportedInside int
@@ -96,23 +98,23 @@ func TestSchedulingAdmitterReportsTheDuePositionOnlyAfterCommit(t *testing.T) {
 	}
 }
 
-func TestSchedulingAdmitterReportsNothingForAnAlreadyDueWordPartition(t *testing.T) {
+func TestSchedulingAdmitterReportsEveryAdmittedPosting(t *testing.T) {
 	h := openHarness(t)
-	observer := &recordingDueObserver{}
+	observer := &recordingAdmissionObserver{}
 	admitter := h.schedule.AdmitterFrom(&fakeAdmitter{}, observer)
 	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
 	h.write(t, func(tx *vault.Txn) error { return admitter.Admit(tx, posting) })
 
 	h.write(t, func(tx *vault.Txn) error { return admitter.Admit(tx, posting) })
 
-	if len(observer.positions) != 1 {
-		t.Fatalf("reported positions = %v, want one", observer.positions)
+	if len(observer.positions) != 2 {
+		t.Fatalf("reported positions = %v, want two", observer.positions)
 	}
 }
 
 func TestSchedulingAdmitterReportsNothingWhenTheTransactionFails(t *testing.T) {
 	h := openHarness(t)
-	observer := &recordingDueObserver{}
+	observer := &recordingAdmissionObserver{}
 	admitter := h.schedule.AdmitterFrom(&fakeAdmitter{}, observer)
 	failure := errors.New("commit refused")
 

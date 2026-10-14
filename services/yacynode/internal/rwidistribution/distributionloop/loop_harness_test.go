@@ -268,6 +268,19 @@ func (h *loopHarness) admit(
 	})
 }
 
+func (h *loopHarness) scheduleAdmissions(t *testing.T) {
+	t.Helper()
+
+	wholeRing := yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
+	err := h.schedule.ScheduleAdmissionsWithin(
+		context.Background(),
+		[]yacymodel.DHTRingSpan{wholeRing},
+	)
+	if err != nil {
+		t.Fatalf("ScheduleAdmissionsWithin: %v", err)
+	}
+}
+
 func (h *loopHarness) recordHolders(
 	t *testing.T,
 	wordPartition yacymodel.WordPartition,
@@ -368,9 +381,9 @@ type loopRelay struct {
 	loop *distributionloop.Loop
 }
 
-func (r *loopRelay) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
+func (r *loopRelay) ObservePostingAdmitted(position yacymodel.DHTRingPosition) {
 	if r.loop != nil {
-		r.loop.ObserveWordPartitionDue(position)
+		r.loop.ObservePostingAdmitted(position)
 	}
 }
 

@@ -8,18 +8,18 @@ import (
 
 type schedulingAdmitter struct {
 	admitter   rwipostings.PostingAdmitter
-	schedule   *Schedule
+	admissions *admissions
 	partitions yacymodel.DHTRingPartitions
-	observer   DueObserver
+	observer   AdmissionObserver
 }
 
 func (s *Schedule) AdmitterFrom(
 	admitter rwipostings.PostingAdmitter,
-	observer DueObserver,
+	observer AdmissionObserver,
 ) rwipostings.PostingAdmitter {
 	return schedulingAdmitter{
 		admitter:   admitter,
-		schedule:   s,
+		admissions: s.admissions,
 		partitions: s.partitions,
 		observer:   observer,
 	}
@@ -30,12 +30,11 @@ func (a schedulingAdmitter) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) e
 		return err
 	}
 	wordPartition := yacymodel.WordPartitionOfPosting(posting, a.partitions)
-	wasMadeDue, err := a.schedule.MakeDue(tx, wordPartition)
-	if err != nil || !wasMadeDue {
+	if err := a.admissions.count(tx, wordPartition); err != nil {
 		return err
 	}
 	position := yacymodel.DHTRingPositionOfWordPartition(wordPartition, a.partitions)
-	tx.RunAfterCommit(func() { a.observer.ObserveWordPartitionDue(position) })
+	tx.RunAfterCommit(func() { a.observer.ObservePostingAdmitted(position) })
 
 	return nil
 }

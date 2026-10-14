@@ -145,11 +145,6 @@ func TestLoopKeepsAHeldWordPartitionOnItsLastRefreshWhenItSendsANewPosting(t *te
 		h.recordHolders(t, wordPartition, holder.Hash)
 		h.advance(refreshInterval / 2)
 		h.admit(t, wordPartition, urlsOf(1)...)
-		h.write(t, func(tx *vault.Txn) error {
-			_, err := h.schedule.MakeDue(tx, wordPartition)
-
-			return err
-		})
 
 		h.start(t)
 
@@ -177,7 +172,10 @@ func (h *loopHarness) earliestDueAt(t *testing.T) (time.Time, bool) {
 	)
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		earliestDueAt, found, err = h.schedule.EarliestDueAt(tx)
+		earliestDueAt, found, err = h.schedule.EarliestDueWithin(
+			tx,
+			yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition},
+		)
 
 		return err
 	})

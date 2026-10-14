@@ -9,10 +9,10 @@ import (
 )
 
 type arcPick struct {
-	arc                *arc
-	spans              []yacymodel.DHTRingSpan
-	position           arcPosition
-	amountOfDueSignals int
+	arc                      *arc
+	spans                    []yacymodel.DHTRingSpan
+	position                 arcPosition
+	amountOfAdmissionSignals int
 }
 
 type wakeAlarm struct {
@@ -25,8 +25,8 @@ type arcWalk struct {
 	clock       Clock
 	eligibility PeerEligibility
 	arcs        []*arc
+	leftArcs    []*arc
 	lastPicked  *arc
-	inFlight    map[yacymodel.WordPartition]struct{}
 	wake        chan struct{}
 }
 
@@ -34,7 +34,6 @@ func newArcWalk(clock Clock, eligibility PeerEligibility) *arcWalk {
 	return &arcWalk{
 		clock:       clock,
 		eligibility: eligibility,
-		inFlight:    make(map[yacymodel.WordPartition]struct{}),
 		wake:        make(chan struct{}),
 	}
 }
@@ -43,6 +42,7 @@ func (w *arcWalk) followRing(seedArcs []yacymodel.SeedArc) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
 
+	w.leftArcs = slices.DeleteFunc(w.leftArcs, func(left *arc) bool { return !left.isInBatch })
 	if w.followsRing(seedArcs) {
 		return
 	}
@@ -50,6 +50,7 @@ func (w *arcWalk) followRing(seedArcs []yacymodel.SeedArc) {
 	for _, seedArc := range seedArcs {
 		arcs = append(arcs, w.arcWithEndsOf(seedArc))
 	}
+	w.leftArcs = append(w.leftArcs, arcsInBatchLeftOutOf(w.arcs, arcs)...)
 	w.arcs = arcs
 }
 
@@ -71,6 +72,17 @@ func (w *arcWalk) arcWithEndsOf(seedArc yacymodel.SeedArc) *arc {
 	return &arc{seedArc: seedArc}
 }
 
+func arcsInBatchLeftOutOf(previousArcs, arcs []*arc) []*arc {
+	var leftArcs []*arc
+	for _, previous := range previousArcs {
+		if previous.isInBatch && !slices.Contains(arcs, previous) {
+			leftArcs = append(leftArcs, previous)
+		}
+	}
+
+	return leftArcs
+}
+
 func (w *arcWalk) pickOpenArc() (pick arcPick, found bool, alarm wakeAlarm) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
@@ -79,7 +91,7 @@ func (w *arcWalk) pickOpenArc() (pick arcPick, found bool, alarm wakeAlarm) {
 	first := slices.Index(w.arcs, w.lastPicked) + 1
 	for turn := range len(w.arcs) {
 		picked := w.arcs[(first+turn)%len(w.arcs)]
-		if picked.isPickableAt(now, w.eligibility) {
+		if w.isOpenAt(picked, now) {
 			picked.isInBatch = true
 			w.lastPicked = picked
 
@@ -90,12 +102,22 @@ func (w *arcWalk) pickOpenArc() (pick arcPick, found bool, alarm wakeAlarm) {
 	return arcPick{}, false, w.alarmAt(now)
 }
 
+func (w *arcWalk) isOpenAt(candidate *arc, now time.Time) bool {
+	return candidate.isPickableAt(now, w.eligibility) && !w.overlapsALeftArcInBatch(candidate)
+}
+
+func (w *arcWalk) overlapsALeftArcInBatch(candidate *arc) bool {
+	return slices.ContainsFunc(w.leftArcs, func(left *arc) bool {
+		return left.isInBatch && left.overlaps(candidate)
+	})
+}
+
 func arcPickOf(picked *arc) arcPick {
 	return arcPick{
-		arc:                picked,
-		spans:              picked.seedArc.Spans(),
-		position:           picked.position,
-		amountOfDueSignals: picked.amountOfDueSignals,
+		arc:                      picked,
+		spans:                    picked.seedArc.Spans(),
+		position:                 picked.position,
+		amountOfAdmissionSignals: picked.amountOfAdmissionSignals,
 	}
 }
 
@@ -124,30 +146,6 @@ func (a wakeAlarm) earlier(at time.Time) wakeAlarm {
 	return wakeAlarm{at: at, isSet: true}
 }
 
-func (w *arcWalk) reserve(entries []readEntry) []readEntry {
-	w.guard.Lock()
-	defer w.guard.Unlock()
-
-	var reserved []readEntry
-	for _, entry := range entries {
-		if _, isInFlight := w.inFlight[entry.scheduled.WordPartition]; !isInFlight {
-			w.inFlight[entry.scheduled.WordPartition] = struct{}{}
-			reserved = append(reserved, entry)
-		}
-	}
-
-	return reserved
-}
-
-func (w *arcWalk) release(wordPartitions []yacymodel.WordPartition) {
-	w.guard.Lock()
-	defer w.guard.Unlock()
-
-	for _, wordPartition := range wordPartitions {
-		delete(w.inFlight, wordPartition)
-	}
-}
-
 func (w *arcWalk) moveTo(picked *arc, position arcPosition) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
@@ -163,7 +161,7 @@ func (w *arcWalk) settleReadEnd(pick arcPick, earliestDueAt time.Time, isAnyDue 
 	picked.isInBatch = false
 	picked.position = arcPosition{}
 	switch {
-	case picked.amountOfDueSignals != pick.amountOfDueSignals:
+	case picked.amountOfAdmissionSignals != pick.amountOfAdmissionSignals:
 	case !isAnyDue:
 		picked.drainUntilSignal()
 	case earliestDueAt.After(w.clock.Now()):
@@ -174,41 +172,36 @@ func (w *arcWalk) settleReadEnd(pick arcPick, earliestDueAt time.Time, isAnyDue 
 	w.wakeWorkers()
 }
 
-func (w *arcWalk) complete(picked *arc, wordPartitions []yacymodel.WordPartition) {
+func (w *arcWalk) complete(picked *arc) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
 
 	picked.isInBatch = false
-	for _, wordPartition := range wordPartitions {
-		delete(w.inFlight, wordPartition)
-	}
 	for _, held := range w.arcs {
 		held.isHeldBack = false
 	}
 	w.wakeWorkers()
 }
 
-func (w *arcWalk) abandon(picked *arc, wordPartitions []yacymodel.WordPartition) {
+func (w *arcWalk) abandon(picked *arc) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
 
 	picked.isInBatch = false
 	picked.position = arcPosition{}
-	for _, wordPartition := range wordPartitions {
-		delete(w.inFlight, wordPartition)
-	}
 }
 
-func (w *arcWalk) signalDue(position yacymodel.DHTRingPosition) {
+func (w *arcWalk) signalAdmission(position yacymodel.DHTRingPosition) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
 
-	for _, holding := range w.arcs {
-		if holding.holds(position) {
-			holding.receiveDueSignal()
-		}
+	index := slices.IndexFunc(
+		w.arcs,
+		func(candidate *arc) bool { return candidate.holds(position) },
+	)
+	if index >= 0 && w.arcs[index].receiveAdmissionSignalAt(w.clock.Now()) {
+		w.wakeWorkers()
 	}
-	w.wakeWorkers()
 }
 
 func (w *arcWalk) signalReachablePeers() {
