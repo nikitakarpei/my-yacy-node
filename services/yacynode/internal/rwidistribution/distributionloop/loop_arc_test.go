@@ -260,3 +260,36 @@ func TestLoopReadsAWordPartitionMadeDueBehindTheCursorOfItsArc(t *testing.T) {
 		}
 	})
 }
+
+func TestLoopLeavesAnArcWhoseWindowClosesWhileItIsRead(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 3)
+		peer := peerAfter(wordPartitions[2], 1)
+		h := openLoop(t, startClock(), loopOptions{
+			self:             thisNodeFartherThan(wordPartitions[0]),
+			postingsPerBatch: 1,
+		})
+		h.reach(peer)
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+		for _, wordPartition := range wordPartitions {
+			h.admit(t, wordPartition, urlsOf(1)...)
+		}
+		recipientChecks := 0
+		h.offered.onPausedAsked = func() {
+			recipientChecks++
+			if recipientChecks == 1 {
+				h.eligibility.OfferDeclined(peer.Hash, time.Hour)
+			}
+		}
+
+		h.start(t)
+		if recipientChecks != 1 {
+			t.Fatalf("recipient checks = %d, want none after the window closed", recipientChecks)
+		}
+		h.advance(time.Hour)
+
+		if got := len(h.transfers.offeredTo(peer)); got != len(wordPartitions) {
+			t.Fatalf("transfers = %d, want every word partition once the pause ended", got)
+		}
+	})
+}

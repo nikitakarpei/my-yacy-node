@@ -367,6 +367,15 @@ type hookedEligibility struct {
 	*peereligibility.Peers
 
 	onExcludedAsked func()
+	onPausedAsked   func()
+}
+
+func (e *hookedEligibility) IsPaused(peer yacymodel.Hash) bool {
+	if e.onPausedAsked != nil {
+		e.onPausedAsked()
+	}
+
+	return e.Peers.IsPaused(peer)
 }
 
 func (e *hookedEligibility) IsExcluded(peer yacymodel.Hash) bool {

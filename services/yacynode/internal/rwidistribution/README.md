@@ -24,9 +24,10 @@ the postings that enough responsible peers hold.
 - Each word partition has a due time. A new posting makes its word partition
   due when a worker next takes its arc, unless the word partition is in retry.
 - Workers send batches. A batch holds the due word partitions of one arc. A
-  worker takes only an arc whose window peers are not paused and not busy. No
-  part of the ring is in two batches at the same time, also when the peers
-  change.
+  worker takes only an arc whose window peers are not paused and not busy. When
+  one of them becomes paused or busy, the worker leaves the arc and later
+  continues from the same place. No part of the ring is in two batches at the
+  same time, also when the peers change.
 - An arc with nothing due waits for its next due time or a new posting.
 - A holder gets the undelivered postings. A missing holder gets all postings of
   the word partition. It becomes a holder only when it accepts all of them.
