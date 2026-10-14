@@ -75,6 +75,18 @@ func (a *arc) hasBusyPeer(eligibility PeerEligibility) bool {
 	return false
 }
 
+func (a *arc) overlaps(other *arc) bool {
+	for _, span := range a.seedArc.Spans() {
+		for _, otherSpan := range other.seedArc.Spans() {
+			if span.First <= otherSpan.Last && otherSpan.First <= span.Last {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func (a *arc) hasEnds(other yacymodel.SeedArc) bool {
 	return a.seedArc.After == other.After && a.seedArc.Through == other.Through
 }
