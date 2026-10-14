@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 const (
@@ -25,6 +26,7 @@ type harness struct {
 	vault      *vault.Vault
 	partitions yacymodel.DHTRingPartitions
 	schedule   *wordpartitionschedule.Schedule
+	admitter   rwipostings.PostingAdmitter
 	clock      time.Time
 }
 
@@ -58,6 +60,7 @@ func openHarness(t *testing.T) *harness {
 		t.Fatalf("wordpartitionschedule.Open: %v", err)
 	}
 	h.schedule = opened
+	h.admitter = opened.AdmitterFrom(&fakeAdmitter{}, &recordingAdmissionObserver{})
 
 	return h
 }
@@ -172,6 +175,40 @@ func wordPartitionsOf(
 	}
 
 	return wordPartitions
+}
+
+func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) {
+	t.Helper()
+
+	h.admit(t, wordPartition)
+	h.scheduleAdmissionsWithin(t, wholeRing)
+}
+
+func (h *harness) admit(t *testing.T, wordPartition yacymodel.WordPartition) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.admitter.Admit(tx, h.postingIn(wordPartition))
+	})
+}
+
+func (h *harness) postingIn(wordPartition yacymodel.WordPartition) yacymodel.RWIPosting {
+	for document := 0; ; document++ {
+		url, err := yacymodel.ParseURLHash(
+			yacymodel.WordHash("url" + strconv.Itoa(document)).String(),
+		)
+		if err == nil && h.partitions.PartitionOf(url) == wordPartition.Partition {
+			return yacymodel.RWIPosting{WordHash: wordPartition.Word, URLHash: url}
+		}
+	}
+}
+
+func (h *harness) scheduleAdmissionsWithin(t *testing.T, spans ...yacymodel.DHTRingSpan) {
+	t.Helper()
+
+	if err := h.schedule.ScheduleAdmissionsWithin(context.Background(), spans); err != nil {
+		t.Fatalf("ScheduleAdmissionsWithin: %v", err)
+	}
 }
 
 func (h *harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -577,7 +614,7 @@ func (h *harness) earliestDueAt(t *testing.T) (time.Time, bool) {
 	)
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		earliestDueAt, found, err = h.schedule.EarliestDueAt(tx)
+		earliestDueAt, found, err = h.schedule.EarliestDueWithin(tx, wholeRing)
 
 		return err
 	})
@@ -607,15 +644,15 @@ func TestAWordPartitionWithNoHoldersStaysDue(t *testing.T) {
 	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
 }
 
-func TestNoDueTimeIsEarliestWhileNoneIsScheduled(t *testing.T) {
+func TestNoDueTimeIsEarliestOnTheWholeRingWhileNoneIsScheduled(t *testing.T) {
 	h := openHarness(t)
 
 	if earliestDueAt, found := h.earliestDueAt(t); found {
-		t.Fatalf("EarliestDueAt = %v, want none", earliestDueAt)
+		t.Fatalf("EarliestDueWithin = %v, want none", earliestDueAt)
 	}
 }
 
-func TestEarliestDueAtIsTheEarliestOverEveryRingSlice(t *testing.T) {
+func TestTheEarliestDueTimeOnTheWholeRingIsTheEarliestOverEveryRingSlice(t *testing.T) {
 	h := openHarness(t)
 	wordPartitions := h.everyWordPartition()
 	for _, wordPartition := range wordPartitions[1:] {
@@ -625,7 +662,7 @@ func TestEarliestDueAtIsTheEarliestOverEveryRingSlice(t *testing.T) {
 	h.recordHoldersShortOfRedundancy(t, wordPartitions[0], peer("peer0"))
 
 	if got, found := h.earliestDueAt(t); !found || !got.Equal(start.Add(firstRetryDelay)) {
-		t.Fatalf("EarliestDueAt = %v, %v, want %v", got, found, start.Add(firstRetryDelay))
+		t.Fatalf("EarliestDueWithin = %v, %v, want %v", got, found, start.Add(firstRetryDelay))
 	}
 }
 
@@ -662,61 +699,6 @@ func TestReachingRedundancyStartsTheRetryDelayOver(t *testing.T) {
 	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
 
 	h.assertDueOnlyAfter(t, wordPartition, firstRetryDelay)
-}
-
-func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) (wasMadeDue bool) {
-	t.Helper()
-
-	h.write(t, func(tx *vault.Txn) error {
-		var err error
-		wasMadeDue, err = h.schedule.MakeDue(tx, wordPartition)
-
-		return err
-	})
-
-	return wasMadeDue
-}
-
-func (h *harness) assertMadeDue(
-	t *testing.T,
-	wordPartition yacymodel.WordPartition,
-	wantMadeDue bool,
-) {
-	t.Helper()
-
-	if got := h.makeDue(t, wordPartition); got != wantMadeDue {
-		t.Fatalf("MakeDue = %v, want %v", got, wantMadeDue)
-	}
-}
-
-func TestMakingANewWordPartitionDueReportsThatItWrote(t *testing.T) {
-	h := openHarness(t)
-
-	h.assertMadeDue(t, someWordPartition(), true)
-}
-
-func TestMakingAHeldWordPartitionDueReportsThatItWrote(t *testing.T) {
-	h := openHarness(t)
-	wordPartition := someWordPartition()
-	h.recordHolders(t, wordPartition, peer("peer0"))
-
-	h.assertMadeDue(t, wordPartition, true)
-}
-
-func TestMakingAnAlreadyDueWordPartitionDueReportsNoWrite(t *testing.T) {
-	h := openHarness(t)
-	wordPartition := someWordPartition()
-	h.makeDue(t, wordPartition)
-
-	h.assertMadeDue(t, wordPartition, false)
-}
-
-func TestMakingAWordPartitionInRetryDueReportsNoWrite(t *testing.T) {
-	h := openHarness(t)
-	wordPartition := someWordPartition()
-	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
-
-	h.assertMadeDue(t, wordPartition, false)
 }
 
 func (h *harness) earliestDueWithin(
@@ -997,4 +979,99 @@ func TestARefreshIsDueWithoutAnEntryAndOnceTheRefreshIntervalPassed(t *testing.T
 	if !h.isRefreshDue(t, wordPartition) {
 		t.Fatal("IsRefreshDue = false, want true after the refresh interval")
 	}
+}
+
+func TestAnAdmissionAloneMakesNothingDue(t *testing.T) {
+	h := openHarness(t)
+
+	h.admit(t, someWordPartition())
+
+	if due := h.dueWordPartitions(t, 10); len(due) != 0 {
+		t.Fatalf("due word partitions = %v, want none", due)
+	}
+}
+
+func TestSchedulingAdmissionsWithinASpanLeavesTheRestOfTheRingForLater(t *testing.T) {
+	h := openHarness(t)
+	inside := someWordPartition()
+	outside := h.wordPartitionInAnotherRingSliceThan(t, inside)
+	h.admit(t, inside)
+	h.admit(t, outside)
+
+	h.scheduleAdmissionsWithin(t, h.spanOf(inside))
+
+	if due := h.dueWordPartitions(t, 10); !slices.Equal(due, []yacymodel.WordPartition{inside}) {
+		t.Fatalf("due word partitions = %v, want only %v", due, inside)
+	}
+	h.scheduleAdmissionsWithin(t, wholeRing)
+	if due := h.dueWordPartitions(t, 10); len(due) != 2 {
+		t.Fatalf("due word partitions = %v, want both", due)
+	}
+}
+
+func (h *harness) wordPartitionInAnotherRingSliceThan(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+) yacymodel.WordPartition {
+	t.Helper()
+
+	for _, other := range h.everyWordPartition() {
+		if h.ringSliceOf(other) != h.ringSliceOf(wordPartition) {
+			return other
+		}
+	}
+	t.Fatalf("no word partition outside the ring slice of %v", wordPartition)
+
+	return yacymodel.WordPartition{}
+}
+
+func (h *harness) spanOf(wordPartition yacymodel.WordPartition) yacymodel.DHTRingSpan {
+	position := h.positionOf(wordPartition)
+
+	return yacymodel.DHTRingSpan{First: position, Last: position}
+}
+
+func TestScheduledAdmissionsDoNotMakeARefreshedWordPartitionDueAgain(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.makeDue(t, wordPartition)
+	h.recordHolders(t, wordPartition, peer("peer0"))
+
+	h.scheduleAdmissionsWithin(t, wholeRing)
+
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval)
+}
+
+func TestAnAdmissionAfterARefreshMakesTheWordPartitionDueAgain(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.admit(t, wordPartition)
+	h.scheduleAdmissionsWithin(t, wholeRing)
+	h.admit(t, wordPartition)
+	h.recordHolders(t, wordPartition, peer("peer0"))
+
+	h.scheduleAdmissionsWithin(t, wholeRing)
+
+	if due := h.dueWordPartitions(
+		t,
+		10,
+	); !slices.Equal(
+		due,
+		[]yacymodel.WordPartition{wordPartition},
+	) {
+		t.Fatalf("due word partitions = %v, want %v", due, wordPartition)
+	}
+}
+
+func TestAdmissionsDuringARetryAreNotScheduledAfterIt(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+	h.makeDue(t, wordPartition)
+	h.advance(firstRetryDelay)
+	h.recordHolders(t, wordPartition, peer("peer0"))
+
+	h.scheduleAdmissionsWithin(t, wholeRing)
+
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval)
 }

@@ -1,8 +1,8 @@
 // Package wordpartitionschedule keeps for each word partition when it is next
 // due, when it was last refreshed, and the peers that hold it. Admitting a posting
-// makes its word partition due. A send short of redundancy is due again after a
-// retry delay that doubles on each try, up to the refresh interval. Due word
-// partitions are read by ring span.
+// counts it; scheduling the admissions of a ring span makes their word partitions
+// due. A send short of redundancy is due again after a retry delay that doubles on
+// each try, up to the refresh interval. Due word partitions are read by ring span.
 package wordpartitionschedule
 
 import (
@@ -13,8 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
 
 type wordPartitionEntry struct {
 	holders     []yacymodel.Hash
@@ -30,8 +28,10 @@ type ScheduledWordPartition struct {
 }
 
 type Schedule struct {
+	vault           *vault.Vault
 	entries         *vault.Collection[yacymodel.WordPartition, wordPartitionEntry]
 	schedule        *vault.ValueIndex[ScheduledWordPartition, ScheduledWordPartition]
+	admissions      *admissions
 	partitions      yacymodel.DHTRingPartitions
 	refreshInterval time.Duration
 	firstRetryDelay time.Duration
@@ -51,10 +51,16 @@ func Open(
 	if err != nil {
 		return nil, err
 	}
+	admissions, err := openAdmissions(v, partitions)
+	if err != nil {
+		return nil, err
+	}
 
 	return &Schedule{
+		vault:           v,
 		entries:         entries,
 		schedule:        schedule,
+		admissions:      admissions,
 		partitions:      partitions,
 		refreshInterval: refreshInterval,
 		firstRetryDelay: firstRetryDelay,
@@ -164,21 +170,69 @@ func (s *Schedule) record(
 	return nil
 }
 
-func (s *Schedule) MakeDue(
-	tx *vault.Txn,
-	wordPartition yacymodel.WordPartition,
-) (wasMadeDue bool, err error) {
+func (s *Schedule) ScheduleAdmissionsWithin(
+	ctx context.Context,
+	spans []yacymodel.DHTRingSpan,
+) error {
+	admittedWordPartitions, err := s.admittedWithin(ctx, spans)
+	if err != nil || len(admittedWordPartitions) == 0 {
+		return err
+	}
+
+	return s.makeDueAfter(ctx, admittedWordPartitions)
+}
+
+func (s *Schedule) admittedWithin(
+	ctx context.Context,
+	spans []yacymodel.DHTRingSpan,
+) ([]admittedWordPartition, error) {
+	var admittedWordPartitions []admittedWordPartition
+	err := s.vault.View(ctx, func(tx *vault.Txn) error {
+		admittedWordPartitions = nil
+		for _, span := range spans {
+			admittedInSpan, err := s.admissions.within(tx, span)
+			if err != nil {
+				return err
+			}
+			admittedWordPartitions = append(admittedWordPartitions, admittedInSpan...)
+		}
+
+		return nil
+	})
+
+	return admittedWordPartitions, err
+}
+
+func (s *Schedule) makeDueAfter(
+	ctx context.Context,
+	admittedWordPartitions []admittedWordPartition,
+) error {
+	return s.vault.Update(ctx, func(tx *vault.Txn) error {
+		for _, admitted := range admittedWordPartitions {
+			if err := s.makeDue(tx, admitted.wordPartition); err != nil {
+				return err
+			}
+			if err := s.admissions.markScheduled(tx, admitted); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+}
+
+func (s *Schedule) makeDue(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
 	entry, found, err := s.entries.Get(tx, wordPartition)
 	if err != nil {
-		return false, fmt.Errorf("read word partition due time: %w", err)
+		return fmt.Errorf("read word partition due time: %w", err)
 	}
 	now := s.now()
 	if found && (entry.retryDelay > 0 || !entry.dueAt.After(now)) {
-		return false, nil
+		return nil
 	}
 	entry.dueAt = now
 
-	return true, s.record(tx, wordPartition, entry)
+	return s.record(tx, wordPartition, entry)
 }
 
 func (s *Schedule) Forget(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
@@ -223,10 +277,6 @@ func (s *Schedule) WordPartitionsDueWithin(
 	}
 
 	return due, !stoppedOnBudget, nil
-}
-
-func (s *Schedule) EarliestDueAt(tx *vault.Txn) (time.Time, bool, error) {
-	return s.EarliestDueWithin(tx, wholeRing)
 }
 
 func (s *Schedule) EarliestDueWithin(

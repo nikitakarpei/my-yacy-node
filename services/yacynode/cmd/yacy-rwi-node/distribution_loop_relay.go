@@ -8,7 +8,7 @@ import (
 )
 
 type distributionSignals interface {
-	ObserveWordPartitionDue(position yacymodel.DHTRingPosition)
+	ObservePostingAdmitted(position yacymodel.DHTRingPosition)
 	ObserveReachablePeers(amountOfPeers int)
 }
 
@@ -20,9 +20,9 @@ func (r *distributionLoopRelay) forwardTo(loop distributionSignals) {
 	r.loop.Store(&loop)
 }
 
-func (r *distributionLoopRelay) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
+func (r *distributionLoopRelay) ObservePostingAdmitted(position yacymodel.DHTRingPosition) {
 	if loop := r.loop.Load(); loop != nil {
-		(*loop).ObserveWordPartitionDue(position)
+		(*loop).ObservePostingAdmitted(position)
 	}
 }
 

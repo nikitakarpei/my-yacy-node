@@ -70,7 +70,6 @@ func openHarness(t *testing.T, opts options) *harness {
 	}
 	h := &harness{
 		vault:        v,
-		admitter:     admitter,
 		undelivered:  undelivered,
 		reachability: &fakeReachability{recentlyReachable: map[yacymodel.Hash]bool{}},
 		eligibility: fakeEligibility{
@@ -91,6 +90,7 @@ func openHarness(t *testing.T, opts options) *harness {
 	if err != nil {
 		t.Fatalf("wordpartitionschedule.Open: %v", err)
 	}
+	h.admitter = h.schedule.AdmitterFrom(admitter, silentAdmissionObserver{})
 	h.offers = wordpartitionoffer.New(
 		v, undelivered, h.schedule, index, h.reachability, h.eligibility, configFrom(opts),
 	)
@@ -209,9 +209,7 @@ func (h *harness) undeliveredOffers(
 ) []wordpartitionoffer.Offer {
 	t.Helper()
 
-	for _, wordPartition := range h.admitted {
-		h.makeDue(t, wordPartition)
-	}
+	h.scheduleAdmissions(t)
 
 	return h.dueOffers(t, reachablePeers...)
 }
@@ -241,15 +239,21 @@ func (h *harness) dueOffers(
 	return offers
 }
 
-func (h *harness) makeDue(t *testing.T, wordPartition yacymodel.WordPartition) {
+func (h *harness) scheduleAdmissions(t *testing.T) {
 	t.Helper()
 
-	h.write(t, func(tx *vault.Txn) error {
-		_, err := h.schedule.MakeDue(tx, wordPartition)
-
-		return err
-	})
+	err := h.schedule.ScheduleAdmissionsWithin(
+		context.Background(),
+		[]yacymodel.DHTRingSpan{wholeRing},
+	)
+	if err != nil {
+		t.Fatalf("ScheduleAdmissionsWithin: %v", err)
+	}
 }
+
+type silentAdmissionObserver struct{}
+
+func (silentAdmissionObserver) ObservePostingAdmitted(yacymodel.DHTRingPosition) {}
 
 func (h *harness) write(t *testing.T, change func(tx *vault.Txn) error) {
 	t.Helper()
@@ -730,7 +734,7 @@ func TestAWordPartitionInRetryGoesOutOnlyAsADueRefresh(t *testing.T) {
 	urls := urlsOfPartition(1)
 	h.admit(t, inRetry, urls...)
 	h.recordNoHolders(t, inRetry)
-	h.makeDue(t, inRetry)
+	h.scheduleAdmissions(t)
 
 	if offers := h.dueOffers(t, peer); len(offers) != 0 {
 		t.Fatalf("offers before the retry = %v, want none", offers)
@@ -793,7 +797,7 @@ func TestADueWordPartitionWithUndeliveredPostingsAndARecentRefreshGetsAnUndelive
 	h.deliverEverything(t)
 	h.recordHolders(t, wordPartition, holder.Hash)
 	h.admit(t, wordPartition, urls[2])
-	h.makeDue(t, wordPartition)
+	h.scheduleAdmissions(t)
 
 	offer := onlyOffer(t, h.dueOffers(t, holder, missingHolder))
 
@@ -824,7 +828,7 @@ func TestADueWordPartitionWithUndeliveredPostingsAndADueRefreshGetsARefreshOffer
 	h.recordHolders(t, wordPartition, holder.Hash)
 	h.clock = h.clock.Add(refreshInterval)
 	h.admit(t, wordPartition, urls[2])
-	h.makeDue(t, wordPartition)
+	h.scheduleAdmissions(t)
 
 	offer := onlyOffer(t, h.dueOffers(t, holder, missingHolder))
 
@@ -846,7 +850,7 @@ func TestADueWordPartitionWithoutUndeliveredPostingsGetsARefreshOffer(t *testing
 	h.admit(t, wordPartition, urls...)
 	h.deliverEverything(t)
 	h.recordHolders(t, wordPartition, holder.Hash)
-	h.makeDue(t, wordPartition)
+	h.scheduleAdmissions(t)
 
 	offer := onlyOffer(t, h.dueOffers(t, holder))
 
@@ -864,7 +868,7 @@ func TestANeverRefreshedWordPartitionGetsTheWholeWordPartitionSentToEveryRecipie
 	urls := urlsOfPartition(2)
 	peers := []yacymodel.Seed{peerAfter(wordPartition, 0), peerAfter(wordPartition, 1)}
 	h.admit(t, wordPartition, urls...)
-	h.makeDue(t, wordPartition)
+	h.scheduleAdmissions(t)
 
 	offer := onlyOffer(t, h.dueOffers(t, peers...))
 
@@ -885,8 +889,7 @@ func TestADueWordPartitionWithAPausedOrBusyRecipientIsLeftOut(t *testing.T) {
 	pausedPeer, busyPeer := peerAfter(paused, 0), peerAfter(busy, 0)
 	h.admit(t, paused, urlsOfPartition(1)...)
 	h.admit(t, busy, urlsOfPartition(1)...)
-	h.makeDue(t, paused)
-	h.makeDue(t, busy)
+	h.scheduleAdmissions(t)
 	h.eligibility.pausedPeers[pausedPeer.Hash] = true
 	h.eligibility.busyPeers[busyPeer.Hash] = true
 

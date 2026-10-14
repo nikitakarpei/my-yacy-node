@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 type dueBatch struct {
@@ -21,6 +22,7 @@ type batchSearch struct {
 
 type arcBatches struct {
 	walk           *arcWalk
+	schedule       *wordpartitionschedule.Schedule
 	reader         arcReader
 	offers         *wordpartitionoffer.Offers
 	postingsBudget int
@@ -59,6 +61,9 @@ func (b arcBatches) offersFrom(
 	pick arcPick,
 	reachablePeers []yacymodel.Seed,
 ) ([]wordpartitionoffer.Offer, error) {
+	if err := b.schedule.ScheduleAdmissionsWithin(ctx, pick.spans); err != nil {
+		return nil, err
+	}
 	position := pick.position
 	for {
 		read, err := b.reader.dueEntriesFrom(ctx, pick.spans, position)

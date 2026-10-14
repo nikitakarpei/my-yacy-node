@@ -82,18 +82,14 @@ func TestLoopOffersAgainOnceEnoughPeersAreReachable(t *testing.T) {
 func TestLoopReportsTheBacklogWhileTooFewPeersAreReachable(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		clk := startClock()
-		delivered, undelivered := wordPartitionOf(0), wordPartitionOf(1)
 		h := openLoop(t, clk, loopOptions{minReachablePeers: 2})
-		h.admit(t, undelivered, urlsOf(3)...)
-		h.recordHolders(t, delivered, peerAfter(delivered, 1).Hash)
+		h.admit(t, wordPartitionOf(1), urlsOf(3)...)
 		clk.advance(refreshInterval + time.Minute)
 
 		h.start(t)
 
-		if h.observer.undeliveredPostings != 3 ||
-			h.observer.longestDueWait != refreshInterval+time.Minute {
-			t.Fatalf("undelivered postings = %d, longest due wait = %v, want 3 and 1h1m",
-				h.observer.undeliveredPostings, h.observer.longestDueWait)
+		if h.observer.undeliveredPostings != 3 {
+			t.Fatalf("undelivered postings = %d, want 3", h.observer.undeliveredPostings)
 		}
 	})
 }
@@ -116,21 +112,6 @@ func TestLoopReportsTheBacklogAgainOnlyWhenItsTimerFires(t *testing.T) {
 		if h.observer.undeliveredPostings != 5 {
 			t.Fatalf("undelivered postings = %d, want 5 after the timer fired",
 				h.observer.undeliveredPostings)
-		}
-	})
-}
-
-func TestLoopReportsNoDueWaitBeforeTheRefreshTime(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		delivered := wordPartitionOf(0)
-		h := openLoop(t, startClock(), loopOptions{minReachablePeers: 2})
-		h.recordHolders(t, delivered, peerAfter(delivered, 1).Hash)
-		h.observer.longestDueWait = time.Hour
-
-		h.start(t)
-
-		if h.observer.longestDueWait != 0 {
-			t.Fatalf("longest due wait = %v, want 0", h.observer.longestDueWait)
 		}
 	})
 }

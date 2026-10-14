@@ -111,7 +111,8 @@ func New(
 		dhtRingObserver: dhtRingObserver,
 		walk:            walk,
 		batches: arcBatches{
-			walk: walk,
+			walk:     walk,
+			schedule: schedule,
 			reader: arcReader{
 				vault:                  v,
 				schedule:               schedule,
@@ -123,7 +124,6 @@ func New(
 		gauges: &gaugeObservation{
 			vault:           v,
 			undelivered:     undelivered,
-			schedule:        schedule,
 			roster:          roster,
 			clock:           clock,
 			walk:            walk,
@@ -143,7 +143,7 @@ func (l *Loop) Run(ctx context.Context) {
 	workers.Wait()
 }
 
-func (l *Loop) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
+func (l *Loop) ObservePostingAdmitted(position yacymodel.DHTRingPosition) {
 	l.walk.signalDue(position)
 }
 
