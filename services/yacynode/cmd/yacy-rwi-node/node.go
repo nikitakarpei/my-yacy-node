@@ -85,7 +85,6 @@ const (
 
 const servedURLMetadataPerRequest = 1000
 
-// TECHDEBT: comments — an explanatory comment on indexAbstractDocumentsPerAnswer is not an allowed comment form
 // (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
 const indexAbstractDocumentsPerAnswer = 10000
 
