@@ -3,7 +3,6 @@ package servergroup_test
 import (
 	"context"
 	"errors"
-	"net"
 	"net/http"
 	"testing"
 	"time"
@@ -13,18 +12,14 @@ import (
 
 func listeningServer(t *testing.T) servergroup.NamedServer {
 	t.Helper()
-	listener, err := new(net.ListenConfig).Listen(context.Background(), "tcp", "127.0.0.1:0")
+	listener, err := servergroup.Listen(context.Background(), "127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("listen: %v", err)
 	}
-	addr := listener.Addr().String()
-	if err := listener.Close(); err != nil {
-		t.Fatalf("close: %v", err)
-	}
 	return servergroup.NamedServer{
-		Name: "test",
+		Name:     "test",
+		Listener: listener,
 		Server: &http.Server{
-			Addr:              addr,
 			Handler:           http.NewServeMux(),
 			ReadHeaderTimeout: time.Second,
 		},
@@ -84,22 +79,26 @@ func TestWorkerErrorPropagates(t *testing.T) {
 	}
 }
 
-func TestServerBindErrorPropagates(t *testing.T) {
-	holder, err := new(net.ListenConfig).Listen(context.Background(), "tcp", "127.0.0.1:0")
+func TestListenReportsAnAddressInUse(t *testing.T) {
+	holder, err := servergroup.Listen(context.Background(), "127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("listen: %v", err)
 	}
 	defer func() { _ = holder.Close() }()
 
-	clash := servergroup.NamedServer{
-		Name: "clash",
-		Server: &http.Server{
-			Addr:              holder.Addr().String(),
-			ReadHeaderTimeout: time.Second,
-		},
+	if _, err := servergroup.Listen(context.Background(), holder.Addr().String()); err == nil {
+		t.Error("Listen = nil, want the address in use")
 	}
+}
+
+func TestServeErrorPropagates(t *testing.T) {
+	server := listeningServer(t)
+	if err := server.Listener.Close(); err != nil {
+		t.Fatalf("close: %v", err)
+	}
+
 	if err := servergroup.Run(context.Background(), time.Second,
-		[]servergroup.NamedServer{clash}); err == nil {
-		t.Error("Run = nil, want bind error")
+		[]servergroup.NamedServer{server}); err == nil {
+		t.Error("Run = nil, want the serve error")
 	}
 }

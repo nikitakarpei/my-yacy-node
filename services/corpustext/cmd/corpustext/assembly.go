@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -32,7 +33,11 @@ const (
 	corpus = "corpustext"
 )
 
-func RunService(ctx context.Context, cfg ServiceConfig) error {
+type Listeners struct {
+	Ops net.Listener
+}
+
+func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) error {
 	js, conn, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
 	if err != nil {
 		return err
@@ -80,7 +85,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	})
 
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
@@ -91,7 +95,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,
-		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
+		[]servergroup.NamedServer{{Name: "ops", Listener: listeners.Ops, Server: opsServer}},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {
 				return fmt.Errorf("run offered page consumer: %w", err)

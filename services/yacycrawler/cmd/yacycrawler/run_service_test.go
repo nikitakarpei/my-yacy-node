@@ -3,6 +3,7 @@ package main_test
 import (
 	"context"
 	"errors"
+	"net"
 	"net/url"
 	"testing"
 	"time"
@@ -15,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 )
@@ -31,15 +33,15 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 		FetchConcurrency:   2,
 		MaxBodyBytes:       yacycrawler.DefaultMaxBodyBytes,
 		FetchDeadline:      time.Second,
-		OpsAddr:            "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.CrawlNATSURL)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+	listeners := yacycrawler.Listeners{Ops: listenerFor(t)}
 	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(ctx, cfg, registry); err != nil &&
+	if err := yacycrawler.RunService(ctx, cfg, listeners, registry); err != nil &&
 		!errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("yacycrawler.RunService: %v", err)
 	}
@@ -50,10 +52,10 @@ func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 		CrawlNATSURL:     "nats://127.0.0.1:1",
 		FetchConcurrency: 2,
 		FetchDeadline:    time.Second,
-		OpsAddr:          "127.0.0.1:0",
 	}
+	listeners := yacycrawler.Listeners{Ops: listenerFor(t)}
 	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {
+	if err := yacycrawler.RunService(context.Background(), cfg, listeners, registry); err == nil {
 		t.Fatal("unreachable nats should fail")
 	}
 }
@@ -65,10 +67,10 @@ func TestRunServiceRejectsAnUnreachableCrawlStateServer(t *testing.T) {
 		CrawlOrdersSubject: yacycrawler.DefaultCrawlOrdersSubject,
 		FetchConcurrency:   2,
 		FetchDeadline:      time.Second,
-		OpsAddr:            "127.0.0.1:0",
 	}
+	listeners := yacycrawler.Listeners{Ops: listenerFor(t)}
 	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {
+	if err := yacycrawler.RunService(context.Background(), cfg, listeners, registry); err == nil {
 		t.Fatal("a Redis address that does not answer should fail")
 	}
 }
@@ -100,4 +102,16 @@ func publishOrder(t *testing.T, crawlNATSURL string) {
 	if _, err := js.Publish(ctx, yacycrawler.DefaultCrawlOrdersSubject, payload); err != nil {
 		t.Fatal(err)
 	}
+}
+
+func listenerFor(t *testing.T) net.Listener {
+	t.Helper()
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
+	if err != nil {
+		t.Fatalf("listen: %v", err)
+	}
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }

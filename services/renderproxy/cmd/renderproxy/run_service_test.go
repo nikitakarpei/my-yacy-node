@@ -11,28 +11,27 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	renderproxy "github.com/nikitakarpei/yacy-rwi-node/renderproxy/cmd/renderproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
-	opsListener := reservePort(t)
+	listeners := renderproxy.Listeners{Proxy: listenerFor(t), Ops: listenerFor(t)}
 	cfg := renderproxy.ServiceConfig{
-		ListenAddr:        reservePort(t).String(),
 		CDPURL:            "http://127.0.0.1:1",
 		EgressProxyURL:    &url.URL{Scheme: "http", Host: "127.0.0.1:1"},
 		RenderConcurrency: 1,
 		RequestDeadline:   time.Second,
 		MaxResponseBytes:  1024,
-		OpsAddr:           opsListener.String(),
 	}
 
 	ctx, cancel := context.WithCancel(t.Context())
 	serviceDone := make(chan error, 1)
 	registry := prometheus.NewRegistry()
 	go func() {
-		serviceDone <- renderproxy.RunService(ctx, cfg, registry)
+		serviceDone <- renderproxy.RunService(ctx, cfg, listeners, registry)
 	}()
 
-	waitForHealthy(t, "http://"+cfg.OpsAddr+"/metrics")
+	waitForHealthy(t, "http://"+listeners.Ops.Addr().String()+"/metrics")
 
 	cancel()
 	select {
@@ -45,16 +44,16 @@ func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
 	}
 }
 
-func reservePort(t *testing.T) *net.TCPAddr {
+func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
-	var listenConfig net.ListenConfig
-	listener, err := listenConfig.Listen(t.Context(), "tcp", "127.0.0.1:0")
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
 	if err != nil {
-		t.Fatalf("reserve port: %v", err)
+		t.Fatalf("listen: %v", err)
 	}
-	addr := listener.Addr().(*net.TCPAddr)
-	_ = listener.Close()
-	return addr
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }
 
 func waitForHealthy(t *testing.T, url string) {

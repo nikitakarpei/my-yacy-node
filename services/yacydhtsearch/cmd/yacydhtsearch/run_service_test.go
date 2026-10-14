@@ -13,27 +13,31 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/redis/go-redis/v9"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	yacydhtsearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/cmd/yacydhtsearch"
 )
 
 func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) {
-	cfg := serviceConfigOnReservedPorts(t)
+	cfg := serviceConfigFor(t)
+	listeners := yacydhtsearch.Listeners{Search: listenerFor(t), Ops: listenerFor(t)}
+	searchAddr := listeners.Search.Addr().String()
+	opsAddr := listeners.Ops.Addr().String()
 
 	ctx, stop := context.WithCancel(t.Context())
 	stopped := make(chan error, 1)
-	go func() { stopped <- yacydhtsearch.RunService(ctx, cfg, prometheus.NewRegistry()) }()
+	go func() { stopped <- yacydhtsearch.RunService(ctx, cfg, listeners, prometheus.NewRegistry()) }()
 
-	metrics := bodyOnceServed(t, "http://"+cfg.OpsAddr+"/metrics")
+	metrics := bodyOnceServed(t, "http://"+opsAddr+"/metrics")
 	if !strings.Contains(metrics, "yacydhtsearch_directory_capacity") {
 		t.Fatalf("/metrics does not publish the directory capacity:\n%s", metrics)
 	}
 
-	answer := bodyOnceServed(t, "http://"+cfg.ListenAddr+"/yacysearch.json?query=berlin")
+	answer := bodyOnceServed(t, "http://"+searchAddr+"/yacysearch.json?query=berlin")
 	if !strings.Contains(answer, `"channels"`) {
 		t.Fatalf("/yacysearch.json = %q, want YaCy's public search form", answer)
 	}
 
-	if status := statusOf(t, "http://"+cfg.OpsAddr+"/debug/pprof/"); status != http.StatusNotFound {
+	if status := statusOf(t, "http://"+opsAddr+"/debug/pprof/"); status != http.StatusNotFound {
 		t.Fatalf(
 			"/debug/pprof/ = %d, want %d while the profiler is off",
 			status,
@@ -45,12 +49,10 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 	awaitStop(t, stopped)
 }
 
-func serviceConfigOnReservedPorts(t *testing.T) yacydhtsearch.ServiceConfig {
+func serviceConfigFor(t *testing.T) yacydhtsearch.ServiceConfig {
 	t.Helper()
 
 	return yacydhtsearch.ServiceConfig{
-		ListenAddr:                     reservedPort(t),
-		OpsAddr:                        reservedPort(t),
 		NetworkName:                    "freeworld",
 		SeedlistURLs:                   []string{"http://127.0.0.1:1/yacy/seedlist.html"},
 		SeedlistReadBudget:             time.Second,
@@ -83,18 +85,16 @@ func serviceConfigOnReservedPorts(t *testing.T) yacydhtsearch.ServiceConfig {
 	}
 }
 
-func reservedPort(t *testing.T) string {
+func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
 
-	var listenConfig net.ListenConfig
-	listener, err := listenConfig.Listen(t.Context(), "tcp", "127.0.0.1:0")
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
 	if err != nil {
-		t.Fatalf("reserve port: %v", err)
+		t.Fatalf("listen: %v", err)
 	}
-	address := listener.Addr().String()
-	_ = listener.Close()
+	t.Cleanup(func() { _ = listener.Close() })
 
-	return address
+	return listener
 }
 
 func bodyOnceServed(t *testing.T, address string) string {
@@ -153,14 +153,15 @@ func awaitStop(t *testing.T, stopped <-chan error) {
 }
 
 func TestTheOpsAddressServesTheProfilerWhenTheOperatorOptsIn(t *testing.T) {
-	cfg := serviceConfigOnReservedPorts(t)
+	cfg := serviceConfigFor(t)
 	cfg.ServeProfiler = true
+	listeners := yacydhtsearch.Listeners{Search: listenerFor(t), Ops: listenerFor(t)}
 
 	ctx, stop := context.WithCancel(t.Context())
 	stopped := make(chan error, 1)
-	go func() { stopped <- yacydhtsearch.RunService(ctx, cfg, prometheus.NewRegistry()) }()
+	go func() { stopped <- yacydhtsearch.RunService(ctx, cfg, listeners, prometheus.NewRegistry()) }()
 
-	profiles := bodyOnceServed(t, "http://"+cfg.OpsAddr+"/debug/pprof/")
+	profiles := bodyOnceServed(t, "http://"+listeners.Ops.Addr().String()+"/debug/pprof/")
 	if !strings.Contains(profiles, "goroutine") {
 		t.Fatalf("/debug/pprof/ does not list the goroutine profile:\n%s", profiles)
 	}
@@ -170,10 +171,16 @@ func TestTheOpsAddressServesTheProfilerWhenTheOperatorOptsIn(t *testing.T) {
 }
 
 func TestTheServiceRefusesToStartWhenItsStateServerDoesNotAnswer(t *testing.T) {
-	cfg := serviceConfigOnReservedPorts(t)
+	cfg := serviceConfigFor(t)
 	cfg.StateRedis = &redis.Options{Addr: "127.0.0.1:1"}
+	listeners := yacydhtsearch.Listeners{Search: listenerFor(t), Ops: listenerFor(t)}
 
-	if err := yacydhtsearch.RunService(t.Context(), cfg, prometheus.NewRegistry()); err == nil {
+	if err := yacydhtsearch.RunService(
+		t.Context(),
+		cfg,
+		listeners,
+		prometheus.NewRegistry(),
+	); err == nil {
 		t.Fatal("RunService started with a Redis address that does not answer")
 	}
 }

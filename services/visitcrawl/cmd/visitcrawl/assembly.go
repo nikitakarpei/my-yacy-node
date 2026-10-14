@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -31,9 +32,15 @@ const (
 	msgServiceStopped  = "visitcrawl stopped"
 )
 
+type Listeners struct {
+	Intake net.Listener
+	Ops    net.Listener
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
+	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
@@ -67,7 +74,6 @@ func RunService(
 	)
 
 	publicServer := &http.Server{
-		Addr: cfg.ListenAddr,
 		Handler: http.MaxBytesHandler(
 			httpobservation.NewHandler(
 				mux,
@@ -79,20 +85,19 @@ func RunService(
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.CrawlOrdersSubject),
-		slog.String("listenAddr", cfg.ListenAddr),
-		slog.String("opsAddr", cfg.OpsAddr),
+		slog.String("listenAddr", listeners.Intake.Addr().String()),
+		slog.String("opsAddr", listeners.Ops.Addr().String()),
 	)
 
 	err = servergroup.Run(ctx, opsShutdownLimit, []servergroup.NamedServer{
-		{Name: "intake", Server: publicServer},
-		{Name: "ops", Server: opsServer},
+		{Name: "intake", Listener: listeners.Intake, Server: publicServer},
+		{Name: "ops", Listener: listeners.Ops, Server: opsServer},
 	})
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err

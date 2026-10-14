@@ -13,6 +13,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/collectors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
@@ -34,6 +35,14 @@ func run() error {
 	config, err := nodeconfiguration.Load(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("load node config: %w", err)
+	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	listeners, err := listenersFor(ctx, config.Serving)
+	if err != nil {
+		return err
 	}
 
 	registry := prometheus.NewRegistry()
@@ -70,10 +79,20 @@ func run() error {
 	}
 	defer closeVault(storage)
 
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
+	return RunNode(ctx, config, listeners, storage, registry)
+}
 
-	return RunNode(ctx, config, storage, registry)
+func listenersFor(ctx context.Context, serving nodeconfiguration.ServingConfig) (Listeners, error) {
+	peerProtocol, err := servergroup.Listen(ctx, serving.PeerAddr)
+	if err != nil {
+		return Listeners{}, err
+	}
+	ops, err := servergroup.Listen(ctx, serving.OpsAddr)
+	if err != nil {
+		return Listeners{}, errors.Join(err, peerProtocol.Close())
+	}
+
+	return Listeners{PeerProtocol: peerProtocol, Ops: ops}, nil
 }
 
 func closeVault(storage *vault.Vault) {

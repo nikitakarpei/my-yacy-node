@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 var version = "dev"
@@ -38,9 +40,28 @@ func start() int {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	if err := RunService(ctx, cfg); err != nil {
+	listeners, err := listenersFor(ctx, cfg)
+	if err != nil {
+		slog.ErrorContext(ctx, "webresearchmcp failed", slog.Any("error", err))
+		return 1
+	}
+
+	if err := RunService(ctx, cfg, listeners); err != nil {
 		slog.ErrorContext(ctx, "webresearchmcp failed", slog.Any("error", err))
 		return 1
 	}
 	return 0
+}
+
+func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
+	tools, err := servergroup.Listen(ctx, cfg.ListenAddr)
+	if err != nil {
+		return Listeners{}, err
+	}
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	if err != nil {
+		return Listeners{}, errors.Join(err, tools.Close())
+	}
+
+	return Listeners{Tools: tools, Ops: ops}, nil
 }

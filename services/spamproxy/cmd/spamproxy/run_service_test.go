@@ -18,6 +18,7 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/safetensorsmodel"
 	"github.com/nikitakarpei/yacy-rwi-node/spammodel/spamfeatures"
@@ -33,11 +34,14 @@ func TestTheServiceServesTheVerdictsOfItsModelFile(t *testing.T) {
 	}))
 	defer egress.Close()
 	cfg := serviceConfigFor(t, egress.URL, safetensorsmodel.SafetensorsFrom(spamModel()))
+	listeners := spamproxy.Listeners{Proxy: listenerFor(t), Ops: listenerFor(t)}
 	ctx, cancel := context.WithCancel(t.Context())
 	serviceDone := make(chan error, 1)
-	go func() { serviceDone <- spamproxy.RunService(ctx, cfg, prometheus.NewRegistry()) }()
+	go func() {
+		serviceDone <- spamproxy.RunService(ctx, cfg, listeners, prometheus.NewRegistry())
+	}()
 
-	verdict := proxiedVerdictOf(t, cfg.ListenAddr, "http://site.example/page")
+	verdict := proxiedVerdictOf(t, listeners.Proxy.Addr().String(), "http://site.example/page")
 	cancel()
 
 	if !strings.HasPrefix(verdict, "spam;") {
@@ -53,8 +57,9 @@ func TestTheServiceDoesNotStartWithAModelFileOfAnotherRecipe(t *testing.T) {
 		fmt.Appendf(nil, `"recipeVersion":"%d"`, spamfeatures.RecipeVersion),
 		fmt.Appendf(nil, `"recipeVersion":"%d"`, spamfeatures.RecipeVersion+1), 1)
 	cfg := serviceConfigFor(t, "http://127.0.0.1:1", modelFile)
+	listeners := spamproxy.Listeners{Proxy: listenerFor(t), Ops: listenerFor(t)}
 
-	err := spamproxy.RunService(t.Context(), cfg, prometheus.NewRegistry())
+	err := spamproxy.RunService(t.Context(), cfg, listeners, prometheus.NewRegistry())
 
 	var mismatch safetensorsmodel.RecipeVersionMismatchError
 	if !errors.As(err, &mismatch) {
@@ -65,10 +70,12 @@ func TestTheServiceDoesNotStartWithAModelFileOfAnotherRecipe(t *testing.T) {
 func TestTheServiceDoesNotStartWithoutItsModelFile(t *testing.T) {
 	cfg := serviceConfigFor(t, "http://127.0.0.1:1", nil)
 	cfg.SafetensorsModelPath = filepath.Join(t.TempDir(), "absent.safetensors")
+	listeners := spamproxy.Listeners{Proxy: listenerFor(t), Ops: listenerFor(t)}
 
 	if err := spamproxy.RunService(
 		t.Context(),
 		cfg,
+		listeners,
 		prometheus.NewRegistry(),
 	); !errors.Is(
 		err,
@@ -93,7 +100,6 @@ func serviceConfigFor(t *testing.T, egressURL string, modelFile []byte) spamprox
 		t.Fatal(err)
 	}
 	return spamproxy.ServiceConfig{
-		ListenAddr:            reservedAddress(t),
 		EgressProxyURL:        egressProxyURL,
 		EgressProxyDialMode:   spamproxy.DialModeTunnel,
 		SafetensorsModelPath:  safetensorsModelPath,
@@ -101,20 +107,19 @@ func serviceConfigFor(t *testing.T, egressURL string, modelFile []byte) spamprox
 		MaxPagesReadAtOnce:    4,
 		ResponseHeaderTimeout: 5 * time.Second,
 		RelayIdleTimeout:      5 * time.Second,
-		OpsAddr:               reservedAddress(t),
 	}
 }
 
-func reservedAddress(t *testing.T) string {
+func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
-	var listenConfig net.ListenConfig
-	listener, err := listenConfig.Listen(t.Context(), "tcp", "127.0.0.1:0")
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("listen: %v", err)
 	}
-	address := listener.Addr().String()
-	_ = listener.Close()
-	return address
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }
 
 func proxiedVerdictOf(t *testing.T, proxyAddress, address string) string {

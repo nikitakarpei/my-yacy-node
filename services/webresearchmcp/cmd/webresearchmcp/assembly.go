@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -34,7 +35,12 @@ const (
 	shutdownLimit   = 15 * time.Second
 )
 
-func RunService(ctx context.Context, cfg ServiceConfig) error {
+type Listeners struct {
+	Tools net.Listener
+	Ops   net.Listener
+}
+
+func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) error {
 	corpus := markdowncorporahttp.NewMarkdownCorpus(
 		cfg.CorpusMarkdownAddr,
 		cfg.CorpusMarkdownRecallDeadline,
@@ -93,7 +99,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	})
 
 	toolCallServer := &http.Server{
-		Addr: cfg.ListenAddr,
 		Handler: toolcallreceiversmcp.NewToolCallMux(toolcallreceiversmcp.Config{
 			Search:              search,
 			PageReader:          pageReader,
@@ -103,20 +108,19 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 
 	slog.InfoContext(ctx, "webresearchmcp started",
-		slog.String("listen", cfg.ListenAddr),
+		slog.String("listen", listeners.Tools.Addr().String()),
 		slog.String("searxng", cfg.SearXNGURL),
 		slog.String("corpus", cfg.CorpusMarkdownAddr),
 		slog.Int("toolCallConcurrency", cfg.ToolCallConcurrency),
 	)
 	err = servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{
-		{Name: "tools", Server: toolCallServer},
-		{Name: "ops", Server: opsServer},
+		{Name: "tools", Listener: listeners.Tools, Server: toolCallServer},
+		{Name: "ops", Listener: listeners.Ops, Server: opsServer},
 	})
 	slog.InfoContext(ctx, "webresearchmcp stopped")
 	return err

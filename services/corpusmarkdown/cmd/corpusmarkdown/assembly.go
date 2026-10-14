@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -34,7 +35,12 @@ const (
 	shutdownLimit   = 15 * time.Second
 )
 
-func RunService(ctx context.Context, cfg ServiceConfig) error {
+type Listeners struct {
+	Recall net.Listener
+	Ops    net.Listener
+}
+
+func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) error {
 	pageOfferJetStream, pageOfferConnection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
 	if err != nil {
 		return err
@@ -84,27 +90,25 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	})
 
 	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 
 	recall := markdownrecall.NewPageMarkdownRecall(markdownCorpus)
 	recallServer := &http.Server{
-		Addr:              cfg.ListenAddr,
 		Handler:           markdownrecallreceivershttp.NewMux(recall),
 		ReadHeaderTimeout: readHeaderLimit,
 	}
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
-		slog.String("listen", cfg.ListenAddr),
+		slog.String("listen", listeners.Recall.Addr().String()),
 		slog.String("bucket", cfg.PageMarkdownBucket),
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, shutdownLimit,
 		[]servergroup.NamedServer{
-			{Name: "ops", Server: opsServer},
-			{Name: "recall", Server: recallServer},
+			{Name: "ops", Listener: listeners.Ops, Server: opsServer},
+			{Name: "recall", Listener: listeners.Recall, Server: recallServer},
 		},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {

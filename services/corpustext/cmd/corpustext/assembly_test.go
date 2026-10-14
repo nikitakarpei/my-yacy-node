@@ -3,6 +3,7 @@ package main_test
 import (
 	"context"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -17,6 +18,7 @@ import (
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
 const (
@@ -64,7 +66,6 @@ func serviceConfig(pageOfferNATSURL, elasticsearchURL string) corpustext.Service
 		ElasticsearchURL:           elasticsearchURL,
 		ElasticsearchIndex:         corpustext.DefaultIndexBaseName,
 		Languages:                  []string{"en"},
-		OpsAddr:                    "127.0.0.1:0",
 	}
 }
 
@@ -80,8 +81,9 @@ func TestRunServiceIndexesTheTextOfAnOfferedPage(t *testing.T) {
 	createScrapePageOffersStream(t, pageOfferJetStream)
 	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
 
+	listeners := corpustext.Listeners{Ops: listenerFor(t)}
 	runDone := make(chan error, 1)
-	go func() { runDone <- corpustext.RunService(ctx, cfg) }()
+	go func() { runDone <- corpustext.RunService(ctx, cfg, listeners) }()
 
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
@@ -182,23 +184,12 @@ func publishOfferedPage(ctx context.Context, t *testing.T, js jetstream.JetStrea
 	}
 }
 
-func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
-	elasticsearch := &recordingElasticsearch{}
-	pageOfferNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(pageOfferNATSURL, elasticsearch.serve(t))
-	cfg.OpsAddr = "127.0.0.1:99999"
-	createScrapePageOffersStream(t, natstestserver.ConnectJetStream(t, pageOfferNATSURL))
-
-	if err := corpustext.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when ops address cannot bind")
-	}
-}
-
 func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
 	cfg := serviceConfig(natstestserver.Start(t), elasticsearch.serve(t))
+	listeners := corpustext.Listeners{Ops: listenerFor(t)}
 
-	if err := corpustext.RunService(context.Background(), cfg); err == nil {
+	if err := corpustext.RunService(context.Background(), cfg, listeners); err == nil {
 		t.Fatal("expected error when the page offers stream is not provisioned")
 	}
 }
@@ -206,8 +197,9 @@ func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
 func TestRunServiceFailsWhenPageOfferNATSUnreachable(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
 	cfg := serviceConfig("nats://127.0.0.1:1", elasticsearch.serve(t))
+	listeners := corpustext.Listeners{Ops: listenerFor(t)}
 
-	if err := corpustext.RunService(context.Background(), cfg); err == nil {
+	if err := corpustext.RunService(context.Background(), cfg, listeners); err == nil {
 		t.Fatal("expected error when the page offer nats is unreachable")
 	}
 }
@@ -226,4 +218,16 @@ func createScrapePageOffersStream(t *testing.T, js jetstream.JetStream) {
 	}); err != nil {
 		t.Fatalf("create scrape page offers stream: %v", err)
 	}
+}
+
+func listenerFor(t *testing.T) net.Listener {
+	t.Helper()
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
+	if err != nil {
+		t.Fatalf("listen: %v", err)
+	}
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }

@@ -12,6 +12,7 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -33,18 +34,6 @@ func TestRunNodeStopsWhenItsContextIsCanceled(t *testing.T) {
 
 	if err := node.wait(t); err != nil && !errors.Is(err, context.Canceled) {
 		t.Fatalf("RunNode: %v", err)
-	}
-}
-
-func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
-	config := nodeConfigFor(t)
-	config.Serving.PeerAddr = "203.0.113.255:-1"
-
-	node := startNode(t, config)
-	defer node.stop()
-
-	if err := node.wait(t); err == nil {
-		t.Fatal("RunNode returned nil, want the listen failure")
 	}
 }
 
@@ -173,8 +162,6 @@ func nodeConfigFor(t *testing.T) nodeconfiguration.Settings {
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
-	config.Serving.PeerAddr = reservedAddr(t)
-	config.Serving.OpsAddr = reservedAddr(t)
 
 	return config
 }
@@ -191,20 +178,16 @@ func openTestVault(t *testing.T) *vault.Vault {
 	return opened
 }
 
-func reservedAddr(t *testing.T) string {
+func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
 
-	var listen net.ListenConfig
-	listener, err := listen.Listen(t.Context(), "tcp", "127.0.0.1:0")
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
 	if err != nil {
-		t.Fatalf("reserve port: %v", err)
+		t.Fatalf("listen: %v", err)
 	}
-	addr := listener.Addr().String()
-	if err := listener.Close(); err != nil {
-		t.Fatalf("release reserved port: %v", err)
-	}
+	t.Cleanup(func() { _ = listener.Close() })
 
-	return addr
+	return listener
 }
 
 type runningNode struct {
@@ -217,16 +200,17 @@ type runningNode struct {
 func startNode(t *testing.T, config nodeconfiguration.Settings) runningNode {
 	t.Helper()
 
+	listeners := yacynode.Listeners{PeerProtocol: listenerFor(t), Ops: listenerFor(t)}
 	ctx, cancel := context.WithCancel(context.Background())
 	node := runningNode{
-		peerAddr: config.Serving.PeerAddr,
-		opsAddr:  config.Serving.OpsAddr,
+		peerAddr: listeners.PeerProtocol.Addr().String(),
+		opsAddr:  listeners.Ops.Addr().String(),
 		stop:     cancel,
 		stopped:  make(chan error, 1),
 	}
 	storage := openTestVault(t)
 	go func() {
-		node.stopped <- yacynode.RunNode(ctx, config, storage, prometheus.NewRegistry())
+		node.stopped <- yacynode.RunNode(ctx, config, listeners, storage, prometheus.NewRegistry())
 	}()
 	t.Cleanup(cancel)
 

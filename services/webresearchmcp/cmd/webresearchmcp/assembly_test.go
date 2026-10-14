@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	webresearchmcp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/cmd/webresearchmcp"
 )
 
@@ -18,8 +19,7 @@ const (
 	shutdownDeadline = 10 * time.Second
 )
 
-func serviceConfig(t *testing.T, scrapeRequestNATSURL string) webresearchmcp.ServiceConfig {
-	t.Helper()
+func serviceConfig(scrapeRequestNATSURL string) webresearchmcp.ServiceConfig {
 	return webresearchmcp.ServiceConfig{
 		SearXNGURL:                   "http://127.0.0.1:1",
 		SearXNGSearchDeadline:        time.Second,
@@ -31,35 +31,33 @@ func serviceConfig(t *testing.T, scrapeRequestNATSURL string) webresearchmcp.Ser
 		PageFetchCharacterLimit:      webresearchmcp.DefaultPageFetchCharacterLimit,
 		SearchResultLimit:            webresearchmcp.DefaultSearchResultLimit,
 		ToolCallConcurrency:          webresearchmcp.DefaultToolCallConcurrency,
-		ListenAddr:                   freeAddr(t),
-		OpsAddr:                      freeAddr(t),
 	}
 }
 
-func freeAddr(t *testing.T) string {
+func listenerFor(t *testing.T) net.Listener {
 	t.Helper()
-	listener, err := (&net.ListenConfig{}).Listen(t.Context(), "tcp", "127.0.0.1:0")
+
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
 	if err != nil {
-		t.Fatalf("take a free address: %v", err)
+		t.Fatalf("listen: %v", err)
 	}
-	addr := listener.Addr().String()
-	if err := listener.Close(); err != nil {
-		t.Fatalf("release the free address: %v", err)
-	}
-	return addr
+	t.Cleanup(func() { _ = listener.Close() })
+
+	return listener
 }
 
 func TestRunServiceServesTheToolsAndTheMetricsUntilItIsStopped(t *testing.T) {
 	natsURL := natstestserver.Start(t)
-	cfg := serviceConfig(t, natsURL)
+	cfg := serviceConfig(natsURL)
+	listeners := webresearchmcp.Listeners{Tools: listenerFor(t), Ops: listenerFor(t)}
 
 	ctx, stopService := context.WithCancel(context.Background())
 	defer stopService()
 	runDone := make(chan error, 1)
-	go func() { runDone <- webresearchmcp.RunService(ctx, cfg) }()
+	go func() { runDone <- webresearchmcp.RunService(ctx, cfg, listeners) }()
 
-	waitUntilServed(t, "http://"+cfg.OpsAddr+"/metrics")
-	waitUntilServed(t, "http://"+cfg.ListenAddr)
+	waitUntilServed(t, "http://"+listeners.Ops.Addr().String()+"/metrics")
+	waitUntilServed(t, "http://"+listeners.Tools.Addr().String())
 
 	stopService()
 	select {
@@ -99,20 +97,11 @@ func answered(t *testing.T, address string) bool {
 	return true
 }
 
-func TestRunServiceFailsWhenTheOpsAddressCannotBind(t *testing.T) {
-	natsURL := natstestserver.Start(t)
-	cfg := serviceConfig(t, natsURL)
-	cfg.OpsAddr = "127.0.0.1:99999"
-
-	if err := webresearchmcp.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("service ran while the ops address cannot bind, want an error")
-	}
-}
-
 func TestRunServiceFailsWhenTheScrapeRequestNATSIsAway(t *testing.T) {
-	cfg := serviceConfig(t, "nats://127.0.0.1:1")
+	cfg := serviceConfig("nats://127.0.0.1:1")
+	listeners := webresearchmcp.Listeners{Tools: listenerFor(t), Ops: listenerFor(t)}
 
-	if err := webresearchmcp.RunService(context.Background(), cfg); err == nil {
+	if err := webresearchmcp.RunService(context.Background(), cfg, listeners); err == nil {
 		t.Fatal("service ran while the scrape request nats is away, want an error")
 	}
 }
