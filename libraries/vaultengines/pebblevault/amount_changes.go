@@ -7,10 +7,9 @@ import (
 )
 
 type amountChanges struct {
-	writes            *pebble.Batch
-	heldValues        heldValues
-	sumByKey          map[string]int64
-	stagedLoweredKeys [][]byte
+	writes     *pebble.Batch
+	heldValues heldValues
+	sumByKey   map[string]int64
 }
 
 func newAmountChanges(writes *pebble.Batch, heldValues heldValues) *amountChanges {
@@ -47,9 +46,6 @@ func (c *amountChanges) stage(key string, sum int64) error {
 		return fmt.Errorf("store amount: %w", err)
 	}
 	c.heldValues.forget([]byte(key))
-	if sum < 0 {
-		c.stagedLoweredKeys = append(c.stagedLoweredKeys, []byte(key))
-	}
 
 	return nil
 }
@@ -62,8 +58,4 @@ func (c *amountChanges) stageAll() error {
 	}
 
 	return nil
-}
-
-func (c *amountChanges) loweredKeys() [][]byte {
-	return c.stagedLoweredKeys
 }
