@@ -2101,6 +2101,44 @@
       "interval": "$window"
     },
     {
+      "id": 135,
+      "title": "Peers excluded after failed offers",
+      "description": "Peers the node stopped offering postings to after they gave no answer to several offers in a row. The next peer on the ring takes their place.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 180
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacynode_rwidistribution_peers_excluded_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peers_excluded_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "excluded"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 130,
       "title": "Word index distribution batches",
       "type": "row",
@@ -2109,7 +2147,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 180
+        "y": 188
       },
       "panels": []
     },
@@ -2126,7 +2164,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 181
+        "y": 189
       },
       "fieldConfig": {
         "defaults": {
@@ -2163,7 +2201,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 181
+        "y": 189
       },
       "fieldConfig": {
         "defaults": {
@@ -2201,7 +2239,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 181
+        "y": 189
       },
       "fieldConfig": {
         "defaults": {
@@ -2238,7 +2276,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 181
+        "y": 189
       },
       "fieldConfig": {
         "defaults": {
@@ -2271,7 +2309,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 189
+        "y": 197
       },
       "panels": []
     },
@@ -2287,7 +2325,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 190
+        "y": 198
       },
       "fieldConfig": {
         "defaults": {
@@ -2324,7 +2362,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 190
+        "y": 198
       },
       "fieldConfig": {
         "defaults": {
@@ -2365,7 +2403,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 190
+        "y": 198
       },
       "fieldConfig": {
         "defaults": {
@@ -2420,7 +2458,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 198
+        "y": 206
       },
       "panels": []
     },
@@ -2436,7 +2474,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 199
+        "y": 207
       },
       "fieldConfig": {
         "defaults": {
@@ -2479,7 +2517,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 199
+        "y": 207
       },
       "fieldConfig": {
         "defaults": {
@@ -2548,7 +2586,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 207
+        "y": 215
       },
       "fieldConfig": {
         "defaults": {
@@ -2584,7 +2622,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 207
+        "y": 215
       },
       "fieldConfig": {
         "defaults": {
@@ -2622,7 +2660,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 207
+        "y": 215
       },
       "fieldConfig": {
         "defaults": {
@@ -2660,7 +2698,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 215
+        "y": 223
       },
       "options": {
         "calculate": false,
@@ -2714,7 +2752,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 215
+        "y": 223
       },
       "options": {
         "calculate": false,
@@ -2768,7 +2806,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 215
+        "y": 223
       },
       "options": {
         "calculate": false,
@@ -2821,7 +2859,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 223
+        "y": 231
       },
       "fieldConfig": {
         "defaults": {
@@ -2854,7 +2892,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 231
+        "y": 239
       },
       "panels": []
     },
@@ -2871,7 +2909,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 232
+        "y": 240
       },
       "fieldConfig": {
         "defaults": {
@@ -2909,7 +2947,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 232
+        "y": 240
       },
       "fieldConfig": {
         "defaults": {
@@ -2947,7 +2985,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 240
+        "y": 248
       },
       "fieldConfig": {
         "defaults": {
@@ -3006,7 +3044,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 240
+        "y": 248
       },
       "fieldConfig": {
         "defaults": {
@@ -3044,7 +3082,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 246
+        "y": 254
       },
       "fieldConfig": {
         "defaults": {
@@ -3087,7 +3125,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 246
+        "y": 254
       },
       "fieldConfig": {
         "defaults": {
@@ -3125,7 +3163,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 246
+        "y": 254
       },
       "fieldConfig": {
         "defaults": {
@@ -3168,7 +3206,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 254
+        "y": 262
       },
       "fieldConfig": {
         "defaults": {
@@ -3234,7 +3272,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 254
+        "y": 262
       },
       "fieldConfig": {
         "defaults": {
@@ -3277,7 +3315,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 254
+        "y": 262
       },
       "fieldConfig": {
         "defaults": {
@@ -3348,7 +3386,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 262
+        "y": 270
       },
       "fieldConfig": {
         "defaults": {
@@ -3391,7 +3429,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 262
+        "y": 270
       },
       "fieldConfig": {
         "defaults": {
@@ -3429,7 +3467,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 270
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3467,7 +3505,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 270
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3525,7 +3563,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3568,7 +3606,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3627,7 +3665,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3666,7 +3704,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 286
+        "y": 294
       },
       "panels": []
     },
@@ -3682,7 +3720,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 287
+        "y": 295
       },
       "fieldConfig": {
         "defaults": {
@@ -3730,7 +3768,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 287
+        "y": 295
       },
       "fieldConfig": {
         "defaults": {
@@ -3768,7 +3806,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 287
+        "y": 295
       },
       "fieldConfig": {
         "defaults": {
@@ -3806,7 +3844,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 295
+        "y": 303
       },
       "fieldConfig": {
         "defaults": {
@@ -3844,7 +3882,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 295
+        "y": 303
       },
       "fieldConfig": {
         "defaults": {
@@ -3883,7 +3921,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 295
+        "y": 303
       },
       "fieldConfig": {
         "defaults": {

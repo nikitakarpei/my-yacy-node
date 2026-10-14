@@ -235,3 +235,24 @@ yacynode_rwidistribution_postings_handed_off_total 5
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
+
+func TestDistributionCountsExcludedPeers(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePeerExcluded()
+	observer.ObservePeerExcluded()
+
+	expected := `
+# HELP yacynode_rwidistribution_peers_excluded_total Peers excluded from distribution after failed offers in a row.
+# TYPE yacynode_rwidistribution_peers_excluded_total counter
+yacynode_rwidistribution_peers_excluded_total 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_peers_excluded_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}

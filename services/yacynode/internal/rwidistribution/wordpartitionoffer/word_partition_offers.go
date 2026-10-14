@@ -1,9 +1,8 @@
 // Package wordpartitionoffer decides, one ring sector at a time, which word
-// partitions to offer now and what each peer gets. A holder gets the postings
-// it does not have yet, a missing holder gets the whole word partition, and a
-// due refresh sends the whole word partition again. A word partition waits
-// while it has no recipient or one of its recipients is in cooldown. A word
-// partition in retry goes out only as a due refresh.
+// partitions to offer now and what each peer gets: a holder gets the postings it
+// lacks, a missing holder or a due refresh the whole word partition. A word
+// partition waits while a recipient is in cooldown, and one in retry goes out
+// only as a due refresh. Excluded peers are left out of the DHT ring.
 package wordpartitionoffer
 
 import (
@@ -39,8 +38,9 @@ type Reachability interface {
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 }
 
-type Cooldowns interface {
+type PeerEligibility interface {
 	CooldownLeftOf(peer yacymodel.Hash) time.Duration
+	IsExcluded(peer yacymodel.Hash) bool
 }
 
 type Observer interface {
@@ -60,7 +60,7 @@ type WordPartitionOffers struct {
 	holders      *wordpartitionholders.Holders
 	postings     PostingIndex
 	reachability Reachability
-	cooldowns    Cooldowns
+	eligibility  PeerEligibility
 	observer     Observer
 	config       Config
 }
@@ -72,7 +72,7 @@ func New(
 	holders *wordpartitionholders.Holders,
 	postings PostingIndex,
 	reachability Reachability,
-	cooldowns Cooldowns,
+	eligibility PeerEligibility,
 	observer Observer,
 	config Config,
 ) *WordPartitionOffers {
@@ -82,7 +82,7 @@ func New(
 		holders:      holders,
 		postings:     postings,
 		reachability: reachability,
-		cooldowns:    cooldowns,
+		eligibility:  eligibility,
 		observer:     observer,
 		config:       config,
 	}
@@ -117,7 +117,7 @@ func (o *WordPartitionOffers) DueNowIn(
 	from Cursor,
 	reachablePeers []yacymodel.Seed,
 ) (offers []WordPartitionOffer, next Cursor, err error) {
-	acceptingPeers := yacymodel.SeedRingFrom(peersAcceptingRemoteIndex(reachablePeers))
+	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
 	batch := offerBatchFrom(from, o.config.PostingsPerBatch)
 	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
 		if err := o.addUndeliveredWordPartitions(
@@ -136,6 +136,19 @@ func (o *WordPartitionOffers) DueNowIn(
 	}
 
 	return batch.offers, batch.next, nil
+}
+
+func (o *WordPartitionOffers) acceptingPeersAmong(
+	reachablePeers []yacymodel.Seed,
+) yacymodel.SeedRing {
+	acceptingPeers := make([]yacymodel.Seed, 0, len(reachablePeers))
+	for _, seed := range peersAcceptingRemoteIndex(reachablePeers) {
+		if !o.eligibility.IsExcluded(seed.Hash) {
+			acceptingPeers = append(acceptingPeers, seed)
+		}
+	}
+
+	return yacymodel.SeedRingFrom(acceptingPeers)
 }
 
 func (o *WordPartitionOffers) addUndeliveredWordPartitions(
@@ -167,7 +180,7 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 		if err != nil {
 			return err
 		}
-		if peers.mustWaitFor(o.cooldowns) {
+		if peers.mustWaitFor(o.eligibility) {
 			continue
 		}
 		offer, err := o.undeliveredOfferFor(tx, undelivered, peers)
@@ -249,6 +262,9 @@ func (o *WordPartitionOffers) countsAmong(
 	holder yacymodel.Hash,
 	responsiblePeers responsiblePeers,
 ) bool {
+	if o.eligibility.IsExcluded(holder) {
+		return false
+	}
 	if o.reachability.IsReachable(ctx, holder) {
 		return responsiblePeers.contains(holder)
 	}
@@ -351,7 +367,7 @@ func (o *WordPartitionOffers) addDueRefreshes(
 		if err != nil {
 			return err
 		}
-		if peers.mustWaitFor(o.cooldowns) {
+		if peers.mustWaitFor(o.eligibility) {
 			continue
 		}
 		offer, err := o.refreshOfferFor(tx, peers)

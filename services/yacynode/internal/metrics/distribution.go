@@ -24,6 +24,7 @@ type DistributionMetrics struct {
 	batchesSkipped         *prometheus.CounterVec
 	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
+	peersExcluded          prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -89,6 +90,10 @@ func distributionMetrics() *DistributionMetrics {
 			"Distribution batches aborted before their outcome was recorded, by reason.",
 			labelReason,
 		),
+		peersExcluded: counterFor(
+			"yacynode_rwidistribution_peers_excluded_total",
+			"Peers excluded from distribution after failed offers in a row.",
+		),
 	}
 }
 
@@ -106,6 +111,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.batchesSkipped,
 		d.batchesCompleted,
 		d.batchesAborted,
+		d.peersExcluded,
 	}
 }
 
@@ -161,4 +167,8 @@ func (d *DistributionMetrics) ObserveBatchCompleted() {
 
 func (d *DistributionMetrics) ObserveBatchAborted(reason string) {
 	d.batchesAborted.WithLabelValues(reason).Inc()
+}
+
+func (d *DistributionMetrics) ObservePeerExcluded() {
+	d.peersExcluded.Inc()
 }

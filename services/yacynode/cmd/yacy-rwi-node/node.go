@@ -351,8 +351,16 @@ func assembleNode(
 			)
 		}
 		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
-		recipientCooldowns := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
 		distributionObserver := metrics.NewDistributionMetrics(registry)
+		peerEligibility := replicaeligibility.New(
+			replicaeligibility.Config{
+				Cooldown:                    config.Distribution.RecipientCooldown,
+				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
+				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
+			},
+			now,
+			distributionObserver,
+		)
 		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
 
 		distributionLoop = distributionloop.New(
@@ -363,7 +371,7 @@ func assembleNode(
 				wordPartitionHolders,
 				postings,
 				peerRoster,
-				recipientCooldowns,
+				peerEligibility,
 				dhtRingObserver,
 				wordpartitionoffer.Config{
 					Partitions:       dhtRingPartitions,
@@ -389,7 +397,7 @@ func assembleNode(
 				urlDirectory,
 				distributionObserver,
 			),
-			recipientCooldowns,
+			peerEligibility,
 			peerRoster,
 			wallclock.Clock{},
 			distributionObserver,

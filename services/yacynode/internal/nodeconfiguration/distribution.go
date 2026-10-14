@@ -7,43 +7,49 @@ import (
 )
 
 const (
-	EnvDistributionEnabled              = "YACY_DISTRIBUTION_ENABLED"
-	EnvDistributionHandoffEnabled       = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
-	EnvDistributionRedundancy           = "YACY_DISTRIBUTION_REDUNDANCY"
-	EnvDistributionPartitionExponent    = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	EnvDistributionPostingsPerBatch     = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
-	EnvDistributionBatchConcurrency     = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
-	EnvDistributionSectorRescanDelay    = "YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY"
-	EnvDistributionRefreshInterval      = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
-	EnvDistributionRecipientCooldown    = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
-	EnvDistributionMinReachablePeers    = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
-	EnvDistributionURLMetadataBatchSize = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
+	EnvDistributionEnabled                     = "YACY_DISTRIBUTION_ENABLED"
+	EnvDistributionHandoffEnabled              = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
+	EnvDistributionRedundancy                  = "YACY_DISTRIBUTION_REDUNDANCY"
+	EnvDistributionPartitionExponent           = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	EnvDistributionPostingsPerBatch            = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
+	EnvDistributionBatchConcurrency            = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
+	EnvDistributionSectorRescanDelay           = "YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY"
+	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
+	EnvDistributionRecipientCooldown           = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
+	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
+	EnvDistributionPeerExclusionDuration       = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
+	EnvDistributionMinReachablePeers           = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	EnvDistributionURLMetadataBatchSize        = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
-	DefaultDistributionEnabled              = false
-	DefaultDistributionHandoffEnabled       = true
-	DefaultDistributionRedundancy           = 3
-	DefaultDistributionPartitionExponent    = 4
-	DefaultDistributionPostingsPerBatch     = 1000
-	DefaultDistributionBatchConcurrency     = 2
-	DefaultDistributionSectorRescanDelay    = 10 * time.Second
-	DefaultDistributionRefreshInterval      = 24 * time.Hour
-	DefaultDistributionRecipientCooldown    = 10 * time.Minute
-	DefaultDistributionMinReachablePeers    = 32
-	DefaultDistributionURLMetadataBatchSize = 50
+	DefaultDistributionEnabled                     = false
+	DefaultDistributionHandoffEnabled              = true
+	DefaultDistributionRedundancy                  = 3
+	DefaultDistributionPartitionExponent           = 4
+	DefaultDistributionPostingsPerBatch            = 1000
+	DefaultDistributionBatchConcurrency            = 2
+	DefaultDistributionSectorRescanDelay           = 10 * time.Second
+	DefaultDistributionRefreshInterval             = 24 * time.Hour
+	DefaultDistributionRecipientCooldown           = 10 * time.Minute
+	DefaultDistributionFailedOffersBeforeExclusion = 3
+	DefaultDistributionPeerExclusionDuration       = time.Hour
+	DefaultDistributionMinReachablePeers           = 32
+	DefaultDistributionURLMetadataBatchSize        = 50
 )
 
 type DistributionConfig struct {
-	Enabled              bool
-	HandoffEnabled       bool
-	Redundancy           int
-	PartitionExponent    uint
-	PostingsPerBatch     int
-	BatchConcurrency     int
-	SectorRescanDelay    time.Duration
-	RefreshInterval      time.Duration
-	RecipientCooldown    time.Duration
-	MinReachablePeers    int
-	URLMetadataBatchSize int
+	Enabled                     bool
+	HandoffEnabled              bool
+	Redundancy                  int
+	PartitionExponent           uint
+	PostingsPerBatch            int
+	BatchConcurrency            int
+	SectorRescanDelay           time.Duration
+	RefreshInterval             time.Duration
+	RecipientCooldown           time.Duration
+	FailedOffersBeforeExclusion int
+	PeerExclusionDuration       time.Duration
+	MinReachablePeers           int
+	URLMetadataBatchSize        int
 }
 
 //nolint:funlen // one flat read per distribution setting
@@ -109,6 +115,24 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
+	failedOffersBeforeExclusion, err := envconfig.PositiveInt(
+		getenv,
+		EnvDistributionFailedOffersBeforeExclusion,
+		DefaultDistributionFailedOffersBeforeExclusion,
+	)
+	if err != nil {
+		return DistributionConfig{}, err
+	}
+
+	peerExclusionDuration, err := envconfig.Duration(
+		getenv,
+		EnvDistributionPeerExclusionDuration,
+		DefaultDistributionPeerExclusionDuration,
+	)
+	if err != nil {
+		return DistributionConfig{}, err
+	}
+
 	minReachablePeers, err := envconfig.PositiveInt(
 		getenv, EnvDistributionMinReachablePeers, DefaultDistributionMinReachablePeers,
 	)
@@ -124,16 +148,18 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 	}
 
 	return DistributionConfig{
-		Enabled:              enabled,
-		HandoffEnabled:       handoffEnabled,
-		Redundancy:           redundancy,
-		PartitionExponent:    uint(partitionExponent),
-		PostingsPerBatch:     postingsPerBatch,
-		BatchConcurrency:     batchConcurrency,
-		SectorRescanDelay:    sectorRescanDelay,
-		RefreshInterval:      refreshInterval,
-		RecipientCooldown:    recipientCooldown,
-		MinReachablePeers:    minReachablePeers,
-		URLMetadataBatchSize: urlMetadataBatchSize,
+		Enabled:                     enabled,
+		HandoffEnabled:              handoffEnabled,
+		Redundancy:                  redundancy,
+		PartitionExponent:           uint(partitionExponent),
+		PostingsPerBatch:            postingsPerBatch,
+		BatchConcurrency:            batchConcurrency,
+		SectorRescanDelay:           sectorRescanDelay,
+		RefreshInterval:             refreshInterval,
+		RecipientCooldown:           recipientCooldown,
+		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,
+		PeerExclusionDuration:       peerExclusionDuration,
+		MinReachablePeers:           minReachablePeers,
+		URLMetadataBatchSize:        urlMetadataBatchSize,
 	}, nil
 }

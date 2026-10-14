@@ -15,6 +15,7 @@ type fakeObserver struct {
 	batchesCompleted       int
 	batchesAborted         map[string]int
 	replicaRingFractions   []float64
+	peersExcluded          int
 }
 
 func newFakeObserver() *fakeObserver {
@@ -80,4 +81,11 @@ func (f *fakeObserver) ObserveReplicaRingFractions(ringFractions []float64) {
 	defer f.guard.Unlock()
 
 	f.replicaRingFractions = append(f.replicaRingFractions, ringFractions...)
+}
+
+func (f *fakeObserver) ObservePeerExcluded() {
+	f.guard.Lock()
+	defer f.guard.Unlock()
+
+	f.peersExcluded++
 }

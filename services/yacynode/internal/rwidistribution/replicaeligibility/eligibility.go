@@ -1,28 +1,49 @@
 // Package replicaeligibility tracks which known peers are able to receive
-// posting replicas right now, from the outcome of the last offer sent to each.
-// A peer that answers anything other than acceptance goes into a cooldown, and
-// postings that need it wait until the cooldown ends.
+// posting replicas right now, from the outcome of the offers sent to each.
+// A peer that does not accept an offer goes into a cooldown, and postings that
+// need it wait until the cooldown ends. A peer whose offers fail too often in a
+// row is excluded for a while, so that the next peer takes its place.
 package replicaeligibility
 
 import (
+	"context"
+	"log/slog"
 	"sync"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type Peers struct {
-	mutex          sync.Mutex
-	cooldownEndsAt map[yacymodel.Hash]time.Time
-	cooldown       time.Duration
-	now            func() time.Time
+type Observer interface {
+	ObservePeerExcluded()
 }
 
-func New(cooldown time.Duration, now func() time.Time) *Peers {
+type Config struct {
+	Cooldown                    time.Duration
+	FailedOffersBeforeExclusion int
+	ExclusionDuration           time.Duration
+}
+
+type Peers struct {
+	mutex      sync.Mutex
+	peerStates map[yacymodel.Hash]peerState
+	config     Config
+	now        func() time.Time
+	observer   Observer
+}
+
+type peerState struct {
+	cooldownEndsAt             time.Time
+	exclusionEndsAt            time.Time
+	amountOfFailedOffersInARow int
+}
+
+func New(config Config, now func() time.Time, observer Observer) *Peers {
 	return &Peers{
-		cooldownEndsAt: make(map[yacymodel.Hash]time.Time),
-		cooldown:       cooldown,
-		now:            now,
+		peerStates: make(map[yacymodel.Hash]peerState),
+		config:     config,
+		now:        now,
+		observer:   observer,
 	}
 }
 
@@ -30,30 +51,60 @@ func (p *Peers) OfferAccepted(peer yacymodel.Hash) {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	delete(p.cooldownEndsAt, peer)
+	delete(p.peerStates, peer)
 }
 
 func (p *Peers) OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration) {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	p.cooldownEndsAt[peer] = p.now().Add(max(requestedPause, p.cooldown))
+	state := p.peerStates[peer]
+	state.cooldownEndsAt = p.now().Add(max(requestedPause, p.config.Cooldown))
+	p.peerStates[peer] = state
+}
+
+func (p *Peers) OfferFailed(ctx context.Context, peer yacymodel.Hash) {
+	if !p.recordFailedOffer(peer) {
+		return
+	}
+	slog.WarnContext(
+		ctx,
+		"peer excluded from distribution after failed offers",
+		slog.String("peer", peer.String()),
+		slog.Int("failedOffersInARow", p.config.FailedOffersBeforeExclusion),
+		slog.Duration("exclusionDuration", p.config.ExclusionDuration),
+	)
+	p.observer.ObservePeerExcluded()
+}
+
+func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	now := p.now()
+	state := p.peerStates[peer]
+	state.cooldownEndsAt = now.Add(p.config.Cooldown)
+	state.amountOfFailedOffersInARow++
+	wasExcluded = state.amountOfFailedOffersInARow >= p.config.FailedOffersBeforeExclusion &&
+		!now.Before(state.exclusionEndsAt)
+	if wasExcluded {
+		state.exclusionEndsAt = now.Add(p.config.ExclusionDuration)
+	}
+	p.peerStates[peer] = state
+
+	return wasExcluded
 }
 
 func (p *Peers) CooldownLeftOf(peer yacymodel.Hash) time.Duration {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
-	cooldownEndsAt, inCooldown := p.cooldownEndsAt[peer]
-	if !inCooldown {
-		return 0
-	}
-	cooldownLeft := cooldownEndsAt.Sub(p.now())
-	if cooldownLeft <= 0 {
-		delete(p.cooldownEndsAt, peer)
+	return max(p.peerStates[peer].cooldownEndsAt.Sub(p.now()), 0)
+}
 
-		return 0
-	}
+func (p *Peers) IsExcluded(peer yacymodel.Hash) bool {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
 
-	return cooldownLeft
+	return p.now().Before(p.peerStates[peer].exclusionEndsAt)
 }

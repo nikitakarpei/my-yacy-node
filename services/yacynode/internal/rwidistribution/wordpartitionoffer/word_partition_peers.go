@@ -87,11 +87,11 @@ func missingHoldersIn(
 	return missingHolders
 }
 
-func (p wordPartitionPeers) mustWaitFor(cooldowns Cooldowns) bool {
+func (p wordPartitionPeers) mustWaitFor(eligibility PeerEligibility) bool {
 	recipients := p.recipients()
 
 	return len(recipients) == 0 || slices.ContainsFunc(recipients, func(seed yacymodel.Seed) bool {
-		return cooldowns.CooldownLeftOf(seed.Hash) > 0
+		return eligibility.CooldownLeftOf(seed.Hash) > 0
 	})
 }
 

@@ -66,7 +66,7 @@ type Loop struct {
 	holders         *wordpartitionholders.Holders
 	handoff         WordPartitionHandoff
 	transfers       PostingTransfers
-	cooldowns       Cooldowns
+	eligibility     PeerEligibility
 	roster          ReachablePeers
 	clock           Clock
 	batchObserver   BatchObserver
@@ -84,7 +84,7 @@ func New(
 	holders *wordpartitionholders.Holders,
 	handoff WordPartitionHandoff,
 	transfers PostingTransfers,
-	cooldowns Cooldowns,
+	eligibility PeerEligibility,
 	roster ReachablePeers,
 	clock Clock,
 	batchObserver BatchObserver,
@@ -99,7 +99,7 @@ func New(
 		holders:         holders,
 		handoff:         handoff,
 		transfers:       transfers,
-		cooldowns:       cooldowns,
+		eligibility:     eligibility,
 		roster:          roster,
 		clock:           clock,
 		batchObserver:   batchObserver,
@@ -175,7 +175,7 @@ func (l *Loop) offerDueBatchIn(
 		return
 	}
 	if len(offers) > 0 {
-		answers := sendOffers(ctx, l.transfers, l.cooldowns, offers, l.config.PostingsPerBatch)
+		answers := sendOffers(ctx, l.transfers, l.eligibility, offers, l.config.PostingsPerBatch)
 		if err := l.commitBatch(ctx, offers, answers); err != nil {
 			l.reportBatchUnwritten(ctx, err)
 			l.sectorTurns.delayRescan(sector)

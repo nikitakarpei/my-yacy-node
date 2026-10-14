@@ -11,9 +11,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
-type Cooldowns interface {
+type PeerEligibility interface {
 	OfferAccepted(peer yacymodel.Hash)
 	OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration)
+	OfferFailed(ctx context.Context, peer yacymodel.Hash)
 }
 
 type peerOffer struct {
@@ -24,7 +25,7 @@ type peerOffer struct {
 func sendOffers(
 	ctx context.Context,
 	transfers PostingTransfers,
-	cooldowns Cooldowns,
+	eligibility PeerEligibility,
 	offers []wordpartitionoffer.WordPartitionOffer,
 	postingsPerTransfer int,
 ) map[yacymodel.Hash]wordpartitionoffer.PeerAnswer {
@@ -34,7 +35,7 @@ func sendOffers(
 	for index, offer := range offersPerPeer {
 		sends.Go(func() {
 			peerAnswers[index] = offer.sendInTransfersOf(
-				ctx, transfers, cooldowns, postingsPerTransfer,
+				ctx, transfers, eligibility, postingsPerTransfer,
 			)
 		})
 	}
@@ -77,13 +78,13 @@ func peerOffersFrom(offers []wordpartitionoffer.WordPartitionOffer) []peerOffer 
 func (o peerOffer) sendInTransfersOf(
 	ctx context.Context,
 	transfers PostingTransfers,
-	cooldowns Cooldowns,
+	eligibility PeerEligibility,
 	postingsPerTransfer int,
 ) wordpartitionoffer.PeerAnswer {
 	answer := wordpartitionoffer.PeerAnswer{Accepted: true}
 	for transfer := range slices.Chunk(o.postings, postingsPerTransfer) {
 		offerAnswer := transfers.Send(ctx, o.peer, transfer)
-		reportAnswerTo(cooldowns, o.peer.Hash, offerAnswer)
+		reportAnswerTo(ctx, eligibility, o.peer.Hash, offerAnswer)
 		answer.AcceptedPostings = append(answer.AcceptedPostings, offerAnswer.AcceptedPostings...)
 		if !offerAnswer.Accepted {
 			answer.Accepted = false
@@ -96,13 +97,17 @@ func (o peerOffer) sendInTransfersOf(
 }
 
 func reportAnswerTo(
-	cooldowns Cooldowns,
+	ctx context.Context,
+	eligibility PeerEligibility,
 	peer yacymodel.Hash,
 	answer postingtransfer.OfferAnswer,
 ) {
-	if answer.Accepted {
-		cooldowns.OfferAccepted(peer)
-	} else {
-		cooldowns.OfferDeclined(peer, answer.RequestedPause)
+	switch {
+	case answer.Accepted:
+		eligibility.OfferAccepted(peer)
+	case answer.Failed:
+		eligibility.OfferFailed(ctx, peer)
+	default:
+		eligibility.OfferDeclined(peer, answer.RequestedPause)
 	}
 }
