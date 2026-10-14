@@ -9,6 +9,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const MaxTransferRWIEntryCount = 1000
+
 func TransferRWIKey(entryCount int) string {
 	return MagicMD5("", "", fmt.Sprintf("%d", entryCount))
 }

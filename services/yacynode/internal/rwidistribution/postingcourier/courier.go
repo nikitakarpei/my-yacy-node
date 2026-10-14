@@ -17,6 +17,7 @@ type Receipt struct {
 	Outcome           Outcome
 	RequestedPause    time.Duration
 	URLsUnknownToPeer []yacymodel.URLHash
+	URLsRejected      []yacymodel.URLHash
 }
 
 type Observer interface {
@@ -82,6 +83,7 @@ func (c Courier) Offer(
 		return Receipt{
 			Outcome:           Accepted,
 			URLsUnknownToPeer: resp.UnknownURL,
+			URLsRejected:      resp.ErrorURL,
 		}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
 		return Receipt{Outcome: Deferred, RequestedPause: resp.Pause}
@@ -93,7 +95,7 @@ func (c Courier) Offer(
 			slog.String("endpoint", endpoint),
 		)
 
-		return Receipt{Outcome: Overloaded}
+		return Receipt{Outcome: Overloaded, RequestedPause: resp.Pause}
 	default:
 		slog.WarnContext(
 			ctx,

@@ -4,6 +4,6 @@ import "time"
 
 type BacklogObserver interface {
 	ObserveUndeliveredPostings(amountOfPostings int)
-	ObserveLongestRefreshLateness(lateness time.Duration)
+	ObserveLongestDueWait(wait time.Duration)
 	ObserveArcs(amountPerState map[string]int)
 }

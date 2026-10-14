@@ -41,7 +41,7 @@ func (g *gaugeObservation) observeBacklog(ctx context.Context) {
 		return
 	}
 	g.backlogObserver.ObserveUndeliveredPostings(backlog.amountOfUndeliveredPostings)
-	g.backlogObserver.ObserveLongestRefreshLateness(backlog.longestRefreshLateness)
+	g.backlogObserver.ObserveLongestDueWait(backlog.longestDueWait)
 }
 
 func (g *gaugeObservation) observeArcs() {
@@ -54,7 +54,7 @@ func (g *gaugeObservation) observeArcs() {
 
 type backlog struct {
 	amountOfUndeliveredPostings int
-	longestRefreshLateness      time.Duration
+	longestDueWait              time.Duration
 }
 
 func (g *gaugeObservation) backlogNow(ctx context.Context) (backlog, error) {
@@ -65,7 +65,7 @@ func (g *gaugeObservation) backlogNow(ctx context.Context) (backlog, error) {
 		if err != nil {
 			return err
 		}
-		current.longestRefreshLateness, err = g.longestRefreshLatenessIn(tx)
+		current.longestDueWait, err = g.longestDueWaitIn(tx)
 
 		return err
 	})
@@ -73,7 +73,7 @@ func (g *gaugeObservation) backlogNow(ctx context.Context) (backlog, error) {
 	return current, err
 }
 
-func (g *gaugeObservation) longestRefreshLatenessIn(tx *vault.Txn) (time.Duration, error) {
+func (g *gaugeObservation) longestDueWaitIn(tx *vault.Txn) (time.Duration, error) {
 	earliestDueAt, found, err := g.schedule.EarliestDueAt(tx)
 	if err != nil || !found {
 		return 0, err

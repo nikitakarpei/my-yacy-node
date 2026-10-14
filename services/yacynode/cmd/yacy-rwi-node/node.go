@@ -52,6 +52,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type node struct {
@@ -418,7 +419,7 @@ func assembleNode(
 			dhtRingObserver,
 			distributionloop.Config{
 				PostingsPerBatch:    config.Distribution.PostingsPerBatch,
-				PostingsPerTransfer: config.Distribution.PostingsPerBatch,
+				PostingsPerTransfer: yacyproto.MaxTransferRWIEntryCount,
 				AmountOfWorkers:     config.Distribution.AmountOfWorkers,
 				MinReachablePeers:   config.Distribution.MinReachablePeers,
 			},

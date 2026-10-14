@@ -2407,8 +2407,8 @@
     },
     {
       "id": 134,
-      "title": "Lateness of the most overdue refresh",
-      "description": "How long the most overdue word partition has waited past its refresh time.",
+      "title": "Longest wait to send due postings",
+      "description": "How long the word partition due longest has waited to be sent. New postings and refreshes make a word partition due.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2436,7 +2436,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "yacynode_rwidistribution_longest_refresh_lateness_seconds{instance=~\"$service_instance\"}",
+          "expr": "yacynode_rwidistribution_longest_due_wait_seconds{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
       ],

@@ -174,21 +174,21 @@ yacynode_rwidistribution_undelivered_postings 4
 	}
 }
 
-func TestDistributionTracksTheLongestRefreshLateness(t *testing.T) {
+func TestDistributionTracksTheLongestDueWait(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveLongestRefreshLateness(90 * time.Second)
+	observer.ObserveLongestDueWait(90 * time.Second)
 
 	expected := `
-# HELP yacynode_rwidistribution_longest_refresh_lateness_seconds How long the most overdue word partition refresh has waited past its refresh time.
-# TYPE yacynode_rwidistribution_longest_refresh_lateness_seconds gauge
-yacynode_rwidistribution_longest_refresh_lateness_seconds 90
+# HELP yacynode_rwidistribution_longest_due_wait_seconds How long the word partition due longest has waited to be sent.
+# TYPE yacynode_rwidistribution_longest_due_wait_seconds gauge
+yacynode_rwidistribution_longest_due_wait_seconds 90
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_longest_refresh_lateness_seconds",
+		"yacynode_rwidistribution_longest_due_wait_seconds",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

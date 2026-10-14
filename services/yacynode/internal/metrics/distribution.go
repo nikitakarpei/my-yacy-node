@@ -24,24 +24,24 @@ var (
 )
 
 type DistributionMetrics struct {
-	postingOffers          *prometheus.CounterVec
-	postingsOffered        *prometheus.CounterVec
-	urlMetadataDeliveries  *prometheus.CounterVec
-	urlsDelivered          *prometheus.CounterVec
-	urlsUnknownToUs        prometheus.Counter
-	undeliveredPostings    prometheus.Gauge
-	longestRefreshLateness prometheus.Gauge
-	arcs                   *prometheus.GaugeVec
-	staleHoldersDropped    prometheus.Counter
-	postingsHandedOff      prometheus.Counter
-	postingsDelivered      prometheus.Counter
-	batchesCompleted       prometheus.Counter
-	batchesAborted         *prometheus.CounterVec
-	peersExcluded          prometheus.Counter
-	peerRequestTime        *prometheus.HistogramVec
-	peerSendTime           prometheus.Histogram
-	postingsPerSend        prometheus.Histogram
-	peersAtSendLimit       prometheus.Gauge
+	postingOffers         *prometheus.CounterVec
+	postingsOffered       *prometheus.CounterVec
+	urlMetadataDeliveries *prometheus.CounterVec
+	urlsDelivered         *prometheus.CounterVec
+	urlsUnknownToUs       prometheus.Counter
+	undeliveredPostings   prometheus.Gauge
+	longestDueWait        prometheus.Gauge
+	arcs                  *prometheus.GaugeVec
+	staleHoldersDropped   prometheus.Counter
+	postingsHandedOff     prometheus.Counter
+	postingsDelivered     prometheus.Counter
+	batchesCompleted      prometheus.Counter
+	batchesAborted        *prometheus.CounterVec
+	peersExcluded         prometheus.Counter
+	peerRequestTime       *prometheus.HistogramVec
+	peerSendTime          prometheus.Histogram
+	postingsPerSend       prometheus.Histogram
+	peersAtSendLimit      prometheus.Gauge
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -82,9 +82,9 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_undelivered_postings",
 			"Postings not yet delivered to all their responsible peers.",
 		),
-		longestRefreshLateness: gaugeFor(
-			"yacynode_rwidistribution_longest_refresh_lateness_seconds",
-			"How long the most overdue word partition refresh has waited past its refresh time.",
+		longestDueWait: gaugeFor(
+			"yacynode_rwidistribution_longest_due_wait_seconds",
+			"How long the word partition due longest has waited to be sent.",
 		),
 		arcs: gaugePerLabelFor(
 			"yacynode_rwidistribution_arcs",
@@ -147,7 +147,7 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlsDelivered,
 		d.urlsUnknownToUs,
 		d.undeliveredPostings,
-		d.longestRefreshLateness,
+		d.longestDueWait,
 		d.arcs,
 		d.staleHoldersDropped,
 		d.postingsHandedOff,
@@ -214,8 +214,8 @@ func (d *DistributionMetrics) ObserveUndeliveredPostings(amountOfPostings int) {
 	d.undeliveredPostings.Set(float64(amountOfPostings))
 }
 
-func (d *DistributionMetrics) ObserveLongestRefreshLateness(lateness time.Duration) {
-	d.longestRefreshLateness.Set(lateness.Seconds())
+func (d *DistributionMetrics) ObserveLongestDueWait(wait time.Duration) {
+	d.longestDueWait.Set(wait.Seconds())
 }
 
 func (d *DistributionMetrics) ObserveArcs(amountPerState map[string]int) {
