@@ -75,6 +75,8 @@ const (
 	postingAdmissionBusyPause = 30 * time.Second
 )
 
+const wordSampleLifetime = 5 * time.Minute
+
 const (
 	evictionTargetFraction  = 0.9
 	evictionURLsPerBatch    = 16
@@ -155,7 +157,11 @@ func assembleNode(
 		return node{}, fmt.Errorf("rwi impact order: %w", err)
 	}
 
-	postingAmounts, postingAmountProjection, err := rwipostingamount.Open(storage)
+	postingAmounts, wordAmounts, postingAmountProjection, err := rwipostingamount.Open(
+		storage,
+		now,
+		wordSampleLifetime,
+	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi posting amounts: %w", err)
 	}
@@ -260,7 +266,7 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, postings, urlDirectory)
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, wordAmounts, urlDirectory)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -282,7 +288,7 @@ func assembleNode(
 		servedURLMetadataPerRequest,
 	)
 	rwiingress.Mount(router, identity, postingReceiver)
-	nodestatus.MountQuery(router, identity, now, storage, postings, postingAmounts, urlDirectory)
+	nodestatus.MountQuery(router, identity, now, storage, wordAmounts, postingAmounts, urlDirectory)
 	documentsearch.MountSearch(
 		storage,
 		router,

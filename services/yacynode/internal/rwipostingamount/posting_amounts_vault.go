@@ -12,13 +12,15 @@ const postingAmountBucket vault.Name = "rwi_amount"
 
 const postingAmountVersion = "1"
 
+var wordKeys = vault.SingleKey(hashkeypart.Hash)
+
 func registerPostingAmounts(
 	v *vault.Vault,
 ) (*vault.CountIndex[yacymodel.RWIPosting, yacymodel.Hash], error) {
 	amountPerWord, err := v.RegisterCountIndex(
 		postingAmountBucket,
 		postingAmountVersion,
-		vault.SingleKey(hashkeypart.Hash).KeyLayout(),
+		wordKeys.KeyLayout(),
 		wordOf,
 	)
 	if err != nil {

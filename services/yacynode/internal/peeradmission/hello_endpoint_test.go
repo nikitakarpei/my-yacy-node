@@ -161,6 +161,23 @@ func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
 	}
 }
 
+func TestHelloBackPingNamesThisNodeAsTheAsker(t *testing.T) {
+	var askers []string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		askers = append(askers, r.URL.Query().Get(yacyproto.FieldIam))
+		resp := yacyproto.QueryResponse{Response: 3}
+		_, _ = io.WriteString(w, resp.Encode().Encode())
+	}))
+	defer srv.Close()
+	mux := muxWithHello(t, &stubReachability{}, srv.Client())
+
+	serveHello(t, mux, helloRequest("freeworld", reachableCallerSeed(t, srv.URL), 0))
+
+	if want := []string{localPeer().Hash.String()}; !slices.Equal(askers, want) {
+		t.Fatalf("back-ping askers = %v, want %v", askers, want)
+	}
+}
+
 func TestHelloClassifiesUnreachableCallerAsJunior(t *testing.T) {
 	srv := backPingServer(false)
 	defer srv.Close()

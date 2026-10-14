@@ -107,7 +107,7 @@ func queryRequest(object yacyproto.QueryObject) yacyproto.QueryRequest {
 }
 
 func TestQueryAnswersNodeCounts(t *testing.T) {
-	mux := muxWithQuery(t, stubCounter{rwi: 11, urls: 6})
+	mux := muxWithQuery(t, stubCounter{words: 11, urls: 6})
 
 	cases := []struct {
 		object yacyproto.QueryObject
@@ -148,7 +148,7 @@ func TestQueryAnswersPostingAmountOfTheWordInEnv(t *testing.T) {
 }
 
 func TestQueryAnswersZeroForWantedObjects(t *testing.T) {
-	mux := muxWithQuery(t, stubCounter{rwi: 11})
+	mux := muxWithQuery(t, stubCounter{words: 11})
 
 	for _, object := range []yacyproto.QueryObject{
 		yacyproto.ObjectWantedLURLs,
@@ -164,7 +164,7 @@ func TestQueryAnswersZeroForWantedObjects(t *testing.T) {
 }
 
 func TestQueryRejectsWrongTarget(t *testing.T) {
-	mux := muxWithQuery(t, stubCounter{rwi: 11})
+	mux := muxWithQuery(t, stubCounter{words: 11})
 
 	req := queryRequest(yacyproto.ObjectRWICount)
 	req.YouAre = yacymodel.WordHash("other")
@@ -176,7 +176,7 @@ func TestQueryRejectsWrongTarget(t *testing.T) {
 }
 
 func TestQueryRepliesCarryTimeAndMagic(t *testing.T) {
-	mux := muxWithQuery(t, stubCounter{rwi: 11})
+	mux := muxWithQuery(t, stubCounter{words: 11})
 	wrongTarget := queryRequest(yacyproto.ObjectRWICount)
 	wrongTarget.YouAre = yacymodel.WordHash("other")
 	wantMagic := strconv.FormatInt(queryNodeStart.UnixMilli(), 10)

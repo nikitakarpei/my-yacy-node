@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	errRWICount      = errors.New("count stored RWI words")
+	errWordAmount    = errors.New("estimate words of stored postings")
 	errPostingAmount = errors.New("count stored postings of the asked word")
 	errLURLCount     = errors.New("count stored URL metadata records")
 )
@@ -29,7 +29,7 @@ type queryEndpoint struct {
 	identity       nodeidentity.Identity
 	now            func() time.Time
 	vault          *vault.Vault
-	rwi            RWICounter
+	words          WordAmountEstimate
 	postingAmounts PostingAmountCounter
 	urls           URLCounter
 }
@@ -80,7 +80,7 @@ func (e queryEndpoint) count(ctx context.Context, req yacyproto.QueryRequest) (i
 func (e queryEndpoint) countOf(tx *vault.Txn, req yacyproto.QueryRequest) (int, error) {
 	switch req.Object {
 	case yacyproto.ObjectRWICount:
-		return e.rwiCount(tx)
+		return e.amountOfWords(tx)
 	case yacyproto.ObjectRWIURLCount:
 		return e.postingAmountOf(tx, req.Env)
 	case yacyproto.ObjectLURLCount:
@@ -90,10 +90,10 @@ func (e queryEndpoint) countOf(tx *vault.Txn, req yacyproto.QueryRequest) (int, 
 	}
 }
 
-func (e queryEndpoint) rwiCount(tx *vault.Txn) (int, error) {
-	n, err := e.rwi.RWICount(tx)
+func (e queryEndpoint) amountOfWords(tx *vault.Txn) (int, error) {
+	n, err := e.words.EstimatedAmountOfWords(tx)
 
-	return n, wrapCount(errRWICount, err)
+	return n, wrapCount(errWordAmount, err)
 }
 
 func (e queryEndpoint) postingAmountOf(tx *vault.Txn, env string) (int, error) {

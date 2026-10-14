@@ -19,22 +19,6 @@ type harness struct {
 	purger   rwipostings.PostingPurger
 }
 
-func (h harness) rwiCount(t *testing.T) int {
-	t.Helper()
-
-	var count int
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		measured, err := h.index.RWICount(tx)
-		count = measured
-
-		return err
-	}); err != nil {
-		t.Fatalf("RWICount: %v", err)
-	}
-
-	return count
-}
-
 func (h harness) postingOf(
 	t *testing.T,
 	word yacymodel.Hash,
