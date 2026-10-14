@@ -43,11 +43,7 @@ func (d postingDirectory) PostingsOfWordIn(
 ) error {
 	err := d.postings.Scan(
 		tx,
-		postingsOfWordBetween(
-			word,
-			d.partitions.LowestURLHashIn(partition),
-			d.partitions.HighestURLHashIn(partition),
-		),
+		d.postingsOfWordIn(word, partition),
 		func(identity postingIdentity, storedPosting yacymodel.RWIPosting) (bool, error) {
 			return visit(postingWithIdentity(identity, storedPosting))
 		},
@@ -57,6 +53,14 @@ func (d postingDirectory) PostingsOfWordIn(
 	}
 
 	return nil
+}
+
+func (d postingDirectory) postingsOfWordIn(word yacymodel.Hash, partition uint) vault.KeyRange {
+	return postingsOfWordBetween(
+		word,
+		d.partitions.LowestURLHashIn(partition),
+		d.partitions.HighestURLHashIn(partition),
+	)
 }
 
 func postingWithIdentity(
@@ -126,6 +130,19 @@ func (d postingDirectory) PurgePosting(
 	}
 
 	return wasDeleted, nil
+}
+
+func (d postingDirectory) PurgePostingsOfWordIn(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	partition uint,
+) (amountOfPurgedPostings int, err error) {
+	amountOfPurgedPostings, err = d.postings.DeleteWithin(tx, d.postingsOfWordIn(word, partition))
+	if err != nil {
+		return 0, fmt.Errorf("delete rwi postings of a word in a partition: %w", err)
+	}
+
+	return amountOfPurgedPostings, nil
 }
 
 var (

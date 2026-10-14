@@ -17,15 +17,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type PostingIndex interface {
-	PostingsOfWordIn(
-		tx *vault.Txn,
-		word yacymodel.Hash,
-		partition uint,
-		visit func(yacymodel.RWIPosting) (bool, error),
-	) error
-}
-
 type Config struct {
 	Partitions yacymodel.DHTRingPartitions
 	Self       yacymodel.Hash
@@ -33,7 +24,6 @@ type Config struct {
 }
 
 type Handoff struct {
-	postings    PostingIndex
 	purger      rwipostings.PostingPurger
 	undelivered *undeliveredpostings.Postings
 	schedule    *wordpartitionschedule.Schedule
@@ -41,14 +31,12 @@ type Handoff struct {
 }
 
 func New(
-	postings PostingIndex,
 	purger rwipostings.PostingPurger,
 	undelivered *undeliveredpostings.Postings,
 	schedule *wordpartitionschedule.Schedule,
 	config Config,
 ) *Handoff {
 	return &Handoff{
-		postings:    postings,
 		purger:      purger,
 		undelivered: undelivered,
 		schedule:    schedule,
@@ -70,11 +58,11 @@ func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 	if err != nil || hasUndeliveredPostings {
 		return 0, err
 	}
-	heldPostings, err := h.postingsOf(tx, wordPartition)
-	if err != nil {
-		return 0, err
-	}
-	amountOfPostingsHandedOff, err = h.purge(tx, heldPostings)
+	amountOfPostingsHandedOff, err = h.purger.PurgePostingsOfWordIn(
+		tx,
+		wordPartition.Word,
+		wordPartition.Partition,
+	)
 	if err != nil {
 		return 0, err
 	}
@@ -104,40 +92,4 @@ func (h *Handoff) isHeldByResponsiblePeers(
 	}
 
 	return amountOfCloserResponsibleHolders >= h.config.Redundancy
-}
-
-func (h *Handoff) postingsOf(
-	tx *vault.Txn,
-	wordPartition yacymodel.WordPartition,
-) ([]yacymodel.RWIPosting, error) {
-	var heldPostings []yacymodel.RWIPosting
-	err := h.postings.PostingsOfWordIn(
-		tx,
-		wordPartition.Word,
-		wordPartition.Partition,
-		func(posting yacymodel.RWIPosting) (bool, error) {
-			heldPostings = append(heldPostings, posting)
-
-			return true, nil
-		},
-	)
-
-	return heldPostings, err
-}
-
-func (h *Handoff) purge(
-	tx *vault.Txn,
-	heldPostings []yacymodel.RWIPosting,
-) (amountOfPurgedPostings int, err error) {
-	for _, posting := range heldPostings {
-		wasPurged, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash)
-		if err != nil {
-			return 0, err
-		}
-		if wasPurged {
-			amountOfPurgedPostings++
-		}
-	}
-
-	return amountOfPurgedPostings, nil
 }

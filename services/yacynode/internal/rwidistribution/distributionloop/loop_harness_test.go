@@ -136,7 +136,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		),
 		undelivered,
 		schedule,
-		handoffFor(opts, h.index, purger, undelivered, schedule),
+		handoffFor(opts, purger, undelivered, schedule),
 		h.transfers,
 		h.eligibility,
 		h.roster,
@@ -195,7 +195,6 @@ func openLoopVault(t *testing.T) *vault.Vault {
 
 func handoffFor(
 	opts loopOptions,
-	index *observedPostingIndex,
 	purger rwipostings.PostingPurger,
 	undelivered *undeliveredpostings.Postings,
 	schedule *wordpartitionschedule.Schedule,
@@ -204,7 +203,7 @@ func handoffFor(
 		return wordpartitionhandoff.KeepEveryWordPartition{}
 	}
 
-	return wordpartitionhandoff.New(index, purger, undelivered, schedule,
+	return wordpartitionhandoff.New(purger, undelivered, schedule,
 		wordpartitionhandoff.Config{
 			Partitions: partitions(),
 			Self:       opts.self,

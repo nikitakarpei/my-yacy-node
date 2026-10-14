@@ -221,6 +221,44 @@ func TestAValueIndexDropsTheEntryOfADeletedRecord(t *testing.T) {
 	}
 }
 
+func TestDeletingAKeyRangeDropsItsRecordsAndTheirIndexEntries(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("a", "x"), definitionOf("b", "y"), definitionOf("c", "x"))
+
+	var amountOfDeleted int
+	d.write(t, func(tx *vault.Txn) error {
+		var err error
+		amountOfDeleted, err = d.words.DeleteWithin(tx, stringKeyParts.KeysFromFirst("b"))
+
+		return err
+	})
+
+	if amountOfDeleted != 2 {
+		t.Fatalf("deleted records = %d, want 2", amountOfDeleted)
+	}
+	if got, want := d.entries(t), []string{"x/a"}; !slices.Equal(got, want) {
+		t.Fatalf("entries = %v, want %v", got, want)
+	}
+	if got, want := d.counts(t), map[string]int{"x": 1}; !maps.Equal(got, want) {
+		t.Fatalf("counts = %v, want %v", got, want)
+	}
+}
+
+func TestDeletingAKeyRangeIsRefusedInsideARead(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("a", "x"))
+
+	err := d.vault.View(context.Background(), func(tx *vault.Txn) error {
+		_, err := d.words.DeleteWithin(tx, vault.EveryKey())
+
+		return err
+	})
+
+	if err == nil {
+		t.Fatal("DeleteWithin inside a read succeeded, want a refusal")
+	}
+}
+
 func TestACountIndexCountsTheRecordsOfEachGroup(t *testing.T) {
 	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
 
