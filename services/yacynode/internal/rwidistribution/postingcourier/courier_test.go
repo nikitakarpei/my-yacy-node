@@ -179,7 +179,10 @@ func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 }
 
 func TestOfferReportsOverloadedPeer(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultTooHighLoad})
+	server := rwiResponder(yacyproto.TransferRWIResponse{
+		Result: yacyproto.ResultTooHighLoad,
+		Pause:  time.Minute,
+	})
 	defer server.Close()
 
 	courier := openCourierHarness(t, server)
@@ -191,6 +194,9 @@ func TestOfferReportsOverloadedPeer(t *testing.T) {
 	)
 	if receipt.Outcome != postingcourier.Overloaded {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Overloaded)
+	}
+	if receipt.RequestedPause != time.Minute {
+		t.Fatalf("RequestedPause = %v, want 1m", receipt.RequestedPause)
 	}
 }
 

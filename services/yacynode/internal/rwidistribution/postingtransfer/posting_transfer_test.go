@@ -287,3 +287,26 @@ func TestADeclinedOfferCarriesThePausePeerRequested(t *testing.T) {
 		t.Fatalf("answer = %+v, want declined with pause %v", answer, requestedPause)
 	}
 }
+
+func TestAnOverloadedOfferCarriesThePausePeerRequested(t *testing.T) {
+	postingTransfers := postingtransfer.New(
+		openVault(t),
+		fakePostingCourier{receipt: postingcourier.Receipt{
+			Outcome:        postingcourier.Overloaded,
+			RequestedPause: time.Minute,
+		}},
+		&fakeURLMetadataCourier{},
+		fakeURLDirectory{},
+		newFakeObserver(),
+	)
+
+	answer := postingTransfers.Send(
+		context.Background(),
+		seed(yacymodel.WordHash("peer")),
+		[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
+	)
+
+	if answer.Result != postingtransfer.OfferDeclined || answer.RequestedPause != time.Minute {
+		t.Fatalf("answer = %+v, want declined with pause 1m", answer)
+	}
+}

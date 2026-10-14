@@ -93,7 +93,7 @@ func (c Courier) Offer(
 			slog.String("endpoint", endpoint),
 		)
 
-		return Receipt{Outcome: Overloaded}
+		return Receipt{Outcome: Overloaded, RequestedPause: resp.Pause}
 	default:
 		slog.WarnContext(
 			ctx,
