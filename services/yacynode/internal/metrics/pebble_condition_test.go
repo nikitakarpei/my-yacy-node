@@ -120,3 +120,27 @@ func (c *countingPebbleEngine) Condition() pebblevault.EngineCondition {
 
 	return pebblevault.EngineCondition{}
 }
+
+func TestPebbleConditionReportsTheAmountsScansSteppedOver(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	metrics.NewPebbleConditionMetrics(registry, stubPebbleEngine{
+		condition: pebblevault.EngineCondition{AmountsScanned: 7, AmountsAtZeroScanned: 3},
+	})
+
+	expected := `
+# HELP yacynode_pebble_amounts_at_zero_scanned_total Stored amounts at zero that scans stepped over and skipped.
+# TYPE yacynode_pebble_amounts_at_zero_scanned_total counter
+yacynode_pebble_amounts_at_zero_scanned_total 3
+# HELP yacynode_pebble_amounts_scanned_total Stored amounts that scans stepped over, at zero or above.
+# TYPE yacynode_pebble_amounts_scanned_total counter
+yacynode_pebble_amounts_scanned_total 7
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_pebble_amounts_scanned_total",
+		"yacynode_pebble_amounts_at_zero_scanned_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}

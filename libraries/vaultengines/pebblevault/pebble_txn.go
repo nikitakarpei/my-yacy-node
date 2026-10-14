@@ -12,6 +12,7 @@ type pebbleTxn struct {
 	amountChanges   *amountChanges
 	footprint       *readFootprint
 	heldValues      heldValues
+	scans           *scanTally
 	recordsByBucket map[vault.Name]*pebbleRecords
 	amountsByBucket map[vault.Name]*pebbleAmounts
 }
@@ -52,7 +53,7 @@ func (t *pebbleTxn) Amounts(name vault.Name) vault.EngineAmounts {
 }
 
 func (t *pebbleTxn) amountsWithin(region keyspaceRegion) pebbleAmounts {
-	return pebbleAmounts{entries: t.entriesWithin(region), changes: t.amountChanges}
+	return pebbleAmounts{entries: t.entriesWithin(region), changes: t.amountChanges, scans: t.scans}
 }
 
 func (t *pebbleTxn) entriesWithin(region keyspaceRegion) storedEntries {

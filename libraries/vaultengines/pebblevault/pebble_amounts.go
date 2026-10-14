@@ -7,6 +7,7 @@ import (
 type pebbleAmounts struct {
 	entries storedEntries
 	changes *amountChanges
+	scans   *scanTally
 }
 
 func (a pebbleAmounts) Get(key []byte) (int, error) {
@@ -57,8 +58,12 @@ func (a pebbleAmounts) Scan(
 
 	return a.entries.visit(keys, func(key, raw []byte) (bool, error) {
 		amount, err := amountFrom(raw)
-		if err != nil || countFrom(amount) == 0 {
-			return err == nil, err
+		if err != nil {
+			return false, err
+		}
+		a.scans.count(amount)
+		if countFrom(amount) == 0 {
+			return true, nil
 		}
 
 		return fn(key, countFrom(amount))

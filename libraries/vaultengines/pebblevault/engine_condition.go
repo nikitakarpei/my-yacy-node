@@ -47,6 +47,8 @@ type EngineCondition struct {
 	RangeDeletionReclaimableBytes int64
 	OpenSnapshots                 int64
 	SnapshotPinnedBytes           int64
+	AmountsScanned                int64
+	AmountsAtZeroScanned          int64
 }
 
 type Level struct {
@@ -59,7 +61,11 @@ type Level struct {
 	FlushedBytes   int64
 }
 
-func engineConditionOf(reported *pebble.Metrics, limits MachineLimits) EngineCondition {
+func engineConditionOf(
+	reported *pebble.Metrics,
+	limits MachineLimits,
+	scans *scanTally,
+) EngineCondition {
 	return EngineCondition{
 		CompactionDebtBytes:           signed(reported.Compact.EstimatedDebt),
 		CompactionsInProgress:         reported.Compact.NumInProgress,
@@ -91,6 +97,8 @@ func engineConditionOf(reported *pebble.Metrics, limits MachineLimits) EngineCon
 		RangeDeletionReclaimableBytes: signed(reported.Table.Garbage.RangeDeletionsBytesEstimate),
 		OpenSnapshots:                 int64(reported.Snapshots.Count),
 		SnapshotPinnedBytes:           signed(reported.Snapshots.PinnedSize),
+		AmountsScanned:                scans.amounts.Load(),
+		AmountsAtZeroScanned:          scans.amountsAtZero.Load(),
 	}
 }
 
