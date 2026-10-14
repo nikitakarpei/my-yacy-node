@@ -67,7 +67,7 @@ A word partition is one word in one ring partition. Its postings are the posting
 | `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, delete the postings of a word partition that enough of its responsible peers hold. Set it to `false` to keep every posting. |
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
-| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | A batch takes the due word partitions of one arc of the ring, at most this many word partitions. No peer gets more than this many postings in a batch, unless one word partition is larger. |
+| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | A batch takes the due word partitions of one arc of the ring. No peer gets more than this many postings in a batch, unless one word partition is larger. |
 | `YACY_DISTRIBUTION_WORKERS` | `2` | How many workers send batches at the same time. No word partition is in two batches at the same time. |
 | `YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE` | `50` | How many URL metadata records travel in one transfer to a peer. |
 | `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again (refresh). |
