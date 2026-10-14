@@ -38,6 +38,10 @@ func (s *amountSum) Finish(bool) ([]byte, io.Closer, error) {
 	return encodedAmount(s.total), nil, nil
 }
 
+func (s *amountSum) DeletableFinish(bool) ([]byte, bool, io.Closer, error) {
+	return encodedAmount(s.total), s.total == 0, nil, nil
+}
+
 func amountFrom(raw []byte) (int64, error) {
 	amount, length := binary.Varint(raw)
 	if length <= 0 || length != len(raw) {
