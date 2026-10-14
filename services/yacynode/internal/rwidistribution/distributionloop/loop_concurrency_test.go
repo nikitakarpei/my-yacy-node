@@ -149,6 +149,7 @@ func openTwoBatches(t *testing.T) (*loopHarness, []yacymodel.WordPartition) {
 	for _, wordPartition := range wordPartitions {
 		h.admit(t, wordPartition, urlsOf(1)...)
 	}
+	h.scheduleAdmissions(t)
 
 	return h, wordPartitions
 }

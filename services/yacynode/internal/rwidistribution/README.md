@@ -22,7 +22,7 @@ the postings that enough responsible peers hold.
 ## Behavior
 
 - Each word partition has a due time. A new posting makes its word partition
-  due at once, unless the word partition is in retry.
+  due when a worker next takes its arc, unless the word partition is in retry.
 - Workers send batches. A batch holds the due word partitions of one arc. A
   worker takes only an arc whose window peers are not paused and not busy. No
   word partition is in two batches at the same time.

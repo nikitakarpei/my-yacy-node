@@ -2406,43 +2406,6 @@
       "interval": "$window"
     },
     {
-      "id": 134,
-      "title": "Longest wait to send due postings",
-      "description": "How long the word partition due longest has waited to be sent. New postings and refreshes make a word partition due.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 205
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "yacynode_rwidistribution_longest_due_wait_seconds{instance=~\"$service_instance\"}",
-          "legendFormat": "{{instance}}"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
       "id": 137,
       "title": "Arcs by state",
       "description": "Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now, averaged over 5 minutes.",

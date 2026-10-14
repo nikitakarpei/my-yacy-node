@@ -174,26 +174,6 @@ yacynode_rwidistribution_undelivered_postings 4
 	}
 }
 
-func TestDistributionTracksTheLongestDueWait(t *testing.T) {
-	registry := prometheus.NewRegistry()
-	observer := metrics.NewDistributionMetrics(registry)
-
-	observer.ObserveLongestDueWait(90 * time.Second)
-
-	expected := `
-# HELP yacynode_rwidistribution_longest_due_wait_seconds How long the word partition due longest has waited to be sent.
-# TYPE yacynode_rwidistribution_longest_due_wait_seconds gauge
-yacynode_rwidistribution_longest_due_wait_seconds 90
-`
-	if err := testutil.GatherAndCompare(
-		registry,
-		strings.NewReader(expected),
-		"yacynode_rwidistribution_longest_due_wait_seconds",
-	); err != nil {
-		t.Fatalf("GatherAndCompare: %v", err)
-	}
-}
-
 func TestDistributionCountsPostingsHandedOff(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)

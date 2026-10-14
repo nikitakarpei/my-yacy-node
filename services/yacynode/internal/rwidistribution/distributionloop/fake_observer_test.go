@@ -11,7 +11,6 @@ import (
 type fakeObserver struct {
 	guard               sync.Mutex
 	undeliveredPostings int
-	longestDueWait      time.Duration
 	arcsPerState        map[string]int
 	staleHoldersDropped int
 	postingsHandedOff   int
@@ -35,13 +34,6 @@ func (f *fakeObserver) ObserveUndeliveredPostings(amountOfPostings int) {
 	defer f.guard.Unlock()
 
 	f.undeliveredPostings = amountOfPostings
-}
-
-func (f *fakeObserver) ObserveLongestDueWait(wait time.Duration) {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	f.longestDueWait = wait
 }
 
 func (f *fakeObserver) ObserveArcs(amountPerState map[string]int) {

@@ -1,6 +1,7 @@
 package distributionloop
 
 import (
+	"cmp"
 	"slices"
 	"sync"
 	"time"
@@ -203,12 +204,25 @@ func (w *arcWalk) signalDue(position yacymodel.DHTRingPosition) {
 	w.guard.Lock()
 	defer w.guard.Unlock()
 
-	for _, holding := range w.arcs {
-		if holding.holds(position) {
-			holding.receiveDueSignal()
-		}
+	holding, found := w.arcHolding(position)
+	if found && holding.receiveDueSignalAt(w.clock.Now()) {
+		w.wakeWorkers()
 	}
-	w.wakeWorkers()
+}
+
+func (w *arcWalk) arcHolding(position yacymodel.DHTRingPosition) (*arc, bool) {
+	if len(w.arcs) == 0 {
+		return nil, false
+	}
+	index, _ := slices.BinarySearchFunc(
+		w.arcs,
+		position,
+		func(candidate *arc, position yacymodel.DHTRingPosition) int {
+			return cmp.Compare(candidate.seedArc.Through, position)
+		},
+	)
+
+	return w.arcs[index%len(w.arcs)], true
 }
 
 func (w *arcWalk) signalReachablePeers() {

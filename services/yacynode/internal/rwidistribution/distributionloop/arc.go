@@ -75,16 +75,6 @@ func (a *arc) hasBusyPeer(eligibility PeerEligibility) bool {
 	return false
 }
 
-func (a *arc) holds(position yacymodel.DHTRingPosition) bool {
-	for _, span := range a.seedArc.Spans() {
-		if span.Contains(position) {
-			return true
-		}
-	}
-
-	return false
-}
-
 func (a *arc) hasEnds(other yacymodel.SeedArc) bool {
 	return a.seedArc.After == other.After && a.seedArc.Through == other.Through
 }
@@ -128,9 +118,12 @@ func (a *arc) drainUntilSignal() {
 	a.isDrainedUntilSignal = true
 }
 
-func (a *arc) receiveDueSignal() {
+func (a *arc) receiveDueSignalAt(now time.Time) (wasReopened bool) {
+	wasReopened = a.isHeldBack || a.isDrainedAt(now)
 	a.amountOfDueSignals++
 	a.drainedUntil = time.Time{}
 	a.isDrainedUntilSignal = false
 	a.isHeldBack = false
+
+	return wasReopened
 }
