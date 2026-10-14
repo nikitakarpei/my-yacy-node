@@ -64,19 +64,19 @@ postings. Without a page offer server it is a pure peer.
 ## Distribution
 
 The node can offer its stored postings to the peers the DHT makes responsible for them.
+A word partition is one word in one ring partition. Its postings are the postings of that word whose URLs fall in that partition.
 
 | Variable | Default | Description |
 | --- | --- | --- |
 | `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. |
-| `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, delete a posting that enough of its responsible peers hold. Set it to `false` to keep every posting. |
+| `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, delete the postings of a word partition that enough of its responsible peers hold. Set it to `false` to keep every posting. |
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
-| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | How many due postings to offer in one batch. A cycle offers batch after batch until no posting is due. |
+| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | A batch adds word partitions until it holds this many postings. One transfer to a peer carries at most this many postings. A cycle offers batch after batch until no posting is due. |
 | `YACY_DISTRIBUTION_BATCH_CONCURRENCY` | `2` | How many batches a cycle offers at the same time. Each batch takes the due postings of one ring sector that no other batch holds. |
 | `YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE` | `50` | How many URL metadata records travel in one transfer to a peer. |
 | `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often a cycle starts (e.g. `30s`, `1m`, `10m`). |
 | `YACY_DISTRIBUTION_DRAIN_BUDGET` | `1m` | How long one cycle offers batches before it stops and waits for the next cycle. |
-| `YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL` | `24h` | How long a posting with enough replicas waits after its due time before it is offered again. |
-| `YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL` | `5m` | How long a posting with too few replicas waits before it is offered again. The interval doubles on every further miss, up to `YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL`. |
-| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no new replicas. A posting that needs a replica on that peer waits until this time ends. |
+| `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again (refresh). |
+| `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition with too few holders is sent again after this time. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

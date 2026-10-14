@@ -1,8 +1,8 @@
-// Package distributioncycle runs one distribution pass: it asks postingoffer
-// which peers are missing a replica of each due posting, offers the posting
-// to them, and writes down what happened. Batches take the ring sectors in
-// turn, several at once, each in a sector no other batch in flight holds; a
-// batch offers to all its peers at once.
+// Package distributioncycle runs one distribution pass: it asks
+// wordpartitionoffer which word partitions are due now and what each peer
+// gets, sends the postings, and writes down what happened. Batches take the
+// ring sectors in turn, several at once, each in a sector no other batch in
+// flight holds; a batch sends to all its peers at once.
 package distributioncycle
 
 import (
@@ -13,11 +13,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
 type SkipReason string
@@ -35,15 +34,14 @@ type ReachablePeers interface {
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 }
 
-type PostingHandoff interface {
+type WordPartitionHandoff interface {
 	HandOffIfHeldByResponsiblePeers(
 		ctx context.Context,
 		tx *vault.Txn,
-		posting yacymodel.RWIPosting,
-		position yacymodel.DHTRingPosition,
+		wordPartition yacymodel.WordPartition,
 		holders []yacymodel.Hash,
 		responsiblePeers []yacymodel.Hash,
-	) (bool, error)
+	) (int, error)
 }
 
 type PostingTransfers interface {
@@ -64,12 +62,12 @@ type Config struct {
 
 type Cycle struct {
 	vault           *vault.Vault
-	postingOffers   *postingoffer.PostingOffers
-	handoff         PostingHandoff
+	offers          *wordpartitionoffer.WordPartitionOffers
+	undelivered     *undeliveredpostings.UndeliveredPostings
+	holders         *wordpartitionholders.Holders
+	handoff         WordPartitionHandoff
 	transfers       PostingTransfers
-	answers         OfferAnswers
-	replicas        *postingreplicas.Replicas
-	schedule        *postingofferschedule.Schedule
+	cooldowns       Cooldowns
 	roster          ReachablePeers
 	now             func() time.Time
 	cycleObserver   CycleObserver
@@ -81,12 +79,12 @@ type Cycle struct {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	v *vault.Vault,
-	postingOffers *postingoffer.PostingOffers,
-	handoff PostingHandoff,
+	offers *wordpartitionoffer.WordPartitionOffers,
+	undelivered *undeliveredpostings.UndeliveredPostings,
+	holders *wordpartitionholders.Holders,
+	handoff WordPartitionHandoff,
 	transfers PostingTransfers,
-	answers OfferAnswers,
-	replicas *postingreplicas.Replicas,
-	schedule *postingofferschedule.Schedule,
+	cooldowns Cooldowns,
 	roster ReachablePeers,
 	now func() time.Time,
 	cycleObserver CycleObserver,
@@ -95,17 +93,17 @@ func New(
 ) *Cycle {
 	return &Cycle{
 		vault:           v,
-		postingOffers:   postingOffers,
+		offers:          offers,
+		undelivered:     undelivered,
+		holders:         holders,
 		handoff:         handoff,
 		transfers:       transfers,
-		answers:         answers,
-		replicas:        replicas,
-		schedule:        schedule,
+		cooldowns:       cooldowns,
 		roster:          roster,
 		now:             now,
 		cycleObserver:   cycleObserver,
 		dhtRingObserver: dhtRingObserver,
-		sectorTurns:     &sectorTurns{},
+		sectorTurns:     newSectorTurns(),
 		config:          config,
 	}
 }
@@ -136,17 +134,50 @@ func (c *Cycle) runCycle(ctx context.Context) {
 		return
 	}
 
-	c.postingOffers.ReportPeersAcceptingRemoteIndex(peers)
-	c.drainDuePostings(ctx, peers)
+	c.offers.ReportPeersAcceptingRemoteIndex(peers)
+	c.drainDueOffers(ctx, peers)
 	c.cycleObserver.ObserveCycleCompleted()
 }
 
 func (c *Cycle) observeBacklog(ctx context.Context) {
-	if err := c.vault.View(ctx, func(tx *vault.Txn) error {
-		return c.schedule.ObserveBacklog(tx)
-	}); err != nil {
-		slog.WarnContext(ctx, "offer backlog not observed", slog.Any("error", err))
+	backlog, err := c.backlogNow(ctx)
+	if err != nil {
+		slog.WarnContext(ctx, "distribution backlog not observed", slog.Any("error", err))
+
+		return
 	}
+	c.cycleObserver.ObserveUndeliveredPostings(backlog.amountOfUndeliveredPostings)
+	c.cycleObserver.ObserveLongestRefreshLateness(backlog.longestRefreshLateness)
+}
+
+type backlog struct {
+	amountOfUndeliveredPostings int
+	longestRefreshLateness      time.Duration
+}
+
+func (c *Cycle) backlogNow(ctx context.Context) (backlog, error) {
+	var current backlog
+	err := c.vault.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		current.amountOfUndeliveredPostings, err = c.undelivered.AmountOfPostings(tx)
+		if err != nil {
+			return err
+		}
+		current.longestRefreshLateness, err = c.longestRefreshLatenessIn(tx)
+
+		return err
+	})
+
+	return current, err
+}
+
+func (c *Cycle) longestRefreshLatenessIn(tx *vault.Txn) (time.Duration, error) {
+	earliestRefreshAt, found, err := c.holders.EarliestRefreshAt(tx)
+	if err != nil || !found {
+		return 0, err
+	}
+
+	return max(c.now().Sub(earliestRefreshAt), 0), nil
 }
 
 func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
@@ -159,7 +190,7 @@ func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int
 	c.cycleObserver.ObserveCycleSkipped(string(SkipTooFewReachablePeers))
 }
 
-func (c *Cycle) drainDuePostings(ctx context.Context, peers []yacymodel.Seed) {
+func (c *Cycle) drainDueOffers(ctx context.Context, peers []yacymodel.Seed) {
 	drainEndsAt := c.now().Add(c.config.DrainBudget)
 	c.sectorTurns.forgetDrainedSectors()
 
@@ -189,27 +220,24 @@ func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) bool 
 	}
 	defer c.sectorTurns.release(sector)
 
-	offers, err := c.postingOffers.DueNowIn(
-		ctx, sector, c.config.PostingsPerBatch, peers,
-	)
+	offers, next, err := c.offers.DueNowIn(ctx, sector, c.sectorTurns.cursorOf(sector), peers)
 	if err != nil {
 		c.reportDuePostingsUnread(ctx, err)
 
 		return false
 	}
-	if len(offers) < c.config.PostingsPerBatch {
+	if c.drainedBy(offers, next) {
 		c.sectorTurns.markDrained(sector)
 	}
-	if len(offers) == 0 {
-		return true
-	}
+	if len(offers) > 0 {
+		answers := sendOffers(ctx, c.transfers, c.cooldowns, offers, c.config.PostingsPerBatch)
+		if err := c.commitBatch(ctx, offers, answers); err != nil {
+			c.reportBatchUnwritten(ctx, err)
 
-	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
-	if err := c.commitBatch(ctx, offers, round); err != nil {
-		c.reportBatchUnwritten(ctx, err)
-
-		return false
+			return false
+		}
 	}
+	c.sectorTurns.advance(sector, next)
 
 	return true
 }
@@ -219,100 +247,112 @@ func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
 	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
 }
 
+func (c *Cycle) drainedBy(
+	offers []wordpartitionoffer.WordPartitionOffer,
+	next wordpartitionoffer.Cursor,
+) bool {
+	amountOfPostings := 0
+	for _, offer := range offers {
+		for _, recipient := range offer.Recipients {
+			amountOfPostings += len(recipient.Postings)
+		}
+	}
+
+	return next == (wordpartitionoffer.Cursor{}) || amountOfPostings < c.config.PostingsPerBatch
+}
+
 func (c *Cycle) commitBatch(
 	ctx context.Context,
-	offers []postingoffer.PostingOffer,
-	round offerRound,
+	offers []wordpartitionoffer.WordPartitionOffer,
+	answers map[yacymodel.Hash]wordpartitionoffer.PeerAnswer,
 ) error {
-	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
-		for _, offer := range offers {
-			answers := round[postingidentity.IdentityOf(offer.Posting)]
-			if err := c.recordOfferOutcome(ctx, tx, offer, answers); err != nil {
+	outcomes := make([]wordpartitionoffer.Outcome, 0, len(offers))
+	for _, offer := range offers {
+		outcomes = append(outcomes, offer.OutcomeFrom(answers))
+	}
+	if err := c.vault.Update(ctx, func(tx *vault.Txn) error {
+		for index, offer := range offers {
+			if err := c.recordOutcome(ctx, tx, offer, outcomes[index]); err != nil {
 				return err
 			}
 		}
 
 		return nil
-	})
-	if err != nil {
+	}); err != nil {
 		return err
 	}
 
-	c.dhtRingObserver.ObserveReplicaRingFractions(replicaRingFractionsOf(offers, round))
+	c.dhtRingObserver.ObserveReplicaRingFractions(ringFractionsOf(offers, outcomes))
 
 	return nil
 }
 
-func (c *Cycle) recordOfferOutcome(
+func (c *Cycle) recordOutcome(
 	ctx context.Context,
 	tx *vault.Txn,
-	offer postingoffer.PostingOffer,
-	answers postingAnswers,
+	offer wordpartitionoffer.WordPartitionOffer,
+	outcome wordpartitionoffer.Outcome,
 ) error {
-	identity := postingidentity.IdentityOf(offer.Posting)
-	recordedHolders, err := c.replicas.HoldersOf(tx, identity)
-	if err != nil {
+	if outcome.HoldersChanged || offer.IsRefresh {
+		if err := c.recordHolders(tx, offer.WordPartition, outcome); err != nil {
+			return err
+		}
+	}
+	if err := c.markDelivered(tx, outcome.DeliveredPostings); err != nil {
 		return err
 	}
-	change := postingreplicas.HolderChange{
-		StaleHolders:   offer.StaleHolders,
-		AcceptingPeers: answers.acceptingPeers,
-	}
-	holders := change.HoldersFrom(recordedHolders)
-	droppedReplicas := change.AmountOfStaleHoldersIn(recordedHolders)
-
-	wasHandedOff, err := c.handoff.HandOffIfHeldByResponsiblePeers(
-		ctx, tx, offer.Posting, offer.PostingPosition, holders, offer.ResponsiblePeers,
+	amountOfPostingsHandedOff, err := c.handoff.HandOffIfHeldByResponsiblePeers(
+		ctx, tx, offer.WordPartition, outcome.Holders, offer.ResponsiblePeers,
 	)
 	if err != nil {
 		return err
 	}
-	if wasHandedOff {
-		c.observeStaleReplicasDropped(tx, droppedReplicas)
-		c.observePostingHandedOff(tx)
+	tx.RunAfterCommit(func() {
+		c.cycleObserver.ObserveStaleReplicasDropped(outcome.AmountOfDroppedHolders)
+		c.cycleObserver.ObservePostingsHandedOff(amountOfPostingsHandedOff)
+	})
 
-		return nil
-	}
-
-	wasRescheduled, err := c.setNextOffer(tx, identity, offer, answers)
-	if err != nil || !wasRescheduled {
-		return err
-	}
-	c.observeStaleReplicasDropped(tx, droppedReplicas)
-
-	return c.replicas.RecordHolders(tx, identity, recordedHolders, holders)
+	return nil
 }
 
-func (c *Cycle) observeStaleReplicasDropped(tx *vault.Txn, droppedReplicas int) {
-	tx.RunAfterCommit(func() { c.cycleObserver.ObserveStaleReplicasDropped(droppedReplicas) })
-}
-
-func (c *Cycle) observePostingHandedOff(tx *vault.Txn) {
-	tx.RunAfterCommit(func() { c.cycleObserver.ObservePostingHandedOff() })
-}
-
-func (c *Cycle) setNextOffer(
+func (c *Cycle) recordHolders(
 	tx *vault.Txn,
-	identity postingidentity.Identity,
-	offer postingoffer.PostingOffer,
-	answers postingAnswers,
-) (bool, error) {
-	if len(answers.acceptingPeers) >= offer.AcceptancesNeeded {
-		return c.schedule.SetNextOfferAfterRedundancyMet(tx, identity)
+	wordPartition yacymodel.WordPartition,
+	outcome wordpartitionoffer.Outcome,
+) error {
+	if outcome.IsAtRedundancy {
+		return c.holders.RecordAtRedundancy(tx, wordPartition, outcome.Holders)
 	}
 
-	return c.schedule.SetNextOfferAfterRedundancyMissed(
-		tx, identity, max(answers.requestedPause, offer.PauseForPeersInCooldown),
-	)
+	return c.holders.RecordShortOfRedundancy(tx, wordPartition, outcome.Holders)
 }
 
-func replicaRingFractionsOf(offers []postingoffer.PostingOffer, round offerRound) []float64 {
+func (c *Cycle) markDelivered(
+	tx *vault.Txn,
+	deliveredPostings []undeliveredpostings.UndeliveredPosting,
+) error {
+	for _, posting := range deliveredPostings {
+		if _, err := c.undelivered.MarkDelivered(tx, posting); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func ringFractionsOf(
+	offers []wordpartitionoffer.WordPartitionOffer,
+	outcomes []wordpartitionoffer.Outcome,
+) []float64 {
 	var ringFractions []float64
-	for _, offer := range offers {
-		for _, peer := range round[postingidentity.IdentityOf(offer.Posting)].acceptingPeers {
-			ringFractions = append(ringFractions, offer.PostingPosition.DistanceTo(
-				yacymodel.DHTRingPositionOf(peer),
-			).FractionOfDHTRing())
+	for index, offer := range offers {
+		for _, acceptance := range outcomes[index].Acceptances {
+			ringFraction := offer.Position.DistanceTo(
+				yacymodel.DHTRingPositionOf(acceptance.Peer),
+			).FractionOfDHTRing()
+			for range acceptance.AmountOfPostings {
+				ringFractions = append(ringFractions, ringFraction)
+			}
 		}
 	}
 

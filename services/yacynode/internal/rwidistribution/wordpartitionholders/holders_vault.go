@@ -90,6 +90,10 @@ func sectorKeyOf(sector yacymodel.DHTRingSector) int64 {
 	return int64(sector) //nolint:gosec // G115: a sector is at most MaxDHTRingSector.
 }
 
+func everyRefreshInSector(sector yacymodel.DHTRingSector) vault.KeyRange {
+	return refreshOrderKeyParts.KeysWithFirst(sectorKeyOf(sector))
+}
+
 func refreshesInSectorDueBy(sector yacymodel.DHTRingSector, dueAt time.Time) vault.KeyRange {
 	return refreshOrderKeyParts.KeysWithFirstThroughSecond(sectorKeyOf(sector), dueAt)
 }

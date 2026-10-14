@@ -482,3 +482,32 @@ func TestAnyInIsFalseOnceTheWordPartitionIsDelivered(t *testing.T) {
 		t.Fatalf("AnyIn(%+v) = true after delivery, want false", walked[0].WordPartition)
 	}
 }
+
+func (h harness) amountOfPostings(t *testing.T) int {
+	t.Helper()
+
+	var amountOfPostings int
+	h.read(t, func(tx *vault.Txn) error {
+		amount, err := h.undelivered.AmountOfPostings(tx)
+		amountOfPostings = amount
+
+		return err
+	})
+
+	return amountOfPostings
+}
+
+func TestAmountOfPostingsCountsTheUndeliveredOnes(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, 1, everyPosting()...)
+	sector := h.busiestSector()
+	walked := h.walkWhole(t, sector)
+
+	for _, posting := range walked {
+		h.markDelivered(t, posting)
+	}
+
+	if got, want := h.amountOfPostings(t), len(everyPosting())-len(walked); got != want {
+		t.Fatalf("AmountOfPostings = %d, want %d", got, want)
+	}
+}

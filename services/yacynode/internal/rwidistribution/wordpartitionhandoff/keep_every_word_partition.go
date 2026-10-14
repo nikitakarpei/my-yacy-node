@@ -15,6 +15,6 @@ func (KeepEveryWordPartition) HandOffIfHeldByResponsiblePeers(
 	yacymodel.WordPartition,
 	[]yacymodel.Hash,
 	[]yacymodel.Hash,
-) (bool, error) {
-	return false, nil
+) (int, error) {
+	return 0, nil
 }

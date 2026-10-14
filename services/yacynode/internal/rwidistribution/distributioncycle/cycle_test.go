@@ -3,29 +3,21 @@ package distributioncycle_test
 import (
 	"context"
 	"errors"
-	"strconv"
+	"slices"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 )
 
 func TestCycleRunOffersOnceThenStops(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
+	wordPartition := fixtureWordPartition()
+	peer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(1)...)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	h.transfers.onOffer = cancel
@@ -37,409 +29,409 @@ func TestCycleRunOffersOnceThenStops(t *testing.T) {
 }
 
 func TestCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings:          postings,
-		roster:            fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		minReachablePeers: 2,
-	})
-
-	store(t, h.v, h.schedule, word, url)
+	wordPartition := fixtureWordPartition()
+	h := openCycle(t, startClock(), cycleOptions{minReachablePeers: 2})
+	h.reach(peerAfter(wordPartition, 1))
+	h.admit(t, wordPartition, urlsOf(1)...)
 
 	h.runCycle(t)
 
 	if len(h.transfers.offered) != 0 {
-		t.Fatalf(
-			"offered = %v, want no offers while below the reachable-peer floor",
-			h.transfers.offered,
-		)
+		t.Fatalf("offered = %v, want no offers below the reachable-peer floor", h.transfers.offered)
 	}
 	if h.observer.cyclesSkipped[string(distributioncycle.SkipTooFewReachablePeers)] != 1 {
 		t.Fatalf("cyclesSkipped = %v, want one skip below the reachable-peer floor",
 			h.observer.cyclesSkipped)
 	}
-
-	due := h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] left untouched by a skipped cycle", due)
+	if got := h.amountOfUndeliveredPostings(t); got != 1 {
+		t.Fatalf("undelivered postings = %d, want 1 left untouched by a skipped cycle", got)
 	}
 }
 
-func TestCycleReportsLongestOfferLatenessOnSkippedCycle(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings:          postings,
-		roster:            fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		minReachablePeers: 2,
-	})
+func TestCycleReportsTheBacklogOnASkippedCycle(t *testing.T) {
+	clk := startClock()
+	delivered, undelivered := wordPartitionOf(0), wordPartitionOf(1)
+	h := openCycle(t, clk, cycleOptions{minReachablePeers: 2})
+	h.admit(t, undelivered, urlsOf(3)...)
+	h.recordHolders(t, delivered, peerAfter(delivered, 1).Hash)
+	clk.at = clk.at.Add(refreshInterval + time.Minute)
 
-	store(t, h.v, h.schedule, word, url)
-
-	clk.at = now.Add(90 * time.Second)
 	h.runCycle(t)
 
-	if len(h.transfers.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers on a skipped cycle", h.transfers.offered)
-	}
-	if got := h.observer.longestOfferLateness[shortfall]; got != 90*time.Second {
-		t.Fatalf("shortfall longestOfferLateness = %v, want 90s", got)
+	if h.observer.undeliveredPostings != 3 || h.observer.longestRefreshLateness != time.Minute {
+		t.Fatalf("undelivered postings = %d, longest refresh lateness = %v, want 3 and 1m",
+			h.observer.undeliveredPostings, h.observer.longestRefreshLateness)
 	}
 }
 
-func TestCycleDropsStaleReplicaFromLedger(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	stalePeer, fresh := yacymodel.WordHash("stale"), yacymodel.WordHash("fresh")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(fresh)}},
-	})
-	h.transfers.answers[fresh] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-	recordAccepted(t, h, stalePeer, fakePosting(word, url))
+func TestCycleReportsNoRefreshLatenessBeforeTheRefreshTime(t *testing.T) {
+	clk := startClock()
+	delivered := wordPartitionOf(0)
+	h := openCycle(t, clk, cycleOptions{minReachablePeers: 2})
+	h.recordHolders(t, delivered, peerAfter(delivered, 1).Hash)
+	h.observer.longestRefreshLateness = time.Hour
 
 	h.runCycle(t)
 
-	replicas := holdersOf(t, h, word, url)
-	for _, replica := range replicas {
-		if replica == stalePeer {
-			t.Fatalf("replicas = %v, want %v dropped", replicas, stalePeer)
+	if h.observer.longestRefreshLateness != 0 {
+		t.Fatalf("longest refresh lateness = %v, want 0", h.observer.longestRefreshLateness)
+	}
+}
+
+func TestCycleDeliversANewPostingToEveryResponsiblePeer(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	peers := []yacymodel.Seed{peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)}
+	h := openCycle(t, startClock(), cycleOptions{redundancy: 3})
+	h.reach(peers...)
+	for _, peer := range peers {
+		h.transfers.answers[peer.Hash] = acceptedAnswer
+	}
+	h.admit(t, wordPartition, urlsOf(1)...)
+
+	h.runCycle(t)
+
+	for _, peer := range peers {
+		if got := urlsIn(h.transfers.offeredTo(peer)); !slices.Equal(got, urlsOf(1)) {
+			t.Fatalf("%v got %v, want the new posting", peer.Hash, got)
 		}
+	}
+	if got := h.amountOfUndeliveredPostings(t); got != 0 {
+		t.Fatalf("undelivered postings = %d, want the new posting delivered", got)
+	}
+	if got, want := h.holdersOf(
+		t,
+		wordPartition,
+	), []yacymodel.Hash{
+		peers[0].Hash,
+		peers[1].Hash,
+	}; !slices.Equal(
+		got,
+		want,
+	) {
+		t.Fatalf("holders = %v, want %v", got, want)
+	}
+}
+
+func TestCycleSendsTheWholeWordPartitionToAMissingHolder(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	holder, missingHolder := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
+	urls := urlsOf(4)
+	h := openCycle(t, startClock(), cycleOptions{redundancy: 3})
+	h.transfers.answers[holder.Hash] = acceptedAnswer
+	h.transfers.answers[missingHolder.Hash] = acceptedAnswer
+	h.reach(holder)
+	h.admit(t, wordPartition, urls[:3]...)
+	h.runCycle(t)
+
+	h.reach(holder, missingHolder)
+	h.admit(t, wordPartition, urls[3])
+	h.runCycle(t)
+
+	if got := urlsIn(h.transfers.offeredTo(holder)); !slices.Equal(got, sortedURLs(urls)) {
+		t.Fatalf("holder got %v, want its first postings and then only the new one", got)
+	}
+	if got := urlsIn(h.transfers.offeredTo(missingHolder)); !slices.Equal(got, sortedURLs(urls)) {
+		t.Fatalf("missing holder got %v, want the whole word partition %v", got, sortedURLs(urls))
+	}
+	if got := h.holdersOf(t, wordPartition); !slices.Contains(got, missingHolder.Hash) {
+		t.Fatalf("holders = %v, want %v among them", got, missingHolder.Hash)
+	}
+	if got := h.amountOfUndeliveredPostings(t); got != 0 {
+		t.Fatalf("undelivered postings = %d, want none", got)
+	}
+}
+
+func TestCycleLetsAWordPartitionWaitForAResponsiblePeerInCooldown(t *testing.T) {
+	clk := startClock()
+	wordPartition := fixtureWordPartition()
+	holder, peerInCooldown := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
+	h := openCycle(t, clk, cycleOptions{redundancy: 3, cooldown: time.Hour})
+	h.reach(holder, peerInCooldown)
+	h.transfers.answers[holder.Hash] = acceptedAnswer
+	h.transfers.answers[peerInCooldown.Hash] = declinedAnswer
+	h.admit(t, wordPartition, urlsOf(2)...)
+	h.runCycle(t)
+
+	clk.at = clk.at.Add(time.Minute)
+	h.runCycle(t)
+
+	if len(h.transfers.offered) != 2 {
+		t.Fatalf(
+			"offered = %v, want only the first two: one peer is in cooldown",
+			h.transfers.offered,
+		)
+	}
+	if got := h.amountOfUndeliveredPostings(t); got != 2 {
+		t.Fatalf("undelivered postings = %d, want 2 waiting for the peer in cooldown", got)
+	}
+
+	clk.at = clk.at.Add(time.Hour)
+	h.transfers.answers[peerInCooldown.Hash] = acceptedAnswer
+	h.runCycle(t)
+
+	if got := urlsIn(h.transfers.offeredTo(peerInCooldown)); len(got) != 4 {
+		t.Fatalf("peer after its cooldown got %v, want the word partition again", got)
+	}
+	if got := h.amountOfUndeliveredPostings(t); got != 0 {
+		t.Fatalf("undelivered postings = %d, want none once the cooldown ended", got)
+	}
+}
+
+func TestCycleRecordsNoHolderOnADeclinedOffer(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	peer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = declinedAnswer
+	h.admit(t, wordPartition, urlsOf(1)...)
+
+	h.runCycle(t)
+
+	if holders := h.holdersOf(t, wordPartition); len(holders) != 0 {
+		t.Fatalf("holders = %v, want none after a declined offer", holders)
+	}
+	if got := h.amountOfUndeliveredPostings(t); got != 1 {
+		t.Fatalf("undelivered postings = %d, want 1", got)
+	}
+}
+
+func TestCycleRefreshesTheHoldersAndDropsOneThatCameBackPartial(t *testing.T) {
+	clk := startClock()
+	wordPartition := fixtureWordPartition()
+	keptHolder, lostHolder := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
+	urls := urlsOf(3)
+	h := openCycle(t, clk, cycleOptions{redundancy: 3})
+	h.reach(keptHolder, lostHolder)
+	h.transfers.answers[keptHolder.Hash] = acceptedAnswer
+	h.transfers.answers[lostHolder.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urls...)
+	h.runCycle(t)
+
+	clk.at = clk.at.Add(refreshInterval)
+	h.transfers.answers[lostHolder.Hash] = acceptedInPart(1)
+	h.runCycle(t)
+
+	if got := urlsIn(h.transfers.offeredTo(keptHolder)); len(got) != 2*len(urls) {
+		t.Fatalf("kept holder got %v, want the whole word partition twice", got)
+	}
+	if got, want := h.holdersOf(
+		t,
+		wordPartition,
+	), []yacymodel.Hash{
+		keptHolder.Hash,
+	}; !slices.Equal(
+		got,
+		want,
+	) {
+		t.Fatalf("holders = %v, want only %v", got, want)
+	}
+}
+
+func TestCycleOffersARefreshThatLostEveryHolderAgainAfterTheRetryDelay(t *testing.T) {
+	clk := startClock()
+	wordPartition := fixtureWordPartition()
+	holder := peerAfter(wordPartition, 1)
+	h := openCycle(t, clk, cycleOptions{})
+	h.reach(holder)
+	h.transfers.answers[holder.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(2)...)
+	h.runCycle(t)
+	clk.at = clk.at.Add(refreshInterval)
+	h.transfers.answers[holder.Hash] = acceptedInPart(1)
+	h.runCycle(t)
+
+	h.transfers.answers[holder.Hash] = acceptedAnswer
+	clk.at = clk.at.Add(retryDelay - time.Second)
+	h.runCycle(t)
+	if got := len(h.transfers.offeredTo(holder)); got != 2 {
+		t.Fatalf("transfers before the retry delay = %d, want the delivery and one refresh", got)
+	}
+	clk.at = clk.at.Add(time.Second)
+	h.runCycle(t)
+
+	if got := len(h.transfers.offeredTo(holder)); got != 3 {
+		t.Fatalf("transfers after the retry delay = %d, want the refresh sent again", got)
+	}
+	if got := h.holdersOf(t, wordPartition); !slices.Equal(got, []yacymodel.Hash{holder.Hash}) {
+		t.Fatalf("holders = %v, want %v back", got, holder.Hash)
+	}
+}
+
+func TestCycleMovesTheNextRefreshOnceTheHoldersGotTheWordPartitionAgain(t *testing.T) {
+	clk := startClock()
+	wordPartition := fixtureWordPartition()
+	holder := peerAfter(wordPartition, 1)
+	h := openCycle(t, clk, cycleOptions{})
+	h.reach(holder)
+	h.transfers.answers[holder.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(2)...)
+	h.runCycle(t)
+
+	clk.at = clk.at.Add(refreshInterval)
+	h.runCycle(t)
+	clk.at = clk.at.Add(time.Minute)
+	h.runCycle(t)
+
+	if got := len(h.transfers.offeredTo(holder)); got != 2 {
+		t.Fatalf("transfers to the holder = %d, want the delivery and one refresh", got)
+	}
+}
+
+func TestCycleDropsAStaleHolder(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	staleHolder, responsiblePeer := peerAfter(wordPartition, 1<<40), peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(responsiblePeer)
+	h.transfers.answers[responsiblePeer.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(1)...)
+	h.recordHolders(t, wordPartition, staleHolder.Hash)
+
+	h.runCycle(t)
+
+	if got, want := h.holdersOf(
+		t,
+		wordPartition,
+	), []yacymodel.Hash{
+		responsiblePeer.Hash,
+	}; !slices.Equal(
+		got,
+		want,
+	) {
+		t.Fatalf("holders = %v, want %v in place of the stale holder", got, want)
 	}
 	if h.observer.staleReplicasDropped != 1 {
-		t.Fatalf("staleReplicasDropped = %v, want 1", h.observer.staleReplicasDropped)
+		t.Fatalf("staleReplicasDropped = %d, want 1", h.observer.staleReplicasDropped)
 	}
 }
 
-func TestCycleKeepsRecentlyReachableReplicaFromLedger(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	recentPeer := yacymodel.WordHash("recent")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	credible := fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{recentPeer: {}}}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   credible,
-	})
-
-	store(t, h.v, h.schedule, word, url)
-	recordAccepted(t, h, recentPeer, fakePosting(word, url))
+func TestCycleHandsOffADeliveredWordPartition(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	closerPeer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{handoffEnabled: true})
+	h.reach(closerPeer)
+	h.transfers.answers[closerPeer.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(3)...)
 
 	h.runCycle(t)
 
-	replicas := holdersOf(t, h, word, url)
-	if len(replicas) != 1 || replicas[0] != recentPeer {
-		t.Fatalf(
-			"replicas = %v, want %v kept while its confirmation is still credible",
-			replicas, recentPeer,
-		)
+	if held := h.postingsOf(t, wordPartition); len(held) != 0 {
+		t.Fatalf("postings held = %v, want the word partition handed off", held)
 	}
-	if h.observer.staleReplicasDropped != 0 {
-		t.Fatalf("staleReplicasDropped = %v, want 0", h.observer.staleReplicasDropped)
+	if h.observer.postingsHandedOff != 3 {
+		t.Fatalf("postingsHandedOff = %d, want 3", h.observer.postingsHandedOff)
 	}
-	if len(h.transfers.offered) != 0 {
-		t.Fatalf(
-			"offered = %v, want no offer once the credible peer already holds a replica",
-			h.transfers.offered,
-		)
+	if holders := h.holdersOf(t, wordPartition); len(holders) != 0 {
+		t.Fatalf("holders = %v, want them forgotten with the word partition", holders)
 	}
 }
 
-func TestCycleReschedulesAcceptedPostingAtTheLongestOfferInterval(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-		self:       thisNodeCloserThanEveryPeer(),
+func TestCycleKeepsAWordPartitionThisNodeIsResponsibleFor(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	peer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{
+		self:           thisNodeCloserThanEveryPeerOf(wordPartition),
+		redundancy:     2,
+		handoffEnabled: true,
 	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(2)...)
 
 	h.runCycle(t)
 
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due right after redundancy is met", due)
+	if held := h.postingsOf(t, wordPartition); len(held) != 2 {
+		t.Fatalf("postings held = %v, want both kept: this node is responsible", held)
+	}
+	if h.observer.postingsHandedOff != 0 {
+		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)
 	}
 }
 
-func TestCycleRetriesRejectedPostingAtBackoffInterval(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+func TestCycleMergesTheSendsToOnePeerAndSplitsThemIntoTransfers(t *testing.T) {
+	wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 2)
+	peer := peerAfter(wordPartitions[1], 1)
+	h := openCycle(t, startClock(), cycleOptions{
+		self:             thisNodeFartherThan(wordPartitions[0]),
+		redundancy:       2,
+		postingsPerBatch: 2,
 	})
-	h.transfers.answers[peer] = declinedAnswer
-
-	store(t, h.v, h.schedule, word, url)
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	h.admit(t, wordPartitions[0], urlsOf(1)...)
+	h.admit(t, wordPartitions[1], urlsOf(3)...)
 
 	h.runCycle(t)
 
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due immediately after a rejected offer", due)
+	offered := h.transfers.offeredTo(peer)
+	if len(offered) != 2 || len(offered[0].Postings) != 2 || len(offered[1].Postings) != 2 {
+		t.Fatalf("offered = %+v, want two transfers of two postings", offered)
 	}
-
-	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due = h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] once the shortest offer interval has elapsed", due)
+	if offered[0].Postings[0].WordHash != wordPartitions[0].Word ||
+		offered[0].Postings[1].WordHash != wordPartitions[1].Word {
+		t.Fatalf("first transfer = %+v, want postings of both word partitions", offered[0].Postings)
 	}
 }
 
-func TestCycleHonoursThePauseAPeerRequests(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+func TestCycleResumesTheWalkAfterTheLastBatch(t *testing.T) {
+	wordPartitions := wordPartitionsIn(sectorOf(fixtureWordPartition()), 3)
+	peer := peerAfter(wordPartitions[2], 1)
+	h := openCycle(t, startClock(), cycleOptions{
+		self:             thisNodeFartherThan(wordPartitions[0]),
+		redundancy:       2,
+		postingsPerBatch: 2,
 	})
-	h.transfers.answers[peer] = fakeAnswer{requestedPause: 5 * time.Minute}
-
-	store(t, h.v, h.schedule, word, url)
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedInPart(1)
+	h.admit(t, wordPartitions[0], urlsOf(2)...)
+	h.admit(t, wordPartitions[1], urlsOf(1)...)
+	h.admit(t, wordPartitions[2], urlsOf(1)...)
 
 	h.runCycle(t)
 
-	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due before the peer's pause elapses", due)
-	}
-
-	clk.at = now.Add(5*time.Minute + time.Second)
-	due = h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] once the peer's pause has elapsed", due)
-	}
-}
-
-func TestCycleReschedulesUnofferedPostingAtBackoffInterval(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{postings: postings, redundancy: 2})
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if len(h.transfers.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers for an unoffered posting", h.transfers.offered)
-	}
-
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due immediately after stalling", due)
-	}
-
-	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due = h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] once the shortest offer interval has elapsed", due)
-	}
-}
-
-func TestCycleReschedulesAlreadySatisfiedPostingAtTheLongestOfferInterval(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-		self:       thisNodeCloserThanEveryPeer(),
-	})
-
-	store(t, h.v, h.schedule, word, url)
-	recordAccepted(t, h, peer, fakePosting(word, url))
-
-	h.runCycle(t)
-
-	if len(h.transfers.offered) != 1 || h.transfers.offered[0].Peer.Hash != peer {
-		t.Fatalf(
-			"offered = %v, want the posting renewed with the peer that holds it",
-			h.transfers.offered,
-		)
-	}
-
-	clk.at = now.Add(h.offerInterval.Longest - time.Second)
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due before the longest offer interval elapses", due)
-	}
-}
-
-func TestCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-		self:       thisNodeCloserThanEveryPeer(),
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	replicas := holdersOf(t, h, word, url)
-	if len(replicas) != 1 || replicas[0] != peer {
-		t.Fatalf("replicas = %v, want [%v]", replicas, peer)
-	}
-}
-
-func TestCycleRecordsNoReplicaOfAPostingPurgedWhileOffered(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-		self:       thisNodeCloserThanEveryPeer(),
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-	h.transfers.onOffer = func() {
-		if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
-			return h.schedule.PostingPurged(tx, fakePosting(word, url))
-		}); err != nil {
-			t.Errorf("PostingPurged: %v", err)
+	offersPerWord := map[yacymodel.Hash]int{}
+	for _, call := range h.transfers.offered {
+		for _, posting := range call.Postings {
+			offersPerWord[posting.WordHash]++
 		}
 	}
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if replicas := holdersOf(t, h, word, url); len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none for a posting purged while offered", replicas)
+	for index, want := range []int{2, 1, 1} {
+		if got := offersPerWord[wordPartitions[index].Word]; got != want {
+			t.Fatalf("postings of word partition %d sent %d times, want %d: %v",
+				index, got, want, offersPerWord)
+		}
 	}
 }
 
-func TestCycleReschedulesAtLongestBackoffAcrossPeers(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peerA, peerB := yacymodel.WordHash("a"), yacymodel.WordHash("b")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peerA), seed(peerB)}},
-		redundancy: 2,
-	})
-	h.transfers.answers[peerA] = fakeAnswer{requestedPause: time.Minute}
-	h.transfers.answers[peerB] = fakeAnswer{requestedPause: 5 * time.Minute}
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	clk.at = now.Add(time.Minute + time.Second)
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due before the longer pause elapses", due)
-	}
-
-	clk.at = now.Add(5*time.Minute + time.Second)
-	due = h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] once the longer pause has elapsed", due)
-	}
-}
-
-func TestCycleCountsUnreadPostingOffer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		roster:      fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		postingsErr: errors.New("vault closed"),
-	})
-
-	store(t, h.v, h.schedule, word, url)
+func TestCycleCountsUnreadDuePostings(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(peerAfter(wordPartition, 1))
+	h.index.unread = errors.New("vault closed")
+	h.admit(t, wordPartition, urlsOf(1)...)
 
 	h.runCycle(t)
 
 	if h.observer.batchesAborted[string(distributioncycle.AbortDuePostingsUnread)] != 1 {
-		t.Fatalf("batchesAborted = %v, want one abort for an unread offer",
+		t.Fatalf("batchesAborted = %v, want one abort for unread due postings",
 			h.observer.batchesAborted)
 	}
 	if len(h.transfers.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers when offer is unread", h.transfers.offered)
+		t.Fatalf("offered = %v, want no offers when due postings are unread", h.transfers.offered)
 	}
 }
 
 func TestCycleCountsAnUnwrittenBatch(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: map[yacymodel.Hash]yacymodel.RWIPosting{
-			fakePostingKey(word, url): fakePosting(word, url),
-		},
-		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = acceptedAnswer
+	wordPartition := fixtureWordPartition()
+	peer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(1)...)
 	h.transfers.onOffer = func() {
 		if err := h.v.Close(); err != nil {
 			t.Errorf("Close: %v", err)
 		}
 	}
-
-	store(t, h.v, h.schedule, word, url)
 
 	h.runCycle(t)
 
@@ -449,392 +441,81 @@ func TestCycleCountsAnUnwrittenBatch(t *testing.T) {
 	}
 }
 
-func TestCycleReportsAnEmptyScheduleAsNoLateness(t *testing.T) {
-	now := time.Unix(1000, 0)
-	peer := yacymodel.WordHash("peer")
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.observer.longestOfferLateness[shortfall] = time.Hour
+func TestCycleReportsTheRingFractionOfEveryAcceptedPosting(t *testing.T) {
+	wordPartition := fixtureWordPartition()
+	peer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	h.admit(t, wordPartition, urlsOf(2)...)
 
 	h.runCycle(t)
 
-	if got := h.observer.longestOfferLateness[shortfall]; got != 0 {
-		t.Fatalf("shortfall longestOfferLateness = %v, want 0 while nothing is scheduled", got)
-	}
-	if got := h.observer.sumOfScheduledPostings(); got != 0 {
-		t.Fatalf("scheduledPostings = %d, want 0 while nothing is scheduled", got)
-	}
-}
-
-func TestCycleReportsScheduledPostings(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if got := h.observer.sumOfScheduledPostings(); got != 1 {
-		t.Fatalf("scheduledPostings = %d, want 1 for the single stored posting", got)
-	}
-}
-
-func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = declinedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	replicas := holdersOf(t, h, word, url)
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none after a refused offer", replicas)
-	}
-}
-
-func TestCycleWaitsForTheResponsiblePeerInCooldown(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: peers},
-		cooldown: time.Hour,
-	})
-	for _, peer := range peers {
-		h.transfers.answers[peer.Hash] = declinedAnswer
-	}
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-	clk.at = now.Add(2 * h.offerInterval.Shortest)
-	h.runCycle(t)
-
-	if len(h.transfers.offered) != 1 {
-		t.Fatalf(
-			"offered = %v, want only the first offer: the closest peer is in cooldown",
-			h.transfers.offered,
-		)
-	}
-
-	clk.at = now.Add(time.Hour - time.Second)
-	if due := h.duePostings(t, 10); len(due) != 0 {
-		t.Fatalf("due = %v, want none before the cooldown of the closest peer ends", due)
-	}
-
-	clk.at = now.Add(time.Hour)
-	if due := h.duePostings(t, 10); len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] once the cooldown of the closest peer ends", due)
-	}
-}
-
-func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{postings: postings, redundancy: 2})
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-	clk.at = now.Add(h.offerInterval.Shortest)
-	h.runCycle(t)
-
-	clk.at = now.Add(2*h.offerInterval.Shortest + time.Second)
-	due := h.duePostings(t, 10)
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want none: the second miss doubles the wait", due)
-	}
-
-	clk.at = now.Add(3*h.offerInterval.Shortest + time.Second)
-	due = h.duePostings(t, 10)
-	if len(due) != 1 || due[0].Word != word {
-		t.Fatalf("due = %v, want [word] once the doubled wait has elapsed", due)
-	}
-}
-
-func TestCycleHandsOffPostingAcceptedByACloserPeer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if _, found := h.postings.postings[fakePostingKey(word, url)]; found {
-		t.Fatal("posting still stored, want it handed off to the closer peer")
-	}
-	if h.observer.postingsHandedOff != 1 {
-		t.Fatalf("postingsHandedOff = %d, want 1", h.observer.postingsHandedOff)
-	}
-
-	h.runCycle(t)
-
-	if got := h.observer.sumOfScheduledPostings(); got != 0 {
-		t.Fatalf("scheduled = %d, want none: a handed-off posting leaves the schedule", got)
-	}
-	replicas := holdersOf(t, h, word, url)
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none: a handed-off posting leaves the ledger", replicas)
-	}
-}
-
-func TestCycleKeepsPostingThisNodeIsResponsibleFor(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings:   postings,
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-		self:       thisNodeCloserThanEveryPeer(),
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
-		t.Fatal("posting handed off, want it kept: the DHT makes this node responsible for it")
-	}
-	if h.observer.postingsHandedOff != 0 {
-		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)
-	}
-}
-
-func TestCycleKeepsPostingAcceptedOnlyByAFartherPeer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	closer, farther := yacymodel.WordHash("second"), yacymodel.WordHash("p1")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(closer), seed(farther)}},
-		self:     thisNodeFartherThanTheClosestPeer(),
-		cooldown: time.Hour,
-	})
-	h.transfers.answers[closer] = declinedAnswer
-	h.transfers.answers[farther] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-	clk.at = now.Add(2 * h.offerInterval.Shortest)
-	h.runCycle(t)
-
-	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
-		t.Fatal("posting handed off, want it kept: only a farther peer holds it")
-	}
-	if h.observer.postingsHandedOff != 0 {
-		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)
-	}
-}
-
-func TestCycleKeepsPostingHeldOnlyByACloserPeerBeyondTheResponsiblePeers(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	responsiblePeer, fartherPeer := yacymodel.WordHash("second"), yacymodel.WordHash("p1")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(responsiblePeer), seed(fartherPeer)}},
-	})
-	h.transfers.answers[responsiblePeer] = declinedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-	recordAccepted(t, h, fartherPeer, fakePosting(word, url))
-
-	h.runCycle(t)
-
-	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
-		t.Fatal("posting handed off, want it kept: its only holder is not a responsible peer")
-	}
-	if h.observer.postingsHandedOff != 0 {
-		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)
-	}
-}
-
-func TestCycleReportsRingFractionOfAcceptedReplica(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.runCycle(t)
-
-	if len(h.observer.replicaRingFractions) != 1 {
-		t.Fatalf(
-			"replicaRingFractions = %v, want one entry per accepted replica",
-			h.observer.replicaRingFractions,
-		)
-	}
-
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
-	if err != nil {
-		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
-	}
-	postingPosition := yacymodel.DHTRingPositionOfPosting(fakePosting(word, url), partitions)
-	want := postingPosition.DistanceTo(yacymodel.DHTRingPositionOf(peer)).FractionOfDHTRing()
-	if h.observer.replicaRingFractions[0] != want {
-		t.Errorf(
-			"replicaRingFraction = %v, want %v",
-			h.observer.replicaRingFractions[0], want,
-		)
+	want := positionOf(wordPartition).DistanceTo(
+		yacymodel.DHTRingPositionOf(peer.Hash),
+	).FractionOfDHTRing()
+	if !slices.Equal(h.observer.replicaRingFractions, []float64{want, want}) {
+		t.Fatalf("replicaRingFractions = %v, want %v for each accepted posting",
+			h.observer.replicaRingFractions, want)
 	}
 }
 
 func TestCycleReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = declinedAnswer
-
-	store(t, h.v, h.schedule, word, url)
+	wordPartition := fixtureWordPartition()
+	peer := peerAfter(wordPartition, 1)
+	h := openCycle(t, startClock(), cycleOptions{})
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = declinedAnswer
+	h.admit(t, wordPartition, urlsOf(1)...)
 
 	h.runCycle(t)
 
 	if len(h.observer.replicaRingFractions) != 0 {
-		t.Fatalf(
-			"replicaRingFractions = %v, want none when no peer accepted",
-			h.observer.replicaRingFractions,
-		)
+		t.Fatalf("replicaRingFractions = %v, want none when no peer accepted",
+			h.observer.replicaRingFractions)
 	}
 }
 
 func TestCycleDrainsABacklogLargerThanOneBatch(t *testing.T) {
-	now := time.Unix(1000, 0)
-	peer := yacymodel.WordHash("peer")
-	backlog := 25
-	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: backlogPostings(backlog),
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-
-	storeBacklog(t, h, backlog)
+	h, backlog := openBacklog(t, startClock(), cycleOptions{})
 
 	h.runCycle(t)
 
-	due := h.duePostings(t, backlog)
-	if len(due) != 0 {
-		t.Fatalf("due = %d postings, want none left after one cycle", len(due))
+	if got := h.amountOfUndeliveredPostings(t); got != 0 {
+		t.Fatalf("undelivered postings = %d of %d, want none left after one cycle", got, backlog)
 	}
 }
 
 func TestCycleStopsDrainingWhenTheBudgetIsSpent(t *testing.T) {
-	now := time.Unix(1000, 0)
-	peer := yacymodel.WordHash("peer")
-	backlog := 25
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{
-		postings:    backlogPostings(backlog),
-		roster:      fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		drainBudget: 30 * time.Second,
-	})
-	h.transfers.answers[peer] = acceptedAnswer
+	clk := startClock()
+	h, _ := openBacklog(t, clk, cycleOptions{drainBudget: 30 * time.Second})
 	h.transfers.onOffer = func() { clk.at = clk.at.Add(30 * time.Second) }
-
-	storeBacklog(t, h, backlog)
 
 	h.runCycle(t)
 
 	if len(h.transfers.offered) != 1 {
 		t.Fatalf(
-			"offered %d batches, want the drain to stop after the batch that spends the budget",
+			"offered %d transfers, want the drain to stop after the batch that spends the budget",
 			len(h.transfers.offered),
 		)
 	}
-	due := h.duePostings(t, backlog)
-	if len(due) == 0 {
-		t.Fatalf("the spent budget left no posting due, want the backlog unfinished")
+	if h.amountOfUndeliveredPostings(t) == 0 {
+		t.Fatal("the spent budget left no posting undelivered, want the backlog unfinished")
 	}
 }
 
-func backlogPostings(count int) map[yacymodel.Hash]yacymodel.RWIPosting {
-	postings := make(map[yacymodel.Hash]yacymodel.RWIPosting, count)
-	for index := range count {
-		word, url := backlogPosting(index)
-		postings[fakePostingKey(word, url)] = fakePosting(word, url)
-	}
-
-	return postings
-}
-
-func storeBacklog(t *testing.T, h *cycleHarness, count int) {
+func openBacklog(t *testing.T, clk *clock, opts cycleOptions) (*cycleHarness, int) {
 	t.Helper()
 
-	for index := range count {
-		word, url := backlogPosting(index)
-		store(t, h.v, h.schedule, word, url)
+	const amountOfWordPartitions = 25
+	opts.redundancy = 2
+	h := openCycle(t, clk, opts)
+	peer := peerAfter(fixtureWordPartition(), 1)
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
+	for word := range amountOfWordPartitions {
+		h.admit(t, wordPartitionOf(word), urlsOf(1)...)
 	}
-}
 
-func backlogPosting(index int) (yacymodel.Hash, yacymodel.URLHash) {
-	name := "backlog" + strconv.Itoa(index)
-
-	return yacymodel.WordHash(name), urlHash(name)
+	return h, amountOfWordPartitions
 }

@@ -17,6 +17,7 @@ const (
 	partitionExponent = 4
 	amountOfWords     = 16
 	refreshInterval   = time.Hour
+	retryDelay        = time.Minute
 )
 
 type harness struct {
@@ -44,7 +45,7 @@ func openHarness(t *testing.T) *harness {
 	}
 
 	h := &harness{vault: v, partitions: partitions, clock: time.Unix(1_700_000_000, 0).UTC()}
-	opened, err := wordpartitionholders.Open(v, partitions, refreshInterval, h.now)
+	opened, err := wordpartitionholders.Open(v, partitions, refreshInterval, retryDelay, h.now)
 	if err != nil {
 		t.Fatalf("wordpartitionholders.Open: %v", err)
 	}
@@ -69,7 +70,19 @@ func (h *harness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.Record(tx, wordPartition, holders)
+		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+	})
+}
+
+func (h *harness) recordHoldersShortOfRedundancy(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+	holders ...yacymodel.Hash,
+) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.holders.RecordShortOfRedundancy(tx, wordPartition, holders)
 	})
 }
 
@@ -196,23 +209,33 @@ func TestAnUnknownWordPartitionHasNoHolders(t *testing.T) {
 	}
 }
 
-func TestAWordPartitionIsDueOnlyOnceItsRefreshTimeHasPassed(t *testing.T) {
+func TestAWordPartitionAtRedundancyIsDueAfterTheRefreshInterval(t *testing.T) {
 	h := openHarness(t)
 	wordPartition := someWordPartition()
-	sector := h.sectorOf(wordPartition)
+
 	h.recordHolders(t, wordPartition, peer("peer0"))
 
-	h.advance(refreshInterval - time.Second)
-	if due := h.dueRefreshesIn(t, sector, 10); len(due) != 0 {
-		t.Fatalf("due refreshes before the refresh time = %v, want none", due)
-	}
+	h.assertDueOnlyAfter(t, wordPartition, refreshInterval)
+}
 
+func (h *harness) assertDueOnlyAfter(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+	delay time.Duration,
+) {
+	t.Helper()
+
+	sector := h.sectorOf(wordPartition)
+	h.advance(delay - time.Second)
+	if due := h.dueRefreshesIn(t, sector, 10); len(due) != 0 {
+		t.Fatalf("due refreshes before %v = %v, want none", delay, due)
+	}
 	h.advance(time.Second)
 	if due := h.dueRefreshesIn(t, sector, 10); !slices.Equal(
 		due,
 		[]yacymodel.WordPartition{wordPartition},
 	) {
-		t.Fatalf("due refreshes at the refresh time = %v, want %v", due, wordPartition)
+		t.Fatalf("due refreshes after %v = %v, want %v", delay, due, wordPartition)
 	}
 }
 
@@ -284,16 +307,6 @@ func TestDueRefreshesComeOldestFirstUpToTheLimit(t *testing.T) {
 	}
 }
 
-func TestRecordingNoHoldersClearsTheWordPartition(t *testing.T) {
-	h := openHarness(t)
-	wordPartition := someWordPartition()
-	h.recordHolders(t, wordPartition, peer("peer0"))
-
-	h.recordHolders(t, wordPartition)
-
-	h.assertCleared(t, wordPartition)
-}
-
 func TestForgetClearsTheWordPartition(t *testing.T) {
 	h := openHarness(t)
 	wordPartition := someWordPartition()
@@ -325,5 +338,66 @@ func (h *harness) assertCleared(t *testing.T, wordPartition yacymodel.WordPartit
 	h.advance(refreshInterval)
 	if due := h.dueRefreshesIn(t, h.sectorOf(wordPartition), 10); len(due) != 0 {
 		t.Fatalf("due refreshes of a cleared word partition = %v, want none", due)
+	}
+}
+
+func (h *harness) earliestRefreshAt(t *testing.T) (time.Time, bool) {
+	t.Helper()
+
+	var (
+		earliestRefreshAt time.Time
+		found             bool
+	)
+	h.read(t, func(tx *vault.Txn) error {
+		var err error
+		earliestRefreshAt, found, err = h.holders.EarliestRefreshAt(tx)
+
+		return err
+	})
+
+	return earliestRefreshAt, found
+}
+
+func TestAWordPartitionShortOfRedundancyIsDueAfterTheRetryDelay(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+
+	h.recordHoldersShortOfRedundancy(t, wordPartition, peer("peer0"))
+
+	h.assertDueOnlyAfter(t, wordPartition, retryDelay)
+}
+
+func TestAWordPartitionWithNoHoldersStaysDue(t *testing.T) {
+	h := openHarness(t)
+	wordPartition := someWordPartition()
+	h.recordHolders(t, wordPartition, peer("peer0"))
+
+	h.recordHoldersShortOfRedundancy(t, wordPartition)
+
+	if got := h.holdersOf(t, wordPartition); len(got) != 0 {
+		t.Fatalf("Of = %v, want no holders", got)
+	}
+	h.assertDueOnlyAfter(t, wordPartition, retryDelay)
+}
+
+func TestNoRefreshIsEarliestWhileNoneIsScheduled(t *testing.T) {
+	h := openHarness(t)
+
+	if earliestRefreshAt, found := h.earliestRefreshAt(t); found {
+		t.Fatalf("EarliestRefreshAt = %v, want none", earliestRefreshAt)
+	}
+}
+
+func TestEarliestRefreshAtIsTheEarliestOverEverySector(t *testing.T) {
+	h := openHarness(t)
+	wordPartitions := h.everyWordPartition()
+	for _, wordPartition := range wordPartitions[1:] {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+	}
+	start := h.clock
+	h.recordHoldersShortOfRedundancy(t, wordPartitions[0], peer("peer0"))
+
+	if got, found := h.earliestRefreshAt(t); !found || !got.Equal(start.Add(retryDelay)) {
+		t.Fatalf("EarliestRefreshAt = %v, %v, want %v", got, found, start.Add(retryDelay))
 	}
 }

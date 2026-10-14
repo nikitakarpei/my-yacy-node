@@ -159,7 +159,7 @@ func TestDistributionCountsAbortedBatchesByReason(t *testing.T) {
 	observer.ObserveBatchAborted("not_written")
 
 	expected := `
-# HELP yacynode_rwidistribution_batches_aborted_total Distribution batches aborted before their postings were rescheduled, by reason.
+# HELP yacynode_rwidistribution_batches_aborted_total Distribution batches aborted before their outcome was recorded, by reason.
 # TYPE yacynode_rwidistribution_batches_aborted_total counter
 yacynode_rwidistribution_batches_aborted_total{reason="due_postings_unread"} 1
 yacynode_rwidistribution_batches_aborted_total{reason="not_written"} 2
@@ -173,43 +173,64 @@ yacynode_rwidistribution_batches_aborted_total{reason="not_written"} 2
 	}
 }
 
-func TestDistributionTracksScheduledPostings(t *testing.T) {
+func TestDistributionTracksUndeliveredPostings(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveScheduledPostings("shortfall", 7)
-	observer.ObserveScheduledPostings("refresh", 2)
+	observer.ObserveUndeliveredPostings(7)
+	observer.ObserveUndeliveredPostings(4)
 
 	expected := `
-# HELP yacynode_rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule, by offer order.
-# TYPE yacynode_rwidistribution_scheduled_postings gauge
-yacynode_rwidistribution_scheduled_postings{order="refresh"} 2
-yacynode_rwidistribution_scheduled_postings{order="shortfall"} 7
+# HELP yacynode_rwidistribution_undelivered_postings Postings not yet delivered to all their responsible peers.
+# TYPE yacynode_rwidistribution_undelivered_postings gauge
+yacynode_rwidistribution_undelivered_postings 4
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_scheduled_postings",
+		"yacynode_rwidistribution_undelivered_postings",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
-func TestDistributionTracksLongestOfferLateness(t *testing.T) {
+func TestDistributionTracksTheLongestRefreshLateness(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObserveLongestOfferLateness("shortfall", 90*time.Second)
+	observer.ObserveLongestRefreshLateness(90 * time.Second)
 
 	expected := `
-# HELP yacynode_rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time, by offer order.
-# TYPE yacynode_rwidistribution_longest_offer_lateness_seconds gauge
-yacynode_rwidistribution_longest_offer_lateness_seconds{order="shortfall"} 90
+# HELP yacynode_rwidistribution_longest_refresh_lateness_seconds How long the most overdue word partition refresh has waited past its refresh time.
+# TYPE yacynode_rwidistribution_longest_refresh_lateness_seconds gauge
+yacynode_rwidistribution_longest_refresh_lateness_seconds 90
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_rwidistribution_longest_offer_lateness_seconds",
+		"yacynode_rwidistribution_longest_refresh_lateness_seconds",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionCountsPostingsHandedOff(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObservePostingsHandedOff(3)
+	observer.ObservePostingsHandedOff(0)
+	observer.ObservePostingsHandedOff(2)
+
+	expected := `
+# HELP yacynode_rwidistribution_postings_handed_off_total Postings deleted after peers closer to their DHT position accepted them.
+# TYPE yacynode_rwidistribution_postings_handed_off_total counter
+yacynode_rwidistribution_postings_handed_off_total 5
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_postings_handed_off_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

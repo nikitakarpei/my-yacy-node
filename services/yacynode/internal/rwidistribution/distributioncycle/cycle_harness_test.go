@@ -1,7 +1,10 @@
 package distributioncycle_test
 
 import (
+	"cmp"
 	"context"
+	"slices"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -11,64 +14,63 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 const (
 	cycleEndWait     = 10 * time.Second
 	postingsPerBatch = 10
 	drainBudget      = time.Minute
+	refreshInterval  = time.Hour
+	retryDelay       = 10 * time.Minute
+	positionStep     = 8
 )
 
 type cycleOptions struct {
-	postings          map[yacymodel.Hash]yacymodel.RWIPosting
-	postingsErr       error
-	roster            fakeRoster
-	reachability      postingoffer.Reachability
-	redundancy        int
 	self              yacymodel.Hash
+	redundancy        int
 	cooldown          time.Duration
 	minReachablePeers int
 	drainBudget       time.Duration
 	batchConcurrency  int
+	postingsPerBatch  int
+	handoffEnabled    bool
 }
 
 type cycleHarness struct {
-	v             *vault.Vault
-	clk           *clock
-	postings      *fakePostingIndex
-	schedule      *postingofferschedule.Schedule
-	replicas      *postingreplicas.Replicas
-	offers        *postingoffer.PostingOffers
-	eligibility   *replicaeligibility.Peers
-	observer      *fakeObserver
-	transfers     *fakeTransfers
-	offerInterval postingofferinterval.Bounds
-	cycle         *distributioncycle.Cycle
+	v           *vault.Vault
+	clk         *clock
+	index       *observedPostingIndex
+	admitter    rwipostings.PostingAdmitter
+	undelivered *undeliveredpostings.UndeliveredPostings
+	holders     *wordpartitionholders.Holders
+	roster      *fakeRoster
+	observer    *fakeObserver
+	transfers   *fakeTransfers
+	cycle       *distributioncycle.Cycle
 }
 
 func withCycleDefaults(opts cycleOptions) cycleOptions {
-	if opts.reachability == nil {
-		opts.reachability = opts.roster
-	}
 	if opts.redundancy == 0 {
 		opts.redundancy = 1
 	}
-	if opts.self == (yacymodel.Hash{}) {
-		opts.self = thisNodeFartherThanEveryPeer()
+	if opts.self.IsZero() {
+		opts.self = thisNodeFartherThan(fixtureWordPartition())
 	}
 	if opts.drainBudget == 0 {
 		opts.drainBudget = drainBudget
 	}
 	if opts.batchConcurrency == 0 {
 		opts.batchConcurrency = 1
+	}
+	if opts.postingsPerBatch == 0 {
+		opts.postingsPerBatch = postingsPerBatch
 	}
 
 	return opts
@@ -78,55 +80,59 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	t.Helper()
 
 	opts = withCycleDefaults(opts)
-
-	observer := newFakeObserver()
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	v := openCycleVault(t)
+	undelivered, projection, err := undeliveredpostings.Open(v, partitions())
 	if err != nil {
-		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
-	v, schedule, replicas := openCycleVault(t, partitions, offerInterval, clk.now, observer)
-
-	eligibility := replicaeligibility.New(opts.cooldown, clk.now)
-	postings := &fakePostingIndex{postings: opts.postings, unread: opts.postingsErr}
-	postings.purged = purgeBookkeeping(schedule, replicas)
-	offers := postingoffer.New(
+	index, admitter, purger, err := rwipostings.Open(
+		context.Background(),
 		v,
-		schedule,
-		replicas,
-		postings,
-		opts.reachability,
-		eligibility,
-		observer,
-		postingoffer.Config{
-			Partitions: partitions,
-			Self:       opts.self,
-			Redundancy: opts.redundancy,
-		},
+		partitions(),
+		[]vault.Projection[yacymodel.RWIPosting]{projection},
 	)
-	handoff := postinghandoff.New(
-		postings,
-		postinghandoff.Config{
-			Self:       opts.self,
-			Redundancy: opts.redundancy,
-		},
-	)
+	if err != nil {
+		t.Fatalf("rwipostings.Open: %v", err)
+	}
+	holders, err := wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, clk.now)
+	if err != nil {
+		t.Fatalf("wordpartitionholders.Open: %v", err)
+	}
 
-	transfers := &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)}
-	cycle := distributioncycle.New(
+	h := &cycleHarness{
+		v:           v,
+		clk:         clk,
+		index:       &observedPostingIndex{index: index},
+		admitter:    admitter,
+		undelivered: undelivered,
+		holders:     holders,
+		roster:      &fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{}},
+		observer:    newFakeObserver(),
+		transfers:   &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)},
+	}
+	cooldowns := replicaeligibility.New(opts.cooldown, clk.now)
+	h.cycle = distributioncycle.New(
 		v,
-		offers,
-		handoff,
-		transfers,
-		eligibility,
-		replicas,
-		schedule,
-		opts.roster,
+		wordpartitionoffer.New(
+			v, undelivered, holders, h.index, h.roster, cooldowns, h.observer,
+			wordpartitionoffer.Config{
+				Partitions:       partitions(),
+				Self:             opts.self,
+				Redundancy:       opts.redundancy,
+				PostingsPerBatch: opts.postingsPerBatch,
+			},
+		),
+		undelivered,
+		holders,
+		handoffFor(opts, h.index, purger, undelivered, holders),
+		h.transfers,
+		cooldowns,
+		h.roster,
 		clk.now,
-		observer,
-		observer,
+		h.observer,
+		h.observer,
 		distributioncycle.Config{
-			PostingsPerBatch:  postingsPerBatch,
+			PostingsPerBatch:  opts.postingsPerBatch,
 			BatchConcurrency:  opts.batchConcurrency,
 			CycleInterval:     time.Minute,
 			DrainBudget:       opts.drainBudget,
@@ -134,40 +140,45 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		},
 	)
 
-	return &cycleHarness{
-		v:             v,
-		clk:           clk,
-		postings:      postings,
-		schedule:      schedule,
-		replicas:      replicas,
-		offers:        offers,
-		eligibility:   eligibility,
-		observer:      observer,
-		transfers:     transfers,
-		offerInterval: offerInterval,
-		cycle:         cycle,
-	}
+	return h
 }
 
-func (h *cycleHarness) duePostings(t *testing.T, limit int) []postingidentity.Identity {
+func openCycleVault(t *testing.T) *vault.Vault {
 	t.Helper()
 
-	var due []postingidentity.Identity
-	if err := h.v.View(context.Background(), func(tx *vault.Txn) error {
-		for sector := range yacymodel.DHTRingSectorCount {
-			inSector, err := h.schedule.DuePostingsIn(tx, sector, limit-len(due))
-			if err != nil {
-				return err
-			}
-			due = append(due, inSector...)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("vault.New: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := v.Close(); err != nil {
+			t.Fatalf("Close: %v", err)
 		}
+	})
 
-		return nil
-	}); err != nil {
-		t.Fatalf("DuePostings: %v", err)
+	return v
+}
+
+func handoffFor(
+	opts cycleOptions,
+	index *observedPostingIndex,
+	purger rwipostings.PostingPurger,
+	undelivered *undeliveredpostings.UndeliveredPostings,
+	holders *wordpartitionholders.Holders,
+) distributioncycle.WordPartitionHandoff {
+	if !opts.handoffEnabled {
+		return wordpartitionhandoff.KeepEveryWordPartition{}
 	}
 
-	return due
+	return wordpartitionhandoff.New(index, purger, undelivered, holders,
+		wordpartitionhandoff.Config{
+			Partitions: partitions(),
+			Self:       opts.self,
+			Redundancy: opts.redundancy,
+		})
 }
 
 func (h *cycleHarness) runCycle(t *testing.T) {
@@ -191,105 +202,150 @@ func (h *cycleHarness) runCycle(t *testing.T) {
 	<-stopped
 }
 
-func purgeBookkeeping(
-	schedule *postingofferschedule.Schedule,
-	replicas *postingreplicas.Replicas,
-) func(*vault.Txn, yacymodel.Hash, yacymodel.URLHash) error {
-	return func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error {
-		purgedPosting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
-		if err := schedule.PostingPurged(tx, purgedPosting); err != nil {
-			return err
-		}
-
-		return replicas.PostingPurged(tx, purgedPosting)
-	}
+func (h *cycleHarness) reach(peers ...yacymodel.Seed) {
+	h.roster.reachable = peers
 }
 
-func openCycleVault(
+func (h *cycleHarness) admit(
 	t *testing.T,
-	partitions yacymodel.DHTRingPartitions,
-	offerInterval postingofferinterval.Bounds,
-	now func() time.Time,
-	observer postingofferschedule.Observer,
-) (
-	*vault.Vault,
-	*postingofferschedule.Schedule,
-	*postingreplicas.Replicas,
+	wordPartition yacymodel.WordPartition,
+	urls ...yacymodel.URLHash,
 ) {
 	t.Helper()
 
-	v, err := vault.New(
-		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("vault.New: %v", err)
-	}
-	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
-			t.Fatalf("Close: %v", err)
+	h.write(t, func(tx *vault.Txn) error {
+		for _, url := range urls {
+			if err := h.admitter.Admit(tx, postingOf(wordPartition, url)); err != nil {
+				return err
+			}
 		}
+
+		return nil
+	})
+}
+
+func (h *cycleHarness) recordHolders(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+	holders ...yacymodel.Hash,
+) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.holders.RecordAtRedundancy(tx, wordPartition, holders)
+	})
+}
+
+func (h *cycleHarness) holdersOf(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+) []yacymodel.Hash {
+	t.Helper()
+
+	var recordedHolders []yacymodel.Hash
+	h.read(t, func(tx *vault.Txn) error {
+		holders, err := h.holders.Of(tx, wordPartition)
+		recordedHolders = holders
+
+		return err
 	})
 
-	schedule, err := postingofferschedule.Open(v, partitions, offerInterval, now, observer)
-	if err != nil {
-		t.Fatalf("postingofferschedule.Open: %v", err)
-	}
-	replicas, err := postingreplicas.Open(v)
-	if err != nil {
-		t.Fatalf("postingreplicas.Open: %v", err)
-	}
-
-	return v, schedule, replicas
+	return recordedHolders
 }
 
-type fakePostingIndex struct {
-	guard    sync.Mutex
-	postings map[yacymodel.Hash]yacymodel.RWIPosting
-	unread   error
-	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
-	onRead   func()
+func (h *cycleHarness) amountOfUndeliveredPostings(t *testing.T) int {
+	t.Helper()
+
+	var amountOfPostings int
+	h.read(t, func(tx *vault.Txn) error {
+		amount, err := h.undelivered.AmountOfPostings(tx)
+		amountOfPostings = amount
+
+		return err
+	})
+
+	return amountOfPostings
 }
 
-func (f *fakePostingIndex) PurgePosting(
+func (h *cycleHarness) postingsOf(
+	t *testing.T,
+	wordPartition yacymodel.WordPartition,
+) []yacymodel.URLHash {
+	t.Helper()
+
+	var urls []yacymodel.URLHash
+	h.read(t, func(tx *vault.Txn) error {
+		return h.index.index.PostingsOfWordIn(
+			tx,
+			wordPartition.Word,
+			wordPartition.Partition,
+			func(posting yacymodel.RWIPosting) (bool, error) {
+				urls = append(urls, posting.URLHash)
+
+				return true, nil
+			},
+		)
+	})
+
+	return urls
+}
+
+func (h *cycleHarness) write(t *testing.T, change func(tx *vault.Txn) error) {
+	t.Helper()
+
+	if err := h.v.Update(context.Background(), change); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func (h *cycleHarness) read(t *testing.T, view func(tx *vault.Txn) error) {
+	t.Helper()
+
+	if err := h.v.View(context.Background(), view); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+type observedPostingIndex struct {
+	guard  sync.Mutex
+	index  rwipostings.PostingIndex
+	unread error
+	onRead func()
+}
+
+func (o *observedPostingIndex) PostingOf(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
-) (bool, error) {
-	f.guard.Lock()
-	defer f.guard.Unlock()
-
-	key := fakePostingKey(word, url)
-	if _, found := f.postings[key]; !found {
-		return false, nil
+) (yacymodel.RWIPosting, bool, error) {
+	if err := o.read(); err != nil {
+		return yacymodel.RWIPosting{}, false, err
 	}
-	tx.RunAfterCommit(func() {
-		f.guard.Lock()
-		defer f.guard.Unlock()
 
-		delete(f.postings, key)
-	})
-
-	return true, f.purged(tx, word, url)
+	return o.index.PostingOf(tx, word, url)
 }
 
-func (f *fakePostingIndex) PostingOf(
-	_ *vault.Txn,
+func (o *observedPostingIndex) PostingsOfWordIn(
+	tx *vault.Txn,
 	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) (yacymodel.RWIPosting, bool, error) {
-	if f.onRead != nil {
-		f.onRead()
+	partition uint,
+	visit func(yacymodel.RWIPosting) (bool, error),
+) error {
+	if err := o.read(); err != nil {
+		return err
 	}
-	f.guard.Lock()
-	defer f.guard.Unlock()
 
-	if f.unread != nil {
-		return yacymodel.RWIPosting{}, false, f.unread
+	return o.index.PostingsOfWordIn(tx, word, partition, visit)
+}
+
+func (o *observedPostingIndex) read() error {
+	if o.onRead != nil {
+		o.onRead()
 	}
-	entry, found := f.postings[fakePostingKey(word, url)]
+	o.guard.Lock()
+	defer o.guard.Unlock()
 
-	return entry, found, nil
+	return o.unread
 }
 
 type fakeRoster struct {
@@ -297,21 +353,17 @@ type fakeRoster struct {
 	recentlyReachable map[yacymodel.Hash]struct{}
 }
 
-func (f fakeRoster) ReachablePeers(context.Context) []yacymodel.Seed {
+func (f *fakeRoster) ReachablePeers(context.Context) []yacymodel.Seed {
 	return f.reachable
 }
 
-func (f fakeRoster) IsReachable(_ context.Context, peer yacymodel.Hash) bool {
-	for _, seed := range f.reachable {
-		if seed.Hash == peer {
-			return true
-		}
-	}
-
-	return false
+func (f *fakeRoster) IsReachable(_ context.Context, peer yacymodel.Hash) bool {
+	return slices.ContainsFunc(f.reachable, func(seed yacymodel.Seed) bool {
+		return seed.Hash == peer
+	})
 }
 
-func (f fakeRoster) IsRecentlyReachable(_ context.Context, peer yacymodel.Hash) bool {
+func (f *fakeRoster) IsRecentlyReachable(_ context.Context, peer yacymodel.Hash) bool {
 	_, recent := f.recentlyReachable[peer]
 
 	return recent
@@ -323,14 +375,19 @@ type offeredCall struct {
 }
 
 type fakeAnswer struct {
-	accepted       bool
-	requestedPause time.Duration
+	accepted         bool
+	acceptedPostings int
+	requestedPause   time.Duration
 }
 
 var (
 	acceptedAnswer = fakeAnswer{accepted: true}
 	declinedAnswer = fakeAnswer{}
 )
+
+func acceptedInPart(acceptedPostings int) fakeAnswer {
+	return fakeAnswer{accepted: true, acceptedPostings: acceptedPostings}
+}
 
 type fakeTransfers struct {
 	guard   sync.Mutex
@@ -354,83 +411,115 @@ func (f *fakeTransfers) Send(
 	if !answer.accepted {
 		return postingtransfer.OfferAnswer{RequestedPause: answer.requestedPause}
 	}
+	acceptedPostings := offeredPostings
+	if answer.acceptedPostings > 0 {
+		acceptedPostings = offeredPostings[:min(answer.acceptedPostings, len(offeredPostings))]
+	}
 
 	return postingtransfer.OfferAnswer{
 		Accepted:         true,
-		AcceptedPostings: offeredPostings,
+		AcceptedPostings: acceptedPostings,
 		RequestedPause:   answer.requestedPause,
 	}
 }
 
-func store(
-	t *testing.T,
-	v *vault.Vault,
-	schedule *postingofferschedule.Schedule,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) {
-	t.Helper()
+func (f *fakeTransfers) offeredTo(peer yacymodel.Seed) []offeredCall {
+	f.guard.Lock()
+	defer f.guard.Unlock()
 
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return schedule.PostingStored(tx, yacymodel.RWIPosting{WordHash: word, URLHash: url})
-	}); err != nil {
-		t.Fatalf("PostingStored: %v", err)
-	}
-}
-
-func recordAccepted(
-	t *testing.T,
-	h *cycleHarness,
-	peer yacymodel.Hash,
-	postings ...yacymodel.RWIPosting,
-) {
-	t.Helper()
-
-	if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
-		for _, posting := range postings {
-			identity := postingidentity.IdentityOf(posting)
-			recordedHolders, err := h.replicas.HoldersOf(tx, identity)
-			if err != nil {
-				return err
-			}
-			change := postingreplicas.HolderChange{AcceptingPeers: []yacymodel.Hash{peer}}
-			if err := h.replicas.RecordHolders(
-				tx, identity, recordedHolders, change.HoldersFrom(recordedHolders),
-			); err != nil {
-				return err
-			}
+	var offeredToPeer []offeredCall
+	for _, call := range f.offered {
+		if call.Peer.Hash == peer.Hash {
+			offeredToPeer = append(offeredToPeer, call)
 		}
-
-		return nil
-	}); err != nil {
-		t.Fatalf("RecordHolders: %v", err)
-	}
-}
-
-func holdersOf(
-	t *testing.T,
-	h *cycleHarness,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) []yacymodel.Hash {
-	t.Helper()
-
-	var holders []yacymodel.Hash
-	if err := h.v.View(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		holders, err = h.replicas.HoldersOf(tx, postingidentity.Identity{Word: word, URL: url})
-
-		return err
-	}); err != nil {
-		t.Fatalf("Holders: %v", err)
 	}
 
-	return holders
+	return offeredToPeer
 }
 
 type clock struct{ at time.Time }
 
 func (c *clock) now() time.Time { return c.at }
+
+func startClock() *clock { return &clock{at: time.Unix(1_700_000_000, 0).UTC()} }
+
+func partitions() yacymodel.DHTRingPartitions {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		panic(err)
+	}
+
+	return partitions
+}
+
+func wordPartitionOf(word int) yacymodel.WordPartition {
+	return yacymodel.WordPartition{Word: yacymodel.WordHash("word" + strconv.Itoa(word))}
+}
+
+func fixtureWordPartition() yacymodel.WordPartition { return wordPartitionOf(0) }
+
+func positionOf(wordPartition yacymodel.WordPartition) yacymodel.DHTRingPosition {
+	return yacymodel.DHTRingPositionOfWordPartition(wordPartition, partitions())
+}
+
+func sectorOf(wordPartition yacymodel.WordPartition) yacymodel.DHTRingSector {
+	return yacymodel.DHTRingSectorOf(positionOf(wordPartition))
+}
+
+func wordPartitionsIn(
+	sector yacymodel.DHTRingSector,
+	amount int,
+) []yacymodel.WordPartition {
+	var wordPartitions []yacymodel.WordPartition
+	for word := 0; len(wordPartitions) < amount; word++ {
+		if wordPartition := wordPartitionOf(word); sectorOf(wordPartition) == sector {
+			wordPartitions = append(wordPartitions, wordPartition)
+		}
+	}
+	slices.SortFunc(wordPartitions, func(wordPartition, other yacymodel.WordPartition) int {
+		return cmp.Compare(positionOf(wordPartition), positionOf(other))
+	})
+
+	return wordPartitions
+}
+
+func urlsOf(amount int) []yacymodel.URLHash {
+	urls := make([]yacymodel.URLHash, 0, amount)
+	for document := range amount {
+		url, err := yacymodel.ParseURLHash(
+			yacymodel.WordHash("url" + strconv.Itoa(document)).String(),
+		)
+		if err != nil {
+			panic(err)
+		}
+		urls = append(urls, url)
+	}
+
+	return urls
+}
+
+func postingOf(wordPartition yacymodel.WordPartition, url yacymodel.URLHash) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		WordHash: wordPartition.Word,
+		URLHash:  url,
+		Language: yacymodel.LanguageOfUndeclaredDocument,
+	}
+}
+
+func peerAfter(
+	wordPartition yacymodel.WordPartition,
+	steps yacymodel.DHTRingPosition,
+) yacymodel.Seed {
+	return seed(yacymodel.HashFromDHTRingPosition(positionOf(wordPartition) + steps*positionStep))
+}
+
+func thisNodeFartherThan(wordPartition yacymodel.WordPartition) yacymodel.Hash {
+	return yacymodel.HashFromDHTRingPosition(positionOf(wordPartition) - positionStep)
+}
+
+func thisNodeCloserThanEveryPeerOf(wordPartition yacymodel.WordPartition) yacymodel.Hash {
+	return yacymodel.HashFromDHTRingPosition(positionOf(wordPartition))
+}
 
 func seed(hash yacymodel.Hash) yacymodel.Seed {
 	host, err := yacymodel.ParseHost("192.0.2.1")
@@ -450,25 +539,19 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 	}
 }
 
-func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
-
-func thisNodeCloserThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self22") }
-
-func thisNodeFartherThanTheClosestPeer() yacymodel.Hash { return yacymodel.WordHash("self15") }
-
-func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
-}
-
-func fakePostingKey(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.Hash {
-	return yacymodel.WordHash(word.String() + url.String())
-}
-
-func urlHash(raw string) yacymodel.URLHash {
-	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
-	if err != nil {
-		panic(err)
+func urlsIn(calls []offeredCall) []yacymodel.URLHash {
+	var urls []yacymodel.URLHash
+	for _, call := range calls {
+		for _, posting := range call.Postings {
+			urls = append(urls, posting.URLHash)
+		}
 	}
 
-	return hash
+	return sortedURLs(urls)
+}
+
+func sortedURLs(urls []yacymodel.URLHash) []yacymodel.URLHash {
+	return slices.SortedFunc(slices.Values(urls), func(url, other yacymodel.URLHash) int {
+		return cmp.Compare(url.String(), other.String())
+	})
 }

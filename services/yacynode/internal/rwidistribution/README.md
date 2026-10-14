@@ -1,61 +1,52 @@
 # RWI distribution
 
-This package offers each RWI posting this node stores to its responsible peers:
-the peers the DHT makes responsible for it. With handoff enabled, it deletes a
-posting when enough of its responsible peers hold it.
+This package sends each RWI posting this node stores to its responsible peers:
+the peers the DHT makes responsible for it. With handoff enabled, it deletes
+the postings that enough responsible peers hold.
+
+## Terms
+
+- Ring partition: one of the equal parts of the DHT ring. The first bits of a
+  URL hash select the ring partition of a posting. The partition exponent sets
+  how many parts there are.
+- Word partition: one word in one ring partition. Its postings are the postings
+  of that word whose URLs are in that partition. They have the same DHT
+  position and the same responsible peers.
+- Holder: a peer that accepted all postings of a word partition.
+- Missing holder: a responsible peer that is not a holder.
+- Undelivered posting: a new or changed posting that not all its responsible
+  peers accepted.
 
 ## Behavior
 
-A cycle offers nothing while the node knows fewer reachable peers than the
-configured minimum. Above that minimum, each cycle takes the due postings and
-offers each one to its responsible peers. A newly stored posting is due at once.
-When the DHT makes this node responsible, this node holds one of the replicas. A
-cycle records all of its results or none of them.
+- Each cycle first sends the undelivered postings. Then it sends the postings
+  of the word partitions that are due for a refresh.
+- A holder gets the undelivered postings. A missing holder gets all postings of
+  the word partition. It becomes a holder only when it accepts all of them.
+- After the refresh interval, each holder gets all postings again. A holder that
+  answers a refresh but does not accept every posting stops being a holder until
+  it gets them all. A holder that declines stays a holder. A word partition with
+  fewer holders than its responsible peers is sent again after the recipient
+  cooldown.
+- A peer accepted a posting only when it also got the URL metadata of that
+  posting. Only peers that accept a remote index get postings.
+- A peer that declines goes into a cooldown. A word partition that must go to
+  that peer waits. The node does not send it to a peer farther away.
+- A holder goes stale when closer peers replace it, or when the peer roster
+  stops finding it credible. A missing holder takes its place.
+- When the DHT makes this node responsible, this node holds one of the copies.
+- The node sends nothing while it knows fewer reachable peers than the
+  configured minimum. A batch records all of its results or none of them.
 
-A peer accepts a posting in two steps. It first accepts the posting and names the
-URLs it does not know. This node then sends the metadata for those URLs. The
-posting counts toward redundancy only after both steps reach the peer. A peer
-that stops accepting a remote index gets no more offers. The postings it holds
-keep counting for it.
+## Handoff
 
-Each cycle sets when the postings it offered are next due. A posting that
-reached its redundancy is next due after the longest offer interval, and its
-holders get it again. A posting that fell short is next due after a shorter
-interval, which starts at the shortest, doubles on each further shortfall up to
-the longest, and returns to the shortest when redundancy is met.
-
-A cycle first offers the postings that need more holders. Postings that have
-enough holders get only the time that is left.
-
-The ring is divided into equal sectors. A batch starts in the sector that holds
-the posting that is most late. It then takes the postings from the next sectors
-of the ring. Thus each batch goes to a small number of peers.
-
-A peer that declines an offer goes into a cooldown. During the cooldown, the
-peer gets no new replicas, and the postings it holds are still offered to it. A
-posting that needs a replica on that peer waits until the cooldown ends. It is
-not offered to a peer farther away. When the peer asks for a pause, the posting
-waits that pause if the pause is longer than the interval.
-
-The node deletes a posting when the redundancy is reached in holders that are
-its responsible peers and closer to its DHT position than this node. A holder
-that is not a responsible peer does not count. A holder counts only while the
-node can reach it. A deleted posting leaves the local index, the work queue, and the
-replica record. Its URL metadata stays until storage eviction reclaims it.
-
-A holder goes stale when closer peers replace it, or when the peer stays
-uncontacted past the peer roster's credibility window. A stale holder leaves the
-replica record. The posting is then offered to as many further peers as it needs
-replicas. An uncontacted peer gets the posting again if contact resumes. A
-replaced peer does not.
+The node deletes the postings of a word partition when none of them is
+undelivered and enough holders are responsible peers closer to its DHT position
+than this node. The URL metadata stays until storage eviction removes it.
 
 ## Divergence from YaCy
 
-YaCy removes a posting from local storage when it selects that posting for
-transfer. This node deletes a posting only after enough of its responsible
-peers hold it.
-
-YaCy keeps no record of which peer holds which posting. This node keeps the
-record and offers the posting again when a replica is lost. YaCy takes work from
-a random range of the word hash space. This node takes work from a due-time
-schedule, one sector of the ring after the next.
+- YaCy deletes a posting when it selects it for transfer. This node deletes a
+  posting only after enough responsible peers hold it.
+- YaCy keeps no record of holders. This node keeps the holders of each word
+  partition and sends them its postings again after the refresh interval.

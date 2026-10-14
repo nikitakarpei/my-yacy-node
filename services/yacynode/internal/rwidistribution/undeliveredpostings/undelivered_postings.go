@@ -95,3 +95,12 @@ func (u *UndeliveredPostings) AnyIn(
 
 	return found, nil
 }
+
+func (u *UndeliveredPostings) AmountOfPostings(tx *vault.Txn) (int, error) {
+	amountOfPostings, err := u.postings.Len(tx)
+	if err != nil {
+		return 0, fmt.Errorf("count undelivered postings: %w", err)
+	}
+
+	return amountOfPostings, nil
+}

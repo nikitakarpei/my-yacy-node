@@ -1,7 +1,6 @@
 package distributioncycle_test
 
 import (
-	"slices"
 	"testing"
 	"time"
 
@@ -9,66 +8,50 @@ import (
 )
 
 func TestCycleTakesTheSectorsInRingOrder(t *testing.T) {
-	peer := yacymodel.WordHash("peer")
-	earlierDue, laterDue := postingsInSector(40, 1), postingsInSector(3, 1)
-	clk := &clock{at: time.Unix(1000, 0)}
-	h := openCycle(t, clk, cycleOptions{
-		postings:   postingsByKey(slices.Concat(earlierDue, laterDue)),
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-	store(t, h.v, h.schedule, earlierDue[0].WordHash, earlierDue[0].URLHash)
-	clk.at = clk.at.Add(time.Minute)
-	store(t, h.v, h.schedule, laterDue[0].WordHash, laterDue[0].URLHash)
+	later, earlier := wordPartitionsIn(40, 1)[0], wordPartitionsIn(3, 1)[0]
+	h := openSectorCycle(t, startClock(), cycleOptions{})
+	h.admit(t, later, urlsOf(1)...)
+	h.admit(t, earlier, urlsOf(1)...)
 
 	h.runCycle(t)
 
 	if len(h.transfers.offered) != 2 ||
-		!samePostings(h.transfers.offered[0].Postings, laterDue) ||
-		!samePostings(h.transfers.offered[1].Postings, earlierDue) {
+		h.transfers.offered[0].Postings[0].WordHash != earlier.Word ||
+		h.transfers.offered[1].Postings[0].WordHash != later.Word {
 		t.Fatalf("offered %+v, want sector 3 before sector 40", h.transfers.offered)
 	}
 }
 
 func TestCycleOffersASectorAgainWhileItHoldsMoreThanABatch(t *testing.T) {
-	peer := yacymodel.WordHash("peer")
-	sectorPostings := postingsInSector(3, postingsPerBatch+1)
-	h := openCycle(t, &clock{at: time.Unix(1000, 0)}, cycleOptions{
-		postings:   postingsByKey(sectorPostings),
-		roster:     fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy: 2,
-	})
-	h.transfers.answers[peer] = acceptedAnswer
-	storePostings(t, h, sectorPostings)
+	wordPartitions := wordPartitionsIn(3, postingsPerBatch+1)
+	h := openSectorCycle(t, startClock(), cycleOptions{})
+	for _, wordPartition := range wordPartitions {
+		h.admit(t, wordPartition, urlsOf(1)...)
+	}
 
 	h.runCycle(t)
 
 	if len(h.transfers.offered) != 2 || len(h.transfers.offered[1].Postings) != 1 {
 		t.Fatalf("offered %+v, want a full batch, then the one posting left", h.transfers.offered)
 	}
-	assertEachPostingOfferedOnce(t, h.transfers.offered, sectorPostings)
+	assertEachWordPartitionOfferedOnce(t, h.transfers.offered, wordPartitions)
 }
 
 func TestCycleContinuesAfterTheLastSectorItTook(t *testing.T) {
-	peer := yacymodel.WordHash("peer")
-	firstSector := postingsInSector(3, postingsPerBatch+1)
-	nextSector := postingsInSector(5, 1)
-	clk := &clock{at: time.Unix(1000, 0)}
-	h := openCycle(t, clk, cycleOptions{
-		postings:    postingsByKey(slices.Concat(firstSector, nextSector)),
-		roster:      fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
-		redundancy:  2,
-		drainBudget: 30 * time.Second,
-	})
-	h.transfers.answers[peer] = acceptedAnswer
+	firstSector := wordPartitionsIn(3, postingsPerBatch+1)
+	nextSector := wordPartitionsIn(5, 1)[0]
+	clk := startClock()
+	h := openSectorCycle(t, clk, cycleOptions{drainBudget: 30 * time.Second})
 	h.transfers.onOffer = func() { clk.at = clk.at.Add(30 * time.Second) }
-	storePostings(t, h, slices.Concat(firstSector, nextSector))
+	for _, wordPartition := range append(firstSector, nextSector) {
+		h.admit(t, wordPartition, urlsOf(1)...)
+	}
 
 	h.runCycle(t)
 	h.runCycle(t)
 
-	if len(h.transfers.offered) != 2 || !samePostings(h.transfers.offered[1].Postings, nextSector) {
+	if len(h.transfers.offered) != 2 ||
+		h.transfers.offered[1].Postings[0].WordHash != nextSector.Word {
 		t.Fatalf(
 			"offered %+v, want the second cycle to start at the next sector",
 			h.transfers.offered,
@@ -76,17 +59,14 @@ func TestCycleContinuesAfterTheLastSectorItTook(t *testing.T) {
 	}
 }
 
-func storePostings(t *testing.T, h *cycleHarness, postings []yacymodel.RWIPosting) {
+func openSectorCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	t.Helper()
 
-	for _, posting := range postings {
-		store(t, h.v, h.schedule, posting.WordHash, posting.URLHash)
-	}
-}
+	opts.redundancy = 2
+	h := openCycle(t, clk, opts)
+	peer := seed(yacymodel.WordHash("peer"))
+	h.reach(peer)
+	h.transfers.answers[peer.Hash] = acceptedAnswer
 
-func samePostings(postings, otherPostings []yacymodel.RWIPosting) bool {
-	return len(postings) == len(otherPostings) &&
-		!slices.ContainsFunc(postings, func(posting yacymodel.RWIPosting) bool {
-			return !slices.Contains(otherPostings, posting)
-		})
+	return h
 }
