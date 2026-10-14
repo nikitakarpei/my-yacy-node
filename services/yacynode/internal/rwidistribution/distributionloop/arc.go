@@ -10,13 +10,13 @@ import (
 )
 
 type arc struct {
-	seedArc              yacymodel.SeedArc
-	position             arcPosition
-	isInBatch            bool
-	isHeldBack           bool
-	drainedUntil         time.Time
-	isDrainedUntilSignal bool
-	amountOfDueSignals   int
+	seedArc                  yacymodel.SeedArc
+	position                 arcPosition
+	isInBatch                bool
+	isHeldBack               bool
+	drainedUntil             time.Time
+	isDrainedUntilSignal     bool
+	amountOfAdmissionSignals int
 }
 
 type arcPosition struct {
@@ -75,6 +75,10 @@ func (a *arc) hasBusyPeer(eligibility PeerEligibility) bool {
 	return false
 }
 
+func (a *arc) holds(position yacymodel.DHTRingPosition) bool {
+	return a.seedArc.Holds(position)
+}
+
 func (a *arc) overlaps(other *arc) bool {
 	return a.seedArc.Overlaps(other.seedArc)
 }
@@ -122,9 +126,9 @@ func (a *arc) drainUntilSignal() {
 	a.isDrainedUntilSignal = true
 }
 
-func (a *arc) receiveDueSignalAt(now time.Time) (wasReopened bool) {
+func (a *arc) receiveAdmissionSignalAt(now time.Time) (wasReopened bool) {
 	wasReopened = a.isHeldBack || a.isDrainedAt(now)
-	a.amountOfDueSignals++
+	a.amountOfAdmissionSignals++
 	a.drainedUntil = time.Time{}
 	a.isDrainedUntilSignal = false
 	a.isHeldBack = false
