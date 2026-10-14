@@ -2,6 +2,7 @@ package messageadmission_test
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -138,7 +139,7 @@ func send(
 		strings.NewReader(req.Form().Encode()),
 	)
 	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	httpReq.RemoteAddr = address + ":4000"
+	httpReq.RemoteAddr = net.JoinHostPort(address, "4000")
 
 	mux.ServeHTTP(rec, httpReq)
 
@@ -306,28 +307,59 @@ func TestSenderAddressGetsFiveMessagesAnHour(t *testing.T) {
 	}
 }
 
-func TestNewSenderAddressWaitsWhileTheAllowanceTracksTooMany(t *testing.T) {
+func TestNodeTakesTwentyMessagesAnHour(t *testing.T) {
 	t.Parallel()
 
 	node := newAcceptingNode(t)
-	for i := range 1024 {
-		send(
-			t,
-			node.mux,
-			"10.0."+strconv.Itoa(i/256)+"."+strconv.Itoa(i%256),
-			postRequest(t, "s", "b"),
-		)
+	for i := range 20 {
+		address := "198.51.100." + strconv.Itoa(i/5)
+		if resp := send(t, node.mux, address, postRequest(t, "subject", "body")); resp.Response !=
+			yacyproto.MessageResponseAccepted {
+			t.Fatalf("message %d: response = %q, want acceptance", i+1, resp.Response)
+		}
 	}
 
 	if resp := send(t, node.mux, senderAddress, postRequest(t, "subject", "body")); resp.Response !=
 		yacyproto.MessageResponseRefused {
-		t.Fatalf("response = %q, want refusal while full", resp.Response)
+		t.Fatalf("21st message: response = %q, want refusal", resp.Response)
 	}
 
 	node.clock.instant = node.clock.instant.Add(time.Hour)
 	if resp := send(t, node.mux, senderAddress, postRequest(t, "subject", "body")); resp.Response !=
 		yacyproto.MessageResponseAccepted {
 		t.Fatalf("an hour later: response = %q, want acceptance", resp.Response)
+	}
+}
+
+func TestIPv6SenderIsItsSlash64(t *testing.T) {
+	t.Parallel()
+
+	node := newAcceptingNode(t)
+	for i := range 5 {
+		address := "2001:db8::" + strconv.Itoa(i+1)
+		if resp := send(t, node.mux, address, postRequest(t, "subject", "body")); resp.Response !=
+			yacyproto.MessageResponseAccepted {
+			t.Fatalf("message %d: response = %q, want acceptance", i+1, resp.Response)
+		}
+	}
+
+	if resp := send(
+		t,
+		node.mux,
+		"2001:db8::99",
+		postRequest(t, "subject", "body"),
+	); resp.Response !=
+		yacyproto.MessageResponseRefused {
+		t.Fatalf("same /64: response = %q, want refusal", resp.Response)
+	}
+	if resp := send(
+		t,
+		node.mux,
+		"2001:db8:0:1::1",
+		postRequest(t, "subject", "body"),
+	); resp.Response !=
+		yacyproto.MessageResponseAccepted {
+		t.Fatalf("other /64: response = %q, want acceptance", resp.Response)
 	}
 }
 

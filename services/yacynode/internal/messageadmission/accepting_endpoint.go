@@ -20,12 +20,12 @@ const (
 	refusalForeignSender  = "seed names another peer than iam"
 	refusalEmptyText      = "subject or body is empty"
 	refusalOversizedText  = "subject or body is larger than announced"
-	refusalSpentAllowance = "sender address spent its allowance"
+	refusalSpentAllowance = "the node or the sender has no messages left this hour"
 )
 
 type acceptingEndpoint struct {
 	identity  nodeidentity.Identity
-	allowance *senderAllowance
+	allowance *messageAllowance
 	inbox     Inbox
 }
 

@@ -16,13 +16,11 @@ The node accepts a message only when all these conditions are true:
 - The subject and the text are not empty.
 - The subject has 100 characters or fewer.
 - The text has 10240 characters or fewer.
-- The address of the sender has messages left for this hour.
+- The node and the sender have messages left for this hour.
 - The webhook accepts the message.
 
-Each sender address can send 5 messages in one hour. The hour starts with the
-first message from that address. The node counts at most 1024 sender addresses.
-When it counts 1024 addresses, it refuses a new address until the hour of an
-address ends.
+The node gives 20 messages to the webhook in each period of 60 minutes, and 5
+of them from one sender. One IPv4 address or one IPv6 /64 network is one sender.
 
 The sender sees `Thank you!` when the webhook accepts the message. Otherwise,
 the sender sees `-1`.

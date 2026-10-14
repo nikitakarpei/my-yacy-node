@@ -1,8 +1,8 @@
 // Package messageadmission answers the messages that the operator of one peer
 // writes to the operator of this node. It admits a message only from the peer
-// the message names, within the announced size and an allowance per sender
-// address, and gives it to the operator's inbox. Without an inbox it refuses
-// every message.
+// the message names, within the announced size and an hourly allowance for
+// the node and for each sender, and gives it to the operator's inbox. Without
+// an inbox it refuses every message.
 package messageadmission
 
 import (
@@ -44,7 +44,7 @@ func MountAccepting(
 		yacyproto.ParseMessageRequest,
 		acceptingEndpoint{
 			identity:  identity,
-			allowance: newSenderAllowance(now),
+			allowance: newMessageAllowance(now),
 			inbox:     inbox,
 		}.Serve,
 	)
