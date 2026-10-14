@@ -86,7 +86,7 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 		MaxOpenFiles: limits.OpenFileLimit,
 		Merger:       amountMerger,
 	}
-	addBloomFiltersToEveryLevel(options)
+	addBloomFiltersAboveTheBottomLevel(options)
 	if limits.BlockCacheBytes > 0 {
 		options.Cache = pebble.NewCache(limits.BlockCacheBytes)
 	}
@@ -99,10 +99,12 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 	return options
 }
 
-func addBloomFiltersToEveryLevel(options *pebble.Options) {
-	for level := range options.Levels {
+func addBloomFiltersAboveTheBottomLevel(options *pebble.Options) {
+	bottomLevel := len(options.Levels) - 1
+	for level := range bottomLevel {
 		options.Levels[level].FilterPolicy = bloom.FilterPolicy(bloomFilterBitsPerKey)
 	}
+	options.Levels[bottomLevel].FilterPolicy = pebble.NoFilterPolicy
 }
 
 func writeStallListenerFor(observer WriteStallObserver) *pebble.EventListener {
