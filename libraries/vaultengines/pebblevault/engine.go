@@ -21,6 +21,7 @@ import (
 
 const (
 	bloomFilterBitsPerKey         = 10
+	blockBytes                    = 16 << 10
 	conflictsBeforeExclusiveWrite = 3
 )
 
@@ -87,6 +88,7 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 		Merger:       amountMerger,
 	}
 	addBloomFiltersAboveTheBottomLevel(options)
+	setBlockSizeOnEveryLevel(options)
 	if limits.BlockCacheBytes > 0 {
 		options.Cache = pebble.NewCache(limits.BlockCacheBytes)
 	}
@@ -105,6 +107,12 @@ func addBloomFiltersAboveTheBottomLevel(options *pebble.Options) {
 		options.Levels[level].FilterPolicy = bloom.FilterPolicy(bloomFilterBitsPerKey)
 	}
 	options.Levels[bottomLevel].FilterPolicy = pebble.NoFilterPolicy
+}
+
+func setBlockSizeOnEveryLevel(options *pebble.Options) {
+	for level := range options.Levels {
+		options.Levels[level].BlockSize = blockBytes
+	}
 }
 
 func writeStallListenerFor(observer WriteStallObserver) *pebble.EventListener {
