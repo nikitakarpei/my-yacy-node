@@ -24,12 +24,22 @@ type wordCensus struct {
 }
 
 func (c *wordCensus) EstimatedAmountOfWords(tx *vault.Txn) (int, error) {
+	if sampledAmount, isFresh := c.freshSampledAmount(); isFresh {
+		return sampledAmount, nil
+	}
 	countedWords, isComplete, err := c.wordsCountedUpTo(tx, wordsCountedInFull)
 	if err != nil || isComplete {
 		return countedWords, err
 	}
 
 	return c.sampledAmountOfWords(tx)
+}
+
+func (c *wordCensus) freshSampledAmount() (sampledAmount int, isFresh bool) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+
+	return c.sampledAmount, c.now().Before(c.sampleExpiresAt)
 }
 
 func (c *wordCensus) wordsCountedUpTo(

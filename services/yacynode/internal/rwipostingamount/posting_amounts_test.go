@@ -338,6 +338,35 @@ func TestALargeIndexServesItsSampleForTheSampleLifetime(t *testing.T) {
 	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), 2*wordsOfALargeIndex)
 }
 
+func TestALargeIndexThatShrinksServesItsSampleForTheSampleLifetime(t *testing.T) {
+	h := openHarnessOnDisk(t)
+	postings := postingsOfALargeIndex("word", unplaced)
+	h.store(t, postings...)
+	sampledAmount := h.estimatedAmountOfWords(t)
+
+	const keptWords = 3
+	h.write(t, func(tx *vault.Txn) error {
+		for _, posting := range postings[keptWords:] {
+			if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+	h.clock.advance(sampleLifetime - time.Second)
+	if amount := h.estimatedAmountOfWords(t); amount != sampledAmount {
+		t.Fatalf("amount of words within the sample lifetime = %d, want the sampled %d",
+			amount, sampledAmount)
+	}
+	h.clock.advance(time.Second)
+
+	if amount := h.estimatedAmountOfWords(t); amount != keptWords {
+		t.Errorf("amount of words after the sample lifetime = %d, want the %d kept words",
+			amount, keptWords)
+	}
+}
+
 func TestALargeIndexOnOneArcOfTheRingEstimatesItsWordsClosely(t *testing.T) {
 	h := openHarnessOnDisk(t)
 
