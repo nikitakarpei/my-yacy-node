@@ -360,6 +360,58 @@ func (c *Collection[K, V]) DeleteReturning(
 	return deletedValue, true, nil
 }
 
+func (c *Collection[K, V]) DeleteWithin(tx *Txn, keys KeyRange) (amountOfDeleted int, err error) {
+	if !tx.etx.Writable() {
+		return 0, errReadOnly
+	}
+	tx.calledWriteOperation = true
+
+	storedRecords, err := c.storedRecordsWithin(tx, keys)
+	if err != nil {
+		return 0, err
+	}
+	for _, stored := range storedRecords {
+		if err := c.deleteStored(tx, stored); err != nil {
+			return 0, err
+		}
+	}
+
+	return len(storedRecords), nil
+}
+
+type storedRecord struct {
+	key    []byte
+	record []byte
+}
+
+func (c *Collection[K, V]) storedRecordsWithin(tx *Txn, keys KeyRange) ([]storedRecord, error) {
+	var storedRecords []storedRecord
+	if err := tx.etx.Records(c.name).Scan(keys, func(key, record []byte) (bool, error) {
+		storedRecords = append(
+			storedRecords,
+			storedRecord{key: bytes.Clone(key), record: bytes.Clone(record)},
+		)
+
+		return true, nil
+	}); err != nil {
+		return nil, fmt.Errorf("scan %s: %w", c.name, err)
+	}
+
+	return storedRecords, nil
+}
+
+func (c *Collection[K, V]) deleteStored(tx *Txn, stored storedRecord) error {
+	key, err := c.keys.Decode(stored.key)
+	if err != nil {
+		return fmt.Errorf("decode %s key: %w", c.name, err)
+	}
+	if err := tx.etx.Records(c.name).DeleteHeld(stored.key, stored.record); err != nil {
+		return fmt.Errorf("delete %s: %w", c.name, err)
+	}
+
+	return c.followDeleted(tx, key, stored.record)
+}
+
 func (c *Collection[K, V]) Scan(
 	tx *Txn,
 	keys KeyRange,

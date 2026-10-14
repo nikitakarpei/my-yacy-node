@@ -3,6 +3,7 @@ package rwipostings_test
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -67,5 +68,53 @@ func TestPurgingAPostingThatIsNotHeldReportsNothingPurged(t *testing.T) {
 
 	if wasPurged {
 		t.Fatal("PurgePosting reported a deletion, want none")
+	}
+}
+
+func TestPurgingAWordInAPartitionDropsOnlyThosePostings(t *testing.T) {
+	h := openHarness(t)
+	words := neighbouringWordHashes(t)
+	for _, word := range words {
+		for document := range documentsPerWord {
+			h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+		}
+	}
+	word := words[1]
+	partition, purgedPostings := busiestPartitionOf(word)
+
+	var amountOfPurgedPostings int
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		amountOfPurgedPostings, err = h.purger.PurgePostingsOfWordIn(tx, word, partition)
+
+		return err
+	}); err != nil {
+		t.Fatalf("PurgePostingsOfWordIn: %v", err)
+	}
+
+	if amountOfPurgedPostings != len(purgedPostings) {
+		t.Fatalf("purged postings = %d, want %d", amountOfPurgedPostings, len(purgedPostings))
+	}
+	if leftPostings := h.postingsOfWordIn(t, word, partition, 1); len(leftPostings) != 0 {
+		t.Fatalf("postings left in the purged partition = %v, want none", leftPostings)
+	}
+	for _, neighbour := range []yacymodel.Hash{words[0], words[2]} {
+		keptPostings := h.postingsOfWordIn(t, neighbour, partition, documentsPerWord)
+		if len(keptPostings) != len(purgedPostings) {
+			t.Fatalf(
+				"postings of a neighbour word = %d, want %d",
+				len(keptPostings),
+				len(purgedPostings),
+			)
+		}
+	}
+	for document := range documentsPerWord {
+		url := urlHash(strconv.Itoa(document))
+		if ringPartitions.PartitionOf(url) == partition {
+			continue
+		}
+		if _, found := h.postingOf(t, word, url); !found {
+			t.Fatalf("posting of the word in another partition on %v was purged", url)
+		}
 	}
 }

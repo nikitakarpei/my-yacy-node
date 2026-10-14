@@ -345,7 +345,6 @@ func assembleNode(
 		var handoff distributionloop.WordPartitionHandoff = wordpartitionhandoff.KeepEveryWordPartition{}
 		if config.Distribution.HandoffEnabled {
 			handoff = wordpartitionhandoff.New(
-				postings,
 				postingPurger,
 				undeliveredPostings,
 				wordPartitionSchedule,

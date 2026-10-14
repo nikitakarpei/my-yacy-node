@@ -77,7 +77,7 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 		admitter:    admitter,
 		undelivered: undelivered,
 		schedule:    schedule,
-		handoff: wordpartitionhandoff.New(index, purger, undelivered, schedule,
+		handoff: wordpartitionhandoff.New(purger, undelivered, schedule,
 			wordpartitionhandoff.Config{
 				Partitions: partitions(),
 				Self:       self,

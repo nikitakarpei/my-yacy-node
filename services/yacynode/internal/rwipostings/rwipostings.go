@@ -18,6 +18,11 @@ type PostingPurger interface {
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
 	) (wasPurged bool, err error)
+	PurgePostingsOfWordIn(
+		tx *vault.Txn,
+		word yacymodel.Hash,
+		partition uint,
+	) (amountOfPurgedPostings int, err error)
 }
 
 type PostingIndex interface {
