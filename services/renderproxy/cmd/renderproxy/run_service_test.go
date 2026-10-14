@@ -58,20 +58,18 @@ func listenerFor(t *testing.T) net.Listener {
 
 func waitForHealthy(t *testing.T, url string) {
 	t.Helper()
-	deadline := time.Now().Add(5 * time.Second)
-	for time.Now().Before(deadline) {
-		req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, url, nil)
-		if err != nil {
-			t.Fatalf("build health request: %v", err)
-		}
-		resp, err := http.DefaultClient.Do(req)
-		if err == nil {
-			_ = resp.Body.Close()
-			if resp.StatusCode == http.StatusOK {
-				return
-			}
-		}
-		time.Sleep(20 * time.Millisecond)
+	ctx, cancel := context.WithTimeout(t.Context(), 5*time.Second)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		t.Fatalf("build health request: %v", err)
 	}
-	t.Fatalf("ops server never became healthy at %s", url)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatalf("ops server never answered at %s: %v", url, err)
+	}
+	_ = resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("ops server at %s answered %d, want %d", url, resp.StatusCode, http.StatusOK)
+	}
 }

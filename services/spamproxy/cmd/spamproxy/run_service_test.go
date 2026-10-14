@@ -126,19 +126,16 @@ func proxiedVerdictOf(t *testing.T, proxyAddress, address string) string {
 	t.Helper()
 	proxyURL := &url.URL{Scheme: "http", Host: proxyAddress}
 	client := &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)}}
-	for {
-		request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, address, nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		response, err := client.Do(request)
-		if err == nil {
-			_ = response.Body.Close()
-			return response.Header.Get("Spam-Assessment")
-		}
-		if t.Context().Err() != nil {
-			t.Fatal(err)
-		}
-		time.Sleep(10 * time.Millisecond)
+	ctx, cancel := context.WithTimeout(t.Context(), 5*time.Second)
+	defer cancel()
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, address, nil)
+	if err != nil {
+		t.Fatal(err)
 	}
+	response, err := client.Do(request)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_ = response.Body.Close()
+	return response.Header.Get("Spam-Assessment")
 }

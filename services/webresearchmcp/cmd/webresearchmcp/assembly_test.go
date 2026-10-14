@@ -15,7 +15,6 @@ import (
 
 const (
 	servingDeadline  = 5 * time.Second
-	servingPollPause = 20 * time.Millisecond
 	shutdownDeadline = 10 * time.Second
 )
 
@@ -72,29 +71,18 @@ func TestRunServiceServesTheToolsAndTheMetricsUntilItIsStopped(t *testing.T) {
 
 func waitUntilServed(t *testing.T, address string) {
 	t.Helper()
-	deadline := time.Now().Add(servingDeadline)
-	for time.Now().Before(deadline) {
-		if answered(t, address) {
-			return
-		}
-		time.Sleep(servingPollPause)
-	}
-	t.Fatalf("%s never answered", address)
-}
-
-func answered(t *testing.T, address string) bool {
-	t.Helper()
-	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, address, nil)
+	ctx, cancel := context.WithTimeout(t.Context(), servingDeadline)
+	defer cancel()
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, address, nil)
 	if err != nil {
 		t.Fatalf("ask %s: %v", address, err)
 	}
 	response, err := http.DefaultClient.Do(request)
 	if err != nil {
-		return false
+		t.Fatalf("%s never answered: %v", address, err)
 	}
 	_, _ = io.Copy(io.Discard, response.Body)
 	_ = response.Body.Close()
-	return true
 }
 
 func TestRunServiceFailsWhenTheScrapeRequestNATSIsAway(t *testing.T) {
