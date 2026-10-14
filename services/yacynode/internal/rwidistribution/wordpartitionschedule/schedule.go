@@ -14,6 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
+
 type wordPartitionEntry struct {
 	holders     []yacymodel.Hash
 	dueAt       time.Time
@@ -86,6 +88,18 @@ func (s *Schedule) IsInRetry(
 	}
 
 	return entry.retryDelay > 0, nil
+}
+
+func (s *Schedule) IsRefreshDue(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) (bool, error) {
+	entry, _, err := s.entries.Get(tx, wordPartition)
+	if err != nil {
+		return false, fmt.Errorf("read word partition refresh time: %w", err)
+	}
+
+	return !entry.refreshedAt.Add(s.refreshInterval).After(s.now()), nil
 }
 
 func (s *Schedule) RecordRefreshed(
@@ -166,18 +180,21 @@ func (s *Schedule) record(
 	return nil
 }
 
-func (s *Schedule) MakeDue(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
+func (s *Schedule) MakeDue(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) (wasMadeDue bool, err error) {
 	entry, found, err := s.entries.Get(tx, wordPartition)
 	if err != nil {
-		return fmt.Errorf("read word partition due time: %w", err)
+		return false, fmt.Errorf("read word partition due time: %w", err)
 	}
 	now := s.now()
 	if found && (entry.retryDelay > 0 || !entry.dueAt.After(now)) {
-		return nil
+		return false, nil
 	}
 	entry.dueAt = now
 
-	return s.record(tx, wordPartition, entry)
+	return true, s.record(tx, wordPartition, entry)
 }
 
 func (s *Schedule) Forget(tx *vault.Txn, wordPartition yacymodel.WordPartition) error {
@@ -225,15 +242,23 @@ func (s *Schedule) WordPartitionsDueWithin(
 }
 
 func (s *Schedule) EarliestDueAt(tx *vault.Txn) (time.Time, bool, error) {
-	var (
-		earliestDueAt time.Time
-		found         bool
-	)
-	for slice := range scheduleSliceCount {
+	return s.EarliestDueWithin(tx, wholeRing)
+}
+
+func (s *Schedule) EarliestDueWithin(
+	tx *vault.Txn,
+	span yacymodel.DHTRingSpan,
+) (earliestDueAt time.Time, found bool, err error) {
+	for slice := scheduleSliceOf(span.First); slice <= scheduleSliceOf(span.Last); slice++ {
 		if err := s.schedule.Scan(
 			tx,
 			everyWordPartitionInSlice(slice),
 			func(scheduled ScheduledWordPartition) (bool, error) {
+				if !span.Contains(
+					yacymodel.DHTRingPositionOfWordPartition(scheduled.WordPartition, s.partitions),
+				) {
+					return true, nil
+				}
 				if !found || scheduled.dueAt.Before(earliestDueAt) {
 					earliestDueAt, found = scheduled.dueAt, true
 				}

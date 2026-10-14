@@ -103,6 +103,92 @@ func TestAcceptanceEndsPause(t *testing.T) {
 	}
 }
 
+func TestDeclinedOfferGivesADeclinedPauseEndingAtTheRequestedPause(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Minute, clk)
+	peer := yacymodel.WordHash("peer")
+
+	peers.OfferDeclined(peer, time.Hour)
+
+	pause, paused := peers.PauseOf(peer)
+	want := peereligibility.Pause{
+		EndsAt: clk.at.Add(time.Hour),
+		Cause:  peereligibility.PauseDeclined,
+	}
+	if !paused || pause != want {
+		t.Fatalf("PauseOf = %+v, %v, want %+v", pause, paused, want)
+	}
+}
+
+func TestDeclinedOfferPausesAtLeastTheLeastPause(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Minute, clk)
+	peer := yacymodel.WordHash("peer")
+
+	peers.OfferDeclined(peer, time.Second)
+
+	pause, paused := peers.PauseOf(peer)
+	if !paused || !pause.EndsAt.Equal(clk.at.Add(time.Minute)) {
+		t.Fatalf("PauseOf = %+v, %v, want a pause ending after the least pause", pause, paused)
+	}
+}
+
+func TestFailedOfferGivesAFailedPause(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Minute, clk)
+	peer := yacymodel.WordHash("peer")
+
+	peers.OfferFailed(context.Background(), peer)
+
+	pause, paused := peers.PauseOf(peer)
+	want := peereligibility.Pause{
+		EndsAt: clk.at.Add(time.Minute),
+		Cause:  peereligibility.PauseFailed,
+	}
+	if !paused || pause != want {
+		t.Fatalf("PauseOf = %+v, %v, want %+v", pause, paused, want)
+	}
+}
+
+func TestTheLatestOfferOutcomeDecidesThePauseCause(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Minute, clk)
+	peer := yacymodel.WordHash("peer")
+	peers.OfferFailed(context.Background(), peer)
+
+	peers.OfferDeclined(peer, 0)
+
+	if pause, _ := peers.PauseOf(peer); pause.Cause != peereligibility.PauseDeclined {
+		t.Fatalf("pause cause = %q, want %q", pause.Cause, peereligibility.PauseDeclined)
+	}
+}
+
+func TestAcceptanceClearsThePause(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Hour, clk)
+	peer := yacymodel.WordHash("peer")
+	peers.OfferFailed(context.Background(), peer)
+
+	peers.OfferAccepted(peer)
+
+	if pause, paused := peers.PauseOf(peer); paused {
+		t.Fatalf("PauseOf = %+v, want no pause after the peer accepted an offer", pause)
+	}
+}
+
+func TestNoPauseRemainsOnceItEnds(t *testing.T) {
+	clk := &clock{at: time.Unix(1000, 0)}
+	peers := peersWith(time.Minute, clk)
+	peer := yacymodel.WordHash("peer")
+	peers.OfferDeclined(peer, 0)
+
+	clk.at = clk.at.Add(time.Minute)
+
+	if pause, paused := peers.PauseOf(peer); paused {
+		t.Fatalf("PauseOf = %+v, want no pause once it ends", pause)
+	}
+}
+
 type exclusionHarness struct {
 	clk        *clock
 	counter    *fakeObserver

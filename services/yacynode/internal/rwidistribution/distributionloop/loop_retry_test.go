@@ -146,7 +146,9 @@ func TestLoopKeepsAHeldWordPartitionOnItsLastRefreshWhenItSendsANewPosting(t *te
 		h.advance(refreshInterval / 2)
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.write(t, func(tx *vault.Txn) error {
-			return h.schedule.MakeDue(tx, wordPartition)
+			_, err := h.schedule.MakeDue(tx, wordPartition)
+
+			return err
 		})
 
 		h.start(t)

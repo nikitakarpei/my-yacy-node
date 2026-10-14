@@ -114,6 +114,66 @@ func (o *Offers) RefreshOffersFor(
 	)
 }
 
+func (o *Offers) DueOffersFor(
+	ctx context.Context,
+	dueWordPartitions []yacymodel.WordPartition,
+	reachablePeers []yacymodel.Seed,
+) ([]Offer, error) {
+	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
+	var offers []Offer
+	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		offers, err = o.offersForFreePeers(ctx, tx, dueWordPartitions, acceptingPeers)
+
+		return err
+	}); err != nil {
+		return nil, err
+	}
+
+	return offers, nil
+}
+
+func (o *Offers) offersForFreePeers(
+	ctx context.Context,
+	tx *vault.Txn,
+	dueWordPartitions []yacymodel.WordPartition,
+	acceptingPeers yacymodel.SeedRing,
+) ([]Offer, error) {
+	var offers []Offer
+	for _, wordPartition := range dueWordPartitions {
+		peers, err := o.peersOf(ctx, tx, wordPartition, acceptingPeers)
+		if err != nil {
+			return nil, err
+		}
+		if _, mustWait := peers.waitFrom(o.eligibility); mustWait {
+			continue
+		}
+		offer, err := o.dueOfferFor(tx, peers)
+		if err != nil {
+			return nil, err
+		}
+		offers = append(offers, offer)
+	}
+
+	return offers, nil
+}
+
+func (o *Offers) dueOfferFor(tx *vault.Txn, peers wordPartitionPeers) (Offer, error) {
+	undelivered, err := o.undelivered.PostingsOf(tx, peers.wordPartition)
+	if err != nil {
+		return Offer{}, err
+	}
+	isRefreshDue, err := o.schedule.IsRefreshDue(tx, peers.wordPartition)
+	if err != nil {
+		return Offer{}, err
+	}
+	if len(undelivered) > 0 && !isRefreshDue {
+		return o.undeliveredOfferFor(tx, undelivered, peers)
+	}
+
+	return o.refreshOfferFor(tx, peers)
+}
+
 func (o *Offers) batchFor(
 	ctx context.Context,
 	reachablePeers []yacymodel.Seed,
