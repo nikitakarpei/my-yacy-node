@@ -19,6 +19,7 @@ type gaugeObservation struct {
 	schedule        *wordpartitionschedule.Schedule
 	roster          ReachablePeers
 	clock           Clock
+	walk            *arcWalk
 	backlogObserver BacklogObserver
 	dhtRingObserver DHTRingObserver
 }
@@ -26,6 +27,7 @@ type gaugeObservation struct {
 func (g *gaugeObservation) observeUntilDone(ctx context.Context) {
 	for ctx.Err() == nil {
 		g.observeBacklog(ctx)
+		g.observeArcs()
 		g.observePeersAcceptingRemoteIndex(ctx)
 		sleepOn(ctx, g.clock, gaugeObservationInterval)
 	}
@@ -40,6 +42,14 @@ func (g *gaugeObservation) observeBacklog(ctx context.Context) {
 	}
 	g.backlogObserver.ObserveUndeliveredPostings(backlog.amountOfUndeliveredPostings)
 	g.backlogObserver.ObserveLongestRefreshLateness(backlog.longestRefreshLateness)
+}
+
+func (g *gaugeObservation) observeArcs() {
+	amountPerState := make(map[string]int, len(arcStates))
+	for state, amount := range g.walk.amountOfArcsPerState() {
+		amountPerState[string(state)] = amount
+	}
+	g.backlogObserver.ObserveArcs(amountPerState)
 }
 
 type backlog struct {

@@ -3,13 +3,9 @@ package distributionloop_test
 import (
 	"testing"
 	"testing/synctest"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
-
-var waitingForBusyRecipient = string(wordpartitionoffer.WaitRecipientBusy)
 
 type pacingHarness struct {
 	*loopHarness
@@ -19,7 +15,7 @@ type pacingHarness struct {
 	peerAnswer    chan struct{}
 }
 
-func openPacingLoop(t *testing.T, usualSendTime time.Duration) *pacingHarness {
+func openPacingLoop(t *testing.T) *pacingHarness {
 	t.Helper()
 
 	sent, waiting := wordPartitionsIn(1, 1)[0], wordPartitionsIn(40, 1)[0]
@@ -38,7 +34,7 @@ func openPacingLoop(t *testing.T, usualSendTime time.Duration) *pacingHarness {
 	h.transfers.answers[h.peer.Hash] = acceptedAnswer
 	h.transfers.onOffer = func(yacymodel.Seed) { <-h.peerAnswer }
 	h.eligibility.SendStarted(h.peer.Hash)
-	h.eligibility.SendEnded(h.peer.Hash, usualSendTime)
+	h.eligibility.SendEnded(h.peer.Hash, 2*workInFlight)
 
 	return h
 }
@@ -49,7 +45,7 @@ func (h *pacingHarness) offerTheSecondWordPartitionDuringTheFirstSend(t *testing
 	h.admit(t, h.sent, urlsOf(1)...)
 	h.start(t)
 	h.admit(t, h.waiting, urlsOf(1)...)
-	h.advance(rescanDelay)
+	h.settle()
 }
 
 func (h *pacingHarness) answer() {
@@ -59,15 +55,12 @@ func (h *pacingHarness) answer() {
 
 func TestLoopHoldsBackTheWordPartitionsOfASlowPeerWhileASendIsInFlight(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		h := openPacingLoop(t, 2*workInFlight)
+		h := openPacingLoop(t)
 
 		h.offerTheSecondWordPartitionDuringTheFirstSend(t)
 
 		if got := len(h.transfers.offeredTo(h.peer)); got != 1 {
 			t.Fatalf("transfers to the slow peer = %d, want 1 at a time", got)
-		}
-		if got := h.observer.wordPartitionsWaitingFor(waitingForBusyRecipient); got != 1 {
-			t.Fatalf("word partitions waiting for a busy recipient = %d, want 1", got)
 		}
 		h.answer()
 	})
@@ -75,11 +68,11 @@ func TestLoopHoldsBackTheWordPartitionsOfASlowPeerWhileASendIsInFlight(t *testin
 
 func TestLoopSendsTheHeldBackWordPartitionOnceTheSlowPeerAnswers(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		h := openPacingLoop(t, 2*workInFlight)
+		h := openPacingLoop(t)
 		h.offerTheSecondWordPartitionDuringTheFirstSend(t)
 
 		h.answer()
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := len(h.transfers.offeredTo(h.peer)); got != 2 {
 			t.Fatalf("transfers to the slow peer = %d, want 2", got)
@@ -90,19 +83,6 @@ func TestLoopSendsTheHeldBackWordPartitionOnceTheSlowPeerAnswers(t *testing.T) {
 	})
 }
 
-func TestLoopSendsSeveralWordPartitionsAtOnceToAFastPeer(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		h := openPacingLoop(t, workInFlight/4)
-
-		h.offerTheSecondWordPartitionDuringTheFirstSend(t)
-
-		if got := len(h.transfers.offeredTo(h.peer)); got != 2 {
-			t.Fatalf("transfers to the fast peer = %d, want 2 in flight at once", got)
-		}
-		h.answer()
-	})
-}
-
 func TestLoopEndsTheSendToAPeerThatDoesNotAccept(t *testing.T) {
 	for name, answer := range map[string]fakeAnswer{
 		"declined": declinedAnswer,
@@ -110,7 +90,7 @@ func TestLoopEndsTheSendToAPeerThatDoesNotAccept(t *testing.T) {
 	} {
 		t.Run(name, func(t *testing.T) {
 			synctest.Test(t, func(t *testing.T) {
-				h := openPacingLoop(t, 2*workInFlight)
+				h := openPacingLoop(t)
 				h.transfers.answers[h.peer.Hash] = answer
 				h.admit(t, h.sent, urlsOf(1)...)
 				h.start(t)
@@ -127,7 +107,7 @@ func TestLoopEndsTheSendToAPeerThatDoesNotAccept(t *testing.T) {
 
 func TestLoopEndsTheSendCancelledWhileInFlight(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		h := openPacingLoop(t, 2*workInFlight)
+		h := openPacingLoop(t)
 		h.admit(t, h.sent, urlsOf(1)...)
 		cancel := h.startCancellable(t)
 

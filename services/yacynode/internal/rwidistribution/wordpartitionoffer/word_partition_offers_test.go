@@ -40,6 +40,7 @@ type harness struct {
 	reachability *fakeReachability
 	eligibility  fakeEligibility
 	clock        time.Time
+	admitted     []yacymodel.WordPartition
 }
 
 func openHarness(t *testing.T, opts options) *harness {
@@ -124,6 +125,9 @@ func (h *harness) admit(
 ) {
 	t.Helper()
 
+	if !slices.Contains(h.admitted, wordPartition) {
+		h.admitted = append(h.admitted, wordPartition)
+	}
 	h.write(t, func(tx *vault.Txn) error {
 		for _, url := range urls {
 			posting := yacymodel.RWIPosting{
@@ -143,10 +147,13 @@ func (h *harness) admit(
 func (h *harness) deliverEverything(t *testing.T) {
 	t.Helper()
 
-	undelivered := h.undeliveredWordPartitions(t)
 	h.write(t, func(tx *vault.Txn) error {
-		for _, wordPartition := range undelivered {
-			for _, posting := range wordPartition.Postings {
+		for _, wordPartition := range h.admitted {
+			undelivered, err := h.undelivered.PostingsOf(tx, wordPartition)
+			if err != nil {
+				return err
+			}
+			for _, posting := range undelivered {
 				if _, err := h.undelivered.MarkDelivered(tx, posting); err != nil {
 					return err
 				}
@@ -155,23 +162,6 @@ func (h *harness) deliverEverything(t *testing.T) {
 
 		return nil
 	})
-}
-
-func (h *harness) undeliveredWordPartitions(
-	t *testing.T,
-) []undeliveredpostings.WordPartition {
-	t.Helper()
-
-	var wordPartitions []undeliveredpostings.WordPartition
-	h.read(t, func(tx *vault.Txn) error {
-		var err error
-		wordPartitions, _, err = h.undelivered.WordPartitionsAfter(
-			tx, undeliveredpostings.Posting{}, everyEntryBudget)
-
-		return err
-	})
-
-	return wordPartitions
 }
 
 var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
@@ -213,36 +203,26 @@ func (h *harness) recordNoHolders(t *testing.T, wordPartition yacymodel.WordPart
 	})
 }
 
-func (h *harness) undeliveredBatch(
+func (h *harness) undeliveredOffers(
 	t *testing.T,
 	reachablePeers ...yacymodel.Seed,
-) wordpartitionoffer.Batch {
+) []wordpartitionoffer.Offer {
 	t.Helper()
 
-	undelivered := h.undeliveredWordPartitions(t)
-	h.reachability.reachable = reachablePeers
-	batch, err := h.offers.UndeliveredOffersFor(context.Background(), undelivered, reachablePeers)
-	if err != nil {
-		t.Fatalf("UndeliveredOffersFor: %v", err)
+	for _, wordPartition := range h.admitted {
+		h.makeDue(t, wordPartition)
 	}
 
-	return batch
+	return h.dueOffers(t, reachablePeers...)
 }
 
-func (h *harness) refreshBatch(
+func (h *harness) refreshOffers(
 	t *testing.T,
 	reachablePeers ...yacymodel.Seed,
-) wordpartitionoffer.Batch {
+) []wordpartitionoffer.Offer {
 	t.Helper()
 
-	due := h.dueWordPartitions(t)
-	h.reachability.reachable = reachablePeers
-	batch, err := h.offers.RefreshOffersFor(context.Background(), due, reachablePeers)
-	if err != nil {
-		t.Fatalf("RefreshOffersFor: %v", err)
-	}
-
-	return batch
+	return h.dueOffers(t, reachablePeers...)
 }
 
 func (h *harness) dueOffers(
@@ -390,7 +370,7 @@ func onlyOffer(
 func wordPartitionsOf(offers []wordpartitionoffer.Offer) []yacymodel.WordPartition {
 	wordPartitions := make([]yacymodel.WordPartition, 0, len(offers))
 	for _, offer := range offers {
-		wordPartitions = append(wordPartitions, offer.OutcomeFrom(nil).WordPartition)
+		wordPartitions = append(wordPartitions, offer.WordPartition())
 	}
 
 	return wordPartitions
@@ -527,7 +507,7 @@ func TestAHolderGetsOnlyTheUndeliveredPostingsAndAMissingHolderTheWholeWordParti
 	h.recordHolders(t, wordPartition, holder.Hash)
 	h.admit(t, wordPartition, urls[2])
 
-	offers := h.undeliveredBatch(t, holder, missingHolder).Offers
+	offers := h.undeliveredOffers(t, holder, missingHolder)
 
 	offer := onlyOffer(t, offers)
 	if got, want := urlsSentTo(t, offer, holder), urls[2:]; !slices.Equal(got, want) {
@@ -559,7 +539,7 @@ func TestAWordPartitionWithARecipientPausedWaitsWhileTheOthersGoOut(t *testing.T
 	h.admit(t, free, urlsOfPartition(1)...)
 	h.eligibility.pausedPeers[pausedPeer.Hash] = true
 
-	offers := h.undeliveredBatch(t, pausedPeer, freePeer).Offers
+	offers := h.undeliveredOffers(t, pausedPeer, freePeer)
 
 	if got := wordPartitionsOf(offers); !slices.Equal(got, []yacymodel.WordPartition{free}) {
 		t.Fatalf("offers = %v, want only %v while %v waits", got, free, waiting)
@@ -573,7 +553,7 @@ func TestAMissingHolderGetsTheWholeOfABigWordPartitionInOneOffer(t *testing.T) {
 	urls := urlsOfPartition(5)
 	h.admit(t, wordPartition, urls...)
 
-	offer := onlyOffer(t, h.undeliveredBatch(t, missingHolder).Offers)
+	offer := onlyOffer(t, h.undeliveredOffers(t, missingHolder))
 
 	if got := urlsSentTo(t, offer, missingHolder); !slices.Equal(got, sortedURLs(urls)) {
 		t.Fatalf("missing holder gets %v, want the whole word partition %v", got, urls)
@@ -592,7 +572,7 @@ func TestADueRefreshSendsTheWholeWordPartitionToEveryRecipient(t *testing.T) {
 	h.clock = h.clock.Add(refreshInterval)
 	h.recordHolders(t, notDue, holder.Hash)
 
-	refresh := onlyOffer(t, h.refreshBatch(t, holder, missingHolder).Offers)
+	refresh := onlyOffer(t, h.refreshOffers(t, holder, missingHolder))
 
 	if refresh.OutcomeFrom(nil).WordPartition != refreshed {
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
@@ -615,7 +595,7 @@ func TestADueRefreshCarriesTheUndeliveredPostingsOfItsWordPartition(t *testing.T
 	h.clock = h.clock.Add(refreshInterval)
 	h.admit(t, refreshed, urls[2])
 
-	refresh := onlyOffer(t, h.refreshBatch(t, holder).Offers)
+	refresh := onlyOffer(t, h.refreshOffers(t, holder))
 
 	if refresh.OutcomeFrom(nil).WordPartition != refreshed {
 		t.Fatalf("offer = %+v, want the refresh of %v", refresh, refreshed)
@@ -640,7 +620,7 @@ func TestADueRefreshWithoutHoldersSendsTheWholeWordPartitionToEveryResponsiblePe
 	h.recordNoHolders(t, refreshed)
 	h.clock = h.clock.Add(retryDelay)
 
-	refresh := onlyOffer(t, h.refreshBatch(t, responsiblePeers...).Offers)
+	refresh := onlyOffer(t, h.refreshOffers(t, responsiblePeers...))
 
 	if len(refresh.OutcomeFrom(nil).Holders) != 0 {
 		t.Fatalf("offer = %+v, want a refresh without holders", refresh)
@@ -661,7 +641,7 @@ func TestThisNodeAmongTheResponsiblePeersIsNeverARecipient(t *testing.T) {
 	closest, farther := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
 
-	offer := onlyOffer(t, h.undeliveredBatch(t, closest, farther).Offers)
+	offer := onlyOffer(t, h.undeliveredOffers(t, closest, farther))
 
 	want := []yacymodel.Hash{closest.Hash}
 	responsiblePeers := offer.OutcomeFrom(nil).ResponsiblePeers
@@ -684,7 +664,7 @@ func TestAWordPartitionWithoutRecipientsWaits(t *testing.T) {
 	h.recordHolders(t, waiting, absentHolder.Hash)
 	h.reachability.recentlyReachable[absentHolder.Hash] = true
 
-	offers := h.undeliveredBatch(t, responsiblePeer, otherPeer).Offers
+	offers := h.undeliveredOffers(t, responsiblePeer, otherPeer)
 
 	if got := wordPartitionsOf(offers); !slices.Equal(got, []yacymodel.WordPartition{free}) {
 		t.Fatalf(
@@ -711,7 +691,7 @@ func TestAHolderOutsideTheResponsiblePeersIsStaleAndReplaced(t *testing.T) {
 				reachablePeers = append(reachablePeers, holder)
 			}
 
-			offer := onlyOffer(t, h.undeliveredBatch(t, reachablePeers...).Offers)
+			offer := onlyOffer(t, h.undeliveredOffers(t, reachablePeers...))
 
 			want := []yacymodel.Hash{responsiblePeer.Hash}
 			if got := recipientPeersOf(offer); !slices.Equal(got, want) {
@@ -729,7 +709,7 @@ func TestAPeerRefusingRemoteIndexIsNeverARecipient(t *testing.T) {
 	refusingPeer.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
 	h.admit(t, wordPartition, urlsOfPartition(1)...)
 
-	offer := onlyOffer(t, h.undeliveredBatch(t, refusingPeer, acceptingPeer).Offers)
+	offer := onlyOffer(t, h.undeliveredOffers(t, refusingPeer, acceptingPeer))
 
 	if got, want := recipientPeersOf(
 		offer,
@@ -750,17 +730,18 @@ func TestAWordPartitionInRetryGoesOutOnlyAsADueRefresh(t *testing.T) {
 	urls := urlsOfPartition(1)
 	h.admit(t, inRetry, urls...)
 	h.recordNoHolders(t, inRetry)
+	h.makeDue(t, inRetry)
 
-	if offers := h.undeliveredBatch(t, peer).Offers; len(offers) != 0 {
+	if offers := h.dueOffers(t, peer); len(offers) != 0 {
 		t.Fatalf("offers before the retry = %v, want none", offers)
 	}
 
 	h.clock = h.clock.Add(retryDelay)
-	if offers := h.undeliveredBatch(t, peer).Offers; len(offers) != 0 {
-		t.Fatalf("undelivered offers at the retry = %v, want none", offers)
-	}
-	refresh := onlyOffer(t, h.refreshBatch(t, peer).Offers)
+	refresh := onlyOffer(t, h.dueOffers(t, peer))
 
+	if !refresh.OutcomeFrom(nil).IsRefresh {
+		t.Fatalf("offer at the retry = %+v, want a refresh", refresh)
+	}
 	if got := undeliveredURLsOf(refresh); !slices.Equal(got, urls) {
 		t.Fatalf("undelivered postings = %v, want %v", got, urls)
 	}
@@ -778,7 +759,7 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	h.admit(t, wordPartition, urls[1])
 	h.eligibility.excludedPeers[excludedHolder.Hash] = true
 
-	offer := onlyOffer(t, h.undeliveredBatch(t, excludedHolder, holder, nextPeer).Offers)
+	offer := onlyOffer(t, h.undeliveredOffers(t, excludedHolder, holder, nextPeer))
 
 	if got, want := recipientPeersOf(
 		offer,
@@ -798,128 +779,6 @@ func TestAnExcludedHolderIsStaleAndTheNextPeerGetsTheWholeWordPartition(t *testi
 	responsiblePeers := offer.OutcomeFrom(nil).ResponsiblePeers
 	if !slices.Equal(responsiblePeers, []yacymodel.Hash{holder.Hash, nextPeer.Hash}) {
 		t.Fatalf("ResponsiblePeers = %v, want the holder and the next peer", responsiblePeers)
-	}
-}
-
-func TestAnUndeliveredWordPartitionWithARecipientPausedWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	peer := peerAfter(wordPartition, 0)
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.eligibility.pausedPeers[peer.Hash] = true
-
-	batch := h.undeliveredBatch(t, peer)
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientPaused)
-}
-
-func TestAnUndeliveredWordPartitionWithABusyRecipientWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	peer := peerAfter(wordPartition, 0)
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.eligibility.busyPeers[peer.Hash] = true
-
-	batch := h.undeliveredBatch(t, peer)
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientBusy)
-}
-
-func TestAnUndeliveredWordPartitionInRetryWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.recordNoHolders(t, wordPartition)
-
-	batch := h.undeliveredBatch(t, peerAfter(wordPartition, 0))
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitWordPartitionInRetry)
-}
-
-func TestAnUndeliveredWordPartitionWithoutRecipientsWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	absentHolder := peerAfter(wordPartition, 1<<40)
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.recordHolders(t, wordPartition, absentHolder.Hash)
-	h.reachability.recentlyReachable[absentHolder.Hash] = true
-
-	batch := h.undeliveredBatch(t, peerAfter(wordPartition, 0))
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitNoRecipient)
-}
-
-func TestADueRefreshWithARecipientPausedWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	holder := peerAfter(wordPartition, 0)
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.deliverEverything(t)
-	h.recordHolders(t, wordPartition, holder.Hash)
-	h.clock = h.clock.Add(refreshInterval)
-	h.eligibility.pausedPeers[holder.Hash] = true
-
-	batch := h.refreshBatch(t, holder)
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientPaused)
-}
-
-func TestADueRefreshWithABusyRecipientWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	holder := peerAfter(wordPartition, 0)
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.deliverEverything(t)
-	h.recordHolders(t, wordPartition, holder.Hash)
-	h.clock = h.clock.Add(refreshInterval)
-	h.eligibility.busyPeers[holder.Hash] = true
-
-	batch := h.refreshBatch(t, holder)
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitRecipientBusy)
-}
-
-func TestADueRefreshWithoutRecipientsWaits(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	absentHolder := peerAfter(wordPartition, 1<<40)
-	h.admit(t, wordPartition, urlsOfPartition(1)...)
-	h.deliverEverything(t)
-	h.recordHolders(t, wordPartition, absentHolder.Hash)
-	h.reachability.recentlyReachable[absentHolder.Hash] = true
-	h.clock = h.clock.Add(refreshInterval)
-
-	batch := h.refreshBatch(t, peerAfter(wordPartition, 0))
-
-	assertWaits(t, batch.Waits, wordPartition, wordpartitionoffer.WaitNoRecipient)
-}
-
-func TestAnOfferedWordPartitionDoesNotWait(t *testing.T) {
-	h := openHarness(t, options{})
-	wordPartition := fixtureWordPartitions(1)[0]
-	holder := peerAfter(wordPartition, 0)
-	h.admit(t, wordPartition, urlsOfPartition(2)...)
-	h.recordHolders(t, wordPartition, holder.Hash)
-	h.clock = h.clock.Add(refreshInterval)
-
-	batch := h.refreshBatch(t, holder)
-
-	if len(batch.Offers) == 0 || len(batch.Waits) != 0 {
-		t.Fatalf("offers = %v and waits = %v, want an offer and no wait", batch.Offers, batch.Waits)
-	}
-}
-
-func assertWaits(
-	t *testing.T,
-	waits []wordpartitionoffer.Wait,
-	wordPartition yacymodel.WordPartition,
-	waitReason wordpartitionoffer.WaitReason,
-) {
-	t.Helper()
-
-	want := []wordpartitionoffer.Wait{{Position: positionOf(wordPartition), Reason: waitReason}}
-	if !slices.Equal(waits, want) {
-		t.Fatalf("waits = %v, want %v", waits, want)
 	}
 }
 
@@ -1033,5 +892,34 @@ func TestADueWordPartitionWithAPausedOrBusyRecipientIsLeftOut(t *testing.T) {
 
 	if offers := h.dueOffers(t, pausedPeer, busyPeer); len(offers) != 0 {
 		t.Fatalf("offers = %+v, want none", offers)
+	}
+}
+
+func TestADueWordPartitionWithoutRecipientsIsLeftOut(t *testing.T) {
+	h := openHarness(t, options{})
+	wordPartition := fixtureWordPartitions(1)[0]
+	absentHolder := peerAfter(wordPartition, 1<<40)
+	h.admit(t, wordPartition, urlsOfPartition(1)...)
+	h.recordHolders(t, wordPartition, absentHolder.Hash)
+	h.reachability.recentlyReachable[absentHolder.Hash] = true
+	h.clock = h.clock.Add(refreshInterval)
+
+	if offers := h.dueOffers(t, peerAfter(wordPartition, 0)); len(offers) != 0 {
+		t.Fatalf("offers = %+v, want none", offers)
+	}
+}
+
+func TestArcsAmongLeaveOutPeersThatRefuseRemoteIndexOrAreExcluded(t *testing.T) {
+	h := openHarness(t, options{redundancy: 1})
+	wordPartition := fixtureWordPartitions(1)[0]
+	accepting, refusing, excluded := peerAfter(wordPartition, 0), peerAfter(wordPartition, 1),
+		peerAfter(wordPartition, 2)
+	refusing.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
+	h.eligibility.excludedPeers[excluded.Hash] = true
+
+	arcs := h.offers.ArcsAmong([]yacymodel.Seed{accepting, refusing, excluded})
+
+	if len(arcs) != 1 || len(arcs[0].Window) != 1 || arcs[0].Window[0].Hash != accepting.Hash {
+		t.Fatalf("arcs = %+v, want one arc with only the accepting peer", arcs)
 	}
 }

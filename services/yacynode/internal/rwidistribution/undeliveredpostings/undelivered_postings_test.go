@@ -137,54 +137,27 @@ func (h harness) read(t *testing.T, view func(tx *vault.Txn) error) {
 	}
 }
 
-func (h harness) wordPartitionsAfter(
-	t *testing.T,
-	lastReadPosting undeliveredpostings.Posting,
-	postingsBudget int,
-) []undeliveredpostings.WordPartition {
-	t.Helper()
-
-	wordPartitions, _ := h.wordPartitionsAndEndAfter(t, lastReadPosting, postingsBudget)
-
-	return wordPartitions
-}
-
-func (h harness) wordPartitionsAndEndAfter(
-	t *testing.T,
-	lastReadPosting undeliveredpostings.Posting,
-	postingsBudget int,
-) ([]undeliveredpostings.WordPartition, bool) {
-	t.Helper()
-
-	var (
-		wordPartitions []undeliveredpostings.WordPartition
-		reachedEnd     bool
-	)
-	h.read(t, func(tx *vault.Txn) error {
-		var err error
-		wordPartitions, reachedEnd, err = h.undelivered.WordPartitionsAfter(
-			tx, lastReadPosting, postingsBudget)
-
-		return err
-	})
-
-	return wordPartitions, reachedEnd
-}
-
 func (h harness) readWhole(t *testing.T) []undeliveredpostings.Posting {
 	t.Helper()
 
-	return postingsIn(
-		h.wordPartitionsAfter(t, undeliveredpostings.Posting{}, len(everyPosting())),
-	)
-}
-
-func postingsIn(
-	wordPartitions []undeliveredpostings.WordPartition,
-) []undeliveredpostings.Posting {
 	var postings []undeliveredpostings.Posting
-	for _, wordPartition := range wordPartitions {
-		postings = append(postings, wordPartition.Postings...)
+	seen := map[yacymodel.WordPartition]bool{}
+	for _, identity := range everyPosting() {
+		wordPartition := yacymodel.WordPartitionOfWordAndURL(
+			identity.word,
+			identity.url,
+			h.partitions,
+		)
+		if seen[wordPartition] {
+			continue
+		}
+		seen[wordPartition] = true
+		h.read(t, func(tx *vault.Txn) error {
+			read, err := h.undelivered.PostingsOf(tx, wordPartition)
+			postings = append(postings, read...)
+
+			return err
+		})
 	}
 
 	return postings
@@ -219,16 +192,6 @@ func (h harness) anyIn(t *testing.T, wordPartition yacymodel.WordPartition) bool
 	})
 
 	return found
-}
-
-func (h harness) positionOf(
-	posting undeliveredpostings.Posting,
-) yacymodel.DHTRingPosition {
-	return yacymodel.DHTRingPositionOfWordAndURL(
-		posting.WordPartition.Word,
-		posting.URL,
-		h.partitions,
-	)
 }
 
 func everyPosting() []postingIdentity {
@@ -267,7 +230,7 @@ func identitiesOf(postings []undeliveredpostings.Posting) []postingIdentity {
 	return identities
 }
 
-func TestAReadVisitsEveryPostingOnceInRingOrder(t *testing.T) {
+func TestAReadVisitsEveryPostingOnce(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
 
@@ -280,122 +243,6 @@ func TestAReadVisitsEveryPostingOnceInRingOrder(t *testing.T) {
 		if !slices.Contains(identitiesOf(readPostings), identity) {
 			t.Fatalf("read did not visit %v", identity)
 		}
-	}
-	for index := 1; index < len(readPostings); index++ {
-		if h.positionOf(readPostings[index]) < h.positionOf(readPostings[index-1]) {
-			t.Fatalf("read goes back on the ring at %d", index)
-		}
-	}
-}
-
-func TestAReadPostingTellsItsRingPosition(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-
-	for _, posting := range h.readWhole(t) {
-		if got, want := posting.Position(), h.positionOf(posting); got != want {
-			t.Fatalf("Position of %+v = %v, want %v", identityOf(posting), got, want)
-		}
-	}
-}
-
-func TestAReadGroupsThePostingsOfEachWordPartition(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-
-	wordPartitions := h.wordPartitionsAfter(
-		t, undeliveredpostings.Posting{}, len(everyPosting()))
-
-	seen := map[yacymodel.WordPartition]bool{}
-	for _, wordPartition := range wordPartitions {
-		if seen[wordPartition.WordPartition] {
-			t.Fatalf("word partition %+v comes in two groups", wordPartition.WordPartition)
-		}
-		seen[wordPartition.WordPartition] = true
-		for _, posting := range wordPartition.Postings {
-			if posting.WordPartition != wordPartition.WordPartition {
-				t.Fatalf("group %+v holds a posting of %+v",
-					wordPartition.WordPartition, posting.WordPartition)
-			}
-		}
-	}
-}
-
-func TestAReadStopsAtTheFirstWordPartitionEndPastItsBudget(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-	whole := h.wordPartitionsAfter(
-		t, undeliveredpostings.Posting{}, len(everyPosting()))
-	if len(whole[0].Postings) < 2 {
-		t.Fatalf("first word partition holds %d postings, want at least 2", len(whole[0].Postings))
-	}
-
-	read := h.wordPartitionsAfter(t, undeliveredpostings.Posting{}, 1)
-
-	if len(read) != 1 || len(read[0].Postings) != len(whole[0].Postings) {
-		t.Fatalf("read with a budget of 1 = %+v, want all of the first word partition", read)
-	}
-}
-
-func TestAReadTellsWhetherItReachedTheEndOfTheRecord(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-	whole := h.wordPartitionsAfter(
-		t, undeliveredpostings.Posting{}, len(everyPosting()))
-
-	head, headReachedEnd := h.wordPartitionsAndEndAfter(
-		t,
-		undeliveredpostings.Posting{},
-		1,
-	)
-	rest, restReachedEnd := h.wordPartitionsAndEndAfter(
-		t, whole[len(whole)-2].LastPosting(), len(everyPosting()))
-	past, pastReachedEnd := h.wordPartitionsAndEndAfter(t, rest[0].LastPosting(), 1)
-
-	if len(head) != 1 || headReachedEnd {
-		t.Fatalf("read with a budget of 1 = %d word partitions, end %v; want 1 and no end",
-			len(head), headReachedEnd)
-	}
-	if len(rest) != 1 || rest[0].WordPartition != whole[len(whole)-1].WordPartition ||
-		!restReachedEnd {
-		t.Fatalf("read of the last word partition = %+v, end %v; want it and the end",
-			rest, restReachedEnd)
-	}
-	if len(past) != 0 || !pastReachedEnd {
-		t.Fatalf("read past the end = %+v, end %v; want none and the end", past, pastReachedEnd)
-	}
-}
-
-func TestAReadAfterNoPostingStartsAtTheFirstPosting(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-
-	first := h.wordPartitionsAfter(t, undeliveredpostings.Posting{}, 1)
-	whole := h.readWhole(t)
-
-	if identityOf(first[0].Postings[0]) != identityOf(whole[0]) {
-		t.Fatalf("first read starts at %v, want %v", identityOf(first[0].Postings[0]),
-			identityOf(whole[0]))
-	}
-	for _, posting := range whole[1:] {
-		if h.positionOf(posting) < h.positionOf(whole[0]) {
-			t.Fatalf("posting %v sits before the first read", identityOf(posting))
-		}
-	}
-}
-
-func TestAReadResumesAfterTheLastPostingRead(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-	whole := h.readWhole(t)
-
-	head := h.wordPartitionsAfter(t, undeliveredpostings.Posting{}, len(whole)/2)
-	rest := h.wordPartitionsAfter(t, head[len(head)-1].LastPosting(), len(whole))
-
-	if got, want := identitiesOf(postingsIn(append(head, rest...))), identitiesOf(
-		whole,
-	); !slices.Equal(got, want) {
-		t.Fatalf("resumed read %v, want %v", got, want)
 	}
 }
 
@@ -550,9 +397,7 @@ func (h harness) amountOfPostings(t *testing.T) int {
 func TestAmountOfPostingsCountsTheUndeliveredOnes(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, 1, everyPosting()...)
-	readPostings := postingsIn(
-		h.wordPartitionsAfter(t, undeliveredpostings.Posting{}, len(everyPosting())/2),
-	)
+	readPostings := h.readWhole(t)[:len(everyPosting())/2]
 
 	for _, posting := range readPostings {
 		h.markDelivered(t, posting)

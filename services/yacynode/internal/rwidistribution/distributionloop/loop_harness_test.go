@@ -26,7 +26,6 @@ import (
 
 const (
 	postingsPerBatch  = 10
-	rescanDelay       = time.Second
 	refreshInterval   = time.Hour
 	retryDelay        = 10 * time.Minute
 	exclusionDuration = time.Hour
@@ -35,13 +34,14 @@ const (
 )
 
 type loopOptions struct {
-	self              yacymodel.Hash
-	redundancy        int
-	leastPause        time.Duration
-	minReachablePeers int
-	amountOfWorkers   int
-	postingsPerBatch  int
-	handoffEnabled    bool
+	self                        yacymodel.Hash
+	redundancy                  int
+	leastPause                  time.Duration
+	minReachablePeers           int
+	amountOfWorkers             int
+	postingsPerBatch            int
+	handoffEnabled              bool
+	failedOffersBeforeExclusion int
 }
 
 type loopHarness struct {
@@ -49,9 +49,11 @@ type loopHarness struct {
 	clk         *clock
 	index       *observedPostingIndex
 	admitter    rwipostings.PostingAdmitter
+	relay       *loopRelay
 	undelivered *undeliveredpostings.Postings
 	schedule    *wordpartitionschedule.Schedule
 	eligibility *peereligibility.Peers
+	offered     *hookedEligibility
 	roster      *fakeRoster
 	observer    *fakeObserver
 	transfers   *fakeTransfers
@@ -67,6 +69,9 @@ func withLoopDefaults(opts loopOptions) loopOptions {
 	}
 	if opts.amountOfWorkers == 0 {
 		opts.amountOfWorkers = 1
+	}
+	if opts.failedOffersBeforeExclusion == 0 {
+		opts.failedOffersBeforeExclusion = 1
 	}
 	if opts.postingsPerBatch == 0 {
 		opts.postingsPerBatch = postingsPerBatch
@@ -94,12 +99,14 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 	schedule := openSchedule(t, v, clk)
+	relay := &loopRelay{}
 
 	h := &loopHarness{
 		v:           v,
 		clk:         clk,
 		index:       &observedPostingIndex{index: index},
-		admitter:    admitter,
+		admitter:    schedule.AdmitterFrom(admitter, relay),
+		relay:       relay,
 		undelivered: undelivered,
 		schedule:    schedule,
 		roster:      &fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{}},
@@ -109,17 +116,18 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	h.eligibility = peereligibility.New(
 		peereligibility.Config{
 			LeastPause:                  opts.leastPause,
-			FailedOffersBeforeExclusion: 1,
+			FailedOffersBeforeExclusion: opts.failedOffersBeforeExclusion,
 			ExclusionDuration:           exclusionDuration,
 			WorkInFlight:                workInFlight,
 		},
 		clk.Now,
 		h.observer,
 	)
+	h.offered = &hookedEligibility{Peers: h.eligibility}
 	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, schedule, h.index, h.roster, h.eligibility,
+			v, undelivered, schedule, h.index, h.roster, h.offered,
 			wordpartitionoffer.Config{
 				Partitions: partitions(),
 				Self:       opts.self,
@@ -137,14 +145,13 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		h.observer,
 		h.observer,
 		distributionloop.Config{
-			UndeliveredPostingsPerBatch: opts.postingsPerBatch,
-			RefreshesPerBatch:           opts.postingsPerBatch,
-			PostingsPerTransfer:         opts.postingsPerBatch,
-			AmountOfWorkers:             opts.amountOfWorkers,
-			RescanDelay:                 rescanDelay,
-			MinReachablePeers:           opts.minReachablePeers,
+			PostingsPerBatch:    opts.postingsPerBatch,
+			PostingsPerTransfer: opts.postingsPerBatch,
+			AmountOfWorkers:     opts.amountOfWorkers,
+			MinReachablePeers:   opts.minReachablePeers,
 		},
 	)
+	relay.loop = h.loop
 
 	return h
 }
@@ -229,6 +236,10 @@ func (h *loopHarness) startCancellable(t *testing.T) (cancel func()) {
 	return cancel
 }
 
+func (h *loopHarness) settle() {
+	synctest.Wait()
+}
+
 func (h *loopHarness) advance(elapsed time.Duration) {
 	h.clk.advance(elapsed)
 	synctest.Wait()
@@ -236,6 +247,7 @@ func (h *loopHarness) advance(elapsed time.Duration) {
 
 func (h *loopHarness) reach(peers ...yacymodel.Seed) {
 	h.roster.reachable = peers
+	h.loop.ObserveReachablePeers(len(peers))
 }
 
 func (h *loopHarness) admit(
@@ -335,6 +347,30 @@ func (h *loopHarness) read(t *testing.T, view func(tx *vault.Txn) error) {
 
 	if err := h.v.View(context.Background(), view); err != nil {
 		t.Fatalf("View: %v", err)
+	}
+}
+
+type hookedEligibility struct {
+	*peereligibility.Peers
+
+	onExcludedAsked func()
+}
+
+func (e *hookedEligibility) IsExcluded(peer yacymodel.Hash) bool {
+	if e.onExcludedAsked != nil {
+		e.onExcludedAsked()
+	}
+
+	return e.Peers.IsExcluded(peer)
+}
+
+type loopRelay struct {
+	loop *distributionloop.Loop
+}
+
+func (r *loopRelay) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
+	if r.loop != nil {
+		r.loop.ObserveWordPartitionDue(position)
 	}
 }
 

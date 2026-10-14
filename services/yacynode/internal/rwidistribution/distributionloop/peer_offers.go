@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
@@ -14,6 +15,8 @@ import (
 type PeerEligibility interface {
 	SendStarted(peer yacymodel.Hash)
 	SendEnded(peer yacymodel.Hash, sendTime time.Duration)
+	IsBusy(peer yacymodel.Hash) bool
+	PauseOf(peer yacymodel.Hash) (peereligibility.Pause, bool)
 	OfferAccepted(peer yacymodel.Hash)
 	OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration)
 	OfferFailed(ctx context.Context, peer yacymodel.Hash)

@@ -109,27 +109,6 @@ yacynode_rwidistribution_stale_holders_dropped_total 2
 	}
 }
 
-func TestDistributionCountsSkippedBatchesByReason(t *testing.T) {
-	registry := prometheus.NewRegistry()
-	observer := metrics.NewDistributionMetrics(registry)
-
-	observer.ObserveBatchSkipped("too_few_reachable_peers")
-	observer.ObserveBatchSkipped("too_few_reachable_peers")
-
-	expected := `
-# HELP yacynode_rwidistribution_batches_skipped_total Distribution batches the node did not start, by reason.
-# TYPE yacynode_rwidistribution_batches_skipped_total counter
-yacynode_rwidistribution_batches_skipped_total{reason="too_few_reachable_peers"} 2
-`
-	if err := testutil.GatherAndCompare(
-		registry,
-		strings.NewReader(expected),
-		"yacynode_rwidistribution_batches_skipped_total",
-	); err != nil {
-		t.Fatalf("GatherAndCompare: %v", err)
-	}
-}
-
 func TestDistributionCountsCompletedBatches(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
@@ -138,7 +117,7 @@ func TestDistributionCountsCompletedBatches(t *testing.T) {
 	observer.ObserveBatchCompleted()
 
 	expected := `
-# HELP yacynode_rwidistribution_batches_completed_total Distribution batches that recorded their outcome or found no posting to send.
+# HELP yacynode_rwidistribution_batches_completed_total Distribution batches that recorded their outcome.
 # TYPE yacynode_rwidistribution_batches_completed_total counter
 yacynode_rwidistribution_batches_completed_total 2
 `
@@ -280,29 +259,6 @@ yacynode_rwidistribution_peers_excluded_total 2
 	}
 }
 
-func TestDistributionReportsWaitingWordPartitionsByReason(t *testing.T) {
-	registry := prometheus.NewRegistry()
-	observer := metrics.NewDistributionMetrics(registry)
-
-	observer.ObserveWordPartitionsWaiting("recipient_paused", 5)
-	observer.ObserveWordPartitionsWaiting("recipient_paused", 3)
-	observer.ObserveWordPartitionsWaiting("no_recipient", 1)
-
-	expected := `
-# HELP yacynode_rwidistribution_word_partitions_waiting Word partitions not sent over the last full read of the ring, by reason.
-# TYPE yacynode_rwidistribution_word_partitions_waiting gauge
-yacynode_rwidistribution_word_partitions_waiting{reason="no_recipient"} 1
-yacynode_rwidistribution_word_partitions_waiting{reason="recipient_paused"} 3
-`
-	if err := testutil.GatherAndCompare(
-		registry,
-		strings.NewReader(expected),
-		"yacynode_rwidistribution_word_partitions_waiting",
-	); err != nil {
-		t.Fatalf("GatherAndCompare: %v", err)
-	}
-}
-
 func TestDistributionTimesPeerRequestsByKind(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
@@ -410,6 +366,28 @@ yacynode_rwidistribution_peers_at_send_limit 1
 		registry,
 		strings.NewReader(expected),
 		"yacynode_rwidistribution_peers_at_send_limit",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestDistributionReportsArcsPerState(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObserveArcs(map[string]int{"in_batch": 2, "drained": 0})
+	observer.ObserveArcs(map[string]int{"in_batch": 1, "drained": 3})
+
+	expected := `
+# HELP yacynode_rwidistribution_arcs Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now.
+# TYPE yacynode_rwidistribution_arcs gauge
+yacynode_rwidistribution_arcs{state="drained"} 3
+yacynode_rwidistribution_arcs{state="in_batch"} 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"yacynode_rwidistribution_arcs",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

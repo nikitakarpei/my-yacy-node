@@ -44,7 +44,7 @@ func TestLoopSendsAHolderNothingAgainWhileItsWordPartitionIsInRetry(t *testing.T
 		h.start(t)
 
 		for range 3 {
-			h.advance(rescanDelay)
+			h.settle()
 		}
 
 		if got := len(h.transfers.offeredTo(holder)); got != 1 {
@@ -68,7 +68,7 @@ func TestLoopOffersANewPostingOfAWordPartitionAtRedundancyOnTheNextPass(t *testi
 		h.start(t)
 
 		h.admit(t, wordPartition, urls[1])
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := len(h.transfers.offeredTo(holder)); got != 2 {
 			t.Fatalf("transfers to the holder = %d, want the new posting on the next pass", got)
@@ -93,7 +93,7 @@ func TestLoopOffersNewPostingsAtOnceAgainAfterARetryReachedRedundancy(t *testing
 		h.advance(retryDelay)
 
 		h.admit(t, wordPartition, urls[1])
-		h.advance(rescanDelay)
+		h.settle()
 
 		if got := len(h.transfers.offeredTo(peer)); got != 3 {
 			t.Fatalf("transfers = %d, want the decline, the retry and the new posting", got)
@@ -119,7 +119,7 @@ func TestLoopPutsAWordPartitionInRetryWhenAHolderDeclinesItsNewPostings(t *testi
 		h.start(t)
 		h.transfers.answers[holder.Hash] = declinedAnswer
 		h.admit(t, wordPartition, urls[1])
-		h.advance(rescanDelay)
+		h.settle()
 
 		h.advance(retryDelay - time.Second)
 		if got := len(h.transfers.offeredTo(holder)); got != 2 {

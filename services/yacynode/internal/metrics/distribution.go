@@ -10,6 +10,7 @@ const (
 	labelOutcome = "outcome"
 	labelReason  = "reason"
 	labelRequest = "request"
+	labelState   = "state"
 
 	requestPostings    = "postings"
 	requestURLMetadata = "url_metadata"
@@ -30,14 +31,13 @@ type DistributionMetrics struct {
 	urlsUnknownToUs        prometheus.Counter
 	undeliveredPostings    prometheus.Gauge
 	longestRefreshLateness prometheus.Gauge
+	arcs                   *prometheus.GaugeVec
 	staleHoldersDropped    prometheus.Counter
 	postingsHandedOff      prometheus.Counter
 	postingsDelivered      prometheus.Counter
-	batchesSkipped         *prometheus.CounterVec
 	batchesCompleted       prometheus.Counter
 	batchesAborted         *prometheus.CounterVec
 	peersExcluded          prometheus.Counter
-	wordPartitionsWaiting  *prometheus.GaugeVec
 	peerRequestTime        *prometheus.HistogramVec
 	peerSendTime           prometheus.Histogram
 	postingsPerSend        prometheus.Histogram
@@ -51,7 +51,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
-//nolint:funlen // one literal that lists every distribution metric
+//nolint:funlen // one literal declaring every distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -86,6 +86,11 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_longest_refresh_lateness_seconds",
 			"How long the most overdue word partition refresh has waited past its refresh time.",
 		),
+		arcs: gaugePerLabelFor(
+			"yacynode_rwidistribution_arcs",
+			"Stretches of the DHT ring whose postings go to the same peers, by why each is or is not being sent now.",
+			labelState,
+		),
 		staleHoldersDropped: counterFor(
 			"yacynode_rwidistribution_stale_holders_dropped_total",
 			"Holders dropped because they are no longer responsible.",
@@ -98,14 +103,9 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_postings_delivered_total",
 			"Postings accepted by all peers of their DHT window and marked delivered.",
 		),
-		batchesSkipped: counterPerLabelFor(
-			"yacynode_rwidistribution_batches_skipped_total",
-			"Distribution batches the node did not start, by reason.",
-			labelReason,
-		),
 		batchesCompleted: counterFor(
 			"yacynode_rwidistribution_batches_completed_total",
-			"Distribution batches that recorded their outcome or found no posting to send.",
+			"Distribution batches that recorded their outcome.",
 		),
 		batchesAborted: counterPerLabelFor(
 			"yacynode_rwidistribution_batches_aborted_total",
@@ -115,11 +115,6 @@ func distributionMetrics() *DistributionMetrics {
 		peersExcluded: counterFor(
 			"yacynode_rwidistribution_peers_excluded_total",
 			"Peers excluded from distribution after failed offers in a row.",
-		),
-		wordPartitionsWaiting: gaugePerLabelFor(
-			"yacynode_rwidistribution_word_partitions_waiting",
-			"Word partitions not sent over the last full read of the ring, by reason.",
-			labelReason,
 		),
 		peerRequestTime: histogramPerLabelFor(
 			"yacynode_rwidistribution_peer_request_seconds",
@@ -153,14 +148,13 @@ func (d *DistributionMetrics) collectors() []prometheus.Collector {
 		d.urlsUnknownToUs,
 		d.undeliveredPostings,
 		d.longestRefreshLateness,
+		d.arcs,
 		d.staleHoldersDropped,
 		d.postingsHandedOff,
 		d.postingsDelivered,
-		d.batchesSkipped,
 		d.batchesCompleted,
 		d.batchesAborted,
 		d.peersExcluded,
-		d.wordPartitionsWaiting,
 		d.peerRequestTime,
 		d.peerSendTime,
 		d.postingsPerSend,
@@ -224,6 +218,12 @@ func (d *DistributionMetrics) ObserveLongestRefreshLateness(lateness time.Durati
 	d.longestRefreshLateness.Set(lateness.Seconds())
 }
 
+func (d *DistributionMetrics) ObserveArcs(amountPerState map[string]int) {
+	for state, amount := range amountPerState {
+		d.arcs.WithLabelValues(state).Set(float64(amount))
+	}
+}
+
 func (d *DistributionMetrics) ObserveStaleHoldersDropped(amountOfStaleHolders int) {
 	d.staleHoldersDropped.Add(float64(amountOfStaleHolders))
 }
@@ -236,10 +236,6 @@ func (d *DistributionMetrics) ObservePostingsDelivered(amountOfPostings int) {
 	d.postingsDelivered.Add(float64(amountOfPostings))
 }
 
-func (d *DistributionMetrics) ObserveBatchSkipped(reason string) {
-	d.batchesSkipped.WithLabelValues(reason).Inc()
-}
-
 func (d *DistributionMetrics) ObserveBatchCompleted() {
 	d.batchesCompleted.Inc()
 }
@@ -250,13 +246,6 @@ func (d *DistributionMetrics) ObserveBatchAborted(reason string) {
 
 func (d *DistributionMetrics) ObservePeerExcluded() {
 	d.peersExcluded.Inc()
-}
-
-func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
-	waitReason string,
-	amountOfWordPartitions int,
-) {
-	d.wordPartitionsWaiting.WithLabelValues(waitReason).Set(float64(amountOfWordPartitions))
 }
 
 func (d *DistributionMetrics) ObservePostingOfferAnswerTime(answerTime time.Duration) {

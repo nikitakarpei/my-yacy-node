@@ -1,8 +1,8 @@
-// Package distributionloop keeps sending postings. Workers take batches in turn
-// from two walks around the ring, one over undelivered postings and one over due
-// refreshes; no word partition is in two batches at once. After a pass, a walk
-// waits the rescan delay. A batch asks wordpartitionoffer what each peer gets,
-// sends to all its peers at once, and writes down what happened.
+// Package distributionloop keeps sending postings. It walks the ring by arc: the
+// stretch of ring whose window peers are the same. A worker takes an arc whose
+// window peers are free and reads only its due word partitions. A batch sends
+// them to the window peers at once and writes down what happened. A due word
+// partition or a roster change wakes the workers; no worker polls.
 package distributionloop
 
 import (
@@ -19,9 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
-type SkipReason string
-
-const SkipTooFewReachablePeers SkipReason = "too_few_reachable_peers"
+const retryDelayAfterVaultError = 10 * time.Second
 
 type AbortReason string
 
@@ -53,12 +51,10 @@ type PostingTransfers interface {
 }
 
 type Config struct {
-	UndeliveredPostingsPerBatch int
-	RefreshesPerBatch           int
-	PostingsPerTransfer         int
-	AmountOfWorkers             int
-	RescanDelay                 time.Duration
-	MinReachablePeers           int
+	PostingsPerBatch    int
+	PostingsPerTransfer int
+	AmountOfWorkers     int
+	MinReachablePeers   int
 }
 
 type Loop struct {
@@ -72,7 +68,8 @@ type Loop struct {
 	clock           Clock
 	batchObserver   BatchObserver
 	dhtRingObserver DHTRingObserver
-	walks           *ringWalks
+	walk            *arcWalk
+	batches         arcBatches
 	gauges          *gaugeObservation
 	config          Config
 }
@@ -93,6 +90,8 @@ func New(
 	dhtRingObserver DHTRingObserver,
 	config Config,
 ) *Loop {
+	walk := newArcWalk(clock, eligibility)
+
 	return &Loop{
 		vault:       v,
 		offers:      offers,
@@ -110,29 +109,24 @@ func New(
 		clock:           clock,
 		batchObserver:   batchObserver,
 		dhtRingObserver: dhtRingObserver,
-		walks: newRingWalks(
-			clock,
-			config.RescanDelay,
-			batchObserver,
-			&undeliveredPostingsList{
-				vault:          v,
-				undelivered:    undelivered,
-				offers:         offers,
-				postingsBudget: config.UndeliveredPostingsPerBatch,
+		walk:            walk,
+		batches: arcBatches{
+			walk: walk,
+			reader: arcReader{
+				vault:                  v,
+				schedule:               schedule,
+				amountOfWordPartitions: config.PostingsPerBatch,
 			},
-			&dueRefreshesList{
-				vault:           v,
-				schedule:        schedule,
-				offers:          offers,
-				refreshesBudget: config.RefreshesPerBatch,
-			},
-		),
+			offers:         offers,
+			postingsBudget: config.PostingsPerBatch,
+		},
 		gauges: &gaugeObservation{
 			vault:           v,
 			undelivered:     undelivered,
 			schedule:        schedule,
 			roster:          roster,
 			clock:           clock,
+			walk:            walk,
 			backlogObserver: backlogObserver,
 			dhtRingObserver: dhtRingObserver,
 		},
@@ -149,6 +143,14 @@ func (l *Loop) Run(ctx context.Context) {
 	workers.Wait()
 }
 
+func (l *Loop) ObserveWordPartitionDue(position yacymodel.DHTRingPosition) {
+	l.walk.signalDue(position)
+}
+
+func (l *Loop) ObserveReachablePeers(int) {
+	l.walk.signalReachablePeers()
+}
+
 func (l *Loop) offerBatchesUntilDone(ctx context.Context) {
 	for ctx.Err() == nil {
 		l.offerNextBatch(ctx)
@@ -156,67 +158,40 @@ func (l *Loop) offerBatchesUntilDone(ctx context.Context) {
 }
 
 func (l *Loop) offerNextBatch(ctx context.Context) {
+	wake := l.walk.wakeSignal()
 	peers := l.roster.ReachablePeers(ctx)
 	if len(peers) < l.config.MinReachablePeers {
-		l.skipTooFewReachablePeers(ctx, len(peers))
-		sleepOn(ctx, l.clock, l.config.RescanDelay)
+		waitOn(ctx, l.clock, wake, wakeAlarm{})
 
 		return
 	}
-	batch, found, err := l.walks.reserveNext(ctx)
+	search, err := l.batches.nextFrom(ctx, peers)
 	if err != nil {
 		l.reportDuePostingsUnread(ctx, err)
-		sleepOn(ctx, l.clock, l.config.RescanDelay)
+		sleepOn(ctx, l.clock, retryDelayAfterVaultError)
 
 		return
 	}
-	if !found {
-		sleepOn(ctx, l.clock, l.walks.shortestRescanDelayLeft())
+	if !search.hasBatch {
+		waitOn(ctx, l.clock, wake, search.alarm)
 
 		return
 	}
 
-	l.offerReservedBatch(ctx, batch, peers)
+	l.offerBatch(ctx, search.batch)
 }
 
-func (l *Loop) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
-	slog.DebugContext(
-		ctx,
-		"distribution batch skipped: too few reachable peers",
-		slog.Int("reachablePeers", reachablePeers),
-		slog.Int("minReachablePeers", l.config.MinReachablePeers),
-	)
-	l.batchObserver.ObserveBatchSkipped(string(SkipTooFewReachablePeers))
-}
-
-func (l *Loop) offerReservedBatch(
-	ctx context.Context,
-	reserved reservedBatch,
-	peers []yacymodel.Seed,
-) {
-	batch, err := reserved.batch.offersFor(ctx, peers)
-	if err != nil {
-		l.reportDuePostingsUnread(ctx, err)
-		l.abortBatch(ctx, reserved)
+func (l *Loop) offerBatch(ctx context.Context, batch dueBatch) {
+	answers := l.sender.send(ctx, batch.offers)
+	if err := l.commitBatch(ctx, batch.offers, answers); err != nil {
+		l.reportBatchUnwritten(ctx, err)
+		l.walk.abandon(batch.arc, batch.wordPartitions())
+		sleepOn(ctx, l.clock, retryDelayAfterVaultError)
 
 		return
 	}
-	if len(batch.Offers) > 0 {
-		answers := l.sender.send(ctx, batch.Offers)
-		if err := l.commitBatch(ctx, batch.Offers, answers); err != nil {
-			l.reportBatchUnwritten(ctx, err)
-			l.abortBatch(ctx, reserved)
-
-			return
-		}
-	}
-	l.walks.complete(reserved, batch.Waits)
+	l.walk.complete(batch.arc, batch.wordPartitions())
 	l.batchObserver.ObserveBatchCompleted()
-}
-
-func (l *Loop) abortBatch(ctx context.Context, reserved reservedBatch) {
-	l.walks.complete(reserved, nil)
-	sleepOn(ctx, l.clock, l.config.RescanDelay)
 }
 
 func (l *Loop) reportDuePostingsUnread(ctx context.Context, err error) {

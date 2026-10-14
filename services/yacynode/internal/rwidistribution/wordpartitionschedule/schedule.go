@@ -29,10 +29,6 @@ type ScheduledWordPartition struct {
 	dueAt         time.Time
 }
 
-func (s ScheduledWordPartition) Sector() yacymodel.DHTRingSector {
-	return s.slice.sector()
-}
-
 type Schedule struct {
 	entries         *vault.Collection[yacymodel.WordPartition, wordPartitionEntry]
 	schedule        *vault.ValueIndex[ScheduledWordPartition, ScheduledWordPartition]
@@ -76,18 +72,6 @@ func (s *Schedule) HoldersOf(
 	}
 
 	return entry.holders, nil
-}
-
-func (s *Schedule) IsInRetry(
-	tx *vault.Txn,
-	wordPartition yacymodel.WordPartition,
-) (bool, error) {
-	entry, _, err := s.entries.Get(tx, wordPartition)
-	if err != nil {
-		return false, fmt.Errorf("read word partition retry delay: %w", err)
-	}
-
-	return entry.retryDelay > 0, nil
 }
 
 func (s *Schedule) IsRefreshDue(

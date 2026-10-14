@@ -87,22 +87,12 @@ func missingHoldersIn(
 	return missingHolders
 }
 
-func (p wordPartitionPeers) waitFrom(eligibility PeerEligibility) (Wait, bool) {
+func (p wordPartitionPeers) mustWaitFor(eligibility PeerEligibility) bool {
 	recipients := p.recipients()
-	switch {
-	case len(recipients) == 0:
-		return p.waitFor(WaitNoRecipient), true
-	case anyRecipient(recipients, eligibility.IsPaused):
-		return p.waitFor(WaitRecipientPaused), true
-	case anyRecipient(recipients, eligibility.IsBusy):
-		return p.waitFor(WaitRecipientBusy), true
-	}
 
-	return Wait{}, false
-}
-
-func (p wordPartitionPeers) waitFor(reason WaitReason) Wait {
-	return Wait{Position: p.responsiblePeers.position, Reason: reason}
+	return len(recipients) == 0 ||
+		anyRecipient(recipients, eligibility.IsPaused) ||
+		anyRecipient(recipients, eligibility.IsBusy)
 }
 
 func anyRecipient(recipients []yacymodel.Seed, peerCondition func(peer yacymodel.Hash) bool) bool {

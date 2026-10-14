@@ -1,8 +1,7 @@
-// Package wordpartitionoffer decides what each peer gets for the word partitions
-// of a batch: a holder the postings it lacks, a missing holder or a due refresh
-// the whole word partition. A word partition waits while a recipient is paused
-// or busy, and one in retry goes out only as a due refresh. Excluded peers are
-// left out of the DHT ring.
+// Package wordpartitionoffer decides what each peer gets for the due word
+// partitions of a batch: a holder the postings it lacks, a missing holder or a
+// due refresh the whole word partition. A word partition gets no offer while a
+// recipient is paused or busy. Excluded peers are left out of the DHT ring.
 package wordpartitionoffer
 
 import (
@@ -38,15 +37,6 @@ type PeerEligibility interface {
 	IsExcluded(peer yacymodel.Hash) bool
 	IsBusy(peer yacymodel.Hash) bool
 }
-
-type WaitReason string
-
-const (
-	WaitRecipientPaused      WaitReason = "recipient_paused"
-	WaitRecipientBusy        WaitReason = "recipient_busy"
-	WaitWordPartitionInRetry WaitReason = "word_partition_in_retry"
-	WaitNoRecipient          WaitReason = "no_recipient"
-)
 
 type Config struct {
 	Partitions yacymodel.DHTRingPartitions
@@ -85,35 +75,6 @@ func New(
 	}
 }
 
-func (o *Offers) UndeliveredOffersFor(
-	ctx context.Context,
-	undeliveredWordPartitions []undeliveredpostings.WordPartition,
-	reachablePeers []yacymodel.Seed,
-) (Batch, error) {
-	return o.batchFor(
-		ctx,
-		reachablePeers,
-		func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error {
-			return o.addUndeliveredWordPartitions(
-				ctx, tx, undeliveredWordPartitions, acceptingPeers, batch)
-		},
-	)
-}
-
-func (o *Offers) RefreshOffersFor(
-	ctx context.Context,
-	dueWordPartitions []yacymodel.WordPartition,
-	reachablePeers []yacymodel.Seed,
-) (Batch, error) {
-	return o.batchFor(
-		ctx,
-		reachablePeers,
-		func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error {
-			return o.addDueRefreshes(ctx, tx, dueWordPartitions, acceptingPeers, batch)
-		},
-	)
-}
-
 func (o *Offers) DueOffersFor(
 	ctx context.Context,
 	dueWordPartitions []yacymodel.WordPartition,
@@ -145,7 +106,7 @@ func (o *Offers) offersForFreePeers(
 		if err != nil {
 			return nil, err
 		}
-		if _, mustWait := peers.waitFrom(o.eligibility); mustWait {
+		if peers.mustWaitFor(o.eligibility) {
 			continue
 		}
 		offer, err := o.dueOfferFor(tx, peers)
@@ -171,23 +132,11 @@ func (o *Offers) dueOfferFor(tx *vault.Txn, peers wordPartitionPeers) (Offer, er
 		return o.undeliveredOfferFor(tx, undelivered, peers)
 	}
 
-	return o.refreshOfferFor(tx, peers)
+	return o.refreshOfferFor(tx, undelivered, peers)
 }
 
-func (o *Offers) batchFor(
-	ctx context.Context,
-	reachablePeers []yacymodel.Seed,
-	addTo func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error,
-) (Batch, error) {
-	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
-	var batch Batch
-	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
-		return addTo(tx, acceptingPeers, &batch)
-	}); err != nil {
-		return Batch{}, err
-	}
-
-	return batch, nil
+func (o *Offers) ArcsAmong(reachablePeers []yacymodel.Seed) []yacymodel.SeedArc {
+	return o.acceptingPeersAmong(reachablePeers).Arcs(o.config.Redundancy)
 }
 
 func (o *Offers) acceptingPeersAmong(
@@ -201,45 +150,6 @@ func (o *Offers) acceptingPeersAmong(
 	}
 
 	return yacymodel.SeedRingFrom(acceptingPeers)
-}
-
-func (o *Offers) addUndeliveredWordPartitions(
-	ctx context.Context,
-	tx *vault.Txn,
-	undeliveredWordPartitions []undeliveredpostings.WordPartition,
-	acceptingPeers yacymodel.SeedRing,
-	batch *Batch,
-) error {
-	for _, undelivered := range undeliveredWordPartitions {
-		isInRetry, err := o.schedule.IsInRetry(tx, undelivered.WordPartition)
-		if err != nil {
-			return err
-		}
-		if isInRetry {
-			batch.addWait(Wait{
-				Position: o.positionOf(undelivered.WordPartition),
-				Reason:   WaitWordPartitionInRetry,
-			})
-
-			continue
-		}
-		peers, err := o.peersOf(ctx, tx, undelivered.WordPartition, acceptingPeers)
-		if err != nil {
-			return err
-		}
-		if wait, mustWait := peers.waitFrom(o.eligibility); mustWait {
-			batch.addWait(wait)
-
-			continue
-		}
-		offer, err := o.undeliveredOfferFor(tx, undelivered.Postings, peers)
-		if err != nil {
-			return err
-		}
-		batch.addOffer(offer)
-	}
-
-	return nil
 }
 
 func (o *Offers) peersOf(
@@ -368,41 +278,11 @@ func (o *Offers) postingsIn(
 	return wholeWordPartition, err
 }
 
-func (o *Offers) addDueRefreshes(
-	ctx context.Context,
-	tx *vault.Txn,
-	dueWordPartitions []yacymodel.WordPartition,
-	acceptingPeers yacymodel.SeedRing,
-	batch *Batch,
-) error {
-	for _, wordPartition := range dueWordPartitions {
-		peers, err := o.peersOf(ctx, tx, wordPartition, acceptingPeers)
-		if err != nil {
-			return err
-		}
-		if wait, mustWait := peers.waitFrom(o.eligibility); mustWait {
-			batch.addWait(wait)
-
-			continue
-		}
-		offer, err := o.refreshOfferFor(tx, peers)
-		if err != nil {
-			return err
-		}
-		batch.addOffer(offer)
-	}
-
-	return nil
-}
-
 func (o *Offers) refreshOfferFor(
 	tx *vault.Txn,
+	undelivered []undeliveredpostings.Posting,
 	peers wordPartitionPeers,
 ) (Offer, error) {
-	undelivered, err := o.undelivered.PostingsOf(tx, peers.wordPartition)
-	if err != nil {
-		return Offer{}, err
-	}
 	wholeWordPartition, err := o.postingsIn(tx, peers.wordPartition)
 	if err != nil {
 		return Offer{}, err

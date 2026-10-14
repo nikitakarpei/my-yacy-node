@@ -51,7 +51,6 @@ type DistributionConfig struct {
 	Redundancy        int
 	PartitionExponent int
 	PostingsPerBatch  int
-	RescanDelay       time.Duration
 	RefreshInterval   time.Duration
 	MinReachablePeers int
 }
@@ -88,7 +87,6 @@ func Start(
 		env["YACY_DISTRIBUTION_POSTINGS_PER_BATCH"] = strconv.Itoa(
 			cfg.Distribution.PostingsPerBatch,
 		)
-		env["YACY_DISTRIBUTION_RESCAN_DELAY"] = cfg.Distribution.RescanDelay.String()
 		env["YACY_DISTRIBUTION_REFRESH_INTERVAL"] = cfg.Distribution.RefreshInterval.String()
 		if cfg.Distribution.MinReachablePeers > 0 {
 			env["YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"] = strconv.Itoa(

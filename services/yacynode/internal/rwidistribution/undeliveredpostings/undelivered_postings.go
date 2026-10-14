@@ -1,8 +1,6 @@
 // Package undeliveredpostings owns the record of the postings that were added
-// or replaced and are not yet delivered to all their responsible peers. The
-// record follows the ring: a read takes the next word partitions after the last
-// posting read, up to a budget of postings, never splits a word partition, and
-// tells when it reached the end of the record.
+// or replaced and are not yet delivered to all their responsible peers. It
+// tells the undelivered postings of a word partition and marks postings delivered.
 package undeliveredpostings
 
 import (
@@ -27,25 +25,6 @@ func Open(
 	}
 
 	return &Postings{postings: postings, partitions: partitions}, postings, nil
-}
-
-func (u *Postings) WordPartitionsAfter(
-	tx *vault.Txn,
-	lastReadPosting Posting,
-	postingsBudget int,
-) (wordPartitions []WordPartition, reachedEnd bool, err error) {
-	reading := wordPartitionReadingWithin(postingsBudget)
-	if err := u.postings.Scan(
-		tx,
-		entriesAfter(lastReadPosting),
-		func(change vault.Change[undeliveredEntry]) (bool, error) {
-			return reading.visit(undeliveredPostingFrom(change, u.partitions)), nil
-		},
-	); err != nil {
-		return nil, false, fmt.Errorf("read undelivered word partitions: %w", err)
-	}
-
-	return reading.wordPartitions(), !reading.stoppedOnBudget, nil
 }
 
 func (u *Postings) MarkDelivered(

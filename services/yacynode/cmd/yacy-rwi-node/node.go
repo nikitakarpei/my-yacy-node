@@ -200,10 +200,8 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("rwi storage: %w", err)
 	}
-	postingAdmitter = wordPartitionSchedule.AdmitterFrom(
-		postingAdmitter,
-		wordpartitionschedule.DiscardDueObserver,
-	)
+	loopRelay := &distributionLoopRelay{}
+	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter, loopRelay)
 
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
@@ -304,7 +302,10 @@ func assembleNode(
 		config.PeerExchange.ReachableRosterCapacity,
 		config.PeerExchange.AnnounceInterval,
 		identity.Hash,
-		metrics.NewPeerRosterMetrics(registry),
+		rosterObserverFanOut{
+			metrics: metrics.NewPeerRosterMetrics(registry),
+			relay:   loopRelay,
+		},
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("open peer roster: %w", err)
@@ -416,14 +417,13 @@ func assembleNode(
 			distributionObserver,
 			dhtRingObserver,
 			distributionloop.Config{
-				UndeliveredPostingsPerBatch: config.Distribution.PostingsPerBatch,
-				RefreshesPerBatch:           config.Distribution.PostingsPerBatch,
-				PostingsPerTransfer:         config.Distribution.PostingsPerBatch,
-				AmountOfWorkers:             config.Distribution.AmountOfWorkers,
-				RescanDelay:                 config.Distribution.RescanDelay,
-				MinReachablePeers:           config.Distribution.MinReachablePeers,
+				PostingsPerBatch:    config.Distribution.PostingsPerBatch,
+				PostingsPerTransfer: config.Distribution.PostingsPerBatch,
+				AmountOfWorkers:     config.Distribution.AmountOfWorkers,
+				MinReachablePeers:   config.Distribution.MinReachablePeers,
 			},
 		)
+		loopRelay.forwardTo(distributionLoop)
 	}
 
 	return node{

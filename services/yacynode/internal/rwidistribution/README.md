@@ -16,14 +16,17 @@ the postings that enough responsible peers hold.
 - Missing holder: a responsible peer that is not a holder.
 - Undelivered posting: a new or changed posting that not all its responsible
   peers accepted.
+- Arc: a stretch of the ring where every position has the same responsible
+  peers. These peers are the window of the arc.
 
 ## Behavior
 
-- Workers send batches. A worker takes its next batch from one of two walks
-  around the ring: undelivered postings or due refreshes. The walks take turns
-  while both have work. No word partition is in two batches at the same time.
-- A pass is one walk to the end of its list. After a pass ends, that walk waits
-  the rescan delay.
+- Each word partition has a due time. A new posting makes its word partition
+  due at once, unless the word partition is in retry.
+- Workers send batches. A batch holds the due word partitions of one arc. A
+  worker takes only an arc whose window peers are not paused and not busy. No
+  word partition is in two batches at the same time.
+- An arc with nothing due waits for its next due time or a new posting.
 - A holder gets the undelivered postings. A missing holder gets all postings of
   the word partition. It becomes a holder only when it accepts all of them.
 - After the refresh interval, each holder gets all postings again. A holder that
