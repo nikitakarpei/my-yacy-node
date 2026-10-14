@@ -98,6 +98,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -109,3 +110,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../servic
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
 
 replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../libraries/processenvironmentlease
+
+replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock

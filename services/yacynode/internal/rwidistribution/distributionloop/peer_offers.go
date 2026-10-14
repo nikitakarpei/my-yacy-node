@@ -1,4 +1,4 @@
-package distributioncycle
+package distributionloop
 
 import (
 	"context"

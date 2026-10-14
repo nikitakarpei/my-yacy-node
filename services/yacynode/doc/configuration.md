@@ -72,11 +72,10 @@ A word partition is one word in one ring partition. Its postings are the posting
 | `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, delete the postings of a word partition that enough of its responsible peers hold. Set it to `false` to keep every posting. |
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
-| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | A batch adds word partitions until it holds this many postings. One transfer to a peer carries at most this many postings. A cycle offers batch after batch until no posting is due. |
-| `YACY_DISTRIBUTION_BATCH_CONCURRENCY` | `2` | How many batches a cycle offers at the same time. Each batch takes the due postings of one ring sector that no other batch holds. |
+| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | A batch adds word partitions until it holds this many postings. One transfer to a peer carries at most this many postings. |
+| `YACY_DISTRIBUTION_BATCH_CONCURRENCY` | `2` | How many batches the node offers at the same time. Each batch takes the due postings of one ring sector that no other batch holds. |
 | `YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE` | `50` | How many URL metadata records travel in one transfer to a peer. |
-| `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often a cycle starts (e.g. `30s`, `1m`, `10m`). |
-| `YACY_DISTRIBUTION_DRAIN_BUDGET` | `1m` | How long one cycle offers batches before it stops and waits for the next cycle. |
+| `YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY` | `10s` | How long a ring sector waits after a pass before the node reads it again. A pass ends when the batches reach the end of the sector. While the node knows too few reachable peers, it checks again after this time. |
 | `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again (refresh). |
 | `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer gets no postings. A word partition that must go to that peer waits until this time ends. A word partition with too few holders is sent again after this time, then after double the previous wait on each try, up to the refresh interval. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

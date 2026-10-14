@@ -44,15 +44,14 @@ type Config struct {
 	Distribution DistributionConfig
 }
 
-// DistributionConfig turns on the node's outbound RWI distribution cycle.
+// DistributionConfig turns on the node's outbound RWI distribution.
 // The zero value leaves distribution disabled, matching the node's own default.
 type DistributionConfig struct {
 	Enabled           bool
 	Redundancy        int
 	PartitionExponent int
 	PostingsPerBatch  int
-	CycleInterval     time.Duration
-	DrainBudget       time.Duration
+	SectorRescanDelay time.Duration
 	RefreshInterval   time.Duration
 	MinReachablePeers int
 }
@@ -89,8 +88,7 @@ func Start(
 		env["YACY_DISTRIBUTION_POSTINGS_PER_BATCH"] = strconv.Itoa(
 			cfg.Distribution.PostingsPerBatch,
 		)
-		env["YACY_DISTRIBUTION_CYCLE_INTERVAL"] = cfg.Distribution.CycleInterval.String()
-		env["YACY_DISTRIBUTION_DRAIN_BUDGET"] = cfg.Distribution.DrainBudget.String()
+		env["YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY"] = cfg.Distribution.SectorRescanDelay.String()
 		env["YACY_DISTRIBUTION_REFRESH_INTERVAL"] = cfg.Distribution.RefreshInterval.String()
 		if cfg.Distribution.MinReachablePeers > 0 {
 			env["YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"] = strconv.Itoa(

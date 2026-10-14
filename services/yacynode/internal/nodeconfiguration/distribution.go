@@ -13,8 +13,7 @@ const (
 	EnvDistributionPartitionExponent    = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
 	EnvDistributionPostingsPerBatch     = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
 	EnvDistributionBatchConcurrency     = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
-	EnvDistributionCycleInterval        = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
-	EnvDistributionDrainBudget          = "YACY_DISTRIBUTION_DRAIN_BUDGET"
+	EnvDistributionSectorRescanDelay    = "YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY"
 	EnvDistributionRefreshInterval      = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
 	EnvDistributionRecipientCooldown    = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
 	EnvDistributionMinReachablePeers    = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
@@ -26,8 +25,7 @@ const (
 	DefaultDistributionPartitionExponent    = 4
 	DefaultDistributionPostingsPerBatch     = 1000
 	DefaultDistributionBatchConcurrency     = 2
-	DefaultDistributionCycleInterval        = time.Minute
-	DefaultDistributionDrainBudget          = time.Minute
+	DefaultDistributionSectorRescanDelay    = 10 * time.Second
 	DefaultDistributionRefreshInterval      = 24 * time.Hour
 	DefaultDistributionRecipientCooldown    = 10 * time.Minute
 	DefaultDistributionMinReachablePeers    = 32
@@ -41,8 +39,7 @@ type DistributionConfig struct {
 	PartitionExponent    uint
 	PostingsPerBatch     int
 	BatchConcurrency     int
-	CycleInterval        time.Duration
-	DrainBudget          time.Duration
+	SectorRescanDelay    time.Duration
 	RefreshInterval      time.Duration
 	RecipientCooldown    time.Duration
 	MinReachablePeers    int
@@ -91,15 +88,8 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	cycleInterval, err := envconfig.Duration(
-		getenv, EnvDistributionCycleInterval, DefaultDistributionCycleInterval,
-	)
-	if err != nil {
-		return DistributionConfig{}, err
-	}
-
-	drainBudget, err := envconfig.Duration(
-		getenv, EnvDistributionDrainBudget, DefaultDistributionDrainBudget,
+	sectorRescanDelay, err := envconfig.Duration(
+		getenv, EnvDistributionSectorRescanDelay, DefaultDistributionSectorRescanDelay,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -140,8 +130,7 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		PartitionExponent:    uint(partitionExponent),
 		PostingsPerBatch:     postingsPerBatch,
 		BatchConcurrency:     batchConcurrency,
-		CycleInterval:        cycleInterval,
-		DrainBudget:          drainBudget,
+		SectorRescanDelay:    sectorRescanDelay,
 		RefreshInterval:      refreshInterval,
 		RecipientCooldown:    recipientCooldown,
 		MinReachablePeers:    minReachablePeers,
