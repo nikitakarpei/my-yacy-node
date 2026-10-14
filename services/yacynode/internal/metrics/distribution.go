@@ -7,9 +7,8 @@ import (
 )
 
 const (
-	labelOutcome   = "result"
-	labelReason    = "reason"
-	labelOfferKind = "offer"
+	labelOutcome = "result"
+	labelReason  = "reason"
 )
 
 type DistributionMetrics struct {
@@ -96,10 +95,9 @@ func distributionMetrics() *DistributionMetrics {
 			"yacynode_rwidistribution_peers_excluded_total",
 			"Peers excluded from distribution after failed offers in a row.",
 		),
-		wordPartitionsWaiting: gaugePerLabelsFor(
+		wordPartitionsWaiting: gaugePerLabelFor(
 			"yacynode_rwidistribution_word_partitions_waiting",
-			"Different word partitions the last pass over each ring sector did not send, by offer and reason.",
-			labelOfferKind,
+			"Word partitions not sent in the last pass, by reason.",
 			labelReason,
 		),
 	}
@@ -136,8 +134,8 @@ func gaugeFor(name string, help string) prometheus.Gauge {
 	return prometheus.NewGauge(prometheus.GaugeOpts{Name: name, Help: help})
 }
 
-func gaugePerLabelsFor(name string, help string, labels ...string) *prometheus.GaugeVec {
-	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, labels)
+func gaugePerLabelFor(name string, help string, label string) *prometheus.GaugeVec {
+	return prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: name, Help: help}, []string{label})
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -187,10 +185,8 @@ func (d *DistributionMetrics) ObservePeerExcluded() {
 }
 
 func (d *DistributionMetrics) ObserveWordPartitionsWaiting(
-	offerKind string,
 	skipReason string,
 	amountOfWordPartitions int,
 ) {
-	d.wordPartitionsWaiting.WithLabelValues(offerKind, skipReason).
-		Set(float64(amountOfWordPartitions))
+	d.wordPartitionsWaiting.WithLabelValues(skipReason).Set(float64(amountOfWordPartitions))
 }

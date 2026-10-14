@@ -9,10 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 )
 
-var waitingForCooldown = skipKind{
-	offerKind:  string(wordpartitionoffer.UndeliveredOffer),
-	skipReason: string(wordpartitionoffer.SkipRecipientInCooldown),
-}
+var waitingForCooldown = string(wordpartitionoffer.SkipRecipientInCooldown)
 
 func TestLoopCountsAWordPartitionWaitingOnSeveralPassesOnce(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
@@ -22,8 +19,8 @@ func TestLoopCountsAWordPartitionWaitingOnSeveralPassesOnce(t *testing.T) {
 		h.admit(t, wordPartition, urlsOf(1)...)
 
 		h.start(t)
-		h.advance(sectorRescanDelay)
-		h.advance(sectorRescanDelay)
+		h.advance(rescanDelay)
+		h.advance(rescanDelay)
 
 		if got := h.observer.wordPartitionsWaiting[waitingForCooldown]; got != 1 {
 			t.Fatalf("word partitions waiting = %d, want 1 after three passes", got)
@@ -42,21 +39,17 @@ func TestLoopCountsADueRefreshWaitingOnSeveralPassesOnce(t *testing.T) {
 		h.start(t)
 		h.eligibility.OfferDeclined(holder.Hash, 2*refreshInterval)
 
-		h.advance(refreshInterval + sectorRescanDelay)
-		h.advance(sectorRescanDelay)
-		h.advance(sectorRescanDelay)
+		h.advance(refreshInterval + rescanDelay)
+		h.advance(rescanDelay)
+		h.advance(rescanDelay)
 
-		refreshWaitingForCooldown := skipKind{
-			offerKind:  string(wordpartitionoffer.RefreshOffer),
-			skipReason: string(wordpartitionoffer.SkipRecipientInCooldown),
-		}
-		if got := h.observer.wordPartitionsWaiting[refreshWaitingForCooldown]; got != 1 {
+		if got := h.observer.wordPartitionsWaiting[waitingForCooldown]; got != 1 {
 			t.Fatalf("word partitions waiting = %d, want 1 after three passes", got)
 		}
 	})
 }
 
-func TestLoopReplacesTheWaitingWordPartitionsOfASectorAtItsNextPassEnd(t *testing.T) {
+func TestLoopReplacesTheWaitingWordPartitionsAtTheNextPassEnd(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartition := fixtureWordPartition()
 		peer := peerAfter(wordPartition, 1)
@@ -67,7 +60,7 @@ func TestLoopReplacesTheWaitingWordPartitionsOfASectorAtItsNextPassEnd(t *testin
 
 		h.eligibility.OfferAccepted(peer.Hash)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
-		h.advance(sectorRescanDelay)
+		h.advance(rescanDelay)
 
 		if got, found := h.observer.wordPartitionsWaiting[waitingForCooldown]; !found || got != 0 {
 			t.Fatalf("word partitions waiting = %d (reported %t), want 0 once offered", got, found)
@@ -75,7 +68,7 @@ func TestLoopReplacesTheWaitingWordPartitionsOfASectorAtItsNextPassEnd(t *testin
 	})
 }
 
-func TestLoopAddsUpTheWaitingWordPartitionsOfAllSectors(t *testing.T) {
+func TestLoopCountsTheWaitingWordPartitionsAllAroundTheRing(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartitions := []yacymodel.WordPartition{
 			wordPartitionsIn(3, 1)[0],
@@ -90,7 +83,31 @@ func TestLoopAddsUpTheWaitingWordPartitionsOfAllSectors(t *testing.T) {
 		h.start(t)
 
 		if got := h.observer.wordPartitionsWaiting[waitingForCooldown]; got != 2 {
-			t.Fatalf("word partitions waiting = %d, want one of each sector", got)
+			t.Fatalf("word partitions waiting = %d, want one from each region of the ring", got)
+		}
+	})
+}
+
+func TestLoopAddsUpTheWaitingWordPartitionsOfBothWalks(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartitions := wordPartitionsIn(3, 2)
+		refreshed, undelivered := wordPartitions[0], wordPartitions[1]
+		holder := peerAfter(refreshed, 1)
+		h := openWaitingLoop(t)
+		h.reach(holder)
+		h.transfers.answers[holder.Hash] = acceptedAnswer
+		h.admit(t, refreshed, urlsOf(1)...)
+		h.start(t)
+		h.eligibility.OfferDeclined(holder.Hash, 2*refreshInterval)
+		peerInCooldown := peerAfter(undelivered, 1)
+		h.reach(holder, peerInCooldown)
+		h.eligibility.OfferDeclined(peerInCooldown.Hash, 2*refreshInterval)
+		h.admit(t, undelivered, urlsOf(1)...)
+
+		h.advance(refreshInterval + rescanDelay)
+
+		if got := h.observer.wordPartitionsWaiting[waitingForCooldown]; got != 2 {
+			t.Fatalf("word partitions waiting = %d, want one from each walk", got)
 		}
 	})
 }
@@ -119,6 +136,25 @@ func TestLoopReportsNoWaitingWordPartitionsOfAnUnwrittenBatch(t *testing.T) {
 				"word partitions waiting = %v, want none reported for an unwritten batch",
 				h.observer.wordPartitionsWaiting,
 			)
+		}
+	})
+}
+
+func TestLoopCountsAWordPartitionInRetryAsWaiting(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		decliningPeer := peerAfter(wordPartition, 1)
+		h := openLoop(t, startClock(), loopOptions{})
+		h.reach(decliningPeer)
+		h.transfers.answers[decliningPeer.Hash] = declinedAnswer
+		h.admit(t, wordPartition, urlsOf(1)...)
+		h.start(t)
+
+		h.advance(rescanDelay)
+
+		if got := h.observer.wordPartitionsWaiting[string(
+			wordpartitionoffer.SkipWordPartitionInRetry)]; got != 1 {
+			t.Fatalf("word partitions in retry = %d, want 1", got)
 		}
 	})
 }

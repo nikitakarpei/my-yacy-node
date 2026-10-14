@@ -1,8 +1,8 @@
-// Package wordpartitionoffer decides, one ring sector at a time, which word
-// partitions to offer now and what each peer gets: a holder gets the postings it
-// lacks, a missing holder or a due refresh the whole word partition. A word
-// partition waits while a recipient is in cooldown, and one in retry goes out
-// only as a due refresh. Excluded peers are left out of the DHT ring.
+// Package wordpartitionoffer decides what each peer gets for the word partitions
+// of a batch: a holder the postings it lacks, a missing holder or a due refresh
+// the whole word partition. A word partition waits while a recipient is in
+// cooldown, and one in retry goes out only as a due refresh. Excluded peers are
+// left out of the DHT ring.
 package wordpartitionoffer
 
 import (
@@ -14,10 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 )
-
-type Cursor struct {
-	lastVisited undeliveredpostings.UndeliveredPosting
-}
 
 type PostingIndex interface {
 	PostingOf(
@@ -47,13 +43,6 @@ type DHTRingObserver interface {
 	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
 
-type OfferKind string
-
-const (
-	UndeliveredOffer OfferKind = "undelivered"
-	RefreshOffer     OfferKind = "refresh"
-)
-
 type SkipReason string
 
 const (
@@ -62,22 +51,10 @@ const (
 	SkipNoRecipient          SkipReason = "no_recipient"
 )
 
-type Skip struct {
-	Offer  OfferKind
-	Reason SkipReason
-}
-
-type DueBatch struct {
-	Offers []WordPartitionOffer
-	Next   Cursor
-	Skips  []Skip
-}
-
 type Config struct {
-	Partitions       yacymodel.DHTRingPartitions
-	Self             yacymodel.Hash
-	Redundancy       int
-	PostingsPerBatch int
+	Partitions yacymodel.DHTRingPartitions
+	Self       yacymodel.Hash
+	Redundancy int
 }
 
 type WordPartitionOffers struct {
@@ -137,31 +114,49 @@ func acceptsRemoteIndex(seed yacymodel.Seed) bool {
 	return capabilitiesKnown && capabilities.AcceptRemoteIndex
 }
 
-func (o *WordPartitionOffers) DueNowIn(
+func (o *WordPartitionOffers) UndeliveredOffersFor(
 	ctx context.Context,
-	sector yacymodel.DHTRingSector,
-	from Cursor,
+	undeliveredWordPartitions []undeliveredpostings.UndeliveredWordPartition,
 	reachablePeers []yacymodel.Seed,
-) (DueBatch, error) {
-	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
-	batch := offerBatchFrom(from, o.config.PostingsPerBatch)
-	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
-		if err := o.addUndeliveredWordPartitions(
-			ctx,
-			tx,
-			sector,
-			acceptingPeers,
-			&batch,
-		); err != nil {
-			return err
-		}
+) (Batch, error) {
+	return o.batchFor(
+		ctx,
+		reachablePeers,
+		func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error {
+			return o.addUndeliveredWordPartitions(
+				ctx, tx, undeliveredWordPartitions, acceptingPeers, batch)
+		},
+	)
+}
 
-		return o.addDueRefreshes(ctx, tx, sector, acceptingPeers, &batch)
+func (o *WordPartitionOffers) RefreshOffersFor(
+	ctx context.Context,
+	dueWordPartitions []yacymodel.WordPartition,
+	reachablePeers []yacymodel.Seed,
+) (Batch, error) {
+	return o.batchFor(
+		ctx,
+		reachablePeers,
+		func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error {
+			return o.addDueRefreshes(ctx, tx, dueWordPartitions, acceptingPeers, batch)
+		},
+	)
+}
+
+func (o *WordPartitionOffers) batchFor(
+	ctx context.Context,
+	reachablePeers []yacymodel.Seed,
+	addTo func(tx *vault.Txn, acceptingPeers yacymodel.SeedRing, batch *Batch) error,
+) (Batch, error) {
+	acceptingPeers := o.acceptingPeersAmong(reachablePeers)
+	var batch Batch
+	if err := o.vault.View(ctx, func(tx *vault.Txn) error {
+		return addTo(tx, acceptingPeers, &batch)
 	}); err != nil {
-		return DueBatch{}, err
+		return Batch{}, err
 	}
 
-	return DueBatch{Offers: batch.offers, Next: batch.next, Skips: batch.skips}, nil
+	return batch, nil
 }
 
 func (o *WordPartitionOffers) acceptingPeersAmong(
@@ -180,40 +175,30 @@ func (o *WordPartitionOffers) acceptingPeersAmong(
 func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 	ctx context.Context,
 	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
+	undeliveredWordPartitions []undeliveredpostings.UndeliveredWordPartition,
 	acceptingPeers yacymodel.SeedRing,
-	batch *offerBatch,
+	batch *Batch,
 ) error {
-	for !batch.isFull() {
-		undelivered, err := o.nextUndeliveredWordPartition(tx, sector, batch.next)
-		if err != nil {
-			return err
-		}
-		if len(undelivered) == 0 {
-			batch.reachedSectorEnd()
-
-			return nil
-		}
-		batch.walkedPast(undelivered)
-		isInRetry, err := o.holders.IsInRetry(tx, undelivered[0].WordPartition)
+	for _, undelivered := range undeliveredWordPartitions {
+		isInRetry, err := o.holders.IsInRetry(tx, undelivered.WordPartition)
 		if err != nil {
 			return err
 		}
 		if isInRetry {
-			batch.skip(UndeliveredOffer, SkipWordPartitionInRetry)
+			batch.skip(SkipWordPartitionInRetry)
 
 			continue
 		}
-		peers, err := o.peersOf(ctx, tx, undelivered[0].WordPartition, acceptingPeers)
+		peers, err := o.peersOf(ctx, tx, undelivered.WordPartition, acceptingPeers)
 		if err != nil {
 			return err
 		}
 		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			batch.skip(UndeliveredOffer, skipReason)
+			batch.skip(skipReason)
 
 			continue
 		}
-		offer, err := o.undeliveredOfferFor(tx, undelivered, peers)
+		offer, err := o.undeliveredOfferFor(tx, undelivered.Postings, peers)
 		if err != nil {
 			return err
 		}
@@ -221,29 +206,6 @@ func (o *WordPartitionOffers) addUndeliveredWordPartitions(
 	}
 
 	return nil
-}
-
-func (o *WordPartitionOffers) nextUndeliveredWordPartition(
-	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
-	from Cursor,
-) ([]undeliveredpostings.UndeliveredPosting, error) {
-	var undelivered []undeliveredpostings.UndeliveredPosting
-	err := o.undelivered.PostingsIn(
-		tx,
-		sector,
-		from.lastVisited,
-		func(posting undeliveredpostings.UndeliveredPosting) (bool, error) {
-			if len(undelivered) > 0 && posting.WordPartition != undelivered[0].WordPartition {
-				return false, nil
-			}
-			undelivered = append(undelivered, posting)
-
-			return true, nil
-		},
-	)
-
-	return undelivered, err
 }
 
 func (o *WordPartitionOffers) peersOf(
@@ -375,30 +337,17 @@ func (o *WordPartitionOffers) wholeWordPartitionFor(
 func (o *WordPartitionOffers) addDueRefreshes(
 	ctx context.Context,
 	tx *vault.Txn,
-	sector yacymodel.DHTRingSector,
+	dueWordPartitions []yacymodel.WordPartition,
 	acceptingPeers yacymodel.SeedRing,
-	batch *offerBatch,
+	batch *Batch,
 ) error {
-	if batch.isFull() {
-		return nil
-	}
-	dueWordPartitions, err := o.holders.DueRefreshesIn(tx, sector, batch.roomLeft())
-	if err != nil {
-		return err
-	}
 	for _, wordPartition := range dueWordPartitions {
-		if batch.isFull() {
-			return nil
-		}
-		if batch.holds(wordPartition) {
-			continue
-		}
 		peers, err := o.peersOf(ctx, tx, wordPartition, acceptingPeers)
 		if err != nil {
 			return err
 		}
 		if skipReason, mustWait := peers.skipReasonFrom(o.eligibility); mustWait {
-			batch.skip(RefreshOffer, skipReason)
+			batch.skip(skipReason)
 
 			continue
 		}

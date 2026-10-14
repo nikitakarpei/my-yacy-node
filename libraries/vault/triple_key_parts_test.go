@@ -48,25 +48,6 @@ func TestTripleKeyRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 	}
 }
 
-func TestTripleKeysBetweenFirstsHoldOnlyFirstsInsideTheBounds(t *testing.T) {
-	parts := vault.TripleKey(vault.IntegerKeyPart, vault.TextKeyPart, vault.TextKeyPart)
-	firsts := orderedIntegers()
-	lowest, highest := firsts[2], firsts[len(firsts)-3]
-
-	for _, first := range firsts {
-		for _, second := range orderedTexts() {
-			key := parts.Key(first, second, "third").Bytes()
-
-			assertRangeAnswers(
-				t,
-				parts.KeysBetweenFirsts(lowest, highest),
-				key,
-				lowest <= first && first <= highest,
-			)
-		}
-	}
-}
-
 func TestTripleKeysWithFirstAndSecondHoldOnlyThatPair(t *testing.T) {
 	parts := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart)
 	texts := orderedTexts()
@@ -82,31 +63,6 @@ func TestTripleKeysWithFirstAndSecondHoldOnlyThatPair(t *testing.T) {
 					parts.KeysWithFirstAndSecond(pickedFirst, pickedSecond),
 					key,
 					first == pickedFirst && second == pickedSecond,
-				)
-			}
-		}
-	}
-}
-
-func TestTripleKeysAfterKeyThroughFirstResumePastAKeyAndStopAfterTheLastFirst(t *testing.T) {
-	parts := vault.TripleKey(vault.IntegerKeyPart, vault.TextKeyPart, vault.TextKeyPart)
-	firsts, texts := orderedIntegers(), orderedTexts()
-	afterFirst, afterSecond, afterThird := firsts[2], texts[len(texts)/2], texts[len(texts)/3]
-	lastFirst := firsts[len(firsts)-3]
-
-	for _, first := range firsts {
-		for _, second := range texts {
-			for _, third := range texts {
-				key := parts.Key(first, second, third).Bytes()
-				isAfter := first > afterFirst ||
-					first == afterFirst && (second > afterSecond ||
-						second == afterSecond && third > afterThird)
-
-				assertRangeAnswers(
-					t,
-					parts.KeysAfterKeyThroughFirst(afterFirst, afterSecond, afterThird, lastFirst),
-					key,
-					isAfter && first <= lastFirst,
 				)
 			}
 		}

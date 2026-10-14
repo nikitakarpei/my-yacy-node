@@ -26,7 +26,7 @@ import (
 
 const (
 	postingsPerBatch  = 10
-	sectorRescanDelay = time.Second
+	rescanDelay       = time.Second
 	refreshInterval   = time.Hour
 	retryDelay        = 10 * time.Minute
 	exclusionDuration = time.Hour
@@ -38,7 +38,7 @@ type loopOptions struct {
 	redundancy        int
 	cooldown          time.Duration
 	minReachablePeers int
-	batchConcurrency  int
+	amountOfWorkers   int
 	postingsPerBatch  int
 	handoffEnabled    bool
 }
@@ -64,8 +64,8 @@ func withLoopDefaults(opts loopOptions) loopOptions {
 	if opts.self.IsZero() {
 		opts.self = thisNodeFartherThan(fixtureWordPartition())
 	}
-	if opts.batchConcurrency == 0 {
-		opts.batchConcurrency = 1
+	if opts.amountOfWorkers == 0 {
+		opts.amountOfWorkers = 1
 	}
 	if opts.postingsPerBatch == 0 {
 		opts.postingsPerBatch = postingsPerBatch
@@ -122,10 +122,9 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		wordpartitionoffer.New(
 			v, undelivered, holders, h.index, h.roster, h.eligibility, h.observer,
 			wordpartitionoffer.Config{
-				Partitions:       partitions(),
-				Self:             opts.self,
-				Redundancy:       opts.redundancy,
-				PostingsPerBatch: opts.postingsPerBatch,
+				Partitions: partitions(),
+				Self:       opts.self,
+				Redundancy: opts.redundancy,
 			},
 		),
 		undelivered,
@@ -140,8 +139,8 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		h.observer,
 		distributionloop.Config{
 			PostingsPerBatch:  opts.postingsPerBatch,
-			BatchConcurrency:  opts.batchConcurrency,
-			SectorRescanDelay: sectorRescanDelay,
+			AmountOfWorkers:   opts.amountOfWorkers,
+			RescanDelay:       rescanDelay,
 			MinReachablePeers: opts.minReachablePeers,
 		},
 	)

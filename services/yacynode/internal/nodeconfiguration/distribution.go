@@ -12,8 +12,8 @@ const (
 	EnvDistributionRedundancy                  = "YACY_DISTRIBUTION_REDUNDANCY"
 	EnvDistributionPartitionExponent           = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
 	EnvDistributionPostingsPerBatch            = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
-	EnvDistributionBatchConcurrency            = "YACY_DISTRIBUTION_BATCH_CONCURRENCY"
-	EnvDistributionSectorRescanDelay           = "YACY_DISTRIBUTION_SECTOR_RESCAN_DELAY"
+	EnvDistributionWorkers                     = "YACY_DISTRIBUTION_WORKERS"
+	EnvDistributionRescanDelay                 = "YACY_DISTRIBUTION_RESCAN_DELAY"
 	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
 	EnvDistributionRecipientCooldown           = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
 	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
@@ -26,8 +26,8 @@ const (
 	DefaultDistributionRedundancy                  = 3
 	DefaultDistributionPartitionExponent           = 4
 	DefaultDistributionPostingsPerBatch            = 1000
-	DefaultDistributionBatchConcurrency            = 2
-	DefaultDistributionSectorRescanDelay           = 10 * time.Second
+	DefaultDistributionWorkers                     = 2
+	DefaultDistributionRescanDelay                 = 10 * time.Second
 	DefaultDistributionRefreshInterval             = 24 * time.Hour
 	DefaultDistributionRecipientCooldown           = 10 * time.Minute
 	DefaultDistributionFailedOffersBeforeExclusion = 3
@@ -42,8 +42,8 @@ type DistributionConfig struct {
 	Redundancy                  int
 	PartitionExponent           uint
 	PostingsPerBatch            int
-	BatchConcurrency            int
-	SectorRescanDelay           time.Duration
+	AmountOfWorkers             int
+	RescanDelay                 time.Duration
 	RefreshInterval             time.Duration
 	RecipientCooldown           time.Duration
 	FailedOffersBeforeExclusion int
@@ -87,15 +87,15 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	batchConcurrency, err := envconfig.PositiveInt(
-		getenv, EnvDistributionBatchConcurrency, DefaultDistributionBatchConcurrency,
+	amountOfWorkers, err := envconfig.PositiveInt(
+		getenv, EnvDistributionWorkers, DefaultDistributionWorkers,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
 	}
 
-	sectorRescanDelay, err := envconfig.Duration(
-		getenv, EnvDistributionSectorRescanDelay, DefaultDistributionSectorRescanDelay,
+	rescanDelay, err := envconfig.Duration(
+		getenv, EnvDistributionRescanDelay, DefaultDistributionRescanDelay,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -153,8 +153,8 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		Redundancy:                  redundancy,
 		PartitionExponent:           uint(partitionExponent),
 		PostingsPerBatch:            postingsPerBatch,
-		BatchConcurrency:            batchConcurrency,
-		SectorRescanDelay:           sectorRescanDelay,
+		AmountOfWorkers:             amountOfWorkers,
+		RescanDelay:                 rescanDelay,
 		RefreshInterval:             refreshInterval,
 		RecipientCooldown:           recipientCooldown,
 		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,

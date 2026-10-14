@@ -125,22 +125,46 @@ func (h *harness) isInRetry(t *testing.T, wordPartition yacymodel.WordPartition)
 	return isInRetry
 }
 
-func (h *harness) dueRefreshesIn(
+func (h *harness) dueRefreshesAfter(
 	t *testing.T,
-	sector yacymodel.DHTRingSector,
-	limit int,
-) []yacymodel.WordPartition {
+	lastReadRefresh wordpartitionholders.ScheduledRefresh,
+	refreshesBudget int,
+) ([]wordpartitionholders.ScheduledRefresh, bool) {
 	t.Helper()
 
-	var dueWordPartitions []yacymodel.WordPartition
+	var (
+		dueRefreshes []wordpartitionholders.ScheduledRefresh
+		reachedEnd   bool
+	)
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		dueWordPartitions, err = h.holders.DueRefreshesIn(tx, sector, limit)
+		dueRefreshes, reachedEnd, err = h.holders.DueRefreshesAfter(
+			tx, lastReadRefresh, refreshesBudget)
 
 		return err
 	})
 
-	return dueWordPartitions
+	return dueRefreshes, reachedEnd
+}
+
+func (h *harness) dueWordPartitions(t *testing.T, refreshesBudget int) []yacymodel.WordPartition {
+	t.Helper()
+
+	dueRefreshes, _ := h.dueRefreshesAfter(
+		t, wordpartitionholders.ScheduledRefresh{}, refreshesBudget)
+
+	return wordPartitionsOf(dueRefreshes)
+}
+
+func wordPartitionsOf(
+	dueRefreshes []wordpartitionholders.ScheduledRefresh,
+) []yacymodel.WordPartition {
+	wordPartitions := make([]yacymodel.WordPartition, 0, len(dueRefreshes))
+	for _, dueRefresh := range dueRefreshes {
+		wordPartitions = append(wordPartitions, dueRefresh.WordPartition)
+	}
+
+	return wordPartitions
 }
 
 func (h *harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -239,13 +263,12 @@ func (h *harness) assertDueOnlyAfter(
 ) {
 	t.Helper()
 
-	sector := h.sectorOf(wordPartition)
 	h.advance(delay - time.Second)
-	if due := h.dueRefreshesIn(t, sector, 10); len(due) != 0 {
+	if due := h.dueWordPartitions(t, 10); len(due) != 0 {
 		t.Fatalf("due refreshes before %v = %v, want none", delay, due)
 	}
 	h.advance(time.Second)
-	if due := h.dueRefreshesIn(t, sector, 10); !slices.Equal(
+	if due := h.dueWordPartitions(t, 10); !slices.Equal(
 		due,
 		[]yacymodel.WordPartition{wordPartition},
 	) {
@@ -256,18 +279,17 @@ func (h *harness) assertDueOnlyAfter(
 func TestRecordingAgainMovesTheRefreshTime(t *testing.T) {
 	h := openHarness(t)
 	wordPartition := someWordPartition()
-	sector := h.sectorOf(wordPartition)
 	h.recordHolders(t, wordPartition, peer("peer0"))
 
 	h.advance(refreshInterval / 2)
 	h.recordHolders(t, wordPartition, peer("peer0"))
 
 	h.advance(refreshInterval / 2)
-	if due := h.dueRefreshesIn(t, sector, 10); len(due) != 0 {
+	if due := h.dueWordPartitions(t, 10); len(due) != 0 {
 		t.Fatalf("due refreshes at the earlier refresh time = %v, want none", due)
 	}
 	h.advance(refreshInterval / 2)
-	if due := h.dueRefreshesIn(t, sector, 10); !slices.Equal(
+	if due := h.dueWordPartitions(t, 10); !slices.Equal(
 		due,
 		[]yacymodel.WordPartition{wordPartition},
 	) {
@@ -275,26 +297,27 @@ func TestRecordingAgainMovesTheRefreshTime(t *testing.T) {
 	}
 }
 
-func TestDueRefreshesComeOnlyFromTheirSector(t *testing.T) {
+func TestDueRefreshesGoOnceAroundTheRingSectorBySector(t *testing.T) {
 	h := openHarness(t)
 	for _, wordPartition := range h.everyWordPartition() {
 		h.recordHolders(t, wordPartition, peer("peer0"))
 	}
 	h.advance(refreshInterval)
 
-	seen := 0
-	for sector := range yacymodel.DHTRingSectorCount {
-		due := h.dueRefreshesIn(t, sector, len(h.everyWordPartition()))
-		for _, wordPartition := range due {
-			if h.sectorOf(wordPartition) != sector {
-				t.Fatalf("due refreshes of sector %d hold %+v of sector %d",
-					sector, wordPartition, h.sectorOf(wordPartition))
-			}
-		}
-		seen += len(due)
+	due := h.dueWordPartitions(t, len(h.everyWordPartition())+1)
+
+	if len(due) != len(h.everyWordPartition()) {
+		t.Fatalf("due refreshes = %d, want %d", len(due), len(h.everyWordPartition()))
 	}
-	if seen != len(h.everyWordPartition()) {
-		t.Fatalf("due refreshes of all sectors = %d, want %d", seen, len(h.everyWordPartition()))
+	for _, wordPartition := range h.everyWordPartition() {
+		if !slices.Contains(due, wordPartition) {
+			t.Fatalf("due refreshes miss %+v", wordPartition)
+		}
+	}
+	for index := 1; index < len(due); index++ {
+		if h.sectorOf(due[index]) < h.sectorOf(due[index-1]) {
+			t.Fatalf("due refreshes go back to an earlier sector at %d", index)
+		}
 	}
 }
 
@@ -304,7 +327,6 @@ func TestDueRefreshesComeOldestFirstUpToTheLimit(t *testing.T) {
 	if len(wordPartitions) < 3 {
 		t.Fatalf("busiest sector holds %d word partitions, want at least 3", len(wordPartitions))
 	}
-	sector := h.sectorOf(wordPartitions[0])
 	oldestFirst := slices.Clone(wordPartitions)
 	slices.Reverse(oldestFirst)
 	for _, wordPartition := range oldestFirst {
@@ -313,11 +335,56 @@ func TestDueRefreshesComeOldestFirstUpToTheLimit(t *testing.T) {
 	}
 	h.advance(refreshInterval)
 
-	if due := h.dueRefreshesIn(t, sector, len(oldestFirst)); !slices.Equal(due, oldestFirst) {
+	if due := h.dueWordPartitions(t, len(oldestFirst)); !slices.Equal(due, oldestFirst) {
 		t.Fatalf("due refreshes = %v, want %v", due, oldestFirst)
 	}
-	if due := h.dueRefreshesIn(t, sector, 2); !slices.Equal(due, oldestFirst[:2]) {
-		t.Fatalf("due refreshes with limit 2 = %v, want %v", due, oldestFirst[:2])
+	if due := h.dueWordPartitions(t, 2); !slices.Equal(due, oldestFirst[:2]) {
+		t.Fatalf("due refreshes with a budget of 2 = %v, want %v", due, oldestFirst[:2])
+	}
+}
+
+func TestDueRefreshesResumeAfterTheLastReadOne(t *testing.T) {
+	h := openHarness(t)
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+		h.advance(time.Second)
+	}
+	h.advance(refreshInterval)
+	whole := h.dueWordPartitions(t, len(h.everyWordPartition()))
+
+	head, _ := h.dueRefreshesAfter(t, wordpartitionholders.ScheduledRefresh{}, len(whole)/3)
+	rest, _ := h.dueRefreshesAfter(t, head[len(head)-1], len(whole))
+
+	if got := append(wordPartitionsOf(head), wordPartitionsOf(rest)...); !slices.Equal(
+		got,
+		whole,
+	) {
+		t.Fatalf("resumed due refreshes = %v, want %v", got, whole)
+	}
+}
+
+func TestDueRefreshesTellWhetherTheyReachedTheEnd(t *testing.T) {
+	h := openHarness(t)
+	for _, wordPartition := range h.everyWordPartition() {
+		h.recordHolders(t, wordPartition, peer("peer0"))
+	}
+	h.advance(refreshInterval)
+	amountOfRefreshes := len(h.everyWordPartition())
+
+	head, headReachedEnd := h.dueRefreshesAfter(
+		t, wordpartitionholders.ScheduledRefresh{}, amountOfRefreshes-1)
+	rest, restReachedEnd := h.dueRefreshesAfter(t, head[len(head)-1], amountOfRefreshes)
+
+	if headReachedEnd || len(head) != amountOfRefreshes-1 {
+		t.Fatalf("first read = %d refreshes, end %v; want %d and no end",
+			len(head), headReachedEnd, amountOfRefreshes-1)
+	}
+	if !restReachedEnd || len(rest) != 1 {
+		t.Fatalf(
+			"second read = %d refreshes, end %v; want 1 and the end",
+			len(rest),
+			restReachedEnd,
+		)
 	}
 }
 
@@ -350,7 +417,7 @@ func (h *harness) assertCleared(t *testing.T, wordPartition yacymodel.WordPartit
 		t.Fatalf("Of a cleared word partition = %v, want nil", got)
 	}
 	h.advance(refreshInterval)
-	if due := h.dueRefreshesIn(t, h.sectorOf(wordPartition), 10); len(due) != 0 {
+	if due := h.dueWordPartitions(t, 10); len(due) != 0 {
 		t.Fatalf("due refreshes of a cleared word partition = %v, want none", due)
 	}
 }

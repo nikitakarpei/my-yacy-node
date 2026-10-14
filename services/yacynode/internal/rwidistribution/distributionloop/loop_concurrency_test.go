@@ -27,9 +27,9 @@ func TestLoopOffersABatchToAllItsPeersAtTheSameTime(t *testing.T) {
 	})
 }
 
-func TestLoopOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
+func TestLoopOffersTwoBatchesAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		h, wordPartitions := openTwoSectors(t)
+		h, wordPartitions := openTwoBatches(t)
 		meeting := newCallMeeting(2)
 		h.transfers.onOffer = func(yacymodel.Seed) { meeting.arrive() }
 
@@ -42,7 +42,7 @@ func TestLoopOffersBatchesOfDifferentSectorsAtTheSameTime(t *testing.T) {
 
 func TestLoopReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		h, _ := openTwoSectors(t)
+		h, _ := openTwoBatches(t)
 		meeting := newCallMeeting(2)
 		h.index.onRead = meeting.arrive
 
@@ -52,13 +52,14 @@ func TestLoopReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
 	})
 }
 
-func TestLoopOffersOtherSectorsWhileABatchWaitsForASlowPeer(t *testing.T) {
+func TestLoopOffersOtherBatchesWhileABatchWaitsForASlowPeer(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		slowWordPartition, fastWordPartition := wordPartitionsIn(1, 1)[0], wordPartitionsIn(40, 2)
 		slowPeer, fastPeer := peerAfter(slowWordPartition, 1), peerAfter(fastWordPartition[1], 1)
 		h := openLoop(t, startClock(), loopOptions{
 			self:             thisNodeFartherThan(slowWordPartition),
-			batchConcurrency: 2,
+			amountOfWorkers:  2,
+			postingsPerBatch: 1,
 		})
 		h.reach(slowPeer, fastPeer)
 		h.transfers.answers[slowPeer.Hash] = acceptedAnswer
@@ -74,7 +75,7 @@ func TestLoopOffersOtherSectorsWhileABatchWaitsForASlowPeer(t *testing.T) {
 		h.start(t)
 
 		h.admit(t, fastWordPartition[1], urlsOf(1)...)
-		h.advance(sectorRescanDelay)
+		h.advance(rescanDelay)
 
 		if got := h.holdersOf(
 			t,
@@ -103,7 +104,11 @@ func TestLoopOffersAtMostTheConcurrentBatchesItIsAllowed(t *testing.T) {
 			wordPartitionsIn(1, 1)[0], wordPartitionsIn(20, 1)[0], wordPartitionsIn(40, 1)[0],
 		}
 		peer := peerAfter(fixtureWordPartition(), 1)
-		h := openLoop(t, startClock(), loopOptions{redundancy: 2, batchConcurrency: 2})
+		h := openLoop(t, startClock(), loopOptions{
+			redundancy:       2,
+			amountOfWorkers:  2,
+			postingsPerBatch: 1,
+		})
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
 		answers := make(chan struct{})
@@ -124,7 +129,7 @@ func TestLoopOffersAtMostTheConcurrentBatchesItIsAllowed(t *testing.T) {
 	})
 }
 
-func openTwoSectors(t *testing.T) (*loopHarness, []yacymodel.WordPartition) {
+func openTwoBatches(t *testing.T) (*loopHarness, []yacymodel.WordPartition) {
 	t.Helper()
 
 	wordPartitions := slices.Concat(
@@ -132,7 +137,7 @@ func openTwoSectors(t *testing.T) (*loopHarness, []yacymodel.WordPartition) {
 		wordPartitionsIn(40, postingsPerBatch),
 	)
 	peer := peerAfter(fixtureWordPartition(), 1)
-	h := openLoop(t, startClock(), loopOptions{redundancy: 2, batchConcurrency: 2})
+	h := openLoop(t, startClock(), loopOptions{redundancy: 2, amountOfWorkers: 2})
 	h.reach(peer)
 	h.transfers.answers[peer.Hash] = acceptedAnswer
 	for _, wordPartition := range wordPartitions {
@@ -149,17 +154,23 @@ func assertEachWordPartitionOfferedOnce(
 ) {
 	t.Helper()
 
+	offersPerWord := offersPerWordIn(offered)
+	for _, wordPartition := range wordPartitions {
+		if offersPerWord[wordPartition.Word] != 1 {
+			t.Fatalf("offers per word = %v, want every word partition offered once", offersPerWord)
+		}
+	}
+}
+
+func offersPerWordIn(offered []offeredCall) map[yacymodel.Hash]int {
 	offersPerWord := make(map[yacymodel.Hash]int)
 	for _, call := range offered {
 		for _, posting := range call.Postings {
 			offersPerWord[posting.WordHash]++
 		}
 	}
-	for _, wordPartition := range wordPartitions {
-		if offersPerWord[wordPartition.Word] != 1 {
-			t.Fatalf("offers per word = %v, want every word partition offered once", offersPerWord)
-		}
-	}
+
+	return offersPerWord
 }
 
 type callMeeting struct {

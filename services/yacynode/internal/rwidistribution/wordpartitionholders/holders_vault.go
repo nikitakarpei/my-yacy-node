@@ -31,7 +31,7 @@ func registerWordPartitionRecords(
 	return records, nil
 }
 
-func registerRefreshOrder(v *vault.Vault) (*vault.Set[scheduledRefresh], error) {
+func registerRefreshOrder(v *vault.Vault) (*vault.Set[ScheduledRefresh], error) {
 	refreshOrder, err := v.RegisterSet(refreshOrderBucket, refreshOrderKeyLayout)
 	if err != nil {
 		return nil, fmt.Errorf("register word partition refresh order: %w", err)
@@ -60,17 +60,17 @@ var refreshOrderKeyParts = vault.QuadKey(
 )
 
 var refreshOrderKeyLayout = refreshOrderKeyParts.KeyLayoutFor(
-	func(refresh scheduledRefresh) (int64, time.Time, yacymodel.Hash, int64) {
+	func(refresh ScheduledRefresh) (int64, time.Time, yacymodel.Hash, int64) {
 		return sectorKeyOf(refresh.sector),
 			refresh.refreshAt,
-			refresh.wordPartition.Word,
-			partitionKeyOf(refresh.wordPartition.Partition)
+			refresh.WordPartition.Word,
+			partitionKeyOf(refresh.WordPartition.Partition)
 	},
-	func(sector int64, refreshAt time.Time, word yacymodel.Hash, partition int64) scheduledRefresh {
-		return scheduledRefresh{
+	func(sector int64, refreshAt time.Time, word yacymodel.Hash, partition int64) ScheduledRefresh {
+		return ScheduledRefresh{
 			sector:    yacymodel.DHTRingSector(sector),
 			refreshAt: refreshAt,
-			wordPartition: yacymodel.WordPartition{
+			WordPartition: yacymodel.WordPartition{
 				Word:      word,
 				Partition: partitionFromKey(partition),
 			},
@@ -94,8 +94,8 @@ func everyRefreshInSector(sector yacymodel.DHTRingSector) vault.KeyRange {
 	return refreshOrderKeyParts.KeysWithFirst(sectorKeyOf(sector))
 }
 
-func refreshesInSectorDueBy(sector yacymodel.DHTRingSector, dueAt time.Time) vault.KeyRange {
-	return refreshOrderKeyParts.KeysWithFirstThroughSecond(sectorKeyOf(sector), dueAt)
+func refreshesInSectorDueBy(sector yacymodel.DHTRingSector, now time.Time) vault.KeyRange {
+	return refreshOrderKeyParts.KeysWithFirstThroughSecond(sectorKeyOf(sector), now)
 }
 
 var errBadWordPartitionRecord = errors.New("bad word partition holders")
