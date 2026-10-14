@@ -3,19 +3,34 @@ package rwipostingamount_test
 import (
 	"context"
 	"fmt"
+	"math"
 	"net/url"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
+const sampleLifetime = 5 * time.Minute
+
+type fakeClock struct {
+	instant time.Time
+}
+
+func (c *fakeClock) now() time.Time { return c.instant }
+
+func (c *fakeClock) advance(elapsed time.Duration) { c.instant = c.instant.Add(elapsed) }
+
 type harness struct {
+	clock          *fakeClock
 	vault          *vault.Vault
 	postingAmounts rwipostingamount.PostingAmountQuery
+	wordAmounts    rwipostingamount.WordAmountEstimate
 	admitter       rwipostings.PostingAdmitter
 	purger         rwipostings.PostingPurger
 }
@@ -27,13 +42,40 @@ func openHarness(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
+
+	return openHarnessOn(t, v)
+}
+
+func openHarnessOnDisk(t *testing.T) harness {
+	t.Helper()
+
+	engine, err := pebblevault.OpenEngine(t.TempDir(), 0, pebblevault.MachineLimits{}, nil, nil)
+	if err != nil {
+		t.Fatalf("pebblevault.OpenEngine: %v", err)
+	}
+	v, err := vault.New(engine, nil)
+	if err != nil {
+		t.Fatalf("vault.New: %v", err)
+	}
+
+	return openHarnessOn(t, v)
+}
+
+func openHarnessOn(t *testing.T, v *vault.Vault) harness {
+	t.Helper()
+
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
 			t.Fatalf("Close: %v", err)
 		}
 	})
 
-	postingAmounts, projection, err := rwipostingamount.Open(v)
+	clock := &fakeClock{instant: time.Date(2026, time.October, 14, 10, 0, 0, 0, time.UTC)}
+	postingAmounts, wordAmounts, projection, err := rwipostingamount.Open(
+		v,
+		clock.now,
+		sampleLifetime,
+	)
 	if err != nil {
 		t.Fatalf("rwipostingamount.Open: %v", err)
 	}
@@ -47,7 +89,14 @@ func openHarness(t *testing.T) harness {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
-	return harness{vault: v, postingAmounts: postingAmounts, admitter: admitter, purger: purger}
+	return harness{
+		clock:          clock,
+		vault:          v,
+		postingAmounts: postingAmounts,
+		wordAmounts:    wordAmounts,
+		admitter:       admitter,
+		purger:         purger,
+	}
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -96,6 +145,22 @@ func (h harness) amountOfPostingsOf(t *testing.T, word yacymodel.Hash) int {
 	}
 
 	return amountOfPostings
+}
+
+func (h harness) estimatedAmountOfWords(t *testing.T) int {
+	t.Helper()
+
+	var amountOfWords int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		amount, err := h.wordAmounts.EstimatedAmountOfWords(tx)
+		amountOfWords = amount
+
+		return err
+	}); err != nil {
+		t.Fatalf("EstimatedAmountOfWords: %v", err)
+	}
+
+	return amountOfWords
 }
 
 func postingOf(word, document string) yacymodel.RWIPosting {
@@ -170,5 +235,176 @@ func TestAPostingPurgedAndStoredAgainLeavesTheAmountAlone(t *testing.T) {
 
 	if amount := h.amountOfPostingsOf(t, yacymodel.WordHash("w1")); amount != 1 {
 		t.Errorf("amount of w1 = %d, want 1", amount)
+	}
+}
+
+func TestASmallIndexCountsEachWordOnceHoweverManyPostingsItHas(t *testing.T) {
+	h := openHarness(t)
+
+	h.store(
+		t,
+		postingOf("w1", "u1"),
+		postingOf("w1", "u2"),
+		postingOf("w1", "u3"),
+		postingOf("w2", "u1"),
+	)
+
+	if amount := h.estimatedAmountOfWords(t); amount != 2 {
+		t.Errorf("amount of words = %d, want 2", amount)
+	}
+}
+
+func TestASmallIndexReportsNewWordsAtOnce(t *testing.T) {
+	h := openHarness(t)
+	if amount := h.estimatedAmountOfWords(t); amount != 0 {
+		t.Fatalf("amount of words of an empty index = %d, want 0", amount)
+	}
+
+	h.store(t, postingOf("w1", "u1"), postingOf("w2", "u1"))
+
+	if amount := h.estimatedAmountOfWords(t); amount != 2 {
+		t.Errorf("amount of words right after two words arrived = %d, want 2", amount)
+	}
+}
+
+func TestAWordLeavesTheAmountOfWordsWithItsLastPosting(t *testing.T) {
+	h := openHarness(t)
+	h.store(t, postingOf("w1", "u1"), postingOf("w1", "u2"), postingOf("w2", "u1"))
+
+	h.purge(t, postingOf("w1", "u1"))
+	if amount := h.estimatedAmountOfWords(t); amount != 2 {
+		t.Errorf("amount of words after one of two postings left = %d, want 2", amount)
+	}
+	h.purge(t, postingOf("w1", "u2"))
+	if amount := h.estimatedAmountOfWords(t); amount != 1 {
+		t.Errorf("amount of words after the last posting of w1 left = %d, want 1", amount)
+	}
+}
+
+const (
+	wordsOfALargeIndex  = 40_000
+	estimateToleratedBy = 0.1
+)
+
+func TestALargeIndexEstimatesItsWordsClosely(t *testing.T) {
+	h := openHarnessOnDisk(t)
+
+	h.store(t, postingsOfALargeIndex("word", unplaced)...)
+
+	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), wordsOfALargeIndex)
+}
+
+func TestALargeIndexEstimatesItsWordsNotItsPostings(t *testing.T) {
+	h := openHarnessOnDisk(t)
+
+	h.store(t, postingsOfALargeIndex("word", unplaced)...)
+	h.store(t, postingsOfFrequentWords()...)
+
+	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), wordsOfALargeIndex)
+}
+
+func postingsOfFrequentWords() []yacymodel.RWIPosting {
+	const (
+		wordsPerFrequentWord     = 100
+		documentsOfFrequentWords = 50
+	)
+
+	var postings []yacymodel.RWIPosting
+	for number := 0; number < wordsOfALargeIndex; number += wordsPerFrequentWord {
+		for document := range documentsOfFrequentWords {
+			postings = append(postings, postingOf(
+				fmt.Sprintf("word%d", number),
+				fmt.Sprintf("document%d", document),
+			))
+		}
+	}
+
+	return postings
+}
+
+func TestALargeIndexServesItsSampleForTheSampleLifetime(t *testing.T) {
+	h := openHarnessOnDisk(t)
+	h.store(t, postingsOfALargeIndex("word", unplaced)...)
+	sampledAmount := h.estimatedAmountOfWords(t)
+
+	h.store(t, postingsOfALargeIndex("added", unplaced)...)
+	h.clock.advance(sampleLifetime - time.Second)
+	if amount := h.estimatedAmountOfWords(t); amount != sampledAmount {
+		t.Fatalf("amount of words within the sample lifetime = %d, want the sampled %d",
+			amount, sampledAmount)
+	}
+	h.clock.advance(time.Second)
+
+	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), 2*wordsOfALargeIndex)
+}
+
+func TestALargeIndexThatShrinksServesItsSampleForTheSampleLifetime(t *testing.T) {
+	h := openHarnessOnDisk(t)
+	postings := postingsOfALargeIndex("word", unplaced)
+	h.store(t, postings...)
+	sampledAmount := h.estimatedAmountOfWords(t)
+
+	const keptWords = 3
+	h.write(t, func(tx *vault.Txn) error {
+		for _, posting := range postings[keptWords:] {
+			if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+	h.clock.advance(sampleLifetime - time.Second)
+	if amount := h.estimatedAmountOfWords(t); amount != sampledAmount {
+		t.Fatalf("amount of words within the sample lifetime = %d, want the sampled %d",
+			amount, sampledAmount)
+	}
+	h.clock.advance(time.Second)
+
+	if amount := h.estimatedAmountOfWords(t); amount != keptWords {
+		t.Errorf("amount of words after the sample lifetime = %d, want the %d kept words",
+			amount, keptWords)
+	}
+}
+
+func TestALargeIndexOnOneArcOfTheRingEstimatesItsWordsClosely(t *testing.T) {
+	h := openHarnessOnDisk(t)
+
+	h.store(
+		t,
+		postingsOfALargeIndex("word", func(word yacymodel.Hash) yacymodel.Hash {
+			onArc, err := yacymodel.ParseHash("Q" + word.String()[1:])
+			if err != nil {
+				panic(err)
+			}
+
+			return onArc
+		})...)
+
+	assertEstimateCloseTo(t, h.estimatedAmountOfWords(t), wordsOfALargeIndex)
+}
+
+func unplaced(word yacymodel.Hash) yacymodel.Hash { return word }
+
+func postingsOfALargeIndex(
+	name string,
+	placed func(yacymodel.Hash) yacymodel.Hash,
+) []yacymodel.RWIPosting {
+	postings := make([]yacymodel.RWIPosting, 0, wordsOfALargeIndex)
+	for number := range wordsOfALargeIndex {
+		posting := postingOf(fmt.Sprintf("%s%d", name, number), "u1")
+		posting.WordHash = placed(posting.WordHash)
+		postings = append(postings, posting)
+	}
+
+	return postings
+}
+
+func assertEstimateCloseTo(t *testing.T, estimate, wantedWords int) {
+	t.Helper()
+
+	if math.Abs(float64(estimate-wantedWords)) > estimateToleratedBy*float64(wantedWords) {
+		t.Errorf("estimated amount of words = %d, want %d within %.0f%%",
+			estimate, wantedWords, estimateToleratedBy*100)
 	}
 }

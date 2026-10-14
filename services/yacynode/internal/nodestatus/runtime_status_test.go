@@ -14,13 +14,13 @@ import (
 )
 
 type stubCounter struct {
-	rwi            int
+	words          int
 	postingAmounts map[yacymodel.Hash]int
 	urls           int
 	err            error
 }
 
-func (c stubCounter) RWICount(*vault.Txn) (int, error) { return c.rwi, c.err }
+func (c stubCounter) EstimatedAmountOfWords(*vault.Txn) (int, error) { return c.words, c.err }
 
 func (c stubCounter) AmountOfPostingsOf(_ *vault.Txn, word yacymodel.Hash) (int, error) {
 	return c.postingAmounts[word], c.err
@@ -72,7 +72,7 @@ func clockAt(instant time.Time) func() time.Time {
 func statusAfter(
 	t *testing.T,
 	elapsed time.Duration,
-	rwi, urls stubCounter,
+	words, urls stubCounter,
 ) nodestatus.RuntimeStatus {
 	t.Helper()
 
@@ -80,11 +80,11 @@ func statusAfter(
 	id := testIdentity()
 	id.Start = start
 
-	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), openVault(t), rwi, urls)
+	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), openVault(t), words, urls)
 }
 
 func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
-	counts := stubCounter{rwi: 7, urls: 3}
+	counts := stubCounter{words: 7, urls: 3}
 	status := statusAfter(t, 90*time.Minute, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
@@ -134,7 +134,7 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 }
 
 func TestSelfSeedCountErrorsReportZero(t *testing.T) {
-	counts := stubCounter{rwi: 5, urls: 9, err: errors.New("boom")}
+	counts := stubCounter{words: 5, urls: 9, err: errors.New("boom")}
 	status := statusAfter(t, time.Hour, counts, counts)
 
 	seed := status.SelfSeed(context.Background())

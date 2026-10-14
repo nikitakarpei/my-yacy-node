@@ -46,7 +46,6 @@ type searchIndex interface {
 		term yacymodel.Hash,
 		document yacymodel.URLHash,
 	) (yacymodel.RWIPosting, bool, error)
-	RWICount(tx *vault.Txn) (int, error)
 	ScanPostingsInImpactOrder(
 		tx *vault.Txn,
 		term yacymodel.Hash,

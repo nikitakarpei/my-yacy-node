@@ -37,11 +37,11 @@ func TestPurgePostingDropsPosting(t *testing.T) {
 		t.Fatal("PurgePosting reported nothing deleted, want the posting dropped")
 	}
 
-	if rwiCount := h.rwiCount(t); rwiCount != 2 {
-		t.Fatalf("RWICount = %d, want 2", rwiCount)
-	}
 	if _, found := h.postingOf(t, word, url); found {
 		t.Fatal("PostingOf found the purged posting")
+	}
+	if _, found := h.postingOf(t, word, urlHash("u2")); !found {
+		t.Fatal("PostingOf lost a posting of the word that was not purged")
 	}
 }
 
