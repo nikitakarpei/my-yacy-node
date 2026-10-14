@@ -19,8 +19,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -50,7 +50,7 @@ type loopHarness struct {
 	index       *observedPostingIndex
 	admitter    rwipostings.PostingAdmitter
 	undelivered *undeliveredpostings.Postings
-	holders     *wordpartitionholders.Holders
+	schedule    *wordpartitionschedule.Schedule
 	eligibility *peereligibility.Peers
 	roster      *fakeRoster
 	observer    *fakeObserver
@@ -93,10 +93,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	holders, err := wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, clk.Now)
-	if err != nil {
-		t.Fatalf("wordpartitionholders.Open: %v", err)
-	}
+	schedule := openSchedule(t, v, clk)
 
 	h := &loopHarness{
 		v:           v,
@@ -104,7 +101,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		index:       &observedPostingIndex{index: index},
 		admitter:    admitter,
 		undelivered: undelivered,
-		holders:     holders,
+		schedule:    schedule,
 		roster:      &fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{}},
 		observer:    newFakeObserver(),
 		transfers:   &fakeTransfers{answers: make(map[yacymodel.Hash]fakeAnswer)},
@@ -122,7 +119,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	h.loop = distributionloop.New(
 		v,
 		wordpartitionoffer.New(
-			v, undelivered, holders, h.index, h.roster, h.eligibility,
+			v, undelivered, schedule, h.index, h.roster, h.eligibility,
 			wordpartitionoffer.Config{
 				Partitions: partitions(),
 				Self:       opts.self,
@@ -130,8 +127,8 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 			},
 		),
 		undelivered,
-		holders,
-		handoffFor(opts, h.index, purger, undelivered, holders),
+		schedule,
+		handoffFor(opts, h.index, purger, undelivered, schedule),
 		h.transfers,
 		h.eligibility,
 		h.roster,
@@ -150,6 +147,24 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	)
 
 	return h
+}
+
+func openSchedule(t *testing.T, v *vault.Vault, clk *clock) *wordpartitionschedule.Schedule {
+	t.Helper()
+
+	schedule, err := wordpartitionschedule.Open(
+		context.Background(),
+		v,
+		partitions(),
+		refreshInterval,
+		retryDelay,
+		clk.Now,
+	)
+	if err != nil {
+		t.Fatalf("wordpartitionschedule.Open: %v", err)
+	}
+
+	return schedule
 }
 
 func openLoopVault(t *testing.T) *vault.Vault {
@@ -176,13 +191,13 @@ func handoffFor(
 	index *observedPostingIndex,
 	purger rwipostings.PostingPurger,
 	undelivered *undeliveredpostings.Postings,
-	holders *wordpartitionholders.Holders,
+	schedule *wordpartitionschedule.Schedule,
 ) distributionloop.WordPartitionHandoff {
 	if !opts.handoffEnabled {
 		return wordpartitionhandoff.KeepEveryWordPartition{}
 	}
 
-	return wordpartitionhandoff.New(index, purger, undelivered, holders,
+	return wordpartitionhandoff.New(index, purger, undelivered, schedule,
 		wordpartitionhandoff.Config{
 			Partitions: partitions(),
 			Self:       opts.self,
@@ -249,7 +264,7 @@ func (h *loopHarness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
+		return h.schedule.RecordRefreshed(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -262,7 +277,7 @@ func (h *loopHarness) holdersOf(
 	var recordedHolders []yacymodel.Hash
 	h.read(t, func(tx *vault.Txn) error {
 		var err error
-		recordedHolders, err = h.holders.Of(tx, wordPartition)
+		recordedHolders, err = h.schedule.HoldersOf(tx, wordPartition)
 
 		return err
 	})

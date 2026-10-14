@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 const gaugeObservationInterval = 15 * time.Second
@@ -16,7 +16,7 @@ const gaugeObservationInterval = 15 * time.Second
 type gaugeObservation struct {
 	vault           *vault.Vault
 	undelivered     *undeliveredpostings.Postings
-	holders         *wordpartitionholders.Holders
+	schedule        *wordpartitionschedule.Schedule
 	roster          ReachablePeers
 	clock           Clock
 	backlogObserver BacklogObserver
@@ -64,12 +64,12 @@ func (g *gaugeObservation) backlogNow(ctx context.Context) (backlog, error) {
 }
 
 func (g *gaugeObservation) longestRefreshLatenessIn(tx *vault.Txn) (time.Duration, error) {
-	earliestRefreshAt, found, err := g.holders.EarliestRefreshAt(tx)
+	earliestDueAt, found, err := g.schedule.EarliestDueAt(tx)
 	if err != nil || !found {
 		return 0, err
 	}
 
-	return max(g.clock.Now().Sub(earliestRefreshAt), 0), nil
+	return max(g.clock.Now().Sub(earliestDueAt), 0), nil
 }
 
 func (g *gaugeObservation) observePeersAcceptingRemoteIndex(ctx context.Context) {

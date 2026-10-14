@@ -34,7 +34,7 @@ type Outcome struct {
 	ResponsiblePeers     []yacymodel.Hash
 	Holders              []yacymodel.Hash
 	IsAtRedundancy       bool
-	MustRecordHolders    bool
+	IsRefresh            bool
 	DeliveredPostings    []undeliveredpostings.Posting
 	AmountOfStaleHolders int
 	Acceptances          []Acceptance
@@ -59,7 +59,7 @@ func (o Offer) OutcomeFrom(answers map[yacymodel.Hash]PeerAnswer) Outcome {
 		ResponsiblePeers:     o.responsiblePeers,
 		Holders:              holders,
 		IsAtRedundancy:       isAtRedundancy,
-		MustRecordHolders:    o.mustRecordHoldersWith(holders, isAtRedundancy),
+		IsRefresh:            o.isRefresh,
 		DeliveredPostings:    deliveredPostings,
 		AmountOfStaleHolders: len(o.staleHolders),
 		Acceptances:          o.acceptancesFrom(acceptedURLsPerPeer),
@@ -167,20 +167,6 @@ func (o Offer) isAtRedundancyWith(
 ) bool {
 	return len(holders) >= len(o.responsiblePeers) &&
 		len(deliveredPostings) == len(o.undeliveredPostings)
-}
-
-func (o Offer) mustRecordHoldersWith(
-	holders []yacymodel.Hash,
-	isAtRedundancy bool,
-) bool {
-	return o.isRefresh || !isAtRedundancy || !sameHolders(holders, o.recordedHolders)
-}
-
-func sameHolders(holders, otherHolders []yacymodel.Hash) bool {
-	return len(holders) == len(otherHolders) &&
-		!slices.ContainsFunc(holders, func(holder yacymodel.Hash) bool {
-			return !slices.Contains(otherHolders, holder)
-		})
 }
 
 func (o Offer) acceptancesFrom(

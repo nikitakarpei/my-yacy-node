@@ -15,8 +15,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 type SkipReason string
@@ -65,7 +65,7 @@ type Loop struct {
 	vault           *vault.Vault
 	offers          *wordpartitionoffer.Offers
 	undelivered     *undeliveredpostings.Postings
-	holders         *wordpartitionholders.Holders
+	schedule        *wordpartitionschedule.Schedule
 	handoff         WordPartitionHandoff
 	sender          offerSender
 	roster          ReachablePeers
@@ -82,7 +82,7 @@ func New(
 	v *vault.Vault,
 	offers *wordpartitionoffer.Offers,
 	undelivered *undeliveredpostings.Postings,
-	holders *wordpartitionholders.Holders,
+	schedule *wordpartitionschedule.Schedule,
 	handoff WordPartitionHandoff,
 	transfers PostingTransfers,
 	eligibility PeerEligibility,
@@ -97,7 +97,7 @@ func New(
 		vault:       v,
 		offers:      offers,
 		undelivered: undelivered,
-		holders:     holders,
+		schedule:    schedule,
 		handoff:     handoff,
 		sender: offerSender{
 			transfers:           transfers,
@@ -122,7 +122,7 @@ func New(
 			},
 			&dueRefreshesList{
 				vault:           v,
-				holders:         holders,
+				schedule:        schedule,
 				offers:          offers,
 				refreshesBudget: config.RefreshesPerBatch,
 			},
@@ -130,7 +130,7 @@ func New(
 		gauges: &gaugeObservation{
 			vault:           v,
 			undelivered:     undelivered,
-			holders:         holders,
+			schedule:        schedule,
 			roster:          roster,
 			clock:           clock,
 			backlogObserver: backlogObserver,
@@ -264,10 +264,8 @@ func (l *Loop) recordOutcome(
 	tx *vault.Txn,
 	outcome wordpartitionoffer.Outcome,
 ) error {
-	if outcome.MustRecordHolders {
-		if err := l.recordHolders(tx, outcome); err != nil {
-			return err
-		}
+	if err := l.recordHolders(tx, outcome); err != nil {
+		return err
 	}
 	amountOfPostingsDelivered, err := l.markDelivered(tx, outcome.DeliveredPostings)
 	if err != nil {
@@ -289,11 +287,14 @@ func (l *Loop) recordOutcome(
 }
 
 func (l *Loop) recordHolders(tx *vault.Txn, outcome wordpartitionoffer.Outcome) error {
-	if outcome.IsAtRedundancy {
-		return l.holders.RecordAtRedundancy(tx, outcome.WordPartition, outcome.Holders)
+	switch {
+	case outcome.IsAtRedundancy && outcome.IsRefresh:
+		return l.schedule.RecordRefreshed(tx, outcome.WordPartition, outcome.Holders)
+	case outcome.IsAtRedundancy:
+		return l.schedule.RecordAtRedundancy(tx, outcome.WordPartition, outcome.Holders)
 	}
 
-	return l.holders.RecordShortOfRedundancy(tx, outcome.WordPartition, outcome.Holders)
+	return l.schedule.RecordShortOfRedundancy(tx, outcome.WordPartition, outcome.Holders)
 }
 
 func (l *Loop) markDelivered(

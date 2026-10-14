@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -36,7 +36,7 @@ type Handoff struct {
 	postings    PostingIndex
 	purger      rwipostings.PostingPurger
 	undelivered *undeliveredpostings.Postings
-	holders     *wordpartitionholders.Holders
+	schedule    *wordpartitionschedule.Schedule
 	config      Config
 }
 
@@ -44,14 +44,14 @@ func New(
 	postings PostingIndex,
 	purger rwipostings.PostingPurger,
 	undelivered *undeliveredpostings.Postings,
-	holders *wordpartitionholders.Holders,
+	schedule *wordpartitionschedule.Schedule,
 	config Config,
 ) *Handoff {
 	return &Handoff{
 		postings:    postings,
 		purger:      purger,
 		undelivered: undelivered,
-		holders:     holders,
+		schedule:    schedule,
 		config:      config,
 	}
 }
@@ -78,7 +78,7 @@ func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 	if err != nil {
 		return 0, err
 	}
-	if err := h.holders.Forget(tx, wordPartition); err != nil {
+	if err := h.schedule.Forget(tx, wordPartition); err != nil {
 		return 0, err
 	}
 	slog.DebugContext(ctx, "word partition handed off to responsible peers",

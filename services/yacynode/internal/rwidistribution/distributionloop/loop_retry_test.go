@@ -5,6 +5,7 @@ import (
 	"testing/synctest"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -130,4 +131,54 @@ func TestLoopPutsAWordPartitionInRetryWhenAHolderDeclinesItsNewPostings(t *testi
 			t.Fatalf("transfers at the retry = %d, want the retry sent", got)
 		}
 	})
+}
+
+func TestLoopKeepsAHeldWordPartitionOnItsLastRefreshWhenItSendsANewPosting(t *testing.T) {
+	synctest.Test(t, func(t *testing.T) {
+		wordPartition := fixtureWordPartition()
+		holder := peerAfter(wordPartition, 1)
+		clk := startClock()
+		refreshedAt := clk.Now()
+		h := openLoop(t, clk, loopOptions{})
+		h.reach(holder)
+		h.transfers.answers[holder.Hash] = acceptedAnswer
+		h.recordHolders(t, wordPartition, holder.Hash)
+		h.advance(refreshInterval / 2)
+		h.admit(t, wordPartition, urlsOf(1)...)
+		h.write(t, func(tx *vault.Txn) error {
+			return h.schedule.MakeDue(tx, wordPartition)
+		})
+
+		h.start(t)
+
+		if got := len(h.transfers.offeredTo(holder)); got != 1 {
+			t.Fatalf("transfers to the holder = %d, want the new posting", got)
+		}
+		if got, found := h.earliestDueAt(t); !found ||
+			!got.Equal(refreshedAt.Add(refreshInterval)) {
+			t.Fatalf(
+				"earliest due time = %v, %v, want %v",
+				got,
+				found,
+				refreshedAt.Add(refreshInterval),
+			)
+		}
+	})
+}
+
+func (h *loopHarness) earliestDueAt(t *testing.T) (time.Time, bool) {
+	t.Helper()
+
+	var (
+		earliestDueAt time.Time
+		found         bool
+	)
+	h.read(t, func(tx *vault.Txn) error {
+		var err error
+		earliestDueAt, found, err = h.schedule.EarliestDueAt(tx)
+
+		return err
+	})
+
+	return earliestDueAt, found
 }

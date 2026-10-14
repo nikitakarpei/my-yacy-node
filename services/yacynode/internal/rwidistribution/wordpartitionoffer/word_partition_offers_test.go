@@ -12,8 +12,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -35,7 +35,7 @@ type harness struct {
 	vault        *vault.Vault
 	admitter     rwipostings.PostingAdmitter
 	undelivered  *undeliveredpostings.Postings
-	holders      *wordpartitionholders.Holders
+	schedule     *wordpartitionschedule.Schedule
 	offers       *wordpartitionoffer.Offers
 	reachability *fakeReachability
 	eligibility  fakeEligibility
@@ -79,12 +79,19 @@ func openHarness(t *testing.T, opts options) *harness {
 		},
 		clock: time.Unix(1_700_000_000, 0).UTC(),
 	}
-	h.holders, err = wordpartitionholders.Open(v, partitions(), refreshInterval, retryDelay, h.now)
+	h.schedule, err = wordpartitionschedule.Open(
+		context.Background(),
+		v,
+		partitions(),
+		refreshInterval,
+		retryDelay,
+		h.now,
+	)
 	if err != nil {
-		t.Fatalf("wordpartitionholders.Open: %v", err)
+		t.Fatalf("wordpartitionschedule.Open: %v", err)
 	}
 	h.offers = wordpartitionoffer.New(
-		v, undelivered, h.holders, index, h.reachability, h.eligibility, configFrom(opts),
+		v, undelivered, h.schedule, index, h.reachability, h.eligibility, configFrom(opts),
 	)
 
 	return h
@@ -167,13 +174,15 @@ func (h *harness) undeliveredWordPartitions(
 	return wordPartitions
 }
 
+var wholeRing = yacymodel.DHTRingSpan{First: 0, Last: yacymodel.MaxDHTRingPosition}
+
 func (h *harness) dueWordPartitions(t *testing.T) []yacymodel.WordPartition {
 	t.Helper()
 
 	var dueWordPartitions []yacymodel.WordPartition
 	h.read(t, func(tx *vault.Txn) error {
-		dueRefreshes, _, err := h.holders.DueRefreshesAfter(
-			tx, wordpartitionholders.ScheduledRefresh{}, everyEntryBudget)
+		dueRefreshes, _, err := h.schedule.WordPartitionsDueWithin(
+			tx, wholeRing, wordpartitionschedule.ScheduledWordPartition{}, everyEntryBudget)
 		for _, dueRefresh := range dueRefreshes {
 			dueWordPartitions = append(dueWordPartitions, dueRefresh.WordPartition)
 		}
@@ -192,7 +201,7 @@ func (h *harness) recordHolders(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordAtRedundancy(tx, wordPartition, recordedHolders)
+		return h.schedule.RecordRefreshed(tx, wordPartition, recordedHolders)
 	})
 }
 
@@ -200,7 +209,7 @@ func (h *harness) recordNoHolders(t *testing.T, wordPartition yacymodel.WordPart
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.holders.RecordShortOfRedundancy(tx, wordPartition, nil)
+		return h.schedule.RecordShortOfRedundancy(tx, wordPartition, nil)
 	})
 }
 

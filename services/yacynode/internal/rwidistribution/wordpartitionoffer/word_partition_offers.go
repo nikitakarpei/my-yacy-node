@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionholders"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 )
 
 type PostingIndex interface {
@@ -57,7 +57,7 @@ type Config struct {
 type Offers struct {
 	vault        *vault.Vault
 	undelivered  *undeliveredpostings.Postings
-	holders      *wordpartitionholders.Holders
+	schedule     *wordpartitionschedule.Schedule
 	postings     PostingIndex
 	reachability Reachability
 	eligibility  PeerEligibility
@@ -68,7 +68,7 @@ type Offers struct {
 func New(
 	v *vault.Vault,
 	undelivered *undeliveredpostings.Postings,
-	holders *wordpartitionholders.Holders,
+	schedule *wordpartitionschedule.Schedule,
 	postings PostingIndex,
 	reachability Reachability,
 	eligibility PeerEligibility,
@@ -77,7 +77,7 @@ func New(
 	return &Offers{
 		vault:        v,
 		undelivered:  undelivered,
-		holders:      holders,
+		schedule:     schedule,
 		postings:     postings,
 		reachability: reachability,
 		eligibility:  eligibility,
@@ -151,7 +151,7 @@ func (o *Offers) addUndeliveredWordPartitions(
 	batch *Batch,
 ) error {
 	for _, undelivered := range undeliveredWordPartitions {
-		isInRetry, err := o.holders.IsInRetry(tx, undelivered.WordPartition)
+		isInRetry, err := o.schedule.IsInRetry(tx, undelivered.WordPartition)
 		if err != nil {
 			return err
 		}
@@ -188,7 +188,7 @@ func (o *Offers) peersOf(
 	wordPartition yacymodel.WordPartition,
 	acceptingPeers yacymodel.SeedRing,
 ) (wordPartitionPeers, error) {
-	recordedHolders, err := o.holders.Of(tx, wordPartition)
+	recordedHolders, err := o.schedule.HoldersOf(tx, wordPartition)
 	if err != nil {
 		return wordPartitionPeers{}, err
 	}
