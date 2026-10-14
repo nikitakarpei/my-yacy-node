@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
+func TestPurgePostingDropsPosting(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t)
 
@@ -40,15 +40,12 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	if rwiCount := h.rwiCount(t); rwiCount != 2 {
 		t.Fatalf("RWICount = %d, want 2", rwiCount)
 	}
-	if len(h.observer.purged) != 1 {
-		t.Fatalf("purged notifications = %d, want 1", len(h.observer.purged))
-	}
-	if departed := h.observer.purged[0]; departed != posting("w1", "u1") {
-		t.Fatalf("purged notification carried %+v, want the posting that was dropped", departed)
+	if _, found := h.postingOf(t, word, url); found {
+		t.Fatal("PostingOf found the purged posting")
 	}
 }
 
-func TestPurgingAPostingThatIsNotHeldNotifiesNobody(t *testing.T) {
+func TestPurgingAPostingThatIsNotHeldReportsNothingPurged(t *testing.T) {
 	h := openHarness(t)
 
 	h.admit(t, posting("w1", "u1"))
@@ -70,8 +67,5 @@ func TestPurgingAPostingThatIsNotHeldNotifiesNobody(t *testing.T) {
 
 	if wasPurged {
 		t.Fatal("PurgePosting reported a deletion, want none")
-	}
-	if len(h.observer.purged) != 0 {
-		t.Fatalf("purged notifications = %v, want none", h.observer.purged)
 	}
 }
