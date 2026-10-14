@@ -232,13 +232,13 @@ func openVault(t *testing.T) *vault.Vault {
 	return v
 }
 
-func TestSendFailsOnlyWhenThePeerGivesNoAnswer(t *testing.T) {
+func TestSendFailsWhenThePeerGivesNoAnswerOrRefuses(t *testing.T) {
 	resultPerOutcome := map[postingcourier.Outcome]postingtransfer.OfferResult{
 		postingcourier.Unreachable:   postingtransfer.OfferFailed,
 		postingcourier.Unaddressable: postingtransfer.OfferFailed,
 		postingcourier.Deferred:      postingtransfer.OfferDeclined,
 		postingcourier.Overloaded:    postingtransfer.OfferDeclined,
-		postingcourier.Refused:       postingtransfer.OfferDeclined,
+		postingcourier.Refused:       postingtransfer.OfferFailed,
 		postingcourier.Accepted:      postingtransfer.OfferAccepted,
 	}
 	for outcome, wantResult := range resultPerOutcome {

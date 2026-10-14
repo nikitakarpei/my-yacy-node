@@ -2,7 +2,7 @@
 // two-step wire exchange: a posting offer, then the metadata for the URLs the
 // peer does not recognize. A posting counts as delivered only once both steps
 // reach the peer and the peer did not refuse its URL. An offer fails when the
-// peer gives no answer to it.
+// peer gives no answer to it or refuses it.
 package postingtransfer
 
 import (
@@ -101,9 +101,9 @@ func (t *Transfers) Send(
 
 		return OfferAnswer{
 			Result:           OfferAccepted,
-			AcceptedPostings: postingsWithMetadataDelivered(offeredPostings, unacceptedURLs),
+			AcceptedPostings: postingsWithout(offeredPostings, unacceptedURLs),
 		}
-	case postingcourier.Unreachable, postingcourier.Unaddressable:
+	case postingcourier.Unreachable, postingcourier.Unaddressable, postingcourier.Refused:
 		return OfferAnswer{Result: OfferFailed}
 	default:
 		return OfferAnswer{Result: OfferDeclined, RequestedPause: receipt.RequestedPause}
@@ -206,18 +206,18 @@ func urlsWithout(urls []yacymodel.URLHash, excluded []yacymodel.URLHash) []yacym
 	return remaining
 }
 
-func postingsWithMetadataDelivered(
+func postingsWithout(
 	postings []yacymodel.RWIPosting,
-	undeliveredURLs []yacymodel.URLHash,
+	unacceptedURLs []yacymodel.URLHash,
 ) []yacymodel.RWIPosting {
-	withoutMetadata := make(map[yacymodel.URLHash]struct{}, len(undeliveredURLs))
-	for _, url := range undeliveredURLs {
-		withoutMetadata[url] = struct{}{}
+	excludedURLs := make(map[yacymodel.URLHash]struct{}, len(unacceptedURLs))
+	for _, url := range unacceptedURLs {
+		excludedURLs[url] = struct{}{}
 	}
 
 	keptPostings := make([]yacymodel.RWIPosting, 0, len(postings))
 	for _, posting := range postings {
-		if _, excluded := withoutMetadata[posting.URLHash]; excluded {
+		if _, isExcluded := excludedURLs[posting.URLHash]; isExcluded {
 			continue
 		}
 		keptPostings = append(keptPostings, posting)

@@ -220,7 +220,7 @@ func TestOfferReportsOverloadedPeer(t *testing.T) {
 }
 
 func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultMissingIndexes})
+	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultWrongTarget})
 	defer server.Close()
 
 	courier := openCourierHarness(t, server)
