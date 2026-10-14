@@ -25,6 +25,9 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.Egress.ProxyURL == nil || config.Egress.ProxyURL.String() != "http://proxy:4750" {
 		t.Errorf("ProxyURL = %v", config.Egress.ProxyURL)
 	}
+	if config.MessageInbox.Enabled() {
+		t.Errorf("MessageInbox = %+v, want no webhook", config.MessageInbox)
+	}
 	if config.Serving.PeerAddr != nodeconfiguration.DefaultPeerAddr {
 		t.Errorf(
 			"PeerAddr = %q, want %q",
@@ -321,12 +324,47 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerName:        "n",
 		nodeconfiguration.EnvEgressProxyURL:  "socks5://proxy:1080",
 	},
+	"non-http message webhook": {
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "n",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvMessageWebhookURL: "ftp://inbox/hook",
+	},
+	"message webhook without host": {
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "n",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvMessageWebhookURL: "http:///hook",
+	},
+	"malformed message webhook": {
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "n",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvMessageWebhookURL: "http://inbox:port/hook",
+	},
 	"bad accept remote index": {
 		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
 		nodeconfiguration.EnvPeerName:          "n",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvAcceptRemoteIndex: "maybe",
 	},
+}
+
+func TestLoadReadsTheMessageWebhook(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerName:          "node",
+		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
+		nodeconfiguration.EnvMessageWebhookURL: "http://ntfy/peer-messages",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if !config.MessageInbox.Enabled() ||
+		config.MessageInbox.WebhookURL.String() != "http://ntfy/peer-messages" {
+		t.Fatalf("MessageInbox = %+v, want the webhook", config.MessageInbox)
+	}
 }
 
 func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {

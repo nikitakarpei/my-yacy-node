@@ -86,3 +86,10 @@ const (
 	FieldLURLEntry = "lurlEntry"
 	FieldDelay     = "delay"
 )
+
+const (
+	FieldProcess        = "process"
+	FieldSubject        = "subject"
+	FieldMessageSize    = "messagesize"
+	FieldAttachmentSize = "attachmentsize"
+)

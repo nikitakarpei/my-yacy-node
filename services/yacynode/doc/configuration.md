@@ -1,5 +1,7 @@
 # Configuration
 
+For the webhook that gets messages from other peers, see [Peer messages](peer-messages.md).
+
 ## Process
 
 | Variable | Default | Description |

@@ -12,6 +12,7 @@ type Settings struct {
 	Distribution    DistributionConfig
 	PageOfferIntake PageOfferIntakeConfig
 	Egress          EgressConfig
+	MessageInbox    MessageInboxConfig
 }
 
 func Load(getenv func(string) string) (Settings, error) {
@@ -55,6 +56,11 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
+	messageInbox, err := loadMessageInboxConfig(getenv)
+	if err != nil {
+		return Settings{}, err
+	}
+
 	if err := requireOnePostingSource(identity, pageOfferIntake); err != nil {
 		return Settings{}, err
 	}
@@ -68,5 +74,6 @@ func Load(getenv func(string) string) (Settings, error) {
 		Distribution:    distribution,
 		PageOfferIntake: pageOfferIntake,
 		Egress:          egress,
+		MessageInbox:    messageInbox,
 	}, nil
 }
