@@ -2,7 +2,8 @@
 // database directory and is the single holder of its handle; no Pebble type appears on its
 // exported surface. Writes run at the same time; a write that read a key another
 // write committed after it began runs again, and holds other commits once it
-// conflicts too often.
+// conflicts too often. Commits share disk syncs; a write returns once its commit
+// is on disk.
 package pebblevault
 
 import (
@@ -142,6 +143,14 @@ func (e *Engine) ProvisionAmountsBucket(_ vault.Name) error {
 }
 
 func (e *Engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	if err := e.commitInWriteSlot(ctx, fn); err != nil {
+		return err
+	}
+
+	return e.syncCommits()
+}
+
+func (e *Engine) commitInWriteSlot(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	e.takeWriteSlot()
 	defer e.freeWriteSlot()
 
@@ -228,7 +237,7 @@ func (e *Engine) commit(write stagedWrite) error {
 }
 
 func (e *Engine) commitRecorded(write stagedWrite) error {
-	if err := write.changes.Commit(pebble.Sync); err != nil {
+	if err := write.changes.Commit(pebble.NoSync); err != nil {
 		return commitFailureOf(err)
 	}
 	e.history.transactionCommitted(write.writtenKeys)
@@ -269,6 +278,10 @@ func release(handle io.Closer) error {
 	}
 
 	return nil
+}
+
+func (e *Engine) syncCommits() error {
+	return commitFailureOf(e.db.LogData(nil, pebble.Sync))
 }
 
 func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
