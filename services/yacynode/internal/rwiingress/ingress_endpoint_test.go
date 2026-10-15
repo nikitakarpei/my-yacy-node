@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -33,14 +34,17 @@ func localIdentity() nodeidentity.Identity {
 
 type recordingReceiver struct {
 	received []yacymodel.RWIPosting
+	origins  []rwiorigin.Origin
 	answer   rwiadmission.Receipt
 }
 
 func (r *recordingReceiver) Receive(
 	_ context.Context,
+	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
 ) (rwiadmission.Receipt, error) {
 	r.received = append(r.received, postings...)
+	r.origins = append(r.origins, origin)
 
 	return r.answer, nil
 }
@@ -147,9 +151,11 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	receiver := &recordingReceiver{}
 	mux := muxWith(receiver)
+	sendingPeer := yacymodel.WordHash("sending peer")
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
+		Iam:         sendingPeer,
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
@@ -162,6 +168,9 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	}
 	if len(receiver.received) != 1 {
 		t.Fatalf("received = %d postings, want 1", len(receiver.received))
+	}
+	if want := rwiorigin.Of(sendingPeer, "192.0.2.1"); receiver.origins[0] != want {
+		t.Fatalf("origin = %+v, want %+v", receiver.origins[0], want)
 	}
 }
 

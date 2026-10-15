@@ -9,9 +9,9 @@ import (
 
 type observers []URLMetadataObserver
 
-func (o observers) stored(tx *vault.Txn, hash yacymodel.URLHash) error {
+func (o observers) stored(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
 	for _, observer := range o {
-		if err := observer.URLStored(tx, hash); err != nil {
+		if err := observer.URLStored(tx, metadata.Hash, metadata.PageVersion()); err != nil {
 			return fmt.Errorf("url metadata observer: %w", err)
 		}
 	}

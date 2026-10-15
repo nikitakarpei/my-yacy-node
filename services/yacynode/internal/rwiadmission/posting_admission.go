@@ -8,8 +8,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -17,7 +18,7 @@ var errEscrowFull = errors.New("escrow holds as many postings as it can")
 type postingAdmission struct {
 	vault     *vault.Vault
 	urls      urlmeta.URLDirectory
-	admitter  rwipostings.PostingAdmitter
+	versions  PageVersions
 	escrow    PostingHolder
 	stopwords Stopwords
 	observer  RefusalObserver
@@ -28,6 +29,7 @@ type postingAdmission struct {
 
 func (a postingAdmission) Receive(
 	ctx context.Context,
+	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
 ) (Receipt, error) {
 	if len(postings) > a.postingCap {
@@ -57,22 +59,18 @@ func (a postingAdmission) Receive(
 	var unknown []yacymodel.URLHash
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		missing, err := a.urls.MissingURLs(tx, referenced)
+		metadata, err := a.urls.MetadataPerHash(tx, referenced)
 		if err != nil {
-			return fmt.Errorf("missing urls: %w", err)
+			return fmt.Errorf("url metadata: %w", err)
 		}
-		if escrowFull && len(missing) > 0 {
-			return errEscrowFull
-		}
-		if err := a.routeEach(
-			ctx,
-			tx,
-			postingsWithoutStopwords,
-			awaitedURLsOf(missing),
-		); err != nil {
+		heldURLs, err := a.routeEach(ctx, tx, origin, postingsWithoutStopwords, metadata)
+		if err != nil {
 			return err
 		}
-		unknown = missing
+		if escrowFull && len(heldURLs) > 0 {
+			return errEscrowFull
+		}
+		unknown = heldURLs
 
 		return nil
 	})
@@ -119,47 +117,60 @@ func urlHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
 	return hashes
 }
 
-func awaitedURLsOf(missing []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
-	awaited := make(map[yacymodel.URLHash]struct{}, len(missing))
-	for _, hash := range missing {
-		awaited[hash] = struct{}{}
-	}
-
-	return awaited
-}
-
 func (a postingAdmission) routeEach(
 	ctx context.Context,
 	tx *vault.Txn,
+	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
-	awaited map[yacymodel.URLHash]struct{},
-) error {
+	metadata map[yacymodel.URLHash]yacymodel.URLMetadata,
+) ([]yacymodel.URLHash, error) {
+	var heldURLs []yacymodel.URLHash
+	seen := make(map[yacymodel.URLHash]struct{})
 	for _, posting := range postings {
 		if err := ctx.Err(); err != nil {
-			return fmt.Errorf("context: %w", err)
+			return nil, fmt.Errorf("context: %w", err)
 		}
-		if err := a.route(tx, posting, awaited); err != nil {
-			return err
+		wasHeld, err := a.route(tx, origin, posting, metadata)
+		if err != nil {
+			return nil, err
+		}
+		if _, ok := seen[posting.URLHash]; wasHeld && !ok {
+			seen[posting.URLHash] = struct{}{}
+			heldURLs = append(heldURLs, posting.URLHash)
 		}
 	}
 
-	return nil
+	return heldURLs, nil
 }
 
 func (a postingAdmission) route(
 	tx *vault.Txn,
+	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	awaited map[yacymodel.URLHash]struct{},
-) error {
-	if _, waits := awaited[posting.URLHash]; waits {
-		if err := a.escrow.Hold(tx, posting); err != nil {
-			return fmt.Errorf("hold posting: %w", err)
-		}
-
-		return nil
+	metadata map[yacymodel.URLHash]yacymodel.URLMetadata,
+) (bool, error) {
+	stored, known := metadata[posting.URLHash]
+	if !known {
+		return true, a.hold(tx, origin, posting)
 	}
-	if err := a.admitter.Admit(tx, posting); err != nil {
-		return fmt.Errorf("admit posting: %w", err)
+	verdict, err := a.versions.Admit(tx, origin, posting, stored.PageVersion())
+	if err != nil {
+		return false, fmt.Errorf("admit posting: %w", err)
+	}
+	if verdict.Outcome() != urlpageversion.OutcomeHeld {
+		return false, nil
+	}
+
+	return true, a.hold(tx, origin, posting)
+}
+
+func (a postingAdmission) hold(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+) error {
+	if err := a.escrow.Hold(tx, origin, posting); err != nil {
+		return fmt.Errorf("hold posting: %w", err)
 	}
 
 	return nil

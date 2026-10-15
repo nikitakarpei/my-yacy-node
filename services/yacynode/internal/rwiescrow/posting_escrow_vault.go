@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -83,6 +84,7 @@ func (escrowedPostingValueCodec) Encode(escrowed escrowedPosting) ([]byte, error
 	var stored storedfields.Writer
 	stored.Time(escrowed.HeldAt)
 	stored.Bytes(posting)
+	rwiorigin.Write(&stored, escrowed.Origin)
 
 	return stored.Record(), nil
 }
@@ -91,6 +93,7 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	stored := storedfields.ReaderOf(raw, errBadEscrowedPosting)
 	heldAt := stored.Time("held at")
 	encodedPosting := stored.Bytes("posting")
+	origin := rwiorigin.From(stored)
 	if err := stored.Err(); err != nil {
 		return escrowedPosting{}, err
 	}
@@ -100,7 +103,7 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 		return escrowedPosting{}, fmt.Errorf("decode escrowed posting: %w", err)
 	}
 
-	return escrowedPosting{HeldAt: heldAt, Posting: posting}, nil
+	return escrowedPosting{HeldAt: heldAt, Origin: origin, Posting: posting}, nil
 }
 
 var postingHoldKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)

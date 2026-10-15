@@ -14,7 +14,7 @@ type URLPostingPurge struct {
 	observer   Observer
 }
 
-func (p URLPostingPurge) URLStored(*vault.Txn, yacymodel.URLHash) error {
+func (p URLPostingPurge) URLStored(*vault.Txn, yacymodel.URLHash, yacymodel.MicroDate) error {
 	return nil
 }
 

@@ -20,7 +20,6 @@ type URLDirectory interface {
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
-	MissingURLs(tx *vault.Txn, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
 	Count(tx *vault.Txn) (int, error)
 }
 
@@ -37,7 +36,7 @@ type URLEvictor interface {
 }
 
 type URLMetadataObserver interface {
-	URLStored(tx *vault.Txn, hash yacymodel.URLHash) error
+	URLStored(tx *vault.Txn, hash yacymodel.URLHash, pageVersion yacymodel.MicroDate) error
 	URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error
 }
 

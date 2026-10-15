@@ -33,30 +33,6 @@ func (d urlDirectory) MetadataPerHash(
 	return metadata, nil
 }
 
-func (d urlDirectory) MissingURLs(
-	tx *vault.Txn,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	missing := make([]yacymodel.URLHash, 0)
-	seen := make(map[yacymodel.URLHash]struct{}, len(hashes))
-	for _, hash := range hashes {
-		if _, ok := seen[hash]; ok {
-			continue
-		}
-		seen[hash] = struct{}{}
-
-		_, ok, err := d.collection.Get(tx, hash)
-		if err != nil {
-			return nil, fmt.Errorf("read url metadata: %w", err)
-		}
-		if !ok {
-			missing = append(missing, hash)
-		}
-	}
-
-	return missing, nil
-}
-
 func (d urlDirectory) Count(tx *vault.Txn) (int, error) {
 	count, err := d.collection.Len(tx)
 	if err != nil {

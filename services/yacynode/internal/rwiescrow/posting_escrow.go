@@ -7,7 +7,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 )
 
 type postingIdentity struct {
@@ -17,6 +18,7 @@ type postingIdentity struct {
 
 type escrowedPosting struct {
 	HeldAt  time.Time
+	Origin  rwiorigin.Origin
 	Posting yacymodel.RWIPosting
 }
 
@@ -29,15 +31,27 @@ type PostingEscrow struct {
 	vault    *vault.Vault
 	escrowed *vault.Collection[postingIdentity, escrowedPosting]
 	holds    *vault.ValueIndex[postingHold, postingHold]
-	admitter rwipostings.PostingAdmitter
+	versions PageVersions
 	observer HoldObserver
 	capacity int
 	now      func() time.Time
 }
 
-func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+func (e *PostingEscrow) Hold(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+) error {
+	escrowed, found, err := e.escrowed.Get(tx, identityOf(posting))
+	if err != nil {
+		return fmt.Errorf("read escrowed posting: %w", err)
+	}
+	if found && escrowed.Posting.LastModified > posting.LastModified {
+		return nil
+	}
 	wasReplaced, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
 		HeldAt:  e.now(),
+		Origin:  origin,
 		Posting: posting,
 	})
 	if err != nil {
@@ -54,21 +68,29 @@ func identityOf(posting yacymodel.RWIPosting) postingIdentity {
 	return postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
 }
 
-func (e *PostingEscrow) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
+func (e *PostingEscrow) URLStored(
+	tx *vault.Txn,
+	hash yacymodel.URLHash,
+	pageVersion yacymodel.MicroDate,
+) error {
 	waiting, err := e.postingsWaitingFor(tx, hash)
 	if err != nil {
 		return err
 	}
-	if len(waiting) == 0 {
-		return nil
-	}
 
+	var released int
 	for _, escrowed := range waiting {
-		if err := e.release(tx, escrowed); err != nil {
+		wasReleased, err := e.release(tx, escrowed, pageVersion)
+		if err != nil {
 			return err
 		}
+		if wasReleased {
+			released++
+		}
 	}
-	e.observer.ObserveReleased(tx, len(waiting))
+	if released > 0 {
+		e.observer.ObserveReleased(tx, released)
+	}
 
 	return nil
 }
@@ -178,12 +200,20 @@ func (e *PostingEscrow) postingHoldsBefore(
 	return holds, nil
 }
 
-func (e *PostingEscrow) release(tx *vault.Txn, escrowed escrowedPosting) error {
-	if err := e.admitter.Admit(tx, escrowed.Posting); err != nil {
-		return fmt.Errorf("admit released posting: %w", err)
+func (e *PostingEscrow) release(
+	tx *vault.Txn,
+	escrowed escrowedPosting,
+	pageVersion yacymodel.MicroDate,
+) (bool, error) {
+	verdict, err := e.versions.Admit(tx, escrowed.Origin, escrowed.Posting, pageVersion)
+	if err != nil {
+		return false, fmt.Errorf("admit released posting: %w", err)
+	}
+	if verdict.Outcome() == urlpageversion.OutcomeHeld {
+		return false, nil
 	}
 
-	return e.drop(tx, identityOf(escrowed.Posting))
+	return true, e.drop(tx, identityOf(escrowed.Posting))
 }
 
 func (e *PostingEscrow) drop(tx *vault.Txn, identity postingIdentity) error {

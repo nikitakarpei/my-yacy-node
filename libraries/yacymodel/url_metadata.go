@@ -60,6 +60,16 @@ func (m URLMetadata) Freshness() Optional[CalendarDay] {
 	return None[CalendarDay]()
 }
 
+func (m URLMetadata) PageVersion() MicroDate {
+	for _, day := range []Optional[CalendarDay]{m.Modified, m.Loaded} {
+		if present, ok := day.Get(); ok {
+			return MicroDateFromTime(present.Time())
+		}
+	}
+
+	return 0
+}
+
 func (m URLMetadata) IsDirectoryListing() bool {
 	for _, tag := range m.Tags {
 		if strings.Contains(tag, directoryListingTag) {

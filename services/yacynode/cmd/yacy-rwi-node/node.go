@@ -54,6 +54,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/stopwordhashes"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -74,8 +75,10 @@ const advertisedYaCyRelease = 1.83
 const egressRequestTimeout = 30 * time.Second
 
 const (
-	peerPostingTransferCap    = 1000
-	postingAdmissionBusyPause = 30 * time.Second
+	peerPostingTransferCap      = 1000
+	postingAdmissionBusyPause   = 30 * time.Second
+	pageVersionSwapFloorPerHour = 100
+	pageVersionSwapSharePerHour = 0.01
 )
 
 const wordSampleLifetime = 5 * time.Minute
@@ -207,12 +210,31 @@ func assembleNode(
 	loopRelay := &distributionLoopRelay{}
 	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter, loopRelay)
 
+	pageVersions, err := urlpageversion.Open(
+		storage,
+		urlpageversion.Postings{
+			Index:      postings,
+			References: urlReferences,
+			Admitter:   postingAdmitter,
+			Purger:     postingPurger,
+		},
+		now,
+		urlpageversion.Config{
+			SwapFloorPerHour: pageVersionSwapFloorPerHour,
+			SwapSharePerHour: pageVersionSwapSharePerHour,
+			Observer:         metrics.NewURLPageVersionMetrics(registry),
+		},
+	)
+	if err != nil {
+		return node{}, fmt.Errorf("url page versions: %w", err)
+	}
+
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
 	postingEscrow, err := rwiescrow.Open(
 		ctx,
 		storage,
-		postingAdmitter,
+		pageVersions,
 		postingEscrowObserver,
 		config.Escrow.PostingCapacity,
 		now,
@@ -234,6 +256,7 @@ func assembleNode(
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		postingEscrow,
 		urlPostingPurge,
+		pageVersions,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
@@ -244,7 +267,7 @@ func assembleNode(
 	postingReceiver := rwiadmission.Open(
 		storage,
 		urlDirectory,
-		postingAdmitter,
+		pageVersions,
 		postingEscrow,
 		stopwordHashes,
 		rwiadmission.Config{

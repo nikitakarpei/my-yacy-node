@@ -3,6 +3,7 @@ package urlmeta_test
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
@@ -106,26 +107,9 @@ func TestIntakeDurabilityAndLookup(t *testing.T) {
 		t.Fatalf("Intake: %v", err)
 	}
 
-	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash, urlHash("absent")})
 	if len(rows) != 1 || rows[hash].Hash != hash {
-		t.Fatalf("MetadataPerHash = %v, want one matching row", rows)
-	}
-
-	var missing []yacymodel.URLHash
-	if err := v.View(ctx, func(tx *vault.Txn) error {
-		absent, err := module.Directory.MissingURLs(tx, []yacymodel.URLHash{
-			hash,
-			urlHash("absent"),
-			urlHash("absent"),
-		})
-		missing = absent
-
-		return err
-	}); err != nil {
-		t.Fatalf("MissingURLs: %v", err)
-	}
-	if len(missing) != 1 || missing[0] != urlHash("absent") {
-		t.Fatalf("MissingURLs = %v, want one absent hash", missing)
+		t.Fatalf("MetadataPerHash = %v, want one matching row and no absent one", rows)
 	}
 }
 
@@ -186,6 +170,41 @@ func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
 	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
 	if len(rows) != 1 || rows[hash].Title != "refreshed" {
 		t.Fatalf("stored row = %+v, want refreshed title", rows)
+	}
+}
+
+func TestIntakeKeepsHeldMetadataOverAnOlderVersion(t *testing.T) {
+	ctx := context.Background()
+	observer := &recordingObserver{}
+	v, module := openObservedModule(t, observer)
+	held := urlMetadata(t, "a")
+	held.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 10))
+	held.Title = "held"
+	older := held
+	older.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 1))
+	older.Title = "older"
+
+	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{held}); err != nil {
+		t.Fatalf("Intake: %v", err)
+	}
+	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{older})
+	if err != nil {
+		t.Fatalf("Intake older: %v", err)
+	}
+
+	if receipt.Double != 1 {
+		t.Fatalf("double = %d, want the older metadata counted as double", receipt.Double)
+	}
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{held.Hash})
+	if rows[held.Hash].Title != "held" {
+		t.Fatalf("stored title = %q, want the held metadata kept", rows[held.Hash].Title)
+	}
+	if len(observer.storedVersions) != 1 || observer.storedVersions[0] != held.PageVersion() {
+		t.Fatalf(
+			"stored versions = %v, want only the held version %d",
+			observer.storedVersions,
+			held.PageVersion(),
+		)
 	}
 }
 

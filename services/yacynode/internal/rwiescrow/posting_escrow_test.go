@@ -12,12 +12,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 )
 
 const (
 	holdFor             = 5 * time.Minute
 	roomForEveryPosting = 100
+	newestPageVersion   = yacymodel.MicroDate(30000)
 )
 
 type countingHolds struct {
@@ -33,10 +36,32 @@ func (c *countingHolds) ObserveReleased(tx *vault.Txn, postings int) {
 	tx.RunAfterCommit(func() { c.released += postings })
 }
 
+var holdingOrigin = rwiorigin.Of(yacymodel.WordHash("origin"), "203.0.113.7")
+
+type admittingVersions struct {
+	admitter rwipostings.PostingAdmitter
+	origins  []rwiorigin.Origin
+}
+
+func (v *admittingVersions) Admit(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+	pageVersion yacymodel.MicroDate,
+) (urlpageversion.Verdict, error) {
+	if pageVersion < posting.PageVersion() {
+		return urlpageversion.VerdictNewerThanMetadata, nil
+	}
+	tx.RunAfterCommit(func() { v.origins = append(v.origins, origin) })
+
+	return urlpageversion.VerdictNewURL, v.admitter.Admit(tx, posting)
+}
+
 type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
+	versions *admittingVersions
 	observer *countingHolds
 	clock    time.Time
 }
@@ -76,13 +101,14 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 	h := &harness{
 		vault:    v,
 		index:    index,
+		versions: &admittingVersions{admitter: admitter},
 		observer: &countingHolds{},
 		clock:    time.Unix(1700000000, 123456789),
 	}
 	escrow, err := rwiescrow.Open(
 		context.Background(),
 		v,
-		admitter,
+		h.versions,
 		h.observer,
 		capacity,
 		func() time.Time { return h.clock },
@@ -106,7 +132,7 @@ func (h *harness) hold(t *testing.T, postings ...yacymodel.RWIPosting) {
 func (h *harness) holding(postings ...yacymodel.RWIPosting) error {
 	return h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, entry := range postings {
-			if err := h.escrow.Hold(tx, entry); err != nil {
+			if err := h.escrow.Hold(tx, holdingOrigin, entry); err != nil {
 				return fmt.Errorf("hold: %w", err)
 			}
 		}
@@ -118,11 +144,37 @@ func (h *harness) holding(postings ...yacymodel.RWIPosting) error {
 func (h *harness) storeURL(t *testing.T, hash yacymodel.URLHash) {
 	t.Helper()
 
+	h.storeURLAt(t, hash, newestPageVersion)
+}
+
+func (h *harness) storeURLAt(
+	t *testing.T,
+	hash yacymodel.URLHash,
+	pageVersion yacymodel.MicroDate,
+) {
+	t.Helper()
+
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.escrow.URLStored(tx, hash)
+		return h.escrow.URLStored(tx, hash, pageVersion)
 	}); err != nil {
 		t.Fatalf("URLStored: %v", err)
 	}
+}
+
+func (h *harness) indexedPosting(t *testing.T, entry yacymodel.RWIPosting) yacymodel.RWIPosting {
+	t.Helper()
+
+	var stored yacymodel.RWIPosting
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		posting, _, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
+		stored = posting
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
+	}
+
+	return stored
 }
 
 func (h *harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
@@ -456,5 +508,54 @@ func TestPurgedURLLeavesEscrowedPostingsAlone(t *testing.T) {
 
 	if got := h.escrowedCount(t); got != 1 {
 		t.Fatalf("escrowed count = %d, want 1", got)
+	}
+}
+
+func TestStoredURLReleasesPostingsWithTheirOrigin(t *testing.T) {
+	h := openHarness(t)
+	entry := posting("w1", "u1")
+
+	h.hold(t, entry)
+	h.storeURL(t, urlHash("u1"))
+
+	if len(h.versions.origins) != 1 || h.versions.origins[0] != holdingOrigin {
+		t.Fatalf("released origins = %v, want the holding origin", h.versions.origins)
+	}
+}
+
+func TestStoredURLOfAnOlderVersionLeavesNewerPostingsHeld(t *testing.T) {
+	h := openHarness(t)
+	entry := posting("w1", "u1")
+	entry.LastModified = 20000
+
+	h.hold(t, entry)
+	h.storeURLAt(t, urlHash("u1"), entry.LastModified-1)
+
+	if got := h.escrowedCount(t); got != 1 || h.indexed(t, entry) {
+		t.Fatalf("escrowed count = %d, want the newer posting still held", got)
+	}
+	if h.observer.released != 0 {
+		t.Fatalf("released = %d, want none", h.observer.released)
+	}
+
+	h.storeURLAt(t, urlHash("u1"), entry.LastModified)
+
+	if got := h.escrowedCount(t); got != 0 || !h.indexed(t, entry) {
+		t.Fatalf("escrowed count = %d, want the posting released by its own version", got)
+	}
+}
+
+func TestEscrowKeepsTheNewerOfTwoHeldVersions(t *testing.T) {
+	h := openHarness(t)
+	newer, older := posting("w1", "u1"), posting("w1", "u1")
+	newer.LastModified, newer.Hits = 20000, 2
+	older.LastModified, older.Hits = 19000, 1
+
+	h.hold(t, newer)
+	h.hold(t, older)
+	h.storeURL(t, urlHash("u1"))
+
+	if got := h.indexedPosting(t, newer); got.Hits != newer.Hits {
+		t.Fatalf("released posting hits = %d, want the newer version", got.Hits)
 	}
 }

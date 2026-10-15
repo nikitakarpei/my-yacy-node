@@ -9,8 +9,10 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -46,7 +48,8 @@ func (e transferRWIEndpoint) Serve(
 		slog.Int("receivedEntryCount", len(req.Indexes)),
 	)
 
-	receipt, err := e.receiver.Receive(ctx, req.Indexes)
+	origin := rwiorigin.Of(req.Iam, httpguard.RemoteAddr(ctx))
+	receipt, err := e.receiver.Receive(ctx, origin, req.Indexes)
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)
 	}

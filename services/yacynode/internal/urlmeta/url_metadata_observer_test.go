@@ -13,13 +13,21 @@ import (
 )
 
 type recordingObserver struct {
-	stored []yacymodel.URLHash
-	purged []yacymodel.URLHash
-	fail   bool
+	stored         []yacymodel.URLHash
+	storedVersions []yacymodel.MicroDate
+	purged         []yacymodel.URLHash
+	fail           bool
 }
 
-func (r *recordingObserver) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
-	tx.RunAfterCommit(func() { r.stored = append(r.stored, hash) })
+func (r *recordingObserver) URLStored(
+	tx *vault.Txn,
+	hash yacymodel.URLHash,
+	pageVersion yacymodel.MicroDate,
+) error {
+	tx.RunAfterCommit(func() {
+		r.stored = append(r.stored, hash)
+		r.storedVersions = append(r.storedVersions, pageVersion)
+	})
 	if r.fail {
 		return fmt.Errorf("observer refused store")
 	}

@@ -55,21 +55,24 @@ func (i urlIntake) store(
 	tx *vault.Txn,
 	metadata []yacymodel.URLMetadata,
 ) (existing, rejected []yacymodel.URLHash, err error) {
-	for _, stored := range metadata {
+	for _, arrived := range metadata {
 		if err := ctx.Err(); err != nil {
 			return nil, nil, fmt.Errorf("context: %w", err)
 		}
 
-		hash := stored.Hash
+		hash := arrived.Hash
 
-		_, found, err := i.collection.Get(tx, hash)
+		stored, found, err := i.collection.Get(tx, hash)
 		if err != nil {
 			return nil, nil, fmt.Errorf("read url metadata: %w", err)
 		}
 		if found {
 			existing = append(existing, hash)
 		}
-		if err := i.Admit(tx, stored); err != nil {
+		if found && arrived.PageVersion() < stored.PageVersion() {
+			continue
+		}
+		if err := i.Admit(tx, arrived); err != nil {
 			if !errors.Is(err, errURLMetadataRefused) {
 				return nil, nil, err
 			}
@@ -91,7 +94,7 @@ func (i urlIntake) Admit(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
 		return fmt.Errorf("%w: %w", errURLMetadataRefused, err)
 	}
 
-	return i.observers.stored(tx, metadata.Hash)
+	return i.observers.stored(tx, metadata)
 }
 
 var (
