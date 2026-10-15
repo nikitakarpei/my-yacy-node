@@ -117,11 +117,12 @@ func writeLanguage(stored *storedfields.Writer, language yacymodel.Optional[yacy
 }
 
 func languageFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Language] {
-	raw := stored.Text("language")
-	if raw == "" {
+	var code [yacymodel.LanguageCodeLength]byte
+	raw := stored.AppendBytes(code[:0], "language")
+	if len(raw) == 0 {
 		return yacymodel.None[yacymodel.Language]()
 	}
-	language, err := yacymodel.ParseLanguage(raw)
+	language, err := yacymodel.ParseLanguageBytes(raw)
 	if err != nil {
 		stored.Reject("language", err)
 

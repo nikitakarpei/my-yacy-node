@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"slices"
 	"time"
 )
 
@@ -125,14 +126,23 @@ func (r *Reader) Fixed(field string, length int) []byte {
 }
 
 func (r *Reader) Bytes(field string) []byte {
-	if r.noFieldRemains() {
+	length, found := r.lengthOf(field)
+	if !found {
 		return nil
+	}
+
+	return r.Fixed(field, length)
+}
+
+func (r *Reader) lengthOf(field string) (int, bool) {
+	if r.noFieldRemains() {
+		return 0, false
 	}
 	length, err := binary.ReadUvarint(r.record)
 	if err != nil {
 		r.fail(field, err)
 
-		return nil
+		return 0, false
 	}
 	//nolint:gosec // the bytes left in a record are never negative.
 	if length > uint64(r.record.Len()) {
@@ -140,11 +150,23 @@ func (r *Reader) Bytes(field string) []byte {
 			"length %d exceeds the %d bytes left", length, r.record.Len(),
 		))
 
-		return nil
+		return 0, false
 	}
 
 	//nolint:gosec // the length is bounded by the bytes left above.
-	return r.Fixed(field, int(length))
+	return int(length), true
+}
+
+func (r *Reader) AppendBytes(buffer []byte, field string) []byte {
+	length, found := r.lengthOf(field)
+	if !found {
+		return buffer
+	}
+	start := len(buffer)
+	buffer = slices.Grow(buffer, length)[:start+length]
+	_, _ = r.record.Read(buffer[start:])
+
+	return buffer
 }
 
 func (r *Reader) Text(field string) string {
