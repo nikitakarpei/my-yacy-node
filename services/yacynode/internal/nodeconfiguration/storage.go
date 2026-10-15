@@ -21,7 +21,7 @@ const (
 	DefaultPebbleMemtableSize          = "8MB"
 	DefaultPebbleCompactionConcurrency = 1
 	DefaultPebbleOpenFileLimit         = 1000
-	DefaultPebbleWriteConcurrency      = 4
+	DefaultPebbleWriteConcurrency      = 16
 
 	StorageDirectoryName = "node"
 )
