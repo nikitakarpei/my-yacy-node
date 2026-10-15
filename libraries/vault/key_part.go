@@ -1,7 +1,6 @@
 package vault
 
 import (
-	"bytes"
 	"time"
 )
 
@@ -93,7 +92,7 @@ func TextKeyPartFrom[A any](text func(A) string, valueOf func(string) (A, error)
 
 func BytesKeyPartFrom[A any](
 	byteForm func(A) []byte,
-	valueOf func([]byte) (A, error),
+	valueOf func(StoredBytes) (A, error),
 ) KeyPart[A] {
 	return KeyPart[A]{
 		appendTo: func(encoded []byte, value A) []byte {
@@ -106,7 +105,7 @@ func BytesKeyPartFrom[A any](
 
 				return unparsed, rest, err
 			}
-			value, err := valueOf(bytes.Clone(storedBytes))
+			value, err := valueOf(StoredBytes{stored: storedBytes})
 
 			return value, rest, err
 		},

@@ -280,7 +280,8 @@ func documentFingerprintBytesOf(fingerprint documentFingerprint) []byte {
 
 var errShortFingerprint = errors.New("fingerprint is short")
 
-func documentFingerprintFrom(raw []byte) (documentFingerprint, error) {
+func documentFingerprintFrom(stored vault.StoredBytes) (documentFingerprint, error) {
+	raw := stored.AppendTo(nil)
 	if len(raw) != len(documentFingerprint{}) {
 		return documentFingerprint{}, errShortFingerprint
 	}
@@ -327,5 +328,22 @@ func TestBytesKeyPartFromFailsWhenTheBytesAreNoDomainValue(t *testing.T) {
 		err, errShortFingerprint,
 	) {
 		t.Fatalf("PartsOf error = %v, want %v", err, errShortFingerprint)
+	}
+}
+
+func TestStoredBytesFollowWhatTheBufferHolds(t *testing.T) {
+	labelled := vault.SingleKey(vault.BytesKeyPartFrom(
+		func(label string) []byte { return []byte(label) },
+		func(stored vault.StoredBytes) (string, error) {
+			return string(stored.AppendTo([]byte("label="))), nil
+		},
+	))
+
+	decoded, err := labelled.PartsOf(labelled.Key("news").Bytes())
+	if err != nil {
+		t.Fatalf("PartsOf failed: %v", err)
+	}
+	if decoded != "label=news" {
+		t.Fatalf("PartsOf = %q, want \"label=news\"", decoded)
 	}
 }

@@ -40,7 +40,7 @@ func TestTextKeysKeepTheStoredByteForm(t *testing.T) {
 		)
 		bytesPart := vault.BytesKeyPartFrom(
 			func(text string) []byte { return []byte(text) },
-			func(stored []byte) (string, error) { return string(stored), nil },
+			func(stored vault.StoredBytes) (string, error) { return string(stored.AppendTo(nil)), nil },
 		)
 		expectStoredByteForm(t, vault.SingleKey(bytesPart).Key(text), text)
 	}
@@ -135,7 +135,7 @@ func TestPartsOfRejectsMalformedKeys(t *testing.T) {
 	))
 	bytesOfDomain := vault.SingleKey(vault.BytesKeyPartFrom(
 		func(text string) []byte { return []byte(text) },
-		func(stored []byte) (string, error) { return string(stored), nil },
+		func(stored vault.StoredBytes) (string, error) { return string(stored.AppendTo(nil)), nil },
 	))
 	for _, scenario := range []struct {
 		name      string

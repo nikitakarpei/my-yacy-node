@@ -116,7 +116,8 @@ func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 }
 
 func languageFrom(stored *storedfields.Reader) yacymodel.Language {
-	language, err := yacymodel.ParseLanguage(stored.Text("language"))
+	var code [yacymodel.LanguageCodeLength]byte
+	language, err := yacymodel.ParseLanguageBytes(stored.AppendBytes(code[:0], "language"))
 	if err != nil {
 		stored.Reject("language", err)
 
