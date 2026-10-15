@@ -218,6 +218,7 @@ func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
 	amountChanges := newAmountChanges(write.changes, heldValues)
 	if err := fn(&pebbleTxn{
 		reader:        write.changes,
+		pointReaders:  lookupPointReader{reader: write.changes},
 		changes:       write.changes,
 		amountChanges: amountChanges,
 		footprint:     write.footprint,
@@ -300,14 +301,22 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 	}
 
 	snapshot := e.db.NewSnapshot()
+	pointReaders := &iteratorPointReaders{reader: snapshot}
 
-	if err := fn(
-		&pebbleTxn{reader: snapshot, amountChanges: &amountChanges{}, scans: e.scans},
-	); err != nil {
-		return errors.Join(fmt.Errorf("read storage: %w", err), release(snapshot))
+	if err := fn(&pebbleTxn{
+		reader:        snapshot,
+		pointReaders:  pointReaders,
+		amountChanges: &amountChanges{},
+		scans:         e.scans,
+	}); err != nil {
+		return errors.Join(
+			fmt.Errorf("read storage: %w", err),
+			pointReaders.release(),
+			release(snapshot),
+		)
 	}
 
-	return release(snapshot)
+	return errors.Join(pointReaders.release(), release(snapshot))
 }
 
 func (e *Engine) Close() error {
