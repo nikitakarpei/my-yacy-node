@@ -28,6 +28,9 @@ linters:
     - usestdlibvars
     - wrapcheck
   settings:
+    govet:
+      enable:
+        - fieldalignment
     exhaustive:
       check:
         - switch
@@ -66,6 +69,17 @@ linters:
   exclusions:
     generated: strict
     rules:
+      - path-except: ^libraries/yacymodel/[^/]+\.go$
+        linters:
+          - govet
+        text: "^fieldalignment:"
+      - path: _test\.go$
+        linters:
+          - govet
+        text: "^fieldalignment:"
+      - linters:
+          - govet
+        text: "^fieldalignment: .* leading bytes of pointer data"
       - path: (^|/)cmd/
         linters:
           - funlen
