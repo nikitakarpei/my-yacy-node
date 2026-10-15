@@ -50,18 +50,9 @@ const dhtRingPositionSymbols = 10
 // go on the same ring, so you can compare them (Distribution.java:74-78,
 // horizontalDHTPosition).
 func DHTRingPositionOf(hash Hash) DHTRingPosition {
-	symbols := hash.String()
-	read := min(len(symbols), dhtRingPositionSymbols)
+	firstSymbols := binary.BigEndian.Uint64(hash.raw[:]) >> (64 - dhtRingPositionSymbols*6)
 
-	var position uint64
-	for i := range read {
-		position = position<<6 | uint64(decodeTable[symbols[i]]&0x3f)
-	}
-	for range dhtRingPositionSymbols - read {
-		position <<= 6
-	}
-
-	return DHTRingPosition(position<<3 | 7)
+	return DHTRingPosition(firstSymbols<<3 | 7)
 }
 
 // HashFromDHTRingPosition turns a position back into a hash that sits there. It
@@ -78,9 +69,7 @@ func HashFromDHTRingPosition(position DHTRingPosition) Hash {
 		symbols[i] = Alphabet[len(Alphabet)-1]
 	}
 
-	hash, _ := ParseHash(string(symbols))
-
-	return hash
+	return hashOfSymbols(symbols)
 }
 
 // DistanceTo is how far you go forward around the ring to reach another

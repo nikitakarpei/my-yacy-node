@@ -52,7 +52,7 @@ func (n URLNormalform) Hash() URLHash {
 	symbols.WriteString(md5Base64(n.protocol() + ":" + bracketedHost(n.host()) + ":" + port)[:5])
 	symbols.WriteByte(Alphabet[flag&0x3f])
 
-	return URLHash{hash: Hash{value: symbols.String()}}
+	return URLHash{hash: hashOfSymbols(symbols.String())}
 }
 
 func (n URLNormalform) HostHash() HostHash {

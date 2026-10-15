@@ -11,11 +11,12 @@ import (
 )
 
 type storedEntries struct {
-	region     keyspaceRegion
-	reader     pebble.Reader
-	changes    *pebble.Batch
-	footprint  *readFootprint
-	heldValues heldValues
+	region      keyspaceRegion
+	reader      pebble.Reader
+	pointReader pointReader
+	changes     *pebble.Batch
+	footprint   *readFootprint
+	heldValues  heldValues
 }
 
 func (e storedEntries) valueAt(key []byte) ([]byte, error) {
@@ -27,7 +28,7 @@ func (e storedEntries) valueAtAbsoluteKey(absoluteKey []byte) ([]byte, error) {
 		return value, nil
 	}
 
-	value, err := e.storedValueAt(absoluteKey)
+	value, err := e.pointReader.valueAt(absoluteKey)
 	if err != nil {
 		return nil, err
 	}
@@ -39,21 +40,6 @@ func (e storedEntries) valueAtAbsoluteKey(absoluteKey []byte) ([]byte, error) {
 func (e storedEntries) track(absoluteKey, value []byte) {
 	e.footprint.addKey(absoluteKey)
 	e.heldValues.hold(absoluteKey, value)
-}
-
-func (e storedEntries) storedValueAt(absoluteKey []byte) ([]byte, error) {
-	value, valueHandle, err := e.reader.Get(absoluteKey)
-	if errors.Is(err, pebble.ErrNotFound) {
-		return nil, nil
-	}
-	if err != nil {
-		return nil, fmt.Errorf("read: %w", err)
-	}
-
-	copiedValue := make([]byte, len(value))
-	copy(copiedValue, value)
-
-	return copiedValue, release(valueHandle)
 }
 
 func (e storedEntries) store(key, value []byte) (replacedValue []byte, err error) {

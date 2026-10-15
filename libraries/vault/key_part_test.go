@@ -274,13 +274,14 @@ func TestTextKeyPartFromFailsWhenTheTextIsNoDomainValue(t *testing.T) {
 
 type documentFingerprint [4]byte
 
-func documentFingerprintBytesOf(fingerprint documentFingerprint) []byte {
-	return fingerprint[:]
+func appendDocumentFingerprint(fingerprint documentFingerprint, buffer []byte) []byte {
+	return append(buffer, fingerprint[:]...)
 }
 
 var errShortFingerprint = errors.New("fingerprint is short")
 
-func documentFingerprintFrom(raw []byte) (documentFingerprint, error) {
+func documentFingerprintFrom(stored vault.StoredBytes) (documentFingerprint, error) {
+	raw := stored.AppendTo(nil)
 	if len(raw) != len(documentFingerprint{}) {
 		return documentFingerprint{}, errShortFingerprint
 	}
@@ -299,7 +300,7 @@ func orderedDocumentFingerprints() []documentFingerprint {
 
 func TestBytesKeyPartFromRoundTripsBytesThatNeedEscaping(t *testing.T) {
 	parts := vault.SingleKey(
-		vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom),
+		vault.BytesKeyPartFrom(appendDocumentFingerprint, documentFingerprintFrom),
 	)
 
 	for _, fingerprint := range orderedDocumentFingerprints() {
@@ -314,18 +315,35 @@ func TestBytesKeyPartFromRoundTripsBytesThatNeedEscaping(t *testing.T) {
 }
 
 func TestBytesKeyPartFromKeysSortInByteOrder(t *testing.T) {
-	fingerprint := vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom)
+	fingerprint := vault.BytesKeyPartFrom(appendDocumentFingerprint, documentFingerprintFrom)
 
 	assertKeysSortAscending(t, vault.SingleKey(fingerprint).Key, orderedDocumentFingerprints())
 }
 
 func TestBytesKeyPartFromFailsWhenTheBytesAreNoDomainValue(t *testing.T) {
-	fingerprint := vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom)
+	fingerprint := vault.BytesKeyPartFrom(appendDocumentFingerprint, documentFingerprintFrom)
 	shortKey := vault.SingleKey(vault.TextKeyPart).Key("one")
 
 	if _, err := vault.SingleKey(fingerprint).PartsOf(shortKey.Bytes()); !errors.Is(
 		err, errShortFingerprint,
 	) {
 		t.Fatalf("PartsOf error = %v, want %v", err, errShortFingerprint)
+	}
+}
+
+func TestStoredBytesFollowWhatTheBufferHolds(t *testing.T) {
+	labelled := vault.SingleKey(vault.BytesKeyPartFrom(
+		func(label string, buffer []byte) []byte { return append(buffer, label...) },
+		func(stored vault.StoredBytes) (string, error) {
+			return string(stored.AppendTo([]byte("label="))), nil
+		},
+	))
+
+	decoded, err := labelled.PartsOf(labelled.Key("news").Bytes())
+	if err != nil {
+		t.Fatalf("PartsOf failed: %v", err)
+	}
+	if decoded != "label=news" {
+		t.Fatalf("PartsOf = %q, want \"label=news\"", decoded)
 	}
 }

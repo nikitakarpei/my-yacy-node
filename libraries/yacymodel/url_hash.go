@@ -38,6 +38,10 @@ func (h URLHash) Bytes() []byte {
 	return h.hash.Bytes()
 }
 
+func (h URLHash) AppendBytes(buffer []byte) []byte {
+	return h.hash.AppendBytes(buffer)
+}
+
 func (h URLHash) MarshalText() ([]byte, error) {
 	return h.hash.MarshalText()
 }
@@ -56,10 +60,14 @@ func (h URLHash) IsZero() bool {
 	return h.hash.IsZero()
 }
 
+func (h URLHash) CompareInAlphabetOrder(other URLHash) int {
+	return h.hash.CompareInAlphabetOrder(other.hash)
+}
+
 func (h URLHash) String() string {
-	return h.hash.value
+	return h.hash.String()
 }
 
 func (h URLHash) HostHash() HostHash {
-	return HostHash{value: h.hash.value[HashLength-HostHashLength:]}
+	return HostHash{value: h.hash.String()[HashLength-HostHashLength:]}
 }

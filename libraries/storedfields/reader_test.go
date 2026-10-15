@@ -141,3 +141,31 @@ func TestBytesLeftCountsTheRecordNotYetRead(t *testing.T) {
 		t.Errorf("BytesLeft after a malformed field = %d, want 0", left)
 	}
 }
+
+func TestAppendedBytesFollowWhatTheBufferHolds(t *testing.T) {
+	var stored storedfields.Writer
+	stored.Text("de")
+	stored.Text("")
+
+	reader := storedfields.ReaderOf(stored.Record(), errMalformed)
+	if code := reader.AppendBytes([]byte("language="), "language"); string(code) != "language=de" {
+		t.Errorf("appended = %q, want \"language=de\"", code)
+	}
+	if empty := reader.AppendBytes(nil, "empty"); len(empty) != 0 {
+		t.Errorf("appended = %q, want nothing", empty)
+	}
+	if err := reader.Err(); err != nil {
+		t.Errorf("Err = %v, want no error", err)
+	}
+}
+
+func TestAppendedBytesLongerThanTheRecordAreMalformed(t *testing.T) {
+	reader := storedfields.ReaderOf([]byte{0x40, 'a', 'b'}, errMalformed)
+
+	if appended := reader.AppendBytes([]byte("kept"), "title"); string(appended) != "kept" {
+		t.Errorf("appended = %q, want the buffer unchanged", appended)
+	}
+	if err := reader.Err(); !errors.Is(err, errMalformed) {
+		t.Errorf("Err = %v, want errMalformed", err)
+	}
+}

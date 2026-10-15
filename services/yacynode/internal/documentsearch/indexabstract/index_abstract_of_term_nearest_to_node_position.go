@@ -27,7 +27,7 @@ func (r IndexAbstractOfTermNearestToNodePosition) coveredTerms(
 		slices.MinFunc(terms, func(a, b yacymodel.Hash) int {
 			return cmp.Or(
 				cmp.Compare(distanceOf(a), distanceOf(b)),
-				yacymodel.CompareInAlphabetOrder(a.String(), b.String()),
+				a.CompareInAlphabetOrder(b),
 			)
 		}),
 	}

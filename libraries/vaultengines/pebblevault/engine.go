@@ -21,6 +21,7 @@ import (
 
 const (
 	bloomFilterBitsPerKey         = 10
+	blockBytes                    = 16 << 10
 	conflictsBeforeExclusiveWrite = 3
 )
 
@@ -86,7 +87,8 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 		MaxOpenFiles: limits.OpenFileLimit,
 		Merger:       amountMerger,
 	}
-	addBloomFiltersToEveryLevel(options)
+	addBloomFiltersAboveTheBottomLevel(options)
+	setBlockSizeOnEveryLevel(options)
 	if limits.BlockCacheBytes > 0 {
 		options.Cache = pebble.NewCache(limits.BlockCacheBytes)
 	}
@@ -99,9 +101,17 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 	return options
 }
 
-func addBloomFiltersToEveryLevel(options *pebble.Options) {
-	for level := range options.Levels {
+func addBloomFiltersAboveTheBottomLevel(options *pebble.Options) {
+	bottomLevel := len(options.Levels) - 1
+	for level := range bottomLevel {
 		options.Levels[level].FilterPolicy = bloom.FilterPolicy(bloomFilterBitsPerKey)
+	}
+	options.Levels[bottomLevel].FilterPolicy = pebble.NoFilterPolicy
+}
+
+func setBlockSizeOnEveryLevel(options *pebble.Options) {
+	for level := range options.Levels {
+		options.Levels[level].BlockSize = blockBytes
 	}
 }
 
@@ -208,6 +218,7 @@ func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
 	amountChanges := newAmountChanges(write.changes, heldValues)
 	if err := fn(&pebbleTxn{
 		reader:        write.changes,
+		pointReaders:  lookupPointReader{reader: write.changes},
 		changes:       write.changes,
 		amountChanges: amountChanges,
 		footprint:     write.footprint,
@@ -290,14 +301,22 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 	}
 
 	snapshot := e.db.NewSnapshot()
+	pointReaders := &iteratorPointReaders{reader: snapshot}
 
-	if err := fn(
-		&pebbleTxn{reader: snapshot, amountChanges: &amountChanges{}, scans: e.scans},
-	); err != nil {
-		return errors.Join(fmt.Errorf("read storage: %w", err), release(snapshot))
+	if err := fn(&pebbleTxn{
+		reader:        snapshot,
+		pointReaders:  pointReaders,
+		amountChanges: &amountChanges{},
+		scans:         e.scans,
+	}); err != nil {
+		return errors.Join(
+			fmt.Errorf("read storage: %w", err),
+			pointReaders.release(),
+			release(snapshot),
+		)
 	}
 
-	return release(snapshot)
+	return errors.Join(pointReaders.release(), release(snapshot))
 }
 
 func (e *Engine) Close() error {

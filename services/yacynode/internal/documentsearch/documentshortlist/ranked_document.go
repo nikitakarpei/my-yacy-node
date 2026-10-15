@@ -17,9 +17,6 @@ func compareInRelevanceOrder(a, b RankedDocument) int {
 	return cmp.Or(
 		cmp.Compare(b.Relevance, a.Relevance),
 		cmp.Compare(a.TermSpread, b.TermSpread),
-		yacymodel.CompareInAlphabetOrder(
-			a.JoinedPosting.URLHash.String(),
-			b.JoinedPosting.URLHash.String(),
-		),
+		a.JoinedPosting.URLHash.CompareInAlphabetOrder(b.JoinedPosting.URLHash),
 	)
 }
