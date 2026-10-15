@@ -65,7 +65,7 @@ func (s PostingIndex) postingsInImpactOrder(
 	slices.SortStableFunc(ordered, func(a, b yacymodel.RWIPosting) int {
 		return cmp.Or(
 			cmp.Compare(rwipostingimpactorder.ImpactOf(b), rwipostingimpactorder.ImpactOf(a)),
-			yacymodel.CompareInAlphabetOrder(a.URLHash.String(), b.URLHash.String()),
+			a.URLHash.CompareInAlphabetOrder(b.URLHash),
 		)
 	})
 

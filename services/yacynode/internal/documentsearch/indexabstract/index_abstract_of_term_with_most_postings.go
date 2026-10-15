@@ -22,7 +22,7 @@ func (IndexAbstractOfTermWithMostPostings) coveredTerms(
 		slices.MinFunc(terms, func(a, b yacymodel.Hash) int {
 			return cmp.Or(
 				cmp.Compare(amountOfPostingsPerTerm[b], amountOfPostingsPerTerm[a]),
-				yacymodel.CompareInAlphabetOrder(a.String(), b.String()),
+				a.CompareInAlphabetOrder(b),
 			)
 		}),
 	}

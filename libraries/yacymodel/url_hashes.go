@@ -3,7 +3,6 @@ package yacymodel
 import (
 	"maps"
 	"slices"
-	"strings"
 )
 
 type URLHashes map[URLHash]struct{}
@@ -26,6 +25,6 @@ func (hashes URLHashes) AddEach(addedHashes []URLHash) {
 
 func (hashes URLHashes) InHashOrder() []URLHash {
 	return slices.SortedFunc(maps.Keys(hashes), func(first, second URLHash) int {
-		return strings.Compare(first.String(), second.String())
+		return first.CompareInAlphabetOrder(second)
 	})
 }
