@@ -8,6 +8,7 @@ import (
 
 type pebbleTxn struct {
 	reader          pebble.Reader
+	pointReaders    pointReaders
 	changes         *pebble.Batch
 	amountChanges   *amountChanges
 	footprint       *readFootprint
@@ -58,10 +59,11 @@ func (t *pebbleTxn) amountsWithin(region keyspaceRegion) pebbleAmounts {
 
 func (t *pebbleTxn) entriesWithin(region keyspaceRegion) storedEntries {
 	return storedEntries{
-		region:     region,
-		reader:     t.reader,
-		changes:    t.changes,
-		footprint:  t.footprint,
-		heldValues: t.heldValues,
+		region:      region,
+		reader:      t.reader,
+		pointReader: t.pointReaders.readerWithin(region),
+		changes:     t.changes,
+		footprint:   t.footprint,
+		heldValues:  t.heldValues,
 	}
 }
