@@ -24,9 +24,9 @@ type Seed struct {
 
 	RemotePeerType Optional[PeerType]
 	Capabilities   Optional[PeerCapabilities]
+	SolrAvailable  Optional[bool]
 	Version        Optional[SoftwareVersion]
 	Tags           PeerTags
-	SolrAvailable  Optional[bool]
 
 	FirstSeen      Optional[time.Time]
 	LastSeen       Optional[time.Time]

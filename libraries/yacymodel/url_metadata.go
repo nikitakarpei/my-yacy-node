@@ -23,8 +23,10 @@ const (
 // an ask for the document must use.
 type URLMetadata struct {
 	Hash             URLHash
-	Address          string
 	Referrer         Optional[URLHash]
+	DocumentType     DocumentType
+	Language         Optional[Language]
+	Address          string
 	Title            string
 	Author           string
 	Tags             []string
@@ -33,9 +35,7 @@ type URLMetadata struct {
 	Modified         Optional[CalendarDay]
 	Loaded           Optional[CalendarDay]
 	FreshUntil       Optional[CalendarDay]
-	DocumentType     DocumentType
 	MediaType        string
-	Language         Optional[Language]
 	ByteSize         int
 	WordCount        int
 	LocalLinks       int
