@@ -37,8 +37,8 @@ func (r *Reader) Reject(field string, cause error) {
 }
 
 func (r *Reader) Byte(field string) byte {
-	packed := r.Fixed(field, 1)
-	if packed == nil {
+	var packed [1]byte
+	if !r.readInto(field, packed[:]) {
 		return 0
 	}
 
@@ -50,12 +50,12 @@ func (r *Reader) Presence(field string) bool {
 }
 
 func (r *Reader) Uint16(field string) uint16 {
-	packed := r.Fixed(field, 2)
-	if packed == nil {
+	var packed [2]byte
+	if !r.readInto(field, packed[:]) {
 		return 0
 	}
 
-	return binary.LittleEndian.Uint16(packed)
+	return binary.LittleEndian.Uint16(packed[:])
 }
 
 func (r *Reader) Count(field string) int {
@@ -92,12 +92,12 @@ func (r *Reader) Varint(field string) int64 {
 }
 
 func (r *Reader) Float(field string) float64 {
-	packed := r.Fixed(field, 8)
-	if packed == nil {
+	var packed [8]byte
+	if !r.readInto(field, packed[:]) {
 		return 0
 	}
 
-	return math.Float64frombits(binary.LittleEndian.Uint64(packed))
+	return math.Float64frombits(binary.LittleEndian.Uint64(packed[:]))
 }
 
 func (r *Reader) Time(field string) time.Time {
@@ -116,13 +116,24 @@ func (r *Reader) Fixed(field string, length int) []byte {
 		return nil
 	}
 	value := make([]byte, length)
-	if _, err := io.ReadFull(r.record, value); err != nil {
-		r.fail(field, err)
-
+	if !r.readInto(field, value) {
 		return nil
 	}
 
 	return value
+}
+
+func (r *Reader) readInto(field string, buffer []byte) bool {
+	if r.noFieldRemains() {
+		return false
+	}
+	if read, _ := r.record.Read(buffer); read < len(buffer) {
+		r.fail(field, io.ErrUnexpectedEOF)
+
+		return false
+	}
+
+	return true
 }
 
 func (r *Reader) Bytes(field string) []byte {
