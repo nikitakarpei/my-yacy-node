@@ -7,9 +7,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-var Hash = vault.BytesKeyPartFrom(yacymodel.Hash.Bytes, hashFrom)
+var Hash = vault.BytesKeyPartFrom(yacymodel.Hash.AppendBytes, hashFrom)
 
-var URLHash = vault.BytesKeyPartFrom(yacymodel.URLHash.Bytes, urlHashFrom)
+var URLHash = vault.BytesKeyPartFrom(yacymodel.URLHash.AppendBytes, urlHashFrom)
 
 func hashFrom(stored vault.StoredBytes) (yacymodel.Hash, error) {
 	var raw [yacymodel.HashByteLength]byte

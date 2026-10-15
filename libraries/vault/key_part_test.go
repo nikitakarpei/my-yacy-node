@@ -274,8 +274,8 @@ func TestTextKeyPartFromFailsWhenTheTextIsNoDomainValue(t *testing.T) {
 
 type documentFingerprint [4]byte
 
-func documentFingerprintBytesOf(fingerprint documentFingerprint) []byte {
-	return fingerprint[:]
+func appendDocumentFingerprint(fingerprint documentFingerprint, buffer []byte) []byte {
+	return append(buffer, fingerprint[:]...)
 }
 
 var errShortFingerprint = errors.New("fingerprint is short")
@@ -300,7 +300,7 @@ func orderedDocumentFingerprints() []documentFingerprint {
 
 func TestBytesKeyPartFromRoundTripsBytesThatNeedEscaping(t *testing.T) {
 	parts := vault.SingleKey(
-		vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom),
+		vault.BytesKeyPartFrom(appendDocumentFingerprint, documentFingerprintFrom),
 	)
 
 	for _, fingerprint := range orderedDocumentFingerprints() {
@@ -315,13 +315,13 @@ func TestBytesKeyPartFromRoundTripsBytesThatNeedEscaping(t *testing.T) {
 }
 
 func TestBytesKeyPartFromKeysSortInByteOrder(t *testing.T) {
-	fingerprint := vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom)
+	fingerprint := vault.BytesKeyPartFrom(appendDocumentFingerprint, documentFingerprintFrom)
 
 	assertKeysSortAscending(t, vault.SingleKey(fingerprint).Key, orderedDocumentFingerprints())
 }
 
 func TestBytesKeyPartFromFailsWhenTheBytesAreNoDomainValue(t *testing.T) {
-	fingerprint := vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom)
+	fingerprint := vault.BytesKeyPartFrom(appendDocumentFingerprint, documentFingerprintFrom)
 	shortKey := vault.SingleKey(vault.TextKeyPart).Key("one")
 
 	if _, err := vault.SingleKey(fingerprint).PartsOf(shortKey.Bytes()); !errors.Is(
@@ -333,7 +333,7 @@ func TestBytesKeyPartFromFailsWhenTheBytesAreNoDomainValue(t *testing.T) {
 
 func TestStoredBytesFollowWhatTheBufferHolds(t *testing.T) {
 	labelled := vault.SingleKey(vault.BytesKeyPartFrom(
-		func(label string) []byte { return []byte(label) },
+		func(label string, buffer []byte) []byte { return append(buffer, label...) },
 		func(stored vault.StoredBytes) (string, error) {
 			return string(stored.AppendTo([]byte("label="))), nil
 		},

@@ -1,6 +1,7 @@
 package yacymodel
 
 import (
+	"bytes"
 	"crypto/md5"
 	"errors"
 	"fmt"
@@ -15,7 +16,10 @@ const ReservedPrefix = "_____"
 
 var ErrInvalidHash = errors.New("invalid hash")
 
-type Hash struct{ value string }
+type Hash struct {
+	raw     [HashByteLength]byte
+	present bool
+}
 
 func ParseHash(s string) (Hash, error) {
 	if len(s) != HashLength {
@@ -26,7 +30,27 @@ func ParseHash(s string) (Hash, error) {
 			return Hash{}, fmt.Errorf("%w: %q", ErrInvalidHash, s[i])
 		}
 	}
-	return Hash{value: s}, nil
+
+	return hashOfSymbols(s), nil
+}
+
+func hashOfSymbols[T string | []byte](symbols T) Hash {
+	hash := Hash{present: true}
+	var buffer uint32
+	var bits uint
+	filled := 0
+	for i := range len(symbols) {
+		//nolint:gosec // G115: every symbol is from Alphabet, so its value is in [0,64).
+		buffer = buffer<<6 | uint32(decodeTable[symbols[i]])
+		bits += 6
+		if bits >= 8 {
+			bits -= 8
+			hash.raw[filled] = byte((buffer >> bits) & 0xff)
+			filled++
+		}
+	}
+
+	return hash
 }
 
 func ParseHashBytes(raw []byte) (Hash, error) {
@@ -38,31 +62,54 @@ func ParseHashBytes(raw []byte) (Hash, error) {
 			HashByteLength,
 		)
 	}
+	hash := Hash{present: true}
+	copy(hash.raw[:], raw)
 
-	var text [HashLength]byte
-
-	return Hash{value: string(appendEncoded(text[:0], raw))}, nil
+	return hash, nil
 }
 
 func (h Hash) Reserved() bool {
-	return strings.HasPrefix(h.value, ReservedPrefix)
+	var text [HashLength]byte
+
+	return bytes.HasPrefix(h.appendText(text[:0]), []byte(ReservedPrefix))
 }
 
-func (h Hash) IsZero() bool { return h.value == "" }
-
-func (h Hash) String() string { return h.value }
-
-func (h Hash) Bytes() []byte {
-	raw, err := Decode(h.value)
-	if err != nil {
-		panic(fmt.Errorf("%w: hash %q", err, h.value))
+func (h Hash) appendText(buffer []byte) []byte {
+	if !h.present {
+		return buffer
 	}
 
-	return raw
+	return appendEncoded(buffer, h.raw[:])
+}
+
+func (h Hash) IsZero() bool { return !h.present }
+
+func (h Hash) String() string {
+	var text [HashLength]byte
+
+	return string(h.appendText(text[:0]))
+}
+
+func (h Hash) Bytes() []byte {
+	return h.AppendBytes(nil)
+}
+
+func (h Hash) AppendBytes(buffer []byte) []byte {
+	if !h.present {
+		return buffer
+	}
+
+	return append(buffer, h.raw[:]...)
+}
+
+func (h Hash) CompareInAlphabetOrder(other Hash) int {
+	var raw, otherRaw [HashByteLength]byte
+
+	return bytes.Compare(h.AppendBytes(raw[:0]), other.AppendBytes(otherRaw[:0]))
 }
 
 func (h Hash) MarshalText() ([]byte, error) {
-	return []byte(h.value), nil
+	return h.appendText(nil), nil
 }
 
 func (h *Hash) UnmarshalText(text []byte) error {
@@ -84,5 +131,6 @@ func WordHash(word string) Hash {
 		copy(h, h[1:])
 		h[HashLength-1] = lowByte
 	}
-	return Hash{value: string(h)}
+
+	return hashOfSymbols(h)
 }

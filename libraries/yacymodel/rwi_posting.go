@@ -11,17 +11,17 @@ var ErrBadRWIPosting = errors.New("bad rwi posting")
 type RWIPosting struct {
 	WordHash               Hash
 	URLHash                URLHash
+	Language               Language
+	DocumentType           DocumentType
+	Appearance             Appearance
 	LastModified           MicroDate
 	TitleWords             int
 	TextWords              int
 	Phrases                int
-	DocumentType           DocumentType
-	Language               Language
 	LocalLinks             int
 	ExternalLinks          int
 	URLLength              int
 	URLComponents          int
-	Appearance             Appearance
 	Hits                   int
 	TextPosition           int
 	PhraseRelativePosition int

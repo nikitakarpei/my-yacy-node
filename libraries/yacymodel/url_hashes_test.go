@@ -34,7 +34,7 @@ func TestURLHashesInHashOrderComeSortedByTheirHashes(t *testing.T) {
 
 	got := hashes.InHashOrder()
 
-	if len(got) != 2 || got[0].String() > got[1].String() {
+	if len(got) != 2 || got[0].CompareInAlphabetOrder(got[1]) > 0 {
 		t.Fatalf("the hashes in hash order are %v, want them sorted by hash", got)
 	}
 }
