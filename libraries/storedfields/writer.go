@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+const unknownCount = math.MaxUint64
+
 type Writer struct {
 	record bytes.Buffer
 }
@@ -34,6 +36,12 @@ func (w *Writer) Count(number int) {
 	var field [binary.MaxVarintLen64]byte
 	//nolint:gosec // a count is a quantity and is never negative.
 	written := binary.PutUvarint(field[:], uint64(number))
+	w.record.Write(field[:written])
+}
+
+func (w *Writer) UnknownCount() {
+	var field [binary.MaxVarintLen64]byte
+	written := binary.PutUvarint(field[:], unknownCount)
 	w.record.Write(field[:written])
 }
 

@@ -48,7 +48,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		DocumentType:     yacymodel.DocumentTypeText,
 		MediaType:        "text/html",
 		Language:         mustLanguage(t, "en"),
-		ByteSize:         1024,
+		ByteSize:         yacymodel.Some(1024),
 		WordCount:        12,
 		LocalLinks:       3,
 		ExternalLinks:    4,

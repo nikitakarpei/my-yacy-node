@@ -46,7 +46,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		DocumentType:     yacymodel.DocumentTypeText,
 		MediaType:        "text/html",
 		Language:         yacymodel.Some(englishLanguage(t)),
-		ByteSize:         1024,
+		ByteSize:         yacymodel.Some(1024),
 		WordCount:        12,
 		LocalLinks:       3,
 		ExternalLinks:    4,
@@ -100,7 +100,7 @@ func TestTransferURLRequestReadsARowAsRealYaCyWritesIt(t *testing.T) {
 		FreshUntil:    yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      yacymodel.Some(englishLanguage(t)),
-		ByteSize:      1024,
+		ByteSize:      yacymodel.Some(1024),
 		WordCount:     12,
 		LocalLinks:    3,
 		ExternalLinks: 4,
@@ -148,5 +148,39 @@ func TestTransferURLRequestWritesTheFlagsColumnFromTheMetadata(t *testing.T) {
 
 	if strings.Contains(row, "flags=AAAAAA") {
 		t.Errorf("metadata with tags, location and media should set flags: %s", row)
+	}
+}
+
+func TestTransferURLRequestReadsAnUnknownSizeAsAbsent(t *testing.T) {
+	t.Parallel()
+
+	for _, row := range []string{
+		strings.Replace(yacyURLMetadataRow, "size=1024", "size=-1", 1),
+		strings.Replace(yacyURLMetadataRow, "size=1024,", "", 1),
+	} {
+		if size := metadataFromRow(t, row).ByteSize; size.Present() {
+			t.Errorf("byte size = %v, want absent for row %q", size, row)
+		}
+	}
+}
+
+func TestTransferURLRequestReadsANegativeCountAsZero(t *testing.T) {
+	t.Parallel()
+
+	row := strings.Replace(yacyURLMetadataRow, "wc=12", "wc=-3", 1)
+
+	if count := metadataFromRow(t, row).WordCount; count != 0 {
+		t.Errorf("word count = %d, want zero", count)
+	}
+}
+
+func TestTransferURLRequestWritesAnAbsentSizeAsYaCyDoes(t *testing.T) {
+	t.Parallel()
+
+	metadata := fullURLMetadata(t)
+	metadata.ByteSize = yacymodel.None[int]()
+
+	if row := sampleURLMetadataWireForm(t, metadata); !strings.Contains(row, "size=-1,") {
+		t.Errorf("row does not carry the unknown size as -1: %s", row)
 	}
 }
