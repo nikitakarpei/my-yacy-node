@@ -563,6 +563,115 @@
       "interval": "$window"
     },
     {
+      "id": 70,
+      "title": "Robots.txt of the sites the crawler visits",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "panels": []
+    },
+    {
+      "id": 71,
+      "title": "Robots.txt fetches, by outcome",
+      "description": "Unreachable makes the pages of the site wait.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_robots_txt_fetches_total{instance=~\"$service_instance\"} - (yacycrawler_robots_txt_fetches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 72,
+      "title": "Robots.txt rules, found or missed",
+      "description": "A missed lookup fetches robots.txt from the site. Not read and not kept are failures of the crawl state server.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (result) (clamp_min(yacycrawler_robots_rules_lookups_total{instance=~\"$service_instance\"} - (yacycrawler_robots_rules_lookups_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{result}}"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(clamp_min(yacycrawler_robots_rules_not_read_total{instance=~\"$service_instance\"} - (yacycrawler_robots_rules_not_read_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "not read"
+        },
+        {
+          "refId": "C",
+          "expr": "sum(clamp_min(yacycrawler_robots_rules_not_kept_total{instance=~\"$service_instance\"} - (yacycrawler_robots_rules_not_kept_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "not kept"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 50,
       "title": "Addresses the crawler could not resolve",
       "type": "row",
@@ -571,7 +680,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 35
+        "y": 44
       },
       "panels": []
     },
@@ -588,7 +697,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 45
       },
       "fieldConfig": {
         "defaults": {
@@ -627,7 +736,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 36
+        "y": 45
       },
       "fieldConfig": {
         "defaults": {
@@ -662,7 +771,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 53
       },
       "panels": []
     },
@@ -678,7 +787,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 45
+        "y": 54
       },
       "fieldConfig": {
         "defaults": {
@@ -721,7 +830,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 45
+        "y": 54
       },
       "fieldConfig": {
         "defaults": {
@@ -756,7 +865,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 53
+        "y": 62
       },
       "panels": []
     },
@@ -772,7 +881,7 @@
         "h": 8,
         "w": 16,
         "x": 0,
-        "y": 54
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -815,7 +924,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 54
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -854,7 +963,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 62
+        "y": 71
       },
       "panels": []
     },
@@ -870,7 +979,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 63
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -918,7 +1027,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 63
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -956,7 +1065,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 63
+        "y": 72
       },
       "fieldConfig": {
         "defaults": {
@@ -994,7 +1103,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 71
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {
@@ -1032,7 +1141,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 71
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {
@@ -1071,7 +1180,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 71
+        "y": 80
       },
       "fieldConfig": {
         "defaults": {

@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/robotsexclusion"
 	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
 )
 
@@ -18,7 +19,7 @@ const (
 	maxAttemptsPerURL      = 3
 	crawlOrdersAckWait     = 30 * time.Second
 	orderIntakeConcurrency = 4
-	fetchDeadlinesPerLease = 3
+	fetchDeadlinesPerLease = 4
 
 	pageVisitRetention = 30 * 24 * time.Hour
 
@@ -45,6 +46,7 @@ type ServiceConfig struct {
 	RecrawlGrace       time.Duration
 	OpsAddr            string
 	UserAgent          string
+	RobotsProductToken robotsexclusion.ProductToken
 }
 
 func (cfg ServiceConfig) SuppressesRecrawl() bool {

@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/robotsexclusion"
 )
 
 const (
@@ -64,6 +65,11 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	userAgent := envconfig.String(getenv, EnvUserAgent, DefaultUserAgent)
+	robotsProductToken, err := robotsexclusion.ProductTokenOf(userAgent)
+	if err != nil {
+		return ServiceConfig{}, fmt.Errorf("%s: %w", EnvUserAgent, err)
+	}
 
 	return ServiceConfig{
 		CrawlNATSURL:    crawlNATSURL,
@@ -78,14 +84,15 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvCrawlOrdersDurable,
 			DefaultCrawlOrdersDurable,
 		),
-		ProxyURL:         proxyURL,
-		ProxyDialMode:    proxyDialMode,
-		FetchConcurrency: limits.fetchConcurrency,
-		MaxBodyBytes:     limits.maxBodyBytes,
-		FetchDeadline:    limits.fetchDeadline,
-		RecrawlGrace:     recrawlGrace,
-		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		ProxyURL:           proxyURL,
+		ProxyDialMode:      proxyDialMode,
+		FetchConcurrency:   limits.fetchConcurrency,
+		MaxBodyBytes:       limits.maxBodyBytes,
+		FetchDeadline:      limits.fetchDeadline,
+		RecrawlGrace:       recrawlGrace,
+		OpsAddr:            envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		UserAgent:          userAgent,
+		RobotsProductToken: robotsProductToken,
 	}, nil
 }
 
