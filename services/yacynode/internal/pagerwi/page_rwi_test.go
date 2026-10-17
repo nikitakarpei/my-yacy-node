@@ -199,8 +199,8 @@ func TestOfPostingsMeasureThePageURL(t *testing.T) {
 		if posting.URLLength != len(pageURL) {
 			t.Fatalf("url length = %d, want %d", posting.URLLength, len(pageURL))
 		}
-		if posting.URLComponents != 1 {
-			t.Fatalf("url components = %d, want 1", posting.URLComponents)
+		if posting.URLComponents != 3 {
+			t.Fatalf("url components = %d, want 3", posting.URLComponents)
 		}
 	}
 }

@@ -3,7 +3,6 @@
 package pagerwi
 
 import (
-	"strings"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -121,7 +120,7 @@ func sharedPosting(
 		LocalLinks:    document.LocalLinks,
 		ExternalLinks: document.ExternalLinks,
 		URLLength:     len(pageURL.String()),
-		URLComponents: componentCount(pageURL.WebAddress().Path),
+		URLComponents: yacymodel.URLComponentsOf(pageURL.String()),
 	}
 }
 
@@ -132,12 +131,4 @@ func recordedLanguageOf(document documentextraction.Document) yacymodel.Language
 	}
 
 	return declared
-}
-
-func componentCount(canonicalPath string) int {
-	trimmed := strings.Trim(canonicalPath, "/")
-	if trimmed == "" {
-		return 0
-	}
-	return strings.Count(trimmed, "/") + 1
 }
