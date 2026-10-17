@@ -114,39 +114,3 @@ func TestMediaPredicatesFollowLinksAndMediaType(t *testing.T) {
 		})
 	}
 }
-
-func TestPageVersionPrefersModifiedThenLoaded(t *testing.T) {
-	modified := yacymodel.NewCalendarDay(2024, time.January, 2)
-	loaded := yacymodel.NewCalendarDay(2025, time.February, 3)
-
-	for _, c := range []struct {
-		name     string
-		metadata yacymodel.URLMetadata
-		want     yacymodel.MicroDate
-	}{
-		{
-			name: "modified wins",
-			metadata: yacymodel.URLMetadata{
-				Modified: yacymodel.Some(modified),
-				Loaded:   yacymodel.Some(loaded),
-			},
-			want: yacymodel.MicroDateFromTime(modified.Time()),
-		},
-		{
-			name:     "loaded without modified",
-			metadata: yacymodel.URLMetadata{Loaded: yacymodel.Some(loaded)},
-			want:     yacymodel.MicroDateFromTime(loaded.Time()),
-		},
-		{
-			name:     "neither day",
-			metadata: yacymodel.URLMetadata{},
-			want:     0,
-		},
-	} {
-		t.Run(c.name, func(t *testing.T) {
-			if got := c.metadata.PageVersion(); got != c.want {
-				t.Fatalf("PageVersion() = %d, want %d", got, c.want)
-			}
-		})
-	}
-}

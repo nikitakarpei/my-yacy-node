@@ -7,11 +7,13 @@ package urlmeta
 
 import (
 	"context"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -36,7 +38,11 @@ type URLEvictor interface {
 }
 
 type URLMetadataObserver interface {
-	URLStored(tx *vault.Txn, hash yacymodel.URLHash, pageVersion yacymodel.MicroDate) error
+	URLStored(
+		tx *vault.Txn,
+		hash yacymodel.URLHash,
+		fingerprint pagefingerprint.Fingerprint,
+	) error
 	URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error
 }
 
@@ -53,6 +59,7 @@ type PurgeResult struct {
 func Open(
 	ctx context.Context,
 	vault *vault.Vault,
+	now func() time.Time,
 	projections []vault.Projection[yacymodel.URLMetadata],
 	watchers ...URLMetadataObserver,
 ) (URLDirectory, URLEvictor, URLMetadataAdmitter, URLReceiver, error) {
@@ -63,7 +70,7 @@ func Open(
 
 	watched := observers(watchers)
 	directory := urlDirectory{collection: collection, observers: watched}
-	intake := urlIntake{vault: vault, collection: collection, observers: watched}
+	intake := urlIntake{vault: vault, collection: collection, observers: watched, now: now}
 
 	return directory, directory, intake, intake, nil
 }

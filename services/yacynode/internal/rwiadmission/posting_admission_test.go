@@ -11,12 +11,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiindexedversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 )
 
 const (
@@ -29,19 +30,45 @@ type discardedHolds struct{}
 func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
 func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
 
-type recordedRefusals struct {
-	postings map[rwiadmission.RefusalReason]int
+type observedAdmission struct {
+	refused  map[rwiadmission.RefusalReason]int
+	outcomes map[rwiadmission.Outcome]int
 }
 
-func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, postings int) {
-	r.postings[reason] += postings
+func (o *observedAdmission) ObserveRefused(reason rwiadmission.RefusalReason, postings int) {
+	o.refused[reason] += postings
 }
 
-type discardedVerdicts struct{}
+func (o *observedAdmission) ObserveOutcome(tx *vault.Txn, outcome rwiadmission.Outcome) {
+	tx.RunAfterCommit(func() { o.outcomes[outcome]++ })
+}
 
-func (discardedVerdicts) ObserveVerdict(*vault.Txn, urlpageversion.Verdict) {}
+type admissionOpenedLater struct {
+	admission *rwiadmission.PostingAdmission
+}
 
-var sendingPeer = rwiorigin.Of(yacymodel.WordHash("sending peer"), "203.0.113.7")
+func (r *admissionOpenedLater) URLStored(
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+	storedFingerprint pagefingerprint.Fingerprint,
+) error {
+	return r.admission.URLStored(tx, url, storedFingerprint)
+}
+
+func (r *admissionOpenedLater) URLPurged(*vault.Txn, yacymodel.URLHash) error {
+	return nil
+}
+
+var harnessStart = time.Date(2026, time.October, 16, 12, 0, 0, 0, time.UTC)
+
+func harnessToday() yacymodel.MicroDate {
+	return yacymodel.MicroDateFromTime(harnessStart)
+}
+
+var (
+	sendingPeer = rwiorigin.Of(yacymodel.WordHash("sending peer"), "203.0.113.7")
+	otherPeer   = rwiorigin.Of(yacymodel.WordHash("other peer"), "198.51.100.9")
+)
 
 type stopwordThe struct{}
 
@@ -54,8 +81,9 @@ type harness struct {
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
-	receiver rwiadmission.PostingReceiver
-	refusals *recordedRefusals
+	receiver *rwiadmission.PostingAdmission
+	observed *observedAdmission
+	clock    *time.Time
 }
 
 func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
@@ -73,6 +101,8 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 			t.Fatalf("Close: %v", err)
 		}
 	})
+	clock := harnessStart
+	now := func() time.Time { return clock }
 
 	index, references, admitter, purger, err := rwipostings.Open(
 		context.Background(),
@@ -83,61 +113,57 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	versions, err := urlpageversion.Open(
-		v,
-		urlpageversion.Postings{
-			Index:      index,
-			References: references,
-			Admitter:   admitter,
-			Purger:     purger,
-		},
-		time.Now,
-		urlpageversion.Config{
-			SwapFloorPerHour: 100,
-			SwapSharePerHour: 0.01,
-			Observer:         discardedVerdicts{},
-		},
-	)
+	indexedVersions, err := rwiindexedversion.Open(v)
 	if err != nil {
-		t.Fatalf("urlpageversion.Open: %v", err)
+		t.Fatalf("rwiindexedversion.Open: %v", err)
 	}
-	escrow, err := rwiescrow.Open(
-		context.Background(),
-		v,
-		versions,
-		discardedHolds{},
-		escrowCapacity,
-		time.Now,
-	)
+	escrow, err := rwiescrow.Open(context.Background(), v, discardedHolds{}, escrowCapacity, now)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
+	relay := &admissionOpenedLater{}
 	urlDirectory, _, _, urlReceiver, err := urlmeta.Open(
 		context.Background(),
 		v,
+		now,
 		nil,
-		escrow,
-		versions,
+		indexedVersions,
+		relay,
 	)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
-	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
+	observed := &observedAdmission{
+		refused:  map[rwiadmission.RefusalReason]int{},
+		outcomes: map[rwiadmission.Outcome]int{},
+	}
+	relay.admission = rwiadmission.Open(
+		v,
+		urlDirectory,
+		escrow,
+		indexedVersions,
+		index,
+		references,
+		admitter,
+		purger,
+		stopwordThe{},
+		now,
+		rwiadmission.Config{
+			PostingCap:       postingCap,
+			Pause:            busyPause,
+			SwapFloorPerHour: 1,
+			Observer:         observed,
+		},
+	)
 
 	return harness{
-		vault:  v,
-		index:  index,
-		escrow: escrow,
-		urls:   urlReceiver,
-		receiver: rwiadmission.Open(
-			v,
-			urlDirectory,
-			versions,
-			escrow,
-			stopwordThe{},
-			rwiadmission.Config{PostingCap: postingCap, Pause: busyPause, Observer: refusals},
-		),
-		refusals: refusals,
+		vault:    v,
+		index:    index,
+		escrow:   escrow,
+		urls:     urlReceiver,
+		receiver: relay.admission,
+		observed: observed,
+		clock:    &clock,
 	}
 }
 
@@ -160,8 +186,21 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 		URLHash:    urlHash(urlSeed),
 		Language:   yacymodel.LanguageOfUndeclaredDocument,
 		LocalLinks: 1,
+		TitleWords: yacymodel.TitleWordsOf(""),
 		Hits:       1,
 	}
+}
+
+func metadataOfPostingsTo(t *testing.T, seed string) yacymodel.URLMetadata {
+	t.Helper()
+
+	address := urlAddress(seed)
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+
+	return yacymodel.URLMetadata{Hash: hash, Address: address, LocalLinks: 1}
 }
 
 func (h harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
@@ -201,12 +240,7 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 
 	metadata := make([]yacymodel.URLMetadata, 0, len(seeds))
 	for _, seed := range seeds {
-		address := urlAddress(seed)
-		hash, err := yacymodel.URLHashOf(address)
-		if err != nil {
-			t.Fatalf("URLHashOf(%q): %v", address, err)
-		}
-		metadata = append(metadata, yacymodel.URLMetadata{Hash: hash, Address: address})
+		metadata = append(metadata, metadataOfPostingsTo(t, seed))
 	}
 	if _, err := h.urls.Receive(context.Background(), metadata); err != nil {
 		t.Fatalf("urls.Receive: %v", err)
@@ -352,7 +386,7 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if !receipt.Busy || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
-	if got := h.refusals.postings[rwiadmission.RefusalStorageFull]; got != 1 {
+	if got := h.observed.refused[rwiadmission.RefusalStorageFull]; got != 1 {
 		t.Fatalf("postings refused for a full storage = %d, want all 1 received", got)
 	}
 }
@@ -388,7 +422,7 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	if got := h.heldCount(t); got != 1 {
 		t.Fatalf("held count = %d, want the refused postings to leave nothing behind", got)
 	}
-	if got := h.refusals.postings[rwiadmission.RefusalEscrowFull]; got != len(refused) {
+	if got := h.observed.refused[rwiadmission.RefusalEscrowFull]; got != len(refused) {
 		t.Fatalf("postings refused for a full escrow = %d, want all %d received",
 			got, len(refused))
 	}
@@ -428,7 +462,7 @@ func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
 	if h.indexed(t, oversized[0]) {
 		t.Fatal("a posting of an oversized batch reached the index")
 	}
-	if got := h.refusals.postings[rwiadmission.RefusalTooManyPostings]; got != len(oversized) {
+	if got := h.observed.refused[rwiadmission.RefusalTooManyPostings]; got != len(oversized) {
 		t.Fatalf("postings refused as too many = %d, want %d", got, len(oversized))
 	}
 }
@@ -451,7 +485,7 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	}
 }
 
-var _ rwiadmission.PostingHolder = (*rwiescrow.PostingEscrow)(nil)
+var _ rwiadmission.Escrow = (*rwiescrow.PostingEscrow)(nil)
 
 func TestPeerPostingsLeaveEveryOtherPostingOfTheirURLInPlace(t *testing.T) {
 	h := openHarness(t, 0, 100)
@@ -471,16 +505,8 @@ func TestPeerPostingsLeaveEveryOtherPostingOfTheirURLInPlace(t *testing.T) {
 func (h harness) storeMetadataModifiedOn(t *testing.T, version yacymodel.MicroDate) {
 	t.Helper()
 
-	address := urlAddress("u1")
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-	metadata := yacymodel.URLMetadata{
-		Hash:     hash,
-		Address:  address,
-		Modified: yacymodel.Some(yacymodel.CalendarDayOf(version.Time())),
-	}
+	metadata := metadataOfPostingsTo(t, "u1")
+	metadata.Modified = yacymodel.Some(yacymodel.CalendarDayOf(version.Time()))
 	if _, err := h.urls.Receive(
 		context.Background(),
 		[]yacymodel.URLMetadata{metadata},
@@ -498,7 +524,7 @@ func postingOn(word string, version yacymodel.MicroDate) yacymodel.RWIPosting {
 
 func TestNewerPostingWaitsForNewerMetadataThenReplacesTheOlderVersion(t *testing.T) {
 	h := openHarness(t, 0, 100)
-	today := yacymodel.MicroDateFromTime(time.Now())
+	today := harnessToday()
 	older, newer := postingOn("w1", today-5), postingOn("w2", today)
 	h.storeMetadataModifiedOn(t, today-5)
 	h.receive(t, []yacymodel.RWIPosting{older})
@@ -527,7 +553,7 @@ func TestNewerPostingWaitsForNewerMetadataThenReplacesTheOlderVersion(t *testing
 
 func TestOlderPostingLeavesTheIndexedVersionAlone(t *testing.T) {
 	h := openHarness(t, 0, 100)
-	today := yacymodel.MicroDateFromTime(time.Now())
+	today := harnessToday()
 	indexed, older := postingOn("w1", today), postingOn("w2", today-5)
 	h.storeMetadataModifiedOn(t, today)
 	h.receive(t, []yacymodel.RWIPosting{indexed})
@@ -537,14 +563,44 @@ func TestOlderPostingLeavesTheIndexedVersionAlone(t *testing.T) {
 	if !h.indexed(t, indexed) || h.indexed(t, older) {
 		t.Fatal("an older posting changed the indexed version")
 	}
-	if got := h.heldCount(t); got != 0 {
-		t.Fatalf("held count = %d, want the older posting dropped", got)
+	if got := h.heldCount(
+		t,
+	); got != 0 ||
+		h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion] != 1 {
+		t.Fatalf("held count = %d, other versions = %d, want the older posting dropped",
+			got, h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion])
+	}
+}
+
+func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	h.storeMetadataModifiedOn(t, today)
+	other := postingOn("w1", today)
+	other.ExternalLinks = 7
+
+	receipt, err := h.receiver.Receive(
+		context.Background(),
+		sendingPeer,
+		[]yacymodel.RWIPosting{other},
+	)
+	if err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	if h.indexed(t, other) || h.heldCount(t) != 0 || len(receipt.UnknownURL) != 0 {
+		t.Fatalf("receipt = %+v, held = %d, want the posting dropped", receipt, h.heldCount(t))
+	}
+	if h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion] != 1 {
+		t.Fatalf(
+			"other versions = %d, want 1",
+			h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion],
+		)
 	}
 }
 
 func TestReceiveBusyWhenTheEscrowIsFullAndAPostingNeedsNewerMetadata(t *testing.T) {
 	h := openHarness(t, 0, 1)
-	today := yacymodel.MicroDateFromTime(time.Now())
+	today := harnessToday()
 	h.storeMetadataModifiedOn(t, today-5)
 	h.receive(t, []yacymodel.RWIPosting{postingOn("w1", today-5), posting("w2", "u2")})
 
@@ -561,4 +617,181 @@ func TestReceiveBusyWhenTheEscrowIsFullAndAPostingNeedsNewerMetadata(t *testing.
 		t.Fatalf("receipt = %+v, held = %d, want busy and the newer posting left out",
 			receipt, h.heldCount(t))
 	}
+}
+
+func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	tomorrow, current := postingOn("w1", today+1), postingOn("w2", today)
+
+	receipt, err := h.receiver.Receive(
+		context.Background(),
+		sendingPeer,
+		[]yacymodel.RWIPosting{tomorrow, current},
+	)
+	if err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	if h.heldCount(t) != 1 || len(receipt.UnknownURL) != 1 {
+		t.Fatalf(
+			"receipt = %+v, held = %d, want only today's posting waiting",
+			receipt,
+			h.heldCount(t),
+		)
+	}
+	if h.observed.outcomes[rwiadmission.OutcomeDroppedFutureDate] != 1 {
+		t.Fatalf("outcomes = %v, want one posting dated in the future", h.observed.outcomes)
+	}
+}
+
+func TestPostingsOfTheIndexedVersionFillInOnlyMissingWordsFromTheirOrigin(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	h.storeMetadataModifiedOn(t, today)
+	first := postingOn("w1", today)
+	h.receive(t, []yacymodel.RWIPosting{first})
+	resent := first
+	resent.Hits = 7
+
+	for _, c := range []struct {
+		name    string
+		origin  rwiorigin.Origin
+		posting yacymodel.RWIPosting
+		want    rwiadmission.Outcome
+	}{
+		{name: "missing word from the origin", origin: sendingPeer, posting: postingOn("w2", today), want: rwiadmission.OutcomeIndexedMissingWord},
+		{name: "indexed word from the origin", origin: sendingPeer, posting: resent, want: rwiadmission.OutcomeDroppedSameVersion},
+		{name: "missing word from another origin", origin: otherPeer, posting: postingOn("w3", today), want: rwiadmission.OutcomeDroppedSameVersion},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			before := h.observed.outcomes[c.want]
+			if _, err := h.receiver.Receive(
+				context.Background(),
+				c.origin,
+				[]yacymodel.RWIPosting{c.posting},
+			); err != nil {
+				t.Fatalf("Receive: %v", err)
+			}
+			if h.observed.outcomes[c.want] != before+1 {
+				t.Fatalf("outcomes = %v, want one more %q", h.observed.outcomes, c.want)
+			}
+		})
+	}
+	if !h.indexed(t, postingOn("w2", today)) || h.indexed(t, postingOn("w3", today)) {
+		t.Fatal("fill-in admitted the wrong postings")
+	}
+	if h.indexedPosting(t, first).Hits != first.Hits {
+		t.Fatal("a resent word replaced the indexed posting")
+	}
+}
+
+func TestStoredMetadataOfAnotherVersionOfTheSameDaySwapsTheURL(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	old := postingOn("w1", today)
+	h.storeMetadataModifiedOn(t, today)
+	h.receive(t, []yacymodel.RWIPosting{old})
+
+	metadata := metadataOfPostingsTo(t, "u1")
+	metadata.Modified = yacymodel.Some(yacymodel.CalendarDayOf(today.Time()))
+	metadata.LocalLinks = 9
+	if _, err := h.urls.Receive(
+		context.Background(),
+		[]yacymodel.URLMetadata{metadata},
+	); err != nil {
+		t.Fatalf("urls.Receive: %v", err)
+	}
+	other := postingOn("w2", today)
+	other.LocalLinks = 9
+	h.receive(t, []yacymodel.RWIPosting{other})
+
+	if h.indexed(t, old) || !h.indexed(t, other) {
+		t.Fatal("postings of the stored version did not replace the indexed version")
+	}
+}
+
+func TestSwapsPerNetworkStopAtTheHourlyLimit(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	base := harnessToday() - 5
+	h.storeMetadataModifiedOn(t, base)
+	h.receive(t, []yacymodel.RWIPosting{postingOn("w1", base)})
+
+	swapTo := func(origin rwiorigin.Origin, word string, day yacymodel.MicroDate) {
+		t.Helper()
+		h.storeMetadataModifiedOn(t, day)
+		if _, err := h.receiver.Receive(
+			context.Background(),
+			origin,
+			[]yacymodel.RWIPosting{postingOn(word, day)},
+		); err != nil {
+			t.Fatalf("Receive: %v", err)
+		}
+	}
+
+	swapTo(sendingPeer, "w2", base+1)
+	swapTo(sendingPeer, "w3", base+2)
+	if h.observed.outcomes[rwiadmission.OutcomeIndexedNewerVersion] != 1 ||
+		h.observed.outcomes[rwiadmission.OutcomeDroppedOverSwapLimit] != 1 {
+		t.Fatalf("outcomes = %v, want one swap and one over the limit", h.observed.outcomes)
+	}
+
+	swapTo(otherPeer, "w3", base+2)
+	*h.clock = h.clock.Add(time.Hour)
+	swapTo(sendingPeer, "w4", base+3)
+
+	if h.observed.outcomes[rwiadmission.OutcomeIndexedNewerVersion] != 3 {
+		t.Fatalf(
+			"outcomes = %v, want swaps from another network and an hour later",
+			h.observed.outcomes,
+		)
+	}
+}
+
+func TestWaitingPostingOfAnotherVersionLeavesTheEscrowUnindexed(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	waiting := postingOn("w1", today)
+	waiting.ExternalLinks = 7
+	h.receive(t, []yacymodel.RWIPosting{waiting})
+
+	h.storeMetadataModifiedOn(t, today)
+
+	if h.heldCount(t) != 0 || h.indexed(t, waiting) {
+		t.Fatalf(
+			"held = %d, want the posting of another version released unindexed",
+			h.heldCount(t),
+		)
+	}
+	if h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion] != 1 {
+		t.Fatalf("outcomes = %v, want one other version", h.observed.outcomes)
+	}
+}
+
+func TestWaitingPostingNewerThanTheStoredMetadataKeepsWaiting(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	waiting := postingOn("w1", today)
+	h.receive(t, []yacymodel.RWIPosting{waiting})
+
+	h.storeMetadataModifiedOn(t, today-1)
+
+	if h.heldCount(t) != 1 || h.indexed(t, waiting) {
+		t.Fatalf("held = %d, want the newer posting still waiting", h.heldCount(t))
+	}
+}
+
+func (h harness) indexedPosting(t *testing.T, entry yacymodel.RWIPosting) yacymodel.RWIPosting {
+	t.Helper()
+
+	var indexed yacymodel.RWIPosting
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		stored, _, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
+		indexed = stored
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
+	}
+
+	return indexed
 }

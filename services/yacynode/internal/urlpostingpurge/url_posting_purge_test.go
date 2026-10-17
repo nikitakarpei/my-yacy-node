@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/url"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
@@ -62,6 +63,7 @@ func openHarness(t *testing.T) harness {
 	_, evictor, _, receiver, err := urlmeta.Open(
 		context.Background(),
 		v,
+		time.Now,
 		nil,
 		urlpostingpurge.New(references, purger, observing),
 	)

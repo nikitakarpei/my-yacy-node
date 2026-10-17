@@ -869,7 +869,7 @@
     },
     {
       "id": 64,
-      "title": "Share of capacity used by postings waiting for their URL",
+      "title": "Share of capacity used by postings waiting for URL metadata",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -930,7 +930,7 @@
     },
     {
       "id": 61,
-      "title": "Postings that start waiting, join the index, or are dropped",
+      "title": "Postings that start waiting, stop waiting, or wait too long",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -961,24 +961,24 @@
         {
           "refId": "A",
           "expr": "rate(yacynode_rwiescrow_postings_held_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "waiting"
+          "legendFormat": "start waiting"
         },
         {
           "refId": "B",
           "expr": "rate(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "joined the index"
+          "legendFormat": "metadata arrived"
         },
         {
           "refId": "C",
           "expr": "rate(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "dropped"
+          "legendFormat": "waited too long"
         }
       ],
       "interval": "$window"
     },
     {
       "id": 63,
-      "title": "Share of waiting postings whose URL never arrived",
+      "title": "Share of waiting postings that waited too long",
       "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
@@ -1035,7 +1035,7 @@
         {
           "refId": "A",
           "expr": "clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0) / (clamp_min(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} offset $__interval), 0) + clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "URL never arrived"
+          "legendFormat": "waited too long"
         }
       ],
       "interval": "$window"
@@ -1099,6 +1099,143 @@
       "interval": "$window"
     },
     {
+      "id": 143,
+      "title": "Inbound postings by outcome",
+      "description": "What happened to each inbound posting, when it arrives or when the URL metadata it waits for arrives. Postings of stopwords are not counted.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 65
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "held_in_escrow"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "waits in escrow for URL metadata"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "indexed_first_version"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "first version of its page"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "indexed_missing_word"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "word the indexed version lacked"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "indexed_newer_version"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "replaced the older version"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_same_version"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "version already indexed"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_other_version"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "another version than the stored metadata"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_future_date"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "dated in the future"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_over_swap_limit"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "over the hourly limit on version replacements"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacynode_rwiadmission_postings_total{instance=~\"$service_instance\"} - (yacynode_rwiadmission_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 90,
       "title": "Pages offered for indexing",
       "type": "row",
@@ -1107,7 +1244,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 73
       },
       "panels": []
     },
@@ -1124,7 +1261,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 74
       },
       "fieldConfig": {
         "defaults": {
@@ -1162,7 +1299,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 66
+        "y": 74
       },
       "fieldConfig": {
         "defaults": {
@@ -1201,7 +1338,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 74
+        "y": 82
       },
       "fieldConfig": {
         "defaults": {
@@ -1239,7 +1376,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 74
+        "y": 82
       },
       "fieldConfig": {
         "defaults": {
@@ -1274,7 +1411,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 90
       },
       "panels": []
     },
@@ -1290,7 +1427,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 83
+        "y": 91
       },
       "fieldConfig": {
         "defaults": {
@@ -1348,7 +1485,7 @@
         "h": 28,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 99
       },
       "fieldConfig": {
         "defaults": {
@@ -1410,7 +1547,7 @@
         "h": 28,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 127
       },
       "fieldConfig": {
         "defaults": {
@@ -1468,7 +1605,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 147
+        "y": 155
       },
       "panels": []
     },
@@ -1484,7 +1621,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 148
+        "y": 156
       },
       "options": {
         "tooltip": {
@@ -1539,7 +1676,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 148
+        "y": 156
       },
       "fieldConfig": {
         "defaults": {
@@ -1576,7 +1713,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 156
+        "y": 164
       },
       "fieldConfig": {
         "defaults": {
@@ -1706,7 +1843,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 156
+        "y": 164
       },
       "fieldConfig": {
         "defaults": {
@@ -1836,7 +1973,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 164
+        "y": 172
       },
       "fieldConfig": {
         "defaults": {
@@ -1936,7 +2073,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 164
+        "y": 172
       },
       "fieldConfig": {
         "defaults": {
@@ -2036,7 +2173,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 172
+        "y": 180
       },
       "fieldConfig": {
         "defaults": {
@@ -2074,7 +2211,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 172
+        "y": 180
       },
       "fieldConfig": {
         "defaults": {
@@ -2113,7 +2250,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 180
+        "y": 188
       },
       "fieldConfig": {
         "defaults": {
@@ -2151,7 +2288,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 180
+        "y": 188
       },
       "fieldConfig": {
         "defaults": {
@@ -2191,7 +2328,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 188
+        "y": 196
       },
       "options": {
         "tooltip": {
@@ -2236,7 +2373,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 188
+        "y": 196
       },
       "options": {
         "tooltip": {
@@ -2281,7 +2418,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 196
+        "y": 204
       },
       "options": {
         "tooltip": {
@@ -2327,7 +2464,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 204
+        "y": 212
       },
       "panels": []
     },
@@ -2343,7 +2480,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 205
+        "y": 213
       },
       "fieldConfig": {
         "defaults": {
@@ -2381,7 +2518,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 205
+        "y": 213
       },
       "fieldConfig": {
         "defaults": {
@@ -2418,7 +2555,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 213
+        "y": 221
       },
       "fieldConfig": {
         "defaults": {
@@ -2455,7 +2592,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 221
+        "y": 229
       },
       "panels": []
     },
@@ -2471,7 +2608,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 222
+        "y": 230
       },
       "fieldConfig": {
         "defaults": {
@@ -2508,7 +2645,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 222
+        "y": 230
       },
       "fieldConfig": {
         "defaults": {
@@ -2549,7 +2686,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 222
+        "y": 230
       },
       "fieldConfig": {
         "defaults": {
@@ -2604,7 +2741,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 230
+        "y": 238
       },
       "panels": []
     },
@@ -2620,7 +2757,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 231
+        "y": 239
       },
       "fieldConfig": {
         "defaults": {
@@ -2663,7 +2800,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 231
+        "y": 239
       },
       "fieldConfig": {
         "defaults": {
@@ -2732,7 +2869,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 239
+        "y": 247
       },
       "fieldConfig": {
         "defaults": {
@@ -2768,7 +2905,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 239
+        "y": 247
       },
       "fieldConfig": {
         "defaults": {
@@ -2806,7 +2943,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 239
+        "y": 247
       },
       "fieldConfig": {
         "defaults": {
@@ -2844,7 +2981,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 247
+        "y": 255
       },
       "options": {
         "calculate": false,
@@ -2898,7 +3035,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 247
+        "y": 255
       },
       "options": {
         "calculate": false,
@@ -2952,7 +3089,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 247
+        "y": 255
       },
       "options": {
         "calculate": false,
@@ -3005,7 +3142,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 255
+        "y": 263
       },
       "fieldConfig": {
         "defaults": {
@@ -3038,7 +3175,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 263
+        "y": 271
       },
       "panels": []
     },
@@ -3055,7 +3192,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 264
+        "y": 272
       },
       "fieldConfig": {
         "defaults": {
@@ -3093,7 +3230,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 264
+        "y": 272
       },
       "fieldConfig": {
         "defaults": {
@@ -3131,7 +3268,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 272
+        "y": 280
       },
       "fieldConfig": {
         "defaults": {
@@ -3190,7 +3327,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 272
+        "y": 280
       },
       "fieldConfig": {
         "defaults": {
@@ -3228,7 +3365,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3271,7 +3408,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3309,7 +3446,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3352,7 +3489,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 286
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -3418,7 +3555,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 286
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -3461,7 +3598,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 286
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -3532,7 +3669,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 294
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -3575,7 +3712,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 294
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -3613,7 +3750,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 302
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -3651,7 +3788,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 302
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -3709,7 +3846,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 310
+        "y": 318
       },
       "fieldConfig": {
         "defaults": {
@@ -3752,7 +3889,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 310
+        "y": 318
       },
       "fieldConfig": {
         "defaults": {
@@ -3811,7 +3948,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 310
+        "y": 318
       },
       "fieldConfig": {
         "defaults": {
@@ -3854,7 +3991,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 318
+        "y": 326
       },
       "fieldConfig": {
         "defaults": {
@@ -3893,7 +4030,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 326
+        "y": 334
       },
       "panels": []
     },
@@ -3909,7 +4046,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 327
+        "y": 335
       },
       "fieldConfig": {
         "defaults": {
@@ -3957,7 +4094,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 327
+        "y": 335
       },
       "fieldConfig": {
         "defaults": {
@@ -3995,7 +4132,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 327
+        "y": 335
       },
       "fieldConfig": {
         "defaults": {
@@ -4033,7 +4170,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 335
+        "y": 343
       },
       "fieldConfig": {
         "defaults": {
@@ -4071,7 +4208,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 335
+        "y": 343
       },
       "fieldConfig": {
         "defaults": {
@@ -4110,7 +4247,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 335
+        "y": 343
       },
       "fieldConfig": {
         "defaults": {

@@ -1,8 +1,10 @@
-package urlpageversion
+package rwiadmission
 
 import (
 	"sync"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 const swapWindowLength = time.Hour
@@ -14,14 +16,21 @@ type swapWindow struct {
 
 type swapAllowance struct {
 	mutex             sync.Mutex
+	indexedVersions   IndexedVersions
 	now               func() time.Time
 	floorPerHour      int
 	sharePerHour      float64
 	windowsPerNetwork map[string]swapWindow
 }
 
-func newSwapAllowance(now func() time.Time, floorPerHour int, sharePerHour float64) *swapAllowance {
+func newSwapAllowance(
+	indexedVersions IndexedVersions,
+	now func() time.Time,
+	floorPerHour int,
+	sharePerHour float64,
+) *swapAllowance {
 	return &swapAllowance{
+		indexedVersions:   indexedVersions,
 		now:               now,
 		floorPerHour:      floorPerHour,
 		sharePerHour:      sharePerHour,
@@ -29,7 +38,11 @@ func newSwapAllowance(now func() time.Time, floorPerHour int, sharePerHour float
 	}
 }
 
-func (a *swapAllowance) allows(network string, indexedURLs int) bool {
+func (a *swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
+	indexedURLs, err := a.indexedVersions.Count(tx)
+	if err != nil {
+		return false, err
+	}
 	a.mutex.Lock()
 	defer a.mutex.Unlock()
 
@@ -38,7 +51,7 @@ func (a *swapAllowance) allows(network string, indexedURLs int) bool {
 	).swaps < max(
 		a.floorPerHour,
 		int(float64(indexedURLs)*a.sharePerHour),
-	)
+	), nil
 }
 
 func (a *swapAllowance) count(network string) {

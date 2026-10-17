@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
@@ -282,6 +283,7 @@ func openIndexedPage(t *testing.T) indexedPage {
 	_, evictor, _, receiver, err := urlmeta.Open(
 		context.Background(),
 		v,
+		time.Now,
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlpostingpurge.New(references, purger, discardedPurges{}),
 	)

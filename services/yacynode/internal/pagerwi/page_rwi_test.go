@@ -250,6 +250,17 @@ func TestOfCountsTheWordsOfTheTextAndOfTheTitleInEveryPosting(t *testing.T) {
 	}
 }
 
+func TestOfCountsTitleWordsBetweenSpacesAsYaCyDoes(t *testing.T) {
+	document := extractedDocument()
+	document.Title = "Hello · World"
+
+	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+
+	if got := index.Postings[0].TitleWords; got != 3 {
+		t.Fatalf("title words = %d, want the 3 space-separated words of %q", got, document.Title)
+	}
+}
+
 func TestOfMarksAWordOfTheTitleAsAppearingInIt(t *testing.T) {
 	index := indexOf(t, "hello there quick fox")
 
@@ -276,8 +287,11 @@ func TestOfMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
 			t.Fatalf("word %q should not appear in an absent title", posting.WordHash)
 		}
 	}
-	if index.Postings[0].TitleWords != 0 {
-		t.Fatalf("title words = %d, want 0", index.Postings[0].TitleWords)
+	if index.Postings[0].TitleWords != yacymodel.TitleWordsOf("") {
+		t.Fatalf(
+			"title words = %d, want the count YaCy gives an empty title",
+			index.Postings[0].TitleWords,
+		)
 	}
 }
 

@@ -27,7 +27,3 @@ type RWIPosting struct {
 	PhraseRelativePosition int
 	PhrasePosition         int
 }
-
-func (p RWIPosting) PageVersion() MicroDate {
-	return p.LastModified
-}

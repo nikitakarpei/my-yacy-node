@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -14,7 +15,11 @@ type URLPostingPurge struct {
 	observer   Observer
 }
 
-func (p URLPostingPurge) URLStored(*vault.Txn, yacymodel.URLHash, yacymodel.MicroDate) error {
+func (p URLPostingPurge) URLStored(
+	*vault.Txn,
+	yacymodel.URLHash,
+	pagefingerprint.Fingerprint,
+) error {
 	return nil
 }
 

@@ -24,15 +24,15 @@ func NewRWIEscrowMetrics(registry prometheus.Registerer) *RWIEscrowMetrics {
 	metrics := &RWIEscrowMetrics{
 		held: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacynode_rwiescrow_postings_held_total",
-			Help: "Inbound postings held because their URL metadata had not arrived.",
+			Help: "Inbound postings held because URL metadata of their version had not arrived.",
 		}),
 		released: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacynode_rwiescrow_postings_released_total",
-			Help: "Held postings admitted to the index once their URL metadata arrived.",
+			Help: "Held postings handed back for a decision once URL metadata of their version arrived.",
 		}),
 		expired: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacynode_rwiescrow_postings_expired_total",
-			Help: "Held postings dropped because their URL metadata never arrived.",
+			Help: "Held postings dropped because URL metadata of their version never arrived.",
 		}),
 		failures: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacynode_rwiescrow_expiry_failures_total",
@@ -85,7 +85,7 @@ func NewRWIEscrowCapacityMetrics(
 	held := prometheus.NewGaugeFunc(
 		prometheus.GaugeOpts{
 			Name: "yacynode_rwiescrow_held_postings",
-			Help: "Postings currently held while their URL metadata is awaited.",
+			Help: "Postings currently held while URL metadata of their version is awaited.",
 		},
 		func() float64 {
 			var postings int

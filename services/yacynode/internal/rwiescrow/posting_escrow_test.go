@@ -13,14 +13,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 )
 
 const (
 	holdFor             = 5 * time.Minute
 	roomForEveryPosting = 100
-	newestPageVersion   = yacymodel.MicroDate(30000)
 )
 
 type countingHolds struct {
@@ -38,30 +35,9 @@ func (c *countingHolds) ObserveReleased(tx *vault.Txn, postings int) {
 
 var holdingOrigin = rwiorigin.Of(yacymodel.WordHash("origin"), "203.0.113.7")
 
-type admittingVersions struct {
-	admitter rwipostings.PostingAdmitter
-	origins  []rwiorigin.Origin
-}
-
-func (v *admittingVersions) Admit(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-	pageVersion yacymodel.MicroDate,
-) (urlpageversion.Verdict, error) {
-	if pageVersion < posting.PageVersion() {
-		return urlpageversion.VerdictNewerThanMetadata, nil
-	}
-	tx.RunAfterCommit(func() { v.origins = append(v.origins, origin) })
-
-	return urlpageversion.VerdictNewURL, v.admitter.Admit(tx, posting)
-}
-
 type harness struct {
 	vault    *vault.Vault
-	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
-	versions *admittingVersions
 	observer *countingHolds
 	clock    time.Time
 }
@@ -88,27 +64,14 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		}
 	})
 
-	index, _, admitter, _, err := rwipostings.Open(
-		context.Background(),
-		v,
-		yacymodel.DHTRingPartitions(1),
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("rwipostings.Open: %v", err)
-	}
-
 	h := &harness{
 		vault:    v,
-		index:    index,
-		versions: &admittingVersions{admitter: admitter},
 		observer: &countingHolds{},
 		clock:    time.Unix(1700000000, 123456789),
 	}
 	escrow, err := rwiescrow.Open(
 		context.Background(),
 		v,
-		h.versions,
 		h.observer,
 		capacity,
 		func() time.Time { return h.clock },
@@ -141,56 +104,36 @@ func (h *harness) holding(postings ...yacymodel.RWIPosting) error {
 	})
 }
 
-func (h *harness) storeURL(t *testing.T, hash yacymodel.URLHash) {
+func (h *harness) waitingFor(t *testing.T, url yacymodel.URLHash) []rwiescrow.WaitingPosting {
 	t.Helper()
 
-	h.storeURLAt(t, hash, newestPageVersion)
+	var waiting []rwiescrow.WaitingPosting
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		postings, err := h.escrow.PostingsWaitingFor(tx, url)
+		waiting = postings
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingsWaitingFor: %v", err)
+	}
+
+	return waiting
 }
 
-func (h *harness) storeURLAt(
-	t *testing.T,
-	hash yacymodel.URLHash,
-	pageVersion yacymodel.MicroDate,
-) {
+func (h *harness) release(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.escrow.URLStored(tx, hash, pageVersion)
+		for _, entry := range postings {
+			if err := h.escrow.Release(tx, entry); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	}); err != nil {
-		t.Fatalf("URLStored: %v", err)
+		t.Fatalf("Release: %v", err)
 	}
-}
-
-func (h *harness) indexedPosting(t *testing.T, entry yacymodel.RWIPosting) yacymodel.RWIPosting {
-	t.Helper()
-
-	var stored yacymodel.RWIPosting
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		posting, _, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
-		stored = posting
-
-		return err
-	}); err != nil {
-		t.Fatalf("PostingOf: %v", err)
-	}
-
-	return stored
-}
-
-func (h *harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
-	t.Helper()
-
-	var found bool
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		_, stored, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
-		found = stored
-
-		return err
-	}); err != nil {
-		t.Fatalf("PostingOf: %v", err)
-	}
-
-	return found
 }
 
 func (h *harness) escrowedCount(t *testing.T) int {
@@ -239,51 +182,43 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 	}
 }
 
-func TestEscrowedPostingStaysOutOfIndex(t *testing.T) {
+func TestHeldPostingWaitsForItsURLWithItsOrigin(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
 
 	h.hold(t, entry)
 
-	if h.indexed(t, entry) {
-		t.Fatal("escrowed posting reached the index before its url metadata arrived")
-	}
-	if got := h.escrowedCount(t); got != 1 {
-		t.Fatalf("escrowed count = %d, want 1", got)
+	waiting := h.waitingFor(t, entry.URLHash)
+	if len(waiting) != 1 || waiting[0].Posting != entry || waiting[0].Origin != holdingOrigin {
+		t.Fatalf("waiting = %+v, want the held posting with its origin", waiting)
 	}
 	if h.observer.held != 1 {
 		t.Fatalf("observed holds = %d, want 1", h.observer.held)
 	}
 }
 
-func TestStoredURLReleasesEveryPostingWaitingForIt(t *testing.T) {
+func TestPostingsWaitingForAURLLeaveOtherURLsOut(t *testing.T) {
 	h := openHarness(t)
-	escrowed := []yacymodel.RWIPosting{
-		posting("w1", "u1"),
-		posting("w2", "u1"),
-		posting("w1", "u2"),
-	}
-	waiting, other := escrowed[:2], escrowed[2]
+	h.hold(t, posting("w1", "u1"), posting("w2", "u1"), posting("w1", "u2"))
 
-	h.hold(t, escrowed...)
-	h.storeURL(t, urlHash("u1"))
+	if waiting := h.waitingFor(t, urlHash("u1")); len(waiting) != 2 {
+		t.Fatalf("waiting = %+v, want the two postings of u1", waiting)
+	}
+}
 
-	for _, entry := range waiting {
-		if !h.indexed(t, entry) {
-			t.Fatalf(
-				"posting for word %q not admitted after its url metadata arrived",
-				entry.WordHash,
-			)
-		}
+func TestReleasedPostingStopsWaiting(t *testing.T) {
+	h := openHarness(t)
+	released, kept := posting("w1", "u1"), posting("w2", "u1")
+	h.hold(t, released, kept)
+
+	h.release(t, released)
+
+	waiting := h.waitingFor(t, urlHash("u1"))
+	if len(waiting) != 1 || waiting[0].Posting != kept {
+		t.Fatalf("waiting = %+v, want only the kept posting", waiting)
 	}
-	if h.indexed(t, other) {
-		t.Fatal("posting for another url was admitted")
-	}
-	if got := h.escrowedCount(t); got != 1 {
-		t.Fatalf("escrowed count = %d, want 1 posting still waiting", got)
-	}
-	if h.observer.released != 2 {
-		t.Fatalf("observed releases = %d, want 2", h.observer.released)
+	if h.observer.released != 1 {
+		t.Fatalf("observed releases = %d, want 1", h.observer.released)
 	}
 }
 
@@ -310,9 +245,6 @@ func TestEscrowedPostingExpiresAfterHoldPeriod(t *testing.T) {
 	}
 	if expired != 1 {
 		t.Fatalf("expired = %d after the hold period, want 1", expired)
-	}
-	if h.indexed(t, entry) {
-		t.Fatal("expired posting reached the index")
 	}
 	if got := h.escrowedCount(t); got != 0 {
 		t.Fatalf("escrowed count = %d after expiry, want 0", got)
@@ -464,13 +396,10 @@ func TestExpireTakesTheOldestHoldFirst(t *testing.T) {
 		t.Fatalf("expired = %d, want 1 at the limit", expired)
 	}
 
-	h.storeURL(t, oldest.URLHash)
-	if h.indexed(t, oldest) {
+	if len(h.waitingFor(t, oldest.URLHash)) != 0 {
 		t.Fatal("the oldest hold outlived an expiry run that stopped at one posting")
 	}
-
-	h.storeURL(t, newest.URLHash)
-	if !h.indexed(t, newest) {
+	if len(h.waitingFor(t, newest.URLHash)) != 1 {
 		t.Fatal("the newer hold expired before the oldest one")
 	}
 }
@@ -480,7 +409,7 @@ func TestReleasedPostingIsNotExpired(t *testing.T) {
 	entry := posting("w1", "u1")
 
 	h.hold(t, entry)
-	h.storeURL(t, entry.URLHash)
+	h.release(t, entry)
 	h.clock = h.clock.Add(holdFor + time.Second)
 
 	expired, err := h.escrow.Expire(context.Background(), holdFor, 10)
@@ -489,59 +418,6 @@ func TestReleasedPostingIsNotExpired(t *testing.T) {
 	}
 	if expired != 0 {
 		t.Fatalf("expired = %d, want 0 after release dropped both rows", expired)
-	}
-	if !h.indexed(t, entry) {
-		t.Fatal("released posting left the index")
-	}
-}
-
-func TestPurgedURLLeavesEscrowedPostingsAlone(t *testing.T) {
-	h := openHarness(t)
-	entry := posting("w1", "u1")
-
-	h.hold(t, entry)
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.escrow.URLPurged(tx, entry.URLHash)
-	}); err != nil {
-		t.Fatalf("URLPurged: %v", err)
-	}
-
-	if got := h.escrowedCount(t); got != 1 {
-		t.Fatalf("escrowed count = %d, want 1", got)
-	}
-}
-
-func TestStoredURLReleasesPostingsWithTheirOrigin(t *testing.T) {
-	h := openHarness(t)
-	entry := posting("w1", "u1")
-
-	h.hold(t, entry)
-	h.storeURL(t, urlHash("u1"))
-
-	if len(h.versions.origins) != 1 || h.versions.origins[0] != holdingOrigin {
-		t.Fatalf("released origins = %v, want the holding origin", h.versions.origins)
-	}
-}
-
-func TestStoredURLOfAnOlderVersionLeavesNewerPostingsHeld(t *testing.T) {
-	h := openHarness(t)
-	entry := posting("w1", "u1")
-	entry.LastModified = 20000
-
-	h.hold(t, entry)
-	h.storeURLAt(t, urlHash("u1"), entry.LastModified-1)
-
-	if got := h.escrowedCount(t); got != 1 || h.indexed(t, entry) {
-		t.Fatalf("escrowed count = %d, want the newer posting still held", got)
-	}
-	if h.observer.released != 0 {
-		t.Fatalf("released = %d, want none", h.observer.released)
-	}
-
-	h.storeURLAt(t, urlHash("u1"), entry.LastModified)
-
-	if got := h.escrowedCount(t); got != 0 || !h.indexed(t, entry) {
-		t.Fatalf("escrowed count = %d, want the posting released by its own version", got)
 	}
 }
 
@@ -553,9 +429,9 @@ func TestEscrowKeepsTheNewerOfTwoHeldVersions(t *testing.T) {
 
 	h.hold(t, newer)
 	h.hold(t, older)
-	h.storeURL(t, urlHash("u1"))
 
-	if got := h.indexedPosting(t, newer); got.Hits != newer.Hits {
-		t.Fatalf("released posting hits = %d, want the newer version", got.Hits)
+	waiting := h.waitingFor(t, newer.URLHash)
+	if len(waiting) != 1 || waiting[0].Posting.Hits != newer.Hits {
+		t.Fatalf("waiting = %+v, want only the newer version", waiting)
 	}
 }

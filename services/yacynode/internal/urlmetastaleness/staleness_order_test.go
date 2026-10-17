@@ -39,6 +39,7 @@ func openOrder(t *testing.T) harness {
 	_, evictor, admitter, _, err := urlmeta.Open(
 		context.Background(),
 		v,
+		time.Now,
 		[]vault.Projection[yacymodel.URLMetadata]{projection},
 	)
 	if err != nil {

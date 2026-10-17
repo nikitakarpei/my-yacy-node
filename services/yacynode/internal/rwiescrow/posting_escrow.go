@@ -8,7 +8,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 )
 
 type postingIdentity struct {
@@ -22,6 +21,11 @@ type escrowedPosting struct {
 	Posting yacymodel.RWIPosting
 }
 
+type WaitingPosting struct {
+	Origin  rwiorigin.Origin
+	Posting yacymodel.RWIPosting
+}
+
 type postingHold struct {
 	HeldAt  time.Time
 	Posting postingIdentity
@@ -31,7 +35,6 @@ type PostingEscrow struct {
 	vault    *vault.Vault
 	escrowed *vault.Collection[postingIdentity, escrowedPosting]
 	holds    *vault.ValueIndex[postingHold, postingHold]
-	versions PageVersions
 	observer HoldObserver
 	capacity int
 	now      func() time.Time
@@ -68,34 +71,38 @@ func identityOf(posting yacymodel.RWIPosting) postingIdentity {
 	return postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
 }
 
-func (e *PostingEscrow) URLStored(
+func (e *PostingEscrow) PostingsWaitingFor(
 	tx *vault.Txn,
-	hash yacymodel.URLHash,
-	pageVersion yacymodel.MicroDate,
-) error {
-	waiting, err := e.postingsWaitingFor(tx, hash)
+	url yacymodel.URLHash,
+) ([]WaitingPosting, error) {
+	var waiting []WaitingPosting
+	err := e.escrowed.Scan(
+		tx,
+		everyPostingWaitingFor(url),
+		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
+			escrowed.Posting.WordHash = identity.Word
+			escrowed.Posting.URLHash = identity.URL
+			waiting = append(
+				waiting,
+				WaitingPosting{Origin: escrowed.Origin, Posting: escrowed.Posting},
+			)
+
+			return true, nil
+		},
+	)
 	if err != nil {
-		return err
+		return nil, fmt.Errorf("read postings waiting for url: %w", err)
 	}
 
-	var released int
-	for _, escrowed := range waiting {
-		wasReleased, err := e.release(tx, escrowed, pageVersion)
-		if err != nil {
-			return err
-		}
-		if wasReleased {
-			released++
-		}
-	}
-	if released > 0 {
-		e.observer.ObserveReleased(tx, released)
-	}
-
-	return nil
+	return waiting, nil
 }
 
-func (e *PostingEscrow) URLPurged(*vault.Txn, yacymodel.URLHash) error {
+func (e *PostingEscrow) Release(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	if err := e.drop(tx, identityOf(posting)); err != nil {
+		return err
+	}
+	e.observer.ObserveReleased(tx, 1)
+
 	return nil
 }
 
@@ -159,29 +166,6 @@ func (e *PostingEscrow) Capacity() int {
 	return e.capacity
 }
 
-func (e *PostingEscrow) postingsWaitingFor(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-) ([]escrowedPosting, error) {
-	var waiting []escrowedPosting
-	err := e.escrowed.Scan(
-		tx,
-		everyPostingWaitingFor(hash),
-		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
-			escrowed.Posting.WordHash = identity.Word
-			escrowed.Posting.URLHash = identity.URL
-			waiting = append(waiting, escrowed)
-
-			return true, nil
-		},
-	)
-	if err != nil {
-		return nil, fmt.Errorf("read postings waiting for url: %w", err)
-	}
-
-	return waiting, nil
-}
-
 func (e *PostingEscrow) postingHoldsBefore(
 	tx *vault.Txn,
 	cutoff time.Time,
@@ -198,22 +182,6 @@ func (e *PostingEscrow) postingHoldsBefore(
 	}
 
 	return holds, nil
-}
-
-func (e *PostingEscrow) release(
-	tx *vault.Txn,
-	escrowed escrowedPosting,
-	pageVersion yacymodel.MicroDate,
-) (bool, error) {
-	verdict, err := e.versions.Admit(tx, escrowed.Origin, escrowed.Posting, pageVersion)
-	if err != nil {
-		return false, fmt.Errorf("admit released posting: %w", err)
-	}
-	if verdict.Outcome() == urlpageversion.OutcomeHeld {
-		return false, nil
-	}
-
-	return true, e.drop(tx, identityOf(escrowed.Posting))
 }
 
 func (e *PostingEscrow) drop(tx *vault.Txn, identity postingIdentity) error {

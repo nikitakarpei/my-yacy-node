@@ -9,24 +9,25 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type recordingObserver struct {
-	stored         []yacymodel.URLHash
-	storedVersions []yacymodel.MicroDate
-	purged         []yacymodel.URLHash
-	fail           bool
+	stored             []yacymodel.URLHash
+	storedFingerprints []pagefingerprint.Fingerprint
+	purged             []yacymodel.URLHash
+	fail               bool
 }
 
 func (r *recordingObserver) URLStored(
 	tx *vault.Txn,
 	hash yacymodel.URLHash,
-	pageVersion yacymodel.MicroDate,
+	fingerprint pagefingerprint.Fingerprint,
 ) error {
 	tx.RunAfterCommit(func() {
 		r.stored = append(r.stored, hash)
-		r.storedVersions = append(r.storedVersions, pageVersion)
+		r.storedFingerprints = append(r.storedFingerprints, fingerprint)
 	})
 	if r.fail {
 		return fmt.Errorf("observer refused store")
@@ -63,7 +64,12 @@ func openObservedModule(
 		}
 	})
 
-	directory, evictor, _, receiver, err := urlmeta.Open(context.Background(), v, nil, watchers...)
+	directory, evictor, _, receiver, err := urlmeta.Open(
+		context.Background(),
+		v,
+		intakeClock,
+		nil,
+		watchers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

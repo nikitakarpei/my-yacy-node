@@ -46,6 +46,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiindexedversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
@@ -54,7 +55,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/stopwordhashes"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -210,23 +210,9 @@ func assembleNode(
 	loopRelay := &distributionLoopRelay{}
 	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter, loopRelay)
 
-	pageVersions, err := urlpageversion.Open(
-		storage,
-		urlpageversion.Postings{
-			Index:      postings,
-			References: urlReferences,
-			Admitter:   postingAdmitter,
-			Purger:     postingPurger,
-		},
-		now,
-		urlpageversion.Config{
-			SwapFloorPerHour: pageVersionSwapFloorPerHour,
-			SwapSharePerHour: pageVersionSwapSharePerHour,
-			Observer:         metrics.NewURLPageVersionMetrics(registry),
-		},
-	)
+	indexedVersions, err := rwiindexedversion.Open(storage)
 	if err != nil {
-		return node{}, fmt.Errorf("url page versions: %w", err)
+		return node{}, fmt.Errorf("rwi indexed versions: %w", err)
 	}
 
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
@@ -234,7 +220,6 @@ func assembleNode(
 	postingEscrow, err := rwiescrow.Open(
 		ctx,
 		storage,
-		pageVersions,
 		postingEscrowObserver,
 		config.Escrow.PostingCapacity,
 		now,
@@ -250,32 +235,42 @@ func assembleNode(
 		metrics.NewURLPostingPurgeMetrics(registry),
 	)
 
+	admissionRelay := &postingAdmissionRelay{}
+
 	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
 		ctx,
 		storage,
+		now,
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
-		postingEscrow,
 		urlPostingPurge,
-		pageVersions,
+		indexedVersions,
+		admissionRelay,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
 	}
 
 	stopwordHashes := stopwordhashes.New()
-	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
-	postingReceiver := rwiadmission.Open(
+	postingAdmission := rwiadmission.Open(
 		storage,
 		urlDirectory,
-		pageVersions,
 		postingEscrow,
+		indexedVersions,
+		postings,
+		urlReferences,
+		postingAdmitter,
+		postingPurger,
 		stopwordHashes,
+		now,
 		rwiadmission.Config{
-			PostingCap: peerPostingTransferCap,
-			Pause:      postingAdmissionBusyPause,
-			Observer:   admissionRefusals,
+			PostingCap:       peerPostingTransferCap,
+			Pause:            postingAdmissionBusyPause,
+			SwapFloorPerHour: pageVersionSwapFloorPerHour,
+			SwapSharePerHour: pageVersionSwapSharePerHour,
+			Observer:         metrics.NewRWIAdmissionMetrics(registry),
 		},
 	)
+	admissionRelay.forwardTo(postingAdmission)
 
 	pageReceiver := pageadmission.Open(
 		storage,
@@ -307,7 +302,7 @@ func assembleNode(
 		urlDirectory,
 		servedURLMetadataPerRequest,
 	)
-	rwiingress.Mount(router, identity, postingReceiver)
+	rwiingress.Mount(router, identity, postingAdmission)
 	nodestatus.MountQuery(router, identity, now, storage, wordAmounts, postingAmounts, urlDirectory)
 	mountMessageAdmission(router, identity, now, config.MessageInbox, config.Egress.ProxyURL)
 	documentsearch.MountSearch(

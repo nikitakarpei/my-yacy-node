@@ -93,6 +93,7 @@ func openHarnessWithAdmitter(
 	directory, evictor, metadataAdmitter, _, err := urlmeta.Open(
 		context.Background(),
 		v,
+		time.Now,
 		nil,
 		urlpostingpurge.New(references, purger, discardedPurges{}),
 	)

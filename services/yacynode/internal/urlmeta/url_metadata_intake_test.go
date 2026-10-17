@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
@@ -43,12 +44,16 @@ func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 		}
 	})
 
-	directory, evictor, _, receiver, err := urlmeta.Open(context.Background(), v, nil)
+	directory, evictor, _, receiver, err := urlmeta.Open(context.Background(), v, intakeClock, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 
 	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
+}
+
+func intakeClock() time.Time {
+	return time.Date(2026, time.October, 16, 12, 0, 0, 0, time.UTC)
 }
 
 func urlMetadata(t *testing.T, seed string) yacymodel.URLMetadata {
@@ -199,11 +204,32 @@ func TestIntakeKeepsHeldMetadataOverAnOlderVersion(t *testing.T) {
 	if rows[held.Hash].Title != "held" {
 		t.Fatalf("stored title = %q, want the held metadata kept", rows[held.Hash].Title)
 	}
-	if len(observer.storedVersions) != 1 || observer.storedVersions[0] != held.PageVersion() {
+	if len(observer.storedFingerprints) != 1 ||
+		observer.storedFingerprints[0] != pagefingerprint.OfMetadata(held) {
 		t.Fatalf(
-			"stored versions = %v, want only the held version %d",
-			observer.storedVersions,
-			held.PageVersion(),
+			"stored fingerprints = %v, want only the fingerprint of the held metadata",
+			observer.storedFingerprints,
+		)
+	}
+}
+
+func TestIntakeSkipsMetadataDatedAfterToday(t *testing.T) {
+	ctx := context.Background()
+	observer := &recordingObserver{}
+	v, module := openObservedModule(t, observer)
+	postdated := urlMetadata(t, "a")
+	postdated.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 17))
+
+	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{postdated})
+	if err != nil {
+		t.Fatalf("Intake: %v", err)
+	}
+
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{postdated.Hash})
+	if len(rows) != 0 || receipt.Double != 0 || len(observer.storedFingerprints) != 0 {
+		t.Fatalf(
+			"stored = %+v, double = %d, observed = %v, want metadata dated tomorrow skipped",
+			rows, receipt.Double, observer.storedFingerprints,
 		)
 	}
 }

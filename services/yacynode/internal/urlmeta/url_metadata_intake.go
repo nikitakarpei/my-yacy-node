@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 )
 
 const urlMetadataDiscarded = "url metadata discarded"
@@ -18,6 +20,7 @@ type urlIntake struct {
 	vault      *vault.Vault
 	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
 	observers  observers
+	now        func() time.Time
 }
 
 func (i urlIntake) Receive(
@@ -61,6 +64,15 @@ func (i urlIntake) store(
 		}
 
 		hash := arrived.Hash
+		if pagefingerprint.OfMetadata(arrived).IsDatedAfter(i.now()) {
+			slog.WarnContext(
+				ctx,
+				urlMetadataDiscarded,
+				slog.String("reason", "dated in the future"),
+			)
+
+			continue
+		}
 
 		stored, found, err := i.collection.Get(tx, hash)
 		if err != nil {
@@ -69,7 +81,12 @@ func (i urlIntake) store(
 		if found {
 			existing = append(existing, hash)
 		}
-		if found && arrived.PageVersion() < stored.PageVersion() {
+		if found &&
+			pagefingerprint.OfMetadata(
+				arrived,
+			).Modified < pagefingerprint.OfMetadata(
+				stored,
+			).Modified {
 			continue
 		}
 		if err := i.Admit(tx, arrived); err != nil {
