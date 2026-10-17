@@ -46,7 +46,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiindexedversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
@@ -94,7 +93,6 @@ const servedURLMetadataPerRequest = 1000
 // (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
 const indexAbstractDocumentsPerAnswer = 10000
 
-//nolint:gocognit // composition root: one error branch per wired unit
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
@@ -211,11 +209,6 @@ func assembleNode(
 	loopRelay := &distributionLoopRelay{}
 	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter, loopRelay)
 
-	indexedVersions, err := rwiindexedversion.Open(storage)
-	if err != nil {
-		return node{}, fmt.Errorf("rwi indexed versions: %w", err)
-	}
-
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
 	postingEscrow, err := rwiescrow.Open(
@@ -241,9 +234,13 @@ func assembleNode(
 		ctx,
 		storage,
 		now,
+		urlmeta.SwapLimit{
+			FloorPerHour: pageVersionSwapFloorPerHour,
+			SharePerHour: pageVersionSwapSharePerHour,
+		},
+		metrics.NewURLMetadataIntakeMetrics(registry),
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlPostingPurge,
-		indexedVersions,
 		admissionRelay,
 	)
 	if err != nil {
@@ -251,27 +248,20 @@ func assembleNode(
 	}
 
 	stopwordHashes := stopwordhashes.New()
-	postingAdmission, err := rwiadmission.Open(
+	postingAdmission := rwiadmission.Open(
 		storage,
 		urlDirectory,
 		postingEscrow,
-		indexedVersions,
 		postings,
 		postingAdmitter,
-		postingPurger,
 		stopwordHashes,
 		metrics.NewRWIAdmissionMetrics(registry),
 		now,
 		rwiadmission.Config{
-			PostingCap:       peerPostingTransferCap,
-			Pause:            postingAdmissionBusyPause,
-			SwapFloorPerHour: pageVersionSwapFloorPerHour,
-			SwapSharePerHour: pageVersionSwapSharePerHour,
+			PostingCap: peerPostingTransferCap,
+			Pause:      postingAdmissionBusyPause,
 		},
 	)
-	if err != nil {
-		return node{}, fmt.Errorf("rwi admission: %w", err)
-	}
 	admissionRelay.forwardTo(postingAdmission)
 
 	pageReceiver := pageadmission.Open(

@@ -12,6 +12,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 )
 
+type discardedPeerMetadata struct{}
+
+func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
+
 type harness struct {
 	vault    *vault.Vault
 	order    urlmetastaleness.StaleURLSource
@@ -40,6 +44,8 @@ func openOrder(t *testing.T) harness {
 		context.Background(),
 		v,
 		time.Now,
+		urlmeta.SwapLimit{FloorPerHour: 100},
+		discardedPeerMetadata{},
 		[]vault.Projection[yacymodel.URLMetadata]{projection},
 	)
 	if err != nil {

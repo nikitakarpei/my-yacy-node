@@ -9,7 +9,7 @@ import (
 )
 
 type urlDirectory struct {
-	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
+	collection *vault.Collection[yacymodel.URLHash, storedURLMetadata]
 	observers  observers
 }
 
@@ -26,11 +26,29 @@ func (d urlDirectory) MetadataPerHash(
 		if !ok {
 			continue
 		}
-		stored.Hash = hash
-		metadata[hash] = stored
+		stored.metadata.Hash = hash
+		metadata[hash] = stored.metadata
 	}
 
 	return metadata, nil
+}
+
+func (d urlDirectory) CurrentVersionsOf(
+	tx *vault.Txn,
+	hashes []yacymodel.URLHash,
+) (map[yacymodel.URLHash]CurrentVersion, error) {
+	versions := make(map[yacymodel.URLHash]CurrentVersion, len(hashes))
+	for _, hash := range hashes {
+		stored, ok, err := d.collection.Get(tx, hash)
+		if err != nil {
+			return nil, fmt.Errorf("read url metadata: %w", err)
+		}
+		if ok {
+			versions[hash] = currentVersionOf(stored)
+		}
+	}
+
+	return versions, nil
 }
 
 func (d urlDirectory) Count(tx *vault.Txn) (int, error) {

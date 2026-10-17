@@ -42,8 +42,6 @@ components:
     in: internal/urlmetastaleness/**
   urlpostingpurge:
     in: internal/urlpostingpurge/**
-  rwiindexedversion:
-    in: internal/rwiindexedversion/**
   pagefingerprint:
     in: internal/pagefingerprint/**
   rwiorigin:
@@ -232,6 +230,7 @@ deps:
       - httpguard
       - nodeidentity
       - pagefingerprint
+      - rwiorigin
     canUse:
       - yacyproto
       - vault
@@ -280,13 +279,11 @@ deps:
     mayDependOn:
       - rwipostings
       - rwiescrow
-      - rwiindexedversion
       - rwiorigin
       - urlmeta
       - pagefingerprint
     canUse:
       - vault
-      - storedfields
   rwiingress:
     mayDependOn:
       - rwiadmission
@@ -355,17 +352,9 @@ deps:
   urlpostingpurge:
     mayDependOn:
       - rwipostings
-      - pagefingerprint
+      - urlmeta
     canUse:
       - vault
-  rwiindexedversion:
-    mayDependOn:
-      - rwiorigin
-      - pagefingerprint
-      - hashkeypart
-    canUse:
-      - vault
-      - storedfields
   eviction:
     mayDependOn:
       - urlmeta
@@ -377,6 +366,7 @@ deps:
       - eviction
       - peerannouncement
       - rwiadmission
+      - urlmeta
       - urlpostingpurge
     canUse:
       - prometheus

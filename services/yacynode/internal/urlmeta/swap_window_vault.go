@@ -1,4 +1,4 @@
-package rwiadmission
+package urlmeta
 
 import (
 	"errors"
@@ -8,13 +8,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-const swapWindowBucket vault.Name = "rwi_swap_windows"
+const versionSwapBucket vault.Name = "url_version_swaps"
 
 var errBadSwapWindow = errors.New("bad swap window")
 
 func registerSwapWindows(v *vault.Vault) (*vault.Collection[string, swapWindow], error) {
 	windows, err := v.RegisterCollection(
-		swapWindowBucket,
+		versionSwapBucket,
 		vault.SingleKey(vault.TextKeyPart).KeyLayout(),
 		swapWindowCodec{},
 	)

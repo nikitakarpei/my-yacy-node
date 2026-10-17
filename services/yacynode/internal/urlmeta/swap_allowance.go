@@ -1,10 +1,11 @@
-package rwiadmission
+package urlmeta
 
 import (
 	"fmt"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const swapWindowLength = time.Hour
@@ -15,11 +16,10 @@ type swapWindow struct {
 }
 
 type swapAllowance struct {
-	windows         *vault.Collection[string, swapWindow]
-	indexedVersions IndexedVersions
-	now             func() time.Time
-	floorPerHour    int
-	sharePerHour    float64
+	windows    *vault.Collection[string, swapWindow]
+	collection *vault.Collection[yacymodel.URLHash, storedURLMetadata]
+	now        func() time.Time
+	limit      SwapLimit
 }
 
 func (a swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
@@ -27,12 +27,15 @@ func (a swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	indexedURLs, err := a.indexedVersions.Count(tx)
+	storedURLs, err := a.collection.Len(tx)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("read url metadata length: %w", err)
 	}
 
-	return window.Swaps < max(a.floorPerHour, int(float64(indexedURLs)*a.sharePerHour)), nil
+	return window.Swaps < max(
+		a.limit.FloorPerHour,
+		int(float64(storedURLs)*a.limit.SharePerHour),
+	), nil
 }
 
 func (a swapAllowance) currentWindowOf(tx *vault.Txn, network string) (swapWindow, error) {

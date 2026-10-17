@@ -9,10 +9,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
+
+type discardedPeerMetadata struct{}
+
+func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
+
+var sendingNetwork = rwiorigin.Of("203.0.113.7")
 
 type recordedPurges struct {
 	postingsPerURL map[yacymodel.URLHash]int
@@ -64,6 +71,8 @@ func openHarness(t *testing.T) harness {
 		context.Background(),
 		v,
 		time.Now,
+		urlmeta.SwapLimit{FloorPerHour: 100},
+		discardedPeerMetadata{},
 		nil,
 		urlpostingpurge.New(purger, observing),
 	)
@@ -97,7 +106,7 @@ func (h harness) storeMetadata(t *testing.T, seed string) yacymodel.URLHash {
 
 	address := "http://example.com/" + seed
 	hash := urlHash(t, seed)
-	if _, err := h.urls.Receive(context.Background(), []yacymodel.URLMetadata{
+	if _, err := h.urls.Receive(context.Background(), sendingNetwork, []yacymodel.URLMetadata{
 		{Hash: hash, Address: address},
 	}); err != nil {
 		t.Fatalf("urls.Receive: %v", err)

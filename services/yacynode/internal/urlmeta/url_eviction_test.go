@@ -15,7 +15,11 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{row},
+	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
@@ -42,7 +46,11 @@ func TestPurgeKeepsTheURLWhenAnObserverFails(t *testing.T) {
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{row},
+	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
@@ -67,7 +75,7 @@ func TestPurgeDeletesRows(t *testing.T) {
 	v, module := openObservedModule(t)
 	row := urlMetadata(t, "a")
 	if _, err := module.Receiver.Receive(
-		ctx,
+		ctx, sendingNetwork,
 		[]yacymodel.URLMetadata{row, urlMetadata(t, "b")},
 	); err != nil {
 		t.Fatalf("Intake: %v", err)

@@ -69,7 +69,11 @@ func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.UR
 
 	ctx := context.Background()
 	v, module := openObservedModule(t)
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{metadata}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{metadata},
+	); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
 

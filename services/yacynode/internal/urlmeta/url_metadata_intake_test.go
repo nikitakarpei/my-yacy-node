@@ -25,7 +25,9 @@ func localIdentity() nodeidentity.Identity {
 type urlPorts struct {
 	Directory urlmeta.URLDirectory
 	Evictor   urlmeta.URLEvictor
+	Admitter  urlmeta.URLMetadataAdmitter
 	Receiver  urlmeta.URLReceiver
+	Outcomes  recordedOutcomes
 }
 
 func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
@@ -44,12 +46,26 @@ func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 		}
 	})
 
-	directory, evictor, _, receiver, err := urlmeta.Open(context.Background(), v, intakeClock, nil)
+	outcomes := recordedOutcomes{}
+	directory, evictor, admitter, receiver, err := urlmeta.Open(
+		context.Background(),
+		v,
+		intakeClock,
+		urlmeta.SwapLimit{FloorPerHour: 1},
+		outcomes,
+		nil,
+	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 
-	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
+	return v, urlPorts{
+		Directory: directory,
+		Evictor:   evictor,
+		Admitter:  admitter,
+		Receiver:  receiver,
+		Outcomes:  outcomes,
+	}
 }
 
 func intakeClock() time.Time {
@@ -81,7 +97,11 @@ func TestIntakePersistsAndReportsExisting(t *testing.T) {
 	first := urlMetadata(t, "a")
 	second := urlMetadata(t, "b")
 
-	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{first, second})
+	receipt, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{first, second},
+	)
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -89,7 +109,7 @@ func TestIntakePersistsAndReportsExisting(t *testing.T) {
 		t.Fatalf("first receipt = %+v, want empty", receipt)
 	}
 
-	receipt, err = module.Receiver.Receive(ctx, []yacymodel.URLMetadata{first})
+	receipt, err = module.Receiver.Receive(ctx, sendingNetwork, []yacymodel.URLMetadata{first})
 	if err != nil {
 		t.Fatalf("Intake duplicate: %v", err)
 	}
@@ -108,7 +128,11 @@ func TestIntakeDurabilityAndLookup(t *testing.T) {
 	row := urlMetadata(t, "a")
 	hash := row.Hash
 
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{row},
+	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
@@ -122,7 +146,11 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 	ctx := context.Background()
 	_, module := openModule(t, 1)
 
-	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata(t, "a")})
+	receipt, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{urlMetadata(t, "a")},
+	)
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -130,7 +158,11 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 		t.Fatalf("first receipt = %+v, want stored", receipt)
 	}
 
-	receipt, err = module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata(t, "b")})
+	receipt, err = module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{urlMetadata(t, "b")},
+	)
 	if err != nil {
 		t.Fatalf("Intake over capacity: %v", err)
 	}
@@ -145,7 +177,11 @@ func TestIntakeNotifiesObserverOfStoredURLs(t *testing.T) {
 	_, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
 
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{row},
+	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 	if len(observer.stored) != 1 || observer.stored[0] != row.Hash {
@@ -161,13 +197,21 @@ func TestIntakeUpdatesAndNotifiesOnALaterVersionOfAURL(t *testing.T) {
 	row.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 1))
 	hash := row.Hash
 
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{row},
+	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 	updated := row
 	updated.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 2))
 	updated.Title = "refreshed"
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{updated}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{updated},
+	); err != nil {
 		t.Fatalf("Intake duplicate: %v", err)
 	}
 	if len(observer.stored) != 2 || observer.stored[1] != hash {
@@ -191,10 +235,14 @@ func TestIntakeKeepsHeldMetadataOverAnOlderVersion(t *testing.T) {
 	older.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 1))
 	older.Title = "older"
 
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{held}); err != nil {
+	if _, err := module.Receiver.Receive(
+		ctx,
+		sendingNetwork,
+		[]yacymodel.URLMetadata{held},
+	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
-	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{older})
+	receipt, err := module.Receiver.Receive(ctx, sendingNetwork, []yacymodel.URLMetadata{older})
 	if err != nil {
 		t.Fatalf("Intake older: %v", err)
 	}
@@ -206,11 +254,11 @@ func TestIntakeKeepsHeldMetadataOverAnOlderVersion(t *testing.T) {
 	if rows[held.Hash].Title != "held" {
 		t.Fatalf("stored title = %q, want the held metadata kept", rows[held.Hash].Title)
 	}
-	if len(observer.storedFingerprints) != 1 ||
-		observer.storedFingerprints[0] != pagefingerprint.FromMetadata(held) {
+	if len(observer.storedVersions) != 1 ||
+		observer.storedVersions[0].Fingerprint != pagefingerprint.FromMetadata(held) {
 		t.Fatalf(
 			"stored fingerprints = %v, want only the fingerprint of the held metadata",
-			observer.storedFingerprints,
+			observer.storedVersions,
 		)
 	}
 }
@@ -222,16 +270,16 @@ func TestIntakeSkipsMetadataDatedAfterToday(t *testing.T) {
 	postdated := urlMetadata(t, "a")
 	postdated.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 17))
 
-	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{postdated})
+	receipt, err := module.Receiver.Receive(ctx, sendingNetwork, []yacymodel.URLMetadata{postdated})
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
 	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{postdated.Hash})
-	if len(rows) != 0 || receipt.Double != 0 || len(observer.storedFingerprints) != 0 {
+	if len(rows) != 0 || receipt.Double != 0 || len(observer.storedVersions) != 0 {
 		t.Fatalf(
 			"stored = %+v, double = %d, observed = %v, want metadata dated tomorrow skipped",
-			rows, receipt.Double, observer.storedFingerprints,
+			rows, receipt.Double, observer.storedVersions,
 		)
 	}
 }
@@ -248,7 +296,11 @@ func TestIntakeKeepsStoredMetadataOverAnotherVersionOfTheSameDay(t *testing.T) {
 	sameDay.Title = "same day"
 
 	for _, metadata := range []yacymodel.URLMetadata{stored, sameDay} {
-		if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{metadata}); err != nil {
+		if _, err := module.Receiver.Receive(
+			ctx,
+			sendingNetwork,
+			[]yacymodel.URLMetadata{metadata},
+		); err != nil {
 			t.Fatalf("Intake: %v", err)
 		}
 	}
@@ -268,7 +320,7 @@ func TestIntakeStoresNothingWhenAnObserverFails(t *testing.T) {
 	v, module := openObservedModule(t, observer)
 
 	if _, err := module.Receiver.Receive(
-		ctx,
+		ctx, sendingNetwork,
 		[]yacymodel.URLMetadata{urlMetadata(t, "a")},
 	); err == nil {
 		t.Fatal("Intake accepted the url although an observer refused it")

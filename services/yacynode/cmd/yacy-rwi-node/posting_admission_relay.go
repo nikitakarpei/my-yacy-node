@@ -3,11 +3,11 @@ package main
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type urlStoredObserver interface {
-	URLStored(tx *vault.Txn, url yacymodel.URLHash, version pagefingerprint.Fingerprint) error
+	URLStored(tx *vault.Txn, url yacymodel.URLHash, version urlmeta.CurrentVersion) error
 }
 
 // TECHDEBT: Structure — the relay owns no state, endpoint or value type; it only breaks the construction cycle between urlmeta and rwiadmission.
@@ -22,7 +22,7 @@ func (r *postingAdmissionRelay) forwardTo(admission urlStoredObserver) {
 func (r *postingAdmissionRelay) URLStored(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-	version pagefingerprint.Fingerprint,
+	version urlmeta.CurrentVersion,
 ) error {
 	if r.admission == nil {
 		return nil

@@ -12,11 +12,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
+
+type discardedPeerMetadata struct{}
+
+func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
+
+var sendingNetwork = rwiorigin.Of("203.0.113.7")
 
 var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
@@ -284,6 +291,8 @@ func openIndexedPage(t *testing.T) indexedPage {
 		context.Background(),
 		v,
 		time.Now,
+		urlmeta.SwapLimit{FloorPerHour: 100},
+		discardedPeerMetadata{},
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlpostingpurge.New(purger, discardedPurges{}),
 	)
@@ -310,7 +319,7 @@ func (p indexedPage) store(
 ) {
 	t.Helper()
 
-	if _, err := receiver.Receive(context.Background(), []yacymodel.URLMetadata{
+	if _, err := receiver.Receive(context.Background(), sendingNetwork, []yacymodel.URLMetadata{
 		{Hash: p.url, Address: "http://example.com/a"},
 	}); err != nil {
 		t.Fatalf("Receive: %v", err)

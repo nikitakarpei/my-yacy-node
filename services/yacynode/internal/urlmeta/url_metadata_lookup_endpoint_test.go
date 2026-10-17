@@ -22,7 +22,7 @@ func servedURLMetadata(
 	t.Helper()
 
 	v, module := openModule(t, 0)
-	if _, err := module.Receiver.Receive(context.Background(), stored); err != nil {
+	if _, err := module.Receiver.Receive(context.Background(), sendingNetwork, stored); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
 

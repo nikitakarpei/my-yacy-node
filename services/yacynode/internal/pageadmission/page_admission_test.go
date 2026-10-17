@@ -16,6 +16,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
 
+type discardedPeerMetadata struct{}
+
+func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
+
 const (
 	busyPause   = 5 * time.Second
 	pageAddress = "http://example.com/page"
@@ -94,6 +98,8 @@ func openHarnessWithAdmitter(
 		context.Background(),
 		v,
 		time.Now,
+		urlmeta.SwapLimit{FloorPerHour: 100},
+		discardedPeerMetadata{},
 		nil,
 		urlpostingpurge.New(purger, discardedPurges{}),
 	)

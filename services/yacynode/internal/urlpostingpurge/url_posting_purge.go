@@ -5,8 +5,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type URLPostingPurge struct {
@@ -17,7 +17,7 @@ type URLPostingPurge struct {
 func (p URLPostingPurge) URLStored(
 	*vault.Txn,
 	yacymodel.URLHash,
-	pagefingerprint.Fingerprint,
+	urlmeta.CurrentVersion,
 ) error {
 	return nil
 }

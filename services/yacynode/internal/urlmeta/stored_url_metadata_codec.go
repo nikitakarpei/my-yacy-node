@@ -6,11 +6,13 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
 
 type urlMetadataValueCodec struct{}
 
-func (urlMetadataValueCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, error) {
+func (urlMetadataValueCodec) Encode(record storedURLMetadata) ([]byte, error) {
+	metadata := record.metadata
 	var stored storedfields.Writer
 	stored.Text(metadata.Address)
 	writeReferrer(&stored, metadata.Referrer)
@@ -38,13 +40,21 @@ func (urlMetadataValueCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, err
 	stored.Count(metadata.ApplicationLinks)
 	stored.Text(metadata.Snippet)
 	stored.Text(metadata.FaviconAddress)
+	writeSource(&stored, record.source)
 
 	return stored.Record(), nil
 }
 
-func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) {
+func writeSource(stored *storedfields.Writer, source Source) {
+	stored.Byte(byte(source.kind))
+	if source.kind == sourcePeer {
+		rwiorigin.Write(stored, source.peer)
+	}
+}
+
+func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
 	if len(data) == 0 {
-		return yacymodel.URLMetadata{}, fmt.Errorf(
+		return storedURLMetadata{}, fmt.Errorf(
 			"%w: empty url metadata value",
 			yacymodel.ErrBadURLMetadata,
 		)
@@ -75,11 +85,24 @@ func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) 
 		Snippet:          stored.Text("snippet"),
 		FaviconAddress:   stored.Text("favicon address"),
 	}
+	source := sourceFrom(stored)
 	if err := stored.Err(); err != nil {
-		return yacymodel.URLMetadata{}, err
+		return storedURLMetadata{}, err
 	}
 
-	return metadata, nil
+	return storedURLMetadata{metadata: metadata, source: source}, nil
+}
+
+func sourceFrom(stored *storedfields.Reader) Source {
+	if stored.BytesLeft() == 0 {
+		return Source{kind: sourceUnknown}
+	}
+	source := Source{kind: sourceKind(stored.Byte("source"))}
+	if source.kind == sourcePeer {
+		source.peer = rwiorigin.From(stored)
+	}
+
+	return source
 }
 
 func writeReferrer(stored *storedfields.Writer, referrer yacymodel.Optional[yacymodel.URLHash]) {

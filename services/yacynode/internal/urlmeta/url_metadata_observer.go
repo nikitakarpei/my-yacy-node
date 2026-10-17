@@ -5,17 +5,16 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 )
 
 type observers []URLMetadataObserver
 
-func (o observers) stored(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
+func (o observers) stored(tx *vault.Txn, stored storedURLMetadata) error {
 	for _, observer := range o {
 		if err := observer.URLStored(
 			tx,
-			metadata.Hash,
-			pagefingerprint.FromMetadata(metadata),
+			stored.metadata.Hash,
+			currentVersionOf(stored),
 		); err != nil {
 			return fmt.Errorf("url metadata observer: %w", err)
 		}
