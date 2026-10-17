@@ -12,7 +12,7 @@ import (
 func TestPostingReadsBackStoredEntry(t *testing.T) {
 	h := openHarness(t)
 
-	h.admit(t,
+	h.writeEach(t,
 		posting("w1", "u1"),
 	)
 
@@ -39,15 +39,15 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 	}
 }
 
-func TestAdmittingAChangedPostingReplacesTheStoredOne(t *testing.T) {
+func TestWritingAChangedPostingReplacesTheStoredOne(t *testing.T) {
 	h := openHarness(t)
 
 	arrived := posting("w1", "u1")
-	h.admit(t, arrived)
+	h.writeEach(t, arrived)
 
 	refreshed := arrived
 	refreshed.Hits = 7
-	h.admit(t, refreshed)
+	h.writeEach(t, refreshed)
 
 	if stored, _ := h.postingOf(t, arrived.WordHash, arrived.URLHash); stored != refreshed {
 		t.Fatalf("PostingOf = %+v, want the posting as it is", stored)
@@ -59,7 +59,7 @@ func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartitionInKeyOrder(t *tes
 	words := neighbouringWordHashes(t)
 	for _, word := range words {
 		for document := range documentsPerWord {
-			h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+			h.writeEach(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
 		}
 	}
 	word := words[1]
@@ -76,7 +76,7 @@ func TestPostingsOfWordInAPartitionStopWhenTheVisitorAsks(t *testing.T) {
 	h := openHarness(t)
 	word := neighbouringWordHashes(t)[1]
 	for document := range documentsPerWord {
-		h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+		h.writeEach(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
 	}
 	partition, wantedPostings := busiestPartitionOf(word)
 

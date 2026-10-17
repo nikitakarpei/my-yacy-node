@@ -9,13 +9,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func (h harness) admitAtOnce(t *testing.T, postings ...yacymodel.RWIPosting) {
+func (h harness) writeAtOnce(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		return h.writer.Write(tx, postings...)
 	}); err != nil {
-		t.Fatalf("Admit: %v", err)
+		t.Fatalf("Write: %v", err)
 	}
 }
 
@@ -69,8 +69,8 @@ func TestPurgingThePostingsOfAURLLeavesOtherURLs(t *testing.T) {
 	h := openHarness(t)
 	url, other := urlHash("u1"), urlHash("other")
 	words := numberedWordsOf(3)
-	h.admit(t, postingsOfWordsOn(words, url)...)
-	h.admit(t, postingOfWordOn(words[0], other))
+	h.writeEach(t, postingsOfWordsOn(words, url)...)
+	h.writeEach(t, postingOfWordOn(words[0], other))
 
 	if purged := h.purgePostingsOf(t, url); purged != len(words) {
 		t.Fatalf("purged %d postings of %q, want %d", purged, url, len(words))
@@ -88,8 +88,8 @@ func TestPurgingThePostingsOfAURLLeavesOtherURLs(t *testing.T) {
 func TestAPurgedPostingLeavesTheOtherPostingsOfItsURL(t *testing.T) {
 	h := openHarness(t)
 	url := urlHash("u1")
-	h.admit(t, postingOfWordOn(yacymodel.WordHash("w1"), url))
-	h.admit(t, postingOfWordOn(yacymodel.WordHash("w2"), url))
+	h.writeEach(t, postingOfWordOn(yacymodel.WordHash("w1"), url))
+	h.writeEach(t, postingOfWordOn(yacymodel.WordHash("w2"), url))
 
 	h.purge(t, yacymodel.WordHash("w1"), url)
 
@@ -98,13 +98,13 @@ func TestAPurgedPostingLeavesTheOtherPostingsOfItsURL(t *testing.T) {
 	}
 }
 
-func TestAPageAdmittedAtOnceHoldsEachPostingOnce(t *testing.T) {
+func TestAPageWrittenAtOnceHoldsEachPostingOnce(t *testing.T) {
 	h := openHarness(t)
 	url := urlHash("u1")
 	words := numberedWordsOf(12)
-	h.admit(t, postingsOfWordsOn(words[:3], url)...)
+	h.writeEach(t, postingsOfWordsOn(words[:3], url)...)
 
-	h.admitAtOnce(t, append(postingsOfWordsOn(words, url), postingOfWordOn(words[5], url))...)
+	h.writeAtOnce(t, append(postingsOfWordsOn(words, url), postingOfWordOn(words[5], url))...)
 
 	for _, word := range words {
 		if _, found := h.postingOf(t, word, url); !found {

@@ -102,19 +102,19 @@ func openHarness(t *testing.T) harness {
 
 var ringPartitions = yacymodel.DHTRingPartitions(1) << 4
 
-func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
+func (h harness) writeEach(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, entry := range postings {
 			if err := h.writer.Write(tx, entry); err != nil {
-				return fmt.Errorf("admit posting: %w", err)
+				return fmt.Errorf("write posting: %w", err)
 			}
 		}
 
 		return nil
 	}); err != nil {
-		t.Fatalf("Admit: %v", err)
+		t.Fatalf("Write: %v", err)
 	}
 }
 

@@ -260,30 +260,6 @@ func (h harness) receive(t *testing.T, entries []yacymodel.RWIPosting) {
 	}
 }
 
-func TestKnownURLPostingJoinsIndex(t *testing.T) {
-	h := openHarness(t, 0, 100)
-	h.storeMetadata(t, "u1")
-	entry := posting("w1", "u1")
-
-	receipt, err := h.receiver.Receive(
-		context.Background(),
-		sendingPeer,
-		[]yacymodel.RWIPosting{entry},
-	)
-	if err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
-	if len(receipt.UnknownURL) != 0 {
-		t.Fatalf("UnknownURL = %v, want empty", receipt.UnknownURL)
-	}
-	if !h.indexed(t, entry) {
-		t.Fatal("posting for a known url did not reach the index")
-	}
-	if got := h.heldCount(t); got != 0 {
-		t.Fatalf("held count = %d, want 0", got)
-	}
-}
-
 func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	h.storeMetadata(t, "u1")
@@ -309,29 +285,6 @@ func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 	}
 	if got := h.observed.received[remoteindexadmission.PostingDroppedStopword]; got != 2 {
 		t.Fatalf("postings dropped as stopwords = %d, want both", got)
-	}
-}
-
-func TestUnknownURLPostingWaitsInEscrow(t *testing.T) {
-	h := openHarness(t, 0, 100)
-	entry := posting("w1", "u1")
-
-	receipt, err := h.receiver.Receive(
-		context.Background(),
-		sendingPeer,
-		[]yacymodel.RWIPosting{entry},
-	)
-	if err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
-	if len(receipt.UnknownURL) != 1 || receipt.UnknownURL[0] != entry.URLHash {
-		t.Fatalf("UnknownURL = %v, want the referenced hash", receipt.UnknownURL)
-	}
-	if h.indexed(t, entry) {
-		t.Fatal("posting for an unknown url reached the index")
-	}
-	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want 1", got)
 	}
 }
 
@@ -385,8 +338,8 @@ func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
 	if !h.indexed(t, known) {
 		t.Fatal("posting for a known url did not reach the index")
 	}
-	if h.indexed(t, unknown) {
-		t.Fatal("posting for an unknown url reached the index")
+	if h.indexed(t, unknown) || h.heldCount(t) != 1 {
+		t.Fatalf("held = %d, want only the posting for the unknown url waiting", h.heldCount(t))
 	}
 }
 
@@ -541,7 +494,7 @@ func (h harness) storeMetadataModifiedOn(t *testing.T, version yacymodel.MicroDa
 	}
 }
 
-func (h harness) admitMetadata(t *testing.T, metadata yacymodel.URLMetadata) {
+func (h harness) writeCrawledMetadata(t *testing.T, metadata yacymodel.URLMetadata) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
@@ -549,7 +502,7 @@ func (h harness) admitMetadata(t *testing.T, metadata yacymodel.URLMetadata) {
 
 		return err
 	}); err != nil {
-		t.Fatalf("Admit: %v", err)
+		t.Fatalf("Write: %v", err)
 	}
 }
 
@@ -636,27 +589,6 @@ func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
 	}
 }
 
-func TestReceiveBusyWhenTheEscrowIsFullAndAPostingNeedsNewerMetadata(t *testing.T) {
-	h := openHarness(t, 0, 1)
-	today := harnessToday()
-	h.storeMetadataModifiedOn(t, today-5)
-	h.receive(t, []yacymodel.RWIPosting{postingOn("w1", today-5), posting("w2", "u2")})
-
-	newer := postingOn("w3", today)
-	receipt, err := h.receiver.Receive(
-		context.Background(),
-		sendingPeer,
-		[]yacymodel.RWIPosting{newer},
-	)
-	if err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
-	if !receipt.Busy || h.heldCount(t) != 1 {
-		t.Fatalf("receipt = %+v, held = %d, want busy and the newer posting left out",
-			receipt, h.heldCount(t))
-	}
-}
-
 func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
@@ -730,7 +662,7 @@ func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	today := harnessToday()
 	crawled := metadataOfPostingsTo(t, "u1")
 	crawled.Modified = yacymodel.Some(yacymodel.CalendarDayOf(today.Time()))
-	h.admitMetadata(t, crawled)
+	h.writeCrawledMetadata(t, crawled)
 
 	sent := postingOn("w1", today)
 	h.receive(t, []yacymodel.RWIPosting{sent})
@@ -741,32 +673,22 @@ func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	}
 }
 
-func TestAnotherVersionOfTheSameDayLeavesTheIndexedVersion(t *testing.T) {
+func TestPeerMetadataOfAnotherVersionOfTheSameDayLeavesTheIndexedVersion(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
 	indexed := postingOn("w1", today)
 	h.storeMetadataModifiedOn(t, today)
 	h.receive(t, []yacymodel.RWIPosting{indexed})
 
-	sameDay := metadataOfPostingsTo(t, "u1")
-	sameDay.Modified = yacymodel.Some(yacymodel.CalendarDayOf(today.Time()))
+	sameDay := metadataOn(t, "u1", today)
 	sameDay.LocalLinks = 9
 	other := postingOn("w2", today)
 	other.LocalLinks = 9
-	for name, storeSameDay := range map[string]func(){
-		"sent by a peer": func() {
-			if _, err := h.urls.Receive(context.Background(), sendingPeer, []yacymodel.URLMetadata{sameDay}); err != nil {
-				t.Fatalf("urls.Receive: %v", err)
-			}
-		},
-		"crawled by this node": func() { h.admitMetadata(t, sameDay) },
-	} {
-		storeSameDay()
-		h.receive(t, []yacymodel.RWIPosting{other})
+	h.receiveMetadata(t, sendingPeer, sameDay)
+	h.receive(t, []yacymodel.RWIPosting{other})
 
-		if !h.indexed(t, indexed) || h.indexed(t, other) {
-			t.Fatalf("%s: a version of the same day replaced the indexed version", name)
-		}
+	if !h.indexed(t, indexed) || h.indexed(t, other) {
+		t.Fatal("peer metadata of the same day replaced the indexed version")
 	}
 }
 

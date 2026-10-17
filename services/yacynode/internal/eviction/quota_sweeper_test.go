@@ -327,7 +327,7 @@ func (p indexedPage) store(
 			Hits:     1,
 		})
 	}); err != nil {
-		t.Fatalf("Admit: %v", err)
+		t.Fatalf("Write: %v", err)
 	}
 }
 

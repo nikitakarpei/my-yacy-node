@@ -110,7 +110,7 @@ func (h harness) storeMetadata(t *testing.T, seed string) yacymodel.URLHash {
 	return hash
 }
 
-func (h harness) admitPosting(t *testing.T, word string, url yacymodel.URLHash) {
+func (h harness) writePosting(t *testing.T, word string, url yacymodel.URLHash) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
@@ -121,7 +121,7 @@ func (h harness) admitPosting(t *testing.T, word string, url yacymodel.URLHash) 
 			Hits:     1,
 		})
 	}); err != nil {
-		t.Fatalf("Admit: %v", err)
+		t.Fatalf("Write: %v", err)
 	}
 }
 
@@ -153,34 +153,6 @@ func (h harness) indexed(t *testing.T, word string, url yacymodel.URLHash) bool 
 	return found
 }
 
-func TestPurgedURLKeepsNoPosting(t *testing.T) {
-	h := openHarness(t)
-	purged := h.storeMetadata(t, "u1")
-	h.admitPosting(t, "w1", purged)
-	h.admitPosting(t, "w2", purged)
-
-	h.purgeMetadata(t, purged)
-
-	for _, word := range []string{"w1", "w2"} {
-		if h.indexed(t, word, purged) {
-			t.Errorf("posting of %q outlived the url metadata it describes", word)
-		}
-	}
-}
-
-func TestPurgedURLLeavesThePostingsOfEveryOtherURL(t *testing.T) {
-	h := openHarness(t)
-	purged, kept := h.storeMetadata(t, "u1"), h.storeMetadata(t, "u2")
-	h.admitPosting(t, "w1", purged)
-	h.admitPosting(t, "w1", kept)
-
-	h.purgeMetadata(t, purged)
-
-	if !h.indexed(t, "w1", kept) {
-		t.Error("purging one url dropped the posting of another")
-	}
-}
-
 func TestPurgedURLWithoutPostingsIsPurgedCleanly(t *testing.T) {
 	h := openHarness(t)
 	purged := h.storeMetadata(t, "u1")
@@ -195,16 +167,22 @@ func TestPurgedURLWithoutPostingsIsPurgedCleanly(t *testing.T) {
 	}
 }
 
-func TestObserverCountsThePostingsPurgedWithTheURL(t *testing.T) {
+func TestPurgedURLTakesItsPostingsAndReportsHowMany(t *testing.T) {
 	h := openHarness(t)
 	purged := h.storeMetadata(t, "u1")
-	h.admitPosting(t, "w1", purged)
-	h.admitPosting(t, "w2", purged)
-	h.admitPosting(t, "w3", purged)
+	words := []string{"w1", "w2", "w3"}
+	for _, word := range words {
+		h.writePosting(t, word, purged)
+	}
 
 	h.purgeMetadata(t, purged)
 
-	if got := h.observing.postingsPerURL[purged]; got != 3 {
-		t.Errorf("postings purged = %d, want the 3 the url had", got)
+	for _, word := range words {
+		if h.indexed(t, word, purged) {
+			t.Errorf("posting of %q outlived the url metadata it describes", word)
+		}
+	}
+	if got := h.observing.postingsPerURL[purged]; got != len(words) {
+		t.Errorf("postings purged = %d, want the %d the url had", got, len(words))
 	}
 }

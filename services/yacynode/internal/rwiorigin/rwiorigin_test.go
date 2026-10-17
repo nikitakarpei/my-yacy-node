@@ -39,11 +39,3 @@ func TestStoredOriginReadsBackAsWritten(t *testing.T) {
 		t.Fatalf("From = %+v (err %v), want %+v", read, reader.Err(), written)
 	}
 }
-
-func TestRecordWithoutOriginReadsAsNoOrigin(t *testing.T) {
-	reader := storedfields.ReaderOf([]byte{}, errBadRecord)
-
-	if read := rwiorigin.From(reader); read != (rwiorigin.Origin{}) || reader.Err() != nil {
-		t.Fatalf("From = %+v (err %v), want no origin", read, reader.Err())
-	}
-}

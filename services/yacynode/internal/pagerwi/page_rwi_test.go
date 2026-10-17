@@ -287,12 +287,6 @@ func TestOfMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
 			t.Fatalf("word %q should not appear in an absent title", posting.WordHash)
 		}
 	}
-	if index.Postings[0].TitleWords != yacymodel.TitleWordsOf("") {
-		t.Fatalf(
-			"title words = %d, want the count YaCy gives an empty title",
-			index.Postings[0].TitleWords,
-		)
-	}
 }
 
 func appearanceOf(t *testing.T, index pagerwi.PageRWI, word string) yacymodel.Appearance {

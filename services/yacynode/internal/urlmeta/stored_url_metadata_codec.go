@@ -94,9 +94,6 @@ func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
 }
 
 func sourceFrom(stored *storedfields.Reader) Source {
-	if stored.BytesLeft() == 0 {
-		return Source{kind: sourceUnknown}
-	}
 	source := Source{kind: sourceKind(stored.Byte("source"))}
 	if source.kind == sourcePeer {
 		source.peer = rwiorigin.From(stored)

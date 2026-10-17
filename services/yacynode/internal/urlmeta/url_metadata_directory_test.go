@@ -2,13 +2,10 @@ package urlmeta_test
 
 import (
 	"context"
-	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -124,71 +121,5 @@ func TestStoredMetadataKnowsItsSource(t *testing.T) {
 	if versions[sent.Hash].Source != urlmeta.SourcePeer(sendingNetwork) ||
 		versions[crawled.Hash].Source != urlmeta.SourceThisNode() {
 		t.Fatalf("versions = %+v, want the peer network and this node", versions)
-	}
-}
-
-type rawRecordCodec struct{}
-
-func (rawRecordCodec) Encode(raw []byte) ([]byte, error) { return raw, nil }
-
-func (rawRecordCodec) Decode(raw []byte) ([]byte, error) { return slices.Clone(raw), nil }
-
-func TestMetadataStoredBeforeSourcesHasNeitherSource(t *testing.T) {
-	ctx := context.Background()
-	engine := memoryvault.OpenEngine(0)
-	v, err := vault.New(engine, nil)
-	if err != nil {
-		t.Fatalf("vault.New: %v", err)
-	}
-	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
-			t.Fatalf("Close: %v", err)
-		}
-	})
-	directory, _, writer, err := urlmeta.Open(ctx, v, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	crawled := urlMetadata(t, "a")
-	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		_, err := writer.Write(tx, crawled, urlmeta.SourceThisNode())
-
-		return err
-	}); err != nil {
-		t.Fatalf("Write: %v", err)
-	}
-	stripSourceOf(t, engine, crawled.Hash)
-
-	source := currentVersionsOf(t, v, directory, crawled.Hash)[crawled.Hash].Source
-	if source == urlmeta.SourceThisNode() || source == urlmeta.SourcePeer(sendingNetwork) {
-		t.Fatalf("source = %+v, want neither this node nor a peer", source)
-	}
-}
-
-func stripSourceOf(t *testing.T, engine vault.Engine, url yacymodel.URLHash) {
-	t.Helper()
-
-	raw, err := vault.New(engine, nil)
-	if err != nil {
-		t.Fatalf("vault.New: %v", err)
-	}
-	records, err := raw.RegisterCollection(
-		"urlmeta",
-		vault.SingleKey(hashkeypart.URLHash).KeyLayout(),
-		rawRecordCodec{},
-	)
-	if err != nil {
-		t.Fatalf("RegisterCollection: %v", err)
-	}
-	if err := raw.Update(context.Background(), func(tx *vault.Txn) error {
-		record, _, err := records.Get(tx, url)
-		if err != nil {
-			return err
-		}
-		_, err = records.Put(tx, url, record[:len(record)-1])
-
-		return err
-	}); err != nil {
-		t.Fatalf("strip source: %v", err)
 	}
 }

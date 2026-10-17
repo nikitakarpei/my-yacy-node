@@ -10,20 +10,20 @@ import (
 )
 
 type fakeWriter struct {
-	admitted []yacymodel.RWIPosting
-	err      error
+	written []yacymodel.RWIPosting
+	err     error
 }
 
 func (f *fakeWriter) Write(_ *vault.Txn, postings ...yacymodel.RWIPosting) error {
 	if f.err != nil {
 		return f.err
 	}
-	f.admitted = append(f.admitted, postings...)
+	f.written = append(f.written, postings...)
 
 	return nil
 }
 
-func TestSchedulingAdmitterStoresThePostingAndCountsItsAdmission(t *testing.T) {
+func TestSchedulingWriterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	h := openHarness(t)
 	wrapped := &fakeWriter{}
 	writer := h.schedule.WriterFrom(wrapped, &recordingAdmissionObserver{})
@@ -32,8 +32,8 @@ func TestSchedulingAdmitterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	h.write(t, func(tx *vault.Txn) error { return writer.Write(tx, posting) })
 	h.scheduleAdmissionsWithin(t, wholeRing)
 
-	if len(wrapped.admitted) != 1 || wrapped.admitted[0] != posting {
-		t.Fatalf("wrapped writer got %v, want [%v]", wrapped.admitted, posting)
+	if len(wrapped.written) != 1 || wrapped.written[0] != posting {
+		t.Fatalf("wrapped writer got %v, want [%v]", wrapped.written, posting)
 	}
 	want := yacymodel.WordPartitionOfPosting(posting, h.partitions)
 	if due := h.dueWordPartitions(t, 10); !slices.Equal(due, []yacymodel.WordPartition{want}) {
@@ -41,7 +41,7 @@ func TestSchedulingAdmitterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	}
 }
 
-func TestSchedulingAdmitterCountsEachPostingAdmittedAtOnce(t *testing.T) {
+func TestSchedulingWriterCountsEachPostingWrittenAtOnce(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
@@ -61,9 +61,9 @@ func TestSchedulingAdmitterCountsEachPostingAdmittedAtOnce(t *testing.T) {
 	}
 }
 
-func TestSchedulingAdmitterReturnsWrappedErrorAndCountsNothing(t *testing.T) {
+func TestSchedulingWriterReturnsWrappedErrorAndCountsNothing(t *testing.T) {
 	h := openHarness(t)
-	failure := errors.New("admit failed")
+	failure := errors.New("write failed")
 	writer := h.schedule.WriterFrom(
 		&fakeWriter{err: failure},
 		&recordingAdmissionObserver{},
@@ -75,7 +75,7 @@ func TestSchedulingAdmitterReturnsWrappedErrorAndCountsNothing(t *testing.T) {
 	h.scheduleAdmissionsWithin(t, wholeRing)
 
 	if !errors.Is(err, failure) {
-		t.Fatalf("Admit error = %v, want %v", err, failure)
+		t.Fatalf("Write error = %v, want %v", err, failure)
 	}
 	if due := h.dueWordPartitions(t, 10); len(due) != 0 {
 		t.Fatalf("due word partitions = %v, want none", due)
@@ -90,7 +90,7 @@ func (r *recordingAdmissionObserver) ObservePostingAdmitted(position yacymodel.D
 	r.positions = append(r.positions, position)
 }
 
-func TestSchedulingAdmitterReportsThePositionOnlyAfterCommit(t *testing.T) {
+func TestSchedulingWriterReportsThePositionOnlyAfterCommit(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
@@ -118,7 +118,7 @@ func TestSchedulingAdmitterReportsThePositionOnlyAfterCommit(t *testing.T) {
 	}
 }
 
-func TestSchedulingAdmitterReportsEveryAdmittedPosting(t *testing.T) {
+func TestSchedulingWriterReportsEveryWrittenPosting(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
@@ -132,7 +132,7 @@ func TestSchedulingAdmitterReportsEveryAdmittedPosting(t *testing.T) {
 	}
 }
 
-func TestSchedulingAdmitterReportsNothingWhenTheTransactionFails(t *testing.T) {
+func TestSchedulingWriterReportsNothingWhenTheTransactionFails(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
