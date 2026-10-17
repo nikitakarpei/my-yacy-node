@@ -19,7 +19,7 @@ import (
 type ReceivedPostingOutcome string
 
 const (
-	PostingHeldInEscrow           ReceivedPostingOutcome = "held_in_escrow"
+	PostingHeldForURLMetadata     ReceivedPostingOutcome = "held_for_url_metadata"
 	PostingDroppedFutureDate      ReceivedPostingOutcome = "dropped_future_date"
 	PostingDroppedStopword        ReceivedPostingOutcome = "dropped_stopword"
 	PostingRefusedTooManyPostings ReceivedPostingOutcome = "refused_too_many_postings"
@@ -30,10 +30,10 @@ const (
 type PostingPlacement string
 
 const (
-	PostingIndexed               PostingPlacement = "indexed"
-	PostingDroppedAlreadyIndexed PostingPlacement = "dropped_already_indexed"
-	PostingDroppedOtherVersion   PostingPlacement = "dropped_other_version"
-	PostingDroppedOtherNetwork   PostingPlacement = "dropped_other_network"
+	PostingIndexed                    PostingPlacement = "indexed"
+	PostingDroppedAlreadyIndexed      PostingPlacement = "dropped_already_indexed"
+	PostingDroppedNotNewerVersion     PostingPlacement = "dropped_not_newer_version"
+	PostingDroppedPageFromOtherSource PostingPlacement = "dropped_page_from_other_source"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -136,7 +136,8 @@ func (a PostingAdmission) admitEach(
 			return nil, err
 		}
 		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
-		if outcome == PostingHeldInEscrow && !slices.Contains(urlsOfHeldPostings, posting.URLHash) {
+		if outcome == PostingHeldForURLMetadata &&
+			!slices.Contains(urlsOfHeldPostings, posting.URLHash) {
 			urlsOfHeldPostings = append(urlsOfHeldPostings, posting.URLHash)
 		}
 	}
@@ -197,7 +198,7 @@ func (a PostingAdmission) hold(
 		return "", fmt.Errorf("hold posting: %w", err)
 	}
 
-	return PostingHeldInEscrow, nil
+	return PostingHeldForURLMetadata, nil
 }
 
 func (a PostingAdmission) place(
@@ -208,9 +209,9 @@ func (a PostingAdmission) place(
 ) (PostingPlacement, error) {
 	switch {
 	case !currentVersion.Describes(pagefingerprint.FromPosting(posting)):
-		return PostingDroppedOtherVersion, nil
+		return PostingDroppedNotNewerVersion, nil
 	case !currentVersion.CameFrom(origin):
-		return PostingDroppedOtherNetwork, nil
+		return PostingDroppedPageFromOtherSource, nil
 	}
 	postingIndexed, err := a.isIndexed(tx, posting)
 	if err != nil {

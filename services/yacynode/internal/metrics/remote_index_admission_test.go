@@ -14,7 +14,7 @@ import (
 const remoteIndexAdmissionMetrics = `
 # HELP yacynode_remoteindexadmission_received_postings_total Postings sent by peers, by what the node did with them.
 # TYPE yacynode_remoteindexadmission_received_postings_total counter
-yacynode_remoteindexadmission_received_postings_total{outcome="held_in_escrow"} 2
+yacynode_remoteindexadmission_received_postings_total{outcome="held_for_url_metadata"} 2
 yacynode_remoteindexadmission_received_postings_total{outcome="refused_storage_full"} 3
 # HELP yacynode_remoteindexadmission_released_postings_total Postings released from escrow when their URL metadata arrived, by what the node did with them.
 # TYPE yacynode_remoteindexadmission_released_postings_total counter
@@ -28,8 +28,8 @@ func TestRemoteIndexAdmissionCountsEachOutcome(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewRemoteIndexAdmissionMetrics(registry)
 
-	observer.ObserveReceivedPostings(remoteindexadmission.PostingHeldInEscrow, 1)
-	observer.ObserveReceivedPostings(remoteindexadmission.PostingHeldInEscrow, 1)
+	observer.ObserveReceivedPostings(remoteindexadmission.PostingHeldForURLMetadata, 1)
+	observer.ObserveReceivedPostings(remoteindexadmission.PostingHeldForURLMetadata, 1)
 	observer.ObserveReceivedPostings(remoteindexadmission.PostingRefusedStorageFull, 3)
 	observer.ObserveReleasedPostings(remoteindexadmission.PostingIndexed, 1)
 	observer.ObserveURLMetadata(remoteindexadmission.URLMetadataReplacedOlderVersion, 1)

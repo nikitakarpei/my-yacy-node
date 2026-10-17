@@ -16,12 +16,12 @@ import (
 type URLMetadataOutcome string
 
 const (
-	URLMetadataStoredNewURL         URLMetadataOutcome = "stored_new_url"
-	URLMetadataReplacedOlderVersion URLMetadataOutcome = "replaced_older_version"
-	URLMetadataDroppedAlreadyStored URLMetadataOutcome = "dropped_already_stored"
-	URLMetadataDroppedOtherVersion  URLMetadataOutcome = "dropped_other_version"
-	URLMetadataDroppedFutureDate    URLMetadataOutcome = "dropped_future_date"
-	URLMetadataDroppedOverSwapLimit URLMetadataOutcome = "dropped_over_swap_limit"
+	URLMetadataStoredNewURL               URLMetadataOutcome = "stored_new_url"
+	URLMetadataReplacedOlderVersion       URLMetadataOutcome = "replaced_older_version"
+	URLMetadataDroppedAlreadyStored       URLMetadataOutcome = "dropped_already_stored"
+	URLMetadataDroppedNotNewerVersion     URLMetadataOutcome = "dropped_not_newer_version"
+	URLMetadataDroppedFutureDate          URLMetadataOutcome = "dropped_future_date"
+	URLMetadataDroppedTooManyReplacements URLMetadataOutcome = "dropped_too_many_replacements"
 )
 
 var _ URLMetadataReceiver = URLMetadataIntake{}
@@ -135,14 +135,14 @@ func (i URLMetadataIntake) admit(
 	case currentVersion.Describes(arrivedFingerprint):
 		return URLMetadataDroppedAlreadyStored, nil
 	case !currentVersion.IsOlderThan(arrivedFingerprint):
-		return URLMetadataDroppedOtherVersion, nil
+		return URLMetadataDroppedNotNewerVersion, nil
 	}
 	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network, hourlySwapLimit)
 	if err != nil {
 		return "", err
 	}
 	if !swapAllowed {
-		return URLMetadataDroppedOverSwapLimit, nil
+		return URLMetadataDroppedTooManyReplacements, nil
 	}
 
 	return i.replaceWith(ctx, tx, sender, arrived)

@@ -48,10 +48,10 @@ func TestURLMetadataIntakeReportsOneOutcomePerRecord(t *testing.T) {
 	)
 
 	want := map[remoteindexadmission.URLMetadataOutcome]int{
-		remoteindexadmission.URLMetadataStoredNewURL:         1,
-		remoteindexadmission.URLMetadataDroppedAlreadyStored: 1,
-		remoteindexadmission.URLMetadataDroppedOtherVersion:  2,
-		remoteindexadmission.URLMetadataDroppedFutureDate:    1,
+		remoteindexadmission.URLMetadataStoredNewURL:           1,
+		remoteindexadmission.URLMetadataDroppedAlreadyStored:   1,
+		remoteindexadmission.URLMetadataDroppedNotNewerVersion: 2,
+		remoteindexadmission.URLMetadataDroppedFutureDate:      1,
 	}
 	if !maps.Equal(h.observed.urlMetadata, want) || receipt.KnownURLs != 3 {
 		t.Fatalf("outcomes = %v, known urls = %d, want %v and 3 known urls",
@@ -91,7 +91,7 @@ func TestURLVersionSwapsPerNetworkStopAtTheHourlyLimit(t *testing.T) {
 	h.receiveMetadata(t, sendingPeer, metadataOn(t, "u1", base+1))
 	h.receiveMetadata(t, sendingPeer, metadataOn(t, "u1", base+2))
 	if h.observed.urlMetadata[remoteindexadmission.URLMetadataReplacedOlderVersion] != 1 ||
-		h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedOverSwapLimit] != 1 {
+		h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedTooManyReplacements] != 1 {
 		t.Fatalf("outcomes = %v, want one swap and one over the limit", h.observed.urlMetadata)
 	}
 
@@ -113,7 +113,7 @@ func TestURLVersionSwapsInOneTransferStopAtTheHourlyLimit(t *testing.T) {
 	h.receiveMetadata(t, sendingPeer, metadataOn(t, "u1", base+1), metadataOn(t, "u2", base+1))
 
 	if h.observed.urlMetadata[remoteindexadmission.URLMetadataReplacedOlderVersion] != 1 ||
-		h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedOverSwapLimit] != 1 {
+		h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedTooManyReplacements] != 1 {
 		t.Fatalf("outcomes = %v, want one swap and one over the limit", h.observed.urlMetadata)
 	}
 }
