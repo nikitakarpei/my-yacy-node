@@ -263,7 +263,15 @@ func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 }
 
 func byteCardinalTextFrom(value int) string {
-	return strconv.Itoa(saturatedCardinalFrom(value, byteColumnCeiling))
+	return strconv.Itoa(lowByteOf(value))
+}
+
+func lowByteOf(value int) int {
+	if value < 0 {
+		return 0
+	}
+
+	return value % (byteColumnCeiling + 1)
 }
 
 func saturatedCardinalFrom(value, ceiling int) int {

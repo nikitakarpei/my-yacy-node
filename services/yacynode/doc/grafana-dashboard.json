@@ -832,7 +832,7 @@
     {
       "id": 143,
       "title": "Inbound postings by outcome",
-      "description": "What happened to each inbound posting, when it arrives or when URL metadata of its version arrives.",
+      "description": "What the node decided for each inbound posting. A posting that waits for URL metadata of its version counts once the node decides it; one that waits too long shows on the escrow panels.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -854,18 +854,6 @@
           }
         },
         "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "held_in_escrow"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "waits in escrow for URL metadata"
-              }
-            ]
-          },
           {
             "matcher": {
               "id": "byName",

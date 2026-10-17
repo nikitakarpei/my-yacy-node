@@ -153,17 +153,19 @@ func TestIntakeNotifiesObserverOfStoredURLs(t *testing.T) {
 	}
 }
 
-func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
+func TestIntakeUpdatesAndNotifiesOnALaterVersionOfAURL(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
+	row.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 1))
 	hash := row.Hash
 
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 	updated := row
+	updated.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 2))
 	updated.Title = "refreshed"
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{updated}); err != nil {
 		t.Fatalf("Intake duplicate: %v", err)
@@ -230,6 +232,32 @@ func TestIntakeSkipsMetadataDatedAfterToday(t *testing.T) {
 		t.Fatalf(
 			"stored = %+v, double = %d, observed = %v, want metadata dated tomorrow skipped",
 			rows, receipt.Double, observer.storedFingerprints,
+		)
+	}
+}
+
+func TestIntakeKeepsStoredMetadataOverAnotherVersionOfTheSameDay(t *testing.T) {
+	ctx := context.Background()
+	observer := &recordingObserver{}
+	v, module := openObservedModule(t, observer)
+	stored := urlMetadata(t, "a")
+	stored.Modified = yacymodel.Some(yacymodel.NewCalendarDay(2026, time.October, 10))
+	stored.Title = "stored"
+	sameDay := stored
+	sameDay.LocalLinks = 9
+	sameDay.Title = "same day"
+
+	for _, metadata := range []yacymodel.URLMetadata{stored, sameDay} {
+		if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{metadata}); err != nil {
+			t.Fatalf("Intake: %v", err)
+		}
+	}
+
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{stored.Hash})
+	if rows[stored.Hash].Title != "stored" || len(observer.stored) != 1 {
+		t.Fatalf(
+			"stored title = %q, observed %d stores, want the first metadata of the day kept",
+			rows[stored.Hash].Title, len(observer.stored),
 		)
 	}
 }

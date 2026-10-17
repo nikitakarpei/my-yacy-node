@@ -2,6 +2,7 @@ package rwiadmission_test
 
 import (
 	"context"
+	"maps"
 	"net/url"
 	"strconv"
 	"testing"
@@ -61,9 +62,9 @@ func harnessToday() yacymodel.MicroDate {
 }
 
 var (
-	sendingPeer   = rwiorigin.Of(yacymodel.WordHash("sending peer"), "203.0.113.7")
-	neighbourPeer = rwiorigin.Of(yacymodel.WordHash("neighbour peer"), "203.0.113.8")
-	otherPeer     = rwiorigin.Of(yacymodel.WordHash("other peer"), "198.51.100.9")
+	sendingPeer   = rwiorigin.Of("203.0.113.7")
+	neighbourPeer = rwiorigin.Of("203.0.113.8")
+	otherPeer     = rwiorigin.Of("198.51.100.9")
 )
 
 type stopwordThe struct{}
@@ -77,6 +78,7 @@ type harness struct {
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
+	crawled  urlmeta.URLMetadataAdmitter
 	receiver rwiadmission.PostingAdmission
 	observed *observedAdmission
 	clock    *time.Time
@@ -100,7 +102,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	clock := harnessStart
 	now := func() time.Time { return clock }
 
-	index, references, admitter, purger, err := rwipostings.Open(
+	index, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -118,7 +120,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
 	relay := &admissionOpenedLater{}
-	urlDirectory, _, _, urlReceiver, err := urlmeta.Open(
+	urlDirectory, _, urlAdmitter, urlReceiver, err := urlmeta.Open(
 		context.Background(),
 		v,
 		now,
@@ -130,13 +132,12 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 	observed := &observedAdmission{outcomes: map[rwiadmission.Outcome]int{}}
-	relay.admission = rwiadmission.Open(
+	admission, err := rwiadmission.Open(
 		v,
 		urlDirectory,
 		escrow,
 		indexedVersions,
 		index,
-		references,
 		admitter,
 		purger,
 		stopwordThe{},
@@ -148,12 +149,17 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 			SwapFloorPerHour: 1,
 		},
 	)
+	if err != nil {
+		t.Fatalf("rwiadmission.Open: %v", err)
+	}
+	relay.admission = admission
 
 	return harness{
 		vault:    v,
 		index:    index,
 		escrow:   escrow,
 		urls:     urlReceiver,
+		crawled:  urlAdmitter,
 		receiver: relay.admission,
 		observed: observed,
 		clock:    &clock,
@@ -340,6 +346,17 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 	if got := h.heldCount(t); got != 0 {
 		t.Fatalf("held count = %d, want 0", got)
 	}
+	maps.DeleteFunc(
+		h.observed.outcomes,
+		func(_ rwiadmission.Outcome, postings int) bool { return postings == 0 },
+	)
+	want := map[rwiadmission.Outcome]int{rwiadmission.OutcomeIndexedFirstVersion: 1}
+	if !maps.Equal(h.observed.outcomes, want) {
+		t.Fatalf(
+			"outcomes = %v, want the posting counted once, when it joined the index",
+			h.observed.outcomes,
+		)
+	}
 }
 
 func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
@@ -510,6 +527,16 @@ func (h harness) storeMetadataModifiedOn(t *testing.T, version yacymodel.MicroDa
 		[]yacymodel.URLMetadata{metadata},
 	); err != nil {
 		t.Fatalf("urls.Receive: %v", err)
+	}
+}
+
+func (h harness) admitMetadata(t *testing.T, metadata yacymodel.URLMetadata) {
+	t.Helper()
+
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.crawled.Admit(tx, metadata)
+	}); err != nil {
+		t.Fatalf("Admit: %v", err)
 	}
 }
 
@@ -685,28 +712,32 @@ func TestPostingsOfTheIndexedVersionAddOnlyMissingWordsFromItsNetwork(t *testing
 	}
 }
 
-func TestStoredMetadataOfAnotherVersionOfTheSameDaySwapsTheURL(t *testing.T) {
+func TestAnotherVersionOfTheSameDayLeavesTheIndexedVersion(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
-	old := postingOn("w1", today)
+	indexed := postingOn("w1", today)
 	h.storeMetadataModifiedOn(t, today)
-	h.receive(t, []yacymodel.RWIPosting{old})
+	h.receive(t, []yacymodel.RWIPosting{indexed})
 
-	metadata := metadataOfPostingsTo(t, "u1")
-	metadata.Modified = yacymodel.Some(yacymodel.CalendarDayOf(today.Time()))
-	metadata.LocalLinks = 9
-	if _, err := h.urls.Receive(
-		context.Background(),
-		[]yacymodel.URLMetadata{metadata},
-	); err != nil {
-		t.Fatalf("urls.Receive: %v", err)
-	}
+	sameDay := metadataOfPostingsTo(t, "u1")
+	sameDay.Modified = yacymodel.Some(yacymodel.CalendarDayOf(today.Time()))
+	sameDay.LocalLinks = 9
 	other := postingOn("w2", today)
 	other.LocalLinks = 9
-	h.receive(t, []yacymodel.RWIPosting{other})
+	for name, storeSameDay := range map[string]func(){
+		"sent by a peer": func() {
+			if _, err := h.urls.Receive(context.Background(), []yacymodel.URLMetadata{sameDay}); err != nil {
+				t.Fatalf("urls.Receive: %v", err)
+			}
+		},
+		"crawled by this node": func() { h.admitMetadata(t, sameDay) },
+	} {
+		storeSameDay()
+		h.receive(t, []yacymodel.RWIPosting{other})
 
-	if h.indexed(t, old) || !h.indexed(t, other) {
-		t.Fatal("postings of the stored version did not replace the indexed version")
+		if !h.indexed(t, indexed) || h.indexed(t, other) {
+			t.Fatalf("%s: a version of the same day replaced the indexed version", name)
+		}
 	}
 }
 
@@ -742,6 +773,41 @@ func TestSwapsPerNetworkStopAtTheHourlyLimit(t *testing.T) {
 	if h.observed.outcomes[rwiadmission.OutcomeIndexedNewerVersion] != 3 {
 		t.Fatalf(
 			"outcomes = %v, want swaps from another network and an hour later",
+			h.observed.outcomes,
+		)
+	}
+}
+
+func TestSwapsInOneTransferStopAtTheHourlyLimit(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	base := harnessToday() - 5
+	versionOn := func(day yacymodel.MicroDate) ([]yacymodel.URLMetadata, []yacymodel.RWIPosting) {
+		seeds := []string{"u1", "u2"}
+		metadata := make([]yacymodel.URLMetadata, 0, len(seeds))
+		postings := make([]yacymodel.RWIPosting, 0, len(seeds))
+		for _, seed := range seeds {
+			stored := metadataOfPostingsTo(t, seed)
+			stored.Modified = yacymodel.Some(yacymodel.CalendarDayOf(day.Time()))
+			metadata = append(metadata, stored)
+			sent := posting("w1", seed)
+			sent.LastModified = day
+			postings = append(postings, sent)
+		}
+
+		return metadata, postings
+	}
+	for _, day := range []yacymodel.MicroDate{base, base + 1} {
+		metadata, postings := versionOn(day)
+		if _, err := h.urls.Receive(context.Background(), metadata); err != nil {
+			t.Fatalf("urls.Receive: %v", err)
+		}
+		h.receive(t, postings)
+	}
+
+	if h.observed.outcomes[rwiadmission.OutcomeIndexedNewerVersion] != 1 ||
+		h.observed.outcomes[rwiadmission.OutcomeDroppedOverSwapLimit] != 1 {
+		t.Fatalf(
+			"outcomes = %v, want one swap and one over the limit in one transfer",
 			h.observed.outcomes,
 		)
 	}

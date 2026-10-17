@@ -31,7 +31,7 @@ const (
 type postingJudge struct {
 	indexedVersions IndexedVersions
 	postings        rwipostings.PostingIndex
-	swapAllowance   *swapAllowance
+	swapAllowance   swapAllowance
 	now             func() time.Time
 }
 
@@ -69,6 +69,9 @@ func (j postingJudge) outcomeAgainstIndexedVersion(
 		return OutcomeIndexedFirstVersion, nil
 	}
 	if indexedVersion.Fingerprint != postingVersion {
+		if postingVersion.Modified <= indexedVersion.Fingerprint.Modified {
+			return OutcomeDroppedOtherVersion, nil
+		}
 		allowed, err := j.swapAllowance.allows(tx, origin.Network)
 		if err != nil {
 			return "", err

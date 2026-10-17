@@ -13,11 +13,10 @@ import (
 )
 
 type harness struct {
-	vault      *vault.Vault
-	index      rwipostings.PostingIndex
-	references rwipostings.URLReferences
-	admitter   rwipostings.PostingAdmitter
-	purger     rwipostings.PostingPurger
+	vault    *vault.Vault
+	index    rwipostings.PostingIndex
+	admitter rwipostings.PostingAdmitter
+	purger   rwipostings.PostingPurger
 }
 
 func (h harness) postingOf(
@@ -83,7 +82,7 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	index, references, admitter, purger, err := rwipostings.Open(
+	index, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions,
@@ -94,11 +93,10 @@ func openHarness(t *testing.T) harness {
 	}
 
 	return harness{
-		vault:      v,
-		index:      index,
-		references: references,
-		admitter:   admitter,
-		purger:     purger,
+		vault:    v,
+		index:    index,
+		admitter: admitter,
+		purger:   purger,
 	}
 }
 

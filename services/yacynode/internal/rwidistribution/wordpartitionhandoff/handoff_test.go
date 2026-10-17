@@ -50,7 +50,7 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, _, admitter, purger, err := rwipostings.Open(
+	index, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),

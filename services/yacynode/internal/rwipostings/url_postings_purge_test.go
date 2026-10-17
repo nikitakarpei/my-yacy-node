@@ -3,8 +3,6 @@ package rwipostings_test
 import (
 	"context"
 	"fmt"
-	"slices"
-	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -33,20 +31,20 @@ func (h harness) purge(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash)
 	}
 }
 
-func (h harness) wordsReferencing(t *testing.T, url yacymodel.URLHash) []yacymodel.Hash {
+func (h harness) purgePostingsOf(t *testing.T, url yacymodel.URLHash) int {
 	t.Helper()
 
-	var words []yacymodel.Hash
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		found, err := h.references.WordsReferencing(tx, url)
-		words = found
+	var amountOfPurgedPostings int
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		purged, err := h.purger.PurgePostingsOf(tx, url)
+		amountOfPurgedPostings = purged
 
 		return err
 	}); err != nil {
-		t.Fatalf("WordsReferencing: %v", err)
+		t.Fatalf("PurgePostingsOf: %v", err)
 	}
 
-	return words
+	return amountOfPurgedPostings
 }
 
 func numberedWordsOf(amount int) []yacymodel.Hash {
@@ -58,12 +56,6 @@ func numberedWordsOf(amount int) []yacymodel.Hash {
 	return words
 }
 
-func sortedWords(words []yacymodel.Hash) []yacymodel.Hash {
-	return slices.SortedFunc(slices.Values(words), func(a, b yacymodel.Hash) int {
-		return strings.Compare(a.String(), b.String())
-	})
-}
-
 func postingsOfWordsOn(words []yacymodel.Hash, url yacymodel.URLHash) []yacymodel.RWIPosting {
 	postings := make([]yacymodel.RWIPosting, 0, len(words))
 	for _, word := range words {
@@ -73,19 +65,27 @@ func postingsOfWordsOn(words []yacymodel.Hash, url yacymodel.URLHash) []yacymode
 	return postings
 }
 
-func TestWordsReferencingListsTheWordsOfOneURL(t *testing.T) {
+func TestPurgingThePostingsOfAURLLeavesOtherURLs(t *testing.T) {
 	h := openHarness(t)
-	url := urlHash("u1")
-	h.admit(t, postingOfWordOn(yacymodel.WordHash("w1"), url))
-	h.admit(t, postingOfWordOn(yacymodel.WordHash("w2"), url))
-	h.admit(t, postingOfWordOn(yacymodel.WordHash("w3"), urlHash("other")))
+	url, other := urlHash("u1"), urlHash("other")
+	words := numberedWordsOf(3)
+	h.admit(t, postingsOfWordsOn(words, url)...)
+	h.admit(t, postingOfWordOn(words[0], other))
 
-	if got := h.wordsReferencing(t, url); len(got) != 2 {
-		t.Fatalf("words referencing %q = %v, want 2", url, got)
+	if purged := h.purgePostingsOf(t, url); purged != len(words) {
+		t.Fatalf("purged %d postings of %q, want %d", purged, url, len(words))
+	}
+	for _, word := range words {
+		if _, found := h.postingOf(t, word, url); found {
+			t.Fatalf("posting of %v on %q outlived the purge", word, url)
+		}
+	}
+	if _, found := h.postingOf(t, words[0], other); !found {
+		t.Fatalf("posting on %q was purged with %q", other, url)
 	}
 }
 
-func TestAPurgedPostingDropsOnlyItsWordFromTheURL(t *testing.T) {
+func TestAPurgedPostingLeavesTheOtherPostingsOfItsURL(t *testing.T) {
 	h := openHarness(t)
 	url := urlHash("u1")
 	h.admit(t, postingOfWordOn(yacymodel.WordHash("w1"), url))
@@ -93,9 +93,8 @@ func TestAPurgedPostingDropsOnlyItsWordFromTheURL(t *testing.T) {
 
 	h.purge(t, yacymodel.WordHash("w1"), url)
 
-	got := h.wordsReferencing(t, url)
-	if len(got) != 1 || got[0] != yacymodel.WordHash("w2") {
-		t.Fatalf("words referencing %q after purge = %v, want only w2", url, got)
+	if purged := h.purgePostingsOf(t, url); purged != 1 {
+		t.Fatalf("purged %d postings of %q after one was purged, want only w2", purged, url)
 	}
 }
 
@@ -112,7 +111,11 @@ func TestAPageAdmittedAtOnceHoldsEachPostingOnce(t *testing.T) {
 			t.Fatalf("posting of %v on url not found", word)
 		}
 	}
-	if got := sortedWords(h.wordsReferencing(t, url)); !slices.Equal(got, sortedWords(words)) {
-		t.Fatalf("words referencing url = %v, want %v", got, words)
+	if purged := h.purgePostingsOf(t, url); purged != len(words) {
+		t.Fatalf(
+			"purged %d postings of the url, want each of the %d words once",
+			purged,
+			len(words),
+		)
 	}
 }

@@ -33,7 +33,7 @@ func (c *countingHolds) ObserveReleased(tx *vault.Txn, postings int) {
 	tx.RunAfterCommit(func() { c.released += postings })
 }
 
-var holdingOrigin = rwiorigin.Of(yacymodel.WordHash("origin"), "203.0.113.7")
+var holdingOrigin = rwiorigin.Of("203.0.113.7")
 
 type harness struct {
 	vault    *vault.Vault

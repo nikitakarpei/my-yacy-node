@@ -81,12 +81,7 @@ func (i urlIntake) store(
 		if found {
 			existing = append(existing, hash)
 		}
-		if found &&
-			pagefingerprint.FromMetadata(
-				arrived,
-			).Modified < pagefingerprint.FromMetadata(
-				stored,
-			).Modified {
+		if found && !isDatedLater(arrived, stored) {
 			continue
 		}
 		if err := i.Admit(tx, arrived); err != nil {
@@ -104,6 +99,14 @@ func (i urlIntake) store(
 	}
 
 	return existing, rejected, nil
+}
+
+func isDatedLater(arrived, stored yacymodel.URLMetadata) bool {
+	return pagefingerprint.FromMetadata(
+		arrived,
+	).Modified > pagefingerprint.FromMetadata(
+		stored,
+	).Modified
 }
 
 func (i urlIntake) Admit(tx *vault.Txn, metadata yacymodel.URLMetadata) error {

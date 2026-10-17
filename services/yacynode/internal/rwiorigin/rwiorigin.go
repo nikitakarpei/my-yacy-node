@@ -1,13 +1,12 @@
-// Package rwiorigin names where inbound RWI postings come from: the peer hash
-// the sending peer claims and the network it sends from. Two transfers share an
-// origin only when both match.
+// Package rwiorigin names where inbound RWI postings come from: the network
+// the sending peer sends from. Two transfers share an origin when they come
+// from one network.
 package rwiorigin
 
 import (
 	"net/netip"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -16,12 +15,11 @@ const (
 )
 
 type Origin struct {
-	Peer    yacymodel.Hash
 	Network string
 }
 
-func Of(peer yacymodel.Hash, address string) Origin {
-	return Origin{Peer: peer, Network: networkOf(address)}
+func Of(address string) Origin {
+	return Origin{Network: networkOf(address)}
 }
 
 func networkOf(address string) string {
@@ -39,23 +37,9 @@ func networkOf(address string) string {
 }
 
 func Write(stored *storedfields.Writer, origin Origin) {
-	stored.Bytes(origin.Peer.AppendBytes(nil))
 	stored.Text(origin.Network)
 }
 
 func From(stored *storedfields.Reader) Origin {
-	peer := stored.Bytes("origin peer")
-	origin := Origin{Network: stored.Text("origin network")}
-	if len(peer) == 0 {
-		return origin
-	}
-	parsed, err := yacymodel.ParseHashBytes(peer)
-	if err != nil {
-		stored.Reject("origin peer", err)
-
-		return Origin{}
-	}
-	origin.Peer = parsed
-
-	return origin
+	return Origin{Network: stored.Text("origin network")}
 }

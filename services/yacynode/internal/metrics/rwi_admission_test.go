@@ -12,7 +12,7 @@ import (
 )
 
 const admissionOutcomesMetric = `
-# HELP yacynode_rwiadmission_postings_total Inbound postings by what happened to them.
+# HELP yacynode_rwiadmission_postings_total Inbound postings by what the node decided for them.
 # TYPE yacynode_rwiadmission_postings_total counter
 yacynode_rwiadmission_postings_total{outcome="indexed_newer_version"} 2
 yacynode_rwiadmission_postings_total{outcome="refused_storage_full"} 3

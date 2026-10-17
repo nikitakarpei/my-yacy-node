@@ -50,7 +50,7 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	index, references, admitter, purger, err := rwipostings.Open(
+	index, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -65,7 +65,7 @@ func openHarness(t *testing.T) harness {
 		v,
 		time.Now,
 		nil,
-		urlpostingpurge.New(references, purger, observing),
+		urlpostingpurge.New(purger, observing),
 	)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)

@@ -267,7 +267,7 @@ func openIndexedPage(t *testing.T) indexedPage {
 	t.Helper()
 
 	v := openVault(t, quotaFarAboveUsage)
-	index, references, admitter, purger, err := rwipostings.Open(
+	index, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -285,7 +285,7 @@ func openIndexedPage(t *testing.T) indexedPage {
 		v,
 		time.Now,
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
-		urlpostingpurge.New(references, purger, discardedPurges{}),
+		urlpostingpurge.New(purger, discardedPurges{}),
 	)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)

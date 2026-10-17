@@ -61,7 +61,7 @@ func sampleVersion(t *testing.T) rwiindexedversion.IndexedVersion {
 			Language:      german,
 			DocumentType:  yacymodel.DocumentTypeText,
 		},
-		Origin: rwiorigin.Of(yacymodel.WordHash("peer"), "203.0.113.7"),
+		Origin: rwiorigin.Of("203.0.113.7"),
 	}
 }
 

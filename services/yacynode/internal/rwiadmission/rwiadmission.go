@@ -67,20 +67,24 @@ func Open(
 	escrow Escrow,
 	indexedVersions IndexedVersions,
 	postings rwipostings.PostingIndex,
-	references rwipostings.URLReferences,
 	admitter rwipostings.PostingAdmitter,
 	purger rwipostings.PostingPurger,
 	stopwords Stopwords,
 	observer Observer,
 	now func() time.Time,
 	config Config,
-) PostingAdmission {
-	swapAllowance := newSwapAllowance(
-		indexedVersions,
-		now,
-		config.SwapFloorPerHour,
-		config.SwapSharePerHour,
-	)
+) (PostingAdmission, error) {
+	windows, err := registerSwapWindows(v)
+	if err != nil {
+		return PostingAdmission{}, err
+	}
+	swapAllowance := swapAllowance{
+		windows:         windows,
+		indexedVersions: indexedVersions,
+		now:             now,
+		floorPerHour:    config.SwapFloorPerHour,
+		sharePerHour:    config.SwapSharePerHour,
+	}
 
 	return PostingAdmission{
 		vault:  v,
@@ -93,7 +97,6 @@ func Open(
 			now:             now,
 		},
 		indexedVersions: indexedVersions,
-		references:      references,
 		admitter:        admitter,
 		purger:          purger,
 		swapAllowance:   swapAllowance,
@@ -101,5 +104,5 @@ func Open(
 		observer:        observer,
 		postingCap:      config.PostingCap,
 		pause:           config.Pause,
-	}
+	}, nil
 }

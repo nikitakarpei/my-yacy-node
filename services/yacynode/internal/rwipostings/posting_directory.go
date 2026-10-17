@@ -73,22 +73,6 @@ func postingWithIdentity(
 	return storedPosting
 }
 
-func (d postingDirectory) WordsReferencing(
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-) ([]yacymodel.Hash, error) {
-	var words []yacymodel.Hash
-	if err := d.urlReferences.Scan(tx, url, func(identity postingIdentity) (bool, error) {
-		words = append(words, identity.word)
-
-		return true, nil
-	}); err != nil {
-		return nil, fmt.Errorf("scan words referencing a url: %w", err)
-	}
-
-	return words, nil
-}
-
 func (d postingDirectory) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
 	if err := d.postings.PutEach(tx, keyedPostingsOf(postings)); err != nil {
 		return fmt.Errorf("store rwi postings: %w", err)
@@ -145,9 +129,45 @@ func (d postingDirectory) PurgePostingsOfWordIn(
 	return amountOfPurgedPostings, nil
 }
 
+func (d postingDirectory) PurgePostingsOf(
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+) (amountOfPurgedPostings int, err error) {
+	words, err := d.wordsReferencing(tx, url)
+	if err != nil {
+		return 0, err
+	}
+	for _, word := range words {
+		wasPurged, err := d.PurgePosting(tx, word, url)
+		if err != nil {
+			return 0, err
+		}
+		if wasPurged {
+			amountOfPurgedPostings++
+		}
+	}
+
+	return amountOfPurgedPostings, nil
+}
+
+func (d postingDirectory) wordsReferencing(
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+) ([]yacymodel.Hash, error) {
+	var words []yacymodel.Hash
+	if err := d.urlReferences.Scan(tx, url, func(identity postingIdentity) (bool, error) {
+		words = append(words, identity.word)
+
+		return true, nil
+	}); err != nil {
+		return nil, fmt.Errorf("scan words referencing a url: %w", err)
+	}
+
+	return words, nil
+}
+
 var (
 	_ PostingIndex    = postingDirectory{}
-	_ URLReferences   = postingDirectory{}
 	_ PostingAdmitter = postingDirectory{}
 	_ PostingPurger   = postingDirectory{}
 )

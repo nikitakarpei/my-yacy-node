@@ -286,6 +286,7 @@ deps:
       - pagefingerprint
     canUse:
       - vault
+      - storedfields
   rwiingress:
     mayDependOn:
       - rwiadmission

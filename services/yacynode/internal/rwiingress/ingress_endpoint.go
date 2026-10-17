@@ -48,7 +48,7 @@ func (e transferRWIEndpoint) Serve(
 		slog.Int("receivedEntryCount", len(req.Indexes)),
 	)
 
-	origin := rwiorigin.Of(req.Iam, httpguard.RemoteAddr(ctx))
+	origin := rwiorigin.Of(httpguard.RemoteAddr(ctx))
 	receipt, err := e.receiver.Receive(ctx, origin, req.Indexes)
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)

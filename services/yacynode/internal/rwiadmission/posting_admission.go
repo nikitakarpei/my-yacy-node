@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -27,10 +26,9 @@ type PostingAdmission struct {
 	escrow          Escrow
 	judge           postingJudge
 	indexedVersions IndexedVersions
-	references      rwipostings.URLReferences
 	admitter        rwipostings.PostingAdmitter
 	purger          rwipostings.PostingPurger
-	swapAllowance   *swapAllowance
+	swapAllowance   swapAllowance
 	stopwords       Stopwords
 	observer        Observer
 
@@ -61,7 +59,7 @@ func (a PostingAdmission) Receive(
 	}
 
 	postingsWithoutStopwords := a.postingsWithoutStopwordsOf(postings)
-	referenced := urlHashesOf(postingsWithoutStopwords)
+	referenced := referencedURLsOf(postingsWithoutStopwords)
 
 	var unknown []yacymodel.URLHash
 
@@ -71,7 +69,13 @@ func (a PostingAdmission) Receive(
 		if err != nil {
 			return fmt.Errorf("url metadata: %w", err)
 		}
-		awaitedURLs, err := a.placeEach(ctx, tx, origin, postingsWithoutStopwords, metadata)
+		awaitedURLs, err := a.placeEach(
+			ctx,
+			tx,
+			origin,
+			postingsWithoutStopwords,
+			metadataVersionsOf(metadata),
+		)
 		if err != nil {
 			return err
 		}
@@ -117,13 +121,28 @@ func (a PostingAdmission) postingsWithoutStopwordsOf(
 	return postingsWithoutStopwords
 }
 
-func urlHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
-	hashes := make([]yacymodel.URLHash, 0, len(postings))
+func referencedURLsOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
+	referenced := make(map[yacymodel.URLHash]struct{}, len(postings))
+	urls := make([]yacymodel.URLHash, 0, len(postings))
 	for _, posting := range postings {
-		hashes = append(hashes, posting.URLHash)
+		if _, seen := referenced[posting.URLHash]; !seen {
+			referenced[posting.URLHash] = struct{}{}
+			urls = append(urls, posting.URLHash)
+		}
 	}
 
-	return hashes
+	return urls
+}
+
+func metadataVersionsOf(
+	metadata map[yacymodel.URLHash]yacymodel.URLMetadata,
+) map[yacymodel.URLHash]pagefingerprint.Fingerprint {
+	versions := make(map[yacymodel.URLHash]pagefingerprint.Fingerprint, len(metadata))
+	for url, stored := range metadata {
+		versions[url] = pagefingerprint.FromMetadata(stored)
+	}
+
+	return versions
 }
 
 func (a PostingAdmission) observe(tx *vault.Txn, outcome Outcome, postings int) {
@@ -135,9 +154,10 @@ func (a PostingAdmission) placeEach(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
-	metadata map[yacymodel.URLHash]yacymodel.URLMetadata,
+	metadataVersions map[yacymodel.URLHash]pagefingerprint.Fingerprint,
 ) ([]yacymodel.URLHash, error) {
 	var awaitedURLs []yacymodel.URLHash
+	awaited := map[yacymodel.URLHash]struct{}{}
 	for _, posting := range postings {
 		if err := ctx.Err(); err != nil {
 			return nil, fmt.Errorf("context: %w", err)
@@ -146,12 +166,13 @@ func (a PostingAdmission) placeEach(
 			tx,
 			origin,
 			posting,
-			metadataVersionOf(metadata, posting.URLHash),
+			metadataVersionOf(metadataVersions, posting.URLHash),
 		)
 		if err != nil {
 			return nil, err
 		}
-		if wasHeld && !slices.Contains(awaitedURLs, posting.URLHash) {
+		if _, listed := awaited[posting.URLHash]; wasHeld && !listed {
+			awaited[posting.URLHash] = struct{}{}
 			awaitedURLs = append(awaitedURLs, posting.URLHash)
 		}
 	}
@@ -160,15 +181,15 @@ func (a PostingAdmission) placeEach(
 }
 
 func metadataVersionOf(
-	metadata map[yacymodel.URLHash]yacymodel.URLMetadata,
+	metadataVersions map[yacymodel.URLHash]pagefingerprint.Fingerprint,
 	url yacymodel.URLHash,
 ) yacymodel.Optional[pagefingerprint.Fingerprint] {
-	stored, found := metadata[url]
+	version, found := metadataVersions[url]
 	if !found {
 		return yacymodel.None[pagefingerprint.Fingerprint]()
 	}
 
-	return yacymodel.Some(pagefingerprint.FromMetadata(stored))
+	return yacymodel.Some(version)
 }
 
 func (a PostingAdmission) placeReceived(
@@ -181,7 +202,6 @@ func (a PostingAdmission) placeReceived(
 	if err != nil {
 		return false, err
 	}
-	a.observe(tx, outcome, 1)
 	if outcome == OutcomeHeldInEscrow {
 		if err := a.escrow.Hold(tx, origin, posting); err != nil {
 			return false, fmt.Errorf("hold posting: %w", err)
@@ -189,6 +209,7 @@ func (a PostingAdmission) placeReceived(
 
 		return true, nil
 	}
+	a.observe(tx, outcome, 1)
 
 	return false, a.carryOut(tx, origin, posting, outcome)
 }
@@ -239,26 +260,14 @@ func (a PostingAdmission) replaceVersion(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 ) error {
-	a.swapAllowance.spend(tx, origin.Network)
-	if err := a.purgePostingsOf(tx, posting.URLHash); err != nil {
+	if err := a.swapAllowance.spend(tx, origin.Network); err != nil {
 		return err
+	}
+	if _, err := a.purger.PurgePostingsOf(tx, posting.URLHash); err != nil {
+		return fmt.Errorf("purge postings of the replaced page version: %w", err)
 	}
 
 	return a.startVersion(tx, origin, posting)
-}
-
-func (a PostingAdmission) purgePostingsOf(tx *vault.Txn, url yacymodel.URLHash) error {
-	words, err := a.references.WordsReferencing(tx, url)
-	if err != nil {
-		return fmt.Errorf("words of the replaced page version: %w", err)
-	}
-	for _, word := range words {
-		if _, err := a.purger.PurgePosting(tx, word, url); err != nil {
-			return fmt.Errorf("purge posting of the replaced page version: %w", err)
-		}
-	}
-
-	return nil
 }
 
 func (a PostingAdmission) extendVersion(tx *vault.Txn, posting yacymodel.RWIPosting) error {

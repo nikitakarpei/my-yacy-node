@@ -50,7 +50,7 @@ func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) 
 	if err != nil {
 		t.Fatalf("rwiringoccupancy.Open: %v", err)
 	}
-	_, _, admitter, purger, err := rwipostings.Open(
+	_, admitter, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions,

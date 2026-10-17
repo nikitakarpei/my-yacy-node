@@ -13,7 +13,7 @@ type RWIAdmissionMetrics struct {
 func NewRWIAdmissionMetrics(registry prometheus.Registerer) *RWIAdmissionMetrics {
 	outcomes := counterPerLabelFor(
 		"yacynode_rwiadmission_postings_total",
-		"Inbound postings by what happened to them.",
+		"Inbound postings by what the node decided for them.",
 		"outcome",
 	)
 	registry.MustRegister(outcomes)

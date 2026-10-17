@@ -169,7 +169,7 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	if len(receiver.received) != 1 {
 		t.Fatalf("received = %d postings, want 1", len(receiver.received))
 	}
-	if want := rwiorigin.Of(sendingPeer, "192.0.2.1"); receiver.origins[0] != want {
+	if want := rwiorigin.Of("192.0.2.1"); receiver.origins[0] != want {
 		t.Fatalf("origin = %+v, want %+v", receiver.origins[0], want)
 	}
 }

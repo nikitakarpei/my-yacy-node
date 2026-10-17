@@ -94,6 +94,7 @@ const servedURLMetadataPerRequest = 1000
 // (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
 const indexAbstractDocumentsPerAnswer = 10000
 
+//nolint:gocognit // composition root: one error branch per wired unit
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
@@ -193,7 +194,7 @@ func assembleNode(
 		return node{}, err
 	}
 
-	postings, urlReferences, postingAdmitter, postingPurger, err := rwipostings.Open(
+	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
 		ctx,
 		storage,
 		dhtRingPartitions,
@@ -230,7 +231,6 @@ func assembleNode(
 	metrics.NewRWIEscrowCapacityMetrics(registry, storage, postingEscrow)
 
 	urlPostingPurge := urlpostingpurge.New(
-		urlReferences,
 		postingPurger,
 		metrics.NewURLPostingPurgeMetrics(registry),
 	)
@@ -251,13 +251,12 @@ func assembleNode(
 	}
 
 	stopwordHashes := stopwordhashes.New()
-	postingAdmission := rwiadmission.Open(
+	postingAdmission, err := rwiadmission.Open(
 		storage,
 		urlDirectory,
 		postingEscrow,
 		indexedVersions,
 		postings,
-		urlReferences,
 		postingAdmitter,
 		postingPurger,
 		stopwordHashes,
@@ -270,6 +269,9 @@ func assembleNode(
 			SwapSharePerHour: pageVersionSwapSharePerHour,
 		},
 	)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi admission: %w", err)
+	}
 	admissionRelay.forwardTo(postingAdmission)
 
 	pageReceiver := pageadmission.Open(

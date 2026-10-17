@@ -5,13 +5,10 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
 
 func TestOriginsFromOneNetworkShareIt(t *testing.T) {
-	peer := yacymodel.WordHash("peer")
-
 	for _, c := range []struct {
 		name    string
 		address string
@@ -23,7 +20,7 @@ func TestOriginsFromOneNetworkShareIt(t *testing.T) {
 		{name: "unparsable address stays as given", address: "unknown", want: "unknown"},
 	} {
 		t.Run(c.name, func(t *testing.T) {
-			if got := rwiorigin.Of(peer, c.address); got.Network != c.want || got.Peer != peer {
+			if got := rwiorigin.Of(c.address); got.Network != c.want {
 				t.Fatalf("Of(%q) = %+v, want network %q", c.address, got, c.want)
 			}
 		})
@@ -33,7 +30,7 @@ func TestOriginsFromOneNetworkShareIt(t *testing.T) {
 var errBadRecord = errors.New("bad record")
 
 func TestStoredOriginReadsBackAsWritten(t *testing.T) {
-	written := rwiorigin.Of(yacymodel.WordHash("peer"), "203.0.113.77")
+	written := rwiorigin.Of("203.0.113.77")
 	var stored storedfields.Writer
 	rwiorigin.Write(&stored, written)
 
@@ -48,17 +45,5 @@ func TestRecordWithoutOriginReadsAsNoOrigin(t *testing.T) {
 
 	if read := rwiorigin.From(reader); read != (rwiorigin.Origin{}) || reader.Err() != nil {
 		t.Fatalf("From = %+v (err %v), want no origin", read, reader.Err())
-	}
-}
-
-func TestOriginWithAMalformedPeerIsRejected(t *testing.T) {
-	var stored storedfields.Writer
-	stored.Bytes([]byte("short"))
-	stored.Text("203.0.113.0/24")
-
-	reader := storedfields.ReaderOf(stored.Record(), errBadRecord)
-	rwiorigin.From(reader)
-	if !errors.Is(reader.Err(), errBadRecord) {
-		t.Fatalf("err = %v, want %v", reader.Err(), errBadRecord)
 	}
 }

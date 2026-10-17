@@ -13,10 +13,6 @@ type Observer interface {
 	ObservePostingsPurgedWithURL(tx *vault.Txn, url yacymodel.URLHash, amountOfPostings int)
 }
 
-func New(
-	references rwipostings.URLReferences,
-	purger rwipostings.PostingPurger,
-	observer Observer,
-) URLPostingPurge {
-	return URLPostingPurge{references: references, purger: purger, observer: observer}
+func New(purger rwipostings.PostingPurger, observer Observer) URLPostingPurge {
+	return URLPostingPurge{purger: purger, observer: observer}
 }
