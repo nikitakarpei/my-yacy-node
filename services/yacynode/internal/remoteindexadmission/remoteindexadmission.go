@@ -48,8 +48,8 @@ type Stopwords interface {
 }
 
 type Observer interface {
-	ObserveReceivedPostings(outcome PostingOutcome, postings int)
-	ObserveReleasedPostings(outcome PostingOutcome, postings int)
+	ObserveReceivedPostings(outcome ReceivedPostingOutcome, postings int)
+	ObserveReleasedPostings(placement PostingPlacement, postings int)
 	ObserveURLMetadata(outcome URLMetadataOutcome, records int)
 }
 

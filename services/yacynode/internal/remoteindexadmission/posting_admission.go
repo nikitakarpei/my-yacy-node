@@ -16,19 +16,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-type PostingOutcome string
+type ReceivedPostingOutcome string
 
 const (
-	PostingHeldInEscrow           PostingOutcome = "held_in_escrow"
-	PostingIndexed                PostingOutcome = "indexed"
-	PostingDroppedAlreadyIndexed  PostingOutcome = "dropped_already_indexed"
-	PostingDroppedOtherVersion    PostingOutcome = "dropped_other_version"
-	PostingDroppedOtherNetwork    PostingOutcome = "dropped_other_network"
-	PostingDroppedFutureDate      PostingOutcome = "dropped_future_date"
-	PostingDroppedStopword        PostingOutcome = "dropped_stopword"
-	PostingRefusedTooManyPostings PostingOutcome = "refused_too_many_postings"
-	PostingRefusedStorageFull     PostingOutcome = "refused_storage_full"
-	PostingRefusedEscrowFull      PostingOutcome = "refused_escrow_full"
+	PostingHeldInEscrow           ReceivedPostingOutcome = "held_in_escrow"
+	PostingDroppedFutureDate      ReceivedPostingOutcome = "dropped_future_date"
+	PostingDroppedStopword        ReceivedPostingOutcome = "dropped_stopword"
+	PostingRefusedTooManyPostings ReceivedPostingOutcome = "refused_too_many_postings"
+	PostingRefusedStorageFull     ReceivedPostingOutcome = "refused_storage_full"
+	PostingRefusedEscrowFull      ReceivedPostingOutcome = "refused_escrow_full"
+)
+
+type PostingPlacement string
+
+const (
+	PostingIndexed               PostingPlacement = "indexed"
+	PostingDroppedAlreadyIndexed PostingPlacement = "dropped_already_indexed"
+	PostingDroppedOtherVersion   PostingPlacement = "dropped_other_version"
+	PostingDroppedOtherNetwork   PostingPlacement = "dropped_other_network"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -88,7 +93,7 @@ func (a PostingAdmission) Receive(
 }
 
 func (a PostingAdmission) busyReceiptRefusing(
-	outcome PostingOutcome,
+	outcome ReceivedPostingOutcome,
 	postings []yacymodel.RWIPosting,
 ) PostingReceipt {
 	a.observer.ObserveReceivedPostings(outcome, len(postings))
@@ -157,7 +162,7 @@ func (a PostingAdmission) admit(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 	storedVersion yacymodel.Optional[urlmeta.CurrentVersion],
-) (PostingOutcome, error) {
+) (ReceivedPostingOutcome, error) {
 	postingFingerprint := pagefingerprint.FromPosting(posting)
 	currentVersion, metadataStored := storedVersion.Get()
 	switch {
@@ -167,7 +172,39 @@ func (a PostingAdmission) admit(
 		return PostingDroppedFutureDate, nil
 	case !metadataStored || currentVersion.IsOlderThan(postingFingerprint):
 		return a.hold(tx, origin, posting)
-	case !currentVersion.Describes(postingFingerprint):
+	}
+	placement, err := a.place(tx, origin, posting, currentVersion)
+
+	return ReceivedPostingOutcome(placement), err
+}
+
+func (a PostingAdmission) hold(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+) (ReceivedPostingOutcome, error) {
+	escrowFull, err := a.escrow.IsFull(tx)
+	if err != nil {
+		return "", fmt.Errorf("check escrow capacity: %w", err)
+	}
+	if escrowFull {
+		return "", errEscrowFull
+	}
+	if err := a.escrow.Hold(tx, origin, posting); err != nil {
+		return "", fmt.Errorf("hold posting: %w", err)
+	}
+
+	return PostingHeldInEscrow, nil
+}
+
+func (a PostingAdmission) place(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+	currentVersion urlmeta.CurrentVersion,
+) (PostingPlacement, error) {
+	switch {
+	case !currentVersion.Describes(pagefingerprint.FromPosting(posting)):
 		return PostingDroppedOtherVersion, nil
 	case !currentVersion.CameFrom(origin):
 		return PostingDroppedOtherNetwork, nil
@@ -183,25 +220,6 @@ func (a PostingAdmission) admit(
 	return a.write(tx, posting)
 }
 
-func (a PostingAdmission) hold(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-) (PostingOutcome, error) {
-	escrowFull, err := a.escrow.IsFull(tx)
-	if err != nil {
-		return "", fmt.Errorf("check escrow capacity: %w", err)
-	}
-	if escrowFull {
-		return "", errEscrowFull
-	}
-	if err := a.escrow.Hold(tx, origin, posting); err != nil {
-		return "", fmt.Errorf("hold posting: %w", err)
-	}
-
-	return PostingHeldInEscrow, nil
-}
-
 func (a PostingAdmission) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (bool, error) {
 	_, indexed, err := a.postings.PostingOf(tx, posting.WordHash, posting.URLHash)
 	if err != nil {
@@ -214,7 +232,7 @@ func (a PostingAdmission) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting)
 func (a PostingAdmission) write(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
-) (PostingOutcome, error) {
+) (PostingPlacement, error) {
 	if err := a.postingWriter.Write(tx, posting); err != nil {
 		return "", fmt.Errorf("write posting: %w", err)
 	}
@@ -222,7 +240,7 @@ func (a PostingAdmission) write(
 	return PostingIndexed, nil
 }
 
-func (a PostingAdmission) admitWaitingFor(
+func (a PostingAdmission) releaseWaitingFor(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 	currentVersion urlmeta.CurrentVersion,
@@ -251,11 +269,11 @@ func (a PostingAdmission) release(
 	if err := a.escrow.Release(tx, waiting.Posting); err != nil {
 		return fmt.Errorf("release posting: %w", err)
 	}
-	outcome, err := a.admit(tx, waiting.Origin, waiting.Posting, yacymodel.Some(currentVersion))
+	placement, err := a.place(tx, waiting.Origin, waiting.Posting, currentVersion)
 	if err != nil {
 		return err
 	}
-	tx.RunAfterCommit(func() { a.observer.ObserveReleasedPostings(outcome, 1) })
+	tx.RunAfterCommit(func() { a.observer.ObserveReleasedPostings(placement, 1) })
 
 	return nil
 }

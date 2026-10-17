@@ -163,7 +163,7 @@ func (i URLMetadataIntake) write(
 		return err
 	}
 
-	return i.postings.admitWaitingFor(tx, arrived.Hash, currentVersion)
+	return i.postings.releaseWaitingFor(tx, arrived.Hash, currentVersion)
 }
 
 func (i URLMetadataIntake) replaceWith(
