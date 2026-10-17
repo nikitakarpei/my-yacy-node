@@ -29,11 +29,6 @@ type discardedPurges struct{}
 
 func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
 
-type discardedHolds struct{}
-
-func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
-func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
-
 type observedAdmission struct {
 	received    map[remoteindexadmission.ReceivedPostingOutcome]int
 	released    map[remoteindexadmission.PostingPlacement]int
@@ -121,7 +116,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	escrow, err := rwiescrow.Open(context.Background(), v, discardedHolds{}, escrowCapacity, now)
+	escrow, err := rwiescrow.Open(context.Background(), v, escrowCapacity, now)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}

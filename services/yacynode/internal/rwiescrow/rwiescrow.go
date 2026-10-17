@@ -13,11 +13,6 @@ import (
 
 var _ PostingExpiry = (*PostingEscrow)(nil)
 
-type HoldObserver interface {
-	ObserveHeld(tx *vault.Txn, postings int)
-	ObserveReleased(tx *vault.Txn, postings int)
-}
-
 type ExpiryObserver interface {
 	ObserveExpired(postings int)
 	ObserveExpiryFailure()
@@ -36,7 +31,6 @@ type ExpiryConfig struct {
 func Open(
 	ctx context.Context,
 	v *vault.Vault,
-	observer HoldObserver,
 	capacity int,
 	now func() time.Time,
 ) (*PostingEscrow, error) {
@@ -49,7 +43,6 @@ func Open(
 		vault:    v,
 		escrowed: escrowed,
 		holds:    holds,
-		observer: observer,
 		capacity: capacity,
 		now:      now,
 	}, nil

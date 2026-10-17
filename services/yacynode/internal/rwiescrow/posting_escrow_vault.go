@@ -57,30 +57,30 @@ func postingHoldOf(identity postingIdentity, escrowed escrowedPosting) postingHo
 	return postingHold{HeldAt: escrowed.HeldAt, Posting: identity}
 }
 
-var pageVersionKeyPart = vault.BytesKeyPartFrom(pagefingerprint.AppendBytes, pageVersionFrom)
+var fingerprintKeyPart = vault.BytesKeyPartFrom(pagefingerprint.AppendBytes, fingerprintFrom)
 
-func pageVersionFrom(stored vault.StoredBytes) (pagefingerprint.Fingerprint, error) {
+func fingerprintFrom(stored vault.StoredBytes) (pagefingerprint.Fingerprint, error) {
 	return pagefingerprint.ParseBytes(stored.AppendTo(nil))
 }
 
 var escrowedPostingKeyParts = vault.TripleKey(
 	hashkeypart.URLHash,
 	hashkeypart.Hash,
-	pageVersionKeyPart,
+	fingerprintKeyPart,
 )
 
 var escrowedPostingKeyLayout = escrowedPostingKeyParts.KeyLayoutFor(
 	func(
 		posting postingIdentity,
 	) (yacymodel.URLHash, yacymodel.Hash, pagefingerprint.Fingerprint) {
-		return posting.URL, posting.Word, posting.Version
+		return posting.URL, posting.Word, posting.Fingerprint
 	},
 	func(
 		url yacymodel.URLHash,
 		word yacymodel.Hash,
-		version pagefingerprint.Fingerprint,
+		fingerprint pagefingerprint.Fingerprint,
 	) postingIdentity {
-		return postingIdentity{Word: word, URL: url, Version: version}
+		return postingIdentity{Word: word, URL: url, Fingerprint: fingerprint}
 	},
 )
 
@@ -127,24 +127,24 @@ var postingHoldKeyParts = vault.QuadKey(
 	vault.TimeKeyPart,
 	hashkeypart.Hash,
 	hashkeypart.URLHash,
-	pageVersionKeyPart,
+	fingerprintKeyPart,
 )
 
 var postingHoldKeyLayout = postingHoldKeyParts.KeyLayoutFor(
 	func(
 		hold postingHold,
 	) (time.Time, yacymodel.Hash, yacymodel.URLHash, pagefingerprint.Fingerprint) {
-		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL, hold.Posting.Version
+		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL, hold.Posting.Fingerprint
 	},
 	func(
 		heldAt time.Time,
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
-		version pagefingerprint.Fingerprint,
+		fingerprint pagefingerprint.Fingerprint,
 	) postingHold {
 		return postingHold{
 			HeldAt:  heldAt,
-			Posting: postingIdentity{Word: word, URL: url, Version: version},
+			Posting: postingIdentity{Word: word, URL: url, Fingerprint: fingerprint},
 		}
 	},
 )

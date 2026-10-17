@@ -12,9 +12,9 @@ import (
 )
 
 type postingIdentity struct {
-	Word    yacymodel.Hash
-	URL     yacymodel.URLHash
-	Version pagefingerprint.Fingerprint
+	Word        yacymodel.Hash
+	URL         yacymodel.URLHash
+	Fingerprint pagefingerprint.Fingerprint
 }
 
 type escrowedPosting struct {
@@ -37,7 +37,6 @@ type PostingEscrow struct {
 	vault    *vault.Vault
 	escrowed *vault.Collection[postingIdentity, escrowedPosting]
 	holds    *vault.ValueIndex[postingHold, postingHold]
-	observer HoldObserver
 	capacity int
 	now      func() time.Time
 }
@@ -47,7 +46,7 @@ func (e *PostingEscrow) Hold(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 ) error {
-	wasReplaced, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
+	_, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
 		HeldAt:  e.now(),
 		Origin:  origin,
 		Posting: posting,
@@ -55,18 +54,15 @@ func (e *PostingEscrow) Hold(
 	if err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
 	}
-	if !wasReplaced {
-		e.observer.ObserveHeld(tx, 1)
-	}
 
 	return nil
 }
 
 func identityOf(posting yacymodel.RWIPosting) postingIdentity {
 	return postingIdentity{
-		Word:    posting.WordHash,
-		URL:     posting.URLHash,
-		Version: pagefingerprint.FromPosting(posting),
+		Word:        posting.WordHash,
+		URL:         posting.URLHash,
+		Fingerprint: pagefingerprint.FromPosting(posting),
 	}
 }
 
@@ -97,12 +93,7 @@ func (e *PostingEscrow) PostingsWaitingFor(
 }
 
 func (e *PostingEscrow) Release(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	if err := e.drop(tx, identityOf(posting)); err != nil {
-		return err
-	}
-	e.observer.ObserveReleased(tx, 1)
-
-	return nil
+	return e.drop(tx, identityOf(posting))
 }
 
 func (e *PostingEscrow) Expire(

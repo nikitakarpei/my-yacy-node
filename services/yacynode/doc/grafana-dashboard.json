@@ -1083,12 +1083,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(yacynode_rwiescrow_postings_held_total{instance=~\"$service_instance\"}[$window])",
+          "expr": "sum by (instance) (rate(yacynode_remoteindexadmission_received_postings_total{outcome=\"held_in_escrow\", instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "start waiting"
         },
         {
           "refId": "B",
-          "expr": "rate(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$window])",
+          "expr": "sum by (instance) (rate(yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "metadata arrived"
         },
         {
@@ -1157,7 +1157,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0) / (clamp_min(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} offset $__interval), 0) + clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (instance) (clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0)) / (sum by (instance) (clamp_min(yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} offset $__interval), 0)) + sum by (instance) (clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "waited too long"
         }
       ],

@@ -20,26 +20,12 @@ const (
 	roomForEveryPosting = 100
 )
 
-type countingHolds struct {
-	held     int
-	released int
-}
-
-func (c *countingHolds) ObserveHeld(tx *vault.Txn, postings int) {
-	tx.RunAfterCommit(func() { c.held += postings })
-}
-
-func (c *countingHolds) ObserveReleased(tx *vault.Txn, postings int) {
-	tx.RunAfterCommit(func() { c.released += postings })
-}
-
 var holdingOrigin = rwiorigin.Of("203.0.113.7")
 
 type harness struct {
-	vault    *vault.Vault
-	escrow   *rwiescrow.PostingEscrow
-	observer *countingHolds
-	clock    time.Time
+	vault  *vault.Vault
+	escrow *rwiescrow.PostingEscrow
+	clock  time.Time
 }
 
 func openHarness(t *testing.T) *harness {
@@ -65,14 +51,12 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 	})
 
 	h := &harness{
-		vault:    v,
-		observer: &countingHolds{},
-		clock:    time.Unix(1700000000, 123456789),
+		vault: v,
+		clock: time.Unix(1700000000, 123456789),
 	}
 	escrow, err := rwiescrow.Open(
 		context.Background(),
 		v,
-		h.observer,
 		capacity,
 		func() time.Time { return h.clock },
 	)
@@ -197,9 +181,6 @@ func TestHeldPostingWaitsForItsURLWithItsOrigin(t *testing.T) {
 	if len(waiting) != 1 || waiting[0].Posting != entry || waiting[0].Origin != holdingOrigin {
 		t.Fatalf("waiting = %+v, want the held posting with its origin", waiting)
 	}
-	if h.observer.held != 1 {
-		t.Fatalf("observed holds = %d, want 1", h.observer.held)
-	}
 }
 
 func TestPostingsWaitingForAURLLeaveOtherURLsOut(t *testing.T) {
@@ -221,9 +202,6 @@ func TestReleasedPostingStopsWaiting(t *testing.T) {
 	waiting := h.waitingFor(t, urlHash("u1"))
 	if len(waiting) != 1 || waiting[0].Posting != kept {
 		t.Fatalf("waiting = %+v, want only the kept posting", waiting)
-	}
-	if h.observer.released != 1 {
-		t.Fatalf("observed releases = %d, want 1", h.observer.released)
 	}
 }
 
@@ -264,9 +242,6 @@ func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 	h.clock = h.clock.Add(holdFor / 2)
 	h.hold(t, entry)
 
-	if h.observer.held != 1 {
-		t.Fatalf("observed holds = %d, want 1 for a re-hold of the same posting", h.observer.held)
-	}
 	if got := h.escrowedCount(t); got != 1 {
 		t.Fatalf("escrowed count = %d, want 1", got)
 	}

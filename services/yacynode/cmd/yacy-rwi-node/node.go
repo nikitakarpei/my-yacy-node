@@ -214,7 +214,6 @@ func assembleNode(
 	postingEscrow, err := rwiescrow.Open(
 		ctx,
 		storage,
-		postingEscrowObserver,
 		config.Escrow.PostingCapacity,
 		now,
 	)
