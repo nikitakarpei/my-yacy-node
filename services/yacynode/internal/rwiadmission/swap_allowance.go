@@ -54,7 +54,11 @@ func (a *swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
 	), nil
 }
 
-func (a *swapAllowance) count(network string) {
+func (a *swapAllowance) spend(tx *vault.Txn, network string) {
+	tx.RunAfterCommit(func() { a.spendCommitted(network) })
+}
+
+func (a *swapAllowance) spendCommitted(network string) {
 	a.mutex.Lock()
 	defer a.mutex.Unlock()
 

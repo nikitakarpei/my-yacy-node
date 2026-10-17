@@ -31,28 +31,23 @@ func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
 func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
 
 type observedAdmission struct {
-	refused  map[rwiadmission.RefusalReason]int
 	outcomes map[rwiadmission.Outcome]int
 }
 
-func (o *observedAdmission) ObserveRefused(reason rwiadmission.RefusalReason, postings int) {
-	o.refused[reason] += postings
-}
-
-func (o *observedAdmission) ObserveOutcome(tx *vault.Txn, outcome rwiadmission.Outcome) {
-	tx.RunAfterCommit(func() { o.outcomes[outcome]++ })
+func (o *observedAdmission) ObserveOutcome(outcome rwiadmission.Outcome, postings int) {
+	o.outcomes[outcome] += postings
 }
 
 type admissionOpenedLater struct {
-	admission *rwiadmission.PostingAdmission
+	admission rwiadmission.PostingAdmission
 }
 
 func (r *admissionOpenedLater) URLStored(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-	storedFingerprint pagefingerprint.Fingerprint,
+	version pagefingerprint.Fingerprint,
 ) error {
-	return r.admission.URLStored(tx, url, storedFingerprint)
+	return r.admission.URLStored(tx, url, version)
 }
 
 func (r *admissionOpenedLater) URLPurged(*vault.Txn, yacymodel.URLHash) error {
@@ -66,8 +61,9 @@ func harnessToday() yacymodel.MicroDate {
 }
 
 var (
-	sendingPeer = rwiorigin.Of(yacymodel.WordHash("sending peer"), "203.0.113.7")
-	otherPeer   = rwiorigin.Of(yacymodel.WordHash("other peer"), "198.51.100.9")
+	sendingPeer   = rwiorigin.Of(yacymodel.WordHash("sending peer"), "203.0.113.7")
+	neighbourPeer = rwiorigin.Of(yacymodel.WordHash("neighbour peer"), "203.0.113.8")
+	otherPeer     = rwiorigin.Of(yacymodel.WordHash("other peer"), "198.51.100.9")
 )
 
 type stopwordThe struct{}
@@ -81,7 +77,7 @@ type harness struct {
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
-	receiver *rwiadmission.PostingAdmission
+	receiver rwiadmission.PostingAdmission
 	observed *observedAdmission
 	clock    *time.Time
 }
@@ -133,10 +129,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
-	observed := &observedAdmission{
-		refused:  map[rwiadmission.RefusalReason]int{},
-		outcomes: map[rwiadmission.Outcome]int{},
-	}
+	observed := &observedAdmission{outcomes: map[rwiadmission.Outcome]int{}}
 	relay.admission = rwiadmission.Open(
 		v,
 		urlDirectory,
@@ -147,12 +140,12 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		admitter,
 		purger,
 		stopwordThe{},
+		observed,
 		now,
 		rwiadmission.Config{
 			PostingCap:       postingCap,
 			Pause:            busyPause,
 			SwapFloorPerHour: 1,
-			Observer:         observed,
 		},
 	)
 
@@ -302,6 +295,9 @@ func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 	if len(receipt.UnknownURL) != 0 {
 		t.Fatalf("UnknownURL = %v, want none: only a stopword names u2", receipt.UnknownURL)
 	}
+	if got := h.observed.outcomes[rwiadmission.OutcomeDroppedStopword]; got != 2 {
+		t.Fatalf("postings dropped as stopwords = %d, want both", got)
+	}
 }
 
 func TestUnknownURLPostingWaitsInEscrow(t *testing.T) {
@@ -386,7 +382,7 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if !receipt.Busy || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
-	if got := h.observed.refused[rwiadmission.RefusalStorageFull]; got != 1 {
+	if got := h.observed.outcomes[rwiadmission.OutcomeRefusedStorageFull]; got != 1 {
 		t.Fatalf("postings refused for a full storage = %d, want all 1 received", got)
 	}
 }
@@ -422,7 +418,7 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	if got := h.heldCount(t); got != 1 {
 		t.Fatalf("held count = %d, want the refused postings to leave nothing behind", got)
 	}
-	if got := h.observed.refused[rwiadmission.RefusalEscrowFull]; got != len(refused) {
+	if got := h.observed.outcomes[rwiadmission.OutcomeRefusedEscrowFull]; got != len(refused) {
 		t.Fatalf("postings refused for a full escrow = %d, want all %d received",
 			got, len(refused))
 	}
@@ -462,7 +458,9 @@ func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
 	if h.indexed(t, oversized[0]) {
 		t.Fatal("a posting of an oversized batch reached the index")
 	}
-	if got := h.observed.refused[rwiadmission.RefusalTooManyPostings]; got != len(oversized) {
+	if got := h.observed.outcomes[rwiadmission.OutcomeRefusedTooManyPostings]; got != len(
+		oversized,
+	) {
 		t.Fatalf("postings refused as too many = %d, want %d", got, len(oversized))
 	}
 }
@@ -644,7 +642,7 @@ func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
 	}
 }
 
-func TestPostingsOfTheIndexedVersionFillInOnlyMissingWordsFromTheirOrigin(t *testing.T) {
+func TestPostingsOfTheIndexedVersionAddOnlyMissingWordsFromItsNetwork(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
 	h.storeMetadataModifiedOn(t, today)
@@ -661,7 +659,8 @@ func TestPostingsOfTheIndexedVersionFillInOnlyMissingWordsFromTheirOrigin(t *tes
 	}{
 		{name: "missing word from the origin", origin: sendingPeer, posting: postingOn("w2", today), want: rwiadmission.OutcomeIndexedMissingWord},
 		{name: "indexed word from the origin", origin: sendingPeer, posting: resent, want: rwiadmission.OutcomeDroppedSameVersion},
-		{name: "missing word from another origin", origin: otherPeer, posting: postingOn("w3", today), want: rwiadmission.OutcomeDroppedSameVersion},
+		{name: "missing word from another network", origin: otherPeer, posting: postingOn("w3", today), want: rwiadmission.OutcomeDroppedSameVersion},
+		{name: "missing word from another peer of the network", origin: neighbourPeer, posting: postingOn("w4", today), want: rwiadmission.OutcomeIndexedMissingWord},
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			before := h.observed.outcomes[c.want]
@@ -677,8 +676,9 @@ func TestPostingsOfTheIndexedVersionFillInOnlyMissingWordsFromTheirOrigin(t *tes
 			}
 		})
 	}
-	if !h.indexed(t, postingOn("w2", today)) || h.indexed(t, postingOn("w3", today)) {
-		t.Fatal("fill-in admitted the wrong postings")
+	if !h.indexed(t, postingOn("w2", today)) || h.indexed(t, postingOn("w3", today)) ||
+		!h.indexed(t, postingOn("w4", today)) {
+		t.Fatal("missing words admitted the wrong postings")
 	}
 	if h.indexedPosting(t, first).Hits != first.Hits {
 		t.Fatal("a resent word replaced the indexed posting")

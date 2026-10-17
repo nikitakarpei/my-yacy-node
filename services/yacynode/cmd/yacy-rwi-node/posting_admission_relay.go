@@ -1,32 +1,34 @@
 package main
 
 import (
-	"sync/atomic"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 )
 
-type postingAdmissionRelay struct {
-	admission atomic.Pointer[rwiadmission.PostingAdmission]
+type urlStoredObserver interface {
+	URLStored(tx *vault.Txn, url yacymodel.URLHash, version pagefingerprint.Fingerprint) error
 }
 
-func (r *postingAdmissionRelay) forwardTo(admission *rwiadmission.PostingAdmission) {
-	r.admission.Store(admission)
+// TECHDEBT: Structure — the relay owns no state, endpoint or value type; it only breaks the construction cycle between urlmeta and rwiadmission.
+type postingAdmissionRelay struct {
+	admission urlStoredObserver
+}
+
+func (r *postingAdmissionRelay) forwardTo(admission urlStoredObserver) {
+	r.admission = admission
 }
 
 func (r *postingAdmissionRelay) URLStored(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-	storedFingerprint pagefingerprint.Fingerprint,
+	version pagefingerprint.Fingerprint,
 ) error {
-	if admission := r.admission.Load(); admission != nil {
-		return admission.URLStored(tx, url, storedFingerprint)
+	if r.admission == nil {
+		return nil
 	}
 
-	return nil
+	return r.admission.URLStored(tx, url, version)
 }
 
 func (r *postingAdmissionRelay) URLPurged(*vault.Txn, yacymodel.URLHash) error {

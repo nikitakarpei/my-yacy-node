@@ -35,13 +35,7 @@ type indexedVersionCodec struct{}
 
 func (indexedVersionCodec) Encode(indexed IndexedVersion) ([]byte, error) {
 	var stored storedfields.Writer
-	fingerprint := indexed.Fingerprint
-	stored.Varint(int64(fingerprint.Modified))
-	stored.Count(fingerprint.LocalLinks)
-	stored.Count(fingerprint.ExternalLinks)
-	stored.Count(fingerprint.TitleWords)
-	stored.Text(fingerprint.Language.String())
-	stored.Byte(byte(fingerprint.DocumentType))
+	pagefingerprint.Write(&stored, indexed.Fingerprint)
 	rwiorigin.Write(&stored, indexed.Origin)
 
 	return stored.Record(), nil
@@ -49,30 +43,11 @@ func (indexedVersionCodec) Encode(indexed IndexedVersion) ([]byte, error) {
 
 func (indexedVersionCodec) Decode(raw []byte) (IndexedVersion, error) {
 	stored := storedfields.ReaderOf(raw, errBadIndexedVersion)
-	fingerprint := pagefingerprint.Fingerprint{
-		Modified:      yacymodel.MicroDate(stored.Varint("modified")),
-		LocalLinks:    stored.Count("local links"),
-		ExternalLinks: stored.Count("external links"),
-		TitleWords:    stored.Count("title words"),
-		Language:      languageFrom(stored),
-		DocumentType:  yacymodel.DocumentType(stored.Byte("document type")),
-	}
+	fingerprint := pagefingerprint.From(stored)
 	origin := rwiorigin.From(stored)
 	if err := stored.Err(); err != nil {
 		return IndexedVersion{}, err
 	}
 
 	return IndexedVersion{Fingerprint: fingerprint, Origin: origin}, nil
-}
-
-func languageFrom(stored *storedfields.Reader) yacymodel.Language {
-	var code [yacymodel.LanguageCodeLength]byte
-	language, err := yacymodel.ParseLanguageBytes(stored.AppendBytes(code[:0], "language"))
-	if err != nil {
-		stored.Reject("language", err)
-
-		return yacymodel.Language{}
-	}
-
-	return language
 }

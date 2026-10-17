@@ -28,6 +28,10 @@ func (parts QuadKeyParts[A, B, C, D]) KeysWithFirst(first A) KeyRange {
 	return parts.first.keysWith(first)
 }
 
+func (parts QuadKeyParts[A, B, C, D]) KeysBeforeFirst(first A) KeyRange {
+	return parts.first.keysBefore(first)
+}
+
 func (parts QuadKeyParts[A, B, C, D]) KeysWithFirstThroughSecond(first A, second B) KeyRange {
 	return parts.second.keysThrough(second).withPrefix(parts.first.encodingOf(first))
 }

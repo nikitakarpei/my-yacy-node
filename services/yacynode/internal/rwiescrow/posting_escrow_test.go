@@ -421,17 +421,17 @@ func TestReleasedPostingIsNotExpired(t *testing.T) {
 	}
 }
 
-func TestEscrowKeepsTheNewerOfTwoHeldVersions(t *testing.T) {
+func TestEscrowHoldsEachVersionOfAWordApart(t *testing.T) {
 	h := openHarness(t)
 	newer, older := posting("w1", "u1"), posting("w1", "u1")
-	newer.LastModified, newer.Hits = 20000, 2
-	older.LastModified, older.Hits = 19000, 1
+	newer.LastModified = 20000
+	older.LastModified = 19000
 
-	h.hold(t, newer)
-	h.hold(t, older)
+	h.hold(t, newer, older)
+	h.release(t, older)
 
 	waiting := h.waitingFor(t, newer.URLHash)
-	if len(waiting) != 1 || waiting[0].Posting.Hits != newer.Hits {
-		t.Fatalf("waiting = %+v, want only the newer version", waiting)
+	if len(waiting) != 1 || waiting[0].Posting != newer {
+		t.Fatalf("waiting = %+v, want the newer version still waiting", waiting)
 	}
 }

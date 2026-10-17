@@ -14,20 +14,24 @@ import (
 type Outcome string
 
 const (
-	OutcomeHeldInEscrow         Outcome = "held_in_escrow"
-	OutcomeIndexedFirstVersion  Outcome = "indexed_first_version"
-	OutcomeIndexedMissingWord   Outcome = "indexed_missing_word"
-	OutcomeIndexedNewerVersion  Outcome = "indexed_newer_version"
-	OutcomeDroppedSameVersion   Outcome = "dropped_same_version"
-	OutcomeDroppedOtherVersion  Outcome = "dropped_other_version"
-	OutcomeDroppedFutureDate    Outcome = "dropped_future_date"
-	OutcomeDroppedOverSwapLimit Outcome = "dropped_over_swap_limit"
+	OutcomeHeldInEscrow           Outcome = "held_in_escrow"
+	OutcomeIndexedFirstVersion    Outcome = "indexed_first_version"
+	OutcomeIndexedMissingWord     Outcome = "indexed_missing_word"
+	OutcomeIndexedNewerVersion    Outcome = "indexed_newer_version"
+	OutcomeDroppedSameVersion     Outcome = "dropped_same_version"
+	OutcomeDroppedOtherVersion    Outcome = "dropped_other_version"
+	OutcomeDroppedFutureDate      Outcome = "dropped_future_date"
+	OutcomeDroppedOverSwapLimit   Outcome = "dropped_over_swap_limit"
+	OutcomeDroppedStopword        Outcome = "dropped_stopword"
+	OutcomeRefusedTooManyPostings Outcome = "refused_too_many_postings"
+	OutcomeRefusedStorageFull     Outcome = "refused_storage_full"
+	OutcomeRefusedEscrowFull      Outcome = "refused_escrow_full"
 )
 
 type postingJudge struct {
 	indexedVersions IndexedVersions
 	postings        rwipostings.PostingIndex
-	swaps           *swapAllowance
+	swapAllowance   *swapAllowance
 	now             func() time.Time
 }
 
@@ -35,27 +39,27 @@ func (j postingJudge) outcomeOf(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	storedFingerprint yacymodel.Optional[pagefingerprint.Fingerprint],
+	metadataVersion yacymodel.Optional[pagefingerprint.Fingerprint],
 ) (Outcome, error) {
-	postingFingerprint := pagefingerprint.OfPosting(posting)
-	metadataFingerprint, metadataStored := storedFingerprint.Get()
+	postingVersion := pagefingerprint.FromPosting(posting)
+	currentVersion, metadataStored := metadataVersion.Get()
 	switch {
-	case postingFingerprint.IsDatedAfter(j.now()):
+	case postingVersion.IsDatedAfter(j.now()):
 		return OutcomeDroppedFutureDate, nil
-	case !metadataStored || postingFingerprint.Modified > metadataFingerprint.Modified:
+	case !metadataStored || postingVersion.Modified > currentVersion.Modified:
 		return OutcomeHeldInEscrow, nil
-	case postingFingerprint != metadataFingerprint:
+	case postingVersion != currentVersion:
 		return OutcomeDroppedOtherVersion, nil
 	}
 
-	return j.outcomeAgainstIndexedVersion(tx, origin, posting, postingFingerprint)
+	return j.outcomeAgainstIndexedVersion(tx, origin, posting, postingVersion)
 }
 
 func (j postingJudge) outcomeAgainstIndexedVersion(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	postingFingerprint pagefingerprint.Fingerprint,
+	postingVersion pagefingerprint.Fingerprint,
 ) (Outcome, error) {
 	indexedVersion, versionIndexed, err := j.indexedVersions.Of(tx, posting.URLHash)
 	if err != nil {
@@ -64,8 +68,8 @@ func (j postingJudge) outcomeAgainstIndexedVersion(
 	if !versionIndexed {
 		return OutcomeIndexedFirstVersion, nil
 	}
-	if indexedVersion.Fingerprint != postingFingerprint {
-		allowed, err := j.swaps.allows(tx, origin.Network)
+	if indexedVersion.Fingerprint != postingVersion {
+		allowed, err := j.swapAllowance.allows(tx, origin.Network)
 		if err != nil {
 			return "", err
 		}
@@ -75,7 +79,7 @@ func (j postingJudge) outcomeAgainstIndexedVersion(
 
 		return OutcomeIndexedNewerVersion, nil
 	}
-	if indexedVersion.Origin != origin {
+	if indexedVersion.Origin.Network != origin.Network {
 		return OutcomeDroppedSameVersion, nil
 	}
 	postingIndexed, err := j.isIndexed(tx, posting)

@@ -22,7 +22,7 @@ type Fingerprint struct {
 	DocumentType  yacymodel.DocumentType
 }
 
-func OfPosting(posting yacymodel.RWIPosting) Fingerprint {
+func FromPosting(posting yacymodel.RWIPosting) Fingerprint {
 	return Fingerprint{
 		Modified:      posting.LastModified,
 		LocalLinks:    posting.LocalLinks % postingCountModulus,
@@ -33,7 +33,7 @@ func OfPosting(posting yacymodel.RWIPosting) Fingerprint {
 	}
 }
 
-func OfMetadata(metadata yacymodel.URLMetadata) Fingerprint {
+func FromMetadata(metadata yacymodel.URLMetadata) Fingerprint {
 	return Fingerprint{
 		Modified:      modifiedDayOf(metadata),
 		LocalLinks:    metadata.LocalLinks % postingCountModulus,

@@ -43,17 +43,8 @@ type Stopwords interface {
 	Contains(word yacymodel.Hash, language yacymodel.Language) bool
 }
 
-type RefusalReason string
-
-const (
-	RefusalTooManyPostings RefusalReason = "too_many_postings"
-	RefusalStorageFull     RefusalReason = "storage_full"
-	RefusalEscrowFull      RefusalReason = "escrow_full"
-)
-
 type Observer interface {
-	ObserveRefused(reason RefusalReason, postings int)
-	ObserveOutcome(tx *vault.Txn, outcome Outcome)
+	ObserveOutcome(outcome Outcome, postings int)
 }
 
 type Receipt struct {
@@ -67,7 +58,6 @@ type Config struct {
 	Pause            time.Duration
 	SwapFloorPerHour int
 	SwapSharePerHour float64
-	Observer         Observer
 }
 
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
@@ -81,33 +71,34 @@ func Open(
 	admitter rwipostings.PostingAdmitter,
 	purger rwipostings.PostingPurger,
 	stopwords Stopwords,
+	observer Observer,
 	now func() time.Time,
 	config Config,
-) *PostingAdmission {
-	swaps := newSwapAllowance(
+) PostingAdmission {
+	swapAllowance := newSwapAllowance(
 		indexedVersions,
 		now,
 		config.SwapFloorPerHour,
 		config.SwapSharePerHour,
 	)
 
-	return &PostingAdmission{
+	return PostingAdmission{
 		vault:  v,
 		urls:   urls,
 		escrow: escrow,
 		judge: postingJudge{
 			indexedVersions: indexedVersions,
 			postings:        postings,
-			swaps:           swaps,
+			swapAllowance:   swapAllowance,
 			now:             now,
 		},
 		indexedVersions: indexedVersions,
 		references:      references,
 		admitter:        admitter,
 		purger:          purger,
-		swaps:           swaps,
+		swapAllowance:   swapAllowance,
 		stopwords:       stopwords,
-		observer:        config.Observer,
+		observer:        observer,
 		postingCap:      config.PostingCap,
 		pause:           config.Pause,
 	}

@@ -19,7 +19,7 @@ import (
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
 
-var _ PostingReceiver = (*PostingAdmission)(nil)
+var _ PostingReceiver = PostingAdmission{}
 
 type PostingAdmission struct {
 	vault           *vault.Vault
@@ -30,7 +30,7 @@ type PostingAdmission struct {
 	references      rwipostings.URLReferences
 	admitter        rwipostings.PostingAdmitter
 	purger          rwipostings.PostingPurger
-	swaps           *swapAllowance
+	swapAllowance   *swapAllowance
 	stopwords       Stopwords
 	observer        Observer
 
@@ -38,15 +38,13 @@ type PostingAdmission struct {
 	pause      time.Duration
 }
 
-func (a *PostingAdmission) Receive(
+func (a PostingAdmission) Receive(
 	ctx context.Context,
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
 ) (Receipt, error) {
 	if len(postings) > a.postingCap {
-		a.observer.ObserveRefused(RefusalTooManyPostings, len(postings))
-
-		return a.busyReceipt(), nil
+		return a.busyReceiptRefusing(OutcomeRefusedTooManyPostings, postings), nil
 	}
 
 	atCapacity, err := a.vault.AtCapacity(ctx)
@@ -54,9 +52,7 @@ func (a *PostingAdmission) Receive(
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)
 	}
 	if atCapacity {
-		a.observer.ObserveRefused(RefusalStorageFull, len(postings))
-
-		return a.busyReceipt(), nil
+		return a.busyReceiptRefusing(OutcomeRefusedStorageFull, postings), nil
 	}
 
 	escrowFull, err := a.escrow.AtCapacity(ctx)
@@ -70,6 +66,7 @@ func (a *PostingAdmission) Receive(
 	var unknown []yacymodel.URLHash
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
+		a.observe(tx, OutcomeDroppedStopword, len(postings)-len(postingsWithoutStopwords))
 		metadata, err := a.urls.MetadataPerHash(tx, referenced)
 		if err != nil {
 			return fmt.Errorf("url metadata: %w", err)
@@ -86,14 +83,10 @@ func (a *PostingAdmission) Receive(
 		return nil
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
-		a.observer.ObserveRefused(RefusalStorageFull, len(postings))
-
-		return a.busyReceipt(), nil
+		return a.busyReceiptRefusing(OutcomeRefusedStorageFull, postings), nil
 	}
 	if errors.Is(err, errEscrowFull) {
-		a.observer.ObserveRefused(RefusalEscrowFull, len(postings))
-
-		return a.busyReceipt(), nil
+		return a.busyReceiptRefusing(OutcomeRefusedEscrowFull, postings), nil
 	}
 	if err != nil {
 		return Receipt{}, fmt.Errorf("receive rwi: %w", err)
@@ -102,11 +95,16 @@ func (a *PostingAdmission) Receive(
 	return Receipt{UnknownURL: unknown}, nil
 }
 
-func (a *PostingAdmission) busyReceipt() Receipt {
+func (a PostingAdmission) busyReceiptRefusing(
+	outcome Outcome,
+	postings []yacymodel.RWIPosting,
+) Receipt {
+	a.observer.ObserveOutcome(outcome, len(postings))
+
 	return Receipt{Busy: true, Pause: a.pause}
 }
 
-func (a *PostingAdmission) postingsWithoutStopwordsOf(
+func (a PostingAdmission) postingsWithoutStopwordsOf(
 	postings []yacymodel.RWIPosting,
 ) []yacymodel.RWIPosting {
 	postingsWithoutStopwords := make([]yacymodel.RWIPosting, 0, len(postings))
@@ -128,7 +126,11 @@ func urlHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
 	return hashes
 }
 
-func (a *PostingAdmission) placeEach(
+func (a PostingAdmission) observe(tx *vault.Txn, outcome Outcome, postings int) {
+	tx.RunAfterCommit(func() { a.observer.ObserveOutcome(outcome, postings) })
+}
+
+func (a PostingAdmission) placeEach(
 	ctx context.Context,
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
@@ -144,7 +146,7 @@ func (a *PostingAdmission) placeEach(
 			tx,
 			origin,
 			posting,
-			storedFingerprintOf(metadata, posting.URLHash),
+			metadataVersionOf(metadata, posting.URLHash),
 		)
 		if err != nil {
 			return nil, err
@@ -157,29 +159,29 @@ func (a *PostingAdmission) placeEach(
 	return awaitedURLs, nil
 }
 
-func storedFingerprintOf(
+func metadataVersionOf(
 	metadata map[yacymodel.URLHash]yacymodel.URLMetadata,
 	url yacymodel.URLHash,
 ) yacymodel.Optional[pagefingerprint.Fingerprint] {
-	stored, known := metadata[url]
-	if !known {
+	stored, found := metadata[url]
+	if !found {
 		return yacymodel.None[pagefingerprint.Fingerprint]()
 	}
 
-	return yacymodel.Some(pagefingerprint.OfMetadata(stored))
+	return yacymodel.Some(pagefingerprint.FromMetadata(stored))
 }
 
-func (a *PostingAdmission) placeReceived(
+func (a PostingAdmission) placeReceived(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	storedFingerprint yacymodel.Optional[pagefingerprint.Fingerprint],
+	metadataVersion yacymodel.Optional[pagefingerprint.Fingerprint],
 ) (bool, error) {
-	outcome, err := a.judge.outcomeOf(tx, origin, posting, storedFingerprint)
+	outcome, err := a.judge.outcomeOf(tx, origin, posting, metadataVersion)
 	if err != nil {
 		return false, err
 	}
-	a.observer.ObserveOutcome(tx, outcome)
+	a.observe(tx, outcome, 1)
 	if outcome == OutcomeHeldInEscrow {
 		if err := a.escrow.Hold(tx, origin, posting); err != nil {
 			return false, fmt.Errorf("hold posting: %w", err)
@@ -191,7 +193,7 @@ func (a *PostingAdmission) placeReceived(
 	return false, a.carryOut(tx, origin, posting, outcome)
 }
 
-func (a *PostingAdmission) carryOut(
+func (a PostingAdmission) carryOut(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
@@ -199,17 +201,17 @@ func (a *PostingAdmission) carryOut(
 ) error {
 	switch outcome {
 	case OutcomeIndexedFirstVersion:
-		return a.indexFirstVersion(tx, origin, posting)
-	case OutcomeIndexedMissingWord:
-		return a.indexMissingWord(tx, posting)
+		return a.startVersion(tx, origin, posting)
 	case OutcomeIndexedNewerVersion:
-		return a.indexNewerVersion(tx, origin, posting)
+		return a.replaceVersion(tx, origin, posting)
+	case OutcomeIndexedMissingWord:
+		return a.extendVersion(tx, posting)
 	default:
 		return nil
 	}
 }
 
-func (a *PostingAdmission) indexFirstVersion(
+func (a PostingAdmission) startVersion(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
@@ -219,12 +221,12 @@ func (a *PostingAdmission) indexFirstVersion(
 	}
 
 	return a.indexedVersions.Record(tx, posting.URLHash, rwiindexedversion.IndexedVersion{
-		Fingerprint: pagefingerprint.OfPosting(posting),
+		Fingerprint: pagefingerprint.FromPosting(posting),
 		Origin:      origin,
 	})
 }
 
-func (a *PostingAdmission) admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+func (a PostingAdmission) admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	if err := a.admitter.Admit(tx, posting); err != nil {
 		return fmt.Errorf("admit posting: %w", err)
 	}
@@ -232,24 +234,20 @@ func (a *PostingAdmission) admit(tx *vault.Txn, posting yacymodel.RWIPosting) er
 	return nil
 }
 
-func (a *PostingAdmission) indexMissingWord(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return a.admit(tx, posting)
-}
-
-func (a *PostingAdmission) indexNewerVersion(
+func (a PostingAdmission) replaceVersion(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 ) error {
-	tx.RunAfterCommit(func() { a.swaps.count(origin.Network) })
+	a.swapAllowance.spend(tx, origin.Network)
 	if err := a.purgePostingsOf(tx, posting.URLHash); err != nil {
 		return err
 	}
 
-	return a.indexFirstVersion(tx, origin, posting)
+	return a.startVersion(tx, origin, posting)
 }
 
-func (a *PostingAdmission) purgePostingsOf(tx *vault.Txn, url yacymodel.URLHash) error {
+func (a PostingAdmission) purgePostingsOf(tx *vault.Txn, url yacymodel.URLHash) error {
 	words, err := a.references.WordsReferencing(tx, url)
 	if err != nil {
 		return fmt.Errorf("words of the replaced page version: %w", err)
@@ -263,17 +261,21 @@ func (a *PostingAdmission) purgePostingsOf(tx *vault.Txn, url yacymodel.URLHash)
 	return nil
 }
 
-func (a *PostingAdmission) URLStored(
+func (a PostingAdmission) extendVersion(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	return a.admit(tx, posting)
+}
+
+func (a PostingAdmission) URLStored(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-	storedFingerprint pagefingerprint.Fingerprint,
+	metadataVersion pagefingerprint.Fingerprint,
 ) error {
 	waiting, err := a.escrow.PostingsWaitingFor(tx, url)
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
 	for _, posting := range waiting {
-		if err := a.placeWaiting(tx, posting, storedFingerprint); err != nil {
+		if err := a.placeWaiting(tx, posting, metadataVersion); err != nil {
 			return err
 		}
 	}
@@ -281,16 +283,16 @@ func (a *PostingAdmission) URLStored(
 	return nil
 }
 
-func (a *PostingAdmission) placeWaiting(
+func (a PostingAdmission) placeWaiting(
 	tx *vault.Txn,
 	waiting rwiescrow.WaitingPosting,
-	storedFingerprint pagefingerprint.Fingerprint,
+	metadataVersion pagefingerprint.Fingerprint,
 ) error {
 	outcome, err := a.judge.outcomeOf(
 		tx,
 		waiting.Origin,
 		waiting.Posting,
-		yacymodel.Some(storedFingerprint),
+		yacymodel.Some(metadataVersion),
 	)
 	if err != nil {
 		return err
@@ -298,7 +300,7 @@ func (a *PostingAdmission) placeWaiting(
 	if outcome == OutcomeHeldInEscrow {
 		return nil
 	}
-	a.observer.ObserveOutcome(tx, outcome)
+	a.observe(tx, outcome, 1)
 	if err := a.carryOut(tx, waiting.Origin, waiting.Posting, outcome); err != nil {
 		return err
 	}

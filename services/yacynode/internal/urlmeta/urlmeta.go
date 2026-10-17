@@ -41,7 +41,7 @@ type URLMetadataObserver interface {
 	URLStored(
 		tx *vault.Txn,
 		hash yacymodel.URLHash,
-		fingerprint pagefingerprint.Fingerprint,
+		version pagefingerprint.Fingerprint,
 	) error
 	URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error
 }

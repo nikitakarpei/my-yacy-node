@@ -15,7 +15,7 @@ func (o observers) stored(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
 		if err := observer.URLStored(
 			tx,
 			metadata.Hash,
-			pagefingerprint.OfMetadata(metadata),
+			pagefingerprint.FromMetadata(metadata),
 		); err != nil {
 			return fmt.Errorf("url metadata observer: %w", err)
 		}

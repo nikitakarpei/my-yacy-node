@@ -64,7 +64,7 @@ func (i urlIntake) store(
 		}
 
 		hash := arrived.Hash
-		if pagefingerprint.OfMetadata(arrived).IsDatedAfter(i.now()) {
+		if pagefingerprint.FromMetadata(arrived).IsDatedAfter(i.now()) {
 			slog.WarnContext(
 				ctx,
 				urlMetadataDiscarded,
@@ -82,9 +82,9 @@ func (i urlIntake) store(
 			existing = append(existing, hash)
 		}
 		if found &&
-			pagefingerprint.OfMetadata(
+			pagefingerprint.FromMetadata(
 				arrived,
-			).Modified < pagefingerprint.OfMetadata(
+			).Modified < pagefingerprint.FromMetadata(
 				stored,
 			).Modified {
 			continue

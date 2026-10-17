@@ -7,12 +7,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
 
 type postingIdentity struct {
-	Word yacymodel.Hash
-	URL  yacymodel.URLHash
+	Word    yacymodel.Hash
+	URL     yacymodel.URLHash
+	Version pagefingerprint.Fingerprint
 }
 
 type escrowedPosting struct {
@@ -45,13 +47,6 @@ func (e *PostingEscrow) Hold(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 ) error {
-	escrowed, found, err := e.escrowed.Get(tx, identityOf(posting))
-	if err != nil {
-		return fmt.Errorf("read escrowed posting: %w", err)
-	}
-	if found && escrowed.Posting.LastModified > posting.LastModified {
-		return nil
-	}
 	wasReplaced, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
 		HeldAt:  e.now(),
 		Origin:  origin,
@@ -68,7 +63,11 @@ func (e *PostingEscrow) Hold(
 }
 
 func identityOf(posting yacymodel.RWIPosting) postingIdentity {
-	return postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
+	return postingIdentity{
+		Word:    posting.WordHash,
+		URL:     posting.URLHash,
+		Version: pagefingerprint.FromPosting(posting),
+	}
 }
 
 func (e *PostingEscrow) PostingsWaitingFor(

@@ -205,7 +205,7 @@ func TestIntakeKeepsHeldMetadataOverAnOlderVersion(t *testing.T) {
 		t.Fatalf("stored title = %q, want the held metadata kept", rows[held.Hash].Title)
 	}
 	if len(observer.storedFingerprints) != 1 ||
-		observer.storedFingerprints[0] != pagefingerprint.OfMetadata(held) {
+		observer.storedFingerprints[0] != pagefingerprint.FromMetadata(held) {
 		t.Fatalf(
 			"stored fingerprints = %v, want only the fingerprint of the held metadata",
 			observer.storedFingerprints,

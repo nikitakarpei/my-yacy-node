@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
@@ -19,7 +20,7 @@ const (
 	postingHoldBucket     vault.Name = "rwi_escrow_expiry"
 )
 
-const postingHoldsVersion = "1"
+const postingHoldsVersion = "2"
 
 func registerPostingEscrow(
 	ctx context.Context,
@@ -56,14 +57,30 @@ func postingHoldOf(identity postingIdentity, escrowed escrowedPosting) postingHo
 	return postingHold{HeldAt: escrowed.HeldAt, Posting: identity}
 }
 
-var escrowedPostingKeyParts = vault.PairKey(hashkeypart.URLHash, hashkeypart.Hash)
+var pageVersionKeyPart = vault.BytesKeyPartFrom(pagefingerprint.AppendBytes, pageVersionFrom)
+
+func pageVersionFrom(stored vault.StoredBytes) (pagefingerprint.Fingerprint, error) {
+	return pagefingerprint.ParseBytes(stored.AppendTo(nil))
+}
+
+var escrowedPostingKeyParts = vault.TripleKey(
+	hashkeypart.URLHash,
+	hashkeypart.Hash,
+	pageVersionKeyPart,
+)
 
 var escrowedPostingKeyLayout = escrowedPostingKeyParts.KeyLayoutFor(
-	func(posting postingIdentity) (yacymodel.URLHash, yacymodel.Hash) {
-		return posting.URL, posting.Word
+	func(
+		posting postingIdentity,
+	) (yacymodel.URLHash, yacymodel.Hash, pagefingerprint.Fingerprint) {
+		return posting.URL, posting.Word, posting.Version
 	},
-	func(url yacymodel.URLHash, word yacymodel.Hash) postingIdentity {
-		return postingIdentity{Word: word, URL: url}
+	func(
+		url yacymodel.URLHash,
+		word yacymodel.Hash,
+		version pagefingerprint.Fingerprint,
+	) postingIdentity {
+		return postingIdentity{Word: word, URL: url, Version: version}
 	},
 )
 
@@ -106,14 +123,29 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	return escrowedPosting{HeldAt: heldAt, Origin: origin, Posting: posting}, nil
 }
 
-var postingHoldKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)
+var postingHoldKeyParts = vault.QuadKey(
+	vault.TimeKeyPart,
+	hashkeypart.Hash,
+	hashkeypart.URLHash,
+	pageVersionKeyPart,
+)
 
 var postingHoldKeyLayout = postingHoldKeyParts.KeyLayoutFor(
-	func(hold postingHold) (time.Time, yacymodel.Hash, yacymodel.URLHash) {
-		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL
+	func(
+		hold postingHold,
+	) (time.Time, yacymodel.Hash, yacymodel.URLHash, pagefingerprint.Fingerprint) {
+		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL, hold.Posting.Version
 	},
-	func(heldAt time.Time, word yacymodel.Hash, url yacymodel.URLHash) postingHold {
-		return postingHold{HeldAt: heldAt, Posting: postingIdentity{Word: word, URL: url}}
+	func(
+		heldAt time.Time,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+		version pagefingerprint.Fingerprint,
+	) postingHold {
+		return postingHold{
+			HeldAt:  heldAt,
+			Posting: postingIdentity{Word: word, URL: url, Version: version},
+		}
 	},
 )
 

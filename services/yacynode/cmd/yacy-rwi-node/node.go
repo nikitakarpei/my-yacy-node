@@ -261,13 +261,13 @@ func assembleNode(
 		postingAdmitter,
 		postingPurger,
 		stopwordHashes,
+		metrics.NewRWIAdmissionMetrics(registry),
 		now,
 		rwiadmission.Config{
 			PostingCap:       peerPostingTransferCap,
 			Pause:            postingAdmissionBusyPause,
 			SwapFloorPerHour: pageVersionSwapFloorPerHour,
 			SwapSharePerHour: pageVersionSwapSharePerHour,
-			Observer:         metrics.NewRWIAdmissionMetrics(registry),
 		},
 	)
 	admissionRelay.forwardTo(postingAdmission)
