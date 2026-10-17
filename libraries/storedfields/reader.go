@@ -3,12 +3,15 @@ package storedfields
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"io"
 	"math"
 	"slices"
 	"time"
 )
+
+var errUnknownCount = errors.New("count is unknown")
 
 type Reader struct {
 	record    *bytes.Reader
@@ -59,22 +62,34 @@ func (r *Reader) Uint16(field string) uint16 {
 }
 
 func (r *Reader) Count(field string) int {
+	count, known := r.KnownCount(field)
+	if !known {
+		r.fail(field, errUnknownCount)
+	}
+
+	return count
+}
+
+func (r *Reader) KnownCount(field string) (count int, known bool) {
 	if r.noFieldRemains() {
-		return 0
+		return 0, true
 	}
 	number, err := binary.ReadUvarint(r.record)
 	if err != nil {
 		r.fail(field, err)
 
-		return 0
+		return 0, true
+	}
+	if number == unknownCount {
+		return 0, false
 	}
 	if number > math.MaxInt {
 		r.fail(field, fmt.Errorf("%d exceeds the largest count", number))
 
-		return 0
+		return 0, true
 	}
 
-	return int(number)
+	return int(number), true
 }
 
 func (r *Reader) Varint(field string) int64 {

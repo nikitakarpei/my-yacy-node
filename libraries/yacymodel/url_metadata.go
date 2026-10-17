@@ -36,7 +36,7 @@ type URLMetadata struct {
 	Loaded           Optional[CalendarDay]
 	FreshUntil       Optional[CalendarDay]
 	MediaType        string
-	ByteSize         int
+	ByteSize         Optional[int]
 	WordCount        int
 	LocalLinks       int
 	ExternalLinks    int

@@ -30,7 +30,7 @@ func (urlMetadataValueCodec) Encode(record storedURLMetadata) ([]byte, error) {
 	stored.Byte(byte(metadata.DocumentType))
 	stored.Text(metadata.MediaType)
 	writeLanguage(&stored, metadata.Language)
-	stored.Count(metadata.ByteSize)
+	writeByteSize(&stored, metadata.ByteSize)
 	stored.Count(metadata.WordCount)
 	stored.Count(metadata.LocalLinks)
 	stored.Count(metadata.ExternalLinks)
@@ -74,7 +74,7 @@ func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
 		DocumentType:     yacymodel.DocumentType(stored.Byte("content type")),
 		MediaType:        stored.Text("media type"),
 		Language:         languageFrom(stored),
-		ByteSize:         stored.Count("byte size"),
+		ByteSize:         byteSizeFrom(stored),
 		WordCount:        stored.Count("word count"),
 		LocalLinks:       stored.Count("local links"),
 		ExternalLinks:    stored.Count("external links"),
@@ -150,6 +150,25 @@ func languageFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Lang
 	}
 
 	return yacymodel.Some(language)
+}
+
+func writeByteSize(stored *storedfields.Writer, byteSize yacymodel.Optional[int]) {
+	size, known := byteSize.Get()
+	if !known {
+		stored.UnknownCount()
+
+		return
+	}
+	stored.Count(size)
+}
+
+func byteSizeFrom(stored *storedfields.Reader) yacymodel.Optional[int] {
+	size, known := stored.KnownCount("byte size")
+	if !known {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(size)
 }
 
 func writeLocation(
