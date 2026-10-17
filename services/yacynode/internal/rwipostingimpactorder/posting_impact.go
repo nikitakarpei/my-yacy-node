@@ -6,6 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+// TECHDEBT: comments — the impact constants carry explanatory comments beyond package docs.
 // The impact is the stored key of the order: a change here needs
 // impactOrderVersion raised, or old and new keys interleave.
 const (

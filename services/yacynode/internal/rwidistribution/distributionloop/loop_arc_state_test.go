@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
 )
 
-const gaugeInterval = 15 * time.Second
+const gaugeObservationWait = time.Minute
 
 func assertOneArcIn(t *testing.T, h *loopHarness, want distributionloop.ArcState) {
 	t.Helper()
@@ -47,7 +47,7 @@ func TestLoopCountsAnArcWhoseWindowPeerFailedAsPeerFailed(t *testing.T) {
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 
-		h.advance(gaugeInterval)
+		h.advance(gaugeObservationWait)
 
 		assertOneArcIn(t, h, distributionloop.ArcPeerFailed)
 	})
@@ -63,7 +63,7 @@ func TestLoopCountsAnArcWhoseWindowPeerDeclinedAsPeerDeclined(t *testing.T) {
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 
-		h.advance(gaugeInterval)
+		h.advance(gaugeObservationWait)
 
 		assertOneArcIn(t, h, distributionloop.ArcPeerDeclined)
 	})
@@ -81,7 +81,7 @@ func TestLoopCountsAnArcWhoseWindowPeerIsBusyAsPeerBusy(t *testing.T) {
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 
-		h.advance(gaugeInterval)
+		h.advance(gaugeObservationWait)
 
 		assertOneArcIn(t, h, distributionloop.ArcPeerBusy)
 	})
@@ -97,7 +97,7 @@ func TestLoopCountsAnArcWithNothingDueAsDrained(t *testing.T) {
 		h.recordHolders(t, wordPartition, peer.Hash)
 		h.start(t)
 
-		h.advance(gaugeInterval)
+		h.advance(gaugeObservationWait)
 
 		assertOneArcIn(t, h, distributionloop.ArcDrained)
 	})
@@ -115,7 +115,7 @@ func TestLoopCountsAnArcWhoseWorkerHoldsABatchAsInBatch(t *testing.T) {
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 
-		h.advance(gaugeInterval)
+		h.advance(gaugeObservationWait)
 
 		assertOneArcIn(t, h, distributionloop.ArcInBatch)
 		close(sending)

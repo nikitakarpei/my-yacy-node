@@ -79,21 +79,6 @@ func TestLoopOffersAgainOnceEnoughPeersAreReachable(t *testing.T) {
 	})
 }
 
-func TestLoopReportsTheBacklogWhileTooFewPeersAreReachable(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		clk := startClock()
-		h := openLoop(t, clk, loopOptions{minReachablePeers: 2})
-		h.admit(t, wordPartitionOf(1), urlsOf(3)...)
-		clk.advance(refreshInterval + time.Minute)
-
-		h.start(t)
-
-		if h.observer.undeliveredPostings != 3 {
-			t.Fatalf("undelivered postings = %d, want 3", h.observer.undeliveredPostings)
-		}
-	})
-}
-
 func TestLoopReportsTheBacklogAgainOnlyWhenItsTimerFires(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		wordPartition := fixtureWordPartition()
@@ -180,6 +165,9 @@ func TestLoopSendsTheWholeWordPartitionToAMissingHolder(t *testing.T) {
 		}
 		if got := h.amountOfUndeliveredPostings(t); got != 0 {
 			t.Fatalf("undelivered postings = %d, want none", got)
+		}
+		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{1, 3, 4}) {
+			t.Fatalf("postings per send = %v, want 3 to the holder, then 1 and 4", got)
 		}
 	})
 }
@@ -493,27 +481,6 @@ func TestLoopKeepsABatchWithinThePostingsPerBatchOfEachPeer(t *testing.T) {
 				"undelivered postings = %d, want the rest of the arc sent in the next batch",
 				got,
 			)
-		}
-	})
-}
-
-func TestLoopObservesOneSendPerPeerOfABatch(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		wordPartition := fixtureWordPartition()
-		holder, missingHolder := peerAfter(wordPartition, 1), peerAfter(wordPartition, 2)
-		h := openLoop(t, startClock(), loopOptions{redundancy: 3})
-		h.transfers.answers[holder.Hash] = acceptedAnswer
-		h.transfers.answers[missingHolder.Hash] = acceptedAnswer
-		h.reach(holder)
-		h.admit(t, wordPartition, urlsOf(3)...)
-		h.start(t)
-
-		h.reach(holder, missingHolder)
-		h.admit(t, wordPartition, urlsOf(4)[3])
-		h.settle()
-
-		if got := h.observer.sortedPostingsPerSend(); !slices.Equal(got, []int{1, 3, 4}) {
-			t.Fatalf("postings per send = %v, want 3 to the holder, then 1 and 4", got)
 		}
 	})
 }

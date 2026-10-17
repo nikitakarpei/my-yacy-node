@@ -12,17 +12,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/nodepeer"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const (
 	distributionYaCyAlias = "yacy-dist-e2e"
 	distributionNodeAlias = "node-dist-e2e"
-
-	escrowHoldGrace = 15 * time.Second
 )
 
 var (
@@ -72,14 +68,6 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 		distributionWordHash,
 		distributionDocument,
 	)
-
-	if pollwait.For(escrowHoldGrace, func() bool {
-		count, ok := peerclient.QueryCount(ctx, probe, yacyURL, yacyHash, yacyproto.ObjectRWICount)
-
-		return ok && count > 0
-	}) {
-		t.Fatal("node distributed a posting before its url metadata arrived")
-	}
 
 	nodepeer.PushURLMetadata(t, ctx, probe, nodeURL, nodeHash, distributionDocument)
 

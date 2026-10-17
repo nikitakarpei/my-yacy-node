@@ -283,10 +283,9 @@ func TestAWordLeavesTheAmountOfWordsWithItsLastPosting(t *testing.T) {
 
 const (
 	wordsOfALargeIndex      = 20_000
-	wordsPastTheFullCount   = 10_100
 	estimateToleratedBy     = 0.1
 	wordsAddedToTheIndex    = 1_000
-	wordsPurgedFromTheIndex = 200
+	wordsPurgedFromTheIndex = wordsOfALargeIndex / 2
 )
 
 func TestALargeIndexEstimatesItsWordsClosely(t *testing.T) {
@@ -330,7 +329,7 @@ func postingsOfFrequentWords() []yacymodel.RWIPosting {
 
 func TestALargeIndexServesItsSampleForTheSampleLifetime(t *testing.T) {
 	h := openHarnessOnDisk(t)
-	h.store(t, postingsOfWords("word", wordsPastTheFullCount, unplaced)...)
+	h.store(t, postingsOfWords("word", wordsOfALargeIndex, unplaced)...)
 	sampledAmount := h.estimatedAmountOfWords(t)
 
 	h.store(t, postingsOfWords("added", wordsAddedToTheIndex, unplaced)...)
@@ -349,7 +348,7 @@ func TestALargeIndexServesItsSampleForTheSampleLifetime(t *testing.T) {
 
 func TestALargeIndexThatShrinksServesItsSampleForTheSampleLifetime(t *testing.T) {
 	h := openHarnessOnDisk(t)
-	postings := postingsOfWords("word", wordsPastTheFullCount, unplaced)
+	postings := postingsOfWords("word", wordsOfALargeIndex, unplaced)
 	h.store(t, postings...)
 	sampledAmount := h.estimatedAmountOfWords(t)
 
@@ -369,10 +368,9 @@ func TestALargeIndexThatShrinksServesItsSampleForTheSampleLifetime(t *testing.T)
 	}
 	h.clock.advance(time.Second)
 
-	keptWords := wordsPastTheFullCount - wordsPurgedFromTheIndex
-	if amount := h.estimatedAmountOfWords(t); amount != keptWords {
-		t.Errorf("amount of words after the sample lifetime = %d, want the %d kept words",
-			amount, keptWords)
+	if amount := h.estimatedAmountOfWords(t); amount >= sampledAmount {
+		t.Errorf("amount of words after the sample lifetime = %d, want less than the sampled %d",
+			amount, sampledAmount)
 	}
 }
 

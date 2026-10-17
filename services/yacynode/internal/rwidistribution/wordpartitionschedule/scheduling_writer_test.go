@@ -36,7 +36,7 @@ func TestSchedulingWriterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 		t.Fatalf("wrapped writer got %v, want [%v]", wrapped.written, posting)
 	}
 	want := yacymodel.WordPartitionOfPosting(posting, h.partitions)
-	if due := h.dueWordPartitions(t, 10); !slices.Equal(due, []yacymodel.WordPartition{want}) {
+	if due := h.dueWordPartitions(t); !slices.Equal(due, []yacymodel.WordPartition{want}) {
 		t.Fatalf("due word partitions = %v, want [%v]", due, want)
 	}
 }
@@ -56,7 +56,7 @@ func TestSchedulingWriterCountsEachPostingWrittenAtOnce(t *testing.T) {
 	if len(observer.positions) != len(postings) {
 		t.Fatalf("reported positions = %v, want one per posting", observer.positions)
 	}
-	if due := h.dueWordPartitions(t, 10); len(due) != len(postings) {
+	if due := h.dueWordPartitions(t); len(due) != len(postings) {
 		t.Fatalf("due word partitions = %v, want one per posting", due)
 	}
 }
@@ -77,7 +77,7 @@ func TestSchedulingWriterReturnsWrappedErrorAndCountsNothing(t *testing.T) {
 	if !errors.Is(err, failure) {
 		t.Fatalf("Write error = %v, want %v", err, failure)
 	}
-	if due := h.dueWordPartitions(t, 10); len(due) != 0 {
+	if due := h.dueWordPartitions(t); len(due) != 0 {
 		t.Fatalf("due word partitions = %v, want none", due)
 	}
 }

@@ -413,20 +413,3 @@ func TestWordPartitionKeptWhileItsHolderIsNotCloserThanThisNode(t *testing.T) {
 	}
 	assertKept(t, h, fixtureWordPartition(), postingsPerFixture)
 }
-
-func TestKeepEveryWordPartitionHandsOffNothing(t *testing.T) {
-	responsiblePeers := []yacymodel.Hash{closerPeer()}
-	amountOfPostingsHandedOff, err := wordpartitionhandoff.KeepEveryWordPartition{}.HandOffIfHeldByResponsiblePeers(
-		context.Background(),
-		nil,
-		fixtureWordPartition(),
-		responsiblePeers,
-		responsiblePeers,
-	)
-	if err != nil {
-		t.Fatalf("HandOffIfHeldByResponsiblePeers: %v", err)
-	}
-	if amountOfPostingsHandedOff != 0 {
-		t.Fatal("word partition handed off, want every word partition kept")
-	}
-}

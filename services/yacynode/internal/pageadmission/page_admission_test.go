@@ -21,21 +21,21 @@ const (
 	pageAddress = "http://example.com/page"
 )
 
-var errAdmissionRefused = errors.New("admission refused")
+var errWriteRefused = errors.New("write refused")
 
 type discardedPurges struct{}
 
 func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
 
-type refusedAdmitter struct {
+type refusedWriter struct {
 	writer rwipostings.PostingWriter
 	word   yacymodel.Hash
 }
 
-func (r refusedAdmitter) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+func (r refusedWriter) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
 	for _, posting := range postings {
 		if posting.WordHash == r.word {
-			return errAdmissionRefused
+			return errWriteRefused
 		}
 	}
 
@@ -58,13 +58,13 @@ type harness struct {
 func openHarness(t *testing.T, quotaBytes int64) harness {
 	t.Helper()
 
-	return openHarnessWithAdmitter(t, quotaBytes, nil)
+	return openHarnessWithWriter(t, quotaBytes, nil)
 }
 
-func openHarnessWithAdmitter(
+func openHarnessWithWriter(
 	t *testing.T,
 	quotaBytes int64,
-	wrapAdmitter func(rwipostings.PostingWriter) rwipostings.PostingWriter,
+	wrapWriter func(rwipostings.PostingWriter) rwipostings.PostingWriter,
 ) harness {
 	t.Helper()
 
@@ -87,8 +87,8 @@ func openHarnessWithAdmitter(
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	if wrapAdmitter != nil {
-		writer = wrapAdmitter(writer)
+	if wrapWriter != nil {
+		writer = wrapWriter(writer)
 	}
 	directory, evictor, metadataWriter, err := urlmeta.Open(
 		context.Background(),
@@ -256,9 +256,9 @@ func TestRecrawledPageWithoutWordsLeavesNoPostingBehind(t *testing.T) {
 }
 
 func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
-	h := openHarnessWithAdmitter(t, 0,
+	h := openHarnessWithWriter(t, 0,
 		func(writer rwipostings.PostingWriter) rwipostings.PostingWriter {
-			return refusedAdmitter{writer: writer, word: yacymodel.WordHash("w3")}
+			return refusedWriter{writer: writer, word: yacymodel.WordHash("w3")}
 		})
 	crawled := pageTitled(t, "before", pageWord{"w1", 1}, pageWord{"w2", 3})
 	h.receive(t, crawled)
@@ -267,8 +267,8 @@ func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
 	if _, err := h.receiver.Receive(
 		context.Background(),
 		recrawled,
-	); !errors.Is(err, errAdmissionRefused) {
-		t.Fatalf("Receive error = %v, want the refused admission", err)
+	); !errors.Is(err, errWriteRefused) {
+		t.Fatalf("Receive error = %v, want the refused write", err)
 	}
 
 	if _, found := h.storedPosting(t, "w1", crawled); !found {

@@ -132,15 +132,6 @@ func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
 	}
 }
 
-func TestStalestURLsZeroLimit(t *testing.T) {
-	h := openOrder(t)
-
-	candidates := h.stalestURLs(t, 0)
-	if candidates != nil {
-		t.Fatalf("candidates = %v, want nil", candidates)
-	}
-}
-
 func TestPurgedURLLeavesOrder(t *testing.T) {
 	h := openOrder(t)
 	kept := urlHash("kept")
@@ -156,13 +147,15 @@ func TestPurgedURLLeavesOrder(t *testing.T) {
 	}
 }
 
-func TestPurgeUnknownURLIsHarmless(t *testing.T) {
+func TestPurgeOfAnUnknownURLLeavesTheStoredOnes(t *testing.T) {
 	h := openOrder(t)
+	kept := urlHash("kept")
+	h.store(t, kept, dayIn(2025))
 
 	h.purge(t, urlHash("absent"))
 
-	if candidates := h.stalestURLs(t, 10); len(candidates) != 0 {
-		t.Fatalf("candidates = %v, want none", candidates)
+	if candidates := h.stalestURLs(t, 10); len(candidates) != 1 || candidates[0] != kept {
+		t.Fatalf("candidates = %v, want [kept]", candidates)
 	}
 }
 

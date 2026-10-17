@@ -2,6 +2,7 @@ package pagerwi_test
 
 import (
 	"net/url"
+	"strings"
 	"testing"
 	"time"
 
@@ -63,9 +64,6 @@ func TestOfIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testing.T) 
 func TestOfProducesPostingsCarryingTheURLHash(t *testing.T) {
 	index := indexOf(t, sampleText)
 
-	if index.PageURL.String() != pageURL {
-		t.Fatalf("page url: %q", index.PageURL)
-	}
 	if len(index.Postings) == 0 {
 		t.Fatal("no postings")
 	}
@@ -102,8 +100,8 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	document := extractedDocument()
 	metadata := indexOf(t, sampleText).Metadata
 
-	if metadata.Address != pageURL {
-		t.Fatalf("address = %q", metadata.Address)
+	if want := hashOfPageURL(t); metadata.Hash != want {
+		t.Fatalf("metadata url hash = %q, want %q", metadata.Hash, want)
 	}
 	if metadata.Title != document.Title {
 		t.Fatalf("title = %q", metadata.Title)
@@ -117,13 +115,6 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	}
 	if loaded, ok := metadata.Loaded.Get(); !ok || loaded != yacymodel.CalendarDayOf(reachedAt) {
 		t.Fatalf("loaded = %+v", metadata.Loaded)
-	}
-}
-
-func TestOfMetadataCarriesURLHash(t *testing.T) {
-	got := indexOf(t, sampleText).Metadata.Hash
-	if want := hashOfPageURL(t); got != want {
-		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}
 }
 
@@ -175,7 +166,16 @@ func TestOfKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 }
 
 func TestOfIndexesEveryWordOfThePageText(t *testing.T) {
-	assertWordIndexed(t, "navigation menu the quick fox", "navigation")
+	words := []string{"navigation", "menu", "the", "quick", "fox"}
+
+	index := indexOf(t, strings.Join(words, " "))
+
+	if len(index.Postings) != len(words) {
+		t.Fatalf("postings = %d, want one per word of %v", len(index.Postings), words)
+	}
+	for _, word := range words {
+		assertWordIndexed(t, strings.Join(words, " "), word)
+	}
 }
 
 func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {

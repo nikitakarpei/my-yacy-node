@@ -67,7 +67,8 @@ func firstOfferTo(
 
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
 
-	return onlyOffer(t, h.undeliveredOffers(t, missingHolder))
+	h.scheduleAdmissions(t)
+	return onlyOffer(t, h.dueOffers(t, missingHolder))
 }
 
 func undeliveredOfferTo(
@@ -80,7 +81,8 @@ func undeliveredOfferTo(
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
 	h.recordHolders(t, outcomeWordPartition(), holder.Hash)
 
-	return onlyOffer(t, h.undeliveredOffers(t, holder))
+	h.scheduleAdmissions(t)
+	return onlyOffer(t, h.dueOffers(t, holder))
 }
 
 func dueRefreshTo(
@@ -95,7 +97,7 @@ func dueRefreshTo(
 	h.recordHolders(t, outcomeWordPartition(), holder.Hash)
 	h.clock = h.clock.Add(refreshInterval)
 
-	return onlyOffer(t, h.refreshOffers(t, holder))
+	return onlyOffer(t, h.dueOffers(t, holder))
 }
 
 func acceptedInPart(sent []yacymodel.RWIPosting) wordpartitionoffer.PeerAnswer {
@@ -145,7 +147,7 @@ func TestAHolderThatGetsNoPostingsInThisBatchStaysAHolder(t *testing.T) {
 	h.recordHolders(t, outcomeWordPartition(), holder.Hash, unreachableHolder.Hash)
 	h.reachability.recentlyReachable[unreachableHolder.Hash] = true
 	h.clock = h.clock.Add(refreshInterval)
-	refresh := onlyOffer(t, h.refreshOffers(t, holder))
+	refresh := onlyOffer(t, h.dueOffers(t, holder))
 
 	outcome := refresh.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
 		holder.Hash: accepted(postingsSentTo(t, refresh, holder)),
@@ -187,29 +189,13 @@ func TestAnOutcomeIsARefreshWhenEveryRecipientGotTheWholeWordPartition(t *testin
 	}
 }
 
-func TestStaleHoldersAreDroppedAndCounted(t *testing.T) {
-	h := openHarness(t, options{})
-	responsiblePeer, staleHolder := outcomePeer(0), outcomePeer(1<<40)
-	h.admit(t, outcomeWordPartition(), urlsOfPartition(1)...)
-	h.recordHolders(t, outcomeWordPartition(), staleHolder.Hash)
-	offer := onlyOffer(t, h.undeliveredOffers(t, responsiblePeer))
-
-	outcome := offer.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
-		responsiblePeer.Hash: declined(),
-	})
-
-	if len(outcome.Holders) != 0 || outcome.AmountOfStaleHolders != 1 {
-		t.Fatalf("Holders = %v, AmountOfStaleHolders = %d, want no holders and one stale",
-			outcome.Holders, outcome.AmountOfStaleHolders)
-	}
-}
-
 func TestAPostingIsDeliveredOnceEveryResponsiblePeerAcceptedIt(t *testing.T) {
 	h := openHarness(t, options{redundancy: 2})
 	holder, missingHolder := outcomePeer(0), outcomePeer(1)
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
 	h.recordHolders(t, outcomeWordPartition(), holder.Hash)
-	offer := onlyOffer(t, h.undeliveredOffers(t, holder, missingHolder))
+	h.scheduleAdmissions(t)
+	offer := onlyOffer(t, h.dueOffers(t, holder, missingHolder))
 	sentToMissingHolder := postingsSentTo(t, offer, missingHolder)
 
 	outcome := offer.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
@@ -230,7 +216,8 @@ func TestAcceptancesCountThePostingsOfThisOfferEachRecipientAccepted(t *testing.
 	h := openHarness(t, options{redundancy: 2})
 	acceptingPeer, decliningPeer := outcomePeer(0), outcomePeer(1)
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(3)...)
-	offer := onlyOffer(t, h.undeliveredOffers(t, acceptingPeer, decliningPeer))
+	h.scheduleAdmissions(t)
+	offer := onlyOffer(t, h.dueOffers(t, acceptingPeer, decliningPeer))
 	sent := postingsSentTo(t, offer, acceptingPeer)
 	otherWordPosting := yacymodel.RWIPosting{WordHash: wordOf(1), URLHash: sent[2].URLHash}
 
@@ -258,7 +245,8 @@ func TestAWordPartitionIsAtRedundancyOnceEveryResponsiblePeerHoldsIt(t *testing.
 			holder, missingHolder := outcomePeer(0), outcomePeer(1)
 			h.admit(t, outcomeWordPartition(), urlsOfPartition(1)...)
 			h.recordHolders(t, outcomeWordPartition(), holder.Hash)
-			offer := onlyOffer(t, h.undeliveredOffers(t, holder, missingHolder))
+			h.scheduleAdmissions(t)
+			offer := onlyOffer(t, h.dueOffers(t, holder, missingHolder))
 
 			outcome := offer.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
 				holder.Hash: accepted(postingsSentTo(t, offer, holder)),
@@ -280,7 +268,8 @@ func TestAWordPartitionIsShortOfRedundancyWhileAnOfferedPostingStaysUndelivered(
 	holder, decliningHolder := outcomePeer(0), outcomePeer(1)
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(1)...)
 	h.recordHolders(t, outcomeWordPartition(), holder.Hash, decliningHolder.Hash)
-	offer := onlyOffer(t, h.undeliveredOffers(t, holder, decliningHolder))
+	h.scheduleAdmissions(t)
+	offer := onlyOffer(t, h.dueOffers(t, holder, decliningHolder))
 
 	outcome := offer.OutcomeFrom(map[yacymodel.Hash]wordpartitionoffer.PeerAnswer{
 		holder.Hash:          accepted(postingsSentTo(t, offer, holder)),

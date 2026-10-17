@@ -40,18 +40,6 @@ func TestLoopOffersTwoBatchesAtTheSameTime(t *testing.T) {
 	})
 }
 
-func TestLoopReadsTheDuePostingsOfBatchesAtTheSameTime(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		h, _ := openTwoBatches(t)
-		meeting := newCallMeeting(2)
-		h.index.onRead = meeting.arrive
-
-		h.start(t)
-
-		meeting.assertMet(t)
-	})
-}
-
 func TestLoopOffersOtherBatchesWhileABatchWaitsForASlowPeer(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		slowWordPartition, fastWordPartition := wordPartitionsIn(1, 1)[0], wordPartitionsIn(40, 2)

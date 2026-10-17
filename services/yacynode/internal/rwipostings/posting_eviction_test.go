@@ -44,6 +44,9 @@ func TestPurgePostingDropsPosting(t *testing.T) {
 	if _, found := h.postingOf(t, word, urlHash("u2")); !found {
 		t.Fatal("PostingOf lost a posting of the word that was not purged")
 	}
+	if _, found := h.postingOf(t, yacymodel.WordHash("w2"), url); !found {
+		t.Fatal("PostingOf lost a posting of the URL that was not purged")
+	}
 }
 
 func TestPurgingAPostingThatIsNotHeldReportsNothingPurged(t *testing.T) {

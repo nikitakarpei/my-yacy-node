@@ -365,8 +365,7 @@ func (h *loopHarness) read(t *testing.T, view func(tx *vault.Txn) error) {
 type hookedEligibility struct {
 	*peereligibility.Peers
 
-	onExcludedAsked func()
-	onPausedAsked   func()
+	onPausedAsked func()
 }
 
 func (e *hookedEligibility) IsPaused(peer yacymodel.Hash) bool {
@@ -375,14 +374,6 @@ func (e *hookedEligibility) IsPaused(peer yacymodel.Hash) bool {
 	}
 
 	return e.Peers.IsPaused(peer)
-}
-
-func (e *hookedEligibility) IsExcluded(peer yacymodel.Hash) bool {
-	if e.onExcludedAsked != nil {
-		e.onExcludedAsked()
-	}
-
-	return e.Peers.IsExcluded(peer)
 }
 
 type loopRelay struct {
@@ -399,7 +390,6 @@ type observedPostingIndex struct {
 	guard  sync.Mutex
 	index  rwipostings.PostingIndex
 	unread error
-	onRead func()
 }
 
 func (o *observedPostingIndex) PostingOf(
@@ -428,9 +418,6 @@ func (o *observedPostingIndex) PostingsOfWordIn(
 }
 
 func (o *observedPostingIndex) read() error {
-	if o.onRead != nil {
-		o.onRead()
-	}
 	o.guard.Lock()
 	defer o.guard.Unlock()
 

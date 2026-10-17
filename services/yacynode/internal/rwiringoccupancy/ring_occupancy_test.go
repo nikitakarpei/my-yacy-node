@@ -228,8 +228,13 @@ func TestAPostingPurgedAndStoredAgainLeavesTheOccupancyAlone(t *testing.T) {
 	posting := postingOf("w1", "u1")
 	h.store(t, posting)
 
-	h.purge(t, posting)
-	h.store(t, posting)
+	h.write(t, func(tx *vault.Txn) error {
+		if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
+			return err
+		}
+
+		return h.writer.Write(tx, posting)
+	})
 
 	want := map[yacymodel.DHTRingSector]int{sectorOf(t, posting): 1}
 	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {

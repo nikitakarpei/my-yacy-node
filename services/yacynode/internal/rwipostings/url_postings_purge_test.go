@@ -19,18 +19,6 @@ func (h harness) writeAtOnce(t *testing.T, postings ...yacymodel.RWIPosting) {
 	}
 }
 
-func (h harness) purge(t *testing.T, word yacymodel.Hash, url yacymodel.URLHash) {
-	t.Helper()
-
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := h.purger.PurgePosting(tx, word, url)
-
-		return err
-	}); err != nil {
-		t.Fatalf("PurgePosting: %v", err)
-	}
-}
-
 func (h harness) purgePostingsOf(t *testing.T, url yacymodel.URLHash) int {
 	t.Helper()
 
@@ -82,19 +70,6 @@ func TestPurgingThePostingsOfAURLLeavesOtherURLs(t *testing.T) {
 	}
 	if _, found := h.postingOf(t, words[0], other); !found {
 		t.Fatalf("posting on %q was purged with %q", other, url)
-	}
-}
-
-func TestAPurgedPostingLeavesTheOtherPostingsOfItsURL(t *testing.T) {
-	h := openHarness(t)
-	url := urlHash("u1")
-	h.writeEach(t, postingOfWordOn(yacymodel.WordHash("w1"), url))
-	h.writeEach(t, postingOfWordOn(yacymodel.WordHash("w2"), url))
-
-	h.purge(t, yacymodel.WordHash("w1"), url)
-
-	if purged := h.purgePostingsOf(t, url); purged != 1 {
-		t.Fatalf("purged %d postings of %q after one was purged, want only w2", purged, url)
 	}
 }
 

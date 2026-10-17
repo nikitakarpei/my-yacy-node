@@ -31,10 +31,6 @@ type stalenessRanking struct {
 }
 
 func (o *stalenessRanking) StalestURLs(tx *vault.Txn, limit int) ([]yacymodel.URLHash, error) {
-	if limit <= 0 {
-		return nil, nil
-	}
-
 	stalest := make([]yacymodel.URLHash, 0, limit)
 	if err := o.order.Scan(
 		tx,

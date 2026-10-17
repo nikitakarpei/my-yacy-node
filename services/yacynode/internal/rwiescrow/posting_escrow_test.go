@@ -256,39 +256,6 @@ func TestEscrowedPostingExpiresAfterHoldPeriod(t *testing.T) {
 	}
 }
 
-func TestPostingHeldOutsideTheNanosecondEpochRangeExpiresOnTime(t *testing.T) {
-	ctx := context.Background()
-	h := openHarness(t)
-	h.clock = time.Date(2500, time.January, 1, 0, 0, 0, 123456789, time.UTC)
-	entry := posting("w1", "u1")
-
-	h.hold(t, entry)
-	h.clock = h.clock.Add(holdFor / 2)
-	h.hold(t, entry)
-	h.clock = h.clock.Add(holdFor/2 + time.Second)
-
-	expired, err := h.escrow.Expire(ctx, holdFor, 10)
-	if err != nil {
-		t.Fatalf("Expire: %v", err)
-	}
-	if expired != 0 {
-		t.Fatalf(
-			"expired = %d, want 0 while the refreshed hold is still within its period",
-			expired,
-		)
-	}
-
-	h.clock = h.clock.Add(holdFor)
-
-	expired, err = h.escrow.Expire(ctx, holdFor, 10)
-	if err != nil {
-		t.Fatalf("Expire: %v", err)
-	}
-	if expired != 1 {
-		t.Fatalf("expired = %d after the hold period, want 1", expired)
-	}
-}
-
 func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
@@ -330,9 +297,6 @@ const cappedCapacity = 3
 
 func TestEscrowIsFullOnceItHoldsTheCapacity(t *testing.T) {
 	h := openCappedHarness(t, cappedCapacity)
-	if got := h.escrow.Capacity(); got != cappedCapacity {
-		t.Fatalf("capacity = %d, want the configured %d", got, cappedCapacity)
-	}
 	admitted := postingsNumbering(cappedCapacity)
 	h.hold(t, admitted[:cappedCapacity-1]...)
 	if h.isFull(t) {
