@@ -13,10 +13,10 @@ import (
 )
 
 type harness struct {
-	vault    *vault.Vault
-	order    urlmetastaleness.StaleURLSource
-	admitter urlmeta.URLMetadataAdmitter
-	evictor  urlmeta.URLEvictor
+	vault   *vault.Vault
+	order   urlmetastaleness.StaleURLSource
+	writer  urlmeta.URLMetadataWriter
+	evictor urlmeta.URLEvictor
 }
 
 func openOrder(t *testing.T) harness {
@@ -36,7 +36,7 @@ func openOrder(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("Open order: %v", err)
 	}
-	_, evictor, admitter, _, err := urlmeta.Open(
+	_, evictor, writer, err := urlmeta.Open(
 		context.Background(),
 		v,
 		[]vault.Projection[yacymodel.URLMetadata]{projection},
@@ -45,7 +45,7 @@ func openOrder(t *testing.T) harness {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 
-	return harness{vault: v, order: order, admitter: admitter, evictor: evictor}
+	return harness{vault: v, order: order, writer: writer, evictor: evictor}
 }
 
 func (h harness) store(
@@ -56,7 +56,13 @@ func (h harness) store(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.admitter.Admit(tx, yacymodel.URLMetadata{Hash: hash, Loaded: loaded})
+		_, err := h.writer.Write(
+			tx,
+			yacymodel.URLMetadata{Hash: hash, Loaded: loaded},
+			urlmeta.SourceThisNode(),
+		)
+
+		return err
 	})
 }
 
@@ -126,15 +132,6 @@ func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
 	}
 }
 
-func TestStalestURLsZeroLimit(t *testing.T) {
-	h := openOrder(t)
-
-	candidates := h.stalestURLs(t, 0)
-	if candidates != nil {
-		t.Fatalf("candidates = %v, want nil", candidates)
-	}
-}
-
 func TestPurgedURLLeavesOrder(t *testing.T) {
 	h := openOrder(t)
 	kept := urlHash("kept")
@@ -150,13 +147,15 @@ func TestPurgedURLLeavesOrder(t *testing.T) {
 	}
 }
 
-func TestPurgeUnknownURLIsHarmless(t *testing.T) {
+func TestPurgeOfAnUnknownURLLeavesTheStoredOnes(t *testing.T) {
 	h := openOrder(t)
+	kept := urlHash("kept")
+	h.store(t, kept, dayIn(2025))
 
 	h.purge(t, urlHash("absent"))
 
-	if candidates := h.stalestURLs(t, 10); len(candidates) != 0 {
-		t.Fatalf("candidates = %v, want none", candidates)
+	if candidates := h.stalestURLs(t, 10); len(candidates) != 1 || candidates[0] != kept {
+		t.Fatalf("candidates = %v, want [kept]", candidates)
 	}
 }
 

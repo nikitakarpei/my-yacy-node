@@ -21,25 +21,25 @@ const (
 	pageAddress = "http://example.com/page"
 )
 
-var errAdmissionRefused = errors.New("admission refused")
+var errWriteRefused = errors.New("write refused")
 
 type discardedPurges struct{}
 
 func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
 
-type refusedAdmitter struct {
-	admitter rwipostings.PostingAdmitter
-	word     yacymodel.Hash
+type refusedWriter struct {
+	writer rwipostings.PostingWriter
+	word   yacymodel.Hash
 }
 
-func (r refusedAdmitter) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+func (r refusedWriter) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
 	for _, posting := range postings {
 		if posting.WordHash == r.word {
-			return errAdmissionRefused
+			return errWriteRefused
 		}
 	}
 
-	return r.admitter.Admit(tx, postings...)
+	return r.writer.Write(tx, postings...)
 }
 
 type stopwordThe struct{}
@@ -58,13 +58,13 @@ type harness struct {
 func openHarness(t *testing.T, quotaBytes int64) harness {
 	t.Helper()
 
-	return openHarnessWithAdmitter(t, quotaBytes, nil)
+	return openHarnessWithWriter(t, quotaBytes, nil)
 }
 
-func openHarnessWithAdmitter(
+func openHarnessWithWriter(
 	t *testing.T,
 	quotaBytes int64,
-	wrapAdmitter func(rwipostings.PostingAdmitter) rwipostings.PostingAdmitter,
+	wrapWriter func(rwipostings.PostingWriter) rwipostings.PostingWriter,
 ) harness {
 	t.Helper()
 
@@ -78,7 +78,7 @@ func openHarnessWithAdmitter(
 		}
 	})
 
-	index, references, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -87,14 +87,14 @@ func openHarnessWithAdmitter(
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	if wrapAdmitter != nil {
-		admitter = wrapAdmitter(admitter)
+	if wrapWriter != nil {
+		writer = wrapWriter(writer)
 	}
-	directory, evictor, metadataAdmitter, _, err := urlmeta.Open(
+	directory, evictor, metadataWriter, err := urlmeta.Open(
 		context.Background(),
 		v,
 		nil,
-		urlpostingpurge.New(references, purger, discardedPurges{}),
+		urlpostingpurge.New(purger, discardedPurges{}),
 	)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
@@ -107,8 +107,8 @@ func openHarnessWithAdmitter(
 		receiver: pageadmission.Open(
 			v,
 			evictor,
-			metadataAdmitter,
-			admitter,
+			metadataWriter,
+			writer,
 			stopwordThe{},
 			pageadmission.Config{Pause: busyPause},
 		),
@@ -256,9 +256,9 @@ func TestRecrawledPageWithoutWordsLeavesNoPostingBehind(t *testing.T) {
 }
 
 func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
-	h := openHarnessWithAdmitter(t, 0,
-		func(admitter rwipostings.PostingAdmitter) rwipostings.PostingAdmitter {
-			return refusedAdmitter{admitter: admitter, word: yacymodel.WordHash("w3")}
+	h := openHarnessWithWriter(t, 0,
+		func(writer rwipostings.PostingWriter) rwipostings.PostingWriter {
+			return refusedWriter{writer: writer, word: yacymodel.WordHash("w3")}
 		})
 	crawled := pageTitled(t, "before", pageWord{"w1", 1}, pageWord{"w2", 3})
 	h.receive(t, crawled)
@@ -267,8 +267,8 @@ func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
 	if _, err := h.receiver.Receive(
 		context.Background(),
 		recrawled,
-	); !errors.Is(err, errAdmissionRefused) {
-		t.Fatalf("Receive error = %v, want the refused admission", err)
+	); !errors.Is(err, errWriteRefused) {
+		t.Fatalf("Receive error = %v, want the refused write", err)
 	}
 
 	if _, found := h.storedPosting(t, "w1", crawled); !found {

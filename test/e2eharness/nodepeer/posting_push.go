@@ -24,8 +24,9 @@ func mustHash(raw string) yacymodel.Hash {
 	return hash
 }
 
-// PushPosting delivers one RWI posting to the node under test over the same
-// transferRWI wire call a peer would use, so the node schedules it for distribution.
+// PushPosting delivers the RWI posting of one word in a document to the node
+// under test over the same transferRWI wire call a peer would use, written from
+// the document's URL metadata as one crawl writes both.
 func PushPosting(
 	t *testing.T,
 	ctx context.Context,
@@ -33,11 +34,11 @@ func PushPosting(
 	nodeURL string,
 	nodeHash yacymodel.Hash,
 	word yacymodel.Hash,
-	docURL yacymodel.URLHash,
+	document yacymodel.URLMetadata,
 ) {
 	t.Helper()
 
-	PushPostings(t, ctx, probe, nodeURL, nodeHash, word, []yacymodel.URLHash{docURL})
+	PushPostings(t, ctx, probe, nodeURL, nodeHash, word, []yacymodel.URLMetadata{document})
 }
 
 // PushPostings delivers the RWI postings of one word over every named document
@@ -50,7 +51,7 @@ func PushPostings(
 	nodeURL string,
 	nodeHash yacymodel.Hash,
 	word yacymodel.Hash,
-	documents []yacymodel.URLHash,
+	documents []yacymodel.URLMetadata,
 ) {
 	t.Helper()
 
@@ -69,7 +70,7 @@ func transferPostings(
 	nodeURL string,
 	nodeHash yacymodel.Hash,
 	word yacymodel.Hash,
-	documents []yacymodel.URLHash,
+	documents []yacymodel.URLMetadata,
 ) {
 	t.Helper()
 
@@ -79,7 +80,7 @@ func transferPostings(
 		YouAre:      nodeHash,
 		WordCount:   1,
 		EntryCount:  len(documents),
-		Indexes:     postingsOf(t, word, documents),
+		Indexes:     postingsOf(word, documents),
 	}
 
 	result := probe.PostRaw(
@@ -93,26 +94,34 @@ func transferPostings(
 	}
 }
 
-func postingsOf(
-	t *testing.T,
-	word yacymodel.Hash,
-	documents []yacymodel.URLHash,
-) []yacymodel.RWIPosting {
-	t.Helper()
-
-	language, err := yacymodel.ParseLanguage("en")
-	if err != nil {
-		t.Fatalf("posting language: %v", err)
-	}
-
+func postingsOf(word yacymodel.Hash, documents []yacymodel.URLMetadata) []yacymodel.RWIPosting {
 	postings := make([]yacymodel.RWIPosting, 0, len(documents))
 	for _, document := range documents {
-		postings = append(postings, yacymodel.RWIPosting{
-			WordHash: word,
-			URLHash:  document,
-			Language: language,
-		})
+		postings = append(postings, postingOf(word, document))
 	}
 
 	return postings
+}
+
+func postingOf(word yacymodel.Hash, document yacymodel.URLMetadata) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		WordHash:      word,
+		URLHash:       document.Hash,
+		Language:      document.Language.OrElse(yacymodel.LanguageOfUndeclaredDocument),
+		DocumentType:  document.DocumentType,
+		LastModified:  modifiedDayOf(document),
+		TitleWords:    yacymodel.TitleWordsOf(document.Title),
+		LocalLinks:    document.LocalLinks,
+		ExternalLinks: document.ExternalLinks,
+	}
+}
+
+func modifiedDayOf(document yacymodel.URLMetadata) yacymodel.MicroDate {
+	for _, day := range []yacymodel.Optional[yacymodel.CalendarDay]{document.Modified, document.Loaded} {
+		if present, ok := day.Get(); ok {
+			return yacymodel.MicroDateFromTime(present.Time())
+		}
+	}
+
+	return 0
 }

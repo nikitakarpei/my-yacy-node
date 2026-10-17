@@ -16,6 +16,7 @@ type SweepObserver interface {
 	ObserveFailure()
 }
 
+// TECHDEBT: testing time — waits on a real ticker with no clock port, so no test reaches the tick branch.
 func RunSweepLoop(
 	ctx context.Context,
 	sweeper Sweeper,

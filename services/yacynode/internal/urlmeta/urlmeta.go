@@ -1,8 +1,8 @@
-// Package urlmeta owns the transferURL and urls.xml endpoints, URL intake, and
-// URL metadata storage and lookup. Its published ports speak the yacymodel vocabulary and
-// never leak the schema. A port that reads or writes stored metadata takes the
-// transaction its caller opened, so the caller decides and writes in one
-// transaction.
+// Package urlmeta owns URL metadata storage and lookup, and the urls.xml
+// endpoint. Its published ports speak the yacymodel vocabulary and never leak
+// the schema. A port that reads or writes stored metadata takes the transaction
+// its caller opened, so the caller decides and writes in one transaction. Each
+// record knows its source: this node or the network of the peer that sent it.
 package urlmeta
 
 import (
@@ -20,31 +20,23 @@ type URLDirectory interface {
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
-	MissingURLs(tx *vault.Txn, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
+	CurrentVersionsOf(
+		tx *vault.Txn,
+		hashes []yacymodel.URLHash,
+	) (map[yacymodel.URLHash]CurrentVersion, error)
 	Count(tx *vault.Txn) (int, error)
 }
 
-type URLReceiver interface {
-	Receive(ctx context.Context, metadata []yacymodel.URLMetadata) (Receipt, error)
-}
-
-type URLMetadataAdmitter interface {
-	Admit(tx *vault.Txn, metadata yacymodel.URLMetadata) error
+type URLMetadataWriter interface {
+	Write(tx *vault.Txn, metadata yacymodel.URLMetadata, source Source) (CurrentVersion, error)
 }
 
 type URLEvictor interface {
 	Purge(ctx context.Context, tx *vault.Txn, urls []yacymodel.URLHash) (PurgeResult, error)
 }
 
-type URLMetadataObserver interface {
-	URLStored(tx *vault.Txn, hash yacymodel.URLHash) error
+type URLPurgedObserver interface {
 	URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error
-}
-
-type Receipt struct {
-	Busy     bool
-	Double   int
-	ErrorURL []yacymodel.URLHash
 }
 
 type PurgeResult struct {
@@ -55,32 +47,16 @@ func Open(
 	ctx context.Context,
 	vault *vault.Vault,
 	projections []vault.Projection[yacymodel.URLMetadata],
-	watchers ...URLMetadataObserver,
-) (URLDirectory, URLEvictor, URLMetadataAdmitter, URLReceiver, error) {
+	watchers ...URLPurgedObserver,
+) (URLDirectory, URLEvictor, URLMetadataWriter, error) {
 	collection, err := registerCollection(ctx, vault, projections)
 	if err != nil {
-		return nil, nil, nil, nil, err
+		return nil, nil, nil, err
 	}
 
-	watched := observers(watchers)
-	directory := urlDirectory{collection: collection, observers: watched}
-	intake := urlIntake{vault: vault, collection: collection, observers: watched}
+	directory := urlDirectory{collection: collection, observers: observers(watchers)}
 
-	return directory, directory, intake, intake, nil
-}
-
-func MountTransferURL(
-	router httpguard.WireRouter,
-	identity nodeidentity.Identity,
-	receiver URLReceiver,
-) {
-	httpguard.MountFields(
-		router,
-		yacyproto.PathTransferURL,
-		yacyproto.TransferURLEndpointMethods,
-		yacyproto.ParseTransferURLRequest,
-		transferURLEndpoint{identity: identity, receiver: receiver}.Serve,
-	)
+	return directory, directory, directory, nil
 }
 
 func MountURLMetadataLookup(

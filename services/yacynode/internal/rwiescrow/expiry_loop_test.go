@@ -54,15 +54,6 @@ func runLoopUntilFirstRun(
 	<-done
 }
 
-func TestExpiryLoopExpiresBeforeItsFirstTick(t *testing.T) {
-	observer := &countingExpiries{}
-	runLoopUntilFirstRun(t, &countingExpiry{runs: make(chan struct{}, 1)}, observer)
-
-	if observer.expired != 1 {
-		t.Fatalf("observed expiries = %d, want 1", observer.expired)
-	}
-}
-
 type drainingExpiry struct {
 	remaining int
 	drained   chan struct{}

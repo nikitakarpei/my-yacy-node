@@ -14,7 +14,7 @@ func TestPurgePostingDropsPosting(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t)
 
-	h.admit(t,
+	h.writeEach(t,
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w2", "u1"),
@@ -44,12 +44,15 @@ func TestPurgePostingDropsPosting(t *testing.T) {
 	if _, found := h.postingOf(t, word, urlHash("u2")); !found {
 		t.Fatal("PostingOf lost a posting of the word that was not purged")
 	}
+	if _, found := h.postingOf(t, yacymodel.WordHash("w2"), url); !found {
+		t.Fatal("PostingOf lost a posting of the URL that was not purged")
+	}
 }
 
 func TestPurgingAPostingThatIsNotHeldReportsNothingPurged(t *testing.T) {
 	h := openHarness(t)
 
-	h.admit(t, posting("w1", "u1"))
+	h.writeEach(t, posting("w1", "u1"))
 
 	var wasPurged bool
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
@@ -76,7 +79,7 @@ func TestPurgingAWordInAPartitionDropsOnlyThosePostings(t *testing.T) {
 	words := neighbouringWordHashes(t)
 	for _, word := range words {
 		for document := range documentsPerWord {
-			h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+			h.writeEach(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
 		}
 	}
 	word := words[1]

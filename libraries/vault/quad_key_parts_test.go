@@ -47,6 +47,21 @@ func TestQuadKeyRangeOfOneFirstHoldsOnlyThatFirst(t *testing.T) {
 	}
 }
 
+func TestQuadKeyRangeBeforeAFirstHoldsOnlyEarlierFirsts(t *testing.T) {
+	parts := vault.QuadKey(
+		vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart)
+	firsts := orderedTexts()
+	bound := firsts[len(firsts)/2]
+
+	for _, first := range firsts {
+		for _, rest := range orderedTexts() {
+			key := parts.Key(first, rest, rest, rest).Bytes()
+
+			assertRangeAnswers(t, parts.KeysBeforeFirst(bound), key, first < bound)
+		}
+	}
+}
+
 func TestQuadKeyRangeOfOneFirstThroughASecondHoldsOnlyThoseKeys(t *testing.T) {
 	for _, directed := range []struct {
 		direction string

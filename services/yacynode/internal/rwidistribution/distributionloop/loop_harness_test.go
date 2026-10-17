@@ -48,7 +48,7 @@ type loopHarness struct {
 	v           *vault.Vault
 	clk         *clock
 	index       *observedPostingIndex
-	admitter    rwipostings.PostingAdmitter
+	writer      rwipostings.PostingWriter
 	relay       *loopRelay
 	undelivered *undeliveredpostings.Postings
 	schedule    *wordpartitionschedule.Schedule
@@ -89,7 +89,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, _, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -105,7 +105,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		v:           v,
 		clk:         clk,
 		index:       &observedPostingIndex{index: index},
-		admitter:    schedule.AdmitterFrom(admitter, relay),
+		writer:      schedule.WriterFrom(writer, relay),
 		relay:       relay,
 		undelivered: undelivered,
 		schedule:    schedule,
@@ -258,7 +258,7 @@ func (h *loopHarness) admit(
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, url := range urls {
-			if err := h.admitter.Admit(tx, postingOf(wordPartition, url)); err != nil {
+			if err := h.writer.Write(tx, postingOf(wordPartition, url)); err != nil {
 				return err
 			}
 		}
@@ -365,8 +365,7 @@ func (h *loopHarness) read(t *testing.T, view func(tx *vault.Txn) error) {
 type hookedEligibility struct {
 	*peereligibility.Peers
 
-	onExcludedAsked func()
-	onPausedAsked   func()
+	onPausedAsked func()
 }
 
 func (e *hookedEligibility) IsPaused(peer yacymodel.Hash) bool {
@@ -375,14 +374,6 @@ func (e *hookedEligibility) IsPaused(peer yacymodel.Hash) bool {
 	}
 
 	return e.Peers.IsPaused(peer)
-}
-
-func (e *hookedEligibility) IsExcluded(peer yacymodel.Hash) bool {
-	if e.onExcludedAsked != nil {
-		e.onExcludedAsked()
-	}
-
-	return e.Peers.IsExcluded(peer)
 }
 
 type loopRelay struct {
@@ -399,7 +390,6 @@ type observedPostingIndex struct {
 	guard  sync.Mutex
 	index  rwipostings.PostingIndex
 	unread error
-	onRead func()
 }
 
 func (o *observedPostingIndex) PostingOf(
@@ -428,9 +418,6 @@ func (o *observedPostingIndex) PostingsOfWordIn(
 }
 
 func (o *observedPostingIndex) read() error {
-	if o.onRead != nil {
-		o.onRead()
-	}
 	o.guard.Lock()
 	defer o.guard.Unlock()
 

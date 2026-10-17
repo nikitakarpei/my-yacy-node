@@ -6,27 +6,27 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type schedulingAdmitter struct {
-	admitter   rwipostings.PostingAdmitter
+type schedulingWriter struct {
+	writer     rwipostings.PostingWriter
 	admissions *admissions
 	partitions yacymodel.DHTRingPartitions
 	observer   AdmissionObserver
 }
 
-func (s *Schedule) AdmitterFrom(
-	admitter rwipostings.PostingAdmitter,
+func (s *Schedule) WriterFrom(
+	writer rwipostings.PostingWriter,
 	observer AdmissionObserver,
-) rwipostings.PostingAdmitter {
-	return schedulingAdmitter{
-		admitter:   admitter,
+) rwipostings.PostingWriter {
+	return schedulingWriter{
+		writer:     writer,
 		admissions: s.admissions,
 		partitions: s.partitions,
 		observer:   observer,
 	}
 }
 
-func (a schedulingAdmitter) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
-	if err := a.admitter.Admit(tx, postings...); err != nil {
+func (a schedulingWriter) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+	if err := a.writer.Write(tx, postings...); err != nil {
 		return err
 	}
 	for _, posting := range postings {
@@ -38,7 +38,7 @@ func (a schedulingAdmitter) Admit(tx *vault.Txn, postings ...yacymodel.RWIPostin
 	return nil
 }
 
-func (a schedulingAdmitter) countAdmission(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+func (a schedulingWriter) countAdmission(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	wordPartition := yacymodel.WordPartitionOfPosting(posting, a.partitions)
 	if err := a.admissions.count(tx, wordPartition); err != nil {
 		return err

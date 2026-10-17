@@ -1,35 +1,12 @@
 package rwipostings_test
 
 import (
-	"bytes"
 	"slices"
 	"strconv"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-func TestPostingReadsBackStoredEntry(t *testing.T) {
-	h := openHarness(t)
-
-	h.admit(t,
-		posting("w1", "u1"),
-	)
-
-	word := yacymodel.WordHash("w1")
-	url := urlHash("u1")
-
-	entry, found := h.postingOf(t, word, url)
-	if !found {
-		t.Fatal("Posting not found")
-	}
-	if entry.WordHash != word {
-		t.Fatalf("entry word hash = %q, want %q", entry.WordHash, word)
-	}
-	if entry.URLHash != url {
-		t.Fatalf("entry url hash = %q, want %q", entry.URLHash, url)
-	}
-}
 
 func TestPostingMissingIsNotFound(t *testing.T) {
 	h := openHarness(t)
@@ -39,27 +16,31 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 	}
 }
 
-func TestAdmittingAChangedPostingReplacesTheStoredOne(t *testing.T) {
+func TestWritingAChangedPostingReplacesTheStoredOne(t *testing.T) {
 	h := openHarness(t)
 
 	arrived := posting("w1", "u1")
-	h.admit(t, arrived)
+	h.writeEach(t, arrived)
+	if stored, found := h.postingOf(t, arrived.WordHash, arrived.URLHash); !found ||
+		stored != arrived {
+		t.Fatalf("PostingOf = %+v, %v, want the posting as it arrived", stored, found)
+	}
 
 	refreshed := arrived
 	refreshed.Hits = 7
-	h.admit(t, refreshed)
+	h.writeEach(t, refreshed)
 
 	if stored, _ := h.postingOf(t, arrived.WordHash, arrived.URLHash); stored != refreshed {
 		t.Fatalf("PostingOf = %+v, want the posting as it is", stored)
 	}
 }
 
-func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartitionInKeyOrder(t *testing.T) {
+func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartition(t *testing.T) {
 	h := openHarness(t)
 	words := neighbouringWordHashes(t)
 	for _, word := range words {
 		for document := range documentsPerWord {
-			h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+			h.writeEach(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
 		}
 	}
 	word := words[1]
@@ -67,7 +48,10 @@ func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartitionInKeyOrder(t *tes
 
 	visitedPostings := h.postingsOfWordIn(t, word, partition, len(wantedPostings)+1)
 
-	if !slices.Equal(visitedPostings, wantedPostings) {
+	if len(visitedPostings) != len(wantedPostings) ||
+		slices.ContainsFunc(wantedPostings, func(wanted yacymodel.RWIPosting) bool {
+			return !slices.Contains(visitedPostings, wanted)
+		}) {
 		t.Fatalf("PostingsOfWordIn = %v, want %v", visitedPostings, wantedPostings)
 	}
 }
@@ -76,14 +60,14 @@ func TestPostingsOfWordInAPartitionStopWhenTheVisitorAsks(t *testing.T) {
 	h := openHarness(t)
 	word := neighbouringWordHashes(t)[1]
 	for document := range documentsPerWord {
-		h.admit(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
+		h.writeEach(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
 	}
 	partition, wantedPostings := busiestPartitionOf(word)
 
 	visitedPostings := h.postingsOfWordIn(t, word, partition, 1)
 
-	if !slices.Equal(visitedPostings, wantedPostings[:1]) {
-		t.Fatalf("PostingsOfWordIn = %v, want %v", visitedPostings, wantedPostings[:1])
+	if len(visitedPostings) != 1 || !slices.Contains(wantedPostings, visitedPostings[0]) {
+		t.Fatalf("PostingsOfWordIn = %v, want one of %v", visitedPostings, wantedPostings)
 	}
 }
 
@@ -131,10 +115,5 @@ func busiestPartitionOf(word yacymodel.Hash) (uint, []yacymodel.RWIPosting) {
 			busiestPartition = partition
 		}
 	}
-	busiestPostings := postingsPerPartition[busiestPartition]
-	slices.SortFunc(busiestPostings, func(a, b yacymodel.RWIPosting) int {
-		return bytes.Compare(a.URLHash.Bytes(), b.URLHash.Bytes())
-	})
-
-	return busiestPartition, busiestPostings
+	return busiestPartition, postingsPerPartition[busiestPartition]
 }

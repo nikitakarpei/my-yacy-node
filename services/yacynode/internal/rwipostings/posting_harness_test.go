@@ -13,11 +13,10 @@ import (
 )
 
 type harness struct {
-	vault      *vault.Vault
-	index      rwipostings.PostingIndex
-	references rwipostings.URLReferences
-	admitter   rwipostings.PostingAdmitter
-	purger     rwipostings.PostingPurger
+	vault  *vault.Vault
+	index  rwipostings.PostingIndex
+	writer rwipostings.PostingWriter
+	purger rwipostings.PostingPurger
 }
 
 func (h harness) postingOf(
@@ -83,7 +82,7 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	index, references, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions,
@@ -94,29 +93,28 @@ func openHarness(t *testing.T) harness {
 	}
 
 	return harness{
-		vault:      v,
-		index:      index,
-		references: references,
-		admitter:   admitter,
-		purger:     purger,
+		vault:  v,
+		index:  index,
+		writer: writer,
+		purger: purger,
 	}
 }
 
 var ringPartitions = yacymodel.DHTRingPartitions(1) << 4
 
-func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
+func (h harness) writeEach(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, entry := range postings {
-			if err := h.admitter.Admit(tx, entry); err != nil {
-				return fmt.Errorf("admit posting: %w", err)
+			if err := h.writer.Write(tx, entry); err != nil {
+				return fmt.Errorf("write posting: %w", err)
 			}
 		}
 
 		return nil
 	}); err != nil {
-		t.Fatalf("Admit: %v", err)
+		t.Fatalf("Write: %v", err)
 	}
 }
 

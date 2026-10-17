@@ -28,11 +28,11 @@ func Of(
 	modifiedAt := recordedModifiedAtOf(scrapedPage, reachedAt)
 
 	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
-	_, titleWordOccurrences, titleStats := tokenize(document.Title)
+	_, titleWordOccurrences, _ := tokenize(document.Title)
 
 	metadata := metadataOf(scrapedPage, document, reachedAt, modifiedAt, textStats.Words)
 	shared := sharedPosting(pageURL, document, modifiedAt, metadata.Hash)
-	shared.TitleWords = titleStats.Words
+	shared.TitleWords = yacymodel.TitleWordsOf(document.Title)
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
 

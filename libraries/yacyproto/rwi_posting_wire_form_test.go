@@ -205,23 +205,48 @@ func postingFromCardinals(t *testing.T, byteCardinal, uint16Cardinal int) yacymo
 	}
 }
 
-func TestTransferRWIRequestSaturatesCardinalsWiderThanTheirColumn(t *testing.T) {
+func TestTransferRWIRequestKeepsTheLowByteOfByteCardinalsAsYaCyDoes(t *testing.T) {
 	t.Parallel()
 
-	const (
-		byteCeiling   = 255
-		uint16Ceiling = 65535
-	)
-	saturated := postingFromCardinals(t, byteCeiling, uint16Ceiling)
+	const uint16Ceiling = 65535
 	cases := map[string]struct {
 		written, want yacymodel.RWIPosting
 	}{
-		"at the ceiling": {saturated, saturated},
-		"one above the ceiling": {
-			postingFromCardinals(t, byteCeiling+1, uint16Ceiling+1),
-			saturated,
+		"at the ceiling": {
+			postingFromCardinals(t, 255, uint16Ceiling),
+			postingFromCardinals(t, 255, uint16Ceiling),
 		},
-		"far above the ceiling": {postingFromCardinals(t, 4096, 1<<20), saturated},
+		"one above the ceiling": {
+			postingFromCardinals(t, 256, uint16Ceiling),
+			postingFromCardinals(t, 0, uint16Ceiling),
+		},
+		"far above the ceiling": {
+			postingFromCardinals(t, 300, uint16Ceiling),
+			postingFromCardinals(t, 44, uint16Ceiling),
+		},
+	}
+	for name, testCase := range cases {
+		if got := postingRoundTrip(t, testCase.written); got != testCase.want {
+			t.Errorf("%s round trips to %+v, want %+v", name, got, testCase.want)
+		}
+	}
+}
+
+func TestTransferRWIRequestSaturatesUint16CardinalsWiderThanTheirColumn(t *testing.T) {
+	t.Parallel()
+
+	const uint16Ceiling = 65535
+	cases := map[string]struct {
+		written, want yacymodel.RWIPosting
+	}{
+		"one above the ceiling": {
+			postingFromCardinals(t, 0, uint16Ceiling+1),
+			postingFromCardinals(t, 0, uint16Ceiling),
+		},
+		"far above the ceiling": {
+			postingFromCardinals(t, 0, 1<<20),
+			postingFromCardinals(t, 0, uint16Ceiling),
+		},
 		"below zero": {
 			postingFromCardinals(t, -1, -300),
 			postingFromCardinals(t, 0, 0),
