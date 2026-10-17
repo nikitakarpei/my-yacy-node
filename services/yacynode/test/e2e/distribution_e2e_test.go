@@ -63,9 +63,7 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 
 	waitPeerActiveConnected(t, ctx, probe, yacyURL, nodeHash, 60*time.Second)
 
-	documentHash := distributionDocument.Hash
-
-	nodepeer.PushPosting(t, ctx, probe, nodeURL, nodeHash, distributionWordHash, documentHash)
+	nodepeer.PushPosting(t, ctx, probe, nodeURL, nodeHash, distributionWordHash, distributionDocument)
 
 	if pollwait.For(escrowHoldGrace, func() bool {
 		count, ok := peerclient.QueryCount(ctx, probe, yacyURL, yacyHash, yacyproto.ObjectRWICount)
