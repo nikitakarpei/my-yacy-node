@@ -9,10 +9,26 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+)
+
+type PostingOutcome string
+
+const (
+	PostingHeldInEscrow           PostingOutcome = "held_in_escrow"
+	PostingIndexed                PostingOutcome = "indexed"
+	PostingDroppedAlreadyIndexed  PostingOutcome = "dropped_already_indexed"
+	PostingDroppedOtherVersion    PostingOutcome = "dropped_other_version"
+	PostingDroppedOtherNetwork    PostingOutcome = "dropped_other_network"
+	PostingDroppedFutureDate      PostingOutcome = "dropped_future_date"
+	PostingDroppedStopword        PostingOutcome = "dropped_stopword"
+	PostingRefusedTooManyPostings PostingOutcome = "refused_too_many_postings"
+	PostingRefusedStorageFull     PostingOutcome = "refused_storage_full"
+	PostingRefusedEscrowFull      PostingOutcome = "refused_escrow_full"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -23,10 +39,11 @@ type PostingAdmission struct {
 	vault         *vault.Vault
 	urls          urlmeta.URLDirectory
 	escrow        Escrow
-	judge         postingJudge
+	postings      rwipostings.PostingIndex
 	postingWriter rwipostings.PostingWriter
 	stopwords     Stopwords
 	observer      Observer
+	now           func() time.Time
 
 	postingCap int
 	pause      time.Duration
@@ -49,32 +66,13 @@ func (a PostingAdmission) Receive(
 		return a.busyReceiptRefusing(PostingRefusedStorageFull, postings), nil
 	}
 
-	escrowFull, err := a.escrow.AtCapacity(ctx)
-	if err != nil {
-		return PostingReceipt{}, fmt.Errorf("check escrow capacity: %w", err)
-	}
-
-	postingsWithoutStopwords := a.postingsWithoutStopwordsOf(postings)
-	referenced := referencedURLsOf(postingsWithoutStopwords)
-
-	var unknown []yacymodel.URLHash
+	var awaitedURLs []yacymodel.URLHash
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		a.observe(tx, PostingDroppedStopword, len(postings)-len(postingsWithoutStopwords))
-		currentVersions, err := a.urls.CurrentVersionsOf(tx, referenced)
-		if err != nil {
-			return fmt.Errorf("current versions of urls: %w", err)
-		}
-		awaitedURLs, err := a.placeEach(ctx, tx, origin, postingsWithoutStopwords, currentVersions)
-		if err != nil {
-			return err
-		}
-		if escrowFull && len(awaitedURLs) > 0 {
-			return errEscrowFull
-		}
-		unknown = awaitedURLs
+		urlsOfHeldPostings, err := a.admitEach(ctx, tx, origin, postings)
+		awaitedURLs = urlsOfHeldPostings
 
-		return nil
+		return err
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
 		return a.busyReceiptRefusing(PostingRefusedStorageFull, postings), nil
@@ -86,29 +84,49 @@ func (a PostingAdmission) Receive(
 		return PostingReceipt{}, fmt.Errorf("receive rwi: %w", err)
 	}
 
-	return PostingReceipt{UnknownURL: unknown}, nil
+	return PostingReceipt{UnknownURL: awaitedURLs}, nil
 }
 
 func (a PostingAdmission) busyReceiptRefusing(
 	outcome PostingOutcome,
 	postings []yacymodel.RWIPosting,
 ) PostingReceipt {
-	a.observer.ObservePostings(outcome, len(postings))
+	a.observer.ObserveReceivedPostings(outcome, len(postings))
 
 	return PostingReceipt{Busy: true, Pause: a.pause}
 }
 
-func (a PostingAdmission) postingsWithoutStopwordsOf(
+func (a PostingAdmission) admitEach(
+	ctx context.Context,
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
-) []yacymodel.RWIPosting {
-	postingsWithoutStopwords := make([]yacymodel.RWIPosting, 0, len(postings))
+) ([]yacymodel.URLHash, error) {
+	currentVersions, err := a.urls.CurrentVersionsOf(tx, referencedURLsOf(postings))
+	if err != nil {
+		return nil, fmt.Errorf("current versions of urls: %w", err)
+	}
+	var urlsOfHeldPostings []yacymodel.URLHash
 	for _, posting := range postings {
-		if !a.stopwords.Contains(posting.WordHash, posting.Language) {
-			postingsWithoutStopwords = append(postingsWithoutStopwords, posting)
+		if err := ctx.Err(); err != nil {
+			return nil, fmt.Errorf("context: %w", err)
+		}
+		outcome, err := a.admit(
+			tx,
+			origin,
+			posting,
+			storedVersionOf(currentVersions, posting.URLHash),
+		)
+		if err != nil {
+			return nil, err
+		}
+		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
+		if outcome == PostingHeldInEscrow && !slices.Contains(urlsOfHeldPostings, posting.URLHash) {
+			urlsOfHeldPostings = append(urlsOfHeldPostings, posting.URLHash)
 		}
 	}
 
-	return postingsWithoutStopwords
+	return urlsOfHeldPostings, nil
 }
 
 func referencedURLsOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
@@ -122,40 +140,7 @@ func referencedURLsOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
 	return urls
 }
 
-func (a PostingAdmission) observe(tx *vault.Txn, outcome PostingOutcome, postings int) {
-	tx.RunAfterCommit(func() { a.observer.ObservePostings(outcome, postings) })
-}
-
-func (a PostingAdmission) placeEach(
-	ctx context.Context,
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	postings []yacymodel.RWIPosting,
-	currentVersions map[yacymodel.URLHash]urlmeta.CurrentVersion,
-) ([]yacymodel.URLHash, error) {
-	var awaitedURLs []yacymodel.URLHash
-	for _, posting := range postings {
-		if err := ctx.Err(); err != nil {
-			return nil, fmt.Errorf("context: %w", err)
-		}
-		wasHeld, err := a.placeReceived(
-			tx,
-			origin,
-			posting,
-			currentVersionOf(currentVersions, posting.URLHash),
-		)
-		if err != nil {
-			return nil, err
-		}
-		if wasHeld && !slices.Contains(awaitedURLs, posting.URLHash) {
-			awaitedURLs = append(awaitedURLs, posting.URLHash)
-		}
-	}
-
-	return awaitedURLs, nil
-}
-
-func currentVersionOf(
+func storedVersionOf(
 	currentVersions map[yacymodel.URLHash]urlmeta.CurrentVersion,
 	url yacymodel.URLHash,
 ) yacymodel.Optional[urlmeta.CurrentVersion] {
@@ -167,44 +152,77 @@ func currentVersionOf(
 	return yacymodel.Some(version)
 }
 
-func (a PostingAdmission) placeReceived(
+func (a PostingAdmission) admit(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	currentVersion yacymodel.Optional[urlmeta.CurrentVersion],
-) (bool, error) {
-	outcome, err := a.judge.outcomeFor(tx, origin, posting, currentVersion)
+	storedVersion yacymodel.Optional[urlmeta.CurrentVersion],
+) (PostingOutcome, error) {
+	postingFingerprint := pagefingerprint.FromPosting(posting)
+	currentVersion, metadataStored := storedVersion.Get()
+	switch {
+	case a.stopwords.Contains(posting.WordHash, posting.Language):
+		return PostingDroppedStopword, nil
+	case postingFingerprint.IsDatedAfter(a.now()):
+		return PostingDroppedFutureDate, nil
+	case !metadataStored || currentVersion.IsOlderThan(postingFingerprint):
+		return a.hold(tx, origin, posting)
+	case !currentVersion.Describes(postingFingerprint):
+		return PostingDroppedOtherVersion, nil
+	case !currentVersion.CameFrom(origin):
+		return PostingDroppedOtherNetwork, nil
+	}
+	postingIndexed, err := a.isIndexed(tx, posting)
 	if err != nil {
-		return false, err
+		return "", err
 	}
-	if outcome == PostingHeldInEscrow {
-		if err := a.escrow.Hold(tx, origin, posting); err != nil {
-			return false, fmt.Errorf("hold posting: %w", err)
-		}
-
-		return true, nil
+	if postingIndexed {
+		return PostingDroppedAlreadyIndexed, nil
 	}
-	a.observe(tx, outcome, 1)
 
-	return false, a.carryOut(tx, posting, outcome)
+	return a.write(tx, posting)
 }
 
-func (a PostingAdmission) carryOut(
+func (a PostingAdmission) hold(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+) (PostingOutcome, error) {
+	escrowFull, err := a.escrow.IsFull(tx)
+	if err != nil {
+		return "", fmt.Errorf("check escrow capacity: %w", err)
+	}
+	if escrowFull {
+		return "", errEscrowFull
+	}
+	if err := a.escrow.Hold(tx, origin, posting); err != nil {
+		return "", fmt.Errorf("hold posting: %w", err)
+	}
+
+	return PostingHeldInEscrow, nil
+}
+
+func (a PostingAdmission) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (bool, error) {
+	_, indexed, err := a.postings.PostingOf(tx, posting.WordHash, posting.URLHash)
+	if err != nil {
+		return false, fmt.Errorf("read indexed posting: %w", err)
+	}
+
+	return indexed, nil
+}
+
+func (a PostingAdmission) write(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
-	outcome PostingOutcome,
-) error {
-	if outcome != PostingIndexed {
-		return nil
-	}
+) (PostingOutcome, error) {
 	if err := a.postingWriter.Write(tx, posting); err != nil {
-		return fmt.Errorf("admit posting: %w", err)
+		return "", fmt.Errorf("write posting: %w", err)
 	}
 
-	return nil
+	return PostingIndexed, nil
 }
 
-func (a PostingAdmission) placeWaitingFor(
+func (a PostingAdmission) admitWaitingFor(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 	currentVersion urlmeta.CurrentVersion,
@@ -214,7 +232,10 @@ func (a PostingAdmission) placeWaitingFor(
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
 	for _, posting := range waiting {
-		if err := a.placeWaiting(tx, posting, currentVersion); err != nil {
+		if currentVersion.IsOlderThan(pagefingerprint.FromPosting(posting.Posting)) {
+			continue
+		}
+		if err := a.release(tx, posting, currentVersion); err != nil {
 			return err
 		}
 	}
@@ -222,30 +243,19 @@ func (a PostingAdmission) placeWaitingFor(
 	return nil
 }
 
-func (a PostingAdmission) placeWaiting(
+func (a PostingAdmission) release(
 	tx *vault.Txn,
 	waiting rwiescrow.WaitingPosting,
 	currentVersion urlmeta.CurrentVersion,
 ) error {
-	outcome, err := a.judge.outcomeFor(
-		tx,
-		waiting.Origin,
-		waiting.Posting,
-		yacymodel.Some(currentVersion),
-	)
-	if err != nil {
-		return err
-	}
-	if outcome == PostingHeldInEscrow {
-		return nil
-	}
-	a.observe(tx, outcome, 1)
-	if err := a.carryOut(tx, waiting.Posting, outcome); err != nil {
-		return err
-	}
 	if err := a.escrow.Release(tx, waiting.Posting); err != nil {
 		return fmt.Errorf("release posting: %w", err)
 	}
+	outcome, err := a.admit(tx, waiting.Origin, waiting.Posting, yacymodel.Some(currentVersion))
+	if err != nil {
+		return err
+	}
+	tx.RunAfterCommit(func() { a.observer.ObserveReleasedPostings(outcome, 1) })
 
 	return nil
 }

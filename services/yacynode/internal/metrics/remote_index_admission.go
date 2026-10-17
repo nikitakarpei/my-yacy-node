@@ -7,31 +7,48 @@ import (
 )
 
 type RemoteIndexAdmissionMetrics struct {
-	postings    *prometheus.CounterVec
-	urlMetadata *prometheus.CounterVec
+	receivedPostings *prometheus.CounterVec
+	releasedPostings *prometheus.CounterVec
+	urlMetadata      *prometheus.CounterVec
 }
 
 func NewRemoteIndexAdmissionMetrics(registry prometheus.Registerer) *RemoteIndexAdmissionMetrics {
-	postings := counterPerLabelFor(
-		"yacynode_remoteindexadmission_postings_total",
-		"Inbound postings by what the node decided for them.",
+	receivedPostings := counterPerLabelFor(
+		"yacynode_remoteindexadmission_received_postings_total",
+		"Postings sent by peers, by what the node did with them.",
+		"outcome",
+	)
+	releasedPostings := counterPerLabelFor(
+		"yacynode_remoteindexadmission_released_postings_total",
+		"Postings released from escrow when their URL metadata arrived, by what the node did with them.",
 		"outcome",
 	)
 	urlMetadata := counterPerLabelFor(
 		"yacynode_remoteindexadmission_url_metadata_total",
-		"URL metadata records sent by peers, by what the node decided for them.",
+		"URL metadata records sent by peers, by what the node did with them.",
 		"outcome",
 	)
-	registry.MustRegister(postings, urlMetadata)
+	registry.MustRegister(receivedPostings, releasedPostings, urlMetadata)
 
-	return &RemoteIndexAdmissionMetrics{postings: postings, urlMetadata: urlMetadata}
+	return &RemoteIndexAdmissionMetrics{
+		receivedPostings: receivedPostings,
+		releasedPostings: releasedPostings,
+		urlMetadata:      urlMetadata,
+	}
 }
 
-func (m *RemoteIndexAdmissionMetrics) ObservePostings(
+func (m *RemoteIndexAdmissionMetrics) ObserveReceivedPostings(
 	outcome remoteindexadmission.PostingOutcome,
 	postings int,
 ) {
-	m.postings.WithLabelValues(string(outcome)).Add(float64(postings))
+	m.receivedPostings.WithLabelValues(string(outcome)).Add(float64(postings))
+}
+
+func (m *RemoteIndexAdmissionMetrics) ObserveReleasedPostings(
+	outcome remoteindexadmission.PostingOutcome,
+	postings int,
+) {
+	m.releasedPostings.WithLabelValues(string(outcome)).Add(float64(postings))
 }
 
 func (m *RemoteIndexAdmissionMetrics) ObserveURLMetadata(

@@ -37,7 +37,7 @@ type URLMetadataReceiver interface {
 }
 
 type Escrow interface {
-	AtCapacity(ctx context.Context) (bool, error)
+	IsFull(tx *vault.Txn) (bool, error)
 	Hold(tx *vault.Txn, origin rwiorigin.Origin, posting yacymodel.RWIPosting) error
 	PostingsWaitingFor(tx *vault.Txn, url yacymodel.URLHash) ([]rwiescrow.WaitingPosting, error)
 	Release(tx *vault.Txn, posting yacymodel.RWIPosting) error
@@ -48,7 +48,8 @@ type Stopwords interface {
 }
 
 type Observer interface {
-	ObservePostings(outcome PostingOutcome, postings int)
+	ObserveReceivedPostings(outcome PostingOutcome, postings int)
+	ObserveReleasedPostings(outcome PostingOutcome, postings int)
 	ObserveURLMetadata(outcome URLMetadataOutcome, records int)
 }
 
@@ -59,8 +60,8 @@ type PostingReceipt struct {
 }
 
 type URLMetadataReceipt struct {
-	Busy   bool
-	Double int
+	Busy      bool
+	KnownURLs int
 }
 
 type SwapLimit struct {
@@ -97,10 +98,11 @@ func Open(
 		vault:         v,
 		urls:          urls,
 		escrow:        escrow,
-		judge:         postingJudge{postings: postings, now: now},
+		postings:      postings,
 		postingWriter: postingWriter,
 		stopwords:     stopwords,
 		observer:      observer,
+		now:           now,
 		postingCap:    config.PostingCap,
 		pause:         config.Pause,
 	}

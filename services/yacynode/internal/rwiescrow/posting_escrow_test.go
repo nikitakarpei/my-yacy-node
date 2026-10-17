@@ -152,12 +152,17 @@ func (h *harness) escrowedCount(t *testing.T) int {
 	return count
 }
 
-func (h *harness) atCapacity(t *testing.T) bool {
+func (h *harness) isFull(t *testing.T) bool {
 	t.Helper()
 
-	full, err := h.escrow.AtCapacity(context.Background())
-	if err != nil {
-		t.Fatalf("AtCapacity: %v", err)
+	var full bool
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		escrowFull, err := h.escrow.IsFull(tx)
+		full = escrowFull
+
+		return err
+	}); err != nil {
+		t.Fatalf("IsFull: %v", err)
 	}
 
 	return full
@@ -323,20 +328,20 @@ func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 
 const cappedCapacity = 3
 
-func TestEscrowIsAtCapacityOnceItHoldsTheCapacity(t *testing.T) {
+func TestEscrowIsFullOnceItHoldsTheCapacity(t *testing.T) {
 	h := openCappedHarness(t, cappedCapacity)
 	if got := h.escrow.Capacity(); got != cappedCapacity {
 		t.Fatalf("capacity = %d, want the configured %d", got, cappedCapacity)
 	}
 	admitted := postingsNumbering(cappedCapacity)
 	h.hold(t, admitted[:cappedCapacity-1]...)
-	if h.atCapacity(t) {
-		t.Fatalf("escrow below its capacity reports it is at capacity")
+	if h.isFull(t) {
+		t.Fatalf("escrow below its capacity reports it is full")
 	}
 
 	h.hold(t, admitted[cappedCapacity-1])
 
-	if !h.atCapacity(t) {
+	if !h.isFull(t) {
 		t.Fatalf("escrow at its capacity reports room")
 	}
 }

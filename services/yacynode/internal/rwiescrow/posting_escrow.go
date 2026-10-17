@@ -137,19 +137,13 @@ func (e *PostingEscrow) Expire(
 	return expired, nil
 }
 
-func (e *PostingEscrow) AtCapacity(ctx context.Context) (bool, error) {
-	var count int
-	err := e.vault.View(ctx, func(tx *vault.Txn) error {
-		held, err := e.Count(tx)
-		count = held
-
-		return err
-	})
+func (e *PostingEscrow) IsFull(tx *vault.Txn) (bool, error) {
+	held, err := e.Count(tx)
 	if err != nil {
 		return false, err
 	}
 
-	return count >= e.capacity, nil
+	return held >= e.capacity, nil
 }
 
 func (e *PostingEscrow) Count(tx *vault.Txn) (int, error) {

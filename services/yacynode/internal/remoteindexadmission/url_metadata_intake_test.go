@@ -53,9 +53,9 @@ func TestURLMetadataIntakeReportsOneOutcomePerRecord(t *testing.T) {
 		remoteindexadmission.URLMetadataDroppedOtherVersion:  2,
 		remoteindexadmission.URLMetadataDroppedFutureDate:    1,
 	}
-	if !maps.Equal(h.observed.urlMetadata, want) || receipt.Double != 3 {
+	if !maps.Equal(h.observed.urlMetadata, want) || receipt.KnownURLs != 3 {
 		t.Fatalf("outcomes = %v, double = %d, want %v and the 3 known urls",
-			h.observed.urlMetadata, receipt.Double, want)
+			h.observed.urlMetadata, receipt.KnownURLs, want)
 	}
 }
 

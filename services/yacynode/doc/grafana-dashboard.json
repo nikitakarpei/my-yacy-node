@@ -832,7 +832,7 @@
     {
       "id": 143,
       "title": "Inbound postings by outcome",
-      "description": "What the node decided for each inbound posting. A posting that waits for URL metadata of its version counts once the node decides it; one that waits too long shows on the escrow panels.",
+      "description": "What the node did with each posting a peer sent. A posting held in escrow waits for URL metadata of its version; the released postings panel shows what the node did with it once the metadata arrived.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -854,6 +854,18 @@
           }
         },
         "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "held_in_escrow"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "waits for URL metadata in escrow"
+              }
+            ]
+          },
           {
             "matcher": {
               "id": "byName",
@@ -972,7 +984,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_received_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_received_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],
@@ -1220,7 +1232,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 65
       },
@@ -1317,6 +1329,95 @@
         {
           "refId": "A",
           "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 145,
+      "title": "Postings released from escrow by outcome",
+      "description": "What the node did with each posting that waited in escrow, once URL metadata of its version arrived.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 65
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "indexed"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "joined the index"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_already_indexed"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "word already indexed"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_other_version"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "another version than the stored metadata"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_other_network"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "from another network than the stored metadata"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],

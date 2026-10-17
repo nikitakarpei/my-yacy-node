@@ -48,11 +48,11 @@ func (e transferURLEndpoint) Serve(
 	} else {
 		resp.Result = yacyproto.ResultOK
 	}
-	resp.Double = receipt.Double
+	resp.Double = receipt.KnownURLs
 
 	slog.DebugContext(ctx, "transfer url stored",
 		slog.Bool("busy", receipt.Busy),
-		slog.Int("doubleCount", receipt.Double),
+		slog.Int("knownUrls", receipt.KnownURLs),
 	)
 
 	return resp, nil

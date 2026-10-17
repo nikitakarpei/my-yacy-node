@@ -35,15 +35,23 @@ func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
 func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
 
 type observedAdmission struct {
-	outcomes    map[remoteindexadmission.PostingOutcome]int
+	received    map[remoteindexadmission.PostingOutcome]int
+	released    map[remoteindexadmission.PostingOutcome]int
 	urlMetadata map[remoteindexadmission.URLMetadataOutcome]int
 }
 
-func (o *observedAdmission) ObservePostings(
+func (o *observedAdmission) ObserveReceivedPostings(
 	outcome remoteindexadmission.PostingOutcome,
 	postings int,
 ) {
-	o.outcomes[outcome] += postings
+	o.received[outcome] += postings
+}
+
+func (o *observedAdmission) ObserveReleasedPostings(
+	outcome remoteindexadmission.PostingOutcome,
+	postings int,
+) {
+	o.released[outcome] += postings
 }
 
 func (o *observedAdmission) ObserveURLMetadata(
@@ -123,7 +131,8 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 	observed := &observedAdmission{
-		outcomes:    map[remoteindexadmission.PostingOutcome]int{},
+		received:    map[remoteindexadmission.PostingOutcome]int{},
+		released:    map[remoteindexadmission.PostingOutcome]int{},
 		urlMetadata: map[remoteindexadmission.URLMetadataOutcome]int{},
 	}
 	postingAdmission, urlMetadataIntake, err := remoteindexadmission.Open(
@@ -294,7 +303,7 @@ func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 	if len(receipt.UnknownURL) != 0 {
 		t.Fatalf("UnknownURL = %v, want none: only a stopword names u2", receipt.UnknownURL)
 	}
-	if got := h.observed.outcomes[remoteindexadmission.PostingDroppedStopword]; got != 2 {
+	if got := h.observed.received[remoteindexadmission.PostingDroppedStopword]; got != 2 {
 		t.Fatalf("postings dropped as stopwords = %d, want both", got)
 	}
 }
@@ -339,15 +348,18 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 	if got := h.heldCount(t); got != 0 {
 		t.Fatalf("held count = %d, want 0", got)
 	}
-	maps.DeleteFunc(
-		h.observed.outcomes,
-		func(_ remoteindexadmission.PostingOutcome, postings int) bool { return postings == 0 },
-	)
-	want := map[remoteindexadmission.PostingOutcome]int{remoteindexadmission.PostingIndexed: 1}
-	if !maps.Equal(h.observed.outcomes, want) {
+	wantReceived := map[remoteindexadmission.PostingOutcome]int{
+		remoteindexadmission.PostingHeldInEscrow: 1,
+	}
+	wantReleased := map[remoteindexadmission.PostingOutcome]int{
+		remoteindexadmission.PostingIndexed: 1,
+	}
+	if !maps.Equal(h.observed.received, wantReceived) ||
+		!maps.Equal(h.observed.released, wantReleased) {
 		t.Fatalf(
-			"outcomes = %v, want the posting counted once, when it joined the index",
-			h.observed.outcomes,
+			"received = %v, released = %v, want the posting held on receipt and indexed on release",
+			h.observed.received,
+			h.observed.released,
 		)
 	}
 }
@@ -392,7 +404,7 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if !receipt.Busy || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
-	if got := h.observed.outcomes[remoteindexadmission.PostingRefusedStorageFull]; got != 1 {
+	if got := h.observed.received[remoteindexadmission.PostingRefusedStorageFull]; got != 1 {
 		t.Fatalf("postings refused for a full storage = %d, want all 1 received", got)
 	}
 }
@@ -428,7 +440,7 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	if got := h.heldCount(t); got != 1 {
 		t.Fatalf("held count = %d, want the refused postings to leave nothing behind", got)
 	}
-	if got := h.observed.outcomes[remoteindexadmission.PostingRefusedEscrowFull]; got != len(
+	if got := h.observed.received[remoteindexadmission.PostingRefusedEscrowFull]; got != len(
 		refused,
 	) {
 		t.Fatalf("postings refused for a full escrow = %d, want all %d received",
@@ -436,19 +448,19 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	}
 }
 
-func TestReceiveHoldsAWholeTransferThatStartsBelowTheEscrowCapacity(t *testing.T) {
+func TestReceiveRefusesATransferThatWouldHoldMoreThanTheEscrowCapacity(t *testing.T) {
 	h := openHarness(t, 0, 1)
 
-	held := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u2")}
-	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, held)
+	overfilling := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u2")}
+	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, overfilling)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
-	if receipt.Busy {
-		t.Fatalf("receipt = %+v, want the transfer taken", receipt)
+	if !receipt.Busy {
+		t.Fatalf("receipt = %+v, want busy", receipt)
 	}
-	if got := h.heldCount(t); got != len(held) {
-		t.Fatalf("held count = %d, want all %d received", got, len(held))
+	if got := h.heldCount(t); got != 0 {
+		t.Fatalf("held count = %d, want the refused transfer to leave nothing behind", got)
 	}
 }
 
@@ -470,7 +482,7 @@ func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
 	if h.indexed(t, oversized[0]) {
 		t.Fatal("a posting of an oversized batch reached the index")
 	}
-	if got := h.observed.outcomes[remoteindexadmission.PostingRefusedTooManyPostings]; got != len(
+	if got := h.observed.received[remoteindexadmission.PostingRefusedTooManyPostings]; got != len(
 		oversized,
 	) {
 		t.Fatalf("postings refused as too many = %d, want %d", got, len(oversized))
@@ -588,9 +600,9 @@ func TestOlderPostingLeavesTheIndexedVersionAlone(t *testing.T) {
 	if got := h.heldCount(
 		t,
 	); got != 0 ||
-		h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
+		h.observed.received[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
 		t.Fatalf("held count = %d, other versions = %d, want the older posting dropped",
-			got, h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion])
+			got, h.observed.received[remoteindexadmission.PostingDroppedOtherVersion])
 	}
 }
 
@@ -612,10 +624,10 @@ func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
 	if h.indexed(t, other) || h.heldCount(t) != 0 || len(receipt.UnknownURL) != 0 {
 		t.Fatalf("receipt = %+v, held = %d, want the posting dropped", receipt, h.heldCount(t))
 	}
-	if h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
+	if h.observed.received[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
 		t.Fatalf(
 			"other versions = %d, want 1",
-			h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion],
+			h.observed.received[remoteindexadmission.PostingDroppedOtherVersion],
 		)
 	}
 }
@@ -661,8 +673,8 @@ func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
 			h.heldCount(t),
 		)
 	}
-	if h.observed.outcomes[remoteindexadmission.PostingDroppedFutureDate] != 1 {
-		t.Fatalf("outcomes = %v, want one posting dated in the future", h.observed.outcomes)
+	if h.observed.received[remoteindexadmission.PostingDroppedFutureDate] != 1 {
+		t.Fatalf("outcomes = %v, want one posting dated in the future", h.observed.received)
 	}
 }
 
@@ -687,7 +699,7 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 		{name: "missing word from another peer of the network", origin: neighbourPeer, posting: postingOn("w4", today), want: remoteindexadmission.PostingIndexed},
 	} {
 		t.Run(c.name, func(t *testing.T) {
-			before := h.observed.outcomes[c.want]
+			before := h.observed.received[c.want]
 			if _, err := h.receiver.Receive(
 				context.Background(),
 				c.origin,
@@ -695,8 +707,8 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 			); err != nil {
 				t.Fatalf("Receive: %v", err)
 			}
-			if h.observed.outcomes[c.want] != before+1 {
-				t.Fatalf("outcomes = %v, want one more %q", h.observed.outcomes, c.want)
+			if h.observed.received[c.want] != before+1 {
+				t.Fatalf("outcomes = %v, want one more %q", h.observed.received, c.want)
 			}
 		})
 	}
@@ -720,8 +732,8 @@ func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	h.receive(t, []yacymodel.RWIPosting{sent})
 
 	if h.indexed(t, sent) ||
-		h.observed.outcomes[remoteindexadmission.PostingDroppedOtherNetwork] != 1 {
-		t.Fatalf("outcomes = %v, want the peer posting dropped", h.observed.outcomes)
+		h.observed.received[remoteindexadmission.PostingDroppedOtherNetwork] != 1 {
+		t.Fatalf("outcomes = %v, want the peer posting dropped", h.observed.received)
 	}
 }
 
@@ -769,8 +781,8 @@ func TestWaitingPostingOfAnotherVersionLeavesTheEscrowUnindexed(t *testing.T) {
 			h.heldCount(t),
 		)
 	}
-	if h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
-		t.Fatalf("outcomes = %v, want one other version", h.observed.outcomes)
+	if h.observed.released[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
+		t.Fatalf("outcomes = %v, want one other version", h.observed.released)
 	}
 }
 
