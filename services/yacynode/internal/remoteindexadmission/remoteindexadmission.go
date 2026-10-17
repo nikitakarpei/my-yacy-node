@@ -37,7 +37,7 @@ type URLMetadataReceiver interface {
 }
 
 type Escrow interface {
-	IsFull(tx *vault.Txn) (bool, error)
+	IsFull(ctx context.Context) (bool, error)
 	Hold(tx *vault.Txn, origin rwiorigin.Origin, posting yacymodel.RWIPosting) error
 	PostingsWaitingFor(tx *vault.Txn, url yacymodel.URLHash) ([]rwiescrow.WaitingPosting, error)
 	Release(tx *vault.Txn, posting yacymodel.RWIPosting) error
@@ -113,6 +113,7 @@ func Open(
 		evictor:   evictor,
 		urlWriter: urlWriter,
 		swapAllowance: swapAllowance{
+			vault:   v,
 			windows: windows,
 			urls:    urls,
 			now:     now,

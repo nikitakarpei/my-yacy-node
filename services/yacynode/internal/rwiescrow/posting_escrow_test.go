@@ -139,13 +139,8 @@ func (h *harness) escrowedCount(t *testing.T) int {
 func (h *harness) isFull(t *testing.T) bool {
 	t.Helper()
 
-	var full bool
-	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		escrowFull, err := h.escrow.IsFull(tx)
-		full = escrowFull
-
-		return err
-	}); err != nil {
+	full, err := h.escrow.IsFull(context.Background())
+	if err != nil {
 		t.Fatalf("IsFull: %v", err)
 	}
 

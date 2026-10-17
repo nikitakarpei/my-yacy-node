@@ -128,8 +128,14 @@ func (e *PostingEscrow) Expire(
 	return expired, nil
 }
 
-func (e *PostingEscrow) IsFull(tx *vault.Txn) (bool, error) {
-	held, err := e.Count(tx)
+func (e *PostingEscrow) IsFull(ctx context.Context) (bool, error) {
+	var held int
+	err := e.vault.View(ctx, func(tx *vault.Txn) error {
+		count, err := e.Count(tx)
+		held = count
+
+		return err
+	})
 	if err != nil {
 		return false, err
 	}

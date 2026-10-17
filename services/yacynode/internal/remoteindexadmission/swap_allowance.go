@@ -1,6 +1,7 @@
 package remoteindexadmission
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -16,26 +17,35 @@ type swapWindow struct {
 }
 
 type swapAllowance struct {
+	vault   *vault.Vault
 	windows *vault.Collection[string, swapWindow]
 	urls    urlmeta.URLDirectory
 	now     func() time.Time
 	limit   SwapLimit
 }
 
-func (a swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
+func (a swapAllowance) hourlyLimitOf(ctx context.Context) (int, error) {
+	var storedURLs int
+	err := a.vault.View(ctx, func(tx *vault.Txn) error {
+		count, err := a.urls.Count(tx)
+		storedURLs = count
+
+		return err
+	})
+	if err != nil {
+		return 0, fmt.Errorf("count stored urls: %w", err)
+	}
+
+	return max(a.limit.FloorPerHour, int(float64(storedURLs)*a.limit.SharePerHour)), nil
+}
+
+func (a swapAllowance) allows(tx *vault.Txn, network string, hourlyLimit int) (bool, error) {
 	window, err := a.currentWindowOf(tx, network)
 	if err != nil {
 		return false, err
 	}
-	storedURLs, err := a.urls.Count(tx)
-	if err != nil {
-		return false, fmt.Errorf("count stored urls: %w", err)
-	}
 
-	return window.Swaps < max(
-		a.limit.FloorPerHour,
-		int(float64(storedURLs)*a.limit.SharePerHour),
-	), nil
+	return window.Swaps < hourlyLimit, nil
 }
 
 func (a swapAllowance) currentWindowOf(tx *vault.Txn, network string) (swapWindow, error) {

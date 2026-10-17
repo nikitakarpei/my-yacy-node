@@ -70,14 +70,24 @@ func (a PostingAdmission) Receive(
 	if atCapacity {
 		return a.busyReceiptRefusing(PostingRefusedStorageFull, postings), nil
 	}
+	escrowFull, err := a.escrow.IsFull(ctx)
+	if err != nil {
+		return PostingReceipt{}, fmt.Errorf("check escrow capacity: %w", err)
+	}
 
 	var awaitedURLs []yacymodel.URLHash
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
 		urlsOfHeldPostings, err := a.admitEach(ctx, tx, origin, postings)
+		if err != nil {
+			return err
+		}
+		if escrowFull && len(urlsOfHeldPostings) > 0 {
+			return errEscrowFull
+		}
 		awaitedURLs = urlsOfHeldPostings
 
-		return err
+		return nil
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
 		return a.busyReceiptRefusing(PostingRefusedStorageFull, postings), nil
@@ -183,13 +193,6 @@ func (a PostingAdmission) hold(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 ) (ReceivedPostingOutcome, error) {
-	escrowFull, err := a.escrow.IsFull(tx)
-	if err != nil {
-		return "", fmt.Errorf("check escrow capacity: %w", err)
-	}
-	if escrowFull {
-		return "", errEscrowFull
-	}
 	if err := a.escrow.Hold(tx, origin, posting); err != nil {
 		return "", fmt.Errorf("hold posting: %w", err)
 	}

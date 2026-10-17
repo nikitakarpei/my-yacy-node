@@ -45,7 +45,7 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | `YACY_PEBBLE_COMPACTION_CONCURRENCY` | `1` | How many compactions run at the same time. |
 | `YACY_PEBBLE_OPEN_FILE_LIMIT` | `1000` | How many table files the engine keeps open. |
 | `YACY_PEBBLE_WRITE_CONCURRENCY` | `16` | How many write transactions run at the same time. |
-| `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for URL metadata of their version. The node refuses a transfer when the escrow cannot hold all of its postings that must wait. |
+| `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for URL metadata of their version. When the escrow holds this many, the node refuses transfers with postings that must wait until held postings expire. A transfer that starts below this number is held whole. |
 
 ## Page offer intake
 

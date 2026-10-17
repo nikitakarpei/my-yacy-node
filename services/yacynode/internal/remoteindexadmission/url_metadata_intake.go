@@ -49,11 +49,15 @@ func (i URLMetadataIntake) Receive(
 	if atCapacity {
 		return URLMetadataReceipt{Busy: true}, nil
 	}
+	hourlySwapLimit, err := i.swapAllowance.hourlyLimitOf(ctx)
+	if err != nil {
+		return URLMetadataReceipt{}, err
+	}
 
 	var knownURLs int
 
 	err = i.vault.Update(ctx, func(tx *vault.Txn) error {
-		counted, err := i.admitEach(ctx, tx, sender, metadata)
+		counted, err := i.admitEach(ctx, tx, sender, metadata, hourlySwapLimit)
 		knownURLs = counted
 
 		return err
@@ -73,6 +77,7 @@ func (i URLMetadataIntake) admitEach(
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	metadata []yacymodel.URLMetadata,
+	hourlySwapLimit int,
 ) (int, error) {
 	knownURLs := 0
 	for _, arrived := range metadata {
@@ -86,7 +91,7 @@ func (i URLMetadataIntake) admitEach(
 		if storedVersion.Present() {
 			knownURLs++
 		}
-		outcome, err := i.admit(ctx, tx, sender, arrived, storedVersion)
+		outcome, err := i.admit(ctx, tx, sender, arrived, storedVersion, hourlySwapLimit)
 		if err != nil {
 			return 0, err
 		}
@@ -111,12 +116,14 @@ func (i URLMetadataIntake) storedVersionOf(
 	return storedVersionOf(currentVersions, url), nil
 }
 
+//nolint:revive // argument-limit: each input is one fact the decision reads
 func (i URLMetadataIntake) admit(
 	ctx context.Context,
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
 	storedVersion yacymodel.Optional[urlmeta.CurrentVersion],
+	hourlySwapLimit int,
 ) (URLMetadataOutcome, error) {
 	arrivedFingerprint := pagefingerprint.FromMetadata(arrived)
 	currentVersion, metadataStored := storedVersion.Get()
@@ -130,7 +137,7 @@ func (i URLMetadataIntake) admit(
 	case !currentVersion.IsOlderThan(arrivedFingerprint):
 		return URLMetadataDroppedOtherVersion, nil
 	}
-	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network)
+	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network, hourlySwapLimit)
 	if err != nil {
 		return "", err
 	}
