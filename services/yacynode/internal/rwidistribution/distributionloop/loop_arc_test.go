@@ -175,14 +175,12 @@ func TestLoopKeepsAnArcReadableWhenAPostingIsAdmittedWhileItIsRead(t *testing.T)
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
 		h.recordHolders(t, wordPartitions[0], peer.Hash)
+		h.admit(t, wordPartitions[1], urlsOf(1)...)
 		clk.advance(refreshInterval)
-		exclusionAsks := 0
-		h.offered.onExcludedAsked = func() {
-			exclusionAsks++
-			if exclusionAsks == 2 {
-				h.eligibility.OfferDeclined(peer.Hash, time.Hour)
-				h.admit(t, wordPartitions[1], urlsOf(1)...)
-			}
+		h.offered.onPausedAsked = func() {
+			h.offered.onPausedAsked = nil
+			h.eligibility.OfferDeclined(peer.Hash, time.Hour)
+			h.loop.ObservePostingAdmitted(positionOf(wordPartitions[1]))
 		}
 
 		h.start(t)
@@ -274,17 +272,14 @@ func TestLoopLeavesAnArcWhoseWindowClosesWhileItIsRead(t *testing.T) {
 		for _, wordPartition := range wordPartitions {
 			h.admit(t, wordPartition, urlsOf(1)...)
 		}
-		recipientChecks := 0
 		h.offered.onPausedAsked = func() {
-			recipientChecks++
-			if recipientChecks == 1 {
-				h.eligibility.OfferDeclined(peer.Hash, time.Hour)
-			}
+			h.offered.onPausedAsked = nil
+			h.eligibility.OfferDeclined(peer.Hash, time.Hour)
 		}
 
 		h.start(t)
-		if recipientChecks != 1 {
-			t.Fatalf("recipient checks = %d, want none after the window closed", recipientChecks)
+		if got := len(h.transfers.offeredTo(peer)); got != 0 {
+			t.Fatalf("transfers while the peer is paused = %d, want none", got)
 		}
 		h.advance(time.Hour)
 

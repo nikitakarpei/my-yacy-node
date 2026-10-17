@@ -9,7 +9,7 @@ import (
 )
 
 type urlDirectory struct {
-	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
+	collection *vault.Collection[yacymodel.URLHash, storedURLMetadata]
 	observers  observers
 }
 
@@ -26,35 +26,29 @@ func (d urlDirectory) MetadataPerHash(
 		if !ok {
 			continue
 		}
-		stored.Hash = hash
-		metadata[hash] = stored
+		stored.metadata.Hash = hash
+		metadata[hash] = stored.metadata
 	}
 
 	return metadata, nil
 }
 
-func (d urlDirectory) MissingURLs(
+func (d urlDirectory) CurrentVersionsOf(
 	tx *vault.Txn,
 	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	missing := make([]yacymodel.URLHash, 0)
-	seen := make(map[yacymodel.URLHash]struct{}, len(hashes))
+) (map[yacymodel.URLHash]CurrentVersion, error) {
+	versions := make(map[yacymodel.URLHash]CurrentVersion, len(hashes))
 	for _, hash := range hashes {
-		if _, ok := seen[hash]; ok {
-			continue
-		}
-		seen[hash] = struct{}{}
-
-		_, ok, err := d.collection.Get(tx, hash)
+		stored, ok, err := d.collection.Get(tx, hash)
 		if err != nil {
 			return nil, fmt.Errorf("read url metadata: %w", err)
 		}
-		if !ok {
-			missing = append(missing, hash)
+		if ok {
+			versions[hash] = currentVersionOf(stored)
 		}
 	}
 
-	return missing, nil
+	return versions, nil
 }
 
 func (d urlDirectory) Count(tx *vault.Txn) (int, error) {
@@ -89,7 +83,21 @@ func (d urlDirectory) Purge(
 	return result, nil
 }
 
+func (d urlDirectory) Write(
+	tx *vault.Txn,
+	metadata yacymodel.URLMetadata,
+	source Source,
+) (CurrentVersion, error) {
+	stored := storedURLMetadata{metadata: metadata, source: source}
+	if _, err := d.collection.Put(tx, metadata.Hash, stored); err != nil {
+		return CurrentVersion{}, fmt.Errorf("write url metadata: %w", err)
+	}
+
+	return currentVersionOf(stored), nil
+}
+
 var (
-	_ URLDirectory = urlDirectory{}
-	_ URLEvictor   = urlDirectory{}
+	_ URLDirectory      = urlDirectory{}
+	_ URLEvictor        = urlDirectory{}
+	_ URLMetadataWriter = urlDirectory{}
 )

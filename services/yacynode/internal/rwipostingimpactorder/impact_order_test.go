@@ -16,7 +16,7 @@ import (
 type harness struct {
 	vault       *vault.Vault
 	impactOrder rwipostingimpactorder.ImpactOrderQuery
-	admitter    rwipostings.PostingAdmitter
+	writer      rwipostings.PostingWriter
 	purger      rwipostings.PostingPurger
 }
 
@@ -37,7 +37,7 @@ func openHarness(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("rwipostingimpactorder.Open: %v", err)
 	}
-	_, _, admitter, purger, err := rwipostings.Open(
+	_, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -47,7 +47,7 @@ func openHarness(t *testing.T) harness {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
-	return harness{vault: v, impactOrder: impactOrder, admitter: admitter, purger: purger}
+	return harness{vault: v, impactOrder: impactOrder, writer: writer, purger: purger}
 }
 
 func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
@@ -55,7 +55,7 @@ func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.admitter.Admit(tx, posting); err != nil {
+			if err := h.writer.Write(tx, posting); err != nil {
 				return fmt.Errorf("store posting: %w", err)
 			}
 		}

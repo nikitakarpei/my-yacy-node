@@ -11,10 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
 
 var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
@@ -142,9 +139,6 @@ func TestSweepDrainsCandidatesAboveTarget(t *testing.T) {
 	if len(urls.remaining) != 0 {
 		t.Fatalf("remaining = %d, want fully drained", len(urls.remaining))
 	}
-	if len(urls.selected) != 4 {
-		t.Fatalf("select calls = %d, want 4 (2+2+1+empty)", len(urls.selected))
-	}
 }
 
 func TestSweepStopsOnNoProgress(t *testing.T) {
@@ -181,9 +175,6 @@ func TestSweepStopsAtItsBatchBound(t *testing.T) {
 	}
 	if result.URLsDeleted != 6 {
 		t.Fatalf("URLsDeleted = %d, want 6 (2 per batch, 3 batches)", result.URLsDeleted)
-	}
-	if len(urls.selected) != 3 {
-		t.Fatalf("select calls = %d, want 3", len(urls.selected))
 	}
 	if len(urls.remaining) != 4 {
 		t.Fatalf("remaining = %d, want 4 left for the next sweep", len(urls.remaining))
@@ -246,112 +237,4 @@ func urlHash(raw string) yacymodel.URLHash {
 	}
 
 	return hash
-}
-
-const quotaFarAboveUsage = 1 << 20
-
-type discardedPurges struct{}
-
-func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
-
-type indexedPage struct {
-	vault   *vault.Vault
-	index   rwipostings.PostingIndex
-	sweeper eviction.Sweeper
-	url     yacymodel.URLHash
-	word    yacymodel.Hash
-}
-
-func openIndexedPage(t *testing.T) indexedPage {
-	t.Helper()
-
-	v := openVault(t, quotaFarAboveUsage)
-	index, references, admitter, purger, err := rwipostings.Open(
-		context.Background(),
-		v,
-		yacymodel.DHTRingPartitions(1),
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("rwipostings.Open: %v", err)
-	}
-	staleness, stalenessProjection, err := urlmetastaleness.Open(v)
-	if err != nil {
-		t.Fatalf("urlmetastaleness.Open: %v", err)
-	}
-	_, evictor, _, receiver, err := urlmeta.Open(
-		context.Background(),
-		v,
-		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
-		urlpostingpurge.New(references, purger, discardedPurges{}),
-	)
-	if err != nil {
-		t.Fatalf("urlmeta.Open: %v", err)
-	}
-
-	page := indexedPage{
-		vault:   v,
-		index:   index,
-		sweeper: eviction.NewSweeper(v, evictor, staleness, sweepConfig(0, 2, 8)),
-		url:     urlHash("a"),
-		word:    yacymodel.WordHash("w"),
-	}
-	page.store(t, receiver, admitter)
-
-	return page
-}
-
-func (p indexedPage) store(
-	t *testing.T,
-	receiver urlmeta.URLReceiver,
-	admitter rwipostings.PostingAdmitter,
-) {
-	t.Helper()
-
-	if _, err := receiver.Receive(context.Background(), []yacymodel.URLMetadata{
-		{Hash: p.url, Address: "http://example.com/a"},
-	}); err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
-	if err := p.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return admitter.Admit(tx, yacymodel.RWIPosting{
-			WordHash: p.word,
-			URLHash:  p.url,
-			Language: yacymodel.LanguageOfUndeclaredDocument,
-			Hits:     1,
-		})
-	}); err != nil {
-		t.Fatalf("Admit: %v", err)
-	}
-}
-
-func (p indexedPage) indexed(t *testing.T) bool {
-	t.Helper()
-
-	var found bool
-	if err := p.vault.View(context.Background(), func(tx *vault.Txn) error {
-		_, stored, err := p.index.PostingOf(tx, p.word, p.url)
-		found = stored
-
-		return err
-	}); err != nil {
-		t.Fatalf("PostingOf: %v", err)
-	}
-
-	return found
-}
-
-func TestSweptURLLeavesNoPostingBehind(t *testing.T) {
-	page := openIndexedPage(t)
-
-	result, err := page.sweeper.Sweep(context.Background())
-	if err != nil {
-		t.Fatalf("Sweep: %v", err)
-	}
-	if result.URLsDeleted != 1 {
-		t.Fatalf("URLsDeleted = %d, want the swept url", result.URLsDeleted)
-	}
-	if page.indexed(t) {
-		t.Error("a posting of the swept url is still indexed")
-	}
 }

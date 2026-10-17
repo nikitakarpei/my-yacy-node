@@ -13,18 +13,8 @@ import (
 )
 
 type recordingObserver struct {
-	stored []yacymodel.URLHash
 	purged []yacymodel.URLHash
 	fail   bool
-}
-
-func (r *recordingObserver) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
-	tx.RunAfterCommit(func() { r.stored = append(r.stored, hash) })
-	if r.fail {
-		return fmt.Errorf("observer refused store")
-	}
-
-	return nil
 }
 
 func (r *recordingObserver) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
@@ -38,7 +28,7 @@ func (r *recordingObserver) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) err
 
 func openObservedModule(
 	t *testing.T,
-	watchers ...urlmeta.URLMetadataObserver,
+	watchers ...urlmeta.URLPurgedObserver,
 ) (*vault.Vault, urlPorts) {
 	t.Helper()
 
@@ -55,12 +45,12 @@ func openObservedModule(
 		}
 	})
 
-	directory, evictor, _, receiver, err := urlmeta.Open(context.Background(), v, nil, watchers...)
+	directory, evictor, writer, err := urlmeta.Open(context.Background(), v, nil, watchers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 
-	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
+	return v, urlPorts{Directory: directory, Evictor: evictor, Writer: writer}
 }
 
 func storedURLCount(t *testing.T, v *vault.Vault, directory urlmeta.URLDirectory) int {

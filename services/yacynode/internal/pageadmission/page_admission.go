@@ -16,8 +16,8 @@ import (
 type pageAdmission struct {
 	vault     *vault.Vault
 	urls      urlmeta.URLEvictor
-	metadata  urlmeta.URLMetadataAdmitter
-	postings  rwipostings.PostingAdmitter
+	metadata  urlmeta.URLMetadataWriter
+	postings  rwipostings.PostingWriter
 	stopwords Stopwords
 	pause     time.Duration
 }
@@ -56,11 +56,11 @@ func (a pageAdmission) replaceEverythingHeldForPage(
 	); err != nil {
 		return fmt.Errorf("purge page url: %w", err)
 	}
-	if err := a.metadata.Admit(tx, page.Metadata); err != nil {
-		return fmt.Errorf("admit page url metadata: %w", err)
+	if _, err := a.metadata.Write(tx, page.Metadata, urlmeta.SourceThisNode()); err != nil {
+		return fmt.Errorf("write page url metadata: %w", err)
 	}
 
-	return a.postings.Admit(tx, a.postingsWithoutStopwordsOf(page.Postings)...)
+	return a.postings.Write(tx, a.postingsWithoutStopwordsOf(page.Postings)...)
 }
 
 func (a pageAdmission) postingsWithoutStopwordsOf(

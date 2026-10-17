@@ -42,6 +42,10 @@ components:
     in: internal/urlmetastaleness/**
   urlpostingpurge:
     in: internal/urlpostingpurge/**
+  pagefingerprint:
+    in: internal/pagefingerprint/**
+  rwiorigin:
+    in: internal/rwiorigin/**
   rwipostings:
     in: internal/rwipostings/**
   rwipostingimpactorder:
@@ -52,10 +56,10 @@ components:
     in: internal/rwiringoccupancy/**
   rwiescrow:
     in: internal/rwiescrow/**
-  rwiadmission:
-    in: internal/rwiadmission/**
-  rwiingress:
-    in: internal/rwiingress/**
+  remoteindexadmission:
+    in: internal/remoteindexadmission/**
+  remoteindexingress:
+    in: internal/remoteindexingress/**
   rwidistribution:
     in: internal/rwidistribution/**
   postingcourier:
@@ -165,6 +169,12 @@ deps:
   hashkeypart:
     canUse:
       - vault
+  rwiorigin:
+    canUse:
+      - storedfields
+  pagefingerprint:
+    canUse:
+      - storedfields
   httpguard:
     canUse:
       - yacyproto
@@ -219,6 +229,8 @@ deps:
       - hashkeypart
       - httpguard
       - nodeidentity
+      - pagefingerprint
+      - rwiorigin
     canUse:
       - yacyproto
       - vault
@@ -257,21 +269,26 @@ deps:
   rwiescrow:
     mayDependOn:
       - rwipostings
-      - urlmeta
+      - rwiorigin
+      - pagefingerprint
       - hashkeypart
     canUse:
       - vault
       - storedfields
-  rwiadmission:
+  remoteindexadmission:
     mayDependOn:
       - rwipostings
       - rwiescrow
+      - rwiorigin
       - urlmeta
+      - pagefingerprint
     canUse:
       - vault
-  rwiingress:
+      - storedfields
+  remoteindexingress:
     mayDependOn:
-      - rwiadmission
+      - remoteindexadmission
+      - rwiorigin
       - httpguard
       - nodeidentity
     canUse:
@@ -348,7 +365,7 @@ deps:
     mayDependOn:
       - eviction
       - peerannouncement
-      - rwiadmission
+      - remoteindexadmission
       - urlpostingpurge
     canUse:
       - prometheus

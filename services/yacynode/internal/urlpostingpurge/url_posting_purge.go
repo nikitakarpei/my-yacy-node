@@ -9,30 +9,14 @@ import (
 )
 
 type URLPostingPurge struct {
-	references rwipostings.URLReferences
-	purger     rwipostings.PostingPurger
-	observer   Observer
-}
-
-func (p URLPostingPurge) URLStored(*vault.Txn, yacymodel.URLHash) error {
-	return nil
+	purger   rwipostings.PostingPurger
+	observer Observer
 }
 
 func (p URLPostingPurge) URLPurged(tx *vault.Txn, url yacymodel.URLHash) error {
-	words, err := p.references.WordsReferencing(tx, url)
+	amountOfPostings, err := p.purger.PurgePostingsOf(tx, url)
 	if err != nil {
-		return fmt.Errorf("words referencing purged url: %w", err)
-	}
-
-	amountOfPostings := 0
-	for _, word := range words {
-		wasPurged, err := p.purger.PurgePosting(tx, word, url)
-		if err != nil {
-			return fmt.Errorf("purge posting of purged url: %w", err)
-		}
-		if wasPurged {
-			amountOfPostings++
-		}
+		return fmt.Errorf("purge postings of purged url: %w", err)
 	}
 	p.observer.ObservePostingsPurgedWithURL(tx, url, amountOfPostings)
 

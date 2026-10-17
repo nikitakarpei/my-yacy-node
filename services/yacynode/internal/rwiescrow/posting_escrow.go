@@ -7,16 +7,24 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
 
 type postingIdentity struct {
-	Word yacymodel.Hash
-	URL  yacymodel.URLHash
+	Word        yacymodel.Hash
+	URL         yacymodel.URLHash
+	Fingerprint pagefingerprint.Fingerprint
 }
 
 type escrowedPosting struct {
 	HeldAt  time.Time
+	Origin  rwiorigin.Origin
+	Posting yacymodel.RWIPosting
+}
+
+type WaitingPosting struct {
+	Origin  rwiorigin.Origin
 	Posting yacymodel.RWIPosting
 }
 
@@ -29,52 +37,63 @@ type PostingEscrow struct {
 	vault    *vault.Vault
 	escrowed *vault.Collection[postingIdentity, escrowedPosting]
 	holds    *vault.ValueIndex[postingHold, postingHold]
-	admitter rwipostings.PostingAdmitter
-	observer HoldObserver
 	capacity int
 	now      func() time.Time
 }
 
-func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	wasReplaced, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
+func (e *PostingEscrow) Hold(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+) error {
+	_, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
 		HeldAt:  e.now(),
+		Origin:  origin,
 		Posting: posting,
 	})
 	if err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
-	}
-	if !wasReplaced {
-		e.observer.ObserveHeld(tx, 1)
 	}
 
 	return nil
 }
 
 func identityOf(posting yacymodel.RWIPosting) postingIdentity {
-	return postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
+	return postingIdentity{
+		Word:        posting.WordHash,
+		URL:         posting.URLHash,
+		Fingerprint: pagefingerprint.FromPosting(posting),
+	}
 }
 
-func (e *PostingEscrow) URLStored(tx *vault.Txn, hash yacymodel.URLHash) error {
-	waiting, err := e.postingsWaitingFor(tx, hash)
+func (e *PostingEscrow) PostingsWaitingFor(
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+) ([]WaitingPosting, error) {
+	var waiting []WaitingPosting
+	err := e.escrowed.Scan(
+		tx,
+		everyPostingWaitingFor(url),
+		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
+			escrowed.Posting.WordHash = identity.Word
+			escrowed.Posting.URLHash = identity.URL
+			waiting = append(
+				waiting,
+				WaitingPosting{Origin: escrowed.Origin, Posting: escrowed.Posting},
+			)
+
+			return true, nil
+		},
+	)
 	if err != nil {
-		return err
-	}
-	if len(waiting) == 0 {
-		return nil
+		return nil, fmt.Errorf("read postings waiting for url: %w", err)
 	}
 
-	for _, escrowed := range waiting {
-		if err := e.release(tx, escrowed); err != nil {
-			return err
-		}
-	}
-	e.observer.ObserveReleased(tx, len(waiting))
-
-	return nil
+	return waiting, nil
 }
 
-func (e *PostingEscrow) URLPurged(*vault.Txn, yacymodel.URLHash) error {
-	return nil
+func (e *PostingEscrow) Release(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	return e.drop(tx, identityOf(posting))
 }
 
 func (e *PostingEscrow) Expire(
@@ -109,11 +128,11 @@ func (e *PostingEscrow) Expire(
 	return expired, nil
 }
 
-func (e *PostingEscrow) AtCapacity(ctx context.Context) (bool, error) {
-	var count int
+func (e *PostingEscrow) IsFull(ctx context.Context) (bool, error) {
+	var held int
 	err := e.vault.View(ctx, func(tx *vault.Txn) error {
-		held, err := e.Count(tx)
-		count = held
+		count, err := e.Count(tx)
+		held = count
 
 		return err
 	})
@@ -121,7 +140,7 @@ func (e *PostingEscrow) AtCapacity(ctx context.Context) (bool, error) {
 		return false, err
 	}
 
-	return count >= e.capacity, nil
+	return held >= e.capacity, nil
 }
 
 func (e *PostingEscrow) Count(tx *vault.Txn) (int, error) {
@@ -135,29 +154,6 @@ func (e *PostingEscrow) Count(tx *vault.Txn) (int, error) {
 
 func (e *PostingEscrow) Capacity() int {
 	return e.capacity
-}
-
-func (e *PostingEscrow) postingsWaitingFor(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-) ([]escrowedPosting, error) {
-	var waiting []escrowedPosting
-	err := e.escrowed.Scan(
-		tx,
-		everyPostingWaitingFor(hash),
-		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
-			escrowed.Posting.WordHash = identity.Word
-			escrowed.Posting.URLHash = identity.URL
-			waiting = append(waiting, escrowed)
-
-			return true, nil
-		},
-	)
-	if err != nil {
-		return nil, fmt.Errorf("read postings waiting for url: %w", err)
-	}
-
-	return waiting, nil
 }
 
 func (e *PostingEscrow) postingHoldsBefore(
@@ -176,14 +172,6 @@ func (e *PostingEscrow) postingHoldsBefore(
 	}
 
 	return holds, nil
-}
-
-func (e *PostingEscrow) release(tx *vault.Txn, escrowed escrowedPosting) error {
-	if err := e.admitter.Admit(tx, escrowed.Posting); err != nil {
-		return fmt.Errorf("admit released posting: %w", err)
-	}
-
-	return e.drop(tx, identityOf(escrowed.Posting))
 }
 
 func (e *PostingEscrow) drop(tx *vault.Txn, identity postingIdentity) error {

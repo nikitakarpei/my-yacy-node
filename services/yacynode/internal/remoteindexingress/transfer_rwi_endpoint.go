@@ -1,22 +1,25 @@
-// Package rwiingress is the YaCy DHT ingress for reverse-word-index postings:
-// it accepts a transferRWI request, checks that the request addresses this
-// node and that this node accepts a remote index, and hands the batch to the
-// posting receiver.
-package rwiingress
+// Package remoteindexingress is the YaCy DHT ingress for this node's remote
+// index: it accepts transferRWI and transferURL requests, checks that each
+// addresses this node and that this node accepts a remote index, and hands the
+// postings or the URL metadata to remote index admission with the sender's
+// network.
+package remoteindexingress
 
 import (
 	"context"
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type transferRWIEndpoint struct {
 	identity nodeidentity.Identity
-	receiver rwiadmission.PostingReceiver
+	receiver remoteindexadmission.PostingReceiver
 }
 
 func (e transferRWIEndpoint) Serve(
@@ -46,7 +49,8 @@ func (e transferRWIEndpoint) Serve(
 		slog.Int("receivedEntryCount", len(req.Indexes)),
 	)
 
-	receipt, err := e.receiver.Receive(ctx, req.Indexes)
+	origin := rwiorigin.Of(httpguard.RemoteAddr(ctx))
+	receipt, err := e.receiver.Receive(ctx, origin, req.Indexes)
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)
 	}
@@ -63,7 +67,9 @@ func (e transferRWIEndpoint) Serve(
 	return resp, nil
 }
 
-func transferRWIResultFrom(receipt rwiadmission.Receipt) yacyproto.TransferRWIResult {
+func transferRWIResultFrom(
+	receipt remoteindexadmission.PostingReceipt,
+) yacyproto.TransferRWIResult {
 	if receipt.Busy {
 		return yacyproto.ResultBusy
 	}

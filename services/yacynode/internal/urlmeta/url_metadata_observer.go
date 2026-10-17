@@ -7,17 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type observers []URLMetadataObserver
-
-func (o observers) stored(tx *vault.Txn, hash yacymodel.URLHash) error {
-	for _, observer := range o {
-		if err := observer.URLStored(tx, hash); err != nil {
-			return fmt.Errorf("url metadata observer: %w", err)
-		}
-	}
-
-	return nil
-}
+type observers []URLPurgedObserver
 
 func (o observers) purged(tx *vault.Txn, hash yacymodel.URLHash) error {
 	for _, observer := range o {

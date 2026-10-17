@@ -1,7 +1,7 @@
-// Package rwiescrow holds an inbound RWI posting outside the index until the URL
-// metadata it names arrives. An escrowed posting joins the index inside the
-// transaction that stores that metadata, and is dropped when its hold outlives the
-// hold period. The index therefore carries only postings this node can redistribute.
+// Package rwiescrow holds inbound RWI postings outside the index while they
+// wait for URL metadata of their page version, gives back the postings waiting
+// for a URL, and drops a posting whose hold outlives the hold period. The index
+// therefore carries only postings this node can redistribute.
 package rwiescrow
 
 import (
@@ -9,19 +9,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-var (
-	_ urlmeta.URLMetadataObserver = (*PostingEscrow)(nil)
-	_ PostingExpiry               = (*PostingEscrow)(nil)
-)
-
-type HoldObserver interface {
-	ObserveHeld(tx *vault.Txn, postings int)
-	ObserveReleased(tx *vault.Txn, postings int)
-}
+var _ PostingExpiry = (*PostingEscrow)(nil)
 
 type ExpiryObserver interface {
 	ObserveExpired(postings int)
@@ -38,12 +28,9 @@ type ExpiryConfig struct {
 	Batch    int
 }
 
-//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func Open(
 	ctx context.Context,
 	v *vault.Vault,
-	admitter rwipostings.PostingAdmitter,
-	observer HoldObserver,
 	capacity int,
 	now func() time.Time,
 ) (*PostingEscrow, error) {
@@ -56,8 +43,6 @@ func Open(
 		vault:    v,
 		escrowed: escrowed,
 		holds:    holds,
-		admitter: admitter,
-		observer: observer,
 		capacity: capacity,
 		now:      now,
 	}, nil

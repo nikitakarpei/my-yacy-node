@@ -11,11 +11,16 @@ import (
 
 const bucketName vault.Name = "urlmeta"
 
+type storedURLMetadata struct {
+	metadata yacymodel.URLMetadata
+	source   Source
+}
+
 func registerCollection(
 	ctx context.Context,
 	v *vault.Vault,
 	projections []vault.Projection[yacymodel.URLMetadata],
-) (*vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata], error) {
+) (*vault.Collection[yacymodel.URLHash, storedURLMetadata], error) {
 	collection, err := v.RegisterProjectedCollection(
 		ctx,
 		bucketName,
@@ -32,8 +37,9 @@ func registerCollection(
 
 func metadataWithHash(
 	hash yacymodel.URLHash,
-	metadata yacymodel.URLMetadata,
+	stored storedURLMetadata,
 ) yacymodel.URLMetadata {
+	metadata := stored.metadata
 	metadata.Hash = hash
 
 	return metadata

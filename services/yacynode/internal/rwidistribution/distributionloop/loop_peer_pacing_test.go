@@ -53,23 +53,13 @@ func (h *pacingHarness) answer() {
 	synctest.Wait()
 }
 
-func TestLoopHoldsBackTheWordPartitionsOfASlowPeerWhileASendIsInFlight(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		h := openPacingLoop(t)
-
-		h.offerTheSecondWordPartitionDuringTheFirstSend(t)
-
-		if got := len(h.transfers.offeredTo(h.peer)); got != 1 {
-			t.Fatalf("transfers to the slow peer = %d, want 1 at a time", got)
-		}
-		h.answer()
-	})
-}
-
 func TestLoopSendsTheHeldBackWordPartitionOnceTheSlowPeerAnswers(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		h := openPacingLoop(t)
 		h.offerTheSecondWordPartitionDuringTheFirstSend(t)
+		if got := len(h.transfers.offeredTo(h.peer)); got != 1 {
+			t.Fatalf("transfers to the slow peer = %d, want 1 at a time", got)
+		}
 
 		h.answer()
 		h.settle()

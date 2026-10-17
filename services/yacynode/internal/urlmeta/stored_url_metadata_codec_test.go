@@ -1,7 +1,6 @@
 package urlmeta_test
 
 import (
-	"context"
 	"reflect"
 	"testing"
 	"time"
@@ -64,19 +63,16 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	return metadata
 }
 
-func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLMetadata {
+func writtenThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLMetadata {
 	t.Helper()
 
-	ctx := context.Background()
 	v, module := openObservedModule(t)
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{metadata}); err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
+	writeAll(t, v, module, metadata)
 
 	hash := metadata.Hash
 	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
 	if len(rows) != 1 {
-		t.Fatalf("rows = %v, want the one received row", rows)
+		t.Fatalf("rows = %v, want the one written row", rows)
 	}
 
 	return rows[hash]
@@ -85,7 +81,7 @@ func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.UR
 func TestStoredURLMetadataKeepsEveryField(t *testing.T) {
 	stored := fullURLMetadata(t)
 
-	if read := receivedThenRead(t, stored); !reflect.DeepEqual(read, stored) {
+	if read := writtenThenRead(t, stored); !reflect.DeepEqual(read, stored) {
 		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
 	}
 }
@@ -95,7 +91,7 @@ func TestStoredURLMetadataKeepsAbsentValues(t *testing.T) {
 
 	stored := yacymodel.URLMetadata{Hash: urlHashOf(t, address), Address: address}
 
-	if read := receivedThenRead(t, stored); !reflect.DeepEqual(read, stored) {
+	if read := writtenThenRead(t, stored); !reflect.DeepEqual(read, stored) {
 		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
 	}
 }

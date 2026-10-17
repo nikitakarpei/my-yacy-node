@@ -58,8 +58,6 @@ func TestRealYaCyFindsNodeDocument(t *testing.T) {
 		SeedlistURL: "http://" + searchYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 	})
 
-	documentHash := searchDocument.Hash
-
 	nodepeer.PushPosting(
 		t,
 		ctx,
@@ -67,7 +65,7 @@ func TestRealYaCyFindsNodeDocument(t *testing.T) {
 		nodeURL,
 		nodeHash,
 		yacymodel.WordHash(searchTerm),
-		documentHash,
+		searchDocument,
 	)
 	nodepeer.PushURLMetadata(t, ctx, probe, nodeURL, nodeHash, searchDocument)
 

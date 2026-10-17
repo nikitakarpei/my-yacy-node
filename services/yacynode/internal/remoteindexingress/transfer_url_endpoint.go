@@ -1,17 +1,20 @@
-package urlmeta
+package remoteindexingress
 
 import (
 	"context"
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type transferURLEndpoint struct {
 	identity nodeidentity.Identity
-	receiver URLReceiver
+	receiver remoteindexadmission.URLMetadataReceiver
 }
 
 func (e transferURLEndpoint) Serve(
@@ -35,7 +38,7 @@ func (e transferURLEndpoint) Serve(
 		return resp, nil
 	}
 
-	receipt, err := e.receiver.Receive(ctx, req.URLs)
+	receipt, err := e.receiver.Receive(ctx, rwiorigin.Of(httpguard.RemoteAddr(ctx)), req.URLs)
 	if err != nil {
 		return yacyproto.TransferURLResponse{}, fmt.Errorf("receive url: %w", err)
 	}
@@ -45,13 +48,11 @@ func (e transferURLEndpoint) Serve(
 	} else {
 		resp.Result = yacyproto.ResultOK
 	}
-	resp.Double = receipt.Double
-	resp.ErrorURL = receipt.ErrorURL
+	resp.Double = receipt.KnownURLs
 
 	slog.DebugContext(ctx, "transfer url stored",
 		slog.Bool("busy", receipt.Busy),
-		slog.Int("doubleCount", receipt.Double),
-		slog.Int("errorUrlCount", len(receipt.ErrorURL)),
+		slog.Int("knownUrls", receipt.KnownURLs),
 	)
 
 	return resp, nil
