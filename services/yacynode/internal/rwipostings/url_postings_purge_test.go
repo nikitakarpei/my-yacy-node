@@ -13,7 +13,7 @@ func (h harness) admitAtOnce(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.admitter.Admit(tx, postings...)
+		return h.writer.Write(tx, postings...)
 	}); err != nil {
 		t.Fatalf("Admit: %v", err)
 	}

@@ -31,7 +31,7 @@ type harness struct {
 	vault          *vault.Vault
 	postingAmounts rwipostingamount.PostingAmountQuery
 	wordAmounts    rwipostingamount.WordAmountEstimate
-	admitter       rwipostings.PostingAdmitter
+	writer         rwipostings.PostingWriter
 	purger         rwipostings.PostingPurger
 }
 
@@ -79,7 +79,7 @@ func openHarnessOn(t *testing.T, v *vault.Vault) harness {
 	if err != nil {
 		t.Fatalf("rwipostingamount.Open: %v", err)
 	}
-	_, admitter, purger, err := rwipostings.Open(
+	_, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -94,7 +94,7 @@ func openHarnessOn(t *testing.T, v *vault.Vault) harness {
 		vault:          v,
 		postingAmounts: postingAmounts,
 		wordAmounts:    wordAmounts,
-		admitter:       admitter,
+		writer:         writer,
 		purger:         purger,
 	}
 }
@@ -112,7 +112,7 @@ func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.admitter.Admit(tx, posting); err != nil {
+			if err := h.writer.Write(tx, posting); err != nil {
 				return fmt.Errorf("store posting: %w", err)
 			}
 		}
@@ -230,7 +230,7 @@ func TestAPostingPurgedAndStoredAgainLeavesTheAmountAlone(t *testing.T) {
 			return err
 		}
 
-		return h.admitter.Admit(tx, posting)
+		return h.writer.Write(tx, posting)
 	})
 
 	if amount := h.amountOfPostingsOf(t, yacymodel.WordHash("w1")); amount != 1 {

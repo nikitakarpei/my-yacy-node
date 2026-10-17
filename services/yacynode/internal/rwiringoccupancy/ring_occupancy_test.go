@@ -22,7 +22,7 @@ const (
 type harness struct {
 	vault         *vault.Vault
 	ringOccupancy rwiringoccupancy.RingOccupancyQuery
-	admitter      rwipostings.PostingAdmitter
+	writer        rwipostings.PostingWriter
 	purger        rwipostings.PostingPurger
 }
 
@@ -50,7 +50,7 @@ func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) 
 	if err != nil {
 		t.Fatalf("rwiringoccupancy.Open: %v", err)
 	}
-	_, admitter, purger, err := rwipostings.Open(
+	_, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions,
@@ -60,7 +60,7 @@ func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) 
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
-	return harness{vault: v, ringOccupancy: ringOccupancy, admitter: admitter, purger: purger}
+	return harness{vault: v, ringOccupancy: ringOccupancy, writer: writer, purger: purger}
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -76,7 +76,7 @@ func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, posting := range postings {
-			if err := h.admitter.Admit(tx, posting); err != nil {
+			if err := h.writer.Write(tx, posting); err != nil {
 				return fmt.Errorf("store posting: %w", err)
 			}
 		}

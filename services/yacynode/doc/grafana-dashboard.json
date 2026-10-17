@@ -972,7 +972,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_rwiadmission_postings_total{instance=~\"$service_instance\"} - (yacynode_rwiadmission_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],
@@ -1316,7 +1316,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_urlmeta_peer_metadata_total{instance=~\"$service_instance\"} - (yacynode_urlmeta_peer_metadata_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],

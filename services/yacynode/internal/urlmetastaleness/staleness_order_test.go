@@ -12,15 +12,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 )
 
-type discardedPeerMetadata struct{}
-
-func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
-
 type harness struct {
-	vault    *vault.Vault
-	order    urlmetastaleness.StaleURLSource
-	admitter urlmeta.URLMetadataAdmitter
-	evictor  urlmeta.URLEvictor
+	vault   *vault.Vault
+	order   urlmetastaleness.StaleURLSource
+	writer  urlmeta.URLMetadataWriter
+	evictor urlmeta.URLEvictor
 }
 
 func openOrder(t *testing.T) harness {
@@ -40,19 +36,16 @@ func openOrder(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("Open order: %v", err)
 	}
-	_, evictor, admitter, _, err := urlmeta.Open(
+	_, evictor, writer, err := urlmeta.Open(
 		context.Background(),
 		v,
-		time.Now,
-		urlmeta.SwapLimit{FloorPerHour: 100},
-		discardedPeerMetadata{},
 		[]vault.Projection[yacymodel.URLMetadata]{projection},
 	)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 
-	return harness{vault: v, order: order, admitter: admitter, evictor: evictor}
+	return harness{vault: v, order: order, writer: writer, evictor: evictor}
 }
 
 func (h harness) store(
@@ -63,7 +56,13 @@ func (h harness) store(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.admitter.Admit(tx, yacymodel.URLMetadata{Hash: hash, Loaded: loaded})
+		_, err := h.writer.Write(
+			tx,
+			yacymodel.URLMetadata{Hash: hash, Loaded: loaded},
+			urlmeta.SourceThisNode(),
+		)
+
+		return err
 	})
 }
 

@@ -35,7 +35,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/peereligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
@@ -46,7 +47,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionoffer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -192,7 +192,7 @@ func assembleNode(
 		return node{}, err
 	}
 
-	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
+	postings, postingWriter, postingPurger, err := rwipostings.Open(
 		ctx,
 		storage,
 		dhtRingPartitions,
@@ -207,7 +207,7 @@ func assembleNode(
 		return node{}, fmt.Errorf("rwi storage: %w", err)
 	}
 	loopRelay := &distributionLoopRelay{}
-	postingAdmitter = wordPartitionSchedule.AdmitterFrom(postingAdmitter, loopRelay)
+	postingWriter = wordPartitionSchedule.WriterFrom(postingWriter, loopRelay)
 
 	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
@@ -228,47 +228,46 @@ func assembleNode(
 		metrics.NewURLPostingPurgeMetrics(registry),
 	)
 
-	admissionRelay := &postingAdmissionRelay{}
-
-	urlDirectory, urlEvictor, urlMetadataAdmitter, urlReceiver, err := urlmeta.Open(
+	urlDirectory, urlEvictor, urlMetadataWriter, err := urlmeta.Open(
 		ctx,
 		storage,
-		now,
-		urlmeta.SwapLimit{
-			FloorPerHour: pageVersionSwapFloorPerHour,
-			SharePerHour: pageVersionSwapSharePerHour,
-		},
-		metrics.NewURLMetadataIntakeMetrics(registry),
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlPostingPurge,
-		admissionRelay,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
 	}
 
 	stopwordHashes := stopwordhashes.New()
-	postingAdmission := rwiadmission.Open(
+	postingAdmission, urlMetadataIntake, err := remoteindexadmission.Open(
 		storage,
 		urlDirectory,
+		urlEvictor,
+		urlMetadataWriter,
 		postingEscrow,
 		postings,
-		postingAdmitter,
+		postingWriter,
 		stopwordHashes,
-		metrics.NewRWIAdmissionMetrics(registry),
+		metrics.NewRemoteIndexAdmissionMetrics(registry),
 		now,
-		rwiadmission.Config{
+		remoteindexadmission.Config{
 			PostingCap: peerPostingTransferCap,
 			Pause:      postingAdmissionBusyPause,
+			SwapLimit: remoteindexadmission.SwapLimit{
+				FloorPerHour: pageVersionSwapFloorPerHour,
+				SharePerHour: pageVersionSwapSharePerHour,
+			},
 		},
 	)
-	admissionRelay.forwardTo(postingAdmission)
+	if err != nil {
+		return node{}, fmt.Errorf("remote index admission: %w", err)
+	}
 
 	pageReceiver := pageadmission.Open(
 		storage,
 		urlEvictor,
-		urlMetadataAdmitter,
-		postingAdmitter,
+		urlMetadataWriter,
+		postingWriter,
 		stopwordHashes,
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
@@ -286,7 +285,6 @@ func assembleNode(
 	})
 
 	mux.Handle("/{$}", landing.NewEndpoint())
-	urlmeta.MountTransferURL(router, identity, urlReceiver)
 	urlmeta.MountURLMetadataLookup(
 		router,
 		identity,
@@ -294,7 +292,7 @@ func assembleNode(
 		urlDirectory,
 		servedURLMetadataPerRequest,
 	)
-	rwiingress.Mount(router, identity, postingAdmission)
+	remoteindexingress.Mount(router, identity, postingAdmission, urlMetadataIntake)
 	nodestatus.MountQuery(router, identity, now, storage, wordAmounts, postingAmounts, urlDirectory)
 	mountMessageAdmission(router, identity, now, config.MessageInbox, config.Egress.ProxyURL)
 	documentsearch.MountSearch(

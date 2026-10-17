@@ -1,4 +1,4 @@
-package urlmeta
+package remoteindexingress
 
 import (
 	"context"
@@ -7,13 +7,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type transferURLEndpoint struct {
 	identity nodeidentity.Identity
-	receiver URLReceiver
+	receiver remoteindexadmission.URLMetadataReceiver
 }
 
 func (e transferURLEndpoint) Serve(
@@ -48,12 +49,10 @@ func (e transferURLEndpoint) Serve(
 		resp.Result = yacyproto.ResultOK
 	}
 	resp.Double = receipt.Double
-	resp.ErrorURL = receipt.ErrorURL
 
 	slog.DebugContext(ctx, "transfer url stored",
 		slog.Bool("busy", receipt.Busy),
 		slog.Int("doubleCount", receipt.Double),
-		slog.Int("errorUrlCount", len(receipt.ErrorURL)),
 	)
 
 	return resp, nil

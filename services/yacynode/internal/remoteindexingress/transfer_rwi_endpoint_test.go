@@ -1,4 +1,4 @@
-package rwiingress_test
+package remoteindexingress_test
 
 import (
 	"context"
@@ -12,8 +12,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -35,14 +35,14 @@ func localIdentity() nodeidentity.Identity {
 type recordingReceiver struct {
 	received []yacymodel.RWIPosting
 	origins  []rwiorigin.Origin
-	answer   rwiadmission.Receipt
+	answer   remoteindexadmission.PostingReceipt
 }
 
 func (r *recordingReceiver) Receive(
 	_ context.Context,
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
-) (rwiadmission.Receipt, error) {
+) (remoteindexadmission.PostingReceipt, error) {
 	r.received = append(r.received, postings...)
 	r.origins = append(r.origins, origin)
 
@@ -53,7 +53,31 @@ func muxWith(receiver *recordingReceiver) *http.ServeMux {
 	return muxAs(localIdentity(), receiver)
 }
 
+type recordingURLReceiver struct {
+	received []yacymodel.URLMetadata
+	senders  []rwiorigin.Origin
+}
+
+func (r *recordingURLReceiver) Receive(
+	_ context.Context,
+	sender rwiorigin.Origin,
+	metadata []yacymodel.URLMetadata,
+) (remoteindexadmission.URLMetadataReceipt, error) {
+	r.received = append(r.received, metadata...)
+	r.senders = append(r.senders, sender)
+
+	return remoteindexadmission.URLMetadataReceipt{}, nil
+}
+
 func muxAs(identity nodeidentity.Identity, receiver *recordingReceiver) *http.ServeMux {
+	return mountedMux(identity, receiver, &recordingURLReceiver{})
+}
+
+func mountedMux(
+	identity nodeidentity.Identity,
+	postings *recordingReceiver,
+	urlMetadata *recordingURLReceiver,
+) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -63,7 +87,7 @@ func muxAs(identity nodeidentity.Identity, receiver *recordingReceiver) *http.Se
 		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	rwiingress.Mount(router, identity, receiver)
+	remoteindexingress.Mount(router, identity, postings, urlMetadata)
 
 	return mux
 }
@@ -128,7 +152,7 @@ func transferRWI(
 
 func TestTransferRWIReportsBusy(t *testing.T) {
 	mux := muxWith(&recordingReceiver{
-		answer: rwiadmission.Receipt{Busy: true, Pause: 5 * time.Second},
+		answer: remoteindexadmission.PostingReceipt{Busy: true, Pause: 5 * time.Second},
 	})
 
 	req := yacyproto.TransferRWIRequest{

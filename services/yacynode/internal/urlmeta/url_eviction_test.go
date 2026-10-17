@@ -15,13 +15,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
-	if _, err := module.Receiver.Receive(
-		ctx,
-		sendingNetwork,
-		[]yacymodel.URLMetadata{row},
-	); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	writeAll(t, v, module, row)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		if _, purgeErr := module.Evictor.Purge(
@@ -46,13 +40,7 @@ func TestPurgeKeepsTheURLWhenAnObserverFails(t *testing.T) {
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
 	row := urlMetadata(t, "a")
-	if _, err := module.Receiver.Receive(
-		ctx,
-		sendingNetwork,
-		[]yacymodel.URLMetadata{row},
-	); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	writeAll(t, v, module, row)
 
 	observer.fail = true
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
@@ -74,12 +62,7 @@ func TestPurgeDeletesRows(t *testing.T) {
 	ctx := context.Background()
 	v, module := openObservedModule(t)
 	row := urlMetadata(t, "a")
-	if _, err := module.Receiver.Receive(
-		ctx, sendingNetwork,
-		[]yacymodel.URLMetadata{row, urlMetadata(t, "b")},
-	); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	writeAll(t, v, module, row, urlMetadata(t, "b"))
 
 	var result urlmeta.PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {

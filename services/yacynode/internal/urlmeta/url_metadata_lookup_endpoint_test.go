@@ -13,6 +13,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
+type stubRuntimeStatus struct{}
+
+func (stubRuntimeStatus) Version(context.Context) string { return "1.0" }
+
+func (stubRuntimeStatus) Uptime(context.Context) int { return 0 }
+
 func servedURLMetadata(
 	t *testing.T,
 	servedURLMetadataPerRequest int,
@@ -21,10 +27,8 @@ func servedURLMetadata(
 ) []yacymodel.URLMetadata {
 	t.Helper()
 
-	v, module := openModule(t, 0)
-	if _, err := module.Receiver.Receive(context.Background(), sendingNetwork, stored); err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
+	v, module := openObservedModule(t)
+	writeAll(t, v, module, stored...)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{

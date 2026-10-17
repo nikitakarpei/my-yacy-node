@@ -1,11 +1,11 @@
-package urlmeta
+package remoteindexadmission
 
 import (
 	"fmt"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 const swapWindowLength = time.Hour
@@ -16,10 +16,10 @@ type swapWindow struct {
 }
 
 type swapAllowance struct {
-	windows    *vault.Collection[string, swapWindow]
-	collection *vault.Collection[yacymodel.URLHash, storedURLMetadata]
-	now        func() time.Time
-	limit      SwapLimit
+	windows *vault.Collection[string, swapWindow]
+	urls    urlmeta.URLDirectory
+	now     func() time.Time
+	limit   SwapLimit
 }
 
 func (a swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
@@ -27,9 +27,9 @@ func (a swapAllowance) allows(tx *vault.Txn, network string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	storedURLs, err := a.collection.Len(tx)
+	storedURLs, err := a.urls.Count(tx)
 	if err != nil {
-		return false, fmt.Errorf("read url metadata length: %w", err)
+		return false, fmt.Errorf("count stored urls: %w", err)
 	}
 
 	return window.Swaps < max(

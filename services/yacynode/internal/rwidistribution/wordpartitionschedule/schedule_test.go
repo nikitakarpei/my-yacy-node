@@ -26,7 +26,7 @@ type harness struct {
 	vault      *vault.Vault
 	partitions yacymodel.DHTRingPartitions
 	schedule   *wordpartitionschedule.Schedule
-	admitter   rwipostings.PostingAdmitter
+	writer     rwipostings.PostingWriter
 	clock      time.Time
 }
 
@@ -60,7 +60,7 @@ func openHarness(t *testing.T) *harness {
 		t.Fatalf("wordpartitionschedule.Open: %v", err)
 	}
 	h.schedule = opened
-	h.admitter = opened.AdmitterFrom(&fakeAdmitter{}, &recordingAdmissionObserver{})
+	h.writer = opened.WriterFrom(&fakeWriter{}, &recordingAdmissionObserver{})
 
 	return h
 }
@@ -188,7 +188,7 @@ func (h *harness) admit(t *testing.T, wordPartition yacymodel.WordPartition) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.admitter.Admit(tx, h.postingIn(wordPartition))
+		return h.writer.Write(tx, h.postingIn(wordPartition))
 	})
 }
 

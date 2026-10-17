@@ -48,7 +48,7 @@ type loopHarness struct {
 	v           *vault.Vault
 	clk         *clock
 	index       *observedPostingIndex
-	admitter    rwipostings.PostingAdmitter
+	writer      rwipostings.PostingWriter
 	relay       *loopRelay
 	undelivered *undeliveredpostings.Postings
 	schedule    *wordpartitionschedule.Schedule
@@ -89,7 +89,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -105,7 +105,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		v:           v,
 		clk:         clk,
 		index:       &observedPostingIndex{index: index},
-		admitter:    schedule.AdmitterFrom(admitter, relay),
+		writer:      schedule.WriterFrom(writer, relay),
 		relay:       relay,
 		undelivered: undelivered,
 		schedule:    schedule,
@@ -258,7 +258,7 @@ func (h *loopHarness) admit(
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, url := range urls {
-			if err := h.admitter.Admit(tx, postingOf(wordPartition, url)); err != nil {
+			if err := h.writer.Write(tx, postingOf(wordPartition, url)); err != nil {
 				return err
 			}
 		}

@@ -83,7 +83,21 @@ func (d urlDirectory) Purge(
 	return result, nil
 }
 
+func (d urlDirectory) Write(
+	tx *vault.Txn,
+	metadata yacymodel.URLMetadata,
+	source Source,
+) (CurrentVersion, error) {
+	stored := storedURLMetadata{metadata: metadata, source: source}
+	if _, err := d.collection.Put(tx, metadata.Hash, stored); err != nil {
+		return CurrentVersion{}, fmt.Errorf("write url metadata: %w", err)
+	}
+
+	return currentVersionOf(stored), nil
+}
+
 var (
-	_ URLDirectory = urlDirectory{}
-	_ URLEvictor   = urlDirectory{}
+	_ URLDirectory      = urlDirectory{}
+	_ URLEvictor        = urlDirectory{}
+	_ URLMetadataWriter = urlDirectory{}
 )

@@ -37,8 +37,8 @@ type Config struct {
 func Open(
 	v *vault.Vault,
 	urls urlmeta.URLEvictor,
-	metadata urlmeta.URLMetadataAdmitter,
-	postings rwipostings.PostingAdmitter,
+	metadata urlmeta.URLMetadataWriter,
+	postings rwipostings.PostingWriter,
 	stopwords Stopwords,
 	config Config,
 ) PageReceiver {

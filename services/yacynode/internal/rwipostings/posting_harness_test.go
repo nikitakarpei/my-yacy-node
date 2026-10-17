@@ -13,10 +13,10 @@ import (
 )
 
 type harness struct {
-	vault    *vault.Vault
-	index    rwipostings.PostingIndex
-	admitter rwipostings.PostingAdmitter
-	purger   rwipostings.PostingPurger
+	vault  *vault.Vault
+	index  rwipostings.PostingIndex
+	writer rwipostings.PostingWriter
+	purger rwipostings.PostingPurger
 }
 
 func (h harness) postingOf(
@@ -82,7 +82,7 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	index, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions,
@@ -93,10 +93,10 @@ func openHarness(t *testing.T) harness {
 	}
 
 	return harness{
-		vault:    v,
-		index:    index,
-		admitter: admitter,
-		purger:   purger,
+		vault:  v,
+		index:  index,
+		writer: writer,
+		purger: purger,
 	}
 }
 
@@ -107,7 +107,7 @@ func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, entry := range postings {
-			if err := h.admitter.Admit(tx, entry); err != nil {
+			if err := h.writer.Write(tx, entry); err != nil {
 				return fmt.Errorf("admit posting: %w", err)
 			}
 		}

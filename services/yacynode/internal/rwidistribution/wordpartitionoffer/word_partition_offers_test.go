@@ -33,7 +33,7 @@ type options struct {
 
 type harness struct {
 	vault        *vault.Vault
-	admitter     rwipostings.PostingAdmitter
+	writer       rwipostings.PostingWriter
 	undelivered  *undeliveredpostings.Postings
 	schedule     *wordpartitionschedule.Schedule
 	offers       *wordpartitionoffer.Offers
@@ -59,7 +59,7 @@ func openHarness(t *testing.T, opts options) *harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, admitter, _, err := rwipostings.Open(
+	index, writer, _, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -90,7 +90,7 @@ func openHarness(t *testing.T, opts options) *harness {
 	if err != nil {
 		t.Fatalf("wordpartitionschedule.Open: %v", err)
 	}
-	h.admitter = h.schedule.AdmitterFrom(admitter, silentAdmissionObserver{})
+	h.writer = h.schedule.WriterFrom(writer, silentAdmissionObserver{})
 	h.offers = wordpartitionoffer.New(
 		v, undelivered, h.schedule, index, h.reachability, h.eligibility, configFrom(opts),
 	)
@@ -135,7 +135,7 @@ func (h *harness) admit(
 				URLHash:  url,
 				Language: yacymodel.LanguageOfUndeclaredDocument,
 			}
-			if err := h.admitter.Admit(tx, posting); err != nil {
+			if err := h.writer.Write(tx, posting); err != nil {
 				return err
 			}
 		}

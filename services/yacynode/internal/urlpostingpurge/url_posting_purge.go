@@ -6,20 +6,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type URLPostingPurge struct {
 	purger   rwipostings.PostingPurger
 	observer Observer
-}
-
-func (p URLPostingPurge) URLStored(
-	*vault.Txn,
-	yacymodel.URLHash,
-	urlmeta.CurrentVersion,
-) error {
-	return nil
 }
 
 func (p URLPostingPurge) URLPurged(tx *vault.Txn, url yacymodel.URLHash) error {

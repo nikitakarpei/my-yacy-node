@@ -1,5 +1,5 @@
 // Package rwipostings owns the RWI postings of this node, and is their only
-// writer: callers read through PostingIndex, add through PostingAdmitter, and
+// writer: callers read through PostingIndex, add through PostingWriter, and
 // drop through PostingPurger, one posting or every posting of a url at once.
 // Vault keeps the projections handed to Open in step. PostingCodec publishes the
 // stored value codec of a posting.
@@ -40,8 +40,8 @@ type PostingIndex interface {
 	) error
 }
 
-type PostingAdmitter interface {
-	Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error
+type PostingWriter interface {
+	Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error
 }
 
 func Open(
@@ -49,7 +49,7 @@ func Open(
 	vault *vault.Vault,
 	partitions yacymodel.DHTRingPartitions,
 	projections []vault.Projection[yacymodel.RWIPosting],
-) (PostingIndex, PostingAdmitter, PostingPurger, error) {
+) (PostingIndex, PostingWriter, PostingPurger, error) {
 	postings, urlReferences, err := registerPostings(ctx, vault, projections)
 	if err != nil {
 		return nil, nil, nil, err

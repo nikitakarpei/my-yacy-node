@@ -5,25 +5,17 @@ import (
 	"errors"
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
-
-type discardedPeerMetadata struct{}
-
-func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
-
-var sendingNetwork = rwiorigin.Of("203.0.113.7")
 
 var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
@@ -274,7 +266,7 @@ func openIndexedPage(t *testing.T) indexedPage {
 	t.Helper()
 
 	v := openVault(t, quotaFarAboveUsage)
-	index, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -287,12 +279,9 @@ func openIndexedPage(t *testing.T) indexedPage {
 	if err != nil {
 		t.Fatalf("urlmetastaleness.Open: %v", err)
 	}
-	_, evictor, _, receiver, err := urlmeta.Open(
+	_, evictor, urlWriter, err := urlmeta.Open(
 		context.Background(),
 		v,
-		time.Now,
-		urlmeta.SwapLimit{FloorPerHour: 100},
-		discardedPeerMetadata{},
 		[]vault.Projection[yacymodel.URLMetadata]{stalenessProjection},
 		urlpostingpurge.New(purger, discardedPurges{}),
 	)
@@ -307,25 +296,31 @@ func openIndexedPage(t *testing.T) indexedPage {
 		url:     urlHash("a"),
 		word:    yacymodel.WordHash("w"),
 	}
-	page.store(t, receiver, admitter)
+	page.store(t, urlWriter, writer)
 
 	return page
 }
 
 func (p indexedPage) store(
 	t *testing.T,
-	receiver urlmeta.URLReceiver,
-	admitter rwipostings.PostingAdmitter,
+	urlWriter urlmeta.URLMetadataWriter,
+	writer rwipostings.PostingWriter,
 ) {
 	t.Helper()
 
-	if _, err := receiver.Receive(context.Background(), sendingNetwork, []yacymodel.URLMetadata{
-		{Hash: p.url, Address: "http://example.com/a"},
+	if err := p.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		_, err := urlWriter.Write(
+			tx,
+			yacymodel.URLMetadata{Hash: p.url, Address: "http://example.com/a"},
+			urlmeta.SourceThisNode(),
+		)
+
+		return err
 	}); err != nil {
-		t.Fatalf("Receive: %v", err)
+		t.Fatalf("urls.Write: %v", err)
 	}
 	if err := p.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return admitter.Admit(tx, yacymodel.RWIPosting{
+		return writer.Write(tx, yacymodel.RWIPosting{
 			WordHash: p.word,
 			URLHash:  p.url,
 			Language: yacymodel.LanguageOfUndeclaredDocument,

@@ -1,4 +1,4 @@
-package urlmeta
+package remoteindexadmission
 
 import (
 	"errors"

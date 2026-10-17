@@ -28,7 +28,7 @@ const (
 type harness struct {
 	vault       *vault.Vault
 	index       rwipostings.PostingIndex
-	admitter    rwipostings.PostingAdmitter
+	writer      rwipostings.PostingWriter
 	undelivered *undeliveredpostings.Postings
 	schedule    *wordpartitionschedule.Schedule
 	handoff     *wordpartitionhandoff.Handoff
@@ -50,7 +50,7 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -74,7 +74,7 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	return &harness{
 		vault:       v,
 		index:       index,
-		admitter:    admitter,
+		writer:      writer,
 		undelivered: undelivered,
 		schedule:    schedule,
 		handoff: wordpartitionhandoff.New(purger, undelivered, schedule,
@@ -99,7 +99,7 @@ func (h *harness) admit(
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, url := range urls {
-			if err := h.admitter.Admit(tx, yacymodel.RWIPosting{
+			if err := h.writer.Write(tx, yacymodel.RWIPosting{
 				WordHash: wordPartition.Word,
 				URLHash:  url,
 				Language: yacymodel.LanguageOfUndeclaredDocument,

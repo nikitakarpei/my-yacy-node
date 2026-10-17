@@ -4,46 +4,21 @@ import (
 	"context"
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type recordingObserver struct {
-	stored         []yacymodel.URLHash
-	storedVersions []urlmeta.CurrentVersion
-	purged         []yacymodel.URLHash
-	events         []string
-	fail           bool
-}
-
-func (r *recordingObserver) URLStored(
-	tx *vault.Txn,
-	hash yacymodel.URLHash,
-	version urlmeta.CurrentVersion,
-) error {
-	tx.RunAfterCommit(func() {
-		r.stored = append(r.stored, hash)
-		r.storedVersions = append(r.storedVersions, version)
-		r.events = append(r.events, "stored")
-	})
-	if r.fail {
-		return fmt.Errorf("observer refused store")
-	}
-
-	return nil
+	purged []yacymodel.URLHash
+	fail   bool
 }
 
 func (r *recordingObserver) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
-	tx.RunAfterCommit(func() {
-		r.purged = append(r.purged, hash)
-		r.events = append(r.events, "purged")
-	})
+	tx.RunAfterCommit(func() { r.purged = append(r.purged, hash) })
 	if r.fail {
 		return fmt.Errorf("observer refused purge")
 	}
@@ -51,30 +26,9 @@ func (r *recordingObserver) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) err
 	return nil
 }
 
-type recordedOutcomes map[urlmeta.Outcome]int
-
-func (r recordedOutcomes) ObserveOutcome(outcome urlmeta.Outcome, records int) {
-	r[outcome] += records
-}
-
-var (
-	sendingNetwork = rwiorigin.Of("203.0.113.7")
-	otherNetwork   = rwiorigin.Of("198.51.100.9")
-)
-
 func openObservedModule(
 	t *testing.T,
-	watchers ...urlmeta.URLMetadataObserver,
-) (*vault.Vault, urlPorts) {
-	t.Helper()
-
-	return openModuleAt(t, intakeClock, watchers...)
-}
-
-func openModuleAt(
-	t *testing.T,
-	now func() time.Time,
-	watchers ...urlmeta.URLMetadataObserver,
+	watchers ...urlmeta.URLPurgedObserver,
 ) (*vault.Vault, urlPorts) {
 	t.Helper()
 
@@ -91,26 +45,12 @@ func openModuleAt(
 		}
 	})
 
-	outcomes := recordedOutcomes{}
-	directory, evictor, admitter, receiver, err := urlmeta.Open(
-		context.Background(),
-		v,
-		now,
-		urlmeta.SwapLimit{FloorPerHour: 1},
-		outcomes,
-		nil,
-		watchers...)
+	directory, evictor, writer, err := urlmeta.Open(context.Background(), v, nil, watchers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 
-	return v, urlPorts{
-		Directory: directory,
-		Evictor:   evictor,
-		Admitter:  admitter,
-		Receiver:  receiver,
-		Outcomes:  outcomes,
-	}
+	return v, urlPorts{Directory: directory, Evictor: evictor, Writer: writer}
 }
 
 func storedURLCount(t *testing.T, v *vault.Vault, directory urlmeta.URLDirectory) int {

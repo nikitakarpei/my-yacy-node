@@ -1,4 +1,4 @@
-package rwiadmission_test
+package remoteindexadmission_test
 
 import (
 	"context"
@@ -12,17 +12,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
 )
-
-type discardedPeerMetadata struct{}
-
-func (discardedPeerMetadata) ObserveOutcome(urlmeta.Outcome, int) {}
 
 const (
 	busyPause  = 5 * time.Second
@@ -39,27 +35,22 @@ func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
 func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
 
 type observedAdmission struct {
-	outcomes map[rwiadmission.Outcome]int
+	outcomes    map[remoteindexadmission.PostingOutcome]int
+	urlMetadata map[remoteindexadmission.URLMetadataOutcome]int
 }
 
-func (o *observedAdmission) ObserveOutcome(outcome rwiadmission.Outcome, postings int) {
+func (o *observedAdmission) ObservePostings(
+	outcome remoteindexadmission.PostingOutcome,
+	postings int,
+) {
 	o.outcomes[outcome] += postings
 }
 
-type admissionOpenedLater struct {
-	admission rwiadmission.PostingAdmission
-}
-
-func (r *admissionOpenedLater) URLStored(
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-	version urlmeta.CurrentVersion,
-) error {
-	return r.admission.URLStored(tx, url, version)
-}
-
-func (r *admissionOpenedLater) URLPurged(*vault.Txn, yacymodel.URLHash) error {
-	return nil
+func (o *observedAdmission) ObserveURLMetadata(
+	outcome remoteindexadmission.URLMetadataOutcome,
+	records int,
+) {
+	o.urlMetadata[outcome] += records
 }
 
 var harnessStart = time.Date(2026, time.October, 16, 12, 0, 0, 0, time.UTC)
@@ -84,9 +75,9 @@ type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
-	urls     urlmeta.URLReceiver
-	crawled  urlmeta.URLMetadataAdmitter
-	receiver rwiadmission.PostingAdmission
+	urls     remoteindexadmission.URLMetadataIntake
+	crawled  urlmeta.URLMetadataWriter
+	receiver remoteindexadmission.PostingAdmission
 	observed *observedAdmission
 	clock    *time.Time
 }
@@ -109,7 +100,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	clock := harnessStart
 	now := func() time.Time { return clock }
 
-	index, admitter, purger, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
@@ -122,40 +113,47 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
-	relay := &admissionOpenedLater{}
-	urlDirectory, _, urlAdmitter, urlReceiver, err := urlmeta.Open(
+	urlDirectory, urlEvictor, urlWriter, err := urlmeta.Open(
 		context.Background(),
 		v,
-		now,
-		urlmeta.SwapLimit{FloorPerHour: 100},
-		discardedPeerMetadata{},
 		nil,
 		urlpostingpurge.New(purger, discardedPurges{}),
-		relay,
 	)
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
-	observed := &observedAdmission{outcomes: map[rwiadmission.Outcome]int{}}
-	relay.admission = rwiadmission.Open(
+	observed := &observedAdmission{
+		outcomes:    map[remoteindexadmission.PostingOutcome]int{},
+		urlMetadata: map[remoteindexadmission.URLMetadataOutcome]int{},
+	}
+	postingAdmission, urlMetadataIntake, err := remoteindexadmission.Open(
 		v,
 		urlDirectory,
+		urlEvictor,
+		urlWriter,
 		escrow,
 		index,
-		admitter,
+		writer,
 		stopwordThe{},
 		observed,
 		now,
-		rwiadmission.Config{PostingCap: postingCap, Pause: busyPause},
+		remoteindexadmission.Config{
+			PostingCap: postingCap,
+			Pause:      busyPause,
+			SwapLimit:  remoteindexadmission.SwapLimit{FloorPerHour: 1},
+		},
 	)
+	if err != nil {
+		t.Fatalf("remoteindexadmission.Open: %v", err)
+	}
 
 	return harness{
 		vault:    v,
 		index:    index,
 		escrow:   escrow,
-		urls:     urlReceiver,
-		crawled:  urlAdmitter,
-		receiver: relay.admission,
+		urls:     urlMetadataIntake,
+		crawled:  urlWriter,
+		receiver: postingAdmission,
 		observed: observed,
 		clock:    &clock,
 	}
@@ -296,7 +294,7 @@ func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 	if len(receipt.UnknownURL) != 0 {
 		t.Fatalf("UnknownURL = %v, want none: only a stopword names u2", receipt.UnknownURL)
 	}
-	if got := h.observed.outcomes[rwiadmission.OutcomeDroppedStopword]; got != 2 {
+	if got := h.observed.outcomes[remoteindexadmission.PostingDroppedStopword]; got != 2 {
 		t.Fatalf("postings dropped as stopwords = %d, want both", got)
 	}
 }
@@ -343,9 +341,9 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 	}
 	maps.DeleteFunc(
 		h.observed.outcomes,
-		func(_ rwiadmission.Outcome, postings int) bool { return postings == 0 },
+		func(_ remoteindexadmission.PostingOutcome, postings int) bool { return postings == 0 },
 	)
-	want := map[rwiadmission.Outcome]int{rwiadmission.OutcomeIndexed: 1}
+	want := map[remoteindexadmission.PostingOutcome]int{remoteindexadmission.PostingIndexed: 1}
 	if !maps.Equal(h.observed.outcomes, want) {
 		t.Fatalf(
 			"outcomes = %v, want the posting counted once, when it joined the index",
@@ -394,7 +392,7 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if !receipt.Busy || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
-	if got := h.observed.outcomes[rwiadmission.OutcomeRefusedStorageFull]; got != 1 {
+	if got := h.observed.outcomes[remoteindexadmission.PostingRefusedStorageFull]; got != 1 {
 		t.Fatalf("postings refused for a full storage = %d, want all 1 received", got)
 	}
 }
@@ -430,7 +428,9 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 	if got := h.heldCount(t); got != 1 {
 		t.Fatalf("held count = %d, want the refused postings to leave nothing behind", got)
 	}
-	if got := h.observed.outcomes[rwiadmission.OutcomeRefusedEscrowFull]; got != len(refused) {
+	if got := h.observed.outcomes[remoteindexadmission.PostingRefusedEscrowFull]; got != len(
+		refused,
+	) {
 		t.Fatalf("postings refused for a full escrow = %d, want all %d received",
 			got, len(refused))
 	}
@@ -470,7 +470,7 @@ func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
 	if h.indexed(t, oversized[0]) {
 		t.Fatal("a posting of an oversized batch reached the index")
 	}
-	if got := h.observed.outcomes[rwiadmission.OutcomeRefusedTooManyPostings]; got != len(
+	if got := h.observed.outcomes[remoteindexadmission.PostingRefusedTooManyPostings]; got != len(
 		oversized,
 	) {
 		t.Fatalf("postings refused as too many = %d, want %d", got, len(oversized))
@@ -495,7 +495,7 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	}
 }
 
-var _ rwiadmission.Escrow = (*rwiescrow.PostingEscrow)(nil)
+var _ remoteindexadmission.Escrow = (*rwiescrow.PostingEscrow)(nil)
 
 func TestPeerPostingsLeaveEveryOtherPostingOfTheirURLInPlace(t *testing.T) {
 	h := openHarness(t, 0, 100)
@@ -529,7 +529,9 @@ func (h harness) admitMetadata(t *testing.T, metadata yacymodel.URLMetadata) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.crawled.Admit(tx, metadata)
+		_, err := h.crawled.Write(tx, metadata, urlmeta.SourceThisNode())
+
+		return err
 	}); err != nil {
 		t.Fatalf("Admit: %v", err)
 	}
@@ -586,9 +588,9 @@ func TestOlderPostingLeavesTheIndexedVersionAlone(t *testing.T) {
 	if got := h.heldCount(
 		t,
 	); got != 0 ||
-		h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion] != 1 {
+		h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
 		t.Fatalf("held count = %d, other versions = %d, want the older posting dropped",
-			got, h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion])
+			got, h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion])
 	}
 }
 
@@ -610,10 +612,10 @@ func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
 	if h.indexed(t, other) || h.heldCount(t) != 0 || len(receipt.UnknownURL) != 0 {
 		t.Fatalf("receipt = %+v, held = %d, want the posting dropped", receipt, h.heldCount(t))
 	}
-	if h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion] != 1 {
+	if h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
 		t.Fatalf(
 			"other versions = %d, want 1",
-			h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion],
+			h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion],
 		)
 	}
 }
@@ -659,7 +661,7 @@ func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
 			h.heldCount(t),
 		)
 	}
-	if h.observed.outcomes[rwiadmission.OutcomeDroppedFutureDate] != 1 {
+	if h.observed.outcomes[remoteindexadmission.PostingDroppedFutureDate] != 1 {
 		t.Fatalf("outcomes = %v, want one posting dated in the future", h.observed.outcomes)
 	}
 }
@@ -677,12 +679,12 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 		name    string
 		origin  rwiorigin.Origin
 		posting yacymodel.RWIPosting
-		want    rwiadmission.Outcome
+		want    remoteindexadmission.PostingOutcome
 	}{
-		{name: "missing word from the network", origin: sendingPeer, posting: postingOn("w2", today), want: rwiadmission.OutcomeIndexed},
-		{name: "indexed word from the network", origin: sendingPeer, posting: resent, want: rwiadmission.OutcomeDroppedAlreadyIndexed},
-		{name: "missing word from another network", origin: otherPeer, posting: postingOn("w3", today), want: rwiadmission.OutcomeDroppedOtherNetwork},
-		{name: "missing word from another peer of the network", origin: neighbourPeer, posting: postingOn("w4", today), want: rwiadmission.OutcomeIndexed},
+		{name: "missing word from the network", origin: sendingPeer, posting: postingOn("w2", today), want: remoteindexadmission.PostingIndexed},
+		{name: "indexed word from the network", origin: sendingPeer, posting: resent, want: remoteindexadmission.PostingDroppedAlreadyIndexed},
+		{name: "missing word from another network", origin: otherPeer, posting: postingOn("w3", today), want: remoteindexadmission.PostingDroppedOtherNetwork},
+		{name: "missing word from another peer of the network", origin: neighbourPeer, posting: postingOn("w4", today), want: remoteindexadmission.PostingIndexed},
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			before := h.observed.outcomes[c.want]
@@ -717,7 +719,8 @@ func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	sent := postingOn("w1", today)
 	h.receive(t, []yacymodel.RWIPosting{sent})
 
-	if h.indexed(t, sent) || h.observed.outcomes[rwiadmission.OutcomeDroppedOtherNetwork] != 1 {
+	if h.indexed(t, sent) ||
+		h.observed.outcomes[remoteindexadmission.PostingDroppedOtherNetwork] != 1 {
 		t.Fatalf("outcomes = %v, want the peer posting dropped", h.observed.outcomes)
 	}
 }
@@ -766,7 +769,7 @@ func TestWaitingPostingOfAnotherVersionLeavesTheEscrowUnindexed(t *testing.T) {
 			h.heldCount(t),
 		)
 	}
-	if h.observed.outcomes[rwiadmission.OutcomeDroppedOtherVersion] != 1 {
+	if h.observed.outcomes[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
 		t.Fatalf("outcomes = %v, want one other version", h.observed.outcomes)
 	}
 }

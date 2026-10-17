@@ -56,10 +56,10 @@ components:
     in: internal/rwiringoccupancy/**
   rwiescrow:
     in: internal/rwiescrow/**
-  rwiadmission:
-    in: internal/rwiadmission/**
-  rwiingress:
-    in: internal/rwiingress/**
+  remoteindexadmission:
+    in: internal/remoteindexadmission/**
+  remoteindexingress:
+    in: internal/remoteindexingress/**
   rwidistribution:
     in: internal/rwidistribution/**
   postingcourier:
@@ -275,7 +275,7 @@ deps:
     canUse:
       - vault
       - storedfields
-  rwiadmission:
+  remoteindexadmission:
     mayDependOn:
       - rwipostings
       - rwiescrow
@@ -284,9 +284,10 @@ deps:
       - pagefingerprint
     canUse:
       - vault
-  rwiingress:
+      - storedfields
+  remoteindexingress:
     mayDependOn:
-      - rwiadmission
+      - remoteindexadmission
       - rwiorigin
       - httpguard
       - nodeidentity
@@ -352,7 +353,6 @@ deps:
   urlpostingpurge:
     mayDependOn:
       - rwipostings
-      - urlmeta
     canUse:
       - vault
   eviction:
@@ -365,8 +365,7 @@ deps:
     mayDependOn:
       - eviction
       - peerannouncement
-      - rwiadmission
-      - urlmeta
+      - remoteindexadmission
       - urlpostingpurge
     canUse:
       - prometheus

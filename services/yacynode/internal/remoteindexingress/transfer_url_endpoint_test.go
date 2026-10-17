@@ -1,4 +1,4 @@
-package urlmeta_test
+package remoteindexingress_test
 
 import (
 	"context"
@@ -9,43 +9,20 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type stubRuntimeStatus struct{}
-
-func (stubRuntimeStatus) Version(context.Context) string { return "1.0" }
-
-func (stubRuntimeStatus) Uptime(context.Context) int { return 0 }
-
-func muxWith(t *testing.T, receiver urlmeta.URLReceiver) *http.ServeMux {
+func urlMetadata(t *testing.T, seed string) yacymodel.URLMetadata {
 	t.Helper()
 
-	return muxAs(t, localIdentity(), receiver)
-}
+	address := "http://example.com/" + seed
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
 
-func muxAs(
-	t *testing.T,
-	identity nodeidentity.Identity,
-	receiver urlmeta.URLReceiver,
-) *http.ServeMux {
-	t.Helper()
-
-	mux := http.NewServeMux()
-	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
-		Guard: httpguard.NewRequestGuard(
-			httpguard.DefaultMaxBodyBytes,
-			httpguard.DefaultRequestTimeout,
-		),
-		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
-		Address: httpguard.NewClientAddressResolver(nil),
-	})
-	urlmeta.MountTransferURL(router, identity, receiver)
-
-	return mux
+	return yacymodel.URLMetadata{Hash: hash, Address: address}
 }
 
 func transferURL(
@@ -83,9 +60,9 @@ func transferURL(
 	return resp
 }
 
-func TestTransferURLStoresAndAnswers(t *testing.T) {
-	v, module := openModule(t, 0)
-	mux := muxWith(t, module.Receiver)
+func TestTransferURLHandsTheMetadataOverWithItsSenderAndAnswers(t *testing.T) {
+	receiver := &recordingURLReceiver{}
+	mux := mountedMux(localIdentity(), &recordingReceiver{}, receiver)
 
 	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
 		NetworkName: "freeworld",
@@ -97,15 +74,15 @@ func TestTransferURLStoresAndAnswers(t *testing.T) {
 	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultOK) {
 		t.Fatalf("Result = %q, want ok", resp.Result)
 	}
-
-	if count := storedURLCount(t, v, module.Directory); count != 1 {
-		t.Fatalf("Count = %d, want the transferred url stored", count)
+	if len(receiver.received) != 1 || receiver.senders[0] != rwiorigin.Of("192.0.2.1") {
+		t.Fatalf("received = %v from %v, want the url from the request's network",
+			receiver.received, receiver.senders)
 	}
 }
 
 func TestTransferURLRejectsWrongNetwork(t *testing.T) {
-	_, module := openModule(t, 0)
-	mux := muxWith(t, module.Receiver)
+	receiver := &recordingURLReceiver{}
+	mux := mountedMux(localIdentity(), &recordingReceiver{}, receiver)
 
 	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
 		NetworkName: "othernetwork",
@@ -114,16 +91,18 @@ func TestTransferURLRejectsWrongNetwork(t *testing.T) {
 		URLs:        []yacymodel.URLMetadata{urlMetadata(t, "a")},
 	})
 
-	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultWrongTarget) {
-		t.Fatalf("Result = %q, want wrong target", resp.Result)
+	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultWrongTarget) ||
+		len(receiver.received) != 0 {
+		t.Fatalf("Result = %q, received = %v, want wrong target and nothing handed over",
+			resp.Result, receiver.received)
 	}
 }
 
 func TestTransferURLRefusesWhenRemoteIndexIsNotAccepted(t *testing.T) {
-	v, module := openModule(t, 0)
 	identity := localIdentity()
 	identity.Capabilities.AcceptRemoteIndex = false
-	mux := muxAs(t, identity, module.Receiver)
+	receiver := &recordingURLReceiver{}
+	mux := mountedMux(identity, &recordingReceiver{}, receiver)
 
 	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
 		NetworkName: "freeworld",
@@ -132,10 +111,8 @@ func TestTransferURLRefusesWhenRemoteIndexIsNotAccepted(t *testing.T) {
 		URLs:        []yacymodel.URLMetadata{urlMetadata(t, "a")},
 	})
 
-	if resp.Result != yacyproto.ResultErrorNotGranted {
-		t.Fatalf("Result = %q, want error not granted", resp.Result)
-	}
-	if count := storedURLCount(t, v, module.Directory); count != 0 {
-		t.Fatalf("Count = %d, want no url stored", count)
+	if resp.Result != yacyproto.ResultErrorNotGranted || len(receiver.received) != 0 {
+		t.Fatalf("Result = %q, received = %v, want error not granted and nothing handed over",
+			resp.Result, receiver.received)
 	}
 }

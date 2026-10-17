@@ -73,7 +73,7 @@ func postingWithIdentity(
 	return storedPosting
 }
 
-func (d postingDirectory) Admit(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
+func (d postingDirectory) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
 	if err := d.postings.PutEach(tx, keyedPostingsOf(postings)); err != nil {
 		return fmt.Errorf("store rwi postings: %w", err)
 	}
@@ -167,7 +167,7 @@ func (d postingDirectory) wordsReferencing(
 }
 
 var (
-	_ PostingIndex    = postingDirectory{}
-	_ PostingAdmitter = postingDirectory{}
-	_ PostingPurger   = postingDirectory{}
+	_ PostingIndex  = postingDirectory{}
+	_ PostingWriter = postingDirectory{}
+	_ PostingPurger = postingDirectory{}
 )
