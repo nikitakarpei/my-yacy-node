@@ -85,7 +85,7 @@ func metadataOf(
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      declaredLanguageOf(document),
-		ByteSize:      len(scrapedPage.Body),
+		ByteSize:      yacymodel.Some(len(scrapedPage.Body)),
 		WordCount:     wordCount,
 		LocalLinks:    document.LocalLinks,
 		ExternalLinks: document.ExternalLinks,

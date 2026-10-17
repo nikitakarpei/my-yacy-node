@@ -183,9 +183,9 @@ func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
 
 	index := pagerwi.Of(page, extractedDocument(), []byte("the quick fox"), reachedAt)
 
-	if index.Metadata.ByteSize != len(page.Body) {
+	if size, known := index.Metadata.ByteSize.Get(); !known || size != len(page.Body) {
 		t.Fatalf(
-			"byte size = %d, want the fetched document size %d",
+			"byte size = %v, want the fetched document size %d",
 			index.Metadata.ByteSize,
 			len(page.Body),
 		)

@@ -169,3 +169,32 @@ func TestAppendedBytesLongerThanTheRecordAreMalformed(t *testing.T) {
 		t.Errorf("Err = %v, want errMalformed", err)
 	}
 }
+
+func TestAKnownCountReadsBackWhetherItIsKnown(t *testing.T) {
+	var stored storedfields.Writer
+	stored.Count(1024)
+	stored.UnknownCount()
+
+	reader := storedfields.ReaderOf(stored.Record(), errMalformed)
+	if size, known := reader.KnownCount("byte size"); !known || size != 1024 {
+		t.Errorf("first count = %d known %v, want 1024 known", size, known)
+	}
+	if _, known := reader.KnownCount("byte size"); known {
+		t.Error("second count read as known, want unknown")
+	}
+	if err := reader.Err(); err != nil {
+		t.Errorf("Err = %v, want no error", err)
+	}
+}
+
+func TestAnUnknownCountReadAsACountIsMalformed(t *testing.T) {
+	var stored storedfields.Writer
+	stored.UnknownCount()
+
+	reader := storedfields.ReaderOf(stored.Record(), errMalformed)
+	reader.Count("word count")
+
+	if err := reader.Err(); !errors.Is(err, errMalformed) {
+		t.Errorf("Err = %v, want errMalformed", err)
+	}
+}

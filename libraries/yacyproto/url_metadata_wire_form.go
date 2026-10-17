@@ -38,6 +38,8 @@ const (
 	urlMetadataColFavicon       = "favicon"
 )
 
+const unknownByteSize = -1
+
 const urlMetadataTagSeparator = ","
 
 // urlMetadataWireCodec translates between the url metadata domain type and
@@ -129,7 +131,7 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 		DocumentType:     f.documentType(),
 		MediaType:        texts[urlMetadataColMediaType],
 		Language:         f.language(),
-		ByteSize:         f.cardinal(urlMetadataColByteSize),
+		ByteSize:         f.byteSize(),
 		WordCount:        f.cardinal(urlMetadataColWordCount),
 		LocalLinks:       f.cardinal(urlMetadataColLocalLinks),
 		ExternalLinks:    f.cardinal(urlMetadataColExternalLinks),
@@ -167,15 +169,28 @@ func (f urlMetadataWireForm) texts(
 	return plain, nil
 }
 
-// cardinal reads a decimal column the way YaCy writes it, treating an absent or
-// unreadable column as zero rather than rejecting the whole row.
-func (f urlMetadataWireForm) cardinal(column string) int {
+func (f urlMetadataWireForm) byteSize() yacymodel.Optional[int] {
+	size, readable := f.decimal(urlMetadataColByteSize)
+	if !readable || size < 0 {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(size)
+}
+
+func (f urlMetadataWireForm) decimal(column string) (int, bool) {
 	value, ok := f.properties[column]
 	if !ok {
-		return 0
+		return 0, false
 	}
 	number, err := strconv.Atoi(strings.TrimSpace(value))
-	if err != nil {
+
+	return number, err == nil
+}
+
+func (f urlMetadataWireForm) cardinal(column string) int {
+	number, readable := f.decimal(column)
+	if !readable || number < 0 {
 		return 0
 	}
 
@@ -268,7 +283,7 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	f.putDay(urlMetadataColLoaded, m.Loaded)
 	f.putDay(urlMetadataColFreshUntil, m.FreshUntil)
 	f.putReferrer(m.Referrer)
-	f.put(urlMetadataColByteSize, strconv.Itoa(m.ByteSize))
+	f.put(urlMetadataColByteSize, strconv.Itoa(m.ByteSize.OrElse(unknownByteSize)))
 	f.put(urlMetadataColWordCount, strconv.Itoa(m.WordCount))
 	f.put(urlMetadataColDocType, string(charByDocumentType[m.DocumentType]))
 	if m.MediaType != "" {
