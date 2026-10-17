@@ -301,7 +301,7 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 		t.Fatalf("held count = %d, want 0", got)
 	}
 	wantReceived := map[remoteindexadmission.ReceivedPostingOutcome]int{
-		remoteindexadmission.PostingHeldInEscrow: 1,
+		remoteindexadmission.PostingHeldForURLMetadata: 1,
 	}
 	wantReleased := map[remoteindexadmission.PostingPlacement]int{
 		remoteindexadmission.PostingIndexed: 1,
@@ -552,9 +552,9 @@ func TestOlderPostingLeavesTheIndexedVersionAlone(t *testing.T) {
 	if got := h.heldCount(
 		t,
 	); got != 0 ||
-		h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedOtherVersion) != 1 {
+		h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion) != 1 {
 		t.Fatalf("held count = %d, other versions = %d, want the older posting dropped",
-			got, h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedOtherVersion))
+			got, h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion))
 	}
 }
 
@@ -576,10 +576,10 @@ func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
 	if h.indexed(t, other) || h.heldCount(t) != 0 || len(receipt.UnknownURL) != 0 {
 		t.Fatalf("receipt = %+v, held = %d, want the posting dropped", receipt, h.heldCount(t))
 	}
-	if h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedOtherVersion) != 1 {
+	if h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion) != 1 {
 		t.Fatalf(
 			"other versions = %d, want 1",
-			h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedOtherVersion),
+			h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion),
 		)
 	}
 }
@@ -626,7 +626,7 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 	}{
 		{name: "missing word from the network", origin: sendingPeer, posting: postingOn("w2", today), want: remoteindexadmission.PostingIndexed},
 		{name: "indexed word from the network", origin: sendingPeer, posting: resent, want: remoteindexadmission.PostingDroppedAlreadyIndexed},
-		{name: "missing word from another network", origin: otherPeer, posting: postingOn("w3", today), want: remoteindexadmission.PostingDroppedOtherNetwork},
+		{name: "missing word from another network", origin: otherPeer, posting: postingOn("w3", today), want: remoteindexadmission.PostingDroppedPageFromOtherSource},
 		{name: "missing word from another peer of the network", origin: neighbourPeer, posting: postingOn("w4", today), want: remoteindexadmission.PostingIndexed},
 	} {
 		t.Run(c.name, func(t *testing.T) {
@@ -663,7 +663,7 @@ func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	h.receive(t, []yacymodel.RWIPosting{sent})
 
 	if h.indexed(t, sent) ||
-		h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedOtherNetwork) != 1 {
+		h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedPageFromOtherSource) != 1 {
 		t.Fatalf("outcomes = %v, want the peer posting dropped", h.observed.received)
 	}
 }
@@ -702,7 +702,7 @@ func TestWaitingPostingOfAnotherVersionLeavesTheEscrowUnindexed(t *testing.T) {
 			h.heldCount(t),
 		)
 	}
-	if h.observed.released[remoteindexadmission.PostingDroppedOtherVersion] != 1 {
+	if h.observed.released[remoteindexadmission.PostingDroppedNotNewerVersion] != 1 {
 		t.Fatalf("outcomes = %v, want one other version", h.observed.released)
 	}
 }

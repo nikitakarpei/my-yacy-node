@@ -818,7 +818,7 @@
     },
     {
       "id": 60,
-      "title": "Word index admission from peers",
+      "title": "Remote index admission",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -831,8 +831,8 @@
     },
     {
       "id": 143,
-      "title": "Inbound postings by outcome",
-      "description": "What the node did with each posting a peer sent. A posting held in escrow waits for URL metadata of its version; the released postings panel shows what the node did with it once the metadata arrived.",
+      "title": "Inbound postings kept, by outcome",
+      "description": "Postings a peer sent that joined the index or wait in escrow for URL metadata of their version.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -849,23 +849,16 @@
           "unit": "short",
           "custom": {
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
+            "fillOpacity": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
           }
         },
         "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "held_in_escrow"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "waits for URL metadata in escrow"
-              }
-            ]
-          },
           {
             "matcher": {
               "id": "byName",
@@ -873,104 +866,26 @@
             },
             "properties": [
               {
-                "id": "displayName",
-                "value": "joined the index"
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
               }
             ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "dropped_already_indexed"
+              "options": "held_for_url_metadata"
             },
             "properties": [
               {
-                "id": "displayName",
-                "value": "word already indexed"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_other_version"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "another version than the stored metadata"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_other_network"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "from another network than the stored metadata"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_future_date"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "dated in the future"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_stopword"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "stopword"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "refused_too_many_postings"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "refused: too many postings in one transfer"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "refused_storage_full"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "refused: storage full"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "refused_escrow_full"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "refused: escrow full"
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
               }
             ]
           }
@@ -984,7 +899,415 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_received_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_received_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_received_postings_total{outcome=~\"indexed|held_for_url_metadata\", instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_received_postings_total{outcome=~\"indexed|held_for_url_metadata\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 146,
+      "title": "Inbound postings dropped or refused, by outcome",
+      "description": "Postings a peer sent that the node did not keep.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_already_indexed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_not_newer_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_stopword"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_future_date"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_page_from_other_source"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused_too_many_postings"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused_storage_full"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "light-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused_escrow_full"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "super-light-red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_received_postings_total{outcome!~\"indexed|held_for_url_metadata\", instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_received_postings_total{outcome!~\"indexed|held_for_url_metadata\", instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 144,
+      "title": "Peer URL metadata by outcome",
+      "description": "What the node decided for each URL metadata record a peer sent. A later version replaces the stored metadata and every posting of its URL at once.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "stored_new_url"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "replaced_older_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_already_stored"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_not_newer_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_future_date"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_too_many_replacements"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-orange"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 145,
+      "title": "Postings released from escrow by outcome",
+      "description": "What the node did with each posting that waited in escrow, once URL metadata of its version arrived.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 57
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "indexed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_already_indexed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_not_newer_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_page_from_other_source"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],
@@ -1000,9 +1323,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 49
+        "w": 8,
+        "x": 0,
+        "y": 65
       },
       "fieldConfig": {
         "defaults": {
@@ -1052,54 +1375,6 @@
       "interval": "$window"
     },
     {
-      "id": 61,
-      "title": "Postings that start waiting, stop waiting, or wait too long",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 57
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "cps",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (instance) (rate(yacynode_remoteindexadmission_received_postings_total{outcome=\"held_in_escrow\", instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "start waiting"
-        },
-        {
-          "refId": "B",
-          "expr": "sum by (instance) (rate(yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "metadata arrived"
-        },
-        {
-          "refId": "C",
-          "expr": "rate(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "waited too long"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
       "id": 63,
       "title": "Share of waiting postings that waited too long",
       "type": "state-timeline",
@@ -1111,7 +1386,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 57
+        "y": 65
       },
       "fieldConfig": {
         "defaults": {
@@ -1175,7 +1450,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 57
+        "y": 65
       },
       "fieldConfig": {
         "defaults": {
@@ -1217,208 +1492,6 @@
           "refId": "A",
           "expr": "clamp_min(yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "failures"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 144,
-      "title": "Peer URL metadata by outcome",
-      "description": "What the node decided for each URL metadata record a peer sent. A later version replaces the stored metadata and every posting of its URL at once.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 65
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "stored_new_url"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "first metadata of its URL"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "replaced_older_version"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "replaced an older version and its postings"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_already_stored"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "version already stored"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_other_version"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "older, or another version of the same day"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_future_date"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "dated in the future"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_over_swap_limit"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "over the hourly limit on version replacements"
-              }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_url_metadata_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 145,
-      "title": "Postings released from escrow by outcome",
-      "description": "What the node did with each posting that waited in escrow, once URL metadata of its version arrived.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 65
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "indexed"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "joined the index"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_already_indexed"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "word already indexed"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_other_version"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "another version than the stored metadata"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dropped_other_network"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "from another network than the stored metadata"
-              }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} - (yacynode_remoteindexadmission_released_postings_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "{{outcome}}"
         }
       ],
       "interval": "$window"
