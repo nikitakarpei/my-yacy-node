@@ -7,12 +7,13 @@ import (
 	"io"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
 type Presence map[vault.StoredMember]bool
 
-func (p Presence) ChangeOf() vault.MemberSetChange {
-	var change vault.MemberSetChange
+func (p Presence) ChangeOf() memberset.Change {
+	var change memberset.Change
 	for member, isPresent := range p {
 		if isPresent {
 			change.Added = append(change.Added, member)
@@ -35,7 +36,7 @@ func From(operand []byte) (*Fold, error) {
 }
 
 func (f *Fold) MergeNewer(operand []byte) error {
-	change, err := vault.MemberSetChangeFrom(operand)
+	change, err := memberset.ChangeFrom(operand)
 	if err != nil {
 		return err
 	}
@@ -50,7 +51,7 @@ func (f *Fold) MergeNewer(operand []byte) error {
 }
 
 func (f *Fold) MergeOlder(operand []byte) error {
-	change, err := vault.MemberSetChangeFrom(operand)
+	change, err := memberset.ChangeFrom(operand)
 	if err != nil {
 		return err
 	}

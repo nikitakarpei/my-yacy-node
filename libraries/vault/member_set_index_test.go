@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
 const (
@@ -304,7 +305,7 @@ func plantMembers(engine *doubleEngine, page string, members ...vault.StoredMemb
 	engine.plant(
 		pageWordsBucket,
 		stringKeyParts.Key(page).Bytes(),
-		vault.MemberSetChange{Added: members}.Encoded(),
+		memberset.Change{Added: members}.Encoded(),
 	)
 }
 

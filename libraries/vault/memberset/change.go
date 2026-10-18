@@ -1,42 +1,46 @@
-package vault
+// Package memberset encodes the changes and members of one vault member set,
+// and keeps member sets in a records bucket for engines without merges.
+package memberset
 
 import (
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"slices"
+
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-const memberSetFormat byte = 1
+const encodingFormat byte = 1
 
-var errBadMemberSet = errors.New("bad member set")
+var errBadEncoding = errors.New("bad member set encoding")
 
-type MemberSetChange struct {
-	Added   []StoredMember
-	Removed []StoredMember
+type Change struct {
+	Added   []vault.StoredMember
+	Removed []vault.StoredMember
 }
 
-func MemberSetChangeFrom(encoded []byte) (MemberSetChange, error) {
-	if len(encoded) == 0 || encoded[0] != memberSetFormat {
-		return MemberSetChange{}, fmt.Errorf("%w: unknown format", errBadMemberSet)
+func ChangeFrom(encoded []byte) (Change, error) {
+	if len(encoded) == 0 || encoded[0] != encodingFormat {
+		return Change{}, fmt.Errorf("%w: unknown format", errBadEncoding)
 	}
 	added, rest, err := membersFrom(encoded[1:])
 	if err != nil {
-		return MemberSetChange{}, err
+		return Change{}, err
 	}
 	removed, rest, err := membersFrom(rest)
 	if err != nil {
-		return MemberSetChange{}, err
+		return Change{}, err
 	}
 	if len(rest) != 0 {
-		return MemberSetChange{}, fmt.Errorf("%w: %d trailing bytes", errBadMemberSet, len(rest))
+		return Change{}, fmt.Errorf("%w: %d trailing bytes", errBadEncoding, len(rest))
 	}
 
-	return MemberSetChange{Added: added, Removed: removed}, nil
+	return Change{Added: added, Removed: removed}, nil
 }
 
-func StoredMembersFrom(encoded []byte) ([]StoredMember, error) {
-	change, err := MemberSetChangeFrom(encoded)
+func MembersFrom(encoded []byte) ([]vault.StoredMember, error) {
+	change, err := ChangeFrom(encoded)
 	if err != nil {
 		return nil, fmt.Errorf("read member set: %w", err)
 	}
@@ -44,7 +48,7 @@ func StoredMembersFrom(encoded []byte) ([]StoredMember, error) {
 	return change.Added, nil
 }
 
-func membersFrom(encoded []byte) ([]StoredMember, []byte, error) {
+func membersFrom(encoded []byte) ([]vault.StoredMember, []byte, error) {
 	idMembers, rest, err := idMembersFrom(encoded)
 	if err != nil {
 		return nil, nil, err
@@ -57,12 +61,12 @@ func membersFrom(encoded []byte) ([]StoredMember, []byte, error) {
 	return append(idMembers, rawMembers...), rest, nil
 }
 
-func idMembersFrom(encoded []byte) ([]StoredMember, []byte, error) {
+func idMembersFrom(encoded []byte) ([]vault.StoredMember, []byte, error) {
 	amount, rest, err := uvarintFrom(encoded)
 	if err != nil {
 		return nil, nil, err
 	}
-	members := make([]StoredMember, 0, min(amount, uint64(len(rest))))
+	members := make([]vault.StoredMember, 0, min(amount, uint64(len(rest))))
 	var previousID uint64
 	for range amount {
 		var gap uint64
@@ -70,7 +74,7 @@ func idMembersFrom(encoded []byte) ([]StoredMember, []byte, error) {
 			return nil, nil, err
 		}
 		previousID += gap
-		members = append(members, StoredMember{ID: previousID})
+		members = append(members, vault.StoredMember{ID: previousID})
 	}
 
 	return members, rest, nil
@@ -79,44 +83,44 @@ func idMembersFrom(encoded []byte) ([]StoredMember, []byte, error) {
 func uvarintFrom(encoded []byte) (uint64, []byte, error) {
 	number, length := binary.Uvarint(encoded)
 	if length <= 0 {
-		return 0, nil, fmt.Errorf("%w: unreadable number", errBadMemberSet)
+		return 0, nil, fmt.Errorf("%w: unreadable number", errBadEncoding)
 	}
 
 	return number, encoded[length:], nil
 }
 
-func rawMembersFrom(encoded []byte) ([]StoredMember, []byte, error) {
+func rawMembersFrom(encoded []byte) ([]vault.StoredMember, []byte, error) {
 	amount, rest, err := uvarintFrom(encoded)
 	if err != nil {
 		return nil, nil, err
 	}
-	members := make([]StoredMember, 0, min(amount, uint64(len(rest))))
+	members := make([]vault.StoredMember, 0, min(amount, uint64(len(rest))))
 	for range amount {
 		var rawLength uint64
 		if rawLength, rest, err = uvarintFrom(rest); err != nil {
 			return nil, nil, err
 		}
 		if rawLength == 0 || rawLength > uint64(len(rest)) {
-			return nil, nil, fmt.Errorf("%w: unreadable raw member", errBadMemberSet)
+			return nil, nil, fmt.Errorf("%w: unreadable raw member", errBadEncoding)
 		}
-		members = append(members, StoredMember{Raw: string(rest[:rawLength])})
+		members = append(members, vault.StoredMember{Raw: string(rest[:rawLength])})
 		rest = rest[rawLength:]
 	}
 
 	return members, rest, nil
 }
 
-func (c MemberSetChange) Encoded() []byte {
-	encoded := appendMembers([]byte{memberSetFormat}, c.Added)
+func (c Change) Encoded() []byte {
+	encoded := appendMembers([]byte{encodingFormat}, c.Added)
 
 	return appendMembers(encoded, c.Removed)
 }
 
-func appendMembers(encoded []byte, members []StoredMember) []byte {
+func appendMembers(encoded []byte, members []vault.StoredMember) []byte {
 	var ids []uint64
 	var raws []string
 	for _, member := range members {
-		if member.form() == MemberFormRaw {
+		if member.Form() == vault.MemberFormRaw {
 			raws = append(raws, member.Raw)
 		} else {
 			ids = append(ids, member.ID)

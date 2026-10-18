@@ -1,21 +1,22 @@
-package vault_test
+package memberset_test
 
 import (
 	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
-func TestAMemberSetChangeReadsBackAsEncoded(t *testing.T) {
-	change := vault.MemberSetChange{
+func TestAChangeReadsBackAsEncoded(t *testing.T) {
+	change := memberset.Change{
 		Added:   []vault.StoredMember{{ID: 9}, {Raw: "zebra"}, {ID: 2}},
 		Removed: []vault.StoredMember{{Raw: "yak"}, {ID: 0}},
 	}
 
-	decoded, err := vault.MemberSetChangeFrom(change.Encoded())
+	decoded, err := memberset.ChangeFrom(change.Encoded())
 	if err != nil {
-		t.Fatalf("MemberSetChangeFrom: %v", err)
+		t.Fatalf("ChangeFrom: %v", err)
 	}
 
 	wantAdded := []vault.StoredMember{{ID: 2}, {ID: 9}, {Raw: "zebra"}}
@@ -25,8 +26,8 @@ func TestAMemberSetChangeReadsBackAsEncoded(t *testing.T) {
 	}
 }
 
-func TestAMemberSetChangeRefusesUnreadableEncodings(t *testing.T) {
-	encoded := vault.MemberSetChange{
+func TestAChangeRefusesUnreadableEncodings(t *testing.T) {
+	encoded := memberset.Change{
 		Added: []vault.StoredMember{{ID: 3}, {Raw: "zebra"}},
 	}.Encoded()
 
@@ -34,8 +35,8 @@ func TestAMemberSetChangeRefusesUnreadableEncodings(t *testing.T) {
 		"unknown format": append([]byte{0x7f}, encoded[1:]...),
 		"cut short":      encoded[:len(encoded)-3],
 	} {
-		if _, err := vault.MemberSetChangeFrom(unreadable); err == nil {
-			t.Errorf("%s: MemberSetChangeFrom succeeded, want refusal", name)
+		if _, err := memberset.ChangeFrom(unreadable); err == nil {
+			t.Errorf("%s: ChangeFrom succeeded, want refusal", name)
 		}
 	}
 }

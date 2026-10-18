@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/internal/membersetfold"
 )
 
@@ -16,7 +17,7 @@ var (
 )
 
 func operandOf(added []vault.StoredMember, removed ...vault.StoredMember) []byte {
-	return vault.MemberSetChange{Added: added, Removed: removed}.Encoded()
+	return memberset.Change{Added: added, Removed: removed}.Encoded()
 }
 
 func foldOf(t *testing.T, newest []byte) *membersetfold.Fold {
@@ -34,16 +35,16 @@ func finishedChangeOf(
 	t *testing.T,
 	fold *membersetfold.Fold,
 	includesBase bool,
-) vault.MemberSetChange {
+) memberset.Change {
 	t.Helper()
 
 	encoded, _, err := fold.Finish(includesBase)
 	if err != nil {
 		t.Fatalf("Finish: %v", err)
 	}
-	change, err := vault.MemberSetChangeFrom(encoded)
+	change, err := memberset.ChangeFrom(encoded)
 	if err != nil {
-		t.Fatalf("MemberSetChangeFrom: %v", err)
+		t.Fatalf("ChangeFrom: %v", err)
 	}
 
 	return change
@@ -51,7 +52,7 @@ func finishedChangeOf(
 
 func assertChange(
 	t *testing.T,
-	got vault.MemberSetChange,
+	got memberset.Change,
 	wantAdded []vault.StoredMember,
 	wantRemoved []vault.StoredMember,
 ) {

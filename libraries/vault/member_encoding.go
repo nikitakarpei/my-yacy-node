@@ -21,7 +21,7 @@ func (e MemberEncoding[A]) storedMemberFrom(value A) StoredMember {
 }
 
 func (e MemberEncoding[A]) valueFrom(member StoredMember) (A, error) {
-	if member.form() == MemberFormRaw {
+	if member.Form() == MemberFormRaw {
 		return e.dictionary.valueFrom([]byte(member.Raw))
 	}
 

@@ -1,6 +1,9 @@
 package pebblevault
 
-import "github.com/nikitakarpei/yacy-rwi-node/vault"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
+)
 
 type pebbleMemberSets struct {
 	entries storedEntries
@@ -23,7 +26,7 @@ func (s pebbleMemberSets) storedMembersAt(absoluteKey []byte) ([]vault.StoredMem
 		return nil, err
 	}
 
-	return vault.StoredMembersFrom(encoded)
+	return memberset.MembersFrom(encoded)
 }
 
 func (s pebbleMemberSets) Add(key []byte, member vault.StoredMember) error {

@@ -14,6 +14,8 @@ components:
 vendors:
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
+  vaultmemberset:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
   pebble:
     in:
       - github.com/cockroachdb/pebble/v2
@@ -25,10 +27,12 @@ deps:
       - membersetfold
     canUse:
       - vault
+      - vaultmemberset
       - pebble
   membersetfold:
     canUse:
       - vault
+      - vaultmemberset
 
 excludeFiles:
   - "_test\\.go"

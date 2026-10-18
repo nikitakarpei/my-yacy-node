@@ -4,6 +4,7 @@ import (
 	bolt "go.etcd.io/bbolt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
 type boltTxn struct {
@@ -22,7 +23,7 @@ func (t boltTxn) Records(name vault.Name) vault.EngineRecords {
 }
 
 func (t boltTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
-	return vault.MemberSetsOver(t.Records(name))
+	return memberset.OverRecords(t.Records(name))
 }
 
 func (t boltTxn) Amounts(name vault.Name) vault.EngineAmounts {

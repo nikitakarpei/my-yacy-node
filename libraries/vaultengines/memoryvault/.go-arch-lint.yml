@@ -14,11 +14,14 @@ components:
 vendors:
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
+  vaultmemberset:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
 
 deps:
   memoryvault:
     canUse:
       - vault
+      - vaultmemberset
 
 excludeFiles:
   - "_test\\.go"

@@ -14,7 +14,7 @@ const (
 	MemberFormRaw MemberForm = "raw"
 )
 
-func (m StoredMember) form() MemberForm {
+func (m StoredMember) Form() MemberForm {
 	if m.Raw != "" {
 		return MemberFormRaw
 	}

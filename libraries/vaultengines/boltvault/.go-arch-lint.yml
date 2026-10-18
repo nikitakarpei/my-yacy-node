@@ -14,6 +14,8 @@ components:
 vendors:
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
+  vaultmemberset:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
   bbolt:
     in: go.etcd.io/bbolt
 
@@ -21,6 +23,7 @@ deps:
   boltvault:
     canUse:
       - vault
+      - vaultmemberset
       - bbolt
 
 excludeFiles:

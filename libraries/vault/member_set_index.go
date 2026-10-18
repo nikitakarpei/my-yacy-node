@@ -116,7 +116,7 @@ func (i *MemberSetIndex[A, B, K]) addMember(
 	}
 	readSets := i.readSetsIn(tx)
 	readSets.memberAdded(memberSetKey)
-	i.observer.ObserveMemberAdded(i.bucket, storedMember.form())
+	i.observer.ObserveMemberAdded(i.bucket, storedMember.Form())
 
 	return nil
 }

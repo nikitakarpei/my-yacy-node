@@ -10,6 +10,8 @@ components:
     in: .
   vaultenginetest:
     in: vaultenginetest/**
+  memberset:
+    in: memberset/**
 
 vendors:
   orderedcode:
@@ -20,6 +22,9 @@ deps:
     canUse:
       - orderedcode
   vaultenginetest:
+    mayDependOn:
+      - vault
+  memberset:
     mayDependOn:
       - vault
 
