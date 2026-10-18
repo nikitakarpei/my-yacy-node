@@ -27,7 +27,6 @@ deps:
       - membersetfold
     canUse:
       - vault
-      - vaultmemberset
       - pebble
   membersetfold:
     canUse:

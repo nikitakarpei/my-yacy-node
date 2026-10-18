@@ -1,5 +1,5 @@
-// Package memberset encodes the changes and members of one vault member set,
-// and keeps member sets in a records bucket for engines without merges.
+// Package memberset encodes the members of one vault member set, and keeps
+// member sets in a records bucket for engines without merges.
 package memberset
 
 import (
@@ -11,44 +11,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-const encodingFormat byte = 1
-
 var errBadEncoding = errors.New("bad member set encoding")
 
-type Change struct {
-	Added   []vault.StoredMember
-	Removed []vault.StoredMember
-}
-
-func ChangeFrom(encoded []byte) (Change, error) {
-	if len(encoded) == 0 || encoded[0] != encodingFormat {
-		return Change{}, fmt.Errorf("%w: unknown format", errBadEncoding)
-	}
-	added, rest, err := membersFrom(encoded[1:])
-	if err != nil {
-		return Change{}, err
-	}
-	removed, rest, err := membersFrom(rest)
-	if err != nil {
-		return Change{}, err
-	}
-	if len(rest) != 0 {
-		return Change{}, fmt.Errorf("%w: %d trailing bytes", errBadEncoding, len(rest))
-	}
-
-	return Change{Added: added, Removed: removed}, nil
-}
-
-func MembersFrom(encoded []byte) ([]vault.StoredMember, error) {
-	change, err := ChangeFrom(encoded)
-	if err != nil {
-		return nil, fmt.Errorf("read member set: %w", err)
-	}
-
-	return change.Added, nil
-}
-
-func membersFrom(encoded []byte) ([]vault.StoredMember, []byte, error) {
+func MembersFrom(encoded []byte) (members []vault.StoredMember, rest []byte, err error) {
 	idMembers, rest, err := idMembersFrom(encoded)
 	if err != nil {
 		return nil, nil, err
@@ -110,13 +75,7 @@ func rawMembersFrom(encoded []byte) ([]vault.StoredMember, []byte, error) {
 	return members, rest, nil
 }
 
-func (c Change) Encoded() []byte {
-	encoded := appendMembers([]byte{encodingFormat}, c.Added)
-
-	return appendMembers(encoded, c.Removed)
-}
-
-func appendMembers(encoded []byte, members []vault.StoredMember) []byte {
+func AppendMembers(encoded []byte, members []vault.StoredMember) []byte {
 	var ids []uint64
 	var raws []string
 	for _, member := range members {

@@ -1,19 +1,18 @@
-// Package membersetfold folds the changes that merge operands carry for one member
-// set into one change. A newer change to a member wins over an older one. A fold
-// that reaches the set's base keeps only the members present.
+// Package membersetfold encodes the changes that merge operands carry for one
+// member set and folds them into one change. A newer change to a member wins over
+// an older one. A fold that reaches the set's base keeps only the members present.
 package membersetfold
 
 import (
 	"io"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
 type Presence map[vault.StoredMember]bool
 
-func (p Presence) ChangeOf() memberset.Change {
-	var change memberset.Change
+func (p Presence) ChangeOf() Change {
+	var change Change
 	for member, isPresent := range p {
 		if isPresent {
 			change.Added = append(change.Added, member)
@@ -36,7 +35,7 @@ func From(operand []byte) (*Fold, error) {
 }
 
 func (f *Fold) MergeNewer(operand []byte) error {
-	change, err := memberset.ChangeFrom(operand)
+	change, err := ChangeFrom(operand)
 	if err != nil {
 		return err
 	}
@@ -51,7 +50,7 @@ func (f *Fold) MergeNewer(operand []byte) error {
 }
 
 func (f *Fold) MergeOlder(operand []byte) error {
-	change, err := memberset.ChangeFrom(operand)
+	change, err := ChangeFrom(operand)
 	if err != nil {
 		return err
 	}

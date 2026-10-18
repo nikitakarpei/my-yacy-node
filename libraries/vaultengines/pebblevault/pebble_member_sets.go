@@ -1,8 +1,10 @@
 package pebblevault
 
 import (
+	"fmt"
+
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/internal/membersetfold"
 )
 
 type pebbleMemberSets struct {
@@ -26,7 +28,12 @@ func (s pebbleMemberSets) storedMembersAt(absoluteKey []byte) ([]vault.StoredMem
 		return nil, err
 	}
 
-	return memberset.MembersFrom(encoded)
+	change, err := membersetfold.ChangeFrom(encoded)
+	if err != nil {
+		return nil, fmt.Errorf("read member set: %w", err)
+	}
+
+	return change.Added, nil
 }
 
 func (s pebbleMemberSets) Add(key []byte, member vault.StoredMember) error {

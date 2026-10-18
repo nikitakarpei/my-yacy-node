@@ -1,20 +1,20 @@
-package memberset_test
+package membersetfold_test
 
 import (
 	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/internal/membersetfold"
 )
 
 func TestAChangeReadsBackAsEncoded(t *testing.T) {
-	change := memberset.Change{
+	change := membersetfold.Change{
 		Added:   []vault.StoredMember{{ID: 9}, {Raw: "zebra"}, {ID: 2}},
 		Removed: []vault.StoredMember{{Raw: "yak"}, {ID: 0}},
 	}
 
-	decoded, err := memberset.ChangeFrom(change.Encoded())
+	decoded, err := membersetfold.ChangeFrom(change.Encoded())
 	if err != nil {
 		t.Fatalf("ChangeFrom: %v", err)
 	}
@@ -27,15 +27,18 @@ func TestAChangeReadsBackAsEncoded(t *testing.T) {
 }
 
 func TestAChangeRefusesUnreadableEncodings(t *testing.T) {
-	encoded := memberset.Change{
-		Added: []vault.StoredMember{{ID: 3}, {Raw: "zebra"}},
+	encoded := membersetfold.Change{
+		Added:   []vault.StoredMember{{ID: 3}, {Raw: "zebra"}},
+		Removed: []vault.StoredMember{{ID: 4}},
 	}.Encoded()
 
 	for name, unreadable := range map[string][]byte{
 		"unknown format": append([]byte{0x7f}, encoded[1:]...),
-		"cut short":      encoded[:len(encoded)-3],
+		"cut in added":   encoded[:5],
+		"cut in removed": encoded[:len(encoded)-2],
+		"trailing bytes": append(slices.Clone(encoded), 0),
 	} {
-		if _, err := memberset.ChangeFrom(unreadable); err == nil {
+		if _, err := membersetfold.ChangeFrom(unreadable); err == nil {
 			t.Errorf("%s: ChangeFrom succeeded, want refusal", name)
 		}
 	}

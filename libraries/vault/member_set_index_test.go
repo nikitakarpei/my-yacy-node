@@ -305,7 +305,7 @@ func plantMembers(engine *doubleEngine, page string, members ...vault.StoredMemb
 	engine.plant(
 		pageWordsBucket,
 		stringKeyParts.Key(page).Bytes(),
-		memberset.Change{Added: members}.Encoded(),
+		memberset.AppendMembers(nil, members),
 	)
 }
 

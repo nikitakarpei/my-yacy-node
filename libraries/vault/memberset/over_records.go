@@ -16,12 +16,19 @@ type setsOverRecords struct {
 }
 
 func (s setsOverRecords) Members(key []byte) ([]vault.StoredMember, error) {
-	encoded, err := s.records.Get(key)
-	if err != nil || encoded == nil {
+	record, err := s.records.Get(key)
+	if err != nil || record == nil {
 		return nil, err
 	}
+	members, rest, err := MembersFrom(record)
+	if err != nil {
+		return nil, fmt.Errorf("read member set: %w", err)
+	}
+	if len(rest) != 0 {
+		return nil, fmt.Errorf("%w: %d trailing bytes", errBadEncoding, len(rest))
+	}
 
-	return MembersFrom(encoded)
+	return members, nil
 }
 
 func (s setsOverRecords) Add(key []byte, member vault.StoredMember) error {
@@ -34,7 +41,7 @@ func (s setsOverRecords) Add(key []byte, member vault.StoredMember) error {
 }
 
 func (s setsOverRecords) store(key []byte, members []vault.StoredMember) error {
-	if _, err := s.records.Put(key, Change{Added: members}.Encoded()); err != nil {
+	if _, err := s.records.Put(key, AppendMembers(nil, members)); err != nil {
 		return fmt.Errorf("store member set: %w", err)
 	}
 
