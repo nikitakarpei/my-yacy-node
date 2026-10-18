@@ -7,16 +7,11 @@ import (
 
 type PairKeyIndex[K any] interface {
 	projectionBucket
-	storedGroups[K]
 	keyLayout() KeyLayout[K]
+	secondPartOf(key K) string
+	storedKeysWithSecondPartOf(tx *Txn, key K) (storedKeys[K], error)
 	keyAdded(tx *Txn, key K) error
 	keyRemoved(tx *Txn, key K) error
-}
-
-type storedGroups[K any] interface {
-	groupOf(key K) string
-	memberOf(key K) string
-	storedMembersOf(tx *Txn, key K) (map[string]struct{}, error)
 }
 
 func (v *Vault) RegisterIndexedCollection[K, V any](
@@ -35,7 +30,7 @@ func (v *Vault) RegisterIndexedCollection[K, V any](
 		keys:        index.keyLayout(),
 		values:      values,
 		projections: indexedByPairKey[K, V]{index: index, projections: projections},
-		groups:      index,
+		index:       index,
 	})
 }
 

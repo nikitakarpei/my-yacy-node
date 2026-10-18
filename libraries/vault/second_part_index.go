@@ -68,25 +68,25 @@ func (i *SecondPartIndex[A, B, K]) visitKeysWith(
 	return nil
 }
 
-func (i *SecondPartIndex[A, B, K]) memberOf(key K) string {
-	first, _ := i.partsOf(key)
-
-	return string(i.parts.first.encodingOf(first))
-}
-
-func (i *SecondPartIndex[A, B, K]) storedMembersOf(
+func (i *SecondPartIndex[A, B, K]) storedKeysWithSecondPartOf(
 	tx *Txn,
 	key K,
-) (map[string]struct{}, error) {
+) (storedKeys[K], error) {
 	_, second := i.partsOf(key)
-	storedMembers := make(map[string]struct{})
-	err := i.visitKeysWith(tx, second, func(first A, _ B) (bool, error) {
-		storedMembers[string(i.parts.first.encodingOf(first))] = struct{}{}
+	keys := storedKeys[K]{identityOf: i.identityOf, identities: make(map[string]struct{})}
+	err := i.visitKeysWith(tx, second, func(first A, second B) (bool, error) {
+		keys.add(i.keyFrom(first, second))
 
 		return true, nil
 	})
 
-	return storedMembers, err
+	return keys, err
+}
+
+func (i *SecondPartIndex[A, B, K]) identityOf(key K) string {
+	first, _ := i.partsOf(key)
+
+	return string(i.parts.first.encodingOf(first))
 }
 
 func (i *SecondPartIndex[A, B, K]) keyAdded(tx *Txn, key K) error {

@@ -153,7 +153,7 @@ func assertWords(t *testing.T, got []string, want ...string) {
 	}
 }
 
-func TestAMemberSetHoldsTheMembersOfItsGroupsRecords(t *testing.T) {
+func TestAMemberSetHoldsTheWordsOfItsPage(t *testing.T) {
 	words := openPageWords(t, newDoubleEngine(), []string{"the", "a"})
 	words.mention(t, "p1", "the", "zebra")
 	words.mention(t, "p2", "a")

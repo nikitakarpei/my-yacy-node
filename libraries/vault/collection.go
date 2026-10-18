@@ -15,7 +15,7 @@ type Collection[K, V any] struct {
 	keys        KeyLayout[K]
 	values      ValueCodec[V]
 	projections Projections[K, V]
-	groups      storedGroups[K]
+	index       PairKeyIndex[K]
 }
 
 type KeyedValue[K, V any] struct {
@@ -23,7 +23,7 @@ type KeyedValue[K, V any] struct {
 	Value V
 }
 
-const fewestRecordsPerGroupRead = 8
+const fewestRecordsPerSecondPartRead = 8
 
 func (v *Vault) RegisterCollection[K, V any](
 	bucket Name,
@@ -203,55 +203,59 @@ func (c *Collection[K, V]) absentPositionsAmong(
 	tx *Txn,
 	keyedValues []KeyedValue[K, V],
 ) (map[int]struct{}, error) {
-	if c.groups == nil {
+	if c.index == nil {
 		return nil, nil
 	}
-	storedMembersPerGroup, err := c.storedMembersWithin(tx, c.crowdedGroupsAmong(keyedValues))
+	storedKeysPerSecondPart, err := c.storedKeysWithin(
+		tx,
+		c.crowdedSecondPartsAmong(keyedValues),
+	)
 	if err != nil {
 		return nil, err
 	}
 	absentPositions := make(map[int]struct{})
 	for position, keyedValue := range keyedValues {
-		storedMembers, isRead := storedMembersPerGroup[c.groups.groupOf(keyedValue.Key)]
-		member := c.groups.memberOf(keyedValue.Key)
-		if _, isStored := storedMembers[member]; isRead && !isStored {
+		keys, isRead := storedKeysPerSecondPart[c.index.secondPartOf(keyedValue.Key)]
+		if isRead && !keys.holds(keyedValue.Key) {
 			absentPositions[position] = struct{}{}
-			storedMembers[member] = struct{}{}
+			keys.add(keyedValue.Key)
 		}
 	}
 
 	return absentPositions, nil
 }
 
-func (c *Collection[K, V]) crowdedGroupsAmong(keyedValues []KeyedValue[K, V]) map[string]K {
-	amountPerGroup := make(map[string]int)
-	keyPerGroup := make(map[string]K)
+func (c *Collection[K, V]) crowdedSecondPartsAmong(
+	keyedValues []KeyedValue[K, V],
+) map[string]K {
+	amountPerSecondPart := make(map[string]int)
+	keyPerSecondPart := make(map[string]K)
 	for _, keyedValue := range keyedValues {
-		group := c.groups.groupOf(keyedValue.Key)
-		amountPerGroup[group]++
-		keyPerGroup[group] = keyedValue.Key
+		secondPart := c.index.secondPartOf(keyedValue.Key)
+		amountPerSecondPart[secondPart]++
+		keyPerSecondPart[secondPart] = keyedValue.Key
 	}
-	maps.DeleteFunc(keyPerGroup, func(group string, _ K) bool {
-		return amountPerGroup[group] < fewestRecordsPerGroupRead
+	maps.DeleteFunc(keyPerSecondPart, func(secondPart string, _ K) bool {
+		return amountPerSecondPart[secondPart] < fewestRecordsPerSecondPartRead
 	})
 
-	return keyPerGroup
+	return keyPerSecondPart
 }
 
-func (c *Collection[K, V]) storedMembersWithin(
+func (c *Collection[K, V]) storedKeysWithin(
 	tx *Txn,
-	keyPerGroup map[string]K,
-) (map[string]map[string]struct{}, error) {
-	storedMembersPerGroup := make(map[string]map[string]struct{}, len(keyPerGroup))
-	for group, key := range keyPerGroup {
-		storedMembers, err := c.groups.storedMembersOf(tx, key)
+	keyPerSecondPart map[string]K,
+) (map[string]storedKeys[K], error) {
+	storedKeysPerSecondPart := make(map[string]storedKeys[K], len(keyPerSecondPart))
+	for secondPart, key := range keyPerSecondPart {
+		keys, err := c.index.storedKeysWithSecondPartOf(tx, key)
 		if err != nil {
 			return nil, err
 		}
-		storedMembersPerGroup[group] = storedMembers
+		storedKeysPerSecondPart[secondPart] = keys
 	}
 
-	return storedMembersPerGroup, nil
+	return storedKeysPerSecondPart, nil
 }
 
 func (c *Collection[K, V]) storeAbsentRecord(tx *Txn, key K, val V) error {

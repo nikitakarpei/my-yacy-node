@@ -14,7 +14,7 @@ import (
 
 const (
 	memberSetsBucket   vault.Name = "words_of_pages"
-	foldedGroups                  = 4
+	foldedSets                    = 4
 	foldedTransactions            = 60
 	rawMemberBytes                = 2 << 10
 )
@@ -39,8 +39,8 @@ func rawMemberOf(number int) vault.StoredMember {
 	}
 }
 
-func groupKeyOf(group int) []byte {
-	return []byte(fmt.Sprintf("p%d", group))
+func setKeyOf(set int) []byte {
+	return []byte(fmt.Sprintf("p%d", set))
 }
 
 func changeBlindly(
@@ -51,39 +51,39 @@ func changeBlindly(
 
 	present := map[int]map[vault.StoredMember]bool{}
 	for transaction := range foldedTransactions {
-		group, member := transaction%foldedGroups, rawMemberOf(transaction%17)
+		set, member := transaction%foldedSets, rawMemberOf(transaction%17)
 		isPresent := transaction%3 != 0
-		if present[group] == nil {
-			present[group] = map[vault.StoredMember]bool{}
+		if present[set] == nil {
+			present[set] = map[vault.StoredMember]bool{}
 		}
-		present[group][member] = isPresent
+		present[set][member] = isPresent
 		if err := engine.Update(context.Background(), func(etx vault.EngineTxn) error {
 			sets := etx.MemberSets(memberSetsBucket)
 			if isPresent {
-				return sets.Add(groupKeyOf(group), member)
+				return sets.Add(setKeyOf(set), member)
 			}
 
-			return sets.Remove(groupKeyOf(group), member)
+			return sets.Remove(setKeyOf(set), member)
 		}); err != nil {
 			t.Fatalf("Update: %v", err)
 		}
 	}
 
-	return membersByGroupFrom(present)
+	return membersBySetFrom(present)
 }
 
-func membersByGroupFrom(present map[int]map[vault.StoredMember]bool) map[int][]vault.StoredMember {
-	membersByGroup := map[int][]vault.StoredMember{}
-	for group, presenceByMember := range present {
+func membersBySetFrom(present map[int]map[vault.StoredMember]bool) map[int][]vault.StoredMember {
+	membersBySet := map[int][]vault.StoredMember{}
+	for set, presenceByMember := range present {
 		for member, isPresent := range presenceByMember {
 			if isPresent {
-				membersByGroup[group] = append(membersByGroup[group], member)
+				membersBySet[set] = append(membersBySet[set], member)
 			}
 		}
-		membersByGroup[group] = sortedRaws(membersByGroup[group])
+		membersBySet[set] = sortedRaws(membersBySet[set])
 	}
 
-	return membersByGroup
+	return membersBySet
 }
 
 func sortedRaws(members []vault.StoredMember) []vault.StoredMember {
@@ -92,17 +92,17 @@ func sortedRaws(members []vault.StoredMember) []vault.StoredMember {
 	})
 }
 
-func storedMembersByGroup(t *testing.T, engine *pebblevault.Engine) map[int][]vault.StoredMember {
+func storedMembersBySet(t *testing.T, engine *pebblevault.Engine) map[int][]vault.StoredMember {
 	t.Helper()
 
-	membersByGroup := map[int][]vault.StoredMember{}
+	membersBySet := map[int][]vault.StoredMember{}
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
-		for group := range foldedGroups {
-			members, err := etx.MemberSets(memberSetsBucket).Members(groupKeyOf(group))
+		for set := range foldedSets {
+			members, err := etx.MemberSets(memberSetsBucket).Members(setKeyOf(set))
 			if err != nil {
 				return err
 			}
-			membersByGroup[group] = sortedRaws(members)
+			membersBySet[set] = sortedRaws(members)
 		}
 
 		return nil
@@ -110,7 +110,7 @@ func storedMembersByGroup(t *testing.T, engine *pebblevault.Engine) map[int][]va
 		t.Fatalf("View: %v", err)
 	}
 
-	return membersByGroup
+	return membersBySet
 }
 
 func TestBlindMemberChangesSurviveReopening(t *testing.T) {
@@ -128,10 +128,10 @@ func TestBlindMemberChangesSurviveReopening(t *testing.T) {
 		}
 	})
 
-	got := storedMembersByGroup(t, after)
-	for group := range foldedGroups {
-		if !slices.Equal(got[group], want[group]) {
-			t.Fatalf("members of group %d = %d, want %d", group, len(got[group]), len(want[group]))
+	got := storedMembersBySet(t, after)
+	for set := range foldedSets {
+		if !slices.Equal(got[set], want[set]) {
+			t.Fatalf("members of set %d = %d, want %d", set, len(got[set]), len(want[set]))
 		}
 	}
 }

@@ -84,14 +84,14 @@ func changeMemberSets(
 	}
 }
 
-func memberSetKeyOf(group string) []byte {
-	return stringKeyParts.Key(group).Bytes()
+func memberSetKeyOf(setName string) []byte {
+	return stringKeyParts.Key(setName).Bytes()
 }
 
-func adding(group string, members ...vault.StoredMember) func(vault.EngineMemberSets) error {
+func adding(setName string, members ...vault.StoredMember) func(vault.EngineMemberSets) error {
 	return func(sets vault.EngineMemberSets) error {
 		for _, member := range members {
-			if err := sets.Add(memberSetKeyOf(group), member); err != nil {
+			if err := sets.Add(memberSetKeyOf(setName), member); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -100,12 +100,12 @@ func adding(group string, members ...vault.StoredMember) func(vault.EngineMember
 	}
 }
 
-func storedMembersOf(t *testing.T, engine vault.Engine, group string) []vault.StoredMember {
+func storedMembersOf(t *testing.T, engine vault.Engine, setName string) []vault.StoredMember {
 	t.Helper()
 
 	var stored []vault.StoredMember
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
-		members, err := etx.MemberSets(memberSetsBucket).Members(memberSetKeyOf(group))
+		members, err := etx.MemberSets(memberSetsBucket).Members(memberSetKeyOf(setName))
 		stored = members
 
 		return err
@@ -216,8 +216,8 @@ func memberSetKeysWithin(t *testing.T, engine vault.Engine, keys vault.KeyRange)
 		return etx.MemberSets(memberSetsBucket).Scan(
 			keys,
 			func(key []byte) (bool, error) {
-				group, err := stringKeyParts.PartsOf(key)
-				visited = append(visited, group)
+				setName, err := stringKeyParts.PartsOf(key)
+				visited = append(visited, setName)
 
 				return true, err
 			},
@@ -231,8 +231,8 @@ func memberSetKeysWithin(t *testing.T, engine vault.Engine, keys vault.KeyRange)
 
 func memberSetScanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
-	for _, group := range []string{"c", "a", "b", "d"} {
-		changeMemberSets(t, engine, adding(group, zebraMember))
+	for _, setName := range []string{"c", "a", "b", "d"} {
+		changeMemberSets(t, engine, adding(setName, zebraMember))
 	}
 
 	got := memberSetKeysWithin(t, engine, stringKeyParts.KeysThroughFirst("c").After(
@@ -333,8 +333,8 @@ func scanInAWriteSeesItsOwnChanges(t *testing.T, open func(int64) (vault.Engine,
 		}
 		var visited []string
 		err := sets.Scan(vault.EveryKey(), func(key []byte) (bool, error) {
-			group, err := stringKeyParts.PartsOf(key)
-			visited = append(visited, group)
+			setName, err := stringKeyParts.PartsOf(key)
+			visited = append(visited, setName)
 
 			return true, err
 		})
