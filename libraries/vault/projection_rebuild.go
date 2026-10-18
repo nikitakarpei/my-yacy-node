@@ -11,7 +11,7 @@ const projectionVersionsBucket Name = "vault_projection_versions"
 
 const rebuildBatchRecords = 1000
 
-var nameKeys = SingleKey(TextKeyPartFrom(
+var projectionVersionKeys = SingleKey(TextKeyPartFrom(
 	func(bucket Name) string { return string(bucket) },
 	func(text string) (Name, error) { return Name(text), nil },
 )).KeyLayout()
@@ -29,7 +29,7 @@ func (projectionVersionCodec) Decode(stored []byte) (string, error) {
 func (v *Vault) registerProjectionVersions() (*Collection[Name, string], error) {
 	return v.RegisterCollection(
 		projectionVersionsBucket,
-		nameKeys,
+		projectionVersionKeys,
 		projectionVersionCodec{},
 	)
 }

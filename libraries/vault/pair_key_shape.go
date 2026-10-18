@@ -10,7 +10,7 @@ func (s pairKeyShape[A, B, K]) keyLayout() KeyLayout[K] {
 	return s.parts.KeyLayoutFor(s.partsOf, s.keyFrom)
 }
 
-func (s pairKeyShape[A, B, K]) groupIdentityOf(key K) string {
+func (s pairKeyShape[A, B, K]) groupOf(key K) string {
 	_, second := s.partsOf(key)
 
 	return string(s.groupKeyOf(second))

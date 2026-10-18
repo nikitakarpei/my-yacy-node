@@ -47,18 +47,13 @@ func (s pebbleMemberSets) Delete(key []byte) error {
 
 func (s pebbleMemberSets) Scan(
 	keys vault.KeyRange,
-	fn func(key []byte, members []vault.StoredMember) (bool, error),
+	fn func(key []byte) (bool, error),
 ) error {
 	if err := s.changes.stageWithin(s.entries.boundsFor(keys)); err != nil {
 		return err
 	}
 
-	return s.entries.visit(keys, func(key, encoded []byte) (bool, error) {
-		members, err := vault.StoredMembersFrom(encoded)
-		if err != nil {
-			return false, err
-		}
-
-		return fn(key, members)
+	return s.entries.visit(keys, func(key, _ []byte) (bool, error) {
+		return fn(key)
 	})
 }

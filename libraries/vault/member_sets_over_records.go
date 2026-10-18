@@ -60,14 +60,9 @@ func (s memberSetsOverRecords) Delete(key []byte) error {
 
 func (s memberSetsOverRecords) Scan(
 	keys KeyRange,
-	fn func(key []byte, members []StoredMember) (bool, error),
+	fn func(key []byte) (bool, error),
 ) error {
-	return s.records.Scan(keys, func(key, encoded []byte) (bool, error) {
-		members, err := StoredMembersFrom(encoded)
-		if err != nil {
-			return false, err
-		}
-
-		return fn(key, members)
+	return s.records.Scan(keys, func(key, _ []byte) (bool, error) {
+		return fn(key)
 	})
 }

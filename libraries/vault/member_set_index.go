@@ -162,7 +162,7 @@ func (i *MemberSetIndex[A, B, K]) groupKeysFrom(
 ) (groupKeys [][]byte, nextKey []byte, err error) {
 	if err := tx.etx.MemberSets(i.bucket).Scan(
 		KeyRange{firstIncluded: firstKey},
-		func(groupKey []byte, _ []StoredMember) (bool, error) {
+		func(groupKey []byte) (bool, error) {
 			if len(groupKeys) == limit {
 				nextKey = bytes.Clone(groupKey)
 
@@ -179,13 +179,13 @@ func (i *MemberSetIndex[A, B, K]) groupKeysFrom(
 	return groupKeys, nextKey, nil
 }
 
-func (i *MemberSetIndex[A, B, K]) memberIdentityOf(key K) string {
+func (i *MemberSetIndex[A, B, K]) memberOf(key K) string {
 	_, storedMember := i.storedPartsOf(key)
 
 	return storedMember.identity()
 }
 
-func (i *MemberSetIndex[A, B, K]) storedIdentitiesOf(
+func (i *MemberSetIndex[A, B, K]) storedMembersOf(
 	tx *Txn,
 	key K,
 ) (map[string]struct{}, error) {
@@ -194,10 +194,10 @@ func (i *MemberSetIndex[A, B, K]) storedIdentitiesOf(
 	if err != nil {
 		return nil, err
 	}
-	storedIdentities := make(map[string]struct{}, len(storedMembers))
+	memberIdentities := make(map[string]struct{}, len(storedMembers))
 	for _, storedMember := range storedMembers {
-		storedIdentities[storedMember.identity()] = struct{}{}
+		memberIdentities[storedMember.identity()] = struct{}{}
 	}
 
-	return storedIdentities, nil
+	return memberIdentities, nil
 }

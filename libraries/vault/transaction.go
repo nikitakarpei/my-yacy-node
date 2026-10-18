@@ -12,6 +12,7 @@ var errTransactionNeverOpened = errors.New(
 )
 
 type Txn struct {
+	// TECHDEBT: collaborators rule — other units call tx.etx.X(bucket).Y() and set its fields
 	etx                  EngineTxn
 	calledWriteOperation bool
 	afterCommit          []func()

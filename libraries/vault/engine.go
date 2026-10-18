@@ -47,5 +47,5 @@ type EngineMemberSets interface {
 	Add(key []byte, member StoredMember) error
 	Remove(key []byte, member StoredMember) error
 	Delete(key []byte) error
-	Scan(keys KeyRange, fn func(key []byte, members []StoredMember) (bool, error)) error
+	Scan(keys KeyRange, fn func(key []byte) (bool, error)) error
 }

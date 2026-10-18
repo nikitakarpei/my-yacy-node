@@ -215,7 +215,7 @@ func memberSetKeysWithin(t *testing.T, engine vault.Engine, keys vault.KeyRange)
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
 		return etx.MemberSets(memberSetsBucket).Scan(
 			keys,
-			func(key []byte, _ []vault.StoredMember) (bool, error) {
+			func(key []byte) (bool, error) {
 				group, err := stringKeyParts.PartsOf(key)
 				visited = append(visited, group)
 
@@ -325,27 +325,22 @@ func scanInAWriteSeesItsOwnChanges(t *testing.T, open func(int64) (vault.Engine,
 	changeMemberSets(t, engine, adding("p1", idZeroMember))
 
 	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
-		if err := adding("p1", zebraMember)(sets); err != nil {
-			return err
-		}
-		if err := sets.Remove(memberSetKeyOf("p1"), idZeroMember); err != nil {
-			return wrapTest(err)
-		}
 		if err := adding("p2", idSevenMember)(sets); err != nil {
 			return err
 		}
-		membersByGroup := map[string][]vault.StoredMember{}
-		err := sets.Scan(
-			vault.EveryKey(),
-			func(key []byte, members []vault.StoredMember) (bool, error) {
-				group, err := stringKeyParts.PartsOf(key)
-				membersByGroup[group] = members
+		if err := sets.Delete(memberSetKeyOf("p1")); err != nil {
+			return wrapTest(err)
+		}
+		var visited []string
+		err := sets.Scan(vault.EveryKey(), func(key []byte) (bool, error) {
+			group, err := stringKeyParts.PartsOf(key)
+			visited = append(visited, group)
 
-				return true, err
-			},
-		)
-		assertMembers(t, membersByGroup["p1"], zebraMember)
-		assertMembers(t, membersByGroup["p2"], idSevenMember)
+			return true, err
+		})
+		if !slices.Equal(visited, []string{"p2"}) {
+			t.Fatalf("sets = %v, want p2", visited)
+		}
 
 		return err
 	})
