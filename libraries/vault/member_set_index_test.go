@@ -30,7 +30,7 @@ func (o *observedMemberSets) ObserveUndecodableMembers(_ vault.Name, amount int)
 type pageWords struct {
 	engine     *doubleEngine
 	vault      *vault.Vault
-	collection *vault.Collection[mention, string]
+	collection *vault.IndexedCollection[mention, string]
 	words      *vault.MemberSetIndex[string, string, mention]
 	perPage    *vault.CountIndex[mention, string]
 	observed   *observedMemberSets

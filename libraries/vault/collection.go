@@ -5,7 +5,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"maps"
 )
 
 var errReadOnly = errors.New("write inside read-only transaction")
@@ -15,15 +14,7 @@ type Collection[K, V any] struct {
 	keys        KeyLayout[K]
 	values      ValueCodec[V]
 	projections Projections[K, V]
-	index       PairKeyIndex[K]
 }
-
-type KeyedValue[K, V any] struct {
-	Key   K
-	Value V
-}
-
-const fewestRecordsPerSecondPartRead = 8
 
 func (v *Vault) RegisterCollection[K, V any](
 	bucket Name,
@@ -178,84 +169,6 @@ func (c *Collection[K, V]) storedFormFrom(record []byte) (storedForm[V], error) 
 	}
 
 	return storedForm[V]{form: val, stored: record}, nil
-}
-
-func (c *Collection[K, V]) PutEach(tx *Txn, keyedValues []KeyedValue[K, V]) error {
-	absentPositions, err := c.absentPositionsAmong(tx, keyedValues)
-	if err != nil {
-		return err
-	}
-	for position, keyedValue := range keyedValues {
-		if _, isAbsent := absentPositions[position]; isAbsent {
-			err = c.storeAbsentRecord(tx, keyedValue.Key, keyedValue.Value)
-		} else {
-			_, err = c.storeRecord(tx, keyedValue.Key, keyedValue.Value)
-		}
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (c *Collection[K, V]) absentPositionsAmong(
-	tx *Txn,
-	keyedValues []KeyedValue[K, V],
-) (map[int]struct{}, error) {
-	if c.index == nil {
-		return nil, nil
-	}
-	storedKeysPerSecondPart, err := c.storedKeysWithin(
-		tx,
-		c.crowdedSecondPartsAmong(keyedValues),
-	)
-	if err != nil {
-		return nil, err
-	}
-	absentPositions := make(map[int]struct{})
-	for position, keyedValue := range keyedValues {
-		keys, isRead := storedKeysPerSecondPart[c.index.secondPartOf(keyedValue.Key)]
-		if isRead && !keys.holds(keyedValue.Key) {
-			absentPositions[position] = struct{}{}
-			keys.add(keyedValue.Key)
-		}
-	}
-
-	return absentPositions, nil
-}
-
-func (c *Collection[K, V]) crowdedSecondPartsAmong(
-	keyedValues []KeyedValue[K, V],
-) map[string]K {
-	amountPerSecondPart := make(map[string]int)
-	keyPerSecondPart := make(map[string]K)
-	for _, keyedValue := range keyedValues {
-		secondPart := c.index.secondPartOf(keyedValue.Key)
-		amountPerSecondPart[secondPart]++
-		keyPerSecondPart[secondPart] = keyedValue.Key
-	}
-	maps.DeleteFunc(keyPerSecondPart, func(secondPart string, _ K) bool {
-		return amountPerSecondPart[secondPart] < fewestRecordsPerSecondPartRead
-	})
-
-	return keyPerSecondPart
-}
-
-func (c *Collection[K, V]) storedKeysWithin(
-	tx *Txn,
-	keyPerSecondPart map[string]K,
-) (map[string]storedKeys[K], error) {
-	storedKeysPerSecondPart := make(map[string]storedKeys[K], len(keyPerSecondPart))
-	for secondPart, key := range keyPerSecondPart {
-		keys, err := c.index.storedKeysWithSecondPartOf(tx, key)
-		if err != nil {
-			return nil, err
-		}
-		storedKeysPerSecondPart[secondPart] = keys
-	}
-
-	return storedKeysPerSecondPart, nil
 }
 
 func (c *Collection[K, V]) storeAbsentRecord(tx *Txn, key K, val V) error {

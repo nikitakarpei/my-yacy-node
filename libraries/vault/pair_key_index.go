@@ -1,9 +1,6 @@
 package vault
 
-import (
-	"context"
-	"slices"
-)
+import "slices"
 
 type PairKeyIndex[K any] interface {
 	projectionBucket
@@ -12,26 +9,6 @@ type PairKeyIndex[K any] interface {
 	storedKeysWithSecondPartOf(tx *Txn, key K) (storedKeys[K], error)
 	keyAdded(tx *Txn, key K) error
 	keyRemoved(tx *Txn, key K) error
-}
-
-func (v *Vault) RegisterIndexedCollection[K, V any](
-	ctx context.Context,
-	bucket Name,
-	index PairKeyIndex[K],
-	values ValueCodec[V],
-	projections Projections[K, V],
-) (*Collection[K, V], error) {
-	if projections == nil {
-		projections = ProjectedAs[K, V](func(key K, _ V) K { return key })
-	}
-
-	return v.registerProjected(ctx, &Collection[K, V]{
-		name:        bucket,
-		keys:        index.keyLayout(),
-		values:      values,
-		projections: indexedByPairKey[K, V]{index: index, projections: projections},
-		index:       index,
-	})
 }
 
 type indexedByPairKey[K, V any] struct {
