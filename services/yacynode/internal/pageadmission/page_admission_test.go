@@ -83,6 +83,8 @@ func openHarnessWithWriter(
 		v,
 		yacymodel.DHTRingPartitions(1),
 		nil,
+		nil,
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)

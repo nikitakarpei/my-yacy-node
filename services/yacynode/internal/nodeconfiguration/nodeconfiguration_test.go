@@ -66,6 +66,9 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.Storage.OpenFileLimit != nodeconfiguration.DefaultPebbleOpenFileLimit {
 		t.Errorf("OpenFileLimit = %d, want default", config.Storage.OpenFileLimit)
 	}
+	if config.Storage.WordRankingFile != "" {
+		t.Errorf("WordRankingFile = %q, want none", config.Storage.WordRankingFile)
+	}
 	if config.PeerExchange.AnnounceInterval != nodeconfiguration.DefaultAnnounceInterval {
 		t.Errorf("AnnounceInterval = %v, want default", config.PeerExchange.AnnounceInterval)
 	}
@@ -130,6 +133,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvPebbleCompactionConcurrency: "3",
 		nodeconfiguration.EnvPebbleOpenFileLimit:         "128",
 		nodeconfiguration.EnvPebbleWriteConcurrency:      "6",
+		nodeconfiguration.EnvWordRankingFile:             "/etc/yacy/word-ranking.txt",
 		nodeconfiguration.EnvTrustedProxies:              "10.0.0.0/8",
 		nodeconfiguration.EnvSeedlistURLs:                " http://a , http://b ,",
 		nodeconfiguration.EnvAnnounceInterval:            "30s",
@@ -166,6 +170,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.Storage.OpenFileLimit != 128 {
 		t.Errorf("OpenFileLimit = %d, want 128", config.Storage.OpenFileLimit)
+	}
+	if config.Storage.WordRankingFile != "/etc/yacy/word-ranking.txt" {
+		t.Errorf("WordRankingFile = %q", config.Storage.WordRankingFile)
 	}
 	if len(config.Serving.TrustedProxyNetworks) != 1 {
 		t.Errorf("TrustedProxyNetworks = %d, want 1", len(config.Serving.TrustedProxyNetworks))

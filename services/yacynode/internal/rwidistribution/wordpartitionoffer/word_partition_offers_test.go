@@ -63,6 +63,8 @@ func openHarness(t *testing.T, opts options) *harness {
 		context.Background(),
 		v,
 		partitions(),
+		nil,
+		nil,
 		[]vault.Projection[yacymodel.RWIPosting]{projection},
 	)
 	if err != nil {

@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 func (h harness) writeAtOnce(t *testing.T, postings ...yacymodel.RWIPosting) {
@@ -70,6 +71,39 @@ func TestPurgingThePostingsOfAURLLeavesOtherURLs(t *testing.T) {
 	}
 	if _, found := h.postingOf(t, words[0], other); !found {
 		t.Fatalf("posting on %q was purged with %q", other, url)
+	}
+}
+
+func TestPurgingThePostingsOfAURLReachesRankedAndUnrankedWords(t *testing.T) {
+	words := numberedWordsOf(4)
+	h := openHarnessRanking(t, words[:2])
+	url := urlHash("u1")
+	h.writeAtOnce(t, postingsOfWordsOn(words, url)...)
+
+	if purged := h.purgePostingsOf(t, url); purged != len(words) {
+		t.Fatalf("purged %d postings of %q, want %d", purged, url, len(words))
+	}
+	for _, word := range words {
+		if _, found := h.postingOf(t, word, url); found {
+			t.Fatalf("posting of %v on %q outlived the purge", word, url)
+		}
+	}
+}
+
+func TestARankingThatListsAWordTwiceIsRefused(t *testing.T) {
+	word := yacymodel.WordHash("the")
+
+	_, _, _, err := rwipostings.Open(
+		context.Background(),
+		openVault(t),
+		ringPartitions,
+		[]yacymodel.Hash{word, word},
+		nil,
+		nil,
+	)
+
+	if err == nil {
+		t.Fatal("rwipostings.Open accepted a word ranked twice")
 	}
 }
 
