@@ -10,15 +10,17 @@ import (
 )
 
 type doubleEngine struct {
-	records    map[vault.Name]map[string][]byte
-	amounts    map[vault.Name]map[string]int
-	quotaBytes int64
+	records           map[vault.Name]map[string][]byte
+	amounts           map[vault.Name]map[string]int
+	clearedMemberSets *[]string
+	quotaBytes        int64
 }
 
 func newDoubleEngine() *doubleEngine {
 	return &doubleEngine{
-		records: map[vault.Name]map[string][]byte{},
-		amounts: map[vault.Name]map[string]int{},
+		records:           map[vault.Name]map[string][]byte{},
+		amounts:           map[vault.Name]map[string]int{},
+		clearedMemberSets: &[]string{},
 	}
 }
 
@@ -47,15 +49,20 @@ func (e *doubleEngine) ProvisionAmountsBucket(name vault.Name) error {
 	return nil
 }
 
+func (e *doubleEngine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
 func (e *doubleEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if err := ctx.Err(); err != nil {
 		return fmt.Errorf("context: %w", err)
 	}
 
 	staged := doubleTxn{
-		records:  snapshotOfRecords(e.records),
-		amounts:  snapshotOfAmounts(e.amounts),
-		writable: true,
+		records:           snapshotOfRecords(e.records),
+		amounts:           snapshotOfAmounts(e.amounts),
+		clearedMemberSets: e.clearedMemberSets,
+		writable:          true,
 	}
 	if err := fn(staged); err != nil {
 		return err
@@ -71,7 +78,12 @@ func (e *doubleEngine) View(ctx context.Context, fn func(vault.EngineTxn) error)
 		return fmt.Errorf("context: %w", err)
 	}
 
-	return fn(doubleTxn{records: e.records, amounts: e.amounts, writable: false})
+	return fn(doubleTxn{
+		records:           e.records,
+		amounts:           e.amounts,
+		clearedMemberSets: e.clearedMemberSets,
+		writable:          false,
+	})
 }
 
 func (e *doubleEngine) Close() error {
@@ -98,15 +110,34 @@ func (e *doubleEngine) UsedBytes(ctx context.Context) (int64, error) {
 }
 
 type doubleTxn struct {
-	records  map[vault.Name]map[string][]byte
-	amounts  map[vault.Name]map[string]int
-	writable bool
+	records           map[vault.Name]map[string][]byte
+	amounts           map[vault.Name]map[string]int
+	clearedMemberSets *[]string
+	writable          bool
 }
 
 func (t doubleTxn) Writable() bool { return t.writable }
 
 func (t doubleTxn) Records(name vault.Name) vault.EngineRecords {
 	return doubleBucket{entries: t.records[name]}
+}
+
+func (t doubleTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
+	return clearRecordingMemberSets{
+		EngineMemberSets: vault.MemberSetsOver(t.Records(name)),
+		clearedKeys:      t.clearedMemberSets,
+	}
+}
+
+type clearRecordingMemberSets struct {
+	vault.EngineMemberSets
+	clearedKeys *[]string
+}
+
+func (s clearRecordingMemberSets) Clear(key []byte) error {
+	*s.clearedKeys = append(*s.clearedKeys, string(key))
+
+	return s.EngineMemberSets.Clear(key)
 }
 
 func (t doubleTxn) Amounts(name vault.Name) vault.EngineAmounts {

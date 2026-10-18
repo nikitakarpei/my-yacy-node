@@ -1,9 +1,7 @@
 package vault
 
 import (
-	"context"
 	"fmt"
-	"slices"
 )
 
 const secondPartIndexVersion = "1"
@@ -38,24 +36,8 @@ func (v *Vault) RegisterSecondPartIndex[A, B, K any](
 	}, nil
 }
 
-func (v *Vault) RegisterIndexedCollection[A, B, K, V any](
-	ctx context.Context,
-	bucket Name,
-	index *SecondPartIndex[A, B, K],
-	values ValueCodec[V],
-	projections Projections[K, V],
-) (*Collection[K, V], error) {
-	if projections == nil {
-		projections = ProjectedAs[K, V](func(key K, _ V) K { return key })
-	}
-
-	return v.registerProjected(ctx, &Collection[K, V]{
-		name:        bucket,
-		keys:        index.parts.KeyLayoutFor(index.partsOf, index.keyFrom),
-		values:      values,
-		projections: indexedBySecondPart[A, B, K, V]{index: index, projections: projections},
-		secondParts: index,
-	})
+func (i *SecondPartIndex[A, B, K]) keyLayout() KeyLayout[K] {
+	return i.parts.KeyLayoutFor(i.partsOf, i.keyFrom)
 }
 
 func (i *SecondPartIndex[A, B, K]) Scan(
@@ -94,25 +76,31 @@ func (i *SecondPartIndex[A, B, K]) visitKeysWith(
 	return nil
 }
 
-func (i *SecondPartIndex[A, B, K]) secondPartOf(key K) string {
+func (i *SecondPartIndex[A, B, K]) groupOf(key K) string {
 	_, second := i.partsOf(key)
 
 	return string(i.parts.second.encodingOf(second))
 }
 
-func (i *SecondPartIndex[A, B, K]) storedNeighboursOf(
+func (i *SecondPartIndex[A, B, K]) memberOf(key K) string {
+	first, _ := i.partsOf(key)
+
+	return string(i.parts.first.encodingOf(first))
+}
+
+func (i *SecondPartIndex[A, B, K]) storedMembersOf(
 	tx *Txn,
 	key K,
 ) (map[string]struct{}, error) {
 	_, second := i.partsOf(key)
-	storedKeys := make(map[string]struct{})
-	err := i.visitKeysWith(tx, second, func(first A, second B) (bool, error) {
-		storedKeys[string(i.parts.Key(first, second).encoded)] = struct{}{}
+	storedMembers := make(map[string]struct{})
+	err := i.visitKeysWith(tx, second, func(first A, _ B) (bool, error) {
+		storedMembers[string(i.parts.first.encodingOf(first))] = struct{}{}
 
 		return true, nil
 	})
 
-	return storedKeys, err
+	return storedMembers, err
 }
 
 func (i *SecondPartIndex[A, B, K]) keyAdded(tx *Txn, key K) error {
@@ -153,56 +141,4 @@ func (i *SecondPartIndex[A, B, K]) clearFrom(tx *Txn, firstKey []byte, limit int
 	}
 
 	return nextKey, nil
-}
-
-type indexedBySecondPart[A, B, K, V any] struct {
-	index       *SecondPartIndex[A, B, K]
-	projections Projections[K, V]
-}
-
-func (p indexedBySecondPart[A, B, K, V]) recordAdded(tx *Txn, key K, value storedForm[V]) error {
-	if p.index != nil {
-		if err := p.index.keyAdded(tx, key); err != nil {
-			return err
-		}
-	}
-
-	return p.projections.recordAdded(tx, key, value)
-}
-
-func (p indexedBySecondPart[A, B, K, V]) recordRemoved(
-	tx *Txn,
-	key K,
-	value storedForm[V],
-) error {
-	if p.index != nil {
-		if err := p.index.keyRemoved(tx, key); err != nil {
-			return err
-		}
-	}
-
-	return p.projections.recordRemoved(tx, key, value)
-}
-
-func (p indexedBySecondPart[A, B, K, V]) recordReplaced(
-	tx *Txn,
-	key K,
-	previous, current storedForm[V],
-) error {
-	return p.projections.recordReplaced(tx, key, previous, current)
-}
-
-func (p indexedBySecondPart[A, B, K, V]) buckets() []projectionBucket {
-	return append([]projectionBucket{p.index}, p.projections.buckets()...)
-}
-
-func (p indexedBySecondPart[A, B, K, V]) narrowedTo(
-	buckets []projectionBucket,
-) Projections[K, V] {
-	narrowed := indexedBySecondPart[A, B, K, V]{projections: p.projections.narrowedTo(buckets)}
-	if slices.Contains(buckets, projectionBucket(p.index)) {
-		narrowed.index = p.index
-	}
-
-	return narrowed
 }

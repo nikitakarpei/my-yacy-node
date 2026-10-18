@@ -19,6 +19,10 @@ func (t memTxn) Records(name vault.Name) vault.EngineRecords {
 	return memRecords{entries: t.records[name]}
 }
 
+func (t memTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
+	return vault.MemberSetsOver(t.Records(name))
+}
+
 func (t memTxn) Amounts(name vault.Name) vault.EngineAmounts {
 	return memAmounts{entries: t.amounts[name]}
 }

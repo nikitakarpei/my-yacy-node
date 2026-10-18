@@ -15,6 +15,7 @@ type Txn struct {
 	etx                  EngineTxn
 	calledWriteOperation bool
 	afterCommit          []func()
+	memberSetReads       memberSetReads
 }
 
 func (t *Txn) RunAfterCommit(run func()) {
@@ -48,8 +49,12 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 			beginReported = true
 		}
 
-		tx := &Txn{etx: etx}
+		reads := memberSetReads{}
+		tx := &Txn{etx: etx, memberSetReads: reads}
 		closureFailure = fn(tx)
+		if closureFailure == nil {
+			closureFailure = reads.deleteEmptiedWithin(etx)
+		}
 		calledWriteOperation = tx.calledWriteOperation
 		afterCommit = tx.afterCommit
 		timeline.markExecuted()

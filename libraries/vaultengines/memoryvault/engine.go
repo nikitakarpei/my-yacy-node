@@ -48,6 +48,10 @@ func (e *engine) ProvisionRecordsBucket(name vault.Name) error {
 	return nil
 }
 
+func (e *engine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
 func (e *engine) ProvisionAmountsBucket(name vault.Name) error {
 	e.mutex.Lock()
 	defer e.mutex.Unlock()

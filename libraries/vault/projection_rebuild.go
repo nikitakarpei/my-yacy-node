@@ -11,7 +11,7 @@ const projectionVersionsBucket Name = "vault_projection_versions"
 
 const rebuildBatchRecords = 1000
 
-var projectionVersionKeys = SingleKey(TextKeyPartFrom(
+var nameKeys = SingleKey(TextKeyPartFrom(
 	func(bucket Name) string { return string(bucket) },
 	func(text string) (Name, error) { return Name(text), nil },
 )).KeyLayout()
@@ -29,7 +29,7 @@ func (projectionVersionCodec) Decode(stored []byte) (string, error) {
 func (v *Vault) registerProjectionVersions() (*Collection[Name, string], error) {
 	return v.RegisterCollection(
 		projectionVersionsBucket,
-		projectionVersionKeys,
+		nameKeys,
 		projectionVersionCodec{},
 	)
 }
@@ -113,8 +113,14 @@ func (v *Vault) rebuildProjections[K, V any](
 			return fmt.Errorf("clear stale projection: %w", err)
 		}
 	}
+	progress, err := v.rebuildProgressOf(ctx, collection.name)
+	if err != nil {
+		return err
+	}
 	staleProjections := collection.projections.narrowedTo(stale)
 	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
+		tx.RunAfterCommit(func() { progress.batchProjected(ctx) })
+
 		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
 	}); err != nil {
 		return fmt.Errorf("rebuild stale projections: %w", err)

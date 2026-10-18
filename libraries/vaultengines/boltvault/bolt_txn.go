@@ -21,6 +21,10 @@ func (t boltTxn) Records(name vault.Name) vault.EngineRecords {
 	}
 }
 
+func (t boltTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
+	return vault.MemberSetsOver(t.Records(name))
+}
+
 func (t boltTxn) Amounts(name vault.Name) vault.EngineAmounts {
 	return boltAmounts{entries: t.tx.Bucket([]byte(name))}
 }

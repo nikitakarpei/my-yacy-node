@@ -4,23 +4,18 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
-
-	"github.com/cockroachdb/pebble/v2"
 )
 
 var errBadAmount = errors.New("bad amount")
 
-var amountMerger = &pebble.Merger{
-	Name: "pebblevault.amount_sum",
-	Merge: func(_, operand []byte) (pebble.ValueMerger, error) {
-		var summed amountSum
-
-		return &summed, summed.add(operand)
-	},
-}
-
 type amountSum struct {
 	total int64
+}
+
+func amountSumFrom(operand []byte) (*amountSum, error) {
+	var summed amountSum
+
+	return &summed, summed.add(operand)
 }
 
 func (s *amountSum) add(operand []byte) error {
