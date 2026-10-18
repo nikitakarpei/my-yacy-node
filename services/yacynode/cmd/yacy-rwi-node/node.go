@@ -203,7 +203,7 @@ func assembleNode(
 		storage,
 		dhtRingPartitions,
 		rankedWords,
-		metrics.NewURLWordsMetrics(registry),
+		metrics.NewVaultMemberSetMetrics(registry),
 		[]vault.Projection[yacymodel.RWIPosting]{
 			postingImpactProjection,
 			postingAmountProjection,

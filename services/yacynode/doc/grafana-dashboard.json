@@ -3429,8 +3429,8 @@
     },
     {
       "id": 147,
-      "title": "Share of URL words kept as full hashes",
-      "description": "A word the word ranking file lists takes fewer bytes. A rising share means the file misses words that are now common.",
+      "title": "Share of member set members stored as full values, by bucket",
+      "description": "A value the dictionary of the bucket lists is stored as a short ID. A rising share means the dictionary misses values that are now common.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -3460,16 +3460,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_url_words_added_total{form=\"raw\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_url_words_added_total{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "full hashes"
+          "expr": "(sum by (bucket) (rate(yacynode_vault_member_set_members_added_total{form=\"raw\",instance=~\"$service_instance\"}[$window])) or sum by (bucket) (rate(yacynode_vault_member_set_members_added_total{instance=~\"$service_instance\"}[$window])) * 0) / sum by (bucket) (rate(yacynode_vault_member_set_members_added_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "{{bucket}}"
         }
       ],
       "interval": "$window"
     },
     {
       "id": 148,
-      "title": "URL words the node could not read",
-      "description": "Any band means a URL keeps words the node cannot purge with it.",
+      "title": "Member set members vault could not decode, by bucket",
+      "description": "Any band means vault skipped members it could not decode. Their records stay when their set is read to remove them.",
       "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
@@ -3510,7 +3510,7 @@
         "mergeValues": true,
         "showValue": "auto",
         "legend": {
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single"
@@ -3519,8 +3519,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_url_words_undecodable_total{instance=~\"$service_instance\"} - (yacynode_url_words_undecodable_total{instance=~\"$service_instance\"} offset $__interval), 0)",
-          "legendFormat": "words"
+          "expr": "clamp_min(yacynode_vault_member_set_undecodable_members_total{instance=~\"$service_instance\"} - (yacynode_vault_member_set_undecodable_members_total{instance=~\"$service_instance\"} offset $__interval), 0)",
+          "legendFormat": "{{bucket}}"
         }
       ],
       "interval": "$window"
