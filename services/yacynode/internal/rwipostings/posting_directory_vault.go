@@ -20,7 +20,7 @@ func registerPostings(
 	v *vault.Vault,
 	projections []vault.Projection[yacymodel.RWIPosting],
 ) (
-	*vault.Collection[postingIdentity, yacymodel.RWIPosting],
+	*vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting],
 	*vault.SecondPartIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
 	error,
 ) {

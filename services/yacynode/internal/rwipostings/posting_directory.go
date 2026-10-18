@@ -13,7 +13,7 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	postings      *vault.Collection[postingIdentity, yacymodel.RWIPosting]
+	postings      *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
 	urlReferences *vault.SecondPartIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity]
 	partitions    yacymodel.DHTRingPartitions
 }

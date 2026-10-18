@@ -19,7 +19,7 @@ var mentionKeyParts = vault.PairKey(vault.TextKeyPart, vault.TextKeyPart)
 
 type mentions struct {
 	vault      *vault.Vault
-	collection *vault.Collection[mention, string]
+	collection *vault.IndexedCollection[mention, string]
 	words      *vault.SecondPartIndex[string, string, mention]
 	perPage    *vault.CountIndex[mention, string]
 }
@@ -267,7 +267,13 @@ func TestRegisteringBuildsTheSecondPartIndexOfRecordsStoredBefore(t *testing.T) 
 		t.Fatalf("RegisterCollection: %v", err)
 	}
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return plain.PutEach(tx, mentionsOf("p1", numberedWords(10)...))
+		for _, keyedValue := range mentionsOf("p1", numberedWords(10)...) {
+			if _, err := plain.Put(tx, keyedValue.Key, keyedValue.Value); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}

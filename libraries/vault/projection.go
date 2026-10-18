@@ -26,8 +26,7 @@ type storedForm[T any] struct {
 type projectionBucket interface {
 	bucketName() Name
 	follow() error
-	staleIn(tx *Txn, versions *Collection[Name, string]) (bool, error)
-	recordVersionIn(tx *Txn, versions *Collection[Name, string]) error
+	registeredVersion() string
 	clearFrom(tx *Txn, firstKey []byte, limit int) (nextKey []byte, err error)
 }
 
@@ -49,25 +48,8 @@ func (r *projectionRegistration) follow() error {
 	return nil
 }
 
-func (r *projectionRegistration) staleIn(
-	tx *Txn,
-	versions *Collection[Name, string],
-) (bool, error) {
-	storedVersion, found, err := versions.Get(tx, r.bucket)
-	if err != nil {
-		return false, err
-	}
-
-	return !found || storedVersion != r.version, nil
-}
-
-func (r *projectionRegistration) recordVersionIn(
-	tx *Txn,
-	versions *Collection[Name, string],
-) error {
-	_, err := versions.Put(tx, r.bucket, r.version)
-
-	return err
+func (r *projectionRegistration) registeredVersion() string {
+	return r.version
 }
 
 func (r *projectionRegistration) refuseUnfollowed() error {
