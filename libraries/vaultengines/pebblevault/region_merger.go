@@ -4,11 +4,11 @@ import "github.com/cockroachdb/pebble/v2"
 
 var regionMerger = &pebble.Merger{
 	Name:  "pebblevault.amount_sum",
-	Merge: foldFor,
+	Merge: valueMergerFor,
 }
 
-func foldFor(key, operand []byte) (pebble.ValueMerger, error) {
-	if len(key) > 0 && key[0] == memberSetsRegionPrefix {
+func valueMergerFor(key, operand []byte) (pebble.ValueMerger, error) {
+	if isMemberSetKey(key) {
 		return memberSetFoldFrom(operand)
 	}
 

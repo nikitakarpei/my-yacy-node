@@ -352,16 +352,14 @@ func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	estimatedAmountsBytes, err := e.db.EstimateDiskUsage(amountsRegion.boundsFor(vault.EveryKey()))
-	if err != nil {
-		return 0, fmt.Errorf("estimate amount bytes: %w", err)
-	}
-	estimatedMemberSetsBytes, err := e.db.EstimateDiskUsage(
-		memberSetsRegion.boundsFor(vault.EveryKey()),
-	)
-	if err != nil {
-		return 0, fmt.Errorf("estimate member set bytes: %w", err)
+	usedBytes := heldBytes
+	for _, region := range []keyspaceRegion{amountsRegion, memberSetsRegion} {
+		estimatedBytes, err := e.db.EstimateDiskUsage(region.boundsFor(vault.EveryKey()))
+		if err != nil {
+			return 0, fmt.Errorf("estimate merged bytes: %w", err)
+		}
+		usedBytes += signed(estimatedBytes)
 	}
 
-	return heldBytes + signed(estimatedAmountsBytes) + signed(estimatedMemberSetsBytes), nil
+	return usedBytes, nil
 }

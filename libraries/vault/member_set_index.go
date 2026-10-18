@@ -7,9 +7,7 @@ import (
 
 type MemberSetIndex[A, B, K any] struct {
 	projectionRegistration
-	parts      PairKeyParts[A, B]
-	partsOf    func(K) (A, B)
-	keyFrom    func(A, B) K
+	pairKeyShape[A, B, K]
 	dictionary *FixedDictionary[A]
 	observer   MemberSetObserver
 }
@@ -33,11 +31,9 @@ func (v *Vault) RegisterMemberSetIndex[A, B, K any](
 			bucket:  bucket,
 			version: version + ":" + dictionary.fingerprint,
 		},
-		parts:      parts,
-		partsOf:    partsOf,
-		keyFrom:    keyFrom,
-		dictionary: dictionary,
-		observer:   memberSetObserverOrSilent(observer),
+		pairKeyShape: pairKeyShape[A, B, K]{parts: parts, partsOf: partsOf, keyFrom: keyFrom},
+		dictionary:   dictionary,
+		observer:     memberSetObserverOrSilent(observer),
 	}, nil
 }
 
@@ -45,15 +41,20 @@ func (i *MemberSetIndex[A, B, K]) MembersOf(tx *Txn, group B) ([]A, error) {
 	if err := i.refuseUnfollowed(); err != nil {
 		return nil, err
 	}
-	groupKey := i.parts.second.encodingOf(group)
+	groupKey := i.groupKeyOf(group)
 	storedMembers, err := i.storedMembersAt(tx, groupKey)
 	if err != nil {
 		return nil, err
 	}
-	members, readStoredMembers := i.decodedFrom(storedMembers)
-	tx.memberSetReads.read(i.bucket, groupKey, readStoredMembers)
+	members, decodableMembers := i.decodedFrom(storedMembers)
+	readSets := i.readSetsIn(tx)
+	readSets.membersRead(groupKey, decodableMembers)
 
 	return members, nil
+}
+
+func (i *MemberSetIndex[A, B, K]) readSetsIn(tx *Txn) *readMemberSets {
+	return tx.pendingWorkFor(i, func() *readMemberSets { return newReadMemberSets(i.bucket) })
 }
 
 func (i *MemberSetIndex[A, B, K]) storedMembersAt(
@@ -70,9 +71,9 @@ func (i *MemberSetIndex[A, B, K]) storedMembersAt(
 
 func (i *MemberSetIndex[A, B, K]) decodedFrom(
 	storedMembers []StoredMember,
-) (members []A, readStoredMembers []StoredMember) {
+) (members []A, decodableMembers []StoredMember) {
 	members = make([]A, 0, len(storedMembers))
-	readStoredMembers = make([]StoredMember, 0, len(storedMembers))
+	decodableMembers = make([]StoredMember, 0, len(storedMembers))
 	var undecodable int
 	var cause error
 	for _, storedMember := range storedMembers {
@@ -84,17 +85,13 @@ func (i *MemberSetIndex[A, B, K]) decodedFrom(
 			continue
 		}
 		members = append(members, member)
-		readStoredMembers = append(readStoredMembers, storedMember)
+		decodableMembers = append(decodableMembers, storedMember)
 	}
 	if undecodable > 0 {
 		reportUndecodableMembers(i.observer, i.bucket, undecodable, cause)
 	}
 
-	return members, readStoredMembers
-}
-
-func (i *MemberSetIndex[A, B, K]) keyLayout() KeyLayout[K] {
-	return i.parts.KeyLayoutFor(i.partsOf, i.keyFrom)
+	return members, decodableMembers
 }
 
 func (i *MemberSetIndex[A, B, K]) keyAdded(tx *Txn, key K) error {
@@ -106,7 +103,7 @@ func (i *MemberSetIndex[A, B, K]) keyAdded(tx *Txn, key K) error {
 func (i *MemberSetIndex[A, B, K]) storedPartsOf(key K) ([]byte, StoredMember) {
 	member, group := i.partsOf(key)
 
-	return i.parts.second.encodingOf(group), i.dictionary.storedMemberOf(member)
+	return i.groupKeyOf(group), i.dictionary.storedMemberOf(member)
 }
 
 func (i *MemberSetIndex[A, B, K]) addMember(
@@ -117,7 +114,8 @@ func (i *MemberSetIndex[A, B, K]) addMember(
 	if err := tx.etx.MemberSets(i.bucket).Add(groupKey, storedMember); err != nil {
 		return fmt.Errorf("add to %s: %w", i.bucket, err)
 	}
-	tx.memberSetReads.memberAdded(i.bucket, groupKey)
+	readSets := i.readSetsIn(tx)
+	readSets.memberAdded(groupKey)
 	i.observer.ObserveMemberAdded(i.bucket, storedMember.form())
 
 	return nil
@@ -137,7 +135,8 @@ func (i *MemberSetIndex[A, B, K]) removeMember(
 	if err := tx.etx.MemberSets(i.bucket).Remove(groupKey, storedMember); err != nil {
 		return fmt.Errorf("remove from %s: %w", i.bucket, err)
 	}
-	tx.memberSetReads.memberRemoved(i.bucket, groupKey, storedMember)
+	readSets := i.readSetsIn(tx)
+	readSets.memberRemoved(groupKey, storedMember)
 
 	return nil
 }
@@ -148,8 +147,8 @@ func (i *MemberSetIndex[A, B, K]) clearFrom(tx *Txn, firstKey []byte, limit int)
 		return nil, err
 	}
 	for _, groupKey := range groupKeys {
-		if err := tx.etx.MemberSets(i.bucket).Clear(groupKey); err != nil {
-			return nil, fmt.Errorf("clear %s: %w", i.bucket, err)
+		if err := tx.etx.MemberSets(i.bucket).Delete(groupKey); err != nil {
+			return nil, fmt.Errorf("delete %s set: %w", i.bucket, err)
 		}
 	}
 
@@ -180,19 +179,13 @@ func (i *MemberSetIndex[A, B, K]) groupKeysFrom(
 	return groupKeys, nextKey, nil
 }
 
-func (i *MemberSetIndex[A, B, K]) groupOf(key K) string {
-	groupKey, _ := i.storedPartsOf(key)
-
-	return string(groupKey)
-}
-
-func (i *MemberSetIndex[A, B, K]) memberOf(key K) string {
+func (i *MemberSetIndex[A, B, K]) memberIdentityOf(key K) string {
 	_, storedMember := i.storedPartsOf(key)
 
 	return storedMember.identity()
 }
 
-func (i *MemberSetIndex[A, B, K]) storedMembersOf(
+func (i *MemberSetIndex[A, B, K]) storedIdentitiesOf(
 	tx *Txn,
 	key K,
 ) (map[string]struct{}, error) {
@@ -201,10 +194,10 @@ func (i *MemberSetIndex[A, B, K]) storedMembersOf(
 	if err != nil {
 		return nil, err
 	}
-	identities := make(map[string]struct{}, len(storedMembers))
+	storedIdentities := make(map[string]struct{}, len(storedMembers))
 	for _, storedMember := range storedMembers {
-		identities[storedMember.identity()] = struct{}{}
+		storedIdentities[storedMember.identity()] = struct{}{}
 	}
 
-	return identities, nil
+	return storedIdentities, nil
 }

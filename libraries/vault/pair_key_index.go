@@ -14,9 +14,9 @@ type PairKeyIndex[K any] interface {
 }
 
 type groupLookup[K any] interface {
-	groupOf(key K) string
-	memberOf(key K) string
-	storedMembersOf(tx *Txn, key K) (map[string]struct{}, error)
+	groupIdentityOf(key K) string
+	memberIdentityOf(key K) string
+	storedIdentitiesOf(tx *Txn, key K) (map[string]struct{}, error)
 }
 
 func (v *Vault) RegisterIndexedCollection[K, V any](
@@ -35,7 +35,7 @@ func (v *Vault) RegisterIndexedCollection[K, V any](
 		keys:        index.keyLayout(),
 		values:      values,
 		projections: indexedByPairKey[K, V]{index: index, projections: projections},
-		groups:      index,
+		pairKeys:    index,
 	})
 }
 

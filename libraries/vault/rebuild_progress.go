@@ -10,15 +10,15 @@ const batchesPerProgressReport = 100
 
 type rebuildProgress struct {
 	collection       Name
-	records          int
+	recordAmount     int
 	projectedBatches int
 }
 
 func (v *Vault) rebuildProgressOf(ctx context.Context, collection Name) (*rebuildProgress, error) {
 	progress := &rebuildProgress{collection: collection}
 	if err := v.view(ctx, func(tx *Txn) error {
-		records, err := lengthOf(tx, collection)
-		progress.records = records
+		recordAmount, err := lengthOf(tx, collection)
+		progress.recordAmount = recordAmount
 
 		return err
 	}); err != nil {
@@ -38,6 +38,6 @@ func (p *rebuildProgress) batchProjected(ctx context.Context) {
 		"vault projections rebuild progressed",
 		slog.String("collection", string(p.collection)),
 		slog.Int("projectedRecords", p.projectedBatches*rebuildBatchRecords),
-		slog.Int("records", p.records),
+		slog.Int("records", p.recordAmount),
 	)
 }

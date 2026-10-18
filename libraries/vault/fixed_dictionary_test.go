@@ -11,12 +11,12 @@ import (
 func formsOfMentions(
 	t *testing.T,
 	engine *doubleEngine,
-	ranked []string,
+	valuesByID []string,
 	words ...string,
 ) []vault.MemberForm {
 	t.Helper()
 
-	opened := openPageWords(t, engine, ranked)
+	opened := openPageWords(t, engine, valuesByID)
 	opened.observed.addedForms = nil
 	opened.mention(t, "p9", words...)
 
@@ -31,7 +31,7 @@ func assertForms(t *testing.T, got []vault.MemberForm, want ...vault.MemberForm)
 	}
 }
 
-func TestADictionaryRegisteredWithoutValuesUsesTheStoredRanking(t *testing.T) {
+func TestADictionaryRegisteredWithoutValuesUsesTheStoredCopy(t *testing.T) {
 	engine := newDoubleEngine()
 	openPageWords(t, engine, []string{"the", "a"})
 
@@ -40,7 +40,7 @@ func TestADictionaryRegisteredWithoutValuesUsesTheStoredRanking(t *testing.T) {
 	assertForms(t, got, vault.MemberFormID, vault.MemberFormRaw)
 }
 
-func TestNewValuesReplaceTheStoredRanking(t *testing.T) {
+func TestNewValuesReplaceTheStoredCopy(t *testing.T) {
 	engine := newDoubleEngine()
 	openPageWords(t, engine, []string{"the"})
 	openPageWords(t, engine, []string{"zebra"})
@@ -50,7 +50,7 @@ func TestNewValuesReplaceTheStoredRanking(t *testing.T) {
 	assertForms(t, got, vault.MemberFormRaw, vault.MemberFormID)
 }
 
-func TestWithoutValuesOrAStoredRankingEveryMemberIsRaw(t *testing.T) {
+func TestWithoutValuesOrAStoredCopyEveryMemberIsRaw(t *testing.T) {
 	got := formsOfMentions(t, newDoubleEngine(), nil, "the", "zebra")
 
 	assertForms(t, got, vault.MemberFormRaw, vault.MemberFormRaw)
@@ -81,7 +81,7 @@ func TestASecondRegistrationOfADictionaryIsRefused(t *testing.T) {
 	}
 }
 
-func TestARankingThatRepeatsAValueIsRefused(t *testing.T) {
+func TestValuesThatRepeatAValueAreRefused(t *testing.T) {
 	v, err := openDouble()
 	if err != nil {
 		t.Fatalf("openDouble: %v", err)

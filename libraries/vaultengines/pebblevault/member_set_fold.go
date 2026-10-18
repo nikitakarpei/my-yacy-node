@@ -7,11 +7,11 @@ import (
 )
 
 type memberSetFold struct {
-	presenceByMember map[vault.StoredMember]bool
+	presence memberPresence
 }
 
 func memberSetFoldFrom(operand []byte) (*memberSetFold, error) {
-	fold := &memberSetFold{presenceByMember: map[vault.StoredMember]bool{}}
+	fold := &memberSetFold{presence: memberPresence{}}
 
 	return fold, fold.MergeNewer(operand)
 }
@@ -22,10 +22,10 @@ func (f *memberSetFold) MergeNewer(operand []byte) error {
 		return err
 	}
 	for _, member := range change.Added {
-		f.presenceByMember[member] = true
+		f.presence[member] = true
 	}
 	for _, member := range change.Removed {
-		f.presenceByMember[member] = false
+		f.presence[member] = false
 	}
 
 	return nil
@@ -44,21 +44,16 @@ func (f *memberSetFold) MergeOlder(operand []byte) error {
 
 func (f *memberSetFold) decideUndecided(members []vault.StoredMember, isPresent bool) {
 	for _, member := range members {
-		if _, decided := f.presenceByMember[member]; !decided {
-			f.presenceByMember[member] = isPresent
+		if _, decided := f.presence[member]; !decided {
+			f.presence[member] = isPresent
 		}
 	}
 }
 
 func (f *memberSetFold) Finish(includesBase bool) ([]byte, io.Closer, error) {
-	var change vault.MemberSetChange
-	for member, isPresent := range f.presenceByMember {
-		switch {
-		case isPresent:
-			change.Added = append(change.Added, member)
-		case !includesBase:
-			change.Removed = append(change.Removed, member)
-		}
+	change := f.presence.changeOf()
+	if includesBase {
+		change.Removed = nil
 	}
 
 	return change.Encoded(), nil, nil

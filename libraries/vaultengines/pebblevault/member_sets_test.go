@@ -49,7 +49,10 @@ func groupKeyOf(group int) []byte {
 	return []byte(fmt.Sprintf("p%d", group))
 }
 
-func foldMany(t *testing.T, engine *pebblevault.Engine) map[int][]vault.StoredMember {
+func expectedMembersAfterBlindChanges(
+	t *testing.T,
+	engine *pebblevault.Engine,
+) map[int][]vault.StoredMember {
 	t.Helper()
 
 	present := map[int]map[vault.StoredMember]bool{}
@@ -119,7 +122,7 @@ func storedMembersByGroup(t *testing.T, engine *pebblevault.Engine) map[int][]va
 func TestMemberSetsFoldManyBlindChangesAcrossFlushesAndReopening(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "node")
 	before := openMemberSetEngine(t, path)
-	want := foldMany(t, before)
+	want := expectedMembersAfterBlindChanges(t, before)
 	if err := before.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}
@@ -142,7 +145,7 @@ func TestMemberSetsFoldManyBlindChangesAcrossFlushesAndReopening(t *testing.T) {
 func TestMemberSetsCountTowardUsedBytes(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "node")
 	before := openMemberSetEngine(t, path)
-	foldMany(t, before)
+	expectedMembersAfterBlindChanges(t, before)
 	if err := before.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}

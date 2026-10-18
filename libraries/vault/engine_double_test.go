@@ -12,7 +12,7 @@ import (
 type doubleEngine struct {
 	records           map[vault.Name]map[string][]byte
 	amounts           map[vault.Name]map[string]int
-	clearedMemberSets *[]string
+	deletedMemberSets *[]string
 	quotaBytes        int64
 }
 
@@ -20,7 +20,7 @@ func newDoubleEngine() *doubleEngine {
 	return &doubleEngine{
 		records:           map[vault.Name]map[string][]byte{},
 		amounts:           map[vault.Name]map[string]int{},
-		clearedMemberSets: &[]string{},
+		deletedMemberSets: &[]string{},
 	}
 }
 
@@ -61,7 +61,7 @@ func (e *doubleEngine) Update(ctx context.Context, fn func(vault.EngineTxn) erro
 	staged := doubleTxn{
 		records:           snapshotOfRecords(e.records),
 		amounts:           snapshotOfAmounts(e.amounts),
-		clearedMemberSets: e.clearedMemberSets,
+		deletedMemberSets: e.deletedMemberSets,
 		writable:          true,
 	}
 	if err := fn(staged); err != nil {
@@ -81,7 +81,7 @@ func (e *doubleEngine) View(ctx context.Context, fn func(vault.EngineTxn) error)
 	return fn(doubleTxn{
 		records:           e.records,
 		amounts:           e.amounts,
-		clearedMemberSets: e.clearedMemberSets,
+		deletedMemberSets: e.deletedMemberSets,
 		writable:          false,
 	})
 }
@@ -112,7 +112,7 @@ func (e *doubleEngine) UsedBytes(ctx context.Context) (int64, error) {
 type doubleTxn struct {
 	records           map[vault.Name]map[string][]byte
 	amounts           map[vault.Name]map[string]int
-	clearedMemberSets *[]string
+	deletedMemberSets *[]string
 	writable          bool
 }
 
@@ -123,21 +123,21 @@ func (t doubleTxn) Records(name vault.Name) vault.EngineRecords {
 }
 
 func (t doubleTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
-	return clearRecordingMemberSets{
+	return deletionRecordingMemberSets{
 		EngineMemberSets: vault.MemberSetsOver(t.Records(name)),
-		clearedKeys:      t.clearedMemberSets,
+		deletedKeys:      t.deletedMemberSets,
 	}
 }
 
-type clearRecordingMemberSets struct {
+type deletionRecordingMemberSets struct {
 	vault.EngineMemberSets
-	clearedKeys *[]string
+	deletedKeys *[]string
 }
 
-func (s clearRecordingMemberSets) Clear(key []byte) error {
-	*s.clearedKeys = append(*s.clearedKeys, string(key))
+func (s deletionRecordingMemberSets) Delete(key []byte) error {
+	*s.deletedKeys = append(*s.deletedKeys, string(key))
 
-	return s.EngineMemberSets.Clear(key)
+	return s.EngineMemberSets.Delete(key)
 }
 
 func (t doubleTxn) Amounts(name vault.Name) vault.EngineAmounts {

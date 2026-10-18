@@ -15,11 +15,30 @@ type Txn struct {
 	etx                  EngineTxn
 	calledWriteOperation bool
 	afterCommit          []func()
-	memberSetReads       memberSetReads
+	pendingWork          []pendingWork
+	pendingWorkByOwner   map[any]pendingWork
+}
+
+type pendingWork interface {
+	finishWithin(etx EngineTxn) error
 }
 
 func (t *Txn) RunAfterCommit(run func()) {
 	t.afterCommit = append(t.afterCommit, run)
+}
+
+func (t *Txn) pendingWorkFor[W pendingWork](owner any, newWork func() W) W {
+	if work, found := t.pendingWorkByOwner[owner]; found {
+		return work.(W)
+	}
+	work := newWork()
+	if t.pendingWorkByOwner == nil {
+		t.pendingWorkByOwner = map[any]pendingWork{}
+	}
+	t.pendingWorkByOwner[owner] = work
+	t.pendingWork = append(t.pendingWork, work)
+
+	return work
 }
 
 func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
@@ -49,12 +68,8 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 			beginReported = true
 		}
 
-		reads := memberSetReads{}
-		tx := &Txn{etx: etx, memberSetReads: reads}
-		closureFailure = fn(tx)
-		if closureFailure == nil {
-			closureFailure = reads.deleteEmptiedWithin(etx)
-		}
+		tx := &Txn{etx: etx}
+		closureFailure = tx.run(fn)
 		calledWriteOperation = tx.calledWriteOperation
 		afterCommit = tx.afterCommit
 		timeline.markExecuted()
@@ -90,6 +105,24 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 		return nil
 	}
+}
+
+func (t *Txn) run(fn func(*Txn) error) error {
+	if err := fn(t); err != nil {
+		return err
+	}
+
+	return t.finishPendingWork()
+}
+
+func (t *Txn) finishPendingWork() error {
+	for _, work := range t.pendingWork {
+		if err := work.finishWithin(t.etx); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (v *Vault) View(ctx context.Context, fn func(*Txn) error) error {

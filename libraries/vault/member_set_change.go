@@ -35,6 +35,15 @@ func MemberSetChangeFrom(encoded []byte) (MemberSetChange, error) {
 	return MemberSetChange{Added: added, Removed: removed}, nil
 }
 
+func StoredMembersFrom(encoded []byte) ([]StoredMember, error) {
+	change, err := MemberSetChangeFrom(encoded)
+	if err != nil {
+		return nil, fmt.Errorf("read member set: %w", err)
+	}
+
+	return change.Added, nil
+}
+
 func membersFrom(encoded []byte) ([]StoredMember, []byte, error) {
 	idMembers, rest, err := idMembersFrom(encoded)
 	if err != nil {

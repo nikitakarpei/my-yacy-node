@@ -50,6 +50,10 @@ func memberSetsRegionOf(bucket vault.Name) keyspaceRegion {
 	return namedRegionWithin(memberSetsRegionPrefix, bucket)
 }
 
+func isMemberSetKey(absoluteKey []byte) bool {
+	return len(absoluteKey) > 0 && absoluteKey[0] == memberSetsRegionPrefix
+}
+
 func (r keyspaceRegion) absoluteKeyFrom(relativeKey []byte) []byte {
 	absolute := make([]byte, 0, len(r.prefix)+len(relativeKey))
 	absolute = append(absolute, r.prefix...)

@@ -1,10 +1,6 @@
 package pebblevault
 
-import (
-	"fmt"
-
-	"github.com/nikitakarpei/yacy-rwi-node/vault"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/vault"
 
 type pebbleMemberSets struct {
 	entries storedEntries
@@ -27,16 +23,7 @@ func (s pebbleMemberSets) storedMembersAt(absoluteKey []byte) ([]vault.StoredMem
 		return nil, err
 	}
 
-	return storedMembersFrom(encoded)
-}
-
-func storedMembersFrom(encoded []byte) ([]vault.StoredMember, error) {
-	change, err := vault.MemberSetChangeFrom(encoded)
-	if err != nil {
-		return nil, fmt.Errorf("read member set: %w", err)
-	}
-
-	return change.Added, nil
+	return vault.StoredMembersFrom(encoded)
 }
 
 func (s pebbleMemberSets) Add(key []byte, member vault.StoredMember) error {
@@ -51,7 +38,7 @@ func (s pebbleMemberSets) Remove(key []byte, member vault.StoredMember) error {
 	return nil
 }
 
-func (s pebbleMemberSets) Clear(key []byte) error {
+func (s pebbleMemberSets) Delete(key []byte) error {
 	absoluteKey := s.entries.absoluteKeyFrom(key)
 	s.changes.drop(absoluteKey)
 
@@ -67,7 +54,7 @@ func (s pebbleMemberSets) Scan(
 	}
 
 	return s.entries.visit(keys, func(key, encoded []byte) (bool, error) {
-		members, err := storedMembersFrom(encoded)
+		members, err := vault.StoredMembersFrom(encoded)
 		if err != nil {
 			return false, err
 		}

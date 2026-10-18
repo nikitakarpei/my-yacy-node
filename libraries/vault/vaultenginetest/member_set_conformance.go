@@ -14,9 +14,9 @@ import (
 const memberSetsBucket vault.Name = "member_sets"
 
 var (
-	theMember   = vault.StoredMember{ID: 0}
-	aMember     = vault.StoredMember{ID: 7}
-	zebraMember = vault.StoredMember{Raw: "zebra"}
+	idZeroMember  = vault.StoredMember{ID: 0}
+	idSevenMember = vault.StoredMember{ID: 7}
+	zebraMember   = vault.StoredMember{Raw: "zebra"}
 )
 
 func runMemberSetConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, error)) {
@@ -31,12 +31,12 @@ func runMemberSetConformance(t *testing.T, open func(quotaBytes int64) (vault.En
 		func(t *testing.T) { laterChangesWinPerMember(t, open) },
 	)
 	t.Run(
-		"ClearThenAddsGivesExactlyTheAdds",
-		func(t *testing.T) { clearThenAddsGivesExactlyTheAdds(t, open) },
+		"DeleteThenAddsGivesExactlyTheAdds",
+		func(t *testing.T) { deleteThenAddsGivesExactlyTheAdds(t, open) },
 	)
 	t.Run(
-		"ClearedSetLeavesNoKey",
-		func(t *testing.T) { clearedSetLeavesNoKey(t, open) },
+		"DeletedSetLeavesNoKey",
+		func(t *testing.T) { deletedSetLeavesNoKey(t, open) },
 	)
 	t.Run(
 		"MemberSetScanVisitsRangeInOrder",
@@ -81,10 +81,10 @@ func memberSetKeyOf(group string) []byte {
 	return stringKeyParts.Key(group).Bytes()
 }
 
-func adding(key string, members ...vault.StoredMember) func(vault.EngineMemberSets) error {
+func adding(group string, members ...vault.StoredMember) func(vault.EngineMemberSets) error {
 	return func(sets vault.EngineMemberSets) error {
 		for _, member := range members {
-			if err := sets.Add(memberSetKeyOf(key), member); err != nil {
+			if err := sets.Add(memberSetKeyOf(group), member); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -93,12 +93,12 @@ func adding(key string, members ...vault.StoredMember) func(vault.EngineMemberSe
 	}
 }
 
-func storedMembersOf(t *testing.T, engine vault.Engine, key string) []vault.StoredMember {
+func storedMembersOf(t *testing.T, engine vault.Engine, group string) []vault.StoredMember {
 	t.Helper()
 
 	var stored []vault.StoredMember
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
-		members, err := etx.MemberSets(memberSetsBucket).Members(memberSetKeyOf(key))
+		members, err := etx.MemberSets(memberSetsBucket).Members(memberSetKeyOf(group))
 		stored = members
 
 		return err
@@ -126,79 +126,79 @@ func assertMembers(t *testing.T, got []vault.StoredMember, want ...vault.StoredM
 func membersAddedAcrossTransactionsAreKept(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
 
-	changeMemberSets(t, engine, adding("p1", theMember, zebraMember))
-	changeMemberSets(t, engine, adding("p1", aMember))
+	changeMemberSets(t, engine, adding("p1", idZeroMember, zebraMember))
+	changeMemberSets(t, engine, adding("p1", idSevenMember))
 
-	assertMembers(t, storedMembersOf(t, engine, "p1"), theMember, aMember, zebraMember)
+	assertMembers(t, storedMembersOf(t, engine, "p1"), idZeroMember, idSevenMember, zebraMember)
 }
 
 func laterChangesWinPerMember(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
-	changeMemberSets(t, engine, adding("p1", theMember, aMember))
+	changeMemberSets(t, engine, adding("p1", idZeroMember, idSevenMember))
 
 	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
 		key := memberSetKeyOf("p1")
 		for _, step := range []func() error{
-			func() error { return sets.Remove(key, theMember) },
-			func() error { return sets.Add(key, theMember) },
+			func() error { return sets.Remove(key, idZeroMember) },
+			func() error { return sets.Add(key, idZeroMember) },
 			func() error { return sets.Add(key, zebraMember) },
 			func() error { return sets.Remove(key, zebraMember) },
-			func() error { return sets.Remove(key, aMember) },
+			func() error { return sets.Remove(key, idSevenMember) },
 		} {
 			if err := step(); err != nil {
 				return wrapTest(err)
 			}
 		}
 		members, err := sets.Members(key)
-		assertMembers(t, members, theMember)
+		assertMembers(t, members, idZeroMember)
 
 		return err
 	})
 
-	assertMembers(t, storedMembersOf(t, engine, "p1"), theMember)
+	assertMembers(t, storedMembersOf(t, engine, "p1"), idZeroMember)
 }
 
-func clearThenAddsGivesExactlyTheAdds(t *testing.T, open func(int64) (vault.Engine, error)) {
+func deleteThenAddsGivesExactlyTheAdds(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
-	changeMemberSets(t, engine, adding("p1", theMember, aMember))
+	changeMemberSets(t, engine, adding("p1", idZeroMember, idSevenMember))
 
 	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
 		if err := sets.Add(memberSetKeyOf("p1"), zebraMember); err != nil {
 			return wrapTest(err)
 		}
-		if err := sets.Clear(memberSetKeyOf("p1")); err != nil {
+		if err := sets.Delete(memberSetKeyOf("p1")); err != nil {
 			return wrapTest(err)
 		}
-		if err := adding("p1", aMember)(sets); err != nil {
+		if err := adding("p1", idSevenMember)(sets); err != nil {
 			return err
 		}
 		members, err := sets.Members(memberSetKeyOf("p1"))
-		assertMembers(t, members, aMember)
+		assertMembers(t, members, idSevenMember)
 
 		return err
 	})
 
-	assertMembers(t, storedMembersOf(t, engine, "p1"), aMember)
+	assertMembers(t, storedMembersOf(t, engine, "p1"), idSevenMember)
 }
 
-func clearedSetLeavesNoKey(t *testing.T, open func(int64) (vault.Engine, error)) {
+func deletedSetLeavesNoKey(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
-	changeMemberSets(t, engine, adding("p1", theMember))
-	changeMemberSets(t, engine, adding("p2", aMember))
+	changeMemberSets(t, engine, adding("p1", idZeroMember))
+	changeMemberSets(t, engine, adding("p2", idSevenMember))
 
 	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
 		if err := sets.Remove(memberSetKeyOf("p1"), zebraMember); err != nil {
 			return wrapTest(err)
 		}
 
-		return sets.Clear(memberSetKeyOf("p1"))
+		return sets.Delete(memberSetKeyOf("p1"))
 	})
 
 	keys := memberSetKeysWithin(t, engine, vault.EveryKey())
 	if !slices.Equal(keys, []string{"p2"}) {
 		t.Fatalf("sets = %v, want p2", keys)
 	}
-	assertMembers(t, storedMembersOf(t, engine, "p2"), aMember)
+	assertMembers(t, storedMembersOf(t, engine, "p2"), idSevenMember)
 }
 
 func memberSetKeysWithin(t *testing.T, engine vault.Engine, keys vault.KeyRange) []string {
@@ -224,8 +224,8 @@ func memberSetKeysWithin(t *testing.T, engine vault.Engine, keys vault.KeyRange)
 
 func memberSetScanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
-	for _, key := range []string{"c", "a", "b", "d"} {
-		changeMemberSets(t, engine, adding(key, zebraMember))
+	for _, group := range []string{"c", "a", "b", "d"} {
+		changeMemberSets(t, engine, adding(group, zebraMember))
 	}
 
 	got := memberSetKeysWithin(t, engine, stringKeyParts.KeysThroughFirst("c").After(

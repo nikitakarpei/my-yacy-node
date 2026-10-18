@@ -36,7 +36,7 @@ type pageWords struct {
 	observed   *observedMemberSets
 }
 
-func openPageWords(t *testing.T, engine *doubleEngine, ranked []string) pageWords {
+func openPageWords(t *testing.T, engine *doubleEngine, valuesByID []string) pageWords {
 	t.Helper()
 
 	ctx := context.Background()
@@ -48,7 +48,7 @@ func openPageWords(t *testing.T, engine *doubleEngine, ranked []string) pageWord
 		ctx,
 		pageWordsDictionary,
 		vault.TextKeyPart,
-		ranked,
+		valuesByID,
 	)
 	if err != nil {
 		t.Fatalf("RegisterFixedDictionary: %v", err)
@@ -145,8 +145,8 @@ func (p pageWords) wordsOf(t *testing.T, page string) []string {
 	return words
 }
 
-func (p pageWords) setDeleted(page string) bool {
-	return slices.Contains(*p.engine.clearedMemberSets, string(stringKeyParts.Key(page).Bytes()))
+func (p pageWords) wasSetDeleted(page string) bool {
+	return slices.Contains(*p.engine.deletedMemberSets, string(stringKeyParts.Key(page).Bytes()))
 }
 
 func assertWords(t *testing.T, got []string, want ...string) {
@@ -187,7 +187,7 @@ func TestReplacingARecordKeepsItsMember(t *testing.T) {
 	}
 }
 
-func TestRankedMembersAreStoredAsIDsAndOthersRaw(t *testing.T) {
+func TestMembersInTheDictionaryAreStoredAsIDsAndOthersRaw(t *testing.T) {
 	words := openPageWords(t, newDoubleEngine(), []string{"the", "a"})
 
 	words.mention(t, "p1", "a", "zebra")
@@ -234,7 +234,7 @@ func TestRemovingEveryMemberReadDeletesTheSet(t *testing.T) {
 		return words.forget(tx, "p1", members...)
 	})
 
-	if !words.setDeleted("p1") || words.setDeleted("p2") {
+	if !words.wasSetDeleted("p1") || words.wasSetDeleted("p2") {
 		t.Fatal("sets deleted differ from p1 alone")
 	}
 }
@@ -251,7 +251,7 @@ func TestRemovingSomeMembersReadKeepsTheSet(t *testing.T) {
 		return words.forget(tx, "p1", "zebra")
 	})
 
-	if words.setDeleted("p1") {
+	if words.wasSetDeleted("p1") {
 		t.Fatal("set of p1 deleted, want kept")
 	}
 	assertWords(t, words.wordsOf(t, "p1"), "the")
@@ -273,7 +273,7 @@ func TestAddingAfterRemovingEveryMemberReadKeepsTheSet(t *testing.T) {
 		return err
 	})
 
-	if words.setDeleted("p1") {
+	if words.wasSetDeleted("p1") {
 		t.Fatal("set of p1 deleted, want kept")
 	}
 	assertWords(t, words.wordsOf(t, "p1"), "zebra")
@@ -285,7 +285,7 @@ func TestRemovingMembersWithoutReadingThemDeletesNoSet(t *testing.T) {
 
 	words.write(t, func(tx *vault.Txn) error { return words.forget(tx, "p1", "the") })
 
-	if words.setDeleted("p1") {
+	if words.wasSetDeleted("p1") {
 		t.Fatal("set of p1 deleted without a read, want left to the engine")
 	}
 }
@@ -324,12 +324,12 @@ func TestRemovingEveryDecodableMemberReadDeletesTheSet(t *testing.T) {
 		return words.forget(tx, "p1", members...)
 	})
 
-	if !words.setDeleted("p1") {
+	if !words.wasSetDeleted("p1") {
 		t.Fatal("set of p1 kept, want deleted")
 	}
 }
 
-func TestANewRankingRebuildsTheSets(t *testing.T) {
+func TestNewDictionaryValuesRebuildTheSets(t *testing.T) {
 	engine := newDoubleEngine()
 	before := openPageWords(t, engine, []string{"the", "a"})
 	before.mention(t, "p1", "the", "zebra")
@@ -344,7 +344,7 @@ func TestANewRankingRebuildsTheSets(t *testing.T) {
 	}
 }
 
-func TestAnUnchangedRankingKeepsTheSets(t *testing.T) {
+func TestUnchangedDictionaryValuesKeepTheSets(t *testing.T) {
 	engine := newDoubleEngine()
 	before := openPageWords(t, engine, []string{"the", "a"})
 	before.mention(t, "p1", "the", "zebra")
@@ -357,7 +357,7 @@ func TestAnUnchangedRankingKeepsTheSets(t *testing.T) {
 	}
 }
 
-func TestAMemberSetIndexNoCollectionFollowsRefusesUse(t *testing.T) {
+func TestAnUnfollowedMemberSetIndexRefusesReads(t *testing.T) {
 	v, err := openDouble()
 	if err != nil {
 		t.Fatalf("openDouble: %v", err)
@@ -394,9 +394,9 @@ func TestAMemberSetIndexNoCollectionFollowsRefusesUse(t *testing.T) {
 }
 
 func TestPutEachOverAMemberSetIndexStoresAsPutWould(t *testing.T) {
-	ranked := []string{"w00", "w03"}
-	byPut := openPageWords(t, newDoubleEngine(), ranked)
-	byPutEach := openPageWords(t, newDoubleEngine(), ranked)
+	valuesByID := []string{"w00", "w03"}
+	byPut := openPageWords(t, newDoubleEngine(), valuesByID)
+	byPutEach := openPageWords(t, newDoubleEngine(), valuesByID)
 	stored := mentionsOf("p1", numberedWords(5)...)
 	written := append(mentionsOf("p1", numberedWords(20)...), mentionsOf("p2", "w01")...)
 	written = append(written, mentionsOf("p1", "w02")...)

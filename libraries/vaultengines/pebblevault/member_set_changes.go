@@ -11,47 +11,42 @@ import (
 type memberSetChanges struct {
 	writes        *pebble.Batch
 	heldValues    heldValues
-	presenceByKey map[string]map[vault.StoredMember]bool
+	presenceByKey map[string]memberPresence
 }
 
 func newMemberSetChanges(writes *pebble.Batch, heldValues heldValues) *memberSetChanges {
 	return &memberSetChanges{
 		writes:        writes,
 		heldValues:    heldValues,
-		presenceByKey: map[string]map[vault.StoredMember]bool{},
+		presenceByKey: map[string]memberPresence{},
 	}
 }
 
 func (c *memberSetChanges) mark(key []byte, member vault.StoredMember, isPresent bool) {
-	presenceByMember, found := c.presenceByKey[string(key)]
+	presence, found := c.presenceByKey[string(key)]
 	if !found {
-		presenceByMember = map[vault.StoredMember]bool{}
-		c.presenceByKey[string(key)] = presenceByMember
+		presence = memberPresence{}
+		c.presenceByKey[string(key)] = presence
 	}
-	presenceByMember[member] = isPresent
+	presence[member] = isPresent
 }
 
 func (c *memberSetChanges) appliedTo(
 	key []byte,
 	members []vault.StoredMember,
 ) []vault.StoredMember {
-	presenceByMember := c.presenceByKey[string(key)]
-	if len(presenceByMember) == 0 {
+	presence := c.presenceByKey[string(key)]
+	if len(presence) == 0 {
 		return members
 	}
-	applied := make([]vault.StoredMember, 0, len(members)+len(presenceByMember))
+	unchanged := make([]vault.StoredMember, 0, len(members))
 	for _, member := range members {
-		if _, changed := presenceByMember[member]; !changed {
-			applied = append(applied, member)
-		}
-	}
-	for member, isPresent := range presenceByMember {
-		if isPresent {
-			applied = append(applied, member)
+		if _, changed := presence[member]; !changed {
+			unchanged = append(unchanged, member)
 		}
 	}
 
-	return applied
+	return append(unchanged, presence.changeOf().Added...)
 }
 
 func (c *memberSetChanges) drop(key []byte) {
@@ -72,14 +67,7 @@ func (c *memberSetChanges) stageWithin(firstIncluded, firstExcluded []byte) erro
 }
 
 func (c *memberSetChanges) stage(key string) error {
-	var change vault.MemberSetChange
-	for member, isPresent := range c.presenceByKey[key] {
-		if isPresent {
-			change.Added = append(change.Added, member)
-		} else {
-			change.Removed = append(change.Removed, member)
-		}
-	}
+	change := c.presenceByKey[key].changeOf()
 	delete(c.presenceByKey, key)
 	if len(change.Added)+len(change.Removed) == 0 {
 		return nil

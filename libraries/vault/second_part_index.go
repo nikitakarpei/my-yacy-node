@@ -8,10 +8,8 @@ const secondPartIndexVersion = "1"
 
 type SecondPartIndex[A, B, K any] struct {
 	projectionRegistration
-	parts   PairKeyParts[A, B]
+	pairKeyShape[A, B, K]
 	swapped PairKeyParts[B, A]
-	partsOf func(K) (A, B)
-	keyFrom func(A, B) K
 }
 
 func (v *Vault) RegisterSecondPartIndex[A, B, K any](
@@ -29,15 +27,9 @@ func (v *Vault) RegisterSecondPartIndex[A, B, K any](
 			bucket:  bucket,
 			version: secondPartIndexVersion,
 		},
-		parts:   parts,
-		swapped: PairKey(parts.second, parts.first),
-		partsOf: partsOf,
-		keyFrom: keyFrom,
+		pairKeyShape: pairKeyShape[A, B, K]{parts: parts, partsOf: partsOf, keyFrom: keyFrom},
+		swapped:      PairKey(parts.second, parts.first),
 	}, nil
-}
-
-func (i *SecondPartIndex[A, B, K]) keyLayout() KeyLayout[K] {
-	return i.parts.KeyLayoutFor(i.partsOf, i.keyFrom)
 }
 
 func (i *SecondPartIndex[A, B, K]) Scan(
@@ -76,31 +68,25 @@ func (i *SecondPartIndex[A, B, K]) visitKeysWith(
 	return nil
 }
 
-func (i *SecondPartIndex[A, B, K]) groupOf(key K) string {
-	_, second := i.partsOf(key)
-
-	return string(i.parts.second.encodingOf(second))
-}
-
-func (i *SecondPartIndex[A, B, K]) memberOf(key K) string {
+func (i *SecondPartIndex[A, B, K]) memberIdentityOf(key K) string {
 	first, _ := i.partsOf(key)
 
 	return string(i.parts.first.encodingOf(first))
 }
 
-func (i *SecondPartIndex[A, B, K]) storedMembersOf(
+func (i *SecondPartIndex[A, B, K]) storedIdentitiesOf(
 	tx *Txn,
 	key K,
 ) (map[string]struct{}, error) {
 	_, second := i.partsOf(key)
-	storedMembers := make(map[string]struct{})
+	storedIdentities := make(map[string]struct{})
 	err := i.visitKeysWith(tx, second, func(first A, _ B) (bool, error) {
-		storedMembers[string(i.parts.first.encodingOf(first))] = struct{}{}
+		storedIdentities[string(i.parts.first.encodingOf(first))] = struct{}{}
 
 		return true, nil
 	})
 
-	return storedMembers, err
+	return storedIdentities, err
 }
 
 func (i *SecondPartIndex[A, B, K]) keyAdded(tx *Txn, key K) error {

@@ -15,7 +15,7 @@ type Collection[K, V any] struct {
 	keys        KeyLayout[K]
 	values      ValueCodec[V]
 	projections Projections[K, V]
-	groups      groupLookup[K]
+	pairKeys    groupLookup[K]
 }
 
 type KeyedValue[K, V any] struct {
@@ -203,20 +203,20 @@ func (c *Collection[K, V]) absentPositionsAmong(
 	tx *Txn,
 	keyedValues []KeyedValue[K, V],
 ) (map[int]struct{}, error) {
-	if c.groups == nil {
+	if c.pairKeys == nil {
 		return nil, nil
 	}
-	storedMembersPerGroup, err := c.storedMembersWithin(tx, c.crowdedGroupsAmong(keyedValues))
+	storedIdentitiesPerGroup, err := c.storedIdentitiesWithin(tx, c.crowdedGroupsAmong(keyedValues))
 	if err != nil {
 		return nil, err
 	}
 	absentPositions := make(map[int]struct{})
 	for position, keyedValue := range keyedValues {
-		storedMembers, isRead := storedMembersPerGroup[c.groups.groupOf(keyedValue.Key)]
-		member := c.groups.memberOf(keyedValue.Key)
-		if _, isStored := storedMembers[member]; isRead && !isStored {
+		storedIdentities, isRead := storedIdentitiesPerGroup[c.pairKeys.groupIdentityOf(keyedValue.Key)]
+		memberIdentity := c.pairKeys.memberIdentityOf(keyedValue.Key)
+		if _, isStored := storedIdentities[memberIdentity]; isRead && !isStored {
 			absentPositions[position] = struct{}{}
-			storedMembers[member] = struct{}{}
+			storedIdentities[memberIdentity] = struct{}{}
 		}
 	}
 
@@ -227,31 +227,31 @@ func (c *Collection[K, V]) crowdedGroupsAmong(keyedValues []KeyedValue[K, V]) ma
 	amountPerGroup := make(map[string]int)
 	keyPerGroup := make(map[string]K)
 	for _, keyedValue := range keyedValues {
-		group := c.groups.groupOf(keyedValue.Key)
-		amountPerGroup[group]++
-		keyPerGroup[group] = keyedValue.Key
+		groupIdentity := c.pairKeys.groupIdentityOf(keyedValue.Key)
+		amountPerGroup[groupIdentity]++
+		keyPerGroup[groupIdentity] = keyedValue.Key
 	}
-	maps.DeleteFunc(keyPerGroup, func(group string, _ K) bool {
-		return amountPerGroup[group] < fewestRecordsPerGroupRead
+	maps.DeleteFunc(keyPerGroup, func(groupIdentity string, _ K) bool {
+		return amountPerGroup[groupIdentity] < fewestRecordsPerGroupRead
 	})
 
 	return keyPerGroup
 }
 
-func (c *Collection[K, V]) storedMembersWithin(
+func (c *Collection[K, V]) storedIdentitiesWithin(
 	tx *Txn,
 	keyPerGroup map[string]K,
 ) (map[string]map[string]struct{}, error) {
-	storedMembersPerGroup := make(map[string]map[string]struct{}, len(keyPerGroup))
-	for group, key := range keyPerGroup {
-		storedMembers, err := c.groups.storedMembersOf(tx, key)
+	storedIdentitiesPerGroup := make(map[string]map[string]struct{}, len(keyPerGroup))
+	for groupIdentity, key := range keyPerGroup {
+		storedIdentities, err := c.pairKeys.storedIdentitiesOf(tx, key)
 		if err != nil {
 			return nil, err
 		}
-		storedMembersPerGroup[group] = storedMembers
+		storedIdentitiesPerGroup[groupIdentity] = storedIdentities
 	}
 
-	return storedMembersPerGroup, nil
+	return storedIdentitiesPerGroup, nil
 }
 
 func (c *Collection[K, V]) storeAbsentRecord(tx *Txn, key K, val V) error {

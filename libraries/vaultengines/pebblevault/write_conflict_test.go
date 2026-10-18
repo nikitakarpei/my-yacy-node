@@ -433,11 +433,11 @@ func TestMembersReadAfterAnotherWriteAddedConflicts(t *testing.T) {
 	)
 }
 
-func TestClearingASetAnotherWriteAddedToConflicts(t *testing.T) {
+func TestDeletingASetAnotherWriteAddedToConflicts(t *testing.T) {
 	got := conflictsOf(t, writeScenario{
 		firstCommittedWrite: addingMember(1),
 		waitingWrite: func(tx vault.EngineTxn) error {
-			return tx.MemberSets(conflictMemberSets).Clear([]byte("p1"))
+			return tx.MemberSets(conflictMemberSets).Delete([]byte("p1"))
 		},
 	})
 

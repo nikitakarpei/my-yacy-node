@@ -19,16 +19,7 @@ func (s memberSetsOverRecords) Members(key []byte) ([]StoredMember, error) {
 		return nil, err
 	}
 
-	return storedMembersFrom(encoded)
-}
-
-func storedMembersFrom(encoded []byte) ([]StoredMember, error) {
-	change, err := MemberSetChangeFrom(encoded)
-	if err != nil {
-		return nil, fmt.Errorf("read member set: %w", err)
-	}
-
-	return change.Added, nil
+	return StoredMembersFrom(encoded)
 }
 
 func (s memberSetsOverRecords) Add(key []byte, member StoredMember) error {
@@ -42,7 +33,7 @@ func (s memberSetsOverRecords) Add(key []byte, member StoredMember) error {
 
 func (s memberSetsOverRecords) store(key []byte, members []StoredMember) error {
 	if len(members) == 0 {
-		return s.Clear(key)
+		return s.Delete(key)
 	}
 	if _, err := s.records.Put(key, MemberSetChange{Added: members}.Encoded()); err != nil {
 		return fmt.Errorf("store member set: %w", err)
@@ -62,9 +53,9 @@ func (s memberSetsOverRecords) Remove(key []byte, member StoredMember) error {
 	}))
 }
 
-func (s memberSetsOverRecords) Clear(key []byte) error {
+func (s memberSetsOverRecords) Delete(key []byte) error {
 	if _, err := s.records.Delete(key); err != nil {
-		return fmt.Errorf("clear member set: %w", err)
+		return fmt.Errorf("delete member set: %w", err)
 	}
 
 	return nil
@@ -75,7 +66,7 @@ func (s memberSetsOverRecords) Scan(
 	fn func(key []byte, members []StoredMember) (bool, error),
 ) error {
 	return s.records.Scan(keys, func(key, encoded []byte) (bool, error) {
-		members, err := storedMembersFrom(encoded)
+		members, err := StoredMembersFrom(encoded)
 		if err != nil {
 			return false, err
 		}

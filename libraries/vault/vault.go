@@ -28,7 +28,7 @@ type Vault struct {
 	registered          map[Name]bucketKind
 	claimedDictionaries map[Name]struct{}
 	projectionVersions  func() (*Collection[Name, string], error)
-	dictionaryRankings  func() (*Collection[Name, dictionaryRanking], error)
+	dictionaryCopies    func() (*Collection[Name, dictionaryCopy], error)
 }
 
 func New(engine Engine, observer TransactionObserver) (*Vault, error) {
@@ -45,7 +45,7 @@ func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 		claimedDictionaries: map[Name]struct{}{},
 	}
 	storage.projectionVersions = sync.OnceValues(storage.registerProjectionVersions)
-	storage.dictionaryRankings = sync.OnceValues(storage.registerDictionaryRankings)
+	storage.dictionaryCopies = sync.OnceValues(storage.registerDictionaryCopies)
 
 	return storage, nil
 }
