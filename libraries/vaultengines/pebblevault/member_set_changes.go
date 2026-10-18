@@ -6,26 +6,27 @@ import (
 	"github.com/cockroachdb/pebble/v2"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/internal/membersetfold"
 )
 
 type memberSetChanges struct {
 	writes        *pebble.Batch
 	heldValues    heldValues
-	presenceByKey map[string]memberPresence
+	presenceByKey map[string]membersetfold.Presence
 }
 
 func newMemberSetChanges(writes *pebble.Batch, heldValues heldValues) *memberSetChanges {
 	return &memberSetChanges{
 		writes:        writes,
 		heldValues:    heldValues,
-		presenceByKey: map[string]memberPresence{},
+		presenceByKey: map[string]membersetfold.Presence{},
 	}
 }
 
 func (c *memberSetChanges) mark(key []byte, member vault.StoredMember, isPresent bool) {
 	presence, found := c.presenceByKey[string(key)]
 	if !found {
-		presence = memberPresence{}
+		presence = membersetfold.Presence{}
 		c.presenceByKey[string(key)] = presence
 	}
 	presence[member] = isPresent
@@ -46,7 +47,7 @@ func (c *memberSetChanges) appliedTo(
 		}
 	}
 
-	return append(unchanged, presence.changeOf().Added...)
+	return append(unchanged, presence.ChangeOf().Added...)
 }
 
 func (c *memberSetChanges) drop(key []byte) {
@@ -67,7 +68,7 @@ func (c *memberSetChanges) stageWithin(firstIncluded, firstExcluded []byte) erro
 }
 
 func (c *memberSetChanges) stage(key string) error {
-	change := c.presenceByKey[key].changeOf()
+	change := c.presenceByKey[key].ChangeOf()
 	delete(c.presenceByKey, key)
 	if len(change.Added)+len(change.Removed) == 0 {
 		return nil

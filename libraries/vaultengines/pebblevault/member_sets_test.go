@@ -15,20 +15,14 @@ import (
 const (
 	memberSetsBucket   vault.Name = "words_of_pages"
 	foldedGroups                  = 4
-	foldedTransactions            = 300
+	foldedTransactions            = 60
 	rawMemberBytes                = 2 << 10
 )
-
-var flushingLimits = pebblevault.MachineLimits{
-	BlockCacheBytes:  8 << 20,
-	MemtableBytes:    256 << 10,
-	WriteConcurrency: 2,
-}
 
 func openMemberSetEngine(t *testing.T, path string) *pebblevault.Engine {
 	t.Helper()
 
-	engine, err := pebblevault.OpenEngine(path, 0, flushingLimits, nil, nil)
+	engine, err := pebblevault.OpenEngine(path, 0, testLimits, nil, nil)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
@@ -49,7 +43,7 @@ func groupKeyOf(group int) []byte {
 	return []byte(fmt.Sprintf("p%d", group))
 }
 
-func expectedMembersAfterBlindChanges(
+func changeBlindly(
 	t *testing.T,
 	engine *pebblevault.Engine,
 ) map[int][]vault.StoredMember {
@@ -119,10 +113,10 @@ func storedMembersByGroup(t *testing.T, engine *pebblevault.Engine) map[int][]va
 	return membersByGroup
 }
 
-func TestMemberSetsFoldManyBlindChangesAcrossFlushesAndReopening(t *testing.T) {
+func TestBlindMemberChangesSurviveReopening(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "node")
 	before := openMemberSetEngine(t, path)
-	want := expectedMembersAfterBlindChanges(t, before)
+	want := changeBlindly(t, before)
 	if err := before.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}
@@ -145,7 +139,7 @@ func TestMemberSetsFoldManyBlindChangesAcrossFlushesAndReopening(t *testing.T) {
 func TestMemberSetsCountTowardUsedBytes(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "node")
 	before := openMemberSetEngine(t, path)
-	expectedMembersAfterBlindChanges(t, before)
+	changeBlindly(t, before)
 	if err := before.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}

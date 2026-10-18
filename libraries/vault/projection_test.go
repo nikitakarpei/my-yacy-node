@@ -417,6 +417,45 @@ func TestAnIndexNoCollectionFollowsRefusesReads(t *testing.T) {
 	if countErr == nil {
 		t.Fatal("Get of a count no collection follows succeeded, want error")
 	}
+	membersErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
+		_, err := unfollowedMemberSetIndexIn(t, d.vault).MembersOf(tx, "x")
+
+		return err
+	})
+	if membersErr == nil {
+		t.Fatal("MembersOf of a set no collection follows succeeded, want error")
+	}
+}
+
+func unfollowedMemberSetIndexIn(
+	t *testing.T,
+	v *vault.Vault,
+) *vault.MemberSetIndex[string, string, mention] {
+	t.Helper()
+
+	dictionary, err := v.RegisterFixedDictionary(
+		context.Background(),
+		pageWordsDictionary,
+		vault.TextKeyPart,
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("RegisterFixedDictionary: %v", err)
+	}
+	words, err := v.RegisterMemberSetIndex(
+		pageWordsBucket,
+		firstVersion,
+		mentionKeyParts,
+		func(stored mention) (string, string) { return stored.word, stored.page },
+		func(word, page string) mention { return mention{word: word, page: page} },
+		dictionary,
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("RegisterMemberSetIndex: %v", err)
+	}
+
+	return words
 }
 
 func TestAProjectedWriteFailsOverARecordThatDoesNotDecode(t *testing.T) {

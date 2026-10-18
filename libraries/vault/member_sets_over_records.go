@@ -32,9 +32,6 @@ func (s memberSetsOverRecords) Add(key []byte, member StoredMember) error {
 }
 
 func (s memberSetsOverRecords) store(key []byte, members []StoredMember) error {
-	if len(members) == 0 {
-		return s.Delete(key)
-	}
 	if _, err := s.records.Put(key, MemberSetChange{Added: members}.Encoded()); err != nil {
 		return fmt.Errorf("store member set: %w", err)
 	}
@@ -44,7 +41,7 @@ func (s memberSetsOverRecords) store(key []byte, members []StoredMember) error {
 
 func (s memberSetsOverRecords) Remove(key []byte, member StoredMember) error {
 	members, err := s.Members(key)
-	if err != nil || !slices.Contains(members, member) {
+	if err != nil || (members != nil && !slices.Contains(members, member)) {
 		return err
 	}
 

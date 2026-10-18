@@ -145,8 +145,10 @@ func (p pageWords) wordsOf(t *testing.T, page string) []string {
 	return words
 }
 
-func (p pageWords) wasSetDeleted(page string) bool {
-	return slices.Contains(*p.engine.deletedMemberSets, string(stringKeyParts.Key(page).Bytes()))
+func (p pageWords) storesSetOf(page string) bool {
+	_, stored := p.engine.records[pageWordsBucket][string(stringKeyParts.Key(page).Bytes())]
+
+	return stored
 }
 
 func assertWords(t *testing.T, got []string, want ...string) {
@@ -182,6 +184,14 @@ func TestReplacingARecordKeepsItsMember(t *testing.T) {
 	words.mention(t, "p1", "zebra")
 
 	assertWords(t, words.wordsOf(t, "p1"), "the", "zebra")
+}
+
+func TestReplacingARecordAddsNoMember(t *testing.T) {
+	words := openPageWords(t, newDoubleEngine(), []string{"the"})
+	words.mention(t, "p1", "the", "zebra")
+
+	words.mention(t, "p1", "zebra")
+
 	if len(words.observed.addedForms) != 2 {
 		t.Fatalf("added members = %d, want 2", len(words.observed.addedForms))
 	}
@@ -234,8 +244,8 @@ func TestRemovingEveryMemberReadDeletesTheSet(t *testing.T) {
 		return words.forget(tx, "p1", members...)
 	})
 
-	if !words.wasSetDeleted("p1") || words.wasSetDeleted("p2") {
-		t.Fatal("sets deleted differ from p1 alone")
+	if words.storesSetOf("p1") || !words.storesSetOf("p2") {
+		t.Fatal("stored sets differ from p2 alone")
 	}
 }
 
@@ -251,9 +261,6 @@ func TestRemovingSomeMembersReadKeepsTheSet(t *testing.T) {
 		return words.forget(tx, "p1", "zebra")
 	})
 
-	if words.wasSetDeleted("p1") {
-		t.Fatal("set of p1 deleted, want kept")
-	}
 	assertWords(t, words.wordsOf(t, "p1"), "the")
 }
 
@@ -273,9 +280,6 @@ func TestAddingAfterRemovingEveryMemberReadKeepsTheSet(t *testing.T) {
 		return err
 	})
 
-	if words.wasSetDeleted("p1") {
-		t.Fatal("set of p1 deleted, want kept")
-	}
 	assertWords(t, words.wordsOf(t, "p1"), "zebra")
 }
 
@@ -285,8 +289,8 @@ func TestRemovingMembersWithoutReadingThemDeletesNoSet(t *testing.T) {
 
 	words.write(t, func(tx *vault.Txn) error { return words.forget(tx, "p1", "the") })
 
-	if words.wasSetDeleted("p1") {
-		t.Fatal("set of p1 deleted without a read, want left to the engine")
+	if !words.storesSetOf("p1") {
+		t.Fatal("set of p1 deleted without a read, want an empty set kept")
 	}
 }
 
@@ -324,7 +328,7 @@ func TestRemovingEveryDecodableMemberReadDeletesTheSet(t *testing.T) {
 		return words.forget(tx, "p1", members...)
 	})
 
-	if !words.wasSetDeleted("p1") {
+	if words.storesSetOf("p1") {
 		t.Fatal("set of p1 kept, want deleted")
 	}
 }
@@ -357,42 +361,6 @@ func TestUnchangedDictionaryValuesKeepTheSets(t *testing.T) {
 	}
 }
 
-func TestAnUnfollowedMemberSetIndexRefusesReads(t *testing.T) {
-	v, err := openDouble()
-	if err != nil {
-		t.Fatalf("openDouble: %v", err)
-	}
-	dictionary, err := v.RegisterFixedDictionary(
-		context.Background(),
-		pageWordsDictionary,
-		vault.TextKeyPart,
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("RegisterFixedDictionary: %v", err)
-	}
-	words, err := v.RegisterMemberSetIndex(
-		pageWordsBucket,
-		firstVersion,
-		mentionKeyParts,
-		func(stored mention) (string, string) { return stored.word, stored.page },
-		func(word, page string) mention { return mention{word: word, page: page} },
-		dictionary,
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("RegisterMemberSetIndex: %v", err)
-	}
-
-	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		_, err := words.MembersOf(tx, "p1")
-
-		return err
-	}); err == nil {
-		t.Fatal("MembersOf on an unfollowed index succeeded, want refusal")
-	}
-}
-
 func TestPutEachOverAMemberSetIndexStoresAsPutWould(t *testing.T) {
 	valuesByID := []string{"w00", "w03"}
 	byPut := openPageWords(t, newDoubleEngine(), valuesByID)
@@ -422,17 +390,14 @@ func TestPutEachOverAMemberSetIndexStoresAsPutWould(t *testing.T) {
 		if want, got := byPut.countOf(t, page), byPutEach.countOf(t, page); got != want {
 			t.Fatalf("records of %s after PutEach = %d, after Put %d", page, got, want)
 		}
-		if want, got := byPut.wordsOf(
-			t,
-			page,
-		), byPutEach.wordsOf(
-			t,
-			page,
-		); !slices.Equal(
-			got,
-			want,
-		) {
-			t.Fatalf("words of %s after PutEach = %v, after Put %v", page, got, want)
+		wordsByPut, wordsByPutEach := byPut.wordsOf(t, page), byPutEach.wordsOf(t, page)
+		if !slices.Equal(wordsByPutEach, wordsByPut) {
+			t.Fatalf(
+				"words of %s after PutEach = %v, after Put %v",
+				page,
+				wordsByPutEach,
+				wordsByPut,
+			)
 		}
 	}
 }

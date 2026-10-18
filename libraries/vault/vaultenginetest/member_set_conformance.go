@@ -3,7 +3,6 @@ package vaultenginetest
 import (
 	"cmp"
 	"context"
-	"fmt"
 	"slices"
 	"sync"
 	"testing"
@@ -31,8 +30,8 @@ func runMemberSetConformance(t *testing.T, open func(quotaBytes int64) (vault.En
 		func(t *testing.T) { laterChangesWinPerMember(t, open) },
 	)
 	t.Run(
-		"DeleteThenAddsGivesExactlyTheAdds",
-		func(t *testing.T) { deleteThenAddsGivesExactlyTheAdds(t, open) },
+		"AddsAfterADeleteAreTheWholeSet",
+		func(t *testing.T) { addsAfterADeleteAreTheWholeSet(t, open) },
 	)
 	t.Run(
 		"DeletedSetLeavesNoKey",
@@ -47,8 +46,16 @@ func runMemberSetConformance(t *testing.T, open func(quotaBytes int64) (vault.En
 		func(t *testing.T) { concurrentAddsToOneSetKeepEveryAdd(t, open) },
 	)
 	t.Run(
-		"RemovingEveryRecordOfAGroupReadLeavesNoSet",
-		func(t *testing.T) { removingEveryRecordOfAGroupReadLeavesNoSet(t, open) },
+		"RemovingTheLastMemberLeavesAnEmptySet",
+		func(t *testing.T) { removingTheLastMemberLeavesAnEmptySet(t, open) },
+	)
+	t.Run(
+		"RemovingFromAMissingSetLeavesAnEmptySet",
+		func(t *testing.T) { removingFromAMissingSetLeavesAnEmptySet(t, open) },
+	)
+	t.Run(
+		"ScanInAWriteSeesItsOwnChanges",
+		func(t *testing.T) { scanInAWriteSeesItsOwnChanges(t, open) },
 	)
 }
 
@@ -158,7 +165,7 @@ func laterChangesWinPerMember(t *testing.T, open func(int64) (vault.Engine, erro
 	assertMembers(t, storedMembersOf(t, engine, "p1"), idZeroMember)
 }
 
-func deleteThenAddsGivesExactlyTheAdds(t *testing.T, open func(int64) (vault.Engine, error)) {
+func addsAfterADeleteAreTheWholeSet(t *testing.T, open func(int64) (vault.Engine, error)) {
 	engine := openMemberSets(t, open)
 	changeMemberSets(t, engine, adding("p1", idZeroMember, idSevenMember))
 
@@ -266,88 +273,80 @@ func concurrentAddsToOneSetKeepEveryAdd(t *testing.T, open func(int64) (vault.En
 	}
 }
 
-func removingEveryRecordOfAGroupReadLeavesNoSet(
-	t *testing.T,
-	open func(int64) (vault.Engine, error),
-) {
-	ctx := context.Background()
-	engine := openEngine(t, open, 0)
-	v, err := vault.New(engine, nil)
-	if err != nil {
-		t.Fatalf("New: %v", err)
-	}
-	pages := registerPageWords(t, v)
-	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return pages.mentions.PutEach(tx, mentionsOf("p2", "the", "zebra"))
-	}); err != nil {
-		t.Fatalf("Update: %v", err)
-	}
+func removingTheLastMemberLeavesAnEmptySet(t *testing.T, open func(int64) (vault.Engine, error)) {
+	engine := openMemberSets(t, open)
+	changeMemberSets(t, engine, adding("p1", idZeroMember))
 
-	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		words, err := pages.words.MembersOf(tx, "p2")
-		if err != nil {
+	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
+		return sets.Remove(memberSetKeyOf("p1"), idZeroMember)
+	})
+
+	assertMembers(t, storedMembersOf(t, engine, "p1"))
+	if keys := memberSetKeysWithin(
+		t,
+		engine,
+		vault.EveryKey(),
+	); !slices.Equal(
+		keys,
+		[]string{"p1"},
+	) {
+		t.Fatalf("sets = %v, want the emptied p1", keys)
+	}
+	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
+		return sets.Delete(memberSetKeyOf("p1"))
+	})
+	if keys := memberSetKeysWithin(t, engine, vault.EveryKey()); len(keys) != 0 {
+		t.Fatalf("sets = %v after Delete, want none", keys)
+	}
+}
+
+func removingFromAMissingSetLeavesAnEmptySet(t *testing.T, open func(int64) (vault.Engine, error)) {
+	engine := openMemberSets(t, open)
+
+	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
+		return sets.Remove(memberSetKeyOf("p1"), idZeroMember)
+	})
+
+	assertMembers(t, storedMembersOf(t, engine, "p1"))
+	if keys := memberSetKeysWithin(
+		t,
+		engine,
+		vault.EveryKey(),
+	); !slices.Equal(
+		keys,
+		[]string{"p1"},
+	) {
+		t.Fatalf("sets = %v, want the empty p1", keys)
+	}
+}
+
+func scanInAWriteSeesItsOwnChanges(t *testing.T, open func(int64) (vault.Engine, error)) {
+	engine := openMemberSets(t, open)
+	changeMemberSets(t, engine, adding("p1", idZeroMember))
+
+	changeMemberSets(t, engine, func(sets vault.EngineMemberSets) error {
+		if err := adding("p1", zebraMember)(sets); err != nil {
+			return err
+		}
+		if err := sets.Remove(memberSetKeyOf("p1"), idZeroMember); err != nil {
 			return wrapTest(err)
 		}
-		for _, word := range words {
-			if _, err := pages.mentions.Delete(tx, mention{word: word, page: "p2"}); err != nil {
-				return wrapTest(err)
-			}
+		if err := adding("p2", idSevenMember)(sets); err != nil {
+			return err
 		}
-
-		return nil
-	}); err != nil {
-		t.Fatalf("Update: %v", err)
-	}
-
-	if err := engine.View(ctx, func(etx vault.EngineTxn) error {
-		return etx.MemberSets(pageWordsBucket).Scan(
+		membersByGroup := map[string][]vault.StoredMember{}
+		err := sets.Scan(
 			vault.EveryKey(),
-			func(key []byte, _ []vault.StoredMember) (bool, error) {
-				return false, fmt.Errorf("set %q left, want none: %w", key, errAbortedOnPurpose)
+			func(key []byte, members []vault.StoredMember) (bool, error) {
+				group, err := stringKeyParts.PartsOf(key)
+				membersByGroup[group] = members
+
+				return true, err
 			},
 		)
-	}); err != nil {
-		t.Fatalf("View: %v", err)
-	}
-}
+		assertMembers(t, membersByGroup["p1"], zebraMember)
+		assertMembers(t, membersByGroup["p2"], idSevenMember)
 
-const pageWordsBucket vault.Name = "words_of_pages"
-
-type pageWords struct {
-	mentions *vault.Collection[mention, string]
-	words    *vault.MemberSetIndex[string, string, mention]
-}
-
-func registerPageWords(t *testing.T, v *vault.Vault) pageWords {
-	t.Helper()
-
-	ctx := context.Background()
-	dictionary, err := v.RegisterFixedDictionary(ctx, "words", vault.TextKeyPart, []string{"the"})
-	if err != nil {
-		t.Fatalf("RegisterFixedDictionary: %v", err)
-	}
-	words, err := v.RegisterMemberSetIndex(
-		pageWordsBucket,
-		"1",
-		vault.PairKey(vault.TextKeyPart, vault.TextKeyPart),
-		func(stored mention) (string, string) { return stored.word, stored.page },
-		func(word, page string) mention { return mention{word: word, page: page} },
-		dictionary,
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("RegisterMemberSetIndex: %v", err)
-	}
-	mentions, err := v.RegisterIndexedCollection(
-		ctx,
-		vault.Name("page_mentions"),
-		words,
-		stringValueCodec{},
-		nil,
-	)
-	if err != nil {
-		t.Fatalf("RegisterIndexedCollection: %v", err)
-	}
-
-	return pageWords{mentions: mentions, words: words}
+		return err
+	})
 }

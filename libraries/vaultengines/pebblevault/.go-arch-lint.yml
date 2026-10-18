@@ -7,9 +7,9 @@ allow:
 
 components:
   pebblevault:
-    in:
-      - .
-      - "**"
+    in: .
+  membersetfold:
+    in: internal/membersetfold/**
 
 vendors:
   vault:
@@ -21,9 +21,14 @@ vendors:
 
 deps:
   pebblevault:
+    mayDependOn:
+      - membersetfold
     canUse:
       - vault
       - pebble
+  membersetfold:
+    canUse:
+      - vault
 
 excludeFiles:
   - "_test\\.go"
