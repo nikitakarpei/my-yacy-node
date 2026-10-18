@@ -7,32 +7,7 @@ import (
 	"time"
 )
 
-const projectionVersionsBucket Name = "vault_projection_versions"
-
 const rebuildBatchRecords = 1000
-
-var projectionVersionKeys = SingleKey(TextKeyPartFrom(
-	func(bucket Name) string { return string(bucket) },
-	func(text string) (Name, error) { return Name(text), nil },
-)).KeyLayout()
-
-type projectionVersionCodec struct{}
-
-func (projectionVersionCodec) Encode(version string) ([]byte, error) {
-	return []byte(version), nil
-}
-
-func (projectionVersionCodec) Decode(stored []byte) (string, error) {
-	return string(stored), nil
-}
-
-func (v *Vault) registerProjectionVersions() (*Collection[Name, string], error) {
-	return v.RegisterCollection(
-		projectionVersionsBucket,
-		projectionVersionKeys,
-		projectionVersionCodec{},
-	)
-}
 
 func (v *Vault) rebuildStaleProjections[K, V any](
 	ctx context.Context,
@@ -61,23 +36,15 @@ func (v *Vault) rebuildStaleProjections[K, V any](
 
 func (v *Vault) staleProjectionsAmong(
 	ctx context.Context,
-	versions *Collection[Name, string],
+	versions projectionVersions,
 	buckets []projectionBucket,
 ) ([]projectionBucket, error) {
 	var stale []projectionBucket
 	if err := v.View(ctx, func(tx *Txn) error {
-		stale = nil
-		for _, bucket := range buckets {
-			isStale, err := bucket.staleIn(tx, versions)
-			if err != nil {
-				return err
-			}
-			if isStale {
-				stale = append(stale, bucket)
-			}
-		}
+		var err error
+		stale, err = versions.staleAmong(tx, buckets)
 
-		return nil
+		return err
 	}); err != nil {
 		return nil, fmt.Errorf("read projection versions: %w", err)
 	}
@@ -154,17 +121,11 @@ func (v *Vault) updateInBatches(
 
 func (v *Vault) recordProjectionVersions(
 	ctx context.Context,
-	versions *Collection[Name, string],
+	versions projectionVersions,
 	rebuilt []projectionBucket,
 ) error {
 	if err := v.Update(ctx, func(tx *Txn) error {
-		for _, bucket := range rebuilt {
-			if err := bucket.recordVersionIn(tx, versions); err != nil {
-				return err
-			}
-		}
-
-		return nil
+		return versions.record(tx, rebuilt)
 	}); err != nil {
 		return fmt.Errorf("record projection versions: %w", err)
 	}

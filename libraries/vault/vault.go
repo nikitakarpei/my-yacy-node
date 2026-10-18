@@ -26,7 +26,7 @@ type Vault struct {
 	observer           TransactionObserver
 	mu                 sync.Mutex
 	registered         map[Name]bucketKind
-	projectionVersions func() (*Collection[Name, string], error)
+	projectionVersions func() (projectionVersions, error)
 }
 
 func New(engine Engine, observer TransactionObserver) (*Vault, error) {
