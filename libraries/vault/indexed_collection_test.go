@@ -17,51 +17,7 @@ type mention struct {
 
 var mentionKeyParts = vault.PairKey(vault.TextKeyPart, vault.TextKeyPart)
 
-type mentions struct {
-	vault      *vault.Vault
-	collection *vault.IndexedCollection[mention, string]
-	words      *vault.SecondPartIndex[string, string, mention]
-	perPage    *vault.CountIndex[mention, string]
-}
-
-func openMentions(t *testing.T, engine vault.Engine) mentions {
-	t.Helper()
-
-	v, err := vault.New(engine, nil)
-	if err != nil {
-		t.Fatalf("New: %v", err)
-	}
-	perPage, err := v.RegisterCountIndex(
-		vault.Name("mentions_per_page"),
-		firstVersion,
-		stringKeyLayout,
-		func(stored mention) string { return stored.page },
-	)
-	if err != nil {
-		t.Fatalf("RegisterCountIndex: %v", err)
-	}
-	words, err := v.RegisterSecondPartIndex(
-		vault.Name("mentions_by_page"),
-		mentionKeyParts,
-		func(stored mention) (string, string) { return stored.word, stored.page },
-		func(word, page string) mention { return mention{word: word, page: page} },
-	)
-	if err != nil {
-		t.Fatalf("RegisterSecondPartIndex: %v", err)
-	}
-	collection, err := v.RegisterIndexedCollection(
-		context.Background(),
-		vault.Name("mentions"),
-		words,
-		stringValueCodec{},
-		vault.ProjectedAs(func(key mention, _ string) mention { return key }, perPage),
-	)
-	if err != nil {
-		t.Fatalf("RegisterIndexedCollection: %v", err)
-	}
-
-	return mentions{vault: v, collection: collection, words: words, perPage: perPage}
-}
+var rankedMentionWords = []string{"w00", "w03"}
 
 func mentionsOf(page string, words ...string) []vault.KeyedValue[mention, string] {
 	keyedValues := make([]vault.KeyedValue[mention, string], 0, len(words))
@@ -84,26 +40,18 @@ func numberedWords(amount int) []string {
 	return words
 }
 
-func (m mentions) write(t *testing.T, change func(tx *vault.Txn) error) {
+func (p pageWords) putEach(t *testing.T, keyedValues []vault.KeyedValue[mention, string]) {
 	t.Helper()
 
-	if err := m.vault.Update(context.Background(), change); err != nil {
-		t.Fatalf("Update: %v", err)
-	}
+	p.write(t, func(tx *vault.Txn) error { return p.collection.PutEach(tx, keyedValues) })
 }
 
-func (m mentions) putEach(t *testing.T, keyedValues []vault.KeyedValue[mention, string]) {
+func (p pageWords) putOneByOne(t *testing.T, keyedValues []vault.KeyedValue[mention, string]) {
 	t.Helper()
 
-	m.write(t, func(tx *vault.Txn) error { return m.collection.PutEach(tx, keyedValues) })
-}
-
-func (m mentions) putOneByOne(t *testing.T, keyedValues []vault.KeyedValue[mention, string]) {
-	t.Helper()
-
-	m.write(t, func(tx *vault.Txn) error {
+	p.write(t, func(tx *vault.Txn) error {
 		for _, keyedValue := range keyedValues {
-			if _, err := m.collection.Put(tx, keyedValue.Key, keyedValue.Value); err != nil {
+			if _, err := p.collection.Put(tx, keyedValue.Key, keyedValue.Value); err != nil {
 				return err
 			}
 		}
@@ -112,27 +60,27 @@ func (m mentions) putOneByOne(t *testing.T, keyedValues []vault.KeyedValue[menti
 	})
 }
 
-type mentionsState struct {
+type pageWordsState struct {
 	length       int
 	values       map[mention]string
 	wordsPerPage map[string][]string
 	countPerPage map[string]int
 }
 
-func (m mentions) state(t *testing.T) mentionsState {
+func (p pageWords) state(t *testing.T) pageWordsState {
 	t.Helper()
 
-	state := mentionsState{
+	state := pageWordsState{
 		values:       map[mention]string{},
 		wordsPerPage: map[string][]string{},
 		countPerPage: map[string]int{},
 	}
-	if err := m.vault.View(context.Background(), func(tx *vault.Txn) error {
+	if err := p.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		if state.length, err = m.collection.Len(tx); err != nil {
+		if state.length, err = p.collection.Len(tx); err != nil {
 			return err
 		}
-		if err := m.collection.Scan(
+		if err := p.collection.Scan(
 			tx,
 			vault.EveryKey(),
 			func(key mention, value string) (bool, error) {
@@ -143,17 +91,8 @@ func (m mentions) state(t *testing.T) mentionsState {
 		); err != nil {
 			return err
 		}
-		for _, page := range []string{"p1", "p2", "p3"} {
-			if err := m.words.Scan(tx, page, func(key mention) (bool, error) {
-				state.wordsPerPage[page] = append(state.wordsPerPage[page], key.word)
 
-				return true, nil
-			}); err != nil {
-				return err
-			}
-		}
-
-		return m.perPage.Scan(tx, vault.EveryKey(), func(page string, count int) (bool, error) {
+		return p.perPage.Scan(tx, vault.EveryKey(), func(page string, count int) (bool, error) {
 			state.countPerPage[page] = count
 
 			return true, nil
@@ -161,11 +100,16 @@ func (m mentions) state(t *testing.T) mentionsState {
 	}); err != nil {
 		t.Fatalf("View: %v", err)
 	}
+	for _, page := range []string{"p1", "p2", "p3"} {
+		if words := p.wordsOf(t, page); len(words) > 0 {
+			state.wordsPerPage[page] = words
+		}
+	}
 
 	return state
 }
 
-func (s mentionsState) equals(other mentionsState) bool {
+func (s pageWordsState) equals(other pageWordsState) bool {
 	return s.length == other.length &&
 		maps.Equal(s.values, other.values) &&
 		maps.EqualFunc(s.wordsPerPage, other.wordsPerPage, slices.Equal) &&
@@ -178,7 +122,8 @@ func assertPutEachMatchesPut(
 ) {
 	t.Helper()
 
-	byPut, byPutEach := openMentions(t, newDoubleEngine()), openMentions(t, newDoubleEngine())
+	byPut := openPageWords(t, newDoubleEngine(), rankedMentionWords)
+	byPutEach := openPageWords(t, newDoubleEngine(), rankedMentionWords)
 	byPut.putOneByOne(t, stored)
 	byPutEach.putOneByOne(t, stored)
 	byPut.putOneByOne(t, written)
@@ -220,43 +165,41 @@ func TestPutEachStoresPagesOfFewWordsAsPutWould(t *testing.T) {
 }
 
 func TestPutEachStoresAgainTheWordsDeletedEarlierInTheTransaction(t *testing.T) {
-	m := openMentions(t, newDoubleEngine())
-	m.putOneByOne(t, mentionsOf("p1", numberedWords(10)...))
+	p := openPageWords(t, newDoubleEngine(), rankedMentionWords)
+	p.putOneByOne(t, mentionsOf("p1", numberedWords(10)...))
 
-	m.write(t, func(tx *vault.Txn) error {
-		for _, keyedValue := range mentionsOf("p1", numberedWords(10)...) {
-			if _, err := m.collection.Delete(tx, keyedValue.Key); err != nil {
-				return err
-			}
+	p.write(t, func(tx *vault.Txn) error {
+		if err := p.forget(tx, "p1", numberedWords(10)...); err != nil {
+			return err
 		}
 
-		return m.collection.PutEach(tx, mentionsOf("p1", numberedWords(10)...))
+		return p.collection.PutEach(tx, mentionsOf("p1", numberedWords(10)...))
 	})
 
-	if got := m.state(t).countPerPage["p1"]; got != 10 {
+	if got := p.state(t).countPerPage["p1"]; got != 10 {
 		t.Fatalf("count of p1 = %d, want 10", got)
 	}
 }
 
 func TestPutEachOutsideAWriteIsRefused(t *testing.T) {
-	m := openMentions(t, newDoubleEngine())
+	p := openPageWords(t, newDoubleEngine(), rankedMentionWords)
 
-	err := m.vault.View(context.Background(), func(tx *vault.Txn) error {
-		return m.collection.PutEach(tx, mentionsOf("p1", numberedWords(10)...))
+	err := p.vault.View(context.Background(), func(tx *vault.Txn) error {
+		return p.collection.PutEach(tx, mentionsOf("p1", numberedWords(10)...))
 	})
 	if err == nil {
 		t.Fatal("PutEach in a view succeeded, want refusal")
 	}
 }
 
-func TestRegisteringBuildsTheSecondPartIndexOfRecordsStoredBefore(t *testing.T) {
+func TestRegisteringBuildsTheIndexOfRecordsStoredBefore(t *testing.T) {
 	engine := newDoubleEngine()
 	v, err := vault.New(engine, nil)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
 	plain, err := v.RegisterCollection(
-		vault.Name("mentions"),
+		pageMentionsBucket,
 		mentionKeyParts.KeyLayoutFor(
 			func(stored mention) (string, string) { return stored.word, stored.page },
 			func(word, page string) mention { return mention{word: word, page: page} },
@@ -278,30 +221,35 @@ func TestRegisteringBuildsTheSecondPartIndexOfRecordsStoredBefore(t *testing.T) 
 		t.Fatalf("Update: %v", err)
 	}
 
-	m := openMentions(t, engine)
+	p := openPageWords(t, engine, rankedMentionWords)
 
-	if got, want := m.state(t).wordsPerPage["p1"], numberedWords(10); !slices.Equal(got, want) {
-		t.Fatalf("words of p1 = %v, want %v", got, want)
-	}
+	assertWords(t, p.wordsOf(t, "p1"), numberedWords(10)...)
 }
 
-func TestAnIndexedCollectionWithoutProjectionsKeepsItsSecondPartIndex(t *testing.T) {
+func TestAnIndexedCollectionWithoutProjectionsKeepsItsIndex(t *testing.T) {
 	v, err := vault.New(newDoubleEngine(), nil)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	words, err := v.RegisterSecondPartIndex(
-		vault.Name("mentions_by_page"),
+	dictionary, err := vault.FixedDictionaryFrom(vault.TextKeyPart, rankedMentionWords)
+	if err != nil {
+		t.Fatalf("FixedDictionaryFrom: %v", err)
+	}
+	words, err := v.RegisterMemberSetIndex(
+		pageWordsBucket,
+		firstVersion,
 		mentionKeyParts,
 		func(stored mention) (string, string) { return stored.word, stored.page },
 		func(word, page string) mention { return mention{word: word, page: page} },
+		vault.MemberEncodingFrom(dictionary),
+		nil,
 	)
 	if err != nil {
-		t.Fatalf("RegisterSecondPartIndex: %v", err)
+		t.Fatalf("RegisterMemberSetIndex: %v", err)
 	}
 	collection, err := v.RegisterIndexedCollection(
 		context.Background(),
-		vault.Name("mentions"),
+		pageMentionsBucket,
 		words,
 		stringValueCodec{},
 		nil,
@@ -317,17 +265,12 @@ func TestAnIndexedCollectionWithoutProjectionsKeepsItsSecondPartIndex(t *testing
 		if _, err := collection.Delete(tx, mention{word: "a", page: "p1"}); err != nil {
 			return err
 		}
+		wordsOfPage, err = words.MembersOf(tx, "p1")
 
-		return words.Scan(tx, "p1", func(key mention) (bool, error) {
-			wordsOfPage = append(wordsOfPage, key.word)
-
-			return true, nil
-		})
+		return err
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
 
-	if !slices.Equal(wordsOfPage, []string{"b"}) {
-		t.Fatalf("words of p1 = %v, want [b]", wordsOfPage)
-	}
+	assertWords(t, wordsOfPage, "b")
 }
