@@ -49,22 +49,39 @@ func tallyBucketFrom(tallyKey []byte) vault.Name {
 	return vault.Name(tallyKey[len(recordCountsRegion.prefix):])
 }
 
-func heldBytesOf(reader pebble.Reader) (int64, error) {
-	var heldBytes int64
-
-	heldBytesAmounts := pebbleAmounts{
-		entries: storedEntries{region: heldBytesRegion, reader: reader},
-		changes: &amountChanges{},
-		scans:   &scanTally{},
-	}
-	err := heldBytesAmounts.Scan(
+func bucketTalliesOf(reader pebble.Reader) (map[vault.Name]bucketTally, error) {
+	tallies := map[vault.Name]bucketTally{}
+	err := amountsWithin(recordCountsRegion, reader).Scan(
 		vault.EveryKey(),
-		func(_ []byte, bytes int) (bool, error) {
-			heldBytes += int64(bytes)
+		func(tallyKey []byte, records int) (bool, error) {
+			tally := tallies[vault.Name(tallyKey)]
+			tally.records = records
+			tallies[vault.Name(tallyKey)] = tally
+
+			return true, nil
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	err = amountsWithin(heldBytesRegion, reader).Scan(
+		vault.EveryKey(),
+		func(tallyKey []byte, heldBytes int) (bool, error) {
+			tally := tallies[vault.Name(tallyKey)]
+			tally.heldBytes = int64(heldBytes)
+			tallies[vault.Name(tallyKey)] = tally
 
 			return true, nil
 		},
 	)
 
-	return heldBytes, err
+	return tallies, err
+}
+
+func amountsWithin(region keyspaceRegion, reader pebble.Reader) pebbleAmounts {
+	return pebbleAmounts{
+		entries: storedEntries{region: region, reader: reader},
+		changes: &amountChanges{},
+		scans:   &scanTally{},
+	}
 }

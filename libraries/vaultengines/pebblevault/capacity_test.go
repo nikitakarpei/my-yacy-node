@@ -2,7 +2,10 @@ package pebblevault_test
 
 import (
 	"context"
+	"math/rand/v2"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -42,7 +45,7 @@ func TestQuotaAndUsedBytes(t *testing.T) {
 
 func TestUsedBytesFollowsTheValueAnOverwriteLeaves(t *testing.T) {
 	ctx := context.Background()
-	store := openVault(t, 0)
+	store := openBallastedVault(t)
 	words := registerWords(t, store)
 
 	if err := store.Update(ctx, func(tx *vault.Txn) error {
@@ -75,11 +78,36 @@ func TestUsedBytesFollowsTheValueAnOverwriteLeaves(t *testing.T) {
 	}
 }
 
+const ballastBytes = 256 << 10
+
+func openBallastedVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	store := openVault(t, 0)
+	ballast, err := store.RegisterCollection(
+		vault.Name("ballast"),
+		stringKeyLayout,
+		stringValueCodec{},
+	)
+	if err != nil {
+		t.Fatalf("RegisterCollection: %v", err)
+	}
+	if err := store.Update(context.Background(), func(tx *vault.Txn) error {
+		_, err := ballast.Put(tx, "ballast", strings.Repeat("b", ballastBytes))
+
+		return err
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	return store
+}
+
 func TestUsedBytesCountsOnlyWhatATransactionLeaves(t *testing.T) {
 	ctx := context.Background()
-	rewritten := openVault(t, 0)
+	rewritten := openBallastedVault(t)
 	rewrittenWords := registerWords(t, rewritten)
-	written := openVault(t, 0)
+	written := openBallastedVault(t)
 	writtenWords := registerWords(t, written)
 
 	if err := rewritten.Update(ctx, func(tx *vault.Txn) error {
@@ -143,9 +171,9 @@ func TestUsedBytesStopsOnACancelledContext(t *testing.T) {
 }
 
 func TestIndexEntriesCountTowardUsedBytes(t *testing.T) {
-	plain := openVault(t, 0)
+	plain := openBallastedVault(t)
 	plainWords := registerWords(t, plain)
-	indexed := openVault(t, 0)
+	indexed := openBallastedVault(t)
 	indexedWords := registerIndexedWords(t, indexed)
 
 	plainGrowth := usedBytesGrowthOf(t, plain, func(tx *vault.Txn) error {
@@ -169,7 +197,7 @@ func TestIndexEntriesCountTowardUsedBytes(t *testing.T) {
 }
 
 func TestDeletedRecordsGiveBackTheBytesOfTheirIndexEntries(t *testing.T) {
-	store := openVault(t, 0)
+	store := openBallastedVault(t)
 	words := registerIndexedWords(t, store)
 
 	growth := usedBytesGrowthOf(t, store, func(tx *vault.Txn) error {
@@ -237,4 +265,85 @@ func usedBytesGrowthOf(t *testing.T, store *vault.Vault, change func(tx *vault.T
 	}
 
 	return after - before
+}
+
+const (
+	compressibleWords          = 256
+	compressibleWordValueBytes = 8 << 10
+)
+
+func TestUsedBytesFollowsTheTablesOnDiskAfterReopen(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "node")
+	first := vaultAt(t, path, 0)
+	storeCompressibleWords(t, first, registerWords(t, first))
+	if err := first.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+
+	engine, reopened := engineAndVaultAt(t, path)
+	used, err := reopened.UsedBytes(context.Background())
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+
+	writtenBytes := int64(compressibleWords * compressibleWordValueBytes)
+	if used >= writtenBytes*3/4 {
+		t.Fatalf("UsedBytes = %d, want well below the %d bytes written", used, writtenBytes)
+	}
+	tableBytes := tableBytesOf(engine.Condition())
+	if used < tableBytes*9/10 || used > tableBytes*11/10 {
+		t.Fatalf("UsedBytes = %d, want within a tenth of the %d table bytes", used, tableBytes)
+	}
+}
+
+func storeCompressibleWords(
+	t *testing.T,
+	store *vault.Vault,
+	words *vault.Collection[string, string],
+) {
+	t.Helper()
+
+	randomSource := rand.NewChaCha8([32]byte{})
+	if err := store.Update(context.Background(), func(tx *vault.Txn) error {
+		for word := range compressibleWords {
+			value := make([]byte, compressibleWordValueBytes)
+			_, _ = randomSource.Read(value[:compressibleWordValueBytes/2])
+			if _, err := words.Put(tx, strconv.Itoa(word), string(value)); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func engineAndVaultAt(t *testing.T, path string) (*pebblevault.Engine, *vault.Vault) {
+	t.Helper()
+
+	engine, err := pebblevault.OpenEngine(path, 0, testLimits, nil, nil)
+	if err != nil {
+		t.Fatalf("OpenEngine: %v", err)
+	}
+	opened, err := vault.New(engine, nil)
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := opened.Close(); err != nil {
+			t.Fatalf("Close: %v", err)
+		}
+	})
+
+	return engine, opened
+}
+
+func tableBytesOf(condition pebblevault.EngineCondition) int64 {
+	var tableBytes int64
+	for _, level := range condition.Levels {
+		tableBytes += level.TableBytes
+	}
+
+	return tableBytes
 }

@@ -17,6 +17,7 @@ import (
 	"github.com/cockroachdb/pebble/v2/bloom"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/internal/compressionratios"
 )
 
 const (
@@ -34,6 +35,7 @@ type Engine struct {
 	history    *writeTransactionsHistory
 	conflicts  WriteConflictObserver
 	scans      *scanTally
+	surveyor   *compressionSurveyor
 }
 
 type MachineLimits struct {
@@ -55,9 +57,11 @@ func OpenEngine(
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
 
+	surveyor := newCompressionSurveyor()
 	options := optionsWithin(limits)
 	options.EventListener = eventListenerFor(stalls)
 	options.EnsureDefaults()
+	options.AddEventListener(surveyor.eventListener())
 	imposed := machineLimitsOf(options, limits.WriteConcurrency)
 
 	if options.Cache != nil {
@@ -68,6 +72,7 @@ func OpenEngine(
 	if err != nil {
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
+	surveyor.start(db)
 
 	return &Engine{
 		db:         db,
@@ -78,6 +83,7 @@ func OpenEngine(
 		history:    newWriteTransactionsHistory(),
 		conflicts:  writeConflictObserverOrSilent(conflicts),
 		scans:      &scanTally{},
+		surveyor:   surveyor,
 	}, nil
 }
 
@@ -328,6 +334,7 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 }
 
 func (e *Engine) Close() error {
+	e.surveyor.stop()
 	if err := e.db.Close(); err != nil {
 		return fmt.Errorf("close storage: %w", err)
 	}
@@ -348,18 +355,45 @@ func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 		return 0, fmt.Errorf("context: %w", err)
 	}
 
-	heldBytes, err := heldBytesOf(e.db)
+	recordsDiskBytes, err := e.recordsDiskBytes()
 	if err != nil {
 		return 0, err
 	}
-	usedBytes := heldBytes
-	for _, region := range []keyspaceRegion{amountsRegion, memberSetsRegion} {
-		estimatedBytes, err := e.db.EstimateDiskUsage(region.boundsFor(vault.EveryKey()))
-		if err != nil {
-			return 0, fmt.Errorf("estimate merged bytes: %w", err)
-		}
-		usedBytes += signed(estimatedBytes)
+	regionsDiskBytes, err := e.diskBytesWithin(amountsRegion, memberSetsRegion)
+	if err != nil {
+		return 0, err
 	}
 
-	return usedBytes, nil
+	return recordsDiskBytes + regionsDiskBytes, nil
+}
+
+func (e *Engine) recordsDiskBytes() (int64, error) {
+	tallies, err := bucketTalliesOf(e.db)
+	if err != nil {
+		return 0, err
+	}
+
+	var diskBytes int64
+	for bucket, tally := range tallies {
+		diskBytes += e.surveyor.diskBytesOf(compressionratios.BucketTally{
+			Prefix:    recordsRegionOf(bucket).prefix,
+			Records:   tally.records,
+			HeldBytes: tally.heldBytes,
+		})
+	}
+
+	return diskBytes, nil
+}
+
+func (e *Engine) diskBytesWithin(regions ...keyspaceRegion) (int64, error) {
+	var diskBytes int64
+	for _, region := range regions {
+		estimatedBytes, err := e.db.EstimateDiskUsage(region.boundsFor(vault.EveryKey()))
+		if err != nil {
+			return 0, fmt.Errorf("estimate disk bytes within region: %w", err)
+		}
+		diskBytes += signed(estimatedBytes)
+	}
+
+	return diskBytes, nil
 }
