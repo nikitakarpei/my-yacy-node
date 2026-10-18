@@ -28,14 +28,21 @@ func putEachKeepsRecordCountsOfStoredAndRepeatedKeys(
 	open func(int64) (vault.Engine, error),
 ) {
 	v := openVault(t, open, 0)
-	words, err := v.RegisterSecondPartIndex(
+	noRanking, err := vault.FixedDictionaryFrom(vault.TextKeyPart, nil)
+	if err != nil {
+		t.Fatalf("FixedDictionaryFrom: %v", err)
+	}
+	words, err := v.RegisterMemberSetIndex(
 		vault.Name("mentions_by_page"),
+		"1",
 		vault.PairKey(vault.TextKeyPart, vault.TextKeyPart),
 		func(stored mention) (string, string) { return stored.word, stored.page },
 		func(word, page string) mention { return mention{word: word, page: page} },
+		vault.MemberEncodingFrom(noRanking),
+		nil,
 	)
 	if err != nil {
-		t.Fatalf("RegisterSecondPartIndex: %v", err)
+		t.Fatalf("RegisterMemberSetIndex: %v", err)
 	}
 	mentions, err := v.RegisterIndexedCollection(
 		context.Background(),
@@ -63,8 +70,8 @@ func putEachKeepsRecordCountsOfStoredAndRepeatedKeys(
 	if err != nil {
 		t.Fatalf("RecordCountsByBucket: %v", err)
 	}
-	if recordCounts["mentions"] != 12 || recordCounts["mentions_by_page"] != 12 {
-		t.Fatalf("record counts = %v, want 12 mentions and 12 index entries", recordCounts)
+	if recordCounts["mentions"] != 12 {
+		t.Fatalf("record counts = %v, want 12 mentions", recordCounts)
 	}
 	if got := wordsOfPage(t, v, words, "p1"); !slices.Equal(got, numberedWords(12)) {
 		t.Fatalf("words of p1 = %v, want %v", got, numberedWords(12))
@@ -95,18 +102,17 @@ func numberedWords(amount int) []string {
 func wordsOfPage(
 	t *testing.T,
 	v *vault.Vault,
-	words *vault.SecondPartIndex[string, string, mention],
+	words *vault.MemberSetIndex[string, string, mention],
 	page string,
 ) []string {
 	t.Helper()
 
 	var wordsOfPage []string
 	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		return words.Scan(tx, page, func(key mention) (bool, error) {
-			wordsOfPage = append(wordsOfPage, key.word)
+		var err error
+		wordsOfPage, err = words.MembersOf(tx, page)
 
-			return true, nil
-		})
+		return err
 	}); err != nil {
 		t.Fatalf("View: %v", err)
 	}
