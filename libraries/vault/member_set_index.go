@@ -8,9 +8,8 @@ import (
 type MemberSetIndex[A, B, K any] struct {
 	projectionRegistration
 	pairKeyShape[A, B, K]
-	memberSetKeys KeyPart[B]
-	members       MemberEncoding[A]
-	observer      MemberSetObserver
+	layout   memberSetLayout[A, B]
+	observer MemberSetObserver
 }
 
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
@@ -32,10 +31,9 @@ func (v *Vault) RegisterMemberSetIndex[A, B, K any](
 			bucket:  bucket,
 			version: members.versionFrom(version),
 		},
-		pairKeyShape:  pairKeyShape[A, B, K]{parts: parts, partsOf: partsOf, keyFrom: keyFrom},
-		memberSetKeys: parts.second,
-		members:       members,
-		observer:      memberSetObserverOrSilent(observer),
+		pairKeyShape: pairKeyShape[A, B, K]{parts: parts, partsOf: partsOf, keyFrom: keyFrom},
+		layout:       memberSetLayout[A, B]{memberSetKeys: parts.second, members: members},
+		observer:     memberSetObserverOrSilent(observer),
 	}, nil
 }
 
@@ -43,20 +41,17 @@ func (i *MemberSetIndex[A, B, K]) MembersOf(tx *Txn, second B) ([]A, error) {
 	if err := i.refuseUnfollowed(); err != nil {
 		return nil, err
 	}
-	memberSetKey := i.memberSetKeyOf(second)
+	memberSetKey := i.layout.memberSetKeyOf(second)
 	storedMembers, err := i.storedMembersAt(tx, memberSetKey)
 	if err != nil {
 		return nil, err
 	}
-	members, decodableMembers := i.decodedFrom(storedMembers)
+	decoded := i.layout.decodedFrom(storedMembers)
+	i.reportUndecodable(decoded)
 	readSets := i.readSetsIn(tx)
-	readSets.membersRead(memberSetKey, decodableMembers)
+	readSets.membersRead(memberSetKey, decoded.decodableMembers)
 
-	return members, nil
-}
-
-func (i *MemberSetIndex[A, B, K]) readSetsIn(tx *Txn) *readMemberSets {
-	return tx.pendingWorkFor(i, func() *readMemberSets { return newReadMemberSets(i.bucket) })
+	return decoded.members, nil
 }
 
 func (i *MemberSetIndex[A, B, K]) storedMembersAt(
@@ -71,39 +66,25 @@ func (i *MemberSetIndex[A, B, K]) storedMembersAt(
 	return storedMembers, nil
 }
 
-func (i *MemberSetIndex[A, B, K]) decodedFrom(
-	storedMembers []StoredMember,
-) (members []A, decodableMembers []StoredMember) {
-	members = make([]A, 0, len(storedMembers))
-	decodableMembers = make([]StoredMember, 0, len(storedMembers))
-	var undecodable int
-	var cause error
-	for _, storedMember := range storedMembers {
-		member, err := i.members.valueFrom(storedMember)
-		if err != nil {
-			undecodable++
-			cause = err
-
-			continue
-		}
-		members = append(members, member)
-		decodableMembers = append(decodableMembers, storedMember)
+func (i *MemberSetIndex[A, B, K]) reportUndecodable(decoded decodedMembers[A]) {
+	if decoded.undecodableAmount > 0 {
+		reportUndecodableMembers(
+			i.observer,
+			i.bucket,
+			decoded.undecodableAmount,
+			decoded.undecodableCause,
+		)
 	}
-	if undecodable > 0 {
-		reportUndecodableMembers(i.observer, i.bucket, undecodable, cause)
-	}
+}
 
-	return members, decodableMembers
+func (i *MemberSetIndex[A, B, K]) readSetsIn(tx *Txn) *readMemberSets {
+	return tx.pendingWorkFor(i, func() *readMemberSets { return newReadMemberSets(i.bucket) })
 }
 
 func (i *MemberSetIndex[A, B, K]) keyAdded(tx *Txn, key K) error {
 	first, second := i.partsOf(key)
 
-	return i.addMember(tx, i.memberSetKeyOf(second), i.members.storedMemberFrom(first))
-}
-
-func (i *MemberSetIndex[A, B, K]) memberSetKeyOf(second B) []byte {
-	return i.memberSetKeys.encodingOf(second)
+	return i.addMember(tx, i.layout.memberSetKeyOf(second), i.layout.storedMemberFrom(first))
 }
 
 func (i *MemberSetIndex[A, B, K]) addMember(
@@ -124,7 +105,7 @@ func (i *MemberSetIndex[A, B, K]) addMember(
 func (i *MemberSetIndex[A, B, K]) keyRemoved(tx *Txn, key K) error {
 	first, second := i.partsOf(key)
 
-	return i.removeMember(tx, i.memberSetKeyOf(second), i.members.storedMemberFrom(first))
+	return i.removeMember(tx, i.layout.memberSetKeyOf(second), i.layout.storedMemberFrom(first))
 }
 
 func (i *MemberSetIndex[A, B, K]) removeMember(
@@ -184,7 +165,7 @@ func (i *MemberSetIndex[A, B, K]) storedKeysWithSecondPartOf(
 	key K,
 ) (storedKeys[K], error) {
 	_, second := i.partsOf(key)
-	storedMembers, err := i.storedMembersAt(tx, i.memberSetKeyOf(second))
+	storedMembers, err := i.storedMembersAt(tx, i.layout.memberSetKeyOf(second))
 	if err != nil {
 		return storedKeys[K]{}, err
 	}
@@ -202,5 +183,5 @@ func (i *MemberSetIndex[A, B, K]) storedKeysWithSecondPartOf(
 func (i *MemberSetIndex[A, B, K]) identityOf(key K) string {
 	first, _ := i.partsOf(key)
 
-	return i.members.storedMemberFrom(first).identity()
+	return i.layout.storedMemberFrom(first).identity()
 }
