@@ -41,29 +41,31 @@ func FixedDictionaryFrom[A any](valuePart KeyPart[A], valuesByID []A) (*FixedDic
 	return dictionary, nil
 }
 
-func (d *FixedDictionary[A]) storedMemberOf(value A) StoredMember {
-	encoding := d.valuePart.encodingOf(value)
-	if id, found := d.idByEncoding[string(encoding)]; found {
-		return StoredMember{ID: id}
-	}
+func (d *FixedDictionary[A]) idOf(value A) (uint64, bool) {
+	id, found := d.idByEncoding[string(d.encodingOf(value))]
 
-	return StoredMember{Raw: string(encoding)}
+	return id, found
 }
 
-func (d *FixedDictionary[A]) valueOf(member StoredMember) (A, error) {
-	if member.form() == MemberFormRaw {
-		value, rest, err := d.valuePart.parseFrom(orderedBytes{encoded: []byte(member.Raw)})
-		if err != nil {
-			return value, err
-		}
+func (d *FixedDictionary[A]) encodingOf(value A) []byte {
+	return d.valuePart.encodingOf(value)
+}
 
-		return value, rest.leftoverError()
-	}
-	if member.ID >= uint64(len(d.valuesByID)) {
+func (d *FixedDictionary[A]) valueAt(id uint64) (A, error) {
+	if id >= uint64(len(d.valuesByID)) {
 		var noValue A
 
-		return noValue, fmt.Errorf("%w: %d of %d", errIDPastValues, member.ID, len(d.valuesByID))
+		return noValue, fmt.Errorf("%w: %d of %d", errIDPastValues, id, len(d.valuesByID))
 	}
 
-	return d.valuesByID[member.ID], nil
+	return d.valuesByID[id], nil
+}
+
+func (d *FixedDictionary[A]) valueFrom(encoding []byte) (A, error) {
+	value, rest, err := d.valuePart.parseFrom(orderedBytes{encoded: encoding})
+	if err != nil {
+		return value, err
+	}
+
+	return value, rest.leftoverError()
 }

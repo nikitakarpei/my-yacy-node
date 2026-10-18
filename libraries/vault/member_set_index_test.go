@@ -54,7 +54,7 @@ func openPageWords(t *testing.T, engine *doubleEngine, valuesByID []string) page
 		mentionKeyParts,
 		func(stored mention) (string, string) { return stored.word, stored.page },
 		func(word, page string) mention { return mention{word: word, page: page} },
-		dictionary,
+		vault.MemberEncodingFrom(dictionary),
 		observed,
 	)
 	if err != nil {

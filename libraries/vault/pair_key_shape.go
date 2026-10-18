@@ -13,9 +13,5 @@ func (s pairKeyShape[A, B, K]) keyLayout() KeyLayout[K] {
 func (s pairKeyShape[A, B, K]) secondPartOf(key K) string {
 	_, second := s.partsOf(key)
 
-	return string(s.secondPartKeyOf(second))
-}
-
-func (s pairKeyShape[A, B, K]) secondPartKeyOf(second B) []byte {
-	return s.parts.second.encodingOf(second)
+	return string(s.parts.second.encodingOf(second))
 }

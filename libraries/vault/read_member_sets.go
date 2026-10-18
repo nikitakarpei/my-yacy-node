@@ -16,38 +16,38 @@ func newReadMemberSets(bucket Name) *readMemberSets {
 	return &readMemberSets{bucket: bucket, sets: map[string]*readMemberSet{}}
 }
 
-func (r *readMemberSets) membersRead(secondPartKey []byte, members []StoredMember) {
+func (r *readMemberSets) membersRead(memberSetKey []byte, members []StoredMember) {
 	if len(members) == 0 {
 		return
 	}
-	readSet, found := r.sets[string(secondPartKey)]
+	readSet, found := r.sets[string(memberSetKey)]
 	if !found {
 		readSet = &readMemberSet{unremovedMembers: map[StoredMember]struct{}{}}
-		r.sets[string(secondPartKey)] = readSet
+		r.sets[string(memberSetKey)] = readSet
 	}
 	for _, member := range members {
 		readSet.unremovedMembers[member] = struct{}{}
 	}
 }
 
-func (r *readMemberSets) memberAdded(secondPartKey []byte) {
-	if readSet, found := r.sets[string(secondPartKey)]; found {
+func (r *readMemberSets) memberAdded(memberSetKey []byte) {
+	if readSet, found := r.sets[string(memberSetKey)]; found {
 		readSet.wasAdded = true
 	}
 }
 
-func (r *readMemberSets) memberRemoved(secondPartKey []byte, member StoredMember) {
-	if readSet, found := r.sets[string(secondPartKey)]; found {
+func (r *readMemberSets) memberRemoved(memberSetKey []byte, member StoredMember) {
+	if readSet, found := r.sets[string(memberSetKey)]; found {
 		delete(readSet.unremovedMembers, member)
 	}
 }
 
 func (r *readMemberSets) finishWithin(etx EngineTxn) error {
-	for secondPartKey, readSet := range r.sets {
+	for memberSetKey, readSet := range r.sets {
 		if readSet.wasAdded || len(readSet.unremovedMembers) > 0 {
 			continue
 		}
-		if err := etx.MemberSets(r.bucket).Delete([]byte(secondPartKey)); err != nil {
+		if err := etx.MemberSets(r.bucket).Delete([]byte(memberSetKey)); err != nil {
 			return fmt.Errorf("delete emptied %s set: %w", r.bucket, err)
 		}
 	}

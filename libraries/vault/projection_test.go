@@ -443,7 +443,7 @@ func unfollowedMemberSetIndexIn(
 		mentionKeyParts,
 		func(stored mention) (string, string) { return stored.word, stored.page },
 		func(word, page string) mention { return mention{word: word, page: page} },
-		dictionary,
+		vault.MemberEncodingFrom(dictionary),
 		nil,
 	)
 	if err != nil {
