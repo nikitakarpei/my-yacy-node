@@ -22,13 +22,11 @@ var (
 )
 
 type Vault struct {
-	engine              Engine
-	observer            TransactionObserver
-	mu                  sync.Mutex
-	registered          map[Name]bucketKind
-	claimedDictionaries map[Name]struct{}
-	projectionVersions  func() (*Collection[Name, string], error)
-	dictionaryCopies    func() (*Collection[Name, dictionaryCopy], error)
+	engine             Engine
+	observer           TransactionObserver
+	mu                 sync.Mutex
+	registered         map[Name]bucketKind
+	projectionVersions func() (*Collection[Name, string], error)
 }
 
 func New(engine Engine, observer TransactionObserver) (*Vault, error) {
@@ -39,13 +37,11 @@ func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 		observer = silentObserver{}
 	}
 	storage := &Vault{
-		engine:              engine,
-		observer:            observer,
-		registered:          map[Name]bucketKind{},
-		claimedDictionaries: map[Name]struct{}{},
+		engine:     engine,
+		observer:   observer,
+		registered: map[Name]bucketKind{},
 	}
 	storage.projectionVersions = sync.OnceValues(storage.registerProjectionVersions)
-	storage.dictionaryCopies = sync.OnceValues(storage.registerDictionaryCopies)
 
 	return storage, nil
 }

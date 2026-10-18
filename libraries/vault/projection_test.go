@@ -433,14 +433,9 @@ func unfollowedMemberSetIndexIn(
 ) *vault.MemberSetIndex[string, string, mention] {
 	t.Helper()
 
-	dictionary, err := v.RegisterFixedDictionary(
-		context.Background(),
-		pageWordsDictionary,
-		vault.TextKeyPart,
-		nil,
-	)
+	dictionary, err := vault.FixedDictionaryFrom(vault.TextKeyPart, nil)
 	if err != nil {
-		t.Fatalf("RegisterFixedDictionary: %v", err)
+		t.Fatalf("FixedDictionaryFrom: %v", err)
 	}
 	words, err := v.RegisterMemberSetIndex(
 		pageWordsBucket,

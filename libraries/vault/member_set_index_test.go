@@ -9,9 +9,8 @@ import (
 )
 
 const (
-	pageWordsDictionary vault.Name = "words"
-	pageWordsBucket     vault.Name = "words_of_pages"
-	pageMentionsBucket  vault.Name = "page_mentions"
+	pageWordsBucket    vault.Name = "words_of_pages"
+	pageMentionsBucket vault.Name = "page_mentions"
 )
 
 type observedMemberSets struct {
@@ -44,14 +43,9 @@ func openPageWords(t *testing.T, engine *doubleEngine, valuesByID []string) page
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	dictionary, err := v.RegisterFixedDictionary(
-		ctx,
-		pageWordsDictionary,
-		vault.TextKeyPart,
-		valuesByID,
-	)
+	dictionary, err := vault.FixedDictionaryFrom(vault.TextKeyPart, valuesByID)
 	if err != nil {
-		t.Fatalf("RegisterFixedDictionary: %v", err)
+		t.Fatalf("FixedDictionaryFrom: %v", err)
 	}
 	observed := &observedMemberSets{}
 	words, err := v.RegisterMemberSetIndex(
