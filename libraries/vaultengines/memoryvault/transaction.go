@@ -5,6 +5,7 @@ import (
 	"sort"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
 type memTxn struct {
@@ -17,6 +18,10 @@ func (t memTxn) Writable() bool { return t.writable }
 
 func (t memTxn) Records(name vault.Name) vault.EngineRecords {
 	return memRecords{entries: t.records[name]}
+}
+
+func (t memTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
+	return memberset.OverRecords(t.Records(name))
 }
 
 func (t memTxn) Amounts(name vault.Name) vault.EngineAmounts {

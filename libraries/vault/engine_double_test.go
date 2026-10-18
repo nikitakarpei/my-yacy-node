@@ -7,6 +7,7 @@ import (
 	"sort"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
 type doubleEngine struct {
@@ -47,6 +48,10 @@ func (e *doubleEngine) ProvisionAmountsBucket(name vault.Name) error {
 	return nil
 }
 
+func (e *doubleEngine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
 func (e *doubleEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if err := ctx.Err(); err != nil {
 		return fmt.Errorf("context: %w", err)
@@ -71,7 +76,11 @@ func (e *doubleEngine) View(ctx context.Context, fn func(vault.EngineTxn) error)
 		return fmt.Errorf("context: %w", err)
 	}
 
-	return fn(doubleTxn{records: e.records, amounts: e.amounts, writable: false})
+	return fn(doubleTxn{
+		records:  e.records,
+		amounts:  e.amounts,
+		writable: false,
+	})
 }
 
 func (e *doubleEngine) Close() error {
@@ -107,6 +116,10 @@ func (t doubleTxn) Writable() bool { return t.writable }
 
 func (t doubleTxn) Records(name vault.Name) vault.EngineRecords {
 	return doubleBucket{entries: t.records[name]}
+}
+
+func (t doubleTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
+	return memberset.OverRecords(t.Records(name))
 }
 
 func (t doubleTxn) Amounts(name vault.Name) vault.EngineAmounts {

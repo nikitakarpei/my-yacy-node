@@ -13,6 +13,7 @@ type bucketKind int
 const (
 	recordsBucket bucketKind = iota
 	amountsBucket
+	memberSetsBucket
 )
 
 func (v *Vault) provisionRecordsBucket(bucket Name) error {
@@ -46,6 +47,14 @@ func (v *Vault) provisionAmountsBucket(bucket Name) error {
 	}
 
 	return v.provisionAs(bucket, amountsBucket, v.engine.ProvisionAmountsBucket)
+}
+
+func (v *Vault) provisionMemberSetsBucket(bucket Name) error {
+	if v == nil || v.engine == nil {
+		return errVaultClosed
+	}
+
+	return v.provisionAs(bucket, memberSetsBucket, v.engine.ProvisionMemberSetsBucket)
 }
 
 func (v *Vault) RecordCountsByBucket(ctx context.Context) (map[Name]int, error) {

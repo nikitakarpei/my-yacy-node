@@ -398,3 +398,52 @@ func assertStored(t *testing.T, engine *pebblevault.Engine, key, want string) {
 		t.Fatalf("View: %v", err)
 	}
 }
+
+const conflictMemberSets vault.Name = "words_of_pages"
+
+func addingMember(member uint64) func(vault.EngineTxn) error {
+	return func(tx vault.EngineTxn) error {
+		return tx.MemberSets(conflictMemberSets).Add([]byte("p1"), vault.StoredMember{ID: member})
+	}
+}
+
+func TestAddsToOneMemberSetDoNotConflict(t *testing.T) {
+	got := conflictsOf(
+		t,
+		writeScenario{firstCommittedWrite: addingMember(1), waitingWrite: addingMember(2)},
+	)
+
+	assertConflicts(t, got)
+}
+
+func TestMembersReadAfterAnotherWriteAddedConflicts(t *testing.T) {
+	got := conflictsOf(t, writeScenario{
+		firstCommittedWrite: addingMember(1),
+		waitingWrite: func(tx vault.EngineTxn) error {
+			_, err := tx.MemberSets(conflictMemberSets).Members([]byte("p1"))
+
+			return err
+		},
+	})
+
+	assertConflicts(
+		t,
+		got,
+		conflictPlace{bucket: conflictMemberSets, kind: pebblevault.KindMemberSets},
+	)
+}
+
+func TestDeletingASetAnotherWriteAddedToConflicts(t *testing.T) {
+	got := conflictsOf(t, writeScenario{
+		firstCommittedWrite: addingMember(1),
+		waitingWrite: func(tx vault.EngineTxn) error {
+			return tx.MemberSets(conflictMemberSets).Delete([]byte("p1"))
+		},
+	})
+
+	assertConflicts(
+		t,
+		got,
+		conflictPlace{bucket: conflictMemberSets, kind: pebblevault.KindMemberSets},
+	)
+}

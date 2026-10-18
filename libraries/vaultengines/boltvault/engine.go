@@ -99,6 +99,10 @@ func (e *engine) ProvisionRecordsBucket(name vault.Name) error {
 	return e.createBucket(name)
 }
 
+func (e *engine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
 func (e *engine) ProvisionAmountsBucket(name vault.Name) error {
 	return e.ProvisionRecordsBucket(name)
 }

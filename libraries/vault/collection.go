@@ -15,17 +15,12 @@ type Collection[K, V any] struct {
 	keys        KeyLayout[K]
 	values      ValueCodec[V]
 	projections Projections[K, V]
-	secondParts secondPartLookup[K]
+	index       PairKeyIndex[K]
 }
 
 type KeyedValue[K, V any] struct {
 	Key   K
 	Value V
-}
-
-type secondPartLookup[K any] interface {
-	secondPartOf(key K) string
-	storedNeighboursOf(tx *Txn, key K) (map[string]struct{}, error)
 }
 
 const fewestRecordsPerSecondPartRead = 8
@@ -208,31 +203,35 @@ func (c *Collection[K, V]) absentPositionsAmong(
 	tx *Txn,
 	keyedValues []KeyedValue[K, V],
 ) (map[int]struct{}, error) {
-	if c.secondParts == nil {
+	if c.index == nil {
 		return nil, nil
 	}
-	storedKeysPerSecondPart, err := c.storedKeysWithin(tx, c.crowdedSecondPartsAmong(keyedValues))
+	storedKeysPerSecondPart, err := c.storedKeysWithin(
+		tx,
+		c.crowdedSecondPartsAmong(keyedValues),
+	)
 	if err != nil {
 		return nil, err
 	}
 	absentPositions := make(map[int]struct{})
 	for position, keyedValue := range keyedValues {
-		storedKeys, isRead := storedKeysPerSecondPart[c.secondParts.secondPartOf(keyedValue.Key)]
-		storedKey := string(c.keys.Encode(keyedValue.Key).encoded)
-		if _, isStored := storedKeys[storedKey]; isRead && !isStored {
+		keys, isRead := storedKeysPerSecondPart[c.index.secondPartOf(keyedValue.Key)]
+		if isRead && !keys.holds(keyedValue.Key) {
 			absentPositions[position] = struct{}{}
-			storedKeys[storedKey] = struct{}{}
+			keys.add(keyedValue.Key)
 		}
 	}
 
 	return absentPositions, nil
 }
 
-func (c *Collection[K, V]) crowdedSecondPartsAmong(keyedValues []KeyedValue[K, V]) map[string]K {
+func (c *Collection[K, V]) crowdedSecondPartsAmong(
+	keyedValues []KeyedValue[K, V],
+) map[string]K {
 	amountPerSecondPart := make(map[string]int)
 	keyPerSecondPart := make(map[string]K)
 	for _, keyedValue := range keyedValues {
-		secondPart := c.secondParts.secondPartOf(keyedValue.Key)
+		secondPart := c.index.secondPartOf(keyedValue.Key)
 		amountPerSecondPart[secondPart]++
 		keyPerSecondPart[secondPart] = keyedValue.Key
 	}
@@ -246,14 +245,14 @@ func (c *Collection[K, V]) crowdedSecondPartsAmong(keyedValues []KeyedValue[K, V
 func (c *Collection[K, V]) storedKeysWithin(
 	tx *Txn,
 	keyPerSecondPart map[string]K,
-) (map[string]map[string]struct{}, error) {
-	storedKeysPerSecondPart := make(map[string]map[string]struct{}, len(keyPerSecondPart))
+) (map[string]storedKeys[K], error) {
+	storedKeysPerSecondPart := make(map[string]storedKeys[K], len(keyPerSecondPart))
 	for secondPart, key := range keyPerSecondPart {
-		storedKeys, err := c.secondParts.storedNeighboursOf(tx, key)
+		keys, err := c.index.storedKeysWithSecondPartOf(tx, key)
 		if err != nil {
 			return nil, err
 		}
-		storedKeysPerSecondPart[secondPart] = storedKeys
+		storedKeysPerSecondPart[secondPart] = keys
 	}
 
 	return storedKeysPerSecondPart, nil

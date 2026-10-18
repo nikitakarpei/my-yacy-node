@@ -7,15 +7,16 @@ import (
 )
 
 type pebbleTxn struct {
-	reader          pebble.Reader
-	pointReaders    pointReaders
-	changes         *pebble.Batch
-	amountChanges   *amountChanges
-	footprint       *readFootprint
-	heldValues      heldValues
-	scans           *scanTally
-	recordsByBucket map[vault.Name]*pebbleRecords
-	amountsByBucket map[vault.Name]*pebbleAmounts
+	reader           pebble.Reader
+	pointReaders     pointReaders
+	changes          *pebble.Batch
+	amountChanges    *amountChanges
+	memberSetChanges *memberSetChanges
+	footprint        *readFootprint
+	heldValues       heldValues
+	scans            *scanTally
+	recordsByBucket  map[vault.Name]*pebbleRecords
+	amountsByBucket  map[vault.Name]*pebbleAmounts
 }
 
 func (t *pebbleTxn) Writable() bool { return t.changes != nil }
@@ -51,6 +52,13 @@ func (t *pebbleTxn) Amounts(name vault.Name) vault.EngineAmounts {
 	t.amountsByBucket[name] = &amounts
 
 	return &amounts
+}
+
+func (t *pebbleTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
+	return pebbleMemberSets{
+		entries: t.entriesWithin(memberSetsRegionOf(name)),
+		changes: t.memberSetChanges,
+	}
 }
 
 func (t *pebbleTxn) amountsWithin(region keyspaceRegion) pebbleAmounts {

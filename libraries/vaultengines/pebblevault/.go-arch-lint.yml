@@ -7,13 +7,15 @@ allow:
 
 components:
   pebblevault:
-    in:
-      - .
-      - "**"
+    in: .
+  membersetfold:
+    in: internal/membersetfold/**
 
 vendors:
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
+  vaultmemberset:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
   pebble:
     in:
       - github.com/cockroachdb/pebble/v2
@@ -21,9 +23,15 @@ vendors:
 
 deps:
   pebblevault:
+    mayDependOn:
+      - membersetfold
     canUse:
       - vault
       - pebble
+  membersetfold:
+    canUse:
+      - vault
+      - vaultmemberset
 
 excludeFiles:
   - "_test\\.go"

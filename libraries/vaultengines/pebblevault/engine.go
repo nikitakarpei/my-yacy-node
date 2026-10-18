@@ -56,7 +56,7 @@ func OpenEngine(
 	}
 
 	options := optionsWithin(limits)
-	options.EventListener = writeStallListenerFor(stalls)
+	options.EventListener = eventListenerFor(stalls)
 	options.EnsureDefaults()
 	imposed := machineLimitsOf(options, limits.WriteConcurrency)
 
@@ -85,7 +85,7 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 	options := &pebble.Options{
 		MemTableSize: uint64(max(limits.MemtableBytes, 0)),
 		MaxOpenFiles: limits.OpenFileLimit,
-		Merger:       amountMerger,
+		Merger:       regionMerger,
 	}
 	addBloomFiltersAboveTheBottomLevel(options)
 	setBlockSizeOnEveryLevel(options)
@@ -115,16 +115,17 @@ func setBlockSizeOnEveryLevel(options *pebble.Options) {
 	}
 }
 
-func writeStallListenerFor(observer WriteStallObserver) *pebble.EventListener {
-	if observer == nil {
-		observer = silentWriteStallObserver{}
+func eventListenerFor(stalls WriteStallObserver) *pebble.EventListener {
+	if stalls == nil {
+		stalls = silentWriteStallObserver{}
 	}
 
 	return &pebble.EventListener{
+		BackgroundError: reportBackgroundFailure,
 		WriteStallBegin: func(info pebble.WriteStallBeginInfo) {
-			reportWriteStallBegan(observer, writeStallCauseOf(info.Reason))
+			reportWriteStallBegan(stalls, writeStallCauseOf(info.Reason))
 		},
-		WriteStallEnd: func() { reportWriteStallEnded(observer) },
+		WriteStallEnd: func() { reportWriteStallEnded(stalls) },
 	}
 }
 
@@ -149,6 +150,10 @@ func (e *Engine) ProvisionRecordsBucket(_ vault.Name) error {
 }
 
 func (e *Engine) ProvisionAmountsBucket(_ vault.Name) error {
+	return nil
+}
+
+func (e *Engine) ProvisionMemberSetsBucket(_ vault.Name) error {
 	return nil
 }
 
@@ -216,18 +221,20 @@ func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
 	write := stagedWrite{changes: e.db.NewIndexedBatch(), footprint: newReadFootprint()}
 	heldValues := heldValues{}
 	amountChanges := newAmountChanges(write.changes, heldValues)
+	memberSetChanges := newMemberSetChanges(write.changes, heldValues)
 	if err := fn(&pebbleTxn{
-		reader:        write.changes,
-		pointReaders:  lookupPointReader{reader: write.changes},
-		changes:       write.changes,
-		amountChanges: amountChanges,
-		footprint:     write.footprint,
-		heldValues:    heldValues,
-		scans:         e.scans,
+		reader:           write.changes,
+		pointReaders:     lookupPointReader{reader: write.changes},
+		changes:          write.changes,
+		amountChanges:    amountChanges,
+		memberSetChanges: memberSetChanges,
+		footprint:        write.footprint,
+		heldValues:       heldValues,
+		scans:            e.scans,
 	}); err != nil {
 		return stagedWrite{}, errors.Join(err, release(write.changes))
 	}
-	if err := amountChanges.stageAll(); err != nil {
+	if err := errors.Join(amountChanges.stageAll(), memberSetChanges.stageAll()); err != nil {
 		return stagedWrite{}, errors.Join(err, release(write.changes))
 	}
 	writtenKeys, err := writtenKeysOf(write.changes)
@@ -304,10 +311,11 @@ func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 	pointReaders := &iteratorPointReaders{reader: snapshot}
 
 	if err := fn(&pebbleTxn{
-		reader:        snapshot,
-		pointReaders:  pointReaders,
-		amountChanges: &amountChanges{},
-		scans:         e.scans,
+		reader:           snapshot,
+		pointReaders:     pointReaders,
+		amountChanges:    &amountChanges{},
+		memberSetChanges: &memberSetChanges{},
+		scans:            e.scans,
 	}); err != nil {
 		return errors.Join(
 			fmt.Errorf("read storage: %w", err),
@@ -344,10 +352,14 @@ func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	estimatedAmountsBytes, err := e.db.EstimateDiskUsage(amountsRegion.boundsFor(vault.EveryKey()))
-	if err != nil {
-		return 0, fmt.Errorf("estimate amount bytes: %w", err)
+	usedBytes := heldBytes
+	for _, region := range []keyspaceRegion{amountsRegion, memberSetsRegion} {
+		estimatedBytes, err := e.db.EstimateDiskUsage(region.boundsFor(vault.EveryKey()))
+		if err != nil {
+			return 0, fmt.Errorf("estimate merged bytes: %w", err)
+		}
+		usedBytes += signed(estimatedBytes)
 	}
 
-	return heldBytes + signed(estimatedAmountsBytes), nil
+	return usedBytes, nil
 }

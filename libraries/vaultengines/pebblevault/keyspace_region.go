@@ -7,17 +7,21 @@ import (
 )
 
 const (
-	regionPrefixLength       = 1
-	recordsRegionPrefix byte = 1
-	tallyRegionPrefix   byte = 2
-	amountsRegionPrefix byte = 3
+	regionPrefixLength          = 1
+	recordsRegionPrefix    byte = 1
+	tallyRegionPrefix      byte = 2
+	amountsRegionPrefix    byte = 3
+	memberSetsRegionPrefix byte = 4
 )
 
 type keyspaceRegion struct {
 	prefix []byte
 }
 
-var amountsRegion = keyspaceRegion{prefix: []byte{amountsRegionPrefix}}
+var (
+	amountsRegion    = keyspaceRegion{prefix: []byte{amountsRegionPrefix}}
+	memberSetsRegion = keyspaceRegion{prefix: []byte{memberSetsRegionPrefix}}
+)
 
 func recordsRegionOf(bucket vault.Name) keyspaceRegion {
 	return namedRegionWithin(recordsRegionPrefix, bucket)
@@ -40,6 +44,14 @@ func bucketNameFrom(namedRegionKey []byte) vault.Name {
 
 func amountsRegionOf(bucket vault.Name) keyspaceRegion {
 	return namedRegionWithin(amountsRegionPrefix, bucket)
+}
+
+func memberSetsRegionOf(bucket vault.Name) keyspaceRegion {
+	return namedRegionWithin(memberSetsRegionPrefix, bucket)
+}
+
+func isMemberSetKey(absoluteKey []byte) bool {
+	return len(absoluteKey) > 0 && absoluteKey[0] == memberSetsRegionPrefix
 }
 
 func (r keyspaceRegion) absoluteKeyFrom(relativeKey []byte) []byte {

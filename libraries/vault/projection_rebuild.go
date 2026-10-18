@@ -113,8 +113,14 @@ func (v *Vault) rebuildProjections[K, V any](
 			return fmt.Errorf("clear stale projection: %w", err)
 		}
 	}
+	progress, err := v.rebuildProgressOf(ctx, collection.name)
+	if err != nil {
+		return err
+	}
 	staleProjections := collection.projections.narrowedTo(stale)
 	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
+		tx.RunAfterCommit(func() { progress.batchProjected(ctx) })
+
 		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
 	}); err != nil {
 		return fmt.Errorf("rebuild stale projections: %w", err)
