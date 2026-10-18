@@ -14,6 +14,7 @@ const (
 	EnvPebbleCompactionConcurrency = "YACY_PEBBLE_COMPACTION_CONCURRENCY"
 	EnvPebbleOpenFileLimit         = "YACY_PEBBLE_OPEN_FILE_LIMIT"
 	EnvPebbleWriteConcurrency      = "YACY_PEBBLE_WRITE_CONCURRENCY"
+	EnvWordRankingFile             = "YACY_WORD_RANKING_FILE"
 
 	DefaultDataDir                     = "./data"
 	DefaultQuota                       = "1GB"
@@ -34,6 +35,7 @@ type StorageConfig struct {
 	CompactionConcurrency int
 	OpenFileLimit         int
 	WriteConcurrency      int
+	WordRankingFile       string
 }
 
 func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
@@ -89,5 +91,6 @@ func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
 		CompactionConcurrency: compactionConcurrency,
 		OpenFileLimit:         openFileLimit,
 		WriteConcurrency:      writeConcurrency,
+		WordRankingFile:       envconfig.String(getenv, EnvWordRankingFile, ""),
 	}, nil
 }

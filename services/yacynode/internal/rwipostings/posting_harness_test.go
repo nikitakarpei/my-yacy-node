@@ -72,20 +72,19 @@ func (h harness) postingsOfWordIn(
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
-			t.Fatalf("Close: %v", err)
-		}
-	})
+	return openHarnessRanking(t, nil)
+}
 
+func openHarnessRanking(t *testing.T, rankedWords []yacymodel.Hash) harness {
+	t.Helper()
+
+	v := openVault(t)
 	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions,
+		rankedWords,
+		nil,
 		nil,
 	)
 	if err != nil {
@@ -98,6 +97,22 @@ func openHarness(t *testing.T) harness {
 		writer: writer,
 		purger: purger,
 	}
+}
+
+func openVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	v, err := memoryvault.Open(0, nil)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := v.Close(); err != nil {
+			t.Fatalf("Close: %v", err)
+		}
+	})
+
+	return v
 }
 
 var ringPartitions = yacymodel.DHTRingPartitions(1) << 4

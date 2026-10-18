@@ -93,6 +93,8 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 		context.Background(),
 		v,
 		partitions(),
+		nil,
+		nil,
 		[]vault.Projection[yacymodel.RWIPosting]{projection},
 	)
 	if err != nil {

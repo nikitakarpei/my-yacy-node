@@ -55,6 +55,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/wordranking"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -93,6 +94,7 @@ const servedURLMetadataPerRequest = 1000
 // (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
 const indexAbstractDocumentsPerAnswer = 10000
 
+//nolint:gocognit // composition root: one error check per opened unit, no branching logic
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
@@ -192,10 +194,16 @@ func assembleNode(
 		return node{}, err
 	}
 
+	rankedWords, err := wordranking.WordsFrom(config.Storage.WordRankingFile)
+	if err != nil {
+		return node{}, err
+	}
 	postings, postingWriter, postingPurger, err := rwipostings.Open(
 		ctx,
 		storage,
 		dhtRingPartitions,
+		rankedWords,
+		metrics.NewURLWordsMetrics(registry),
 		[]vault.Projection[yacymodel.RWIPosting]{
 			postingImpactProjection,
 			postingAmountProjection,

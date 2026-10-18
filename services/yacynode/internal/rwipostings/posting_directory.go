@@ -13,9 +13,9 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	postings      *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
-	urlReferences *vault.SecondPartIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity]
-	partitions    yacymodel.DHTRingPartitions
+	postings   *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
+	urlWords   *vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity]
+	partitions yacymodel.DHTRingPartitions
 }
 
 func (d postingDirectory) PostingOf(
@@ -133,7 +133,7 @@ func (d postingDirectory) PurgePostingsOf(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 ) (amountOfPurgedPostings int, err error) {
-	words, err := d.wordsReferencing(tx, url)
+	words, err := d.wordsOf(tx, url)
 	if err != nil {
 		return 0, err
 	}
@@ -150,17 +150,10 @@ func (d postingDirectory) PurgePostingsOf(
 	return amountOfPurgedPostings, nil
 }
 
-func (d postingDirectory) wordsReferencing(
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-) ([]yacymodel.Hash, error) {
-	var words []yacymodel.Hash
-	if err := d.urlReferences.Scan(tx, url, func(identity postingIdentity) (bool, error) {
-		words = append(words, identity.word)
-
-		return true, nil
-	}); err != nil {
-		return nil, fmt.Errorf("scan words referencing a url: %w", err)
+func (d postingDirectory) wordsOf(tx *vault.Txn, url yacymodel.URLHash) ([]yacymodel.Hash, error) {
+	words, err := d.urlWords.MembersOf(tx, url)
+	if err != nil {
+		return nil, fmt.Errorf("read words of a url: %w", err)
 	}
 
 	return words, nil

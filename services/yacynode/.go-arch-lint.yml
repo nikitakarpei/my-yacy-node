@@ -90,6 +90,8 @@ components:
     in: internal/pageadmission/**
   stopwordhashes:
     in: internal/stopwordhashes/**
+  wordranking:
+    in: internal/wordranking/**
   pageintake:
     in: internal/pageintake/**
   pageintakeobserversapplog:

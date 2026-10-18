@@ -41,6 +41,8 @@ func openHarness(t *testing.T) harness {
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions(1),
+		nil,
+		nil,
 		[]vault.Projection[yacymodel.RWIPosting]{projection},
 	)
 	if err != nil {

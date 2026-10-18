@@ -45,12 +45,12 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | `YACY_PEBBLE_COMPACTION_CONCURRENCY` | `1` | How many compactions run at the same time. |
 | `YACY_PEBBLE_OPEN_FILE_LIMIT` | `1000` | How many table files the engine keeps open. |
 | `YACY_PEBBLE_WRITE_CONCURRENCY` | `16` | How many write transactions run at the same time. |
+| `YACY_WORD_RANKING_FILE` | _(empty)_ | File of word hashes, one per line, most common first. The node keeps the words of each URL, and a listed word takes fewer bytes there. When the file changes, the next start takes longer: the node builds the words of each URL again from its postings. The node does not start when it cannot read the file or when the file lists a word two times. Leave it empty to keep each word as its full hash. |
 | `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for URL metadata of their version. When the escrow holds this many, the node refuses transfers with postings that must wait until held postings expire. A transfer that starts below this number is held whole. |
 
 ## Page offer intake
 
-A separate scrape service reads pages and offers them. The node stores the words of each
-offered page as postings. Without a page offer server it is a pure peer.
+A separate scrape service reads pages and offers them. The node stores the words of each offered page as postings. Without a page offer server it is a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |

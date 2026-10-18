@@ -3428,6 +3428,104 @@
       "interval": "$window"
     },
     {
+      "id": 147,
+      "title": "Share of URL words kept as full hashes",
+      "description": "A word the word ranking file lists takes fewer bytes. A rising share means the file misses words that are now common.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 255
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacynode_url_words_added_total{form=\"raw\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_url_words_added_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "full hashes"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 148,
+      "title": "URL words the node could not read",
+      "description": "Any band means a URL keeps words the node cannot purge with it.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 255
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "clamp_min(yacynode_url_words_undecodable_total{instance=~\"$service_instance\"} - (yacynode_url_words_undecodable_total{instance=~\"$service_instance\"} offset $__interval), 0)",
+          "legendFormat": "words"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 110,
       "title": "Pebble storage engine",
       "type": "row",
@@ -3436,7 +3534,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 255
+        "y": 263
       },
       "panels": []
     },
@@ -3453,7 +3551,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 256
+        "y": 264
       },
       "fieldConfig": {
         "defaults": {
@@ -3491,7 +3589,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 256
+        "y": 264
       },
       "fieldConfig": {
         "defaults": {
@@ -3529,7 +3627,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 264
+        "y": 272
       },
       "fieldConfig": {
         "defaults": {
@@ -3588,7 +3686,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 264
+        "y": 272
       },
       "fieldConfig": {
         "defaults": {
@@ -3626,7 +3724,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 270
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3669,7 +3767,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 270
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3707,7 +3805,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 270
+        "y": 278
       },
       "fieldConfig": {
         "defaults": {
@@ -3750,7 +3848,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3816,7 +3914,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3859,7 +3957,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 278
+        "y": 286
       },
       "fieldConfig": {
         "defaults": {
@@ -3930,7 +4028,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 286
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -3973,7 +4071,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 286
+        "y": 294
       },
       "fieldConfig": {
         "defaults": {
@@ -4011,7 +4109,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 294
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -4049,7 +4147,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 294
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -4107,7 +4205,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 302
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -4150,7 +4248,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 302
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -4209,7 +4307,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 302
+        "y": 310
       },
       "fieldConfig": {
         "defaults": {
@@ -4252,7 +4350,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 294
+        "y": 302
       },
       "fieldConfig": {
         "defaults": {
@@ -4291,7 +4389,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 310
+        "y": 318
       },
       "panels": []
     },
@@ -4307,7 +4405,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 311
+        "y": 319
       },
       "fieldConfig": {
         "defaults": {
@@ -4355,7 +4453,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 311
+        "y": 319
       },
       "fieldConfig": {
         "defaults": {
@@ -4393,7 +4491,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 311
+        "y": 319
       },
       "fieldConfig": {
         "defaults": {
@@ -4431,7 +4529,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 319
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -4469,7 +4567,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 319
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {
@@ -4508,7 +4606,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 319
+        "y": 327
       },
       "fieldConfig": {
         "defaults": {

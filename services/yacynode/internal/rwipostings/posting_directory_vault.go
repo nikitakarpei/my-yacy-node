@@ -11,21 +11,30 @@ import (
 )
 
 const (
-	postingsBucket      vault.Name = "rwi"
-	urlReferencesBucket vault.Name = "urlreferences_words"
+	postingsBucket vault.Name = "rwi"
+	urlWordsBucket vault.Name = "rwi_url_words"
 )
+
+const urlWordsVersion = "1"
 
 func registerPostings(
 	ctx context.Context,
 	v *vault.Vault,
+	rankedWords []yacymodel.Hash,
+	urlWordsObserver vault.MemberSetObserver,
 	projections []vault.Projection[yacymodel.RWIPosting],
 ) (
 	*vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting],
-	*vault.SecondPartIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
+	*vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
 	error,
 ) {
-	urlReferences, err := v.RegisterSecondPartIndex(
-		urlReferencesBucket,
+	wordRanking, err := vault.FixedDictionaryFrom(hashkeypart.Hash, rankedWords)
+	if err != nil {
+		return nil, nil, fmt.Errorf("rank words: %w", err)
+	}
+	urlWords, err := v.RegisterMemberSetIndex(
+		urlWordsBucket,
+		urlWordsVersion,
 		postingKeyParts,
 		func(posting postingIdentity) (yacymodel.Hash, yacymodel.URLHash) {
 			return posting.word, posting.url
@@ -33,14 +42,16 @@ func registerPostings(
 		func(word yacymodel.Hash, url yacymodel.URLHash) postingIdentity {
 			return postingIdentity{word: word, url: url}
 		},
+		vault.MemberEncodingFrom(wordRanking),
+		urlWordsObserver,
 	)
 	if err != nil {
-		return nil, nil, fmt.Errorf("register url references: %w", err)
+		return nil, nil, fmt.Errorf("register url words: %w", err)
 	}
 	postings, err := v.RegisterIndexedCollection(
 		ctx,
 		postingsBucket,
-		urlReferences,
+		urlWords,
 		postingValueCodec{},
 		vault.ProjectedAs(postingWithIdentity, projections...),
 	)
@@ -48,7 +59,7 @@ func registerPostings(
 		return nil, nil, fmt.Errorf("register rwi posting collection: %w", err)
 	}
 
-	return postings, urlReferences, nil
+	return postings, urlWords, nil
 }
 
 var postingKeyParts = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash)
