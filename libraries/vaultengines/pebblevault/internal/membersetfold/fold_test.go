@@ -1,6 +1,7 @@
 package membersetfold_test
 
 import (
+	"math/rand/v2"
 	"slices"
 	"testing"
 
@@ -108,4 +109,102 @@ func TestAFoldRefusesAnUnreadableOperand(t *testing.T) {
 	if err := fold.MergeOlder(unreadableSet); err == nil {
 		t.Fatal("MergeOlder of an unreadable operand succeeded, want refusal")
 	}
+}
+
+func TestAFoldKeepsMembersOfEveryOperandInStoredOrder(t *testing.T) {
+	fold := foldOf(t, operandOf([]vault.StoredMember{{Raw: "yak"}, idTwoMember}))
+
+	if err := fold.MergeOlder(operandOf([]vault.StoredMember{zebraMember, {ID: 7}})); err != nil {
+		t.Fatalf("MergeOlder: %v", err)
+	}
+	if err := fold.MergeNewer(
+		operandOf([]vault.StoredMember{idOneMember, {Raw: "auk"}}),
+	); err != nil {
+		t.Fatalf("MergeNewer: %v", err)
+	}
+
+	assertChange(t, finishedChangeOf(t, fold, true), []vault.StoredMember{
+		idOneMember, idTwoMember, {ID: 7}, {Raw: "auk"}, {Raw: "yak"}, zebraMember,
+	}, nil)
+}
+
+func TestAFoldKeepsTheNewestChangeOfEveryMember(t *testing.T) {
+	//nolint:gosec // G404: the test replays one fixed sequence.
+	random := rand.New(rand.NewPCG(1, 2))
+	for trial := range 2000 {
+		operands := make([]membersetfold.Presence, 1+random.IntN(5))
+		for index := range operands {
+			operands[index] = randomPresence(random)
+		}
+		start := random.IntN(len(operands))
+		fold := foldOf(t, operands[start].ChangeOf().Encoded())
+		older, newer := start+1, start-1
+		for older < len(operands) || newer >= 0 {
+			var err error
+			if newer >= 0 && (older == len(operands) || random.IntN(2) == 0) {
+				err = fold.MergeNewer(operands[newer].ChangeOf().Encoded())
+				newer--
+			} else {
+				err = fold.MergeOlder(operands[older].ChangeOf().Encoded())
+				older++
+			}
+			if err != nil {
+				t.Fatalf("trial %d: merge: %v", trial, err)
+			}
+		}
+		includesBase := random.IntN(2) == 0
+
+		want := newestPresenceAmong(operands)
+		if includesBase {
+			want = presentMembersOf(want)
+		}
+		assertChange(t, finishedChangeOf(t, fold, includesBase),
+			sortedChangeOf(want).Added, sortedChangeOf(want).Removed)
+	}
+}
+
+func randomPresence(random *rand.Rand) membersetfold.Presence {
+	presence := membersetfold.Presence{}
+	for range random.IntN(30) {
+		member := vault.StoredMember{ID: random.Uint64N(40)}
+		if random.IntN(2) == 0 {
+			member = vault.StoredMember{Raw: string('a' + random.Int32N(20))}
+		}
+		presence[member] = random.IntN(3) != 0
+	}
+
+	return presence
+}
+
+func newestPresenceAmong(newestFirst []membersetfold.Presence) membersetfold.Presence {
+	newest := membersetfold.Presence{}
+	for _, presence := range newestFirst {
+		for member, isPresent := range presence {
+			if _, decided := newest[member]; !decided {
+				newest[member] = isPresent
+			}
+		}
+	}
+
+	return newest
+}
+
+func presentMembersOf(presence membersetfold.Presence) membersetfold.Presence {
+	present := membersetfold.Presence{}
+	for member, isPresent := range presence {
+		if isPresent {
+			present[member] = true
+		}
+	}
+
+	return present
+}
+
+func sortedChangeOf(presence membersetfold.Presence) membersetfold.Change {
+	change, err := membersetfold.ChangeFrom(presence.ChangeOf().Encoded())
+	if err != nil {
+		panic(err)
+	}
+
+	return change
 }

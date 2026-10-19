@@ -302,11 +302,8 @@ func TestUndecodableMembersAreSkippedAndReported(t *testing.T) {
 }
 
 func plantMembers(engine *doubleEngine, page string, members ...vault.StoredMember) {
-	engine.plant(
-		pageWordsBucket,
-		stringKeyParts.Key(page).Bytes(),
-		memberset.AppendMembers(nil, members),
-	)
+	encoder := memberset.EncoderFrom(members)
+	engine.plant(pageWordsBucket, stringKeyParts.Key(page).Bytes(), encoder.AppendTo(nil))
 }
 
 func TestRemovingEveryDecodableMemberReadDeletesTheSet(t *testing.T) {

@@ -9,11 +9,8 @@ import (
 )
 
 func TestMembersReadBackAsAppendedWithTheBytesAfterThem(t *testing.T) {
-	encoded := memberset.AppendMembers(
-		[]byte("head"),
-		[]vault.StoredMember{{ID: 9}, {Raw: "zebra"}, {ID: 2}},
-	)
-	encoded = append(encoded, "tail"...)
+	encoder := memberset.EncoderFrom([]vault.StoredMember{{ID: 9}, {Raw: "zebra"}, {ID: 2}})
+	encoded := append(encoder.AppendTo([]byte("head")), "tail"...)
 
 	members, rest, err := memberset.MembersFrom(encoded[len("head"):])
 	if err != nil {
@@ -27,7 +24,8 @@ func TestMembersReadBackAsAppendedWithTheBytesAfterThem(t *testing.T) {
 }
 
 func TestMembersRefuseUnreadableEncodings(t *testing.T) {
-	encoded := memberset.AppendMembers(nil, []vault.StoredMember{{ID: 3}, {Raw: "zebra"}})
+	encoder := memberset.EncoderFrom([]vault.StoredMember{{ID: 3}, {Raw: "zebra"}})
+	encoded := encoder.AppendTo(nil)
 
 	for name, unreadable := range map[string][]byte{
 		"no amount":       nil,
