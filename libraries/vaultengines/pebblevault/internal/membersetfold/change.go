@@ -18,26 +18,44 @@ type Change struct {
 }
 
 func ChangeFrom(encoded []byte) (Change, error) {
-	if len(encoded) == 0 || encoded[0] != changeFormat {
-		return Change{}, fmt.Errorf("%w: unknown format", errBadChange)
-	}
-	added, rest, err := memberset.MembersFrom(encoded[1:])
+	addedMembers, removedMembers, err := decodersFrom(encoded)
 	if err != nil {
 		return Change{}, err
-	}
-	removed, rest, err := memberset.MembersFrom(rest)
-	if err != nil {
-		return Change{}, err
-	}
-	if len(rest) != 0 {
-		return Change{}, fmt.Errorf("%w: %d trailing bytes", errBadChange, len(rest))
 	}
 
-	return Change{Added: added, Removed: removed}, nil
+	return Change{Added: addedMembers.StoredMembers(), Removed: removedMembers.StoredMembers()}, nil
+}
+
+func decodersFrom(encoded []byte) (addedMembers, removedMembers memberset.Decoder, err error) {
+	if len(encoded) == 0 || encoded[0] != changeFormat {
+		return memberset.Decoder{}, memberset.Decoder{}, fmt.Errorf(
+			"%w: unknown format",
+			errBadChange,
+		)
+	}
+	addedMembers, rest, err := memberset.DecoderFrom(encoded[1:])
+	if err != nil {
+		return memberset.Decoder{}, memberset.Decoder{}, err
+	}
+	removedMembers, rest, err = memberset.DecoderFrom(rest)
+	if err != nil {
+		return memberset.Decoder{}, memberset.Decoder{}, err
+	}
+	if len(rest) != 0 {
+		return memberset.Decoder{}, memberset.Decoder{}, fmt.Errorf(
+			"%w: %d trailing bytes", errBadChange, len(rest),
+		)
+	}
+
+	return addedMembers, removedMembers, nil
 }
 
 func (c Change) Encoded() []byte {
-	encoded := memberset.AppendMembers([]byte{changeFormat}, c.Added)
+	return encodedChangeOf(memberset.EncoderFrom(c.Added), memberset.EncoderFrom(c.Removed))
+}
 
-	return memberset.AppendMembers(encoded, c.Removed)
+func encodedChangeOf(added, removed memberset.Encoder) []byte {
+	encoded := make([]byte, 0, 1+added.AmountOfBytes()+removed.AmountOfBytes())
+
+	return removed.AppendTo(added.AppendTo(append(encoded, changeFormat)))
 }
