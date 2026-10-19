@@ -1,8 +1,8 @@
 // Package wordpartitionoffer decides what each peer gets for the due word
 // partitions of a batch: a holder the postings it lacks, a missing holder or a
-// due refresh the whole word partition. A word partition gets no offer while a
-// recipient is paused or busy. Excluded peers are left out of the DHT ring. A
-// batch stops before an offer that would give a peer more postings than its budget.
+// due refresh the whole word partition. A paused or busy recipient holds its
+// word partition back, excluded peers stay off the DHT ring, and a batch stops
+// before a peer's budget overflows. An accepted posting is delivered if stored as sent.
 package wordpartitionoffer
 
 import (
@@ -296,4 +296,26 @@ func (o *Offers) refreshOfferFor(
 	}
 
 	return peers.refreshOfferWith(undelivered, wholeWordPartition), nil
+}
+
+func (o *Offers) DeliveredPostingsAmong(
+	tx *vault.Txn,
+	acceptedPostings []AcceptedPosting,
+) ([]undeliveredpostings.Posting, error) {
+	deliveredPostings := make([]undeliveredpostings.Posting, 0, len(acceptedPostings))
+	for _, acceptedPosting := range acceptedPostings {
+		stored, found, err := o.postings.PostingOf(
+			tx,
+			acceptedPosting.Sent.WordHash,
+			acceptedPosting.Sent.URLHash,
+		)
+		if err != nil {
+			return nil, err
+		}
+		if found && stored == acceptedPosting.Sent {
+			deliveredPostings = append(deliveredPostings, acceptedPosting.Undelivered)
+		}
+	}
+
+	return deliveredPostings, nil
 }

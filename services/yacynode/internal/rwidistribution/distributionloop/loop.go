@@ -242,7 +242,11 @@ func (l *Loop) recordOutcome(
 	if err := l.recordHolders(tx, outcome); err != nil {
 		return err
 	}
-	amountOfPostingsDelivered, err := l.markDelivered(tx, outcome.DeliveredPostings)
+	deliveredPostings, err := l.offers.DeliveredPostingsAmong(tx, outcome.AcceptedPostings)
+	if err != nil {
+		return err
+	}
+	amountOfPostingsDelivered, err := l.markDelivered(tx, deliveredPostings)
 	if err != nil {
 		return err
 	}

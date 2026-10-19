@@ -97,12 +97,12 @@ func postingOf(identity postingIdentity, hits int) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: identity.word, URLHash: identity.url, Hits: hits}
 }
 
-func (h harness) store(t *testing.T, hits int, identities ...postingIdentity) {
+func (h harness) store(t *testing.T, identities ...postingIdentity) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, identity := range identities {
-			if _, err := h.postings.Put(tx, identity, hits); err != nil {
+			if _, err := h.postings.Put(tx, identity, 1); err != nil {
 				return err
 			}
 		}
@@ -232,7 +232,7 @@ func identitiesOf(postings []undeliveredpostings.Posting) []postingIdentity {
 
 func TestAReadVisitsEveryPostingOnce(t *testing.T) {
 	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
+	h.store(t, everyPosting()...)
 
 	readPostings := h.readWhole(t)
 
@@ -248,7 +248,7 @@ func TestAReadVisitsEveryPostingOnce(t *testing.T) {
 
 func TestADeliveredPostingLeavesTheRead(t *testing.T) {
 	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
+	h.store(t, everyPosting()...)
 
 	for _, posting := range h.readWhole(t) {
 		if !h.markDelivered(t, posting) {
@@ -261,24 +261,9 @@ func TestADeliveredPostingLeavesTheRead(t *testing.T) {
 	}
 }
 
-func TestAPostingReplacedAfterTheReadStaysUndelivered(t *testing.T) {
-	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
-	readPosting := h.readWhole(t)[0]
-
-	h.store(t, 2, identityOf(readPosting))
-
-	if h.markDelivered(t, readPosting) {
-		t.Fatal("MarkDelivered of a posting replaced after the read = true, want false")
-	}
-	if !slices.Contains(identitiesOf(h.readWhole(t)), identityOf(readPosting)) {
-		t.Fatalf("replaced posting %v left the read", identityOf(readPosting))
-	}
-}
-
 func TestARemovedPostingLeavesTheRead(t *testing.T) {
 	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
+	h.store(t, everyPosting()...)
 	readPosting := h.readWhole(t)[0]
 
 	h.remove(t, identityOf(readPosting))
@@ -310,7 +295,7 @@ func (h harness) postingsOf(
 
 func TestPostingsOfAWordPartitionAreExactlyItsUndeliveredPostings(t *testing.T) {
 	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
+	h.store(t, everyPosting()...)
 	wordPartition := yacymodel.WordPartitionOfWordAndURL(
 		everyPosting()[0].word,
 		everyPosting()[0].url,
@@ -348,7 +333,7 @@ func TestAnyInSeesOnlyItsOwnWordPartition(t *testing.T) {
 	otherWord := yacymodel.WordHash("word1")
 	url := urlHashOf(0)
 	stored := yacymodel.WordPartitionOfWordAndURL(word, url, h.partitions)
-	h.store(t, 1, postingIdentity{word: word, url: url})
+	h.store(t, postingIdentity{word: word, url: url})
 
 	if !h.anyIn(t, stored) {
 		t.Fatalf("AnyIn(%+v) = false, want true", stored)
@@ -368,7 +353,7 @@ func TestAnyInSeesOnlyItsOwnWordPartition(t *testing.T) {
 
 func TestAnyInIsFalseOnceTheWordPartitionIsDelivered(t *testing.T) {
 	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
+	h.store(t, everyPosting()...)
 	readPostings := h.readWhole(t)
 
 	for _, posting := range readPostings {
@@ -396,7 +381,7 @@ func (h harness) amountOfPostings(t *testing.T) int {
 
 func TestAmountOfPostingsCountsTheUndeliveredOnes(t *testing.T) {
 	h := openHarness(t)
-	h.store(t, 1, everyPosting()...)
+	h.store(t, everyPosting()...)
 	readPostings := h.readWhole(t)[:len(everyPosting())/2]
 
 	for _, posting := range readPostings {

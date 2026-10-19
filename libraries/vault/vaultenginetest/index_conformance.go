@@ -218,17 +218,17 @@ func (g glossary) define(t *testing.T, definitions ...definition) {
 	})
 }
 
-func (g glossary) pendingChanges(t *testing.T) []vault.Change[definition] {
+func (g glossary) pendingChanges(t *testing.T) []definition {
 	t.Helper()
 
-	var changes []vault.Change[definition]
+	var changes []definition
 	if err := g.vault.View(context.Background(), func(tx *vault.Txn) error {
 		changes = nil
 
 		return g.changes.Scan(
 			tx,
 			vault.EveryKey(),
-			func(change vault.Change[definition]) (bool, error) {
+			func(change definition) (bool, error) {
 				changes = append(changes, change)
 
 				return true, nil
@@ -241,7 +241,7 @@ func (g glossary) pendingChanges(t *testing.T) []vault.Change[definition] {
 	return changes
 }
 
-func (g glossary) acknowledge(t *testing.T, change vault.Change[definition]) {
+func (g glossary) acknowledge(t *testing.T, change definition) {
 	t.Helper()
 
 	g.write(t, func(tx *vault.Txn) error {

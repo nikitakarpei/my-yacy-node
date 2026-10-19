@@ -31,7 +31,7 @@ func (u *Postings) MarkDelivered(
 	tx *vault.Txn,
 	posting Posting,
 ) (wasMarked bool, err error) {
-	wasMarked, err = u.postings.Acknowledge(tx, posting.change)
+	wasMarked, err = u.postings.Acknowledge(tx, posting.entry)
 	if err != nil {
 		return false, fmt.Errorf("mark posting delivered: %w", err)
 	}
@@ -47,8 +47,8 @@ func (u *Postings) PostingsOf(
 	if err := u.postings.Scan(
 		tx,
 		entriesOf(wordPartition, u.partitions),
-		func(change vault.Change[undeliveredEntry]) (bool, error) {
-			postings = append(postings, undeliveredPostingFrom(change, u.partitions))
+		func(entry undeliveredEntry) (bool, error) {
+			postings = append(postings, undeliveredPostingFrom(entry, u.partitions))
 
 			return true, nil
 		},
@@ -67,7 +67,7 @@ func (u *Postings) AnyIn(
 	if err := u.postings.Scan(
 		tx,
 		entriesOf(wordPartition, u.partitions),
-		func(vault.Change[undeliveredEntry]) (bool, error) {
+		func(undeliveredEntry) (bool, error) {
 			found = true
 
 			return false, nil

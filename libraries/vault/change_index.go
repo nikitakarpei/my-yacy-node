@@ -3,18 +3,12 @@ package vault
 import (
 	"bytes"
 	"fmt"
-	"hash/fnv"
 )
 
 type ChangeIndex[R, E any] struct {
 	projectionRegistration
 	entries KeyLayout[E]
 	entryOf func(R) E
-}
-
-type Change[E any] struct {
-	Entry             E
-	storedFingerprint string
 }
 
 func (v *Vault) RegisterChangeIndex[R, E any](
@@ -37,22 +31,19 @@ func (v *Vault) RegisterChangeIndex[R, E any](
 func (i *ChangeIndex[R, E]) Scan(
 	tx *Txn,
 	entries KeyRange,
-	fn func(Change[E]) (bool, error),
+	fn func(E) (bool, error),
 ) error {
 	if err := i.refuseUnfollowed(); err != nil {
 		return err
 	}
-	if err := tx.etx.Records(i.bucket).Scan(
-		entries,
-		func(key, storedFingerprint []byte) (bool, error) {
-			entry, err := i.entries.Decode(key)
-			if err != nil {
-				return false, fmt.Errorf("decode %s entry: %w", i.bucket, err)
-			}
+	if err := tx.etx.Records(i.bucket).Scan(entries, func(key, _ []byte) (bool, error) {
+		entry, err := i.entries.Decode(key)
+		if err != nil {
+			return false, fmt.Errorf("decode %s entry: %w", i.bucket, err)
+		}
 
-			return fn(Change[E]{Entry: entry, storedFingerprint: string(storedFingerprint)})
-		},
-	); err != nil {
+		return fn(entry)
+	}); err != nil {
 		return fmt.Errorf("scan %s: %w", i.bucket, err)
 	}
 
@@ -61,7 +52,7 @@ func (i *ChangeIndex[R, E]) Scan(
 
 func (i *ChangeIndex[R, E]) Acknowledge(
 	tx *Txn,
-	change Change[E],
+	entry E,
 ) (wasAcknowledged bool, err error) {
 	if err := i.refuseUnfollowed(); err != nil {
 		return false, err
@@ -71,19 +62,12 @@ func (i *ChangeIndex[R, E]) Acknowledge(
 	}
 	tx.calledWriteOperation = true
 
-	entryKey := i.entries.Encode(change.Entry).encoded
-	storedFingerprint, err := tx.etx.Records(i.bucket).Get(entryKey)
+	acknowledgedRecord, err := tx.etx.Records(i.bucket).Delete(i.entries.Encode(entry).encoded)
 	if err != nil {
-		return false, fmt.Errorf("read %s entry: %w", i.bucket, err)
-	}
-	if storedFingerprint == nil || string(storedFingerprint) != change.storedFingerprint {
-		return false, nil
-	}
-	if err := tx.etx.Records(i.bucket).DeleteHeld(entryKey, storedFingerprint); err != nil {
 		return false, fmt.Errorf("acknowledge %s entry: %w", i.bucket, err)
 	}
 
-	return true, nil
+	return acknowledgedRecord != nil, nil
 }
 
 func (i *ChangeIndex[R, E]) Len(tx *Txn) (int, error) {
@@ -95,10 +79,8 @@ func (i *ChangeIndex[R, E]) Len(tx *Txn) (int, error) {
 }
 
 func (i *ChangeIndex[R, E]) recordAdded(tx *Txn, record storedForm[R]) error {
-	if err := tx.etx.Records(i.bucket).PutAbsent(
-		i.entryKeyOf(record.form),
-		storedFingerprintOf(record.stored),
-	); err != nil {
+	if err := tx.etx.Records(i.bucket).
+		PutAbsent(i.entryKeyOf(record.form), recordFrom(nil)); err != nil {
 		return fmt.Errorf("add %s entry: %w", i.bucket, err)
 	}
 
@@ -107,13 +89,6 @@ func (i *ChangeIndex[R, E]) recordAdded(tx *Txn, record storedForm[R]) error {
 
 func (i *ChangeIndex[R, E]) entryKeyOf(record R) []byte {
 	return i.entries.Encode(i.entryOf(record)).encoded
-}
-
-func storedFingerprintOf(storedRecord []byte) []byte {
-	fingerprint := fnv.New64a()
-	_, _ = fingerprint.Write(storedRecord)
-
-	return recordFrom(fingerprint.Sum(nil))
 }
 
 func (i *ChangeIndex[R, E]) recordRemoved(tx *Txn, record storedForm[R]) error {
@@ -135,10 +110,7 @@ func (i *ChangeIndex[R, E]) recordReplaced(tx *Txn, previous, current storedForm
 			return err
 		}
 	}
-	if _, err := tx.etx.Records(i.bucket).Put(
-		currentKey,
-		storedFingerprintOf(current.stored),
-	); err != nil {
+	if _, err := tx.etx.Records(i.bucket).Put(currentKey, recordFrom(nil)); err != nil {
 		return fmt.Errorf("replace %s entry: %w", i.bucket, err)
 	}
 

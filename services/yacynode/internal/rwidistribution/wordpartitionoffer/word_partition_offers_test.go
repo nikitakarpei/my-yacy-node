@@ -34,6 +34,7 @@ type options struct {
 type harness struct {
 	vault        *vault.Vault
 	writer       rwipostings.PostingWriter
+	purger       rwipostings.PostingPurger
 	undelivered  *undeliveredpostings.Postings
 	schedule     *wordpartitionschedule.Schedule
 	offers       *wordpartitionoffer.Offers
@@ -59,7 +60,7 @@ func openHarness(t *testing.T, opts options) *harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, writer, _, err := rwipostings.Open(
+	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -72,6 +73,7 @@ func openHarness(t *testing.T, opts options) *harness {
 	}
 	h := &harness{
 		vault:        v,
+		purger:       purger,
 		undelivered:  undelivered,
 		reachability: &fakeReachability{recentlyReachable: map[yacymodel.Hash]bool{}},
 		eligibility: fakeEligibility{
@@ -144,6 +146,41 @@ func (h *harness) admit(
 
 		return nil
 	})
+}
+
+func (h *harness) rewrite(t *testing.T, posting yacymodel.RWIPosting) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.writer.Write(tx, posting)
+	})
+}
+
+func (h *harness) purge(t *testing.T, posting yacymodel.RWIPosting) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		_, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash)
+
+		return err
+	})
+}
+
+func (h *harness) deliveredURLsAmong(
+	t *testing.T,
+	acceptedPostings []wordpartitionoffer.AcceptedPosting,
+) []yacymodel.URLHash {
+	t.Helper()
+
+	var deliveredPostings []undeliveredpostings.Posting
+	h.write(t, func(tx *vault.Txn) error {
+		var err error
+		deliveredPostings, err = h.offers.DeliveredPostingsAmong(tx, acceptedPostings)
+
+		return err
+	})
+
+	return urlsOfUndelivered(deliveredPostings)
 }
 
 func (h *harness) deliverEverything(t *testing.T) {
@@ -417,7 +454,7 @@ func urlsSentTo(
 }
 
 func undeliveredURLsOf(offer wordpartitionoffer.Offer) []yacymodel.URLHash {
-	return urlsOfUndelivered(offer.OutcomeFrom(everythingAcceptedIn(offer)).DeliveredPostings)
+	return urlsOfAccepted(acceptedPostingsOf(offer))
 }
 
 func everythingAcceptedIn(
@@ -429,6 +466,19 @@ func everythingAcceptedIn(
 	}
 
 	return answers
+}
+
+func acceptedPostingsOf(offer wordpartitionoffer.Offer) []wordpartitionoffer.AcceptedPosting {
+	return offer.OutcomeFrom(everythingAcceptedIn(offer)).AcceptedPostings
+}
+
+func urlsOfAccepted(acceptedPostings []wordpartitionoffer.AcceptedPosting) []yacymodel.URLHash {
+	urls := make([]yacymodel.URLHash, 0, len(acceptedPostings))
+	for _, acceptedPosting := range acceptedPostings {
+		urls = append(urls, acceptedPosting.Undelivered.URL)
+	}
+
+	return sortedURLs(urls)
 }
 
 func urlsOfUndelivered(postings []undeliveredpostings.Posting) []yacymodel.URLHash {
@@ -874,5 +924,70 @@ func TestOffersKeepTheFirstOneEvenWhenItAloneIsOverTheBudget(t *testing.T) {
 	}
 	if isBudgetSpent {
 		t.Fatalf("budget spent = true, want false with nothing left")
+	}
+}
+
+func TestAnAcceptedPostingStillStoredAsSentIsDelivered(t *testing.T) {
+	h := openHarness(t, options{})
+	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
+	h.scheduleAdmissions(t)
+	acceptedPostings := acceptedPostingsOf(onlyOffer(t, h.dueOffers(t, outcomePeer(0))))
+
+	got := h.deliveredURLsAmong(t, acceptedPostings)
+
+	if want := sortedURLs(urlsOfPartition(2)); !slices.Equal(got, want) {
+		t.Fatalf("delivered %v, want %v", got, want)
+	}
+}
+
+func TestAnAcceptedPostingChangedSinceSentIsNotDelivered(t *testing.T) {
+	h := openHarness(t, options{})
+	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
+	h.scheduleAdmissions(t)
+	acceptedPostings := acceptedPostingsOf(onlyOffer(t, h.dueOffers(t, outcomePeer(0))))
+	changed := acceptedPostings[0].Sent
+	changed.Hits++
+
+	h.rewrite(t, changed)
+
+	want := []yacymodel.URLHash{acceptedPostings[1].Undelivered.URL}
+	if got := h.deliveredURLsAmong(t, acceptedPostings); !slices.Equal(got, want) {
+		t.Fatalf("delivered %v, want only %v", got, want)
+	}
+}
+
+func TestAnAcceptedPostingPurgedSinceSentIsNotDelivered(t *testing.T) {
+	h := openHarness(t, options{})
+	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
+	h.scheduleAdmissions(t)
+	acceptedPostings := acceptedPostingsOf(onlyOffer(t, h.dueOffers(t, outcomePeer(0))))
+
+	h.purge(t, acceptedPostings[0].Sent)
+
+	want := []yacymodel.URLHash{acceptedPostings[1].Undelivered.URL}
+	if got := h.deliveredURLsAmong(t, acceptedPostings); !slices.Equal(got, want) {
+		t.Fatalf("delivered %v, want only %v", got, want)
+	}
+}
+
+func TestAnAcceptedPostingAddedAgainAsSentIsDelivered(t *testing.T) {
+	h := openHarness(t, options{})
+	h.admit(t, outcomeWordPartition(), urlsOfPartition(1)...)
+	h.scheduleAdmissions(t)
+	acceptedPostings := acceptedPostingsOf(onlyOffer(t, h.dueOffers(t, outcomePeer(0))))
+
+	h.purge(t, acceptedPostings[0].Sent)
+	h.rewrite(t, acceptedPostings[0].Sent)
+
+	if got, want := h.deliveredURLsAmong(
+		t,
+		acceptedPostings,
+	), urlsOfPartition(
+		1,
+	); !slices.Equal(
+		got,
+		want,
+	) {
+		t.Fatalf("delivered %v, want %v", got, want)
 	}
 }

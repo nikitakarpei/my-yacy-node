@@ -189,7 +189,7 @@ func TestAnOutcomeIsARefreshWhenEveryRecipientGotTheWholeWordPartition(t *testin
 	}
 }
 
-func TestAPostingIsDeliveredOnceEveryResponsiblePeerAcceptedIt(t *testing.T) {
+func TestAPostingIsAcceptedOnceEveryResponsiblePeerAcceptedIt(t *testing.T) {
 	h := openHarness(t, options{redundancy: 2})
 	holder, missingHolder := outcomePeer(0), outcomePeer(1)
 	h.admit(t, outcomeWordPartition(), urlsOfPartition(2)...)
@@ -204,8 +204,8 @@ func TestAPostingIsDeliveredOnceEveryResponsiblePeerAcceptedIt(t *testing.T) {
 	})
 
 	want := []yacymodel.URLHash{sentToMissingHolder[0].URLHash}
-	if got := urlsOfUndelivered(outcome.DeliveredPostings); !slices.Equal(got, want) {
-		t.Fatalf("DeliveredPostings = %v, want only %v", got, want)
+	if got := urlsOfAccepted(outcome.AcceptedPostings); !slices.Equal(got, want) {
+		t.Fatalf("AcceptedPostings = %v, want only %v", got, want)
 	}
 	if want := []yacymodel.Hash{holder.Hash}; !slices.Equal(outcome.Holders, want) {
 		t.Fatalf("Holders = %v, want only %v", outcome.Holders, want)

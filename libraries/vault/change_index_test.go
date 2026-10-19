@@ -10,22 +10,18 @@ import (
 
 func initialOf(meaning string) string { return meaning[:1] }
 
-func (d dictionary) pendingChanges(t *testing.T) []vault.Change[definition] {
+func (d dictionary) pendingChanges(t *testing.T) []definition {
 	t.Helper()
 
-	var changes []vault.Change[definition]
+	var changes []definition
 	d.read(t, func(tx *vault.Txn) error {
 		changes = nil
 
-		return d.changes.Scan(
-			tx,
-			vault.EveryKey(),
-			func(change vault.Change[definition]) (bool, error) {
-				changes = append(changes, change)
+		return d.changes.Scan(tx, vault.EveryKey(), func(change definition) (bool, error) {
+			changes = append(changes, change)
 
-				return true, nil
-			},
-		)
+			return true, nil
+		})
 	})
 
 	return changes
@@ -37,13 +33,13 @@ func (d dictionary) changedEntries(t *testing.T) []string {
 	changes := d.pendingChanges(t)
 	entries := make([]string, 0, len(changes))
 	for _, change := range changes {
-		entries = append(entries, change.Entry.meaning+"/"+change.Entry.word)
+		entries = append(entries, change.meaning+"/"+change.word)
 	}
 
 	return entries
 }
 
-func (d dictionary) acknowledge(t *testing.T, change vault.Change[definition]) bool {
+func (d dictionary) acknowledge(t *testing.T, change definition) bool {
 	t.Helper()
 
 	var wasAcknowledged bool
@@ -57,12 +53,12 @@ func (d dictionary) acknowledge(t *testing.T, change vault.Change[definition]) b
 	return wasAcknowledged
 }
 
-func (d dictionary) acknowledgeEach(t *testing.T, changes []vault.Change[definition]) {
+func (d dictionary) acknowledgeEach(t *testing.T, changes []definition) {
 	t.Helper()
 
 	for _, change := range changes {
 		if !d.acknowledge(t, change) {
-			t.Fatalf("Acknowledge(%v) = false, want true", change.Entry)
+			t.Fatalf("Acknowledge(%v) = false, want true", change)
 		}
 	}
 }
@@ -103,25 +99,6 @@ func TestAnAcknowledgedChangeLeavesTheIndex(t *testing.T) {
 	if got := d.changedEntries(t); len(got) != 0 {
 		t.Fatalf("changed entries = %v, want none", got)
 	}
-	if got := d.amountOfChanges(t); got != 0 {
-		t.Fatalf("Len = %d, want 0", got)
-	}
-}
-
-func TestARecordReplacedAfterItsScanStaysChanged(t *testing.T) {
-	d := openDictionary(t, newDoubleEngine(), firstVersion, initialOf)
-	d.define(t, definitionOf("a", "x1"))
-	scanned := d.pendingChanges(t)
-
-	d.define(t, definitionOf("a", "x2"))
-
-	if d.acknowledge(t, scanned[0]) {
-		t.Fatal("Acknowledge of a change scanned before the replace = true, want false")
-	}
-	if got, want := d.changedEntries(t), []string{"x/a"}; !slices.Equal(got, want) {
-		t.Fatalf("changed entries = %v, want %v", got, want)
-	}
-	d.acknowledgeEach(t, d.pendingChanges(t))
 	if got := d.amountOfChanges(t); got != 0 {
 		t.Fatalf("Len = %d, want 0", got)
 	}
@@ -214,7 +191,7 @@ func TestAChangeIndexNoCollectionFollowsRefusesUse(t *testing.T) {
 	d := openDictionaryIndexes(t, newDoubleEngine(), firstVersion, initialOf)
 
 	scanErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
-		return d.changes.Scan(tx, vault.EveryKey(), func(vault.Change[definition]) (bool, error) {
+		return d.changes.Scan(tx, vault.EveryKey(), func(definition) (bool, error) {
 			return true, nil
 		})
 	})
@@ -222,7 +199,7 @@ func TestAChangeIndexNoCollectionFollowsRefusesUse(t *testing.T) {
 		t.Fatal("Scan of a change index no collection follows succeeded, want error")
 	}
 	acknowledgeErr := d.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := d.changes.Acknowledge(tx, vault.Change[definition]{})
+		_, err := d.changes.Acknowledge(tx, definition{})
 
 		return err
 	})
@@ -257,7 +234,7 @@ func TestAcknowledgingInsideAReadOnlyTransactionFails(t *testing.T) {
 func TestAcknowledgingAnEntryNeverChangedFindsNothing(t *testing.T) {
 	d := openDictionary(t, newDoubleEngine(), firstVersion, initialOf)
 
-	if d.acknowledge(t, vault.Change[definition]{Entry: definitionOf("a", "x")}) {
+	if d.acknowledge(t, definitionOf("a", "x")) {
 		t.Fatal("Acknowledge of an absent entry = true, want false")
 	}
 }

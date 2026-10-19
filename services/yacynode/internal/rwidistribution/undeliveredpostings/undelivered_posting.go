@@ -1,27 +1,20 @@
 package undeliveredpostings
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type Posting struct {
 	WordPartition yacymodel.WordPartition
 	URL           yacymodel.URLHash
-	change        vault.Change[undeliveredEntry]
+	entry         undeliveredEntry
 }
 
 func undeliveredPostingFrom(
-	change vault.Change[undeliveredEntry],
+	entry undeliveredEntry,
 	partitions yacymodel.DHTRingPartitions,
 ) Posting {
 	return Posting{
-		WordPartition: yacymodel.WordPartitionOfWordAndURL(
-			change.Entry.word,
-			change.Entry.url,
-			partitions,
-		),
-		URL:    change.Entry.url,
-		change: change,
+		WordPartition: yacymodel.WordPartitionOfWordAndURL(entry.word, entry.url, partitions),
+		URL:           entry.url,
+		entry:         entry,
 	}
 }
