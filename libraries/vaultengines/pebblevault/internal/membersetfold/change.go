@@ -18,26 +18,26 @@ type Change struct {
 }
 
 func ChangeFrom(encoded []byte) (Change, error) {
-	added, removed, err := decodersFrom(encoded)
+	addedMembers, removedMembers, err := decodersFrom(encoded)
 	if err != nil {
 		return Change{}, err
 	}
 
-	return Change{Added: added.StoredMembers(), Removed: removed.StoredMembers()}, nil
+	return Change{Added: addedMembers.StoredMembers(), Removed: removedMembers.StoredMembers()}, nil
 }
 
-func decodersFrom(encoded []byte) (added, removed memberset.Decoder, err error) {
+func decodersFrom(encoded []byte) (addedMembers, removedMembers memberset.Decoder, err error) {
 	if len(encoded) == 0 || encoded[0] != changeFormat {
 		return memberset.Decoder{}, memberset.Decoder{}, fmt.Errorf(
 			"%w: unknown format",
 			errBadChange,
 		)
 	}
-	added, rest, err := memberset.DecoderFrom(encoded[1:])
+	addedMembers, rest, err := memberset.DecoderFrom(encoded[1:])
 	if err != nil {
 		return memberset.Decoder{}, memberset.Decoder{}, err
 	}
-	removed, rest, err = memberset.DecoderFrom(rest)
+	removedMembers, rest, err = memberset.DecoderFrom(rest)
 	if err != nil {
 		return memberset.Decoder{}, memberset.Decoder{}, err
 	}
@@ -47,7 +47,7 @@ func decodersFrom(encoded []byte) (added, removed memberset.Decoder, err error) 
 		)
 	}
 
-	return added, removed, nil
+	return addedMembers, removedMembers, nil
 }
 
 func (c Change) Encoded() []byte {

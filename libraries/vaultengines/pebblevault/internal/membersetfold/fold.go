@@ -36,10 +36,10 @@ type Fold struct {
 }
 
 type foldedOperand struct {
-	encoded []byte
-	age     int
-	added   memberset.Decoder
-	removed memberset.Decoder
+	encoded        []byte
+	age            int
+	addedMembers   memberset.Decoder
+	removedMembers memberset.Decoder
 }
 
 func From(operand []byte) (*Fold, error) {
@@ -51,15 +51,15 @@ func From(operand []byte) (*Fold, error) {
 
 func (f *Fold) hold(operand []byte, age int) error {
 	encoded := slices.Clone(operand)
-	added, removed, err := decodersFrom(encoded)
+	addedMembers, removedMembers, err := decodersFrom(encoded)
 	if err != nil {
 		return err
 	}
 	f.operands = append(f.operands, foldedOperand{
-		encoded: encoded,
-		age:     age,
-		added:   added,
-		removed: removed,
+		encoded:        encoded,
+		age:            age,
+		addedMembers:   addedMembers,
+		removedMembers: removedMembers,
 	})
 
 	return nil
@@ -78,7 +78,8 @@ func (f *Fold) MergeOlder(operand []byte) error {
 }
 
 func (f *Fold) Finish(includesBase bool) ([]byte, io.Closer, error) {
-	if len(f.operands) == 1 && (!includesBase || f.operands[0].removed.AmountOfMembers() == 0) {
+	if len(f.operands) == 1 &&
+		(!includesBase || f.operands[0].removedMembers.AmountOfMembers() == 0) {
 		return f.operands[0].encoded, nil, nil
 	}
 
@@ -87,7 +88,7 @@ func (f *Fold) Finish(includesBase bool) ([]byte, io.Closer, error) {
 
 func (f *Fold) folded(includesBase bool) []byte {
 	cursors := cursorsOver(f.operands)
-	added, removed := f.encodersForAddedAndRemoved()
+	var added, removed memberset.Encoder
 	for member, found := cursors.lowest(); found; member, found = cursors.lowest() {
 		switch {
 		case cursors.takePresenceOf(member):
@@ -98,17 +99,6 @@ func (f *Fold) folded(includesBase bool) []byte {
 	}
 
 	return encodedChangeOf(added, removed)
-}
-
-func (f *Fold) encodersForAddedAndRemoved() (added, removed memberset.Encoder) {
-	addedDecoders := make([]memberset.Decoder, 0, len(f.operands))
-	removedDecoders := make([]memberset.Decoder, 0, len(f.operands))
-	for _, operand := range f.operands {
-		addedDecoders = append(addedDecoders, operand.added)
-		removedDecoders = append(removedDecoders, operand.removed)
-	}
-
-	return memberset.EncoderFor(addedDecoders), memberset.EncoderFor(removedDecoders)
 }
 
 type memberCursor struct {
@@ -124,8 +114,8 @@ type memberCursors []memberCursor
 func cursorsOver(operands []foldedOperand) memberCursors {
 	cursors := make(memberCursors, 0, 2*len(operands))
 	for _, operand := range operands {
-		cursors = cursors.withCursorOver(operand.added, true, operand.age)
-		cursors = cursors.withCursorOver(operand.removed, false, operand.age)
+		cursors = cursors.withCursorOver(operand.addedMembers, true, operand.age)
+		cursors = cursors.withCursorOver(operand.removedMembers, false, operand.age)
 	}
 
 	return cursors

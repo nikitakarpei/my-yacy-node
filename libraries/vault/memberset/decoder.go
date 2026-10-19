@@ -63,16 +63,16 @@ func rawsFrom(encoded []byte) (amountOfRaws uint64, raws, rest []byte, err error
 	}
 	rawsLength := 0
 	for range amountOfRaws {
-		rawLength, lengthLength := binary.Uvarint(rest[rawsLength:])
-		if lengthLength <= 0 {
+		rawLength, rawStart := binary.Uvarint(rest[rawsLength:])
+		if rawStart <= 0 {
 			return 0, nil, nil, fmt.Errorf("%w: unreadable number", errBadEncoding)
 		}
 		//nolint:gosec // G115: a length of bytes left is never negative.
-		if rawLength == 0 || rawLength > uint64(len(rest)-rawsLength-lengthLength) {
+		if rawLength == 0 || rawLength > uint64(len(rest)-rawsLength-rawStart) {
 			return 0, nil, nil, fmt.Errorf("%w: unreadable raw member", errBadEncoding)
 		}
 		//nolint:gosec // G115: rawLength is at most the length of rest.
-		rawsLength += lengthLength + int(rawLength)
+		rawsLength += rawStart + int(rawLength)
 	}
 
 	return amountOfRaws, rest[:rawsLength], rest[rawsLength:], nil
@@ -102,10 +102,10 @@ func (d *Decoder) Next() (DecodedMember, bool) {
 		return DecodedMember{ID: d.previousID}, true
 	}
 	if d.amountOfRaws > 0 {
-		rawLength, lengthLength := binary.Uvarint(d.raws)
+		rawLength, rawStart := binary.Uvarint(d.raws)
 		//nolint:gosec // G115: DecoderFrom checked every raw length against the encoding.
-		rawEnd := lengthLength + int(rawLength)
-		raw := d.raws[lengthLength:rawEnd:rawEnd]
+		rawEnd := rawStart + int(rawLength)
+		raw := d.raws[rawStart:rawEnd:rawEnd]
 		d.raws = d.raws[rawEnd:]
 		d.amountOfRaws--
 

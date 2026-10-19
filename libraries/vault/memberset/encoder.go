@@ -67,16 +67,6 @@ func (e *Encoder) Add(member DecodedMember) {
 	addRawTo(e, member.Raw)
 }
 
-func EncoderFor(decoders []Decoder) Encoder {
-	var idsLength, rawsLength int
-	for _, decoder := range decoders {
-		idsLength += len(decoder.ids)
-		rawsLength += len(decoder.raws)
-	}
-
-	return Encoder{ids: make([]byte, 0, idsLength), raws: make([]byte, 0, rawsLength)}
-}
-
 func (e *Encoder) AmountOfBytes() int {
 	var count [binary.MaxVarintLen64]byte
 

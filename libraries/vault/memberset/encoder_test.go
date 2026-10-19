@@ -25,28 +25,10 @@ func TestMembersAddedInStoredOrderReadBackAsAdded(t *testing.T) {
 	}
 }
 
-func TestAnEncoderForDecodersCountsTheBytesItAppends(t *testing.T) {
-	stored := memberset.EncoderFrom([]vault.StoredMember{{ID: 300}, {ID: 2}, {Raw: "zebra"}})
-	decoder, _, err := memberset.DecoderFrom(stored.AppendTo(nil))
-	if err != nil {
-		t.Fatalf("DecoderFrom: %v", err)
-	}
+func TestAnEncoderCountsTheBytesItAppends(t *testing.T) {
+	encoder := memberset.EncoderFrom([]vault.StoredMember{{ID: 300}, {ID: 2}, {Raw: "zebra"}})
 
-	encoder := memberset.EncoderFor([]memberset.Decoder{decoder})
-	for member, found := decoder.Next(); found; member, found = decoder.Next() {
-		encoder.Add(member)
-	}
-
-	encoded := encoder.AppendTo(nil)
-	if amount := encoder.AmountOfBytes(); amount != len(encoded) {
+	if amount, encoded := encoder.AmountOfBytes(), encoder.AppendTo(nil); amount != len(encoded) {
 		t.Fatalf("amount of bytes = %d, want %d", amount, len(encoded))
-	}
-	members, _, err := memberset.MembersFrom(encoded)
-	if err != nil {
-		t.Fatalf("MembersFrom: %v", err)
-	}
-	want := []vault.StoredMember{{ID: 2}, {ID: 300}, {Raw: "zebra"}}
-	if !slices.Equal(members, want) {
-		t.Fatalf("members = %v, want %v", members, want)
 	}
 }
