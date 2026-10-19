@@ -39,7 +39,7 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | Variable | Default | Description |
 | --- | --- | --- |
 | `YACY_DATA_DIR` | `./data` | Where the node persists its data. |
-| `YACY_STORAGE_QUOTA` | `1GB` | Storage quota, as a human-readable size (e.g. `512MB`, `1GB`, `20GB`). It counts the stored keys and values, not the disk the engine uses. Give the disk headroom above it. |
+| `YACY_STORAGE_QUOTA` | `1GB` | Storage quota, as a human-readable size (e.g. `512MB`, `1GB`, `20GB`). It counts the approximate disk space that the stored data uses. Keep some disk space free above it. |
 | `YACY_PEBBLE_BLOCK_CACHE` | `64MB` | Memory for cached data blocks. |
 | `YACY_PEBBLE_MEMTABLE_SIZE` | `8MB` | Memory a write buffer holds before the engine writes it to disk. The engine takes twice this value out of the block cache. Keep it below a quarter of `YACY_PEBBLE_BLOCK_CACHE`. |
 | `YACY_PEBBLE_COMPACTION_CONCURRENCY` | `1` | How many compactions run at the same time. |

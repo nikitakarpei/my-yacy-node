@@ -59,8 +59,9 @@ Commit cost no longer increases with the size of the database, and the operator 
 memory the storage takes.
 
 Compaction writes each record more than once and keeps space that deleted records used until it
-runs. The quota therefore counts the stored keys and values, not the disk the engine uses. The
-operator must give the disk headroom above the quota.
+runs. The quota therefore counts the approximate disk space of the stored data, from the
+compression that the engine's tables reached. The operator must keep disk space free above the
+quota.
 
 A node that runs bbolt cannot read its data with Pebble. The operator starts with an empty
 index and crawls again.

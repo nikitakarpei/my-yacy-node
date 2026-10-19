@@ -10,6 +10,8 @@ components:
     in: .
   membersetfold:
     in: internal/membersetfold/**
+  compressionratios:
+    in: internal/compressionratios/**
 
 vendors:
   vault:
@@ -25,6 +27,7 @@ deps:
   pebblevault:
     mayDependOn:
       - membersetfold
+      - compressionratios
     canUse:
       - vault
       - pebble
@@ -32,6 +35,9 @@ deps:
     canUse:
       - vault
       - vaultmemberset
+  compressionratios:
+    canUse:
+      - pebble
 
 excludeFiles:
   - "_test\\.go"
