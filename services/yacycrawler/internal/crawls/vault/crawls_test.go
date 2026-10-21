@@ -11,9 +11,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	acceptedordersvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
+	crawlsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 )
 
@@ -58,7 +58,7 @@ func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn)
 }
 
 type scene struct {
-	orders *acceptedordersvault.Orders
+	crawls *crawlsvault.Crawls
 	clock  *settableClock
 	engine *refusingEngine
 }
@@ -71,7 +71,7 @@ func acceptedOrders(t *testing.T) scene {
 		t.Fatalf("New: %v", err)
 	}
 	clock := &settableClock{now: acceptedAt}
-	orders, err := acceptedordersvault.New(
+	crawls, err := crawlsvault.New(
 		t.Context(),
 		storage,
 		retainedrecords.New(storage, clock, silentExpiryObserver{}),
@@ -81,7 +81,7 @@ func acceptedOrders(t *testing.T) scene {
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	return scene{orders: orders, clock: clock, engine: engine}
+	return scene{crawls: crawls, clock: clock, engine: engine}
 }
 
 func acceptedOrderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrder {
@@ -104,7 +104,7 @@ func acceptedOrderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrd
 
 func (s scene) keep(t *testing.T, order acceptedorder.AcceptedOrder) crawlid.CrawlID {
 	t.Helper()
-	crawlID, err := s.orders.Keep(t.Context(), order)
+	crawlID, err := s.crawls.Keep(t.Context(), order)
 	if err != nil {
 		t.Fatalf("Keep: %v", err)
 	}
@@ -113,7 +113,7 @@ func (s scene) keep(t *testing.T, order acceptedorder.AcceptedOrder) crawlid.Cra
 
 func (s scene) orderOf(t *testing.T, crawlID crawlid.CrawlID) (acceptedorder.AcceptedOrder, bool) {
 	t.Helper()
-	order, found, err := s.orders.OrderOf(t.Context(), crawlID)
+	order, found, err := s.crawls.OrderOf(t.Context(), crawlID)
 	if err != nil {
 		t.Fatalf("OrderOf: %v", err)
 	}
@@ -175,7 +175,7 @@ func TestAKeepTheStorageRefusesFails(t *testing.T) {
 	s := acceptedOrders(t)
 	s.engine.refusing = true
 
-	if _, err := s.orders.Keep(t.Context(), acceptedOrderWithID(t, "o1")); !errors.Is(
+	if _, err := s.crawls.Keep(t.Context(), acceptedOrderWithID(t, "o1")); !errors.Is(
 		err, errEngineRefusing,
 	) {
 		t.Fatalf("Keep err = %v, want the refusal", err)
@@ -187,7 +187,7 @@ func TestAReadTheStorageRefusesFails(t *testing.T) {
 	crawlID := s.keep(t, acceptedOrderWithID(t, "o1"))
 	s.engine.refusing = true
 
-	if _, _, err := s.orders.OrderOf(t.Context(), crawlID); !errors.Is(err, errEngineRefusing) {
+	if _, _, err := s.crawls.OrderOf(t.Context(), crawlID); !errors.Is(err, errEngineRefusing) {
 		t.Fatalf("OrderOf err = %v, want the refusal", err)
 	}
 }

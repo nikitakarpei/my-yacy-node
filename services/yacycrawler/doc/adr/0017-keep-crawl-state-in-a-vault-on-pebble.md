@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-The crawler keeps accepted orders, the frontier and the state of each page visit. A
+The crawler keeps its crawls, the frontier and the state of each page visit. A
 Redis-protocol server added a stack container and a network hop to every page visit, while
 production runs one crawler instance. The repository already has a transactional store
 abstraction, the vault, with an embedded Pebble engine.

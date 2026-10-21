@@ -30,7 +30,7 @@ indexing as well. That choice applies to every crawl the deployment runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_STATE_DIR` | `./crawl-state` | Directory that keeps the accepted orders, the frontier, and the state of each page visit. |
+| `CRAWL_STATE_DIR` | `./crawl-state` | Directory that keeps the crawls, the frontier, and the state of each page visit. |
 | `CRAWL_STATE_PEBBLE_BLOCK_CACHE` | `64MB` | Memory that caches read blocks of the crawl state. |
 | `CRAWL_STATE_PEBBLE_MEMTABLE_SIZE` | `16MB` | Memory that holds recent writes before they go to disk. |
 | `CRAWL_STATE_PEBBLE_COMPACTION_CONCURRENCY` | `1` | Background compactions that run at the same time. |

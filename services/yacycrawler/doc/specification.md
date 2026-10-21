@@ -49,7 +49,7 @@ than an always-on node.
   delivery.
 * Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
   replaces its prior publication downstream rather than duplicating it.
-* The service SHALL keep accepted orders, its frontier and page visit state in persistent
+* The service SHALL keep its crawls, its frontier and page visit state in persistent
   storage, never in memory, so run size never inflates an instance.
 * The service SHALL NOT start when it cannot open its persistent storage.
 * The service SHALL cap the buffers and fetched-body sizes it holds.
@@ -77,4 +77,4 @@ than an always-on node.
 * A durable crawled-page consumer that no one reads stops the crawl until an operator
   removes it.
 * A run stops while the instance that accepted its order is down.
-* A run that lasts longer than the retention of accepted orders drops its remaining URLs.
+* A crawl run that lasts longer than its retention drops its remaining URLs.

@@ -97,14 +97,14 @@ func (a *fakeAllowances) AnotherAttemptFor(
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: time.Second}, nil
 }
 
-type fakeAcceptedOrders struct {
+type fakeCrawls struct {
 	profile   yacycrawlcontract.CrawlProfile
 	seeds     []canonicalurl.CanonicalURL
 	forgotten bool
 	err       error
 }
 
-func (o *fakeAcceptedOrders) OrderOf(
+func (o *fakeCrawls) OrderOf(
 	_ context.Context, _ crawlid.CrawlID,
 ) (acceptedorder.AcceptedOrder, bool, error) {
 	if o.err != nil || o.forgotten {
@@ -249,7 +249,7 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 type crawlWorker struct {
 	pageVisits  *fakeTakenPageVisits
 	allowances  *fakeAllowances
-	orders      *fakeAcceptedOrders
+	orders      *fakeCrawls
 	pageVisitor *fakePageVisitor
 	observer    *recordingObserver
 }
@@ -258,7 +258,7 @@ func newWorker() *crawlWorker {
 	return &crawlWorker{
 		pageVisits:  newTakenPageVisits(),
 		allowances:  newAllowances(),
-		orders:      &fakeAcceptedOrders{profile: wideProfile()},
+		orders:      &fakeCrawls{profile: wideProfile()},
 		pageVisitor: &fakePageVisitor{},
 		observer:    newObserver(),
 	}

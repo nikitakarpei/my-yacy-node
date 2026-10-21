@@ -45,7 +45,7 @@ type PageVisitAllowances interface {
 	) (pagevisitallowance.Allowance, error)
 }
 
-type AcceptedOrders interface {
+type Crawls interface {
 	OrderOf(
 		ctx context.Context,
 		crawlID crawlid.CrawlID,
@@ -56,7 +56,7 @@ type PageVisitConsumer struct {
 	pendingPageVisits pullintake.PendingMessages
 	takenPageVisits   TakenPageVisits
 	allowances        PageVisitAllowances
-	orders            AcceptedOrders
+	crawls            Crawls
 	pageVisitor       pagevisit.PageVisitor
 	observer          PendingPageVisitObserver
 	admission         pullintake.Admission
@@ -68,7 +68,7 @@ func NewPageVisitConsumer(
 	pendingPageVisits pullintake.PendingMessages,
 	takenPageVisits TakenPageVisits,
 	allowances PageVisitAllowances,
-	orders AcceptedOrders,
+	crawls Crawls,
 	pageVisitor pagevisit.PageVisitor,
 	observer PendingPageVisitObserver,
 	admission pullintake.Admission,
@@ -78,7 +78,7 @@ func NewPageVisitConsumer(
 		pendingPageVisits: pendingPageVisits,
 		takenPageVisits:   takenPageVisits,
 		allowances:        allowances,
-		orders:            orders,
+		crawls:            crawls,
 		pageVisitor:       pageVisitor,
 		observer:          observer,
 		admission:         admission,
@@ -100,7 +100,7 @@ func (c *PageVisitConsumer) payPageVisit(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	order, found, err := c.orders.OrderOf(ctx, pendingPageVisit.CrawlID)
+	order, found, err := c.crawls.OrderOf(ctx, pendingPageVisit.CrawlID)
 	if err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return nil

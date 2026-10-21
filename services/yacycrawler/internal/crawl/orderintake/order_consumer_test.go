@@ -19,12 +19,12 @@ import (
 
 var keptCrawlID = crawlid.CrawlID{1}
 
-type fakeAcceptedOrders struct {
+type fakeCrawls struct {
 	kept []acceptedorder.AcceptedOrder
 	err  error
 }
 
-func (o *fakeAcceptedOrders) Keep(
+func (o *fakeCrawls) Keep(
 	_ context.Context,
 	order acceptedorder.AcceptedOrder,
 ) (crawlid.CrawlID, error) {
@@ -108,7 +108,7 @@ func orderMessage(
 func consume(
 	t *testing.T,
 	message jetstream.Msg,
-	orders *fakeAcceptedOrders,
+	orders *fakeCrawls,
 	frontier *fakePendingVisits,
 	observer *recordingObserver,
 ) error {
@@ -124,7 +124,7 @@ func consume(
 
 func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	message := orderMessage(t, domainProfile())
-	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
+	orders, visits, observer := &fakeCrawls{}, &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
 		t.Fatalf("run: %v", err)
@@ -155,7 +155,7 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 
 func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
 	message := orderMessage(t, domainProfile())
-	orders := &fakeAcceptedOrders{err: errors.New("bucket down")}
+	orders := &fakeCrawls{err: errors.New("bucket down")}
 	visits, observer := &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
@@ -178,7 +178,7 @@ func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
 	visits := &fakePendingVisits{err: errors.New("stream down")}
 	observer := &recordingObserver{}
 
-	if err := consume(t, message, &fakeAcceptedOrders{}, visits, observer); err != nil {
+	if err := consume(t, message, &fakeCrawls{}, visits, observer); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -194,7 +194,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 	profile := domainProfile()
 	profile.URLMustNotMatch = "([unclosed"
 	message := orderMessage(t, profile)
-	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
+	orders, visits, observer := &fakeCrawls{}, &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
 		t.Fatalf("run: %v", err)
@@ -213,7 +213,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 
 func TestAnUndecodableOrderHaltsIntake(t *testing.T) {
 	err := consume(
-		t, &pullintaketest.Message{Body: []byte("{")}, &fakeAcceptedOrders{},
+		t, &pullintaketest.Message{Body: []byte("{")}, &fakeCrawls{},
 		&fakePendingVisits{}, &recordingObserver{},
 	)
 

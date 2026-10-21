@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type AcceptedOrders interface {
+type Crawls interface {
 	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error)
 }
 
@@ -23,7 +23,7 @@ type PendingPageVisits interface {
 
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
-	orders                 AcceptedOrders
+	crawls                 Crawls
 	frontier               PendingPageVisits
 	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
@@ -31,14 +31,14 @@ type OrderConsumer struct {
 
 func NewOrderConsumer(
 	source pullintake.MessageSource,
-	orders AcceptedOrders,
+	crawls Crawls,
 	frontier PendingPageVisits,
 	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
 	return &OrderConsumer{
 		source:                 source,
-		orders:                 orders,
+		crawls:                 crawls,
 		frontier:               frontier,
 		observer:               observer,
 		orderIntakeConcurrency: orderIntakeConcurrency,
@@ -67,7 +67,7 @@ func (c *OrderConsumer) acceptOrder(
 		c.returnOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
-	crawlID, err := c.orders.Keep(ctx, order)
+	crawlID, err := c.crawls.Keep(ctx, order)
 	if err != nil {
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil

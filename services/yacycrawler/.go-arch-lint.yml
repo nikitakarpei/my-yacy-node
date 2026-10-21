@@ -54,8 +54,8 @@ components:
     in: internal/retainedrecords/**
   retainedrecordobserversapplog:
     in: internal/retainedrecordobservers/applog/**
-  acceptedordersvault:
-    in: internal/acceptedorders/vault/**
+  crawlsvault:
+    in: internal/crawls/vault/**
   pendingpagevisitsvault:
     in: internal/pendingpagevisits/vault/**
   takenpagevisitsvault:
@@ -255,7 +255,7 @@ deps:
   retainedrecords:
     canUse:
       - vault
-  acceptedordersvault:
+  crawlsvault:
     mayDependOn:
       - acceptedorder
       - crawlid

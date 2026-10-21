@@ -25,7 +25,7 @@ const (
 
 	pageVisitLimitRetention = 7 * 24 * time.Hour
 
-	acceptedOrderRetention = 7 * 24 * time.Hour
+	crawlRetention = 7 * 24 * time.Hour
 
 	crawledPageRetention    = 7 * 24 * time.Hour
 	crawledPageBacklogLimit = 5000
@@ -67,8 +67,8 @@ func (ServiceConfig) PageVisitLimitRetention() time.Duration {
 	return pageVisitLimitRetention
 }
 
-func (ServiceConfig) AcceptedOrderRetention() time.Duration {
-	return acceptedOrderRetention
+func (ServiceConfig) CrawlRetention() time.Duration {
+	return crawlRetention
 }
 
 func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {

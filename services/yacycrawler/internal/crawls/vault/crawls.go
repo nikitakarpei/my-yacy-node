@@ -1,7 +1,7 @@
-// Package vault keeps in a vault every crawl order the crawler accepted, under the
-// crawl it runs for that order, for the retention of accepted orders, so that any
-// worker can rebuild the profile a URL of that crawl was admitted under. An order
-// sent again finds the crawl it began and keeps it.
+// Package vault keeps in a vault every crawl the crawler runs, with the accepted order
+// it runs for, for the retention of crawls, so that any worker can rebuild the profile
+// a URL of that crawl was admitted under. An order sent again finds the crawl it began
+// and keeps it.
 package vault
 
 import (
@@ -44,7 +44,7 @@ type Clock interface {
 	Now() time.Time
 }
 
-type Orders struct {
+type Crawls struct {
 	storage       *vault.Vault
 	crawls        *retainedrecords.Records[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
 	crawlsByOrder *vault.ValueIndex[retainedOrder, crawlOfOrder]
@@ -66,7 +66,7 @@ func New(
 	retention *retainedrecords.Retention,
 	clock Clock,
 	keptFor time.Duration,
-) (*Orders, error) {
+) (*Crawls, error) {
 	crawlsByOrder, err := storage.RegisterValueIndex(
 		crawlsByOrderBucket,
 		crawlsByOrderVersion,
@@ -82,7 +82,7 @@ func New(
 	if err != nil {
 		return nil, err
 	}
-	return &Orders{
+	return &Crawls{
 		storage:       storage,
 		crawls:        crawls,
 		crawlsByOrder: crawlsByOrder,
@@ -99,32 +99,32 @@ func orderIDHashOf(orderID string) orderIDHash {
 	return orderIDHash(digest[:len(crawlid.CrawlID{})])
 }
 
-func (o *Orders) Keep(
+func (c *Crawls) Keep(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
 ) (crawlid.CrawlID, error) {
-	now := o.clock.Now()
+	now := c.clock.Now()
 	var crawlID crawlid.CrawlID
-	if err := o.storage.Update(ctx, func(tx *vault.Txn) error {
+	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		crawlID, err = o.crawlFor(tx, order.OrderID(), now)
+		crawlID, err = c.crawlFor(tx, order.OrderID(), now)
 		if err != nil {
 			return err
 		}
-		return o.crawls.Put(tx, crawlID, order.CrawlOrder(), now)
+		return c.crawls.Put(tx, crawlID, order.CrawlOrder(), now)
 	}); err != nil {
 		return crawlid.CrawlID{}, fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
 	return crawlID, nil
 }
 
-func (o *Orders) crawlFor(tx *vault.Txn, orderID string, now time.Time) (crawlid.CrawlID, error) {
-	crawlIDs, err := o.crawlIDsOf(tx, orderIDHashOf(orderID))
+func (c *Crawls) crawlFor(tx *vault.Txn, orderID string, now time.Time) (crawlid.CrawlID, error) {
+	crawlIDs, err := c.crawlIDsOf(tx, orderIDHashOf(orderID))
 	if err != nil {
 		return crawlid.CrawlID{}, err
 	}
 	for _, crawlID := range crawlIDs {
-		_, kept, err := o.crawls.Get(tx, crawlID, now)
+		_, kept, err := c.crawls.Get(tx, crawlID, now)
 		if err != nil || kept {
 			return crawlID, err
 		}
@@ -132,9 +132,9 @@ func (o *Orders) crawlFor(tx *vault.Txn, orderID string, now time.Time) (crawlid
 	return crawlid.New()
 }
 
-func (o *Orders) crawlIDsOf(tx *vault.Txn, order orderIDHash) ([]crawlid.CrawlID, error) {
+func (c *Crawls) crawlIDsOf(tx *vault.Txn, order orderIDHash) ([]crawlid.CrawlID, error) {
 	var crawlIDs []crawlid.CrawlID
-	if err := o.crawlsByOrder.Scan(
+	if err := c.crawlsByOrder.Scan(
 		tx,
 		crawlsByOrderKeyParts.KeysWithFirst(order),
 		func(entry crawlOfOrder) (bool, error) {
@@ -147,16 +147,16 @@ func (o *Orders) crawlIDsOf(tx *vault.Txn, order orderIDHash) ([]crawlid.CrawlID
 	return crawlIDs, nil
 }
 
-func (o *Orders) OrderOf(
+func (c *Crawls) OrderOf(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 ) (acceptedorder.AcceptedOrder, bool, error) {
-	now := o.clock.Now()
+	now := c.clock.Now()
 	var keptOrder yacycrawlcontract.CrawlOrder
 	var found bool
-	if err := o.storage.View(ctx, func(tx *vault.Txn) error {
+	if err := c.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		keptOrder, found, err = o.crawls.Get(tx, crawlID, now)
+		keptOrder, found, err = c.crawls.Get(tx, crawlID, now)
 		return err
 	}); err != nil {
 		return acceptedorder.AcceptedOrder{}, false, fmt.Errorf(
