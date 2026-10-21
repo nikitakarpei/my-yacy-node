@@ -15,9 +15,9 @@ import (
 const (
 	concurrentReaders       = 4
 	contendedRounds         = 64
-	dueEntriesToLease       = 32
-	leasedUntil       int64 = 1 << 40
-	contendedKey            = "visit"
+	recordsToMove           = 32
+	movedRank         int64 = 1 << 40
+	contendedKey            = "contended"
 )
 
 var errTornRead = errors.New("transaction read a state no commit left")
@@ -34,20 +34,20 @@ func runIsolationConformance(t *testing.T, open func(quotaBytes int64) (vault.En
 		func(t *testing.T) { viewReadsOneCommittedState(t, open) },
 	)
 	t.Run(
-		"ConcurrentLeasesTakeEachDueEntryOnce",
-		func(t *testing.T) { concurrentLeasesTakeEachDueEntryOnce(t, open) },
+		"ConcurrentMovesOfTheFirstIndexEntryMoveEachRecordOnce",
+		func(t *testing.T) { concurrentMovesOfTheFirstIndexEntryMoveEachRecordOnce(t, open) },
 	)
 	t.Run(
-		"LeasesAndReturnsOfOneEntryKeepEveryMove",
-		func(t *testing.T) { leasesAndReturnsOfOneEntryKeepEveryMove(t, open) },
+		"MovesThroughTheIndexAndByKeyKeepEveryChange",
+		func(t *testing.T) { movesThroughTheIndexAndByKeyKeepEveryChange(t, open) },
 	)
 	t.Run(
-		"LeaseAgainstDeleteLeavesNoEntry",
-		func(t *testing.T) { leaseAgainstDeleteLeavesNoEntry(t, open) },
+		"AMoveThroughTheIndexAgainstADeleteLeavesNoRecord",
+		func(t *testing.T) { aMoveThroughTheIndexAgainstADeleteLeavesNoRecord(t, open) },
 	)
 	t.Run(
-		"ConcurrentFirstInsertsLeaveOneWinner",
-		func(t *testing.T) { concurrentFirstInsertsLeaveOneWinner(t, open) },
+		"ConcurrentInsertsOfOneAbsentKeyLeaveOneWinner",
+		func(t *testing.T) { concurrentInsertsOfOneAbsentKeyLeaveOneWinner(t, open) },
 	)
 }
 
@@ -193,13 +193,16 @@ func viewReadsOneCommittedState(t *testing.T, open func(int64) (vault.Engine, er
 	}
 }
 
-func concurrentLeasesTakeEachDueEntryOnce(t *testing.T, open func(int64) (vault.Engine, error)) {
+func concurrentMovesOfTheFirstIndexEntryMoveEachRecordOnce(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
 	first, second := openTwoHandles(t, open)
-	schedules := []schedule{openSchedule(t, first), openSchedule(t, second)}
-	keys := numberedWords(dueEntriesToLease)
-	schedules[0].write(t, func(tx *vault.Txn) error {
-		for due, key := range keys {
-			if _, err := schedules[0].entries.Put(tx, key, scheduled{due: int64(due)}); err != nil {
+	handles := []rankedRecords{openRankedRecords(t, first), openRankedRecords(t, second)}
+	keys := numberedWords(recordsToMove)
+	handles[0].write(t, func(tx *vault.Txn) error {
+		for rank, key := range keys {
+			if _, err := handles[0].records.Put(tx, key, ranked{rank: int64(rank)}); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -207,16 +210,16 @@ func concurrentLeasesTakeEachDueEntryOnce(t *testing.T, open func(int64) (vault.
 		return nil
 	})
 
-	leasedByWorker := make([][]string, concurrentWriters)
+	movedByWorker := make([][]string, concurrentWriters)
 	work := make([]func() error, concurrentWriters)
 	for worker := range work {
 		work[worker] = func() error {
 			for {
-				key, leased, err := schedules[worker%len(schedules)].leaseDue()
-				if err != nil || !leased {
+				key, moved, err := handles[worker%len(handles)].moveFirstUnmoved()
+				if err != nil || !moved {
 					return err
 				}
-				leasedByWorker[worker] = append(leasedByWorker[worker], key)
+				movedByWorker[worker] = append(movedByWorker[worker], key)
 			}
 		}
 	}
@@ -224,136 +227,143 @@ func concurrentLeasesTakeEachDueEntryOnce(t *testing.T, open func(int64) (vault.
 		t.Fatalf("Update: %v", err)
 	}
 
-	leased := slices.Concat(leasedByWorker...)
-	slices.Sort(leased)
-	if !slices.Equal(leased, keys) {
-		t.Fatalf("leased = %v, want each of %v once", leased, keys)
+	moved := slices.Concat(movedByWorker...)
+	slices.Sort(moved)
+	if !slices.Equal(moved, keys) {
+		t.Fatalf("moved = %v, want each of %v once", moved, keys)
 	}
 }
 
-type schedule struct {
+type rankedRecords struct {
 	vault   *vault.Vault
-	entries *vault.Collection[string, scheduled]
-	byDue   *vault.ValueIndex[dueEntry, dueEntry]
+	records *vault.Collection[string, ranked]
+	byRank  *vault.ValueIndex[rankEntry, rankEntry]
 }
 
-type scheduled struct {
-	due   int64
-	moves int
+type ranked struct {
+	rank    int64
+	changes int
 }
 
-type dueEntry struct {
-	due int64
-	key string
+type rankEntry struct {
+	rank int64
+	key  string
 }
 
-var dueEntries = vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart).KeyLayoutFor(
-	func(entry dueEntry) (int64, string) { return entry.due, entry.key },
-	func(due int64, key string) dueEntry { return dueEntry{due: due, key: key} },
+var rankEntryLayout = vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart).KeyLayoutFor(
+	func(entry rankEntry) (int64, string) { return entry.rank, entry.key },
+	func(rank int64, key string) rankEntry { return rankEntry{rank: rank, key: key} },
 )
 
-func openSchedule(t *testing.T, v *vault.Vault) schedule {
+func openRankedRecords(t *testing.T, v *vault.Vault) rankedRecords {
 	t.Helper()
 
-	byDue, err := v.RegisterValueIndex(
-		vault.Name("entries_by_due"),
+	byRank, err := v.RegisterValueIndex(
+		vault.Name("ranked_by_rank"),
 		"1",
-		dueEntries,
-		func(entry dueEntry) dueEntry { return entry },
+		rankEntryLayout,
+		func(entry rankEntry) rankEntry { return entry },
 	)
 	if err != nil {
 		t.Fatalf("RegisterValueIndex: %v", err)
 	}
-	entries, err := v.RegisterProjectedCollection(
+	records, err := v.RegisterProjectedCollection(
 		context.Background(),
-		vault.Name("entries"),
+		vault.Name("ranked"),
 		stringKeyLayout,
-		scheduledCodec{},
+		rankedCodec{},
 		vault.ProjectedAs(
-			func(key string, entry scheduled) dueEntry { return dueEntry{due: entry.due, key: key} },
-			byDue,
+			func(key string, record ranked) rankEntry { return rankEntry{rank: record.rank, key: key} },
+			byRank,
 		),
 	)
 	if err != nil {
 		t.Fatalf("RegisterProjectedCollection: %v", err)
 	}
 
-	return schedule{vault: v, entries: entries, byDue: byDue}
+	return rankedRecords{vault: v, records: records, byRank: byRank}
 }
 
-type scheduledCodec struct{}
+type rankedCodec struct{}
 
-func (scheduledCodec) Encode(entry scheduled) ([]byte, error) {
-	return fmt.Appendf(nil, "%d/%d", entry.due, entry.moves), nil
+func (rankedCodec) Encode(record ranked) ([]byte, error) {
+	return fmt.Appendf(nil, "%d/%d", record.rank, record.changes), nil
 }
 
-func (scheduledCodec) Decode(raw []byte) (scheduled, error) {
-	var entry scheduled
-	if _, err := fmt.Sscanf(string(raw), "%d/%d", &entry.due, &entry.moves); err != nil {
-		return scheduled{}, fmt.Errorf("decode scheduled entry %q: %w", raw, err)
+func (rankedCodec) Decode(raw []byte) (ranked, error) {
+	var record ranked
+	if _, err := fmt.Sscanf(string(raw), "%d/%d", &record.rank, &record.changes); err != nil {
+		return ranked{}, fmt.Errorf("decode ranked record %q: %w", raw, err)
 	}
 
-	return entry, nil
+	return record, nil
 }
 
-func (s schedule) write(t *testing.T, change func(tx *vault.Txn) error) {
+func (r rankedRecords) write(t *testing.T, change func(tx *vault.Txn) error) {
 	t.Helper()
 
-	if err := s.vault.Update(context.Background(), change); err != nil {
+	if err := r.vault.Update(context.Background(), change); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
 }
 
-func (s schedule) leaseDue() (key string, leased bool, err error) {
-	err = s.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		key, leased = "", false
-		head, found, err := s.headOf(tx)
-		if err != nil || !found || head.due >= leasedUntil {
+func (r rankedRecords) moveFirstUnmoved() (key string, moved bool, err error) {
+	err = r.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		key, moved = "", false
+		first, found, err := r.firstEntryOf(tx)
+		if err != nil || !found || first.rank >= movedRank {
 			return err
 		}
-		key, leased = head.key, true
+		key, moved = first.key, true
 
-		return s.move(tx, head.key, leasedUntil)
+		return r.rerank(tx, first.key, movedRank)
 	})
 
-	return key, leased, err
+	return key, moved, err
 }
 
-func (s schedule) headOf(tx *vault.Txn) (dueEntry, bool, error) {
-	var head dueEntry
+func (r rankedRecords) firstEntryOf(tx *vault.Txn) (rankEntry, bool, error) {
+	var first rankEntry
 
 	var found bool
-	if err := s.byDue.Scan(tx, vault.EveryKey(), func(entry dueEntry) (bool, error) {
-		head, found = entry, true
+	if err := r.byRank.Scan(tx, vault.EveryKey(), func(entry rankEntry) (bool, error) {
+		first, found = entry, true
 
 		return false, nil
 	}); err != nil {
-		return dueEntry{}, false, wrapTest(err)
+		return rankEntry{}, false, wrapTest(err)
 	}
 
-	return head, found, nil
+	return first, found, nil
 }
 
-func (s schedule) move(tx *vault.Txn, key string, due int64) error {
-	entry, found, err := s.entries.Get(tx, key)
+func (r rankedRecords) rerank(tx *vault.Txn, key string, rank int64) error {
+	record, found, err := r.records.Get(tx, key)
 	if err != nil {
 		return wrapTest(err)
 	}
 	if !found {
 		return nil
 	}
-	if _, err := s.entries.Put(tx, key, scheduled{due: due, moves: entry.moves + 1}); err != nil {
+	if _, err := r.records.Put(
+		tx,
+		key,
+		ranked{rank: rank, changes: record.changes + 1},
+	); err != nil {
 		return wrapTest(err)
 	}
 
 	return nil
 }
 
-func leasesAndReturnsOfOneEntryKeepEveryMove(t *testing.T, open func(int64) (vault.Engine, error)) {
+func movesThroughTheIndexAndByKeyKeepEveryChange(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
 	first, second := openTwoHandles(t, open)
-	lessor, returner := openSchedule(t, first), openSchedule(t, second)
-	lessor.write(t, func(tx *vault.Txn) error {
-		_, err := lessor.entries.Put(tx, contendedKey, scheduled{})
+	throughIndex, byKey := openRankedRecords(t, first), openRankedRecords(t, second)
+	throughIndex.write(t, func(tx *vault.Txn) error {
+		_, err := throughIndex.records.Put(tx, contendedKey, ranked{})
 
 		return err
 	})
@@ -362,72 +372,72 @@ func leasesAndReturnsOfOneEntryKeepEveryMove(t *testing.T, open func(int64) (vau
 	for range concurrentWriters / 2 {
 		work = append(
 			work,
-			func() error { return repeated(lessor.leaseHead) },
-			func() error { return repeated(returner.returnContended) },
+			func() error { return repeated(throughIndex.moveFirst) },
+			func() error { return repeated(byKey.moveContended) },
 		)
 	}
 	if err := failuresOfConcurrent(work); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
 
-	entry := lessor.entryAt(t, contendedKey)
-	if entry.moves != concurrentWriters*incrementsPerWriter {
-		t.Fatalf("moves = %d, want %d", entry.moves, concurrentWriters*incrementsPerWriter)
+	record := throughIndex.recordAt(t, contendedKey)
+	if record.changes != concurrentWriters*incrementsPerWriter {
+		t.Fatalf("changes = %d, want %d", record.changes, concurrentWriters*incrementsPerWriter)
 	}
-	want := []dueEntry{{due: entry.due, key: contendedKey}}
-	if got := lessor.dueEntries(t); !slices.Equal(got, want) {
-		t.Fatalf("due entries = %v, want %v", got, want)
+	want := []rankEntry{{rank: record.rank, key: contendedKey}}
+	if got := throughIndex.entries(t); !slices.Equal(got, want) {
+		t.Fatalf("index entries = %v, want %v", got, want)
 	}
 }
 
-func (s schedule) leaseHead() error {
-	return s.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		head, found, err := s.headOf(tx)
+func (r rankedRecords) moveFirst() error {
+	return r.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		first, found, err := r.firstEntryOf(tx)
 		if err != nil || !found {
 			return err
 		}
-		entry, _, err := s.entries.Get(tx, head.key)
+		record, _, err := r.records.Get(tx, first.key)
 		if err != nil {
 			return wrapTest(err)
 		}
 
-		return s.move(tx, head.key, leasedUntil+int64(entry.moves))
+		return r.rerank(tx, first.key, movedRank+int64(record.changes))
 	})
 }
 
-func (s schedule) returnContended() error {
-	return s.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		entry, _, err := s.entries.Get(tx, contendedKey)
+func (r rankedRecords) moveContended() error {
+	return r.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		record, _, err := r.records.Get(tx, contendedKey)
 		if err != nil {
 			return wrapTest(err)
 		}
 
-		return s.move(tx, contendedKey, int64(entry.moves))
+		return r.rerank(tx, contendedKey, int64(record.changes))
 	})
 }
 
-func (s schedule) entryAt(t *testing.T, key string) scheduled {
+func (r rankedRecords) recordAt(t *testing.T, key string) ranked {
 	t.Helper()
 
-	var entry scheduled
-	if err := s.vault.View(context.Background(), func(tx *vault.Txn) error {
+	var record ranked
+	if err := r.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		entry, _, err = s.entries.Get(tx, key)
+		record, _, err = r.records.Get(tx, key)
 
 		return err
 	}); err != nil {
 		t.Fatalf("View: %v", err)
 	}
 
-	return entry
+	return record
 }
 
-func (s schedule) dueEntries(t *testing.T) []dueEntry {
+func (r rankedRecords) entries(t *testing.T) []rankEntry {
 	t.Helper()
 
-	var entries []dueEntry
-	if err := s.vault.View(context.Background(), func(tx *vault.Txn) error {
-		return s.byDue.Scan(tx, vault.EveryKey(), func(entry dueEntry) (bool, error) {
+	var entries []rankEntry
+	if err := r.vault.View(context.Background(), func(tx *vault.Txn) error {
+		return r.byRank.Scan(tx, vault.EveryKey(), func(entry rankEntry) (bool, error) {
 			entries = append(entries, entry)
 
 			return true, nil
@@ -439,52 +449,55 @@ func (s schedule) dueEntries(t *testing.T) []dueEntry {
 	return entries
 }
 
-func leaseAgainstDeleteLeavesNoEntry(t *testing.T, open func(int64) (vault.Engine, error)) {
+func aMoveThroughTheIndexAgainstADeleteLeavesNoRecord(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
 	first, second := openTwoHandles(t, open)
-	lessor, deleter := openSchedule(t, first), openSchedule(t, second)
+	throughIndex, byKey := openRankedRecords(t, first), openRankedRecords(t, second)
 
 	for round := range contendedRounds {
 		key := strconv.Itoa(round)
-		lessor.write(t, func(tx *vault.Txn) error {
-			_, err := lessor.entries.Put(tx, key, scheduled{})
+		throughIndex.write(t, func(tx *vault.Txn) error {
+			_, err := throughIndex.records.Put(tx, key, ranked{})
 
 			return err
 		})
 		if err := failuresOfConcurrent([]func() error{
 			func() error {
-				_, _, err := lessor.leaseDue()
+				_, _, err := throughIndex.moveFirstUnmoved()
 
 				return err
 			},
-			func() error { return deleter.deleteEntry(key) },
+			func() error { return byKey.deleteRecord(key) },
 		}); err != nil {
 			t.Fatalf("Update: %v", err)
 		}
 	}
 
-	if got := lessor.dueEntries(t); len(got) != 0 {
-		t.Fatalf("due entries after deletes = %v, want none", got)
+	if got := throughIndex.entries(t); len(got) != 0 {
+		t.Fatalf("index entries after deletes = %v, want none", got)
 	}
-	if length := lessor.length(t); length != 0 {
-		t.Fatalf("entries after deletes = %d, want 0", length)
+	if length := throughIndex.length(t); length != 0 {
+		t.Fatalf("records after deletes = %d, want 0", length)
 	}
 }
 
-func (s schedule) deleteEntry(key string) error {
-	return s.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := s.entries.Delete(tx, key)
+func (r rankedRecords) deleteRecord(key string) error {
+	return r.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		_, err := r.records.Delete(tx, key)
 
 		return err
 	})
 }
 
-func (s schedule) length(t *testing.T) int {
+func (r rankedRecords) length(t *testing.T) int {
 	t.Helper()
 
 	var length int
-	if err := s.vault.View(context.Background(), func(tx *vault.Txn) error {
+	if err := r.vault.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		length, err = s.entries.Len(tx)
+		length, err = r.records.Len(tx)
 
 		return err
 	}); err != nil {
@@ -494,12 +507,15 @@ func (s schedule) length(t *testing.T) int {
 	return length
 }
 
-func concurrentFirstInsertsLeaveOneWinner(t *testing.T, open func(int64) (vault.Engine, error)) {
+func concurrentInsertsOfOneAbsentKeyLeaveOneWinner(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
 	first, second := openTwoHandles(t, open)
 	handles := []*vault.Vault{first, second}
-	claims := []*vault.Collection[string, string]{
-		register(t, first, "claims"),
-		register(t, second, "claims"),
+	words := []*vault.Collection[string, string]{
+		register(t, first, "words"),
+		register(t, second, "words"),
 	}
 
 	for round := range contendedRounds {
@@ -514,7 +530,7 @@ func concurrentFirstInsertsLeaveOneWinner(t *testing.T, open func(int64) (vault.
 						var err error
 						inserted[writer], err = insertAbsent(
 							tx,
-							claims[writer%len(claims)],
+							words[writer%len(words)],
 							key,
 							strconv.Itoa(writer),
 						)
@@ -532,7 +548,7 @@ func concurrentFirstInsertsLeaveOneWinner(t *testing.T, open func(int64) (vault.
 		if winner < 0 || slices.Index(inserted[winner+1:], true) >= 0 {
 			t.Fatalf("round %d inserted = %v, want one winner", round, inserted)
 		}
-		if stored := storedClaim(t, first, claims[0], key); stored != strconv.Itoa(winner) {
+		if stored := storedWord(t, first, words[0], key); stored != strconv.Itoa(winner) {
 			t.Fatalf("round %d stored %q, want winner %d", round, stored, winner)
 		}
 	}
@@ -540,37 +556,37 @@ func concurrentFirstInsertsLeaveOneWinner(t *testing.T, open func(int64) (vault.
 
 func insertAbsent(
 	tx *vault.Txn,
-	claims *vault.Collection[string, string],
-	key, claimant string,
+	words *vault.Collection[string, string],
+	key, value string,
 ) (bool, error) {
-	_, found, err := claims.Get(tx, key)
+	_, found, err := words.Get(tx, key)
 	if err != nil || found {
 		return false, err
 	}
-	if _, err := claims.Put(tx, key, claimant); err != nil {
+	if _, err := words.Put(tx, key, value); err != nil {
 		return false, wrapTest(err)
 	}
 
 	return true, nil
 }
 
-func storedClaim(
+func storedWord(
 	t *testing.T,
 	v *vault.Vault,
-	claims *vault.Collection[string, string],
+	words *vault.Collection[string, string],
 	key string,
 ) string {
 	t.Helper()
 
-	var claimant string
+	var value string
 	if err := v.View(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		claimant, _, err = claims.Get(tx, key)
+		value, _, err = words.Get(tx, key)
 
 		return err
 	}); err != nil {
 		t.Fatalf("View: %v", err)
 	}
 
-	return claimant
+	return value
 }
