@@ -38,9 +38,8 @@ than an always-on node.
   content.
 * Every URL a run admits SHALL be taken by exactly one instance, and SHALL end either
   completed, or dropped when the crawler stops trying to visit it.
-* A publication SHALL fail only on a hard, non-retryable broker error; transient
-  backpressure returns the URL for redelivery.
-* A publication failure SHALL NOT be terminal; the page stays unpublished.
+* A publication SHALL fail only on a hard, non-retryable broker error, and never terminally:
+  transient backpressure returns the URL for redelivery, and a failed page stays unpublished.
 * The service SHALL acknowledge an order once the order and its seed URLs are durable.
 
 ## Non-Functional Requirements
@@ -56,12 +55,11 @@ than an always-on node.
 * The service SHALL bound every outbound fetch with an explicit deadline.
 * The core SHALL keep no state of its own; anything remembered lives behind an interface
   it consults. A run survives the restart of any instance, and of all of them.
-* The message broker SHALL be replaceable behind a narrow interface assuming at-least-once
-  delivery with acknowledgment and redelivery, with no change to crawl logic.
-* The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
-  change to crawl logic.
-* The page visit records SHALL sit behind a narrow interface; the default keeps none, so the
-  recrawl rule holds every page due.
+* The message broker (at-least-once delivery with acknowledgment and redelivery) and the
+  page-fetch mechanism SHALL each be replaceable behind a narrow interface, with no change to
+  crawl logic.
+* The page visit records SHALL sit behind a narrow interface; with no recrawl grace, none are
+  kept and the recrawl rule holds every page due.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations
