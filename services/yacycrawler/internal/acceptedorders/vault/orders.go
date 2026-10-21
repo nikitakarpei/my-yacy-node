@@ -7,7 +7,6 @@ package vault
 import (
 	"context"
 	"crypto/sha256"
-	"errors"
 	"fmt"
 	"time"
 
@@ -20,33 +19,46 @@ import (
 )
 
 const (
-	ordersBucket = "accepted_orders"
-	crawlsBucket = "crawls_by_order"
+	crawlsBucket         = "crawls"
+	crawlsByOrderBucket  = "crawls_by_order"
+	crawlsByOrderVersion = "1"
 )
-
-var errCrawlIDLength = errors.New("stored crawl ID has the wrong length")
 
 var crawlIDKeys = vault.SingleKey(crawlkeyparts.CrawlID).KeyLayout()
 
-var orderIDHashKeys = vault.SingleKey(vault.BytesKeyPartFrom(
+var crawlsByOrderKeyParts = vault.PairKey(vault.BytesKeyPartFrom(
 	func(hash orderIDHash, buffer []byte) []byte { return append(buffer, hash[:]...) },
 	func(stored vault.StoredBytes) (orderIDHash, error) {
 		return orderIDHash(stored.AppendTo(nil)), nil
 	},
-)).KeyLayout()
+), crawlkeyparts.CrawlID)
+
+var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
+	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.order, entry.crawlID },
+	func(order orderIDHash, crawlID crawlid.CrawlID) crawlOfOrder {
+		return crawlOfOrder{order: order, crawlID: crawlID}
+	},
+)
 
 type Clock interface {
 	Now() time.Time
 }
 
 type Orders struct {
-	storage *vault.Vault
-	orders  *retainedrecords.Records[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
-	crawls  *retainedrecords.Records[orderIDHash, crawlid.CrawlID]
-	clock   Clock
+	storage       *vault.Vault
+	crawls        *retainedrecords.Records[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
+	crawlsByOrder *vault.ValueIndex[retainedOrder, crawlOfOrder]
+	clock         Clock
 }
 
+type retainedOrder = retainedrecords.Record[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
+
 type orderIDHash string
+
+type crawlOfOrder struct {
+	order   orderIDHash
+	crawlID crawlid.CrawlID
+}
 
 func New(
 	ctx context.Context,
@@ -55,15 +67,36 @@ func New(
 	clock Clock,
 	keptFor time.Duration,
 ) (*Orders, error) {
-	orders, err := retention.Register(ctx, ordersBucket, crawlIDKeys, crawlOrderCodec{}, keptFor)
+	crawlsByOrder, err := storage.RegisterValueIndex(
+		crawlsByOrderBucket,
+		crawlsByOrderVersion,
+		crawlsByOrderEntries,
+		crawlOfOrderFrom,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("register %s: %w", crawlsByOrderBucket, err)
+	}
+	crawls, err := retention.Register(
+		ctx, crawlsBucket, crawlIDKeys, crawlOrderCodec{}, keptFor, crawlsByOrder,
+	)
 	if err != nil {
 		return nil, err
 	}
-	crawls, err := retention.Register(ctx, crawlsBucket, orderIDHashKeys, crawlIDCodec{}, keptFor)
-	if err != nil {
-		return nil, err
-	}
-	return &Orders{storage: storage, orders: orders, crawls: crawls, clock: clock}, nil
+	return &Orders{
+		storage:       storage,
+		crawls:        crawls,
+		crawlsByOrder: crawlsByOrder,
+		clock:         clock,
+	}, nil
+}
+
+func crawlOfOrderFrom(order retainedOrder) crawlOfOrder {
+	return crawlOfOrder{order: orderIDHashOf(order.Value.OrderID), crawlID: order.Key}
+}
+
+func orderIDHashOf(orderID string) orderIDHash {
+	digest := sha256.Sum256([]byte(orderID))
+	return orderIDHash(digest[:len(crawlid.CrawlID{})])
 }
 
 func (o *Orders) Keep(
@@ -74,40 +107,44 @@ func (o *Orders) Keep(
 	var crawlID crawlid.CrawlID
 	if err := o.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		crawlID, err = o.crawlOf(tx, order.OrderID(), now)
+		crawlID, err = o.crawlFor(tx, order.OrderID(), now)
 		if err != nil {
 			return err
 		}
-		return o.keep(tx, crawlID, order, now)
+		return o.crawls.Put(tx, crawlID, order.CrawlOrder(), now)
 	}); err != nil {
 		return crawlid.CrawlID{}, fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
 	return crawlID, nil
 }
 
-func (o *Orders) crawlOf(tx *vault.Txn, orderID string, now time.Time) (crawlid.CrawlID, error) {
-	crawlID, found, err := o.crawls.Get(tx, orderIDHashOf(orderID), now)
-	if err != nil || found {
-		return crawlID, err
+func (o *Orders) crawlFor(tx *vault.Txn, orderID string, now time.Time) (crawlid.CrawlID, error) {
+	crawlIDs, err := o.crawlIDsOf(tx, orderIDHashOf(orderID))
+	if err != nil {
+		return crawlid.CrawlID{}, err
+	}
+	for _, crawlID := range crawlIDs {
+		_, kept, err := o.crawls.Get(tx, crawlID, now)
+		if err != nil || kept {
+			return crawlID, err
+		}
 	}
 	return crawlid.New()
 }
 
-func orderIDHashOf(orderID string) orderIDHash {
-	digest := sha256.Sum256([]byte(orderID))
-	return orderIDHash(digest[:len(crawlid.CrawlID{})])
-}
-
-func (o *Orders) keep(
-	tx *vault.Txn,
-	crawlID crawlid.CrawlID,
-	order acceptedorder.AcceptedOrder,
-	now time.Time,
-) error {
-	if err := o.orders.Put(tx, crawlID, order.CrawlOrder(), now); err != nil {
-		return err
+func (o *Orders) crawlIDsOf(tx *vault.Txn, order orderIDHash) ([]crawlid.CrawlID, error) {
+	var crawlIDs []crawlid.CrawlID
+	if err := o.crawlsByOrder.Scan(
+		tx,
+		crawlsByOrderKeyParts.KeysWithFirst(order),
+		func(entry crawlOfOrder) (bool, error) {
+			crawlIDs = append(crawlIDs, entry.crawlID)
+			return true, nil
+		},
+	); err != nil {
+		return nil, fmt.Errorf("read the crawls of an order: %w", err)
 	}
-	return o.crawls.Put(tx, orderIDHashOf(order.OrderID()), crawlID, now)
+	return crawlIDs, nil
 }
 
 func (o *Orders) OrderOf(
@@ -119,7 +156,7 @@ func (o *Orders) OrderOf(
 	var found bool
 	if err := o.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		keptOrder, found, err = o.orders.Get(tx, crawlID, now)
+		keptOrder, found, err = o.crawls.Get(tx, crawlID, now)
 		return err
 	}); err != nil {
 		return acceptedorder.AcceptedOrder{}, false, fmt.Errorf(
@@ -146,19 +183,4 @@ func (crawlOrderCodec) Encode(order yacycrawlcontract.CrawlOrder) ([]byte, error
 
 func (crawlOrderCodec) Decode(stored []byte) (yacycrawlcontract.CrawlOrder, error) {
 	return yacycrawlcontract.UnmarshalCrawlOrder(stored)
-}
-
-type crawlIDCodec struct{}
-
-func (crawlIDCodec) Encode(crawlID crawlid.CrawlID) ([]byte, error) {
-	return crawlID[:], nil
-}
-
-func (crawlIDCodec) Decode(stored []byte) (crawlid.CrawlID, error) {
-	var crawlID crawlid.CrawlID
-	if len(stored) != len(crawlID) {
-		return crawlID, fmt.Errorf("%w: %d bytes", errCrawlIDLength, len(stored))
-	}
-	copy(crawlID[:], stored)
-	return crawlID, nil
 }

@@ -1,7 +1,8 @@
 // Package retainedrecords keeps crawl state records in a vault for a retention
 // renewed on every write. A record counts as absent once its retention ends,
 // whether or not it is gone yet. A sweep forgets expired records in bounded
-// batches, one transaction per batch, and reports what it forgot.
+// batches, one transaction per batch, and reports what it forgot. An index a store
+// registers with its records follows them and forgets an entry with its record.
 package retainedrecords
 
 import (
@@ -45,18 +46,22 @@ func New(storage *vault.Vault, clock Clock, observer ExpiryObserver) *Retention 
 	return &Retention{storage: storage, clock: clock, observer: observer}
 }
 
+//nolint:revive // the records name their bucket, layout, codec, retention and indexes
 func (r *Retention) Register[K, V any](
 	ctx context.Context,
 	bucket vault.Name,
 	keys vault.KeyLayout[K],
 	values vault.ValueCodec[V],
 	keptFor time.Duration,
+	indexes ...vault.Projection[Record[K, V]],
 ) (*Records[K, V], error) {
 	expiries, err := r.storage.RegisterValueIndex(
 		bucket+expiryIndexSuffix,
 		expiryIndexVersion,
 		expiryEntries,
-		func(entry expiry) expiry { return entry },
+		func(record Record[K, V]) expiry {
+			return expiry{keptUntil: record.keptUntil, recordKey: keys.Encode(record.Key).Bytes()}
+		},
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s expiries: %w", bucket, err)
@@ -66,9 +71,10 @@ func (r *Retention) Register[K, V any](
 		bucket,
 		keys,
 		retainedCodec[V]{values: values},
-		vault.ProjectedAs(func(key K, record retained[V]) expiry {
-			return expiry{keptUntil: record.keptUntil, recordKey: keys.Encode(key).Bytes()}
-		}, expiries),
+		vault.ProjectedAs(
+			recordOf[K, V],
+			append([]vault.Projection[Record[K, V]]{expiries}, indexes...)...,
+		),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", bucket, err)

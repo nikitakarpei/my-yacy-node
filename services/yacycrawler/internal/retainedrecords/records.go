@@ -33,9 +33,19 @@ var recordKeyPart = vault.BytesKeyPartFrom(
 type Records[K, V any] struct {
 	name      vault.Name
 	records   *vault.Collection[K, retained[V]]
-	expiries  *vault.ValueIndex[expiry, expiry]
+	expiries  *vault.ValueIndex[Record[K, V], expiry]
 	keys      vault.KeyLayout[K]
 	retention time.Duration
+}
+
+type Record[K, V any] struct {
+	Key       K
+	Value     V
+	keptUntil int64
+}
+
+func recordOf[K, V any](key K, record retained[V]) Record[K, V] {
+	return Record[K, V]{Key: key, Value: record.value, keptUntil: record.keptUntil}
 }
 
 type retained[V any] struct {

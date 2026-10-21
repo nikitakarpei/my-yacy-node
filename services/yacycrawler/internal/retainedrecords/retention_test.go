@@ -3,6 +3,7 @@ package retainedrecords_test
 import (
 	"context"
 	"errors"
+	"slices"
 	"strconv"
 	"testing"
 	"time"
@@ -16,6 +17,8 @@ const (
 	bucket        = "words"
 	wordRetention = time.Hour
 )
+
+var wordKeys = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
 var (
 	writtenAt         = time.UnixMilli(1_700_000_000_000)
@@ -64,6 +67,7 @@ type scene struct {
 	storage   *vault.Vault
 	retention *retainedrecords.Retention
 	words     *retainedrecords.Records[string, string]
+	byValue   *vault.ValueIndex[retainedrecords.Record[string, string], string]
 	observer  *recordingObserver
 	refusing  *bool
 }
@@ -80,12 +84,22 @@ func sceneSweepingAt(t *testing.T, now time.Time) scene {
 	}
 	observer := &recordingObserver{forgotten: map[string]int{}}
 	retention := retainedrecords.New(storage, sweepClock{now: now}, observer)
+	byValue, err := storage.RegisterValueIndex(
+		bucket+"_by_value",
+		"1",
+		wordKeys,
+		func(record retainedrecords.Record[string, string]) string { return record.Value },
+	)
+	if err != nil {
+		t.Fatalf("RegisterValueIndex: %v", err)
+	}
 	words, err := retention.Register(
 		t.Context(),
 		bucket,
-		vault.SingleKey(vault.TextKeyPart).KeyLayout(),
+		wordKeys,
 		textCodec{},
 		wordRetention,
+		byValue,
 	)
 	if err != nil {
 		t.Fatalf("Register: %v", err)
@@ -94,6 +108,7 @@ func sceneSweepingAt(t *testing.T, now time.Time) scene {
 		storage:   storage,
 		retention: retention,
 		words:     words,
+		byValue:   byValue,
 		observer:  observer,
 		refusing:  &refusing,
 	}
@@ -128,6 +143,20 @@ func (s scene) storedRecords(t *testing.T) int {
 		t.Fatalf("RecordCountsByBucket: %v", err)
 	}
 	return counts[bucket]
+}
+
+func (s scene) indexedValues(t *testing.T) []string {
+	t.Helper()
+	var values []string
+	if err := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+		return s.byValue.Scan(tx, vault.EveryKey(), func(value string) (bool, error) {
+			values = append(values, value)
+			return true, nil
+		})
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+	return values
 }
 
 func TestARecordIsFoundUntilItsRetentionEnds(t *testing.T) {
@@ -166,6 +195,20 @@ func TestASweepForgetsOnlyExpiredRecords(t *testing.T) {
 	}
 	if s.observer.forgotten[bucket] != 1 {
 		t.Fatalf("forgotten %v, want one %s record", s.observer.forgotten, bucket)
+	}
+}
+
+func TestASweepForgetsTheIndexEntriesOfExpiredRecords(t *testing.T) {
+	s := sceneSweepingAt(t, writtenAt.Add(wordRetention))
+	s.write(t, "expired", writtenAt)
+	s.write(t, "kept", writtenAt.Add(time.Minute))
+
+	if err := s.retention.Run(t.Context()); err != nil {
+		t.Fatalf("Run: %v", err)
+	}
+
+	if got := s.indexedValues(t); !slices.Equal(got, []string{"value of kept"}) {
+		t.Fatalf("indexed %v, want only the value of the kept record", got)
 	}
 }
 
