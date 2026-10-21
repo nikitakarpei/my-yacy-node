@@ -36,7 +36,7 @@ type postingHold struct {
 type PostingEscrow struct {
 	vault    *vault.Vault
 	escrowed *vault.Collection[postingIdentity, escrowedPosting]
-	holds    *vault.ValueIndex[postingHold, postingHold]
+	holds    *vault.RetentionIndex[postingHold, postingIdentity]
 	capacity int
 	now      func() time.Time
 }
@@ -108,16 +108,16 @@ func (e *PostingEscrow) Expire(
 	cutoff := e.now().Add(-holdFor)
 	var expired int
 	err := e.vault.Update(ctx, func(tx *vault.Txn) error {
-		expiredHolds, err := e.postingHoldsBefore(tx, cutoff, limit)
+		expiredPostings, err := e.holds.KeysBefore(tx, cutoff, limit)
 		if err != nil {
-			return err
+			return fmt.Errorf("read posting holds placed before the cutoff: %w", err)
 		}
-		for _, hold := range expiredHolds {
-			if err := e.drop(tx, hold.Posting); err != nil {
+		for _, identity := range expiredPostings {
+			if err := e.drop(tx, identity); err != nil {
 				return err
 			}
 		}
-		expired = len(expiredHolds)
+		expired = len(expiredPostings)
 
 		return nil
 	})
@@ -154,24 +154,6 @@ func (e *PostingEscrow) Count(tx *vault.Txn) (int, error) {
 
 func (e *PostingEscrow) Capacity() int {
 	return e.capacity
-}
-
-func (e *PostingEscrow) postingHoldsBefore(
-	tx *vault.Txn,
-	cutoff time.Time,
-	limit int,
-) ([]postingHold, error) {
-	holds := make([]postingHold, 0, limit)
-	err := e.holds.Scan(tx, everyHoldPlacedBefore(cutoff), func(hold postingHold) (bool, error) {
-		holds = append(holds, hold)
-
-		return len(holds) < limit, nil
-	})
-	if err != nil {
-		return nil, fmt.Errorf("read posting holds placed before the cutoff: %w", err)
-	}
-
-	return holds, nil
 }
 
 func (e *PostingEscrow) drop(tx *vault.Txn, identity postingIdentity) error {

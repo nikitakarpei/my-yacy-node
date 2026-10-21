@@ -20,21 +20,22 @@ const (
 	postingHoldBucket     vault.Name = "rwi_escrow_expiry"
 )
 
-const postingHoldsVersion = "2"
+const postingHoldsVersion = "3"
 
 func registerPostingEscrow(
 	ctx context.Context,
 	v *vault.Vault,
 ) (
 	*vault.Collection[postingIdentity, escrowedPosting],
-	*vault.ValueIndex[postingHold, postingHold],
+	*vault.RetentionIndex[postingHold, postingIdentity],
 	error,
 ) {
-	holds, err := v.RegisterValueIndex(
+	holds, err := v.RegisterRetentionIndex(
 		postingHoldBucket,
 		postingHoldsVersion,
-		postingHoldKeyLayout,
-		func(hold postingHold) postingHold { return hold },
+		escrowedPostingKeyLayout,
+		func(hold postingHold) time.Time { return hold.HeldAt },
+		func(hold postingHold) postingIdentity { return hold.Posting },
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register posting holds: %w", err)
@@ -121,34 +122,4 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	}
 
 	return escrowedPosting{HeldAt: heldAt, Origin: origin, Posting: posting}, nil
-}
-
-var postingHoldKeyParts = vault.QuadKey(
-	vault.TimeInSecondsKeyPart,
-	hashkeypart.Hash,
-	hashkeypart.URLHash,
-	fingerprintKeyPart,
-)
-
-var postingHoldKeyLayout = postingHoldKeyParts.KeyLayoutFor(
-	func(
-		hold postingHold,
-	) (time.Time, yacymodel.Hash, yacymodel.URLHash, pagefingerprint.Fingerprint) {
-		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL, hold.Posting.Fingerprint
-	},
-	func(
-		heldAt time.Time,
-		word yacymodel.Hash,
-		url yacymodel.URLHash,
-		fingerprint pagefingerprint.Fingerprint,
-	) postingHold {
-		return postingHold{
-			HeldAt:  heldAt,
-			Posting: postingIdentity{Word: word, URL: url, Fingerprint: fingerprint},
-		}
-	},
-)
-
-func everyHoldPlacedBefore(cutoff time.Time) vault.KeyRange {
-	return postingHoldKeyParts.KeysBeforeFirst(cutoff)
 }
