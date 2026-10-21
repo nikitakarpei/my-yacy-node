@@ -86,7 +86,7 @@ var wordPartitionKeyLayout = vault.PairKey(
 
 var scheduleKeyParts = vault.QuadKey(
 	vault.IntegerKeyPart,
-	vault.TimeInSecondsKeyPart,
+	vault.TimeKeyPart,
 	hashkeypart.Hash,
 	vault.IntegerKeyPart,
 )

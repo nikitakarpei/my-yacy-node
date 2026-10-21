@@ -57,30 +57,14 @@ func TestIntegerKeysKeepTheStoredByteForm(t *testing.T) {
 	}
 }
 
-func TestTimeInSecondsKeysKeepTheStoredByteForm(t *testing.T) {
+func TestTimeKeysKeepTheStoredByteForm(t *testing.T) {
 	for _, seconds := range []int64{0, 1_700_000_000, -1} {
 		instant := time.Unix(seconds, 0)
-		expectStoredByteForm(t, vault.SingleKey(vault.TimeInSecondsKeyPart).Key(instant), seconds)
+		expectStoredByteForm(t, vault.SingleKey(vault.TimeKeyPart).Key(instant), seconds)
 		expectStoredByteForm(
 			t,
-			vault.SingleKey(vault.TimeInSecondsKeyPartDescending).Key(instant),
+			vault.SingleKey(vault.TimeKeyPartDescending).Key(instant),
 			orderedcode.Decr(seconds),
-		)
-	}
-}
-
-func TestTimeInMillisecondsKeysKeepTheStoredByteForm(t *testing.T) {
-	for _, milliseconds := range []int64{0, 1_700_000_000_500, -1} {
-		instant := time.UnixMilli(milliseconds)
-		expectStoredByteForm(
-			t,
-			vault.SingleKey(vault.TimeInMillisecondsKeyPart).Key(instant),
-			milliseconds,
-		)
-		expectStoredByteForm(
-			t,
-			vault.SingleKey(vault.TimeInMillisecondsKeyPartDescending).Key(instant),
-			orderedcode.Decr(milliseconds),
 		)
 	}
 }
@@ -94,13 +78,13 @@ func TestKeysOfSeveralPartsKeepTheStoredByteForm(t *testing.T) {
 	)
 	expectStoredByteForm(
 		t,
-		vault.TripleKey(vault.TimeInSecondsKeyPart, vault.TextKeyPart, vault.TextKeyPart).
+		vault.TripleKey(vault.TimeKeyPart, vault.TextKeyPart, vault.TextKeyPart).
 			Key(instant, "word", "\xff"),
 		instant.Unix(), "word", "\xff",
 	)
 	expectStoredByteForm(
 		t,
-		vault.QuadKey(vault.IntegerKeyPart, vault.TimeInSecondsKeyPart, vault.TextKeyPart, vault.TextKeyPart).
+		vault.QuadKey(vault.IntegerKeyPart, vault.TimeKeyPart, vault.TextKeyPart, vault.TextKeyPart).
 			Key(7, instant, "word", "url"),
 		int64(7),
 		instant.Unix(),

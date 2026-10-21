@@ -39,7 +39,7 @@ func (v *Vault) RegisterRetentionIndex[R, K any](
 func retainedKeyLayoutFrom[K any](keys KeyLayout[K]) KeyLayout[retainedKey[K]] {
 	return KeyLayout[retainedKey[K]]{
 		encode: func(retained retainedKey[K]) Key {
-			encoded := TimeInSecondsKeyPart.appendTo(
+			encoded := TimeKeyPart.appendTo(
 				make([]byte, 0, keyCapacity),
 				retained.retainedSince,
 			)
@@ -47,7 +47,7 @@ func retainedKeyLayoutFrom[K any](keys KeyLayout[K]) KeyLayout[retainedKey[K]] {
 			return Key{encoded: append(encoded, keys.Encode(retained.key).encoded...)}
 		},
 		decode: func(storedKey []byte) (retainedKey[K], error) {
-			retainedSince, rest, sinceErr := TimeInSecondsKeyPart.parseFrom(
+			retainedSince, rest, sinceErr := TimeKeyPart.parseFrom(
 				orderedBytes{encoded: storedKey},
 			)
 			key, keyErr := keys.Decode(rest.encoded)
@@ -63,7 +63,7 @@ func (i *RetentionIndex[R, K]) KeysBefore(tx *Txn, cutoff time.Time, limit int) 
 	keys := make([]K, 0, limit)
 	err := i.entries.Scan(
 		tx,
-		TimeInSecondsKeyPart.keysBefore(cutoff),
+		TimeKeyPart.keysBefore(cutoff),
 		func(retained retainedKey[K]) (bool, error) {
 			if len(keys) == limit {
 				return false, nil
