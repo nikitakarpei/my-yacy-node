@@ -24,6 +24,7 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 	metrics.OfferedPageInvalid(ctx)
 	metrics.PageOffered(ctx, "message", pageURL)
 	metrics.DocumentExtractionFailed(ctx, "message", pageURL, cause)
+	metrics.MediaTypeUnsupported(ctx, "message", pageURL, "application/pdf")
 	metrics.NoIndexDerived(ctx, "message", pageURL)
 	metrics.PageAdmissionBusy(ctx, "message", pageURL, 11)
 	metrics.PageAdmissionFailed(ctx, "message", pageURL, 13, cause)
@@ -34,6 +35,7 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 	for _, disposal := range []string{
 		"indexed",
 		"document_extraction_failed",
+		"media_type_unsupported",
 		"no_index_derived",
 		"invalid_message",
 	} {
