@@ -112,7 +112,7 @@ func BytesKeyPartFrom[A any](
 	}
 }
 
-var TimeKeyPart = KeyPart[time.Time]{
+var TimeInSecondsKeyPart = KeyPart[time.Time]{
 	appendTo: func(encoded []byte, instant time.Time) []byte {
 		return appendOrderedInteger(encoded, instant.Unix())
 	},
@@ -123,7 +123,20 @@ var TimeKeyPart = KeyPart[time.Time]{
 	},
 }
 
-var TimeKeyPartDescending = descendingFrom(TimeKeyPart)
+var TimeInSecondsKeyPartDescending = descendingFrom(TimeInSecondsKeyPart)
+
+var TimeInMillisecondsKeyPart = KeyPart[time.Time]{
+	appendTo: func(encoded []byte, instant time.Time) []byte {
+		return appendOrderedInteger(encoded, instant.UnixMilli())
+	},
+	parseFrom: func(stored orderedBytes) (time.Time, orderedBytes, error) {
+		milliseconds, rest, err := parseOrderedInteger(stored)
+
+		return time.UnixMilli(milliseconds).UTC(), rest, err
+	},
+}
+
+var TimeInMillisecondsKeyPartDescending = descendingFrom(TimeInMillisecondsKeyPart)
 
 var IntegerKeyPart = KeyPart[int64]{
 	appendTo:  appendOrderedInteger,

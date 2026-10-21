@@ -8,7 +8,7 @@ import (
 )
 
 func TestTripleKeyRoundTripsAllThreePositions(t *testing.T) {
-	parts := vault.TripleKey(vault.TimeKeyPart, vault.TextKeyPart, vault.IntegerKeyPart)
+	parts := vault.TripleKey(vault.TimeInSecondsKeyPart, vault.TextKeyPart, vault.IntegerKeyPart)
 
 	for _, instant := range orderedInstants() {
 		for _, text := range orderedTexts() {
@@ -80,7 +80,7 @@ func TestTripleKeyPartsRejectsAKeyOfAnotherPartList(t *testing.T) {
 
 func TestTripleKeyLayoutForRoundTripsTheDomainValue(t *testing.T) {
 	layout := vault.TripleKey(
-		vault.TimeKeyPart,
+		vault.TimeInSecondsKeyPart,
 		vault.TextKeyPart,
 		vault.IntegerKeyPart,
 	).KeyLayoutFor(

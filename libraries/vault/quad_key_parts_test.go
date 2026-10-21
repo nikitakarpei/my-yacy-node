@@ -9,7 +9,7 @@ import (
 
 func TestQuadKeyRoundTripsAllFourPositions(t *testing.T) {
 	parts := vault.QuadKey(
-		vault.TimeKeyPart, vault.TextKeyPart, vault.IntegerKeyPart, vault.TextKeyPart)
+		vault.TimeInSecondsKeyPart, vault.TextKeyPart, vault.IntegerKeyPart, vault.TextKeyPart)
 
 	for _, instant := range orderedInstants() {
 		for _, text := range orderedTexts() {
@@ -104,7 +104,7 @@ func TestQuadKeyPartsRejectsAKeyOfAnotherPartList(t *testing.T) {
 
 func TestQuadKeyLayoutForRoundTripsTheDomainValue(t *testing.T) {
 	layout := vault.QuadKey(
-		vault.TimeKeyPart,
+		vault.TimeInSecondsKeyPart,
 		vault.TextKeyPart,
 		vault.IntegerKeyPart,
 		vault.TextKeyPart,

@@ -101,17 +101,61 @@ func TestIntegerKeysSortInNumericOrder(t *testing.T) {
 }
 
 func TestTimeKeysSortInChronologicalOrder(t *testing.T) {
-	assertKeysSortAscending(t, vault.SingleKey(vault.TimeKeyPart).Key, orderedInstants())
-	assertKeysSortDescending(t, vault.SingleKey(vault.TimeKeyPartDescending).Key, orderedInstants())
+	assertKeysSortAscending(t, vault.SingleKey(vault.TimeInSecondsKeyPart).Key, orderedInstants())
+	assertKeysSortDescending(
+		t,
+		vault.SingleKey(vault.TimeInSecondsKeyPartDescending).Key,
+		orderedInstants(),
+	)
+	assertKeysSortAscending(
+		t,
+		vault.SingleKey(vault.TimeInMillisecondsKeyPart).Key,
+		orderedInstants(),
+	)
+	assertKeysSortDescending(
+		t,
+		vault.SingleKey(vault.TimeInMillisecondsKeyPartDescending).Key,
+		orderedInstants(),
+	)
+}
+
+func TestTimeInMillisecondsKeysSortTheMillisecondsOfOneSecond(t *testing.T) {
+	instantsOfOneSecond := []time.Time{
+		time.Date(2026, time.August, 9, 12, 0, 0, 0, time.UTC),
+		time.Date(2026, time.August, 9, 12, 0, 0, int(time.Millisecond), time.UTC),
+		time.Date(2026, time.August, 9, 12, 0, 0, int(500*time.Millisecond), time.UTC),
+		time.Date(2026, time.August, 9, 12, 0, 0, int(999*time.Millisecond), time.UTC),
+	}
+
+	assertKeysSortAscending(
+		t,
+		vault.SingleKey(vault.TimeInMillisecondsKeyPart).Key,
+		instantsOfOneSecond,
+	)
+	assertKeysSortDescending(
+		t,
+		vault.SingleKey(vault.TimeInMillisecondsKeyPartDescending).Key,
+		instantsOfOneSecond,
+	)
 }
 
 func TestTimeKeysOfOneSecondAreOneKey(t *testing.T) {
-	parts := vault.SingleKey(vault.TimeKeyPart)
+	parts := vault.SingleKey(vault.TimeInSecondsKeyPart)
 	early := time.Date(2026, time.August, 9, 12, 0, 0, 1, time.UTC)
 	late := time.Date(2026, time.August, 9, 12, 0, 0, 999999999, time.UTC)
 
 	if !bytes.Equal(parts.Key(early).Bytes(), parts.Key(late).Bytes()) {
 		t.Fatalf("two instants of one second address two rows")
+	}
+}
+
+func TestTimeKeysOfOneMillisecondAreOneKey(t *testing.T) {
+	parts := vault.SingleKey(vault.TimeInMillisecondsKeyPart)
+	early := time.Date(2026, time.August, 9, 12, 0, 0, int(500*time.Millisecond)+1, time.UTC)
+	late := time.Date(2026, time.August, 9, 12, 0, 0, int(501*time.Millisecond)-1, time.UTC)
+
+	if !bytes.Equal(parts.Key(early).Bytes(), parts.Key(late).Bytes()) {
+		t.Fatalf("two instants of one millisecond address two rows")
 	}
 }
 
@@ -152,8 +196,10 @@ func TestIntegerRoundTripsThroughBothDirections(t *testing.T) {
 func TestTimeRoundTripsToTheSameSecondInUTC(t *testing.T) {
 	for _, instant := range orderedInstants() {
 		for _, parts := range []vault.SingleKeyParts[time.Time]{
-			vault.SingleKey(vault.TimeKeyPart),
-			vault.SingleKey(vault.TimeKeyPartDescending),
+			vault.SingleKey(vault.TimeInSecondsKeyPart),
+			vault.SingleKey(vault.TimeInSecondsKeyPartDescending),
+			vault.SingleKey(vault.TimeInMillisecondsKeyPart),
+			vault.SingleKey(vault.TimeInMillisecondsKeyPartDescending),
 		} {
 			decoded, err := parts.PartsOf(parts.Key(instant).Bytes())
 			if err != nil {
@@ -170,23 +216,31 @@ func TestTimeRoundTripsToTheSameSecondInUTC(t *testing.T) {
 }
 
 func TestTimeDropsTheMonotonicReadingAndTheLocation(t *testing.T) {
-	parts := vault.SingleKey(vault.TimeKeyPart)
-	zone := time.FixedZone("somewhere", 3600)
-	instant := time.Now().In(zone)
+	for _, precisePart := range []struct {
+		parts     vault.SingleKeyParts[time.Time]
+		precision time.Duration
+	}{
+		{parts: vault.SingleKey(vault.TimeInSecondsKeyPart), precision: time.Second},
+		{parts: vault.SingleKey(vault.TimeInMillisecondsKeyPart), precision: time.Millisecond},
+	} {
+		parts, precision := precisePart.parts, precisePart.precision
+		zone := time.FixedZone("somewhere", 3600)
+		instant := time.Now().In(zone)
 
-	decoded, err := parts.PartsOf(parts.Key(instant).Bytes())
-	if err != nil {
-		t.Fatalf("PartsOf failed: %v", err)
-	}
+		decoded, err := parts.PartsOf(parts.Key(instant).Bytes())
+		if err != nil {
+			t.Fatalf("PartsOf failed: %v", err)
+		}
 
-	if !decoded.Equal(instant.Truncate(time.Second)) {
-		t.Fatalf("PartsOf = %s, want %s", decoded, instant.Truncate(time.Second))
-	}
-	if decoded.Location() != time.UTC {
-		t.Fatalf("PartsOf location = %s, want UTC", decoded.Location())
-	}
-	if decoded != decoded.Round(0) {
-		t.Fatalf("PartsOf kept a monotonic reading: %s", decoded)
+		if !decoded.Equal(instant.Truncate(precision)) {
+			t.Fatalf("PartsOf = %s, want %s", decoded, instant.Truncate(precision))
+		}
+		if decoded.Location() != time.UTC {
+			t.Fatalf("PartsOf location = %s, want UTC", decoded.Location())
+		}
+		if decoded != decoded.Round(0) {
+			t.Fatalf("PartsOf kept a monotonic reading: %s", decoded)
+		}
 	}
 }
 

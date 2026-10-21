@@ -124,7 +124,7 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 }
 
 var postingHoldKeyParts = vault.QuadKey(
-	vault.TimeKeyPart,
+	vault.TimeInSecondsKeyPart,
 	hashkeypart.Hash,
 	hashkeypart.URLHash,
 	fingerprintKeyPart,
