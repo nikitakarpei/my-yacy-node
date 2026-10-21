@@ -23,8 +23,8 @@ import (
 var errLimitMalformed = errors.New("page visit limit record is malformed")
 
 const (
-	hostPagesBucket  = "host_pages"
-	pageVisitsBucket = "taken_for_page_visits"
+	takenHostPageCountsBucket = "taken_host_page_counts"
+	pageVisitsBucket          = "taken_for_page_visits"
 )
 
 var hostKeys = vault.PairKey(crawlkeyparts.CrawlID, vault.TextKeyPart).KeyLayoutFor(
@@ -51,11 +51,11 @@ type Clock interface {
 }
 
 type PageVisitLimits struct {
-	storage    *vault.Vault
-	hostPages  *retainedrecords.Records[hostKey, hostPages]
-	pageVisits *retainedrecords.Records[pageVisitKey, pageVisitTaken]
-	clock      Clock
-	maxPerURL  MaxPerURL
+	storage             *vault.Vault
+	takenHostPageCounts *retainedrecords.Records[hostKey, takenHostPageCount]
+	pageVisits          *retainedrecords.Records[pageVisitKey, pageVisitTaken]
+	clock               Clock
+	maxPerURL           MaxPerURL
 }
 
 type hostKey struct {
@@ -77,8 +77,8 @@ func New(
 	keptFor time.Duration,
 	maxPerURL MaxPerURL,
 ) (*PageVisitLimits, error) {
-	hostPagesKept, err := retention.Register(
-		ctx, hostPagesBucket, hostKeys, hostPagesCodec{}, keptFor,
+	takenHostPageCountsKept, err := retention.Register(
+		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor,
 	)
 	if err != nil {
 		return nil, err
@@ -90,11 +90,11 @@ func New(
 		return nil, err
 	}
 	return &PageVisitLimits{
-		storage:    storage,
-		hostPages:  hostPagesKept,
-		pageVisits: pageVisitsKept,
-		clock:      clock,
-		maxPerURL:  maxPerURL,
+		storage:             storage,
+		takenHostPageCounts: takenHostPageCountsKept,
+		pageVisits:          pageVisitsKept,
+		clock:               clock,
+		maxPerURL:           maxPerURL,
 	}, nil
 }
 
@@ -133,12 +133,12 @@ func (limits *PageVisitLimits) holdsPageOfHost(
 	if err != nil || taken.holdsPageOfHost {
 		return taken.holdsPageOfHost, err
 	}
-	pages, _, err := limits.hostPages.Get(tx, pagesOfHost, now)
+	pages, _, err := limits.takenHostPageCounts.Get(tx, pagesOfHost, now)
 	if err != nil || pages.pages >= maxPages {
 		return false, err
 	}
 	pages.pages++
-	if err := limits.hostPages.Put(tx, pagesOfHost, pages, now); err != nil {
+	if err := limits.takenHostPageCounts.Put(tx, pagesOfHost, pages, now); err != nil {
 		return false, err
 	}
 	taken.holdsPageOfHost = true
@@ -209,22 +209,22 @@ func (limits *PageVisitLimits) anotherAttempt(taken pageVisitTaken) (pageVisitTa
 	return taken, true
 }
 
-type hostPages struct {
+type takenHostPageCount struct {
 	pages int
 }
 
-type hostPagesCodec struct{}
+type takenHostPageCountCodec struct{}
 
-func (hostPagesCodec) Encode(record hostPages) ([]byte, error) {
+func (takenHostPageCountCodec) Encode(record takenHostPageCount) ([]byte, error) {
 	return binary.AppendVarint(nil, int64(record.pages)), nil
 }
 
-func (hostPagesCodec) Decode(stored []byte) (hostPages, error) {
+func (takenHostPageCountCodec) Decode(stored []byte) (takenHostPageCount, error) {
 	pages, pagesBytes := binary.Varint(stored)
 	if pagesBytes != len(stored) {
-		return hostPages{}, errLimitMalformed
+		return takenHostPageCount{}, errLimitMalformed
 	}
-	return hostPages{pages: int(pages)}, nil
+	return takenHostPageCount{pages: int(pages)}, nil
 }
 
 type pageVisitTaken struct {
