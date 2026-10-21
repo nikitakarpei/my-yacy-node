@@ -1,5 +1,6 @@
 // Package vault lends callers typed, transactional views over named buckets.
-// Records buckets back a Collection, a Set, a ValueIndex or a ChangeIndex;
+// Records buckets back a Collection, a Set, a ValueIndex, a RetentionIndex or a
+// ChangeIndex;
 // amounts buckets hold numbers raised and lowered blind, or a
 // CountIndex; member sets buckets back a MemberSetIndex over a MemberEncoding.
 // Only vault adds to an index, in step with the collection it follows. An Engine
