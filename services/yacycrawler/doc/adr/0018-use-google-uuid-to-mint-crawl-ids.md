@@ -1,4 +1,4 @@
-# 19. Use google/uuid to mint crawl IDs
+# 18. Use google/uuid to mint crawl IDs
 
 Date: 2026-10-22
 

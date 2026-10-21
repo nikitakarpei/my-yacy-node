@@ -24,4 +24,4 @@ can replace Pebble. JetStream keeps only streams.
 
 Crawl state lives in a directory of one crawler instance, with bounded memory. Two instances
 do not share state. A shared engine behind the vault is needed before instances can share a
-frontier.
+frontier. Store tests run against the vault engines and need no external infrastructure.

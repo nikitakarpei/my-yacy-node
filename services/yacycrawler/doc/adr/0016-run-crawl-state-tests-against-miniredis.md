@@ -4,7 +4,7 @@ Date: 2026-10-11
 
 ## Status
 
-Superseded by [18. Run crawl state tests against vault engines](0018-run-crawl-state-tests-against-vault-engines.md)
+Superseded by [17. Keep crawl state in a vault on Pebble](0017-keep-crawl-state-in-a-vault-on-pebble.md)
 
 ## Context
 
