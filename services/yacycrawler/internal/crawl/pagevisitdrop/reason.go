@@ -9,4 +9,5 @@ const (
 	HostPagesExhausted Reason = "host-pages-exhausted"
 	DeferralsExhausted Reason = "deferrals-exhausted"
 	RetriesExhausted   Reason = "retries-exhausted"
+	OrderForgotten     Reason = "order-forgotten"
 )

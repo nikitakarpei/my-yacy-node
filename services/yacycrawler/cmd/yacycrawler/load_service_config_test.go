@@ -15,7 +15,6 @@ func envFrom(values map[string]string) func(string) string {
 func baseEnv() map[string]string {
 	return map[string]string{
 		"CRAWL_NATS_URL":              "nats://localhost:4222",
-		"CRAWL_STATE_REDIS_URL":       "redis://localhost:6379/0",
 		"YACYCRAWLER_FETCH_PROXY_URL": "http://proxy:8080",
 	}
 }
@@ -82,21 +81,41 @@ func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigReadsTheCrawlStateServer(t *testing.T) {
+func TestLoadServiceConfigKeepsCrawlStateInTheDefaultDirectory(t *testing.T) {
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(baseEnv()))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.CrawlStateRedis.Addr != "localhost:6379" {
-		t.Fatalf("Redis address = %q, want localhost:6379", cfg.CrawlStateRedis.Addr)
+	if cfg.CrawlStateDir != yacycrawler.DefaultCrawlStateDir {
+		t.Fatalf(
+			"crawl state directory = %q, want %q",
+			cfg.CrawlStateDir,
+			yacycrawler.DefaultCrawlStateDir,
+		)
+	}
+	if cfg.CrawlStateLimits.BlockCacheBytes != 64<<20 ||
+		cfg.CrawlStateLimits.WriteConcurrency != yacycrawler.DefaultCrawlStatePebbleWriteConcurrency {
+		t.Fatalf("crawl state limits = %+v, want the defaults", cfg.CrawlStateLimits)
 	}
 }
 
-func TestLoadServiceConfigRequiresCrawlStateRedisURL(t *testing.T) {
+func TestLoadServiceConfigReadsTheCrawlStateDirectoryAndLimits(t *testing.T) {
 	env := baseEnv()
-	delete(env, "CRAWL_STATE_REDIS_URL")
-	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("missing CRAWL_STATE_REDIS_URL should error")
+	env["CRAWL_STATE_DIR"] = "/data"
+	env["CRAWL_STATE_PEBBLE_BLOCK_CACHE"] = "16MB"
+	env["CRAWL_STATE_PEBBLE_MEMTABLE_SIZE"] = "4MB"
+	env["CRAWL_STATE_PEBBLE_COMPACTION_CONCURRENCY"] = "2"
+	env["CRAWL_STATE_PEBBLE_OPEN_FILE_LIMIT"] = "500"
+	env["CRAWL_STATE_PEBBLE_WRITE_CONCURRENCY"] = "4"
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	limits := cfg.CrawlStateLimits
+	if cfg.CrawlStateDir != "/data" || limits.BlockCacheBytes != 16<<20 ||
+		limits.MemtableBytes != 4<<20 || limits.CompactionConcurrency != 2 ||
+		limits.OpenFileLimit != 500 || limits.WriteConcurrency != 4 {
+		t.Fatalf("crawl state = %q %+v, want the overrides", cfg.CrawlStateDir, limits)
 	}
 }
 
@@ -148,7 +167,11 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_FETCH_CONCURRENCY": "notint"},
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
-		{"CRAWL_STATE_REDIS_URL": "http://localhost:6379"},
+		{"CRAWL_STATE_PEBBLE_BLOCK_CACHE": "lots"},
+		{"CRAWL_STATE_PEBBLE_MEMTABLE_SIZE": "lots"},
+		{"CRAWL_STATE_PEBBLE_COMPACTION_CONCURRENCY": "0"},
+		{"CRAWL_STATE_PEBBLE_OPEN_FILE_LIMIT": "0"},
+		{"CRAWL_STATE_PEBBLE_WRITE_CONCURRENCY": "0"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {

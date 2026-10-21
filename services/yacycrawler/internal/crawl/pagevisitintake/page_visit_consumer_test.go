@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
@@ -28,6 +29,8 @@ const (
 	visitURL = "http://host/"
 )
 
+var crawlID = crawlid.CrawlID{1}
+
 type fakeTakenPageVisits struct {
 	takers  map[string]string
 	takeErr error
@@ -38,7 +41,7 @@ func newTakenPageVisits() *fakeTakenPageVisits {
 }
 
 func (visits *fakeTakenPageVisits) TakePageVisit(
-	_ context.Context, _ string, url canonicalurl.CanonicalURL, taker string,
+	_ context.Context, _ crawlid.CrawlID, url canonicalurl.CanonicalURL, taker string,
 ) (bool, error) {
 	if visits.takeErr != nil {
 		return false, visits.takeErr
@@ -95,20 +98,22 @@ func (a *fakeAllowances) AnotherAttemptFor(
 }
 
 type fakeAcceptedOrders struct {
-	profile yacycrawlcontract.CrawlProfile
-	seeds   []canonicalurl.CanonicalURL
-	err     error
+	profile   yacycrawlcontract.CrawlProfile
+	seeds     []canonicalurl.CanonicalURL
+	forgotten bool
+	err       error
 }
 
 func (o *fakeAcceptedOrders) OrderOf(
-	_ context.Context, orderID string,
-) (acceptedorder.AcceptedOrder, error) {
-	if o.err != nil {
-		return acceptedorder.AcceptedOrder{}, o.err
+	_ context.Context, _ crawlid.CrawlID,
+) (acceptedorder.AcceptedOrder, bool, error) {
+	if o.err != nil || o.forgotten {
+		return acceptedorder.AcceptedOrder{}, false, o.err
 	}
-	return acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
+	order, err := acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
 		OrderID: orderID, Profile: o.profile, SeedURLs: o.seeds,
 	})
+	return order, err == nil, err
 }
 
 type fakePageVisitor struct {
@@ -219,7 +224,7 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 	t.Helper()
 	data, err := pendingpagevisit.MarshalPendingPageVisit(pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, visitURL),
 		Depth:   0,
 	})
@@ -514,6 +519,26 @@ func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+}
+
+func TestAVisitWhoseOrderIsForgottenIsDroppedUnvisited(t *testing.T) {
+	worker := newWorker()
+	worker.orders.forgotten = true
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
+		t.Fatalf("message settled %v, want one ack", got)
+	}
+	if worker.observer.dropped[pagevisitdrop.OrderForgotten] != 1 {
+		t.Fatalf("dropped %v, want one forgotten order", worker.observer.dropped)
+	}
+	if worker.pageVisitor.pageVisitCount() != 0 {
+		t.Fatal("a url of a forgotten order should not be visited")
 	}
 }
 

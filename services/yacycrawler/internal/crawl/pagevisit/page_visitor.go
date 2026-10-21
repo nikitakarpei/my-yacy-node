@@ -106,13 +106,11 @@ func (visitor *pageVisitor) putOnFrontier(
 	order acceptedorder.AcceptedOrder,
 	nextPageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
+	admittedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(nextPageVisits))
 	for _, nextPageVisit := range nextPageVisits {
-		if !order.Admits(nextPageVisit.URL, nextPageVisit.Depth) {
-			continue
-		}
-		if err := visitor.frontier.Publish(ctx, nextPageVisit); err != nil {
-			return err
+		if order.Admits(nextPageVisit.URL, nextPageVisit.Depth) {
+			admittedPageVisits = append(admittedPageVisits, nextPageVisit)
 		}
 	}
-	return nil
+	return visitor.frontier.Publish(ctx, admittedPageVisits)
 }

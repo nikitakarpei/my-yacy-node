@@ -4,7 +4,7 @@ Date: 2026-10-11
 
 ## Status
 
-Accepted
+Superseded by [18. Run crawl state tests against vault engines](0018-run-crawl-state-tests-against-vault-engines.md)
 
 ## Context
 

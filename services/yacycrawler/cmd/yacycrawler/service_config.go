@@ -4,11 +4,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/redis/go-redis/v9"
-
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
-	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
+	pagevisitlimitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/vault"
 )
 
 const (
@@ -34,7 +33,8 @@ const (
 
 type ServiceConfig struct {
 	CrawlNATSURL       string
-	CrawlStateRedis    *redis.Options
+	CrawlStateDir      string
+	CrawlStateLimits   pebblevault.MachineLimits
 	CrawlOrdersSubject string
 	CrawlOrdersDurable string
 	ProxyURL           *url.URL
@@ -75,8 +75,8 @@ func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
 	return retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling}
 }
 
-func (ServiceConfig) MaxPerURL() pagevisitlimitsredis.MaxPerURL {
-	return pagevisitlimitsredis.MaxPerURL{
+func (ServiceConfig) MaxPerURL() pagevisitlimitsvault.MaxPerURL {
+	return pagevisitlimitsvault.MaxPerURL{
 		Deferrals: maxDeferralsPerURL,
 		Attempts:  maxAttemptsPerURL,
 	}

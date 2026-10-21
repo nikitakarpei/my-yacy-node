@@ -233,7 +233,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(yacycrawler_pending_page_visits{instance=~\"$service_instance\"})",
+          "expr": "sum(yacycrawler_pending_page_visits{instance=~\"$service_instance\"})",
           "legendFormat": "pending page visits"
         }
       ],

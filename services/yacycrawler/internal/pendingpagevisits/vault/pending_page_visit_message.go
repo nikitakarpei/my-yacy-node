@@ -1,4 +1,4 @@
-package redis
+package vault
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 
 type pendingPageVisitMessage struct {
 	visits   *PendingPageVisits
-	field    string
+	key      pageVisitKey
 	identity string
 	arrival  time.Time
 	body     []byte
@@ -28,7 +28,7 @@ func (m pendingPageVisitMessage) Arrival() time.Time {
 }
 
 func (m pendingPageVisitMessage) Acknowledge(ctx context.Context) {
-	m.visits.acknowledge(ctx, m.field, m.identity)
+	m.visits.acknowledge(ctx, m.key, m.identity)
 }
 
 func (m pendingPageVisitMessage) Return(ctx context.Context) {
@@ -36,5 +36,5 @@ func (m pendingPageVisitMessage) Return(ctx context.Context) {
 }
 
 func (m pendingPageVisitMessage) ReturnAfter(ctx context.Context, delay time.Duration) {
-	m.visits.returnAfter(ctx, m.field, m.identity, delay)
+	m.visits.returnAfter(ctx, m.key, m.identity, delay)
 }

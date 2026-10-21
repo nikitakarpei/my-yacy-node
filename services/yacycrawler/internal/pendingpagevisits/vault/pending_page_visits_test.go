@@ -1,32 +1,46 @@
-package redis_test
+package vault_test
 
 import (
 	"context"
 	"errors"
+	"fmt"
+	"path/filepath"
+	"slices"
+	"sync"
 	"testing"
 	"time"
 
-	"github.com/alicebob/miniredis/v2"
-	goredis "github.com/redis/go-redis/v9"
-
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/redis"
+	pendingpagevisitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/vault"
 )
 
 const (
-	lease         = time.Minute
-	pageVisitsKey = "{YACY_CRAWL_FRONTIER}:page-visits"
+	lease              = time.Minute
+	concurrentLessees  = 8
+	contendedVisits    = 32
+	visitsOverOneBatch = 300
 )
 
-var errNoDueVisit = errors.New("no page visit is due")
+var (
+	errNoDueVisit     = errors.New("no page visit is due")
+	errEngineRefusing = errors.New("engine refuses")
+	crawlID           = crawlid.CrawlID{1}
+)
 
 type clock struct {
-	now time.Time
+	guard sync.Mutex
+	now   time.Time
 }
 
 func (c *clock) Now() time.Time {
+	c.guard.Lock()
+	defer c.guard.Unlock()
 	return c.now
 }
 
@@ -35,10 +49,13 @@ func (c *clock) Sleep(context.Context, time.Duration) error {
 }
 
 func (c *clock) pass(d time.Duration) {
+	c.guard.Lock()
+	defer c.guard.Unlock()
 	c.now = c.now.Add(d)
 }
 
 type recordedFailures struct {
+	guard           sync.Mutex
 	leases          []error
 	counts          []error
 	acknowledgments []string
@@ -46,6 +63,8 @@ type recordedFailures struct {
 }
 
 func (r *recordedFailures) FrontierLeaseFailed(_ context.Context, err error) {
+	r.guard.Lock()
+	defer r.guard.Unlock()
 	r.leases = append(r.leases, err)
 }
 
@@ -70,39 +89,66 @@ func (r *recordedFailures) FrontierReturnFailed(
 	r.returns = append(r.returns, identity)
 }
 
+type refusingEngine struct {
+	vault.Engine
+	refusing bool
+}
+
+func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	if engine.refusing {
+		return errEngineRefusing
+	}
+	return engine.Engine.Update(ctx, fn)
+}
+
+func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	if engine.refusing {
+		return errEngineRefusing
+	}
+	return engine.Engine.View(ctx, fn)
+}
+
 type frontier struct {
-	server   *miniredis.Miniredis
+	engine   *refusingEngine
 	clock    *clock
 	failures *recordedFailures
-	visits   *redis.PendingPageVisits
+	visits   *pendingpagevisitsvault.PendingPageVisits
 }
 
 func newFrontier(t *testing.T) frontier {
 	t.Helper()
-	server := miniredis.RunT(t)
+	return newFrontierOn(t, memoryvault.OpenEngine(0))
+}
+
+func newFrontierOn(t *testing.T, engine vault.Engine) frontier {
+	t.Helper()
+	refusing := &refusingEngine{Engine: engine}
+	storage, err := vault.New(refusing, nil)
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+	t.Cleanup(func() { _ = storage.Close() })
 	visitClock := &clock{now: time.Unix(1_000_000, 0)}
 	failures := &recordedFailures{}
-	client := goredis.NewClient(&goredis.Options{Addr: server.Addr()})
-	return frontier{
-		server:   server,
-		clock:    visitClock,
-		failures: failures,
-		visits:   redis.New(client, lease, visitClock, failures),
+	visits, err := pendingpagevisitsvault.New(t.Context(), storage, lease, visitClock, failures)
+	if err != nil {
+		t.Fatalf("New: %v", err)
 	}
+	return frontier{engine: refusing, clock: visitClock, failures: failures, visits: visits}
 }
 
 func pageVisitTo(t *testing.T, rawURL string) pendingpagevisit.PendingPageVisit {
 	t.Helper()
 	return pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, rawURL),
 		Depth:   1,
 	}
 }
 
-func (f frontier) publish(t *testing.T, pageVisit pendingpagevisit.PendingPageVisit) {
+func (f frontier) publish(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
 	t.Helper()
-	if err := f.visits.Publish(t.Context(), pageVisit); err != nil {
+	if err := f.visits.Publish(t.Context(), pageVisits); err != nil {
 		t.Fatalf("Publish: %v", err)
 	}
 }
@@ -123,6 +169,15 @@ func (f frontier) requireNoDueVisit(t *testing.T) {
 	}
 }
 
+func (f frontier) amount(t *testing.T) int64 {
+	t.Helper()
+	amount, counted := f.visits.AmountOfPendingPageVisits(t.Context())
+	if !counted {
+		t.Fatal("AmountOfPendingPageVisits did not count")
+	}
+	return amount
+}
+
 func pageVisitOf(
 	t *testing.T,
 	message pullintake.PendingMessage,
@@ -139,7 +194,7 @@ func TestAPublishedPageVisitIsTakenWithItsArrival(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
 	f.publish(t, pageVisit)
-	arrival := f.clock.now
+	arrival := f.clock.Now()
 
 	message := f.next(t)
 
@@ -154,12 +209,26 @@ func TestAPublishedPageVisitIsTakenWithItsArrival(t *testing.T) {
 func TestAPageVisitPublishedTwiceWhilePendingIsTakenOnce(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
-	f.publish(t, pageVisit)
+	f.publish(t, pageVisit, pageVisit)
 	f.publish(t, pageVisit)
 
 	f.next(t)
 
 	f.requireNoDueVisit(t)
+}
+
+func TestEveryPageVisitOfOnePublicationIsPending(t *testing.T) {
+	f := newFrontier(t)
+	pageVisits := make([]pendingpagevisit.PendingPageVisit, 0, visitsOverOneBatch)
+	for page := range visitsOverOneBatch {
+		pageVisits = append(pageVisits, pageVisitTo(t, fmt.Sprintf("http://host/page%d", page)))
+	}
+
+	f.publish(t, pageVisits...)
+
+	if amount := f.amount(t); amount != visitsOverOneBatch {
+		t.Fatalf("pending page visits = %d, want %d", amount, visitsOverOneBatch)
+	}
 }
 
 func TestATakenPageVisitComesBackOnlyOnceItsLeaseEnds(t *testing.T) {
@@ -224,6 +293,19 @@ func TestAReturnedPageVisitComesBackLater(t *testing.T) {
 	f.next(t)
 }
 
+func TestAReturnOfAnAcknowledgedPageVisitLeavesItGone(t *testing.T) {
+	f := newFrontier(t)
+	f.publish(t, pageVisitTo(t, "http://host/page"))
+	message := f.next(t)
+	message.Acknowledge(t.Context())
+
+	message.ReturnAfter(t.Context(), time.Second)
+
+	if amount := f.amount(t); amount != 0 {
+		t.Fatalf("pending page visits = %d, want none", amount)
+	}
+}
+
 func TestPageVisitsAreTakenInTheOrderTheyFallDue(t *testing.T) {
 	f := newFrontier(t)
 	first, second := pageVisitTo(t, "http://host/first"), pageVisitTo(t, "http://host/second")
@@ -239,19 +321,22 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDue(t *testing.T) {
 	}
 }
 
-func TestAPublishTheServerRefusesFails(t *testing.T) {
+func TestAPublishTheStorageRefusesFails(t *testing.T) {
 	f := newFrontier(t)
-	f.server.SetError("server down")
+	f.engine.refusing = true
 
-	if err := f.visits.Publish(t.Context(), pageVisitTo(t, "http://host/page")); err == nil {
-		t.Fatal("Publish succeeded on a refusing server")
+	if err := f.visits.Publish(
+		t.Context(),
+		[]pendingpagevisit.PendingPageVisit{pageVisitTo(t, "http://host/page")},
+	); !errors.Is(err, errEngineRefusing) {
+		t.Fatalf("Publish err = %v, want the refusal", err)
 	}
 }
 
-func TestALeaseTheServerRefusesIsReportedAndNothingIsTaken(t *testing.T) {
+func TestALeaseTheStorageRefusesIsReportedAndNothingIsTaken(t *testing.T) {
 	f := newFrontier(t)
 	f.publish(t, pageVisitTo(t, "http://host/page"))
-	f.server.SetError("server down")
+	f.engine.refusing = true
 
 	f.requireNoDueVisit(t)
 
@@ -260,29 +345,11 @@ func TestALeaseTheServerRefusesIsReportedAndNothingIsTaken(t *testing.T) {
 	}
 }
 
-func TestAnUnreadablePageVisitIsReportedAndNothingIsTaken(t *testing.T) {
-	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-	fields, err := f.server.HKeys(pageVisitsKey)
-	if err != nil {
-		t.Fatalf("HKeys: %v", err)
-	}
-	for _, field := range fields {
-		f.server.HSet(pageVisitsKey, field, "1 not-an-arrival {}")
-	}
-
-	f.requireNoDueVisit(t)
-
-	if len(f.failures.leases) != 1 {
-		t.Fatalf("lease failures = %v, want one", f.failures.leases)
-	}
-}
-
-func TestSettlementsTheServerRefusesAreReported(t *testing.T) {
+func TestSettlementsTheStorageRefusesAreReported(t *testing.T) {
 	f := newFrontier(t)
 	f.publish(t, pageVisitTo(t, "http://host/page"))
 	message := f.next(t)
-	f.server.SetError("server down")
+	f.engine.refusing = true
 
 	message.Acknowledge(t.Context())
 	message.ReturnAfter(t.Context(), time.Second)
@@ -300,24 +367,59 @@ func TestSettlementsTheServerRefusesAreReported(t *testing.T) {
 
 func TestTheAmountOfPendingPageVisitsCountsTakenOnesUntilTheyAreAcknowledged(t *testing.T) {
 	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/first"))
-	f.publish(t, pageVisitTo(t, "http://host/second"))
+	f.publish(t, pageVisitTo(t, "http://host/first"), pageVisitTo(t, "http://host/second"))
 	f.next(t).Acknowledge(t.Context())
 	f.next(t)
 
-	if amount, counted := f.visits.AmountOfPendingPageVisits(t.Context()); !counted || amount != 1 {
-		t.Fatalf("AmountOfPendingPageVisits = %d, %v; want 1, true", amount, counted)
+	if amount := f.amount(t); amount != 1 {
+		t.Fatalf("AmountOfPendingPageVisits = %d; want 1", amount)
 	}
 }
 
-func TestACountTheServerRefusesIsReported(t *testing.T) {
+func TestACountTheStorageRefusesIsReported(t *testing.T) {
 	f := newFrontier(t)
-	f.server.SetError("server down")
+	f.engine.refusing = true
 
 	if _, counted := f.visits.AmountOfPendingPageVisits(t.Context()); counted {
-		t.Fatal("AmountOfPendingPageVisits counted on a refusing server")
+		t.Fatal("AmountOfPendingPageVisits counted on a refusing storage")
 	}
 	if len(f.failures.counts) != 1 {
 		t.Fatalf("count failures = %v, want one", f.failures.counts)
+	}
+}
+
+func TestConcurrentLeasesTakeEachDuePageVisitOnce(t *testing.T) {
+	engine, err := pebblevault.OpenEngine(
+		filepath.Join(t.TempDir(), "crawl-state"), 0, pebblevault.MachineLimits{}, nil, nil,
+	)
+	if err != nil {
+		t.Fatalf("OpenEngine: %v", err)
+	}
+	f := newFrontierOn(t, engine)
+	published := make([]pendingpagevisit.PendingPageVisit, 0, contendedVisits)
+	for page := range contendedVisits {
+		published = append(published, pageVisitTo(t, fmt.Sprintf("http://host/page%d", page)))
+	}
+	f.publish(t, published...)
+
+	leasedByLessee := make([][]string, concurrentLessees)
+	var leasing sync.WaitGroup
+	for lessee := range concurrentLessees {
+		leasing.Go(func() {
+			for {
+				message, err := f.visits.Next(context.Background())
+				if err != nil {
+					return
+				}
+				leasedByLessee[lessee] = append(leasedByLessee[lessee], message.Identity())
+			}
+		})
+	}
+	leasing.Wait()
+
+	leased := slices.Concat(leasedByLessee...)
+	slices.Sort(leased)
+	if len(leased) != contendedVisits || len(slices.Compact(leased)) != contendedVisits {
+		t.Fatalf("leased %d page visits, want each of %d once", len(leased), contendedVisits)
 	}
 }

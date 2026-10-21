@@ -7,9 +7,9 @@ orders. For each order, it fetches the pages the order admits and publishes each
 read. A YaCy node is the typical order source and consumer, but the service depends on no
 consumer's internals.
 
-Several instances share one order stream and one frontier. Every instance takes any URL
-of any order, so a run spreads across the instances that are up. The service is meant for
-a more capable host than an always-on node.
+Several instances share one order stream. The instance that accepts an order keeps the
+run's frontier and visits every URL of it. The service is meant for a more capable host
+than an always-on node.
 
 ## Non-Goals
 
@@ -49,9 +49,9 @@ a more capable host than an always-on node.
   delivery.
 * Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
   replaces its prior publication downstream rather than duplicating it.
-* The service SHALL keep accepted orders, its frontier and page visit state on a
-  Redis-protocol server, never in memory, so run size never inflates an instance.
-* The service SHALL NOT start when its Redis-protocol server does not answer.
+* The service SHALL keep accepted orders, its frontier and page visit state in persistent
+  storage, never in memory, so run size never inflates an instance.
+* The service SHALL NOT start when it cannot open its persistent storage.
 * The service SHALL cap the buffers and fetched-body sizes it holds.
 * The service SHALL bound every outbound fetch with an explicit deadline.
 * The core SHALL keep no state of its own; anything remembered lives behind an interface
@@ -76,3 +76,5 @@ a more capable host than an always-on node.
   interested consumer and each consumer can see a different page than the crawler saw.
 * A durable crawled-page consumer that no one reads stops the crawl until an operator
   removes it.
+* A run stops while the instance that accepted its order is down.
+* A run that lasts longer than the retention of accepted orders drops its remaining URLs.

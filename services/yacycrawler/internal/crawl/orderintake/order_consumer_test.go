@@ -12,46 +12,61 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
+
+var keptCrawlID = crawlid.CrawlID{1}
 
 type fakeAcceptedOrders struct {
 	kept []acceptedorder.AcceptedOrder
 	err  error
 }
 
-func (o *fakeAcceptedOrders) Keep(_ context.Context, order acceptedorder.AcceptedOrder) error {
+func (o *fakeAcceptedOrders) Keep(
+	_ context.Context,
+	order acceptedorder.AcceptedOrder,
+) (crawlid.CrawlID, error) {
 	if o.err != nil {
-		return o.err
+		return crawlid.CrawlID{}, o.err
 	}
 	o.kept = append(o.kept, order)
-	return nil
+	return keptCrawlID, nil
 }
 
 type fakePendingVisits struct {
-	published []pendingpagevisit.PendingPageVisit
-	err       error
+	published    []pendingpagevisit.PendingPageVisit
+	publications int
+	err          error
 }
 
 func (v *fakePendingVisits) Publish(
 	_ context.Context,
-	visit pendingpagevisit.PendingPageVisit,
+	visits []pendingpagevisit.PendingPageVisit,
 ) error {
 	if v.err != nil {
 		return v.err
 	}
-	v.published = append(v.published, visit)
+	v.publications++
+	v.published = append(v.published, visits...)
 	return nil
 }
 
 type recordingObserver struct {
-	accepted int
-	returned int
+	accepted       int
+	acceptedCrawls []crawlid.CrawlID
+	returned       int
 }
 
-func (o *recordingObserver) CrawlOrderAccepted(context.Context, string, int) {
+func (o *recordingObserver) CrawlOrderAccepted(
+	_ context.Context,
+	_ string,
+	crawlID crawlid.CrawlID,
+	_ int,
+) {
 	o.accepted++
+	o.acceptedCrawls = append(o.acceptedCrawls, crawlID)
 }
 
 func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
@@ -118,19 +133,23 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	if len(orders.kept) != 1 {
 		t.Fatalf("kept %d orders, want 1", len(orders.kept))
 	}
-	if len(visits.published) != 2 {
-		t.Fatalf("published %d seeds, want 2", len(visits.published))
+	if len(visits.published) != 2 || visits.publications != 1 {
+		t.Fatalf(
+			"published %d seeds in %d publications, want 2 in one",
+			len(visits.published),
+			visits.publications,
+		)
 	}
 	for _, visit := range visits.published {
-		if visit.OrderID != "o1" || visit.Depth != 0 {
-			t.Fatalf("seed %+v should carry its order at depth zero", visit)
+		if visit.CrawlID != keptCrawlID || visit.Depth != 0 {
+			t.Fatalf("seed %+v should carry its crawl at depth zero", visit)
 		}
 	}
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
-	if observer.accepted != 1 {
-		t.Fatalf("observer %+v, want one accepted order", observer)
+	if observer.accepted != 1 || observer.acceptedCrawls[0] != keptCrawlID {
+		t.Fatalf("observer %+v, want one accepted order of crawl %s", observer, keptCrawlID)
 	}
 }
 

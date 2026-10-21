@@ -7,5 +7,5 @@ import (
 )
 
 type PendingPageVisits interface {
-	Publish(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit) error
+	Publish(ctx context.Context, pageVisits []pendingpagevisit.PendingPageVisit) error
 }

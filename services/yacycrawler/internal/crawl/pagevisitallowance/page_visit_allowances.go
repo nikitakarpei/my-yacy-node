@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
@@ -16,19 +17,19 @@ import (
 type PageVisitLimits interface {
 	AdmitsAnotherPageOfHost(
 		ctx context.Context,
-		orderID string,
+		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 		host string,
 		maxPages int,
 	) (bool, error)
 	AdmitsAnotherDeferral(
 		ctx context.Context,
-		orderID string,
+		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 	) (bool, error)
 	AdmitsAnotherAttempt(
 		ctx context.Context,
-		orderID string,
+		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 	) (int, bool, error)
 }
@@ -54,7 +55,7 @@ func (allowances *Allowances) HostPageFor(
 	maxPages int,
 ) (Allowance, error) {
 	admitted, err := allowances.limits.AdmitsAnotherPageOfHost(
-		ctx, pageVisit.OrderID, pageVisit.URL, pageVisit.URL.Hostname(), maxPages,
+		ctx, pageVisit.CrawlID, pageVisit.URL, pageVisit.URL.Hostname(), maxPages,
 	)
 	if err != nil {
 		return Allowance{}, err
@@ -71,7 +72,7 @@ func (allowances *Allowances) DeferralFor(
 	deferFor time.Duration,
 ) (Allowance, error) {
 	admitted, err := allowances.limits.AdmitsAnotherDeferral(
-		ctx, pageVisit.OrderID, pageVisit.URL,
+		ctx, pageVisit.CrawlID, pageVisit.URL,
 	)
 	if err != nil {
 		return Allowance{}, err
@@ -87,7 +88,7 @@ func (allowances *Allowances) AnotherAttemptFor(
 	pageVisit pendingpagevisit.PendingPageVisit,
 ) (Allowance, error) {
 	attempt, admitted, err := allowances.limits.AdmitsAnotherAttempt(
-		ctx, pageVisit.OrderID, pageVisit.URL,
+		ctx, pageVisit.CrawlID, pageVisit.URL,
 	)
 	if err != nil {
 		return Allowance{}, err

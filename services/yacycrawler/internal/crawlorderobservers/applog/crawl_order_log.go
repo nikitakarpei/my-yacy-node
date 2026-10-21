@@ -3,6 +3,8 @@ package applog
 import (
 	"context"
 	"log/slog"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
 const (
@@ -19,9 +21,15 @@ func (CrawlOrderLog) CrawlOrderReturned(ctx context.Context, orderID string, cau
 	)
 }
 
-func (CrawlOrderLog) CrawlOrderAccepted(ctx context.Context, orderID string, seedCount int) {
+func (CrawlOrderLog) CrawlOrderAccepted(
+	ctx context.Context,
+	orderID string,
+	crawlID crawlid.CrawlID,
+	seedCount int,
+) {
 	slog.DebugContext(ctx, msgCrawlOrderAccepted,
 		slog.String("order", orderID),
+		slog.String("crawl", crawlID.String()),
 		slog.Int("seeds", seedCount),
 	)
 }

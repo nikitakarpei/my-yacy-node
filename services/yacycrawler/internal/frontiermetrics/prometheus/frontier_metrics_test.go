@@ -25,7 +25,7 @@ func TestPendingPageVisitsReportTheAmountOnTheFrontier(t *testing.T) {
 	frontiermetricsprometheus.New(registry, frontier{amount: 42, counted: true})
 
 	expected := `
-# HELP yacycrawler_pending_page_visits Page visits on the frontier, taken or not, shared by every crawler instance.
+# HELP yacycrawler_pending_page_visits Page visits on the frontier of this crawler instance, taken or not.
 # TYPE yacycrawler_pending_page_visits gauge
 yacycrawler_pending_page_visits 42
 `

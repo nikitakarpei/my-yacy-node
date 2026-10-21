@@ -9,15 +9,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 type AcceptedOrders interface {
-	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) error
+	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error)
 }
 
 type PendingPageVisits interface {
-	Publish(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit) error
+	Publish(ctx context.Context, pageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
@@ -66,33 +67,34 @@ func (c *OrderConsumer) acceptOrder(
 		c.returnOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
-	if err := c.orders.Keep(ctx, order); err != nil {
+	crawlID, err := c.orders.Keep(ctx, order)
+	if err != nil {
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
-	if err := c.putSeedURLsOnFrontier(ctx, order); err != nil {
+	if err := c.putSeedURLsOnFrontier(ctx, crawlID, order); err != nil {
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
 	message.Acknowledge(ctx)
-	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), len(order.SeedURLs()))
+	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), crawlID, len(order.SeedURLs()))
 	return nil
 }
 
 func (c *OrderConsumer) putSeedURLsOnFrontier(
 	ctx context.Context,
+	crawlID crawlid.CrawlID,
 	order acceptedorder.AcceptedOrder,
 ) error {
+	seedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(order.SeedURLs()))
 	for _, seed := range order.SeedURLs() {
-		if err := c.frontier.Publish(ctx, pendingpagevisit.PendingPageVisit{
-			OrderID: order.OrderID(),
+		seedPageVisits = append(seedPageVisits, pendingpagevisit.PendingPageVisit{
+			CrawlID: crawlID,
 			URL:     seed,
 			Depth:   0,
-		}); err != nil {
-			return err
-		}
+		})
 	}
-	return nil
+	return c.frontier.Publish(ctx, seedPageVisits)
 }
 
 func (c *OrderConsumer) returnOrder(

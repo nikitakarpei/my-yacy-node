@@ -1,4 +1,4 @@
-package redis
+package vault
 
 import (
 	"encoding/json"
@@ -26,4 +26,14 @@ func unmarshalLastPageVisit(payload []byte) (lastPageVisit, error) {
 		return lastPageVisit{}, fmt.Errorf("unmarshal last page visit: %w", err)
 	}
 	return record, nil
+}
+
+type lastPageVisitCodec struct{}
+
+func (lastPageVisitCodec) Encode(record lastPageVisit) ([]byte, error) {
+	return marshalLastPageVisit(record)
+}
+
+func (lastPageVisitCodec) Decode(stored []byte) (lastPageVisit, error) {
+	return unmarshalLastPageVisit(stored)
 }

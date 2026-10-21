@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
@@ -21,7 +22,7 @@ import (
 type TakenPageVisits interface {
 	TakePageVisit(
 		ctx context.Context,
-		orderID string,
+		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 		taker string,
 	) (bool, error)
@@ -45,7 +46,10 @@ type PageVisitAllowances interface {
 }
 
 type AcceptedOrders interface {
-	OrderOf(ctx context.Context, orderID string) (acceptedorder.AcceptedOrder, error)
+	OrderOf(
+		ctx context.Context,
+		crawlID crawlid.CrawlID,
+	) (order acceptedorder.AcceptedOrder, found bool, err error)
 }
 
 type PageVisitConsumer struct {
@@ -96,9 +100,13 @@ func (c *PageVisitConsumer) payPageVisit(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	order, err := c.orders.OrderOf(ctx, pendingPageVisit.OrderID)
+	order, found, err := c.orders.OrderOf(ctx, pendingPageVisit.CrawlID)
 	if err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
+		return nil
+	}
+	if !found {
+		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.OrderForgotten)
 		return nil
 	}
 	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
@@ -126,7 +134,7 @@ func (c *PageVisitConsumer) takePageVisit(
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
 	took, err := c.takenPageVisits.TakePageVisit(
-		ctx, pendingPageVisit.OrderID, pendingPageVisit.URL, message.Identity(),
+		ctx, pendingPageVisit.CrawlID, pendingPageVisit.URL, message.Identity(),
 	)
 	if err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)

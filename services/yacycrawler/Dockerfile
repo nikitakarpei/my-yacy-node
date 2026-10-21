@@ -28,8 +28,17 @@ RUN --mount=type=cache,target=/go/pkg/mod \
         -o /out/yacycrawler \
         ./cmd/yacycrawler
 
+RUN mkdir -p /out/data
+
 FROM gcr.io/distroless/static-debian12:nonroot
 
+ENV CRAWL_STATE_DIR=/data
+
+COPY --from=build --chown=nonroot:nonroot /out/data /data
 COPY --from=build /out/yacycrawler /usr/local/bin/yacycrawler
+
+VOLUME ["/data"]
+
+USER nonroot:nonroot
 
 ENTRYPOINT ["/usr/local/bin/yacycrawler"]

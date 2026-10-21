@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -24,20 +25,20 @@ type fakeLimits struct {
 }
 
 func (limits *fakeLimits) AdmitsAnotherPageOfHost(
-	_ context.Context, _ string, _ canonicalurl.CanonicalURL, host string, _ int,
+	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL, host string, _ int,
 ) (bool, error) {
 	limits.host = host
 	return limits.admitsPageOfHost, limits.err
 }
 
 func (limits *fakeLimits) AdmitsAnotherDeferral(
-	_ context.Context, _ string, _ canonicalurl.CanonicalURL,
+	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL,
 ) (bool, error) {
 	return limits.admitsDeferral, limits.err
 }
 
 func (limits *fakeLimits) AdmitsAnotherAttempt(
-	_ context.Context, _ string, _ canonicalurl.CanonicalURL,
+	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL,
 ) (int, bool, error) {
 	return limits.attempt, limits.admitsAttempt, limits.err
 }
@@ -52,7 +53,7 @@ func allowancesOf(limits *fakeLimits) *pagevisitallowance.Allowances {
 func pageVisitOf(t *testing.T) pendingpagevisit.PendingPageVisit {
 	t.Helper()
 	return pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlid.CrawlID{1},
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 	}
 }

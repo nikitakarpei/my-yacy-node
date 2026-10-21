@@ -26,7 +26,7 @@ func (PendingPageVisitLog) PendingPageVisitReturned(
 	cause error,
 ) {
 	slog.WarnContext(ctx, msgPendingPageVisitReturned,
-		slog.String("order", pendingPageVisit.OrderID),
+		slog.String("crawl", pendingPageVisit.CrawlID.String()),
 		slog.String("url", pendingPageVisit.URL.String()),
 		slog.Any("error", cause),
 	)
@@ -38,7 +38,7 @@ func (PendingPageVisitLog) PendingPageVisitDropped(
 	reason pagevisitdrop.Reason,
 ) {
 	slog.Log(ctx, levelOfDrop(reason), msgPendingPageVisitDropped,
-		slog.String("order", pendingPageVisit.OrderID),
+		slog.String("crawl", pendingPageVisit.CrawlID.String()),
 		slog.String("url", pendingPageVisit.URL.String()),
 		slog.String("reason", string(reason)),
 	)
@@ -61,10 +61,7 @@ func (PendingPageVisitLog) PendingPageVisitDeferred(
 	slog.DebugContext(
 		ctx,
 		msgPendingPageVisitDeferred,
-		slog.String(
-			"order",
-			pendingPageVisit.OrderID,
-		),
+		slog.String("crawl", pendingPageVisit.CrawlID.String()),
 		slog.String("url", pendingPageVisit.URL.String()),
 		slog.Duration("pauseFor", pauseFor),
 	)
@@ -78,10 +75,7 @@ func (PendingPageVisitLog) PendingPageVisitRetryScheduled(
 	slog.DebugContext(
 		ctx,
 		msgPendingPageVisitRetryScheduled,
-		slog.String(
-			"order",
-			pendingPageVisit.OrderID,
-		),
+		slog.String("crawl", pendingPageVisit.CrawlID.String()),
 		slog.String("url", pendingPageVisit.URL.String()),
 		slog.Duration("pauseFor", pauseFor),
 	)
@@ -93,7 +87,7 @@ func (PendingPageVisitLog) PendingPageVisitCompleted(
 	result pagevisitresult.Result,
 ) {
 	slog.Log(ctx, levelOfResult(result), msgPendingPageVisitCompleted,
-		slog.String("order", pendingPageVisit.OrderID),
+		slog.String("crawl", pendingPageVisit.CrawlID.String()),
 		slog.String("url", pendingPageVisit.URL.String()),
 		slog.String("result", string(result)),
 	)

@@ -30,12 +30,16 @@ indexing as well. That choice applies to every crawl the deployment runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_STATE_REDIS_URL` | required | Address of the Redis server that keeps the accepted orders, the frontier, and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
+| `CRAWL_STATE_DIR` | `./crawl-state` | Directory that keeps the accepted orders, the frontier, and the state of each page visit. |
+| `CRAWL_STATE_PEBBLE_BLOCK_CACHE` | `64MB` | Memory that caches read blocks of the crawl state. |
+| `CRAWL_STATE_PEBBLE_MEMTABLE_SIZE` | `16MB` | Memory that holds recent writes before they go to disk. |
+| `CRAWL_STATE_PEBBLE_COMPACTION_CONCURRENCY` | `1` | Background compactions that run at the same time. |
+| `CRAWL_STATE_PEBBLE_OPEN_FILE_LIMIT` | `1000` | Files the crawl state keeps open. |
+| `CRAWL_STATE_PEBBLE_WRITE_CONCURRENCY` | `16` | Writes to the crawl state that run at the same time. |
 
-Every crawler instance must use the same server. Redis and Valkey keep every key in memory,
-so their memory grows with the URLs the crawler meets. Apache Kvrocks keeps the keys on
-disk, and `rocksdb.block_cache_size` sets the memory it uses. On Kvrocks, set
-`lua-strict-key-accessing yes` so that scripts run in parallel.
+One crawler instance uses one directory. Instances do not share crawl state, so the
+instance that accepts an order crawls it. The crawler does not start when it cannot open
+the directory.
 
 ## Fetching
 

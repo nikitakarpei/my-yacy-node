@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
@@ -23,9 +24,12 @@ import (
 const (
 	orderID              = "o1"
 	pageLinkingNext      = `<html><body><a href="/next">next</a></body></html>`
+	pageLinkingTwoPages  = `<html><body><a href="/one">one</a><a href="/two">two</a></body></html>`
 	pageRefusingIndexing = `<html><head><meta name="robots" content="noindex">` +
 		`</head><body><a href="/next">next</a></body></html>`
 )
+
+var crawlID = crawlid.CrawlID{1}
 
 type fakeFetch struct {
 	outcome    pagefetch.FetchOutcome
@@ -96,18 +100,20 @@ func (f *fakeCrawledPages) PublishIndexingRefusedPage(
 }
 
 type fakeFrontier struct {
-	published []pendingpagevisit.PendingPageVisit
-	err       error
+	published    []pendingpagevisit.PendingPageVisit
+	publications int
+	err          error
 }
 
 func (f *fakeFrontier) Publish(
 	_ context.Context,
-	pageVisit pendingpagevisit.PendingPageVisit,
+	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
 	if f.err != nil {
 		return f.err
 	}
-	f.published = append(f.published, pageVisit)
+	f.publications++
+	f.published = append(f.published, pageVisits...)
 	return nil
 }
 
@@ -166,7 +172,7 @@ func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 		scene.crawledPages,
 		scene.frontier,
 	).VisitPage(t.Context(), order, pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		Depth:   1,
 	})
@@ -204,12 +210,26 @@ func TestAReadPageIsPublishedAndItsLinksGoOnTheFrontier(t *testing.T) {
 		t.Fatalf("want the page published as indexable once, got %v", scene.crawledPages.indexable)
 	}
 	want := pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/next"),
 		Depth:   2,
 	}
 	if len(scene.frontier.published) != 1 || scene.frontier.published[0] != want {
 		t.Fatalf("frontier got %+v, want the link one level deeper", scene.frontier.published)
+	}
+}
+
+func TestTheLinksOfAPageGoOnTheFrontierInOnePublication(t *testing.T) {
+	scene := sceneFetching(fetchedOutcome(pageLinkingTwoPages))
+
+	scene.completedVisit(t)
+
+	if len(scene.frontier.published) != 2 || scene.frontier.publications != 1 {
+		t.Fatalf(
+			"frontier got %d links in %d publications, want 2 in one",
+			len(scene.frontier.published),
+			scene.frontier.publications,
+		)
 	}
 }
 
@@ -252,7 +272,7 @@ func TestARedirectTargetGoesOnTheFrontierAtTheSameDepth(t *testing.T) {
 	if outcome.Result != pagevisitresult.Redirected {
 		t.Fatalf("result = %q, want redirected", outcome.Result)
 	}
-	want := pendingpagevisit.PendingPageVisit{OrderID: orderID, URL: redirectTarget, Depth: 1}
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: redirectTarget, Depth: 1}
 	if len(scene.frontier.published) != 1 || scene.frontier.published[0] != want {
 		t.Fatalf("frontier got %+v, want the redirect target", scene.frontier.published)
 	}
