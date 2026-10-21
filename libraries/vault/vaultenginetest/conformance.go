@@ -2,7 +2,8 @@
 // runs against itself: durable round trips, bounded scans, transaction atomicity,
 // bucket isolation, byte accounting, amounts that add up without a read, index
 // entries that follow their records, puts of many records that count each once,
-// point reads in any order, and member sets that keep every blind change.
+// point reads in any order, member sets that keep every blind change, and
+// concurrent writes that never overfill a range they scanned.
 // Engine-independent behaviour lives with the port's own tests.
 package vaultenginetest
 
@@ -59,6 +60,10 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 	t.Run(
 		"ConcurrentUpdatesKeepEveryIncrement",
 		func(t *testing.T) { concurrentUpdatesKeepEveryIncrement(t, open) },
+	)
+	t.Run(
+		"ConcurrentUpdatesNeverOverfillAScannedRange",
+		func(t *testing.T) { concurrentUpdatesNeverOverfillAScannedRange(t, open) },
 	)
 	t.Run(
 		"RepeatedWriteCommitsOneValue",
@@ -869,6 +874,94 @@ func incrementCounter(tx *vault.Txn, counters *vault.Collection[string, string])
 	}
 
 	if _, err := counters.Put(tx, counterKey, strconv.Itoa(current+1)); err != nil {
+		return wrapTest(err)
+	}
+
+	return nil
+}
+
+const admissionLimit = 4
+
+func concurrentUpdatesNeverOverfillAScannedRange(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	ctx := context.Background()
+	v := openVault(t, open, 0)
+	admissions := register(t, v, "admissions")
+
+	for err := range admittedConcurrently(ctx, v, admissions) {
+		if err != nil {
+			t.Fatalf("Update: %v", err)
+		}
+	}
+
+	if err := v.View(ctx, func(tx *vault.Txn) error {
+		amountAdmitted, err := admissions.Len(tx)
+		if err != nil {
+			return wrapTest(err)
+		}
+		if amountAdmitted != admissionLimit {
+			t.Fatalf("admitted %d, want %d", amountAdmitted, admissionLimit)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+func admittedConcurrently(
+	ctx context.Context,
+	v *vault.Vault,
+	admissions *vault.Collection[string, string],
+) <-chan error {
+	failures := make(chan error, concurrentWriters)
+	release := make(chan struct{})
+
+	var writing sync.WaitGroup
+	writing.Add(concurrentWriters)
+	for writer := range concurrentWriters {
+		go func() {
+			defer writing.Done()
+			<-release
+			for attempt := range incrementsPerWriter {
+				admission := fmt.Sprintf("writer-%d-attempt-%d", writer, attempt)
+				if err := v.Update(ctx, func(tx *vault.Txn) error {
+					return admitWithinLimit(tx, admissions, admission)
+				}); err != nil {
+					failures <- err
+
+					return
+				}
+			}
+		}()
+	}
+	close(release)
+	writing.Wait()
+	close(failures)
+
+	return failures
+}
+
+func admitWithinLimit(
+	tx *vault.Txn,
+	admissions *vault.Collection[string, string],
+	admission string,
+) error {
+	amountAdmitted := 0
+	if err := admissions.Scan(tx, vault.EveryKey(), func(string, string) (bool, error) {
+		amountAdmitted++
+
+		return amountAdmitted < admissionLimit, nil
+	}); err != nil {
+		return wrapTest(err)
+	}
+	if amountAdmitted >= admissionLimit {
+		return nil
+	}
+
+	if _, err := admissions.Put(tx, admission, admission); err != nil {
 		return wrapTest(err)
 	}
 
