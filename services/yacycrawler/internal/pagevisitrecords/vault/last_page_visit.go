@@ -1,39 +1,54 @@
 package vault
 
 import (
-	"encoding/json"
-	"fmt"
+	"encoding/binary"
+	"errors"
 	"time"
 )
 
+var errLastPageVisitMalformed = errors.New("last page visit record has a malformed time")
+
 type lastPageVisit struct {
-	VisitedAt  time.Time `json:"visitedAt"`
-	EntityTag  string    `json:"entityTag,omitempty"`
-	ModifiedAt time.Time `json:"modifiedAt"`
-}
-
-func marshalLastPageVisit(record lastPageVisit) ([]byte, error) {
-	payload, err := json.Marshal(record)
-	if err != nil {
-		return nil, fmt.Errorf("marshal last page visit: %w", err)
-	}
-	return payload, nil
-}
-
-func unmarshalLastPageVisit(payload []byte) (lastPageVisit, error) {
-	var record lastPageVisit
-	if err := json.Unmarshal(payload, &record); err != nil {
-		return lastPageVisit{}, fmt.Errorf("unmarshal last page visit: %w", err)
-	}
-	return record, nil
+	visitedAt  time.Time
+	entityTag  string
+	modifiedAt time.Time
 }
 
 type lastPageVisitCodec struct{}
 
 func (lastPageVisitCodec) Encode(record lastPageVisit) ([]byte, error) {
-	return marshalLastPageVisit(record)
+	encoded := make([]byte, 0, 2*binary.MaxVarintLen64+len(record.entityTag))
+	encoded = binary.AppendVarint(encoded, record.visitedAt.UnixMilli())
+	encoded = binary.AppendVarint(encoded, modifiedAtMillisOf(record.modifiedAt))
+	return append(encoded, record.entityTag...), nil
+}
+
+func modifiedAtMillisOf(modifiedAt time.Time) int64 {
+	if modifiedAt.IsZero() {
+		return 0
+	}
+	return modifiedAt.UnixMilli()
 }
 
 func (lastPageVisitCodec) Decode(stored []byte) (lastPageVisit, error) {
-	return unmarshalLastPageVisit(stored)
+	visitedAt, visitedAtBytes := binary.Varint(stored)
+	if visitedAtBytes <= 0 {
+		return lastPageVisit{}, errLastPageVisitMalformed
+	}
+	modifiedAt, modifiedAtBytes := binary.Varint(stored[visitedAtBytes:])
+	if modifiedAtBytes <= 0 {
+		return lastPageVisit{}, errLastPageVisitMalformed
+	}
+	return lastPageVisit{
+		visitedAt:  time.UnixMilli(visitedAt).UTC(),
+		entityTag:  string(stored[visitedAtBytes+modifiedAtBytes:]),
+		modifiedAt: modifiedAtFrom(modifiedAt),
+	}, nil
+}
+
+func modifiedAtFrom(millis int64) time.Time {
+	if millis == 0 {
+		return time.Time{}
+	}
+	return time.UnixMilli(millis).UTC()
 }

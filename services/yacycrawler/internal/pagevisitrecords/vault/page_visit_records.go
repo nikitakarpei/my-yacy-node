@@ -87,10 +87,10 @@ func (records *PageVisitRecords) readLastPageVisit(
 		)
 	}
 	return pagevisit.LastPageVisit{
-		VisitedAt: record.VisitedAt,
+		VisitedAt: record.visitedAt,
 		Version: pagefetch.PageVersion{
-			EntityTag:  record.EntityTag,
-			ModifiedAt: record.ModifiedAt,
+			EntityTag:  record.entityTag,
+			ModifiedAt: record.modifiedAt,
 		},
 	}, visited, nil
 }
@@ -113,9 +113,9 @@ func (records *PageVisitRecords) putLastPageVisit(
 	now := records.clock.Now()
 	if err := records.storage.Update(ctx, func(tx *vault.Txn) error {
 		return records.lastVisits.Put(tx, urlhash.Of(canonicalURL), lastPageVisit{
-			VisitedAt:  now,
-			EntityTag:  version.EntityTag,
-			ModifiedAt: version.ModifiedAt,
+			visitedAt:  now,
+			entityTag:  version.EntityTag,
+			modifiedAt: version.ModifiedAt,
 		}, now)
 	}); err != nil {
 		return fmt.Errorf("put last page visit %s: %w", canonicalURL, err)

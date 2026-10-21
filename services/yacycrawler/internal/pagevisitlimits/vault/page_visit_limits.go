@@ -6,7 +6,8 @@ package vault
 
 import (
 	"context"
-	"encoding/json"
+	"encoding/binary"
+	"errors"
 	"fmt"
 	"time"
 
@@ -18,6 +19,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 )
+
+var errLimitMalformed = errors.New("page visit limit record is malformed")
 
 const (
 	hostPagesBucket  = "host_pages"
@@ -75,13 +78,13 @@ func New(
 	maxPerURL MaxPerURL,
 ) (*PageVisitLimits, error) {
 	hostPagesKept, err := retention.Register(
-		ctx, hostPagesBucket, hostKeys, jsonCodec[hostPages]{}, keptFor,
+		ctx, hostPagesBucket, hostKeys, hostPagesCodec{}, keptFor,
 	)
 	if err != nil {
 		return nil, err
 	}
 	pageVisitsKept, err := retention.Register(
-		ctx, pageVisitsBucket, pageVisitKeys, jsonCodec[pageVisitTaken]{}, keptFor,
+		ctx, pageVisitsBucket, pageVisitKeys, pageVisitTakenCodec{}, keptFor,
 	)
 	if err != nil {
 		return nil, err
@@ -127,18 +130,18 @@ func (limits *PageVisitLimits) holdsPageOfHost(
 	now time.Time,
 ) (bool, error) {
 	taken, _, err := limits.pageVisits.Get(tx, pageVisit, now)
-	if err != nil || taken.HoldsPageOfHost {
-		return taken.HoldsPageOfHost, err
+	if err != nil || taken.holdsPageOfHost {
+		return taken.holdsPageOfHost, err
 	}
 	pages, _, err := limits.hostPages.Get(tx, pagesOfHost, now)
-	if err != nil || pages.Pages >= maxPages {
+	if err != nil || pages.pages >= maxPages {
 		return false, err
 	}
-	pages.Pages++
+	pages.pages++
 	if err := limits.hostPages.Put(tx, pagesOfHost, pages, now); err != nil {
 		return false, err
 	}
-	taken.HoldsPageOfHost = true
+	taken.holdsPageOfHost = true
 	return true, limits.pageVisits.Put(tx, pageVisit, taken, now)
 }
 
@@ -179,10 +182,10 @@ func (limits *PageVisitLimits) revisePageVisit(
 }
 
 func (limits *PageVisitLimits) anotherDeferral(taken pageVisitTaken) (pageVisitTaken, bool) {
-	if taken.Deferrals >= limits.maxPerURL.Deferrals {
+	if taken.deferrals >= limits.maxPerURL.Deferrals {
 		return taken, false
 	}
-	taken.Deferrals++
+	taken.deferrals++
 	return taken, true
 }
 
@@ -195,41 +198,69 @@ func (limits *PageVisitLimits) AdmitsAnotherAttempt(
 	if err != nil {
 		return 0, false, fmt.Errorf("take an attempt of the page visit to %s: %w", url, err)
 	}
-	return standing.Attempts, attempted, nil
+	return standing.attempts, attempted, nil
 }
 
 func (limits *PageVisitLimits) anotherAttempt(taken pageVisitTaken) (pageVisitTaken, bool) {
-	if taken.Attempts >= limits.maxPerURL.Attempts {
+	if taken.attempts >= limits.maxPerURL.Attempts {
 		return taken, false
 	}
-	taken.Attempts++
+	taken.attempts++
 	return taken, true
 }
 
 type hostPages struct {
-	Pages int `json:"Pages"`
+	pages int
+}
+
+type hostPagesCodec struct{}
+
+func (hostPagesCodec) Encode(record hostPages) ([]byte, error) {
+	return binary.AppendVarint(nil, int64(record.pages)), nil
+}
+
+func (hostPagesCodec) Decode(stored []byte) (hostPages, error) {
+	pages, pagesBytes := binary.Varint(stored)
+	if pagesBytes != len(stored) {
+		return hostPages{}, errLimitMalformed
+	}
+	return hostPages{pages: int(pages)}, nil
 }
 
 type pageVisitTaken struct {
-	HoldsPageOfHost bool `json:"HoldsPageOfHost"`
-	Deferrals       int  `json:"Deferrals"`
-	Attempts        int  `json:"Attempts"`
+	holdsPageOfHost bool
+	deferrals       int
+	attempts        int
 }
 
-type jsonCodec[R any] struct{}
+type pageVisitTakenCodec struct{}
 
-func (jsonCodec[R]) Encode(record R) ([]byte, error) {
-	encoded, err := json.Marshal(record)
-	if err != nil {
-		return nil, fmt.Errorf("marshal page visit limit: %w", err)
+func (pageVisitTakenCodec) Encode(record pageVisitTaken) ([]byte, error) {
+	encoded := make([]byte, 0, 1+2*binary.MaxVarintLen64)
+	if record.holdsPageOfHost {
+		encoded = append(encoded, 1)
+	} else {
+		encoded = append(encoded, 0)
 	}
-	return encoded, nil
+	encoded = binary.AppendVarint(encoded, int64(record.deferrals))
+	return binary.AppendVarint(encoded, int64(record.attempts)), nil
 }
 
-func (jsonCodec[R]) Decode(stored []byte) (R, error) {
-	var record R
-	if err := json.Unmarshal(stored, &record); err != nil {
-		return record, fmt.Errorf("unmarshal page visit limit: %w", err)
+func (pageVisitTakenCodec) Decode(stored []byte) (pageVisitTaken, error) {
+	if len(stored) == 0 {
+		return pageVisitTaken{}, errLimitMalformed
 	}
-	return record, nil
+	deferrals, deferralsBytes := binary.Varint(stored[1:])
+	if deferralsBytes <= 0 {
+		return pageVisitTaken{}, errLimitMalformed
+	}
+	attempts, attemptsBytes := binary.Varint(stored[1+deferralsBytes:])
+	if attemptsBytes <= 0 {
+		return pageVisitTaken{}, errLimitMalformed
+	}
+	return pageVisitTaken{
+		holdsPageOfHost: stored[0] == 1,
+		deferrals:       int(deferrals),
+		attempts:        int(attempts),
+	}, nil
 }
