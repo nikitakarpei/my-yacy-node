@@ -1,6 +1,6 @@
-// Package pagevisitallowance takes for a pending page visit a page of its host,
-// another deferral, or another attempt while its limits leave room, and names the
-// limit that stopped it when none is left.
+// Package pagevisitallowance takes for a pending page visit a page of its host, another
+// deferral no longer than the longest one allowed, or another attempt while its limits
+// leave room, and names the limit that stopped it when none is left.
 package pagevisitallowance
 
 import (
@@ -42,13 +42,24 @@ type Allowance struct {
 }
 
 type Allowances struct {
-	storage    *vault.Vault
-	limits     PageVisitLimits
-	retryDelay retrydelay.Bounds
+	storage     *vault.Vault
+	limits      PageVisitLimits
+	retryDelay  retrydelay.Bounds
+	maxDeferral time.Duration
 }
 
-func New(storage *vault.Vault, limits PageVisitLimits, retryDelay retrydelay.Bounds) *Allowances {
-	return &Allowances{storage: storage, limits: limits, retryDelay: retryDelay}
+func New(
+	storage *vault.Vault,
+	limits PageVisitLimits,
+	retryDelay retrydelay.Bounds,
+	maxDeferral time.Duration,
+) *Allowances {
+	return &Allowances{
+		storage:     storage,
+		limits:      limits,
+		retryDelay:  retryDelay,
+		maxDeferral: maxDeferral,
+	}
 }
 
 func (allowances *Allowances) TakePageOfHost(
@@ -79,6 +90,9 @@ func (allowances *Allowances) TakeDeferral(
 	pageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) (Allowance, error) {
+	if deferFor > allowances.maxDeferral {
+		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
+	}
 	var took bool
 	if err := allowances.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error

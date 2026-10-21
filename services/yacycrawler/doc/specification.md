@@ -31,7 +31,7 @@ than an always-on node.
   due, and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
-  rather than pressing against it.
+  rather than pressing against it; a visit asked to wait past the longest deferral drops.
 * The service SHALL publish a page that refuses indexing, marked as refusing indexing, so
   that a consumer, not the crawler, decides what to do with it.
 * The service SHALL publish the canonical URL of each page it read, and never the page's

@@ -43,6 +43,8 @@ func (limits *fakeLimits) TakeAttempt(
 	return limits.attempt, limits.admitsAttempt, limits.err
 }
 
+const maxDeferral = time.Hour
+
 func allowancesOf(t *testing.T, limits *fakeLimits) *pagevisitallowance.Allowances {
 	t.Helper()
 	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
@@ -52,7 +54,7 @@ func allowancesOf(t *testing.T, limits *fakeLimits) *pagevisitallowance.Allowanc
 	return pagevisitallowance.New(storage, limits, retrydelay.Bounds{
 		Floor:   time.Second,
 		Ceiling: time.Minute,
-	})
+	}, maxDeferral)
 }
 
 func pageVisitOf(t *testing.T) pendingpagevisit.PendingPageVisit {
@@ -150,5 +152,29 @@ func TestALimitThatCannotAnswerCarriesItsCauseBack(t *testing.T) {
 	if _, err := allowancesOf(t, limits).
 		TakeAttempt(t.Context(), pageVisitOf(t)); !errors.Is(err, down) {
 		t.Fatalf("TakeAttempt swallowed %v, got %v", down, err)
+	}
+}
+
+func TestADeferralLongerThanTheLongestAllowedDropsTheVisit(t *testing.T) {
+	allowance, err := allowancesOf(t, &fakeLimits{admitsDeferral: true}).
+		TakeDeferral(t.Context(), pageVisitOf(t), maxDeferral+time.Second)
+	if err != nil {
+		t.Fatalf("TakeDeferral: %v", err)
+	}
+
+	if allowance.Granted || allowance.DropReason != pagevisitdrop.DeferralsExhausted {
+		t.Fatalf("allowance = %+v, want the visit dropped as deferrals exhausted", allowance)
+	}
+}
+
+func TestADeferralAsLongAsTheLongestAllowedIsGranted(t *testing.T) {
+	allowance, err := allowancesOf(t, &fakeLimits{admitsDeferral: true}).
+		TakeDeferral(t.Context(), pageVisitOf(t), maxDeferral)
+	if err != nil {
+		t.Fatalf("TakeDeferral: %v", err)
+	}
+
+	if !allowance.Granted || allowance.PauseFor != maxDeferral {
+		t.Fatalf("allowance = %+v, want the deferral granted", allowance)
 	}
 }

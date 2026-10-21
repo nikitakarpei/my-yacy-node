@@ -14,6 +14,7 @@ const (
 	fetchRetryFloor        = 500 * time.Millisecond
 	fetchRetryCeiling      = 30 * time.Second
 	maxDeferralsPerURL     = 3
+	maxDeferral            = time.Hour
 	maxAttemptsPerURL      = 3
 	crawlOrdersAckWait     = 30 * time.Second
 	orderIntakeConcurrency = 4
@@ -73,6 +74,10 @@ func (ServiceConfig) CrawlRetention() time.Duration {
 
 func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
 	return retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling}
+}
+
+func (ServiceConfig) MaxDeferral() time.Duration {
+	return maxDeferral
 }
 
 func (ServiceConfig) MaxPerURL() pagevisitlimits.MaxPerURL {
