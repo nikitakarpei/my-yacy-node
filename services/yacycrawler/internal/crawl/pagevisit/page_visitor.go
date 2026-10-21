@@ -30,7 +30,7 @@ type pageVisitor struct {
 	pageVisitRecords PageVisitRecords
 	htmlPageReading  HTMLPageReading
 	crawledPages     CrawledPages
-	frontier         PendingPageVisits
+	frontier         Frontier
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
@@ -40,7 +40,7 @@ func New(
 	pageVisitRecords PageVisitRecords,
 	htmlPageReading HTMLPageReading,
 	crawledPages CrawledPages,
-	frontier PendingPageVisits,
+	frontier Frontier,
 ) PageVisitor {
 	return &pageVisitor{
 		pageFetcher:      pageFetcher,

@@ -11,14 +11,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlkeyparts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 const pageVisitsBucket = "page_visit_records"
 
-var pageKeys = vault.SingleKey(crawlkeyparts.URLHash).KeyLayout()
+var pageKeys = vault.SingleKey(vaultkeyparts.URLHash).KeyLayout()
 
 type Clock interface {
 	Now() time.Time

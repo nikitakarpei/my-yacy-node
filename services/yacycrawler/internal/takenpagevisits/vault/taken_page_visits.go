@@ -11,14 +11,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlkeyparts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 const takersBucket = "taken_page_visits"
 
-var pageVisitKeys = vault.PairKey(crawlkeyparts.CrawlID, crawlkeyparts.URLHash).KeyLayoutFor(
+var pageVisitKeys = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash).KeyLayoutFor(
 	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.url },
 	func(crawlID crawlid.CrawlID, url urlhash.URLHash) pageVisitKey {
 		return pageVisitKey{crawlID: crawlID, url: url}
@@ -65,7 +65,7 @@ func (visits *TakenPageVisits) TakePageVisit(
 	var took bool
 	if err := visits.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		took, err = visits.takenBy(tx, key, taker, now)
+		took, err = visits.take(tx, key, taker, now)
 		return err
 	}); err != nil {
 		return false, fmt.Errorf("take the page visit to %s: %w", url, err)
@@ -73,7 +73,7 @@ func (visits *TakenPageVisits) TakePageVisit(
 	return took, nil
 }
 
-func (visits *TakenPageVisits) takenBy(
+func (visits *TakenPageVisits) take(
 	tx *vault.Txn,
 	key pageVisitKey,
 	taker string,

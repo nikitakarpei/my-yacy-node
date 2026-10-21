@@ -1,6 +1,6 @@
-// Package crawlkeyparts carries the vault key parts for crawl IDs and URL hashes,
+// Package vaultkeyparts carries the vault key parts for crawl IDs and URL hashes,
 // so every crawl state record that keys on them shares one byte form and one parser.
-package crawlkeyparts
+package vaultkeyparts
 
 import (
 	"errors"

@@ -17,7 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
-	pendingpagevisitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/vault"
+	frontiersvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiers/vault"
 )
 
 const (
@@ -112,7 +112,7 @@ type frontier struct {
 	engine   *refusingEngine
 	clock    *clock
 	failures *recordedFailures
-	visits   *pendingpagevisitsvault.PendingPageVisits
+	visits   *frontiersvault.Frontier
 }
 
 func newFrontier(t *testing.T) frontier {
@@ -130,7 +130,7 @@ func newFrontierOn(t *testing.T, engine vault.Engine) frontier {
 	t.Cleanup(func() { _ = storage.Close() })
 	visitClock := &clock{now: time.Unix(1_000_000, 0)}
 	failures := &recordedFailures{}
-	visits, err := pendingpagevisitsvault.New(t.Context(), storage, lease, visitClock, failures)
+	visits, err := frontiersvault.New(t.Context(), storage, lease, visitClock, failures)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

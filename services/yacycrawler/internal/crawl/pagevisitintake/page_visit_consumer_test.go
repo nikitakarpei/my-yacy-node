@@ -67,7 +67,7 @@ func newAllowances() *fakeAllowances {
 	return &fakeAllowances{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
 }
 
-func (a *fakeAllowances) HostPageFor(
+func (a *fakeAllowances) TakePageOfHost(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, maxPages int,
 ) (pagevisitallowance.Allowance, error) {
 	a.hostPageLimits = append(a.hostPageLimits, maxPages)
@@ -77,7 +77,7 @@ func (a *fakeAllowances) HostPageFor(
 	return pagevisitallowance.Allowance{Granted: true}, nil
 }
 
-func (a *fakeAllowances) DeferralFor(
+func (a *fakeAllowances) TakeDeferral(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, deferFor time.Duration,
 ) (pagevisitallowance.Allowance, error) {
 	if a.deferrals >= a.maxDeferrals {
@@ -87,7 +87,7 @@ func (a *fakeAllowances) DeferralFor(
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
 }
 
-func (a *fakeAllowances) AnotherAttemptFor(
+func (a *fakeAllowances) TakeAttempt(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit,
 ) (pagevisitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {

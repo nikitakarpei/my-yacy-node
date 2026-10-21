@@ -48,16 +48,16 @@ components:
     in: internal/recrawlrules/dueaftergrace/**
   urlhash:
     in: internal/urlhash/**
-  crawlkeyparts:
-    in: internal/crawlkeyparts/**
+  vaultkeyparts:
+    in: internal/vaultkeyparts/**
   retainedrecords:
     in: internal/retainedrecords/**
   retainedrecordobserversapplog:
     in: internal/retainedrecordobservers/applog/**
   crawlsvault:
     in: internal/crawls/vault/**
-  pendingpagevisitsvault:
-    in: internal/pendingpagevisits/vault/**
+  frontiersvault:
+    in: internal/frontiers/vault/**
   takenpagevisitsvault:
     in: internal/takenpagevisits/vault/**
   pagevisitlimitsvault:
@@ -234,7 +234,7 @@ deps:
   pagevisitrecordsvault:
     mayDependOn:
       - pagevisit
-      - crawlkeyparts
+      - vaultkeyparts
       - retainedrecords
       - urlhash
     canUse:
@@ -246,7 +246,7 @@ deps:
   urlhash:
     canUse:
       - canonicalurl
-  crawlkeyparts:
+  vaultkeyparts:
     mayDependOn:
       - crawlid
       - urlhash
@@ -259,16 +259,16 @@ deps:
     mayDependOn:
       - acceptedorder
       - crawlid
-      - crawlkeyparts
+      - vaultkeyparts
       - retainedrecords
     canUse:
       - vault
       - yacycrawlcontract
-  pendingpagevisitsvault:
+  frontiersvault:
     mayDependOn:
       - pendingpagevisit
       - crawlid
-      - crawlkeyparts
+      - vaultkeyparts
       - urlhash
     canUse:
       - vault
@@ -276,7 +276,7 @@ deps:
   takenpagevisitsvault:
     mayDependOn:
       - crawlid
-      - crawlkeyparts
+      - vaultkeyparts
       - retainedrecords
       - urlhash
     canUse:
@@ -285,7 +285,7 @@ deps:
   pagevisitlimitsvault:
     mayDependOn:
       - crawlid
-      - crawlkeyparts
+      - vaultkeyparts
       - retainedrecords
       - urlhash
     canUse:

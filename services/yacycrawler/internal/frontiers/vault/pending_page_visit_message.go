@@ -8,7 +8,7 @@ import (
 )
 
 type pendingPageVisitMessage struct {
-	visits   *PendingPageVisits
+	frontier *Frontier
 	key      pageVisitKey
 	identity string
 	arrival  time.Time
@@ -28,7 +28,7 @@ func (m pendingPageVisitMessage) Arrival() time.Time {
 }
 
 func (m pendingPageVisitMessage) Acknowledge(ctx context.Context) {
-	m.visits.acknowledge(ctx, m.key, m.identity)
+	m.frontier.acknowledge(ctx, m.key, m.identity)
 }
 
 func (m pendingPageVisitMessage) Return(ctx context.Context) {
@@ -36,5 +36,5 @@ func (m pendingPageVisitMessage) Return(ctx context.Context) {
 }
 
 func (m pendingPageVisitMessage) ReturnAfter(ctx context.Context, delay time.Duration) {
-	m.visits.returnAfter(ctx, m.key, m.identity, delay)
+	m.frontier.returnAfter(ctx, m.key, m.identity, delay)
 }

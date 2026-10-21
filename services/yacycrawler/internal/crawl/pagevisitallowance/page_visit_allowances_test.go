@@ -24,20 +24,20 @@ type fakeLimits struct {
 	err              error
 }
 
-func (limits *fakeLimits) AdmitsAnotherPageOfHost(
+func (limits *fakeLimits) TakePageOfHost(
 	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL, host string, _ int,
 ) (bool, error) {
 	limits.host = host
 	return limits.admitsPageOfHost, limits.err
 }
 
-func (limits *fakeLimits) AdmitsAnotherDeferral(
+func (limits *fakeLimits) TakeDeferral(
 	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL,
 ) (bool, error) {
 	return limits.admitsDeferral, limits.err
 }
 
-func (limits *fakeLimits) AdmitsAnotherAttempt(
+func (limits *fakeLimits) TakeAttempt(
 	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL,
 ) (int, bool, error) {
 	return limits.attempt, limits.admitsAttempt, limits.err
@@ -61,9 +61,9 @@ func pageVisitOf(t *testing.T) pendingpagevisit.PendingPageVisit {
 func TestAHostPageIsGrantedWhenTheHostStillHasPagesLeft(t *testing.T) {
 	limits := &fakeLimits{admitsPageOfHost: true}
 
-	allowance, err := allowancesOf(limits).HostPageFor(t.Context(), pageVisitOf(t), 5)
+	allowance, err := allowancesOf(limits).TakePageOfHost(t.Context(), pageVisitOf(t), 5)
 	if err != nil {
-		t.Fatalf("HostPageFor: %v", err)
+		t.Fatalf("TakePageOfHost: %v", err)
 	}
 
 	if !allowance.Granted {
@@ -75,9 +75,9 @@ func TestAHostPageIsGrantedWhenTheHostStillHasPagesLeft(t *testing.T) {
 }
 
 func TestAHostPageNamesTheLimitThatStoppedIt(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{}).HostPageFor(t.Context(), pageVisitOf(t), 5)
+	allowance, err := allowancesOf(&fakeLimits{}).TakePageOfHost(t.Context(), pageVisitOf(t), 5)
 	if err != nil {
-		t.Fatalf("HostPageFor: %v", err)
+		t.Fatalf("TakePageOfHost: %v", err)
 	}
 
 	if allowance.Granted || allowance.DropReason != pagevisitdrop.HostPagesExhausted {
@@ -87,9 +87,9 @@ func TestAHostPageNamesTheLimitThatStoppedIt(t *testing.T) {
 
 func TestADeferralPausesForAsLongAsThePageVisitAsked(t *testing.T) {
 	allowance, err := allowancesOf(&fakeLimits{admitsDeferral: true}).
-		DeferralFor(t.Context(), pageVisitOf(t), 90*time.Second)
+		TakeDeferral(t.Context(), pageVisitOf(t), 90*time.Second)
 	if err != nil {
-		t.Fatalf("DeferralFor: %v", err)
+		t.Fatalf("TakeDeferral: %v", err)
 	}
 
 	if !allowance.Granted || allowance.PauseFor != 90*time.Second {
@@ -99,9 +99,9 @@ func TestADeferralPausesForAsLongAsThePageVisitAsked(t *testing.T) {
 
 func TestADeferralNamesTheLimitThatStoppedIt(t *testing.T) {
 	allowance, err := allowancesOf(&fakeLimits{}).
-		DeferralFor(t.Context(), pageVisitOf(t), time.Second)
+		TakeDeferral(t.Context(), pageVisitOf(t), time.Second)
 	if err != nil {
-		t.Fatalf("DeferralFor: %v", err)
+		t.Fatalf("TakeDeferral: %v", err)
 	}
 
 	if allowance.Granted || allowance.DropReason != pagevisitdrop.DeferralsExhausted {
@@ -111,9 +111,9 @@ func TestADeferralNamesTheLimitThatStoppedIt(t *testing.T) {
 
 func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
 	allowance, err := allowancesOf(&fakeLimits{attempt: 2, admitsAttempt: true}).
-		AnotherAttemptFor(t.Context(), pageVisitOf(t))
+		TakeAttempt(t.Context(), pageVisitOf(t))
 	if err != nil {
-		t.Fatalf("AnotherAttemptFor: %v", err)
+		t.Fatalf("TakeAttempt: %v", err)
 	}
 
 	want := retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute}.Delay(2)
@@ -123,9 +123,9 @@ func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
 }
 
 func TestAnAttemptNamesTheLimitThatStoppedIt(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{}).AnotherAttemptFor(t.Context(), pageVisitOf(t))
+	allowance, err := allowancesOf(&fakeLimits{}).TakeAttempt(t.Context(), pageVisitOf(t))
 	if err != nil {
-		t.Fatalf("AnotherAttemptFor: %v", err)
+		t.Fatalf("TakeAttempt: %v", err)
 	}
 
 	if allowance.Granted || allowance.DropReason != pagevisitdrop.RetriesExhausted {
@@ -138,15 +138,15 @@ func TestALimitThatCannotAnswerCarriesItsCauseBack(t *testing.T) {
 	limits := &fakeLimits{err: down}
 
 	if _, err := allowancesOf(limits).
-		HostPageFor(t.Context(), pageVisitOf(t), 5); !errors.Is(err, down) {
-		t.Fatalf("HostPageFor swallowed %v, got %v", down, err)
+		TakePageOfHost(t.Context(), pageVisitOf(t), 5); !errors.Is(err, down) {
+		t.Fatalf("TakePageOfHost swallowed %v, got %v", down, err)
 	}
 	if _, err := allowancesOf(limits).
-		DeferralFor(t.Context(), pageVisitOf(t), time.Second); !errors.Is(err, down) {
-		t.Fatalf("DeferralFor swallowed %v, got %v", down, err)
+		TakeDeferral(t.Context(), pageVisitOf(t), time.Second); !errors.Is(err, down) {
+		t.Fatalf("TakeDeferral swallowed %v, got %v", down, err)
 	}
 	if _, err := allowancesOf(limits).
-		AnotherAttemptFor(t.Context(), pageVisitOf(t)); !errors.Is(err, down) {
-		t.Fatalf("AnotherAttemptFor swallowed %v, got %v", down, err)
+		TakeAttempt(t.Context(), pageVisitOf(t)); !errors.Is(err, down) {
+		t.Fatalf("TakeAttempt swallowed %v, got %v", down, err)
 	}
 }

@@ -6,6 +6,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type PendingPageVisits interface {
+type Frontier interface {
 	Publish(ctx context.Context, pageVisits []pendingpagevisit.PendingPageVisit) error
 }

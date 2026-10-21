@@ -29,17 +29,17 @@ type TakenPageVisits interface {
 }
 
 type PageVisitAllowances interface {
-	HostPageFor(
+	TakePageOfHost(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 		maxPages int,
 	) (pagevisitallowance.Allowance, error)
-	DeferralFor(
+	TakeDeferral(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 		deferFor time.Duration,
 	) (pagevisitallowance.Allowance, error)
-	AnotherAttemptFor(
+	TakeAttempt(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 	) (pagevisitallowance.Allowance, error)
@@ -163,7 +163,7 @@ func (c *PageVisitConsumer) holdsHostPage(
 	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	allowance, err := c.allowances.HostPageFor(ctx, pendingPageVisit, order.MaxPagesPerHost())
+	allowance, err := c.allowances.TakePageOfHost(ctx, pendingPageVisit, order.MaxPagesPerHost())
 	return c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err)
 }
 
@@ -221,7 +221,7 @@ func (c *PageVisitConsumer) deferPageVisit(
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) {
-	allowance, err := c.allowances.DeferralFor(ctx, pendingPageVisit, deferFor)
+	allowance, err := c.allowances.TakeDeferral(ctx, pendingPageVisit, deferFor)
 	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
 		return
 	}
@@ -234,7 +234,7 @@ func (c *PageVisitConsumer) retryPageVisit(
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) {
-	allowance, err := c.allowances.AnotherAttemptFor(ctx, pendingPageVisit)
+	allowance, err := c.allowances.TakeAttempt(ctx, pendingPageVisit)
 	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
 		return
 	}

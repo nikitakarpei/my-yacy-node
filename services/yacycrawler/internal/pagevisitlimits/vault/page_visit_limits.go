@@ -15,26 +15,26 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlkeyparts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 var errLimitMalformed = errors.New("page visit limit record is malformed")
 
 const (
 	takenHostPageCountsBucket = "taken_host_page_counts"
-	pageVisitsBucket          = "taken_for_page_visits"
+	takenForPageVisitsBucket  = "taken_for_page_visits"
 )
 
-var hostKeys = vault.PairKey(crawlkeyparts.CrawlID, vault.TextKeyPart).KeyLayoutFor(
+var hostKeys = vault.PairKey(vaultkeyparts.CrawlID, vault.TextKeyPart).KeyLayoutFor(
 	func(key hostKey) (crawlid.CrawlID, string) { return key.crawlID, key.host },
 	func(crawlID crawlid.CrawlID, host string) hostKey {
 		return hostKey{crawlID: crawlID, host: host}
 	},
 )
 
-var pageVisitKeys = vault.PairKey(crawlkeyparts.CrawlID, crawlkeyparts.URLHash).KeyLayoutFor(
+var pageVisitKeys = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash).KeyLayoutFor(
 	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.url },
 	func(crawlID crawlid.CrawlID, url urlhash.URLHash) pageVisitKey {
 		return pageVisitKey{crawlID: crawlID, url: url}
@@ -53,7 +53,7 @@ type Clock interface {
 type PageVisitLimits struct {
 	storage             *vault.Vault
 	takenHostPageCounts *retainedrecords.Records[hostKey, takenHostPageCount]
-	pageVisits          *retainedrecords.Records[pageVisitKey, pageVisitTaken]
+	takenForPageVisits  *retainedrecords.Records[pageVisitKey, takenForPageVisit]
 	clock               Clock
 	maxPerURL           MaxPerURL
 }
@@ -83,8 +83,8 @@ func New(
 	if err != nil {
 		return nil, err
 	}
-	pageVisitsKept, err := retention.Register(
-		ctx, pageVisitsBucket, pageVisitKeys, pageVisitTakenCodec{}, keptFor,
+	takenForPageVisitsKept, err := retention.Register(
+		ctx, takenForPageVisitsBucket, pageVisitKeys, takenForPageVisitCodec{}, keptFor,
 	)
 	if err != nil {
 		return nil, err
@@ -92,13 +92,13 @@ func New(
 	return &PageVisitLimits{
 		storage:             storage,
 		takenHostPageCounts: takenHostPageCountsKept,
-		pageVisits:          pageVisitsKept,
+		takenForPageVisits:  takenForPageVisitsKept,
 		clock:               clock,
 		maxPerURL:           maxPerURL,
 	}, nil
 }
 
-func (limits *PageVisitLimits) AdmitsAnotherPageOfHost(
+func (limits *PageVisitLimits) TakePageOfHost(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
@@ -109,48 +109,48 @@ func (limits *PageVisitLimits) AdmitsAnotherPageOfHost(
 		return true, nil
 	}
 	pageVisit := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
-	pagesOfHost := hostKey{crawlID: crawlID, host: host}
+	crawlHost := hostKey{crawlID: crawlID, host: host}
 	now := limits.clock.Now()
-	var admitted bool
+	var took bool
 	if err := limits.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		admitted, err = limits.holdsPageOfHost(tx, pageVisit, pagesOfHost, maxPages, now)
+		took, err = limits.takePageOfHost(tx, pageVisit, crawlHost, maxPages, now)
 		return err
 	}); err != nil {
 		return false, fmt.Errorf("take a page of host %s for %s: %w", host, url, err)
 	}
-	return admitted, nil
+	return took, nil
 }
 
-func (limits *PageVisitLimits) holdsPageOfHost(
+func (limits *PageVisitLimits) takePageOfHost(
 	tx *vault.Txn,
 	pageVisit pageVisitKey,
-	pagesOfHost hostKey,
+	crawlHost hostKey,
 	maxPages int,
 	now time.Time,
 ) (bool, error) {
-	taken, _, err := limits.pageVisits.Get(tx, pageVisit, now)
+	taken, _, err := limits.takenForPageVisits.Get(tx, pageVisit, now)
 	if err != nil || taken.holdsPageOfHost {
 		return taken.holdsPageOfHost, err
 	}
-	pages, _, err := limits.takenHostPageCounts.Get(tx, pagesOfHost, now)
-	if err != nil || pages.pages >= maxPages {
+	pageCount, _, err := limits.takenHostPageCounts.Get(tx, crawlHost, now)
+	if err != nil || pageCount.pages >= maxPages {
 		return false, err
 	}
-	pages.pages++
-	if err := limits.takenHostPageCounts.Put(tx, pagesOfHost, pages, now); err != nil {
+	pageCount.pages++
+	if err := limits.takenHostPageCounts.Put(tx, crawlHost, pageCount, now); err != nil {
 		return false, err
 	}
 	taken.holdsPageOfHost = true
-	return true, limits.pageVisits.Put(tx, pageVisit, taken, now)
+	return true, limits.takenForPageVisits.Put(tx, pageVisit, taken, now)
 }
 
-func (limits *PageVisitLimits) AdmitsAnotherDeferral(
+func (limits *PageVisitLimits) TakeDeferral(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
 ) (bool, error) {
-	_, deferred, err := limits.revisePageVisit(ctx, crawlID, url, limits.anotherDeferral)
+	_, deferred, err := limits.revisePageVisit(ctx, crawlID, url, limits.withAnotherDeferral)
 	if err != nil {
 		return false, fmt.Errorf("take a deferral of the page visit to %s: %w", url, err)
 	}
@@ -161,14 +161,14 @@ func (limits *PageVisitLimits) revisePageVisit(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
-	revise func(pageVisitTaken) (pageVisitTaken, bool),
-) (pageVisitTaken, bool, error) {
+	revise func(takenForPageVisit) (takenForPageVisit, bool),
+) (takenForPageVisit, bool, error) {
 	key := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
 	now := limits.clock.Now()
-	var standing pageVisitTaken
+	var standing takenForPageVisit
 	var revised bool
 	err := limits.storage.Update(ctx, func(tx *vault.Txn) error {
-		taken, _, err := limits.pageVisits.Get(tx, key, now)
+		taken, _, err := limits.takenForPageVisits.Get(tx, key, now)
 		if err != nil {
 			return err
 		}
@@ -176,12 +176,14 @@ func (limits *PageVisitLimits) revisePageVisit(
 		if !revised {
 			return nil
 		}
-		return limits.pageVisits.Put(tx, key, standing, now)
+		return limits.takenForPageVisits.Put(tx, key, standing, now)
 	})
 	return standing, revised, err
 }
 
-func (limits *PageVisitLimits) anotherDeferral(taken pageVisitTaken) (pageVisitTaken, bool) {
+func (limits *PageVisitLimits) withAnotherDeferral(
+	taken takenForPageVisit,
+) (takenForPageVisit, bool) {
 	if taken.deferrals >= limits.maxPerURL.Deferrals {
 		return taken, false
 	}
@@ -189,19 +191,21 @@ func (limits *PageVisitLimits) anotherDeferral(taken pageVisitTaken) (pageVisitT
 	return taken, true
 }
 
-func (limits *PageVisitLimits) AdmitsAnotherAttempt(
+func (limits *PageVisitLimits) TakeAttempt(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
 ) (int, bool, error) {
-	standing, attempted, err := limits.revisePageVisit(ctx, crawlID, url, limits.anotherAttempt)
+	standing, attempted, err := limits.revisePageVisit(ctx, crawlID, url, limits.withAnotherAttempt)
 	if err != nil {
 		return 0, false, fmt.Errorf("take an attempt of the page visit to %s: %w", url, err)
 	}
 	return standing.attempts, attempted, nil
 }
 
-func (limits *PageVisitLimits) anotherAttempt(taken pageVisitTaken) (pageVisitTaken, bool) {
+func (limits *PageVisitLimits) withAnotherAttempt(
+	taken takenForPageVisit,
+) (takenForPageVisit, bool) {
 	if taken.attempts >= limits.maxPerURL.Attempts {
 		return taken, false
 	}
@@ -227,15 +231,15 @@ func (takenHostPageCountCodec) Decode(stored []byte) (takenHostPageCount, error)
 	return takenHostPageCount{pages: int(pages)}, nil
 }
 
-type pageVisitTaken struct {
+type takenForPageVisit struct {
 	holdsPageOfHost bool
 	deferrals       int
 	attempts        int
 }
 
-type pageVisitTakenCodec struct{}
+type takenForPageVisitCodec struct{}
 
-func (pageVisitTakenCodec) Encode(record pageVisitTaken) ([]byte, error) {
+func (takenForPageVisitCodec) Encode(record takenForPageVisit) ([]byte, error) {
 	encoded := make([]byte, 0, 1+2*binary.MaxVarintLen64)
 	if record.holdsPageOfHost {
 		encoded = append(encoded, 1)
@@ -246,19 +250,19 @@ func (pageVisitTakenCodec) Encode(record pageVisitTaken) ([]byte, error) {
 	return binary.AppendVarint(encoded, int64(record.attempts)), nil
 }
 
-func (pageVisitTakenCodec) Decode(stored []byte) (pageVisitTaken, error) {
+func (takenForPageVisitCodec) Decode(stored []byte) (takenForPageVisit, error) {
 	if len(stored) == 0 {
-		return pageVisitTaken{}, errLimitMalformed
+		return takenForPageVisit{}, errLimitMalformed
 	}
 	deferrals, deferralsBytes := binary.Varint(stored[1:])
 	if deferralsBytes <= 0 {
-		return pageVisitTaken{}, errLimitMalformed
+		return takenForPageVisit{}, errLimitMalformed
 	}
 	attempts, attemptsBytes := binary.Varint(stored[1+deferralsBytes:])
 	if attemptsBytes <= 0 {
-		return pageVisitTaken{}, errLimitMalformed
+		return takenForPageVisit{}, errLimitMalformed
 	}
-	return pageVisitTaken{
+	return takenForPageVisit{
 		holdsPageOfHost: stored[0] == 1,
 		deferrals:       int(deferrals),
 		attempts:        int(attempts),

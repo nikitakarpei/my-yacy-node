@@ -38,6 +38,7 @@ import (
 	crawlsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls/vault"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
 	frontierobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontierobservers/applog"
+	frontiersvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiers/vault"
 	linkresolutionobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/applog"
 	linkresolutionobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/prometheus"
 	mediatypeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/applog"
@@ -51,7 +52,6 @@ import (
 	pagevisitrecordsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/vault"
 	pendingpagevisitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/applog"
 	pendingpagevisitobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/prometheus"
-	pendingpagevisitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
 	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
@@ -222,7 +222,7 @@ func openCrawlState(cfg ServiceConfig) (*vault.Vault, error) {
 }
 
 type crawlStateStores struct {
-	frontier         *pendingpagevisitsvault.PendingPageVisits
+	frontier         *frontiersvault.Frontier
 	crawls           *crawlsvault.Crawls
 	takenPageVisits  *takenpagevisitsvault.TakenPageVisits
 	pageVisitLimits  *pagevisitlimitsvault.PageVisitLimits
@@ -236,7 +236,7 @@ func openCrawlStateStores(
 	cfg ServiceConfig,
 	pageVisitRecordObserver pagevisitrecordsvault.PageVisitRecordObserver,
 ) (crawlStateStores, error) {
-	frontier, err := pendingpagevisitsvault.New(
+	frontier, err := frontiersvault.New(
 		ctx,
 		storage,
 		cfg.PendingPageVisitLease(),

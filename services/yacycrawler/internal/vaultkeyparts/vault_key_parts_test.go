@@ -1,4 +1,4 @@
-package crawlkeyparts_test
+package vaultkeyparts_test
 
 import (
 	"testing"
@@ -6,12 +6,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlkeyparts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 func TestAKeyOfACrawlAndAURLHashGivesBothBack(t *testing.T) {
-	parts := vault.PairKey(crawlkeyparts.CrawlID, crawlkeyparts.URLHash)
+	parts := vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash)
 	crawlID := crawlid.CrawlID{1}
 	hash := urlhash.Of(canonicalurltest.CanonicalURLOf(t, "http://host/page"))
 
@@ -27,7 +27,7 @@ func TestAKeyOfACrawlAndAURLHashGivesBothBack(t *testing.T) {
 func TestAKeyPartOfAnotherLengthIsRefused(t *testing.T) {
 	shortKey := vault.SingleKey(vault.TextKeyPart).Key("short").Bytes()
 
-	if _, err := vault.SingleKey(crawlkeyparts.CrawlID).PartsOf(shortKey); err == nil {
+	if _, err := vault.SingleKey(vaultkeyparts.CrawlID).PartsOf(shortKey); err == nil {
 		t.Fatal("a key part of five bytes was read as a crawl ID")
 	}
 }

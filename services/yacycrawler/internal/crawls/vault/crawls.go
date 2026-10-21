@@ -14,8 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlkeyparts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 const (
@@ -24,14 +24,14 @@ const (
 	crawlsByOrderVersion = "1"
 )
 
-var crawlIDKeys = vault.SingleKey(crawlkeyparts.CrawlID).KeyLayout()
+var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()
 
 var crawlsByOrderKeyParts = vault.PairKey(vault.BytesKeyPartFrom(
 	func(hash orderIDHash, buffer []byte) []byte { return append(buffer, hash[:]...) },
 	func(stored vault.StoredBytes) (orderIDHash, error) {
 		return orderIDHash(stored.AppendTo(nil)), nil
 	},
-), crawlkeyparts.CrawlID)
+), vaultkeyparts.CrawlID)
 
 var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
 	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.order, entry.crawlID },

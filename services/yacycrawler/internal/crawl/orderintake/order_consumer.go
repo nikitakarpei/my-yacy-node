@@ -17,14 +17,14 @@ type Crawls interface {
 	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error)
 }
 
-type PendingPageVisits interface {
+type Frontier interface {
 	Publish(ctx context.Context, pageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
 	crawls                 Crawls
-	frontier               PendingPageVisits
+	frontier               Frontier
 	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
 }
@@ -32,7 +32,7 @@ type OrderConsumer struct {
 func NewOrderConsumer(
 	source pullintake.MessageSource,
 	crawls Crawls,
-	frontier PendingPageVisits,
+	frontier Frontier,
 	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {

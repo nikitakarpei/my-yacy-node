@@ -107,9 +107,9 @@ func admitsAnotherPageOfHost(
 	maxPages int,
 ) bool {
 	t.Helper()
-	admitted, err := limits.AdmitsAnotherPageOfHost(t.Context(), crawlID, url, host, maxPages)
+	admitted, err := limits.TakePageOfHost(t.Context(), crawlID, url, host, maxPages)
 	if err != nil {
-		t.Fatalf("AdmitsAnotherPageOfHost: %v", err)
+		t.Fatalf("TakePageOfHost: %v", err)
 	}
 	return admitted
 }
@@ -169,7 +169,7 @@ func TestTheSameHostCountsSeparatelyUnderAnotherCrawl(t *testing.T) {
 	admitsAnotherPageOfHost(t, limits, url, 1)
 
 	other := canonicalurltest.CanonicalURLOf(t, "http://host/other")
-	admitted, err := limits.AdmitsAnotherPageOfHost(
+	admitted, err := limits.TakePageOfHost(
 		t.Context(),
 		crawlid.CrawlID{2},
 		other,
@@ -177,7 +177,7 @@ func TestTheSameHostCountsSeparatelyUnderAnotherCrawl(t *testing.T) {
 		1,
 	)
 	if err != nil {
-		t.Fatalf("AdmitsAnotherPageOfHost: %v", err)
+		t.Fatalf("TakePageOfHost: %v", err)
 	}
 	if !admitted {
 		t.Fatal("another crawl should hold its own limit of the host")
@@ -198,7 +198,7 @@ func TestOnlyOneOfConcurrentPageVisitsTakesTheLastPageOfAHost(t *testing.T) {
 	for page := range concurrentPageVisits {
 		url := canonicalurltest.CanonicalURLOf(t, fmt.Sprintf("http://host/race%d", page))
 		taking.Go(func() {
-			admitted, err := limits.AdmitsAnotherPageOfHost(
+			admitted, err := limits.TakePageOfHost(
 				context.Background(),
 				crawlID,
 				url,
@@ -206,7 +206,7 @@ func TestOnlyOneOfConcurrentPageVisitsTakesTheLastPageOfAHost(t *testing.T) {
 				1,
 			)
 			if err != nil {
-				t.Errorf("AdmitsAnotherPageOfHost: %v", err)
+				t.Errorf("TakePageOfHost: %v", err)
 				return
 			}
 			admissions <- admitted
@@ -232,17 +232,17 @@ func TestDeferralsRunOutAtTheirCeiling(t *testing.T) {
 	url := pageURL(t)
 
 	for deferral := range 2 {
-		admitted, err := limits.AdmitsAnotherDeferral(ctx, crawlID, url)
+		admitted, err := limits.TakeDeferral(ctx, crawlID, url)
 		if err != nil {
-			t.Fatalf("AdmitsAnotherDeferral: %v", err)
+			t.Fatalf("TakeDeferral: %v", err)
 		}
 		if !admitted {
 			t.Fatalf("deferral %d should be within the ceiling", deferral+1)
 		}
 	}
-	admitted, err := limits.AdmitsAnotherDeferral(ctx, crawlID, url)
+	admitted, err := limits.TakeDeferral(ctx, crawlID, url)
 	if err != nil {
-		t.Fatalf("AdmitsAnotherDeferral: %v", err)
+		t.Fatalf("TakeDeferral: %v", err)
 	}
 	if admitted {
 		t.Fatal("a deferral beyond the ceiling should be refused")
@@ -255,15 +255,15 @@ func TestEachAttemptReportsItsNumberUntilTheCeiling(t *testing.T) {
 	url := pageURL(t)
 
 	for want := 1; want <= 2; want++ {
-		attempt, admitted, err := limits.AdmitsAnotherAttempt(ctx, crawlID, url)
+		attempt, admitted, err := limits.TakeAttempt(ctx, crawlID, url)
 		if err != nil {
-			t.Fatalf("AdmitsAnotherAttempt: %v", err)
+			t.Fatalf("TakeAttempt: %v", err)
 		}
 		if !admitted || attempt != want {
 			t.Fatalf("attempt %d admitted %v, want %d true", attempt, admitted, want)
 		}
 	}
-	if _, admitted, err := limits.AdmitsAnotherAttempt(ctx, crawlID, url); err != nil || admitted {
+	if _, admitted, err := limits.TakeAttempt(ctx, crawlID, url); err != nil || admitted {
 		t.Fatalf("an attempt beyond the ceiling should be refused, got %v %v", admitted, err)
 	}
 }
@@ -274,13 +274,13 @@ func TestDeferralsAndAttemptsKeepSeparateCeilings(t *testing.T) {
 	url := pageURL(t)
 
 	for range 2 {
-		if _, err := limits.AdmitsAnotherDeferral(ctx, crawlID, url); err != nil {
-			t.Fatalf("AdmitsAnotherDeferral: %v", err)
+		if _, err := limits.TakeDeferral(ctx, crawlID, url); err != nil {
+			t.Fatalf("TakeDeferral: %v", err)
 		}
 	}
-	_, admitted, err := limits.AdmitsAnotherAttempt(ctx, crawlID, url)
+	_, admitted, err := limits.TakeAttempt(ctx, crawlID, url)
 	if err != nil {
-		t.Fatalf("AdmitsAnotherAttempt: %v", err)
+		t.Fatalf("TakeAttempt: %v", err)
 	}
 	if !admitted {
 		t.Fatal("spent deferrals should leave the attempts untouched")
@@ -292,9 +292,9 @@ func TestTakingThePageOfAHostLeavesTheDeferralsUntouched(t *testing.T) {
 	url := pageURL(t)
 	admitsAnotherPageOfHost(t, limits, url, 1)
 
-	admitted, err := limits.AdmitsAnotherDeferral(t.Context(), crawlID, url)
+	admitted, err := limits.TakeDeferral(t.Context(), crawlID, url)
 	if err != nil {
-		t.Fatalf("AdmitsAnotherDeferral: %v", err)
+		t.Fatalf("TakeDeferral: %v", err)
 	}
 	if !admitted {
 		t.Fatal("a page visit holding the page of its host should still defer")
@@ -320,7 +320,7 @@ func TestALimitTheStorageRefusesFails(t *testing.T) {
 	limits := pageVisitLimitsOn(t, engine, &settableClock{now: startedAt})
 	engine.refusing = true
 
-	if _, err := limits.AdmitsAnotherPageOfHost(
+	if _, err := limits.TakePageOfHost(
 		t.Context(),
 		crawlID,
 		pageURL(t),
@@ -330,16 +330,16 @@ func TestALimitTheStorageRefusesFails(t *testing.T) {
 		err,
 		errEngineRefusing,
 	) {
-		t.Fatalf("AdmitsAnotherPageOfHost err = %v, want the refusal", err)
+		t.Fatalf("TakePageOfHost err = %v, want the refusal", err)
 	}
-	if _, err := limits.AdmitsAnotherDeferral(t.Context(), crawlID, pageURL(t)); !errors.Is(
+	if _, err := limits.TakeDeferral(t.Context(), crawlID, pageURL(t)); !errors.Is(
 		err, errEngineRefusing,
 	) {
-		t.Fatalf("AdmitsAnotherDeferral err = %v, want the refusal", err)
+		t.Fatalf("TakeDeferral err = %v, want the refusal", err)
 	}
-	if _, _, err := limits.AdmitsAnotherAttempt(t.Context(), crawlID, pageURL(t)); !errors.Is(
+	if _, _, err := limits.TakeAttempt(t.Context(), crawlID, pageURL(t)); !errors.Is(
 		err, errEngineRefusing,
 	) {
-		t.Fatalf("AdmitsAnotherAttempt err = %v, want the refusal", err)
+		t.Fatalf("TakeAttempt err = %v, want the refusal", err)
 	}
 }

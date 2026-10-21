@@ -15,20 +15,20 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlkeyparts"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 const (
 	frontierName             = "YACY_CRAWL_FRONTIER"
-	pageVisitsBucket         = "pending_page_visits"
-	dueTimesBucket           = "pending_page_visits_by_due"
+	frontierBucket           = "frontier"
+	frontierByDueBucket      = "frontier_by_due"
 	dueTimesVersion          = "1"
 	noDueVisitPause          = 500 * time.Millisecond
 	pageVisitsPerPublication = 256
 )
 
-var pageVisitKeys = vault.PairKey(crawlkeyparts.CrawlID, crawlkeyparts.URLHash).KeyLayoutFor(
+var pageVisitKeys = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash).KeyLayoutFor(
 	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.url },
 	func(crawlID crawlid.CrawlID, url urlhash.URLHash) pageVisitKey {
 		return pageVisitKey{crawlID: crawlID, url: url}
@@ -37,8 +37,8 @@ var pageVisitKeys = vault.PairKey(crawlkeyparts.CrawlID, crawlkeyparts.URLHash).
 
 var dueKeyParts = vault.TripleKey(
 	vault.IntegerKeyPart,
-	crawlkeyparts.CrawlID,
-	crawlkeyparts.URLHash,
+	vaultkeyparts.CrawlID,
+	vaultkeyparts.URLHash,
 )
 
 var dueEntries = dueKeyParts.KeyLayoutFor(
@@ -67,7 +67,7 @@ type FrontierObserver interface {
 	)
 }
 
-type PendingPageVisits struct {
+type Frontier struct {
 	storage    *vault.Vault
 	pageVisits *vault.Collection[pageVisitKey, pendingEntry]
 	dueTimes   *vault.ValueIndex[dueEntry, dueEntry]
@@ -92,16 +92,19 @@ func New(
 	lease time.Duration,
 	clock Clock,
 	observer FrontierObserver,
-) (*PendingPageVisits, error) {
+) (*Frontier, error) {
 	dueTimes, err := storage.RegisterValueIndex(
-		dueTimesBucket, dueTimesVersion, dueEntries, func(entry dueEntry) dueEntry { return entry },
+		frontierByDueBucket,
+		dueTimesVersion,
+		dueEntries,
+		func(entry dueEntry) dueEntry { return entry },
 	)
 	if err != nil {
-		return nil, fmt.Errorf("register %s: %w", dueTimesBucket, err)
+		return nil, fmt.Errorf("register %s: %w", frontierByDueBucket, err)
 	}
 	pageVisits, err := storage.RegisterProjectedCollection(
 		ctx,
-		pageVisitsBucket,
+		frontierBucket,
 		pageVisitKeys,
 		pendingEntryCodec{},
 		vault.ProjectedAs(func(key pageVisitKey, entry pendingEntry) dueEntry {
@@ -109,9 +112,9 @@ func New(
 		}, dueTimes),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("register %s: %w", pageVisitsBucket, err)
+		return nil, fmt.Errorf("register %s: %w", frontierBucket, err)
 	}
-	return &PendingPageVisits{
+	return &Frontier{
 		storage:    storage,
 		pageVisits: pageVisits,
 		dueTimes:   dueTimes,
@@ -121,7 +124,7 @@ func New(
 	}, nil
 }
 
-func (visits *PendingPageVisits) Publish(
+func (frontier *Frontier) Publish(
 	ctx context.Context,
 	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
@@ -129,11 +132,11 @@ func (visits *PendingPageVisits) Publish(
 	if err != nil {
 		return err
 	}
-	now := visits.clock.Now()
+	now := frontier.clock.Now()
 	for first := 0; first < len(published); first += pageVisitsPerPublication {
 		publication := published[first:min(first+pageVisitsPerPublication, len(published))]
-		if err := visits.storage.Update(ctx, func(tx *vault.Txn) error {
-			return visits.addAbsent(tx, publication, now)
+		if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
+			return frontier.addAbsent(tx, publication, now)
 		}); err != nil {
 			return fmt.Errorf("add %d pending page visits: %w", len(publication), err)
 		}
@@ -163,20 +166,20 @@ func publishedPageVisitsOf(
 	return published, nil
 }
 
-func (visits *PendingPageVisits) addAbsent(
+func (frontier *Frontier) addAbsent(
 	tx *vault.Txn,
 	publication []publishedPageVisit,
 	now time.Time,
 ) error {
 	for _, published := range publication {
-		_, pending, err := visits.pageVisits.Get(tx, published.key)
+		_, pending, err := frontier.pageVisits.Get(tx, published.key)
 		if err != nil {
 			return err
 		}
 		if pending {
 			continue
 		}
-		if _, err := visits.pageVisits.Put(tx, published.key, pendingEntry{
+		if _, err := frontier.pageVisits.Put(tx, published.key, pendingEntry{
 			due:       now.UnixMilli(),
 			arrival:   now.UnixMilli(),
 			messageID: newMessageID(),
@@ -194,43 +197,43 @@ func newMessageID() messageID {
 	return id
 }
 
-func (visits *PendingPageVisits) Next(ctx context.Context) (pullintake.PendingMessage, error) {
+func (frontier *Frontier) Next(ctx context.Context) (pullintake.PendingMessage, error) {
 	for {
-		message, leased := visits.leasedPageVisit(ctx)
+		message, leased := frontier.leasedPageVisit(ctx)
 		if leased {
 			return message, nil
 		}
-		if err := visits.clock.Sleep(ctx, noDueVisitPause); err != nil {
+		if err := frontier.clock.Sleep(ctx, noDueVisitPause); err != nil {
 			return nil, err
 		}
 	}
 }
 
-func (visits *PendingPageVisits) leasedPageVisit(
+func (frontier *Frontier) leasedPageVisit(
 	ctx context.Context,
 ) (pendingPageVisitMessage, bool) {
-	now := visits.clock.Now()
-	due, err := visits.anyPageVisitDue(ctx, now)
+	now := frontier.clock.Now()
+	due, err := frontier.anyPageVisitDue(ctx, now)
 	if err != nil {
-		visits.observer.FrontierLeaseFailed(ctx, err)
+		frontier.observer.FrontierLeaseFailed(ctx, err)
 		return pendingPageVisitMessage{}, false
 	}
 	if !due {
 		return pendingPageVisitMessage{}, false
 	}
-	message, leased, err := visits.leaseDuePageVisit(ctx, now)
+	message, leased, err := frontier.leaseDuePageVisit(ctx, now)
 	if err != nil {
-		visits.observer.FrontierLeaseFailed(ctx, err)
+		frontier.observer.FrontierLeaseFailed(ctx, err)
 		return pendingPageVisitMessage{}, false
 	}
 	return message, leased
 }
 
-func (visits *PendingPageVisits) anyPageVisitDue(ctx context.Context, now time.Time) (bool, error) {
+func (frontier *Frontier) anyPageVisitDue(ctx context.Context, now time.Time) (bool, error) {
 	var due bool
-	if err := visits.storage.View(ctx, func(tx *vault.Txn) error {
+	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		_, due, err = visits.firstDueBy(tx, now)
+		_, due, err = frontier.firstDueBy(tx, now)
 		return err
 	}); err != nil {
 		return false, fmt.Errorf("look for a due pending page visit: %w", err)
@@ -238,10 +241,10 @@ func (visits *PendingPageVisits) anyPageVisitDue(ctx context.Context, now time.T
 	return due, nil
 }
 
-func (visits *PendingPageVisits) firstDueBy(tx *vault.Txn, now time.Time) (dueEntry, bool, error) {
+func (frontier *Frontier) firstDueBy(tx *vault.Txn, now time.Time) (dueEntry, bool, error) {
 	var first dueEntry
 	var found bool
-	err := visits.dueTimes.Scan(
+	err := frontier.dueTimes.Scan(
 		tx,
 		dueKeyParts.KeysThroughFirst(now.UnixMilli()),
 		func(entry dueEntry) (bool, error) {
@@ -252,15 +255,15 @@ func (visits *PendingPageVisits) firstDueBy(tx *vault.Txn, now time.Time) (dueEn
 	return first, found, err
 }
 
-func (visits *PendingPageVisits) leaseDuePageVisit(
+func (frontier *Frontier) leaseDuePageVisit(
 	ctx context.Context,
 	now time.Time,
 ) (pendingPageVisitMessage, bool, error) {
 	var message pendingPageVisitMessage
 	var leased bool
-	if err := visits.storage.Update(ctx, func(tx *vault.Txn) error {
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		message, leased, err = visits.leaseFirstDue(tx, now)
+		message, leased, err = frontier.leaseFirstDue(tx, now)
 		return err
 	}); err != nil {
 		return pendingPageVisitMessage{}, false, fmt.Errorf(
@@ -271,24 +274,24 @@ func (visits *PendingPageVisits) leaseDuePageVisit(
 	return message, leased, nil
 }
 
-func (visits *PendingPageVisits) leaseFirstDue(
+func (frontier *Frontier) leaseFirstDue(
 	tx *vault.Txn,
 	now time.Time,
 ) (pendingPageVisitMessage, bool, error) {
-	first, due, err := visits.firstDueBy(tx, now)
+	first, due, err := frontier.firstDueBy(tx, now)
 	if err != nil || !due {
 		return pendingPageVisitMessage{}, false, err
 	}
-	entry, pending, err := visits.pageVisits.Get(tx, first.key)
+	entry, pending, err := frontier.pageVisits.Get(tx, first.key)
 	if err != nil || !pending {
 		return pendingPageVisitMessage{}, false, err
 	}
-	entry.due = now.Add(visits.lease).UnixMilli()
-	if _, err := visits.pageVisits.Put(tx, first.key, entry); err != nil {
+	entry.due = now.Add(frontier.lease).UnixMilli()
+	if _, err := frontier.pageVisits.Put(tx, first.key, entry); err != nil {
 		return pendingPageVisitMessage{}, false, err
 	}
 	return pendingPageVisitMessage{
-		visits:   visits,
+		frontier: frontier,
 		key:      first.key,
 		identity: frontierName + "/" + hex.EncodeToString(entry.messageID[:]),
 		arrival:  time.UnixMilli(entry.arrival),
@@ -296,48 +299,48 @@ func (visits *PendingPageVisits) leaseFirstDue(
 	}, true, nil
 }
 
-func (visits *PendingPageVisits) AmountOfPendingPageVisits(ctx context.Context) (int64, bool) {
+func (frontier *Frontier) AmountOfPendingPageVisits(ctx context.Context) (int64, bool) {
 	var amount int
-	if err := visits.storage.View(ctx, func(tx *vault.Txn) error {
+	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		amount, err = visits.pageVisits.Len(tx)
+		amount, err = frontier.pageVisits.Len(tx)
 		return err
 	}); err != nil {
-		visits.observer.FrontierCountFailed(ctx, err)
+		frontier.observer.FrontierCountFailed(ctx, err)
 		return 0, false
 	}
 	return int64(amount), true
 }
 
-func (visits *PendingPageVisits) acknowledge(
+func (frontier *Frontier) acknowledge(
 	ctx context.Context,
 	key pageVisitKey,
 	identity string,
 ) {
-	if err := visits.storage.Update(ctx, func(tx *vault.Txn) error {
-		_, err := visits.pageVisits.Delete(tx, key)
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
+		_, err := frontier.pageVisits.Delete(tx, key)
 		return err
 	}); err != nil {
-		visits.observer.FrontierAcknowledgeFailed(ctx, identity, err)
+		frontier.observer.FrontierAcknowledgeFailed(ctx, identity, err)
 	}
 }
 
-func (visits *PendingPageVisits) returnAfter(
+func (frontier *Frontier) returnAfter(
 	ctx context.Context,
 	key pageVisitKey,
 	identity string,
 	delay time.Duration,
 ) {
-	due := visits.clock.Now().Add(delay).UnixMilli()
-	if err := visits.storage.Update(ctx, func(tx *vault.Txn) error {
-		entry, pending, err := visits.pageVisits.Get(tx, key)
+	due := frontier.clock.Now().Add(delay).UnixMilli()
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
+		entry, pending, err := frontier.pageVisits.Get(tx, key)
 		if err != nil || !pending {
 			return err
 		}
 		entry.due = due
-		_, err = visits.pageVisits.Put(tx, key, entry)
+		_, err = frontier.pageVisits.Put(tx, key, entry)
 		return err
 	}); err != nil {
-		visits.observer.FrontierReturnFailed(ctx, identity, delay, err)
+		frontier.observer.FrontierReturnFailed(ctx, identity, delay, err)
 	}
 }

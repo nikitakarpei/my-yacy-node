@@ -1,6 +1,6 @@
-// Package pagevisitallowance tells a pending page visit what it may still do — take a
-// page of its host, another deferral, or another attempt — and names the limit
-// that stopped it when it may do none.
+// Package pagevisitallowance takes for a pending page visit a page of its host,
+// another deferral, or another attempt while its limits leave room, and names the
+// limit that stopped it when none is left.
 package pagevisitallowance
 
 import (
@@ -15,19 +15,19 @@ import (
 )
 
 type PageVisitLimits interface {
-	AdmitsAnotherPageOfHost(
+	TakePageOfHost(
 		ctx context.Context,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 		host string,
 		maxPages int,
 	) (bool, error)
-	AdmitsAnotherDeferral(
+	TakeDeferral(
 		ctx context.Context,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 	) (bool, error)
-	AdmitsAnotherAttempt(
+	TakeAttempt(
 		ctx context.Context,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
@@ -49,51 +49,51 @@ func New(limits PageVisitLimits, retryDelay retrydelay.Bounds) *Allowances {
 	return &Allowances{limits: limits, retryDelay: retryDelay}
 }
 
-func (allowances *Allowances) HostPageFor(
+func (allowances *Allowances) TakePageOfHost(
 	ctx context.Context,
 	pageVisit pendingpagevisit.PendingPageVisit,
 	maxPages int,
 ) (Allowance, error) {
-	admitted, err := allowances.limits.AdmitsAnotherPageOfHost(
+	took, err := allowances.limits.TakePageOfHost(
 		ctx, pageVisit.CrawlID, pageVisit.URL, pageVisit.URL.Hostname(), maxPages,
 	)
 	if err != nil {
 		return Allowance{}, err
 	}
-	if !admitted {
+	if !took {
 		return exhaustedAllowance(pagevisitdrop.HostPagesExhausted), nil
 	}
 	return grantedAllowance(), nil
 }
 
-func (allowances *Allowances) DeferralFor(
+func (allowances *Allowances) TakeDeferral(
 	ctx context.Context,
 	pageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) (Allowance, error) {
-	admitted, err := allowances.limits.AdmitsAnotherDeferral(
+	took, err := allowances.limits.TakeDeferral(
 		ctx, pageVisit.CrawlID, pageVisit.URL,
 	)
 	if err != nil {
 		return Allowance{}, err
 	}
-	if !admitted {
+	if !took {
 		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
 	}
 	return grantedAllowanceAfter(deferFor), nil
 }
 
-func (allowances *Allowances) AnotherAttemptFor(
+func (allowances *Allowances) TakeAttempt(
 	ctx context.Context,
 	pageVisit pendingpagevisit.PendingPageVisit,
 ) (Allowance, error) {
-	attempt, admitted, err := allowances.limits.AdmitsAnotherAttempt(
+	attempt, took, err := allowances.limits.TakeAttempt(
 		ctx, pageVisit.CrawlID, pageVisit.URL,
 	)
 	if err != nil {
 		return Allowance{}, err
 	}
-	if !admitted {
+	if !took {
 		return exhaustedAllowance(pagevisitdrop.RetriesExhausted), nil
 	}
 	return grantedAllowanceAfter(allowances.retryDelay.Delay(attempt)), nil
