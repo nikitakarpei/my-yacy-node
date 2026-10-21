@@ -4,6 +4,7 @@
 package acceptedorder
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -11,12 +12,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/profileadmission"
 )
 
+var errNegativePagesPerHost = errors.New("MaxPagesPerHost is below 0")
+
 type AcceptedOrder struct {
 	order     yacycrawlcontract.CrawlOrder
 	admission *profileadmission.Admission
 }
 
 func AcceptedOrderFrom(order yacycrawlcontract.CrawlOrder) (AcceptedOrder, error) {
+	if order.Profile.MaxPagesPerHost < 0 {
+		return AcceptedOrder{}, fmt.Errorf(
+			"read the profile of order %s: %w",
+			order.OrderID,
+			errNegativePagesPerHost,
+		)
+	}
 	admission, err := profileadmission.New(order.Profile, order.SeedURLs)
 	if err != nil {
 		return AcceptedOrder{}, fmt.Errorf("read the profile of order %s: %w", order.OrderID, err)

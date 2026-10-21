@@ -155,12 +155,6 @@ func pageVisitLimits(t *testing.T) (limitsWithin, *settableClock) {
 	return pageVisitLimitsOn(t, memoryvault.OpenEngine(0), clock), clock
 }
 
-func limitsOf(t *testing.T) limitsWithin {
-	t.Helper()
-	limits, _ := pageVisitLimits(t)
-	return limits
-}
-
 func pageURL(t *testing.T) canonicalurl.CanonicalURL {
 	t.Helper()
 	return canonicalurltest.CanonicalURLOf(t, "http://host/page")
@@ -219,12 +213,6 @@ func TestAPageVisitTakesOnePageOfItsHostHoweverOftenItIsRedelivered(t *testing.T
 	other := canonicalurltest.CanonicalURLOf(t, "http://host/other")
 	if admitsAnotherPageOfHost(t, limits, other, 1) {
 		t.Fatal("the redelivered page visit should hold the whole limit of the host")
-	}
-}
-
-func TestAHostThatAllowsNoPagesAdmitsNone(t *testing.T) {
-	if admitsAnotherPageOfHost(t, limitsOf(t), pageURL(t), 0) {
-		t.Fatal("a host that allows no pages should refuse the first page")
 	}
 }
 

@@ -2,13 +2,17 @@
 package profileadmission
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
+
+var errUnknownScope = errors.New("unknown crawl scope")
 
 type Admission struct {
 	scope           yacycrawlcontract.CrawlScope
@@ -24,6 +28,9 @@ func New(
 	profile yacycrawlcontract.CrawlProfile,
 	canonicalSeeds []canonicalurl.CanonicalURL,
 ) (*Admission, error) {
+	if !slices.Contains(yacycrawlcontract.CrawlScopes, profile.Scope) {
+		return nil, fmt.Errorf("%w %q", errUnknownScope, profile.Scope)
+	}
 	mustMatch, err := regexp.Compile(matchOrAll(profile.URLMustMatch))
 	if err != nil {
 		return nil, fmt.Errorf("compile url must match: %w", err)
@@ -74,14 +81,12 @@ func (a *Admission) withinScope(host string, canonicalURL canonicalurl.Canonical
 	case yacycrawlcontract.ScopeDomain:
 		_, ok := a.seedHosts[host]
 		return ok
-	case yacycrawlcontract.ScopeSubpath:
+	default:
 		for _, directory := range a.seedDirectories {
 			if strings.HasPrefix(canonicalURL.String(), directory.String()) {
 				return true
 			}
 		}
-		return false
-	default:
 		return false
 	}
 }

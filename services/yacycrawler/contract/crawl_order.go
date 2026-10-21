@@ -9,6 +9,7 @@ import (
 
 type CrawlOrder struct {
 	OrderID  string                      `json:"OrderID"`
+	Label    string                      `json:"Label,omitzero"`
 	Profile  CrawlProfile                `json:"Profile"`
 	SeedURLs []canonicalurl.CanonicalURL `json:"SeedURLs"`
 }

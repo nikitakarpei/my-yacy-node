@@ -33,7 +33,7 @@ Every placed order carries the same crawl profile, built once from these variabl
 | `VISITCRAWL_MAX_DEPTH` | `1` | Link depth the crawl follows from the visited page. |
 | `VISITCRAWL_URL_MUST_MATCH` | match all | Regular expression a URL must match to be crawled. |
 | `VISITCRAWL_URL_MUST_NOT_MATCH` | none | Regular expression that excludes a URL from the crawl. |
-| `VISITCRAWL_MAX_PAGES_PER_HOST` | `100` | Pages per host the crawl may fetch; `-1` is unlimited. |
+| `VISITCRAWL_MAX_PAGES_PER_HOST` | `100` | Pages per host the crawl may fetch; `0` is unlimited. |
 | `VISITCRAWL_ALLOW_QUERY_URLS` | `false` | Whether URLs with a query string may be crawled. |
 
 ## Operations
