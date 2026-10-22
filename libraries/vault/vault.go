@@ -4,8 +4,9 @@
 // CountIndex; member sets buckets back a MemberSetIndex over a MemberEncoding.
 // Only vault adds to an index, in step with the collection it follows. An Engine
 // stores the buckets, keeps each write whole, may rerun its closure, and counts
-// bytes to a quota. A transaction reads one committed state, scans included; when
-// two writes change one key, the later runs again on the state the earlier left.
+// bytes to a quota. Transactions are serializable: each reads one committed state,
+// scans included, and a write runs again when a commit after it began changed a key it
+// read or wrote, or a range it scanned.
 package vault
 
 import (

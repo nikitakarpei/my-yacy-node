@@ -49,6 +49,24 @@ func runIsolationConformance(t *testing.T, open func(quotaBytes int64) (vault.En
 		"ConcurrentInsertsOfOneAbsentKeyLeaveOneWinner",
 		func(t *testing.T) { concurrentInsertsOfOneAbsentKeyLeaveOneWinner(t, open) },
 	)
+	t.Run(
+		"RemovalsThatReadEachOthersRecordsLeaveOneLastRemoval",
+		func(t *testing.T) {
+			lastChangesOfEachRound(t, open, seedRound, removeMember, othersRemainByKey)
+		},
+	)
+	t.Run(
+		"RemovalsThatScanEachOthersRecordsLeaveOneLastRemoval",
+		func(t *testing.T) {
+			lastChangesOfEachRound(t, open, seedRound, removeMember, othersRemainInScan)
+		},
+	)
+	t.Run(
+		"InsertsThatScanEachOthersRecordsLeaveOneLastInsert",
+		func(t *testing.T) {
+			lastChangesOfEachRound(t, open, emptyRound, insertMember, othersMissInScan)
+		},
+	)
 }
 
 func updateReadsOneCommittedState(t *testing.T, open func(int64) (vault.Engine, error)) {
@@ -589,4 +607,162 @@ func storedWord(
 	}
 
 	return value
+}
+
+var memberKeyParts = vault.PairKey(vault.IntegerKeyPart, vault.IntegerKeyPart)
+
+type member struct {
+	round  int64
+	writer int64
+}
+
+var memberKeys = memberKeyParts.KeyLayoutFor(
+	func(key member) (int64, int64) { return key.round, key.writer },
+	func(round, writer int64) member { return member{round: round, writer: writer} },
+)
+
+type members = *vault.Collection[member, string]
+
+type memberChange func(tx *vault.Txn, roundMembers members, key member) error
+
+type othersCheck func(tx *vault.Txn, roundMembers members, key member) (bool, error)
+
+type roundStart func(t *testing.T, v *vault.Vault, roundMembers members, round int64)
+
+func lastChangesOfEachRound(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+	start roundStart,
+	change memberChange,
+	othersPending othersCheck,
+) {
+	first, second := openTwoHandles(t, open)
+	handles := []*vault.Vault{first, second}
+	roundMembers := []members{registerMembers(t, first), registerMembers(t, second)}
+	for round := range int64(contendedRounds) {
+		start(t, first, roundMembers[0], round)
+		last := make([]bool, concurrentWriters)
+		work := make([]func() error, concurrentWriters)
+		for writer := range work {
+			work[writer] = func() error {
+				changed := roundMembers[writer%len(roundMembers)]
+				return handles[writer%len(handles)].Update(
+					context.Background(),
+					func(tx *vault.Txn) error {
+						key := member{round: round, writer: int64(writer)}
+						if err := change(tx, changed, key); err != nil {
+							return err
+						}
+						pending, err := othersPending(tx, changed, key)
+						last[writer] = !pending
+
+						return err
+					},
+				)
+			}
+		}
+		if err := failuresOfConcurrent(work); err != nil {
+			t.Fatalf("Update: %v", err)
+		}
+
+		if lastWriter := slices.Index(last, true); lastWriter < 0 ||
+			slices.Index(last[lastWriter+1:], true) >= 0 {
+			t.Fatalf("round %d saw itself last = %v, want exactly one", round, last)
+		}
+	}
+}
+
+func registerMembers(t *testing.T, v *vault.Vault) members {
+	t.Helper()
+
+	registered, err := v.RegisterCollection(vault.Name("members"), memberKeys, stringValueCodec{})
+	if err != nil {
+		t.Fatalf("Register members: %v", err)
+	}
+
+	return registered
+}
+
+func seedRound(t *testing.T, v *vault.Vault, roundMembers members, round int64) {
+	t.Helper()
+
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		for writer := range int64(concurrentWriters) {
+			if _, err := roundMembers.Put(
+				tx,
+				member{round: round, writer: writer},
+				"seeded",
+			); err != nil {
+				return wrapTest(err)
+			}
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("seed round %d: %v", round, err)
+	}
+}
+
+func emptyRound(*testing.T, *vault.Vault, members, int64) {}
+
+func removeMember(tx *vault.Txn, roundMembers members, key member) error {
+	if _, err := roundMembers.Delete(tx, key); err != nil {
+		return wrapTest(err)
+	}
+
+	return nil
+}
+
+func insertMember(tx *vault.Txn, roundMembers members, key member) error {
+	if _, err := roundMembers.Put(tx, key, "inserted"); err != nil {
+		return wrapTest(err)
+	}
+
+	return nil
+}
+
+func othersRemainByKey(tx *vault.Txn, roundMembers members, key member) (bool, error) {
+	for writer := range int64(concurrentWriters) {
+		if writer == key.writer {
+			continue
+		}
+		_, found, err := roundMembers.Get(tx, member{round: key.round, writer: writer})
+		if err != nil {
+			return false, wrapTest(err)
+		}
+		if found {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
+
+func othersRemainInScan(tx *vault.Txn, roundMembers members, key member) (bool, error) {
+	amount, err := amountScannedIn(tx, roundMembers, key.round)
+
+	return amount > 0, err
+}
+
+func othersMissInScan(tx *vault.Txn, roundMembers members, key member) (bool, error) {
+	amount, err := amountScannedIn(tx, roundMembers, key.round)
+
+	return amount < concurrentWriters, err
+}
+
+func amountScannedIn(tx *vault.Txn, roundMembers members, round int64) (int, error) {
+	amount := 0
+	if err := roundMembers.Scan(
+		tx,
+		memberKeyParts.KeysWithFirst(round),
+		func(member, string) (bool, error) {
+			amount++
+
+			return true, nil
+		},
+	); err != nil {
+		return 0, wrapTest(err)
+	}
+
+	return amount, nil
 }
