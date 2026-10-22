@@ -24,7 +24,7 @@ func (wiring *crawlStateWiring) CrawlResumed(tx *vault.Txn, crawlID crawlid.Craw
 }
 
 func (wiring *crawlStateWiring) CrawlCancelling(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	return wiring.frontier.Close(tx, crawlID)
+	return wiring.frontier.Cancel(tx, crawlID)
 }
 
 func (wiring *crawlStateWiring) CrawlFinished(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -35,14 +35,14 @@ func (wiring *crawlStateWiring) CrawlOwesNothing(tx *vault.Txn, crawlID crawlid.
 	return wiring.crawls.Settle(tx, crawlID)
 }
 
-func (wiring *crawlStateWiring) PageVisitsDrained(
+func (wiring *crawlStateWiring) PageVisitsCancelled(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	host string,
 	amount uint,
 ) error {
 	return wiring.progress.CountDropped(
-		tx, crawlID, host, yacycrawlcontract.DropReasonOrderCancelled, amount,
+		tx, crawlID, host, yacycrawlcontract.DropReasonCrawlCancelled, amount,
 	)
 }
 

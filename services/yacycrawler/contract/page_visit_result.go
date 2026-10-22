@@ -35,7 +35,7 @@ const (
 	DropReasonHostPagesExhausted PageVisitDropReason = "host-pages-exhausted"
 	DropReasonDeferralsExhausted PageVisitDropReason = "deferrals-exhausted"
 	DropReasonRetriesExhausted   PageVisitDropReason = "retries-exhausted"
-	DropReasonOrderCancelled     PageVisitDropReason = "order-cancelled"
+	DropReasonCrawlCancelled     PageVisitDropReason = "crawl-cancelled"
 )
 
 var PageVisitDropReasons = []PageVisitDropReason{
@@ -43,5 +43,5 @@ var PageVisitDropReasons = []PageVisitDropReason{
 	DropReasonHostPagesExhausted,
 	DropReasonDeferralsExhausted,
 	DropReasonRetriesExhausted,
-	DropReasonOrderCancelled,
+	DropReasonCrawlCancelled,
 }

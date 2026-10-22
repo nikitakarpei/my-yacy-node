@@ -28,7 +28,7 @@ type crawlMark int64
 const (
 	unmarked crawlMark = iota
 	markHeld
-	markDraining
+	markCancelling
 	markClosed
 )
 
@@ -71,10 +71,10 @@ func (marks crawlMarks) unmark(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return err
 }
 
-func (marks crawlMarks) firstDrainingCrawl(tx *vault.Txn) (crawlid.CrawlID, bool, error) {
+func (marks crawlMarks) firstCancellingCrawl(tx *vault.Txn) (crawlid.CrawlID, bool, error) {
 	first, found, err := marks.byKind.First(
 		tx,
-		markedCrawlKeyParts.KeysWithFirst(int64(markDraining)),
+		markedCrawlKeyParts.KeysWithFirst(int64(markCancelling)),
 	)
 	return first.crawlID, found, err
 }

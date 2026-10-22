@@ -2,8 +2,9 @@
 // due at a time, and a mark of every visit it settled. A worker leases the earliest due
 // visit of a crawl neither held nor closed, and the visit comes back when the lease ends
 // before the worker settles it. A visit owed or settled before is not added again, and a
-// closed crawl takes none. A closed crawl's owed visits are drained in batches. The
-// transaction that leaves a crawl owing nothing reports it. A pause holds every page visit.
+// closed or cancelled crawl takes none. A cancelled crawl's owed visits are dropped in
+// batches and reported as cancelled. The transaction that leaves a crawl owing nothing
+// reports it. A pause holds every page visit.
 package frontier
 
 import (
@@ -47,14 +48,14 @@ type CrawlSettlement interface {
 	CrawlOwesNothing(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
-type DrainedPageVisits interface {
-	PageVisitsDrained(tx *vault.Txn, crawlID crawlid.CrawlID, host string, amount uint) error
+type CancelledPageVisits interface {
+	PageVisitsCancelled(tx *vault.Txn, crawlID crawlid.CrawlID, host string, amount uint) error
 }
 
 type Frontier struct {
 	storage    *vault.Vault
 	settlement CrawlSettlement
-	drained    DrainedPageVisits
+	cancelled  CancelledPageVisits
 	ledger     pageVisitLedger
 	heads      crawlHeads
 	crawlMarks crawlMarks
@@ -69,7 +70,7 @@ func Open(
 	ctx context.Context,
 	storage *vault.Vault,
 	settlement CrawlSettlement,
-	drained DrainedPageVisits,
+	cancelled CancelledPageVisits,
 	lease time.Duration,
 	clock Clock,
 	observer FrontierObserver,
@@ -77,7 +78,7 @@ func Open(
 	frontier := &Frontier{
 		storage:    storage,
 		settlement: settlement,
-		drained:    drained,
+		cancelled:  cancelled,
 		lease:      lease,
 		clock:      clock,
 		observer:   observer,
@@ -177,15 +178,26 @@ func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err != nil || !mark.takesPageVisits() {
 		return err
 	}
+	if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
+		return err
+	}
+	return frontier.heads.remove(tx, crawlID)
+}
+
+func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
+	if err != nil || !mark.takesPageVisits() {
+		return err
+	}
 	owes, err := frontier.ledger.owesAny(tx, crawlID)
 	if err != nil {
 		return err
 	}
-	closingMark := markClosed
+	cancellingMark := markClosed
 	if owes {
-		closingMark = markDraining
+		cancellingMark = markCancelling
 	}
-	if err := frontier.crawlMarks.mark(tx, crawlID, closingMark); err != nil {
+	if err := frontier.crawlMarks.mark(tx, crawlID, cancellingMark); err != nil {
 		return err
 	}
 	return frontier.heads.remove(tx, crawlID)
@@ -230,12 +242,12 @@ func (frontier *Frontier) Next(ctx context.Context) (pullintake.PendingMessage, 
 }
 
 func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
-	crawlID, draining, err := frontier.firstDrainingCrawl(ctx)
+	crawlID, cancelling, err := frontier.firstCancellingCrawl(ctx)
 	if err != nil {
 		frontier.observer.FrontierDrainFailed(ctx, err)
 		return false
 	}
-	if !draining {
+	if !cancelling {
 		return false
 	}
 	if err := frontier.settled(ctx, crawlID, func(
@@ -250,14 +262,14 @@ func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
 	return true
 }
 
-func (frontier *Frontier) firstDrainingCrawl(
+func (frontier *Frontier) firstCancellingCrawl(
 	ctx context.Context,
 ) (crawlid.CrawlID, bool, error) {
 	var first crawlid.CrawlID
 	var found bool
 	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		first, found, err = frontier.crawlMarks.firstDrainingCrawl(tx)
+		first, found, err = frontier.crawlMarks.firstCancellingCrawl(tx)
 		return err
 	}); err != nil {
 		return crawlid.CrawlID{}, false, fmt.Errorf("look for a crawl to drain: %w", err)
@@ -277,7 +289,7 @@ func (frontier *Frontier) drainBatchOf(
 		return err
 	}
 	for _, host := range slices.Sorted(maps.Keys(drainedOfHosts)) {
-		if err := frontier.drained.PageVisitsDrained(
+		if err := frontier.cancelled.PageVisitsCancelled(
 			tx, crawlID, host, drainedOfHosts[host],
 		); err != nil {
 			return err
@@ -298,7 +310,7 @@ func (frontier *Frontier) closeOwingNothing(
 	if err != nil {
 		return err
 	}
-	if mark == markDraining {
+	if mark == markCancelling {
 		if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
 			return err
 		}

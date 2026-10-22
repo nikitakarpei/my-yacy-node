@@ -581,7 +581,7 @@ func TestACrawlIsShownWithItsPendingVisitsAndProgress(t *testing.T) {
 			yacycrawlcontract.ResultPublished: 2,
 		},
 		Dropped: map[yacycrawlcontract.PageVisitDropReason]int64{
-			yacycrawlcontract.DropReasonOrderCancelled: 4,
+			yacycrawlcontract.DropReasonCrawlCancelled: 4,
 		},
 		UnadmittedLinks: 5,
 	}
@@ -596,7 +596,7 @@ func TestACrawlIsShownWithItsPendingVisitsAndProgress(t *testing.T) {
 	crawl := answerOf[yacycrawlcontract.Crawl](t, known)
 	if crawl.State != yacycrawlcontract.CrawlStateCancelling || crawl.PendingPageVisits != 3 ||
 		crawl.CompletedPageVisitsByResult[yacycrawlcontract.ResultPublished] != 2 ||
-		crawl.DroppedPageVisitsByReason[yacycrawlcontract.DropReasonOrderCancelled] != 4 ||
+		crawl.DroppedPageVisitsByReason[yacycrawlcontract.DropReasonCrawlCancelled] != 4 ||
 		crawl.UnadmittedLinks != 5 || crawl.AmountOfSeedURLs != 1 ||
 		crawl.FirstSeedURL.String() != "http://host/"+crawlIDText(1) || crawl.Order == nil {
 		t.Fatalf("crawl = %+v, want the cancelling crawl with 3 pending and its progress", crawl)

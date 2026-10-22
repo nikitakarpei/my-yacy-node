@@ -118,7 +118,7 @@ func TestRunServiceFinishesACancelledCrawlOnceItsVisitsDrain(t *testing.T) {
 			apiURL+"/crawls/"+crawl.CrawlID, "")
 	}
 	if crawl.PendingPageVisits != 0 ||
-		crawl.DroppedPageVisitsByReason[yacycrawlcontract.DropReasonOrderCancelled] != 1 {
+		crawl.DroppedPageVisitsByReason[yacycrawlcontract.DropReasonCrawlCancelled] != 1 {
 		t.Fatalf("crawl = %+v, want its seed dropped as cancelled", crawl)
 	}
 }
