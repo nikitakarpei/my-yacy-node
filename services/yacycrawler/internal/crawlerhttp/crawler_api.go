@@ -356,12 +356,12 @@ func (api crawlerAPI) cancelCrawl(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	state, found, err := api.changedState(r.Context(), crawlID, api.stores.records.Cancel)
+	state, found, err := api.changeState(r.Context(), crawlID, api.stores.records.Cancel)
 	if err != nil {
 		api.failed(w, r, err)
 		return
 	}
-	if refusedChange(w, r, state, found, isSucceeded) {
+	if refusedChange(w, r, state, found, yacycrawlcontract.CrawlCancellation) {
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
@@ -377,22 +377,22 @@ func (api crawlerAPI) pauseCrawl(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	change := api.stores.records.Resume
+	applyChange, crawlChange := api.stores.records.Resume, yacycrawlcontract.CrawlResumption
 	if pause.Paused {
-		change = api.stores.records.Pause
+		applyChange, crawlChange = api.stores.records.Pause, yacycrawlcontract.CrawlPause
 	}
-	state, found, err := api.changedState(r.Context(), crawlID, change)
+	state, found, err := api.changeState(r.Context(), crawlID, applyChange)
 	if err != nil {
 		api.failed(w, r, err)
 		return
 	}
-	if refusedChange(w, r, state, found, refusesPause) {
+	if refusedChange(w, r, state, found, crawlChange) {
 		return
 	}
 	api.writeJSON(w, r, http.StatusOK, pause)
 }
 
-func (api crawlerAPI) changedState(
+func (api crawlerAPI) changeState(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 	change func(
@@ -422,27 +422,17 @@ func refusedChange(
 	r *http.Request,
 	state yacycrawlcontract.CrawlState,
 	found bool,
-	conflicts func(yacycrawlcontract.CrawlState) bool,
+	crawlChange yacycrawlcontract.CrawlStateChange,
 ) bool {
 	switch {
 	case !found:
 		http.NotFound(w, r)
-	case conflicts(state):
+	case crawlChange.Refuses(state):
 		http.Error(w, "the crawl has "+string(state), http.StatusConflict)
 	default:
 		return false
 	}
 	return true
-}
-
-func isSucceeded(state yacycrawlcontract.CrawlState) bool {
-	return state == yacycrawlcontract.CrawlStateSucceeded
-}
-
-func refusesPause(state yacycrawlcontract.CrawlState) bool {
-	return state == yacycrawlcontract.CrawlStateCancelling ||
-		state == yacycrawlcontract.CrawlStateSucceeded ||
-		state == yacycrawlcontract.CrawlStateCancelled
 }
 
 func (api crawlerAPI) showCrawlerStatus(w http.ResponseWriter, r *http.Request) {

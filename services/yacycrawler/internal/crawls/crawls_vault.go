@@ -12,12 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
-const (
-	unfinishedCrawlsBucket                 = "unfinished_crawls"
-	finishedCrawlsBucket                   = "finished_crawls"
-	amountsOfUnfinishedCrawlsInStateBucket = "amounts_of_unfinished_crawls_in_state"
-	crawlIndexesVersion                    = "1"
-)
+const crawlIndexesVersion = "1"
 
 func registerCrawls(
 	ctx context.Context,
@@ -25,37 +20,15 @@ func registerCrawls(
 	retention time.Duration,
 	forgotten ForgottenCrawls,
 ) (*Crawls, error) {
-	c := &Crawls{}
-	var err error
-	if c.unfinishedIndexes, err = registerCrawlIndexes(
-		storage,
-		unfinishedCrawlsBucket,
-	); err != nil {
+	unfinished, err := registerUnfinishedCrawls(ctx, storage)
+	if err != nil {
 		return nil, err
 	}
-	if c.finishedIndexes, err = registerCrawlIndexes(storage, finishedCrawlsBucket); err != nil {
+	finished, err := registerFinishedCrawls(ctx, storage, retention, forgotten)
+	if err != nil {
 		return nil, err
 	}
-	if c.amountsInState, err = storage.RegisterCountIndex(
-		amountsOfUnfinishedCrawlsInStateBucket, crawlIndexesVersion,
-		vault.SingleKey(stateKeyPart).KeyLayout(),
-		func(crawl crawlWithID) yacycrawlcontract.CrawlState { return crawl.crawl.State },
-	); err != nil {
-		return nil, fmt.Errorf("register %s: %w", amountsOfUnfinishedCrawlsInStateBucket, err)
-	}
-	if c.unfinished, err = storage.RegisterProjectedCollection(
-		ctx, unfinishedCrawlsBucket, crawlIDKeys, crawlCodec{},
-		c.unfinishedIndexes.projectedWith(c.amountsInState),
-	); err != nil {
-		return nil, fmt.Errorf("register %s: %w", unfinishedCrawlsBucket, err)
-	}
-	if c.finished, err = storage.RegisterExpiringCollection(
-		ctx, finishedCrawlsBucket, crawlIDKeys, crawlCodec{}, retention,
-		c.finishedIndexes.projectedWith(), forgotten.CrawlForgotten,
-	); err != nil {
-		return nil, fmt.Errorf("register %s: %w", finishedCrawlsBucket, err)
-	}
-	return c, nil
+	return &Crawls{unfinished: unfinished, finished: finished}, nil
 }
 
 var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()

@@ -27,9 +27,9 @@ var errScheduledPageVisitMalformed = errors.New("scheduled page visit has a malf
 
 type pageVisitLedger struct {
 	pending        *vault.Collection[pageVisitKey, scheduledPageVisit]
-	pendingByDue   *vault.ValueIndex[scheduledPageVisitForm, dueEntry]
-	pendingOfCrawl *vault.CountIndex[scheduledPageVisitForm, crawlid.CrawlID]
-	pendingOfHost  *vault.CountIndex[scheduledPageVisitForm, crawlHost]
+	pendingByDue   *vault.ValueIndex[scheduledPageVisitWithKey, dueEntry]
+	pendingOfCrawl *vault.CountIndex[scheduledPageVisitWithKey, crawlid.CrawlID]
+	pendingOfHost  *vault.CountIndex[scheduledPageVisitWithKey, crawlHost]
 	settled        *vault.Collection[pageVisitKey, settledMark]
 }
 
@@ -53,21 +53,23 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 		pendingPageVisitsByDueBucket,
 		frontierIndexesVersion,
 		dueEntries,
-		func(form scheduledPageVisitForm) dueEntry { return dueEntry{key: form.key, due: form.visit.due} },
+		func(scheduled scheduledPageVisitWithKey) dueEntry {
+			return dueEntry{key: scheduled.key, due: scheduled.visit.due}
+		},
 	); err != nil {
 		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsByDueBucket, err)
 	}
 	if ledger.pendingOfCrawl, err = storage.RegisterCountIndex(
 		pendingPageVisitsOfCrawlBucket, frontierIndexesVersion,
 		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
-		func(form scheduledPageVisitForm) crawlid.CrawlID { return form.key.crawlID },
+		func(scheduled scheduledPageVisitWithKey) crawlid.CrawlID { return scheduled.key.crawlID },
 	); err != nil {
 		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsOfCrawlBucket, err)
 	}
 	if ledger.pendingOfHost, err = storage.RegisterCountIndex(
 		pendingPageVisitsOfHostBucket, frontierIndexesVersion, crawlHosts,
-		func(form scheduledPageVisitForm) crawlHost {
-			return crawlHost{crawlID: form.key.crawlID, host: form.visit.url.Hostname()}
+		func(scheduled scheduledPageVisitWithKey) crawlHost {
+			return crawlHost{crawlID: scheduled.key.crawlID, host: scheduled.visit.url.Hostname()}
 		},
 	); err != nil {
 		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsOfHostBucket, err)
@@ -75,8 +77,8 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 	if ledger.pending, err = storage.RegisterProjectedCollection(
 		ctx, pendingPageVisitsBucket, pageVisitKeys, scheduledPageVisitCodec{},
 		vault.ProjectedAs(
-			func(key pageVisitKey, visit scheduledPageVisit) scheduledPageVisitForm {
-				return scheduledPageVisitForm{key: key, visit: visit}
+			func(key pageVisitKey, visit scheduledPageVisit) scheduledPageVisitWithKey {
+				return scheduledPageVisitWithKey{key: key, visit: visit}
 			},
 			ledger.pendingByDue, ledger.pendingOfCrawl, ledger.pendingOfHost,
 		),
@@ -269,7 +271,7 @@ var pageVisitKeys = pageVisitKeyParts.KeyLayoutFor(
 	},
 )
 
-type scheduledPageVisitForm struct {
+type scheduledPageVisitWithKey struct {
 	key   pageVisitKey
 	visit scheduledPageVisit
 }
