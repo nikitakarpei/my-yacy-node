@@ -1,5 +1,29 @@
 package yacycrawlcontract
 
+import (
+	"net/url"
+	"strings"
+)
+
+type APIPath string
+
+const IDWildcard = "id"
+
+const (
+	OrderPath         APIPath = "/orders/{" + IDWildcard + "}"
+	CrawlsPath        APIPath = "/crawls"
+	CrawlPath         APIPath = CrawlsPath + "/{" + IDWildcard + "}"
+	CrawlHostsPath    APIPath = CrawlPath + "/hosts"
+	CrawlCancelPath   APIPath = CrawlPath + "/cancel"
+	CrawlPausePath    APIPath = CrawlPath + "/pause"
+	CrawlerStatusPath APIPath = "/crawler-status"
+	CrawlerPausePath  APIPath = "/crawler-pause"
+)
+
+func (path APIPath) For(id string) string {
+	return strings.Replace(string(path), "{"+IDWildcard+"}", url.PathEscape(id), 1)
+}
+
 type CrawlPage struct {
 	Crawls      []Crawl `json:"Crawls"`
 	OlderCursor string  `json:"OlderCursor,omitzero"`

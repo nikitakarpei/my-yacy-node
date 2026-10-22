@@ -49,7 +49,7 @@ func (crawler *Crawler) Place(
 	answer, err := crawler.call(
 		ctx,
 		http.MethodPut,
-		"/orders/"+url.PathEscape(order.OrderID),
+		yacycrawlcontract.OrderPath.For(order.OrderID),
 		order,
 	)
 	if err != nil {
@@ -85,7 +85,7 @@ func (crawler *Crawler) CrawlsIn(
 		query.Set("cursor", cursor)
 	}
 	var page yacycrawlcontract.CrawlPage
-	err := crawler.read(ctx, "/crawls?"+query.Encode(), &page)
+	err := crawler.read(ctx, string(yacycrawlcontract.CrawlsPath)+"?"+query.Encode(), &page)
 	return page, err
 }
 
@@ -94,7 +94,7 @@ func (crawler *Crawler) CrawlOf(
 	crawlID string,
 ) (yacycrawlcontract.Crawl, bool, error) {
 	var crawl yacycrawlcontract.Crawl
-	err := crawler.read(ctx, "/crawls/"+url.PathEscape(crawlID), &crawl)
+	err := crawler.read(ctx, yacycrawlcontract.CrawlPath.For(crawlID), &crawl)
 	if errors.Is(err, errNotFound) {
 		return yacycrawlcontract.Crawl{}, false, nil
 	}
@@ -112,7 +112,11 @@ func (crawler *Crawler) HostsOf(
 		query.Set("cursor", cursor)
 	}
 	var page yacycrawlcontract.CrawlHostPage
-	err := crawler.read(ctx, "/crawls/"+url.PathEscape(crawlID)+"/hosts?"+query.Encode(), &page)
+	err := crawler.read(
+		ctx,
+		yacycrawlcontract.CrawlHostsPath.For(crawlID)+"?"+query.Encode(),
+		&page,
+	)
 	return page, err
 }
 
@@ -120,21 +124,21 @@ func (crawler *Crawler) CrawlerStatus(
 	ctx context.Context,
 ) (yacycrawlcontract.CrawlerStatus, error) {
 	var status yacycrawlcontract.CrawlerStatus
-	err := crawler.read(ctx, "/crawler-status", &status)
+	err := crawler.read(ctx, string(yacycrawlcontract.CrawlerStatusPath), &status)
 	return status, err
 }
 
 func (crawler *Crawler) Cancel(ctx context.Context, crawlID string) error {
-	return crawler.change(ctx, http.MethodPost, "/crawls/"+url.PathEscape(crawlID)+"/cancel", nil)
+	return crawler.change(ctx, http.MethodPost, yacycrawlcontract.CrawlCancelPath.For(crawlID), nil)
 }
 
 func (crawler *Crawler) Pause(ctx context.Context, crawlID string) error {
-	return crawler.change(ctx, http.MethodPut, "/crawls/"+url.PathEscape(crawlID)+"/pause",
+	return crawler.change(ctx, http.MethodPut, yacycrawlcontract.CrawlPausePath.For(crawlID),
 		yacycrawlcontract.Pause{Paused: true})
 }
 
 func (crawler *Crawler) Resume(ctx context.Context, crawlID string) error {
-	return crawler.change(ctx, http.MethodPut, "/crawls/"+url.PathEscape(crawlID)+"/pause",
+	return crawler.change(ctx, http.MethodPut, yacycrawlcontract.CrawlPausePath.For(crawlID),
 		yacycrawlcontract.Pause{Paused: false})
 }
 
@@ -142,7 +146,7 @@ func (crawler *Crawler) PauseCrawler(ctx context.Context) error {
 	return crawler.change(
 		ctx,
 		http.MethodPut,
-		"/crawler-pause",
+		string(yacycrawlcontract.CrawlerPausePath),
 		yacycrawlcontract.Pause{Paused: true},
 	)
 }
@@ -151,7 +155,7 @@ func (crawler *Crawler) ResumeCrawler(ctx context.Context) error {
 	return crawler.change(
 		ctx,
 		http.MethodPut,
-		"/crawler-pause",
+		string(yacycrawlcontract.CrawlerPausePath),
 		yacycrawlcontract.Pause{Paused: false},
 	)
 }
