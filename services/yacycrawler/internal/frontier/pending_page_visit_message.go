@@ -10,6 +10,7 @@ import (
 type pendingPageVisitMessage struct {
 	frontier *Frontier
 	key      pageVisitKey
+	lease    int64
 	identity string
 	arrival  time.Time
 	body     []byte
@@ -28,7 +29,7 @@ func (m pendingPageVisitMessage) Arrival() time.Time {
 }
 
 func (m pendingPageVisitMessage) Acknowledge(ctx context.Context) {
-	m.frontier.acknowledge(ctx, m.key, m.identity)
+	m.frontier.acknowledge(ctx, m)
 }
 
 func (m pendingPageVisitMessage) Return(ctx context.Context) {
@@ -36,5 +37,5 @@ func (m pendingPageVisitMessage) Return(ctx context.Context) {
 }
 
 func (m pendingPageVisitMessage) ReturnAfter(ctx context.Context, delay time.Duration) {
-	m.frontier.returnAfter(ctx, m.key, m.identity, delay)
+	m.frontier.returnAfter(ctx, m, delay)
 }

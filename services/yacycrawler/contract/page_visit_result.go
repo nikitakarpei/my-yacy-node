@@ -31,19 +31,15 @@ var PageVisitResults = []PageVisitResult{
 type PageVisitDropReason string
 
 const (
-	DropReasonTakenByAnother     PageVisitDropReason = "taken-by-another"
 	DropReasonNotDue             PageVisitDropReason = "not-due"
 	DropReasonHostPagesExhausted PageVisitDropReason = "host-pages-exhausted"
 	DropReasonDeferralsExhausted PageVisitDropReason = "deferrals-exhausted"
 	DropReasonRetriesExhausted   PageVisitDropReason = "retries-exhausted"
-	DropReasonOrderForgotten     PageVisitDropReason = "order-forgotten"
 )
 
 var PageVisitDropReasons = []PageVisitDropReason{
-	DropReasonTakenByAnother,
 	DropReasonNotDue,
 	DropReasonHostPagesExhausted,
 	DropReasonDeferralsExhausted,
 	DropReasonRetriesExhausted,
-	DropReasonOrderForgotten,
 }

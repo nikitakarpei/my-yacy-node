@@ -20,47 +20,37 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-var keptCrawlID = crawlid.CrawlID{1}
+var startedCrawlID = crawlid.CrawlID{1}
 
 type fakeCrawls struct {
-	kept []acceptedorder.AcceptedOrder
-	err  error
+	accepted []acceptedorder.AcceptedOrder
+	owed     []pendingpagevisit.PendingPageVisit
+	started  bool
+	err      error
 }
 
-func (o *fakeCrawls) Keep(
+func (a *fakeCrawls) Start(
 	_ *vault.Txn,
 	order acceptedorder.AcceptedOrder,
-) (crawlid.CrawlID, error) {
-	if o.err != nil {
-		return crawlid.CrawlID{}, o.err
+) (crawlid.CrawlID, bool, error) {
+	if a.err != nil {
+		return crawlid.CrawlID{}, false, a.err
 	}
-	o.kept = append(o.kept, order)
-	return keptCrawlID, nil
+	a.accepted = append(a.accepted, order)
+	return startedCrawlID, a.started, nil
 }
 
-type fakePendingVisits struct {
-	published    []pendingpagevisit.PendingPageVisit
-	publications int
-	err          error
-}
-
-func (v *fakePendingVisits) Owe(
-	_ *vault.Txn,
-	visits []pendingpagevisit.PendingPageVisit,
-) error {
-	if v.err != nil {
-		return v.err
-	}
-	v.publications++
-	v.published = append(v.published, visits...)
+func (a *fakeCrawls) Owe(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+	a.owed = append(a.owed, pageVisits...)
 	return nil
 }
 
 type recordingObserver struct {
-	accepted       int
-	acceptedCrawls []crawlid.CrawlID
-	rejected       int
-	returned       int
+	accepted        int
+	acceptedCrawlID crawlid.CrawlID
+	ignored         int
+	rejected        int
+	returned        int
 }
 
 func (o *recordingObserver) CrawlOrderAccepted(
@@ -70,7 +60,11 @@ func (o *recordingObserver) CrawlOrderAccepted(
 	_ int,
 ) {
 	o.accepted++
-	o.acceptedCrawls = append(o.acceptedCrawls, crawlID)
+	o.acceptedCrawlID = crawlID
+}
+
+func (o *recordingObserver) CrawlOrderIgnored(context.Context, string) {
+	o.ignored++
 }
 
 func (o *recordingObserver) CrawlOrderRejected(context.Context, string, string, error) {
@@ -81,31 +75,20 @@ func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
 	o.returned++
 }
 
-func seeds(t *testing.T) []canonicalurl.CanonicalURL {
-	t.Helper()
-	return []canonicalurl.CanonicalURL{
-		canonicalurltest.CanonicalURLOf(t, "http://host/one"),
-		canonicalurltest.CanonicalURLOf(t, "http://host/two"),
-	}
-}
-
 func domainProfile() yacycrawlcontract.CrawlProfile {
-	return yacycrawlcontract.CrawlProfile{
-		Scope:           yacycrawlcontract.ScopeDomain,
-		URLMustMatch:    yacycrawlcontract.MatchAll,
-		MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-	}
+	return yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeDomain}
 }
 
 func orderMessage(
 	t *testing.T,
 	profile yacycrawlcontract.CrawlProfile,
+	seeds ...canonicalurl.CanonicalURL,
 ) *pullintaketest.Message {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
 		OrderID:  "o1",
 		Profile:  profile,
-		SeedURLs: seeds(t),
+		SeedURLs: seeds,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -113,131 +96,109 @@ func orderMessage(
 	return &pullintaketest.Message{Body: data}
 }
 
+func seed(t *testing.T) canonicalurl.CanonicalURL {
+	t.Helper()
+	return canonicalurltest.CanonicalURLOf(t, "http://host/one")
+}
+
 func consume(
 	t *testing.T,
 	message jetstream.Msg,
-	orders *fakeCrawls,
-	frontier *fakePendingVisits,
+	crawls *fakeCrawls,
 	observer *recordingObserver,
-) error {
+) {
 	t.Helper()
 	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
-		t.Fatalf("vault: %v", err)
+		t.Fatalf("New: %v", err)
 	}
-	return orderintake.NewOrderConsumer(
-		storage,
+	if err := orderintake.NewOrderConsumer(
 		pullintaketest.MessageSourceOf(message),
-		orders,
-		frontier,
+		storage,
+		crawls,
+		crawls,
 		observer,
 		1,
-	).Run(context.Background())
-}
-
-func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
-	message := orderMessage(t, domainProfile())
-	orders, visits, observer := &fakeCrawls{}, &fakePendingVisits{}, &recordingObserver{}
-
-	if err := consume(t, message, orders, visits, observer); err != nil {
+	).Run(context.Background()); err != nil {
 		t.Fatalf("run: %v", err)
-	}
-
-	if len(orders.kept) != 1 {
-		t.Fatalf("kept %d orders, want 1", len(orders.kept))
-	}
-	if len(visits.published) != 2 || visits.publications != 1 {
-		t.Fatalf(
-			"published %d seeds in %d publications, want 2 in one",
-			len(visits.published),
-			visits.publications,
-		)
-	}
-	for _, visit := range visits.published {
-		if visit.CrawlID != keptCrawlID || visit.Depth != 0 {
-			t.Fatalf("seed %+v should carry its crawl at depth zero", visit)
-		}
-	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
-	}
-	if observer.accepted != 1 || observer.acceptedCrawls[0] != keptCrawlID {
-		t.Fatalf("observer %+v, want one accepted order of crawl %s", observer, keptCrawlID)
 	}
 }
 
-func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
-	message := orderMessage(t, domainProfile())
-	orders := &fakeCrawls{err: errors.New("bucket down")}
-	visits, observer := &fakePendingVisits{}, &recordingObserver{}
+func requireOneSettlement(
+	t *testing.T,
+	message *pullintaketest.Message,
+	want string,
+) {
+	t.Helper()
+	if got := message.Settlements(); len(got) != 1 || got[0] != want {
+		t.Fatalf("message settled %v, want one %v", got, want)
+	}
+}
 
-	if err := consume(t, message, orders, visits, observer); err != nil {
-		t.Fatalf("run: %v", err)
-	}
+func TestAnAcceptedOrderIsAcknowledged(t *testing.T) {
+	message := orderMessage(t, domainProfile(), seed(t))
+	crawls, observer := &fakeCrawls{started: true}, &recordingObserver{}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	consume(t, message, crawls, observer)
+
+	if len(crawls.accepted) != 1 || crawls.accepted[0].OrderID() != "o1" {
+		t.Fatalf("accepted %v, want order o1", crawls.accepted)
 	}
-	if len(visits.published) != 0 {
-		t.Fatal("an order that was not accepted should seed nothing")
+	if len(crawls.owed) != 1 || crawls.owed[0].CrawlID != startedCrawlID {
+		t.Fatalf("owed %v, want the seed of crawl %s", crawls.owed, startedCrawlID)
 	}
+	requireOneSettlement(t, message, pullintaketest.Acknowledged)
+	if observer.accepted != 1 || observer.acceptedCrawlID != startedCrawlID {
+		t.Fatalf("observer %+v, want one accepted order of crawl %s", observer, startedCrawlID)
+	}
+}
+
+func TestAnOrderWhoseCrawlStartedBeforeIsAcknowledgedAndIgnored(t *testing.T) {
+	message := orderMessage(t, domainProfile(), seed(t))
+	observer := &recordingObserver{}
+
+	crawls := &fakeCrawls{started: false}
+
+	consume(t, message, crawls, observer)
+
+	requireOneSettlement(t, message, pullintaketest.Acknowledged)
+	if observer.ignored != 1 || observer.accepted != 0 || len(crawls.owed) != 0 {
+		t.Fatalf("observer %+v, want one ignored order", observer)
+	}
+}
+
+func TestAnOrderTheCrawlerCannotAcceptYetReturnsForRedelivery(t *testing.T) {
+	message := orderMessage(t, domainProfile(), seed(t))
+	observer := &recordingObserver{}
+
+	consume(t, message, &fakeCrawls{err: errors.New("server down")}, observer)
+
+	requireOneSettlement(t, message, pullintaketest.HeldBack)
 	if observer.returned != 1 || observer.accepted != 0 {
 		t.Fatalf("observer %+v, want one redelivery", observer)
 	}
 }
 
-func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
-	message := orderMessage(t, domainProfile())
-	visits := &fakePendingVisits{err: errors.New("stream down")}
-	observer := &recordingObserver{}
+func TestAnOrderTheCrawlerCannotReadIsRejectedAndAcknowledged(t *testing.T) {
+	unreadableProfile := domainProfile()
+	unreadableProfile.URLMustNotMatch = "([unclosed"
+	for name, message := range map[string]*pullintaketest.Message{
+		"undecodable":        {Body: []byte("{")},
+		"without seeds":      orderMessage(t, domainProfile()),
+		"unreadable profile": orderMessage(t, unreadableProfile, seed(t)),
+	} {
+		t.Run(name, func(t *testing.T) {
+			crawls, observer := &fakeCrawls{started: true}, &recordingObserver{}
 
-	if err := consume(t, message, &fakeCrawls{}, visits, observer); err != nil {
-		t.Fatalf("run: %v", err)
-	}
+			consume(t, message, crawls, observer)
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
-	}
-	if observer.returned != 1 {
-		t.Fatalf("observer %+v, want one redelivery", observer)
-	}
-}
-
-func TestAnOrderWhoseProfileTheCrawlerCannotReadIsRejectedAndAcknowledged(t *testing.T) {
-	profile := domainProfile()
-	profile.URLMustNotMatch = "([unclosed"
-	message := orderMessage(t, profile)
-	orders, visits, observer := &fakeCrawls{}, &fakePendingVisits{}, &recordingObserver{}
-
-	if err := consume(t, message, orders, visits, observer); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
-	}
-	if len(orders.kept) != 0 || len(visits.published) != 0 {
-		t.Fatal("an order the crawler cannot read should neither be kept nor seed the frontier")
-	}
-	if observer.rejected != 1 || observer.returned != 0 {
-		t.Fatalf("observer %+v, want one rejection", observer)
-	}
-}
-
-func TestAnUndecodableOrderIsRejectedAndAcknowledged(t *testing.T) {
-	message := &pullintaketest.Message{Body: []byte("{")}
-	observer := &recordingObserver{}
-
-	if err := consume(
-		t, message, &fakeCrawls{}, &fakePendingVisits{}, observer,
-	); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
-	}
-	if observer.rejected != 1 {
-		t.Fatalf("observer %+v, want one rejection", observer)
+			requireOneSettlement(t, message, pullintaketest.Acknowledged)
+			if len(crawls.accepted) != 0 {
+				t.Fatal("an order the crawler cannot read should not be accepted")
+			}
+			if observer.rejected != 1 {
+				t.Fatalf("observer %+v, want one rejection", observer)
+			}
+		})
 	}
 }

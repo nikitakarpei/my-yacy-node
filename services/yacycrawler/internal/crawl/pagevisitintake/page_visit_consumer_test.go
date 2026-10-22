@@ -32,29 +32,6 @@ const (
 
 var crawlID = crawlid.CrawlID{1}
 
-type fakeTakenPageVisits struct {
-	takers  map[string]string
-	takeErr error
-}
-
-func newTakenPageVisits() *fakeTakenPageVisits {
-	return &fakeTakenPageVisits{takers: map[string]string{}}
-}
-
-func (visits *fakeTakenPageVisits) TakePageVisit(
-	_ *vault.Txn, _ crawlid.CrawlID, url canonicalurl.CanonicalURL, taker string,
-) (bool, error) {
-	if visits.takeErr != nil {
-		return false, visits.takeErr
-	}
-	standing, taken := visits.takers[url.String()]
-	if !taken {
-		visits.takers[url.String()] = taker
-		return true, nil
-	}
-	return standing == taker, nil
-}
-
 type fakeAllowances struct {
 	hostSpent      bool
 	hostPageLimits []int
@@ -231,7 +208,7 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
+func visitMessage(t *testing.T) *pullintaketest.Message {
 	t.Helper()
 	data, err := pendingpagevisit.MarshalPendingPageVisit(pendingpagevisit.PendingPageVisit{
 		CrawlID: crawlID,
@@ -241,7 +218,7 @@ func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 	if err != nil {
 		t.Fatal(err)
 	}
-	return &pullintaketest.Message{Body: data, Sequence: sequence}
+	return &pullintaketest.Message{Body: data, Sequence: 1}
 }
 
 type everyVisitAdmitted struct{}
@@ -257,7 +234,6 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 }
 
 type crawlWorker struct {
-	pageVisits  *fakeTakenPageVisits
 	allowances  *fakeAllowances
 	orders      *fakeCrawls
 	pageVisitor *fakePageVisitor
@@ -266,7 +242,6 @@ type crawlWorker struct {
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
-		pageVisits:  newTakenPageVisits(),
 		allowances:  newAllowances(),
 		orders:      &fakeCrawls{profile: wideProfile()},
 		pageVisitor: &fakePageVisitor{},
@@ -292,7 +267,6 @@ func (w *crawlWorker) consumeAdmittedBy(
 	return pagevisitintake.NewPageVisitConsumer(
 		storage,
 		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
-		w.pageVisits,
 		w.allowances,
 		w.orders,
 		w.pageVisitor,
@@ -302,9 +276,9 @@ func (w *crawlWorker) consumeAdmittedBy(
 	).Run(context.Background())
 }
 
-func TestAClaimedURLIsVisitedThenAcknowledged(t *testing.T) {
+func TestAPageVisitIsVisitedThenAcknowledged(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -318,41 +292,12 @@ func TestAClaimedURLIsVisitedThenAcknowledged(t *testing.T) {
 	}
 }
 
-func TestASecondFrontierMessageForAClaimedURLIsDropped(t *testing.T) {
-	worker := newWorker()
-	duplicate := visitMessage(t, 2)
-
-	if err := worker.consume(t, visitMessage(t, 1), duplicate); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if worker.pageVisitor.pageVisitCount() != 1 {
-		t.Fatalf("visited %d times, want the url fetched once", worker.pageVisitor.pageVisitCount())
-	}
-	if got := duplicate.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("duplicate settled %v, want one ack", got)
-	}
-}
-
-func TestARedeliveredMessageResumesItsOwnClaim(t *testing.T) {
-	worker := newWorker()
-	message := visitMessage(t, 1)
-
-	if err := worker.consume(t, message, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if worker.pageVisitor.pageVisitCount() != 2 {
-		t.Fatal("a redelivery should visit the claim it left behind")
-	}
-}
-
 func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 	worker := newWorker()
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
 		Conclusion: pagevisit.PageVisitDeferred, DeferFor: 7 * time.Second,
 	}}
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -375,7 +320,7 @@ func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitDeferred},
 	}
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -394,7 +339,7 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -411,7 +356,7 @@ func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
 		Conclusion:  pagevisit.PageVisitReturned,
 		ReturnCause: errors.New("stream down"),
 	}}
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -427,7 +372,7 @@ func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
 
 func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorSettled(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consumeAdmittedBy(t, noVisitAdmitted{}, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -448,7 +393,7 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, visitMessage(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -460,7 +405,7 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	worker := newWorker()
 	worker.allowances.hostSpent = false
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -478,7 +423,7 @@ func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.MaxPagesPerHost = 7
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, visitMessage(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -492,7 +437,7 @@ func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 
 func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -506,27 +451,10 @@ func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
 	}
 }
 
-func TestAPageVisitNoOneCanTakeReturnsForRedelivery(t *testing.T) {
-	worker := newWorker()
-	worker.pageVisits.takeErr = errors.New("bucket down")
-	message := visitMessage(t, 1)
-
-	if err := worker.consume(t, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if worker.pageVisitor.pageVisitCount() != 0 {
-		t.Fatal("a url with no answered claim should not be visited")
-	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
-	}
-}
-
 func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
 	worker.orders.err = errors.New("bucket down")
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -537,20 +465,17 @@ func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 	}
 }
 
-func TestAVisitWhoseOrderIsForgottenIsDroppedUnvisited(t *testing.T) {
+func TestAVisitWhoseCrawlIsForgottenReturnsUnvisited(t *testing.T) {
 	worker := newWorker()
 	worker.orders.forgotten = true
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
-	}
-	if worker.observer.dropped[yacycrawlcontract.DropReasonOrderForgotten] != 1 {
-		t.Fatalf("dropped %v, want one forgotten order", worker.observer.dropped)
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
+		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a url of a forgotten order should not be visited")
@@ -560,7 +485,7 @@ func TestAVisitWhoseOrderIsForgottenIsDroppedUnvisited(t *testing.T) {
 func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.URLMustNotMatch = "([unclosed"
-	message := visitMessage(t, 1)
+	message := visitMessage(t)
 
 	if err := worker.consume(t, message); err != nil {
 		t.Fatalf("run: %v", err)
@@ -586,7 +511,7 @@ func TestTheResultOfACompletedVisitIsObserved(t *testing.T) {
 		Conclusion: pagevisit.PageVisitCompleted, Result: yacycrawlcontract.ResultFetchRejected,
 	}}
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, visitMessage(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -601,7 +526,7 @@ func TestAVisitTheVisitorDropsIsObservedAsDropped(t *testing.T) {
 		Conclusion: pagevisit.PageVisitDropped, DropReason: yacycrawlcontract.DropReasonNotDue,
 	}}
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, visitMessage(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 

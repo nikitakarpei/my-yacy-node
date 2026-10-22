@@ -22,8 +22,6 @@ const (
 
 	pageVisitRetention = 30 * 24 * time.Hour
 
-	takenPageVisitRetention = 7 * 24 * time.Hour
-
 	pageVisitLimitRetention = 7 * 24 * time.Hour
 
 	crawlRetention = 7 * 24 * time.Hour
@@ -58,10 +56,6 @@ func (cfg ServiceConfig) PendingPageVisitLease() time.Duration {
 
 func (ServiceConfig) PageVisitRetention() time.Duration {
 	return pageVisitRetention
-}
-
-func (ServiceConfig) TakenPageVisitRetention() time.Duration {
-	return takenPageVisitRetention
 }
 
 func (ServiceConfig) PageVisitLimitRetention() time.Duration {

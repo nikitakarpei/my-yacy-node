@@ -9,6 +9,7 @@ import (
 type CrawlOrderObserver interface {
 	CrawlOrderReturned(ctx context.Context, orderID string, cause error)
 	CrawlOrderRejected(ctx context.Context, messageIdentity string, orderID string, cause error)
+	CrawlOrderIgnored(ctx context.Context, orderID string)
 	CrawlOrderAccepted(
 		ctx context.Context,
 		orderID string,
@@ -37,6 +38,12 @@ func (observers CrawlOrderObservers) CrawlOrderRejected(
 ) {
 	for _, observer := range observers {
 		observer.CrawlOrderRejected(ctx, messageIdentity, orderID, cause)
+	}
+}
+
+func (observers CrawlOrderObservers) CrawlOrderIgnored(ctx context.Context, orderID string) {
+	for _, observer := range observers {
+		observer.CrawlOrderIgnored(ctx, orderID)
 	}
 }
 

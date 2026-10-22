@@ -1,11 +1,14 @@
-// Package crawls keeps every crawl the crawler runs, with the accepted order it runs
-// for, for the retention of crawls, so that any worker can rebuild the profile a URL of
-// that crawl was admitted under. An order sent again finds the crawl it began and keeps it.
+// Package crawls keeps every crawl the crawler runs: the accepted order it runs for, its
+// state, and when it started and finished. The first order of an ID starts its crawl; an
+// order sent again finds that crawl while it is kept. A crawl's finish is reported in the
+// transaction that finishes it. A finished crawl is kept for the crawl retention after it
+// finishes, then forgotten, and its forgetting is reported in the same transaction.
 package crawls
 
 import (
 	"context"
 	"fmt"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -14,86 +17,134 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
-type Crawls struct {
-	crawls        *vault.ExpiringCollection[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
-	crawlsByOrder *vault.ValueIndex[crawlOfOrder, crawlOfOrder]
+type Clock interface {
+	Now() time.Time
 }
 
-func Open(ctx context.Context, storage *vault.Vault, keptFor time.Duration) (*Crawls, error) {
-	crawls, crawlsByOrder, err := registerCrawls(ctx, storage, keptFor)
+type CrawlStateChanges interface {
+	CrawlFinished(tx *vault.Txn, crawlID crawlid.CrawlID) error
+}
+
+type ForgottenCrawls interface {
+	CrawlForgotten(tx *vault.Txn, crawlID crawlid.CrawlID) error
+}
+
+type Crawl struct {
+	Order      yacycrawlcontract.CrawlOrder
+	State      yacycrawlcontract.CrawlState
+	StartedAt  time.Time
+	FinishedAt time.Time
+}
+
+type Crawls struct {
+	unfinished        *vault.Collection[crawlid.CrawlID, Crawl]
+	finished          *vault.ExpiringCollection[crawlid.CrawlID, Crawl]
+	unfinishedIndexes crawlIndexes
+	finishedIndexes   crawlIndexes
+	changes           CrawlStateChanges
+	clock             Clock
+}
+
+//nolint:revive // the crawls name the vault, the retention, the ports they report to and a clock
+func Open(
+	ctx context.Context,
+	storage *vault.Vault,
+	retention time.Duration,
+	changes CrawlStateChanges,
+	forgotten ForgottenCrawls,
+	clock Clock,
+) (*Crawls, error) {
+	c, err := registerCrawls(ctx, storage, retention, forgotten)
 	if err != nil {
 		return nil, err
 	}
-	return &Crawls{crawls: crawls, crawlsByOrder: crawlsByOrder}, nil
+	c.changes, c.clock = changes, clock
+	return c, nil
 }
 
-type crawlOfOrder struct {
-	order   orderIDHash
-	crawlID crawlid.CrawlID
+func (c *Crawls) Start(
+	tx *vault.Txn,
+	order acceptedorder.AcceptedOrder,
+) (crawlid.CrawlID, bool, error) {
+	crawlID, found, err := c.keptCrawlOfOrder(tx, order.OrderID())
+	if err != nil || found {
+		return crawlID, false, err
+	}
+	if crawlID, err = crawlid.New(); err != nil {
+		return crawlid.CrawlID{}, false, err
+	}
+	if _, err := c.unfinished.Put(tx, crawlID, Crawl{
+		Order:     order.CrawlOrder(),
+		State:     yacycrawlcontract.CrawlStateRunning,
+		StartedAt: c.clock.Now(),
+	}); err != nil {
+		return crawlid.CrawlID{}, false, fmt.Errorf(
+			"start the crawl of order %s: %w",
+			order.OrderID(),
+			err,
+		)
+	}
+	return crawlID, true, nil
 }
 
-func crawlOfOrderFrom(crawlID crawlid.CrawlID, order yacycrawlcontract.CrawlOrder) crawlOfOrder {
-	return crawlOfOrder{order: orderIDHashOf(order.OrderID), crawlID: crawlID}
-}
-
-func (c *Crawls) Keep(tx *vault.Txn, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error) {
-	crawlID, err := c.crawlFor(tx, order.OrderID())
+func (c *Crawls) keptCrawlOfOrder(tx *vault.Txn, orderID string) (crawlid.CrawlID, bool, error) {
+	unfinishedIDs, err := c.unfinishedIndexes.crawlIDsOfOrder(tx, orderID)
 	if err != nil {
-		return crawlid.CrawlID{}, fmt.Errorf("keep order %s: %w", order.OrderID(), err)
+		return crawlid.CrawlID{}, false, err
 	}
-	if err := c.crawls.Put(tx, crawlID, order.CrawlOrder()); err != nil {
-		return crawlid.CrawlID{}, fmt.Errorf("keep order %s: %w", order.OrderID(), err)
-	}
-	return crawlID, nil
-}
-
-func (c *Crawls) crawlFor(tx *vault.Txn, orderID string) (crawlid.CrawlID, error) {
-	crawlIDs, err := c.crawlIDsOf(tx, orderIDHashOf(orderID))
+	finishedIDs, err := c.finishedIndexes.crawlIDsOfOrder(tx, orderID)
 	if err != nil {
-		return crawlid.CrawlID{}, err
+		return crawlid.CrawlID{}, false, err
 	}
-	for _, crawlID := range crawlIDs {
-		_, kept, err := c.crawls.Get(tx, crawlID)
+	for _, crawlID := range slices.Concat(unfinishedIDs, finishedIDs) {
+		_, kept, err := c.CrawlOf(tx, crawlID)
 		if err != nil || kept {
-			return crawlID, err
+			return crawlID, kept, err
 		}
 	}
-	return crawlid.New()
+	return crawlid.CrawlID{}, false, nil
 }
 
-func (c *Crawls) crawlIDsOf(tx *vault.Txn, order orderIDHash) ([]crawlid.CrawlID, error) {
-	var crawlIDs []crawlid.CrawlID
-	if err := c.crawlsByOrder.Scan(
-		tx,
-		crawlsByOrderKeyParts.KeysWithFirst(order),
-		func(entry crawlOfOrder) (bool, error) {
-			crawlIDs = append(crawlIDs, entry.crawlID)
-			return true, nil
-		},
-	); err != nil {
-		return nil, fmt.Errorf("read the crawls of an order: %w", err)
+func (c *Crawls) CrawlOf(tx *vault.Txn, crawlID crawlid.CrawlID) (Crawl, bool, error) {
+	crawl, found, err := c.unfinished.Get(tx, crawlID)
+	if err == nil && !found {
+		crawl, found, err = c.finished.Get(tx, crawlID)
 	}
-	return crawlIDs, nil
+	if err != nil {
+		return Crawl{}, false, fmt.Errorf("read the crawl %s: %w", crawlID, err)
+	}
+	return crawl, found, nil
 }
 
 func (c *Crawls) OrderOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 ) (acceptedorder.AcceptedOrder, bool, error) {
-	keptOrder, found, err := c.crawls.Get(tx, crawlID)
-	if err != nil {
-		return acceptedorder.AcceptedOrder{}, false, fmt.Errorf(
-			"read the order of crawl %s: %w",
-			crawlID,
-			err,
-		)
+	crawl, found, err := c.CrawlOf(tx, crawlID)
+	if err != nil || !found {
+		return acceptedorder.AcceptedOrder{}, false, err
 	}
-	if !found {
-		return acceptedorder.AcceptedOrder{}, false, nil
-	}
-	order, err := acceptedorder.AcceptedOrderFrom(keptOrder)
+	order, err := acceptedorder.AcceptedOrderFrom(crawl.Order)
 	if err != nil {
 		return acceptedorder.AcceptedOrder{}, false, err
 	}
 	return order, true, nil
+}
+
+func (c *Crawls) Settle(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	crawl, found, err := c.unfinished.Get(tx, crawlID)
+	if err != nil {
+		return fmt.Errorf("read the crawl %s: %w", crawlID, err)
+	}
+	if !found {
+		return nil
+	}
+	crawl.State, crawl.FinishedAt = yacycrawlcontract.CrawlStateSucceeded, c.clock.Now()
+	if _, err := c.unfinished.Delete(tx, crawlID); err != nil {
+		return fmt.Errorf("settle the crawl %s: %w", crawlID, err)
+	}
+	if err := c.finished.Put(tx, crawlID, crawl); err != nil {
+		return fmt.Errorf("settle the crawl %s: %w", crawlID, err)
+	}
+	return c.changes.CrawlFinished(tx, crawlID)
 }

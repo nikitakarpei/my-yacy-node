@@ -2,7 +2,7 @@ package crawls
 
 import (
 	"context"
-	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -13,73 +13,71 @@ import (
 )
 
 const (
-	crawlsBucket         = "crawls"
-	crawlsByOrderBucket  = "crawls_by_order"
-	crawlsByOrderVersion = "1"
+	unfinishedCrawlsBucket = "unfinished_crawls"
+	finishedCrawlsBucket   = "finished_crawls"
+	crawlIndexesVersion    = "1"
 )
 
 func registerCrawls(
 	ctx context.Context,
 	storage *vault.Vault,
-	keptFor time.Duration,
-) (
-	*vault.ExpiringCollection[crawlid.CrawlID, yacycrawlcontract.CrawlOrder],
-	*vault.ValueIndex[crawlOfOrder, crawlOfOrder],
-	error,
-) {
-	crawlsByOrder, err := storage.RegisterValueIndex(
-		crawlsByOrderBucket,
-		crawlsByOrderVersion,
-		crawlsByOrderEntries,
-		func(entry crawlOfOrder) crawlOfOrder { return entry },
-	)
-	if err != nil {
-		return nil, nil, fmt.Errorf("register %s: %w", crawlsByOrderBucket, err)
+	retention time.Duration,
+	forgotten ForgottenCrawls,
+) (*Crawls, error) {
+	c := &Crawls{}
+	var err error
+	if c.unfinishedIndexes, err = registerCrawlIndexes(
+		storage,
+		unfinishedCrawlsBucket,
+	); err != nil {
+		return nil, err
 	}
-	crawls, err := storage.RegisterExpiringCollection(
-		ctx,
-		crawlsBucket,
-		crawlIDKeys,
-		crawlOrderCodec{},
-		keptFor,
-		vault.ProjectedAs(crawlOfOrderFrom, crawlsByOrder),
-		nil,
-	)
-	if err != nil {
-		return nil, nil, fmt.Errorf("register %s: %w", crawlsBucket, err)
+	if c.finishedIndexes, err = registerCrawlIndexes(storage, finishedCrawlsBucket); err != nil {
+		return nil, err
 	}
-	return crawls, crawlsByOrder, nil
+	if c.unfinished, err = storage.RegisterProjectedCollection(
+		ctx, unfinishedCrawlsBucket, crawlIDKeys, crawlCodec{},
+		c.unfinishedIndexes.projections(),
+	); err != nil {
+		return nil, fmt.Errorf("register %s: %w", unfinishedCrawlsBucket, err)
+	}
+	if c.finished, err = storage.RegisterExpiringCollection(
+		ctx, finishedCrawlsBucket, crawlIDKeys, crawlCodec{}, retention,
+		c.finishedIndexes.projections(), forgotten.CrawlForgotten,
+	); err != nil {
+		return nil, fmt.Errorf("register %s: %w", finishedCrawlsBucket, err)
+	}
+	return c, nil
 }
 
 var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()
 
-type orderIDHash string
-
-var crawlsByOrderKeyParts = vault.PairKey(vault.BytesKeyPartFrom(
-	func(hash orderIDHash, buffer []byte) []byte { return append(buffer, hash[:]...) },
-	func(stored vault.StoredBytes) (orderIDHash, error) {
-		return orderIDHash(stored.AppendTo(nil)), nil
-	},
-), vaultkeyparts.CrawlID)
-
-var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
-	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.order, entry.crawlID },
-	func(order orderIDHash, crawlID crawlid.CrawlID) crawlOfOrder {
-		return crawlOfOrder{order: order, crawlID: crawlID}
-	},
-)
-
-func orderIDHashOf(orderID string) orderIDHash {
-	digest := sha256.Sum256([]byte(orderID))
-	return orderIDHash(digest[:len(crawlid.CrawlID{})])
+type crawlForm struct {
+	crawlID crawlid.CrawlID
+	crawl   Crawl
 }
 
-type crawlOrderCodec struct{}
+type crawlCodec struct{}
 
-func (crawlOrderCodec) Encode(order yacycrawlcontract.CrawlOrder) ([]byte, error) {
-	return yacycrawlcontract.MarshalCrawlOrder(order)
+type storedCrawl struct {
+	Order      yacycrawlcontract.CrawlOrder `json:"Order"`
+	State      yacycrawlcontract.CrawlState `json:"State"`
+	StartedAt  time.Time                    `json:"StartedAt"`
+	FinishedAt time.Time                    `json:"FinishedAt,omitzero"`
 }
 
-func (crawlOrderCodec) Decode(stored []byte) (yacycrawlcontract.CrawlOrder, error) {
-	return yacycrawlcontract.UnmarshalCrawlOrder(stored)
+func (crawlCodec) Encode(crawl Crawl) ([]byte, error) {
+	encoded, err := json.Marshal(storedCrawl(crawl))
+	if err != nil {
+		return nil, fmt.Errorf("write the crawl: %w", err)
+	}
+	return encoded, nil
+}
+
+func (crawlCodec) Decode(stored []byte) (Crawl, error) {
+	var crawl storedCrawl
+	if err := json.Unmarshal(stored, &crawl); err != nil {
+		return Crawl{}, fmt.Errorf("read the crawl: %w", err)
+	}
+	return Crawl(crawl), nil
 }

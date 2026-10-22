@@ -11,6 +11,7 @@ const (
 	msgCrawlOrderAccepted = "crawl order accepted"
 	msgCrawlOrderReturned = "crawl order returned for redelivery"
 	msgCrawlOrderRejected = "crawl order rejected, nothing kept"
+	msgCrawlOrderIgnored  = "crawl order ignored, its ID was accepted before"
 )
 
 type CrawlOrderLog struct{}
@@ -33,6 +34,10 @@ func (CrawlOrderLog) CrawlOrderRejected(
 		slog.String("order", orderID),
 		slog.Any("error", cause),
 	)
+}
+
+func (CrawlOrderLog) CrawlOrderIgnored(ctx context.Context, orderID string) {
+	slog.DebugContext(ctx, msgCrawlOrderIgnored, slog.String("order", orderID))
 }
 
 func (CrawlOrderLog) CrawlOrderAccepted(
