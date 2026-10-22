@@ -8,13 +8,13 @@ import (
 )
 
 func TestNilEngineRejected(t *testing.T) {
-	if _, err := vault.New(nil, nil, newFakeClock(testEpoch)); err == nil {
+	if _, err := vault.New(nil, nil, nil, newFakeClock(testEpoch)); err == nil {
 		t.Fatal("New(nil) succeeded, want error")
 	}
 }
 
 func TestNilClockRejected(t *testing.T) {
-	if _, err := vault.New(newDoubleEngine(), nil, nil); err == nil {
+	if _, err := vault.New(newDoubleEngine(), nil, nil, nil); err == nil {
 		t.Fatal("New without a clock succeeded, want error")
 	}
 }

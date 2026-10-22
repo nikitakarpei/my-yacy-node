@@ -54,7 +54,7 @@ func openHarnessOnDisk(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("pebblevault.OpenEngine: %v", err)
 	}
-	v, err := vault.New(engine, nil, wallclock.Clock{})
+	v, err := vault.New(engine, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

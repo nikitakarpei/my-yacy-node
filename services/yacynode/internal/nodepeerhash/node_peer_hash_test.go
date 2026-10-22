@@ -76,7 +76,7 @@ func settle(
 func selfPeerHashIn(t *testing.T, storedData vault.Engine) *nodepeerhash.PeerHash {
 	t.Helper()
 
-	storage, err := vault.New(storedData, nil, wallclock.Clock{})
+	storage, err := vault.New(storedData, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

@@ -98,7 +98,7 @@ func openObserved(t *testing.T, engine vault.Engine) (*vault.Vault, *recordingOb
 
 	observer := newRecordingObserver()
 
-	v, err := vault.New(engine, observer, newFakeClock(testEpoch))
+	v, err := vault.New(engine, observer, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

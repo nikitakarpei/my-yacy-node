@@ -194,7 +194,7 @@ func TestPutEachOutsideAWriteIsRefused(t *testing.T) {
 
 func TestRegisteringBuildsTheIndexOfRecordsStoredBefore(t *testing.T) {
 	engine := newDoubleEngine()
-	v, err := vault.New(engine, nil, newFakeClock(testEpoch))
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -227,7 +227,7 @@ func TestRegisteringBuildsTheIndexOfRecordsStoredBefore(t *testing.T) {
 }
 
 func TestAnIndexedCollectionWithoutProjectionsKeepsItsIndex(t *testing.T) {
-	v, err := vault.New(newDoubleEngine(), nil, newFakeClock(testEpoch))
+	v, err := vault.New(newDoubleEngine(), nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

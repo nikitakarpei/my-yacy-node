@@ -88,7 +88,8 @@ func openExpiringDictionary(
 	t.Helper()
 
 	clock := newFakeClock(testEpoch)
-	v, err := vault.New(engine, nil, clock)
+	removals := &removalReports{}
+	v, err := vault.New(engine, nil, removals, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -108,14 +109,12 @@ func openExpiringDictionary(
 	if err != nil {
 		t.Fatalf("RegisterValueIndex: %v", err)
 	}
-	removals := &removalReports{}
 	words, err := v.RegisterExpiringCollection(
 		context.Background(),
 		vault.Name("words"),
 		stringKeyLayout,
 		meaningRefusingCodec{},
 		wordLifetime,
-		removals,
 		vault.ProjectedAs(definitionOf, byMeaning),
 	)
 	if err != nil {
@@ -363,28 +362,19 @@ func TestAnExpiringPutInsideAViewIsRefused(t *testing.T) {
 	}
 }
 
-func TestRegistrationRefusesAnExpiringCollectionItCannotRemove(t *testing.T) {
-	for name, registration := range map[string]struct {
-		lifetime time.Duration
-		observer vault.ExpiryObserver
-	}{
-		"lifetime under one second": {time.Second - 1, &removalReports{}},
-		"no expiry observer":        {wordLifetime, nil},
-	} {
-		v, err := openDouble()
-		if err != nil {
-			t.Fatalf("openDouble: %v", err)
-		}
-		if _, err := v.RegisterExpiringCollection(
-			context.Background(),
-			vault.Name("words"),
-			stringKeyLayout,
-			stringValueCodec{},
-			registration.lifetime,
-			registration.observer,
-			nil,
-		); err == nil {
-			t.Errorf("%s: registration succeeded, want error", name)
-		}
+func TestRegistrationRefusesALifetimeUnderOneSecond(t *testing.T) {
+	v, err := openDouble()
+	if err != nil {
+		t.Fatalf("openDouble: %v", err)
+	}
+	if _, err := v.RegisterExpiringCollection(
+		context.Background(),
+		vault.Name("words"),
+		stringKeyLayout,
+		stringValueCodec{},
+		time.Second-1,
+		nil,
+	); err == nil {
+		t.Fatal("registration succeeded, want error")
 	}
 }

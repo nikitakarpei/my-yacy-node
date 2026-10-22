@@ -76,9 +76,9 @@ func run() error {
 
 	storage, err := vault.New(
 		engine,
-		metrics.NewVaultTransactionMetrics(registry),
-		wallclock.Clock{},
-	)
+		metrics.NewVaultTransactionMetrics(registry), nil,
+
+		wallclock.Clock{})
 	if err != nil {
 		return errors.Join(fmt.Errorf("lend storage: %w", err), engine.Close())
 	}

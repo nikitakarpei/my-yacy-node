@@ -40,9 +40,9 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
-		nil,
-		wallclock.Clock{},
-	)
+		nil, nil,
+
+		wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

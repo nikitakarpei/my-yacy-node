@@ -11,13 +11,6 @@ import (
 
 const expiredRecordsPerChunk = 1000
 
-type ExpiryObserver interface {
-	ExpiryPassBegan(ctx context.Context, bucket Name, at time.Time)
-	ExpiryPassFinished(ctx context.Context, bucket Name, at time.Time)
-	ExpiredRecordsForgotten(ctx context.Context, bucket Name, amount int)
-	ExpiredRecordsNotForgotten(ctx context.Context, bucket Name, cause error)
-}
-
 type expiryRemovals struct {
 	guard   sync.Mutex
 	stops   []context.CancelFunc

@@ -36,7 +36,7 @@ func openHarness(t *testing.T) harness {
 func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) harness {
 	t.Helper()
 
-	v, err := vault.New(engine, nil, wallclock.Clock{})
+	v, err := vault.New(engine, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

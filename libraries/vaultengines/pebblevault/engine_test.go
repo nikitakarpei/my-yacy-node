@@ -43,7 +43,7 @@ func vaultAt(t *testing.T, path string, quotaBytes int64) *vault.Vault {
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
-	opened, err := vault.New(engine, nil, vaultenginetest.FrozenClock{})
+	opened, err := vault.New(engine, nil, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

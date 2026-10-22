@@ -86,7 +86,7 @@ func openVault(
 ) *vault.Vault {
 	t.Helper()
 
-	v, err := vault.New(openEngine(t, open, quotaBytes), nil, FrozenClock{})
+	v, err := vault.New(openEngine(t, open, quotaBytes), nil, nil, FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -885,7 +885,7 @@ func openRepeatingVault(
 ) *vault.Vault {
 	t.Helper()
 
-	v, err := vault.New(EngineRepeatingWrites(openEngine(t, open, 0)), nil, FrozenClock{})
+	v, err := vault.New(EngineRepeatingWrites(openEngine(t, open, 0)), nil, nil, FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

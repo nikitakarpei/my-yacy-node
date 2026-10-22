@@ -25,7 +25,7 @@ func Open(
 	observer vault.TransactionObserver,
 	clock vault.Clock,
 ) (*vault.Vault, error) {
-	vaulted, err := vault.New(OpenEngine(quotaBytes), observer, clock)
+	vaulted, err := vault.New(OpenEngine(quotaBytes), observer, nil, clock)
 	if err != nil {
 		return nil, fmt.Errorf("initialize storage: %w", err)
 	}

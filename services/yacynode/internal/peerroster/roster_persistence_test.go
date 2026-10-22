@@ -57,7 +57,7 @@ func openRosterVault(t testing.TB, storagePath string) *vault.Vault {
 	if err != nil {
 		t.Fatalf("pebblevault.OpenEngine: %v", err)
 	}
-	storage, err := vault.New(engine, nil, wallclock.Clock{})
+	storage, err := vault.New(engine, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

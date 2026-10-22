@@ -95,9 +95,9 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(quotaBytes)),
-		nil,
-		wallclock.Clock{},
-	)
+		nil, nil,
+
+		wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

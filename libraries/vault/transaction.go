@@ -66,7 +66,7 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 	engineFailure := v.engine.Update(ctx, func(etx EngineTxn) error {
 		timeline = newWriteTimeline()
 		if !beginReported {
-			v.observer.ObserveWriteBegan(timeline.openedAt.Sub(beganAt))
+			v.transactionObserver.ObserveWriteBegan(timeline.openedAt.Sub(beganAt))
 			beginReported = true
 		}
 
@@ -87,22 +87,22 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 			engineFailure = errTransactionNeverOpened
 		}
 
-		reportWriteBeginRefused(ctx, v.observer, engineFailure)
+		reportWriteBeginRefused(ctx, v.transactionObserver, engineFailure)
 
 		return wrapTxnError("begin write", engineFailure)
 	}
 
 	switch {
 	case closureFailure != nil:
-		reportWriteAborted(ctx, v.observer, timeline, closureFailure)
+		reportWriteAborted(ctx, v.transactionObserver, timeline, closureFailure)
 
 		return closureFailure
 	case engineFailure != nil:
-		reportWriteCommitRefused(ctx, v.observer, timeline, engineFailure)
+		reportWriteCommitRefused(ctx, v.transactionObserver, timeline, engineFailure)
 
 		return wrapTxnError("write storage", engineFailure)
 	default:
-		reportWriteCommitted(ctx, v.observer, timeline, calledWriteOperation)
+		reportWriteCommitted(ctx, v.transactionObserver, timeline, calledWriteOperation)
 		runEach(afterCommit)
 
 		return nil
@@ -132,8 +132,8 @@ func (v *Vault) View(ctx context.Context, fn func(*Txn) error) error {
 		return errVaultClosed
 	}
 
-	v.observer.ObserveReadBegan()
-	defer v.observer.ObserveReadEnded()
+	v.transactionObserver.ObserveReadBegan()
+	defer v.transactionObserver.ObserveReadEnded()
 
 	return v.view(ctx, fn)
 }

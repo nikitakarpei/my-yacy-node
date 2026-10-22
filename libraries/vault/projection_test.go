@@ -70,7 +70,7 @@ func openDictionaryIndexes(
 ) dictionary {
 	t.Helper()
 
-	v, err := vault.New(engine, nil, newFakeClock(testEpoch))
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -298,7 +298,7 @@ func TestRegisteringBuildsIndexesOfRecordsStoredBefore(t *testing.T) {
 func storeWordsWithoutIndexes(t *testing.T, engine vault.Engine, amount int) []definition {
 	t.Helper()
 
-	v, err := vault.New(engine, nil, newFakeClock(testEpoch))
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

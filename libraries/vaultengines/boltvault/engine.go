@@ -42,7 +42,7 @@ func Open(
 		return nil, err
 	}
 
-	vaulted, err := vault.New(opened, observer, clock)
+	vaulted, err := vault.New(opened, observer, nil, clock)
 	if err != nil {
 		if closeErr := opened.Close(); closeErr != nil {
 			return nil, fmt.Errorf("initialize storage: %w: %w", err, closeErr)

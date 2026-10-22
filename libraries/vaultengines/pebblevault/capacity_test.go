@@ -327,7 +327,7 @@ func engineAndVaultAt(t *testing.T, path string) (*pebblevault.Engine, *vault.Va
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
-	opened, err := vault.New(engine, nil, vaultenginetest.FrozenClock{})
+	opened, err := vault.New(engine, nil, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

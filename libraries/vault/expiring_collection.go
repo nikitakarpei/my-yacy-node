@@ -9,10 +9,7 @@ import (
 
 const removalPassesPerLifetime = 32
 
-var (
-	errLifetimeTooShort     = errors.New("expiring collection lifetime is under one second")
-	errExpiryObserverAbsent = errors.New("expiring collection needs an expiry observer")
-)
+var errLifetimeTooShort = errors.New("expiring collection lifetime is under one second")
 
 type ExpiringCollection[K, V any] struct {
 	name        Name
@@ -21,21 +18,17 @@ type ExpiringCollection[K, V any] struct {
 	lifetime    time.Duration
 }
 
-//nolint:revive // an expiring collection names its bucket, layout, codec, lifetime, observer and projections
+//nolint:revive // an expiring collection names its bucket, layout, codec, lifetime and projections
 func (v *Vault) RegisterExpiringCollection[K, V any](
 	ctx context.Context,
 	bucket Name,
 	keys KeyLayout[K],
 	values ValueCodec[V],
 	lifetime time.Duration,
-	observer ExpiryObserver,
 	projections Projections[K, V],
 ) (*ExpiringCollection[K, V], error) {
 	if lifetime < time.Second {
 		return nil, fmt.Errorf("%w: %s", errLifetimeTooShort, bucket)
-	}
-	if observer == nil {
-		return nil, fmt.Errorf("%w: %s", errExpiryObserverAbsent, bucket)
 	}
 	if err := v.provisionExpiringRecordsBucket(bucket); err != nil {
 		return nil, err
@@ -61,7 +54,7 @@ func (v *Vault) RegisterExpiringCollection[K, V any](
 		bucket:   bucket,
 		records:  expiring,
 		interval: lifetime / removalPassesPerLifetime,
-		observer: observer,
+		observer: v.expiryObserver,
 	})
 
 	return expiring, nil

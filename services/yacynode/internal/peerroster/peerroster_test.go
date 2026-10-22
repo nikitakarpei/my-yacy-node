@@ -105,9 +105,9 @@ func (f rosterFixture) openStorage(t *testing.T) *vault.Vault {
 
 	storage, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
-		nil,
-		wallclock.Clock{},
-	)
+		nil, nil,
+
+		wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

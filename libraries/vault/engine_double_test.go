@@ -25,7 +25,7 @@ func newDoubleEngine() *doubleEngine {
 }
 
 func openDouble() (*vault.Vault, error) {
-	v, err := vault.New(newDoubleEngine(), nil, newFakeClock(testEpoch))
+	v, err := vault.New(newDoubleEngine(), nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		return nil, fmt.Errorf("new vault: %w", err)
 	}

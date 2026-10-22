@@ -37,30 +37,40 @@ type Clock interface {
 }
 
 type Vault struct {
-	engine             Engine
-	observer           TransactionObserver
-	clock              Clock
-	removals           expiryRemovals
-	mu                 sync.Mutex
-	registered         map[Name]bucketKind
-	projectionVersions func() (projectionVersions, error)
+	engine              Engine
+	transactionObserver TransactionObserver
+	expiryObserver      ExpiryObserver
+	clock               Clock
+	removals            expiryRemovals
+	mu                  sync.Mutex
+	registered          map[Name]bucketKind
+	projectionVersions  func() (projectionVersions, error)
 }
 
-func New(engine Engine, observer TransactionObserver, clock Clock) (*Vault, error) {
+func New(
+	engine Engine,
+	transactionObserver TransactionObserver,
+	expiryObserver ExpiryObserver,
+	clock Clock,
+) (*Vault, error) {
 	if engine == nil {
 		return nil, errEngineAbsent
 	}
 	if clock == nil {
 		return nil, errClockAbsent
 	}
-	if observer == nil {
-		observer = silentObserver{}
+	if transactionObserver == nil {
+		transactionObserver = silentObserver{}
+	}
+	if expiryObserver == nil {
+		expiryObserver = silentExpiryObserver{}
 	}
 	storage := &Vault{
-		engine:     engine,
-		observer:   observer,
-		clock:      clock,
-		registered: map[Name]bucketKind{},
+		engine:              engine,
+		transactionObserver: transactionObserver,
+		expiryObserver:      expiryLog{observer: expiryObserver},
+		clock:               clock,
+		registered:          map[Name]bucketKind{},
 	}
 	storage.projectionVersions = sync.OnceValues(storage.registerProjectionVersions)
 
