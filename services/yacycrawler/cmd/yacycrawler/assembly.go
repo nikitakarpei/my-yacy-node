@@ -21,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
@@ -118,7 +119,7 @@ func RunService(
 	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
-	storage, err := openCrawlState(cfg, vaultmetrics.NewExpiryMetrics(registry, metricNamespace))
+	storage, err := openCrawlState(cfg, registry)
 	if err != nil {
 		return err
 	}
@@ -208,16 +209,30 @@ func ensureCrawledPagesStream(
 
 func openCrawlState(
 	cfg ServiceConfig,
-	expiryObserver vault.ExpiryObserver,
+	registry prometheus.Registerer,
 ) (*vault.Vault, error) {
-	engine, err := pebblevault.OpenEngine(cfg.CrawlStateDir, 0, cfg.CrawlStateLimits, nil, nil)
+	engine, err := pebblevault.OpenEngine(
+		cfg.CrawlStateDir,
+		0,
+		cfg.CrawlStateLimits,
+		pebblemetrics.NewWriteStallMetrics(registry, metricNamespace),
+		pebblemetrics.NewWriteConflictMetrics(registry, metricNamespace),
+	)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", EnvCrawlStateDir, err)
 	}
-	storage, err := vault.New(engine, nil, expiryObserver, wallclock.Clock{})
+	pebblemetrics.NewConditionMetrics(registry, metricNamespace, engine)
+	storage, err := vault.New(
+		engine,
+		vaultmetrics.NewTransactionMetrics(registry, metricNamespace),
+		vaultmetrics.NewExpiryMetrics(registry, metricNamespace),
+		wallclock.Clock{},
+	)
 	if err != nil {
 		return nil, errors.Join(err, engine.Close())
 	}
+	vaultmetrics.NewCapacityMetrics(registry, metricNamespace, storage)
+	vaultmetrics.NewBucketRecordMetrics(registry, metricNamespace, storage)
 	return storage, nil
 }
 
