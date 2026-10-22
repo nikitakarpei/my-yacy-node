@@ -60,6 +60,18 @@ func TestCrawlDetailOffersResumeForAPausedCrawl(t *testing.T) {
 	assertShows(t, answer, `name="Paused" value="false"`, "Resume")
 }
 
+func TestCrawlDetailShowsACancellingCrawlWithItsPendingVisitsAndNoControls(t *testing.T) {
+	crawl := runningCrawlOf(t, "c1")
+	crawl.State = yacycrawlcontract.CrawlStateCancelling
+
+	answer := consoleOver(
+		&fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}},
+	).get("/crawls/c1")
+
+	assertShows(t, answer, "Cancelling", ">Pending<", `http-equiv="refresh"`)
+	assertHides(t, answer, "/crawls/c1/pause", "/crawls/c1/cancel")
+}
+
 func TestCrawlDetailOffersNoControlsOnceTheCrawlFinished(t *testing.T) {
 	crawl := finishedCrawlOf(t, "c1")
 	crawl.Order.Profile.MaxPagesPerHost = yacycrawlcontract.UnlimitedPagesPerHost

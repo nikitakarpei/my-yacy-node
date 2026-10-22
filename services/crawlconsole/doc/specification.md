@@ -15,14 +15,14 @@ the server renders. It reads and changes crawls only through the operator API of
 
 ## Functional Requirements
 
-* The console SHALL show the running and paused crawls in one table and the finished
-  crawls in a second table, each from the newest start, in pages.
+* The console SHALL show the running, paused and cancelling crawls in one table and the
+  finished crawls in a second table, each from the newest start, in pages.
 * The console SHALL turn the pages of each table separately.
 * The console SHALL show one crawl with its state, its duration, its links not followed,
   and its order.
 * The console SHALL show the pending visits of a running crawl and the other visits grouped
   by what became of them, in total and for each host, the host with the most URLs first.
-* The console SHALL let an operator pause, resume, and cancel a crawl that did not finish.
+* The console SHALL let an operator pause, resume, and cancel a running or paused crawl.
 * The console SHALL start a crawl from a form, under an order ID that it makes for each
   form that it sends. It SHALL show the reason when the crawler refuses the order.
 * The console SHALL fill the form from the order of a crawl that the operator duplicates.

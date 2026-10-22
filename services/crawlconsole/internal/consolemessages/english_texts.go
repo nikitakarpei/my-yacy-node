@@ -40,10 +40,11 @@ var englishTexts = map[string]string{
 	"crawl.duplicate":             "Duplicate",
 	"crawl.duration":              "Duration",
 
-	"crawl-state.running":   "Running",
-	"crawl-state.paused":    "Paused",
-	"crawl-state.succeeded": "Succeeded",
-	"crawl-state.cancelled": "Cancelled",
+	"crawl-state.running":    "Running",
+	"crawl-state.paused":     "Paused",
+	"crawl-state.cancelling": "Cancelling",
+	"crawl-state.succeeded":  "Succeeded",
+	"crawl-state.cancelled":  "Cancelled",
 
 	"crawl-detail.unknown-crawl":       "The crawler knows no crawl with this ID.",
 	"crawl-detail.pause":               "Pause",

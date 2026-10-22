@@ -10,7 +10,7 @@
   <h1>{{.Name}} <span class="state state-{{.State}}">{{text (print "crawl-state." .State)}}</span></h1>
   <div>
     <a class="button" href="/crawls/new?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a>
-    {{if not .IsFinished}}
+    {{if .IsRunningOrPaused}}
     <form class="inline" method="post" action="/crawls/{{.CrawlID}}/pause">
       {{if eq .State "paused"}}<input type="hidden" name="Paused" value="false"><button>{{text "crawl-detail.resume"}}</button>
       {{else}}<input type="hidden" name="Paused" value="true"><button>{{text "crawl-detail.pause"}}</button>{{end}}

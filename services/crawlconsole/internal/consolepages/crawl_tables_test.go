@@ -37,7 +37,11 @@ func TestCrawlTablesListRunningAndFinishedCrawls(t *testing.T) {
 		`href="/crawls/new?from=c-finished"`,
 	)
 	wantStates := [][]yacycrawlcontract.CrawlState{
-		{yacycrawlcontract.CrawlStateRunning, yacycrawlcontract.CrawlStatePaused},
+		{
+			yacycrawlcontract.CrawlStateRunning,
+			yacycrawlcontract.CrawlStatePaused,
+			yacycrawlcontract.CrawlStateCancelling,
+		},
 		{yacycrawlcontract.CrawlStateSucceeded, yacycrawlcontract.CrawlStateCancelled},
 	}
 	for i, query := range crawler.crawlsQueries {

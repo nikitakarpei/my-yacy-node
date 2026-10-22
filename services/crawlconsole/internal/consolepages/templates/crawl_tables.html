@@ -8,7 +8,7 @@
 <h2>{{text "crawl-tables.running"}}</h2>
 <div class="table-scroll"><table>
   <tr><th>{{text "crawl.name"}}</th><th>{{text "crawl.state"}}</th><th class="number">{{text "crawl.pending"}}</th><th class="number">{{text "visit-outcome.published"}}</th><th>{{text "crawl.started-at"}}</th><th class="number">{{text "crawl.duration"}}</th></tr>
-  {{range .Running.Rows}}
+  {{range .Unfinished.Rows}}
   <tr>
     {{template "crawl" .}}
     <td><span class="state state-{{.State}}">{{text (print "crawl-state." .State)}}</span></td>
@@ -21,7 +21,7 @@
   <tr><td colspan="6" class="muted">{{text "crawl-tables.no-running-crawls"}}</td></tr>
   {{end}}
 </table></div>
-{{template "pager" .Running}}
+{{template "pager" .Unfinished}}
 <h2>{{text "crawl-tables.finished"}}</h2>
 <div class="table-scroll"><table>
   <tr><th>{{text "crawl.name"}}</th><th>{{text "crawl.state"}}</th><th class="number">{{text "visit-outcome.published"}}</th><th>{{text "crawl.started-at"}}</th><th>{{text "crawl.finished-at"}}</th><th class="number">{{text "crawl.duration"}}</th><th></th></tr>

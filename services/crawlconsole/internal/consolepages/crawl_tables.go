@@ -9,15 +9,16 @@ import (
 )
 
 const (
-	crawlTableRows          = 20
-	runningCursorParameter  = "running"
-	finishedCursorParameter = "finished"
+	crawlTableRows            = 20
+	unfinishedCursorParameter = "running"
+	finishedCursorParameter   = "finished"
 )
 
 var (
-	runningStates = []yacycrawlcontract.CrawlState{
+	unfinishedStates = []yacycrawlcontract.CrawlState{
 		yacycrawlcontract.CrawlStateRunning,
 		yacycrawlcontract.CrawlStatePaused,
+		yacycrawlcontract.CrawlStateCancelling,
 	}
 	finishedStates = []yacycrawlcontract.CrawlState{
 		yacycrawlcontract.CrawlStateSucceeded,
@@ -33,8 +34,8 @@ type crawlTables struct {
 }
 
 type crawlTablesView struct {
-	Running  crawlTable
-	Finished crawlTable
+	Unfinished crawlTable
+	Finished   crawlTable
 }
 
 type crawlTable struct {
@@ -45,12 +46,14 @@ type crawlTable struct {
 }
 
 func (tables crawlTables) show(w http.ResponseWriter, r *http.Request) {
-	running, runningAnswered := tables.tableOf(r, runningStates, runningCursorParameter)
+	unfinished, unfinishedAnswered := tables.tableOf(
+		r, unfinishedStates, unfinishedCursorParameter,
+	)
 	finished, finishedAnswered := tables.tableOf(r, finishedStates, finishedCursorParameter)
-	status := statusOfAnswer(runningAnswered && finishedAnswered)
+	status := statusOfAnswer(unfinishedAnswered && finishedAnswered)
 	tables.layout.render(w, r, crawlTablesScreen, status, crawlTablesView{
-		Running:  running,
-		Finished: finished,
+		Unfinished: unfinished,
+		Finished:   finished,
 	})
 }
 

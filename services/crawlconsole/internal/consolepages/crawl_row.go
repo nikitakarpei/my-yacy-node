@@ -46,3 +46,8 @@ func crawlRowFrom(crawl yacycrawlcontract.Crawl, now time.Time) crawlRow {
 func (row crawlRow) IsFinished() bool {
 	return !row.FinishedAt.IsZero()
 }
+
+func (row crawlRow) IsRunningOrPaused() bool {
+	return row.State == yacycrawlcontract.CrawlStateRunning ||
+		row.State == yacycrawlcontract.CrawlStatePaused
+}
