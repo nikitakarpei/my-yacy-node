@@ -1,18 +1,41 @@
-package vault
+package pagevisitrecords
 
 import (
+	"context"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
+
+const pageVisitsBucket = "page_visit_records"
 
 var errLastPageVisitMalformed = errors.New("last page visit record has a malformed time")
 
-type lastPageVisit struct {
-	visitedAt  time.Time
-	entityTag  string
-	modifiedAt time.Time
+func registerPageVisitRecords(
+	ctx context.Context,
+	storage *vault.Vault,
+	keptFor time.Duration,
+) (*vault.ExpiringCollection[urlhash.URLHash, lastPageVisit], error) {
+	lastVisits, err := storage.RegisterExpiringCollection(
+		ctx,
+		pageVisitsBucket,
+		pageKeys,
+		lastPageVisitCodec{},
+		keptFor,
+		nil,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("register %s: %w", pageVisitsBucket, err)
+	}
+	return lastVisits, nil
 }
+
+var pageKeys = vault.SingleKey(vaultkeyparts.URLHash).KeyLayout()
 
 type lastPageVisitCodec struct{}
 

@@ -1,4 +1,4 @@
-package vault_test
+package crawls_test
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	crawlsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
 )
 
 const keptFor = time.Hour
@@ -46,23 +46,57 @@ type refusingEngine struct {
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing.Load() {
-		return errEngineRefusing
-	}
-	return engine.Engine.Update(ctx, fn)
+	return engine.Engine.Update(ctx, func(etx vault.EngineTxn) error {
+		return fn(engine.txnOf(etx))
+	})
 }
 
 func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	return engine.Engine.View(ctx, func(etx vault.EngineTxn) error {
+		return fn(engine.txnOf(etx))
+	})
+}
+
+func (engine *refusingEngine) txnOf(etx vault.EngineTxn) vault.EngineTxn {
 	if engine.refusing.Load() {
-		return errEngineRefusing
+		return refusingTxn{EngineTxn: etx}
 	}
-	return engine.Engine.View(ctx, fn)
+	return etx
+}
+
+type refusingTxn struct {
+	vault.EngineTxn
+}
+
+func (txn refusingTxn) Records(name vault.Name) vault.EngineRecords {
+	return refusingRecords{EngineRecords: txn.EngineTxn.Records(name)}
+}
+
+func (txn refusingTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
+	return refusingExpiringRecords{EngineExpiringRecords: txn.EngineTxn.ExpiringRecords(name)}
+}
+
+type refusingRecords struct {
+	vault.EngineRecords
+}
+
+func (refusingRecords) Scan(vault.KeyRange, func(key, value []byte) (bool, error)) error {
+	return errEngineRefusing
+}
+
+type refusingExpiringRecords struct {
+	vault.EngineExpiringRecords
+}
+
+func (refusingExpiringRecords) Get([]byte, time.Time) ([]byte, error) {
+	return nil, errEngineRefusing
 }
 
 type scene struct {
-	crawls *crawlsvault.Crawls
-	clock  *settableClock
-	engine *refusingEngine
+	storage *vault.Vault
+	crawls  *crawls.Crawls
+	clock   *settableClock
+	engine  *refusingEngine
 }
 
 func acceptedOrders(t *testing.T) scene {
@@ -73,11 +107,11 @@ func acceptedOrders(t *testing.T) scene {
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	crawls, err := crawlsvault.New(t.Context(), storage, keptFor)
+	kept, err := crawls.Open(t.Context(), storage, keptFor)
 	if err != nil {
-		t.Fatalf("New: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
-	return scene{crawls: crawls, clock: clock, engine: engine}
+	return scene{storage: storage, crawls: kept, clock: clock, engine: engine}
 }
 
 func acceptedOrderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrder {
@@ -100,20 +134,49 @@ func acceptedOrderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrd
 
 func (s scene) keep(t *testing.T, order acceptedorder.AcceptedOrder) crawlid.CrawlID {
 	t.Helper()
-	crawlID, err := s.crawls.Keep(t.Context(), order)
+	crawlID, err := s.keepWithin(t, order)
 	if err != nil {
 		t.Fatalf("Keep: %v", err)
 	}
 	return crawlID
 }
 
+func (s scene) keepWithin(
+	t *testing.T,
+	order acceptedorder.AcceptedOrder,
+) (crawlid.CrawlID, error) {
+	t.Helper()
+	var crawlID crawlid.CrawlID
+	err := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		var err error
+		crawlID, err = s.crawls.Keep(tx, order)
+		return err
+	})
+	return crawlID, err
+}
+
 func (s scene) orderOf(t *testing.T, crawlID crawlid.CrawlID) (acceptedorder.AcceptedOrder, bool) {
 	t.Helper()
-	order, found, err := s.crawls.OrderOf(t.Context(), crawlID)
+	order, found, err := s.orderWithin(t, crawlID)
 	if err != nil {
 		t.Fatalf("OrderOf: %v", err)
 	}
 	return order, found
+}
+
+func (s scene) orderWithin(
+	t *testing.T,
+	crawlID crawlid.CrawlID,
+) (acceptedorder.AcceptedOrder, bool, error) {
+	t.Helper()
+	var order acceptedorder.AcceptedOrder
+	var found bool
+	err := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+		var err error
+		order, found, err = s.crawls.OrderOf(tx, crawlID)
+		return err
+	})
+	return order, found, err
 }
 
 func TestOrderOfReadsBackTheOrderOfItsCrawl(t *testing.T) {
@@ -171,7 +234,7 @@ func TestAKeepTheStorageRefusesFails(t *testing.T) {
 	s := acceptedOrders(t)
 	s.engine.refusing.Store(true)
 
-	if _, err := s.crawls.Keep(t.Context(), acceptedOrderWithID(t, "o1")); !errors.Is(
+	if _, err := s.keepWithin(t, acceptedOrderWithID(t, "o1")); !errors.Is(
 		err, errEngineRefusing,
 	) {
 		t.Fatalf("Keep err = %v, want the refusal", err)
@@ -183,7 +246,7 @@ func TestAReadTheStorageRefusesFails(t *testing.T) {
 	crawlID := s.keep(t, acceptedOrderWithID(t, "o1"))
 	s.engine.refusing.Store(true)
 
-	if _, _, err := s.crawls.OrderOf(t.Context(), crawlID); !errors.Is(err, errEngineRefusing) {
+	if _, _, err := s.orderWithin(t, crawlID); !errors.Is(err, errEngineRefusing) {
 		t.Fatalf("OrderOf err = %v, want the refusal", err)
 	}
 }

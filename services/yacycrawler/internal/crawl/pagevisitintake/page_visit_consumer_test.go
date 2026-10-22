@@ -13,6 +13,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
@@ -41,7 +44,7 @@ func newTakenPageVisits() *fakeTakenPageVisits {
 }
 
 func (visits *fakeTakenPageVisits) TakePageVisit(
-	_ context.Context, _ crawlid.CrawlID, url canonicalurl.CanonicalURL, taker string,
+	_ *vault.Txn, _ crawlid.CrawlID, url canonicalurl.CanonicalURL, taker string,
 ) (bool, error) {
 	if visits.takeErr != nil {
 		return false, visits.takeErr
@@ -105,7 +108,7 @@ type fakeCrawls struct {
 }
 
 func (o *fakeCrawls) OrderOf(
-	_ context.Context, _ crawlid.CrawlID,
+	_ *vault.Txn, _ crawlid.CrawlID,
 ) (acceptedorder.AcceptedOrder, bool, error) {
 	if o.err != nil || o.forgotten {
 		return acceptedorder.AcceptedOrder{}, false, o.err
@@ -275,7 +278,12 @@ func (w *crawlWorker) consumeAdmittedBy(
 	messages ...jetstream.Msg,
 ) error {
 	t.Helper()
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
 	return pagevisitintake.NewPageVisitConsumer(
+		storage,
 		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
 		w.pageVisits,
 		w.allowances,

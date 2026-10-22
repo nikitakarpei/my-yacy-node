@@ -1,8 +1,8 @@
-// Package vault keeps the frontier in a vault: every page visit a crawl still owes,
-// each due at a time. A worker takes a due visit for a lease, and the visit comes
-// back to the frontier when the lease ends before the worker settles it. A visit
-// already pending is not added twice, and the visits one call adds are added whole.
-package vault
+// Package frontier keeps every page visit a crawl still owes, each due at a time. A
+// worker takes a due visit for a lease, and the visit comes back to the frontier when the
+// lease ends before the worker settles it. A visit already owed is not added twice, and
+// the visits one transaction owes are owed whole.
+package frontier
 
 import (
 	"context"
@@ -13,16 +13,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 )
 
 const (
-	frontierName        = "YACY_CRAWL_FRONTIER"
-	frontierBucket      = "frontier"
-	frontierByDueBucket = "frontier_by_due"
-	dueTimesVersion     = "1"
-	noDueVisitPause     = 500 * time.Millisecond
+	frontierName    = "YACY_CRAWL_FRONTIER"
+	noDueVisitPause = 500 * time.Millisecond
 )
 
 type Clock interface {
@@ -51,33 +49,16 @@ type Frontier struct {
 	observer   FrontierObserver
 }
 
-func New(
+func Open(
 	ctx context.Context,
 	storage *vault.Vault,
 	lease time.Duration,
 	clock Clock,
 	observer FrontierObserver,
 ) (*Frontier, error) {
-	dueTimes, err := storage.RegisterValueIndex(
-		frontierByDueBucket,
-		dueTimesVersion,
-		dueEntries,
-		func(entry dueEntry) dueEntry { return entry },
-	)
+	pageVisits, dueTimes, err := registerFrontier(ctx, storage)
 	if err != nil {
-		return nil, fmt.Errorf("register %s: %w", frontierByDueBucket, err)
-	}
-	pageVisits, err := storage.RegisterProjectedCollection(
-		ctx,
-		frontierBucket,
-		pageVisitKeys,
-		pendingEntryCodec{},
-		vault.ProjectedAs(func(key pageVisitKey, entry pendingEntry) dueEntry {
-			return dueEntry{due: entry.due, key: key}
-		}, dueTimes),
-	)
-	if err != nil {
-		return nil, fmt.Errorf("register %s: %w", frontierBucket, err)
+		return nil, err
 	}
 	return &Frontier{
 		storage:    storage,
@@ -89,63 +70,79 @@ func New(
 	}, nil
 }
 
-func (frontier *Frontier) Publish(
-	ctx context.Context,
+type pageVisitKey struct {
+	crawlID crawlid.CrawlID
+	url     urlhash.URLHash
+}
+
+type dueEntry struct {
+	due int64
+	key pageVisitKey
+}
+
+type messageID [messageIDBytes]byte
+
+type pendingEntry struct {
+	due       int64
+	arrival   int64
+	messageID messageID
+	body      []byte
+}
+
+func (frontier *Frontier) Owe(
+	tx *vault.Txn,
 	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
-	published, err := publishedPageVisitsOf(pageVisits)
+	owed, err := owedPageVisitsOf(pageVisits)
 	if err != nil {
 		return err
 	}
-	now := frontier.clock.Now()
-	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
-		return frontier.addAbsent(tx, published, now)
-	}); err != nil {
-		return fmt.Errorf("add %d pending page visits: %w", len(published), err)
+	if err := frontier.addAbsent(tx, owed, frontier.clock.Now()); err != nil {
+		return fmt.Errorf("owe %d page visits: %w", len(owed), err)
 	}
 	return nil
 }
 
-type publishedPageVisit struct {
+type owedPageVisit struct {
 	key  pageVisitKey
 	body []byte
 }
 
-func publishedPageVisitsOf(
+func owedPageVisitsOf(
 	pageVisits []pendingpagevisit.PendingPageVisit,
-) ([]publishedPageVisit, error) {
-	published := make([]publishedPageVisit, 0, len(pageVisits))
+) ([]owedPageVisit, error) {
+	owed := make([]owedPageVisit, 0, len(pageVisits))
 	for _, pageVisit := range pageVisits {
 		body, err := pendingpagevisit.MarshalPendingPageVisit(pageVisit)
 		if err != nil {
 			return nil, err
 		}
-		published = append(published, publishedPageVisit{
+		owed = append(owed, owedPageVisit{
 			key:  pageVisitKey{crawlID: pageVisit.CrawlID, url: urlhash.Of(pageVisit.URL)},
 			body: body,
 		})
 	}
-	return published, nil
+	return owed, nil
 }
 
 func (frontier *Frontier) addAbsent(
 	tx *vault.Txn,
-	publication []publishedPageVisit,
+	owed []owedPageVisit,
 	now time.Time,
 ) error {
-	for _, published := range publication {
-		_, pending, err := frontier.pageVisits.Get(tx, published.key)
+	for _, visit := range owed {
+		_, pending, err := frontier.pageVisits.Get(tx, visit.key)
 		if err != nil {
 			return err
 		}
 		if pending {
 			continue
 		}
-		if _, err := frontier.pageVisits.Put(tx, published.key, pendingEntry{
+		if _, err := frontier.pageVisits.Put(tx, visit.key, pendingEntry{
 			due:       now.Unix(),
 			arrival:   now.Unix(),
 			messageID: newMessageID(),
-			body:      published.body,
+			body:      visit.body,
 		}); err != nil {
 			return err
 		}

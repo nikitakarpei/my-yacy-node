@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
-	pagevisitlimitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits"
 )
 
 const (
@@ -75,8 +75,8 @@ func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
 	return retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling}
 }
 
-func (ServiceConfig) MaxPerURL() pagevisitlimitsvault.MaxPerURL {
-	return pagevisitlimitsvault.MaxPerURL{
+func (ServiceConfig) MaxPerURL() pagevisitlimits.MaxPerURL {
+	return pagevisitlimits.MaxPerURL{
 		Deferrals: maxDeferralsPerURL,
 		Attempts:  maxAttemptsPerURL,
 	}

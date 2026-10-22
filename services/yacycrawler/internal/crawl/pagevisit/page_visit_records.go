@@ -1,23 +1,23 @@
 package pagevisit
 
 import (
-	"context"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 type PageVisitRecords interface {
 	LastPageVisitOf(
-		ctx context.Context,
+		tx *vault.Txn,
 		canonicalURL canonicalurl.CanonicalURL,
-	) (LastPageVisit, bool)
+	) (LastPageVisit, bool, error)
 	RecordPageVisit(
-		ctx context.Context,
+		tx *vault.Txn,
 		canonicalURL canonicalurl.CanonicalURL,
 		version pagefetch.PageVersion,
-	)
+	) error
 }
 
 type LastPageVisit struct {

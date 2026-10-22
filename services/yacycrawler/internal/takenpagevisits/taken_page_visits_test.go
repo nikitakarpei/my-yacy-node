@@ -1,4 +1,4 @@
-package vault_test
+package takenpagevisits_test
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	takenpagevisitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits"
 )
 
 const (
@@ -53,35 +53,73 @@ type refusingEngine struct {
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing.Load() {
-		return errEngineRefusing
-	}
-	return engine.Engine.Update(ctx, fn)
+	return engine.Engine.Update(ctx, func(etx vault.EngineTxn) error {
+		if engine.refusing.Load() {
+			return fn(refusingTxn{EngineTxn: etx})
+		}
+		return fn(etx)
+	})
+}
+
+type refusingTxn struct {
+	vault.EngineTxn
+}
+
+func (txn refusingTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
+	return refusingExpiringRecords{EngineExpiringRecords: txn.EngineTxn.ExpiringRecords(name)}
+}
+
+type refusingExpiringRecords struct {
+	vault.EngineExpiringRecords
+}
+
+func (refusingExpiringRecords) Get([]byte, time.Time) ([]byte, error) {
+	return nil, errEngineRefusing
+}
+
+type takenVisits struct {
+	storage *vault.Vault
+	visits  *takenpagevisits.TakenPageVisits
+}
+
+func (taken takenVisits) TakePageVisit(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	url canonicalurl.CanonicalURL,
+	taker string,
+) (bool, error) {
+	var took bool
+	err := taken.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = taken.visits.TakePageVisit(tx, crawlID, url, taker)
+		return err
+	})
+	return took, err
 }
 
 func takenPageVisitsOn(
 	t *testing.T,
 	engine vault.Engine,
 	clock *settableClock,
-) *takenpagevisitsvault.TakenPageVisits {
+) takenVisits {
 	t.Helper()
 	storage, err := vault.New(engine, nil, nil, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() { _ = storage.Close() })
-	visits, err := takenpagevisitsvault.New(
+	visits, err := takenpagevisits.Open(
 		t.Context(),
 		storage,
 		keptFor,
 	)
 	if err != nil {
-		t.Fatalf("New: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
-	return visits
+	return takenVisits{storage: storage, visits: visits}
 }
 
-func takenPageVisits(t *testing.T) (*takenpagevisitsvault.TakenPageVisits, *settableClock) {
+func takenPageVisits(t *testing.T) (takenVisits, *settableClock) {
 	t.Helper()
 	clock := newSettableClock(startedAt)
 	return takenPageVisitsOn(t, memoryvault.OpenEngine(0), clock), clock
@@ -94,7 +132,7 @@ func pageURL(t *testing.T) canonicalurl.CanonicalURL {
 
 func takePageVisit(
 	t *testing.T,
-	visits *takenpagevisitsvault.TakenPageVisits,
+	visits takenVisits,
 	url canonicalurl.CanonicalURL,
 	taker string,
 ) bool {

@@ -1,5 +1,5 @@
-// Package orderintake accepts each delivered crawl order and puts its seed URLs
-// on the frontier.
+// Package orderintake accepts each delivered crawl order: it keeps the order's crawl and
+// puts its seed URLs on the frontier in one transaction.
 package orderintake
 
 import (
@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
@@ -14,14 +15,15 @@ import (
 )
 
 type Crawls interface {
-	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error)
+	Keep(tx *vault.Txn, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error)
 }
 
 type Frontier interface {
-	Publish(ctx context.Context, pageVisits []pendingpagevisit.PendingPageVisit) error
+	Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
+	storage                *vault.Vault
 	source                 pullintake.MessageSource
 	crawls                 Crawls
 	frontier               Frontier
@@ -29,7 +31,9 @@ type OrderConsumer struct {
 	orderIntakeConcurrency int
 }
 
+//nolint:revive // an order consumer names the vault and every collaborator it accepts an order with
 func NewOrderConsumer(
+	storage *vault.Vault,
 	source pullintake.MessageSource,
 	crawls Crawls,
 	frontier Frontier,
@@ -37,6 +41,7 @@ func NewOrderConsumer(
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
 	return &OrderConsumer{
+		storage:                storage,
 		source:                 source,
 		crawls:                 crawls,
 		frontier:               frontier,
@@ -67,12 +72,8 @@ func (c *OrderConsumer) acceptOrder(
 		c.returnOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
-	crawlID, err := c.crawls.Keep(ctx, order)
+	crawlID, err := c.startCrawl(ctx, order)
 	if err != nil {
-		c.returnOrder(ctx, message, order.OrderID(), err)
-		return nil
-	}
-	if err := c.putSeedURLsOnFrontier(ctx, crawlID, order); err != nil {
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
@@ -81,11 +82,25 @@ func (c *OrderConsumer) acceptOrder(
 	return nil
 }
 
-func (c *OrderConsumer) putSeedURLsOnFrontier(
+func (c *OrderConsumer) startCrawl(
 	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+) (crawlid.CrawlID, error) {
+	var crawlID crawlid.CrawlID
+	err := c.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		if crawlID, err = c.crawls.Keep(tx, order); err != nil {
+			return err
+		}
+		return c.frontier.Owe(tx, seedPageVisitsOf(crawlID, order))
+	})
+	return crawlID, err
+}
+
+func seedPageVisitsOf(
 	crawlID crawlid.CrawlID,
 	order acceptedorder.AcceptedOrder,
-) error {
+) []pendingpagevisit.PendingPageVisit {
 	seedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(order.SeedURLs()))
 	for _, seed := range order.SeedURLs() {
 		seedPageVisits = append(seedPageVisits, pendingpagevisit.PendingPageVisit{
@@ -94,7 +109,7 @@ func (c *OrderConsumer) putSeedURLsOnFrontier(
 			Depth:   0,
 		})
 	}
-	return c.frontier.Publish(ctx, seedPageVisits)
+	return seedPageVisits
 }
 
 func (c *OrderConsumer) returnOrder(

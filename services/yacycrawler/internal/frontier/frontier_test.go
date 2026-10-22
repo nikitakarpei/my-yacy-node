@@ -1,4 +1,4 @@
-package vault_test
+package frontier_test
 
 import (
 	"context"
@@ -17,7 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
-	frontiersvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiers/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontier"
 )
 
 const (
@@ -91,14 +91,36 @@ func (r *recordedFailures) FrontierReturnFailed(
 
 type refusingEngine struct {
 	vault.Engine
-	refusing bool
+	refusing        bool
+	refusingRecords bool
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if engine.refusing {
 		return errEngineRefusing
 	}
-	return engine.Engine.Update(ctx, fn)
+	return engine.Engine.Update(ctx, func(etx vault.EngineTxn) error {
+		if engine.refusingRecords {
+			return fn(refusingTxn{EngineTxn: etx})
+		}
+		return fn(etx)
+	})
+}
+
+type refusingTxn struct {
+	vault.EngineTxn
+}
+
+func (txn refusingTxn) Records(name vault.Name) vault.EngineRecords {
+	return refusingRecords{EngineRecords: txn.EngineTxn.Records(name)}
+}
+
+type refusingRecords struct {
+	vault.EngineRecords
+}
+
+func (refusingRecords) Get([]byte) ([]byte, error) {
+	return nil, errEngineRefusing
 }
 
 func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
@@ -108,19 +130,20 @@ func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn)
 	return engine.Engine.View(ctx, fn)
 }
 
-type frontier struct {
+type frontierScene struct {
+	storage  *vault.Vault
 	engine   *refusingEngine
 	clock    *clock
 	failures *recordedFailures
-	visits   *frontiersvault.Frontier
+	visits   *frontier.Frontier
 }
 
-func newFrontier(t *testing.T) frontier {
+func newFrontier(t *testing.T) frontierScene {
 	t.Helper()
 	return newFrontierOn(t, memoryvault.OpenEngine(0))
 }
 
-func newFrontierOn(t *testing.T, engine vault.Engine) frontier {
+func newFrontierOn(t *testing.T, engine vault.Engine) frontierScene {
 	t.Helper()
 	refusing := &refusingEngine{Engine: engine}
 	visitClock := &clock{now: time.Unix(1_000_000, 0)}
@@ -130,11 +153,13 @@ func newFrontierOn(t *testing.T, engine vault.Engine) frontier {
 	}
 	t.Cleanup(func() { _ = storage.Close() })
 	failures := &recordedFailures{}
-	visits, err := frontiersvault.New(t.Context(), storage, lease, visitClock, failures)
+	visits, err := frontier.Open(t.Context(), storage, lease, visitClock, failures)
 	if err != nil {
-		t.Fatalf("New: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
-	return frontier{engine: refusing, clock: visitClock, failures: failures, visits: visits}
+	return frontierScene{
+		storage: storage, engine: refusing, clock: visitClock, failures: failures, visits: visits,
+	}
 }
 
 func pageVisitTo(t *testing.T, rawURL string) pendingpagevisit.PendingPageVisit {
@@ -146,14 +171,21 @@ func pageVisitTo(t *testing.T, rawURL string) pendingpagevisit.PendingPageVisit 
 	}
 }
 
-func (f frontier) publish(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
+func (f frontierScene) publish(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
 	t.Helper()
-	if err := f.visits.Publish(t.Context(), pageVisits); err != nil {
-		t.Fatalf("Publish: %v", err)
+	if err := f.owe(t, pageVisits); err != nil {
+		t.Fatalf("Owe: %v", err)
 	}
 }
 
-func (f frontier) next(t *testing.T) pullintake.PendingMessage {
+func (f frontierScene) owe(t *testing.T, pageVisits []pendingpagevisit.PendingPageVisit) error {
+	t.Helper()
+	return f.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		return f.visits.Owe(tx, pageVisits)
+	})
+}
+
+func (f frontierScene) next(t *testing.T) pullintake.PendingMessage {
 	t.Helper()
 	message, err := f.visits.Next(t.Context())
 	if err != nil {
@@ -162,14 +194,14 @@ func (f frontier) next(t *testing.T) pullintake.PendingMessage {
 	return message
 }
 
-func (f frontier) requireNoDueVisit(t *testing.T) {
+func (f frontierScene) requireNoDueVisit(t *testing.T) {
 	t.Helper()
 	if message, err := f.visits.Next(t.Context()); !errors.Is(err, errNoDueVisit) {
 		t.Fatalf("Next = %v, %v; want no due page visit", message, err)
 	}
 }
 
-func (f frontier) amount(t *testing.T) int64 {
+func (f frontierScene) amount(t *testing.T) int64 {
 	t.Helper()
 	amount, counted := f.visits.AmountOfPendingPageVisits(t.Context())
 	if !counted {
@@ -321,15 +353,15 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDue(t *testing.T) {
 	}
 }
 
-func TestAPublishTheStorageRefusesFails(t *testing.T) {
+func TestAnOweTheStorageRefusesFails(t *testing.T) {
 	f := newFrontier(t)
-	f.engine.refusing = true
+	f.engine.refusingRecords = true
 
-	if err := f.visits.Publish(
-		t.Context(),
+	if err := f.owe(
+		t,
 		[]pendingpagevisit.PendingPageVisit{pageVisitTo(t, "http://host/page")},
 	); !errors.Is(err, errEngineRefusing) {
-		t.Fatalf("Publish err = %v, want the refusal", err)
+		t.Fatalf("Owe err = %v, want the refusal", err)
 	}
 }
 

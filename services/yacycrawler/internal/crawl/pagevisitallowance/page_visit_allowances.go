@@ -5,9 +5,11 @@ package pagevisitallowance
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -16,18 +18,18 @@ import (
 
 type PageVisitLimits interface {
 	TakePageOfHost(
-		ctx context.Context,
+		tx *vault.Txn,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 		maxPages int,
 	) (bool, error)
 	TakeDeferral(
-		ctx context.Context,
+		tx *vault.Txn,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 	) (bool, error)
 	TakeAttempt(
-		ctx context.Context,
+		tx *vault.Txn,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 	) (int, bool, error)
@@ -40,12 +42,13 @@ type Allowance struct {
 }
 
 type Allowances struct {
+	storage    *vault.Vault
 	limits     PageVisitLimits
 	retryDelay retrydelay.Bounds
 }
 
-func New(limits PageVisitLimits, retryDelay retrydelay.Bounds) *Allowances {
-	return &Allowances{limits: limits, retryDelay: retryDelay}
+func New(storage *vault.Vault, limits PageVisitLimits, retryDelay retrydelay.Bounds) *Allowances {
+	return &Allowances{storage: storage, limits: limits, retryDelay: retryDelay}
 }
 
 func (allowances *Allowances) TakePageOfHost(
@@ -53,11 +56,17 @@ func (allowances *Allowances) TakePageOfHost(
 	pageVisit pendingpagevisit.PendingPageVisit,
 	maxPages int,
 ) (Allowance, error) {
-	took, err := allowances.limits.TakePageOfHost(
-		ctx, pageVisit.CrawlID, pageVisit.URL, maxPages,
-	)
-	if err != nil {
-		return Allowance{}, err
+	var took bool
+	if err := allowances.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = allowances.limits.TakePageOfHost(tx, pageVisit.CrawlID, pageVisit.URL, maxPages)
+		return err
+	}); err != nil {
+		return Allowance{}, fmt.Errorf(
+			"take an allowance of the page visit to %s: %w",
+			pageVisit.URL,
+			err,
+		)
 	}
 	if !took {
 		return exhaustedAllowance(pagevisitdrop.HostPagesExhausted), nil
@@ -70,11 +79,17 @@ func (allowances *Allowances) TakeDeferral(
 	pageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) (Allowance, error) {
-	took, err := allowances.limits.TakeDeferral(
-		ctx, pageVisit.CrawlID, pageVisit.URL,
-	)
-	if err != nil {
-		return Allowance{}, err
+	var took bool
+	if err := allowances.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = allowances.limits.TakeDeferral(tx, pageVisit.CrawlID, pageVisit.URL)
+		return err
+	}); err != nil {
+		return Allowance{}, fmt.Errorf(
+			"take an allowance of the page visit to %s: %w",
+			pageVisit.URL,
+			err,
+		)
 	}
 	if !took {
 		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
@@ -86,11 +101,18 @@ func (allowances *Allowances) TakeAttempt(
 	ctx context.Context,
 	pageVisit pendingpagevisit.PendingPageVisit,
 ) (Allowance, error) {
-	attempt, took, err := allowances.limits.TakeAttempt(
-		ctx, pageVisit.CrawlID, pageVisit.URL,
-	)
-	if err != nil {
-		return Allowance{}, err
+	var attempt int
+	var took bool
+	if err := allowances.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		attempt, took, err = allowances.limits.TakeAttempt(tx, pageVisit.CrawlID, pageVisit.URL)
+		return err
+	}); err != nil {
+		return Allowance{}, fmt.Errorf(
+			"take an allowance of the page visit to %s: %w",
+			pageVisit.URL,
+			err,
+		)
 	}
 	if !took {
 		return exhaustedAllowance(pagevisitdrop.RetriesExhausted), nil

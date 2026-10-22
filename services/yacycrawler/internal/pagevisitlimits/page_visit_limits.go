@@ -1,12 +1,11 @@
-// Package vault holds in a vault what a crawl has already used for one page visit
-// — a page of the URL's host, the deferrals of that URL and its attempts — and
-// admits another only while the crawl's limit leaves room for it. A redelivered
-// page visit takes the page of its host once.
-package vault
+// Package pagevisitlimits holds what a crawl has already used for one page visit — a
+// page of the URL's host, the deferrals of that URL and its attempts — and admits another
+// only while the crawl's limit leaves room for it. A redelivered page visit takes the page
+// of its host once.
+package pagevisitlimits
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -17,53 +16,56 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 )
 
-var errLimitMalformed = errors.New("page visit limit record is malformed")
-
-const (
-	takenHostPageCountsBucket = "taken_host_page_counts"
-	usedAllowancesBucket      = "used_page_visit_allowances"
-)
-
 type MaxPerURL struct {
 	Deferrals int
 	Attempts  int
 }
 
 type PageVisitLimits struct {
-	storage             *vault.Vault
 	takenHostPageCounts *vault.ExpiringCollection[hostKey, takenHostPageCount]
 	usedAllowances      *vault.ExpiringCollection[pageVisitKey, usedAllowances]
 	maxPerURL           MaxPerURL
 }
 
-func New(
+func Open(
 	ctx context.Context,
 	storage *vault.Vault,
 	keptFor time.Duration,
 	maxPerURL MaxPerURL,
 ) (*PageVisitLimits, error) {
-	takenHostPageCounts, err := storage.RegisterExpiringCollection(
-		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor, nil,
-	)
+	takenHostPageCounts, usedAllowances, err := registerPageVisitLimits(ctx, storage, keptFor)
 	if err != nil {
-		return nil, fmt.Errorf("register %s: %w", takenHostPageCountsBucket, err)
-	}
-	usedAllowances, err := storage.RegisterExpiringCollection(
-		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor, nil,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("register %s: %w", usedAllowancesBucket, err)
+		return nil, err
 	}
 	return &PageVisitLimits{
-		storage:             storage,
 		takenHostPageCounts: takenHostPageCounts,
 		usedAllowances:      usedAllowances,
 		maxPerURL:           maxPerURL,
 	}, nil
 }
 
+type hostKey struct {
+	crawlID crawlid.CrawlID
+	host    string
+}
+
+type pageVisitKey struct {
+	crawlID crawlid.CrawlID
+	url     urlhash.URLHash
+}
+
+type takenHostPageCount struct {
+	pages int
+}
+
+type usedAllowances struct {
+	pageOfHost bool
+	deferrals  int
+	attempts   int
+}
+
 func (limits *PageVisitLimits) TakePageOfHost(
-	ctx context.Context,
+	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
 	maxPages int,
@@ -71,14 +73,13 @@ func (limits *PageVisitLimits) TakePageOfHost(
 	if maxPages == yacycrawlcontract.UnlimitedPagesPerHost {
 		return true, nil
 	}
-	pageVisit := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
-	crawlHost := hostKey{crawlID: crawlID, host: url.Hostname()}
-	var took bool
-	if err := limits.storage.Update(ctx, func(tx *vault.Txn) error {
-		var err error
-		took, err = limits.takePageOfHost(tx, pageVisit, crawlHost, maxPages)
-		return err
-	}); err != nil {
+	took, err := limits.takePageOfHost(
+		tx,
+		pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)},
+		hostKey{crawlID: crawlID, host: url.Hostname()},
+		maxPages,
+	)
+	if err != nil {
 		return false, fmt.Errorf("take a page of host %s for %s: %w", url.Hostname(), url, err)
 	}
 	return took, nil
@@ -107,11 +108,11 @@ func (limits *PageVisitLimits) takePageOfHost(
 }
 
 func (limits *PageVisitLimits) TakeDeferral(
-	ctx context.Context,
+	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
 ) (bool, error) {
-	_, deferred, err := limits.takeAllowance(ctx, crawlID, url, limits.withAnotherDeferral)
+	_, deferred, err := limits.takeAllowance(tx, crawlID, url, limits.withAnotherDeferral)
 	if err != nil {
 		return false, fmt.Errorf("take a deferral of the page visit to %s: %w", url, err)
 	}
@@ -119,26 +120,21 @@ func (limits *PageVisitLimits) TakeDeferral(
 }
 
 func (limits *PageVisitLimits) takeAllowance(
-	ctx context.Context,
+	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
 	withAnother func(usedAllowances) (usedAllowances, bool),
 ) (usedAllowances, bool, error) {
 	key := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
-	var standing usedAllowances
-	var took bool
-	err := limits.storage.Update(ctx, func(tx *vault.Txn) error {
-		used, _, err := limits.usedAllowances.Get(tx, key)
-		if err != nil {
-			return err
-		}
-		standing, took = withAnother(used)
-		if !took {
-			return nil
-		}
-		return limits.usedAllowances.Put(tx, key, standing)
-	})
-	return standing, took, err
+	used, _, err := limits.usedAllowances.Get(tx, key)
+	if err != nil {
+		return usedAllowances{}, false, err
+	}
+	standing, took := withAnother(used)
+	if !took {
+		return standing, false, nil
+	}
+	return standing, true, limits.usedAllowances.Put(tx, key, standing)
 }
 
 func (limits *PageVisitLimits) withAnotherDeferral(used usedAllowances) (usedAllowances, bool) {
@@ -150,11 +146,11 @@ func (limits *PageVisitLimits) withAnotherDeferral(used usedAllowances) (usedAll
 }
 
 func (limits *PageVisitLimits) TakeAttempt(
-	ctx context.Context,
+	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	url canonicalurl.CanonicalURL,
 ) (int, bool, error) {
-	standing, attempted, err := limits.takeAllowance(ctx, crawlID, url, limits.withAnotherAttempt)
+	standing, attempted, err := limits.takeAllowance(tx, crawlID, url, limits.withAnotherAttempt)
 	if err != nil {
 		return 0, false, fmt.Errorf("take an attempt of the page visit to %s: %w", url, err)
 	}

@@ -40,24 +40,22 @@ components:
     in: internal/crawl/pagehtmlreading/**
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
-  pagevisitrecordsnorecords:
-    in: internal/pagevisitrecords/norecords/**
-  pagevisitrecordsvault:
-    in: internal/pagevisitrecords/vault/**
+  pagevisitrecords:
+    in: internal/pagevisitrecords/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
   urlhash:
     in: internal/urlhash/**
   vaultkeyparts:
     in: internal/vaultkeyparts/**
-  crawlsvault:
-    in: internal/crawls/vault/**
-  frontiersvault:
-    in: internal/frontiers/vault/**
-  takenpagevisitsvault:
-    in: internal/takenpagevisits/vault/**
-  pagevisitlimitsvault:
-    in: internal/pagevisitlimits/vault/**
+  crawls:
+    in: internal/crawls/**
+  frontier:
+    in: internal/frontier/**
+  takenpagevisits:
+    in: internal/takenpagevisits/**
+  pagevisitlimits:
+    in: internal/pagevisitlimits/**
   crawlorderobserversapplog:
     in: internal/crawlorderobservers/applog/**
   crawlorderobserversprometheus:
@@ -171,6 +169,7 @@ deps:
     canUse:
       - yacycrawlcontract
       - serviceruntime
+      - vault
   pagevisitintake:
     mayDependOn:
       - crawlid
@@ -184,6 +183,7 @@ deps:
       - canonicalurl
       - yacycrawlcontract
       - serviceruntime
+      - vault
   pagehtml:
     canUse:
       - nethtml
@@ -202,6 +202,7 @@ deps:
     canUse:
       - canonicalurl
       - pagefetch
+      - vault
   observedfetch:
     canUse:
       - canonicalurl
@@ -222,12 +223,8 @@ deps:
       - retrydelay
     canUse:
       - canonicalurl
-  pagevisitrecordsnorecords:
-    mayDependOn:
-      - pagevisit
-    canUse:
-      - pagefetch
-  pagevisitrecordsvault:
+      - vault
+  pagevisitrecords:
     mayDependOn:
       - pagevisit
       - vaultkeyparts
@@ -247,7 +244,7 @@ deps:
       - urlhash
     canUse:
       - vault
-  crawlsvault:
+  crawls:
     mayDependOn:
       - acceptedorder
       - crawlid
@@ -255,7 +252,7 @@ deps:
     canUse:
       - vault
       - yacycrawlcontract
-  frontiersvault:
+  frontier:
     mayDependOn:
       - pendingpagevisit
       - crawlid
@@ -264,7 +261,7 @@ deps:
     canUse:
       - vault
       - serviceruntime
-  takenpagevisitsvault:
+  takenpagevisits:
     mayDependOn:
       - crawlid
       - vaultkeyparts
@@ -272,7 +269,7 @@ deps:
     canUse:
       - vault
       - canonicalurl
-  pagevisitlimitsvault:
+  pagevisitlimits:
     mayDependOn:
       - crawlid
       - vaultkeyparts

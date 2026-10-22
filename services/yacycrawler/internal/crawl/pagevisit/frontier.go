@@ -1,11 +1,10 @@
 package pagevisit
 
 import (
-	"context"
-
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 type Frontier interface {
-	Publish(ctx context.Context, pageVisits []pendingpagevisit.PendingPageVisit) error
+	Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
@@ -21,7 +22,7 @@ import (
 
 type TakenPageVisits interface {
 	TakePageVisit(
-		ctx context.Context,
+		tx *vault.Txn,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 		taker string,
@@ -47,12 +48,13 @@ type PageVisitAllowances interface {
 
 type Crawls interface {
 	OrderOf(
-		ctx context.Context,
+		tx *vault.Txn,
 		crawlID crawlid.CrawlID,
 	) (order acceptedorder.AcceptedOrder, found bool, err error)
 }
 
 type PageVisitConsumer struct {
+	storage           *vault.Vault
 	pendingPageVisits pullintake.PendingMessages
 	takenPageVisits   TakenPageVisits
 	allowances        PageVisitAllowances
@@ -65,6 +67,7 @@ type PageVisitConsumer struct {
 
 //nolint:revive // a consumer names every collaborator it visits a page with
 func NewPageVisitConsumer(
+	storage *vault.Vault,
 	pendingPageVisits pullintake.PendingMessages,
 	takenPageVisits TakenPageVisits,
 	allowances PageVisitAllowances,
@@ -75,6 +78,7 @@ func NewPageVisitConsumer(
 	fetchConcurrency int,
 ) *PageVisitConsumer {
 	return &PageVisitConsumer{
+		storage:           storage,
 		pendingPageVisits: pendingPageVisits,
 		takenPageVisits:   takenPageVisits,
 		allowances:        allowances,
@@ -100,7 +104,7 @@ func (c *PageVisitConsumer) payPageVisit(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	order, found, err := c.crawls.OrderOf(ctx, pendingPageVisit.CrawlID)
+	order, found, err := c.orderOf(ctx, pendingPageVisit.CrawlID)
 	if err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return nil
@@ -115,6 +119,20 @@ func (c *PageVisitConsumer) payPageVisit(
 	outcome := c.pageVisitor.VisitPage(ctx, order, pendingPageVisit)
 	c.carryOutConclusion(ctx, message, pendingPageVisit, outcome)
 	return nil
+}
+
+func (c *PageVisitConsumer) orderOf(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+) (acceptedorder.AcceptedOrder, bool, error) {
+	var order acceptedorder.AcceptedOrder
+	var found bool
+	err := c.storage.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		order, found, err = c.crawls.OrderOf(tx, crawlID)
+		return err
+	})
+	return order, found, err
 }
 
 func (c *PageVisitConsumer) returnPageVisit(
@@ -133,10 +151,14 @@ func (c *PageVisitConsumer) takePageVisit(
 	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	took, err := c.takenPageVisits.TakePageVisit(
-		ctx, pendingPageVisit.CrawlID, pendingPageVisit.URL, message.Identity(),
-	)
-	if err != nil {
+	var took bool
+	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = c.takenPageVisits.TakePageVisit(
+			tx, pendingPageVisit.CrawlID, pendingPageVisit.URL, message.Identity(),
+		)
+		return err
+	}); err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return false
 	}

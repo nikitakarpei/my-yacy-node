@@ -1,4 +1,4 @@
-package vault_test
+package pagevisitlimits_test
 
 import (
 	"context"
@@ -17,7 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	pagevisitlimitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits"
 )
 
 const (
@@ -53,42 +53,109 @@ type refusingEngine struct {
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing.Load() {
-		return errEngineRefusing
-	}
-	return engine.Engine.Update(ctx, fn)
+	return engine.Engine.Update(ctx, func(etx vault.EngineTxn) error {
+		if engine.refusing.Load() {
+			return fn(refusingTxn{EngineTxn: etx})
+		}
+		return fn(etx)
+	})
+}
+
+type refusingTxn struct {
+	vault.EngineTxn
+}
+
+func (txn refusingTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
+	return refusingExpiringRecords{EngineExpiringRecords: txn.EngineTxn.ExpiringRecords(name)}
+}
+
+type refusingExpiringRecords struct {
+	vault.EngineExpiringRecords
+}
+
+func (refusingExpiringRecords) Get([]byte, time.Time) ([]byte, error) {
+	return nil, errEngineRefusing
+}
+
+type limitsWithin struct {
+	storage *vault.Vault
+	limits  *pagevisitlimits.PageVisitLimits
+}
+
+func (within limitsWithin) TakePageOfHost(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	url canonicalurl.CanonicalURL,
+	maxPages int,
+) (bool, error) {
+	var took bool
+	err := within.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = within.limits.TakePageOfHost(tx, crawlID, url, maxPages)
+		return err
+	})
+	return took, err
+}
+
+func (within limitsWithin) TakeDeferral(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	url canonicalurl.CanonicalURL,
+) (bool, error) {
+	var took bool
+	err := within.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = within.limits.TakeDeferral(tx, crawlID, url)
+		return err
+	})
+	return took, err
+}
+
+func (within limitsWithin) TakeAttempt(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	url canonicalurl.CanonicalURL,
+) (int, bool, error) {
+	var attempt int
+	var took bool
+	err := within.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		attempt, took, err = within.limits.TakeAttempt(tx, crawlID, url)
+		return err
+	})
+	return attempt, took, err
 }
 
 func pageVisitLimitsOn(
 	t *testing.T,
 	engine vault.Engine,
 	clock *settableClock,
-) *pagevisitlimitsvault.PageVisitLimits {
+) limitsWithin {
 	t.Helper()
 	storage, err := vault.New(engine, nil, nil, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() { _ = storage.Close() })
-	limits, err := pagevisitlimitsvault.New(
+	limits, err := pagevisitlimits.Open(
 		t.Context(),
 		storage,
 		keptFor,
-		pagevisitlimitsvault.MaxPerURL{Deferrals: 2, Attempts: 2},
+		pagevisitlimits.MaxPerURL{Deferrals: 2, Attempts: 2},
 	)
 	if err != nil {
-		t.Fatalf("New: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
-	return limits
+	return limitsWithin{storage: storage, limits: limits}
 }
 
-func pageVisitLimits(t *testing.T) (*pagevisitlimitsvault.PageVisitLimits, *settableClock) {
+func pageVisitLimits(t *testing.T) (limitsWithin, *settableClock) {
 	t.Helper()
 	clock := newSettableClock(startedAt)
 	return pageVisitLimitsOn(t, memoryvault.OpenEngine(0), clock), clock
 }
 
-func limitsOf(t *testing.T) *pagevisitlimitsvault.PageVisitLimits {
+func limitsOf(t *testing.T) limitsWithin {
 	t.Helper()
 	limits, _ := pageVisitLimits(t)
 	return limits
@@ -101,7 +168,7 @@ func pageURL(t *testing.T) canonicalurl.CanonicalURL {
 
 func admitsAnotherPageOfHost(
 	t *testing.T,
-	limits *pagevisitlimitsvault.PageVisitLimits,
+	limits limitsWithin,
 	url canonicalurl.CanonicalURL,
 	maxPages int,
 ) bool {

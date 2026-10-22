@@ -10,6 +10,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
@@ -25,7 +28,7 @@ type fakeCrawls struct {
 }
 
 func (o *fakeCrawls) Keep(
-	_ context.Context,
+	_ *vault.Txn,
 	order acceptedorder.AcceptedOrder,
 ) (crawlid.CrawlID, error) {
 	if o.err != nil {
@@ -41,8 +44,8 @@ type fakePendingVisits struct {
 	err          error
 }
 
-func (v *fakePendingVisits) Publish(
-	_ context.Context,
+func (v *fakePendingVisits) Owe(
+	_ *vault.Txn,
 	visits []pendingpagevisit.PendingPageVisit,
 ) error {
 	if v.err != nil {
@@ -113,7 +116,12 @@ func consume(
 	observer *recordingObserver,
 ) error {
 	t.Helper()
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
 	return orderintake.NewOrderConsumer(
+		storage,
 		pullintaketest.MessageSourceOf(message),
 		orders,
 		frontier,
