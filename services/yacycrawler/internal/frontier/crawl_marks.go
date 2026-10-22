@@ -71,12 +71,20 @@ func (marks crawlMarks) unmark(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return err
 }
 
-func (marks crawlMarks) firstCancellingCrawl(tx *vault.Txn) (crawlid.CrawlID, bool, error) {
-	first, found, err := marks.byKind.First(
+func (marks crawlMarks) firstCancellingCrawls(
+	tx *vault.Txn,
+	amount int,
+) ([]crawlid.CrawlID, error) {
+	var cancelling []crawlid.CrawlID
+	err := marks.byKind.Scan(
 		tx,
 		markedCrawlKeyParts.KeysWithFirst(int64(markCancelling)),
+		func(marked markedCrawl) (bool, error) {
+			cancelling = append(cancelling, marked.crawlID)
+			return len(cancelling) < amount, nil
+		},
 	)
-	return first.crawlID, found, err
+	return cancelling, err
 }
 
 type markedCrawl struct {

@@ -1,11 +1,13 @@
 package frontier_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"path/filepath"
 	"slices"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -510,6 +512,32 @@ func TestACancelDropsTheOwedVisitsInBatchesBesideTheLeases(t *testing.T) {
 		!slices.Equal(f.ledger.owingNothing, []crawlid.CrawlID{firstCrawl}) {
 		t.Fatalf("batches %v, owed %d, owing nothing %v; want two batches and the crawl settled",
 			f.ledger.cancelledBatches, f.amount(t), f.ledger.owingNothing)
+	}
+}
+
+func TestADrainEmptiesEveryCancelledCrawlBeyondTheOnesItPicksAmong(t *testing.T) {
+	f := newFrontier(t)
+	const cancelledCrawls = 12
+	cancelled := make([]crawlid.CrawlID, 0, cancelledCrawls)
+	for crawl := range cancelledCrawls {
+		crawlID := crawlid.CrawlID{byte(crawl + 10)}
+		cancelled = append(cancelled, crawlID)
+		f.owe(t,
+			pageVisitOfCrawl(t, crawlID, "http://a/"+strconv.Itoa(crawl)),
+			pageVisitOfCrawl(t, crawlID, "http://b/"+strconv.Itoa(crawl)),
+		)
+		f.change(t, f.visits.Cancel, crawlID)
+	}
+
+	f.drainCancelled(t)
+
+	slices.SortFunc(
+		f.ledger.owingNothing,
+		func(a, b crawlid.CrawlID) int { return bytes.Compare(a[:], b[:]) },
+	)
+	if f.amount(t) != 0 || !slices.Equal(f.ledger.owingNothing, cancelled) {
+		t.Fatalf("owed %d, owing nothing %v; want every cancelled crawl drained once",
+			f.amount(t), f.ledger.owingNothing)
 	}
 }
 

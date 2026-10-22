@@ -180,23 +180,32 @@ func (ledger pageVisitLedger) amountsOwedByHostsOf(
 	)
 }
 
-func (ledger pageVisitLedger) drainFirstOf(
+func (ledger pageVisitLedger) drainFrom(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
+	start urlhash.URLHash,
 	amount int,
 ) (map[string]uint, int, error) {
 	var drained []pageVisitKey
 	drainedOfHosts := map[string]uint{}
-	if err := ledger.owed.Scan(
-		tx,
-		pageVisitKeyParts.KeysWithFirst(crawlID),
-		func(key pageVisitKey, visit owedPageVisit) (bool, error) {
-			drained = append(drained, key)
-			drainedOfHosts[visit.host]++
-			return len(drained) < amount, nil
-		},
-	); err != nil {
-		return nil, 0, err
+	for _, owedKeys := range []vault.KeyRange{
+		pageVisitKeyParts.KeysWithFirst(crawlID).After(pageVisitKeyParts.Key(crawlID, start)),
+		pageVisitKeyParts.KeysWithFirstBetweenSeconds(crawlID, urlhash.URLHash{}, start),
+	} {
+		if len(drained) == amount {
+			break
+		}
+		if err := ledger.owed.Scan(
+			tx,
+			owedKeys,
+			func(key pageVisitKey, visit owedPageVisit) (bool, error) {
+				drained = append(drained, key)
+				drainedOfHosts[visit.host]++
+				return len(drained) < amount, nil
+			},
+		); err != nil {
+			return nil, 0, err
+		}
 	}
 	for _, key := range drained {
 		if _, err := ledger.owed.Delete(tx, key); err != nil {

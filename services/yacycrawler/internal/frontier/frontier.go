@@ -9,10 +9,12 @@ package frontier
 
 import (
 	"context"
+	cryptorand "crypto/rand"
 	"encoding/hex"
 	"errors"
 	"fmt"
 	"maps"
+	"math/rand/v2"
 	"slices"
 	"time"
 
@@ -20,14 +22,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 )
 
 const (
-	frontierName            = "YACY_CRAWL_FRONTIER"
-	frontierIndexesVersion  = "1"
-	noDueVisitPause         = 500 * time.Millisecond
-	noCancelledCrawlPause   = 500 * time.Millisecond
-	pageVisitsDrainedAtOnce = 100
+	frontierName                = "YACY_CRAWL_FRONTIER"
+	frontierIndexesVersion      = "1"
+	noDueVisitPause             = 500 * time.Millisecond
+	noCancelledCrawlPause       = 500 * time.Millisecond
+	pageVisitsDrainedAtOnce     = 100
+	cancellingCrawlsPickedAmong = 8
 )
 
 type Clock interface {
@@ -352,7 +356,7 @@ func (frontier *Frontier) DrainCancelledCrawls(ctx context.Context) error {
 }
 
 func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
-	crawlID, cancelling, err := frontier.firstCancellingCrawl(ctx)
+	crawlID, cancelling, err := frontier.pickedCancellingCrawl(ctx)
 	if err != nil {
 		frontier.observer.FrontierDrainFailed(ctx, err)
 		return false
@@ -360,11 +364,12 @@ func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
 	if !cancelling {
 		return false
 	}
+	start := randomURLHash()
 	if err := frontier.settled(ctx, crawlID, func(
 		tx *vault.Txn,
 		settlement CrawlSettlement,
 	) error {
-		return frontier.drainBatchOf(tx, crawlID, settlement)
+		return frontier.drainBatchOf(tx, crawlID, start, settlement)
 	}); err != nil {
 		frontier.observer.FrontierDrainFailed(ctx, fmt.Errorf("drain crawl %s: %w", crawlID, err))
 		return false
@@ -372,28 +377,39 @@ func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
 	return true
 }
 
-func (frontier *Frontier) firstCancellingCrawl(
+func (frontier *Frontier) pickedCancellingCrawl(
 	ctx context.Context,
 ) (crawlid.CrawlID, bool, error) {
-	var first crawlid.CrawlID
-	var found bool
+	var cancelling []crawlid.CrawlID
 	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		first, found, err = frontier.crawlMarks.firstCancellingCrawl(tx)
+		cancelling, err = frontier.crawlMarks.firstCancellingCrawls(
+			tx, cancellingCrawlsPickedAmong,
+		)
 		return err
 	}); err != nil {
 		return crawlid.CrawlID{}, false, fmt.Errorf("look for a crawl to drain: %w", err)
 	}
-	return first, found, nil
+	if len(cancelling) == 0 {
+		return crawlid.CrawlID{}, false, nil
+	}
+	return cancelling[rand.IntN(len(cancelling))], true, nil //nolint:gosec // spreads processes, no secret
+}
+
+func randomURLHash() urlhash.URLHash {
+	var start urlhash.URLHash
+	_, _ = cryptorand.Read(start[:])
+	return start
 }
 
 func (frontier *Frontier) drainBatchOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
+	start urlhash.URLHash,
 	settlement CrawlSettlement,
 ) error {
-	drainedOfHosts, amountDrained, err := frontier.ledger.drainFirstOf(
-		tx, crawlID, pageVisitsDrainedAtOnce,
+	drainedOfHosts, amountDrained, err := frontier.ledger.drainFrom(
+		tx, crawlID, start, pageVisitsDrainedAtOnce,
 	)
 	if err != nil {
 		return err

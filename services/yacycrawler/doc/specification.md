@@ -7,9 +7,9 @@ orders. For each order, it fetches the pages the order admits and publishes each
 read. A YaCy node is the typical order source and consumer, but the service depends on no
 consumer's internals.
 
-Several instances share one order stream. The instance that accepts an order keeps the
-run's frontier and visits every URL of it. The service is meant for a more capable host
-than an always-on node.
+Several instances share one order stream. Instances that open one crawl state share its
+crawls: any of them can visit any page of them. The service is meant for a more capable
+host than an always-on node.
 
 ## Non-Goals
 
@@ -79,5 +79,5 @@ than an always-on node.
   interested consumer and each consumer can see a different page than the crawler saw.
 * A durable crawled-page consumer that no one reads stops the crawl until an operator
   removes it.
-* A run stops while the instance that accepted its order is down.
+* Instances that share a crawl state need synchronized clocks.
 * A crawl that never finishes is kept forever.
