@@ -42,6 +42,7 @@ type EngineExpiringRecords interface {
 	Get(key []byte, at time.Time) ([]byte, error)
 	Put(key, record []byte, expiresAt time.Time) (replacedRecord []byte, err error)
 	Scan(keys KeyRange, fn func(key, record []byte) (bool, error)) error
+	Len() (int, error)
 	ExpiredKeys(
 		resume []byte,
 		at time.Time,

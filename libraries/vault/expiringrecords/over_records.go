@@ -60,6 +60,10 @@ func (r expiringOverRecords) Scan(
 	})
 }
 
+func (r expiringOverRecords) Len() (int, error) {
+	return r.records.Len()
+}
+
 func (r expiringOverRecords) ExpiredKeys(
 	resume []byte,
 	at time.Time,

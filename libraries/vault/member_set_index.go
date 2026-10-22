@@ -38,7 +38,7 @@ func (v *Vault) RegisterMemberSetIndex[A, B, K any](
 }
 
 func (i *MemberSetIndex[A, B, K]) MembersOf(tx *Txn, second B) ([]A, error) {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return nil, err
 	}
 	memberSetKey := i.layout.memberSetKeyOf(second)

@@ -15,8 +15,10 @@ var (
 )
 
 type ExpiringCollection[K, V any] struct {
-	collection *Collection[K, V]
-	lifetime   time.Duration
+	name        Name
+	codec       recordCodec[K, V]
+	projections attachedProjections[K, V]
+	lifetime    time.Duration
 }
 
 //nolint:revive // an expiring collection names its bucket, layout, codec, lifetime, observer and projections
@@ -38,16 +40,19 @@ func (v *Vault) RegisterExpiringCollection[K, V any](
 	if err := v.provisionExpiringRecordsBucket(bucket); err != nil {
 		return nil, err
 	}
+	codec := recordCodec[K, V]{keys: keys, values: values}
 	expiring := &ExpiringCollection[K, V]{
-		collection: &Collection[K, V]{
-			name:        bucket,
-			keys:        keys,
-			values:      values,
-			projections: projections,
-		},
-		lifetime: lifetime,
+		name:        bucket,
+		codec:       codec,
+		projections: attachedProjections[K, V]{projections: projections, codec: codec},
+		lifetime:    lifetime,
 	}
-	if err := v.followProjections(ctx, expiring.collection, expiring.storedRecordsIn); err != nil {
+	if err := v.attachProjections(
+		ctx,
+		bucket,
+		expiring.projections,
+		func(tx *Txn) storedRecords { return tx.etx.ExpiringRecords(bucket) },
+	); err != nil {
 		return nil, err
 	}
 	v.removals.start(ctx, expiryRemoval{
@@ -62,28 +67,20 @@ func (v *Vault) RegisterExpiringCollection[K, V any](
 	return expiring, nil
 }
 
-func (c *ExpiringCollection[K, V]) storedRecordsIn(tx *Txn) storedRecords {
-	return c.expiringRecordsIn(tx)
-}
-
-func (c *ExpiringCollection[K, V]) expiringRecordsIn(tx *Txn) EngineExpiringRecords {
-	return tx.etx.ExpiringRecords(c.collection.name)
-}
-
 func (c *ExpiringCollection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	record, err := c.expiringRecordsIn(tx).Get(c.collection.encodedKeyOf(key), tx.at)
+	record, err := tx.etx.ExpiringRecords(c.name).Get(c.codec.encodedKeyOf(key), tx.at)
 	if err != nil {
-		return zero, false, fmt.Errorf("read %s: %w", c.collection.name, err)
+		return zero, false, fmt.Errorf("read %s: %w", c.name, err)
 	}
 	if record == nil {
 		return zero, false, nil
 	}
 
-	val, err := c.collection.valueFrom(record)
+	val, err := c.codec.valueFrom(record)
 	if err != nil {
-		return zero, false, err
+		return zero, false, fmt.Errorf("read %s: %w", c.name, err)
 	}
 
 	return val, true, nil
@@ -95,38 +92,36 @@ func (c *ExpiringCollection[K, V]) Put(tx *Txn, key K, val V) error {
 	}
 	tx.calledWriteOperation = true
 
-	record, err := c.collection.recordOf(val)
+	stored, err := c.codec.storedValueOf(val)
 	if err != nil {
-		return err
+		return fmt.Errorf("store %s: %w", c.name, err)
 	}
-	replacedRecord, err := c.expiringRecordsIn(tx).Put(
-		c.collection.encodedKeyOf(key),
-		record,
+	replacedRecord, err := tx.etx.ExpiringRecords(c.name).Put(
+		c.codec.encodedKeyOf(key),
+		stored.encoded,
 		tx.at.Add(c.lifetime),
 	)
 	if err != nil {
-		return fmt.Errorf("store %s: %w", c.collection.name, err)
+		return fmt.Errorf("store %s: %w", c.name, err)
+	}
+	if err := c.projections.recordStored(tx, key, stored, replacedRecord); err != nil {
+		return fmt.Errorf("store %s: %w", c.name, err)
 	}
 
-	return c.collection.followStored(
-		tx,
-		key,
-		storedForm[V]{form: val, stored: record},
-		replacedRecord,
-	)
+	return nil
 }
 
 func (c *ExpiringCollection[K, V]) expiredKeysFrom(
 	tx *Txn,
 	resume []byte,
 ) (expiredKeys [][]byte, nextResume []byte, err error) {
-	expiredKeys, nextResume, err = c.expiringRecordsIn(tx).ExpiredKeys(
+	expiredKeys, nextResume, err = tx.etx.ExpiringRecords(c.name).ExpiredKeys(
 		resume,
 		tx.at,
 		expiredRecordsPerChunk,
 	)
 	if err != nil {
-		return nil, nil, fmt.Errorf("list expired %s: %w", c.collection.name, err)
+		return nil, nil, fmt.Errorf("list expired %s: %w", c.name, err)
 	}
 
 	return expiredKeys, nextResume, nil
@@ -141,17 +136,42 @@ func (c *ExpiringCollection[K, V]) forgetExpired(
 	}
 	tx.calledWriteOperation = true
 
-	if err := c.expiringRecordsIn(tx).ForgetExpired(
+	if err := tx.etx.ExpiringRecords(c.name).ForgetExpired(
 		expiredKeys,
 		tx.at,
 		func(key, forgottenRecord []byte) error {
 			amountForgotten++
 
-			return c.collection.followForgotten(tx, key, forgottenRecord)
+			return c.recordForgotten(tx, key, forgottenRecord)
 		},
 	); err != nil {
-		return 0, fmt.Errorf("forget expired %s: %w", c.collection.name, err)
+		return 0, fmt.Errorf("forget expired %s: %w", c.name, err)
 	}
 
 	return amountForgotten, nil
+}
+
+func (c *ExpiringCollection[K, V]) recordForgotten(tx *Txn, key, forgottenRecord []byte) error {
+	decodedKey, err := c.codec.keyFrom(key)
+	if err == nil {
+		err = c.projections.recordRemoved(tx, decodedKey, forgottenRecord)
+	}
+	if errors.Is(err, errBadRecord) {
+		return undecodableRecordError{key: key, cause: err}
+	}
+
+	return err
+}
+
+type undecodableRecordError struct {
+	cause error
+	key   []byte
+}
+
+func (e undecodableRecordError) Error() string {
+	return e.cause.Error()
+}
+
+func (e undecodableRecordError) Unwrap() error {
+	return e.cause
 }

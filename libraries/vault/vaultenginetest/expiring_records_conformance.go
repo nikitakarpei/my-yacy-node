@@ -33,6 +33,10 @@ func runExpiringRecordsConformance(
 		func(t *testing.T) { expiringScanVisitsStoredRecordsEvenExpired(t, open) },
 	)
 	t.Run(
+		"ExpiringLenCountsStoredRecordsEvenExpired",
+		func(t *testing.T) { expiringLenCountsStoredRecordsEvenExpired(t, open) },
+	)
+	t.Run(
 		"ExpiredKeysAcrossResumesListEveryExpiredKey",
 		func(t *testing.T) { expiredKeysAcrossResumesListEveryExpiredKey(t, open) },
 	)
@@ -175,6 +179,27 @@ func expiringScanVisitsStoredRecordsEvenExpired(
 
 	if want := []string{"a=record a", "b=record b"}; !slices.Equal(visited, want) {
 		t.Fatalf("Scan visited %v, want %v", visited, want)
+	}
+}
+
+func expiringLenCountsStoredRecordsEvenExpired(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	engine := openExpiringRecords(t, open)
+	putExpiring(t, engine, conformanceEpoch.Add(-time.Hour), "a", "b")
+	putExpiring(t, engine, conformanceEpoch.Add(time.Hour), "c")
+
+	var amount int
+	readExpiringRecords(t, engine, func(records vault.EngineExpiringRecords) error {
+		var err error
+		amount, err = records.Len()
+
+		return err
+	})
+
+	if amount != 3 {
+		t.Fatalf("Len = %d, want 3 stored records", amount)
 	}
 }
 

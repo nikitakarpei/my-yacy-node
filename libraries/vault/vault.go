@@ -5,7 +5,7 @@
 // Expiring records buckets back an ExpiringCollection: a record reads as absent
 // once its lifetime after its last write ends, and vault removes it with its index
 // entries later. Each transaction run reads the vault clock once, as its time.
-// Only vault adds to an index, in step with the collection it follows. An Engine
+// Only vault adds to an index, in step with the collection it is attached to. An Engine
 // stores the buckets, keeps each write whole, may rerun its closure, and counts
 // bytes to a quota, and never removes an expiring record unasked. Transactions are
 // serializable: each reads one committed state, scans included, and every outcome is one
