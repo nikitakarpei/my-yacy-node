@@ -30,13 +30,13 @@ func registerPageVisitLimits(
 	error,
 ) {
 	takenHostPageCounts, err := storage.RegisterExpiringCollection(
-		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor, nil,
+		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor, nil, nil,
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register %s: %w", takenHostPageCountsBucket, err)
 	}
 	usedAllowances, err := storage.RegisterExpiringCollection(
-		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor, nil,
+		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor, nil, nil,
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register %s: %w", usedAllowancesBucket, err)

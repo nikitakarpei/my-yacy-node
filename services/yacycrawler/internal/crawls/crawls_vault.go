@@ -43,6 +43,7 @@ func registerCrawls(
 		crawlOrderCodec{},
 		keptFor,
 		vault.ProjectedAs(crawlOfOrderFrom, crawlsByOrder),
+		nil,
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register %s: %w", crawlsBucket, err)

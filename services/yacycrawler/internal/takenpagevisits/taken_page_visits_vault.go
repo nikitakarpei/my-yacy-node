@@ -19,7 +19,7 @@ func registerTakenPageVisits(
 	keptFor time.Duration,
 ) (*vault.ExpiringCollection[pageVisitKey, string], error) {
 	takers, err := storage.RegisterExpiringCollection(
-		ctx, takersBucket, pageVisitKeys, takerCodec{}, keptFor, nil,
+		ctx, takersBucket, pageVisitKeys, takerCodec{}, keptFor, nil, nil,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", takersBucket, err)

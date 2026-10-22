@@ -28,6 +28,7 @@ func registerPageVisitRecords(
 		lastPageVisitCodec{},
 		keptFor,
 		nil,
+		nil,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", pageVisitsBucket, err)
