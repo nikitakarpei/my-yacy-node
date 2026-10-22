@@ -16,9 +16,9 @@ abstraction, the vault, with an embedded Pebble engine.
 ## Decision
 
 The crawler keeps its crawl state in a vault (`libraries/vault`) on the Pebble engine
-(`libraries/vaultengines/pebblevault`, which pins `github.com/cockroachdb/pebble/v2`). Each
-store opens its own transaction and codes against the vault contract only, so another engine
-can replace Pebble. JetStream keeps only streams.
+(`libraries/vaultengines/pebblevault`, which pins `github.com/cockroachdb/pebble/v2`). The
+crawler core opens each transaction and passes it to the stores. The stores code against the
+vault contract only, so another engine can replace Pebble. JetStream keeps only streams.
 
 ## Consequences
 
