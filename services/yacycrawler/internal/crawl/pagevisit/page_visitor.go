@@ -150,7 +150,7 @@ func (visitor *pageVisitor) putOnFrontier(
 		visitor.linkObserver.LinksUnadmitted(ctx, crawlID, amountOfUnadmittedLinks)
 	}
 	if err := visitor.storage.Update(ctx, func(tx *vault.Txn) error {
-		return visitor.frontier.Owe(tx, admittedPageVisits)
+		return visitor.frontier.Add(tx, admittedPageVisits)
 	}); err != nil {
 		return fmt.Errorf("put %d page visits on the frontier: %w", len(admittedPageVisits), err)
 	}

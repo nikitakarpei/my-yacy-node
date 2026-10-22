@@ -1,5 +1,5 @@
 // Package orderintake takes each delivered crawl order in: it starts the crawl of a
-// readable order with its seeds owed, rejects one it cannot read for good, and returns one
+// readable order with its seeds pending, rejects one it cannot read for good, and returns one
 // whose crawl it could not start yet for redelivery.
 package orderintake
 
@@ -22,15 +22,15 @@ type Crawls interface {
 	) (crawlID crawlid.CrawlID, started bool, err error)
 }
 
-type OwedPageVisits interface {
-	Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+type PendingPageVisits interface {
+	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
 	storage                *vault.Vault
 	crawls                 Crawls
-	owed                   OwedPageVisits
+	pending                PendingPageVisits
 	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
 }
@@ -40,7 +40,7 @@ func NewOrderConsumer(
 	source pullintake.MessageSource,
 	storage *vault.Vault,
 	crawls Crawls,
-	owed OwedPageVisits,
+	pending PendingPageVisits,
 	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
@@ -48,7 +48,7 @@ func NewOrderConsumer(
 		source:                 source,
 		storage:                storage,
 		crawls:                 crawls,
-		owed:                   owed,
+		pending:                pending,
 		observer:               observer,
 		orderIntakeConcurrency: orderIntakeConcurrency,
 	}
@@ -100,7 +100,7 @@ func (c *OrderConsumer) startCrawl(
 		if err != nil || !started {
 			return err
 		}
-		return c.owed.Owe(tx, pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()))
+		return c.pending.Add(tx, pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()))
 	}); err != nil {
 		return crawlid.CrawlID{}, false, fmt.Errorf(
 			"start the crawl of order %s: %w",

@@ -1,9 +1,9 @@
-// Package frontier keeps every page visit a crawl still owes, in a queue of its crawl, each
+// Package frontier keeps every pending page visit of a crawl, in a queue of its crawl, each
 // due at a time, and a mark of every visit it settled. A worker leases the earliest due
 // visit of a crawl neither held nor closed, and the visit comes back when the lease ends
-// before the worker settles it. A visit owed or settled before is not added again, and a
-// closed or cancelled crawl takes none. A cancelled crawl's owed visits are dropped in
-// batches and reported as cancelled. The transaction that leaves a crawl owing nothing
+// before the worker settles it. A visit pending or settled before is not added again, and a
+// closed or cancelled crawl takes none. A cancelled crawl's pending visits are dropped in
+// batches and reported as cancelled. The transaction that leaves a crawl with nothing pending
 // reports it. A pause holds every page visit.
 package frontier
 
@@ -56,7 +56,7 @@ type FrontierObserver interface {
 }
 
 type CrawlSettlement interface {
-	CrawlOwesNothing(tx *vault.Txn, crawlID crawlid.CrawlID) error
+	LastPageVisitEnded(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
 type CancelledPageVisits interface {
@@ -110,11 +110,11 @@ func Open(
 	return frontier, nil
 }
 
-func (frontier *Frontier) Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+func (frontier *Frontier) Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
 	now := frontier.clock.Now()
 	for crawlID, pageVisitsOfCrawl := range pageVisitsByCrawl(pageVisits) {
-		if err := frontier.oweOfCrawl(tx, crawlID, pageVisitsOfCrawl, now); err != nil {
-			return fmt.Errorf("owe page visits of crawl %s: %w", crawlID, err)
+		if err := frontier.addToCrawl(tx, crawlID, pageVisitsOfCrawl, now); err != nil {
+			return fmt.Errorf("add page visits of crawl %s: %w", crawlID, err)
 		}
 	}
 	return nil
@@ -130,7 +130,7 @@ func pageVisitsByCrawl(
 	return byCrawl
 }
 
-func (frontier *Frontier) oweOfCrawl(
+func (frontier *Frontier) addToCrawl(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	pageVisits []pendingpagevisit.PendingPageVisit,
@@ -140,15 +140,15 @@ func (frontier *Frontier) oweOfCrawl(
 	if err != nil || !mark.takesPageVisits() {
 		return err
 	}
-	owedAny := false
+	addedAny := false
 	for _, pageVisit := range pageVisits {
-		owedNow, err := frontier.ledger.owe(tx, pageVisit, now)
+		addedNow, err := frontier.ledger.add(tx, pageVisit, now)
 		if err != nil {
 			return err
 		}
-		owedAny = owedAny || owedNow
+		addedAny = addedAny || addedNow
 	}
-	if !owedAny || mark == markHeld {
+	if !addedAny || mark == markHeld {
 		return nil
 	}
 	return frontier.heads.moveEarlierTo(tx, crawlID, now.Unix())
@@ -177,8 +177,8 @@ func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error 
 }
 
 func (frontier *Frontier) restoreHeadOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	first, owed, err := frontier.ledger.firstDueOf(tx, crawlID)
-	if err != nil || !owed {
+	first, pending, err := frontier.ledger.firstDueOf(tx, crawlID)
+	if err != nil || !pending {
 		return err
 	}
 	return frontier.heads.moveTo(tx, crawlID, first.due)
@@ -200,12 +200,12 @@ func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err != nil || !mark.takesPageVisits() {
 		return err
 	}
-	owes, err := frontier.ledger.owesAny(tx, crawlID)
+	pending, err := frontier.ledger.hasPending(tx, crawlID)
 	if err != nil {
 		return err
 	}
 	cancellingMark := markClosed
-	if owes {
+	if pending {
 		cancellingMark = markCancelling
 	}
 	if err := frontier.crawlMarks.mark(tx, crawlID, cancellingMark); err != nil {
@@ -224,16 +224,16 @@ func (frontier *Frontier) ForgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID) er
 	return frontier.crawlMarks.unmark(tx, crawlID)
 }
 
-func (frontier *Frontier) AmountOwedBy(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
-	return frontier.ledger.amountOwedBy(tx, crawlID)
+func (frontier *Frontier) AmountPendingOf(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
+	return frontier.ledger.amountPendingOf(tx, crawlID)
 }
 
-func (frontier *Frontier) AmountsOwedByHostsOf(
+func (frontier *Frontier) AmountsPendingByHostOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	fn func(host string, amount int),
 ) error {
-	return frontier.ledger.amountsOwedByHostsOf(tx, crawlID, fn)
+	return frontier.ledger.amountsPendingByHostOf(tx, crawlID, fn)
 }
 
 func (frontier *Frontier) Next(ctx context.Context) (pendingpagevisit.LeasedPageVisit, error) {
@@ -306,11 +306,11 @@ func (frontier *Frontier) leaseHeadOf(
 	if err != nil || !headed {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	first, owed, err := frontier.ledger.firstDueOf(tx, crawlID)
+	first, pending, err := frontier.ledger.firstDueOf(tx, crawlID)
 	if err != nil {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	if !owed {
+	if !pending {
 		return pendingpagevisit.LeasedPageVisit{}, false, frontier.heads.remove(tx, crawlID)
 	}
 	if first.due > now.Unix() {
@@ -434,10 +434,10 @@ func (frontier *Frontier) drainBatchOf(
 	if amountDrained == pageVisitsDrainedAtOnce {
 		return nil
 	}
-	return frontier.closeOwingNothing(tx, crawlID, settlement)
+	return frontier.closeWithNothingPending(tx, crawlID, settlement)
 }
 
-func (frontier *Frontier) closeOwingNothing(
+func (frontier *Frontier) closeWithNothingPending(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	settlement CrawlSettlement,
@@ -451,7 +451,7 @@ func (frontier *Frontier) closeOwingNothing(
 			return err
 		}
 	}
-	if err := settlement.CrawlOwesNothing(tx, crawlID); err != nil {
+	if err := settlement.LastPageVisitEnded(tx, crawlID); err != nil {
 		return crawlSettlementError{cause: err}
 	}
 	return nil
@@ -489,7 +489,7 @@ func (frontier *Frontier) settled(
 
 type unsettledCrawls struct{}
 
-func (unsettledCrawls) CrawlOwesNothing(*vault.Txn, crawlid.CrawlID) error {
+func (unsettledCrawls) LastPageVisitEnded(*vault.Txn, crawlid.CrawlID) error {
 	return nil
 }
 
@@ -497,7 +497,7 @@ func (frontier *Frontier) AmountOfPendingPageVisits(ctx context.Context) (int64,
 	var amount int
 	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		amount, err = frontier.ledger.amountOwed(tx)
+		amount, err = frontier.ledger.amountPending(tx)
 		return err
 	}); err != nil {
 		frontier.observer.FrontierCountFailed(ctx, err)
@@ -568,11 +568,11 @@ func (frontier *Frontier) settleIn(
 	if err != nil || !settled {
 		return false, err
 	}
-	owes, err := frontier.ledger.owesAny(tx, crawlID)
-	if err != nil || owes {
+	pending, err := frontier.ledger.hasPending(tx, crawlID)
+	if err != nil || pending {
 		return true, err
 	}
-	return true, frontier.closeOwingNothing(tx, crawlID, settlement)
+	return true, frontier.closeWithNothingPending(tx, crawlID, settlement)
 }
 
 func (frontier *Frontier) Return(

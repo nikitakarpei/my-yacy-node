@@ -6,5 +6,5 @@ import (
 )
 
 type Frontier interface {
-	Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
 }

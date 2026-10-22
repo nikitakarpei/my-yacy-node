@@ -14,7 +14,7 @@ import (
 
 type crawlStores struct {
 	records  CrawlRecords
-	owed     OwedPageVisits
+	pending  PendingPageVisits
 	progress ProgressCounts
 }
 
@@ -26,7 +26,7 @@ func (stores crawlStores) crawlViewIn(
 	if err != nil || !found {
 		return yacycrawlcontract.Crawl{}, false, err
 	}
-	amountOwed, err := stores.owed.AmountOwedBy(tx, crawlID)
+	amountPending, err := stores.pending.AmountPendingOf(tx, crawlID)
 	if err != nil {
 		return yacycrawlcontract.Crawl{}, false, err
 	}
@@ -34,13 +34,13 @@ func (stores crawlStores) crawlViewIn(
 	if err != nil {
 		return yacycrawlcontract.Crawl{}, false, err
 	}
-	return crawlViewOf(crawlID, crawl, int64(amountOwed), crawlProgress), true, nil
+	return crawlViewOf(crawlID, crawl, int64(amountPending), crawlProgress), true, nil
 }
 
 func crawlViewOf(
 	crawlID crawlid.CrawlID,
 	crawl crawls.Crawl,
-	owed int64,
+	pending int64,
 	progress crawlprogress.Progress,
 ) yacycrawlcontract.Crawl {
 	order := crawl.Order
@@ -52,7 +52,7 @@ func crawlViewOf(
 		FinishedAt:                  crawl.FinishedAt,
 		State:                       crawl.State,
 		AmountOfSeedURLs:            int64(len(order.SeedURLs)),
-		PendingPageVisits:           owed,
+		PendingPageVisits:           pending,
 		UnadmittedLinks:             progress.UnadmittedLinks,
 		Order:                       &order,
 		CompletedPageVisitsByResult: progress.Completed,
@@ -153,13 +153,13 @@ func (stores crawlStores) rankedHostsIn(
 	if err != nil {
 		return nil, err
 	}
-	owedOfHosts := map[string]int64{}
-	if err := stores.owed.AmountsOwedByHostsOf(tx, crawlID, func(host string, amount int) {
-		owedOfHosts[host] += int64(amount)
+	pendingOfHosts := map[string]int64{}
+	if err := stores.pending.AmountsPendingByHostOf(tx, crawlID, func(host string, amount int) {
+		pendingOfHosts[host] += int64(amount)
 	}); err != nil {
 		return nil, err
 	}
-	for host := range owedOfHosts {
+	for host := range pendingOfHosts {
 		if _, counted := progressByHost[host]; !counted {
 			progressByHost[host] = crawlprogress.Progress{
 				Completed: map[yacycrawlcontract.PageVisitResult]int64{},
@@ -169,7 +169,7 @@ func (stores crawlStores) rankedHostsIn(
 	}
 	ranked := make([]rankedHost, 0, len(progressByHost))
 	for host, progress := range progressByHost {
-		ranked = append(ranked, rankedHostOf(host, owedOfHosts[host], progress))
+		ranked = append(ranked, rankedHostOf(host, pendingOfHosts[host], progress))
 	}
 	slices.SortFunc(ranked, func(a, b rankedHost) int {
 		return cmp.Or(
@@ -180,14 +180,14 @@ func (stores crawlStores) rankedHostsIn(
 	return ranked, nil
 }
 
-func rankedHostOf(host string, owed int64, progress crawlprogress.Progress) rankedHost {
+func rankedHostOf(host string, pending int64, progress crawlprogress.Progress) rankedHost {
 	return rankedHost{
 		crawlHost: yacycrawlcontract.CrawlHost{
 			Host:                        host,
-			PendingPageVisits:           owed,
+			PendingPageVisits:           pending,
 			CompletedPageVisitsByResult: progress.Completed,
 			DroppedPageVisitsByReason:   progress.Dropped,
 		},
-		amountOfURLs: progress.AmountOfURLs(owed),
+		amountOfURLs: progress.AmountOfURLs(pending),
 	}
 }

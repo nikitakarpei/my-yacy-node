@@ -31,7 +31,7 @@ func (wiring *crawlStateWiring) CrawlFinished(tx *vault.Txn, crawlID crawlid.Cra
 	return wiring.frontier.Close(tx, crawlID)
 }
 
-func (wiring *crawlStateWiring) CrawlOwesNothing(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (wiring *crawlStateWiring) LastPageVisitEnded(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return wiring.crawls.Settle(tx, crawlID)
 }
 

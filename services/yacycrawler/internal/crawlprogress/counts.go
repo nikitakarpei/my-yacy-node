@@ -24,8 +24,8 @@ func newProgress() Progress {
 	}
 }
 
-func (progress Progress) AmountOfURLs(owed int64) int64 {
-	amount := owed
+func (progress Progress) AmountOfURLs(pending int64) int64 {
+	amount := pending
 	for _, completed := range progress.Completed {
 		amount += completed
 	}

@@ -135,7 +135,7 @@ type fakeFrontier struct {
 	err          error
 }
 
-func (f *fakeFrontier) Owe(
+func (f *fakeFrontier) Add(
 	_ *vault.Txn,
 	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {

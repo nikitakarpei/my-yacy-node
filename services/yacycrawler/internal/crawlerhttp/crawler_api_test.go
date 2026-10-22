@@ -180,23 +180,23 @@ func (r *fakeRecords) crawlIDsIn(
 	return inState
 }
 
-type fakeOwed struct {
-	owed     []pendingpagevisit.PendingPageVisit
+type fakePending struct {
+	pending  []pendingpagevisit.PendingPageVisit
 	amountOf map[crawlid.CrawlID]int
 	ofHosts  map[string]int
 	readErr  error
 }
 
-func (o *fakeOwed) Owe(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
-	o.owed = append(o.owed, pageVisits...)
+func (o *fakePending) Add(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+	o.pending = append(o.pending, pageVisits...)
 	return nil
 }
 
-func (o *fakeOwed) AmountOwedBy(_ *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
+func (o *fakePending) AmountPendingOf(_ *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
 	return o.amountOf[crawlID], o.readErr
 }
 
-func (o *fakeOwed) AmountsOwedByHostsOf(
+func (o *fakePending) AmountsPendingByHostOf(
 	_ *vault.Txn,
 	_ crawlid.CrawlID,
 	fn func(host string, amount int),
@@ -267,7 +267,7 @@ func (r *recordedFailures) CrawlerAPIAnswerFailed(_ context.Context, path string
 type apiScene struct {
 	storage  *vault.Vault
 	records  *fakeRecords
-	owed     *fakeOwed
+	pending  *fakePending
 	progress *fakeProgress
 	frontier *fakeFrontier
 	failures *recordedFailures
@@ -282,7 +282,7 @@ func newScene(t *testing.T) *apiScene {
 	return &apiScene{
 		storage: storage,
 		records: newRecords(),
-		owed:    &fakeOwed{amountOf: map[crawlid.CrawlID]int{}, ofHosts: map[string]int{}},
+		pending: &fakePending{amountOf: map[crawlid.CrawlID]int{}, ofHosts: map[string]int{}},
 		progress: &fakeProgress{
 			ofCrawl: map[crawlid.CrawlID]crawlprogress.Progress{},
 			ofHosts: map[string]crawlprogress.Progress{},
@@ -294,7 +294,7 @@ func newScene(t *testing.T) *apiScene {
 
 func (scene *apiScene) handler() http.Handler {
 	return crawlerhttp.New(
-		scene.storage, scene.records, scene.owed, scene.progress, scene.frontier, scene.failures,
+		scene.storage, scene.records, scene.pending, scene.progress, scene.frontier, scene.failures,
 	)
 }
 
@@ -342,7 +342,7 @@ func answerOf[T any](t *testing.T, recorder *httptest.ResponseRecorder) T {
 
 const placedOrder = `{"SeedURLs":["http://host/"],"Profile":{"Scope":"domain","MaxDepth":1}}`
 
-func TestAPlacedOrderStartsItsCrawlOnceWithItsSeedsOwed(t *testing.T) {
+func TestAPlacedOrderStartsItsCrawlOnceWithItsSeedsPending(t *testing.T) {
 	scene := newScene(t)
 
 	first := scene.serve(t, http.MethodPut, "/orders/o1", placedOrder)
@@ -364,10 +364,10 @@ func TestAPlacedOrderStartsItsCrawlOnceWithItsSeedsOwed(t *testing.T) {
 	); crawl.CrawlID != firstCrawlID.String() {
 		t.Fatalf("answer = %+v, want the first crawl again", crawl)
 	}
-	if len(scene.records.started) != 1 || len(scene.owed.owed) != 1 ||
-		scene.owed.owed[0].CrawlID != firstCrawlID {
-		t.Fatalf("started %v owed %v, want one crawl of o1 with its seed owed",
-			scene.records.started, scene.owed.owed)
+	if len(scene.records.started) != 1 || len(scene.pending.pending) != 1 ||
+		scene.pending.pending[0].CrawlID != firstCrawlID {
+		t.Fatalf("started %v pending %v, want one crawl of o1 with its seed pending",
+			scene.records.started, scene.pending.pending)
 	}
 }
 
@@ -558,12 +558,12 @@ func TestACrawlListTheCrawlerCannotReadFails(t *testing.T) {
 	progressUnread := newScene(t)
 	progressUnread.keep(t, 1, yacycrawlcontract.CrawlStateRunning)
 	progressUnread.progress.readErr = errServerDown
-	owedUnread := newScene(t)
-	owedUnread.keep(t, 1, yacycrawlcontract.CrawlStateRunning)
-	owedUnread.owed.readErr = errServerDown
+	pendingUnread := newScene(t)
+	pendingUnread.keep(t, 1, yacycrawlcontract.CrawlStateRunning)
+	pendingUnread.pending.readErr = errServerDown
 
 	for name, failing := range map[string]*apiScene{
-		"list": listUnread, "progress": progressUnread, "owed": owedUnread,
+		"list": listUnread, "progress": progressUnread, "pending": pendingUnread,
 	} {
 		t.Run(name, func(t *testing.T) {
 			requireStatus(t, failing.serve(t, http.MethodGet, "/crawls", ""),
@@ -575,7 +575,7 @@ func TestACrawlListTheCrawlerCannotReadFails(t *testing.T) {
 func TestACrawlIsShownWithItsPendingVisitsAndProgress(t *testing.T) {
 	scene := newScene(t)
 	scene.keep(t, 1, yacycrawlcontract.CrawlStateCancelling)
-	scene.owed.amountOf[firstCrawlID] = 3
+	scene.pending.amountOf[firstCrawlID] = 3
 	scene.progress.ofCrawl[firstCrawlID] = crawlprogress.Progress{
 		Completed: map[yacycrawlcontract.PageVisitResult]int64{
 			yacycrawlcontract.ResultPublished: 2,
@@ -786,7 +786,7 @@ func hostNamesOf(page yacycrawlcontract.CrawlHostPage) []string {
 func TestTheHostsOfACrawlComeWithTheMostURLsFirst(t *testing.T) {
 	scene := newScene(t)
 	scene.keep(t, 1, yacycrawlcontract.CrawlStateRunning)
-	scene.owed.ofHosts = map[string]int{"few": 1, "many": 2}
+	scene.pending.ofHosts = map[string]int{"few": 1, "many": 2}
 	scene.progress.ofHosts = map[string]crawlprogress.Progress{
 		"many": {
 			Completed: map[yacycrawlcontract.PageVisitResult]int64{
@@ -817,7 +817,7 @@ func TestTheHostsOfACrawlComeWithTheMostURLsFirst(t *testing.T) {
 func TestListHostsPagesThroughTheHostsOfACrawl(t *testing.T) {
 	scene := newScene(t)
 	scene.keep(t, 1, yacycrawlcontract.CrawlStateRunning)
-	scene.owed.ofHosts = map[string]int{"a.example": 1, "b.example": 1, "c.example": 1}
+	scene.pending.ofHosts = map[string]int{"a.example": 1, "b.example": 1, "c.example": 1}
 
 	first := answerOf[yacycrawlcontract.CrawlHostPage](t,
 		scene.serve(t, http.MethodGet, firstCrawl+"/hosts?limit=2", ""))
@@ -867,7 +867,7 @@ func TestListHostsReportsAFailedRead(t *testing.T) {
 	for name, failing := range map[string]func(scene *apiScene){
 		"record":   func(scene *apiScene) { scene.records.readErr = errServerDown },
 		"progress": func(scene *apiScene) { scene.progress.readErr = errServerDown },
-		"owed":     func(scene *apiScene) { scene.owed.readErr = errServerDown },
+		"pending":  func(scene *apiScene) { scene.pending.readErr = errServerDown },
 	} {
 		t.Run(name, func(t *testing.T) {
 			scene := newScene(t)

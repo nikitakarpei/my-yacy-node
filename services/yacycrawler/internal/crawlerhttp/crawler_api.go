@@ -56,10 +56,10 @@ type CrawlRecords interface {
 	) ([]crawlid.CrawlID, error)
 }
 
-type OwedPageVisits interface {
-	Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
-	AmountOwedBy(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error)
-	AmountsOwedByHostsOf(
+type PendingPageVisits interface {
+	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+	AmountPendingOf(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error)
+	AmountsPendingByHostOf(
 		tx *vault.Txn,
 		crawlID crawlid.CrawlID,
 		fn func(host string, amount int),
@@ -97,14 +97,14 @@ type crawlerAPI struct {
 func New(
 	storage *vault.Vault,
 	records CrawlRecords,
-	owed OwedPageVisits,
+	pending PendingPageVisits,
 	progress ProgressCounts,
 	frontier Frontier,
 	observer CrawlerAPIObserver,
 ) http.Handler {
 	api := crawlerAPI{
 		storage:  storage,
-		stores:   crawlStores{records: records, owed: owed, progress: progress},
+		stores:   crawlStores{records: records, pending: pending, progress: progress},
 		frontier: frontier,
 		observer: observer,
 	}
@@ -155,7 +155,7 @@ func (api crawlerAPI) startCrawl(
 		if err != nil || !started {
 			return err
 		}
-		return api.stores.owed.Owe(
+		return api.stores.pending.Add(
 			tx,
 			pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()),
 		)

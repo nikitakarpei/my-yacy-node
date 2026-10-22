@@ -16,21 +16,21 @@ import (
 )
 
 const (
-	owedPageVisitsBucket        = "owed_page_visits"
-	owedPageVisitsByDueBucket   = "owed_page_visits_by_due"
-	owedPageVisitsOfCrawlBucket = "owed_page_visits_of_crawl"
-	owedPageVisitsOfHostBucket  = "owed_page_visits_of_host"
-	settledPageVisitsBucket     = "settled_page_visits"
+	pendingPageVisitsBucket        = "pending_page_visits"
+	pendingPageVisitsByDueBucket   = "pending_page_visits_by_due"
+	pendingPageVisitsOfCrawlBucket = "pending_page_visits_of_crawl"
+	pendingPageVisitsOfHostBucket  = "pending_page_visits_of_host"
+	settledPageVisitsBucket        = "settled_page_visits"
 )
 
-var errOwedPageVisitMalformed = errors.New("owed page visit has a malformed field")
+var errScheduledPageVisitMalformed = errors.New("scheduled page visit has a malformed field")
 
 type pageVisitLedger struct {
-	owed        *vault.Collection[pageVisitKey, owedPageVisit]
-	owedByDue   *vault.ValueIndex[owedPageVisitForm, dueEntry]
-	owedOfCrawl *vault.CountIndex[owedPageVisitForm, crawlid.CrawlID]
-	owedOfHost  *vault.CountIndex[owedPageVisitForm, crawlHost]
-	settled     *vault.Collection[pageVisitKey, settledMark]
+	pending        *vault.Collection[pageVisitKey, scheduledPageVisit]
+	pendingByDue   *vault.ValueIndex[scheduledPageVisitForm, dueEntry]
+	pendingOfCrawl *vault.CountIndex[scheduledPageVisitForm, crawlid.CrawlID]
+	pendingOfHost  *vault.CountIndex[scheduledPageVisitForm, crawlHost]
+	settled        *vault.Collection[pageVisitKey, settledMark]
 }
 
 type pageVisitKey struct {
@@ -38,7 +38,7 @@ type pageVisitKey struct {
 	url     urlhash.URLHash
 }
 
-type owedPageVisit struct {
+type scheduledPageVisit struct {
 	due   int64
 	depth int
 	url   canonicalurl.CanonicalURL
@@ -49,39 +49,39 @@ type settledMark struct{}
 func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVisitLedger, error) {
 	var ledger pageVisitLedger
 	var err error
-	if ledger.owedByDue, err = storage.RegisterValueIndex(
-		owedPageVisitsByDueBucket,
+	if ledger.pendingByDue, err = storage.RegisterValueIndex(
+		pendingPageVisitsByDueBucket,
 		frontierIndexesVersion,
 		dueEntries,
-		func(form owedPageVisitForm) dueEntry { return dueEntry{key: form.key, due: form.visit.due} },
+		func(form scheduledPageVisitForm) dueEntry { return dueEntry{key: form.key, due: form.visit.due} },
 	); err != nil {
-		return pageVisitLedger{}, fmt.Errorf("register %s: %w", owedPageVisitsByDueBucket, err)
+		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsByDueBucket, err)
 	}
-	if ledger.owedOfCrawl, err = storage.RegisterCountIndex(
-		owedPageVisitsOfCrawlBucket, frontierIndexesVersion,
+	if ledger.pendingOfCrawl, err = storage.RegisterCountIndex(
+		pendingPageVisitsOfCrawlBucket, frontierIndexesVersion,
 		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
-		func(form owedPageVisitForm) crawlid.CrawlID { return form.key.crawlID },
+		func(form scheduledPageVisitForm) crawlid.CrawlID { return form.key.crawlID },
 	); err != nil {
-		return pageVisitLedger{}, fmt.Errorf("register %s: %w", owedPageVisitsOfCrawlBucket, err)
+		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsOfCrawlBucket, err)
 	}
-	if ledger.owedOfHost, err = storage.RegisterCountIndex(
-		owedPageVisitsOfHostBucket, frontierIndexesVersion, crawlHosts,
-		func(form owedPageVisitForm) crawlHost {
+	if ledger.pendingOfHost, err = storage.RegisterCountIndex(
+		pendingPageVisitsOfHostBucket, frontierIndexesVersion, crawlHosts,
+		func(form scheduledPageVisitForm) crawlHost {
 			return crawlHost{crawlID: form.key.crawlID, host: form.visit.url.Hostname()}
 		},
 	); err != nil {
-		return pageVisitLedger{}, fmt.Errorf("register %s: %w", owedPageVisitsOfHostBucket, err)
+		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsOfHostBucket, err)
 	}
-	if ledger.owed, err = storage.RegisterProjectedCollection(
-		ctx, owedPageVisitsBucket, pageVisitKeys, owedPageVisitCodec{},
+	if ledger.pending, err = storage.RegisterProjectedCollection(
+		ctx, pendingPageVisitsBucket, pageVisitKeys, scheduledPageVisitCodec{},
 		vault.ProjectedAs(
-			func(key pageVisitKey, visit owedPageVisit) owedPageVisitForm {
-				return owedPageVisitForm{key: key, visit: visit}
+			func(key pageVisitKey, visit scheduledPageVisit) scheduledPageVisitForm {
+				return scheduledPageVisitForm{key: key, visit: visit}
 			},
-			ledger.owedByDue, ledger.owedOfCrawl, ledger.owedOfHost,
+			ledger.pendingByDue, ledger.pendingOfCrawl, ledger.pendingOfHost,
 		),
 	); err != nil {
-		return pageVisitLedger{}, fmt.Errorf("register %s: %w", owedPageVisitsBucket, err)
+		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsBucket, err)
 	}
 	if ledger.settled, err = storage.RegisterCollection(
 		settledPageVisitsBucket, pageVisitKeys, settledMarkCodec{},
@@ -91,21 +91,21 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 	return ledger, nil
 }
 
-func (ledger pageVisitLedger) owe(
+func (ledger pageVisitLedger) add(
 	tx *vault.Txn,
 	pageVisit pendingpagevisit.PendingPageVisit,
 	now time.Time,
 ) (bool, error) {
 	key := pageVisitKeyOf(pageVisit)
-	_, owed, err := ledger.owed.Get(tx, key)
-	if err != nil || owed {
+	_, pending, err := ledger.pending.Get(tx, key)
+	if err != nil || pending {
 		return false, err
 	}
 	_, settled, err := ledger.settled.Get(tx, key)
 	if err != nil || settled {
 		return false, err
 	}
-	_, err = ledger.owed.Put(tx, key, owedPageVisit{
+	_, err = ledger.pending.Put(tx, key, scheduledPageVisit{
 		due:   now.Unix(),
 		depth: pageVisit.Depth,
 		url:   pageVisit.URL,
@@ -121,20 +121,20 @@ func (ledger pageVisitLedger) firstDueOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 ) (dueEntry, bool, error) {
-	return ledger.owedByDue.First(tx, dueKeyParts.KeysWithFirst(crawlID))
+	return ledger.pendingByDue.First(tx, dueKeyParts.KeysWithFirst(crawlID))
 }
 
-func (ledger pageVisitLedger) owesAny(tx *vault.Txn, crawlID crawlid.CrawlID) (bool, error) {
-	_, owes, err := ledger.firstDueOf(tx, crawlID)
-	return owes, err
+func (ledger pageVisitLedger) hasPending(tx *vault.Txn, crawlID crawlid.CrawlID) (bool, error) {
+	_, pending, err := ledger.firstDueOf(tx, crawlID)
+	return pending, err
 }
 
 func (ledger pageVisitLedger) forgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	if _, err := ledger.owed.DeleteWithin(
+	if _, err := ledger.pending.DeleteWithin(
 		tx,
 		pageVisitKeyParts.KeysWithFirst(crawlID),
 	); err != nil {
-		return fmt.Errorf("forget the owed page visits of crawl %s: %w", crawlID, err)
+		return fmt.Errorf("forget the pending page visits of crawl %s: %w", crawlID, err)
 	}
 	if _, err := ledger.settled.DeleteWithin(
 		tx,
@@ -145,16 +145,16 @@ func (ledger pageVisitLedger) forgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID
 	return nil
 }
 
-func (ledger pageVisitLedger) amountOwedBy(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
-	return ledger.owedOfCrawl.Get(tx, crawlID)
+func (ledger pageVisitLedger) amountPendingOf(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
+	return ledger.pendingOfCrawl.Get(tx, crawlID)
 }
 
-func (ledger pageVisitLedger) amountsOwedByHostsOf(
+func (ledger pageVisitLedger) amountsPendingByHostOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	fn func(host string, amount int),
 ) error {
-	return ledger.owedOfHost.Scan(
+	return ledger.pendingOfHost.Scan(
 		tx,
 		crawlHostKeyParts.KeysWithFirst(crawlID),
 		func(host crawlHost, amount int) (bool, error) {
@@ -172,17 +172,17 @@ func (ledger pageVisitLedger) drainFrom(
 ) (map[string]uint, int, error) {
 	var drained []pageVisitKey
 	drainedOfHosts := map[string]uint{}
-	for _, owedKeys := range []vault.KeyRange{
+	for _, pendingKeys := range []vault.KeyRange{
 		pageVisitKeyParts.KeysWithFirst(crawlID).After(pageVisitKeyParts.Key(crawlID, start)),
 		pageVisitKeyParts.KeysWithFirstBetweenSeconds(crawlID, urlhash.URLHash{}, start),
 	} {
 		if len(drained) == amount {
 			break
 		}
-		if err := ledger.owed.Scan(
+		if err := ledger.pending.Scan(
 			tx,
-			owedKeys,
-			func(key pageVisitKey, visit owedPageVisit) (bool, error) {
+			pendingKeys,
+			func(key pageVisitKey, visit scheduledPageVisit) (bool, error) {
 				drained = append(drained, key)
 				drainedOfHosts[visit.url.Hostname()]++
 				return len(drained) < amount, nil
@@ -192,7 +192,7 @@ func (ledger pageVisitLedger) drainFrom(
 		}
 	}
 	for _, key := range drained {
-		if _, err := ledger.owed.Delete(tx, key); err != nil {
+		if _, err := ledger.pending.Delete(tx, key); err != nil {
 			return nil, 0, err
 		}
 	}
@@ -203,18 +203,18 @@ func (ledger pageVisitLedger) lease(
 	tx *vault.Txn,
 	key pageVisitKey,
 	leasedUntil int64,
-) (owedPageVisit, error) {
-	visit, _, err := ledger.owed.Get(tx, key)
+) (scheduledPageVisit, error) {
+	visit, _, err := ledger.pending.Get(tx, key)
 	if err != nil {
-		return owedPageVisit{}, err
+		return scheduledPageVisit{}, err
 	}
 	visit.due = leasedUntil
-	_, err = ledger.owed.Put(tx, key, visit)
+	_, err = ledger.pending.Put(tx, key, visit)
 	return visit, err
 }
 
-func (ledger pageVisitLedger) amountOwed(tx *vault.Txn) (int, error) {
-	return ledger.owed.Len(tx)
+func (ledger pageVisitLedger) amountPending(tx *vault.Txn) (int, error) {
+	return ledger.pending.Len(tx)
 }
 
 func (ledger pageVisitLedger) settleLeased(
@@ -226,7 +226,7 @@ func (ledger pageVisitLedger) settleLeased(
 	if err != nil || !leased {
 		return false, err
 	}
-	if _, err := ledger.owed.Delete(tx, key); err != nil {
+	if _, err := ledger.pending.Delete(tx, key); err != nil {
 		return false, err
 	}
 	_, err = ledger.settled.Put(tx, key, settledMark{})
@@ -237,10 +237,10 @@ func (ledger pageVisitLedger) leasedVisitOf(
 	tx *vault.Txn,
 	key pageVisitKey,
 	leasedUntil int64,
-) (owedPageVisit, bool, error) {
-	visit, owed, err := ledger.owed.Get(tx, key)
-	if err != nil || !owed || visit.due != leasedUntil {
-		return owedPageVisit{}, false, err
+) (scheduledPageVisit, bool, error) {
+	visit, pending, err := ledger.pending.Get(tx, key)
+	if err != nil || !pending || visit.due != leasedUntil {
+		return scheduledPageVisit{}, false, err
 	}
 	return visit, true, nil
 }
@@ -256,7 +256,7 @@ func (ledger pageVisitLedger) returnLeased(
 		return false, err
 	}
 	visit.due = due
-	_, err = ledger.owed.Put(tx, key, visit)
+	_, err = ledger.pending.Put(tx, key, visit)
 	return err == nil, err
 }
 
@@ -269,9 +269,9 @@ var pageVisitKeys = pageVisitKeyParts.KeyLayoutFor(
 	},
 )
 
-type owedPageVisitForm struct {
+type scheduledPageVisitForm struct {
 	key   pageVisitKey
-	visit owedPageVisit
+	visit scheduledPageVisit
 }
 
 type dueEntry struct {
@@ -308,9 +308,9 @@ var crawlHosts = crawlHostKeyParts.KeyLayoutFor(
 	},
 )
 
-type owedPageVisitCodec struct{}
+type scheduledPageVisitCodec struct{}
 
-func (owedPageVisitCodec) Encode(visit owedPageVisit) ([]byte, error) {
+func (scheduledPageVisitCodec) Encode(visit scheduledPageVisit) ([]byte, error) {
 	address := visit.url.String()
 	encoded := make([]byte, 0, 2*binary.MaxVarintLen64+len(address))
 	encoded = binary.AppendVarint(encoded, visit.due)
@@ -318,21 +318,21 @@ func (owedPageVisitCodec) Encode(visit owedPageVisit) ([]byte, error) {
 	return append(encoded, address...), nil
 }
 
-func (owedPageVisitCodec) Decode(stored []byte) (owedPageVisit, error) {
+func (scheduledPageVisitCodec) Decode(stored []byte) (scheduledPageVisit, error) {
 	due, read := binary.Varint(stored)
 	if read <= 0 {
-		return owedPageVisit{}, errOwedPageVisitMalformed
+		return scheduledPageVisit{}, errScheduledPageVisitMalformed
 	}
 	rest := stored[read:]
 	depth, read := binary.Varint(rest)
 	if read <= 0 {
-		return owedPageVisit{}, errOwedPageVisitMalformed
+		return scheduledPageVisit{}, errScheduledPageVisitMalformed
 	}
 	url, err := canonicalurl.CanonicalURLOf(string(rest[read:]))
 	if err != nil {
-		return owedPageVisit{}, fmt.Errorf("%w: %w", errOwedPageVisitMalformed, err)
+		return scheduledPageVisit{}, fmt.Errorf("%w: %w", errScheduledPageVisitMalformed, err)
 	}
-	return owedPageVisit{due: due, depth: int(depth), url: url}, nil
+	return scheduledPageVisit{due: due, depth: int(depth), url: url}, nil
 }
 
 type settledMarkCodec struct{}

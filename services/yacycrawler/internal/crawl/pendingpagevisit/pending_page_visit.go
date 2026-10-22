@@ -1,4 +1,4 @@
-// Package pendingpagevisit names one URL a crawl still owes a page visit, as the
+// Package pendingpagevisit names one page visit a crawl still has pending, as the
 // frontier holds it from the worker that found it to the worker that pays it. A page
 // links to visits one level deeper, and redirects to a visit at its own depth. A worker
 // holds the visit it takes leased until a time.
