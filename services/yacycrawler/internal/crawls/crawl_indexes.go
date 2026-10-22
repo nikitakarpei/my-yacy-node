@@ -42,19 +42,12 @@ func registerCrawlIndexes(storage *vault.Vault, crawlsBucket vault.Name) (crawlI
 	return indexes, nil
 }
 
-func (indexes crawlIndexes) projectedWith(
-	others ...vault.Projection[crawlWithID],
-) vault.Projections[crawlid.CrawlID, Crawl] {
+func (indexes crawlIndexes) projectedWith() vault.Projections[crawlid.CrawlID, Crawl] {
 	return vault.ProjectedAs(
 		func(crawlID crawlid.CrawlID, crawl Crawl) crawlWithID {
 			return crawlWithID{crawlID: crawlID, crawl: crawl}
 		},
-		append(
-			[]vault.Projection[crawlWithID]{
-				indexes.byOrder, indexes.inState, indexes.inStateNewestFirst,
-			},
-			others...,
-		)...,
+		indexes.byOrder, indexes.inState, indexes.inStateNewestFirst,
 	)
 }
 
@@ -114,6 +107,24 @@ func crawlIDsWithin(
 		return nil, fmt.Errorf("read crawls: %w", err)
 	}
 	return crawlIDs, nil
+}
+
+func (indexes crawlIndexes) amountIn(
+	tx *vault.Txn,
+	state yacycrawlcontract.CrawlState,
+) (int, error) {
+	amount := 0
+	if err := indexes.inState.Scan(
+		tx,
+		crawlsInStateKeyParts.KeysWithFirst(state),
+		func(crawlInState) (bool, error) {
+			amount++
+			return true, nil
+		},
+	); err != nil {
+		return 0, fmt.Errorf("count the crawls in state %s: %w", state, err)
+	}
+	return amount, nil
 }
 
 type crawlOfOrder struct {

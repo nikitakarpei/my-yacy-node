@@ -5,19 +5,14 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
-const (
-	unfinishedCrawlsBucket                 = "unfinished_crawls"
-	amountsOfUnfinishedCrawlsInStateBucket = "amounts_of_unfinished_crawls_in_state"
-)
+const unfinishedCrawlsBucket = "unfinished_crawls"
 
 type unfinishedCrawls struct {
 	crawlIndexes
-	crawls         *vault.Collection[crawlid.CrawlID, Crawl]
-	amountsInState *vault.CountIndex[crawlWithID, yacycrawlcontract.CrawlState]
+	crawls *vault.Collection[crawlid.CrawlID, Crawl]
 }
 
 func registerUnfinishedCrawls(
@@ -32,18 +27,9 @@ func registerUnfinishedCrawls(
 	); err != nil {
 		return unfinishedCrawls{}, err
 	}
-	if unfinished.amountsInState, err = storage.RegisterCountIndex(
-		amountsOfUnfinishedCrawlsInStateBucket, crawlIndexesVersion,
-		vault.SingleKey(stateKeyPart).KeyLayout(),
-		func(crawl crawlWithID) yacycrawlcontract.CrawlState { return crawl.crawl.State },
-	); err != nil {
-		return unfinishedCrawls{}, fmt.Errorf(
-			"register %s: %w", amountsOfUnfinishedCrawlsInStateBucket, err,
-		)
-	}
 	if unfinished.crawls, err = storage.RegisterProjectedCollection(
 		ctx, unfinishedCrawlsBucket, crawlIDKeys, crawlCodec{},
-		unfinished.projectedWith(unfinished.amountsInState),
+		unfinished.projectedWith(),
 	); err != nil {
 		return unfinishedCrawls{}, fmt.Errorf("register %s: %w", unfinishedCrawlsBucket, err)
 	}
@@ -65,11 +51,4 @@ func (unfinished unfinishedCrawls) put(tx *vault.Txn, crawlID crawlid.CrawlID, c
 func (unfinished unfinishedCrawls) remove(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	_, err := unfinished.crawls.Delete(tx, crawlID)
 	return err
-}
-
-func (unfinished unfinishedCrawls) amountIn(
-	tx *vault.Txn,
-	state yacycrawlcontract.CrawlState,
-) (int, error) {
-	return unfinished.amountsInState.Get(tx, state)
 }
