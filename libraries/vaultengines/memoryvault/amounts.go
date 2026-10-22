@@ -36,6 +36,14 @@ func (a memAmounts) Lower(key []byte, by uint) error {
 	return nil
 }
 
+func (a memAmounts) DeleteWithin(keys vault.KeyRange) error {
+	for _, key := range orderedAmountKeysOf(a.entries, keys) {
+		delete(a.entries, key)
+	}
+
+	return nil
+}
+
 func (a memAmounts) Scan(keys vault.KeyRange, fn func(key []byte, amount int) (bool, error)) error {
 	for _, key := range orderedAmountKeysOf(a.entries, keys) {
 		if a.entries[key] <= 0 {

@@ -34,6 +34,10 @@ func runAmountConformance(t *testing.T, open func(quotaBytes int64) (vault.Engin
 		func(t *testing.T) { amountScanVisitsRangeInOrder(t, open) },
 	)
 	t.Run(
+		"DeleteWithinLeavesAmountsOutsideTheRange",
+		func(t *testing.T) { deleteWithinLeavesAmountsOutsideTheRange(t, open) },
+	)
+	t.Run(
 		"AbortedTransactionLeavesAmountsUnchanged",
 		func(t *testing.T) { abortedTransactionLeavesAmountsUnchanged(t, open) },
 	)
@@ -228,6 +232,36 @@ func amountScanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, 
 	scanned := scannedAmounts(t, v, tallies, stringKeyParts.KeysFromFirst("b"))
 	if !slices.Equal(scanned, []string{"b", "c", "d"}) {
 		t.Fatalf("scanned amounts = %v, want [b c d]", scanned)
+	}
+}
+
+func deleteWithinLeavesAmountsOutsideTheRange(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	v := openVault(t, open, 0)
+	tallies := registerTallies(t, v)
+	changeAmounts(t, v, func(tx *vault.Txn) error {
+		return errors.Join(tallies.Raise(tx, "a", 1), tallies.Raise(tx, "c", 2))
+	})
+
+	changeAmounts(t, v, func(tx *vault.Txn) error {
+		return errors.Join(
+			tallies.Raise(tx, "c", 4),
+			tallies.Raise(tx, "d", 3),
+			tallies.DeleteWithin(tx, stringKeyParts.KeysFromFirst("b")),
+			tallies.Raise(tx, "e", 5),
+		)
+	})
+
+	if scanned := scannedAmounts(t, v, tallies, vault.EveryKey()); !slices.Equal(
+		scanned,
+		[]string{"a", "e"},
+	) {
+		t.Fatalf("scanned amounts = %v, want [a e]", scanned)
+	}
+	if amount := storedAmountOf(t, v, tallies, "e"); amount != 5 {
+		t.Fatalf("amount of e raised after the delete = %d, want 5", amount)
 	}
 }
 

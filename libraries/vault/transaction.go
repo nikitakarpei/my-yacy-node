@@ -16,6 +16,7 @@ type Txn struct {
 	etx                  EngineTxn
 	at                   time.Time
 	calledWriteOperation bool
+	forgettingBucket     Name
 	afterCommit          []func()
 	pendingWork          []pendingWork
 	pendingWorkByOwner   map[any]pendingWork

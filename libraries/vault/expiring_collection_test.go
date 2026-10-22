@@ -23,15 +23,19 @@ type expiringDictionary struct {
 	clock          *fakeClock
 	words          *vault.ExpiringCollection[string, string]
 	byMeaning      *vault.ValueIndex[definition, definition]
+	forgottenWords *vault.Amounts[string]
 	removals       *removalReports
 	firstPassPause time.Duration
 }
 
+type wordForgetting func(d expiringDictionary, tx *vault.Txn, word string) error
+
 type removalReports struct {
-	passesBegan    int
-	passesFinished int
-	forgotten      int
-	notForgotten   []error
+	passesBegan      int
+	passesFinished   int
+	forgotten        int
+	forgottenReports int
+	notForgotten     []error
 }
 
 func (r *removalReports) ExpiryPassBegan(context.Context, vault.Name, time.Time) {
@@ -44,6 +48,7 @@ func (r *removalReports) ExpiryPassFinished(context.Context, vault.Name, time.Ti
 
 func (r *removalReports) ExpiredRecordsForgotten(_ context.Context, _ vault.Name, amount int) {
 	r.forgotten += amount
+	r.forgottenReports++
 }
 
 func (r *removalReports) ExpiredRecordsNotForgotten(_ context.Context, _ vault.Name, cause error) {
@@ -87,6 +92,18 @@ func openExpiringDictionary(
 ) expiringDictionary {
 	t.Helper()
 
+	return openForgettingDictionary(t, engine, version, meaningOf, nil)
+}
+
+func openForgettingDictionary(
+	t *testing.T,
+	engine vault.Engine,
+	version string,
+	meaningOf func(string) string,
+	forgetting wordForgetting,
+) expiringDictionary {
+	t.Helper()
+
 	clock := newFakeClock(testEpoch)
 	removals := &removalReports{}
 	v, err := vault.New(engine, nil, removals, clock)
@@ -109,26 +126,60 @@ func openExpiringDictionary(
 	if err != nil {
 		t.Fatalf("RegisterValueIndex: %v", err)
 	}
-	words, err := v.RegisterExpiringCollection(
+	forgottenWords, err := v.RegisterAmounts(vault.Name("forgotten_words"), stringKeyLayout)
+	if err != nil {
+		t.Fatalf("RegisterAmounts: %v", err)
+	}
+	d := &expiringDictionary{
+		vault:          v,
+		clock:          clock,
+		byMeaning:      byMeaning,
+		forgottenWords: forgottenWords,
+		removals:       removals,
+	}
+	d.words, err = v.RegisterExpiringCollection(
 		context.Background(),
 		vault.Name("words"),
 		stringKeyLayout,
 		meaningRefusingCodec{},
 		wordLifetime,
 		vault.ProjectedAs(definitionOf, byMeaning),
+		forgetHookOf(d, forgetting),
 	)
 	if err != nil {
 		t.Fatalf("RegisterExpiringCollection: %v", err)
 	}
+	d.firstPassPause = clock.sleepAfterPass()
 
-	return expiringDictionary{
-		vault:          v,
-		clock:          clock,
-		words:          words,
-		byMeaning:      byMeaning,
-		removals:       removals,
-		firstPassPause: clock.sleepAfterPass(),
+	return *d
+}
+
+func forgetHookOf(d *expiringDictionary, forgetting wordForgetting) vault.ForgetHook[string] {
+	if forgetting == nil {
+		return nil
 	}
+
+	return func(tx *vault.Txn, word string) error { return forgetting(*d, tx, word) }
+}
+
+func countForgottenWord(d expiringDictionary, tx *vault.Txn, word string) error {
+	return d.forgottenWords.Raise(tx, word, 1)
+}
+
+func (d expiringDictionary) timesForgotten(t *testing.T, word string) int {
+	t.Helper()
+
+	var times int
+	if err := d.vault.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		times, err = d.forgottenWords.Get(tx, word)
+
+		return err
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+
+	return times
 }
 
 func (d expiringDictionary) define(t *testing.T, definitions ...definition) {
@@ -340,6 +391,76 @@ func TestRemovalSkipsAndReportsARecordItCannotDecodeOnEveryPass(t *testing.T) {
 	}
 }
 
+func TestRemovalRunsTheForgetHookOncePerForgottenRecord(t *testing.T) {
+	d := openForgettingDictionary(
+		t, newDoubleEngine(), firstVersion, plainMeaning, countForgottenWord,
+	)
+	d.define(t, definitionOf("a", "x"), definitionOf("b", "y"))
+	d.clock.advanceBy(wordLifetime)
+
+	d.runRemovalPass()
+	d.runRemovalPass()
+
+	if times := d.timesForgotten(t, "a") + d.timesForgotten(t, "b"); times != 2 {
+		t.Fatalf("times forgotten = %d, want 2", times)
+	}
+	if d.removals.forgottenReports != 2 {
+		t.Fatalf("forget transactions = %d, want one per record", d.removals.forgottenReports)
+	}
+}
+
+var errHookRefusesWord = errors.New("hook refuses the word")
+
+func refuseForgettingA(d expiringDictionary, tx *vault.Txn, word string) error {
+	if word == "a" {
+		return errHookRefusesWord
+	}
+
+	return countForgottenWord(d, tx, word)
+}
+
+func TestRemovalSkipsAndReportsARecordWhoseForgetHookFails(t *testing.T) {
+	d := openForgettingDictionary(
+		t, newDoubleEngine(), firstVersion, plainMeaning, refuseForgettingA,
+	)
+	d.define(t, definitionOf("a", "x"), definitionOf("b", "y"))
+	d.clock.advanceBy(wordLifetime)
+
+	d.runRemovalPass()
+
+	if got, want := d.entries(t), []string{"x/a"}; !slices.Equal(got, want) {
+		t.Fatalf("entries = %v, want %v", got, want)
+	}
+	if d.timesForgotten(t, "b") != 1 {
+		t.Fatal("b was not forgotten, want the records after a failing hook forgotten")
+	}
+	if len(d.removals.notForgotten) != 1 ||
+		!errors.Is(d.removals.notForgotten[0], errHookRefusesWord) {
+		t.Fatalf("not forgotten = %v, want the refusing hook", d.removals.notForgotten)
+	}
+}
+
+func putBackForgottenWord(d expiringDictionary, tx *vault.Txn, word string) error {
+	return d.words.Put(tx, word, "again")
+}
+
+func TestAForgetHookCannotPutIntoItsOwnCollection(t *testing.T) {
+	d := openForgettingDictionary(
+		t, newDoubleEngine(), firstVersion, plainMeaning, putBackForgottenWord,
+	)
+	d.define(t, definitionOf("a", "x"))
+	d.clock.advanceBy(wordLifetime)
+
+	d.runRemovalPass()
+
+	if got, want := d.entries(t), []string{"x/a"}; !slices.Equal(got, want) {
+		t.Fatalf("entries = %v, want %v", got, want)
+	}
+	if len(d.removals.notForgotten) != 1 {
+		t.Fatalf("not forgotten = %v, want the refused put", d.removals.notForgotten)
+	}
+}
+
 func TestAStaleIndexOfAnExpiringCollectionRebuildsFromStoredRecords(t *testing.T) {
 	engine := newDoubleEngine()
 	earlier := openExpiringDictionary(t, engine, firstVersion, plainMeaning)
@@ -373,6 +494,7 @@ func TestRegistrationRefusesALifetimeUnderOneSecond(t *testing.T) {
 		stringKeyLayout,
 		stringValueCodec{},
 		time.Second-1,
+		nil,
 		nil,
 	); err == nil {
 		t.Fatal("registration succeeded, want error")
