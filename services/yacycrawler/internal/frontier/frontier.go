@@ -3,8 +3,9 @@
 // visit of a crawl neither held nor closed, and the visit comes back when the lease ends
 // before the worker settles it. A visit pending or settled before is not added again, and a
 // closed or cancelled crawl takes none. A cancelled crawl's pending visits are dropped in
-// batches and reported as cancelled. The transaction that leaves a crawl with nothing pending
-// reports it. A pause holds every page visit.
+// batches and reported as cancelled. A running crawl with nothing pending is reported when
+// its head falls due, a held or cancelled one by the transaction that leaves it so. A pause
+// holds every page visit.
 package frontier
 
 import (
@@ -151,7 +152,7 @@ func (frontier *Frontier) addToCrawl(
 	if !addedAny || mark == markHeld {
 		return nil
 	}
-	return frontier.heads.moveEarlierTo(tx, crawlID, now.Unix())
+	return frontier.heads.moveEarlierTo(tx, crawlID, duePosition{due: now.Unix()})
 }
 
 func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -173,15 +174,22 @@ func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error 
 	if err := frontier.crawlMarks.unmark(tx, crawlID); err != nil {
 		return err
 	}
-	return frontier.restoreHeadOf(tx, crawlID)
+	return frontier.restoreHeadFrom(tx, crawlID, earliestPosition)
 }
 
-func (frontier *Frontier) restoreHeadOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	first, pending, err := frontier.ledger.firstDueOf(tx, crawlID)
-	if err != nil || !pending {
+func (frontier *Frontier) restoreHeadFrom(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	position duePosition,
+) error {
+	first, pending, err := frontier.ledger.firstDueFrom(tx, crawlID, position)
+	if err != nil {
 		return err
 	}
-	return frontier.heads.moveTo(tx, crawlID, first.due)
+	if !pending {
+		return frontier.heads.moveTo(tx, crawlID, earliestPosition)
+	}
+	return frontier.heads.moveTo(tx, crawlID, first.position())
 }
 
 func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -263,9 +271,12 @@ func (frontier *Frontier) leaseNextPageVisit(
 	if !due {
 		return pendingpagevisit.LeasedPageVisit{}, false, false
 	}
-	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
+	if err := frontier.settled(ctx, head.crawlID, func(
+		tx *vault.Txn,
+		settlement CrawlSettlement,
+	) error {
 		var err error
-		leasedPageVisit, leased, err = frontier.leaseHeadOf(tx, head.crawlID, now)
+		leasedPageVisit, leased, err = frontier.leaseHeadOf(tx, head.crawlID, now, settlement)
 		return err
 	}); err != nil {
 		frontier.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease a due page visit: %w", err))
@@ -297,34 +308,40 @@ func (frontier *Frontier) leaseHeadOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	now time.Time,
+	settlement CrawlSettlement,
 ) (pendingpagevisit.LeasedPageVisit, bool, error) {
 	paused, err := frontier.pause.isOn(tx)
 	if err != nil || paused {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	headed, err := frontier.heads.has(tx, crawlID)
+	headPosition, headed, err := frontier.heads.positionOf(tx, crawlID)
 	if err != nil || !headed {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	first, pending, err := frontier.ledger.firstDueOf(tx, crawlID)
+	first, pending, err := frontier.ledger.firstDueFrom(tx, crawlID, headPosition)
 	if err != nil {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
 	if !pending {
-		return pendingpagevisit.LeasedPageVisit{}, false, frontier.heads.remove(tx, crawlID)
+		if err := frontier.heads.remove(tx, crawlID); err != nil {
+			return pendingpagevisit.LeasedPageVisit{}, false, err
+		}
+		return pendingpagevisit.LeasedPageVisit{}, false, frontier.closeWithNothingPending(
+			tx, crawlID, settlement,
+		)
 	}
 	if first.due > now.Unix() {
 		return pendingpagevisit.LeasedPageVisit{}, false, frontier.heads.moveTo(
 			tx,
 			crawlID,
-			first.due,
+			first.position(),
 		)
 	}
 	leasedPageVisit, err := frontier.leaseIn(tx, first.key, now)
 	if err != nil {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	return leasedPageVisit, true, frontier.restoreHeadOf(tx, crawlID)
+	return leasedPageVisit, true, frontier.restoreHeadFrom(tx, crawlID, first.position())
 }
 
 func (frontier *Frontier) leaseIn(
@@ -568,6 +585,10 @@ func (frontier *Frontier) settleIn(
 	if err != nil || !settled {
 		return false, err
 	}
+	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
+	if err != nil || mark == unmarked {
+		return true, err
+	}
 	pending, err := frontier.ledger.hasPending(tx, crawlID)
 	if err != nil || pending {
 		return true, err
@@ -613,5 +634,5 @@ func (frontier *Frontier) moveHeadEarlierOf(
 	if err != nil || mark != unmarked {
 		return err
 	}
-	return frontier.heads.moveEarlierTo(tx, crawlID, due)
+	return frontier.heads.moveEarlierTo(tx, crawlID, duePosition{due: due})
 }

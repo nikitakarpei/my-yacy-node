@@ -444,18 +444,40 @@ func TestAPageVisitTakenIsCountedUntilSettled(t *testing.T) {
 	}
 }
 
-func TestTheLastSettledVisitReportsItsLastPageVisitEnded(t *testing.T) {
+func TestARunningCrawlEndsOnceTheLeaseOfItsLastSettledVisitEnds(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
 
 	f.settleNext(t)
-	lastPageVisitEndedEarly := len(f.ledger.lastPageVisitEnded)
 	f.settleNext(t)
+	f.requireNoDueVisit(t)
+	lastPageVisitEndedEarly := len(f.ledger.lastPageVisitEnded)
+	f.clock.pass(lease)
+	f.requireNoDueVisit(t)
 
 	if lastPageVisitEndedEarly != 0 ||
 		!slices.Equal(f.ledger.lastPageVisitEnded, []crawlid.CrawlID{firstCrawl}) {
-		t.Fatalf("last page visit ended after the first %d, then %v; want only after the last",
+		t.Fatalf("last page visit ended within the lease %d, then %v; want once it ends",
 			lastPageVisitEndedEarly, f.ledger.lastPageVisitEnded)
+	}
+}
+
+func TestACrawlHeldAfterItsLastSettledVisitEndsOnceReleased(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitTo(t, "http://host/a"))
+	f.settleNext(t)
+	f.change(t, f.visits.Hold, firstCrawl)
+	f.clock.pass(lease)
+	f.requireNoDueVisit(t)
+	lastPageVisitEndedWhileHeld := len(f.ledger.lastPageVisitEnded)
+
+	f.change(t, f.visits.Release, firstCrawl)
+	f.requireNoDueVisit(t)
+
+	if lastPageVisitEndedWhileHeld != 0 ||
+		!slices.Equal(f.ledger.lastPageVisitEnded, []crawlid.CrawlID{firstCrawl}) {
+		t.Fatalf("last page visit ended while held %d, then %v; want once released",
+			lastPageVisitEndedWhileHeld, f.ledger.lastPageVisitEnded)
 	}
 }
 
@@ -608,16 +630,18 @@ func TestAForgottenCrawlKeepsNothingAndItsVisitsArePendingAgain(t *testing.T) {
 	f.settleNext(t)
 }
 
-func TestAVisitWhoseCrawlCannotFinishIsStillSettled(t *testing.T) {
+func TestACrawlTheLedgerCannotFinishIsReportedAndItsVisitStaysSettled(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"))
+	f.settleNext(t)
 	f.ledger.refusing = errEngineRefusing
 
-	f.settleNext(t)
+	f.clock.pass(lease)
+	f.requireNoDueVisit(t)
 
 	if f.amount(t) != 0 || !slices.Equal(f.failures.notSettled, []crawlid.CrawlID{firstCrawl}) ||
 		len(f.failures.settlements) != 0 {
-		t.Fatalf("pending %d, not settled %v, ack failures %v; want the visit settled anyway",
+		t.Fatalf("pending %d, not settled %v, settle failures %v; want the failure reported",
 			f.amount(t), f.failures.notSettled, f.failures.settlements)
 	}
 }

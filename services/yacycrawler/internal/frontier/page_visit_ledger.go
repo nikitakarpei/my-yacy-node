@@ -1,10 +1,12 @@
 package frontier
 
 import (
+	"bytes"
 	"context"
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -119,16 +121,20 @@ func pageVisitKeyOf(pageVisit pendingpagevisit.PendingPageVisit) pageVisitKey {
 	return pageVisitKey{crawlID: pageVisit.CrawlID, url: urlhash.Of(pageVisit.URL)}
 }
 
-func (ledger pageVisitLedger) firstDueOf(
+func (ledger pageVisitLedger) firstDueFrom(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
+	position duePosition,
 ) (dueEntry, bool, error) {
-	return ledger.pendingByDue.First(tx, dueKeyParts.KeysWithFirst(crawlID))
+	return ledger.pendingByDue.First(
+		tx,
+		dueKeyParts.KeysWithFirstFrom(crawlID, position.due, position.url),
+	)
 }
 
 func (ledger pageVisitLedger) hasPending(tx *vault.Txn, crawlID crawlid.CrawlID) (bool, error) {
-	_, pending, err := ledger.firstDueOf(tx, crawlID)
-	return pending, err
+	amountPending, err := ledger.amountPendingOf(tx, crawlID)
+	return amountPending > 0, err
 }
 
 func (ledger pageVisitLedger) forgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -279,6 +285,22 @@ type scheduledPageVisitWithKey struct {
 type dueEntry struct {
 	key pageVisitKey
 	due int64
+}
+
+func (entry dueEntry) position() duePosition {
+	return duePosition{due: entry.due, url: entry.key.url}
+}
+
+type duePosition struct {
+	due int64
+	url urlhash.URLHash
+}
+
+var earliestPosition = duePosition{due: math.MinInt64}
+
+func (position duePosition) isBefore(other duePosition) bool {
+	return position.due < other.due ||
+		position.due == other.due && bytes.Compare(position.url[:], other.url[:]) < 0
 }
 
 var dueKeyParts = vault.TripleKey(
