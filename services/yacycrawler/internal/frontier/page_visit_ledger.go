@@ -2,12 +2,12 @@ package frontier
 
 import (
 	"context"
-	"crypto/rand"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -21,13 +21,9 @@ const (
 	owedPageVisitsOfCrawlBucket = "owed_page_visits_of_crawl"
 	owedPageVisitsOfHostBucket  = "owed_page_visits_of_host"
 	settledPageVisitsBucket     = "settled_page_visits"
-	messageIDBytes              = 16
 )
 
-var (
-	errOwedPageVisitTruncated = errors.New("owed page visit shorter than its header")
-	errOwedPageVisitMalformed = errors.New("owed page visit has a malformed field")
-)
+var errOwedPageVisitMalformed = errors.New("owed page visit has a malformed field")
 
 type pageVisitLedger struct {
 	owed        *vault.Collection[pageVisitKey, owedPageVisit]
@@ -42,14 +38,10 @@ type pageVisitKey struct {
 	url     urlhash.URLHash
 }
 
-type messageID [messageIDBytes]byte
-
 type owedPageVisit struct {
-	due       int64
-	arrival   int64
-	messageID messageID
-	host      string
-	body      []byte
+	due   int64
+	depth int
+	url   canonicalurl.CanonicalURL
 }
 
 type settledMark struct{}
@@ -75,7 +67,7 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 	if ledger.owedOfHost, err = storage.RegisterCountIndex(
 		owedPageVisitsOfHostBucket, frontierIndexesVersion, crawlHosts,
 		func(form owedPageVisitForm) crawlHost {
-			return crawlHost{crawlID: form.key.crawlID, host: form.visit.host}
+			return crawlHost{crawlID: form.key.crawlID, host: form.visit.url.Hostname()}
 		},
 	); err != nil {
 		return pageVisitLedger{}, fmt.Errorf("register %s: %w", owedPageVisitsOfHostBucket, err)
@@ -104,7 +96,7 @@ func (ledger pageVisitLedger) owe(
 	pageVisit pendingpagevisit.PendingPageVisit,
 	now time.Time,
 ) (bool, error) {
-	key := pageVisitKey{crawlID: pageVisit.CrawlID, url: urlhash.Of(pageVisit.URL)}
+	key := pageVisitKeyOf(pageVisit)
 	_, owed, err := ledger.owed.Get(tx, key)
 	if err != nil || owed {
 		return false, err
@@ -113,24 +105,16 @@ func (ledger pageVisitLedger) owe(
 	if err != nil || settled {
 		return false, err
 	}
-	body, err := pendingpagevisit.MarshalPendingPageVisit(pageVisit)
-	if err != nil {
-		return false, err
-	}
 	_, err = ledger.owed.Put(tx, key, owedPageVisit{
-		due:       now.Unix(),
-		arrival:   now.Unix(),
-		messageID: newMessageID(),
-		host:      pageVisit.URL.Hostname(),
-		body:      body,
+		due:   now.Unix(),
+		depth: pageVisit.Depth,
+		url:   pageVisit.URL,
 	})
 	return err == nil, err
 }
 
-func newMessageID() messageID {
-	var id messageID
-	_, _ = rand.Read(id[:])
-	return id
+func pageVisitKeyOf(pageVisit pendingpagevisit.PendingPageVisit) pageVisitKey {
+	return pageVisitKey{crawlID: pageVisit.CrawlID, url: urlhash.Of(pageVisit.URL)}
 }
 
 func (ledger pageVisitLedger) firstDueOf(
@@ -200,7 +184,7 @@ func (ledger pageVisitLedger) drainFrom(
 			owedKeys,
 			func(key pageVisitKey, visit owedPageVisit) (bool, error) {
 				drained = append(drained, key)
-				drainedOfHosts[visit.host]++
+				drainedOfHosts[visit.url.Hostname()]++
 				return len(drained) < amount, nil
 			},
 		); err != nil {
@@ -327,45 +311,28 @@ var crawlHosts = crawlHostKeyParts.KeyLayoutFor(
 type owedPageVisitCodec struct{}
 
 func (owedPageVisitCodec) Encode(visit owedPageVisit) ([]byte, error) {
-	encoded := make(
-		[]byte,
-		0,
-		3*binary.MaxVarintLen64+messageIDBytes+len(visit.host)+len(visit.body),
-	)
+	address := visit.url.String()
+	encoded := make([]byte, 0, 2*binary.MaxVarintLen64+len(address))
 	encoded = binary.AppendVarint(encoded, visit.due)
-	encoded = binary.AppendVarint(encoded, visit.arrival)
-	encoded = append(encoded, visit.messageID[:]...)
-	encoded = binary.AppendUvarint(encoded, uint64(len(visit.host)))
-	encoded = append(encoded, visit.host...)
-	return append(encoded, visit.body...), nil
+	encoded = binary.AppendVarint(encoded, int64(visit.depth))
+	return append(encoded, address...), nil
 }
 
 func (owedPageVisitCodec) Decode(stored []byte) (owedPageVisit, error) {
-	var visit owedPageVisit
-	rest := stored
-	var read int
-	if visit.due, read = binary.Varint(rest); read <= 0 {
+	due, read := binary.Varint(stored)
+	if read <= 0 {
 		return owedPageVisit{}, errOwedPageVisitMalformed
 	}
-	rest = rest[read:]
-	if visit.arrival, read = binary.Varint(rest); read <= 0 {
+	rest := stored[read:]
+	depth, read := binary.Varint(rest)
+	if read <= 0 {
 		return owedPageVisit{}, errOwedPageVisitMalformed
 	}
-	rest = rest[read:]
-	if len(rest) < messageIDBytes {
-		return owedPageVisit{}, fmt.Errorf("%w: %d bytes", errOwedPageVisitTruncated, len(stored))
+	url, err := canonicalurl.CanonicalURLOf(string(rest[read:]))
+	if err != nil {
+		return owedPageVisit{}, fmt.Errorf("%w: %w", errOwedPageVisitMalformed, err)
 	}
-	copy(visit.messageID[:], rest[:messageIDBytes])
-	rest = rest[messageIDBytes:]
-	hostLength, read := binary.Uvarint(rest)
-	if read <= 0 ||
-		uint64(len(rest)-read) < hostLength { //nolint:gosec // read never exceeds len(rest)
-		return owedPageVisit{}, errOwedPageVisitMalformed
-	}
-	rest = rest[read:]
-	visit.host = string(rest[:hostLength])
-	visit.body = append([]byte(nil), rest[hostLength:]...)
-	return visit, nil
+	return owedPageVisit{due: due, depth: int(depth), url: url}, nil
 }
 
 type settledMarkCodec struct{}

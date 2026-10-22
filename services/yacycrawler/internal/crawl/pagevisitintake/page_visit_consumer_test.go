@@ -7,12 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
-
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
@@ -208,17 +205,51 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func visitMessage(t *testing.T) *pullintaketest.Message {
+func leasedVisit(t *testing.T) pendingpagevisit.LeasedPageVisit {
 	t.Helper()
-	data, err := pendingpagevisit.MarshalPendingPageVisit(pendingpagevisit.PendingPageVisit{
-		CrawlID: crawlID,
-		URL:     canonicalurltest.CanonicalURLOf(t, visitURL),
-		Depth:   0,
-	})
-	if err != nil {
-		t.Fatal(err)
+	return pendingpagevisit.LeasedPageVisit{
+		PageVisit: pendingpagevisit.PendingPageVisit{
+			CrawlID: crawlID,
+			URL:     canonicalurltest.CanonicalURLOf(t, visitURL),
+		},
 	}
-	return &pullintaketest.Message{Body: data, Sequence: 1}
+}
+
+type settlement string
+
+const (
+	settled  settlement = "settled"
+	returned settlement = "returned"
+)
+
+type fakeFrontier struct {
+	leased        []pendingpagevisit.LeasedPageVisit
+	endIntake     context.CancelFunc
+	settlements   []settlement
+	returnedAfter time.Duration
+}
+
+func (f *fakeFrontier) Next(context.Context) (pendingpagevisit.LeasedPageVisit, error) {
+	if len(f.leased) == 0 {
+		f.endIntake()
+		return pendingpagevisit.LeasedPageVisit{}, context.Canceled
+	}
+	next := f.leased[0]
+	f.leased = f.leased[1:]
+	return next, nil
+}
+
+func (f *fakeFrontier) Settle(context.Context, pendingpagevisit.LeasedPageVisit) {
+	f.settlements = append(f.settlements, settled)
+}
+
+func (f *fakeFrontier) Return(
+	_ context.Context,
+	_ pendingpagevisit.LeasedPageVisit,
+	delay time.Duration,
+) {
+	f.settlements = append(f.settlements, returned)
+	f.returnedAfter = delay
 }
 
 type everyVisitAdmitted struct{}
@@ -234,6 +265,7 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 }
 
 type crawlWorker struct {
+	frontier    *fakeFrontier
 	allowances  *fakeAllowances
 	orders      *fakeCrawls
 	pageVisitor *fakePageVisitor
@@ -242,6 +274,7 @@ type crawlWorker struct {
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
+		frontier:    &fakeFrontier{},
 		allowances:  newAllowances(),
 		orders:      &fakeCrawls{profile: wideProfile()},
 		pageVisitor: &fakePageVisitor{},
@@ -249,46 +282,50 @@ func newWorker() *crawlWorker {
 	}
 }
 
-func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
+func (w *crawlWorker) consume(t *testing.T, visits ...pendingpagevisit.LeasedPageVisit) error {
 	t.Helper()
-	return w.consumeAdmittedBy(t, everyVisitAdmitted{}, messages...)
+	return w.consumeAdmittedBy(t, everyVisitAdmitted{}, visits...)
 }
 
 func (w *crawlWorker) consumeAdmittedBy(
 	t *testing.T,
 	admission pullintake.Admission,
-	messages ...jetstream.Msg,
+	visits ...pendingpagevisit.LeasedPageVisit,
 ) error {
 	t.Helper()
 	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
 		t.Fatalf("vault: %v", err)
 	}
+	ctx, endIntake := context.WithCancel(t.Context())
+	defer endIntake()
+	w.frontier.leased = visits
+	w.frontier.endIntake = endIntake
 	return pagevisitintake.NewPageVisitConsumer(
 		storage,
-		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
+		w.frontier,
 		w.allowances,
 		w.orders,
 		w.pageVisitor,
 		w.observer,
 		admission,
 		1,
-	).Run(context.Background())
+	).Run(ctx)
 }
 
 func TestAPageVisitIsVisitedThenAcknowledged(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.pageVisitor.pageVisitCount() != 1 {
 		t.Fatalf("visited %d urls, want 1", worker.pageVisitor.pageVisitCount())
 	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != settled {
+		t.Fatalf("visit settled %v, want it settled once", got)
 	}
 }
 
@@ -297,17 +334,17 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
 		Conclusion: pagevisit.PageVisitDeferred, DeferFor: 7 * time.Second,
 	}}
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
+		t.Fatalf("visit settled %v, want it returned once", got)
 	}
-	if message.HeldBackFor() != 7*time.Second {
-		t.Fatalf("held back for %v, want the delay the site asked", message.HeldBackFor())
+	if worker.frontier.returnedAfter != 7*time.Second {
+		t.Fatalf("held back for %v, want the delay the site asked", worker.frontier.returnedAfter)
 	}
 	if worker.observer.deferrals != 1 {
 		t.Fatalf("observer honored %d deferrals, want one", worker.observer.deferrals)
@@ -320,17 +357,17 @@ func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitDeferred},
 	}
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.observer.dropped[yacycrawlcontract.DropReasonDeferralsExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want deferrals exhausted", worker.observer.dropped)
 	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != settled {
+		t.Fatalf("visit settled %v, want it settled once", got)
 	}
 }
 
@@ -339,14 +376,14 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if message.HeldBackFor() != time.Second {
-		t.Fatalf("held back for %v, want the first backoff", message.HeldBackFor())
+	if worker.frontier.returnedAfter != time.Second {
+		t.Fatalf("held back for %v, want the first backoff", worker.frontier.returnedAfter)
 	}
 }
 
@@ -356,14 +393,14 @@ func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
 		Conclusion:  pagevisit.PageVisitReturned,
 		ReturnCause: errors.New("stream down"),
 	}}
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
+		t.Fatalf("visit settled %v, want it returned once", got)
 	}
 	if worker.allowances.retries != 0 {
 		t.Fatalf("attempts spent = %d, want none", worker.allowances.retries)
@@ -372,17 +409,17 @@ func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
 
 func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorSettled(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consumeAdmittedBy(t, noVisitAdmitted{}, message); err != nil {
+	if err := worker.consumeAdmittedBy(t, noVisitAdmitted{}, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a held back visit was visited")
 	}
-	if got := message.Settlements(); len(got) != 0 {
-		t.Fatalf("message settled %v, want it untouched", got)
+	if got := worker.frontier.settlements; len(got) != 0 {
+		t.Fatalf("visit settled %v, want it untouched", got)
 	}
 }
 
@@ -393,7 +430,7 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
 
-	if err := worker.consume(t, visitMessage(t)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -405,9 +442,9 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	worker := newWorker()
 	worker.allowances.hostSpent = false
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -423,7 +460,7 @@ func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.MaxPagesPerHost = 7
 
-	if err := worker.consume(t, visitMessage(t)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -435,11 +472,11 @@ func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 	}
 }
 
-func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
+func TestAVisitLeasedAgainAsksForItsHostPageAgain(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message, message); err != nil {
+	if err := worker.consume(t, visit, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -454,28 +491,28 @@ func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
 func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
 	worker.orders.err = errors.New("bucket down")
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
+		t.Fatalf("visit settled %v, want it returned once", got)
 	}
 }
 
 func TestAVisitWhoseCrawlIsForgottenReturnsUnvisited(t *testing.T) {
 	worker := newWorker()
 	worker.orders.forgotten = true
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
+		t.Fatalf("visit settled %v, want it returned once", got)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a url of a forgotten order should not be visited")
@@ -485,23 +522,17 @@ func TestAVisitWhoseCrawlIsForgottenReturnsUnvisited(t *testing.T) {
 func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.URLMustNotMatch = "([unclosed"
-	message := visitMessage(t)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
+		t.Fatalf("visit settled %v, want it returned once", got)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a url under an unreadable profile should not be visited")
-	}
-}
-
-func TestAnUndecodablePendingVisitHaltsIntake(t *testing.T) {
-	if err := newWorker().consume(t, &pullintaketest.Message{Body: []byte("{"), Sequence: 1}); err == nil {
-		t.Fatal("an undecodable pending page visit should halt intake")
 	}
 }
 
@@ -511,7 +542,7 @@ func TestTheResultOfACompletedVisitIsObserved(t *testing.T) {
 		Conclusion: pagevisit.PageVisitCompleted, Result: yacycrawlcontract.ResultFetchRejected,
 	}}
 
-	if err := worker.consume(t, visitMessage(t)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -526,7 +557,7 @@ func TestAVisitTheVisitorDropsIsObservedAsDropped(t *testing.T) {
 		Conclusion: pagevisit.PageVisitDropped, DropReason: yacycrawlcontract.DropReasonNotDue,
 	}}
 
-	if err := worker.consume(t, visitMessage(t)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 

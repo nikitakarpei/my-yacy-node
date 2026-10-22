@@ -9,13 +9,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 const (
 	msgFrontierLeaseFailed       = "no page visit could be leased from the frontier"
 	msgFrontierDrainFailed       = "the page visits of a cancelled crawl could not be drained"
 	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
-	msgFrontierAcknowledgeFailed = "a settled page visit could not be removed from the frontier"
+	msgFrontierSettleFailed      = "a settled page visit could not be removed from the frontier"
 	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"
 	msgCompletedVisitNotCounted  = "a completed page visit could not be counted in the progress of its crawl"
 	msgDroppedVisitNotCounted    = "a dropped page visit could not be counted in the progress of its crawl"
@@ -34,21 +35,27 @@ func (FrontierLog) FrontierCountFailed(ctx context.Context, err error) {
 	slog.WarnContext(ctx, msgFrontierCountFailed, slog.Any("error", err))
 }
 
-func (FrontierLog) FrontierAcknowledgeFailed(ctx context.Context, identity string, err error) {
-	slog.WarnContext(ctx, msgFrontierAcknowledgeFailed,
-		slog.String("pageVisit", identity),
+func (FrontierLog) FrontierSettleFailed(
+	ctx context.Context,
+	pageVisit pendingpagevisit.PendingPageVisit,
+	err error,
+) {
+	slog.WarnContext(ctx, msgFrontierSettleFailed,
+		slog.String("crawl", pageVisit.CrawlID.String()),
+		slog.String("url", pageVisit.URL.String()),
 		slog.Any("error", err),
 	)
 }
 
 func (FrontierLog) FrontierReturnFailed(
 	ctx context.Context,
-	identity string,
+	pageVisit pendingpagevisit.PendingPageVisit,
 	delay time.Duration,
 	err error,
 ) {
 	slog.WarnContext(ctx, msgFrontierReturnFailed,
-		slog.String("pageVisit", identity),
+		slog.String("crawl", pageVisit.CrawlID.String()),
+		slog.String("url", pageVisit.URL.String()),
 		slog.Duration("delay", delay),
 		slog.Any("error", err),
 	)
@@ -106,6 +113,12 @@ func (FrontierLog) FrontierCrawlNotSettled(
 	)
 }
 
-func (FrontierLog) FrontierLeaseOutdated(ctx context.Context, identity string) {
-	slog.DebugContext(ctx, msgFrontierLeaseOutdated, slog.String("pageVisit", identity))
+func (FrontierLog) FrontierLeaseOutdated(
+	ctx context.Context,
+	pageVisit pendingpagevisit.PendingPageVisit,
+) {
+	slog.DebugContext(ctx, msgFrontierLeaseOutdated,
+		slog.String("crawl", pageVisit.CrawlID.String()),
+		slog.String("url", pageVisit.URL.String()),
+	)
 }
