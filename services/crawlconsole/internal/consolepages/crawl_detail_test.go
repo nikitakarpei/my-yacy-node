@@ -49,7 +49,7 @@ func TestCrawlDetailShowsTheProgressAndTheOrder(t *testing.T) {
 	)
 }
 
-func TestCrawlDetailOffersResumeForAPausedCrawl(t *testing.T) {
+func TestCrawlDetailOffersResumeAndCancelForAPausedCrawl(t *testing.T) {
 	crawl := runningCrawlOf(t, "c1")
 	crawl.State = yacycrawlcontract.CrawlStatePaused
 
@@ -57,7 +57,7 @@ func TestCrawlDetailOffersResumeForAPausedCrawl(t *testing.T) {
 		&fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}},
 	).get("/crawls/c1")
 
-	assertShows(t, answer, `name="Paused" value="false"`, "Resume")
+	assertShows(t, answer, `name="Paused" value="false"`, "Resume", `action="/crawls/c1/cancel"`)
 }
 
 func TestCrawlDetailShowsACancellingCrawlWithItsPendingVisitsAndNoControls(t *testing.T) {

@@ -47,7 +47,14 @@ func (row crawlRow) IsFinished() bool {
 	return !row.FinishedAt.IsZero()
 }
 
-func (row crawlRow) IsRunningOrPaused() bool {
-	return row.State == yacycrawlcontract.CrawlStateRunning ||
-		row.State == yacycrawlcontract.CrawlStatePaused
+func (row crawlRow) IsPausable() bool {
+	return yacycrawlcontract.CrawlPause.Changes(row.State)
+}
+
+func (row crawlRow) IsResumable() bool {
+	return yacycrawlcontract.CrawlResumption.Changes(row.State)
+}
+
+func (row crawlRow) IsCancellable() bool {
+	return yacycrawlcontract.CrawlCancellation.Changes(row.State)
 }
