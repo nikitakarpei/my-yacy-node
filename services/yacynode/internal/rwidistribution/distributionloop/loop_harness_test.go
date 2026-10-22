@@ -182,9 +182,10 @@ func openLoopVault(t *testing.T) *vault.Vault {
 
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
-		nil, nil,
-
-		wallclock.Clock{})
+		nil,
+		nil,
+		wallclock.Clock{},
+	)
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}
