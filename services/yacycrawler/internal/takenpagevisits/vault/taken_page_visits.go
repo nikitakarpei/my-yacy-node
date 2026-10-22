@@ -25,10 +25,9 @@ func New(
 	ctx context.Context,
 	storage *vault.Vault,
 	keptFor time.Duration,
-	observer vault.ExpiryObserver,
 ) (*TakenPageVisits, error) {
 	takers, err := storage.RegisterExpiringCollection(
-		ctx, takersBucket, pageVisitKeys, takerCodec{}, keptFor, observer, nil,
+		ctx, takersBucket, pageVisitKeys, takerCodec{}, keptFor, nil,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", takersBucket, err)

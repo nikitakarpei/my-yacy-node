@@ -30,14 +30,12 @@ type PageVisitRecords struct {
 	observer   PageVisitRecordObserver
 }
 
-//nolint:revive // the records name the vault, their clock, retention and both observers
 func New(
 	ctx context.Context,
 	storage *vault.Vault,
 	clock Clock,
 	keptFor time.Duration,
 	observer PageVisitRecordObserver,
-	expiryObserver vault.ExpiryObserver,
 ) (*PageVisitRecords, error) {
 	lastVisits, err := storage.RegisterExpiringCollection(
 		ctx,
@@ -45,7 +43,6 @@ func New(
 		pageKeys,
 		lastPageVisitCodec{},
 		keptFor,
-		expiryObserver,
 		nil,
 	)
 	if err != nil {

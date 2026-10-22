@@ -47,16 +47,6 @@ func (clock *settableClock) set(now time.Time) { clock.now.Store(&now) }
 
 func (*settableClock) Sleep(context.Context, time.Duration) error { return context.Canceled }
 
-type silentExpiryObserver struct{}
-
-func (silentExpiryObserver) ExpiryPassBegan(context.Context, vault.Name, time.Time) {}
-
-func (silentExpiryObserver) ExpiryPassFinished(context.Context, vault.Name, time.Time) {}
-
-func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, vault.Name, int) {}
-
-func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, vault.Name, error) {}
-
 type refusingEngine struct {
 	vault.Engine
 	refusing atomic.Bool
@@ -75,7 +65,7 @@ func takenPageVisitsOn(
 	clock *settableClock,
 ) *takenpagevisitsvault.TakenPageVisits {
 	t.Helper()
-	storage, err := vault.New(engine, nil, clock)
+	storage, err := vault.New(engine, nil, nil, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -84,7 +74,6 @@ func takenPageVisitsOn(
 		t.Context(),
 		storage,
 		keptFor,
-		silentExpiryObserver{},
 	)
 	if err != nil {
 		t.Fatalf("New: %v", err)

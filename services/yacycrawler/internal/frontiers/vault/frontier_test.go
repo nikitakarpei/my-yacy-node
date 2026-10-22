@@ -124,7 +124,7 @@ func newFrontierOn(t *testing.T, engine vault.Engine) frontier {
 	t.Helper()
 	refusing := &refusingEngine{Engine: engine}
 	visitClock := &clock{now: time.Unix(1_000_000, 0)}
-	storage, err := vault.New(refusing, nil, visitClock)
+	storage, err := vault.New(refusing, nil, nil, visitClock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

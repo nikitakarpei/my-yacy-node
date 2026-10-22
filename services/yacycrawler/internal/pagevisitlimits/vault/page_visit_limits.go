@@ -41,16 +41,15 @@ func New(
 	storage *vault.Vault,
 	keptFor time.Duration,
 	maxPerURL MaxPerURL,
-	observer vault.ExpiryObserver,
 ) (*PageVisitLimits, error) {
 	takenHostPageCounts, err := storage.RegisterExpiringCollection(
-		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor, observer, nil,
+		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor, nil,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", takenHostPageCountsBucket, err)
 	}
 	usedAllowances, err := storage.RegisterExpiringCollection(
-		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor, observer, nil,
+		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor, nil,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", usedAllowancesBucket, err)

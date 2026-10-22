@@ -19,6 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -36,8 +37,6 @@ import (
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
 	crawlsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls/vault"
-	expiryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/expiryobservers/applog"
-	expiryobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/expiryobservers/prometheus"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
 	frontierobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontierobservers/applog"
 	frontiersvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiers/vault"
@@ -111,10 +110,6 @@ func RunService(
 		pagevisitrecordobserversapplog.PageVisitRecordLog{},
 		pagevisitrecordobserversprometheus.New(registry),
 	}
-	expiryObservers := vault.ExpiryObservers{
-		expiryobserversapplog.ExpiryLog{},
-		expiryobserversprometheus.New(registry),
-	}
 	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
 		return err
@@ -123,13 +118,13 @@ func RunService(
 	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
-	storage, err := openCrawlState(cfg)
+	storage, err := openCrawlState(cfg, vaultmetrics.NewExpiryMetrics(registry, metricNamespace))
 	if err != nil {
 		return err
 	}
 	defer func() { _ = storage.Close() }()
 	crawlState, err := openCrawlStateStores(
-		ctx, storage, cfg, pageVisitRecordObservers, expiryObservers,
+		ctx, storage, cfg, pageVisitRecordObservers,
 	)
 	if err != nil {
 		return err
@@ -211,12 +206,15 @@ func ensureCrawledPagesStream(
 	return nil
 }
 
-func openCrawlState(cfg ServiceConfig) (*vault.Vault, error) {
+func openCrawlState(
+	cfg ServiceConfig,
+	expiryObserver vault.ExpiryObserver,
+) (*vault.Vault, error) {
 	engine, err := pebblevault.OpenEngine(cfg.CrawlStateDir, 0, cfg.CrawlStateLimits, nil, nil)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", EnvCrawlStateDir, err)
 	}
-	storage, err := vault.New(engine, nil, wallclock.Clock{})
+	storage, err := vault.New(engine, nil, expiryObserver, wallclock.Clock{})
 	if err != nil {
 		return nil, errors.Join(err, engine.Close())
 	}
@@ -236,7 +234,6 @@ func openCrawlStateStores(
 	storage *vault.Vault,
 	cfg ServiceConfig,
 	pageVisitRecordObserver pagevisitrecordsvault.PageVisitRecordObserver,
-	expiryObserver vault.ExpiryObserver,
 ) (crawlStateStores, error) {
 	frontier, err := frontiersvault.New(
 		ctx,
@@ -248,24 +245,24 @@ func openCrawlStateStores(
 	if err != nil {
 		return crawlStateStores{}, err
 	}
-	crawls, err := crawlsvault.New(ctx, storage, cfg.CrawlRetention(), expiryObserver)
+	crawls, err := crawlsvault.New(ctx, storage, cfg.CrawlRetention())
 	if err != nil {
 		return crawlStateStores{}, err
 	}
 	takenPageVisits, err := takenpagevisitsvault.New(
-		ctx, storage, cfg.TakenPageVisitRetention(), expiryObserver,
+		ctx, storage, cfg.TakenPageVisitRetention(),
 	)
 	if err != nil {
 		return crawlStateStores{}, err
 	}
 	pageVisitLimits, err := pagevisitlimitsvault.New(
-		ctx, storage, cfg.PageVisitLimitRetention(), cfg.MaxPerURL(), expiryObserver,
+		ctx, storage, cfg.PageVisitLimitRetention(), cfg.MaxPerURL(),
 	)
 	if err != nil {
 		return crawlStateStores{}, err
 	}
 	pageVisitRecords, err := pageVisitRecordsOf(
-		ctx, storage, cfg, pageVisitRecordObserver, expiryObserver,
+		ctx, storage, cfg, pageVisitRecordObserver,
 	)
 	if err != nil {
 		return crawlStateStores{}, err
@@ -284,13 +281,12 @@ func pageVisitRecordsOf(
 	storage *vault.Vault,
 	cfg ServiceConfig,
 	observer pagevisitrecordsvault.PageVisitRecordObserver,
-	expiryObserver vault.ExpiryObserver,
 ) (pagevisit.PageVisitRecords, error) {
 	if !cfg.SuppressesRecrawl() {
 		return norecords.PageVisitRecords{}, nil
 	}
 	return pagevisitrecordsvault.New(
-		ctx, storage, wallclock.Clock{}, cfg.PageVisitRetention(), observer, expiryObserver,
+		ctx, storage, wallclock.Clock{}, cfg.PageVisitRetention(), observer,
 	)
 }
 

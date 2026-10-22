@@ -34,7 +34,6 @@ func New(
 	ctx context.Context,
 	storage *vault.Vault,
 	keptFor time.Duration,
-	observer vault.ExpiryObserver,
 ) (*Crawls, error) {
 	crawlsByOrder, err := storage.RegisterValueIndex(
 		crawlsByOrderBucket,
@@ -51,7 +50,6 @@ func New(
 		crawlIDKeys,
 		crawlOrderCodec{},
 		keptFor,
-		observer,
 		vault.ProjectedAs(crawlOfOrderFrom, crawlsByOrder),
 	)
 	if err != nil {

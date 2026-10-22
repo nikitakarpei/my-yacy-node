@@ -50,10 +50,6 @@ components:
     in: internal/urlhash/**
   vaultkeyparts:
     in: internal/vaultkeyparts/**
-  expiryobserversapplog:
-    in: internal/expiryobservers/applog/**
-  expiryobserversprometheus:
-    in: internal/expiryobservers/prometheus/**
   crawlsvault:
     in: internal/crawls/vault/**
   frontiersvault:
@@ -359,13 +355,6 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  expiryobserversapplog:
-    canUse:
-      - vault
-  expiryobserversprometheus:
-    canUse:
-      - prometheus
-      - vault
   crawlercmd:
     anyProjectDeps: true
     anyVendorDeps: true
