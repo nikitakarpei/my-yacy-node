@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 )
@@ -105,6 +106,7 @@ func (f rosterFixture) openStorage(t *testing.T) *vault.Vault {
 	storage, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
 		nil,
+		wallclock.Clock{},
 	)
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)

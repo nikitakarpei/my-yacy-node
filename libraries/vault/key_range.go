@@ -11,6 +11,10 @@ func EveryKey() KeyRange {
 	return KeyRange{}
 }
 
+func KeysFrom(firstIncluded []byte) KeyRange {
+	return KeyRange{firstIncluded: bytes.Clone(firstIncluded)}
+}
+
 func (keys KeyRange) Bounds() (firstIncluded, firstExcluded []byte) {
 	return bytes.Clone(keys.firstIncluded), bytes.Clone(keys.firstExcluded)
 }

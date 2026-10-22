@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
@@ -73,7 +74,11 @@ func run() error {
 	}
 	metrics.NewPebbleConditionMetrics(registry, engine)
 
-	storage, err := vault.New(engine, metrics.NewVaultTransactionMetrics(registry))
+	storage, err := vault.New(
+		engine,
+		metrics.NewVaultTransactionMetrics(registry),
+		wallclock.Clock{},
+	)
 	if err != nil {
 		return errors.Join(fmt.Errorf("lend storage: %w", err), engine.Close())
 	}

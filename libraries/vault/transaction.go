@@ -14,6 +14,7 @@ var errTransactionNeverOpened = errors.New(
 type Txn struct {
 	// TECHDEBT: collaborators rule — other units call tx.etx.X(bucket).Y() and set its fields
 	etx                  EngineTxn
+	at                   time.Time
 	calledWriteOperation bool
 	afterCommit          []func()
 	pendingWork          []pendingWork
@@ -69,7 +70,7 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 			beginReported = true
 		}
 
-		tx := &Txn{etx: etx}
+		tx := &Txn{etx: etx, at: v.clock.Now()}
 		closureFailure = tx.run(fn)
 		calledWriteOperation = tx.calledWriteOperation
 		afterCommit = tx.afterCommit
@@ -143,7 +144,7 @@ func (v *Vault) view(ctx context.Context, fn func(*Txn) error) error {
 	}
 
 	if err := v.engine.View(ctx, func(etx EngineTxn) error {
-		return fn(&Txn{etx: etx})
+		return fn(&Txn{etx: etx, at: v.clock.Now()})
 	}); err != nil {
 		return wrapTxnError("read storage", err)
 	}

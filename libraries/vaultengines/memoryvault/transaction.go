@@ -5,6 +5,7 @@ import (
 	"sort"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/expiringrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
@@ -22,6 +23,10 @@ func (t memTxn) Records(name vault.Name) vault.EngineRecords {
 
 func (t memTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
 	return memberset.OverRecords(t.Records(name))
+}
+
+func (t memTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
+	return expiringrecords.OverRecords(t.Records(name))
 }
 
 func (t memTxn) Amounts(name vault.Name) vault.EngineAmounts {

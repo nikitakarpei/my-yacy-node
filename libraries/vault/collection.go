@@ -50,14 +50,34 @@ func (v *Vault) registerProjected[K, V any](
 	if err := v.provisionRecordsBucket(collection.name); err != nil {
 		return nil, err
 	}
-	if err := followEach(collection.projections.buckets()); err != nil {
-		return nil, err
-	}
-	if err := v.rebuildStaleProjections(ctx, collection); err != nil {
+	if err := v.followProjections(ctx, collection, collection.storedRecordsIn); err != nil {
 		return nil, err
 	}
 
 	return collection, nil
+}
+
+func (v *Vault) followProjections[K, V any](
+	ctx context.Context,
+	collection *Collection[K, V],
+	storedRecordsIn func(*Txn) storedRecords,
+) error {
+	if collection.projections == nil {
+		return nil
+	}
+	if err := followEach(collection.projections.buckets()); err != nil {
+		return err
+	}
+
+	return v.rebuildStaleProjections(ctx, collection, storedRecordsIn)
+}
+
+type storedRecords interface {
+	Scan(keys KeyRange, fn func(key, record []byte) (bool, error)) error
+}
+
+func (c *Collection[K, V]) storedRecordsIn(tx *Txn) storedRecords {
+	return tx.etx.Records(c.name)
 }
 
 func followEach(buckets []projectionBucket) error {
@@ -73,7 +93,7 @@ func followEach(buckets []projectionBucket) error {
 func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	record, err := tx.etx.Records(c.name).Get(c.keys.Encode(key).encoded)
+	record, err := tx.etx.Records(c.name).Get(c.encodedKeyOf(key))
 	if err != nil {
 		return zero, false, fmt.Errorf("read %s: %w", c.name, err)
 	}
@@ -87,6 +107,10 @@ func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	}
 
 	return val, true, nil
+}
+
+func (c *Collection[K, V]) encodedKeyOf(key K) []byte {
+	return c.keys.Encode(key).encoded
 }
 
 func (c *Collection[K, V]) valueFrom(record []byte) (V, error) {
@@ -124,13 +148,11 @@ func (c *Collection[K, V]) storeRecord(
 	}
 	tx.calledWriteOperation = true
 
-	payload, err := c.values.Encode(val)
+	record, err := c.recordOf(val)
 	if err != nil {
-		return nil, fmt.Errorf("encode %s: %w", c.name, err)
+		return nil, err
 	}
-
-	record := recordFrom(payload)
-	replacedRecord, err = tx.etx.Records(c.name).Put(c.keys.Encode(key).encoded, record)
+	replacedRecord, err = tx.etx.Records(c.name).Put(c.encodedKeyOf(key), record)
 	if err != nil {
 		return nil, fmt.Errorf("store %s: %w", c.name, err)
 	}
@@ -140,6 +162,15 @@ func (c *Collection[K, V]) storeRecord(
 	}
 
 	return replacedRecord, nil
+}
+
+func (c *Collection[K, V]) recordOf(val V) ([]byte, error) {
+	payload, err := c.values.Encode(val)
+	if err != nil {
+		return nil, fmt.Errorf("encode %s: %w", c.name, err)
+	}
+
+	return recordFrom(payload), nil
 }
 
 func (c *Collection[K, V]) followStored(
@@ -177,12 +208,11 @@ func (c *Collection[K, V]) storeAbsentRecord(tx *Txn, key K, val V) error {
 	}
 	tx.calledWriteOperation = true
 
-	payload, err := c.values.Encode(val)
+	record, err := c.recordOf(val)
 	if err != nil {
-		return fmt.Errorf("encode %s: %w", c.name, err)
+		return err
 	}
-	record := recordFrom(payload)
-	if err := tx.etx.Records(c.name).PutAbsent(c.keys.Encode(key).encoded, record); err != nil {
+	if err := tx.etx.Records(c.name).PutAbsent(c.encodedKeyOf(key), record); err != nil {
 		return fmt.Errorf("store %s: %w", c.name, err)
 	}
 
@@ -227,7 +257,7 @@ func (c *Collection[K, V]) deleteRecord(tx *Txn, key K) (deletedRecord []byte, e
 	}
 	tx.calledWriteOperation = true
 
-	deletedRecord, err = tx.etx.Records(c.name).Delete(c.keys.Encode(key).encoded)
+	deletedRecord, err = tx.etx.Records(c.name).Delete(c.encodedKeyOf(key))
 	if err != nil {
 		return nil, fmt.Errorf("delete %s: %w", c.name, err)
 	}
@@ -248,6 +278,35 @@ func (c *Collection[K, V]) followDeleted(tx *Txn, key K, deletedRecord []byte) e
 	}
 
 	return c.projections.recordRemoved(tx, key, deletedValue)
+}
+
+func (c *Collection[K, V]) followForgotten(tx *Txn, key, forgottenRecord []byte) error {
+	if c.projections == nil {
+		return nil
+	}
+	decodedKey, err := c.keys.Decode(key)
+	if err != nil {
+		return undecodableRecordError{key: key, cause: fmt.Errorf("decode %s key: %w", c.name, err)}
+	}
+	forgottenValue, err := c.storedFormFrom(forgottenRecord)
+	if err != nil {
+		return undecodableRecordError{key: key, cause: err}
+	}
+
+	return c.projections.recordRemoved(tx, decodedKey, forgottenValue)
+}
+
+type undecodableRecordError struct {
+	cause error
+	key   []byte
+}
+
+func (e undecodableRecordError) Error() string {
+	return e.cause.Error()
+}
+
+func (e undecodableRecordError) Unwrap() error {
+	return e.cause
 }
 
 func (c *Collection[K, V]) DeleteReturning(
@@ -349,12 +408,13 @@ func (c *Collection[K, V]) Scan(
 
 func (c *Collection[K, V]) projectRecordsFrom(
 	tx *Txn,
+	records storedRecords,
 	firstKey []byte,
 	limit int,
 	projections Projections[K, V],
 ) (nextKey []byte, err error) {
 	projected := 0
-	if err := tx.etx.Records(c.name).Scan(
+	if err := records.Scan(
 		KeyRange{firstIncluded: firstKey},
 		func(key, record []byte) (bool, error) {
 			if projected == limit {

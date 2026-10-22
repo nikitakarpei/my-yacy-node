@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
@@ -95,6 +96,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(quotaBytes)),
 		nil,
+		wallclock.Clock{},
 	)
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)

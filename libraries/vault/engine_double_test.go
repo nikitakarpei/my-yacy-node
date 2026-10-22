@@ -7,6 +7,7 @@ import (
 	"sort"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/expiringrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/memberset"
 )
 
@@ -24,7 +25,7 @@ func newDoubleEngine() *doubleEngine {
 }
 
 func openDouble() (*vault.Vault, error) {
-	v, err := vault.New(newDoubleEngine(), nil)
+	v, err := vault.New(newDoubleEngine(), nil, newFakeClock(testEpoch))
 	if err != nil {
 		return nil, fmt.Errorf("new vault: %w", err)
 	}
@@ -49,6 +50,10 @@ func (e *doubleEngine) ProvisionAmountsBucket(name vault.Name) error {
 }
 
 func (e *doubleEngine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
+func (e *doubleEngine) ProvisionExpiringRecordsBucket(name vault.Name) error {
 	return e.ProvisionRecordsBucket(name)
 }
 
@@ -120,6 +125,10 @@ func (t doubleTxn) Records(name vault.Name) vault.EngineRecords {
 
 func (t doubleTxn) MemberSets(name vault.Name) vault.EngineMemberSets {
 	return memberset.OverRecords(t.Records(name))
+}
+
+func (t doubleTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
+	return expiringrecords.OverRecords(t.Records(name))
 }
 
 func (t doubleTxn) Amounts(name vault.Name) vault.EngineAmounts {

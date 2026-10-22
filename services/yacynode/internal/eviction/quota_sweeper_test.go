@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -27,6 +28,7 @@ func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(quotaBytes)),
 		nil,
+		wallclock.Clock{},
 	)
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)

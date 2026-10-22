@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 )
 
@@ -326,7 +327,7 @@ func engineAndVaultAt(t *testing.T, path string) (*pebblevault.Engine, *vault.Va
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
-	opened, err := vault.New(engine, nil)
+	opened, err := vault.New(engine, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

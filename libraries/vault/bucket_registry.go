@@ -14,6 +14,7 @@ const (
 	recordsBucket bucketKind = iota
 	amountsBucket
 	memberSetsBucket
+	expiringRecordsBucket
 )
 
 func (v *Vault) provisionRecordsBucket(bucket Name) error {
@@ -55,6 +56,18 @@ func (v *Vault) provisionMemberSetsBucket(bucket Name) error {
 	}
 
 	return v.provisionAs(bucket, memberSetsBucket, v.engine.ProvisionMemberSetsBucket)
+}
+
+func (v *Vault) provisionExpiringRecordsBucket(bucket Name) error {
+	if v == nil || v.engine == nil {
+		return errVaultClosed
+	}
+
+	return v.provisionAs(
+		bucket,
+		expiringRecordsBucket,
+		v.engine.ProvisionExpiringRecordsBucket,
+	)
 }
 
 func (v *Vault) RecordCountsByBucket(ctx context.Context) (map[Name]int, error) {

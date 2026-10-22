@@ -12,6 +12,7 @@ const rebuildBatchRecords = 1000
 func (v *Vault) rebuildStaleProjections[K, V any](
 	ctx context.Context,
 	collection *Collection[K, V],
+	storedRecordsIn func(*Txn) storedRecords,
 ) error {
 	versions, err := v.projectionVersions()
 	if err != nil {
@@ -23,7 +24,7 @@ func (v *Vault) rebuildStaleProjections[K, V any](
 	}
 	rebuildBegan := time.Now()
 	reportRebuildBegan(ctx, collection.name, stale)
-	if err := v.rebuildProjections(ctx, collection, stale); err != nil {
+	if err := v.rebuildProjections(ctx, collection, storedRecordsIn, stale); err != nil {
 		return err
 	}
 	if err := v.recordProjectionVersions(ctx, versions, stale); err != nil {
@@ -73,6 +74,7 @@ func bucketNamesOf(buckets []projectionBucket) []Name {
 func (v *Vault) rebuildProjections[K, V any](
 	ctx context.Context,
 	collection *Collection[K, V],
+	storedRecordsIn func(*Txn) storedRecords,
 	stale []projectionBucket,
 ) error {
 	for _, bucket := range stale {
@@ -88,7 +90,13 @@ func (v *Vault) rebuildProjections[K, V any](
 	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
 		tx.RunAfterCommit(func() { progress.batchProjected(ctx) })
 
-		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
+		return collection.projectRecordsFrom(
+			tx,
+			storedRecordsIn(tx),
+			firstKey,
+			limit,
+			staleProjections,
+		)
 	}); err != nil {
 		return fmt.Errorf("rebuild stale projections: %w", err)
 	}
