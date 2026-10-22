@@ -5,17 +5,10 @@ package crawlprogress
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-)
-
-const (
-	completedCountPrefix = "completed/"
-	droppedCountPrefix   = "dropped/"
-	unadmittedLinksCount = "unadmitted-links"
 )
 
 type Progress struct {
@@ -31,19 +24,6 @@ func newProgress() Progress {
 	}
 }
 
-func (progress Progress) withCount(count string, amount int) Progress {
-	if result, completed := strings.CutPrefix(count, completedCountPrefix); completed {
-		progress.Completed[yacycrawlcontract.PageVisitResult(result)] += int64(amount)
-	}
-	if reason, dropped := strings.CutPrefix(count, droppedCountPrefix); dropped {
-		progress.Dropped[yacycrawlcontract.PageVisitDropReason(reason)] += int64(amount)
-	}
-	if count == unadmittedLinksCount {
-		progress.UnadmittedLinks += int64(amount)
-	}
-	return progress
-}
-
 func (progress Progress) AmountOfURLs(owed int64) int64 {
 	amount := owed
 	for _, completed := range progress.Completed {
@@ -55,17 +35,10 @@ func (progress Progress) AmountOfURLs(owed int64) int64 {
 	return amount
 }
 
-func completedCountOf(result yacycrawlcontract.PageVisitResult) string {
-	return completedCountPrefix + string(result)
-}
-
-func droppedCountOf(reason yacycrawlcontract.PageVisitDropReason) string {
-	return droppedCountPrefix + string(reason)
-}
-
 type Counts struct {
-	ofCrawl *vault.Amounts[crawlCount]
-	ofHost  *vault.Amounts[hostCount]
+	completed       visitCounts[yacycrawlcontract.PageVisitResult]
+	dropped         visitCounts[yacycrawlcontract.PageVisitDropReason]
+	unadmittedLinks *vault.Amounts[crawlid.CrawlID]
 }
 
 func Open(storage *vault.Vault) (*Counts, error) {
@@ -78,7 +51,15 @@ func (counts *Counts) CountCompleted(
 	host string,
 	result yacycrawlcontract.PageVisitResult,
 ) error {
-	return counts.raiseOfHost(tx, crawlID, host, completedCountOf(result), 1)
+	if err := counts.completed.raise(tx, crawlID, host, result, 1); err != nil {
+		return fmt.Errorf(
+			"count a page visit of crawl %s completed as %s: %w",
+			crawlID,
+			result,
+			err,
+		)
+	}
+	return nil
 }
 
 func (counts *Counts) CountDropped(
@@ -88,25 +69,8 @@ func (counts *Counts) CountDropped(
 	reason yacycrawlcontract.PageVisitDropReason,
 	amount uint,
 ) error {
-	return counts.raiseOfHost(tx, crawlID, host, droppedCountOf(reason), amount)
-}
-
-func (counts *Counts) raiseOfHost(
-	tx *vault.Txn,
-	crawlID crawlid.CrawlID,
-	host string,
-	count string,
-	by uint,
-) error {
-	if err := counts.ofCrawl.Raise(tx, crawlCount{crawlID: crawlID, count: count}, by); err != nil {
-		return fmt.Errorf("count %s of crawl %s: %w", count, crawlID, err)
-	}
-	if err := counts.ofHost.Raise(
-		tx,
-		hostCount{crawlID: crawlID, host: host, count: count},
-		by,
-	); err != nil {
-		return fmt.Errorf("count %s of host %s: %w", count, host, err)
+	if err := counts.dropped.raise(tx, crawlID, host, reason, amount); err != nil {
+		return fmt.Errorf("count page visits of crawl %s dropped as %s: %w", crawlID, reason, err)
 	}
 	return nil
 }
@@ -116,60 +80,90 @@ func (counts *Counts) CountUnadmittedLinks(
 	crawlID crawlid.CrawlID,
 	amount uint,
 ) error {
-	if err := counts.ofCrawl.Raise(
-		tx, crawlCount{crawlID: crawlID, count: unadmittedLinksCount}, amount,
-	); err != nil {
+	if err := counts.unadmittedLinks.Raise(tx, crawlID, amount); err != nil {
 		return fmt.Errorf("count unadmitted links of crawl %s: %w", crawlID, err)
 	}
 	return nil
 }
 
 func (counts *Counts) ProgressOf(tx *vault.Txn, crawlID crawlid.CrawlID) (Progress, error) {
-	progress := newProgress()
-	if err := counts.ofCrawl.Scan(
-		tx,
-		crawlCountKeyParts.KeysWithFirst(crawlID),
-		func(key crawlCount, amount int) (bool, error) {
-			progress = progress.withCount(key.count, amount)
-			return true, nil
-		},
-	); err != nil {
-		return Progress{}, fmt.Errorf("read the progress of crawl %s: %w", crawlID, err)
+	completed, err := counts.completed.amountsOf(tx, crawlID)
+	if err != nil {
+		return Progress{}, fmt.Errorf(
+			"read the completed page visits of crawl %s: %w",
+			crawlID,
+			err,
+		)
 	}
-	return progress, nil
+	dropped, err := counts.dropped.amountsOf(tx, crawlID)
+	if err != nil {
+		return Progress{}, fmt.Errorf("read the dropped page visits of crawl %s: %w", crawlID, err)
+	}
+	unadmittedLinks, err := counts.unadmittedLinks.Get(tx, crawlID)
+	if err != nil {
+		return Progress{}, fmt.Errorf("read the unadmitted links of crawl %s: %w", crawlID, err)
+	}
+	return Progress{
+		Completed:       completed,
+		Dropped:         dropped,
+		UnadmittedLinks: int64(unadmittedLinks),
+	}, nil
 }
 
-func (counts *Counts) ProgressOfHostsOf(
+func (counts *Counts) ProgressByHostOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 ) (map[string]Progress, error) {
-	progressOfHosts := map[string]Progress{}
-	if err := counts.ofHost.Scan(
-		tx,
-		hostCountKeyParts.KeysWithFirst(crawlID),
-		func(key hostCount, amount int) (bool, error) {
-			progress, known := progressOfHosts[key.host]
-			if !known {
-				progress = newProgress()
-			}
-			progressOfHosts[key.host] = progress.withCount(key.count, amount)
-			return true, nil
-		},
-	); err != nil {
-		return nil, fmt.Errorf("read the progress of the hosts of crawl %s: %w", crawlID, err)
+	completedByHost, err := counts.completed.amountsByHostOf(tx, crawlID)
+	if err != nil {
+		return nil, fmt.Errorf("read the completed page visits of the hosts of crawl %s: %w",
+			crawlID, err)
 	}
-	return progressOfHosts, nil
+	droppedByHost, err := counts.dropped.amountsByHostOf(tx, crawlID)
+	if err != nil {
+		return nil, fmt.Errorf("read the dropped page visits of the hosts of crawl %s: %w",
+			crawlID, err)
+	}
+	return progressByHostFrom(completedByHost, droppedByHost), nil
+}
+
+func progressByHostFrom(
+	completedByHost map[string]map[yacycrawlcontract.PageVisitResult]int64,
+	droppedByHost map[string]map[yacycrawlcontract.PageVisitDropReason]int64,
+) map[string]Progress {
+	progressByHost := map[string]Progress{}
+	for host, completed := range completedByHost {
+		progress := progressOfHostIn(progressByHost, host)
+		progress.Completed = completed
+		progressByHost[host] = progress
+	}
+	for host, dropped := range droppedByHost {
+		progress := progressOfHostIn(progressByHost, host)
+		progress.Dropped = dropped
+		progressByHost[host] = progress
+	}
+	return progressByHost
+}
+
+func progressOfHostIn(progressByHost map[string]Progress, host string) Progress {
+	if progress, known := progressByHost[host]; known {
+		return progress
+	}
+	return newProgress()
 }
 
 func (counts *Counts) ForgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	if err := counts.ofCrawl.DeleteWithin(
-		tx,
-		crawlCountKeyParts.KeysWithFirst(crawlID),
-	); err != nil {
-		return fmt.Errorf("forget the counts of crawl %s: %w", crawlID, err)
+	if err := counts.completed.forgetCrawl(tx, crawlID); err != nil {
+		return fmt.Errorf("forget the completed page visits of crawl %s: %w", crawlID, err)
 	}
-	if err := counts.ofHost.DeleteWithin(tx, hostCountKeyParts.KeysWithFirst(crawlID)); err != nil {
-		return fmt.Errorf("forget the host counts of crawl %s: %w", crawlID, err)
+	if err := counts.dropped.forgetCrawl(tx, crawlID); err != nil {
+		return fmt.Errorf("forget the dropped page visits of crawl %s: %w", crawlID, err)
+	}
+	if err := counts.unadmittedLinks.DeleteWithin(
+		tx,
+		crawlKeys.KeysWithFirst(crawlID),
+	); err != nil {
+		return fmt.Errorf("forget the unadmitted links of crawl %s: %w", crawlID, err)
 	}
 	return nil
 }

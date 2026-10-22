@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
@@ -15,7 +16,9 @@ const (
 	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
 	msgFrontierAcknowledgeFailed = "a settled page visit could not be removed from the frontier"
 	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"
-	msgCrawlProgressCountFailed  = "a page visit could not be counted in the progress of its crawl"
+	msgCompletedVisitNotCounted  = "a completed page visit could not be counted in the progress of its crawl"
+	msgDroppedVisitNotCounted    = "a dropped page visit could not be counted in the progress of its crawl"
+	msgUnadmittedLinksNotCounted = "unadmitted links could not be counted in the progress of their crawl"
 	msgFrontierCrawlNotSettled   = "a crawl that owes no page visit could not be finished"
 	msgFrontierLeaseOutdated     = "a page visit was settled under a lease that has since ended"
 )
@@ -50,15 +53,39 @@ func (FrontierLog) FrontierReturnFailed(
 	)
 }
 
-func (FrontierLog) CrawlProgressCountFailed(
+func (FrontierLog) CompletedPageVisitNotCounted(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
-	count string,
+	result yacycrawlcontract.PageVisitResult,
 	err error,
 ) {
-	slog.WarnContext(ctx, msgCrawlProgressCountFailed,
+	slog.WarnContext(ctx, msgCompletedVisitNotCounted,
 		slog.String("crawl", crawlID.String()),
-		slog.String("count", count),
+		slog.String("result", string(result)),
+		slog.Any("error", err),
+	)
+}
+
+func (FrontierLog) DroppedPageVisitNotCounted(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	reason yacycrawlcontract.PageVisitDropReason,
+	err error,
+) {
+	slog.WarnContext(ctx, msgDroppedVisitNotCounted,
+		slog.String("crawl", crawlID.String()),
+		slog.String("reason", string(reason)),
+		slog.Any("error", err),
+	)
+}
+
+func (FrontierLog) UnadmittedLinksNotCounted(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	err error,
+) {
+	slog.WarnContext(ctx, msgUnadmittedLinksNotCounted,
+		slog.String("crawl", crawlID.String()),
 		slog.Any("error", err),
 	)
 }

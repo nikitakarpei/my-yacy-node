@@ -33,16 +33,35 @@ func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTx
 }
 
 type recordedFailures struct {
-	counts []string
+	completed       []yacycrawlcontract.PageVisitResult
+	dropped         []yacycrawlcontract.PageVisitDropReason
+	unadmittedLinks []crawlid.CrawlID
 }
 
-func (r *recordedFailures) CrawlProgressCountFailed(
+func (r *recordedFailures) CompletedPageVisitNotCounted(
 	_ context.Context,
 	_ crawlid.CrawlID,
-	count string,
+	result yacycrawlcontract.PageVisitResult,
 	_ error,
 ) {
-	r.counts = append(r.counts, count)
+	r.completed = append(r.completed, result)
+}
+
+func (r *recordedFailures) DroppedPageVisitNotCounted(
+	_ context.Context,
+	_ crawlid.CrawlID,
+	reason yacycrawlcontract.PageVisitDropReason,
+	_ error,
+) {
+	r.dropped = append(r.dropped, reason)
+}
+
+func (r *recordedFailures) UnadmittedLinksNotCounted(
+	_ context.Context,
+	crawlID crawlid.CrawlID,
+	_ error,
+) {
+	r.unadmittedLinks = append(r.unadmittedLinks, crawlID)
 }
 
 type progressScene struct {
@@ -50,7 +69,7 @@ type progressScene struct {
 	engine   *refusingEngine
 	counts   *crawlprogress.Counts
 	failures *recordedFailures
-	counting *crawlprogress.Counting
+	counter  *crawlprogress.Counter
 }
 
 func newScene(t *testing.T) progressScene {
@@ -69,7 +88,7 @@ func newScene(t *testing.T) progressScene {
 	failures := &recordedFailures{}
 	return progressScene{
 		storage: storage, engine: engine, counts: counts, failures: failures,
-		counting: crawlprogress.NewCounting(storage, counts, failures),
+		counter: crawlprogress.NewCounter(storage, counts, failures),
 	}
 }
 
@@ -91,44 +110,44 @@ func (s progressScene) progressOf(t *testing.T, crawlID crawlid.CrawlID) (
 ) {
 	t.Helper()
 	var progress crawlprogress.Progress
-	var progressOfHosts map[string]crawlprogress.Progress
+	var progressByHost map[string]crawlprogress.Progress
 	if err := s.storage.View(t.Context(), func(tx *vault.Txn) error {
 		var err error
 		if progress, err = s.counts.ProgressOf(tx, crawlID); err != nil {
 			return err
 		}
-		progressOfHosts, err = s.counts.ProgressOfHostsOf(tx, crawlID)
+		progressByHost, err = s.counts.ProgressByHostOf(tx, crawlID)
 		return err
 	}); err != nil {
 		t.Fatalf("View: %v", err)
 	}
-	return progress, progressOfHosts
+	return progress, progressByHost
 }
 
 func TestTheProgressOfACrawlCountsSettledVisitsAndUnadmittedLinks(t *testing.T) {
 	s := newScene(t)
 
-	s.counting.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, "http://a/1"),
+	s.counter.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, "http://a/1"),
 		yacycrawlcontract.ResultPublished)
-	s.counting.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, "http://b/1"),
+	s.counter.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, "http://b/1"),
 		yacycrawlcontract.ResultPublished)
-	s.counting.PendingPageVisitDropped(t.Context(), pageVisitTo(t, knownCrawl, "http://a/2"),
+	s.counter.PendingPageVisitDropped(t.Context(), pageVisitTo(t, knownCrawl, "http://a/2"),
 		yacycrawlcontract.DropReasonNotDue)
-	s.counting.LinksUnadmitted(t.Context(), knownCrawl, 4)
-	s.counting.PendingPageVisitReturned(t.Context(), pageVisitTo(t, knownCrawl, "http://a/3"), nil)
-	s.counting.PendingPageVisitDeferred(t.Context(), pageVisitTo(t, knownCrawl, "http://a/3"), 0)
-	s.counting.PendingPageVisitRetryScheduled(
+	s.counter.LinksUnadmitted(t.Context(), knownCrawl, 4)
+	s.counter.PendingPageVisitReturned(t.Context(), pageVisitTo(t, knownCrawl, "http://a/3"), nil)
+	s.counter.PendingPageVisitDeferred(t.Context(), pageVisitTo(t, knownCrawl, "http://a/3"), 0)
+	s.counter.PendingPageVisitRetryScheduled(
 		t.Context(),
 		pageVisitTo(t, knownCrawl, "http://a/3"),
 		0,
 	)
 
-	progress, progressOfHosts := s.progressOf(t, knownCrawl)
+	progress, progressByHost := s.progressOf(t, knownCrawl)
 	if progress.Completed[yacycrawlcontract.ResultPublished] != 2 ||
 		progress.Dropped[yacycrawlcontract.DropReasonNotDue] != 1 || progress.UnadmittedLinks != 4 {
 		t.Fatalf("progress = %+v, want 2 published, 1 not due, 4 unadmitted", progress)
 	}
-	if hostA := progressOfHosts["a"]; hostA.Completed[yacycrawlcontract.ResultPublished] != 1 ||
+	if hostA := progressByHost["a"]; hostA.Completed[yacycrawlcontract.ResultPublished] != 1 ||
 		hostA.Dropped[yacycrawlcontract.DropReasonNotDue] != 1 || hostA.AmountOfURLs(3) != 5 {
 		t.Fatalf("host a = %+v, want 1 published, 1 not due, 5 URLs with 3 owed", hostA)
 	}
@@ -138,11 +157,19 @@ func TestACountTheStorageRefusesIsReported(t *testing.T) {
 	s := newScene(t)
 	s.engine.refusing = true
 
-	s.counting.PendingPageVisitDropped(t.Context(), pageVisitTo(t, knownCrawl, "http://a/1"),
+	s.counter.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, "http://a/1"),
+		yacycrawlcontract.ResultPublished)
+	s.counter.PendingPageVisitDropped(t.Context(), pageVisitTo(t, knownCrawl, "http://a/2"),
 		yacycrawlcontract.DropReasonNotDue)
+	s.counter.LinksUnadmitted(t.Context(), knownCrawl, 1)
 
-	if len(s.failures.counts) != 1 || s.failures.counts[0] != "dropped/not-due" {
-		t.Fatalf("failures = %v, want the dropped count reported", s.failures.counts)
+	if len(s.failures.completed) != 1 ||
+		s.failures.completed[0] != yacycrawlcontract.ResultPublished ||
+		len(
+			s.failures.dropped,
+		) != 1 || s.failures.dropped[0] != yacycrawlcontract.DropReasonNotDue ||
+		len(s.failures.unadmittedLinks) != 1 || s.failures.unadmittedLinks[0] != knownCrawl {
+		t.Fatalf("failures = %+v, want each count reported", s.failures)
 	}
 }
 
@@ -150,11 +177,11 @@ func TestAForgottenCrawlCountsNothingAndOtherCrawlsKeepTheirCounts(t *testing.T)
 	s := newScene(t)
 	otherCrawl := crawlid.CrawlID{2}
 	for _, rawURL := range []string{"http://a/1", "http://b/1"} {
-		s.counting.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, rawURL),
+		s.counter.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, rawURL),
 			yacycrawlcontract.ResultPublished)
 	}
-	s.counting.LinksUnadmitted(t.Context(), knownCrawl, 1)
-	s.counting.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, otherCrawl, "http://a/1"),
+	s.counter.LinksUnadmitted(t.Context(), knownCrawl, 1)
+	s.counter.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, otherCrawl, "http://a/1"),
 		yacycrawlcontract.ResultPublished)
 
 	if err := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
@@ -163,9 +190,9 @@ func TestAForgottenCrawlCountsNothingAndOtherCrawlsKeepTheirCounts(t *testing.T)
 		t.Fatalf("Update: %v", err)
 	}
 
-	progress, progressOfHosts := s.progressOf(t, knownCrawl)
-	if progress.AmountOfURLs(0) != 0 || progress.UnadmittedLinks != 0 || len(progressOfHosts) != 0 {
-		t.Fatalf("progress = %+v hosts %v, want nothing", progress, progressOfHosts)
+	progress, progressByHost := s.progressOf(t, knownCrawl)
+	if progress.AmountOfURLs(0) != 0 || progress.UnadmittedLinks != 0 || len(progressByHost) != 0 {
+		t.Fatalf("progress = %+v hosts %v, want nothing", progress, progressByHost)
 	}
 	if other, _ := s.progressOf(t, otherCrawl); other.AmountOfURLs(0) != 1 {
 		t.Fatalf("other crawl = %+v, want its count kept", other)

@@ -124,7 +124,7 @@ func RunService(
 		return err
 	}
 	frontiermetricsprometheus.New(registry, crawlState.frontier)
-	progressCounting := crawlprogress.NewCounting(
+	progressCounter := crawlprogress.NewCounter(
 		storage,
 		crawlState.progressCounts,
 		frontierobserversapplog.FrontierLog{},
@@ -132,7 +132,7 @@ func RunService(
 	pendingPageVisitObservers := pagevisitintake.PendingPageVisitObservers{
 		pendingpagevisitobserversapplog.PendingPageVisitLog{},
 		pendingpagevisitobserversprometheus.New(registry),
-		progressCounting,
+		progressCounter,
 	}
 	orders, err := buildOrderConsumer(ctx, js, crawlState, cfg, crawlOrderObservers)
 	if err != nil {
@@ -152,7 +152,7 @@ func RunService(
 		pageVisitRecordObservers,
 		htmlPageReading,
 		crawledPageObservers,
-		progressCounting,
+		progressCounter,
 	)
 
 	slog.InfoContext(ctx, msgServiceStarted,
