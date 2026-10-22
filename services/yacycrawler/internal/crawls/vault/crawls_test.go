@@ -3,6 +3,7 @@ package vault_test
 import (
 	"context"
 	"errors"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -14,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	crawlsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 )
 
 const keptFor = time.Hour
@@ -25,33 +25,45 @@ var (
 )
 
 type settableClock struct {
-	now time.Time
+	now atomic.Pointer[time.Time]
 }
 
-func (clock *settableClock) Now() time.Time { return clock.now }
+func newSettableClock(now time.Time) *settableClock {
+	clock := &settableClock{}
+	clock.set(now)
+	return clock
+}
+
+func (clock *settableClock) Now() time.Time { return *clock.now.Load() }
+
+func (clock *settableClock) set(now time.Time) { clock.now.Store(&now) }
 
 func (*settableClock) Sleep(context.Context, time.Duration) error { return context.Canceled }
 
 type silentExpiryObserver struct{}
 
-func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, string, int) {}
+func (silentExpiryObserver) ExpiryPassBegan(context.Context, vault.Name, time.Time) {}
 
-func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, string, error) {}
+func (silentExpiryObserver) ExpiryPassFinished(context.Context, vault.Name, time.Time) {}
+
+func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, vault.Name, int) {}
+
+func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, vault.Name, error) {}
 
 type refusingEngine struct {
 	vault.Engine
-	refusing bool
+	refusing atomic.Bool
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing {
+	if engine.refusing.Load() {
 		return errEngineRefusing
 	}
 	return engine.Engine.Update(ctx, fn)
 }
 
 func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing {
+	if engine.refusing.Load() {
 		return errEngineRefusing
 	}
 	return engine.Engine.View(ctx, fn)
@@ -66,18 +78,12 @@ type scene struct {
 func acceptedOrders(t *testing.T) scene {
 	t.Helper()
 	engine := &refusingEngine{Engine: memoryvault.OpenEngine(0)}
-	storage, err := vault.New(engine, nil)
+	clock := newSettableClock(acceptedAt)
+	storage, err := vault.New(engine, nil, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	clock := &settableClock{now: acceptedAt}
-	crawls, err := crawlsvault.New(
-		t.Context(),
-		storage,
-		retainedrecords.New(storage, clock, silentExpiryObserver{}),
-		clock,
-		keptFor,
-	)
+	crawls, err := crawlsvault.New(t.Context(), storage, keptFor, silentExpiryObserver{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -161,7 +167,7 @@ func TestAnOrderIsForgottenOnceItsRetentionPasses(t *testing.T) {
 	accepted := acceptedOrderWithID(t, "o1")
 	crawlID := s.keep(t, accepted)
 
-	s.clock.now = acceptedAt.Add(keptFor)
+	s.clock.set(acceptedAt.Add(keptFor))
 
 	if _, found := s.orderOf(t, crawlID); found {
 		t.Fatal("an order past its retention reads back")
@@ -173,7 +179,7 @@ func TestAnOrderIsForgottenOnceItsRetentionPasses(t *testing.T) {
 
 func TestAKeepTheStorageRefusesFails(t *testing.T) {
 	s := acceptedOrders(t)
-	s.engine.refusing = true
+	s.engine.refusing.Store(true)
 
 	if _, err := s.crawls.Keep(t.Context(), acceptedOrderWithID(t, "o1")); !errors.Is(
 		err, errEngineRefusing,
@@ -185,7 +191,7 @@ func TestAKeepTheStorageRefusesFails(t *testing.T) {
 func TestAReadTheStorageRefusesFails(t *testing.T) {
 	s := acceptedOrders(t)
 	crawlID := s.keep(t, acceptedOrderWithID(t, "o1"))
-	s.engine.refusing = true
+	s.engine.refusing.Store(true)
 
 	if _, _, err := s.crawls.OrderOf(t.Context(), crawlID); !errors.Is(err, errEngineRefusing) {
 		t.Fatalf("OrderOf err = %v, want the refusal", err)

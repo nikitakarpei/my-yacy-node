@@ -14,7 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
@@ -40,18 +39,11 @@ var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
 	},
 )
 
-type Clock interface {
-	Now() time.Time
-}
-
 type Crawls struct {
 	storage       *vault.Vault
-	crawls        *retainedrecords.Records[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
-	crawlsByOrder *vault.ValueIndex[retainedOrder, crawlOfOrder]
-	clock         Clock
+	crawls        *vault.ExpiringCollection[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
+	crawlsByOrder *vault.ValueIndex[crawlOfOrder, crawlOfOrder]
 }
-
-type retainedOrder = retainedrecords.Record[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
 
 type orderIDHash string
 
@@ -63,35 +55,35 @@ type crawlOfOrder struct {
 func New(
 	ctx context.Context,
 	storage *vault.Vault,
-	retention *retainedrecords.Retention,
-	clock Clock,
 	keptFor time.Duration,
+	observer vault.ExpiryObserver,
 ) (*Crawls, error) {
 	crawlsByOrder, err := storage.RegisterValueIndex(
 		crawlsByOrderBucket,
 		crawlsByOrderVersion,
 		crawlsByOrderEntries,
-		crawlOfOrderFrom,
+		func(entry crawlOfOrder) crawlOfOrder { return entry },
 	)
 	if err != nil {
 		return nil, fmt.Errorf("register %s: %w", crawlsByOrderBucket, err)
 	}
-	crawls, err := retention.Register(
-		ctx, crawlsBucket, crawlIDKeys, crawlOrderCodec{}, keptFor, crawlsByOrder,
+	crawls, err := storage.RegisterExpiringCollection(
+		ctx,
+		crawlsBucket,
+		crawlIDKeys,
+		crawlOrderCodec{},
+		keptFor,
+		observer,
+		vault.ProjectedAs(crawlOfOrderFrom, crawlsByOrder),
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("register %s: %w", crawlsBucket, err)
 	}
-	return &Crawls{
-		storage:       storage,
-		crawls:        crawls,
-		crawlsByOrder: crawlsByOrder,
-		clock:         clock,
-	}, nil
+	return &Crawls{storage: storage, crawls: crawls, crawlsByOrder: crawlsByOrder}, nil
 }
 
-func crawlOfOrderFrom(order retainedOrder) crawlOfOrder {
-	return crawlOfOrder{order: orderIDHashOf(order.Value.OrderID), crawlID: order.Key}
+func crawlOfOrderFrom(crawlID crawlid.CrawlID, order yacycrawlcontract.CrawlOrder) crawlOfOrder {
+	return crawlOfOrder{order: orderIDHashOf(order.OrderID), crawlID: crawlID}
 }
 
 func orderIDHashOf(orderID string) orderIDHash {
@@ -103,28 +95,27 @@ func (c *Crawls) Keep(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
 ) (crawlid.CrawlID, error) {
-	now := c.clock.Now()
 	var crawlID crawlid.CrawlID
 	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		crawlID, err = c.crawlFor(tx, order.OrderID(), now)
+		crawlID, err = c.crawlFor(tx, order.OrderID())
 		if err != nil {
 			return err
 		}
-		return c.crawls.Put(tx, crawlID, order.CrawlOrder(), now)
+		return c.crawls.Put(tx, crawlID, order.CrawlOrder())
 	}); err != nil {
 		return crawlid.CrawlID{}, fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
 	return crawlID, nil
 }
 
-func (c *Crawls) crawlFor(tx *vault.Txn, orderID string, now time.Time) (crawlid.CrawlID, error) {
+func (c *Crawls) crawlFor(tx *vault.Txn, orderID string) (crawlid.CrawlID, error) {
 	crawlIDs, err := c.crawlIDsOf(tx, orderIDHashOf(orderID))
 	if err != nil {
 		return crawlid.CrawlID{}, err
 	}
 	for _, crawlID := range crawlIDs {
-		_, kept, err := c.crawls.Get(tx, crawlID, now)
+		_, kept, err := c.crawls.Get(tx, crawlID)
 		if err != nil || kept {
 			return crawlID, err
 		}
@@ -151,12 +142,11 @@ func (c *Crawls) OrderOf(
 	ctx context.Context,
 	crawlID crawlid.CrawlID,
 ) (acceptedorder.AcceptedOrder, bool, error) {
-	now := c.clock.Now()
 	var keptOrder yacycrawlcontract.CrawlOrder
 	var found bool
 	if err := c.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		keptOrder, found, err = c.crawls.Get(tx, crawlID, now)
+		keptOrder, found, err = c.crawls.Get(tx, crawlID)
 		return err
 	}); err != nil {
 		return acceptedorder.AcceptedOrder{}, false, fmt.Errorf(

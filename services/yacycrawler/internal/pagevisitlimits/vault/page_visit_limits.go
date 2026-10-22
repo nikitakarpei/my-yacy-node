@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
@@ -46,15 +45,10 @@ type MaxPerURL struct {
 	Attempts  int
 }
 
-type Clock interface {
-	Now() time.Time
-}
-
 type PageVisitLimits struct {
 	storage             *vault.Vault
-	takenHostPageCounts *retainedrecords.Records[hostKey, takenHostPageCount]
-	usedAllowances      *retainedrecords.Records[pageVisitKey, usedAllowances]
-	clock               Clock
+	takenHostPageCounts *vault.ExpiringCollection[hostKey, takenHostPageCount]
+	usedAllowances      *vault.ExpiringCollection[pageVisitKey, usedAllowances]
 	maxPerURL           MaxPerURL
 }
 
@@ -68,32 +62,29 @@ type pageVisitKey struct {
 	url     urlhash.URLHash
 }
 
-//nolint:revive // the limits name the vault, its retention and the ceilings they admit within
 func New(
 	ctx context.Context,
 	storage *vault.Vault,
-	retention *retainedrecords.Retention,
-	clock Clock,
 	keptFor time.Duration,
 	maxPerURL MaxPerURL,
+	observer vault.ExpiryObserver,
 ) (*PageVisitLimits, error) {
-	takenHostPageCountsKept, err := retention.Register(
-		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor,
+	takenHostPageCounts, err := storage.RegisterExpiringCollection(
+		ctx, takenHostPageCountsBucket, hostKeys, takenHostPageCountCodec{}, keptFor, observer, nil,
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("register %s: %w", takenHostPageCountsBucket, err)
 	}
-	usedAllowancesKept, err := retention.Register(
-		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor,
+	usedAllowances, err := storage.RegisterExpiringCollection(
+		ctx, usedAllowancesBucket, pageVisitKeys, usedAllowancesCodec{}, keptFor, observer, nil,
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("register %s: %w", usedAllowancesBucket, err)
 	}
 	return &PageVisitLimits{
 		storage:             storage,
-		takenHostPageCounts: takenHostPageCountsKept,
-		usedAllowances:      usedAllowancesKept,
-		clock:               clock,
+		takenHostPageCounts: takenHostPageCounts,
+		usedAllowances:      usedAllowances,
 		maxPerURL:           maxPerURL,
 	}, nil
 }
@@ -110,11 +101,10 @@ func (limits *PageVisitLimits) TakePageOfHost(
 	}
 	pageVisit := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
 	crawlHost := hostKey{crawlID: crawlID, host: host}
-	now := limits.clock.Now()
 	var took bool
 	if err := limits.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		took, err = limits.takePageOfHost(tx, pageVisit, crawlHost, maxPages, now)
+		took, err = limits.takePageOfHost(tx, pageVisit, crawlHost, maxPages)
 		return err
 	}); err != nil {
 		return false, fmt.Errorf("take a page of host %s for %s: %w", host, url, err)
@@ -127,22 +117,21 @@ func (limits *PageVisitLimits) takePageOfHost(
 	pageVisit pageVisitKey,
 	crawlHost hostKey,
 	maxPages int,
-	now time.Time,
 ) (bool, error) {
-	allowances, _, err := limits.usedAllowances.Get(tx, pageVisit, now)
+	allowances, _, err := limits.usedAllowances.Get(tx, pageVisit)
 	if err != nil || allowances.holdsPageOfHost {
 		return allowances.holdsPageOfHost, err
 	}
-	pageCount, _, err := limits.takenHostPageCounts.Get(tx, crawlHost, now)
+	pageCount, _, err := limits.takenHostPageCounts.Get(tx, crawlHost)
 	if err != nil || pageCount.pages >= maxPages {
 		return false, err
 	}
 	pageCount.pages++
-	if err := limits.takenHostPageCounts.Put(tx, crawlHost, pageCount, now); err != nil {
+	if err := limits.takenHostPageCounts.Put(tx, crawlHost, pageCount); err != nil {
 		return false, err
 	}
 	allowances.holdsPageOfHost = true
-	return true, limits.usedAllowances.Put(tx, pageVisit, allowances, now)
+	return true, limits.usedAllowances.Put(tx, pageVisit, allowances)
 }
 
 func (limits *PageVisitLimits) TakeDeferral(
@@ -164,11 +153,10 @@ func (limits *PageVisitLimits) revisePageVisit(
 	revise func(usedAllowances) (usedAllowances, bool),
 ) (usedAllowances, bool, error) {
 	key := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
-	now := limits.clock.Now()
 	var standing usedAllowances
 	var revised bool
 	err := limits.storage.Update(ctx, func(tx *vault.Txn) error {
-		allowances, _, err := limits.usedAllowances.Get(tx, key, now)
+		allowances, _, err := limits.usedAllowances.Get(tx, key)
 		if err != nil {
 			return err
 		}
@@ -176,7 +164,7 @@ func (limits *PageVisitLimits) revisePageVisit(
 		if !revised {
 			return nil
 		}
-		return limits.usedAllowances.Put(tx, key, standing, now)
+		return limits.usedAllowances.Put(tx, key, standing)
 	})
 	return standing, revised, err
 }

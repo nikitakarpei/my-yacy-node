@@ -11,7 +11,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
@@ -26,29 +25,31 @@ type Clock interface {
 
 type PageVisitRecords struct {
 	storage    *vault.Vault
-	lastVisits *retainedrecords.Records[urlhash.URLHash, lastPageVisit]
+	lastVisits *vault.ExpiringCollection[urlhash.URLHash, lastPageVisit]
 	clock      Clock
 	observer   PageVisitRecordObserver
 }
 
-//nolint:revive // the records name the vault, its retention and the observer they report to
+//nolint:revive // the records name the vault, their clock, retention and both observers
 func New(
 	ctx context.Context,
 	storage *vault.Vault,
-	retention *retainedrecords.Retention,
 	clock Clock,
 	keptFor time.Duration,
 	observer PageVisitRecordObserver,
+	expiryObserver vault.ExpiryObserver,
 ) (*PageVisitRecords, error) {
-	lastVisits, err := retention.Register(
+	lastVisits, err := storage.RegisterExpiringCollection(
 		ctx,
 		pageVisitsBucket,
 		pageKeys,
 		lastPageVisitCodec{},
 		keptFor,
+		expiryObserver,
+		nil,
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("register %s: %w", pageVisitsBucket, err)
 	}
 	return &PageVisitRecords{
 		storage:    storage,
@@ -74,12 +75,11 @@ func (records *PageVisitRecords) readLastPageVisit(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
 ) (pagevisit.LastPageVisit, bool, error) {
-	now := records.clock.Now()
 	var record lastPageVisit
 	var visited bool
 	if err := records.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		record, visited, err = records.lastVisits.Get(tx, urlhash.Of(canonicalURL), now)
+		record, visited, err = records.lastVisits.Get(tx, urlhash.Of(canonicalURL))
 		return err
 	}); err != nil {
 		return pagevisit.LastPageVisit{}, false, fmt.Errorf(
@@ -110,13 +110,13 @@ func (records *PageVisitRecords) putLastPageVisit(
 	canonicalURL canonicalurl.CanonicalURL,
 	version pagefetch.PageVersion,
 ) error {
-	now := records.clock.Now()
+	visitedAt := records.clock.Now()
 	if err := records.storage.Update(ctx, func(tx *vault.Txn) error {
 		return records.lastVisits.Put(tx, urlhash.Of(canonicalURL), lastPageVisit{
-			visitedAt:  now,
+			visitedAt:  visitedAt,
 			entityTag:  version.EntityTag,
 			modifiedAt: version.ModifiedAt,
-		}, now)
+		})
 	}); err != nil {
 		return fmt.Errorf("put last page visit %s: %w", canonicalURL, err)
 	}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -17,7 +18,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	pagevisitlimitsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 )
 
 const (
@@ -33,26 +33,38 @@ var (
 )
 
 type settableClock struct {
-	now time.Time
+	now atomic.Pointer[time.Time]
 }
 
-func (clock *settableClock) Now() time.Time { return clock.now }
+func newSettableClock(now time.Time) *settableClock {
+	clock := &settableClock{}
+	clock.set(now)
+	return clock
+}
+
+func (clock *settableClock) Now() time.Time { return *clock.now.Load() }
+
+func (clock *settableClock) set(now time.Time) { clock.now.Store(&now) }
 
 func (*settableClock) Sleep(context.Context, time.Duration) error { return context.Canceled }
 
 type silentExpiryObserver struct{}
 
-func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, string, int) {}
+func (silentExpiryObserver) ExpiryPassBegan(context.Context, vault.Name, time.Time) {}
 
-func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, string, error) {}
+func (silentExpiryObserver) ExpiryPassFinished(context.Context, vault.Name, time.Time) {}
+
+func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, vault.Name, int) {}
+
+func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, vault.Name, error) {}
 
 type refusingEngine struct {
 	vault.Engine
-	refusing bool
+	refusing atomic.Bool
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing {
+	if engine.refusing.Load() {
 		return errEngineRefusing
 	}
 	return engine.Engine.Update(ctx, fn)
@@ -64,7 +76,7 @@ func pageVisitLimitsOn(
 	clock *settableClock,
 ) *pagevisitlimitsvault.PageVisitLimits {
 	t.Helper()
-	storage, err := vault.New(engine, nil)
+	storage, err := vault.New(engine, nil, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -72,10 +84,9 @@ func pageVisitLimitsOn(
 	limits, err := pagevisitlimitsvault.New(
 		t.Context(),
 		storage,
-		retainedrecords.New(storage, clock, silentExpiryObserver{}),
-		clock,
 		keptFor,
 		pagevisitlimitsvault.MaxPerURL{Deferrals: 2, Attempts: 2},
+		silentExpiryObserver{},
 	)
 	if err != nil {
 		t.Fatalf("New: %v", err)
@@ -85,7 +96,7 @@ func pageVisitLimitsOn(
 
 func pageVisitLimits(t *testing.T) (*pagevisitlimitsvault.PageVisitLimits, *settableClock) {
 	t.Helper()
-	clock := &settableClock{now: startedAt}
+	clock := newSettableClock(startedAt)
 	return pageVisitLimitsOn(t, memoryvault.OpenEngine(0), clock), clock
 }
 
@@ -191,7 +202,7 @@ func TestOnlyOneOfConcurrentPageVisitsTakesTheLastPageOfAHost(t *testing.T) {
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
-	limits := pageVisitLimitsOn(t, engine, &settableClock{now: startedAt})
+	limits := pageVisitLimitsOn(t, engine, newSettableClock(startedAt))
 	admissions := make(chan bool, concurrentPageVisits)
 
 	var taking sync.WaitGroup
@@ -307,7 +318,7 @@ func TestAHostTakesPagesAgainOnceItsRetentionPasses(t *testing.T) {
 		t.Fatal("the first page of the host should be admitted")
 	}
 
-	clock.now = startedAt.Add(keptFor)
+	clock.set(startedAt.Add(keptFor))
 
 	other := canonicalurltest.CanonicalURLOf(t, "http://host/other")
 	if !admitsAnotherPageOfHost(t, limits, other, 1) {
@@ -317,8 +328,8 @@ func TestAHostTakesPagesAgainOnceItsRetentionPasses(t *testing.T) {
 
 func TestALimitTheStorageRefusesFails(t *testing.T) {
 	engine := &refusingEngine{Engine: memoryvault.OpenEngine(0)}
-	limits := pageVisitLimitsOn(t, engine, &settableClock{now: startedAt})
-	engine.refusing = true
+	limits := pageVisitLimitsOn(t, engine, newSettableClock(startedAt))
+	engine.refusing.Store(true)
 
 	if _, err := limits.TakePageOfHost(
 		t.Context(),

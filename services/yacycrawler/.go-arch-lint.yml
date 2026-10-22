@@ -50,10 +50,10 @@ components:
     in: internal/urlhash/**
   vaultkeyparts:
     in: internal/vaultkeyparts/**
-  retainedrecords:
-    in: internal/retainedrecords/**
-  retainedrecordobserversapplog:
-    in: internal/retainedrecordobservers/applog/**
+  expiryobserversapplog:
+    in: internal/expiryobservers/applog/**
+  expiryobserversprometheus:
+    in: internal/expiryobservers/prometheus/**
   crawlsvault:
     in: internal/crawls/vault/**
   frontiersvault:
@@ -235,7 +235,6 @@ deps:
     mayDependOn:
       - pagevisit
       - vaultkeyparts
-      - retainedrecords
       - urlhash
     canUse:
       - vault
@@ -252,15 +251,11 @@ deps:
       - urlhash
     canUse:
       - vault
-  retainedrecords:
-    canUse:
-      - vault
   crawlsvault:
     mayDependOn:
       - acceptedorder
       - crawlid
       - vaultkeyparts
-      - retainedrecords
     canUse:
       - vault
       - yacycrawlcontract
@@ -277,7 +272,6 @@ deps:
     mayDependOn:
       - crawlid
       - vaultkeyparts
-      - retainedrecords
       - urlhash
     canUse:
       - vault
@@ -286,7 +280,6 @@ deps:
     mayDependOn:
       - crawlid
       - vaultkeyparts
-      - retainedrecords
       - urlhash
     canUse:
       - vault
@@ -366,6 +359,13 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
+  expiryobserversapplog:
+    canUse:
+      - vault
+  expiryobserversprometheus:
+    canUse:
+      - prometheus
+      - vault
   crawlercmd:
     anyProjectDeps: true
     anyVendorDeps: true

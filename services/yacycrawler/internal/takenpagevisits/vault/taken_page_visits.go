@@ -11,7 +11,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
@@ -25,14 +24,9 @@ var pageVisitKeys = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash).
 	},
 )
 
-type Clock interface {
-	Now() time.Time
-}
-
 type TakenPageVisits struct {
 	storage *vault.Vault
-	takers  *retainedrecords.Records[pageVisitKey, string]
-	clock   Clock
+	takers  *vault.ExpiringCollection[pageVisitKey, string]
 }
 
 type pageVisitKey struct {
@@ -43,15 +37,16 @@ type pageVisitKey struct {
 func New(
 	ctx context.Context,
 	storage *vault.Vault,
-	retention *retainedrecords.Retention,
-	clock Clock,
 	keptFor time.Duration,
+	observer vault.ExpiryObserver,
 ) (*TakenPageVisits, error) {
-	takers, err := retention.Register(ctx, takersBucket, pageVisitKeys, takerCodec{}, keptFor)
+	takers, err := storage.RegisterExpiringCollection(
+		ctx, takersBucket, pageVisitKeys, takerCodec{}, keptFor, observer, nil,
+	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("register %s: %w", takersBucket, err)
 	}
-	return &TakenPageVisits{storage: storage, takers: takers, clock: clock}, nil
+	return &TakenPageVisits{storage: storage, takers: takers}, nil
 }
 
 func (visits *TakenPageVisits) TakePageVisit(
@@ -61,11 +56,10 @@ func (visits *TakenPageVisits) TakePageVisit(
 	taker string,
 ) (bool, error) {
 	key := pageVisitKey{crawlID: crawlID, url: urlhash.Of(url)}
-	now := visits.clock.Now()
 	var took bool
 	if err := visits.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		took, err = visits.take(tx, key, taker, now)
+		took, err = visits.take(tx, key, taker)
 		return err
 	}); err != nil {
 		return false, fmt.Errorf("take the page visit to %s: %w", url, err)
@@ -77,13 +71,12 @@ func (visits *TakenPageVisits) take(
 	tx *vault.Txn,
 	key pageVisitKey,
 	taker string,
-	now time.Time,
 ) (bool, error) {
-	standingTaker, taken, err := visits.takers.Get(tx, key, now)
+	standingTaker, taken, err := visits.takers.Get(tx, key)
 	if err != nil || taken {
 		return standingTaker == taker, err
 	}
-	return true, visits.takers.Put(tx, key, taker, now)
+	return true, visits.takers.Put(tx, key, taker)
 }
 
 type takerCodec struct{}

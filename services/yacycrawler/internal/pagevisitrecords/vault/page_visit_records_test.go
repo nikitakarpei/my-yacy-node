@@ -3,6 +3,7 @@ package vault_test
 import (
 	"context"
 	"errors"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -12,7 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	pagevisitrecordsvault "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/retainedrecords"
 )
 
 const keptFor = time.Hour
@@ -23,33 +23,45 @@ var (
 )
 
 type settableClock struct {
-	now time.Time
+	now atomic.Pointer[time.Time]
 }
 
-func (clock *settableClock) Now() time.Time { return clock.now }
+func newSettableClock(now time.Time) *settableClock {
+	clock := &settableClock{}
+	clock.set(now)
+	return clock
+}
+
+func (clock *settableClock) Now() time.Time { return *clock.now.Load() }
+
+func (clock *settableClock) set(now time.Time) { clock.now.Store(&now) }
 
 func (*settableClock) Sleep(context.Context, time.Duration) error { return context.Canceled }
 
 type silentExpiryObserver struct{}
 
-func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, string, int) {}
+func (silentExpiryObserver) ExpiryPassBegan(context.Context, vault.Name, time.Time) {}
 
-func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, string, error) {}
+func (silentExpiryObserver) ExpiryPassFinished(context.Context, vault.Name, time.Time) {}
+
+func (silentExpiryObserver) ExpiredRecordsForgotten(context.Context, vault.Name, int) {}
+
+func (silentExpiryObserver) ExpiredRecordsNotForgotten(context.Context, vault.Name, error) {}
 
 type refusingEngine struct {
 	vault.Engine
-	refusing bool
+	refusing atomic.Bool
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing {
+	if engine.refusing.Load() {
 		return errEngineRefusing
 	}
 	return engine.Engine.Update(ctx, fn)
 }
 
 func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
-	if engine.refusing {
+	if engine.refusing.Load() {
 		return errEngineRefusing
 	}
 	return engine.Engine.View(ctx, fn)
@@ -83,19 +95,19 @@ type scene struct {
 func pageVisitRecords(t *testing.T) scene {
 	t.Helper()
 	engine := &refusingEngine{Engine: memoryvault.OpenEngine(0)}
-	storage, err := vault.New(engine, nil)
+	clock := newSettableClock(visitedAt)
+	storage, err := vault.New(engine, nil, clock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	clock := &settableClock{now: visitedAt}
 	failures := &recordedFailures{}
 	records, err := pagevisitrecordsvault.New(
 		t.Context(),
 		storage,
-		retainedrecords.New(storage, clock, silentExpiryObserver{}),
 		clock,
 		keptFor,
 		failures,
+		silentExpiryObserver{},
 	)
 	if err != nil {
 		t.Fatalf("New: %v", err)
@@ -121,7 +133,7 @@ func TestARecordedPageVisitKeepsItsTimeAndPageVersion(t *testing.T) {
 	version := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: visitedAt.Add(-time.Minute)}
 	s.records.RecordPageVisit(t.Context(), pageURL(t), version)
 
-	s.clock.now = visitedAt.Add(30 * time.Minute)
+	s.clock.set(visitedAt.Add(30 * time.Minute))
 	visit, visited := s.records.LastPageVisitOf(t.Context(), pageURL(t))
 
 	if !visited || !visit.VisitedAt.Equal(visitedAt) {
@@ -136,7 +148,7 @@ func TestARecordedPageVisitKeepsItsTimeAndPageVersion(t *testing.T) {
 func TestALastPageVisitTheStorageRefusesIsReportedAsNeverVisited(t *testing.T) {
 	s := pageVisitRecords(t)
 	s.records.RecordPageVisit(t.Context(), pageURL(t), pagefetch.PageVersion{})
-	s.engine.refusing = true
+	s.engine.refusing.Store(true)
 
 	if visit, visited := s.records.LastPageVisitOf(t.Context(), pageURL(t)); visited {
 		t.Fatalf("want no page visit, got %+v", visit)
@@ -148,7 +160,7 @@ func TestALastPageVisitTheStorageRefusesIsReportedAsNeverVisited(t *testing.T) {
 
 func TestAPageVisitTheStorageRefusesIsReported(t *testing.T) {
 	s := pageVisitRecords(t)
-	s.engine.refusing = true
+	s.engine.refusing.Store(true)
 
 	s.records.RecordPageVisit(t.Context(), pageURL(t), pagefetch.PageVersion{})
 
@@ -161,7 +173,7 @@ func TestAPageVisitIsForgottenOnceItsRetentionPasses(t *testing.T) {
 	s := pageVisitRecords(t)
 	s.records.RecordPageVisit(t.Context(), pageURL(t), pagefetch.PageVersion{})
 
-	s.clock.now = visitedAt.Add(keptFor)
+	s.clock.set(visitedAt.Add(keptFor))
 
 	if visit, visited := s.records.LastPageVisitOf(t.Context(), pageURL(t)); visited {
 		t.Fatalf("a page visit past its retention read back as %+v", visit)
