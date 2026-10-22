@@ -5,8 +5,10 @@
 // Only vault adds to an index, in step with the collection it follows. An Engine
 // stores the buckets, keeps each write whole, may rerun its closure, and counts
 // bytes to a quota. Transactions are serializable: each reads one committed state,
-// scans included, and a write runs again when a commit after it began changed a key it
-// read or wrote, or a range it scanned.
+// scans included, and every outcome is one that some serial order of the transactions
+// gives; an engine runs a write again where that order would otherwise break. Blind
+// changes of one amount never make each other run again. A write that keeps running again
+// is at last run alone, so every write ends within a bounded number of runs.
 package vault
 
 import (
