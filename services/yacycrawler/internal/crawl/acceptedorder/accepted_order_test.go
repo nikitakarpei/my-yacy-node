@@ -84,3 +84,12 @@ func TestAnOrderWithANegativePageLimitIsNotAccepted(t *testing.T) {
 		t.Fatal("an order with a page limit below 0 cannot be accepted")
 	}
 }
+
+func TestAnOrderWithoutSeedsIsNotAccepted(t *testing.T) {
+	order := crawlOrder(t)
+	order.SeedURLs = nil
+
+	if _, err := acceptedorder.AcceptedOrderFrom(order); err == nil {
+		t.Fatal("an order without seed URLs cannot be accepted")
+	}
+}

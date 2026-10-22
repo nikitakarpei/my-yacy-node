@@ -191,7 +191,9 @@ func sceneFetching(outcome pagefetch.FetchOutcome) *pageVisitScene {
 func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 	t.Helper()
 	order, err := acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
-		OrderID: orderID, Profile: scene.profile,
+		OrderID:  orderID,
+		Profile:  scene.profile,
+		SeedURLs: []canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
 	})
 	if err != nil {
 		t.Fatalf("order: %v", err)

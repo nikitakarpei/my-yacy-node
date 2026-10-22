@@ -12,7 +12,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/profileadmission"
 )
 
-var errNegativePagesPerHost = errors.New("MaxPagesPerHost is below 0")
+var (
+	errNoSeedURLs           = errors.New("the order has no seed URLs")
+	errNegativePagesPerHost = errors.New("MaxPagesPerHost is below 0")
+)
 
 type AcceptedOrder struct {
 	order     yacycrawlcontract.CrawlOrder
@@ -20,6 +23,9 @@ type AcceptedOrder struct {
 }
 
 func AcceptedOrderFrom(order yacycrawlcontract.CrawlOrder) (AcceptedOrder, error) {
+	if len(order.SeedURLs) == 0 {
+		return AcceptedOrder{}, fmt.Errorf("read order %s: %w", order.OrderID, errNoSeedURLs)
+	}
 	if order.Profile.MaxPagesPerHost < 0 {
 		return AcceptedOrder{}, fmt.Errorf(
 			"read the profile of order %s: %w",

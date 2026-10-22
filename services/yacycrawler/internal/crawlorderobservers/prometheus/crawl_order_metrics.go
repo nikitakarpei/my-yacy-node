@@ -8,7 +8,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
-const labelOutcome = "outcome"
+const (
+	labelOutcome    = "outcome"
+	outcomeAccepted = "accepted"
+	outcomeRejected = "rejected"
+	outcomeReturned = "returned"
+)
+
+var crawlOrderOutcomes = []string{outcomeAccepted, outcomeRejected, outcomeReturned}
 
 type CrawlOrderMetrics struct {
 	ordersProcessed *prometheusclient.CounterVec
@@ -21,12 +28,19 @@ func New(registry prometheusclient.Registerer) *CrawlOrderMetrics {
 			Help: "Crawl orders processed, by outcome.",
 		}, []string{labelOutcome},
 	)}
+	for _, outcome := range crawlOrderOutcomes {
+		metrics.ordersProcessed.WithLabelValues(outcome)
+	}
 	registry.MustRegister(metrics.ordersProcessed)
 	return metrics
 }
 
 func (metrics *CrawlOrderMetrics) CrawlOrderReturned(context.Context, string, error) {
-	metrics.ordersProcessed.WithLabelValues("returned").Inc()
+	metrics.ordersProcessed.WithLabelValues(outcomeReturned).Inc()
+}
+
+func (metrics *CrawlOrderMetrics) CrawlOrderRejected(context.Context, string, string, error) {
+	metrics.ordersProcessed.WithLabelValues(outcomeRejected).Inc()
 }
 
 func (metrics *CrawlOrderMetrics) CrawlOrderAccepted(
@@ -35,5 +49,5 @@ func (metrics *CrawlOrderMetrics) CrawlOrderAccepted(
 	crawlid.CrawlID,
 	int,
 ) {
-	metrics.ordersProcessed.WithLabelValues("accepted").Inc()
+	metrics.ordersProcessed.WithLabelValues(outcomeAccepted).Inc()
 }

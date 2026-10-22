@@ -106,7 +106,6 @@ func (a *fakeAllowances) TakeAttempt(
 
 type fakeCrawls struct {
 	profile   yacycrawlcontract.CrawlProfile
-	seeds     []canonicalurl.CanonicalURL
 	forgotten bool
 	err       error
 }
@@ -117,8 +116,12 @@ func (o *fakeCrawls) OrderOf(
 	if o.err != nil || o.forgotten {
 		return acceptedorder.AcceptedOrder{}, false, o.err
 	}
+	seed, err := canonicalurl.CanonicalURLOf(visitURL)
+	if err != nil {
+		return acceptedorder.AcceptedOrder{}, false, err
+	}
 	order, err := acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
-		OrderID: orderID, Profile: o.profile, SeedURLs: o.seeds,
+		OrderID: orderID, Profile: o.profile, SeedURLs: []canonicalurl.CanonicalURL{seed},
 	})
 	return order, err == nil, err
 }

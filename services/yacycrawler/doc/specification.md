@@ -24,6 +24,8 @@ than an always-on node.
 ## Functional Requirements
 
 * The service SHALL idle until a crawl order arrives, then accept it.
+* The service SHALL reject an order it cannot read, or that has no seed URLs: it reports the
+  order, keeps nothing, and does not take it again.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
 * A crawl run SHALL end when its profile admits no more URLs, never by elapsed time.

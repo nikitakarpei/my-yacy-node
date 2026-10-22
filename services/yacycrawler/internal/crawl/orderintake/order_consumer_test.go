@@ -59,6 +59,7 @@ func (v *fakePendingVisits) Owe(
 type recordingObserver struct {
 	accepted       int
 	acceptedCrawls []crawlid.CrawlID
+	rejected       int
 	returned       int
 }
 
@@ -70,6 +71,10 @@ func (o *recordingObserver) CrawlOrderAccepted(
 ) {
 	o.accepted++
 	o.acceptedCrawls = append(o.acceptedCrawls, crawlID)
+}
+
+func (o *recordingObserver) CrawlOrderRejected(context.Context, string, string, error) {
+	o.rejected++
 }
 
 func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
@@ -198,7 +203,7 @@ func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
 	}
 }
 
-func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
+func TestAnOrderWhoseProfileTheCrawlerCannotReadIsRejectedAndAcknowledged(t *testing.T) {
 	profile := domainProfile()
 	profile.URLMustNotMatch = "([unclosed"
 	message := orderMessage(t, profile)
@@ -208,24 +213,31 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
+		t.Fatalf("message settled %v, want one ack", got)
 	}
 	if len(orders.kept) != 0 || len(visits.published) != 0 {
-		t.Fatal("an order the crawler cannot read should neither be accepted nor seed the frontier")
+		t.Fatal("an order the crawler cannot read should neither be kept nor seed the frontier")
 	}
-	if observer.returned != 1 {
-		t.Fatalf("observer %+v, want one redelivery", observer)
+	if observer.rejected != 1 || observer.returned != 0 {
+		t.Fatalf("observer %+v, want one rejection", observer)
 	}
 }
 
-func TestAnUndecodableOrderHaltsIntake(t *testing.T) {
-	err := consume(
-		t, &pullintaketest.Message{Body: []byte("{")}, &fakeCrawls{},
-		&fakePendingVisits{}, &recordingObserver{},
-	)
+func TestAnUndecodableOrderIsRejectedAndAcknowledged(t *testing.T) {
+	message := &pullintaketest.Message{Body: []byte("{")}
+	observer := &recordingObserver{}
 
-	if err == nil {
-		t.Fatal("an undecodable order should halt intake")
+	if err := consume(
+		t, message, &fakeCrawls{}, &fakePendingVisits{}, observer,
+	); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
+		t.Fatalf("message settled %v, want one ack", got)
+	}
+	if observer.rejected != 1 {
+		t.Fatalf("observer %+v, want one rejection", observer)
 	}
 }
