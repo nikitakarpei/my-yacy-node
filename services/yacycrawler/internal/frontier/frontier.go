@@ -1,8 +1,9 @@
 // Package frontier keeps every page visit a crawl still owes, in a queue of its crawl, each
 // due at a time, and a mark of every visit it settled. A worker leases the earliest due
-// visit of a crawl not closed, and the visit comes back when the lease ends before the
-// worker settles it. A visit owed or settled before is not added again, and a closed crawl
-// takes none. The transaction that leaves a crawl owing nothing reports it.
+// visit of a crawl neither held nor closed, and the visit comes back when the lease ends
+// before the worker settles it. A visit owed or settled before is not added again, and a
+// closed crawl takes none. A closed crawl's owed visits are drained in batches. The
+// transaction that leaves a crawl owing nothing reports it. A pause holds every page visit.
 package frontier
 
 import (
@@ -10,6 +11,8 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"maps"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -19,9 +22,10 @@ import (
 )
 
 const (
-	frontierName           = "YACY_CRAWL_FRONTIER"
-	frontierIndexesVersion = "1"
-	noDueVisitPause        = 500 * time.Millisecond
+	frontierName            = "YACY_CRAWL_FRONTIER"
+	frontierIndexesVersion  = "1"
+	noDueVisitPause         = 500 * time.Millisecond
+	pageVisitsDrainedAtOnce = 100
 )
 
 type Clock interface {
@@ -31,6 +35,7 @@ type Clock interface {
 
 type FrontierObserver interface {
 	FrontierLeaseFailed(ctx context.Context, err error)
+	FrontierDrainFailed(ctx context.Context, err error)
 	FrontierCountFailed(ctx context.Context, err error)
 	FrontierAcknowledgeFailed(ctx context.Context, identity string, err error)
 	FrontierReturnFailed(ctx context.Context, identity string, delay time.Duration, err error)
@@ -42,22 +47,29 @@ type CrawlSettlement interface {
 	CrawlOwesNothing(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
+type DrainedPageVisits interface {
+	PageVisitsDrained(tx *vault.Txn, crawlID crawlid.CrawlID, host string, amount uint) error
+}
+
 type Frontier struct {
 	storage    *vault.Vault
 	settlement CrawlSettlement
+	drained    DrainedPageVisits
 	ledger     pageVisitLedger
 	heads      crawlHeads
 	crawlMarks crawlMarks
+	pause      pageVisitPause
 	lease      time.Duration
 	clock      Clock
 	observer   FrontierObserver
 }
 
-//nolint:revive // a frontier names the vault, the port it reports to, its lease, clock and observer
+//nolint:revive // a frontier names the vault, the ports it reports to, its lease, clock and observer
 func Open(
 	ctx context.Context,
 	storage *vault.Vault,
 	settlement CrawlSettlement,
+	drained DrainedPageVisits,
 	lease time.Duration,
 	clock Clock,
 	observer FrontierObserver,
@@ -65,6 +77,7 @@ func Open(
 	frontier := &Frontier{
 		storage:    storage,
 		settlement: settlement,
+		drained:    drained,
 		lease:      lease,
 		clock:      clock,
 		observer:   observer,
@@ -76,7 +89,10 @@ func Open(
 	if frontier.heads, err = registerCrawlHeads(ctx, storage); err != nil {
 		return nil, err
 	}
-	if frontier.crawlMarks, err = registerCrawlMarks(storage); err != nil {
+	if frontier.crawlMarks, err = registerCrawlMarks(ctx, storage); err != nil {
+		return nil, err
+	}
+	if frontier.pause, err = registerPageVisitPause(storage); err != nil {
 		return nil, err
 	}
 	return frontier, nil
@@ -120,10 +136,32 @@ func (frontier *Frontier) oweOfCrawl(
 		}
 		owedAny = owedAny || owedNow
 	}
-	if !owedAny {
+	if !owedAny || mark == markHeld {
 		return nil
 	}
 	return frontier.heads.moveEarlierTo(tx, crawlID, now.Unix())
+}
+
+func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
+	if err != nil || mark != unmarked {
+		return err
+	}
+	if err := frontier.crawlMarks.mark(tx, crawlID, markHeld); err != nil {
+		return err
+	}
+	return frontier.heads.remove(tx, crawlID)
+}
+
+func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
+	if err != nil || mark != markHeld {
+		return err
+	}
+	if err := frontier.crawlMarks.unmark(tx, crawlID); err != nil {
+		return err
+	}
+	return frontier.restoreHeadOf(tx, crawlID)
 }
 
 func (frontier *Frontier) restoreHeadOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -139,7 +177,15 @@ func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err != nil || !mark.takesPageVisits() {
 		return err
 	}
-	if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
+	owes, err := frontier.ledger.owesAny(tx, crawlID)
+	if err != nil {
+		return err
+	}
+	closingMark := markClosed
+	if owes {
+		closingMark = markDraining
+	}
+	if err := frontier.crawlMarks.mark(tx, crawlID, closingMark); err != nil {
 		return err
 	}
 	return frontier.heads.remove(tx, crawlID)
@@ -169,11 +215,12 @@ func (frontier *Frontier) AmountsOwedByHostsOf(
 
 func (frontier *Frontier) Next(ctx context.Context) (pullintake.PendingMessage, error) {
 	for {
+		drained := frontier.drainNextBatch(ctx)
 		message, leased, retry := frontier.leaseNextPageVisit(ctx)
 		if leased {
 			return message, nil
 		}
-		if retry {
+		if retry || drained {
 			continue
 		}
 		if err := frontier.clock.Sleep(ctx, noDueVisitPause); err != nil {
@@ -182,11 +229,80 @@ func (frontier *Frontier) Next(ctx context.Context) (pullintake.PendingMessage, 
 	}
 }
 
-func settleOwingNothing(
+func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
+	crawlID, draining, err := frontier.firstDrainingCrawl(ctx)
+	if err != nil {
+		frontier.observer.FrontierDrainFailed(ctx, err)
+		return false
+	}
+	if !draining {
+		return false
+	}
+	if err := frontier.settled(ctx, crawlID, func(
+		tx *vault.Txn,
+		settlement CrawlSettlement,
+	) error {
+		return frontier.drainBatchOf(tx, crawlID, settlement)
+	}); err != nil {
+		frontier.observer.FrontierDrainFailed(ctx, fmt.Errorf("drain crawl %s: %w", crawlID, err))
+		return false
+	}
+	return true
+}
+
+func (frontier *Frontier) firstDrainingCrawl(
+	ctx context.Context,
+) (crawlid.CrawlID, bool, error) {
+	var first crawlid.CrawlID
+	var found bool
+	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		first, found, err = frontier.crawlMarks.firstDrainingCrawl(tx)
+		return err
+	}); err != nil {
+		return crawlid.CrawlID{}, false, fmt.Errorf("look for a crawl to drain: %w", err)
+	}
+	return first, found, nil
+}
+
+func (frontier *Frontier) drainBatchOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	settlement CrawlSettlement,
 ) error {
+	drainedOfHosts, amountDrained, err := frontier.ledger.drainFirstOf(
+		tx, crawlID, pageVisitsDrainedAtOnce,
+	)
+	if err != nil {
+		return err
+	}
+	for _, host := range slices.Sorted(maps.Keys(drainedOfHosts)) {
+		if err := frontier.drained.PageVisitsDrained(
+			tx, crawlID, host, drainedOfHosts[host],
+		); err != nil {
+			return err
+		}
+	}
+	if amountDrained == pageVisitsDrainedAtOnce {
+		return nil
+	}
+	return frontier.closeOwingNothing(tx, crawlID, settlement)
+}
+
+func (frontier *Frontier) closeOwingNothing(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	settlement CrawlSettlement,
+) error {
+	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
+	if err != nil {
+		return err
+	}
+	if mark == markDraining {
+		if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
+			return err
+		}
+	}
 	if err := settlement.CrawlOwesNothing(tx, crawlID); err != nil {
 		return crawlSettlementError{cause: err}
 	}
@@ -259,7 +375,10 @@ func (frontier *Frontier) firstHeadDue(
 	var head crawlHead
 	var due bool
 	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
-		var err error
+		paused, err := frontier.pause.isOn(tx)
+		if err != nil || paused {
+			return err
+		}
 		head, due, err = frontier.heads.firstDueBy(tx, now)
 		return err
 	}); err != nil {
@@ -273,6 +392,10 @@ func (frontier *Frontier) leaseHeadOf(
 	crawlID crawlid.CrawlID,
 	now time.Time,
 ) (pendingPageVisitMessage, bool, error) {
+	paused, err := frontier.pause.isOn(tx)
+	if err != nil || paused {
+		return pendingPageVisitMessage{}, false, err
+	}
 	headed, err := frontier.heads.has(tx, crawlID)
 	if err != nil || !headed {
 		return pendingPageVisitMessage{}, false, err
@@ -334,6 +457,32 @@ func (frontier *Frontier) AmountOfPendingPageVisits(ctx context.Context) (int64,
 	return int64(amount), true
 }
 
+func (frontier *Frontier) Pause(ctx context.Context) error {
+	if err := frontier.storage.Update(ctx, frontier.pause.turnOn); err != nil {
+		return fmt.Errorf("pause every page visit: %w", err)
+	}
+	return nil
+}
+
+func (frontier *Frontier) Resume(ctx context.Context) error {
+	if err := frontier.storage.Update(ctx, frontier.pause.turnOff); err != nil {
+		return fmt.Errorf("resume every page visit: %w", err)
+	}
+	return nil
+}
+
+func (frontier *Frontier) IsPaused(ctx context.Context) (bool, error) {
+	var paused bool
+	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		paused, err = frontier.pause.isOn(tx)
+		return err
+	}); err != nil {
+		return false, fmt.Errorf("read the pause of every page visit: %w", err)
+	}
+	return paused, nil
+}
+
 func (frontier *Frontier) acknowledge(ctx context.Context, message pendingPageVisitMessage) {
 	leased := false
 	if err := frontier.settled(ctx, message.key.crawlID, func(
@@ -365,7 +514,7 @@ func (frontier *Frontier) settleIn(
 	if err != nil || owes {
 		return true, err
 	}
-	return true, settleOwingNothing(tx, message.key.crawlID, settlement)
+	return true, frontier.closeOwingNothing(tx, message.key.crawlID, settlement)
 }
 
 func (frontier *Frontier) returnAfter(
@@ -381,7 +530,7 @@ func (frontier *Frontier) returnAfter(
 		if err != nil || !leased {
 			return err
 		}
-		return frontier.heads.moveEarlierTo(tx, message.key.crawlID, due)
+		return frontier.moveHeadEarlierOf(tx, message.key.crawlID, due)
 	}); err != nil {
 		frontier.observer.FrontierReturnFailed(ctx, message.identity, delay, err)
 		return
@@ -389,4 +538,16 @@ func (frontier *Frontier) returnAfter(
 	if !leased {
 		frontier.observer.FrontierLeaseOutdated(ctx, message.identity)
 	}
+}
+
+func (frontier *Frontier) moveHeadEarlierOf(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	due int64,
+) error {
+	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
+	if err != nil || mark != unmarked {
+		return err
+	}
+	return frontier.heads.moveEarlierTo(tx, crawlID, due)
 }

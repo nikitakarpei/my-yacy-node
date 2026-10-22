@@ -90,6 +90,10 @@ components:
     in: internal/pagevisitrecordobservers/prometheus/**
   crawledpagesjetstream:
     in: internal/crawledpages/jetstream/**
+  crawlerhttp:
+    in: internal/crawlerhttp/**
+  crawlerhttpobserversapplog:
+    in: internal/crawlerhttpobservers/applog/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -272,6 +276,15 @@ deps:
   crawledpagesjetstream:
     canUse:
       - nats
+  crawlerhttp:
+    mayDependOn:
+      - acceptedorder
+      - crawlid
+      - pendingpagevisit
+      - crawls
+      - crawlprogress
+    canUse:
+      - vault
   crawlorderobserversapplog:
     mayDependOn:
       - crawlid

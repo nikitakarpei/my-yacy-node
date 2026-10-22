@@ -13,6 +13,7 @@ import (
 
 const (
 	msgFrontierLeaseFailed       = "no page visit could be leased from the frontier"
+	msgFrontierDrainFailed       = "the page visits of a cancelled crawl could not be drained"
 	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
 	msgFrontierAcknowledgeFailed = "a settled page visit could not be removed from the frontier"
 	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"
@@ -88,6 +89,10 @@ func (FrontierLog) UnadmittedLinksNotCounted(
 		slog.String("crawl", crawlID.String()),
 		slog.Any("error", err),
 	)
+}
+
+func (FrontierLog) FrontierDrainFailed(ctx context.Context, err error) {
+	slog.WarnContext(ctx, msgFrontierDrainFailed, slog.Any("error", err))
 }
 
 func (FrontierLog) FrontierCrawlNotSettled(

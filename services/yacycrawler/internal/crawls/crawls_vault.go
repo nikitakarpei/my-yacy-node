@@ -13,9 +13,10 @@ import (
 )
 
 const (
-	unfinishedCrawlsBucket = "unfinished_crawls"
-	finishedCrawlsBucket   = "finished_crawls"
-	crawlIndexesVersion    = "1"
+	unfinishedCrawlsBucket                 = "unfinished_crawls"
+	finishedCrawlsBucket                   = "finished_crawls"
+	amountsOfUnfinishedCrawlsInStateBucket = "amounts_of_unfinished_crawls_in_state"
+	crawlIndexesVersion                    = "1"
 )
 
 func registerCrawls(
@@ -35,15 +36,22 @@ func registerCrawls(
 	if c.finishedIndexes, err = registerCrawlIndexes(storage, finishedCrawlsBucket); err != nil {
 		return nil, err
 	}
+	if c.amountsInState, err = storage.RegisterCountIndex(
+		amountsOfUnfinishedCrawlsInStateBucket, crawlIndexesVersion,
+		vault.SingleKey(stateKeyPart).KeyLayout(),
+		func(crawl crawlWithID) yacycrawlcontract.CrawlState { return crawl.crawl.State },
+	); err != nil {
+		return nil, fmt.Errorf("register %s: %w", amountsOfUnfinishedCrawlsInStateBucket, err)
+	}
 	if c.unfinished, err = storage.RegisterProjectedCollection(
 		ctx, unfinishedCrawlsBucket, crawlIDKeys, crawlCodec{},
-		c.unfinishedIndexes.projections(),
+		c.unfinishedIndexes.projectedWith(c.amountsInState),
 	); err != nil {
 		return nil, fmt.Errorf("register %s: %w", unfinishedCrawlsBucket, err)
 	}
 	if c.finished, err = storage.RegisterExpiringCollection(
 		ctx, finishedCrawlsBucket, crawlIDKeys, crawlCodec{}, retention,
-		c.finishedIndexes.projections(), forgotten.CrawlForgotten,
+		c.finishedIndexes.projectedWith(), forgotten.CrawlForgotten,
 	); err != nil {
 		return nil, fmt.Errorf("register %s: %w", finishedCrawlsBucket, err)
 	}
@@ -56,6 +64,13 @@ type crawlWithID struct {
 	crawlID crawlid.CrawlID
 	crawl   Crawl
 }
+
+var stateKeyPart = vault.TextKeyPartFrom(
+	func(state yacycrawlcontract.CrawlState) string { return string(state) },
+	func(text string) (yacycrawlcontract.CrawlState, error) {
+		return yacycrawlcontract.CrawlState(text), nil
+	},
+)
 
 type crawlCodec struct{}
 

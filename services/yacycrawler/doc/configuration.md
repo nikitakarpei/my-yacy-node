@@ -58,4 +58,5 @@ the directory.
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYCRAWLER_OPS_ADDR` | `:9090` | Address serving `/metrics`. |
+| `YACYCRAWLER_API_ADDR` | empty | Address serving the operator API; empty keeps the API off. |
 | `LOG_LEVEL` | `INFO` | Log level. |

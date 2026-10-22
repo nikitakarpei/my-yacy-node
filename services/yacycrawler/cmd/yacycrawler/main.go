@@ -54,6 +54,14 @@ func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 	if err != nil {
 		return Listeners{}, err
 	}
+	if !cfg.ServesAPI() {
+		return Listeners{Ops: ops}, nil
+	}
+	api, err := servergroup.Listen(ctx, cfg.APIAddr)
+	if err != nil {
+		_ = ops.Close()
+		return Listeners{}, err
+	}
 
-	return Listeners{Ops: ops}, nil
+	return Listeners{Ops: ops, API: api}, nil
 }

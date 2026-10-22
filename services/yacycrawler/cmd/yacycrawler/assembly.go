@@ -35,6 +35,8 @@ import (
 	crawledpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/applog"
 	crawledpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/prometheus"
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttp"
+	crawlerhttpobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttpobservers/applog"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
@@ -69,6 +71,7 @@ const (
 
 type Listeners struct {
 	Ops net.Listener
+	API net.Listener
 }
 
 func RunService(
@@ -159,15 +162,41 @@ func RunService(
 		slog.String("orders", cfg.CrawlOrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
 	)
-	err = servergroup.Run(ctx, opsShutdownLimit,
-		[]servergroup.NamedServer{
-			{Name: "ops", Listener: listeners.Ops, Server: opsServerFor(registry)},
-		},
+	err = servergroup.Run(
+		ctx,
+		opsShutdownLimit,
+		serversFor(listeners, registry, crawlerhttp.New(
+			storage,
+			crawlState.crawls,
+			crawlState.frontier,
+			crawlState.progressCounts,
+			crawlState.frontier,
+			crawlerhttpobserversapplog.CrawlerAPILog{},
+		)),
 		orders.Run,
 		visits.Run,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
+}
+
+func serversFor(
+	listeners Listeners,
+	registry *prometheus.Registry,
+	crawlerAPI http.Handler,
+) []servergroup.NamedServer {
+	servers := make([]servergroup.NamedServer, 0, 2)
+	servers = append(servers, servergroup.NamedServer{
+		Name: "ops", Listener: listeners.Ops, Server: opsServerFor(registry),
+	})
+	if listeners.API == nil {
+		return servers
+	}
+	return append(servers, servergroup.NamedServer{
+		Name:     "api",
+		Listener: listeners.API,
+		Server:   &http.Server{Handler: crawlerAPI, ReadHeaderTimeout: opsReadHeaderLimit},
+	})
 }
 
 func opsServerFor(registry *prometheus.Registry) *http.Server {
@@ -263,6 +292,7 @@ func openCrawlStateStores(
 	pageVisitFrontier, err := frontier.Open(
 		ctx,
 		storage,
+		wiring,
 		wiring,
 		cfg.PendingPageVisitLease(),
 		wallclock.Clock{},
