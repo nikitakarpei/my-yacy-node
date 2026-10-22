@@ -15,11 +15,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
+
+const metricNamespace = "yacynode"
 
 func main() {
 	if err := run(); err != nil {
@@ -66,19 +69,20 @@ func run() error {
 			OpenFileLimit:         config.Storage.OpenFileLimit,
 			WriteConcurrency:      config.Storage.WriteConcurrency,
 		},
-		metrics.NewPebbleWriteStallMetrics(registry),
-		metrics.NewPebbleWriteConflictMetrics(registry),
+		pebblemetrics.NewWriteStallMetrics(registry, metricNamespace),
+		pebblemetrics.NewWriteConflictMetrics(registry, metricNamespace),
 	)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
 	}
-	metrics.NewPebbleConditionMetrics(registry, engine)
+	pebblemetrics.NewConditionMetrics(registry, metricNamespace, engine)
 
 	storage, err := vault.New(
 		engine,
-		metrics.NewVaultTransactionMetrics(registry), nil,
-
-		wallclock.Clock{})
+		vaultmetrics.NewTransactionMetrics(registry, metricNamespace),
+		nil,
+		wallclock.Clock{},
+	)
 	if err != nil {
 		return errors.Join(fmt.Errorf("lend storage: %w", err), engine.Close())
 	}

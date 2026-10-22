@@ -1,4 +1,4 @@
-package metrics
+package vaultmetrics
 
 import (
 	"strconv"
@@ -24,7 +24,7 @@ const (
 	outcomeRefused   = "refused"
 )
 
-type VaultTransactionMetrics struct {
+type TransactionMetrics struct {
 	beginSeconds  prometheus.Histogram
 	beginRefusals *prometheus.CounterVec
 	durations     *prometheus.HistogramVec
@@ -32,23 +32,26 @@ type VaultTransactionMetrics struct {
 	readsInFlight prometheus.Gauge
 }
 
-func NewVaultTransactionMetrics(registry prometheus.Registerer) *VaultTransactionMetrics {
-	metrics := &VaultTransactionMetrics{
+func NewTransactionMetrics(
+	registry prometheus.Registerer,
+	serviceMetricNamespace string,
+) *TransactionMetrics {
+	metrics := &TransactionMetrics{
 		beginSeconds: prometheus.NewHistogram(prometheus.HistogramOpts{
-			Name:    "yacynode_vault_write_transaction_begin_seconds",
+			Name:    serviceMetricNamespace + "_vault_write_transaction_begin_seconds",
 			Help:    "Time spent waiting for a vault write transaction to begin, in seconds.",
 			Buckets: prometheus.ExponentialBucketsRange(10e-6, 10, 16),
 		}),
 		beginRefusals: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
-				Name: "yacynode_vault_write_transaction_begin_refusals_total",
+				Name: serviceMetricNamespace + "_vault_write_transaction_begin_refusals_total",
 				Help: "Vault write transactions the storage engine refused before opening, by cause.",
 			},
 			[]string{labelWriteCause},
 		),
 		durations: prometheus.NewHistogramVec(
 			prometheus.HistogramOpts{
-				Name:    "yacynode_vault_write_transaction_duration_seconds",
+				Name:    serviceMetricNamespace + "_vault_write_transaction_duration_seconds",
 				Help:    "Duration of each phase of an open vault write transaction, in seconds.",
 				Buckets: prometheus.ExponentialBucketsRange(10e-6, 10, 16),
 			},
@@ -56,13 +59,13 @@ func NewVaultTransactionMetrics(registry prometheus.Registerer) *VaultTransactio
 		),
 		transactions: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
-				Name: "yacynode_vault_write_transactions_total",
+				Name: serviceMetricNamespace + "_vault_write_transactions_total",
 				Help: "Vault write transactions that opened, by how they ended.",
 			},
 			[]string{labelWriteOutcome, labelWriteCause, labelWriteCalledOperation},
 		),
 		readsInFlight: prometheus.NewGauge(prometheus.GaugeOpts{
-			Name: "yacynode_vault_reads_in_flight",
+			Name: serviceMetricNamespace + "_vault_reads_in_flight",
 			Help: "Reads currently open through the vault.",
 		}),
 	}
@@ -77,15 +80,15 @@ func NewVaultTransactionMetrics(registry prometheus.Registerer) *VaultTransactio
 	return metrics
 }
 
-func (m *VaultTransactionMetrics) ObserveWriteBegan(elapsed time.Duration) {
+func (m *TransactionMetrics) ObserveWriteBegan(elapsed time.Duration) {
 	m.beginSeconds.Observe(elapsed.Seconds())
 }
 
-func (m *VaultTransactionMetrics) ObserveWriteBeginRefused(cause vault.WriteRefusalCause) {
+func (m *TransactionMetrics) ObserveWriteBeginRefused(cause vault.WriteRefusalCause) {
 	m.beginRefusals.WithLabelValues(string(cause)).Inc()
 }
 
-func (m *VaultTransactionMetrics) ObserveWriteCommitted(
+func (m *TransactionMetrics) ObserveWriteCommitted(
 	executed, committed time.Duration,
 	calledWriteOperation bool,
 ) {
@@ -98,13 +101,13 @@ func (m *VaultTransactionMetrics) ObserveWriteCommitted(
 	).Inc()
 }
 
-func (m *VaultTransactionMetrics) ObserveWriteAborted(executed, rolledBack time.Duration) {
+func (m *TransactionMetrics) ObserveWriteAborted(executed, rolledBack time.Duration) {
 	m.durations.WithLabelValues(phaseExecute).Observe(executed.Seconds())
 	m.durations.WithLabelValues(phaseRollback).Observe(rolledBack.Seconds())
 	m.transactions.WithLabelValues(outcomeAborted, "", "").Inc()
 }
 
-func (m *VaultTransactionMetrics) ObserveWriteCommitRefused(
+func (m *TransactionMetrics) ObserveWriteCommitRefused(
 	executed, rolledBack time.Duration,
 	cause vault.WriteRefusalCause,
 ) {
@@ -113,10 +116,10 @@ func (m *VaultTransactionMetrics) ObserveWriteCommitRefused(
 	m.transactions.WithLabelValues(outcomeRefused, string(cause), "").Inc()
 }
 
-func (m *VaultTransactionMetrics) ObserveReadBegan() {
+func (m *TransactionMetrics) ObserveReadBegan() {
 	m.readsInFlight.Inc()
 }
 
-func (m *VaultTransactionMetrics) ObserveReadEnded() {
+func (m *TransactionMetrics) ObserveReadEnded() {
 	m.readsInFlight.Dec()
 }

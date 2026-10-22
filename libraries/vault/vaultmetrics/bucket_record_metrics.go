@@ -1,4 +1,4 @@
-package metrics
+package vaultmetrics
 
 import (
 	"context"
@@ -11,23 +11,24 @@ import (
 
 const labelBucket = "bucket"
 
-type VaultBuckets interface {
+type Buckets interface {
 	RecordCountsByBucket(context.Context) (map[vault.Name]int, error)
 }
 
-type VaultBucketRecordMetrics struct {
-	buckets      VaultBuckets
+type BucketRecordMetrics struct {
+	buckets      Buckets
 	recordCounts *prometheus.Desc
 }
 
-func NewVaultBucketRecordMetrics(
+func NewBucketRecordMetrics(
 	registry prometheus.Registerer,
-	buckets VaultBuckets,
-) *VaultBucketRecordMetrics {
-	metrics := &VaultBucketRecordMetrics{
+	serviceMetricNamespace string,
+	buckets Buckets,
+) *BucketRecordMetrics {
+	metrics := &BucketRecordMetrics{
 		buckets: buckets,
 		recordCounts: prometheus.NewDesc(
-			"yacynode_vault_bucket_records",
+			serviceMetricNamespace+"_vault_bucket_records",
 			"Records currently stored in each vault bucket of records.",
 			[]string{labelBucket},
 			nil,
@@ -38,11 +39,11 @@ func NewVaultBucketRecordMetrics(
 	return metrics
 }
 
-func (m *VaultBucketRecordMetrics) Describe(descriptions chan<- *prometheus.Desc) {
+func (m *BucketRecordMetrics) Describe(descriptions chan<- *prometheus.Desc) {
 	descriptions <- m.recordCounts
 }
 
-func (m *VaultBucketRecordMetrics) Collect(samples chan<- prometheus.Metric) {
+func (m *BucketRecordMetrics) Collect(samples chan<- prometheus.Metric) {
 	ctx := context.Background()
 
 	recordCounts, err := m.buckets.RecordCountsByBucket(ctx)

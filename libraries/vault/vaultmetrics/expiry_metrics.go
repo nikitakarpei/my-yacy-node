@@ -1,47 +1,44 @@
-// Package vaultmetrics counts per bucket the expired records vault forgot and could
-// not forget, and shows when the running pass over expired records began and when
-// the last pass finished.
+// Package vaultmetrics exposes vault transactions, capacity, records per bucket,
+// member sets and the removal of expired records as Prometheus metrics under the
+// namespace of the service that wires them.
 package vaultmetrics
 
 import (
 	"context"
 	"time"
 
-	prometheusclient "github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-const (
-	labelBucket   = "bucket"
-	noPassRunning = 0
-)
+const noPassRunning = 0
 
 type ExpiryMetrics struct {
-	recordsForgotten    *prometheusclient.CounterVec
-	recordsNotForgotten *prometheusclient.CounterVec
-	passRunningSince    *prometheusclient.GaugeVec
-	passFinishedAt      *prometheusclient.GaugeVec
+	recordsForgotten    *prometheus.CounterVec
+	recordsNotForgotten *prometheus.CounterVec
+	passRunningSince    *prometheus.GaugeVec
+	passFinishedAt      *prometheus.GaugeVec
 }
 
 func NewExpiryMetrics(
-	registry prometheusclient.Registerer,
+	registry prometheus.Registerer,
 	serviceMetricNamespace string,
 ) *ExpiryMetrics {
 	metrics := &ExpiryMetrics{
-		recordsForgotten: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		recordsForgotten: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: serviceMetricNamespace + "_vault_expired_records_forgotten_total",
 			Help: "Expired records vault forgot, by bucket.",
 		}, []string{labelBucket}),
-		recordsNotForgotten: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
+		recordsNotForgotten: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: serviceMetricNamespace + "_vault_expired_records_not_forgotten_total",
 			Help: "Times vault could not forget expired records, by bucket.",
 		}, []string{labelBucket}),
-		passRunningSince: prometheusclient.NewGaugeVec(prometheusclient.GaugeOpts{
+		passRunningSince: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Name: serviceMetricNamespace + "_vault_expiry_pass_running_since_timestamp_seconds",
 			Help: "When the running pass over expired records began, by bucket; 0 when none runs.",
 		}, []string{labelBucket}),
-		passFinishedAt: prometheusclient.NewGaugeVec(prometheusclient.GaugeOpts{
+		passFinishedAt: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 			Name: serviceMetricNamespace + "_vault_expiry_pass_finished_timestamp_seconds",
 			Help: "When the last pass over expired records finished, by bucket.",
 		}, []string{labelBucket}),

@@ -12,6 +12,8 @@ components:
     in: internal/membersetfold/**
   compressionratios:
     in: internal/compressionratios/**
+  pebblemetrics:
+    in: pebblemetrics/**
 
 vendors:
   vault:
@@ -24,6 +26,8 @@ vendors:
     in:
       - github.com/cockroachdb/pebble/v2
       - github.com/cockroachdb/pebble/v2/bloom
+  prometheus:
+    in: github.com/prometheus/client_golang/**
 
 deps:
   pebblevault:
@@ -41,6 +45,12 @@ deps:
   compressionratios:
     canUse:
       - pebble
+  pebblemetrics:
+    mayDependOn:
+      - pebblevault
+    canUse:
+      - vault
+      - prometheus
 
 excludeFiles:
   - "_test\\.go"
