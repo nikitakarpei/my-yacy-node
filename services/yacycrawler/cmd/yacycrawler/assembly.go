@@ -175,6 +175,7 @@ func RunService(
 		)),
 		orders.Run,
 		visits.Run,
+		crawlState.frontier.DrainCancelledCrawls,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err

@@ -55,10 +55,11 @@ func (c *clock) pass(d time.Duration) {
 }
 
 type crawlLedger struct {
-	guard           sync.Mutex
-	owingNothing    []crawlid.CrawlID
-	cancelledOfHost map[string]uint
-	refusing        error
+	guard            sync.Mutex
+	owingNothing     []crawlid.CrawlID
+	cancelledOfHost  map[string]uint
+	cancelledBatches []uint
+	refusing         error
 }
 
 func (l *crawlLedger) CrawlOwesNothing(_ *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -83,6 +84,7 @@ func (l *crawlLedger) PageVisitsCancelled(
 		return l.refusing
 	}
 	l.cancelledOfHost[crawlID.String()+"/"+host] += amount
+	l.cancelledBatches = append(l.cancelledBatches, amount)
 	return nil
 }
 
@@ -251,6 +253,13 @@ func (f frontierScene) requireNoDueVisit(t *testing.T) {
 	t.Helper()
 	if message, err := f.visits.Next(t.Context()); !errors.Is(err, errNoDueVisit) {
 		t.Fatalf("Next = %v, %v; want no due page visit", message, err)
+	}
+}
+
+func (f frontierScene) drainCancelled(t *testing.T) {
+	t.Helper()
+	if err := f.visits.DrainCancelledCrawls(t.Context()); err != nil {
+		t.Fatalf("DrainCancelledCrawls: %v", err)
 	}
 }
 
@@ -464,6 +473,7 @@ func TestACancelledCrawlTakesNoVisitAndDropsTheOwedOnesLeasedOrNot(t *testing.T)
 	f.change(t, f.visits.Cancel, firstCrawl)
 	f.owe(t, pageVisitTo(t, "http://c/1"))
 	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 	leased.Acknowledge(t.Context())
 
 	drained := f.ledger.cancelledOfHost
@@ -477,7 +487,7 @@ func TestACancelledCrawlTakesNoVisitAndDropsTheOwedOnesLeasedOrNot(t *testing.T)
 	}
 }
 
-func TestACancelDropsOneBatchBeforeEachLease(t *testing.T) {
+func TestACancelDropsTheOwedVisitsInBatchesBesideTheLeases(t *testing.T) {
 	f := newFrontier(t)
 	const owed = 150
 	pageVisits := make([]pendingpagevisit.PendingPageVisit, 0, owed)
@@ -491,13 +501,15 @@ func TestACancelDropsOneBatchBeforeEachLease(t *testing.T) {
 	if leased := pageVisitOf(t, f.next(t)); leased.CrawlID != secondCrawl {
 		t.Fatalf("leased %+v, want the visit of the open crawl", leased)
 	}
-	if amount := f.amount(t); amount != owed-100+1 {
-		t.Fatalf("owed %d after one lease, want one batch drained", amount)
+	if amount := f.amount(t); amount != owed+1 {
+		t.Fatalf("owed %d after a lease, want no visit dropped by leasing", amount)
 	}
-	f.requireNoDueVisit(t)
-	if amount := f.amount(t); amount != 1 || len(f.ledger.owingNothing) != 1 {
-		t.Fatalf("owed %d, owing nothing %v; want the cancelled crawl drained",
-			amount, f.ledger.owingNothing)
+	f.drainCancelled(t)
+
+	if !slices.Equal(f.ledger.cancelledBatches, []uint{100, 50}) || f.amount(t) != 1 ||
+		!slices.Equal(f.ledger.owingNothing, []crawlid.CrawlID{firstCrawl}) {
+		t.Fatalf("batches %v, owed %d, owing nothing %v; want two batches and the crawl settled",
+			f.ledger.cancelledBatches, f.amount(t), f.ledger.owingNothing)
 	}
 }
 
@@ -509,7 +521,7 @@ func TestACancelDropsVisitsWhileEveryPageVisitIsPaused(t *testing.T) {
 	}
 
 	f.change(t, f.visits.Cancel, firstCrawl)
-	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 
 	if f.amount(t) != 0 {
 		t.Fatalf("owed %d, want the cancelled crawl drained", f.amount(t))
@@ -524,6 +536,7 @@ func TestCancellingAHeldCrawlDropsItsVisits(t *testing.T) {
 	f.change(t, f.visits.Cancel, firstCrawl)
 	f.change(t, f.visits.Release, firstCrawl)
 	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 
 	if f.amount(t) != 0 || len(f.ledger.owingNothing) != 1 {
 		t.Fatalf("owed %d, owing nothing %v; want the held crawl drained",
@@ -539,6 +552,7 @@ func TestAClosedCrawlTakesNoVisitAndIsNotDrained(t *testing.T) {
 	f.change(t, f.visits.Cancel, firstCrawl)
 	f.owe(t, pageVisitTo(t, "http://host/a"))
 	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 
 	if f.amount(t) != 0 || len(f.ledger.owingNothing) != 0 || len(f.ledger.cancelledOfHost) != 0 {
 		t.Fatalf("owed %d, owing nothing %v, cancelled %v; want nothing",
@@ -585,9 +599,9 @@ func TestACancelTheLedgerRefusesIsReportedAndTriedAgain(t *testing.T) {
 	f.change(t, f.visits.Cancel, firstCrawl)
 	f.ledger.refusing = errEngineRefusing
 
-	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 	f.ledger.refusing = nil
-	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 
 	if len(f.failures.drains) != 1 || f.amount(t) != 0 {
 		t.Fatalf("drain failures %v, owed %d; want one failure, then drained",
@@ -624,6 +638,7 @@ func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
 	message.ReturnAfter(t.Context(), time.Second)
 	_, counted := f.visits.AmountOfPendingPageVisits(t.Context())
 	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 	pauseErr := f.visits.Pause(t.Context())
 	resumeErr := f.visits.Resume(t.Context())
 	_, pausedErr := f.visits.IsPaused(t.Context())

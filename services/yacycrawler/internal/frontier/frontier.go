@@ -26,6 +26,7 @@ const (
 	frontierName            = "YACY_CRAWL_FRONTIER"
 	frontierIndexesVersion  = "1"
 	noDueVisitPause         = 500 * time.Millisecond
+	noCancelledCrawlPause   = 500 * time.Millisecond
 	pageVisitsDrainedAtOnce = 100
 )
 
@@ -227,16 +228,125 @@ func (frontier *Frontier) AmountsOwedByHostsOf(
 
 func (frontier *Frontier) Next(ctx context.Context) (pullintake.PendingMessage, error) {
 	for {
-		drained := frontier.drainNextBatch(ctx)
 		message, leased, retry := frontier.leaseNextPageVisit(ctx)
 		if leased {
 			return message, nil
 		}
-		if retry || drained {
+		if retry {
 			continue
 		}
 		if err := frontier.clock.Sleep(ctx, noDueVisitPause); err != nil {
 			return nil, err
+		}
+	}
+}
+
+func (frontier *Frontier) leaseNextPageVisit(
+	ctx context.Context,
+) (message pendingPageVisitMessage, leased bool, retry bool) {
+	now := frontier.clock.Now()
+	head, due, err := frontier.firstHeadDue(ctx, now)
+	if err != nil {
+		frontier.observer.FrontierLeaseFailed(ctx, err)
+		return pendingPageVisitMessage{}, false, false
+	}
+	if !due {
+		return pendingPageVisitMessage{}, false, false
+	}
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		message, leased, err = frontier.leaseHeadOf(tx, head.crawlID, now)
+		return err
+	}); err != nil {
+		frontier.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease a due page visit: %w", err))
+		return pendingPageVisitMessage{}, false, false
+	}
+	return message, leased, !leased
+}
+
+func (frontier *Frontier) firstHeadDue(
+	ctx context.Context,
+	now time.Time,
+) (crawlHead, bool, error) {
+	var head crawlHead
+	var due bool
+	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
+		paused, err := frontier.pause.isOn(tx)
+		if err != nil || paused {
+			return err
+		}
+		head, due, err = frontier.heads.firstDueBy(tx, now)
+		return err
+	}); err != nil {
+		return crawlHead{}, false, fmt.Errorf("look for a due page visit: %w", err)
+	}
+	return head, due, nil
+}
+
+func (frontier *Frontier) leaseHeadOf(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	now time.Time,
+) (pendingPageVisitMessage, bool, error) {
+	paused, err := frontier.pause.isOn(tx)
+	if err != nil || paused {
+		return pendingPageVisitMessage{}, false, err
+	}
+	headed, err := frontier.heads.has(tx, crawlID)
+	if err != nil || !headed {
+		return pendingPageVisitMessage{}, false, err
+	}
+	first, owed, err := frontier.ledger.firstDueOf(tx, crawlID)
+	if err != nil {
+		return pendingPageVisitMessage{}, false, err
+	}
+	if !owed {
+		return pendingPageVisitMessage{}, false, frontier.heads.remove(tx, crawlID)
+	}
+	if first.due > now.Unix() {
+		return pendingPageVisitMessage{}, false, frontier.heads.moveTo(tx, crawlID, first.due)
+	}
+	message, err := frontier.leaseIn(tx, first.key, now)
+	if err != nil {
+		return pendingPageVisitMessage{}, false, err
+	}
+	return message, true, frontier.restoreHeadOf(tx, crawlID)
+}
+
+func (frontier *Frontier) leaseIn(
+	tx *vault.Txn,
+	key pageVisitKey,
+	now time.Time,
+) (pendingPageVisitMessage, error) {
+	visit, err := frontier.ledger.lease(tx, key, secondsAtOrAfter(now.Add(frontier.lease)))
+	if err != nil {
+		return pendingPageVisitMessage{}, err
+	}
+	return pendingPageVisitMessage{
+		frontier: frontier,
+		key:      key,
+		lease:    visit.due,
+		identity: frontierName + "/" + hex.EncodeToString(visit.messageID[:]),
+		arrival:  time.Unix(visit.arrival, 0),
+		body:     visit.body,
+	}, nil
+}
+
+func secondsAtOrAfter(at time.Time) int64 {
+	seconds := at.Unix()
+	if at.Nanosecond() > 0 {
+		seconds++
+	}
+	return seconds
+}
+
+func (frontier *Frontier) DrainCancelledCrawls(ctx context.Context) error {
+	for {
+		if frontier.drainNextBatch(ctx) {
+			continue
+		}
+		if err := frontier.clock.Sleep(ctx, noCancelledCrawlPause); err != nil {
+			return nil //nolint:nilerr // a clock only stops sleeping early when the drain is to end
 		}
 	}
 }
@@ -355,105 +465,6 @@ type unsettledCrawls struct{}
 
 func (unsettledCrawls) CrawlOwesNothing(*vault.Txn, crawlid.CrawlID) error {
 	return nil
-}
-
-func (frontier *Frontier) leaseNextPageVisit(
-	ctx context.Context,
-) (message pendingPageVisitMessage, leased bool, retry bool) {
-	now := frontier.clock.Now()
-	head, due, err := frontier.firstHeadDue(ctx, now)
-	if err != nil {
-		frontier.observer.FrontierLeaseFailed(ctx, err)
-		return pendingPageVisitMessage{}, false, false
-	}
-	if !due {
-		return pendingPageVisitMessage{}, false, false
-	}
-	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
-		var err error
-		message, leased, err = frontier.leaseHeadOf(tx, head.crawlID, now)
-		return err
-	}); err != nil {
-		frontier.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease a due page visit: %w", err))
-		return pendingPageVisitMessage{}, false, false
-	}
-	return message, leased, !leased
-}
-
-func (frontier *Frontier) firstHeadDue(
-	ctx context.Context,
-	now time.Time,
-) (crawlHead, bool, error) {
-	var head crawlHead
-	var due bool
-	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
-		paused, err := frontier.pause.isOn(tx)
-		if err != nil || paused {
-			return err
-		}
-		head, due, err = frontier.heads.firstDueBy(tx, now)
-		return err
-	}); err != nil {
-		return crawlHead{}, false, fmt.Errorf("look for a due page visit: %w", err)
-	}
-	return head, due, nil
-}
-
-func (frontier *Frontier) leaseHeadOf(
-	tx *vault.Txn,
-	crawlID crawlid.CrawlID,
-	now time.Time,
-) (pendingPageVisitMessage, bool, error) {
-	paused, err := frontier.pause.isOn(tx)
-	if err != nil || paused {
-		return pendingPageVisitMessage{}, false, err
-	}
-	headed, err := frontier.heads.has(tx, crawlID)
-	if err != nil || !headed {
-		return pendingPageVisitMessage{}, false, err
-	}
-	first, owed, err := frontier.ledger.firstDueOf(tx, crawlID)
-	if err != nil {
-		return pendingPageVisitMessage{}, false, err
-	}
-	if !owed {
-		return pendingPageVisitMessage{}, false, frontier.heads.remove(tx, crawlID)
-	}
-	if first.due > now.Unix() {
-		return pendingPageVisitMessage{}, false, frontier.heads.moveTo(tx, crawlID, first.due)
-	}
-	message, err := frontier.leaseIn(tx, first.key, now)
-	if err != nil {
-		return pendingPageVisitMessage{}, false, err
-	}
-	return message, true, frontier.restoreHeadOf(tx, crawlID)
-}
-
-func (frontier *Frontier) leaseIn(
-	tx *vault.Txn,
-	key pageVisitKey,
-	now time.Time,
-) (pendingPageVisitMessage, error) {
-	visit, err := frontier.ledger.lease(tx, key, secondsAtOrAfter(now.Add(frontier.lease)))
-	if err != nil {
-		return pendingPageVisitMessage{}, err
-	}
-	return pendingPageVisitMessage{
-		frontier: frontier,
-		key:      key,
-		lease:    visit.due,
-		identity: frontierName + "/" + hex.EncodeToString(visit.messageID[:]),
-		arrival:  time.Unix(visit.arrival, 0),
-		body:     visit.body,
-	}, nil
-}
-
-func secondsAtOrAfter(at time.Time) int64 {
-	seconds := at.Unix()
-	if at.Nanosecond() > 0 {
-		seconds++
-	}
-	return seconds
 }
 
 func (frontier *Frontier) AmountOfPendingPageVisits(ctx context.Context) (int64, bool) {

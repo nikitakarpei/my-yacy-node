@@ -51,8 +51,6 @@ part of the crawler contract, `yacycrawlcontract`.
   grows the crawl state.
 * Forgetting a wide crawl is one large write, and other writes of the crawl state wait
   for it.
-* A cancelling crawl drops its pending page visits only while the crawler takes page
-  visits, so a full crawled page backlog delays it.
 * A forgotten crawl leaves zero counts of its pending page visits in the crawl state.
 * The crawl list shows the one-page crawls of `visitcrawl` with the crawls of operators.
 * A pause of every page visit does not stop order intake. Orders continue to put page
