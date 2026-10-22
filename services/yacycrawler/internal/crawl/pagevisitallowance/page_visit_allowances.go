@@ -19,7 +19,6 @@ type PageVisitLimits interface {
 		ctx context.Context,
 		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
-		host string,
 		maxPages int,
 	) (bool, error)
 	TakeDeferral(
@@ -55,7 +54,7 @@ func (allowances *Allowances) TakePageOfHost(
 	maxPages int,
 ) (Allowance, error) {
 	took, err := allowances.limits.TakePageOfHost(
-		ctx, pageVisit.CrawlID, pageVisit.URL, pageVisit.URL.Hostname(), maxPages,
+		ctx, pageVisit.CrawlID, pageVisit.URL, maxPages,
 	)
 	if err != nil {
 		return Allowance{}, err

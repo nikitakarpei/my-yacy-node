@@ -310,7 +310,7 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDue(t *testing.T) {
 	f := newFrontier(t)
 	first, second := pageVisitTo(t, "http://host/first"), pageVisitTo(t, "http://host/second")
 	f.publish(t, first)
-	f.clock.pass(time.Millisecond)
+	f.clock.pass(time.Second)
 	f.publish(t, second)
 
 	f.next(t).ReturnAfter(t.Context(), time.Second)

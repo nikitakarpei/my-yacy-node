@@ -20,14 +20,12 @@ type fakeLimits struct {
 	admitsDeferral   bool
 	admitsAttempt    bool
 	attempt          int
-	host             string
 	err              error
 }
 
 func (limits *fakeLimits) TakePageOfHost(
-	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL, host string, _ int,
+	_ context.Context, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL, _ int,
 ) (bool, error) {
-	limits.host = host
 	return limits.admitsPageOfHost, limits.err
 }
 
@@ -68,9 +66,6 @@ func TestAHostPageIsGrantedWhenTheHostStillHasPagesLeft(t *testing.T) {
 
 	if !allowance.Granted {
 		t.Fatalf("allowance = %+v, want a host with pages left to grant one", allowance)
-	}
-	if limits.host != "host" {
-		t.Fatalf("took a page of %q, want the host of the visited url", limits.host)
 	}
 }
 

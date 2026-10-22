@@ -12,26 +12,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 const takersBucket = "taken_page_visits"
 
-var pageVisitKeys = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash).KeyLayoutFor(
-	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.url },
-	func(crawlID crawlid.CrawlID, url urlhash.URLHash) pageVisitKey {
-		return pageVisitKey{crawlID: crawlID, url: url}
-	},
-)
-
 type TakenPageVisits struct {
 	storage *vault.Vault
 	takers  *vault.ExpiringCollection[pageVisitKey, string]
-}
-
-type pageVisitKey struct {
-	crawlID crawlid.CrawlID
-	url     urlhash.URLHash
 }
 
 func New(
@@ -78,9 +65,3 @@ func (visits *TakenPageVisits) take(
 	}
 	return true, visits.takers.Put(tx, key, taker)
 }
-
-type takerCodec struct{}
-
-func (takerCodec) Encode(taker string) ([]byte, error) { return []byte(taker), nil }
-
-func (takerCodec) Decode(stored []byte) (string, error) { return string(stored), nil }

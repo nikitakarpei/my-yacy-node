@@ -6,7 +6,6 @@ package vault
 
 import (
 	"context"
-	"crypto/sha256"
 	"fmt"
 	"time"
 
@@ -25,31 +24,10 @@ const (
 
 var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()
 
-var crawlsByOrderKeyParts = vault.PairKey(vault.BytesKeyPartFrom(
-	func(hash orderIDHash, buffer []byte) []byte { return append(buffer, hash[:]...) },
-	func(stored vault.StoredBytes) (orderIDHash, error) {
-		return orderIDHash(stored.AppendTo(nil)), nil
-	},
-), vaultkeyparts.CrawlID)
-
-var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
-	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.order, entry.crawlID },
-	func(order orderIDHash, crawlID crawlid.CrawlID) crawlOfOrder {
-		return crawlOfOrder{order: order, crawlID: crawlID}
-	},
-)
-
 type Crawls struct {
 	storage       *vault.Vault
 	crawls        *vault.ExpiringCollection[crawlid.CrawlID, yacycrawlcontract.CrawlOrder]
 	crawlsByOrder *vault.ValueIndex[crawlOfOrder, crawlOfOrder]
-}
-
-type orderIDHash string
-
-type crawlOfOrder struct {
-	order   orderIDHash
-	crawlID crawlid.CrawlID
 }
 
 func New(
@@ -80,15 +58,6 @@ func New(
 		return nil, fmt.Errorf("register %s: %w", crawlsBucket, err)
 	}
 	return &Crawls{storage: storage, crawls: crawls, crawlsByOrder: crawlsByOrder}, nil
-}
-
-func crawlOfOrderFrom(crawlID crawlid.CrawlID, order yacycrawlcontract.CrawlOrder) crawlOfOrder {
-	return crawlOfOrder{order: orderIDHashOf(order.OrderID), crawlID: crawlID}
-}
-
-func orderIDHashOf(orderID string) orderIDHash {
-	digest := sha256.Sum256([]byte(orderID))
-	return orderIDHash(digest[:len(crawlid.CrawlID{})])
 }
 
 func (c *Crawls) Keep(
@@ -163,14 +132,4 @@ func (c *Crawls) OrderOf(
 		return acceptedorder.AcceptedOrder{}, false, err
 	}
 	return order, true, nil
-}
-
-type crawlOrderCodec struct{}
-
-func (crawlOrderCodec) Encode(order yacycrawlcontract.CrawlOrder) ([]byte, error) {
-	return yacycrawlcontract.MarshalCrawlOrder(order)
-}
-
-func (crawlOrderCodec) Decode(stored []byte) (yacycrawlcontract.CrawlOrder, error) {
-	return yacycrawlcontract.UnmarshalCrawlOrder(stored)
 }

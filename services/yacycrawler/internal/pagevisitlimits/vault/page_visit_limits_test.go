@@ -21,7 +21,6 @@ import (
 )
 
 const (
-	host                 = "host"
 	keptFor              = time.Hour
 	concurrentPageVisits = 8
 )
@@ -118,7 +117,7 @@ func admitsAnotherPageOfHost(
 	maxPages int,
 ) bool {
 	t.Helper()
-	admitted, err := limits.TakePageOfHost(t.Context(), crawlID, url, host, maxPages)
+	admitted, err := limits.TakePageOfHost(t.Context(), crawlID, url, maxPages)
 	if err != nil {
 		t.Fatalf("TakePageOfHost: %v", err)
 	}
@@ -138,6 +137,16 @@ func TestAHostTakesNoMorePagesThanItsProfileAllows(t *testing.T) {
 	beyond := canonicalurltest.CanonicalURLOf(t, "http://host/beyond")
 	if admitsAnotherPageOfHost(t, limits, beyond, 2) {
 		t.Fatal("a page beyond the limit of the host should be refused")
+	}
+}
+
+func TestEachHostHoldsItsOwnLimitOfPages(t *testing.T) {
+	limits, _ := pageVisitLimits(t)
+	admitsAnotherPageOfHost(t, limits, pageURL(t), 1)
+
+	otherHost := canonicalurltest.CanonicalURLOf(t, "http://other-host/page")
+	if !admitsAnotherPageOfHost(t, limits, otherHost, 1) {
+		t.Fatal("a page of another host should be within the limit of its own host")
 	}
 }
 
@@ -184,7 +193,6 @@ func TestTheSameHostCountsSeparatelyUnderAnotherCrawl(t *testing.T) {
 		t.Context(),
 		crawlid.CrawlID{2},
 		other,
-		host,
 		1,
 	)
 	if err != nil {
@@ -213,7 +221,6 @@ func TestOnlyOneOfConcurrentPageVisitsTakesTheLastPageOfAHost(t *testing.T) {
 				context.Background(),
 				crawlID,
 				url,
-				host,
 				1,
 			)
 			if err != nil {
@@ -335,7 +342,6 @@ func TestALimitTheStorageRefusesFails(t *testing.T) {
 		t.Context(),
 		crawlID,
 		pageURL(t),
-		host,
 		1,
 	); !errors.Is(
 		err,
