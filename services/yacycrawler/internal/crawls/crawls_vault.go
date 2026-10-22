@@ -52,7 +52,7 @@ func registerCrawls(
 
 var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()
 
-type crawlForm struct {
+type crawlWithID struct {
 	crawlID crawlid.CrawlID
 	crawl   Crawl
 }

@@ -10,7 +10,7 @@ import (
 )
 
 type crawlIndexes struct {
-	byOrder *vault.ValueIndex[crawlForm, crawlOfOrder]
+	byOrder *vault.ValueIndex[crawlWithID, crawlOfOrder]
 }
 
 func registerCrawlIndexes(storage *vault.Vault, crawlsBucket vault.Name) (crawlIndexes, error) {
@@ -27,8 +27,8 @@ func registerCrawlIndexes(storage *vault.Vault, crawlsBucket vault.Name) (crawlI
 
 func (indexes crawlIndexes) projections() vault.Projections[crawlid.CrawlID, Crawl] {
 	return vault.ProjectedAs(
-		func(crawlID crawlid.CrawlID, crawl Crawl) crawlForm {
-			return crawlForm{crawlID: crawlID, crawl: crawl}
+		func(crawlID crawlid.CrawlID, crawl Crawl) crawlWithID {
+			return crawlWithID{crawlID: crawlID, crawl: crawl}
 		},
 		indexes.byOrder,
 	)
@@ -59,8 +59,8 @@ type crawlOfOrder struct {
 
 type orderIDHash string
 
-func crawlOfOrderOf(form crawlForm) crawlOfOrder {
-	return crawlOfOrder{order: orderIDHashOf(form.crawl.Order.OrderID), crawlID: form.crawlID}
+func crawlOfOrderOf(crawl crawlWithID) crawlOfOrder {
+	return crawlOfOrder{order: orderIDHashOf(crawl.crawl.Order.OrderID), crawlID: crawl.crawlID}
 }
 
 func orderIDHashOf(orderID string) orderIDHash {
