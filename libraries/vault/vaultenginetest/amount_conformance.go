@@ -45,6 +45,14 @@ func runAmountConformance(t *testing.T, open func(quotaBytes int64) (vault.Engin
 		"RepeatedWriteRaisesOneTime",
 		func(t *testing.T) { repeatedWriteRaisesOneTime(t, open) },
 	)
+	t.Run(
+		"AnAmountLoweredPastZeroCarriesWhatItOwes",
+		func(t *testing.T) { anAmountLoweredPastZeroCarriesWhatItOwes(t, open) },
+	)
+	t.Run(
+		"AmountChangesInOneTransactionAddUpInAnyOrder",
+		func(t *testing.T) { amountChangesInOneTransactionAddUpInAnyOrder(t, open) },
+	)
 }
 
 var errAbortedOnPurpose = errors.New("aborted on purpose")
@@ -290,5 +298,55 @@ func repeatedWriteRaisesOneTime(t *testing.T, open func(int64) (vault.Engine, er
 
 	if amount := storedAmountOf(t, v, tallies, "a"); amount != 1 {
 		t.Fatalf("amount of a = %d, want 1", amount)
+	}
+}
+
+func anAmountLoweredPastZeroCarriesWhatItOwes(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	v := openVault(t, open, 0)
+	tallies := registerTallies(t, v)
+	changeAmounts(t, v, func(tx *vault.Txn) error { return tallies.Raise(tx, "a", 1) })
+	changeAmounts(t, v, func(tx *vault.Txn) error { return tallies.Lower(tx, "a", 2) })
+
+	if amount := storedAmountOf(t, v, tallies, "a"); amount != 0 {
+		t.Fatalf("amount lowered past zero = %d, want 0", amount)
+	}
+	if scanned := scannedAmounts(t, v, tallies, vault.EveryKey()); len(scanned) != 0 {
+		t.Fatalf("scanned amounts = %v, want none", scanned)
+	}
+	changeAmounts(t, v, func(tx *vault.Txn) error { return tallies.Raise(tx, "a", 1) })
+	if amount := storedAmountOf(t, v, tallies, "a"); amount != 0 {
+		t.Fatalf("amount raised by what it owed = %d, want 0", amount)
+	}
+	changeAmounts(t, v, func(tx *vault.Txn) error { return tallies.Raise(tx, "a", 1) })
+	if amount := storedAmountOf(t, v, tallies, "a"); amount != 1 {
+		t.Fatalf("amount raised past what it owed = %d, want 1", amount)
+	}
+}
+
+func amountChangesInOneTransactionAddUpInAnyOrder(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	v := openVault(t, open, 0)
+	tallies := registerTallies(t, v)
+
+	changeAmounts(t, v, func(tx *vault.Txn) error {
+		return errors.Join(
+			tallies.Lower(tx, "lowered first", 2),
+			tallies.Raise(tx, "lowered first", 1),
+			tallies.Raise(tx, "lowered first", 2),
+			tallies.Raise(tx, "raised first", 1),
+			tallies.Lower(tx, "raised first", 2),
+			tallies.Raise(tx, "raised first", 2),
+		)
+	})
+
+	for _, key := range []string{"lowered first", "raised first"} {
+		if amount := storedAmountOf(t, v, tallies, key); amount != 1 {
+			t.Errorf("amount %q = %d, want the sum 1", key, amount)
+		}
 	}
 }
