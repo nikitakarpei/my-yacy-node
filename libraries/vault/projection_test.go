@@ -25,7 +25,9 @@ func definitionOf(word, meaning string) definition {
 	return definition{word: word, meaning: meaning}
 }
 
-var definitionEntries = vault.PairKey(vault.TextKeyPart, vault.TextKeyPart).KeyLayoutFor(
+var definitionKeyParts = vault.PairKey(vault.TextKeyPart, vault.TextKeyPart)
+
+var definitionEntries = definitionKeyParts.KeyLayoutFor(
 	func(entry definition) (string, string) { return entry.meaning, entry.word },
 	func(meaning, word string) definition { return definition{word: word, meaning: meaning} },
 )
@@ -218,6 +220,41 @@ func TestAValueIndexDropsTheEntryOfADeletedRecord(t *testing.T) {
 
 	if got, want := d.entries(t), []string{"y/b"}; !slices.Equal(got, want) {
 		t.Fatalf("entries = %v, want %v", got, want)
+	}
+}
+
+func TestAValueIndexFindsTheFirstEntryWithinARange(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("c", "x"), definitionOf("b", "y"), definitionOf("a", "y"))
+
+	var first definition
+	var found bool
+	d.read(t, func(tx *vault.Txn) error {
+		var err error
+		first, found, err = d.byMeaning.First(tx, definitionKeyParts.KeysWithFirst("y"))
+
+		return err
+	})
+
+	if !found || first != definitionOf("a", "y") {
+		t.Fatalf("First = %v, %v, want a/y", first, found)
+	}
+}
+
+func TestAValueIndexFindsNoFirstEntryWithinAnEmptyRange(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("a", "x"))
+
+	var found bool
+	d.read(t, func(tx *vault.Txn) error {
+		var err error
+		_, found, err = d.byMeaning.First(tx, definitionKeyParts.KeysWithFirst("y"))
+
+		return err
+	})
+
+	if found {
+		t.Fatal("First found an entry within an empty range")
 	}
 }
 
