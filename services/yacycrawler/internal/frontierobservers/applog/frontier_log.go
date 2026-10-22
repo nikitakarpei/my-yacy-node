@@ -15,6 +15,7 @@ const (
 	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
 	msgFrontierAcknowledgeFailed = "a settled page visit could not be removed from the frontier"
 	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"
+	msgCrawlProgressCountFailed  = "a page visit could not be counted in the progress of its crawl"
 	msgFrontierCrawlNotSettled   = "a crawl that owes no page visit could not be finished"
 	msgFrontierLeaseOutdated     = "a page visit was settled under a lease that has since ended"
 )
@@ -45,6 +46,19 @@ func (FrontierLog) FrontierReturnFailed(
 	slog.WarnContext(ctx, msgFrontierReturnFailed,
 		slog.String("pageVisit", identity),
 		slog.Duration("delay", delay),
+		slog.Any("error", err),
+	)
+}
+
+func (FrontierLog) CrawlProgressCountFailed(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+	count string,
+	err error,
+) {
+	slog.WarnContext(ctx, msgCrawlProgressCountFailed,
+		slog.String("crawl", crawlID.String()),
+		slog.String("count", count),
 		slog.Any("error", err),
 	)
 }

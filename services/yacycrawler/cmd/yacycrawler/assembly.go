@@ -37,6 +37,7 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontier"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
@@ -123,9 +124,15 @@ func RunService(
 		return err
 	}
 	frontiermetricsprometheus.New(registry, crawlState.frontier)
+	progressCounting := crawlprogress.NewCounting(
+		storage,
+		crawlState.progressCounts,
+		frontierobserversapplog.FrontierLog{},
+	)
 	pendingPageVisitObservers := pagevisitintake.PendingPageVisitObservers{
 		pendingpagevisitobserversapplog.PendingPageVisitLog{},
 		pendingpagevisitobserversprometheus.New(registry),
+		progressCounting,
 	}
 	orders, err := buildOrderConsumer(ctx, js, crawlState, cfg, crawlOrderObservers)
 	if err != nil {
@@ -145,6 +152,7 @@ func RunService(
 		pageVisitRecordObservers,
 		htmlPageReading,
 		crawledPageObservers,
+		progressCounting,
 	)
 
 	slog.InfoContext(ctx, msgServiceStarted,
@@ -237,6 +245,7 @@ type crawlStateStores struct {
 	storage          *vault.Vault
 	crawls           *crawls.Crawls
 	frontier         *frontier.Frontier
+	progressCounts   *crawlprogress.Counts
 	pageVisitLimits  *pagevisitlimits.PageVisitLimits
 	pageVisitRecords pagevisit.PageVisitRecords
 }
@@ -247,6 +256,10 @@ func openCrawlStateStores(
 	cfg ServiceConfig,
 ) (crawlStateStores, error) {
 	wiring := &crawlStateWiring{}
+	progressCounts, err := crawlprogress.Open(storage)
+	if err != nil {
+		return crawlStateStores{}, err
+	}
 	pageVisitFrontier, err := frontier.Open(
 		ctx,
 		storage,
@@ -258,7 +271,7 @@ func openCrawlStateStores(
 	if err != nil {
 		return crawlStateStores{}, err
 	}
-	wiring.frontier = pageVisitFrontier
+	wiring.frontier, wiring.progress = pageVisitFrontier, progressCounts
 	keptCrawls, err := crawls.Open(
 		ctx, storage, cfg.CrawlRetention(), wiring, wiring, wallclock.Clock{},
 	)
@@ -280,6 +293,7 @@ func openCrawlStateStores(
 		storage:          storage,
 		crawls:           keptCrawls,
 		frontier:         pageVisitFrontier,
+		progressCounts:   progressCounts,
 		pageVisitLimits:  pageVisitLimits,
 		pageVisitRecords: pageVisitRecords,
 	}, nil
@@ -360,6 +374,7 @@ func buildPageVisitConsumer(
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
+	linkObserver pagevisit.LinkAdmissionObserver,
 ) *pagevisitintake.PageVisitConsumer {
 	pageVisitor := buildPageVisitor(
 		js,
@@ -369,6 +384,7 @@ func buildPageVisitConsumer(
 		pageVisitRecordObserver,
 		htmlPageReading,
 		crawledPageObserver,
+		linkObserver,
 	)
 	return pagevisitintake.NewPageVisitConsumer(
 		crawlState.storage,
@@ -395,6 +411,7 @@ func buildPageVisitor(
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
+	linkObserver pagevisit.LinkAdmissionObserver,
 ) pagevisit.PageVisitor {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -412,5 +429,6 @@ func buildPageVisitor(
 		htmlPageReading,
 		crawledpagesjetstream.New(js, crawledPageObserver),
 		crawlState.frontier,
+		linkObserver,
 	)
 }

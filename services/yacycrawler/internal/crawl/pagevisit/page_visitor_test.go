@@ -157,6 +157,18 @@ func (page unreadableHTMLPage) ReadingOfPage(
 	return pagehtmlreading.Reading{}, page.err
 }
 
+type countedUnadmittedLinks struct {
+	amountOfLinks int
+}
+
+func (links *countedUnadmittedLinks) LinksUnadmitted(
+	_ context.Context,
+	_ crawlid.CrawlID,
+	amountOfLinks int,
+) {
+	links.amountOfLinks += amountOfLinks
+}
+
 type pageVisitScene struct {
 	fetch            *fakeFetch
 	pageVisitRecords *fakePageVisitRecords
@@ -164,6 +176,7 @@ type pageVisitScene struct {
 	htmlPageReading  pagevisit.HTMLPageReading
 	crawledPages     *fakeCrawledPages
 	frontier         *fakeFrontier
+	unadmittedLinks  *countedUnadmittedLinks
 	profile          yacycrawlcontract.CrawlProfile
 }
 
@@ -177,8 +190,9 @@ func sceneFetching(outcome pagefetch.FetchOutcome) *pageVisitScene {
 			linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
 			silentRefusalEnforcementObserver{},
 		),
-		crawledPages: &fakeCrawledPages{},
-		frontier:     &fakeFrontier{},
+		crawledPages:    &fakeCrawledPages{},
+		frontier:        &fakeFrontier{},
+		unadmittedLinks: &countedUnadmittedLinks{},
 		profile: yacycrawlcontract.CrawlProfile{
 			Scope:           yacycrawlcontract.ScopeWide,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
@@ -211,6 +225,7 @@ func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 		scene.htmlPageReading,
 		scene.crawledPages,
 		scene.frontier,
+		scene.unadmittedLinks,
 	).VisitPage(t.Context(), order, pendingpagevisit.PendingPageVisit{
 		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/"),
@@ -276,6 +291,23 @@ func TestTheLinksOfAPageGoOnTheFrontierInOnePublication(t *testing.T) {
 			len(scene.frontier.published),
 			scene.frontier.publications,
 		)
+	}
+}
+
+func TestALinkTheProfileDoesNotAdmitIsCountedAndStaysOffTheFrontier(t *testing.T) {
+	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
+	scene.profile.MaxDepth = 1
+
+	scene.completedVisit(t)
+
+	if len(scene.frontier.published) != 0 {
+		t.Fatalf(
+			"frontier got %+v, want no link beyond the profile depth",
+			scene.frontier.published,
+		)
+	}
+	if scene.unadmittedLinks.amountOfLinks != 1 {
+		t.Fatalf("unadmitted links = %d, want 1", scene.unadmittedLinks.amountOfLinks)
 	}
 }
 
