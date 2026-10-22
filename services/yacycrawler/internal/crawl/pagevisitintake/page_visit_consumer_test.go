@@ -21,9 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -75,7 +73,9 @@ func (a *fakeAllowances) TakePageOfHost(
 ) (pagevisitallowance.Allowance, error) {
 	a.hostPageLimits = append(a.hostPageLimits, maxPages)
 	if !a.hostSpent {
-		return pagevisitallowance.Allowance{DropReason: pagevisitdrop.HostPagesExhausted}, nil
+		return pagevisitallowance.Allowance{
+			DropReason: yacycrawlcontract.DropReasonHostPagesExhausted,
+		}, nil
 	}
 	return pagevisitallowance.Allowance{Granted: true}, nil
 }
@@ -84,7 +84,9 @@ func (a *fakeAllowances) TakeDeferral(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, deferFor time.Duration,
 ) (pagevisitallowance.Allowance, error) {
 	if a.deferrals >= a.maxDeferrals {
-		return pagevisitallowance.Allowance{DropReason: pagevisitdrop.DeferralsExhausted}, nil
+		return pagevisitallowance.Allowance{
+			DropReason: yacycrawlcontract.DropReasonDeferralsExhausted,
+		}, nil
 	}
 	a.deferrals++
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
@@ -94,7 +96,9 @@ func (a *fakeAllowances) TakeAttempt(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit,
 ) (pagevisitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {
-		return pagevisitallowance.Allowance{DropReason: pagevisitdrop.RetriesExhausted}, nil
+		return pagevisitallowance.Allowance{
+			DropReason: yacycrawlcontract.DropReasonRetriesExhausted,
+		}, nil
 	}
 	a.retries++
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: time.Second}, nil
@@ -135,7 +139,7 @@ func (f *fakePageVisitor) VisitPage(
 	f.visited = append(f.visited, pendingPageVisit.URL.String())
 	if len(f.outcomes) == 0 {
 		return pagevisit.PageVisitOutcome{
-			Conclusion: pagevisit.PageVisitCompleted, Result: pagevisitresult.Published,
+			Conclusion: pagevisit.PageVisitCompleted, Result: yacycrawlcontract.ResultPublished,
 		}
 	}
 	outcome := f.outcomes[0]
@@ -151,8 +155,8 @@ func (f *fakePageVisitor) pageVisitCount() int {
 
 type recordingObserver struct {
 	mu        sync.Mutex
-	dropped   map[pagevisitdrop.Reason]int
-	completed map[pagevisitresult.Result]int
+	dropped   map[yacycrawlcontract.PageVisitDropReason]int
+	completed map[yacycrawlcontract.PageVisitResult]int
 	deferrals int
 	retries   int
 	returned  int
@@ -160,15 +164,15 @@ type recordingObserver struct {
 
 func newObserver() *recordingObserver {
 	return &recordingObserver{
-		dropped:   map[pagevisitdrop.Reason]int{},
-		completed: map[pagevisitresult.Result]int{},
+		dropped:   map[yacycrawlcontract.PageVisitDropReason]int{},
+		completed: map[yacycrawlcontract.PageVisitResult]int{},
 	}
 }
 
 func (o *recordingObserver) PendingPageVisitDropped(
 	_ context.Context,
 	_ pendingpagevisit.PendingPageVisit,
-	reason pagevisitdrop.Reason,
+	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -208,7 +212,7 @@ func (o *recordingObserver) PendingPageVisitReturned(
 func (o *recordingObserver) PendingPageVisitCompleted(
 	_ context.Context,
 	_ pendingpagevisit.PendingPageVisit,
-	result pagevisitresult.Result,
+	result yacycrawlcontract.PageVisitResult,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -374,7 +378,7 @@ func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.dropped[pagevisitdrop.DeferralsExhausted] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonDeferralsExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want deferrals exhausted", worker.observer.dropped)
 	}
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
@@ -445,7 +449,7 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.dropped[pagevisitdrop.RetriesExhausted] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonRetriesExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want retries exhausted", worker.observer.dropped)
 	}
 }
@@ -462,7 +466,7 @@ func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a host that spent its pages should not be fetched again")
 	}
-	if worker.observer.dropped[pagevisitdrop.HostPagesExhausted] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonHostPagesExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want host pages exhausted", worker.observer.dropped)
 	}
 }
@@ -542,7 +546,7 @@ func TestAVisitWhoseOrderIsForgottenIsDroppedUnvisited(t *testing.T) {
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
-	if worker.observer.dropped[pagevisitdrop.OrderForgotten] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonOrderForgotten] != 1 {
 		t.Fatalf("dropped %v, want one forgotten order", worker.observer.dropped)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
@@ -576,14 +580,14 @@ func TestAnUndecodablePendingVisitHaltsIntake(t *testing.T) {
 func TestTheResultOfACompletedVisitIsObserved(t *testing.T) {
 	worker := newWorker()
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitCompleted, Result: pagevisitresult.FetchRejected,
+		Conclusion: pagevisit.PageVisitCompleted, Result: yacycrawlcontract.ResultFetchRejected,
 	}}
 
 	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.completed[pagevisitresult.FetchRejected] != 1 {
+	if worker.observer.completed[yacycrawlcontract.ResultFetchRejected] != 1 {
 		t.Fatalf("observer completed %v, want fetch rejected", worker.observer.completed)
 	}
 }
@@ -591,14 +595,15 @@ func TestTheResultOfACompletedVisitIsObserved(t *testing.T) {
 func TestAVisitTheVisitorDropsIsObservedAsDropped(t *testing.T) {
 	worker := newWorker()
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitDropped, DropReason: pagevisitdrop.NotDue,
+		Conclusion: pagevisit.PageVisitDropped, DropReason: yacycrawlcontract.DropReasonNotDue,
 	}}
 
 	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.dropped[pagevisitdrop.NotDue] != 1 || len(worker.observer.completed) != 0 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonNotDue] != 1 ||
+		len(worker.observer.completed) != 0 {
 		t.Fatalf("observer dropped %v and completed %v, want only not due dropped",
 			worker.observer.dropped, worker.observer.completed)
 	}

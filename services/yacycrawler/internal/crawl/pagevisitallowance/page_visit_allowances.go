@@ -10,8 +10,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -38,7 +38,7 @@ type PageVisitLimits interface {
 type Allowance struct {
 	Granted    bool
 	PauseFor   time.Duration
-	DropReason pagevisitdrop.Reason
+	DropReason yacycrawlcontract.PageVisitDropReason
 }
 
 type Allowances struct {
@@ -80,7 +80,7 @@ func (allowances *Allowances) TakePageOfHost(
 		)
 	}
 	if !took {
-		return exhaustedAllowance(pagevisitdrop.HostPagesExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonHostPagesExhausted), nil
 	}
 	return grantedAllowance(), nil
 }
@@ -91,7 +91,7 @@ func (allowances *Allowances) TakeDeferral(
 	deferFor time.Duration,
 ) (Allowance, error) {
 	if deferFor > allowances.maxDeferral {
-		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonDeferralsExhausted), nil
 	}
 	var took bool
 	if err := allowances.storage.Update(ctx, func(tx *vault.Txn) error {
@@ -106,7 +106,7 @@ func (allowances *Allowances) TakeDeferral(
 		)
 	}
 	if !took {
-		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonDeferralsExhausted), nil
 	}
 	return grantedAllowanceAfter(deferFor), nil
 }
@@ -129,7 +129,7 @@ func (allowances *Allowances) TakeAttempt(
 		)
 	}
 	if !took {
-		return exhaustedAllowance(pagevisitdrop.RetriesExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonRetriesExhausted), nil
 	}
 	return grantedAllowanceAfter(allowances.retryDelay.Delay(attempt)), nil
 }
@@ -142,6 +142,6 @@ func grantedAllowanceAfter(pauseFor time.Duration) Allowance {
 	return Allowance{Granted: true, PauseFor: pauseFor}
 }
 
-func exhaustedAllowance(reason pagevisitdrop.Reason) Allowance {
+func exhaustedAllowance(reason yacycrawlcontract.PageVisitDropReason) Allowance {
 	return Allowance{DropReason: reason}
 }

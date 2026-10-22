@@ -5,8 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -35,7 +34,7 @@ func (PendingPageVisitLog) PendingPageVisitReturned(
 func (PendingPageVisitLog) PendingPageVisitDropped(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason pagevisitdrop.Reason,
+	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	slog.Log(ctx, levelOfDrop(reason), msgPendingPageVisitDropped,
 		slog.String("crawl", pendingPageVisit.CrawlID.String()),
@@ -44,9 +43,10 @@ func (PendingPageVisitLog) PendingPageVisitDropped(
 	)
 }
 
-func levelOfDrop(reason pagevisitdrop.Reason) slog.Level {
+func levelOfDrop(reason yacycrawlcontract.PageVisitDropReason) slog.Level {
 	switch reason {
-	case pagevisitdrop.DeferralsExhausted, pagevisitdrop.RetriesExhausted:
+	case yacycrawlcontract.DropReasonDeferralsExhausted,
+		yacycrawlcontract.DropReasonRetriesExhausted:
 		return slog.LevelWarn
 	default:
 		return slog.LevelDebug
@@ -84,7 +84,7 @@ func (PendingPageVisitLog) PendingPageVisitRetryScheduled(
 func (PendingPageVisitLog) PendingPageVisitCompleted(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	result pagevisitresult.Result,
+	result yacycrawlcontract.PageVisitResult,
 ) {
 	slog.Log(ctx, levelOfResult(result), msgPendingPageVisitCompleted,
 		slog.String("crawl", pendingPageVisit.CrawlID.String()),
@@ -93,12 +93,12 @@ func (PendingPageVisitLog) PendingPageVisitCompleted(
 	)
 }
 
-func levelOfResult(result pagevisitresult.Result) slog.Level {
+func levelOfResult(result yacycrawlcontract.PageVisitResult) slog.Level {
 	switch result {
-	case pagevisitresult.Published,
-		pagevisitresult.Redirected,
-		pagevisitresult.NotModified,
-		pagevisitresult.AccessRefused:
+	case yacycrawlcontract.ResultPublished,
+		yacycrawlcontract.ResultRedirected,
+		yacycrawlcontract.ResultNotModified,
+		yacycrawlcontract.ResultAccessRefused:
 		return slog.LevelDebug
 	default:
 		return slog.LevelWarn

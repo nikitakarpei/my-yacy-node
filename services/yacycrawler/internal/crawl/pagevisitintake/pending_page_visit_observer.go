@@ -4,8 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -18,7 +17,7 @@ type PendingPageVisitObserver interface {
 	PendingPageVisitDropped(
 		ctx context.Context,
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
-		reason pagevisitdrop.Reason,
+		reason yacycrawlcontract.PageVisitDropReason,
 	)
 	PendingPageVisitDeferred(
 		ctx context.Context,
@@ -33,7 +32,7 @@ type PendingPageVisitObserver interface {
 	PendingPageVisitCompleted(
 		ctx context.Context,
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
-		result pagevisitresult.Result,
+		result yacycrawlcontract.PageVisitResult,
 	)
 }
 
@@ -52,7 +51,7 @@ func (observers PendingPageVisitObservers) PendingPageVisitReturned(
 func (observers PendingPageVisitObservers) PendingPageVisitDropped(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason pagevisitdrop.Reason,
+	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	for _, observer := range observers {
 		observer.PendingPageVisitDropped(ctx, pendingPageVisit, reason)
@@ -82,7 +81,7 @@ func (observers PendingPageVisitObservers) PendingPageVisitRetryScheduled(
 func (observers PendingPageVisitObservers) PendingPageVisitCompleted(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	result pagevisitresult.Result,
+	result yacycrawlcontract.PageVisitResult,
 ) {
 	for _, observer := range observers {
 		observer.PendingPageVisitCompleted(ctx, pendingPageVisit, result)

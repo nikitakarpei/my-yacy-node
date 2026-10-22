@@ -10,9 +10,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -84,7 +84,7 @@ func TestAHostPageNamesTheLimitThatStoppedIt(t *testing.T) {
 		t.Fatalf("TakePageOfHost: %v", err)
 	}
 
-	if allowance.Granted || allowance.DropReason != pagevisitdrop.HostPagesExhausted {
+	if allowance.Granted || allowance.DropReason != yacycrawlcontract.DropReasonHostPagesExhausted {
 		t.Fatalf("allowance = %+v, want host pages exhausted", allowance)
 	}
 }
@@ -108,7 +108,7 @@ func TestADeferralNamesTheLimitThatStoppedIt(t *testing.T) {
 		t.Fatalf("TakeDeferral: %v", err)
 	}
 
-	if allowance.Granted || allowance.DropReason != pagevisitdrop.DeferralsExhausted {
+	if allowance.Granted || allowance.DropReason != yacycrawlcontract.DropReasonDeferralsExhausted {
 		t.Fatalf("allowance = %+v, want deferrals exhausted", allowance)
 	}
 }
@@ -132,7 +132,7 @@ func TestAnAttemptNamesTheLimitThatStoppedIt(t *testing.T) {
 		t.Fatalf("TakeAttempt: %v", err)
 	}
 
-	if allowance.Granted || allowance.DropReason != pagevisitdrop.RetriesExhausted {
+	if allowance.Granted || allowance.DropReason != yacycrawlcontract.DropReasonRetriesExhausted {
 		t.Fatalf("allowance = %+v, want retries exhausted", allowance)
 	}
 }
@@ -162,7 +162,7 @@ func TestADeferralLongerThanTheLongestAllowedDropsTheVisit(t *testing.T) {
 		t.Fatalf("TakeDeferral: %v", err)
 	}
 
-	if allowance.Granted || allowance.DropReason != pagevisitdrop.DeferralsExhausted {
+	if allowance.Granted || allowance.DropReason != yacycrawlcontract.DropReasonDeferralsExhausted {
 		t.Fatalf("allowance = %+v, want the visit dropped as deferrals exhausted", allowance)
 	}
 }
