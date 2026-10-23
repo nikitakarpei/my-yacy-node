@@ -106,11 +106,14 @@ components:
     in: internal/intakereceiptpublicationobservers/applog/**
   intakereceiptpublicationobserversprometheus:
     in: internal/intakereceiptpublicationobservers/prometheus/**
+  yacynodeassembly:
+    in: assembly/**
   cmd:
     in:
       - cmd/yacy-entrypoint/**
       - cmd/yacy-peer-hash/**
-      - cmd/yacy-rwi-node/**
+  yacynodecmd:
+    in: cmd/yacy-rwi-node/**
 
 vendors:
   yacymodel:
@@ -411,9 +414,17 @@ deps:
   intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
+  yacynodeassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
   cmd:
     anyProjectDeps: true
     anyVendorDeps: true
+  yacynodecmd:
+    mayDependOn:
+      - yacynodeassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "test/e2e"

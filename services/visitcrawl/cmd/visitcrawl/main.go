@@ -8,11 +8,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/collectors"
-
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 )
 
 func main() {
@@ -26,39 +25,28 @@ func run() error {
 	if err := applog.Configure(os.Getenv); err != nil {
 		return err
 	}
-	cfg, err := LoadServiceConfig(os.Getenv)
+	cfg, err := visitcrawlassembly.LoadServiceConfig(os.Getenv)
 	if err != nil {
 		return err
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	listeners, err := listenersFor(ctx, cfg)
+	return serve(ctx, cfg)
+}
+
+func serve(ctx context.Context, cfg visitcrawlassembly.ServiceConfig) error {
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
 	if err != nil {
 		return err
 	}
-
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(
-		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "visitcrawl_info",
-			Help: "Visit crawl application identity.",
-		}, func() float64 { return 1 }),
-		collectors.NewGoCollector(),
-		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
-	)
-	return RunService(ctx, cfg, listeners, registry)
-}
-
-func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	intake, err := servergroup.Listen(ctx, cfg.ListenAddr)
+	listeners, err := visitcrawlassembly.ListenersFor(ctx, cfg)
 	if err != nil {
-		return Listeners{}, err
+		return errors.Join(err, ops.Close())
 	}
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
-	if err != nil {
-		return Listeners{}, errors.Join(err, intake.Close())
-	}
-
-	return Listeners{Intake: intake, Ops: ops}, nil
+	registry := opsmetrics.ProcessRegistry()
+	opsMux := opsmetrics.MuxFor(registry)
+	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
+		return visitcrawlassembly.RunService(ctx, cfg, listeners, registry)
+	})
 }

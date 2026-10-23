@@ -8,10 +8,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/collectors"
-
+	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
@@ -26,39 +25,28 @@ func run() error {
 	if err := applog.Configure(os.Getenv); err != nil {
 		return err
 	}
-	cfg, err := LoadServiceConfig(os.Getenv)
+	cfg, err := crawlconsoleassembly.LoadServiceConfig(os.Getenv)
 	if err != nil {
 		return err
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	listeners, err := listenersFor(ctx, cfg)
+	return serve(ctx, cfg)
+}
+
+func serve(ctx context.Context, cfg crawlconsoleassembly.ServiceConfig) error {
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
 	if err != nil {
 		return err
 	}
-
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(
-		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "crawlconsole_info",
-			Help: "Crawl console application identity.",
-		}, func() float64 { return 1 }),
-		collectors.NewGoCollector(),
-		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
-	)
-	return RunService(ctx, cfg, listeners, registry)
-}
-
-func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	console, err := servergroup.Listen(ctx, cfg.ListenAddr)
+	listeners, err := crawlconsoleassembly.ListenersFor(ctx, cfg)
 	if err != nil {
-		return Listeners{}, err
+		return errors.Join(err, ops.Close())
 	}
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
-	if err != nil {
-		return Listeners{}, errors.Join(err, console.Close())
-	}
-
-	return Listeners{Console: console, Ops: ops}, nil
+	registry := opsmetrics.ProcessRegistry()
+	opsMux := opsmetrics.MuxFor(registry)
+	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
+		return crawlconsoleassembly.RunService(ctx, cfg, listeners, registry)
+	})
 }

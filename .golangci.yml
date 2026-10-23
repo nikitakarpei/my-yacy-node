@@ -80,10 +80,10 @@ linters:
       - linters:
           - govet
         text: "^fieldalignment: .* leading bytes of pointer data"
-      - path: (^|/)cmd/
+      - path: (^|/)(cmd|assembly)/
         linters:
           - funlen
-      - path: (^|/)cmd/
+      - path: (^|/)(cmd|assembly)/
         linters:
           - revive
         text: argument-limit
