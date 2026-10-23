@@ -43,25 +43,25 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	crawlerapiobservershttpapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapiobservers/http/applog"
 	crawlerapishttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapis/http"
-	crawlfinishingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishingobservers/applog"
-	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
-	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
-	crawlprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogressobservers/applog"
+	crawlobserverscrawlfinishingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/crawlfinishing/applog"
+	crawlobserverscrawlprogressapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/crawlprogress/applog"
+	crawlobserversfrontierapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/frontier/applog"
+	crawlobserverslinkdiscoveryapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/applog"
+	crawlobserverslinkdiscoveryprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/prometheus"
+	crawlobserversobservedfetchapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/observedfetch/applog"
+	crawlobserversobservedfetchprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/observedfetch/prometheus"
+	crawlobserversorderintakeapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/orderintake/applog"
+	crawlobserversorderintakeprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/orderintake/prometheus"
+	crawlobserverspagehtmlapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtml/applog"
+	crawlobserverspagehtmlprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtml/prometheus"
+	crawlobserverspagehtmlreadingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtmlreading/applog"
+	crawlobserverspagehtmlreadingprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtmlreading/prometheus"
+	crawlobserverspagevisitapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisit/applog"
+	crawlobserverspagevisitprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisit/prometheus"
+	crawlobserverspagevisitintakeapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisitintake/applog"
+	crawlobserverspagevisitintakeprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisitintake/prometheus"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
-	frontierobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontierobservers/applog"
-	linkresolutionobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/applog"
-	linkresolutionobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/prometheus"
-	mediatypeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/applog"
-	mediatypeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/prometheus"
-	pagefetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/applog"
-	pagefetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
-	pagevisitrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/applog"
-	pagevisitrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/prometheus"
-	pendingpagevisitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/applog"
-	pendingpagevisitobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
-	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
-	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
 )
 
 const (
@@ -84,24 +84,25 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	crawlOrderObservers := orderintake.CrawlOrderObservers{
-		crawlorderobserversapplog.CrawlOrderLog{}, crawlorderobserversprometheus.New(registry),
+		crawlobserversorderintakeapplog.CrawlOrderLog{},
+		crawlobserversorderintakeprometheus.New(registry),
 	}
 	pageFetchObservers := observedfetch.PageFetchObservers{
-		pagefetchobserversapplog.PageFetchLog{},
-		pagefetchobserversprometheus.New(registry, cfg.FetchDeadline),
+		crawlobserversobservedfetchapplog.PageFetchLog{},
+		crawlobserversobservedfetchprometheus.New(registry, cfg.FetchDeadline),
 	}
 	htmlPageReading := pagehtmlreading.NewHTMLPageReading(
 		pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{
-			mediatypeobserversapplog.MediaTypeLog{},
-			mediatypeobserversprometheus.New(registry),
+			crawlobserverspagehtmlapplog.MediaTypeLog{},
+			crawlobserverspagehtmlprometheus.New(registry),
 		}),
 		linkdiscovery.NewLinkDiscovery(linkdiscovery.LinkResolutionObservers{
-			linkresolutionobserversapplog.LinkResolutionLog{},
-			linkresolutionobserversprometheus.New(registry),
+			crawlobserverslinkdiscoveryapplog.LinkResolutionLog{},
+			crawlobserverslinkdiscoveryprometheus.New(registry),
 		}),
 		pagehtmlreading.RefusalEnforcementObservers{
-			refusalenforcementobserversapplog.RefusalEnforcementLog{},
-			refusalenforcementobserversprometheus.New(registry),
+			crawlobserverspagehtmlreadingapplog.RefusalEnforcementLog{},
+			crawlobserverspagehtmlreadingprometheus.New(registry),
 		},
 	)
 	crawledPageObservers := crawledpagesjetstream.CrawledPagePublicationObservers{
@@ -109,8 +110,8 @@ func RunService(
 		crawledpageobserversprometheus.New(registry),
 	}
 	pageVisitRecordObservers := pagevisit.PageVisitRecordObservers{
-		pagevisitrecordobserversapplog.PageVisitRecordLog{},
-		pagevisitrecordobserversprometheus.New(registry),
+		crawlobserverspagevisitapplog.PageVisitRecordLog{},
+		crawlobserverspagevisitprometheus.New(registry),
 	}
 	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
@@ -133,11 +134,11 @@ func RunService(
 	progressCounter := crawlprogress.NewCounter(
 		storage,
 		crawlState.progressCounts,
-		crawlprogressobserversapplog.CrawlProgressLog{},
+		crawlobserverscrawlprogressapplog.CrawlProgressLog{},
 	)
 	pendingPageVisitObservers := pagevisitintake.PendingPageVisitObservers{
-		pendingpagevisitobserversapplog.PendingPageVisitLog{},
-		pendingpagevisitobserversprometheus.New(registry),
+		crawlobserverspagevisitintakeapplog.PendingPageVisitLog{},
+		crawlobserverspagevisitintakeprometheus.New(registry),
 		progressCounter,
 	}
 	orders, err := buildOrderConsumer(ctx, js, crawlState, cfg, crawlOrderObservers)
@@ -184,7 +185,7 @@ func RunService(
 			crawlState.crawls,
 			crawlState.frontier,
 			wallclock.Clock{},
-			crawlfinishingobserversapplog.CrawlFinishingLog{},
+			crawlobserverscrawlfinishingapplog.CrawlFinishingLog{},
 		).Run,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
@@ -306,7 +307,7 @@ func openCrawlStateStores(
 		wiring,
 		cfg.PendingPageVisitLease(),
 		wallclock.Clock{},
-		frontierobserversapplog.FrontierLog{},
+		crawlobserversfrontierapplog.FrontierLog{},
 	)
 	if err != nil {
 		return crawlStateStores{}, err

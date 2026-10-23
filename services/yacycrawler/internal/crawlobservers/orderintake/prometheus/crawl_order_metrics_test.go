@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	crawlordermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
+	crawlordermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/orderintake/prometheus"
 )
 
 func TestCrawlOrdersCountOneOutcomeEach(t *testing.T) {

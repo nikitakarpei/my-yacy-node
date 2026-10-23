@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	linkresolutionobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/prometheus"
+	crawlobserverslinkdiscoveryprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/prometheus"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 
 func TestLinkResolutionMetricsCountEveryLinkThatCannotBeResolved(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	metrics := linkresolutionobserversprometheus.New(registry)
+	metrics := crawlobserverslinkdiscoveryprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://host.example/page")
 
 	metrics.BaseURLUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
@@ -42,7 +42,7 @@ func TestLinkResolutionMetricsCountEveryLinkThatCannotBeResolved(t *testing.T) {
 
 func TestEveryUnresolvedLinkReadsZeroBeforeItHappens(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	linkresolutionobserversprometheus.New(registry)
+	crawlobserverslinkdiscoveryprometheus.New(registry)
 
 	if counters := testutil.CollectAndCount(
 		registry, baseURLMetricName, linksMetricName,
@@ -53,7 +53,7 @@ func TestEveryUnresolvedLinkReadsZeroBeforeItHappens(t *testing.T) {
 
 func TestLinkResolutionMetricsExposeNoPageAddress(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	metrics := linkresolutionobserversprometheus.New(registry)
+	metrics := crawlobserverslinkdiscoveryprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://private.example/page")
 
 	metrics.BaseURLUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))

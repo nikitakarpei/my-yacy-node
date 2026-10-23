@@ -12,7 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
-	pendingpagevisitmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/prometheus"
+	pendingpagevisitmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisitintake/prometheus"
 )
 
 func TestPageVisitAttemptsCountOneOutcomeEach(t *testing.T) {

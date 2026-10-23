@@ -13,7 +13,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	pagefetchmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
+	pagefetchmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/observedfetch/prometheus"
 )
 
 const fetchDeadline = 30 * time.Second
