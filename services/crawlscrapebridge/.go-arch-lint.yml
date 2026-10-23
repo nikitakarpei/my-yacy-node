@@ -1,0 +1,75 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  crawledpagerelay:
+    in: internal/crawledpagerelay/**
+  scraperequestsjetstream:
+    in: internal/scraperequests/jetstream/**
+  scraperequestobserversapplog:
+    in: internal/scraperequestobservers/applog/**
+  scraperequestobserversprometheus:
+    in: internal/scraperequestobservers/prometheus/**
+  crawledpageopeningobserversapplog:
+    in: internal/crawledpageopeningobservers/applog/**
+  crawlscrapebridgeassembly:
+    in: assembly/**
+  crawlscrapebridgecmd:
+    in: cmd/crawlscrapebridge/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
+  yacycrawlcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  pullintake:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+
+deps:
+  crawledpagerelay:
+    canUse:
+      - pullintake
+      - yacycrawlcontract
+  scraperequestsjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scraperequestobserversprometheus:
+    canUse:
+      - prometheus
+  crawlscrapebridgeassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  crawlscrapebridgecmd:
+    mayDependOn:
+      - crawlscrapebridgeassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"

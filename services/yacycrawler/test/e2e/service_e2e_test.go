@@ -10,10 +10,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/crawlscrapebridgeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequestbridge"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -75,7 +75,7 @@ func startCrawlOfOriginSiteAcross(
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	startCrawlers(t, ctx, network.Name, crawlers)
-	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
+	crawlscrapebridgeservice.Start(t, ctx, network.Name)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitStream(t, ctx, js, yacycrawlcontract.OrdersStreamName)
