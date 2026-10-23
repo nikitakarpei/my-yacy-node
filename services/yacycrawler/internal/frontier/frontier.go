@@ -149,7 +149,7 @@ func (frontier *Frontier) addToCrawl(
 	if !addedAny || mark == markHeld {
 		return nil
 	}
-	return frontier.leases.scheduleNoLaterThan(tx, crawlID, now)
+	return frontier.leases.leaseFrom(tx, crawlID, now)
 }
 
 func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -160,7 +160,7 @@ func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.crawlMarks.mark(tx, crawlID, markHeld); err != nil {
 		return err
 	}
-	return frontier.leases.unschedule(tx, crawlID)
+	return frontier.leases.stopLeasing(tx, crawlID)
 }
 
 func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -171,7 +171,7 @@ func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error 
 	if err := frontier.crawlMarks.unmark(tx, crawlID); err != nil {
 		return err
 	}
-	return frontier.leases.reschedule(tx, crawlID)
+	return frontier.leases.resumeLeasing(tx, crawlID)
 }
 
 func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -182,7 +182,7 @@ func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
 		return err
 	}
-	return frontier.leases.unschedule(tx, crawlID)
+	return frontier.leases.stopLeasing(tx, crawlID)
 }
 
 func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -201,14 +201,14 @@ func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.crawlMarks.mark(tx, crawlID, cancellingMark); err != nil {
 		return err
 	}
-	return frontier.leases.unschedule(tx, crawlID)
+	return frontier.leases.stopLeasing(tx, crawlID)
 }
 
 func (frontier *Frontier) ForgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.ledger.forgetCrawl(tx, crawlID); err != nil {
 		return err
 	}
-	if err := frontier.leases.unschedule(tx, crawlID); err != nil {
+	if err := frontier.leases.stopLeasing(tx, crawlID); err != nil {
 		return err
 	}
 	return frontier.crawlMarks.unmark(tx, crawlID)

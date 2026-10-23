@@ -202,7 +202,7 @@ func (leases pageVisitLeases) returnAfter(
 	}
 }
 
-func (leases pageVisitLeases) scheduleNoLaterThan(
+func (leases pageVisitLeases) leaseFrom(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	due time.Time,
@@ -210,10 +210,10 @@ func (leases pageVisitLeases) scheduleNoLaterThan(
 	return leases.heads.moveEarlierTo(tx, crawlID, duePosition{due: due.Unix()})
 }
 
-func (leases pageVisitLeases) unschedule(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (leases pageVisitLeases) stopLeasing(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return leases.heads.remove(tx, crawlID)
 }
 
-func (leases pageVisitLeases) reschedule(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (leases pageVisitLeases) resumeLeasing(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return leases.alignHeadFrom(tx, crawlID, earliestPosition)
 }
