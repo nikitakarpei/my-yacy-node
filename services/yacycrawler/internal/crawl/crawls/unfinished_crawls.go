@@ -29,7 +29,7 @@ func registerUnfinishedCrawls(
 	}
 	if unfinished.crawls, err = storage.RegisterProjectedCollection(
 		ctx, unfinishedCrawlsBucket, crawlIDKeys, crawlCodec{},
-		unfinished.projectedWith(),
+		unfinished.projections(),
 	); err != nil {
 		return unfinishedCrawls{}, fmt.Errorf("register %s: %w", unfinishedCrawlsBucket, err)
 	}

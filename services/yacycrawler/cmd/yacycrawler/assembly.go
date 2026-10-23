@@ -314,7 +314,7 @@ func openCrawlStateStores(
 	}
 	wiring.frontier, wiring.progress = pageVisitFrontier, progressCounts
 	keptCrawls, err := crawls.Open(
-		ctx, storage, cfg.CrawlRetention(), wiring, wiring, wallclock.Clock{},
+		ctx, storage, cfg.CrawlRetention(), wiring, wallclock.Clock{},
 	)
 	if err != nil {
 		return crawlStateStores{}, err

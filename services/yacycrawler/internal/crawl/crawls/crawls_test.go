@@ -136,7 +136,7 @@ func (r *reportedChanges) CrawlResumed(_ *vault.Txn, crawlID crawlid.CrawlID) er
 	return r.report("resumed", crawlID)
 }
 
-func (r *reportedChanges) CrawlCancelling(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+func (r *reportedChanges) CrawlCancellationStarted(_ *vault.Txn, crawlID crawlid.CrawlID) error {
 	return r.report("cancelling", crawlID)
 }
 
@@ -168,7 +168,7 @@ func keptCrawls(t *testing.T) scene {
 	}
 	t.Cleanup(func() { _ = storage.Close() })
 	changes := &reportedChanges{}
-	kept, err := crawls.Open(t.Context(), storage, retention, changes, changes, sceneClock)
+	kept, err := crawls.Open(t.Context(), storage, retention, changes, sceneClock)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

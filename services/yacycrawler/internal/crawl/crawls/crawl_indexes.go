@@ -20,28 +20,28 @@ func registerCrawlIndexes(storage *vault.Vault, crawlsBucket vault.Name) (crawlI
 	var err error
 	byOrderBucket := crawlsBucket + "_by_order"
 	if indexes.byOrder, err = storage.RegisterValueIndex(
-		byOrderBucket, crawlIndexesVersion, crawlsByOrderEntries, crawlOfOrderOf,
+		byOrderBucket, crawlIndexesVersion, crawlsByOrderEntries, crawlOfOrderFrom,
 	); err != nil {
 		return crawlIndexes{}, fmt.Errorf("register %s: %w", byOrderBucket, err)
 	}
 	inStateBucket := crawlsBucket + "_in_state"
 	if indexes.inState, err = storage.RegisterValueIndex(
 		inStateBucket, crawlIndexesVersion,
-		crawlsInStateEntriesOf(crawlsInStateKeyParts), crawlInStateOf,
+		crawlsInStateEntriesOf(crawlsInStateKeyParts), crawlInStateFrom,
 	); err != nil {
 		return crawlIndexes{}, fmt.Errorf("register %s: %w", inStateBucket, err)
 	}
 	inStateNewestFirstBucket := crawlsBucket + "_in_state_newest_first"
 	if indexes.inStateNewestFirst, err = storage.RegisterValueIndex(
 		inStateNewestFirstBucket, crawlIndexesVersion,
-		crawlsInStateEntriesOf(crawlsInStateNewestFirstKeyParts), crawlInStateOf,
+		crawlsInStateEntriesOf(crawlsInStateNewestFirstKeyParts), crawlInStateFrom,
 	); err != nil {
 		return crawlIndexes{}, fmt.Errorf("register %s: %w", inStateNewestFirstBucket, err)
 	}
 	return indexes, nil
 }
 
-func (indexes crawlIndexes) projectedWith() vault.Projections[crawlid.CrawlID, Crawl] {
+func (indexes crawlIndexes) projections() vault.Projections[crawlid.CrawlID, Crawl] {
 	return vault.ProjectedAs(
 		func(crawlID crawlid.CrawlID, crawl Crawl) crawlWithID {
 			return crawlWithID{crawlID: crawlID, crawl: crawl}
@@ -72,43 +72,43 @@ func (indexes crawlIndexes) crawlIDsOlderThan(
 	tx *vault.Txn,
 	state yacycrawlcontract.CrawlState,
 	border crawlid.CrawlID,
-	limit int,
+	amount int,
 ) ([]crawlid.CrawlID, error) {
 	keys := crawlsInStateNewestFirstKeyParts.KeysWithFirst(state)
 	if border != (crawlid.CrawlID{}) {
 		keys = keys.After(crawlsInStateNewestFirstKeyParts.Key(state, border))
 	}
-	return crawlIDsWithin(tx, indexes.inStateNewestFirst, keys, limit)
+	return crawlIDsWithin(tx, indexes.inStateNewestFirst, keys, amount)
 }
 
 func (indexes crawlIndexes) crawlIDsNewerThan(
 	tx *vault.Txn,
 	state yacycrawlcontract.CrawlState,
 	border crawlid.CrawlID,
-	limit int,
+	amount int,
 ) ([]crawlid.CrawlID, error) {
 	keys := crawlsInStateKeyParts.KeysWithFirst(state).
 		After(crawlsInStateKeyParts.Key(state, border))
-	return crawlIDsWithin(tx, indexes.inState, keys, limit)
+	return crawlIDsWithin(tx, indexes.inState, keys, amount)
 }
 
 func crawlIDsWithin(
 	tx *vault.Txn,
 	index *vault.ValueIndex[crawlWithID, crawlInState],
 	keys vault.KeyRange,
-	limit int,
+	amount int,
 ) ([]crawlid.CrawlID, error) {
 	var crawlIDs []crawlid.CrawlID
 	if err := index.Scan(tx, keys, func(entry crawlInState) (bool, error) {
 		crawlIDs = append(crawlIDs, entry.crawlID)
-		return len(crawlIDs) < limit, nil
+		return len(crawlIDs) < amount, nil
 	}); err != nil {
 		return nil, fmt.Errorf("read crawls: %w", err)
 	}
 	return crawlIDs, nil
 }
 
-func (indexes crawlIndexes) amountIn(
+func (indexes crawlIndexes) amountOfCrawlsIn(
 	tx *vault.Txn,
 	state yacycrawlcontract.CrawlState,
 ) (int, error) {
@@ -127,14 +127,17 @@ func (indexes crawlIndexes) amountIn(
 }
 
 type crawlOfOrder struct {
-	order   orderIDHash
-	crawlID crawlid.CrawlID
+	orderIDHash orderIDHash
+	crawlID     crawlid.CrawlID
 }
 
 type orderIDHash string
 
-func crawlOfOrderOf(crawl crawlWithID) crawlOfOrder {
-	return crawlOfOrder{order: orderIDHashOf(crawl.crawl.Order.OrderID), crawlID: crawl.crawlID}
+func crawlOfOrderFrom(crawl crawlWithID) crawlOfOrder {
+	return crawlOfOrder{
+		orderIDHash: orderIDHashOf(crawl.crawl.Order.OrderID),
+		crawlID:     crawl.crawlID,
+	}
 }
 
 func orderIDHashOf(orderID string) orderIDHash {
@@ -150,9 +153,9 @@ var crawlsByOrderKeyParts = vault.PairKey(vault.BytesKeyPartFrom(
 ), crawlid.KeyPart)
 
 var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
-	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.order, entry.crawlID },
-	func(order orderIDHash, crawlID crawlid.CrawlID) crawlOfOrder {
-		return crawlOfOrder{order: order, crawlID: crawlID}
+	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.orderIDHash, entry.crawlID },
+	func(hash orderIDHash, crawlID crawlid.CrawlID) crawlOfOrder {
+		return crawlOfOrder{orderIDHash: hash, crawlID: crawlID}
 	},
 )
 
@@ -161,7 +164,7 @@ type crawlInState struct {
 	crawlID crawlid.CrawlID
 }
 
-func crawlInStateOf(crawl crawlWithID) crawlInState {
+func crawlInStateFrom(crawl crawlWithID) crawlInState {
 	return crawlInState{state: crawl.crawl.State, crawlID: crawl.crawlID}
 }
 

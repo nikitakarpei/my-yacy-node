@@ -21,7 +21,10 @@ func (wiring *crawlStateWiring) CrawlResumed(tx *vault.Txn, crawlID crawlid.Craw
 	return wiring.frontier.ResumeQueueOf(tx, crawlID)
 }
 
-func (wiring *crawlStateWiring) CrawlCancelling(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (wiring *crawlStateWiring) CrawlCancellationStarted(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+) error {
 	return wiring.frontier.DrainQueueOf(tx, crawlID)
 }
 

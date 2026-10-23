@@ -24,10 +24,7 @@ type Clock interface {
 type CrawlStateChanges interface {
 	CrawlPaused(tx *vault.Txn, crawlID crawlid.CrawlID) error
 	CrawlResumed(tx *vault.Txn, crawlID crawlid.CrawlID) error
-	CrawlCancelling(tx *vault.Txn, crawlID crawlid.CrawlID) error
-}
-
-type ForgottenCrawls interface {
+	CrawlCancellationStarted(tx *vault.Txn, crawlID crawlid.CrawlID) error
 	CrawlForgotten(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
@@ -45,16 +42,14 @@ type Crawls struct {
 	clock      Clock
 }
 
-//nolint:revive // the crawls name the vault, the retention, the ports they report to and a clock
 func Open(
 	ctx context.Context,
 	storage *vault.Vault,
 	retention time.Duration,
 	changes CrawlStateChanges,
-	forgotten ForgottenCrawls,
 	clock Clock,
 ) (*Crawls, error) {
-	c, err := registerCrawls(ctx, storage, retention, forgotten)
+	c, err := registerCrawls(ctx, storage, retention, changes)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +145,7 @@ func (c *Crawls) Cancel(
 	crawlID crawlid.CrawlID,
 ) (yacycrawlcontract.CrawlState, bool, error) {
 	return c.changeState(
-		tx, crawlID, yacycrawlcontract.CrawlCancellation, c.changes.CrawlCancelling,
+		tx, crawlID, yacycrawlcontract.CrawlCancellation, c.changes.CrawlCancellationStarted,
 	)
 }
 
@@ -182,7 +177,7 @@ func (c *Crawls) Finish(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if !found {
 		return nil
 	}
-	crawl.State, crawl.FinishedAt = finishedStateOf(crawl.State), c.clock.Now()
+	crawl.State, crawl.FinishedAt = finishedStateFrom(crawl.State), c.clock.Now()
 	if err := c.unfinished.remove(tx, crawlID); err != nil {
 		return fmt.Errorf("finish the crawl %s: %w", crawlID, err)
 	}
@@ -192,7 +187,7 @@ func (c *Crawls) Finish(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return nil
 }
 
-func finishedStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {
+func finishedStateFrom(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {
 	if state == yacycrawlcontract.CrawlStateCancelling {
 		return yacycrawlcontract.CrawlStateCancelled
 	}
@@ -208,46 +203,31 @@ func (c *Crawls) UnfinishedCrawlIDs(tx *vault.Txn) ([]crawlid.CrawlID, error) {
 }
 
 func (c *Crawls) AmountOfRunningCrawls(tx *vault.Txn) (int, error) {
-	return c.unfinished.amountIn(tx, yacycrawlcontract.CrawlStateRunning)
+	return c.unfinished.amountOfCrawlsIn(tx, yacycrawlcontract.CrawlStateRunning)
 }
 
 func (c *Crawls) CrawlIDsOlderThan(
 	tx *vault.Txn,
 	state yacycrawlcontract.CrawlState,
 	border crawlid.CrawlID,
-	limit int,
+	amount int,
 ) ([]crawlid.CrawlID, error) {
-	return c.crawlsIn(state).crawlIDsOlderThan(tx, state, border, limit)
+	return c.crawlsIn(state).crawlIDsOlderThan(tx, state, border, amount)
 }
 
 func (c *Crawls) CrawlIDsNewerThan(
 	tx *vault.Txn,
 	state yacycrawlcontract.CrawlState,
 	border crawlid.CrawlID,
-	limit int,
+	amount int,
 ) ([]crawlid.CrawlID, error) {
-	return c.crawlsIn(state).crawlIDsNewerThan(tx, state, border, limit)
+	return c.crawlsIn(state).crawlIDsNewerThan(tx, state, border, amount)
 }
 
-type crawlsByStart interface {
-	crawlIDsOlderThan(
-		tx *vault.Txn,
-		state yacycrawlcontract.CrawlState,
-		border crawlid.CrawlID,
-		limit int,
-	) ([]crawlid.CrawlID, error)
-	crawlIDsNewerThan(
-		tx *vault.Txn,
-		state yacycrawlcontract.CrawlState,
-		border crawlid.CrawlID,
-		limit int,
-	) ([]crawlid.CrawlID, error)
-}
-
-func (c *Crawls) crawlsIn(state yacycrawlcontract.CrawlState) crawlsByStart {
+func (c *Crawls) crawlsIn(state yacycrawlcontract.CrawlState) crawlIndexes {
 	if state == yacycrawlcontract.CrawlStateSucceeded ||
 		state == yacycrawlcontract.CrawlStateCancelled {
-		return c.finished
+		return c.finished.crawlIndexes
 	}
-	return c.unfinished
+	return c.unfinished.crawlIndexes
 }

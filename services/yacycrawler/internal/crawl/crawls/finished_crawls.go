@@ -20,7 +20,7 @@ func registerFinishedCrawls(
 	ctx context.Context,
 	storage *vault.Vault,
 	retention time.Duration,
-	forgotten ForgottenCrawls,
+	changes CrawlStateChanges,
 ) (finishedCrawls, error) {
 	var finished finishedCrawls
 	var err error
@@ -32,7 +32,7 @@ func registerFinishedCrawls(
 	}
 	if finished.crawls, err = storage.RegisterExpiringCollection(
 		ctx, finishedCrawlsBucket, crawlIDKeys, crawlCodec{}, retention,
-		finished.projectedWith(), forgotten.CrawlForgotten,
+		finished.projections(), changes.CrawlForgotten,
 	); err != nil {
 		return finishedCrawls{}, fmt.Errorf("register %s: %w", finishedCrawlsBucket, err)
 	}

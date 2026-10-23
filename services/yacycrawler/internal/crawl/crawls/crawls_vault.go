@@ -17,13 +17,13 @@ func registerCrawls(
 	ctx context.Context,
 	storage *vault.Vault,
 	retention time.Duration,
-	forgotten ForgottenCrawls,
+	changes CrawlStateChanges,
 ) (*Crawls, error) {
 	unfinished, err := registerUnfinishedCrawls(ctx, storage)
 	if err != nil {
 		return nil, err
 	}
-	finished, err := registerFinishedCrawls(ctx, storage, retention, forgotten)
+	finished, err := registerFinishedCrawls(ctx, storage, retention, changes)
 	if err != nil {
 		return nil, err
 	}
