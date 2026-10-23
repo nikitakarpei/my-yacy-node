@@ -7,24 +7,33 @@ require (
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/corpustext v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/crawlconsole v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
+	github.com/sirupsen/logrus v1.10.2
+	github.com/stripe/smokescreen v0.0.5-0.20260706062719-a3294a6cc4e4
 )
 
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
+	github.com/DataDog/datadog-go v4.5.1+incompatible // indirect
 	github.com/DataDog/zstd v1.5.7 // indirect
 	github.com/JohannesKaufmann/dom v0.3.1 // indirect
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
+	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/RaduBerinde/axisds v0.1.0 // indirect
 	github.com/RaduBerinde/btreemap v0.0.0-20250419174037-3d62b7205d54 // indirect
 	github.com/RoaringBitmap/roaring/v2 v2.14.5 // indirect
 	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
+	github.com/armon/go-proxyproto v0.0.0-20170620220930-48572f11356f // indirect
 	github.com/aws/aws-sdk-go-v2 v1.47.1 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.20 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.5.4 // indirect
@@ -72,6 +81,7 @@ require (
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -101,24 +111,31 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
 	github.com/redis/go-redis/v9 v9.22.0 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
+	github.com/rs/xid v1.2.1 // indirect
+	github.com/stripe/goproxy v0.0.0-20260615103414-176e55e4af3b // indirect
 	go.etcd.io/bbolt v1.4.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
+	golang.org/x/mod v0.35.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
+	golang.org/x/tools v0.44.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
@@ -126,6 +143,10 @@ replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/ca
 replace github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown => ../../services/corpusmarkdown
 
 replace github.com/nikitakarpei/yacy-rwi-node/corpustext => ../../services/corpustext
+
+replace github.com/nikitakarpei/yacy-rwi-node/crawlconsole => ../../services/crawlconsole
+
+replace github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge => ../../services/crawlscrapebridge
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
 
@@ -136,6 +157,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagef
 replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../services/corpusmarkdown/contract
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../services/pagescrape
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
@@ -162,6 +185,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault => ../../
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../services/yacycrawler/contract
+
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawler => ../../services/yacycrawler
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch => ../../services/yacydhtsearch
 

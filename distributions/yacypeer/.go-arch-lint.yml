@@ -12,6 +12,10 @@ components:
     in: internal/servicelog/**
   natsbroker:
     in: internal/natsbroker/**
+  egressproxy:
+    in: internal/egressproxy/**
+  loopback:
+    in: internal/loopback/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -24,10 +28,29 @@ vendors:
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
+  smokescreen:
+    in:
+      - github.com/stripe/smokescreen/pkg/smokescreen
+      - github.com/stripe/smokescreen/pkg/smokescreen/conntrack
+  logrus:
+    in:
+      - github.com/sirupsen/logrus
 deps:
   natsbroker:
+    mayDependOn:
+      - loopback
     canUse:
       - natsserver
+  loopback:
+    canUse:
+      - serviceruntime
+  egressproxy:
+    mayDependOn:
+      - loopback
+    canUse:
+      - smokescreen
+      - logrus
+      - serviceruntime
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true
