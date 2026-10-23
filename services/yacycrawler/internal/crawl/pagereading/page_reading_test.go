@@ -1,4 +1,4 @@
-package pagehtmlreading_test
+package pagereading_test
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 )
 
 const (
@@ -45,37 +45,52 @@ func (o *countingRefusalEnforcementObserver) LinkDiscoveryRefusalEnforced(
 	o.linkDiscoveryRefusalsEnforced++
 }
 
-func htmlPageReading() *pagehtmlreading.HTMLPageReading {
-	return htmlPageReadingObservedBy(&countingRefusalEnforcementObserver{})
+func pageReading() *pagereading.PageReading {
+	return pageReadingObservedBy(&countingRefusalEnforcementObserver{})
 }
 
-func htmlPageReadingObservedBy(
-	refusalEnforcementObserver pagehtmlreading.RefusalEnforcementObserver,
-) *pagehtmlreading.HTMLPageReading {
-	return pagehtmlreading.NewHTMLPageReading(
+func pageReadingObservedBy(
+	refusalEnforcementObserver pagereading.RefusalEnforcementObserver,
+) *pagereading.PageReading {
+	return pagereading.NewPageReading(
 		pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
 		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
 		refusalEnforcementObserver,
 	)
 }
 
-func readingOf(t *testing.T, page pagefetch.FetchedPage) pagehtmlreading.Reading {
+func readingOf(t *testing.T, page pagefetch.FetchedPage) pagereading.Reading {
 	t.Helper()
-	reading, err := htmlPageReading().ReadingOfPage(t.Context(), pageURL(t), page)
+	reading, err := pageReading().ReadingOfPage(t.Context(), pageURL(t), page)
 	if err != nil {
 		t.Fatalf("ReadingOfPage: %v", err)
 	}
 	return reading
 }
 
-func TestReadingOfPageRejectsABodyThatIsNotHTML(t *testing.T) {
+func pageNotHTML(t *testing.T) pagefetch.FetchedPage {
+	t.Helper()
 	page := pageHolding(t, pageLinkingNext)
 	page.ContentType = "application/pdf"
+	return page
+}
 
-	_, err := htmlPageReading().ReadingOfPage(t.Context(), pageURL(t), page)
+func TestReadingOfPageReportsNoLinksOnAPageThatIsNotHTML(t *testing.T) {
+	reading := readingOf(t, pageNotHTML(t))
 
-	if !errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
-		t.Fatalf("want ErrPageNotHTML, got %v", err)
+	if len(reading.DiscoveredURLs) != 0 {
+		t.Fatalf("a page that is not HTML links nowhere, got %v", reading.DiscoveredURLs)
+	}
+}
+
+func TestReadingOfPageHonorsAnIndexingRefusalInTheHeadersOfAPageThatIsNotHTML(t *testing.T) {
+	page := pageNotHTML(t)
+	page.RobotsTagValues = []string{"noindex"}
+
+	reading := readingOf(t, page)
+
+	if !reading.Refusals.RefusesIndexing {
+		t.Fatalf("want the header noindex read, got %+v", reading.Refusals)
 	}
 }
 
@@ -85,7 +100,7 @@ func TestReadingOfPageKeepsHTMLReadingFailuresDistinct(t *testing.T) {
 		"parse":   pagehtml.ErrHTMLUnparseable,
 	} {
 		t.Run(name, func(t *testing.T) {
-			reading := pagehtmlreading.NewHTMLPageReading(
+			reading := pagereading.NewPageReading(
 				failingHTMLParser{err: readingError},
 				linkDiscoveryWithoutLinks{},
 				&countingRefusalEnforcementObserver{},
@@ -99,9 +114,6 @@ func TestReadingOfPageKeepsHTMLReadingFailuresDistinct(t *testing.T) {
 
 			if !errors.Is(err, readingError) {
 				t.Fatalf("want %v, got %v", readingError, err)
-			}
-			if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
-				t.Fatalf("HTML reading error flattened into ErrPageNotHTML: %v", err)
 			}
 		})
 	}
@@ -137,7 +149,7 @@ func TestReadingOfPageReportsNoLinksWhenThePageRefusesLinkDiscovery(t *testing.T
 func TestReadingOfPageReportsTheLinkDiscoveryRefusalItEnforced(t *testing.T) {
 	observer := &countingRefusalEnforcementObserver{}
 
-	_, err := htmlPageReadingObservedBy(observer).ReadingOfPage(
+	_, err := pageReadingObservedBy(observer).ReadingOfPage(
 		t.Context(), pageURL(t), pageHolding(t, pageRefusingLinkDiscovery),
 	)
 	if err != nil {

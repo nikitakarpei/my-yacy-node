@@ -3,10 +3,10 @@ package pagevisit
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type CrawledPages interface {
-	PublishIndexablePage(ctx context.Context, pageURL canonicalurl.CanonicalURL) bool
-	PublishIndexingRefusedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) bool
+	PublishIndexablePage(ctx context.Context, page yacycrawlcontract.CrawledPage) bool
+	PublishIndexingRefusedPage(ctx context.Context, page yacycrawlcontract.CrawledPage) bool
 }

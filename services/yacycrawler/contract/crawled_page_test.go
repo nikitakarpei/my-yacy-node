@@ -9,7 +9,8 @@ import (
 
 func TestCrawledPageRoundTrip(t *testing.T) {
 	page := yacycrawlcontract.CrawledPage{
-		PageURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
+		PageURL:     canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
+		ContentType: "application/pdf",
 	}
 
 	data, err := yacycrawlcontract.MarshalCrawledPage(page)
@@ -32,5 +33,18 @@ func TestUnmarshalCrawledPageRejectsAPageURLThatIsNotCanonical(t *testing.T) {
 
 	if err == nil {
 		t.Fatal("UnmarshalCrawledPage returned nil, want the uncanonical page url failure")
+	}
+}
+
+func TestUnmarshalCrawledPageReadsAPageWithoutAContentType(t *testing.T) {
+	page, err := yacycrawlcontract.UnmarshalCrawledPage(
+		[]byte(`{"PageURL":"https://example.org/a"}`),
+	)
+	if err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+
+	if page.PageURL.String() != "https://example.org/a" || page.ContentType != "" {
+		t.Errorf("got %#v, want the page url and no content type", page)
 	}
 }

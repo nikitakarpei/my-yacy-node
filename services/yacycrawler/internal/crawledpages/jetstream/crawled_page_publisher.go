@@ -8,7 +8,6 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -26,16 +25,16 @@ func New(
 
 func (p *CrawledPagePublisher) PublishIndexablePage(
 	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	page yacycrawlcontract.CrawledPage,
 ) bool {
-	return p.publish(ctx, pageURL, indexablePagePublication)
+	return p.publish(ctx, page, indexablePagePublication)
 }
 
 func (p *CrawledPagePublisher) PublishIndexingRefusedPage(
 	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	page yacycrawlcontract.CrawledPage,
 ) bool {
-	return p.publish(ctx, pageURL, indexingRefusedPagePublication)
+	return p.publish(ctx, page, indexingRefusedPagePublication)
 }
 
 type crawledPagePublication struct {
@@ -56,20 +55,18 @@ var (
 
 func (p *CrawledPagePublisher) publish(
 	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	page yacycrawlcontract.CrawledPage,
 	publication crawledPagePublication,
 ) bool {
-	data, err := yacycrawlcontract.MarshalCrawledPage(
-		yacycrawlcontract.CrawledPage{PageURL: pageURL},
-	)
+	data, err := yacycrawlcontract.MarshalCrawledPage(page)
 	if err != nil {
-		p.observer.CrawledPageEncodingFailed(ctx, pageURL, publication.indexing, err)
+		p.observer.CrawledPageEncodingFailed(ctx, page.PageURL, publication.indexing, err)
 		return false
 	}
 	if _, err := p.stream.Publish(ctx, publication.subject, data); err != nil {
-		p.observer.CrawledPagePublishingFailed(ctx, pageURL, publication.indexing, err)
+		p.observer.CrawledPagePublishingFailed(ctx, page.PageURL, publication.indexing, err)
 		return false
 	}
-	p.observer.CrawledPagePublished(ctx, pageURL, publication.indexing)
+	p.observer.CrawledPagePublished(ctx, page.PageURL, publication.indexing)
 	return true
 }

@@ -16,7 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
@@ -108,24 +108,24 @@ func (f *recordedRecordFailures) PageVisitNotRecorded(
 }
 
 type fakeCrawledPages struct {
-	indexable   []string
-	refused     []string
+	indexable   []yacycrawlcontract.CrawledPage
+	refused     []yacycrawlcontract.CrawledPage
 	unreachable bool
 }
 
 func (f *fakeCrawledPages) PublishIndexablePage(
 	_ context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	page yacycrawlcontract.CrawledPage,
 ) bool {
-	f.indexable = append(f.indexable, pageURL.String())
+	f.indexable = append(f.indexable, page)
 	return !f.unreachable
 }
 
 func (f *fakeCrawledPages) PublishIndexingRefusedPage(
 	_ context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	page yacycrawlcontract.CrawledPage,
 ) bool {
-	f.refused = append(f.refused, pageURL.String())
+	f.refused = append(f.refused, page)
 	return !f.unreachable
 }
 
@@ -156,8 +156,8 @@ func (page unreadableHTMLPage) ReadingOfPage(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	pagefetch.FetchedPage,
-) (pagehtmlreading.Reading, error) {
-	return pagehtmlreading.Reading{}, page.err
+) (pagereading.Reading, error) {
+	return pagereading.Reading{}, page.err
 }
 
 type countedUnadmittedLinks struct {
@@ -176,7 +176,7 @@ type pageVisitScene struct {
 	fetch            *fakeFetch
 	pageVisitRecords *fakePageVisitRecords
 	recordFailures   *recordedRecordFailures
-	htmlPageReading  pagevisit.HTMLPageReading
+	pageReading      pagevisit.PageReading
 	crawledPages     *fakeCrawledPages
 	frontier         *fakeFrontier
 	unadmittedLinks  *countedUnadmittedLinks
@@ -188,7 +188,7 @@ func sceneFetching(outcome pagefetch.FetchOutcome) *pageVisitScene {
 		fetch:            &fakeFetch{outcome: outcome},
 		pageVisitRecords: &fakePageVisitRecords{due: true},
 		recordFailures:   &recordedRecordFailures{},
-		htmlPageReading: pagehtmlreading.NewHTMLPageReading(
+		pageReading: pagereading.NewPageReading(
 			pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
 			linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
 			silentRefusalEnforcementObserver{},
@@ -225,7 +225,7 @@ func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 		scene.pageVisitRecords,
 		scene.pageVisitRecords,
 		scene.recordFailures,
-		scene.htmlPageReading,
+		scene.pageReading,
 		scene.crawledPages,
 		scene.frontier,
 		scene.unadmittedLinks,
@@ -270,7 +270,11 @@ func TestAReadPageIsPublishedAndItsLinksGoOnTheFrontier(t *testing.T) {
 	if outcome.Result != yacycrawlcontract.ResultPublished {
 		t.Fatalf("result = %q, want published", outcome.Result)
 	}
-	if len(scene.crawledPages.indexable) != 1 || scene.crawledPages.indexable[0] != "http://host/" {
+	wantPage := yacycrawlcontract.CrawledPage{
+		PageURL:     canonicalurltest.CanonicalURLOf(t, "http://host/"),
+		ContentType: "text/html",
+	}
+	if len(scene.crawledPages.indexable) != 1 || scene.crawledPages.indexable[0] != wantPage {
 		t.Fatalf("want the page published as indexable once, got %v", scene.crawledPages.indexable)
 	}
 	want := pendingpagevisit.PendingPageVisit{
@@ -430,27 +434,61 @@ func TestAReadPageRecordsTheVersionTheOriginAnswered(t *testing.T) {
 	}
 }
 
-func TestAPageThatIsNotHTMLCompletesUnpublishedAndRecorded(t *testing.T) {
+func fetchedOutcomeNotHTML() pagefetch.FetchOutcome {
 	fetchOutcome := fetchedOutcome(pageLinkingNext)
 	fetchOutcome.Page.ContentType = "application/pdf"
-	scene := sceneFetching(fetchOutcome)
+	return fetchOutcome
+}
+
+func TestAPageThatIsNotHTMLIsPublishedWithItsContentTypeAndRecorded(t *testing.T) {
+	scene := sceneFetching(fetchedOutcomeNotHTML())
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Result != yacycrawlcontract.ResultUnsupportedMediaType {
-		t.Fatalf("result = %q, want unsupported media type", outcome.Result)
+	if outcome.Result != yacycrawlcontract.ResultPublished {
+		t.Fatalf("result = %q, want published", outcome.Result)
+	}
+	wantPage := yacycrawlcontract.CrawledPage{
+		PageURL:     canonicalurltest.CanonicalURLOf(t, "http://host/"),
+		ContentType: "application/pdf",
+	}
+	if len(scene.crawledPages.indexable) != 1 || scene.crawledPages.indexable[0] != wantPage {
+		t.Fatalf("want the page published as indexable once, got %v", scene.crawledPages.indexable)
 	}
 	if len(scene.pageVisitRecords.visitedCalls) != 1 {
 		t.Fatalf("recorded visits %v, want one", scene.pageVisitRecords.visitedCalls)
 	}
-	if len(scene.crawledPages.indexable) != 0 {
-		t.Fatalf("a page that is not HTML publishes nothing, got %v", scene.crawledPages.indexable)
+}
+
+func TestAPageThatIsNotHTMLPutsNoLinksOnTheFrontier(t *testing.T) {
+	scene := sceneFetching(fetchedOutcomeNotHTML())
+
+	scene.completedVisit(t)
+
+	if len(scene.frontier.published) != 0 {
+		t.Fatalf("frontier got %v, want no link from a page that is not HTML",
+			scene.frontier.published)
+	}
+}
+
+func TestAPageThatIsNotHTMLCanRefuseIndexingInItsHeaders(t *testing.T) {
+	fetchOutcome := fetchedOutcomeNotHTML()
+	fetchOutcome.Page.RobotsTagValues = []string{"noindex"}
+	scene := sceneFetching(fetchOutcome)
+
+	scene.completedVisit(t)
+
+	if len(scene.crawledPages.refused) != 1 || len(scene.crawledPages.indexable) != 0 {
+		t.Fatalf(
+			"want the page published as refusing indexing only, got refused %v, indexable %v",
+			scene.crawledPages.refused, scene.crawledPages.indexable,
+		)
 	}
 }
 
 func TestUnreadablePageHTMLCompletesUnpublished(t *testing.T) {
 	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
-	scene.htmlPageReading = unreadableHTMLPage{err: errors.New("boom")}
+	scene.pageReading = unreadableHTMLPage{err: errors.New("boom")}
 
 	outcome := scene.completedVisit(t)
 

@@ -5,13 +5,13 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 )
 
-type HTMLPageReading interface {
+type PageReading interface {
 	ReadingOfPage(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 		page pagefetch.FetchedPage,
-	) (pagehtmlreading.Reading, error)
+	) (pagereading.Reading, error)
 }
