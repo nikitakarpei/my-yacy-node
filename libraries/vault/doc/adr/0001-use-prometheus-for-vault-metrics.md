@@ -8,14 +8,15 @@ Accepted
 
 ## Context
 
-Vault removes expired records in the background, and operators need to see
-that removal work. Each service defined its own metrics for the same vault work.
+Operators read vault transactions, capacity, records per bucket, member sets
+and the removal of expired records. Each service that opens a vault needs the
+same metrics.
 
 ## Decision
 
 Use `github.com/prometheus/client_golang` in `vault/vaultmetrics`. The package
-implements the vault observers, and each service wires it with its own metric
-namespace.
+implements the vault observers and reads vault capacity and record counts, and
+each service wires it with its own metric namespace.
 
 ## Consequences
 

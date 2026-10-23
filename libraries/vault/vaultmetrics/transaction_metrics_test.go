@@ -1,4 +1,4 @@
-package metrics_test
+package vaultmetrics_test
 
 import (
 	"strings"
@@ -8,19 +8,19 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 )
 
 func TestVaultTransactionReportsBeginLatency(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := metrics.NewVaultTransactionMetrics(registry)
+	transactions := vaultmetrics.NewTransactionMetrics(registry, "service")
 
 	transactions.ObserveWriteBegan(time.Millisecond)
 
 	if count := histogramCount(
 		t,
 		registry,
-		"yacynode_vault_write_transaction_begin_seconds",
+		"service_vault_write_transaction_begin_seconds",
 		"",
 		"",
 	); count != 1 {
@@ -30,22 +30,22 @@ func TestVaultTransactionReportsBeginLatency(t *testing.T) {
 
 func TestVaultTransactionCountsBeginRefusalsByCause(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := metrics.NewVaultTransactionMetrics(registry)
+	transactions := vaultmetrics.NewTransactionMetrics(registry, "service")
 
 	transactions.ObserveWriteBeginRefused("no_space")
 	transactions.ObserveWriteBeginRefused("no_space")
 	transactions.ObserveWriteBeginRefused("unclassified")
 
 	expected := `
-# HELP yacynode_vault_write_transaction_begin_refusals_total Vault write transactions the storage engine refused before opening, by cause.
-# TYPE yacynode_vault_write_transaction_begin_refusals_total counter
-yacynode_vault_write_transaction_begin_refusals_total{cause="no_space"} 2
-yacynode_vault_write_transaction_begin_refusals_total{cause="unclassified"} 1
+# HELP service_vault_write_transaction_begin_refusals_total Vault write transactions the storage engine refused before opening, by cause.
+# TYPE service_vault_write_transaction_begin_refusals_total counter
+service_vault_write_transaction_begin_refusals_total{cause="no_space"} 2
+service_vault_write_transaction_begin_refusals_total{cause="unclassified"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_vault_write_transaction_begin_refusals_total",
+		"service_vault_write_transaction_begin_refusals_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -53,23 +53,23 @@ yacynode_vault_write_transaction_begin_refusals_total{cause="unclassified"} 1
 
 func TestVaultTransactionCountsOutcomes(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := metrics.NewVaultTransactionMetrics(registry)
+	transactions := vaultmetrics.NewTransactionMetrics(registry, "service")
 
 	transactions.ObserveWriteCommitted(time.Millisecond, 2*time.Millisecond, true)
 	transactions.ObserveWriteAborted(time.Millisecond, time.Millisecond)
 	transactions.ObserveWriteCommitRefused(time.Millisecond, time.Millisecond, "no_space")
 
 	expected := `
-# HELP yacynode_vault_write_transactions_total Vault write transactions that opened, by how they ended.
-# TYPE yacynode_vault_write_transactions_total counter
-yacynode_vault_write_transactions_total{called_write_operation="",cause="",outcome="aborted"} 1
-yacynode_vault_write_transactions_total{called_write_operation="",cause="no_space",outcome="refused"} 1
-yacynode_vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
+# HELP service_vault_write_transactions_total Vault write transactions that opened, by how they ended.
+# TYPE service_vault_write_transactions_total counter
+service_vault_write_transactions_total{called_write_operation="",cause="",outcome="aborted"} 1
+service_vault_write_transactions_total{called_write_operation="",cause="no_space",outcome="refused"} 1
+service_vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_vault_write_transactions_total",
+		"service_vault_write_transactions_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -77,7 +77,7 @@ yacynode_vault_write_transactions_total{called_write_operation="true",cause="",o
 	if count := histogramCount(
 		t,
 		registry,
-		"yacynode_vault_write_transaction_duration_seconds",
+		"service_vault_write_transaction_duration_seconds",
 		"phase",
 		"commit",
 	); count != 1 {
@@ -86,7 +86,7 @@ yacynode_vault_write_transactions_total{called_write_operation="true",cause="",o
 	if count := histogramCount(
 		t,
 		registry,
-		"yacynode_vault_write_transaction_duration_seconds",
+		"service_vault_write_transaction_duration_seconds",
 		"phase",
 		"rollback",
 	); count != 2 {
@@ -95,7 +95,7 @@ yacynode_vault_write_transactions_total{called_write_operation="true",cause="",o
 	if count := histogramCount(
 		t,
 		registry,
-		"yacynode_vault_write_transaction_duration_seconds",
+		"service_vault_write_transaction_duration_seconds",
 		"phase",
 		"execute",
 	); count != 3 {
@@ -105,22 +105,22 @@ yacynode_vault_write_transactions_total{called_write_operation="true",cause="",o
 
 func TestVaultTransactionSeparatesCommitsThatCalledNoWriteOperation(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := metrics.NewVaultTransactionMetrics(registry)
+	transactions := vaultmetrics.NewTransactionMetrics(registry, "service")
 
 	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, true)
 	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, false)
 	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, false)
 
 	expected := `
-# HELP yacynode_vault_write_transactions_total Vault write transactions that opened, by how they ended.
-# TYPE yacynode_vault_write_transactions_total counter
-yacynode_vault_write_transactions_total{called_write_operation="false",cause="",outcome="committed"} 2
-yacynode_vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
+# HELP service_vault_write_transactions_total Vault write transactions that opened, by how they ended.
+# TYPE service_vault_write_transactions_total counter
+service_vault_write_transactions_total{called_write_operation="false",cause="",outcome="committed"} 2
+service_vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_vault_write_transactions_total",
+		"service_vault_write_transactions_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -128,21 +128,21 @@ yacynode_vault_write_transactions_total{called_write_operation="true",cause="",o
 
 func TestVaultTransactionTracksReadsInFlight(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := metrics.NewVaultTransactionMetrics(registry)
+	transactions := vaultmetrics.NewTransactionMetrics(registry, "service")
 
 	transactions.ObserveReadBegan()
 	transactions.ObserveReadBegan()
 	transactions.ObserveReadEnded()
 
 	expected := `
-# HELP yacynode_vault_reads_in_flight Reads currently open through the vault.
-# TYPE yacynode_vault_reads_in_flight gauge
-yacynode_vault_reads_in_flight 1
+# HELP service_vault_reads_in_flight Reads currently open through the vault.
+# TYPE service_vault_reads_in_flight gauge
+service_vault_reads_in_flight 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_vault_reads_in_flight",
+		"service_vault_reads_in_flight",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

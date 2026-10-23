@@ -1,4 +1,4 @@
-package metrics
+package pebblemetrics
 
 import (
 	"github.com/prometheus/client_golang/prometheus"
@@ -8,22 +8,25 @@ import (
 
 const labelWriteStallCause = "cause"
 
-type PebbleWriteStallMetrics struct {
+type WriteStallMetrics struct {
 	stalls        *prometheus.CounterVec
 	writesDelayed prometheus.Gauge
 }
 
-func NewPebbleWriteStallMetrics(registry prometheus.Registerer) *PebbleWriteStallMetrics {
-	metrics := &PebbleWriteStallMetrics{
+func NewWriteStallMetrics(
+	registry prometheus.Registerer,
+	serviceMetricNamespace string,
+) *WriteStallMetrics {
+	metrics := &WriteStallMetrics{
 		stalls: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
-				Name: "yacynode_pebble_write_stalls_total",
+				Name: serviceMetricNamespace + "_pebble_write_stalls_total",
 				Help: "Times the storage engine began to delay writes, by what it waited for.",
 			},
 			[]string{labelWriteStallCause},
 		),
 		writesDelayed: prometheus.NewGauge(prometheus.GaugeOpts{
-			Name: "yacynode_pebble_writes_delayed",
+			Name: serviceMetricNamespace + "_pebble_writes_delayed",
 			Help: "1 while the storage engine delays writes, 0 while it accepts them.",
 		}),
 	}
@@ -32,11 +35,11 @@ func NewPebbleWriteStallMetrics(registry prometheus.Registerer) *PebbleWriteStal
 	return metrics
 }
 
-func (m *PebbleWriteStallMetrics) ObserveWriteStallBegan(cause pebblevault.WriteStallCause) {
+func (m *WriteStallMetrics) ObserveWriteStallBegan(cause pebblevault.WriteStallCause) {
 	m.stalls.WithLabelValues(string(cause)).Inc()
 	m.writesDelayed.Set(1)
 }
 
-func (m *PebbleWriteStallMetrics) ObserveWriteStallEnded() {
+func (m *WriteStallMetrics) ObserveWriteStallEnded() {
 	m.writesDelayed.Set(0)
 }

@@ -1,4 +1,4 @@
-package metrics_test
+package pebblemetrics_test
 
 import (
 	"strings"
@@ -8,7 +8,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 )
 
 type stubPebbleEngine struct {
@@ -21,7 +21,7 @@ func (s stubPebbleEngine) Condition() pebblevault.EngineCondition {
 
 func TestPebbleConditionReportsTheLimitsBesideTheReadings(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics.NewPebbleConditionMetrics(registry, stubPebbleEngine{
+	pebblemetrics.NewConditionMetrics(registry, "service", stubPebbleEngine{
 		condition: pebblevault.EngineCondition{
 			BlockCacheHeldBytes:  512,
 			BlockCacheLimitBytes: 2048,
@@ -29,18 +29,18 @@ func TestPebbleConditionReportsTheLimitsBesideTheReadings(t *testing.T) {
 	})
 
 	expected := `
-# HELP yacynode_pebble_block_cache_held_bytes Bytes of data blocks the block cache holds.
-# TYPE yacynode_pebble_block_cache_held_bytes gauge
-yacynode_pebble_block_cache_held_bytes 512
-# HELP yacynode_pebble_block_cache_limit_bytes Bytes the block cache may hold.
-# TYPE yacynode_pebble_block_cache_limit_bytes gauge
-yacynode_pebble_block_cache_limit_bytes 2048
+# HELP service_pebble_block_cache_held_bytes Bytes of data blocks the block cache holds.
+# TYPE service_pebble_block_cache_held_bytes gauge
+service_pebble_block_cache_held_bytes 512
+# HELP service_pebble_block_cache_limit_bytes Bytes the block cache may hold.
+# TYPE service_pebble_block_cache_limit_bytes gauge
+service_pebble_block_cache_limit_bytes 2048
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_pebble_block_cache_held_bytes",
-		"yacynode_pebble_block_cache_limit_bytes",
+		"service_pebble_block_cache_held_bytes",
+		"service_pebble_block_cache_limit_bytes",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -48,22 +48,22 @@ yacynode_pebble_block_cache_limit_bytes 2048
 
 func TestPebbleConditionReportsCompactionsByKind(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics.NewPebbleConditionMetrics(registry, stubPebbleEngine{
+	pebblemetrics.NewConditionMetrics(registry, "service", stubPebbleEngine{
 		condition: pebblevault.EngineCondition{
 			CompactionsCompleted: map[pebblevault.CompactionKind]int64{"default": 7, "move": 2},
 		},
 	})
 
 	expected := `
-# HELP yacynode_pebble_compactions_completed_total Compactions the storage engine finished, by the kind of compaction.
-# TYPE yacynode_pebble_compactions_completed_total counter
-yacynode_pebble_compactions_completed_total{kind="default"} 7
-yacynode_pebble_compactions_completed_total{kind="move"} 2
+# HELP service_pebble_compactions_completed_total Compactions the storage engine finished, by the kind of compaction.
+# TYPE service_pebble_compactions_completed_total counter
+service_pebble_compactions_completed_total{kind="default"} 7
+service_pebble_compactions_completed_total{kind="move"} 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_pebble_compactions_completed_total",
+		"service_pebble_compactions_completed_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -71,7 +71,7 @@ yacynode_pebble_compactions_completed_total{kind="move"} 2
 
 func TestPebbleConditionReportsEachLevelSeparately(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics.NewPebbleConditionMetrics(registry, stubPebbleEngine{
+	pebblemetrics.NewConditionMetrics(registry, "service", stubPebbleEngine{
 		condition: pebblevault.EngineCondition{
 			Levels: []pebblevault.Level{
 				{Number: 0, Sublevels: 3, Tables: 12},
@@ -81,15 +81,15 @@ func TestPebbleConditionReportsEachLevelSeparately(t *testing.T) {
 	})
 
 	expected := `
-# HELP yacynode_pebble_level_tables Table files at this level.
-# TYPE yacynode_pebble_level_tables gauge
-yacynode_pebble_level_tables{level="0"} 12
-yacynode_pebble_level_tables{level="1"} 4
+# HELP service_pebble_level_tables Table files at this level.
+# TYPE service_pebble_level_tables gauge
+service_pebble_level_tables{level="0"} 12
+service_pebble_level_tables{level="1"} 4
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_pebble_level_tables",
+		"service_pebble_level_tables",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -98,7 +98,7 @@ yacynode_pebble_level_tables{level="1"} 4
 func TestPebbleConditionIsReadAgainOnEveryScrape(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	condition := &countingPebbleEngine{}
-	metrics.NewPebbleConditionMetrics(registry, condition)
+	pebblemetrics.NewConditionMetrics(registry, "service", condition)
 
 	for range 3 {
 		if _, err := registry.Gather(); err != nil {
@@ -123,23 +123,23 @@ func (c *countingPebbleEngine) Condition() pebblevault.EngineCondition {
 
 func TestPebbleConditionReportsTheAmountsScansSteppedOver(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics.NewPebbleConditionMetrics(registry, stubPebbleEngine{
+	pebblemetrics.NewConditionMetrics(registry, "service", stubPebbleEngine{
 		condition: pebblevault.EngineCondition{AmountsScanned: 7, AmountsAtZeroScanned: 3},
 	})
 
 	expected := `
-# HELP yacynode_pebble_amounts_at_zero_scanned_total Stored amounts at zero that scans stepped over and skipped.
-# TYPE yacynode_pebble_amounts_at_zero_scanned_total counter
-yacynode_pebble_amounts_at_zero_scanned_total 3
-# HELP yacynode_pebble_amounts_scanned_total Stored amounts that scans stepped over, at zero or above.
-# TYPE yacynode_pebble_amounts_scanned_total counter
-yacynode_pebble_amounts_scanned_total 7
+# HELP service_pebble_amounts_at_zero_scanned_total Stored amounts at zero that scans stepped over and skipped.
+# TYPE service_pebble_amounts_at_zero_scanned_total counter
+service_pebble_amounts_at_zero_scanned_total 3
+# HELP service_pebble_amounts_scanned_total Stored amounts that scans stepped over, at zero or above.
+# TYPE service_pebble_amounts_scanned_total counter
+service_pebble_amounts_scanned_total 7
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_pebble_amounts_scanned_total",
-		"yacynode_pebble_amounts_at_zero_scanned_total",
+		"service_pebble_amounts_scanned_total",
+		"service_pebble_amounts_at_zero_scanned_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

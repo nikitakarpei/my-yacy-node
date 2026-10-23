@@ -1,4 +1,4 @@
-package metrics_test
+package vaultmetrics_test
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 )
 
 type stubVaultBuckets struct {
@@ -26,15 +26,15 @@ func (s stubVaultBuckets) RecordCountsByBucket(
 
 func TestVaultBucketRecordsReportsRecordCounts(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics.NewVaultBucketRecordMetrics(registry, stubVaultBuckets{
+	vaultmetrics.NewBucketRecordMetrics(registry, "service", stubVaultBuckets{
 		recordCounts: map[vault.Name]int{"rwi": 7, "urlmeta": 0},
 	})
 
 	expected := `
-# HELP yacynode_vault_bucket_records Records currently stored in each vault bucket of records.
-# TYPE yacynode_vault_bucket_records gauge
-yacynode_vault_bucket_records{bucket="rwi"} 7
-yacynode_vault_bucket_records{bucket="urlmeta"} 0
+# HELP service_vault_bucket_records Records currently stored in each vault bucket of records.
+# TYPE service_vault_bucket_records gauge
+service_vault_bucket_records{bucket="rwi"} 7
+service_vault_bucket_records{bucket="urlmeta"} 0
 `
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(expected)); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
@@ -43,12 +43,13 @@ yacynode_vault_bucket_records{bucket="urlmeta"} 0
 
 func TestVaultBucketRecordsOmitsRecordCountsOnError(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics.NewVaultBucketRecordMetrics(
+	vaultmetrics.NewBucketRecordMetrics(
 		registry,
+		"service",
 		stubVaultBuckets{err: errors.New("unavailable")},
 	)
 
-	if got := testutil.CollectAndCount(registry, "yacynode_vault_bucket_records"); got != 0 {
-		t.Errorf("yacynode_vault_bucket_records samples = %d, want none on error", got)
+	if got := testutil.CollectAndCount(registry, "service_vault_bucket_records"); got != 0 {
+		t.Errorf("service_vault_bucket_records samples = %d, want none on error", got)
 	}
 }

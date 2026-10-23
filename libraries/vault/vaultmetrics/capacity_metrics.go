@@ -1,4 +1,4 @@
-package metrics
+package vaultmetrics
 
 import (
 	"context"
@@ -7,31 +7,32 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-type VaultCapacity interface {
+type Capacity interface {
 	QuotaBytes() int64
 	UsedBytes(context.Context) (int64, error)
 }
 
-type VaultCapacityMetrics struct {
-	capacity VaultCapacity
+type CapacityMetrics struct {
+	capacity Capacity
 	quota    *prometheus.Desc
 	used     *prometheus.Desc
 }
 
-func NewVaultCapacityMetrics(
+func NewCapacityMetrics(
 	registry prometheus.Registerer,
-	capacity VaultCapacity,
-) *VaultCapacityMetrics {
-	metrics := &VaultCapacityMetrics{
+	serviceMetricNamespace string,
+	capacity Capacity,
+) *CapacityMetrics {
+	metrics := &CapacityMetrics{
 		capacity: capacity,
 		quota: prometheus.NewDesc(
-			"yacynode_vault_quota_bytes",
+			serviceMetricNamespace+"_vault_quota_bytes",
 			"Configured vault quota in bytes.",
 			nil,
 			nil,
 		),
 		used: prometheus.NewDesc(
-			"yacynode_vault_used_bytes",
+			serviceMetricNamespace+"_vault_used_bytes",
 			"Vault space currently used in bytes.",
 			nil,
 			nil,
@@ -42,12 +43,12 @@ func NewVaultCapacityMetrics(
 	return metrics
 }
 
-func (m *VaultCapacityMetrics) Describe(descriptions chan<- *prometheus.Desc) {
+func (m *CapacityMetrics) Describe(descriptions chan<- *prometheus.Desc) {
 	descriptions <- m.quota
 	descriptions <- m.used
 }
 
-func (m *VaultCapacityMetrics) Collect(samples chan<- prometheus.Metric) {
+func (m *CapacityMetrics) Collect(samples chan<- prometheus.Metric) {
 	ctx := context.Background()
 	samples <- prometheus.MustNewConstMetric(
 		m.quota,

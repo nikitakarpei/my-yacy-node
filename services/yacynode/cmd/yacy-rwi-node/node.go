@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
@@ -146,8 +147,8 @@ func assembleNode(
 		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL)},
 	}
 
-	metrics.NewVaultCapacityMetrics(registry, storage)
-	metrics.NewVaultBucketRecordMetrics(registry, storage)
+	vaultmetrics.NewCapacityMetrics(registry, metricNamespace, storage)
+	vaultmetrics.NewBucketRecordMetrics(registry, metricNamespace, storage)
 
 	urlMetadataStaleness, stalenessProjection, err := urlmetastaleness.Open(storage)
 	if err != nil {
@@ -203,7 +204,7 @@ func assembleNode(
 		storage,
 		dhtRingPartitions,
 		rankedWords,
-		metrics.NewVaultMemberSetMetrics(registry),
+		vaultmetrics.NewMemberSetMetrics(registry, metricNamespace),
 		[]vault.Projection[yacymodel.RWIPosting]{
 			postingImpactProjection,
 			postingAmountProjection,
@@ -449,7 +450,7 @@ func assembleNode(
 		peerHandler: httpobservation.NewHandler(
 			mux,
 			httpaccesslog.New(),
-			httpmetrics.NewEndpointMetrics(registry, "yacynode"),
+			httpmetrics.NewEndpointMetrics(registry, metricNamespace),
 		),
 		evictionSweeper: eviction.NewSweeper(
 			storage,

@@ -1,4 +1,4 @@
-package metrics_test
+package pebblemetrics_test
 
 import (
 	"fmt"
@@ -8,12 +8,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 )
 
 func TestWriteStallsAreCountedByCause(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	stalls := metrics.NewPebbleWriteStallMetrics(registry)
+	stalls := pebblemetrics.NewWriteStallMetrics(registry, "service")
 
 	stalls.ObserveWriteStallBegan("memtables_awaiting_flush")
 	stalls.ObserveWriteStallEnded()
@@ -23,15 +23,15 @@ func TestWriteStallsAreCountedByCause(t *testing.T) {
 	stalls.ObserveWriteStallEnded()
 
 	expected := `
-# HELP yacynode_pebble_write_stalls_total Times the storage engine began to delay writes, by what it waited for.
-# TYPE yacynode_pebble_write_stalls_total counter
-yacynode_pebble_write_stalls_total{cause="level_zero_files_awaiting_compaction"} 1
-yacynode_pebble_write_stalls_total{cause="memtables_awaiting_flush"} 2
+# HELP service_pebble_write_stalls_total Times the storage engine began to delay writes, by what it waited for.
+# TYPE service_pebble_write_stalls_total counter
+service_pebble_write_stalls_total{cause="level_zero_files_awaiting_compaction"} 1
+service_pebble_write_stalls_total{cause="memtables_awaiting_flush"} 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_pebble_write_stalls_total",
+		"service_pebble_write_stalls_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -39,7 +39,7 @@ yacynode_pebble_write_stalls_total{cause="memtables_awaiting_flush"} 2
 
 func TestDelayedWritesAreVisibleUntilTheStallEnds(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	stalls := metrics.NewPebbleWriteStallMetrics(registry)
+	stalls := pebblemetrics.NewWriteStallMetrics(registry, "service")
 
 	expectDelayedWrites(t, registry, 0)
 
@@ -54,14 +54,14 @@ func expectDelayedWrites(t *testing.T, registry *prometheus.Registry, delayed in
 	t.Helper()
 
 	expected := fmt.Sprintf(`
-# HELP yacynode_pebble_writes_delayed 1 while the storage engine delays writes, 0 while it accepts them.
-# TYPE yacynode_pebble_writes_delayed gauge
-yacynode_pebble_writes_delayed %d
+# HELP service_pebble_writes_delayed 1 while the storage engine delays writes, 0 while it accepts them.
+# TYPE service_pebble_writes_delayed gauge
+service_pebble_writes_delayed %d
 `, delayed)
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"yacynode_pebble_writes_delayed",
+		"service_pebble_writes_delayed",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
