@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamserver"
 )
 
 const (
@@ -23,6 +24,8 @@ const (
 	EnvScrapeDeferralWindow    = "SCRAPE_DEFERRAL_WINDOW"
 	EnvScrapePageOfferMaxBytes = "SCRAPE_PAGE_OFFER_MAX_BYTES"
 	EnvOpsAddr                 = "PAGESCRAPE_OPS_ADDR"
+	EnvNATSAddr                = "PAGESCRAPE_NATS_ADDR"
+	EnvNATSStoreDir            = "PAGESCRAPE_NATS_STORE_DIR"
 
 	DefaultProxyDialMode           = "tunnel"
 	DefaultUserAgent               = "pagescrape (+https://yacy.net)"
@@ -35,6 +38,8 @@ const (
 	DefaultScrapeDeferralWindow    = 6 * time.Hour
 	DefaultScrapePageOfferMaxBytes = "1GB"
 	DefaultOpsAddr                 = ":9090"
+	DefaultNATSAddr                = "127.0.0.1:4222"
+	DefaultNATSStoreDir            = "./nats"
 )
 
 type ServiceConfig struct {
@@ -51,6 +56,7 @@ type ServiceConfig struct {
 	ScrapeDeferralWindow    time.Duration
 	PageOfferMaxBytes       int64
 	OpsAddr                 string
+	NATSServer              jetstreamserver.Config
 }
 
 type fetchSettings struct {
@@ -67,10 +73,6 @@ type streamSettings struct {
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	scrapeNATSURL, err := envconfig.Required(getenv, EnvScrapeNATSURL)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 	fetch, err := loadFetchSettings(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -92,7 +94,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 	return ServiceConfig{
-		ScrapeNATSURL:   scrapeNATSURL,
+		ScrapeNATSURL:   envconfig.String(getenv, EnvScrapeNATSURL, ""),
 		ProxyURL:        fetch.proxyURL,
 		ProxyDialMode:   fetch.proxyDialMode,
 		UserAgent:       envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
@@ -107,6 +109,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		ScrapeDeferralWindow:    scrapeDeferralWindow,
 		PageOfferMaxBytes:       streams.pageOfferMaxBytes,
 		OpsAddr:                 envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		NATSServer: jetstreamserver.Config{
+			Addr:     envconfig.String(getenv, EnvNATSAddr, DefaultNATSAddr),
+			StoreDir: envconfig.String(getenv, EnvNATSStoreDir, DefaultNATSStoreDir),
+		},
 	}, nil
 }
 

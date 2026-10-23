@@ -28,9 +28,17 @@ RUN --mount=type=cache,target=/go/pkg/mod \
         -o /out/pagescrape \
         ./cmd/pagescrape
 
+RUN mkdir -p /out/data
+
 FROM gcr.io/distroless/static-debian12:nonroot
 
+ENV PAGESCRAPE_NATS_ADDR=:4222 \
+    PAGESCRAPE_NATS_STORE_DIR=/data
+
+COPY --from=build --chown=nonroot:nonroot /out/data /data
 COPY --from=build /out/pagescrape /usr/local/bin/pagescrape
+
+VOLUME ["/data"]
 
 USER nonroot:nonroot
 

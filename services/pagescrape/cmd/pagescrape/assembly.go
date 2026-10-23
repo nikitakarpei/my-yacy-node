@@ -25,6 +25,7 @@ import (
 	scrapestreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapestreams/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -43,7 +44,24 @@ type Listeners struct {
 }
 
 func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) error {
-	broker, connection, err := jetstreamconnect.Open(cfg.ScrapeNATSURL)
+	if cfg.ScrapeNATSURL != "" {
+		return runScrapePipeline(ctx, cfg.ScrapeNATSURL, cfg, listeners)
+	}
+	server, err := jetstreamserver.Start(cfg.NATSServer)
+	if err != nil {
+		return err
+	}
+	defer server.Shutdown()
+	return runScrapePipeline(ctx, server.ClientURL(), cfg, listeners)
+}
+
+func runScrapePipeline(
+	ctx context.Context,
+	scrapeNATSURL string,
+	cfg ServiceConfig,
+	listeners Listeners,
+) error {
+	broker, connection, err := jetstreamconnect.Open(scrapeNATSURL)
 	if err != nil {
 		return err
 	}
@@ -119,6 +137,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 
 	slog.InfoContext(ctx, "pagescrape started",
 		slog.String("ops", listeners.Ops.Addr().String()),
+		slog.String("nats", scrapeNATSURL),
 		slog.String("durable", cfg.ScrapeRequestDurable),
 		slog.Int("scrapeIntakeConcurrency", cfg.ScrapeIntakeConcurrency),
 		slog.Duration("scrapeDeferralWindow", cfg.ScrapeDeferralWindow),

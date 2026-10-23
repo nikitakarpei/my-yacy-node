@@ -21,6 +21,7 @@ type NamedServer struct {
 	Server   *http.Server
 }
 
+// TECHDEBT: Comments — Run carries a function doc comment, which is not an allowed form.
 // Run serves every server and runs every worker until ctx is cancelled or any
 // server or worker returns. The first return then triggers a graceful shutdown
 // of every server within shutdownTimeout. Run returns the first non-nil error;

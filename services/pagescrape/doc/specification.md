@@ -40,6 +40,8 @@ Scrape requests and page offers pass through NATS JetStream.
   deferral.
 * The service SHALL NOT discard a request it cannot decode.
 * The outcome feed SHALL tell which corpus kept the page and which corpus rejected it.
+* When no NATS server is configured, the service SHALL serve its own NATS server with
+  JetStream on the configured address before it creates its streams.
 * At startup, the service SHALL create the scrape request stream and the page offer stream
   with the configured retention limits.
 * The scrape request stream SHALL keep a request, deferred or not, until the service
@@ -54,7 +56,8 @@ Scrape requests and page offers pass through NATS JetStream.
 * The service SHALL stop an origin fetch that goes past its deadline or its size limit.
 * The service SHALL limit how many requests it takes at the same time.
 * Pending and deferred requests SHALL stay after a service restart, within the configured
-  retention limits.
+  retention limits. When the service serves its own NATS server, this is true only while
+  its store directory stays.
 * Instances that share a durable consumer name SHALL divide the requests. Each request SHALL
   go to one instance only.
 * The service SHALL supply scrape request and outcome announcement metrics over HTTP.
@@ -72,3 +75,5 @@ Scrape requests and page offers pass through NATS JetStream.
   removes it.
 * An outcome announcement can be lost if publication fails after the request is complete.
 * A transient origin failure has the reason `no-reason-given`. It carries no cause.
+* When the service serves its own NATS server, its clients have no broker while the service
+  is stopped.

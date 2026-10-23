@@ -9,12 +9,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	pagescrape "github.com/nikitakarpei/yacy-rwi-node/pagescrape/cmd/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
@@ -91,6 +93,75 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 		}
 	case <-time.After(shutdownWait):
 		t.Fatal("service did not shut down after cancel")
+	}
+}
+
+func TestRunServiceServesItsOwnBrokerWhenNoNATSURLIsSet(t *testing.T) {
+	cfg := serviceConfig("", originServing(t, "<html lang=\"en\"><body>words here</body></html>"))
+	cfg.NATSServer = jetstreamserver.Config{Addr: freeAddrFor(t), StoreDir: t.TempDir()}
+	broker := brokerAwaiting(t, "nats://"+cfg.NATSServer.Addr)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	listeners := pagescrape.Listeners{Ops: listenerFor(t)}
+	runDone := make(chan error, 1)
+	go func() { runDone <- pagescrape.RunService(ctx, cfg, listeners) }()
+
+	offers := pageOfferConsumer(t, ctx, broker)
+	publishScrapeRequest(t, ctx, broker, originPageURL)
+
+	if _, err := offers.Next(jetstream.FetchMaxWait(offerWait)); err != nil {
+		t.Fatalf("await page offer: %v", err)
+	}
+
+	cancel()
+	select {
+	case err := <-runDone:
+		if err != nil {
+			t.Errorf("run: %v", err)
+		}
+	case <-time.After(shutdownWait):
+		t.Fatal("service did not shut down after cancel")
+	}
+}
+
+func freeAddrFor(t *testing.T) string {
+	t.Helper()
+	listener := listenerFor(t)
+	addr := listener.Addr().String()
+	if err := listener.Close(); err != nil {
+		t.Fatalf("free %s: %v", addr, err)
+	}
+	return addr
+}
+
+func brokerAwaiting(t *testing.T, natsURL string) jetstream.JetStream {
+	t.Helper()
+	connection, err := nats.Connect(
+		natsURL,
+		nats.RetryOnFailedConnect(true),
+		nats.MaxReconnects(-1),
+		nats.ReconnectWait(50*time.Millisecond),
+	)
+	if err != nil {
+		t.Fatalf("connect nats: %v", err)
+	}
+	t.Cleanup(connection.Close)
+	broker, err := jetstream.New(connection)
+	if err != nil {
+		t.Fatalf("init jetstream: %v", err)
+	}
+	return broker
+}
+
+func TestRunServiceReturnsWhenItsOwnBrokerCannotStart(t *testing.T) {
+	cfg := serviceConfig("", originServing(t, "<html></html>"))
+	cfg.NATSServer = jetstreamserver.Config{Addr: "no-port", StoreDir: t.TempDir()}
+	listeners := pagescrape.Listeners{Ops: listenerFor(t)}
+
+	if err := pagescrape.RunService(context.Background(), cfg, listeners); err == nil {
+		t.Fatal("expected an error when the broker cannot start")
 	}
 }
 

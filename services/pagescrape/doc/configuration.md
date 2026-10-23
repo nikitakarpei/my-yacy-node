@@ -6,7 +6,9 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SCRAPE_NATS_URL` | required | NATS server that holds scrape requests and page offers. |
+| `SCRAPE_NATS_URL` | unset | NATS server that holds scrape requests and page offers. When it is unset, the service serves its own NATS server. |
+| `PAGESCRAPE_NATS_ADDR` | `127.0.0.1:4222` | Address of the NATS server the service serves. Other services connect to this address. |
+| `PAGESCRAPE_NATS_STORE_DIR` | `./nats` | Directory where the NATS server the service serves keeps its streams. |
 | `SCRAPE_REQUEST_DURABLE` | `pagescrape` | Durable consumer name shared across service instances. |
 | `SCRAPE_REQUESTS_KEPT` | `100000` | Unfinished requests, deferred ones included, the request stream holds. A full stream refuses new requests. |
 | `SCRAPE_PAGE_OFFER_MAX_BYTES` | `1GB` | Total bytes the page offer stream keeps. |

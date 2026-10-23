@@ -32,6 +32,8 @@ components:
     in: pullintake/admissions/consumerbacklog/**
   jetstreamconnect:
     in: jetstreamconnect/**
+  jetstreamserver:
+    in: jetstreamserver/**
   foregroundprocess:
     in: foregroundprocess/**
   processenvironmentleaseclient:
@@ -49,6 +51,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  natsserver:
+    in:
+      - github.com/nats-io/nats-server/v2/server
   processenvironmentlease:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease
@@ -82,6 +87,9 @@ deps:
   jetstreamconnect:
     canUse:
       - nats
+  jetstreamserver:
+    canUse:
+      - natsserver
   processenvironmentleaseclient:
     canUse:
       - processenvironmentlease

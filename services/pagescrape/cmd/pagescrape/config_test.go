@@ -19,13 +19,27 @@ func requiredEnv() map[string]string {
 	}
 }
 
-func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
-	for _, missing := range []string{pagescrape.EnvScrapeNATSURL, pagescrape.EnvProxyURL} {
-		env := requiredEnv()
-		delete(env, missing)
-		if _, err := pagescrape.LoadServiceConfig(envFrom(env)); err == nil {
-			t.Errorf("expected error when %s is unset", missing)
-		}
+func TestLoadServiceConfigRequiresTheProxyURL(t *testing.T) {
+	env := requiredEnv()
+	delete(env, pagescrape.EnvProxyURL)
+	if _, err := pagescrape.LoadServiceConfig(envFrom(env)); err == nil {
+		t.Errorf("expected error when %s is unset", pagescrape.EnvProxyURL)
+	}
+}
+
+func TestLoadServiceConfigLeavesTheNATSURLUnsetToServeItsOwnBroker(t *testing.T) {
+	env := requiredEnv()
+	delete(env, pagescrape.EnvScrapeNATSURL)
+	cfg, err := pagescrape.LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.ScrapeNATSURL != "" {
+		t.Errorf("nats url = %q", cfg.ScrapeNATSURL)
+	}
+	if cfg.NATSServer.Addr != pagescrape.DefaultNATSAddr ||
+		cfg.NATSServer.StoreDir != pagescrape.DefaultNATSStoreDir {
+		t.Errorf("nats server = %+v", cfg.NATSServer)
 	}
 }
 
@@ -70,6 +84,8 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env[pagescrape.EnvScrapeDeferralWindow] = "2h"
 	env[pagescrape.EnvScrapePageOfferMaxBytes] = "8MB"
 	env[pagescrape.EnvOpsAddr] = "127.0.0.1:9099"
+	env[pagescrape.EnvNATSAddr] = ":4333"
+	env[pagescrape.EnvNATSStoreDir] = "/data"
 
 	cfg, err := pagescrape.LoadServiceConfig(envFrom(env))
 	if err != nil {
@@ -100,6 +116,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 	if cfg.OpsAddr != "127.0.0.1:9099" {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
+	}
+	if cfg.NATSServer.Addr != ":4333" || cfg.NATSServer.StoreDir != "/data" {
+		t.Errorf("nats server = %+v", cfg.NATSServer)
 	}
 }
 
