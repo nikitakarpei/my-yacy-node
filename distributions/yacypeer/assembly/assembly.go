@@ -11,16 +11,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 )
 
-const (
-	brokerDirectoryName = "nats"
-	egressProxyName     = "egressproxy"
-	loopbackAddress     = "127.0.0.1:0"
-)
+const brokerDirectoryName = "nats"
 
 func RunPeer(
 	ctx context.Context,
@@ -33,20 +27,11 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer broker.Shutdown()
-	egressProxy, err := egressproxy.Listen(ctx)
-	if err != nil {
-		return errors.Join(err, ops.Close())
-	}
-	crawlerAPI, err := servergroup.Listen(ctx, loopbackAddress)
+	endpoints, err := localEndpointsOn(ctx, broker.ClientURL())
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
 
-	endpoints := localEndpoints{
-		crawlerAPI:     crawlerAPI,
-		natsURL:        broker.ClientURL(),
-		egressProxyURL: egressProxy.URL(),
-	}
 	services, err := servicesFor(ctx, cfg, endpoints, getenv)
 	if err != nil {
 		return errors.Join(err, ops.Close())
@@ -54,14 +39,14 @@ func RunPeer(
 	logStarted(ctx, endpoints, ops)
 	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), services)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, egressProxy, services)
+		return runEvery(ctx, endpoints, services)
 	})
 }
 
 func logStarted(ctx context.Context, endpoints localEndpoints, ops net.Listener) {
 	slog.DebugContext(ctx, "yacypeer started",
 		slog.String("natsUrl", endpoints.natsURL),
-		slog.String("egressProxyUrl", endpoints.egressProxyURL),
+		slog.String("egressProxyUrl", endpoints.egressProxyURL()),
 		slog.String("crawlerApiAddr", endpoints.crawlerAPIAddress()),
 		slog.String("opsAddr", ops.Addr().String()),
 	)
@@ -75,11 +60,9 @@ func opsMuxFor(processRegistry *prometheus.Registry, services []service) *http.S
 	return mux
 }
 
-func runEvery(ctx context.Context, egressProxy *egressproxy.EgressProxy, services []service) error {
+func runEvery(ctx context.Context, endpoints localEndpoints, services []service) error {
 	runs := make([]func(context.Context) error, 0, len(services)+1)
-	runs = append(runs, func(ctx context.Context) error {
-		return egressProxy.Run(servicelog.ContextFor(ctx, egressProxyName))
-	})
+	runs = append(runs, endpoints.runEgressProxy)
 	for _, service := range services {
 		runs = append(runs, service.run)
 	}

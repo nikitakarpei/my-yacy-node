@@ -73,24 +73,20 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 }
 
 func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
-	env := peerEnvironment(t)
-	env["CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL"] = "nats://elsewhere:4222"
-	cfg, ops := peerFrom(t, env)
+	for name, value := range map[string]string{
+		"CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL": "nats://elsewhere:4222",
+		"EGRESS_PROXY_URL":                       "http://elsewhere:4750",
+	} {
+		t.Run(name, func(t *testing.T) {
+			env := peerEnvironment(t)
+			env[name] = value
+			cfg, ops := peerFrom(t, env)
 
-	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
-	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL") {
-		t.Errorf("RunPeer = %v, want the overridden wiring named", err)
-	}
-}
-
-func TestRunPeerRefusesAnOutsideEgressProxy(t *testing.T) {
-	env := peerEnvironment(t)
-	env["EGRESS_PROXY_URL"] = "http://elsewhere:4750"
-	cfg, ops := peerFrom(t, env)
-
-	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
-	if err == nil || !strings.Contains(err.Error(), "EGRESS_PROXY_URL") {
-		t.Errorf("RunPeer = %v, want the outside egress proxy named", err)
+			err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+			if err == nil || !strings.Contains(err.Error(), name) {
+				t.Errorf("RunPeer = %v, want the overridden wiring named", err)
+			}
+		})
 	}
 }
 

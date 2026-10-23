@@ -19,9 +19,16 @@ type proxyLog struct {
 func proxyLoggerFor(ctx context.Context) *logrus.Logger {
 	logger := logrus.New()
 	logger.SetOutput(io.Discard)
-	logger.SetLevel(logrus.DebugLevel)
+	logger.SetLevel(logrusLevelFor(ctx))
 	logger.AddHook(proxyLog{ctx: ctx})
 	return logger
+}
+
+func logrusLevelFor(ctx context.Context) logrus.Level {
+	if slog.Default().Enabled(ctx, slog.LevelDebug) {
+		return logrus.DebugLevel
+	}
+	return logrus.WarnLevel
 }
 
 func (proxyLog) Levels() []logrus.Level {

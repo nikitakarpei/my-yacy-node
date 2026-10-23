@@ -8,12 +8,13 @@ import (
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 )
 
 const (
-	loopbackHost = "127.0.0.1"
-	anyFreePort  = -1
-	readyWait    = 10 * time.Second
+	anyFreePort = -1
+	readyWait   = 10 * time.Second
 )
 
 var errNotReady = errors.New("built-in nats not ready for connections")
@@ -24,7 +25,7 @@ type Broker struct {
 
 func Start(storeDirectory string) (*Broker, error) {
 	server, err := natsserver.NewServer(&natsserver.Options{
-		Host:      loopbackHost,
+		Host:      loopback.Host,
 		Port:      anyFreePort,
 		JetStream: true,
 		StoreDir:  storeDirectory,

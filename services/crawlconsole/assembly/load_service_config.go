@@ -11,7 +11,7 @@ const (
 )
 
 const (
-	DefaultListenAddr = ":8080"
+	DefaultListenAddr = ":8093"
 	DefaultOpsAddr    = ":9090"
 )
 

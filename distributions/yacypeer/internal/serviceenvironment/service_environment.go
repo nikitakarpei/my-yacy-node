@@ -1,7 +1,6 @@
 // Package serviceenvironment gives each service of the peer the settings it reads: the value
 // the peer wires, else the value the operator sets for that service, else the value the
-// operator sets for every service, else the default of the peer. It refuses a setting the
-// operator must not set.
+// operator sets for every service. It refuses a setting the operator must not set.
 package serviceenvironment
 
 import (
@@ -14,30 +13,27 @@ import (
 
 const serviceSeparator = "__"
 
-type PeerSettings struct {
-	Wired    map[string]string
-	Defaults map[string]string
-}
+type Wiring map[string]string
 
 type Environment struct {
-	peer          PeerSettings
+	wiring        Wiring
 	servicePrefix string
 	process       func(string) string
 }
 
 func For(
 	service string,
-	peer PeerSettings,
+	wiring Wiring,
 	unreadSettings []string,
 	process func(string) string,
 ) (Environment, error) {
 	environment := Environment{
-		peer:          peer,
+		wiring:        wiring,
 		servicePrefix: strings.ToUpper(service) + serviceSeparator,
 		process:       process,
 	}
 	if err := errors.Join(
-		environment.refused(slices.Sorted(maps.Keys(peer.Wired)), "wired by yacypeer"),
+		environment.refused(slices.Sorted(maps.Keys(wiring)), "wired by yacypeer"),
 		environment.refused(unreadSettings, "not read by yacypeer"),
 	); err != nil {
 		return Environment{}, err
@@ -46,16 +42,13 @@ func For(
 }
 
 func (e Environment) Lookup(key string) string {
-	if value, wired := e.peer.Wired[key]; wired {
+	if value, wired := e.wiring[key]; wired {
 		return value
 	}
 	if e.isSet(e.servicePrefix + key) {
 		return e.process(e.servicePrefix + key)
 	}
-	if e.isSet(key) {
-		return e.process(key)
-	}
-	return e.peer.Defaults[key]
+	return e.process(key)
 }
 
 func (e Environment) refused(keys []string, reason string) error {

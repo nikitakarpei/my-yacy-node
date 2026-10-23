@@ -13,12 +13,12 @@ import (
 	"github.com/stripe/smokescreen/pkg/smokescreen/conntrack"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 )
 
 const (
-	loopbackAddress = "127.0.0.1:0"
-	serverName      = "egressproxy"
-	shutdownLimit   = 10 * time.Second
+	Name          = "egressproxy"
+	shutdownLimit = 10 * time.Second
 )
 
 type EgressProxy struct {
@@ -26,7 +26,7 @@ type EgressProxy struct {
 }
 
 func Listen(ctx context.Context) (*EgressProxy, error) {
-	listener, err := servergroup.Listen(ctx, loopbackAddress)
+	listener, err := loopback.Listen(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("built-in egress proxy: %w", err)
 	}
@@ -40,7 +40,7 @@ func (p *EgressProxy) URL() string {
 func (p *EgressProxy) Run(ctx context.Context) error {
 	config := configFor(ctx)
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{
-		Name:     serverName,
+		Name:     Name,
 		Listener: p.listener,
 		Server: &http.Server{
 			Handler:           smokescreen.BuildProxy(config),

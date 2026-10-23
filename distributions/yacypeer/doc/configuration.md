@@ -24,8 +24,6 @@ yacypeer runs [yacynode](../../../services/yacynode/doc/configuration.md),
 [crawlscrapebridge](../../../services/crawlscrapebridge/doc/configuration.md). Each service
 reads the settings in its own configuration and serves its own endpoints.
 
-The crawl console listens on `:8093`, unless you set `CRAWLCONSOLE_LISTEN_ADDR`.
-
 To set a value for one service only, put the service name and `__` before the setting,
 such as `CORPUSTEXT__CORPUSTEXT_LANGUAGES`. This value has priority over the setting
 without a prefix.
