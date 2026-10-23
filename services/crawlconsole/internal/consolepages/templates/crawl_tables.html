@@ -1,0 +1,43 @@
+{{define "title"}}{{text "crawl-tables.title"}}{{end}}
+{{define "refresh"}}<meta http-equiv="refresh" content="5">{{end}}
+{{define "pager"}}<div class="pager">{{if .NewestPageURL}}<a href="{{.NewestPageURL}}">{{text "pager.newest"}}</a>{{end}}{{if .NewerPageURL}}<a href="{{.NewerPageURL}}">{{text "pager.newer"}}</a>{{end}}{{if .OlderPageURL}}<a href="{{.OlderPageURL}}">{{text "pager.older"}}</a>{{end}}</div>{{end}}
+{{define "other-seeds"}}{{if .AmountOfOtherSeedURLs}} <span class="muted">{{text "crawl.other-seed-urls" .AmountOfOtherSeedURLs}}</span>{{end}}{{end}}
+{{define "crawl"}}<td class="crawl">{{if .Label}}<a href="/crawls/{{.CrawlID}}">{{.Label}}</a><div><span class="url muted">{{.FirstSeedURL}}</span>{{template "other-seeds" .}}</div>{{else}}<a class="url" href="/crawls/{{.CrawlID}}">{{.FirstSeedURL}}</a>{{template "other-seeds" .}}{{end}}</td>{{end}}
+{{define "content"}}
+<div class="toolbar"><h1>{{text "crawl-tables.title"}}</h1><a class="button primary" href="/crawls/new">{{text "new-crawl.title"}}</a></div>
+<h2>{{text "crawl-tables.running"}}</h2>
+<div class="table-scroll"><table>
+  <tr><th>{{text "crawl.name"}}</th><th>{{text "crawl.state"}}</th><th class="number">{{text "crawl.pending"}}</th><th class="number">{{text "visit-outcome.published"}}</th><th>{{text "crawl.started-at"}}</th><th class="number">{{text "crawl.duration"}}</th></tr>
+  {{range .Unfinished.Rows}}
+  <tr>
+    {{template "crawl" .}}
+    <td><span class="state state-{{.State}}">{{text (print "crawl-state." .State)}}</span></td>
+    <td class="number">{{.PendingPageVisits}}</td>
+    <td class="number">{{.Outcomes.Published}}</td>
+    <td class="muted moment">{{moment .StartedAt}}</td>
+    <td class="number">{{template "duration" .Duration}}</td>
+  </tr>
+  {{else}}
+  <tr><td colspan="6" class="muted">{{text "crawl-tables.no-running-crawls"}}</td></tr>
+  {{end}}
+</table></div>
+{{template "pager" .Unfinished}}
+<h2>{{text "crawl-tables.finished"}}</h2>
+<div class="table-scroll"><table>
+  <tr><th>{{text "crawl.name"}}</th><th>{{text "crawl.state"}}</th><th class="number">{{text "visit-outcome.published"}}</th><th>{{text "crawl.started-at"}}</th><th>{{text "crawl.finished-at"}}</th><th class="number">{{text "crawl.duration"}}</th><th></th></tr>
+  {{range .Finished.Rows}}
+  <tr>
+    {{template "crawl" .}}
+    <td><span class="state state-{{.State}}">{{text (print "crawl-state." .State)}}</span></td>
+    <td class="number">{{.Outcomes.Published}}</td>
+    <td class="muted moment">{{moment .StartedAt}}</td>
+    <td class="muted moment">{{moment .FinishedAt}}</td>
+    <td class="number">{{template "duration" .Duration}}</td>
+    <td class="actions"><a class="button small" href="/crawls/new?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a></td>
+  </tr>
+  {{else}}
+  <tr><td colspan="7" class="muted">{{text "crawl-tables.no-finished-crawls"}}</td></tr>
+  {{end}}
+</table></div>
+{{template "pager" .Finished}}
+{{end}}

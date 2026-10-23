@@ -1,45 +1,46 @@
-// Package pendingpagevisit names one URL a crawl order still owes a page visit, as the
+// Package pendingpagevisit names one page visit a crawl still has pending, as the
 // frontier holds it from the worker that found it to the worker that pays it. A page
-// links to visits one level deeper, and redirects to a visit at its own depth.
+// links to visits one level deeper, and redirects to a visit at its own depth. A worker
+// holds the visit it takes leased until a time.
 package pendingpagevisit
 
 import (
-	"encoding/json"
-	"fmt"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
 type PendingPageVisit struct {
-	OrderID string                    `json:"OrderID"`
-	URL     canonicalurl.CanonicalURL `json:"URL"`
-	Depth   int                       `json:"Depth"`
+	CrawlID crawlid.CrawlID
+	URL     canonicalurl.CanonicalURL
+	Depth   int
+}
+
+type LeasedPageVisit struct {
+	PageVisit   PendingPageVisit
+	LeasedUntil time.Time
+}
+
+func SeedPageVisitsOf(
+	crawlID crawlid.CrawlID,
+	seedURLs []canonicalurl.CanonicalURL,
+) []PendingPageVisit {
+	seedPageVisits := make([]PendingPageVisit, 0, len(seedURLs))
+	for _, seed := range seedURLs {
+		seedPageVisits = append(seedPageVisits, PendingPageVisit{CrawlID: crawlID, URL: seed})
+	}
+	return seedPageVisits
 }
 
 func (pageVisit PendingPageVisit) LinkedPageVisitTo(
 	url canonicalurl.CanonicalURL,
 ) PendingPageVisit {
-	return PendingPageVisit{OrderID: pageVisit.OrderID, URL: url, Depth: pageVisit.Depth + 1}
+	return PendingPageVisit{CrawlID: pageVisit.CrawlID, URL: url, Depth: pageVisit.Depth + 1}
 }
 
 func (pageVisit PendingPageVisit) RedirectedPageVisitTo(
 	redirectTarget canonicalurl.CanonicalURL,
 ) PendingPageVisit {
-	return PendingPageVisit{OrderID: pageVisit.OrderID, URL: redirectTarget, Depth: pageVisit.Depth}
-}
-
-func MarshalPendingPageVisit(pageVisit PendingPageVisit) ([]byte, error) {
-	data, err := json.Marshal(pageVisit)
-	if err != nil {
-		return nil, fmt.Errorf("marshal pending page visit %s: %w", pageVisit.URL, err)
-	}
-	return data, nil
-}
-
-func UnmarshalPendingPageVisit(data []byte) (PendingPageVisit, error) {
-	var pageVisit PendingPageVisit
-	if err := json.Unmarshal(data, &pageVisit); err != nil {
-		return PendingPageVisit{}, fmt.Errorf("unmarshal pending page visit: %w", err)
-	}
-	return pageVisit, nil
+	return PendingPageVisit{CrawlID: pageVisit.CrawlID, URL: redirectTarget, Depth: pageVisit.Depth}
 }

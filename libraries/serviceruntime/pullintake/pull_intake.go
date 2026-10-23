@@ -1,8 +1,8 @@
-// Package pullintake runs bounded-concurrency intake from a source of pending
-// messages, such as a JetStream pull consumer, halting on the first fatal message
-// error and draining in-flight work before it returns. It takes the next message
-// only when a worker is free and its admission lets it, so it never holds a
-// message it cannot work on.
+// Package pullintake runs bounded-concurrency intake from a queue of items, such as
+// the messages of a JetStream pull consumer, halting on the first fatal error and
+// draining in-flight work before it returns. It takes the next items only when a
+// worker is free and its admission lets it, so it never holds an item it cannot work
+// on. The queue is asked for as many items as there are free workers; it may give fewer.
 package pullintake
 
 import (
@@ -16,52 +16,54 @@ import (
 
 var errAdmissionEnded = errors.New("admission ended")
 
-type PendingMessages interface {
-	Next(ctx context.Context) (PendingMessage, error)
+type Queue[Item any] interface {
+	NextUpTo(ctx context.Context, amount int) ([]Item, error)
 }
 
-type Process func(ctx context.Context, message PendingMessage) error
+type MessageQueue = Queue[PendingMessage]
 
 type Admission interface {
 	AwaitAdmission(ctx context.Context) error
 }
 
-func Run(
+func Run[Item any](
 	ctx context.Context,
-	messages PendingMessages,
-	messageConcurrency int,
-	process Process,
+	queue Queue[Item],
+	concurrency int,
+	process func(ctx context.Context, item Item) error,
 ) error {
-	return RunAdmittedBy(ctx, messages, messageConcurrency, everyMessageAdmitted{}, process)
+	return RunAdmittedBy(ctx, queue, concurrency, everyItemAdmitted{}, process)
 }
 
-func RunAdmittedBy(
+func RunAdmittedBy[Item any](
 	ctx context.Context,
-	messages PendingMessages,
-	messageConcurrency int,
+	queue Queue[Item],
+	concurrency int,
 	admission Admission,
-	process Process,
+	process func(ctx context.Context, item Item) error,
 ) error {
 	group, groupCtx := errgroup.WithContext(ctx)
-	busyWorkers := make(chan struct{}, messageConcurrency)
+	busyWorkers := make(chan struct{}, concurrency)
 	for {
-		message, err := nextAdmittedMessage(groupCtx, messages, busyWorkers, admission)
+		admittedItems, err := nextAdmittedItems(groupCtx, queue, busyWorkers, admission)
 		if err != nil {
 			return endOfIntake(ctx, group.Wait(), err)
 		}
-		group.Go(func() error {
-			defer func() { <-busyWorkers }()
-			return process(ctx, message)
-		})
+		for _, item := range admittedItems {
+			group.Go(func() error {
+				defer func() { <-busyWorkers }()
+				return process(ctx, item)
+			})
+		}
 	}
 }
 
-func nextAdmittedMessage(
+func nextAdmittedItems[Item any](
 	ctx context.Context,
-	messages PendingMessages,
-	busyWorkers chan<- struct{},
+	queue Queue[Item],
+	busyWorkers chan struct{},
 	admission Admission,
-) (PendingMessage, error) {
+) ([]Item, error) {
 	select {
 	case busyWorkers <- struct{}{}:
 	case <-ctx.Done():
@@ -70,11 +72,27 @@ func nextAdmittedMessage(
 	if err := admission.AwaitAdmission(ctx); err != nil {
 		return nil, fmt.Errorf("%w: %w", errAdmissionEnded, err)
 	}
-	message, err := messages.Next(ctx)
+	takenWorkers := 1 + takeFreeWorkers(busyWorkers)
+	nextItems, err := queue.NextUpTo(ctx, takenWorkers)
 	if err != nil {
-		return nil, fmt.Errorf("next message: %w", err)
+		return nil, fmt.Errorf("next items: %w", err)
 	}
-	return message, nil
+	for range takenWorkers - len(nextItems) {
+		<-busyWorkers
+	}
+	return nextItems, nil
+}
+
+func takeFreeWorkers(busyWorkers chan<- struct{}) int {
+	takenWorkers := 0
+	for {
+		select {
+		case busyWorkers <- struct{}{}:
+			takenWorkers++
+		default:
+			return takenWorkers
+		}
+	}
 }
 
 func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
@@ -88,8 +106,8 @@ func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
 	return intakeErr
 }
 
-type everyMessageAdmitted struct{}
+type everyItemAdmitted struct{}
 
-func (everyMessageAdmitted) AwaitAdmission(context.Context) error {
+func (everyItemAdmitted) AwaitAdmission(context.Context) error {
 	return nil
 }

@@ -12,16 +12,22 @@ components:
     in: internal/membersetfold/**
   compressionratios:
     in: internal/compressionratios/**
+  pebblemetrics:
+    in: pebblemetrics/**
 
 vendors:
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   vaultmemberset:
     in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
+  vaultexpiringrecords:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/expiringrecords
   pebble:
     in:
       - github.com/cockroachdb/pebble/v2
       - github.com/cockroachdb/pebble/v2/bloom
+  prometheus:
+    in: github.com/prometheus/client_golang/**
 
 deps:
   pebblevault:
@@ -30,6 +36,7 @@ deps:
       - compressionratios
     canUse:
       - vault
+      - vaultexpiringrecords
       - pebble
   membersetfold:
     canUse:
@@ -38,6 +45,12 @@ deps:
   compressionratios:
     canUse:
       - pebble
+  pebblemetrics:
+    mayDependOn:
+      - pebblevault
+    canUse:
+      - vault
+      - prometheus
 
 excludeFiles:
   - "_test\\.go"

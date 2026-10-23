@@ -163,6 +163,10 @@ func (e *Engine) ProvisionMemberSetsBucket(_ vault.Name) error {
 	return nil
 }
 
+func (e *Engine) ProvisionExpiringRecordsBucket(_ vault.Name) error {
+	return nil
+}
+
 func (e *Engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if err := e.commitInWriteSlot(ctx, fn); err != nil {
 		return err
@@ -201,9 +205,6 @@ func (e *Engine) updateOptimistically(
 	defer e.history.transactionEnded(begunAfter)
 
 	write, err := e.stage(fn)
-	if err != nil {
-		return false, err
-	}
 
 	e.holdCommits()
 	defer e.resumeCommits()
@@ -212,6 +213,9 @@ func (e *Engine) updateOptimistically(
 		reportWriteConflicted(ctx, e.conflicts, key)
 
 		return true, release(write.changes)
+	}
+	if err != nil {
+		return false, errors.Join(err, release(write.changes))
 	}
 
 	return false, e.commit(write)
@@ -238,14 +242,14 @@ func (e *Engine) stage(fn func(vault.EngineTxn) error) (stagedWrite, error) {
 		heldValues:       heldValues,
 		scans:            e.scans,
 	}); err != nil {
-		return stagedWrite{}, errors.Join(err, release(write.changes))
+		return write, err
 	}
 	if err := errors.Join(amountChanges.stageAll(), memberSetChanges.stageAll()); err != nil {
-		return stagedWrite{}, errors.Join(err, release(write.changes))
+		return write, err
 	}
 	writtenKeys, err := writtenKeysOf(write.changes)
 	if err != nil {
-		return stagedWrite{}, errors.Join(err, release(write.changes))
+		return write, err
 	}
 	write.writtenKeys = writtenKeys
 
@@ -279,7 +283,7 @@ func (e *Engine) updateExclusively(ctx context.Context, fn func(vault.EngineTxn)
 	reportExclusiveWrite(ctx, e.conflicts)
 	write, err := e.stage(fn)
 	if err != nil {
-		return err
+		return errors.Join(err, release(write.changes))
 	}
 
 	return e.commit(write)

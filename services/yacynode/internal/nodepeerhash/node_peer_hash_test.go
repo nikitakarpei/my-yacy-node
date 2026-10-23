@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 )
@@ -75,7 +76,7 @@ func settle(
 func selfPeerHashIn(t *testing.T, storedData vault.Engine) *nodepeerhash.PeerHash {
 	t.Helper()
 
-	storage, err := vault.New(storedData, nil)
+	storage, err := vault.New(storedData, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

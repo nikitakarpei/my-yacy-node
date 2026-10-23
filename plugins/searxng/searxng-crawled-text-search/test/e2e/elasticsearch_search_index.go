@@ -83,9 +83,3 @@ func elasticsearchCorpusTextEnv() map[string]string {
 		"ELASTICSEARCH_INDEX": elasticsearchIndexBase,
 	}
 }
-
-func elasticsearchEngineSettings() string {
-	return "    search_index_engine: elasticsearch\n" +
-		"    elasticsearch_url: " + elasticsearch.NetworkURL(elasticsearchAlias) + "\n" +
-		"    elasticsearch_index: " + elasticsearchIndexPrefix + "\n"
-}

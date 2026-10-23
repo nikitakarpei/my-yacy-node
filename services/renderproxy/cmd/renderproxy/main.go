@@ -8,10 +8,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/collectors"
-
+	renderproxyassembly "github.com/nikitakarpei/yacy-rwi-node/renderproxy/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
@@ -26,39 +25,28 @@ func run() error {
 	if err := applog.Configure(os.Getenv); err != nil {
 		return err
 	}
-	cfg, err := LoadServiceConfig(os.Getenv)
+	cfg, err := renderproxyassembly.LoadServiceConfig(os.Getenv)
 	if err != nil {
 		return err
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	listeners, err := listenersFor(ctx, cfg)
+	return serve(ctx, cfg)
+}
+
+func serve(ctx context.Context, cfg renderproxyassembly.ServiceConfig) error {
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
 	if err != nil {
 		return err
 	}
-
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(
-		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "renderproxy_info",
-			Help: "Render proxy application identity.",
-		}, func() float64 { return 1 }),
-		collectors.NewGoCollector(),
-		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
-	)
-	return RunService(ctx, cfg, listeners, registry)
-}
-
-func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	proxy, err := servergroup.Listen(ctx, cfg.ListenAddr)
+	listeners, err := renderproxyassembly.ListenersFor(ctx, cfg)
 	if err != nil {
-		return Listeners{}, err
+		return errors.Join(err, ops.Close())
 	}
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
-	if err != nil {
-		return Listeners{}, errors.Join(err, proxy.Close())
-	}
-
-	return Listeners{Proxy: proxy, Ops: ops}, nil
+	registry := opsmetrics.ProcessRegistry()
+	opsMux := opsmetrics.MuxFor(registry)
+	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
+		return renderproxyassembly.RunService(ctx, cfg, listeners, registry)
+	})
 }

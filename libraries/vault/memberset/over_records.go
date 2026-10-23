@@ -41,7 +41,8 @@ func (s setsOverRecords) Add(key []byte, member vault.StoredMember) error {
 }
 
 func (s setsOverRecords) store(key []byte, members []vault.StoredMember) error {
-	if _, err := s.records.Put(key, AppendMembers(nil, members)); err != nil {
+	encoder := EncoderFrom(members)
+	if _, err := s.records.Put(key, encoder.AppendTo(nil)); err != nil {
 		return fmt.Errorf("store member set: %w", err)
 	}
 

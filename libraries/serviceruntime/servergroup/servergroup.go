@@ -1,7 +1,9 @@
 // Package servergroup binds the addresses a service serves on, and runs a set
 // of HTTP servers on their listeners alongside background workers until the
 // context is cancelled or any server or worker returns, then shuts every
-// server down gracefully.
+// server down gracefully. A worker that reports the cancellation of the
+// context has stopped, not failed. A request carries the values of the run
+// context, but not its cancellation.
 package servergroup
 
 import (
@@ -36,6 +38,11 @@ func Run(
 	defer cancel()
 
 	for _, s := range servers {
+		if s.Server.BaseContext == nil {
+			s.Server.BaseContext = func(net.Listener) context.Context {
+				return context.WithoutCancel(ctx)
+			}
+		}
 		group.Go(func() error {
 			defer cancel()
 			if err := s.Server.Serve(s.Listener); err != nil &&
@@ -49,7 +56,7 @@ func Run(
 	for _, worker := range workers {
 		group.Go(func() error {
 			defer cancel()
-			return worker(runCtx)
+			return failureOf(ctx, worker(runCtx))
 		})
 	}
 
@@ -59,6 +66,13 @@ func Run(
 	})
 
 	return group.Wait()
+}
+
+func failureOf(ctx context.Context, workerErr error) error {
+	if ctx.Err() != nil && errors.Is(workerErr, context.Canceled) {
+		return nil
+	}
+	return workerErr
 }
 
 func shutdown(servers []NamedServer, timeout time.Duration) error {

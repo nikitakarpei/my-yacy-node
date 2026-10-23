@@ -25,7 +25,9 @@ func definitionOf(word, meaning string) definition {
 	return definition{word: word, meaning: meaning}
 }
 
-var definitionEntries = vault.PairKey(vault.TextKeyPart, vault.TextKeyPart).KeyLayoutFor(
+var definitionKeyParts = vault.PairKey(vault.TextKeyPart, vault.TextKeyPart)
+
+var definitionEntries = definitionKeyParts.KeyLayoutFor(
 	func(entry definition) (string, string) { return entry.meaning, entry.word },
 	func(meaning, word string) definition { return definition{word: word, meaning: meaning} },
 )
@@ -70,7 +72,7 @@ func openDictionaryIndexes(
 ) dictionary {
 	t.Helper()
 
-	v, err := vault.New(engine, nil)
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -221,6 +223,41 @@ func TestAValueIndexDropsTheEntryOfADeletedRecord(t *testing.T) {
 	}
 }
 
+func TestAValueIndexFindsTheFirstEntryWithinARange(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("c", "x"), definitionOf("b", "y"), definitionOf("a", "y"))
+
+	var first definition
+	var found bool
+	d.read(t, func(tx *vault.Txn) error {
+		var err error
+		first, found, err = d.byMeaning.First(tx, definitionKeyParts.KeysWithFirst("y"))
+
+		return err
+	})
+
+	if !found || first != definitionOf("a", "y") {
+		t.Fatalf("First = %v, %v, want a/y", first, found)
+	}
+}
+
+func TestAValueIndexFindsNoFirstEntryWithinAnEmptyRange(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("a", "x"))
+
+	var found bool
+	d.read(t, func(tx *vault.Txn) error {
+		var err error
+		_, found, err = d.byMeaning.First(tx, definitionKeyParts.KeysWithFirst("y"))
+
+		return err
+	})
+
+	if found {
+		t.Fatal("First found an entry within an empty range")
+	}
+}
+
 func TestDeletingAKeyRangeDropsItsRecordsAndTheirIndexEntries(t *testing.T) {
 	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
 	d.define(t, definitionOf("a", "x"), definitionOf("b", "y"), definitionOf("c", "x"))
@@ -298,7 +335,7 @@ func TestRegisteringBuildsIndexesOfRecordsStoredBefore(t *testing.T) {
 func storeWordsWithoutIndexes(t *testing.T, engine vault.Engine, amount int) []definition {
 	t.Helper()
 
-	v, err := vault.New(engine, nil)
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -384,7 +421,7 @@ func TestTheSameVersionKeepsIndexesAsTheyAre(t *testing.T) {
 	}
 }
 
-func TestAProjectionFollowsOnlyOneCollection(t *testing.T) {
+func TestAProjectionAttachesToOnlyOneCollection(t *testing.T) {
 	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
 
 	if _, err := d.vault.RegisterProjectedCollection(
@@ -394,11 +431,11 @@ func TestAProjectionFollowsOnlyOneCollection(t *testing.T) {
 		stringValueCodec{},
 		vault.ProjectedAs(definitionOf, d.byMeaning),
 	); err == nil {
-		t.Fatal("RegisterProjectedCollection with a followed index succeeded, want error")
+		t.Fatal("RegisterProjectedCollection with an attached index succeeded, want error")
 	}
 }
 
-func TestAnIndexNoCollectionFollowsRefusesReads(t *testing.T) {
+func TestAnIndexAttachedToNoCollectionRefusesReads(t *testing.T) {
 	d := openDictionaryIndexes(t, newDoubleEngine(), firstVersion, plainMeaning)
 
 	readErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
@@ -407,7 +444,7 @@ func TestAnIndexNoCollectionFollowsRefusesReads(t *testing.T) {
 		})
 	})
 	if readErr == nil {
-		t.Fatal("Scan of an index no collection follows succeeded, want error")
+		t.Fatal("Scan of an index attached to no collection succeeded, want error")
 	}
 	countErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
 		_, err := d.perMeaning.Get(tx, "x")
@@ -415,19 +452,19 @@ func TestAnIndexNoCollectionFollowsRefusesReads(t *testing.T) {
 		return err
 	})
 	if countErr == nil {
-		t.Fatal("Get of a count no collection follows succeeded, want error")
+		t.Fatal("Get of a count attached to no collection succeeded, want error")
 	}
 	membersErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
-		_, err := unfollowedMemberSetIndexIn(t, d.vault).MembersOf(tx, "x")
+		_, err := unattachedMemberSetIndexIn(t, d.vault).MembersOf(tx, "x")
 
 		return err
 	})
 	if membersErr == nil {
-		t.Fatal("MembersOf of a set no collection follows succeeded, want error")
+		t.Fatal("MembersOf of a set attached to no collection succeeded, want error")
 	}
 }
 
-func unfollowedMemberSetIndexIn(
+func unattachedMemberSetIndexIn(
 	t *testing.T,
 	v *vault.Vault,
 ) *vault.MemberSetIndex[string, string, mention] {

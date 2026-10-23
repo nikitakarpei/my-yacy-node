@@ -1,0 +1,111 @@
+package corpustextassembly
+
+import (
+	"fmt"
+	"strings"
+
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+)
+
+const (
+	EnvPageOfferNATSURL           = "SCRAPE_PAGE_OFFER_NATS_URL"
+	EnvPageOfferDurable           = "SCRAPE_PAGE_OFFER_DURABLE"
+	EnvPageOfferIntakeConcurrency = "SCRAPE_PAGE_OFFER_INTAKE_CONCURRENCY"
+	EnvSearchIndexEngine          = "SEARCH_INDEX_ENGINE"
+	EnvBleveDirectory             = "BLEVE_DIRECTORY"
+	EnvElasticsearchURL           = "ELASTICSEARCH_URL"
+	EnvElasticsearchIndex         = "ELASTICSEARCH_INDEX"
+	EnvManticoreURL               = "MANTICORE_URL"
+	EnvManticoreTable             = "MANTICORE_TABLE"
+	EnvLanguages                  = "CORPUSTEXT_LANGUAGES"
+	EnvSearchAddr                 = "CORPUSTEXT_SEARCH_ADDR"
+	EnvOpsAddr                    = "CORPUSTEXT_OPS_ADDR"
+
+	DefaultSearchAddr                 = ":8096"
+	DefaultOpsAddr                    = ":9090"
+	DefaultPageOfferDurable           = "corpustext"
+	DefaultPageOfferIntakeConcurrency = 4
+	DefaultIndexBaseName              = "yacy_text"
+	DefaultSearchIndexEngine          = SearchIndexEngineBleve
+	DefaultBleveDirectory             = "search-index"
+
+	SearchIndexEngineBleve         = "bleve"
+	SearchIndexEngineElasticsearch = "elasticsearch"
+	SearchIndexEngineManticore     = "manticore"
+)
+
+type ServiceConfig struct {
+	PageOfferNATSURL           string
+	PageOfferDurable           string
+	PageOfferIntakeConcurrency int
+	SearchIndexEngine          string
+	BleveDirectory             string
+	ElasticsearchURL           string
+	ElasticsearchIndex         string
+	ManticoreURL               string
+	ManticoreTable             string
+	Languages                  []string
+	SearchAddr                 string
+	OpsAddr                    string
+}
+
+func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
+	pageOfferNATSURL, err := envconfig.Required(getenv, EnvPageOfferNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+	pageOfferIntakeConcurrency, err := envconfig.PositiveInt(
+		getenv,
+		EnvPageOfferIntakeConcurrency,
+		DefaultPageOfferIntakeConcurrency,
+	)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+
+	cfg := ServiceConfig{
+		PageOfferNATSURL: pageOfferNATSURL,
+		PageOfferDurable: envconfig.String(
+			getenv,
+			EnvPageOfferDurable,
+			DefaultPageOfferDurable,
+		),
+		PageOfferIntakeConcurrency: pageOfferIntakeConcurrency,
+		SearchIndexEngine: envconfig.String(
+			getenv,
+			EnvSearchIndexEngine,
+			DefaultSearchIndexEngine,
+		),
+		Languages:  envconfig.List(getenv, EnvLanguages),
+		SearchAddr: envconfig.String(getenv, EnvSearchAddr, DefaultSearchAddr),
+		OpsAddr:    envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+	}
+	switch cfg.SearchIndexEngine {
+	case SearchIndexEngineBleve:
+		cfg.BleveDirectory = envconfig.String(getenv, EnvBleveDirectory, DefaultBleveDirectory)
+	case SearchIndexEngineElasticsearch:
+		cfg.ElasticsearchURL = strings.TrimSpace(getenv(EnvElasticsearchURL))
+		if cfg.ElasticsearchURL == "" {
+			return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvElasticsearchURL)
+		}
+		cfg.ElasticsearchIndex = envconfig.String(
+			getenv,
+			EnvElasticsearchIndex,
+			DefaultIndexBaseName,
+		)
+	case SearchIndexEngineManticore:
+		cfg.ManticoreURL = strings.TrimSpace(getenv(EnvManticoreURL))
+		if cfg.ManticoreURL == "" {
+			return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvManticoreURL)
+		}
+		cfg.ManticoreTable = envconfig.String(getenv, EnvManticoreTable, DefaultIndexBaseName)
+	default:
+		return ServiceConfig{}, unknownSearchIndexEngine(cfg.SearchIndexEngine)
+	}
+
+	return cfg, nil
+}
+
+func unknownSearchIndexEngine(engine string) error {
+	return fmt.Errorf("%s: unknown engine %q", EnvSearchIndexEngine, engine)
+}

@@ -12,6 +12,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 )
 
+func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInBleve(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	natsURL := natsjetstream.Start(t, ctx, network.Name)
+
+	egressproxy.Start(t, ctx, network.Name)
+	startOrigins(t, ctx, network.Name)
+
+	pagescrapeservice.Start(t, ctx, network.Name)
+	js := connectJetStream(t, natsURL)
+
+	corpusText := startCorpusText(t, ctx, network.Name, natsURL, nil)
+	publishScrapedCorpus(t, ctx, js)
+	awaitBleveCorpus(t, ctx, corpusText)
+
+	searxngBaseURL := startSearXNG(t, ctx, network.Name)
+
+	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
+}
+
 func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
@@ -26,7 +48,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testin
 	pagescrapeservice.Start(t, ctx, network.Name)
 	js := connectJetStream(t, natsURL)
 
-	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
+	startCorpusText(t, ctx, network.Name, natsURL, elasticsearchCorpusTextEnv())
 	publishScrapedCorpus(t, ctx, js)
 	awaitElasticsearchCorpus(t, ctx, elasticsearchHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
@@ -34,7 +56,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testin
 		documentsInElasticsearchIndex(t, ctx, elasticsearchHostURL, elasticsearchCatchAllIndex),
 	)
 
-	searxngBaseURL := startSearXNG(t, ctx, network.Name, elasticsearchEngineSettings())
+	searxngBaseURL := startSearXNG(t, ctx, network.Name)
 
 	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }
@@ -53,7 +75,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageTableInManticore(t *testing.T)
 	pagescrapeservice.Start(t, ctx, network.Name)
 	js := connectJetStream(t, natsURL)
 
-	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
+	startCorpusText(t, ctx, network.Name, natsURL, manticoreCorpusTextEnv())
 	publishScrapedCorpus(t, ctx, js)
 	awaitManticoreCorpus(t, ctx, manticoreHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
@@ -61,7 +83,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageTableInManticore(t *testing.T)
 		documentsInManticoreTable(t, ctx, manticoreHostURL, manticoreCatchAllTable),
 	)
 
-	searxngBaseURL := startSearXNG(t, ctx, network.Name, manticoreEngineSettings())
+	searxngBaseURL := startSearXNG(t, ctx, network.Name)
 
 	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }

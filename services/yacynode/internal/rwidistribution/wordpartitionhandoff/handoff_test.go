@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/wordpartitionhandoff"
@@ -37,7 +38,7 @@ type harness struct {
 func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("memoryvault.Open: %v", err)
 	}

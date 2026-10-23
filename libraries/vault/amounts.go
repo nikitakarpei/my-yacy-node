@@ -50,6 +50,19 @@ func (a *Amounts[K]) Lower(tx *Txn, key K, by uint) error {
 	return nil
 }
 
+func (a *Amounts[K]) DeleteWithin(tx *Txn, keys KeyRange) error {
+	if !tx.etx.Writable() {
+		return errReadOnly
+	}
+	tx.calledWriteOperation = true
+
+	if err := tx.etx.Amounts(a.name).DeleteWithin(keys); err != nil {
+		return fmt.Errorf("delete %s: %w", a.name, err)
+	}
+
+	return nil
+}
+
 func (a *Amounts[K]) Scan(tx *Txn, keys KeyRange, fn func(K, int) (bool, error)) error {
 	if err := tx.etx.Amounts(a.name).Scan(keys, func(key []byte, amount int) (bool, error) {
 		decodedKey, err := a.keys.Decode(key)

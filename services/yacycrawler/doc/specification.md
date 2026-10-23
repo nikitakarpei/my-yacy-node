@@ -7,9 +7,9 @@ orders. For each order, it fetches the pages the order admits and publishes each
 read. A YaCy node is the typical order source and consumer, but the service depends on no
 consumer's internals.
 
-Several instances share one order stream and one frontier. Every instance takes any URL
-of any order, so a run spreads across the instances that are up. The service is meant for
-a more capable host than an always-on node.
+Several instances share one order stream. Instances that open one crawl state share its
+crawls: any of them can visit any page of them. The service is meant for a more capable
+host than an always-on node.
 
 ## Non-Goals
 
@@ -23,24 +23,28 @@ a more capable host than an always-on node.
 
 ## Functional Requirements
 
-* The service SHALL idle until a crawl order arrives, then accept it.
+* The service SHALL idle until a crawl order arrives, then accept it. The first order of an
+  ID SHALL start one crawl; a later order with that ID SHALL be ignored while its crawl is
+  kept.
+* The service SHALL reject an order it cannot read, or that has no seed URLs: it reports the
+  order, keeps nothing, and does not take it again.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
-* A crawl run SHALL end when its profile admits no more URLs, never by elapsed time.
+* A crawl SHALL succeed only when it has no more pending page visits, about a second
+  after the last one ends, and SHALL take no more page visits afterwards.
 * Before fetching a page, the service SHALL ask the recrawl rule whether the page is
   due, and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
-  rather than pressing against it.
+  rather than pressing against it; a visit asked to wait past the longest deferral drops.
 * The service SHALL publish a page that refuses indexing, marked as refusing indexing, so
   that a consumer, not the crawler, decides what to do with it.
 * The service SHALL publish the canonical URL of each page it read, and never the page's
   content.
-* Every URL a run admits SHALL be taken by exactly one instance, and SHALL end either
+* A crawl SHALL hold one page visit for each URL it admits, and each SHALL end either
   completed, or dropped when the crawler stops trying to visit it.
-* A publication SHALL fail only on a hard, non-retryable broker error; transient
-  backpressure returns the URL for redelivery.
-* A publication failure SHALL NOT be terminal; the page stays unpublished.
+* A publication SHALL fail only on a hard, non-retryable broker error, and never terminally:
+  transient backpressure returns the URL for redelivery, and a failed page stays unpublished.
 * The service SHALL acknowledge an order once the order and its seed URLs are durable.
 
 ## Non-Functional Requirements
@@ -49,19 +53,18 @@ a more capable host than an always-on node.
   delivery.
 * Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
   replaces its prior publication downstream rather than duplicating it.
-* The service SHALL keep accepted orders, its frontier and page visit state on a
-  Redis-protocol server, never in memory, so run size never inflates an instance.
-* The service SHALL NOT start when its Redis-protocol server does not answer.
+* The service SHALL keep its crawls, its frontier and page visit state in persistent
+  storage, never in memory, so run size never inflates an instance.
+* The service SHALL NOT start when it cannot open its persistent storage.
 * The service SHALL cap the buffers and fetched-body sizes it holds.
 * The service SHALL bound every outbound fetch with an explicit deadline.
 * The core SHALL keep no state of its own; anything remembered lives behind an interface
   it consults. A run survives the restart of any instance, and of all of them.
-* The message broker SHALL be replaceable behind a narrow interface assuming at-least-once
-  delivery with acknowledgment and redelivery, with no change to crawl logic.
-* The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
-  change to crawl logic.
-* The page visit records SHALL sit behind a narrow interface; the default keeps none, so the
-  recrawl rule holds every page due.
+* The message broker (at-least-once delivery with acknowledgment and redelivery) and the
+  page-fetch mechanism SHALL each be replaceable behind a narrow interface, with no change to
+  crawl logic.
+* The page visit records SHALL sit behind a narrow interface; with no recrawl grace, none are
+  kept and the recrawl rule holds every page due.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations
@@ -76,3 +79,5 @@ a more capable host than an always-on node.
   interested consumer and each consumer can see a different page than the crawler saw.
 * A durable crawled-page consumer that no one reads stops the crawl until an operator
   removes it.
+* Instances that share a crawl state need synchronized clocks.
+* A crawl that never finishes is kept forever.

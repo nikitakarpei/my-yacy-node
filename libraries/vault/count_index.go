@@ -29,7 +29,7 @@ func (v *Vault) RegisterCountIndex[R, G any](
 }
 
 func (i *CountIndex[R, G]) Get(tx *Txn, group G) (int, error) {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return 0, err
 	}
 	count, err := tx.etx.Amounts(i.bucket).Get(i.groups.Encode(group).encoded)
@@ -41,7 +41,7 @@ func (i *CountIndex[R, G]) Get(tx *Txn, group G) (int, error) {
 }
 
 func (i *CountIndex[R, G]) Scan(tx *Txn, groups KeyRange, fn func(G, int) (bool, error)) error {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return err
 	}
 	if err := tx.etx.Amounts(i.bucket).Scan(groups, func(key []byte, count int) (bool, error) {
@@ -58,8 +58,8 @@ func (i *CountIndex[R, G]) Scan(tx *Txn, groups KeyRange, fn func(G, int) (bool,
 	return nil
 }
 
-func (i *CountIndex[R, G]) recordAdded(tx *Txn, record storedForm[R]) error {
-	return i.raiseCount(tx, i.groupKeyOf(record.form), 1)
+func (i *CountIndex[R, G]) recordAdded(tx *Txn, added storedValue[R]) error {
+	return i.raiseCount(tx, i.groupKeyOf(added.value), 1)
 }
 
 func (i *CountIndex[R, G]) groupKeyOf(record R) []byte {
@@ -74,8 +74,8 @@ func (i *CountIndex[R, G]) raiseCount(tx *Txn, groupKey []byte, by uint) error {
 	return nil
 }
 
-func (i *CountIndex[R, G]) recordRemoved(tx *Txn, record storedForm[R]) error {
-	return i.lowerCount(tx, i.groupKeyOf(record.form), 1)
+func (i *CountIndex[R, G]) recordRemoved(tx *Txn, removed storedValue[R]) error {
+	return i.lowerCount(tx, i.groupKeyOf(removed.value), 1)
 }
 
 func (i *CountIndex[R, G]) lowerCount(tx *Txn, groupKey []byte, by uint) error {
@@ -86,8 +86,8 @@ func (i *CountIndex[R, G]) lowerCount(tx *Txn, groupKey []byte, by uint) error {
 	return nil
 }
 
-func (i *CountIndex[R, G]) recordReplaced(tx *Txn, previous, current storedForm[R]) error {
-	previousKey, currentKey := i.groupKeyOf(previous.form), i.groupKeyOf(current.form)
+func (i *CountIndex[R, G]) recordReplaced(tx *Txn, previous, current storedValue[R]) error {
+	previousKey, currentKey := i.groupKeyOf(previous.value), i.groupKeyOf(current.value)
 	if bytes.Equal(previousKey, currentKey) {
 		return nil
 	}

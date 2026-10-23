@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
 )
 
@@ -15,6 +16,7 @@ func TestQuotaAndUsedBytes(t *testing.T) {
 		4096,
 		boltvault.WriteBatch{},
 		nil,
+		vaultenginetest.FrozenClock{},
 	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)

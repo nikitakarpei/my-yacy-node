@@ -22,8 +22,8 @@ constraint and became an experiment in a different way of building a YaCy peer.
 
 ## Documentation
 
-Each service under `services/` and plugin under `plugins/` has its own `doc/`
-directory:
+Each service under `services/`, distribution under `distributions/`, and plugin
+under `plugins/` has its own `doc/` directory:
 
 - `specification.md` covers scope, requirements, and known limitations.
 - `configuration.md` covers operator-facing settings.

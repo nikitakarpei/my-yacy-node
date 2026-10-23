@@ -11,7 +11,7 @@ type memAmounts struct {
 }
 
 func (a memAmounts) Get(key []byte) (int, error) {
-	return a.entries[string(key)], nil
+	return max(a.entries[string(key)], 0), nil
 }
 
 func (a memAmounts) Raise(key []byte, by uint) error {
@@ -22,7 +22,7 @@ func (a memAmounts) Raise(key []byte, by uint) error {
 
 func (a memAmounts) changeBy(key []byte, change int) {
 	changed := a.entries[string(key)] + change
-	if changed <= 0 {
+	if changed == 0 {
 		delete(a.entries, string(key))
 
 		return
@@ -36,8 +36,19 @@ func (a memAmounts) Lower(key []byte, by uint) error {
 	return nil
 }
 
+func (a memAmounts) DeleteWithin(keys vault.KeyRange) error {
+	for _, key := range orderedAmountKeysOf(a.entries, keys) {
+		delete(a.entries, key)
+	}
+
+	return nil
+}
+
 func (a memAmounts) Scan(keys vault.KeyRange, fn func(key []byte, amount int) (bool, error)) error {
 	for _, key := range orderedAmountKeysOf(a.entries, keys) {
+		if a.entries[key] <= 0 {
+			continue
+		}
 		keep, err := fn([]byte(key), a.entries[key])
 		if err != nil || !keep {
 			return err

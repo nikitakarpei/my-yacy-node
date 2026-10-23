@@ -20,8 +20,12 @@ type engine struct {
 	quotaBytes int64
 }
 
-func Open(quotaBytes int64, observer vault.TransactionObserver) (*vault.Vault, error) {
-	vaulted, err := vault.New(OpenEngine(quotaBytes), observer)
+func Open(
+	quotaBytes int64,
+	observer vault.TransactionObserver,
+	clock vault.Clock,
+) (*vault.Vault, error) {
+	vaulted, err := vault.New(OpenEngine(quotaBytes), observer, nil, clock)
 	if err != nil {
 		return nil, fmt.Errorf("initialize storage: %w", err)
 	}
@@ -49,6 +53,10 @@ func (e *engine) ProvisionRecordsBucket(name vault.Name) error {
 }
 
 func (e *engine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
+func (e *engine) ProvisionExpiringRecordsBucket(name vault.Name) error {
 	return e.ProvisionRecordsBucket(name)
 }
 

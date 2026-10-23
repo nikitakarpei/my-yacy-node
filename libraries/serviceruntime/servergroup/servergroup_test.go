@@ -3,6 +3,7 @@ package servergroup_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"testing"
 	"time"
@@ -79,6 +80,28 @@ func TestWorkerErrorPropagates(t *testing.T) {
 	}
 }
 
+func TestWorkerReportingTheCancellationHasStopped(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	err := servergroup.Run(ctx, time.Second, nil, func(ctx context.Context) error {
+		<-ctx.Done()
+		return fmt.Errorf("open the store: %w", ctx.Err())
+	})
+	if err != nil {
+		t.Errorf("Run = %v, want nil", err)
+	}
+}
+
+func TestWorkerCancelledWithoutTheCallerFails(t *testing.T) {
+	err := servergroup.Run(context.Background(), time.Second, nil, func(context.Context) error {
+		return fmt.Errorf("open the store: %w", context.Canceled)
+	})
+	if !errors.Is(err, context.Canceled) {
+		t.Errorf("Run = %v, want the worker's cancellation", err)
+	}
+}
+
 func TestListenReportsAnAddressInUse(t *testing.T) {
 	holder, err := servergroup.Listen(context.Background(), "127.0.0.1:0")
 	if err != nil {
@@ -100,5 +123,51 @@ func TestServeErrorPropagates(t *testing.T) {
 	if err := servergroup.Run(context.Background(), time.Second,
 		[]servergroup.NamedServer{server}); err == nil {
 		t.Error("Run = nil, want the serve error")
+	}
+}
+
+type runValueKey struct{}
+
+func TestRequestsCarryTheRunValuesButOutliveItsCancellation(t *testing.T) {
+	server := listeningServer(t)
+	entered := make(chan struct{})
+	release := make(chan struct{})
+	type requestContextState struct {
+		value any
+		err   error
+	}
+	seen := make(chan requestContextState, 1)
+	server.Server.Handler = http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
+		close(entered)
+		<-release
+		seen <- requestContextState{value: r.Context().Value(runValueKey{}), err: r.Context().Err()}
+	})
+	ctx, cancel := context.WithCancel(context.WithValue(context.Background(), runValueKey{}, "run"))
+	done := make(chan error, 1)
+	go func() { done <- servergroup.Run(ctx, 5*time.Second, []servergroup.NamedServer{server}) }()
+	go func() {
+		request, err := http.NewRequestWithContext(
+			context.Background(), http.MethodGet, "http://"+server.Listener.Addr().String(), nil,
+		)
+		if err != nil {
+			return
+		}
+		if response, err := http.DefaultClient.Do(request); err == nil {
+			_ = response.Body.Close()
+		}
+	}()
+
+	<-entered
+	cancel()
+	close(release)
+	state := <-seen
+	if state.value != "run" {
+		t.Error("request context lacks the run value")
+	}
+	if state.err != nil {
+		t.Errorf("request context ended with the run: %v", state.err)
+	}
+	if err := <-done; err != nil {
+		t.Errorf("Run: %v", err)
 	}
 }

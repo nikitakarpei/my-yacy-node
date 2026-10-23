@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -39,7 +40,7 @@ type harness struct {
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("memoryvault.Open: %v", err)
 	}

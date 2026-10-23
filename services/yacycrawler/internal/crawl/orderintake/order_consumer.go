@@ -1,44 +1,54 @@
-// Package orderintake accepts each delivered crawl order and puts its seed URLs
-// on the frontier.
+// Package orderintake takes each delivered crawl order in: it starts the crawl of a
+// readable order with its seeds pending, rejects one it cannot read for good, and returns one
+// whose crawl it could not start yet for redelivery.
 package orderintake
 
 import (
 	"context"
+	"fmt"
 
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type AcceptedOrders interface {
-	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) error
+type Crawls interface {
+	Start(
+		tx *vault.Txn,
+		order acceptedorder.AcceptedOrder,
+	) (crawlID crawlid.CrawlID, started bool, err error)
 }
 
 type PendingPageVisits interface {
-	Publish(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit) error
+	AddSeeds(tx *vault.Txn, seedPageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
-	orders                 AcceptedOrders
-	frontier               PendingPageVisits
+	storage                *vault.Vault
+	crawls                 Crawls
+	pending                PendingPageVisits
 	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
 }
 
+//nolint:revive // a consumer names its source, the vault, the stores it starts a crawl in and more
 func NewOrderConsumer(
 	source pullintake.MessageSource,
-	orders AcceptedOrders,
-	frontier PendingPageVisits,
+	storage *vault.Vault,
+	crawls Crawls,
+	pending PendingPageVisits,
 	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
 	return &OrderConsumer{
 		source:                 source,
-		orders:                 orders,
-		frontier:               frontier,
+		storage:                storage,
+		crawls:                 crawls,
+		pending:                pending,
 		observer:               observer,
 		orderIntakeConcurrency: orderIntakeConcurrency,
 	}
@@ -47,60 +57,79 @@ func NewOrderConsumer(
 func (c *OrderConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(
 		ctx,
-		pullintake.PendingMessagesOf(c.source),
+		pullintake.MessageQueueOf(c.source),
 		c.orderIntakeConcurrency,
-		c.acceptOrder,
+		c.takeInOrder,
 	)
 }
 
-func (c *OrderConsumer) acceptOrder(
+func (c *OrderConsumer) takeInOrder(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 ) error {
 	sentOrder, err := yacycrawlcontract.UnmarshalCrawlOrder(message.Body())
 	if err != nil {
-		return poisonhalt.Halt(ctx, message.Identity(), err)
+		c.rejectOrder(ctx, message, "", err)
+		return nil
 	}
 	order, err := acceptedorder.AcceptedOrderFrom(sentOrder)
 	if err != nil {
-		c.returnOrder(ctx, message, sentOrder.OrderID, err)
+		c.rejectOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
-	if err := c.orders.Keep(ctx, order); err != nil {
-		c.returnOrder(ctx, message, order.OrderID(), err)
-		return nil
-	}
-	if err := c.putSeedURLsOnFrontier(ctx, order); err != nil {
-		c.returnOrder(ctx, message, order.OrderID(), err)
+	crawlID, started, err := c.startCrawl(ctx, order)
+	if err != nil {
+		c.observer.CrawlOrderReturned(ctx, order.OrderID(), err)
+		message.Return(ctx)
 		return nil
 	}
 	message.Acknowledge(ctx)
-	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), len(order.SeedURLs()))
+	c.observeAcceptance(ctx, order, crawlID, started)
 	return nil
 }
 
-func (c *OrderConsumer) putSeedURLsOnFrontier(
+func (c *OrderConsumer) startCrawl(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
-) error {
-	for _, seed := range order.SeedURLs() {
-		if err := c.frontier.Publish(ctx, pendingpagevisit.PendingPageVisit{
-			OrderID: order.OrderID(),
-			URL:     seed,
-			Depth:   0,
-		}); err != nil {
+) (crawlid.CrawlID, bool, error) {
+	var crawlID crawlid.CrawlID
+	var started bool
+	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		crawlID, started, err = c.crawls.Start(tx, order)
+		if err != nil || !started {
 			return err
 		}
+		return c.pending.AddSeeds(tx, pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()))
+	}); err != nil {
+		return crawlid.CrawlID{}, false, fmt.Errorf(
+			"start the crawl of order %s: %w",
+			order.OrderID(),
+			err,
+		)
 	}
-	return nil
+	return crawlID, started, nil
 }
 
-func (c *OrderConsumer) returnOrder(
+func (c *OrderConsumer) rejectOrder(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	orderID string,
 	cause error,
 ) {
-	c.observer.CrawlOrderReturned(ctx, orderID, cause)
-	message.Return(ctx)
+	message.Acknowledge(ctx)
+	c.observer.CrawlOrderRejected(ctx, message.Identity(), orderID, cause)
+}
+
+func (c *OrderConsumer) observeAcceptance(
+	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+	crawlID crawlid.CrawlID,
+	started bool,
+) {
+	if !started {
+		c.observer.CrawlOrderIgnored(ctx, order.OrderID())
+		return
+	}
+	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), crawlID, len(order.SeedURLs()))
 }

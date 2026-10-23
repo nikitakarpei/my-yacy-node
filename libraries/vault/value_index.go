@@ -29,7 +29,7 @@ func (v *Vault) RegisterValueIndex[R, E any](
 }
 
 func (i *ValueIndex[R, E]) Scan(tx *Txn, entries KeyRange, fn func(E) (bool, error)) error {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return err
 	}
 	if err := tx.etx.Records(i.bucket).Scan(entries, func(key, _ []byte) (bool, error) {
@@ -46,8 +46,20 @@ func (i *ValueIndex[R, E]) Scan(tx *Txn, entries KeyRange, fn func(E) (bool, err
 	return nil
 }
 
-func (i *ValueIndex[R, E]) recordAdded(tx *Txn, record storedForm[R]) error {
-	return i.addEntry(tx, i.entryKeyOf(record.form))
+func (i *ValueIndex[R, E]) First(tx *Txn, entries KeyRange) (E, bool, error) {
+	var first E
+	found := false
+	err := i.Scan(tx, entries, func(entry E) (bool, error) {
+		first, found = entry, true
+
+		return false, nil
+	})
+
+	return first, found, err
+}
+
+func (i *ValueIndex[R, E]) recordAdded(tx *Txn, added storedValue[R]) error {
+	return i.addEntry(tx, i.entryKeyOf(added.value))
 }
 
 func (i *ValueIndex[R, E]) entryKeyOf(record R) []byte {
@@ -62,8 +74,8 @@ func (i *ValueIndex[R, E]) addEntry(tx *Txn, entryKey []byte) error {
 	return nil
 }
 
-func (i *ValueIndex[R, E]) recordRemoved(tx *Txn, record storedForm[R]) error {
-	return i.removeEntry(tx, i.entryKeyOf(record.form))
+func (i *ValueIndex[R, E]) recordRemoved(tx *Txn, removed storedValue[R]) error {
+	return i.removeEntry(tx, i.entryKeyOf(removed.value))
 }
 
 func (i *ValueIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
@@ -74,8 +86,8 @@ func (i *ValueIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
 	return nil
 }
 
-func (i *ValueIndex[R, E]) recordReplaced(tx *Txn, previous, current storedForm[R]) error {
-	previousKey, currentKey := i.entryKeyOf(previous.form), i.entryKeyOf(current.form)
+func (i *ValueIndex[R, E]) recordReplaced(tx *Txn, previous, current storedValue[R]) error {
+	previousKey, currentKey := i.entryKeyOf(previous.value), i.entryKeyOf(current.value)
 	if bytes.Equal(previousKey, currentKey) {
 		return nil
 	}

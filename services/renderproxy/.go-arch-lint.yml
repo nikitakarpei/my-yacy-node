@@ -32,6 +32,8 @@ components:
     in: internal/rendercapacityobservers/applog/**
   rendercapacityobserversprometheus:
     in: internal/rendercapacityobservers/prometheus/**
+  renderproxyassembly:
+    in: assembly/**
   renderproxycmd:
     in: cmd/renderproxy/**
 
@@ -85,9 +87,14 @@ deps:
       - rendergate
     canUse:
       - prometheus
-  renderproxycmd:
+  renderproxyassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  renderproxycmd:
+    mayDependOn:
+      - renderproxyassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "test/e2e"

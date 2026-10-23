@@ -21,7 +21,9 @@ crossing value types locally, next to the code that calls them — never in a st
 contract-root package. `internal/crawl/` itself is a pure namespace, not a package.
 
 Every seam a kernel package opens gets its own namespace directory directly under `internal/`,
-named for both what its plugins are and of what, holding only plugin subdirectories. A plugin
+named for both what its plugins are and of what, holding only plugin subdirectories. Observers
+of a kernel package, whether they receive its events or read it on scrape, live under
+`internal/crawlobservers/`, named for that package. A plugin
 imports the kernel package whose interface it satisfies; the kernel never imports a plugin. Where
 several kernel packages need different event subsets from one plugin, each declares its own
 minimal interface rather than sharing one contract. Where plugins duplicated transport plumbing,

@@ -69,6 +69,28 @@ func TestTripleKeysWithFirstAndSecondHoldOnlyThatPair(t *testing.T) {
 	}
 }
 
+func TestTripleKeysWithFirstFromAKeyHoldThatFirstFromThatKeyOn(t *testing.T) {
+	parts := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart)
+	texts := orderedTexts()
+	pickedFirst, lowestSecond, lowestThird := texts[len(texts)/2], texts[len(texts)/3], texts[1]
+
+	for _, first := range texts {
+		for _, second := range texts {
+			for _, third := range texts {
+				key := parts.Key(first, second, third).Bytes()
+
+				assertRangeAnswers(
+					t,
+					parts.KeysWithFirstFrom(pickedFirst, lowestSecond, lowestThird),
+					key,
+					first == pickedFirst &&
+						(second > lowestSecond || second == lowestSecond && third >= lowestThird),
+				)
+			}
+		}
+	}
+}
+
 func TestTripleKeyPartsRejectsAKeyOfAnotherPartList(t *testing.T) {
 	parts := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, vault.TextKeyPart)
 	foreign := vault.PairKey(vault.TextKeyPart, vault.TextKeyPart).Key("one", "two")

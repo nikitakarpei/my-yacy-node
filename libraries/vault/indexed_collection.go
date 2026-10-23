@@ -28,12 +28,12 @@ func (v *Vault) RegisterIndexedCollection[K, V any](
 		projections = ProjectedAs[K, V](func(key K, _ V) K { return key })
 	}
 
-	collection, err := v.registerProjected(ctx, &Collection[K, V]{
-		name:        bucket,
-		keys:        index.keyLayout(),
-		values:      values,
-		projections: indexedByPairKey[K, V]{index: index, projections: projections},
-	})
+	collection, err := v.registerProjected(ctx, newCollection(
+		bucket,
+		index.keyLayout(),
+		values,
+		indexedByPairKey[K, V]{index: index, projections: projections},
+	))
 	if err != nil {
 		return nil, err
 	}

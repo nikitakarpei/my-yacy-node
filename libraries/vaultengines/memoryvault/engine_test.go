@@ -17,7 +17,7 @@ func TestConformance(t *testing.T) {
 }
 
 func TestUsedBytesRejectsCancelledContext(t *testing.T) {
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

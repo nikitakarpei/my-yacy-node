@@ -16,6 +16,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   vaultmemberset:
     in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
+  vaultexpiringrecords:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/expiringrecords
   bbolt:
     in: go.etcd.io/bbolt
 
@@ -24,6 +26,7 @@ deps:
     canUse:
       - vault
       - vaultmemberset
+      - vaultexpiringrecords
       - bbolt
 
 excludeFiles:

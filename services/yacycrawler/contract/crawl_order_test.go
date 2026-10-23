@@ -12,6 +12,7 @@ import (
 func TestCrawlOrderRoundTrip(t *testing.T) {
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "3f8a2c14-6b2d-4e1a-9c7f-8d0e1a2b3c4d",
+		Label:   "docs",
 		Profile: yacycrawlcontract.CrawlProfile{
 			Scope:           yacycrawlcontract.ScopeSubpath,
 			URLMustMatch:    yacycrawlcontract.MatchAll,

@@ -7,10 +7,10 @@ results to your browser search page.
 
 ## What this chapter adds
 
-- `corpustext` puts text from crawled pages into your local search index.
-- `manticore` keeps the local full-text index.
-- The `searxng-crawled-text-search` plugin adds the local index to the search
-  page.
+- `corpustext` puts text from crawled pages into your local search index and
+  searches it. It keeps the index in the `corpustext-data` volume.
+- The `searxng-crawled-text-search` plugin adds the `corpustext` search to the
+  search page.
 
 ## Start
 
@@ -30,4 +30,5 @@ query with `!ct` to show only the local index.
 
 - [Full-text indexer configuration](../../../../services/corpustext/doc/configuration.md)
 - [SearXNG local search configuration](../../../../plugins/searxng/searxng-crawled-text-search/doc/configuration.md)
-- [Chapter 4.1: Use Elasticsearch instead of Manticore](../04.1-use-elasticsearch-instead-of-manticore)
+- [Chapter 4.1: Keep the index in Elasticsearch](../04.1-keep-the-index-in-elasticsearch)
+- [Chapter 4.2: Keep the index in Manticore](../04.2-keep-the-index-in-manticore)

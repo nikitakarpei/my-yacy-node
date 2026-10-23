@@ -2,7 +2,9 @@
 // runs against itself: durable round trips, bounded scans, transaction atomicity,
 // bucket isolation, byte accounting, amounts that add up without a read, index
 // entries that follow their records, puts of many records that count each once,
-// point reads in any order, and member sets that keep every blind change.
+// point reads in any order, member sets that keep every blind change, reads of one
+// committed state, writes of one key from two vault handles that lose no change, and
+// expiring records that read as absent once expired and are forgotten only on demand.
 // Engine-independent behaviour lives with the port's own tests.
 package vaultenginetest
 
@@ -73,6 +75,8 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 	runPutEachConformance(t, open)
 	runPointReadConformance(t, open)
 	runMemberSetConformance(t, open)
+	runIsolationConformance(t, open)
+	runExpiringRecordsConformance(t, open)
 }
 
 func openVault(
@@ -82,7 +86,7 @@ func openVault(
 ) *vault.Vault {
 	t.Helper()
 
-	v, err := vault.New(openEngine(t, open, quotaBytes), nil)
+	v, err := vault.New(openEngine(t, open, quotaBytes), nil, nil, FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -881,7 +885,7 @@ func openRepeatingVault(
 ) *vault.Vault {
 	t.Helper()
 
-	v, err := vault.New(EngineRepeatingWrites(openEngine(t, open, 0)), nil)
+	v, err := vault.New(EngineRepeatingWrites(openEngine(t, open, 0)), nil, nil, FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

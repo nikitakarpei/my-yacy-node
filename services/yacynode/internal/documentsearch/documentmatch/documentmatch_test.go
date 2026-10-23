@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
@@ -79,7 +80,7 @@ func matchesWithin(
 ) (documentmatch.DocumentMatches, error) {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -406,7 +407,7 @@ func (index *endingIndex) ScanPostingsInImpactOrder(
 func TestMostRelevantDocumentsSurfaceIndexFailures(t *testing.T) {
 	term := searchtest.HashFor("w1")
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

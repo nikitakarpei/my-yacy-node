@@ -9,6 +9,8 @@ commonVendors:
   - canonicalurl
 
 components:
+  pageofferopeningobserversapplog:
+    in: internal/pageofferopeningobservers/applog/**
   pageintake:
     in: internal/pageintake/**
   pageintakeobserversprometheus:
@@ -17,6 +19,8 @@ components:
     in: internal/pageintakeobservers/applog/**
   pagemarkdowncorporas3:
     in: internal/pagemarkdowncorpora/s3/**
+  pagemarkdowncorporafilesystem:
+    in: internal/pagemarkdowncorpora/filesystem/**
   markdownrecall:
     in: internal/markdownrecall/**
   markdownrecallreceivershttp:
@@ -27,6 +31,8 @@ components:
     in: internal/intakereceiptpublicationobservers/applog/**
   intakereceiptpublicationobserversprometheus:
     in: internal/intakereceiptpublicationobservers/prometheus/**
+  corpusmarkdownassembly:
+    in: assembly/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -72,6 +78,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening
 
 deps:
   pageintake:
@@ -86,6 +93,11 @@ deps:
     canUse:
       - pagemarkdownstore
       - s3
+  pagemarkdowncorporafilesystem:
+    mayDependOn:
+      - markdownrecall
+    canUse:
+      - pagemarkdownstore
   intakereceiptsnats:
     canUse:
       - pagescrapecontract
@@ -101,9 +113,14 @@ deps:
   pageintakeobserversprometheus:
     canUse:
       - prometheus
-  corpusmarkdowncmd:
+  corpusmarkdownassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  corpusmarkdowncmd:
+    mayDependOn:
+      - corpusmarkdownassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

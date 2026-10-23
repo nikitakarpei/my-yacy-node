@@ -15,24 +15,11 @@ engines:
     shortcut: ct
     categories: general
     enable_http: true
-    search_index_engine: elasticsearch
-    elasticsearch_url: http://elasticsearch:9200
+    corpustext_search_url: http://corpustext:8096
 ```
 
 | Key | Default | Meaning |
 |---|---|---|
-| `search_index_engine` | required | Which search index to query: `elasticsearch` or `manticore`. |
+| `corpustext_search_url` | required | Base URL of the `corpustext` search. |
 
-When `search_index_engine` is `elasticsearch`:
-
-| Key | Default | Meaning |
-|---|---|---|
-| `elasticsearch_url` | required | Base URL of the Elasticsearch instance to query. |
-| `elasticsearch_index` | `yacy_text_v1` | Prefix of the indexes `corpustext` writes documents into. |
-
-When `search_index_engine` is `manticore`:
-
-| Key | Default | Meaning |
-|---|---|---|
-| `manticore_url` | required | Base URL of the Manticore instance to query. |
-| `manticore_table` | `yacy_text_v1` | Distributed table that spans the tables `corpustext` writes documents into. |
+To change the search index, configure `corpustext`; the engine stays the same.

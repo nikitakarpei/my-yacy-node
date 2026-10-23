@@ -1,6 +1,7 @@
 package boltvault
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 
@@ -16,7 +17,9 @@ type boltAmounts struct {
 }
 
 func (a boltAmounts) Get(key []byte) (int, error) {
-	return amountFrom(a.entries.Get(key))
+	amount, err := amountFrom(a.entries.Get(key))
+
+	return max(amount, 0), err
 }
 
 func amountFrom(raw []byte) (int, error) {
@@ -27,7 +30,7 @@ func amountFrom(raw []byte) (int, error) {
 		return 0, fmt.Errorf("bad amount: %d bytes", len(raw))
 	}
 
-	//nolint:gosec // G115: a stored amount is always above zero and far below MaxInt64.
+	//nolint:gosec // G115: a stored sum of changes stays far within the range of int64.
 	return int(int64(binary.BigEndian.Uint64(raw))), nil
 }
 
@@ -36,13 +39,13 @@ func (a boltAmounts) Raise(key []byte, by uint) error {
 }
 
 func (a boltAmounts) changeBy(key []byte, change int) error {
-	current, err := a.Get(key)
+	current, err := amountFrom(a.entries.Get(key))
 	if err != nil {
 		return err
 	}
 
 	changed := current + change
-	if changed <= 0 {
+	if changed == 0 {
 		if err := a.entries.Delete(key); err != nil {
 			return fmt.Errorf("delete amount: %w", err)
 		}
@@ -51,6 +54,7 @@ func (a boltAmounts) changeBy(key []byte, change int) error {
 	}
 
 	var raw [amountWidth]byte
+	//nolint:gosec // G115: a negative sum is kept in two's complement and read back as int64.
 	binary.BigEndian.PutUint64(raw[:], uint64(changed))
 	if err := a.entries.Put(key, raw[:]); err != nil {
 		return fmt.Errorf("store amount: %w", err)
@@ -61,6 +65,24 @@ func (a boltAmounts) changeBy(key []byte, change int) error {
 
 func (a boltAmounts) Lower(key []byte, by uint) error {
 	return a.changeBy(key, -int(by))
+}
+
+func (a boltAmounts) DeleteWithin(keys vault.KeyRange) error {
+	var storedKeys [][]byte
+	if err := a.Scan(keys, func(key []byte, _ int) (bool, error) {
+		storedKeys = append(storedKeys, bytes.Clone(key))
+
+		return true, nil
+	}); err != nil {
+		return err
+	}
+	for _, key := range storedKeys {
+		if err := a.entries.Delete(key); err != nil {
+			return fmt.Errorf("delete amount: %w", err)
+		}
+	}
+
+	return nil
 }
 
 func (a boltAmounts) Scan(
@@ -76,9 +98,11 @@ func (a boltAmounts) Scan(
 		if err != nil {
 			return err
 		}
-		keep, err := fn(key, amount)
-		if err != nil || !keep {
-			return err
+		if amount > 0 {
+			keep, err := fn(key, amount)
+			if err != nil || !keep {
+				return err
+			}
 		}
 
 		key, raw = cursor.Next()

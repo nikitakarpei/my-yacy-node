@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"strings"
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
@@ -56,25 +55,8 @@ func (htmlExtraction) DocumentFrom(
 		Title:         scan.title,
 		Body:          htmltree.New(root),
 		Format:        FormatDocumentHTML,
-		Language:      twoLetterLanguage(scan.language),
+		Language:      LanguageCodeOf(scan.language),
 		LocalLinks:    localLinksOf(links, baseHost),
 		ExternalLinks: externalLinksOf(links, baseHost),
 	}, nil
-}
-
-// TECHDEBT: Naming — derivation: twoLetterLanguage returns a value derived from a language tag but carries no preposition to its source
-func twoLetterLanguage(language string) string {
-	primary := strings.ToLower(strings.TrimSpace(language))
-	if dash := strings.IndexByte(primary, '-'); dash >= 0 {
-		primary = primary[:dash]
-	}
-	if len(primary) != 2 {
-		return ""
-	}
-	for _, r := range primary {
-		if r < 'a' || r > 'z' {
-			return ""
-		}
-	}
-	return primary
 }

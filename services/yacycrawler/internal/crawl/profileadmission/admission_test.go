@@ -13,9 +13,6 @@ func profile(p yacycrawlcontract.CrawlProfile) yacycrawlcontract.CrawlProfile {
 	if p.URLMustMatch == "" {
 		p.URLMustMatch = yacycrawlcontract.MatchAll
 	}
-	if p.MaxPagesPerHost == 0 {
-		p.MaxPagesPerHost = yacycrawlcontract.UnlimitedPagesPerHost
-	}
 	return p
 }
 
@@ -109,5 +106,15 @@ func TestNewRejectsBadRegex(t *testing.T) {
 		yacycrawlcontract.CrawlProfile{URLMustMatch: ".*", URLMustNotMatch: "("}, nil,
 	); err == nil {
 		t.Fatal("bad must-not-match regex should error")
+	}
+}
+
+func TestAProfileOfAnUnknownScopeIsRefused(t *testing.T) {
+	_, err := profileadmission.New(
+		profile(yacycrawlcontract.CrawlProfile{Scope: "galaxy", MaxDepth: 2}),
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")},
+	)
+	if err == nil {
+		t.Fatal("a profile of an unknown scope should be refused")
 	}
 }

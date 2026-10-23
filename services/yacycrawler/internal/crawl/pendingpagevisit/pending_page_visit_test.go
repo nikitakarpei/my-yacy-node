@@ -3,40 +3,28 @@ package pendingpagevisit_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-func TestPendingVisitSurvivesTheFrontierStream(t *testing.T) {
-	visit := pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
-		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
-		Depth:   3,
-	}
+var crawlID = crawlid.CrawlID{1}
 
-	data, err := pendingpagevisit.MarshalPendingPageVisit(visit)
-	if err != nil {
-		t.Fatalf("marshal: %v", err)
-	}
-	read, err := pendingpagevisit.UnmarshalPendingPageVisit(data)
-	if err != nil {
-		t.Fatalf("unmarshal: %v", err)
-	}
+func TestTheSeedPageVisitsOfACrawlStartAtTheTop(t *testing.T) {
+	seed := canonicalurltest.CanonicalURLOf(t, "http://host/")
 
-	if read != visit {
-		t.Fatalf("read %+v, want %+v", read, visit)
+	seeds := pendingpagevisit.SeedPageVisitsOf(crawlID, []canonicalurl.CanonicalURL{seed})
+
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: seed}
+	if len(seeds) != 1 || seeds[0] != want {
+		t.Fatalf("seeds = %+v, want %+v", seeds, want)
 	}
 }
 
-func TestUnmarshalPendingVisitRejectsRubbish(t *testing.T) {
-	if _, err := pendingpagevisit.UnmarshalPendingPageVisit([]byte("{")); err == nil {
-		t.Fatal("a truncated message should not decode")
-	}
-}
-
-func TestALinkedPageVisitGoesOneLevelDeeperInTheSameOrder(t *testing.T) {
+func TestALinkedPageVisitGoesOneLevelDeeperInTheSameCrawl(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 		Depth:   3,
 	}
@@ -44,15 +32,15 @@ func TestALinkedPageVisitGoesOneLevelDeeperInTheSameOrder(t *testing.T) {
 
 	linked := visit.LinkedPageVisitTo(link)
 
-	want := pendingpagevisit.PendingPageVisit{OrderID: "o1", URL: link, Depth: 4}
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: link, Depth: 4}
 	if linked != want {
 		t.Fatalf("linked %+v, want %+v", linked, want)
 	}
 }
 
-func TestARedirectedPageVisitKeepsTheDepthInTheSameOrder(t *testing.T) {
+func TestARedirectedPageVisitKeepsTheDepthInTheSameCrawl(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 		Depth:   3,
 	}
@@ -60,7 +48,7 @@ func TestARedirectedPageVisitKeepsTheDepthInTheSameOrder(t *testing.T) {
 
 	redirected := visit.RedirectedPageVisitTo(redirectTarget)
 
-	want := pendingpagevisit.PendingPageVisit{OrderID: "o1", URL: redirectTarget, Depth: 3}
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: redirectTarget, Depth: 3}
 	if redirected != want {
 		t.Fatalf("redirected %+v, want %+v", redirected, want)
 	}

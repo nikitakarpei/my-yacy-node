@@ -57,7 +57,13 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	ctx := context.Background()
 	path := filepath.Join(t.TempDir(), "node.db")
 
-	first, err := boltvault.Open(path, 0, boltvault.WriteBatch{}, nil)
+	first, err := boltvault.Open(
+		path,
+		0,
+		boltvault.WriteBatch{},
+		nil,
+		vaultenginetest.FrozenClock{},
+	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -80,7 +86,13 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 		t.Fatalf("Close: %v", err)
 	}
 
-	reopened, err := boltvault.Open(path, 0, boltvault.WriteBatch{}, nil)
+	reopened, err := boltvault.Open(
+		path,
+		0,
+		boltvault.WriteBatch{},
+		nil,
+		vaultenginetest.FrozenClock{},
+	)
 	if err != nil {
 		t.Fatalf("reopen: %v", err)
 	}
@@ -124,6 +136,7 @@ func TestOpenRefusesAStoragePathUnderAFile(t *testing.T) {
 		0,
 		boltvault.WriteBatch{},
 		nil,
+		vaultenginetest.FrozenClock{},
 	); err == nil {
 		t.Fatal("Open under a file succeeded, want error")
 	}
@@ -154,6 +167,7 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 		1,
 		boltvault.WriteBatch{},
 		nil,
+		vaultenginetest.FrozenClock{},
 	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)

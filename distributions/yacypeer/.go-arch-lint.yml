@@ -1,0 +1,64 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  serviceenvironment:
+    in: internal/serviceenvironment/**
+  servicelog:
+    in: internal/servicelog/**
+  natsbroker:
+    in: internal/natsbroker/**
+  egressproxy:
+    in: internal/egressproxy/**
+  loopback:
+    in: internal/loopback/**
+  yacypeerassembly:
+    in: assembly/**
+  yacypeercmd:
+    in: cmd/yacypeer/**
+
+vendors:
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+  natsserver:
+    in:
+      - github.com/nats-io/nats-server/v2/**
+  smokescreen:
+    in:
+      - github.com/stripe/smokescreen/pkg/smokescreen
+      - github.com/stripe/smokescreen/pkg/smokescreen/conntrack
+  logrus:
+    in:
+      - github.com/sirupsen/logrus
+deps:
+  natsbroker:
+    mayDependOn:
+      - loopback
+    canUse:
+      - natsserver
+  loopback:
+    canUse:
+      - serviceruntime
+  egressproxy:
+    mayDependOn:
+      - loopback
+    canUse:
+      - smokescreen
+      - logrus
+      - serviceruntime
+  yacypeerassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  yacypeercmd:
+    mayDependOn:
+      - yacypeerassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"

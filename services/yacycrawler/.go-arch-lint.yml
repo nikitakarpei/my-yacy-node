@@ -10,12 +10,10 @@ commonVendors:
   - canonicalurl
 
 components:
-  pagevisitdrop:
-    in: internal/crawl/pagevisitdrop/**
-  pagevisitresult:
-    in: internal/crawl/pagevisitresult/**
   retrydelay:
     in: internal/crawl/retrydelay/**
+  crawlid:
+    in: internal/crawl/crawlid/**
   pendingpagevisit:
     in: internal/crawl/pendingpagevisit/**
   profileadmission:
@@ -38,61 +36,71 @@ components:
     in: internal/crawl/pagehtmlreading/**
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
-  pagevisitrecordsnorecords:
-    in: internal/pagevisitrecords/norecords/**
-  pagevisitrecordsredis:
-    in: internal/pagevisitrecords/redis/**
+  pagevisitrecords:
+    in: internal/crawl/pagevisitrecords/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
-  acceptedordersredis:
-    in: internal/acceptedorders/redis/**
-  pendingpagevisitsredis:
-    in: internal/pendingpagevisits/redis/**
-  redisrecord:
-    in: internal/redisrecord/**
-  takenpagevisitsredis:
-    in: internal/takenpagevisits/redis/**
-  pagevisitlimitsredis:
-    in: internal/pagevisitlimits/redis/**
-  crawlorderobserversapplog:
-    in: internal/crawlorderobservers/applog/**
-  crawlorderobserversprometheus:
-    in: internal/crawlorderobservers/prometheus/**
-  pendingpagevisitobserversapplog:
-    in: internal/pendingpagevisitobservers/applog/**
-  frontierobserversapplog:
-    in: internal/frontierobservers/applog/**
-  frontiermetricsprometheus:
-    in: internal/frontiermetrics/prometheus/**
-  pendingpagevisitobserversprometheus:
-    in: internal/pendingpagevisitobservers/prometheus/**
-  pagefetchobserversapplog:
-    in: internal/pagefetchobservers/applog/**
-  pagefetchobserversprometheus:
-    in: internal/pagefetchobservers/prometheus/**
-  mediatypeobserversapplog:
-    in: internal/mediatypeobservers/applog/**
-  mediatypeobserversprometheus:
-    in: internal/mediatypeobservers/prometheus/**
-  linkresolutionobserversapplog:
-    in: internal/linkresolutionobservers/applog/**
-  linkresolutionobserversprometheus:
-    in: internal/linkresolutionobservers/prometheus/**
-  refusalenforcementobserversapplog:
-    in: internal/refusalenforcementobservers/applog/**
-  refusalenforcementobserversprometheus:
-    in: internal/refusalenforcementobservers/prometheus/**
-  crawledpageobserversapplog:
-    in: internal/crawledpageobservers/applog/**
-  crawledpageobserversprometheus:
-    in: internal/crawledpageobservers/prometheus/**
-  pagevisitrecordobserversapplog:
-    in: internal/pagevisitrecordobservers/applog/**
-  pagevisitrecordobserversprometheus:
-    in: internal/pagevisitrecordobservers/prometheus/**
+  urlhash:
+    in: internal/crawl/urlhash/**
+  crawls:
+    in: internal/crawl/crawls/**
+  frontier:
+    in: internal/crawl/frontier/**
+  crawlprogress:
+    in: internal/crawl/crawlprogress/**
+  pagevisitlimits:
+    in: internal/crawl/pagevisitlimits/**
+  crawlfinishing:
+    in: internal/crawl/crawlfinishing/**
+  crawlobserversorderintakeapplog:
+    in: internal/crawlobservers/orderintake/applog/**
+  crawlobserversorderintakeprometheus:
+    in: internal/crawlobservers/orderintake/prometheus/**
+  crawlobserverspagevisitintakeapplog:
+    in: internal/crawlobservers/pagevisitintake/applog/**
+  crawlobserversfrontierapplog:
+    in: internal/crawlobservers/frontier/applog/**
+  crawlobserverscrawlfinishingapplog:
+    in: internal/crawlobservers/crawlfinishing/applog/**
+  crawlobserverscrawlprogressapplog:
+    in: internal/crawlobservers/crawlprogress/applog/**
+  crawlobserversfrontierprometheus:
+    in: internal/crawlobservers/frontier/prometheus/**
+  crawlobserverspagevisitintakeprometheus:
+    in: internal/crawlobservers/pagevisitintake/prometheus/**
+  crawlobserversobservedfetchapplog:
+    in: internal/crawlobservers/observedfetch/applog/**
+  crawlobserversobservedfetchprometheus:
+    in: internal/crawlobservers/observedfetch/prometheus/**
+  crawlobserverspagehtmlapplog:
+    in: internal/crawlobservers/pagehtml/applog/**
+  crawlobserverspagehtmlprometheus:
+    in: internal/crawlobservers/pagehtml/prometheus/**
+  crawlobserverslinkdiscoveryapplog:
+    in: internal/crawlobservers/linkdiscovery/applog/**
+  crawlobserverslinkdiscoveryprometheus:
+    in: internal/crawlobservers/linkdiscovery/prometheus/**
+  crawlobserverspagehtmlreadingapplog:
+    in: internal/crawlobservers/pagehtmlreading/applog/**
+  crawlobserverspagehtmlreadingprometheus:
+    in: internal/crawlobservers/pagehtmlreading/prometheus/**
+  crawledpageobserversjetstreamapplog:
+    in: internal/crawledpageobservers/jetstream/applog/**
+  crawledpageobserversjetstreamprometheus:
+    in: internal/crawledpageobservers/jetstream/prometheus/**
+  crawlobserverspagevisitapplog:
+    in: internal/crawlobservers/pagevisit/applog/**
+  crawlobserverspagevisitprometheus:
+    in: internal/crawlobservers/pagevisit/prometheus/**
   crawledpagesjetstream:
     in: internal/crawledpages/jetstream/**
-  crawlercmd:
+  crawlerapishttp:
+    in: internal/crawlerapis/http/**
+  crawlerapiobservershttpapplog:
+    in: internal/crawlerapiobservers/http/applog/**
+  yacycrawlerassembly:
+    in: assembly/**
+  yacycrawlercmd:
     in: cmd/yacycrawler/**
 
 vendors:
@@ -111,9 +119,12 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  redis:
+  vault:
     in:
-      - github.com/redis/go-redis/v9
+      - github.com/nikitakarpei/yacy-rwi-node/vault
+  uuid:
+    in:
+      - github.com/google/uuid
   wallclock:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/wallclock
@@ -142,7 +153,13 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
+  crawlid:
+    canUse:
+      - uuid
+      - vault
   pendingpagevisit:
+    mayDependOn:
+      - crawlid
     canUse:
       - canonicalurl
   acceptedorder:
@@ -153,15 +170,16 @@ deps:
       - yacycrawlcontract
   orderintake:
     mayDependOn:
-      - pendingpagevisit
+      - crawlid
       - acceptedorder
+      - pendingpagevisit
     canUse:
       - yacycrawlcontract
       - serviceruntime
+      - vault
   pagevisitintake:
     mayDependOn:
-      - pagevisitdrop
-      - pagevisitresult
+      - crawlid
       - pagevisitallowance
       - pendingpagevisit
       - acceptedorder
@@ -170,6 +188,7 @@ deps:
       - canonicalurl
       - yacycrawlcontract
       - serviceruntime
+      - vault
   pagehtml:
     canUse:
       - nethtml
@@ -181,13 +200,13 @@ deps:
   pagevisit:
     mayDependOn:
       - acceptedorder
-      - pagevisitdrop
-      - pagevisitresult
+      - crawlid
       - pagehtmlreading
       - pendingpagevisit
     canUse:
       - canonicalurl
       - pagefetch
+      - vault
   observedfetch:
     canUse:
       - canonicalurl
@@ -202,131 +221,156 @@ deps:
       - robotsmeta
   pagevisitallowance:
     mayDependOn:
-      - pagevisitdrop
+      - crawlid
       - pendingpagevisit
       - retrydelay
     canUse:
       - canonicalurl
-  pagevisitrecordsnorecords:
+      - vault
+  pagevisitrecords:
     mayDependOn:
       - pagevisit
+      - urlhash
     canUse:
-      - pagefetch
-  pagevisitrecordsredis:
-    mayDependOn:
-      - pagevisit
-      - redisrecord
-    canUse:
-      - redis
+      - vault
       - pagefetch
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
-  acceptedordersredis:
+  urlhash:
+    canUse:
+      - canonicalurl
+      - vault
+  crawls:
     mayDependOn:
       - acceptedorder
-      - redisrecord
+      - crawlid
     canUse:
-      - redis
+      - vault
       - yacycrawlcontract
-  pendingpagevisitsredis:
+  frontier:
     mayDependOn:
       - pendingpagevisit
-      - redisrecord
+      - crawlid
+      - urlhash
     canUse:
-      - redis
+      - vault
       - serviceruntime
-  redisrecord:
-    canUse:
-      - redis
-  takenpagevisitsredis:
+  crawlprogress:
     mayDependOn:
-      - redisrecord
+      - crawlid
+      - pendingpagevisit
     canUse:
-      - redis
-      - canonicalurl
-  pagevisitlimitsredis:
+      - vault
+  pagevisitlimits:
     mayDependOn:
-      - redisrecord
+      - crawlid
+      - urlhash
     canUse:
-      - redis
+      - vault
       - canonicalurl
       - yacycrawlcontract
   crawledpagesjetstream:
     canUse:
       - nats
-  crawlorderobserversapplog:
+  crawlerapishttp:
     mayDependOn:
-      - orderintake
-  crawlorderobserversprometheus:
-    mayDependOn:
-      - orderintake
-    canUse:
-      - prometheus
-  pendingpagevisitobserversapplog:
-    mayDependOn:
-      - pagevisitdrop
-      - pagevisitresult
+      - acceptedorder
+      - crawlid
       - pendingpagevisit
-  frontiermetricsprometheus:
+      - crawls
+      - crawlprogress
+    canUse:
+      - vault
+  crawlobserversorderintakeapplog:
+    mayDependOn:
+      - crawlid
+      - orderintake
+  crawlobserversorderintakeprometheus:
+    mayDependOn:
+      - crawlid
+      - orderintake
     canUse:
       - prometheus
-  pendingpagevisitobserversprometheus:
+  crawlobserverspagevisitintakeapplog:
     mayDependOn:
-      - pagevisitdrop
-      - pagevisitresult
+      - pendingpagevisit
+  crawlobserversfrontierapplog:
+    mayDependOn:
+      - pendingpagevisit
+  crawlfinishing:
+    mayDependOn:
+      - crawlid
+    canUse:
+      - vault
+  crawlobserverscrawlfinishingapplog:
+    mayDependOn:
+      - crawlid
+  crawlobserverscrawlprogressapplog:
+    mayDependOn:
+      - crawlid
+  crawlobserversfrontierprometheus:
+    canUse:
+      - prometheus
+  crawlobserverspagevisitintakeprometheus:
+    mayDependOn:
       - pendingpagevisit
     canUse:
       - prometheus
       - canonicalurl
-  pagefetchobserversapplog:
+  crawlobserversobservedfetchapplog:
     canUse:
       - canonicalurl
       - pagefetch
-  pagefetchobserversprometheus:
+  crawlobserversobservedfetchprometheus:
     canUse:
       - prometheus
       - budgetbuckets
       - canonicalurl
       - pagefetch
-  mediatypeobserversprometheus:
+  crawlobserverspagehtmlprometheus:
     canUse:
       - prometheus
-  linkresolutionobserversapplog:
+  crawlobserverslinkdiscoveryapplog:
     canUse:
       - canonicalurl
-  linkresolutionobserversprometheus:
-    canUse:
-      - prometheus
-      - canonicalurl
-  refusalenforcementobserversapplog:
-    canUse:
-      - canonicalurl
-  refusalenforcementobserversprometheus:
+  crawlobserverslinkdiscoveryprometheus:
     canUse:
       - prometheus
       - canonicalurl
-  crawledpageobserversapplog:
+  crawlobserverspagehtmlreadingapplog:
+    canUse:
+      - canonicalurl
+  crawlobserverspagehtmlreadingprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+  crawledpageobserversjetstreamapplog:
     mayDependOn:
       - crawledpagesjetstream
     canUse:
       - canonicalurl
-  crawledpageobserversprometheus:
+  crawledpageobserversjetstreamprometheus:
     mayDependOn:
       - crawledpagesjetstream
     canUse:
       - prometheus
       - canonicalurl
-  pagevisitrecordobserversapplog:
+  crawlobserverspagevisitapplog:
     canUse:
       - canonicalurl
-  pagevisitrecordobserversprometheus:
+  crawlobserverspagevisitprometheus:
     canUse:
       - prometheus
       - canonicalurl
-  crawlercmd:
+  yacycrawlerassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  yacycrawlercmd:
+    mayDependOn:
+      - yacycrawlerassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "test/e2e"

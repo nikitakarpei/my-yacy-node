@@ -3,23 +3,23 @@ package pagevisitintake_test
 import (
 	"context"
 	"errors"
+	"slices"
 	"sync"
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
-
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -28,28 +28,7 @@ const (
 	visitURL = "http://host/"
 )
 
-type fakeTakenPageVisits struct {
-	takers  map[string]string
-	takeErr error
-}
-
-func newTakenPageVisits() *fakeTakenPageVisits {
-	return &fakeTakenPageVisits{takers: map[string]string{}}
-}
-
-func (visits *fakeTakenPageVisits) TakePageVisit(
-	_ context.Context, _ string, url canonicalurl.CanonicalURL, taker string,
-) (bool, error) {
-	if visits.takeErr != nil {
-		return false, visits.takeErr
-	}
-	standing, taken := visits.takers[url.String()]
-	if !taken {
-		visits.takers[url.String()] = taker
-		return true, nil
-	}
-	return standing == taker, nil
-}
+var crawlID = crawlid.CrawlID{1}
 
 type fakeAllowances struct {
 	hostSpent      bool
@@ -64,51 +43,62 @@ func newAllowances() *fakeAllowances {
 	return &fakeAllowances{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
 }
 
-func (a *fakeAllowances) HostPageFor(
+func (a *fakeAllowances) TakePageOfHost(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, maxPages int,
 ) (pagevisitallowance.Allowance, error) {
 	a.hostPageLimits = append(a.hostPageLimits, maxPages)
 	if !a.hostSpent {
-		return pagevisitallowance.Allowance{DropReason: pagevisitdrop.HostPagesExhausted}, nil
+		return pagevisitallowance.Allowance{
+			DropReason: yacycrawlcontract.DropReasonHostPagesExhausted,
+		}, nil
 	}
 	return pagevisitallowance.Allowance{Granted: true}, nil
 }
 
-func (a *fakeAllowances) DeferralFor(
+func (a *fakeAllowances) TakeDeferral(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, deferFor time.Duration,
 ) (pagevisitallowance.Allowance, error) {
 	if a.deferrals >= a.maxDeferrals {
-		return pagevisitallowance.Allowance{DropReason: pagevisitdrop.DeferralsExhausted}, nil
+		return pagevisitallowance.Allowance{
+			DropReason: yacycrawlcontract.DropReasonDeferralsExhausted,
+		}, nil
 	}
 	a.deferrals++
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
 }
 
-func (a *fakeAllowances) AnotherAttemptFor(
+func (a *fakeAllowances) TakeAttempt(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit,
 ) (pagevisitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {
-		return pagevisitallowance.Allowance{DropReason: pagevisitdrop.RetriesExhausted}, nil
+		return pagevisitallowance.Allowance{
+			DropReason: yacycrawlcontract.DropReasonRetriesExhausted,
+		}, nil
 	}
 	a.retries++
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: time.Second}, nil
 }
 
-type fakeAcceptedOrders struct {
-	profile yacycrawlcontract.CrawlProfile
-	seeds   []canonicalurl.CanonicalURL
-	err     error
+type fakeCrawls struct {
+	profile   yacycrawlcontract.CrawlProfile
+	forgotten bool
+	err       error
 }
 
-func (o *fakeAcceptedOrders) OrderOf(
-	_ context.Context, orderID string,
-) (acceptedorder.AcceptedOrder, error) {
-	if o.err != nil {
-		return acceptedorder.AcceptedOrder{}, o.err
+func (o *fakeCrawls) OrderOf(
+	_ *vault.Txn, _ crawlid.CrawlID,
+) (acceptedorder.AcceptedOrder, bool, error) {
+	if o.err != nil || o.forgotten {
+		return acceptedorder.AcceptedOrder{}, false, o.err
 	}
-	return acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
-		OrderID: orderID, Profile: o.profile, SeedURLs: o.seeds,
+	seed, err := canonicalurl.CanonicalURLOf(visitURL)
+	if err != nil {
+		return acceptedorder.AcceptedOrder{}, false, err
+	}
+	order, err := acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
+		OrderID: orderID, Profile: o.profile, SeedURLs: []canonicalurl.CanonicalURL{seed},
 	})
+	return order, err == nil, err
 }
 
 type fakePageVisitor struct {
@@ -127,7 +117,7 @@ func (f *fakePageVisitor) VisitPage(
 	f.visited = append(f.visited, pendingPageVisit.URL.String())
 	if len(f.outcomes) == 0 {
 		return pagevisit.PageVisitOutcome{
-			Conclusion: pagevisit.PageVisitCompleted, Result: pagevisitresult.Published,
+			Conclusion: pagevisit.PageVisitCompleted, Result: yacycrawlcontract.ResultPublished,
 		}
 	}
 	outcome := f.outcomes[0]
@@ -143,8 +133,9 @@ func (f *fakePageVisitor) pageVisitCount() int {
 
 type recordingObserver struct {
 	mu        sync.Mutex
-	dropped   map[pagevisitdrop.Reason]int
-	completed map[pagevisitresult.Result]int
+	leased    []int
+	dropped   map[yacycrawlcontract.PageVisitDropReason]int
+	completed map[yacycrawlcontract.PageVisitResult]int
 	deferrals int
 	retries   int
 	returned  int
@@ -152,15 +143,21 @@ type recordingObserver struct {
 
 func newObserver() *recordingObserver {
 	return &recordingObserver{
-		dropped:   map[pagevisitdrop.Reason]int{},
-		completed: map[pagevisitresult.Result]int{},
+		dropped:   map[yacycrawlcontract.PageVisitDropReason]int{},
+		completed: map[yacycrawlcontract.PageVisitResult]int{},
 	}
+}
+
+func (o *recordingObserver) PendingPageVisitsLeased(_ context.Context, amount int) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.leased = append(o.leased, amount)
 }
 
 func (o *recordingObserver) PendingPageVisitDropped(
 	_ context.Context,
 	_ pendingpagevisit.PendingPageVisit,
-	reason pagevisitdrop.Reason,
+	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -200,7 +197,7 @@ func (o *recordingObserver) PendingPageVisitReturned(
 func (o *recordingObserver) PendingPageVisitCompleted(
 	_ context.Context,
 	_ pendingpagevisit.PendingPageVisit,
-	result pagevisitresult.Result,
+	result yacycrawlcontract.PageVisitResult,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -216,17 +213,59 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
+func leasedVisit(t *testing.T) pendingpagevisit.LeasedPageVisit {
 	t.Helper()
-	data, err := pendingpagevisit.MarshalPendingPageVisit(pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
-		URL:     canonicalurltest.CanonicalURLOf(t, visitURL),
-		Depth:   0,
-	})
-	if err != nil {
-		t.Fatal(err)
+	return pendingpagevisit.LeasedPageVisit{
+		PageVisit: pendingpagevisit.PendingPageVisit{
+			CrawlID: crawlID,
+			URL:     canonicalurltest.CanonicalURLOf(t, visitURL),
+		},
 	}
-	return &pullintaketest.Message{Body: data, Sequence: sequence}
+}
+
+type frontierCall string
+
+const (
+	ended    frontierCall = "ended"
+	returned frontierCall = "returned"
+)
+
+type fakeFrontier struct {
+	mu            sync.Mutex
+	leased        []pendingpagevisit.LeasedPageVisit
+	endIntake     context.CancelFunc
+	calls         []frontierCall
+	returnedAfter time.Duration
+}
+
+func (f *fakeFrontier) Lease(
+	_ context.Context,
+	amount int,
+) ([]pendingpagevisit.LeasedPageVisit, error) {
+	if len(f.leased) == 0 {
+		f.endIntake()
+		return nil, context.Canceled
+	}
+	leasedNow := f.leased[:min(amount, len(f.leased))]
+	f.leased = f.leased[len(leasedNow):]
+	return leasedNow, nil
+}
+
+func (f *fakeFrontier) End(context.Context, pendingpagevisit.LeasedPageVisit) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.calls = append(f.calls, ended)
+}
+
+func (f *fakeFrontier) Return(
+	_ context.Context,
+	_ pendingpagevisit.LeasedPageVisit,
+	delay time.Duration,
+) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.calls = append(f.calls, returned)
+	f.returnedAfter = delay
 }
 
 type everyVisitAdmitted struct{}
@@ -242,88 +281,83 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 }
 
 type crawlWorker struct {
-	pageVisits  *fakeTakenPageVisits
+	concurrency int
+	frontier    *fakeFrontier
 	allowances  *fakeAllowances
-	orders      *fakeAcceptedOrders
+	orders      *fakeCrawls
 	pageVisitor *fakePageVisitor
 	observer    *recordingObserver
 }
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
-		pageVisits:  newTakenPageVisits(),
+		concurrency: 1,
+		frontier:    &fakeFrontier{},
 		allowances:  newAllowances(),
-		orders:      &fakeAcceptedOrders{profile: wideProfile()},
+		orders:      &fakeCrawls{profile: wideProfile()},
 		pageVisitor: &fakePageVisitor{},
 		observer:    newObserver(),
 	}
 }
 
-func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
+func (w *crawlWorker) consume(t *testing.T, visits ...pendingpagevisit.LeasedPageVisit) error {
 	t.Helper()
-	return w.consumeAdmittedBy(t, everyVisitAdmitted{}, messages...)
+	return w.consumeAdmittedBy(t, everyVisitAdmitted{}, visits...)
 }
 
 func (w *crawlWorker) consumeAdmittedBy(
 	t *testing.T,
 	admission pullintake.Admission,
-	messages ...jetstream.Msg,
+	visits ...pendingpagevisit.LeasedPageVisit,
 ) error {
 	t.Helper()
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
+	ctx, endIntake := context.WithCancel(t.Context())
+	defer endIntake()
+	w.frontier.leased = visits
+	w.frontier.endIntake = endIntake
 	return pagevisitintake.NewPageVisitConsumer(
-		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
-		w.pageVisits,
+		storage,
+		w.frontier,
 		w.allowances,
 		w.orders,
 		w.pageVisitor,
 		w.observer,
 		admission,
-		1,
-	).Run(context.Background())
+		w.concurrency,
+	).Run(ctx)
 }
 
-func TestAClaimedURLIsVisitedThenAcknowledged(t *testing.T) {
+func TestAPageVisitIsVisitedThenAcknowledged(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.pageVisitor.pageVisitCount() != 1 {
 		t.Fatalf("visited %d urls, want 1", worker.pageVisitor.pageVisitCount())
 	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != ended {
+		t.Fatalf("frontier calls %v, want the visit ended once", got)
 	}
 }
 
-func TestASecondFrontierMessageForAClaimedURLIsDropped(t *testing.T) {
+func TestEveryFreeWorkerGetsAVisitOfOneLease(t *testing.T) {
 	worker := newWorker()
-	duplicate := visitMessage(t, 2)
+	worker.concurrency = 2
+	worker.orders.forgotten = true
 
-	if err := worker.consume(t, visitMessage(t, 1), duplicate); err != nil {
+	if err := worker.consume(t, leasedVisit(t), leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.pageVisitor.pageVisitCount() != 1 {
-		t.Fatalf("visited %d times, want the url fetched once", worker.pageVisitor.pageVisitCount())
-	}
-	if got := duplicate.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("duplicate settled %v, want one ack", got)
-	}
-}
-
-func TestARedeliveredMessageResumesItsOwnClaim(t *testing.T) {
-	worker := newWorker()
-	message := visitMessage(t, 1)
-
-	if err := worker.consume(t, message, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if worker.pageVisitor.pageVisitCount() != 2 {
-		t.Fatal("a redelivery should visit the claim it left behind")
+	if got := worker.observer.leased; !slices.Equal(got, []int{2}) {
+		t.Fatalf("leased %v at once, want both visits in one lease", got)
 	}
 }
 
@@ -332,17 +366,17 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
 		Conclusion: pagevisit.PageVisitDeferred, DeferFor: 7 * time.Second,
 	}}
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
-	if message.HeldBackFor() != 7*time.Second {
-		t.Fatalf("held back for %v, want the delay the site asked", message.HeldBackFor())
+	if worker.frontier.returnedAfter != 7*time.Second {
+		t.Fatalf("held back for %v, want the delay the site asked", worker.frontier.returnedAfter)
 	}
 	if worker.observer.deferrals != 1 {
 		t.Fatalf("observer honored %d deferrals, want one", worker.observer.deferrals)
@@ -355,17 +389,17 @@ func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitDeferred},
 	}
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.dropped[pagevisitdrop.DeferralsExhausted] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonDeferralsExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want deferrals exhausted", worker.observer.dropped)
 	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != ended {
+		t.Fatalf("frontier calls %v, want the visit ended once", got)
 	}
 }
 
@@ -374,14 +408,14 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if message.HeldBackFor() != time.Second {
-		t.Fatalf("held back for %v, want the first backoff", message.HeldBackFor())
+	if worker.frontier.returnedAfter != time.Second {
+		t.Fatalf("held back for %v, want the first backoff", worker.frontier.returnedAfter)
 	}
 }
 
@@ -391,33 +425,33 @@ func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
 		Conclusion:  pagevisit.PageVisitReturned,
 		ReturnCause: errors.New("stream down"),
 	}}
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 	if worker.allowances.retries != 0 {
 		t.Fatalf("attempts spent = %d, want none", worker.allowances.retries)
 	}
 }
 
-func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorSettled(t *testing.T) {
+func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorEnded(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consumeAdmittedBy(t, noVisitAdmitted{}, message); err != nil {
+	if err := worker.consumeAdmittedBy(t, noVisitAdmitted{}, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a held back visit was visited")
 	}
-	if got := message.Settlements(); len(got) != 0 {
-		t.Fatalf("message settled %v, want it untouched", got)
+	if got := worker.frontier.calls; len(got) != 0 {
+		t.Fatalf("frontier calls %v, want the visit untouched", got)
 	}
 }
 
@@ -428,11 +462,11 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.dropped[pagevisitdrop.RetriesExhausted] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonRetriesExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want retries exhausted", worker.observer.dropped)
 	}
 }
@@ -440,16 +474,16 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	worker := newWorker()
 	worker.allowances.hostSpent = false
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a host that spent its pages should not be fetched again")
 	}
-	if worker.observer.dropped[pagevisitdrop.HostPagesExhausted] != 1 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonHostPagesExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want host pages exhausted", worker.observer.dropped)
 	}
 }
@@ -458,7 +492,7 @@ func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.MaxPagesPerHost = 7
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -470,11 +504,11 @@ func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 	}
 }
 
-func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
+func TestAVisitLeasedAgainAsksForItsHostPageAgain(t *testing.T) {
 	worker := newWorker()
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message, message); err != nil {
+	if err := worker.consume(t, visit, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -486,71 +520,65 @@ func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
 	}
 }
 
-func TestAPageVisitNoOneCanTakeReturnsForRedelivery(t *testing.T) {
-	worker := newWorker()
-	worker.pageVisits.takeErr = errors.New("bucket down")
-	message := visitMessage(t, 1)
-
-	if err := worker.consume(t, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if worker.pageVisitor.pageVisitCount() != 0 {
-		t.Fatal("a url with no answered claim should not be visited")
-	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
-	}
-}
-
 func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
 	worker.orders.err = errors.New("bucket down")
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
+	}
+}
+
+func TestAVisitWhoseCrawlIsForgottenReturnsUnvisited(t *testing.T) {
+	worker := newWorker()
+	worker.orders.forgotten = true
+	visit := leasedVisit(t)
+
+	if err := worker.consume(t, visit); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
+	}
+	if worker.pageVisitor.pageVisitCount() != 0 {
+		t.Fatal("a url of a forgotten order should not be visited")
 	}
 }
 
 func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.URLMustNotMatch = "([unclosed"
-	message := visitMessage(t, 1)
+	visit := leasedVisit(t)
 
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visit); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a url under an unreadable profile should not be visited")
 	}
 }
 
-func TestAnUndecodablePendingVisitHaltsIntake(t *testing.T) {
-	if err := newWorker().consume(t, &pullintaketest.Message{Body: []byte("{"), Sequence: 1}); err == nil {
-		t.Fatal("an undecodable pending page visit should halt intake")
-	}
-}
-
 func TestTheResultOfACompletedVisitIsObserved(t *testing.T) {
 	worker := newWorker()
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitCompleted, Result: pagevisitresult.FetchRejected,
+		Conclusion: pagevisit.PageVisitCompleted, Result: yacycrawlcontract.ResultFetchRejected,
 	}}
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.completed[pagevisitresult.FetchRejected] != 1 {
+	if worker.observer.completed[yacycrawlcontract.ResultFetchRejected] != 1 {
 		t.Fatalf("observer completed %v, want fetch rejected", worker.observer.completed)
 	}
 }
@@ -558,14 +586,15 @@ func TestTheResultOfACompletedVisitIsObserved(t *testing.T) {
 func TestAVisitTheVisitorDropsIsObservedAsDropped(t *testing.T) {
 	worker := newWorker()
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
-		Conclusion: pagevisit.PageVisitDropped, DropReason: pagevisitdrop.NotDue,
+		Conclusion: pagevisit.PageVisitDropped, DropReason: yacycrawlcontract.DropReasonNotDue,
 	}}
 
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+	if err := worker.consume(t, leasedVisit(t)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.dropped[pagevisitdrop.NotDue] != 1 || len(worker.observer.completed) != 0 {
+	if worker.observer.dropped[yacycrawlcontract.DropReasonNotDue] != 1 ||
+		len(worker.observer.completed) != 0 {
 		t.Fatalf("observer dropped %v and completed %v, want only not due dropped",
 			worker.observer.dropped, worker.observer.completed)
 	}

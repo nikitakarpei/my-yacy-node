@@ -10,79 +10,88 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type fakeAcceptedOrders struct {
-	kept []acceptedorder.AcceptedOrder
-	err  error
+var startedCrawlID = crawlid.CrawlID{1}
+
+type fakeCrawls struct {
+	accepted []acceptedorder.AcceptedOrder
+	pending  []pendingpagevisit.PendingPageVisit
+	started  bool
+	err      error
 }
 
-func (o *fakeAcceptedOrders) Keep(_ context.Context, order acceptedorder.AcceptedOrder) error {
-	if o.err != nil {
-		return o.err
+func (a *fakeCrawls) Start(
+	_ *vault.Txn,
+	order acceptedorder.AcceptedOrder,
+) (crawlid.CrawlID, bool, error) {
+	if a.err != nil {
+		return crawlid.CrawlID{}, false, a.err
 	}
-	o.kept = append(o.kept, order)
-	return nil
+	a.accepted = append(a.accepted, order)
+	return startedCrawlID, a.started, nil
 }
 
-type fakePendingVisits struct {
-	published []pendingpagevisit.PendingPageVisit
-	err       error
-}
-
-func (v *fakePendingVisits) Publish(
-	_ context.Context,
-	visit pendingpagevisit.PendingPageVisit,
+func (a *fakeCrawls) AddSeeds(
+	_ *vault.Txn,
+	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
-	if v.err != nil {
-		return v.err
-	}
-	v.published = append(v.published, visit)
+	a.pending = append(a.pending, pageVisits...)
 	return nil
 }
 
 type recordingObserver struct {
-	accepted int
-	returned int
+	accepted        int
+	acceptedCrawlID crawlid.CrawlID
+	ignored         int
+	rejected        int
+	returned        int
 }
 
-func (o *recordingObserver) CrawlOrderAccepted(context.Context, string, int) {
+func (o *recordingObserver) CrawlOrderAccepted(
+	_ context.Context,
+	_ string,
+	crawlID crawlid.CrawlID,
+	_ int,
+) {
 	o.accepted++
+	o.acceptedCrawlID = crawlID
+}
+
+func (o *recordingObserver) CrawlOrderIgnored(context.Context, string) {
+	o.ignored++
+}
+
+func (o *recordingObserver) CrawlOrderRejected(context.Context, string, string, error) {
+	o.rejected++
 }
 
 func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
 	o.returned++
 }
 
-func seeds(t *testing.T) []canonicalurl.CanonicalURL {
-	t.Helper()
-	return []canonicalurl.CanonicalURL{
-		canonicalurltest.CanonicalURLOf(t, "http://host/one"),
-		canonicalurltest.CanonicalURLOf(t, "http://host/two"),
-	}
-}
-
 func domainProfile() yacycrawlcontract.CrawlProfile {
-	return yacycrawlcontract.CrawlProfile{
-		Scope:           yacycrawlcontract.ScopeDomain,
-		URLMustMatch:    yacycrawlcontract.MatchAll,
-		MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-	}
+	return yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeDomain}
 }
 
 func orderMessage(
 	t *testing.T,
 	profile yacycrawlcontract.CrawlProfile,
+	seeds ...canonicalurl.CanonicalURL,
 ) *pullintaketest.Message {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
 		OrderID:  "o1",
 		Profile:  profile,
-		SeedURLs: seeds(t),
+		SeedURLs: seeds,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -90,115 +99,109 @@ func orderMessage(
 	return &pullintaketest.Message{Body: data}
 }
 
+func seed(t *testing.T) canonicalurl.CanonicalURL {
+	t.Helper()
+	return canonicalurltest.CanonicalURLOf(t, "http://host/one")
+}
+
 func consume(
 	t *testing.T,
 	message jetstream.Msg,
-	orders *fakeAcceptedOrders,
-	frontier *fakePendingVisits,
+	crawls *fakeCrawls,
 	observer *recordingObserver,
-) error {
+) {
 	t.Helper()
-	return orderintake.NewOrderConsumer(
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+	if err := orderintake.NewOrderConsumer(
 		pullintaketest.MessageSourceOf(message),
-		orders,
-		frontier,
+		storage,
+		crawls,
+		crawls,
 		observer,
 		1,
-	).Run(context.Background())
-}
-
-func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
-	message := orderMessage(t, domainProfile())
-	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
-
-	if err := consume(t, message, orders, visits, observer); err != nil {
+	).Run(context.Background()); err != nil {
 		t.Fatalf("run: %v", err)
-	}
-
-	if len(orders.kept) != 1 {
-		t.Fatalf("kept %d orders, want 1", len(orders.kept))
-	}
-	if len(visits.published) != 2 {
-		t.Fatalf("published %d seeds, want 2", len(visits.published))
-	}
-	for _, visit := range visits.published {
-		if visit.OrderID != "o1" || visit.Depth != 0 {
-			t.Fatalf("seed %+v should carry its order at depth zero", visit)
-		}
-	}
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
-		t.Fatalf("message settled %v, want one ack", got)
-	}
-	if observer.accepted != 1 {
-		t.Fatalf("observer %+v, want one accepted order", observer)
 	}
 }
 
-func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
-	message := orderMessage(t, domainProfile())
-	orders := &fakeAcceptedOrders{err: errors.New("bucket down")}
-	visits, observer := &fakePendingVisits{}, &recordingObserver{}
+func requireOneSettlement(
+	t *testing.T,
+	message *pullintaketest.Message,
+	want string,
+) {
+	t.Helper()
+	if got := message.Settlements(); len(got) != 1 || got[0] != want {
+		t.Fatalf("message settled %v, want one %v", got, want)
+	}
+}
 
-	if err := consume(t, message, orders, visits, observer); err != nil {
-		t.Fatalf("run: %v", err)
-	}
+func TestAnAcceptedOrderIsAcknowledged(t *testing.T) {
+	message := orderMessage(t, domainProfile(), seed(t))
+	crawls, observer := &fakeCrawls{started: true}, &recordingObserver{}
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
+	consume(t, message, crawls, observer)
+
+	if len(crawls.accepted) != 1 || crawls.accepted[0].OrderID() != "o1" {
+		t.Fatalf("accepted %v, want order o1", crawls.accepted)
 	}
-	if len(visits.published) != 0 {
-		t.Fatal("an order that was not accepted should seed nothing")
+	if len(crawls.pending) != 1 || crawls.pending[0].CrawlID != startedCrawlID {
+		t.Fatalf("pending %v, want the seed of crawl %s", crawls.pending, startedCrawlID)
 	}
+	requireOneSettlement(t, message, pullintaketest.Acknowledged)
+	if observer.accepted != 1 || observer.acceptedCrawlID != startedCrawlID {
+		t.Fatalf("observer %+v, want one accepted order of crawl %s", observer, startedCrawlID)
+	}
+}
+
+func TestAnOrderWhoseCrawlStartedBeforeIsAcknowledgedAndIgnored(t *testing.T) {
+	message := orderMessage(t, domainProfile(), seed(t))
+	observer := &recordingObserver{}
+
+	crawls := &fakeCrawls{started: false}
+
+	consume(t, message, crawls, observer)
+
+	requireOneSettlement(t, message, pullintaketest.Acknowledged)
+	if observer.ignored != 1 || observer.accepted != 0 || len(crawls.pending) != 0 {
+		t.Fatalf("observer %+v, want one ignored order", observer)
+	}
+}
+
+func TestAnOrderTheCrawlerCannotAcceptYetReturnsForRedelivery(t *testing.T) {
+	message := orderMessage(t, domainProfile(), seed(t))
+	observer := &recordingObserver{}
+
+	consume(t, message, &fakeCrawls{err: errors.New("server down")}, observer)
+
+	requireOneSettlement(t, message, pullintaketest.HeldBack)
 	if observer.returned != 1 || observer.accepted != 0 {
 		t.Fatalf("observer %+v, want one redelivery", observer)
 	}
 }
 
-func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
-	message := orderMessage(t, domainProfile())
-	visits := &fakePendingVisits{err: errors.New("stream down")}
-	observer := &recordingObserver{}
+func TestAnOrderTheCrawlerCannotReadIsRejectedAndAcknowledged(t *testing.T) {
+	unreadableProfile := domainProfile()
+	unreadableProfile.URLMustNotMatch = "([unclosed"
+	for name, message := range map[string]*pullintaketest.Message{
+		"undecodable":        {Body: []byte("{")},
+		"without seeds":      orderMessage(t, domainProfile()),
+		"unreadable profile": orderMessage(t, unreadableProfile, seed(t)),
+	} {
+		t.Run(name, func(t *testing.T) {
+			crawls, observer := &fakeCrawls{started: true}, &recordingObserver{}
 
-	if err := consume(t, message, &fakeAcceptedOrders{}, visits, observer); err != nil {
-		t.Fatalf("run: %v", err)
-	}
+			consume(t, message, crawls, observer)
 
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
-	}
-	if observer.returned != 1 {
-		t.Fatalf("observer %+v, want one redelivery", observer)
-	}
-}
-
-func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
-	profile := domainProfile()
-	profile.URLMustNotMatch = "([unclosed"
-	message := orderMessage(t, profile)
-	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
-
-	if err := consume(t, message, orders, visits, observer); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
-	}
-	if len(orders.kept) != 0 || len(visits.published) != 0 {
-		t.Fatal("an order the crawler cannot read should neither be accepted nor seed the frontier")
-	}
-	if observer.returned != 1 {
-		t.Fatalf("observer %+v, want one redelivery", observer)
-	}
-}
-
-func TestAnUndecodableOrderHaltsIntake(t *testing.T) {
-	err := consume(
-		t, &pullintaketest.Message{Body: []byte("{")}, &fakeAcceptedOrders{},
-		&fakePendingVisits{}, &recordingObserver{},
-	)
-
-	if err == nil {
-		t.Fatal("an undecodable order should halt intake")
+			requireOneSettlement(t, message, pullintaketest.Acknowledged)
+			if len(crawls.accepted) != 0 {
+				t.Fatal("an order the crawler cannot read should not be accepted")
+			}
+			if observer.rejected != 1 {
+				t.Fatalf("observer %+v, want one rejection", observer)
+			}
+		})
 	}
 }

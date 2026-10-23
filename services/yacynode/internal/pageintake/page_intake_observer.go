@@ -19,6 +19,12 @@ type PageIntakeObserver interface {
 		pageURL canonicalurl.CanonicalURL,
 		cause error,
 	)
+	MediaTypeUnsupported(
+		ctx context.Context,
+		messageIdentity string,
+		pageURL canonicalurl.CanonicalURL,
+		contentType string,
+	)
 	NoIndexDerived(
 		ctx context.Context,
 		messageIdentity string,
@@ -76,6 +82,17 @@ func (observers PageIntakeObservers) DocumentExtractionFailed(
 ) {
 	for _, observer := range observers {
 		observer.DocumentExtractionFailed(ctx, messageIdentity, pageURL, cause)
+	}
+}
+
+func (observers PageIntakeObservers) MediaTypeUnsupported(
+	ctx context.Context,
+	messageIdentity string,
+	pageURL canonicalurl.CanonicalURL,
+	contentType string,
+) {
+	for _, observer := range observers {
+		observer.MediaTypeUnsupported(ctx, messageIdentity, pageURL, contentType)
 	}
 }
 

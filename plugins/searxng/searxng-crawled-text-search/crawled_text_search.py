@@ -1,24 +1,16 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import json
 from typing import Any, Protocol
+from urllib.parse import urlencode
 
 about: dict[str, Any] = {}
 categories = ["general"]
 paging = True
 
 results_per_page = 10
-search_index_engine = ""
-elasticsearch_url = ""
-elasticsearch_index = "yacy_text_v1"
-manticore_url = ""
-manticore_table = "yacy_text_v1"
+corpustext_search_url = ""
 
-_content_fragment_length = 300
-_words_around_a_match = 25
-_title_weight = 6
-_content_weight = 2
-_auxiliary_text_weight = 1
+_search_path = "/search"
 
 
 class SearchResponse(Protocol):
@@ -26,126 +18,36 @@ class SearchResponse(Protocol):
 
 
 def request(query: str, params: dict[str, Any]) -> dict[str, Any]:
-    params["method"] = "POST"
-    params["headers"]["Content-Type"] = "application/json"
-    if search_index_engine == "manticore":
-        _manticore_request(query, params)
-    elif search_index_engine == "elasticsearch":
-        _elasticsearch_request(query, params)
-    else:
-        raise ValueError(f"unknown search_index_engine: {search_index_engine}")
+    if not corpustext_search_url:
+        raise ValueError("corpustext_search_url: must be set")
+    search = {
+        "query": query,
+        "offset": _result_offset(params),
+        "limit": results_per_page,
+    }
+    if params.get("language"):
+        search["language"] = params["language"]
+    params["method"] = "GET"
+    params["url"] = "{}{}?{}".format(
+        corpustext_search_url.rstrip("/"), _search_path, urlencode(search)
+    )
     return params
 
 
 def response(resp: SearchResponse) -> list[dict[str, str]]:
     try:
-        hits = resp.json()["hits"]["hits"]
+        matches = resp.json()["matches"]
     except (ValueError, KeyError, TypeError):
         return []
-
-    results = []
-    for hit in hits:
-        source = hit.get("_source", {})
-        title = source.get("title")
-        url = source.get("url")
-        if not title or not url:
-            continue
-        results.append(
-            {
-                "title": title,
-                "url": url,
-                "content": _matched_content(hit, source),
-            }
-        )
-    return results
-
-
-def _elasticsearch_request(query: str, params: dict[str, Any]) -> None:
-    params["url"] = "{}/{}_*/_search".format(
-        elasticsearch_url.rstrip("/"), elasticsearch_index
-    )
-    params["data"] = json.dumps(
+    return [
         {
-            "from": _result_offset(params),
-            "size": results_per_page,
-            "query": _elasticsearch_query(query, _search_language(params)),
-            "highlight": {
-                "fields": {"content": {}},
-                "pre_tags": [""],
-                "post_tags": [""],
-            },
+            "title": match["title"],
+            "url": match["url"],
+            "content": match["snippet"],
         }
-    )
-
-
-def _elasticsearch_query(query: str, language: str) -> dict[str, Any]:
-    match = {
-        "combined_fields": {
-            "query": query,
-            "fields": [
-                f"title^{_title_weight}",
-                f"content^{_content_weight}",
-                f"auxiliary_text^{_auxiliary_text_weight}",
-            ],
-            "operator": "and",
-        }
-    }
-    if not language:
-        return match
-    return {"bool": {"must": [match], "filter": [{"term": {"language": language}}]}}
-
-
-def _manticore_request(query: str, params: dict[str, Any]) -> None:
-    params["url"] = "{}/search".format(manticore_url.rstrip("/"))
-    params["data"] = json.dumps(
-        {
-            "table": manticore_table,
-            "offset": _result_offset(params),
-            "limit": results_per_page,
-            "query": _manticore_query(query, _search_language(params)),
-            "options": {
-                "field_weights": {
-                    "title": _title_weight,
-                    "content": _content_weight,
-                    "auxiliary_text": _auxiliary_text_weight,
-                },
-            },
-            "highlight": {
-                "fields": ["content"],
-                "before_match": "",
-                "after_match": "",
-                "limit": _content_fragment_length,
-                "around": _words_around_a_match,
-                "passage_boundary": "sentence",
-                "limit_passages": 1,
-                "weight_order": True,
-            },
-        }
-    )
-
-
-def _manticore_query(query: str, language: str) -> dict[str, Any]:
-    match = {
-        "match": {"title,content,auxiliary_text": {"query": query, "operator": "and"}}
-    }
-    if not language:
-        return match
-    return {"bool": {"must": [match, {"equals": {"language": language}}]}}
-
-
-def _search_language(params: dict[str, Any]) -> str:
-    language = str(params.get("language") or "").strip().lower()
-    if language in ("", "all"):
-        return ""
-    return language.split("-")[0]
+        for match in matches
+    ]
 
 
 def _result_offset(params: dict[str, Any]) -> int:
     return (params["pageno"] - 1) * results_per_page
-
-
-def _matched_content(hit: dict[str, Any], source: dict[str, Any]) -> str:
-    fragments = hit.get("highlight", {}).get("content")
-    if fragments:
-        return " … ".join(fragments)
-    return source.get("content", "")[:_content_fragment_length]

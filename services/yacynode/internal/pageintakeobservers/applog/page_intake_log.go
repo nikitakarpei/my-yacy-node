@@ -12,6 +12,7 @@ const (
 	msgPageOffered              = "offered page received"
 	msgOfferedPageInvalid       = "offered page invalid, nothing stored"
 	msgDocumentExtractionFailed = "offered page document extraction failed, nothing stored"
+	msgMediaTypeUnsupported     = "offered page has a media type the node does not read, nothing stored"
 	msgNoIndexDerived           = "offered page derives no index, nothing stored"
 	msgPageAdmitted             = "offered page admitted"
 	msgPageAdmissionBusy        = "offered page admission deferred because storage is busy"
@@ -46,6 +47,19 @@ func (PageIntakeLog) DocumentExtractionFailed(
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
 		slog.Any("error", cause),
+	)
+}
+
+func (PageIntakeLog) MediaTypeUnsupported(
+	ctx context.Context,
+	messageIdentity string,
+	pageURL canonicalurl.CanonicalURL,
+	contentType string,
+) {
+	slog.DebugContext(ctx, msgMediaTypeUnsupported,
+		slog.String("message", messageIdentity),
+		slog.String("pageUrl", pageURL.String()),
+		slog.String("contentType", contentType),
 	)
 }
 

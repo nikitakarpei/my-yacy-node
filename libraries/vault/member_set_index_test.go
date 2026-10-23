@@ -40,7 +40,7 @@ func openPageWords(t *testing.T, engine *doubleEngine, valuesByID []string) page
 	t.Helper()
 
 	ctx := context.Background()
-	v, err := vault.New(engine, nil)
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
@@ -302,11 +302,8 @@ func TestUndecodableMembersAreSkippedAndReported(t *testing.T) {
 }
 
 func plantMembers(engine *doubleEngine, page string, members ...vault.StoredMember) {
-	engine.plant(
-		pageWordsBucket,
-		stringKeyParts.Key(page).Bytes(),
-		memberset.AppendMembers(nil, members),
-	)
+	encoder := memberset.EncoderFrom(members)
+	engine.plant(pageWordsBucket, stringKeyParts.Key(page).Bytes(), encoder.AppendTo(nil))
 }
 
 func TestRemovingEveryDecodableMemberReadDeletesTheSet(t *testing.T) {
