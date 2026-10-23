@@ -13,11 +13,11 @@ func processFrom(values map[string]string) func(string) string {
 
 func environmentFor(
 	t *testing.T,
-	wiring serviceenvironment.Wiring,
+	peer serviceenvironment.PeerSettings,
 	process map[string]string,
 ) serviceenvironment.Environment {
 	t.Helper()
-	environment, err := serviceenvironment.For("corpustext", wiring, nil, processFrom(process))
+	environment, err := serviceenvironment.For("corpustext", peer, nil, processFrom(process))
 	if err != nil {
 		t.Fatalf("For: %v", err)
 	}
@@ -25,7 +25,11 @@ func environmentFor(
 }
 
 func TestLookupPrefersTheWiredValue(t *testing.T) {
-	environment := environmentFor(t, serviceenvironment.Wiring{"NATS_URL": "nats://wired"}, nil)
+	environment := environmentFor(
+		t,
+		serviceenvironment.PeerSettings{Wired: map[string]string{"NATS_URL": "nats://wired"}},
+		nil,
+	)
 
 	if got := environment.Lookup("NATS_URL"); got != "nats://wired" {
 		t.Errorf("Lookup = %q, want the wired value", got)
@@ -33,7 +37,7 @@ func TestLookupPrefersTheWiredValue(t *testing.T) {
 }
 
 func TestLookupPrefersTheServiceValueOverTheSharedValue(t *testing.T) {
-	environment := environmentFor(t, nil, map[string]string{
+	environment := environmentFor(t, serviceenvironment.PeerSettings{}, map[string]string{
 		"CORPUSTEXT__LANGUAGES": "de",
 		"LANGUAGES":             "en",
 	})
@@ -44,7 +48,7 @@ func TestLookupPrefersTheServiceValueOverTheSharedValue(t *testing.T) {
 }
 
 func TestLookupFallsBackToTheSharedValue(t *testing.T) {
-	environment := environmentFor(t, nil, map[string]string{
+	environment := environmentFor(t, serviceenvironment.PeerSettings{}, map[string]string{
 		"LANGUAGES":             "en",
 		"CORPUSMARKDOWN__LIMIT": "9",
 	})
@@ -60,7 +64,9 @@ func TestLookupFallsBackToTheSharedValue(t *testing.T) {
 func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 	_, err := serviceenvironment.For(
 		"corpustext",
-		serviceenvironment.Wiring{"NATS_URL": "nats://wired", "DATA_DIR": "/data"},
+		serviceenvironment.PeerSettings{
+			Wired: map[string]string{"NATS_URL": "nats://wired", "DATA_DIR": "/data"},
+		},
 		nil,
 		processFrom(map[string]string{
 			"NATS_URL":             "nats://elsewhere",
@@ -80,11 +86,40 @@ func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 func TestForRefusesEveryUnreadSettingTheOperatorSets(t *testing.T) {
 	_, err := serviceenvironment.For(
 		"corpustext",
-		nil,
+		serviceenvironment.PeerSettings{},
 		[]string{"OPS_ADDR"},
 		processFrom(map[string]string{"CORPUSTEXT__OPS_ADDR": ":9999"}),
 	)
 	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT__OPS_ADDR") {
 		t.Errorf("For = %v, want the unread setting named", err)
+	}
+}
+
+func TestLookupPrefersTheOperatorValueOverTheDefault(t *testing.T) {
+	environment := environmentFor(
+		t,
+		serviceenvironment.PeerSettings{
+			Defaults: map[string]string{"LISTEN_ADDR": ":8093", "OPS_ADDR": ":9093"},
+		},
+		map[string]string{"LISTEN_ADDR": ":7000", "CORPUSTEXT__OPS_ADDR": ":7001"},
+	)
+
+	if got := environment.Lookup("LISTEN_ADDR"); got != ":7000" {
+		t.Errorf("Lookup = %q, want the shared value", got)
+	}
+	if got := environment.Lookup("OPS_ADDR"); got != ":7001" {
+		t.Errorf("Lookup = %q, want the service value", got)
+	}
+}
+
+func TestLookupFallsBackToTheDefault(t *testing.T) {
+	environment := environmentFor(
+		t,
+		serviceenvironment.PeerSettings{Defaults: map[string]string{"LISTEN_ADDR": ":8093"}},
+		nil,
+	)
+
+	if got := environment.Lookup("LISTEN_ADDR"); got != ":8093" {
+		t.Errorf("Lookup = %q, want the default", got)
 	}
 }

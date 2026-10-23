@@ -12,6 +12,8 @@ components:
     in: internal/servicelog/**
   natsbroker:
     in: internal/natsbroker/**
+  egressproxy:
+    in: internal/egressproxy/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -24,10 +26,21 @@ vendors:
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
+  smokescreen:
+    in:
+      - github.com/stripe/smokescreen/pkg/smokescreen/**
+  logrus:
+    in:
+      - github.com/sirupsen/logrus
 deps:
   natsbroker:
     canUse:
       - natsserver
+  egressproxy:
+    canUse:
+      - smokescreen
+      - logrus
+      - serviceruntime
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

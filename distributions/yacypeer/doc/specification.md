@@ -2,8 +2,9 @@
 
 ## Context
 
-A YaCy peer of this repository is a set of services that share a NATS server. `yacypeer`
-runs these services and their NATS server as one program, connected and ready to use.
+A YaCy peer of this repository is a set of services that share a NATS server and an egress
+proxy. `yacypeer` runs these services, their NATS server, and their egress proxy as one
+program, connected and ready to use.
 
 ## Non-Goals
 
@@ -13,8 +14,10 @@ runs these services and their NATS server as one program, connected and ready to
 
 ## Functional Requirements
 
-* The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, and `corpusmarkdown`,
-  and a NATS server that only the local host can reach.
+* The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `corpusmarkdown`,
+  `yacycrawler`, `pagescrape`, `crawlconsole`, and `crawlscrapebridge`.
+* The program SHALL run a NATS server and an egress proxy that only the local host can
+  reach.
 * The program SHALL keep its local data in one data directory.
 * The program SHALL set the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
@@ -25,7 +28,5 @@ runs these services and their NATS server as one program, connected and ready to
 
 ## Known Limitations
 
-* No service writes page offers yet, so `yacynode`, `corpustext`, and `corpusmarkdown` log
-  errors while they wait for them.
 * The peer does not accept postings from other peers.
 * Some log lines do not name a service, for example the lines that a library writes.

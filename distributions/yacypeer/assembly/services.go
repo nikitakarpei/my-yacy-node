@@ -3,6 +3,7 @@ package yacypeerassembly
 import (
 	"context"
 	"fmt"
+	"net"
 	"path/filepath"
 	"strconv"
 
@@ -10,6 +11,10 @@ import (
 
 	corpusmarkdownassembly "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/assembly"
 	corpustextassembly "github.com/nikitakarpei/yacy-rwi-node/corpustext/assembly"
+	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
+	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
+	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
+	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
@@ -22,14 +27,39 @@ var unreadSettings = []string{
 	yacydhtsearchassembly.EnvServeProfiler,
 	corpustextassembly.EnvOpsAddr,
 	corpusmarkdownassembly.EnvOpsAddr,
+	yacycrawlerassembly.EnvOpsAddr,
+	pagescrapeassembly.EnvOpsAddr,
+	crawlconsoleassembly.EnvOpsAddr,
+	crawlscrapebridgeassembly.EnvOpsAddr,
 }
 
 const (
-	yacynodeService       = "yacynode"
-	yacydhtsearchService  = "yacydhtsearch"
-	corpustextService     = "corpustext"
-	corpusmarkdownService = "corpusmarkdown"
+	yacynodeService          = "yacynode"
+	yacydhtsearchService     = "yacydhtsearch"
+	corpustextService        = "corpustext"
+	corpusmarkdownService    = "corpusmarkdown"
+	yacycrawlerService       = "yacycrawler"
+	pagescrapeService        = "pagescrape"
+	crawlconsoleService      = "crawlconsole"
+	crawlscrapebridgeService = "crawlscrapebridge"
+
+	crawlconsoleListenAddr = ":8093"
+	fetchProxyDialMode     = "tunnel"
 )
+
+type localEndpoints struct {
+	crawlerAPI     net.Listener
+	natsURL        string
+	egressProxyURL string
+}
+
+func (e localEndpoints) crawlerAPIAddress() string {
+	return e.crawlerAPI.Addr().String()
+}
+
+func (e localEndpoints) crawlerAPIURL() string {
+	return "http://" + e.crawlerAPIAddress()
+}
 
 type service struct {
 	registry *prometheus.Registry
@@ -42,10 +72,13 @@ type serviceAssembly func(ctx context.Context, getenv func(string) string) (serv
 func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
-	natsURL string,
+	endpoints localEndpoints,
 	getenv func(string) string,
 ) ([]service, error) {
-	assemblies := serviceAssembliesFor(cfg, natsURL)
+	assemblies := append(
+		searchServiceAssembliesFor(cfg, endpoints),
+		crawlServiceAssembliesFor(cfg, endpoints)...,
+	)
 	services := make([]service, 0, len(assemblies))
 	for _, assembly := range assemblies {
 		service, err := assembly(ctx, getenv)
@@ -57,56 +90,119 @@ func servicesFor(
 	return services, nil
 }
 
-func serviceAssembliesFor(cfg PeerConfig, natsURL string) []serviceAssembly {
+func searchServiceAssembliesFor(cfg PeerConfig, endpoints localEndpoints) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
-			serviceenvironment.Wiring{
-				yacynodeassembly.EnvPageOfferNATSURL:  natsURL,
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				yacynodeassembly.EnvPageOfferNATSURL:  endpoints.natsURL,
 				yacynodeassembly.EnvPageOfferDurable:  yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),
 				yacynodeassembly.EnvDataDir:           cfg.directoryOf(yacynodeService),
 				yacynodeassembly.EnvNetworkName:       cfg.NetworkName,
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
-			},
+				yacynodeassembly.EnvEgressProxyURL:    endpoints.egressProxyURL,
+			}},
 			yacynodeassembly.LoadServiceConfig,
 			yacynodeassembly.ListenersFor,
 			yacynodeassembly.RunService,
 		),
 		serviceAssemblyOf(
 			yacydhtsearchService,
-			serviceenvironment.Wiring{
-				yacydhtsearchassembly.EnvNetworkName:  cfg.NetworkName,
-				yacydhtsearchassembly.EnvSeedlistURLs: cfg.SeedlistURLs,
-			},
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				yacydhtsearchassembly.EnvNetworkName:    cfg.NetworkName,
+				yacydhtsearchassembly.EnvSeedlistURLs:   cfg.SeedlistURLs,
+				yacydhtsearchassembly.EnvEgressProxyURL: endpoints.egressProxyURL,
+			}},
 			yacydhtsearchassembly.LoadServiceConfig,
 			yacydhtsearchassembly.ListenersFor,
 			yacydhtsearchassembly.RunService,
 		),
 		serviceAssemblyOf(
 			corpustextService,
-			serviceenvironment.Wiring{
-				corpustextassembly.EnvPageOfferNATSURL: natsURL,
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				corpustextassembly.EnvPageOfferNATSURL: endpoints.natsURL,
 				corpustextassembly.EnvPageOfferDurable: corpustextService,
 				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextService),
-			},
+			}},
 			corpustextassembly.LoadServiceConfig,
 			corpustextassembly.ListenersFor,
 			corpustextassembly.RunService,
 		),
 		serviceAssemblyOf(
 			corpusmarkdownService,
-			serviceenvironment.Wiring{
-				corpusmarkdownassembly.EnvPageOfferNATSURL: natsURL,
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				corpusmarkdownassembly.EnvPageOfferNATSURL: endpoints.natsURL,
 				corpusmarkdownassembly.EnvPageOfferDurable: corpusmarkdownService,
 				corpusmarkdownassembly.EnvPageMarkdownDirectory: cfg.directoryOf(
 					corpusmarkdownService,
 				),
-			},
+			}},
 			corpusmarkdownassembly.LoadServiceConfig,
 			corpusmarkdownassembly.ListenersFor,
 			corpusmarkdownassembly.RunService,
 		),
+	}
+}
+
+func crawlServiceAssembliesFor(cfg PeerConfig, endpoints localEndpoints) []serviceAssembly {
+	return []serviceAssembly{
+		serviceAssemblyOf(
+			yacycrawlerService,
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				yacycrawlerassembly.EnvCrawlNATSURL:  endpoints.natsURL,
+				yacycrawlerassembly.EnvCrawlStateDir: cfg.directoryOf(yacycrawlerService),
+				yacycrawlerassembly.EnvProxyURL:      endpoints.egressProxyURL,
+				yacycrawlerassembly.EnvProxyDialMode: fetchProxyDialMode,
+				yacycrawlerassembly.EnvAPIAddr:       endpoints.crawlerAPIAddress(),
+			}},
+			yacycrawlerassembly.LoadServiceConfig,
+			crawlerListenersOn(endpoints.crawlerAPI),
+			yacycrawlerassembly.RunService,
+		),
+		serviceAssemblyOf(
+			pagescrapeService,
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				pagescrapeassembly.EnvScrapeNATSURL: endpoints.natsURL,
+				pagescrapeassembly.EnvProxyURL:      endpoints.egressProxyURL,
+				pagescrapeassembly.EnvProxyDialMode: fetchProxyDialMode,
+			}},
+			pagescrapeassembly.LoadServiceConfig,
+			pagescrapeassembly.ListenersFor,
+			pagescrapeassembly.RunService,
+		),
+		serviceAssemblyOf(
+			crawlconsoleService,
+			serviceenvironment.PeerSettings{
+				Wired: map[string]string{
+					crawlconsoleassembly.EnvCrawlerAPIURL: endpoints.crawlerAPIURL(),
+				},
+				Defaults: map[string]string{
+					crawlconsoleassembly.EnvListenAddr: crawlconsoleListenAddr,
+				},
+			},
+			crawlconsoleassembly.LoadServiceConfig,
+			crawlconsoleassembly.ListenersFor,
+			crawlconsoleassembly.RunService,
+		),
+		serviceAssemblyOf(
+			crawlscrapebridgeService,
+			serviceenvironment.PeerSettings{Wired: map[string]string{
+				crawlscrapebridgeassembly.EnvCrawlNATSURL:         endpoints.natsURL,
+				crawlscrapebridgeassembly.EnvScrapeRequestNATSURL: endpoints.natsURL,
+			}},
+			crawlscrapebridgeassembly.LoadServiceConfig,
+			crawlscrapebridgeassembly.ListenersFor,
+			crawlscrapebridgeassembly.RunService,
+		),
+	}
+}
+
+func crawlerListenersOn(
+	api net.Listener,
+) func(context.Context, yacycrawlerassembly.ServiceConfig) (yacycrawlerassembly.Listeners, error) {
+	return func(context.Context, yacycrawlerassembly.ServiceConfig) (yacycrawlerassembly.Listeners, error) {
+		return yacycrawlerassembly.Listeners{API: api}, nil
 	}
 }
 
@@ -116,13 +212,13 @@ func (cfg PeerConfig) directoryOf(serviceName string) string {
 
 func serviceAssemblyOf[C, L any](
 	name string,
-	wiring serviceenvironment.Wiring,
+	peer serviceenvironment.PeerSettings,
 	loadServiceConfig func(func(string) string) (C, error),
 	listenersFor func(context.Context, C) (L, error),
 	runService func(context.Context, C, L, *prometheus.Registry) error,
 ) serviceAssembly {
 	return func(ctx context.Context, getenv func(string) string) (service, error) {
-		environment, err := serviceenvironment.For(name, wiring, unreadSettings, getenv)
+		environment, err := serviceenvironment.For(name, peer, unreadSettings, getenv)
 		if err != nil {
 			return service{}, err
 		}

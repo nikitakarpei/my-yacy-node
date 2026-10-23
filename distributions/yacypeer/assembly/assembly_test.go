@@ -25,12 +25,12 @@ func peerEnvironment(t *testing.T) map[string]string {
 	return map[string]string{
 		yacypeerassembly.EnvDataDirectory:            t.TempDir(),
 		yacypeerassembly.EnvSeedlistURLs:             "http://127.0.0.1:1/seed.txt",
-		"EGRESS_PROXY_URL":                           "http://127.0.0.1:1",
 		"YACY_ADVERTISE_HOST":                        "127.0.0.1",
 		"YACYNODE__YACY_PEER_ADDR":                   freeAddress(t),
 		"YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR":   anyLoopbackPort,
 		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":         anyLoopbackPort,
 		"CORPUSMARKDOWN__CORPUSMARKDOWN_LISTEN_ADDR": anyLoopbackPort,
+		"CRAWLCONSOLE_LISTEN_ADDR":                   freeAddress(t),
 	}
 }
 
@@ -58,9 +58,13 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 	}()
 
 	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
+	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
 	opsURL := "http://" + ops.Addr().String()
 	awaitAnswer(t, opsURL+"/metrics", "go_goroutines")
-	for _, service := range []string{"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown"} {
+	for _, service := range []string{
+		"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown",
+		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge",
+	} {
 		awaitAnswer(t, opsURL+"/metrics/"+service, service+"_info 1")
 	}
 
@@ -76,6 +80,17 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
 	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL") {
 		t.Errorf("RunPeer = %v, want the overridden wiring named", err)
+	}
+}
+
+func TestRunPeerRefusesAnOutsideEgressProxy(t *testing.T) {
+	env := peerEnvironment(t)
+	env["EGRESS_PROXY_URL"] = "http://elsewhere:4750"
+	cfg, ops := peerFrom(t, env)
+
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+	if err == nil || !strings.Contains(err.Error(), "EGRESS_PROXY_URL") {
+		t.Errorf("RunPeer = %v, want the outside egress proxy named", err)
 	}
 }
 
