@@ -28,7 +28,8 @@ vendors:
       - github.com/nats-io/nats-server/v2/**
   smokescreen:
     in:
-      - github.com/stripe/smokescreen/pkg/smokescreen/**
+      - github.com/stripe/smokescreen/pkg/smokescreen
+      - github.com/stripe/smokescreen/pkg/smokescreen/conntrack
   logrus:
     in:
       - github.com/sirupsen/logrus
