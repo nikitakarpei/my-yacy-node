@@ -74,11 +74,19 @@ func TestLoadServiceConfigOverridesUserAgent(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
+func TestLoadServiceConfigLeavesTheCrawlNATSURLUnsetToServeItsOwnBroker(t *testing.T) {
 	env := baseEnv()
 	delete(env, "CRAWL_NATS_URL")
-	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("missing CRAWL_NATS_URL should error")
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.CrawlNATSURL != "" {
+		t.Fatalf("crawl nats url = %q", cfg.CrawlNATSURL)
+	}
+	if cfg.NATSServer.Addr != yacycrawler.DefaultNATSAddr ||
+		cfg.NATSServer.StoreDir != yacycrawler.DefaultNATSStoreDir {
+		t.Fatalf("nats server = %+v", cfg.NATSServer)
 	}
 }
 
@@ -120,12 +128,17 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_FETCH_CONCURRENCY"] = "8"
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
+	env["YACYCRAWLER_NATS_ADDR"] = ":4333"
+	env["YACYCRAWLER_NATS_STORE_DIR"] = "/data"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
 	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second {
 		t.Fatalf("overrides not applied: %+v", cfg)
+	}
+	if cfg.NATSServer.Addr != ":4333" || cfg.NATSServer.StoreDir != "/data" {
+		t.Fatalf("nats server = %+v", cfg.NATSServer)
 	}
 }
 

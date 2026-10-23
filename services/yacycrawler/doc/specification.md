@@ -23,6 +23,7 @@ a more capable host than an always-on node.
 
 ## Functional Requirements
 
+* With no NATS server configured, the service SHALL serve its own on the configured address.
 * The service SHALL idle until a crawl order arrives, then accept it.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
@@ -76,3 +77,4 @@ a more capable host than an always-on node.
   interested consumer and each consumer can see a different page than the crawler saw.
 * A durable crawled-page consumer that no one reads stops the crawl until an operator
   removes it.
+* Instances that each serve their own NATS server share no order stream and no run.

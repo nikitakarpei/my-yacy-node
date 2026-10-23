@@ -7,6 +7,7 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
 )
@@ -45,6 +46,7 @@ type ServiceConfig struct {
 	RecrawlGrace       time.Duration
 	OpsAddr            string
 	UserAgent          string
+	NATSServer         jetstreamserver.Config
 }
 
 func (cfg ServiceConfig) SuppressesRecrawl() bool {

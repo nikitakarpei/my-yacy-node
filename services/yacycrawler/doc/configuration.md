@@ -6,7 +6,9 @@ The crawler is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_NATS_URL` | required | NATS server the crawler consumes crawl orders from and publishes crawled pages to. |
+| `CRAWL_NATS_URL` | unset | NATS server the crawler consumes crawl orders from and publishes crawled pages to. When it is unset, the crawler serves its own NATS server. |
+| `YACYCRAWLER_NATS_ADDR` | `127.0.0.1:4223` | Address of the NATS server the crawler serves. Order sources and page consumers connect to this address. |
+| `YACYCRAWLER_NATS_STORE_DIR` | `./yacycrawler-nats` | Directory where the NATS server the crawler serves keeps its streams. |
 | `CRAWL_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `CRAWL_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
 

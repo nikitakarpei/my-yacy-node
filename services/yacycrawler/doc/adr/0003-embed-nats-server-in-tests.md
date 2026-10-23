@@ -4,7 +4,7 @@ Date: 2026-07-06
 
 ## Status
 
-Accepted
+Accepted. Amended by [17. Serve the crawl broker when no NATS server is configured](0017-serve-the-crawl-broker-when-no-nats-server-is-configured.md)
 
 ## Context
 

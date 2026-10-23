@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamserver"
 )
 
 const (
@@ -25,6 +26,8 @@ const (
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_FETCH_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
+	EnvNATSAddr      = "YACYCRAWLER_NATS_ADDR"
+	EnvNATSStoreDir  = "YACYCRAWLER_NATS_STORE_DIR"
 )
 
 const (
@@ -37,13 +40,11 @@ const (
 	DefaultUserAgent          = "yacycrawler (+https://yacy.net)"
 	DefaultProxyDialMode      = "tunnel"
 	DefaultRecrawlGrace       = time.Hour
+	DefaultNATSAddr           = "127.0.0.1:4223"
+	DefaultNATSStoreDir       = "./yacycrawler-nats"
 )
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 	crawlStateRedis, err := crawlStateRedisFromEnv(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -66,7 +67,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:    crawlNATSURL,
+		CrawlNATSURL:    envconfig.String(getenv, EnvCrawlNATSURL, ""),
 		CrawlStateRedis: crawlStateRedis,
 		CrawlOrdersSubject: envconfig.String(
 			getenv,
@@ -86,6 +87,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RecrawlGrace:     recrawlGrace,
 		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		NATSServer: jetstreamserver.Config{
+			Addr:     envconfig.String(getenv, EnvNATSAddr, DefaultNATSAddr),
+			StoreDir: envconfig.String(getenv, EnvNATSStoreDir, DefaultNATSStoreDir),
+		},
 	}, nil
 }
 

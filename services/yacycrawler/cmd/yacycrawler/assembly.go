@@ -15,6 +15,7 @@ import (
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -74,6 +75,24 @@ func RunService(
 	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
+	if cfg.CrawlNATSURL != "" {
+		return runCrawler(ctx, cfg.CrawlNATSURL, cfg, listeners, registry)
+	}
+	server, err := jetstreamserver.Start(cfg.NATSServer)
+	if err != nil {
+		return err
+	}
+	defer server.Shutdown()
+	return runCrawler(ctx, server.ClientURL(), cfg, listeners, registry)
+}
+
+func runCrawler(
+	ctx context.Context,
+	crawlNATSURL string,
+	cfg ServiceConfig,
+	listeners Listeners,
+	registry *prometheus.Registry,
+) error {
 	crawlOrderObservers := orderintake.CrawlOrderObservers{
 		crawlorderobserversapplog.CrawlOrderLog{}, crawlorderobserversprometheus.New(registry),
 	}
@@ -107,7 +126,7 @@ func RunService(
 		pagevisitrecordobserversapplog.PageVisitRecordLog{},
 		pagevisitrecordobserversprometheus.New(registry),
 	}
-	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
+	js, connection, err := jetstreamconnect.Open(crawlNATSURL)
 	if err != nil {
 		return err
 	}
@@ -150,6 +169,7 @@ func RunService(
 
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.CrawlOrdersSubject),
+		slog.String("nats", crawlNATSURL),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,
