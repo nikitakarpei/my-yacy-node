@@ -56,7 +56,7 @@ func relayed(
 	t.Helper()
 	return crawledpagerelay.NewCrawledPageRelay(scrapeRequests, relayConcurrency).Run(
 		context.Background(),
-		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(message)),
+		pullintake.MessageQueueOf(pullintaketest.MessageSourceOf(message)),
 	)
 }
 

@@ -82,7 +82,7 @@ func relayCrawledPages(
 		return nil
 	}
 	defer pages.Close()
-	if err := relay.Run(ctx, pullintake.PendingMessagesOf(pages.consumer)); err != nil {
+	if err := relay.Run(ctx, pullintake.MessageQueueOf(pages.consumer)); err != nil {
 		return fmt.Errorf("relay crawled pages: %w", err)
 	}
 	return nil

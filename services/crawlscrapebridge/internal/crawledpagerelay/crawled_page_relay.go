@@ -26,7 +26,7 @@ func NewCrawledPageRelay(scrapeRequests ScrapeRequests, concurrency int) *Crawle
 	return &CrawledPageRelay{scrapeRequests: scrapeRequests, concurrency: concurrency}
 }
 
-func (r *CrawledPageRelay) Run(ctx context.Context, crawledPages pullintake.PendingMessages) error {
+func (r *CrawledPageRelay) Run(ctx context.Context, crawledPages pullintake.MessageQueue) error {
 	return pullintake.Run(ctx, crawledPages, r.concurrency, r.relay)
 }
 
