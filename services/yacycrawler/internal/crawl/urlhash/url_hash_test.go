@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/urlhash"
 )
 
 func TestOneURLHasOneHash(t *testing.T) {

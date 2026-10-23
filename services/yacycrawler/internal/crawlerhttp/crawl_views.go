@@ -8,8 +8,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlprogress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawls"
 )
 
 type crawlStores struct {

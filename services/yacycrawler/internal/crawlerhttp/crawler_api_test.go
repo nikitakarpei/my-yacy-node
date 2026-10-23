@@ -19,10 +19,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlprogress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttp"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
 )
 
 var errServerDown = errors.New("server down")

@@ -37,21 +37,23 @@ components:
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
   pagevisitrecords:
-    in: internal/pagevisitrecords/**
+    in: internal/crawl/pagevisitrecords/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
   urlhash:
-    in: internal/urlhash/**
+    in: internal/crawl/urlhash/**
   vaultkeyparts:
-    in: internal/vaultkeyparts/**
+    in: internal/crawl/vaultkeyparts/**
   crawls:
-    in: internal/crawls/**
+    in: internal/crawl/crawls/**
   frontier:
-    in: internal/frontier/**
+    in: internal/crawl/frontier/**
   crawlprogress:
-    in: internal/crawlprogress/**
+    in: internal/crawl/crawlprogress/**
   pagevisitlimits:
-    in: internal/pagevisitlimits/**
+    in: internal/crawl/pagevisitlimits/**
+  crawlfinishing:
+    in: internal/crawl/crawlfinishing/**
   crawlorderobserversapplog:
     in: internal/crawlorderobservers/applog/**
   crawlorderobserversprometheus:
@@ -60,8 +62,6 @@ components:
     in: internal/pendingpagevisitobservers/applog/**
   frontierobserversapplog:
     in: internal/frontierobservers/applog/**
-  crawlfinishing:
-    in: internal/crawlfinishing/**
   crawlfinishingobserversapplog:
     in: internal/crawlfinishingobservers/applog/**
   crawlprogressobserversapplog:

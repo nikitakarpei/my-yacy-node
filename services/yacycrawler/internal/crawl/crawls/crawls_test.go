@@ -17,7 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawls"
 )
 
 const retention = 7 * 24 * time.Hour

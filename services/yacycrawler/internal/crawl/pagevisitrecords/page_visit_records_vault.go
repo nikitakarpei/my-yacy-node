@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/urlhash"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const pageVisitsBucket = "page_visit_records"
