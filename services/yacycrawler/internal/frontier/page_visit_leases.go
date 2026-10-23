@@ -49,7 +49,7 @@ func (leases pageVisitLeases) leaseNextPageVisit(
 	}
 	if err := leases.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		leasedPageVisit, leased, err = leases.leaseHeadOf(tx, head.crawlID, now)
+		leasedPageVisit, leased, err = leases.leaseDueVisitOf(tx, head.crawlID, now)
 		return err
 	}); err != nil {
 		leases.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease a due page visit: %w", err))
@@ -77,7 +77,7 @@ func (leases pageVisitLeases) firstHeadDue(
 	return head, due, nil
 }
 
-func (leases pageVisitLeases) leaseHeadOf(
+func (leases pageVisitLeases) leaseDueVisitOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	now time.Time,
@@ -94,21 +94,33 @@ func (leases pageVisitLeases) leaseHeadOf(
 	if err != nil {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	if !pending {
-		return pendingpagevisit.LeasedPageVisit{}, false, leases.heads.remove(tx, crawlID)
-	}
-	if first.due > now.Unix() {
-		return pendingpagevisit.LeasedPageVisit{}, false, leases.heads.moveTo(
+	if !pending || first.due > now.Unix() {
+		return pendingpagevisit.LeasedPageVisit{}, false, leases.alignHeadFrom(
 			tx,
 			crawlID,
-			first.position(),
+			headPosition,
 		)
 	}
 	leasedPageVisit, err := leases.leaseIn(tx, first.key, now)
 	if err != nil {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
-	return leasedPageVisit, true, leases.rescheduleFrom(tx, crawlID, first.position())
+	return leasedPageVisit, true, leases.alignHeadFrom(tx, crawlID, first.position())
+}
+
+func (leases pageVisitLeases) alignHeadFrom(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	position duePosition,
+) error {
+	first, pending, err := leases.ledger.firstDueFrom(tx, crawlID, position)
+	if err != nil {
+		return err
+	}
+	if !pending {
+		return leases.heads.remove(tx, crawlID)
+	}
+	return leases.heads.moveTo(tx, crawlID, first.position())
 }
 
 func (leases pageVisitLeases) leaseIn(
@@ -136,18 +148,6 @@ func secondsAtOrAfter(at time.Time) int64 {
 		seconds++
 	}
 	return seconds
-}
-
-func (leases pageVisitLeases) rescheduleFrom(
-	tx *vault.Txn,
-	crawlID crawlid.CrawlID,
-	position duePosition,
-) error {
-	first, pending, err := leases.ledger.firstDueFrom(tx, crawlID, position)
-	if err != nil || !pending {
-		return err
-	}
-	return leases.heads.moveTo(tx, crawlID, first.position())
 }
 
 func (leases pageVisitLeases) settle(
@@ -215,5 +215,5 @@ func (leases pageVisitLeases) unschedule(tx *vault.Txn, crawlID crawlid.CrawlID)
 }
 
 func (leases pageVisitLeases) reschedule(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	return leases.rescheduleFrom(tx, crawlID, earliestPosition)
+	return leases.alignHeadFrom(tx, crawlID, earliestPosition)
 }
