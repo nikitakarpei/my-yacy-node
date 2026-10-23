@@ -5,13 +5,13 @@ import (
 	"errors"
 	"net"
 	"net/url"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
-	"github.com/alicebob/miniredis/v2"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/redis/go-redis/v9"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
@@ -26,7 +26,7 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	crawlNATSURL := natstestserver.Start(t)
 	cfg := yacycrawler.ServiceConfig{
 		CrawlNATSURL:       crawlNATSURL,
-		CrawlStateRedis:    &redis.Options{Addr: miniredis.RunT(t).Addr()},
+		CrawlStateDir:      filepath.Join(t.TempDir(), "crawl-state"),
 		CrawlOrdersSubject: yacycrawler.DefaultCrawlOrdersSubject,
 		CrawlOrdersDurable: yacycrawler.DefaultCrawlOrdersDurable,
 		ProxyURL:           proxy,
@@ -60,10 +60,14 @@ func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	}
 }
 
-func TestRunServiceRejectsAnUnreachableCrawlStateServer(t *testing.T) {
+func TestRunServiceRejectsACrawlStateDirectoryItCannotOpen(t *testing.T) {
+	notADirectory := filepath.Join(t.TempDir(), "file")
+	if err := os.WriteFile(notADirectory, nil, 0o600); err != nil {
+		t.Fatal(err)
+	}
 	cfg := yacycrawler.ServiceConfig{
 		CrawlNATSURL:       natstestserver.Start(t),
-		CrawlStateRedis:    &redis.Options{Addr: "127.0.0.1:1"},
+		CrawlStateDir:      filepath.Join(notADirectory, "crawl-state"),
 		CrawlOrdersSubject: yacycrawler.DefaultCrawlOrdersSubject,
 		FetchConcurrency:   2,
 		FetchDeadline:      time.Second,
@@ -71,7 +75,7 @@ func TestRunServiceRejectsAnUnreachableCrawlStateServer(t *testing.T) {
 	listeners := yacycrawler.Listeners{Ops: listenerFor(t)}
 	registry := prometheus.NewRegistry()
 	if err := yacycrawler.RunService(context.Background(), cfg, listeners, registry); err == nil {
-		t.Fatal("a Redis address that does not answer should fail")
+		t.Fatal("a crawl state directory the crawler cannot open should fail")
 	}
 }
 

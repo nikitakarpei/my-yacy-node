@@ -11,7 +11,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/kvrocks"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -23,7 +22,6 @@ const (
 
 func startCrawlers(t *testing.T, ctx context.Context, networkName string, count int) {
 	t.Helper()
-	kvrocks.Start(t, ctx, networkName)
 	for instance := range count {
 		startCrawlerNamed(t, ctx, networkName, fmt.Sprintf("%s-%d", crawlerAlias, instance))
 	}
@@ -39,7 +37,6 @@ func startCrawlerNamed(t *testing.T, ctx context.Context, networkName string, al
 			NetworkAliases: map[string][]string{networkName: {alias}},
 			Env: map[string]string{
 				"CRAWL_NATS_URL":                natsjetstream.NetworkURL(),
-				"CRAWL_STATE_REDIS_URL":         kvrocks.NetworkURL(),
 				"YACYCRAWLER_FETCH_PROXY_URL":   egressproxy.NetworkURL(),
 				"YACYCRAWLER_FETCH_CONCURRENCY": "1",
 				"LOG_LEVEL":                     "debug",

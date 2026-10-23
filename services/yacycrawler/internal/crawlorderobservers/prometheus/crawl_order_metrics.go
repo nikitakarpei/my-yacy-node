@@ -4,6 +4,8 @@ import (
 	"context"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 )
 
 const labelOutcome = "outcome"
@@ -27,6 +29,11 @@ func (metrics *CrawlOrderMetrics) CrawlOrderReturned(context.Context, string, er
 	metrics.ordersProcessed.WithLabelValues("returned").Inc()
 }
 
-func (metrics *CrawlOrderMetrics) CrawlOrderAccepted(context.Context, string, int) {
+func (metrics *CrawlOrderMetrics) CrawlOrderAccepted(
+	context.Context,
+	string,
+	crawlid.CrawlID,
+	int,
+) {
 	metrics.ordersProcessed.WithLabelValues("accepted").Inc()
 }

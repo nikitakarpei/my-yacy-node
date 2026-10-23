@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/redis/go-redis/v9"
-
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 )
 
 const (
 	EnvCrawlNATSURL       = "CRAWL_NATS_URL"
-	EnvCrawlStateRedisURL = "CRAWL_STATE_REDIS_URL"
+	EnvCrawlStateDir      = "CRAWL_STATE_DIR"
 	EnvCrawlOrdersSubject = "CRAWL_ORDERS_SUBJECT"
 	EnvCrawlOrdersDurable = "CRAWL_ORDERS_DURABLE"
 
@@ -25,6 +24,12 @@ const (
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_FETCH_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
+
+	EnvCrawlStatePebbleBlockCache            = "CRAWL_STATE_PEBBLE_BLOCK_CACHE"
+	EnvCrawlStatePebbleMemtableSize          = "CRAWL_STATE_PEBBLE_MEMTABLE_SIZE"
+	EnvCrawlStatePebbleCompactionConcurrency = "CRAWL_STATE_PEBBLE_COMPACTION_CONCURRENCY"
+	EnvCrawlStatePebbleOpenFileLimit         = "CRAWL_STATE_PEBBLE_OPEN_FILE_LIMIT"
+	EnvCrawlStatePebbleWriteConcurrency      = "CRAWL_STATE_PEBBLE_WRITE_CONCURRENCY"
 )
 
 const (
@@ -37,6 +42,13 @@ const (
 	DefaultUserAgent          = "yacycrawler (+https://yacy.net)"
 	DefaultProxyDialMode      = "tunnel"
 	DefaultRecrawlGrace       = time.Hour
+
+	DefaultCrawlStateDir                         = "./crawl-state"
+	DefaultCrawlStatePebbleBlockCache            = "64MB"
+	DefaultCrawlStatePebbleMemtableSize          = "16MB"
+	DefaultCrawlStatePebbleCompactionConcurrency = 1
+	DefaultCrawlStatePebbleOpenFileLimit         = 1000
+	DefaultCrawlStatePebbleWriteConcurrency      = 16
 )
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -44,7 +56,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	crawlStateRedis, err := crawlStateRedisFromEnv(getenv)
+	crawlStateLimits, err := loadCrawlStateLimits(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -66,8 +78,9 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:    crawlNATSURL,
-		CrawlStateRedis: crawlStateRedis,
+		CrawlNATSURL:     crawlNATSURL,
+		CrawlStateDir:    envconfig.String(getenv, EnvCrawlStateDir, DefaultCrawlStateDir),
+		CrawlStateLimits: crawlStateLimits,
 		CrawlOrdersSubject: envconfig.String(
 			getenv,
 			EnvCrawlOrdersSubject,
@@ -120,16 +133,47 @@ func loadFetchLimits(getenv func(string) string) (fetchLimits, error) {
 	}, nil
 }
 
-func crawlStateRedisFromEnv(getenv func(string) string) (*redis.Options, error) {
-	crawlStateRedisURL, err := envconfig.Required(getenv, EnvCrawlStateRedisURL)
+func loadCrawlStateLimits(getenv func(string) string) (pebblevault.MachineLimits, error) {
+	blockCache, err := envconfig.ByteSize(
+		getenv, EnvCrawlStatePebbleBlockCache, DefaultCrawlStatePebbleBlockCache,
+	)
 	if err != nil {
-		return nil, err
+		return pebblevault.MachineLimits{}, err
 	}
-	options, err := redis.ParseURL(crawlStateRedisURL)
+	memtable, err := envconfig.ByteSize(
+		getenv, EnvCrawlStatePebbleMemtableSize, DefaultCrawlStatePebbleMemtableSize,
+	)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %w", EnvCrawlStateRedisURL, err)
+		return pebblevault.MachineLimits{}, err
 	}
-	return options, nil
+	compactionConcurrency, err := envconfig.PositiveInt(
+		getenv,
+		EnvCrawlStatePebbleCompactionConcurrency,
+		DefaultCrawlStatePebbleCompactionConcurrency,
+	)
+	if err != nil {
+		return pebblevault.MachineLimits{}, err
+	}
+	openFileLimit, err := envconfig.PositiveInt(
+		getenv, EnvCrawlStatePebbleOpenFileLimit, DefaultCrawlStatePebbleOpenFileLimit,
+	)
+	if err != nil {
+		return pebblevault.MachineLimits{}, err
+	}
+	writeConcurrency, err := envconfig.PositiveInt(
+		getenv, EnvCrawlStatePebbleWriteConcurrency, DefaultCrawlStatePebbleWriteConcurrency,
+	)
+	if err != nil {
+		return pebblevault.MachineLimits{}, err
+	}
+
+	return pebblevault.MachineLimits{
+		BlockCacheBytes:       blockCache,
+		MemtableBytes:         memtable,
+		CompactionConcurrency: compactionConcurrency,
+		OpenFileLimit:         openFileLimit,
+		WriteConcurrency:      writeConcurrency,
+	}, nil
 }
 
 func proxyDialModeFromEnv(getenv func(string) string) (http.ProxyDialMode, error) {

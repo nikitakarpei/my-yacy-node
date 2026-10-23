@@ -4,7 +4,7 @@ Date: 2026-10-11
 
 ## Status
 
-Accepted
+Superseded by [17. Keep crawl state in a vault on Pebble](0017-keep-crawl-state-in-a-vault-on-pebble.md)
 
 ## Context
 

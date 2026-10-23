@@ -10,7 +10,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
@@ -20,39 +22,43 @@ import (
 
 type TakenPageVisits interface {
 	TakePageVisit(
-		ctx context.Context,
-		orderID string,
+		tx *vault.Txn,
+		crawlID crawlid.CrawlID,
 		url canonicalurl.CanonicalURL,
 		taker string,
 	) (bool, error)
 }
 
 type PageVisitAllowances interface {
-	HostPageFor(
+	TakePageOfHost(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 		maxPages int,
 	) (pagevisitallowance.Allowance, error)
-	DeferralFor(
+	TakeDeferral(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 		deferFor time.Duration,
 	) (pagevisitallowance.Allowance, error)
-	AnotherAttemptFor(
+	TakeAttempt(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 	) (pagevisitallowance.Allowance, error)
 }
 
-type AcceptedOrders interface {
-	OrderOf(ctx context.Context, orderID string) (acceptedorder.AcceptedOrder, error)
+type Crawls interface {
+	OrderOf(
+		tx *vault.Txn,
+		crawlID crawlid.CrawlID,
+	) (order acceptedorder.AcceptedOrder, found bool, err error)
 }
 
 type PageVisitConsumer struct {
+	storage           *vault.Vault
 	pendingPageVisits pullintake.PendingMessages
 	takenPageVisits   TakenPageVisits
 	allowances        PageVisitAllowances
-	orders            AcceptedOrders
+	crawls            Crawls
 	pageVisitor       pagevisit.PageVisitor
 	observer          PendingPageVisitObserver
 	admission         pullintake.Admission
@@ -61,20 +67,22 @@ type PageVisitConsumer struct {
 
 //nolint:revive // a consumer names every collaborator it visits a page with
 func NewPageVisitConsumer(
+	storage *vault.Vault,
 	pendingPageVisits pullintake.PendingMessages,
 	takenPageVisits TakenPageVisits,
 	allowances PageVisitAllowances,
-	orders AcceptedOrders,
+	crawls Crawls,
 	pageVisitor pagevisit.PageVisitor,
 	observer PendingPageVisitObserver,
 	admission pullintake.Admission,
 	fetchConcurrency int,
 ) *PageVisitConsumer {
 	return &PageVisitConsumer{
+		storage:           storage,
 		pendingPageVisits: pendingPageVisits,
 		takenPageVisits:   takenPageVisits,
 		allowances:        allowances,
-		orders:            orders,
+		crawls:            crawls,
 		pageVisitor:       pageVisitor,
 		observer:          observer,
 		admission:         admission,
@@ -96,9 +104,13 @@ func (c *PageVisitConsumer) payPageVisit(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	order, err := c.orders.OrderOf(ctx, pendingPageVisit.OrderID)
+	order, found, err := c.orderOf(ctx, pendingPageVisit.CrawlID)
 	if err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
+		return nil
+	}
+	if !found {
+		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.OrderForgotten)
 		return nil
 	}
 	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
@@ -107,6 +119,20 @@ func (c *PageVisitConsumer) payPageVisit(
 	outcome := c.pageVisitor.VisitPage(ctx, order, pendingPageVisit)
 	c.carryOutConclusion(ctx, message, pendingPageVisit, outcome)
 	return nil
+}
+
+func (c *PageVisitConsumer) orderOf(
+	ctx context.Context,
+	crawlID crawlid.CrawlID,
+) (acceptedorder.AcceptedOrder, bool, error) {
+	var order acceptedorder.AcceptedOrder
+	var found bool
+	err := c.storage.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		order, found, err = c.crawls.OrderOf(tx, crawlID)
+		return err
+	})
+	return order, found, err
 }
 
 func (c *PageVisitConsumer) returnPageVisit(
@@ -125,10 +151,14 @@ func (c *PageVisitConsumer) takePageVisit(
 	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	took, err := c.takenPageVisits.TakePageVisit(
-		ctx, pendingPageVisit.OrderID, pendingPageVisit.URL, message.Identity(),
-	)
-	if err != nil {
+	var took bool
+	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		took, err = c.takenPageVisits.TakePageVisit(
+			tx, pendingPageVisit.CrawlID, pendingPageVisit.URL, message.Identity(),
+		)
+		return err
+	}); err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return false
 	}
@@ -155,7 +185,7 @@ func (c *PageVisitConsumer) holdsHostPage(
 	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	allowance, err := c.allowances.HostPageFor(ctx, pendingPageVisit, order.MaxPagesPerHost())
+	allowance, err := c.allowances.TakePageOfHost(ctx, pendingPageVisit, order.MaxPagesPerHost())
 	return c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err)
 }
 
@@ -213,7 +243,7 @@ func (c *PageVisitConsumer) deferPageVisit(
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) {
-	allowance, err := c.allowances.DeferralFor(ctx, pendingPageVisit, deferFor)
+	allowance, err := c.allowances.TakeDeferral(ctx, pendingPageVisit, deferFor)
 	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
 		return
 	}
@@ -226,7 +256,7 @@ func (c *PageVisitConsumer) retryPageVisit(
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) {
-	allowance, err := c.allowances.AnotherAttemptFor(ctx, pendingPageVisit)
+	allowance, err := c.allowances.TakeAttempt(ctx, pendingPageVisit)
 	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
 		return
 	}

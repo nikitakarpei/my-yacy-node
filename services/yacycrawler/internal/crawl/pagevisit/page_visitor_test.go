@@ -9,8 +9,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
@@ -23,9 +26,12 @@ import (
 const (
 	orderID              = "o1"
 	pageLinkingNext      = `<html><body><a href="/next">next</a></body></html>`
+	pageLinkingTwoPages  = `<html><body><a href="/one">one</a><a href="/two">two</a></body></html>`
 	pageRefusingIndexing = `<html><head><meta name="robots" content="noindex">` +
 		`</head><body><a href="/next">next</a></body></html>`
 )
+
+var crawlID = crawlid.CrawlID{1}
 
 type fakeFetch struct {
 	outcome    pagefetch.FetchOutcome
@@ -52,13 +58,18 @@ type fakePageVisitRecords struct {
 	due          bool
 	version      pagefetch.PageVersion
 	visitedCalls []visitedCall
+	readErr      error
+	recordErr    error
 }
 
 func (f *fakePageVisitRecords) LastPageVisitOf(
-	context.Context,
+	*vault.Txn,
 	canonicalurl.CanonicalURL,
-) (pagevisit.LastPageVisit, bool) {
-	return pagevisit.LastPageVisit{Version: f.version}, true
+) (pagevisit.LastPageVisit, bool, error) {
+	if f.readErr != nil {
+		return pagevisit.LastPageVisit{}, false, f.readErr
+	}
+	return pagevisit.LastPageVisit{Version: f.version}, true, nil
 }
 
 func (f *fakePageVisitRecords) PageDueForRecrawl(pagevisit.LastPageVisit) bool {
@@ -66,11 +77,36 @@ func (f *fakePageVisitRecords) PageDueForRecrawl(pagevisit.LastPageVisit) bool {
 }
 
 func (f *fakePageVisitRecords) RecordPageVisit(
-	_ context.Context,
+	_ *vault.Txn,
 	url canonicalurl.CanonicalURL,
 	version pagefetch.PageVersion,
-) {
+) error {
+	if f.recordErr != nil {
+		return f.recordErr
+	}
 	f.visitedCalls = append(f.visitedCalls, visitedCall{url: url, version: version})
+	return nil
+}
+
+type recordedRecordFailures struct {
+	notRead     []error
+	notRecorded []error
+}
+
+func (f *recordedRecordFailures) LastPageVisitNotRead(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	cause error,
+) {
+	f.notRead = append(f.notRead, cause)
+}
+
+func (f *recordedRecordFailures) PageVisitNotRecorded(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	cause error,
+) {
+	f.notRecorded = append(f.notRecorded, cause)
 }
 
 type fakeCrawledPages struct {
@@ -96,18 +132,20 @@ func (f *fakeCrawledPages) PublishIndexingRefusedPage(
 }
 
 type fakeFrontier struct {
-	published []pendingpagevisit.PendingPageVisit
-	err       error
+	published    []pendingpagevisit.PendingPageVisit
+	publications int
+	err          error
 }
 
-func (f *fakeFrontier) Publish(
-	_ context.Context,
-	pageVisit pendingpagevisit.PendingPageVisit,
+func (f *fakeFrontier) Owe(
+	_ *vault.Txn,
+	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
 	if f.err != nil {
 		return f.err
 	}
-	f.published = append(f.published, pageVisit)
+	f.publications++
+	f.published = append(f.published, pageVisits...)
 	return nil
 }
 
@@ -124,6 +162,7 @@ func (page unreadableHTMLPage) ReadingOfPage(
 type pageVisitScene struct {
 	fetch            *fakeFetch
 	pageVisitRecords *fakePageVisitRecords
+	recordFailures   *recordedRecordFailures
 	htmlPageReading  pagevisit.HTMLPageReading
 	crawledPages     *fakeCrawledPages
 	frontier         *fakeFrontier
@@ -134,6 +173,7 @@ func sceneFetching(outcome pagefetch.FetchOutcome) *pageVisitScene {
 	return &pageVisitScene{
 		fetch:            &fakeFetch{outcome: outcome},
 		pageVisitRecords: &fakePageVisitRecords{due: true},
+		recordFailures:   &recordedRecordFailures{},
 		htmlPageReading: pagehtmlreading.NewHTMLPageReading(
 			pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
 			linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
@@ -158,19 +198,31 @@ func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 	if err != nil {
 		t.Fatalf("order: %v", err)
 	}
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, frozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
 	return pagevisit.New(
+		storage,
 		scene.fetch,
 		scene.pageVisitRecords,
 		scene.pageVisitRecords,
+		scene.recordFailures,
 		scene.htmlPageReading,
 		scene.crawledPages,
 		scene.frontier,
 	).VisitPage(t.Context(), order, pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		Depth:   1,
 	})
 }
+
+type frozenClock struct{}
+
+func (frozenClock) Now() time.Time { return time.Unix(1_000_000, 0) }
+
+func (frozenClock) Sleep(context.Context, time.Duration) error { return context.Canceled }
 
 func (scene *pageVisitScene) completedVisit(t *testing.T) pagevisit.PageVisitOutcome {
 	t.Helper()
@@ -204,12 +256,26 @@ func TestAReadPageIsPublishedAndItsLinksGoOnTheFrontier(t *testing.T) {
 		t.Fatalf("want the page published as indexable once, got %v", scene.crawledPages.indexable)
 	}
 	want := pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/next"),
 		Depth:   2,
 	}
 	if len(scene.frontier.published) != 1 || scene.frontier.published[0] != want {
 		t.Fatalf("frontier got %+v, want the link one level deeper", scene.frontier.published)
+	}
+}
+
+func TestTheLinksOfAPageGoOnTheFrontierInOnePublication(t *testing.T) {
+	scene := sceneFetching(fetchedOutcome(pageLinkingTwoPages))
+
+	scene.completedVisit(t)
+
+	if len(scene.frontier.published) != 2 || scene.frontier.publications != 1 {
+		t.Fatalf(
+			"frontier got %d links in %d publications, want 2 in one",
+			len(scene.frontier.published),
+			scene.frontier.publications,
+		)
 	}
 }
 
@@ -252,7 +318,7 @@ func TestARedirectTargetGoesOnTheFrontierAtTheSameDepth(t *testing.T) {
 	if outcome.Result != pagevisitresult.Redirected {
 		t.Fatalf("result = %q, want redirected", outcome.Result)
 	}
-	want := pendingpagevisit.PendingPageVisit{OrderID: orderID, URL: redirectTarget, Depth: 1}
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: redirectTarget, Depth: 1}
 	if len(scene.frontier.published) != 1 || scene.frontier.published[0] != want {
 		t.Fatalf("frontier got %+v, want the redirect target", scene.frontier.published)
 	}
@@ -476,4 +542,36 @@ func (silentRefusalEnforcementObserver) LinkDiscoveryRefusalEnforced(
 	context.Context,
 	canonicalurl.CanonicalURL,
 ) {
+}
+
+func TestALastPageVisitThatCannotBeReadIsReportedAndThePageFetchedAsNeverVisited(t *testing.T) {
+	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
+	unreadable := errors.New("records down")
+	scene.pageVisitRecords.readErr = unreadable
+	scene.pageVisitRecords.due = false
+	scene.pageVisitRecords.version = pagefetch.PageVersion{EntityTag: `"known"`}
+
+	scene.completedVisit(t)
+
+	if !scene.fetch.sawFetch || scene.fetch.gotVersion != (pagefetch.PageVersion{}) {
+		t.Fatalf("fetched %v with version %+v, want a fetch knowing no version",
+			scene.fetch.sawFetch, scene.fetch.gotVersion)
+	}
+	if len(scene.recordFailures.notRead) != 1 ||
+		!errors.Is(scene.recordFailures.notRead[0], unreadable) {
+		t.Fatalf("reported %v, want the unread last page visit", scene.recordFailures.notRead)
+	}
+}
+
+func TestAPageVisitThatCannotBeRecordedIsReported(t *testing.T) {
+	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
+	unrecorded := errors.New("records down")
+	scene.pageVisitRecords.recordErr = unrecorded
+
+	scene.completedVisit(t)
+
+	if len(scene.recordFailures.notRecorded) != 1 ||
+		!errors.Is(scene.recordFailures.notRecorded[0], unrecorded) {
+		t.Fatalf("reported %v, want the unrecorded page visit", scene.recordFailures.notRecorded)
+	}
 }

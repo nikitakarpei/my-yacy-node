@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net"
@@ -11,16 +12,18 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/redis/go-redis/v9"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	acceptedordersredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/observedfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
@@ -34,6 +37,8 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontier"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
 	frontierobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontierobservers/applog"
 	linkresolutionobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/applog"
@@ -42,18 +47,16 @@ import (
 	mediatypeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/prometheus"
 	pagefetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/applog"
 	pagefetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
-	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits"
 	pagevisitrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/applog"
 	pagevisitrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/norecords"
-	pagevisitrecordsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords/redis"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecords"
 	pendingpagevisitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/applog"
 	pendingpagevisitobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/prometheus"
-	pendingpagevisitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisits/redis"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
 	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
-	takenpagevisitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/redis"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits"
 )
 
 const (
@@ -103,7 +106,7 @@ func RunService(
 		crawledpageobserversapplog.CrawledPagePublicationLog{},
 		crawledpageobserversprometheus.New(registry),
 	}
-	pageVisitRecordObservers := pagevisitrecordsredis.PageVisitRecordObservers{
+	pageVisitRecordObservers := pagevisit.PageVisitRecordObservers{
 		pagevisitrecordobserversapplog.PageVisitRecordLog{},
 		pagevisitrecordobserversprometheus.New(registry),
 	}
@@ -115,19 +118,17 @@ func RunService(
 	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
-	redisClient, err := openRedisClient(ctx, cfg)
+	storage, err := openCrawlState(cfg, registry)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = redisClient.Close() }()
-	frontier := pendingpagevisitsredis.New(
-		redisClient,
-		cfg.PendingPageVisitLease(),
-		wallclock.Clock{},
-		frontierobserversapplog.FrontierLog{},
-	)
-	frontiermetricsprometheus.New(registry, frontier)
-	orders, err := buildOrderConsumer(ctx, js, redisClient, frontier, cfg, crawlOrderObservers)
+	defer func() { _ = storage.Close() }()
+	crawlState, err := openCrawlStateStores(ctx, storage, cfg)
+	if err != nil {
+		return err
+	}
+	frontiermetricsprometheus.New(registry, crawlState.frontier)
+	orders, err := buildOrderConsumer(ctx, js, crawlState, cfg, crawlOrderObservers)
 	if err != nil {
 		return err
 	}
@@ -137,15 +138,14 @@ func RunService(
 	}
 	visits := buildPageVisitConsumer(
 		js,
-		redisClient,
-		frontier,
+		crawlState,
 		cfg,
 		crawledPageAdmission,
 		pendingPageVisitObservers,
 		pageFetchObservers,
+		pageVisitRecordObservers,
 		htmlPageReading,
 		crawledPageObservers,
-		pageVisitRecordObservers,
 	)
 
 	slog.InfoContext(ctx, msgServiceStarted,
@@ -205,20 +205,104 @@ func ensureCrawledPagesStream(
 	return nil
 }
 
-func openRedisClient(ctx context.Context, cfg ServiceConfig) (*redis.Client, error) {
-	redisClient := redis.NewClient(cfg.CrawlStateRedis)
-	if err := redisClient.Ping(ctx).Err(); err != nil {
-		_ = redisClient.Close()
-		return nil, fmt.Errorf("%s: %w", EnvCrawlStateRedisURL, err)
+func openCrawlState(
+	cfg ServiceConfig,
+	registry prometheus.Registerer,
+) (*vault.Vault, error) {
+	engine, err := pebblevault.OpenEngine(
+		cfg.CrawlStateDir,
+		0,
+		cfg.CrawlStateLimits,
+		pebblemetrics.NewWriteStallMetrics(registry, metricNamespace),
+		pebblemetrics.NewWriteConflictMetrics(registry, metricNamespace),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", EnvCrawlStateDir, err)
 	}
-	return redisClient, nil
+	pebblemetrics.NewConditionMetrics(registry, metricNamespace, engine)
+	storage, err := vault.New(
+		engine,
+		vaultmetrics.NewTransactionMetrics(registry, metricNamespace),
+		vaultmetrics.NewExpiryMetrics(registry, metricNamespace),
+		wallclock.Clock{},
+	)
+	if err != nil {
+		return nil, errors.Join(err, engine.Close())
+	}
+	vaultmetrics.NewCapacityMetrics(registry, metricNamespace, storage)
+	vaultmetrics.NewBucketRecordMetrics(registry, metricNamespace, storage)
+	return storage, nil
+}
+
+type crawlStateStores struct {
+	storage          *vault.Vault
+	frontier         *frontier.Frontier
+	crawls           *crawls.Crawls
+	takenPageVisits  *takenpagevisits.TakenPageVisits
+	pageVisitLimits  *pagevisitlimits.PageVisitLimits
+	pageVisitRecords pagevisit.PageVisitRecords
+}
+
+func openCrawlStateStores(
+	ctx context.Context,
+	storage *vault.Vault,
+	cfg ServiceConfig,
+) (crawlStateStores, error) {
+	pageVisitFrontier, err := frontier.Open(
+		ctx,
+		storage,
+		cfg.PendingPageVisitLease(),
+		wallclock.Clock{},
+		frontierobserversapplog.FrontierLog{},
+	)
+	if err != nil {
+		return crawlStateStores{}, err
+	}
+	keptCrawls, err := crawls.Open(ctx, storage, cfg.CrawlRetention())
+	if err != nil {
+		return crawlStateStores{}, err
+	}
+	takenPageVisits, err := takenpagevisits.Open(
+		ctx, storage, cfg.TakenPageVisitRetention(),
+	)
+	if err != nil {
+		return crawlStateStores{}, err
+	}
+	pageVisitLimits, err := pagevisitlimits.Open(
+		ctx, storage, cfg.PageVisitLimitRetention(), cfg.MaxPerURL(),
+	)
+	if err != nil {
+		return crawlStateStores{}, err
+	}
+	pageVisitRecords, err := pageVisitRecordsOf(ctx, storage, cfg)
+	if err != nil {
+		return crawlStateStores{}, err
+	}
+	return crawlStateStores{
+		storage:          storage,
+		frontier:         pageVisitFrontier,
+		crawls:           keptCrawls,
+		takenPageVisits:  takenPageVisits,
+		pageVisitLimits:  pageVisitLimits,
+		pageVisitRecords: pageVisitRecords,
+	}, nil
+}
+
+func pageVisitRecordsOf(
+	ctx context.Context,
+	storage *vault.Vault,
+	cfg ServiceConfig,
+) (pagevisit.PageVisitRecords, error) {
+	if !cfg.SuppressesRecrawl() {
+		return pagevisitrecords.None{}, nil
+	}
+	return pagevisitrecords.Open(ctx, storage, wallclock.Clock{}, cfg.PageVisitRetention())
 }
 
 func buildOrderConsumer(
 	ctx context.Context,
 	js jetstream.JetStream,
-	redisClient redis.UniversalClient,
-	frontier *pendingpagevisitsredis.PendingPageVisits,
+	crawlState crawlStateStores,
 	cfg ServiceConfig,
 	observer orderintake.CrawlOrderObserver,
 ) (*orderintake.OrderConsumer, error) {
@@ -227,9 +311,10 @@ func buildOrderConsumer(
 		return nil, err
 	}
 	return orderintake.NewOrderConsumer(
+		crawlState.storage,
 		consumer,
-		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
-		frontier,
+		crawlState.crawls,
+		crawlState.frontier,
 		observer,
 		cfg.OrderIntakeConcurrency(),
 	), nil
@@ -270,31 +355,32 @@ func openCrawledPageAdmission(
 
 func buildPageVisitConsumer(
 	js jetstream.JetStream,
-	redisClient redis.UniversalClient,
-	frontier *pendingpagevisitsredis.PendingPageVisits,
+	crawlState crawlStateStores,
 	cfg ServiceConfig,
 	crawledPageAdmission *consumerbacklog.Admission,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
+	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
-	pageVisitRecordObserver pagevisitrecordsredis.PageVisitRecordObserver,
 ) *pagevisitintake.PageVisitConsumer {
 	pageVisitor := buildPageVisitor(
 		js,
-		redisClient,
-		frontier,
+		crawlState,
 		cfg,
 		pageFetchObserver,
+		pageVisitRecordObserver,
 		htmlPageReading,
 		crawledPageObserver,
-		pageVisitRecordObserver,
 	)
 	return pagevisitintake.NewPageVisitConsumer(
-		frontier,
-		takenpagevisitsredis.New(redisClient, cfg.TakenPageVisitRetention()),
-		pageVisitAllowances(redisClient, cfg),
-		acceptedordersredis.New(redisClient, cfg.AcceptedOrderRetention()),
+		crawlState.storage,
+		crawlState.frontier,
+		crawlState.takenPageVisits,
+		pagevisitallowance.New(
+			crawlState.storage, crawlState.pageVisitLimits, cfg.FetchRetryBounds(),
+		),
+		crawlState.crawls,
 		pageVisitor,
 		pendingPageVisitObserver,
 		crawledPageAdmission,
@@ -302,25 +388,14 @@ func buildPageVisitConsumer(
 	)
 }
 
-func pageVisitAllowances(
-	redisClient redis.UniversalClient,
-	cfg ServiceConfig,
-) *pagevisitallowance.Allowances {
-	return pagevisitallowance.New(
-		pagevisitlimitsredis.New(redisClient, cfg.PageVisitLimitRetention(), cfg.MaxPerURL()),
-		cfg.FetchRetryBounds(),
-	)
-}
-
 func buildPageVisitor(
 	js jetstream.JetStream,
-	redisClient redis.UniversalClient,
-	frontier *pendingpagevisitsredis.PendingPageVisits,
+	crawlState crawlStateStores,
 	cfg ServiceConfig,
 	pageFetchObserver observedfetch.PageFetchObserver,
+	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
-	pageVisitRecordObserver pagevisitrecordsredis.PageVisitRecordObserver,
 ) pagevisit.PageVisitor {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -330,24 +405,13 @@ func buildPageVisitor(
 		cfg.FetchDeadline,
 	)
 	return pagevisit.New(
+		crawlState.storage,
 		observedfetch.New(fetch, wallclock.Clock{}, pageFetchObserver),
 		dueaftergrace.New(wallclock.Clock{}, cfg.RecrawlGrace),
-		pageVisitRecordsOf(redisClient, cfg, pageVisitRecordObserver),
+		crawlState.pageVisitRecords,
+		pageVisitRecordObserver,
 		htmlPageReading,
 		crawledpagesjetstream.New(js, crawledPageObserver),
-		frontier,
-	)
-}
-
-func pageVisitRecordsOf(
-	redisClient redis.UniversalClient,
-	cfg ServiceConfig,
-	observer pagevisitrecordsredis.PageVisitRecordObserver,
-) pagevisit.PageVisitRecords {
-	if !cfg.SuppressesRecrawl() {
-		return norecords.PageVisitRecords{}
-	}
-	return pagevisitrecordsredis.New(
-		redisClient, cfg.PageVisitRetention(), wallclock.Clock{}, observer,
+		crawlState.frontier,
 	)
 }

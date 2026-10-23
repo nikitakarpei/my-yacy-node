@@ -16,6 +16,8 @@ components:
     in: internal/crawl/pagevisitresult/**
   retrydelay:
     in: internal/crawl/retrydelay/**
+  crawlid:
+    in: internal/crawl/crawlid/**
   pendingpagevisit:
     in: internal/crawl/pendingpagevisit/**
   profileadmission:
@@ -38,22 +40,22 @@ components:
     in: internal/crawl/pagehtmlreading/**
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
-  pagevisitrecordsnorecords:
-    in: internal/pagevisitrecords/norecords/**
-  pagevisitrecordsredis:
-    in: internal/pagevisitrecords/redis/**
+  pagevisitrecords:
+    in: internal/pagevisitrecords/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
-  acceptedordersredis:
-    in: internal/acceptedorders/redis/**
-  pendingpagevisitsredis:
-    in: internal/pendingpagevisits/redis/**
-  redisrecord:
-    in: internal/redisrecord/**
-  takenpagevisitsredis:
-    in: internal/takenpagevisits/redis/**
-  pagevisitlimitsredis:
-    in: internal/pagevisitlimits/redis/**
+  urlhash:
+    in: internal/urlhash/**
+  vaultkeyparts:
+    in: internal/vaultkeyparts/**
+  crawls:
+    in: internal/crawls/**
+  frontier:
+    in: internal/frontier/**
+  takenpagevisits:
+    in: internal/takenpagevisits/**
+  pagevisitlimits:
+    in: internal/pagevisitlimits/**
   crawlorderobserversapplog:
     in: internal/crawlorderobservers/applog/**
   crawlorderobserversprometheus:
@@ -111,9 +113,12 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  redis:
+  vault:
     in:
-      - github.com/redis/go-redis/v9
+      - github.com/nikitakarpei/yacy-rwi-node/vault
+  uuid:
+    in:
+      - github.com/google/uuid
   wallclock:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/wallclock
@@ -142,7 +147,12 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
+  crawlid:
+    canUse:
+      - uuid
   pendingpagevisit:
+    mayDependOn:
+      - crawlid
     canUse:
       - canonicalurl
   acceptedorder:
@@ -153,13 +163,16 @@ deps:
       - yacycrawlcontract
   orderintake:
     mayDependOn:
+      - crawlid
       - pendingpagevisit
       - acceptedorder
     canUse:
       - yacycrawlcontract
       - serviceruntime
+      - vault
   pagevisitintake:
     mayDependOn:
+      - crawlid
       - pagevisitdrop
       - pagevisitresult
       - pagevisitallowance
@@ -170,6 +183,7 @@ deps:
       - canonicalurl
       - yacycrawlcontract
       - serviceruntime
+      - vault
   pagehtml:
     canUse:
       - nethtml
@@ -188,6 +202,7 @@ deps:
     canUse:
       - canonicalurl
       - pagefetch
+      - vault
   observedfetch:
     canUse:
       - canonicalurl
@@ -202,54 +217,65 @@ deps:
       - robotsmeta
   pagevisitallowance:
     mayDependOn:
+      - crawlid
       - pagevisitdrop
       - pendingpagevisit
       - retrydelay
     canUse:
       - canonicalurl
-  pagevisitrecordsnorecords:
+      - vault
+  pagevisitrecords:
     mayDependOn:
       - pagevisit
+      - vaultkeyparts
+      - urlhash
     canUse:
-      - pagefetch
-  pagevisitrecordsredis:
-    mayDependOn:
-      - pagevisit
-      - redisrecord
-    canUse:
-      - redis
+      - vault
       - pagefetch
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
-  acceptedordersredis:
+  urlhash:
+    canUse:
+      - canonicalurl
+  vaultkeyparts:
+    mayDependOn:
+      - crawlid
+      - urlhash
+    canUse:
+      - vault
+  crawls:
     mayDependOn:
       - acceptedorder
-      - redisrecord
+      - crawlid
+      - vaultkeyparts
     canUse:
-      - redis
+      - vault
       - yacycrawlcontract
-  pendingpagevisitsredis:
+  frontier:
     mayDependOn:
       - pendingpagevisit
-      - redisrecord
+      - crawlid
+      - vaultkeyparts
+      - urlhash
     canUse:
-      - redis
+      - vault
       - serviceruntime
-  redisrecord:
-    canUse:
-      - redis
-  takenpagevisitsredis:
+  takenpagevisits:
     mayDependOn:
-      - redisrecord
+      - crawlid
+      - vaultkeyparts
+      - urlhash
     canUse:
-      - redis
+      - vault
       - canonicalurl
-  pagevisitlimitsredis:
+  pagevisitlimits:
     mayDependOn:
-      - redisrecord
+      - crawlid
+      - vaultkeyparts
+      - urlhash
     canUse:
-      - redis
+      - vault
       - canonicalurl
       - yacycrawlcontract
   crawledpagesjetstream:
@@ -257,9 +283,11 @@ deps:
       - nats
   crawlorderobserversapplog:
     mayDependOn:
+      - crawlid
       - orderintake
   crawlorderobserversprometheus:
     mayDependOn:
+      - crawlid
       - orderintake
     canUse:
       - prometheus

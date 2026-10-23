@@ -13,8 +13,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
@@ -28,6 +32,8 @@ const (
 	visitURL = "http://host/"
 )
 
+var crawlID = crawlid.CrawlID{1}
+
 type fakeTakenPageVisits struct {
 	takers  map[string]string
 	takeErr error
@@ -38,7 +44,7 @@ func newTakenPageVisits() *fakeTakenPageVisits {
 }
 
 func (visits *fakeTakenPageVisits) TakePageVisit(
-	_ context.Context, _ string, url canonicalurl.CanonicalURL, taker string,
+	_ *vault.Txn, _ crawlid.CrawlID, url canonicalurl.CanonicalURL, taker string,
 ) (bool, error) {
 	if visits.takeErr != nil {
 		return false, visits.takeErr
@@ -64,7 +70,7 @@ func newAllowances() *fakeAllowances {
 	return &fakeAllowances{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
 }
 
-func (a *fakeAllowances) HostPageFor(
+func (a *fakeAllowances) TakePageOfHost(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, maxPages int,
 ) (pagevisitallowance.Allowance, error) {
 	a.hostPageLimits = append(a.hostPageLimits, maxPages)
@@ -74,7 +80,7 @@ func (a *fakeAllowances) HostPageFor(
 	return pagevisitallowance.Allowance{Granted: true}, nil
 }
 
-func (a *fakeAllowances) DeferralFor(
+func (a *fakeAllowances) TakeDeferral(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, deferFor time.Duration,
 ) (pagevisitallowance.Allowance, error) {
 	if a.deferrals >= a.maxDeferrals {
@@ -84,7 +90,7 @@ func (a *fakeAllowances) DeferralFor(
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
 }
 
-func (a *fakeAllowances) AnotherAttemptFor(
+func (a *fakeAllowances) TakeAttempt(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit,
 ) (pagevisitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {
@@ -94,21 +100,23 @@ func (a *fakeAllowances) AnotherAttemptFor(
 	return pagevisitallowance.Allowance{Granted: true, PauseFor: time.Second}, nil
 }
 
-type fakeAcceptedOrders struct {
-	profile yacycrawlcontract.CrawlProfile
-	seeds   []canonicalurl.CanonicalURL
-	err     error
+type fakeCrawls struct {
+	profile   yacycrawlcontract.CrawlProfile
+	seeds     []canonicalurl.CanonicalURL
+	forgotten bool
+	err       error
 }
 
-func (o *fakeAcceptedOrders) OrderOf(
-	_ context.Context, orderID string,
-) (acceptedorder.AcceptedOrder, error) {
-	if o.err != nil {
-		return acceptedorder.AcceptedOrder{}, o.err
+func (o *fakeCrawls) OrderOf(
+	_ *vault.Txn, _ crawlid.CrawlID,
+) (acceptedorder.AcceptedOrder, bool, error) {
+	if o.err != nil || o.forgotten {
+		return acceptedorder.AcceptedOrder{}, false, o.err
 	}
-	return acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
+	order, err := acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
 		OrderID: orderID, Profile: o.profile, SeedURLs: o.seeds,
 	})
+	return order, err == nil, err
 }
 
 type fakePageVisitor struct {
@@ -219,7 +227,7 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 	t.Helper()
 	data, err := pendingpagevisit.MarshalPendingPageVisit(pendingpagevisit.PendingPageVisit{
-		OrderID: orderID,
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, visitURL),
 		Depth:   0,
 	})
@@ -244,7 +252,7 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 type crawlWorker struct {
 	pageVisits  *fakeTakenPageVisits
 	allowances  *fakeAllowances
-	orders      *fakeAcceptedOrders
+	orders      *fakeCrawls
 	pageVisitor *fakePageVisitor
 	observer    *recordingObserver
 }
@@ -253,7 +261,7 @@ func newWorker() *crawlWorker {
 	return &crawlWorker{
 		pageVisits:  newTakenPageVisits(),
 		allowances:  newAllowances(),
-		orders:      &fakeAcceptedOrders{profile: wideProfile()},
+		orders:      &fakeCrawls{profile: wideProfile()},
 		pageVisitor: &fakePageVisitor{},
 		observer:    newObserver(),
 	}
@@ -270,7 +278,12 @@ func (w *crawlWorker) consumeAdmittedBy(
 	messages ...jetstream.Msg,
 ) error {
 	t.Helper()
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
 	return pagevisitintake.NewPageVisitConsumer(
+		storage,
 		pullintake.PendingMessagesOf(pullintaketest.MessageSourceOf(messages...)),
 		w.pageVisits,
 		w.allowances,
@@ -514,6 +527,26 @@ func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+}
+
+func TestAVisitWhoseOrderIsForgottenIsDroppedUnvisited(t *testing.T) {
+	worker := newWorker()
+	worker.orders.forgotten = true
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
+		t.Fatalf("message settled %v, want one ack", got)
+	}
+	if worker.observer.dropped[pagevisitdrop.OrderForgotten] != 1 {
+		t.Fatalf("dropped %v, want one forgotten order", worker.observer.dropped)
+	}
+	if worker.pageVisitor.pageVisitCount() != 0 {
+		t.Fatal("a url of a forgotten order should not be visited")
 	}
 }
 

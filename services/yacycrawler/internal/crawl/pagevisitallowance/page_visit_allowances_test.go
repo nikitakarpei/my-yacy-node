@@ -1,13 +1,16 @@
 package pagevisitallowance_test
 
 import (
-	"context"
 	"errors"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -19,31 +22,34 @@ type fakeLimits struct {
 	admitsDeferral   bool
 	admitsAttempt    bool
 	attempt          int
-	host             string
 	err              error
 }
 
-func (limits *fakeLimits) AdmitsAnotherPageOfHost(
-	_ context.Context, _ string, _ canonicalurl.CanonicalURL, host string, _ int,
+func (limits *fakeLimits) TakePageOfHost(
+	_ *vault.Txn, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL, _ int,
 ) (bool, error) {
-	limits.host = host
 	return limits.admitsPageOfHost, limits.err
 }
 
-func (limits *fakeLimits) AdmitsAnotherDeferral(
-	_ context.Context, _ string, _ canonicalurl.CanonicalURL,
+func (limits *fakeLimits) TakeDeferral(
+	_ *vault.Txn, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL,
 ) (bool, error) {
 	return limits.admitsDeferral, limits.err
 }
 
-func (limits *fakeLimits) AdmitsAnotherAttempt(
-	_ context.Context, _ string, _ canonicalurl.CanonicalURL,
+func (limits *fakeLimits) TakeAttempt(
+	_ *vault.Txn, _ crawlid.CrawlID, _ canonicalurl.CanonicalURL,
 ) (int, bool, error) {
 	return limits.attempt, limits.admitsAttempt, limits.err
 }
 
-func allowancesOf(limits *fakeLimits) *pagevisitallowance.Allowances {
-	return pagevisitallowance.New(limits, retrydelay.Bounds{
+func allowancesOf(t *testing.T, limits *fakeLimits) *pagevisitallowance.Allowances {
+	t.Helper()
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
+	return pagevisitallowance.New(storage, limits, retrydelay.Bounds{
 		Floor:   time.Second,
 		Ceiling: time.Minute,
 	})
@@ -52,7 +58,7 @@ func allowancesOf(limits *fakeLimits) *pagevisitallowance.Allowances {
 func pageVisitOf(t *testing.T) pendingpagevisit.PendingPageVisit {
 	t.Helper()
 	return pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlid.CrawlID{1},
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 	}
 }
@@ -60,23 +66,20 @@ func pageVisitOf(t *testing.T) pendingpagevisit.PendingPageVisit {
 func TestAHostPageIsGrantedWhenTheHostStillHasPagesLeft(t *testing.T) {
 	limits := &fakeLimits{admitsPageOfHost: true}
 
-	allowance, err := allowancesOf(limits).HostPageFor(t.Context(), pageVisitOf(t), 5)
+	allowance, err := allowancesOf(t, limits).TakePageOfHost(t.Context(), pageVisitOf(t), 5)
 	if err != nil {
-		t.Fatalf("HostPageFor: %v", err)
+		t.Fatalf("TakePageOfHost: %v", err)
 	}
 
 	if !allowance.Granted {
 		t.Fatalf("allowance = %+v, want a host with pages left to grant one", allowance)
 	}
-	if limits.host != "host" {
-		t.Fatalf("took a page of %q, want the host of the visited url", limits.host)
-	}
 }
 
 func TestAHostPageNamesTheLimitThatStoppedIt(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{}).HostPageFor(t.Context(), pageVisitOf(t), 5)
+	allowance, err := allowancesOf(t, &fakeLimits{}).TakePageOfHost(t.Context(), pageVisitOf(t), 5)
 	if err != nil {
-		t.Fatalf("HostPageFor: %v", err)
+		t.Fatalf("TakePageOfHost: %v", err)
 	}
 
 	if allowance.Granted || allowance.DropReason != pagevisitdrop.HostPagesExhausted {
@@ -85,10 +88,10 @@ func TestAHostPageNamesTheLimitThatStoppedIt(t *testing.T) {
 }
 
 func TestADeferralPausesForAsLongAsThePageVisitAsked(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{admitsDeferral: true}).
-		DeferralFor(t.Context(), pageVisitOf(t), 90*time.Second)
+	allowance, err := allowancesOf(t, &fakeLimits{admitsDeferral: true}).
+		TakeDeferral(t.Context(), pageVisitOf(t), 90*time.Second)
 	if err != nil {
-		t.Fatalf("DeferralFor: %v", err)
+		t.Fatalf("TakeDeferral: %v", err)
 	}
 
 	if !allowance.Granted || allowance.PauseFor != 90*time.Second {
@@ -97,10 +100,10 @@ func TestADeferralPausesForAsLongAsThePageVisitAsked(t *testing.T) {
 }
 
 func TestADeferralNamesTheLimitThatStoppedIt(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{}).
-		DeferralFor(t.Context(), pageVisitOf(t), time.Second)
+	allowance, err := allowancesOf(t, &fakeLimits{}).
+		TakeDeferral(t.Context(), pageVisitOf(t), time.Second)
 	if err != nil {
-		t.Fatalf("DeferralFor: %v", err)
+		t.Fatalf("TakeDeferral: %v", err)
 	}
 
 	if allowance.Granted || allowance.DropReason != pagevisitdrop.DeferralsExhausted {
@@ -109,10 +112,10 @@ func TestADeferralNamesTheLimitThatStoppedIt(t *testing.T) {
 }
 
 func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{attempt: 2, admitsAttempt: true}).
-		AnotherAttemptFor(t.Context(), pageVisitOf(t))
+	allowance, err := allowancesOf(t, &fakeLimits{attempt: 2, admitsAttempt: true}).
+		TakeAttempt(t.Context(), pageVisitOf(t))
 	if err != nil {
-		t.Fatalf("AnotherAttemptFor: %v", err)
+		t.Fatalf("TakeAttempt: %v", err)
 	}
 
 	want := retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute}.Delay(2)
@@ -122,9 +125,9 @@ func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
 }
 
 func TestAnAttemptNamesTheLimitThatStoppedIt(t *testing.T) {
-	allowance, err := allowancesOf(&fakeLimits{}).AnotherAttemptFor(t.Context(), pageVisitOf(t))
+	allowance, err := allowancesOf(t, &fakeLimits{}).TakeAttempt(t.Context(), pageVisitOf(t))
 	if err != nil {
-		t.Fatalf("AnotherAttemptFor: %v", err)
+		t.Fatalf("TakeAttempt: %v", err)
 	}
 
 	if allowance.Granted || allowance.DropReason != pagevisitdrop.RetriesExhausted {
@@ -136,16 +139,16 @@ func TestALimitThatCannotAnswerCarriesItsCauseBack(t *testing.T) {
 	down := errors.New("bucket down")
 	limits := &fakeLimits{err: down}
 
-	if _, err := allowancesOf(limits).
-		HostPageFor(t.Context(), pageVisitOf(t), 5); !errors.Is(err, down) {
-		t.Fatalf("HostPageFor swallowed %v, got %v", down, err)
+	if _, err := allowancesOf(t, limits).
+		TakePageOfHost(t.Context(), pageVisitOf(t), 5); !errors.Is(err, down) {
+		t.Fatalf("TakePageOfHost swallowed %v, got %v", down, err)
 	}
-	if _, err := allowancesOf(limits).
-		DeferralFor(t.Context(), pageVisitOf(t), time.Second); !errors.Is(err, down) {
-		t.Fatalf("DeferralFor swallowed %v, got %v", down, err)
+	if _, err := allowancesOf(t, limits).
+		TakeDeferral(t.Context(), pageVisitOf(t), time.Second); !errors.Is(err, down) {
+		t.Fatalf("TakeDeferral swallowed %v, got %v", down, err)
 	}
-	if _, err := allowancesOf(limits).
-		AnotherAttemptFor(t.Context(), pageVisitOf(t)); !errors.Is(err, down) {
-		t.Fatalf("AnotherAttemptFor swallowed %v, got %v", down, err)
+	if _, err := allowancesOf(t, limits).
+		TakeAttempt(t.Context(), pageVisitOf(t)); !errors.Is(err, down) {
+		t.Fatalf("TakeAttempt swallowed %v, got %v", down, err)
 	}
 }

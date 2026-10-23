@@ -4,12 +4,15 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
+var crawlID = crawlid.CrawlID{1}
+
 func TestPendingVisitSurvivesTheFrontierStream(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 		Depth:   3,
 	}
@@ -34,9 +37,9 @@ func TestUnmarshalPendingVisitRejectsRubbish(t *testing.T) {
 	}
 }
 
-func TestALinkedPageVisitGoesOneLevelDeeperInTheSameOrder(t *testing.T) {
+func TestALinkedPageVisitGoesOneLevelDeeperInTheSameCrawl(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 		Depth:   3,
 	}
@@ -44,15 +47,15 @@ func TestALinkedPageVisitGoesOneLevelDeeperInTheSameOrder(t *testing.T) {
 
 	linked := visit.LinkedPageVisitTo(link)
 
-	want := pendingpagevisit.PendingPageVisit{OrderID: "o1", URL: link, Depth: 4}
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: link, Depth: 4}
 	if linked != want {
 		t.Fatalf("linked %+v, want %+v", linked, want)
 	}
 }
 
-func TestARedirectedPageVisitKeepsTheDepthInTheSameOrder(t *testing.T) {
+func TestARedirectedPageVisitKeepsTheDepthInTheSameCrawl(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{
-		OrderID: "o1",
+		CrawlID: crawlID,
 		URL:     canonicalurltest.CanonicalURLOf(t, "http://host/page"),
 		Depth:   3,
 	}
@@ -60,7 +63,7 @@ func TestARedirectedPageVisitKeepsTheDepthInTheSameOrder(t *testing.T) {
 
 	redirected := visit.RedirectedPageVisitTo(redirectTarget)
 
-	want := pendingpagevisit.PendingPageVisit{OrderID: "o1", URL: redirectTarget, Depth: 3}
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: redirectTarget, Depth: 3}
 	if redirected != want {
 		t.Fatalf("redirected %+v, want %+v", redirected, want)
 	}

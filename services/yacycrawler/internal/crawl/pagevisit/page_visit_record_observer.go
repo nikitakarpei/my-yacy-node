@@ -1,4 +1,4 @@
-package redis
+package pagevisit
 
 import (
 	"context"

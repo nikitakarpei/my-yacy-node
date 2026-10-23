@@ -22,7 +22,7 @@ func New(registry prometheusclient.Registerer, frontier Frontier) *FrontierMetri
 		frontier: frontier,
 		pendingPageVisits: prometheusclient.NewDesc(
 			"yacycrawler_pending_page_visits",
-			"Page visits on the frontier, taken or not, shared by every crawler instance.",
+			"Page visits on the frontier of this crawler instance, taken or not.",
 			nil, nil,
 		),
 	}

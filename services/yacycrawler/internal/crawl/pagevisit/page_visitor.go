@@ -6,9 +6,11 @@ package pagevisit
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -25,27 +27,33 @@ type PageVisitor interface {
 }
 
 type pageVisitor struct {
+	storage          *vault.Vault
 	pageFetcher      PageFetcher
 	recrawlRule      RecrawlRule
 	pageVisitRecords PageVisitRecords
+	recordObserver   PageVisitRecordObserver
 	htmlPageReading  HTMLPageReading
 	crawledPages     CrawledPages
-	frontier         PendingPageVisits
+	frontier         Frontier
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
 func New(
+	storage *vault.Vault,
 	pageFetcher PageFetcher,
 	recrawlRule RecrawlRule,
 	pageVisitRecords PageVisitRecords,
+	recordObserver PageVisitRecordObserver,
 	htmlPageReading HTMLPageReading,
 	crawledPages CrawledPages,
-	frontier PendingPageVisits,
+	frontier Frontier,
 ) PageVisitor {
 	return &pageVisitor{
+		storage:          storage,
 		pageFetcher:      pageFetcher,
 		recrawlRule:      recrawlRule,
 		pageVisitRecords: pageVisitRecords,
+		recordObserver:   recordObserver,
 		htmlPageReading:  htmlPageReading,
 		crawledPages:     crawledPages,
 		frontier:         frontier,
@@ -58,7 +66,7 @@ func (visitor *pageVisitor) VisitPage(
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) PageVisitOutcome {
 	url := pendingPageVisit.URL
-	lastVisit, visited := visitor.pageVisitRecords.LastPageVisitOf(ctx, url)
+	lastVisit, visited := visitor.lastPageVisitOf(ctx, url)
 	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
 		return droppedOutcome(pagevisitdrop.NotDue)
 	}
@@ -72,9 +80,26 @@ func (visitor *pageVisitor) VisitPage(
 		return returnedOutcome(err)
 	}
 	if visitedPage.startsRecrawlGrace() {
-		visitor.pageVisitRecords.RecordPageVisit(ctx, url, visitedPage.fetchOutcome.Version)
+		visitor.recordPageVisit(ctx, url, visitedPage.fetchOutcome.Version)
 	}
 	return visitedPage.outcome()
+}
+
+func (visitor *pageVisitor) lastPageVisitOf(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+) (LastPageVisit, bool) {
+	var lastVisit LastPageVisit
+	var visited bool
+	if err := visitor.storage.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		lastVisit, visited, err = visitor.pageVisitRecords.LastPageVisitOf(tx, url)
+		return err
+	}); err != nil {
+		visitor.recordObserver.LastPageVisitNotRead(ctx, url, err)
+		return LastPageVisit{}, false
+	}
+	return lastVisit, visited
 }
 
 func (visitor *pageVisitor) fetchAndRead(
@@ -106,13 +131,28 @@ func (visitor *pageVisitor) putOnFrontier(
 	order acceptedorder.AcceptedOrder,
 	nextPageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
+	admittedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(nextPageVisits))
 	for _, nextPageVisit := range nextPageVisits {
-		if !order.Admits(nextPageVisit.URL, nextPageVisit.Depth) {
-			continue
-		}
-		if err := visitor.frontier.Publish(ctx, nextPageVisit); err != nil {
-			return err
+		if order.Admits(nextPageVisit.URL, nextPageVisit.Depth) {
+			admittedPageVisits = append(admittedPageVisits, nextPageVisit)
 		}
 	}
+	if err := visitor.storage.Update(ctx, func(tx *vault.Txn) error {
+		return visitor.frontier.Owe(tx, admittedPageVisits)
+	}); err != nil {
+		return fmt.Errorf("put %d page visits on the frontier: %w", len(admittedPageVisits), err)
+	}
 	return nil
+}
+
+func (visitor *pageVisitor) recordPageVisit(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+	version pagefetch.PageVersion,
+) {
+	if err := visitor.storage.Update(ctx, func(tx *vault.Txn) error {
+		return visitor.pageVisitRecords.RecordPageVisit(tx, url, version)
+	}); err != nil {
+		visitor.recordObserver.PageVisitNotRecorded(ctx, url, err)
+	}
 }

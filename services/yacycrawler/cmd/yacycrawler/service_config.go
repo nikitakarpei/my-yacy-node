@@ -4,11 +4,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/redis/go-redis/v9"
-
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
-	pagevisitlimitsredis "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/redis"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits"
 )
 
 const (
@@ -26,7 +25,7 @@ const (
 
 	pageVisitLimitRetention = 7 * 24 * time.Hour
 
-	acceptedOrderRetention = 7 * 24 * time.Hour
+	crawlRetention = 7 * 24 * time.Hour
 
 	crawledPageRetention    = 7 * 24 * time.Hour
 	crawledPageBacklogLimit = 5000
@@ -34,7 +33,8 @@ const (
 
 type ServiceConfig struct {
 	CrawlNATSURL       string
-	CrawlStateRedis    *redis.Options
+	CrawlStateDir      string
+	CrawlStateLimits   pebblevault.MachineLimits
 	CrawlOrdersSubject string
 	CrawlOrdersDurable string
 	ProxyURL           *url.URL
@@ -67,16 +67,16 @@ func (ServiceConfig) PageVisitLimitRetention() time.Duration {
 	return pageVisitLimitRetention
 }
 
-func (ServiceConfig) AcceptedOrderRetention() time.Duration {
-	return acceptedOrderRetention
+func (ServiceConfig) CrawlRetention() time.Duration {
+	return crawlRetention
 }
 
 func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
 	return retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling}
 }
 
-func (ServiceConfig) MaxPerURL() pagevisitlimitsredis.MaxPerURL {
-	return pagevisitlimitsredis.MaxPerURL{
+func (ServiceConfig) MaxPerURL() pagevisitlimits.MaxPerURL {
+	return pagevisitlimits.MaxPerURL{
 		Deferrals: maxDeferralsPerURL,
 		Attempts:  maxAttemptsPerURL,
 	}

@@ -10,48 +10,66 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type fakeAcceptedOrders struct {
+var keptCrawlID = crawlid.CrawlID{1}
+
+type fakeCrawls struct {
 	kept []acceptedorder.AcceptedOrder
 	err  error
 }
 
-func (o *fakeAcceptedOrders) Keep(_ context.Context, order acceptedorder.AcceptedOrder) error {
+func (o *fakeCrawls) Keep(
+	_ *vault.Txn,
+	order acceptedorder.AcceptedOrder,
+) (crawlid.CrawlID, error) {
 	if o.err != nil {
-		return o.err
+		return crawlid.CrawlID{}, o.err
 	}
 	o.kept = append(o.kept, order)
-	return nil
+	return keptCrawlID, nil
 }
 
 type fakePendingVisits struct {
-	published []pendingpagevisit.PendingPageVisit
-	err       error
+	published    []pendingpagevisit.PendingPageVisit
+	publications int
+	err          error
 }
 
-func (v *fakePendingVisits) Publish(
-	_ context.Context,
-	visit pendingpagevisit.PendingPageVisit,
+func (v *fakePendingVisits) Owe(
+	_ *vault.Txn,
+	visits []pendingpagevisit.PendingPageVisit,
 ) error {
 	if v.err != nil {
 		return v.err
 	}
-	v.published = append(v.published, visit)
+	v.publications++
+	v.published = append(v.published, visits...)
 	return nil
 }
 
 type recordingObserver struct {
-	accepted int
-	returned int
+	accepted       int
+	acceptedCrawls []crawlid.CrawlID
+	returned       int
 }
 
-func (o *recordingObserver) CrawlOrderAccepted(context.Context, string, int) {
+func (o *recordingObserver) CrawlOrderAccepted(
+	_ context.Context,
+	_ string,
+	crawlID crawlid.CrawlID,
+	_ int,
+) {
 	o.accepted++
+	o.acceptedCrawls = append(o.acceptedCrawls, crawlID)
 }
 
 func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
@@ -93,12 +111,17 @@ func orderMessage(
 func consume(
 	t *testing.T,
 	message jetstream.Msg,
-	orders *fakeAcceptedOrders,
+	orders *fakeCrawls,
 	frontier *fakePendingVisits,
 	observer *recordingObserver,
 ) error {
 	t.Helper()
+	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
+	if err != nil {
+		t.Fatalf("vault: %v", err)
+	}
 	return orderintake.NewOrderConsumer(
+		storage,
 		pullintaketest.MessageSourceOf(message),
 		orders,
 		frontier,
@@ -109,7 +132,7 @@ func consume(
 
 func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	message := orderMessage(t, domainProfile())
-	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
+	orders, visits, observer := &fakeCrawls{}, &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
 		t.Fatalf("run: %v", err)
@@ -118,25 +141,29 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	if len(orders.kept) != 1 {
 		t.Fatalf("kept %d orders, want 1", len(orders.kept))
 	}
-	if len(visits.published) != 2 {
-		t.Fatalf("published %d seeds, want 2", len(visits.published))
+	if len(visits.published) != 2 || visits.publications != 1 {
+		t.Fatalf(
+			"published %d seeds in %d publications, want 2 in one",
+			len(visits.published),
+			visits.publications,
+		)
 	}
 	for _, visit := range visits.published {
-		if visit.OrderID != "o1" || visit.Depth != 0 {
-			t.Fatalf("seed %+v should carry its order at depth zero", visit)
+		if visit.CrawlID != keptCrawlID || visit.Depth != 0 {
+			t.Fatalf("seed %+v should carry its crawl at depth zero", visit)
 		}
 	}
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
-	if observer.accepted != 1 {
-		t.Fatalf("observer %+v, want one accepted order", observer)
+	if observer.accepted != 1 || observer.acceptedCrawls[0] != keptCrawlID {
+		t.Fatalf("observer %+v, want one accepted order of crawl %s", observer, keptCrawlID)
 	}
 }
 
 func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
 	message := orderMessage(t, domainProfile())
-	orders := &fakeAcceptedOrders{err: errors.New("bucket down")}
+	orders := &fakeCrawls{err: errors.New("bucket down")}
 	visits, observer := &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
@@ -159,7 +186,7 @@ func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
 	visits := &fakePendingVisits{err: errors.New("stream down")}
 	observer := &recordingObserver{}
 
-	if err := consume(t, message, &fakeAcceptedOrders{}, visits, observer); err != nil {
+	if err := consume(t, message, &fakeCrawls{}, visits, observer); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -175,7 +202,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 	profile := domainProfile()
 	profile.URLMustNotMatch = "([unclosed"
 	message := orderMessage(t, profile)
-	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
+	orders, visits, observer := &fakeCrawls{}, &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
 		t.Fatalf("run: %v", err)
@@ -194,7 +221,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 
 func TestAnUndecodableOrderHaltsIntake(t *testing.T) {
 	err := consume(
-		t, &pullintaketest.Message{Body: []byte("{")}, &fakeAcceptedOrders{},
+		t, &pullintaketest.Message{Body: []byte("{")}, &fakeCrawls{},
 		&fakePendingVisits{}, &recordingObserver{},
 	)
 

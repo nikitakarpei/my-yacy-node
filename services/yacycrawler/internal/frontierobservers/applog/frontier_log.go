@@ -1,5 +1,5 @@
-// Package applog reports to the service log the frontier operations the
-// Redis-protocol server refused.
+// Package applog reports to the service log the frontier operations the crawl
+// state storage refused.
 package applog
 
 import (
