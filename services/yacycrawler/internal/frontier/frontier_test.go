@@ -334,6 +334,22 @@ func TestAReturnedPageVisitComesBackSoonerThanItsLease(t *testing.T) {
 	f.next(t)
 }
 
+func TestAPageVisitReturnedWhileItsCrawlIsHeldIsLeasedOnlyOnceReleased(t *testing.T) {
+	f := newFrontier(t)
+	returned := pageVisitTo(t, "http://host/page")
+	f.add(t, returned)
+	leased := f.next(t)
+	f.change(t, f.visits.Hold, firstCrawl)
+
+	f.visits.Return(t.Context(), leased, 0)
+	f.requireNoDueVisit(t)
+	f.change(t, f.visits.Release, firstCrawl)
+
+	if again := f.next(t).PageVisit; again.URL != returned.URL {
+		t.Fatalf("leased %+v after the release, want the returned visit", again)
+	}
+}
+
 func TestASettlementUnderAnEndedLeaseChangesNothing(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/page"))
