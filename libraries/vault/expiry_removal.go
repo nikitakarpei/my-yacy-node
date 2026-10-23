@@ -50,6 +50,8 @@ type expiryRemoval struct {
 	observer ExpiryObserver
 	bucket   Name
 	interval time.Duration
+
+	recordsPerTransaction int
 }
 
 func (r expiryRemoval) run(ctx context.Context) {
@@ -68,7 +70,7 @@ func (r expiryRemoval) forgetExpiredRecords(ctx context.Context) {
 	for {
 		expiredKeys, nextResume, err := r.expiredKeysFrom(ctx, resume)
 		if err == nil {
-			err = r.forgetDecodable(ctx, expiredKeys)
+			err = r.forgetInTransactions(ctx, expiredKeys)
 		}
 		if err != nil {
 			r.reportUnlessStopped(ctx, err)
@@ -97,18 +99,30 @@ func (r expiryRemoval) expiredKeysFrom(
 	return expiredKeys, nextResume, err
 }
 
-func (r expiryRemoval) forgetDecodable(ctx context.Context, expiredKeys [][]byte) error {
+func (r expiryRemoval) forgetInTransactions(ctx context.Context, expiredKeys [][]byte) error {
+	for keysOfTransaction := range slices.Chunk(expiredKeys, r.recordsPerTransaction) {
+		if err := r.forgetForgettable(ctx, keysOfTransaction); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (r expiryRemoval) forgetForgettable(ctx context.Context, expiredKeys [][]byte) error {
 	for len(expiredKeys) > 0 {
 		amountForgotten, err := r.forget(ctx, expiredKeys)
-		if undecodable, isUndecodable := errors.AsType[undecodableRecordError](err); isUndecodable {
+		if unforgettable, isUnforgettable := errors.AsType[unforgettableRecordError](
+			err,
+		); isUnforgettable {
 			amountListed := len(expiredKeys)
 			expiredKeys = slices.DeleteFunc(expiredKeys, func(key []byte) bool {
-				return bytes.Equal(key, undecodable.key)
+				return bytes.Equal(key, unforgettable.key)
 			})
 			if len(expiredKeys) == amountListed {
-				return undecodable
+				return unforgettable
 			}
-			r.observer.ExpiredRecordsNotForgotten(ctx, r.bucket, undecodable)
+			r.observer.ExpiredRecordsNotForgotten(ctx, r.bucket, unforgettable)
 
 			continue
 		}

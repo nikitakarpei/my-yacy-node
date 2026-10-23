@@ -55,6 +55,7 @@ type EngineAmounts interface {
 	Get(key []byte) (int, error)
 	Raise(key []byte, by uint) error
 	Lower(key []byte, by uint) error
+	DeleteWithin(keys KeyRange) error
 	Scan(keys KeyRange, fn func(key []byte, amount int) (bool, error)) error
 }
 

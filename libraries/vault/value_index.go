@@ -46,6 +46,18 @@ func (i *ValueIndex[R, E]) Scan(tx *Txn, entries KeyRange, fn func(E) (bool, err
 	return nil
 }
 
+func (i *ValueIndex[R, E]) First(tx *Txn, entries KeyRange) (E, bool, error) {
+	var first E
+	found := false
+	err := i.Scan(tx, entries, func(entry E) (bool, error) {
+		first, found = entry, true
+
+		return false, nil
+	})
+
+	return first, found, err
+}
+
 func (i *ValueIndex[R, E]) recordAdded(tx *Txn, added storedValue[R]) error {
 	return i.addEntry(tx, i.entryKeyOf(added.value))
 }

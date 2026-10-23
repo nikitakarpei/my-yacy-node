@@ -1,6 +1,7 @@
 package boltvault
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 
@@ -64,6 +65,24 @@ func (a boltAmounts) changeBy(key []byte, change int) error {
 
 func (a boltAmounts) Lower(key []byte, by uint) error {
 	return a.changeBy(key, -int(by))
+}
+
+func (a boltAmounts) DeleteWithin(keys vault.KeyRange) error {
+	var storedKeys [][]byte
+	if err := a.Scan(keys, func(key []byte, _ int) (bool, error) {
+		storedKeys = append(storedKeys, bytes.Clone(key))
+
+		return true, nil
+	}); err != nil {
+		return err
+	}
+	for _, key := range storedKeys {
+		if err := a.entries.Delete(key); err != nil {
+			return fmt.Errorf("delete amount: %w", err)
+		}
+	}
+
+	return nil
 }
 
 func (a boltAmounts) Scan(

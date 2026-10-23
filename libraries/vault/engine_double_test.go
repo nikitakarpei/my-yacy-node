@@ -158,6 +158,17 @@ func (a doubleAmounts) Lower(key []byte, by uint) error {
 	return nil
 }
 
+func (a doubleAmounts) DeleteWithin(keys vault.KeyRange) error {
+	firstIncluded, firstExcluded := keys.Bounds()
+	for key := range a.entries {
+		if isWithinBounds(key, firstIncluded, firstExcluded) {
+			delete(a.entries, key)
+		}
+	}
+
+	return nil
+}
+
 func (a doubleAmounts) Scan(
 	keys vault.KeyRange,
 	fn func(key []byte, amount int) (bool, error),

@@ -37,6 +37,14 @@ func (c *amountChanges) stageWithin(firstIncluded, firstExcluded []byte) error {
 	return nil
 }
 
+func (c *amountChanges) dropWithin(firstIncluded, firstExcluded []byte) {
+	for key := range c.sumByKey {
+		if key >= string(firstIncluded) && key < string(firstExcluded) {
+			delete(c.sumByKey, key)
+		}
+	}
+}
+
 func (c *amountChanges) stage(key string, sum int64) error {
 	delete(c.sumByKey, key)
 	if sum == 0 {

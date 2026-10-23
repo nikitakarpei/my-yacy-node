@@ -1,6 +1,8 @@
 package pebblevault
 
 import (
+	"bytes"
+
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
@@ -44,6 +46,26 @@ func (a pebbleAmounts) change(key []byte, by int64) {
 func (a pebbleAmounts) Lower(key []byte, by uint) error {
 	//nolint:gosec // G115: an amount changes by a count of things, far below MaxInt64.
 	a.change(key, -int64(by))
+
+	return nil
+}
+
+func (a pebbleAmounts) DeleteWithin(keys vault.KeyRange) error {
+	a.changes.dropWithin(a.entries.boundsFor(keys))
+
+	var storedKeys [][]byte
+	if err := a.entries.visit(keys, func(key, _ []byte) (bool, error) {
+		storedKeys = append(storedKeys, bytes.Clone(key))
+
+		return true, nil
+	}); err != nil {
+		return err
+	}
+	for _, key := range storedKeys {
+		if err := a.entries.removeHeld(key); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
