@@ -7,7 +7,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const queueStatesBucket = "crawl_queue_states"
@@ -32,7 +31,7 @@ func (state queueState) takesPageVisits() bool {
 
 func registerQueueStates(storage *vault.Vault) (queueStates, error) {
 	ofCrawl, err := storage.RegisterCollection(
-		queueStatesBucket, vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(), queueStateCodec{},
+		queueStatesBucket, vault.SingleKey(crawlid.KeyPart).KeyLayout(), queueStateCodec{},
 	)
 	if err != nil {
 		return queueStates{}, fmt.Errorf("register %s: %w", queueStatesBucket, err)

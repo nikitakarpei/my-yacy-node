@@ -7,7 +7,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 type crawlIndexes struct {
@@ -148,7 +147,7 @@ var crawlsByOrderKeyParts = vault.PairKey(vault.BytesKeyPartFrom(
 	func(stored vault.StoredBytes) (orderIDHash, error) {
 		return orderIDHash(stored.AppendTo(nil)), nil
 	},
-), vaultkeyparts.CrawlID)
+), crawlid.KeyPart)
 
 var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
 	func(entry crawlOfOrder) (orderIDHash, crawlid.CrawlID) { return entry.order, entry.crawlID },
@@ -167,8 +166,8 @@ func crawlInStateOf(crawl crawlWithID) crawlInState {
 }
 
 var (
-	crawlsInStateKeyParts            = vault.PairKey(stateKeyPart, vaultkeyparts.CrawlID)
-	crawlsInStateNewestFirstKeyParts = vault.PairKey(stateKeyPart, vaultkeyparts.CrawlIDNewestFirst)
+	crawlsInStateKeyParts            = vault.PairKey(stateKeyPart, crawlid.KeyPart)
+	crawlsInStateNewestFirstKeyParts = vault.PairKey(stateKeyPart, crawlid.KeyPartNewestFirst)
 )
 
 func crawlsInStateEntriesOf(

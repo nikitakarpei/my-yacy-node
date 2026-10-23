@@ -10,7 +10,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/urlhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const (
@@ -42,7 +41,7 @@ func registerCrawlHeads(ctx context.Context, storage *vault.Vault) (crawlHeads, 
 	if heads.byCrawl, err = storage.RegisterProjectedCollection(
 		ctx,
 		crawlHeadsBucket,
-		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
+		vault.SingleKey(crawlid.KeyPart).KeyLayout(),
 		headPositionCodec{},
 		vault.ProjectedAs(func(crawlID crawlid.CrawlID, position duePosition) crawlHead {
 			return crawlHead{due: position.due, crawlID: crawlID}
@@ -102,7 +101,7 @@ func (heads crawlHeads) positionOf(
 	return heads.byCrawl.Get(tx, crawlID)
 }
 
-var crawlHeadKeyParts = vault.PairKey(vault.IntegerKeyPart, vaultkeyparts.CrawlID)
+var crawlHeadKeyParts = vault.PairKey(vault.IntegerKeyPart, crawlid.KeyPart)
 
 var crawlHeadEntries = crawlHeadKeyParts.KeyLayoutFor(
 	func(head crawlHead) (int64, crawlid.CrawlID) { return head.due, head.crawlID },

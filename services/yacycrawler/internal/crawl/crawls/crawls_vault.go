@@ -9,7 +9,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const crawlIndexesVersion = "1"
@@ -31,7 +30,7 @@ func registerCrawls(
 	return &Crawls{unfinished: unfinished, finished: finished}, nil
 }
 
-var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()
+var crawlIDKeys = vault.SingleKey(crawlid.KeyPart).KeyLayout()
 
 type crawlWithID struct {
 	crawlID crawlid.CrawlID

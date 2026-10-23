@@ -9,7 +9,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/urlhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const pageVisitsBucket = "page_visit_records"
@@ -36,7 +35,7 @@ func registerPageVisitRecords(
 	return lastVisits, nil
 }
 
-var pageKeys = vault.SingleKey(vaultkeyparts.URLHash).KeyLayout()
+var pageKeys = vault.SingleKey(urlhash.KeyPart).KeyLayout()
 
 type lastPageVisitCodec struct{}
 

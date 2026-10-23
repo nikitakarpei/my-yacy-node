@@ -42,8 +42,6 @@ components:
     in: internal/recrawlrules/dueaftergrace/**
   urlhash:
     in: internal/crawl/urlhash/**
-  vaultkeyparts:
-    in: internal/crawl/vaultkeyparts/**
   crawls:
     in: internal/crawl/crawls/**
   frontier:
@@ -156,6 +154,7 @@ deps:
   crawlid:
     canUse:
       - uuid
+      - vault
   pendingpagevisit:
     mayDependOn:
       - crawlid
@@ -229,7 +228,6 @@ deps:
   pagevisitrecords:
     mayDependOn:
       - pagevisit
-      - vaultkeyparts
       - urlhash
     canUse:
       - vault
@@ -240,17 +238,11 @@ deps:
   urlhash:
     canUse:
       - canonicalurl
-  vaultkeyparts:
-    mayDependOn:
-      - crawlid
-      - urlhash
-    canUse:
       - vault
   crawls:
     mayDependOn:
       - acceptedorder
       - crawlid
-      - vaultkeyparts
     canUse:
       - vault
       - yacycrawlcontract
@@ -258,7 +250,6 @@ deps:
     mayDependOn:
       - pendingpagevisit
       - crawlid
-      - vaultkeyparts
       - urlhash
     canUse:
       - vault
@@ -267,13 +258,11 @@ deps:
     mayDependOn:
       - crawlid
       - pendingpagevisit
-      - vaultkeyparts
     canUse:
       - vault
   pagevisitlimits:
     mayDependOn:
       - crawlid
-      - vaultkeyparts
       - urlhash
     canUse:
       - vault

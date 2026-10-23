@@ -10,7 +10,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/urlhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const (
@@ -44,14 +43,14 @@ func registerPageVisitLimits(
 	return takenHostPageCounts, usedAllowances, nil
 }
 
-var hostKeys = vault.PairKey(vaultkeyparts.CrawlID, vault.TextKeyPart).KeyLayoutFor(
+var hostKeys = vault.PairKey(crawlid.KeyPart, vault.TextKeyPart).KeyLayoutFor(
 	func(key hostKey) (crawlid.CrawlID, string) { return key.crawlID, key.host },
 	func(crawlID crawlid.CrawlID, host string) hostKey {
 		return hostKey{crawlID: crawlID, host: host}
 	},
 )
 
-var pageVisitKeys = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash).KeyLayoutFor(
+var pageVisitKeys = vault.PairKey(crawlid.KeyPart, urlhash.KeyPart).KeyLayoutFor(
 	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.url },
 	func(crawlID crawlid.CrawlID, url urlhash.URLHash) pageVisitKey {
 		return pageVisitKey{crawlID: crawlID, url: url}

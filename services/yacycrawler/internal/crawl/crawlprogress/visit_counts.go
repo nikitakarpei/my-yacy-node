@@ -5,7 +5,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 type visitCounts[Kind ~string] struct {
@@ -24,7 +23,7 @@ type hostCount[Kind ~string] struct {
 	kind    Kind
 }
 
-var crawlKeys = vault.SingleKey(vaultkeyparts.CrawlID)
+var crawlKeys = vault.SingleKey(crawlid.KeyPart)
 
 func registerVisitCounts[Kind ~string](
 	storage *vault.Vault,
@@ -43,7 +42,7 @@ func registerVisitCounts[Kind ~string](
 }
 
 func crawlCountKeys[Kind ~string]() vault.KeyLayout[crawlCount[Kind]] {
-	return vault.PairKey(vaultkeyparts.CrawlID, kindKeyPart[Kind]()).KeyLayoutFor(
+	return vault.PairKey(crawlid.KeyPart, kindKeyPart[Kind]()).KeyLayoutFor(
 		func(key crawlCount[Kind]) (crawlid.CrawlID, Kind) { return key.crawlID, key.kind },
 		func(crawlID crawlid.CrawlID, kind Kind) crawlCount[Kind] {
 			return crawlCount[Kind]{crawlID: crawlID, kind: kind}
@@ -59,7 +58,7 @@ func kindKeyPart[Kind ~string]() vault.KeyPart[Kind] {
 }
 
 func hostCountKeys[Kind ~string]() vault.KeyLayout[hostCount[Kind]] {
-	return vault.TripleKey(vaultkeyparts.CrawlID, vault.TextKeyPart, kindKeyPart[Kind]()).
+	return vault.TripleKey(crawlid.KeyPart, vault.TextKeyPart, kindKeyPart[Kind]()).
 		KeyLayoutFor(
 			func(key hostCount[Kind]) (crawlid.CrawlID, string, Kind) {
 				return key.crawlID, key.host, key.kind

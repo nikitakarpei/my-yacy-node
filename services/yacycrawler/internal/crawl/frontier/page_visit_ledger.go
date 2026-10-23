@@ -14,7 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/urlhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/vaultkeyparts"
 )
 
 const (
@@ -65,7 +64,7 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 	}
 	if ledger.pendingOfCrawl, err = storage.RegisterCountIndex(
 		pendingPageVisitsOfCrawlBucket, frontierIndexesVersion,
-		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
+		vault.SingleKey(crawlid.KeyPart).KeyLayout(),
 		func(pending pendingPageVisitWithKey) crawlid.CrawlID { return pending.key.crawlID },
 	); err != nil {
 		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsOfCrawlBucket, err)
@@ -275,7 +274,7 @@ func (ledger pageVisitLedger) returnLeased(
 	return err == nil, err
 }
 
-var pageVisitKeyParts = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash)
+var pageVisitKeyParts = vault.PairKey(crawlid.KeyPart, urlhash.KeyPart)
 
 var pageVisitKeys = pageVisitKeyParts.KeyLayoutFor(
 	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.urlHash },
@@ -311,9 +310,9 @@ func (position duePosition) isBefore(other duePosition) bool {
 }
 
 var dueKeyParts = vault.TripleKey(
-	vaultkeyparts.CrawlID,
+	crawlid.KeyPart,
 	vault.IntegerKeyPart,
-	vaultkeyparts.URLHash,
+	urlhash.KeyPart,
 )
 
 var dueEntries = dueKeyParts.KeyLayoutFor(
@@ -330,7 +329,7 @@ type crawlHost struct {
 	host    string
 }
 
-var crawlHostKeyParts = vault.PairKey(vaultkeyparts.CrawlID, vault.TextKeyPart)
+var crawlHostKeyParts = vault.PairKey(crawlid.KeyPart, vault.TextKeyPart)
 
 var crawlHosts = crawlHostKeyParts.KeyLayoutFor(
 	func(host crawlHost) (crawlid.CrawlID, string) { return host.crawlID, host.host },
