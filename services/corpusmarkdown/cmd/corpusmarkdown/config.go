@@ -1,12 +1,16 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	pagemarkdowncorporas3 "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/s3"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
 const (
 	EnvPageOfferNATSURL              = "SCRAPE_PAGE_OFFER_NATS_URL"
+	EnvPageMarkdownDirectory         = "PAGE_MARKDOWN_DIRECTORY"
 	EnvPageMarkdownS3Endpoint        = "PAGE_MARKDOWN_S3_ENDPOINT"
 	EnvPageMarkdownS3Region          = "PAGE_MARKDOWN_S3_REGION"
 	EnvPageMarkdownS3AccessKeyID     = "PAGE_MARKDOWN_S3_ACCESS_KEY_ID"
@@ -20,6 +24,7 @@ const (
 	DefaultListenAddr                 = ":8094"
 	DefaultOpsAddr                    = ":9090"
 	DefaultPageOfferDurable           = "corpusmarkdown"
+	DefaultPageMarkdownDirectory      = "page-markdown"
 	DefaultPageMarkdownS3Region       = "us-east-1"
 	DefaultPageMarkdownBucket         = "yacy-page-markdown"
 	DefaultPageOfferIntakeConcurrency = 4
@@ -27,7 +32,8 @@ const (
 
 type ServiceConfig struct {
 	PageOfferNATSURL           string
-	PageMarkdownObjectStore    pagemarkdowncorporas3.ObjectStore
+	PageMarkdownDirectory      string
+	PageMarkdownObjectStore    *pagemarkdowncorporas3.ObjectStore
 	PageMarkdownBucket         string
 	PageOfferDurable           string
 	PageOfferIntakeConcurrency int
@@ -54,7 +60,12 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		PageOfferNATSURL:        pageOfferNATSURL,
+		PageOfferNATSURL: pageOfferNATSURL,
+		PageMarkdownDirectory: envconfig.String(
+			getenv,
+			EnvPageMarkdownDirectory,
+			DefaultPageMarkdownDirectory,
+		),
 		PageMarkdownObjectStore: pageMarkdownObjectStore,
 		PageMarkdownBucket: envconfig.String(
 			getenv,
@@ -74,20 +85,29 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 
 func loadPageMarkdownObjectStore(
 	getenv func(string) string,
-) (pagemarkdowncorporas3.ObjectStore, error) {
+) (*pagemarkdowncorporas3.ObjectStore, error) {
+	if strings.TrimSpace(getenv(EnvPageMarkdownS3Endpoint)) == "" {
+		return nil, nil
+	}
+	if strings.TrimSpace(getenv(EnvPageMarkdownDirectory)) != "" {
+		return nil, fmt.Errorf(
+			"%s: must not be set with %s",
+			EnvPageMarkdownDirectory, EnvPageMarkdownS3Endpoint,
+		)
+	}
 	endpoint, err := envconfig.RequiredHTTPURL(getenv, EnvPageMarkdownS3Endpoint)
 	if err != nil {
-		return pagemarkdowncorporas3.ObjectStore{}, err
+		return nil, err
 	}
 	accessKeyID, err := envconfig.Required(getenv, EnvPageMarkdownS3AccessKeyID)
 	if err != nil {
-		return pagemarkdowncorporas3.ObjectStore{}, err
+		return nil, err
 	}
 	secretAccessKey, err := envconfig.Required(getenv, EnvPageMarkdownS3SecretAccessKey)
 	if err != nil {
-		return pagemarkdowncorporas3.ObjectStore{}, err
+		return nil, err
 	}
-	return pagemarkdowncorporas3.ObjectStore{
+	return &pagemarkdowncorporas3.ObjectStore{
 		Endpoint: endpoint.String(),
 		Region: envconfig.String(
 			getenv,

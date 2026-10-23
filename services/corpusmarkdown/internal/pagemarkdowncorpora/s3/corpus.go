@@ -5,8 +5,6 @@ package s3
 import (
 	"bytes"
 	"context"
-	"crypto/sha256"
-	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
@@ -25,7 +23,6 @@ const (
 	markdownContentType = "text/markdown; charset=utf-8"
 	versionMetadata     = "version"
 	storedAtMetadata    = "stored-at"
-	versionPrefix       = "SHA-256="
 )
 
 type ObjectStore struct {
@@ -102,18 +99,13 @@ func (c *Corpus) Put(
 		Body:        bytes.NewReader(markdown),
 		ContentType: aws.String(markdownContentType),
 		Metadata: map[string]string{
-			versionMetadata:  versionOf(markdown),
+			versionMetadata:  markdownrecall.VersionOf(markdown),
 			storedAtMetadata: c.clock.Now().UTC().Format(time.RFC3339Nano),
 		},
 	}); err != nil {
 		return fmt.Errorf("put markdown for %q: %w", canonicalURL, err)
 	}
 	return nil
-}
-
-func versionOf(markdown []byte) string {
-	sum := sha256.Sum256(markdown)
-	return versionPrefix + base64.URLEncoding.EncodeToString(sum[:])
 }
 
 func (c *Corpus) MarkdownOf(

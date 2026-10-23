@@ -11,12 +11,23 @@ The service is configured entirely through environment variables.
 
 ## Storage
 
+Without `PAGE_MARKDOWN_S3_ENDPOINT`, the service keeps the markdown of each page in
+a file in `PAGE_MARKDOWN_DIRECTORY`. With it, the service keeps the markdown in a
+bucket of that S3-compatible object store. Set only one of the two variables. The
+service creates the directory or the bucket if it does not exist.
+
+Instances on one host can share a directory. Instances on different hosts must
+share an object store. In the container image, the working directory is
+`/var/lib/corpusmarkdown`. Mount a volume there to keep the markdown when you
+replace the container.
+
 | Variable | Default | Meaning |
 |---|---|---|
-| `PAGE_MARKDOWN_S3_ENDPOINT` | required | HTTP address of the S3-compatible object store. |
+| `PAGE_MARKDOWN_DIRECTORY` | `page-markdown` | Directory that holds the page markdown. A relative path starts at the working directory. |
+| `PAGE_MARKDOWN_S3_ENDPOINT` | none | HTTP address of the S3-compatible object store. |
 | `PAGE_MARKDOWN_S3_REGION` | `us-east-1` | Region the object store expects in signed requests. |
-| `PAGE_MARKDOWN_S3_ACCESS_KEY_ID` | required | Access key that may create the bucket and write to it. |
-| `PAGE_MARKDOWN_S3_SECRET_ACCESS_KEY` | required | Secret of that access key. |
+| `PAGE_MARKDOWN_S3_ACCESS_KEY_ID` | required with an endpoint | Access key that may create the bucket and write to it. |
+| `PAGE_MARKDOWN_S3_SECRET_ACCESS_KEY` | required with an endpoint | Secret of that access key. |
 | `PAGE_MARKDOWN_BUCKET` | `yacy-page-markdown` | Bucket that holds the page markdown. |
 | `SCRAPE_PAGE_OFFER_INTAKE_CONCURRENCY` | `4` | Offered pages the service works on at once. |
 

@@ -4,16 +4,9 @@ package markdownrecall
 
 import (
 	"context"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
-
-type StoredMarkdown struct {
-	Markdown []byte
-	StoredAt time.Time
-	Version  string
-}
 
 type PageMarkdownCorpus interface {
 	MarkdownOf(

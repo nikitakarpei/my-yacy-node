@@ -38,5 +38,6 @@ Complete every empty value in `.env`.
 | 8 | [Put a web archive into your index](chapters/08-put-a-web-archive-into-your-index) |
 | 9 | [Keep every page as a Web ARChive file](chapters/09-keep-every-page-as-a-warc-file) |
 | 10 | [Let an AI assistant use your web](chapters/10-let-an-ai-assistant-search-and-read-your-web) |
+| 10.1 | [Keep page Markdown in an S3 object store](chapters/10.1-keep-page-markdown-in-an-s3-object-store) |
 | 11 | [Collect search service metrics](chapters/11-collect-metrics-from-every-service) |
 | 12 | [Watch search services on dashboards](chapters/12-watch-the-stack-on-dashboards) |

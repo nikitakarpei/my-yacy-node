@@ -7,8 +7,8 @@ text. This chapter gives the assistant access to both.
 
 ## What this chapter adds
 
-- `corpusmarkdown` stores the latest crawled page text as Markdown.
-- `garage` keeps that Markdown on disk as an S3-compatible object store.
+- `corpusmarkdown` stores the latest crawled page text as Markdown files in the
+  `page-markdown-data` volume.
 - `webresearchmcp` lets your assistant search SearXNG and read page text.
 
 ## Start

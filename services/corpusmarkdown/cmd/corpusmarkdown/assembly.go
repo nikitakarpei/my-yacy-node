@@ -21,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/prometheus"
+	pagemarkdowncorporafilesystem "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/filesystem"
 	pagemarkdowncorporas3 "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/s3"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -34,6 +35,11 @@ const (
 	readHeaderLimit = 10 * time.Second
 	shutdownLimit   = 15 * time.Second
 )
+
+type pageMarkdownCorpus interface {
+	pageintake.PageMarkdownCorpus
+	markdownrecall.PageMarkdownCorpus
+}
 
 type Listeners struct {
 	Recall net.Listener
@@ -51,9 +57,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 	if err != nil {
 		return err
 	}
-	markdownCorpus, err := pagemarkdowncorporas3.OpenCorpus(
-		ctx, cfg.PageMarkdownObjectStore, cfg.PageMarkdownBucket, wallclock.Clock{},
-	)
+	markdownCorpus, err := pageMarkdownCorpusFor(ctx, cfg)
 	if err != nil {
 		return err
 	}
@@ -102,7 +106,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", listeners.Recall.Addr().String()),
-		slog.String("bucket", cfg.PageMarkdownBucket),
+		slog.String("pageMarkdownStore", pageMarkdownStoreOf(cfg)),
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, shutdownLimit,
@@ -140,4 +144,23 @@ func pageOfferConsumerFor(
 		return nil, fmt.Errorf("create page offer consumer: %w", err)
 	}
 	return consumer, nil
+}
+
+func pageMarkdownCorpusFor(ctx context.Context, cfg ServiceConfig) (pageMarkdownCorpus, error) {
+	if cfg.PageMarkdownObjectStore == nil {
+		return pagemarkdowncorporafilesystem.OpenCorpus(
+			cfg.PageMarkdownDirectory,
+			wallclock.Clock{},
+		)
+	}
+	return pagemarkdowncorporas3.OpenCorpus(
+		ctx, *cfg.PageMarkdownObjectStore, cfg.PageMarkdownBucket, wallclock.Clock{},
+	)
+}
+
+func pageMarkdownStoreOf(cfg ServiceConfig) string {
+	if cfg.PageMarkdownObjectStore == nil {
+		return cfg.PageMarkdownDirectory
+	}
+	return cfg.PageMarkdownObjectStore.Endpoint + "/" + cfg.PageMarkdownBucket
 }
