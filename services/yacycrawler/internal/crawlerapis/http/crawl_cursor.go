@@ -1,4 +1,4 @@
-package crawlerhttp
+package http
 
 import (
 	"encoding/base64"

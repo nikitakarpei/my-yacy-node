@@ -41,8 +41,8 @@ import (
 	crawledpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/applog"
 	crawledpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/prometheus"
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttp"
-	crawlerhttpobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttpobservers/applog"
+	crawlerapiobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapiobservers/applog"
+	crawlerapishttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapis/http"
 	crawlfinishingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishingobservers/applog"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
@@ -168,13 +168,13 @@ func RunService(
 	err = servergroup.Run(
 		ctx,
 		opsShutdownLimit,
-		serversFor(listeners, registry, crawlerhttp.New(
+		serversFor(listeners, registry, crawlerapishttp.New(
 			storage,
 			crawlState.crawls,
 			crawlState.frontier,
 			crawlState.progressCounts,
 			crawlState.frontier,
-			crawlerhttpobserversapplog.CrawlerAPILog{},
+			crawlerapiobserversapplog.CrawlerAPILog{},
 		)),
 		orders.Run,
 		visits.Run,

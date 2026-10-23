@@ -1,4 +1,4 @@
-package crawlerhttp_test
+package http_test
 
 import (
 	"context"
@@ -22,7 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlprogress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttp"
+	crawlerapishttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapis/http"
 )
 
 var errServerDown = errors.New("server down")
@@ -296,7 +296,7 @@ func newScene(t *testing.T) *apiScene {
 }
 
 func (scene *apiScene) handler() http.Handler {
-	return crawlerhttp.New(
+	return crawlerapishttp.New(
 		scene.storage, scene.records, scene.pending, scene.progress, scene.frontier, scene.failures,
 	)
 }

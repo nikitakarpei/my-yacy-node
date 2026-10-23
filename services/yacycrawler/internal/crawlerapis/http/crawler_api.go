@@ -1,8 +1,8 @@
-// Package crawlerhttp serves the crawler's operator API over HTTP: place an order, page
+// Package http serves the crawler's operator API over HTTP: place an order, page
 // through the crawls with their progress and through the hosts of a crawl, cancel or pause
 // one, and pause or resume every page visit. A state change sent from another origin is
 // refused.
-package crawlerhttp
+package http
 
 import (
 	"cmp"
