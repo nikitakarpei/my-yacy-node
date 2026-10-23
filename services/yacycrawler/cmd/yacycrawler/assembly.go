@@ -46,6 +46,7 @@ import (
 	crawlobserverscrawlfinishingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/crawlfinishing/applog"
 	crawlobserverscrawlprogressapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/crawlprogress/applog"
 	crawlobserversfrontierapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/frontier/applog"
+	crawlobserversfrontierprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/frontier/prometheus"
 	crawlobserverslinkdiscoveryapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/applog"
 	crawlobserverslinkdiscoveryprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/prometheus"
 	crawlobserversobservedfetchapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/observedfetch/applog"
@@ -60,7 +61,6 @@ import (
 	crawlobserverspagevisitprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisit/prometheus"
 	crawlobserverspagevisitintakeapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisitintake/applog"
 	crawlobserverspagevisitintakeprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisitintake/prometheus"
-	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 )
 
@@ -130,7 +130,7 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	frontiermetricsprometheus.New(registry, crawlState.frontier)
+	crawlobserversfrontierprometheus.New(registry, crawlState.frontier)
 	progressCounter := crawlprogress.NewCounter(
 		storage,
 		crawlState.progressCounts,

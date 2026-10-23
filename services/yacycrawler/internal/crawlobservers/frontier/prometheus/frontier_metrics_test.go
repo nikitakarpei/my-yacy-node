@@ -8,7 +8,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
-	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
+	crawlobserversfrontierprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/frontier/prometheus"
 )
 
 type frontier struct {
@@ -22,10 +22,10 @@ func (f frontier) AmountPending(context.Context) (int64, bool) {
 
 func TestPendingPageVisitsReportTheAmountOnTheFrontier(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	frontiermetricsprometheus.New(registry, frontier{amount: 42, counted: true})
+	crawlobserversfrontierprometheus.New(registry, frontier{amount: 42, counted: true})
 
 	expected := `
-# HELP yacycrawler_pending_page_visits Page visits on the frontier of this crawler instance, taken or not.
+# HELP yacycrawler_pending_page_visits Page visits pending on the frontier, leased or not.
 # TYPE yacycrawler_pending_page_visits gauge
 yacycrawler_pending_page_visits 42
 `
@@ -36,7 +36,7 @@ yacycrawler_pending_page_visits 42
 
 func TestPendingPageVisitsAreLeftOutWhenTheFrontierCannotCountThem(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	frontiermetricsprometheus.New(registry, frontier{})
+	crawlobserversfrontierprometheus.New(registry, frontier{})
 
 	if amount, err := testutil.GatherAndCount(registry); err != nil || amount != 0 {
 		t.Fatalf("GatherAndCount = %d, %v; want no sample", amount, err)
