@@ -200,6 +200,7 @@ func searchRequestFor(search textsearch.Search) *blevesearch.SearchRequest {
 	request := blevesearch.NewSearchRequestOptions(
 		queryFor(search), search.Limit, search.Offset, false,
 	)
+	request.SortBy([]string{"-_score", "_id"})
 	request.Fields = []string{"title", "url"}
 	request.Highlight = blevesearch.NewHighlightWithStyle(snippetHighlighterName)
 	request.Highlight.AddField("content")
