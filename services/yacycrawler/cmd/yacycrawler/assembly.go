@@ -41,7 +41,7 @@ import (
 	crawledpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/applog"
 	crawledpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/prometheus"
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
-	crawlerapiobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapiobservers/applog"
+	crawlerapiobservershttpapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapiobservers/http/applog"
 	crawlerapishttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapis/http"
 	crawlfinishingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishingobservers/applog"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
@@ -174,7 +174,7 @@ func RunService(
 			crawlState.frontier,
 			crawlState.progressCounts,
 			crawlState.frontier,
-			crawlerapiobserversapplog.CrawlerAPILog{},
+			crawlerapiobservershttpapplog.CrawlerAPILog{},
 		)),
 		orders.Run,
 		visits.Run,

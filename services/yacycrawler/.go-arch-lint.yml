@@ -98,8 +98,8 @@ components:
     in: internal/crawledpages/jetstream/**
   crawlerapishttp:
     in: internal/crawlerapis/http/**
-  crawlerapiobserversapplog:
-    in: internal/crawlerapiobservers/applog/**
+  crawlerapiobservershttpapplog:
+    in: internal/crawlerapiobservers/http/applog/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
