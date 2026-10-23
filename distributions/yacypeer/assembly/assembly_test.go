@@ -5,6 +5,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
@@ -57,17 +58,43 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
 	}()
 
-	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
-	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
-	opsURL := "http://" + ops.Addr().String()
-	awaitAnswer(t, opsURL+"/metrics", "go_goroutines")
-	for _, service := range []string{
-		"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown",
-		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge",
-	} {
-		awaitAnswer(t, opsURL+"/metrics/"+service, service+"_info 1")
+	awaitEveryService(t, env, ops)
+	awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics", "go_goroutines")
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+func TestRunPeerSendsOutboundRequestsThroughTheEgressProxyTheOperatorNames(t *testing.T) {
+	proxiedURLs := make(chan string, 16)
+	proxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		select {
+		case proxiedURLs <- r.URL.String():
+		default:
+		}
+		w.WriteHeader(http.StatusBadGateway)
+	}))
+	t.Cleanup(proxy.Close)
+	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvEgressProxyURL] = proxy.URL
+	cfg, ops := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+	}()
+
+	select {
+	case proxiedURL := <-proxiedURLs:
+		if proxiedURL != env[yacypeerassembly.EnvSeedlistURLs] {
+			t.Errorf("proxied %q, want the seedlist", proxiedURL)
+		}
+	case <-time.After(startDeadline):
+		t.Error("no request reached the egress proxy the operator names")
 	}
 
+	awaitEveryService(t, env, ops)
 	cancel()
 	awaitShutdown(t, runDone)
 }
@@ -109,6 +136,18 @@ func TestRunPeerFailsWhenAServiceConfigIsInvalid(t *testing.T) {
 	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
 	if err == nil || !strings.HasPrefix(err.Error(), "corpustext:") {
 		t.Errorf("RunPeer = %v, want the corpustext config refused", err)
+	}
+}
+
+func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
+	t.Helper()
+	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
+	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
+	for _, service := range []string{
+		"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown",
+		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge",
+	} {
+		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")
 	}
 }
 

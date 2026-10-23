@@ -27,7 +27,7 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer broker.Shutdown()
-	endpoints, err := localEndpointsOn(ctx, broker.ClientURL())
+	endpoints, err := sharedEndpointsFor(ctx, cfg, broker.ClientURL())
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
@@ -43,10 +43,10 @@ func RunPeer(
 	})
 }
 
-func logStarted(ctx context.Context, endpoints localEndpoints, ops net.Listener) {
+func logStarted(ctx context.Context, endpoints sharedEndpoints, ops net.Listener) {
 	slog.DebugContext(ctx, "yacypeer started",
 		slog.String("natsUrl", endpoints.natsURL),
-		slog.String("egressProxyUrl", endpoints.egressProxyURL()),
+		slog.String("egressProxyUrl", endpoints.egressProxyURL.Redacted()),
 		slog.String("crawlerApiAddr", endpoints.crawlerAPIAddress()),
 		slog.String("opsAddr", ops.Addr().String()),
 	)
@@ -60,9 +60,8 @@ func opsMuxFor(processRegistry *prometheus.Registry, services []service) *http.S
 	return mux
 }
 
-func runEvery(ctx context.Context, endpoints localEndpoints, services []service) error {
-	runs := make([]func(context.Context) error, 0, len(services)+1)
-	runs = append(runs, endpoints.runEgressProxy)
+func runEvery(ctx context.Context, endpoints sharedEndpoints, services []service) error {
+	runs := endpoints.runs()
 	for _, service := range services {
 		runs = append(runs, service.run)
 	}

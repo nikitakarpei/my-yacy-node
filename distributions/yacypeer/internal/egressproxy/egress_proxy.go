@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/stripe/smokescreen/pkg/smokescreen"
@@ -33,8 +34,8 @@ func Listen(ctx context.Context) (*EgressProxy, error) {
 	return &EgressProxy{listener: listener}, nil
 }
 
-func (p *EgressProxy) URL() string {
-	return "http://" + p.listener.Addr().String()
+func (p *EgressProxy) URL() *url.URL {
+	return &url.URL{Scheme: "http", Host: p.listener.Addr().String()}
 }
 
 func (p *EgressProxy) Run(ctx context.Context) error {

@@ -13,10 +13,11 @@ repository already builds its image from the same commit.
 
 ## Decision
 
-Link `github.com/stripe/smokescreen` into `yacypeer`, and run it on the local host only.
+Link `github.com/stripe/smokescreen` into `yacypeer`, and run it on the local host only,
+unless the operator names an egress proxy.
 
 ## Consequences
 
-* The peer needs no egress proxy outside it.
+* The peer needs no egress proxy outside it, but can use one that the operator names.
 * Nothing outside the host can send requests through the built-in proxy.
 * The binary is larger.

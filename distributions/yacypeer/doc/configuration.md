@@ -10,7 +10,12 @@ You configure yacypeer through environment variables.
 | `YACYPEER_NETWORK_NAME` | `freeworld` | YaCy network the peer joins. |
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
 | `YACYPEER_OPS_ADDR` | `:9090` | Address that serves `/metrics` and `/metrics/<service>`. |
+| `YACYPEER_EGRESS_PROXY_URL` | built-in proxy | HTTP proxy for all outbound requests. It must accept `CONNECT`. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
+
+The built-in proxy refuses requests to loopback and private addresses. If you set
+`YACYPEER_EGRESS_PROXY_URL`, yacypeer does not start the built-in proxy, and your proxy
+must refuse these requests.
 
 ## Services
 

@@ -6,7 +6,6 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"strings"
 	"sync"
 	"testing"
@@ -60,11 +59,7 @@ func runningProxy(t *testing.T) *egressproxy.EgressProxy {
 
 func clientThrough(t *testing.T, proxy *egressproxy.EgressProxy) *http.Client {
 	t.Helper()
-	proxyURL, err := url.Parse(proxy.URL())
-	if err != nil {
-		t.Fatalf("parse the proxy URL %q: %v", proxy.URL(), err)
-	}
-	return &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)}}
+	return &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxy.URL())}}
 }
 
 func TestURLNamesTheLoopbackInterface(t *testing.T) {
@@ -73,7 +68,7 @@ func TestURLNamesTheLoopbackInterface(t *testing.T) {
 		t.Fatalf("Listen: %v", err)
 	}
 
-	if got := proxy.URL(); !strings.HasPrefix(got, "http://127.0.0.1:") {
+	if got := proxy.URL().String(); !strings.HasPrefix(got, "http://127.0.0.1:") {
 		t.Errorf("URL = %q, want a loopback URL", got)
 	}
 }
