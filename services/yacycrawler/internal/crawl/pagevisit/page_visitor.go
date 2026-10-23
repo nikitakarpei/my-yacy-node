@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -35,6 +36,7 @@ type pageVisitor struct {
 	htmlPageReading  HTMLPageReading
 	crawledPages     CrawledPages
 	frontier         Frontier
+	linkObserver     LinkAdmissionObserver
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
@@ -47,6 +49,7 @@ func New(
 	htmlPageReading HTMLPageReading,
 	crawledPages CrawledPages,
 	frontier Frontier,
+	linkObserver LinkAdmissionObserver,
 ) PageVisitor {
 	return &pageVisitor{
 		storage:          storage,
@@ -57,6 +60,7 @@ func New(
 		htmlPageReading:  htmlPageReading,
 		crawledPages:     crawledPages,
 		frontier:         frontier,
+		linkObserver:     linkObserver,
 	}
 }
 
@@ -75,7 +79,7 @@ func (visitor *pageVisitor) VisitPage(
 		return returnedOutcome(errCrawledPageUnpublished)
 	}
 	if err := visitor.putOnFrontier(
-		ctx, order, visitedPage.nextPageVisitsFrom(pendingPageVisit),
+		ctx, order, pendingPageVisit.CrawlID, visitedPage.nextPageVisitsFrom(pendingPageVisit),
 	); err != nil {
 		return returnedOutcome(err)
 	}
@@ -129,6 +133,7 @@ func (visitor *pageVisitor) publishCrawledPage(
 func (visitor *pageVisitor) putOnFrontier(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
+	crawlID crawlid.CrawlID,
 	nextPageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
 	admittedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(nextPageVisits))
@@ -136,6 +141,13 @@ func (visitor *pageVisitor) putOnFrontier(
 		if order.Admits(nextPageVisit.URL, nextPageVisit.Depth) {
 			admittedPageVisits = append(admittedPageVisits, nextPageVisit)
 		}
+	}
+	if amountOfUnadmittedLinks := len(
+		nextPageVisits,
+	) - len(
+		admittedPageVisits,
+	); amountOfUnadmittedLinks > 0 {
+		visitor.linkObserver.LinksUnadmitted(ctx, crawlID, amountOfUnadmittedLinks)
 	}
 	if err := visitor.storage.Update(ctx, func(tx *vault.Txn) error {
 		return visitor.frontier.Owe(tx, admittedPageVisits)

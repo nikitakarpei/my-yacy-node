@@ -48,6 +48,8 @@ components:
     in: internal/crawls/**
   frontier:
     in: internal/frontier/**
+  crawlprogress:
+    in: internal/crawlprogress/**
   pagevisitlimits:
     in: internal/pagevisitlimits/**
   crawlorderobserversapplog:
@@ -187,6 +189,7 @@ deps:
   pagevisit:
     mayDependOn:
       - acceptedorder
+      - crawlid
       - pagehtmlreading
       - pendingpagevisit
     canUse:
@@ -250,6 +253,13 @@ deps:
     canUse:
       - vault
       - serviceruntime
+  crawlprogress:
+    mayDependOn:
+      - crawlid
+      - pendingpagevisit
+      - vaultkeyparts
+    canUse:
+      - vault
   pagevisitlimits:
     mayDependOn:
       - crawlid
