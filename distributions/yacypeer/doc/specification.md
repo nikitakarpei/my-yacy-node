@@ -20,7 +20,7 @@ program, connected and ready to use.
 * The program SHALL send outbound requests through the egress proxy that the operator
   names, else through a built-in egress proxy that only the local host can reach.
 * The program SHALL keep its local data in one data directory.
-* The program SHALL set the settings that connect the services, and SHALL NOT start when
+* The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.
 * The program SHALL serve the metrics of the process and of each service on one address.

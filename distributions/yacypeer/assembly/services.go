@@ -56,12 +56,12 @@ type serviceAssembly func(ctx context.Context, getenv func(string) string) (serv
 func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
-	endpoints sharedEndpoints,
+	addresses peerAddresses,
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
-		searchServiceAssembliesFor(cfg, endpoints),
-		crawlServiceAssembliesFor(cfg, endpoints)...,
+		searchServiceAssembliesFor(cfg, addresses),
+		crawlServiceAssembliesFor(cfg, addresses)...,
 	)
 	services := make([]service, 0, len(assemblies))
 	for _, assembly := range assemblies {
@@ -74,18 +74,18 @@ func servicesFor(
 	return services, nil
 }
 
-func searchServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []serviceAssembly {
+func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
 			serviceenvironment.Wiring{
-				yacynodeassembly.EnvPageOfferNATSURL:  endpoints.natsURL,
+				yacynodeassembly.EnvPageOfferNATSURL:  addresses.natsURL,
 				yacynodeassembly.EnvPageOfferDurable:  yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),
 				yacynodeassembly.EnvDataDir:           cfg.directoryOf(yacynodeService),
 				yacynodeassembly.EnvNetworkName:       cfg.NetworkName,
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
-				yacynodeassembly.EnvEgressProxyURL:    endpoints.egressProxyURL.String(),
+				yacynodeassembly.EnvEgressProxyURL:    addresses.egressProxyURL.String(),
 			},
 			yacynodeassembly.LoadServiceConfig,
 			yacynodeassembly.ListenersFor,
@@ -96,7 +96,7 @@ func searchServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []ser
 			serviceenvironment.Wiring{
 				yacydhtsearchassembly.EnvNetworkName:    cfg.NetworkName,
 				yacydhtsearchassembly.EnvSeedlistURLs:   cfg.SeedlistURLs,
-				yacydhtsearchassembly.EnvEgressProxyURL: endpoints.egressProxyURL.String(),
+				yacydhtsearchassembly.EnvEgressProxyURL: addresses.egressProxyURL.String(),
 			},
 			yacydhtsearchassembly.LoadServiceConfig,
 			yacydhtsearchassembly.ListenersFor,
@@ -105,7 +105,7 @@ func searchServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []ser
 		serviceAssemblyOf(
 			corpustextService,
 			serviceenvironment.Wiring{
-				corpustextassembly.EnvPageOfferNATSURL: endpoints.natsURL,
+				corpustextassembly.EnvPageOfferNATSURL: addresses.natsURL,
 				corpustextassembly.EnvPageOfferDurable: corpustextService,
 				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextService),
 			},
@@ -116,7 +116,7 @@ func searchServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []ser
 		serviceAssemblyOf(
 			corpusmarkdownService,
 			serviceenvironment.Wiring{
-				corpusmarkdownassembly.EnvPageOfferNATSURL: endpoints.natsURL,
+				corpusmarkdownassembly.EnvPageOfferNATSURL: addresses.natsURL,
 				corpusmarkdownassembly.EnvPageOfferDurable: corpusmarkdownService,
 				corpusmarkdownassembly.EnvPageMarkdownDirectory: cfg.directoryOf(
 					corpusmarkdownService,
@@ -129,25 +129,25 @@ func searchServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []ser
 	}
 }
 
-func crawlServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []serviceAssembly {
+func crawlServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacycrawlerService,
 			serviceenvironment.Wiring{
-				yacycrawlerassembly.EnvCrawlNATSURL:  endpoints.natsURL,
+				yacycrawlerassembly.EnvCrawlNATSURL:  addresses.natsURL,
 				yacycrawlerassembly.EnvCrawlStateDir: cfg.directoryOf(yacycrawlerService),
-				yacycrawlerassembly.EnvProxyURL:      endpoints.egressProxyURL.String(),
+				yacycrawlerassembly.EnvProxyURL:      addresses.egressProxyURL.String(),
 				yacycrawlerassembly.EnvProxyDialMode: yacycrawlerassembly.DefaultProxyDialMode,
 			},
 			yacycrawlerassembly.LoadServiceConfig,
-			crawlerListenersOn(endpoints.crawlerAPI),
+			crawlerListenersOn(addresses.crawlerAPI),
 			yacycrawlerassembly.RunService,
 		),
 		serviceAssemblyOf(
 			pagescrapeService,
 			serviceenvironment.Wiring{
-				pagescrapeassembly.EnvScrapeNATSURL: endpoints.natsURL,
-				pagescrapeassembly.EnvProxyURL:      endpoints.egressProxyURL.String(),
+				pagescrapeassembly.EnvScrapeNATSURL: addresses.natsURL,
+				pagescrapeassembly.EnvProxyURL:      addresses.egressProxyURL.String(),
 				pagescrapeassembly.EnvProxyDialMode: pagescrapeassembly.DefaultProxyDialMode,
 			},
 			pagescrapeassembly.LoadServiceConfig,
@@ -157,7 +157,7 @@ func crawlServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []serv
 		serviceAssemblyOf(
 			crawlconsoleService,
 			serviceenvironment.Wiring{
-				crawlconsoleassembly.EnvCrawlerAPIURL: endpoints.crawlerAPIURL(),
+				crawlconsoleassembly.EnvCrawlerAPIURL: addresses.crawlerAPIURL(),
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.ListenersFor,
@@ -166,8 +166,8 @@ func crawlServiceAssembliesFor(cfg PeerConfig, endpoints sharedEndpoints) []serv
 		serviceAssemblyOf(
 			crawlscrapebridgeService,
 			serviceenvironment.Wiring{
-				crawlscrapebridgeassembly.EnvCrawlNATSURL:         endpoints.natsURL,
-				crawlscrapebridgeassembly.EnvScrapeRequestNATSURL: endpoints.natsURL,
+				crawlscrapebridgeassembly.EnvCrawlNATSURL:         addresses.natsURL,
+				crawlscrapebridgeassembly.EnvScrapeRequestNATSURL: addresses.natsURL,
 			},
 			crawlscrapebridgeassembly.LoadServiceConfig,
 			crawlscrapebridgeassembly.ListenersFor,
