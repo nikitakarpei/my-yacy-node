@@ -29,7 +29,8 @@ func (proxyLog) Levels() []logrus.Level {
 }
 
 func (l proxyLog) Fire(entry *logrus.Entry) error {
-	attrs := []slog.Attr{slog.String("event", entry.Message)}
+	attrs := make([]slog.Attr, 0, len(entry.Data)+1)
+	attrs = append(attrs, slog.String("event", entry.Message))
 	for _, key := range slices.Sorted(maps.Keys(entry.Data)) {
 		attrs = append(attrs, slog.Any(key, entry.Data[key]))
 	}

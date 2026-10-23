@@ -25,7 +25,8 @@ type logBuffer struct {
 func (b *logBuffer) Write(p []byte) (int, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	return b.buffer.Write(p)
+	_, _ = b.buffer.Write(p)
+	return len(p), nil
 }
 
 func (b *logBuffer) String() string {
