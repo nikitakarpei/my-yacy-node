@@ -46,6 +46,13 @@ type Listeners struct {
 }
 
 func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) error {
+	pageOfferOpening := pageofferwait.Start(
+		ctx,
+		pageOffersFor(cfg),
+		systemClock{},
+		pageofferwaitobserversapplog.PageOfferWaitLog{},
+	)
+	defer pageOfferOpening.Close()
 	formatDerivations, err := pageformats.New()
 	if err != nil {
 		return err
@@ -104,7 +111,9 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 			{Name: "ops", Listener: listeners.Ops, Server: opsServer},
 		},
 		func(runCtx context.Context) error {
-			return takeInPageOffers(runCtx, cfg, intakeConfig, intakeReceiptPublicationObservers)
+			return takeInPageOffers(
+				runCtx, pageOfferOpening, intakeConfig, intakeReceiptPublicationObservers,
+			)
 		},
 	)
 	slog.InfoContext(ctx, "corpustext stopped")
@@ -113,20 +122,15 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 
 func takeInPageOffers(
 	ctx context.Context,
-	cfg ServiceConfig,
+	pageOfferOpening *pageofferwait.Opening[pageOffers],
 	intakeConfig pageintake.Config,
 	intakeReceiptPublicationObservers intakereceiptsnats.IntakeReceiptPublicationObservers,
 ) error {
-	offers, opened := pageofferwait.Opened(
-		ctx,
-		pageOffersFor(cfg),
-		systemClock{},
-		pageofferwaitobserversapplog.PageOfferWaitLog{},
-	)
+	offers, opened := pageOfferOpening.Opened(ctx)
 	if !opened {
 		return nil
 	}
-	defer offers.connection.Close()
+	defer offers.Close()
 	intakeConfig.Source = offers.consumer
 	intakeConfig.IntakeReceipts = intakereceiptsnats.NewIntakeReceipts(
 		offers.connection, corpus, intakeReceiptPublicationObservers,
@@ -140,6 +144,10 @@ func takeInPageOffers(
 type pageOffers struct {
 	consumer   jetstream.Consumer
 	connection *nats.Conn
+}
+
+func (offers pageOffers) Close() {
+	offers.connection.Close()
 }
 
 func pageOffersFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, error) {

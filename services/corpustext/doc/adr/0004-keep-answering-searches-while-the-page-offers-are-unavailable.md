@@ -12,10 +12,11 @@ index is available.
 
 ## Decision
 
-`corpustext` opens its search index and starts serving searches before it
-opens the page offers. While the broker or the stream is unavailable, it logs
-an error and tries again after a pause that doubles up to 30 seconds. It does
-not stop.
+`corpustext` starts to open the page offers in the background first, so it
+registers its consumer before it opens its search index. It then opens its
+search index and serves searches without waiting for the page offers. While
+the broker or the stream is unavailable, it logs an error and tries again after
+a pause that doubles up to 30 seconds. It does not stop.
 
 A search index that cannot be opened still stops the service at start.
 

@@ -37,9 +37,9 @@ When `SEARCH_INDEX_ENGINE` is `manticore`:
 |---|---|---|
 | `CORPUSTEXT_SEARCH_ADDR` | `:8096` | Address serving `GET /search`. |
 
-The service answers searches from the search index that `SEARCH_INDEX_ENGINE` names. It
-starts to answer before it reaches the broker. While the broker or its stream is not
-available, the service logs an error and tries again. The pause starts at 1 second and
+The service answers searches from the search index that `SEARCH_INDEX_ENGINE` names, also
+while the broker is not available. While the broker or its stream is not available, the
+service logs an error and tries again. The pause starts at 1 second and
 doubles up to 30 seconds.
 
 ## Operations
