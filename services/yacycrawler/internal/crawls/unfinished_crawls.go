@@ -43,6 +43,19 @@ func (unfinished unfinishedCrawls) crawlOf(
 	return unfinished.crawls.Get(tx, crawlID)
 }
 
+func (unfinished unfinishedCrawls) crawlIDs(tx *vault.Txn) ([]crawlid.CrawlID, error) {
+	var crawlIDs []crawlid.CrawlID
+	err := unfinished.crawls.Scan(
+		tx,
+		vault.EveryKey(),
+		func(crawlID crawlid.CrawlID, _ Crawl) (bool, error) {
+			crawlIDs = append(crawlIDs, crawlID)
+			return true, nil
+		},
+	)
+	return crawlIDs, err
+}
+
 func (unfinished unfinishedCrawls) put(tx *vault.Txn, crawlID crawlid.CrawlID, crawl Crawl) error {
 	_, err := unfinished.crawls.Put(tx, crawlID, crawl)
 	return err

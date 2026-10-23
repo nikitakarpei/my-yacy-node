@@ -3,15 +3,12 @@
 // visit of a crawl neither held nor closed, and the visit comes back when the lease ends
 // before the worker settles it. A visit pending or settled before is not added again, and a
 // closed or cancelled crawl takes none. A cancelled crawl's pending visits are dropped in
-// batches and reported as cancelled. A running crawl with nothing pending is reported when
-// its head falls due, a held or cancelled one by the transaction that leaves it so. A pause
-// holds every page visit.
+// batches and reported as cancelled. A pause holds every page visit.
 package frontier
 
 import (
 	"context"
 	cryptorand "crypto/rand"
-	"errors"
 	"fmt"
 	"maps"
 	"math/rand/v2"
@@ -53,11 +50,6 @@ type FrontierObserver interface {
 		err error,
 	)
 	FrontierLeaseOutdated(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit)
-	FrontierCrawlNotSettled(ctx context.Context, crawlID crawlid.CrawlID, err error)
-}
-
-type CrawlSettlement interface {
-	LastPageVisitEnded(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
 type CancelledPageVisits interface {
@@ -66,7 +58,6 @@ type CancelledPageVisits interface {
 
 type Frontier struct {
 	storage    *vault.Vault
-	settlement CrawlSettlement
 	cancelled  CancelledPageVisits
 	ledger     pageVisitLedger
 	heads      crawlHeads
@@ -81,19 +72,17 @@ type Frontier struct {
 func Open(
 	ctx context.Context,
 	storage *vault.Vault,
-	settlement CrawlSettlement,
 	cancelled CancelledPageVisits,
 	lease time.Duration,
 	clock Clock,
 	observer FrontierObserver,
 ) (*Frontier, error) {
 	frontier := &Frontier{
-		storage:    storage,
-		settlement: settlement,
-		cancelled:  cancelled,
-		lease:      lease,
-		clock:      clock,
-		observer:   observer,
+		storage:   storage,
+		cancelled: cancelled,
+		lease:     lease,
+		clock:     clock,
+		observer:  observer,
 	}
 	var err error
 	if frontier.ledger, err = registerPageVisitLedger(ctx, storage); err != nil {
@@ -183,11 +172,8 @@ func (frontier *Frontier) restoreHeadFrom(
 	position duePosition,
 ) error {
 	first, pending, err := frontier.ledger.firstDueFrom(tx, crawlID, position)
-	if err != nil {
+	if err != nil || !pending {
 		return err
-	}
-	if !pending {
-		return frontier.heads.moveTo(tx, crawlID, earliestPosition)
 	}
 	return frontier.heads.moveTo(tx, crawlID, first.position())
 }
@@ -271,12 +257,9 @@ func (frontier *Frontier) leaseNextPageVisit(
 	if !due {
 		return pendingpagevisit.LeasedPageVisit{}, false, false
 	}
-	if err := frontier.settled(ctx, head.crawlID, func(
-		tx *vault.Txn,
-		settlement CrawlSettlement,
-	) error {
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		leasedPageVisit, leased, err = frontier.leaseHeadOf(tx, head.crawlID, now, settlement)
+		leasedPageVisit, leased, err = frontier.leaseHeadOf(tx, head.crawlID, now)
 		return err
 	}); err != nil {
 		frontier.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease a due page visit: %w", err))
@@ -308,7 +291,6 @@ func (frontier *Frontier) leaseHeadOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	now time.Time,
-	settlement CrawlSettlement,
 ) (pendingpagevisit.LeasedPageVisit, bool, error) {
 	paused, err := frontier.pause.isOn(tx)
 	if err != nil || paused {
@@ -323,12 +305,7 @@ func (frontier *Frontier) leaseHeadOf(
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
 	if !pending {
-		if err := frontier.heads.remove(tx, crawlID); err != nil {
-			return pendingpagevisit.LeasedPageVisit{}, false, err
-		}
-		return pendingpagevisit.LeasedPageVisit{}, false, frontier.closeWithNothingPending(
-			tx, crawlID, settlement,
-		)
+		return pendingpagevisit.LeasedPageVisit{}, false, frontier.heads.remove(tx, crawlID)
 	}
 	if first.due > now.Unix() {
 		return pendingpagevisit.LeasedPageVisit{}, false, frontier.heads.moveTo(
@@ -392,11 +369,8 @@ func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
 		return false
 	}
 	start := randomURLHash()
-	if err := frontier.settled(ctx, crawlID, func(
-		tx *vault.Txn,
-		settlement CrawlSettlement,
-	) error {
-		return frontier.drainBatchOf(tx, crawlID, start, settlement)
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
+		return frontier.drainBatchOf(tx, crawlID, start)
 	}); err != nil {
 		frontier.observer.FrontierDrainFailed(ctx, fmt.Errorf("drain crawl %s: %w", crawlID, err))
 		return false
@@ -433,7 +407,6 @@ func (frontier *Frontier) drainBatchOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	start urlhash.URLHash,
-	settlement CrawlSettlement,
 ) error {
 	drainedOfHosts, amountDrained, err := frontier.ledger.drainFrom(
 		tx, crawlID, start, pageVisitsDrainedAtOnce,
@@ -451,63 +424,15 @@ func (frontier *Frontier) drainBatchOf(
 	if amountDrained == pageVisitsDrainedAtOnce {
 		return nil
 	}
-	return frontier.closeWithNothingPending(tx, crawlID, settlement)
+	return frontier.closeDrained(tx, crawlID)
 }
 
-func (frontier *Frontier) closeWithNothingPending(
-	tx *vault.Txn,
-	crawlID crawlid.CrawlID,
-	settlement CrawlSettlement,
-) error {
+func (frontier *Frontier) closeDrained(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil {
+	if err != nil || mark != markCancelling {
 		return err
 	}
-	if mark == markCancelling {
-		if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
-			return err
-		}
-	}
-	if err := settlement.LastPageVisitEnded(tx, crawlID); err != nil {
-		return crawlSettlementError{cause: err}
-	}
-	return nil
-}
-
-type crawlSettlementError struct {
-	cause error
-}
-
-func (e crawlSettlementError) Error() string {
-	return e.cause.Error()
-}
-
-func (e crawlSettlementError) Unwrap() error {
-	return e.cause
-}
-
-func (frontier *Frontier) settled(
-	ctx context.Context,
-	crawlID crawlid.CrawlID,
-	write func(tx *vault.Txn, settlement CrawlSettlement) error,
-) error {
-	err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
-		return write(tx, frontier.settlement)
-	})
-	notSettled, failed := errors.AsType[crawlSettlementError](err)
-	if !failed {
-		return err
-	}
-	frontier.observer.FrontierCrawlNotSettled(ctx, crawlID, notSettled.cause)
-	return frontier.storage.Update(ctx, func(tx *vault.Txn) error {
-		return write(tx, unsettledCrawls{})
-	})
-}
-
-type unsettledCrawls struct{}
-
-func (unsettledCrawls) LastPageVisitEnded(*vault.Txn, crawlid.CrawlID) error {
-	return nil
+	return frontier.crawlMarks.mark(tx, crawlID, markClosed)
 }
 
 func (frontier *Frontier) AmountOfPendingPageVisits(ctx context.Context) (int64, bool) {
@@ -555,12 +480,13 @@ func (frontier *Frontier) Settle(
 ) {
 	pageVisit := leasedPageVisit.PageVisit
 	leased := false
-	if err := frontier.settled(ctx, pageVisit.CrawlID, func(
-		tx *vault.Txn,
-		settlement CrawlSettlement,
-	) error {
+	if err := frontier.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		leased, err = frontier.settleIn(tx, leasedPageVisit, settlement)
+		leased, err = frontier.ledger.settleLeased(
+			tx,
+			pageVisitKeyOf(pageVisit),
+			leasedPageVisit.LeasedUntil.Unix(),
+		)
 		return err
 	}); err != nil {
 		frontier.observer.FrontierSettleFailed(ctx, pageVisit, err)
@@ -569,31 +495,6 @@ func (frontier *Frontier) Settle(
 	if !leased {
 		frontier.observer.FrontierLeaseOutdated(ctx, pageVisit)
 	}
-}
-
-func (frontier *Frontier) settleIn(
-	tx *vault.Txn,
-	leasedPageVisit pendingpagevisit.LeasedPageVisit,
-	settlement CrawlSettlement,
-) (bool, error) {
-	crawlID := leasedPageVisit.PageVisit.CrawlID
-	settled, err := frontier.ledger.settleLeased(
-		tx,
-		pageVisitKeyOf(leasedPageVisit.PageVisit),
-		leasedPageVisit.LeasedUntil.Unix(),
-	)
-	if err != nil || !settled {
-		return false, err
-	}
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || mark == unmarked {
-		return true, err
-	}
-	pending, err := frontier.ledger.hasPending(tx, crawlID)
-	if err != nil || pending {
-		return true, err
-	}
-	return true, frontier.closeWithNothingPending(tx, crawlID, settlement)
 }
 
 func (frontier *Frontier) Return(

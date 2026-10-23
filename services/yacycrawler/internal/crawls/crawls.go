@@ -200,6 +200,14 @@ func settledStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlS
 	return yacycrawlcontract.CrawlStateSucceeded
 }
 
+func (c *Crawls) UnfinishedCrawlIDs(tx *vault.Txn) ([]crawlid.CrawlID, error) {
+	crawlIDs, err := c.unfinished.crawlIDs(tx)
+	if err != nil {
+		return nil, fmt.Errorf("read the unfinished crawls: %w", err)
+	}
+	return crawlIDs, nil
+}
+
 func (c *Crawls) AmountOfRunningCrawls(tx *vault.Txn) (int, error) {
 	return c.unfinished.amountIn(tx, yacycrawlcontract.CrawlStateRunning)
 }

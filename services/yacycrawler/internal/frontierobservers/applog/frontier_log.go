@@ -21,7 +21,6 @@ const (
 	msgCompletedVisitNotCounted  = "a completed page visit could not be counted in the progress of its crawl"
 	msgDroppedVisitNotCounted    = "a dropped page visit could not be counted in the progress of its crawl"
 	msgUnadmittedLinksNotCounted = "unadmitted links could not be counted in the progress of their crawl"
-	msgFrontierCrawlNotSettled   = "a crawl with no pending page visit could not be finished"
 	msgFrontierLeaseOutdated     = "a page visit was settled under a lease that has since ended"
 )
 
@@ -100,17 +99,6 @@ func (FrontierLog) UnadmittedLinksNotCounted(
 
 func (FrontierLog) FrontierDrainFailed(ctx context.Context, err error) {
 	slog.WarnContext(ctx, msgFrontierDrainFailed, slog.Any("error", err))
-}
-
-func (FrontierLog) FrontierCrawlNotSettled(
-	ctx context.Context,
-	crawlID crawlid.CrawlID,
-	err error,
-) {
-	slog.ErrorContext(ctx, msgFrontierCrawlNotSettled,
-		slog.String("crawl", crawlID.String()),
-		slog.Any("error", err),
-	)
 }
 
 func (FrontierLog) FrontierLeaseOutdated(

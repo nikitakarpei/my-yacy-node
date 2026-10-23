@@ -395,6 +395,28 @@ func TestASettledCrawlFinishesByTheStateItWasIn(t *testing.T) {
 	}
 }
 
+func TestTheUnfinishedCrawlsAreTheOnesNotYetSettled(t *testing.T) {
+	s := keptCrawls(t)
+	running, paused, settled := s.start(t, "o1"), s.start(t, "o2"), s.start(t, "o3")
+	s.update(t, func(tx *vault.Txn) error {
+		_, _, err := s.crawls.Pause(tx, paused)
+		return err
+	})
+	s.settle(t, settled)
+
+	var unfinished []crawlid.CrawlID
+	s.view(t, func(tx *vault.Txn) error {
+		var err error
+		unfinished, err = s.crawls.UnfinishedCrawlIDs(tx)
+		return err
+	})
+
+	if len(unfinished) != 2 || !slices.Contains(unfinished, running) ||
+		!slices.Contains(unfinished, paused) {
+		t.Fatalf("unfinished = %v, want the running and the paused crawl", unfinished)
+	}
+}
+
 func TestAFinishedCrawlRefusesEveryStateChange(t *testing.T) {
 	s := keptCrawls(t)
 	crawlID := s.start(t, "o1")
@@ -533,10 +555,14 @@ func TestCrawlReadsTheStorageRefusesFail(t *testing.T) {
 		)
 		return err
 	})
+	unfinishedErr := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+		_, err := s.crawls.UnfinishedCrawlIDs(tx)
+		return err
+	})
 
 	for name, err := range map[string]error{
 		"start": startErr, "read": readErr, "change": changeErr, "settle": settleErr,
-		"list": listErr,
+		"list": listErr, "unfinished": unfinishedErr,
 	} {
 		if !errors.Is(err, errEngineRefusing) {
 			t.Errorf("%s = %v, want the refusal", name, err)
