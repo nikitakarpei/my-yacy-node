@@ -8,7 +8,7 @@ results to your browser search page.
 ## What this chapter adds
 
 - `corpustext` puts text from crawled pages into your local search index and
-  searches it. It keeps the index in the `search-index-data` volume.
+  searches it. It keeps the index in the `corpustext-data` volume.
 - The `searxng-crawled-text-search` plugin adds the `corpustext` search to the
   search page.
 

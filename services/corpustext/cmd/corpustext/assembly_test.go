@@ -157,7 +157,7 @@ func TestRunServiceAnswersSearchesWhileThePageOffersAreUnavailable(t *testing.T)
 	waitForShutdown(t, runDone)
 }
 
-func TestRunServiceFailsWhenTheSearchIndexSchemaCannotBeBootstrapped(t *testing.T) {
+func TestRunServiceFailsWhenTheSearchIndexCannotBeOpened(t *testing.T) {
 	failingElasticsearch := httptest.NewServer(http.HandlerFunc(
 		func(w http.ResponseWriter, _ *http.Request) {
 			w.WriteHeader(http.StatusServiceUnavailable)
@@ -167,7 +167,7 @@ func TestRunServiceFailsWhenTheSearchIndexSchemaCannotBeBootstrapped(t *testing.
 	cfg := serviceConfig(natstestserver.Start(t), failingElasticsearch.URL)
 
 	if err := corpustext.RunService(context.Background(), cfg, listenersFor(t)); err == nil {
-		t.Fatal("expected error when the search index schema cannot be bootstrapped")
+		t.Fatal("expected error when the search index cannot be opened")
 	}
 }
 

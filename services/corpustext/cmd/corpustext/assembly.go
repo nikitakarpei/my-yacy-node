@@ -62,8 +62,8 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 	if err != nil {
 		return fmt.Errorf("select search index: %w", err)
 	}
-	if err := selection.schema.Bootstrap(ctx); err != nil {
-		return fmt.Errorf("bootstrap search index schema: %w", err)
+	if err := selection.open(ctx); err != nil {
+		return fmt.Errorf("open search index: %w", err)
 	}
 	defer selection.close(ctx)
 	registry := prometheus.NewRegistry()

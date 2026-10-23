@@ -23,18 +23,3 @@ func startCorpusText(
 	maps.Copy(env, searchIndexEnv)
 	return corpustextservice.Start(t, ctx, networkName, natsURL, env)
 }
-
-func awaitSearchableCorpus(
-	t *testing.T,
-	ctx context.Context,
-	corpusText corpustextservice.CorpusText,
-) {
-	t.Helper()
-	awaitIndexedCorpus(t, func() int {
-		documents := 0
-		for _, term := range []string{englishSearchTerm, germanSearchTerm, spanishSearchTerm} {
-			documents += len(corpusText.MatchesFor(t, ctx, term, ""))
-		}
-		return documents
-	})
-}

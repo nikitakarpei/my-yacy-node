@@ -49,53 +49,59 @@ type Indexes struct {
 	directory       string
 	languageIndexes languageindex.LanguageIndexes
 	openIndexes     map[string]blevesearch.Index
-	alias           blevesearch.IndexAlias
+	everyIndex      blevesearch.IndexAlias
 }
 
-func NewIndexes(directory string, languageIndexes languageindex.LanguageIndexes) *Indexes {
+func New(directory string, languageIndexes languageindex.LanguageIndexes) *Indexes {
 	return &Indexes{directory: directory, languageIndexes: languageIndexes}
 }
 
-func (indexes *Indexes) Bootstrap(ctx context.Context) error {
+func (indexes *Indexes) Open(ctx context.Context) error {
 	if err := os.MkdirAll(indexes.directory, directoryPermission); err != nil {
 		return fmt.Errorf("create search index directory %s: %w", indexes.directory, err)
 	}
 	openIndexes := make(map[string]blevesearch.Index, len(indexes.languageIndexes.All()))
 	for _, languageIndex := range indexes.languageIndexes.All() {
-		opened, err := indexes.openedOrCreated(ctx, languageIndex)
-		if err != nil {
-			return errors.Join(err, closed(openIndexes))
+		path := filepath.Join(indexes.directory, languageIndex.Name)
+		if err := createIfAbsent(ctx, path, languageIndex); err != nil {
+			return errors.Join(err, closeAll(openIndexes))
 		}
-		openIndexes[languageIndex.Name] = opened
+		openIndex, err := blevesearch.Open(path)
+		if err != nil {
+			return errors.Join(
+				fmt.Errorf("open index %s: %w", languageIndex.Name, err),
+				closeAll(openIndexes),
+			)
+		}
+		openIndexes[languageIndex.Name] = openIndex
 	}
 	indexes.openIndexes = openIndexes
-	indexes.alias = blevesearch.NewIndexAlias(slices.Collect(maps.Values(openIndexes))...)
+	indexes.everyIndex = blevesearch.NewIndexAlias(slices.Collect(maps.Values(openIndexes))...)
 	return nil
 }
 
-func (indexes *Indexes) openedOrCreated(
+func createIfAbsent(
 	ctx context.Context,
+	path string,
 	languageIndex languageindex.LanguageIndex,
-) (blevesearch.Index, error) {
-	path := filepath.Join(indexes.directory, languageIndex.Name)
-	opened, err := blevesearch.Open(path)
-	if err == nil {
+) error {
+	if _, err := os.Stat(path); err == nil {
 		slog.DebugContext(ctx, "bleve index present", slog.String("index", languageIndex.Name))
-		return opened, nil
-	}
-	if !errors.Is(err, blevesearch.ErrorIndexPathDoesNotExist) {
-		return nil, fmt.Errorf("open index %s: %w", languageIndex.Name, err)
+		return nil
 	}
 	indexMapping, err := indexMappingFor(languageIndex.Language)
 	if err != nil {
-		return nil, fmt.Errorf("map index %s: %w", languageIndex.Name, err)
+		return fmt.Errorf("map index %s: %w", languageIndex.Name, err)
 	}
 	created, err := blevesearch.New(path, indexMapping)
 	if err != nil {
-		return nil, fmt.Errorf("create index %s: %w", languageIndex.Name, err)
+		return fmt.Errorf("create index %s: %w", languageIndex.Name, err)
+	}
+	if err := created.Close(); err != nil {
+		return fmt.Errorf("close created index %s: %w", languageIndex.Name, err)
 	}
 	slog.DebugContext(ctx, "bleve index created", slog.String("index", languageIndex.Name))
-	return created, nil
+	return nil
 }
 
 func indexMappingFor(language string) (*mapping.IndexMappingImpl, error) {
@@ -125,25 +131,25 @@ func analyzerOf(language string) string {
 }
 
 func documentMapping() *mapping.DocumentMapping {
-	title := searchedTextField()
+	title := textField()
 	title.Store = true
-	content := searchedTextField()
+	content := textField()
 	content.Store = true
 	content.IncludeTermVectors = true
-	url := searchedKeywordField()
+	url := keywordField()
 	url.Index = false
 	url.Store = true
 
 	document := blevesearch.NewDocumentStaticMapping()
 	document.AddFieldMappingsAt("title", title)
 	document.AddFieldMappingsAt("content", content)
-	document.AddFieldMappingsAt("auxiliary_text", searchedTextField())
+	document.AddFieldMappingsAt("auxiliary_text", textField())
 	document.AddFieldMappingsAt("url", url)
-	document.AddFieldMappingsAt("language", searchedKeywordField())
+	document.AddFieldMappingsAt("language", keywordField())
 	return document
 }
 
-func searchedTextField() *mapping.FieldMapping {
+func textField() *mapping.FieldMapping {
 	field := blevesearch.NewTextFieldMapping()
 	field.Store = false
 	field.IncludeTermVectors = false
@@ -151,7 +157,7 @@ func searchedTextField() *mapping.FieldMapping {
 	return field
 }
 
-func searchedKeywordField() *mapping.FieldMapping {
+func keywordField() *mapping.FieldMapping {
 	field := blevesearch.NewKeywordFieldMapping()
 	field.Analyzer = keyword.Name
 	field.Store = false
@@ -161,7 +167,7 @@ func searchedKeywordField() *mapping.FieldMapping {
 	return field
 }
 
-func closed(openIndexes map[string]blevesearch.Index) error {
+func closeAll(openIndexes map[string]blevesearch.Index) error {
 	var failures error
 	for name, opened := range openIndexes {
 		if err := opened.Close(); err != nil {
@@ -172,8 +178,8 @@ func closed(openIndexes map[string]blevesearch.Index) error {
 }
 
 func (indexes *Indexes) Index(_ context.Context, document searchdocument.Document) error {
-	languageIndex := indexes.openIndexes[indexes.languageIndexes.NameFor(document.Language)]
-	if err := languageIndex.Index(document.URL, document); err != nil {
+	openIndex := indexes.openIndexes[indexes.languageIndexes.NameFor(document.Language)]
+	if err := openIndex.Index(document.URL, document); err != nil {
 		return fmt.Errorf("index document %s: %w", document.URL, err)
 	}
 	return nil
@@ -183,7 +189,7 @@ func (indexes *Indexes) MatchesFor(
 	ctx context.Context,
 	search textsearch.Search,
 ) ([]searchdocument.PageMatch, error) {
-	result, err := indexes.alias.SearchInContext(ctx, searchRequestFor(search))
+	result, err := indexes.everyIndex.SearchInContext(ctx, searchRequestFor(search))
 	if err != nil {
 		return nil, fmt.Errorf("search: %w", err)
 	}
@@ -195,7 +201,7 @@ func searchRequestFor(search textsearch.Search) *blevesearch.SearchRequest {
 		queryFor(search), search.Limit, search.Offset, false,
 	)
 	request.Fields = []string{"title", "url"}
-	request.Highlight = blevesearch.NewHighlightWithStyle(snippetHighlighter)
+	request.Highlight = blevesearch.NewHighlightWithStyle(snippetHighlighterName)
 	request.Highlight.AddField("content")
 	return request
 }
@@ -219,8 +225,8 @@ func queryFor(search textsearch.Search) query.Query {
 	return ranking
 }
 
-func weightedMatchFor(words, field string, weight int) query.Query {
-	match := blevesearch.NewMatchQuery(words)
+func weightedMatchFor(searchQuery, field string, weight int) query.Query {
+	match := blevesearch.NewMatchQuery(searchQuery)
 	match.SetField(field)
 	match.SetBoost(float64(weight))
 	return match
@@ -252,7 +258,7 @@ func snippetOf(hit *search.DocumentMatch) string {
 }
 
 func (indexes *Indexes) Close(ctx context.Context) {
-	if err := closed(indexes.openIndexes); err != nil {
+	if err := closeAll(indexes.openIndexes); err != nil {
 		slog.WarnContext(ctx, "bleve index close failed", slog.Any("error", err))
 	}
 }

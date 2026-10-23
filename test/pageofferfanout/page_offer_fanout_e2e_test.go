@@ -14,6 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 )
 
+const indexedLanguage = "en"
+
 func TestEveryCorpusAbsorbsTheSameOfferedPageEndToEnd(t *testing.T) {
 	ctx := context.Background()
 

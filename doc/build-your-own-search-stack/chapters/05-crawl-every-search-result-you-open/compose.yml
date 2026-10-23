@@ -66,7 +66,7 @@ services:
     image: ghcr.io/nikitakarpei/my-yacy-node/corpustext:latest
     restart: unless-stopped
     volumes:
-      - search-index-data:/var/lib/corpustext
+      - corpustext-data:/var/lib/corpustext
     depends_on:
       pagescrape:
         condition: service_started
@@ -192,7 +192,7 @@ volumes:
   yacycrawler-data:
   nats-data:
   yacy-data:
-  search-index-data:
+  corpustext-data:
   searxng-engines:
   searxng-plugins:
   caddy-data:

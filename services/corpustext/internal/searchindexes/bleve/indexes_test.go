@@ -15,27 +15,27 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
-func bootstrappedIndexes(t *testing.T, directory string) *bleve.Indexes {
+func openedIndexes(t *testing.T, directory string) *bleve.Indexes {
 	t.Helper()
 	languageIndexes, err := languageindex.IndexesFor("yacy_text", []string{"en", "de"})
 	if err != nil {
 		t.Fatalf("language indexes: %v", err)
 	}
-	indexes := bleve.NewIndexes(directory, languageIndexes)
-	if err := indexes.Bootstrap(context.Background()); err != nil {
-		t.Fatalf("bootstrap: %v", err)
+	indexes := bleve.New(directory, languageIndexes)
+	if err := indexes.Open(context.Background()); err != nil {
+		t.Fatalf("open: %v", err)
 	}
 	return indexes
 }
 
-func openIndexes(t *testing.T) *bleve.Indexes {
+func temporaryIndexes(t *testing.T) *bleve.Indexes {
 	t.Helper()
-	indexes := bootstrappedIndexes(t, t.TempDir())
+	indexes := openedIndexes(t, t.TempDir())
 	t.Cleanup(func() { indexes.Close(context.Background()) })
 	return indexes
 }
 
-func indexed(t *testing.T, indexes *bleve.Indexes, documents ...searchdocument.Document) {
+func index(t *testing.T, indexes *bleve.Indexes, documents ...searchdocument.Document) {
 	t.Helper()
 	for _, document := range documents {
 		if err := indexes.Index(context.Background(), document); err != nil {
@@ -75,9 +75,9 @@ func englishPage(url, title, content string) searchdocument.Document {
 	}
 }
 
-func TestLookupYieldsAPageThatHoldsEveryWord(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes,
+func TestBleveIndexesYieldAPageThatHoldsEveryWord(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes,
 		englishPage("https://example.com/guide", "Riverside Guide",
 			"wildflowers grow along riverside trails"),
 		englishPage("https://example.com/other", "Mountain Guide", "rocks and snow"),
@@ -96,9 +96,9 @@ func TestLookupYieldsAPageThatHoldsEveryWord(t *testing.T) {
 	}
 }
 
-func TestLookupMatchesWordsSpreadOverTheFields(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes, searchdocument.Document{
+func TestBleveIndexesMatchWordsSpreadOverTheFields(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes, searchdocument.Document{
 		URL: "https://example.com/spread", Title: "Riverside", Content: "trails",
 		AuxiliaryText: "footnote", Language: "en",
 	})
@@ -110,9 +110,9 @@ func TestLookupMatchesWordsSpreadOverTheFields(t *testing.T) {
 	}
 }
 
-func TestLookupLeavesOutAPageMissingAWord(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes, englishPage("https://example.com/guide", "Guide", "riverside trails"))
+func TestBleveIndexesLeaveOutAPageMissingAWord(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes, englishPage("https://example.com/guide", "Guide", "riverside trails"))
 
 	if matches := matchesFor(t, indexes, textsearch.Search{Query: "riverside snow"}); len(
 		matches,
@@ -121,9 +121,9 @@ func TestLookupLeavesOutAPageMissingAWord(t *testing.T) {
 	}
 }
 
-func TestLookupRanksTheTitleAboveTheContent(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes,
+func TestBleveIndexesRankTheTitleAboveTheContent(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes,
 		englishPage("https://example.com/content", "Guide", "a lake of herons"),
 		englishPage("https://example.com/title", "Herons", "a lake guide"),
 	)
@@ -135,9 +135,9 @@ func TestLookupRanksTheTitleAboveTheContent(t *testing.T) {
 	}
 }
 
-func TestLookupKeepsToTheSearchLanguage(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes,
+func TestBleveIndexesKeepToTheSearchLanguage(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes,
 		englishPage("https://example.com/en", "Garden", "garden flowers"),
 		searchdocument.Document{
 			URL: "https://example.de/de", Title: "Garten", Content: "garden blumen",
@@ -156,9 +156,9 @@ func TestLookupKeepsToTheSearchLanguage(t *testing.T) {
 	}
 }
 
-func TestLookupFindsAPageOfAnUnconfiguredLanguage(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes, searchdocument.Document{
+func TestBleveIndexesFindAPageOfAnUnconfiguredLanguage(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes, searchdocument.Document{
 		URL: "https://example.es/flores", Title: "Jardín", Content: "flores del jardín",
 		Language: "es",
 	})
@@ -170,9 +170,9 @@ func TestLookupFindsAPageOfAnUnconfiguredLanguage(t *testing.T) {
 	}
 }
 
-func TestIndexReplacesThePageOfTheSameURL(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes,
+func TestBleveIndexesReplaceThePageOfTheSameURL(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes,
 		englishPage("https://example.com/guide", "Old Guide", "riverside"),
 		englishPage("https://example.com/guide", "New Guide", "riverside"),
 	)
@@ -184,10 +184,10 @@ func TestIndexReplacesThePageOfTheSameURL(t *testing.T) {
 	}
 }
 
-func TestLookupCutsTheSnippet(t *testing.T) {
-	indexes := openIndexes(t)
+func TestBleveIndexesCutTheSnippet(t *testing.T) {
+	indexes := temporaryIndexes(t)
 	longContent := strings.Repeat("meadow grass ", 100) + "heron " + strings.Repeat("reed ", 100)
-	indexed(t, indexes,
+	index(t, indexes,
 		englishPage("https://example.com/long", "Long", longContent),
 		englishPage("https://example.com/titled", "Heron Notes", longContent),
 	)
@@ -203,10 +203,10 @@ func TestLookupCutsTheSnippet(t *testing.T) {
 	}
 }
 
-func TestLookupStartsTheSnippetAtTheContentWhenOnlyTheTitleMatches(t *testing.T) {
-	indexes := openIndexes(t)
+func TestBleveIndexesStartTheSnippetAtTheContentWhenOnlyTheTitleMatches(t *testing.T) {
+	indexes := temporaryIndexes(t)
 	longContent := strings.Repeat("reed ", 100)
-	indexed(t, indexes, englishPage("https://example.com/titled", "Heron", longContent))
+	index(t, indexes, englishPage("https://example.com/titled", "Heron", longContent))
 
 	matches := matchesFor(t, indexes, textsearch.Search{Query: "heron"})
 
@@ -219,9 +219,9 @@ func TestLookupStartsTheSnippetAtTheContentWhenOnlyTheTitleMatches(t *testing.T)
 	}
 }
 
-func TestLookupYieldsThePageOfMatchesAskedFor(t *testing.T) {
-	indexes := openIndexes(t)
-	indexed(t, indexes,
+func TestBleveIndexesYieldThePageOfMatchesAskedFor(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes,
 		englishPage("https://example.com/1", "One", "heron"),
 		englishPage("https://example.com/2", "Two", "heron"),
 		englishPage("https://example.com/3", "Three", "heron"),
@@ -240,13 +240,13 @@ func TestLookupYieldsThePageOfMatchesAskedFor(t *testing.T) {
 	}
 }
 
-func TestIndexesKeepThePagesAcrossOpenings(t *testing.T) {
+func TestBleveIndexesKeepThePagesAcrossOpenings(t *testing.T) {
 	directory := t.TempDir()
-	first := bootstrappedIndexes(t, directory)
-	indexed(t, first, englishPage("https://example.com/guide", "Guide", "riverside"))
+	first := openedIndexes(t, directory)
+	index(t, first, englishPage("https://example.com/guide", "Guide", "riverside"))
 	first.Close(context.Background())
 
-	reopened := bootstrappedIndexes(t, directory)
+	reopened := openedIndexes(t, directory)
 	t.Cleanup(func() { reopened.Close(context.Background()) })
 
 	if got := urlsOf(matchesFor(t, reopened, textsearch.Search{Query: "riverside"})); len(
@@ -256,7 +256,7 @@ func TestIndexesKeepThePagesAcrossOpenings(t *testing.T) {
 	}
 }
 
-func TestIndexesFailWhenTheDirectoryCannotBeCreated(t *testing.T) {
+func TestBleveIndexesFailWhenTheDirectoryCannotBeCreated(t *testing.T) {
 	regularFile := filepath.Join(t.TempDir(), "file")
 	if err := os.WriteFile(regularFile, nil, 0o600); err != nil {
 		t.Fatalf("write file: %v", err)
@@ -266,8 +266,8 @@ func TestIndexesFailWhenTheDirectoryCannotBeCreated(t *testing.T) {
 		t.Fatalf("language indexes: %v", err)
 	}
 
-	indexes := bleve.NewIndexes(filepath.Join(regularFile, "search-index"), languageIndexes)
-	if err := indexes.Bootstrap(context.Background()); err == nil {
+	indexes := bleve.New(filepath.Join(regularFile, "search-index"), languageIndexes)
+	if err := indexes.Open(context.Background()); err == nil {
 		t.Fatal("expected an error")
 	}
 }

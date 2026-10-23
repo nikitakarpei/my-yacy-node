@@ -27,7 +27,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInBleve(t *testing.T) {
 
 	corpusText := startCorpusText(t, ctx, network.Name, natsURL, nil)
 	publishScrapedCorpus(t, ctx, js)
-	awaitSearchableCorpus(t, ctx, corpusText)
+	awaitBleveCorpus(t, ctx, corpusText)
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name)
 

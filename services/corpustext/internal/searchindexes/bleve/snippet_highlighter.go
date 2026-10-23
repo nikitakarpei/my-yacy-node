@@ -10,15 +10,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 )
 
-const snippetHighlighter = "corpus_text_snippet"
+const snippetHighlighterName = "corpus_text_snippet"
 
 func init() {
-	if err := registry.RegisterHighlighter(snippetHighlighter, snippetHighlighterFrom); err != nil {
+	if err := registry.RegisterHighlighter(snippetHighlighterName, snippetHighlighter); err != nil {
 		panic(err)
 	}
 }
 
-func snippetHighlighterFrom(
+func snippetHighlighter(
 	_ map[string]any,
 	_ *registry.Cache,
 ) (highlight.Highlighter, error) {
