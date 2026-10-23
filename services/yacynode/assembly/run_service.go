@@ -125,7 +125,7 @@ func runNode(
 	}
 	for _, server := range servers {
 		slog.InfoContext(ctx, "serving",
-			slog.String("service", server.Name),
+			slog.String("server", server.Name),
 			slog.String("addr", server.Listener.Addr().String()),
 		)
 	}

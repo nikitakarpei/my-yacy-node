@@ -4,7 +4,7 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberlog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 )
 
 func ConfigureLogging(getenv func(string) string) error {
@@ -12,6 +12,6 @@ func ConfigureLogging(getenv func(string) string) error {
 	if err != nil {
 		return err
 	}
-	slog.SetDefault(slog.New(memberlog.NewHandler(handler)))
+	slog.SetDefault(slog.New(servicelog.NewHandler(handler)))
 	return nil
 }

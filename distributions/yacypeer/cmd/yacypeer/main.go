@@ -22,7 +22,7 @@ func run() error {
 	if err := yacypeerassembly.ConfigureLogging(os.Getenv); err != nil {
 		return err
 	}
-	cfg, err := yacypeerassembly.LoadServiceConfig(os.Getenv)
+	cfg, err := yacypeerassembly.LoadPeerConfig(os.Getenv)
 	if err != nil {
 		return err
 	}
@@ -33,5 +33,5 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	return yacypeerassembly.RunService(ctx, cfg, ops, os.Getenv)
+	return yacypeerassembly.RunPeer(ctx, cfg, ops, os.Getenv)
 }

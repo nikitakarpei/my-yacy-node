@@ -16,9 +16,9 @@ import (
 
 const brokerDirectoryName = "nats"
 
-func RunService(
+func RunPeer(
 	ctx context.Context,
-	cfg ServiceConfig,
+	cfg PeerConfig,
 	ops net.Listener,
 	getenv func(string) string,
 ) error {
@@ -28,14 +28,14 @@ func RunService(
 	}
 	defer broker.Shutdown()
 
-	members, err := membersFor(ctx, cfg, broker.ClientURL(), getenv)
+	services, err := servicesFor(ctx, cfg, broker.ClientURL(), getenv)
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
 	logStarted(ctx, broker, ops)
-	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), members)
+	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), services)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, members)
+		return runEvery(ctx, services)
 	})
 }
 
@@ -46,18 +46,18 @@ func logStarted(ctx context.Context, broker *natsbroker.Broker, ops net.Listener
 	)
 }
 
-func opsMuxFor(processRegistry *prometheus.Registry, members []member) *http.ServeMux {
+func opsMuxFor(processRegistry *prometheus.Registry, services []service) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
-	for _, member := range members {
-		mux.Handle(opsmetrics.PathMetrics+"/"+member.name, opsmetrics.HandlerFor(member.registry))
+	for _, service := range services {
+		mux.Handle(opsmetrics.PathMetrics+"/"+service.name, opsmetrics.HandlerFor(service.registry))
 	}
 	return mux
 }
 
-func runEvery(ctx context.Context, members []member) error {
-	runs := make([]func(context.Context) error, 0, len(members))
-	for _, member := range members {
-		runs = append(runs, member.run)
+func runEvery(ctx context.Context, services []service) error {
+	runs := make([]func(context.Context) error, 0, len(services))
+	for _, service := range services {
+		runs = append(runs, service.run)
 	}
 	return servergroup.Run(ctx, 0, nil, runs...)
 }

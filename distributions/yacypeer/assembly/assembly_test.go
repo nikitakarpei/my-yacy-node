@@ -34,9 +34,9 @@ func peerEnvironment(t *testing.T) map[string]string {
 	}
 }
 
-func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.ServiceConfig, net.Listener) {
+func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.PeerConfig, net.Listener) {
 	t.Helper()
-	cfg, err := yacypeerassembly.LoadServiceConfig(envFrom(env))
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(env))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
@@ -47,57 +47,57 @@ func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.ServiceConf
 	return cfg, ops
 }
 
-func TestRunServiceServesTheMetricsOfEveryMemberUntilCancelled(t *testing.T) {
+func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 	env := peerEnvironment(t)
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunService(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
 	}()
 
 	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
 	opsURL := "http://" + ops.Addr().String()
 	awaitAnswer(t, opsURL+"/metrics", "go_goroutines")
-	for _, member := range []string{"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown"} {
-		awaitAnswer(t, opsURL+"/metrics/"+member, member+"_info 1")
+	for _, service := range []string{"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown"} {
+		awaitAnswer(t, opsURL+"/metrics/"+service, service+"_info 1")
 	}
 
 	cancel()
 	awaitShutdown(t, runDone)
 }
 
-func TestRunServiceRefusesWiringTheOperatorSets(t *testing.T) {
+func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 	env := peerEnvironment(t)
 	env["CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL"] = "nats://elsewhere:4222"
 	cfg, ops := peerFrom(t, env)
 
-	err := yacypeerassembly.RunService(t.Context(), cfg, ops, envFrom(env))
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
 	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL") {
-		t.Errorf("RunService = %v, want the overridden wiring named", err)
+		t.Errorf("RunPeer = %v, want the overridden wiring named", err)
 	}
 }
 
-func TestRunServiceRefusesAMemberOpsAddress(t *testing.T) {
+func TestRunPeerRefusesAServiceOpsAddress(t *testing.T) {
 	env := peerEnvironment(t)
 	env["CORPUSTEXT_OPS_ADDR"] = ":9096"
 	cfg, ops := peerFrom(t, env)
 
-	err := yacypeerassembly.RunService(t.Context(), cfg, ops, envFrom(env))
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
 	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT_OPS_ADDR") {
-		t.Errorf("RunService = %v, want the member ops address named", err)
+		t.Errorf("RunPeer = %v, want the service ops address named", err)
 	}
 }
 
-func TestRunServiceFailsWhenAMemberConfigIsInvalid(t *testing.T) {
+func TestRunPeerFailsWhenAServiceConfigIsInvalid(t *testing.T) {
 	env := peerEnvironment(t)
 	env["CORPUSTEXT__SEARCH_INDEX_ENGINE"] = "unknown"
 	cfg, ops := peerFrom(t, env)
 
-	err := yacypeerassembly.RunService(t.Context(), cfg, ops, envFrom(env))
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
 	if err == nil || !strings.HasPrefix(err.Error(), "corpustext:") {
-		t.Errorf("RunService = %v, want the corpustext config refused", err)
+		t.Errorf("RunPeer = %v, want the corpustext config refused", err)
 	}
 }
 
@@ -151,9 +151,9 @@ func awaitShutdown(t *testing.T, runDone <-chan error) {
 	select {
 	case err := <-runDone:
 		if err != nil {
-			t.Errorf("RunService: %v", err)
+			t.Errorf("RunPeer: %v", err)
 		}
 	case <-time.After(shutdownDeadline):
-		t.Fatal("RunService did not stop after cancel")
+		t.Fatal("RunPeer did not stop after cancel")
 	}
 }

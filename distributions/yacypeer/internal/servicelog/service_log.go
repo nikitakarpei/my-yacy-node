@@ -1,6 +1,6 @@
-// Package memberlog names the member of the peer in each log line the member writes with
+// Package servicelog names the service of the peer in each log line the service writes with
 // its run context.
-package memberlog
+package servicelog
 
 import (
 	"context"
@@ -8,12 +8,12 @@ import (
 	"log/slog"
 )
 
-const memberAttribute = "member"
+const serviceAttribute = "service"
 
-type memberKey struct{}
+type serviceKey struct{}
 
-func ContextFor(ctx context.Context, member string) context.Context {
-	return context.WithValue(ctx, memberKey{}, member)
+func ContextFor(ctx context.Context, service string) context.Context {
+	return context.WithValue(ctx, serviceKey{}, service)
 }
 
 type Handler struct {
@@ -29,12 +29,12 @@ func (h Handler) Enabled(ctx context.Context, level slog.Level) bool {
 }
 
 func (h Handler) Handle(ctx context.Context, record slog.Record) error {
-	if member, named := ctx.Value(memberKey{}).(string); named {
+	if service, named := ctx.Value(serviceKey{}).(string); named {
 		record = record.Clone()
-		record.AddAttrs(slog.String(memberAttribute, member))
+		record.AddAttrs(slog.String(serviceAttribute, service))
 	}
 	if err := h.next.Handle(ctx, record); err != nil {
-		return fmt.Errorf("member log: %w", err)
+		return fmt.Errorf("service log: %w", err)
 	}
 	return nil
 }

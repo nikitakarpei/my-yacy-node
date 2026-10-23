@@ -6,10 +6,10 @@ allow:
   deepScan: false
 
 components:
-  memberenvironment:
-    in: internal/memberenvironment/**
-  memberlog:
-    in: internal/memberlog/**
+  serviceenvironment:
+    in: internal/serviceenvironment/**
+  servicelog:
+    in: internal/servicelog/**
   natsbroker:
     in: internal/natsbroker/**
   yacypeerassembly:

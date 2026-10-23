@@ -12,8 +12,8 @@ import (
 	corpustextassembly "github.com/nikitakarpei/yacy-rwi-node/corpustext/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberenvironment"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberlog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 )
 
 var unreadSettings = []string{
@@ -25,47 +25,47 @@ var unreadSettings = []string{
 }
 
 const (
-	yacynodeMember       = "yacynode"
-	yacydhtsearchMember  = "yacydhtsearch"
-	corpustextMember     = "corpustext"
-	corpusmarkdownMember = "corpusmarkdown"
+	yacynodeService       = "yacynode"
+	yacydhtsearchService  = "yacydhtsearch"
+	corpustextService     = "corpustext"
+	corpusmarkdownService = "corpusmarkdown"
 )
 
-type member struct {
+type service struct {
 	registry *prometheus.Registry
 	run      func(context.Context) error
 	name     string
 }
 
-type memberAssembly func(ctx context.Context, getenv func(string) string) (member, error)
+type serviceAssembly func(ctx context.Context, getenv func(string) string) (service, error)
 
-func membersFor(
+func servicesFor(
 	ctx context.Context,
-	cfg ServiceConfig,
+	cfg PeerConfig,
 	natsURL string,
 	getenv func(string) string,
-) ([]member, error) {
-	assemblies := memberAssembliesFor(cfg, natsURL)
-	members := make([]member, 0, len(assemblies))
+) ([]service, error) {
+	assemblies := serviceAssembliesFor(cfg, natsURL)
+	services := make([]service, 0, len(assemblies))
 	for _, assembly := range assemblies {
-		member, err := assembly(ctx, getenv)
+		service, err := assembly(ctx, getenv)
 		if err != nil {
 			return nil, err
 		}
-		members = append(members, member)
+		services = append(services, service)
 	}
-	return members, nil
+	return services, nil
 }
 
-func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
-	return []memberAssembly{
-		memberAssemblyOf(
-			yacynodeMember,
-			memberenvironment.Wiring{
+func serviceAssembliesFor(cfg PeerConfig, natsURL string) []serviceAssembly {
+	return []serviceAssembly{
+		serviceAssemblyOf(
+			yacynodeService,
+			serviceenvironment.Wiring{
 				yacynodeassembly.EnvPageOfferNATSURL:  natsURL,
-				yacynodeassembly.EnvPageOfferDurable:  yacynodeMember,
+				yacynodeassembly.EnvPageOfferDurable:  yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),
-				yacynodeassembly.EnvDataDir:           cfg.directoryOf(yacynodeMember),
+				yacynodeassembly.EnvDataDir:           cfg.directoryOf(yacynodeService),
 				yacynodeassembly.EnvNetworkName:       cfg.NetworkName,
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
 			},
@@ -73,9 +73,9 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 			yacynodeassembly.ListenersFor,
 			yacynodeassembly.RunService,
 		),
-		memberAssemblyOf(
-			yacydhtsearchMember,
-			memberenvironment.Wiring{
+		serviceAssemblyOf(
+			yacydhtsearchService,
+			serviceenvironment.Wiring{
 				yacydhtsearchassembly.EnvNetworkName:  cfg.NetworkName,
 				yacydhtsearchassembly.EnvSeedlistURLs: cfg.SeedlistURLs,
 			},
@@ -83,24 +83,24 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 			yacydhtsearchassembly.ListenersFor,
 			yacydhtsearchassembly.RunService,
 		),
-		memberAssemblyOf(
-			corpustextMember,
-			memberenvironment.Wiring{
+		serviceAssemblyOf(
+			corpustextService,
+			serviceenvironment.Wiring{
 				corpustextassembly.EnvPageOfferNATSURL: natsURL,
-				corpustextassembly.EnvPageOfferDurable: corpustextMember,
-				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextMember),
+				corpustextassembly.EnvPageOfferDurable: corpustextService,
+				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextService),
 			},
 			corpustextassembly.LoadServiceConfig,
 			corpustextassembly.ListenersFor,
 			corpustextassembly.RunService,
 		),
-		memberAssemblyOf(
-			corpusmarkdownMember,
-			memberenvironment.Wiring{
+		serviceAssemblyOf(
+			corpusmarkdownService,
+			serviceenvironment.Wiring{
 				corpusmarkdownassembly.EnvPageOfferNATSURL: natsURL,
-				corpusmarkdownassembly.EnvPageOfferDurable: corpusmarkdownMember,
+				corpusmarkdownassembly.EnvPageOfferDurable: corpusmarkdownService,
 				corpusmarkdownassembly.EnvPageMarkdownDirectory: cfg.directoryOf(
-					corpusmarkdownMember,
+					corpusmarkdownService,
 				),
 			},
 			corpusmarkdownassembly.LoadServiceConfig,
@@ -110,35 +110,35 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 	}
 }
 
-func (cfg ServiceConfig) directoryOf(memberName string) string {
-	return filepath.Join(cfg.DataDirectory, memberName)
+func (cfg PeerConfig) directoryOf(serviceName string) string {
+	return filepath.Join(cfg.DataDirectory, serviceName)
 }
 
-func memberAssemblyOf[C, L any](
+func serviceAssemblyOf[C, L any](
 	name string,
-	wiring memberenvironment.Wiring,
+	wiring serviceenvironment.Wiring,
 	loadServiceConfig func(func(string) string) (C, error),
 	listenersFor func(context.Context, C) (L, error),
 	runService func(context.Context, C, L, *prometheus.Registry) error,
-) memberAssembly {
-	return func(ctx context.Context, getenv func(string) string) (member, error) {
-		environment, err := memberenvironment.For(name, wiring, unreadSettings, getenv)
+) serviceAssembly {
+	return func(ctx context.Context, getenv func(string) string) (service, error) {
+		environment, err := serviceenvironment.For(name, wiring, unreadSettings, getenv)
 		if err != nil {
-			return member{}, err
+			return service{}, err
 		}
 		cfg, err := loadServiceConfig(environment.Lookup)
 		if err != nil {
-			return member{}, fmt.Errorf("%s: %w", name, err)
+			return service{}, fmt.Errorf("%s: %w", name, err)
 		}
 		listeners, err := listenersFor(ctx, cfg)
 		if err != nil {
-			return member{}, fmt.Errorf("%s: %w", name, err)
+			return service{}, fmt.Errorf("%s: %w", name, err)
 		}
 		registry := prometheus.NewRegistry()
-		return member{
+		return service{
 			registry: registry,
 			run: func(ctx context.Context) error {
-				return runService(memberlog.ContextFor(ctx, name), cfg, listeners, registry)
+				return runService(servicelog.ContextFor(ctx, name), cfg, listeners, registry)
 			},
 			name: name,
 		}, nil

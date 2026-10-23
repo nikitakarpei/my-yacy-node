@@ -1,10 +1,10 @@
-package memberenvironment_test
+package serviceenvironment_test
 
 import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberenvironment"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
 )
 
 func processFrom(values map[string]string) func(string) string {
@@ -13,11 +13,11 @@ func processFrom(values map[string]string) func(string) string {
 
 func environmentFor(
 	t *testing.T,
-	wiring memberenvironment.Wiring,
+	wiring serviceenvironment.Wiring,
 	process map[string]string,
-) memberenvironment.Environment {
+) serviceenvironment.Environment {
 	t.Helper()
-	environment, err := memberenvironment.For("corpustext", wiring, nil, processFrom(process))
+	environment, err := serviceenvironment.For("corpustext", wiring, nil, processFrom(process))
 	if err != nil {
 		t.Fatalf("For: %v", err)
 	}
@@ -25,21 +25,21 @@ func environmentFor(
 }
 
 func TestLookupPrefersTheWiredValue(t *testing.T) {
-	environment := environmentFor(t, memberenvironment.Wiring{"NATS_URL": "nats://wired"}, nil)
+	environment := environmentFor(t, serviceenvironment.Wiring{"NATS_URL": "nats://wired"}, nil)
 
 	if got := environment.Lookup("NATS_URL"); got != "nats://wired" {
 		t.Errorf("Lookup = %q, want the wired value", got)
 	}
 }
 
-func TestLookupPrefersTheMemberValueOverTheSharedValue(t *testing.T) {
+func TestLookupPrefersTheServiceValueOverTheSharedValue(t *testing.T) {
 	environment := environmentFor(t, nil, map[string]string{
 		"CORPUSTEXT__LANGUAGES": "de",
 		"LANGUAGES":             "en",
 	})
 
 	if got := environment.Lookup("LANGUAGES"); got != "de" {
-		t.Errorf("Lookup = %q, want the member value", got)
+		t.Errorf("Lookup = %q, want the service value", got)
 	}
 }
 
@@ -53,14 +53,14 @@ func TestLookupFallsBackToTheSharedValue(t *testing.T) {
 		t.Errorf("Lookup = %q, want the shared value", got)
 	}
 	if got := environment.Lookup("LIMIT"); got != "" {
-		t.Errorf("Lookup = %q, want no value from another member", got)
+		t.Errorf("Lookup = %q, want no value from another service", got)
 	}
 }
 
 func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
-	_, err := memberenvironment.For(
+	_, err := serviceenvironment.For(
 		"corpustext",
-		memberenvironment.Wiring{"NATS_URL": "nats://wired", "DATA_DIR": "/data"},
+		serviceenvironment.Wiring{"NATS_URL": "nats://wired", "DATA_DIR": "/data"},
 		nil,
 		processFrom(map[string]string{
 			"NATS_URL":             "nats://elsewhere",
@@ -78,7 +78,7 @@ func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 }
 
 func TestForRefusesEveryUnreadSettingTheOperatorSets(t *testing.T) {
-	_, err := memberenvironment.For(
+	_, err := serviceenvironment.For(
 		"corpustext",
 		nil,
 		[]string{"OPS_ADDR"},

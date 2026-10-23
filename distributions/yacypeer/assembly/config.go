@@ -15,19 +15,19 @@ const (
 	DefaultOpsAddr       = ":9090"
 )
 
-type ServiceConfig struct {
+type PeerConfig struct {
 	DataDirectory string
 	NetworkName   string
 	SeedlistURLs  string
 	OpsAddr       string
 }
 
-func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
+func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	seedlistURLs, err := envconfig.Required(getenv, EnvSeedlistURLs)
 	if err != nil {
-		return ServiceConfig{}, err
+		return PeerConfig{}, err
 	}
-	return ServiceConfig{
+	return PeerConfig{
 		DataDirectory: envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
 		NetworkName:   envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork),
 		SeedlistURLs:  seedlistURLs,

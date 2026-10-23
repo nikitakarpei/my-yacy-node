@@ -11,20 +11,20 @@ func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
 }
 
-func TestLoadServiceConfigRequiresTheSeedlists(t *testing.T) {
-	if _, err := yacypeerassembly.LoadServiceConfig(envFrom(nil)); err == nil {
+func TestLoadPeerConfigRequiresTheSeedlists(t *testing.T) {
+	if _, err := yacypeerassembly.LoadPeerConfig(envFrom(nil)); err == nil {
 		t.Fatal("config loaded without seedlists, want an error")
 	}
 }
 
-func TestLoadServiceConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
-	cfg, err := yacypeerassembly.LoadServiceConfig(envFrom(map[string]string{
+func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
 		yacypeerassembly.EnvSeedlistURLs: "https://seeds.example/seed.txt",
 	}))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
-	want := yacypeerassembly.ServiceConfig{
+	want := yacypeerassembly.PeerConfig{
 		DataDirectory: yacypeerassembly.DefaultDataDirectory,
 		NetworkName:   yacyproto.DefaultNetwork,
 		SeedlistURLs:  "https://seeds.example/seed.txt",
@@ -35,8 +35,8 @@ func TestLoadServiceConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigTakesEveryNamedSetting(t *testing.T) {
-	cfg, err := yacypeerassembly.LoadServiceConfig(envFrom(map[string]string{
+func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
 		yacypeerassembly.EnvSeedlistURLs:  "https://seeds.example/seed.txt",
 		yacypeerassembly.EnvDataDirectory: "/var/lib/yacypeer",
 		yacypeerassembly.EnvNetworkName:   "realm",
@@ -45,7 +45,7 @@ func TestLoadServiceConfigTakesEveryNamedSetting(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
-	want := yacypeerassembly.ServiceConfig{
+	want := yacypeerassembly.PeerConfig{
 		DataDirectory: "/var/lib/yacypeer",
 		NetworkName:   "realm",
 		SeedlistURLs:  "https://seeds.example/seed.txt",

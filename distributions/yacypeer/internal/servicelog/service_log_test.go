@@ -1,4 +1,4 @@
-package memberlog_test
+package servicelog_test
 
 import (
 	"bytes"
@@ -7,11 +7,11 @@ import (
 	"log/slog"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberlog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 )
 
 func loggerInto(buffer *bytes.Buffer) *slog.Logger {
-	return slog.New(memberlog.NewHandler(slog.NewJSONHandler(buffer, nil)))
+	return slog.New(servicelog.NewHandler(slog.NewJSONHandler(buffer, nil)))
 }
 
 func lineFrom(t *testing.T, buffer *bytes.Buffer) map[string]any {
@@ -23,30 +23,30 @@ func lineFrom(t *testing.T, buffer *bytes.Buffer) map[string]any {
 	return line
 }
 
-func TestHandleNamesTheMemberOfTheContext(t *testing.T) {
+func TestHandleNamesTheServiceOfTheContext(t *testing.T) {
 	var buffer bytes.Buffer
-	ctx := memberlog.ContextFor(context.Background(), "corpustext")
+	ctx := servicelog.ContextFor(context.Background(), "corpustext")
 
 	loggerInto(&buffer).With(slog.String("engine", "bleve")).InfoContext(ctx, "started")
 
 	line := lineFrom(t, &buffer)
-	if line["member"] != "corpustext" || line["engine"] != "bleve" {
-		t.Errorf("log line = %v, want member corpustext and engine bleve", line)
+	if line["service"] != "corpustext" || line["engine"] != "bleve" {
+		t.Errorf("log line = %v, want service corpustext and engine bleve", line)
 	}
 }
 
-func TestHandleLeavesALineWithoutAMemberUnnamed(t *testing.T) {
+func TestHandleLeavesALineWithoutAServiceUnnamed(t *testing.T) {
 	var buffer bytes.Buffer
 
 	loggerInto(&buffer).WithGroup("storage").InfoContext(context.Background(), "closed")
 
-	if line := lineFrom(t, &buffer); line["member"] != nil {
-		t.Errorf("log line = %v, want no member", line)
+	if line := lineFrom(t, &buffer); line["service"] != nil {
+		t.Errorf("log line = %v, want no service", line)
 	}
 }
 
 func TestEnabledFollowsTheNextHandler(t *testing.T) {
-	handler := memberlog.NewHandler(slog.NewJSONHandler(&bytes.Buffer{}, &slog.HandlerOptions{
+	handler := servicelog.NewHandler(slog.NewJSONHandler(&bytes.Buffer{}, &slog.HandlerOptions{
 		Level: slog.LevelWarn,
 	}))
 
