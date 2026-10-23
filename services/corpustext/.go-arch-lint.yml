@@ -16,6 +16,18 @@ components:
     in: internal/searchindexes/manticore/**
   pageintake:
     in: internal/pageintake/**
+  pageofferwait:
+    in: internal/pageofferwait/**
+  pageofferwaitobserversapplog:
+    in: internal/pageofferwaitobservers/applog/**
+  textsearch:
+    in: internal/textsearch/**
+  textsearchreceivershttp:
+    in: internal/textsearchreceivers/http/**
+  textsearchobserversapplog:
+    in: internal/textsearchobservers/applog/**
+  textsearchobserversprometheus:
+    in: internal/textsearchobservers/prometheus/**
   intakereceiptsnats:
     in: internal/intakereceipts/nats/**
   intakereceiptpublicationobserversapplog:
@@ -72,11 +84,13 @@ deps:
   searchindexeselasticsearch:
     mayDependOn:
       - languageindex
+      - textsearch
     canUse:
       - searchdocument
   searchindexesmanticore:
     mayDependOn:
       - languageindex
+      - textsearch
     canUse:
       - searchdocument
   pageintake:
@@ -89,6 +103,24 @@ deps:
       - serviceruntime
       - documentextraction
       - canonicalurl
+  textsearch:
+    mayDependOn:
+      - languageindex
+    canUse:
+      - searchdocument
+  textsearchreceivershttp:
+    mayDependOn:
+      - textsearch
+    canUse:
+      - searchdocument
+  textsearchobserversapplog:
+    mayDependOn:
+      - textsearch
+  textsearchobserversprometheus:
+    mayDependOn:
+      - textsearch
+    canUse:
+      - prometheus
   intakereceiptsnats:
     canUse:
       - pagescrapecontract

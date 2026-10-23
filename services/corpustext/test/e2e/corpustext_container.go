@@ -18,6 +18,7 @@ import (
 const (
 	corpusTextAlias          = "corpustext"
 	corpusTextOperationsPort = "9090/tcp"
+	corpusTextSearchPort     = "8096/tcp"
 	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
 	indexedLanguage          = "en"
 	corpusTextStopTimeout    = 30 * time.Second
@@ -43,9 +44,12 @@ func startCorpusText(
 			Image:          corpusTextImage(t),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
-			ExposedPorts:   []string{corpusTextOperationsPort},
-			WaitingFor:     wait.ForListeningPort(corpusTextOperationsPort),
-			Env:            env,
+			ExposedPorts:   []string{corpusTextOperationsPort, corpusTextSearchPort},
+			WaitingFor: wait.ForAll(
+				wait.ForListeningPort(corpusTextOperationsPort),
+				wait.ForListeningPort(corpusTextSearchPort),
+			),
+			Env: env,
 		},
 	})
 	if err != nil {
@@ -54,6 +58,19 @@ func startCorpusText(
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "corpustext", container)
 	return container
+}
+
+func corpusTextSearchURL(
+	t *testing.T,
+	ctx context.Context,
+	container testcontainers.Container,
+) string {
+	t.Helper()
+	endpoint, err := container.PortEndpoint(ctx, corpusTextSearchPort, "http")
+	if err != nil {
+		t.Fatalf("corpustext search endpoint: %v", err)
+	}
+	return endpoint
 }
 
 func restartCorpusText(t *testing.T, ctx context.Context, container testcontainers.Container) {

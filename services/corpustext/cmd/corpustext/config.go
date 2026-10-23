@@ -17,8 +17,10 @@ const (
 	EnvManticoreURL               = "MANTICORE_URL"
 	EnvManticoreTable             = "MANTICORE_TABLE"
 	EnvLanguages                  = "CORPUSTEXT_LANGUAGES"
+	EnvSearchAddr                 = "CORPUSTEXT_SEARCH_ADDR"
 	EnvOpsAddr                    = "CORPUSTEXT_OPS_ADDR"
 
+	DefaultSearchAddr                 = ":8096"
 	DefaultOpsAddr                    = ":9090"
 	DefaultPageOfferDurable           = "corpustext"
 	DefaultPageOfferIntakeConcurrency = 4
@@ -38,6 +40,7 @@ type ServiceConfig struct {
 	ManticoreURL               string
 	ManticoreTable             string
 	Languages                  []string
+	SearchAddr                 string
 	OpsAddr                    string
 }
 
@@ -65,6 +68,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PageOfferIntakeConcurrency: pageOfferIntakeConcurrency,
 		SearchIndexEngine:          strings.TrimSpace(getenv(EnvSearchIndexEngine)),
 		Languages:                  envconfig.List(getenv, EnvLanguages),
+		SearchAddr:                 envconfig.String(getenv, EnvSearchAddr, DefaultSearchAddr),
 		OpsAddr:                    envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}
 	if cfg.SearchIndexEngine == "" {

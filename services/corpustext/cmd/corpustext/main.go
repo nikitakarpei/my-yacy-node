@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -51,9 +52,13 @@ func start() int {
 }
 
 func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	search, err := servergroup.Listen(ctx, cfg.SearchAddr)
 	if err != nil {
 		return Listeners{}, err
 	}
-	return Listeners{Ops: ops}, nil
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	if err != nil {
+		return Listeners{}, errors.Join(err, search.Close())
+	}
+	return Listeners{Search: search, Ops: ops}, nil
 }

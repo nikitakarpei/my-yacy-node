@@ -104,7 +104,7 @@ services:
     depends_on:
       searxng-crawled-text-search-init:
         condition: service_completed_successfully
-      manticore:
+      corpustext:
         condition: service_started
       yacydhtsearch:
         condition: service_started

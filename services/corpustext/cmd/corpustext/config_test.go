@@ -82,6 +82,9 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.ElasticsearchIndex != corpustext.DefaultIndexBaseName {
 		t.Errorf("index = %q", cfg.ElasticsearchIndex)
 	}
+	if cfg.SearchAddr != corpustext.DefaultSearchAddr {
+		t.Errorf("search addr = %q", cfg.SearchAddr)
+	}
 	if cfg.OpsAddr != corpustext.DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
 	}
@@ -96,6 +99,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env[corpustext.EnvPageOfferIntakeConcurrency] = "3"
 	env[corpustext.EnvElasticsearchIndex] = "my_index"
 	env[corpustext.EnvLanguages] = "en, de"
+	env[corpustext.EnvSearchAddr] = "127.0.0.1:8099"
 	env[corpustext.EnvOpsAddr] = "127.0.0.1:9099"
 
 	cfg, err := corpustext.LoadServiceConfig(envFrom(env))
@@ -111,6 +115,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 			cfg.PageOfferIntakeConcurrency,
 			cfg.OpsAddr,
 		)
+	}
+	if cfg.SearchAddr != "127.0.0.1:8099" {
+		t.Errorf("search addr = %q", cfg.SearchAddr)
 	}
 	if cfg.ElasticsearchIndex != "my_index" {
 		t.Errorf("index = %q", cfg.ElasticsearchIndex)

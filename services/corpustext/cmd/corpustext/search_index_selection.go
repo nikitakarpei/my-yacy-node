@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 )
 
 type searchIndexSchema interface {
@@ -17,6 +18,7 @@ type searchIndexSchema interface {
 type searchIndexSelection struct {
 	index  pageintake.SearchIndex
 	schema searchIndexSchema
+	lookup textsearch.SearchIndex
 	prefix string
 }
 
@@ -37,6 +39,9 @@ func selectSearchIndex(
 			schema: elasticsearch.NewSchema(
 				cfg.ElasticsearchURL, indexes, client,
 			),
+			lookup: elasticsearch.NewLookup(
+				cfg.ElasticsearchURL, indexes, client,
+			),
 			prefix: indexes.Prefix(),
 		}, nil
 	case SearchIndexEngineManticore:
@@ -47,6 +52,7 @@ func selectSearchIndex(
 		return searchIndexSelection{
 			index:  manticore.New(cfg.ManticoreURL, tables, client),
 			schema: manticore.NewSchema(cfg.ManticoreURL, tables, client),
+			lookup: manticore.NewLookup(cfg.ManticoreURL, tables, client),
 			prefix: tables.Prefix(),
 		}, nil
 	default:

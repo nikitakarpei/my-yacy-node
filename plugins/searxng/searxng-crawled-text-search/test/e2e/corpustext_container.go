@@ -17,6 +17,7 @@ import (
 const (
 	corpusTextAlias          = "corpustext"
 	corpusTextOperationsPort = "9090/tcp"
+	corpusTextSearchURL      = "http://" + corpusTextAlias + ":8096"
 	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
 	indexedLanguages         = englishLanguage + "," + germanLanguage
 )

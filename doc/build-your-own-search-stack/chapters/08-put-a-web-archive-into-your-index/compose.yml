@@ -205,7 +205,7 @@ services:
         condition: service_completed_successfully
       searxng-result-router-init:
         condition: service_completed_successfully
-      manticore:
+      corpustext:
         condition: service_started
       visitcrawl:
         condition: service_started

@@ -34,7 +34,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testin
 		documentsInElasticsearchIndex(t, ctx, elasticsearchHostURL, elasticsearchCatchAllIndex),
 	)
 
-	searxngBaseURL := startSearXNG(t, ctx, network.Name, elasticsearchEngineSettings())
+	searxngBaseURL := startSearXNG(t, ctx, network.Name)
 
 	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }
@@ -61,7 +61,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageTableInManticore(t *testing.T)
 		documentsInManticoreTable(t, ctx, manticoreHostURL, manticoreCatchAllTable),
 	)
 
-	searxngBaseURL := startSearXNG(t, ctx, network.Name, manticoreEngineSettings())
+	searxngBaseURL := startSearXNG(t, ctx, network.Name)
 
 	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }

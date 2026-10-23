@@ -21,7 +21,7 @@ const (
 	engineSourcePath = "../../crawled_text_search.py"
 )
 
-func testSettingsYAML(engineSettings string) string {
+func testSettingsYAML() string {
 	return `use_default_settings:
   engines:
     keep_only:
@@ -42,10 +42,11 @@ engines:
     categories: general
     disabled: false
     enable_http: true
-` + engineSettings
+    corpustext_url: ` + corpusTextSearchURL + `
+`
 }
 
-func startSearXNG(t *testing.T, ctx context.Context, networkName, engineSettings string) string {
+func startSearXNG(t *testing.T, ctx context.Context, networkName string) string {
 	t.Helper()
 	enginePath, err := filepath.Abs(engineSourcePath)
 	if err != nil {
@@ -54,7 +55,7 @@ func startSearXNG(t *testing.T, ctx context.Context, networkName, engineSettings
 
 	return searxng.Start(t, ctx, networkName, searxng.Config{
 		Alias:        searxngAlias,
-		SettingsYAML: testSettingsYAML(engineSettings),
+		SettingsYAML: testSettingsYAML(),
 		Files: []testcontainers.ContainerFile{
 			{
 				HostFilePath:      enginePath,

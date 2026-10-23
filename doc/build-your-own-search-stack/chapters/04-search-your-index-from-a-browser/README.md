@@ -7,10 +7,11 @@ results to your browser search page.
 
 ## What this chapter adds
 
-- `corpustext` puts text from crawled pages into your local search index.
+- `corpustext` puts text from crawled pages into your local search index and
+  searches it.
 - `manticore` keeps the local full-text index.
-- The `searxng-crawled-text-search` plugin adds the local index to the search
-  page.
+- The `searxng-crawled-text-search` plugin adds the `corpustext` search to the
+  search page.
 
 ## Start
 

@@ -46,6 +46,11 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 		t, ctx, elasticsearchURL, elasticsearchIndexPattern, stemmedTerm,
 	)
 	assertIndexedPage(t, fanOutHit, originURL)
+	assertCorpusTextMatch(
+		t,
+		waitForCorpusTextMatch(t, ctx, corpusTextSearchURL(t, ctx, corpusText)),
+		originURL,
+	)
 
 	restartCorpusText(t, ctx, corpusText)
 
@@ -53,6 +58,11 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 		t, ctx, elasticsearchURL, elasticsearchIndexPattern, stemmedTerm,
 	)
 	assertIndexedPage(t, hitAfterRestart, originURL)
+	assertCorpusTextMatch(
+		t,
+		waitForCorpusTextMatch(t, ctx, corpusTextSearchURL(t, ctx, corpusText)),
+		originURL,
+	)
 }
 
 func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
@@ -80,6 +90,11 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 
 	fanOutHit := waitForManticoreContentHit(t, ctx, manticoreURL, manticoreFanOutTable, stemmedTerm)
 	assertIndexedPage(t, fanOutHit, originURL)
+	assertCorpusTextMatch(
+		t,
+		waitForCorpusTextMatch(t, ctx, corpusTextSearchURL(t, ctx, corpusText)),
+		originURL,
+	)
 
 	restartCorpusText(t, ctx, corpusText)
 
@@ -91,4 +106,9 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 		stemmedTerm,
 	)
 	assertIndexedPage(t, hitAfterRestart, originURL)
+	assertCorpusTextMatch(
+		t,
+		waitForCorpusTextMatch(t, ctx, corpusTextSearchURL(t, ctx, corpusText)),
+		originURL,
+	)
 }

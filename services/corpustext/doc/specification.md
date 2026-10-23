@@ -4,13 +4,13 @@
 
 `corpustext` is an optional Go service that makes an operator's own crawled corpus
 searchable as full text. `pagescrape` reads each page once and offers it; this service
-derives the text of the offered page and indexes it into an operator-run full-text search
-index.
+derives the text of the offered page, indexes it into a full-text search index, and
+answers searches of that index.
 
 ## Non-Goals
 
 * Fetching a page: the scrape service reads the page and offers it.
-* Serving search queries.
+* Running a search page: a client such as SearXNG shows the results.
 * Running or provisioning the search index server itself.
 * Deciding which pages to index: the crawler decides which pages it reaches.
 * Judging a page again: an offered page is already admitted, so this service applies no
@@ -32,19 +32,24 @@ index.
   an operator, rather than discard it.
 * Re-indexing a page whose canonical URL is already indexed SHALL overwrite that document
   rather than add a duplicate.
-* Each configured language SHALL get an index with that language's text analysis.
-* The service SHALL write a page into the index of its language, or into one
-  language-neutral index.
+* Each configured language SHALL get an index with its text analysis; the service SHALL
+  write a page into the index of its language, or into one language-neutral index.
 * Index names SHALL carry a schema version, which SHALL change only with a
   release of the service.
-* The service SHALL publish one name per version that a search client reads
-  every index of that version through.
+* The service SHALL search every index of its version through one name per version.
 * At startup the service SHALL give each index of its version every field it writes,
   creating the index when it is missing.
 * Starting the service SHALL keep every document an index holds.
 * A schema change that the documents of an index cannot take SHALL get a new version.
 * The service SHALL let operators choose which supported search index to use.
 * The service SHALL drop no page's content while the search index is unavailable.
+* The service SHALL answer a search with the pages whose title, content and auxiliary text
+  hold every word of the query, ranked title over content over auxiliary text in every index.
+* Each match SHALL carry its URL, title, and a content snippet of at most 300 characters.
+* A search SHALL get only pages of the language it names, and the page of at most 50 matches
+  it asks for.
+* The service SHALL answer searches while the page offers are unavailable, and SHALL try
+  again to open them.
 
 ## Non-Functional Requirements
 
@@ -53,11 +58,13 @@ index.
 * The service SHALL persist no state of its own: the index of record lives in the search
   index and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later start it
-  again without depending on this service's prior state.
+  again without depending on this service's prior state. Local search stops while the
+  service stops.
 * The service SHALL support many concurrent instances over the offered pages, with each
   page indexed by exactly one instance.
 * The service SHALL expose machine-readable metrics and a liveness signal covering pages
-  received, indexed, and failed, and index latency.
+  received, indexed, and failed, index latency, searches answered and failed, and search
+  latency.
 
 ## Known Limitations
 

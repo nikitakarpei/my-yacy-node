@@ -5,7 +5,7 @@
 An index is named `<base>_v<version>_<language>`. The base is `ELASTICSEARCH_INDEX`. The
 language is the primary subtag of a configured language, or `und` for all other pages.
 
-A search client reads the corpus through the wildcard `<base>_v<version>_*`. The wildcard
+The service searches the corpus through the wildcard `<base>_v<version>_*`. The wildcard
 also matches any other index with that prefix.
 
 ## Mapping

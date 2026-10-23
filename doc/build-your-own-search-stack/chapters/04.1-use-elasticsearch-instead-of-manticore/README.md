@@ -8,8 +8,8 @@ when you already operate Elasticsearch or need its tools.
 ## What this chapter changes
 
 - `elasticsearch` stores and searches the local full-text index.
-- `corpustext` writes crawled text to Elasticsearch.
-- `searxng` reads local search results from Elasticsearch.
+- `corpustext` writes crawled text to Elasticsearch and searches it.
+- `searxng` gets local search results from `corpustext`, as in chapter 4.
 
 This chapter does not move documents from Manticore. Submit a new crawl to fill
 the Elasticsearch index.
