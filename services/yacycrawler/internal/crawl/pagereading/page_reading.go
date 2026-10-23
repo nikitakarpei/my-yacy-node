@@ -1,6 +1,6 @@
-// Package pagereading reads a fetched page: the refusals it states, and the URLs it
-// links to when it is HTML and does not refuse link discovery. A page that is not HTML
-// states its refusals only in its headers. A refused link discovery goes to the observer.
+// Package pagereading reads what a fetched page states, whatever its format: the refusals
+// of its headers and of its format, and the URLs it links to when it does not refuse link
+// discovery. Only an HTML page links anywhere. A refused link discovery goes to the observer.
 package pagereading
 
 import (
@@ -10,25 +10,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
-	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/htmlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 )
 
-type HTMLParser interface {
-	ElementTreeFrom(
+type HTMLPageReading interface {
+	ReadingOfPage(
 		ctx context.Context,
-		contentType string,
-		body []byte,
-	) (pagehtml.ElementTree, error)
-}
-
-type LinkDiscovery interface {
-	LinkedURLsFrom(
-		ctx context.Context,
-		elementTree pagehtml.ElementTree,
 		pageURL canonicalurl.CanonicalURL,
-	) []canonicalurl.CanonicalURL
+		page pagefetch.FetchedPage,
+	) (pagehtmlreading.Reading, error)
 }
 
 type Reading struct {
@@ -37,19 +28,16 @@ type Reading struct {
 }
 
 type PageReading struct {
-	htmlParser                 HTMLParser
-	linkDiscovery              LinkDiscovery
+	htmlPageReading            HTMLPageReading
 	refusalEnforcementObserver RefusalEnforcementObserver
 }
 
 func NewPageReading(
-	htmlParser HTMLParser,
-	linkDiscovery LinkDiscovery,
+	htmlPageReading HTMLPageReading,
 	refusalEnforcementObserver RefusalEnforcementObserver,
 ) *PageReading {
 	return &PageReading{
-		htmlParser:                 htmlParser,
-		linkDiscovery:              linkDiscovery,
+		htmlPageReading:            htmlPageReading,
 		refusalEnforcementObserver: refusalEnforcementObserver,
 	}
 }
@@ -59,36 +47,32 @@ func (reading *PageReading) ReadingOfPage(
 	pageURL canonicalurl.CanonicalURL,
 	page pagefetch.FetchedPage,
 ) (Reading, error) {
-	elementTree, err := reading.htmlParser.ElementTreeFrom(ctx, page.ContentType, page.Body)
-	if errors.Is(err, pagehtml.ErrNotHTML) {
-		return Reading{Refusals: refusalsOf(page)}, nil
+	headerRefusals := httpheader.RefusalsOf(page.RobotsTagValues)
+	htmlReading, err := reading.htmlPageReading.ReadingOfPage(ctx, pageURL, page)
+	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
+		return Reading{Refusals: headerRefusals}, nil
 	}
 	if err != nil {
 		return Reading{}, err
 	}
-	refusals := refusalsOf(page)
+	refusals := headerRefusals.With(htmlReading.Refusals)
 	return Reading{
 		Refusals: refusals,
 		DiscoveredURLs: reading.discoveredURLsFrom(
-			ctx, elementTree, pageURL, refusals,
+			ctx, pageURL, htmlReading.LinkedURLs, refusals,
 		),
 	}, nil
 }
 
-func refusalsOf(page pagefetch.FetchedPage) robotsmeta.Refusals {
-	return httpheader.RefusalsOf(page.RobotsTagValues).
-		With(htmlmeta.RefusalsOf(page.ContentType, page.Body))
-}
-
 func (reading *PageReading) discoveredURLsFrom(
 	ctx context.Context,
-	elementTree pagehtml.ElementTree,
 	pageURL canonicalurl.CanonicalURL,
+	linkedURLs []canonicalurl.CanonicalURL,
 	refusals robotsmeta.Refusals,
 ) []canonicalurl.CanonicalURL {
 	if refusals.RefusesLinkDiscovery {
 		reading.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, pageURL)
 		return nil
 	}
-	return reading.linkDiscovery.LinkedURLsFrom(ctx, elementTree, pageURL)
+	return linkedURLs
 }

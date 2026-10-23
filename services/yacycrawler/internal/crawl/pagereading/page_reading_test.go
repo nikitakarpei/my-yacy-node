@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 )
 
@@ -34,6 +35,13 @@ func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
 	}
 }
 
+func pageNotHTML(t *testing.T) pagefetch.FetchedPage {
+	t.Helper()
+	page := pageHolding(t, pageLinkingNext)
+	page.ContentType = "application/pdf"
+	return page
+}
+
 type countingRefusalEnforcementObserver struct {
 	linkDiscoveryRefusalsEnforced int
 }
@@ -53,8 +61,10 @@ func pageReadingObservedBy(
 	refusalEnforcementObserver pagereading.RefusalEnforcementObserver,
 ) *pagereading.PageReading {
 	return pagereading.NewPageReading(
-		pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
-		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+		pagehtmlreading.NewHTMLPageReading(
+			pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
+			linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+		),
 		refusalEnforcementObserver,
 	)
 }
@@ -66,13 +76,6 @@ func readingOf(t *testing.T, page pagefetch.FetchedPage) pagereading.Reading {
 		t.Fatalf("ReadingOfPage: %v", err)
 	}
 	return reading
-}
-
-func pageNotHTML(t *testing.T) pagefetch.FetchedPage {
-	t.Helper()
-	page := pageHolding(t, pageLinkingNext)
-	page.ContentType = "application/pdf"
-	return page
 }
 
 func TestReadingOfPageReportsNoLinksOnAPageThatIsNotHTML(t *testing.T) {
@@ -94,28 +97,17 @@ func TestReadingOfPageHonorsAnIndexingRefusalInTheHeadersOfAPageThatIsNotHTML(t 
 	}
 }
 
-func TestReadingOfPageKeepsHTMLReadingFailuresDistinct(t *testing.T) {
-	for name, readingError := range map[string]error{
-		"charset": pagehtml.ErrCharsetUnreadable,
-		"parse":   pagehtml.ErrHTMLUnparseable,
-	} {
-		t.Run(name, func(t *testing.T) {
-			reading := pagereading.NewPageReading(
-				failingHTMLParser{err: readingError},
-				linkDiscoveryWithoutLinks{},
-				&countingRefusalEnforcementObserver{},
-			)
+func TestReadingOfPageKeepsAnHTMLReadingFailure(t *testing.T) {
+	htmlReadingFailure := errors.New("html unreadable")
+	reading := pagereading.NewPageReading(
+		failingHTMLPageReading{err: htmlReadingFailure},
+		&countingRefusalEnforcementObserver{},
+	)
 
-			_, err := reading.ReadingOfPage(
-				t.Context(),
-				pageURL(t),
-				pageHolding(t, pageLinkingNext),
-			)
+	_, err := reading.ReadingOfPage(t.Context(), pageURL(t), pageHolding(t, pageLinkingNext))
 
-			if !errors.Is(err, readingError) {
-				t.Fatalf("want %v, got %v", readingError, err)
-			}
-		})
+	if !errors.Is(err, htmlReadingFailure) {
+		t.Fatalf("want %v, got %v", htmlReadingFailure, err)
 	}
 }
 
@@ -131,18 +123,39 @@ func TestReadingOfPageReportsTheURLsThePageLinksTo(t *testing.T) {
 func TestReadingOfPageStillReportsLinksOnAPageThatRefusesIndexing(t *testing.T) {
 	reading := readingOf(t, pageHolding(t, pageRefusingIndexing))
 
+	if !reading.Refusals.RefusesIndexing {
+		t.Fatalf("want the meta noindex kept, got %+v", reading.Refusals)
+	}
 	if len(reading.DiscoveredURLs) != 1 {
 		t.Fatalf("noindex leaves links followable, got %v", reading.DiscoveredURLs)
 	}
 }
 
-func TestReadingOfPageReportsNoLinksWhenThePageRefusesLinkDiscovery(t *testing.T) {
-	reading := readingOf(
-		t, pageHolding(t, pageRefusingLinkDiscovery),
-	)
+func TestReadingOfPageJoinsTheRefusalsOfTheHeadersAndTheHTML(t *testing.T) {
+	page := pageHolding(t, pageRefusingIndexing)
+	page.RobotsTagValues = []string{"nofollow"}
 
-	if len(reading.DiscoveredURLs) != 0 {
-		t.Fatalf("nofollow suppresses linked urls, got %v", reading.DiscoveredURLs)
+	reading := readingOf(t, page)
+
+	if !reading.Refusals.RefusesIndexing || !reading.Refusals.RefusesLinkDiscovery {
+		t.Fatalf("want both refusals, got %+v", reading.Refusals)
+	}
+}
+
+func TestReadingOfPageReportsNoLinksWhenThePageRefusesLinkDiscovery(t *testing.T) {
+	headerRefusal := pageHolding(t, pageLinkingNext)
+	headerRefusal.RobotsTagValues = []string{"nofollow"}
+	for name, page := range map[string]pagefetch.FetchedPage{
+		"html":   pageHolding(t, pageRefusingLinkDiscovery),
+		"header": headerRefusal,
+	} {
+		t.Run(name, func(t *testing.T) {
+			reading := readingOf(t, page)
+
+			if len(reading.DiscoveredURLs) != 0 {
+				t.Fatalf("nofollow suppresses linked urls, got %v", reading.DiscoveredURLs)
+			}
+		})
 	}
 }
 
@@ -164,40 +177,19 @@ func TestReadingOfPageReportsTheLinkDiscoveryRefusalItEnforced(t *testing.T) {
 	}
 }
 
-func TestReadingOfPageHonorsARefusalStatedOutsideTheHTML(t *testing.T) {
-	page := pageHolding(t, pageLinkingNext)
-	page.RobotsTagValues = []string{"nofollow"}
+type failingHTMLPageReading struct{ err error }
 
-	reading := readingOf(t, page)
-
-	if len(reading.DiscoveredURLs) != 0 {
-		t.Fatalf("nofollow suppresses linked urls, got %v", reading.DiscoveredURLs)
-	}
+func (reading failingHTMLPageReading) ReadingOfPage(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	pagefetch.FetchedPage,
+) (pagehtmlreading.Reading, error) {
+	return pagehtmlreading.Reading{}, reading.err
 }
 
 type silentMediaTypeObserver struct{}
 
 func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error) {}
-
-type failingHTMLParser struct{ err error }
-
-func (parser failingHTMLParser) ElementTreeFrom(
-	context.Context,
-	string,
-	[]byte,
-) (pagehtml.ElementTree, error) {
-	return pagehtml.ElementTree{}, parser.err
-}
-
-type linkDiscoveryWithoutLinks struct{}
-
-func (linkDiscoveryWithoutLinks) LinkedURLsFrom(
-	context.Context,
-	pagehtml.ElementTree,
-	canonicalurl.CanonicalURL,
-) []canonicalurl.CanonicalURL {
-	return nil
-}
 
 type silentLinkResolutionObserver struct{}
 

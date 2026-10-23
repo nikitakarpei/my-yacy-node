@@ -32,6 +32,8 @@ components:
     in: internal/crawl/pagehtml/**
   linkdiscovery:
     in: internal/crawl/linkdiscovery/**
+  pagehtmlreading:
+    in: internal/crawl/pagehtmlreading/**
   pagereading:
     in: internal/crawl/pagereading/**
   pagevisitallowance:
@@ -211,10 +213,17 @@ deps:
     canUse:
       - canonicalurl
       - pagefetch
-  pagereading:
+  pagehtmlreading:
     mayDependOn:
       - pagehtml
       - linkdiscovery
+    canUse:
+      - canonicalurl
+      - pagefetch
+      - robotsmeta
+  pagereading:
+    mayDependOn:
+      - pagehtmlreading
     canUse:
       - canonicalurl
       - pagefetch

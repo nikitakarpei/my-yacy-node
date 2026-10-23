@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -189,8 +190,10 @@ func sceneFetching(outcome pagefetch.FetchOutcome) *pageVisitScene {
 		pageVisitRecords: &fakePageVisitRecords{due: true},
 		recordFailures:   &recordedRecordFailures{},
 		pageReading: pagereading.NewPageReading(
-			pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
-			linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+			pagehtmlreading.NewHTMLPageReading(
+				pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
+				linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+			),
 			silentRefusalEnforcementObserver{},
 		),
 		crawledPages:    &fakeCrawledPages{},

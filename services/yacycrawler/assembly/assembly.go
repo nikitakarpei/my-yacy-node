@@ -30,6 +30,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/observedfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
@@ -104,14 +105,16 @@ func RunService(
 		crawlobserversobservedfetchprometheus.New(registry, cfg.FetchDeadline),
 	}
 	pageReading := pagereading.NewPageReading(
-		pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{
-			crawlobserverspagehtmlapplog.MediaTypeLog{},
-			crawlobserverspagehtmlprometheus.New(registry),
-		}),
-		linkdiscovery.NewLinkDiscovery(linkdiscovery.LinkResolutionObservers{
-			crawlobserverslinkdiscoveryapplog.LinkResolutionLog{},
-			crawlobserverslinkdiscoveryprometheus.New(registry),
-		}),
+		pagehtmlreading.NewHTMLPageReading(
+			pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{
+				crawlobserverspagehtmlapplog.MediaTypeLog{},
+				crawlobserverspagehtmlprometheus.New(registry),
+			}),
+			linkdiscovery.NewLinkDiscovery(linkdiscovery.LinkResolutionObservers{
+				crawlobserverslinkdiscoveryapplog.LinkResolutionLog{},
+				crawlobserverslinkdiscoveryprometheus.New(registry),
+			}),
+		),
 		pagereading.RefusalEnforcementObservers{
 			crawlobserverspagereadingapplog.RefusalEnforcementLog{},
 			crawlobserverspagereadingprometheus.New(registry),
