@@ -181,6 +181,8 @@ components:
     in: internal/peerpresence/memory/**
   peerreliability:
     in: internal/peerreliability/**
+  yacydhtsearchassembly:
+    in: assembly/**
   yacydhtsearchcmd:
     in: cmd/yacydhtsearch/**
 
@@ -620,9 +622,14 @@ deps:
     canUse:
       - yacymodel
       - prometheus
-  yacydhtsearchcmd:
+  yacydhtsearchassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  yacydhtsearchcmd:
+    mayDependOn:
+      - yacydhtsearchassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "test/e2e"

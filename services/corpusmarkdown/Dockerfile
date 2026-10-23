@@ -28,9 +28,14 @@ RUN --mount=type=cache,target=/go/pkg/mod \
         -o /out/corpusmarkdown \
         ./cmd/corpusmarkdown
 
+RUN mkdir -p /out/corpusmarkdown-workdir
+
 FROM gcr.io/distroless/static-debian12:nonroot
 
+COPY --from=build --chown=nonroot:nonroot /out/corpusmarkdown-workdir /var/lib/corpusmarkdown
 COPY --from=build /out/corpusmarkdown /usr/local/bin/corpusmarkdown
+
+WORKDIR /var/lib/corpusmarkdown
 
 USER nonroot:nonroot
 

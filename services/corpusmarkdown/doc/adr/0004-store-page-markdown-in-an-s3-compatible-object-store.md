@@ -1,6 +1,6 @@
 # 4. Store page markdown in an S3-compatible object store
 
-Status: accepted
+Status: accepted, amended by [ADR 6](0006-keep-page-markdown-in-a-directory-unless-an-operator-names-an-object-store.md)
 
 ## Context
 

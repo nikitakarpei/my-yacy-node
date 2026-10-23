@@ -25,6 +25,8 @@ components:
     in: internal/backgroundcrawlorderplacementobservers/applog/**
   backgroundcrawlorderplacementobserversprometheus:
     in: internal/backgroundcrawlorderplacementobservers/prometheus/**
+  visitcrawlassembly:
+    in: assembly/**
   visitcrawlcmd:
     in: cmd/visitcrawl/**
 
@@ -89,9 +91,14 @@ deps:
       - crawlorderplacersbackground
     canUse:
       - prometheus
-  visitcrawlcmd:
+  visitcrawlassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  visitcrawlcmd:
+    mayDependOn:
+      - visitcrawlassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

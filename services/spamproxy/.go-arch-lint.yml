@@ -61,6 +61,8 @@ components:
     in: internal/roundtrippersobservers/deadlineenforcing/applog/**
   deadlineenforcingobserversprometheus:
     in: internal/roundtrippersobservers/deadlineenforcing/prometheus/**
+  spamproxyassembly:
+    in: assembly/**
   spamproxycmd:
     in: cmd/spamproxy/**
 
@@ -80,6 +82,11 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
 
 deps:
   pageassessment:
@@ -174,9 +181,14 @@ deps:
       - failurereporting
     canUse:
       - prometheus
-  spamproxycmd:
+  spamproxyassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  spamproxycmd:
+    mayDependOn:
+      - spamproxyassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

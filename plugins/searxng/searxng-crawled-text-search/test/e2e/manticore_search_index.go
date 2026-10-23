@@ -80,9 +80,3 @@ func manticoreCorpusTextEnv() map[string]string {
 		"MANTICORE_TABLE":     manticoreTableBase,
 	}
 }
-
-func manticoreEngineSettings() string {
-	return "    search_index_engine: manticore\n" +
-		"    manticore_url: " + manticore.NetworkURL(manticoreAlias) + "\n" +
-		"    manticore_table: " + manticoreFanOutTable + "\n"
-}

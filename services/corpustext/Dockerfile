@@ -28,9 +28,14 @@ RUN --mount=type=cache,target=/go/pkg/mod \
         -o /out/corpustext \
         ./cmd/corpustext
 
+RUN mkdir -p /out/corpustext-workdir
+
 FROM gcr.io/distroless/static-debian12:nonroot
 
 COPY --from=build /out/corpustext /usr/local/bin/corpustext
+COPY --from=build --chown=nonroot:nonroot /out/corpustext-workdir /var/lib/corpustext
+
+WORKDIR /var/lib/corpustext
 
 USER nonroot:nonroot
 

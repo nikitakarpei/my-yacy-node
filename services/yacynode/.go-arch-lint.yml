@@ -100,17 +100,22 @@ components:
     in: internal/pageintakeobservers/prometheus/**
   pageofferbroker:
     in: internal/pageofferbroker/**
+  pageofferopeningobserversapplog:
+    in: internal/pageofferopeningobservers/applog/**
   intakereceiptsnats:
     in: internal/intakereceipts/nats/**
   intakereceiptpublicationobserversapplog:
     in: internal/intakereceiptpublicationobservers/applog/**
   intakereceiptpublicationobserversprometheus:
     in: internal/intakereceiptpublicationobservers/prometheus/**
+  yacynodeassembly:
+    in: assembly/**
   cmd:
     in:
       - cmd/yacy-entrypoint/**
       - cmd/yacy-peer-hash/**
-      - cmd/yacy-rwi-node/**
+  yacynodecmd:
+    in: cmd/yacy-rwi-node/**
 
 vendors:
   yacymodel:
@@ -163,6 +168,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
@@ -411,9 +417,17 @@ deps:
   intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
+  yacynodeassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
   cmd:
     anyProjectDeps: true
     anyVendorDeps: true
+  yacynodecmd:
+    mayDependOn:
+      - yacynodeassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "test/e2e"

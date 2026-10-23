@@ -35,17 +35,15 @@ services:
       - nats
     entrypoint: ["nats", "--server", "nats://nats:4222"]
 
-  scrape-request-bridge:
-    image: natsio/nats-box:0.19.7
+  crawlscrapebridge:
+    image: ghcr.io/nikitakarpei/my-yacy-node/crawlscrapebridge:latest
     restart: unless-stopped
     depends_on:
-      yacycrawler:
-        condition: service_started
+      - nats
     environment:
       CRAWL_NATS_URL: nats://nats:4222
-    volumes:
-      - ../../building-blocks/scrape-request-bridge/relay-crawled-pages-as-scrape-requests.sh:/relay-crawled-pages-as-scrape-requests.sh:ro
-    entrypoint: ["sh", "/relay-crawled-pages-as-scrape-requests.sh"]
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacycrawler:
     image: ghcr.io/nikitakarpei/my-yacy-node/yacycrawler:latest
@@ -62,24 +60,16 @@ services:
     volumes:
       - yacycrawler-data:/data
 
-  manticore:
-    image: manticoresearch/manticore:27.1.5
-    restart: unless-stopped
-    volumes:
-      - manticore-data:/var/lib/manticore
-
   corpustext:
     image: ghcr.io/nikitakarpei/my-yacy-node/corpustext:latest
     restart: unless-stopped
+    volumes:
+      - corpustext-data:/var/lib/corpustext
     depends_on:
       pagescrape:
         condition: service_started
-      manticore:
-        condition: service_started
     environment:
       SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
-      SEARCH_INDEX_ENGINE: manticore
-      MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
@@ -104,7 +94,7 @@ services:
     depends_on:
       searxng-crawled-text-search-init:
         condition: service_completed_successfully
-      manticore:
+      corpustext:
         condition: service_started
       yacydhtsearch:
         condition: service_started
@@ -163,5 +153,5 @@ volumes:
   yacycrawler-data:
   nats-data:
   yacy-data:
-  manticore-data:
+  corpustext-data:
   searxng-engines:

@@ -25,6 +25,8 @@ components:
     in: internal/scrapeintakeobservers/applog/**
   scrapeintakeobserversprometheus:
     in: internal/scrapeintakeobservers/prometheus/**
+  pagescrapeassembly:
+    in: assembly/**
   pagescrapecmd:
     in: cmd/pagescrape/**
 
@@ -51,6 +53,8 @@ vendors:
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
@@ -87,9 +91,14 @@ deps:
     canUse:
       - pagescrapecontract
       - prometheus
-  pagescrapecmd:
+  pagescrapeassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  pagescrapecmd:
+    mayDependOn:
+      - pagescrapeassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

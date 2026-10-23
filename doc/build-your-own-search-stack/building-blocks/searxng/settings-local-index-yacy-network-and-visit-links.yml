@@ -11,8 +11,7 @@ engines:
     shortcut: ct
     categories: general
     enable_http: true
-    search_index_engine: manticore
-    manticore_url: http://manticore:9308
+    corpustext_search_url: http://corpustext:8096
 
   - name: yacy
     engine: yacy

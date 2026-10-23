@@ -6,11 +6,12 @@ import (
 	"context"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/corpustextservice"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/crawlscrapebridgeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequestbridge"
 )
 
 func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
@@ -25,8 +26,10 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
-	corpusText := startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
+	crawlscrapebridgeservice.Start(t, ctx, network.Name)
+	corpusText := corpustextservice.Start(
+		t, ctx, network.Name, crawlNATSURL, elasticsearchCorpusTextEnv(),
+	)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitOrdersStream(t, ctx, js)
@@ -46,13 +49,15 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 		t, ctx, elasticsearchURL, elasticsearchIndexPattern, stemmedTerm,
 	)
 	assertIndexedPage(t, fanOutHit, originURL)
+	assertCorpusTextFinds(t, ctx, corpusText, originURL)
 
-	restartCorpusText(t, ctx, corpusText)
+	corpusText.Restart(t, ctx)
 
 	hitAfterRestart := waitForElasticsearchContentHit(
 		t, ctx, elasticsearchURL, elasticsearchIndexPattern, stemmedTerm,
 	)
 	assertIndexedPage(t, hitAfterRestart, originURL)
+	assertCorpusTextFinds(t, ctx, corpusText, originURL)
 }
 
 func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
@@ -67,8 +72,10 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
-	corpusText := startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
+	crawlscrapebridgeservice.Start(t, ctx, network.Name)
+	corpusText := corpustextservice.Start(
+		t, ctx, network.Name, crawlNATSURL, manticoreCorpusTextEnv(),
+	)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitOrdersStream(t, ctx, js)
@@ -80,8 +87,9 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 
 	fanOutHit := waitForManticoreContentHit(t, ctx, manticoreURL, manticoreFanOutTable, stemmedTerm)
 	assertIndexedPage(t, fanOutHit, originURL)
+	assertCorpusTextFinds(t, ctx, corpusText, originURL)
 
-	restartCorpusText(t, ctx, corpusText)
+	corpusText.Restart(t, ctx)
 
 	hitAfterRestart := waitForManticoreContentHit(
 		t,
@@ -91,4 +99,5 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 		stemmedTerm,
 	)
 	assertIndexedPage(t, hitAfterRestart, originURL)
+	assertCorpusTextFinds(t, ctx, corpusText, originURL)
 }

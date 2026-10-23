@@ -97,17 +97,6 @@ services:
       - ../../building-blocks/nats/nats.conf:/etc/nats/nats.conf:ro
       - nats-data:/data
 
-  garage:
-    image: dxflrs/garage:v2.4.1
-    restart: unless-stopped
-    command: ["/garage", "server", "--single-node", "--default-access-key"]
-    environment:
-      GARAGE_DEFAULT_ACCESS_KEY: &page-markdown-access-key GK7c3e9a1f5b2d8e4c6a0f3b9d
-      GARAGE_DEFAULT_SECRET_KEY: &page-markdown-secret-key 9b2e7f4a1c8d3e6f0a5b2c9d4e7f1a3b6c8d0e2f5a7b9c1d4e6f8a0b3c5d7e9f
-    volumes:
-      - ../../building-blocks/garage/garage.toml:/etc/garage.toml:ro
-      - garage-data:/var/lib/garage
-
   pagescrape:
     image: ghcr.io/nikitakarpei/my-yacy-node/pagescrape:latest
     restart: unless-stopped
@@ -174,17 +163,15 @@ services:
       - ../../building-blocks/squid/squid.conf:/etc/squid/squid.conf:ro
       - squid-data:/var/spool/squid
 
-  scrape-request-bridge:
-    image: natsio/nats-box:0.19.7
+  crawlscrapebridge:
+    image: ghcr.io/nikitakarpei/my-yacy-node/crawlscrapebridge:latest
     restart: unless-stopped
     depends_on:
-      yacycrawler:
-        condition: service_started
+      - nats
     environment:
       CRAWL_NATS_URL: nats://nats:4222
-    volumes:
-      - ../../building-blocks/scrape-request-bridge/relay-crawled-pages-as-scrape-requests.sh:/relay-crawled-pages-as-scrape-requests.sh:ro
-    entrypoint: ["sh", "/relay-crawled-pages-as-scrape-requests.sh"]
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacycrawler:
     image: ghcr.io/nikitakarpei/my-yacy-node/yacycrawler:latest
@@ -202,24 +189,16 @@ services:
     volumes:
       - yacycrawler-data:/data
 
-  manticore:
-    image: manticoresearch/manticore:27.1.5
-    restart: unless-stopped
-    volumes:
-      - manticore-data:/var/lib/manticore
-
   corpustext:
     image: ghcr.io/nikitakarpei/my-yacy-node/corpustext:latest
     restart: unless-stopped
+    volumes:
+      - corpustext-data:/var/lib/corpustext
     depends_on:
       pagescrape:
         condition: service_started
-      manticore:
-        condition: service_started
     environment:
       SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
-      SEARCH_INDEX_ENGINE: manticore
-      MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
@@ -229,14 +208,11 @@ services:
     depends_on:
       pagescrape:
         condition: service_started
-      garage:
-        condition: service_started
     environment:
       SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
-      PAGE_MARKDOWN_S3_ENDPOINT: http://garage:3900
-      PAGE_MARKDOWN_S3_ACCESS_KEY_ID: *page-markdown-access-key
-      PAGE_MARKDOWN_S3_SECRET_ACCESS_KEY: *page-markdown-secret-key
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - corpusmarkdown-data:/var/lib/corpusmarkdown
 
   searxng-engines-seed:
     image: *searxng-image
@@ -280,7 +256,7 @@ services:
         condition: service_completed_successfully
       searxng-result-router-init:
         condition: service_completed_successfully
-      manticore:
+      corpustext:
         condition: service_started
       visitcrawl:
         condition: service_started
@@ -404,11 +380,11 @@ volumes:
   warcprox-trust:
   pywb-indexes:
   yacycrawler-data:
-  garage-data:
+  corpusmarkdown-data:
   nats-data:
   squid-data:
   yacy-data:
-  manticore-data:
+  corpustext-data:
   searxng-engines:
   searxng-plugins:
   caddy-data:
