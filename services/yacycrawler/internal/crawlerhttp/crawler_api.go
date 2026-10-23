@@ -109,15 +109,22 @@ func New(
 		observer: observer,
 	}
 	mux := http.NewServeMux()
-	mux.HandleFunc("PUT /orders/{id}", api.placeOrder)
-	mux.HandleFunc("GET /crawls", api.listCrawls)
-	mux.HandleFunc("GET /crawls/{id}", api.showCrawl)
-	mux.HandleFunc("GET /crawls/{id}/hosts", api.listHosts)
-	mux.HandleFunc("POST /crawls/{id}/cancel", api.cancelCrawl)
-	mux.HandleFunc("PUT /crawls/{id}/pause", api.pauseCrawl)
-	mux.HandleFunc("GET /crawler-status", api.showCrawlerStatus)
-	mux.HandleFunc("PUT /crawler-pause", api.pauseCrawler)
+	mux.HandleFunc(routeOf(http.MethodPut, yacycrawlcontract.OrderPath), api.placeOrder)
+	mux.HandleFunc(routeOf(http.MethodGet, yacycrawlcontract.CrawlsPath), api.listCrawls)
+	mux.HandleFunc(routeOf(http.MethodGet, yacycrawlcontract.CrawlPath), api.showCrawl)
+	mux.HandleFunc(routeOf(http.MethodGet, yacycrawlcontract.CrawlHostsPath), api.listHosts)
+	mux.HandleFunc(routeOf(http.MethodPost, yacycrawlcontract.CrawlCancelPath), api.cancelCrawl)
+	mux.HandleFunc(routeOf(http.MethodPut, yacycrawlcontract.CrawlPausePath), api.pauseCrawl)
+	mux.HandleFunc(
+		routeOf(http.MethodGet, yacycrawlcontract.CrawlerStatusPath),
+		api.showCrawlerStatus,
+	)
+	mux.HandleFunc(routeOf(http.MethodPut, yacycrawlcontract.CrawlerPausePath), api.pauseCrawler)
 	return http.NewCrossOriginProtection().Handler(mux)
+}
+
+func routeOf(method string, path yacycrawlcontract.APIPath) string {
+	return method + " " + string(path)
 }
 
 func (api crawlerAPI) placeOrder(w http.ResponseWriter, r *http.Request) {
@@ -125,7 +132,7 @@ func (api crawlerAPI) placeOrder(w http.ResponseWriter, r *http.Request) {
 	if !api.readJSON(w, r, &sentOrder) {
 		return
 	}
-	order, err := orderPlacedAt(r.PathValue("id"), sentOrder)
+	order, err := orderPlacedAt(r.PathValue(yacycrawlcontract.IDWildcard), sentOrder)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -414,7 +421,7 @@ func (api crawlerAPI) changeState(
 
 func crawlIDIn(r *http.Request) (crawlid.CrawlID, bool) {
 	var crawlID crawlid.CrawlID
-	return crawlID, crawlID.UnmarshalText([]byte(r.PathValue("id"))) == nil
+	return crawlID, crawlID.UnmarshalText([]byte(r.PathValue(yacycrawlcontract.IDWildcard))) == nil
 }
 
 func refusedChange(

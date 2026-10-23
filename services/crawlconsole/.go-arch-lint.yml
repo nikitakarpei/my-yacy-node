@@ -1,0 +1,44 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - yacycrawlcontract
+
+components:
+  consolemessages:
+    in: internal/consolemessages/**
+  consolepages:
+    in: internal/consolepages/**
+  crawlershttp:
+    in: internal/crawlers/http/**
+  consolepageobserversapplog:
+    in: internal/consolepageobservers/applog/**
+  crawlconsolecmd:
+    in: cmd/crawlconsole/**
+
+vendors:
+  yacycrawlcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+
+deps:
+  consolepages:
+    mayDependOn:
+      - consolemessages
+    canUse:
+      - canonicalurl
+  crawlconsolecmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"

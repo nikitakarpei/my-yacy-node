@@ -1,0 +1,102 @@
+{{define "title"}}{{if .Found}}{{.Crawl.Name}}{{else}}{{.CrawlID}}{{end}}{{end}}
+{{define "refresh"}}{{if and .Found (not .Crawl.IsFinished)}}<meta http-equiv="refresh" content="3">{{end}}{{end}}
+{{define "content"}}
+{{if not .Found}}
+<h1>{{.CrawlID}}</h1>
+{{if .Answered}}<div class="card">{{text "crawl-detail.unknown-crawl"}}</div>{{end}}
+{{else}}
+{{with .Crawl}}
+<div class="toolbar">
+  <h1>{{.Name}} <span class="state state-{{.State}}">{{text (print "crawl-state." .State)}}</span></h1>
+  <div>
+    <a class="button" href="/crawls/new?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a>
+    {{if .IsResumable}}
+    <form class="inline" method="post" action="/crawls/{{.CrawlID}}/pause"><input type="hidden" name="Paused" value="false"><button>{{text "crawl-detail.resume"}}</button></form>
+    {{else if .IsPausable}}
+    <form class="inline" method="post" action="/crawls/{{.CrawlID}}/pause"><input type="hidden" name="Paused" value="true"><button>{{text "crawl-detail.pause"}}</button></form>
+    {{end}}
+    {{if .IsCancellable}}<form class="inline" method="post" action="/crawls/{{.CrawlID}}/cancel" onsubmit="return confirm({{text "crawl-detail.cancel-confirmation"}})"><button class="danger">{{text "crawl-detail.cancel"}}</button></form>{{end}}
+  </div>
+</div>
+{{end}}
+<div class="figures">
+  {{if not .Crawl.IsFinished}}<div class="figure"><div class="amount">{{.Crawl.PendingPageVisits}}</div><div class="muted">{{text "crawl.pending"}}</div></div>{{end}}
+  <div class="figure"><div class="amount">{{.Crawl.Outcomes.Published}}</div><div class="muted">{{text "visit-outcome.published"}}</div></div>
+  <div class="figure"><div class="amount">{{.Crawl.Outcomes.Unchanged}}</div><div class="muted">{{text "visit-outcome.unchanged"}}</div></div>
+  <div class="figure"><div class="amount">{{.Crawl.Outcomes.NotFetched}}</div><div class="muted">{{text "visit-outcome.not-fetched"}}</div></div>
+  <div class="figure"><div class="amount">{{template "duration" .Crawl.Duration}}</div><div class="muted">{{text "crawl.duration"}}</div></div>
+</div>
+<div class="columns">
+<div>
+<h2>{{text "crawl-detail.overview"}}</h2>
+<div class="card">
+<dl>
+  <dt>{{text "crawl.crawl-id"}}</dt><dd class="url">{{.CrawlID}}</dd>
+  <dt>{{text "crawl.started-at"}}</dt><dd>{{moment .Crawl.StartedAt}}</dd>
+  <dt>{{text "crawl.finished-at"}}</dt><dd>{{if .Crawl.IsFinished}}{{moment .Crawl.FinishedAt}}{{else}}{{text "crawl.not-finished"}}{{end}}</dd>
+  <dt>{{text "crawl.unadmitted-links"}}</dt><dd>{{.Crawl.UnadmittedLinks}}<div class="hint">{{text "crawl.unadmitted-links-hint"}}</div></dd>
+</dl>
+</div>
+</div>
+{{with .Order}}
+<div>
+<h2>{{text "crawl-detail.settings"}}</h2>
+<div class="card">
+<dl>
+  <dt>{{text "order.seed-urls"}}</dt><dd>{{range .SeedURLs}}<div class="url">{{.}}</div>{{end}}</dd>
+  <dt>{{text "order.scope"}}</dt><dd>{{text (print "crawl-scope." .Profile.Scope)}}</dd>
+  <dt>{{text "order.max-depth"}}</dt><dd>{{.Profile.MaxDepth}}</dd>
+  <dt>{{text "order.url-must-match"}}</dt><dd class="url">{{or .Profile.URLMustMatch (text "order.url-must-match-all")}}</dd>
+  <dt>{{text "order.url-must-not-match"}}</dt><dd class="url">{{or .Profile.URLMustNotMatch (text "order.url-must-not-match-none")}}</dd>
+  <dt>{{text "order.query-urls"}}</dt><dd>{{if .Profile.AllowQueryURLs}}{{text "order.query-urls-included"}}{{else}}{{text "order.query-urls-skipped"}}{{end}}</dd>
+  <dt>{{text "order.max-pages-per-host"}}</dt><dd>{{if .Profile.MaxPagesPerHost}}{{.Profile.MaxPagesPerHost}}{{else}}{{text "order.no-page-limit"}}{{end}}</dd>
+</dl>
+</div>
+</div>
+{{end}}
+</div>
+<h2>{{text "host-table.title"}}</h2>
+<div class="table-scroll"><table>
+  <colgroup><col>{{if not .Crawl.IsFinished}}<col class="column-group">{{end}}<col span="3" class="column-group"><col span="4" class="column-group"></colgroup>
+  <tr><th{{if not .Crawl.IsFinished}} colspan="2"{{end}}></th><th colspan="3" class="group">{{text "host-table.fetched"}}</th><th colspan="4" class="group">{{text "visit-outcome.not-fetched"}}</th></tr>
+  <tr>
+    <th>{{text "host-table.host"}}</th>
+    {{if not .Crawl.IsFinished}}<th class="number">{{text "crawl.pending"}}</th>{{end}}
+    <th class="number">{{text "visit-outcome.published"}}</th>
+    <th class="number" title="{{text "visit-outcome.unchanged-hint"}}">{{text "visit-outcome.unchanged"}}</th>
+    <th class="number" title="{{text "visit-outcome.unusable-content-hint"}}">{{text "visit-outcome.unusable-content"}}</th>
+    <th class="number" title="{{text "visit-outcome.over-page-limit-hint"}}">{{text "visit-outcome.over-page-limit"}}</th>
+    <th class="number" title="{{text "visit-outcome.refused-by-site-hint"}}">{{text "visit-outcome.refused-by-site"}}</th>
+    <th class="number" title="{{text "visit-outcome.dead-links-hint"}}">{{text "visit-outcome.dead-links"}}</th>
+    <th class="number" title="{{text "visit-outcome.server-errors-hint"}}">{{text "visit-outcome.server-errors"}}</th>
+  </tr>
+  <tr class="totals">
+    <td>{{text "host-table.all-hosts"}}</td>
+    {{if not .Crawl.IsFinished}}<td class="number">{{.Crawl.PendingPageVisits}}</td>{{end}}
+    {{with .Crawl.Outcomes}}<td class="number">{{.Published}}</td>
+    <td class="number">{{.Unchanged}}</td>
+    <td class="number">{{.UnusableContent}}</td>
+    <td class="number">{{.OverPageLimit}}</td>
+    <td class="number">{{.RefusedBySite}}</td>
+    <td class="number">{{.DeadLinks}}</td>
+    <td class="number">{{.ServerErrors}}</td>{{end}}
+  </tr>
+  {{range .Hosts.Rows}}
+  <tr>
+    <td class="host">{{.Host}}</td>
+    {{if not $.Crawl.IsFinished}}<td class="number">{{.PendingPageVisits}}</td>{{end}}
+    <td class="number">{{.Published}}</td>
+    <td class="number">{{.Unchanged}}</td>
+    <td class="number">{{.UnusableContent}}</td>
+    <td class="number">{{.OverPageLimit}}</td>
+    <td class="number">{{.RefusedBySite}}</td>
+    <td class="number">{{.DeadLinks}}</td>
+    <td class="number">{{.ServerErrors}}</td>
+  </tr>
+  {{else}}
+  <tr><td colspan="9" class="muted">{{text "host-table.no-hosts"}}</td></tr>
+  {{end}}
+</table></div>
+<div class="pager">{{with .Hosts}}{{if .PreviousPageURL}}<a href="{{.PreviousPageURL}}">{{text "pager.previous"}}</a>{{end}}{{if .NextPageURL}}<a href="{{.NextPageURL}}">{{text "pager.next"}}</a>{{end}}{{end}}</div>
+{{end}}
+{{end}}

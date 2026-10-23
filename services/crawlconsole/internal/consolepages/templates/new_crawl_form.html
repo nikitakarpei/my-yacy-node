@@ -1,0 +1,46 @@
+{{define "title"}}{{text "new-crawl.title"}}{{end}}
+{{define "content"}}
+<h1>{{text "new-crawl.title"}}</h1>
+{{if .Problem.Key}}<div class="notice">{{text .Problem.Key .Problem.Value}}</div>{{end}}
+<form method="post" action="/crawls">
+  <fieldset>
+    <legend>{{text "new-crawl.scope"}}</legend>
+    <label for="SeedURLs">{{text "order.seed-urls"}} <span class="hint">{{text "new-crawl.seed-urls-hint"}}</span></label>
+    <textarea id="SeedURLs" name="SeedURLs" required placeholder="https://example.org/">{{.Fields.SeedURLs}}</textarea>
+    <label>{{text "order.scope"}}</label>
+    {{range .Scopes}}
+    <label class="choice"><input type="radio" name="Scope" value="{{.}}"{{if eq (print .) $.Fields.Scope}} checked{{end}}> <span><strong>{{text (print "crawl-scope." .)}}</strong> <span class="hint">{{text (print "crawl-scope-hint." .)}}</span></span></label>
+    {{end}}
+    <div class="columns">
+      <div>
+        <label for="URLMustMatch">{{text "order.url-must-match"}} <span class="hint">{{text "new-crawl.regular-expression"}}</span></label>
+        <input type="text" id="URLMustMatch" name="URLMustMatch" value="{{.Fields.URLMustMatch}}" placeholder="{{text "order.url-must-match-all"}}">
+      </div>
+      <div>
+        <label for="URLMustNotMatch">{{text "order.url-must-not-match"}} <span class="hint">{{text "new-crawl.regular-expression"}}</span></label>
+        <input type="text" id="URLMustNotMatch" name="URLMustNotMatch" value="{{.Fields.URLMustNotMatch}}" placeholder="{{text "order.url-must-not-match-none"}}">
+      </div>
+    </div>
+    <label class="choice"><input type="checkbox" name="AllowQueryURLs"{{if .Fields.AllowQueryURLs}} checked{{end}}> {{text "new-crawl.allow-query-urls"}}</label>
+  </fieldset>
+  <fieldset>
+    <legend>{{text "new-crawl.limits"}}</legend>
+    <div class="columns">
+      <div>
+        <label for="MaxDepth">{{text "order.max-depth"}} <span class="hint">{{text "new-crawl.max-depth-hint"}}</span></label>
+        <input type="number" id="MaxDepth" name="MaxDepth" min="0" required value="{{.Fields.MaxDepth}}">
+      </div>
+      <div>
+        <label for="MaxPagesPerHost">{{text "order.max-pages-per-host"}}</label>
+        <input type="number" id="MaxPagesPerHost" name="MaxPagesPerHost" min="1" value="{{.Fields.MaxPagesPerHost}}" placeholder="{{text "order.no-page-limit"}}">
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>{{text "new-crawl.metadata"}}</legend>
+    <label for="Label">{{text "order.label"}} <span class="hint">{{text "new-crawl.label-hint"}}</span></label>
+    <input type="text" id="Label" name="Label" value="{{.Fields.Label}}">
+  </fieldset>
+  <div class="form-actions"><button class="primary">{{text "new-crawl.start"}}</button><a class="button" href="/">{{text "new-crawl.back"}}</a></div>
+</form>
+{{end}}
