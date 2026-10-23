@@ -215,17 +215,17 @@ func leasedVisit(t *testing.T) pendingpagevisit.LeasedPageVisit {
 	}
 }
 
-type settlement string
+type frontierCall string
 
 const (
-	settled  settlement = "settled"
-	returned settlement = "returned"
+	ended    frontierCall = "ended"
+	returned frontierCall = "returned"
 )
 
 type fakeFrontier struct {
 	leased        []pendingpagevisit.LeasedPageVisit
 	endIntake     context.CancelFunc
-	settlements   []settlement
+	calls         []frontierCall
 	returnedAfter time.Duration
 }
 
@@ -239,8 +239,8 @@ func (f *fakeFrontier) Next(context.Context) (pendingpagevisit.LeasedPageVisit, 
 	return next, nil
 }
 
-func (f *fakeFrontier) Settle(context.Context, pendingpagevisit.LeasedPageVisit) {
-	f.settlements = append(f.settlements, settled)
+func (f *fakeFrontier) End(context.Context, pendingpagevisit.LeasedPageVisit) {
+	f.calls = append(f.calls, ended)
 }
 
 func (f *fakeFrontier) Return(
@@ -248,7 +248,7 @@ func (f *fakeFrontier) Return(
 	_ pendingpagevisit.LeasedPageVisit,
 	delay time.Duration,
 ) {
-	f.settlements = append(f.settlements, returned)
+	f.calls = append(f.calls, returned)
 	f.returnedAfter = delay
 }
 
@@ -324,8 +324,8 @@ func TestAPageVisitIsVisitedThenAcknowledged(t *testing.T) {
 	if worker.pageVisitor.pageVisitCount() != 1 {
 		t.Fatalf("visited %d urls, want 1", worker.pageVisitor.pageVisitCount())
 	}
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != settled {
-		t.Fatalf("visit settled %v, want it settled once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != ended {
+		t.Fatalf("frontier calls %v, want the visit ended once", got)
 	}
 }
 
@@ -340,8 +340,8 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
-		t.Fatalf("visit settled %v, want it returned once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 	if worker.frontier.returnedAfter != 7*time.Second {
 		t.Fatalf("held back for %v, want the delay the site asked", worker.frontier.returnedAfter)
@@ -366,8 +366,8 @@ func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	if worker.observer.dropped[yacycrawlcontract.DropReasonDeferralsExhausted] != 1 {
 		t.Fatalf("observer dropped %v, want deferrals exhausted", worker.observer.dropped)
 	}
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != settled {
-		t.Fatalf("visit settled %v, want it settled once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != ended {
+		t.Fatalf("frontier calls %v, want the visit ended once", got)
 	}
 }
 
@@ -399,15 +399,15 @@ func TestAReturnedVisitComesBackWithoutSpendingAnAttempt(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
-		t.Fatalf("visit settled %v, want it returned once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 	if worker.allowances.retries != 0 {
 		t.Fatalf("attempts spent = %d, want none", worker.allowances.retries)
 	}
 }
 
-func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorSettled(t *testing.T) {
+func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorEnded(t *testing.T) {
 	worker := newWorker()
 	visit := leasedVisit(t)
 
@@ -418,8 +418,8 @@ func TestAVisitTheAdmissionHoldsBackIsNeitherVisitedNorSettled(t *testing.T) {
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a held back visit was visited")
 	}
-	if got := worker.frontier.settlements; len(got) != 0 {
-		t.Fatalf("visit settled %v, want it untouched", got)
+	if got := worker.frontier.calls; len(got) != 0 {
+		t.Fatalf("frontier calls %v, want the visit untouched", got)
 	}
 }
 
@@ -497,8 +497,8 @@ func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
-		t.Fatalf("visit settled %v, want it returned once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 }
 
@@ -511,8 +511,8 @@ func TestAVisitWhoseCrawlIsForgottenReturnsUnvisited(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
-		t.Fatalf("visit settled %v, want it returned once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a url of a forgotten order should not be visited")
@@ -528,8 +528,8 @@ func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := worker.frontier.settlements; len(got) != 1 || got[0] != returned {
-		t.Fatalf("visit settled %v, want it returned once", got)
+	if got := worker.frontier.calls; len(got) != 1 || got[0] != returned {
+		t.Fatalf("frontier calls %v, want the visit returned once", got)
 	}
 	if worker.pageVisitor.pageVisitCount() != 0 {
 		t.Fatal("a url under an unreadable profile should not be visited")

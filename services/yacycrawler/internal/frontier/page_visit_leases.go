@@ -150,25 +150,25 @@ func secondsAtOrAfter(at time.Time) int64 {
 	return seconds
 }
 
-func (leases pageVisitLeases) settle(
+func (leases pageVisitLeases) end(
 	ctx context.Context,
 	leasedPageVisit pendingpagevisit.LeasedPageVisit,
 ) {
 	pageVisit := leasedPageVisit.PageVisit
-	settled := false
+	ended := false
 	if err := leases.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		settled, err = leases.ledger.settleLeased(
+		ended, err = leases.ledger.endLeased(
 			tx,
 			pageVisitKeyOf(pageVisit),
 			leasedPageVisit.LeasedUntil.Unix(),
 		)
 		return err
 	}); err != nil {
-		leases.observer.FrontierSettleFailed(ctx, pageVisit, err)
+		leases.observer.FrontierEndFailed(ctx, pageVisit, err)
 		return
 	}
-	if !settled {
+	if !ended {
 		leases.observer.FrontierLeaseOutdated(ctx, pageVisit)
 	}
 }

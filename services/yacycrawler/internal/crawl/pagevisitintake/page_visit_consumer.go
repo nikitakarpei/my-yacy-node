@@ -1,5 +1,5 @@
 // Package pagevisitintake pays one pending page visit per lease: it has the page visited
-// and settles or returns the visit by what the visit concluded. It takes the next visit
+// and ends or returns the visit by what the visit concluded. It takes the next visit
 // only when its admission lets it.
 package pagevisitintake
 
@@ -24,7 +24,7 @@ var errCrawlForgotten = errors.New("the crawl of the page visit is forgotten")
 
 type PendingPageVisits interface {
 	Next(ctx context.Context) (pendingpagevisit.LeasedPageVisit, error)
-	Settle(ctx context.Context, leasedPageVisit pendingpagevisit.LeasedPageVisit)
+	End(ctx context.Context, leasedPageVisit pendingpagevisit.LeasedPageVisit)
 	Return(
 		ctx context.Context,
 		leasedPageVisit pendingpagevisit.LeasedPageVisit,
@@ -147,7 +147,7 @@ func (c *PageVisitConsumer) dropPageVisit(
 	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	c.observer.PendingPageVisitDropped(ctx, leasedPageVisit.PageVisit, reason)
-	c.pendingPageVisits.Settle(ctx, leasedPageVisit)
+	c.pendingPageVisits.End(ctx, leasedPageVisit)
 }
 
 func (c *PageVisitConsumer) holdsHostPage(
@@ -204,7 +204,7 @@ func (c *PageVisitConsumer) completePageVisit(
 	leasedPageVisit pendingpagevisit.LeasedPageVisit,
 	result yacycrawlcontract.PageVisitResult,
 ) {
-	c.pendingPageVisits.Settle(ctx, leasedPageVisit)
+	c.pendingPageVisits.End(ctx, leasedPageVisit)
 	c.observer.PendingPageVisitCompleted(ctx, leasedPageVisit.PageVisit, result)
 }
 

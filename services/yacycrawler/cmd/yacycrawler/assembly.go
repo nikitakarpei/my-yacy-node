@@ -37,12 +37,12 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttp"
 	crawlerhttpobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttpobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishing"
+	crawlfinishingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishingobservers/applog"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlsettlement"
-	crawlsettlementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlsettlementobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontier"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
 	frontierobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontierobservers/applog"
@@ -178,12 +178,12 @@ func RunService(
 		orders.Run,
 		visits.Run,
 		crawlState.frontier.DrainCancelledCrawls,
-		crawlsettlement.NewSettler(
+		crawlfinishing.NewFinisher(
 			storage,
 			crawlState.crawls,
 			crawlState.frontier,
 			wallclock.Clock{},
-			crawlsettlementobserversapplog.CrawlSettlementLog{},
+			crawlfinishingobserversapplog.CrawlFinishingLog{},
 		).Run,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)

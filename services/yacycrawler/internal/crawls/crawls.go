@@ -175,7 +175,7 @@ func (c *Crawls) changeState(
 	return crawl.State, true, reportChange(tx, crawlID)
 }
 
-func (c *Crawls) Settle(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (c *Crawls) Finish(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	crawl, found, err := c.unfinished.crawlOf(tx, crawlID)
 	if err != nil {
 		return fmt.Errorf("read the crawl %s: %w", crawlID, err)
@@ -183,17 +183,17 @@ func (c *Crawls) Settle(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if !found {
 		return nil
 	}
-	crawl.State, crawl.FinishedAt = settledStateOf(crawl.State), c.clock.Now()
+	crawl.State, crawl.FinishedAt = finishedStateOf(crawl.State), c.clock.Now()
 	if err := c.unfinished.remove(tx, crawlID); err != nil {
-		return fmt.Errorf("settle the crawl %s: %w", crawlID, err)
+		return fmt.Errorf("finish the crawl %s: %w", crawlID, err)
 	}
 	if err := c.finished.put(tx, crawlID, crawl); err != nil {
-		return fmt.Errorf("settle the crawl %s: %w", crawlID, err)
+		return fmt.Errorf("finish the crawl %s: %w", crawlID, err)
 	}
 	return c.changes.CrawlFinished(tx, crawlID)
 }
 
-func settledStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {
+func finishedStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {
 	if state == yacycrawlcontract.CrawlStateCancelling {
 		return yacycrawlcontract.CrawlStateCancelled
 	}

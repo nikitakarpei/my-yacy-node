@@ -22,7 +22,7 @@ const (
 	pendingPageVisitsByDueBucket   = "pending_page_visits_by_due"
 	pendingPageVisitsOfCrawlBucket = "pending_page_visits_of_crawl"
 	pendingPageVisitsOfHostBucket  = "pending_page_visits_of_host"
-	settledPageVisitsBucket        = "settled_page_visits"
+	endedPageVisitsBucket          = "ended_page_visits"
 )
 
 var errScheduledPageVisitMalformed = errors.New("scheduled page visit has a malformed field")
@@ -32,7 +32,7 @@ type pageVisitLedger struct {
 	pendingByDue   *vault.ValueIndex[scheduledPageVisitWithKey, dueEntry]
 	pendingOfCrawl *vault.CountIndex[scheduledPageVisitWithKey, crawlid.CrawlID]
 	pendingOfHost  *vault.CountIndex[scheduledPageVisitWithKey, crawlHost]
-	settled        *vault.Collection[pageVisitKey, settledMark]
+	ended          *vault.Collection[pageVisitKey, endedMark]
 }
 
 type pageVisitKey struct {
@@ -46,7 +46,7 @@ type scheduledPageVisit struct {
 	url   canonicalurl.CanonicalURL
 }
 
-type settledMark struct{}
+type endedMark struct{}
 
 func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVisitLedger, error) {
 	var ledger pageVisitLedger
@@ -87,10 +87,10 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 	); err != nil {
 		return pageVisitLedger{}, fmt.Errorf("register %s: %w", pendingPageVisitsBucket, err)
 	}
-	if ledger.settled, err = storage.RegisterCollection(
-		settledPageVisitsBucket, pageVisitKeys, settledMarkCodec{},
+	if ledger.ended, err = storage.RegisterCollection(
+		endedPageVisitsBucket, pageVisitKeys, endedMarkCodec{},
 	); err != nil {
-		return pageVisitLedger{}, fmt.Errorf("register %s: %w", settledPageVisitsBucket, err)
+		return pageVisitLedger{}, fmt.Errorf("register %s: %w", endedPageVisitsBucket, err)
 	}
 	return ledger, nil
 }
@@ -105,8 +105,8 @@ func (ledger pageVisitLedger) add(
 	if err != nil || pending {
 		return false, err
 	}
-	_, settled, err := ledger.settled.Get(tx, key)
-	if err != nil || settled {
+	_, ended, err := ledger.ended.Get(tx, key)
+	if err != nil || ended {
 		return false, err
 	}
 	_, err = ledger.pending.Put(tx, key, scheduledPageVisit{
@@ -144,11 +144,11 @@ func (ledger pageVisitLedger) forgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID
 	); err != nil {
 		return fmt.Errorf("forget the pending page visits of crawl %s: %w", crawlID, err)
 	}
-	if _, err := ledger.settled.DeleteWithin(
+	if _, err := ledger.ended.DeleteWithin(
 		tx,
 		pageVisitKeyParts.KeysWithFirst(crawlID),
 	); err != nil {
-		return fmt.Errorf("forget the settled page visits of crawl %s: %w", crawlID, err)
+		return fmt.Errorf("forget the ended page visits of crawl %s: %w", crawlID, err)
 	}
 	return nil
 }
@@ -225,7 +225,7 @@ func (ledger pageVisitLedger) amountPending(tx *vault.Txn) (int, error) {
 	return ledger.pending.Len(tx)
 }
 
-func (ledger pageVisitLedger) settleLeased(
+func (ledger pageVisitLedger) endLeased(
 	tx *vault.Txn,
 	key pageVisitKey,
 	leasedUntil int64,
@@ -237,7 +237,7 @@ func (ledger pageVisitLedger) settleLeased(
 	if _, err := ledger.pending.Delete(tx, key); err != nil {
 		return false, err
 	}
-	_, err = ledger.settled.Put(tx, key, settledMark{})
+	_, err = ledger.ended.Put(tx, key, endedMark{})
 	return err == nil, err
 }
 
@@ -359,12 +359,12 @@ func (scheduledPageVisitCodec) Decode(stored []byte) (scheduledPageVisit, error)
 	return scheduledPageVisit{due: due, depth: int(depth), url: url}, nil
 }
 
-type settledMarkCodec struct{}
+type endedMarkCodec struct{}
 
-func (settledMarkCodec) Encode(settledMark) ([]byte, error) {
+func (endedMarkCodec) Encode(endedMark) ([]byte, error) {
 	return []byte{}, nil
 }
 
-func (settledMarkCodec) Decode([]byte) (settledMark, error) {
-	return settledMark{}, nil
+func (endedMarkCodec) Decode([]byte) (endedMark, error) {
+	return endedMark{}, nil
 }

@@ -1,7 +1,7 @@
 // Package frontier keeps every pending page visit of a crawl, in a queue of its crawl, each
-// due at a time, and a mark of every visit it settled. A worker leases the earliest due
-// visit of a crawl neither held nor closed, and the visit comes back when the lease ends
-// before the worker settles it. A visit pending or settled before is not added again, and a
+// due at a time, and a mark of every visit that ended. A worker leases the earliest due
+// visit of a crawl neither held nor closed, and the visit comes back when the lease expires
+// before the worker ends it. A visit pending or ended before is not added again, and a
 // closed or cancelled crawl takes none. A cancelled crawl's pending visits are dropped in
 // batches and reported as cancelled. A pause holds every page visit.
 package frontier
@@ -38,7 +38,7 @@ type FrontierObserver interface {
 	FrontierLeaseFailed(ctx context.Context, err error)
 	FrontierDrainFailed(ctx context.Context, err error)
 	FrontierCountFailed(ctx context.Context, err error)
-	FrontierSettleFailed(
+	FrontierEndFailed(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
 		err error,
@@ -230,11 +230,11 @@ func (frontier *Frontier) Next(ctx context.Context) (pendingpagevisit.LeasedPage
 	return frontier.leases.next(ctx)
 }
 
-func (frontier *Frontier) Settle(
+func (frontier *Frontier) End(
 	ctx context.Context,
 	leasedPageVisit pendingpagevisit.LeasedPageVisit,
 ) {
-	frontier.leases.settle(ctx, leasedPageVisit)
+	frontier.leases.end(ctx, leasedPageVisit)
 }
 
 func (frontier *Frontier) Return(

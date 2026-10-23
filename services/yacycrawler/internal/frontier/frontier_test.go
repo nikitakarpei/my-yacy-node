@@ -78,13 +78,13 @@ func (l *crawlLedger) PageVisitsCancelled(
 }
 
 type recordedFailures struct {
-	guard       sync.Mutex
-	leases      []error
-	drains      []error
-	counts      []error
-	settlements []pendingpagevisit.PendingPageVisit
-	returns     []pendingpagevisit.PendingPageVisit
-	outdated    []pendingpagevisit.PendingPageVisit
+	guard    sync.Mutex
+	leases   []error
+	drains   []error
+	counts   []error
+	ends     []pendingpagevisit.PendingPageVisit
+	returns  []pendingpagevisit.PendingPageVisit
+	outdated []pendingpagevisit.PendingPageVisit
 }
 
 func (r *recordedFailures) FrontierLeaseFailed(_ context.Context, err error) {
@@ -101,12 +101,12 @@ func (r *recordedFailures) FrontierCountFailed(_ context.Context, err error) {
 	r.counts = append(r.counts, err)
 }
 
-func (r *recordedFailures) FrontierSettleFailed(
+func (r *recordedFailures) FrontierEndFailed(
 	_ context.Context,
 	pageVisit pendingpagevisit.PendingPageVisit,
 	_ error,
 ) {
-	r.settlements = append(r.settlements, pageVisit)
+	r.ends = append(r.ends, pageVisit)
 }
 
 func (r *recordedFailures) FrontierReturnFailed(
@@ -229,10 +229,10 @@ func (f frontierScene) next(t *testing.T) pendingpagevisit.LeasedPageVisit {
 	return leasedPageVisit
 }
 
-func (f frontierScene) settleNext(t *testing.T) pendingpagevisit.PendingPageVisit {
+func (f frontierScene) endNext(t *testing.T) pendingpagevisit.PendingPageVisit {
 	t.Helper()
 	leasedPageVisit := f.next(t)
-	f.visits.Settle(t.Context(), leasedPageVisit)
+	f.visits.End(t.Context(), leasedPageVisit)
 	return leasedPageVisit.PageVisit
 }
 
@@ -259,7 +259,7 @@ func (f frontierScene) amount(t *testing.T) int64 {
 	return amount
 }
 
-func TestAPendingPageVisitIsLeasedWithItsDepthUntilTheLeaseEnds(t *testing.T) {
+func TestAPendingPageVisitIsLeasedWithItsDepthUntilTheLeaseExpires(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page").LinkedPageVisitTo(
 		canonicalurltest.CanonicalURLOf(t, "http://host/deeper"),
@@ -282,11 +282,11 @@ func TestAPageVisitAddedTwiceIsTakenOnce(t *testing.T) {
 	f.add(t, pageVisit, pageVisit)
 	f.add(t, pageVisit)
 
-	f.settleNext(t)
+	f.endNext(t)
 	f.requireNoDueVisit(t)
 }
 
-func TestATakenPageVisitComesBackOnlyOnceItsLeaseEnds(t *testing.T) {
+func TestATakenPageVisitComesBackOnlyOnceItsLeaseExpires(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/page"))
 	f.next(t)
@@ -297,11 +297,11 @@ func TestATakenPageVisitComesBackOnlyOnceItsLeaseEnds(t *testing.T) {
 	f.next(t)
 }
 
-func TestASettledPageVisitNeverComesBackNorIsAddedAgain(t *testing.T) {
+func TestAnEndedPageVisitNeverComesBackNorIsAddedAgain(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
 	f.add(t, pageVisit)
-	f.settleNext(t)
+	f.endNext(t)
 
 	f.add(t, pageVisit)
 	f.clock.pass(2 * lease)
@@ -350,7 +350,7 @@ func TestAPageVisitReturnedWhileItsCrawlIsHeldIsLeasedOnlyOnceReleased(t *testin
 	}
 }
 
-func TestASettlementUnderAnEndedLeaseChangesNothing(t *testing.T) {
+func TestAnEndUnderAnExpiredLeaseChangesNothing(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/page"))
 	first := f.next(t)
@@ -358,13 +358,13 @@ func TestASettlementUnderAnEndedLeaseChangesNothing(t *testing.T) {
 	second := f.next(t)
 
 	f.visits.Return(t.Context(), first, time.Hour)
-	f.visits.Settle(t.Context(), first)
+	f.visits.End(t.Context(), first)
 
 	if len(f.failures.outdated) != 2 || f.amount(t) != 1 {
-		t.Fatalf("outdated %v pending %d, want both settlements outdated and the visit pending",
+		t.Fatalf("outdated %v pending %d, want both ends outdated and the visit pending",
 			f.failures.outdated, f.amount(t))
 	}
-	f.visits.Settle(t.Context(), second)
+	f.visits.End(t.Context(), second)
 	f.clock.pass(2 * lease)
 	f.requireNoDueVisit(t)
 }
@@ -377,7 +377,7 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDueAcrossCrawls(t *testing.T) {
 	f.add(t, pageVisitOfCrawl(t, secondCrawl, "http://host/second"))
 	f.clock.pass(time.Hour)
 
-	got := []crawlid.CrawlID{f.settleNext(t).CrawlID, f.settleNext(t).CrawlID}
+	got := []crawlid.CrawlID{f.endNext(t).CrawlID, f.endNext(t).CrawlID}
 
 	if !slices.Equal(got, []crawlid.CrawlID{secondCrawl, firstCrawl}) {
 		t.Fatalf("took %v, want the earliest due first", got)
@@ -396,8 +396,8 @@ func TestAHeldCrawlKeepsItsVisitsAndLendsNoneUntilReleased(t *testing.T) {
 	}
 	f.change(t, f.visits.Release, firstCrawl)
 
-	f.settleNext(t)
-	f.settleNext(t)
+	f.endNext(t)
+	f.endNext(t)
 }
 
 func TestThePendingPageVisitsAreCountedPerCrawlAndHost(t *testing.T) {
@@ -429,7 +429,7 @@ func TestThePendingPageVisitsAreCountedPerCrawlAndHost(t *testing.T) {
 	}
 }
 
-func TestAPageVisitTakenIsCountedUntilSettled(t *testing.T) {
+func TestAPageVisitTakenIsCountedUntilEnded(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
 	f.next(t)
@@ -449,7 +449,7 @@ func TestACancelledCrawlTakesNoVisitAndDropsThePendingOnesLeasedOrNot(t *testing
 	f.add(t, pageVisitTo(t, "http://c/1"))
 	f.requireNoDueVisit(t)
 	f.drainCancelled(t)
-	f.visits.Settle(t.Context(), leased)
+	f.visits.End(t.Context(), leased)
 
 	drained := f.ledger.cancelledOfHost
 	if drained[firstCrawl.String()+"/a"]+drained[firstCrawl.String()+"/b"] != 3 ||
@@ -553,9 +553,9 @@ func TestAClosedCrawlTakesNoVisitAndIsNotDrained(t *testing.T) {
 
 func TestAForgottenCrawlKeepsNothingAndItsVisitsArePendingAgain(t *testing.T) {
 	f := newFrontier(t)
-	settled, pending := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
-	f.add(t, settled, pending)
-	f.settleNext(t)
+	ended, pending := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
+	f.add(t, ended, pending)
+	f.endNext(t)
 	f.change(t, f.visits.Close, firstCrawl)
 
 	f.change(t, f.visits.ForgetCrawl, firstCrawl)
@@ -563,11 +563,11 @@ func TestAForgottenCrawlKeepsNothingAndItsVisitsArePendingAgain(t *testing.T) {
 	if f.amount(t) != 0 {
 		t.Fatalf("pending %d after forgetting, want none", f.amount(t))
 	}
-	f.add(t, settled, pending)
+	f.add(t, ended, pending)
 	if f.amount(t) != 2 {
 		t.Fatalf("pending %d, want both visits pending again", f.amount(t))
 	}
-	f.settleNext(t)
+	f.endNext(t)
 }
 
 func TestACancelTheLedgerRefusesIsReportedAndTriedAgain(t *testing.T) {
@@ -611,7 +611,7 @@ func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
 	leasedPageVisit := f.next(t)
 	f.engine.refusing = true
 
-	f.visits.Settle(t.Context(), leasedPageVisit)
+	f.visits.End(t.Context(), leasedPageVisit)
 	f.visits.Return(t.Context(), leasedPageVisit, time.Second)
 	_, counted := f.visits.AmountOfPendingPageVisits(t.Context())
 	f.requireNoDueVisit(t)
@@ -620,7 +620,7 @@ func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
 	resumeErr := f.visits.Resume(t.Context())
 	_, pausedErr := f.visits.IsPaused(t.Context())
 
-	if len(f.failures.settlements) != 1 || len(f.failures.returns) != 1 || counted ||
+	if len(f.failures.ends) != 1 || len(f.failures.returns) != 1 || counted ||
 		len(f.failures.counts) != 1 || len(f.failures.leases) != 1 ||
 		len(f.failures.drains) != 1 {
 		t.Fatalf("failures = %+v counted %v, want each refusal reported once", f.failures, counted)
@@ -655,7 +655,7 @@ func TestConcurrentLeasesTakeEachPendingPageVisitOnce(t *testing.T) {
 				if err != nil {
 					return
 				}
-				f.visits.Settle(t.Context(), leasedPageVisit)
+				f.visits.End(t.Context(), leasedPageVisit)
 				taken <- leasedPageVisit.PageVisit.URL.String()
 			}
 		})

@@ -1,4 +1,4 @@
-package crawlsettlement_test
+package crawlfinishing_test
 
 import (
 	"context"
@@ -11,14 +11,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlsettlement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishing"
 )
 
 var (
-	errSettlingEnds = errors.New("settling ends")
-	errRefused      = errors.New("refused")
-	emptyCrawl      = crawlid.CrawlID{1}
-	busyCrawl       = crawlid.CrawlID{2}
+	errFinishingStops = errors.New("finishing stops")
+	errRefused        = errors.New("refused")
+	emptyCrawl        = crawlid.CrawlID{1}
+	busyCrawl         = crawlid.CrawlID{2}
 )
 
 type passes struct {
@@ -28,17 +28,17 @@ type passes struct {
 func (p *passes) Sleep(context.Context, time.Duration) error {
 	p.left--
 	if p.left <= 0 {
-		return errSettlingEnds
+		return errFinishingStops
 	}
 	return nil
 }
 
 type keptCrawls struct {
 	unfinished       []crawlid.CrawlID
-	settled          []crawlid.CrawlID
+	finished         []crawlid.CrawlID
 	listRefused      bool
-	settleRefusals   int
-	settleRefusalsOf crawlid.CrawlID
+	finishRefusals   int
+	finishRefusalsOf crawlid.CrawlID
 }
 
 func (c *keptCrawls) UnfinishedCrawlIDs(*vault.Txn) ([]crawlid.CrawlID, error) {
@@ -48,12 +48,12 @@ func (c *keptCrawls) UnfinishedCrawlIDs(*vault.Txn) ([]crawlid.CrawlID, error) {
 	return slices.Clone(c.unfinished), nil
 }
 
-func (c *keptCrawls) Settle(_ *vault.Txn, crawlID crawlid.CrawlID) error {
-	if crawlID == c.settleRefusalsOf && c.settleRefusals > 0 {
-		c.settleRefusals--
+func (c *keptCrawls) Finish(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	if crawlID == c.finishRefusalsOf && c.finishRefusals > 0 {
+		c.finishRefusals--
 		return errRefused
 	}
-	c.settled = append(c.settled, crawlID)
+	c.finished = append(c.finished, crawlID)
 	c.unfinished = slices.DeleteFunc(c.unfinished, func(id crawlid.CrawlID) bool {
 		return id == crawlID
 	})
@@ -80,16 +80,16 @@ func (p *pendingCounts) AmountPendingOf(_ *vault.Txn, crawlID crawlid.CrawlID) (
 }
 
 type reportedFailures struct {
-	unread     []error
-	notSettled []crawlid.CrawlID
+	unread      []error
+	notFinished []crawlid.CrawlID
 }
 
 func (r *reportedFailures) UnfinishedCrawlsNotRead(_ context.Context, err error) {
 	r.unread = append(r.unread, err)
 }
 
-func (r *reportedFailures) CrawlNotSettled(_ context.Context, crawlID crawlid.CrawlID, _ error) {
-	r.notSettled = append(r.notSettled, crawlID)
+func (r *reportedFailures) CrawlNotFinished(_ context.Context, crawlID crawlid.CrawlID, _ error) {
+	r.notFinished = append(r.notFinished, crawlID)
 }
 
 type scene struct {
@@ -106,53 +106,53 @@ func newScene(unfinished ...crawlid.CrawlID) scene {
 	}
 }
 
-func (s scene) settleFor(t *testing.T, amountOfPasses int) {
+func (s scene) finishFor(t *testing.T, amountOfPasses int) {
 	t.Helper()
 	storage, err := vault.New(memoryvault.OpenEngine(0), nil, nil, vaultenginetest.FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() { _ = storage.Close() })
-	settler := crawlsettlement.NewSettler(
+	finisher := crawlfinishing.NewFinisher(
 		storage, s.crawls, s.pending, &passes{left: amountOfPasses}, s.failures,
 	)
-	if err := settler.Run(t.Context()); err != nil {
+	if err := finisher.Run(t.Context()); err != nil {
 		t.Fatalf("Run: %v", err)
 	}
 }
 
-func TestACrawlWithNothingPendingSettlesAndOneWithPendingVisitsStaysUnfinished(t *testing.T) {
+func TestACrawlWithNothingPendingFinishesAndOneWithPendingVisitsStaysUnfinished(t *testing.T) {
 	s := newScene(emptyCrawl, busyCrawl)
 	s.pending.amountsOfCrawl[busyCrawl] = []int{3}
 
-	s.settleFor(t, 1)
+	s.finishFor(t, 1)
 
-	if !slices.Equal(s.crawls.settled, []crawlid.CrawlID{emptyCrawl}) {
-		t.Fatalf("settled %v, want only the crawl with nothing pending", s.crawls.settled)
+	if !slices.Equal(s.crawls.finished, []crawlid.CrawlID{emptyCrawl}) {
+		t.Fatalf("finished %v, want only the crawl with nothing pending", s.crawls.finished)
 	}
 }
 
-func TestACrawlThatTakesAVisitBeforeItSettlesStaysUnfinished(t *testing.T) {
+func TestACrawlThatTakesAVisitBeforeItFinishesStaysUnfinished(t *testing.T) {
 	s := newScene(busyCrawl)
 	s.pending.amountsOfCrawl[busyCrawl] = []int{0, 1}
 
-	s.settleFor(t, 1)
+	s.finishFor(t, 1)
 
-	if len(s.crawls.settled) != 0 {
-		t.Fatalf("settled %v, want the crawl that took a visit left unfinished", s.crawls.settled)
+	if len(s.crawls.finished) != 0 {
+		t.Fatalf("finished %v, want the crawl that took a visit left unfinished", s.crawls.finished)
 	}
 }
 
-func TestACrawlThatCannotSettleIsReportedAndSettlesOnALaterPass(t *testing.T) {
+func TestACrawlThatCannotFinishIsReportedAndFinishesOnALaterPass(t *testing.T) {
 	s := newScene(emptyCrawl)
-	s.crawls.settleRefusalsOf, s.crawls.settleRefusals = emptyCrawl, 1
+	s.crawls.finishRefusalsOf, s.crawls.finishRefusals = emptyCrawl, 1
 
-	s.settleFor(t, 2)
+	s.finishFor(t, 2)
 
-	if !slices.Equal(s.failures.notSettled, []crawlid.CrawlID{emptyCrawl}) ||
-		!slices.Equal(s.crawls.settled, []crawlid.CrawlID{emptyCrawl}) {
-		t.Fatalf("not settled %v, settled %v; want one failure, then the crawl settled",
-			s.failures.notSettled, s.crawls.settled)
+	if !slices.Equal(s.failures.notFinished, []crawlid.CrawlID{emptyCrawl}) ||
+		!slices.Equal(s.crawls.finished, []crawlid.CrawlID{emptyCrawl}) {
+		t.Fatalf("not finished %v, finished %v; want one failure, then the crawl finished",
+			s.failures.notFinished, s.crawls.finished)
 	}
 }
 
@@ -160,11 +160,11 @@ func TestUnfinishedCrawlsThatCannotBeReadAreReported(t *testing.T) {
 	s := newScene(emptyCrawl)
 	s.crawls.listRefused = true
 
-	s.settleFor(t, 1)
+	s.finishFor(t, 1)
 
-	if len(s.failures.unread) != 1 || len(s.crawls.settled) != 0 {
-		t.Fatalf("unread %v, settled %v; want the failure reported and nothing settled",
-			s.failures.unread, s.crawls.settled)
+	if len(s.failures.unread) != 1 || len(s.crawls.finished) != 0 {
+		t.Fatalf("unread %v, finished %v; want the failure reported and nothing finished",
+			s.failures.unread, s.crawls.finished)
 	}
 }
 
@@ -172,11 +172,11 @@ func TestACrawlWhosePendingVisitsCannotBeCountedIsReportedAndLeftUnfinished(t *t
 	s := newScene(emptyCrawl)
 	s.pending.refused = true
 
-	s.settleFor(t, 1)
+	s.finishFor(t, 1)
 
-	if !slices.Equal(s.failures.notSettled, []crawlid.CrawlID{emptyCrawl}) ||
-		len(s.crawls.settled) != 0 {
-		t.Fatalf("not settled %v, settled %v; want the failure reported and nothing settled",
-			s.failures.notSettled, s.crawls.settled)
+	if !slices.Equal(s.failures.notFinished, []crawlid.CrawlID{emptyCrawl}) ||
+		len(s.crawls.finished) != 0 {
+		t.Fatalf("not finished %v, finished %v; want the failure reported and nothing finished",
+			s.failures.notFinished, s.crawls.finished)
 	}
 }
