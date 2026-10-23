@@ -7,11 +7,11 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/corpustextservice"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/crawlscrapebridgeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequestbridge"
 )
 
 func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
@@ -26,7 +26,7 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
+	crawlscrapebridgeservice.Start(t, ctx, network.Name)
 	corpusText := corpustextservice.Start(
 		t, ctx, network.Name, crawlNATSURL, elasticsearchCorpusTextEnv(),
 	)
@@ -72,7 +72,7 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
+	crawlscrapebridgeservice.Start(t, ctx, network.Name)
 	corpusText := corpustextservice.Start(
 		t, ctx, network.Name, crawlNATSURL, manticoreCorpusTextEnv(),
 	)

@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/crawlscrapebridgeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequestbridge"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/markdowncorpusclienttest"
 )
@@ -34,7 +34,7 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
+	crawlscrapebridgeservice.Start(t, ctx, network.Name)
 	recallAddress := startCorpusMarkdown(t, ctx, network.Name)
 
 	js := connectJetStream(t, crawlNATSURL)

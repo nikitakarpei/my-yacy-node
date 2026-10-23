@@ -14,7 +14,7 @@ and sends them to the network.
 - `yacycrawler` visits the pages you name and follows links within the limits
   you set.
 - `pagescrape` reads each requested page once and offers it to the indexes.
-- `scrape-request-bridge` makes a scrape request from each crawled page that
+- `crawlscrapebridge` makes a scrape request from each crawled page that
   allows indexing.
 - `nats` carries work from one service to the next: crawl orders, pages to
   fetch and fetched pages to index.
