@@ -10,6 +10,7 @@ import (
 )
 
 const (
+	msgPendingPageVisitsLeased        = "pending page visits leased"
 	msgPendingPageVisitReturned       = "pending page visit returned for redelivery"
 	msgPendingPageVisitDropped        = "pending page visit dropped"
 	msgPendingPageVisitDeferred       = "pending page visit deferred"
@@ -18,6 +19,10 @@ const (
 )
 
 type PendingPageVisitLog struct{}
+
+func (PendingPageVisitLog) PendingPageVisitsLeased(ctx context.Context, amount int) {
+	slog.DebugContext(ctx, msgPendingPageVisitsLeased, slog.Int("amount", amount))
+}
 
 func (PendingPageVisitLog) PendingPageVisitReturned(
 	ctx context.Context,

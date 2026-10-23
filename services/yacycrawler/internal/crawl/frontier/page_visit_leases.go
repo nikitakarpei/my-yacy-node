@@ -20,42 +20,46 @@ type pageVisitLeases struct {
 	observer FrontierObserver
 }
 
-func (leases pageVisitLeases) next(ctx context.Context) (pendingpagevisit.LeasedPageVisit, error) {
+func (leases pageVisitLeases) leaseUpTo(
+	ctx context.Context,
+	amount int,
+) ([]pendingpagevisit.LeasedPageVisit, error) {
 	for {
-		leasedPageVisit, leased, retry := leases.leaseNextPageVisit(ctx)
-		if leased {
-			return leasedPageVisit, nil
+		leasedPageVisits, retry := leases.leaseNextPageVisits(ctx, amount)
+		if len(leasedPageVisits) > 0 {
+			return leasedPageVisits, nil
 		}
 		if retry {
 			continue
 		}
 		if err := leases.clock.Sleep(ctx, noDueVisitPause); err != nil {
-			return pendingpagevisit.LeasedPageVisit{}, err
+			return nil, err
 		}
 	}
 }
 
-func (leases pageVisitLeases) leaseNextPageVisit(
+func (leases pageVisitLeases) leaseNextPageVisits(
 	ctx context.Context,
-) (leasedPageVisit pendingpagevisit.LeasedPageVisit, leased bool, retry bool) {
+	amount int,
+) (leasedPageVisits []pendingpagevisit.LeasedPageVisit, retry bool) {
 	now := leases.clock.Now()
 	head, due, err := leases.firstHeadDue(ctx, now)
 	if err != nil {
 		leases.observer.FrontierLeaseFailed(ctx, err)
-		return pendingpagevisit.LeasedPageVisit{}, false, false
+		return nil, false
 	}
 	if !due {
-		return pendingpagevisit.LeasedPageVisit{}, false, false
+		return nil, false
 	}
 	if err := leases.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		leasedPageVisit, leased, err = leases.leaseDueVisitOf(tx, head.crawlID, now)
+		leasedPageVisits, err = leases.leaseDueVisitsOf(tx, head.crawlID, now, amount)
 		return err
 	}); err != nil {
-		leases.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease a due page visit: %w", err))
-		return pendingpagevisit.LeasedPageVisit{}, false, false
+		leases.observer.FrontierLeaseFailed(ctx, fmt.Errorf("lease due page visits: %w", err))
+		return nil, false
 	}
-	return leasedPageVisit, leased, !leased
+	return leasedPageVisits, len(leasedPageVisits) == 0
 }
 
 func (leases pageVisitLeases) firstHeadDue(
@@ -77,35 +81,37 @@ func (leases pageVisitLeases) firstHeadDue(
 	return head, due, nil
 }
 
-func (leases pageVisitLeases) leaseDueVisitOf(
+func (leases pageVisitLeases) leaseDueVisitsOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	now time.Time,
-) (pendingpagevisit.LeasedPageVisit, bool, error) {
+	amount int,
+) ([]pendingpagevisit.LeasedPageVisit, error) {
 	paused, err := leases.pause.isOn(tx)
 	if err != nil || paused {
-		return pendingpagevisit.LeasedPageVisit{}, false, err
+		return nil, err
 	}
-	headPosition, headed, err := leases.heads.positionOf(tx, crawlID)
+	position, headed, err := leases.heads.positionOf(tx, crawlID)
 	if err != nil || !headed {
-		return pendingpagevisit.LeasedPageVisit{}, false, err
+		return nil, err
 	}
-	first, pending, err := leases.ledger.firstDueFrom(tx, crawlID, headPosition)
-	if err != nil {
-		return pendingpagevisit.LeasedPageVisit{}, false, err
+	var leasedPageVisits []pendingpagevisit.LeasedPageVisit
+	for len(leasedPageVisits) < amount {
+		first, pending, err := leases.ledger.firstDueFrom(tx, crawlID, position)
+		if err != nil {
+			return nil, err
+		}
+		if !pending || first.due > now.Unix() {
+			break
+		}
+		leasedPageVisit, err := leases.leaseVisitAt(tx, first.key, now)
+		if err != nil {
+			return nil, err
+		}
+		leasedPageVisits = append(leasedPageVisits, leasedPageVisit)
+		position = first.position()
 	}
-	if !pending || first.due > now.Unix() {
-		return pendingpagevisit.LeasedPageVisit{}, false, leases.alignHeadFrom(
-			tx,
-			crawlID,
-			headPosition,
-		)
-	}
-	leasedPageVisit, err := leases.leaseVisitAt(tx, first.key, now)
-	if err != nil {
-		return pendingpagevisit.LeasedPageVisit{}, false, err
-	}
-	return leasedPageVisit, true, leases.alignHeadFrom(tx, crawlID, first.position())
+	return leasedPageVisits, leases.alignHeadFrom(tx, crawlID, position)
 }
 
 func (leases pageVisitLeases) alignHeadFrom(

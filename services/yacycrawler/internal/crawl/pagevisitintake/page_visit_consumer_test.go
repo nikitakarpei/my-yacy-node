@@ -3,6 +3,7 @@ package pagevisitintake_test
 import (
 	"context"
 	"errors"
+	"slices"
 	"sync"
 	"testing"
 	"time"
@@ -132,6 +133,7 @@ func (f *fakePageVisitor) pageVisitCount() int {
 
 type recordingObserver struct {
 	mu        sync.Mutex
+	leased    []int
 	dropped   map[yacycrawlcontract.PageVisitDropReason]int
 	completed map[yacycrawlcontract.PageVisitResult]int
 	deferrals int
@@ -144,6 +146,12 @@ func newObserver() *recordingObserver {
 		dropped:   map[yacycrawlcontract.PageVisitDropReason]int{},
 		completed: map[yacycrawlcontract.PageVisitResult]int{},
 	}
+}
+
+func (o *recordingObserver) PendingPageVisitsLeased(_ context.Context, amount int) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.leased = append(o.leased, amount)
 }
 
 func (o *recordingObserver) PendingPageVisitDropped(
@@ -223,23 +231,29 @@ const (
 )
 
 type fakeFrontier struct {
+	mu            sync.Mutex
 	leased        []pendingpagevisit.LeasedPageVisit
 	endIntake     context.CancelFunc
 	calls         []frontierCall
 	returnedAfter time.Duration
 }
 
-func (f *fakeFrontier) Next(context.Context) (pendingpagevisit.LeasedPageVisit, error) {
+func (f *fakeFrontier) Lease(
+	_ context.Context,
+	amount int,
+) ([]pendingpagevisit.LeasedPageVisit, error) {
 	if len(f.leased) == 0 {
 		f.endIntake()
-		return pendingpagevisit.LeasedPageVisit{}, context.Canceled
+		return nil, context.Canceled
 	}
-	next := f.leased[0]
-	f.leased = f.leased[1:]
-	return next, nil
+	leasedNow := f.leased[:min(amount, len(f.leased))]
+	f.leased = f.leased[len(leasedNow):]
+	return leasedNow, nil
 }
 
 func (f *fakeFrontier) End(context.Context, pendingpagevisit.LeasedPageVisit) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	f.calls = append(f.calls, ended)
 }
 
@@ -248,6 +262,8 @@ func (f *fakeFrontier) Return(
 	_ pendingpagevisit.LeasedPageVisit,
 	delay time.Duration,
 ) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	f.calls = append(f.calls, returned)
 	f.returnedAfter = delay
 }
@@ -265,6 +281,7 @@ func (noVisitAdmitted) AwaitAdmission(context.Context) error {
 }
 
 type crawlWorker struct {
+	concurrency int
 	frontier    *fakeFrontier
 	allowances  *fakeAllowances
 	orders      *fakeCrawls
@@ -274,6 +291,7 @@ type crawlWorker struct {
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
+		concurrency: 1,
 		frontier:    &fakeFrontier{},
 		allowances:  newAllowances(),
 		orders:      &fakeCrawls{profile: wideProfile()},
@@ -309,7 +327,7 @@ func (w *crawlWorker) consumeAdmittedBy(
 		w.pageVisitor,
 		w.observer,
 		admission,
-		1,
+		w.concurrency,
 	).Run(ctx)
 }
 
@@ -326,6 +344,20 @@ func TestAPageVisitIsVisitedThenAcknowledged(t *testing.T) {
 	}
 	if got := worker.frontier.calls; len(got) != 1 || got[0] != ended {
 		t.Fatalf("frontier calls %v, want the visit ended once", got)
+	}
+}
+
+func TestEveryFreeWorkerGetsAVisitOfOneLease(t *testing.T) {
+	worker := newWorker()
+	worker.concurrency = 2
+	worker.orders.forgotten = true
+
+	if err := worker.consume(t, leasedVisit(t), leasedVisit(t)); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := worker.observer.leased; !slices.Equal(got, []int{2}) {
+		t.Fatalf("leased %v at once, want both visits in one lease", got)
 	}
 }
 

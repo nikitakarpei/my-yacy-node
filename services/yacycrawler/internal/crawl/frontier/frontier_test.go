@@ -233,11 +233,30 @@ func (f frontierScene) addNextOf(
 
 func (f frontierScene) next(t *testing.T) pendingpagevisit.LeasedPageVisit {
 	t.Helper()
-	leasedPageVisit, err := f.visits.Next(t.Context())
-	if err != nil {
-		t.Fatalf("Next: %v", err)
+	leasedPageVisits := f.lease(t, 1)
+	if len(leasedPageVisits) != 1 {
+		t.Fatalf("leased %d page visits, want 1", len(leasedPageVisits))
 	}
-	return leasedPageVisit
+	return leasedPageVisits[0]
+}
+
+func (f frontierScene) lease(t *testing.T, amount int) []pendingpagevisit.LeasedPageVisit {
+	t.Helper()
+	leasedPageVisits, err := f.visits.Lease(t.Context(), amount)
+	if err != nil {
+		t.Fatalf("Lease: %v", err)
+	}
+	return leasedPageVisits
+}
+
+func (f frontierScene) leaseURLs(t *testing.T, amount int) []string {
+	t.Helper()
+	leasedPageVisits := f.lease(t, amount)
+	urls := make([]string, 0, len(leasedPageVisits))
+	for _, leasedPageVisit := range leasedPageVisits {
+		urls = append(urls, leasedPageVisit.PageVisit.URL.String())
+	}
+	return urls
 }
 
 func (f frontierScene) endNext(t *testing.T) pendingpagevisit.PendingPageVisit {
@@ -249,8 +268,8 @@ func (f frontierScene) endNext(t *testing.T) pendingpagevisit.PendingPageVisit {
 
 func (f frontierScene) requireNoDueVisit(t *testing.T) {
 	t.Helper()
-	if leasedPageVisit, err := f.visits.Next(t.Context()); !errors.Is(err, errNoDueVisit) {
-		t.Fatalf("Next = %v, %v; want no due page visit", leasedPageVisit, err)
+	if leasedPageVisits, err := f.visits.Lease(t.Context(), 1); !errors.Is(err, errNoDueVisit) {
+		t.Fatalf("Lease = %v, %v; want no due page visit", leasedPageVisits, err)
 	}
 }
 
@@ -392,6 +411,38 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDueAcrossCrawls(t *testing.T) {
 
 	if !slices.Equal(got, []crawlid.CrawlID{secondCrawl, firstCrawl}) {
 		t.Fatalf("took %v, want the earliest due first", got)
+	}
+}
+
+func TestALeaseTakesUpToTheAskedAmountOfDueVisitsInDueOrder(t *testing.T) {
+	f := newFrontier(t)
+	for _, rawURL := range []string{"http://host/a", "http://host/b", "http://host/c"} {
+		f.add(t, pageVisitTo(t, rawURL))
+		f.clock.pass(time.Second)
+	}
+
+	got := [][]string{f.leaseURLs(t, 2), f.leaseURLs(t, 2)}
+
+	want := [][]string{{"http://host/a", "http://host/b"}, {"http://host/c"}}
+	if !slices.EqualFunc(got, want, slices.Equal) {
+		t.Fatalf("leased %v, want %v", got, want)
+	}
+}
+
+func TestALeaseTakesTheDueVisitsOfTheCrawlDueFirstOnly(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitOfCrawl(t, firstCrawl, "http://host/a"))
+	f.clock.pass(time.Second)
+	f.add(t, pageVisitOfCrawl(t, secondCrawl, "http://host/b"))
+	f.clock.pass(time.Second)
+	f.add(t, pageVisitOfCrawl(t, firstCrawl, "http://host/c"))
+	f.clock.pass(time.Second)
+
+	got := [][]string{f.leaseURLs(t, 3), f.leaseURLs(t, 3)}
+
+	want := [][]string{{"http://host/a", "http://host/c"}, {"http://host/b"}}
+	if !slices.EqualFunc(got, want, slices.Equal) {
+		t.Fatalf("leased %v, want %v", got, want)
 	}
 }
 
@@ -694,10 +745,11 @@ func TestConcurrentLeasesTakeEachPendingPageVisitOnce(t *testing.T) {
 	for range concurrentLessees {
 		lessees.Go(func() {
 			for {
-				leasedPageVisit, err := f.visits.Next(t.Context())
+				leasedPageVisits, err := f.visits.Lease(t.Context(), 1)
 				if err != nil {
 					return
 				}
+				leasedPageVisit := leasedPageVisits[0]
 				f.visits.End(t.Context(), leasedPageVisit)
 				taken <- leasedPageVisit.PageVisit.URL.String()
 			}
