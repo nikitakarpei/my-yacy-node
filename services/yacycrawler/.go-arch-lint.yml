@@ -84,10 +84,10 @@ components:
     in: internal/crawlobservers/pagehtmlreading/applog/**
   crawlobserverspagehtmlreadingprometheus:
     in: internal/crawlobservers/pagehtmlreading/prometheus/**
-  crawledpageobserversapplog:
-    in: internal/crawledpageobservers/applog/**
-  crawledpageobserversprometheus:
-    in: internal/crawledpageobservers/prometheus/**
+  crawledpageobserversjetstreamapplog:
+    in: internal/crawledpageobservers/jetstream/applog/**
+  crawledpageobserversjetstreamprometheus:
+    in: internal/crawledpageobservers/jetstream/prometheus/**
   crawlobserverspagevisitapplog:
     in: internal/crawlobservers/pagevisit/applog/**
   crawlobserverspagevisitprometheus:
@@ -343,12 +343,12 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  crawledpageobserversapplog:
+  crawledpageobserversjetstreamapplog:
     mayDependOn:
       - crawledpagesjetstream
     canUse:
       - canonicalurl
-  crawledpageobserversprometheus:
+  crawledpageobserversjetstreamprometheus:
     mayDependOn:
       - crawledpagesjetstream
     canUse:

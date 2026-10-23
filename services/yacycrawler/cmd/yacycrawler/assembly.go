@@ -38,8 +38,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitlimits"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitrecords"
-	crawledpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/applog"
-	crawledpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/prometheus"
+	crawledpageobserversjetstreamapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/jetstream/applog"
+	crawledpageobserversjetstreamprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpageobservers/jetstream/prometheus"
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	crawlerapiobservershttpapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapiobservers/http/applog"
 	crawlerapishttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerapis/http"
@@ -106,8 +106,8 @@ func RunService(
 		},
 	)
 	crawledPageObservers := crawledpagesjetstream.CrawledPagePublicationObservers{
-		crawledpageobserversapplog.CrawledPagePublicationLog{},
-		crawledpageobserversprometheus.New(registry),
+		crawledpageobserversjetstreamapplog.CrawledPagePublicationLog{},
+		crawledpageobserversjetstreamprometheus.New(registry),
 	}
 	pageVisitRecordObservers := pagevisit.PageVisitRecordObservers{
 		crawlobserverspagevisitapplog.PageVisitRecordLog{},
