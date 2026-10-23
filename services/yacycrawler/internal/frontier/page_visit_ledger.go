@@ -39,7 +39,7 @@ type pageVisitLedger struct {
 
 type pageVisitKey struct {
 	crawlID crawlid.CrawlID
-	url     urlhash.URLHash
+	urlHash urlhash.URLHash
 }
 
 type pendingPageVisitRecord struct {
@@ -120,7 +120,7 @@ func (ledger pageVisitLedger) add(
 }
 
 func pageVisitKeyOf(pageVisit pendingpagevisit.PendingPageVisit) pageVisitKey {
-	return pageVisitKey{crawlID: pageVisit.CrawlID, url: urlhash.Of(pageVisit.URL)}
+	return pageVisitKey{crawlID: pageVisit.CrawlID, urlHash: urlhash.Of(pageVisit.URL)}
 }
 
 func (ledger pageVisitLedger) firstDueFrom(
@@ -130,7 +130,7 @@ func (ledger pageVisitLedger) firstDueFrom(
 ) (dueEntry, bool, error) {
 	return ledger.pendingByDue.First(
 		tx,
-		dueKeyParts.KeysWithFirstFrom(crawlID, position.due, position.url),
+		dueKeyParts.KeysWithFirstFrom(crawlID, position.due, position.urlHash),
 	)
 }
 
@@ -181,7 +181,7 @@ func (ledger pageVisitLedger) drainFrom(
 	amount int,
 ) (map[string]uint, int, error) {
 	var drained []pageVisitKey
-	drainedOfHosts := map[string]uint{}
+	amountsDrainedByHost := map[string]uint{}
 	for _, pendingKeys := range []vault.KeyRange{
 		pageVisitKeyParts.KeysWithFirst(crawlID).After(pageVisitKeyParts.Key(crawlID, start)),
 		pageVisitKeyParts.KeysWithFirstBetweenSeconds(crawlID, urlhash.URLHash{}, start),
@@ -194,7 +194,7 @@ func (ledger pageVisitLedger) drainFrom(
 			pendingKeys,
 			func(key pageVisitKey, visit pendingPageVisitRecord) (bool, error) {
 				drained = append(drained, key)
-				drainedOfHosts[visit.url.Hostname()]++
+				amountsDrainedByHost[visit.url.Hostname()]++
 				return len(drained) < amount, nil
 			},
 		); err != nil {
@@ -206,7 +206,7 @@ func (ledger pageVisitLedger) drainFrom(
 			return nil, 0, err
 		}
 	}
-	return drainedOfHosts, len(drained), nil
+	return amountsDrainedByHost, len(drained), nil
 }
 
 func (ledger pageVisitLedger) lease(
@@ -273,9 +273,9 @@ func (ledger pageVisitLedger) returnLeased(
 var pageVisitKeyParts = vault.PairKey(vaultkeyparts.CrawlID, vaultkeyparts.URLHash)
 
 var pageVisitKeys = pageVisitKeyParts.KeyLayoutFor(
-	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.url },
-	func(crawlID crawlid.CrawlID, url urlhash.URLHash) pageVisitKey {
-		return pageVisitKey{crawlID: crawlID, url: url}
+	func(key pageVisitKey) (crawlid.CrawlID, urlhash.URLHash) { return key.crawlID, key.urlHash },
+	func(crawlID crawlid.CrawlID, urlHash urlhash.URLHash) pageVisitKey {
+		return pageVisitKey{crawlID: crawlID, urlHash: urlHash}
 	},
 )
 
@@ -290,19 +290,19 @@ type dueEntry struct {
 }
 
 func (entry dueEntry) position() duePosition {
-	return duePosition{due: entry.due, url: entry.key.url}
+	return duePosition{due: entry.due, urlHash: entry.key.urlHash}
 }
 
 type duePosition struct {
-	due int64
-	url urlhash.URLHash
+	due     int64
+	urlHash urlhash.URLHash
 }
 
 var earliestPosition = duePosition{due: math.MinInt64}
 
 func (position duePosition) isBefore(other duePosition) bool {
 	return position.due < other.due ||
-		position.due == other.due && bytes.Compare(position.url[:], other.url[:]) < 0
+		position.due == other.due && bytes.Compare(position.urlHash[:], other.urlHash[:]) < 0
 }
 
 var dueKeyParts = vault.TripleKey(
@@ -313,10 +313,10 @@ var dueKeyParts = vault.TripleKey(
 
 var dueEntries = dueKeyParts.KeyLayoutFor(
 	func(entry dueEntry) (crawlid.CrawlID, int64, urlhash.URLHash) {
-		return entry.key.crawlID, entry.due, entry.key.url
+		return entry.key.crawlID, entry.due, entry.key.urlHash
 	},
-	func(crawlID crawlid.CrawlID, due int64, url urlhash.URLHash) dueEntry {
-		return dueEntry{key: pageVisitKey{crawlID: crawlID, url: url}, due: due}
+	func(crawlID crawlid.CrawlID, due int64, urlHash urlhash.URLHash) dueEntry {
+		return dueEntry{key: pageVisitKey{crawlID: crawlID, urlHash: urlHash}, due: due}
 	},
 )
 

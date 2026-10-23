@@ -252,9 +252,9 @@ func (f frontierScene) drainCancelled(t *testing.T) {
 
 func (f frontierScene) amount(t *testing.T) int64 {
 	t.Helper()
-	amount, counted := f.visits.AmountOfPendingPageVisits(t.Context())
+	amount, counted := f.visits.AmountPending(t.Context())
 	if !counted {
-		t.Fatal("AmountOfPendingPageVisits did not count")
+		t.Fatal("AmountPending did not count")
 	}
 	return amount
 }
@@ -558,7 +558,7 @@ func TestAForgottenCrawlKeepsNothingAndItsVisitsArePendingAgain(t *testing.T) {
 	f.endNext(t)
 	f.change(t, f.visits.Close, firstCrawl)
 
-	f.change(t, f.visits.ForgetCrawl, firstCrawl)
+	f.change(t, f.visits.Forget, firstCrawl)
 
 	if f.amount(t) != 0 {
 		t.Fatalf("pending %d after forgetting, want none", f.amount(t))
@@ -613,7 +613,7 @@ func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
 
 	f.visits.End(t.Context(), leasedPageVisit)
 	f.visits.Return(t.Context(), leasedPageVisit, time.Second)
-	_, counted := f.visits.AmountOfPendingPageVisits(t.Context())
+	_, counted := f.visits.AmountPending(t.Context())
 	f.requireNoDueVisit(t)
 	f.drainCancelled(t)
 	pauseErr := f.visits.Pause(t.Context())

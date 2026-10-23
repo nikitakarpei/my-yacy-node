@@ -18,7 +18,7 @@ const (
 	crawlHeadsByDueBucket = "crawl_heads_by_due"
 )
 
-var errCrawlHeadMalformed = errors.New("crawl head has a malformed due time")
+var errCrawlHeadMalformed = errors.New("crawl head has a malformed position")
 
 type crawlHeads struct {
 	byCrawl *vault.Collection[crawlid.CrawlID, duePosition]
@@ -114,7 +114,7 @@ var crawlHeadEntries = crawlHeadKeyParts.KeyLayoutFor(
 type headPositionCodec struct{}
 
 func (headPositionCodec) Encode(position duePosition) ([]byte, error) {
-	return append(binary.AppendVarint(nil, position.due), position.url[:]...), nil
+	return append(binary.AppendVarint(nil, position.due), position.urlHash[:]...), nil
 }
 
 func (headPositionCodec) Decode(stored []byte) (duePosition, error) {
@@ -122,5 +122,5 @@ func (headPositionCodec) Decode(stored []byte) (duePosition, error) {
 	if read <= 0 || len(stored)-read != len(urlhash.URLHash{}) {
 		return duePosition{}, fmt.Errorf("%w: %d bytes", errCrawlHeadMalformed, len(stored))
 	}
-	return duePosition{due: due, url: urlhash.URLHash(stored[read:])}, nil
+	return duePosition{due: due, urlHash: urlhash.URLHash(stored[read:])}, nil
 }

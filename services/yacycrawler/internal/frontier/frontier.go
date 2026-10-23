@@ -111,7 +111,7 @@ func Open(
 func (frontier *Frontier) Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
 	now := frontier.clock.Now()
 	for crawlID, pageVisitsOfCrawl := range pageVisitsByCrawl(pageVisits) {
-		if err := frontier.addToCrawl(tx, crawlID, pageVisitsOfCrawl, now); err != nil {
+		if err := frontier.addToQueueOf(tx, crawlID, pageVisitsOfCrawl, now); err != nil {
 			return fmt.Errorf("add page visits of crawl %s: %w", crawlID, err)
 		}
 	}
@@ -128,7 +128,7 @@ func pageVisitsByCrawl(
 	return byCrawl
 }
 
-func (frontier *Frontier) addToCrawl(
+func (frontier *Frontier) addToQueueOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	pageVisits []pendingpagevisit.PendingPageVisit,
@@ -149,7 +149,7 @@ func (frontier *Frontier) addToCrawl(
 	if !addedAny || mark == markHeld {
 		return nil
 	}
-	return frontier.leases.leaseFrom(tx, crawlID, now)
+	return frontier.leases.startFrom(tx, crawlID, now)
 }
 
 func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -160,7 +160,7 @@ func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.crawlMarks.mark(tx, crawlID, markHeld); err != nil {
 		return err
 	}
-	return frontier.leases.stopLeasing(tx, crawlID)
+	return frontier.leases.stop(tx, crawlID)
 }
 
 func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -171,7 +171,7 @@ func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error 
 	if err := frontier.crawlMarks.unmark(tx, crawlID); err != nil {
 		return err
 	}
-	return frontier.leases.resumeLeasing(tx, crawlID)
+	return frontier.leases.resume(tx, crawlID)
 }
 
 func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -182,7 +182,7 @@ func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
 		return err
 	}
-	return frontier.leases.stopLeasing(tx, crawlID)
+	return frontier.leases.stop(tx, crawlID)
 }
 
 func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
@@ -201,14 +201,14 @@ func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.crawlMarks.mark(tx, crawlID, cancellingMark); err != nil {
 		return err
 	}
-	return frontier.leases.stopLeasing(tx, crawlID)
+	return frontier.leases.stop(tx, crawlID)
 }
 
-func (frontier *Frontier) ForgetCrawl(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (frontier *Frontier) Forget(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.ledger.forgetCrawl(tx, crawlID); err != nil {
 		return err
 	}
-	if err := frontier.leases.stopLeasing(tx, crawlID); err != nil {
+	if err := frontier.leases.stop(tx, crawlID); err != nil {
 		return err
 	}
 	return frontier.crawlMarks.unmark(tx, crawlID)
@@ -305,15 +305,15 @@ func (frontier *Frontier) drainBatchOf(
 	crawlID crawlid.CrawlID,
 	start urlhash.URLHash,
 ) error {
-	drainedOfHosts, amountDrained, err := frontier.ledger.drainFrom(
+	amountsDrainedByHost, amountDrained, err := frontier.ledger.drainFrom(
 		tx, crawlID, start, pageVisitsDrainedAtOnce,
 	)
 	if err != nil {
 		return err
 	}
-	for _, host := range slices.Sorted(maps.Keys(drainedOfHosts)) {
+	for _, host := range slices.Sorted(maps.Keys(amountsDrainedByHost)) {
 		if err := frontier.cancelled.PageVisitsCancelled(
-			tx, crawlID, host, drainedOfHosts[host],
+			tx, crawlID, host, amountsDrainedByHost[host],
 		); err != nil {
 			return err
 		}
@@ -332,7 +332,7 @@ func (frontier *Frontier) closeDrained(tx *vault.Txn, crawlID crawlid.CrawlID) e
 	return frontier.crawlMarks.mark(tx, crawlID, markClosed)
 }
 
-func (frontier *Frontier) AmountOfPendingPageVisits(ctx context.Context) (int64, bool) {
+func (frontier *Frontier) AmountPending(ctx context.Context) (int64, bool) {
 	var amount int
 	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error

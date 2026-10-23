@@ -233,7 +233,7 @@ type fakeFrontier struct {
 	err     error
 }
 
-func (f *fakeFrontier) AmountOfPendingPageVisits(context.Context) (int64, bool) {
+func (f *fakeFrontier) AmountPending(context.Context) (int64, bool) {
 	return f.pending, true
 }
 

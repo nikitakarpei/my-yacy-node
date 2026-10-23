@@ -101,7 +101,7 @@ func (leases pageVisitLeases) leaseDueVisitOf(
 			headPosition,
 		)
 	}
-	leasedPageVisit, err := leases.leaseIn(tx, first.key, now)
+	leasedPageVisit, err := leases.leaseVisitAt(tx, first.key, now)
 	if err != nil {
 		return pendingpagevisit.LeasedPageVisit{}, false, err
 	}
@@ -123,7 +123,7 @@ func (leases pageVisitLeases) alignHeadFrom(
 	return leases.heads.moveTo(tx, crawlID, first.position())
 }
 
-func (leases pageVisitLeases) leaseIn(
+func (leases pageVisitLeases) leaseVisitAt(
 	tx *vault.Txn,
 	key pageVisitKey,
 	now time.Time,
@@ -202,7 +202,7 @@ func (leases pageVisitLeases) returnAfter(
 	}
 }
 
-func (leases pageVisitLeases) leaseFrom(
+func (leases pageVisitLeases) startFrom(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 	due time.Time,
@@ -210,10 +210,10 @@ func (leases pageVisitLeases) leaseFrom(
 	return leases.heads.moveEarlierTo(tx, crawlID, duePosition{due: due.Unix()})
 }
 
-func (leases pageVisitLeases) stopLeasing(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (leases pageVisitLeases) stop(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return leases.heads.remove(tx, crawlID)
 }
 
-func (leases pageVisitLeases) resumeLeasing(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (leases pageVisitLeases) resume(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	return leases.alignHeadFrom(tx, crawlID, earliestPosition)
 }

@@ -41,7 +41,7 @@ func (wiring *crawlStateWiring) PageVisitsCancelled(
 }
 
 func (wiring *crawlStateWiring) CrawlForgotten(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	if err := wiring.frontier.ForgetCrawl(tx, crawlID); err != nil {
+	if err := wiring.frontier.Forget(tx, crawlID); err != nil {
 		return err
 	}
 	return wiring.progress.ForgetCrawl(tx, crawlID)

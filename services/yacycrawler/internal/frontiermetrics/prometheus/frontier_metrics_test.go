@@ -16,7 +16,7 @@ type frontier struct {
 	counted bool
 }
 
-func (f frontier) AmountOfPendingPageVisits(context.Context) (int64, bool) {
+func (f frontier) AmountPending(context.Context) (int64, bool) {
 	return f.amount, f.counted
 }
 

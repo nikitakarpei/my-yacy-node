@@ -75,7 +75,7 @@ type ProgressCounts interface {
 }
 
 type Frontier interface {
-	AmountOfPendingPageVisits(ctx context.Context) (int64, bool)
+	AmountPending(ctx context.Context) (int64, bool)
 	Pause(ctx context.Context) error
 	Resume(ctx context.Context) error
 	IsPaused(ctx context.Context) (bool, error)
@@ -457,7 +457,7 @@ func (api crawlerAPI) showCrawlerStatus(w http.ResponseWriter, r *http.Request) 
 		api.failed(w, r, fmt.Errorf("count the running crawls: %w", err))
 		return
 	}
-	pending, _ := api.frontier.AmountOfPendingPageVisits(r.Context())
+	pending, _ := api.frontier.AmountPending(r.Context())
 	api.writeJSON(w, r, http.StatusOK, yacycrawlcontract.CrawlerStatus{
 		Paused:                paused,
 		PendingPageVisits:     pending,
