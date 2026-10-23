@@ -11,11 +11,11 @@ answers searches of that index.
 
 * Fetching a page: the scrape service reads the page and offers it.
 * Running a search page: a client such as SearXNG shows the results.
-* Running or provisioning the search index server itself.
+* Running or provisioning an Elasticsearch or Manticore server.
 * Deciding which pages to index: the crawler decides which pages it reaches.
 * Judging a page again: an offered page is already admitted, so this service applies no
   scope, robots, or indexing rule of its own.
-* Storing text anywhere other than the operator's own search index.
+* Storing text anywhere other than the configured search index.
 
 ## Functional Requirements
 
@@ -30,8 +30,7 @@ answers searches of that index.
   kept the page or rejected it.
 * On an undecodable message the service SHALL halt intake and leave the message pending for
   an operator, rather than discard it.
-* Re-indexing a page whose canonical URL is already indexed SHALL overwrite that document
-  rather than add a duplicate.
+* Re-indexing a page SHALL overwrite the document of its canonical URL, not add a duplicate.
 * Each configured language SHALL get an index with its text analysis; the service SHALL
   write a page into the index of its language, or into one language-neutral index.
 * Index names SHALL carry a schema version, which SHALL change only with a
@@ -41,7 +40,8 @@ answers searches of that index.
   creating the index when it is missing.
 * Starting the service SHALL keep every document an index holds.
 * A schema change that the documents of an index cannot take SHALL get a new version.
-* The service SHALL let operators choose which supported search index to use.
+* The service SHALL keep the search index in a local directory unless operators name a
+  supported search index server.
 * The service SHALL drop no page's content while the search index is unavailable.
 * The service SHALL answer a search with the pages whose title, content and auxiliary text
   hold every word of the query, ranked title over content over auxiliary text in every index.
@@ -55,13 +55,12 @@ answers searches of that index.
 
 * The service SHALL keep memory bounded independently of corpus size, capping how many
   pages it takes in and indexes concurrently.
-* The service SHALL persist no state of its own: the index of record lives in the search
-  index and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later start it
   again without depending on this service's prior state. Local search stops while the
   service stops.
-* The service SHALL support many concurrent instances over the offered pages, with each
-  page indexed by exactly one instance.
+* With a search index server, the service SHALL persist no state of its own, the server
+  holding the index of record and the broker any backlog, and SHALL support many concurrent
+  instances over the offered pages, with each page indexed by exactly one instance.
 * The service SHALL expose machine-readable metrics and a liveness signal covering pages
   received, indexed, and failed, index latency, searches answered and failed, and search
   latency.
@@ -78,3 +77,4 @@ answers searches of that index.
 * A change of the configured languages or a new version starts new, empty indexes;
   earlier documents stay in the old indexes until a recrawl or reindex.
 * Deleting the indexes of an old version is the operator's task.
+* A local index directory serves one instance on one host only.

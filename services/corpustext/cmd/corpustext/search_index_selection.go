@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/bleve"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
@@ -20,6 +21,11 @@ type searchIndexSelection struct {
 	schema  searchIndexSchema
 	matcher textsearch.Matcher
 	prefix  string
+	close   func() error
+}
+
+func closeNothing() error {
+	return nil
 }
 
 func selectSearchIndex(
@@ -27,6 +33,19 @@ func selectSearchIndex(
 	client *http.Client,
 ) (searchIndexSelection, error) {
 	switch cfg.SearchIndexEngine {
+	case SearchIndexEngineBleve:
+		languageIndexes, err := languageindex.IndexesFor(DefaultIndexBaseName, cfg.Languages)
+		if err != nil {
+			return searchIndexSelection{}, err
+		}
+		indexes := bleve.NewIndexes(cfg.BleveDirectory, languageIndexes)
+		return searchIndexSelection{
+			index:   bleve.NewIndex(indexes),
+			schema:  indexes,
+			matcher: bleve.NewLookup(indexes),
+			prefix:  languageIndexes.Prefix(),
+			close:   indexes.Close,
+		}, nil
 	case SearchIndexEngineElasticsearch:
 		indexes, err := languageindex.IndexesFor(cfg.ElasticsearchIndex, cfg.Languages)
 		if err != nil {
@@ -43,6 +62,7 @@ func selectSearchIndex(
 				cfg.ElasticsearchURL, indexes, client,
 			),
 			prefix: indexes.Prefix(),
+			close:  closeNothing,
 		}, nil
 	case SearchIndexEngineManticore:
 		tables, err := languageindex.IndexesFor(cfg.ManticoreTable, cfg.Languages)
@@ -54,6 +74,7 @@ func selectSearchIndex(
 			schema:  manticore.NewSchema(cfg.ManticoreURL, tables, client),
 			matcher: manticore.NewMatcher(cfg.ManticoreURL, tables, client),
 			prefix:  tables.Prefix(),
+			close:   closeNothing,
 		}, nil
 	default:
 		return searchIndexSelection{}, unknownSearchIndexEngine(cfg.SearchIndexEngine)

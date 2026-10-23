@@ -12,6 +12,7 @@ const (
 	EnvPageOfferDurable           = "SCRAPE_PAGE_OFFER_DURABLE"
 	EnvPageOfferIntakeConcurrency = "SCRAPE_PAGE_OFFER_INTAKE_CONCURRENCY"
 	EnvSearchIndexEngine          = "SEARCH_INDEX_ENGINE"
+	EnvBleveDirectory             = "BLEVE_DIRECTORY"
 	EnvElasticsearchURL           = "ELASTICSEARCH_URL"
 	EnvElasticsearchIndex         = "ELASTICSEARCH_INDEX"
 	EnvManticoreURL               = "MANTICORE_URL"
@@ -25,7 +26,10 @@ const (
 	DefaultPageOfferDurable           = "corpustext"
 	DefaultPageOfferIntakeConcurrency = 4
 	DefaultIndexBaseName              = "yacy_text"
+	DefaultSearchIndexEngine          = SearchIndexEngineBleve
+	DefaultBleveDirectory             = "search-index"
 
+	SearchIndexEngineBleve         = "bleve"
 	SearchIndexEngineElasticsearch = "elasticsearch"
 	SearchIndexEngineManticore     = "manticore"
 )
@@ -35,6 +39,7 @@ type ServiceConfig struct {
 	PageOfferDurable           string
 	PageOfferIntakeConcurrency int
 	SearchIndexEngine          string
+	BleveDirectory             string
 	ElasticsearchURL           string
 	ElasticsearchIndex         string
 	ManticoreURL               string
@@ -66,16 +71,18 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			DefaultPageOfferDurable,
 		),
 		PageOfferIntakeConcurrency: pageOfferIntakeConcurrency,
-		SearchIndexEngine:          strings.TrimSpace(getenv(EnvSearchIndexEngine)),
-		Languages:                  envconfig.List(getenv, EnvLanguages),
-		SearchAddr:                 envconfig.String(getenv, EnvSearchAddr, DefaultSearchAddr),
-		OpsAddr:                    envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		SearchIndexEngine: envconfig.String(
+			getenv,
+			EnvSearchIndexEngine,
+			DefaultSearchIndexEngine,
+		),
+		Languages:  envconfig.List(getenv, EnvLanguages),
+		SearchAddr: envconfig.String(getenv, EnvSearchAddr, DefaultSearchAddr),
+		OpsAddr:    envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}
-	if cfg.SearchIndexEngine == "" {
-		return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvSearchIndexEngine)
-	}
-
 	switch cfg.SearchIndexEngine {
+	case SearchIndexEngineBleve:
+		cfg.BleveDirectory = envconfig.String(getenv, EnvBleveDirectory, DefaultBleveDirectory)
 	case SearchIndexEngineElasticsearch:
 		cfg.ElasticsearchURL = strings.TrimSpace(getenv(EnvElasticsearchURL))
 		if cfg.ElasticsearchURL == "" {

@@ -65,6 +65,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 	if err := selection.schema.Bootstrap(ctx); err != nil {
 		return fmt.Errorf("bootstrap search index schema: %w", err)
 	}
+	defer closeSearchIndex(ctx, selection)
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
 		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -119,6 +120,12 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 	)
 	slog.InfoContext(ctx, "corpustext stopped")
 	return err
+}
+
+func closeSearchIndex(ctx context.Context, selection searchIndexSelection) {
+	if err := selection.close(); err != nil {
+		slog.WarnContext(ctx, "search index close failed", slog.Any("error", err))
+	}
 }
 
 func takeInPageOffers(

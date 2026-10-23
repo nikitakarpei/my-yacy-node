@@ -14,8 +14,18 @@ The indexer is configured entirely through environment variables.
 | Variable | Default | Meaning |
 |---|---|---|
 | `SCRAPE_PAGE_OFFER_INTAKE_CONCURRENCY` | `4` | Offered pages the service works on at once. |
-| `SEARCH_INDEX_ENGINE` | required | Which search index to write to: `elasticsearch` or `manticore`. |
+| `SEARCH_INDEX_ENGINE` | `bleve` | Which search index to use: `bleve`, `elasticsearch` or `manticore`. |
 | `CORPUSTEXT_LANGUAGES` | empty | Languages that get their own index, separated by commas: `en`, `de`, `fr`, `ru`. |
+
+When `SEARCH_INDEX_ENGINE` is `bleve`:
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `BLEVE_DIRECTORY` | `search-index` | Directory that holds the Bleve indexes. |
+
+The service creates the directory when it is missing. A relative path starts at the
+working directory. The working directory of the image is `/var/lib/corpustext`. Mount a
+volume there to keep the indexes. Only one instance can use a directory.
 
 When `SEARCH_INDEX_ENGINE` is `elasticsearch`:
 

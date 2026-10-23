@@ -21,7 +21,6 @@ func requiredEnv() map[string]string {
 func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
 	for _, missing := range []string{
 		corpustext.EnvPageOfferNATSURL,
-		corpustext.EnvSearchIndexEngine,
 		corpustext.EnvElasticsearchURL,
 	} {
 		env := requiredEnv()
@@ -29,6 +28,34 @@ func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
 		if _, err := corpustext.LoadServiceConfig(envFrom(env)); err == nil {
 			t.Errorf("expected error when %s is unset", missing)
 		}
+	}
+}
+
+func TestLoadServiceConfigKeepsTheSearchIndexInBleveUnlessAnEngineIsNamed(t *testing.T) {
+	cfg, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
+		corpustext.EnvPageOfferNATSURL: "nats://crawl:4222",
+	}))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.SearchIndexEngine != corpustext.SearchIndexEngineBleve {
+		t.Errorf("engine = %q", cfg.SearchIndexEngine)
+	}
+	if cfg.BleveDirectory != corpustext.DefaultBleveDirectory {
+		t.Errorf("bleve directory = %q", cfg.BleveDirectory)
+	}
+}
+
+func TestLoadServiceConfigTakesTheNamedBleveDirectory(t *testing.T) {
+	cfg, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
+		corpustext.EnvPageOfferNATSURL: "nats://crawl:4222",
+		corpustext.EnvBleveDirectory:   "/var/lib/corpustext/index",
+	}))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.BleveDirectory != "/var/lib/corpustext/index" {
+		t.Errorf("bleve directory = %q", cfg.BleveDirectory)
 	}
 }
 

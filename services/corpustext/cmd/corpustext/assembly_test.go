@@ -104,6 +104,37 @@ func TestRunServiceIndexesTheTextOfAnOfferedPage(t *testing.T) {
 	waitForShutdown(t, runDone)
 }
 
+func TestRunServiceAnswersASearchForAnOfferedPageFromBleve(t *testing.T) {
+	pageOfferNATSURL := natstestserver.Start(t)
+	cfg := serviceConfig(pageOfferNATSURL, "")
+	cfg.SearchIndexEngine = corpustext.SearchIndexEngineBleve
+	cfg.BleveDirectory = t.TempDir()
+	listeners := listenersFor(t)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	pageOfferJetStream := natstestserver.ConnectJetStream(t, pageOfferNATSURL)
+	createScrapePageOffersStream(t, pageOfferJetStream)
+	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
+
+	runDone := make(chan error, 1)
+	go func() { runDone <- corpustext.RunService(ctx, cfg, listeners) }()
+
+	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
+	publishOfferedPage(ctx, t, pageOfferJetStream)
+	waitForKeptPageReceipt(t, keptPages)
+
+	matches := matchesFrom(t, "http://"+listeners.Search.Addr().String())
+	if len(matches.Matches) != 1 || matches.Matches[0].URL != offeredPageURL ||
+		matches.Matches[0].Title != "Hi" {
+		t.Errorf("matches = %+v", matches.Matches)
+	}
+
+	cancel()
+	waitForShutdown(t, runDone)
+}
+
 func TestRunServiceAnswersSearchesWhileThePageOffersAreUnavailable(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
 	cfg := serviceConfig("nats://127.0.0.1:1", elasticsearch.serve(t))

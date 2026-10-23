@@ -14,6 +14,8 @@ components:
     in: internal/searchindexes/elasticsearch/**
   searchindexesmanticore:
     in: internal/searchindexes/manticore/**
+  searchindexesbleve:
+    in: internal/searchindexes/bleve/**
   pageintake:
     in: internal/pageintake/**
   pageofferopening:
@@ -60,6 +62,10 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/searchdocument
       - github.com/nikitakarpei/yacy-rwi-node/searchdocument/**
+  bleve:
+    in:
+      - github.com/blevesearch/bleve/v2
+      - github.com/blevesearch/bleve/v2/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -97,6 +103,13 @@ deps:
       - textsearch
     canUse:
       - searchdocument
+  searchindexesbleve:
+    mayDependOn:
+      - languageindex
+      - textsearch
+    canUse:
+      - searchdocument
+      - bleve
   pageintake:
     mayDependOn:
       - scrapedpagedocument
