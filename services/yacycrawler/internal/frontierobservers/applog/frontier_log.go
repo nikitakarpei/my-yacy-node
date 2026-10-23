@@ -14,15 +14,14 @@ import (
 
 const (
 	msgFrontierLeaseFailed       = "no page visit could be leased from the frontier"
-	msgFrontierDrainFailed       = "the page visits of a cancelled crawl could not be drained"
+	msgFrontierDrainFailed       = "the page visits of a draining queue could not be dropped"
 	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
-	msgFrontierSettleFailed      = "a settled page visit could not be removed from the frontier"
+	msgFrontierEndFailed         = "an ended page visit could not be removed from the frontier"
 	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"
 	msgCompletedVisitNotCounted  = "a completed page visit could not be counted in the progress of its crawl"
 	msgDroppedVisitNotCounted    = "a dropped page visit could not be counted in the progress of its crawl"
 	msgUnadmittedLinksNotCounted = "unadmitted links could not be counted in the progress of their crawl"
-	msgFrontierCrawlNotSettled   = "a crawl with no pending page visit could not be finished"
-	msgFrontierLeaseOutdated     = "a page visit was settled under a lease that has since ended"
+	msgFrontierLeaseOutdated     = "a page visit was ended or returned under a lease that has expired"
 )
 
 type FrontierLog struct{}
@@ -35,12 +34,12 @@ func (FrontierLog) FrontierCountFailed(ctx context.Context, err error) {
 	slog.WarnContext(ctx, msgFrontierCountFailed, slog.Any("error", err))
 }
 
-func (FrontierLog) FrontierSettleFailed(
+func (FrontierLog) FrontierEndFailed(
 	ctx context.Context,
 	pageVisit pendingpagevisit.PendingPageVisit,
 	err error,
 ) {
-	slog.WarnContext(ctx, msgFrontierSettleFailed,
+	slog.WarnContext(ctx, msgFrontierEndFailed,
 		slog.String("crawl", pageVisit.CrawlID.String()),
 		slog.String("url", pageVisit.URL.String()),
 		slog.Any("error", err),
@@ -100,17 +99,6 @@ func (FrontierLog) UnadmittedLinksNotCounted(
 
 func (FrontierLog) FrontierDrainFailed(ctx context.Context, err error) {
 	slog.WarnContext(ctx, msgFrontierDrainFailed, slog.Any("error", err))
-}
-
-func (FrontierLog) FrontierCrawlNotSettled(
-	ctx context.Context,
-	crawlID crawlid.CrawlID,
-	err error,
-) {
-	slog.ErrorContext(ctx, msgFrontierCrawlNotSettled,
-		slog.String("crawl", crawlID.String()),
-		slog.Any("error", err),
-	)
 }
 
 func (FrontierLog) FrontierLeaseOutdated(

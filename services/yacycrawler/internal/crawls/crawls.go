@@ -1,7 +1,7 @@
 // Package crawls keeps every crawl the crawler runs: the accepted order it runs for, its
 // state, and when it started and finished. The first order of an ID starts its crawl; an
-// order sent again finds that crawl while it is kept. Each state change is reported in its
-// transaction. A finished crawl is kept for the crawl retention after it finishes, then
+// order sent again finds that crawl while it is kept. A pause, resumption or cancellation
+// is reported in its transaction. A finished crawl is kept for the crawl retention, then
 // forgotten, and its forgetting is reported in the same transaction.
 package crawls
 
@@ -25,7 +25,6 @@ type CrawlStateChanges interface {
 	CrawlPaused(tx *vault.Txn, crawlID crawlid.CrawlID) error
 	CrawlResumed(tx *vault.Txn, crawlID crawlid.CrawlID) error
 	CrawlCancelling(tx *vault.Txn, crawlID crawlid.CrawlID) error
-	CrawlFinished(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
 type ForgottenCrawls interface {
@@ -175,7 +174,7 @@ func (c *Crawls) changeState(
 	return crawl.State, true, reportChange(tx, crawlID)
 }
 
-func (c *Crawls) Settle(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (c *Crawls) Finish(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	crawl, found, err := c.unfinished.crawlOf(tx, crawlID)
 	if err != nil {
 		return fmt.Errorf("read the crawl %s: %w", crawlID, err)
@@ -183,21 +182,29 @@ func (c *Crawls) Settle(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if !found {
 		return nil
 	}
-	crawl.State, crawl.FinishedAt = settledStateOf(crawl.State), c.clock.Now()
+	crawl.State, crawl.FinishedAt = finishedStateOf(crawl.State), c.clock.Now()
 	if err := c.unfinished.remove(tx, crawlID); err != nil {
-		return fmt.Errorf("settle the crawl %s: %w", crawlID, err)
+		return fmt.Errorf("finish the crawl %s: %w", crawlID, err)
 	}
 	if err := c.finished.put(tx, crawlID, crawl); err != nil {
-		return fmt.Errorf("settle the crawl %s: %w", crawlID, err)
+		return fmt.Errorf("finish the crawl %s: %w", crawlID, err)
 	}
-	return c.changes.CrawlFinished(tx, crawlID)
+	return nil
 }
 
-func settledStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {
+func finishedStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {
 	if state == yacycrawlcontract.CrawlStateCancelling {
 		return yacycrawlcontract.CrawlStateCancelled
 	}
 	return yacycrawlcontract.CrawlStateSucceeded
+}
+
+func (c *Crawls) UnfinishedCrawlIDs(tx *vault.Txn) ([]crawlid.CrawlID, error) {
+	crawlIDs, err := c.unfinished.crawlIDs(tx)
+	if err != nil {
+		return nil, fmt.Errorf("read the unfinished crawls: %w", err)
+	}
+	return crawlIDs, nil
 }
 
 func (c *Crawls) AmountOfRunningCrawls(tx *vault.Txn) (int, error) {

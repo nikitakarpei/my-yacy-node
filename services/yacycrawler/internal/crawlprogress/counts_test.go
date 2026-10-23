@@ -124,7 +124,7 @@ func (s progressScene) progressOf(t *testing.T, crawlID crawlid.CrawlID) (
 	return progress, progressByHost
 }
 
-func TestTheProgressOfACrawlCountsSettledVisitsAndUnadmittedLinks(t *testing.T) {
+func TestTheProgressOfACrawlCountsEndedVisitsAndUnadmittedLinks(t *testing.T) {
 	s := newScene(t)
 
 	s.counter.PendingPageVisitCompleted(t.Context(), pageVisitTo(t, knownCrawl, "http://a/1"),

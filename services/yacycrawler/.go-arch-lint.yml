@@ -60,6 +60,10 @@ components:
     in: internal/pendingpagevisitobservers/applog/**
   frontierobserversapplog:
     in: internal/frontierobservers/applog/**
+  crawlfinishing:
+    in: internal/crawlfinishing/**
+  crawlfinishingobserversapplog:
+    in: internal/crawlfinishingobservers/applog/**
   frontiermetricsprometheus:
     in: internal/frontiermetrics/prometheus/**
   pendingpagevisitobserversprometheus:
@@ -302,6 +306,14 @@ deps:
     mayDependOn:
       - crawlid
       - pendingpagevisit
+  crawlfinishing:
+    mayDependOn:
+      - crawlid
+    canUse:
+      - vault
+  crawlfinishingobserversapplog:
+    mayDependOn:
+      - crawlid
   frontiermetricsprometheus:
     canUse:
       - prometheus

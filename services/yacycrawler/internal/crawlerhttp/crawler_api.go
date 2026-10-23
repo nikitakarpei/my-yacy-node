@@ -57,7 +57,7 @@ type CrawlRecords interface {
 }
 
 type PendingPageVisits interface {
-	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+	AddSeeds(tx *vault.Txn, seedPageVisits []pendingpagevisit.PendingPageVisit) error
 	AmountPendingOf(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error)
 	AmountsPendingByHostOf(
 		tx *vault.Txn,
@@ -75,7 +75,7 @@ type ProgressCounts interface {
 }
 
 type Frontier interface {
-	AmountOfPendingPageVisits(ctx context.Context) (int64, bool)
+	AmountPending(ctx context.Context) (int64, bool)
 	Pause(ctx context.Context) error
 	Resume(ctx context.Context) error
 	IsPaused(ctx context.Context) (bool, error)
@@ -162,7 +162,7 @@ func (api crawlerAPI) startCrawl(
 		if err != nil || !started {
 			return err
 		}
-		return api.stores.pending.Add(
+		return api.stores.pending.AddSeeds(
 			tx,
 			pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()),
 		)
@@ -457,7 +457,7 @@ func (api crawlerAPI) showCrawlerStatus(w http.ResponseWriter, r *http.Request) 
 		api.failed(w, r, fmt.Errorf("count the running crawls: %w", err))
 		return
 	}
-	pending, _ := api.frontier.AmountOfPendingPageVisits(r.Context())
+	pending, _ := api.frontier.AmountPending(r.Context())
 	api.writeJSON(w, r, http.StatusOK, yacycrawlcontract.CrawlerStatus{
 		Paused:                paused,
 		PendingPageVisits:     pending,

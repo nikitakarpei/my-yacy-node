@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/urlhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
@@ -17,11 +18,11 @@ const (
 	crawlHeadsByDueBucket = "crawl_heads_by_due"
 )
 
-var errCrawlHeadMalformed = errors.New("crawl head has a malformed due time")
+var errCrawlHeadMalformed = errors.New("crawl head has a malformed position")
 
 type crawlHeads struct {
-	dueOfCrawl *vault.Collection[crawlid.CrawlID, int64]
-	byDue      *vault.ValueIndex[crawlHead, crawlHead]
+	byCrawl *vault.Collection[crawlid.CrawlID, duePosition]
+	byDue   *vault.ValueIndex[crawlHead, crawlHead]
 }
 
 type crawlHead struct {
@@ -38,10 +39,13 @@ func registerCrawlHeads(ctx context.Context, storage *vault.Vault) (crawlHeads, 
 	); err != nil {
 		return crawlHeads{}, fmt.Errorf("register %s: %w", crawlHeadsByDueBucket, err)
 	}
-	if heads.dueOfCrawl, err = storage.RegisterProjectedCollection(
-		ctx, crawlHeadsBucket, vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(), headDueCodec{},
-		vault.ProjectedAs(func(crawlID crawlid.CrawlID, due int64) crawlHead {
-			return crawlHead{due: due, crawlID: crawlID}
+	if heads.byCrawl, err = storage.RegisterProjectedCollection(
+		ctx,
+		crawlHeadsBucket,
+		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
+		headPositionCodec{},
+		vault.ProjectedAs(func(crawlID crawlid.CrawlID, position duePosition) crawlHead {
+			return crawlHead{due: position.due, crawlID: crawlID}
 		}, heads.byDue),
 	); err != nil {
 		return crawlHeads{}, fmt.Errorf("register %s: %w", crawlHeadsBucket, err)
@@ -49,21 +53,41 @@ func registerCrawlHeads(ctx context.Context, storage *vault.Vault) (crawlHeads, 
 	return heads, nil
 }
 
-func (heads crawlHeads) moveEarlierTo(tx *vault.Txn, crawlID crawlid.CrawlID, due int64) error {
-	headDue, found, err := heads.dueOfCrawl.Get(tx, crawlID)
-	if err != nil || (found && headDue <= due) {
+func (heads crawlHeads) moveEarlierTo(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	position duePosition,
+) error {
+	headPosition, found, err := heads.byCrawl.Get(tx, crawlID)
+	if err != nil || (found && !position.isBefore(headPosition)) {
 		return err
 	}
-	return heads.moveTo(tx, crawlID, due)
+	return heads.moveTo(tx, crawlID, position)
 }
 
-func (heads crawlHeads) moveTo(tx *vault.Txn, crawlID crawlid.CrawlID, due int64) error {
-	_, err := heads.dueOfCrawl.Put(tx, crawlID, due)
+func (heads crawlHeads) moveEarlierIfPresent(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	position duePosition,
+) error {
+	headPosition, found, err := heads.byCrawl.Get(tx, crawlID)
+	if err != nil || !found || !position.isBefore(headPosition) {
+		return err
+	}
+	return heads.moveTo(tx, crawlID, position)
+}
+
+func (heads crawlHeads) moveTo(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	position duePosition,
+) error {
+	_, err := heads.byCrawl.Put(tx, crawlID, position)
 	return err
 }
 
 func (heads crawlHeads) remove(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	_, err := heads.dueOfCrawl.Delete(tx, crawlID)
+	_, err := heads.byCrawl.Delete(tx, crawlID)
 	return err
 }
 
@@ -71,9 +95,11 @@ func (heads crawlHeads) firstDueBy(tx *vault.Txn, now time.Time) (crawlHead, boo
 	return heads.byDue.First(tx, crawlHeadKeyParts.KeysThroughFirst(now.Unix()))
 }
 
-func (heads crawlHeads) has(tx *vault.Txn, crawlID crawlid.CrawlID) (bool, error) {
-	_, found, err := heads.dueOfCrawl.Get(tx, crawlID)
-	return found, err
+func (heads crawlHeads) positionOf(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+) (duePosition, bool, error) {
+	return heads.byCrawl.Get(tx, crawlID)
 }
 
 var crawlHeadKeyParts = vault.PairKey(vault.IntegerKeyPart, vaultkeyparts.CrawlID)
@@ -85,16 +111,16 @@ var crawlHeadEntries = crawlHeadKeyParts.KeyLayoutFor(
 	},
 )
 
-type headDueCodec struct{}
+type headPositionCodec struct{}
 
-func (headDueCodec) Encode(due int64) ([]byte, error) {
-	return binary.AppendVarint(nil, due), nil
+func (headPositionCodec) Encode(position duePosition) ([]byte, error) {
+	return append(binary.AppendVarint(nil, position.due), position.urlHash[:]...), nil
 }
 
-func (headDueCodec) Decode(stored []byte) (int64, error) {
+func (headPositionCodec) Decode(stored []byte) (duePosition, error) {
 	due, read := binary.Varint(stored)
-	if read <= 0 {
-		return 0, fmt.Errorf("%w: %d bytes", errCrawlHeadMalformed, len(stored))
+	if read <= 0 || len(stored)-read != len(urlhash.URLHash{}) {
+		return duePosition{}, fmt.Errorf("%w: %d bytes", errCrawlHeadMalformed, len(stored))
 	}
-	return due, nil
+	return duePosition{due: due, urlHash: urlhash.URLHash(stored[read:])}, nil
 }

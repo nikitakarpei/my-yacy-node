@@ -140,10 +140,6 @@ func (r *reportedChanges) CrawlCancelling(_ *vault.Txn, crawlID crawlid.CrawlID)
 	return r.report("cancelling", crawlID)
 }
 
-func (r *reportedChanges) CrawlFinished(_ *vault.Txn, crawlID crawlid.CrawlID) error {
-	return r.report("finished", crawlID)
-}
-
 func (r *reportedChanges) CrawlForgotten(_ *vault.Txn, crawlID crawlid.CrawlID) error {
 	return r.report("forgotten", crawlID)
 }
@@ -237,9 +233,9 @@ func (s scene) start(t *testing.T, orderID string) crawlid.CrawlID {
 	return crawlID
 }
 
-func (s scene) settle(t *testing.T, crawlID crawlid.CrawlID) {
+func (s scene) finish(t *testing.T, crawlID crawlid.CrawlID) {
 	t.Helper()
-	s.update(t, func(tx *vault.Txn) error { return s.crawls.Settle(tx, crawlID) })
+	s.update(t, func(tx *vault.Txn) error { return s.crawls.Finish(tx, crawlID) })
 }
 
 func (s scene) crawlOf(t *testing.T, crawlID crawlid.CrawlID) (crawls.Crawl, bool) {
@@ -272,7 +268,7 @@ func TestAnOrderSentAgainFindsItsCrawlWhileItIsKept(t *testing.T) {
 	first := s.start(t, "o1")
 
 	again, startedAgain := s.startOrFind(t, "o1")
-	s.settle(t, first)
+	s.finish(t, first)
 	afterFinish, startedAfterFinish := s.startOrFind(t, "o1")
 
 	if startedAgain || again != first || startedAfterFinish || afterFinish != first {
@@ -319,7 +315,7 @@ func TestAnUnknownCrawlIsNotFoundAndChangesNothing(t *testing.T) {
 		if _, cancelled, err = s.crawls.Cancel(tx, unknown); err != nil {
 			return err
 		}
-		return s.crawls.Settle(tx, unknown)
+		return s.crawls.Finish(tx, unknown)
 	})
 
 	if orderFound || paused || resumed || cancelled || len(s.changes.take()) != 0 {
@@ -364,7 +360,7 @@ func TestACrawlMovesThroughItsStatesAndReportsEachChange(t *testing.T) {
 	}
 }
 
-func TestASettledCrawlFinishesByTheStateItWasIn(t *testing.T) {
+func TestACrawlFinishesByTheStateItWasIn(t *testing.T) {
 	s := keptCrawls(t)
 	succeeding, cancelling := s.start(t, "o1"), s.start(t, "o2")
 	s.update(t, func(tx *vault.Txn) error {
@@ -374,31 +370,46 @@ func TestASettledCrawlFinishesByTheStateItWasIn(t *testing.T) {
 	s.changes.take()
 	s.clock.advanceBy(time.Hour)
 
-	s.settle(t, succeeding)
-	s.settle(t, cancelling)
-	s.settle(t, succeeding)
+	s.finish(t, succeeding)
+	s.finish(t, cancelling)
+	s.finish(t, succeeding)
 
 	succeeded, _ := s.crawlOf(t, succeeding)
 	cancelled, _ := s.crawlOf(t, cancelling)
 	if succeeded.State != yacycrawlcontract.CrawlStateSucceeded ||
 		cancelled.State != yacycrawlcontract.CrawlStateCancelled ||
-		!succeeded.FinishedAt.Equal(startedAt.Add(time.Hour)) {
-		t.Fatalf("settled %+v and %+v, want succeeded and cancelled an hour after start",
-			succeeded, cancelled)
+		!succeeded.FinishedAt.Equal(startedAt.Add(time.Hour)) || len(s.changes.take()) != 0 {
+		t.Fatalf("finished %+v and %+v, want succeeded and cancelled an hour after start, "+
+			"with no change reported", succeeded, cancelled)
 	}
-	wantChanges := []reportedChange{
-		{change: "finished", crawlID: succeeding},
-		{change: "finished", crawlID: cancelling},
-	}
-	if changes := s.changes.take(); !slices.Equal(changes, wantChanges) {
-		t.Fatalf("changes = %v, want %v", changes, wantChanges)
+}
+
+func TestTheUnfinishedCrawlsAreTheOnesNotYetFinished(t *testing.T) {
+	s := keptCrawls(t)
+	running, paused, finished := s.start(t, "o1"), s.start(t, "o2"), s.start(t, "o3")
+	s.update(t, func(tx *vault.Txn) error {
+		_, _, err := s.crawls.Pause(tx, paused)
+		return err
+	})
+	s.finish(t, finished)
+
+	var unfinished []crawlid.CrawlID
+	s.view(t, func(tx *vault.Txn) error {
+		var err error
+		unfinished, err = s.crawls.UnfinishedCrawlIDs(tx)
+		return err
+	})
+
+	if len(unfinished) != 2 || !slices.Contains(unfinished, running) ||
+		!slices.Contains(unfinished, paused) {
+		t.Fatalf("unfinished = %v, want the running and the paused crawl", unfinished)
 	}
 }
 
 func TestAFinishedCrawlRefusesEveryStateChange(t *testing.T) {
 	s := keptCrawls(t)
 	crawlID := s.start(t, "o1")
-	s.settle(t, crawlID)
+	s.finish(t, crawlID)
 	s.changes.take()
 	var states []yacycrawlcontract.CrawlState
 
@@ -425,7 +436,7 @@ func TestAFinishedCrawlIsForgottenAfterTheRetentionAndItsOrderStartsAgain(t *tes
 	s := keptCrawls(t)
 	crawlID := s.start(t, "o1")
 	s.clock.advanceBy(retention)
-	s.settle(t, crawlID)
+	s.finish(t, crawlID)
 	s.changes.take()
 
 	s.clock.advanceBy(retention - time.Second)
@@ -455,7 +466,7 @@ func TestCrawlsListInStateNewestFirstAndBackOldestFirst(t *testing.T) {
 		_, _, err := s.crawls.Pause(tx, paused)
 		return err
 	})
-	s.settle(t, finished)
+	s.finish(t, finished)
 	var newest, older, newer, succeeded []crawlid.CrawlID
 	var running int
 
@@ -524,8 +535,8 @@ func TestCrawlReadsTheStorageRefusesFail(t *testing.T) {
 		_, _, err := s.crawls.Pause(tx, crawlID)
 		return err
 	})
-	settleErr := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
-		return s.crawls.Settle(tx, crawlID)
+	finishErr := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		return s.crawls.Finish(tx, crawlID)
 	})
 	listErr := s.storage.View(t.Context(), func(tx *vault.Txn) error {
 		_, err := s.crawls.CrawlIDsOlderThan(
@@ -533,10 +544,14 @@ func TestCrawlReadsTheStorageRefusesFail(t *testing.T) {
 		)
 		return err
 	})
+	unfinishedErr := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+		_, err := s.crawls.UnfinishedCrawlIDs(tx)
+		return err
+	})
 
 	for name, err := range map[string]error{
-		"start": startErr, "read": readErr, "change": changeErr, "settle": settleErr,
-		"list": listErr,
+		"start": startErr, "read": readErr, "change": changeErr, "finish": finishErr,
+		"list": listErr, "unfinished": unfinishedErr,
 	} {
 		if !errors.Is(err, errEngineRefusing) {
 			t.Errorf("%s = %v, want the refusal", name, err)

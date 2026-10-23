@@ -41,6 +41,13 @@ func (parts TripleKeyParts[A, B, C]) KeysWithFirstAndSecond(first A, second B) K
 	return parts.second.keysWith(second).withPrefix(parts.first.encodingOf(first))
 }
 
+func (parts TripleKeyParts[A, B, C]) KeysWithFirstFrom(first A, second B, third C) KeyRange {
+	return KeyRange{
+		firstIncluded: parts.Key(first, second, third).encoded,
+		firstExcluded: successorOf(parts.first.encodingOf(first)),
+	}
+}
+
 func (parts TripleKeyParts[A, B, C]) PartsOf(storedKey []byte) (A, B, C, error) {
 	var (
 		second B

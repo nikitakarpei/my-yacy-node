@@ -37,6 +37,8 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttp"
 	crawlerhttpobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlerhttpobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishing"
+	crawlfinishingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfinishingobservers/applog"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
@@ -175,7 +177,14 @@ func RunService(
 		)),
 		orders.Run,
 		visits.Run,
-		crawlState.frontier.DrainCancelledCrawls,
+		crawlState.frontier.DrainQueues,
+		crawlfinishing.NewFinisher(
+			storage,
+			crawlState.crawls,
+			crawlState.frontier,
+			wallclock.Clock{},
+			crawlfinishingobserversapplog.CrawlFinishingLog{},
+		).Run,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
@@ -294,7 +303,6 @@ func openCrawlStateStores(
 		ctx,
 		storage,
 		wiring,
-		wiring,
 		cfg.PendingPageVisitLease(),
 		wallclock.Clock{},
 		frontierobserversapplog.FrontierLog{},
@@ -309,7 +317,6 @@ func openCrawlStateStores(
 	if err != nil {
 		return crawlStateStores{}, err
 	}
-	wiring.crawls = keptCrawls
 	pageVisitLimits, err := pagevisitlimits.Open(
 		ctx, storage, cfg.PageVisitLimitRetention(), cfg.MaxPerURL(),
 	)

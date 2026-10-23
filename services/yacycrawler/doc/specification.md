@@ -30,8 +30,8 @@ host than an always-on node.
   order, keeps nothing, and does not take it again.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
-* A crawl SHALL succeed when it has no more pending page visits, never by elapsed time,
-  and SHALL take no more page visits afterwards.
+* A crawl SHALL succeed only when it has no more pending page visits, about a second
+  after the last one ends, and SHALL take no more page visits afterwards.
 * Before fetching a page, the service SHALL ask the recrawl rule whether the page is
   due, and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.

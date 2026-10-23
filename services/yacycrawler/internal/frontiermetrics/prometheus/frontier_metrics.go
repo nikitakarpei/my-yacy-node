@@ -9,7 +9,7 @@ import (
 )
 
 type Frontier interface {
-	AmountOfPendingPageVisits(ctx context.Context) (int64, bool)
+	AmountPending(ctx context.Context) (int64, bool)
 }
 
 type FrontierMetrics struct {
@@ -35,7 +35,7 @@ func (metrics *FrontierMetrics) Describe(descriptions chan<- *prometheusclient.D
 }
 
 func (metrics *FrontierMetrics) Collect(samples chan<- prometheusclient.Metric) {
-	amount, counted := metrics.frontier.AmountOfPendingPageVisits(context.Background())
+	amount, counted := metrics.frontier.AmountPending(context.Background())
 	if !counted {
 		return
 	}

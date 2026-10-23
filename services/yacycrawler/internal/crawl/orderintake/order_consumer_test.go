@@ -40,7 +40,10 @@ func (a *fakeCrawls) Start(
 	return startedCrawlID, a.started, nil
 }
 
-func (a *fakeCrawls) Add(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+func (a *fakeCrawls) AddSeeds(
+	_ *vault.Txn,
+	pageVisits []pendingpagevisit.PendingPageVisit,
+) error {
 	a.pending = append(a.pending, pageVisits...)
 	return nil
 }

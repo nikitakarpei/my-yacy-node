@@ -187,7 +187,10 @@ type fakePending struct {
 	readErr  error
 }
 
-func (o *fakePending) Add(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+func (o *fakePending) AddSeeds(
+	_ *vault.Txn,
+	pageVisits []pendingpagevisit.PendingPageVisit,
+) error {
 	o.pending = append(o.pending, pageVisits...)
 	return nil
 }
@@ -233,7 +236,7 @@ type fakeFrontier struct {
 	err     error
 }
 
-func (f *fakeFrontier) AmountOfPendingPageVisits(context.Context) (int64, bool) {
+func (f *fakeFrontier) AmountPending(context.Context) (int64, bool) {
 	return f.pending, true
 }
 
