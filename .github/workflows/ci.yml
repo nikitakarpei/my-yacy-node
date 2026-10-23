@@ -49,6 +49,12 @@ jobs:
     uses: ./.github/workflows/build-visitcrawl.yml
     secrets: inherit
 
+  build-crawlscrapebridge:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-crawlscrapebridge.yml
+    secrets: inherit
+
   build-corpustext:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
