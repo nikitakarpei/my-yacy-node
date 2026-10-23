@@ -38,6 +38,12 @@ components:
     in: internal/crawl/pagehtmlreading/**
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
+  robotsexclusion:
+    in: internal/crawl/robotsexclusion/**
+  robotsrulesorigin:
+    in: internal/robotsrules/origin/**
+  robotsrulesredis:
+    in: internal/robotsrules/redis/**
   pagevisitrecordsnorecords:
     in: internal/pagevisitrecords/norecords/**
   pagevisitrecordsredis:
@@ -82,6 +88,14 @@ components:
     in: internal/refusalenforcementobservers/applog/**
   refusalenforcementobserversprometheus:
     in: internal/refusalenforcementobservers/prometheus/**
+  robotstxtfetchobserversapplog:
+    in: internal/robotstxtfetchobservers/applog/**
+  robotstxtfetchobserversprometheus:
+    in: internal/robotstxtfetchobservers/prometheus/**
+  robotsrulesobserversapplog:
+    in: internal/robotsrulesobservers/applog/**
+  robotsrulesobserversprometheus:
+    in: internal/robotsrulesobservers/prometheus/**
   crawledpageobserversapplog:
     in: internal/crawledpageobservers/applog/**
   crawledpageobserversprometheus:
@@ -123,6 +137,12 @@ vendors:
   pagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  redirectfollowingfetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch
+  grobotstxt:
+    in:
+      - github.com/jimsmart/grobotstxt
   robotsmeta:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/robotsmeta
@@ -166,6 +186,7 @@ deps:
       - pendingpagevisit
       - acceptedorder
       - pagevisit
+      - robotsexclusion
     canUse:
       - canonicalurl
       - yacycrawlcontract
@@ -206,6 +227,24 @@ deps:
       - pendingpagevisit
       - retrydelay
     canUse:
+      - canonicalurl
+  robotsexclusion:
+    canUse:
+      - canonicalurl
+      - grobotstxt
+  robotsrulesorigin:
+    mayDependOn:
+      - robotsexclusion
+    canUse:
+      - canonicalurl
+      - pagefetch
+      - redirectfollowingfetch
+  robotsrulesredis:
+    mayDependOn:
+      - robotsexclusion
+      - redisrecord
+    canUse:
+      - redis
       - canonicalurl
   pagevisitrecordsnorecords:
     mayDependOn:
@@ -303,6 +342,20 @@ deps:
     canUse:
       - canonicalurl
   refusalenforcementobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+  robotstxtfetchobserversapplog:
+    canUse:
+      - canonicalurl
+  robotstxtfetchobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+  robotsrulesobserversapplog:
+    canUse:
+      - canonicalurl
+  robotsrulesobserversprometheus:
     canUse:
       - prometheus
       - canonicalurl

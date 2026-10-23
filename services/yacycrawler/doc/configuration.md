@@ -30,11 +30,11 @@ indexing as well. That choice applies to every crawl the deployment runs.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_STATE_REDIS_URL` | required | Address of the Redis server that keeps the accepted orders, the frontier, and the state of each page visit, as `redis://[user:password@]host:port[/db]`. |
+| `CRAWL_STATE_REDIS_URL` | required | Address of the Redis server that keeps the accepted orders, the frontier, the state of each page visit, and the robots.txt rules of each site, as `redis://[user:password@]host:port[/db]`. |
 
 Every crawler instance must use the same server. Redis and Valkey keep every key in memory,
-so their memory grows with the URLs the crawler meets. Apache Kvrocks keeps the keys on
-disk, and `rocksdb.block_cache_size` sets the memory it uses. On Kvrocks, set
+so their memory grows with the URLs and sites the crawler meets. Apache Kvrocks keeps the
+keys on disk, and `rocksdb.block_cache_size` sets the memory it uses. On Kvrocks, set
 `lua-strict-key-accessing yes` so that scripts run in parallel.
 
 ## Fetching
@@ -46,7 +46,7 @@ disk, and `rocksdb.block_cache_size` sets the memory it uses. On Kvrocks, set
 | `YACYCRAWLER_MAX_BODY_BYTES` | `2097152` | Largest response body accepted; a larger page is not published. |
 | `YACYCRAWLER_FETCH_DEADLINE` | `30s` | Deadline for a single fetch. |
 | `YACYCRAWLER_FETCH_CONCURRENCY` | `4` | Concurrent fetches on one instance. |
-| `YACYCRAWLER_FETCH_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. |
+| `YACYCRAWLER_FETCH_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. Its leading token, for example `yacycrawler`, selects the robots.txt group the crawler obeys, and must hold only letters, `_` and `-`. |
 | `YACYCRAWLER_RECRAWL_GRACE` | `1h` | Minimum time between visits to the same URL. `0` disables suppression. |
 
 ## Operations

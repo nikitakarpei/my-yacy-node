@@ -29,6 +29,7 @@ a more capable host than an always-on node.
 * A crawl run SHALL end when its profile admits no more URLs, never by elapsed time.
 * Before fetching a page, the service SHALL ask the recrawl rule whether the page is
   due, and skip the fetch if not.
+* The service SHALL NOT fetch, publish, or count against its host a page robots.txt disallows.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it.
@@ -49,8 +50,8 @@ a more capable host than an always-on node.
   delivery.
 * Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
   replaces its prior publication downstream rather than duplicating it.
-* The service SHALL keep accepted orders, its frontier and page visit state on a
-  Redis-protocol server, never in memory, so run size never inflates an instance.
+* The service SHALL keep accepted orders, its frontier, page visit state and robots.txt rules
+  on a Redis-protocol server, never in memory, so run size never inflates an instance.
 * The service SHALL NOT start when its Redis-protocol server does not answer.
 * The service SHALL cap the buffers and fetched-body sizes it holds.
 * The service SHALL bound every outbound fetch with an explicit deadline.
@@ -66,8 +67,9 @@ a more capable host than an always-on node.
 
 ## Known Limitations
 
-* Target safety, per-host politeness, robots obedience, and page rendering depend entirely
-  on the configured proxy; the service adds none of them.
+* Target safety, per-host politeness, and page rendering depend entirely on the configured
+  proxy; the service adds none of them.
+* While a site's robots.txt is unreachable, its pages wait and drop when their deferrals end.
 * A proxy that rewrites fetch responses must preserve the refusal and wait signals the
   service honors, or the service cannot act on them.
 * A crawled page names a URL anyone with broker publish rights can inject, sending every

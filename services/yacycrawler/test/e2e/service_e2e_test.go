@@ -53,6 +53,21 @@ func TestTwoCrawlersVisitEachURLOnceEndToEnd(t *testing.T) {
 	}
 }
 
+func TestCrawlerPublishesNoPageRobotsTxtDisallowsEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+	originURL := startOriginWithRobotsTxt(t, ctx, network.Name)
+	js := startCrawlStack(t, ctx, network.Name, 1)
+	publishCrawlOrder(t, ctx, js, originURL, originURL+disallowedPage)
+
+	scrapeRequests := fetchEveryScrapeRequest(t, ctx, js)
+
+	if len(scrapeRequests) != 1 || scrapeRequests[0].PageURL.String() != originURL {
+		t.Fatalf("scrape requests = %+v, want only %s", scrapeRequests, originURL)
+	}
+}
+
 func startCrawlOfOriginSite(
 	t *testing.T,
 	ctx context.Context,
@@ -69,17 +84,43 @@ func startCrawlOfOriginSiteAcross(
 	t.Helper()
 
 	network := dockernetwork.New(t, ctx)
-
-	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
-	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
-	egressproxy.Start(t, ctx, network.Name)
-	startCrawlers(t, ctx, network.Name, crawlers)
+	js := startCrawlStack(t, ctx, network.Name, crawlers)
+	publishCrawlOrder(t, ctx, js, originURL)
+	return js, originURL
+}
+
+func startCrawlStack(
+	t *testing.T,
+	ctx context.Context,
+	networkName string,
+	crawlers int,
+) jetstream.JetStream {
+	t.Helper()
+
+	crawlNATSURL := natsjetstream.Start(t, ctx, networkName)
+	scraperequeststream.Provision(t, ctx, crawlNATSURL)
+	egressproxy.Start(t, ctx, networkName)
+	startCrawlers(t, ctx, networkName, crawlers)
 	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitStream(t, ctx, js, yacycrawlcontract.OrdersStreamName)
+	return js
+}
 
+func publishCrawlOrder(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+	seedURLs ...string,
+) {
+	t.Helper()
+
+	seeds := make([]canonicalurl.CanonicalURL, 0, len(seedURLs))
+	for _, seedURL := range seedURLs {
+		seeds = append(seeds, canonicalurltest.CanonicalURLOf(t, seedURL))
+	}
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: orderID,
 		Profile: yacycrawlcontract.CrawlProfile{
@@ -88,7 +129,7 @@ func startCrawlOfOriginSiteAcross(
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, originURL)},
+		SeedURLs: seeds,
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {
@@ -97,5 +138,4 @@ func startCrawlOfOriginSiteAcross(
 	if _, err := js.Publish(ctx, ordersSubject, data); err != nil {
 		t.Fatalf("publish order: %v", err)
 	}
-	return js, originURL
 }

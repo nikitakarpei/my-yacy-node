@@ -72,6 +72,10 @@ func TestLoadServiceConfigOverridesUserAgent(t *testing.T) {
 	if cfg.UserAgent != "acme-crawler (+https://acme.test)" {
 		t.Fatalf("user agent = %q", cfg.UserAgent)
 	}
+	if cfg.RobotsProductToken != "acme-crawler" {
+		t.Fatalf("robots product token = %q, want the leading token of the user agent",
+			cfg.RobotsProductToken)
+	}
 }
 
 func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
@@ -129,15 +133,15 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 }
 
-func TestPendingVisitLeaseOutlastsTheFetchDeadline(t *testing.T) {
+func TestPendingVisitLeaseOutlastsARobotsTxtFetchAndAPageFetch(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if cfg.PendingPageVisitLease() <= 5*time.Second {
-		t.Fatalf("pending page visit lease = %v, want longer than the fetch deadline",
+	if cfg.PendingPageVisitLease() <= 2*5*time.Second {
+		t.Fatalf("pending page visit lease = %v, want longer than two fetch deadlines",
 			cfg.PendingPageVisitLease())
 	}
 }
@@ -149,6 +153,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
 		{"CRAWL_STATE_REDIS_URL": "http://localhost:6379"},
+		{"YACYCRAWLER_FETCH_USER_AGENT": "(compatible; crawler)"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {

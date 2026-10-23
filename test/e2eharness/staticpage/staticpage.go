@@ -14,9 +14,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 )
 
-const image = "docker.io/library/nginx:alpine"
+const (
+	image       = "docker.io/library/nginx:alpine"
+	contentRoot = "/usr/share/nginx/html/"
+	indexPage   = "index.html"
+)
 
 func Start(t *testing.T, ctx context.Context, networkName, alias, html string) string {
+	t.Helper()
+	return StartSite(t, ctx, networkName, alias, map[string]string{indexPage: html})
+}
+
+func StartSite(
+	t *testing.T,
+	ctx context.Context,
+	networkName, alias string,
+	filesByName map[string]string,
+) string {
 	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
@@ -25,12 +39,8 @@ func Start(t *testing.T, ctx context.Context, networkName, alias, html string) s
 			ExposedPorts:   []string{"80/tcp"},
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {alias}},
-			Files: []testcontainers.ContainerFile{{
-				Reader:            strings.NewReader(html),
-				ContainerFilePath: "/usr/share/nginx/html/index.html",
-				FileMode:          0o644,
-			}},
-			WaitingFor: wait.ForHTTP("/").WithStartupTimeout(time.Minute),
+			Files:          siteFilesOf(filesByName),
+			WaitingFor:     wait.ForHTTP("/").WithStartupTimeout(time.Minute),
 		},
 	})
 	if err != nil {
@@ -39,4 +49,16 @@ func Start(t *testing.T, ctx context.Context, networkName, alias, html string) s
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, alias, container)
 	return "http://" + alias + "/"
+}
+
+func siteFilesOf(filesByName map[string]string) []testcontainers.ContainerFile {
+	siteFiles := make([]testcontainers.ContainerFile, 0, len(filesByName))
+	for name, content := range filesByName {
+		siteFiles = append(siteFiles, testcontainers.ContainerFile{
+			Reader:            strings.NewReader(content),
+			ContainerFilePath: contentRoot + name,
+			FileMode:          0o644,
+		})
+	}
+	return siteFiles
 }
