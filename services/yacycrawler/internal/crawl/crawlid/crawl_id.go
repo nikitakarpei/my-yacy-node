@@ -1,6 +1,6 @@
 // Package crawlid names one crawl the crawler runs for an accepted order: a version 7
 // UUID the crawler mints when it keeps the order, so crawl IDs sort by the time each
-// crawl began.
+// crawl began. Its vault key parts sort crawls in that order or newest first.
 package crawlid
 
 import (
