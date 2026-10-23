@@ -1,0 +1,36 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  memberenvironment:
+    in: internal/memberenvironment/**
+  memberlog:
+    in: internal/memberlog/**
+  natsbroker:
+    in: internal/natsbroker/**
+  yacypeerassembly:
+    in: assembly/**
+  yacypeercmd:
+    in: cmd/yacypeer/**
+
+vendors:
+  natsserver:
+    in:
+      - github.com/nats-io/nats-server/v2/**
+deps:
+  natsbroker:
+    canUse:
+      - natsserver
+  yacypeerassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  yacypeercmd:
+    mayDependOn:
+      - yacypeerassembly
+
+excludeFiles:
+  - "_test\\.go"
