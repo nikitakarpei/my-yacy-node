@@ -1,9 +1,9 @@
-// Package pageofferwait opens the page offers of the scrape service in the background, so
+// Package pageofferopening opens the page offers of the scrape service in the background, so
 // slower start-up steps of the service do not delay its consumer. While the broker
 // or its stream is unavailable, it reports that and tries again after a pause that grows
 // with each try, so the rest of the service keeps working meanwhile. It gives up only
 // when the service stops.
-package pageofferwait
+package pageofferopening
 
 import (
 	"context"
@@ -12,14 +12,14 @@ import (
 
 const (
 	firstRetryPause   = time.Second
-	retryPauseMaximum = 30 * time.Second
+	maximumRetryPause = 30 * time.Second
 )
 
 type Clock interface {
 	Sleep(ctx context.Context, pause time.Duration) error
 }
 
-type Observer interface {
+type PageOfferOpeningObserver interface {
 	PageOffersUnavailable(ctx context.Context, retryPause time.Duration, cause error)
 	PageOffersOpened(ctx context.Context)
 }
@@ -37,49 +37,45 @@ func Start[Offers PageOffers](
 	ctx context.Context,
 	open func(ctx context.Context) (Offers, error),
 	clock Clock,
-	observer Observer,
+	observer PageOfferOpeningObserver,
 ) *Opening[Offers] {
 	opening := &Opening[Offers]{
 		closed:       make(chan struct{}),
 		openedOffers: make(chan Offers, 1),
 	}
-	go func() {
-		defer close(opening.openedOffers)
-		tryCtx, stopTrying := context.WithCancel(ctx)
-		defer stopTrying()
-		go func() {
-			select {
-			case <-opening.closed:
-				stopTrying()
-			case <-tryCtx.Done():
-			}
-		}()
-		if offers, opened := openedRetrying(tryCtx, open, clock, observer); opened {
-			opening.openedOffers <- offers
-		}
-	}()
+	go opening.tryUntilOpened(ctx, open, clock, observer)
 	return opening
 }
 
-func openedRetrying[Offers PageOffers](
+func (opening *Opening[Offers]) tryUntilOpened(
 	ctx context.Context,
 	open func(ctx context.Context) (Offers, error),
 	clock Clock,
-	observer Observer,
-) (Offers, bool) {
+	observer PageOfferOpeningObserver,
+) {
+	defer close(opening.openedOffers)
+	tryCtx, stopTrying := context.WithCancel(ctx)
+	defer stopTrying()
+	go func() {
+		select {
+		case <-opening.closed:
+			stopTrying()
+		case <-tryCtx.Done():
+		}
+	}()
 	retryPause := firstRetryPause
 	for {
-		offers, err := open(ctx)
+		offers, err := open(tryCtx)
 		if err == nil {
-			observer.PageOffersOpened(ctx)
-			return offers, true
+			observer.PageOffersOpened(tryCtx)
+			opening.openedOffers <- offers
+			return
 		}
-		observer.PageOffersUnavailable(ctx, retryPause, err)
-		if clock.Sleep(ctx, retryPause) != nil {
-			var none Offers
-			return none, false
+		observer.PageOffersUnavailable(tryCtx, retryPause, err)
+		if clock.Sleep(tryCtx, retryPause) != nil {
+			return
 		}
-		retryPause = min(2*retryPause, retryPauseMaximum)
+		retryPause = min(2*retryPause, maximumRetryPause)
 	}
 }
 

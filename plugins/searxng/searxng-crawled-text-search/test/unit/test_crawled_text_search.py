@@ -12,7 +12,7 @@ crawled_text_search = importlib.import_module("crawled_text_search")
 @pytest.fixture(autouse=True)
 def configured(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
-        crawled_text_search, "corpustext_url", "http://corpustext:8096/"
+        crawled_text_search, "corpustext_search_url", "http://corpustext:8096/"
     )
 
 
@@ -65,10 +65,10 @@ def test_request_without_a_search_language_names_none(language: str | None) -> N
     assert "language" not in search_of(params)
 
 
-def test_request_rejects_an_unset_corpustext_url(
+def test_request_rejects_an_unset_corpustext_search_url(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.setattr(crawled_text_search, "corpustext_url", "")
+    monkeypatch.setattr(crawled_text_search, "corpustext_search_url", "")
     with pytest.raises(ValueError):
         crawled_text_search.request("wildflower", build_params())
 

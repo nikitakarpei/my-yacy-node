@@ -13,35 +13,35 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
-const wordsAroundAMatch = 25
+const wordsAroundMatch = 25
 
-type Lookup struct {
+type Matcher struct {
 	target string
 	table  string
 	client *http.Client
 }
 
-func NewLookup(
+func NewMatcher(
 	endpoint string,
 	tables languageindex.LanguageIndexes,
 	client *http.Client,
-) *Lookup {
-	return &Lookup{
+) *Matcher {
+	return &Matcher{
 		target: strings.TrimRight(endpoint, "/") + "/search",
 		table:  tables.Prefix(),
 		client: client,
 	}
 }
 
-func (lookup *Lookup) MatchesFor(
+func (matcher *Matcher) MatchesFor(
 	ctx context.Context,
 	search textsearch.Search,
 ) ([]searchdocument.PageMatch, error) {
-	body, err := json.Marshal(lookup.searchRequestFor(search))
+	body, err := json.Marshal(matcher.searchRequestFor(search))
 	if err != nil {
 		return nil, fmt.Errorf("marshal search request: %w", err)
 	}
-	return hitsreply.PageMatchesFor(ctx, lookup.client, lookup.target, body)
+	return hitsreply.PageMatchesFor(ctx, matcher.client, matcher.target, body)
 }
 
 type searchRequest struct {
@@ -54,9 +54,9 @@ type searchRequest struct {
 	Source    []string       `json:"_source"`
 }
 
-func (lookup *Lookup) searchRequestFor(search textsearch.Search) searchRequest {
+func (matcher *Matcher) searchRequestFor(search textsearch.Search) searchRequest {
 	return searchRequest{
-		Table:  lookup.table,
+		Table:  matcher.table,
 		Offset: search.Offset,
 		Limit:  search.Limit,
 		Query:  queryFor(search),
@@ -72,7 +72,7 @@ func (lookup *Lookup) searchRequestFor(search textsearch.Search) searchRequest {
 			"before_match":     "",
 			"after_match":      "",
 			"limit":            textsearch.SnippetLength,
-			"around":           wordsAroundAMatch,
+			"around":           wordsAroundMatch,
 			"passage_boundary": "sentence",
 			"limit_passages":   1,
 			"weight_order":     true,

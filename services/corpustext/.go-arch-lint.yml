@@ -16,10 +16,10 @@ components:
     in: internal/searchindexes/manticore/**
   pageintake:
     in: internal/pageintake/**
-  pageofferwait:
-    in: internal/pageofferwait/**
-  pageofferwaitobserversapplog:
-    in: internal/pageofferwaitobservers/applog/**
+  pageofferopening:
+    in: internal/pageofferopening/**
+  pageofferopeningobserversapplog:
+    in: internal/pageofferopeningobservers/applog/**
   textsearch:
     in: internal/textsearch/**
   hitsreply:

@@ -6,8 +6,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 )
 
-func TestSearchForKeepsTheQueryAndThePrimaryLanguageSubtag(t *testing.T) {
-	search, err := textsearch.SearchFor("  stemmed words ", "DE-at", 20, 10)
+func TestSearchFromKeepsTheQueryAndThePrimaryLanguageSubtag(t *testing.T) {
+	search, err := textsearch.SearchFrom("  stemmed words ", "DE-at", 20, 10)
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
@@ -17,17 +17,17 @@ func TestSearchForKeepsTheQueryAndThePrimaryLanguageSubtag(t *testing.T) {
 	}
 }
 
-func TestSearchForCapsTheLimit(t *testing.T) {
-	search, err := textsearch.SearchFor("words", "", 0, textsearch.MatchLimitMaximum+1)
+func TestSearchFromCapsTheLimit(t *testing.T) {
+	search, err := textsearch.SearchFrom("words", "", 0, textsearch.MaximumMatchLimit+1)
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if search.Limit != textsearch.MatchLimitMaximum {
-		t.Errorf("limit = %d, want %d", search.Limit, textsearch.MatchLimitMaximum)
+	if search.Limit != textsearch.MaximumMatchLimit {
+		t.Errorf("limit = %d, want %d", search.Limit, textsearch.MaximumMatchLimit)
 	}
 }
 
-func TestSearchForRejectsAnUnanswerableSearch(t *testing.T) {
+func TestSearchFromRejectsAnUnanswerableSearch(t *testing.T) {
 	cases := map[string]struct {
 		query  string
 		offset int
@@ -39,7 +39,7 @@ func TestSearchForRejectsAnUnanswerableSearch(t *testing.T) {
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
-			if _, err := textsearch.SearchFor(c.query, "", c.offset, c.limit); err == nil {
+			if _, err := textsearch.SearchFrom(c.query, "", c.offset, c.limit); err == nil {
 				t.Error("expected an error")
 			}
 		})

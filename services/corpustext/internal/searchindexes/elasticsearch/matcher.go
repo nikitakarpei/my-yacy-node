@@ -13,23 +13,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
-type Lookup struct {
+type Matcher struct {
 	target string
 	client *http.Client
 }
 
-func NewLookup(
+func NewMatcher(
 	endpoint string,
 	indexes languageindex.LanguageIndexes,
 	client *http.Client,
-) *Lookup {
-	return &Lookup{
+) *Matcher {
+	return &Matcher{
 		target: strings.TrimRight(endpoint, "/") + "/" + indexes.Prefix() + "_*/_search",
 		client: client,
 	}
 }
 
-func (lookup *Lookup) MatchesFor(
+func (matcher *Matcher) MatchesFor(
 	ctx context.Context,
 	search textsearch.Search,
 ) ([]searchdocument.PageMatch, error) {
@@ -37,7 +37,7 @@ func (lookup *Lookup) MatchesFor(
 	if err != nil {
 		return nil, fmt.Errorf("marshal search request: %w", err)
 	}
-	return hitsreply.PageMatchesFor(ctx, lookup.client, lookup.target, body)
+	return hitsreply.PageMatchesFor(ctx, matcher.client, matcher.target, body)
 }
 
 type searchRequest struct {

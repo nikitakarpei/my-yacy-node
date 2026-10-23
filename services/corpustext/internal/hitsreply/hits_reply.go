@@ -19,9 +19,11 @@ func PageMatchesFor(
 	ctx context.Context,
 	client *http.Client,
 	target string,
-	search []byte,
+	requestBody []byte,
 ) ([]searchdocument.PageMatch, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, target, bytes.NewReader(search))
+	req, err := http.NewRequestWithContext(
+		ctx, http.MethodPost, target, bytes.NewReader(requestBody),
+	)
 	if err != nil {
 		return nil, fmt.Errorf("build search request: %w", err)
 	}

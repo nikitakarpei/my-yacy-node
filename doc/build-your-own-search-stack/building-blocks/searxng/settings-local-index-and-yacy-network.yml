@@ -11,7 +11,7 @@ engines:
     shortcut: ct
     categories: general
     enable_http: true
-    corpustext_url: http://corpustext:8096
+    corpustext_search_url: http://corpustext:8096
 
   - name: yacy
     engine: yacy

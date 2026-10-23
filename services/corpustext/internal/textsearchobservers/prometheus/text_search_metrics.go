@@ -53,7 +53,7 @@ func (m *TextSearchMetrics) SearchAnswered(
 	elapsed time.Duration,
 	_ int,
 ) {
-	m.end(outcomeAnswered, elapsed)
+	m.countSearch(outcomeAnswered, elapsed)
 }
 
 func (m *TextSearchMetrics) SearchFailed(
@@ -62,10 +62,10 @@ func (m *TextSearchMetrics) SearchFailed(
 	elapsed time.Duration,
 	_ error,
 ) {
-	m.end(outcomeFailed, elapsed)
+	m.countSearch(outcomeFailed, elapsed)
 }
 
-func (m *TextSearchMetrics) end(outcome string, elapsed time.Duration) {
+func (m *TextSearchMetrics) countSearch(outcome string, elapsed time.Duration) {
 	m.searches.WithLabelValues(outcome).Inc()
 	m.searchDurationSecs.Observe(elapsed.Seconds())
 }

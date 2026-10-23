@@ -14,9 +14,9 @@ const (
 	msgPageOffersOpened      = "page offers opened"
 )
 
-type PageOfferWaitLog struct{}
+type PageOfferOpeningLog struct{}
 
-func (PageOfferWaitLog) PageOffersUnavailable(
+func (PageOfferOpeningLog) PageOffersUnavailable(
 	ctx context.Context,
 	retryPause time.Duration,
 	cause error,
@@ -27,6 +27,6 @@ func (PageOfferWaitLog) PageOffersUnavailable(
 	)
 }
 
-func (PageOfferWaitLog) PageOffersOpened(ctx context.Context) {
+func (PageOfferOpeningLog) PageOffersOpened(ctx context.Context) {
 	slog.DebugContext(ctx, msgPageOffersOpened)
 }

@@ -52,13 +52,13 @@ func start() int {
 }
 
 func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	search, err := servergroup.Listen(ctx, cfg.SearchAddr)
+	searchListener, err := servergroup.Listen(ctx, cfg.SearchAddr)
 	if err != nil {
 		return Listeners{}, err
 	}
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	opsListener, err := servergroup.Listen(ctx, cfg.OpsAddr)
 	if err != nil {
-		return Listeners{}, errors.Join(err, search.Close())
+		return Listeners{}, errors.Join(err, searchListener.Close())
 	}
-	return Listeners{Search: search, Ops: ops}, nil
+	return Listeners{Search: searchListener, Ops: opsListener}, nil
 }

@@ -104,7 +104,7 @@ func awaitDurable(t *testing.T, ctx context.Context, natsURL string) {
 	}
 }
 
-func NetworkSearchURL() string {
+func NetworkSearchEndpoint() string {
 	return "http://" + alias + ":" + searchPortNumber
 }
 
@@ -146,11 +146,11 @@ func (corpus CorpusText) MatchesFor(
 	query, language string,
 ) []searchdocument.PageMatch {
 	t.Helper()
-	search := url.Values{searchdocument.QueryParam: {query}}
+	search := url.Values{searchdocument.SearchQueryParam: {query}}
 	if language != "" {
 		search.Set(searchdocument.LanguageParam, language)
 	}
-	target := corpus.searchURL(t, ctx) + searchdocument.SearchPath + "?" + search.Encode()
+	target := corpus.searchEndpoint(t, ctx) + searchdocument.SearchPath + "?" + search.Encode()
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, target, nil)
 	if err != nil {
 		t.Fatalf("build search request: %v", err)
@@ -168,7 +168,7 @@ func (corpus CorpusText) MatchesFor(
 	return pageMatches.Matches
 }
 
-func (corpus CorpusText) searchURL(t *testing.T, ctx context.Context) string {
+func (corpus CorpusText) searchEndpoint(t *testing.T, ctx context.Context) string {
 	t.Helper()
 	endpoint, err := corpus.container.PortEndpoint(ctx, searchPort, "http")
 	if err != nil {

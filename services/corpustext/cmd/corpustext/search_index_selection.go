@@ -16,10 +16,10 @@ type searchIndexSchema interface {
 }
 
 type searchIndexSelection struct {
-	index  pageintake.SearchIndex
-	schema searchIndexSchema
-	lookup textsearch.SearchIndex
-	prefix string
+	index   pageintake.SearchIndex
+	schema  searchIndexSchema
+	matcher textsearch.Matcher
+	prefix  string
 }
 
 func selectSearchIndex(
@@ -39,7 +39,7 @@ func selectSearchIndex(
 			schema: elasticsearch.NewSchema(
 				cfg.ElasticsearchURL, indexes, client,
 			),
-			lookup: elasticsearch.NewLookup(
+			matcher: elasticsearch.NewMatcher(
 				cfg.ElasticsearchURL, indexes, client,
 			),
 			prefix: indexes.Prefix(),
@@ -50,10 +50,10 @@ func selectSearchIndex(
 			return searchIndexSelection{}, err
 		}
 		return searchIndexSelection{
-			index:  manticore.New(cfg.ManticoreURL, tables, client),
-			schema: manticore.NewSchema(cfg.ManticoreURL, tables, client),
-			lookup: manticore.NewLookup(cfg.ManticoreURL, tables, client),
-			prefix: tables.Prefix(),
+			index:   manticore.New(cfg.ManticoreURL, tables, client),
+			schema:  manticore.NewSchema(cfg.ManticoreURL, tables, client),
+			matcher: manticore.NewMatcher(cfg.ManticoreURL, tables, client),
+			prefix:  tables.Prefix(),
 		}, nil
 	default:
 		return searchIndexSelection{}, unknownSearchIndexEngine(cfg.SearchIndexEngine)

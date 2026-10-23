@@ -8,7 +8,7 @@ categories = ["general"]
 paging = True
 
 results_per_page = 10
-corpustext_url = ""
+corpustext_search_url = ""
 
 _search_path = "/search"
 
@@ -18,8 +18,8 @@ class SearchResponse(Protocol):
 
 
 def request(query: str, params: dict[str, Any]) -> dict[str, Any]:
-    if not corpustext_url:
-        raise ValueError("corpustext_url: must be set")
+    if not corpustext_search_url:
+        raise ValueError("corpustext_search_url: must be set")
     search = {
         "query": query,
         "offset": _result_offset(params),
@@ -29,7 +29,7 @@ def request(query: str, params: dict[str, Any]) -> dict[str, Any]:
         search["language"] = params["language"]
     params["method"] = "GET"
     params["url"] = "{}{}?{}".format(
-        corpustext_url.rstrip("/"), _search_path, urlencode(search)
+        corpustext_search_url.rstrip("/"), _search_path, urlencode(search)
     )
     return params
 

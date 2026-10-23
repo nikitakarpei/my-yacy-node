@@ -142,7 +142,7 @@ func TestRunServiceFailsWhenTheSearchIndexSchemaCannotBeBootstrapped(t *testing.
 
 func matchesFrom(t *testing.T, searchURL string) searchdocument.PageMatches {
 	t.Helper()
-	target := searchURL + searchdocument.SearchPath + "?" + searchdocument.QueryParam + "=words"
+	target := searchURL + searchdocument.SearchPath + "?" + searchdocument.SearchQueryParam + "=words"
 	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, target, nil)
 	if err != nil {
 		t.Fatalf("build search request: %v", err)

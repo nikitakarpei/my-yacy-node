@@ -15,11 +15,11 @@ engines:
     shortcut: ct
     categories: general
     enable_http: true
-    corpustext_url: http://corpustext:8096
+    corpustext_search_url: http://corpustext:8096
 ```
 
 | Key | Default | Meaning |
 |---|---|---|
-| `corpustext_url` | required | Base URL of the `corpustext` search. |
+| `corpustext_search_url` | required | Base URL of the `corpustext` search. |
 
 To change the search index, configure `corpustext`; the engine stays the same.

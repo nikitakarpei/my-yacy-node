@@ -1,4 +1,4 @@
-package pageofferwait_test
+package pageofferopening_test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferwait"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferopening"
 )
 
 type firingClock struct {
@@ -89,7 +89,7 @@ func TestOpenedYieldsThePageOffersAtTheFirstTry(t *testing.T) {
 	observer := &recordingObserver{}
 	closings := 0
 
-	opening := pageofferwait.Start(
+	opening := pageofferopening.Start(
 		context.Background(),
 		openingAfter(0, &closings),
 		clock,
@@ -113,7 +113,7 @@ func TestOpenedTriesAgainAfterAGrowingPause(t *testing.T) {
 	observer := &recordingObserver{}
 	closings := 0
 
-	opening := pageofferwait.Start(
+	opening := pageofferopening.Start(
 		context.Background(),
 		openingAfter(7, &closings),
 		clock,
@@ -137,7 +137,7 @@ func TestOpenedTriesAgainAfterAGrowingPause(t *testing.T) {
 }
 
 func TestOpenedEndsWhenItsWaitIsCancelled(t *testing.T) {
-	opening := pageofferwait.Start(
+	opening := pageofferopening.Start(
 		context.Background(),
 		func(context.Context) (closablePageOffers, error) {
 			return closablePageOffers{}, errors.New("broker unreachable")
@@ -156,7 +156,7 @@ func TestOpenedEndsWhenItsWaitIsCancelled(t *testing.T) {
 
 func TestCloseStopsTheTriesAndClosesUnclaimedPageOffers(t *testing.T) {
 	closings := 0
-	opening := pageofferwait.Start(
+	opening := pageofferopening.Start(
 		context.Background(), openingAfter(0, &closings), &firingClock{}, &recordingObserver{},
 	)
 
@@ -172,7 +172,7 @@ func TestCloseStopsTheTriesAndClosesUnclaimedPageOffers(t *testing.T) {
 
 func TestCloseStopsATryThatWaitsForTheBroker(t *testing.T) {
 	observer := &recordingObserver{}
-	opening := pageofferwait.Start(
+	opening := pageofferopening.Start(
 		context.Background(),
 		func(context.Context) (closablePageOffers, error) {
 			return closablePageOffers{}, errors.New("broker unreachable")

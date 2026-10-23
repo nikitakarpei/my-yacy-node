@@ -43,7 +43,7 @@ engines:
     categories: general
     disabled: false
     enable_http: true
-    corpustext_url: ` + corpustextservice.NetworkSearchURL() + `
+    corpustext_search_url: ` + corpustextservice.NetworkSearchEndpoint() + `
 `
 }
 

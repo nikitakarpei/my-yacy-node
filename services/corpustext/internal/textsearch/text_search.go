@@ -16,17 +16,17 @@ const (
 	SnippetLength       = 300
 )
 
-type SearchIndex interface {
+type Matcher interface {
 	MatchesFor(ctx context.Context, search Search) ([]searchdocument.PageMatch, error)
 }
 
 type TextSearch struct {
-	index    SearchIndex
+	matcher  Matcher
 	observer SearchObserver
 }
 
-func New(index SearchIndex, observer SearchObserver) *TextSearch {
-	return &TextSearch{index: index, observer: observer}
+func New(matcher Matcher, observer SearchObserver) *TextSearch {
+	return &TextSearch{matcher: matcher, observer: observer}
 }
 
 func (s *TextSearch) MatchesFor(
@@ -34,18 +34,18 @@ func (s *TextSearch) MatchesFor(
 	search Search,
 ) ([]searchdocument.PageMatch, bool) {
 	startedAt := time.Now()
-	matches, err := s.index.MatchesFor(ctx, search)
+	matches, err := s.matcher.MatchesFor(ctx, search)
 	elapsed := time.Since(startedAt)
 	if err != nil {
 		s.observer.SearchFailed(ctx, search, elapsed, err)
 		return nil, false
 	}
-	presentableMatches := presentableAmong(matches)
+	presentableMatches := presentableMatchesAmong(matches)
 	s.observer.SearchAnswered(ctx, search, elapsed, len(presentableMatches))
 	return presentableMatches, true
 }
 
-func presentableAmong(matches []searchdocument.PageMatch) []searchdocument.PageMatch {
+func presentableMatchesAmong(matches []searchdocument.PageMatch) []searchdocument.PageMatch {
 	presentableMatches := make([]searchdocument.PageMatch, 0, len(matches))
 	for _, match := range matches {
 		if match.URL == "" || match.Title == "" {

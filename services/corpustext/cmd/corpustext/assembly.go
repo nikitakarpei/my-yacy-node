@@ -20,8 +20,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferwait"
-	pageofferwaitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferwaitobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferopening"
+	pageofferopeningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferopeningobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 	textsearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearchobservers/applog"
 	textsearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearchobservers/prometheus"
@@ -36,7 +36,7 @@ import (
 
 const (
 	serverReadHeaderLimit = 10 * time.Second
-	opsShutdownLimit      = 15 * time.Second
+	serverShutdownLimit   = 15 * time.Second
 
 	corpus = "corpustext"
 )
@@ -47,11 +47,11 @@ type Listeners struct {
 }
 
 func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) error {
-	pageOfferOpening := pageofferwait.Start(
+	pageOfferOpening := pageofferopening.Start(
 		ctx,
-		pageOffersFor(cfg),
+		pageOfferOpenerFor(cfg),
 		wallclock.Clock{},
-		pageofferwaitobserversapplog.PageOfferWaitLog{},
+		pageofferopeningobserversapplog.PageOfferOpeningLog{},
 	)
 	defer pageOfferOpening.Close()
 	formatDerivations, err := pageformats.New()
@@ -74,7 +74,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
-	textSearch := textsearch.New(selection.lookup, textsearch.SearchObservers{
+	textSearch := textsearch.New(selection.matcher, textsearch.SearchObservers{
 		textsearchobserversapplog.TextSearchLog{},
 		textsearchobserversprometheus.New(registry),
 	})
@@ -106,7 +106,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 		slog.String("indexPrefix", selection.prefix),
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
-	err = servergroup.Run(ctx, opsShutdownLimit,
+	err = servergroup.Run(ctx, serverShutdownLimit,
 		[]servergroup.NamedServer{
 			{Name: "search", Listener: listeners.Search, Server: searchServer},
 			{Name: "ops", Listener: listeners.Ops, Server: opsServer},
@@ -123,7 +123,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 
 func takeInPageOffers(
 	ctx context.Context,
-	pageOfferOpening *pageofferwait.Opening[pageOffers],
+	pageOfferOpening *pageofferopening.Opening[pageOffers],
 	intakeConfig pageintake.Config,
 	intakeReceiptPublicationObservers intakereceiptsnats.IntakeReceiptPublicationObservers,
 ) error {
@@ -151,7 +151,7 @@ func (offers pageOffers) Close() {
 	offers.connection.Close()
 }
 
-func pageOffersFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, error) {
+func pageOfferOpenerFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
 		js, connection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
 		if err != nil {
@@ -168,10 +168,10 @@ func pageOffersFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, err
 
 func pageOfferConsumerFor(
 	ctx context.Context,
-	pageOffers jetstream.JetStream,
+	jetStream jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := pageOffers.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
+	stream, err := jetStream.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
 	if err != nil {
 		return nil, fmt.Errorf("lookup page offers stream: %w", err)
 	}

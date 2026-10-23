@@ -21,12 +21,15 @@ type TextSearch interface {
 }
 
 type TextSearchReceiver struct {
-	search TextSearch
+	textSearch TextSearch
 }
 
-func NewMux(search TextSearch) *http.ServeMux {
+func NewMux(textSearch TextSearch) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle(http.MethodGet+" "+searchdocument.SearchPath, TextSearchReceiver{search: search})
+	mux.Handle(
+		http.MethodGet+" "+searchdocument.SearchPath,
+		TextSearchReceiver{textSearch: textSearch},
+	)
 
 	return mux
 }
@@ -37,7 +40,7 @@ func (r TextSearchReceiver) ServeHTTP(writer http.ResponseWriter, request *http.
 		http.Error(writer, err.Error(), http.StatusBadRequest)
 		return
 	}
-	matches, answered := r.search.MatchesFor(request.Context(), search)
+	matches, answered := r.textSearch.MatchesFor(request.Context(), search)
 	if !answered {
 		http.Error(writer, "the search index did not answer", http.StatusBadGateway)
 		return
@@ -56,17 +59,17 @@ func searchFrom(params url.Values) (textsearch.Search, error) {
 	if err != nil {
 		return textsearch.Search{}, err
 	}
-	return textsearch.SearchFor(
-		params.Get(searchdocument.QueryParam),
+	return textsearch.SearchFrom(
+		params.Get(searchdocument.SearchQueryParam),
 		params.Get(searchdocument.LanguageParam),
 		offset,
 		limit,
 	)
 }
 
-func numberIn(params url.Values, name string, absentNumber int) (int, error) {
+func numberIn(params url.Values, name string, defaultNumber int) (int, error) {
 	if !params.Has(name) {
-		return absentNumber, nil
+		return defaultNumber, nil
 	}
 	number, err := strconv.Atoi(params.Get(name))
 	if err != nil {

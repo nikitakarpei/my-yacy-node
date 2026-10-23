@@ -10,7 +10,7 @@ import (
 
 const (
 	DefaultMatchLimit = 10
-	MatchLimitMaximum = 50
+	MaximumMatchLimit = 50
 )
 
 type Search struct {
@@ -20,7 +20,7 @@ type Search struct {
 	Limit    int
 }
 
-func SearchFor(query, language string, offset, limit int) (Search, error) {
+func SearchFrom(query, language string, offset, limit int) (Search, error) {
 	trimmedQuery := strings.TrimSpace(query)
 	if trimmedQuery == "" {
 		return Search{}, errors.New("query: must hold a word")
@@ -35,6 +35,6 @@ func SearchFor(query, language string, offset, limit int) (Search, error) {
 		Query:    trimmedQuery,
 		Language: documentextraction.LanguageCodeOf(language),
 		Offset:   offset,
-		Limit:    min(limit, MatchLimitMaximum),
+		Limit:    min(limit, MaximumMatchLimit),
 	}, nil
 }

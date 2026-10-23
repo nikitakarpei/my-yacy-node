@@ -1,11 +1,11 @@
 package searchdocument
 
 const (
-	SearchPath    = "/search"
-	QueryParam    = "query"
-	LanguageParam = "language"
-	OffsetParam   = "offset"
-	LimitParam    = "limit"
+	SearchPath       = "/search"
+	SearchQueryParam = "query"
+	LanguageParam    = "language"
+	OffsetParam      = "offset"
+	LimitParam       = "limit"
 )
 
 type PageMatches struct {

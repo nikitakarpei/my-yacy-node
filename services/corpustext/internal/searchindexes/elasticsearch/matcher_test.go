@@ -1,4 +1,4 @@
-package manticore_test
+package elasticsearch_test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
@@ -37,12 +37,12 @@ func searchRecorder(t *testing.T, recorded *recordedSearch, answer string) *http
 	return server
 }
 
-func TestManticoreLookupYieldsTheMatchedPages(t *testing.T) {
+func TestElasticsearchMatcherYieldsTheMatchedPages(t *testing.T) {
 	var recorded recordedSearch
 	server := searchRecorder(t, &recorded, answeredSearch)
-	lookup := manticore.NewLookup(server.URL, tablesFor(t), server.Client())
+	matcher := elasticsearch.NewMatcher(server.URL, indexesFor(t), server.Client())
 
-	matches, err := lookup.MatchesFor(context.Background(), textsearch.Search{
+	matches, err := matcher.MatchesFor(context.Background(), textsearch.Search{
 		Query: "words", Offset: 20, Limit: 10,
 	})
 	if err != nil {
@@ -55,50 +55,48 @@ func TestManticoreLookupYieldsTheMatchedPages(t *testing.T) {
 	if !slices.Equal(matches, want) {
 		t.Errorf("matches = %+v, want %+v", matches, want)
 	}
-	if recorded.path != "/search" || recorded.body["table"] != "yacy_text_v1" {
-		t.Errorf("path = %q, table = %v", recorded.path, recorded.body["table"])
+	if recorded.path != "/yacy_text_v1_*/_search" {
+		t.Errorf("path = %q", recorded.path)
 	}
-	if recorded.body["offset"] != 20.0 || recorded.body["limit"] != 10.0 {
-		t.Errorf("page = offset %v limit %v", recorded.body["offset"], recorded.body["limit"])
+	if recorded.body["from"] != 20.0 || recorded.body["size"] != 10.0 {
+		t.Errorf("page = from %v size %v", recorded.body["from"], recorded.body["size"])
 	}
 }
 
-func TestManticoreLookupMatchesEveryWordAcrossTheWeightedFields(t *testing.T) {
+func TestElasticsearchMatcherMatchesEveryWordAcrossTheWeightedFields(t *testing.T) {
 	var recorded recordedSearch
 	server := searchRecorder(t, &recorded, answeredSearch)
-	lookup := manticore.NewLookup(server.URL, tablesFor(t), server.Client())
+	matcher := elasticsearch.NewMatcher(server.URL, indexesFor(t), server.Client())
 
-	if _, err := lookup.MatchesFor(context.Background(), textsearch.Search{
+	if _, err := matcher.MatchesFor(context.Background(), textsearch.Search{
 		Query: "words", Limit: 10,
 	}); err != nil {
 		t.Fatalf("matches: %v", err)
 	}
 
-	match := recorded.body["query"].(map[string]any)["match"].(map[string]any)
-	everyField := match["title,content,auxiliary_text"].(map[string]any)
-	if everyField["query"] != "words" || everyField["operator"] != "and" {
-		t.Errorf("match = %v", match)
+	query := recorded.body["query"].(map[string]any)["combined_fields"].(map[string]any)
+	if query["query"] != "words" || query["operator"] != "and" {
+		t.Errorf("query = %v", query)
 	}
-	weights := recorded.body["options"].(map[string]any)["field_weights"]
-	encodedWeights, _ := json.Marshal(weights)
-	if string(encodedWeights) != `{"auxiliary_text":1,"content":2,"title":6}` {
-		t.Errorf("field weights = %s", encodedWeights)
+	fields := query["fields"].([]any)
+	if !slices.Equal(fields, []any{"title^6", "content^2", "auxiliary_text^1"}) {
+		t.Errorf("fields = %v", fields)
 	}
 }
 
-func TestManticoreLookupKeepsToTheSearchLanguage(t *testing.T) {
+func TestElasticsearchMatcherKeepsToTheSearchLanguage(t *testing.T) {
 	var recorded recordedSearch
 	server := searchRecorder(t, &recorded, answeredSearch)
-	lookup := manticore.NewLookup(server.URL, tablesFor(t), server.Client())
+	matcher := elasticsearch.NewMatcher(server.URL, indexesFor(t), server.Client())
 
-	if _, err := lookup.MatchesFor(context.Background(), textsearch.Search{
+	if _, err := matcher.MatchesFor(context.Background(), textsearch.Search{
 		Query: "words", Language: "en", Limit: 10,
 	}); err != nil {
 		t.Fatalf("matches: %v", err)
 	}
 
-	filter := recorded.body["query"].(map[string]any)["bool"].(map[string]any)["must"].([]any)[1]
-	want := map[string]any{"equals": map[string]any{"language": "en"}}
+	filter := recorded.body["query"].(map[string]any)["bool"].(map[string]any)["filter"]
+	want := []any{map[string]any{"term": map[string]any{"language": "en"}}}
 	encodedFilter, _ := json.Marshal(filter)
 	encodedWant, _ := json.Marshal(want)
 	if string(encodedFilter) != string(encodedWant) {
