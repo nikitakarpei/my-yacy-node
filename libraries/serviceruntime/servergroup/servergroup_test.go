@@ -3,6 +3,7 @@ package servergroup_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"testing"
 	"time"
@@ -76,6 +77,28 @@ func TestWorkerErrorPropagates(t *testing.T) {
 		[]servergroup.NamedServer{listeningServer(t)}, blocking, failing)
 	if !errors.Is(err, wantErr) {
 		t.Errorf("Run = %v, want %v", err, wantErr)
+	}
+}
+
+func TestWorkerReportingTheCancellationHasStopped(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	err := servergroup.Run(ctx, time.Second, nil, func(ctx context.Context) error {
+		<-ctx.Done()
+		return fmt.Errorf("open the store: %w", ctx.Err())
+	})
+	if err != nil {
+		t.Errorf("Run = %v, want nil", err)
+	}
+}
+
+func TestWorkerCancelledWithoutTheCallerFails(t *testing.T) {
+	err := servergroup.Run(context.Background(), time.Second, nil, func(context.Context) error {
+		return fmt.Errorf("open the store: %w", context.Canceled)
+	})
+	if !errors.Is(err, context.Canceled) {
+		t.Errorf("Run = %v, want the worker's cancellation", err)
 	}
 }
 
