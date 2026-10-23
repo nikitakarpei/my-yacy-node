@@ -13,21 +13,32 @@ func envFrom(values map[string]string) func(string) string {
 
 func requiredEnv() map[string]string {
 	return map[string]string{
-		corpusmarkdown.EnvPageOfferNATSURL:              "nats://crawl:4222",
-		corpusmarkdown.EnvPageMarkdownS3Endpoint:        "http://garage:3900",
-		corpusmarkdown.EnvPageMarkdownS3AccessKeyID:     "corpus",
-		corpusmarkdown.EnvPageMarkdownS3SecretAccessKey: "corpus-secret",
+		corpusmarkdown.EnvPageOfferNATSURL: "nats://crawl:4222",
 	}
 }
 
-func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
+func objectStoreEnv() map[string]string {
+	env := requiredEnv()
+	env[corpusmarkdown.EnvPageMarkdownS3Endpoint] = "http://s3.internal:3900"
+	env[corpusmarkdown.EnvPageMarkdownS3AccessKeyID] = "corpus"
+	env[corpusmarkdown.EnvPageMarkdownS3SecretAccessKey] = "corpus-secret"
+	return env
+}
+
+func TestLoadServiceConfigRequiresThePageOfferAddress(t *testing.T) {
+	env := requiredEnv()
+	delete(env, corpusmarkdown.EnvPageOfferNATSURL)
+	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(env)); err == nil {
+		t.Errorf("expected error when %s is unset", corpusmarkdown.EnvPageOfferNATSURL)
+	}
+}
+
+func TestLoadServiceConfigRequiresTheKeysOfANamedObjectStore(t *testing.T) {
 	for _, missing := range []string{
-		corpusmarkdown.EnvPageOfferNATSURL,
-		corpusmarkdown.EnvPageMarkdownS3Endpoint,
 		corpusmarkdown.EnvPageMarkdownS3AccessKeyID,
 		corpusmarkdown.EnvPageMarkdownS3SecretAccessKey,
 	} {
-		env := requiredEnv()
+		env := objectStoreEnv()
 		delete(env, missing)
 		if _, err := corpusmarkdown.LoadServiceConfig(envFrom(env)); err == nil {
 			t.Errorf("expected error when %s is unset", missing)
@@ -35,8 +46,29 @@ func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigDefaults(t *testing.T) {
+func TestLoadServiceConfigKeepsPageMarkdownInADirectoryWithoutAnObjectStore(t *testing.T) {
 	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(requiredEnv()))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.PageMarkdownObjectStore != nil {
+		t.Errorf("page markdown object store = %+v, want none", cfg.PageMarkdownObjectStore)
+	}
+	if cfg.PageMarkdownDirectory != corpusmarkdown.DefaultPageMarkdownDirectory {
+		t.Errorf("page markdown directory = %q", cfg.PageMarkdownDirectory)
+	}
+}
+
+func TestLoadServiceConfigRejectsADirectoryBesideAnObjectStore(t *testing.T) {
+	env := objectStoreEnv()
+	env[corpusmarkdown.EnvPageMarkdownDirectory] = "/var/lib/corpusmarkdown"
+	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(env)); err == nil {
+		t.Error("a page markdown directory beside an object store should be rejected")
+	}
+}
+
+func TestLoadServiceConfigDefaults(t *testing.T) {
+	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(objectStoreEnv()))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
@@ -44,12 +76,12 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		t.Errorf("page offer nats url = %q", cfg.PageOfferNATSURL)
 	}
 	want := pagemarkdowncorporas3.ObjectStore{
-		Endpoint:        "http://garage:3900",
+		Endpoint:        "http://s3.internal:3900",
 		Region:          corpusmarkdown.DefaultPageMarkdownS3Region,
 		AccessKeyID:     "corpus",
 		SecretAccessKey: "corpus-secret",
 	}
-	if cfg.PageMarkdownObjectStore != want {
+	if cfg.PageMarkdownObjectStore == nil || *cfg.PageMarkdownObjectStore != want {
 		t.Errorf("page markdown object store = %+v, want %+v", cfg.PageMarkdownObjectStore, want)
 	}
 	if cfg.PageMarkdownBucket != corpusmarkdown.DefaultPageMarkdownBucket {
@@ -70,7 +102,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 }
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
-	env := requiredEnv()
+	env := objectStoreEnv()
 	env[corpusmarkdown.EnvPageOfferDurable] = "dur"
 	env[corpusmarkdown.EnvPageOfferIntakeConcurrency] = "3"
 	env[corpusmarkdown.EnvListenAddr] = "127.0.0.1:8099"
@@ -99,6 +131,19 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 }
 
+func TestLoadServiceConfigTakesTheNamedPageMarkdownDirectory(t *testing.T) {
+	env := requiredEnv()
+	env[corpusmarkdown.EnvPageMarkdownDirectory] = "/var/lib/markdown"
+
+	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.PageMarkdownDirectory != "/var/lib/markdown" {
+		t.Errorf("page markdown directory = %q", cfg.PageMarkdownDirectory)
+	}
+}
+
 func TestLoadServiceConfigRejectsWhatItCannotRead(t *testing.T) {
 	env := requiredEnv()
 	env[corpusmarkdown.EnvPageOfferIntakeConcurrency] = "abc"
@@ -106,8 +151,8 @@ func TestLoadServiceConfigRejectsWhatItCannotRead(t *testing.T) {
 		t.Error("a non-numeric intake concurrency should be rejected")
 	}
 
-	env = requiredEnv()
-	env[corpusmarkdown.EnvPageMarkdownS3Endpoint] = "garage:3900"
+	env = objectStoreEnv()
+	env[corpusmarkdown.EnvPageMarkdownS3Endpoint] = "s3.internal:3900"
 	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Error("an object store endpoint without a scheme should be rejected")
 	}

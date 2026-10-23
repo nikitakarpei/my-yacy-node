@@ -5,8 +5,8 @@
 `corpusmarkdown` is a separate, optional, disposable Go service that keeps the latest
 markdown of an operator's own crawled pages for exact-URL recall. `pagescrape` reads each
 page once and offers it; this service derives markdown from the offered page, writes the
-markdown to a URL-addressed object store, and serves that markdown back to callers that
-ask for one URL.
+markdown to a local directory or an S3-compatible object store, and serves that markdown
+back to callers that ask for one URL.
 
 ## Non-Goals
 
@@ -16,7 +16,8 @@ ask for one URL.
 * Deciding which pages to store: the crawler decides which pages it reaches.
 * Judging a page again: an offered page is already admitted, so this service applies no
   scope, robots, or indexing rule of its own.
-* Storing markdown anywhere other than the operator's own S3-compatible object store.
+* Storing markdown anywhere other than the operator's own directory or S3-compatible object
+  store.
 
 ## Functional Requirements
 
@@ -24,11 +25,11 @@ ask for one URL.
 * For each offered page, the service SHALL derive markdown from the document it holds.
 * The service SHALL store the derived markdown under an object name derived solely from the
   offered page's canonical URL.
-* The service SHALL create its bucket when the bucket does not exist.
+* The service SHALL create its directory or bucket when it does not exist.
 * Storing a page whose canonical URL is already stored SHALL overwrite it, so the store
   holds one current copy per URL.
 * An offered page from which no markdown derives SHALL leave the store unchanged.
-* While the object store is unavailable, the service SHALL drop no page, resuming once it
+* While the store is unavailable, the service SHALL drop no page, resuming once it
   returns.
 * The service SHALL send back a receipt for every page it disposes of, saying whether it
   kept the page or rejected it.
@@ -44,8 +45,8 @@ ask for one URL.
 
 * The service SHALL keep memory bounded independently of corpus size, capping how many pages
   it takes in and stores concurrently.
-* The service SHALL persist no state of its own: the markdown of record lives in the object
-  store and any pending backlog lives with the broker.
+* The service SHALL persist no state other than the markdown of record, which lives in the
+  directory or the object store; any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later start it
   again without depending on this service's prior state.
 * The service SHALL support many concurrent instances over the offered pages, with each page
@@ -58,10 +59,11 @@ ask for one URL.
 
 * A URL that is never recrawled is never refreshed and a removed URL is never deleted, so the
   store can hold stale markdown; freshness and deletion scheduling are out of scope.
-* While the object store is down, unstored markdown waits on the broker. If the outage lasts
+* While the store is down, unstored markdown waits on the broker. If the outage lasts
   longer than the broker keeps the message, the broker drops it and the page's markdown is lost
   until the next recrawl.
-* The service stores the markdown as it is. Compression on disk depends on the object store.
+* The service stores the markdown as it is; it does not compress it.
+* A directory serves the instances of one host only.
 * A receipt is not kept. A listener that is away when the service sends one never learns it.
 * If canonicalization changes, a page's canonical URL changes with it; with no migration here,
   its old and new objects both persist until an operator intervenes.

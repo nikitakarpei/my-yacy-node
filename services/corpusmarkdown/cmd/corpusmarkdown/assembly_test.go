@@ -2,10 +2,14 @@ package main_test
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"net"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -53,7 +57,7 @@ func objectStoreRefusingEverything(t *testing.T) string {
 func serviceConfig(pageOfferNATSURL, objectStoreURL string) corpusmarkdown.ServiceConfig {
 	return corpusmarkdown.ServiceConfig{
 		PageOfferNATSURL: pageOfferNATSURL,
-		PageMarkdownObjectStore: pagemarkdowncorporas3.ObjectStore{
+		PageMarkdownObjectStore: &pagemarkdowncorporas3.ObjectStore{
 			Endpoint:        objectStoreURL,
 			Region:          corpusmarkdown.DefaultPageMarkdownS3Region,
 			AccessKeyID:     "corpus",
@@ -90,6 +94,11 @@ func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	waitForKeptPageReceipt(t, keptPages)
 
 	cancel()
+	waitForShutdown(t, runDone)
+}
+
+func waitForShutdown(t *testing.T, runDone chan error) {
+	t.Helper()
 	select {
 	case err := <-runDone:
 		if err != nil {
@@ -98,6 +107,85 @@ func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	case <-time.After(10 * time.Second):
 		t.Fatal("service did not shut down after cancel")
 	}
+}
+
+func TestRunServiceRecallsTheMarkdownItStoredInADirectory(t *testing.T) {
+	pageOfferNATSURL := natstestserver.Start(t)
+	cfg := corpusmarkdown.ServiceConfig{
+		PageOfferNATSURL:           pageOfferNATSURL,
+		PageMarkdownDirectory:      t.TempDir(),
+		PageOfferDurable:           corpusmarkdown.DefaultPageOfferDurable,
+		PageOfferIntakeConcurrency: corpusmarkdown.DefaultPageOfferIntakeConcurrency,
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	pageOfferJetStream := natstestserver.ConnectJetStream(t, pageOfferNATSURL)
+	createScrapePageOffersStream(t, pageOfferJetStream)
+
+	listeners := corpusmarkdown.Listeners{Recall: listenerFor(t), Ops: listenerFor(t)}
+	runDone := make(chan error, 1)
+	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg, listeners) }()
+
+	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
+	publishOfferedPage(ctx, t, pageOfferJetStream)
+	waitForRecalledMarkdown(ctx, t, listeners.Recall.Addr().String(), "words here")
+
+	cancel()
+	waitForShutdown(t, runDone)
+}
+
+func TestRunServiceFailsWhenThePageMarkdownDirectoryCannotBeCreated(t *testing.T) {
+	pageOfferNATSURL := natstestserver.Start(t)
+	createScrapePageOffersStream(t, natstestserver.ConnectJetStream(t, pageOfferNATSURL))
+	occupied := filepath.Join(t.TempDir(), "occupied")
+	if err := os.WriteFile(occupied, nil, 0o600); err != nil {
+		t.Fatalf("occupy the path: %v", err)
+	}
+	cfg := corpusmarkdown.ServiceConfig{
+		PageOfferNATSURL:           pageOfferNATSURL,
+		PageMarkdownDirectory:      filepath.Join(occupied, "markdown"),
+		PageOfferDurable:           corpusmarkdown.DefaultPageOfferDurable,
+		PageOfferIntakeConcurrency: corpusmarkdown.DefaultPageOfferIntakeConcurrency,
+	}
+	listeners := corpusmarkdown.Listeners{Recall: listenerFor(t), Ops: listenerFor(t)}
+
+	if err := corpusmarkdown.RunService(context.Background(), cfg, listeners); err == nil {
+		t.Fatal("expected error when the page markdown directory cannot be created")
+	}
+}
+
+func waitForRecalledMarkdown(ctx context.Context, t *testing.T, recallAddress, want string) {
+	t.Helper()
+	recallURL := "http://" + recallAddress + pagemarkdownstore.RecalledPagePath + "?" +
+		url.Values{pagemarkdownstore.RequestedURLQueryParam: {offeredPageURL}}.Encode()
+	deadline := time.Now().Add(storedDeadline)
+	for time.Now().Before(deadline) {
+		if recalledMarkdownCarries(ctx, recallURL, want) {
+			return
+		}
+		time.Sleep(storedPollPause)
+	}
+	t.Fatalf("the recalled markdown of %q never carried %q", offeredPageURL, want)
+}
+
+func recalledMarkdownCarries(ctx context.Context, recallURL, want string) bool {
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, recallURL, http.NoBody)
+	if err != nil {
+		return false
+	}
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return false
+	}
+	defer func() { _ = response.Body.Close() }()
+	var recalled pagemarkdownstore.RecalledPage
+	if response.StatusCode != http.StatusOK ||
+		json.NewDecoder(response.Body).Decode(&recalled) != nil {
+		return false
+	}
+	return strings.Contains(recalled.Markdown, want)
 }
 
 func waitForPageOfferDurable(

@@ -17,6 +17,8 @@ components:
     in: internal/pageintakeobservers/applog/**
   pagemarkdowncorporas3:
     in: internal/pagemarkdowncorpora/s3/**
+  pagemarkdowncorporafilesystem:
+    in: internal/pagemarkdowncorpora/filesystem/**
   markdownrecall:
     in: internal/markdownrecall/**
   markdownrecallreceivershttp:
@@ -86,6 +88,11 @@ deps:
     canUse:
       - pagemarkdownstore
       - s3
+  pagemarkdowncorporafilesystem:
+    mayDependOn:
+      - markdownrecall
+    canUse:
+      - pagemarkdownstore
   intakereceiptsnats:
     canUse:
       - pagescrapecontract
