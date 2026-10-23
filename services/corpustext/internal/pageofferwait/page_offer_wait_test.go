@@ -3,6 +3,7 @@ package pageofferwait_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"slices"
 	"sync"
 	"testing"
@@ -16,13 +17,11 @@ type firingClock struct {
 	pauses []time.Duration
 }
 
-func (c *firingClock) After(pause time.Duration) <-chan time.Time {
+func (c *firingClock) Sleep(_ context.Context, pause time.Duration) error {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.pauses = append(c.pauses, pause)
-	fired := make(chan time.Time, 1)
-	fired <- time.Time{}
-	return fired
+	return nil
 }
 
 func (c *firingClock) seenPauses() []time.Duration {
@@ -33,8 +32,9 @@ func (c *firingClock) seenPauses() []time.Duration {
 
 type stoppedClock struct{}
 
-func (stoppedClock) After(time.Duration) <-chan time.Time {
-	return make(chan time.Time)
+func (stoppedClock) Sleep(ctx context.Context, _ time.Duration) error {
+	<-ctx.Done()
+	return fmt.Errorf("sleep: %w", ctx.Err())
 }
 
 type recordingObserver struct {

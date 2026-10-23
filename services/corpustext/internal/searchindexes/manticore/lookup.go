@@ -1,14 +1,13 @@
 package manticore
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/hitsreply"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
@@ -17,9 +16,9 @@ import (
 const wordsAroundAMatch = 25
 
 type Lookup struct {
-	endpoint string
-	tables   languageindex.LanguageIndexes
-	client   *http.Client
+	target string
+	table  string
+	client *http.Client
 }
 
 func NewLookup(
@@ -28,9 +27,9 @@ func NewLookup(
 	client *http.Client,
 ) *Lookup {
 	return &Lookup{
-		endpoint: strings.TrimRight(endpoint, "/"),
-		tables:   tables,
-		client:   client,
+		target: strings.TrimRight(endpoint, "/") + "/search",
+		table:  tables.Prefix(),
+		client: client,
 	}
 }
 
@@ -42,11 +41,7 @@ func (lookup *Lookup) MatchesFor(
 	if err != nil {
 		return nil, fmt.Errorf("marshal search request: %w", err)
 	}
-	response, err := lookup.searchResponseTo(ctx, body)
-	if err != nil {
-		return nil, err
-	}
-	return response.pageMatches(), nil
+	return hitsreply.PageMatchesFor(ctx, lookup.client, lookup.target, body)
 }
 
 type searchRequest struct {
@@ -61,7 +56,7 @@ type searchRequest struct {
 
 func (lookup *Lookup) searchRequestFor(search textsearch.Search) searchRequest {
 	return searchRequest{
-		Table:  lookup.tables.Prefix(),
+		Table:  lookup.table,
 		Offset: search.Offset,
 		Limit:  search.Limit,
 		Query:  queryFor(search),
@@ -106,64 +101,4 @@ func queryFor(search textsearch.Search) map[string]any {
 			},
 		},
 	}
-}
-
-func (lookup *Lookup) searchResponseTo(
-	ctx context.Context,
-	body []byte,
-) (searchResponse, error) {
-	req, err := http.NewRequestWithContext(
-		ctx,
-		http.MethodPost,
-		lookup.endpoint+"/search",
-		bytes.NewReader(body),
-	)
-	if err != nil {
-		return searchResponse{}, fmt.Errorf("build search request: %w", err)
-	}
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := lookup.client.Do(req)
-	if err != nil {
-		return searchResponse{}, fmt.Errorf("search: %w", err)
-	}
-	defer func() { _ = resp.Body.Close() }()
-
-	if resp.StatusCode >= http.StatusMultipleChoices {
-		detail, _ := io.ReadAll(io.LimitReader(resp.Body, detailLimit))
-		return searchResponse{}, fmt.Errorf("search: status %d: %s", resp.StatusCode, detail)
-	}
-	var response searchResponse
-	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		return searchResponse{}, fmt.Errorf("decode search response: %w", err)
-	}
-	return response, nil
-}
-
-type searchResponse struct {
-	Hits struct {
-		Hits []searchHit `json:"hits"`
-	} `json:"hits"`
-}
-
-type searchHit struct {
-	Source struct {
-		Title string `json:"title"`
-		URL   string `json:"url"`
-	} `json:"_source"`
-	Highlight struct {
-		Content []string `json:"content"`
-	} `json:"highlight"`
-}
-
-func (response searchResponse) pageMatches() []searchdocument.PageMatch {
-	matches := make([]searchdocument.PageMatch, 0, len(response.Hits.Hits))
-	for _, hit := range response.Hits.Hits {
-		matches = append(matches, searchdocument.PageMatch{
-			URL:     hit.Source.URL,
-			Title:   hit.Source.Title,
-			Snippet: strings.Join(hit.Highlight.Content, " "),
-		})
-	}
-	return matches
 }

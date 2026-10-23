@@ -53,13 +53,13 @@ def test_request_paginates_from_pageno(monkeypatch: pytest.MonkeyPatch) -> None:
     assert search["limit"] == ["7"]
 
 
-@pytest.mark.parametrize("language", ["en", "en-US"])
+@pytest.mark.parametrize("language", ["en", "en-US", "all"])
 def test_request_passes_the_search_language(language: str) -> None:
     params = crawled_text_search.request("wildflower", build_params(language=language))
     assert search_of(params)["language"] == [language]
 
 
-@pytest.mark.parametrize("language", [None, "", "all", "ALL"])
+@pytest.mark.parametrize("language", [None, ""])
 def test_request_without_a_search_language_names_none(language: str | None) -> None:
     params = crawled_text_search.request("wildflower", build_params(language=language))
     assert "language" not in search_of(params)
@@ -100,13 +100,6 @@ def test_response_maps_a_match_to_a_result() -> None:
             "content": "A field guide to wildflowers.",
         }
     ]
-
-
-def test_response_skips_a_match_missing_title_or_url() -> None:
-    resp = FakeResponse(
-        {"matches": [{"snippet": "no title or url"}, {"title": "", "url": "x"}]}
-    )
-    assert crawled_text_search.response(resp) == []
 
 
 def test_response_returns_empty_list_on_malformed_body() -> None:

@@ -26,13 +26,9 @@ type TextSearchReceiver struct {
 
 func NewMux(search TextSearch) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle(http.MethodGet+" "+searchdocument.SearchPath, New(search))
+	mux.Handle(http.MethodGet+" "+searchdocument.SearchPath, TextSearchReceiver{search: search})
 
 	return mux
-}
-
-func New(search TextSearch) TextSearchReceiver {
-	return TextSearchReceiver{search: search}
 }
 
 func (r TextSearchReceiver) ServeHTTP(writer http.ResponseWriter, request *http.Request) {

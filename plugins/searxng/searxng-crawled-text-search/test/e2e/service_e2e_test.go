@@ -26,8 +26,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testin
 	pagescrapeservice.Start(t, ctx, network.Name)
 	js := connectJetStream(t, natsURL)
 
-	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
-	awaitCorpusTextDurable(t, ctx, js)
+	startCorpusText(t, ctx, network.Name, natsURL, elasticsearchCorpusTextEnv())
 	publishScrapedCorpus(t, ctx, js)
 	awaitElasticsearchCorpus(t, ctx, elasticsearchHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
@@ -54,8 +53,7 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageTableInManticore(t *testing.T)
 	pagescrapeservice.Start(t, ctx, network.Name)
 	js := connectJetStream(t, natsURL)
 
-	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
-	awaitCorpusTextDurable(t, ctx, js)
+	startCorpusText(t, ctx, network.Name, natsURL, manticoreCorpusTextEnv())
 	publishScrapedCorpus(t, ctx, js)
 	awaitManticoreCorpus(t, ctx, manticoreHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(

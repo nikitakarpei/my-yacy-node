@@ -9,6 +9,7 @@ import (
 
 	"github.com/testcontainers/testcontainers-go"
 
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/corpustextservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/searxng"
 )
 
@@ -42,7 +43,7 @@ engines:
     categories: general
     disabled: false
     enable_http: true
-    corpustext_url: ` + corpusTextSearchURL + `
+    corpustext_url: ` + corpustextservice.NetworkSearchURL() + `
 `
 }
 

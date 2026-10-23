@@ -31,6 +31,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
 const (
@@ -49,7 +50,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 	pageOfferOpening := pageofferwait.Start(
 		ctx,
 		pageOffersFor(cfg),
-		systemClock{},
+		wallclock.Clock{},
 		pageofferwaitobserversapplog.PageOfferWaitLog{},
 	)
 	defer pageOfferOpening.Close()
@@ -184,10 +185,4 @@ func pageOfferConsumerFor(
 		return nil, fmt.Errorf("create page offer consumer: %w", err)
 	}
 	return consumer, nil
-}
-
-type systemClock struct{}
-
-func (systemClock) After(pause time.Duration) <-chan time.Time {
-	return time.After(pause)
 }

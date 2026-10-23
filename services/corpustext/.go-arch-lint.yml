@@ -22,6 +22,8 @@ components:
     in: internal/pageofferwaitobservers/applog/**
   textsearch:
     in: internal/textsearch/**
+  hitsreply:
+    in: internal/hitsreply/**
   textsearchreceivershttp:
     in: internal/textsearchreceivers/http/**
   textsearchobserversapplog:
@@ -83,12 +85,14 @@ deps:
       - searchdocument
   searchindexeselasticsearch:
     mayDependOn:
+      - hitsreply
       - languageindex
       - textsearch
     canUse:
       - searchdocument
   searchindexesmanticore:
     mayDependOn:
+      - hitsreply
       - languageindex
       - textsearch
     canUse:
@@ -104,8 +108,10 @@ deps:
       - documentextraction
       - canonicalurl
   textsearch:
-    mayDependOn:
-      - languageindex
+    canUse:
+      - documentextraction
+      - searchdocument
+  hitsreply:
     canUse:
       - searchdocument
   textsearchreceivershttp:

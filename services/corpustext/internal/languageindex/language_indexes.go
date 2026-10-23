@@ -29,7 +29,7 @@ func IndexesFor(baseName string, allowedLanguages []string) (LanguageIndexes, er
 	prefix := fmt.Sprintf("%s_v%d", baseName, SchemaVersion)
 	indexes := []LanguageIndex{indexIn(prefix, UndeterminedLanguage)}
 	for _, allowed := range allowedLanguages {
-		language := PrimarySubtagOf(allowed)
+		language := primarySubtagOf(allowed)
 		if !isSupported(language) {
 			return LanguageIndexes{}, fmt.Errorf("language %q: not supported", allowed)
 		}
@@ -65,7 +65,7 @@ func indexIn(prefix, language string) LanguageIndex {
 	return LanguageIndex{Language: language, Name: prefix + "_" + language}
 }
 
-func PrimarySubtagOf(language string) string {
+func primarySubtagOf(language string) string {
 	primary := strings.ToLower(strings.TrimSpace(language))
 	if separator := strings.IndexAny(primary, "-_"); separator >= 0 {
 		primary = primary[:separator]
@@ -103,7 +103,7 @@ func (indexes LanguageIndexes) All() []LanguageIndex {
 }
 
 func (indexes LanguageIndexes) NameFor(documentLanguage string) string {
-	language := PrimarySubtagOf(documentLanguage)
+	language := primarySubtagOf(documentLanguage)
 	for _, index := range indexes.indexes {
 		if index.Language == language {
 			return index.Name

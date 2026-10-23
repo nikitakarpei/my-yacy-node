@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
 const (
@@ -33,7 +33,7 @@ func SearchFor(query, language string, offset, limit int) (Search, error) {
 	}
 	return Search{
 		Query:    trimmedQuery,
-		Language: languageindex.PrimarySubtagOf(language),
+		Language: documentextraction.LanguageCodeOf(language),
 		Offset:   offset,
 		Limit:    min(limit, MatchLimitMaximum),
 	}, nil

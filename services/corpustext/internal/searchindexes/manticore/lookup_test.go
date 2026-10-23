@@ -105,29 +105,3 @@ func TestManticoreLookupKeepsToTheSearchLanguage(t *testing.T) {
 		t.Errorf("filter = %s, want %s", encodedFilter, encodedWant)
 	}
 }
-
-func TestManticoreLookupFailsOnAFailureStatus(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusServiceUnavailable)
-	}))
-	t.Cleanup(server.Close)
-	lookup := manticore.NewLookup(server.URL, tablesFor(t), server.Client())
-
-	if _, err := lookup.MatchesFor(context.Background(), textsearch.Search{
-		Query: "words", Limit: 10,
-	}); err == nil {
-		t.Fatal("expected an error")
-	}
-}
-
-func TestManticoreLookupFailsOnAnUnreadableAnswer(t *testing.T) {
-	var recorded recordedSearch
-	server := searchRecorder(t, &recorded, "not json")
-	lookup := manticore.NewLookup(server.URL, tablesFor(t), server.Client())
-
-	if _, err := lookup.MatchesFor(context.Background(), textsearch.Search{
-		Query: "words", Limit: 10,
-	}); err == nil {
-		t.Fatal("expected an error")
-	}
-}

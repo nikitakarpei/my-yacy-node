@@ -1,5 +1,5 @@
 // Package pageofferwait opens the page offers of the scrape service in the background, so
-// the service registers its consumer before its slower start-up steps. While the broker
+// slower start-up steps of the service do not delay its consumer. While the broker
 // or its stream is unavailable, it reports that and tries again after a pause that grows
 // with each try, so the rest of the service keeps working meanwhile. It gives up only
 // when the service stops.
@@ -16,7 +16,7 @@ const (
 )
 
 type Clock interface {
-	After(pause time.Duration) <-chan time.Time
+	Sleep(ctx context.Context, pause time.Duration) error
 }
 
 type Observer interface {
@@ -75,9 +75,7 @@ func openedRetrying[Offers PageOffers](
 			return offers, true
 		}
 		observer.PageOffersUnavailable(ctx, retryPause, err)
-		select {
-		case <-clock.After(retryPause):
-		case <-ctx.Done():
+		if clock.Sleep(ctx, retryPause) != nil {
 			var none Offers
 			return none, false
 		}

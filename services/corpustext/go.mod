@@ -62,9 +62,12 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
+
+replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock

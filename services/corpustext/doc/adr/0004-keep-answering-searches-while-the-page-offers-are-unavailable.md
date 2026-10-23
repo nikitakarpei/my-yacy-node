@@ -12,9 +12,9 @@ index is available.
 
 ## Decision
 
-`corpustext` starts to open the page offers in the background first, so it
-registers its consumer before it opens its search index. It then opens its
-search index and serves searches without waiting for the page offers. While
+`corpustext` starts to open the page offers in the background before it opens
+its search index, so a slow search index does not delay its consumer. It
+serves searches without waiting for the page offers. While
 the broker or the stream is unavailable, it logs an error and tries again after
 a pause that doubles up to 30 seconds. It does not stop.
 

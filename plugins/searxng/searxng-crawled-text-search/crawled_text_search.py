@@ -25,9 +25,8 @@ def request(query: str, params: dict[str, Any]) -> dict[str, Any]:
         "offset": _result_offset(params),
         "limit": results_per_page,
     }
-    language = _search_language(params)
-    if language:
-        search["language"] = language
+    if params.get("language"):
+        search["language"] = params["language"]
     params["method"] = "GET"
     params["url"] = "{}{}?{}".format(
         corpustext_url.rstrip("/"), _search_path, urlencode(search)
@@ -40,23 +39,14 @@ def response(resp: SearchResponse) -> list[dict[str, str]]:
         matches = resp.json()["matches"]
     except (ValueError, KeyError, TypeError):
         return []
-
     return [
         {
             "title": match["title"],
             "url": match["url"],
-            "content": match.get("snippet", ""),
+            "content": match["snippet"],
         }
         for match in matches
-        if match.get("title") and match.get("url")
     ]
-
-
-def _search_language(params: dict[str, Any]) -> str:
-    language = str(params.get("language") or "").strip()
-    if language.lower() in ("", "all"):
-        return ""
-    return language
 
 
 def _result_offset(params: dict[str, Any]) -> int:
