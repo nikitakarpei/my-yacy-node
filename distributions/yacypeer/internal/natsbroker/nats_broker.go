@@ -32,7 +32,7 @@ func Start(storeDirectory string) (*Broker, error) {
 	if err != nil {
 		return nil, fmt.Errorf("built-in nats: %w", err)
 	}
-	go server.Start()
+	server.Start()
 	if !server.ReadyForConnections(readyWait) {
 		server.Shutdown()
 		return nil, errNotReady

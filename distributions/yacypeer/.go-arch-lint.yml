@@ -18,6 +18,9 @@ components:
     in: cmd/yacypeer/**
 
 vendors:
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
@@ -31,6 +34,8 @@ deps:
   yacypeercmd:
     mayDependOn:
       - yacypeerassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

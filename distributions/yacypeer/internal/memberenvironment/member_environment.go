@@ -1,6 +1,6 @@
 // Package memberenvironment gives each member of the peer the settings it reads: the value
 // the peer wires, else the value the operator sets for that member, else the value the
-// operator sets for every member.
+// operator sets for every member. It refuses a setting the operator must not set.
 package memberenvironment
 
 import (
@@ -21,13 +21,21 @@ type Environment struct {
 	process      func(string) string
 }
 
-func For(member string, wiring Wiring, process func(string) string) (Environment, error) {
+func For(
+	member string,
+	wiring Wiring,
+	unreadSettings []string,
+	process func(string) string,
+) (Environment, error) {
 	environment := Environment{
 		wiring:       wiring,
 		memberPrefix: strings.ToUpper(member) + memberSeparator,
 		process:      process,
 	}
-	if err := environment.overriddenWiring(); err != nil {
+	if err := errors.Join(
+		environment.refused(slices.Sorted(maps.Keys(wiring)), "wired by yacypeer"),
+		environment.refused(unreadSettings, "not read by yacypeer"),
+	); err != nil {
 		return Environment{}, err
 	}
 	return environment, nil
@@ -37,24 +45,24 @@ func (e Environment) Lookup(key string) string {
 	if value, wired := e.wiring[key]; wired {
 		return value
 	}
-	if value := e.process(e.memberPrefix + key); strings.TrimSpace(value) != "" {
-		return value
+	if e.isSet(e.memberPrefix + key) {
+		return e.process(e.memberPrefix + key)
 	}
 	return e.process(key)
 }
 
-func (e Environment) overriddenWiring() error {
-	var overrides []error
-	for _, key := range slices.Sorted(maps.Keys(e.wiring)) {
+func (e Environment) refused(keys []string, reason string) error {
+	var refusals []error
+	for _, key := range keys {
 		for _, name := range []string{key, e.memberPrefix + key} {
-			if strings.TrimSpace(e.process(name)) != "" {
-				overrides = append(overrides, wiredSettingOverridden(name))
+			if e.isSet(name) {
+				refusals = append(refusals, fmt.Errorf("%s: %s, must not be set", name, reason))
 			}
 		}
 	}
-	return errors.Join(overrides...)
+	return errors.Join(refusals...)
 }
 
-func wiredSettingOverridden(name string) error {
-	return fmt.Errorf("%s: wired by yacypeer, must not be set", name)
+func (e Environment) isSet(name string) bool {
+	return strings.TrimSpace(e.process(name)) != ""
 }

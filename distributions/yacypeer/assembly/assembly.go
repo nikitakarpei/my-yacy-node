@@ -7,63 +7,49 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
-const (
-	brokerDirectoryName = "nats"
-	metricsPathPrefix   = "/metrics/"
-)
-
-type Listeners struct {
-	Ops net.Listener
-}
-
-func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
-	if err != nil {
-		return Listeners{}, err
-	}
-	return Listeners{Ops: ops}, nil
-}
+const brokerDirectoryName = "nats"
 
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
-	listeners Listeners,
+	ops net.Listener,
 	getenv func(string) string,
 ) error {
 	broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
-		return errors.Join(err, listeners.Ops.Close())
+		return errors.Join(err, ops.Close())
 	}
 	defer broker.Shutdown()
 
 	members, err := membersFor(ctx, cfg, broker.ClientURL(), getenv)
 	if err != nil {
-		return errors.Join(err, listeners.Ops.Close())
+		return errors.Join(err, ops.Close())
 	}
-	slog.InfoContext(ctx, "yacypeer started",
-		slog.String("natsUrl", broker.ClientURL()),
-		slog.String("opsAddr", listeners.Ops.Addr().String()),
-	)
-	opsMux := opsMuxFor(members)
-	return opsmetrics.ServeAlongside(ctx, listeners.Ops, opsMux, func(ctx context.Context) error {
+	logStarted(ctx, broker, ops)
+	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), members)
+	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
 		return runEvery(ctx, members)
 	})
 }
 
-func opsMuxFor(members []member) *http.ServeMux {
-	mux := http.NewServeMux()
+func logStarted(ctx context.Context, broker *natsbroker.Broker, ops net.Listener) {
+	slog.DebugContext(ctx, "yacypeer started",
+		slog.String("natsUrl", broker.ClientURL()),
+		slog.String("opsAddr", ops.Addr().String()),
+	)
+}
+
+func opsMuxFor(processRegistry *prometheus.Registry, members []member) *http.ServeMux {
+	mux := opsmetrics.MuxFor(processRegistry)
 	for _, member := range members {
-		mux.Handle(
-			metricsPathPrefix+member.name,
-			promhttp.HandlerFor(member.registry, promhttp.HandlerOpts{}),
-		)
+		mux.Handle(opsmetrics.PathMetrics+"/"+member.name, opsmetrics.HandlerFor(member.registry))
 	}
 	return mux
 }

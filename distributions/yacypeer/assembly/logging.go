@@ -8,9 +8,10 @@ import (
 )
 
 func ConfigureLogging(getenv func(string) string) error {
-	if err := applog.Configure(getenv); err != nil {
+	handler, err := applog.HandlerFor(getenv)
+	if err != nil {
 		return err
 	}
-	slog.SetDefault(slog.New(memberlog.NewHandler(slog.Default().Handler())))
+	slog.SetDefault(slog.New(memberlog.NewHandler(handler)))
 	return nil
 }

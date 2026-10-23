@@ -10,12 +10,19 @@ import (
 
 	corpusmarkdownassembly "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/assembly"
 	corpustextassembly "github.com/nikitakarpei/yacy-rwi-node/corpustext/assembly"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberenvironment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/memberlog"
 )
+
+var unreadSettings = []string{
+	yacynodeassembly.EnvOpsAddr,
+	yacydhtsearchassembly.EnvOpsAddr,
+	yacydhtsearchassembly.EnvServeProfiler,
+	corpustextassembly.EnvOpsAddr,
+	corpusmarkdownassembly.EnvOpsAddr,
+}
 
 const (
 	yacynodeMember       = "yacynode"
@@ -30,9 +37,7 @@ type member struct {
 	name     string
 }
 
-type memberAssembly interface {
-	memberFor(ctx context.Context, getenv func(string) string) (member, error)
-}
+type memberAssembly func(ctx context.Context, getenv func(string) string) (member, error)
 
 func membersFor(
 	ctx context.Context,
@@ -43,7 +48,7 @@ func membersFor(
 	assemblies := memberAssembliesFor(cfg, natsURL)
 	members := make([]member, 0, len(assemblies))
 	for _, assembly := range assemblies {
-		member, err := assembly.memberFor(ctx, getenv)
+		member, err := assembly(ctx, getenv)
 		if err != nil {
 			return nil, err
 		}
@@ -63,7 +68,6 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 				yacynodeassembly.EnvDataDir:           cfg.directoryOf(yacynodeMember),
 				yacynodeassembly.EnvNetworkName:       cfg.NetworkName,
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
-				yacynodeassembly.EnvOpsAddr:           cfg.OpsAddr,
 			},
 			yacynodeassembly.LoadServiceConfig,
 			yacynodeassembly.ListenersFor,
@@ -72,10 +76,8 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 		memberAssemblyOf(
 			yacydhtsearchMember,
 			memberenvironment.Wiring{
-				yacydhtsearchassembly.EnvNetworkName:   cfg.NetworkName,
-				yacydhtsearchassembly.EnvSeedlistURLs:  cfg.SeedlistURLs,
-				yacydhtsearchassembly.EnvServeProfiler: strconv.FormatBool(false),
-				yacydhtsearchassembly.EnvOpsAddr:       cfg.OpsAddr,
+				yacydhtsearchassembly.EnvNetworkName:  cfg.NetworkName,
+				yacydhtsearchassembly.EnvSeedlistURLs: cfg.SeedlistURLs,
 			},
 			yacydhtsearchassembly.LoadServiceConfig,
 			yacydhtsearchassembly.ListenersFor,
@@ -87,7 +89,6 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 				corpustextassembly.EnvPageOfferNATSURL: natsURL,
 				corpustextassembly.EnvPageOfferDurable: corpustextMember,
 				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextMember),
-				corpustextassembly.EnvOpsAddr:          cfg.OpsAddr,
 			},
 			corpustextassembly.LoadServiceConfig,
 			corpustextassembly.ListenersFor,
@@ -101,7 +102,6 @@ func memberAssembliesFor(cfg ServiceConfig, natsURL string) []memberAssembly {
 				corpusmarkdownassembly.EnvPageMarkdownDirectory: cfg.directoryOf(
 					corpusmarkdownMember,
 				),
-				corpusmarkdownassembly.EnvOpsAddr: cfg.OpsAddr,
 			},
 			corpusmarkdownassembly.LoadServiceConfig,
 			corpusmarkdownassembly.ListenersFor,
@@ -114,14 +114,6 @@ func (cfg ServiceConfig) directoryOf(memberName string) string {
 	return filepath.Join(cfg.DataDirectory, memberName)
 }
 
-type serviceAssembly[C, L any] struct {
-	wiring            memberenvironment.Wiring
-	loadServiceConfig func(func(string) string) (C, error)
-	listenersFor      func(context.Context, C) (L, error)
-	runService        func(context.Context, C, L, *prometheus.Registry) error
-	name              string
-}
-
 func memberAssemblyOf[C, L any](
 	name string,
 	wiring memberenvironment.Wiring,
@@ -129,37 +121,26 @@ func memberAssemblyOf[C, L any](
 	listenersFor func(context.Context, C) (L, error),
 	runService func(context.Context, C, L, *prometheus.Registry) error,
 ) memberAssembly {
-	return serviceAssembly[C, L]{
-		wiring:            wiring,
-		loadServiceConfig: loadServiceConfig,
-		listenersFor:      listenersFor,
-		runService:        runService,
-		name:              name,
+	return func(ctx context.Context, getenv func(string) string) (member, error) {
+		environment, err := memberenvironment.For(name, wiring, unreadSettings, getenv)
+		if err != nil {
+			return member{}, err
+		}
+		cfg, err := loadServiceConfig(environment.Lookup)
+		if err != nil {
+			return member{}, fmt.Errorf("%s: %w", name, err)
+		}
+		listeners, err := listenersFor(ctx, cfg)
+		if err != nil {
+			return member{}, fmt.Errorf("%s: %w", name, err)
+		}
+		registry := prometheus.NewRegistry()
+		return member{
+			registry: registry,
+			run: func(ctx context.Context) error {
+				return runService(memberlog.ContextFor(ctx, name), cfg, listeners, registry)
+			},
+			name: name,
+		}, nil
 	}
-}
-
-func (a serviceAssembly[C, L]) memberFor(
-	ctx context.Context,
-	getenv func(string) string,
-) (member, error) {
-	environment, err := memberenvironment.For(a.name, a.wiring, getenv)
-	if err != nil {
-		return member{}, err
-	}
-	cfg, err := a.loadServiceConfig(environment.Lookup)
-	if err != nil {
-		return member{}, fmt.Errorf("%s: %w", a.name, err)
-	}
-	listeners, err := a.listenersFor(ctx, cfg)
-	if err != nil {
-		return member{}, fmt.Errorf("%s: %w", a.name, err)
-	}
-	registry := opsmetrics.ProcessRegistry()
-	return member{
-		registry: registry,
-		run: func(ctx context.Context) error {
-			return a.runService(memberlog.ContextFor(ctx, a.name), cfg, listeners, registry)
-		},
-		name: a.name,
-	}, nil
 }

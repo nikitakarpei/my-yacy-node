@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
 )
 
@@ -28,9 +29,9 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	listeners, err := yacypeerassembly.ListenersFor(ctx, cfg)
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
 	if err != nil {
 		return err
 	}
-	return yacypeerassembly.RunService(ctx, cfg, listeners, os.Getenv)
+	return yacypeerassembly.RunService(ctx, cfg, ops, os.Getenv)
 }

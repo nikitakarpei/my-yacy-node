@@ -25,10 +25,13 @@ runs the services of a peer and the NATS server they share, connected and ready 
   name as a prefix, else the setting without a prefix.
 * The binary SHALL NOT start when the operator sets a setting it wires, and SHALL name that
   setting.
-* The binary SHALL serve the metrics of each member at `/metrics/<member>` on one address.
+* The binary SHALL serve the runtime metrics of the process at `/metrics`, and the metrics
+  of each member at `/metrics/<member>`, on one address.
+* The binary SHALL NOT start when the operator sets an ops setting of a member, and SHALL
+  name that setting.
 * The binary SHALL stop every member when one member stops.
 * The binary SHALL name the member in the `member` field of each log line that the member
-  writes while it runs.
+  writes from its run.
 
 ## Non-Functional Requirements
 
@@ -37,8 +40,7 @@ runs the services of a peer and the NATS server they share, connected and ready 
 
 ## Known Limitations
 
-* All members write to one log. A line that a library writes through its own logger, or
-  that a member writes after its run stops, does not name a member.
-* Each `/metrics/<member>` repeats the runtime metrics of the whole process.
+* All members write to one log. A line does not name a member when a library writes it
+  through its own logger, or when a member writes it while it answers a request.
 * No member writes page offers yet, so `yacynode`, `corpustext`, and `corpusmarkdown` keep
   trying to open them.

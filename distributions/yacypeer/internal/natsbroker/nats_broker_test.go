@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
@@ -20,15 +20,7 @@ func TestStartServesJetStreamFromTheStoreDirectory(t *testing.T) {
 	}
 	defer broker.Shutdown()
 
-	connection, err := nats.Connect(broker.ClientURL())
-	if err != nil {
-		t.Fatalf("connect: %v", err)
-	}
-	defer connection.Close()
-	js, err := jetstream.New(connection)
-	if err != nil {
-		t.Fatalf("jetstream: %v", err)
-	}
+	js := natstestserver.ConnectJetStream(t, broker.ClientURL())
 	if _, err := js.CreateStream(context.Background(), jetstream.StreamConfig{
 		Name:     "PAGES",
 		Subjects: []string{"page"},

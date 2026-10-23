@@ -17,7 +17,7 @@ func environmentFor(
 	process map[string]string,
 ) memberenvironment.Environment {
 	t.Helper()
-	environment, err := memberenvironment.For("corpustext", wiring, processFrom(process))
+	environment, err := memberenvironment.For("corpustext", wiring, nil, processFrom(process))
 	if err != nil {
 		t.Fatalf("For: %v", err)
 	}
@@ -61,6 +61,7 @@ func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 	_, err := memberenvironment.For(
 		"corpustext",
 		memberenvironment.Wiring{"NATS_URL": "nats://wired", "DATA_DIR": "/data"},
+		nil,
 		processFrom(map[string]string{
 			"NATS_URL":             "nats://elsewhere",
 			"CORPUSTEXT__DATA_DIR": "/elsewhere",
@@ -73,5 +74,17 @@ func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 		if !strings.Contains(err.Error(), name) {
 			t.Errorf("error %q does not name %s", err, name)
 		}
+	}
+}
+
+func TestForRefusesEveryUnreadSettingTheOperatorSets(t *testing.T) {
+	_, err := memberenvironment.For(
+		"corpustext",
+		nil,
+		[]string{"OPS_ADDR"},
+		processFrom(map[string]string{"CORPUSTEXT__OPS_ADDR": ":9999"}),
+	)
+	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT__OPS_ADDR") {
+		t.Errorf("For = %v, want the unread setting named", err)
 	}
 }

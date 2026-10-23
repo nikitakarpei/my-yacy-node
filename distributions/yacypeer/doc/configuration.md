@@ -9,7 +9,7 @@ You configure yacypeer through environment variables.
 | `YACYPEER_SEEDLIST_URLS` | required | Comma-separated seedlists of the YaCy network. |
 | `YACYPEER_NETWORK_NAME` | `freeworld` | YaCy network the peer joins. |
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the data of every member. |
-| `YACYPEER_OPS_ADDR` | `:9090` | Address serving `/metrics/<member>` for each member. |
+| `YACYPEER_OPS_ADDR` | `:9090` | Address serving `/metrics` for the process and `/metrics/<member>` for each member. |
 | `LOG_LEVEL` | `INFO` | Log level of every member. The `member` field names the member. |
 
 ## Members
@@ -38,7 +38,6 @@ the peer does not start and names the setting.
 
 | Member | Settings |
 |---|---|
-| all | `*_OPS_ADDR` |
 | `yacynode` | `SCRAPE_PAGE_OFFER_NATS_URL`, `SCRAPE_PAGE_OFFER_DURABLE`, `YACY_ACCEPT_REMOTE_INDEX`, `YACY_DATA_DIR`, `YACY_NETWORK_NAME`, `YACY_SEEDLIST_URLS` |
 | `yacydhtsearch` | `YACYDHTSEARCH_NETWORK_NAME`, `YACYDHTSEARCH_SEEDLIST_URLS`, `YACYDHTSEARCH_SERVE_PROFILER` |
 | `corpustext` | `SCRAPE_PAGE_OFFER_NATS_URL`, `SCRAPE_PAGE_OFFER_DURABLE`, `BLEVE_DIRECTORY` |
@@ -47,7 +46,16 @@ the peer does not start and names the setting.
 `yacynode` takes postings only from the pages of the peer. It does not accept postings
 from other peers.
 
+## Settings without effect
+
+The peer does not read the ops settings of its members. If you set one of them, with or
+without a prefix, the peer does not start and names the setting:
+
+* `YACY_OPS_ADDR`, `YACYDHTSEARCH_OPS_ADDR`, `CORPUSTEXT_OPS_ADDR`, `CORPUSMARKDOWN_OPS_ADDR`
+* `YACYDHTSEARCH_SERVE_PROFILER`
+
+Use `YACYPEER_OPS_ADDR` instead.
+
 ## Endpoints
 
-Each member serves its endpoints on the addresses in its own configuration. The ops
-endpoint of a member is not available; use `YACYPEER_OPS_ADDR`.
+Each member serves its endpoints on the addresses in its own configuration.
