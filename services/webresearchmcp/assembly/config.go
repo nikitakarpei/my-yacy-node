@@ -1,14 +1,19 @@
 package webresearchmcpassembly
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
 const (
+	EnvWebSearchEngine              = "WEB_SEARCH_ENGINE"
+	EnvWebSearchDeadline            = "WEB_SEARCH_DEADLINE"
 	EnvSearXNGURL                   = "SEARXNG_URL"
-	EnvSearXNGSearchDeadline        = "SEARXNG_SEARCH_DEADLINE"
+	EnvYaCyDHTSearchURL             = "YACYDHTSEARCH_URL"
+	EnvCorpusTextURL                = "CORPUSTEXT_URL"
 	EnvScrapeRequestNATSURL         = "SCRAPE_REQUEST_NATS_URL"
 	EnvPageFetchWait                = "PAGE_FETCH_WAIT"
 	EnvPageScrapeTolerance          = "PAGE_SCRAPE_TOLERANCE"
@@ -20,7 +25,8 @@ const (
 	EnvListenAddr                   = "WEBRESEARCHMCP_LISTEN_ADDR"
 	EnvOpsAddr                      = "WEBRESEARCHMCP_OPS_ADDR"
 
-	DefaultSearXNGSearchDeadline        = 10 * time.Second
+	DefaultWebSearchEngine              = WebSearchEngineSearXNG
+	DefaultWebSearchDeadline            = 10 * time.Second
 	DefaultPageFetchWait                = 10 * time.Second
 	DefaultPageScrapeTolerance          = time.Hour
 	DefaultCorpusMarkdownRecallDeadline = 5 * time.Second
@@ -29,11 +35,17 @@ const (
 	DefaultToolCallConcurrency          = 8
 	DefaultListenAddr                   = ":8095"
 	DefaultOpsAddr                      = ":9090"
+
+	WebSearchEngineSearXNG = "searxng"
+	WebSearchEngineStack   = "stack"
 )
 
 type ServiceConfig struct {
+	WebSearchEngine              string
+	WebSearchDeadline            time.Duration
 	SearXNGURL                   string
-	SearXNGSearchDeadline        time.Duration
+	YaCyDHTSearchURL             string
+	CorpusTextURL                string
 	ScrapeRequestNATSURL         string
 	PageFetchWait                time.Duration
 	PageScrapeTolerance          time.Duration
@@ -85,17 +97,17 @@ func loadAnswerLimits(getenv func(string) string) (answerLimits, error) {
 }
 
 type callDeadlines struct {
-	searxngSearchDeadline        time.Duration
+	webSearchDeadline            time.Duration
 	pageFetchWait                time.Duration
 	pageScrapeTolerance          time.Duration
 	corpusMarkdownRecallDeadline time.Duration
 }
 
 func loadCallDeadlines(getenv func(string) string) (callDeadlines, error) {
-	searxngSearchDeadline, err := envconfig.Duration(
+	webSearchDeadline, err := envconfig.Duration(
 		getenv,
-		EnvSearXNGSearchDeadline,
-		DefaultSearXNGSearchDeadline,
+		EnvWebSearchDeadline,
+		DefaultWebSearchDeadline,
 	)
 	if err != nil {
 		return callDeadlines{}, err
@@ -121,15 +133,49 @@ func loadCallDeadlines(getenv func(string) string) (callDeadlines, error) {
 		return callDeadlines{}, err
 	}
 	return callDeadlines{
-		searxngSearchDeadline:        searxngSearchDeadline,
+		webSearchDeadline:            webSearchDeadline,
 		pageFetchWait:                pageFetchWait,
 		pageScrapeTolerance:          pageScrapeTolerance,
 		corpusMarkdownRecallDeadline: corpusMarkdownRecallDeadline,
 	}, nil
 }
 
+type webSearchEngines struct {
+	engine           string
+	searxngURL       string
+	yacyDHTSearchURL string
+	corpusTextURL    string
+}
+
+func loadWebSearchEngines(getenv func(string) string) (webSearchEngines, error) {
+	engines := webSearchEngines{
+		engine: envconfig.String(getenv, EnvWebSearchEngine, DefaultWebSearchEngine),
+	}
+	switch engines.engine {
+	case WebSearchEngineSearXNG:
+		searxngURL, err := envconfig.RequiredHTTPURL(getenv, EnvSearXNGURL)
+		if err != nil {
+			return webSearchEngines{}, err
+		}
+		engines.searxngURL = searxngURL.String()
+	case WebSearchEngineStack:
+		yacyDHTSearchURL, yacyDHTSearchErr := envconfig.RequiredHTTPURL(getenv, EnvYaCyDHTSearchURL)
+		corpusTextURL, corpusTextErr := envconfig.RequiredHTTPURL(getenv, EnvCorpusTextURL)
+		if err := errors.Join(yacyDHTSearchErr, corpusTextErr); err != nil {
+			return webSearchEngines{}, err
+		}
+		engines.yacyDHTSearchURL = yacyDHTSearchURL.String()
+		engines.corpusTextURL = corpusTextURL.String()
+	default:
+		return webSearchEngines{}, fmt.Errorf(
+			"%s: unknown engine %q", EnvWebSearchEngine, engines.engine,
+		)
+	}
+	return engines, nil
+}
+
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	searxngURL, err := envconfig.RequiredHTTPURL(getenv, EnvSearXNGURL)
+	engines, err := loadWebSearchEngines(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -151,8 +197,11 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		SearXNGURL:                   searxngURL.String(),
-		SearXNGSearchDeadline:        deadlines.searxngSearchDeadline,
+		WebSearchEngine:              engines.engine,
+		WebSearchDeadline:            deadlines.webSearchDeadline,
+		SearXNGURL:                   engines.searxngURL,
+		YaCyDHTSearchURL:             engines.yacyDHTSearchURL,
+		CorpusTextURL:                engines.corpusTextURL,
 		ScrapeRequestNATSURL:         scrapeRequestNATSURL,
 		PageFetchWait:                deadlines.pageFetchWait,
 		PageScrapeTolerance:          deadlines.pageScrapeTolerance,

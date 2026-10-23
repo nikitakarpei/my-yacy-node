@@ -20,7 +20,12 @@ import (
 	scraperequestobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/applog"
 	scraperequestobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/prometheus"
 	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequests/jetstream"
+	searchenginescorpustext "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/corpustext"
 	searchenginessearxng "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/searxng"
+	searchenginesstack "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/stack"
+	searchenginesyacy "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/yacy"
+	stackobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/stackobservers/applog"
+	stackobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/stackobservers/prometheus"
 	toolcallreceiversmcp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/toolcallreceivers/mcp"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearch"
 	websearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearchobservers/applog"
@@ -84,7 +89,7 @@ func RunService(
 	}
 	defer scrapeOutcomes.Close()
 	search := websearch.NewWebSearch(websearch.Config{
-		Engine: searchenginessearxng.NewSearXNG(cfg.SearXNGURL, cfg.SearXNGSearchDeadline),
+		Engine: webSearchEngineFor(cfg, registry),
 		Observer: websearch.WebSearchObservers{
 			websearchobserversapplog.WebSearchLog{},
 			websearchobserversprometheus.New(registry),
@@ -116,7 +121,7 @@ func RunService(
 
 	slog.InfoContext(ctx, "webresearchmcp started",
 		slog.String("listen", listeners.Tools.Addr().String()),
-		slog.String("searxng", cfg.SearXNGURL),
+		slog.String("webSearchEngine", cfg.WebSearchEngine),
 		slog.String("corpus", cfg.CorpusMarkdownAddr),
 		slog.Int("toolCallConcurrency", cfg.ToolCallConcurrency),
 	)
@@ -125,4 +130,29 @@ func RunService(
 	})
 	slog.InfoContext(ctx, "webresearchmcp stopped")
 	return err
+}
+
+func webSearchEngineFor(cfg ServiceConfig, registry *prometheus.Registry) websearch.SearchEngine {
+	if cfg.WebSearchEngine == WebSearchEngineSearXNG {
+		return searchenginessearxng.NewSearXNG(cfg.SearXNGURL, cfg.WebSearchDeadline)
+	}
+	return searchenginesstack.NewStack(
+		[]searchenginesstack.Engine{
+			{
+				Name: "corpustext",
+				Engine: searchenginescorpustext.NewCorpusText(
+					cfg.CorpusTextURL,
+					cfg.WebSearchDeadline,
+				),
+			},
+			{
+				Name:   "yacydhtsearch",
+				Engine: searchenginesyacy.NewYaCy(cfg.YaCyDHTSearchURL, cfg.WebSearchDeadline),
+			},
+		},
+		searchenginesstack.EngineObservers{
+			stackobserversapplog.EngineLog{},
+			stackobserversprometheus.New(registry),
+		},
+	)
 }

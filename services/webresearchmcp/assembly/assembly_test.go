@@ -22,8 +22,9 @@ const (
 
 func serviceConfig(scrapeRequestNATSURL string) webresearchmcp.ServiceConfig {
 	return webresearchmcp.ServiceConfig{
+		WebSearchEngine:              webresearchmcp.WebSearchEngineSearXNG,
+		WebSearchDeadline:            time.Second,
 		SearXNGURL:                   "http://127.0.0.1:1",
-		SearXNGSearchDeadline:        time.Second,
 		ScrapeRequestNATSURL:         scrapeRequestNATSURL,
 		PageFetchWait:                time.Second,
 		PageScrapeTolerance:          webresearchmcp.DefaultPageScrapeTolerance,
@@ -48,8 +49,20 @@ func listenerFor(t *testing.T) net.Listener {
 }
 
 func TestRunServiceServesTheToolsAndTheMetricsUntilItIsStopped(t *testing.T) {
-	natsURL := natstestserver.Start(t)
-	cfg := serviceConfig(natsURL)
+	cfg := serviceConfig(natstestserver.Start(t))
+	runUntilStopped(t, cfg)
+}
+
+func TestRunServiceServesTheToolsOverTheSearchEnginesOfTheStack(t *testing.T) {
+	cfg := serviceConfig(natstestserver.Start(t))
+	cfg.WebSearchEngine = webresearchmcp.WebSearchEngineStack
+	cfg.YaCyDHTSearchURL = "http://127.0.0.1:1"
+	cfg.CorpusTextURL = "http://127.0.0.1:1"
+	runUntilStopped(t, cfg)
+}
+
+func runUntilStopped(t *testing.T, cfg webresearchmcp.ServiceConfig) {
+	t.Helper()
 	listeners := webresearchmcp.Listeners{Tools: listenerFor(t)}
 	registry := prometheus.NewRegistry()
 

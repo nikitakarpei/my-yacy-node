@@ -38,8 +38,11 @@ func TestLoadServiceConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
-	if cfg.SearXNGSearchDeadline != webresearchmcp.DefaultSearXNGSearchDeadline {
-		t.Errorf("searxng search deadline = %s", cfg.SearXNGSearchDeadline)
+	if cfg.WebSearchEngine != webresearchmcp.WebSearchEngineSearXNG {
+		t.Errorf("web search engine = %q", cfg.WebSearchEngine)
+	}
+	if cfg.WebSearchDeadline != webresearchmcp.DefaultWebSearchDeadline {
+		t.Errorf("web search deadline = %s", cfg.WebSearchDeadline)
 	}
 	if cfg.PageFetchWait != webresearchmcp.DefaultPageFetchWait {
 		t.Errorf("page fetch wait = %s", cfg.PageFetchWait)
@@ -69,7 +72,7 @@ func TestLoadServiceConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 
 func TestLoadServiceConfigTakesEverySettingAnOperatorNames(t *testing.T) {
 	env := requiredEnv()
-	env[webresearchmcp.EnvSearXNGSearchDeadline] = "3s"
+	env[webresearchmcp.EnvWebSearchDeadline] = "3s"
 	env[webresearchmcp.EnvPageFetchWait] = "45s"
 	env[webresearchmcp.EnvPageScrapeTolerance] = "15m"
 	env[webresearchmcp.EnvCorpusMarkdownRecallDeadline] = "2s"
@@ -83,8 +86,8 @@ func TestLoadServiceConfigTakesEverySettingAnOperatorNames(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
-	if cfg.SearXNGSearchDeadline != 3*time.Second {
-		t.Errorf("searxng search deadline = %s, want 3s", cfg.SearXNGSearchDeadline)
+	if cfg.WebSearchDeadline != 3*time.Second {
+		t.Errorf("web search deadline = %s, want 3s", cfg.WebSearchDeadline)
 	}
 	if cfg.PageFetchWait != 45*time.Second {
 		t.Errorf("page fetch wait = %s, want 45s", cfg.PageFetchWait)
@@ -118,7 +121,8 @@ func TestLoadServiceConfigRefusesASettingItCannotRead(t *testing.T) {
 		value string
 	}{
 		{webresearchmcp.EnvSearXNGURL, "not a url"},
-		{webresearchmcp.EnvSearXNGSearchDeadline, "soon"},
+		{webresearchmcp.EnvWebSearchDeadline, "soon"},
+		{webresearchmcp.EnvWebSearchEngine, "altavista"},
 		{webresearchmcp.EnvPageFetchWait, "soon"},
 		{webresearchmcp.EnvPageScrapeTolerance, "a while"},
 		{webresearchmcp.EnvCorpusMarkdownRecallDeadline, "soon"},
@@ -130,6 +134,44 @@ func TestLoadServiceConfigRefusesASettingItCannotRead(t *testing.T) {
 		env[unreadable.key] = unreadable.value
 		if _, err := webresearchmcp.LoadServiceConfig(envFrom(env)); err == nil {
 			t.Errorf("config loaded with %s=%q, want an error", unreadable.key, unreadable.value)
+		}
+	}
+}
+
+func stackEnv() map[string]string {
+	env := requiredEnv()
+	delete(env, webresearchmcp.EnvSearXNGURL)
+	env[webresearchmcp.EnvWebSearchEngine] = webresearchmcp.WebSearchEngineStack
+	env[webresearchmcp.EnvYaCyDHTSearchURL] = "http://yacydhtsearch:8080"
+	env[webresearchmcp.EnvCorpusTextURL] = "http://corpustext:8096"
+	return env
+}
+
+func TestLoadServiceConfigReadsTheSearchEnginesOfTheStack(t *testing.T) {
+	cfg, err := webresearchmcp.LoadServiceConfig(envFrom(stackEnv()))
+	if err != nil {
+		t.Fatalf("load the config: %v", err)
+	}
+	if cfg.WebSearchEngine != webresearchmcp.WebSearchEngineStack {
+		t.Errorf("web search engine = %q, want stack", cfg.WebSearchEngine)
+	}
+	if cfg.YaCyDHTSearchURL != "http://yacydhtsearch:8080" {
+		t.Errorf("yacydhtsearch url = %q", cfg.YaCyDHTSearchURL)
+	}
+	if cfg.CorpusTextURL != "http://corpustext:8096" {
+		t.Errorf("corpustext url = %q", cfg.CorpusTextURL)
+	}
+}
+
+func TestLoadServiceConfigRequiresEverySearchEngineOfTheStack(t *testing.T) {
+	for _, missing := range []string{
+		webresearchmcp.EnvYaCyDHTSearchURL,
+		webresearchmcp.EnvCorpusTextURL,
+	} {
+		env := stackEnv()
+		delete(env, missing)
+		if _, err := webresearchmcp.LoadServiceConfig(envFrom(env)); err == nil {
+			t.Errorf("config loaded while %s is unset, want an error", missing)
 		}
 	}
 }

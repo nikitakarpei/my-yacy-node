@@ -6,8 +6,11 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SEARXNG_URL` | required | SearXNG instance every search goes to. |
-| `SEARXNG_SEARCH_DEADLINE` | `10s` | Time limit on one search. |
+| `WEB_SEARCH_ENGINE` | `searxng` | `searxng` or `stack`. |
+| `WEB_SEARCH_DEADLINE` | `10s` | Time limit on one search. |
+| `SEARXNG_URL` | required with `searxng` | SearXNG instance every search goes to. |
+| `YACYDHTSEARCH_URL` | required with `stack` | yacydhtsearch instance that searches the YaCy network. |
+| `CORPUSTEXT_URL` | required with `stack` | corpustext instance that searches the crawled pages. |
 
 ## Scraping
 
