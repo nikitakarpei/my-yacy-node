@@ -21,8 +21,8 @@ const (
 var errCrawlHeadMalformed = errors.New("crawl head has a malformed due time")
 
 type crawlHeads struct {
-	positionOfCrawl *vault.Collection[crawlid.CrawlID, duePosition]
-	byDue           *vault.ValueIndex[crawlHead, crawlHead]
+	byCrawl *vault.Collection[crawlid.CrawlID, duePosition]
+	byDue   *vault.ValueIndex[crawlHead, crawlHead]
 }
 
 type crawlHead struct {
@@ -39,7 +39,7 @@ func registerCrawlHeads(ctx context.Context, storage *vault.Vault) (crawlHeads, 
 	); err != nil {
 		return crawlHeads{}, fmt.Errorf("register %s: %w", crawlHeadsByDueBucket, err)
 	}
-	if heads.positionOfCrawl, err = storage.RegisterProjectedCollection(
+	if heads.byCrawl, err = storage.RegisterProjectedCollection(
 		ctx,
 		crawlHeadsBucket,
 		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
@@ -58,8 +58,20 @@ func (heads crawlHeads) moveEarlierTo(
 	crawlID crawlid.CrawlID,
 	position duePosition,
 ) error {
-	headPosition, found, err := heads.positionOfCrawl.Get(tx, crawlID)
+	headPosition, found, err := heads.byCrawl.Get(tx, crawlID)
 	if err != nil || (found && !position.isBefore(headPosition)) {
+		return err
+	}
+	return heads.moveTo(tx, crawlID, position)
+}
+
+func (heads crawlHeads) moveEarlierIfPresent(
+	tx *vault.Txn,
+	crawlID crawlid.CrawlID,
+	position duePosition,
+) error {
+	headPosition, found, err := heads.byCrawl.Get(tx, crawlID)
+	if err != nil || !found || !position.isBefore(headPosition) {
 		return err
 	}
 	return heads.moveTo(tx, crawlID, position)
@@ -70,12 +82,12 @@ func (heads crawlHeads) moveTo(
 	crawlID crawlid.CrawlID,
 	position duePosition,
 ) error {
-	_, err := heads.positionOfCrawl.Put(tx, crawlID, position)
+	_, err := heads.byCrawl.Put(tx, crawlID, position)
 	return err
 }
 
 func (heads crawlHeads) remove(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	_, err := heads.positionOfCrawl.Delete(tx, crawlID)
+	_, err := heads.byCrawl.Delete(tx, crawlID)
 	return err
 }
 
@@ -87,7 +99,7 @@ func (heads crawlHeads) positionOf(
 	tx *vault.Txn,
 	crawlID crawlid.CrawlID,
 ) (duePosition, bool, error) {
-	return heads.positionOfCrawl.Get(tx, crawlID)
+	return heads.byCrawl.Get(tx, crawlID)
 }
 
 var crawlHeadKeyParts = vault.PairKey(vault.IntegerKeyPart, vaultkeyparts.CrawlID)
