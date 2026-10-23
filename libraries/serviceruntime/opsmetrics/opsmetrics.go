@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	pathMetrics = "/metrics"
+	PathMetrics = "/metrics"
 
 	serverReadHeaderLimit = 10 * time.Second
 	serverShutdownLimit   = 15 * time.Second
@@ -33,8 +33,12 @@ func ProcessRegistry() *prometheus.Registry {
 
 func MuxFor(registry *prometheus.Registry) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle(pathMetrics, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+	mux.Handle(PathMetrics, HandlerFor(registry))
 	return mux
+}
+
+func HandlerFor(registry *prometheus.Registry) http.Handler {
+	return promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
 }
 
 func ServeAlongside(

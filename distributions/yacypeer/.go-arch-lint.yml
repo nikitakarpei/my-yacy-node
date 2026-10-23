@@ -1,0 +1,41 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  serviceenvironment:
+    in: internal/serviceenvironment/**
+  servicelog:
+    in: internal/servicelog/**
+  natsbroker:
+    in: internal/natsbroker/**
+  yacypeerassembly:
+    in: assembly/**
+  yacypeercmd:
+    in: cmd/yacypeer/**
+
+vendors:
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+  natsserver:
+    in:
+      - github.com/nats-io/nats-server/v2/**
+deps:
+  natsbroker:
+    canUse:
+      - natsserver
+  yacypeerassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  yacypeercmd:
+    mayDependOn:
+      - yacypeerassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"

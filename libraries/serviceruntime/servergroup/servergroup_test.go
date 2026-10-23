@@ -102,3 +102,49 @@ func TestServeErrorPropagates(t *testing.T) {
 		t.Error("Run = nil, want the serve error")
 	}
 }
+
+type runValueKey struct{}
+
+func TestRequestsCarryTheRunValuesButOutliveItsCancellation(t *testing.T) {
+	server := listeningServer(t)
+	entered := make(chan struct{})
+	release := make(chan struct{})
+	type requestContextState struct {
+		value any
+		err   error
+	}
+	seen := make(chan requestContextState, 1)
+	server.Server.Handler = http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
+		close(entered)
+		<-release
+		seen <- requestContextState{value: r.Context().Value(runValueKey{}), err: r.Context().Err()}
+	})
+	ctx, cancel := context.WithCancel(context.WithValue(context.Background(), runValueKey{}, "run"))
+	done := make(chan error, 1)
+	go func() { done <- servergroup.Run(ctx, 5*time.Second, []servergroup.NamedServer{server}) }()
+	go func() {
+		request, err := http.NewRequestWithContext(
+			context.Background(), http.MethodGet, "http://"+server.Listener.Addr().String(), nil,
+		)
+		if err != nil {
+			return
+		}
+		if response, err := http.DefaultClient.Do(request); err == nil {
+			_ = response.Body.Close()
+		}
+	}()
+
+	<-entered
+	cancel()
+	close(release)
+	state := <-seen
+	if state.value != "run" {
+		t.Error("request context lacks the run value")
+	}
+	if state.err != nil {
+		t.Errorf("request context ended with the run: %v", state.err)
+	}
+	if err := <-done; err != nil {
+		t.Errorf("Run: %v", err)
+	}
+}
