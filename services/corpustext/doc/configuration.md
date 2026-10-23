@@ -23,9 +23,8 @@ When `SEARCH_INDEX_ENGINE` is `bleve`:
 |---|---|---|
 | `BLEVE_DIRECTORY` | `search-index` | Directory that holds the Bleve indexes. |
 
-The service creates the directory when it is missing. A relative path starts at the
-working directory. The working directory of the image is `/var/lib/corpustext`. Mount a
-volume there to keep the indexes. Only one instance can use a directory.
+Only one instance can use a directory. The image's working directory is
+`/var/lib/corpustext`. Mount a volume there to keep the indexes.
 
 When `SEARCH_INDEX_ENGINE` is `elasticsearch`:
 

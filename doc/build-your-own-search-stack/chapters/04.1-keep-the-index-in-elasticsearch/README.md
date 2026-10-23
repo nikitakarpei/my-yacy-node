@@ -2,9 +2,9 @@
 
 > "Can I keep my local search index in Elasticsearch?"
 
-This chapter stores crawled text in Elasticsearch instead of the index that
-`corpustext` keeps itself. Use it when you already operate Elasticsearch, need
-its tools, or run more than one `corpustext`.
+This chapter keeps crawled text in Elasticsearch instead of the built-in index.
+Use it when you already run Elasticsearch, need its tools, or run more than one
+`corpustext`.
 
 ## What this chapter changes
 
@@ -12,8 +12,8 @@ its tools, or run more than one `corpustext`.
 - `corpustext` writes crawled text to Elasticsearch and searches it.
 - `searxng` gets local search results from `corpustext`, as in chapter 4.
 
-This chapter does not move documents from the index of chapter 4. Submit a new
-crawl to fill the Elasticsearch index.
+Pages in the chapter 4 index do not move. Submit a new crawl to fill
+Elasticsearch.
 
 ## Start
 

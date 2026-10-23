@@ -2,9 +2,8 @@
 
 > "Can I keep my local search index in Manticore?"
 
-This chapter stores crawled text in Manticore instead of the index that
-`corpustext` keeps itself. Use it when you already operate Manticore or run
-more than one `corpustext`.
+This chapter keeps crawled text in Manticore instead of the built-in index. Use
+it when you already run Manticore or run more than one `corpustext`.
 
 ## What this chapter changes
 
@@ -12,8 +11,8 @@ more than one `corpustext`.
 - `corpustext` writes crawled text to Manticore and searches it.
 - `searxng` gets local search results from `corpustext`, as in chapter 4.
 
-This chapter does not move documents from the index of chapter 4. Submit a new
-crawl to fill the Manticore index.
+Pages in the chapter 4 index do not move. Submit a new crawl to fill
+Manticore.
 
 ## Start
 
