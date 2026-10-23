@@ -1,8 +1,8 @@
-// Package pullintake runs bounded-concurrency intake from a source of pending
-// items, such as the messages of a JetStream pull consumer, halting on the first
-// fatal error and draining in-flight work before it returns. It takes the next item
-// only when a worker is free and its admission lets it, so it never holds an
-// item it cannot work on.
+// Package pullintake runs bounded-concurrency intake from a queue of items, such as
+// the messages of a JetStream pull consumer, halting on the first fatal error and
+// draining in-flight work before it returns. It takes the next items only when a
+// worker is free and its admission lets it, so it never holds an item it cannot work
+// on. The queue is asked for as many items as there are free workers; it may give fewer.
 package pullintake
 
 import (
@@ -16,11 +16,11 @@ import (
 
 var errAdmissionEnded = errors.New("admission ended")
 
-type Pending[Item any] interface {
-	Next(ctx context.Context) (Item, error)
+type Queue[Item any] interface {
+	NextUpTo(ctx context.Context, amount int) ([]Item, error)
 }
 
-type PendingMessages = Pending[PendingMessage]
+type MessageQueue = Queue[PendingMessage]
 
 type Admission interface {
 	AwaitAdmission(ctx context.Context) error
@@ -28,16 +28,16 @@ type Admission interface {
 
 func Run[Item any](
 	ctx context.Context,
-	items Pending[Item],
+	queue Queue[Item],
 	concurrency int,
 	process func(ctx context.Context, item Item) error,
 ) error {
-	return RunAdmittedBy(ctx, items, concurrency, everyItemAdmitted{}, process)
+	return RunAdmittedBy(ctx, queue, concurrency, everyItemAdmitted{}, process)
 }
 
 func RunAdmittedBy[Item any](
 	ctx context.Context,
-	items Pending[Item],
+	queue Queue[Item],
 	concurrency int,
 	admission Admission,
 	process func(ctx context.Context, item Item) error,
@@ -45,37 +45,54 @@ func RunAdmittedBy[Item any](
 	group, groupCtx := errgroup.WithContext(ctx)
 	busyWorkers := make(chan struct{}, concurrency)
 	for {
-		item, err := nextAdmittedItem(groupCtx, items, busyWorkers, admission)
+		admittedItems, err := nextAdmittedItems(groupCtx, queue, busyWorkers, admission)
 		if err != nil {
 			return endOfIntake(ctx, group.Wait(), err)
 		}
-		group.Go(func() error {
-			defer func() { <-busyWorkers }()
-			return process(ctx, item)
-		})
+		for _, item := range admittedItems {
+			group.Go(func() error {
+				defer func() { <-busyWorkers }()
+				return process(ctx, item)
+			})
+		}
 	}
 }
 
-func nextAdmittedItem[Item any](
+func nextAdmittedItems[Item any](
 	ctx context.Context,
-	items Pending[Item],
-	busyWorkers chan<- struct{},
+	queue Queue[Item],
+	busyWorkers chan struct{},
 	admission Admission,
-) (Item, error) {
-	var none Item
+) ([]Item, error) {
 	select {
 	case busyWorkers <- struct{}{}:
 	case <-ctx.Done():
-		return none, fmt.Errorf("await a free worker: %w", ctx.Err())
+		return nil, fmt.Errorf("await a free worker: %w", ctx.Err())
 	}
 	if err := admission.AwaitAdmission(ctx); err != nil {
-		return none, fmt.Errorf("%w: %w", errAdmissionEnded, err)
+		return nil, fmt.Errorf("%w: %w", errAdmissionEnded, err)
 	}
-	item, err := items.Next(ctx)
+	takenWorkers := 1 + takeFreeWorkers(busyWorkers)
+	nextItems, err := queue.NextUpTo(ctx, takenWorkers)
 	if err != nil {
-		return none, fmt.Errorf("next item: %w", err)
+		return nil, fmt.Errorf("next items: %w", err)
 	}
-	return item, nil
+	for range takenWorkers - len(nextItems) {
+		<-busyWorkers
+	}
+	return nextItems, nil
+}
+
+func takeFreeWorkers(busyWorkers chan<- struct{}) int {
+	takenWorkers := 0
+	for {
+		select {
+		case busyWorkers <- struct{}{}:
+			takenWorkers++
+		default:
+			return takenWorkers
+		}
+	}
 }
 
 func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {

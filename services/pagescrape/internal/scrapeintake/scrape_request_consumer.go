@@ -69,7 +69,7 @@ func NewScrapeRequestConsumer(
 func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 	return pullintake.RunAdmittedBy(
 		ctx,
-		pullintake.PendingMessagesOf(c.scrapeRequests),
+		pullintake.MessageQueueOf(c.scrapeRequests),
 		c.intakeConcurrency,
 		c.admission,
 		c.processOne,

@@ -1,6 +1,6 @@
 // Package pagevisitintake pays one pending page visit per lease: it has the page visited
-// and ends or returns the visit by what the visit concluded. It takes the next visit
-// only when its admission lets it.
+// and ends or returns the visit by what the visit concluded. It leases as many visits as
+// it has free workers, and only when its admission lets it.
 package pagevisitintake
 
 import (
@@ -23,7 +23,7 @@ const returnPause = 30 * time.Second
 var errCrawlForgotten = errors.New("the crawl of the page visit is forgotten")
 
 type PendingPageVisits interface {
-	Next(ctx context.Context) (pendingpagevisit.LeasedPageVisit, error)
+	Lease(ctx context.Context, amount int) ([]pendingpagevisit.LeasedPageVisit, error)
 	End(ctx context.Context, leasedPageVisit pendingpagevisit.LeasedPageVisit)
 	Return(
 		ctx context.Context,
@@ -92,7 +92,11 @@ func NewPageVisitConsumer(
 
 func (c *PageVisitConsumer) Run(ctx context.Context) error {
 	return pullintake.RunAdmittedBy(
-		ctx, c.pendingPageVisits, c.fetchConcurrency, c.admission, c.payPageVisit,
+		ctx,
+		reportingPageVisitQueue{pendingPageVisits: c.pendingPageVisits, observer: c.observer},
+		c.fetchConcurrency,
+		c.admission,
+		c.payPageVisit,
 	)
 }
 

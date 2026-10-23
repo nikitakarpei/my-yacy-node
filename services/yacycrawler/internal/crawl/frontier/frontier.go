@@ -1,8 +1,8 @@
 // Package frontier keeps the pending page visits of each crawl in a queue, each due at a
-// time, and a mark of every visit that ended. A worker leases the earliest due visit of a
-// queue neither paused nor draining; it comes back when the lease expires first. A visit
-// pending or ended before is not added again, nor what a visit leads to once it is not
-// pending. A draining queue takes none and drops its visits in batches. A pause holds all.
+// time, and a mark of every visit that ended. A lease takes up to the asked amount of due
+// visits, earliest first, of one queue neither paused nor draining; each comes back when its
+// lease expires first. A visit pending or ended before is not added again, nor what it leads
+// to once not pending. A draining queue takes none and drops its visits; a pause holds all.
 package frontier
 
 import (
@@ -236,8 +236,11 @@ func (frontier *Frontier) AmountsPendingByHostOf(
 	return frontier.ledger.amountsPendingByHostOf(tx, crawlID, fn)
 }
 
-func (frontier *Frontier) Next(ctx context.Context) (pendingpagevisit.LeasedPageVisit, error) {
-	return frontier.leases.next(ctx)
+func (frontier *Frontier) Lease(
+	ctx context.Context,
+	amount int,
+) ([]pendingpagevisit.LeasedPageVisit, error) {
+	return frontier.leases.leaseUpTo(ctx, amount)
 }
 
 func (frontier *Frontier) End(

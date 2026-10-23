@@ -29,7 +29,7 @@ func TestRunProcessesEveryMessageThenExitsOnClose(t *testing.T) {
 	seen := 0
 	err := pullintake.Run(
 		context.Background(),
-		pullintake.PendingMessagesOf(source),
+		pullintake.MessageQueueOf(source),
 		2,
 		func(context.Context, pullintake.PendingMessage) error {
 			mu.Lock()
@@ -51,7 +51,7 @@ func TestRunHaltsOnFirstFatalError(t *testing.T) {
 	want := errors.New("poison")
 	err := pullintake.Run(
 		context.Background(),
-		pullintake.PendingMessagesOf(source),
+		pullintake.MessageQueueOf(source),
 		1,
 		func(context.Context, pullintake.PendingMessage) error {
 			return want
@@ -68,7 +68,7 @@ func TestRunReturnsNilOnContextCancel(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
 	go func() {
-		done <- pullintake.Run(ctx, pullintake.PendingMessagesOf(source), 1, func(context.Context, pullintake.PendingMessage) error {
+		done <- pullintake.Run(ctx, pullintake.MessageQueueOf(source), 1, func(context.Context, pullintake.PendingMessage) error {
 			return nil
 		})
 	}()
@@ -89,7 +89,7 @@ func TestRunFailsWhenTheSourceFails(t *testing.T) {
 	source := pullintaketest.MessageSourceThatFails(want)
 	err := pullintake.Run(
 		context.Background(),
-		pullintake.PendingMessagesOf(source),
+		pullintake.MessageQueueOf(source),
 		1,
 		func(context.Context, pullintake.PendingMessage) error {
 			return nil
@@ -106,7 +106,7 @@ func TestRunTakesAMessageOnlyWhenAWorkerIsFree(t *testing.T) {
 	release := make(chan struct{})
 	done := make(chan error, 1)
 	go func() {
-		done <- pullintake.Run(context.Background(), pullintake.PendingMessagesOf(source), 1,
+		done <- pullintake.Run(context.Background(), pullintake.MessageQueueOf(source), 1,
 			func(context.Context, pullintake.PendingMessage) error {
 				working <- struct{}{}
 				<-release
@@ -122,6 +122,49 @@ func TestRunTakesAMessageOnlyWhenAWorkerIsFree(t *testing.T) {
 	<-working
 	if err := <-done; err != nil {
 		t.Fatalf("run: %v", err)
+	}
+}
+
+type scriptedQueue struct {
+	answers      [][]int
+	askedAmounts chan int
+}
+
+func (s *scriptedQueue) NextUpTo(ctx context.Context, amount int) ([]int, error) {
+	s.askedAmounts <- amount
+	if len(s.answers) == 0 {
+		<-ctx.Done()
+		return nil, fmt.Errorf("await an answer: %w", ctx.Err())
+	}
+	answer := s.answers[0]
+	s.answers = s.answers[1:]
+	return answer, nil
+}
+
+func TestRunAsksForAsManyItemsAsWorkersAreFree(t *testing.T) {
+	queue := &scriptedQueue{answers: [][]int{{1}, {2, 3}}, askedAmounts: make(chan int, 3)}
+	ctx, cancel := context.WithCancel(context.Background())
+	release := make(chan struct{})
+	done := make(chan error, 1)
+	go func() {
+		done <- pullintake.RunAdmittedBy(ctx, queue, 3, &admissionOf{admitted: 2},
+			func(context.Context, int) error {
+				<-release
+				return nil
+			})
+	}()
+	first, second := <-queue.askedAmounts, <-queue.askedAmounts
+	cancel()
+	close(release)
+	if err := <-done; err != nil {
+		t.Fatalf("run: %v", err)
+	}
+	if first != 3 || second != 2 {
+		t.Errorf(
+			"asked for %d, then %d items; want 3 while every worker was free, then the 2 still free",
+			first,
+			second,
+		)
 	}
 }
 
@@ -157,7 +200,7 @@ func TestRunTakesEveryBrokerMessageThenWaitsUntilTheContextEnds(t *testing.T) {
 	processed := make(chan struct{}, 2)
 	done := make(chan error, 1)
 	go func() {
-		done <- pullintake.Run(ctx, pullintake.PendingMessagesOf(consumer), 1,
+		done <- pullintake.Run(ctx, pullintake.MessageQueueOf(consumer), 1,
 			func(ctx context.Context, message pullintake.PendingMessage) error {
 				message.Acknowledge(ctx)
 				processed <- struct{}{}
@@ -188,7 +231,7 @@ func TestRunTakesBrokerMessagesUntilAContextPastItsDeadlineEnds(t *testing.T) {
 	processed := make(chan struct{}, 2)
 	done := make(chan error, 1)
 	go func() {
-		done <- pullintake.Run(contextPastItsDeadline{ctx}, pullintake.PendingMessagesOf(consumer), 1,
+		done <- pullintake.Run(contextPastItsDeadline{ctx}, pullintake.MessageQueueOf(consumer), 1,
 			func(ctx context.Context, message pullintake.PendingMessage) error {
 				message.Acknowledge(ctx)
 				processed <- struct{}{}
@@ -229,7 +272,7 @@ func TestRunAdmittedByTakesOnlyAdmittedMessages(t *testing.T) {
 	processed := make(chan struct{}, 3)
 	done := make(chan error, 1)
 	go func() {
-		done <- pullintake.RunAdmittedBy(ctx, pullintake.PendingMessagesOf(source), 1, &admissionOf{admitted: 2},
+		done <- pullintake.RunAdmittedBy(ctx, pullintake.MessageQueueOf(source), 1, &admissionOf{admitted: 2},
 			func(context.Context, pullintake.PendingMessage) error {
 				processed <- struct{}{}
 				return nil
@@ -254,7 +297,7 @@ func TestRunAdmittedByHaltsOnFatalErrorWhileHeldBack(t *testing.T) {
 	want := errors.New("poison")
 	err := pullintake.RunAdmittedBy(
 		context.Background(),
-		pullintake.PendingMessagesOf(source),
+		pullintake.MessageQueueOf(source),
 		1,
 		&admissionOf{admitted: 1},
 		func(context.Context, pullintake.PendingMessage) error {
@@ -275,7 +318,7 @@ func deliver(
 	source := pullintaketest.MessageSourceOf(msg)
 	err := pullintake.Run(
 		context.Background(),
-		pullintake.PendingMessagesOf(source),
+		pullintake.MessageQueueOf(source),
 		1,
 		func(ctx context.Context, message pullintake.PendingMessage) error {
 			act(ctx, message)
