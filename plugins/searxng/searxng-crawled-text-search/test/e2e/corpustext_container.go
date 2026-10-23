@@ -5,13 +5,17 @@ package e2e
 import (
 	"context"
 	"testing"
+	"time"
 
+	"github.com/nats-io/nats.go/jetstream"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const (
@@ -20,6 +24,8 @@ const (
 	corpusTextSearchURL      = "http://" + corpusTextAlias + ":8096"
 	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
 	indexedLanguages         = englishLanguage + "," + germanLanguage
+	corpusTextDurable        = "corpustext"
+	durableAppearance        = 60 * time.Second
 )
 
 func startCorpusText(
@@ -53,4 +59,20 @@ func startCorpusText(
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "corpustext", container)
+}
+
+func awaitCorpusTextDurable(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+	t.Helper()
+	registered := pollwait.For(durableAppearance, func() bool {
+		stream, err := js.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
+		if err != nil {
+			return false
+		}
+		_, err = stream.Consumer(ctx, corpusTextDurable)
+		return err == nil
+	})
+	if !registered {
+		t.Fatalf("corpustext did not register its %q durable within %s",
+			corpusTextDurable, durableAppearance)
+	}
 }
