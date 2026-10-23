@@ -131,7 +131,7 @@ func TestOpenCorpusFailsWhenTheDirectoryCannotBeCreated(t *testing.T) {
 	}
 }
 
-func TestPutFailsWhenTheDirectoryIsGone(t *testing.T) {
+func TestPutFailsWhenTheMarkdownCannotBeWritten(t *testing.T) {
 	directory := t.TempDir()
 	corpus := openedCorpus(t, directory)
 	if err := os.RemoveAll(directory); err != nil {

@@ -46,6 +46,9 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	if err := rejectDirectoryBesideObjectStore(getenv); err != nil {
+		return ServiceConfig{}, err
+	}
 	pageMarkdownObjectStore, err := loadPageMarkdownObjectStore(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -83,17 +86,22 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}, nil
 }
 
+func rejectDirectoryBesideObjectStore(getenv func(string) string) error {
+	if strings.TrimSpace(getenv(EnvPageMarkdownS3Endpoint)) == "" ||
+		strings.TrimSpace(getenv(EnvPageMarkdownDirectory)) == "" {
+		return nil
+	}
+	return fmt.Errorf(
+		"%s: must not be set with %s",
+		EnvPageMarkdownDirectory, EnvPageMarkdownS3Endpoint,
+	)
+}
+
 func loadPageMarkdownObjectStore(
 	getenv func(string) string,
 ) (*pagemarkdowncorporas3.ObjectStore, error) {
 	if strings.TrimSpace(getenv(EnvPageMarkdownS3Endpoint)) == "" {
 		return nil, nil
-	}
-	if strings.TrimSpace(getenv(EnvPageMarkdownDirectory)) != "" {
-		return nil, fmt.Errorf(
-			"%s: must not be set with %s",
-			EnvPageMarkdownDirectory, EnvPageMarkdownS3Endpoint,
-		)
 	}
 	endpoint, err := envconfig.RequiredHTTPURL(getenv, EnvPageMarkdownS3Endpoint)
 	if err != nil {

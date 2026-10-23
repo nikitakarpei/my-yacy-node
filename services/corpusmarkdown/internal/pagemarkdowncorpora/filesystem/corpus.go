@@ -23,7 +23,7 @@ const (
 	directoryPermission = 0o750
 	filePermission      = 0o600
 	shardNameLength     = 2
-	pendingNameInfix    = ".pending-"
+	pendingFileMarker   = ".pending-"
 )
 
 type Clock interface {
@@ -51,39 +51,39 @@ func (c *Corpus) Put(
 	canonicalURL canonicalurl.CanonicalURL,
 	markdown []byte,
 ) error {
-	if err := c.replace(fileNameOf(canonicalURL), markdown); err != nil {
+	if err := c.replace(filePathOf(canonicalURL), markdown); err != nil {
 		return fmt.Errorf("put markdown for %q: %w", canonicalURL, err)
 	}
 	return nil
 }
 
-func fileNameOf(canonicalURL canonicalurl.CanonicalURL) string {
+func filePathOf(canonicalURL canonicalurl.CanonicalURL) string {
 	objectName := pagemarkdownstore.ObjectNameOf(canonicalURL)
 	return filepath.Join(objectName[:shardNameLength], objectName)
 }
 
-func (c *Corpus) replace(fileName string, markdown []byte) error {
-	if err := c.root.MkdirAll(filepath.Dir(fileName), directoryPermission); err != nil {
+func (c *Corpus) replace(filePath string, markdown []byte) error {
+	if err := c.root.MkdirAll(filepath.Dir(filePath), directoryPermission); err != nil {
 		return fmt.Errorf("create the shard directory: %w", err)
 	}
-	pendingName := fileName + pendingNameInfix + rand.Text()
-	defer func() { _ = c.root.Remove(pendingName) }()
-	if err := c.write(pendingName, markdown); err != nil {
+	pendingFilePath := filePath + pendingFileMarker + rand.Text()
+	defer func() { _ = c.root.Remove(pendingFilePath) }()
+	if err := c.write(pendingFilePath, markdown); err != nil {
 		return err
 	}
 	storedAt := c.clock.Now()
-	if err := c.root.Chtimes(pendingName, storedAt, storedAt); err != nil {
+	if err := c.root.Chtimes(pendingFilePath, storedAt, storedAt); err != nil {
 		return fmt.Errorf("record the time it was stored: %w", err)
 	}
-	if err := c.root.Rename(pendingName, fileName); err != nil {
+	if err := c.root.Rename(pendingFilePath, filePath); err != nil {
 		return fmt.Errorf("replace the earlier markdown: %w", err)
 	}
 	return nil
 }
 
-func (c *Corpus) write(pendingName string, markdown []byte) error {
+func (c *Corpus) write(pendingFilePath string, markdown []byte) error {
 	pending, err := c.root.OpenFile(
-		pendingName, os.O_WRONLY|os.O_CREATE|os.O_EXCL, filePermission,
+		pendingFilePath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, filePermission,
 	)
 	if err != nil {
 		return fmt.Errorf("create the pending file: %w", err)
@@ -99,7 +99,7 @@ func (c *Corpus) MarkdownOf(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
 ) (markdownrecall.StoredMarkdown, bool, error) {
-	file, err := c.root.Open(fileNameOf(canonicalURL))
+	file, err := c.root.Open(filePathOf(canonicalURL))
 	if errors.Is(err, fs.ErrNotExist) {
 		return markdownrecall.StoredMarkdown{}, false, nil
 	}

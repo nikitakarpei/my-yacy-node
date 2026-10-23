@@ -130,7 +130,7 @@ func TestRunServiceRecallsTheMarkdownItStoredInADirectory(t *testing.T) {
 
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
-	waitForRecalled(ctx, t, listeners.Recall.Addr().String(), "words here")
+	waitForRecalledMarkdown(ctx, t, listeners.Recall.Addr().String(), "words here")
 
 	cancel()
 	waitForShutdown(t, runDone)
@@ -156,7 +156,7 @@ func TestRunServiceFailsWhenThePageMarkdownDirectoryCannotBeCreated(t *testing.T
 	}
 }
 
-func waitForRecalled(ctx context.Context, t *testing.T, recallAddress, want string) {
+func waitForRecalledMarkdown(ctx context.Context, t *testing.T, recallAddress, want string) {
 	t.Helper()
 	recallURL := "http://" + recallAddress + pagemarkdownstore.RecalledPagePath + "?" +
 		url.Values{pagemarkdownstore.RequestedURLQueryParam: {offeredPageURL}}.Encode()

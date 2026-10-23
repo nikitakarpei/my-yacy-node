@@ -1,4 +1,4 @@
-# 10.1. Keep page Markdown in an S3 object store
+# 10.1. Keep page Markdown in an S3-compatible object store
 
 > "Can I keep the page Markdown in an object store?"
 

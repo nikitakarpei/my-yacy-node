@@ -222,7 +222,7 @@ services:
       SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
-      - page-markdown-data:/var/lib/corpusmarkdown
+      - corpusmarkdown-data:/var/lib/corpusmarkdown
 
   searxng-engines-seed:
     image: *searxng-image
@@ -370,7 +370,7 @@ volumes:
   warcprox-trust:
   pywb-indexes:
   yacycrawler-data:
-  page-markdown-data:
+  corpusmarkdown-data:
   nats-data:
   squid-data:
   yacy-data:

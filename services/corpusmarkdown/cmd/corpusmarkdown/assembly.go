@@ -57,7 +57,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 	if err != nil {
 		return err
 	}
-	markdownCorpus, err := pageMarkdownCorpusFor(ctx, cfg)
+	markdownCorpus, err := openPageMarkdownCorpus(ctx, cfg)
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, listeners Listeners) err
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", listeners.Recall.Addr().String()),
-		slog.String("pageMarkdownStore", pageMarkdownStoreOf(cfg)),
+		slog.String("pageMarkdownLocation", pageMarkdownLocationOf(cfg)),
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, shutdownLimit,
@@ -146,7 +146,7 @@ func pageOfferConsumerFor(
 	return consumer, nil
 }
 
-func pageMarkdownCorpusFor(ctx context.Context, cfg ServiceConfig) (pageMarkdownCorpus, error) {
+func openPageMarkdownCorpus(ctx context.Context, cfg ServiceConfig) (pageMarkdownCorpus, error) {
 	if cfg.PageMarkdownObjectStore == nil {
 		return pagemarkdowncorporafilesystem.OpenCorpus(
 			cfg.PageMarkdownDirectory,
@@ -158,7 +158,7 @@ func pageMarkdownCorpusFor(ctx context.Context, cfg ServiceConfig) (pageMarkdown
 	)
 }
 
-func pageMarkdownStoreOf(cfg ServiceConfig) string {
+func pageMarkdownLocationOf(cfg ServiceConfig) string {
 	if cfg.PageMarkdownObjectStore == nil {
 		return cfg.PageMarkdownDirectory
 	}
