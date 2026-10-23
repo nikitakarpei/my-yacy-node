@@ -94,6 +94,11 @@ func TestRunServiceStoresTheMarkdownOfAnOfferedPage(t *testing.T) {
 	waitForKeptPageReceipt(t, keptPages)
 
 	cancel()
+	waitForShutdown(t, runDone)
+}
+
+func waitForShutdown(t *testing.T, runDone chan error) {
+	t.Helper()
 	select {
 	case err := <-runDone:
 		if err != nil {
@@ -128,14 +133,7 @@ func TestRunServiceRecallsTheMarkdownItStoredInADirectory(t *testing.T) {
 	waitForRecalled(ctx, t, listeners.Recall.Addr().String(), "words here")
 
 	cancel()
-	select {
-	case err := <-runDone:
-		if err != nil {
-			t.Errorf("run: %v", err)
-		}
-	case <-time.After(10 * time.Second):
-		t.Fatal("service did not shut down after cancel")
-	}
+	waitForShutdown(t, runDone)
 }
 
 func TestRunServiceFailsWhenThePageMarkdownDirectoryCannotBeCreated(t *testing.T) {

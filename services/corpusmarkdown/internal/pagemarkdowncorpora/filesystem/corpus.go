@@ -122,8 +122,8 @@ func storedMarkdownFrom(file *os.File) (markdownrecall.StoredMarkdown, error) {
 	if err != nil {
 		return markdownrecall.StoredMarkdown{}, fmt.Errorf("read the time it was stored: %w", err)
 	}
-	markdown, err := io.ReadAll(file)
-	if err != nil {
+	markdown := make([]byte, status.Size())
+	if _, err := io.ReadFull(file, markdown); err != nil {
 		return markdownrecall.StoredMarkdown{}, fmt.Errorf("read the markdown body: %w", err)
 	}
 	return markdownrecall.StoredMarkdown{
