@@ -43,7 +43,12 @@ type ServiceConfig struct {
 	FetchDeadline      time.Duration
 	RecrawlGrace       time.Duration
 	OpsAddr            string
+	APIAddr            string
 	UserAgent          string
+}
+
+func (cfg ServiceConfig) ServesAPI() bool {
+	return cfg.APIAddr != ""
 }
 
 func (cfg ServiceConfig) SuppressesRecrawl() bool {

@@ -5,12 +5,15 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
 type crawlIndexes struct {
-	byOrder *vault.ValueIndex[crawlWithID, crawlOfOrder]
+	byOrder            *vault.ValueIndex[crawlWithID, crawlOfOrder]
+	inState            *vault.ValueIndex[crawlWithID, crawlInState]
+	inStateNewestFirst *vault.ValueIndex[crawlWithID, crawlInState]
 }
 
 func registerCrawlIndexes(storage *vault.Vault, crawlsBucket vault.Name) (crawlIndexes, error) {
@@ -22,15 +25,29 @@ func registerCrawlIndexes(storage *vault.Vault, crawlsBucket vault.Name) (crawlI
 	); err != nil {
 		return crawlIndexes{}, fmt.Errorf("register %s: %w", byOrderBucket, err)
 	}
+	inStateBucket := crawlsBucket + "_in_state"
+	if indexes.inState, err = storage.RegisterValueIndex(
+		inStateBucket, crawlIndexesVersion,
+		crawlsInStateEntriesOf(crawlsInStateKeyParts), crawlInStateOf,
+	); err != nil {
+		return crawlIndexes{}, fmt.Errorf("register %s: %w", inStateBucket, err)
+	}
+	inStateNewestFirstBucket := crawlsBucket + "_in_state_newest_first"
+	if indexes.inStateNewestFirst, err = storage.RegisterValueIndex(
+		inStateNewestFirstBucket, crawlIndexesVersion,
+		crawlsInStateEntriesOf(crawlsInStateNewestFirstKeyParts), crawlInStateOf,
+	); err != nil {
+		return crawlIndexes{}, fmt.Errorf("register %s: %w", inStateNewestFirstBucket, err)
+	}
 	return indexes, nil
 }
 
-func (indexes crawlIndexes) projections() vault.Projections[crawlid.CrawlID, Crawl] {
+func (indexes crawlIndexes) projectedWith() vault.Projections[crawlid.CrawlID, Crawl] {
 	return vault.ProjectedAs(
 		func(crawlID crawlid.CrawlID, crawl Crawl) crawlWithID {
 			return crawlWithID{crawlID: crawlID, crawl: crawl}
 		},
-		indexes.byOrder,
+		indexes.byOrder, indexes.inState, indexes.inStateNewestFirst,
 	)
 }
 
@@ -50,6 +67,64 @@ func (indexes crawlIndexes) crawlIDsOfOrder(
 		return nil, fmt.Errorf("read the crawls of order %s: %w", orderID, err)
 	}
 	return crawlIDs, nil
+}
+
+func (indexes crawlIndexes) crawlIDsOlderThan(
+	tx *vault.Txn,
+	state yacycrawlcontract.CrawlState,
+	border crawlid.CrawlID,
+	limit int,
+) ([]crawlid.CrawlID, error) {
+	keys := crawlsInStateNewestFirstKeyParts.KeysWithFirst(state)
+	if border != (crawlid.CrawlID{}) {
+		keys = keys.After(crawlsInStateNewestFirstKeyParts.Key(state, border))
+	}
+	return crawlIDsWithin(tx, indexes.inStateNewestFirst, keys, limit)
+}
+
+func (indexes crawlIndexes) crawlIDsNewerThan(
+	tx *vault.Txn,
+	state yacycrawlcontract.CrawlState,
+	border crawlid.CrawlID,
+	limit int,
+) ([]crawlid.CrawlID, error) {
+	keys := crawlsInStateKeyParts.KeysWithFirst(state).
+		After(crawlsInStateKeyParts.Key(state, border))
+	return crawlIDsWithin(tx, indexes.inState, keys, limit)
+}
+
+func crawlIDsWithin(
+	tx *vault.Txn,
+	index *vault.ValueIndex[crawlWithID, crawlInState],
+	keys vault.KeyRange,
+	limit int,
+) ([]crawlid.CrawlID, error) {
+	var crawlIDs []crawlid.CrawlID
+	if err := index.Scan(tx, keys, func(entry crawlInState) (bool, error) {
+		crawlIDs = append(crawlIDs, entry.crawlID)
+		return len(crawlIDs) < limit, nil
+	}); err != nil {
+		return nil, fmt.Errorf("read crawls: %w", err)
+	}
+	return crawlIDs, nil
+}
+
+func (indexes crawlIndexes) amountIn(
+	tx *vault.Txn,
+	state yacycrawlcontract.CrawlState,
+) (int, error) {
+	amount := 0
+	if err := indexes.inState.Scan(
+		tx,
+		crawlsInStateKeyParts.KeysWithFirst(state),
+		func(crawlInState) (bool, error) {
+			amount++
+			return true, nil
+		},
+	); err != nil {
+		return 0, fmt.Errorf("count the crawls in state %s: %w", state, err)
+	}
+	return amount, nil
 }
 
 type crawlOfOrder struct {
@@ -81,3 +156,30 @@ var crawlsByOrderEntries = crawlsByOrderKeyParts.KeyLayoutFor(
 		return crawlOfOrder{order: order, crawlID: crawlID}
 	},
 )
+
+type crawlInState struct {
+	state   yacycrawlcontract.CrawlState
+	crawlID crawlid.CrawlID
+}
+
+func crawlInStateOf(crawl crawlWithID) crawlInState {
+	return crawlInState{state: crawl.crawl.State, crawlID: crawl.crawlID}
+}
+
+var (
+	crawlsInStateKeyParts            = vault.PairKey(stateKeyPart, vaultkeyparts.CrawlID)
+	crawlsInStateNewestFirstKeyParts = vault.PairKey(stateKeyPart, vaultkeyparts.CrawlIDNewestFirst)
+)
+
+func crawlsInStateEntriesOf(
+	parts vault.PairKeyParts[yacycrawlcontract.CrawlState, crawlid.CrawlID],
+) vault.KeyLayout[crawlInState] {
+	return parts.KeyLayoutFor(
+		func(entry crawlInState) (yacycrawlcontract.CrawlState, crawlid.CrawlID) {
+			return entry.state, entry.crawlID
+		},
+		func(state yacycrawlcontract.CrawlState, crawlID crawlid.CrawlID) crawlInState {
+			return crawlInState{state: state, crawlID: crawlID}
+		},
+	)
+}

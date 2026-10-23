@@ -12,11 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
-const (
-	unfinishedCrawlsBucket = "unfinished_crawls"
-	finishedCrawlsBucket   = "finished_crawls"
-	crawlIndexesVersion    = "1"
-)
+const crawlIndexesVersion = "1"
 
 func registerCrawls(
 	ctx context.Context,
@@ -24,30 +20,15 @@ func registerCrawls(
 	retention time.Duration,
 	forgotten ForgottenCrawls,
 ) (*Crawls, error) {
-	c := &Crawls{}
-	var err error
-	if c.unfinishedIndexes, err = registerCrawlIndexes(
-		storage,
-		unfinishedCrawlsBucket,
-	); err != nil {
+	unfinished, err := registerUnfinishedCrawls(ctx, storage)
+	if err != nil {
 		return nil, err
 	}
-	if c.finishedIndexes, err = registerCrawlIndexes(storage, finishedCrawlsBucket); err != nil {
+	finished, err := registerFinishedCrawls(ctx, storage, retention, forgotten)
+	if err != nil {
 		return nil, err
 	}
-	if c.unfinished, err = storage.RegisterProjectedCollection(
-		ctx, unfinishedCrawlsBucket, crawlIDKeys, crawlCodec{},
-		c.unfinishedIndexes.projections(),
-	); err != nil {
-		return nil, fmt.Errorf("register %s: %w", unfinishedCrawlsBucket, err)
-	}
-	if c.finished, err = storage.RegisterExpiringCollection(
-		ctx, finishedCrawlsBucket, crawlIDKeys, crawlCodec{}, retention,
-		c.finishedIndexes.projections(), forgotten.CrawlForgotten,
-	); err != nil {
-		return nil, fmt.Errorf("register %s: %w", finishedCrawlsBucket, err)
-	}
-	return c, nil
+	return &Crawls{unfinished: unfinished, finished: finished}, nil
 }
 
 var crawlIDKeys = vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout()
@@ -56,6 +37,13 @@ type crawlWithID struct {
 	crawlID crawlid.CrawlID
 	crawl   Crawl
 }
+
+var stateKeyPart = vault.TextKeyPartFrom(
+	func(state yacycrawlcontract.CrawlState) string { return string(state) },
+	func(text string) (yacycrawlcontract.CrawlState, error) {
+		return yacycrawlcontract.CrawlState(text), nil
+	},
+)
 
 type crawlCodec struct{}
 

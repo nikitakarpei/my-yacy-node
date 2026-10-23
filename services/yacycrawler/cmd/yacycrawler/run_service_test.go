@@ -2,11 +2,14 @@ package main_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"net"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -45,6 +48,106 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 		!errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("yacycrawler.RunService: %v", err)
 	}
+}
+
+func TestRunServiceServesTheOperatorAPIOnItsListener(t *testing.T) {
+	proxy, _ := url.Parse("http://127.0.0.1:1")
+	cfg := yacycrawler.ServiceConfig{
+		CrawlNATSURL:       natstestserver.Start(t),
+		CrawlStateDir:      filepath.Join(t.TempDir(), "crawl-state"),
+		CrawlOrdersSubject: yacycrawler.DefaultCrawlOrdersSubject,
+		CrawlOrdersDurable: yacycrawler.DefaultCrawlOrdersDurable,
+		ProxyURL:           proxy,
+		FetchConcurrency:   1,
+		MaxBodyBytes:       yacycrawler.DefaultMaxBodyBytes,
+		FetchDeadline:      time.Second,
+	}
+	api := listenerFor(t)
+	ctx, cancel := context.WithCancel(context.Background())
+	stopped := make(chan error, 1)
+	go func() {
+		stopped <- yacycrawler.RunService(ctx, cfg, yacycrawler.Listeners{Ops: listenerFor(t), API: api},
+			prometheus.NewRegistry())
+	}()
+	defer func() {
+		cancel()
+		<-stopped
+	}()
+
+	apiURL := "http://" + api.Addr().String()
+	if status := answerAt[yacycrawlcontract.CrawlerStatus](
+		t, http.MethodGet, apiURL+"/crawler-status", "",
+	); status.Paused {
+		t.Fatalf("status = %+v, want a crawler that is not paused", status)
+	}
+}
+
+func TestRunServiceFinishesACancelledCrawlOnceItsVisitsDrain(t *testing.T) {
+	proxy, _ := url.Parse("http://127.0.0.1:1")
+	cfg := yacycrawler.ServiceConfig{
+		CrawlNATSURL:       natstestserver.Start(t),
+		CrawlStateDir:      filepath.Join(t.TempDir(), "crawl-state"),
+		CrawlOrdersSubject: yacycrawler.DefaultCrawlOrdersSubject,
+		CrawlOrdersDurable: yacycrawler.DefaultCrawlOrdersDurable,
+		ProxyURL:           proxy,
+		FetchConcurrency:   1,
+		MaxBodyBytes:       yacycrawler.DefaultMaxBodyBytes,
+		FetchDeadline:      time.Second,
+	}
+	api := listenerFor(t)
+	ctx, cancel := context.WithCancel(context.Background())
+	stopped := make(chan error, 1)
+	go func() {
+		stopped <- yacycrawler.RunService(ctx, cfg, yacycrawler.Listeners{Ops: listenerFor(t), API: api},
+			prometheus.NewRegistry())
+	}()
+	defer func() {
+		cancel()
+		<-stopped
+	}()
+	apiURL := "http://" + api.Addr().String()
+	answerAt[yacycrawlcontract.Pause](t, http.MethodPut, apiURL+"/crawler-pause", `{"Paused":true}`)
+	crawl := answerAt[yacycrawlcontract.Crawl](t, http.MethodPut, apiURL+"/orders/o1",
+		`{"SeedURLs":["http://origin.example/"],"Profile":{"Scope":"domain","MaxDepth":1}}`)
+
+	cancelled := sendTo(t, http.MethodPost, apiURL+"/crawls/"+crawl.CrawlID+"/cancel", "")
+	_ = cancelled.Body.Close()
+
+	for crawl.State != yacycrawlcontract.CrawlStateCancelled {
+		crawl = answerAt[yacycrawlcontract.Crawl](t, http.MethodGet,
+			apiURL+"/crawls/"+crawl.CrawlID, "")
+	}
+	if crawl.PendingPageVisits != 0 ||
+		crawl.DroppedPageVisitsByReason[yacycrawlcontract.DropReasonCrawlCancelled] != 1 {
+		t.Fatalf("crawl = %+v, want its seed dropped as cancelled", crawl)
+	}
+}
+
+func answerAt[T any](t *testing.T, method string, target string, body string) T {
+	t.Helper()
+	response := sendTo(t, method, target, body)
+	defer func() { _ = response.Body.Close() }()
+	var answer T
+	if err := json.NewDecoder(response.Body).Decode(&answer); err != nil {
+		t.Fatalf("decode the answer of %s %s: %v", method, target, err)
+	}
+	return answer
+}
+
+func sendTo(t *testing.T, method string, target string, body string) *http.Response {
+	t.Helper()
+	request, err := http.NewRequestWithContext(t.Context(), method, target, strings.NewReader(body))
+	if err != nil {
+		t.Fatalf("request: %v", err)
+	}
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		t.Fatalf("%s %s: %v", method, target, err)
+	}
+	if response.StatusCode >= http.StatusBadRequest {
+		t.Fatalf("%s %s answered %s", method, target, response.Status)
+	}
+	return response
 }
 
 func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {

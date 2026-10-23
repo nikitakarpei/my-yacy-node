@@ -149,7 +149,7 @@ func TestTheProgressOfACrawlCountsSettledVisitsAndUnadmittedLinks(t *testing.T) 
 	}
 	if hostA := progressByHost["a"]; hostA.Completed[yacycrawlcontract.ResultPublished] != 1 ||
 		hostA.Dropped[yacycrawlcontract.DropReasonNotDue] != 1 || hostA.AmountOfURLs(3) != 5 {
-		t.Fatalf("host a = %+v, want 1 published, 1 not due, 5 URLs with 3 owed", hostA)
+		t.Fatalf("host a = %+v, want 1 published, 1 not due, 5 URLs with 3 pending", hostA)
 	}
 }
 

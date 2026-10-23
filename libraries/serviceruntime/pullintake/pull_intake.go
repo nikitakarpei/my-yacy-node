@@ -1,8 +1,8 @@
 // Package pullintake runs bounded-concurrency intake from a source of pending
-// messages, such as a JetStream pull consumer, halting on the first fatal message
-// error and draining in-flight work before it returns. It takes the next message
-// only when a worker is free and its admission lets it, so it never holds a
-// message it cannot work on.
+// items, such as the messages of a JetStream pull consumer, halting on the first
+// fatal error and draining in-flight work before it returns. It takes the next item
+// only when a worker is free and its admission lets it, so it never holds an
+// item it cannot work on.
 package pullintake
 
 import (
@@ -16,65 +16,66 @@ import (
 
 var errAdmissionEnded = errors.New("admission ended")
 
-type PendingMessages interface {
-	Next(ctx context.Context) (PendingMessage, error)
+type Pending[Item any] interface {
+	Next(ctx context.Context) (Item, error)
 }
 
-type Process func(ctx context.Context, message PendingMessage) error
+type PendingMessages = Pending[PendingMessage]
 
 type Admission interface {
 	AwaitAdmission(ctx context.Context) error
 }
 
-func Run(
+func Run[Item any](
 	ctx context.Context,
-	messages PendingMessages,
-	messageConcurrency int,
-	process Process,
+	items Pending[Item],
+	concurrency int,
+	process func(ctx context.Context, item Item) error,
 ) error {
-	return RunAdmittedBy(ctx, messages, messageConcurrency, everyMessageAdmitted{}, process)
+	return RunAdmittedBy(ctx, items, concurrency, everyItemAdmitted{}, process)
 }
 
-func RunAdmittedBy(
+func RunAdmittedBy[Item any](
 	ctx context.Context,
-	messages PendingMessages,
-	messageConcurrency int,
+	items Pending[Item],
+	concurrency int,
 	admission Admission,
-	process Process,
+	process func(ctx context.Context, item Item) error,
 ) error {
 	group, groupCtx := errgroup.WithContext(ctx)
-	busyWorkers := make(chan struct{}, messageConcurrency)
+	busyWorkers := make(chan struct{}, concurrency)
 	for {
-		message, err := nextAdmittedMessage(groupCtx, messages, busyWorkers, admission)
+		item, err := nextAdmittedItem(groupCtx, items, busyWorkers, admission)
 		if err != nil {
 			return endOfIntake(ctx, group.Wait(), err)
 		}
 		group.Go(func() error {
 			defer func() { <-busyWorkers }()
-			return process(ctx, message)
+			return process(ctx, item)
 		})
 	}
 }
 
-func nextAdmittedMessage(
+func nextAdmittedItem[Item any](
 	ctx context.Context,
-	messages PendingMessages,
+	items Pending[Item],
 	busyWorkers chan<- struct{},
 	admission Admission,
-) (PendingMessage, error) {
+) (Item, error) {
+	var none Item
 	select {
 	case busyWorkers <- struct{}{}:
 	case <-ctx.Done():
-		return nil, fmt.Errorf("await a free worker: %w", ctx.Err())
+		return none, fmt.Errorf("await a free worker: %w", ctx.Err())
 	}
 	if err := admission.AwaitAdmission(ctx); err != nil {
-		return nil, fmt.Errorf("%w: %w", errAdmissionEnded, err)
+		return none, fmt.Errorf("%w: %w", errAdmissionEnded, err)
 	}
-	message, err := messages.Next(ctx)
+	item, err := items.Next(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("next message: %w", err)
+		return none, fmt.Errorf("next item: %w", err)
 	}
-	return message, nil
+	return item, nil
 }
 
 func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
@@ -88,8 +89,8 @@ func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
 	return intakeErr
 }
 
-type everyMessageAdmitted struct{}
+type everyItemAdmitted struct{}
 
-func (everyMessageAdmitted) AwaitAdmission(context.Context) error {
+func (everyItemAdmitted) AwaitAdmission(context.Context) error {
 	return nil
 }

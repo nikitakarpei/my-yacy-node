@@ -1,17 +1,18 @@
 package frontier_test
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"path/filepath"
 	"slices"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
@@ -55,35 +56,58 @@ func (c *clock) pass(d time.Duration) {
 }
 
 type crawlLedger struct {
-	guard        sync.Mutex
-	owingNothing []crawlid.CrawlID
-	refusing     error
+	guard              sync.Mutex
+	lastPageVisitEnded []crawlid.CrawlID
+	cancelledOfHost    map[string]uint
+	cancelledBatches   []uint
+	refusing           error
 }
 
-func (l *crawlLedger) CrawlOwesNothing(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+func (l *crawlLedger) LastPageVisitEnded(_ *vault.Txn, crawlID crawlid.CrawlID) error {
 	l.guard.Lock()
 	defer l.guard.Unlock()
 	if l.refusing != nil {
 		return l.refusing
 	}
-	l.owingNothing = append(l.owingNothing, crawlID)
+	l.lastPageVisitEnded = append(l.lastPageVisitEnded, crawlID)
+	return nil
+}
+
+func (l *crawlLedger) PageVisitsCancelled(
+	_ *vault.Txn,
+	crawlID crawlid.CrawlID,
+	host string,
+	amount uint,
+) error {
+	l.guard.Lock()
+	defer l.guard.Unlock()
+	if l.refusing != nil {
+		return l.refusing
+	}
+	l.cancelledOfHost[crawlID.String()+"/"+host] += amount
+	l.cancelledBatches = append(l.cancelledBatches, amount)
 	return nil
 }
 
 type recordedFailures struct {
-	guard           sync.Mutex
-	leases          []error
-	counts          []error
-	acknowledgments []string
-	returns         []string
-	outdated        []string
-	notSettled      []crawlid.CrawlID
+	guard       sync.Mutex
+	leases      []error
+	drains      []error
+	counts      []error
+	settlements []pendingpagevisit.PendingPageVisit
+	returns     []pendingpagevisit.PendingPageVisit
+	outdated    []pendingpagevisit.PendingPageVisit
+	notSettled  []crawlid.CrawlID
 }
 
 func (r *recordedFailures) FrontierLeaseFailed(_ context.Context, err error) {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 	r.leases = append(r.leases, err)
+}
+
+func (r *recordedFailures) FrontierDrainFailed(_ context.Context, err error) {
+	r.drains = append(r.drains, err)
 }
 
 func (r *recordedFailures) FrontierCrawlNotSettled(
@@ -98,21 +122,28 @@ func (r *recordedFailures) FrontierCountFailed(_ context.Context, err error) {
 	r.counts = append(r.counts, err)
 }
 
-func (r *recordedFailures) FrontierAcknowledgeFailed(_ context.Context, identity string, _ error) {
-	r.acknowledgments = append(r.acknowledgments, identity)
+func (r *recordedFailures) FrontierSettleFailed(
+	_ context.Context,
+	pageVisit pendingpagevisit.PendingPageVisit,
+	_ error,
+) {
+	r.settlements = append(r.settlements, pageVisit)
 }
 
 func (r *recordedFailures) FrontierReturnFailed(
 	_ context.Context,
-	identity string,
+	pageVisit pendingpagevisit.PendingPageVisit,
 	_ time.Duration,
 	_ error,
 ) {
-	r.returns = append(r.returns, identity)
+	r.returns = append(r.returns, pageVisit)
 }
 
-func (r *recordedFailures) FrontierLeaseOutdated(_ context.Context, identity string) {
-	r.outdated = append(r.outdated, identity)
+func (r *recordedFailures) FrontierLeaseOutdated(
+	_ context.Context,
+	pageVisit pendingpagevisit.PendingPageVisit,
+) {
+	r.outdated = append(r.outdated, pageVisit)
 }
 
 type refusingEngine struct {
@@ -157,10 +188,10 @@ func newFrontierOn(t *testing.T, engine vault.Engine) frontierScene {
 		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() { _ = storage.Close() })
-	ledger := &crawlLedger{}
+	ledger := &crawlLedger{cancelledOfHost: map[string]uint{}}
 	failures := &recordedFailures{}
 	visits, err := frontier.Open(
-		t.Context(), storage, ledger, lease, visitClock, failures,
+		t.Context(), storage, ledger, ledger, lease, visitClock, failures,
 	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
@@ -205,31 +236,38 @@ func (f frontierScene) change(
 	f.update(t, func(tx *vault.Txn) error { return change(tx, crawlID) })
 }
 
-func (f frontierScene) owe(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
+func (f frontierScene) add(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
 	t.Helper()
-	f.update(t, func(tx *vault.Txn) error { return f.visits.Owe(tx, pageVisits) })
+	f.update(t, func(tx *vault.Txn) error { return f.visits.Add(tx, pageVisits) })
 }
 
-func (f frontierScene) next(t *testing.T) pullintake.PendingMessage {
+func (f frontierScene) next(t *testing.T) pendingpagevisit.LeasedPageVisit {
 	t.Helper()
-	message, err := f.visits.Next(t.Context())
+	leasedPageVisit, err := f.visits.Next(t.Context())
 	if err != nil {
 		t.Fatalf("Next: %v", err)
 	}
-	return message
+	return leasedPageVisit
 }
 
 func (f frontierScene) settleNext(t *testing.T) pendingpagevisit.PendingPageVisit {
 	t.Helper()
-	message := f.next(t)
-	message.Acknowledge(t.Context())
-	return pageVisitOf(t, message)
+	leasedPageVisit := f.next(t)
+	f.visits.Settle(t.Context(), leasedPageVisit)
+	return leasedPageVisit.PageVisit
 }
 
 func (f frontierScene) requireNoDueVisit(t *testing.T) {
 	t.Helper()
-	if message, err := f.visits.Next(t.Context()); !errors.Is(err, errNoDueVisit) {
-		t.Fatalf("Next = %v, %v; want no due page visit", message, err)
+	if leasedPageVisit, err := f.visits.Next(t.Context()); !errors.Is(err, errNoDueVisit) {
+		t.Fatalf("Next = %v, %v; want no due page visit", leasedPageVisit, err)
+	}
+}
+
+func (f frontierScene) drainCancelled(t *testing.T) {
+	t.Helper()
+	if err := f.visits.DrainCancelledCrawls(t.Context()); err != nil {
+		t.Fatalf("DrainCancelledCrawls: %v", err)
 	}
 }
 
@@ -242,42 +280,28 @@ func (f frontierScene) amount(t *testing.T) int64 {
 	return amount
 }
 
-func pageVisitOf(
-	t *testing.T,
-	message pullintake.PendingMessage,
-) pendingpagevisit.PendingPageVisit {
-	t.Helper()
-	pageVisit, err := pendingpagevisit.UnmarshalPendingPageVisit(message.Body())
-	if err != nil {
-		t.Fatalf("UnmarshalPendingPageVisit: %v", err)
-	}
-	return pageVisit
-}
-
-func TestAnOwedPageVisitIsTakenWithItsArrival(t *testing.T) {
+func TestAPendingPageVisitIsLeasedWithItsDepthUntilTheLeaseEnds(t *testing.T) {
 	f := newFrontier(t)
-	pageVisit := pageVisitTo(t, "http://host/page")
-	f.owe(t, pageVisit)
-	arrival := f.clock.Now()
-	f.clock.pass(time.Second)
+	pageVisit := pageVisitTo(t, "http://host/page").LinkedPageVisitTo(
+		canonicalurltest.CanonicalURLOf(t, "http://host/deeper"),
+	)
+	f.add(t, pageVisit)
 
-	message := f.next(t)
+	leasedPageVisit := f.next(t)
 
-	if got := pageVisitOf(t, message); got != pageVisit {
-		t.Fatalf("page visit = %+v, want %+v", got, pageVisit)
-	}
-	if !message.Arrival().Equal(arrival) || message.Identity() == "" {
-		t.Fatalf("message arrived %v as %q, want %v with an identity", message.Arrival(),
-			message.Identity(), arrival)
+	if leasedPageVisit.PageVisit != pageVisit ||
+		!leasedPageVisit.LeasedUntil.Equal(f.clock.Now().Add(lease)) {
+		t.Fatalf("leased %+v, want %+v until %v", leasedPageVisit, pageVisit,
+			f.clock.Now().Add(lease))
 	}
 }
 
-func TestAPageVisitOwedTwiceIsTakenOnce(t *testing.T) {
+func TestAPageVisitAddedTwiceIsTakenOnce(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
 
-	f.owe(t, pageVisit, pageVisit)
-	f.owe(t, pageVisit)
+	f.add(t, pageVisit, pageVisit)
+	f.add(t, pageVisit)
 
 	f.settleNext(t)
 	f.requireNoDueVisit(t)
@@ -285,7 +309,7 @@ func TestAPageVisitOwedTwiceIsTakenOnce(t *testing.T) {
 
 func TestATakenPageVisitComesBackOnlyOnceItsLeaseEnds(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/page"))
+	f.add(t, pageVisitTo(t, "http://host/page"))
 	f.next(t)
 
 	f.requireNoDueVisit(t)
@@ -294,25 +318,25 @@ func TestATakenPageVisitComesBackOnlyOnceItsLeaseEnds(t *testing.T) {
 	f.next(t)
 }
 
-func TestAnAcknowledgedPageVisitNeverComesBackNorIsOwedAgain(t *testing.T) {
+func TestASettledPageVisitNeverComesBackNorIsAddedAgain(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
-	f.owe(t, pageVisit)
+	f.add(t, pageVisit)
 	f.settleNext(t)
 
-	f.owe(t, pageVisit)
+	f.add(t, pageVisit)
 	f.clock.pass(2 * lease)
 
 	f.requireNoDueVisit(t)
 	if amount := f.amount(t); amount != 0 {
-		t.Fatalf("owed %d, want none", amount)
+		t.Fatalf("pending %d, want none", amount)
 	}
 }
 
 func TestAPageVisitReturnedAfterADelayIsDueOnlyOnceTheDelayPasses(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/page"))
-	f.next(t).ReturnAfter(t.Context(), 2*lease)
+	f.add(t, pageVisitTo(t, "http://host/page"))
+	f.visits.Return(t.Context(), f.next(t), 2*lease)
 
 	f.clock.pass(lease)
 	f.requireNoDueVisit(t)
@@ -323,8 +347,8 @@ func TestAPageVisitReturnedAfterADelayIsDueOnlyOnceTheDelayPasses(t *testing.T) 
 
 func TestAReturnedPageVisitComesBackSoonerThanItsLease(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/page"))
-	f.next(t).Return(t.Context())
+	f.add(t, pageVisitTo(t, "http://host/page"))
+	f.visits.Return(t.Context(), f.next(t), lease/4)
 
 	f.clock.pass(lease / 2)
 
@@ -333,29 +357,29 @@ func TestAReturnedPageVisitComesBackSoonerThanItsLease(t *testing.T) {
 
 func TestASettlementUnderAnEndedLeaseChangesNothing(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/page"))
+	f.add(t, pageVisitTo(t, "http://host/page"))
 	first := f.next(t)
 	f.clock.pass(lease)
 	second := f.next(t)
 
-	first.ReturnAfter(t.Context(), time.Hour)
-	first.Acknowledge(t.Context())
+	f.visits.Return(t.Context(), first, time.Hour)
+	f.visits.Settle(t.Context(), first)
 
 	if len(f.failures.outdated) != 2 || f.amount(t) != 1 {
-		t.Fatalf("outdated %v owed %d, want both settlements outdated and the visit owed",
+		t.Fatalf("outdated %v pending %d, want both settlements outdated and the visit pending",
 			f.failures.outdated, f.amount(t))
 	}
-	second.Acknowledge(t.Context())
+	f.visits.Settle(t.Context(), second)
 	f.clock.pass(2 * lease)
 	f.requireNoDueVisit(t)
 }
 
 func TestPageVisitsAreTakenInTheOrderTheyFallDueAcrossCrawls(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitOfCrawl(t, firstCrawl, "http://host/first"))
-	f.next(t).ReturnAfter(t.Context(), 3*time.Second)
+	f.add(t, pageVisitOfCrawl(t, firstCrawl, "http://host/first"))
+	f.visits.Return(t.Context(), f.next(t), 3*time.Second)
 	f.clock.pass(time.Second)
-	f.owe(t, pageVisitOfCrawl(t, secondCrawl, "http://host/second"))
+	f.add(t, pageVisitOfCrawl(t, secondCrawl, "http://host/second"))
 	f.clock.pass(time.Hour)
 
 	got := []crawlid.CrawlID{f.settleNext(t).CrawlID, f.settleNext(t).CrawlID}
@@ -365,122 +389,302 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDueAcrossCrawls(t *testing.T) {
 	}
 }
 
-func TestTheOwedPageVisitsAreCountedPerCrawlAndHost(t *testing.T) {
+func TestAHeldCrawlKeepsItsVisitsAndLendsNoneUntilReleased(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(
+	f.add(t, pageVisitTo(t, "http://host/a"))
+	f.change(t, f.visits.Hold, firstCrawl)
+
+	f.add(t, pageVisitTo(t, "http://host/b"))
+	f.requireNoDueVisit(t)
+	if amount := f.amount(t); amount != 2 {
+		t.Fatalf("pending %d, want both visits kept", amount)
+	}
+	f.change(t, f.visits.Release, firstCrawl)
+
+	f.settleNext(t)
+	f.settleNext(t)
+}
+
+func TestThePendingPageVisitsAreCountedPerCrawlAndHost(t *testing.T) {
+	f := newFrontier(t)
+	f.add(
 		t,
 		pageVisitTo(t, "http://a/1"),
 		pageVisitTo(t, "http://a/2"),
 		pageVisitTo(t, "http://b/1"),
 		pageVisitOfCrawl(t, secondCrawl, "http://a/1"),
 	)
-	var owedByFirst int
-	owedOfHosts := map[string]int{}
+	var pendingOfFirst int
+	pendingOfHosts := map[string]int{}
 
 	f.update(t, func(tx *vault.Txn) error {
 		var err error
-		if owedByFirst, err = f.visits.AmountOwedBy(tx, firstCrawl); err != nil {
+		if pendingOfFirst, err = f.visits.AmountPendingOf(tx, firstCrawl); err != nil {
 			return err
 		}
-		return f.visits.AmountsOwedByHostsOf(tx, firstCrawl, func(host string, amount int) {
-			owedOfHosts[host] = amount
+		return f.visits.AmountsPendingByHostOf(tx, firstCrawl, func(host string, amount int) {
+			pendingOfHosts[host] = amount
 		})
 	})
 
-	if owedByFirst != 3 || owedOfHosts["a"] != 2 || owedOfHosts["b"] != 1 || f.amount(t) != 4 {
-		t.Fatalf("owed by first %d, of hosts %v, every %d; want 3, a=2 b=1, 4", owedByFirst,
-			owedOfHosts, f.amount(t))
+	if pendingOfFirst != 3 || pendingOfHosts["a"] != 2 || pendingOfHosts["b"] != 1 ||
+		f.amount(t) != 4 {
+		t.Fatalf("pending by first %d, of hosts %v, every %d; want 3, a=2 b=1, 4", pendingOfFirst,
+			pendingOfHosts, f.amount(t))
 	}
 }
 
-func TestAPageVisitTakenIsCountedUntilAcknowledged(t *testing.T) {
+func TestAPageVisitTakenIsCountedUntilSettled(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
+	f.add(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
 	f.next(t)
 
 	if amount := f.amount(t); amount != 2 {
-		t.Fatalf("owed %d, want 2", amount)
+		t.Fatalf("pending %d, want 2", amount)
 	}
 }
 
-func TestTheLastAcknowledgedVisitReportsItsCrawlOwesNothing(t *testing.T) {
+func TestTheLastSettledVisitReportsItsLastPageVisitEnded(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
+	f.add(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
 
 	f.settleNext(t)
-	owingNothingEarly := len(f.ledger.owingNothing)
+	lastPageVisitEndedEarly := len(f.ledger.lastPageVisitEnded)
 	f.settleNext(t)
 
-	if owingNothingEarly != 0 ||
-		!slices.Equal(f.ledger.owingNothing, []crawlid.CrawlID{firstCrawl}) {
-		t.Fatalf("owing nothing after the first %d, then %v; want only after the last",
-			owingNothingEarly, f.ledger.owingNothing)
+	if lastPageVisitEndedEarly != 0 ||
+		!slices.Equal(f.ledger.lastPageVisitEnded, []crawlid.CrawlID{firstCrawl}) {
+		t.Fatalf("last page visit ended after the first %d, then %v; want only after the last",
+			lastPageVisitEndedEarly, f.ledger.lastPageVisitEnded)
 	}
 }
 
-func TestAClosedCrawlTakesNoVisit(t *testing.T) {
+func TestACancelledCrawlTakesNoVisitAndDropsThePendingOnesLeasedOrNot(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitTo(t, "http://a/1"), pageVisitTo(t, "http://b/1"),
+		pageVisitTo(t, "http://b/2"))
+	leased := f.next(t)
+
+	f.change(t, f.visits.Cancel, firstCrawl)
+	f.add(t, pageVisitTo(t, "http://c/1"))
+	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
+	f.visits.Settle(t.Context(), leased)
+
+	drained := f.ledger.cancelledOfHost
+	if drained[firstCrawl.String()+"/a"]+drained[firstCrawl.String()+"/b"] != 3 ||
+		f.amount(t) != 0 || len(f.failures.outdated) != 1 {
+		t.Fatalf("drained %v, pending %d, outdated %v; want all three cancelled", drained,
+			f.amount(t), f.failures.outdated)
+	}
+	if !slices.Equal(f.ledger.lastPageVisitEnded, []crawlid.CrawlID{firstCrawl}) {
+		t.Fatalf(
+			"last page visit ended %v, want the cancelled crawl once",
+			f.ledger.lastPageVisitEnded,
+		)
+	}
+}
+
+func TestACancelDropsThePendingVisitsInBatchesBesideTheLeases(t *testing.T) {
+	f := newFrontier(t)
+	const pending = 150
+	pageVisits := make([]pendingpagevisit.PendingPageVisit, 0, pending)
+	for visit := range pending {
+		pageVisits = append(pageVisits, pageVisitTo(t, fmt.Sprintf("http://host/%d", visit)))
+	}
+	f.add(t, pageVisits...)
+	f.change(t, f.visits.Cancel, firstCrawl)
+	f.add(t, pageVisitOfCrawl(t, secondCrawl, "http://other/"))
+
+	if leased := f.next(t).PageVisit; leased.CrawlID != secondCrawl {
+		t.Fatalf("leased %+v, want the visit of the open crawl", leased)
+	}
+	if amount := f.amount(t); amount != pending+1 {
+		t.Fatalf("pending %d after a lease, want no visit dropped by leasing", amount)
+	}
+	f.drainCancelled(t)
+
+	if !slices.Equal(f.ledger.cancelledBatches, []uint{100, 50}) || f.amount(t) != 1 ||
+		!slices.Equal(f.ledger.lastPageVisitEnded, []crawlid.CrawlID{firstCrawl}) {
+		t.Fatalf(
+			"batches %v, pending %d, last page visit ended %v; want two batches and the crawl settled",
+			f.ledger.cancelledBatches,
+			f.amount(t),
+			f.ledger.lastPageVisitEnded,
+		)
+	}
+}
+
+func TestADrainEmptiesEveryCancelledCrawlBeyondTheOnesItPicksAmong(t *testing.T) {
+	f := newFrontier(t)
+	const cancelledCrawls = 12
+	cancelled := make([]crawlid.CrawlID, 0, cancelledCrawls)
+	for crawl := range cancelledCrawls {
+		crawlID := crawlid.CrawlID{byte(crawl + 10)}
+		cancelled = append(cancelled, crawlID)
+		f.add(t,
+			pageVisitOfCrawl(t, crawlID, "http://a/"+strconv.Itoa(crawl)),
+			pageVisitOfCrawl(t, crawlID, "http://b/"+strconv.Itoa(crawl)),
+		)
+		f.change(t, f.visits.Cancel, crawlID)
+	}
+
+	f.drainCancelled(t)
+
+	slices.SortFunc(
+		f.ledger.lastPageVisitEnded,
+		func(a, b crawlid.CrawlID) int { return bytes.Compare(a[:], b[:]) },
+	)
+	if f.amount(t) != 0 || !slices.Equal(f.ledger.lastPageVisitEnded, cancelled) {
+		t.Fatalf("pending %d, last page visit ended %v; want every cancelled crawl drained once",
+			f.amount(t), f.ledger.lastPageVisitEnded)
+	}
+}
+
+func TestACancelDropsVisitsWhileEveryPageVisitIsPaused(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitTo(t, "http://host/a"))
+	if err := f.visits.Pause(t.Context()); err != nil {
+		t.Fatalf("Pause: %v", err)
+	}
+
+	f.change(t, f.visits.Cancel, firstCrawl)
+	f.drainCancelled(t)
+
+	if f.amount(t) != 0 {
+		t.Fatalf("pending %d, want the cancelled crawl drained", f.amount(t))
+	}
+}
+
+func TestCancellingAHeldCrawlDropsItsVisits(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitTo(t, "http://host/a"))
+	f.change(t, f.visits.Hold, firstCrawl)
+
+	f.change(t, f.visits.Cancel, firstCrawl)
+	f.change(t, f.visits.Release, firstCrawl)
+	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
+
+	if f.amount(t) != 0 || len(f.ledger.lastPageVisitEnded) != 1 {
+		t.Fatalf("pending %d, last page visit ended %v; want the held crawl drained",
+			f.amount(t), f.ledger.lastPageVisitEnded)
+	}
+}
+
+func TestAClosedCrawlTakesNoVisitAndIsNotDrained(t *testing.T) {
 	f := newFrontier(t)
 
 	f.change(t, f.visits.Close, firstCrawl)
-	f.owe(t, pageVisitTo(t, "http://host/a"))
+	f.change(t, f.visits.Hold, firstCrawl)
+	f.change(t, f.visits.Cancel, firstCrawl)
+	f.add(t, pageVisitTo(t, "http://host/a"))
 	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
 
-	if f.amount(t) != 0 || len(f.ledger.owingNothing) != 0 {
-		t.Fatalf("owed %d, owing nothing %v; want nothing", f.amount(t), f.ledger.owingNothing)
+	if f.amount(t) != 0 || len(f.ledger.lastPageVisitEnded) != 0 ||
+		len(f.ledger.cancelledOfHost) != 0 {
+		t.Fatalf("pending %d, last page visit ended %v, cancelled %v; want nothing",
+			f.amount(t), f.ledger.lastPageVisitEnded, f.ledger.cancelledOfHost)
 	}
 }
 
-func TestAForgottenCrawlKeepsNothingAndItsVisitsAreOwedAgain(t *testing.T) {
+func TestAForgottenCrawlKeepsNothingAndItsVisitsArePendingAgain(t *testing.T) {
 	f := newFrontier(t)
-	settled, owed := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
-	f.owe(t, settled, owed)
+	settled, pending := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
+	f.add(t, settled, pending)
 	f.settleNext(t)
 	f.change(t, f.visits.Close, firstCrawl)
 
 	f.change(t, f.visits.ForgetCrawl, firstCrawl)
 
 	if f.amount(t) != 0 {
-		t.Fatalf("owed %d after forgetting, want none", f.amount(t))
+		t.Fatalf("pending %d after forgetting, want none", f.amount(t))
 	}
-	f.owe(t, settled, owed)
+	f.add(t, settled, pending)
 	if f.amount(t) != 2 {
-		t.Fatalf("owed %d, want both visits owed again", f.amount(t))
+		t.Fatalf("pending %d, want both visits pending again", f.amount(t))
 	}
 	f.settleNext(t)
 }
 
-func TestAVisitWhoseCrawlCannotSettleIsStillAcknowledged(t *testing.T) {
+func TestAVisitWhoseCrawlCannotFinishIsStillSettled(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/a"))
+	f.add(t, pageVisitTo(t, "http://host/a"))
 	f.ledger.refusing = errEngineRefusing
 
 	f.settleNext(t)
 
 	if f.amount(t) != 0 || !slices.Equal(f.failures.notSettled, []crawlid.CrawlID{firstCrawl}) ||
-		len(f.failures.acknowledgments) != 0 {
-		t.Fatalf("owed %d, not settled %v, ack failures %v; want the visit settled anyway",
-			f.amount(t), f.failures.notSettled, f.failures.acknowledgments)
+		len(f.failures.settlements) != 0 {
+		t.Fatalf("pending %d, not settled %v, ack failures %v; want the visit settled anyway",
+			f.amount(t), f.failures.notSettled, f.failures.settlements)
 	}
+}
+
+func TestACancelTheLedgerRefusesIsReportedAndTriedAgain(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitTo(t, "http://host/a"))
+	f.change(t, f.visits.Cancel, firstCrawl)
+	f.ledger.refusing = errEngineRefusing
+
+	f.drainCancelled(t)
+	f.ledger.refusing = nil
+	f.drainCancelled(t)
+
+	if len(f.failures.drains) != 1 || f.amount(t) != 0 {
+		t.Fatalf("drain failures %v, pending %d; want one failure, then drained",
+			f.failures.drains, f.amount(t))
+	}
+}
+
+func TestThePausedFrontierLendsNoVisitUntilResumed(t *testing.T) {
+	f := newFrontier(t)
+	f.add(t, pageVisitTo(t, "http://host/a"))
+
+	if err := f.visits.Pause(t.Context()); err != nil {
+		t.Fatalf("Pause: %v", err)
+	}
+	paused, err := f.visits.IsPaused(t.Context())
+	if err != nil || !paused {
+		t.Fatalf("IsPaused = %v, %v; want paused", paused, err)
+	}
+	f.requireNoDueVisit(t)
+	if err := f.visits.Resume(t.Context()); err != nil {
+		t.Fatalf("Resume: %v", err)
+	}
+
+	f.next(t)
 }
 
 func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
 	f := newFrontier(t)
-	f.owe(t, pageVisitTo(t, "http://host/a"))
-	message := f.next(t)
+	f.add(t, pageVisitTo(t, "http://host/a"))
+	leasedPageVisit := f.next(t)
 	f.engine.refusing = true
 
-	message.Acknowledge(t.Context())
-	message.ReturnAfter(t.Context(), time.Second)
+	f.visits.Settle(t.Context(), leasedPageVisit)
+	f.visits.Return(t.Context(), leasedPageVisit, time.Second)
 	_, counted := f.visits.AmountOfPendingPageVisits(t.Context())
 	f.requireNoDueVisit(t)
+	f.drainCancelled(t)
+	pauseErr := f.visits.Pause(t.Context())
+	resumeErr := f.visits.Resume(t.Context())
+	_, pausedErr := f.visits.IsPaused(t.Context())
 
-	if len(f.failures.acknowledgments) != 1 || len(f.failures.returns) != 1 || counted ||
-		len(f.failures.counts) != 1 || len(f.failures.leases) != 1 {
+	if len(f.failures.settlements) != 1 || len(f.failures.returns) != 1 || counted ||
+		len(f.failures.counts) != 1 || len(f.failures.leases) != 1 ||
+		len(f.failures.drains) != 1 {
 		t.Fatalf("failures = %+v counted %v, want each refusal reported once", f.failures, counted)
+	}
+	for name, err := range map[string]error{"pause": pauseErr, "resume": resumeErr, "paused": pausedErr} {
+		if !errors.Is(err, errEngineRefusing) {
+			t.Errorf("%s = %v, want the refusal", name, err)
+		}
 	}
 }
 
-func TestConcurrentLeasesTakeEachOwedPageVisitOnce(t *testing.T) {
+func TestConcurrentLeasesTakeEachPendingPageVisitOnce(t *testing.T) {
 	engine, err := pebblevault.OpenEngine(
 		filepath.Join(t.TempDir(), "crawl-state"), 0, pebblevault.MachineLimits{}, nil, nil,
 	)
@@ -492,19 +696,19 @@ func TestConcurrentLeasesTakeEachOwedPageVisitOnce(t *testing.T) {
 	for visit := range contendedVisits {
 		pageVisits = append(pageVisits, pageVisitTo(t, fmt.Sprintf("http://host%d/", visit)))
 	}
-	f.owe(t, pageVisits...)
+	f.add(t, pageVisits...)
 
 	taken := make(chan string, contendedVisits)
 	var lessees sync.WaitGroup
 	for range concurrentLessees {
 		lessees.Go(func() {
 			for {
-				message, err := f.visits.Next(t.Context())
+				leasedPageVisit, err := f.visits.Next(t.Context())
 				if err != nil {
 					return
 				}
-				message.Acknowledge(t.Context())
-				taken <- pageVisitOf(t, message).URL.String()
+				f.visits.Settle(t.Context(), leasedPageVisit)
+				taken <- leasedPageVisit.PageVisit.URL.String()
 			}
 		})
 	}

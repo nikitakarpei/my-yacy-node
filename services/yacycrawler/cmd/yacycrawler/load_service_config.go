@@ -22,6 +22,7 @@ const (
 	EnvMaxBodyBytes  = "YACYCRAWLER_MAX_BODY_BYTES"
 	EnvFetchDeadline = "YACYCRAWLER_FETCH_DEADLINE"
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
+	EnvAPIAddr       = "YACYCRAWLER_API_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_FETCH_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
 
@@ -98,6 +99,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		FetchDeadline:    limits.fetchDeadline,
 		RecrawlGrace:     recrawlGrace,
 		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		APIAddr:          envconfig.String(getenv, EnvAPIAddr, ""),
 		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
 	}, nil
 }

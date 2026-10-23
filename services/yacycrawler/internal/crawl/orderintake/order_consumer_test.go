@@ -24,7 +24,7 @@ var startedCrawlID = crawlid.CrawlID{1}
 
 type fakeCrawls struct {
 	accepted []acceptedorder.AcceptedOrder
-	owed     []pendingpagevisit.PendingPageVisit
+	pending  []pendingpagevisit.PendingPageVisit
 	started  bool
 	err      error
 }
@@ -40,8 +40,8 @@ func (a *fakeCrawls) Start(
 	return startedCrawlID, a.started, nil
 }
 
-func (a *fakeCrawls) Owe(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
-	a.owed = append(a.owed, pageVisits...)
+func (a *fakeCrawls) Add(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+	a.pending = append(a.pending, pageVisits...)
 	return nil
 }
 
@@ -144,8 +144,8 @@ func TestAnAcceptedOrderIsAcknowledged(t *testing.T) {
 	if len(crawls.accepted) != 1 || crawls.accepted[0].OrderID() != "o1" {
 		t.Fatalf("accepted %v, want order o1", crawls.accepted)
 	}
-	if len(crawls.owed) != 1 || crawls.owed[0].CrawlID != startedCrawlID {
-		t.Fatalf("owed %v, want the seed of crawl %s", crawls.owed, startedCrawlID)
+	if len(crawls.pending) != 1 || crawls.pending[0].CrawlID != startedCrawlID {
+		t.Fatalf("pending %v, want the seed of crawl %s", crawls.pending, startedCrawlID)
 	}
 	requireOneSettlement(t, message, pullintaketest.Acknowledged)
 	if observer.accepted != 1 || observer.acceptedCrawlID != startedCrawlID {
@@ -162,7 +162,7 @@ func TestAnOrderWhoseCrawlStartedBeforeIsAcknowledgedAndIgnored(t *testing.T) {
 	consume(t, message, crawls, observer)
 
 	requireOneSettlement(t, message, pullintaketest.Acknowledged)
-	if observer.ignored != 1 || observer.accepted != 0 || len(crawls.owed) != 0 {
+	if observer.ignored != 1 || observer.accepted != 0 || len(crawls.pending) != 0 {
 		t.Fatalf("observer %+v, want one ignored order", observer)
 	}
 }

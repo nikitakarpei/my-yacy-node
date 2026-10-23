@@ -128,6 +128,18 @@ func (r *reportedChanges) report(change string, crawlID crawlid.CrawlID) error {
 	return nil
 }
 
+func (r *reportedChanges) CrawlPaused(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	return r.report("paused", crawlID)
+}
+
+func (r *reportedChanges) CrawlResumed(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	return r.report("resumed", crawlID)
+}
+
+func (r *reportedChanges) CrawlCancelling(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	return r.report("cancelling", crawlID)
+}
+
 func (r *reportedChanges) CrawlFinished(_ *vault.Txn, crawlID crawlid.CrawlID) error {
 	return r.report("finished", crawlID)
 }
@@ -291,39 +303,121 @@ func TestTheOrderOfACrawlReadsBack(t *testing.T) {
 func TestAnUnknownCrawlIsNotFoundAndChangesNothing(t *testing.T) {
 	s := keptCrawls(t)
 	unknown := crawlid.CrawlID{9}
-	var orderFound bool
+	var orderFound, paused, resumed, cancelled bool
 
 	s.update(t, func(tx *vault.Txn) error {
 		var err error
 		if _, orderFound, err = s.crawls.OrderOf(tx, unknown); err != nil {
 			return err
 		}
+		if _, paused, err = s.crawls.Pause(tx, unknown); err != nil {
+			return err
+		}
+		if _, resumed, err = s.crawls.Resume(tx, unknown); err != nil {
+			return err
+		}
+		if _, cancelled, err = s.crawls.Cancel(tx, unknown); err != nil {
+			return err
+		}
 		return s.crawls.Settle(tx, unknown)
 	})
 
-	if orderFound || len(s.changes.take()) != 0 {
+	if orderFound || paused || resumed || cancelled || len(s.changes.take()) != 0 {
 		t.Fatal("a crawl never started was found")
 	}
 }
 
-func TestASettledCrawlSucceedsOnceAndReportsItsFinish(t *testing.T) {
+func TestACrawlMovesThroughItsStatesAndReportsEachChange(t *testing.T) {
 	s := keptCrawls(t)
 	crawlID := s.start(t, "o1")
+	var states []yacycrawlcontract.CrawlState
+
+	for _, change := range []func(*vault.Txn, crawlid.CrawlID) (
+		yacycrawlcontract.CrawlState, bool, error,
+	){
+		s.crawls.Resume, s.crawls.Pause, s.crawls.Pause, s.crawls.Resume,
+		s.crawls.Cancel, s.crawls.Pause, s.crawls.Resume, s.crawls.Cancel,
+	} {
+		s.update(t, func(tx *vault.Txn) error {
+			state, _, err := change(tx, crawlID)
+			states = append(states, state)
+			return err
+		})
+	}
+
+	want := []yacycrawlcontract.CrawlState{
+		yacycrawlcontract.CrawlStateRunning, yacycrawlcontract.CrawlStatePaused,
+		yacycrawlcontract.CrawlStatePaused, yacycrawlcontract.CrawlStateRunning,
+		yacycrawlcontract.CrawlStateCancelling, yacycrawlcontract.CrawlStateCancelling,
+		yacycrawlcontract.CrawlStateCancelling, yacycrawlcontract.CrawlStateCancelling,
+	}
+	if !slices.Equal(states, want) {
+		t.Fatalf("states = %v, want %v", states, want)
+	}
+	wantChanges := []reportedChange{
+		{change: "paused", crawlID: crawlID},
+		{change: "resumed", crawlID: crawlID},
+		{change: "cancelling", crawlID: crawlID},
+	}
+	if changes := s.changes.take(); !slices.Equal(changes, wantChanges) {
+		t.Fatalf("changes = %v, want %v", changes, wantChanges)
+	}
+}
+
+func TestASettledCrawlFinishesByTheStateItWasIn(t *testing.T) {
+	s := keptCrawls(t)
+	succeeding, cancelling := s.start(t, "o1"), s.start(t, "o2")
+	s.update(t, func(tx *vault.Txn) error {
+		_, _, err := s.crawls.Cancel(tx, cancelling)
+		return err
+	})
+	s.changes.take()
 	s.clock.advanceBy(time.Hour)
 
-	s.settle(t, crawlID)
-	s.settle(t, crawlID)
+	s.settle(t, succeeding)
+	s.settle(t, cancelling)
+	s.settle(t, succeeding)
 
-	succeeded, _ := s.crawlOf(t, crawlID)
+	succeeded, _ := s.crawlOf(t, succeeding)
+	cancelled, _ := s.crawlOf(t, cancelling)
 	if succeeded.State != yacycrawlcontract.CrawlStateSucceeded ||
+		cancelled.State != yacycrawlcontract.CrawlStateCancelled ||
 		!succeeded.FinishedAt.Equal(startedAt.Add(time.Hour)) {
-		t.Fatalf("settled %+v, want succeeded an hour after start", succeeded)
+		t.Fatalf("settled %+v and %+v, want succeeded and cancelled an hour after start",
+			succeeded, cancelled)
 	}
-	if changes := s.changes.take(); !slices.Equal(
-		changes,
-		[]reportedChange{{change: "finished", crawlID: crawlID}},
-	) {
-		t.Fatalf("changes = %v, want one finish", changes)
+	wantChanges := []reportedChange{
+		{change: "finished", crawlID: succeeding},
+		{change: "finished", crawlID: cancelling},
+	}
+	if changes := s.changes.take(); !slices.Equal(changes, wantChanges) {
+		t.Fatalf("changes = %v, want %v", changes, wantChanges)
+	}
+}
+
+func TestAFinishedCrawlRefusesEveryStateChange(t *testing.T) {
+	s := keptCrawls(t)
+	crawlID := s.start(t, "o1")
+	s.settle(t, crawlID)
+	s.changes.take()
+	var states []yacycrawlcontract.CrawlState
+
+	for _, change := range []func(*vault.Txn, crawlid.CrawlID) (
+		yacycrawlcontract.CrawlState, bool, error,
+	){s.crawls.Pause, s.crawls.Resume, s.crawls.Cancel} {
+		s.update(t, func(tx *vault.Txn) error {
+			state, _, err := change(tx, crawlID)
+			states = append(states, state)
+			return err
+		})
+	}
+
+	if !slices.Equal(states, []yacycrawlcontract.CrawlState{
+		yacycrawlcontract.CrawlStateSucceeded,
+		yacycrawlcontract.CrawlStateSucceeded,
+		yacycrawlcontract.CrawlStateSucceeded,
+	}) || len(s.changes.take()) != 0 {
+		t.Fatalf("states = %v, want succeeded with no change", states)
 	}
 }
 
@@ -353,17 +447,60 @@ func TestAFinishedCrawlIsForgottenAfterTheRetentionAndItsOrderStartsAgain(t *tes
 	}
 }
 
-func TestAFinishThePortRefusesFails(t *testing.T) {
+func TestCrawlsListInStateNewestFirstAndBackOldestFirst(t *testing.T) {
+	s := keptCrawls(t)
+	first, second, third := s.start(t, "o1"), s.start(t, "o2"), s.start(t, "o3")
+	paused, finished := s.start(t, "o4"), s.start(t, "o5")
+	s.update(t, func(tx *vault.Txn) error {
+		_, _, err := s.crawls.Pause(tx, paused)
+		return err
+	})
+	s.settle(t, finished)
+	var newest, older, newer, succeeded []crawlid.CrawlID
+	var running int
+
+	s.view(t, func(tx *vault.Txn) error {
+		var err error
+		state := yacycrawlcontract.CrawlStateRunning
+		if newest, err = s.crawls.CrawlIDsOlderThan(tx, state, crawlid.CrawlID{}, 2); err != nil {
+			return err
+		}
+		if older, err = s.crawls.CrawlIDsOlderThan(tx, state, second, 5); err != nil {
+			return err
+		}
+		if newer, err = s.crawls.CrawlIDsNewerThan(tx, state, first, 5); err != nil {
+			return err
+		}
+		if succeeded, err = s.crawls.CrawlIDsOlderThan(
+			tx, yacycrawlcontract.CrawlStateSucceeded, crawlid.CrawlID{}, 5,
+		); err != nil {
+			return err
+		}
+		running, err = s.crawls.AmountOfRunningCrawls(tx)
+		return err
+	})
+
+	if !slices.Equal(newest, []crawlid.CrawlID{third, second}) ||
+		!slices.Equal(older, []crawlid.CrawlID{first}) ||
+		!slices.Equal(newer, []crawlid.CrawlID{second, third}) ||
+		!slices.Equal(succeeded, []crawlid.CrawlID{finished}) || running != 3 {
+		t.Fatalf("newest %v older %v newer %v succeeded %v running %d",
+			newest, older, newer, succeeded, running)
+	}
+}
+
+func TestAStateChangeThePortRefusesFails(t *testing.T) {
 	s := keptCrawls(t)
 	crawlID := s.start(t, "o1")
 	s.changes.refusing = true
 
 	err := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
-		return s.crawls.Settle(tx, crawlID)
+		_, _, err := s.crawls.Pause(tx, crawlID)
+		return err
 	})
 
 	if !errors.Is(err, errPortRefusing) {
-		t.Fatalf("Settle = %v, want the port refusal", err)
+		t.Fatalf("Pause = %v, want the port refusal", err)
 	}
 	if crawl, _ := s.crawlOf(t, crawlID); crawl.State != yacycrawlcontract.CrawlStateRunning {
 		t.Fatalf("crawl = %+v, want it still running", crawl)
@@ -383,12 +520,23 @@ func TestCrawlReadsTheStorageRefusesFail(t *testing.T) {
 		_, _, err := s.crawls.CrawlOf(tx, crawlID)
 		return err
 	})
+	changeErr := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		_, _, err := s.crawls.Pause(tx, crawlID)
+		return err
+	})
 	settleErr := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
 		return s.crawls.Settle(tx, crawlID)
 	})
+	listErr := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+		_, err := s.crawls.CrawlIDsOlderThan(
+			tx, yacycrawlcontract.CrawlStateRunning, crawlid.CrawlID{}, 1,
+		)
+		return err
+	})
 
 	for name, err := range map[string]error{
-		"start": startErr, "read": readErr, "settle": settleErr,
+		"start": startErr, "read": readErr, "change": changeErr, "settle": settleErr,
+		"list": listErr,
 	} {
 		if !errors.Is(err, errEngineRefusing) {
 			t.Errorf("%s = %v, want the refusal", name, err)

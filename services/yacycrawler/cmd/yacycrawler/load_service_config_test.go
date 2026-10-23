@@ -182,3 +182,23 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		}
 	}
 }
+
+func TestTheOperatorAPIServesOnlyAtAConfiguredAddress(t *testing.T) {
+	off, err := yacycrawler.LoadServiceConfig(envFrom(baseEnv()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	env := baseEnv()
+	env["YACYCRAWLER_API_ADDR"] = ":9095"
+	on, err := yacycrawler.LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if off.ServesAPI() {
+		t.Error("the operator API serves without an address")
+	}
+	if !on.ServesAPI() || on.APIAddr != ":9095" {
+		t.Errorf("API address = %q, want :9095 served", on.APIAddr)
+	}
+}
