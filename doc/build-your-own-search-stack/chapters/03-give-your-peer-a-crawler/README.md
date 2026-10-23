@@ -40,8 +40,7 @@ Submit a crawl for `example.org`:
 ```sh
 docker compose run --rm crawl-console pub yacy.crawl.orders \
   '{"OrderID":"first","SeedURLs":["https://example.org/"],
-    "Profile":{"Name":"first","Scope":1,"MaxDepth":1,
-    "URLMustMatch":".*","MaxPagesPerHost":50}}'
+    "Profile":{"Scope":"domain","MaxDepth":1,"MaxPagesPerHost":50}}'
 
 curl -fsS localhost:9090/metrics \
   | grep 'vault_bucket_records{bucket="rwi"}'

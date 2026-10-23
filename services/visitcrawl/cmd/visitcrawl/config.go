@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"regexp"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
@@ -48,12 +49,6 @@ type ServiceConfig struct {
 	MaxInFlight        int
 	MaxBodyBytes       int64
 	CrawlProfile       yacycrawlcontract.CrawlProfile
-}
-
-var crawlScopeByName = map[string]yacycrawlcontract.CrawlScope{
-	"domain":  yacycrawlcontract.ScopeDomain,
-	"wide":    yacycrawlcontract.ScopeWide,
-	"subpath": yacycrawlcontract.ScopeSubpath,
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -102,11 +97,12 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 }
 
 func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, error) {
-	scopeName := envconfig.String(getenv, EnvCrawlScope, DefaultCrawlScope)
-	scope, ok := crawlScopeByName[scopeName]
-	if !ok {
+	scope := yacycrawlcontract.CrawlScope(
+		envconfig.String(getenv, EnvCrawlScope, DefaultCrawlScope),
+	)
+	if !slices.Contains(yacycrawlcontract.CrawlScopes, scope) {
 		return yacycrawlcontract.CrawlProfile{}, fmt.Errorf(
-			"%s: unknown crawl scope %q", EnvCrawlScope, scopeName,
+			"%s: unknown crawl scope %q", EnvCrawlScope, scope,
 		)
 	}
 
@@ -114,19 +110,13 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 	if err != nil {
 		return yacycrawlcontract.CrawlProfile{}, err
 	}
-	maxPagesPerHost, err := envconfig.Int(
+	maxPagesPerHost, err := envconfig.NonNegativeInt(
 		getenv,
 		EnvCrawlMaxPagesPerHost,
 		DefaultCrawlMaxPagesPerHost,
 	)
 	if err != nil {
 		return yacycrawlcontract.CrawlProfile{}, err
-	}
-	if maxPagesPerHost != yacycrawlcontract.UnlimitedPagesPerHost && maxPagesPerHost <= 0 {
-		return yacycrawlcontract.CrawlProfile{}, fmt.Errorf(
-			"%s: must be positive or %d for unlimited",
-			EnvCrawlMaxPagesPerHost, yacycrawlcontract.UnlimitedPagesPerHost,
-		)
 	}
 	allowQueryURLs, err := envconfig.Bool(getenv, EnvCrawlAllowQueryURLs, false)
 	if err != nil {

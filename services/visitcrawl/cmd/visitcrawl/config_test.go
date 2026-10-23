@@ -110,7 +110,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"VISITCRAWL_MAX_IN_FLIGHT": "0"},
 		{"VISITCRAWL_MAX_BODY_BYTES": "-1"},
 		{"VISITCRAWL_MAX_DEPTH": "-1"},
-		{"VISITCRAWL_MAX_PAGES_PER_HOST": "0"},
+		{"VISITCRAWL_MAX_PAGES_PER_HOST": "-1"},
 		{"VISITCRAWL_ALLOW_QUERY_URLS": "maybe"},
 		{"VISITCRAWL_URL_MUST_MATCH": "([unclosed"},
 		{"VISITCRAWL_URL_MUST_NOT_MATCH": "([unclosed"},

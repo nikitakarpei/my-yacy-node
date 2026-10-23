@@ -1,22 +1,24 @@
 package yacycrawlcontract
 
-type CrawlScope int
+type CrawlScope string
 
 const (
-	ScopeWide CrawlScope = iota
-	ScopeDomain
-	ScopeSubpath
+	ScopeWide    CrawlScope = "wide"
+	ScopeDomain  CrawlScope = "domain"
+	ScopeSubpath CrawlScope = "subpath"
 )
+
+var CrawlScopes = []CrawlScope{ScopeWide, ScopeDomain, ScopeSubpath}
 
 const MatchAll = ".*"
 
-const UnlimitedPagesPerHost = -1
+const UnlimitedPagesPerHost = 0
 
 type CrawlProfile struct {
 	Scope           CrawlScope `json:"Scope"`
-	URLMustMatch    string     `json:"URLMustMatch"`
-	URLMustNotMatch string     `json:"URLMustNotMatch"`
+	URLMustMatch    string     `json:"URLMustMatch,omitzero"`
+	URLMustNotMatch string     `json:"URLMustNotMatch,omitzero"`
 	MaxDepth        int        `json:"MaxDepth"`
-	AllowQueryURLs  bool       `json:"AllowQueryURLs"`
-	MaxPagesPerHost int        `json:"MaxPagesPerHost"`
+	AllowQueryURLs  bool       `json:"AllowQueryURLs,omitzero"`
+	MaxPagesPerHost int        `json:"MaxPagesPerHost,omitzero"`
 }
