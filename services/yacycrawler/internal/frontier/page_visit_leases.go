@@ -155,10 +155,10 @@ func (leases pageVisitLeases) settle(
 	leasedPageVisit pendingpagevisit.LeasedPageVisit,
 ) {
 	pageVisit := leasedPageVisit.PageVisit
-	leased := false
+	settled := false
 	if err := leases.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		leased, err = leases.ledger.settleLeased(
+		settled, err = leases.ledger.settleLeased(
 			tx,
 			pageVisitKeyOf(pageVisit),
 			leasedPageVisit.LeasedUntil.Unix(),
@@ -168,7 +168,7 @@ func (leases pageVisitLeases) settle(
 		leases.observer.FrontierSettleFailed(ctx, pageVisit, err)
 		return
 	}
-	if !leased {
+	if !settled {
 		leases.observer.FrontierLeaseOutdated(ctx, pageVisit)
 	}
 }
@@ -180,16 +180,16 @@ func (leases pageVisitLeases) returnAfter(
 ) {
 	pageVisit := leasedPageVisit.PageVisit
 	due := secondsAtOrAfter(leases.clock.Now().Add(delay))
-	leased := false
+	returned := false
 	if err := leases.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		leased, err = leases.ledger.returnLeased(
+		returned, err = leases.ledger.returnLeased(
 			tx,
 			pageVisitKeyOf(pageVisit),
 			leasedPageVisit.LeasedUntil.Unix(),
 			due,
 		)
-		if err != nil || !leased {
+		if err != nil || !returned {
 			return err
 		}
 		return leases.heads.moveEarlierIfPresent(tx, pageVisit.CrawlID, duePosition{due: due})
@@ -197,7 +197,7 @@ func (leases pageVisitLeases) returnAfter(
 		leases.observer.FrontierReturnFailed(ctx, pageVisit, delay, err)
 		return
 	}
-	if !leased {
+	if !returned {
 		leases.observer.FrontierLeaseOutdated(ctx, pageVisit)
 	}
 }
