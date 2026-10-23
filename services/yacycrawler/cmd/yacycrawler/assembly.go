@@ -42,6 +42,7 @@ import (
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogress"
+	crawlprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlprogressobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontier"
 	frontiermetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/frontiermetrics/prometheus"
@@ -132,7 +133,7 @@ func RunService(
 	progressCounter := crawlprogress.NewCounter(
 		storage,
 		crawlState.progressCounts,
-		frontierobserversapplog.FrontierLog{},
+		crawlprogressobserversapplog.CrawlProgressLog{},
 	)
 	pendingPageVisitObservers := pagevisitintake.PendingPageVisitObservers{
 		pendingpagevisitobserversapplog.PendingPageVisitLog{},

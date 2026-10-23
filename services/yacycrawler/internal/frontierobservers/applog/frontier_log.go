@@ -1,5 +1,5 @@
-// Package applog reports to the service log the frontier and crawl operations the crawl
-// state storage refused.
+// Package applog reports to the service log the frontier operations the crawl state storage
+// refused.
 package applog
 
 import (
@@ -7,21 +7,16 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 const (
-	msgFrontierLeaseFailed       = "no page visit could be leased from the frontier"
-	msgFrontierDrainFailed       = "the page visits of a draining queue could not be dropped"
-	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
-	msgFrontierEndFailed         = "an ended page visit could not be removed from the frontier"
-	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"
-	msgCompletedVisitNotCounted  = "a completed page visit could not be counted in the progress of its crawl"
-	msgDroppedVisitNotCounted    = "a dropped page visit could not be counted in the progress of its crawl"
-	msgUnadmittedLinksNotCounted = "unadmitted links could not be counted in the progress of their crawl"
-	msgFrontierLeaseOutdated     = "a page visit was ended or returned under a lease that has expired"
+	msgFrontierLeaseFailed   = "no page visit could be leased from the frontier"
+	msgFrontierDrainFailed   = "the page visits of a draining queue could not be dropped"
+	msgFrontierCountFailed   = "the page visits on the frontier could not be counted"
+	msgFrontierEndFailed     = "an ended page visit could not be removed from the frontier"
+	msgFrontierReturnFailed  = "a page visit could not be returned to the frontier"
+	msgFrontierLeaseOutdated = "a page visit was ended or returned under a lease that has expired"
 )
 
 type FrontierLog struct{}
@@ -56,43 +51,6 @@ func (FrontierLog) FrontierReturnFailed(
 		slog.String("crawl", pageVisit.CrawlID.String()),
 		slog.String("url", pageVisit.URL.String()),
 		slog.Duration("delay", delay),
-		slog.Any("error", err),
-	)
-}
-
-func (FrontierLog) CompletedPageVisitNotCounted(
-	ctx context.Context,
-	crawlID crawlid.CrawlID,
-	result yacycrawlcontract.PageVisitResult,
-	err error,
-) {
-	slog.WarnContext(ctx, msgCompletedVisitNotCounted,
-		slog.String("crawl", crawlID.String()),
-		slog.String("result", string(result)),
-		slog.Any("error", err),
-	)
-}
-
-func (FrontierLog) DroppedPageVisitNotCounted(
-	ctx context.Context,
-	crawlID crawlid.CrawlID,
-	reason yacycrawlcontract.PageVisitDropReason,
-	err error,
-) {
-	slog.WarnContext(ctx, msgDroppedVisitNotCounted,
-		slog.String("crawl", crawlID.String()),
-		slog.String("reason", string(reason)),
-		slog.Any("error", err),
-	)
-}
-
-func (FrontierLog) UnadmittedLinksNotCounted(
-	ctx context.Context,
-	crawlID crawlid.CrawlID,
-	err error,
-) {
-	slog.WarnContext(ctx, msgUnadmittedLinksNotCounted,
-		slog.String("crawl", crawlID.String()),
 		slog.Any("error", err),
 	)
 }
