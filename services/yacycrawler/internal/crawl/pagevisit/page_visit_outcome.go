@@ -3,8 +3,7 @@ package pagevisit
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type PageVisitConclusion int
@@ -19,17 +18,17 @@ const (
 
 type PageVisitOutcome struct {
 	Conclusion  PageVisitConclusion
-	Result      pagevisitresult.Result
-	DropReason  pagevisitdrop.Reason
+	Result      yacycrawlcontract.PageVisitResult
+	DropReason  yacycrawlcontract.PageVisitDropReason
 	DeferFor    time.Duration
 	ReturnCause error
 }
 
-func completedOutcome(result pagevisitresult.Result) PageVisitOutcome {
+func completedOutcome(result yacycrawlcontract.PageVisitResult) PageVisitOutcome {
 	return PageVisitOutcome{Conclusion: PageVisitCompleted, Result: result}
 }
 
-func droppedOutcome(reason pagevisitdrop.Reason) PageVisitOutcome {
+func droppedOutcome(reason yacycrawlcontract.PageVisitDropReason) PageVisitOutcome {
 	return PageVisitOutcome{Conclusion: PageVisitDropped, DropReason: reason}
 }
 

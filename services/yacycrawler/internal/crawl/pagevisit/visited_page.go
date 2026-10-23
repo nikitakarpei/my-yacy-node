@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -57,17 +57,19 @@ func (page visitedPage) outcome() PageVisitOutcome {
 	case pagefetch.FetchSucceeded:
 		return outcomeOfReading(page.readingErr)
 	case pagefetch.FetchRedirected:
-		return completedOutcome(pagevisitresult.Redirected)
+		return completedOutcome(yacycrawlcontract.ResultRedirected)
 	case pagefetch.FetchNotModified:
-		return completedOutcome(pagevisitresult.NotModified)
+		return completedOutcome(yacycrawlcontract.ResultNotModified)
 	case pagefetch.FetchAccessRefused:
-		return completedOutcome(pagevisitresult.AccessRefused)
-	case pagefetch.FetchRejected, pagefetch.FetchGone:
-		return completedOutcome(pagevisitresult.FetchRejected)
+		return completedOutcome(yacycrawlcontract.ResultAccessRefused)
+	case pagefetch.FetchRejected:
+		return completedOutcome(yacycrawlcontract.ResultFetchRejected)
+	case pagefetch.FetchGone:
+		return completedOutcome(yacycrawlcontract.ResultNotFound)
 	case pagefetch.FetchRedirectTargetInvalid:
-		return completedOutcome(pagevisitresult.RedirectTargetInvalid)
+		return completedOutcome(yacycrawlcontract.ResultRedirectTargetInvalid)
 	case pagefetch.FetchOversized:
-		return completedOutcome(pagevisitresult.Oversized)
+		return completedOutcome(yacycrawlcontract.ResultOversized)
 	case pagefetch.FetchDeferred:
 		return deferredOutcome(page.fetchOutcome.DeferFor)
 	default:
@@ -77,10 +79,10 @@ func (page visitedPage) outcome() PageVisitOutcome {
 
 func outcomeOfReading(readingErr error) PageVisitOutcome {
 	if errors.Is(readingErr, pagehtmlreading.ErrPageNotHTML) {
-		return completedOutcome(pagevisitresult.UnsupportedMediaType)
+		return completedOutcome(yacycrawlcontract.ResultUnsupportedMediaType)
 	}
 	if readingErr != nil {
-		return completedOutcome(pagevisitresult.UnreadableHTML)
+		return completedOutcome(yacycrawlcontract.ResultUnreadableHTML)
 	}
-	return completedOutcome(pagevisitresult.Published)
+	return completedOutcome(yacycrawlcontract.ResultPublished)
 }

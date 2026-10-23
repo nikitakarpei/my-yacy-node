@@ -11,12 +11,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -110,7 +109,7 @@ func (c *PageVisitConsumer) payPageVisit(
 		return nil
 	}
 	if !found {
-		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.OrderForgotten)
+		c.dropPageVisit(ctx, message, pendingPageVisit, yacycrawlcontract.DropReasonOrderForgotten)
 		return nil
 	}
 	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
@@ -163,7 +162,7 @@ func (c *PageVisitConsumer) takePageVisit(
 		return false
 	}
 	if !took {
-		c.dropPageVisit(ctx, message, pendingPageVisit, pagevisitdrop.TakenByAnother)
+		c.dropPageVisit(ctx, message, pendingPageVisit, yacycrawlcontract.DropReasonTakenByAnother)
 		return false
 	}
 	return c.holdsHostPage(ctx, message, order, pendingPageVisit)
@@ -173,7 +172,7 @@ func (c *PageVisitConsumer) dropPageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	reason pagevisitdrop.Reason,
+	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	c.observer.PendingPageVisitDropped(ctx, pendingPageVisit, reason)
 	message.Acknowledge(ctx)
@@ -231,7 +230,7 @@ func (c *PageVisitConsumer) completePageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	result pagevisitresult.Result,
+	result yacycrawlcontract.PageVisitResult,
 ) {
 	message.Acknowledge(ctx)
 	c.observer.PendingPageVisitCompleted(ctx, pendingPageVisit, result)

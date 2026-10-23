@@ -10,8 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	pendingpagevisitmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/prometheus"
 )
@@ -22,10 +21,18 @@ func TestPageVisitAttemptsCountOneOutcomeEach(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{}
 
 	metrics.PendingPageVisitReturned(context.Background(), visit, errors.New("unavailable"))
-	metrics.PendingPageVisitDropped(context.Background(), visit, pagevisitdrop.TakenByAnother)
+	metrics.PendingPageVisitDropped(
+		context.Background(),
+		visit,
+		yacycrawlcontract.DropReasonTakenByAnother,
+	)
 	metrics.PendingPageVisitDeferred(context.Background(), visit, time.Minute)
 	metrics.PendingPageVisitRetryScheduled(context.Background(), visit, time.Minute)
-	metrics.PendingPageVisitCompleted(context.Background(), visit, pagevisitresult.FetchRejected)
+	metrics.PendingPageVisitCompleted(
+		context.Background(),
+		visit,
+		yacycrawlcontract.ResultFetchRejected,
+	)
 
 	expected := `
 # HELP yacycrawler_page_visit_attempts_total Attempts to visit a page, by the outcome each attempt reached.

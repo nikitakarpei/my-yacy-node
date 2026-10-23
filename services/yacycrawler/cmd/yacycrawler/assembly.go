@@ -378,7 +378,10 @@ func buildPageVisitConsumer(
 		crawlState.frontier,
 		crawlState.takenPageVisits,
 		pagevisitallowance.New(
-			crawlState.storage, crawlState.pageVisitLimits, cfg.FetchRetryBounds(),
+			crawlState.storage,
+			crawlState.pageVisitLimits,
+			cfg.FetchRetryBounds(),
+			cfg.MaxDeferral(),
 		),
 		crawlState.crawls,
 		pageVisitor,

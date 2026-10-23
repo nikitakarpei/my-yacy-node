@@ -1,6 +1,6 @@
-// Package pagevisitallowance takes for a pending page visit a page of its host,
-// another deferral, or another attempt while its limits leave room, and names the
-// limit that stopped it when none is left.
+// Package pagevisitallowance takes for a pending page visit a page of its host, another
+// deferral no longer than the longest one allowed, or another attempt while its limits
+// leave room, and names the limit that stopped it when none is left.
 package pagevisitallowance
 
 import (
@@ -10,8 +10,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -38,17 +38,28 @@ type PageVisitLimits interface {
 type Allowance struct {
 	Granted    bool
 	PauseFor   time.Duration
-	DropReason pagevisitdrop.Reason
+	DropReason yacycrawlcontract.PageVisitDropReason
 }
 
 type Allowances struct {
-	storage    *vault.Vault
-	limits     PageVisitLimits
-	retryDelay retrydelay.Bounds
+	storage     *vault.Vault
+	limits      PageVisitLimits
+	retryDelay  retrydelay.Bounds
+	maxDeferral time.Duration
 }
 
-func New(storage *vault.Vault, limits PageVisitLimits, retryDelay retrydelay.Bounds) *Allowances {
-	return &Allowances{storage: storage, limits: limits, retryDelay: retryDelay}
+func New(
+	storage *vault.Vault,
+	limits PageVisitLimits,
+	retryDelay retrydelay.Bounds,
+	maxDeferral time.Duration,
+) *Allowances {
+	return &Allowances{
+		storage:     storage,
+		limits:      limits,
+		retryDelay:  retryDelay,
+		maxDeferral: maxDeferral,
+	}
 }
 
 func (allowances *Allowances) TakePageOfHost(
@@ -69,7 +80,7 @@ func (allowances *Allowances) TakePageOfHost(
 		)
 	}
 	if !took {
-		return exhaustedAllowance(pagevisitdrop.HostPagesExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonHostPagesExhausted), nil
 	}
 	return grantedAllowance(), nil
 }
@@ -79,6 +90,9 @@ func (allowances *Allowances) TakeDeferral(
 	pageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) (Allowance, error) {
+	if deferFor > allowances.maxDeferral {
+		return exhaustedAllowance(yacycrawlcontract.DropReasonDeferralsExhausted), nil
+	}
 	var took bool
 	if err := allowances.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
@@ -92,7 +106,7 @@ func (allowances *Allowances) TakeDeferral(
 		)
 	}
 	if !took {
-		return exhaustedAllowance(pagevisitdrop.DeferralsExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonDeferralsExhausted), nil
 	}
 	return grantedAllowanceAfter(deferFor), nil
 }
@@ -115,7 +129,7 @@ func (allowances *Allowances) TakeAttempt(
 		)
 	}
 	if !took {
-		return exhaustedAllowance(pagevisitdrop.RetriesExhausted), nil
+		return exhaustedAllowance(yacycrawlcontract.DropReasonRetriesExhausted), nil
 	}
 	return grantedAllowanceAfter(allowances.retryDelay.Delay(attempt)), nil
 }
@@ -128,6 +142,6 @@ func grantedAllowanceAfter(pauseFor time.Duration) Allowance {
 	return Allowance{Granted: true, PauseFor: pauseFor}
 }
 
-func exhaustedAllowance(reason pagevisitdrop.Reason) Allowance {
+func exhaustedAllowance(reason yacycrawlcontract.PageVisitDropReason) Allowance {
 	return Allowance{DropReason: reason}
 }

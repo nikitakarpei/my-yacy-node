@@ -6,8 +6,7 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -57,7 +56,9 @@ func (metrics *PendingPageVisitMetrics) PendingPageVisitReturned(
 }
 
 func (metrics *PendingPageVisitMetrics) PendingPageVisitDropped(
-	_ context.Context, _ pendingpagevisit.PendingPageVisit, reason pagevisitdrop.Reason,
+	_ context.Context,
+	_ pendingpagevisit.PendingPageVisit,
+	reason yacycrawlcontract.PageVisitDropReason,
 ) {
 	metrics.pageVisitAttempts.WithLabelValues(outcomeDropped).Inc()
 	metrics.droppedPageVisits.WithLabelValues(string(reason)).Inc()
@@ -76,7 +77,9 @@ func (metrics *PendingPageVisitMetrics) PendingPageVisitRetryScheduled(
 }
 
 func (metrics *PendingPageVisitMetrics) PendingPageVisitCompleted(
-	_ context.Context, _ pendingpagevisit.PendingPageVisit, result pagevisitresult.Result,
+	_ context.Context,
+	_ pendingpagevisit.PendingPageVisit,
+	result yacycrawlcontract.PageVisitResult,
 ) {
 	metrics.pageVisitAttempts.WithLabelValues(outcomeCompleted).Inc()
 	metrics.completedPageVisits.WithLabelValues(string(result)).Inc()

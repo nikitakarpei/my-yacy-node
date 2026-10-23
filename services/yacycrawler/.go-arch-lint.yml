@@ -10,10 +10,6 @@ commonVendors:
   - canonicalurl
 
 components:
-  pagevisitdrop:
-    in: internal/crawl/pagevisitdrop/**
-  pagevisitresult:
-    in: internal/crawl/pagevisitresult/**
   retrydelay:
     in: internal/crawl/retrydelay/**
   crawlid:
@@ -173,8 +169,6 @@ deps:
   pagevisitintake:
     mayDependOn:
       - crawlid
-      - pagevisitdrop
-      - pagevisitresult
       - pagevisitallowance
       - pendingpagevisit
       - acceptedorder
@@ -195,8 +189,6 @@ deps:
   pagevisit:
     mayDependOn:
       - acceptedorder
-      - pagevisitdrop
-      - pagevisitresult
       - pagehtmlreading
       - pendingpagevisit
     canUse:
@@ -218,7 +210,6 @@ deps:
   pagevisitallowance:
     mayDependOn:
       - crawlid
-      - pagevisitdrop
       - pendingpagevisit
       - retrydelay
     canUse:
@@ -293,16 +284,12 @@ deps:
       - prometheus
   pendingpagevisitobserversapplog:
     mayDependOn:
-      - pagevisitdrop
-      - pagevisitresult
       - pendingpagevisit
   frontiermetricsprometheus:
     canUse:
       - prometheus
   pendingpagevisitobserversprometheus:
     mayDependOn:
-      - pagevisitdrop
-      - pagevisitresult
       - pendingpagevisit
     canUse:
       - prometheus

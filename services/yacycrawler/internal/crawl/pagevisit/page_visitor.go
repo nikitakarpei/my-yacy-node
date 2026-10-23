@@ -11,8 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -68,7 +68,7 @@ func (visitor *pageVisitor) VisitPage(
 	url := pendingPageVisit.URL
 	lastVisit, visited := visitor.lastPageVisitOf(ctx, url)
 	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
-		return droppedOutcome(pagevisitdrop.NotDue)
+		return droppedOutcome(yacycrawlcontract.DropReasonNotDue)
 	}
 	visitedPage := visitor.fetchAndRead(ctx, url, lastVisit.Version)
 	if visitedPage.isReadable() && !visitor.publishCrawledPage(ctx, url, visitedPage) {

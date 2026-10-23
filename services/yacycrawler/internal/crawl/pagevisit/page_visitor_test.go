@@ -18,8 +18,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitdrop"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -249,7 +247,7 @@ func TestAReadPageIsPublishedAndItsLinksGoOnTheFrontier(t *testing.T) {
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Result != pagevisitresult.Published {
+	if outcome.Result != yacycrawlcontract.ResultPublished {
 		t.Fatalf("result = %q, want published", outcome.Result)
 	}
 	if len(scene.crawledPages.indexable) != 1 || scene.crawledPages.indexable[0] != "http://host/" {
@@ -315,7 +313,7 @@ func TestARedirectTargetGoesOnTheFrontierAtTheSameDepth(t *testing.T) {
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Result != pagevisitresult.Redirected {
+	if outcome.Result != yacycrawlcontract.ResultRedirected {
 		t.Fatalf("result = %q, want redirected", outcome.Result)
 	}
 	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: redirectTarget, Depth: 1}
@@ -402,7 +400,7 @@ func TestAPageThatIsNotHTMLCompletesUnpublishedAndRecorded(t *testing.T) {
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Result != pagevisitresult.UnsupportedMediaType {
+	if outcome.Result != yacycrawlcontract.ResultUnsupportedMediaType {
 		t.Fatalf("result = %q, want unsupported media type", outcome.Result)
 	}
 	if len(scene.pageVisitRecords.visitedCalls) != 1 {
@@ -419,19 +417,19 @@ func TestUnreadablePageHTMLCompletesUnpublished(t *testing.T) {
 
 	outcome := scene.completedVisit(t)
 
-	if outcome.Result != pagevisitresult.UnreadableHTML {
+	if outcome.Result != yacycrawlcontract.ResultUnreadableHTML {
 		t.Fatalf("result = %q, want unreadable html", outcome.Result)
 	}
 }
 
 func TestAFetchThatEndsWithoutAPageConcludesByItsStatus(t *testing.T) {
-	for status, want := range map[pagefetch.FetchStatus]pagevisitresult.Result{
-		pagefetch.FetchRejected:              pagevisitresult.FetchRejected,
-		pagefetch.FetchGone:                  pagevisitresult.FetchRejected,
-		pagefetch.FetchOversized:             pagevisitresult.Oversized,
-		pagefetch.FetchRedirectTargetInvalid: pagevisitresult.RedirectTargetInvalid,
-		pagefetch.FetchAccessRefused:         pagevisitresult.AccessRefused,
-		pagefetch.FetchNotModified:           pagevisitresult.NotModified,
+	for status, want := range map[pagefetch.FetchStatus]yacycrawlcontract.PageVisitResult{
+		pagefetch.FetchRejected:              yacycrawlcontract.ResultFetchRejected,
+		pagefetch.FetchGone:                  yacycrawlcontract.ResultNotFound,
+		pagefetch.FetchOversized:             yacycrawlcontract.ResultOversized,
+		pagefetch.FetchRedirectTargetInvalid: yacycrawlcontract.ResultRedirectTargetInvalid,
+		pagefetch.FetchAccessRefused:         yacycrawlcontract.ResultAccessRefused,
+		pagefetch.FetchNotModified:           yacycrawlcontract.ResultNotModified,
 	} {
 		scene := sceneFetching(pagefetch.FetchOutcome{Status: status})
 
@@ -495,7 +493,7 @@ func TestAPageNotDueIsNotFetched(t *testing.T) {
 	outcome := scene.visit(t)
 
 	if outcome.Conclusion != pagevisit.PageVisitDropped ||
-		outcome.DropReason != pagevisitdrop.NotDue {
+		outcome.DropReason != yacycrawlcontract.DropReasonNotDue {
 		t.Fatalf("outcome = %+v, want dropped as not due", outcome)
 	}
 	if scene.fetch.sawFetch {
