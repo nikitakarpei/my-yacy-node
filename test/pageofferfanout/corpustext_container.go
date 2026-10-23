@@ -5,14 +5,18 @@ package e2e
 import (
 	"context"
 	"testing"
+	"time"
 
+	"github.com/nats-io/nats.go/jetstream"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const (
@@ -20,10 +24,13 @@ const (
 	corpusTextOperationsPort = "9090/tcp"
 	corpusTextMetricsPath    = "/metrics"
 	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
-	manticoreAlias           = "manticore"
-	manticoreTableBase       = "yacy_text"
-	indexedLanguage          = "en"
-	manticoreTable           = manticoreTableBase + "_v1_" + indexedLanguage
+	corpusTextDurable        = "corpustext"
+
+	corpusTextDurableAppearance = 60 * time.Second
+	manticoreAlias              = "manticore"
+	manticoreTableBase          = "yacy_text"
+	indexedLanguage             = "en"
+	manticoreTable              = manticoreTableBase + "_v1_" + indexedLanguage
 )
 
 func startManticore(t *testing.T, ctx context.Context, networkName string) string {
@@ -58,4 +65,20 @@ func startCorpusText(t *testing.T, ctx context.Context, networkName string) {
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "corpustext", container)
+}
+
+func awaitCorpusTextDurable(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+	t.Helper()
+	registered := pollwait.For(corpusTextDurableAppearance, func() bool {
+		stream, err := js.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
+		if err != nil {
+			return false
+		}
+		_, err = stream.Consumer(ctx, corpusTextDurable)
+		return err == nil
+	})
+	if !registered {
+		t.Fatalf("corpustext did not register its %q durable within %s",
+			corpusTextDurable, corpusTextDurableAppearance)
+	}
 }

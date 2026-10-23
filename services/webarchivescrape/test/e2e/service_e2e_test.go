@@ -110,11 +110,11 @@ func TestCorpusTextIndexesCapturedAddressFromPywbReplay(t *testing.T) {
 			Body:       htmlPage("distinct newest archive words"),
 		},
 	})
-	natsjetstream.Start(t, ctx, network.Name)
+	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
 	manticoreURL := manticore.Start(t, ctx, network.Name, "manticore")
-	startCorpusText(t, ctx, network.Name)
+	startCorpusText(t, ctx, network.Name, natsURL)
 
 	runWebArchiveScrape(
 		t,

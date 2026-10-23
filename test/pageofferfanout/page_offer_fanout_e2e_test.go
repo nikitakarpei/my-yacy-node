@@ -27,6 +27,7 @@ func TestEveryCorpusAbsorbsTheSameOfferedPageEndToEnd(t *testing.T) {
 	startCorpusText(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
+	awaitCorpusTextDurable(t, ctx, js)
 	publishScrapeRequest(t, ctx, js, originURL)
 
 	markdown := absorbedMarkdownOf(t, ctx, recallAddress, originURL)
