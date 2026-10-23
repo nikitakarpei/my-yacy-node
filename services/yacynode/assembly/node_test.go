@@ -38,23 +38,27 @@ func TestRunServiceStopsWhenItsContextIsCanceled(t *testing.T) {
 	}
 }
 
-func TestRunServiceReportsAnUnreachablePageOfferBroker(t *testing.T) {
+func TestRunServiceServesPeersWhileThePageOffersAreUnavailable(t *testing.T) {
 	config := nodeConfigFor(t)
 	config.PageOfferIntake = nodeconfiguration.PageOfferIntakeConfig{
 		PageOfferNATSURL:           "nats://127.0.0.1:1",
 		PageOfferDurable:           nodeconfiguration.DefaultPageOfferDurable,
 		PageOfferIntakeConcurrency: nodeconfiguration.DefaultPageOfferIntakeConcurrency,
 	}
-
 	node := startNode(t, config)
-	defer node.stop()
 
-	err := node.wait(t)
-	if err == nil {
-		t.Fatal("RunService returned nil, want the broker failure")
+	status, body := node.answerTo(t, http.MethodGet, "http://"+node.peerAddr+"/", nil)
+	if status != http.StatusOK {
+		t.Errorf(
+			"landing page = %d %q, want 200 while the page offers are unavailable",
+			status,
+			body,
+		)
 	}
-	if !strings.Contains(err.Error(), "page offer broker") {
-		t.Fatalf("RunService: %v, want a page offer broker failure", err)
+
+	node.stop()
+	if err := node.wait(t); err != nil && !errors.Is(err, context.Canceled) {
+		t.Fatalf("RunService: %v", err)
 	}
 }
 

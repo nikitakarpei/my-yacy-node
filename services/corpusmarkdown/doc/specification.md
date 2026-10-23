@@ -34,6 +34,8 @@ back to callers that ask for one URL.
 * The service SHALL send back a receipt for every page it disposes of, saying whether it
   kept the page or rejected it.
 * The service SHALL serve the markdown it holds for a requested URL over HTTP.
+* The service SHALL serve recalls while the page offers are unavailable, and SHALL try
+  again to open them.
 * The service SHALL answer with an opaque version of the markdown it serves, which changes
   only when that markdown changes.
 * For a URL the service holds no markdown for, it SHALL answer that the corpus holds none,

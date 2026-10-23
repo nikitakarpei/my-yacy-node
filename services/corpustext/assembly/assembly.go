@@ -18,7 +18,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferopening"
 	pageofferopeningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferopeningobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
 	textsearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearchobservers/applog"
@@ -28,6 +27,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
@@ -56,7 +56,7 @@ func RunService(
 	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
-	pageOfferOpening := pageofferopening.Start(
+	pageOfferOpening := streamopening.Start(
 		ctx,
 		pageOfferOpenerFor(cfg),
 		wallclock.Clock{},
@@ -123,7 +123,7 @@ func RunService(
 
 func takeInPageOffers(
 	ctx context.Context,
-	pageOfferOpening *pageofferopening.Opening[pageOffers],
+	pageOfferOpening *streamopening.Opening[pageOffers],
 	intakeConfig pageintake.Config,
 	intakeReceiptPublicationObservers intakereceiptsnats.IntakeReceiptPublicationObservers,
 ) error {

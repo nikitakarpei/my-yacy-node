@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -21,10 +22,12 @@ import (
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/prometheus"
 	pagemarkdowncorporafilesystem "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/filesystem"
 	pagemarkdowncorporas3 "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/s3"
+	pageofferopeningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageofferopeningobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
@@ -56,16 +59,13 @@ func RunService(
 	listeners Listeners,
 	registry *prometheus.Registry,
 ) error {
-	pageOfferJetStream, pageOfferConnection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
-	if err != nil {
-		return err
-	}
-	defer pageOfferConnection.Close()
-
-	consumer, err := pageOfferConsumerFor(ctx, pageOfferJetStream, cfg)
-	if err != nil {
-		return err
-	}
+	pageOfferOpening := streamopening.Start(
+		ctx,
+		pageOfferOpenerFor(cfg),
+		wallclock.Clock{},
+		pageofferopeningobserversapplog.PageOfferOpeningLog{},
+	)
+	defer pageOfferOpening.Close()
 	markdownCorpus, err := openPageMarkdownCorpus(ctx, cfg)
 	if err != nil {
 		return err
@@ -79,23 +79,19 @@ func RunService(
 		Name: "corpusmarkdown_info",
 		Help: "Corpus Markdown application identity.",
 	}, func() float64 { return 1 }))
-	intake := pageintake.NewOfferedPageConsumer(pageintake.Config{
-		Source:            consumer,
+	intakeConfig := pageintake.Config{
 		FormatDerivations: formatDerivations,
 		Corpus:            markdownCorpus,
-		IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
-			pageOfferConnection, pagescrapecontract.CorpusMarkdown,
-			intakereceiptsnats.IntakeReceiptPublicationObservers{
-				intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
-				intakereceiptpublicationobserversprometheus.New(registry),
-			},
-		),
 		PageIntakeObserver: pageintake.PageIntakeObservers{
 			pageintakeobserversapplog.PageIntakeLog{},
 			pageintakeobserversprometheus.New(registry),
 		},
 		PageOfferIntakeConcurrency: cfg.PageOfferIntakeConcurrency,
-	})
+	}
+	intakeReceiptPublicationObservers := intakereceiptsnats.IntakeReceiptPublicationObservers{
+		intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
+		intakereceiptpublicationobserversprometheus.New(registry),
+	}
 
 	recall := markdownrecall.NewPageMarkdownRecall(markdownCorpus)
 	recallServer := &http.Server{
@@ -113,14 +109,58 @@ func RunService(
 			{Name: "recall", Listener: listeners.Recall, Server: recallServer},
 		},
 		func(runCtx context.Context) error {
-			if err := intake.Run(runCtx); err != nil {
-				return fmt.Errorf("run offered page consumer: %w", err)
-			}
-			return nil
+			return takeInPageOffers(
+				runCtx, pageOfferOpening, intakeConfig, intakeReceiptPublicationObservers,
+			)
 		},
 	)
 	slog.InfoContext(ctx, "corpusmarkdown stopped")
 	return err
+}
+
+func takeInPageOffers(
+	ctx context.Context,
+	pageOfferOpening *streamopening.Opening[pageOffers],
+	intakeConfig pageintake.Config,
+	intakeReceiptPublicationObservers intakereceiptsnats.IntakeReceiptPublicationObservers,
+) error {
+	offers, opened := pageOfferOpening.Opened(ctx)
+	if !opened {
+		return nil
+	}
+	defer offers.Close()
+	intakeConfig.Source = offers.consumer
+	intakeConfig.IntakeReceipts = intakereceiptsnats.NewIntakeReceipts(
+		offers.connection, pagescrapecontract.CorpusMarkdown, intakeReceiptPublicationObservers,
+	)
+	if err := pageintake.NewOfferedPageConsumer(intakeConfig).Run(ctx); err != nil {
+		return fmt.Errorf("run offered page consumer: %w", err)
+	}
+	return nil
+}
+
+type pageOffers struct {
+	consumer   jetstream.Consumer
+	connection *nats.Conn
+}
+
+func (offers pageOffers) Close() {
+	offers.connection.Close()
+}
+
+func pageOfferOpenerFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, error) {
+	return func(ctx context.Context) (pageOffers, error) {
+		js, connection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
+		if err != nil {
+			return pageOffers{}, err
+		}
+		consumer, err := pageOfferConsumerFor(ctx, js, cfg)
+		if err != nil {
+			connection.Close()
+			return pageOffers{}, err
+		}
+		return pageOffers{consumer: consumer, connection: connection}, nil
+	}
 }
 
 func pageOfferConsumerFor(

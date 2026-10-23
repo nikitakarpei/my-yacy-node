@@ -22,6 +22,8 @@ components:
     in: opsmetrics/**
   servergroup:
     in: servergroup/**
+  streamopening:
+    in: streamopening/**
   poisonhalt:
     in: poisonhalt/**
   pullintake:

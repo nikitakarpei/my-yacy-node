@@ -18,8 +18,6 @@ components:
     in: internal/searchindexes/bleve/**
   pageintake:
     in: internal/pageintake/**
-  pageofferopening:
-    in: internal/pageofferopening/**
   pageofferopeningobserversapplog:
     in: internal/pageofferopeningobservers/applog/**
   textsearch:
@@ -84,6 +82,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening
 
 deps:
   scrapedpagedocument:

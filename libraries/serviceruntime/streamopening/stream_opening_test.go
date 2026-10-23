@@ -1,4 +1,4 @@
-package pageofferopening_test
+package streamopening_test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageofferopening"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening"
 )
 
 type firingClock struct {
@@ -43,7 +43,7 @@ type recordingObserver struct {
 	openings          int
 }
 
-func (o *recordingObserver) PageOffersUnavailable(
+func (o *recordingObserver) StreamUnavailable(
 	_ context.Context,
 	_ time.Duration,
 	cause error,
@@ -53,7 +53,7 @@ func (o *recordingObserver) PageOffersUnavailable(
 	o.unavailableCauses = append(o.unavailableCauses, cause)
 }
 
-func (o *recordingObserver) PageOffersOpened(_ context.Context) {
+func (o *recordingObserver) StreamOpened(_ context.Context) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.openings++
@@ -65,41 +65,41 @@ func (o *recordingObserver) counts() (int, int) {
 	return len(o.unavailableCauses), o.openings
 }
 
-type closablePageOffers struct {
+type closableSource struct {
 	closings *int
 }
 
-func (offers closablePageOffers) Close() {
-	*offers.closings++
+func (source closableSource) Close() {
+	*source.closings++
 }
 
-func openingAfter(failures int, closings *int) func(context.Context) (closablePageOffers, error) {
+func openingAfter(failures int, closings *int) func(context.Context) (closableSource, error) {
 	tries := 0
-	return func(context.Context) (closablePageOffers, error) {
+	return func(context.Context) (closableSource, error) {
 		tries++
 		if tries <= failures {
-			return closablePageOffers{}, errors.New("broker unreachable")
+			return closableSource{}, errors.New("broker unreachable")
 		}
-		return closablePageOffers{closings: closings}, nil
+		return closableSource{closings: closings}, nil
 	}
 }
 
-func TestOpenedYieldsThePageOffersAtTheFirstTry(t *testing.T) {
+func TestOpenedYieldsTheSourceAtTheFirstTry(t *testing.T) {
 	clock := &firingClock{}
 	observer := &recordingObserver{}
 	closings := 0
 
-	opening := pageofferopening.Start(
+	opening := streamopening.Start(
 		context.Background(),
 		openingAfter(0, &closings),
 		clock,
 		observer,
 	)
 	defer opening.Close()
-	offers, opened := opening.Opened(context.Background())
+	source, opened := opening.Opened(context.Background())
 
-	if !opened || offers.closings != &closings {
-		t.Fatalf("offers = %+v, opened = %v", offers, opened)
+	if !opened || source.closings != &closings {
+		t.Fatalf("source = %+v, opened = %v", source, opened)
 	}
 	unavailable, openings := observer.counts()
 	if len(clock.seenPauses()) != 0 || unavailable != 0 || openings != 1 {
@@ -113,7 +113,7 @@ func TestOpenedTriesAgainAfterAGrowingPause(t *testing.T) {
 	observer := &recordingObserver{}
 	closings := 0
 
-	opening := pageofferopening.Start(
+	opening := streamopening.Start(
 		context.Background(),
 		openingAfter(7, &closings),
 		clock,
@@ -121,7 +121,7 @@ func TestOpenedTriesAgainAfterAGrowingPause(t *testing.T) {
 	)
 	defer opening.Close()
 	if _, opened := opening.Opened(context.Background()); !opened {
-		t.Fatal("page offers not opened")
+		t.Fatal("source not opened")
 	}
 
 	wantPauses := []time.Duration{
@@ -137,10 +137,10 @@ func TestOpenedTriesAgainAfterAGrowingPause(t *testing.T) {
 }
 
 func TestOpenedEndsWhenItsWaitIsCancelled(t *testing.T) {
-	opening := pageofferopening.Start(
+	opening := streamopening.Start(
 		context.Background(),
-		func(context.Context) (closablePageOffers, error) {
-			return closablePageOffers{}, errors.New("broker unreachable")
+		func(context.Context) (closableSource, error) {
+			return closableSource{}, errors.New("broker unreachable")
 		},
 		stoppedClock{},
 		&recordingObserver{},
@@ -150,32 +150,32 @@ func TestOpenedEndsWhenItsWaitIsCancelled(t *testing.T) {
 	cancel()
 
 	if _, opened := opening.Opened(ctx); opened {
-		t.Error("page offers opened after the wait was cancelled")
+		t.Error("source opened after the wait was cancelled")
 	}
 }
 
-func TestCloseStopsTheTriesAndClosesUnclaimedPageOffers(t *testing.T) {
+func TestCloseStopsTheTriesAndClosesUnclaimedSource(t *testing.T) {
 	closings := 0
-	opening := pageofferopening.Start(
+	opening := streamopening.Start(
 		context.Background(), openingAfter(0, &closings), &firingClock{}, &recordingObserver{},
 	)
 
 	opening.Close()
 
 	if closings != 1 {
-		t.Errorf("closings = %d, want the unclaimed page offers closed once", closings)
+		t.Errorf("closings = %d, want the unclaimed source closed once", closings)
 	}
 	if _, opened := opening.Opened(context.Background()); opened {
-		t.Error("page offers opened after close")
+		t.Error("source opened after close")
 	}
 }
 
 func TestCloseStopsATryThatWaitsForTheBroker(t *testing.T) {
 	observer := &recordingObserver{}
-	opening := pageofferopening.Start(
+	opening := streamopening.Start(
 		context.Background(),
-		func(context.Context) (closablePageOffers, error) {
-			return closablePageOffers{}, errors.New("broker unreachable")
+		func(context.Context) (closableSource, error) {
+			return closableSource{}, errors.New("broker unreachable")
 		},
 		stoppedClock{},
 		observer,
