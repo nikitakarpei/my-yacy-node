@@ -23,6 +23,7 @@ const (
 )
 
 type PendingPageVisitMetrics struct {
+	leasedPageVisits    prometheusclient.Histogram
 	pageVisitAttempts   *prometheusclient.CounterVec
 	droppedPageVisits   *prometheusclient.CounterVec
 	completedPageVisits *prometheusclient.CounterVec
@@ -30,6 +31,11 @@ type PendingPageVisitMetrics struct {
 
 func New(registry prometheusclient.Registerer) *PendingPageVisitMetrics {
 	metrics := &PendingPageVisitMetrics{
+		leasedPageVisits: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacycrawler_page_visits_leased_at_once",
+			Help:    "Pending page visits leased at once for the workers free at that moment.",
+			Buckets: prometheusclient.ExponentialBuckets(1, 2, 10),
+		}),
 		pageVisitAttempts: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "yacycrawler_page_visit_attempts_total",
 			Help: "Attempts to visit a page, by the outcome each attempt reached.",
@@ -44,9 +50,14 @@ func New(registry prometheusclient.Registerer) *PendingPageVisitMetrics {
 		}, []string{labelResult}),
 	}
 	registry.MustRegister(
+		metrics.leasedPageVisits,
 		metrics.pageVisitAttempts, metrics.droppedPageVisits, metrics.completedPageVisits,
 	)
 	return metrics
+}
+
+func (metrics *PendingPageVisitMetrics) PendingPageVisitsLeased(_ context.Context, amount int) {
+	metrics.leasedPageVisits.Observe(float64(amount))
 }
 
 func (metrics *PendingPageVisitMetrics) PendingPageVisitReturned(

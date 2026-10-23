@@ -74,6 +74,9 @@ func (counter *Counter) LinksUnadmitted(
 	}
 }
 
+func (*Counter) PendingPageVisitsLeased(context.Context, int) {
+}
+
 func (*Counter) PendingPageVisitReturned(
 	context.Context,
 	pendingpagevisit.PendingPageVisit,

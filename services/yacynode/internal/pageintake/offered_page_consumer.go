@@ -54,7 +54,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 func (c *OfferedPageConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(
 		ctx,
-		pullintake.PendingMessagesOf(c.offeredPageSource),
+		pullintake.MessageQueueOf(c.offeredPageSource),
 		c.pageOfferIntakeConcurrency,
 		c.takeIn,
 	)

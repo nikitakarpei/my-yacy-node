@@ -9,6 +9,7 @@ import (
 )
 
 type PendingPageVisitObserver interface {
+	PendingPageVisitsLeased(ctx context.Context, amount int)
 	PendingPageVisitReturned(
 		ctx context.Context,
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
@@ -37,6 +38,15 @@ type PendingPageVisitObserver interface {
 }
 
 type PendingPageVisitObservers []PendingPageVisitObserver
+
+func (observers PendingPageVisitObservers) PendingPageVisitsLeased(
+	ctx context.Context,
+	amount int,
+) {
+	for _, observer := range observers {
+		observer.PendingPageVisitsLeased(ctx, amount)
+	}
+}
 
 func (observers PendingPageVisitObservers) PendingPageVisitReturned(
 	ctx context.Context,

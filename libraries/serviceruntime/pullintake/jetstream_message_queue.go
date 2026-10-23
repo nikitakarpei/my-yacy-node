@@ -13,24 +13,24 @@ type MessageSource interface {
 	Next(...jetstream.FetchOpt) (jetstream.Msg, error)
 }
 
-type jetStreamPendingMessages struct {
+type jetStreamMessageQueue struct {
 	source MessageSource
 }
 
-func PendingMessagesOf(source MessageSource) PendingMessages {
-	return jetStreamPendingMessages{source: source}
+func MessageQueueOf(source MessageSource) MessageQueue {
+	return jetStreamMessageQueue{source: source}
 }
 
-func (m jetStreamPendingMessages) Next(ctx context.Context) (PendingMessage, error) {
+func (queue jetStreamMessageQueue) NextUpTo(ctx context.Context, _ int) ([]PendingMessage, error) {
 	for {
-		message, err := m.source.Next(jetstream.FetchContext(contextWithoutDeadline{ctx}))
+		message, err := queue.source.Next(jetstream.FetchContext(contextWithoutDeadline{ctx}))
 		if errors.Is(err, nats.ErrTimeout) || errors.Is(err, jetstream.ErrNoHeartbeat) {
 			continue
 		}
 		if err != nil {
 			return nil, err
 		}
-		return pendingMessage{message: message}, nil
+		return []PendingMessage{pendingMessage{message: message}}, nil
 	}
 }
 

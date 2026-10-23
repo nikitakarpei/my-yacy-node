@@ -57,7 +57,7 @@ func NewOrderConsumer(
 func (c *OrderConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(
 		ctx,
-		pullintake.PendingMessagesOf(c.source),
+		pullintake.MessageQueueOf(c.source),
 		c.orderIntakeConcurrency,
 		c.takeInOrder,
 	)
