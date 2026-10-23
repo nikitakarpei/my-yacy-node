@@ -191,24 +191,16 @@ services:
     volumes:
       - yacycrawler-data:/data
 
-  manticore:
-    image: manticoresearch/manticore:27.1.5
-    restart: unless-stopped
-    volumes:
-      - manticore-data:/var/lib/manticore
-
   corpustext:
     image: ghcr.io/nikitakarpei/my-yacy-node/corpustext:latest
     restart: unless-stopped
+    volumes:
+      - corpustext-data:/var/lib/corpustext
     depends_on:
       pagescrape:
         condition: service_started
-      manticore:
-        condition: service_started
     environment:
       SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
-      SEARCH_INDEX_ENGINE: manticore
-      MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
@@ -412,7 +404,7 @@ volumes:
   nats-data:
   squid-data:
   yacy-data:
-  manticore-data:
+  corpustext-data:
   searxng-engines:
   searxng-plugins:
   caddy-data:

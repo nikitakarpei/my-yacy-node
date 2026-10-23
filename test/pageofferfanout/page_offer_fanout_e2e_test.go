@@ -14,6 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 )
 
+const indexedLanguage = "en"
+
 func TestEveryCorpusAbsorbsTheSameOfferedPageEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
@@ -23,11 +25,10 @@ func TestEveryCorpusAbsorbsTheSameOfferedPageEndToEnd(t *testing.T) {
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
-	startManticore(t, ctx, network.Name)
 	recallAddress := startCorpusMarkdown(t, ctx, network.Name)
-	corpusText := corpustextservice.Start(
-		t, ctx, network.Name, natsURL, manticoreCorpusTextEnv(),
-	)
+	corpusText := corpustextservice.Start(t, ctx, network.Name, natsURL, map[string]string{
+		"CORPUSTEXT_LANGUAGES": indexedLanguage,
+	})
 
 	js := connectJetStream(t, natsURL)
 	publishScrapeRequest(t, ctx, js, originURL)

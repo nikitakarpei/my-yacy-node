@@ -1,6 +1,6 @@
 # 1. Support Manticore as a search-index engine
 
-Status: accepted, amended by ADR 3
+Status: accepted, amended by ADR 3 and ADR 5
 
 ## Context
 

@@ -1,9 +1,10 @@
-# 4.1. Use Elasticsearch instead of Manticore
+# 4.1. Keep the index in Elasticsearch
 
 > "Can I keep my local search index in Elasticsearch?"
 
-This chapter stores crawled text in Elasticsearch instead of Manticore. Use it
-when you already operate Elasticsearch or need its tools.
+This chapter keeps crawled text in Elasticsearch instead of the built-in index.
+Use it when you already run Elasticsearch, need its tools, or run more than one
+`corpustext`.
 
 ## What this chapter changes
 
@@ -11,8 +12,8 @@ when you already operate Elasticsearch or need its tools.
 - `corpustext` writes crawled text to Elasticsearch and searches it.
 - `searxng` gets local search results from `corpustext`, as in chapter 4.
 
-This chapter does not move documents from Manticore. Submit a new crawl to fill
-the Elasticsearch index.
+Pages in the chapter 4 index do not move. Submit a new crawl to fill
+Elasticsearch.
 
 ## Start
 

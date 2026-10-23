@@ -12,7 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/corpustextservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
@@ -114,10 +113,7 @@ func TestCorpusTextIndexesCapturedAddressFromPywbReplay(t *testing.T) {
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
-	manticore.Start(t, ctx, network.Name, "manticore")
 	corpusText := corpustextservice.Start(t, ctx, network.Name, natsURL, map[string]string{
-		"SEARCH_INDEX_ENGINE":  "manticore",
-		"MANTICORE_URL":        manticore.NetworkURL("manticore"),
 		"CORPUSTEXT_LANGUAGES": "en",
 	})
 
