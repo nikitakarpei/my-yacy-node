@@ -31,15 +31,14 @@ func bootstrappedIndexes(t *testing.T, directory string) *bleve.Indexes {
 func openIndexes(t *testing.T) *bleve.Indexes {
 	t.Helper()
 	indexes := bootstrappedIndexes(t, t.TempDir())
-	t.Cleanup(func() { _ = indexes.Close() })
+	t.Cleanup(func() { indexes.Close(context.Background()) })
 	return indexes
 }
 
 func indexed(t *testing.T, indexes *bleve.Indexes, documents ...searchdocument.Document) {
 	t.Helper()
-	index := bleve.NewIndex(indexes)
 	for _, document := range documents {
-		if err := index.Index(context.Background(), document); err != nil {
+		if err := indexes.Index(context.Background(), document); err != nil {
 			t.Fatalf("index %s: %v", document.URL, err)
 		}
 	}
@@ -54,7 +53,7 @@ func matchesFor(
 	if search.Limit == 0 {
 		search.Limit = textsearch.DefaultMatchLimit
 	}
-	matches, err := bleve.NewLookup(indexes).MatchesFor(context.Background(), search)
+	matches, err := indexes.MatchesFor(context.Background(), search)
 	if err != nil {
 		t.Fatalf("matches: %v", err)
 	}
@@ -245,12 +244,10 @@ func TestIndexesKeepThePagesAcrossOpenings(t *testing.T) {
 	directory := t.TempDir()
 	first := bootstrappedIndexes(t, directory)
 	indexed(t, first, englishPage("https://example.com/guide", "Guide", "riverside"))
-	if err := first.Close(); err != nil {
-		t.Fatalf("close: %v", err)
-	}
+	first.Close(context.Background())
 
 	reopened := bootstrappedIndexes(t, directory)
-	t.Cleanup(func() { _ = reopened.Close() })
+	t.Cleanup(func() { reopened.Close(context.Background()) })
 
 	if got := urlsOf(matchesFor(t, reopened, textsearch.Search{Query: "riverside"})); len(
 		got,

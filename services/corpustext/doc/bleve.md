@@ -9,14 +9,15 @@ The service searches all indexes of its version at once.
 
 ## Fields
 
-| Field | Type | Stored |
-|---|---|---|
-| `title` | text | yes |
-| `content` | text | yes |
-| `auxiliary_text` | text | no |
-| `url` | keyword | yes |
-| `language` | keyword | no |
-| `crawled_at` | date | no |
+| Field | Type | Searched | Stored |
+|---|---|---|---|
+| `title` | text | yes | yes |
+| `content` | text | yes | yes |
+| `auxiliary_text` | text | yes | no |
+| `url` | keyword | no | yes |
+| `language` | keyword | yes | no |
+
+The index does not keep `crawled_at`.
 
 The `content` field holds the readable text of the page. The `auxiliary_text`
 field holds the text that the page has beside its article, such as notes.

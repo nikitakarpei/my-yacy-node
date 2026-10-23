@@ -8,15 +8,42 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"maps"
 	"os"
 	"path/filepath"
+	"slices"
 
 	blevesearch "github.com/blevesearch/bleve/v2"
+	"github.com/blevesearch/bleve/v2/analysis/analyzer/custom"
+	"github.com/blevesearch/bleve/v2/analysis/analyzer/keyword"
+	"github.com/blevesearch/bleve/v2/analysis/char/asciifolding"
+	"github.com/blevesearch/bleve/v2/analysis/lang/de"
+	"github.com/blevesearch/bleve/v2/analysis/lang/en"
+	"github.com/blevesearch/bleve/v2/analysis/lang/fr"
+	"github.com/blevesearch/bleve/v2/analysis/lang/ru"
+	"github.com/blevesearch/bleve/v2/analysis/token/lowercase"
+	"github.com/blevesearch/bleve/v2/analysis/tokenizer/unicode"
+	"github.com/blevesearch/bleve/v2/mapping"
+	"github.com/blevesearch/bleve/v2/search"
+	"github.com/blevesearch/bleve/v2/search/query"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
+	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
-const directoryPermission = 0o750
+const (
+	directoryPermission  = 0o750
+	undeterminedAnalyzer = "corpus_text_und"
+	everyField           = "_all"
+)
+
+var languageAnalyzers = map[string]string{
+	"en": en.AnalyzerName,
+	"de": de.AnalyzerName,
+	"fr": fr.AnalyzerName,
+	"ru": ru.AnalyzerName,
+}
 
 type Indexes struct {
 	directory       string
@@ -33,9 +60,6 @@ func (indexes *Indexes) Bootstrap(ctx context.Context) error {
 	if err := os.MkdirAll(indexes.directory, directoryPermission); err != nil {
 		return fmt.Errorf("create search index directory %s: %w", indexes.directory, err)
 	}
-	if err := snippetHighlighterDefined(); err != nil {
-		return err
-	}
 	openIndexes := make(map[string]blevesearch.Index, len(indexes.languageIndexes.All()))
 	for _, languageIndex := range indexes.languageIndexes.All() {
 		opened, err := indexes.openedOrCreated(ctx, languageIndex)
@@ -45,7 +69,7 @@ func (indexes *Indexes) Bootstrap(ctx context.Context) error {
 		openIndexes[languageIndex.Name] = opened
 	}
 	indexes.openIndexes = openIndexes
-	indexes.alias = blevesearch.NewIndexAlias(valuesOf(openIndexes)...)
+	indexes.alias = blevesearch.NewIndexAlias(slices.Collect(maps.Values(openIndexes))...)
 	return nil
 }
 
@@ -74,16 +98,67 @@ func (indexes *Indexes) openedOrCreated(
 	return created, nil
 }
 
-func valuesOf(openIndexes map[string]blevesearch.Index) []blevesearch.Index {
-	values := make([]blevesearch.Index, 0, len(openIndexes))
-	for _, opened := range openIndexes {
-		values = append(values, opened)
+func indexMappingFor(language string) (*mapping.IndexMappingImpl, error) {
+	indexMapping := blevesearch.NewIndexMapping()
+	if err := indexMapping.AddCustomAnalyzer(undeterminedAnalyzer, map[string]any{
+		"type":          custom.Name,
+		"char_filters":  []any{asciifolding.Name},
+		"tokenizer":     unicode.Name,
+		"token_filters": []any{lowercase.Name},
+	}); err != nil {
+		return nil, fmt.Errorf("define analyzer %s: %w", undeterminedAnalyzer, err)
 	}
-	return values
+	indexMapping.DefaultAnalyzer = analyzerOf(language)
+	indexMapping.IndexDynamic = false
+	indexMapping.StoreDynamic = false
+	indexMapping.DocValuesDynamic = false
+	indexMapping.DefaultMapping = documentMapping()
+	return indexMapping, nil
 }
 
-func (indexes *Indexes) Close() error {
-	return closed(indexes.openIndexes)
+func analyzerOf(language string) string {
+	analyzer, defined := languageAnalyzers[language]
+	if !defined {
+		return undeterminedAnalyzer
+	}
+	return analyzer
+}
+
+func documentMapping() *mapping.DocumentMapping {
+	title := searchedTextField()
+	title.Store = true
+	content := searchedTextField()
+	content.Store = true
+	content.IncludeTermVectors = true
+	url := searchedKeywordField()
+	url.Index = false
+	url.Store = true
+
+	document := blevesearch.NewDocumentStaticMapping()
+	document.AddFieldMappingsAt("title", title)
+	document.AddFieldMappingsAt("content", content)
+	document.AddFieldMappingsAt("auxiliary_text", searchedTextField())
+	document.AddFieldMappingsAt("url", url)
+	document.AddFieldMappingsAt("language", searchedKeywordField())
+	return document
+}
+
+func searchedTextField() *mapping.FieldMapping {
+	field := blevesearch.NewTextFieldMapping()
+	field.Store = false
+	field.IncludeTermVectors = false
+	field.DocValues = false
+	return field
+}
+
+func searchedKeywordField() *mapping.FieldMapping {
+	field := blevesearch.NewKeywordFieldMapping()
+	field.Analyzer = keyword.Name
+	field.Store = false
+	field.IncludeTermVectors = false
+	field.IncludeInAll = false
+	field.DocValues = false
+	return field
 }
 
 func closed(openIndexes map[string]blevesearch.Index) error {
@@ -96,10 +171,88 @@ func closed(openIndexes map[string]blevesearch.Index) error {
 	return failures
 }
 
-func (indexes *Indexes) indexFor(language string) blevesearch.Index {
-	return indexes.openIndexes[indexes.languageIndexes.NameFor(language)]
+func (indexes *Indexes) Index(_ context.Context, document searchdocument.Document) error {
+	languageIndex := indexes.openIndexes[indexes.languageIndexes.NameFor(document.Language)]
+	if err := languageIndex.Index(document.URL, document); err != nil {
+		return fmt.Errorf("index document %s: %w", document.URL, err)
+	}
+	return nil
 }
 
-func (indexes *Indexes) everyIndex() blevesearch.IndexAlias {
-	return indexes.alias
+func (indexes *Indexes) MatchesFor(
+	ctx context.Context,
+	search textsearch.Search,
+) ([]searchdocument.PageMatch, error) {
+	result, err := indexes.alias.SearchInContext(ctx, searchRequestFor(search))
+	if err != nil {
+		return nil, fmt.Errorf("search: %w", err)
+	}
+	return pageMatchesIn(result.Hits), nil
+}
+
+func searchRequestFor(search textsearch.Search) *blevesearch.SearchRequest {
+	request := blevesearch.NewSearchRequestOptions(
+		queryFor(search), search.Limit, search.Offset, false,
+	)
+	request.Fields = []string{"title", "url"}
+	request.Highlight = blevesearch.NewHighlightWithStyle(snippetHighlighter)
+	request.Highlight.AddField("content")
+	return request
+}
+
+func queryFor(search textsearch.Search) query.Query {
+	everyWord := blevesearch.NewMatchQuery(search.Query)
+	everyWord.SetField(everyField)
+	everyWord.Operator = query.MatchQueryOperatorAnd
+	ranking := blevesearch.NewBooleanQuery()
+	ranking.AddMust(everyWord)
+	ranking.AddShould(
+		weightedMatchFor(search.Query, "title", textsearch.TitleWeight),
+		weightedMatchFor(search.Query, "content", textsearch.ContentWeight),
+		weightedMatchFor(search.Query, "auxiliary_text", textsearch.AuxiliaryTextWeight),
+	)
+	if search.Language != "" {
+		language := blevesearch.NewTermQuery(search.Language)
+		language.SetField("language")
+		ranking.AddMust(language)
+	}
+	return ranking
+}
+
+func weightedMatchFor(words, field string, weight int) query.Query {
+	match := blevesearch.NewMatchQuery(words)
+	match.SetField(field)
+	match.SetBoost(float64(weight))
+	return match
+}
+
+func pageMatchesIn(hits search.DocumentMatchCollection) []searchdocument.PageMatch {
+	matches := make([]searchdocument.PageMatch, 0, len(hits))
+	for _, hit := range hits {
+		matches = append(matches, searchdocument.PageMatch{
+			URL:     textOf(hit, "url"),
+			Title:   textOf(hit, "title"),
+			Snippet: snippetOf(hit),
+		})
+	}
+	return matches
+}
+
+func textOf(hit *search.DocumentMatch, field string) string {
+	text, _ := hit.Fields[field].(string)
+	return text
+}
+
+func snippetOf(hit *search.DocumentMatch) string {
+	fragments := hit.Fragments["content"]
+	if len(fragments) == 0 {
+		return ""
+	}
+	return fragments[0]
+}
+
+func (indexes *Indexes) Close(ctx context.Context) {
+	if err := closed(indexes.openIndexes); err != nil {
+		slog.WarnContext(ctx, "bleve index close failed", slog.Any("error", err))
+	}
 }

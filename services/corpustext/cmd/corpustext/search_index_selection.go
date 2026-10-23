@@ -21,12 +21,10 @@ type searchIndexSelection struct {
 	schema  searchIndexSchema
 	matcher textsearch.Matcher
 	prefix  string
-	close   func() error
+	close   func(ctx context.Context)
 }
 
-func closeNothing() error {
-	return nil
-}
+func closeNothing(context.Context) {}
 
 func selectSearchIndex(
 	cfg ServiceConfig,
@@ -40,9 +38,9 @@ func selectSearchIndex(
 		}
 		indexes := bleve.NewIndexes(cfg.BleveDirectory, languageIndexes)
 		return searchIndexSelection{
-			index:   bleve.NewIndex(indexes),
+			index:   indexes,
 			schema:  indexes,
-			matcher: bleve.NewLookup(indexes),
+			matcher: indexes,
 			prefix:  languageIndexes.Prefix(),
 			close:   indexes.Close,
 		}, nil
