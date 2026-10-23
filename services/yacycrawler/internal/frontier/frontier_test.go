@@ -532,10 +532,11 @@ func TestADrainDropsVisitsWhileEveryPageVisitIsPaused(t *testing.T) {
 	}
 }
 
-func TestDrainingAPausedQueueDropsItsVisits(t *testing.T) {
+func TestDrainingAPausedQueueDropsItsVisitsAndLeavesAnotherPausedQueue(t *testing.T) {
 	f := newFrontier(t)
-	f.add(t, pageVisitTo(t, "http://host/a"))
+	f.add(t, pageVisitTo(t, "http://host/a"), pageVisitOfCrawl(t, secondCrawl, "http://host/b"))
 	f.change(t, f.visits.PauseQueueOf, firstCrawl)
+	f.change(t, f.visits.PauseQueueOf, secondCrawl)
 
 	f.change(t, f.visits.DrainQueueOf, firstCrawl)
 	f.change(t, f.visits.PauseQueueOf, firstCrawl)
@@ -543,8 +544,8 @@ func TestDrainingAPausedQueueDropsItsVisits(t *testing.T) {
 	f.requireNoDueVisit(t)
 	f.drainQueues(t)
 
-	if f.amount(t) != 0 || len(f.ledger.drainedBatches) != 1 {
-		t.Fatalf("pending %d, batches %v; want the paused queue drained",
+	if f.amount(t) != 1 || len(f.ledger.drainedBatches) != 1 {
+		t.Fatalf("pending %d, batches %v; want only the drained queue emptied",
 			f.amount(t), f.ledger.drainedBatches)
 	}
 }

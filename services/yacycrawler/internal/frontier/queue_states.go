@@ -1,7 +1,6 @@
 package frontier
 
 import (
-	"context"
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -11,16 +10,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/vaultkeyparts"
 )
 
-const (
-	queueStatesBucket   = "crawl_queue_states"
-	queuesInStateBucket = "crawl_queues_in_state"
-)
+const queueStatesBucket = "crawl_queue_states"
 
 var errQueueStateMalformed = errors.New("crawl queue state is malformed")
 
 type queueStates struct {
-	ofCrawl       *vault.Collection[crawlid.CrawlID, queueState]
-	queuesInState *vault.ValueIndex[queueInState, queueInState]
+	ofCrawl *vault.Collection[crawlid.CrawlID, queueState]
 }
 
 type queueState int64
@@ -35,27 +30,14 @@ func (state queueState) takesPageVisits() bool {
 	return state != queueDraining
 }
 
-func registerQueueStates(ctx context.Context, storage *vault.Vault) (queueStates, error) {
-	var states queueStates
-	var err error
-	if states.queuesInState, err = storage.RegisterValueIndex(
-		queuesInStateBucket, frontierIndexesVersion, queueInStateEntries,
-		func(queue queueInState) queueInState { return queue },
-	); err != nil {
-		return queueStates{}, fmt.Errorf("register %s: %w", queuesInStateBucket, err)
-	}
-	if states.ofCrawl, err = storage.RegisterProjectedCollection(
-		ctx,
-		queueStatesBucket,
-		vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(),
-		queueStateCodec{},
-		vault.ProjectedAs(func(crawlID crawlid.CrawlID, state queueState) queueInState {
-			return queueInState{state: int64(state), crawlID: crawlID}
-		}, states.queuesInState),
-	); err != nil {
+func registerQueueStates(storage *vault.Vault) (queueStates, error) {
+	ofCrawl, err := storage.RegisterCollection(
+		queueStatesBucket, vault.SingleKey(vaultkeyparts.CrawlID).KeyLayout(), queueStateCodec{},
+	)
+	if err != nil {
 		return queueStates{}, fmt.Errorf("register %s: %w", queueStatesBucket, err)
 	}
-	return states, nil
+	return queueStates{ofCrawl: ofCrawl}, nil
 }
 
 func (states queueStates) stateOf(tx *vault.Txn, crawlID crawlid.CrawlID) (queueState, error) {
@@ -78,30 +60,18 @@ func (states queueStates) firstDrainingQueues(
 	amount int,
 ) ([]crawlid.CrawlID, error) {
 	var draining []crawlid.CrawlID
-	err := states.queuesInState.Scan(
+	err := states.ofCrawl.Scan(
 		tx,
-		queueInStateKeyParts.KeysWithFirst(int64(queueDraining)),
-		func(queue queueInState) (bool, error) {
-			draining = append(draining, queue.crawlID)
+		vault.EveryKey(),
+		func(crawlID crawlid.CrawlID, state queueState) (bool, error) {
+			if state == queueDraining {
+				draining = append(draining, crawlID)
+			}
 			return len(draining) < amount, nil
 		},
 	)
 	return draining, err
 }
-
-type queueInState struct {
-	state   int64
-	crawlID crawlid.CrawlID
-}
-
-var queueInStateKeyParts = vault.PairKey(vault.IntegerKeyPart, vaultkeyparts.CrawlID)
-
-var queueInStateEntries = queueInStateKeyParts.KeyLayoutFor(
-	func(queue queueInState) (int64, crawlid.CrawlID) { return queue.state, queue.crawlID },
-	func(state int64, crawlID crawlid.CrawlID) queueInState {
-		return queueInState{state: state, crawlID: crawlID}
-	},
-)
 
 type queueStateCodec struct{}
 

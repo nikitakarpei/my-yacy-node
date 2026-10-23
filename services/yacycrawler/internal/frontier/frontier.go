@@ -89,7 +89,7 @@ func Open(
 	if err != nil {
 		return nil, err
 	}
-	if frontier.queueStates, err = registerQueueStates(ctx, storage); err != nil {
+	if frontier.queueStates, err = registerQueueStates(storage); err != nil {
 		return nil, err
 	}
 	if frontier.pause, err = registerPageVisitPause(storage); err != nil {
