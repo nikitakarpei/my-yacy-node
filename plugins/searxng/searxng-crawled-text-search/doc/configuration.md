@@ -22,5 +22,4 @@ engines:
 |---|---|---|
 | `corpustext_url` | required | Base URL of the `corpustext` search. |
 
-The engine does not know which search index `corpustext` writes to. To change the search
-index, change the configuration of `corpustext` only.
+To change the search index, configure `corpustext`; the engine stays the same.

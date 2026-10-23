@@ -17,9 +17,8 @@ re-crawlable click.
 * Indexing pages into the search index — that is `corpustext`'s job.
 * Rewriting or routing result links — that is `searxng-result-router`'s job.
 * Running or provisioning the search index itself.
-* Building a query for a search index — `corpustext` does that for every search index.
-* Tuning or reranking relevance beyond what `corpustext` returns.
-* Deduplicating, filtering, or otherwise curating results beyond what `corpustext` returns.
+* Querying a search index directly: `corpustext` does that.
+* Reranking, deduplicating, or filtering what `corpustext` returns.
 
 ## Functional Requirements
 
