@@ -2,17 +2,17 @@
 
 > "Can I keep the page Markdown in an object store?"
 
-This chapter keeps the Markdown of `corpusmarkdown` in an S3-compatible object
-store instead of a volume. Use it when you already operate an object store, or
-when `corpusmarkdown` instances on different hosts must share one corpus.
+This chapter keeps page Markdown in an S3-compatible object store instead of a
+volume. Use it when you already run an object store, or run `corpusmarkdown` on
+more than one host.
 
 ## What this chapter changes
 
 - `garage` keeps the Markdown on disk as an S3-compatible object store.
 - `corpusmarkdown` writes the Markdown to Garage.
 
-This chapter does not move Markdown from the chapter 10 volume. Read a page
-again to store its Markdown in Garage.
+Markdown from the chapter 10 volume does not move. Read a page again to store
+it in Garage.
 
 ## Start
 

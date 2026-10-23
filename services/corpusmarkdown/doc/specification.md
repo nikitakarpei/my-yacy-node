@@ -5,9 +5,8 @@
 `corpusmarkdown` is a separate, optional, disposable Go service that keeps the latest
 markdown of an operator's own crawled pages for exact-URL recall. `pagescrape` reads each
 page once and offers it; this service derives markdown from the offered page, writes the
-markdown to a URL-addressed store, and serves that markdown back to callers that ask for
-one URL. The store is a local directory, or an S3-compatible object store that the operator
-names.
+markdown to a local directory or an S3-compatible object store, and serves that markdown
+back to callers that ask for one URL.
 
 ## Non-Goals
 
@@ -63,10 +62,8 @@ names.
 * While the store is down, unstored markdown waits on the broker. If the outage lasts
   longer than the broker keeps the message, the broker drops it and the page's markdown is lost
   until the next recrawl.
-* The service stores the markdown as it is. Compression on disk depends on the filesystem or
-  the object store.
-* A directory serves the instances of one host only. Instances on different hosts need an
-  object store.
+* The service stores the markdown as it is; it does not compress it.
+* A directory serves the instances of one host only.
 * A receipt is not kept. A listener that is away when the service sends one never learns it.
 * If canonicalization changes, a page's canonical URL changes with it; with no migration here,
   its old and new objects both persist until an operator intervenes.

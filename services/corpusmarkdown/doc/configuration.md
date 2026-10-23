@@ -11,19 +11,16 @@ The service is configured entirely through environment variables.
 
 ## Storage
 
-Without `PAGE_MARKDOWN_S3_ENDPOINT`, the service keeps the markdown of each page in
-a file in `PAGE_MARKDOWN_DIRECTORY`. With it, the service keeps the markdown in a
-bucket of that S3-compatible object store. Set only one of the two variables. The
-service creates the directory or the bucket if it does not exist.
+The service keeps markdown in `PAGE_MARKDOWN_DIRECTORY`, or in an S3-compatible object
+store when `PAGE_MARKDOWN_S3_ENDPOINT` is set. Set only one of the two. Instances on
+different hosts need the object store.
 
-Instances on one host can share a directory. Instances on different hosts must
-share an object store. In the container image, the working directory is
-`/var/lib/corpusmarkdown`. Mount a volume there to keep the markdown when you
-replace the container.
+The image's working directory is `/var/lib/corpusmarkdown`. Mount a volume there to keep
+the markdown.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `PAGE_MARKDOWN_DIRECTORY` | `page-markdown` | Directory that holds the page markdown. A relative path starts at the working directory. |
+| `PAGE_MARKDOWN_DIRECTORY` | `page-markdown` | Directory that holds the page markdown. |
 | `PAGE_MARKDOWN_S3_ENDPOINT` | none | HTTP address of the S3-compatible object store. |
 | `PAGE_MARKDOWN_S3_REGION` | `us-east-1` | Region the object store expects in signed requests. |
 | `PAGE_MARKDOWN_S3_ACCESS_KEY_ID` | required with an endpoint | Access key that may create the bucket and write to it. |
