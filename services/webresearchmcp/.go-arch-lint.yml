@@ -41,6 +41,8 @@ components:
     in: internal/scrapeoutcomeobservers/prometheus/**
   toolcallreceiversmcp:
     in: internal/toolcallreceivers/mcp/**
+  webresearchmcpassembly:
+    in: assembly/**
   webresearchmcpcmd:
     in: cmd/webresearchmcp/**
 
@@ -124,9 +126,14 @@ deps:
       - pageread
     canUse:
       - mcpsdk
-  webresearchmcpcmd:
+  webresearchmcpassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  webresearchmcpcmd:
+    mayDependOn:
+      - webresearchmcpassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

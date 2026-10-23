@@ -24,7 +24,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     GOOS=$TARGETOS GOARCH=$TARGETARCH \
     go build \
-        -ldflags="-s -w -X main.version=${VERSION}" \
+        -ldflags="-s -w -X github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/assembly.version=${VERSION}" \
         -o /out/webresearchmcp \
         ./cmd/webresearchmcp
 

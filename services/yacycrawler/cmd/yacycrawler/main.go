@@ -2,16 +2,16 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/collectors"
-
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 )
 
 func main() {
@@ -25,43 +25,28 @@ func run() error {
 	if err := applog.Configure(os.Getenv); err != nil {
 		return err
 	}
-	cfg, err := LoadServiceConfig(os.Getenv)
+	cfg, err := yacycrawlerassembly.LoadServiceConfig(os.Getenv)
 	if err != nil {
 		return err
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	listeners, err := listenersFor(ctx, cfg)
+	return serve(ctx, cfg)
+}
+
+func serve(ctx context.Context, cfg yacycrawlerassembly.ServiceConfig) error {
+	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
 	if err != nil {
 		return err
 	}
-
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(
-		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "yacycrawler_info",
-			Help: "YaCy crawler application identity.",
-		}, func() float64 { return 1 }),
-		collectors.NewGoCollector(),
-		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
-	)
-	return RunService(ctx, cfg, listeners, registry)
-}
-
-func listenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	listeners, err := yacycrawlerassembly.ListenersFor(ctx, cfg)
 	if err != nil {
-		return Listeners{}, err
+		return errors.Join(err, ops.Close())
 	}
-	if !cfg.ServesAPI() {
-		return Listeners{Ops: ops}, nil
-	}
-	api, err := servergroup.Listen(ctx, cfg.APIAddr)
-	if err != nil {
-		_ = ops.Close()
-		return Listeners{}, err
-	}
-
-	return Listeners{Ops: ops, API: api}, nil
+	registry := opsmetrics.ProcessRegistry()
+	opsMux := opsmetrics.MuxFor(registry)
+	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
+		return yacycrawlerassembly.RunService(ctx, cfg, listeners, registry)
+	})
 }

@@ -1,0 +1,147 @@
+package spamproxyassembly
+
+import (
+	"context"
+	"fmt"
+	"log/slog"
+	"net"
+	"net/http"
+	"os"
+	"runtime"
+	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/spammodel/safetensorsmodel"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgate"
+	assessmentgateobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgateobservers/applog"
+	assessmentgateobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/assessmentgateobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/absoluteurl"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/egresstransports/tunnel"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/pageassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintake"
+	proxyintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/proxyintakeobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelay"
+	requestrelayobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/applog"
+	requestrelayobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/requestrelayobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/deadlineenforcing"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/failurereporting"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/idlecancelling"
+	"github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippers/verdictadding"
+	deadlineenforcingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/deadlineenforcing/applog"
+	deadlineenforcingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/deadlineenforcing/prometheus"
+	failurereportingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/failurereporting/applog"
+	failurereportingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/failurereporting/prometheus"
+	verdictaddingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/verdictadding/applog"
+	verdictaddingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/spamproxy/internal/roundtrippersobservers/verdictadding/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+)
+
+const (
+	readHeaderLimit   = 10 * time.Second
+	shutdownLimit     = 15 * time.Second
+	msgServiceStarted = "spamproxy started"
+	msgServiceStopped = "spamproxy stopped"
+)
+
+type Listeners struct {
+	Proxy net.Listener
+}
+
+func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
+	proxy, err := servergroup.Listen(ctx, cfg.ListenAddr)
+	if err != nil {
+		return Listeners{}, err
+	}
+	return Listeners{Proxy: proxy}, nil
+}
+
+func RunService(
+	ctx context.Context,
+	cfg ServiceConfig,
+	listeners Listeners,
+	registry *prometheus.Registry,
+) error {
+	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+		Name: "spamproxy_info",
+		Help: "Spam proxy application identity.",
+	}, func() float64 { return 1 }))
+	modelFile, err := os.ReadFile(cfg.SafetensorsModelPath)
+	if err != nil {
+		return fmt.Errorf("read spam model: %w", err)
+	}
+	model, err := safetensorsmodel.ModelFrom(modelFile)
+	if err != nil {
+		return err
+	}
+	clock := wallclock.Clock{}
+	assessmentRunner := assessmentgate.New(
+		pageassessment.New(model),
+		runtime.GOMAXPROCS(0),
+		clock,
+		assessmentgate.Observers{
+			assessmentgateobserversapplog.GateLog{},
+			assessmentgateobserversprometheus.New(registry),
+		},
+	)
+	failureReporter := failurereporting.New(
+		egressTransportFor(cfg),
+		failurereporting.Observers{
+			failurereportingobserversapplog.FailureLog{},
+			failurereportingobserversprometheus.New(registry),
+		},
+	)
+	idleCanceller := idlecancelling.New(failureReporter, cfg.RelayIdleTimeout, clock)
+	verdictAdder := verdictadding.New(
+		idleCanceller,
+		assessmentRunner,
+		verdictadding.Limits{
+			PageByteCeiling:    cfg.PageByteCeiling,
+			MaxPagesReadAtOnce: cfg.MaxPagesReadAtOnce,
+		},
+		clock,
+		verdictadding.Observers{
+			verdictaddingobserversapplog.VerdictLog{},
+			verdictaddingobserversprometheus.New(registry),
+		},
+	)
+	deadlineEnforcer := deadlineenforcing.New(
+		verdictAdder,
+		clock,
+		deadlineenforcing.Observers{
+			deadlineenforcingobserversapplog.DeadlineLog{},
+			deadlineenforcingobserversprometheus.New(registry),
+		},
+	)
+	responder := requestrelay.New(
+		deadlineEnforcer,
+		cfg.ResponseHeaderTimeout,
+		clock,
+		requestrelay.Observers{
+			requestrelayobserversapplog.RelayLog{},
+			requestrelayobserversprometheus.New(registry),
+		},
+	)
+	proxyServer := &http.Server{
+		Handler:           proxyintake.New(responder, proxyintakeobserversapplog.IntakeLog{}),
+		ReadHeaderTimeout: readHeaderLimit,
+	}
+
+	slog.InfoContext(ctx, msgServiceStarted,
+		slog.String("listenAddr", listeners.Proxy.Addr().String()),
+		slog.String("model", model.Version),
+	)
+	err = servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{
+		{Name: "proxy", Listener: listeners.Proxy, Server: proxyServer},
+	})
+	slog.InfoContext(ctx, msgServiceStopped)
+	return err
+}
+
+func egressTransportFor(cfg ServiceConfig) failurereporting.Egress {
+	if cfg.EgressProxyDialMode == DialModeAbsoluteURL {
+		return absoluteurl.New(cfg.EgressProxyURL)
+	}
+	return tunnel.New(cfg.EgressProxyURL)
+}

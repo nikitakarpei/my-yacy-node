@@ -98,7 +98,9 @@ components:
     in: internal/crawlerapis/http/**
   crawlerapiobservershttpapplog:
     in: internal/crawlerapiobservers/http/applog/**
-  crawlercmd:
+  yacycrawlerassembly:
+    in: assembly/**
+  yacycrawlercmd:
     in: cmd/yacycrawler/**
 
 vendors:
@@ -361,9 +363,14 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  crawlercmd:
+  yacycrawlerassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  yacycrawlercmd:
+    mayDependOn:
+      - yacycrawlerassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "test/e2e"

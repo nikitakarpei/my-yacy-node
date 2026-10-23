@@ -9,20 +9,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/collectors"
-
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
+	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 )
-
-const metricNamespace = "yacynode"
 
 func main() {
 	if err := run(); err != nil {
@@ -36,7 +27,7 @@ func run() error {
 		return fmt.Errorf("configure logging: %w", err)
 	}
 
-	config, err := nodeconfiguration.Load(os.Getenv)
+	config, err := yacynodeassembly.LoadServiceConfig(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("load node config: %w", err)
 	}
@@ -44,68 +35,21 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	listeners, err := listenersFor(ctx, config.Serving)
+	return serve(ctx, config)
+}
+
+func serve(ctx context.Context, config yacynodeassembly.ServiceConfig) error {
+	ops, err := servergroup.Listen(ctx, config.Serving.OpsAddr)
 	if err != nil {
 		return err
 	}
-
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(
-		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "yacynode_info",
-			Help: "YaCy node application identity.",
-		}, func() float64 { return 1 }),
-		collectors.NewGoCollector(),
-		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
-	)
-
-	engine, err := pebblevault.OpenEngine(
-		config.Storage.Path,
-		config.Storage.QuotaByte,
-		pebblevault.MachineLimits{
-			BlockCacheBytes:       config.Storage.BlockCacheByte,
-			MemtableBytes:         config.Storage.MemtableByte,
-			CompactionConcurrency: config.Storage.CompactionConcurrency,
-			OpenFileLimit:         config.Storage.OpenFileLimit,
-			WriteConcurrency:      config.Storage.WriteConcurrency,
-		},
-		pebblemetrics.NewWriteStallMetrics(registry, metricNamespace),
-		pebblemetrics.NewWriteConflictMetrics(registry, metricNamespace),
-	)
+	listeners, err := yacynodeassembly.ListenersFor(ctx, config)
 	if err != nil {
-		return fmt.Errorf("open storage: %w", err)
+		return errors.Join(err, ops.Close())
 	}
-	pebblemetrics.NewConditionMetrics(registry, metricNamespace, engine)
-
-	storage, err := vault.New(
-		engine,
-		vaultmetrics.NewTransactionMetrics(registry, metricNamespace),
-		nil,
-		wallclock.Clock{},
-	)
-	if err != nil {
-		return errors.Join(fmt.Errorf("lend storage: %w", err), engine.Close())
-	}
-	defer closeVault(storage)
-
-	return RunNode(ctx, config, listeners, storage, registry)
-}
-
-func listenersFor(ctx context.Context, serving nodeconfiguration.ServingConfig) (Listeners, error) {
-	peerProtocol, err := servergroup.Listen(ctx, serving.PeerAddr)
-	if err != nil {
-		return Listeners{}, err
-	}
-	ops, err := servergroup.Listen(ctx, serving.OpsAddr)
-	if err != nil {
-		return Listeners{}, errors.Join(err, peerProtocol.Close())
-	}
-
-	return Listeners{PeerProtocol: peerProtocol, Ops: ops}, nil
-}
-
-func closeVault(storage *vault.Vault) {
-	if err := storage.Close(); err != nil {
-		slog.ErrorContext(context.Background(), "storage close failed", slog.Any("error", err))
-	}
+	registry := opsmetrics.ProcessRegistry()
+	opsMux := opsmetrics.MuxFor(registry)
+	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
+		return yacynodeassembly.RunService(ctx, config, listeners, registry)
+	})
 }

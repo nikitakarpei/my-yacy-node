@@ -65,6 +65,11 @@ deps:
       - httpobservation
     canUse:
       - prometheus
+  opsmetrics:
+    mayDependOn:
+      - servergroup
+    canUse:
+      - prometheus
   servergroup:
     canUse:
       - errgroup

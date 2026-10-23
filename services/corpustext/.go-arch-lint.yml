@@ -42,6 +42,8 @@ components:
     in: internal/pageintakeobservers/applog/**
   pageintakeobserversprometheus:
     in: internal/pageintakeobservers/prometheus/**
+  corpustextassembly:
+    in: assembly/**
   corpustextcmd:
     in: cmd/corpustext/**
 
@@ -159,9 +161,14 @@ deps:
     canUse:
       - canonicalurl
       - prometheus
-  corpustextcmd:
+  corpustextassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  corpustextcmd:
+    mayDependOn:
+      - corpustextassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"

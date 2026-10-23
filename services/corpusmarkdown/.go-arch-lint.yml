@@ -29,6 +29,8 @@ components:
     in: internal/intakereceiptpublicationobservers/applog/**
   intakereceiptpublicationobserversprometheus:
     in: internal/intakereceiptpublicationobservers/prometheus/**
+  corpusmarkdownassembly:
+    in: assembly/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -108,9 +110,14 @@ deps:
   pageintakeobserversprometheus:
     canUse:
       - prometheus
-  corpusmarkdowncmd:
+  corpusmarkdownassembly:
     anyProjectDeps: true
     anyVendorDeps: true
+  corpusmarkdowncmd:
+    mayDependOn:
+      - corpusmarkdownassembly
+    canUse:
+      - serviceruntime
 
 excludeFiles:
   - "_test\\.go"
