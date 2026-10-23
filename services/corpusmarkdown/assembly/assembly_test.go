@@ -289,26 +289,42 @@ func storedMarkdownCarries(objects *s3mem.Backend, bucket, name, want string) bo
 	return err == nil && strings.Contains(string(stored), want)
 }
 
-func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
-	cfg := serviceConfig(natstestserver.Start(t), objectStoreServer(t, s3mem.New()))
+func TestRunServiceRecallsWhileThePageOffersAreUnavailable(t *testing.T) {
+	cfg := corpusmarkdown.ServiceConfig{
+		PageOfferNATSURL:           "nats://127.0.0.1:1",
+		PageMarkdownDirectory:      t.TempDir(),
+		PageOfferDurable:           corpusmarkdown.DefaultPageOfferDurable,
+		PageOfferIntakeConcurrency: corpusmarkdown.DefaultPageOfferIntakeConcurrency,
+	}
 	listeners := corpusmarkdown.Listeners{Recall: listenerFor(t)}
 
-	if err := corpusmarkdown.RunService(
-		context.Background(), cfg, listeners, prometheus.NewRegistry(),
-	); err == nil {
-		t.Fatal("expected error when the page offers stream is not provisioned")
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg, listeners, prometheus.NewRegistry()) }()
+
+	recallURL := "http://" + listeners.Recall.Addr().String() + pagemarkdownstore.RecalledPagePath +
+		"?" + url.Values{pagemarkdownstore.RequestedURLQueryParam: {offeredPageURL}}.Encode()
+	if status := recallStatusOf(ctx, t, recallURL); status != http.StatusNotFound {
+		t.Errorf("recall = %d, want %d for a page never stored", status, http.StatusNotFound)
 	}
+
+	cancel()
+	waitForShutdown(t, runDone)
 }
 
-func TestRunServiceFailsWhenPageOfferNATSUnreachable(t *testing.T) {
-	cfg := serviceConfig("nats://127.0.0.1:1", objectStoreServer(t, s3mem.New()))
-	listeners := corpusmarkdown.Listeners{Recall: listenerFor(t)}
-
-	if err := corpusmarkdown.RunService(
-		context.Background(), cfg, listeners, prometheus.NewRegistry(),
-	); err == nil {
-		t.Fatal("expected error when the page offer nats is unreachable")
+func recallStatusOf(ctx context.Context, t *testing.T, recallURL string) int {
+	t.Helper()
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, recallURL, http.NoBody)
+	if err != nil {
+		t.Fatalf("recall request: %v", err)
 	}
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		t.Fatalf("recall: %v", err)
+	}
+	defer func() { _ = response.Body.Close() }()
+	return response.StatusCode
 }
 
 func TestRunServiceFailsWhenPageMarkdownObjectStoreRefuses(t *testing.T) {

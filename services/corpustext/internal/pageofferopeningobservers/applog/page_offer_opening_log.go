@@ -16,7 +16,7 @@ const (
 
 type PageOfferOpeningLog struct{}
 
-func (PageOfferOpeningLog) PageOffersUnavailable(
+func (PageOfferOpeningLog) StreamUnavailable(
 	ctx context.Context,
 	retryPause time.Duration,
 	cause error,
@@ -27,6 +27,6 @@ func (PageOfferOpeningLog) PageOffersUnavailable(
 	)
 }
 
-func (PageOfferOpeningLog) PageOffersOpened(ctx context.Context) {
+func (PageOfferOpeningLog) StreamOpened(ctx context.Context) {
 	slog.DebugContext(ctx, msgPageOffersOpened)
 }

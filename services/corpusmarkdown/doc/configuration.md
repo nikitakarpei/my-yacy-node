@@ -34,6 +34,9 @@ the markdown.
 |---|---|---|
 | `CORPUSMARKDOWN_LISTEN_ADDR` | `:8094` | Address serving the markdown corpus contract. |
 
+The service serves recalls also while the broker is unavailable. Meanwhile it logs an
+error and tries again after 1 second, doubling the pause up to 30 seconds.
+
 ## Operations
 
 | Variable | Default | Meaning |

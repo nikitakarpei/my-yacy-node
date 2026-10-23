@@ -9,6 +9,8 @@ commonVendors:
   - canonicalurl
 
 components:
+  pageofferopeningobserversapplog:
+    in: internal/pageofferopeningobservers/applog/**
   pageintake:
     in: internal/pageintake/**
   pageintakeobserversprometheus:
@@ -76,6 +78,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening
 
 deps:
   pageintake:
