@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/corpustextservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
@@ -110,11 +111,15 @@ func TestCorpusTextIndexesCapturedAddressFromPywbReplay(t *testing.T) {
 			Body:       htmlPage("distinct newest archive words"),
 		},
 	})
-	natsjetstream.Start(t, ctx, network.Name)
+	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
-	manticoreURL := manticore.Start(t, ctx, network.Name, "manticore")
-	startCorpusText(t, ctx, network.Name)
+	manticore.Start(t, ctx, network.Name, "manticore")
+	corpusText := corpustextservice.Start(t, ctx, network.Name, natsURL, map[string]string{
+		"SEARCH_INDEX_ENGINE":  "manticore",
+		"MANTICORE_URL":        manticore.NetworkURL("manticore"),
+		"CORPUSTEXT_LANGUAGES": "en",
+	})
 
 	runWebArchiveScrape(
 		t,
@@ -123,7 +128,7 @@ func TestCorpusTextIndexesCapturedAddressFromPywbReplay(t *testing.T) {
 		commandArguments(archive.NetworkURL(), originURL, false),
 		map[string]string{"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL()},
 	)
-	page := indexedPageContaining(t, ctx, manticoreURL, "distinct newest archive words")
+	page := corpusText.FirstMatchFor(t, ctx, "distinct newest archive words", "")
 	if page.URL != originURL {
 		t.Fatalf("indexed address = %q, want captured address %q", page.URL, originURL)
 	}

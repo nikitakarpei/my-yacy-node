@@ -108,7 +108,7 @@ services:
     depends_on:
       searxng-crawled-text-search-init:
         condition: service_completed_successfully
-      elasticsearch:
+      corpustext:
         condition: service_started
       yacydhtsearch:
         condition: service_started
@@ -118,7 +118,7 @@ services:
       SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
       SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
     volumes:
-      - ./settings-elasticsearch-index-and-yacy-network.yml:/etc/searxng/settings.yml:ro
+      - ../../building-blocks/searxng/settings-local-index-and-yacy-network.yml:/etc/searxng/settings.yml:ro
       - searxng-engines:/usr/local/searxng/searx/engines
 
   yacy-rwi-node:

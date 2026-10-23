@@ -31,6 +31,15 @@ When `SEARCH_INDEX_ENGINE` is `manticore`:
 | `MANTICORE_URL` | required | Manticore endpoint documents are indexed into. |
 | `MANTICORE_TABLE` | `yacy_text` | Base name of the Manticore tables. |
 
+## Search
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `CORPUSTEXT_SEARCH_ADDR` | `:8096` | Address serving `GET /search`. |
+
+The service answers searches also while the broker is unavailable. Meanwhile it logs an
+error and tries again after 1 second, doubling the pause up to 30 seconds.
+
 ## Operations
 
 | Variable | Default | Meaning |

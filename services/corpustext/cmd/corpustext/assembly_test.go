@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"net"
 	"net/http"
@@ -18,6 +19,7 @@ import (
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
 
@@ -28,6 +30,11 @@ const (
 
 	indexedDeadline  = 5 * time.Second
 	indexedPollPause = 50 * time.Millisecond
+
+	answeredSearch = `{"hits":{"hits":[{
+		"_source":{"title":"Hi","url":"http://origin.example/"},
+		"highlight":{"content":["words here"]}
+	}]}}`
 )
 
 type recordingElasticsearch struct {
@@ -41,6 +48,10 @@ func (e *recordingElasticsearch) serve(t *testing.T) string {
 		e.mu.Lock()
 		e.lastPath = r.URL.Path
 		e.mu.Unlock()
+		if strings.HasSuffix(r.URL.Path, "/_search") {
+			_, _ = io.WriteString(w, answeredSearch)
+			return
+		}
 		if r.Method == http.MethodGet {
 			_, _ = io.WriteString(w, "{}")
 			return
@@ -81,9 +92,8 @@ func TestRunServiceIndexesTheTextOfAnOfferedPage(t *testing.T) {
 	createScrapePageOffersStream(t, pageOfferJetStream)
 	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
 
-	listeners := corpustext.Listeners{Ops: listenerFor(t)}
 	runDone := make(chan error, 1)
-	go func() { runDone <- corpustext.RunService(ctx, cfg, listeners) }()
+	go func() { runDone <- corpustext.RunService(ctx, cfg, listenersFor(t)) }()
 
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
@@ -91,6 +101,69 @@ func TestRunServiceIndexesTheTextOfAnOfferedPage(t *testing.T) {
 	waitForKeptPageReceipt(t, keptPages)
 
 	cancel()
+	waitForShutdown(t, runDone)
+}
+
+func TestRunServiceAnswersSearchesWhileThePageOffersAreUnavailable(t *testing.T) {
+	elasticsearch := &recordingElasticsearch{}
+	cfg := serviceConfig("nats://127.0.0.1:1", elasticsearch.serve(t))
+	listeners := listenersFor(t)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() { runDone <- corpustext.RunService(ctx, cfg, listeners) }()
+
+	matches := matchesFrom(t, "http://"+listeners.Search.Addr().String())
+	want := searchdocument.PageMatch{
+		URL: "http://origin.example/", Title: "Hi", Snippet: "words here",
+	}
+	if len(matches.Matches) != 1 || matches.Matches[0] != want {
+		t.Errorf("matches = %+v, want %+v", matches.Matches, want)
+	}
+
+	cancel()
+	waitForShutdown(t, runDone)
+}
+
+func TestRunServiceFailsWhenTheSearchIndexSchemaCannotBeBootstrapped(t *testing.T) {
+	failingElasticsearch := httptest.NewServer(http.HandlerFunc(
+		func(w http.ResponseWriter, _ *http.Request) {
+			w.WriteHeader(http.StatusServiceUnavailable)
+		},
+	))
+	t.Cleanup(failingElasticsearch.Close)
+	cfg := serviceConfig(natstestserver.Start(t), failingElasticsearch.URL)
+
+	if err := corpustext.RunService(context.Background(), cfg, listenersFor(t)); err == nil {
+		t.Fatal("expected error when the search index schema cannot be bootstrapped")
+	}
+}
+
+func matchesFrom(t *testing.T, searchURL string) searchdocument.PageMatches {
+	t.Helper()
+	target := searchURL + searchdocument.SearchPath + "?" + searchdocument.SearchQueryParam + "=words"
+	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, target, nil)
+	if err != nil {
+		t.Fatalf("build search request: %v", err)
+	}
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		t.Fatalf("search: %v", err)
+	}
+	defer func() { _ = response.Body.Close() }()
+	if response.StatusCode != http.StatusOK {
+		t.Fatalf("search status = %d", response.StatusCode)
+	}
+	var matches searchdocument.PageMatches
+	if err := json.NewDecoder(response.Body).Decode(&matches); err != nil {
+		t.Fatalf("decode matches: %v", err)
+	}
+	return matches
+}
+
+func waitForShutdown(t *testing.T, runDone chan error) {
+	t.Helper()
 	select {
 	case err := <-runDone:
 		if err != nil {
@@ -184,26 +257,6 @@ func publishOfferedPage(ctx context.Context, t *testing.T, js jetstream.JetStrea
 	}
 }
 
-func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
-	elasticsearch := &recordingElasticsearch{}
-	cfg := serviceConfig(natstestserver.Start(t), elasticsearch.serve(t))
-	listeners := corpustext.Listeners{Ops: listenerFor(t)}
-
-	if err := corpustext.RunService(context.Background(), cfg, listeners); err == nil {
-		t.Fatal("expected error when the page offers stream is not provisioned")
-	}
-}
-
-func TestRunServiceFailsWhenPageOfferNATSUnreachable(t *testing.T) {
-	elasticsearch := &recordingElasticsearch{}
-	cfg := serviceConfig("nats://127.0.0.1:1", elasticsearch.serve(t))
-	listeners := corpustext.Listeners{Ops: listenerFor(t)}
-
-	if err := corpustext.RunService(context.Background(), cfg, listeners); err == nil {
-		t.Fatal("expected error when the page offer nats is unreachable")
-	}
-}
-
 func createScrapePageOffersStream(t *testing.T, js jetstream.JetStream) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
@@ -218,6 +271,11 @@ func createScrapePageOffersStream(t *testing.T, js jetstream.JetStream) {
 	}); err != nil {
 		t.Fatalf("create scrape page offers stream: %v", err)
 	}
+}
+
+func listenersFor(t *testing.T) corpustext.Listeners {
+	t.Helper()
+	return corpustext.Listeners{Search: listenerFor(t), Ops: listenerFor(t)}
 }
 
 func listenerFor(t *testing.T) net.Listener {

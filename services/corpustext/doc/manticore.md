@@ -5,7 +5,7 @@
 A table is named `<base>_v<version>_<language>`. The base is `MANTICORE_TABLE`. The
 language is the primary subtag of a configured language, or `und` for all other pages.
 
-A search client reads the corpus through the distributed table `<base>_v<version>`. The
+The service searches the corpus through the distributed table `<base>_v<version>`. The
 service recreates that table at every start, with the configured tables as its members.
 
 ## Columns
