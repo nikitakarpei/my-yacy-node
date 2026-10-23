@@ -3,6 +3,9 @@ package crawls_test
 import (
 	"context"
 	"errors"
+	"fmt"
+	"slices"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -17,28 +20,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawls"
 )
 
-const keptFor = time.Hour
+const retention = 7 * 24 * time.Hour
 
 var (
-	acceptedAt        = time.UnixMilli(1_700_000_000_000)
+	startedAt         = time.UnixMilli(1_700_000_000_000)
 	errEngineRefusing = errors.New("engine refuses")
+	errPortRefusing   = errors.New("port refuses")
 )
-
-type settableClock struct {
-	now atomic.Pointer[time.Time]
-}
-
-func newSettableClock(now time.Time) *settableClock {
-	clock := &settableClock{}
-	clock.set(now)
-	return clock
-}
-
-func (clock *settableClock) Now() time.Time { return *clock.now.Load() }
-
-func (clock *settableClock) set(now time.Time) { clock.now.Store(&now) }
-
-func (*settableClock) Sleep(context.Context, time.Duration) error { return context.Canceled }
 
 type refusingEngine struct {
 	vault.Engine
@@ -72,57 +60,127 @@ func (txn refusingTxn) Records(name vault.Name) vault.EngineRecords {
 	return refusingRecords{EngineRecords: txn.EngineTxn.Records(name)}
 }
 
-func (txn refusingTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
-	return refusingExpiringRecords{EngineExpiringRecords: txn.EngineTxn.ExpiringRecords(name)}
-}
-
 type refusingRecords struct {
 	vault.EngineRecords
+}
+
+func (refusingRecords) Get([]byte) ([]byte, error) {
+	return nil, errEngineRefusing
 }
 
 func (refusingRecords) Scan(vault.KeyRange, func(key, value []byte) (bool, error)) error {
 	return errEngineRefusing
 }
 
-type refusingExpiringRecords struct {
-	vault.EngineExpiringRecords
+type clock struct {
+	guard  sync.Mutex
+	now    time.Time
+	sleeps chan struct{}
+	wakes  chan struct{}
 }
 
-func (refusingExpiringRecords) Get([]byte, time.Time) ([]byte, error) {
-	return nil, errEngineRefusing
+func (c *clock) Now() time.Time {
+	c.guard.Lock()
+	defer c.guard.Unlock()
+	return c.now
+}
+
+func (c *clock) Sleep(ctx context.Context, _ time.Duration) error {
+	select {
+	case c.sleeps <- struct{}{}:
+	case <-ctx.Done():
+		return fmt.Errorf("context: %w", ctx.Err())
+	}
+	select {
+	case <-c.wakes:
+		return nil
+	case <-ctx.Done():
+		return fmt.Errorf("context: %w", ctx.Err())
+	}
+}
+
+func (c *clock) advanceBy(d time.Duration) {
+	c.guard.Lock()
+	defer c.guard.Unlock()
+	c.now = c.now.Add(d)
+}
+
+func (c *clock) runRemovalPass() {
+	c.wakes <- struct{}{}
+	<-c.sleeps
+}
+
+type reportedChange struct {
+	change  string
+	crawlID crawlid.CrawlID
+}
+
+type reportedChanges struct {
+	reported []reportedChange
+	refusing bool
+}
+
+func (r *reportedChanges) report(change string, crawlID crawlid.CrawlID) error {
+	if r.refusing {
+		return errPortRefusing
+	}
+	r.reported = append(r.reported, reportedChange{change: change, crawlID: crawlID})
+	return nil
+}
+
+func (r *reportedChanges) CrawlFinished(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	return r.report("finished", crawlID)
+}
+
+func (r *reportedChanges) CrawlForgotten(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	return r.report("forgotten", crawlID)
+}
+
+func (r *reportedChanges) take() []reportedChange {
+	taken := r.reported
+	r.reported = nil
+	return taken
 }
 
 type scene struct {
 	storage *vault.Vault
 	crawls  *crawls.Crawls
-	clock   *settableClock
 	engine  *refusingEngine
+	clock   *clock
+	changes *reportedChanges
 }
 
-func acceptedOrders(t *testing.T) scene {
+func keptCrawls(t *testing.T) scene {
 	t.Helper()
 	engine := &refusingEngine{Engine: memoryvault.OpenEngine(0)}
-	clock := newSettableClock(acceptedAt)
-	storage, err := vault.New(engine, nil, nil, clock)
+	sceneClock := &clock{now: startedAt, sleeps: make(chan struct{}), wakes: make(chan struct{})}
+	storage, err := vault.New(engine, nil, nil, sceneClock)
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	kept, err := crawls.Open(t.Context(), storage, keptFor)
+	t.Cleanup(func() { _ = storage.Close() })
+	changes := &reportedChanges{}
+	kept, err := crawls.Open(t.Context(), storage, retention, changes, changes, sceneClock)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	return scene{storage: storage, crawls: kept, clock: clock, engine: engine}
+	<-sceneClock.sleeps
+	return scene{
+		storage: storage,
+		crawls:  kept,
+		engine:  engine,
+		clock:   sceneClock,
+		changes: changes,
+	}
 }
 
-func acceptedOrderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrder {
+func orderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrder {
 	t.Helper()
 	accepted, err := acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
 		OrderID: orderID,
 		Profile: yacycrawlcontract.CrawlProfile{
-			Scope:           yacycrawlcontract.ScopeDomain,
-			URLMustMatch:    yacycrawlcontract.MatchAll,
-			MaxDepth:        2,
-			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
+			Scope:    yacycrawlcontract.ScopeDomain,
+			MaxDepth: 2,
 		},
 		SeedURLs: []canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
 	})
@@ -132,121 +190,208 @@ func acceptedOrderWithID(t *testing.T, orderID string) acceptedorder.AcceptedOrd
 	return accepted
 }
 
-func (s scene) keep(t *testing.T, order acceptedorder.AcceptedOrder) crawlid.CrawlID {
+func (s scene) update(t *testing.T, fn func(tx *vault.Txn) error) {
 	t.Helper()
-	crawlID, err := s.keepWithin(t, order)
-	if err != nil {
-		t.Fatalf("Keep: %v", err)
+	if err := s.storage.Update(t.Context(), fn); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func (s scene) view(t *testing.T, fn func(tx *vault.Txn) error) {
+	t.Helper()
+	if err := s.storage.View(t.Context(), fn); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+func (s scene) startOrFind(t *testing.T, orderID string) (crawlid.CrawlID, bool) {
+	t.Helper()
+	var crawlID crawlid.CrawlID
+	var started bool
+	s.update(t, func(tx *vault.Txn) error {
+		var err error
+		crawlID, started, err = s.crawls.Start(tx, orderWithID(t, orderID))
+		return err
+	})
+	return crawlID, started
+}
+
+func (s scene) start(t *testing.T, orderID string) crawlid.CrawlID {
+	t.Helper()
+	crawlID, started := s.startOrFind(t, orderID)
+	if !started {
+		t.Fatalf("order %s started no crawl", orderID)
 	}
 	return crawlID
 }
 
-func (s scene) keepWithin(
-	t *testing.T,
-	order acceptedorder.AcceptedOrder,
-) (crawlid.CrawlID, error) {
+func (s scene) settle(t *testing.T, crawlID crawlid.CrawlID) {
 	t.Helper()
-	var crawlID crawlid.CrawlID
-	err := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
-		var err error
-		crawlID, err = s.crawls.Keep(tx, order)
-		return err
-	})
-	return crawlID, err
+	s.update(t, func(tx *vault.Txn) error { return s.crawls.Settle(tx, crawlID) })
 }
 
-func (s scene) orderOf(t *testing.T, crawlID crawlid.CrawlID) (acceptedorder.AcceptedOrder, bool) {
+func (s scene) crawlOf(t *testing.T, crawlID crawlid.CrawlID) (crawls.Crawl, bool) {
 	t.Helper()
-	order, found, err := s.orderWithin(t, crawlID)
-	if err != nil {
-		t.Fatalf("OrderOf: %v", err)
-	}
-	return order, found
-}
-
-func (s scene) orderWithin(
-	t *testing.T,
-	crawlID crawlid.CrawlID,
-) (acceptedorder.AcceptedOrder, bool, error) {
-	t.Helper()
-	var order acceptedorder.AcceptedOrder
+	var crawl crawls.Crawl
 	var found bool
-	err := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+	s.view(t, func(tx *vault.Txn) error {
 		var err error
-		order, found, err = s.crawls.OrderOf(tx, crawlID)
+		crawl, found, err = s.crawls.CrawlOf(tx, crawlID)
 		return err
 	})
-	return order, found, err
+	return crawl, found
 }
 
-func TestOrderOfReadsBackTheOrderOfItsCrawl(t *testing.T) {
-	s := acceptedOrders(t)
-	accepted := acceptedOrderWithID(t, "o1")
+func TestAStartedCrawlRunsWithItsOrderAndStart(t *testing.T) {
+	s := keptCrawls(t)
 
-	read, found := s.orderOf(t, s.keep(t, accepted))
+	crawl, found := s.crawlOf(t, s.start(t, "o1"))
 
-	if !found || read.OrderID() != "o1" ||
-		read.CrawlOrder().Profile != accepted.CrawlOrder().Profile {
-		t.Fatalf("read %+v (found %v), want %+v", read.CrawlOrder(), found, accepted.CrawlOrder())
+	if !found || crawl.Order.OrderID != "o1" ||
+		crawl.State != yacycrawlcontract.CrawlStateRunning ||
+		!crawl.StartedAt.Equal(startedAt) ||
+		!crawl.FinishedAt.IsZero() {
+		t.Fatalf("crawl = %+v (found %v), want the running crawl of o1", crawl, found)
 	}
 }
 
-func TestAnOrderKeptTwiceKeepsItsCrawl(t *testing.T) {
-	s := acceptedOrders(t)
-	accepted := acceptedOrderWithID(t, "o1")
+func TestAnOrderSentAgainFindsItsCrawlWhileItIsKept(t *testing.T) {
+	s := keptCrawls(t)
+	first := s.start(t, "o1")
 
-	first := s.keep(t, accepted)
-	if again := s.keep(t, accepted); again != first {
-		t.Fatalf("second keep began crawl %s, want crawl %s again", again, first)
+	again, startedAgain := s.startOrFind(t, "o1")
+	s.settle(t, first)
+	afterFinish, startedAfterFinish := s.startOrFind(t, "o1")
+
+	if startedAgain || again != first || startedAfterFinish || afterFinish != first {
+		t.Fatalf("Start again = %s (%v), after finish %s (%v); want crawl %s found twice",
+			again, startedAgain, afterFinish, startedAfterFinish, first)
 	}
-}
-
-func TestTwoOrdersBeginTwoCrawls(t *testing.T) {
-	s := acceptedOrders(t)
-
-	if s.keep(t, acceptedOrderWithID(t, "o1")) == s.keep(t, acceptedOrderWithID(t, "o2")) {
+	if s.start(t, "o2") == first {
 		t.Fatal("two orders share one crawl")
 	}
 }
 
-func TestTheOrderOfAnUnknownCrawlIsNotFound(t *testing.T) {
-	if _, found := acceptedOrders(t).orderOf(t, crawlid.CrawlID{2}); found {
-		t.Fatal("a crawl the crawler never began has an order")
+func TestTheOrderOfACrawlReadsBack(t *testing.T) {
+	s := keptCrawls(t)
+	crawlID := s.start(t, "o1")
+	var order acceptedorder.AcceptedOrder
+
+	s.view(t, func(tx *vault.Txn) error {
+		var err error
+		order, _, err = s.crawls.OrderOf(tx, crawlID)
+		return err
+	})
+
+	if order.OrderID() != "o1" {
+		t.Fatalf("order %s, want o1", order.OrderID())
 	}
 }
 
-func TestAnOrderIsForgottenOnceItsRetentionPasses(t *testing.T) {
-	s := acceptedOrders(t)
-	accepted := acceptedOrderWithID(t, "o1")
-	crawlID := s.keep(t, accepted)
+func TestAnUnknownCrawlIsNotFoundAndChangesNothing(t *testing.T) {
+	s := keptCrawls(t)
+	unknown := crawlid.CrawlID{9}
+	var orderFound bool
 
-	s.clock.set(acceptedAt.Add(keptFor))
+	s.update(t, func(tx *vault.Txn) error {
+		var err error
+		if _, orderFound, err = s.crawls.OrderOf(tx, unknown); err != nil {
+			return err
+		}
+		return s.crawls.Settle(tx, unknown)
+	})
 
-	if _, found := s.orderOf(t, crawlID); found {
-		t.Fatal("an order past its retention reads back")
-	}
-	if s.keep(t, accepted) == crawlID {
-		t.Fatal("an order sent after its retention resumes the forgotten crawl")
+	if orderFound || len(s.changes.take()) != 0 {
+		t.Fatal("a crawl never started was found")
 	}
 }
 
-func TestAKeepTheStorageRefusesFails(t *testing.T) {
-	s := acceptedOrders(t)
-	s.engine.refusing.Store(true)
+func TestASettledCrawlSucceedsOnceAndReportsItsFinish(t *testing.T) {
+	s := keptCrawls(t)
+	crawlID := s.start(t, "o1")
+	s.clock.advanceBy(time.Hour)
 
-	if _, err := s.keepWithin(t, acceptedOrderWithID(t, "o1")); !errors.Is(
-		err, errEngineRefusing,
+	s.settle(t, crawlID)
+	s.settle(t, crawlID)
+
+	succeeded, _ := s.crawlOf(t, crawlID)
+	if succeeded.State != yacycrawlcontract.CrawlStateSucceeded ||
+		!succeeded.FinishedAt.Equal(startedAt.Add(time.Hour)) {
+		t.Fatalf("settled %+v, want succeeded an hour after start", succeeded)
+	}
+	if changes := s.changes.take(); !slices.Equal(
+		changes,
+		[]reportedChange{{change: "finished", crawlID: crawlID}},
 	) {
-		t.Fatalf("Keep err = %v, want the refusal", err)
+		t.Fatalf("changes = %v, want one finish", changes)
 	}
 }
 
-func TestAReadTheStorageRefusesFails(t *testing.T) {
-	s := acceptedOrders(t)
-	crawlID := s.keep(t, acceptedOrderWithID(t, "o1"))
+func TestAFinishedCrawlIsForgottenAfterTheRetentionAndItsOrderStartsAgain(t *testing.T) {
+	s := keptCrawls(t)
+	crawlID := s.start(t, "o1")
+	s.clock.advanceBy(retention)
+	s.settle(t, crawlID)
+	s.changes.take()
+
+	s.clock.advanceBy(retention - time.Second)
+	s.clock.runRemovalPass()
+	_, keptBeforeRetention := s.crawlOf(t, crawlID)
+	s.clock.advanceBy(time.Second)
+	again, startedAgain := s.startOrFind(t, "o1")
+	s.clock.runRemovalPass()
+
+	if !keptBeforeRetention || !startedAgain || again == crawlID {
+		t.Fatalf("kept before retention %v, started again %v as %s",
+			keptBeforeRetention, startedAgain, again)
+	}
+	if changes := s.changes.take(); !slices.Equal(
+		changes,
+		[]reportedChange{{change: "forgotten", crawlID: crawlID}},
+	) {
+		t.Fatalf("changes = %v, want the crawl forgotten", changes)
+	}
+}
+
+func TestAFinishThePortRefusesFails(t *testing.T) {
+	s := keptCrawls(t)
+	crawlID := s.start(t, "o1")
+	s.changes.refusing = true
+
+	err := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		return s.crawls.Settle(tx, crawlID)
+	})
+
+	if !errors.Is(err, errPortRefusing) {
+		t.Fatalf("Settle = %v, want the port refusal", err)
+	}
+	if crawl, _ := s.crawlOf(t, crawlID); crawl.State != yacycrawlcontract.CrawlStateRunning {
+		t.Fatalf("crawl = %+v, want it still running", crawl)
+	}
+}
+
+func TestCrawlReadsTheStorageRefusesFail(t *testing.T) {
+	s := keptCrawls(t)
+	crawlID := s.start(t, "o1")
 	s.engine.refusing.Store(true)
 
-	if _, _, err := s.orderWithin(t, crawlID); !errors.Is(err, errEngineRefusing) {
-		t.Fatalf("OrderOf err = %v, want the refusal", err)
+	startErr := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		_, _, err := s.crawls.Start(tx, orderWithID(t, "o2"))
+		return err
+	})
+	readErr := s.storage.View(t.Context(), func(tx *vault.Txn) error {
+		_, _, err := s.crawls.CrawlOf(tx, crawlID)
+		return err
+	})
+	settleErr := s.storage.Update(t.Context(), func(tx *vault.Txn) error {
+		return s.crawls.Settle(tx, crawlID)
+	})
+
+	for name, err := range map[string]error{
+		"start": startErr, "read": readErr, "settle": settleErr,
+	} {
+		if !errors.Is(err, errEngineRefusing) {
+			t.Errorf("%s = %v, want the refusal", name, err)
+		}
 	}
 }

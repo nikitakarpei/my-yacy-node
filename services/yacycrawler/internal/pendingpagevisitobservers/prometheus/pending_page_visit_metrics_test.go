@@ -24,7 +24,7 @@ func TestPageVisitAttemptsCountOneOutcomeEach(t *testing.T) {
 	metrics.PendingPageVisitDropped(
 		context.Background(),
 		visit,
-		yacycrawlcontract.DropReasonTakenByAnother,
+		yacycrawlcontract.DropReasonNotDue,
 	)
 	metrics.PendingPageVisitDeferred(context.Background(), visit, time.Minute)
 	metrics.PendingPageVisitRetryScheduled(context.Background(), visit, time.Minute)
@@ -47,7 +47,7 @@ yacycrawler_page_visit_attempts_total{outcome="returned"} 1
 yacycrawler_page_visits_completed_total{result="fetch-rejected"} 1
 # HELP yacycrawler_page_visits_dropped_total Pages the crawler stopped trying to visit, by reason.
 # TYPE yacycrawler_page_visits_dropped_total counter
-yacycrawler_page_visits_dropped_total{reason="taken-by-another"} 1
+yacycrawler_page_visits_dropped_total{reason="not-due"} 1
 `
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(expected)); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)

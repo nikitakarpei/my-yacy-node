@@ -19,6 +19,7 @@ func TestCrawlOrdersCountOneOutcomeEach(t *testing.T) {
 	ctx := context.Background()
 
 	metrics.CrawlOrderAccepted(ctx, "o1", crawlid.CrawlID{1}, 2)
+	metrics.CrawlOrderIgnored(ctx, "o1")
 	metrics.CrawlOrderRejected(ctx, "message", "o2", errors.New("unreadable"))
 	metrics.CrawlOrderReturned(ctx, "o3", errors.New("unavailable"))
 
@@ -26,6 +27,7 @@ func TestCrawlOrdersCountOneOutcomeEach(t *testing.T) {
 # HELP yacycrawler_crawl_orders_processed_total Crawl orders processed, by outcome.
 # TYPE yacycrawler_crawl_orders_processed_total counter
 yacycrawler_crawl_orders_processed_total{outcome="accepted"} 1
+yacycrawler_crawl_orders_processed_total{outcome="ignored"} 1
 yacycrawler_crawl_orders_processed_total{outcome="rejected"} 1
 yacycrawler_crawl_orders_processed_total{outcome="returned"} 1
 `

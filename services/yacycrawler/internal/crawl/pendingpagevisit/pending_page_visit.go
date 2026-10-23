@@ -17,6 +17,17 @@ type PendingPageVisit struct {
 	Depth   int                       `json:"Depth"`
 }
 
+func SeedPageVisitsOf(
+	crawlID crawlid.CrawlID,
+	seedURLs []canonicalurl.CanonicalURL,
+) []PendingPageVisit {
+	seedPageVisits := make([]PendingPageVisit, 0, len(seedURLs))
+	for _, seed := range seedURLs {
+		seedPageVisits = append(seedPageVisits, PendingPageVisit{CrawlID: crawlID, URL: seed})
+	}
+	return seedPageVisits
+}
+
 func (pageVisit PendingPageVisit) LinkedPageVisitTo(
 	url canonicalurl.CanonicalURL,
 ) PendingPageVisit {

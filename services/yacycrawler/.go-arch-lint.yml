@@ -48,8 +48,6 @@ components:
     in: internal/crawls/**
   frontier:
     in: internal/frontier/**
-  takenpagevisits:
-    in: internal/takenpagevisits/**
   pagevisitlimits:
     in: internal/pagevisitlimits/**
   crawlorderobserversapplog:
@@ -160,8 +158,8 @@ deps:
   orderintake:
     mayDependOn:
       - crawlid
-      - pendingpagevisit
       - acceptedorder
+      - pendingpagevisit
     canUse:
       - yacycrawlcontract
       - serviceruntime
@@ -252,14 +250,6 @@ deps:
     canUse:
       - vault
       - serviceruntime
-  takenpagevisits:
-    mayDependOn:
-      - crawlid
-      - vaultkeyparts
-      - urlhash
-    canUse:
-      - vault
-      - canonicalurl
   pagevisitlimits:
     mayDependOn:
       - crawlid
@@ -285,6 +275,9 @@ deps:
   pendingpagevisitobserversapplog:
     mayDependOn:
       - pendingpagevisit
+  frontierobserversapplog:
+    mayDependOn:
+      - crawlid
   frontiermetricsprometheus:
     canUse:
       - prometheus

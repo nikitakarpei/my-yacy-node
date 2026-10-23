@@ -21,16 +21,16 @@ import (
 )
 
 const (
-	lease              = time.Minute
-	concurrentLessees  = 8
-	contendedVisits    = 32
-	visitsOverOneBatch = 300
+	lease             = time.Minute
+	concurrentLessees = 8
+	contendedVisits   = 32
 )
 
 var (
 	errNoDueVisit     = errors.New("no page visit is due")
 	errEngineRefusing = errors.New("engine refuses")
-	crawlID           = crawlid.CrawlID{1}
+	firstCrawl        = crawlid.CrawlID{1}
+	secondCrawl       = crawlid.CrawlID{2}
 )
 
 type clock struct {
@@ -54,12 +54,30 @@ func (c *clock) pass(d time.Duration) {
 	c.now = c.now.Add(d)
 }
 
+type crawlLedger struct {
+	guard        sync.Mutex
+	owingNothing []crawlid.CrawlID
+	refusing     error
+}
+
+func (l *crawlLedger) CrawlOwesNothing(_ *vault.Txn, crawlID crawlid.CrawlID) error {
+	l.guard.Lock()
+	defer l.guard.Unlock()
+	if l.refusing != nil {
+		return l.refusing
+	}
+	l.owingNothing = append(l.owingNothing, crawlID)
+	return nil
+}
+
 type recordedFailures struct {
 	guard           sync.Mutex
 	leases          []error
 	counts          []error
 	acknowledgments []string
 	returns         []string
+	outdated        []string
+	notSettled      []crawlid.CrawlID
 }
 
 func (r *recordedFailures) FrontierLeaseFailed(_ context.Context, err error) {
@@ -68,15 +86,19 @@ func (r *recordedFailures) FrontierLeaseFailed(_ context.Context, err error) {
 	r.leases = append(r.leases, err)
 }
 
+func (r *recordedFailures) FrontierCrawlNotSettled(
+	_ context.Context,
+	crawlID crawlid.CrawlID,
+	_ error,
+) {
+	r.notSettled = append(r.notSettled, crawlID)
+}
+
 func (r *recordedFailures) FrontierCountFailed(_ context.Context, err error) {
 	r.counts = append(r.counts, err)
 }
 
-func (r *recordedFailures) FrontierAcknowledgeFailed(
-	_ context.Context,
-	identity string,
-	_ error,
-) {
+func (r *recordedFailures) FrontierAcknowledgeFailed(_ context.Context, identity string, _ error) {
 	r.acknowledgments = append(r.acknowledgments, identity)
 }
 
@@ -89,38 +111,20 @@ func (r *recordedFailures) FrontierReturnFailed(
 	r.returns = append(r.returns, identity)
 }
 
+func (r *recordedFailures) FrontierLeaseOutdated(_ context.Context, identity string) {
+	r.outdated = append(r.outdated, identity)
+}
+
 type refusingEngine struct {
 	vault.Engine
-	refusing        bool
-	refusingRecords bool
+	refusing bool
 }
 
 func (engine *refusingEngine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if engine.refusing {
 		return errEngineRefusing
 	}
-	return engine.Engine.Update(ctx, func(etx vault.EngineTxn) error {
-		if engine.refusingRecords {
-			return fn(refusingTxn{EngineTxn: etx})
-		}
-		return fn(etx)
-	})
-}
-
-type refusingTxn struct {
-	vault.EngineTxn
-}
-
-func (txn refusingTxn) Records(name vault.Name) vault.EngineRecords {
-	return refusingRecords{EngineRecords: txn.EngineTxn.Records(name)}
-}
-
-type refusingRecords struct {
-	vault.EngineRecords
-}
-
-func (refusingRecords) Get([]byte) ([]byte, error) {
-	return nil, errEngineRefusing
+	return engine.Engine.Update(ctx, fn)
 }
 
 func (engine *refusingEngine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
@@ -134,6 +138,7 @@ type frontierScene struct {
 	storage  *vault.Vault
 	engine   *refusingEngine
 	clock    *clock
+	ledger   *crawlLedger
 	failures *recordedFailures
 	visits   *frontier.Frontier
 }
@@ -152,17 +157,30 @@ func newFrontierOn(t *testing.T, engine vault.Engine) frontierScene {
 		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() { _ = storage.Close() })
+	ledger := &crawlLedger{}
 	failures := &recordedFailures{}
-	visits, err := frontier.Open(t.Context(), storage, lease, visitClock, failures)
+	visits, err := frontier.Open(
+		t.Context(), storage, ledger, lease, visitClock, failures,
+	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 	return frontierScene{
-		storage: storage, engine: refusing, clock: visitClock, failures: failures, visits: visits,
+		storage: storage, engine: refusing, clock: visitClock, ledger: ledger, failures: failures,
+		visits: visits,
 	}
 }
 
 func pageVisitTo(t *testing.T, rawURL string) pendingpagevisit.PendingPageVisit {
+	t.Helper()
+	return pageVisitOfCrawl(t, firstCrawl, rawURL)
+}
+
+func pageVisitOfCrawl(
+	t *testing.T,
+	crawlID crawlid.CrawlID,
+	rawURL string,
+) pendingpagevisit.PendingPageVisit {
 	t.Helper()
 	return pendingpagevisit.PendingPageVisit{
 		CrawlID: crawlID,
@@ -171,18 +189,25 @@ func pageVisitTo(t *testing.T, rawURL string) pendingpagevisit.PendingPageVisit 
 	}
 }
 
-func (f frontierScene) publish(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
+func (f frontierScene) update(t *testing.T, fn func(tx *vault.Txn) error) {
 	t.Helper()
-	if err := f.owe(t, pageVisits); err != nil {
-		t.Fatalf("Owe: %v", err)
+	if err := f.storage.Update(t.Context(), fn); err != nil {
+		t.Fatalf("Update: %v", err)
 	}
 }
 
-func (f frontierScene) owe(t *testing.T, pageVisits []pendingpagevisit.PendingPageVisit) error {
+func (f frontierScene) change(
+	t *testing.T,
+	change func(tx *vault.Txn, crawlID crawlid.CrawlID) error,
+	crawlID crawlid.CrawlID,
+) {
 	t.Helper()
-	return f.storage.Update(t.Context(), func(tx *vault.Txn) error {
-		return f.visits.Owe(tx, pageVisits)
-	})
+	f.update(t, func(tx *vault.Txn) error { return change(tx, crawlID) })
+}
+
+func (f frontierScene) owe(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
+	t.Helper()
+	f.update(t, func(tx *vault.Txn) error { return f.visits.Owe(tx, pageVisits) })
 }
 
 func (f frontierScene) next(t *testing.T) pullintake.PendingMessage {
@@ -192,6 +217,13 @@ func (f frontierScene) next(t *testing.T) pullintake.PendingMessage {
 		t.Fatalf("Next: %v", err)
 	}
 	return message
+}
+
+func (f frontierScene) settleNext(t *testing.T) pendingpagevisit.PendingPageVisit {
+	t.Helper()
+	message := f.next(t)
+	message.Acknowledge(t.Context())
+	return pageVisitOf(t, message)
 }
 
 func (f frontierScene) requireNoDueVisit(t *testing.T) {
@@ -222,205 +254,233 @@ func pageVisitOf(
 	return pageVisit
 }
 
-func TestAPublishedPageVisitIsTakenWithItsArrival(t *testing.T) {
+func TestAnOwedPageVisitIsTakenWithItsArrival(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
-	f.publish(t, pageVisit)
+	f.owe(t, pageVisit)
 	arrival := f.clock.Now()
+	f.clock.pass(time.Second)
 
 	message := f.next(t)
 
 	if got := pageVisitOf(t, message); got != pageVisit {
 		t.Fatalf("page visit = %+v, want %+v", got, pageVisit)
 	}
-	if !message.Arrival().Equal(arrival) {
-		t.Fatalf("Arrival = %v, want %v", message.Arrival(), arrival)
+	if !message.Arrival().Equal(arrival) || message.Identity() == "" {
+		t.Fatalf("message arrived %v as %q, want %v with an identity", message.Arrival(),
+			message.Identity(), arrival)
 	}
 }
 
-func TestAPageVisitPublishedTwiceWhilePendingIsTakenOnce(t *testing.T) {
+func TestAPageVisitOwedTwiceIsTakenOnce(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
-	f.publish(t, pageVisit, pageVisit)
-	f.publish(t, pageVisit)
 
-	f.next(t)
+	f.owe(t, pageVisit, pageVisit)
+	f.owe(t, pageVisit)
 
+	f.settleNext(t)
 	f.requireNoDueVisit(t)
-}
-
-func TestEveryPageVisitOfOnePublicationIsPending(t *testing.T) {
-	f := newFrontier(t)
-	pageVisits := make([]pendingpagevisit.PendingPageVisit, 0, visitsOverOneBatch)
-	for page := range visitsOverOneBatch {
-		pageVisits = append(pageVisits, pageVisitTo(t, fmt.Sprintf("http://host/page%d", page)))
-	}
-
-	f.publish(t, pageVisits...)
-
-	if amount := f.amount(t); amount != visitsOverOneBatch {
-		t.Fatalf("pending page visits = %d, want %d", amount, visitsOverOneBatch)
-	}
 }
 
 func TestATakenPageVisitComesBackOnlyOnceItsLeaseEnds(t *testing.T) {
 	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-	taken := f.next(t)
+	f.owe(t, pageVisitTo(t, "http://host/page"))
+	f.next(t)
 
-	f.clock.pass(lease - time.Millisecond)
 	f.requireNoDueVisit(t)
-	f.clock.pass(time.Millisecond)
-
-	if again := f.next(t); again.Identity() != taken.Identity() {
-		t.Fatalf("Identity = %q after the lease, want %q", again.Identity(), taken.Identity())
-	}
-}
-
-func TestAnAcknowledgedPageVisitNeverComesBack(t *testing.T) {
-	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-
-	f.next(t).Acknowledge(t.Context())
-
 	f.clock.pass(lease)
-	f.requireNoDueVisit(t)
+
+	f.next(t)
 }
 
-func TestAPageVisitPublishedAgainAfterItsAcknowledgmentCarriesANewIdentity(t *testing.T) {
+func TestAnAcknowledgedPageVisitNeverComesBackNorIsOwedAgain(t *testing.T) {
 	f := newFrontier(t)
 	pageVisit := pageVisitTo(t, "http://host/page")
-	f.publish(t, pageVisit)
-	first := f.next(t)
-	first.Acknowledge(t.Context())
+	f.owe(t, pageVisit)
+	f.settleNext(t)
 
-	f.publish(t, pageVisit)
+	f.owe(t, pageVisit)
+	f.clock.pass(2 * lease)
 
-	if again := f.next(t); again.Identity() == first.Identity() {
-		t.Fatalf("Identity = %q again, want a new identity", again.Identity())
+	f.requireNoDueVisit(t)
+	if amount := f.amount(t); amount != 0 {
+		t.Fatalf("owed %d, want none", amount)
 	}
 }
 
 func TestAPageVisitReturnedAfterADelayIsDueOnlyOnceTheDelayPasses(t *testing.T) {
 	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-	delay := 3 * lease
+	f.owe(t, pageVisitTo(t, "http://host/page"))
+	f.next(t).ReturnAfter(t.Context(), 2*lease)
 
-	f.next(t).ReturnAfter(t.Context(), delay)
-
-	f.clock.pass(delay - time.Millisecond)
+	f.clock.pass(lease)
 	f.requireNoDueVisit(t)
-	f.clock.pass(time.Millisecond)
+	f.clock.pass(lease)
+
 	f.next(t)
 }
 
-func TestAReturnedPageVisitComesBackLater(t *testing.T) {
+func TestAReturnedPageVisitComesBackSoonerThanItsLease(t *testing.T) {
 	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-
+	f.owe(t, pageVisitTo(t, "http://host/page"))
 	f.next(t).Return(t.Context())
 
+	f.clock.pass(lease / 2)
+
+	f.next(t)
+}
+
+func TestASettlementUnderAnEndedLeaseChangesNothing(t *testing.T) {
+	f := newFrontier(t)
+	f.owe(t, pageVisitTo(t, "http://host/page"))
+	first := f.next(t)
+	f.clock.pass(lease)
+	second := f.next(t)
+
+	first.ReturnAfter(t.Context(), time.Hour)
+	first.Acknowledge(t.Context())
+
+	if len(f.failures.outdated) != 2 || f.amount(t) != 1 {
+		t.Fatalf("outdated %v owed %d, want both settlements outdated and the visit owed",
+			f.failures.outdated, f.amount(t))
+	}
+	second.Acknowledge(t.Context())
+	f.clock.pass(2 * lease)
 	f.requireNoDueVisit(t)
+}
+
+func TestPageVisitsAreTakenInTheOrderTheyFallDueAcrossCrawls(t *testing.T) {
+	f := newFrontier(t)
+	f.owe(t, pageVisitOfCrawl(t, firstCrawl, "http://host/first"))
+	f.next(t).ReturnAfter(t.Context(), 3*time.Second)
+	f.clock.pass(time.Second)
+	f.owe(t, pageVisitOfCrawl(t, secondCrawl, "http://host/second"))
 	f.clock.pass(time.Hour)
-	f.next(t)
-}
 
-func TestAReturnOfAnAcknowledgedPageVisitLeavesItGone(t *testing.T) {
-	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-	message := f.next(t)
-	message.Acknowledge(t.Context())
+	got := []crawlid.CrawlID{f.settleNext(t).CrawlID, f.settleNext(t).CrawlID}
 
-	message.ReturnAfter(t.Context(), time.Second)
-
-	if amount := f.amount(t); amount != 0 {
-		t.Fatalf("pending page visits = %d, want none", amount)
+	if !slices.Equal(got, []crawlid.CrawlID{secondCrawl, firstCrawl}) {
+		t.Fatalf("took %v, want the earliest due first", got)
 	}
 }
 
-func TestPageVisitsAreTakenInTheOrderTheyFallDue(t *testing.T) {
+func TestTheOwedPageVisitsAreCountedPerCrawlAndHost(t *testing.T) {
 	f := newFrontier(t)
-	first, second := pageVisitTo(t, "http://host/first"), pageVisitTo(t, "http://host/second")
-	f.publish(t, first)
-	f.clock.pass(time.Second)
-	f.publish(t, second)
-
-	f.next(t).ReturnAfter(t.Context(), time.Second)
-	f.clock.pass(time.Second)
-
-	if got := pageVisitOf(t, f.next(t)); got != second {
-		t.Fatalf("page visit = %+v, want the one due first %+v", got, second)
-	}
-}
-
-func TestAnOweTheStorageRefusesFails(t *testing.T) {
-	f := newFrontier(t)
-	f.engine.refusingRecords = true
-
-	if err := f.owe(
+	f.owe(
 		t,
-		[]pendingpagevisit.PendingPageVisit{pageVisitTo(t, "http://host/page")},
-	); !errors.Is(err, errEngineRefusing) {
-		t.Fatalf("Owe err = %v, want the refusal", err)
+		pageVisitTo(t, "http://a/1"),
+		pageVisitTo(t, "http://a/2"),
+		pageVisitTo(t, "http://b/1"),
+		pageVisitOfCrawl(t, secondCrawl, "http://a/1"),
+	)
+	var owedByFirst int
+	owedOfHosts := map[string]int{}
+
+	f.update(t, func(tx *vault.Txn) error {
+		var err error
+		if owedByFirst, err = f.visits.AmountOwedBy(tx, firstCrawl); err != nil {
+			return err
+		}
+		return f.visits.AmountsOwedByHostsOf(tx, firstCrawl, func(host string, amount int) {
+			owedOfHosts[host] = amount
+		})
+	})
+
+	if owedByFirst != 3 || owedOfHosts["a"] != 2 || owedOfHosts["b"] != 1 || f.amount(t) != 4 {
+		t.Fatalf("owed by first %d, of hosts %v, every %d; want 3, a=2 b=1, 4", owedByFirst,
+			owedOfHosts, f.amount(t))
 	}
 }
 
-func TestALeaseTheStorageRefusesIsReportedAndNothingIsTaken(t *testing.T) {
+func TestAPageVisitTakenIsCountedUntilAcknowledged(t *testing.T) {
 	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
-	f.engine.refusing = true
+	f.owe(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
+	f.next(t)
 
+	if amount := f.amount(t); amount != 2 {
+		t.Fatalf("owed %d, want 2", amount)
+	}
+}
+
+func TestTheLastAcknowledgedVisitReportsItsCrawlOwesNothing(t *testing.T) {
+	f := newFrontier(t)
+	f.owe(t, pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b"))
+
+	f.settleNext(t)
+	owingNothingEarly := len(f.ledger.owingNothing)
+	f.settleNext(t)
+
+	if owingNothingEarly != 0 ||
+		!slices.Equal(f.ledger.owingNothing, []crawlid.CrawlID{firstCrawl}) {
+		t.Fatalf("owing nothing after the first %d, then %v; want only after the last",
+			owingNothingEarly, f.ledger.owingNothing)
+	}
+}
+
+func TestAClosedCrawlTakesNoVisit(t *testing.T) {
+	f := newFrontier(t)
+
+	f.change(t, f.visits.Close, firstCrawl)
+	f.owe(t, pageVisitTo(t, "http://host/a"))
 	f.requireNoDueVisit(t)
 
-	if len(f.failures.leases) != 1 {
-		t.Fatalf("lease failures = %v, want one", f.failures.leases)
+	if f.amount(t) != 0 || len(f.ledger.owingNothing) != 0 {
+		t.Fatalf("owed %d, owing nothing %v; want nothing", f.amount(t), f.ledger.owingNothing)
 	}
 }
 
-func TestSettlementsTheStorageRefusesAreReported(t *testing.T) {
+func TestAForgottenCrawlKeepsNothingAndItsVisitsAreOwedAgain(t *testing.T) {
 	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/page"))
+	settled, owed := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
+	f.owe(t, settled, owed)
+	f.settleNext(t)
+	f.change(t, f.visits.Close, firstCrawl)
+
+	f.change(t, f.visits.ForgetCrawl, firstCrawl)
+
+	if f.amount(t) != 0 {
+		t.Fatalf("owed %d after forgetting, want none", f.amount(t))
+	}
+	f.owe(t, settled, owed)
+	if f.amount(t) != 2 {
+		t.Fatalf("owed %d, want both visits owed again", f.amount(t))
+	}
+	f.settleNext(t)
+}
+
+func TestAVisitWhoseCrawlCannotSettleIsStillAcknowledged(t *testing.T) {
+	f := newFrontier(t)
+	f.owe(t, pageVisitTo(t, "http://host/a"))
+	f.ledger.refusing = errEngineRefusing
+
+	f.settleNext(t)
+
+	if f.amount(t) != 0 || !slices.Equal(f.failures.notSettled, []crawlid.CrawlID{firstCrawl}) ||
+		len(f.failures.acknowledgments) != 0 {
+		t.Fatalf("owed %d, not settled %v, ack failures %v; want the visit settled anyway",
+			f.amount(t), f.failures.notSettled, f.failures.acknowledgments)
+	}
+}
+
+func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
+	f := newFrontier(t)
+	f.owe(t, pageVisitTo(t, "http://host/a"))
 	message := f.next(t)
 	f.engine.refusing = true
 
 	message.Acknowledge(t.Context())
 	message.ReturnAfter(t.Context(), time.Second)
+	_, counted := f.visits.AmountOfPendingPageVisits(t.Context())
+	f.requireNoDueVisit(t)
 
-	identity := message.Identity()
-	if len(f.failures.acknowledgments) != 1 || f.failures.acknowledgments[0] != identity ||
-		len(f.failures.returns) != 1 || f.failures.returns[0] != identity {
-		t.Fatalf(
-			"failures = %+v, want one acknowledgment and one return of %q",
-			f.failures,
-			identity,
-		)
+	if len(f.failures.acknowledgments) != 1 || len(f.failures.returns) != 1 || counted ||
+		len(f.failures.counts) != 1 || len(f.failures.leases) != 1 {
+		t.Fatalf("failures = %+v counted %v, want each refusal reported once", f.failures, counted)
 	}
 }
 
-func TestTheAmountOfPendingPageVisitsCountsTakenOnesUntilTheyAreAcknowledged(t *testing.T) {
-	f := newFrontier(t)
-	f.publish(t, pageVisitTo(t, "http://host/first"), pageVisitTo(t, "http://host/second"))
-	f.next(t).Acknowledge(t.Context())
-	f.next(t)
-
-	if amount := f.amount(t); amount != 1 {
-		t.Fatalf("AmountOfPendingPageVisits = %d; want 1", amount)
-	}
-}
-
-func TestACountTheStorageRefusesIsReported(t *testing.T) {
-	f := newFrontier(t)
-	f.engine.refusing = true
-
-	if _, counted := f.visits.AmountOfPendingPageVisits(t.Context()); counted {
-		t.Fatal("AmountOfPendingPageVisits counted on a refusing storage")
-	}
-	if len(f.failures.counts) != 1 {
-		t.Fatalf("count failures = %v, want one", f.failures.counts)
-	}
-}
-
-func TestConcurrentLeasesTakeEachDuePageVisitOnce(t *testing.T) {
+func TestConcurrentLeasesTakeEachOwedPageVisitOnce(t *testing.T) {
 	engine, err := pebblevault.OpenEngine(
 		filepath.Join(t.TempDir(), "crawl-state"), 0, pebblevault.MachineLimits{}, nil, nil,
 	)
@@ -428,30 +488,39 @@ func TestConcurrentLeasesTakeEachDuePageVisitOnce(t *testing.T) {
 		t.Fatalf("OpenEngine: %v", err)
 	}
 	f := newFrontierOn(t, engine)
-	published := make([]pendingpagevisit.PendingPageVisit, 0, contendedVisits)
-	for page := range contendedVisits {
-		published = append(published, pageVisitTo(t, fmt.Sprintf("http://host/page%d", page)))
+	pageVisits := make([]pendingpagevisit.PendingPageVisit, 0, contendedVisits)
+	for visit := range contendedVisits {
+		pageVisits = append(pageVisits, pageVisitTo(t, fmt.Sprintf("http://host%d/", visit)))
 	}
-	f.publish(t, published...)
+	f.owe(t, pageVisits...)
 
-	leasedByLessee := make([][]string, concurrentLessees)
-	var leasing sync.WaitGroup
-	for lessee := range concurrentLessees {
-		leasing.Go(func() {
+	taken := make(chan string, contendedVisits)
+	var lessees sync.WaitGroup
+	for range concurrentLessees {
+		lessees.Go(func() {
 			for {
-				message, err := f.visits.Next(context.Background())
+				message, err := f.visits.Next(t.Context())
 				if err != nil {
 					return
 				}
-				leasedByLessee[lessee] = append(leasedByLessee[lessee], message.Identity())
+				message.Acknowledge(t.Context())
+				taken <- pageVisitOf(t, message).URL.String()
 			}
 		})
 	}
-	leasing.Wait()
+	lessees.Wait()
+	close(taken)
 
-	leased := slices.Concat(leasedByLessee...)
-	slices.Sort(leased)
-	if len(leased) != contendedVisits || len(slices.Compact(leased)) != contendedVisits {
-		t.Fatalf("leased %d page visits, want each of %d once", len(leased), contendedVisits)
+	seen := map[string]int{}
+	for url := range taken {
+		seen[url]++
+	}
+	if len(seen) != contendedVisits {
+		t.Fatalf("took %d visits, want %d", len(seen), contendedVisits)
+	}
+	for url, times := range seen {
+		if times != 1 {
+			t.Fatalf("took %s %d times, want once", url, times)
+		}
 	}
 }

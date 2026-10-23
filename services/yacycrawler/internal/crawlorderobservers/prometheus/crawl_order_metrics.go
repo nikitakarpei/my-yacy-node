@@ -11,11 +11,12 @@ import (
 const (
 	labelOutcome    = "outcome"
 	outcomeAccepted = "accepted"
+	outcomeIgnored  = "ignored"
 	outcomeRejected = "rejected"
 	outcomeReturned = "returned"
 )
 
-var crawlOrderOutcomes = []string{outcomeAccepted, outcomeRejected, outcomeReturned}
+var crawlOrderOutcomes = []string{outcomeAccepted, outcomeIgnored, outcomeRejected, outcomeReturned}
 
 type CrawlOrderMetrics struct {
 	ordersProcessed *prometheusclient.CounterVec
@@ -41,6 +42,10 @@ func (metrics *CrawlOrderMetrics) CrawlOrderReturned(context.Context, string, er
 
 func (metrics *CrawlOrderMetrics) CrawlOrderRejected(context.Context, string, string, error) {
 	metrics.ordersProcessed.WithLabelValues(outcomeRejected).Inc()
+}
+
+func (metrics *CrawlOrderMetrics) CrawlOrderIgnored(context.Context, string) {
+	metrics.ordersProcessed.WithLabelValues(outcomeIgnored).Inc()
 }
 
 func (metrics *CrawlOrderMetrics) CrawlOrderAccepted(

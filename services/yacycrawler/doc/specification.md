@@ -23,12 +23,15 @@ than an always-on node.
 
 ## Functional Requirements
 
-* The service SHALL idle until a crawl order arrives, then accept it.
+* The service SHALL idle until a crawl order arrives, then accept it. The first order of an
+  ID SHALL start one crawl; a later order with that ID SHALL be ignored while its crawl is
+  kept.
 * The service SHALL reject an order it cannot read, or that has no seed URLs: it reports the
   order, keeps nothing, and does not take it again.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
-* A crawl run SHALL end when its profile admits no more URLs, never by elapsed time.
+* A crawl SHALL succeed when it owes no more page visits, never by elapsed time, and SHALL
+  take no more page visits afterwards.
 * Before fetching a page, the service SHALL ask the recrawl rule whether the page is
   due, and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
@@ -38,7 +41,7 @@ than an always-on node.
   that a consumer, not the crawler, decides what to do with it.
 * The service SHALL publish the canonical URL of each page it read, and never the page's
   content.
-* Every URL a run admits SHALL be taken by exactly one instance, and SHALL end either
+* A crawl SHALL hold one page visit for each URL it admits, and each SHALL end either
   completed, or dropped when the crawler stops trying to visit it.
 * A publication SHALL fail only on a hard, non-retryable broker error, and never terminally:
   transient backpressure returns the URL for redelivery, and a failed page stays unpublished.
@@ -77,4 +80,4 @@ than an always-on node.
 * A durable crawled-page consumer that no one reads stops the crawl until an operator
   removes it.
 * A run stops while the instance that accepted its order is down.
-* A crawl run that lasts longer than its retention drops its remaining URLs.
+* A crawl that never finishes is kept forever.

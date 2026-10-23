@@ -56,7 +56,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
 	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits"
 )
 
 const (
@@ -79,10 +78,6 @@ func RunService(
 ) error {
 	crawlOrderObservers := orderintake.CrawlOrderObservers{
 		crawlorderobserversapplog.CrawlOrderLog{}, crawlorderobserversprometheus.New(registry),
-	}
-	pendingPageVisitObservers := pagevisitintake.PendingPageVisitObservers{
-		pendingpagevisitobserversapplog.PendingPageVisitLog{},
-		pendingpagevisitobserversprometheus.New(registry),
 	}
 	pageFetchObservers := observedfetch.PageFetchObservers{
 		pagefetchobserversapplog.PageFetchLog{},
@@ -128,6 +123,10 @@ func RunService(
 		return err
 	}
 	frontiermetricsprometheus.New(registry, crawlState.frontier)
+	pendingPageVisitObservers := pagevisitintake.PendingPageVisitObservers{
+		pendingpagevisitobserversapplog.PendingPageVisitLog{},
+		pendingpagevisitobserversprometheus.New(registry),
+	}
 	orders, err := buildOrderConsumer(ctx, js, crawlState, cfg, crawlOrderObservers)
 	if err != nil {
 		return err
@@ -236,9 +235,8 @@ func openCrawlState(
 
 type crawlStateStores struct {
 	storage          *vault.Vault
-	frontier         *frontier.Frontier
 	crawls           *crawls.Crawls
-	takenPageVisits  *takenpagevisits.TakenPageVisits
+	frontier         *frontier.Frontier
 	pageVisitLimits  *pagevisitlimits.PageVisitLimits
 	pageVisitRecords pagevisit.PageVisitRecords
 }
@@ -248,9 +246,11 @@ func openCrawlStateStores(
 	storage *vault.Vault,
 	cfg ServiceConfig,
 ) (crawlStateStores, error) {
+	wiring := &crawlStateWiring{}
 	pageVisitFrontier, err := frontier.Open(
 		ctx,
 		storage,
+		wiring,
 		cfg.PendingPageVisitLease(),
 		wallclock.Clock{},
 		frontierobserversapplog.FrontierLog{},
@@ -258,16 +258,14 @@ func openCrawlStateStores(
 	if err != nil {
 		return crawlStateStores{}, err
 	}
-	keptCrawls, err := crawls.Open(ctx, storage, cfg.CrawlRetention())
-	if err != nil {
-		return crawlStateStores{}, err
-	}
-	takenPageVisits, err := takenpagevisits.Open(
-		ctx, storage, cfg.TakenPageVisitRetention(),
+	wiring.frontier = pageVisitFrontier
+	keptCrawls, err := crawls.Open(
+		ctx, storage, cfg.CrawlRetention(), wiring, wiring, wallclock.Clock{},
 	)
 	if err != nil {
 		return crawlStateStores{}, err
 	}
+	wiring.crawls = keptCrawls
 	pageVisitLimits, err := pagevisitlimits.Open(
 		ctx, storage, cfg.PageVisitLimitRetention(), cfg.MaxPerURL(),
 	)
@@ -280,9 +278,8 @@ func openCrawlStateStores(
 	}
 	return crawlStateStores{
 		storage:          storage,
-		frontier:         pageVisitFrontier,
 		crawls:           keptCrawls,
-		takenPageVisits:  takenPageVisits,
+		frontier:         pageVisitFrontier,
 		pageVisitLimits:  pageVisitLimits,
 		pageVisitRecords: pageVisitRecords,
 	}, nil
@@ -311,8 +308,8 @@ func buildOrderConsumer(
 		return nil, err
 	}
 	return orderintake.NewOrderConsumer(
-		crawlState.storage,
 		consumer,
+		crawlState.storage,
 		crawlState.crawls,
 		crawlState.frontier,
 		observer,
@@ -376,7 +373,6 @@ func buildPageVisitConsumer(
 	return pagevisitintake.NewPageVisitConsumer(
 		crawlState.storage,
 		crawlState.frontier,
-		crawlState.takenPageVisits,
 		pagevisitallowance.New(
 			crawlState.storage,
 			crawlState.pageVisitLimits,

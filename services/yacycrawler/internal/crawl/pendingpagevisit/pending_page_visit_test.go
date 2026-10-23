@@ -3,6 +3,7 @@ package pendingpagevisit_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
@@ -34,6 +35,17 @@ func TestPendingVisitSurvivesTheFrontierStream(t *testing.T) {
 func TestUnmarshalPendingVisitRejectsRubbish(t *testing.T) {
 	if _, err := pendingpagevisit.UnmarshalPendingPageVisit([]byte("{")); err == nil {
 		t.Fatal("a truncated message should not decode")
+	}
+}
+
+func TestTheSeedPageVisitsOfACrawlStartAtTheTop(t *testing.T) {
+	seed := canonicalurltest.CanonicalURLOf(t, "http://host/")
+
+	seeds := pendingpagevisit.SeedPageVisitsOf(crawlID, []canonicalurl.CanonicalURL{seed})
+
+	want := pendingpagevisit.PendingPageVisit{CrawlID: crawlID, URL: seed}
+	if len(seeds) != 1 || seeds[0] != want {
+		t.Fatalf("seeds = %+v, want %+v", seeds, want)
 	}
 }
 

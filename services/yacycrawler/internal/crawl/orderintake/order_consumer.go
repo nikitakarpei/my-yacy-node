@@ -1,10 +1,11 @@
-// Package orderintake takes each delivered crawl order in: it keeps the crawl of a readable
-// order and puts its seed URLs on the frontier in one transaction, rejects one it cannot
-// read for good, and returns one whose crawl it could not keep yet for redelivery.
+// Package orderintake takes each delivered crawl order in: it starts the crawl of a
+// readable order with its seeds owed, rejects one it cannot read for good, and returns one
+// whose crawl it could not start yet for redelivery.
 package orderintake
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -15,36 +16,39 @@ import (
 )
 
 type Crawls interface {
-	Keep(tx *vault.Txn, order acceptedorder.AcceptedOrder) (crawlid.CrawlID, error)
+	Start(
+		tx *vault.Txn,
+		order acceptedorder.AcceptedOrder,
+	) (crawlID crawlid.CrawlID, started bool, err error)
 }
 
-type Frontier interface {
+type OwedPageVisits interface {
 	Owe(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
-	storage                *vault.Vault
 	source                 pullintake.MessageSource
+	storage                *vault.Vault
 	crawls                 Crawls
-	frontier               Frontier
+	owed                   OwedPageVisits
 	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
 }
 
-//nolint:revive // an order consumer names the vault and every collaborator it accepts an order with
+//nolint:revive // a consumer names its source, the vault, the stores it starts a crawl in and more
 func NewOrderConsumer(
-	storage *vault.Vault,
 	source pullintake.MessageSource,
+	storage *vault.Vault,
 	crawls Crawls,
-	frontier Frontier,
+	owed OwedPageVisits,
 	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
 	return &OrderConsumer{
-		storage:                storage,
 		source:                 source,
+		storage:                storage,
 		crawls:                 crawls,
-		frontier:               frontier,
+		owed:                   owed,
 		observer:               observer,
 		orderIntakeConcurrency: orderIntakeConcurrency,
 	}
@@ -73,45 +77,38 @@ func (c *OrderConsumer) takeInOrder(
 		c.rejectOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
-	crawlID, err := c.startCrawl(ctx, order)
+	crawlID, started, err := c.startCrawl(ctx, order)
 	if err != nil {
 		c.observer.CrawlOrderReturned(ctx, order.OrderID(), err)
 		message.Return(ctx)
 		return nil
 	}
 	message.Acknowledge(ctx)
-	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), crawlID, len(order.SeedURLs()))
+	c.observeAcceptance(ctx, order, crawlID, started)
 	return nil
 }
 
 func (c *OrderConsumer) startCrawl(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
-) (crawlid.CrawlID, error) {
+) (crawlid.CrawlID, bool, error) {
 	var crawlID crawlid.CrawlID
-	err := c.storage.Update(ctx, func(tx *vault.Txn) error {
+	var started bool
+	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		if crawlID, err = c.crawls.Keep(tx, order); err != nil {
+		crawlID, started, err = c.crawls.Start(tx, order)
+		if err != nil || !started {
 			return err
 		}
-		return c.frontier.Owe(tx, seedPageVisitsOf(crawlID, order))
-	})
-	return crawlID, err
-}
-
-func seedPageVisitsOf(
-	crawlID crawlid.CrawlID,
-	order acceptedorder.AcceptedOrder,
-) []pendingpagevisit.PendingPageVisit {
-	seedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(order.SeedURLs()))
-	for _, seed := range order.SeedURLs() {
-		seedPageVisits = append(seedPageVisits, pendingpagevisit.PendingPageVisit{
-			CrawlID: crawlID,
-			URL:     seed,
-			Depth:   0,
-		})
+		return c.owed.Owe(tx, pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()))
+	}); err != nil {
+		return crawlid.CrawlID{}, false, fmt.Errorf(
+			"start the crawl of order %s: %w",
+			order.OrderID(),
+			err,
+		)
 	}
-	return seedPageVisits
+	return crawlID, started, nil
 }
 
 func (c *OrderConsumer) rejectOrder(
@@ -122,4 +119,17 @@ func (c *OrderConsumer) rejectOrder(
 ) {
 	message.Acknowledge(ctx)
 	c.observer.CrawlOrderRejected(ctx, message.Identity(), orderID, cause)
+}
+
+func (c *OrderConsumer) observeAcceptance(
+	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+	crawlID crawlid.CrawlID,
+	started bool,
+) {
+	if !started {
+		c.observer.CrawlOrderIgnored(ctx, order.OrderID())
+		return
+	}
+	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), crawlID, len(order.SeedURLs()))
 }

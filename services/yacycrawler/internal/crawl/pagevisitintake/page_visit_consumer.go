@@ -1,13 +1,13 @@
-// Package pagevisitintake pays one pending page visit per delivered message: it claims
-// the URL for that message, has the page visited, and settles the message by what the
-// visit concluded. It takes the next message only when its admission lets it.
+// Package pagevisitintake pays one pending page visit per delivered message: it has the
+// page visited and settles the message by what the visit concluded. It takes the next
+// message only when its admission lets it.
 package pagevisitintake
 
 import (
 	"context"
+	"errors"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -19,14 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type TakenPageVisits interface {
-	TakePageVisit(
-		tx *vault.Txn,
-		crawlID crawlid.CrawlID,
-		url canonicalurl.CanonicalURL,
-		taker string,
-	) (bool, error)
-}
+var errCrawlForgotten = errors.New("the crawl of the page visit is forgotten")
 
 type PageVisitAllowances interface {
 	TakePageOfHost(
@@ -55,7 +48,6 @@ type Crawls interface {
 type PageVisitConsumer struct {
 	storage           *vault.Vault
 	pendingPageVisits pullintake.PendingMessages
-	takenPageVisits   TakenPageVisits
 	allowances        PageVisitAllowances
 	crawls            Crawls
 	pageVisitor       pagevisit.PageVisitor
@@ -68,7 +60,6 @@ type PageVisitConsumer struct {
 func NewPageVisitConsumer(
 	storage *vault.Vault,
 	pendingPageVisits pullintake.PendingMessages,
-	takenPageVisits TakenPageVisits,
 	allowances PageVisitAllowances,
 	crawls Crawls,
 	pageVisitor pagevisit.PageVisitor,
@@ -79,7 +70,6 @@ func NewPageVisitConsumer(
 	return &PageVisitConsumer{
 		storage:           storage,
 		pendingPageVisits: pendingPageVisits,
-		takenPageVisits:   takenPageVisits,
 		allowances:        allowances,
 		crawls:            crawls,
 		pageVisitor:       pageVisitor,
@@ -109,10 +99,10 @@ func (c *PageVisitConsumer) payPageVisit(
 		return nil
 	}
 	if !found {
-		c.dropPageVisit(ctx, message, pendingPageVisit, yacycrawlcontract.DropReasonOrderForgotten)
+		c.returnPageVisit(ctx, message, pendingPageVisit, errCrawlForgotten)
 		return nil
 	}
-	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
+	if !c.holdsHostPage(ctx, message, order, pendingPageVisit) {
 		return nil
 	}
 	outcome := c.pageVisitor.VisitPage(ctx, order, pendingPageVisit)
@@ -142,30 +132,6 @@ func (c *PageVisitConsumer) returnPageVisit(
 ) {
 	c.observer.PendingPageVisitReturned(ctx, pendingPageVisit, cause)
 	message.Return(ctx)
-}
-
-func (c *PageVisitConsumer) takePageVisit(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	order acceptedorder.AcceptedOrder,
-	pendingPageVisit pendingpagevisit.PendingPageVisit,
-) bool {
-	var took bool
-	if err := c.storage.Update(ctx, func(tx *vault.Txn) error {
-		var err error
-		took, err = c.takenPageVisits.TakePageVisit(
-			tx, pendingPageVisit.CrawlID, pendingPageVisit.URL, message.Identity(),
-		)
-		return err
-	}); err != nil {
-		c.returnPageVisit(ctx, message, pendingPageVisit, err)
-		return false
-	}
-	if !took {
-		c.dropPageVisit(ctx, message, pendingPageVisit, yacycrawlcontract.DropReasonTakenByAnother)
-		return false
-	}
-	return c.holdsHostPage(ctx, message, order, pendingPageVisit)
 }
 
 func (c *PageVisitConsumer) dropPageVisit(
