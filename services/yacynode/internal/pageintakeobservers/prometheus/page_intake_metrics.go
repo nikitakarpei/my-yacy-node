@@ -17,6 +17,7 @@ const (
 const (
 	disposalIndexed                  = "indexed"
 	disposalDocumentExtractionFailed = "document_extraction_failed"
+	disposalMediaTypeUnsupported     = "media_type_unsupported"
 	disposalNoIndexDerived           = "no_index_derived"
 	disposalInvalidMessage           = "invalid_message"
 )
@@ -24,6 +25,7 @@ const (
 var offeredPageDisposals = []string{
 	disposalIndexed,
 	disposalDocumentExtractionFailed,
+	disposalMediaTypeUnsupported,
 	disposalNoIndexDerived,
 	disposalInvalidMessage,
 }
@@ -107,6 +109,15 @@ func (m *PageIntakeMetrics) DocumentExtractionFailed(
 	error,
 ) {
 	m.dispose(disposalDocumentExtractionFailed)
+}
+
+func (m *PageIntakeMetrics) MediaTypeUnsupported(
+	context.Context,
+	string,
+	canonicalurl.CanonicalURL,
+	string,
+) {
+	m.dispose(disposalMediaTypeUnsupported)
 }
 
 func (m *PageIntakeMetrics) NoIndexDerived(

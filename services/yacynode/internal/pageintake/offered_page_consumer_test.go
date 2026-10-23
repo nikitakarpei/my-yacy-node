@@ -89,6 +89,15 @@ func (r *recordingPageIntakeObserver) DocumentExtractionFailed(
 	r.disposals = append(r.disposals, "document_extraction_failed")
 }
 
+func (r *recordingPageIntakeObserver) MediaTypeUnsupported(
+	context.Context,
+	string,
+	canonicalurl.CanonicalURL,
+	string,
+) {
+	r.disposals = append(r.disposals, "media_type_unsupported")
+}
+
 func (r *recordingPageIntakeObserver) NoIndexDerived(
 	context.Context,
 	string,
@@ -279,16 +288,34 @@ func TestConsumerAdmitsAPageInOneCall(t *testing.T) {
 }
 
 func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
-	observer := &recordingPageIntakeObserver{}
-	receipts := &recordingIntakeReceipts{}
-	pages := &recordingPages{}
+	assertRejectedWithDisposal(t, pagescrapecontract.OfferedPage{
+		PageURL:     canonicalurltest.CanonicalURLOf(t, offeredPageURL),
+		LandedURL:   canonicalurltest.CanonicalURLOf(t, offeredPageURL),
+		ContentType: "text/html",
+		Body:        []byte{},
+	}, "document_extraction_failed")
+}
 
-	message := offeredPage(t, pagescrapecontract.OfferedPage{
+func TestPageOfAnUnsupportedMediaTypeIsReportedAsRejected(t *testing.T) {
+	assertRejectedWithDisposal(t, pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, offeredPageURL),
 		LandedURL:   canonicalurltest.CanonicalURLOf(t, offeredPageURL),
 		ContentType: "application/pdf",
 		Body:        []byte("%PDF-1.4"),
-	})
+	}, "media_type_unsupported")
+}
+
+func assertRejectedWithDisposal(
+	t *testing.T,
+	page pagescrapecontract.OfferedPage,
+	wantDisposal string,
+) {
+	t.Helper()
+
+	observer := &recordingPageIntakeObserver{}
+	receipts := &recordingIntakeReceipts{}
+	pages := &recordingPages{}
+	message := offeredPage(t, page)
 	if err := runWith(t, message, intakeCollaborators{
 		pageReceiver:       pages,
 		intakeReceipts:     receipts,
@@ -306,8 +333,8 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 	if len(receipts.rejected) != 1 {
 		t.Errorf("rejected receipts = %v, want one for the offered page", receipts.rejected)
 	}
-	if got := observer.disposals; len(got) != 1 || got[0] != "document_extraction_failed" {
-		t.Errorf("disposals = %v, want document_extraction_failed", got)
+	if got := observer.disposals; len(got) != 1 || got[0] != wantDisposal {
+		t.Errorf("disposals = %v, want %s", got, wantDisposal)
 	}
 }
 

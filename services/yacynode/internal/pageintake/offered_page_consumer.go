@@ -4,6 +4,7 @@ package pageintake
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -94,6 +95,16 @@ func (c *OfferedPageConsumer) documentOf(
 	document, err := documentextraction.DocumentFrom(
 		ctx, page.Body, page.ContentType, page.LandedURL,
 	)
+	if errors.Is(err, documentextraction.ErrUnsupportedMediaType) {
+		c.pageIntakeObserver.MediaTypeUnsupported(
+			ctx,
+			message.Identity(),
+			page.LandedURL,
+			page.ContentType,
+		)
+
+		return documentextraction.Document{}, false
+	}
 	if err != nil {
 		c.pageIntakeObserver.DocumentExtractionFailed(
 			ctx,
