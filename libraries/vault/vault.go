@@ -2,13 +2,17 @@
 // Records buckets back a Collection, a Set, a ValueIndex or a ChangeIndex;
 // amounts buckets hold the sum of changes raised and lowered blind, read as never below
 // zero, or a CountIndex; member sets buckets back a MemberSetIndex over a MemberEncoding.
-// Only vault adds to an index, in step with the collection it follows. An Engine
+// Expiring records buckets back an ExpiringCollection: a record reads as absent
+// once its lifetime after its last write ends, and vault removes it with its index
+// entries later. Each transaction run reads the vault clock once, as its time.
+// Only vault adds to an index, in step with the collection it is attached to. An Engine
 // stores the buckets, keeps each write whole, may rerun its closure, and counts
-// bytes to a quota. Transactions are serializable: each reads one committed state,
-// scans included, and every outcome is one that some serial order of the transactions
-// gives; an engine runs a write again where that order would otherwise break. Blind
-// changes of one amount never make each other run again. A write that keeps running again
-// is at last run alone, so every write ends within a bounded number of runs.
+// bytes to a quota, and never removes an expiring record unasked. Transactions are
+// serializable: each reads one committed state, scans included, and every outcome is one
+// that some serial order of the transactions gives; an engine runs a write again where
+// that order would otherwise break. Blind changes of one amount never make each other
+// run again. A write that keeps running again is at last run alone, so every write ends
+// within a bounded number of runs.
 package vault
 
 import (
@@ -16,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 )
 
 type Name string
@@ -23,27 +28,49 @@ type Name string
 var (
 	errVaultClosed  = errors.New("vault closed")
 	errEngineAbsent = errors.New("vault needs a storage engine")
+	errClockAbsent  = errors.New("vault needs a clock")
 )
 
-type Vault struct {
-	engine             Engine
-	observer           TransactionObserver
-	mu                 sync.Mutex
-	registered         map[Name]bucketKind
-	projectionVersions func() (projectionVersions, error)
+type Clock interface {
+	Now() time.Time
+	Sleep(ctx context.Context, d time.Duration) error
 }
 
-func New(engine Engine, observer TransactionObserver) (*Vault, error) {
+type Vault struct {
+	engine              Engine
+	transactionObserver TransactionObserver
+	expiryObserver      ExpiryObserver
+	clock               Clock
+	removals            expiryRemovals
+	mu                  sync.Mutex
+	registered          map[Name]bucketKind
+	projectionVersions  func() (projectionVersions, error)
+}
+
+func New(
+	engine Engine,
+	transactionObserver TransactionObserver,
+	expiryObserver ExpiryObserver,
+	clock Clock,
+) (*Vault, error) {
 	if engine == nil {
 		return nil, errEngineAbsent
 	}
-	if observer == nil {
-		observer = silentObserver{}
+	if clock == nil {
+		return nil, errClockAbsent
+	}
+	if transactionObserver == nil {
+		transactionObserver = silentObserver{}
+	}
+	if expiryObserver == nil {
+		expiryObserver = silentExpiryObserver{}
 	}
 	storage := &Vault{
-		engine:     engine,
-		observer:   observer,
-		registered: map[Name]bucketKind{},
+		engine:              engine,
+		transactionObserver: transactionObserver,
+		expiryObserver:      expiryLog{observer: expiryObserver},
+		clock:               clock,
+		registered:          map[Name]bucketKind{},
 	}
 	storage.projectionVersions = sync.OnceValues(storage.registerProjectionVersions)
 
@@ -55,6 +82,7 @@ func (v *Vault) Close() error {
 		return nil
 	}
 
+	v.removals.stop()
 	err := v.engine.Close()
 	v.engine = nil
 	if err != nil {

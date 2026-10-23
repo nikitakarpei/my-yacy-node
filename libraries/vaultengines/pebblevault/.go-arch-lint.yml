@@ -18,6 +18,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   vaultmemberset:
     in: github.com/nikitakarpei/yacy-rwi-node/vault/memberset
+  vaultexpiringrecords:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault/expiringrecords
   pebble:
     in:
       - github.com/cockroachdb/pebble/v2
@@ -30,6 +32,7 @@ deps:
       - compressionratios
     canUse:
       - vault
+      - vaultexpiringrecords
       - pebble
   membersetfold:
     canUse:

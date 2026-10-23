@@ -104,6 +104,8 @@ func TestAfterCommitCallbackRunsOnceWhenTheEngineRepeatsTheClosure(t *testing.T)
 	v, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(newDoubleEngine()),
 		nil,
+		nil,
+		newFakeClock(testEpoch),
 	)
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)

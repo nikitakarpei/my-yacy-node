@@ -11,25 +11,33 @@ const rebuildBatchRecords = 1000
 
 func (v *Vault) rebuildStaleProjections[K, V any](
 	ctx context.Context,
-	collection *Collection[K, V],
+	collection Name,
+	projections attachedProjections[K, V],
+	storedRecordsIn func(*Txn) storedRecords,
 ) error {
 	versions, err := v.projectionVersions()
 	if err != nil {
 		return err
 	}
-	stale, err := v.staleProjectionsAmong(ctx, versions, collection.projections.buckets())
+	stale, err := v.staleProjectionsAmong(ctx, versions, projections.buckets())
 	if err != nil || len(stale) == 0 {
 		return err
 	}
 	rebuildBegan := time.Now()
-	reportRebuildBegan(ctx, collection.name, stale)
-	if err := v.rebuildProjections(ctx, collection, stale); err != nil {
+	reportRebuildBegan(ctx, collection, stale)
+	if err := v.rebuildProjections(
+		ctx,
+		collection,
+		projections,
+		storedRecordsIn,
+		stale,
+	); err != nil {
 		return err
 	}
 	if err := v.recordProjectionVersions(ctx, versions, stale); err != nil {
 		return err
 	}
-	reportRebuilt(ctx, collection.name, stale, time.Since(rebuildBegan))
+	reportRebuilt(ctx, collection, stale, time.Since(rebuildBegan))
 
 	return nil
 }
@@ -72,7 +80,9 @@ func bucketNamesOf(buckets []projectionBucket) []Name {
 
 func (v *Vault) rebuildProjections[K, V any](
 	ctx context.Context,
-	collection *Collection[K, V],
+	collection Name,
+	projections attachedProjections[K, V],
+	storedRecordsIn func(*Txn) storedRecords,
 	stale []projectionBucket,
 ) error {
 	for _, bucket := range stale {
@@ -80,17 +90,16 @@ func (v *Vault) rebuildProjections[K, V any](
 			return fmt.Errorf("clear stale projection: %w", err)
 		}
 	}
-	progress, err := v.rebuildProgressOf(ctx, collection.name)
+	progress, err := v.rebuildProgressOf(ctx, collection, storedRecordsIn)
 	if err != nil {
 		return err
 	}
-	staleProjections := collection.projections.narrowedTo(stale)
 	if err := v.updateInBatches(ctx, func(tx *Txn, firstKey []byte, limit int) ([]byte, error) {
 		tx.RunAfterCommit(func() { progress.batchProjected(ctx) })
 
-		return collection.projectRecordsFrom(tx, firstKey, limit, staleProjections)
+		return projections.projectStoredRecordsFrom(tx, storedRecordsIn(tx), firstKey, limit, stale)
 	}); err != nil {
-		return fmt.Errorf("rebuild stale projections: %w", err)
+		return fmt.Errorf("rebuild stale projections of %s: %w", collection, err)
 	}
 
 	return nil

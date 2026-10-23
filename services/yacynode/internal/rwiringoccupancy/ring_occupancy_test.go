@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
@@ -35,7 +36,7 @@ func openHarness(t *testing.T) harness {
 func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) harness {
 	t.Helper()
 
-	v, err := vault.New(engine, nil)
+	v, err := vault.New(engine, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

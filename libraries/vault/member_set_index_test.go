@@ -40,7 +40,7 @@ func openPageWords(t *testing.T, engine *doubleEngine, valuesByID []string) page
 	t.Helper()
 
 	ctx := context.Background()
-	v, err := vault.New(engine, nil)
+	v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}

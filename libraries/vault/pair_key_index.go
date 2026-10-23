@@ -16,30 +16,30 @@ type indexedByPairKey[K, V any] struct {
 	projections Projections[K, V]
 }
 
-func (p indexedByPairKey[K, V]) recordAdded(tx *Txn, key K, value storedForm[V]) error {
+func (p indexedByPairKey[K, V]) recordAdded(tx *Txn, key K, added storedValue[V]) error {
 	if p.index != nil {
 		if err := p.index.keyAdded(tx, key); err != nil {
 			return err
 		}
 	}
 
-	return p.projections.recordAdded(tx, key, value)
+	return p.projections.recordAdded(tx, key, added)
 }
 
-func (p indexedByPairKey[K, V]) recordRemoved(tx *Txn, key K, value storedForm[V]) error {
+func (p indexedByPairKey[K, V]) recordRemoved(tx *Txn, key K, removed storedValue[V]) error {
 	if p.index != nil {
 		if err := p.index.keyRemoved(tx, key); err != nil {
 			return err
 		}
 	}
 
-	return p.projections.recordRemoved(tx, key, value)
+	return p.projections.recordRemoved(tx, key, removed)
 }
 
 func (p indexedByPairKey[K, V]) recordReplaced(
 	tx *Txn,
 	key K,
-	previous, current storedForm[V],
+	previous, current storedValue[V],
 ) error {
 	return p.projections.recordReplaced(tx, key, previous, current)
 }

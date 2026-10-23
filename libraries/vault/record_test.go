@@ -19,7 +19,7 @@ func TestARecordNoWriterOfThisVersionWroteRefusesTheRead(t *testing.T) {
 			ctx := context.Background()
 			engine := newDoubleEngine()
 
-			v, err := vault.New(engine, nil)
+			v, err := vault.New(engine, nil, nil, newFakeClock(testEpoch))
 			if err != nil {
 				t.Fatalf("New: %v", err)
 			}

@@ -210,7 +210,7 @@ func TestANewVersionChangesEveryRecord(t *testing.T) {
 	}
 }
 
-func TestAChangeIndexNoCollectionFollowsRefusesUse(t *testing.T) {
+func TestAChangeIndexAttachedToNoCollectionRefusesUse(t *testing.T) {
 	d := openDictionaryIndexes(t, newDoubleEngine(), firstVersion, initialOf)
 
 	scanErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
@@ -219,7 +219,7 @@ func TestAChangeIndexNoCollectionFollowsRefusesUse(t *testing.T) {
 		})
 	})
 	if scanErr == nil {
-		t.Fatal("Scan of a change index no collection follows succeeded, want error")
+		t.Fatal("Scan of a change index attached to no collection succeeded, want error")
 	}
 	acknowledgeErr := d.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		_, err := d.changes.Acknowledge(tx, vault.Change[definition]{})
@@ -227,7 +227,7 @@ func TestAChangeIndexNoCollectionFollowsRefusesUse(t *testing.T) {
 		return err
 	})
 	if acknowledgeErr == nil {
-		t.Fatal("Acknowledge on a change index no collection follows succeeded, want error")
+		t.Fatal("Acknowledge on a change index attached to no collection succeeded, want error")
 	}
 	lenErr := d.vault.View(context.Background(), func(tx *vault.Txn) error {
 		_, err := d.changes.Len(tx)
@@ -235,7 +235,7 @@ func TestAChangeIndexNoCollectionFollowsRefusesUse(t *testing.T) {
 		return err
 	})
 	if lenErr == nil {
-		t.Fatal("Len of a change index no collection follows succeeded, want error")
+		t.Fatal("Len of a change index attached to no collection succeeded, want error")
 	}
 }
 

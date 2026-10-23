@@ -14,10 +14,14 @@ type rebuildProgress struct {
 	projectedBatches int
 }
 
-func (v *Vault) rebuildProgressOf(ctx context.Context, collection Name) (*rebuildProgress, error) {
+func (v *Vault) rebuildProgressOf(
+	ctx context.Context,
+	collection Name,
+	storedRecordsIn func(*Txn) storedRecords,
+) (*rebuildProgress, error) {
 	progress := &rebuildProgress{collection: collection}
 	if err := v.view(ctx, func(tx *Txn) error {
-		recordAmount, err := lengthOf(tx, collection)
+		recordAmount, err := storedRecordsIn(tx).Len()
 		progress.recordAmount = recordAmount
 
 		return err

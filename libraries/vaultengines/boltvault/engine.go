@@ -35,13 +35,14 @@ func Open(
 	quotaBytes int64,
 	writeBatch WriteBatch,
 	observer vault.TransactionObserver,
+	clock vault.Clock,
 ) (*vault.Vault, error) {
 	opened, err := OpenEngine(path, quotaBytes, writeBatch)
 	if err != nil {
 		return nil, err
 	}
 
-	vaulted, err := vault.New(opened, observer)
+	vaulted, err := vault.New(opened, observer, nil, clock)
 	if err != nil {
 		if closeErr := opened.Close(); closeErr != nil {
 			return nil, fmt.Errorf("initialize storage: %w: %w", err, closeErr)
@@ -100,6 +101,10 @@ func (e *engine) ProvisionRecordsBucket(name vault.Name) error {
 }
 
 func (e *engine) ProvisionMemberSetsBucket(name vault.Name) error {
+	return e.ProvisionRecordsBucket(name)
+}
+
+func (e *engine) ProvisionExpiringRecordsBucket(name vault.Name) error {
 	return e.ProvisionRecordsBucket(name)
 }
 

@@ -12,10 +12,16 @@ components:
     in: vaultenginetest/**
   memberset:
     in: memberset/**
+  expiringrecords:
+    in: expiringrecords/**
+  vaultmetrics:
+    in: vaultmetrics/**
 
 vendors:
   orderedcode:
     in: github.com/google/orderedcode
+  prometheus:
+    in: github.com/prometheus/client_golang/**
 
 deps:
   vault:
@@ -27,6 +33,14 @@ deps:
   memberset:
     mayDependOn:
       - vault
+  expiringrecords:
+    mayDependOn:
+      - vault
+  vaultmetrics:
+    mayDependOn:
+      - vault
+    canUse:
+      - prometheus
 
 excludeFiles:
   - "_test\\.go"

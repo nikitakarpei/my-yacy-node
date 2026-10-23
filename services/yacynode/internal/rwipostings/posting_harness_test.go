@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
@@ -102,7 +103,7 @@ func openHarnessRanking(t *testing.T, rankedWords []yacymodel.Hash) harness {
 func openVault(t *testing.T) *vault.Vault {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

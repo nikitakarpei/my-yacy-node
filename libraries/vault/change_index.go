@@ -39,7 +39,7 @@ func (i *ChangeIndex[R, E]) Scan(
 	entries KeyRange,
 	fn func(Change[E]) (bool, error),
 ) error {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return err
 	}
 	if err := tx.etx.Records(i.bucket).Scan(
@@ -63,7 +63,7 @@ func (i *ChangeIndex[R, E]) Acknowledge(
 	tx *Txn,
 	change Change[E],
 ) (wasAcknowledged bool, err error) {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return false, err
 	}
 	if !tx.etx.Writable() {
@@ -87,17 +87,17 @@ func (i *ChangeIndex[R, E]) Acknowledge(
 }
 
 func (i *ChangeIndex[R, E]) Len(tx *Txn) (int, error) {
-	if err := i.refuseUnfollowed(); err != nil {
+	if err := i.refuseUnattached(); err != nil {
 		return 0, err
 	}
 
 	return lengthOf(tx, i.bucket)
 }
 
-func (i *ChangeIndex[R, E]) recordAdded(tx *Txn, record storedForm[R]) error {
+func (i *ChangeIndex[R, E]) recordAdded(tx *Txn, added storedValue[R]) error {
 	if err := tx.etx.Records(i.bucket).PutAbsent(
-		i.entryKeyOf(record.form),
-		storedFingerprintOf(record.stored),
+		i.entryKeyOf(added.value),
+		storedFingerprintOf(added.encoded),
 	); err != nil {
 		return fmt.Errorf("add %s entry: %w", i.bucket, err)
 	}
@@ -116,8 +116,8 @@ func storedFingerprintOf(storedRecord []byte) []byte {
 	return recordFrom(fingerprint.Sum(nil))
 }
 
-func (i *ChangeIndex[R, E]) recordRemoved(tx *Txn, record storedForm[R]) error {
-	return i.removeEntry(tx, i.entryKeyOf(record.form))
+func (i *ChangeIndex[R, E]) recordRemoved(tx *Txn, removed storedValue[R]) error {
+	return i.removeEntry(tx, i.entryKeyOf(removed.value))
 }
 
 func (i *ChangeIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
@@ -128,8 +128,8 @@ func (i *ChangeIndex[R, E]) removeEntry(tx *Txn, entryKey []byte) error {
 	return nil
 }
 
-func (i *ChangeIndex[R, E]) recordReplaced(tx *Txn, previous, current storedForm[R]) error {
-	previousKey, currentKey := i.entryKeyOf(previous.form), i.entryKeyOf(current.form)
+func (i *ChangeIndex[R, E]) recordReplaced(tx *Txn, previous, current storedValue[R]) error {
+	previousKey, currentKey := i.entryKeyOf(previous.value), i.entryKeyOf(current.value)
 	if !bytes.Equal(previousKey, currentKey) {
 		if err := i.removeEntry(tx, previousKey); err != nil {
 			return err
@@ -137,7 +137,7 @@ func (i *ChangeIndex[R, E]) recordReplaced(tx *Txn, previous, current storedForm
 	}
 	if _, err := tx.etx.Records(i.bucket).Put(
 		currentKey,
-		storedFingerprintOf(current.stored),
+		storedFingerprintOf(current.encoded),
 	); err != nil {
 		return fmt.Errorf("replace %s entry: %w", i.bucket, err)
 	}

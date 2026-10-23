@@ -4,6 +4,7 @@ import (
 	"github.com/cockroachdb/pebble/v2"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/expiringrecords"
 )
 
 type pebbleTxn struct {
@@ -39,6 +40,10 @@ func (t *pebbleTxn) Records(name vault.Name) vault.EngineRecords {
 	t.recordsByBucket[name] = records
 
 	return records
+}
+
+func (t *pebbleTxn) ExpiringRecords(name vault.Name) vault.EngineExpiringRecords {
+	return expiringrecords.OverRecords(t.Records(name))
 }
 
 func (t *pebbleTxn) Amounts(name vault.Name) vault.EngineAmounts {

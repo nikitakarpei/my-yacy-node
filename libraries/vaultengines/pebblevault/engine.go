@@ -163,6 +163,10 @@ func (e *Engine) ProvisionMemberSetsBucket(_ vault.Name) error {
 	return nil
 }
 
+func (e *Engine) ProvisionExpiringRecordsBucket(_ vault.Name) error {
+	return nil
+}
+
 func (e *Engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if err := e.commitInWriteSlot(ctx, fn); err != nil {
 		return err

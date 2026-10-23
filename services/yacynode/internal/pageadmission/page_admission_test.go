@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
@@ -68,7 +69,7 @@ func openHarnessWithWriter(
 ) harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(quotaBytes, nil)
+	v, err := memoryvault.Open(quotaBytes, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("memoryvault.Open: %v", err)
 	}

@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingamount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -38,7 +39,7 @@ type harness struct {
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := memoryvault.Open(0, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -53,7 +54,7 @@ func openHarnessOnDisk(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("pebblevault.OpenEngine: %v", err)
 	}
-	v, err := vault.New(engine, nil)
+	v, err := vault.New(engine, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

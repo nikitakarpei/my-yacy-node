@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
 func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing.T) {
@@ -56,7 +57,7 @@ func openRosterVault(t testing.TB, storagePath string) *vault.Vault {
 	if err != nil {
 		t.Fatalf("pebblevault.OpenEngine: %v", err)
 	}
-	storage, err := vault.New(engine, nil)
+	storage, err := vault.New(engine, nil, nil, wallclock.Clock{})
 	if err != nil {
 		t.Fatalf("vault.New: %v", err)
 	}

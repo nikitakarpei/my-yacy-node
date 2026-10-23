@@ -84,11 +84,11 @@ func openTwoHandles(
 	t.Helper()
 
 	engine := openEngine(t, open, 0)
-	first, err := vault.New(engine, nil)
+	first, err := vault.New(engine, nil, nil, FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
-	second, err = vault.New(engine, nil)
+	second, err = vault.New(engine, nil, nil, FrozenClock{})
 	if err != nil {
 		t.Fatalf("New: %v", err)
 	}
