@@ -1,11 +1,11 @@
-// Package orderintake accepts each delivered crawl order: it keeps the order's crawl and
-// puts its seed URLs on the frontier in one transaction.
+// Package orderintake takes each delivered crawl order in: it keeps the crawl of a readable
+// order and puts its seed URLs on the frontier in one transaction, rejects one it cannot
+// read for good, and returns one whose crawl it could not keep yet for redelivery.
 package orderintake
 
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -55,26 +55,28 @@ func (c *OrderConsumer) Run(ctx context.Context) error {
 		ctx,
 		pullintake.PendingMessagesOf(c.source),
 		c.orderIntakeConcurrency,
-		c.acceptOrder,
+		c.takeInOrder,
 	)
 }
 
-func (c *OrderConsumer) acceptOrder(
+func (c *OrderConsumer) takeInOrder(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 ) error {
 	sentOrder, err := yacycrawlcontract.UnmarshalCrawlOrder(message.Body())
 	if err != nil {
-		return poisonhalt.Halt(ctx, message.Identity(), err)
+		c.rejectOrder(ctx, message, "", err)
+		return nil
 	}
 	order, err := acceptedorder.AcceptedOrderFrom(sentOrder)
 	if err != nil {
-		c.returnOrder(ctx, message, sentOrder.OrderID, err)
+		c.rejectOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
 	crawlID, err := c.startCrawl(ctx, order)
 	if err != nil {
-		c.returnOrder(ctx, message, order.OrderID(), err)
+		c.observer.CrawlOrderReturned(ctx, order.OrderID(), err)
+		message.Return(ctx)
 		return nil
 	}
 	message.Acknowledge(ctx)
@@ -112,12 +114,12 @@ func seedPageVisitsOf(
 	return seedPageVisits
 }
 
-func (c *OrderConsumer) returnOrder(
+func (c *OrderConsumer) rejectOrder(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	orderID string,
 	cause error,
 ) {
-	c.observer.CrawlOrderReturned(ctx, orderID, cause)
-	message.Return(ctx)
+	message.Acknowledge(ctx)
+	c.observer.CrawlOrderRejected(ctx, message.Identity(), orderID, cause)
 }
