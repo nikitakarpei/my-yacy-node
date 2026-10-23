@@ -1,7 +1,7 @@
 // Package crawls keeps every crawl the crawler runs: the accepted order it runs for, its
 // state, and when it started and finished. The first order of an ID starts its crawl; an
-// order sent again finds that crawl while it is kept. Each state change is reported in its
-// transaction. A finished crawl is kept for the crawl retention after it finishes, then
+// order sent again finds that crawl while it is kept. A pause, resumption or cancellation
+// is reported in its transaction. A finished crawl is kept for the crawl retention, then
 // forgotten, and its forgetting is reported in the same transaction.
 package crawls
 
@@ -25,7 +25,6 @@ type CrawlStateChanges interface {
 	CrawlPaused(tx *vault.Txn, crawlID crawlid.CrawlID) error
 	CrawlResumed(tx *vault.Txn, crawlID crawlid.CrawlID) error
 	CrawlCancelling(tx *vault.Txn, crawlID crawlid.CrawlID) error
-	CrawlFinished(tx *vault.Txn, crawlID crawlid.CrawlID) error
 }
 
 type ForgottenCrawls interface {
@@ -190,7 +189,7 @@ func (c *Crawls) Finish(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := c.finished.put(tx, crawlID, crawl); err != nil {
 		return fmt.Errorf("finish the crawl %s: %w", crawlID, err)
 	}
-	return c.changes.CrawlFinished(tx, crawlID)
+	return nil
 }
 
 func finishedStateOf(state yacycrawlcontract.CrawlState) yacycrawlcontract.CrawlState {

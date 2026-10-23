@@ -177,7 +177,7 @@ func RunService(
 		)),
 		orders.Run,
 		visits.Run,
-		crawlState.frontier.DrainCancelledCrawls,
+		crawlState.frontier.DrainQueues,
 		crawlfinishing.NewFinisher(
 			storage,
 			crawlState.crawls,

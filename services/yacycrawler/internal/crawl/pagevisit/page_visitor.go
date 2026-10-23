@@ -13,7 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
@@ -79,7 +78,7 @@ func (visitor *pageVisitor) VisitPage(
 		return returnedOutcome(errCrawledPageUnpublished)
 	}
 	if err := visitor.putOnFrontier(
-		ctx, order, pendingPageVisit.CrawlID, visitedPage.nextPageVisitsFrom(pendingPageVisit),
+		ctx, order, pendingPageVisit, visitedPage.nextPageVisitsFrom(pendingPageVisit),
 	); err != nil {
 		return returnedOutcome(err)
 	}
@@ -133,7 +132,7 @@ func (visitor *pageVisitor) publishCrawledPage(
 func (visitor *pageVisitor) putOnFrontier(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
-	crawlID crawlid.CrawlID,
+	pageVisit pendingpagevisit.PendingPageVisit,
 	nextPageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
 	admittedPageVisits := make([]pendingpagevisit.PendingPageVisit, 0, len(nextPageVisits))
@@ -147,10 +146,10 @@ func (visitor *pageVisitor) putOnFrontier(
 	) - len(
 		admittedPageVisits,
 	); amountOfUnadmittedLinks > 0 {
-		visitor.linkObserver.LinksUnadmitted(ctx, crawlID, amountOfUnadmittedLinks)
+		visitor.linkObserver.LinksUnadmitted(ctx, pageVisit.CrawlID, amountOfUnadmittedLinks)
 	}
 	if err := visitor.storage.Update(ctx, func(tx *vault.Txn) error {
-		return visitor.frontier.Add(tx, admittedPageVisits)
+		return visitor.frontier.AddNextOf(tx, pageVisit, admittedPageVisits)
 	}); err != nil {
 		return fmt.Errorf("put %d page visits on the frontier: %w", len(admittedPageVisits), err)
 	}

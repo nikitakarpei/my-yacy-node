@@ -140,10 +140,6 @@ func (r *reportedChanges) CrawlCancelling(_ *vault.Txn, crawlID crawlid.CrawlID)
 	return r.report("cancelling", crawlID)
 }
 
-func (r *reportedChanges) CrawlFinished(_ *vault.Txn, crawlID crawlid.CrawlID) error {
-	return r.report("finished", crawlID)
-}
-
 func (r *reportedChanges) CrawlForgotten(_ *vault.Txn, crawlID crawlid.CrawlID) error {
 	return r.report("forgotten", crawlID)
 }
@@ -382,16 +378,9 @@ func TestACrawlFinishesByTheStateItWasIn(t *testing.T) {
 	cancelled, _ := s.crawlOf(t, cancelling)
 	if succeeded.State != yacycrawlcontract.CrawlStateSucceeded ||
 		cancelled.State != yacycrawlcontract.CrawlStateCancelled ||
-		!succeeded.FinishedAt.Equal(startedAt.Add(time.Hour)) {
-		t.Fatalf("finished %+v and %+v, want succeeded and cancelled an hour after start",
-			succeeded, cancelled)
-	}
-	wantChanges := []reportedChange{
-		{change: "finished", crawlID: succeeding},
-		{change: "finished", crawlID: cancelling},
-	}
-	if changes := s.changes.take(); !slices.Equal(changes, wantChanges) {
-		t.Fatalf("changes = %v, want %v", changes, wantChanges)
+		!succeeded.FinishedAt.Equal(startedAt.Add(time.Hour)) || len(s.changes.take()) != 0 {
+		t.Fatalf("finished %+v and %+v, want succeeded and cancelled an hour after start, "+
+			"with no change reported", succeeded, cancelled)
 	}
 }
 

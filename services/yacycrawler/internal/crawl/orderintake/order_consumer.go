@@ -23,7 +23,7 @@ type Crawls interface {
 }
 
 type PendingPageVisits interface {
-	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+	AddSeeds(tx *vault.Txn, seedPageVisits []pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
@@ -100,7 +100,7 @@ func (c *OrderConsumer) startCrawl(
 		if err != nil || !started {
 			return err
 		}
-		return c.pending.Add(tx, pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()))
+		return c.pending.AddSeeds(tx, pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()))
 	}); err != nil {
 		return crawlid.CrawlID{}, false, fmt.Errorf(
 			"start the crawl of order %s: %w",

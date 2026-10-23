@@ -97,6 +97,11 @@ func registerPageVisitLedger(ctx context.Context, storage *vault.Vault) (pageVis
 	return ledger, nil
 }
 
+func (ledger pageVisitLedger) isPending(tx *vault.Txn, key pageVisitKey) (bool, error) {
+	_, pending, err := ledger.pending.Get(tx, key)
+	return pending, err
+}
+
 func (ledger pageVisitLedger) add(
 	tx *vault.Txn,
 	pageVisit pendingpagevisit.PendingPageVisit,

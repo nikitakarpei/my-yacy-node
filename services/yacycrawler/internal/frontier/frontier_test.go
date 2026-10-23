@@ -55,13 +55,13 @@ func (c *clock) pass(d time.Duration) {
 }
 
 type crawlLedger struct {
-	guard            sync.Mutex
-	cancelledOfHost  map[string]uint
-	cancelledBatches []uint
-	refusing         error
+	guard          sync.Mutex
+	drainedOfHost  map[string]uint
+	drainedBatches []uint
+	refusing       error
 }
 
-func (l *crawlLedger) PageVisitsCancelled(
+func (l *crawlLedger) PageVisitsDrained(
 	_ *vault.Txn,
 	crawlID crawlid.CrawlID,
 	host string,
@@ -72,8 +72,8 @@ func (l *crawlLedger) PageVisitsCancelled(
 	if l.refusing != nil {
 		return l.refusing
 	}
-	l.cancelledOfHost[crawlID.String()+"/"+host] += amount
-	l.cancelledBatches = append(l.cancelledBatches, amount)
+	l.drainedOfHost[crawlID.String()+"/"+host] += amount
+	l.drainedBatches = append(l.drainedBatches, amount)
 	return nil
 }
 
@@ -167,7 +167,7 @@ func newFrontierOn(t *testing.T, engine vault.Engine) frontierScene {
 		t.Fatalf("New: %v", err)
 	}
 	t.Cleanup(func() { _ = storage.Close() })
-	ledger := &crawlLedger{cancelledOfHost: map[string]uint{}}
+	ledger := &crawlLedger{drainedOfHost: map[string]uint{}}
 	failures := &recordedFailures{}
 	visits, err := frontier.Open(
 		t.Context(), storage, ledger, lease, visitClock, failures,
@@ -217,7 +217,18 @@ func (f frontierScene) change(
 
 func (f frontierScene) add(t *testing.T, pageVisits ...pendingpagevisit.PendingPageVisit) {
 	t.Helper()
-	f.update(t, func(tx *vault.Txn) error { return f.visits.Add(tx, pageVisits) })
+	f.update(t, func(tx *vault.Txn) error { return f.visits.AddSeeds(tx, pageVisits) })
+}
+
+func (f frontierScene) addNextOf(
+	t *testing.T,
+	pageVisit pendingpagevisit.PendingPageVisit,
+	nextPageVisits ...pendingpagevisit.PendingPageVisit,
+) {
+	t.Helper()
+	f.update(t, func(tx *vault.Txn) error {
+		return f.visits.AddNextOf(tx, pageVisit, nextPageVisits)
+	})
 }
 
 func (f frontierScene) next(t *testing.T) pendingpagevisit.LeasedPageVisit {
@@ -243,10 +254,10 @@ func (f frontierScene) requireNoDueVisit(t *testing.T) {
 	}
 }
 
-func (f frontierScene) drainCancelled(t *testing.T) {
+func (f frontierScene) drainQueues(t *testing.T) {
 	t.Helper()
-	if err := f.visits.DrainCancelledCrawls(t.Context()); err != nil {
-		t.Fatalf("DrainCancelledCrawls: %v", err)
+	if err := f.visits.DrainQueues(t.Context()); err != nil {
+		t.Fatalf("DrainQueues: %v", err)
 	}
 }
 
@@ -334,19 +345,19 @@ func TestAReturnedPageVisitComesBackSoonerThanItsLease(t *testing.T) {
 	f.next(t)
 }
 
-func TestAPageVisitReturnedWhileItsCrawlIsHeldIsLeasedOnlyOnceReleased(t *testing.T) {
+func TestAPageVisitReturnedWhileItsQueueIsPausedIsLeasedOnlyOnceResumed(t *testing.T) {
 	f := newFrontier(t)
 	returned := pageVisitTo(t, "http://host/page")
 	f.add(t, returned)
 	leased := f.next(t)
-	f.change(t, f.visits.Hold, firstCrawl)
+	f.change(t, f.visits.PauseQueueOf, firstCrawl)
 
 	f.visits.Return(t.Context(), leased, 0)
 	f.requireNoDueVisit(t)
-	f.change(t, f.visits.Release, firstCrawl)
+	f.change(t, f.visits.ResumeQueueOf, firstCrawl)
 
 	if again := f.next(t).PageVisit; again.URL != returned.URL {
-		t.Fatalf("leased %+v after the release, want the returned visit", again)
+		t.Fatalf("leased %+v after the resumption, want the returned visit", again)
 	}
 }
 
@@ -384,17 +395,17 @@ func TestPageVisitsAreTakenInTheOrderTheyFallDueAcrossCrawls(t *testing.T) {
 	}
 }
 
-func TestAHeldCrawlKeepsItsVisitsAndLendsNoneUntilReleased(t *testing.T) {
+func TestAPausedQueueKeepsItsVisitsAndLendsNoneUntilResumed(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"))
-	f.change(t, f.visits.Hold, firstCrawl)
+	f.change(t, f.visits.PauseQueueOf, firstCrawl)
 
 	f.add(t, pageVisitTo(t, "http://host/b"))
 	f.requireNoDueVisit(t)
 	if amount := f.amount(t); amount != 2 {
 		t.Fatalf("pending %d, want both visits kept", amount)
 	}
-	f.change(t, f.visits.Release, firstCrawl)
+	f.change(t, f.visits.ResumeQueueOf, firstCrawl)
 
 	f.endNext(t)
 	f.endNext(t)
@@ -439,27 +450,29 @@ func TestAPageVisitTakenIsCountedUntilEnded(t *testing.T) {
 	}
 }
 
-func TestACancelledCrawlTakesNoVisitAndDropsThePendingOnesLeasedOrNot(t *testing.T) {
+func TestADrainingQueueTakesNoVisitAndDropsThePendingOnesLeasedOrNot(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://a/1"), pageVisitTo(t, "http://b/1"),
 		pageVisitTo(t, "http://b/2"))
 	leased := f.next(t)
 
-	f.change(t, f.visits.Cancel, firstCrawl)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
 	f.add(t, pageVisitTo(t, "http://c/1"))
 	f.requireNoDueVisit(t)
-	f.drainCancelled(t)
+	f.drainQueues(t)
+	f.addNextOf(t, leased.PageVisit, pageVisitTo(t, "http://c/2"))
 	f.visits.End(t.Context(), leased)
 
-	drained := f.ledger.cancelledOfHost
+	drained := f.ledger.drainedOfHost
 	if drained[firstCrawl.String()+"/a"]+drained[firstCrawl.String()+"/b"] != 3 ||
 		f.amount(t) != 0 || len(f.failures.outdated) != 1 {
-		t.Fatalf("drained %v, pending %d, outdated %v; want all three cancelled", drained,
-			f.amount(t), f.failures.outdated)
+		t.Fatalf("drained %v, pending %d, outdated %v; want all three drained and nothing added",
+			drained, f.amount(t), f.failures.outdated)
 	}
 }
 
-func TestACancelDropsThePendingVisitsInBatchesBesideTheLeases(t *testing.T) {
+func TestADrainDropsThePendingVisitsInBatchesBesideTheLeases(t *testing.T) {
 	f := newFrontier(t)
 	const pending = 150
 	pageVisits := make([]pendingpagevisit.PendingPageVisit, 0, pending)
@@ -467,118 +480,147 @@ func TestACancelDropsThePendingVisitsInBatchesBesideTheLeases(t *testing.T) {
 		pageVisits = append(pageVisits, pageVisitTo(t, fmt.Sprintf("http://host/%d", visit)))
 	}
 	f.add(t, pageVisits...)
-	f.change(t, f.visits.Cancel, firstCrawl)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
 	f.add(t, pageVisitOfCrawl(t, secondCrawl, "http://other/"))
 
 	if leased := f.next(t).PageVisit; leased.CrawlID != secondCrawl {
-		t.Fatalf("leased %+v, want the visit of the open crawl", leased)
+		t.Fatalf("leased %+v, want the visit of the open queue", leased)
 	}
 	if amount := f.amount(t); amount != pending+1 {
 		t.Fatalf("pending %d after a lease, want no visit dropped by leasing", amount)
 	}
-	f.drainCancelled(t)
+	f.drainQueues(t)
 
-	if !slices.Equal(f.ledger.cancelledBatches, []uint{100, 50}) || f.amount(t) != 1 {
-		t.Fatalf("batches %v, pending %d; want two batches and the open crawl's visit",
-			f.ledger.cancelledBatches, f.amount(t))
+	if !slices.Equal(f.ledger.drainedBatches, []uint{100, 50}) || f.amount(t) != 1 {
+		t.Fatalf("batches %v, pending %d; want two batches and the open queue's visit",
+			f.ledger.drainedBatches, f.amount(t))
 	}
 }
 
-func TestADrainEmptiesEveryCancelledCrawlBeyondTheOnesItPicksAmong(t *testing.T) {
+func TestADrainEmptiesEveryDrainingQueueBeyondTheOnesItPicksAmong(t *testing.T) {
 	f := newFrontier(t)
-	const cancelledCrawls = 12
-	for crawl := range cancelledCrawls {
+	const drainingQueues = 12
+	for crawl := range drainingQueues {
 		crawlID := crawlid.CrawlID{byte(crawl + 10)}
 		f.add(t,
 			pageVisitOfCrawl(t, crawlID, "http://a/"+strconv.Itoa(crawl)),
 			pageVisitOfCrawl(t, crawlID, "http://b/"+strconv.Itoa(crawl)),
 		)
-		f.change(t, f.visits.Cancel, crawlID)
+		f.change(t, f.visits.DrainQueueOf, crawlID)
 	}
 
-	f.drainCancelled(t)
+	f.drainQueues(t)
 
-	if f.amount(t) != 0 || len(f.ledger.cancelledBatches) != 2*cancelledCrawls {
-		t.Fatalf("pending %d, batches %v; want both hosts of every cancelled crawl drained once",
-			f.amount(t), f.ledger.cancelledBatches)
+	if f.amount(t) != 0 || len(f.ledger.drainedBatches) != 2*drainingQueues {
+		t.Fatalf("pending %d, batches %v; want both hosts of every draining queue drained once",
+			f.amount(t), f.ledger.drainedBatches)
 	}
 }
 
-func TestACancelDropsVisitsWhileEveryPageVisitIsPaused(t *testing.T) {
+func TestADrainDropsVisitsWhileEveryPageVisitIsPaused(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"))
 	if err := f.visits.Pause(t.Context()); err != nil {
 		t.Fatalf("Pause: %v", err)
 	}
 
-	f.change(t, f.visits.Cancel, firstCrawl)
-	f.drainCancelled(t)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
+	f.drainQueues(t)
 
 	if f.amount(t) != 0 {
-		t.Fatalf("pending %d, want the cancelled crawl drained", f.amount(t))
+		t.Fatalf("pending %d, want the queue drained", f.amount(t))
 	}
 }
 
-func TestCancellingAHeldCrawlDropsItsVisits(t *testing.T) {
+func TestDrainingAPausedQueueDropsItsVisits(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"))
-	f.change(t, f.visits.Hold, firstCrawl)
+	f.change(t, f.visits.PauseQueueOf, firstCrawl)
 
-	f.change(t, f.visits.Cancel, firstCrawl)
-	f.change(t, f.visits.Release, firstCrawl)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
+	f.change(t, f.visits.PauseQueueOf, firstCrawl)
+	f.change(t, f.visits.ResumeQueueOf, firstCrawl)
 	f.requireNoDueVisit(t)
-	f.drainCancelled(t)
+	f.drainQueues(t)
 
-	if f.amount(t) != 0 || len(f.ledger.cancelledBatches) != 1 {
-		t.Fatalf("pending %d, batches %v; want the held crawl drained",
-			f.amount(t), f.ledger.cancelledBatches)
+	if f.amount(t) != 0 || len(f.ledger.drainedBatches) != 1 {
+		t.Fatalf("pending %d, batches %v; want the paused queue drained",
+			f.amount(t), f.ledger.drainedBatches)
 	}
 }
 
-func TestAClosedCrawlTakesNoVisitAndIsNotDrained(t *testing.T) {
+func TestAQueueDrainedWithNothingPendingHasNothingToDrain(t *testing.T) {
 	f := newFrontier(t)
+	f.change(t, f.visits.PauseQueueOf, firstCrawl)
 
-	f.change(t, f.visits.Close, firstCrawl)
-	f.change(t, f.visits.Hold, firstCrawl)
-	f.change(t, f.visits.Cancel, firstCrawl)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
+	f.drainQueues(t)
+
+	if f.amount(t) != 0 || len(f.ledger.drainedBatches) != 0 {
+		t.Fatalf("pending %d, batches %v; want nothing drained",
+			f.amount(t), f.ledger.drainedBatches)
+	}
+}
+
+func TestAVisitAddsTheVisitsItLeadsToOnlyWhileItIsPending(t *testing.T) {
+	f := newFrontier(t)
+	visited := pageVisitTo(t, "http://host/a")
+	f.add(t, visited)
+	leased := f.next(t)
+	f.addNextOf(t, leased.PageVisit, pageVisitTo(t, "http://host/b"))
+
+	f.visits.End(t.Context(), leased)
+	f.addNextOf(t, leased.PageVisit, pageVisitTo(t, "http://host/c"))
+
+	if next := f.endNext(t); next.URL.String() != "http://host/b" || f.amount(t) != 0 {
+		t.Fatalf("leased %+v, pending %d; want only the visit added while pending",
+			next, f.amount(t))
+	}
+}
+
+func TestAVisitLeasedAgainStillAddsTheVisitsItLeadsTo(t *testing.T) {
+	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"))
-	f.requireNoDueVisit(t)
-	f.drainCancelled(t)
+	first := f.next(t)
+	f.clock.pass(lease)
+	f.next(t)
 
-	if f.amount(t) != 0 || len(f.ledger.cancelledOfHost) != 0 {
-		t.Fatalf("pending %d, cancelled %v; want nothing",
-			f.amount(t), f.ledger.cancelledOfHost)
+	f.addNextOf(t, first.PageVisit, pageVisitTo(t, "http://host/b"))
+
+	if amount := f.amount(t); amount != 2 {
+		t.Fatalf("pending %d, want the visit and the one it leads to", amount)
 	}
 }
 
-func TestAForgottenCrawlKeepsNothingAndItsVisitsArePendingAgain(t *testing.T) {
+func TestAForgottenQueueKeepsNothingNorTakesWhatItsLeasedVisitsLeadTo(t *testing.T) {
 	f := newFrontier(t)
-	ended, pending := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
-	f.add(t, ended, pending)
-	f.endNext(t)
-	f.change(t, f.visits.Close, firstCrawl)
+	first, second := pageVisitTo(t, "http://host/a"), pageVisitTo(t, "http://host/b")
+	f.add(t, first, second)
+	stillLeased := f.next(t)
+	f.visits.End(t.Context(), f.next(t))
 
-	f.change(t, f.visits.Forget, firstCrawl)
+	f.change(t, f.visits.ForgetQueueOf, firstCrawl)
+	f.addNextOf(t, stillLeased.PageVisit, pageVisitTo(t, "http://host/c"))
 
 	if f.amount(t) != 0 {
 		t.Fatalf("pending %d after forgetting, want none", f.amount(t))
 	}
-	f.add(t, ended, pending)
+	f.add(t, first, second)
 	if f.amount(t) != 2 {
 		t.Fatalf("pending %d, want both visits pending again", f.amount(t))
 	}
 	f.endNext(t)
 }
 
-func TestACancelTheLedgerRefusesIsReportedAndTriedAgain(t *testing.T) {
+func TestADrainTheLedgerRefusesIsReportedAndTriedAgain(t *testing.T) {
 	f := newFrontier(t)
 	f.add(t, pageVisitTo(t, "http://host/a"))
-	f.change(t, f.visits.Cancel, firstCrawl)
+	f.change(t, f.visits.DrainQueueOf, firstCrawl)
 	f.ledger.refusing = errEngineRefusing
 
-	f.drainCancelled(t)
+	f.drainQueues(t)
 	f.ledger.refusing = nil
-	f.drainCancelled(t)
+	f.drainQueues(t)
 
 	if len(f.failures.drains) != 1 || f.amount(t) != 0 {
 		t.Fatalf("drain failures %v, pending %d; want one failure, then drained",
@@ -615,7 +657,7 @@ func TestFrontierOperationsTheStorageRefusesAreReportedOrFail(t *testing.T) {
 	f.visits.Return(t.Context(), leasedPageVisit, time.Second)
 	_, counted := f.visits.AmountPending(t.Context())
 	f.requireNoDueVisit(t)
-	f.drainCancelled(t)
+	f.drainQueues(t)
 	pauseErr := f.visits.Pause(t.Context())
 	resumeErr := f.visits.Resume(t.Context())
 	_, pausedErr := f.visits.IsPaused(t.Context())

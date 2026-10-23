@@ -1,9 +1,8 @@
-// Package frontier keeps every pending page visit of a crawl, in a queue of its crawl, each
-// due at a time, and a mark of every visit that ended. A worker leases the earliest due
-// visit of a crawl neither held nor closed, and the visit comes back when the lease expires
-// before the worker ends it. A visit pending or ended before is not added again, and a
-// closed or cancelled crawl takes none. A cancelled crawl's pending visits are dropped in
-// batches and reported as cancelled. A pause holds every page visit.
+// Package frontier keeps the pending page visits of each crawl in a queue, each due at a
+// time, and a mark of every visit that ended. A worker leases the earliest due visit of a
+// queue neither paused nor draining; it comes back when the lease expires first. A visit
+// pending or ended before is not added again, nor what a visit leads to once it is not
+// pending. A draining queue takes none and drops its visits in batches. A pause holds all.
 package frontier
 
 import (
@@ -22,11 +21,11 @@ import (
 )
 
 const (
-	frontierIndexesVersion      = "1"
-	noDueVisitPause             = 500 * time.Millisecond
-	noCancelledCrawlPause       = 500 * time.Millisecond
-	pageVisitsDrainedAtOnce     = 100
-	cancellingCrawlsPickedAmong = 8
+	frontierIndexesVersion    = "1"
+	noDueVisitPause           = 500 * time.Millisecond
+	noDrainingQueuePause      = 500 * time.Millisecond
+	pageVisitsDrainedAtOnce   = 100
+	drainingQueuesPickedAmong = 8
 )
 
 type Clock interface {
@@ -52,35 +51,35 @@ type FrontierObserver interface {
 	FrontierLeaseOutdated(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit)
 }
 
-type CancelledPageVisits interface {
-	PageVisitsCancelled(tx *vault.Txn, crawlID crawlid.CrawlID, host string, amount uint) error
+type DrainedPageVisits interface {
+	PageVisitsDrained(tx *vault.Txn, crawlID crawlid.CrawlID, host string, amount uint) error
 }
 
 type Frontier struct {
-	storage    *vault.Vault
-	cancelled  CancelledPageVisits
-	ledger     pageVisitLedger
-	leases     pageVisitLeases
-	crawlMarks crawlMarks
-	pause      pageVisitPause
-	clock      Clock
-	observer   FrontierObserver
+	storage     *vault.Vault
+	drained     DrainedPageVisits
+	ledger      pageVisitLedger
+	leases      pageVisitLeases
+	queueStates queueStates
+	pause       pageVisitPause
+	clock       Clock
+	observer    FrontierObserver
 }
 
 //nolint:revive // a frontier names the vault, the ports it reports to, its lease, clock and observer
 func Open(
 	ctx context.Context,
 	storage *vault.Vault,
-	cancelled CancelledPageVisits,
+	drained DrainedPageVisits,
 	lease time.Duration,
 	clock Clock,
 	observer FrontierObserver,
 ) (*Frontier, error) {
 	frontier := &Frontier{
-		storage:   storage,
-		cancelled: cancelled,
-		clock:     clock,
-		observer:  observer,
+		storage:  storage,
+		drained:  drained,
+		clock:    clock,
+		observer: observer,
 	}
 	var err error
 	if frontier.ledger, err = registerPageVisitLedger(ctx, storage); err != nil {
@@ -90,7 +89,7 @@ func Open(
 	if err != nil {
 		return nil, err
 	}
-	if frontier.crawlMarks, err = registerCrawlMarks(ctx, storage); err != nil {
+	if frontier.queueStates, err = registerQueueStates(ctx, storage); err != nil {
 		return nil, err
 	}
 	if frontier.pause, err = registerPageVisitPause(storage); err != nil {
@@ -108,7 +107,26 @@ func Open(
 	return frontier, nil
 }
 
-func (frontier *Frontier) Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+func (frontier *Frontier) AddSeeds(
+	tx *vault.Txn,
+	seedPageVisits []pendingpagevisit.PendingPageVisit,
+) error {
+	return frontier.add(tx, seedPageVisits)
+}
+
+func (frontier *Frontier) AddNextOf(
+	tx *vault.Txn,
+	pageVisit pendingpagevisit.PendingPageVisit,
+	nextPageVisits []pendingpagevisit.PendingPageVisit,
+) error {
+	pending, err := frontier.ledger.isPending(tx, pageVisitKeyOf(pageVisit))
+	if err != nil || !pending {
+		return err
+	}
+	return frontier.add(tx, nextPageVisits)
+}
+
+func (frontier *Frontier) add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
 	now := frontier.clock.Now()
 	for crawlID, pageVisitsOfCrawl := range pageVisitsByCrawl(pageVisits) {
 		if err := frontier.addToQueueOf(tx, crawlID, pageVisitsOfCrawl, now); err != nil {
@@ -134,8 +152,8 @@ func (frontier *Frontier) addToQueueOf(
 	pageVisits []pendingpagevisit.PendingPageVisit,
 	now time.Time,
 ) error {
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || !mark.takesPageVisits() {
+	state, err := frontier.queueStates.stateOf(tx, crawlID)
+	if err != nil || !state.takesPageVisits() {
 		return err
 	}
 	addedAny := false
@@ -146,72 +164,64 @@ func (frontier *Frontier) addToQueueOf(
 		}
 		addedAny = addedAny || addedNow
 	}
-	if !addedAny || mark == markHeld {
+	if !addedAny || state == queuePaused {
 		return nil
 	}
 	return frontier.leases.startFrom(tx, crawlID, now)
 }
 
-func (frontier *Frontier) Hold(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || mark != unmarked {
+func (frontier *Frontier) PauseQueueOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	state, err := frontier.queueStates.stateOf(tx, crawlID)
+	if err != nil || state != queueOpen {
 		return err
 	}
-	if err := frontier.crawlMarks.mark(tx, crawlID, markHeld); err != nil {
+	if err := frontier.queueStates.put(tx, crawlID, queuePaused); err != nil {
 		return err
 	}
 	return frontier.leases.stop(tx, crawlID)
 }
 
-func (frontier *Frontier) Release(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || mark != markHeld {
+func (frontier *Frontier) ResumeQueueOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	state, err := frontier.queueStates.stateOf(tx, crawlID)
+	if err != nil || state != queuePaused {
 		return err
 	}
-	if err := frontier.crawlMarks.unmark(tx, crawlID); err != nil {
+	if err := frontier.queueStates.remove(tx, crawlID); err != nil {
 		return err
 	}
 	return frontier.leases.resume(tx, crawlID)
 }
 
-func (frontier *Frontier) Close(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || !mark.takesPageVisits() {
+func (frontier *Frontier) DrainQueueOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+	state, err := frontier.queueStates.stateOf(tx, crawlID)
+	if err != nil || state == queueDraining {
 		return err
 	}
-	if err := frontier.crawlMarks.mark(tx, crawlID, markClosed); err != nil {
+	if err := frontier.leases.stop(tx, crawlID); err != nil {
 		return err
 	}
-	return frontier.leases.stop(tx, crawlID)
+	return frontier.startDrainOf(tx, crawlID)
 }
 
-func (frontier *Frontier) Cancel(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || !mark.takesPageVisits() {
-		return err
-	}
+func (frontier *Frontier) startDrainOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	pending, err := frontier.ledger.hasPending(tx, crawlID)
 	if err != nil {
 		return err
 	}
-	cancellingMark := markClosed
-	if pending {
-		cancellingMark = markCancelling
+	if !pending {
+		return frontier.queueStates.remove(tx, crawlID)
 	}
-	if err := frontier.crawlMarks.mark(tx, crawlID, cancellingMark); err != nil {
-		return err
-	}
-	return frontier.leases.stop(tx, crawlID)
+	return frontier.queueStates.put(tx, crawlID, queueDraining)
 }
 
-func (frontier *Frontier) Forget(tx *vault.Txn, crawlID crawlid.CrawlID) error {
+func (frontier *Frontier) ForgetQueueOf(tx *vault.Txn, crawlID crawlid.CrawlID) error {
 	if err := frontier.ledger.forgetCrawl(tx, crawlID); err != nil {
 		return err
 	}
 	if err := frontier.leases.stop(tx, crawlID); err != nil {
 		return err
 	}
-	return frontier.crawlMarks.unmark(tx, crawlID)
+	return frontier.queueStates.remove(tx, crawlID)
 }
 
 func (frontier *Frontier) AmountPendingOf(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error) {
@@ -245,24 +255,24 @@ func (frontier *Frontier) Return(
 	frontier.leases.returnAfter(ctx, leasedPageVisit, delay)
 }
 
-func (frontier *Frontier) DrainCancelledCrawls(ctx context.Context) error {
+func (frontier *Frontier) DrainQueues(ctx context.Context) error {
 	for {
 		if frontier.drainNextBatch(ctx) {
 			continue
 		}
-		if err := frontier.clock.Sleep(ctx, noCancelledCrawlPause); err != nil {
+		if err := frontier.clock.Sleep(ctx, noDrainingQueuePause); err != nil {
 			return nil //nolint:nilerr // a clock only stops sleeping early when the drain is to end
 		}
 	}
 }
 
 func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
-	crawlID, cancelling, err := frontier.pickedCancellingCrawl(ctx)
+	crawlID, draining, err := frontier.pickedDrainingQueue(ctx)
 	if err != nil {
 		frontier.observer.FrontierDrainFailed(ctx, err)
 		return false
 	}
-	if !cancelling {
+	if !draining {
 		return false
 	}
 	start := randomURLHash()
@@ -275,23 +285,21 @@ func (frontier *Frontier) drainNextBatch(ctx context.Context) bool {
 	return true
 }
 
-func (frontier *Frontier) pickedCancellingCrawl(
+func (frontier *Frontier) pickedDrainingQueue(
 	ctx context.Context,
 ) (crawlid.CrawlID, bool, error) {
-	var cancelling []crawlid.CrawlID
+	var draining []crawlid.CrawlID
 	if err := frontier.storage.View(ctx, func(tx *vault.Txn) error {
 		var err error
-		cancelling, err = frontier.crawlMarks.firstCancellingCrawls(
-			tx, cancellingCrawlsPickedAmong,
-		)
+		draining, err = frontier.queueStates.firstDrainingQueues(tx, drainingQueuesPickedAmong)
 		return err
 	}); err != nil {
-		return crawlid.CrawlID{}, false, fmt.Errorf("look for a crawl to drain: %w", err)
+		return crawlid.CrawlID{}, false, fmt.Errorf("look for a queue to drain: %w", err)
 	}
-	if len(cancelling) == 0 {
+	if len(draining) == 0 {
 		return crawlid.CrawlID{}, false, nil
 	}
-	return cancelling[rand.IntN(len(cancelling))], true, nil //nolint:gosec // spreads processes, no secret
+	return draining[rand.IntN(len(draining))], true, nil //nolint:gosec // spreads processes, no secret
 }
 
 func randomURLHash() urlhash.URLHash {
@@ -312,7 +320,7 @@ func (frontier *Frontier) drainBatchOf(
 		return err
 	}
 	for _, host := range slices.Sorted(maps.Keys(amountsDrainedByHost)) {
-		if err := frontier.cancelled.PageVisitsCancelled(
+		if err := frontier.drained.PageVisitsDrained(
 			tx, crawlID, host, amountsDrainedByHost[host],
 		); err != nil {
 			return err
@@ -321,15 +329,7 @@ func (frontier *Frontier) drainBatchOf(
 	if amountDrained == pageVisitsDrainedAtOnce {
 		return nil
 	}
-	return frontier.closeDrained(tx, crawlID)
-}
-
-func (frontier *Frontier) closeDrained(tx *vault.Txn, crawlID crawlid.CrawlID) error {
-	mark, err := frontier.crawlMarks.markOf(tx, crawlID)
-	if err != nil || mark != markCancelling {
-		return err
-	}
-	return frontier.crawlMarks.mark(tx, crawlID, markClosed)
+	return frontier.queueStates.remove(tx, crawlID)
 }
 
 func (frontier *Frontier) AmountPending(ctx context.Context) (int64, bool) {

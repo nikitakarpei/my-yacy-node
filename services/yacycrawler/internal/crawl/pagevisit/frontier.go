@@ -6,5 +6,9 @@ import (
 )
 
 type Frontier interface {
-	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+	AddNextOf(
+		tx *vault.Txn,
+		pageVisit pendingpagevisit.PendingPageVisit,
+		nextPageVisits []pendingpagevisit.PendingPageVisit,
+	) error
 }

@@ -130,18 +130,21 @@ func (f *fakeCrawledPages) PublishIndexingRefusedPage(
 }
 
 type fakeFrontier struct {
+	visitsLedTo  []pendingpagevisit.PendingPageVisit
 	published    []pendingpagevisit.PendingPageVisit
 	publications int
 	err          error
 }
 
-func (f *fakeFrontier) Add(
+func (f *fakeFrontier) AddNextOf(
 	_ *vault.Txn,
+	pageVisit pendingpagevisit.PendingPageVisit,
 	pageVisits []pendingpagevisit.PendingPageVisit,
 ) error {
 	if f.err != nil {
 		return f.err
 	}
+	f.visitsLedTo = append(f.visitsLedTo, pageVisit)
 	f.publications++
 	f.published = append(f.published, pageVisits...)
 	return nil

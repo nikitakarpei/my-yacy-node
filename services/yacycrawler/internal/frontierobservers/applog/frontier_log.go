@@ -14,7 +14,7 @@ import (
 
 const (
 	msgFrontierLeaseFailed       = "no page visit could be leased from the frontier"
-	msgFrontierDrainFailed       = "the page visits of a cancelled crawl could not be drained"
+	msgFrontierDrainFailed       = "the page visits of a draining queue could not be dropped"
 	msgFrontierCountFailed       = "the page visits on the frontier could not be counted"
 	msgFrontierEndFailed         = "an ended page visit could not be removed from the frontier"
 	msgFrontierReturnFailed      = "a page visit could not be returned to the frontier"

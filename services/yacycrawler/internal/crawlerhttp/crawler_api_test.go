@@ -187,7 +187,10 @@ type fakePending struct {
 	readErr  error
 }
 
-func (o *fakePending) Add(_ *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error {
+func (o *fakePending) AddSeeds(
+	_ *vault.Txn,
+	pageVisits []pendingpagevisit.PendingPageVisit,
+) error {
 	o.pending = append(o.pending, pageVisits...)
 	return nil
 }

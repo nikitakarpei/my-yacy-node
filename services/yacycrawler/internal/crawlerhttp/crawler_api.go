@@ -57,7 +57,7 @@ type CrawlRecords interface {
 }
 
 type PendingPageVisits interface {
-	Add(tx *vault.Txn, pageVisits []pendingpagevisit.PendingPageVisit) error
+	AddSeeds(tx *vault.Txn, seedPageVisits []pendingpagevisit.PendingPageVisit) error
 	AmountPendingOf(tx *vault.Txn, crawlID crawlid.CrawlID) (int, error)
 	AmountsPendingByHostOf(
 		tx *vault.Txn,
@@ -162,7 +162,7 @@ func (api crawlerAPI) startCrawl(
 		if err != nil || !started {
 			return err
 		}
-		return api.stores.pending.Add(
+		return api.stores.pending.AddSeeds(
 			tx,
 			pendingpagevisit.SeedPageVisitsOf(crawlID, order.SeedURLs()),
 		)
