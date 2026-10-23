@@ -31,7 +31,7 @@ runs the services of a peer and the NATS server they share, connected and ready 
   name that setting.
 * The binary SHALL stop every member when one member stops.
 * The binary SHALL name the member in the `member` field of each log line that the member
-  writes from its run.
+  writes from its run, also while it answers a request.
 
 ## Non-Functional Requirements
 
@@ -40,7 +40,7 @@ runs the services of a peer and the NATS server they share, connected and ready 
 
 ## Known Limitations
 
-* All members write to one log. A line does not name a member when a library writes it
-  through its own logger, or when a member writes it while it answers a request.
+* All members write to one log. A line that a library writes through its own logger does
+  not name a member.
 * No member writes page offers yet, so `yacynode`, `corpustext`, and `corpusmarkdown` keep
   trying to open them.
