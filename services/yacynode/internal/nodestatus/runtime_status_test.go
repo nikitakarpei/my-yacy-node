@@ -59,11 +59,27 @@ func testIdentity() nodeidentity.Identity {
 		Hash:         yacymodel.WordHash("self"),
 		NetworkName:  "freeworld",
 		Name:         mustPeerName("node"),
-		Host:         "192.0.2.1",
 		Port:         8090,
 		Capabilities: yacymodel.PeerCapabilities{},
 		Version:      yacymodel.SoftwareVersion{Release: 1.2},
 	}
+}
+
+type stubPublicAddress struct {
+	host yacymodel.Optional[yacymodel.Host]
+}
+
+func (a stubPublicAddress) Host(context.Context) yacymodel.Optional[yacymodel.Host] {
+	return a.host
+}
+
+func publicAddressAt(rawHost string) stubPublicAddress {
+	host, err := yacymodel.ParseHost(rawHost)
+	if err != nil {
+		panic(err)
+	}
+
+	return stubPublicAddress{host: yacymodel.Some(host)}
 }
 
 func clockAt(instant time.Time) func() time.Time {
@@ -81,7 +97,14 @@ func statusAfter(
 	id := testIdentity()
 	id.Start = start
 
-	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), openVault(t), words, urls)
+	return nodestatus.NewRuntimeStatus(
+		id,
+		publicAddressAt("192.0.2.1"),
+		clockAt(start.Add(elapsed)),
+		openVault(t),
+		words,
+		urls,
+	)
 }
 
 func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
@@ -131,6 +154,21 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	host, ok := seed.PrimaryAddress.Get()
 	if !ok || host.String() != "192.0.2.1" {
 		t.Fatalf("IP = %q (set %v), want 192.0.2.1", host, ok)
+	}
+}
+
+func TestSelfSeedHasNoAddressUntilThePublicAddressIsKnown(t *testing.T) {
+	status := nodestatus.NewRuntimeStatus(
+		testIdentity(),
+		stubPublicAddress{},
+		clockAt(time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)),
+		openVault(t),
+		stubCounter{},
+		stubCounter{},
+	)
+
+	if host, ok := status.SelfSeed(context.Background()).PrimaryAddress.Get(); ok {
+		t.Fatalf("IP = %q, want none", host)
 	}
 }
 

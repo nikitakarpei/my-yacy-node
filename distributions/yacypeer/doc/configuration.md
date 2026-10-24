@@ -6,7 +6,7 @@ You configure yacypeer through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACY_ADVERTISE_HOST` | required | Public IP address or DNS name that other peers use to reach the peer. |
+| `YACY_ADVERTISE_HOST` | learned from peers | Public IP address or DNS name that other peers use to reach the peer. Required when you set `YACYPEER_EGRESS_PROXY_URL`. |
 | `YACYPEER_SEEDLIST_URLS` | seedlists of `freeworld` | Comma-separated seedlists of the YaCy network. Required for a different network. |
 | `YACYPEER_NETWORK_NAME` | `freeworld` | YaCy network the peer joins. |
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |

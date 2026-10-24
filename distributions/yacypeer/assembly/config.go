@@ -1,11 +1,14 @@
 package yacypeerassembly
 
 import (
+	"fmt"
 	"net/url"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -44,6 +47,9 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
+	if err := requireAdvertiseHostBehind(egressProxyURL, getenv); err != nil {
+		return PeerConfig{}, err
+	}
 	return PeerConfig{
 		EgressProxyURL: egressProxyURL,
 		DataDirectory:  envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
@@ -65,6 +71,24 @@ func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
 		return nil, nil
 	}
 	return envconfig.RequiredHTTPURL(getenv, EnvEgressProxyURL)
+}
+
+func requireAdvertiseHostBehind(egressProxyURL *url.URL, getenv func(string) string) error {
+	if egressProxyURL == nil {
+		return nil
+	}
+	nodeEnvironment, err := serviceenvironment.For(yacynodeService, nil, nil, nil, getenv)
+	if err != nil {
+		return err
+	}
+	if strings.TrimSpace(nodeEnvironment.Lookup(yacynodeassembly.EnvAdvertiseHost)) == "" {
+		return fmt.Errorf(
+			"%s: must be set when %s is set",
+			yacynodeassembly.EnvAdvertiseHost,
+			EnvEgressProxyURL,
+		)
+	}
+	return nil
 }
 
 func (cfg PeerConfig) namesAnEgressProxy() bool {

@@ -14,12 +14,13 @@ import (
 const msgCountUnavailable = "count unavailable for self seed"
 
 type runtimeStatus struct {
-	id    nodeidentity.Identity
-	base  yacymodel.Seed
-	now   func() time.Time
-	vault *vault.Vault
-	words WordAmountEstimate
-	urls  URLCounter
+	id      nodeidentity.Identity
+	address PublicAddress
+	base    yacymodel.Seed
+	now     func() time.Time
+	vault   *vault.Vault
+	words   WordAmountEstimate
+	urls    URLCounter
 }
 
 func (r runtimeStatus) Version(context.Context) string {
@@ -37,6 +38,7 @@ func (r runtimeStatus) Uptime(context.Context) int {
 func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	now := r.now()
 	seed := r.base
+	seed.PrimaryAddress = r.address.Host(ctx)
 	seed.Uptime = time.Duration(r.id.Uptime(now)) * time.Minute
 	seed.UTCOffset = yacymodel.Some(yacymodel.UTCOffsetOf(now))
 	seed.LastSeen = yacymodel.Some(now.UTC())
@@ -47,7 +49,7 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 }
 
 func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
-	seed := yacymodel.Seed{
+	return yacymodel.Seed{
 		Hash:         id.Hash,
 		Name:         id.Name,
 		Port:         yacymodel.Some(yacymodel.Port(id.Port)),
@@ -56,11 +58,6 @@ func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 		Tags:         yacymodel.MatchAllTags(),
 		Version:      yacymodel.Some(id.Version),
 	}
-	if host, err := yacymodel.ParseHost(id.Host); err == nil {
-		seed.PrimaryAddress = yacymodel.Some(host)
-	}
-
-	return seed
 }
 
 func (r runtimeStatus) countOrZero(ctx context.Context, count func(*vault.Txn) (int, error)) int {

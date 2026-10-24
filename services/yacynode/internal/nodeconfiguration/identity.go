@@ -26,7 +26,7 @@ type IdentityConfig struct {
 	InitialHash   yacymodel.Optional[yacymodel.Hash]
 	NetworkName   string
 	Name          yacymodel.Optional[yacymodel.PeerName]
-	AdvertiseHost string
+	AdvertiseHost yacymodel.Optional[yacymodel.Host]
 	AdvertisePort int
 	Capabilities  yacymodel.PeerCapabilities
 }
@@ -34,7 +34,6 @@ type IdentityConfig struct {
 func loadIdentityConfig(
 	getenv func(string) string,
 	listenAddr string,
-	announcing bool,
 ) (IdentityConfig, error) {
 	initialHash, err := initialPeerHash(getenv)
 	if err != nil {
@@ -46,7 +45,7 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
-	host, err := advertiseHost(getenv, announcing)
+	host, err := advertiseHost(getenv)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
@@ -104,13 +103,18 @@ func peerName(
 	return yacymodel.Some(name), nil
 }
 
-func advertiseHost(getenv func(string) string, announcing bool) (string, error) {
-	host := strings.TrimSpace(getenv(EnvAdvertiseHost))
-	if host == "" && announcing {
-		return "", fmt.Errorf("%s: must be set when announcing to the network", EnvAdvertiseHost)
+func advertiseHost(getenv func(string) string) (yacymodel.Optional[yacymodel.Host], error) {
+	stated := strings.TrimSpace(getenv(EnvAdvertiseHost))
+	if stated == "" {
+		return yacymodel.None[yacymodel.Host](), nil
 	}
 
-	return host, nil
+	host, err := yacymodel.ParseHost(stated)
+	if err != nil {
+		return yacymodel.None[yacymodel.Host](), fmt.Errorf("%s: %w", EnvAdvertiseHost, err)
+	}
+
+	return yacymodel.Some(host), nil
 }
 
 func advertisePort(getenv func(string) string, listenAddr string) (int, error) {

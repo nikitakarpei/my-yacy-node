@@ -25,6 +25,8 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL refuse to start when the operator states a different peer hash afterwards.
 * The node SHALL allow operators to configure the peer name it advertises.
 * The node SHALL allow operators to configure the public host and port advertised in its YaCy seed.
+* The node SHALL advertise the IP address that most answering peers saw it connect from, when the
+  operator does not configure the host.
 * The node SHALL announce itself through configured YaCy seedlists.
 * The node SHALL require operators to configure a proxy for outbound connections.
 * The node SHALL be reachable through one stable public endpoint.

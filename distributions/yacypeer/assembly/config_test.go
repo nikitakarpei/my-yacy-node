@@ -45,6 +45,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		yacypeerassembly.EnvNetworkName:    "realm",
 		yacypeerassembly.EnvOpsAddr:        "127.0.0.1:9099",
 		yacypeerassembly.EnvEgressProxyURL: "http://proxy.example:3128",
+		"YACY_ADVERTISE_HOST":              "peer.example",
 	}))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
@@ -68,6 +69,24 @@ func TestLoadPeerConfigRefusesAnEgressProxyThatIsNotAnHTTPURL(t *testing.T) {
 	}))
 	if err == nil {
 		t.Error("config loaded with a socks5 egress proxy, want an error")
+	}
+}
+
+func TestLoadPeerConfigRequiresTheAdvertiseHostBehindAnEgressProxy(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvEgressProxyURL: "http://proxy.example:3128",
+	}))
+	if err == nil {
+		t.Error("config loaded with an egress proxy and no advertise host, want an error")
+	}
+}
+
+func TestLoadPeerConfigTakesTheAdvertiseHostOfYacynodeBehindAnEgressProxy(t *testing.T) {
+	if _, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvEgressProxyURL: "http://proxy.example:3128",
+		"YACYNODE__YACY_ADVERTISE_HOST":    "peer.example",
+	})); err != nil {
+		t.Errorf("load the config: %v", err)
 	}
 }
 

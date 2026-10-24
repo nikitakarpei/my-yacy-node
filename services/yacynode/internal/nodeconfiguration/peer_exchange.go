@@ -27,10 +27,6 @@ type PeerExchangeConfig struct {
 	ReachableRosterCapacity int
 }
 
-func (c PeerExchangeConfig) Announcing() bool {
-	return len(c.SeedlistURLs) > 0
-}
-
 func loadPeerExchangeConfig(getenv func(string) string) (PeerExchangeConfig, error) {
 	announceInterval, err := envconfig.Duration(
 		getenv,

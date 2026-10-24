@@ -26,7 +26,7 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
-	identity, err := loadIdentityConfig(getenv, serving.PeerAddr, peerExchange.Announcing())
+	identity, err := loadIdentityConfig(getenv, serving.PeerAddr)
 	if err != nil {
 		return Settings{}, err
 	}

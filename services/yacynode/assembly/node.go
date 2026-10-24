@@ -36,6 +36,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/publicaddress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
@@ -123,7 +124,6 @@ func assembleNode(
 		Hash:         settledPeerHash,
 		NetworkName:  config.Identity.NetworkName,
 		Name:         config.Identity.Name.OrElse(derivedPeerName),
-		Host:         config.Identity.AdvertiseHost,
 		Port:         config.Identity.AdvertisePort,
 		Capabilities: config.Identity.Capabilities,
 		Version:      yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
@@ -280,7 +280,15 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, storage, wordAmounts, urlDirectory)
+	publicAddress := publicaddress.For(config.Identity.AdvertiseHost)
+	runtimeStatus := nodestatus.NewRuntimeStatus(
+		identity,
+		publicAddress,
+		now,
+		storage,
+		wordAmounts,
+		urlDirectory,
+	)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -343,6 +351,7 @@ func assembleNode(
 			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
 		runtimeStatus,
+		publicAddress,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
 		peerRoster,
 		metrics.NewPeerAnnouncementMetrics(registry),

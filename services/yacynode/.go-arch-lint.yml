@@ -28,6 +28,8 @@ components:
     in: internal/peerroster/**
   peerannouncement:
     in: internal/peerannouncement/**
+  publicaddress:
+    in: internal/publicaddress/**
   peerwire:
     in: internal/peerwire/**
   nodepeerhash:

@@ -14,7 +14,6 @@ type Identity struct {
 	Hash         yacymodel.Hash
 	NetworkName  string
 	Name         yacymodel.PeerName
-	Host         string
 	Port         int
 	Capabilities yacymodel.PeerCapabilities
 	Version      yacymodel.SoftwareVersion
