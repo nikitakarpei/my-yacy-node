@@ -35,17 +35,17 @@ func loadIdentityConfig(
 	getenv func(string) string,
 	listenAddr string,
 ) (IdentityConfig, error) {
-	initialHash, err := initialPeerHash(getenv)
+	initialHash, err := statedValueOf(getenv, EnvInitialPeerHash, yacymodel.ParseHash)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
 
-	name, err := peerName(getenv)
+	name, err := statedValueOf(getenv, EnvPeerName, yacymodel.ParsePeerName)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
 
-	host, err := advertiseHost(getenv)
+	host, err := statedValueOf(getenv, EnvAdvertiseHost, yacymodel.ParseHost)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
@@ -70,51 +70,22 @@ func loadIdentityConfig(
 	}, nil
 }
 
-func initialPeerHash(
+func statedValueOf[T any](
 	getenv func(string) string,
-) (yacymodel.Optional[yacymodel.Hash], error) {
-	stated := strings.TrimSpace(getenv(EnvInitialPeerHash))
+	key string,
+	parse func(string) (T, error),
+) (yacymodel.Optional[T], error) {
+	stated := strings.TrimSpace(getenv(key))
 	if stated == "" {
-		return yacymodel.None[yacymodel.Hash](), nil
+		return yacymodel.None[T](), nil
 	}
 
-	hash, err := yacymodel.ParseHash(stated)
+	value, err := parse(stated)
 	if err != nil {
-		return yacymodel.None[yacymodel.Hash](), fmt.Errorf("%s: %w", EnvInitialPeerHash, err)
+		return yacymodel.None[T](), fmt.Errorf("%s: %w", key, err)
 	}
 
-	return yacymodel.Some(hash), nil
-}
-
-func peerName(
-	getenv func(string) string,
-) (yacymodel.Optional[yacymodel.PeerName], error) {
-	stated := strings.TrimSpace(getenv(EnvPeerName))
-	if stated == "" {
-		return yacymodel.None[yacymodel.PeerName](), nil
-	}
-
-	name, err := yacymodel.ParsePeerName(stated)
-	if err != nil {
-		return yacymodel.None[yacymodel.PeerName](),
-			fmt.Errorf("%s: %w", EnvPeerName, err)
-	}
-
-	return yacymodel.Some(name), nil
-}
-
-func advertiseHost(getenv func(string) string) (yacymodel.Optional[yacymodel.Host], error) {
-	stated := strings.TrimSpace(getenv(EnvAdvertiseHost))
-	if stated == "" {
-		return yacymodel.None[yacymodel.Host](), nil
-	}
-
-	host, err := yacymodel.ParseHost(stated)
-	if err != nil {
-		return yacymodel.None[yacymodel.Host](), fmt.Errorf("%s: %w", EnvAdvertiseHost, err)
-	}
-
-	return yacymodel.Some(host), nil
+	return yacymodel.Some(value), nil
 }
 
 func advertisePort(getenv func(string) string, listenAddr string) (int, error) {

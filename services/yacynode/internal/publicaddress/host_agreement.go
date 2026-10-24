@@ -1,8 +1,6 @@
 package publicaddress
 
 import (
-	"net/netip"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -17,9 +15,8 @@ type hostAgreement struct {
 func agreementAmong(observedHosts []yacymodel.Host) hostAgreement {
 	agreeingPeersPerHost := make(map[yacymodel.Host]int)
 	var agreement hostAgreement
-	for _, observedHost := range observedHosts {
-		host, advertisable := advertisableHostFrom(observedHost)
-		if !advertisable {
+	for _, host := range observedHosts {
+		if !isAdvertisable(host) {
 			continue
 		}
 		agreement.reportingPeers++
@@ -33,19 +30,10 @@ func agreementAmong(observedHosts []yacymodel.Host) hostAgreement {
 	return agreement
 }
 
-func advertisableHostFrom(observedHost yacymodel.Host) (yacymodel.Host, bool) {
-	addr, err := netip.ParseAddr(observedHost.String())
-	if err != nil {
-		return yacymodel.Host{}, false
-	}
-	addr = addr.Unmap()
-	if addr.IsLoopback() || addr.IsUnspecified() || addr.IsMulticast() ||
-		addr.IsLinkLocalUnicast() {
-		return yacymodel.Host{}, false
-	}
-	host, err := yacymodel.ParseHost(addr.String())
+func isAdvertisable(host yacymodel.Host) bool {
+	addr, isAddr := host.Addr()
 
-	return host, err == nil
+	return isAddr && addr.IsGlobalUnicast()
 }
 
 func (a hostAgreement) reached() bool {

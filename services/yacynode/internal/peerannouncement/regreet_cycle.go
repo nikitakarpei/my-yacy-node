@@ -58,12 +58,12 @@ func (a *announcer) Run(ctx context.Context) {
 }
 
 func (a *announcer) announceRound(ctx context.Context) {
-	if a.announce(ctx) {
+	if a.address.Settle(ctx, observedHostsOf(a.announce(ctx))) {
 		a.announce(ctx)
 	}
 }
 
-func (a *announcer) announce(ctx context.Context) (publicAddressChanged bool) {
+func (a *announcer) announce(ctx context.Context) []contactReply {
 	self := a.self.SelfSeed(ctx)
 
 	reachablePeers := a.roster.ReachablePeers(ctx)
@@ -76,9 +76,9 @@ func (a *announcer) announce(ctx context.Context) (publicAddressChanged bool) {
 	}
 
 	contactReplies := a.contactAll(ctx, self, peerHashes)
-	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(outcomesOf(contactReplies)))
+	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(contactReplies))
 
-	return a.address.Settle(ctx, observedHostsOf(contactReplies))
+	return contactReplies
 }
 
 func (a *announcer) contactAll(

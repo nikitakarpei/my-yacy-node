@@ -163,7 +163,7 @@ func (s *stubAnnouncementObserver) ObserveAnnounceRound(
 
 type stubPublicAddress struct {
 	mu             sync.Mutex
-	changes        []bool
+	changed        bool
 	settledReplies [][]yacymodel.Host
 }
 
@@ -172,13 +172,8 @@ func (s *stubPublicAddress) Settle(_ context.Context, observedHosts []yacymodel.
 	defer s.mu.Unlock()
 
 	s.settledReplies = append(s.settledReplies, observedHosts)
-	if len(s.changes) == 0 {
-		return false
-	}
-	changed := s.changes[0]
-	s.changes = s.changes[1:]
 
-	return changed
+	return s.changed
 }
 
 func (s *stubPublicAddress) settledHosts() [][]yacymodel.Host {
@@ -200,22 +195,6 @@ func announcerFor(
 		stubSelf{seed: self},
 		&stubPublicAddress{},
 		&stubSeedSource{seeds: seeds},
-		roster,
-		observer,
-	)
-}
-
-func announcerWithAddress(
-	self yacymodel.Seed,
-	roster *stubRoster,
-	observer peerannouncement.AnnouncementObserver,
-	address *stubPublicAddress,
-) peerannouncement.Announcer {
-	return peerannouncement.New(
-		configFor(4),
-		stubSelf{seed: self},
-		address,
-		&stubSeedSource{},
 		roster,
 		observer,
 	)
@@ -263,28 +242,7 @@ func roundObservedFor(
 ) map[peerannouncement.ContactOutcome]int {
 	t.Helper()
 
-	observer := newStubAnnouncementObserver()
-	announcer := announcerFor(self, nil, roster, 4, observer)
-
-	ctx, cancel := context.WithCancel(context.Background())
-	stopped := make(chan struct{})
-	go func() {
-		defer close(stopped)
-		announcer.Run(ctx)
-	}()
-
-	var round map[peerannouncement.ContactOutcome]int
-	select {
-	case round = <-observer.rounds:
-	case <-time.After(confirmationWait):
-		cancel()
-		t.Fatal("timed out waiting for the announcer to observe a round")
-	}
-
-	cancel()
-	<-stopped
-
-	return round
+	return lastRoundObservedWith(t, self, roster, &stubPublicAddress{}, 1)
 }
 
 func assertSolePeerOutcome(
@@ -564,17 +522,24 @@ func TestRunFetchesSeedSourceOnStart(t *testing.T) {
 	}
 }
 
-func roundsObservedWith(
+func lastRoundObservedWith(
 	t *testing.T,
 	self yacymodel.Seed,
 	roster *stubRoster,
 	address *stubPublicAddress,
 	amountOfRounds int,
-) {
+) map[peerannouncement.ContactOutcome]int {
 	t.Helper()
 
 	observer := newStubAnnouncementObserver()
-	announcer := announcerWithAddress(self, roster, observer, address)
+	announcer := peerannouncement.New(
+		configFor(4),
+		stubSelf{seed: self},
+		address,
+		&stubSeedSource{},
+		roster,
+		observer,
+	)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	stopped := make(chan struct{})
@@ -583,9 +548,10 @@ func roundsObservedWith(
 		announcer.Run(ctx)
 	}()
 
+	var round map[peerannouncement.ContactOutcome]int
 	for range amountOfRounds {
 		select {
-		case <-observer.rounds:
+		case round = <-observer.rounds:
 		case <-time.After(confirmationWait):
 			cancel()
 			t.Fatal("timed out waiting for the announcer to observe a round")
@@ -594,6 +560,8 @@ func roundsObservedWith(
 
 	cancel()
 	<-stopped
+
+	return round
 }
 
 func TestAnnounceSettlesThePublicAddressFromTheHostsPeersObserved(t *testing.T) {
@@ -602,7 +570,7 @@ func TestAnnounceSettlesThePublicAddressFromTheHostsPeersObserved(t *testing.T) 
 	second := newStubPeer(t, "second", juniorAnswer(t))
 	address := &stubPublicAddress{}
 
-	roundsObservedWith(
+	lastRoundObservedWith(
 		t,
 		self.seed,
 		newStubRoster(nil, []yacymodel.Seed{first.seed, second.seed}),
@@ -626,7 +594,7 @@ func TestAnnounceSettlesNoHostFromAPeerThatDidNotAnswer(t *testing.T) {
 	peer := newStubPeer(t, "peer", unavailableAnswer())
 	address := &stubPublicAddress{}
 
-	roundsObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 1)
+	lastRoundObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 1)
 
 	if settled := address.settledHosts(); len(settled) != 1 || len(settled[0]) != 0 {
 		t.Fatalf("settled hosts = %v, want one round without hosts", settled)
@@ -636,11 +604,24 @@ func TestAnnounceSettlesNoHostFromAPeerThatDidNotAnswer(t *testing.T) {
 func TestAnnounceAgainWhenThePublicAddressChanges(t *testing.T) {
 	self := newStubPeer(t, "self", seniorAnswer(t))
 	peer := newStubPeer(t, "peer", seniorAnswer(t))
-	address := &stubPublicAddress{changes: []bool{true, true}}
+	address := &stubPublicAddress{changed: true}
 
-	roundsObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 2)
+	lastRoundObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 2)
 
 	if peer.greetCount() != 2 {
 		t.Fatalf("peer greeted %d times, want 2 within one interval", peer.greetCount())
+	}
+}
+
+func TestAnnounceSettlesAMappedIPv4HostAsTheIPv4Host(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", answerReporting("::ffff:203.0.113.9"))
+	address := &stubPublicAddress{}
+
+	lastRoundObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 1)
+
+	settled := address.settledHosts()
+	if len(settled) != 1 || len(settled[0]) != 1 || settled[0][0].String() != "203.0.113.9" {
+		t.Fatalf("settled hosts = %v, want [[203.0.113.9]]", settled)
 	}
 }

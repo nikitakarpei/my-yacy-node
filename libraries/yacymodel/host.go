@@ -26,11 +26,19 @@ func ParseHost(s string) (Host, error) {
 	return Host{}, fmt.Errorf("%w: %q", ErrBadHost, s)
 }
 
+func HostFrom(addr netip.Addr) Host {
+	return Host{addr: addr}
+}
+
 func (h Host) String() string {
 	if h.addr.IsValid() {
 		return h.addr.String()
 	}
 	return h.hostname
+}
+
+func (h Host) Addr() (netip.Addr, bool) {
+	return h.addr, h.addr.IsValid()
 }
 
 func isHostname(s string) bool {

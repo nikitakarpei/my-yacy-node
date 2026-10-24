@@ -117,6 +117,18 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 	}
 }
 
+func TestRunPeerRequiresTheAdvertiseHostBehindTheEgressProxyTheOperatorNames(t *testing.T) {
+	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvEgressProxyURL] = "http://proxy.example:3128"
+	delete(env, "YACY_ADVERTISE_HOST")
+	cfg, ops := peerFrom(t, env)
+
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+	if err == nil || !strings.Contains(err.Error(), "YACY_ADVERTISE_HOST") {
+		t.Errorf("RunPeer = %v, want the advertise host required", err)
+	}
+}
+
 func TestRunPeerRefusesAServiceOpsAddress(t *testing.T) {
 	env := peerEnvironment(t)
 	env["CORPUSTEXT_OPS_ADDR"] = ":9096"

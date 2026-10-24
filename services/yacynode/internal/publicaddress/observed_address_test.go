@@ -111,16 +111,6 @@ func TestSettleAdoptsANewHostThatAMajorityOfPeersReport(t *testing.T) {
 	assertHost(t, address, "198.51.100.4")
 }
 
-func TestSettleCountsAMappedIPv4HostAsTheIPv4Host(t *testing.T) {
-	address := publicaddress.For(yacymodel.None[yacymodel.Host]())
-
-	address.Settle(context.Background(), hostsOf(t,
-		"203.0.113.9", "::ffff:203.0.113.9", "::ffff:203.0.113.9",
-	))
-
-	assertHost(t, address, "203.0.113.9")
-}
-
 func TestSettleIgnoresHostsThatPeersCannotReach(t *testing.T) {
 	address := publicaddress.For(yacymodel.None[yacymodel.Host]())
 

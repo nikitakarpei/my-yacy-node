@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/netip"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
@@ -70,10 +71,10 @@ func (g httpPeerGreeter) Greet(
 }
 
 func observedHostFrom(yourIP string) yacymodel.Optional[yacymodel.Host] {
-	host, err := yacymodel.ParseHost(yourIP)
+	addr, err := netip.ParseAddr(yourIP)
 	if err != nil {
 		return yacymodel.None[yacymodel.Host]()
 	}
 
-	return yacymodel.Some(host)
+	return yacymodel.Some(yacymodel.HostFrom(addr.Unmap()))
 }
