@@ -61,7 +61,7 @@ func TestTheSnippetIsThePassageThatHoldsTheQueryPhraseWhenBothHoldTheSameWords(t
 	}
 }
 
-func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesAnswerTheQueryTheSame(t *testing.T) {
+func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesHoldTheSameQueryHits(t *testing.T) {
 	t.Parallel()
 
 	snippet := snippetOf("Berlin is old. Berlin is new.", []string{"berlin"}, 20)

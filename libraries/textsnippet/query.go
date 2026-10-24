@@ -24,7 +24,7 @@ func askedQueryOf(queryWords []string) askedQuery {
 
 func (query askedQuery) bestPassageIn(sentences []sentence, lengthCeiling int) passage {
 	var bestPassage passage
-	var bestAnswer passageAnswer
+	var bestHits queryHits
 	lastSentence := 0
 	for firstSentence := range sentences {
 		lastSentence = max(lastSentence, firstSentence)
@@ -33,46 +33,46 @@ func (query askedQuery) bestPassageIn(sentences []sentence, lengthCeiling int) p
 			lastSentence++
 		}
 		candidate := passage{sentences: sentences[firstSentence : lastSentence+1]}
-		answer := query.answerIn(candidate)
-		if firstSentence == 0 || answer.isBetterThan(bestAnswer) {
-			bestPassage, bestAnswer = candidate, answer
+		hits := query.hitsIn(candidate)
+		if firstSentence == 0 || hits.outweigh(bestHits) {
+			bestPassage, bestHits = candidate, hits
 		}
 	}
 	return bestPassage
 }
 
-type passageAnswer struct {
-	amountOfDistinctQueryWords int
-	queryPhraseHits            int
-	queryWordHits              int
+type queryHits struct {
+	distinctWords int
+	phrases       int
+	words         int
 }
 
-func (query askedQuery) answerIn(candidate passage) passageAnswer {
-	var answer passageAnswer
-	distinctQueryWords := map[string]struct{}{}
+func (query askedQuery) hitsIn(candidate passage) queryHits {
+	var hits queryHits
+	distinctWords := map[string]struct{}{}
 	wordBefore := ""
 	for word := range candidate.words() {
 		if _, isQueryWord := query.words[word.text]; isQueryWord {
-			answer.queryWordHits++
-			distinctQueryWords[word.text] = struct{}{}
+			hits.words++
+			distinctWords[word.text] = struct{}{}
 		}
 		if _, isQueryPhrase := query.phrases[queryPhrase{wordBefore, word.text}]; isQueryPhrase {
-			answer.queryPhraseHits++
+			hits.phrases++
 		}
 		wordBefore = word.text
 	}
-	answer.amountOfDistinctQueryWords = len(distinctQueryWords)
-	return answer
+	hits.distinctWords = len(distinctWords)
+	return hits
 }
 
-func (answer passageAnswer) isBetterThan(otherAnswer passageAnswer) bool {
-	if answer.amountOfDistinctQueryWords != otherAnswer.amountOfDistinctQueryWords {
-		return answer.amountOfDistinctQueryWords > otherAnswer.amountOfDistinctQueryWords
+func (hits queryHits) outweigh(otherHits queryHits) bool {
+	if hits.distinctWords != otherHits.distinctWords {
+		return hits.distinctWords > otherHits.distinctWords
 	}
-	if answer.queryPhraseHits != otherAnswer.queryPhraseHits {
-		return answer.queryPhraseHits > otherAnswer.queryPhraseHits
+	if hits.phrases != otherHits.phrases {
+		return hits.phrases > otherHits.phrases
 	}
-	return answer.queryWordHits > otherAnswer.queryWordHits
+	return hits.words > otherHits.words
 }
 
 func (query askedQuery) firstMatchIn(candidate passage) int {
