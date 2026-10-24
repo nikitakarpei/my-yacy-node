@@ -189,22 +189,49 @@ func (indexes *Indexes) MatchesFor(
 	ctx context.Context,
 	search textsearch.Search,
 ) ([]searchdocument.PageMatch, error) {
-	result, err := indexes.everyIndex.SearchInContext(ctx, searchRequestFor(search))
+	rankedURLs, err := indexes.rankedURLsFor(ctx, search)
 	if err != nil {
-		return nil, fmt.Errorf("search: %w", err)
+		return nil, err
 	}
-	return pageMatchesIn(result.Hits), nil
+	return indexes.pageMatchesOf(ctx, search, rankedURLs)
 }
 
-func searchRequestFor(search textsearch.Search) *blevesearch.SearchRequest {
+func (indexes *Indexes) rankedURLsFor(
+	ctx context.Context,
+	search textsearch.Search,
+) ([]string, error) {
 	request := blevesearch.NewSearchRequestOptions(
 		queryFor(search), search.Limit, search.Offset, false,
 	)
 	request.SortBy([]string{"-_score", "_id"})
+	result, err := indexes.everyIndex.SearchInContext(ctx, request)
+	if err != nil {
+		return nil, fmt.Errorf("rank matches: %w", err)
+	}
+	rankedURLs := make([]string, 0, len(result.Hits))
+	for _, hit := range result.Hits {
+		rankedURLs = append(rankedURLs, hit.ID)
+	}
+	return rankedURLs, nil
+}
+
+func (indexes *Indexes) pageMatchesOf(
+	ctx context.Context,
+	search textsearch.Search,
+	rankedURLs []string,
+) ([]searchdocument.PageMatch, error) {
+	rankedPages := blevesearch.NewConjunctionQuery(
+		queryFor(search), blevesearch.NewDocIDQuery(rankedURLs),
+	)
+	request := blevesearch.NewSearchRequestOptions(rankedPages, len(rankedURLs), 0, false)
 	request.Fields = []string{"title", "url"}
 	request.Highlight = blevesearch.NewHighlightWithStyle(snippetHighlighterName)
 	request.Highlight.AddField("content")
-	return request
+	result, err := indexes.everyIndex.SearchInContext(ctx, request)
+	if err != nil {
+		return nil, fmt.Errorf("load matches: %w", err)
+	}
+	return pageMatchesIn(rankedURLs, result.Hits), nil
 }
 
 func queryFor(search textsearch.Search) query.Query {
@@ -233,7 +260,13 @@ func weightedMatchFor(searchQuery, field string, weight int) query.Query {
 	return match
 }
 
-func pageMatchesIn(hits search.DocumentMatchCollection) []searchdocument.PageMatch {
+func pageMatchesIn(
+	rankedURLs []string,
+	hits search.DocumentMatchCollection,
+) []searchdocument.PageMatch {
+	slices.SortFunc(hits, func(first, second *search.DocumentMatch) int {
+		return slices.Index(rankedURLs, first.ID) - slices.Index(rankedURLs, second.ID)
+	})
 	matches := make([]searchdocument.PageMatch, 0, len(hits))
 	for _, hit := range hits {
 		matches = append(matches, searchdocument.PageMatch{

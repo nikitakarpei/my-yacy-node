@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -237,6 +238,22 @@ func TestBleveIndexesYieldThePageOfMatchesAskedFor(t *testing.T) {
 		if url == rest[0] {
 			t.Errorf("%s is on both pages", url)
 		}
+	}
+}
+
+func TestBleveIndexesOrderPagesOfEqualScoreByURL(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	index(t, indexes,
+		englishPage("https://example.com/3", "Heron", "heron"),
+		englishPage("https://example.com/2", "Heron", "heron"),
+		englishPage("https://example.com/1", "Heron", "heron"),
+	)
+
+	got := urlsOf(matchesFor(t, indexes, textsearch.Search{Query: "heron"}))
+
+	want := []string{"https://example.com/1", "https://example.com/2", "https://example.com/3"}
+	if !slices.Equal(got, want) {
+		t.Errorf("matches = %v, want %v", got, want)
 	}
 }
 
