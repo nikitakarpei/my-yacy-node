@@ -32,7 +32,7 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
-	addresses, err := peerAddressesFor(ctx, broker.ClientURL(), egress)
+	addresses, err := peerAddressesFor(ctx, broker.ClientURL(), egress, getenv)
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}

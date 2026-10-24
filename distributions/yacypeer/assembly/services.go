@@ -17,6 +17,7 @@ import (
 	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
+	yacydhtsearchpageassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
@@ -27,6 +28,7 @@ var unreadSettings = []string{
 	yacynodeassembly.EnvOpsAddr,
 	yacydhtsearchassembly.EnvOpsAddr,
 	yacydhtsearchassembly.EnvServeProfiler,
+	yacydhtsearchpageassembly.EnvOpsAddr,
 	corpustextassembly.EnvOpsAddr,
 	yacycrawlerassembly.EnvOpsAddr,
 	pagescrapeassembly.EnvOpsAddr,
@@ -38,14 +40,17 @@ var unreadSettings = []string{
 
 var localListenAddresses = serviceenvironment.Defaults{
 	yacydhtsearchassembly.EnvListenAddr: loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
-	corpustextassembly.EnvSearchAddr:    loopback.Host + corpustextassembly.DefaultSearchAddr,
-	crawlconsoleassembly.EnvListenAddr:  loopback.Host + crawlconsoleassembly.DefaultListenAddr,
-	visitcrawlassembly.EnvListenAddr:    loopback.Host + visitcrawlassembly.DefaultListenAddr,
+	yacydhtsearchpageassembly.EnvListenAddr: loopback.Host +
+		yacydhtsearchpageassembly.DefaultListenAddr,
+	corpustextassembly.EnvSearchAddr:   loopback.Host + corpustextassembly.DefaultSearchAddr,
+	crawlconsoleassembly.EnvListenAddr: loopback.Host + crawlconsoleassembly.DefaultListenAddr,
+	visitcrawlassembly.EnvListenAddr:   loopback.Host + visitcrawlassembly.DefaultListenAddr,
 }
 
 const (
 	yacynodeService          = "yacynode"
 	yacydhtsearchService     = "yacydhtsearch"
+	yacydhtsearchpageService = "yacydhtsearchpage"
 	corpustextService        = "corpustext"
 	yacycrawlerService       = "yacycrawler"
 	pagescrapeService        = "pagescrape"
@@ -70,7 +75,7 @@ func servicesFor(
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
-		searchServiceAssembliesFor(cfg, addresses),
+		searchServiceAssembliesFor(cfg, addresses, visitLinkSecret),
 		crawlServiceAssembliesFor(cfg, addresses, visitLinkSecret)...,
 	)
 	services := make([]service, 0, len(assemblies))
@@ -84,7 +89,11 @@ func servicesFor(
 	return services, nil
 }
 
-func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
+func searchServiceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	visitLinkSecret string,
+) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
@@ -109,8 +118,19 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 				yacydhtsearchassembly.EnvEgressProxyURL: addresses.egressProxyURL.String(),
 			},
 			yacydhtsearchassembly.LoadServiceConfig,
-			yacydhtsearchassembly.ListenersFor,
+			searchListenersOn(addresses.search),
 			yacydhtsearchassembly.RunService,
+		),
+		serviceAssemblyOf(
+			yacydhtsearchpageService,
+			serviceenvironment.Wiring{
+				yacydhtsearchpageassembly.EnvYaCyDHTSearchURL: addresses.searchURL(),
+				yacydhtsearchpageassembly.EnvVisitcrawlURL:    addresses.visitIntakeURL(),
+				yacydhtsearchpageassembly.EnvVisitLinkSecret:  visitLinkSecret,
+			},
+			yacydhtsearchpageassembly.LoadServiceConfig,
+			yacydhtsearchpageassembly.ListenersFor,
+			yacydhtsearchpageassembly.RunService,
 		),
 		serviceAssemblyOf(
 			corpustextService,
@@ -142,6 +162,40 @@ func yacynodeConfigLoaderFor(
 		}
 		return yacynodeassembly.LoadServiceConfig(getenv)
 	}
+}
+
+func searchListenersOn(
+	search net.Listener,
+) func(context.Context, yacydhtsearchassembly.ServiceConfig) (yacydhtsearchassembly.Listeners, error) {
+	return func(context.Context, yacydhtsearchassembly.ServiceConfig) (yacydhtsearchassembly.Listeners, error) {
+		return yacydhtsearchassembly.Listeners{Search: search}, nil
+	}
+}
+
+func visitIntakeListenersOn(
+	intake net.Listener,
+) func(context.Context, visitcrawlassembly.ServiceConfig) (visitcrawlassembly.Listeners, error) {
+	return func(context.Context, visitcrawlassembly.ServiceConfig) (visitcrawlassembly.Listeners, error) {
+		return visitcrawlassembly.Listeners{Intake: intake}, nil
+	}
+}
+
+func listenAddrOf(
+	service string,
+	listenAddrSetting string,
+	getenv func(string) string,
+) (string, error) {
+	environment, err := serviceenvironment.For(
+		service,
+		nil,
+		localListenAddresses,
+		unreadSettings,
+		getenv,
+	)
+	if err != nil {
+		return "", err
+	}
+	return environment.Lookup(listenAddrSetting), nil
 }
 
 func crawlServiceAssembliesFor(
@@ -199,7 +253,7 @@ func crawlServiceAssembliesFor(
 				visitcrawlassembly.EnvLinkSecret:   visitLinkSecret,
 			},
 			visitcrawlassembly.LoadServiceConfig,
-			visitcrawlassembly.ListenersFor,
+			visitIntakeListenersOn(addresses.visitIntake),
 			visitcrawlassembly.RunService,
 		),
 	}

@@ -14,6 +14,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/visitcrawl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -173,6 +174,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../service
 replace github.com/nikitakarpei/yacy-rwi-node/yacycrawler => ../../services/yacycrawler
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch => ../../services/yacydhtsearch
+
+replace github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage => ../../frontends/yacydhtsearchpage
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

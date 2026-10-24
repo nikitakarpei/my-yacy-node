@@ -39,6 +39,7 @@ func peerEnvironment(t *testing.T) map[string]string {
 		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":       anyLoopbackPort,
 		"CRAWLCONSOLE_LISTEN_ADDR":                 freeAddress(t),
 		"VISITCRAWL_LISTEN_ADDR":                   freeAddress(t),
+		"YACYDHTSEARCHPAGE_LISTEN_ADDR":            freeAddress(t),
 	}
 }
 
@@ -106,7 +107,7 @@ func TestRunPeerSendsOutboundRequestsThroughTheEgressProxyTheOperatorNames(t *te
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing.T) {
+func TestRunPeerSendsAVisitFromTheSearchPageOnToTheResult(t *testing.T) {
 	env := peerEnvironment(t)
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -124,7 +125,7 @@ func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing
 		t.Fatalf("read the peer secret: %v", err)
 	}
 	const visitedPage = "https://example.org/visited"
-	destination := redirectOf(t, "http://"+env["VISITCRAWL_LISTEN_ADDR"]+"/visit?"+
+	destination := redirectOf(t, "http://"+env["YACYDHTSEARCHPAGE_LISTEN_ADDR"]+"/visit?"+
 		visitLinkQueryFor(visitedPage, secret))
 	if destination != visitedPage {
 		t.Errorf("visit redirected to %q, want %q", destination, visitedPage)
@@ -218,8 +219,13 @@ func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
 	t.Helper()
 	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
 	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
+	awaitAnswer(
+		t,
+		"http://"+env["YACYDHTSEARCHPAGE_LISTEN_ADDR"]+"/?query=yacy",
+		"No results for “yacy”.",
+	)
 	for _, service := range []string{
-		"yacynode", "yacydhtsearch", "corpustext",
+		"yacynode", "yacydhtsearch", "yacydhtsearchpage", "corpustext",
 		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge", "visitcrawl",
 	} {
 		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")
