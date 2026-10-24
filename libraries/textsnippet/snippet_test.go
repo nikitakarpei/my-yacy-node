@@ -29,7 +29,7 @@ func lowercaseWordsIn(text string) iter.Seq2[int, string] {
 
 func snippetOf(text string, queryWords []string, lengthCeiling int) string {
 	rule := textsnippet.Rule{WordsIn: lowercaseWordsIn, LengthCeiling: lengthCeiling}
-	return rule.SnippetOf("", text, queryWords)
+	return rule.SnippetOf(text, "", queryWords)
 }
 
 func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
@@ -98,7 +98,7 @@ func TestTheSnippetCanStartAtAnySentence(t *testing.T) {
 	}
 }
 
-func TestTheSnippetOfALongSentenceShowsTheWindowWithTheMostQueryWords(t *testing.T) {
+func TestTheSnippetOfAnOverlongSentenceShowsTheWindowWithTheMostQueryWords(t *testing.T) {
 	t.Parallel()
 	text := "heron " + strings.Repeat("reed ", 30) + "heron river " + strings.Repeat("reed ", 30)
 
@@ -109,7 +109,7 @@ func TestTheSnippetOfALongSentenceShowsTheWindowWithTheMostQueryWords(t *testing
 	}
 }
 
-func TestTheSnippetOfALongSentenceWithoutAQueryWordIsItsStart(t *testing.T) {
+func TestTheSnippetOfAnOverlongSentenceWithoutAQueryWordIsItsStart(t *testing.T) {
 	t.Parallel()
 
 	snippet := snippetOf(strings.Repeat("reed ", 20), []string{"heron"}, 22)
@@ -147,7 +147,7 @@ func TestTheSnippetOfAnEmptyTextIsEmpty(t *testing.T) {
 	}
 }
 
-func TestTheSnippetOfALongSentenceCanStartRightAtAWord(t *testing.T) {
+func TestTheSnippetOfAnOverlongSentenceCanStartRightAtAWord(t *testing.T) {
 	t.Parallel()
 	text := strings.Repeat("aaaa ", 20) + "bb heron " + strings.Repeat("bbbb ", 20)
 
@@ -216,8 +216,8 @@ func TestTheSnippetKeepsAHeadingThatSharesAWordWithTheTitle(t *testing.T) {
 	rule := textsnippet.Rule{WordsIn: lowercaseWordsIn, LengthCeiling: 200}
 
 	snippet := rule.SnippetOf(
-		"Heron Watching",
 		"Home Blog\nWatching Notes\nThe heron waits by the river at dawn for fish.",
+		"Heron Watching",
 		[]string{"heron"},
 	)
 
@@ -248,7 +248,7 @@ func TestTheSnippetCountsItsLengthAfterCollapsingSpaces(t *testing.T) {
 
 const fillerProse = "Many small birds sing loudly in the old trees nearby. "
 
-func TestTheSnippetAddsAProseFragmentWithAQueryWordAfterItsPassage(t *testing.T) {
+func TestTheSnippetAddsAnExtraFragmentWithAQueryWordAfterItsPassage(t *testing.T) {
 	t.Parallel()
 	text := "The heron waits in the reeds at dawn every day. " + strings.Repeat(fillerProse, 3) +
 		"Fish swim slowly up the river in the spring."
@@ -256,11 +256,14 @@ func TestTheSnippetAddsAProseFragmentWithAQueryWordAfterItsPassage(t *testing.T)
 	snippet := snippetOf(text, []string{"heron", "river"}, 120)
 
 	if snippet != "The heron waits in the reeds at dawn every day. … Fish swim slowly up the river in the spring." {
-		t.Fatalf("the snippet reads %q, want the missing query word in a second fragment", snippet)
+		t.Fatalf(
+			"the snippet reads %q, want the missing query word in an extra fragment after the passage",
+			snippet,
+		)
 	}
 }
 
-func TestTheSnippetAddsAProseFragmentWithAQueryWordBeforeItsPassage(t *testing.T) {
+func TestTheSnippetAddsAnExtraFragmentWithAQueryWordBeforeItsPassage(t *testing.T) {
 	t.Parallel()
 	text := "Fish swim slowly up the river in the spring. " + strings.Repeat(fillerProse, 3) +
 		"The heron waits by the reed at dawn every day."
@@ -268,11 +271,14 @@ func TestTheSnippetAddsAProseFragmentWithAQueryWordBeforeItsPassage(t *testing.T
 	snippet := snippetOf(text, []string{"heron", "reed", "river"}, 120)
 
 	if snippet != "Fish swim slowly up the river in the spring. … The heron waits by the reed at dawn every day." {
-		t.Fatalf("the snippet reads %q, want the missing query word in a first fragment", snippet)
+		t.Fatalf(
+			"the snippet reads %q, want the missing query word in an extra fragment before the passage",
+			snippet,
+		)
 	}
 }
 
-func TestTheSnippetAddsNoFragmentForAQueryWordOutsideProse(t *testing.T) {
+func TestTheSnippetAddsNoExtraFragmentForAQueryWordOutsideProse(t *testing.T) {
 	t.Parallel()
 	text := "The heron waits in the reeds at dawn every day. " + strings.Repeat(fillerProse, 3) +
 		"Tags: river, lake"
@@ -282,6 +288,6 @@ func TestTheSnippetAddsNoFragmentForAQueryWordOutsideProse(t *testing.T) {
 	if snippet != "The heron waits in the reeds at dawn every day. "+strings.TrimSpace(
 		fillerProse,
 	) {
-		t.Fatalf("the snippet reads %q, want one passage without a second fragment", snippet)
+		t.Fatalf("the snippet reads %q, want one passage without an extra fragment", snippet)
 	}
 }

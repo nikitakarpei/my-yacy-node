@@ -11,10 +11,10 @@ func (candidate passage) trimmedFor(query askedQuery) passage {
 		return candidate
 	}
 	sentences := candidate.sentences
-	for len(sentences) > 1 && isBoilerplateFor(sentences[0], query) && !sentences[0].heading {
+	for len(sentences) > 1 && sentences[0].isDroppableFor(query) && !sentences[0].heading {
 		sentences = sentences[1:]
 	}
-	for len(sentences) > 1 && isBoilerplateFor(sentences[len(sentences)-1], query) {
+	for len(sentences) > 1 && sentences[len(sentences)-1].isDroppableFor(query) {
 		sentences = sentences[:len(sentences)-1]
 	}
 	return passage{sentences: sentences}
@@ -22,28 +22,29 @@ func (candidate passage) trimmedFor(query askedQuery) passage {
 
 func (candidate passage) holdsProse() bool {
 	for _, sentenceOfThePassage := range candidate.sentences {
-		if sentenceOfThePassage.prose {
+		if sentenceOfThePassage.kind == proseSentence {
 			return true
 		}
 	}
 	return false
 }
 
-func (candidate passage) isAllProse() bool {
-	for _, sentenceOfThePassage := range candidate.sentences {
-		if !sentenceOfThePassage.prose {
-			return false
-		}
-	}
-	return true
-}
-
-func isBoilerplateFor(edge sentence, query askedQuery) bool {
-	return edge.boilerplate && !holdsAnyOf(edge.words, query.words)
+func (candidate passage) isFragmentWithin(lengthCeiling int) bool {
+	return len(candidate.sentences) > 0 && candidate.length() <= lengthCeiling &&
+		candidate.holdsOnlyProse()
 }
 
 func (candidate passage) length() int {
 	return candidate.sentences[len(candidate.sentences)-1].endRune - candidate.sentences[0].startRune
+}
+
+func (candidate passage) holdsOnlyProse() bool {
+	for _, sentenceOfThePassage := range candidate.sentences {
+		if sentenceOfThePassage.kind != proseSentence {
+			return false
+		}
+	}
+	return true
 }
 
 func (candidate passage) textWithin(text string, query askedQuery, lengthCeiling int) string {
@@ -54,7 +55,7 @@ func (candidate passage) textWithin(text string, query askedQuery, lengthCeiling
 	if candidate.length() <= lengthCeiling {
 		return withSpacesCollapsed(text[first.start:last.end])
 	}
-	return longSentenceOf(text, first).windowFor(query, lengthCeiling)
+	return collapsedSentenceOf(text, first).textFor(query, lengthCeiling)
 }
 
 func withSpacesCollapsed(text string) string {

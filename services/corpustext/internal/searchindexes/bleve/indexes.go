@@ -288,7 +288,7 @@ func (indexes *Indexes) pageMatchesIn(
 
 func (indexes *Indexes) snippetOf(hit *blevematch.DocumentMatch, searchQuery string) string {
 	analyzer := indexes.analyzers[indexes.languageIndexes.NameFor(textOf(hit, "language"))]
-	return snippetFrom(textOf(hit, "title"), textOf(hit, "content"), searchQuery, analyzer)
+	return snippetFrom(textOf(hit, "content"), textOf(hit, "title"), searchQuery, analyzer)
 }
 
 func textOf(hit *blevematch.DocumentMatch, field string) string {

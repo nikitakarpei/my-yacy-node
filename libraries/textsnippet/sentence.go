@@ -10,14 +10,14 @@ import (
 )
 
 const (
-	proseLeastWords          = 6
+	proseLeastFields         = 6
 	proseLeastLowercaseShare = 0.25
 	proseMostCommaShare      = 0.25
 	proseMostSymbolShare     = 0.04
 	proseSymbols             = "#{}[]<>=\\|_*;$@^~`"
 	sentenceTerminals        = ".!?…"
 	sentenceClosers          = "\"'”’»)]"
-	shortSentenceMostWords   = 5
+	shortSentenceMostFields  = 5
 )
 
 type placedWord struct {
@@ -25,15 +25,22 @@ type placedWord struct {
 	text  string
 }
 
+type sentenceKind int
+
+const (
+	boilerplateSentence sentenceKind = iota
+	shortSentence
+	proseSentence
+)
+
 type sentence struct {
-	start       int
-	end         int
-	startRune   int
-	endRune     int
-	prose       bool
-	boilerplate bool
-	heading     bool
-	words       []placedWord
+	start     int
+	end       int
+	startRune int
+	endRune   int
+	kind      sentenceKind
+	heading   bool
+	words     []placedWord
 }
 
 func sentencesIn(text, title string, wordsIn func(text string) iter.Seq2[int, string]) []sentence {
@@ -54,11 +61,13 @@ func sentencesIn(text, title string, wordsIn func(text string) iter.Seq2[int, st
 				end:       start + len(trimmedText),
 				startRune: startRune,
 				endRune:   collapsedRunes.count,
-			}.withKindOf(trimmedText))
+				kind:      kindOf(trimmedText),
+			})
 		}
 		collapsedRunes.add(textAfterSpaces[len(trimmedText):])
 	}
-	return withHeadingsFor(withWordsOf(foundSentences, text, wordsIn), text, title, wordsIn)
+	foundSentences = withWordsOf(foundSentences, text, wordsIn)
+	return withHeadingsSharing(foundSentences, text, wordSetIn(title, wordsIn))
 }
 
 type collapsedRuneCounter struct {
@@ -67,8 +76,8 @@ type collapsedRuneCounter struct {
 }
 
 func (counter *collapsedRuneCounter) add(text string) {
-	for _, letter := range text {
-		isSpace := unicode.IsSpace(letter)
+	for _, character := range text {
+		isSpace := unicode.IsSpace(character)
 		if !isSpace || !counter.lastWasSpace {
 			counter.count++
 		}
@@ -76,55 +85,62 @@ func (counter *collapsedRuneCounter) add(text string) {
 	}
 }
 
-func (found sentence) withKindOf(sentenceText string) sentence {
-	words := strings.Fields(sentenceText)
-	found.prose = isProse(sentenceText, words)
-	found.boilerplate = !found.prose && !isShortSentence(sentenceText, words)
-	return found
+func kindOf(sentenceText string) sentenceKind {
+	fields := strings.Fields(sentenceText)
+	switch {
+	case isProse(sentenceText, fields):
+		return proseSentence
+	case isShortSentence(sentenceText, fields):
+		return shortSentence
+	default:
+		return boilerplateSentence
+	}
 }
 
-func isProse(sentenceText string, words []string) bool {
-	if len(words) < proseLeastWords || !endsASentence(sentenceText) {
+func isProse(sentenceText string, fields []string) bool {
+	if len(fields) < proseLeastFields || !endsASentence(sentenceText) {
 		return false
 	}
 	letterStarts, lowercaseStarts, commas := 0, 0, 0
-	for _, word := range words {
-		firstLetter := firstRuneOf(word)
-		if unicode.IsLetter(firstLetter) {
+	for _, field := range fields {
+		firstCharacter := firstCharacterOf(field)
+		if unicode.IsLetter(firstCharacter) {
 			letterStarts++
 		}
-		if unicode.IsLower(firstLetter) {
+		if unicode.IsLower(firstCharacter) {
 			lowercaseStarts++
 		}
-		if strings.HasSuffix(word, ",") {
+		if strings.HasSuffix(field, ",") {
 			commas++
 		}
 	}
 	symbols := 0
-	for _, letter := range sentenceText {
-		if strings.ContainsRune(proseSymbols, letter) {
+	for _, character := range sentenceText {
+		if strings.ContainsRune(proseSymbols, character) {
 			symbols++
 		}
 	}
 	return letterStarts > 0 &&
 		float64(lowercaseStarts) >= proseLeastLowercaseShare*float64(letterStarts) &&
-		float64(commas) <= proseMostCommaShare*float64(len(words)) &&
+		float64(commas) <= proseMostCommaShare*float64(len(fields)) &&
 		float64(symbols) <= proseMostSymbolShare*float64(utf8.RuneCountInString(sentenceText))
 }
 
-func firstRuneOf(text string) rune {
-	firstRune, _ := utf8.DecodeRuneInString(text)
-	return firstRune
-}
-
 func endsASentence(sentenceText string) bool {
-	lastRune, _ := utf8.DecodeLastRuneInString(strings.TrimRight(sentenceText, sentenceClosers))
-	return strings.ContainsRune(sentenceTerminals, lastRune)
+	lastCharacter, _ := utf8.DecodeLastRuneInString(
+		strings.TrimRight(sentenceText, sentenceClosers),
+	)
+	return strings.ContainsRune(sentenceTerminals, lastCharacter)
 }
 
-func isShortSentence(sentenceText string, words []string) bool {
-	return unicode.IsLetter(firstRuneOf(sentenceText)) && endsASentence(sentenceText) &&
-		len(words) <= shortSentenceMostWords
+func firstCharacterOf(text string) rune {
+	firstCharacter, _ := utf8.DecodeRuneInString(text)
+	return firstCharacter
+}
+
+func isShortSentence(sentenceText string, fields []string) bool {
+	return unicode.IsLetter(firstCharacterOf(sentenceText)) && endsASentence(sentenceText) &&
+		len(fields) <= shortSentenceMostFields
 }
 
 func withWordsOf(
@@ -147,28 +163,16 @@ func withWordsOf(
 	return foundSentences
 }
 
-func withHeadingsFor(
-	foundSentences []sentence,
-	text, title string,
-	wordsIn func(text string) iter.Seq2[int, string],
-) []sentence {
-	titleWords := map[string]struct{}{}
-	for _, titleWord := range wordsIn(title) {
-		titleWords[titleWord] = struct{}{}
-	}
-	for place, candidate := range foundSentences[:max(0, len(foundSentences)-1)] {
-		foundSentences[place].heading = candidate.boilerplate && foundSentences[place+1].prose &&
-			unicode.IsUpper(firstRuneOf(text[candidate.start:])) &&
-			holdsAnyOf(candidate.words, titleWords)
+func withHeadingsSharing(foundSentences []sentence, text string, titleWords wordSet) []sentence {
+	for sentenceIndex, possibleHeading := range foundSentences[:max(0, len(foundSentences)-1)] {
+		foundSentences[sentenceIndex].heading = possibleHeading.kind == boilerplateSentence &&
+			foundSentences[sentenceIndex+1].kind == proseSentence &&
+			unicode.IsUpper(firstCharacterOf(text[possibleHeading.start:])) &&
+			titleWords.holdsAnyOf(possibleHeading.words)
 	}
 	return foundSentences
 }
 
-func holdsAnyOf(words []placedWord, chosenWords map[string]struct{}) bool {
-	for _, word := range words {
-		if _, isChosen := chosenWords[word.text]; isChosen {
-			return true
-		}
-	}
-	return false
+func (edge sentence) isDroppableFor(query askedQuery) bool {
+	return edge.kind == boilerplateSentence && !query.holdsAnyOf(edge.words)
 }

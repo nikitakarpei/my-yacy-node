@@ -49,7 +49,7 @@ func PageContentsFrom(
 		Snippet: textsnippet.Rule{
 			WordsIn:       yacymodel.PlacedWordsIn,
 			LengthCeiling: snippetLengthCeiling,
-		}.SnippetOf(extractedPage.Title, extractedPage.Text, queryWords),
+		}.SnippetOf(extractedPage.Text, extractedPage.Title, queryWords),
 		LinkCounts: extractedPage.LinkCounts,
 	}
 }
