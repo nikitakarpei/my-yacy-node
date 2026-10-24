@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	labelCause   = "cause"
 	labelOutcome = "outcome"
 	labelReason  = "reason"
 	labelRequest = "request"
@@ -36,7 +37,7 @@ type DistributionMetrics struct {
 	postingsDelivered     prometheus.Counter
 	batchesCompleted      prometheus.Counter
 	batchesAborted        *prometheus.CounterVec
-	peersExcluded         prometheus.Counter
+	peersExcluded         *prometheus.CounterVec
 	peerRequestTime       *prometheus.HistogramVec
 	peerSendTime          prometheus.Histogram
 	postingsPerSend       prometheus.Histogram
@@ -50,6 +51,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	return metrics
 }
 
+//nolint:funlen // one flat definition per distribution metric
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
@@ -106,9 +108,10 @@ func distributionMetrics() *DistributionMetrics {
 			"Distribution batches aborted before their outcome was recorded, by reason.",
 			labelReason,
 		),
-		peersExcluded: counterFor(
+		peersExcluded: counterPerLabelFor(
 			"yacynode_rwidistribution_peers_excluded_total",
-			"Peers excluded from distribution after failed offers in a row.",
+			"Peers excluded from distribution after unaccepted offers in a row, by the cause of the last.",
+			labelCause,
 		),
 		peerRequestTime: histogramPerLabelFor(
 			"yacynode_rwidistribution_peer_request_seconds",
@@ -233,8 +236,8 @@ func (d *DistributionMetrics) ObserveBatchAborted(reason string) {
 	d.batchesAborted.WithLabelValues(reason).Inc()
 }
 
-func (d *DistributionMetrics) ObservePeerExcluded() {
-	d.peersExcluded.Inc()
+func (d *DistributionMetrics) ObservePeerExcluded(cause string) {
+	d.peersExcluded.WithLabelValues(cause).Inc()
 }
 
 func (d *DistributionMetrics) ObservePostingOfferAnswerTime(answerTime time.Duration) {

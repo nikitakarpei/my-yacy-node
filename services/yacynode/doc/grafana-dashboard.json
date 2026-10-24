@@ -2500,8 +2500,8 @@
     },
     {
       "id": 135,
-      "title": "Peers excluded after failed offers",
-      "description": "Peers the node stopped offering postings to after they gave no answer to several offers in a row. The next peer on the ring takes their place.",
+      "title": "Peers excluded after unaccepted offers",
+      "description": "Peers the node stopped offering postings to after they declined or gave no answer to several offers in a row, by the cause of the last one. The next peer on the ring takes their place.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2530,8 +2530,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacynode_rwidistribution_peers_excluded_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peers_excluded_total{instance=~\"$service_instance\"} offset $__interval), 0))",
-          "legendFormat": "excluded"
+          "expr": "sum by (cause) (clamp_min(yacynode_rwidistribution_peers_excluded_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_peers_excluded_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{cause}}"
         }
       ],
       "interval": "$window"
