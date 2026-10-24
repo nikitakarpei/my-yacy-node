@@ -14,6 +14,7 @@ import (
 	"slices"
 
 	blevesearch "github.com/blevesearch/bleve/v2"
+	"github.com/blevesearch/bleve/v2/analysis"
 	"github.com/blevesearch/bleve/v2/analysis/analyzer/custom"
 	"github.com/blevesearch/bleve/v2/analysis/analyzer/keyword"
 	"github.com/blevesearch/bleve/v2/analysis/char/asciifolding"
@@ -49,6 +50,7 @@ type Indexes struct {
 	directory       string
 	languageIndexes languageindex.LanguageIndexes
 	openIndexes     map[string]blevesearch.Index
+	analyzers       map[string]analysis.Analyzer
 	everyIndex      blevesearch.IndexAlias
 }
 
@@ -61,6 +63,7 @@ func (indexes *Indexes) Open(ctx context.Context) error {
 		return fmt.Errorf("create search index directory %s: %w", indexes.directory, err)
 	}
 	openIndexes := make(map[string]blevesearch.Index, len(indexes.languageIndexes.All()))
+	analyzers := make(map[string]analysis.Analyzer, len(indexes.languageIndexes.All()))
 	for _, languageIndex := range indexes.languageIndexes.All() {
 		path := filepath.Join(indexes.directory, languageIndex.Name)
 		if err := createIfAbsent(ctx, path, languageIndex); err != nil {
@@ -74,8 +77,10 @@ func (indexes *Indexes) Open(ctx context.Context) error {
 			)
 		}
 		openIndexes[languageIndex.Name] = openIndex
+		analyzers[languageIndex.Name] = analyzerIn(openIndex, languageIndex.Language)
 	}
 	indexes.openIndexes = openIndexes
+	indexes.analyzers = analyzers
 	indexes.everyIndex = blevesearch.NewIndexAlias(slices.Collect(maps.Values(openIndexes))...)
 	return nil
 }
@@ -114,7 +119,7 @@ func indexMappingFor(language string) (*mapping.IndexMappingImpl, error) {
 	}); err != nil {
 		return nil, fmt.Errorf("define analyzer %s: %w", undeterminedAnalyzer, err)
 	}
-	indexMapping.DefaultAnalyzer = analyzerOf(language)
+	indexMapping.DefaultAnalyzer = analyzerNameOf(language)
 	indexMapping.IndexDynamic = false
 	indexMapping.StoreDynamic = false
 	indexMapping.DocValuesDynamic = false
@@ -122,7 +127,11 @@ func indexMappingFor(language string) (*mapping.IndexMappingImpl, error) {
 	return indexMapping, nil
 }
 
-func analyzerOf(language string) string {
+func analyzerIn(openIndex blevesearch.Index, language string) analysis.Analyzer {
+	return openIndex.Mapping().AnalyzerNamed(analyzerNameOf(language))
+}
+
+func analyzerNameOf(language string) string {
 	analyzer, defined := languageAnalyzers[language]
 	if !defined {
 		return undeterminedAnalyzer
@@ -135,17 +144,18 @@ func documentMapping() *mapping.DocumentMapping {
 	title.Store = true
 	content := textField()
 	content.Store = true
-	content.IncludeTermVectors = true
 	url := keywordField()
-	url.Index = false
 	url.Store = true
+	url.DocValues = true
+	language := keywordField()
+	language.Store = true
 
 	document := blevesearch.NewDocumentStaticMapping()
 	document.AddFieldMappingsAt("title", title)
 	document.AddFieldMappingsAt("content", content)
 	document.AddFieldMappingsAt("auxiliary_text", textField())
 	document.AddFieldMappingsAt("url", url)
-	document.AddFieldMappingsAt("language", keywordField())
+	document.AddFieldMappingsAt("language", language)
 	return document
 }
 
@@ -203,7 +213,7 @@ func (indexes *Indexes) rankedURLsFor(
 	request := blevesearch.NewSearchRequestOptions(
 		queryFor(search), search.Limit, search.Offset, false,
 	)
-	request.SortBy([]string{"-_score", "_id"})
+	request.SortBy([]string{"-_score", "url"})
 	result, err := indexes.everyIndex.SearchInContext(ctx, request)
 	if err != nil {
 		return nil, fmt.Errorf("rank matches: %w", err)
@@ -220,18 +230,15 @@ func (indexes *Indexes) pageMatchesOf(
 	search textsearch.Search,
 	rankedURLs []string,
 ) ([]searchdocument.PageMatch, error) {
-	rankedPages := blevesearch.NewConjunctionQuery(
-		queryFor(search), blevesearch.NewDocIDQuery(rankedURLs),
+	request := blevesearch.NewSearchRequestOptions(
+		blevesearch.NewDocIDQuery(rankedURLs), len(rankedURLs), 0, false,
 	)
-	request := blevesearch.NewSearchRequestOptions(rankedPages, len(rankedURLs), 0, false)
-	request.Fields = []string{"title", "url"}
-	request.Highlight = blevesearch.NewHighlightWithStyle(snippetHighlighterName)
-	request.Highlight.AddField("content")
+	request.Fields = []string{"title", "url", "content", "language"}
 	result, err := indexes.everyIndex.SearchInContext(ctx, request)
 	if err != nil {
 		return nil, fmt.Errorf("load matches: %w", err)
 	}
-	return pageMatchesIn(rankedURLs, result.Hits), nil
+	return indexes.pageMatchesIn(search, rankedURLs, result.Hits), nil
 }
 
 func queryFor(search textsearch.Search) query.Query {
@@ -260,7 +267,8 @@ func weightedMatchFor(searchQuery, field string, weight int) query.Query {
 	return match
 }
 
-func pageMatchesIn(
+func (indexes *Indexes) pageMatchesIn(
+	textSearch textsearch.Search,
 	rankedURLs []string,
 	hits search.DocumentMatchCollection,
 ) []searchdocument.PageMatch {
@@ -272,23 +280,20 @@ func pageMatchesIn(
 		matches = append(matches, searchdocument.PageMatch{
 			URL:     textOf(hit, "url"),
 			Title:   textOf(hit, "title"),
-			Snippet: snippetOf(hit),
+			Snippet: indexes.snippetOf(hit, textSearch.Query),
 		})
 	}
 	return matches
 }
 
+func (indexes *Indexes) snippetOf(hit *search.DocumentMatch, searchQuery string) string {
+	analyzer := indexes.analyzers[indexes.languageIndexes.NameFor(textOf(hit, "language"))]
+	return snippetFrom(textOf(hit, "content"), searchQuery, analyzer)
+}
+
 func textOf(hit *search.DocumentMatch, field string) string {
 	text, _ := hit.Fields[field].(string)
 	return text
-}
-
-func snippetOf(hit *search.DocumentMatch) string {
-	fragments := hit.Fragments["content"]
-	if len(fragments) == 0 {
-		return ""
-	}
-	return fragments[0]
 }
 
 func (indexes *Indexes) Close(ctx context.Context) {
