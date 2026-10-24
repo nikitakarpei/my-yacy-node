@@ -28,7 +28,6 @@ outside the container.
 yacypeer runs [yacynode](../../../services/yacynode/doc/configuration.md),
 [yacydhtsearch](../../../services/yacydhtsearch/doc/configuration.md),
 [corpustext](../../../services/corpustext/doc/configuration.md),
-[corpusmarkdown](../../../services/corpusmarkdown/doc/configuration.md),
 [yacycrawler](../../../services/yacycrawler/doc/configuration.md),
 [pagescrape](../../../services/pagescrape/doc/configuration.md),
 [crawlconsole](../../../services/crawlconsole/doc/configuration.md), and

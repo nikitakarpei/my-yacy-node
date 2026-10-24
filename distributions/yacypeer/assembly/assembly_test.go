@@ -24,14 +24,13 @@ const (
 func peerEnvironment(t *testing.T) map[string]string {
 	t.Helper()
 	return map[string]string{
-		yacypeerassembly.EnvDataDirectory:            t.TempDir(),
-		yacypeerassembly.EnvSeedlistURLs:             "http://127.0.0.1:1/seed.txt",
-		"YACY_ADVERTISE_HOST":                        "127.0.0.1",
-		"YACYNODE__YACY_PEER_ADDR":                   freeAddress(t),
-		"YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR":   anyLoopbackPort,
-		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":         anyLoopbackPort,
-		"CORPUSMARKDOWN__CORPUSMARKDOWN_LISTEN_ADDR": anyLoopbackPort,
-		"CRAWLCONSOLE_LISTEN_ADDR":                   freeAddress(t),
+		yacypeerassembly.EnvDataDirectory:          t.TempDir(),
+		yacypeerassembly.EnvSeedlistURLs:           "http://127.0.0.1:1/seed.txt",
+		"YACY_ADVERTISE_HOST":                      "127.0.0.1",
+		"YACYNODE__YACY_PEER_ADDR":                 freeAddress(t),
+		"YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR": anyLoopbackPort,
+		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":       anyLoopbackPort,
+		"CRAWLCONSOLE_LISTEN_ADDR":                 freeAddress(t),
 	}
 }
 
@@ -156,7 +155,7 @@ func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
 	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
 	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
 	for _, service := range []string{
-		"yacynode", "yacydhtsearch", "corpustext", "corpusmarkdown",
+		"yacynode", "yacydhtsearch", "corpustext",
 		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge",
 	} {
 		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")

@@ -9,7 +9,6 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	corpusmarkdownassembly "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/assembly"
 	corpustextassembly "github.com/nikitakarpei/yacy-rwi-node/corpustext/assembly"
 	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
 	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
@@ -28,7 +27,6 @@ var unreadSettings = []string{
 	yacydhtsearchassembly.EnvOpsAddr,
 	yacydhtsearchassembly.EnvServeProfiler,
 	corpustextassembly.EnvOpsAddr,
-	corpusmarkdownassembly.EnvOpsAddr,
 	yacycrawlerassembly.EnvOpsAddr,
 	pagescrapeassembly.EnvOpsAddr,
 	crawlconsoleassembly.EnvOpsAddr,
@@ -37,17 +35,15 @@ var unreadSettings = []string{
 }
 
 var localListenAddresses = serviceenvironment.Defaults{
-	yacydhtsearchassembly.EnvListenAddr:  loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
-	corpustextassembly.EnvSearchAddr:     loopback.Host + corpustextassembly.DefaultSearchAddr,
-	corpusmarkdownassembly.EnvListenAddr: loopback.Host + corpusmarkdownassembly.DefaultListenAddr,
-	crawlconsoleassembly.EnvListenAddr:   loopback.Host + crawlconsoleassembly.DefaultListenAddr,
+	yacydhtsearchassembly.EnvListenAddr: loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
+	corpustextassembly.EnvSearchAddr:    loopback.Host + corpustextassembly.DefaultSearchAddr,
+	crawlconsoleassembly.EnvListenAddr:  loopback.Host + crawlconsoleassembly.DefaultListenAddr,
 }
 
 const (
 	yacynodeService          = "yacynode"
 	yacydhtsearchService     = "yacydhtsearch"
 	corpustextService        = "corpustext"
-	corpusmarkdownService    = "corpusmarkdown"
 	yacycrawlerService       = "yacycrawler"
 	pagescrapeService        = "pagescrape"
 	crawlconsoleService      = "crawlconsole"
@@ -121,19 +117,6 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 			corpustextassembly.LoadServiceConfig,
 			corpustextassembly.ListenersFor,
 			corpustextassembly.RunService,
-		),
-		serviceAssemblyOf(
-			corpusmarkdownService,
-			serviceenvironment.Wiring{
-				corpusmarkdownassembly.EnvPageOfferNATSURL: addresses.natsURL,
-				corpusmarkdownassembly.EnvPageOfferDurable: corpusmarkdownService,
-				corpusmarkdownassembly.EnvPageMarkdownDirectory: cfg.directoryOf(
-					corpusmarkdownService,
-				),
-			},
-			corpusmarkdownassembly.LoadServiceConfig,
-			corpusmarkdownassembly.ListenersFor,
-			corpusmarkdownassembly.RunService,
 		),
 	}
 }
