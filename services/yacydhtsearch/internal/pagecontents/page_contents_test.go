@@ -9,9 +9,8 @@ import (
 )
 
 const (
-	snippetLengthCeiling      = 40
-	shortSnippetLengthCeiling = 20
-	textOfThePage             = "The city of Berlin holds a wall, and Berlin holds " +
+	snippetLengthCeiling = 40
+	textOfThePage        = "The city of Berlin holds a wall, and Berlin holds " +
 		"a river that the wall never crossed."
 )
 
@@ -101,86 +100,6 @@ func TestTheSnippetIsThePassageThatHoldsMoreOfTheQueryWords(t *testing.T) {
 
 	if snippet != "The wall and the river of Berlin." {
 		t.Fatalf("the snippet reads %q, want the passage that holds both query words", snippet)
-	}
-}
-
-func TestTheSnippetIsThePassageThatHoldsTheQueryPhraseWhenBothHoldTheSameWords(t *testing.T) {
-	t.Parallel()
-
-	snippet := pagecontents.PageContentsFrom(
-		pagecontents.ExtractedPage{
-			Title: "",
-			Text:  "The wall stands near Berlin. The Berlin wall is famous.",
-		},
-		[]string{"berlin", "wall"},
-		snippetLengthCeiling,
-	).Snippet
-
-	if snippet != "The Berlin wall is famous." {
-		t.Fatalf("the snippet reads %q, want the passage that holds the query phrase", snippet)
-	}
-}
-
-func TestTheSnippetIsTheEarlierPassageWhenTwoPassagesAnswerTheQueryTheSame(t *testing.T) {
-	t.Parallel()
-
-	snippet := pagecontents.PageContentsFrom(
-		pagecontents.ExtractedPage{Text: "Berlin is old. Berlin is new."},
-		[]string{"berlin"},
-		shortSnippetLengthCeiling,
-	).Snippet
-
-	if snippet != "Berlin is old." {
-		t.Fatalf("the snippet reads %q, want the earlier of two equal passages", snippet)
-	}
-}
-
-func TestTheSnippetJoinsShortSentencesUpToTheLengthCeiling(t *testing.T) {
-	t.Parallel()
-
-	snippet := pagecontents.PageContentsFrom(
-		pagecontents.ExtractedPage{
-			Title: "",
-			Text:  "One. Two. Three. This other sentence holds no query word at all.",
-		},
-		[]string{"three"},
-		snippetLengthCeiling,
-	).Snippet
-
-	if snippet != "One. Two. Three." {
-		t.Fatalf("the snippet reads %q, want the short sentences shown together", snippet)
-	}
-}
-
-func TestTheSnippetIsCutAtAWordBoundaryBeforeTheLengthCeiling(t *testing.T) {
-	t.Parallel()
-
-	snippet := pagecontents.PageContentsFrom(
-		pagecontents.ExtractedPage{Text: textOfThePage},
-		[]string{"city"},
-		snippetLengthCeiling,
-	).Snippet
-
-	if len([]rune(snippet)) > snippetLengthCeiling ||
-		!strings.Contains(textOfThePage, snippet+" ") {
-		t.Fatalf(
-			"the snippet reads %q, want at most %d letters ending at a word boundary",
-			snippet, snippetLengthCeiling,
-		)
-	}
-}
-
-func TestTheSnippetOfATextWithoutAQueryWordIsItsFirstPassage(t *testing.T) {
-	t.Parallel()
-
-	snippet := pagecontents.PageContentsFrom(
-		pagecontents.ExtractedPage{Text: "Über kurz oder lang. Und dann."},
-		[]string{"paris"},
-		shortSnippetLengthCeiling,
-	).Snippet
-
-	if snippet != "Über kurz oder lang." {
-		t.Fatalf("the snippet reads %q, want the first passage of the text", snippet)
 	}
 }
 

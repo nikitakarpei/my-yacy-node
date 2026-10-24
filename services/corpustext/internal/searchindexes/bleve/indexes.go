@@ -25,7 +25,7 @@ import (
 	"github.com/blevesearch/bleve/v2/analysis/token/lowercase"
 	"github.com/blevesearch/bleve/v2/analysis/tokenizer/unicode"
 	"github.com/blevesearch/bleve/v2/mapping"
-	"github.com/blevesearch/bleve/v2/search"
+	blevematch "github.com/blevesearch/bleve/v2/search"
 	"github.com/blevesearch/bleve/v2/search/query"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
@@ -268,11 +268,11 @@ func weightedMatchFor(searchQuery, field string, weight int) query.Query {
 }
 
 func (indexes *Indexes) pageMatchesIn(
-	textSearch textsearch.Search,
+	search textsearch.Search,
 	rankedURLs []string,
-	hits search.DocumentMatchCollection,
+	hits blevematch.DocumentMatchCollection,
 ) []searchdocument.PageMatch {
-	slices.SortFunc(hits, func(first, second *search.DocumentMatch) int {
+	slices.SortFunc(hits, func(first, second *blevematch.DocumentMatch) int {
 		return slices.Index(rankedURLs, first.ID) - slices.Index(rankedURLs, second.ID)
 	})
 	matches := make([]searchdocument.PageMatch, 0, len(hits))
@@ -280,18 +280,18 @@ func (indexes *Indexes) pageMatchesIn(
 		matches = append(matches, searchdocument.PageMatch{
 			URL:     textOf(hit, "url"),
 			Title:   textOf(hit, "title"),
-			Snippet: indexes.snippetOf(hit, textSearch.Query),
+			Snippet: indexes.snippetOf(hit, search.Query),
 		})
 	}
 	return matches
 }
 
-func (indexes *Indexes) snippetOf(hit *search.DocumentMatch, searchQuery string) string {
+func (indexes *Indexes) snippetOf(hit *blevematch.DocumentMatch, searchQuery string) string {
 	analyzer := indexes.analyzers[indexes.languageIndexes.NameFor(textOf(hit, "language"))]
 	return snippetFrom(textOf(hit, "content"), searchQuery, analyzer)
 }
 
-func textOf(hit *search.DocumentMatch, field string) string {
+func textOf(hit *blevematch.DocumentMatch, field string) string {
 	text, _ := hit.Fields[field].(string)
 	return text
 }

@@ -10,6 +10,7 @@ package pagecontents
 import (
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/textsnippet"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -45,7 +46,10 @@ func PageContentsFrom(
 		QueryPhraseHits: phrases.hitsIn(extractedPage.Title) + phrases.hitsIn(extractedPage.Text) +
 			phrases.hitsIn(extractedPage.AuxiliaryText),
 		AmountOfWords: counts.amountOfWords,
-		Snippet:       snippetOf(extractedPage.Text, queryWords, snippetLengthCeiling),
-		LinkCounts:    extractedPage.LinkCounts,
+		Snippet: textsnippet.Rule{
+			WordsIn:       yacymodel.PlacedWordsIn,
+			LengthCeiling: snippetLengthCeiling,
+		}.SnippetOf(extractedPage.Text, queryWords),
+		LinkCounts: extractedPage.LinkCounts,
 	}
 }

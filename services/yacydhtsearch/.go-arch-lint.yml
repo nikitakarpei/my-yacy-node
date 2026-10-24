@@ -227,9 +227,9 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/spamassessment
       - github.com/nikitakarpei/yacy-rwi-node/spamassessment/**
-  uax29sentences:
+  textsnippet:
     in:
-      - github.com/clipperhouse/uax29/v2/sentences
+      - github.com/nikitakarpei/yacy-rwi-node/textsnippet
   publicsuffix:
     in:
       - golang.org/x/net/publicsuffix
@@ -300,7 +300,7 @@ deps:
       - searchquery
   pagecontents:
     canUse:
-      - uax29sentences
+      - textsnippet
       - yacymodel
   peerdirectory:
     canUse:

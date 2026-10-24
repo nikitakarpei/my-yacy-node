@@ -1,29 +1,38 @@
 package bleve
 
 import (
-	"unicode/utf8"
+	"iter"
 
 	"github.com/blevesearch/bleve/v2/analysis"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/textsearch"
+	"github.com/nikitakarpei/yacy-rwi-node/textsnippet"
 )
 
 func snippetFrom(content, searchQuery string, analyzer analysis.Analyzer) string {
-	runes := []rune(content)
-	end := min(len(runes), firstMatchIn(content, searchQuery, analyzer)+textsearch.SnippetLength/2)
-	end = min(len(runes), max(end, textsearch.SnippetLength))
-	return string(runes[max(0, end-textsearch.SnippetLength):end])
+	rule := textsnippet.Rule{
+		WordsIn:       wordsAnalyzedBy(analyzer),
+		LengthCeiling: textsearch.SnippetLength,
+	}
+	return rule.SnippetOf(content, queryWordsOf(searchQuery, analyzer))
 }
 
-func firstMatchIn(content, searchQuery string, analyzer analysis.Analyzer) int {
-	queryTerms := make(map[string]struct{})
-	for _, token := range analyzer.Analyze([]byte(searchQuery)) {
-		queryTerms[string(token.Term)] = struct{}{}
-	}
-	for _, token := range analyzer.Analyze([]byte(content)) {
-		if _, matches := queryTerms[string(token.Term)]; matches {
-			return utf8.RuneCountInString(content[:token.Start])
+func wordsAnalyzedBy(analyzer analysis.Analyzer) func(text string) iter.Seq2[int, string] {
+	return func(text string) iter.Seq2[int, string] {
+		return func(yield func(int, string) bool) {
+			for _, token := range analyzer.Analyze([]byte(text)) {
+				if !yield(token.Start, string(token.Term)) {
+					return
+				}
+			}
 		}
 	}
-	return 0
+}
+
+func queryWordsOf(searchQuery string, analyzer analysis.Analyzer) []string {
+	var queryWords []string
+	for _, queryWord := range wordsAnalyzedBy(analyzer)(searchQuery) {
+		queryWords = append(queryWords, queryWord)
+	}
+	return queryWords
 }
