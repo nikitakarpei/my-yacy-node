@@ -18,9 +18,8 @@ go build ./cmd/yacypeer
 ./yacypeer
 ```
 
-With no settings, the peer joins the YaCy network. Other peers must reach the
-peer address of [yacynode](../../services/yacynode/doc/configuration.md) from
-the internet. Behind NAT, forward that port to the host.
+With no settings, the peer joins the YaCy network. Other peers must reach port
+8090 of the host from the internet. Behind NAT, forward that port to the host.
 
 ## Use
 
