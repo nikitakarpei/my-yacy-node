@@ -86,33 +86,50 @@ func (counter *collapsedRuneCounter) add(text string) {
 }
 
 func kindOf(sentenceText string) sentenceKind {
-	fields := strings.Fields(sentenceText)
+	counts := fieldCountsOf(sentenceText)
 	switch {
-	case isProse(sentenceText, fields):
+	case isProse(sentenceText, counts):
 		return proseSentence
-	case isShortSentence(sentenceText, fields):
+	case isShortSentence(sentenceText, counts.fields):
 		return shortSentence
 	default:
 		return boilerplateSentence
 	}
 }
 
-func isProse(sentenceText string, fields []string) bool {
-	if len(fields) < proseLeastFields || !endsASentence(sentenceText) {
-		return false
-	}
-	letterStarts, lowercaseStarts, commas := 0, 0, 0
-	for _, field := range fields {
+type fieldCounts struct {
+	fields          int
+	letterStarts    int
+	lowercaseStarts int
+	commas          int
+}
+
+func fieldCountsOf(sentenceText string) fieldCounts {
+	var counts fieldCounts
+	for field := range strings.FieldsSeq(sentenceText) {
+		counts.fields++
 		firstCharacter := firstCharacterOf(field)
 		if unicode.IsLetter(firstCharacter) {
-			letterStarts++
+			counts.letterStarts++
 		}
 		if unicode.IsLower(firstCharacter) {
-			lowercaseStarts++
+			counts.lowercaseStarts++
 		}
 		if strings.HasSuffix(field, ",") {
-			commas++
+			counts.commas++
 		}
+	}
+	return counts
+}
+
+func firstCharacterOf(text string) rune {
+	firstCharacter, _ := utf8.DecodeRuneInString(text)
+	return firstCharacter
+}
+
+func isProse(sentenceText string, counts fieldCounts) bool {
+	if counts.fields < proseLeastFields || !endsASentence(sentenceText) {
+		return false
 	}
 	symbols := 0
 	for _, character := range sentenceText {
@@ -120,9 +137,9 @@ func isProse(sentenceText string, fields []string) bool {
 			symbols++
 		}
 	}
-	return letterStarts > 0 &&
-		float64(lowercaseStarts) >= proseLeastLowercaseShare*float64(letterStarts) &&
-		float64(commas) <= proseMostCommaShare*float64(len(fields)) &&
+	return counts.letterStarts > 0 &&
+		float64(counts.lowercaseStarts) >= proseLeastLowercaseShare*float64(counts.letterStarts) &&
+		float64(counts.commas) <= proseMostCommaShare*float64(counts.fields) &&
 		float64(symbols) <= proseMostSymbolShare*float64(utf8.RuneCountInString(sentenceText))
 }
 
@@ -133,14 +150,9 @@ func endsASentence(sentenceText string) bool {
 	return strings.ContainsRune(sentenceTerminals, lastCharacter)
 }
 
-func firstCharacterOf(text string) rune {
-	firstCharacter, _ := utf8.DecodeRuneInString(text)
-	return firstCharacter
-}
-
-func isShortSentence(sentenceText string, fields []string) bool {
+func isShortSentence(sentenceText string, fields int) bool {
 	return unicode.IsLetter(firstCharacterOf(sentenceText)) && endsASentence(sentenceText) &&
-		len(fields) <= shortSentenceMostFields
+		fields <= shortSentenceMostFields
 }
 
 func withWordsOf(
