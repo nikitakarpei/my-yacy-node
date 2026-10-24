@@ -2,16 +2,23 @@ package yacypeerassembly_test
 
 import (
 	"context"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
 	"io"
 	"net"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
+	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 )
 
 const (
@@ -31,6 +38,7 @@ func peerEnvironment(t *testing.T) map[string]string {
 		"YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR": anyLoopbackPort,
 		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":       anyLoopbackPort,
 		"CRAWLCONSOLE_LISTEN_ADDR":                 freeAddress(t),
+		"VISITCRAWL_LISTEN_ADDR":                   freeAddress(t),
 	}
 }
 
@@ -98,6 +106,62 @@ func TestRunPeerSendsOutboundRequestsThroughTheEgressProxyTheOperatorNames(t *te
 	awaitShutdown(t, runDone)
 }
 
+func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing.T) {
+	env := peerEnvironment(t)
+	cfg, ops := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+	}()
+	awaitEveryService(t, env, ops)
+
+	secret, err := visitlinksecret.Settle(
+		filepath.Join(env[yacypeerassembly.EnvDataDirectory], "visitcrawl"),
+	)
+	if err != nil {
+		t.Fatalf("read the peer secret: %v", err)
+	}
+	const visitedPage = "https://example.org/visited"
+	destination := redirectOf(t, "http://"+env["VISITCRAWL_LISTEN_ADDR"]+"/visit?"+
+		visitLinkQueryFor(visitedPage, secret))
+	if destination != visitedPage {
+		t.Errorf("visit redirected to %q, want %q", destination, visitedPage)
+	}
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+func visitLinkQueryFor(visitedPage string, secret string) string {
+	expires := strconv.FormatInt(time.Now().Add(time.Hour).Unix(), 10)
+	seal := hmac.New(sha256.New, []byte(secret))
+	seal.Write([]byte(expires + "\n" + visitedPage))
+	return url.Values{
+		"url":       {visitedPage},
+		"expires":   {expires},
+		"signature": {hex.EncodeToString(seal.Sum(nil))},
+	}.Encode()
+}
+
+func redirectOf(t *testing.T, visitURL string) string {
+	t.Helper()
+	client := &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error {
+		return http.ErrUseLastResponse
+	}}
+	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, visitURL, nil)
+	if err != nil {
+		t.Fatalf("build the visit: %v", err)
+	}
+	response, err := client.Do(request)
+	if err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+	defer func() { _ = response.Body.Close() }()
+	return response.Header.Get("Location")
+}
+
 func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 	for name, value := range map[string]string{
 		"CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL": "nats://elsewhere:4222",
@@ -156,7 +220,7 @@ func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
 	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
 	for _, service := range []string{
 		"yacynode", "yacydhtsearch", "corpustext",
-		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge",
+		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge", "visitcrawl",
 	} {
 		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")
 	}

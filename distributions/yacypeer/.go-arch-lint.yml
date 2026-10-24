@@ -16,6 +16,8 @@ components:
     in: internal/egressproxy/**
   loopback:
     in: internal/loopback/**
+  visitlinksecret:
+    in: internal/visitlinksecret/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
