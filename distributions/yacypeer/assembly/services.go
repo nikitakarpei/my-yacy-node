@@ -14,6 +14,7 @@ import (
 	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
@@ -31,6 +32,7 @@ var unreadSettings = []string{
 	pagescrapeassembly.EnvOpsAddr,
 	crawlconsoleassembly.EnvOpsAddr,
 	crawlscrapebridgeassembly.EnvOpsAddr,
+	visitcrawlassembly.EnvOpsAddr,
 	yacycrawlerassembly.EnvAPIAddr,
 }
 
@@ -38,6 +40,7 @@ var localListenAddresses = serviceenvironment.Defaults{
 	yacydhtsearchassembly.EnvListenAddr: loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
 	corpustextassembly.EnvSearchAddr:    loopback.Host + corpustextassembly.DefaultSearchAddr,
 	crawlconsoleassembly.EnvListenAddr:  loopback.Host + crawlconsoleassembly.DefaultListenAddr,
+	visitcrawlassembly.EnvListenAddr:    loopback.Host + visitcrawlassembly.DefaultListenAddr,
 }
 
 const (
@@ -48,6 +51,7 @@ const (
 	pagescrapeService        = "pagescrape"
 	crawlconsoleService      = "crawlconsole"
 	crawlscrapebridgeService = "crawlscrapebridge"
+	visitcrawlService        = "visitcrawl"
 )
 
 type service struct {
@@ -62,11 +66,12 @@ func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
 	addresses peerAddresses,
+	visitLinkSecret string,
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
 		searchServiceAssembliesFor(cfg, addresses),
-		crawlServiceAssembliesFor(cfg, addresses)...,
+		crawlServiceAssembliesFor(cfg, addresses, visitLinkSecret)...,
 	)
 	services := make([]service, 0, len(assemblies))
 	for _, assembly := range assemblies {
@@ -139,7 +144,11 @@ func yacynodeConfigLoaderFor(
 	}
 }
 
-func crawlServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
+func crawlServiceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	visitLinkSecret string,
+) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacycrawlerService,
@@ -182,6 +191,16 @@ func crawlServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servic
 			crawlscrapebridgeassembly.LoadServiceConfig,
 			crawlscrapebridgeassembly.ListenersFor,
 			crawlscrapebridgeassembly.RunService,
+		),
+		serviceAssemblyOf(
+			visitcrawlService,
+			serviceenvironment.Wiring{
+				visitcrawlassembly.EnvCrawlNATSURL: addresses.natsURL,
+				visitcrawlassembly.EnvLinkSecret:   visitLinkSecret,
+			},
+			visitcrawlassembly.LoadServiceConfig,
+			visitcrawlassembly.ListenersFor,
+			visitcrawlassembly.RunService,
 		),
 	}
 }
