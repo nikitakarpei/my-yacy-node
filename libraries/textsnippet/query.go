@@ -5,24 +5,24 @@ type queryPhrase struct {
 	secondWord string
 }
 
-type query struct {
+type askedQuery struct {
 	words   map[string]struct{}
 	phrases map[queryPhrase]struct{}
 }
 
-func queryOf(queryWords []string) query {
-	asked := query{words: map[string]struct{}{}, phrases: map[queryPhrase]struct{}{}}
+func askedQueryOf(queryWords []string) askedQuery {
+	query := askedQuery{words: map[string]struct{}{}, phrases: map[queryPhrase]struct{}{}}
 	for place, word := range queryWords {
-		asked.words[word] = struct{}{}
+		query.words[word] = struct{}{}
 		if place > 0 {
-			asked.phrases[queryPhrase{queryWords[place-1], word}] = struct{}{}
-			asked.phrases[queryPhrase{word, queryWords[place-1]}] = struct{}{}
+			query.phrases[queryPhrase{queryWords[place-1], word}] = struct{}{}
+			query.phrases[queryPhrase{word, queryWords[place-1]}] = struct{}{}
 		}
 	}
-	return asked
+	return query
 }
 
-func (asked query) bestPassageIn(sentences []sentence, lengthCeiling int) passage {
+func (query askedQuery) bestPassageIn(sentences []sentence, lengthCeiling int) passage {
 	var bestPassage passage
 	var bestAnswer passageAnswer
 	lastSentence := 0
@@ -33,7 +33,7 @@ func (asked query) bestPassageIn(sentences []sentence, lengthCeiling int) passag
 			lastSentence++
 		}
 		candidate := passage{sentences: sentences[firstSentence : lastSentence+1]}
-		answer := asked.answerIn(candidate)
+		answer := query.answerIn(candidate)
 		if firstSentence == 0 || answer.isBetterThan(bestAnswer) {
 			bestPassage, bestAnswer = candidate, answer
 		}
@@ -47,16 +47,16 @@ type passageAnswer struct {
 	queryWordHits              int
 }
 
-func (asked query) answerIn(candidate passage) passageAnswer {
+func (query askedQuery) answerIn(candidate passage) passageAnswer {
 	var answer passageAnswer
 	distinctQueryWords := map[string]struct{}{}
 	wordBefore := ""
-	for _, word := range candidate.words() {
-		if _, isQueryWord := asked.words[word.text]; isQueryWord {
+	for word := range candidate.words() {
+		if _, isQueryWord := query.words[word.text]; isQueryWord {
 			answer.queryWordHits++
 			distinctQueryWords[word.text] = struct{}{}
 		}
-		if _, isQueryPhrase := asked.phrases[queryPhrase{wordBefore, word.text}]; isQueryPhrase {
+		if _, isQueryPhrase := query.phrases[queryPhrase{wordBefore, word.text}]; isQueryPhrase {
 			answer.queryPhraseHits++
 		}
 		wordBefore = word.text
@@ -75,9 +75,9 @@ func (answer passageAnswer) isBetterThan(otherAnswer passageAnswer) bool {
 	return answer.queryWordHits > otherAnswer.queryWordHits
 }
 
-func (asked query) firstPlaceIn(candidate passage) int {
-	for _, word := range candidate.words() {
-		if _, isQueryWord := asked.words[word.text]; isQueryWord {
+func (query askedQuery) firstMatchIn(candidate passage) int {
+	for word := range candidate.words() {
+		if _, isQueryWord := query.words[word.text]; isQueryWord {
 			return word.place
 		}
 	}

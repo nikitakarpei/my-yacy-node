@@ -23,41 +23,48 @@ type sentence struct {
 }
 
 func sentencesIn(text string, wordsIn func(text string) iter.Seq2[int, string]) []sentence {
-	var found []sentence
+	var foundSentences []sentence
 	runesBefore := 0
 	sentencesOfTheText := sentences.FromString(text)
 	for sentencesOfTheText.Next() {
-		value := sentencesOfTheText.Value()
-		leading := len(value) - len(strings.TrimLeftFunc(value, unicode.IsSpace))
-		trimmed := strings.TrimSpace(value)
-		if trimmed != "" {
-			start := sentencesOfTheText.Start() + leading
-			startRune := runesBefore + utf8.RuneCountInString(value[:leading])
-			found = append(found, sentence{
+		sentenceText := sentencesOfTheText.Value()
+		leadingSpaceBytes := len(
+			sentenceText,
+		) - len(
+			strings.TrimLeftFunc(sentenceText, unicode.IsSpace),
+		)
+		trimmedText := strings.TrimSpace(sentenceText)
+		if trimmedText != "" {
+			start := sentencesOfTheText.Start() + leadingSpaceBytes
+			startRune := runesBefore + utf8.RuneCountInString(sentenceText[:leadingSpaceBytes])
+			foundSentences = append(foundSentences, sentence{
 				start:     start,
-				end:       start + len(trimmed),
+				end:       start + len(trimmedText),
 				startRune: startRune,
-				endRune:   startRune + utf8.RuneCountInString(trimmed),
+				endRune:   startRune + utf8.RuneCountInString(trimmedText),
 			})
 		}
-		runesBefore += utf8.RuneCountInString(value)
+		runesBefore += utf8.RuneCountInString(sentenceText)
 	}
-	return withWordsOf(found, text, wordsIn)
+	return withWordsOf(foundSentences, text, wordsIn)
 }
 
 func withWordsOf(
-	found []sentence,
+	foundSentences []sentence,
 	text string,
 	wordsIn func(text string) iter.Seq2[int, string],
 ) []sentence {
-	current := 0
+	currentSentence := 0
 	for place, word := range wordsIn(text) {
-		for current < len(found) && place >= found[current].end {
-			current++
+		for currentSentence < len(foundSentences) && place >= foundSentences[currentSentence].end {
+			currentSentence++
 		}
-		if current < len(found) && place >= found[current].start {
-			found[current].words = append(found[current].words, placedWord{place, word})
+		if currentSentence < len(foundSentences) && place >= foundSentences[currentSentence].start {
+			foundSentences[currentSentence].words = append(
+				foundSentences[currentSentence].words,
+				placedWord{place, word},
+			)
 		}
 	}
-	return found
+	return foundSentences
 }

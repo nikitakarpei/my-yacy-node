@@ -16,7 +16,7 @@ type Rule struct {
 }
 
 func (rule Rule) SnippetOf(text string, queryWords []string) string {
-	query := queryOf(queryWords)
+	query := askedQueryOf(queryWords)
 	sentences := sentencesIn(text, rule.WordsIn)
 	bestPassage := query.bestPassageIn(sentences, rule.LengthCeiling)
 	return withSpacesCollapsed(bestPassage.textWithin(text, query, rule.LengthCeiling))
