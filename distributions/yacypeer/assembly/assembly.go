@@ -27,21 +27,31 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer broker.Shutdown()
-
-	services, err := servicesFor(ctx, cfg, broker.ClientURL(), getenv)
+	egress, err := egressRouteFor(ctx, cfg)
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
-	logStarted(ctx, broker, ops)
+	addresses, err := peerAddressesFor(ctx, broker.ClientURL(), egress)
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
+
+	services, err := servicesFor(ctx, cfg, addresses, getenv)
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
+	logStarted(ctx, addresses, ops)
 	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), services)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, services)
+		return runEvery(ctx, egress, services)
 	})
 }
 
-func logStarted(ctx context.Context, broker *natsbroker.Broker, ops net.Listener) {
+func logStarted(ctx context.Context, addresses peerAddresses, ops net.Listener) {
 	slog.DebugContext(ctx, "yacypeer started",
-		slog.String("natsUrl", broker.ClientURL()),
+		slog.String("natsUrl", addresses.natsURL),
+		slog.String("egressProxyUrl", addresses.egressProxyURL.Redacted()),
+		slog.String("crawlerApiAddr", addresses.crawlerAPIAddress()),
 		slog.String("opsAddr", ops.Addr().String()),
 	)
 }
@@ -54,8 +64,8 @@ func opsMuxFor(processRegistry *prometheus.Registry, services []service) *http.S
 	return mux
 }
 
-func runEvery(ctx context.Context, services []service) error {
-	runs := make([]func(context.Context) error, 0, len(services))
+func runEvery(ctx context.Context, egress egressRoute, services []service) error {
+	runs := egress.runs()
 	for _, service := range services {
 		runs = append(runs, service.run)
 	}

@@ -60,6 +60,7 @@ func TestTheOpsAddressServesMetricsButNoProfilerByDefault(t *testing.T) {
 			})
 	}()
 
+	awaitServing(t, listeners)
 	metrics := bodyOnceServed(t, "http://"+opsAddr+"/metrics")
 	if !strings.Contains(metrics, "yacydhtsearch_info 1") {
 		t.Fatalf("/metrics does not publish the service identity:\n%s", metrics)
@@ -161,6 +162,11 @@ func bodyOnceServed(t *testing.T, address string) string {
 	return string(body)
 }
 
+func awaitServing(t *testing.T, listeners yacydhtsearch.Listeners) {
+	t.Helper()
+	statusOf(t, "http://"+listeners.Search.Addr().String()+"/")
+}
+
 func statusOf(t *testing.T, address string) int {
 	t.Helper()
 
@@ -211,6 +217,7 @@ func TestTheOpsAddressServesTheProfilerWhenTheOperatorOptsIn(t *testing.T) {
 	if !strings.Contains(profiles, "goroutine") {
 		t.Fatalf("/debug/pprof/ does not list the goroutine profile:\n%s", profiles)
 	}
+	awaitServing(t, listeners)
 	metrics := bodyOnceServed(t, "http://"+opsAddr+"/metrics")
 	if !strings.Contains(metrics, "yacydhtsearch_info 1") {
 		t.Fatalf("/metrics does not publish the service identity:\n%s", metrics)

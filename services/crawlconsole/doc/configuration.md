@@ -6,7 +6,7 @@ crawlconsole is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWLCONSOLE_LISTEN_ADDR` | `:8080` | Address that serves the console pages. |
+| `CRAWLCONSOLE_LISTEN_ADDR` | `:8093` | Address that serves the console pages. |
 | `CRAWLCONSOLE_CRAWLER_API_URL` | required | HTTP URL of the operator API of `yacycrawler`, the address set in `YACYCRAWLER_API_ADDR`. The service does not start without it. |
 
 ## Operations

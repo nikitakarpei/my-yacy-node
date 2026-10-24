@@ -10,6 +10,7 @@ const (
 	EnvNetworkName       = nodeconfiguration.EnvNetworkName
 	EnvSeedlistURLs      = nodeconfiguration.EnvSeedlistURLs
 	EnvOpsAddr           = nodeconfiguration.EnvOpsAddr
+	EnvEgressProxyURL    = nodeconfiguration.EnvEgressProxyURL
 )
 
 type ServiceConfig = nodeconfiguration.Settings

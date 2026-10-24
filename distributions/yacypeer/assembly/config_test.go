@@ -1,6 +1,8 @@
 package yacypeerassembly_test
 
 import (
+	"net/url"
+	"reflect"
 	"testing"
 
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
@@ -37,22 +39,34 @@ func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 
 func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
-		yacypeerassembly.EnvSeedlistURLs:  "https://seeds.example/seed.txt",
-		yacypeerassembly.EnvDataDirectory: "/var/lib/yacypeer",
-		yacypeerassembly.EnvNetworkName:   "realm",
-		yacypeerassembly.EnvOpsAddr:       "127.0.0.1:9099",
+		yacypeerassembly.EnvSeedlistURLs:   "https://seeds.example/seed.txt",
+		yacypeerassembly.EnvDataDirectory:  "/var/lib/yacypeer",
+		yacypeerassembly.EnvNetworkName:    "realm",
+		yacypeerassembly.EnvOpsAddr:        "127.0.0.1:9099",
+		yacypeerassembly.EnvEgressProxyURL: "http://proxy.example:3128",
 	}))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
 	want := yacypeerassembly.PeerConfig{
-		DataDirectory: "/var/lib/yacypeer",
-		NetworkName:   "realm",
-		SeedlistURLs:  "https://seeds.example/seed.txt",
-		OpsAddr:       "127.0.0.1:9099",
+		EgressProxyURL: &url.URL{Scheme: "http", Host: "proxy.example:3128"},
+		DataDirectory:  "/var/lib/yacypeer",
+		NetworkName:    "realm",
+		SeedlistURLs:   "https://seeds.example/seed.txt",
+		OpsAddr:        "127.0.0.1:9099",
 	}
-	if cfg != want {
+	if !reflect.DeepEqual(cfg, want) {
 		t.Errorf("config = %+v, want %+v", cfg, want)
+	}
+}
+
+func TestLoadPeerConfigRefusesAnEgressProxyThatIsNotAnHTTPURL(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvSeedlistURLs:   "https://seeds.example/seed.txt",
+		yacypeerassembly.EnvEgressProxyURL: "socks5://proxy.example:1080",
+	}))
+	if err == nil {
+		t.Error("config loaded with a socks5 egress proxy, want an error")
 	}
 }
 
