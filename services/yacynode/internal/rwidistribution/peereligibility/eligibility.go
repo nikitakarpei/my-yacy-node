@@ -1,6 +1,6 @@
 // Package peereligibility tracks which known peers can receive postings now.
-// A peer that does not accept an offer is paused. A peer whose
-// offers fail too often in a row is excluded for a while, so that the next peer
+// A peer that does not accept an offer is paused. A peer that does not accept
+// too many offers in a row is excluded for a while, so that the next peer
 // takes its place. A peer is busy while its sends in flight, at its usual send
 // time, fill the work in flight.
 package peereligibility
@@ -15,16 +15,16 @@ import (
 )
 
 type Observer interface {
-	ObservePeerExcluded()
+	ObservePeerExcluded(cause string)
 	ObservePeerSendTime(sendTime time.Duration)
 	ObservePeersAtSendLimit(amountOfPeers int)
 }
 
 type Config struct {
-	LeastPause                  time.Duration
-	FailedOffersBeforeExclusion int
-	ExclusionDuration           time.Duration
-	WorkInFlight                time.Duration
+	LeastPause                      time.Duration
+	UnacceptedOffersBeforeExclusion int
+	ExclusionDuration               time.Duration
+	WorkInFlight                    time.Duration
 }
 
 type Peers struct {
@@ -37,10 +37,10 @@ type Peers struct {
 }
 
 type peerState struct {
-	pauseEndsAt                time.Time
-	pauseCause                 PauseCause
-	exclusionEndsAt            time.Time
-	amountOfFailedOffersInARow int
+	pauseEndsAt                    time.Time
+	pauseCause                     PauseCause
+	exclusionEndsAt                time.Time
+	amountOfUnacceptedOffersInARow int
 }
 
 func New(config Config, now func() time.Time, observer Observer) *Peers {
@@ -60,40 +60,37 @@ func (p *Peers) OfferAccepted(peer yacymodel.Hash) {
 	delete(p.peerStates, peer)
 }
 
-func (p *Peers) OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration) {
-	p.mutex.Lock()
-	defer p.mutex.Unlock()
-
-	state := p.peerStates[peer]
-	state.pauseEndsAt = p.now().Add(max(requestedPause, p.config.LeastPause))
-	state.pauseCause = PauseDeclined
-	p.peerStates[peer] = state
+func (p *Peers) OfferDeclined(
+	ctx context.Context,
+	peer yacymodel.Hash,
+	requestedPause time.Duration,
+) {
+	pause := max(requestedPause, p.config.LeastPause)
+	if p.recordUnacceptedOffer(peer, pause, PauseDeclined) {
+		p.reportExclusion(ctx, peer, PauseDeclined)
+	}
 }
 
 func (p *Peers) OfferFailed(ctx context.Context, peer yacymodel.Hash) {
-	if !p.recordFailedOffer(peer) {
-		return
+	if p.recordUnacceptedOffer(peer, p.config.LeastPause, PauseFailed) {
+		p.reportExclusion(ctx, peer, PauseFailed)
 	}
-	slog.WarnContext(
-		ctx,
-		"peer excluded from distribution after failed offers",
-		slog.String("peer", peer.String()),
-		slog.Int("failedOffersInARow", p.config.FailedOffersBeforeExclusion),
-		slog.Duration("exclusionDuration", p.config.ExclusionDuration),
-	)
-	p.observer.ObservePeerExcluded()
 }
 
-func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
+func (p *Peers) recordUnacceptedOffer(
+	peer yacymodel.Hash,
+	pause time.Duration,
+	cause PauseCause,
+) (wasExcluded bool) {
 	p.mutex.Lock()
 	defer p.mutex.Unlock()
 
 	now := p.now()
 	state := p.peerStates[peer]
-	state.pauseEndsAt = now.Add(p.config.LeastPause)
-	state.pauseCause = PauseFailed
-	state.amountOfFailedOffersInARow++
-	wasExcluded = state.amountOfFailedOffersInARow >= p.config.FailedOffersBeforeExclusion &&
+	state.pauseEndsAt = now.Add(pause)
+	state.pauseCause = cause
+	state.amountOfUnacceptedOffersInARow++
+	wasExcluded = state.amountOfUnacceptedOffersInARow >= p.config.UnacceptedOffersBeforeExclusion &&
 		!now.Before(state.exclusionEndsAt)
 	if wasExcluded {
 		state.exclusionEndsAt = now.Add(p.config.ExclusionDuration)
@@ -101,6 +98,18 @@ func (p *Peers) recordFailedOffer(peer yacymodel.Hash) (wasExcluded bool) {
 	p.peerStates[peer] = state
 
 	return wasExcluded
+}
+
+func (p *Peers) reportExclusion(ctx context.Context, peer yacymodel.Hash, cause PauseCause) {
+	slog.WarnContext(
+		ctx,
+		"peer excluded from distribution after unaccepted offers",
+		slog.String("peer", peer.String()),
+		slog.String("cause", string(cause)),
+		slog.Int("unacceptedOffersInARow", p.config.UnacceptedOffersBeforeExclusion),
+		slog.Duration("exclusionDuration", p.config.ExclusionDuration),
+	)
+	p.observer.ObservePeerExcluded(string(cause))
 }
 
 func (p *Peers) IsPaused(peer yacymodel.Hash) bool {

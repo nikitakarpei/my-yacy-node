@@ -99,7 +99,7 @@ func (f *fakeObserver) ObserveHolderRingFractions(ringFractions []float64) {
 	f.holderRingFractions = append(f.holderRingFractions, ringFractions...)
 }
 
-func (f *fakeObserver) ObservePeerExcluded() {
+func (f *fakeObserver) ObservePeerExcluded(string) {
 	f.guard.Lock()
 	defer f.guard.Unlock()
 

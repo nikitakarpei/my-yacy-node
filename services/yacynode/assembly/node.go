@@ -389,10 +389,10 @@ func assembleNode(
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		peerEligibility := peereligibility.New(
 			peereligibility.Config{
-				LeastPause:                  config.Distribution.PeerPause,
-				FailedOffersBeforeExclusion: config.Distribution.FailedOffersBeforeExclusion,
-				ExclusionDuration:           config.Distribution.PeerExclusionDuration,
-				WorkInFlight:                config.Distribution.PeerWorkInFlight,
+				LeastPause:                      config.Distribution.PeerPause,
+				UnacceptedOffersBeforeExclusion: config.Distribution.UnacceptedOffersBeforeExclusion,
+				ExclusionDuration:               config.Distribution.PeerExclusionDuration,
+				WorkInFlight:                    config.Distribution.PeerWorkInFlight,
 			},
 			now,
 			distributionObserver,

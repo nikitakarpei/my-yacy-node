@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 )
 
 const brokerDirectoryName = "nats"
@@ -35,8 +36,12 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
+	visitLinkSecret, err := visitlinksecret.Settle(cfg.directoryOf(visitcrawlService))
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
 
-	services, err := servicesFor(ctx, cfg, addresses, getenv)
+	services, err := servicesFor(ctx, cfg, addresses, visitLinkSecret, getenv)
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}

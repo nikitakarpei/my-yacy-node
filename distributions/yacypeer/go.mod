@@ -11,6 +11,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/visitcrawl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage v0.0.0
@@ -181,3 +182,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacym
 replace github.com/nikitakarpei/yacy-rwi-node/yacynode => ../../services/yacynode
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyproto
+
+replace github.com/nikitakarpei/yacy-rwi-node/visitcrawl => ../../services/visitcrawl
