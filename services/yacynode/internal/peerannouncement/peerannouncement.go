@@ -33,20 +33,20 @@ type Config struct {
 func New(
 	cfg Config,
 	self SelfSeed,
-	address publicAddress,
+	reportedHostObserver ReportedHostObserver,
 	seeds bootstrap.SeedSource,
 	roster peerRoster,
 	observer AnnouncementObserver,
 ) Announcer {
 	return &announcer{
-		interval:           cfg.Interval,
-		reachableCap:       cfg.ReachableCap,
-		contactConcurrency: cfg.ContactConcurrency,
-		self:               self,
-		address:            address,
-		seeds:              seeds,
-		roster:             roster,
-		greeter:            newHTTPPeerGreeter(cfg.Client, cfg.NetworkName),
-		observer:           observer,
+		interval:             cfg.Interval,
+		reachableCap:         cfg.ReachableCap,
+		contactConcurrency:   cfg.ContactConcurrency,
+		self:                 self,
+		reportedHostObserver: reportedHostObserver,
+		seeds:                seeds,
+		roster:               roster,
+		greeter:              newHTTPPeerGreeter(cfg.Client, cfg.NetworkName),
+		observer:             observer,
 	}
 }

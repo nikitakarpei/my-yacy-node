@@ -11,10 +11,6 @@ import (
 
 const announceHelloPeerCount = 30
 
-type publicAddress interface {
-	Settle(ctx context.Context, observedHosts []yacymodel.Host) bool
-}
-
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
 	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
@@ -29,20 +25,20 @@ type peerRoster interface {
 
 // TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
 type announcer struct {
-	interval           time.Duration
-	reachableCap       int
-	contactConcurrency int
-	self               SelfSeed
-	address            publicAddress
-	seeds              bootstrap.SeedSource
-	roster             peerRoster
-	greeter            httpPeerGreeter
-	observer           AnnouncementObserver
+	interval             time.Duration
+	reachableCap         int
+	contactConcurrency   int
+	self                 SelfSeed
+	reportedHostObserver ReportedHostObserver
+	seeds                bootstrap.SeedSource
+	roster               peerRoster
+	greeter              httpPeerGreeter
+	observer             AnnouncementObserver
 }
 
 func (a *announcer) Run(ctx context.Context) {
 	a.roster.Discover(ctx, a.seeds.Fetch(ctx)...)
-	a.announceRound(ctx)
+	a.announce(ctx)
 
 	ticker := time.NewTicker(a.interval)
 	defer ticker.Stop()
@@ -52,20 +48,21 @@ func (a *announcer) Run(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			a.announceRound(ctx)
+			a.announce(ctx)
 		}
 	}
 }
 
-func (a *announcer) announceRound(ctx context.Context) {
-	if a.address.Settle(ctx, observedHostsOf(a.announce(ctx))) {
-		a.announce(ctx)
+func (a *announcer) announce(ctx context.Context) {
+	announcedSeed := a.self.SelfSeed(ctx)
+	contactReplies := a.contactPeers(ctx, announcedSeed)
+	a.reportedHostObserver.ObserveReportedHosts(ctx, reportedHostsOf(contactReplies))
+	if readdressedSeed, readdressed := a.readdressedSeedSince(ctx, announcedSeed); readdressed {
+		a.contactPeers(ctx, readdressedSeed)
 	}
 }
 
-func (a *announcer) announce(ctx context.Context) []contactReply {
-	self := a.self.SelfSeed(ctx)
-
+func (a *announcer) contactPeers(ctx context.Context, self yacymodel.Seed) []contactReply {
 	reachablePeers := a.roster.ReachablePeers(ctx)
 	peerHashes := yacymodel.PeerHashesOf(reachablePeers)
 	if deficit := a.reachableCap - len(reachablePeers); deficit > 0 {
@@ -79,6 +76,15 @@ func (a *announcer) announce(ctx context.Context) []contactReply {
 	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(contactReplies))
 
 	return contactReplies
+}
+
+func (a *announcer) readdressedSeedSince(
+	ctx context.Context,
+	announcedSeed yacymodel.Seed,
+) (yacymodel.Seed, bool) {
+	currentSeed := a.self.SelfSeed(ctx)
+
+	return currentSeed, currentSeed.PrimaryAddress != announcedSeed.PrimaryAddress
 }
 
 func (a *announcer) contactAll(
@@ -178,7 +184,7 @@ func (a *announcer) contactOne(
 			"peer reported us as junior",
 			slog.String("peer", peerHash.String()),
 			slog.String("endpoint", networkAddress.String()),
-			slog.String("reportedAddress", result.ObservedHost.OrElse(yacymodel.Host{}).String()),
+			slog.String("reportedAddress", result.ReportedHost.OrElse(yacymodel.Host{}).String()),
 		)
 	}
 
@@ -187,7 +193,7 @@ func (a *announcer) contactOne(
 
 	return contactReply{
 		outcome:      contactOutcomeFromObservedPeerType(result.ObservedPeerType),
-		observedHost: result.ObservedHost,
+		reportedHost: result.ReportedHost,
 	}
 }
 

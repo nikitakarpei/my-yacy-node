@@ -36,7 +36,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/publicaddress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributionloop"
@@ -280,10 +279,10 @@ func assembleNode(
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
 
-	publicAddress := publicaddress.For(config.Identity.AdvertiseHost)
+	publicAddressSource, reportedHostObserver := publicAddressFor(config.Identity.AdvertiseHost)
 	runtimeStatus := nodestatus.NewRuntimeStatus(
 		identity,
-		publicAddress,
+		publicAddressSource,
 		now,
 		storage,
 		wordAmounts,
@@ -351,7 +350,7 @@ func assembleNode(
 			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
 		runtimeStatus,
-		publicAddress,
+		reportedHostObserver,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
 		peerRoster,
 		metrics.NewPeerAnnouncementMetrics(registry),

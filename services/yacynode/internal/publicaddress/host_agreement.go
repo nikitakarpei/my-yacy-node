@@ -12,10 +12,10 @@ type hostAgreement struct {
 	reportingPeers int
 }
 
-func agreementAmong(observedHosts []yacymodel.Host) hostAgreement {
+func agreementAmong(reportedHosts []yacymodel.Host) hostAgreement {
 	agreeingPeersPerHost := make(map[yacymodel.Host]int)
 	var agreement hostAgreement
-	for _, host := range observedHosts {
+	for _, host := range reportedHosts {
 		if !isAdvertisable(host) {
 			continue
 		}

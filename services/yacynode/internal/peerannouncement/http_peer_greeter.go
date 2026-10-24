@@ -12,7 +12,7 @@ import (
 )
 
 type greetResult struct {
-	ObservedHost     yacymodel.Optional[yacymodel.Host]
+	ReportedHost     yacymodel.Optional[yacymodel.Host]
 	ObservedPeerType yacymodel.Optional[yacymodel.PeerType]
 	RespondingSeed   yacymodel.Seed
 	KnownSeeds       []yacymodel.Seed
@@ -63,14 +63,14 @@ func (g httpPeerGreeter) Greet(
 	}
 
 	return greetResult{
-		ObservedHost:     observedHostFrom(parsed.YourIP),
+		ReportedHost:     reportedHostFrom(parsed.YourIP),
 		ObservedPeerType: parsed.YourType,
 		RespondingSeed:   respondingSeed,
 		KnownSeeds:       parsed.KnownSeeds(),
 	}, nil
 }
 
-func observedHostFrom(yourIP string) yacymodel.Optional[yacymodel.Host] {
+func reportedHostFrom(yourIP string) yacymodel.Optional[yacymodel.Host] {
 	addr, err := netip.ParseAddr(yourIP)
 	if err != nil {
 		return yacymodel.None[yacymodel.Host]()

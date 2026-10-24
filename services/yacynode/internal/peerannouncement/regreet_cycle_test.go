@@ -161,26 +161,35 @@ func (s *stubAnnouncementObserver) ObserveAnnounceRound(
 	s.rounds <- amountOfPeersPerContactOutcome
 }
 
-type stubPublicAddress struct {
-	mu             sync.Mutex
-	changed        bool
-	settledReplies [][]yacymodel.Host
+type stubLearningSelf struct {
+	mu                 sync.Mutex
+	seed               yacymodel.Seed
+	adoptsReportedHost bool
+	reportsPerRound    [][]yacymodel.Host
 }
 
-func (s *stubPublicAddress) Settle(_ context.Context, observedHosts []yacymodel.Host) bool {
+func (s *stubLearningSelf) SelfSeed(context.Context) yacymodel.Seed {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	s.settledReplies = append(s.settledReplies, observedHosts)
-
-	return s.changed
+	return s.seed
 }
 
-func (s *stubPublicAddress) settledHosts() [][]yacymodel.Host {
+func (s *stubLearningSelf) ObserveReportedHosts(_ context.Context, reportedHosts []yacymodel.Host) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	return append([][]yacymodel.Host(nil), s.settledReplies...)
+	s.reportsPerRound = append(s.reportsPerRound, reportedHosts)
+	if s.adoptsReportedHost && len(reportedHosts) > 0 {
+		s.seed.PrimaryAddress = yacymodel.Some(reportedHosts[0])
+	}
+}
+
+func (s *stubLearningSelf) reportedHosts() [][]yacymodel.Host {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	return append([][]yacymodel.Host(nil), s.reportsPerRound...)
 }
 
 func announcerFor(
@@ -193,7 +202,7 @@ func announcerFor(
 	return peerannouncement.New(
 		configFor(reachableCap),
 		stubSelf{seed: self},
-		&stubPublicAddress{},
+		peerannouncement.DiscardReportedHostObserver,
 		&stubSeedSource{seeds: seeds},
 		roster,
 		observer,
@@ -242,7 +251,7 @@ func roundObservedFor(
 ) map[peerannouncement.ContactOutcome]int {
 	t.Helper()
 
-	return lastRoundObservedWith(t, self, roster, &stubPublicAddress{}, 1)
+	return lastRoundObservedWith(t, &stubLearningSelf{seed: self}, roster, 1)
 }
 
 func assertSolePeerOutcome(
@@ -524,9 +533,8 @@ func TestRunFetchesSeedSourceOnStart(t *testing.T) {
 
 func lastRoundObservedWith(
 	t *testing.T,
-	self yacymodel.Seed,
+	self *stubLearningSelf,
 	roster *stubRoster,
-	address *stubPublicAddress,
 	amountOfRounds int,
 ) map[peerannouncement.ContactOutcome]int {
 	t.Helper()
@@ -534,8 +542,8 @@ func lastRoundObservedWith(
 	observer := newStubAnnouncementObserver()
 	announcer := peerannouncement.New(
 		configFor(4),
-		stubSelf{seed: self},
-		address,
+		self,
+		self,
 		&stubSeedSource{},
 		roster,
 		observer,
@@ -564,64 +572,57 @@ func lastRoundObservedWith(
 	return round
 }
 
-func TestAnnounceSettlesThePublicAddressFromTheHostsPeersObserved(t *testing.T) {
-	self := newStubPeer(t, "self", seniorAnswer(t))
+func TestAnnounceReportsTheHostsThatPeersSaw(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
 	first := newStubPeer(t, "first", seniorAnswer(t))
 	second := newStubPeer(t, "second", juniorAnswer(t))
-	address := &stubPublicAddress{}
 
-	lastRoundObservedWith(
-		t,
-		self.seed,
-		newStubRoster(nil, []yacymodel.Seed{first.seed, second.seed}),
-		address,
-		1,
-	)
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{first.seed, second.seed}), 1)
 
-	settled := address.settledHosts()
-	if len(settled) != 1 || len(settled[0]) != 2 {
-		t.Fatalf("settled hosts = %v, want one round of two hosts", settled)
+	reported := self.reportedHosts()
+	if len(reported) != 1 || len(reported[0]) != 2 {
+		t.Fatalf("reported hosts = %v, want one round of two hosts", reported)
 	}
-	for _, host := range settled[0] {
+	for _, host := range reported[0] {
 		if host.String() != "203.0.113.9" {
-			t.Fatalf("settled host = %v, want the host the peers observed", host)
+			t.Fatalf("reported host = %v, want the host the peers saw", host)
 		}
 	}
 }
 
-func TestAnnounceSettlesNoHostFromAPeerThatDidNotAnswer(t *testing.T) {
-	self := newStubPeer(t, "self", seniorAnswer(t))
+func TestAnnounceReportsNoHostFromAPeerThatDidNotAnswer(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
 	peer := newStubPeer(t, "peer", unavailableAnswer())
-	address := &stubPublicAddress{}
 
-	lastRoundObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 1)
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{peer.seed}), 1)
 
-	if settled := address.settledHosts(); len(settled) != 1 || len(settled[0]) != 0 {
-		t.Fatalf("settled hosts = %v, want one round without hosts", settled)
+	if reported := self.reportedHosts(); len(reported) != 1 || len(reported[0]) != 0 {
+		t.Fatalf("reported hosts = %v, want one round without hosts", reported)
 	}
 }
 
-func TestAnnounceAgainWhenThePublicAddressChanges(t *testing.T) {
-	self := newStubPeer(t, "self", seniorAnswer(t))
-	peer := newStubPeer(t, "peer", seniorAnswer(t))
-	address := &stubPublicAddress{changed: true}
+func TestAnnounceReportsAMappedIPv4HostAsTheIPv4Host(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
+	peer := newStubPeer(t, "peer", answerReporting("::ffff:203.0.113.9"))
 
-	lastRoundObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 2)
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{peer.seed}), 1)
+
+	reported := self.reportedHosts()
+	if len(reported) != 1 || len(reported[0]) != 1 || reported[0][0].String() != "203.0.113.9" {
+		t.Fatalf("reported hosts = %v, want [[203.0.113.9]]", reported)
+	}
+}
+
+func TestAnnounceAgainWhenTheSeedAddressChanges(t *testing.T) {
+	self := &stubLearningSelf{
+		seed:               newStubPeer(t, "self", seniorAnswer(t)).seed,
+		adoptsReportedHost: true,
+	}
+	peer := newStubPeer(t, "peer", seniorAnswer(t))
+
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{peer.seed}), 2)
 
 	if peer.greetCount() != 2 {
 		t.Fatalf("peer greeted %d times, want 2 within one interval", peer.greetCount())
-	}
-}
-
-func TestAnnounceSettlesAMappedIPv4HostAsTheIPv4Host(t *testing.T) {
-	self := newStubPeer(t, "self", seniorAnswer(t))
-	peer := newStubPeer(t, "peer", answerReporting("::ffff:203.0.113.9"))
-	address := &stubPublicAddress{}
-
-	lastRoundObservedWith(t, self.seed, newStubRoster(nil, []yacymodel.Seed{peer.seed}), address, 1)
-
-	settled := address.settledHosts()
-	if len(settled) != 1 || len(settled[0]) != 1 || settled[0][0].String() != "203.0.113.9" {
-		t.Fatalf("settled hosts = %v, want [[203.0.113.9]]", settled)
 	}
 }

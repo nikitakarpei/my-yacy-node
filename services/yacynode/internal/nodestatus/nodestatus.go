@@ -24,7 +24,7 @@ type RuntimeStatus interface {
 	SelfSeed(ctx context.Context) yacymodel.Seed
 }
 
-type PublicAddress interface {
+type PublicAddressSource interface {
 	Host(ctx context.Context) yacymodel.Optional[yacymodel.Host]
 }
 
@@ -43,20 +43,20 @@ type URLCounter interface {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func NewRuntimeStatus(
 	id nodeidentity.Identity,
-	address PublicAddress,
+	addressSource PublicAddressSource,
 	now func() time.Time,
 	v *vault.Vault,
 	words WordAmountEstimate,
 	urls URLCounter,
 ) RuntimeStatus {
 	return runtimeStatus{
-		id:      id,
-		address: address,
-		base:    baseSeed(id),
-		now:     now,
-		vault:   v,
-		words:   words,
-		urls:    urls,
+		id:            id,
+		addressSource: addressSource,
+		base:          baseSeed(id),
+		now:           now,
+		vault:         v,
+		words:         words,
+		urls:          urls,
 	}
 }
 

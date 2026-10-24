@@ -6,16 +6,16 @@ import (
 
 type contactReply struct {
 	outcome      ContactOutcome
-	observedHost yacymodel.Optional[yacymodel.Host]
+	reportedHost yacymodel.Optional[yacymodel.Host]
 }
 
-func observedHostsOf(contactReplies []contactReply) []yacymodel.Host {
-	var observedHosts []yacymodel.Host
+func reportedHostsOf(contactReplies []contactReply) []yacymodel.Host {
+	var reportedHosts []yacymodel.Host
 	for _, reply := range contactReplies {
-		if host, observed := reply.observedHost.Get(); observed {
-			observedHosts = append(observedHosts, host)
+		if host, reported := reply.reportedHost.Get(); reported {
+			reportedHosts = append(reportedHosts, host)
 		}
 	}
 
-	return observedHosts
+	return reportedHosts
 }
