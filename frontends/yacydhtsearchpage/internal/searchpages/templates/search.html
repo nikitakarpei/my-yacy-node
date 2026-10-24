@@ -8,8 +8,8 @@
 </head>
 <body>
 <header><form class="bar" method="get" action="/" role="search">
-  <input type="search" name="query" value="{{.Query}}" aria-label="{{text "search.label"}}" placeholder="{{text "search.label"}}"{{if not .Query}} autofocus{{end}}>
-  <button class="primary">{{text "search.submit"}}</button>
+  <input type="search" name="query" value="{{.Query}}" aria-label="{{text "search.label"}}" placeholder="{{text "search.label"}}" enterkeyhint="search"{{if not .Query}} autofocus{{end}}>
+  <button aria-label="{{text "search.submit"}}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
 </form></header>
 <main>
 {{if .EngineUnanswered}}<div class="notice">{{text "notice.engine-unanswered"}}</div>
