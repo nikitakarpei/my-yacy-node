@@ -18,11 +18,7 @@ import (
 
 func openedIndexes(t *testing.T, directory string) *bleve.Indexes {
 	t.Helper()
-	languageIndexes, err := languageindex.IndexesFor(
-		"yacy_text",
-		bleve.SchemaVersion,
-		[]string{"en", "de"},
-	)
+	languageIndexes, err := languageindex.IndexesFor("yacy_text", []string{"en", "de"})
 	if err != nil {
 		t.Fatalf("language indexes: %v", err)
 	}
