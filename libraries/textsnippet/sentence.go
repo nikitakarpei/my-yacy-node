@@ -15,8 +15,10 @@ const (
 	proseMostCommaShare      = 0.25
 	proseMostSymbolShare     = 0.04
 	proseSymbols             = "#{}[]<>=\\|_*;$@^~`"
-	sentenceTerminals        = ".!?…"
-	sentenceClosers          = "\"'”’»)]"
+	sentenceTerminals        = ".!?…。！？।؟"
+	sentenceClosers          = "\"'”’»)]」』）"
+	commaMarks               = "，、،"
+	ideographsPerWord        = 2
 	shortSentenceMostFields  = 5
 )
 
@@ -99,7 +101,8 @@ func kindOf(sentenceText string) sentenceKind {
 
 type fieldCounts struct {
 	fields          int
-	letterStarts    int
+	ideographs      int
+	casedStarts     int
 	lowercaseStarts int
 	commas          int
 }
@@ -109,14 +112,28 @@ func fieldCountsOf(sentenceText string) fieldCounts {
 	for field := range strings.FieldsSeq(sentenceText) {
 		counts.fields++
 		firstCharacter := firstCharacterOf(field)
-		if unicode.IsLetter(firstCharacter) {
-			counts.letterStarts++
+		if unicode.IsUpper(firstCharacter) || unicode.IsLower(firstCharacter) {
+			counts.casedStarts++
 		}
 		if unicode.IsLower(firstCharacter) {
 			counts.lowercaseStarts++
 		}
 		if strings.HasSuffix(field, ",") {
 			counts.commas++
+		}
+		for _, character := range field {
+			if unicode.In(
+				character,
+				unicode.Han,
+				unicode.Hiragana,
+				unicode.Katakana,
+				unicode.Hangul,
+			) {
+				counts.ideographs++
+			}
+			if strings.ContainsRune(commaMarks, character) {
+				counts.commas++
+			}
 		}
 	}
 	return counts
@@ -128,7 +145,8 @@ func firstCharacterOf(text string) rune {
 }
 
 func isProse(sentenceText string, counts fieldCounts) bool {
-	if counts.fields < proseLeastFields || !endsASentence(sentenceText) {
+	words := counts.fields + counts.ideographs/ideographsPerWord
+	if words < proseLeastFields || !endsASentence(sentenceText) {
 		return false
 	}
 	symbols := 0
@@ -137,9 +155,9 @@ func isProse(sentenceText string, counts fieldCounts) bool {
 			symbols++
 		}
 	}
-	return counts.letterStarts > 0 &&
-		float64(counts.lowercaseStarts) >= proseLeastLowercaseShare*float64(counts.letterStarts) &&
-		float64(counts.commas) <= proseMostCommaShare*float64(counts.fields) &&
+	return (counts.casedStarts == 0 ||
+		float64(counts.lowercaseStarts) >= proseLeastLowercaseShare*float64(counts.casedStarts)) &&
+		float64(counts.commas) <= proseMostCommaShare*float64(words) &&
 		float64(symbols) <= proseMostSymbolShare*float64(utf8.RuneCountInString(sentenceText))
 }
 

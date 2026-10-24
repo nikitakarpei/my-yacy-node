@@ -291,3 +291,45 @@ func TestTheSnippetAddsNoExtraFragmentForAQueryWordOutsideProse(t *testing.T) {
 		t.Fatalf("the snippet reads %q, want one passage without an extra fragment", snippet)
 	}
 }
+
+func TestTheSnippetOfAChineseTextDropsItsMenus(t *testing.T) {
+	t.Parallel()
+
+	snippet := snippetOf(
+		"首页 博客 关于\n苍鹭在黎明时分静静地站在河边，等待着鱼儿游过芦苇丛。\n分享到社交媒体",
+		[]string{"苍鹭在黎明时分静静地站在河边"},
+		200,
+	)
+
+	if snippet != "苍鹭在黎明时分静静地站在河边，等待着鱼儿游过芦苇丛。" {
+		t.Fatalf("the snippet reads %q, want the sentence without menus", snippet)
+	}
+}
+
+func TestTheSnippetOfAnArabicTextDropsItsMenus(t *testing.T) {
+	t.Parallel()
+
+	snippet := snippetOf(
+		"الرئيسية المدونة اتصل بنا\nيقف مالك الحزين على ضفة النهر عند الفجر وينتظر السمك.\nشارك على وسائل التواصل",
+		[]string{"النهر"},
+		200,
+	)
+
+	if snippet != "يقف مالك الحزين على ضفة النهر عند الفجر وينتظر السمك." {
+		t.Fatalf("the snippet reads %q, want the sentence without menus", snippet)
+	}
+}
+
+func TestTheSnippetOfAHebrewTextDropsItsMenus(t *testing.T) {
+	t.Parallel()
+
+	snippet := snippetOf(
+		"דף הבית בלוג אודות\nהאנפה עומדת על גדת הנהר עם שחר ומחכה לדגים הקטנים.\nשתפו ברשתות החברתיות",
+		[]string{"הנהר"},
+		200,
+	)
+
+	if snippet != "האנפה עומדת על גדת הנהר עם שחר ומחכה לדגים הקטנים." {
+		t.Fatalf("the snippet reads %q, want the sentence without menus", snippet)
+	}
+}
