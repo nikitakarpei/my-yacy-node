@@ -30,6 +30,7 @@ require (
 	github.com/blevesearch/zapx/v16 v16.3.4 // indirect
 	github.com/blevesearch/zapx/v17 v17.2.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/golang/snappy v1.0.0 // indirect
@@ -79,6 +80,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pag
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
+replace github.com/nikitakarpei/yacy-rwi-node/textsnippet => ../../libraries/textsnippet
+
 require (
 	github.com/blevesearch/bleve/v2 v2.6.1
 	github.com/nats-io/nats.go v1.52.0
@@ -89,6 +92,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 )

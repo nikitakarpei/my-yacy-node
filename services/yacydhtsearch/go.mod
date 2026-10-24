@@ -4,7 +4,6 @@ go 1.27
 
 require (
 	github.com/alicebob/miniredis/v2 v2.39.0
-	github.com/clipperhouse/uax29/v2 v2.7.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/klauspost/compress v1.18.6
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
@@ -15,6 +14,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
@@ -30,6 +30,7 @@ require (
 	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
@@ -52,10 +53,11 @@ replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/
 
 replace github.com/nikitakarpei/yacy-rwi-node/stopwords => ../../libraries/stopwords
 
+replace github.com/nikitakarpei/yacy-rwi-node/textsnippet => ../../libraries/textsnippet
+
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyproto
-
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 

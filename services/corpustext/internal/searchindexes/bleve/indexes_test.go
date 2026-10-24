@@ -226,7 +226,7 @@ func TestBleveIndexesStartTheSnippetAtTheContentWhenOnlyTheTitleMatches(t *testi
 	if len(matches) != 1 {
 		t.Fatalf("matches = %+v", matches)
 	}
-	want := longContent[:textsearch.SnippetLength]
+	want := strings.TrimSpace(longContent[:textsearch.SnippetLength])
 	if matches[0].Snippet != want {
 		t.Errorf("snippet = %q, want %q", matches[0].Snippet, want)
 	}

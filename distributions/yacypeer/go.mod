@@ -96,6 +96,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0 // indirect
@@ -157,6 +158,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/
 replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
 
 replace github.com/nikitakarpei/yacy-rwi-node/stopwords => ../../libraries/stopwords
+
+replace github.com/nikitakarpei/yacy-rwi-node/textsnippet => ../../libraries/textsnippet
 
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
 

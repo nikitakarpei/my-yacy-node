@@ -66,6 +66,9 @@ vendors:
     in:
       - github.com/blevesearch/bleve/v2
       - github.com/blevesearch/bleve/v2/**
+  textsnippet:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/textsnippet
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -111,6 +114,7 @@ deps:
     canUse:
       - searchdocument
       - bleve
+      - textsnippet
   pageintake:
     mayDependOn:
       - scrapedpagedocument
