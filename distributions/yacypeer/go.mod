@@ -5,7 +5,6 @@ go 1.27
 require (
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/corpustext v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlconsole v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
@@ -34,17 +33,6 @@ require (
 	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/armon/go-proxyproto v0.0.0-20170620220930-48572f11356f // indirect
-	github.com/aws/aws-sdk-go-v2 v1.47.1 // indirect
-	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.20 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.5.4 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.8.4 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/v4a v1.5.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.19 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.11.5 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.14.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.20.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.113.4 // indirect
-	github.com/aws/smithy-go v1.28.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bits-and-blooms/bitset v1.24.2 // indirect
 	github.com/blevesearch/bleve/v2 v2.6.1 // indirect
@@ -101,7 +89,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
@@ -140,8 +127,6 @@ require (
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
-replace github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown => ../../services/corpusmarkdown
-
 replace github.com/nikitakarpei/yacy-rwi-node/corpustext => ../../services/corpustext
 
 replace github.com/nikitakarpei/yacy-rwi-node/crawlconsole => ../../services/crawlconsole
@@ -155,8 +140,6 @@ replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
 replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
-
-replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../services/corpusmarkdown/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../services/pagescrape
 
