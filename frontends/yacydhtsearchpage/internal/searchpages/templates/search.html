@@ -18,7 +18,7 @@
   <ol class="results">
     {{range .Results}}
     <li class="result">
-      <a class="title" href="{{.Address}}" rel="noreferrer">{{or .Title .Address}}</a>
+      <a class="title" href="{{link .Address}}" rel="noreferrer">{{or .Title .Address}}</a>
       {{if .Description}}<p class="snippet">{{.Description}}</p>{{end}}
       <p class="address"><span class="url">{{.Address}}</span>{{if not .PublishedAt.IsZero}} <span class="muted">· {{moment .PublishedAt}}</span>{{end}}</p>
     </li>

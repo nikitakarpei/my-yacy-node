@@ -4,8 +4,11 @@ go 1.27
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
+replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
+
 require (
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 )
 

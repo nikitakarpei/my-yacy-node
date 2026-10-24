@@ -46,8 +46,20 @@ func (observer *recordingObserver) SearchEngineCallFailed(_ context.Context, err
 
 func (observer *recordingObserver) PageRenderFailed(context.Context, error) {}
 
+type addressLinks struct{}
+
+func (addressLinks) LinkFor(address string) string {
+	return address
+}
+
+type visitLinks struct{}
+
+func (visitLinks) LinkFor(address string) string {
+	return "/visit?url=" + address
+}
+
 func pageOver(engine *fakeSearchEngine, observer *recordingObserver) http.Handler {
-	return searchpages.New(engine, searchmessages.English(), observer)
+	return searchpages.New(engine, addressLinks{}, searchmessages.English(), observer)
 }
 
 func get(handler http.Handler, path string) *httptest.ResponseRecorder {
@@ -194,5 +206,22 @@ func TestPageServesItsStylesheet(t *testing.T) {
 
 	if answer.Code != http.StatusOK || !strings.Contains(answer.Body.String(), ".result") {
 		t.Errorf("stylesheet answered %d:\n%s", answer.Code, answer.Body)
+	}
+}
+
+func TestPageLinksEachResultThroughItsResultLinks(t *testing.T) {
+	engine := &fakeSearchEngine{results: []searchpages.SearchResult{{
+		Title:   "YaCy",
+		Address: "https://yacy.net/",
+	}}}
+	page := searchpages.New(engine, visitLinks{}, searchmessages.English(), &recordingObserver{})
+
+	body := get(page, "/?query=yacy").Body.String()
+
+	if !strings.Contains(body, `href="/visit?url=https://yacy.net/"`) {
+		t.Errorf("page lacks the result link:\n%s", body)
+	}
+	if !strings.Contains(body, `<span class="url">https://yacy.net/</span>`) {
+		t.Errorf("page lacks the result address:\n%s", body)
 	}
 }

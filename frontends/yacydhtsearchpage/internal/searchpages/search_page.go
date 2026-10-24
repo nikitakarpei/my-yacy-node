@@ -39,10 +39,15 @@ type searchView struct {
 
 func newSearchPage(
 	engine SearchEngine,
+	links ResultLinks,
 	catalog searchmessages.Catalog,
 	observer SearchPageObserver,
 ) searchPage {
-	functions := template.FuncMap{"text": catalog.TextOf, "moment": momentOf}
+	functions := template.FuncMap{
+		"text":   catalog.TextOf,
+		"moment": momentOf,
+		"link":   links.LinkFor,
+	}
 	screen := template.Must(template.New("search.html").Funcs(functions).ParseFS(
 		templateFiles, "templates/search.html",
 	))

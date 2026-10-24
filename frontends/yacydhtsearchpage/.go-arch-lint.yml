@@ -14,6 +14,12 @@ components:
     in: internal/searchengines/yacysearch/**
   searchpageobserversapplog:
     in: internal/searchpageobservers/applog/**
+  resultlinksdirect:
+    in: internal/resultlinks/direct/**
+  resultlinksvisitcrawl:
+    in: internal/resultlinks/visitcrawl/**
+  visitrelay:
+    in: internal/visitrelay/**
   yacydhtsearchpageassembly:
     in: assembly/**
   yacydhtsearchpagecmd:

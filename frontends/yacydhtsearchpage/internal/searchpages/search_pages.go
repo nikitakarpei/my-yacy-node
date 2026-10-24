@@ -31,6 +31,10 @@ type SearchEngine interface {
 	) ([]SearchResult, error)
 }
 
+type ResultLinks interface {
+	LinkFor(address string) string
+}
+
 type SearchPageObserver interface {
 	SearchEngineCallFailed(ctx context.Context, err error)
 	PageRenderFailed(ctx context.Context, err error)
@@ -38,10 +42,11 @@ type SearchPageObserver interface {
 
 func New(
 	engine SearchEngine,
+	links ResultLinks,
 	catalog searchmessages.Catalog,
 	observer SearchPageObserver,
 ) http.Handler {
-	page := newSearchPage(engine, catalog, observer)
+	page := newSearchPage(engine, links, catalog, observer)
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /{$}", page.show)
 	mux.Handle("GET /static/", http.FileServerFS(staticFiles))

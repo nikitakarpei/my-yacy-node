@@ -13,10 +13,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/resultlinks/direct"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/resultlinks/visitcrawl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/searchengines/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/searchmessages"
 	searchpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/searchpageobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/searchpages"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/internal/visitrelay"
 )
 
 const (
@@ -50,11 +54,7 @@ func RunService(
 	}, func() float64 { return 1 }))
 	pageServer := &http.Server{
 		Handler: httpobservation.NewHandler(
-			searchpages.New(
-				yacysearch.New(cfg.YaCyDHTSearchURL, cfg.SearchCallDeadline()),
-				searchmessages.English(),
-				searchpageobserversapplog.SearchPageLog{},
-			),
+			pageFor(cfg),
 			httpaccesslog.New(),
 			httpmetrics.NewEndpointMetrics(registry, "yacydhtsearchpage"),
 		),
@@ -71,4 +71,28 @@ func RunService(
 	})
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
+}
+
+func pageFor(cfg ServiceConfig) http.Handler {
+	engine := yacysearch.New(cfg.YaCyDHTSearchURL, cfg.SearchCallDeadline())
+	if cfg.VisitRouting == nil {
+		return searchpages.New(
+			engine,
+			direct.Direct{},
+			searchmessages.English(),
+			searchpageobserversapplog.SearchPageLog{},
+		)
+	}
+	mux := http.NewServeMux()
+	mux.Handle("GET /visit", visitrelay.New(
+		cfg.VisitRouting.VisitcrawlURL,
+		searchpageobserversapplog.SearchPageLog{},
+	))
+	mux.Handle("/", searchpages.New(
+		engine,
+		visitcrawl.New(cfg.VisitRouting.LinkSecret, wallclock.Clock{}),
+		searchmessages.English(),
+		searchpageobserversapplog.SearchPageLog{},
+	))
+	return mux
 }

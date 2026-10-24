@@ -21,6 +21,10 @@ the public `/yacysearch.json` interface of YaCy, and it keeps no state of its ow
 * The page SHALL link the next page when the shown page is full, and the previous page when
   the shown page is not the first.
 * The page SHALL NOT link a result to a script address.
+* When the operator names `visitcrawl`, the page SHALL link each web result through `/visit`
+  on its own address with a link that `visitcrawl` accepts, and SHALL pass each visit on to
+  `visitcrawl`.
+* The page SHALL give a result the same visit link for the whole day.
 * The page SHALL tell the user when `yacydhtsearch` does not answer.
 
 ## Non-Functional Requirements
@@ -30,5 +34,7 @@ the public `/yacysearch.json` interface of YaCy, and it keeps no state of its ow
 
 ## Known Limitations
 
+* A visit link changes each day, so a result that you opened on an earlier day does not
+  show as visited.
 * The page does not know the number of results. It links a next page after each full page,
   also when no more results follow.
