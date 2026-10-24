@@ -8,19 +8,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PeerSource struct {
+type peerSource struct {
 	mu   sync.Mutex
 	host yacymodel.Optional[yacymodel.Host]
 }
 
-func (s *PeerSource) Host(context.Context) yacymodel.Optional[yacymodel.Host] {
+func (s *peerSource) Host(context.Context) yacymodel.Optional[yacymodel.Host] {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	return s.host
 }
 
-func (s *PeerSource) ObserveReportedHosts(ctx context.Context, reportedHosts []yacymodel.Host) {
+func (s *peerSource) ObserveReportedHosts(ctx context.Context, reportedHosts []yacymodel.Host) {
 	agreement := agreementAmong(reportedHosts)
 	if !agreement.reached() {
 		s.reportDisagreement(ctx, agreement)
@@ -31,7 +31,7 @@ func (s *PeerSource) ObserveReportedHosts(ctx context.Context, reportedHosts []y
 	s.adopt(ctx, agreement)
 }
 
-func (s *PeerSource) reportDisagreement(ctx context.Context, agreement hostAgreement) {
+func (s *peerSource) reportDisagreement(ctx context.Context, agreement hostAgreement) {
 	level := slog.LevelDebug
 	if !s.Host(ctx).Present() {
 		level = slog.LevelWarn
@@ -42,7 +42,7 @@ func (s *PeerSource) reportDisagreement(ctx context.Context, agreement hostAgree
 	)
 }
 
-func (s *PeerSource) adopt(ctx context.Context, agreement hostAgreement) {
+func (s *peerSource) adopt(ctx context.Context, agreement hostAgreement) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

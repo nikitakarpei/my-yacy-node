@@ -23,10 +23,10 @@ func hostsOf(t *testing.T, rawHosts ...string) []yacymodel.Host {
 	return hosts
 }
 
-func sourceAfterReports(t *testing.T, reportsPerRound ...[]string) *publicaddress.PeerSource {
+func sourceAfterReports(t *testing.T, reportsPerRound ...[]string) publicaddress.Source {
 	t.Helper()
 
-	source := &publicaddress.PeerSource{}
+	source := publicaddress.For(yacymodel.None[yacymodel.Host]())
 	for _, reportedHosts := range reportsPerRound {
 		source.ObserveReportedHosts(context.Background(), hostsOf(t, reportedHosts...))
 	}
@@ -34,7 +34,7 @@ func sourceAfterReports(t *testing.T, reportsPerRound ...[]string) *publicaddres
 	return source
 }
 
-func assertHost(t *testing.T, source *publicaddress.PeerSource, want string) {
+func assertHost(t *testing.T, source publicaddress.Source, want string) {
 	t.Helper()
 
 	host, present := source.Host(context.Background()).Get()
@@ -43,7 +43,7 @@ func assertHost(t *testing.T, source *publicaddress.PeerSource, want string) {
 	}
 }
 
-func assertNoHost(t *testing.T, source *publicaddress.PeerSource) {
+func assertNoHost(t *testing.T, source publicaddress.Source) {
 	t.Helper()
 
 	if host, present := source.Host(context.Background()).Get(); present {

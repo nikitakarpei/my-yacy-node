@@ -6,14 +6,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type OperatorSource struct {
+type operatorSource struct {
 	statedHost yacymodel.Host
 }
 
-func Stated(host yacymodel.Host) OperatorSource {
-	return OperatorSource{statedHost: host}
-}
-
-func (s OperatorSource) Host(context.Context) yacymodel.Optional[yacymodel.Host] {
+func (s operatorSource) Host(context.Context) yacymodel.Optional[yacymodel.Host] {
 	return yacymodel.Some(s.statedHost)
 }
+
+func (operatorSource) ObserveReportedHosts(context.Context, []yacymodel.Host) {}

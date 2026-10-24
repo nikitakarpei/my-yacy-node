@@ -11,6 +11,10 @@ import (
 
 const announceHelloPeerCount = 30
 
+type ReportedHostObserver interface {
+	ObserveReportedHosts(ctx context.Context, reportedHosts []yacymodel.Host)
+}
+
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
 	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)

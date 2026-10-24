@@ -129,14 +129,6 @@ func (s *stubRoster) discoveredSeeds() []yacymodel.Seed {
 	return append([]yacymodel.Seed(nil), s.discovered...)
 }
 
-type stubSelf struct {
-	seed yacymodel.Seed
-}
-
-func (s stubSelf) SelfSeed(context.Context) yacymodel.Seed {
-	return s.seed
-}
-
 type stubSeedSource struct {
 	seeds []yacymodel.Seed
 }
@@ -199,10 +191,12 @@ func announcerFor(
 	reachableCap int,
 	observer peerannouncement.AnnouncementObserver,
 ) peerannouncement.Announcer {
+	learningSelf := &stubLearningSelf{seed: self}
+
 	return peerannouncement.New(
 		configFor(reachableCap),
-		stubSelf{seed: self},
-		peerannouncement.DiscardReportedHostObserver,
+		learningSelf,
+		learningSelf,
 		&stubSeedSource{seeds: seeds},
 		roster,
 		observer,
