@@ -3,6 +3,7 @@ package distributionloop_test
 import (
 	"cmp"
 	"context"
+	"math"
 	"slices"
 	"strconv"
 	"sync"
@@ -35,14 +36,14 @@ const (
 )
 
 type loopOptions struct {
-	self                        yacymodel.Hash
-	redundancy                  int
-	leastPause                  time.Duration
-	minReachablePeers           int
-	amountOfWorkers             int
-	postingsPerBatch            int
-	handoffEnabled              bool
-	failedOffersBeforeExclusion int
+	self                            yacymodel.Hash
+	redundancy                      int
+	leastPause                      time.Duration
+	minReachablePeers               int
+	amountOfWorkers                 int
+	postingsPerBatch                int
+	handoffEnabled                  bool
+	unacceptedOffersBeforeExclusion int
 }
 
 type loopHarness struct {
@@ -71,8 +72,8 @@ func withLoopDefaults(opts loopOptions) loopOptions {
 	if opts.amountOfWorkers == 0 {
 		opts.amountOfWorkers = 1
 	}
-	if opts.failedOffersBeforeExclusion == 0 {
-		opts.failedOffersBeforeExclusion = 1
+	if opts.unacceptedOffersBeforeExclusion == 0 {
+		opts.unacceptedOffersBeforeExclusion = math.MaxInt
 	}
 	if opts.postingsPerBatch == 0 {
 		opts.postingsPerBatch = postingsPerBatch
@@ -118,10 +119,10 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	}
 	h.eligibility = peereligibility.New(
 		peereligibility.Config{
-			LeastPause:                  opts.leastPause,
-			FailedOffersBeforeExclusion: opts.failedOffersBeforeExclusion,
-			ExclusionDuration:           exclusionDuration,
-			WorkInFlight:                workInFlight,
+			LeastPause:                      opts.leastPause,
+			UnacceptedOffersBeforeExclusion: opts.unacceptedOffersBeforeExclusion,
+			ExclusionDuration:               exclusionDuration,
+			WorkInFlight:                    workInFlight,
 		},
 		clk.Now,
 		h.observer,

@@ -15,11 +15,15 @@ func (c *clock) now() time.Time { return c.at }
 
 type fakeObserver struct {
 	amountOfExclusions int
+	exclusionCauses    []string
 	sendTimes          []time.Duration
 	peersAtSendLimit   int
 }
 
-func (f *fakeObserver) ObservePeerExcluded() { f.amountOfExclusions++ }
+func (f *fakeObserver) ObservePeerExcluded(cause string) {
+	f.amountOfExclusions++
+	f.exclusionCauses = append(f.exclusionCauses, cause)
+}
 
 func (f *fakeObserver) ObservePeerSendTime(sendTime time.Duration) {
 	f.sendTimes = append(f.sendTimes, sendTime)
@@ -32,9 +36,9 @@ func (f *fakeObserver) ObservePeersAtSendLimit(amountOfPeers int) {
 func peersWith(leastPause time.Duration, clk *clock) *peereligibility.Peers {
 	return peereligibility.New(
 		peereligibility.Config{
-			LeastPause:                  leastPause,
-			FailedOffersBeforeExclusion: 3,
-			ExclusionDuration:           time.Hour,
+			LeastPause:                      leastPause,
+			UnacceptedOffersBeforeExclusion: 3,
+			ExclusionDuration:               time.Hour,
 		},
 		clk.now,
 		&fakeObserver{},
@@ -75,7 +79,7 @@ func TestDeclinedPeerIsPausedForTheLeastPause(t *testing.T) {
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
-	peers.OfferDeclined(peer, 0)
+	peers.OfferDeclined(context.Background(), peer, 0)
 
 	assertPauseLasts(t, peers, clk, peer, time.Minute)
 }
@@ -85,7 +89,7 @@ func TestRequestedPauseOutlastsLeastPause(t *testing.T) {
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
-	peers.OfferDeclined(peer, time.Hour)
+	peers.OfferDeclined(context.Background(), peer, time.Hour)
 
 	assertPauseLasts(t, peers, clk, peer, time.Hour)
 }
@@ -95,7 +99,7 @@ func TestAcceptanceEndsPause(t *testing.T) {
 	peers := peersWith(time.Hour, clk)
 	peer := yacymodel.WordHash("peer")
 
-	peers.OfferDeclined(peer, 0)
+	peers.OfferDeclined(context.Background(), peer, 0)
 	peers.OfferAccepted(peer)
 
 	if peers.IsPaused(peer) {
@@ -108,7 +112,7 @@ func TestDeclinedOfferGivesADeclinedPauseEndingAtTheRequestedPause(t *testing.T)
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
-	peers.OfferDeclined(peer, time.Hour)
+	peers.OfferDeclined(context.Background(), peer, time.Hour)
 
 	pause, paused := peers.PauseOf(peer)
 	want := peereligibility.Pause{
@@ -125,7 +129,7 @@ func TestDeclinedOfferPausesAtLeastTheLeastPause(t *testing.T) {
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
 
-	peers.OfferDeclined(peer, time.Second)
+	peers.OfferDeclined(context.Background(), peer, time.Second)
 
 	pause, paused := peers.PauseOf(peer)
 	if !paused || !pause.EndsAt.Equal(clk.at.Add(time.Minute)) {
@@ -156,7 +160,7 @@ func TestTheLatestOfferOutcomeDecidesThePauseCause(t *testing.T) {
 	peer := yacymodel.WordHash("peer")
 	peers.OfferFailed(context.Background(), peer)
 
-	peers.OfferDeclined(peer, 0)
+	peers.OfferDeclined(context.Background(), peer, 0)
 
 	if pause, _ := peers.PauseOf(peer); pause.Cause != peereligibility.PauseDeclined {
 		t.Fatalf("pause cause = %q, want %q", pause.Cause, peereligibility.PauseDeclined)
@@ -180,7 +184,7 @@ func TestNoPauseRemainsOnceItEnds(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
 	peers := peersWith(time.Minute, clk)
 	peer := yacymodel.WordHash("peer")
-	peers.OfferDeclined(peer, 0)
+	peers.OfferDeclined(context.Background(), peer, 0)
 
 	clk.at = clk.at.Add(time.Minute)
 
@@ -206,9 +210,9 @@ func newExclusionHarness() *exclusionHarness {
 	}
 	h.peers = peereligibility.New(
 		peereligibility.Config{
-			LeastPause:                  h.leastPause,
-			FailedOffersBeforeExclusion: 3,
-			ExclusionDuration:           time.Hour,
+			LeastPause:                      h.leastPause,
+			UnacceptedOffersBeforeExclusion: 3,
+			ExclusionDuration:               time.Hour,
 		},
 		h.clk.now,
 		h.counter,
@@ -283,18 +287,77 @@ func TestAcceptanceEndsExclusionAndStartsTheFailedOffersOver(t *testing.T) {
 	}
 }
 
-func TestDeclineNeitherCountsNorStartsTheFailedOffersOver(t *testing.T) {
+func (h *exclusionHarness) declineOffers(amountOfDeclinedOffers int) {
+	for range amountOfDeclinedOffers {
+		h.peers.OfferDeclined(context.Background(), h.peer, 0)
+	}
+}
+
+func TestDeclinedOffersInARowExcludeThePeerForTheDecline(t *testing.T) {
+	h := newExclusionHarness()
+
+	h.declineOffers(3)
+
+	if !h.peers.IsExcluded(h.peer) {
+		t.Fatal("IsExcluded = false, want true after declined offers in a row")
+	}
+	if len(h.counter.exclusionCauses) != 1 ||
+		h.counter.exclusionCauses[0] != string(peereligibility.PauseDeclined) {
+		t.Fatalf(
+			"exclusion causes = %v, want [%s]",
+			h.counter.exclusionCauses,
+			peereligibility.PauseDeclined,
+		)
+	}
+}
+
+func TestDeclineKeepsTheDeclinedPauseWhenItExcludes(t *testing.T) {
+	h := newExclusionHarness()
+	h.declineOffers(2)
+
+	h.peers.OfferDeclined(context.Background(), h.peer, time.Hour)
+
+	pause, paused := h.peers.PauseOf(h.peer)
+	want := peereligibility.Pause{
+		EndsAt: h.clk.at.Add(time.Hour),
+		Cause:  peereligibility.PauseDeclined,
+	}
+	if !paused || pause != want {
+		t.Fatalf("PauseOf = %+v, %v, want %+v", pause, paused, want)
+	}
+}
+
+func TestDeclinedAndFailedOffersCountTogether(t *testing.T) {
 	h := newExclusionHarness()
 	h.failOffers(2)
 
-	h.peers.OfferDeclined(h.peer, 0)
+	h.declineOffers(1)
 
-	if h.peers.IsExcluded(h.peer) {
-		t.Fatal("IsExcluded = true, want false: a decline is not a failed offer")
-	}
-	h.failOffers(1)
 	if !h.peers.IsExcluded(h.peer) {
-		t.Fatal("IsExcluded = false, want true: a decline keeps the count")
+		t.Fatal("IsExcluded = false, want true: a decline counts with failed offers")
+	}
+	if len(h.counter.exclusionCauses) != 1 ||
+		h.counter.exclusionCauses[0] != string(peereligibility.PauseDeclined) {
+		t.Fatalf(
+			"exclusion causes = %v, want [%s]",
+			h.counter.exclusionCauses,
+			peereligibility.PauseDeclined,
+		)
+	}
+}
+
+func TestFailedOffersExcludeThePeerForTheFailure(t *testing.T) {
+	h := newExclusionHarness()
+
+	h.failOffers(3)
+
+	if len(h.counter.exclusionCauses) != 1 ||
+		h.counter.exclusionCauses[0] != string(peereligibility.PauseFailed) {
+		t.Fatalf(
+			"exclusion causes = %v, want [%s]",
+			h.counter.exclusionCauses,
+			peereligibility.PauseFailed,
+		)
 	}
 }
 

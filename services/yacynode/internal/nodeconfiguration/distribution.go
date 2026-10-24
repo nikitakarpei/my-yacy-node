@@ -7,49 +7,49 @@ import (
 )
 
 const (
-	EnvDistributionEnabled                     = "YACY_DISTRIBUTION_ENABLED"
-	EnvDistributionHandoffEnabled              = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
-	EnvDistributionRedundancy                  = "YACY_DISTRIBUTION_REDUNDANCY"
-	EnvDistributionPartitionExponent           = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	EnvDistributionPostingsPerBatch            = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
-	EnvDistributionWorkers                     = "YACY_DISTRIBUTION_WORKERS"
-	EnvDistributionRefreshInterval             = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
-	EnvDistributionPeerPause                   = "YACY_DISTRIBUTION_PEER_PAUSE"
-	EnvDistributionFailedOffersBeforeExclusion = "YACY_DISTRIBUTION_FAILED_OFFERS_BEFORE_EXCLUSION"
-	EnvDistributionPeerExclusionDuration       = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
-	EnvDistributionPeerWorkInFlight            = "YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT"
-	EnvDistributionMinReachablePeers           = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
-	EnvDistributionURLMetadataBatchSize        = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
+	EnvDistributionEnabled                         = "YACY_DISTRIBUTION_ENABLED"
+	EnvDistributionHandoffEnabled                  = "YACY_DISTRIBUTION_HANDOFF_ENABLED"
+	EnvDistributionRedundancy                      = "YACY_DISTRIBUTION_REDUNDANCY"
+	EnvDistributionPartitionExponent               = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	EnvDistributionPostingsPerBatch                = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
+	EnvDistributionWorkers                         = "YACY_DISTRIBUTION_WORKERS"
+	EnvDistributionRefreshInterval                 = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
+	EnvDistributionPeerPause                       = "YACY_DISTRIBUTION_PEER_PAUSE"
+	EnvDistributionUnacceptedOffersBeforeExclusion = "YACY_DISTRIBUTION_UNACCEPTED_OFFERS_BEFORE_EXCLUSION"
+	EnvDistributionPeerExclusionDuration           = "YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION"
+	EnvDistributionPeerWorkInFlight                = "YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT"
+	EnvDistributionMinReachablePeers               = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	EnvDistributionURLMetadataBatchSize            = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
-	DefaultDistributionEnabled                     = false
-	DefaultDistributionHandoffEnabled              = true
-	DefaultDistributionRedundancy                  = 3
-	DefaultDistributionPartitionExponent           = 4
-	DefaultDistributionPostingsPerBatch            = 1000
-	DefaultDistributionWorkers                     = 2
-	DefaultDistributionRefreshInterval             = 24 * time.Hour
-	DefaultDistributionPeerPause                   = 10 * time.Minute
-	DefaultDistributionFailedOffersBeforeExclusion = 3
-	DefaultDistributionPeerExclusionDuration       = time.Hour
-	DefaultDistributionPeerWorkInFlight            = time.Second
-	DefaultDistributionMinReachablePeers           = 32
-	DefaultDistributionURLMetadataBatchSize        = 50
+	DefaultDistributionEnabled                         = false
+	DefaultDistributionHandoffEnabled                  = true
+	DefaultDistributionRedundancy                      = 3
+	DefaultDistributionPartitionExponent               = 4
+	DefaultDistributionPostingsPerBatch                = 1000
+	DefaultDistributionWorkers                         = 2
+	DefaultDistributionRefreshInterval                 = 24 * time.Hour
+	DefaultDistributionPeerPause                       = time.Minute
+	DefaultDistributionUnacceptedOffersBeforeExclusion = 3
+	DefaultDistributionPeerExclusionDuration           = time.Hour
+	DefaultDistributionPeerWorkInFlight                = time.Second
+	DefaultDistributionMinReachablePeers               = 32
+	DefaultDistributionURLMetadataBatchSize            = 50
 )
 
 type DistributionConfig struct {
-	Enabled                     bool
-	HandoffEnabled              bool
-	Redundancy                  int
-	PartitionExponent           uint
-	PostingsPerBatch            int
-	AmountOfWorkers             int
-	RefreshInterval             time.Duration
-	PeerPause                   time.Duration
-	FailedOffersBeforeExclusion int
-	PeerExclusionDuration       time.Duration
-	PeerWorkInFlight            time.Duration
-	MinReachablePeers           int
-	URLMetadataBatchSize        int
+	Enabled                         bool
+	HandoffEnabled                  bool
+	Redundancy                      int
+	PartitionExponent               uint
+	PostingsPerBatch                int
+	AmountOfWorkers                 int
+	RefreshInterval                 time.Duration
+	PeerPause                       time.Duration
+	UnacceptedOffersBeforeExclusion int
+	PeerExclusionDuration           time.Duration
+	PeerWorkInFlight                time.Duration
+	MinReachablePeers               int
+	URLMetadataBatchSize            int
 }
 
 //nolint:funlen // one flat read per distribution setting
@@ -108,10 +108,10 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 		return DistributionConfig{}, err
 	}
 
-	failedOffersBeforeExclusion, err := envconfig.PositiveInt(
+	unacceptedOffersBeforeExclusion, err := envconfig.PositiveInt(
 		getenv,
-		EnvDistributionFailedOffersBeforeExclusion,
-		DefaultDistributionFailedOffersBeforeExclusion,
+		EnvDistributionUnacceptedOffersBeforeExclusion,
+		DefaultDistributionUnacceptedOffersBeforeExclusion,
 	)
 	if err != nil {
 		return DistributionConfig{}, err
@@ -148,18 +148,18 @@ func loadDistributionConfig(getenv func(string) string) (DistributionConfig, err
 	}
 
 	return DistributionConfig{
-		Enabled:                     enabled,
-		HandoffEnabled:              handoffEnabled,
-		Redundancy:                  redundancy,
-		PartitionExponent:           uint(partitionExponent),
-		PostingsPerBatch:            postingsPerBatch,
-		AmountOfWorkers:             amountOfWorkers,
-		RefreshInterval:             refreshInterval,
-		PeerPause:                   peerPause,
-		FailedOffersBeforeExclusion: failedOffersBeforeExclusion,
-		PeerExclusionDuration:       peerExclusionDuration,
-		PeerWorkInFlight:            peerWorkInFlight,
-		MinReachablePeers:           minReachablePeers,
-		URLMetadataBatchSize:        urlMetadataBatchSize,
+		Enabled:                         enabled,
+		HandoffEnabled:                  handoffEnabled,
+		Redundancy:                      redundancy,
+		PartitionExponent:               uint(partitionExponent),
+		PostingsPerBatch:                postingsPerBatch,
+		AmountOfWorkers:                 amountOfWorkers,
+		RefreshInterval:                 refreshInterval,
+		PeerPause:                       peerPause,
+		UnacceptedOffersBeforeExclusion: unacceptedOffersBeforeExclusion,
+		PeerExclusionDuration:           peerExclusionDuration,
+		PeerWorkInFlight:                peerWorkInFlight,
+		MinReachablePeers:               minReachablePeers,
+		URLMetadataBatchSize:            urlMetadataBatchSize,
 	}, nil
 }

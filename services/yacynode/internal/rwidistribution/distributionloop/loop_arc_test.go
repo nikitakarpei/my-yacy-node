@@ -1,6 +1,7 @@
 package distributionloop_test
 
 import (
+	"context"
 	"slices"
 	"testing"
 	"testing/synctest"
@@ -104,7 +105,7 @@ func TestLoopReadsAnArcWhenThePauseOfItsWindowPeerEnds(t *testing.T) {
 		h := openLoop(t, startClock(), loopOptions{})
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
-		h.eligibility.OfferDeclined(peer.Hash, time.Hour)
+		h.eligibility.OfferDeclined(context.Background(), peer.Hash, time.Hour)
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 		if got := len(h.transfers.offeredTo(peer)); got != 0 {
@@ -179,7 +180,7 @@ func TestLoopKeepsAnArcReadableWhenAPostingIsAdmittedWhileItIsRead(t *testing.T)
 		clk.advance(refreshInterval)
 		h.offered.onPausedAsked = func() {
 			h.offered.onPausedAsked = nil
-			h.eligibility.OfferDeclined(peer.Hash, time.Hour)
+			h.eligibility.OfferDeclined(context.Background(), peer.Hash, time.Hour)
 			h.loop.ObservePostingAdmitted(positionOf(wordPartitions[1]))
 		}
 
@@ -274,7 +275,7 @@ func TestLoopLeavesAnArcWhoseWindowClosesWhileItIsRead(t *testing.T) {
 		}
 		h.offered.onPausedAsked = func() {
 			h.offered.onPausedAsked = nil
-			h.eligibility.OfferDeclined(peer.Hash, time.Hour)
+			h.eligibility.OfferDeclined(context.Background(), peer.Hash, time.Hour)
 		}
 
 		h.start(t)

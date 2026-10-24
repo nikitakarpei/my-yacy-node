@@ -222,13 +222,15 @@ func TestDistributionCountsExcludedPeers(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)
 
-	observer.ObservePeerExcluded()
-	observer.ObservePeerExcluded()
+	observer.ObservePeerExcluded("peer_declined")
+	observer.ObservePeerExcluded("peer_declined")
+	observer.ObservePeerExcluded("peer_failed")
 
 	expected := `
-# HELP yacynode_rwidistribution_peers_excluded_total Peers excluded from distribution after failed offers in a row.
+# HELP yacynode_rwidistribution_peers_excluded_total Peers excluded from distribution after unaccepted offers in a row, by the cause of the last.
 # TYPE yacynode_rwidistribution_peers_excluded_total counter
-yacynode_rwidistribution_peers_excluded_total 2
+yacynode_rwidistribution_peers_excluded_total{cause="peer_declined"} 2
+yacynode_rwidistribution_peers_excluded_total{cause="peer_failed"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,

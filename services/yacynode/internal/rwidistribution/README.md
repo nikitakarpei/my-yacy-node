@@ -33,7 +33,7 @@ the postings that enough responsible peers hold.
   the word partition. It becomes a holder only when it accepts all of them.
 - After the refresh interval, each holder gets all postings again. A holder that
   answers a refresh but does not accept every posting stops being a holder until
-  it gets them all. A holder that declines stays a holder.
+  it gets them all. A holder that declines stays a holder until it is excluded.
 - When a responsible peer does not accept all postings it gets, the word
   partition goes into retry. The node sends its postings again only after the
   peer pause ends. Each next try waits double the previous wait, up to the
@@ -41,13 +41,13 @@ the postings that enough responsible peers hold.
 - A peer accepted a posting only when it also got the URL metadata of that
   posting. Only peers that accept a remote index get postings.
 - A peer that declines is paused. A word partition that must go to
-  that peer waits. The node does not send it to a peer farther away.
+  that peer waits until the pause ends or the node excludes the peer.
 - A peer is busy while it has as many batches in flight as fit into the work in
   flight at its usual time per batch. A word partition that must go to a busy
   peer waits, and the node does not send it to a peer farther away.
-- When a peer gives no answer to a number of offers in a row, the node excludes
-  it for a time. An excluded peer is not a responsible peer, so the next peer
-  takes its place.
+- When a peer declines or gives no answer to a number of offers in a row, the
+  node excludes it for a time. An excluded peer is not a responsible peer, so
+  the next peer takes its place, and it stops being a holder.
 - A holder goes stale when closer peers replace it, or when the peer roster
   stops finding it credible. A missing holder takes its place.
 - When the DHT makes this node responsible, this node holds one of the copies.

@@ -40,7 +40,7 @@ func TestLoopCountsAnArcWhoseWindowPeerFailedAsPeerFailed(t *testing.T) {
 		h := openLoop(
 			t,
 			startClock(),
-			loopOptions{leastPause: time.Hour, failedOffersBeforeExclusion: 2},
+			loopOptions{leastPause: time.Hour, unacceptedOffersBeforeExclusion: 2},
 		)
 		h.reach(peer)
 		h.eligibility.OfferFailed(context.Background(), peer.Hash)
@@ -59,7 +59,7 @@ func TestLoopCountsAnArcWhoseWindowPeerDeclinedAsPeerDeclined(t *testing.T) {
 		peer := peerAfter(wordPartition, 1)
 		h := openLoop(t, startClock(), loopOptions{})
 		h.reach(peer)
-		h.eligibility.OfferDeclined(peer.Hash, time.Hour)
+		h.eligibility.OfferDeclined(context.Background(), peer.Hash, time.Hour)
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 

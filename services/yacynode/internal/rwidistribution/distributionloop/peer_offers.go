@@ -18,7 +18,7 @@ type PeerEligibility interface {
 	IsBusy(peer yacymodel.Hash) bool
 	PauseOf(peer yacymodel.Hash) (peereligibility.Pause, bool)
 	OfferAccepted(peer yacymodel.Hash)
-	OfferDeclined(peer yacymodel.Hash, requestedPause time.Duration)
+	OfferDeclined(ctx context.Context, peer yacymodel.Hash, requestedPause time.Duration)
 	OfferFailed(ctx context.Context, peer yacymodel.Hash)
 }
 
@@ -126,6 +126,6 @@ func (s offerSender) reportAnswer(
 	case postingtransfer.OfferFailed:
 		s.eligibility.OfferFailed(ctx, peer)
 	case postingtransfer.OfferDeclined:
-		s.eligibility.OfferDeclined(peer, answer.RequestedPause)
+		s.eligibility.OfferDeclined(ctx, peer, answer.RequestedPause)
 	}
 }
