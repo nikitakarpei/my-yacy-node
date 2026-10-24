@@ -15,7 +15,11 @@ import (
 
 func indexesFor(t *testing.T) languageindex.LanguageIndexes {
 	t.Helper()
-	indexes, err := languageindex.IndexesFor("yacy_text", []string{"en"})
+	indexes, err := languageindex.IndexesFor(
+		"yacy_text",
+		elasticsearch.SchemaVersion,
+		[]string{"en"},
+	)
 	if err != nil {
 		t.Fatalf("indexes: %v", err)
 	}

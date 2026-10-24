@@ -15,6 +15,7 @@ import (
 )
 
 const (
+	SchemaVersion          = 1
 	textAnalyzerName       = "corpus_text"
 	alreadyExistsException = "resource_already_exists_exception"
 	detailLimit            = 4096

@@ -14,7 +14,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
 )
 
-const detailLimit = 4096
+const (
+	SchemaVersion = 1
+	detailLimit   = 4096
+)
 
 type Schema struct {
 	endpoint string

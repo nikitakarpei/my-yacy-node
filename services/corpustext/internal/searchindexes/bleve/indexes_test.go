@@ -18,7 +18,11 @@ import (
 
 func openedIndexes(t *testing.T, directory string) *bleve.Indexes {
 	t.Helper()
-	languageIndexes, err := languageindex.IndexesFor("yacy_text", []string{"en", "de"})
+	languageIndexes, err := languageindex.IndexesFor(
+		"yacy_text",
+		bleve.SchemaVersion,
+		[]string{"en", "de"},
+	)
 	if err != nil {
 		t.Fatalf("language indexes: %v", err)
 	}
@@ -204,6 +208,18 @@ func TestBleveIndexesCutTheSnippet(t *testing.T) {
 	}
 }
 
+func TestBleveIndexesCutTheSnippetAtAnotherFormOfTheWord(t *testing.T) {
+	indexes := temporaryIndexes(t)
+	longContent := strings.Repeat("meadow grass ", 100) + "heron " + strings.Repeat("reed ", 100)
+	index(t, indexes, englishPage("https://example.com/long", "Long", longContent))
+
+	matches := matchesFor(t, indexes, textsearch.Search{Query: "herons"})
+
+	if len(matches) != 1 || !strings.Contains(matches[0].Snippet, "heron") {
+		t.Errorf("matches = %+v", matches)
+	}
+}
+
 func TestBleveIndexesStartTheSnippetAtTheContentWhenOnlyTheTitleMatches(t *testing.T) {
 	indexes := temporaryIndexes(t)
 	longContent := strings.Repeat("reed ", 100)
@@ -278,7 +294,7 @@ func TestBleveIndexesFailWhenTheDirectoryCannotBeCreated(t *testing.T) {
 	if err := os.WriteFile(regularFile, nil, 0o600); err != nil {
 		t.Fatalf("write file: %v", err)
 	}
-	languageIndexes, err := languageindex.IndexesFor("yacy_text", nil)
+	languageIndexes, err := languageindex.IndexesFor("yacy_text", bleve.SchemaVersion, nil)
 	if err != nil {
 		t.Fatalf("language indexes: %v", err)
 	}

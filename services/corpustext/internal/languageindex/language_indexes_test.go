@@ -8,7 +8,7 @@ import (
 )
 
 func TestIndexesForNamesTheCatchAllAndEachAllowedLanguage(t *testing.T) {
-	indexes, err := languageindex.IndexesFor("yacy_text", []string{"en", "DE-de"})
+	indexes, err := languageindex.IndexesFor("yacy_text", 1, []string{"en", "DE-de"})
 	if err != nil {
 		t.Fatalf("indexes: %v", err)
 	}
@@ -26,7 +26,7 @@ func TestIndexesForNamesTheCatchAllAndEachAllowedLanguage(t *testing.T) {
 }
 
 func TestIndexesForWithoutAllowedLanguagesHoldsTheCatchAllOnly(t *testing.T) {
-	indexes, err := languageindex.IndexesFor("yacy_text", nil)
+	indexes, err := languageindex.IndexesFor("yacy_text", 1, nil)
 	if err != nil {
 		t.Fatalf("indexes: %v", err)
 	}
@@ -39,7 +39,7 @@ func TestIndexesForWithoutAllowedLanguagesHoldsTheCatchAllOnly(t *testing.T) {
 }
 
 func TestNameForRoutesByPrimarySubtag(t *testing.T) {
-	indexes, err := languageindex.IndexesFor("yacy_text", []string{"en"})
+	indexes, err := languageindex.IndexesFor("yacy_text", 1, []string{"en"})
 	if err != nil {
 		t.Fatalf("indexes: %v", err)
 	}
@@ -56,20 +56,20 @@ func TestNameForRoutesByPrimarySubtag(t *testing.T) {
 }
 
 func TestIndexesForRejectsAnUnsupportedLanguage(t *testing.T) {
-	if _, err := languageindex.IndexesFor("yacy_text", []string{"zz"}); err == nil {
+	if _, err := languageindex.IndexesFor("yacy_text", 1, []string{"zz"}); err == nil {
 		t.Fatal("expected error for an unsupported language")
 	}
 }
 
 func TestIndexesForRejectsARepeatedLanguage(t *testing.T) {
-	if _, err := languageindex.IndexesFor("yacy_text", []string{"en", "en-GB"}); err == nil {
+	if _, err := languageindex.IndexesFor("yacy_text", 1, []string{"en", "en-GB"}); err == nil {
 		t.Fatal("expected error for a repeated language")
 	}
 }
 
 func TestIndexesForRejectsABaseNameOutsideTheManticoreCharset(t *testing.T) {
 	for _, baseName := range []string{"", "yacy-text", "Yacy", "1yacy"} {
-		if _, err := languageindex.IndexesFor(baseName, nil); err == nil {
+		if _, err := languageindex.IndexesFor(baseName, 1, nil); err == nil {
 			t.Errorf("expected error for base name %q", baseName)
 		}
 	}

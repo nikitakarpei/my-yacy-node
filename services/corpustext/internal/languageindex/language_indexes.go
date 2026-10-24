@@ -7,10 +7,7 @@ import (
 	"strings"
 )
 
-const (
-	SchemaVersion        = 1
-	UndeterminedLanguage = "und"
-)
+const UndeterminedLanguage = "und"
 
 type LanguageIndexes struct {
 	prefix  string
@@ -22,11 +19,15 @@ type LanguageIndex struct {
 	Name     string
 }
 
-func IndexesFor(baseName string, allowedLanguages []string) (LanguageIndexes, error) {
+func IndexesFor(
+	baseName string,
+	schemaVersion int,
+	allowedLanguages []string,
+) (LanguageIndexes, error) {
 	if err := validateBaseName(baseName); err != nil {
 		return LanguageIndexes{}, err
 	}
-	prefix := fmt.Sprintf("%s_v%d", baseName, SchemaVersion)
+	prefix := fmt.Sprintf("%s_v%d", baseName, schemaVersion)
 	indexes := []LanguageIndex{indexIn(prefix, UndeterminedLanguage)}
 	for _, allowed := range allowedLanguages {
 		language := primarySubtagOf(allowed)
@@ -103,11 +104,15 @@ func (indexes LanguageIndexes) All() []LanguageIndex {
 }
 
 func (indexes LanguageIndexes) NameFor(documentLanguage string) string {
+	return indexes.IndexFor(documentLanguage).Name
+}
+
+func (indexes LanguageIndexes) IndexFor(documentLanguage string) LanguageIndex {
 	language := primarySubtagOf(documentLanguage)
 	for _, index := range indexes.indexes {
 		if index.Language == language {
-			return index.Name
+			return index
 		}
 	}
-	return indexes.indexes[0].Name
+	return indexes.indexes[0]
 }
