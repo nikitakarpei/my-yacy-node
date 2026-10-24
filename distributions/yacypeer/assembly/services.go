@@ -17,6 +17,7 @@ import (
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 )
@@ -32,6 +33,13 @@ var unreadSettings = []string{
 	crawlconsoleassembly.EnvOpsAddr,
 	crawlscrapebridgeassembly.EnvOpsAddr,
 	yacycrawlerassembly.EnvAPIAddr,
+}
+
+var localListenAddresses = serviceenvironment.Defaults{
+	yacydhtsearchassembly.EnvListenAddr:  loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
+	corpustextassembly.EnvSearchAddr:     loopback.Host + corpustextassembly.DefaultSearchAddr,
+	corpusmarkdownassembly.EnvListenAddr: loopback.Host + corpusmarkdownassembly.DefaultListenAddr,
+	crawlconsoleassembly.EnvListenAddr:   loopback.Host + crawlconsoleassembly.DefaultListenAddr,
 }
 
 const (
@@ -196,7 +204,13 @@ func serviceAssemblyOf[C, L any](
 	runService func(context.Context, C, L, *prometheus.Registry) error,
 ) serviceAssembly {
 	return func(ctx context.Context, getenv func(string) string) (service, error) {
-		environment, err := serviceenvironment.For(name, wiring, unreadSettings, getenv)
+		environment, err := serviceenvironment.For(
+			name,
+			wiring,
+			localListenAddresses,
+			unreadSettings,
+			getenv,
+		)
 		if err != nil {
 			return service{}, err
 		}

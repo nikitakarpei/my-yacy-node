@@ -13,23 +13,24 @@ func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
 }
 
-func TestLoadPeerConfigRequiresTheSeedlists(t *testing.T) {
-	if _, err := yacypeerassembly.LoadPeerConfig(envFrom(nil)); err == nil {
-		t.Fatal("config loaded without seedlists, want an error")
+func TestLoadPeerConfigRequiresTheSeedlistsOfAnotherNetwork(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvNetworkName: "realm",
+	}))
+	if err == nil {
+		t.Fatal("config loaded without the seedlists of another network, want an error")
 	}
 }
 
 func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
-	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
-		yacypeerassembly.EnvSeedlistURLs: "https://seeds.example/seed.txt",
-	}))
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(nil))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
 	want := yacypeerassembly.PeerConfig{
 		DataDirectory: yacypeerassembly.DefaultDataDirectory,
 		NetworkName:   yacyproto.DefaultNetwork,
-		SeedlistURLs:  "https://seeds.example/seed.txt",
+		SeedlistURLs:  yacypeerassembly.DefaultSeedlistURLs,
 		OpsAddr:       yacypeerassembly.DefaultOpsAddr,
 	}
 	if cfg != want {
