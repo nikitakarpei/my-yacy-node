@@ -1,7 +1,8 @@
 # yacypeer
 
-yacypeer runs the services of a YaCy peer as one program. Use it to try the
-peer before you compose the services yourself.
+yacypeer runs a YaCy peer as one program. The peer joins the YaCy network,
+searches it, crawls your own pages, and searches the pages it crawled. Use it to
+try the peer before you compose its services yourself.
 
 ## Build
 
