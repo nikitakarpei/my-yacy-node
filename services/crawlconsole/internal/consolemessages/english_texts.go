@@ -64,7 +64,7 @@ var englishTexts = map[string]string{
 	"visit-outcome.unchanged":             "Unchanged",
 	"visit-outcome.unchanged-hint":        "Not modified since the last visit, or visited recently",
 	"visit-outcome.unusable-content":      "Unusable content",
-	"visit-outcome.unusable-content-hint": "Too large, not HTML, or HTML not readable",
+	"visit-outcome.unusable-content-hint": "Too large, or HTML not readable",
 	"visit-outcome.over-page-limit":       "Over page limit",
 	"visit-outcome.over-page-limit-hint":  "Past the Max Pages per Host of the crawl",
 	"visit-outcome.refused-by-site":       "Refused by site",

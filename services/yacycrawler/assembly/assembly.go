@@ -31,6 +31,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
@@ -53,8 +54,8 @@ import (
 	crawlobserversorderintakeprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/orderintake/prometheus"
 	crawlobserverspagehtmlapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtml/applog"
 	crawlobserverspagehtmlprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtml/prometheus"
-	crawlobserverspagehtmlreadingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtmlreading/applog"
-	crawlobserverspagehtmlreadingprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtmlreading/prometheus"
+	crawlobserverspagereadingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagereading/applog"
+	crawlobserverspagereadingprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagereading/prometheus"
 	crawlobserverspagevisitapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisit/applog"
 	crawlobserverspagevisitprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisit/prometheus"
 	crawlobserverspagevisitintakeapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisitintake/applog"
@@ -103,18 +104,20 @@ func RunService(
 		crawlobserversobservedfetchapplog.PageFetchLog{},
 		crawlobserversobservedfetchprometheus.New(registry, cfg.FetchDeadline),
 	}
-	htmlPageReading := pagehtmlreading.NewHTMLPageReading(
-		pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{
-			crawlobserverspagehtmlapplog.MediaTypeLog{},
-			crawlobserverspagehtmlprometheus.New(registry),
-		}),
-		linkdiscovery.NewLinkDiscovery(linkdiscovery.LinkResolutionObservers{
-			crawlobserverslinkdiscoveryapplog.LinkResolutionLog{},
-			crawlobserverslinkdiscoveryprometheus.New(registry),
-		}),
-		pagehtmlreading.RefusalEnforcementObservers{
-			crawlobserverspagehtmlreadingapplog.RefusalEnforcementLog{},
-			crawlobserverspagehtmlreadingprometheus.New(registry),
+	pageReading := pagereading.NewPageReading(
+		pagehtmlreading.NewHTMLPageReading(
+			pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{
+				crawlobserverspagehtmlapplog.MediaTypeLog{},
+				crawlobserverspagehtmlprometheus.New(registry),
+			}),
+			linkdiscovery.NewLinkDiscovery(linkdiscovery.LinkResolutionObservers{
+				crawlobserverslinkdiscoveryapplog.LinkResolutionLog{},
+				crawlobserverslinkdiscoveryprometheus.New(registry),
+			}),
+		),
+		pagereading.RefusalEnforcementObservers{
+			crawlobserverspagereadingapplog.RefusalEnforcementLog{},
+			crawlobserverspagereadingprometheus.New(registry),
 		},
 	)
 	crawledPageObservers := crawledpagesjetstream.CrawledPagePublicationObservers{
@@ -169,7 +172,7 @@ func RunService(
 		pendingPageVisitObservers,
 		pageFetchObservers,
 		pageVisitRecordObservers,
-		htmlPageReading,
+		pageReading,
 		crawledPageObservers,
 		progressCounter,
 	)
@@ -409,7 +412,7 @@ func buildPageVisitConsumer(
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
-	htmlPageReading pagevisit.HTMLPageReading,
+	pageReading pagevisit.PageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	linkObserver pagevisit.LinkAdmissionObserver,
 ) *pagevisitintake.PageVisitConsumer {
@@ -419,7 +422,7 @@ func buildPageVisitConsumer(
 		cfg,
 		pageFetchObserver,
 		pageVisitRecordObserver,
-		htmlPageReading,
+		pageReading,
 		crawledPageObserver,
 		linkObserver,
 	)
@@ -446,7 +449,7 @@ func buildPageVisitor(
 	cfg ServiceConfig,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
-	htmlPageReading pagevisit.HTMLPageReading,
+	pageReading pagevisit.PageReading,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	linkObserver pagevisit.LinkAdmissionObserver,
 ) pagevisit.PageVisitor {
@@ -463,7 +466,7 @@ func buildPageVisitor(
 		dueaftergrace.New(wallclock.Clock{}, cfg.RecrawlGrace),
 		crawlState.pageVisitRecords,
 		pageVisitRecordObserver,
-		htmlPageReading,
+		pageReading,
 		crawledpagesjetstream.New(js, crawledPageObserver),
 		crawlState.frontier,
 		linkObserver,

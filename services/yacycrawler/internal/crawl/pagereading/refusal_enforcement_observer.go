@@ -1,4 +1,4 @@
-package pagehtmlreading
+package pagereading
 
 import (
 	"context"

@@ -11,7 +11,6 @@ const (
 	ResultNotFound              PageVisitResult = "not-found"
 	ResultRedirectTargetInvalid PageVisitResult = "redirect-target-invalid"
 	ResultOversized             PageVisitResult = "oversized"
-	ResultUnsupportedMediaType  PageVisitResult = "unsupported-media-type"
 	ResultUnreadableHTML        PageVisitResult = "unreadable-html"
 )
 
@@ -24,7 +23,6 @@ var PageVisitResults = []PageVisitResult{
 	ResultNotFound,
 	ResultRedirectTargetInvalid,
 	ResultOversized,
-	ResultUnsupportedMediaType,
 	ResultUnreadableHTML,
 }
 

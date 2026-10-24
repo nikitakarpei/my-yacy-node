@@ -1,22 +1,33 @@
 package pagevisit
 
 import (
-	"errors"
-
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 type visitedPage struct {
+	url          canonicalurl.CanonicalURL
 	fetchOutcome pagefetch.FetchOutcome
-	reading      pagehtmlreading.Reading
+	reading      pagereading.Reading
 	readingErr   error
 }
 
 func (page visitedPage) isReadable() bool {
 	return page.fetchOutcome.Status == pagefetch.FetchSucceeded && page.readingErr == nil
+}
+
+func (page visitedPage) refusesIndexing() bool {
+	return page.reading.Refusals.RefusesIndexing
+}
+
+func (page visitedPage) crawledPage() yacycrawlcontract.CrawledPage {
+	return yacycrawlcontract.CrawledPage{
+		PageURL:     page.url,
+		ContentType: page.fetchOutcome.Page.ContentType,
+	}
 }
 
 func (page visitedPage) nextPageVisitsFrom(
@@ -78,9 +89,6 @@ func (page visitedPage) outcome() PageVisitOutcome {
 }
 
 func outcomeOfReading(readingErr error) PageVisitOutcome {
-	if errors.Is(readingErr, pagehtmlreading.ErrPageNotHTML) {
-		return completedOutcome(yacycrawlcontract.ResultUnsupportedMediaType)
-	}
 	if readingErr != nil {
 		return completedOutcome(yacycrawlcontract.ResultUnreadableHTML)
 	}

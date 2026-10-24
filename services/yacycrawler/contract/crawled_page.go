@@ -8,7 +8,8 @@ import (
 )
 
 type CrawledPage struct {
-	PageURL canonicalurl.CanonicalURL `json:"PageURL"`
+	PageURL     canonicalurl.CanonicalURL `json:"PageURL"`
+	ContentType string                    `json:"ContentType,omitzero"`
 }
 
 func MarshalCrawledPage(page CrawledPage) ([]byte, error) {

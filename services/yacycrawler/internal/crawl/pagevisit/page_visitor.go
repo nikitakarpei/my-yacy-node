@@ -32,7 +32,7 @@ type pageVisitor struct {
 	recrawlRule      RecrawlRule
 	pageVisitRecords PageVisitRecords
 	recordObserver   PageVisitRecordObserver
-	htmlPageReading  HTMLPageReading
+	pageReading      PageReading
 	crawledPages     CrawledPages
 	frontier         Frontier
 	linkObserver     LinkAdmissionObserver
@@ -45,7 +45,7 @@ func New(
 	recrawlRule RecrawlRule,
 	pageVisitRecords PageVisitRecords,
 	recordObserver PageVisitRecordObserver,
-	htmlPageReading HTMLPageReading,
+	pageReading PageReading,
 	crawledPages CrawledPages,
 	frontier Frontier,
 	linkObserver LinkAdmissionObserver,
@@ -56,7 +56,7 @@ func New(
 		recrawlRule:      recrawlRule,
 		pageVisitRecords: pageVisitRecords,
 		recordObserver:   recordObserver,
-		htmlPageReading:  htmlPageReading,
+		pageReading:      pageReading,
 		crawledPages:     crawledPages,
 		frontier:         frontier,
 		linkObserver:     linkObserver,
@@ -74,7 +74,7 @@ func (visitor *pageVisitor) VisitPage(
 		return droppedOutcome(yacycrawlcontract.DropReasonNotDue)
 	}
 	visitedPage := visitor.fetchAndRead(ctx, url, lastVisit.Version)
-	if visitedPage.isReadable() && !visitor.publishCrawledPage(ctx, url, visitedPage) {
+	if visitedPage.isReadable() && !visitor.publishCrawledPage(ctx, visitedPage) {
 		return returnedOutcome(errCrawledPageUnpublished)
 	}
 	if err := visitor.putOnFrontier(
@@ -112,21 +112,17 @@ func (visitor *pageVisitor) fetchAndRead(
 ) visitedPage {
 	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, knownVersion)
 	if fetchOutcome.Status != pagefetch.FetchSucceeded {
-		return visitedPage{fetchOutcome: fetchOutcome}
+		return visitedPage{url: url, fetchOutcome: fetchOutcome}
 	}
-	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, url, fetchOutcome.Page)
-	return visitedPage{fetchOutcome: fetchOutcome, reading: reading, readingErr: err}
+	reading, err := visitor.pageReading.ReadingOfPage(ctx, url, fetchOutcome.Page)
+	return visitedPage{url: url, fetchOutcome: fetchOutcome, reading: reading, readingErr: err}
 }
 
-func (visitor *pageVisitor) publishCrawledPage(
-	ctx context.Context,
-	url canonicalurl.CanonicalURL,
-	page visitedPage,
-) bool {
-	if page.reading.Refusals.RefusesIndexing {
-		return visitor.crawledPages.PublishIndexingRefusedPage(ctx, url)
+func (visitor *pageVisitor) publishCrawledPage(ctx context.Context, page visitedPage) bool {
+	if page.refusesIndexing() {
+		return visitor.crawledPages.PublishIndexingRefusedPage(ctx, page.crawledPage())
 	}
-	return visitor.crawledPages.PublishIndexablePage(ctx, url)
+	return visitor.crawledPages.PublishIndexablePage(ctx, page.crawledPage())
 }
 
 func (visitor *pageVisitor) putOnFrontier(

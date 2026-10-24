@@ -39,7 +39,7 @@ func TestHostTableSortsEveryWordIntoItsColumn(t *testing.T) {
     <td class="number">4</td>
     <td class="number">1</td>
     <td class="number">2</td>
-    <td class="number">3</td>
+    <td class="number">2</td>
     <td class="number">1</td>
     <td class="number">3</td>
     <td class="number">2</td>
@@ -103,9 +103,9 @@ func TestHostTableTotalsEveryHostOfTheCrawl(t *testing.T) {
     <td class="number">5</td>
     <td class="number">1</td>
     <td class="number">2</td>
-    <td class="number">3</td>
+    <td class="number">2</td>
     <td class="number">1</td>
     <td class="number">3</td>
     <td class="number">2</td>
-    <td class="number">1</td>`, `<div class="amount">10</div><div class="muted">Not fetched</div>`)
+    <td class="number">1</td>`, `<div class="amount">9</div><div class="muted">Not fetched</div>`)
 }

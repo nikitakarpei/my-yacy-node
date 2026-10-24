@@ -26,7 +26,6 @@ var visitOutcomeOfResult = map[yacycrawlcontract.PageVisitResult]visitOutcome{
 	yacycrawlcontract.ResultNotFound:              deadLinksOutcome,
 	yacycrawlcontract.ResultRedirectTargetInvalid: deadLinksOutcome,
 	yacycrawlcontract.ResultOversized:             unusableContentOutcome,
-	yacycrawlcontract.ResultUnsupportedMediaType:  unusableContentOutcome,
 	yacycrawlcontract.ResultUnreadableHTML:        unusableContentOutcome,
 }
 

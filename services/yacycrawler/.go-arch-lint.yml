@@ -34,6 +34,8 @@ components:
     in: internal/crawl/linkdiscovery/**
   pagehtmlreading:
     in: internal/crawl/pagehtmlreading/**
+  pagereading:
+    in: internal/crawl/pagereading/**
   pagevisitallowance:
     in: internal/crawl/pagevisitallowance/**
   pagevisitrecords:
@@ -80,10 +82,10 @@ components:
     in: internal/crawlobservers/linkdiscovery/applog/**
   crawlobserverslinkdiscoveryprometheus:
     in: internal/crawlobservers/linkdiscovery/prometheus/**
-  crawlobserverspagehtmlreadingapplog:
-    in: internal/crawlobservers/pagehtmlreading/applog/**
-  crawlobserverspagehtmlreadingprometheus:
-    in: internal/crawlobservers/pagehtmlreading/prometheus/**
+  crawlobserverspagereadingapplog:
+    in: internal/crawlobservers/pagereading/applog/**
+  crawlobserverspagereadingprometheus:
+    in: internal/crawlobservers/pagereading/prometheus/**
   crawledpageobserversjetstreamapplog:
     in: internal/crawledpageobservers/jetstream/applog/**
   crawledpageobserversjetstreamprometheus:
@@ -201,7 +203,7 @@ deps:
     mayDependOn:
       - acceptedorder
       - crawlid
-      - pagehtmlreading
+      - pagereading
       - pendingpagevisit
     canUse:
       - canonicalurl
@@ -215,6 +217,13 @@ deps:
     mayDependOn:
       - pagehtml
       - linkdiscovery
+    canUse:
+      - canonicalurl
+      - pagefetch
+      - robotsmeta
+  pagereading:
+    mayDependOn:
+      - pagehtmlreading
     canUse:
       - canonicalurl
       - pagefetch
@@ -338,10 +347,10 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  crawlobserverspagehtmlreadingapplog:
+  crawlobserverspagereadingapplog:
     canUse:
       - canonicalurl
-  crawlobserverspagehtmlreadingprometheus:
+  crawlobserverspagereadingprometheus:
     canUse:
       - prometheus
       - canonicalurl
