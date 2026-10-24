@@ -1,7 +1,7 @@
 package searchmessages
 
 var englishTexts = map[string]string{
-	"page.name":     "YaCy network search",
+	"page.name":     "YaCy",
 	"search.label":  "Search the YaCy network",
 	"search.submit": "Search",
 
