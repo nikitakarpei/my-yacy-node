@@ -125,7 +125,6 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvNetworkName:                 "testnet",
 		nodeconfiguration.EnvPeerAddr:                    ":7000",
 		nodeconfiguration.EnvOpsAddr:                     ":7001",
-		nodeconfiguration.EnvAdvertiseHost:               "203.0.113.1",
 		nodeconfiguration.EnvAdvertisePort:               "9999",
 		nodeconfiguration.EnvStorageQuota:                "2MB",
 		nodeconfiguration.EnvPebbleBlockCache:            "4MB",
@@ -255,6 +254,39 @@ func TestLoadRejects(t *testing.T) {
 	}
 }
 
+func TestLoadReadsTheAdvertiseHost(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
+		nodeconfiguration.EnvAdvertiseHost:   "203.0.113.1",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	host, stated := config.Identity.AdvertiseHost.Get()
+	if !stated || host.String() != "203.0.113.1" {
+		t.Errorf("AdvertiseHost = %v (stated %t), want 203.0.113.1", host, stated)
+	}
+}
+
+func TestLoadLeavesTheAdvertiseHostToPeersWhenAnnouncing(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
+		nodeconfiguration.EnvSeedlistURLs:    "http://seed",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if host, stated := config.Identity.AdvertiseHost.Get(); stated {
+		t.Errorf("AdvertiseHost = %v, want none", host)
+	}
+}
+
 var rejectedEnvironments = map[string]map[string]string{
 	"bad hash": {nodeconfiguration.EnvInitialPeerHash: "short"},
 	"bad name": {
@@ -262,10 +294,11 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerName:        "has space",
 		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
 	},
-	"announce no host": {
+	"bad host": {
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
-		nodeconfiguration.EnvSeedlistURLs:    "http://seed",
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
+		nodeconfiguration.EnvAdvertiseHost:   "not a host",
 	},
 	"bad port": {
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",

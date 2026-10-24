@@ -21,6 +21,8 @@ program, connected and ready to use.
   of `yacynode`, until the operator sets their addresses.
 * The program SHALL send outbound requests through the egress proxy that the operator
   names, else through a built-in egress proxy that only the local host can reach.
+* The program SHALL NOT start when the operator names an egress proxy and does not set
+  the public host of the peer.
 * The program SHALL keep its local data in one data directory.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.

@@ -59,11 +59,27 @@ func testIdentity() nodeidentity.Identity {
 		Hash:         yacymodel.WordHash("self"),
 		NetworkName:  "freeworld",
 		Name:         mustPeerName("node"),
-		Host:         "192.0.2.1",
 		Port:         8090,
 		Capabilities: yacymodel.PeerCapabilities{},
 		Version:      yacymodel.SoftwareVersion{Release: 1.2},
 	}
+}
+
+type stubAddressSource struct {
+	host yacymodel.Optional[yacymodel.Host]
+}
+
+func (a stubAddressSource) Host(context.Context) yacymodel.Optional[yacymodel.Host] {
+	return a.host
+}
+
+func testAddressSource() stubAddressSource {
+	host, err := yacymodel.ParseHost("192.0.2.1")
+	if err != nil {
+		panic(err)
+	}
+
+	return stubAddressSource{host: yacymodel.Some(host)}
 }
 
 func clockAt(instant time.Time) func() time.Time {
@@ -72,6 +88,7 @@ func clockAt(instant time.Time) func() time.Time {
 
 func statusAfter(
 	t *testing.T,
+	addressSource stubAddressSource,
 	elapsed time.Duration,
 	words, urls stubCounter,
 ) nodestatus.RuntimeStatus {
@@ -81,12 +98,19 @@ func statusAfter(
 	id := testIdentity()
 	id.Start = start
 
-	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), openVault(t), words, urls)
+	return nodestatus.NewRuntimeStatus(
+		id,
+		addressSource,
+		clockAt(start.Add(elapsed)),
+		openVault(t),
+		words,
+		urls,
+	)
 }
 
 func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 	counts := stubCounter{words: 7, urls: 3}
-	status := statusAfter(t, 90*time.Minute, counts, counts)
+	status := statusAfter(t, testAddressSource(), 90*time.Minute, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
@@ -109,7 +133,7 @@ func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 
 func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	counts := stubCounter{}
-	status := statusAfter(t, 0, counts, counts)
+	status := statusAfter(t, testAddressSource(), 0, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
@@ -134,9 +158,17 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	}
 }
 
+func TestSelfSeedHasNoAddressUntilThePublicAddressIsKnown(t *testing.T) {
+	status := statusAfter(t, stubAddressSource{}, 0, stubCounter{}, stubCounter{})
+
+	if host, ok := status.SelfSeed(context.Background()).PrimaryAddress.Get(); ok {
+		t.Fatalf("IP = %q, want none", host)
+	}
+}
+
 func TestSelfSeedCountErrorsReportZero(t *testing.T) {
 	counts := stubCounter{words: 5, urls: 9, err: errors.New("boom")}
-	status := statusAfter(t, time.Hour, counts, counts)
+	status := statusAfter(t, testAddressSource(), time.Hour, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
@@ -149,7 +181,13 @@ func TestSelfSeedCountErrorsReportZero(t *testing.T) {
 }
 
 func TestHeaderReportsVersionAndUptime(t *testing.T) {
-	status := statusAfter(t, 45*time.Minute, stubCounter{}, stubCounter{})
+	status := statusAfter(
+		t,
+		testAddressSource(),
+		45*time.Minute,
+		stubCounter{},
+		stubCounter{},
+	)
 
 	ctx := context.Background()
 

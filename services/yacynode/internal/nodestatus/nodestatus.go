@@ -24,6 +24,10 @@ type RuntimeStatus interface {
 	SelfSeed(ctx context.Context) yacymodel.Seed
 }
 
+type PublicAddressSource interface {
+	Host(ctx context.Context) yacymodel.Optional[yacymodel.Host]
+}
+
 type WordAmountEstimate interface {
 	EstimatedAmountOfWords(tx *vault.Txn) (int, error)
 }
@@ -36,20 +40,23 @@ type URLCounter interface {
 	Count(tx *vault.Txn) (int, error)
 }
 
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func NewRuntimeStatus(
 	id nodeidentity.Identity,
+	addressSource PublicAddressSource,
 	now func() time.Time,
 	v *vault.Vault,
 	words WordAmountEstimate,
 	urls URLCounter,
 ) RuntimeStatus {
 	return runtimeStatus{
-		id:    id,
-		base:  baseSeed(id),
-		now:   now,
-		vault: v,
-		words: words,
-		urls:  urls,
+		id:            id,
+		addressSource: addressSource,
+		base:          baseSeed(id),
+		now:           now,
+		vault:         v,
+		words:         words,
+		urls:          urls,
 	}
 }
 

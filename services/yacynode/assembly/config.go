@@ -11,6 +11,7 @@ const (
 	EnvSeedlistURLs      = nodeconfiguration.EnvSeedlistURLs
 	EnvOpsAddr           = nodeconfiguration.EnvOpsAddr
 	EnvEgressProxyURL    = nodeconfiguration.EnvEgressProxyURL
+	EnvAdvertiseHost     = nodeconfiguration.EnvAdvertiseHost
 )
 
 type ServiceConfig = nodeconfiguration.Settings

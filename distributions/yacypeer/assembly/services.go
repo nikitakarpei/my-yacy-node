@@ -14,6 +14,7 @@ import (
 	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
 	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
@@ -95,7 +96,7 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
 				yacynodeassembly.EnvEgressProxyURL:    addresses.egressProxyURL.String(),
 			},
-			yacynodeassembly.LoadServiceConfig,
+			yacynodeConfigLoaderFor(cfg),
 			yacynodeassembly.ListenersFor,
 			yacynodeassembly.RunService,
 		),
@@ -134,6 +135,24 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 			corpusmarkdownassembly.ListenersFor,
 			corpusmarkdownassembly.RunService,
 		),
+	}
+}
+
+func yacynodeConfigLoaderFor(
+	cfg PeerConfig,
+) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
+	if !cfg.namesAnEgressProxy() {
+		return yacynodeassembly.LoadServiceConfig
+	}
+	return func(getenv func(string) string) (yacynodeassembly.ServiceConfig, error) {
+		if _, err := envconfig.Required(getenv, yacynodeassembly.EnvAdvertiseHost); err != nil {
+			return yacynodeassembly.ServiceConfig{}, fmt.Errorf(
+				"%w when %s is set",
+				err,
+				EnvEgressProxyURL,
+			)
+		}
+		return yacynodeassembly.LoadServiceConfig(getenv)
 	}
 }
 

@@ -29,21 +29,24 @@ type Config struct {
 	ContactConcurrency int
 }
 
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	cfg Config,
 	self SelfSeed,
+	reportedHostObserver ReportedHostObserver,
 	seeds bootstrap.SeedSource,
 	roster peerRoster,
 	observer AnnouncementObserver,
 ) Announcer {
 	return &announcer{
-		interval:           cfg.Interval,
-		reachableCap:       cfg.ReachableCap,
-		contactConcurrency: cfg.ContactConcurrency,
-		self:               self,
-		seeds:              seeds,
-		roster:             roster,
-		greeter:            newHTTPPeerGreeter(cfg.Client, cfg.NetworkName),
-		observer:           observer,
+		interval:             cfg.Interval,
+		reachableCap:         cfg.ReachableCap,
+		contactConcurrency:   cfg.ContactConcurrency,
+		self:                 self,
+		reportedHostObserver: reportedHostObserver,
+		seeds:                seeds,
+		roster:               roster,
+		greeter:              newHTTPPeerGreeter(cfg.Client, cfg.NetworkName),
+		observer:             observer,
 	}
 }

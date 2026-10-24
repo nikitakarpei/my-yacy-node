@@ -11,6 +11,10 @@ import (
 
 const announceHelloPeerCount = 30
 
+type ReportedHostObserver interface {
+	ObserveReportedHosts(ctx context.Context, reportedHosts []yacymodel.Host)
+}
+
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
 	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
@@ -25,14 +29,15 @@ type peerRoster interface {
 
 // TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
 type announcer struct {
-	interval           time.Duration
-	reachableCap       int
-	contactConcurrency int
-	self               SelfSeed
-	seeds              bootstrap.SeedSource
-	roster             peerRoster
-	greeter            httpPeerGreeter
-	observer           AnnouncementObserver
+	interval             time.Duration
+	reachableCap         int
+	contactConcurrency   int
+	self                 SelfSeed
+	reportedHostObserver ReportedHostObserver
+	seeds                bootstrap.SeedSource
+	roster               peerRoster
+	greeter              httpPeerGreeter
+	observer             AnnouncementObserver
 }
 
 func (a *announcer) Run(ctx context.Context) {
@@ -53,8 +58,15 @@ func (a *announcer) Run(ctx context.Context) {
 }
 
 func (a *announcer) announce(ctx context.Context) {
-	self := a.self.SelfSeed(ctx)
+	announcedSeed := a.self.SelfSeed(ctx)
+	contactReplies := a.contactPeers(ctx, announcedSeed)
+	a.reportedHostObserver.ObserveReportedHosts(ctx, reportedHostsOf(contactReplies))
+	if readdressedSeed, readdressed := a.readdressedSeedSince(ctx, announcedSeed); readdressed {
+		a.contactPeers(ctx, readdressedSeed)
+	}
+}
 
+func (a *announcer) contactPeers(ctx context.Context, self yacymodel.Seed) []contactReply {
 	reachablePeers := a.roster.ReachablePeers(ctx)
 	peerHashes := yacymodel.PeerHashesOf(reachablePeers)
 	if deficit := a.reachableCap - len(reachablePeers); deficit > 0 {
@@ -64,18 +76,29 @@ func (a *announcer) announce(ctx context.Context) {
 		)
 	}
 
-	contactOutcomes := a.contactAll(ctx, self, peerHashes)
-	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(contactOutcomes))
+	contactReplies := a.contactAll(ctx, self, peerHashes)
+	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(contactReplies))
+
+	return contactReplies
+}
+
+func (a *announcer) readdressedSeedSince(
+	ctx context.Context,
+	announcedSeed yacymodel.Seed,
+) (yacymodel.Seed, bool) {
+	currentSeed := a.self.SelfSeed(ctx)
+
+	return currentSeed, currentSeed.PrimaryAddress != announcedSeed.PrimaryAddress
 }
 
 func (a *announcer) contactAll(
 	ctx context.Context,
 	self yacymodel.Seed,
 	peerHashes []yacymodel.Hash,
-) []ContactOutcome {
+) []contactReply {
 	concurrency := max(a.contactConcurrency, 1)
 	slots := make(chan struct{}, concurrency)
-	outcomes := make(chan ContactOutcome, len(peerHashes))
+	replies := make(chan contactReply, len(peerHashes))
 
 	pending := 0
 	for _, peerHash := range peerHashes {
@@ -93,26 +116,26 @@ func (a *announcer) contactAll(
 		slots <- struct{}{}
 		go func(peerHash yacymodel.Hash) {
 			defer func() { <-slots }()
-			outcomes <- a.contactOne(ctx, self, peerHash)
+			replies <- a.contactOne(ctx, self, peerHash)
 		}(peerHash)
 	}
 
-	contactOutcomes := make([]ContactOutcome, 0, pending)
+	contactReplies := make([]contactReply, 0, pending)
 	for range pending {
-		contactOutcomes = append(contactOutcomes, <-outcomes)
+		contactReplies = append(contactReplies, <-replies)
 	}
 
-	return contactOutcomes
+	return contactReplies
 }
 
 func (a *announcer) contactOne(
 	ctx context.Context,
 	self yacymodel.Seed,
 	peerHash yacymodel.Hash,
-) ContactOutcome {
+) contactReply {
 	networkAddress, found := a.roster.NetworkAddressOf(ctx, peerHash)
 	if !found {
-		return PeerDidNotAnswer
+		return contactReply{outcome: PeerDidNotAnswer}
 	}
 
 	result, err := a.greeter.Greet(ctx, networkAddress, self, announceHelloPeerCount)
@@ -126,7 +149,7 @@ func (a *announcer) contactOne(
 			slog.Any("error", err),
 		)
 
-		return PeerDidNotAnswer
+		return contactReply{outcome: PeerDidNotAnswer}
 	}
 	if result.RespondingSeed.Hash != peerHash {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
@@ -145,7 +168,7 @@ func (a *announcer) contactOne(
 			slog.String("peer", peerHash.String()),
 		)
 
-		return PeerDidNotAnswer
+		return contactReply{outcome: PeerDidNotAnswer}
 	}
 	reportedPeerType, present := result.ObservedPeerType.Get()
 	if !present || !confirmsOurNetwork(reportedPeerType) {
@@ -157,7 +180,7 @@ func (a *announcer) contactOne(
 			slog.String("endpoint", networkAddress.String()),
 		)
 
-		return contactOutcomeFromObservedPeerType(result.ObservedPeerType)
+		return contactReply{outcome: contactOutcomeFromObservedPeerType(result.ObservedPeerType)}
 	}
 	if reportedPeerType == yacymodel.PeerJunior {
 		slog.WarnContext(
@@ -165,14 +188,17 @@ func (a *announcer) contactOne(
 			"peer reported us as junior",
 			slog.String("peer", peerHash.String()),
 			slog.String("endpoint", networkAddress.String()),
-			slog.String("reportedAddress", result.ObservedAddress),
+			slog.String("reportedAddress", result.ReportedHost.OrElse(yacymodel.Host{}).String()),
 		)
 	}
 
 	a.roster.ConfirmReachable(ctx, result.RespondingSeed)
 	a.roster.Discover(ctx, result.KnownSeeds...)
 
-	return contactOutcomeFromObservedPeerType(result.ObservedPeerType)
+	return contactReply{
+		outcome:      contactOutcomeFromObservedPeerType(result.ObservedPeerType),
+		reportedHost: result.ReportedHost,
+	}
 }
 
 func confirmsOurNetwork(reportedPeerType yacymodel.PeerType) bool {

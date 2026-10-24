@@ -129,14 +129,6 @@ func (s *stubRoster) discoveredSeeds() []yacymodel.Seed {
 	return append([]yacymodel.Seed(nil), s.discovered...)
 }
 
-type stubSelf struct {
-	seed yacymodel.Seed
-}
-
-func (s stubSelf) SelfSeed(context.Context) yacymodel.Seed {
-	return s.seed
-}
-
 type stubSeedSource struct {
 	seeds []yacymodel.Seed
 }
@@ -161,6 +153,37 @@ func (s *stubAnnouncementObserver) ObserveAnnounceRound(
 	s.rounds <- amountOfPeersPerContactOutcome
 }
 
+type stubLearningSelf struct {
+	mu                 sync.Mutex
+	seed               yacymodel.Seed
+	adoptsReportedHost bool
+	reportsPerRound    [][]yacymodel.Host
+}
+
+func (s *stubLearningSelf) SelfSeed(context.Context) yacymodel.Seed {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	return s.seed
+}
+
+func (s *stubLearningSelf) ObserveReportedHosts(_ context.Context, reportedHosts []yacymodel.Host) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.reportsPerRound = append(s.reportsPerRound, reportedHosts)
+	if s.adoptsReportedHost && len(reportedHosts) > 0 {
+		s.seed.PrimaryAddress = yacymodel.Some(reportedHosts[0])
+	}
+}
+
+func (s *stubLearningSelf) reportedHosts() [][]yacymodel.Host {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	return append([][]yacymodel.Host(nil), s.reportsPerRound...)
+}
+
 func announcerFor(
 	self yacymodel.Seed,
 	seeds []yacymodel.Seed,
@@ -168,19 +191,26 @@ func announcerFor(
 	reachableCap int,
 	observer peerannouncement.AnnouncementObserver,
 ) peerannouncement.Announcer {
+	learningSelf := &stubLearningSelf{seed: self}
+
 	return peerannouncement.New(
-		peerannouncement.Config{
-			Client:             http.DefaultClient,
-			NetworkName:        networkName,
-			Interval:           time.Hour,
-			ReachableCap:       reachableCap,
-			ContactConcurrency: 4,
-		},
-		stubSelf{seed: self},
+		configFor(reachableCap),
+		learningSelf,
+		learningSelf,
 		&stubSeedSource{seeds: seeds},
 		roster,
 		observer,
 	)
+}
+
+func configFor(reachableCap int) peerannouncement.Config {
+	return peerannouncement.Config{
+		Client:             http.DefaultClient,
+		NetworkName:        networkName,
+		Interval:           time.Hour,
+		ReachableCap:       reachableCap,
+		ContactConcurrency: 4,
+	}
 }
 
 func runUntilPeerConfirmed(
@@ -215,28 +245,7 @@ func roundObservedFor(
 ) map[peerannouncement.ContactOutcome]int {
 	t.Helper()
 
-	observer := newStubAnnouncementObserver()
-	announcer := announcerFor(self, nil, roster, 4, observer)
-
-	ctx, cancel := context.WithCancel(context.Background())
-	stopped := make(chan struct{})
-	go func() {
-		defer close(stopped)
-		announcer.Run(ctx)
-	}()
-
-	var round map[peerannouncement.ContactOutcome]int
-	select {
-	case round = <-observer.rounds:
-	case <-time.After(confirmationWait):
-		cancel()
-		t.Fatal("timed out waiting for the announcer to observe a round")
-	}
-
-	cancel()
-	<-stopped
-
-	return round
+	return lastRoundObservedWith(t, &stubLearningSelf{seed: self}, roster, 1)
 }
 
 func assertSolePeerOutcome(
@@ -513,5 +522,101 @@ func TestRunFetchesSeedSourceOnStart(t *testing.T) {
 	discovered := roster.discoveredSeeds()
 	if len(discovered) != 1 || discovered[0].Hash != peer.seed.Hash {
 		t.Fatalf("discovered = %v, want the seed source seed on start", discovered)
+	}
+}
+
+func lastRoundObservedWith(
+	t *testing.T,
+	self *stubLearningSelf,
+	roster *stubRoster,
+	amountOfRounds int,
+) map[peerannouncement.ContactOutcome]int {
+	t.Helper()
+
+	observer := newStubAnnouncementObserver()
+	announcer := peerannouncement.New(
+		configFor(4),
+		self,
+		self,
+		&stubSeedSource{},
+		roster,
+		observer,
+	)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	stopped := make(chan struct{})
+	go func() {
+		defer close(stopped)
+		announcer.Run(ctx)
+	}()
+
+	var round map[peerannouncement.ContactOutcome]int
+	for range amountOfRounds {
+		select {
+		case round = <-observer.rounds:
+		case <-time.After(confirmationWait):
+			cancel()
+			t.Fatal("timed out waiting for the announcer to observe a round")
+		}
+	}
+
+	cancel()
+	<-stopped
+
+	return round
+}
+
+func TestAnnounceReportsTheHostsThatPeersSaw(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
+	first := newStubPeer(t, "first", seniorAnswer(t))
+	second := newStubPeer(t, "second", juniorAnswer(t))
+
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{first.seed, second.seed}), 1)
+
+	reported := self.reportedHosts()
+	if len(reported) != 1 || len(reported[0]) != 2 {
+		t.Fatalf("reported hosts = %v, want one round of two hosts", reported)
+	}
+	for _, host := range reported[0] {
+		if host.String() != "203.0.113.9" {
+			t.Fatalf("reported host = %v, want the host the peers saw", host)
+		}
+	}
+}
+
+func TestAnnounceReportsNoHostFromAPeerThatDidNotAnswer(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
+	peer := newStubPeer(t, "peer", unavailableAnswer())
+
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{peer.seed}), 1)
+
+	if reported := self.reportedHosts(); len(reported) != 1 || len(reported[0]) != 0 {
+		t.Fatalf("reported hosts = %v, want one round without hosts", reported)
+	}
+}
+
+func TestAnnounceReportsAMappedIPv4HostAsTheIPv4Host(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
+	peer := newStubPeer(t, "peer", answerReporting("::ffff:203.0.113.9"))
+
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{peer.seed}), 1)
+
+	reported := self.reportedHosts()
+	if len(reported) != 1 || len(reported[0]) != 1 || reported[0][0].String() != "203.0.113.9" {
+		t.Fatalf("reported hosts = %v, want [[203.0.113.9]]", reported)
+	}
+}
+
+func TestAnnounceAgainWhenTheSeedAddressChanges(t *testing.T) {
+	self := &stubLearningSelf{
+		seed:               newStubPeer(t, "self", seniorAnswer(t)).seed,
+		adoptsReportedHost: true,
+	}
+	peer := newStubPeer(t, "peer", seniorAnswer(t))
+
+	lastRoundObservedWith(t, self, newStubRoster(nil, []yacymodel.Seed{peer.seed}), 2)
+
+	if peer.greetCount() != 2 {
+		t.Fatalf("peer greeted %d times, want 2 within one interval", peer.greetCount())
 	}
 }

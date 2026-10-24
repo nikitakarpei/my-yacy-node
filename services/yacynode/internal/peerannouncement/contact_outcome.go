@@ -37,13 +37,13 @@ func ContactOutcomes() []ContactOutcome {
 	return outcomes
 }
 
-func amountOfPeersPerContactOutcome(contactOutcomes []ContactOutcome) map[ContactOutcome]int {
+func amountOfPeersPerContactOutcome(contactReplies []contactReply) map[ContactOutcome]int {
 	amounts := make(map[ContactOutcome]int, len(ContactOutcomes()))
 	for _, outcome := range ContactOutcomes() {
 		amounts[outcome] = 0
 	}
-	for _, outcome := range contactOutcomes {
-		amounts[outcome]++
+	for _, reply := range contactReplies {
+		amounts[reply.outcome]++
 	}
 
 	return amounts
