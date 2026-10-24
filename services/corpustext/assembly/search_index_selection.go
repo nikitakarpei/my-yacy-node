@@ -28,9 +28,7 @@ func selectSearchIndex(
 ) (searchIndexSelection, error) {
 	switch cfg.SearchIndexEngine {
 	case SearchIndexEngineBleve:
-		languageIndexes, err := languageindex.IndexesFor(
-			DefaultIndexBaseName, bleve.SchemaVersion, cfg.Languages,
-		)
+		languageIndexes, err := languageindex.IndexesFor(DefaultIndexBaseName, cfg.Languages)
 		if err != nil {
 			return searchIndexSelection{}, err
 		}
@@ -43,9 +41,7 @@ func selectSearchIndex(
 			close:   bleveIndexes.Close,
 		}, nil
 	case SearchIndexEngineElasticsearch:
-		indexes, err := languageindex.IndexesFor(
-			cfg.ElasticsearchIndex, elasticsearch.SchemaVersion, cfg.Languages,
-		)
+		indexes, err := languageindex.IndexesFor(cfg.ElasticsearchIndex, cfg.Languages)
 		if err != nil {
 			return searchIndexSelection{}, err
 		}
@@ -63,9 +59,7 @@ func selectSearchIndex(
 			close:  closeNothing,
 		}, nil
 	case SearchIndexEngineManticore:
-		tables, err := languageindex.IndexesFor(
-			cfg.ManticoreTable, manticore.SchemaVersion, cfg.Languages,
-		)
+		tables, err := languageindex.IndexesFor(cfg.ManticoreTable, cfg.Languages)
 		if err != nil {
 			return searchIndexSelection{}, err
 		}

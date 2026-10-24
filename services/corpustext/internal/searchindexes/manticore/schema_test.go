@@ -14,7 +14,7 @@ import (
 
 func tablesFor(t *testing.T) languageindex.LanguageIndexes {
 	t.Helper()
-	tables, err := languageindex.IndexesFor("yacy_text", manticore.SchemaVersion, []string{"en"})
+	tables, err := languageindex.IndexesFor("yacy_text", []string{"en"})
 	if err != nil {
 		t.Fatalf("tables: %v", err)
 	}

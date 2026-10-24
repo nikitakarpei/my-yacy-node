@@ -34,7 +34,6 @@ import (
 )
 
 const (
-	SchemaVersion        = 2
 	directoryPermission  = 0o750
 	undeterminedAnalyzer = "corpus_text_und"
 	everyField           = "_all"

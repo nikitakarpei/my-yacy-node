@@ -294,7 +294,7 @@ func TestBleveIndexesFailWhenTheDirectoryCannotBeCreated(t *testing.T) {
 	if err := os.WriteFile(regularFile, nil, 0o600); err != nil {
 		t.Fatalf("write file: %v", err)
 	}
-	languageIndexes, err := languageindex.IndexesFor("yacy_text", bleve.SchemaVersion, nil)
+	languageIndexes, err := languageindex.IndexesFor("yacy_text", nil)
 	if err != nil {
 		t.Fatalf("language indexes: %v", err)
 	}
