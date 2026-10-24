@@ -13,6 +13,7 @@ small, single-purpose Go services.
 
 Start with [Build your own search stack](doc/build-your-own-search-stack) to see
 how to compose the services into working deployments.
+Or try the [single-binary deployment](distributions/yacypeer) first.
 
 ## Motivation
 
