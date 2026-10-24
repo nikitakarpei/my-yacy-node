@@ -1,25 +1,56 @@
 package textsnippet
 
-import (
-	"iter"
-	"unicode"
-	"unicode/utf8"
-)
+import "strings"
 
 type passage struct {
 	sentences []sentence
 }
 
-func (candidate passage) words() iter.Seq[placedWord] {
-	return func(yield func(placedWord) bool) {
-		for _, sentenceOfThePassage := range candidate.sentences {
-			for _, word := range sentenceOfThePassage.words {
-				if !yield(word) {
-					return
-				}
-			}
+func (candidate passage) words() []placedWord {
+	var words []placedWord
+	for _, sentenceOfThePassage := range candidate.sentences {
+		words = append(words, sentenceOfThePassage.words...)
+	}
+	return words
+}
+
+func (candidate passage) trimmedFor(query askedQuery) passage {
+	if !candidate.holdsProse() {
+		return candidate
+	}
+	sentences := candidate.sentences
+	for len(sentences) > 1 && isBoilerplateFor(sentences[0], query) && !sentences[0].heading {
+		sentences = sentences[1:]
+	}
+	for len(sentences) > 1 && isBoilerplateFor(sentences[len(sentences)-1], query) {
+		sentences = sentences[:len(sentences)-1]
+	}
+	return passage{sentences: sentences}
+}
+
+func (candidate passage) holdsProse() bool {
+	for _, sentenceOfThePassage := range candidate.sentences {
+		if sentenceOfThePassage.prose {
+			return true
 		}
 	}
+	return false
+}
+
+func isBoilerplateFor(edge sentence, query askedQuery) bool {
+	if !edge.boilerplate {
+		return false
+	}
+	for _, word := range edge.words {
+		if query.holds(word.text) {
+			return false
+		}
+	}
+	return true
+}
+
+func (candidate passage) length() int {
+	return candidate.sentences[len(candidate.sentences)-1].endRune - candidate.sentences[0].startRune
 }
 
 func (candidate passage) textWithin(text string, query askedQuery, lengthCeiling int) string {
@@ -27,51 +58,12 @@ func (candidate passage) textWithin(text string, query askedQuery, lengthCeiling
 		return ""
 	}
 	first, last := candidate.sentences[0], candidate.sentences[len(candidate.sentences)-1]
-	if last.endRune-first.startRune <= lengthCeiling {
-		return text[first.start:last.end]
+	if candidate.length() <= lengthCeiling {
+		return withSpacesCollapsed(text[first.start:last.end])
 	}
-	return windowAround(
-		text[first.start:first.end],
-		query.firstMatchIn(candidate)-first.start,
-		lengthCeiling,
-	)
+	return longSentenceOf(text, first).windowFor(query, lengthCeiling)
 }
 
-func windowAround(sentenceText string, placeOfTheMatch int, lengthCeiling int) string {
-	letters := []rune(sentenceText)
-	runeOfTheMatch := utf8.RuneCountInString(sentenceText[:placeOfTheMatch])
-	windowStart := max(0, runeOfTheMatch-lengthCeiling/2)
-	windowEnd := min(len(letters), windowStart+lengthCeiling)
-	windowStart = max(0, windowEnd-lengthCeiling)
-	if windowStart > 0 {
-		windowStart = startOfAWordFrom(letters, windowStart, windowEnd)
-	}
-	if windowEnd < len(letters) {
-		windowEnd = endOfAWordBefore(letters, windowStart, windowEnd)
-	}
-	return string(letters[windowStart:windowEnd])
-}
-
-func startOfAWordFrom(letters []rune, windowStart, windowEnd int) int {
-	if unicode.IsSpace(letters[windowStart-1]) {
-		return windowStart
-	}
-	for place := windowStart; place < windowEnd; place++ {
-		if unicode.IsSpace(letters[place]) {
-			return place + 1
-		}
-	}
-	return windowStart
-}
-
-func endOfAWordBefore(letters []rune, windowStart, windowEnd int) int {
-	if unicode.IsSpace(letters[windowEnd]) {
-		return windowEnd
-	}
-	for place := windowEnd - 1; place > windowStart; place-- {
-		if unicode.IsSpace(letters[place]) {
-			return place
-		}
-	}
-	return windowEnd
+func withSpacesCollapsed(text string) string {
+	return strings.Join(strings.Fields(text), " ")
 }

@@ -32,7 +32,7 @@ func (query askedQuery) bestPassageIn(sentences []sentence, lengthCeiling int) p
 			sentences[lastSentence+1].endRune-sentences[firstSentence].startRune <= lengthCeiling {
 			lastSentence++
 		}
-		candidate := passage{sentences: sentences[firstSentence : lastSentence+1]}
+		candidate := passage{sentences: sentences[firstSentence : lastSentence+1]}.trimmedFor(query)
 		hits := query.hitsIn(candidate)
 		if firstSentence == 0 || hits.outweigh(bestHits) {
 			bestPassage, bestHits = candidate, hits
@@ -42,17 +42,35 @@ func (query askedQuery) bestPassageIn(sentences []sentence, lengthCeiling int) p
 }
 
 type queryHits struct {
-	distinctWords int
-	phrases       int
-	words         int
+	distinctProseWords int
+	distinctWords      int
+	phrases            int
+	words              int
 }
 
 func (query askedQuery) hitsIn(candidate passage) queryHits {
+	hits := query.hitsAmong(candidate.words())
+	distinctProseWords := map[string]struct{}{}
+	for _, sentenceOfThePassage := range candidate.sentences {
+		if !sentenceOfThePassage.prose {
+			continue
+		}
+		for _, word := range sentenceOfThePassage.words {
+			if query.holds(word.text) {
+				distinctProseWords[word.text] = struct{}{}
+			}
+		}
+	}
+	hits.distinctProseWords = len(distinctProseWords)
+	return hits
+}
+
+func (query askedQuery) hitsAmong(words []placedWord) queryHits {
 	var hits queryHits
 	distinctWords := map[string]struct{}{}
 	wordBefore := ""
-	for word := range candidate.words() {
-		if _, isQueryWord := query.words[word.text]; isQueryWord {
+	for _, word := range words {
+		if query.holds(word.text) {
 			hits.words++
 			distinctWords[word.text] = struct{}{}
 		}
@@ -65,7 +83,15 @@ func (query askedQuery) hitsIn(candidate passage) queryHits {
 	return hits
 }
 
+func (query askedQuery) holds(word string) bool {
+	_, isQueryWord := query.words[word]
+	return isQueryWord
+}
+
 func (hits queryHits) outweigh(otherHits queryHits) bool {
+	if hits.distinctProseWords != otherHits.distinctProseWords {
+		return hits.distinctProseWords > otherHits.distinctProseWords
+	}
 	if hits.distinctWords != otherHits.distinctWords {
 		return hits.distinctWords > otherHits.distinctWords
 	}
@@ -75,11 +101,34 @@ func (hits queryHits) outweigh(otherHits queryHits) bool {
 	return hits.words > otherHits.words
 }
 
-func (query askedQuery) firstMatchIn(candidate passage) int {
-	for word := range candidate.words() {
-		if _, isQueryWord := query.words[word.text]; isQueryWord {
-			return word.place
+func (query askedQuery) missingFrom(shown passage, sentences []sentence) askedQuery {
+	shownWords := map[string]struct{}{}
+	for _, word := range shown.words() {
+		shownWords[word.text] = struct{}{}
+	}
+	missing := askedQuery{words: map[string]struct{}{}, phrases: map[queryPhrase]struct{}{}}
+	for _, sentenceOfTheText := range sentences {
+		for _, word := range sentenceOfTheText.words {
+			if _, isShown := shownWords[word.text]; !isShown && query.holds(word.text) {
+				missing.words[word.text] = struct{}{}
+			}
 		}
 	}
-	return candidate.sentences[0].start
+	return missing
+}
+
+func (query askedQuery) holdsNoWords() bool {
+	return len(query.words) == 0
+}
+
+func (query askedQuery) wholeProseHitsIn(candidate passage, lengthCeiling int) queryHits {
+	if len(candidate.sentences) == 0 || candidate.length() > lengthCeiling {
+		return queryHits{}
+	}
+	for _, sentenceOfThePassage := range candidate.sentences {
+		if !sentenceOfThePassage.prose {
+			return queryHits{}
+		}
+	}
+	return query.hitsIn(candidate)
 }

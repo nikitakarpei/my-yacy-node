@@ -434,8 +434,9 @@ func TestTheSnippetOfADocumentIsCutAtAWordBoundaryBeforeItsLengthCeiling(t *test
 	).PageContentsPerDocument
 
 	snippet := pageContentsOfTheAddressRead(t, pageContentsPerDocument, addressOfTheArticle).Snippet
-	if len([]rune(snippet)) > snippetLengthCeiling ||
-		!strings.HasPrefix(paragraphOfTheArticle, snippet+" ") {
+	shownParagraph, isCut := strings.CutSuffix(snippet, " …")
+	if len([]rune(snippet)) > snippetLengthCeiling || !isCut ||
+		!strings.HasPrefix(paragraphOfTheArticle, shownParagraph+" ") {
 		t.Fatalf(
 			"the snippet reads %q, want at most %d letters of %q ending at a word boundary",
 			snippet, snippetLengthCeiling, paragraphOfTheArticle,

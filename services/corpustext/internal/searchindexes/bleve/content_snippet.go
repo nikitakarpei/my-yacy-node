@@ -9,12 +9,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/textsnippet"
 )
 
-func snippetFrom(content, searchQuery string, analyzer analysis.Analyzer) string {
+func snippetFrom(title, content, searchQuery string, analyzer analysis.Analyzer) string {
 	rule := textsnippet.Rule{
 		WordsIn:       wordsAnalyzedBy(analyzer),
 		LengthCeiling: textsearch.SnippetLength,
 	}
-	return rule.SnippetOf(content, queryWordsOf(searchQuery, analyzer))
+	return rule.SnippetOf(title, content, queryWordsOf(searchQuery, analyzer))
 }
 
 func wordsAnalyzedBy(analyzer analysis.Analyzer) func(text string) iter.Seq2[int, string] {
