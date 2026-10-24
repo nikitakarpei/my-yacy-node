@@ -17,6 +17,8 @@ program, connected and ready to use.
 * The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `corpusmarkdown`,
   `yacycrawler`, `pagescrape`, `crawlconsole`, and `crawlscrapebridge`.
 * The program SHALL run a NATS server that only the local host can reach.
+* The program SHALL let only the local host reach its endpoints, except the peer endpoint
+  of `yacynode`, until the operator sets their addresses.
 * The program SHALL send outbound requests through the egress proxy that the operator
   names, else through a built-in egress proxy that only the local host can reach.
 * The program SHALL keep its local data in one data directory.

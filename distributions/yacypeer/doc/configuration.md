@@ -9,13 +9,18 @@ You configure yacypeer through environment variables.
 | `YACYPEER_SEEDLIST_URLS` | required | Comma-separated seedlists of the YaCy network. |
 | `YACYPEER_NETWORK_NAME` | `freeworld` | YaCy network the peer joins. |
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
-| `YACYPEER_OPS_ADDR` | `:9090` | Address that serves `/metrics` and `/metrics/<service>`. |
+| `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics` and `/metrics/<service>`. |
 | `YACYPEER_EGRESS_PROXY_URL` | built-in proxy | HTTP proxy for all outbound requests. It must accept `CONNECT`. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
 
 The built-in proxy refuses requests to loopback and private addresses. If you set
 `YACYPEER_EGRESS_PROXY_URL`, yacypeer does not start the built-in proxy, and your proxy
 must refuse these requests.
+
+Only the local host can reach yacypeer, except on the peer address of yacynode. To let
+other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` or
+`YACYPEER_OPS_ADDR=:9090`. In a container, you must do this to reach the address from
+outside the container.
 
 ## Services
 

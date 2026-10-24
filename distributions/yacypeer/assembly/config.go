@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -16,7 +17,7 @@ const (
 	EnvEgressProxyURL = "YACYPEER_EGRESS_PROXY_URL"
 
 	DefaultDataDirectory = "data"
-	DefaultOpsAddr       = ":9090"
+	DefaultOpsAddr       = loopback.Host + ":9090"
 )
 
 type PeerConfig struct {
