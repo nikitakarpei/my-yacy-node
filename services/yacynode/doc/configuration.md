@@ -66,15 +66,15 @@ A word partition is one word in one ring partition. Its postings are the posting
 | Variable | Default | Description |
 | --- | --- | --- |
 | `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. |
-| `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, delete the postings of a word partition that enough of its responsible peers hold. Set it to `false` to keep every posting. |
+| `YACY_DISTRIBUTION_HANDOFF_ENABLED` | `true` | While distribution is on, deletes the postings of a word partition that enough responsible peers hold. `false` keeps every posting. |
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
-| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | A batch takes the due word partitions of one arc of the ring. No peer gets more than this many postings in a batch, unless one word partition is larger. |
-| `YACY_DISTRIBUTION_WORKERS` | `2` | How many workers send batches at the same time. No word partition is in two batches at the same time. |
+| `YACY_DISTRIBUTION_POSTINGS_PER_BATCH` | `1000` | Most postings one peer gets in one batch. A word partition that is larger goes whole. |
+| `YACY_DISTRIBUTION_WORKERS` | `2` | How many batches the node sends at the same time. |
 | `YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE` | `50` | How many URL metadata records travel in one transfer to a peer. |
-| `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again (refresh). |
-| `YACY_DISTRIBUTION_PEER_PAUSE` | `1m` | The least time a peer is paused after it did not accept an offer. A paused peer gets no postings. A word partition that must go to a paused peer waits until the pause ends. A word partition that a responsible peer did not fully accept is sent again after this time, then after double the previous wait on each try, up to the refresh interval. |
-| `YACY_DISTRIBUTION_UNACCEPTED_OFFERS_BEFORE_EXCLUSION` | `3` | How many offers in a row a peer can leave unaccepted before the node excludes it. An offer is unaccepted when the peer declines it, gives no answer (for example after a timeout or a connection error), or refuses it. |
-| `YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION` | `1h` | How long an excluded peer gets no postings. The next peer on the ring takes its place. Until the peer accepts an offer, one more unaccepted offer excludes it again. |
-| `YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT` | `1s` | How much work a peer can have in flight. The node measures how long each peer takes for all postings of one batch. A peer gets as many batches at the same time as this time divided by its usual time, and at least one. A word partition that must go to a busy peer waits. |
+| `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How often the holders of a word partition get all its postings again. |
+| `YACY_DISTRIBUTION_PEER_PAUSE` | `1m` | Least time a peer gets no postings after an unaccepted offer. Also the first wait before the node sends again a word partition that a peer did not fully accept. Each next wait is double, up to the refresh interval. |
+| `YACY_DISTRIBUTION_UNACCEPTED_OFFERS_BEFORE_EXCLUSION` | `3` | Unaccepted offers in a row before the node excludes a peer. An offer is unaccepted when the peer declines it, refuses it, or gives no answer. |
+| `YACY_DISTRIBUTION_PEER_EXCLUSION_DURATION` | `1h` | How long an excluded peer gets no postings. The next peer on the ring takes its place. Until the peer accepts an offer, one unaccepted offer excludes it again. |
+| `YACY_DISTRIBUTION_PEER_WORK_IN_FLIGHT` | `1s` | Send time a peer can have in flight. A peer gets as many batches at the same time as this time divided by its usual batch time, and at least one. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |
