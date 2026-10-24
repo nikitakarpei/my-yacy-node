@@ -18,6 +18,12 @@ const (
 
 	DefaultDataDirectory = "data"
 	DefaultOpsAddr       = loopback.Host + ":9090"
+	DefaultSeedlistURLs  = "http://sixcooler.de/yacy/seed.txt," +
+		"https://sonst.mifritscher.de/yacy/seed.txt," +
+		"http://5.45.105.16/yacyseed," +
+		"http://yacy.v16.de/seed/seed.txt," +
+		"https://frank-siebert.de/seed.txt," +
+		"http://seedlist.wertewesten.net/seed.txt"
 )
 
 type PeerConfig struct {
@@ -29,7 +35,8 @@ type PeerConfig struct {
 }
 
 func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
-	seedlistURLs, err := envconfig.Required(getenv, EnvSeedlistURLs)
+	networkName := envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork)
+	seedlistURLs, err := seedlistURLsFor(getenv, networkName)
 	if err != nil {
 		return PeerConfig{}, err
 	}
@@ -40,10 +47,17 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	return PeerConfig{
 		EgressProxyURL: egressProxyURL,
 		DataDirectory:  envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
-		NetworkName:    envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork),
+		NetworkName:    networkName,
 		SeedlistURLs:   seedlistURLs,
 		OpsAddr:        envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
+}
+
+func seedlistURLsFor(getenv func(string) string, networkName string) (string, error) {
+	if networkName == yacyproto.DefaultNetwork {
+		return envconfig.String(getenv, EnvSeedlistURLs, DefaultSeedlistURLs), nil
+	}
+	return envconfig.Required(getenv, EnvSeedlistURLs)
 }
 
 func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
