@@ -6,14 +6,6 @@ type passage struct {
 	sentences []sentence
 }
 
-func (candidate passage) words() []placedWord {
-	var words []placedWord
-	for _, sentenceOfThePassage := range candidate.sentences {
-		words = append(words, sentenceOfThePassage.words...)
-	}
-	return words
-}
-
 func (candidate passage) trimmedFor(query askedQuery) passage {
 	if !candidate.holdsProse() {
 		return candidate
@@ -37,16 +29,17 @@ func (candidate passage) holdsProse() bool {
 	return false
 }
 
-func isBoilerplateFor(edge sentence, query askedQuery) bool {
-	if !edge.boilerplate {
-		return false
-	}
-	for _, word := range edge.words {
-		if query.holds(word.text) {
+func (candidate passage) isAllProse() bool {
+	for _, sentenceOfThePassage := range candidate.sentences {
+		if !sentenceOfThePassage.prose {
 			return false
 		}
 	}
 	return true
+}
+
+func isBoilerplateFor(edge sentence, query askedQuery) bool {
+	return edge.boilerplate && !holdsAnyOf(edge.words, query.words)
 }
 
 func (candidate passage) length() int {

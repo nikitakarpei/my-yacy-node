@@ -49,38 +49,51 @@ type queryHits struct {
 }
 
 func (query askedQuery) hitsIn(candidate passage) queryHits {
-	hits := query.hitsAmong(candidate.words())
-	distinctProseWords := map[string]struct{}{}
+	counter := query.hitCounter()
 	for _, sentenceOfThePassage := range candidate.sentences {
-		if !sentenceOfThePassage.prose {
-			continue
-		}
-		for _, word := range sentenceOfThePassage.words {
-			if query.holds(word.text) {
-				distinctProseWords[word.text] = struct{}{}
-			}
-		}
+		counter.count(sentenceOfThePassage.words, sentenceOfThePassage.prose)
 	}
-	hits.distinctProseWords = len(distinctProseWords)
-	return hits
+	return counter.hits
 }
 
 func (query askedQuery) hitsAmong(words []placedWord) queryHits {
-	var hits queryHits
-	distinctWords := map[string]struct{}{}
-	wordBefore := ""
-	for _, word := range words {
-		if query.holds(word.text) {
-			hits.words++
-			distinctWords[word.text] = struct{}{}
-		}
-		if _, isQueryPhrase := query.phrases[queryPhrase{wordBefore, word.text}]; isQueryPhrase {
-			hits.phrases++
-		}
-		wordBefore = word.text
+	counter := query.hitCounter()
+	counter.count(words, false)
+	return counter.hits
+}
+
+type queryHitCounter struct {
+	query              askedQuery
+	hits               queryHits
+	distinctWords      map[string]struct{}
+	distinctProseWords map[string]struct{}
+	wordBefore         string
+}
+
+func (query askedQuery) hitCounter() *queryHitCounter {
+	return &queryHitCounter{
+		query:              query,
+		distinctWords:      map[string]struct{}{},
+		distinctProseWords: map[string]struct{}{},
 	}
-	hits.distinctWords = len(distinctWords)
-	return hits
+}
+
+func (counter *queryHitCounter) count(words []placedWord, inProse bool) {
+	for _, word := range words {
+		if counter.query.holds(word.text) {
+			counter.hits.words++
+			counter.distinctWords[word.text] = struct{}{}
+			if inProse {
+				counter.distinctProseWords[word.text] = struct{}{}
+			}
+		}
+		if _, isQueryPhrase := counter.query.phrases[queryPhrase{counter.wordBefore, word.text}]; isQueryPhrase {
+			counter.hits.phrases++
+		}
+		counter.wordBefore = word.text
+	}
+	counter.hits.distinctWords = len(counter.distinctWords)
+	counter.hits.distinctProseWords = len(counter.distinctProseWords)
 }
 
 func (query askedQuery) holds(word string) bool {
@@ -103,10 +116,12 @@ func (hits queryHits) outweigh(otherHits queryHits) bool {
 
 func (query askedQuery) missingFrom(shown passage, sentences []sentence) askedQuery {
 	shownWords := map[string]struct{}{}
-	for _, word := range shown.words() {
-		shownWords[word.text] = struct{}{}
+	for _, shownSentence := range shown.sentences {
+		for _, word := range shownSentence.words {
+			shownWords[word.text] = struct{}{}
+		}
 	}
-	missing := askedQuery{words: map[string]struct{}{}, phrases: map[queryPhrase]struct{}{}}
+	missing := askedQuery{words: map[string]struct{}{}}
 	for _, sentenceOfTheText := range sentences {
 		for _, word := range sentenceOfTheText.words {
 			if _, isShown := shownWords[word.text]; !isShown && query.holds(word.text) {
@@ -122,13 +137,9 @@ func (query askedQuery) holdsNoWords() bool {
 }
 
 func (query askedQuery) wholeProseHitsIn(candidate passage, lengthCeiling int) queryHits {
-	if len(candidate.sentences) == 0 || candidate.length() > lengthCeiling {
+	if len(candidate.sentences) == 0 || candidate.length() > lengthCeiling ||
+		!candidate.isAllProse() {
 		return queryHits{}
-	}
-	for _, sentenceOfThePassage := range candidate.sentences {
-		if !sentenceOfThePassage.prose {
-			return queryHits{}
-		}
 	}
 	return query.hitsIn(candidate)
 }

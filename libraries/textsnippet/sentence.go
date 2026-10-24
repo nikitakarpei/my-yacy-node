@@ -4,6 +4,7 @@ import (
 	"iter"
 	"strings"
 	"unicode"
+	"unicode/utf8"
 
 	"github.com/clipperhouse/uax29/v2/sentences"
 )
@@ -49,13 +50,11 @@ func sentencesIn(text, title string, wordsIn func(text string) iter.Seq2[int, st
 			startRune := collapsedRunes.count
 			collapsedRunes.add(trimmedText)
 			foundSentences = append(foundSentences, sentence{
-				start:       start,
-				end:         start + len(trimmedText),
-				startRune:   startRune,
-				endRune:     collapsedRunes.count,
-				prose:       isProse(trimmedText),
-				boilerplate: !isProse(trimmedText) && !isShortSentence(trimmedText),
-			})
+				start:     start,
+				end:       start + len(trimmedText),
+				startRune: startRune,
+				endRune:   collapsedRunes.count,
+			}.withKindOf(trimmedText))
 		}
 		collapsedRunes.add(textAfterSpaces[len(trimmedText):])
 	}
@@ -77,14 +76,20 @@ func (counter *collapsedRuneCounter) add(text string) {
 	}
 }
 
-func isProse(sentenceText string) bool {
+func (found sentence) withKindOf(sentenceText string) sentence {
 	words := strings.Fields(sentenceText)
+	found.prose = isProse(sentenceText, words)
+	found.boilerplate = !found.prose && !isShortSentence(sentenceText, words)
+	return found
+}
+
+func isProse(sentenceText string, words []string) bool {
 	if len(words) < proseLeastWords || !endsASentence(sentenceText) {
 		return false
 	}
 	letterStarts, lowercaseStarts, commas := 0, 0, 0
 	for _, word := range words {
-		firstLetter := []rune(word)[0]
+		firstLetter := firstRuneOf(word)
 		if unicode.IsLetter(firstLetter) {
 			letterStarts++
 		}
@@ -104,17 +109,22 @@ func isProse(sentenceText string) bool {
 	return letterStarts > 0 &&
 		float64(lowercaseStarts) >= proseLeastLowercaseShare*float64(letterStarts) &&
 		float64(commas) <= proseMostCommaShare*float64(len(words)) &&
-		float64(symbols) <= proseMostSymbolShare*float64(len([]rune(sentenceText)))
+		float64(symbols) <= proseMostSymbolShare*float64(utf8.RuneCountInString(sentenceText))
+}
+
+func firstRuneOf(text string) rune {
+	firstRune, _ := utf8.DecodeRuneInString(text)
+	return firstRune
 }
 
 func endsASentence(sentenceText string) bool {
-	ending := []rune(strings.TrimRight(sentenceText, sentenceClosers))
-	return len(ending) > 0 && strings.ContainsRune(sentenceTerminals, ending[len(ending)-1])
+	lastRune, _ := utf8.DecodeLastRuneInString(strings.TrimRight(sentenceText, sentenceClosers))
+	return strings.ContainsRune(sentenceTerminals, lastRune)
 }
 
-func isShortSentence(sentenceText string) bool {
-	return unicode.IsLetter([]rune(sentenceText)[0]) && endsASentence(sentenceText) &&
-		len(strings.Fields(sentenceText)) <= shortSentenceMostWords
+func isShortSentence(sentenceText string, words []string) bool {
+	return unicode.IsLetter(firstRuneOf(sentenceText)) && endsASentence(sentenceText) &&
+		len(words) <= shortSentenceMostWords
 }
 
 func withWordsOf(
@@ -146,10 +156,9 @@ func withHeadingsFor(
 	for _, titleWord := range wordsIn(title) {
 		titleWords[titleWord] = struct{}{}
 	}
-	for place := range foundSentences[:max(0, len(foundSentences)-1)] {
-		candidate := foundSentences[place]
+	for place, candidate := range foundSentences[:max(0, len(foundSentences)-1)] {
 		foundSentences[place].heading = candidate.boilerplate && foundSentences[place+1].prose &&
-			unicode.IsUpper([]rune(text[candidate.start:candidate.end])[0]) &&
+			unicode.IsUpper(firstRuneOf(text[candidate.start:])) &&
 			holdsAnyOf(candidate.words, titleWords)
 	}
 	return foundSentences

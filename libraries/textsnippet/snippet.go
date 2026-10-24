@@ -7,6 +7,7 @@ package textsnippet
 
 import (
 	"iter"
+	"sort"
 	"strings"
 	"unicode/utf8"
 )
@@ -26,11 +27,15 @@ func (rule Rule) SnippetOf(title, text string, queryWords []string) string {
 	query := askedQueryOf(queryWords)
 	sentences := sentencesIn(text, title, rule.WordsIn)
 	bestPassage := query.bestPassageIn(sentences, rule.LengthCeiling)
-	if query.missingFrom(bestPassage, sentences).holdsNoWords() {
-		return bestPassage.textWithin(text, query, rule.LengthCeiling)
-	}
-	if snippet, found := fragmentedSnippetIn(text, sentences, query, rule.LengthCeiling); found {
-		return snippet
+	if !query.missingFrom(bestPassage, sentences).holdsNoWords() {
+		if snippet, found := fragmentedSnippetIn(
+			text,
+			sentences,
+			query,
+			rule.LengthCeiling,
+		); found {
+			return snippet
+		}
 	}
 	return bestPassage.textWithin(text, query, rule.LengthCeiling)
 }
@@ -55,7 +60,7 @@ func fragmentedSnippetIn(
 	switch {
 	case hitsBefore.distinctWords == 0 && hitsAfter.distinctWords == 0:
 		return "", false
-	case hitsAfter.distinctWords == 0 || hitsBefore.outweigh(hitsAfter):
+	case hitsBefore.outweigh(hitsAfter):
 		return joinedFragments(
 			passageBefore.textWithin(text, missing, restCeiling),
 			mainFragment,
@@ -69,18 +74,13 @@ func fragmentedSnippetIn(
 }
 
 func sentencesAround(sentences []sentence, shown passage) ([]sentence, []sentence) {
-	first := shown.sentences[0].start
-	last := shown.sentences[len(shown.sentences)-1].end
-	var sentencesBefore, sentencesAfter []sentence
-	for _, sentenceOfTheText := range sentences {
-		if sentenceOfTheText.end <= first {
-			sentencesBefore = append(sentencesBefore, sentenceOfTheText)
-		}
-		if sentenceOfTheText.start >= last {
-			sentencesAfter = append(sentencesAfter, sentenceOfTheText)
-		}
-	}
-	return sentencesBefore, sentencesAfter
+	firstShown := sort.Search(len(sentences), func(place int) bool {
+		return sentences[place].start >= shown.sentences[0].start
+	})
+	afterShown := sort.Search(len(sentences), func(place int) bool {
+		return sentences[place].start >= shown.sentences[len(shown.sentences)-1].end
+	})
+	return sentences[:firstShown], sentences[afterShown:]
 }
 
 func joinedFragments(firstFragment, secondFragment string) string {
