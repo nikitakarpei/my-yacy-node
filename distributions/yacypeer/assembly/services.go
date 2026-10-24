@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
+	yacydhtsearchpageassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearchpage/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
@@ -26,6 +27,7 @@ var unreadSettings = []string{
 	yacynodeassembly.EnvOpsAddr,
 	yacydhtsearchassembly.EnvOpsAddr,
 	yacydhtsearchassembly.EnvServeProfiler,
+	yacydhtsearchpageassembly.EnvOpsAddr,
 	corpustextassembly.EnvOpsAddr,
 	yacycrawlerassembly.EnvOpsAddr,
 	pagescrapeassembly.EnvOpsAddr,
@@ -36,13 +38,16 @@ var unreadSettings = []string{
 
 var localListenAddresses = serviceenvironment.Defaults{
 	yacydhtsearchassembly.EnvListenAddr: loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
-	corpustextassembly.EnvSearchAddr:    loopback.Host + corpustextassembly.DefaultSearchAddr,
-	crawlconsoleassembly.EnvListenAddr:  loopback.Host + crawlconsoleassembly.DefaultListenAddr,
+	yacydhtsearchpageassembly.EnvListenAddr: loopback.Host +
+		yacydhtsearchpageassembly.DefaultListenAddr,
+	corpustextassembly.EnvSearchAddr:   loopback.Host + corpustextassembly.DefaultSearchAddr,
+	crawlconsoleassembly.EnvListenAddr: loopback.Host + crawlconsoleassembly.DefaultListenAddr,
 }
 
 const (
 	yacynodeService          = "yacynode"
 	yacydhtsearchService     = "yacydhtsearch"
+	yacydhtsearchpageService = "yacydhtsearchpage"
 	corpustextService        = "corpustext"
 	yacycrawlerService       = "yacycrawler"
 	pagescrapeService        = "pagescrape"
@@ -104,8 +109,17 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 				yacydhtsearchassembly.EnvEgressProxyURL: addresses.egressProxyURL.String(),
 			},
 			yacydhtsearchassembly.LoadServiceConfig,
-			yacydhtsearchassembly.ListenersFor,
+			searchListenersOn(addresses.search),
 			yacydhtsearchassembly.RunService,
+		),
+		serviceAssemblyOf(
+			yacydhtsearchpageService,
+			serviceenvironment.Wiring{
+				yacydhtsearchpageassembly.EnvYaCyDHTSearchURL: addresses.searchURL(),
+			},
+			yacydhtsearchpageassembly.LoadServiceConfig,
+			yacydhtsearchpageassembly.ListenersFor,
+			yacydhtsearchpageassembly.RunService,
 		),
 		serviceAssemblyOf(
 			corpustextService,
@@ -137,6 +151,28 @@ func yacynodeConfigLoaderFor(
 		}
 		return yacynodeassembly.LoadServiceConfig(getenv)
 	}
+}
+
+func searchListenersOn(
+	search net.Listener,
+) func(context.Context, yacydhtsearchassembly.ServiceConfig) (yacydhtsearchassembly.Listeners, error) {
+	return func(context.Context, yacydhtsearchassembly.ServiceConfig) (yacydhtsearchassembly.Listeners, error) {
+		return yacydhtsearchassembly.Listeners{Search: search}, nil
+	}
+}
+
+func searchListenAddrFor(getenv func(string) string) (string, error) {
+	environment, err := serviceenvironment.For(
+		yacydhtsearchService,
+		nil,
+		localListenAddresses,
+		unreadSettings,
+		getenv,
+	)
+	if err != nil {
+		return "", err
+	}
+	return environment.Lookup(yacydhtsearchassembly.EnvListenAddr), nil
 }
 
 func crawlServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {

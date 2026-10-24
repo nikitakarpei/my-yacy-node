@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{if .Query}}{{.Query}} · {{end}}{{text "page.name"}}</title>
+<link rel="stylesheet" href="/static/search.css">
+</head>
+<body>
+<header><form class="bar" method="get" action="/" role="search">
+  <a class="name" href="/">{{text "page.name"}}</a>
+  <input type="search" name="query" value="{{.Query}}" aria-label="{{text "search.label"}}" placeholder="{{text "search.label"}}"{{if not .Query}} autofocus{{end}}>
+  <button class="primary">{{text "search.submit"}}</button>
+</form></header>
+<main>
+{{if .EngineUnanswered}}<div class="notice">{{text "notice.engine-unanswered"}}</div>
+{{else if .Query}}
+  {{if .Results}}
+  <ol class="results">
+    {{range .Results}}
+    <li class="result">
+      <a class="title" href="{{.Address}}" rel="noreferrer">{{or .Title .Address}}</a>
+      {{if .Description}}<p class="snippet">{{.Description}}</p>{{end}}
+      <p class="address"><span class="url">{{.Address}}</span>{{if not .PublishedAt.IsZero}} <span class="muted">· {{moment .PublishedAt}}</span>{{end}}</p>
+    </li>
+    {{end}}
+  </ol>
+  {{else}}<p class="muted">{{text "results.none" .Query}}</p>{{end}}
+  {{if or .PreviousPath .NextPath}}
+  <nav class="pager">
+    {{if .PreviousPath}}<a href="{{.PreviousPath}}">{{text "pager.previous"}}</a>{{end}}
+    {{if .NextPath}}<a href="{{.NextPath}}">{{text "pager.next"}}</a>{{end}}
+  </nav>
+  {{end}}
+{{end}}
+</main>
+</body>
+</html>

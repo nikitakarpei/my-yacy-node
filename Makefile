@@ -4,7 +4,7 @@ COVERAGE_MIN ?= 80
 # make workspace writes go.work for the editor; every target here builds each module as a standalone consumer sees it.
 export GOWORK := off
 
-GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod distributions/*/go.mod test/contracts/*/go.mod))
+GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod frontends/*/go.mod distributions/*/go.mod test/contracts/*/go.mod))
 GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod test/*/go.mod))
 PY_MODULES := $(patsubst %/pyproject.toml,%,$(wildcard libraries/*/pyproject.toml services/*/pyproject.toml plugins/*/*/pyproject.toml))
 

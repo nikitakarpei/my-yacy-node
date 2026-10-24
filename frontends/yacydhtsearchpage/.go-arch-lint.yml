@@ -1,0 +1,46 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  searchmessages:
+    in: internal/searchmessages/**
+  searchpages:
+    in: internal/searchpages/**
+  searchenginesyacysearch:
+    in: internal/searchengines/yacysearch/**
+  searchpageobserversapplog:
+    in: internal/searchpageobservers/applog/**
+  yacydhtsearchpageassembly:
+    in: assembly/**
+  yacydhtsearchpagecmd:
+    in: cmd/yacydhtsearchpage/**
+
+vendors:
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+
+deps:
+  searchpages:
+    mayDependOn:
+      - searchmessages
+  searchenginesyacysearch:
+    mayDependOn:
+      - searchpages
+  yacydhtsearchpageassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  yacydhtsearchpagecmd:
+    mayDependOn:
+      - yacydhtsearchpageassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"

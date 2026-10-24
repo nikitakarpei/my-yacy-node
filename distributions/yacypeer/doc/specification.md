@@ -8,14 +8,14 @@ program, connected and ready to use.
 
 ## Non-Goals
 
-* Serving a search page; SearXNG stays a separate program.
+* Merging or ranking the results of different services; SearXNG stays a separate program.
 * Showing metrics; Prometheus and Grafana stay separate programs.
 * Running a part of the peer alone.
 
 ## Functional Requirements
 
-* The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `yacycrawler`,
-  `pagescrape`, `crawlconsole`, and `crawlscrapebridge`.
+* The program SHALL run `yacynode`, `yacydhtsearch`, `yacydhtsearchpage`, `corpustext`,
+  `yacycrawler`, `pagescrape`, `crawlconsole`, and `crawlscrapebridge`.
 * The program SHALL run a NATS server that only the local host can reach.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
