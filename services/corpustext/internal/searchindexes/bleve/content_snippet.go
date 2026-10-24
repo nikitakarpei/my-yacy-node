@@ -11,13 +11,13 @@ import (
 
 func snippetFrom(content, searchQuery string, analyzer analysis.Analyzer) string {
 	rule := textsnippet.Rule{
-		WordsIn:       placedTermsFor(analyzer),
+		WordsIn:       wordsAnalyzedBy(analyzer),
 		LengthCeiling: textsearch.SnippetLength,
 	}
-	return rule.SnippetOf(content, termsOf(searchQuery, analyzer))
+	return rule.SnippetOf(content, queryWordsOf(searchQuery, analyzer))
 }
 
-func placedTermsFor(analyzer analysis.Analyzer) func(text string) iter.Seq2[int, string] {
+func wordsAnalyzedBy(analyzer analysis.Analyzer) func(text string) iter.Seq2[int, string] {
 	return func(text string) iter.Seq2[int, string] {
 		return func(yield func(int, string) bool) {
 			for _, token := range analyzer.Analyze([]byte(text)) {
@@ -29,10 +29,10 @@ func placedTermsFor(analyzer analysis.Analyzer) func(text string) iter.Seq2[int,
 	}
 }
 
-func termsOf(searchQuery string, analyzer analysis.Analyzer) []string {
-	var terms []string
-	for _, term := range placedTermsFor(analyzer)(searchQuery) {
-		terms = append(terms, term)
+func queryWordsOf(searchQuery string, analyzer analysis.Analyzer) []string {
+	var queryWords []string
+	for _, queryWord := range wordsAnalyzedBy(analyzer)(searchQuery) {
+		queryWords = append(queryWords, queryWord)
 	}
-	return terms
+	return queryWords
 }
