@@ -8,7 +8,6 @@
 </head>
 <body>
 <header><form class="bar" method="get" action="/" role="search">
-  <a class="name" href="/">{{text "page.name"}}</a>
   <input type="search" name="query" value="{{.Query}}" aria-label="{{text "search.label"}}" placeholder="{{text "search.label"}}"{{if not .Query}} autofocus{{end}}>
   <button class="primary">{{text "search.submit"}}</button>
 </form></header>

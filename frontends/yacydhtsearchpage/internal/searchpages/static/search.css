@@ -13,7 +13,6 @@
 body { font: 15px/1.5 system-ui, sans-serif; margin: 0; color: var(--ink); background: var(--bg); }
 header { background: var(--surface); border-bottom: 1px solid var(--line); }
 header .bar { max-width: 48rem; margin: 0 auto; padding: 0.75rem 1.25rem; display: flex; gap: 0.75rem; align-items: center; }
-header .name { font-weight: 600; color: var(--ink); white-space: nowrap; }
 header input { flex: 1; min-width: 0; font: inherit; padding: 0.4rem 0.75rem; border: 1px solid var(--input-line); border-radius: 0.375rem; background: var(--surface); color: var(--ink); }
 header input:focus { outline: none; border-color: var(--accent); }
 main { max-width: 48rem; margin: 1.5rem auto; padding: 0 1.25rem; }
