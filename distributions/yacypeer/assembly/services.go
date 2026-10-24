@@ -75,7 +75,7 @@ func servicesFor(
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
-		searchServiceAssembliesFor(cfg, addresses),
+		searchServiceAssembliesFor(cfg, addresses, visitLinkSecret),
 		crawlServiceAssembliesFor(cfg, addresses, visitLinkSecret)...,
 	)
 	services := make([]service, 0, len(assemblies))
@@ -89,7 +89,11 @@ func servicesFor(
 	return services, nil
 }
 
-func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
+func searchServiceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	visitLinkSecret string,
+) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
@@ -121,6 +125,8 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 			yacydhtsearchpageService,
 			serviceenvironment.Wiring{
 				yacydhtsearchpageassembly.EnvYaCyDHTSearchURL: addresses.searchURL(),
+				yacydhtsearchpageassembly.EnvVisitcrawlURL:    addresses.visitIntakeURL(),
+				yacydhtsearchpageassembly.EnvVisitLinkSecret:  visitLinkSecret,
 			},
 			yacydhtsearchpageassembly.LoadServiceConfig,
 			yacydhtsearchpageassembly.ListenersFor,
@@ -166,9 +172,21 @@ func searchListenersOn(
 	}
 }
 
-func searchListenAddrFor(getenv func(string) string) (string, error) {
+func visitIntakeListenersOn(
+	intake net.Listener,
+) func(context.Context, visitcrawlassembly.ServiceConfig) (visitcrawlassembly.Listeners, error) {
+	return func(context.Context, visitcrawlassembly.ServiceConfig) (visitcrawlassembly.Listeners, error) {
+		return visitcrawlassembly.Listeners{Intake: intake}, nil
+	}
+}
+
+func listenAddrOf(
+	service string,
+	listenAddrSetting string,
+	getenv func(string) string,
+) (string, error) {
 	environment, err := serviceenvironment.For(
-		yacydhtsearchService,
+		service,
 		nil,
 		localListenAddresses,
 		unreadSettings,
@@ -177,7 +195,7 @@ func searchListenAddrFor(getenv func(string) string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return environment.Lookup(yacydhtsearchassembly.EnvListenAddr), nil
+	return environment.Lookup(listenAddrSetting), nil
 }
 
 func crawlServiceAssembliesFor(
@@ -235,7 +253,7 @@ func crawlServiceAssembliesFor(
 				visitcrawlassembly.EnvLinkSecret:   visitLinkSecret,
 			},
 			visitcrawlassembly.LoadServiceConfig,
-			visitcrawlassembly.ListenersFor,
+			visitIntakeListenersOn(addresses.visitIntake),
 			visitcrawlassembly.RunService,
 		),
 	}

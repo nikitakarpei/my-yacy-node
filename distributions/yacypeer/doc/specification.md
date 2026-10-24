@@ -26,6 +26,8 @@ program, connected and ready to use.
 * The program SHALL keep its local data in one data directory.
 * The program SHALL make the secret that signs visit links on its first start, and SHALL
   keep it in the data directory.
+* The program SHALL send each result that a person opens on the search page through
+  `visitcrawl`.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.

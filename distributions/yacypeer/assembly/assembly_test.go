@@ -107,7 +107,7 @@ func TestRunPeerSendsOutboundRequestsThroughTheEgressProxyTheOperatorNames(t *te
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing.T) {
+func TestRunPeerSendsAVisitFromTheSearchPageOnToTheResult(t *testing.T) {
 	env := peerEnvironment(t)
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -125,7 +125,7 @@ func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing
 		t.Fatalf("read the peer secret: %v", err)
 	}
 	const visitedPage = "https://example.org/visited"
-	destination := redirectOf(t, "http://"+env["VISITCRAWL_LISTEN_ADDR"]+"/visit?"+
+	destination := redirectOf(t, "http://"+env["YACYDHTSEARCHPAGE_LISTEN_ADDR"]+"/visit?"+
 		visitLinkQueryFor(visitedPage, secret))
 	if destination != visitedPage {
 		t.Errorf("visit redirected to %q, want %q", destination, visitedPage)
