@@ -251,27 +251,31 @@ func TestProbeLeadsWithTheOriginThatAnsweredTheLastGreet(t *testing.T) {
 	}
 }
 
-func TestDeliverAcceptsAnyReplyFromTheAnsweredOriginOnly(t *testing.T) {
+func TestGreetRemembersTheOriginThatAnswered(t *testing.T) {
 	web := newNetwork(t)
 	web.answer(t, "198.51.100.1:8090", "identity=peer\n")
 	contacts := web.contacts()
 	peer := peerHash(t, "AAAAAAAAAAAA")
-	contacts.Greet(t.Context(), addressesOf(t, "198.51.100.1"), questionFor(peer))
-	web.answer(t, "192.0.2.1:8090", "reply=yes\n")
-	web.answer(t, "198.51.100.1:8090", "reply=yes\n")
 
-	_, answeredByAnsweredOrigin := contacts.Deliver(
-		t.Context(), addressesOf(t, "198.51.100.1"), questionFor(peer), hasField("reply"),
-	)
-	_, answeredByOther := contacts.Deliver(
-		t.Context(), addressesOf(t, "192.0.2.1"), questionFor(peer), hasField("reply"),
-	)
+	contacts.Greet(t.Context(), addressesOf(t, "192.0.2.1", "198.51.100.1"), questionFor(peer))
 
-	if !answeredByAnsweredOrigin {
-		t.Error("the answered origin did not answer the delivery")
+	if origin, found := contacts.AnsweredOriginOf(peer); !found ||
+		origin.Host != hostOf(t, "198.51.100.1") {
+		t.Fatalf("answered origin = %v, %v, want 198.51.100.1", origin, found)
 	}
-	if answeredByOther {
-		t.Error("an origin never proven for the peer answered without an accepted reply")
+}
+
+func TestProbeRemembersTheOriginThatAnswered(t *testing.T) {
+	web := newNetwork(t)
+	web.answer(t, "198.51.100.1:8090", "identity=peer\n")
+	contacts := web.contacts()
+	peer := peerHash(t, "AAAAAAAAAAAA")
+
+	contacts.Probe(t.Context(), addressesOf(t, "192.0.2.1", "198.51.100.1"), questionFor(peer))
+
+	if origin, found := contacts.AnsweredOriginOf(peer); !found ||
+		origin.Host != hostOf(t, "198.51.100.1") {
+		t.Fatalf("answered origin = %v, %v, want 198.51.100.1", origin, found)
 	}
 }
 
@@ -280,51 +284,35 @@ func TestGreetWithoutAnswerForgetsTheOrigin(t *testing.T) {
 	web.answer(t, "198.51.100.1:8090", "identity=peer\n")
 	contacts := web.contacts()
 	peer := peerHash(t, "AAAAAAAAAAAA")
-	addresses := addressesOf(t, "192.0.2.1", "198.51.100.1")
-	contacts.Greet(t.Context(), addresses, questionFor(peer))
+	contacts.Greet(t.Context(), addressesOf(t, "198.51.100.1"), questionFor(peer))
+
 	contacts.Greet(t.Context(), addressesOf(t, "203.0.113.1"), questionFor(peer))
-	web.dialedAddresses()
 
-	contacts.Probe(t.Context(), addresses, questionFor(peer))
-
-	if dialed := web.dialedAddresses(); dialed[0] != "192.0.2.1:8090" {
-		t.Fatalf("dialed = %v, want the walk to start from the top", dialed)
+	if origin, found := contacts.AnsweredOriginOf(peer); found {
+		t.Fatalf("answered origin = %v, want none after a greet without answer", origin)
 	}
 }
 
-func TestDeliverAsksOnlyTheAnsweredOrigin(t *testing.T) {
+func TestDeliverAsksOnlyTheGivenOrigin(t *testing.T) {
 	web := newNetwork(t)
-	web.answer(t, "198.51.100.1:8090", "identity=peer\n")
-	contacts := web.contacts()
-	peer := peerHash(t, "AAAAAAAAAAAA")
-	addresses := addressesOf(t, "192.0.2.1", "198.51.100.1")
-	contacts.Greet(t.Context(), addresses, questionFor(peer))
-	web.route("198.51.100.1:8090", "127.0.0.1:1")
-	web.answer(t, "192.0.2.1:8090", "identity=peer\nreply=yes\n")
-	web.dialedAddresses()
+	web.answer(t, "198.51.100.1:8090", "reply=yes\n")
+	origin := peerwire.Origin{
+		Scheme: peerwire.HTTP,
+		Host:   hostOf(t, "198.51.100.1"),
+		Port:   advertisedPort,
+	}
 
-	_, answered := contacts.Deliver(t.Context(), addresses, questionFor(peer), hasField("reply"))
+	answer, answered := web.contacts().Deliver(t.Context(), origin, peercontact.Question{
+		Request: peerwire.Request{
+			Peer: peerHash(t, "AAAAAAAAAAAA"),
+			Path: "/yacy/transferRWI.html",
+		},
+		Accepts: hasField("reply"),
+	})
 
-	if dialed := web.dialedAddresses(); answered ||
+	if dialed := web.dialedAddresses(); !answered || answer.Origin != origin ||
 		!slices.Equal(dialed, []string{"198.51.100.1:8090"}) {
-		t.Fatalf("dialed = %v, %v, want only the answered origin", dialed, answered)
-	}
-}
-
-func TestDeliverWithoutAnsweredOriginNeedsAnAcceptedReply(t *testing.T) {
-	web := newNetwork(t)
-	web.answer(t, "192.0.2.1:8090", "reply=yes\n")
-	web.answer(t, "198.51.100.1:8090", "identity=peer\n")
-
-	answer, answered := web.contacts().Deliver(
-		t.Context(),
-		addressesOf(t, "192.0.2.1", "198.51.100.1"),
-		questionFor(peerHash(t, "AAAAAAAAAAAA")),
-		hasField("reply"),
-	)
-
-	if !answered || answer.Origin.Host != hostOf(t, "198.51.100.1") {
-		t.Fatalf("answer = %v, %v, want the origin with an accepted reply", answer.Origin, answered)
+		t.Fatalf("dialed = %v, %v, want only the given origin", dialed, answered)
 	}
 }
 
@@ -335,20 +323,14 @@ func TestContactsKeepAtMostCapacityAnsweredOrigins(t *testing.T) {
 	contacts := web.contactsKeeping(1)
 	first := peerHash(t, "AAAAAAAAAAAA")
 	second := peerHash(t, "BBBBBBBBBBBB")
+
 	contacts.Greet(t.Context(), addressesOf(t, "192.0.2.1"), questionFor(first))
 	contacts.Greet(t.Context(), addressesOf(t, "198.51.100.1"), questionFor(second))
-	web.route("192.0.2.1:8090", "127.0.0.1:1")
-	web.answer(t, "203.0.113.1:8090", "identity=peer\n")
-	web.dialedAddresses()
 
-	contacts.Deliver(
-		t.Context(),
-		addressesOf(t, "192.0.2.1", "203.0.113.1"),
-		questionFor(first),
-		hasField("reply"),
-	)
-
-	if dialed := web.dialedAddresses(); len(dialed) != 2 {
-		t.Fatalf("dialed = %v, want a walk after the first peer was evicted", dialed)
+	if _, found := contacts.AnsweredOriginOf(first); found {
+		t.Fatal("the first peer's origin kept beyond a capacity of one")
+	}
+	if _, found := contacts.AnsweredOriginOf(second); !found {
+		t.Fatal("the second peer's origin not kept")
 	}
 }

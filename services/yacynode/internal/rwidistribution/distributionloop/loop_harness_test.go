@@ -452,7 +452,7 @@ func (f *fakeRoster) IsRecentlyReachable(_ context.Context, peer yacymodel.Hash)
 }
 
 type offeredCall struct {
-	Peer     yacymodel.Seed
+	Peer     yacymodel.Hash
 	Postings []yacymodel.RWIPosting
 }
 
@@ -475,17 +475,17 @@ type fakeTransfers struct {
 	guard   sync.Mutex
 	answers map[yacymodel.Hash]fakeAnswer
 	offered []offeredCall
-	onOffer func(peer yacymodel.Seed)
+	onOffer func(peer yacymodel.Hash)
 }
 
 func (f *fakeTransfers) Send(
 	ctx context.Context,
-	peer yacymodel.Seed,
+	peer yacymodel.Hash,
 	offeredPostings []yacymodel.RWIPosting,
 ) postingtransfer.OfferAnswer {
 	f.guard.Lock()
 	f.offered = append(f.offered, offeredCall{Peer: peer, Postings: offeredPostings})
-	answer, answered := f.answers[peer.Hash]
+	answer, answered := f.answers[peer]
 	if !answered {
 		answer = declinedAnswer
 	}
@@ -516,7 +516,7 @@ func (f *fakeTransfers) offeredTo(peer yacymodel.Seed) []offeredCall {
 
 	var offeredToPeer []offeredCall
 	for _, call := range f.offered {
-		if call.Peer.Hash == peer.Hash {
+		if call.Peer == peer.Hash {
 			offeredToPeer = append(offeredToPeer, call)
 		}
 	}

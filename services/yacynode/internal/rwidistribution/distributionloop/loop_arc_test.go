@@ -210,7 +210,7 @@ func TestLoopOffersAPostingAdmittedWhileItsWordPartitionIsSent(t *testing.T) {
 		urls := urlsOf(2)
 		h.admit(t, wordPartition, urls[0])
 		sends := 0
-		h.transfers.onOffer = func(yacymodel.Seed) {
+		h.transfers.onOffer = func(yacymodel.Hash) {
 			sends++
 			if sends == 1 {
 				h.admit(t, wordPartition, urls[1])
@@ -239,7 +239,7 @@ func TestLoopReadsAWordPartitionMadeDueBehindTheCursorOfItsArc(t *testing.T) {
 			h.admit(t, wordPartition, urlsOf(1)...)
 		}
 		sends := 0
-		h.transfers.onOffer = func(yacymodel.Seed) {
+		h.transfers.onOffer = func(yacymodel.Hash) {
 			sends++
 			if sends == 2 {
 				h.write(t, func(tx *vault.Txn) error {

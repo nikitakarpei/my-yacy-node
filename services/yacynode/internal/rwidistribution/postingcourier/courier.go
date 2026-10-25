@@ -25,11 +25,11 @@ type Observer interface {
 }
 
 type Contacts interface {
+	AnsweredOriginOf(peer yacymodel.Hash) (peerwire.Origin, bool)
 	Deliver(
 		ctx context.Context,
-		addresses yacymodel.PeerAddresses,
+		origin peerwire.Origin,
 		question peercontact.Question,
-		accepts func(yacyproto.ResponseFields) bool,
 	) (peerwire.Answer, bool)
 }
 
@@ -56,23 +56,23 @@ func New(
 
 func (c Courier) Offer(
 	ctx context.Context,
-	recipient yacymodel.Seed,
+	peer yacymodel.Hash,
 	postings []yacymodel.RWIPosting,
 ) Receipt {
-	addresses, addressable := recipient.Addresses()
-	if !addressable {
+	origin, known := c.contacts.AnsweredOriginOf(peer)
+	if !known {
 		slog.WarnContext(
 			ctx,
-			"posting offer not sent to peer without addresses",
-			slog.String("peer", recipient.Hash.String()),
+			"posting offer not sent to peer without answered origin",
+			slog.String("peer", peer.String()),
 		)
 
 		return Receipt{Outcome: Unaddressable}
 	}
 
-	resp, origin, answered := c.postTransferRWI(ctx, addresses, recipient.Hash, postings)
+	resp, answered := c.postTransferRWI(ctx, origin, peer, postings)
 	if !answered {
-		slog.WarnContext(ctx, "posting offer failed", slog.String("peer", recipient.Hash.String()))
+		slog.WarnContext(ctx, "posting offer failed", slog.String("peer", peer.String()))
 
 		return Receipt{Outcome: Unreachable}
 	}
@@ -90,7 +90,7 @@ func (c Courier) Offer(
 		slog.WarnContext(
 			ctx,
 			"posting offer rejected by loaded peer",
-			slog.String("peer", recipient.Hash.String()),
+			slog.String("peer", peer.String()),
 			slog.String("origin", origin.String()),
 		)
 
@@ -99,7 +99,7 @@ func (c Courier) Offer(
 		slog.WarnContext(
 			ctx,
 			"posting offer refused",
-			slog.String("peer", recipient.Hash.String()),
+			slog.String("peer", peer.String()),
 			slog.String("origin", origin.String()),
 			slog.String("result", string(resp.Result)),
 		)
@@ -110,10 +110,10 @@ func (c Courier) Offer(
 
 func (c Courier) postTransferRWI(
 	ctx context.Context,
-	addresses yacymodel.PeerAddresses,
+	origin peerwire.Origin,
 	peer yacymodel.Hash,
 	postings []yacymodel.RWIPosting,
-) (yacyproto.TransferRWIResponse, peerwire.Origin, bool) {
+) (yacyproto.TransferRWIResponse, bool) {
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: c.networkName,
 		Iam:         c.self,
@@ -124,23 +124,17 @@ func (c Courier) postTransferRWI(
 		Key:         yacyproto.TransferRWIKey(len(postings)),
 	}
 
-	answer, answered := c.contacts.Deliver(ctx, addresses, peercontact.Question{
+	answer, answered := c.contacts.Deliver(ctx, origin, peercontact.Question{
 		Request: peerwire.Request{Peer: peer, Path: yacyproto.PathTransferRWI, Form: req.Form()},
-		Accepts: isAcceptedTransferRWIReply,
-	}, isTransferRWIReply)
+		Accepts: isTransferRWIReply,
+	})
 	if !answered {
-		return yacyproto.TransferRWIResponse{}, peerwire.Origin{}, false
+		return yacyproto.TransferRWIResponse{}, false
 	}
 	c.observer.ObservePostingOfferAnswerTime(answer.Time)
 	resp, _ := yacyproto.ParseTransferRWIResponse(answer.Fields)
 
-	return resp, answer.Origin, true
-}
-
-func isAcceptedTransferRWIReply(fields yacyproto.ResponseFields) bool {
-	resp, err := yacyproto.ParseTransferRWIResponse(fields)
-
-	return err == nil && resp.Result == yacyproto.ResultOK
+	return resp, true
 }
 
 func isTransferRWIReply(fields yacyproto.ResponseFields) bool {

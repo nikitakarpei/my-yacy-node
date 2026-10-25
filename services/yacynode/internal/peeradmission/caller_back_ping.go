@@ -63,7 +63,7 @@ func isRWICountReply(fields yacyproto.ResponseFields) bool {
 	if fields[yacyproto.FieldResponse] == "" {
 		return false
 	}
-	_, err := yacyproto.ParseQueryResponse(fields)
+	resp, err := yacyproto.ParseQueryResponse(fields)
 
-	return err == nil
+	return err == nil && resp.Response != yacyproto.QueryResponseRejected
 }

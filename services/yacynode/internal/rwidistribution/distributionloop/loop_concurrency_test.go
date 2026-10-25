@@ -18,7 +18,7 @@ func TestLoopOffersABatchToAllItsPeersAtTheSameTime(t *testing.T) {
 		h := openLoop(t, startClock(), loopOptions{redundancy: 3})
 		h.reach(peerAfter(wordPartition, 1), peerAfter(wordPartition, 2))
 		meeting := newCallMeeting(2)
-		h.transfers.onOffer = func(yacymodel.Seed) { meeting.arrive() }
+		h.transfers.onOffer = func(yacymodel.Hash) { meeting.arrive() }
 		h.admit(t, wordPartition, urlsOf(1)...)
 
 		h.start(t)
@@ -31,7 +31,7 @@ func TestLoopOffersTwoBatchesAtTheSameTime(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		h, wordPartitions := openTwoBatches(t)
 		meeting := newCallMeeting(2)
-		h.transfers.onOffer = func(yacymodel.Seed) { meeting.arrive() }
+		h.transfers.onOffer = func(yacymodel.Hash) { meeting.arrive() }
 
 		h.start(t)
 
@@ -53,8 +53,8 @@ func TestLoopOffersOtherBatchesWhileABatchWaitsForASlowPeer(t *testing.T) {
 		h.transfers.answers[slowPeer.Hash] = acceptedAnswer
 		h.transfers.answers[fastPeer.Hash] = acceptedAnswer
 		slowAnswer := make(chan struct{})
-		h.transfers.onOffer = func(peer yacymodel.Seed) {
-			if peer.Hash == slowPeer.Hash {
+		h.transfers.onOffer = func(peer yacymodel.Hash) {
+			if peer == slowPeer.Hash {
 				<-slowAnswer
 			}
 		}
@@ -105,7 +105,7 @@ func TestLoopOffersAtMostTheConcurrentBatchesItIsAllowed(t *testing.T) {
 			peerAfter(wordPartitions[2], 1),
 		)
 		answers := make(chan struct{})
-		h.transfers.onOffer = func(yacymodel.Seed) { <-answers }
+		h.transfers.onOffer = func(yacymodel.Hash) { <-answers }
 		for _, wordPartition := range wordPartitions {
 			h.admit(t, wordPartition, urlsOf(1)...)
 		}
@@ -217,8 +217,8 @@ func TestLoopTakesNoArcOverABatchStillInFlightFromBeforeARingChange(t *testing.T
 		h.transfers.answers[firstPeer.Hash] = acceptedAnswer
 		h.transfers.answers[secondPeer.Hash] = acceptedAnswer
 		firstAnswer := make(chan struct{})
-		h.transfers.onOffer = func(peer yacymodel.Seed) {
-			if peer.Hash == firstPeer.Hash {
+		h.transfers.onOffer = func(peer yacymodel.Hash) {
+			if peer == firstPeer.Hash {
 				<-firstAnswer
 			}
 		}

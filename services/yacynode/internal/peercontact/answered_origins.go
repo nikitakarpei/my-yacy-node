@@ -1,7 +1,6 @@
 package peercontact
 
 import (
-	"slices"
 	"sync"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -43,14 +42,11 @@ func (a *answeredOrigins) forget(peer yacymodel.Hash) {
 	delete(a.originPerPeer, peer)
 }
 
-func (a *answeredOrigins) originAmong(
-	peer yacymodel.Hash,
-	origins []peerwire.Origin,
-) (peerwire.Origin, bool) {
+func (a *answeredOrigins) originOf(peer yacymodel.Hash) (peerwire.Origin, bool) {
 	a.guard.Lock()
 	defer a.guard.Unlock()
 
 	origin, found := a.originPerPeer[peer]
 
-	return origin, found && slices.Contains(origins, origin)
+	return origin, found
 }

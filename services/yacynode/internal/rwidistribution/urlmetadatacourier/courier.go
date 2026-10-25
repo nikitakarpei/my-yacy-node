@@ -24,11 +24,11 @@ type Observer interface {
 }
 
 type Contacts interface {
+	AnsweredOriginOf(peer yacymodel.Hash) (peerwire.Origin, bool)
 	Deliver(
 		ctx context.Context,
-		addresses yacymodel.PeerAddresses,
+		origin peerwire.Origin,
 		question peercontact.Question,
-		accepts func(yacyproto.ResponseFields) bool,
 	) (peerwire.Answer, bool)
 }
 
@@ -55,15 +55,14 @@ func New(
 
 func (c Courier) Deliver(
 	ctx context.Context,
-	recipient yacymodel.Seed,
+	peer yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
-	peer := recipient.Hash
-	addresses, addressable := recipient.Addresses()
-	if !addressable {
+	origin, known := c.contacts.AnsweredOriginOf(peer)
+	if !known {
 		slog.WarnContext(
 			ctx,
-			"url metadata not delivered to peer without addresses",
+			"url metadata not delivered to peer without answered origin",
 			slog.String("peer", peer.String()),
 		)
 
@@ -78,10 +77,10 @@ func (c Courier) Deliver(
 		URLs:        metadata,
 	}
 
-	answer, answered := c.contacts.Deliver(ctx, addresses, peercontact.Question{
+	answer, answered := c.contacts.Deliver(ctx, origin, peercontact.Question{
 		Request: peerwire.Request{Peer: peer, Path: yacyproto.PathTransferURL, Form: req.Form()},
-		Accepts: isAcceptedTransferURLReply,
-	}, isTransferURLReply)
+		Accepts: isTransferURLReply,
+	})
 	if !answered {
 		slog.WarnContext(ctx, "url metadata delivery failed", slog.String("peer", peer.String()))
 
@@ -102,18 +101,12 @@ func (c Courier) Deliver(
 			ctx,
 			"url metadata delivery refused",
 			slog.String("peer", peer.String()),
-			slog.String("origin", answer.Origin.String()),
+			slog.String("origin", origin.String()),
 			slog.String("result", string(resp.Result)),
 		)
 
 		return Receipt{Outcome: Refused}
 	}
-}
-
-func isAcceptedTransferURLReply(fields yacyproto.ResponseFields) bool {
-	resp, err := yacyproto.ParseTransferURLResponse(fields)
-
-	return err == nil && resp.Result == yacyproto.ResultOK
 }
 
 func isTransferURLReply(fields yacyproto.ResponseFields) bool {

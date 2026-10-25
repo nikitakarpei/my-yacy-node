@@ -1,7 +1,7 @@
 // Package peercontact decides which origins of a peer to try, in which order and
-// within which time, for a greet, a back-ping probe and a delivery. A DNS name is
-// tried over HTTPS first. It keeps in memory, per peer, the origin that answered
-// a greet, and leads the other contacts with it.
+// within which time. A greet and a back-ping probe try the origins in turn, a DNS
+// name over HTTPS first, and keep in memory, per peer, the origin that answered.
+// A delivery goes only to that origin.
 package peercontact
 
 import (
@@ -42,15 +42,7 @@ func (c *Contacts) Greet(
 	addresses yacymodel.PeerAddresses,
 	question Question,
 ) (peerwire.Answer, bool) {
-	attempts := question.attemptsAt(originsFrom(addresses))
-	answer, answered := c.exchange.Exchange(ctx, question.Request, attempts, greetBudget)
-	if answered {
-		c.answeredOrigins.record(question.Request.Peer, answer.Origin)
-	} else {
-		c.answeredOrigins.forget(question.Request.Peer)
-	}
-
-	return answer, answered
+	return c.walk(ctx, question, originsFrom(addresses), greetBudget)
 }
 
 func (c *Contacts) Probe(
@@ -59,34 +51,52 @@ func (c *Contacts) Probe(
 	question Question,
 ) (peerwire.Answer, bool) {
 	origins := originsFrom(addresses)
-	if answeredOrigin, found := c.answeredOrigins.originAmong(
-		question.Request.Peer,
-		origins,
-	); found {
+	if answeredOrigin, found := c.answeredOrigins.originOf(question.Request.Peer); found &&
+		slices.Contains(origins, answeredOrigin) {
 		origins = append(
 			[]peerwire.Origin{answeredOrigin},
 			withoutOrigin(origins, answeredOrigin)...)
 	}
 
-	return c.exchange.Exchange(ctx, question.Request, question.attemptsAt(origins), probeBudget)
+	return c.walk(ctx, question, origins, probeBudget)
+}
+
+func (c *Contacts) AnsweredOriginOf(peer yacymodel.Hash) (peerwire.Origin, bool) {
+	return c.answeredOrigins.originOf(peer)
 }
 
 func (c *Contacts) Deliver(
 	ctx context.Context,
-	addresses yacymodel.PeerAddresses,
+	origin peerwire.Origin,
 	question Question,
-	acceptsFromAnsweredOrigin func(yacyproto.ResponseFields) bool,
 ) (peerwire.Answer, bool) {
-	origins := originsFrom(addresses)
-	attempts := question.attemptsAt(origins)
-	if answeredOrigin, found := c.answeredOrigins.originAmong(
-		question.Request.Peer,
-		origins,
-	); found {
-		attempts = []peerwire.Attempt{{Origin: answeredOrigin, Accepts: acceptsFromAnsweredOrigin}}
+	return c.exchange.Exchange(
+		ctx,
+		question.Request,
+		[]peerwire.Attempt{{Origin: origin, Accepts: question.Accepts}},
+		deliveryBudget,
+	)
+}
+
+func (c *Contacts) walk(
+	ctx context.Context,
+	question Question,
+	origins []peerwire.Origin,
+	budget time.Duration,
+) (peerwire.Answer, bool) {
+	answer, answered := c.exchange.Exchange(
+		ctx,
+		question.Request,
+		question.attemptsAt(origins),
+		budget,
+	)
+	if answered {
+		c.answeredOrigins.record(question.Request.Peer, answer.Origin)
+	} else {
+		c.answeredOrigins.forget(question.Request.Peer)
 	}
 
-	return c.exchange.Exchange(ctx, question.Request, attempts, deliveryBudget)
+	return answer, answered
 }
 
 func originsFrom(addresses yacymodel.PeerAddresses) []peerwire.Origin {

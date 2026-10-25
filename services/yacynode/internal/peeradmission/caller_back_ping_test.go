@@ -64,6 +64,23 @@ func TestCallerBackPingRejectsAReplyWithoutAWordCount(t *testing.T) {
 	}
 }
 
+func TestCallerBackPingRejectsAReplyOfAnotherPeer(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = io.WriteString(w, "response=-1\n")
+	}))
+	defer srv.Close()
+
+	resp := serveHello(
+		t,
+		muxWithHello(t, &stubReachability{}, srv.Client()),
+		helloRequest("freeworld", reachableCallerSeed(t, srv.URL), 0),
+	)
+
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerJunior {
+		t.Fatalf("YourType = %q, want junior for a reply that rejects the addressed peer", yourType)
+	}
+}
+
 func TestCallerBackPingReachesTheCallerThroughAnAdditionalAddress(t *testing.T) {
 	srv := backPingServer(true)
 	defer srv.Close()

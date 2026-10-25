@@ -102,7 +102,7 @@ func (s offerSender) sendInTransfers(
 ) wordpartitionoffer.PeerAnswer {
 	answer := wordpartitionoffer.PeerAnswer{Accepted: true}
 	for transfer := range slices.Chunk(offer.postings, s.postingsPerTransfer) {
-		offerAnswer := s.transfers.Send(ctx, offer.peer, transfer)
+		offerAnswer := s.transfers.Send(ctx, offer.peer.Hash, transfer)
 		s.reportAnswer(ctx, offer.peer.Hash, offerAnswer)
 		answer.AcceptedPostings = append(answer.AcceptedPostings, offerAnswer.AcceptedPostings...)
 		if offerAnswer.Result != postingtransfer.OfferAccepted {
