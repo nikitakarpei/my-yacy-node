@@ -179,7 +179,7 @@
     {
       "id": 3,
       "title": "Peers reaching this node",
-      "description": "Peers that reached this node back when it last contacted its peers.",
+      "description": "Peers that could connect back to this node at the last announce.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -485,8 +485,8 @@
     },
     {
       "id": 42,
-      "title": "Peers reached when this node contacts its peers, by outcome",
-      "description": "Peers this node last contacted, by the peer type they reported this node to be.",
+      "title": "Peers greeted at each announce, by result",
+      "description": "The peer type each greeted peer saw this node as, or that it did not answer.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -530,8 +530,8 @@
     },
     {
       "id": 149,
-      "title": "Share of reachable peers greeted over HTTPS",
-      "description": "Share of the peers confirmed reachable when this node last contacted its peers that answered the greet over HTTPS.",
+      "title": "Peers answering over HTTPS",
+      "description": "Share of the peers that answered the last announce over HTTPS.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

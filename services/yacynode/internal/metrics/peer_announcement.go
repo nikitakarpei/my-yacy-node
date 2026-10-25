@@ -21,16 +21,16 @@ func NewPeerAnnouncementMetrics(registry prometheus.Registerer) *PeerAnnouncemen
 	peersPerContactOutcome := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "yacynode_peerannouncement_peers_per_contact_outcome",
-			Help: "Peers this node last contacted, by the peer type they reported this " +
-				"node to be.",
+			Help: "Peers greeted at the last announce, by the peer type they reported " +
+				"this node to be.",
 		},
 		[]string{labelContactOutcome},
 	)
 	reachablePeersPerScheme := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "yacynode_peerannouncement_reachable_peers_per_scheme",
-			Help: "Peers confirmed reachable when this node last contacted its peers, by " +
-				"the scheme of the origin that answered the greet.",
+			Help: "Peers that answered the last announce, by the scheme of the origin " +
+				"that answered.",
 		},
 		[]string{labelScheme},
 	)

@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
-func TestPeerAnnouncementShowsReachablePeersPerSchemeOfTheLastContacts(t *testing.T) {
+func TestPeerAnnouncementShowsReachablePeersPerSchemeOfTheLastAnnounce(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewPeerAnnouncementMetrics(registry)
 
@@ -26,7 +26,7 @@ func TestPeerAnnouncementShowsReachablePeersPerSchemeOfTheLastContacts(t *testin
 	)
 
 	expected := `
-# HELP yacynode_peerannouncement_reachable_peers_per_scheme Peers confirmed reachable when this node last contacted its peers, by the scheme of the origin that answered the greet.
+# HELP yacynode_peerannouncement_reachable_peers_per_scheme Peers that answered the last announce, by the scheme of the origin that answered.
 # TYPE yacynode_peerannouncement_reachable_peers_per_scheme gauge
 yacynode_peerannouncement_reachable_peers_per_scheme{scheme="http"} 3
 yacynode_peerannouncement_reachable_peers_per_scheme{scheme="https"} 2
