@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	backPingsAtOnce = 16
-	backPingBudget  = 13 * time.Second
+	backPingsAtOnce  = 16
+	backPingBudget   = 13 * time.Second
+	backPingSlotWait = 15 * time.Second
 )
 
 type answeredBaseURLs interface {
@@ -23,13 +24,19 @@ type answeredBaseURLs interface {
 type callerBackPing struct {
 	walker           peerwire.Walker
 	answeredBaseURLs answeredBaseURLs
+	clock            Clock
 	slots            chan struct{}
 }
 
-func newCallerBackPing(walker peerwire.Walker, baseURLs answeredBaseURLs) callerBackPing {
+func newCallerBackPing(
+	walker peerwire.Walker,
+	baseURLs answeredBaseURLs,
+	clock Clock,
+) callerBackPing {
 	return callerBackPing{
 		walker:           walker,
 		answeredBaseURLs: baseURLs,
+		clock:            clock,
 		slots:            make(chan struct{}, backPingsAtOnce),
 	}
 }
@@ -43,16 +50,14 @@ func (p callerBackPing) Reach(
 	self yacymodel.Hash,
 	networkName string,
 ) (peerwire.BaseURL, bool) {
-	select {
-	case p.slots <- struct{}{}:
-		defer func() { <-p.slots }()
-	default:
-		slog.WarnContext(ctx, "caller back-ping skipped, too many back-pings running",
+	if !p.takeSlot(ctx) {
+		slog.WarnContext(ctx, "caller back-ping skipped, no back-ping slot freed in time",
 			slog.String("peer", caller.String()),
 		)
 
 		return peerwire.BaseURL{}, false
 	}
+	defer func() { <-p.slots }()
 
 	query := yacyproto.QueryRequest{
 		NetworkName: networkName,
@@ -69,6 +74,27 @@ func (p callerBackPing) Reach(
 	)
 
 	return answer.BaseURL, answered
+}
+
+func (p callerBackPing) takeSlot(ctx context.Context) bool {
+	select {
+	case p.slots <- struct{}{}:
+		return true
+	default:
+	}
+
+	waitEnded := make(chan struct{})
+	stop := p.clock.After(backPingSlotWait, func() { close(waitEnded) })
+	defer stop()
+
+	select {
+	case p.slots <- struct{}{}:
+		return true
+	case <-waitEnded:
+		return false
+	case <-ctx.Done():
+		return false
+	}
 }
 
 func (p callerBackPing) baseURLsFor(

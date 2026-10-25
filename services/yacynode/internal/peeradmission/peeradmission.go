@@ -21,12 +21,17 @@ type RuntimeStatus interface {
 	SelfSeed(ctx context.Context) yacymodel.Seed
 }
 
+type Clock interface {
+	Now() time.Time
+	After(timeout time.Duration, expire func()) (stop func())
+}
+
 //nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func MountHello(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
 	status RuntimeStatus,
-	now func() time.Time,
+	clock Clock,
 	reachability reachableRoster,
 	walker peerwire.Walker,
 ) {
@@ -38,8 +43,8 @@ func MountHello(
 		helloEndpoint{
 			identity:     identity,
 			status:       status,
-			now:          now,
-			probe:        newCallerBackPing(walker, reachability),
+			clock:        clock,
+			probe:        newCallerBackPing(walker, reachability, clock),
 			reachability: reachability,
 		}.Serve,
 	)

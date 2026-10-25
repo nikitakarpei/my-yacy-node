@@ -341,7 +341,14 @@ func assembleNode(
 	}
 
 	peerWalker := peerwire.NewWalker(egressClient, wallclock.Clock{})
-	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, peerWalker)
+	peeradmission.MountHello(
+		router,
+		identity,
+		runtimeStatus,
+		wallclock.Clock{},
+		peerRoster,
+		peerWalker,
+	)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{

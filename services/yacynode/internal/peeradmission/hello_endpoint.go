@@ -3,7 +3,6 @@ package peeradmission
 import (
 	"context"
 	"log/slog"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
@@ -38,7 +37,7 @@ type reachableRoster interface {
 type helloEndpoint struct {
 	identity     nodeidentity.Identity
 	status       RuntimeStatus
-	now          func() time.Time
+	clock        Clock
 	probe        callerReachabilityProbe
 	reachability reachableRoster
 }
@@ -60,7 +59,7 @@ func (e helloEndpoint) foreignNetworkReply(ctx context.Context) yacyproto.HelloR
 	return yacyproto.HelloResponse{
 		YourIP:   httpguard.RemoteAddr(ctx),
 		YourType: yacymodel.Some(yacymodel.PeerVirgin),
-		MyTime:   e.now(),
+		MyTime:   e.clock.Now(),
 		Message:  msgForeignNetwork,
 	}
 }
@@ -79,7 +78,7 @@ func (e helloEndpoint) sameNetworkReply(
 	return yacyproto.HelloResponse{
 		YourIP:   httpguard.RemoteAddr(ctx),
 		YourType: yacymodel.Some(e.classifyCaller(ctx, req.Seed)),
-		MyTime:   e.now(),
+		MyTime:   e.clock.Now(),
 		Message:  msgAdmitted,
 		Seeds:    seeds,
 	}

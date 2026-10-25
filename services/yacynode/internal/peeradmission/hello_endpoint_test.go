@@ -82,6 +82,17 @@ func muxWithHello(
 	reachability *stubReachability,
 	client *http.Client,
 ) *http.ServeMux {
+	t.Helper()
+
+	return muxWithHelloAt(t, reachability, client, stoppedClock{})
+}
+
+func muxWithHelloAt(
+	t *testing.T,
+	reachability *stubReachability,
+	client *http.Client,
+	clock peeradmission.Clock,
+) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -96,7 +107,7 @@ func muxWithHello(
 		router,
 		localPeer(),
 		selfStatus(t),
-		stoppedClock{}.Now,
+		clock,
 		reachability,
 		peerwire.NewWalker(client, stoppedClock{}),
 	)

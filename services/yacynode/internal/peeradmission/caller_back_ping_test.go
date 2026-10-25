@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
@@ -163,18 +164,41 @@ func TestCallerBackPingStartsAtTheBaseURLThatAnsweredBefore(t *testing.T) {
 	}
 }
 
-func TestCallerBackPingSkipsACallerWhileSixteenBackPingsRun(t *testing.T) {
-	arrived := make(chan struct{}, 16)
-	release := make(chan struct{})
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+type expiredClock struct{ stoppedClock }
+
+func (expiredClock) After(_ time.Duration, expire func()) (stop func()) {
+	expire()
+
+	return func() {}
+}
+
+type armingClock struct {
+	stoppedClock
+	armed chan struct{}
+}
+
+func (c armingClock) After(time.Duration, func()) (stop func()) {
+	c.armed <- struct{}{}
+
+	return func() {}
+}
+
+func busyBackPingServer(arrived chan<- struct{}, release <-chan struct{}) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, _ = io.Copy(io.Discard, r.Body)
 		arrived <- struct{}{}
 		<-release
 		_, _ = io.WriteString(w, yacyproto.QueryResponse{Response: 3}.Encode().Encode())
 	}))
-	defer srv.Close()
-	mux := muxWithHello(t, &stubReachability{}, srv.Client())
-	caller := reachableCallerSeed(t, srv.URL)
+}
+
+func takeEveryBackPingSlot(
+	t *testing.T,
+	mux *http.ServeMux,
+	caller yacymodel.Seed,
+	arrived <-chan struct{},
+) *sync.WaitGroup {
+	t.Helper()
 
 	var running sync.WaitGroup
 	for range 16 {
@@ -183,11 +207,46 @@ func TestCallerBackPingSkipsACallerWhileSixteenBackPingsRun(t *testing.T) {
 	for range 16 {
 		<-arrived
 	}
+
+	return &running
+}
+
+func TestCallerBackPingWaitsForAFreeSlot(t *testing.T) {
+	arrived := make(chan struct{}, 17)
+	release := make(chan struct{})
+	srv := busyBackPingServer(arrived, release)
+	defer srv.Close()
+	clock := armingClock{armed: make(chan struct{}, 1)}
+	mux := muxWithHelloAt(t, &stubReachability{}, srv.Client(), clock)
+	caller := reachableCallerSeed(t, srv.URL)
+	running := takeEveryBackPingSlot(t, mux, caller, arrived)
+
+	replies := make(chan yacyproto.HelloResponse, 1)
+	go func() { replies <- serveHello(t, mux, helloRequest("freeworld", caller, 0)) }()
+	<-clock.armed
+	close(release)
+	resp := <-replies
+	running.Wait()
+
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
+		t.Fatalf("YourType = %q, want senior once a back-ping slot freed", yourType)
+	}
+}
+
+func TestCallerBackPingSkipsACallerWhenNoSlotFreesInTime(t *testing.T) {
+	arrived := make(chan struct{}, 16)
+	release := make(chan struct{})
+	srv := busyBackPingServer(arrived, release)
+	defer srv.Close()
+	mux := muxWithHelloAt(t, &stubReachability{}, srv.Client(), expiredClock{})
+	caller := reachableCallerSeed(t, srv.URL)
+	running := takeEveryBackPingSlot(t, mux, caller, arrived)
+
 	resp := serveHello(t, mux, helloRequest("freeworld", caller, 0))
 	close(release)
 	running.Wait()
 
 	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerJunior {
-		t.Fatalf("YourType = %q, want junior while every back-ping slot is taken", yourType)
+		t.Fatalf("YourType = %q, want junior when no back-ping slot frees in time", yourType)
 	}
 }
