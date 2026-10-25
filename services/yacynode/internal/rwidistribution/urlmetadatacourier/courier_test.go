@@ -2,14 +2,11 @@ package urlmetadatacourier_test
 
 import (
 	"context"
-	"net"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -36,48 +33,46 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
-func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
+func courierSeed(t testing.TB) yacymodel.Seed {
 	t.Helper()
 
-	parsed, err := url.Parse(server.URL)
-	if err != nil {
-		t.Fatalf("parse server url: %v", err)
-	}
-	host, portRaw, err := net.SplitHostPort(parsed.Host)
-	if err != nil {
-		t.Fatalf("split host port: %v", err)
-	}
-	parsedHost, err := yacymodel.ParseHost(host)
+	host, err := yacymodel.ParseHost("192.0.2.1")
 	if err != nil {
 		t.Fatalf("parse host: %v", err)
-	}
-	port, err := yacymodel.ParsePort(portRaw)
-	if err != nil {
-		t.Fatalf("parse port: %v", err)
 	}
 
 	return yacymodel.Seed{
 		Hash:           courierHash("peer"),
-		PrimaryAddress: yacymodel.Some(parsedHost),
-		Port:           yacymodel.Some(port),
+		PrimaryAddress: yacymodel.Some(host),
+		Port:           yacymodel.Some(yacymodel.Port(8090)),
 	}
 }
 
-func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {
-	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		_, _ = w.Write([]byte(resp.Encode().Encode()))
-	}))
+type stubContacts struct {
+	reply                 yacyproto.ResponseFields
+	answers               bool
+	withoutAnsweredOrigin bool
 }
 
-type steppingClock struct {
-	at   time.Time
-	step time.Duration
+func answeringContacts(resp yacyproto.TransferURLResponse) *stubContacts {
+	return &stubContacts{reply: resp.Encode(), answers: true}
 }
 
-func (c *steppingClock) now() time.Time {
-	c.at = c.at.Add(c.step)
+func (s *stubContacts) Deliver(
+	_ context.Context,
+	_ yacymodel.PeerAddresses,
+	question peercontact.Question,
+	acceptsFromAnsweredOrigin func(yacyproto.ResponseFields) bool,
+) (peerwire.Answer, bool) {
+	check := acceptsFromAnsweredOrigin
+	if s.withoutAnsweredOrigin {
+		check = question.Accepts
+	}
+	if !s.answers || !check(s.reply) {
+		return peerwire.Answer{}, false
+	}
 
-	return c.at
+	return peerwire.Answer{Fields: s.reply, Time: time.Second}, true
 }
 
 type answerTimeRecorder struct{ answerTimes []time.Duration }
@@ -86,29 +81,15 @@ func (r *answerTimeRecorder) ObserveURLMetadataDeliveryAnswerTime(answerTime tim
 	r.answerTimes = append(r.answerTimes, answerTime)
 }
 
-func openURLMetadataCourierHarness(
-	t *testing.T,
-	server *httptest.Server,
-) urlmetadatacourier.Courier {
-	t.Helper()
-
-	return openTimedURLMetadataCourierHarness(t, server, &answerTimeRecorder{})
+func courierOver(contacts urlmetadatacourier.Contacts) urlmetadatacourier.Courier {
+	return timedCourierOver(contacts, &answerTimeRecorder{})
 }
 
-func openTimedURLMetadataCourierHarness(
-	t *testing.T,
-	server *httptest.Server,
+func timedCourierOver(
+	contacts urlmetadatacourier.Contacts,
 	recorder *answerTimeRecorder,
 ) urlmetadatacourier.Courier {
-	t.Helper()
-
-	return urlmetadatacourier.New(
-		peerwire.NewFormExchange(server.Client()),
-		"freeworld",
-		courierHash("self"),
-		(&steppingClock{at: time.Unix(1000, 0), step: time.Second}).now,
-		recorder,
-	)
+	return urlmetadatacourier.New(contacts, "freeworld", courierHash("self"), recorder)
 }
 
 func singleURLMetadata() []yacymodel.URLMetadata {
@@ -116,13 +97,12 @@ func singleURLMetadata() []yacymodel.URLMetadata {
 }
 
 func TestDeliverReportsAcceptedOnOK(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	contacts := answeringContacts(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(contacts)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierSeed(t), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -131,16 +111,15 @@ func TestDeliverReportsAcceptedOnOK(t *testing.T) {
 
 func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 	rejected := urlHash("u1")
-	server := urlResponder(yacyproto.TransferURLResponse{
+	contacts := answeringContacts(yacyproto.TransferURLResponse{
 		Result:   yacyproto.ResultOK,
 		ErrorURL: []yacymodel.URLHash{rejected},
 	})
-	defer server.Close()
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(contacts)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierSeed(t), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -151,13 +130,14 @@ func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 }
 
 func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultErrorNotGranted})
-	defer server.Close()
+	contacts := answeringContacts(
+		yacyproto.TransferURLResponse{Result: yacyproto.ResultErrorNotGranted},
+	)
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(contacts)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierSeed(t), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Deferred {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Deferred)
@@ -165,13 +145,14 @@ func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
 }
 
 func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultWrongTarget})
-	defer server.Close()
+	contacts := answeringContacts(
+		yacyproto.TransferURLResponse{Result: yacyproto.ResultWrongTarget},
+	)
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(contacts)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierSeed(t), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Refused {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Refused)
@@ -179,15 +160,12 @@ func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
 }
 
 func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		http.Error(w, "nope", http.StatusServiceUnavailable)
-	}))
-	defer server.Close()
+	contacts := &stubContacts{}
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(contacts)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierSeed(t), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Unreachable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unreachable)
@@ -195,10 +173,9 @@ func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
 }
 
 func TestDeliverReportsUnaddressablePeer(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	contacts := answeringContacts(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(contacts)
 
 	receipt := courier.Deliver(
 		context.Background(), yacymodel.Seed{Hash: courierHash("peer")}, singleURLMetadata(),
@@ -209,15 +186,28 @@ func TestDeliverReportsUnaddressablePeer(t *testing.T) {
 }
 
 func TestDeliverReportsHowLongThePeerTookToAnswer(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	contacts := answeringContacts(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 	recorder := &answerTimeRecorder{}
 
-	openTimedURLMetadataCourierHarness(t, server, recorder).Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+	timedCourierOver(contacts, recorder).Deliver(
+		context.Background(), courierSeed(t), singleURLMetadata(),
 	)
 
 	if len(recorder.answerTimes) != 1 || recorder.answerTimes[0] != time.Second {
 		t.Fatalf("answer times = %v, want one of 1s", recorder.answerTimes)
+	}
+}
+
+func TestDeliverToAPeerWithoutAnsweredOriginCountsOnlyAnAcceptedDelivery(t *testing.T) {
+	contacts := answeringContacts(
+		yacyproto.TransferURLResponse{Result: yacyproto.ResultErrorNotGranted},
+	)
+	contacts.withoutAnsweredOrigin = true
+	courier := courierOver(contacts)
+
+	receipt := courier.Deliver(context.Background(), courierSeed(t), singleURLMetadata())
+
+	if receipt.Outcome != urlmetadatacourier.Unreachable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unreachable)
 	}
 }

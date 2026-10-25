@@ -287,6 +287,7 @@ func (d *Directory) reportPeersKnown(ctx context.Context) {
 	d.observer.PeersKnown(ctx, len(d.peers), amountOfAnsweringPeers, d.limits.Capacity)
 }
 
+// TECHDEBT: single source of truth — rebuilds the seed host list Seed.Addresses derives
 func addressesOf(seed yacymodel.Seed) []string {
 	port, ok := seed.Port.Get()
 	if !ok {

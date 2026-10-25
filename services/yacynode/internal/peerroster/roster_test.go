@@ -2,6 +2,7 @@ package peerroster_test
 
 import (
 	"context"
+	"reflect"
 	"testing"
 	"time"
 
@@ -59,7 +60,7 @@ func TestReachablePromotesAndIsServed(t *testing.T) {
 	}
 }
 
-func TestReachableConfirmationReplacesDiscoveredSeedAndNetworkAddress(t *testing.T) {
+func TestReachableConfirmationReplacesDiscoveredSeedAndAddresses(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
@@ -77,13 +78,46 @@ func TestReachableConfirmationReplacesDiscoveredSeedAndNetworkAddress(t *testing
 	if !present || !capabilities.AcceptRemoteIndex {
 		t.Fatalf("reachable peer did not retain fresh capabilities")
 	}
-	address, found := roster.NetworkAddressOf(ctx, fresh.Hash)
+	addresses, found := roster.AddressesOf(ctx, fresh.Hash)
 	if !found {
-		t.Fatal("fresh network address not found")
+		t.Fatal("fresh addresses not found")
 	}
-	wantAddress, _ := fresh.NetworkAddress()
-	if address != wantAddress {
-		t.Errorf("network address = %v, want %v", address, wantAddress)
+	wantAddresses, _ := fresh.Addresses()
+	if !reflect.DeepEqual(addresses, wantAddresses) {
+		t.Errorf("addresses = %v, want %v", addresses, wantAddresses)
+	}
+}
+
+func TestDiscoveryKeepsTheAddressesOfAKnownPeer(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+
+	known := seniorSeed(t, "peer", "203.0.113.1", 8090)
+	roster.Discover(ctx, known)
+	roster.Discover(ctx, seniorSeed(t, "peer", "198.51.100.9", 8091))
+
+	addresses, _ := roster.AddressesOf(ctx, known.Hash)
+	wantAddresses, _ := known.Addresses()
+	if !reflect.DeepEqual(addresses, wantAddresses) {
+		t.Errorf("addresses = %v, want the first discovered %v", addresses, wantAddresses)
+	}
+}
+
+func TestDiscoveryKeepsAPeerWithOnlyAdditionalAddresses(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+	host, err := yacymodel.ParseHost("2001:db8::7")
+	if err != nil {
+		t.Fatalf("parse host: %v", err)
+	}
+	peer := seniorSeed(t, "peer", "", 8090)
+	peer.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{host})
+
+	roster.Discover(ctx, peer)
+
+	addresses, found := roster.AddressesOf(ctx, peer.Hash)
+	if !found || !reflect.DeepEqual(addresses.Hosts, []yacymodel.Host{host}) {
+		t.Fatalf("addresses = %v, %v, want the additional host", addresses, found)
 	}
 }
 

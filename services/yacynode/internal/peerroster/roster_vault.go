@@ -32,8 +32,14 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 	var stored storedfields.Writer
 	stored.Time(entry.lastReachable)
 	stored.Time(entry.lastContacted)
-	stored.Text(entry.primaryAddress.String())
-	stored.Varint(int64(entry.port))
+	stored.Text(entry.addresses.Hosts[0].String())
+	stored.Varint(int64(entry.addresses.Port))
+	additionalHosts := entry.addresses.Hosts[1:]
+	stored.Count(len(additionalHosts))
+	for _, host := range additionalHosts {
+		stored.Text(host.String())
+	}
+	stored.Varint(int64(entry.addresses.SecurePort.OrElse(0)))
 
 	return stored.Record(), nil
 }
@@ -41,10 +47,9 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 	stored := storedfields.ReaderOf(raw, errBadRosterEntry)
 	entry := rosterEntry{
-		lastReachable:  stored.Time("last reachable"),
-		lastContacted:  stored.Time("last contacted"),
-		primaryAddress: primaryAddressFrom(stored),
-		port:           portFrom(stored),
+		lastReachable: stored.Time("last reachable"),
+		lastContacted: stored.Time("last contacted"),
+		addresses:     addressesFrom(stored),
 	}
 	if err := stored.Err(); err != nil {
 		return rosterEntry{}, err
@@ -53,19 +58,49 @@ func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 	return entry, nil
 }
 
-func primaryAddressFrom(stored *storedfields.Reader) yacymodel.Host {
-	address, err := yacymodel.ParseHost(stored.Text("primary address"))
-	if err != nil {
-		stored.Reject("primary address", err)
+func addressesFrom(stored *storedfields.Reader) yacymodel.PeerAddresses {
+	addresses := yacymodel.PeerAddresses{
+		Hosts: []yacymodel.Host{hostFrom(stored, "primary host")},
+		Port:  portFrom(stored, "port"),
 	}
+	if stored.BytesLeft() == 0 {
+		return addresses
+	}
+	for range stored.Count("additional hosts") {
+		addresses.Hosts = append(addresses.Hosts, hostFrom(stored, "additional host"))
+	}
+	addresses.SecurePort = securePortFrom(stored)
 
-	return address
+	return addresses
 }
 
-func portFrom(stored *storedfields.Reader) yacymodel.Port {
-	port, err := yacymodel.ParsePort(strconv.FormatInt(stored.Varint("port"), 10))
+func hostFrom(stored *storedfields.Reader, field string) yacymodel.Host {
+	host, err := yacymodel.ParseHost(stored.Text(field))
 	if err != nil {
-		stored.Reject("port", err)
+		stored.Reject(field, err)
+	}
+
+	return host
+}
+
+func portFrom(stored *storedfields.Reader, field string) yacymodel.Port {
+	return portFromNumber(stored, field, stored.Varint(field))
+}
+
+func securePortFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Port] {
+	const field = "secure port"
+	number := stored.Varint(field)
+	if number == 0 {
+		return yacymodel.None[yacymodel.Port]()
+	}
+
+	return yacymodel.Some(portFromNumber(stored, field, number))
+}
+
+func portFromNumber(stored *storedfields.Reader, field string, number int64) yacymodel.Port {
+	port, err := yacymodel.ParsePort(strconv.FormatInt(number, 10))
+	if err != nil {
+		stored.Reject(field, err)
 	}
 
 	return port

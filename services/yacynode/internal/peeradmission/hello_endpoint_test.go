@@ -9,12 +9,15 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -25,6 +28,7 @@ func (helloRuntimeStatus) Version(context.Context) string { return "1.0" }
 func (helloRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 type stubReachability struct {
+	guard     sync.Mutex
 	seeds     []yacymodel.Seed
 	refreshed []yacymodel.Seed
 }
@@ -44,10 +48,19 @@ func (s *stubReachability) MostRecentlyReachablePeers(
 }
 
 func (s *stubReachability) ConfirmReachable(_ context.Context, seed yacymodel.Seed) {
+	s.guard.Lock()
+	defer s.guard.Unlock()
+
 	s.refreshed = append(s.refreshed, seed)
 }
 
 var replyTime = time.Date(2026, time.June, 17, 12, 0, 0, 0, time.UTC)
+
+type stoppedClock struct{}
+
+func (stoppedClock) Now() time.Time { return replyTime }
+
+func (stoppedClock) After(time.Duration, func()) (stop func()) { return func() {} }
 
 func muxWithHello(
 	t *testing.T,
@@ -68,9 +81,9 @@ func muxWithHello(
 		router,
 		localPeer(),
 		selfStatus(t),
-		func() time.Time { return replyTime },
+		stoppedClock{}.Now,
 		reachability,
-		client,
+		peercontact.New(peerwire.NewFormExchange(client, stoppedClock{}), 16),
 	)
 
 	return mux
@@ -164,7 +177,7 @@ func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
 func TestHelloBackPingNamesThisNodeAsTheAsker(t *testing.T) {
 	var askers []string
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		askers = append(askers, r.URL.Query().Get(yacyproto.FieldIam))
+		askers = append(askers, r.PostFormValue(yacyproto.FieldIam))
 		resp := yacyproto.QueryResponse{Response: 3}
 		_, _ = io.WriteString(w, resp.Encode().Encode())
 	}))

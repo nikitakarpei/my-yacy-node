@@ -21,10 +21,7 @@ type peerRoster interface {
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
-	NetworkAddressOf(
-		ctx context.Context,
-		peer yacymodel.Hash,
-	) (yacymodel.NetworkAddress, bool)
+	AddressesOf(ctx context.Context, peer yacymodel.Hash) (yacymodel.PeerAddresses, bool)
 }
 
 // TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
@@ -36,7 +33,7 @@ type announcer struct {
 	reportedHostObserver ReportedHostObserver
 	seeds                bootstrap.SeedSource
 	roster               peerRoster
-	greeter              httpPeerGreeter
+	greeter              peerGreeter
 	observer             AnnouncementObserver
 }
 
@@ -77,7 +74,10 @@ func (a *announcer) contactPeers(ctx context.Context, self yacymodel.Seed) []con
 	}
 
 	contactReplies := a.contactAll(ctx, self, peerHashes)
-	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(contactReplies))
+	a.observer.ObservePeerContacts(
+		amountOfPeersPerContactOutcome(contactReplies),
+		amountOfReachablePeersPerScheme(contactReplies),
+	)
 
 	return contactReplies
 }
@@ -133,40 +133,15 @@ func (a *announcer) contactOne(
 	self yacymodel.Seed,
 	peerHash yacymodel.Hash,
 ) contactReply {
-	networkAddress, found := a.roster.NetworkAddressOf(ctx, peerHash)
+	addresses, found := a.roster.AddressesOf(ctx, peerHash)
 	if !found {
 		return contactReply{outcome: PeerDidNotAnswer}
 	}
 
-	result, err := a.greeter.Greet(ctx, networkAddress, self, announceHelloPeerCount)
-	if err != nil {
+	result, answered := a.greeter.Greet(ctx, peerHash, addresses, self, announceHelloPeerCount)
+	if !answered {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
-		slog.WarnContext(
-			ctx,
-			"peer greet failed",
-			slog.String("peer", peerHash.String()),
-			slog.String("endpoint", networkAddress.String()),
-			slog.Any("error", err),
-		)
-
-		return contactReply{outcome: PeerDidNotAnswer}
-	}
-	if result.RespondingSeed.Hash != peerHash {
-		a.roster.ConfirmUnreachable(ctx, peerHash)
-		slog.WarnContext(
-			ctx,
-			"peer greet identified a different peer",
-			slog.String("peer", peerHash.String()),
-			slog.String("respondingPeer", result.RespondingSeed.Hash.String()),
-		)
-	}
-	if _, addressable := result.RespondingSeed.NetworkAddress(); !addressable {
-		a.roster.ConfirmUnreachable(ctx, peerHash)
-		slog.WarnContext(
-			ctx,
-			"peer greet returned an unaddressable seed",
-			slog.String("peer", peerHash.String()),
-		)
+		slog.WarnContext(ctx, "peer greet failed", slog.String("peer", peerHash.String()))
 
 		return contactReply{outcome: PeerDidNotAnswer}
 	}
@@ -177,7 +152,7 @@ func (a *announcer) contactOne(
 			ctx,
 			"peer did not confirm our network",
 			slog.String("peer", peerHash.String()),
-			slog.String("endpoint", networkAddress.String()),
+			slog.String("origin", result.Origin.String()),
 		)
 
 		return contactReply{outcome: contactOutcomeFromObservedPeerType(result.ObservedPeerType)}
@@ -187,7 +162,7 @@ func (a *announcer) contactOne(
 			ctx,
 			"peer reported us as junior",
 			slog.String("peer", peerHash.String()),
-			slog.String("endpoint", networkAddress.String()),
+			slog.String("origin", result.Origin.String()),
 			slog.String("reportedAddress", result.ReportedHost.OrElse(yacymodel.Host{}).String()),
 		)
 	}
@@ -196,9 +171,18 @@ func (a *announcer) contactOne(
 	a.roster.Discover(ctx, result.KnownSeeds...)
 
 	return contactReply{
-		outcome:      contactOutcomeFromObservedPeerType(result.ObservedPeerType),
-		reportedHost: result.ReportedHost,
+		outcome:         contactOutcomeFromObservedPeerType(result.ObservedPeerType),
+		reportedHost:    credibleReportedHostOf(result),
+		reachableScheme: yacymodel.Some(result.Origin.Scheme),
 	}
+}
+
+func credibleReportedHostOf(result greetResult) yacymodel.Optional[yacymodel.Host] {
+	if _, isAddr := result.Origin.Host.Addr(); !isAddr {
+		return yacymodel.None[yacymodel.Host]()
+	}
+
+	return result.ReportedHost
 }
 
 func confirmsOurNetwork(reportedPeerType yacymodel.PeerType) bool {

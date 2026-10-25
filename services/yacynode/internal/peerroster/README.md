@@ -18,6 +18,11 @@ when a seedlist or a greet response names it. The known roster is bounded;
 once it is full, the stalest peer that is not currently reachable is
 evicted to make room for a new one.
 
+The roster keeps every host in a peer's seed, its port, and its secure
+port. Discovery writes the addresses of a new peer only. The addresses of a
+known peer change only when the peer sends its own seed and is confirmed
+reachable.
+
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted
 only if the reachable set still has room; if it is full, the confirmation

@@ -2,91 +2,68 @@ package peeradmission
 
 import (
 	"context"
-	"io"
 	"log/slog"
-	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const backPingMaxBodyBytes int64 = 64 << 10
+const backPingsAtOnce = 16
 
 type callerBackPing struct {
-	client *http.Client
+	contacts *peercontact.Contacts
+	slots    chan struct{}
 }
 
-func newCallerBackPing(client *http.Client) callerBackPing {
-	return callerBackPing{client: client}
+func newCallerBackPing(contacts *peercontact.Contacts) callerBackPing {
+	return callerBackPing{contacts: contacts, slots: make(chan struct{}, backPingsAtOnce)}
 }
 
 var _ callerReachabilityProbe = callerBackPing{}
 
 func (p callerBackPing) IsReachable(
 	ctx context.Context,
-	caller yacymodel.Seed,
+	caller yacymodel.Hash,
+	addresses yacymodel.PeerAddresses,
 	self yacymodel.Hash,
 	networkName string,
 ) bool {
-	target, err := caller.HTTPEndpoint(yacyproto.PathQuery)
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
+	select {
+	case p.slots <- struct{}{}:
+		defer func() { <-p.slots }()
+	default:
+		slog.WarnContext(ctx, "caller back-ping skipped, too many back-pings running",
+			slog.String("peer", caller.String()),
+		)
 
 		return false
 	}
 
 	query := yacyproto.QueryRequest{
 		NetworkName: networkName,
-		YouAre:      caller.Hash,
+		YouAre:      caller,
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	target.RawQuery = query.Form().Encode()
+	_, answered := p.contacts.Probe(ctx, addresses, peercontact.Question{
+		Request: peerwire.Request{
+			Peer: caller,
+			Path: yacyproto.PathQuery,
+			Form: query.Form(),
+		},
+		Accepts: isRWICountReply,
+	})
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, target.String(), nil)
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-
-	resp, err := p.client.Do(req)
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-	defer p.close(ctx, resp.Body)
-
-	return p.confirms(ctx, resp)
+	return answered
 }
 
-func (p callerBackPing) confirms(ctx context.Context, resp *http.Response) bool {
-	if resp.StatusCode != http.StatusOK {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Int("status", resp.StatusCode))
-
+func isRWICountReply(fields yacyproto.ResponseFields) bool {
+	if fields[yacyproto.FieldResponse] == "" {
 		return false
 	}
+	_, err := yacyproto.ParseQueryResponse(fields)
 
-	body, err := io.ReadAll(io.LimitReader(resp.Body, backPingMaxBodyBytes))
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-
-	fields := yacyproto.ParseResponseFields(string(body))
-	if _, err := yacyproto.ParseQueryResponse(fields); err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-
-	return true
-}
-
-func (p callerBackPing) close(ctx context.Context, body io.Closer) {
-	if err := body.Close(); err != nil {
-		slog.WarnContext(ctx, "caller back-ping body close failed", slog.Any("error", err))
-	}
+	return err == nil
 }

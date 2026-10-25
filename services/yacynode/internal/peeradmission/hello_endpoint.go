@@ -21,7 +21,8 @@ const (
 type callerReachabilityProbe interface {
 	IsReachable(
 		ctx context.Context,
-		caller yacymodel.Seed,
+		caller yacymodel.Hash,
+		addresses yacymodel.PeerAddresses,
 		self yacymodel.Hash,
 		networkName string,
 	) bool
@@ -86,11 +87,18 @@ func (e helloEndpoint) classifyCaller(
 	ctx context.Context,
 	caller yacymodel.Seed,
 ) yacymodel.PeerType {
-	if _, ok := caller.NetworkAddress(); !ok {
+	addresses, addressable := caller.Addresses()
+	if !addressable {
 		return yacymodel.PeerJunior
 	}
 
-	if !e.probe.IsReachable(ctx, caller, e.identity.Hash, e.status.NetworkName(ctx)) {
+	if !e.probe.IsReachable(
+		ctx,
+		caller.Hash,
+		addresses,
+		e.identity.Hash,
+		e.status.NetworkName(ctx),
+	) {
 		return yacymodel.PeerJunior
 	}
 

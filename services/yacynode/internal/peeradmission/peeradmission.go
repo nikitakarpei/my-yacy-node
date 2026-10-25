@@ -7,12 +7,12 @@ package peeradmission
 
 import (
 	"context"
-	"net/http"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -28,7 +28,7 @@ func MountHello(
 	status RuntimeStatus,
 	now func() time.Time,
 	reachability reachableRoster,
-	client *http.Client,
+	contacts *peercontact.Contacts,
 ) {
 	httpguard.MountFields(
 		router,
@@ -39,7 +39,7 @@ func MountHello(
 			identity:     identity,
 			status:       status,
 			now:          now,
-			probe:        newCallerBackPing(client),
+			probe:        newCallerBackPing(contacts),
 			reachability: reachability,
 		}.Serve,
 	)

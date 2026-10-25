@@ -34,6 +34,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/publicaddress"
@@ -340,16 +341,20 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, egressClient)
+	peerContacts := peercontact.New(
+		peerwire.NewFormExchange(egressClient, wallclock.Clock{}),
+		config.PeerExchange.KnownRosterCapacity,
+	)
+	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, peerContacts)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{
-			Client:             egressClient,
 			NetworkName:        identity.NetworkName,
 			Interval:           config.PeerExchange.AnnounceInterval,
 			ReachableCap:       config.PeerExchange.ReachableRosterCapacity,
 			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
+		peerContacts,
 		runtimeStatus,
 		publicAddressSource,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
@@ -385,7 +390,6 @@ func assembleNode(
 				},
 			)
 		}
-		peerFormExchange := peerwire.NewFormExchange(egressClient)
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		peerEligibility := peereligibility.New(
 			peereligibility.Config{
@@ -420,18 +424,16 @@ func assembleNode(
 			postingtransfer.New(
 				storage,
 				postingcourier.New(
-					peerFormExchange,
+					peerContacts,
 					identity.NetworkName,
 					identity.Hash,
-					now,
 					distributionObserver,
 				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
-						peerFormExchange,
+						peerContacts,
 						identity.NetworkName,
 						identity.Hash,
-						now,
 						distributionObserver,
 					),
 					config.Distribution.URLMetadataBatchSize,

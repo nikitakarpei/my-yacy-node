@@ -95,3 +95,10 @@ func TestPeerSourceIgnoresHostsThatPeersCannotReach(t *testing.T) {
 		"203.0.113.9", "203.0.113.9", "203.0.113.9",
 	}), "203.0.113.9")
 }
+
+func TestPeerSourceIgnoresHostsBehindAPeersProxyOrCarrierNAT(t *testing.T) {
+	assertHost(t, sourceAfterReports(t, []string{
+		"10.25.0.50", "172.24.0.1", "192.168.3.2", "100.71.17.183", "fd00::1",
+		"203.0.113.9", "203.0.113.9", "203.0.113.9",
+	}), "203.0.113.9")
+}

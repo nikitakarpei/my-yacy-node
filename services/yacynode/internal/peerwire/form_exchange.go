@@ -1,6 +1,6 @@
-// Package peerwire posts a form-encoded request to a peer endpoint and returns
-// the reply as response fields. It reports what the peer answered on a failure,
-// including the status line and the start of the reported body.
+// Package peerwire posts a form-encoded request to a peer, trying the peer's origins
+// in the given order until one gives a reply the caller accepts. Each attempt has a
+// share of the time left, and a redirect ends it. It reports why each origin failed.
 package peerwire
 
 import (
@@ -8,57 +8,163 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const responseMaxBodyBytes int64 = 1 << 20
 
-var errPeerExchange = errors.New("peer exchange failed")
+const (
+	failureReportMaxBytes int64 = 512
+	failureReportAbsent         = "no reported body"
+)
+
+var (
+	errReplyNotAccepted   = errors.New("reply not accepted")
+	errAttemptTimeLimit   = errors.New("attempt time limit passed")
+	errUnexpectedStatus   = errors.New("unexpected status")
+	errRequestNotPrepared = errors.New("request not prepared")
+)
+
+type Clock interface {
+	Now() time.Time
+	After(timeout time.Duration, expire func()) (stop func())
+}
+
+type Request struct {
+	Peer yacymodel.Hash
+	Path string
+	Form url.Values
+}
+
+type Attempt struct {
+	Origin  Origin
+	Accepts func(yacyproto.ResponseFields) bool
+}
+
+type Answer struct {
+	Fields yacyproto.ResponseFields
+	Origin Origin
+	Time   time.Duration
+}
+
+type attemptFailure struct {
+	origin Origin
+	cause  error
+}
 
 type FormExchange struct {
 	client *http.Client
+	clock  Clock
 }
 
-func NewFormExchange(client *http.Client) FormExchange {
-	return FormExchange{client: client}
+func NewFormExchange(client *http.Client, clock Clock) FormExchange {
+	peerClient := *client
+	peerClient.CheckRedirect = refuseRedirect
+
+	return FormExchange{client: &peerClient, clock: clock}
+}
+
+func refuseRedirect(*http.Request, []*http.Request) error {
+	return http.ErrUseLastResponse
 }
 
 func (e FormExchange) Exchange(
 	ctx context.Context,
-	endpoint, path string,
-	form url.Values,
-) (yacyproto.ResponseFields, error) {
-	endpoint = strings.TrimSpace(endpoint)
-	if endpoint == "" {
-		return nil, fmt.Errorf("%w: empty endpoint", errPeerExchange)
-	}
-	target := url.URL{Scheme: "http", Host: endpoint, Path: path}
+	request Request,
+	attempts []Attempt,
+	budget time.Duration,
+) (Answer, bool) {
+	deadline := e.clock.Now().Add(budget)
+	body := request.Form.Encode()
+	var failures []attemptFailure
+	for index, attempt := range attempts {
+		remaining := deadline.Sub(e.clock.Now())
+		if remaining <= 0 {
+			break
+		}
+		answer, err := e.try(
+			ctx,
+			request.Path,
+			body,
+			attempt,
+			remaining/time.Duration(len(attempts)-index),
+		)
+		if err == nil {
+			reportPassedOver(ctx, request, failures)
 
+			return answer, true
+		}
+		failures = append(failures, attemptFailure{origin: attempt.Origin, cause: err})
+	}
+	reportUnanswered(ctx, request, failures)
+
+	return Answer{}, false
+}
+
+func (e FormExchange) try(
+	ctx context.Context,
+	path, body string,
+	attempt Attempt,
+	limit time.Duration,
+) (Answer, error) {
+	attemptCtx, cancel := context.WithCancelCause(ctx)
+	defer cancel(nil)
+	stop := e.clock.After(limit, func() { cancel(errAttemptTimeLimit) })
+	defer stop()
+
+	sentAt := e.clock.Now()
+	fields, err := e.post(attemptCtx, attempt.Origin, path, body)
+	if err != nil {
+		if cause := context.Cause(attemptCtx); cause != nil {
+			return Answer{}, fmt.Errorf("attempt ended: %w", cause)
+		}
+
+		return Answer{}, err
+	}
+	if !attempt.Accepts(fields) {
+		return Answer{}, errReplyNotAccepted
+	}
+
+	return Answer{
+		Fields: fields,
+		Origin: attempt.Origin,
+		Time:   e.clock.Now().Sub(sentAt),
+	}, nil
+}
+
+func (e FormExchange) post(
+	ctx context.Context,
+	origin Origin,
+	path, body string,
+) (yacyproto.ResponseFields, error) {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		target.String(),
-		strings.NewReader(form.Encode()),
+		origin.urlOf(path),
+		strings.NewReader(body),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", errPeerExchange, err)
+		return nil, fmt.Errorf("%w: %w", errRequestNotPrepared, err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := e.client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", errPeerExchange, err)
+		return nil, fmt.Errorf("post: %w", err)
 	}
 	defer closeResponseBody(ctx, resp.Body, path)
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf(
-			"%w: status %s: %s",
-			errPeerExchange,
+			"%w %s: %s",
+			errUnexpectedStatus,
 			resp.Status,
 			peerFailureReport(resp.Body),
 		)
@@ -66,8 +172,55 @@ func (e FormExchange) Exchange(
 
 	raw, err := io.ReadAll(io.LimitReader(resp.Body, responseMaxBodyBytes))
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", errPeerExchange, err)
+		return nil, fmt.Errorf("read reply: %w", err)
 	}
 
 	return yacyproto.ParseResponseFields(string(raw)), nil
+}
+
+func closeResponseBody(ctx context.Context, body io.Closer, path string) {
+	if err := body.Close(); err != nil {
+		slog.WarnContext(
+			ctx,
+			"response body close failed",
+			slog.String("path", path),
+			slog.Any("error", err),
+		)
+	}
+}
+
+func peerFailureReport(body io.Reader) string {
+	raw, err := io.ReadAll(io.LimitReader(body, failureReportMaxBytes))
+	if err != nil && len(raw) == 0 {
+		return failureReportAbsent
+	}
+
+	report := strings.Join(strings.Fields(string(raw)), " ")
+	if report == "" {
+		return failureReportAbsent
+	}
+
+	return report
+}
+
+func reportPassedOver(ctx context.Context, request Request, failures []attemptFailure) {
+	for _, failure := range failures {
+		slog.DebugContext(ctx, "peer origin passed over",
+			slog.String("peer", request.Peer.String()),
+			slog.String("origin", failure.origin.String()),
+			slog.String("path", request.Path),
+			slog.Any("cause", failure.cause),
+		)
+	}
+}
+
+func reportUnanswered(ctx context.Context, request Request, failures []attemptFailure) {
+	for _, failure := range failures {
+		slog.WarnContext(ctx, "peer origin did not answer",
+			slog.String("peer", request.Peer.String()),
+			slog.String("origin", failure.origin.String()),
+			slog.String("path", request.Path),
+			slog.Any("cause", failure.cause),
+		)
+	}
 }

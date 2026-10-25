@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -22,26 +23,32 @@ type Observer interface {
 	ObserveURLMetadataDeliveryAnswerTime(answerTime time.Duration)
 }
 
+type Contacts interface {
+	Deliver(
+		ctx context.Context,
+		addresses yacymodel.PeerAddresses,
+		question peercontact.Question,
+		accepts func(yacyproto.ResponseFields) bool,
+	) (peerwire.Answer, bool)
+}
+
 type Courier struct {
-	exchange    peerwire.FormExchange
+	contacts    Contacts
 	networkName string
 	self        yacymodel.Hash
-	now         func() time.Time
 	observer    Observer
 }
 
 func New(
-	exchange peerwire.FormExchange,
+	contacts Contacts,
 	networkName string,
 	self yacymodel.Hash,
-	now func() time.Time,
 	observer Observer,
 ) Courier {
 	return Courier{
-		exchange:    exchange,
+		contacts:    contacts,
 		networkName: networkName,
 		self:        self,
-		now:         now,
 		observer:    observer,
 	}
 }
@@ -52,17 +59,16 @@ func (c Courier) Deliver(
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
 	peer := recipient.Hash
-	address, addressable := recipient.NetworkAddress()
+	addresses, addressable := recipient.Addresses()
 	if !addressable {
 		slog.WarnContext(
 			ctx,
-			"url metadata not delivered to peer without network address",
+			"url metadata not delivered to peer without addresses",
 			slog.String("peer", peer.String()),
 		)
 
 		return Receipt{Outcome: Unaddressable}
 	}
-	endpoint := address.String()
 
 	req := yacyproto.TransferURLRequest{
 		NetworkName: c.networkName,
@@ -72,33 +78,17 @@ func (c Courier) Deliver(
 		URLs:        metadata,
 	}
 
-	sentAt := c.now()
-	msg, err := c.exchange.Exchange(ctx, endpoint, yacyproto.PathTransferURL, req.Form())
-	c.observer.ObserveURLMetadataDeliveryAnswerTime(c.now().Sub(sentAt))
-	if err != nil {
-		slog.WarnContext(
-			ctx,
-			"url metadata delivery failed",
-			slog.String("peer", peer.String()),
-			slog.String("endpoint", endpoint),
-			slog.Any("error", err),
-		)
+	answer, answered := c.contacts.Deliver(ctx, addresses, peercontact.Question{
+		Request: peerwire.Request{Peer: peer, Path: yacyproto.PathTransferURL, Form: req.Form()},
+		Accepts: isAcceptedTransferURLReply,
+	}, isTransferURLReply)
+	if !answered {
+		slog.WarnContext(ctx, "url metadata delivery failed", slog.String("peer", peer.String()))
 
 		return Receipt{Outcome: Unreachable}
 	}
-
-	resp, err := yacyproto.ParseTransferURLResponse(msg)
-	if err != nil {
-		slog.WarnContext(
-			ctx,
-			"url metadata response not parsed",
-			slog.String("peer", peer.String()),
-			slog.String("endpoint", endpoint),
-			slog.Any("error", err),
-		)
-
-		return Receipt{Outcome: Unreachable}
-	}
+	c.observer.ObserveURLMetadataDeliveryAnswerTime(answer.Time)
+	resp, _ := yacyproto.ParseTransferURLResponse(answer.Fields)
 
 	switch resp.Result {
 	case yacyproto.ResultOK, "":
@@ -112,10 +102,22 @@ func (c Courier) Deliver(
 			ctx,
 			"url metadata delivery refused",
 			slog.String("peer", peer.String()),
-			slog.String("endpoint", endpoint),
+			slog.String("origin", answer.Origin.String()),
 			slog.String("result", string(resp.Result)),
 		)
 
 		return Receipt{Outcome: Refused}
 	}
+}
+
+func isAcceptedTransferURLReply(fields yacyproto.ResponseFields) bool {
+	resp, err := yacyproto.ParseTransferURLResponse(fields)
+
+	return err == nil && resp.Result == yacyproto.ResultOK
+}
+
+func isTransferURLReply(fields yacyproto.ResponseFields) bool {
+	_, err := yacyproto.ParseTransferURLResponse(fields)
+
+	return err == nil
 }
