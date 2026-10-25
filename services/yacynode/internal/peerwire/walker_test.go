@@ -111,6 +111,41 @@ func replyingServer(reply string) *httptest.Server {
 
 func hasResult(fields yacyproto.ResponseFields) bool { return fields["result"] != "" }
 
+func TestTryAtReturnsTheAcceptedReplyFromTheGivenBaseURL(t *testing.T) {
+	server := replyingServer("result=ok\n")
+	defer server.Close()
+	baseURL := baseURLOf(t, server, peerwire.HTTP)
+
+	answer, answered := peerwire.NewWalker(server.Client(), startClock()).TryAt(
+		t.Context(),
+		transferRequest,
+		baseURL,
+		hasResult,
+		walkBudget,
+	)
+
+	if !answered || answer.BaseURL != baseURL || answer.Fields["result"] != "ok" {
+		t.Fatalf("answer = %v, %v, want ok from %v", answer, answered, baseURL)
+	}
+}
+
+func TestTryAtHasNoAnswerWhenTheReplyIsNotAccepted(t *testing.T) {
+	server := replyingServer("<html lang=\"en\">\n")
+	defer server.Close()
+
+	_, answered := peerwire.NewWalker(server.Client(), startClock()).TryAt(
+		t.Context(),
+		transferRequest,
+		baseURLOf(t, server, peerwire.HTTP),
+		hasResult,
+		walkBudget,
+	)
+
+	if answered {
+		t.Fatal("a reply the caller does not accept answered")
+	}
+}
+
 func TestTryInTurnPostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	var (
 		gotPath        string

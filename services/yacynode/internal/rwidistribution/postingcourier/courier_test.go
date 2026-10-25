@@ -50,10 +50,10 @@ func (s *stubPeerWire) AnsweredBaseURLOf(context.Context, yacymodel.Hash) (peerw
 	return peerwire.BaseURL{Scheme: peerwire.HTTP}, !s.withoutAnsweredBaseURL
 }
 
-func (s *stubPeerWire) TryInTurn(
+func (s *stubPeerWire) TryAt(
 	_ context.Context,
 	_ peerwire.Request,
-	_ []peerwire.BaseURL,
+	_ peerwire.BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	_ time.Duration,
 ) (peerwire.Answer, bool) {

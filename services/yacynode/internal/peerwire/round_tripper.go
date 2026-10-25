@@ -24,22 +24,22 @@ var (
 	errRequestNotPrepared = errors.New("request not prepared")
 )
 
-type formPoster struct {
+type roundTripper struct {
 	client *http.Client
 }
 
-func newFormPoster(client *http.Client) formPoster {
+func newRoundTripper(client *http.Client) roundTripper {
 	peerClient := *client
 	peerClient.CheckRedirect = refuseRedirect
 
-	return formPoster{client: &peerClient}
+	return roundTripper{client: &peerClient}
 }
 
 func refuseRedirect(*http.Request, []*http.Request) error {
 	return http.ErrUseLastResponse
 }
 
-func (p formPoster) post(
+func (p roundTripper) post(
 	ctx context.Context,
 	baseURL BaseURL,
 	path, body string,

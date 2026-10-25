@@ -44,12 +44,22 @@ type attemptFailure struct {
 }
 
 type Walker struct {
-	poster formPoster
-	clock  Clock
+	roundTripper roundTripper
+	clock        Clock
 }
 
 func NewWalker(client *http.Client, clock Clock) Walker {
-	return Walker{poster: newFormPoster(client), clock: clock}
+	return Walker{roundTripper: newRoundTripper(client), clock: clock}
+}
+
+func (w Walker) TryAt(
+	ctx context.Context,
+	request Request,
+	baseURL BaseURL,
+	accepts func(yacyproto.ResponseFields) bool,
+	budget time.Duration,
+) (Answer, bool) {
+	return w.TryInTurn(ctx, request, []BaseURL{baseURL}, accepts, budget)
 }
 
 func (w Walker) TryInTurn(
@@ -101,7 +111,7 @@ func (w Walker) try(
 	defer stop()
 
 	sentAt := w.clock.Now()
-	fields, err := w.poster.post(attemptCtx, baseURL, path, body)
+	fields, err := w.roundTripper.post(attemptCtx, baseURL, path, body)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)

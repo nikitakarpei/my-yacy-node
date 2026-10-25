@@ -25,11 +25,11 @@ type Observer interface {
 	ObservePostingOfferAnswerTime(answerTime time.Duration)
 }
 
-type Walker interface {
-	TryInTurn(
+type FormPoster interface {
+	TryAt(
 		ctx context.Context,
 		request peerwire.Request,
-		baseURLs []peerwire.BaseURL,
+		baseURL peerwire.BaseURL,
 		accepts func(yacyproto.ResponseFields) bool,
 		budget time.Duration,
 	) (peerwire.Answer, bool)
@@ -40,7 +40,7 @@ type AnsweredBaseURLs interface {
 }
 
 type Courier struct {
-	walker           Walker
+	formPoster       FormPoster
 	answeredBaseURLs AnsweredBaseURLs
 	networkName      string
 	self             yacymodel.Hash
@@ -48,14 +48,14 @@ type Courier struct {
 }
 
 func New(
-	walker Walker,
+	formPoster FormPoster,
 	answeredBaseURLs AnsweredBaseURLs,
 	networkName string,
 	self yacymodel.Hash,
 	observer Observer,
 ) Courier {
 	return Courier{
-		walker:           walker,
+		formPoster:       formPoster,
 		answeredBaseURLs: answeredBaseURLs,
 		networkName:      networkName,
 		self:             self,
@@ -133,10 +133,10 @@ func (c Courier) postTransferRWI(
 		Key:         yacyproto.TransferRWIKey(len(postings)),
 	}
 
-	answer, answered := c.walker.TryInTurn(
+	answer, answered := c.formPoster.TryAt(
 		ctx,
 		peerwire.Request{Peer: peer, Path: yacyproto.PathTransferRWI, Form: req.Form()},
-		[]peerwire.BaseURL{baseURL},
+		baseURL,
 		isTransferRWIReply,
 		offerBudget,
 	)
