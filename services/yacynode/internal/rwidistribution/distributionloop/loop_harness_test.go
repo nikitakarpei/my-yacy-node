@@ -669,10 +669,10 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 	}
 
 	return yacymodel.Seed{
-		Hash:           hash,
-		PrimaryAddress: yacymodel.Some(host),
-		Port:           yacymodel.Some(port),
-		Capabilities:   yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
+		Hash:         hash,
+		PrimaryHost:  yacymodel.Some(host),
+		Port:         yacymodel.Some(port),
+		Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
 	}
 }
 

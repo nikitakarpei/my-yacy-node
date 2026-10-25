@@ -22,7 +22,7 @@ func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
 	if err != nil {
 		t.Fatalf("parse host: %v", err)
 	}
-	peerSeed.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{additionalHost})
+	peerSeed.AdditionalHosts = yacymodel.Some([]yacymodel.Host{additionalHost})
 	peerSeed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
 	peerSeed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
 
@@ -118,7 +118,7 @@ func (recordBytesCodec) Encode(record []byte) ([]byte, error) { return record, n
 
 func (recordBytesCodec) Decode(raw []byte) ([]byte, error) { return raw, nil }
 
-func TestRosterReadsARecordStoredBeforeAdditionalAddresses(t *testing.T) {
+func TestRosterReadsARecordStoredBeforeAdditionalHosts(t *testing.T) {
 	storagePath := filepath.Join(t.TempDir(), "peer-roster")
 	peerSeed := seniorSeed(t, "peer", "203.0.113.10", 8090)
 	var record storedfields.Writer

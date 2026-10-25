@@ -295,10 +295,10 @@ func addressesOf(seed yacymodel.Seed) []string {
 	}
 
 	var hosts []yacymodel.Host
-	if primary, ok := seed.PrimaryAddress.Get(); ok {
+	if primary, ok := seed.PrimaryHost.Get(); ok {
 		hosts = append(hosts, primary)
 	}
-	if additional, ok := seed.AdditionalAddresses.Get(); ok {
+	if additional, ok := seed.AdditionalHosts.Get(); ok {
 		hosts = append(hosts, additional...)
 	}
 

@@ -17,7 +17,7 @@ func addressableSeed(t *testing.T) yacymodel.Seed {
 	if err != nil {
 		t.Fatal(err)
 	}
-	return yacymodel.Seed{PrimaryAddress: yacymodel.Some(host), Port: yacymodel.Some(port)}
+	return yacymodel.Seed{PrimaryHost: yacymodel.Some(host), Port: yacymodel.Some(port)}
 }
 
 func hostOf(t *testing.T, s string) yacymodel.Host {
@@ -31,7 +31,7 @@ func hostOf(t *testing.T, s string) yacymodel.Host {
 
 func TestSeedAddressesListPrimaryThenAdditionalHostsOnce(t *testing.T) {
 	seed := addressableSeed(t)
-	seed.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{
+	seed.AdditionalHosts = yacymodel.Some([]yacymodel.Host{
 		hostOf(t, "2001:db8::1"),
 		hostOf(t, "192.0.2.1"),
 		hostOf(t, "peer.example"),
@@ -54,10 +54,10 @@ func TestSeedAddressesListPrimaryThenAdditionalHostsOnce(t *testing.T) {
 	}
 }
 
-func TestSeedAddressesReachAPeerWithoutPrimaryAddress(t *testing.T) {
+func TestSeedAddressesReachAPeerWithoutPrimaryHost(t *testing.T) {
 	seed := yacymodel.Seed{
-		AdditionalAddresses: yacymodel.Some([]yacymodel.Host{hostOf(t, "2001:db8::1")}),
-		Port:                yacymodel.Some(yacymodel.Port(8090)),
+		AdditionalHosts: yacymodel.Some([]yacymodel.Host{hostOf(t, "2001:db8::1")}),
+		Port:            yacymodel.Some(yacymodel.Port(8090)),
 	}
 
 	addresses, ok := seed.Addresses()
@@ -67,7 +67,7 @@ func TestSeedAddressesReachAPeerWithoutPrimaryAddress(t *testing.T) {
 }
 
 func TestSeedAddressesAbsentWithoutPortOrHost(t *testing.T) {
-	withoutPort := yacymodel.Seed{PrimaryAddress: yacymodel.Some(hostOf(t, "192.0.2.1"))}
+	withoutPort := yacymodel.Seed{PrimaryHost: yacymodel.Some(hostOf(t, "192.0.2.1"))}
 	if _, ok := withoutPort.Addresses(); ok {
 		t.Error("Addresses present without port")
 	}
@@ -109,14 +109,14 @@ func TestSeedIsAddressable(t *testing.T) {
 		t.Fatal("empty seed reported addressable")
 	}
 	if !addressableSeed(t).IsAddressable() {
-		t.Fatal("seed with primary address not addressable")
+		t.Fatal("seed with primary host not addressable")
 	}
 	host, _ := yacymodel.ParseHost("2001:db8::1")
 	viaAdditional := addressableSeed(t)
-	viaAdditional.PrimaryAddress = yacymodel.None[yacymodel.Host]()
-	viaAdditional.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{host})
+	viaAdditional.PrimaryHost = yacymodel.None[yacymodel.Host]()
+	viaAdditional.AdditionalHosts = yacymodel.Some([]yacymodel.Host{host})
 	if !viaAdditional.IsAddressable() {
-		t.Fatal("seed with additional address not addressable")
+		t.Fatal("seed with additional host not addressable")
 	}
 	withoutPort := addressableSeed(t)
 	withoutPort.Port = yacymodel.None[yacymodel.Port]()

@@ -85,7 +85,7 @@ func TestCallerBackPingRejectsAReplyOfAnotherPeer(t *testing.T) {
 	}
 }
 
-func TestCallerBackPingReachesTheCallerThroughAnAdditionalAddress(t *testing.T) {
+func TestCallerBackPingReachesTheCallerThroughAnAdditionalHost(t *testing.T) {
 	srv := backPingServer(true)
 	defer srv.Close()
 	caller := reachableCallerSeed(t, srv.URL)
@@ -93,10 +93,10 @@ func TestCallerBackPingReachesTheCallerThroughAnAdditionalAddress(t *testing.T) 
 	if err != nil {
 		t.Fatalf("parse host: %v", err)
 	}
-	caller.AdditionalAddresses = yacymodel.Some(
-		[]yacymodel.Host{caller.PrimaryAddress.OrElse(primary)},
+	caller.AdditionalHosts = yacymodel.Some(
+		[]yacymodel.Host{caller.PrimaryHost.OrElse(primary)},
 	)
-	caller.PrimaryAddress = yacymodel.Some(primary)
+	caller.PrimaryHost = yacymodel.Some(primary)
 
 	resp := serveHello(
 		t,
@@ -105,7 +105,7 @@ func TestCallerBackPingReachesTheCallerThroughAnAdditionalAddress(t *testing.T) 
 	)
 
 	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
-		t.Fatalf("YourType = %q, want senior for a caller behind its additional address", yourType)
+		t.Fatalf("YourType = %q, want senior for a caller behind its additional host", yourType)
 	}
 }
 
@@ -117,7 +117,7 @@ func TestCallerBackPingConfirmsTheCallerWithTheBaseURLThatAnswered(t *testing.T)
 
 	serveHello(t, muxWithHello(t, reachability, srv.Client()), helloRequest("freeworld", caller, 0))
 
-	host, _ := caller.PrimaryAddress.Get()
+	host, _ := caller.PrimaryHost.Get()
 	port, _ := caller.Port.Get()
 	want := peerwire.BaseURL{Scheme: peerwire.HTTP, Host: host, Port: port}
 	if len(reachability.confirmedBaseURLs) != 1 || reachability.confirmedBaseURLs[0] != want {
@@ -151,7 +151,7 @@ func TestCallerBackPingStartsAtTheBaseURLThatAnsweredBefore(t *testing.T) {
 	if err != nil {
 		t.Fatalf("parse host: %v", err)
 	}
-	caller.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{additional})
+	caller.AdditionalHosts = yacymodel.Some([]yacymodel.Host{additional})
 	reachability := &stubReachability{answeredBaseURLs: map[yacymodel.Hash]peerwire.BaseURL{
 		caller.Hash: {Scheme: peerwire.HTTP, Host: additional, Port: 8090},
 	}}

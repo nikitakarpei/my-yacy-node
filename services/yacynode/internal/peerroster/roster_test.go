@@ -11,7 +11,7 @@ import (
 )
 
 func httpBaseURLOf(seed yacymodel.Seed) peerwire.BaseURL {
-	host, _ := seed.PrimaryAddress.Get()
+	host, _ := seed.PrimaryHost.Get()
 	port, _ := seed.Port.Get()
 
 	return peerwire.BaseURL{Scheme: peerwire.HTTP, Host: host, Port: port}
@@ -111,7 +111,7 @@ func TestDiscoveryKeepsTheAddressesOfAKnownPeer(t *testing.T) {
 	}
 }
 
-func TestDiscoveryKeepsAPeerWithOnlyAdditionalAddresses(t *testing.T) {
+func TestDiscoveryKeepsAPeerWithOnlyAdditionalHosts(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	host, err := yacymodel.ParseHost("2001:db8::7")
@@ -119,7 +119,7 @@ func TestDiscoveryKeepsAPeerWithOnlyAdditionalAddresses(t *testing.T) {
 		t.Fatalf("parse host: %v", err)
 	}
 	peer := seniorSeed(t, "peer", "", 8090)
-	peer.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{host})
+	peer.AdditionalHosts = yacymodel.Some([]yacymodel.Host{host})
 
 	roster.Discover(ctx, peer)
 

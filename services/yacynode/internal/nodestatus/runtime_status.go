@@ -38,7 +38,7 @@ func (r runtimeStatus) Uptime(context.Context) int {
 func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	now := r.now()
 	seed := r.base
-	seed.PrimaryAddress = r.addressSource.Host(ctx)
+	seed.PrimaryHost = r.addressSource.Host(ctx)
 	seed.Uptime = time.Duration(r.id.Uptime(now)) * time.Minute
 	seed.UTCOffset = yacymodel.Some(yacymodel.UTCOffsetOf(now))
 	seed.LastSeen = yacymodel.Some(now.UTC())

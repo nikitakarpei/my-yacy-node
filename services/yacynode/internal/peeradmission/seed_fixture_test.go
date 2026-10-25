@@ -48,7 +48,7 @@ func peerSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {
 		if err != nil {
 			t.Fatalf("parse host: %v", err)
 		}
-		seed.PrimaryAddress = yacymodel.Some(host)
+		seed.PrimaryHost = yacymodel.Some(host)
 	}
 	if port != 0 {
 		seed.Port = yacymodel.Some(yacymodel.Port(port))

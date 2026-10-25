@@ -41,11 +41,11 @@ func peerSeedAt(t testing.TB, hash, host string, port int) yacymodel.Seed {
 	}
 
 	return yacymodel.Seed{
-		Hash:           hashFor(hash),
-		Name:           name,
-		PeerType:       yacymodel.PeerSenior,
-		PrimaryAddress: yacymodel.Some(address),
-		Port:           yacymodel.Some(yacymodel.Port(port)),
+		Hash:        hashFor(hash),
+		Name:        name,
+		PeerType:    yacymodel.PeerSenior,
+		PrimaryHost: yacymodel.Some(address),
+		Port:        yacymodel.Some(yacymodel.Port(port)),
 	}
 }
 

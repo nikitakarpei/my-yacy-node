@@ -209,9 +209,9 @@ func directoryAnsweringAt(t *testing.T, addresses ...string) *peerdirectory.Dire
 	for index, address := range addresses {
 		peer := yacymodel.WordHash(string(rune('a' + index)))
 		directory.Admit(t.Context(), []yacymodel.Seed{{
-			Hash:           peer,
-			PrimaryAddress: yacymodel.Some(host),
-			Port:           yacymodel.Some(port),
+			Hash:        peer,
+			PrimaryHost: yacymodel.Some(host),
+			Port:        yacymodel.Some(port),
 		}})
 		directory.ConfirmAnswering(t.Context(), peer, address)
 	}

@@ -15,11 +15,11 @@ type Seed struct {
 	Name     PeerName
 	PeerType PeerType
 
-	PrimaryAddress      Optional[Host]
-	AdditionalAddresses Optional[[]Host]
-	Port                Optional[Port]
-	SecurePort          Optional[Port]
-	SeedListAddress     Optional[SeedListURL]
+	PrimaryHost     Optional[Host]
+	AdditionalHosts Optional[[]Host]
+	Port            Optional[Port]
+	SecurePort      Optional[Port]
+	SeedListAddress Optional[SeedListURL]
 
 	RemotePeerType Optional[PeerType]
 	Capabilities   Optional[PeerCapabilities]
@@ -79,8 +79,8 @@ func (s Seed) Addresses() (PeerAddresses, bool) {
 }
 
 func (s Seed) hosts() []Host {
-	candidates := s.AdditionalAddresses.OrElse(nil)
-	if primary, ok := s.PrimaryAddress.Get(); ok {
+	candidates := s.AdditionalHosts.OrElse(nil)
+	if primary, ok := s.PrimaryHost.Get(); ok {
 		candidates = append([]Host{primary}, candidates...)
 	}
 

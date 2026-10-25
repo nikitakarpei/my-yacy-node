@@ -11,42 +11,42 @@ import (
 )
 
 const (
-	seedColHash                = "Hash"
-	seedColName                = "Name"
-	seedColPeerType            = "PeerType"
-	seedColRemotePeerType      = "yourtype"
-	seedColPrimaryAddress      = "IP"
-	seedColAdditionalAddresses = "IP6"
-	seedColPort                = "Port"
-	seedColSecurePort          = "PortSSL"
-	seedColSeedListAddress     = "seedURL"
-	seedColCapabilities        = "Flags"
-	seedColVersion             = "Version"
-	seedColTags                = "Tags"
-	seedColSolrAvailable       = "SorlAvail"
-	seedColLastSeen            = "LastSeen"
-	seedColFirstSeen           = "BDate"
-	seedColDisconnectedAt      = "dct"
-	seedColUTCOffset           = "UTC"
-	seedColUptime              = "Uptime"
-	seedColIndexingSpeed       = "ISpeed"
-	seedColRetrievalSpeed      = "RSpeed"
-	seedColUplinkSpeed         = "USpeed"
-	seedColClientConnectRate   = "CCount"
-	seedColIndexedWords        = "ICount"
-	seedColStoredURLs          = "LCount"
-	seedColNoticedURLs         = "NCount"
-	seedColRemoteCrawlURLs     = "RCount"
-	seedColStoredSeeds         = "SCount"
-	seedColWordsSent           = "sI"
-	seedColWordsReceived       = "rI"
-	seedColURLsSent            = "sU"
-	seedColURLsReceived        = "rU"
-	seedColNews                = "news"
+	seedColHash              = "Hash"
+	seedColName              = "Name"
+	seedColPeerType          = "PeerType"
+	seedColRemotePeerType    = "yourtype"
+	seedColPrimaryHost       = "IP"
+	seedColAdditionalHosts   = "IP6"
+	seedColPort              = "Port"
+	seedColSecurePort        = "PortSSL"
+	seedColSeedListAddress   = "seedURL"
+	seedColCapabilities      = "Flags"
+	seedColVersion           = "Version"
+	seedColTags              = "Tags"
+	seedColSolrAvailable     = "SorlAvail"
+	seedColLastSeen          = "LastSeen"
+	seedColFirstSeen         = "BDate"
+	seedColDisconnectedAt    = "dct"
+	seedColUTCOffset         = "UTC"
+	seedColUptime            = "Uptime"
+	seedColIndexingSpeed     = "ISpeed"
+	seedColRetrievalSpeed    = "RSpeed"
+	seedColUplinkSpeed       = "USpeed"
+	seedColClientConnectRate = "CCount"
+	seedColIndexedWords      = "ICount"
+	seedColStoredURLs        = "LCount"
+	seedColNoticedURLs       = "NCount"
+	seedColRemoteCrawlURLs   = "RCount"
+	seedColStoredSeeds       = "SCount"
+	seedColWordsSent         = "sI"
+	seedColWordsReceived     = "rI"
+	seedColURLsSent          = "sU"
+	seedColURLsReceived      = "rU"
+	seedColNews              = "news"
 )
 
 const (
-	seedAddressSeparator = "|"
+	seedHostSeparator    = "|"
 	seedSolrAvailableYes = "OK"
 	seedSolrAvailableNo  = "NA"
 
@@ -57,8 +57,8 @@ const (
 
 var seedColumns = map[string]bool{
 	seedColHash: true, seedColName: true, seedColPeerType: true,
-	seedColRemotePeerType: true, seedColPrimaryAddress: true,
-	seedColAdditionalAddresses: true, seedColPort: true, seedColSecurePort: true,
+	seedColRemotePeerType: true, seedColPrimaryHost: true,
+	seedColAdditionalHosts: true, seedColPort: true, seedColSecurePort: true,
 	seedColSeedListAddress: true, seedColCapabilities: true, seedColVersion: true,
 	seedColTags: true, seedColSolrAvailable: true, seedColLastSeen: true,
 	seedColFirstSeen: true, seedColDisconnectedAt: true, seedColUTCOffset: true,
@@ -146,7 +146,7 @@ func (f seedWireForm) domain(ctx context.Context) (yacymodel.Seed, error) {
 		Hash:              hash,
 		Name:              name,
 		PeerType:          peerType,
-		PrimaryAddress:    f.host(seedColPrimaryAddress),
+		PrimaryHost:       f.host(seedColPrimaryHost),
 		Port:              f.port(seedColPort),
 		SecurePort:        f.port(seedColSecurePort),
 		RemotePeerType:    f.peerType(seedColRemotePeerType),
@@ -172,7 +172,7 @@ func (f seedWireForm) domain(ctx context.Context) (yacymodel.Seed, error) {
 		URLsReceived:      f.integer(seedColURLsReceived),
 	}
 
-	seed.AdditionalAddresses = f.additionalAddresses()
+	seed.AdditionalHosts = f.additionalHosts()
 
 	if capabilities, ok := f.properties[seedColCapabilities]; ok {
 		seed.Capabilities = yacymodel.Some(peerCapabilitiesWireCodec{}.decode(capabilities))
@@ -215,13 +215,13 @@ func (f seedWireForm) host(column string) yacymodel.Optional[yacymodel.Host] {
 	return yacymodel.Some(host)
 }
 
-func (f seedWireForm) additionalAddresses() yacymodel.Optional[[]yacymodel.Host] {
-	value := f.properties[seedColAdditionalAddresses]
+func (f seedWireForm) additionalHosts() yacymodel.Optional[[]yacymodel.Host] {
+	value := f.properties[seedColAdditionalHosts]
 	if value == "" {
 		return yacymodel.None[[]yacymodel.Host]()
 	}
 	var hosts []yacymodel.Host
-	for _, field := range strings.Split(value, seedAddressSeparator) {
+	for _, field := range strings.Split(value, seedHostSeparator) {
 		if field == "" {
 			continue
 		}
@@ -339,15 +339,15 @@ func seedWireFormFromDomain(seed yacymodel.Seed) seedWireForm {
 	f.put(seedColName, seed.Name.String())
 	f.put(seedColPeerType, seed.PeerType.String())
 
-	if host, ok := seed.PrimaryAddress.Get(); ok {
-		f.put(seedColPrimaryAddress, host.String())
+	if host, ok := seed.PrimaryHost.Get(); ok {
+		f.put(seedColPrimaryHost, host.String())
 	}
-	if hosts, ok := seed.AdditionalAddresses.Get(); ok {
+	if hosts, ok := seed.AdditionalHosts.Get(); ok {
 		names := make([]string, 0, len(hosts))
 		for _, host := range hosts {
 			names = append(names, host.String())
 		}
-		f.put(seedColAdditionalAddresses, strings.Join(names, seedAddressSeparator))
+		f.put(seedColAdditionalHosts, strings.Join(names, seedHostSeparator))
 	}
 	if port, ok := seed.Port.Get(); ok {
 		f.put(seedColPort, port.String())

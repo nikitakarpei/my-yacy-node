@@ -41,11 +41,11 @@ func seedlistLine(t *testing.T, hash, ip string) string {
 		t.Fatalf("parse host: %v", err)
 	}
 	seed := yacymodel.Seed{
-		Hash:           mustHash(t, hash),
-		Name:           mustPeerName(t, "peer-"+hash),
-		PeerType:       yacymodel.PeerSenior,
-		PrimaryAddress: yacymodel.Some(host),
-		Port:           yacymodel.Some(yacymodel.Port(8090)),
+		Hash:        mustHash(t, hash),
+		Name:        mustPeerName(t, "peer-"+hash),
+		PeerType:    yacymodel.PeerSenior,
+		PrimaryHost: yacymodel.Some(host),
+		Port:        yacymodel.Some(yacymodel.Port(8090)),
 	}
 
 	return yacyproto.HelloRequest{Seed: seed}.Form().Get(yacyproto.FieldSeed)

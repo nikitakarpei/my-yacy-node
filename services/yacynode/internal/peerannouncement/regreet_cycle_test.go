@@ -209,7 +209,7 @@ func (s *stubLearningSelf) ObserveReportedHosts(_ context.Context, reportedHosts
 
 	s.reportsPerAnnouncement = append(s.reportsPerAnnouncement, reportedHosts)
 	if s.adoptsReportedHost && len(reportedHosts) > 0 {
-		s.seed.PrimaryAddress = yacymodel.Some(reportedHosts[0])
+		s.seed.PrimaryHost = yacymodel.Some(reportedHosts[0])
 	}
 }
 
@@ -706,7 +706,7 @@ func TestAnnounceConfirmsAPeerWithTheBaseURLThatAnswered(t *testing.T) {
 
 	lastContactsObservedOver(t, http.DefaultClient, self, roster, 1)
 
-	host, _ := peer.seed.PrimaryAddress.Get()
+	host, _ := peer.seed.PrimaryHost.Get()
 	port, _ := peer.seed.Port.Get()
 	want := peerwire.BaseURL{Scheme: peerwire.HTTP, Host: host, Port: port}
 	if got := roster.confirmedBaseURLs(); len(got) != 1 || got[0] != want {
@@ -757,7 +757,7 @@ func TestAnnounceTakesNoReportedHostFromAPeerReachedByName(t *testing.T) {
 func TestAnnounceTreatsAReplyWithAnUnaddressableSeedAsNoAnswer(t *testing.T) {
 	self := newStubPeer(t, "self", seniorAnswer(t))
 	peer := newStubPeer(t, "peer", func(respondingSeed yacymodel.Seed) http.HandlerFunc {
-		respondingSeed.PrimaryAddress = yacymodel.None[yacymodel.Host]()
+		respondingSeed.PrimaryHost = yacymodel.None[yacymodel.Host]()
 
 		return helloAnswer(yacyproto.HelloResponse{
 			YourIP:   "203.0.113.9",

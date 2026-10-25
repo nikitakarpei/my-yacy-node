@@ -89,7 +89,7 @@ func (a *announcer) readdressedSeedSince(
 ) (yacymodel.Seed, bool) {
 	currentSeed := a.self.SelfSeed(ctx)
 
-	return currentSeed, currentSeed.PrimaryAddress != announcedSeed.PrimaryAddress
+	return currentSeed, currentSeed.PrimaryHost != announcedSeed.PrimaryHost
 }
 
 func (a *announcer) contactAll(

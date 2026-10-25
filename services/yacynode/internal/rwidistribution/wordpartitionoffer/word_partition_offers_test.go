@@ -346,10 +346,10 @@ func seedAt(position yacymodel.DHTRingPosition) yacymodel.Seed {
 	}
 
 	return yacymodel.Seed{
-		Hash:           yacymodel.HashFromDHTRingPosition(position),
-		PrimaryAddress: yacymodel.Some(host),
-		Port:           yacymodel.Some(port),
-		Capabilities:   yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
+		Hash:         yacymodel.HashFromDHTRingPosition(position),
+		PrimaryHost:  yacymodel.Some(host),
+		Port:         yacymodel.Some(port),
+		Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
 	}
 }
 
