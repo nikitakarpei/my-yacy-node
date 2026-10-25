@@ -26,13 +26,13 @@ type callerReachabilityProbe interface {
 		addresses yacymodel.PeerAddresses,
 		self yacymodel.Hash,
 		networkName string,
-	) (peerwire.Origin, bool)
+	) (peerwire.BaseURL, bool)
 }
 
 type reachableRoster interface {
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredOrigin peerwire.Origin)
-	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
 type helloEndpoint struct {
@@ -94,7 +94,7 @@ func (e helloEndpoint) classifyCaller(
 		return yacymodel.PeerJunior
 	}
 
-	answeredOrigin, reached := e.probe.Reach(
+	answeredBaseURL, reached := e.probe.Reach(
 		ctx,
 		caller.Hash,
 		addresses,
@@ -105,7 +105,7 @@ func (e helloEndpoint) classifyCaller(
 		return yacymodel.PeerJunior
 	}
 
-	e.reachability.ConfirmReachable(ctx, caller, answeredOrigin)
+	e.reachability.ConfirmReachable(ctx, caller, answeredBaseURL)
 
 	if caller.PeerType == yacymodel.PeerPrincipal {
 		return yacymodel.PeerPrincipal

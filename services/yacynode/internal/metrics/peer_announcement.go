@@ -29,7 +29,7 @@ func NewPeerAnnouncementMetrics(registry prometheus.Registerer) *PeerAnnouncemen
 	reachablePeersPerScheme := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "yacynode_peerannouncement_reachable_peers_per_scheme",
-			Help: "Peers that answered the last announce, by the scheme of the origin " +
+			Help: "Peers that answered the last announce, by the scheme of the base URL " +
 				"that answered.",
 		},
 		[]string{labelScheme},

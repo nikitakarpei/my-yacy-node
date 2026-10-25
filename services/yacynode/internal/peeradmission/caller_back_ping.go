@@ -16,21 +16,21 @@ const (
 	backPingBudget  = 13 * time.Second
 )
 
-type answeredOrigins interface {
-	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
+type answeredBaseURLs interface {
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
 type callerBackPing struct {
-	exchange        peerwire.FormExchange
-	answeredOrigins answeredOrigins
-	slots           chan struct{}
+	exchange         peerwire.FormExchange
+	answeredBaseURLs answeredBaseURLs
+	slots            chan struct{}
 }
 
-func newCallerBackPing(exchange peerwire.FormExchange, origins answeredOrigins) callerBackPing {
+func newCallerBackPing(exchange peerwire.FormExchange, baseURLs answeredBaseURLs) callerBackPing {
 	return callerBackPing{
-		exchange:        exchange,
-		answeredOrigins: origins,
-		slots:           make(chan struct{}, backPingsAtOnce),
+		exchange:         exchange,
+		answeredBaseURLs: baseURLs,
+		slots:            make(chan struct{}, backPingsAtOnce),
 	}
 }
 
@@ -42,7 +42,7 @@ func (p callerBackPing) Reach(
 	addresses yacymodel.PeerAddresses,
 	self yacymodel.Hash,
 	networkName string,
-) (peerwire.Origin, bool) {
+) (peerwire.BaseURL, bool) {
 	select {
 	case p.slots <- struct{}{}:
 		defer func() { <-p.slots }()
@@ -51,7 +51,7 @@ func (p callerBackPing) Reach(
 			slog.String("peer", caller.String()),
 		)
 
-		return peerwire.Origin{}, false
+		return peerwire.BaseURL{}, false
 	}
 
 	query := yacyproto.QueryRequest{
@@ -63,30 +63,30 @@ func (p callerBackPing) Reach(
 	answer, answered := p.exchange.Exchange(
 		ctx,
 		peerwire.Request{Peer: caller, Path: yacyproto.PathQuery, Form: query.Form()},
-		p.originsFor(ctx, caller, addresses),
+		p.baseURLsFor(ctx, caller, addresses),
 		isRWICountReply,
 		backPingBudget,
 	)
 
-	return answer.Origin, answered
+	return answer.BaseURL, answered
 }
 
-func (p callerBackPing) originsFor(
+func (p callerBackPing) baseURLsFor(
 	ctx context.Context,
 	caller yacymodel.Hash,
 	addresses yacymodel.PeerAddresses,
-) []peerwire.Origin {
-	origins := peerwire.OriginsFrom(addresses)
-	answeredOrigin, found := p.answeredOrigins.AnsweredOriginOf(ctx, caller)
-	if !found || !slices.Contains(origins, answeredOrigin) {
-		return origins
+) []peerwire.BaseURL {
+	baseURLs := peerwire.BaseURLsFrom(addresses)
+	answeredBaseURL, found := p.answeredBaseURLs.AnsweredBaseURLOf(ctx, caller)
+	if !found || !slices.Contains(baseURLs, answeredBaseURL) {
+		return baseURLs
 	}
 
 	return append(
-		[]peerwire.Origin{answeredOrigin},
+		[]peerwire.BaseURL{answeredBaseURL},
 		slices.DeleteFunc(
-			origins,
-			func(origin peerwire.Origin) bool { return origin == answeredOrigin },
+			baseURLs,
+			func(baseURL peerwire.BaseURL) bool { return baseURL == answeredBaseURL },
 		)...,
 	)
 }

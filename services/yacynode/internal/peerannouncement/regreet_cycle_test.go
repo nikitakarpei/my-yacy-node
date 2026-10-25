@@ -33,7 +33,7 @@ type stubRoster struct {
 	reachable              []yacymodel.Hash
 	unreachable            []yacymodel.Hash
 	reachableConfirmations []yacymodel.Seed
-	answeredOrigins        []peerwire.Origin
+	answeredBaseURLs       []peerwire.BaseURL
 	confirmations          chan struct{}
 }
 
@@ -97,12 +97,12 @@ func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
 func (s *stubRoster) ConfirmReachable(
 	_ context.Context,
 	seed yacymodel.Seed,
-	answeredOrigin peerwire.Origin,
+	answeredBaseURL peerwire.BaseURL,
 ) {
 	s.mu.Lock()
 	s.reachable = append(s.reachable, seed.Hash)
 	s.reachableConfirmations = append(s.reachableConfirmations, seed)
-	s.answeredOrigins = append(s.answeredOrigins, answeredOrigin)
+	s.answeredBaseURLs = append(s.answeredBaseURLs, answeredBaseURL)
 	s.mu.Unlock()
 
 	s.confirmations <- struct{}{}
@@ -130,11 +130,11 @@ func (s *stubRoster) confirmedSeeds() []yacymodel.Seed {
 	return append([]yacymodel.Seed(nil), s.reachableConfirmations...)
 }
 
-func (s *stubRoster) confirmedOrigins() []peerwire.Origin {
+func (s *stubRoster) confirmedBaseURLs() []peerwire.BaseURL {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	return append([]peerwire.Origin(nil), s.answeredOrigins...)
+	return append([]peerwire.BaseURL(nil), s.answeredBaseURLs...)
 }
 
 func (s *stubRoster) unreachableHashes() []yacymodel.Hash {
@@ -699,7 +699,7 @@ func TestAnnounceCountsConfirmedPeersPerScheme(t *testing.T) {
 	}
 }
 
-func TestAnnounceConfirmsAPeerWithTheOriginThatAnswered(t *testing.T) {
+func TestAnnounceConfirmsAPeerWithTheBaseURLThatAnswered(t *testing.T) {
 	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
 	peer := newStubPeer(t, "reaching", seniorAnswer(t))
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
@@ -708,9 +708,9 @@ func TestAnnounceConfirmsAPeerWithTheOriginThatAnswered(t *testing.T) {
 
 	host, _ := peer.seed.PrimaryAddress.Get()
 	port, _ := peer.seed.Port.Get()
-	want := peerwire.Origin{Scheme: peerwire.HTTP, Host: host, Port: port}
-	if got := roster.confirmedOrigins(); len(got) != 1 || got[0] != want {
-		t.Fatalf("confirmed origins = %v, want %v", got, want)
+	want := peerwire.BaseURL{Scheme: peerwire.HTTP, Host: host, Port: port}
+	if got := roster.confirmedBaseURLs(); len(got) != 1 || got[0] != want {
+		t.Fatalf("confirmed base URLs = %v, want %v", got, want)
 	}
 }
 

@@ -28,37 +28,37 @@ type FormExchange interface {
 	Exchange(
 		ctx context.Context,
 		request peerwire.Request,
-		origins []peerwire.Origin,
+		baseURLs []peerwire.BaseURL,
 		accepts func(yacyproto.ResponseFields) bool,
 		budget time.Duration,
 	) (peerwire.Answer, bool)
 }
 
-type AnsweredOrigins interface {
-	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
+type AnsweredBaseURLs interface {
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
 type Courier struct {
-	exchange        FormExchange
-	answeredOrigins AnsweredOrigins
-	networkName     string
-	self            yacymodel.Hash
-	observer        Observer
+	exchange         FormExchange
+	answeredBaseURLs AnsweredBaseURLs
+	networkName      string
+	self             yacymodel.Hash
+	observer         Observer
 }
 
 func New(
 	exchange FormExchange,
-	answeredOrigins AnsweredOrigins,
+	answeredBaseURLs AnsweredBaseURLs,
 	networkName string,
 	self yacymodel.Hash,
 	observer Observer,
 ) Courier {
 	return Courier{
-		exchange:        exchange,
-		answeredOrigins: answeredOrigins,
-		networkName:     networkName,
-		self:            self,
-		observer:        observer,
+		exchange:         exchange,
+		answeredBaseURLs: answeredBaseURLs,
+		networkName:      networkName,
+		self:             self,
+		observer:         observer,
 	}
 }
 
@@ -67,11 +67,11 @@ func (c Courier) Deliver(
 	peer yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
-	origin, known := c.answeredOrigins.AnsweredOriginOf(ctx, peer)
+	baseURL, known := c.answeredBaseURLs.AnsweredBaseURLOf(ctx, peer)
 	if !known {
 		slog.WarnContext(
 			ctx,
-			"url metadata not delivered to peer without answered origin",
+			"url metadata not delivered to peer without answered base URL",
 			slog.String("peer", peer.String()),
 		)
 
@@ -89,7 +89,7 @@ func (c Courier) Deliver(
 	answer, answered := c.exchange.Exchange(
 		ctx,
 		peerwire.Request{Peer: peer, Path: yacyproto.PathTransferURL, Form: req.Form()},
-		[]peerwire.Origin{origin},
+		[]peerwire.BaseURL{baseURL},
 		isTransferURLReply,
 		deliveryBudget,
 	)
@@ -113,7 +113,7 @@ func (c Courier) Deliver(
 			ctx,
 			"url metadata delivery refused",
 			slog.String("peer", peer.String()),
-			slog.String("origin", origin.String()),
+			slog.String("baseUrl", baseURL.String()),
 			slog.String("result", string(resp.Result)),
 		)
 

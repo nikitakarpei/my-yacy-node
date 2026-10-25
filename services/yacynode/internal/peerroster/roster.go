@@ -20,10 +20,10 @@ const msgContactNotRecorded = "peer contact not recorded"
 var neverReachable time.Time
 
 type rosterEntry struct {
-	addresses      yacymodel.PeerAddresses
-	answeredOrigin yacymodel.Optional[peerwire.Origin]
-	lastReachable  time.Time
-	lastContacted  time.Time
+	addresses       yacymodel.PeerAddresses
+	answeredBaseURL yacymodel.Optional[peerwire.BaseURL]
+	lastReachable   time.Time
+	lastContacted   time.Time
 }
 
 type reachablePeer struct {
@@ -248,7 +248,7 @@ func (r *roster) selectUnreachable(
 func (r *roster) ConfirmReachable(
 	ctx context.Context,
 	seed yacymodel.Seed,
-	answeredOrigin peerwire.Origin,
+	answeredBaseURL peerwire.BaseURL,
 ) {
 	if seed.Hash == r.self {
 		return
@@ -265,7 +265,7 @@ func (r *roster) ConfirmReachable(
 	}
 	confirmedAt := r.now()
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		return r.recordReachable(tx, seed.Hash, addresses, answeredOrigin, confirmedAt)
+		return r.recordReachable(tx, seed.Hash, addresses, answeredBaseURL, confirmedAt)
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
@@ -297,7 +297,7 @@ func (r *roster) recordReachable(
 	tx *vault.Txn,
 	peerHash yacymodel.Hash,
 	addresses yacymodel.PeerAddresses,
-	answeredOrigin peerwire.Origin,
+	answeredBaseURL peerwire.BaseURL,
 	confirmedAt time.Time,
 ) error {
 	entry, _, err := r.peers.Get(tx, peerHash)
@@ -306,7 +306,7 @@ func (r *roster) recordReachable(
 	}
 
 	entry.addresses = addresses
-	entry.answeredOrigin = yacymodel.Some(answeredOrigin)
+	entry.answeredBaseURL = yacymodel.Some(answeredBaseURL)
 	entry.lastContacted = confirmedAt
 	entry.lastReachable = confirmedAt
 	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
@@ -360,7 +360,7 @@ func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
 		return nil
 	}
 
-	entry.answeredOrigin = yacymodel.None[peerwire.Origin]()
+	entry.answeredBaseURL = yacymodel.None[peerwire.BaseURL]()
 	entry.lastContacted = r.now()
 	entry.lastReachable = neverReachable
 	if _, err := r.peers.Put(tx, peer, entry); err != nil {
@@ -506,13 +506,13 @@ func (r *roster) AddressesOf(
 	return entry.addresses, known
 }
 
-func (r *roster) AnsweredOriginOf(
+func (r *roster) AnsweredBaseURLOf(
 	ctx context.Context,
 	peer yacymodel.Hash,
-) (peerwire.Origin, bool) {
+) (peerwire.BaseURL, bool) {
 	entry, _ := r.entryOf(ctx, peer)
 
-	return entry.answeredOrigin.Get()
+	return entry.answeredBaseURL.Get()
 }
 
 func (r *roster) entryOf(ctx context.Context, peer yacymodel.Hash) (rosterEntry, bool) {

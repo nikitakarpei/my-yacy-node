@@ -26,7 +26,7 @@ func TestPeerAnnouncementShowsReachablePeersPerSchemeOfTheLastAnnounce(t *testin
 	)
 
 	expected := `
-# HELP yacynode_peerannouncement_reachable_peers_per_scheme Peers that answered the last announce, by the scheme of the origin that answered.
+# HELP yacynode_peerannouncement_reachable_peers_per_scheme Peers that answered the last announce, by the scheme of the base URL that answered.
 # TYPE yacynode_peerannouncement_reachable_peers_per_scheme gauge
 yacynode_peerannouncement_reachable_peers_per_scheme{scheme="http"} 3
 yacynode_peerannouncement_reachable_peers_per_scheme{scheme="https"} 2

@@ -19,7 +19,7 @@ import (
 
 type Roster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredOrigin peerwire.Origin)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
@@ -27,7 +27,7 @@ type Roster interface {
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
 	AddressesOf(ctx context.Context, peer yacymodel.Hash) (yacymodel.PeerAddresses, bool)
-	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
 var _ Roster = (*roster)(nil)

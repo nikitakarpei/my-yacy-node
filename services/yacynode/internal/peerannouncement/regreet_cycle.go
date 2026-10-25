@@ -18,7 +18,7 @@ type ReportedHostObserver interface {
 
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredOrigin peerwire.Origin)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
@@ -153,7 +153,7 @@ func (a *announcer) contactOne(
 			ctx,
 			"peer did not confirm our network",
 			slog.String("peer", peerHash.String()),
-			slog.String("origin", result.Origin.String()),
+			slog.String("baseUrl", result.BaseURL.String()),
 		)
 
 		return contactReply{outcome: contactOutcomeFromObservedPeerType(result.ObservedPeerType)}
@@ -163,23 +163,23 @@ func (a *announcer) contactOne(
 			ctx,
 			"peer reported us as junior",
 			slog.String("peer", peerHash.String()),
-			slog.String("origin", result.Origin.String()),
+			slog.String("baseUrl", result.BaseURL.String()),
 			slog.String("reportedAddress", result.ReportedHost.OrElse(yacymodel.Host{}).String()),
 		)
 	}
 
-	a.roster.ConfirmReachable(ctx, result.RespondingSeed, result.Origin)
+	a.roster.ConfirmReachable(ctx, result.RespondingSeed, result.BaseURL)
 	a.roster.Discover(ctx, result.KnownSeeds...)
 
 	return contactReply{
 		outcome:         contactOutcomeFromObservedPeerType(result.ObservedPeerType),
 		reportedHost:    credibleReportedHostOf(result),
-		reachableScheme: yacymodel.Some(result.Origin.Scheme),
+		reachableScheme: yacymodel.Some(result.BaseURL.Scheme),
 	}
 }
 
 func credibleReportedHostOf(result greetResult) yacymodel.Optional[yacymodel.Host] {
-	if _, isAddr := result.Origin.Host.Addr(); !isAddr {
+	if _, isAddr := result.BaseURL.Host.Addr(); !isAddr {
 		return yacymodel.None[yacymodel.Host]()
 	}
 

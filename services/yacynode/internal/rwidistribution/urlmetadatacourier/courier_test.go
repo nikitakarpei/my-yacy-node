@@ -33,23 +33,23 @@ func urlHash(raw string) yacymodel.URLHash {
 }
 
 type stubPeerWire struct {
-	reply                 yacyproto.ResponseFields
-	answers               bool
-	withoutAnsweredOrigin bool
+	reply                  yacyproto.ResponseFields
+	answers                bool
+	withoutAnsweredBaseURL bool
 }
 
 func answeringPeerWire(resp yacyproto.TransferURLResponse) *stubPeerWire {
 	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-func (s *stubPeerWire) AnsweredOriginOf(context.Context, yacymodel.Hash) (peerwire.Origin, bool) {
-	return peerwire.Origin{Scheme: peerwire.HTTP}, !s.withoutAnsweredOrigin
+func (s *stubPeerWire) AnsweredBaseURLOf(context.Context, yacymodel.Hash) (peerwire.BaseURL, bool) {
+	return peerwire.BaseURL{Scheme: peerwire.HTTP}, !s.withoutAnsweredBaseURL
 }
 
 func (s *stubPeerWire) Exchange(
 	_ context.Context,
 	_ peerwire.Request,
-	_ []peerwire.Origin,
+	_ []peerwire.BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	_ time.Duration,
 ) (peerwire.Answer, bool) {
@@ -157,9 +157,9 @@ func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
 	}
 }
 
-func TestDeliverReportsUnaddressableForAPeerWithoutAnsweredOrigin(t *testing.T) {
+func TestDeliverReportsUnaddressableForAPeerWithoutAnsweredBaseURL(t *testing.T) {
 	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	wire.withoutAnsweredOrigin = true
+	wire.withoutAnsweredBaseURL = true
 
 	receipt := courierOver(wire).Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),

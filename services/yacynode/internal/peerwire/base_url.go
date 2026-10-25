@@ -10,9 +10,9 @@ import (
 )
 
 const (
-	hostsPerPeer   = 4
-	originsPerPeer = 5
-	httpsPort      = yacymodel.Port(443)
+	hostsPerPeer    = 4
+	baseURLsPerPeer = 5
+	httpsPort       = yacymodel.Port(443)
 )
 
 var errUnknownScheme = errors.New("unknown scheme")
@@ -33,33 +33,33 @@ func ParseScheme(text string) (Scheme, error) {
 	}
 }
 
-type Origin struct {
+type BaseURL struct {
 	Scheme Scheme
 	Host   yacymodel.Host
 	Port   yacymodel.Port
 }
 
-func OriginsFrom(addresses yacymodel.PeerAddresses) []Origin {
-	var origins []Origin
+func BaseURLsFrom(addresses yacymodel.PeerAddresses) []BaseURL {
+	var baseURLs []BaseURL
 	for _, host := range addresses.Hosts[:min(len(addresses.Hosts), hostsPerPeer)] {
 		if _, isAddr := host.Addr(); !isAddr {
-			origins = append(origins, Origin{Scheme: HTTPS, Host: host, Port: httpsPort})
+			baseURLs = append(baseURLs, BaseURL{Scheme: HTTPS, Host: host, Port: httpsPort})
 			if securePort, announced := addresses.SecurePort.Get(); announced &&
 				securePort != httpsPort {
-				origins = append(origins, Origin{Scheme: HTTPS, Host: host, Port: securePort})
+				baseURLs = append(baseURLs, BaseURL{Scheme: HTTPS, Host: host, Port: securePort})
 			}
 		}
-		origins = append(origins, Origin{Scheme: HTTP, Host: host, Port: addresses.Port})
+		baseURLs = append(baseURLs, BaseURL{Scheme: HTTP, Host: host, Port: addresses.Port})
 	}
 
-	return origins[:min(len(origins), originsPerPeer)]
+	return baseURLs[:min(len(baseURLs), baseURLsPerPeer)]
 }
 
-func (o Origin) String() string {
+func (o BaseURL) String() string {
 	return o.urlOf("")
 }
 
-func (o Origin) urlOf(path string) string {
+func (o BaseURL) urlOf(path string) string {
 	target := url.URL{
 		Scheme: string(o.Scheme),
 		Host:   net.JoinHostPort(o.Host.String(), o.Port.String()),

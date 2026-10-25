@@ -109,7 +109,7 @@ func TestCallerBackPingReachesTheCallerThroughAnAdditionalAddress(t *testing.T) 
 	}
 }
 
-func TestCallerBackPingConfirmsTheCallerWithTheOriginThatAnswered(t *testing.T) {
+func TestCallerBackPingConfirmsTheCallerWithTheBaseURLThatAnswered(t *testing.T) {
 	srv := backPingServer(true)
 	defer srv.Close()
 	reachability := &stubReachability{}
@@ -119,13 +119,13 @@ func TestCallerBackPingConfirmsTheCallerWithTheOriginThatAnswered(t *testing.T) 
 
 	host, _ := caller.PrimaryAddress.Get()
 	port, _ := caller.Port.Get()
-	want := peerwire.Origin{Scheme: peerwire.HTTP, Host: host, Port: port}
-	if len(reachability.confirmedOrigins) != 1 || reachability.confirmedOrigins[0] != want {
-		t.Fatalf("confirmed origins = %v, want %v", reachability.confirmedOrigins, want)
+	want := peerwire.BaseURL{Scheme: peerwire.HTTP, Host: host, Port: port}
+	if len(reachability.confirmedBaseURLs) != 1 || reachability.confirmedBaseURLs[0] != want {
+		t.Fatalf("confirmed base URLs = %v, want %v", reachability.confirmedBaseURLs, want)
 	}
 }
 
-func TestCallerBackPingStartsAtTheOriginThatAnsweredBefore(t *testing.T) {
+func TestCallerBackPingStartsAtTheBaseURLThatAnsweredBefore(t *testing.T) {
 	srv := backPingServer(true)
 	defer srv.Close()
 	var guard sync.Mutex
@@ -152,14 +152,14 @@ func TestCallerBackPingStartsAtTheOriginThatAnsweredBefore(t *testing.T) {
 		t.Fatalf("parse host: %v", err)
 	}
 	caller.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{additional})
-	reachability := &stubReachability{answeredOrigins: map[yacymodel.Hash]peerwire.Origin{
+	reachability := &stubReachability{answeredBaseURLs: map[yacymodel.Hash]peerwire.BaseURL{
 		caller.Hash: {Scheme: peerwire.HTTP, Host: additional, Port: 8090},
 	}}
 
 	serveHello(t, muxWithHello(t, reachability, client), helloRequest("freeworld", caller, 0))
 
 	if len(dialed) == 0 || dialed[0] != "198.51.100.1:8090" {
-		t.Fatalf("dialed = %v, want the origin that answered before first", dialed)
+		t.Fatalf("dialed = %v, want the base URL that answered before first", dialed)
 	}
 }
 

@@ -13,7 +13,7 @@ import (
 const greetBudget = 30 * time.Second
 
 type greetResult struct {
-	Origin           peerwire.Origin
+	BaseURL          peerwire.BaseURL
 	ReportedHost     yacymodel.Optional[yacymodel.Host]
 	ObservedPeerType yacymodel.Optional[yacymodel.PeerType]
 	RespondingSeed   yacymodel.Seed
@@ -46,7 +46,7 @@ func (g peerGreeter) Greet(
 	answer, answered := g.exchange.Exchange(
 		ctx,
 		peerwire.Request{Peer: peer, Path: yacyproto.PathHello, Form: request.Form()},
-		peerwire.OriginsFrom(addresses),
+		peerwire.BaseURLsFrom(addresses),
 		func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, peer, fields) },
 		greetBudget,
 	)
@@ -57,7 +57,7 @@ func (g peerGreeter) Greet(
 	respondingSeed, _ := hello.OwnSeed().Get()
 
 	return greetResult{
-		Origin:           answer.Origin,
+		BaseURL:          answer.BaseURL,
 		ReportedHost:     reportedHostFrom(hello.YourIP),
 		ObservedPeerType: hello.YourType,
 		RespondingSeed:   respondingSeed,

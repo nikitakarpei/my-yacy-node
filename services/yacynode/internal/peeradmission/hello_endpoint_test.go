@@ -27,11 +27,11 @@ func (helloRuntimeStatus) Version(context.Context) string { return "1.0" }
 func (helloRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 type stubReachability struct {
-	guard            sync.Mutex
-	seeds            []yacymodel.Seed
-	refreshed        []yacymodel.Seed
-	confirmedOrigins []peerwire.Origin
-	answeredOrigins  map[yacymodel.Hash]peerwire.Origin
+	guard             sync.Mutex
+	seeds             []yacymodel.Seed
+	refreshed         []yacymodel.Seed
+	confirmedBaseURLs []peerwire.BaseURL
+	answeredBaseURLs  map[yacymodel.Hash]peerwire.BaseURL
 }
 
 func (s *stubReachability) MostRecentlyReachablePeers(
@@ -51,22 +51,22 @@ func (s *stubReachability) MostRecentlyReachablePeers(
 func (s *stubReachability) ConfirmReachable(
 	_ context.Context,
 	seed yacymodel.Seed,
-	answeredOrigin peerwire.Origin,
+	answeredBaseURL peerwire.BaseURL,
 ) {
 	s.guard.Lock()
 	defer s.guard.Unlock()
 
 	s.refreshed = append(s.refreshed, seed)
-	s.confirmedOrigins = append(s.confirmedOrigins, answeredOrigin)
+	s.confirmedBaseURLs = append(s.confirmedBaseURLs, answeredBaseURL)
 }
 
-func (s *stubReachability) AnsweredOriginOf(
+func (s *stubReachability) AnsweredBaseURLOf(
 	_ context.Context,
 	peer yacymodel.Hash,
-) (peerwire.Origin, bool) {
-	origin, found := s.answeredOrigins[peer]
+) (peerwire.BaseURL, bool) {
+	baseURL, found := s.answeredBaseURLs[peer]
 
-	return origin, found
+	return baseURL, found
 }
 
 var replyTime = time.Date(2026, time.June, 17, 12, 0, 0, 0, time.UTC)

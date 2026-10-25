@@ -63,19 +63,19 @@ func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
 	}
 }
 
-func TestRosterRestoresTheAnsweredOrigin(t *testing.T) {
+func TestRosterRestoresTheAnsweredBaseURL(t *testing.T) {
 	storagePath := filepath.Join(t.TempDir(), "peer-roster")
 	peerSeed := seniorSeed(t, "peer", "203.0.113.10", 8090)
-	answeredOrigin := httpOriginOf(peerSeed)
-	answeredOrigin.Scheme = peerwire.HTTPS
-	answeredOrigin.Port = 443
+	answeredBaseURL := httpBaseURLOf(peerSeed)
+	answeredBaseURL.Scheme = peerwire.HTTPS
+	answeredBaseURL.Port = 443
 
 	storedVault := openRosterVault(t, storagePath)
 	storedRoster := openRoster(
 		t,
 		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
 	)
-	storedRoster.ConfirmReachable(t.Context(), peerSeed, answeredOrigin)
+	storedRoster.ConfirmReachable(t.Context(), peerSeed, answeredBaseURL)
 	if err := storedVault.Close(); err != nil {
 		t.Fatalf("Close stored roster: %v", err)
 	}
@@ -91,9 +91,9 @@ func TestRosterRestoresTheAnsweredOrigin(t *testing.T) {
 		rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4},
 	)
 
-	if origin, found := restoredRoster.AnsweredOriginOf(t.Context(), peerSeed.Hash); !found ||
-		origin != answeredOrigin {
-		t.Fatalf("answered origin = %v, %v, want %v", origin, found, answeredOrigin)
+	if baseURL, found := restoredRoster.AnsweredBaseURLOf(t.Context(), peerSeed.Hash); !found ||
+		baseURL != answeredBaseURL {
+		t.Fatalf("answered base URL = %v, %v, want %v", baseURL, found, answeredBaseURL)
 	}
 }
 

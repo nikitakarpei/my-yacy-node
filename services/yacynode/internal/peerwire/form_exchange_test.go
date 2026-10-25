@@ -84,7 +84,7 @@ func (c *clock) advance(elapsed time.Duration) {
 	}
 }
 
-func originOf(t *testing.T, server *httptest.Server, scheme peerwire.Scheme) peerwire.Origin {
+func baseURLOf(t *testing.T, server *httptest.Server, scheme peerwire.Scheme) peerwire.BaseURL {
 	t.Helper()
 
 	parsed, err := url.Parse(server.URL)
@@ -100,7 +100,7 @@ func originOf(t *testing.T, server *httptest.Server, scheme peerwire.Scheme) pee
 		t.Fatalf("parse port: %v", err)
 	}
 
-	return peerwire.Origin{Scheme: scheme, Host: host, Port: yacymodel.Port(port)}
+	return peerwire.BaseURL{Scheme: scheme, Host: host, Port: yacymodel.Port(port)}
 }
 
 func replyingServer(reply string) *httptest.Server {
@@ -127,12 +127,12 @@ func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 		_, _ = w.Write([]byte("result=ok\n"))
 	}))
 	defer server.Close()
-	origin := originOf(t, server, peerwire.HTTP)
+	baseURL := baseURLOf(t, server, peerwire.HTTP)
 
 	answer, answered := peerwire.NewFormExchange(server.Client(), startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Origin{origin},
+		[]peerwire.BaseURL{baseURL},
 		hasResult,
 		exchangeBudget,
 	)
@@ -152,32 +152,32 @@ func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	if answer.Fields["result"] != "ok" {
 		t.Errorf("result = %q, want ok", answer.Fields["result"])
 	}
-	if answer.Origin != origin {
-		t.Errorf("origin = %v, want %v", answer.Origin, origin)
+	if answer.BaseURL != baseURL {
+		t.Errorf("base URL = %v, want %v", answer.BaseURL, baseURL)
 	}
 }
 
-func TestExchangeReachesAnHTTPSOrigin(t *testing.T) {
+func TestExchangeReachesAnHTTPSBaseURL(t *testing.T) {
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte("result=ok\n"))
 	}))
 	defer server.Close()
-	origin := originOf(t, server, peerwire.HTTPS)
+	baseURL := baseURLOf(t, server, peerwire.HTTPS)
 
 	answer, answered := peerwire.NewFormExchange(server.Client(), startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Origin{origin},
+		[]peerwire.BaseURL{baseURL},
 		hasResult,
 		exchangeBudget,
 	)
 
-	if !answered || answer.Origin.Scheme != peerwire.HTTPS {
+	if !answered || answer.BaseURL.Scheme != peerwire.HTTPS {
 		t.Fatalf("answer = %v, %v, want an answer over https", answer, answered)
 	}
 }
 
-func TestExchangeMovesOnPastOriginsThatGiveNoAcceptedReply(t *testing.T) {
+func TestExchangeMovesOnPastBaseURLsThatGiveNoAcceptedReply(t *testing.T) {
 	failing := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "upstream connect error", http.StatusBadGateway)
 	}))
@@ -191,32 +191,32 @@ func TestExchangeMovesOnPastOriginsThatGiveNoAcceptedReply(t *testing.T) {
 	foreign := replyingServer("<html lang=\"en\">\n")
 	defer foreign.Close()
 	closed := replyingServer("result=ok\n")
-	closedOrigin := originOf(t, closed, peerwire.HTTP)
+	closedBaseURL := baseURLOf(t, closed, peerwire.HTTP)
 	closed.Close()
 
-	answeringOrigin := originOf(t, answering, peerwire.HTTP)
-	origins := []peerwire.Origin{
-		closedOrigin,
-		originOf(t, failing, peerwire.HTTP),
-		originOf(t, redirecting, peerwire.HTTP),
-		originOf(t, foreign, peerwire.HTTP),
-		answeringOrigin,
+	answeringBaseURL := baseURLOf(t, answering, peerwire.HTTP)
+	baseURLs := []peerwire.BaseURL{
+		closedBaseURL,
+		baseURLOf(t, failing, peerwire.HTTP),
+		baseURLOf(t, redirecting, peerwire.HTTP),
+		baseURLOf(t, foreign, peerwire.HTTP),
+		answeringBaseURL,
 	}
 
 	answer, answered := peerwire.NewFormExchange(http.DefaultClient, startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		origins,
+		baseURLs,
 		hasResult,
 		exchangeBudget,
 	)
 
-	if !answered || answer.Origin != answeringOrigin {
-		t.Fatalf("answer = %v, %v, want the last origin", answer, answered)
+	if !answered || answer.BaseURL != answeringBaseURL {
+		t.Fatalf("answer = %v, %v, want the last base URL", answer, answered)
 	}
 }
 
-func TestExchangeHasNoAnswerWhenEveryOriginFails(t *testing.T) {
+func TestExchangeHasNoAnswerWhenEveryBaseURLFails(t *testing.T) {
 	failing := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	}))
@@ -225,7 +225,7 @@ func TestExchangeHasNoAnswerWhenEveryOriginFails(t *testing.T) {
 	_, answered := peerwire.NewFormExchange(failing.Client(), startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Origin{originOf(t, failing, peerwire.HTTP)},
+		[]peerwire.BaseURL{baseURLOf(t, failing, peerwire.HTTP)},
 		hasResult,
 		exchangeBudget,
 	)
@@ -249,7 +249,7 @@ func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 	defer hanging.Close()
 	answering := replyingServer("result=ok\n")
 	defer answering.Close()
-	answeringOrigin := originOf(t, answering, peerwire.HTTP)
+	answeringBaseURL := baseURLOf(t, answering, peerwire.HTTP)
 	timeline := startClock()
 
 	answers := make(chan bool, 1)
@@ -257,9 +257,9 @@ func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 		_, answered := peerwire.NewFormExchange(http.DefaultClient, timeline).Exchange(
 			t.Context(),
 			transferRequest,
-			[]peerwire.Origin{
-				originOf(t, hanging, peerwire.HTTP),
-				answeringOrigin,
+			[]peerwire.BaseURL{
+				baseURLOf(t, hanging, peerwire.HTTP),
+				answeringBaseURL,
 			},
 			hasResult,
 			exchangeBudget,
@@ -271,7 +271,7 @@ func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 	timeline.advance(exchangeBudget / 2)
 
 	if !<-answers {
-		t.Fatal("expected the second origin to answer once the first used its share")
+		t.Fatal("expected the second base URL to answer once the first used its share")
 	}
 }
 
@@ -279,9 +279,9 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 	arrived := make(chan struct{}, 1)
 	hanging := hangingServer(arrived)
 	defer hanging.Close()
-	var laterOriginAsked bool
+	var laterBaseURLAsked bool
 	later := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		laterOriginAsked = true
+		laterBaseURLAsked = true
 		_, _ = w.Write([]byte("result=ok\n"))
 	}))
 	defer later.Close()
@@ -292,9 +292,9 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 		_, answered := peerwire.NewFormExchange(http.DefaultClient, timeline).Exchange(
 			t.Context(),
 			transferRequest,
-			[]peerwire.Origin{
-				originOf(t, hanging, peerwire.HTTP),
-				originOf(t, later, peerwire.HTTP),
+			[]peerwire.BaseURL{
+				baseURLOf(t, hanging, peerwire.HTTP),
+				baseURLOf(t, later, peerwire.HTTP),
 			},
 			hasResult,
 			exchangeBudget,
@@ -308,8 +308,8 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 	if <-answers {
 		t.Fatal("expected no answer after the budget was spent")
 	}
-	if laterOriginAsked {
-		t.Error("an origin was asked after the budget was spent")
+	if laterBaseURLAsked {
+		t.Error("a base URL was asked after the budget was spent")
 	}
 }
 
@@ -324,7 +324,7 @@ func TestExchangeMeasuresTheAnswerTimeOfTheAnsweringAttempt(t *testing.T) {
 	answer, _ := peerwire.NewFormExchange(server.Client(), timeline).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Origin{originOf(t, server, peerwire.HTTP)},
+		[]peerwire.BaseURL{baseURLOf(t, server, peerwire.HTTP)},
 		hasResult,
 		exchangeBudget,
 	)

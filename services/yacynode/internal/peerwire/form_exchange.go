@@ -1,6 +1,6 @@
-// Package peerwire posts a form-encoded request to a peer, trying the peer's origins
+// Package peerwire posts a form-encoded request to a peer, trying the peer's base URLs
 // in the given order until one gives a reply the caller accepts. Each attempt has a
-// share of the time left, and a redirect ends it. It reports why each origin failed.
+// share of the time left, and a redirect ends it. It reports why each base URL failed.
 package peerwire
 
 import (
@@ -44,14 +44,14 @@ type Request struct {
 }
 
 type Answer struct {
-	Fields yacyproto.ResponseFields
-	Origin Origin
-	Time   time.Duration
+	Fields  yacyproto.ResponseFields
+	BaseURL BaseURL
+	Time    time.Duration
 }
 
 type attemptFailure struct {
-	origin Origin
-	cause  error
+	baseURL BaseURL
+	cause   error
 }
 
 type FormExchange struct {
@@ -73,14 +73,14 @@ func refuseRedirect(*http.Request, []*http.Request) error {
 func (e FormExchange) Exchange(
 	ctx context.Context,
 	request Request,
-	origins []Origin,
+	baseURLs []BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	budget time.Duration,
 ) (Answer, bool) {
 	deadline := e.clock.Now().Add(budget)
 	body := request.Form.Encode()
 	var failures []attemptFailure
-	for index, origin := range origins {
+	for index, baseURL := range baseURLs {
 		remaining := deadline.Sub(e.clock.Now())
 		if remaining <= 0 {
 			break
@@ -89,16 +89,16 @@ func (e FormExchange) Exchange(
 			ctx,
 			request.Path,
 			body,
-			origin,
+			baseURL,
 			accepts,
-			remaining/time.Duration(len(origins)-index),
+			remaining/time.Duration(len(baseURLs)-index),
 		)
 		if err == nil {
 			reportPassedOver(ctx, request, failures)
 
 			return answer, true
 		}
-		failures = append(failures, attemptFailure{origin: origin, cause: err})
+		failures = append(failures, attemptFailure{baseURL: baseURL, cause: err})
 	}
 	reportUnanswered(ctx, request, failures)
 
@@ -109,7 +109,7 @@ func (e FormExchange) Exchange(
 func (e FormExchange) try(
 	ctx context.Context,
 	path, body string,
-	origin Origin,
+	baseURL BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	limit time.Duration,
 ) (Answer, error) {
@@ -119,7 +119,7 @@ func (e FormExchange) try(
 	defer stop()
 
 	sentAt := e.clock.Now()
-	fields, err := e.post(attemptCtx, origin, path, body)
+	fields, err := e.post(attemptCtx, baseURL, path, body)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)
@@ -132,21 +132,21 @@ func (e FormExchange) try(
 	}
 
 	return Answer{
-		Fields: fields,
-		Origin: origin,
-		Time:   e.clock.Now().Sub(sentAt),
+		Fields:  fields,
+		BaseURL: baseURL,
+		Time:    e.clock.Now().Sub(sentAt),
 	}, nil
 }
 
 func (e FormExchange) post(
 	ctx context.Context,
-	origin Origin,
+	baseURL BaseURL,
 	path, body string,
 ) (yacyproto.ResponseFields, error) {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		origin.urlOf(path),
+		baseURL.urlOf(path),
 		strings.NewReader(body),
 	)
 	if err != nil {
@@ -204,9 +204,9 @@ func peerFailureReport(body io.Reader) string {
 
 func reportPassedOver(ctx context.Context, request Request, failures []attemptFailure) {
 	for _, failure := range failures {
-		slog.DebugContext(ctx, "peer origin passed over",
+		slog.DebugContext(ctx, "peer base URL passed over",
 			slog.String("peer", request.Peer.String()),
-			slog.String("origin", failure.origin.String()),
+			slog.String("baseUrl", failure.baseURL.String()),
 			slog.String("path", request.Path),
 			slog.Any("cause", failure.cause),
 		)
@@ -215,9 +215,9 @@ func reportPassedOver(ctx context.Context, request Request, failures []attemptFa
 
 func reportUnanswered(ctx context.Context, request Request, failures []attemptFailure) {
 	for _, failure := range failures {
-		slog.WarnContext(ctx, "peer origin did not answer",
+		slog.WarnContext(ctx, "peer base URL did not answer",
 			slog.String("peer", request.Peer.String()),
-			slog.String("origin", failure.origin.String()),
+			slog.String("baseUrl", failure.baseURL.String()),
 			slog.String("path", request.Path),
 			slog.Any("cause", failure.cause),
 		)

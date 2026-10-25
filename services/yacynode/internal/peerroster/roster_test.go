@@ -10,11 +10,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
-func httpOriginOf(seed yacymodel.Seed) peerwire.Origin {
+func httpBaseURLOf(seed yacymodel.Seed) peerwire.BaseURL {
 	host, _ := seed.PrimaryAddress.Get()
 	port, _ := seed.Port.Get()
 
-	return peerwire.Origin{Scheme: peerwire.HTTP, Host: host, Port: port}
+	return peerwire.BaseURL{Scheme: peerwire.HTTP, Host: host, Port: port}
 }
 
 func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
@@ -40,7 +40,7 @@ func TestDiscoverDropsThisNode(t *testing.T) {
 
 	self := seniorSeed(t, "self", "203.0.113.1", 8090)
 	roster.Discover(ctx, self)
-	roster.ConfirmReachable(ctx, self, httpOriginOf(self))
+	roster.ConfirmReachable(ctx, self, httpBaseURLOf(self))
 
 	if _, ok := hashSet(roster.UnreachablePeerHashes(ctx, 4))[self.Hash]; ok {
 		t.Fatalf("this node should never be known as a peer of itself")
@@ -61,7 +61,7 @@ func TestReachablePromotesAndIsServed(t *testing.T) {
 		t.Fatalf("reachable before greet = %d, want 0", len(got))
 	}
 
-	roster.ConfirmReachable(ctx, senior, httpOriginOf(senior))
+	roster.ConfirmReachable(ctx, senior, httpBaseURLOf(senior))
 
 	if _, ok := hashes(roster.ReachablePeers(ctx))[senior.Hash]; !ok {
 		t.Fatalf("senior not served as reachable after confirmation")
@@ -76,7 +76,7 @@ func TestReachableConfirmationReplacesDiscoveredSeedAndAddresses(t *testing.T) {
 	roster.Discover(ctx, discovered)
 	fresh := seniorSeed(t, "peer", "203.0.113.2", 8091)
 	fresh.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true})
-	roster.ConfirmReachable(ctx, fresh, httpOriginOf(fresh))
+	roster.ConfirmReachable(ctx, fresh, httpBaseURLOf(fresh))
 
 	reachablePeers := roster.ReachablePeers(ctx)
 	if len(reachablePeers) != 1 || reachablePeers[0].Hash != fresh.Hash {
@@ -134,54 +134,54 @@ func TestReachableUnknownPeerIsAdmitted(t *testing.T) {
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	peer := seniorSeed(t, "ghost", "203.0.113.8", 8090)
 
-	roster.ConfirmReachable(ctx, peer, httpOriginOf(peer))
+	roster.ConfirmReachable(ctx, peer, httpBaseURLOf(peer))
 
 	if _, admitted := hashes(roster.ReachablePeers(ctx))[peer.Hash]; !admitted {
 		t.Fatalf("confirmed unknown peer was not admitted")
 	}
 }
 
-func TestRosterKeepsTheOriginThatAnsweredTheLastConfirmation(t *testing.T) {
+func TestRosterKeepsTheBaseURLThatAnsweredTheLastConfirmation(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
-	secureOrigin := httpOriginOf(senior)
-	secureOrigin.Scheme = peerwire.HTTPS
+	secureBaseURL := httpBaseURLOf(senior)
+	secureBaseURL.Scheme = peerwire.HTTPS
 
-	roster.ConfirmReachable(ctx, senior, httpOriginOf(senior))
-	roster.ConfirmReachable(ctx, senior, secureOrigin)
+	roster.ConfirmReachable(ctx, senior, httpBaseURLOf(senior))
+	roster.ConfirmReachable(ctx, senior, secureBaseURL)
 
-	if origin, found := roster.AnsweredOriginOf(
+	if baseURL, found := roster.AnsweredBaseURLOf(
 		ctx,
 		senior.Hash,
 	); !found ||
-		origin != secureOrigin {
-		t.Fatalf("answered origin = %v, %v, want %v", origin, found, secureOrigin)
+		baseURL != secureBaseURL {
+		t.Fatalf("answered base URL = %v, %v, want %v", baseURL, found, secureBaseURL)
 	}
 }
 
-func TestRosterHasNoAnsweredOriginForADiscoveredPeer(t *testing.T) {
+func TestRosterHasNoAnsweredBaseURLForADiscoveredPeer(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 
 	roster.Discover(ctx, senior)
 
-	if origin, found := roster.AnsweredOriginOf(ctx, senior.Hash); found {
-		t.Fatalf("answered origin = %v, want none before a confirmation", origin)
+	if baseURL, found := roster.AnsweredBaseURLOf(ctx, senior.Hash); found {
+		t.Fatalf("answered base URL = %v, want none before a confirmation", baseURL)
 	}
 }
 
-func TestRosterForgetsTheAnsweredOriginOfAnUnreachablePeer(t *testing.T) {
+func TestRosterForgetsTheAnsweredBaseURLOfAnUnreachablePeer(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
-	roster.ConfirmReachable(ctx, senior, httpOriginOf(senior))
+	roster.ConfirmReachable(ctx, senior, httpBaseURLOf(senior))
 
 	roster.ConfirmUnreachable(ctx, senior.Hash)
 
-	if origin, found := roster.AnsweredOriginOf(ctx, senior.Hash); found {
-		t.Fatalf("answered origin = %v, want none after a failed contact", origin)
+	if baseURL, found := roster.AnsweredBaseURLOf(ctx, senior.Hash); found {
+		t.Fatalf("answered base URL = %v, want none after a failed contact", baseURL)
 	}
 }
 
@@ -191,7 +191,7 @@ func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	roster.Discover(ctx, senior)
-	roster.ConfirmReachable(ctx, senior, httpOriginOf(senior))
+	roster.ConfirmReachable(ctx, senior, httpBaseURLOf(senior))
 
 	roster.ConfirmUnreachable(ctx, senior.Hash)
 
@@ -253,15 +253,15 @@ func TestMostRecentlyReachablePeersRankLatestConfirmationFirst(t *testing.T) {
 	earlier := seniorSeed(t, "earlier", "203.0.113.1", 8090)
 	later := seniorSeed(t, "later", "203.0.113.2", 8090)
 	roster.Discover(ctx, earlier, later)
-	roster.ConfirmReachable(ctx, earlier, httpOriginOf(earlier))
-	roster.ConfirmReachable(ctx, later, httpOriginOf(later))
+	roster.ConfirmReachable(ctx, earlier, httpBaseURLOf(earlier))
+	roster.ConfirmReachable(ctx, later, httpBaseURLOf(later))
 
 	ranked := roster.MostRecentlyReachablePeers(ctx, 4)
 	if len(ranked) != 2 || ranked[0].Hash != later.Hash {
 		t.Fatalf("ranked = %v, want the last confirmed peer first", hashes(ranked))
 	}
 
-	roster.ConfirmReachable(ctx, earlier, httpOriginOf(earlier))
+	roster.ConfirmReachable(ctx, earlier, httpBaseURLOf(earlier))
 
 	ranked = roster.MostRecentlyReachablePeers(ctx, 4)
 	if len(ranked) != 2 || ranked[0].Hash != earlier.Hash {
@@ -276,8 +276,8 @@ func TestMostRecentlyReachablePeersCappedToLimit(t *testing.T) {
 	first := seniorSeed(t, "first", "203.0.113.1", 8090)
 	second := seniorSeed(t, "second", "203.0.113.2", 8090)
 	roster.Discover(ctx, first, second)
-	roster.ConfirmReachable(ctx, first, httpOriginOf(first))
-	roster.ConfirmReachable(ctx, second, httpOriginOf(second))
+	roster.ConfirmReachable(ctx, first, httpBaseURLOf(first))
+	roster.ConfirmReachable(ctx, second, httpBaseURLOf(second))
 
 	if got := roster.MostRecentlyReachablePeers(ctx, 1); len(got) != 1 {
 		t.Fatalf("ranked = %d, want 1", len(got))
@@ -328,11 +328,11 @@ func TestUnreachablePeerHashesPrioritizeReachableHistoryOverNeverConfirmed(t *te
 
 	filler := seniorSeed(t, "filler", "203.0.113.1", 8090)
 	roster.Discover(ctx, filler)
-	roster.ConfirmReachable(ctx, filler, httpOriginOf(filler))
+	roster.ConfirmReachable(ctx, filler, httpBaseURLOf(filler))
 
 	rejected := seniorSeed(t, "rejected", "203.0.113.2", 8090)
 	roster.Discover(ctx, rejected)
-	roster.ConfirmReachable(ctx, rejected, httpOriginOf(rejected))
+	roster.ConfirmReachable(ctx, rejected, httpBaseURLOf(rejected))
 
 	never := seniorSeed(t, "never", "203.0.113.3", 8090)
 	roster.Discover(ctx, never)
@@ -355,7 +355,7 @@ func TestRecentlyReachableAfterConfirmation(t *testing.T) {
 
 	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, peer)
-	roster.ConfirmReachable(ctx, peer, httpOriginOf(peer))
+	roster.ConfirmReachable(ctx, peer, httpBaseURLOf(peer))
 
 	if !roster.IsRecentlyReachable(ctx, peer.Hash) {
 		t.Fatalf("peer confirmed reachable should be recently reachable")
@@ -371,7 +371,7 @@ func TestRecentlyReachableClearedByFailedContact(t *testing.T) {
 
 	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, peer)
-	roster.ConfirmReachable(ctx, peer, httpOriginOf(peer))
+	roster.ConfirmReachable(ctx, peer, httpBaseURLOf(peer))
 	roster.ConfirmUnreachable(ctx, peer.Hash)
 
 	if roster.IsRecentlyReachable(ctx, peer.Hash) {
@@ -400,7 +400,7 @@ func TestRecentlyReachableExcludesConfirmationPastWindow(t *testing.T) {
 
 	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, peer)
-	roster.ConfirmReachable(ctx, peer, httpOriginOf(peer))
+	roster.ConfirmReachable(ctx, peer, httpBaseURLOf(peer))
 
 	if roster.IsRecentlyReachable(ctx, peer.Hash) {
 		t.Fatalf("confirmation older than the credibility window should not count")
