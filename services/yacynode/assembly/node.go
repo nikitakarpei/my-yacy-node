@@ -340,16 +340,24 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, egressClient)
+	peerWalker := peerwire.NewWalker(egressClient, wallclock.Clock{})
+	peeradmission.MountHello(
+		router,
+		identity,
+		runtimeStatus,
+		wallclock.Clock{},
+		peerRoster,
+		peerWalker,
+	)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{
-			Client:             egressClient,
 			NetworkName:        identity.NetworkName,
 			Interval:           config.PeerExchange.AnnounceInterval,
 			ReachableCap:       config.PeerExchange.ReachableRosterCapacity,
 			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
+		peerWalker,
 		runtimeStatus,
 		publicAddressSource,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
@@ -385,7 +393,6 @@ func assembleNode(
 				},
 			)
 		}
-		peerFormExchange := peerwire.NewFormExchange(egressClient)
 		distributionObserver := metrics.NewDistributionMetrics(registry)
 		peerEligibility := peereligibility.New(
 			peereligibility.Config{
@@ -420,18 +427,18 @@ func assembleNode(
 			postingtransfer.New(
 				storage,
 				postingcourier.New(
-					peerFormExchange,
+					peerWalker,
+					peerRoster,
 					identity.NetworkName,
 					identity.Hash,
-					now,
 					distributionObserver,
 				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
-						peerFormExchange,
+						peerWalker,
+						peerRoster,
 						identity.NetworkName,
 						identity.Hash,
-						now,
 						distributionObserver,
 					),
 					config.Distribution.URLMetadataBatchSize,

@@ -287,6 +287,7 @@ func (d *Directory) reportPeersKnown(ctx context.Context) {
 	d.observer.PeersKnown(ctx, len(d.peers), amountOfAnsweringPeers, d.limits.Capacity)
 }
 
+// TECHDEBT: single source of truth — rebuilds the seed host list Seed.Addresses derives
 func addressesOf(seed yacymodel.Seed) []string {
 	port, ok := seed.Port.Get()
 	if !ok {
@@ -294,10 +295,10 @@ func addressesOf(seed yacymodel.Seed) []string {
 	}
 
 	var hosts []yacymodel.Host
-	if primary, ok := seed.PrimaryAddress.Get(); ok {
+	if primary, ok := seed.PrimaryHost.Get(); ok {
 		hosts = append(hosts, primary)
 	}
-	if additional, ok := seed.AdditionalAddresses.Get(); ok {
+	if additional, ok := seed.AdditionalHosts.Get(); ok {
 		hosts = append(hosts, additional...)
 	}
 

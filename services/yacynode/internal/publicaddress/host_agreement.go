@@ -33,7 +33,7 @@ func agreementAmong(reportedHosts []yacymodel.Host) hostAgreement {
 func isAdvertisable(host yacymodel.Host) bool {
 	addr, isAddr := host.Addr()
 
-	return isAddr && addr.IsGlobalUnicast()
+	return isAddr && addr.IsGlobalUnicast() && !yacymodel.IsLocalNetworkAddress(addr)
 }
 
 func (a hostAgreement) reached() bool {

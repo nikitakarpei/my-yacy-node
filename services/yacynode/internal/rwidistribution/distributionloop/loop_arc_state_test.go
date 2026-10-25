@@ -111,7 +111,7 @@ func TestLoopCountsAnArcWhoseWorkerHoldsABatchAsInBatch(t *testing.T) {
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
 		sending := make(chan struct{})
-		h.transfers.onOffer = func(sentTo yacymodel.Seed) { <-sending }
+		h.transfers.onOffer = func(sentTo yacymodel.Hash) { <-sending }
 		h.admit(t, wordPartition, urlsOf(1)...)
 		h.start(t)
 

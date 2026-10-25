@@ -2,10 +2,6 @@ package postingcourier_test
 
 import (
 	"context"
-	"net"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"testing"
 	"time"
 
@@ -40,42 +36,32 @@ func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPostin
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
 }
 
-func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
-	t.Helper()
-
-	parsed, err := url.Parse(server.URL)
-	if err != nil {
-		t.Fatalf("parse server url: %v", err)
-	}
-	host, portRaw, err := net.SplitHostPort(parsed.Host)
-	if err != nil {
-		t.Fatalf("split host port: %v", err)
-	}
-	parsedHost, err := yacymodel.ParseHost(host)
-	if err != nil {
-		t.Fatalf("parse host: %v", err)
-	}
-	port, err := yacymodel.ParsePort(portRaw)
-	if err != nil {
-		t.Fatalf("parse port: %v", err)
-	}
-
-	return yacymodel.Seed{
-		Hash:           courierHash("peer"),
-		PrimaryAddress: yacymodel.Some(parsedHost),
-		Port:           yacymodel.Some(port),
-	}
+type stubPeerWire struct {
+	reply                  yacyproto.ResponseFields
+	answers                bool
+	withoutAnsweredBaseURL bool
 }
 
-type steppingClock struct {
-	at   time.Time
-	step time.Duration
+func answeringPeerWire(resp yacyproto.TransferRWIResponse) *stubPeerWire {
+	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-func (c *steppingClock) now() time.Time {
-	c.at = c.at.Add(c.step)
+func (s *stubPeerWire) AnsweredBaseURLOf(context.Context, yacymodel.Hash) (peerwire.BaseURL, bool) {
+	return peerwire.BaseURL{Scheme: peerwire.HTTP}, !s.withoutAnsweredBaseURL
+}
 
-	return c.at
+func (s *stubPeerWire) TryAt(
+	_ context.Context,
+	_ peerwire.Request,
+	_ peerwire.BaseURL,
+	accepts func(yacyproto.ResponseFields) bool,
+	_ time.Duration,
+) (peerwire.Answer, bool) {
+	if !s.answers || !accepts(s.reply) {
+		return peerwire.Answer{}, false
+	}
+
+	return peerwire.Answer{Fields: s.reply, Time: time.Second}, true
 }
 
 type answerTimeRecorder struct{ answerTimes []time.Duration }
@@ -84,32 +70,15 @@ func (r *answerTimeRecorder) ObservePostingOfferAnswerTime(answerTime time.Durat
 	r.answerTimes = append(r.answerTimes, answerTime)
 }
 
-func openCourierHarness(t *testing.T, server *httptest.Server) postingcourier.Courier {
-	t.Helper()
-
-	return openTimedCourierHarness(t, server, &answerTimeRecorder{})
+func courierOver(wire *stubPeerWire) postingcourier.Courier {
+	return timedCourierOver(wire, &answerTimeRecorder{})
 }
 
-func openTimedCourierHarness(
-	t *testing.T,
-	server *httptest.Server,
+func timedCourierOver(
+	wire *stubPeerWire,
 	recorder *answerTimeRecorder,
 ) postingcourier.Courier {
-	t.Helper()
-
-	return postingcourier.New(
-		peerwire.NewFormExchange(server.Client()),
-		"freeworld",
-		courierHash("self"),
-		(&steppingClock{at: time.Unix(1000, 0), step: time.Second}).now,
-		recorder,
-	)
-}
-
-func rwiResponder(resp yacyproto.TransferRWIResponse) *httptest.Server {
-	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		_, _ = w.Write([]byte(resp.Encode().Encode()))
-	}))
+	return postingcourier.New(wire, wire, "freeworld", courierHash("self"), recorder)
 }
 
 func singlePosting() []yacymodel.RWIPosting {
@@ -117,14 +86,13 @@ func singlePosting() []yacymodel.RWIPosting {
 }
 
 func TestOfferReportsAcceptedOnOK(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
 
-	courier := openCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Accepted {
@@ -135,17 +103,16 @@ func TestOfferReportsAcceptedOnOK(t *testing.T) {
 func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	unknown := fakePosting(word, url).URLHash
-	server := rwiResponder(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result:     yacyproto.ResultOK,
 		UnknownURL: []yacymodel.URLHash{unknown},
 	})
-	defer server.Close()
 
-	courier := openCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Accepted {
@@ -158,15 +125,14 @@ func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 
 func TestOfferReturnsURLsThePeerRejected(t *testing.T) {
 	rejected := urlHash("u1")
-	server := rwiResponder(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result:   yacyproto.ResultOK,
 		ErrorURL: []yacymodel.URLHash{rejected},
 	})
-	defer server.Close()
 
-	receipt := openCourierHarness(t, server).Offer(
+	receipt := courierOver(wire).Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 
@@ -176,17 +142,16 @@ func TestOfferReturnsURLsThePeerRejected(t *testing.T) {
 }
 
 func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result: yacyproto.ResultBusy,
 		Pause:  30 * time.Second,
 	})
-	defer server.Close()
 
-	courier := openCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Deferred {
@@ -198,17 +163,16 @@ func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 }
 
 func TestOfferReportsOverloadedPeer(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result: yacyproto.ResultTooHighLoad,
 		Pause:  time.Minute,
 	})
-	defer server.Close()
 
-	courier := openCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Overloaded {
@@ -220,14 +184,15 @@ func TestOfferReportsOverloadedPeer(t *testing.T) {
 }
 
 func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultWrongTarget})
-	defer server.Close()
+	wire := answeringPeerWire(
+		yacyproto.TransferRWIResponse{Result: yacyproto.ResultWrongTarget},
+	)
 
-	courier := openCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Refused {
@@ -236,16 +201,13 @@ func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
 }
 
 func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		http.Error(w, "nope", http.StatusServiceUnavailable)
-	}))
-	defer server.Close()
+	wire := &stubPeerWire{}
 
-	courier := openCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 	if receipt.Outcome != postingcourier.Unreachable {
@@ -253,30 +215,25 @@ func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
 	}
 }
 
-func TestOfferReportsUnaddressablePeer(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+func TestOfferReportsUnaddressableForAPeerWithoutAnsweredBaseURL(t *testing.T) {
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	wire.withoutAnsweredBaseURL = true
 
-	courier := openCourierHarness(t, server)
-
-	receipt := courier.Offer(
-		context.Background(),
-		yacymodel.Seed{Hash: courierHash("peer")},
-		singlePosting(),
-	)
+	receipt := courierOver(
+		wire,
+	).Offer(context.Background(), courierHash("peer"), singlePosting())
 	if receipt.Outcome != postingcourier.Unaddressable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Unaddressable)
 	}
 }
 
 func TestOfferReportsHowLongThePeerTookToAnswer(t *testing.T) {
-	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
 	recorder := &answerTimeRecorder{}
 
-	openTimedCourierHarness(t, server, recorder).Offer(
+	timedCourierOver(wire, recorder).Offer(
 		context.Background(),
-		courierSeed(t, server),
+		courierHash("peer"),
 		singlePosting(),
 	)
 

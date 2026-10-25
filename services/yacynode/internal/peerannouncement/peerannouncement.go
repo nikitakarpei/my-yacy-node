@@ -6,11 +6,11 @@ package peerannouncement
 
 import (
 	"context"
-	"net/http"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 type SelfSeed interface {
@@ -22,7 +22,6 @@ type Announcer interface {
 }
 
 type Config struct {
-	Client             *http.Client
 	NetworkName        string
 	Interval           time.Duration
 	ReachableCap       int
@@ -32,6 +31,7 @@ type Config struct {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	cfg Config,
+	walker peerwire.Walker,
 	self SelfSeed,
 	reportedHostObserver ReportedHostObserver,
 	seeds bootstrap.SeedSource,
@@ -46,7 +46,7 @@ func New(
 		reportedHostObserver: reportedHostObserver,
 		seeds:                seeds,
 		roster:               roster,
-		greeter:              newHTTPPeerGreeter(cfg.Client, cfg.NetworkName),
+		greeter:              newPeerGreeter(walker, cfg.NetworkName),
 		observer:             observer,
 	}
 }

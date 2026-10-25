@@ -128,11 +128,11 @@ func callerSeed(t *testing.T) yacymodel.Seed {
 	}
 
 	return yacymodel.Seed{
-		Hash:           hash,
-		Name:           name,
-		PeerType:       yacymodel.PeerSenior,
-		PrimaryAddress: yacymodel.Some(host),
-		Port:           yacymodel.Some(port),
+		Hash:        hash,
+		Name:        name,
+		PeerType:    yacymodel.PeerSenior,
+		PrimaryHost: yacymodel.Some(host),
+		Port:        yacymodel.Some(port),
 	}
 }
 

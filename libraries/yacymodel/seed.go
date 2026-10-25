@@ -2,8 +2,7 @@ package yacymodel
 
 import (
 	"errors"
-	"fmt"
-	"net/url"
+	"slices"
 	"time"
 )
 
@@ -16,11 +15,11 @@ type Seed struct {
 	Name     PeerName
 	PeerType PeerType
 
-	PrimaryAddress      Optional[Host]
-	AdditionalAddresses Optional[[]Host]
-	Port                Optional[Port]
-	SecurePort          Optional[Port]
-	SeedListAddress     Optional[SeedListURL]
+	PrimaryHost     Optional[Host]
+	AdditionalHosts Optional[[]Host]
+	Port            Optional[Port]
+	SecurePort      Optional[Port]
+	SeedListAddress Optional[SeedListURL]
 
 	RemotePeerType Optional[PeerType]
 	Capabilities   Optional[PeerCapabilities]
@@ -55,13 +54,9 @@ type Seed struct {
 
 // IsAddressable reports whether the peer published any address a peer can reach.
 func (s Seed) IsAddressable() bool {
-	if s.PrimaryAddress.Present() {
-		return true
-	}
-	if hosts, ok := s.AdditionalAddresses.Get(); ok && len(hosts) > 0 {
-		return true
-	}
-	return false
+	_, addressable := s.Addresses()
+
+	return addressable
 }
 
 func (s Seed) AcceptsRemoteIndex() bool {
@@ -70,32 +65,40 @@ func (s Seed) AcceptsRemoteIndex() bool {
 	return known && capabilities.AcceptRemoteIndex
 }
 
-func (s Seed) NetworkAddress() (NetworkAddress, bool) {
-	host, ok := s.PrimaryAddress.Get()
-	if !ok {
-		return NetworkAddress{}, false
-	}
+func (s Seed) Addresses() (PeerAddresses, bool) {
 	port, ok := s.Port.Get()
-	if !ok {
-		return NetworkAddress{}, false
+	if !ok || !port.inRange() {
+		return PeerAddresses{}, false
 	}
-	address, err := NetworkAddressOf(host, port)
-	if err != nil {
-		return NetworkAddress{}, false
+	hosts := s.hosts()
+	if len(hosts) == 0 {
+		return PeerAddresses{}, false
 	}
 
-	return address, true
+	return PeerAddresses{Hosts: hosts, Port: port, SecurePort: s.announcedSecurePort()}, true
 }
 
-func (s Seed) HTTPEndpoint(path string) (*url.URL, error) {
-	address, ok := s.NetworkAddress()
-	if !ok {
-		return nil, fmt.Errorf("%w: no reachable address", ErrBadSeed)
+func (s Seed) hosts() []Host {
+	candidates := s.AdditionalHosts.OrElse(nil)
+	if primary, ok := s.PrimaryHost.Get(); ok {
+		candidates = append([]Host{primary}, candidates...)
 	}
 
-	return &url.URL{
-		Scheme: "http",
-		Host:   address.String(),
-		Path:   path,
-	}, nil
+	var hosts []Host
+	for _, host := range candidates {
+		if host.String() != "" && !slices.Contains(hosts, host) {
+			hosts = append(hosts, host)
+		}
+	}
+
+	return hosts
+}
+
+func (s Seed) announcedSecurePort() Optional[Port] {
+	capabilities, known := s.Capabilities.Get()
+	if !known || !capabilities.SSLAvailable {
+		return None[Port]()
+	}
+
+	return s.SecurePort
 }

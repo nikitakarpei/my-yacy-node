@@ -103,11 +103,11 @@ func fullSeed(t *testing.T) yacymodel.Seed {
 	received := time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)
 
 	return yacymodel.Seed{
-		Hash:           mustHash(t, seedPeerHash),
-		Name:           mustPeerName(t, "example-peer"),
-		PeerType:       yacymodel.PeerSenior,
-		PrimaryAddress: yacymodel.Some(mustHost(t, "192.0.2.10")),
-		AdditionalAddresses: yacymodel.Some(
+		Hash:        mustHash(t, seedPeerHash),
+		Name:        mustPeerName(t, "example-peer"),
+		PeerType:    yacymodel.PeerSenior,
+		PrimaryHost: yacymodel.Some(mustHost(t, "192.0.2.10")),
+		AdditionalHosts: yacymodel.Some(
 			[]yacymodel.Host{mustHost(t, "2001:db8::1"), mustHost(t, "2001:db8::2")},
 		),
 		Port:            yacymodel.Some(yacymodel.Port(8090)),

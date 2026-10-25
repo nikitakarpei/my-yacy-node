@@ -29,7 +29,7 @@ type fakePostingCourier struct {
 
 func (f fakePostingCourier) Offer(
 	context.Context,
-	yacymodel.Seed,
+	yacymodel.Hash,
 	[]yacymodel.RWIPosting,
 ) postingcourier.Receipt {
 	return f.receipt
@@ -42,7 +42,7 @@ type fakeURLMetadataCourier struct {
 
 func (f *fakeURLMetadataCourier) Deliver(
 	_ context.Context,
-	_ yacymodel.Seed,
+	_ yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
 ) urlmetadatacourier.Receipt {
 	f.delivered = append(f.delivered, metadata...)
@@ -104,10 +104,6 @@ func (f *fakeObserver) ObserveURLsUnknownToUs(urls int) {
 	f.urlsUnknownToUs += urls
 }
 
-func seed(hash yacymodel.Hash) yacymodel.Seed {
-	return yacymodel.Seed{Hash: hash}
-}
-
 func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
 }
@@ -127,7 +123,7 @@ func TestSendAcceptsPostingsWithNoUnknownURLs(t *testing.T) {
 	)
 
 	answer := postingTransfers.Send(
-		context.Background(), seed(peer), []yacymodel.RWIPosting{posting},
+		context.Background(), peer, []yacymodel.RWIPosting{posting},
 	)
 
 	if answer.Result != postingtransfer.OfferAccepted || len(answer.AcceptedPostings) != 1 {
@@ -156,7 +152,7 @@ func TestSendExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 	)
 
 	answer := postingTransfers.Send(
-		context.Background(), seed(peer), []yacymodel.RWIPosting{fakePosting(word, url)},
+		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
 	)
 
 	if len(answer.AcceptedPostings) != 0 {
@@ -197,7 +193,7 @@ func TestSendDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 
 	answer := postingTransfers.Send(
 		context.Background(),
-		seed(peer),
+		peer,
 		[]yacymodel.RWIPosting{fakePosting(word, present), fakePosting(word, absent)},
 	)
 
@@ -254,7 +250,7 @@ func TestSendFailsWhenThePeerGivesNoAnswerOrRefuses(t *testing.T) {
 
 			answer := postingTransfers.Send(
 				context.Background(),
-				seed(yacymodel.WordHash("peer")),
+				yacymodel.WordHash("peer"),
 				[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
 			)
 
@@ -280,7 +276,7 @@ func TestADeclinedOfferCarriesThePausePeerRequested(t *testing.T) {
 
 	answer := postingTransfers.Send(
 		context.Background(),
-		seed(yacymodel.WordHash("peer")),
+		yacymodel.WordHash("peer"),
 		[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
 	)
 
@@ -303,7 +299,7 @@ func TestAnOverloadedOfferCarriesThePausePeerRequested(t *testing.T) {
 
 	answer := postingTransfers.Send(
 		context.Background(),
-		seed(yacymodel.WordHash("peer")),
+		yacymodel.WordHash("peer"),
 		[]yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
 	)
 
@@ -335,7 +331,7 @@ func TestSendLeavesOutPostingsOfURLsThePeerRejectedAndSendsNoMetadataForThem(t *
 
 	answer := postingTransfers.Send(
 		context.Background(),
-		seed(yacymodel.WordHash("peer")),
+		yacymodel.WordHash("peer"),
 		[]yacymodel.RWIPosting{
 			fakePosting(word, rejected), fakePosting(word, unknown), fakePosting(word, known),
 		},

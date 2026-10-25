@@ -32,7 +32,7 @@ func openPacingLoop(t *testing.T) *pacingHarness {
 	}
 	h.reach(h.peer)
 	h.transfers.answers[h.peer.Hash] = acceptedAnswer
-	h.transfers.onOffer = func(yacymodel.Seed) { <-h.peerAnswer }
+	h.transfers.onOffer = func(yacymodel.Hash) { <-h.peerAnswer }
 	h.eligibility.SendStarted(h.peer.Hash)
 	h.eligibility.SendEnded(h.peer.Hash, 2*workInFlight)
 

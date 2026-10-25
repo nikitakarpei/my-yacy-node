@@ -179,7 +179,7 @@
     {
       "id": 3,
       "title": "Peers reaching this node",
-      "description": "Peers that reached this node back in the last announce round.",
+      "description": "Peers that could connect back to this node at the last announce.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -452,7 +452,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 23
       },
@@ -485,8 +485,8 @@
     },
     {
       "id": 42,
-      "title": "Peers reached in each announce round, by outcome",
-      "description": "Peers contacted in the last announce round, by the peer type they reported this node to be.",
+      "title": "Peers greeted at each announce, by result",
+      "description": "The peer type each greeted peer saw this node as, or that it did not answer.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -494,8 +494,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 23
       },
       "fieldConfig": {
@@ -524,6 +524,45 @@
           "refId": "A",
           "expr": "yacynode_peerannouncement_peers_per_contact_outcome{instance=~\"$service_instance\"} > 0",
           "legendFormat": "{{outcome}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 149,
+      "title": "Peers answering over HTTPS",
+      "description": "Share of the peers that answered the last announce over HTTPS.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 23
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (instance) (yacynode_peerannouncement_reachable_peers_per_scheme{scheme=\"https\", instance=~\"$service_instance\"}) / sum by (instance) (yacynode_peerannouncement_reachable_peers_per_scheme{instance=~\"$service_instance\"})",
+          "legendFormat": "{{instance}}"
         }
       ],
       "interval": "$window"

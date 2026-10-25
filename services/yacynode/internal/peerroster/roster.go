@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 const announceRoundsBeforeConfirmationStale = 2
@@ -19,10 +20,10 @@ const msgContactNotRecorded = "peer contact not recorded"
 var neverReachable time.Time
 
 type rosterEntry struct {
-	primaryAddress yacymodel.Host
-	port           yacymodel.Port
-	lastReachable  time.Time
-	lastContacted  time.Time
+	addresses       yacymodel.PeerAddresses
+	answeredBaseURL yacymodel.Optional[peerwire.BaseURL]
+	lastReachable   time.Time
+	lastContacted   time.Time
 }
 
 type reachablePeer struct {
@@ -66,11 +67,11 @@ func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) error {
 		if seed.Hash == r.self {
 			continue
 		}
-		networkAddress, addressable := seed.NetworkAddress()
+		addresses, addressable := seed.Addresses()
 		if !addressable {
 			continue
 		}
-		if err := r.discoverOne(tx, seed.Hash, networkAddress); err != nil {
+		if err := r.discoverOne(tx, seed.Hash, addresses); err != nil {
 			return err
 		}
 	}
@@ -81,17 +82,16 @@ func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) error {
 func (r *roster) discoverOne(
 	tx *vault.Txn,
 	peerHash yacymodel.Hash,
-	networkAddress yacymodel.NetworkAddress,
+	addresses yacymodel.PeerAddresses,
 ) error {
-	entry, known, err := r.peers.Get(tx, peerHash)
+	_, known, err := r.peers.Get(tx, peerHash)
 	if err != nil {
 		return fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
-	if !known {
-		entry = rosterEntry{lastContacted: r.now()}
+	if known {
+		return nil
 	}
-	entry.primaryAddress = networkAddress.Host()
-	entry.port = networkAddress.Port()
+	entry := rosterEntry{addresses: addresses, lastContacted: r.now()}
 	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
 		return fmt.Errorf("store peer %s: %w", peerHash, err)
 	}
@@ -245,11 +245,15 @@ func (r *roster) selectUnreachable(
 	return keptPeers, nil
 }
 
-func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
+func (r *roster) ConfirmReachable(
+	ctx context.Context,
+	seed yacymodel.Seed,
+	answeredBaseURL peerwire.BaseURL,
+) {
 	if seed.Hash == r.self {
 		return
 	}
-	networkAddress, addressable := seed.NetworkAddress()
+	addresses, addressable := seed.Addresses()
 	if !addressable {
 		slog.WarnContext(
 			ctx,
@@ -261,7 +265,7 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 	}
 	confirmedAt := r.now()
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		return r.recordReachable(tx, seed.Hash, networkAddress, confirmedAt)
+		return r.recordReachable(tx, seed.Hash, addresses, answeredBaseURL, confirmedAt)
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
@@ -292,7 +296,8 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 func (r *roster) recordReachable(
 	tx *vault.Txn,
 	peerHash yacymodel.Hash,
-	networkAddress yacymodel.NetworkAddress,
+	addresses yacymodel.PeerAddresses,
+	answeredBaseURL peerwire.BaseURL,
 	confirmedAt time.Time,
 ) error {
 	entry, _, err := r.peers.Get(tx, peerHash)
@@ -300,8 +305,8 @@ func (r *roster) recordReachable(
 		return fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
 
-	entry.primaryAddress = networkAddress.Host()
-	entry.port = networkAddress.Port()
+	entry.addresses = addresses
+	entry.answeredBaseURL = yacymodel.Some(answeredBaseURL)
 	entry.lastContacted = confirmedAt
 	entry.lastReachable = confirmedAt
 	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
@@ -355,6 +360,7 @@ func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
 		return nil
 	}
 
+	entry.answeredBaseURL = yacymodel.None[peerwire.BaseURL]()
 	entry.lastContacted = r.now()
 	entry.lastReachable = neverReachable
 	if _, err := r.peers.Put(tx, peer, entry); err != nil {
@@ -491,38 +497,45 @@ func (r *roster) UnreachablePeerHashes(ctx context.Context, limit int) []yacymod
 	return peerHashes
 }
 
-func (r *roster) NetworkAddressOf(
+func (r *roster) AddressesOf(
 	ctx context.Context,
 	peer yacymodel.Hash,
-) (yacymodel.NetworkAddress, bool) {
-	var networkAddress yacymodel.NetworkAddress
-	found := false
+) (yacymodel.PeerAddresses, bool) {
+	entry, known := r.entryOf(ctx, peer)
+
+	return entry.addresses, known
+}
+
+func (r *roster) AnsweredBaseURLOf(
+	ctx context.Context,
+	peer yacymodel.Hash,
+) (peerwire.BaseURL, bool) {
+	entry, _ := r.entryOf(ctx, peer)
+
+	return entry.answeredBaseURL.Get()
+}
+
+func (r *roster) entryOf(ctx context.Context, peer yacymodel.Hash) (rosterEntry, bool) {
+	var entry rosterEntry
+	known := false
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, peer)
+		var err error
+		entry, known, err = r.peers.Get(tx, peer)
 		if err != nil {
 			return fmt.Errorf("read peer %s: %w", peer, err)
 		}
-		if !known {
-			return nil
-		}
-
-		networkAddress, err = yacymodel.NetworkAddressOf(entry.primaryAddress, entry.port)
-		if err != nil {
-			return fmt.Errorf("network address of peer %s: %w", peer, err)
-		}
-		found = true
 
 		return nil
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
-			"peer network address not read",
+			"peer not read from roster",
 			slog.String("peer", peer.String()),
 			slog.Any("error", err),
 		)
 
-		return yacymodel.NetworkAddress{}, false
+		return rosterEntry{}, false
 	}
 
-	return networkAddress, found
+	return entry, known
 }

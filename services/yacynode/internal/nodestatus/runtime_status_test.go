@@ -152,7 +152,7 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	if version, found := seed.Version.Get(); !found || version != testIdentity().Version {
 		t.Fatalf("Version = %+v (set %v), want %+v", version, found, testIdentity().Version)
 	}
-	host, ok := seed.PrimaryAddress.Get()
+	host, ok := seed.PrimaryHost.Get()
 	if !ok || host.String() != "192.0.2.1" {
 		t.Fatalf("IP = %q (set %v), want 192.0.2.1", host, ok)
 	}
@@ -161,7 +161,7 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 func TestSelfSeedHasNoAddressUntilThePublicAddressIsKnown(t *testing.T) {
 	status := statusAfter(t, stubAddressSource{}, 0, stubCounter{}, stubCounter{})
 
-	if host, ok := status.SelfSeed(context.Background()).PrimaryAddress.Get(); ok {
+	if host, ok := status.SelfSeed(context.Background()).PrimaryHost.Get(); ok {
 		t.Fatalf("IP = %q, want none", host)
 	}
 }

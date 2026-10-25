@@ -2,10 +2,6 @@ package urlmetadatacourier_test
 
 import (
 	"context"
-	"net"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"testing"
 	"time"
 
@@ -36,48 +32,32 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
-func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
-	t.Helper()
-
-	parsed, err := url.Parse(server.URL)
-	if err != nil {
-		t.Fatalf("parse server url: %v", err)
-	}
-	host, portRaw, err := net.SplitHostPort(parsed.Host)
-	if err != nil {
-		t.Fatalf("split host port: %v", err)
-	}
-	parsedHost, err := yacymodel.ParseHost(host)
-	if err != nil {
-		t.Fatalf("parse host: %v", err)
-	}
-	port, err := yacymodel.ParsePort(portRaw)
-	if err != nil {
-		t.Fatalf("parse port: %v", err)
-	}
-
-	return yacymodel.Seed{
-		Hash:           courierHash("peer"),
-		PrimaryAddress: yacymodel.Some(parsedHost),
-		Port:           yacymodel.Some(port),
-	}
+type stubPeerWire struct {
+	reply                  yacyproto.ResponseFields
+	answers                bool
+	withoutAnsweredBaseURL bool
 }
 
-func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {
-	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		_, _ = w.Write([]byte(resp.Encode().Encode()))
-	}))
+func answeringPeerWire(resp yacyproto.TransferURLResponse) *stubPeerWire {
+	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-type steppingClock struct {
-	at   time.Time
-	step time.Duration
+func (s *stubPeerWire) AnsweredBaseURLOf(context.Context, yacymodel.Hash) (peerwire.BaseURL, bool) {
+	return peerwire.BaseURL{Scheme: peerwire.HTTP}, !s.withoutAnsweredBaseURL
 }
 
-func (c *steppingClock) now() time.Time {
-	c.at = c.at.Add(c.step)
+func (s *stubPeerWire) TryAt(
+	_ context.Context,
+	_ peerwire.Request,
+	_ peerwire.BaseURL,
+	accepts func(yacyproto.ResponseFields) bool,
+	_ time.Duration,
+) (peerwire.Answer, bool) {
+	if !s.answers || !accepts(s.reply) {
+		return peerwire.Answer{}, false
+	}
 
-	return c.at
+	return peerwire.Answer{Fields: s.reply, Time: time.Second}, true
 }
 
 type answerTimeRecorder struct{ answerTimes []time.Duration }
@@ -86,29 +66,15 @@ func (r *answerTimeRecorder) ObserveURLMetadataDeliveryAnswerTime(answerTime tim
 	r.answerTimes = append(r.answerTimes, answerTime)
 }
 
-func openURLMetadataCourierHarness(
-	t *testing.T,
-	server *httptest.Server,
-) urlmetadatacourier.Courier {
-	t.Helper()
-
-	return openTimedURLMetadataCourierHarness(t, server, &answerTimeRecorder{})
+func courierOver(wire *stubPeerWire) urlmetadatacourier.Courier {
+	return timedCourierOver(wire, &answerTimeRecorder{})
 }
 
-func openTimedURLMetadataCourierHarness(
-	t *testing.T,
-	server *httptest.Server,
+func timedCourierOver(
+	wire *stubPeerWire,
 	recorder *answerTimeRecorder,
 ) urlmetadatacourier.Courier {
-	t.Helper()
-
-	return urlmetadatacourier.New(
-		peerwire.NewFormExchange(server.Client()),
-		"freeworld",
-		courierHash("self"),
-		(&steppingClock{at: time.Unix(1000, 0), step: time.Second}).now,
-		recorder,
-	)
+	return urlmetadatacourier.New(wire, wire, "freeworld", courierHash("self"), recorder)
 }
 
 func singleURLMetadata() []yacymodel.URLMetadata {
@@ -116,13 +82,12 @@ func singleURLMetadata() []yacymodel.URLMetadata {
 }
 
 func TestDeliverReportsAcceptedOnOK(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -131,16 +96,15 @@ func TestDeliverReportsAcceptedOnOK(t *testing.T) {
 
 func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 	rejected := urlHash("u1")
-	server := urlResponder(yacyproto.TransferURLResponse{
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{
 		Result:   yacyproto.ResultOK,
 		ErrorURL: []yacymodel.URLHash{rejected},
 	})
-	defer server.Close()
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
@@ -151,13 +115,14 @@ func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 }
 
 func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultErrorNotGranted})
-	defer server.Close()
+	wire := answeringPeerWire(
+		yacyproto.TransferURLResponse{Result: yacyproto.ResultErrorNotGranted},
+	)
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Deferred {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Deferred)
@@ -165,13 +130,14 @@ func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
 }
 
 func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultWrongTarget})
-	defer server.Close()
+	wire := answeringPeerWire(
+		yacyproto.TransferURLResponse{Result: yacyproto.ResultWrongTarget},
+	)
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Refused {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Refused)
@@ -179,29 +145,24 @@ func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
 }
 
 func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		http.Error(w, "nope", http.StatusServiceUnavailable)
-	}))
-	defer server.Close()
+	wire := &stubPeerWire{}
 
-	courier := openURLMetadataCourierHarness(t, server)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Unreachable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unreachable)
 	}
 }
 
-func TestDeliverReportsUnaddressablePeer(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+func TestDeliverReportsUnaddressableForAPeerWithoutAnsweredBaseURL(t *testing.T) {
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
+	wire.withoutAnsweredBaseURL = true
 
-	courier := openURLMetadataCourierHarness(t, server)
-
-	receipt := courier.Deliver(
-		context.Background(), yacymodel.Seed{Hash: courierHash("peer")}, singleURLMetadata(),
+	receipt := courierOver(wire).Deliver(
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Unaddressable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unaddressable)
@@ -209,12 +170,11 @@ func TestDeliverReportsUnaddressablePeer(t *testing.T) {
 }
 
 func TestDeliverReportsHowLongThePeerTookToAnswer(t *testing.T) {
-	server := urlResponder(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	defer server.Close()
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 	recorder := &answerTimeRecorder{}
 
-	openTimedURLMetadataCourierHarness(t, server, recorder).Deliver(
-		context.Background(), courierSeed(t, server), singleURLMetadata(),
+	timedCourierOver(wire, recorder).Deliver(
+		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 
 	if len(recorder.answerTimes) != 1 || recorder.answerTimes[0] != time.Second {

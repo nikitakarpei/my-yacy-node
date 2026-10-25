@@ -22,7 +22,7 @@ func TestLoopRunReturnsWhenItsContextEnds(t *testing.T) {
 		h.admit(t, wordPartition, urlsOf(1)...)
 
 		ctx, cancel := context.WithCancel(context.Background())
-		h.transfers.onOffer = func(yacymodel.Seed) { cancel() }
+		h.transfers.onOffer = func(yacymodel.Hash) { cancel() }
 		h.loop.Run(ctx)
 
 		if len(h.transfers.offered) != 1 {
@@ -560,7 +560,7 @@ func TestLoopCountsAnUnwrittenBatch(t *testing.T) {
 		h.reach(peer)
 		h.transfers.answers[peer.Hash] = acceptedAnswer
 		h.admit(t, wordPartition, urlsOf(1)...)
-		h.transfers.onOffer = func(yacymodel.Seed) {
+		h.transfers.onOffer = func(yacymodel.Hash) {
 			if err := h.v.Close(); err != nil {
 				t.Errorf("Close: %v", err)
 			}

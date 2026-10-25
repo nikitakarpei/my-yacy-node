@@ -2,91 +2,126 @@ package peeradmission
 
 import (
 	"context"
-	"io"
 	"log/slog"
-	"net/http"
+	"slices"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const backPingMaxBodyBytes int64 = 64 << 10
+const (
+	backPingsAtOnce  = 16
+	backPingBudget   = 13 * time.Second
+	backPingSlotWait = 15 * time.Second
+)
 
-type callerBackPing struct {
-	client *http.Client
+type answeredBaseURLs interface {
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
-func newCallerBackPing(client *http.Client) callerBackPing {
-	return callerBackPing{client: client}
+type callerBackPing struct {
+	walker           peerwire.Walker
+	answeredBaseURLs answeredBaseURLs
+	clock            Clock
+	slots            chan struct{}
+}
+
+func newCallerBackPing(
+	walker peerwire.Walker,
+	baseURLs answeredBaseURLs,
+	clock Clock,
+) callerBackPing {
+	return callerBackPing{
+		walker:           walker,
+		answeredBaseURLs: baseURLs,
+		clock:            clock,
+		slots:            make(chan struct{}, backPingsAtOnce),
+	}
 }
 
 var _ callerReachabilityProbe = callerBackPing{}
 
-func (p callerBackPing) IsReachable(
+func (p callerBackPing) Reach(
 	ctx context.Context,
-	caller yacymodel.Seed,
+	caller yacymodel.Hash,
+	addresses yacymodel.PeerAddresses,
 	self yacymodel.Hash,
 	networkName string,
-) bool {
-	target, err := caller.HTTPEndpoint(yacyproto.PathQuery)
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
+) (peerwire.BaseURL, bool) {
+	if !p.takeSlot(ctx) {
+		slog.WarnContext(ctx, "caller back-ping skipped, no back-ping slot freed in time",
+			slog.String("peer", caller.String()),
+		)
 
-		return false
+		return peerwire.BaseURL{}, false
 	}
+	defer func() { <-p.slots }()
 
 	query := yacyproto.QueryRequest{
 		NetworkName: networkName,
-		YouAre:      caller.Hash,
+		YouAre:      caller,
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	target.RawQuery = query.Form().Encode()
+	answer, answered := p.walker.TryInTurn(
+		ctx,
+		peerwire.Request{Peer: caller, Path: yacyproto.PathQuery, Form: query.Form()},
+		p.baseURLsFor(ctx, caller, addresses),
+		isRWICountReply,
+		backPingBudget,
+	)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, target.String(), nil)
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-
-	resp, err := p.client.Do(req)
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-	defer p.close(ctx, resp.Body)
-
-	return p.confirms(ctx, resp)
+	return answer.BaseURL, answered
 }
 
-func (p callerBackPing) confirms(ctx context.Context, resp *http.Response) bool {
-	if resp.StatusCode != http.StatusOK {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Int("status", resp.StatusCode))
-
-		return false
+func (p callerBackPing) takeSlot(ctx context.Context) bool {
+	select {
+	case p.slots <- struct{}{}:
+		return true
+	default:
 	}
 
-	body, err := io.ReadAll(io.LimitReader(resp.Body, backPingMaxBodyBytes))
-	if err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
+	waitEnded := make(chan struct{})
+	stop := p.clock.After(backPingSlotWait, func() { close(waitEnded) })
+	defer stop()
 
+	select {
+	case p.slots <- struct{}{}:
+		return true
+	case <-waitEnded:
+		return false
+	case <-ctx.Done():
 		return false
 	}
-
-	fields := yacyproto.ParseResponseFields(string(body))
-	if _, err := yacyproto.ParseQueryResponse(fields); err != nil {
-		slog.DebugContext(ctx, "caller back-ping unreachable", slog.Any("error", err))
-
-		return false
-	}
-
-	return true
 }
 
-func (p callerBackPing) close(ctx context.Context, body io.Closer) {
-	if err := body.Close(); err != nil {
-		slog.WarnContext(ctx, "caller back-ping body close failed", slog.Any("error", err))
+func (p callerBackPing) baseURLsFor(
+	ctx context.Context,
+	caller yacymodel.Hash,
+	addresses yacymodel.PeerAddresses,
+) []peerwire.BaseURL {
+	baseURLs := peerwire.BaseURLsFrom(addresses)
+	answeredBaseURL, found := p.answeredBaseURLs.AnsweredBaseURLOf(ctx, caller)
+	if !found || !slices.Contains(baseURLs, answeredBaseURL) {
+		return baseURLs
 	}
+
+	return append(
+		[]peerwire.BaseURL{answeredBaseURL},
+		slices.DeleteFunc(
+			baseURLs,
+			func(baseURL peerwire.BaseURL) bool { return baseURL == answeredBaseURL },
+		)...,
+	)
+}
+
+func isRWICountReply(fields yacyproto.ResponseFields) bool {
+	if fields[yacyproto.FieldResponse] == "" {
+		return false
+	}
+	resp, err := yacyproto.ParseQueryResponse(fields)
+
+	return err == nil && resp.Response != yacyproto.QueryResponseRejected
 }

@@ -14,21 +14,20 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 type Roster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
-	NetworkAddressOf(
-		ctx context.Context,
-		peer yacymodel.Hash,
-	) (yacymodel.NetworkAddress, bool)
+	AddressesOf(ctx context.Context, peer yacymodel.Hash) (yacymodel.PeerAddresses, bool)
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
 var _ Roster = (*roster)(nil)

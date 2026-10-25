@@ -18,6 +18,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/messageadmission"
 )
 
@@ -27,8 +28,6 @@ const (
 	directDialNetwork     = "tcp"
 	resolvedAddressFamily = "ip"
 )
-
-var sharedAddressSpace = netip.MustParsePrefix("100.64.0.0/10")
 
 var errRedirectRefused = errors.New("webhook redirect refused")
 
@@ -93,19 +92,12 @@ func (i Inbox) clientFor(ctx context.Context) (*http.Client, bool) {
 
 func allPrivate(addresses []netip.Addr) bool {
 	for _, address := range addresses {
-		if !isPrivate(address.Unmap()) {
+		if !yacymodel.IsLocalNetworkAddress(address.Unmap()) {
 			return false
 		}
 	}
 
 	return true
-}
-
-func isPrivate(address netip.Addr) bool {
-	return address.IsLoopback() ||
-		address.IsPrivate() ||
-		address.IsLinkLocalUnicast() ||
-		sharedAddressSpace.Contains(address)
 }
 
 func directClientTo(addresses []netip.Addr) *http.Client {

@@ -7,12 +7,12 @@ package peeradmission
 
 import (
 	"context"
-	"net/http"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -21,14 +21,19 @@ type RuntimeStatus interface {
 	SelfSeed(ctx context.Context) yacymodel.Seed
 }
 
+type Clock interface {
+	Now() time.Time
+	After(timeout time.Duration, expire func()) (stop func())
+}
+
 //nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func MountHello(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
 	status RuntimeStatus,
-	now func() time.Time,
+	clock Clock,
 	reachability reachableRoster,
-	client *http.Client,
+	walker peerwire.Walker,
 ) {
 	httpguard.MountFields(
 		router,
@@ -38,8 +43,8 @@ func MountHello(
 		helloEndpoint{
 			identity:     identity,
 			status:       status,
-			now:          now,
-			probe:        newCallerBackPing(client),
+			clock:        clock,
+			probe:        newCallerBackPing(walker, reachability, clock),
 			reachability: reachability,
 		}.Serve,
 	)

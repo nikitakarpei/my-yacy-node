@@ -45,7 +45,7 @@ type WordPartitionHandoff interface {
 type PostingTransfers interface {
 	Send(
 		ctx context.Context,
-		peer yacymodel.Seed,
+		peer yacymodel.Hash,
 		offeredPostings []yacymodel.RWIPosting,
 	) postingtransfer.OfferAnswer
 }

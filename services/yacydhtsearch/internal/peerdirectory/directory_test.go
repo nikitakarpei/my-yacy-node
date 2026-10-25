@@ -91,9 +91,9 @@ func seedOf(t *testing.T, hash yacymodel.Hash, host string) yacymodel.Seed {
 	}
 
 	return yacymodel.Seed{
-		Hash:           hash,
-		PrimaryAddress: yacymodel.Some(address),
-		Port:           yacymodel.Some(port),
+		Hash:        hash,
+		PrimaryHost: yacymodel.Some(address),
+		Port:        yacymodel.Some(port),
 	}
 }
 

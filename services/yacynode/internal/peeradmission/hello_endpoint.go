@@ -3,11 +3,11 @@ package peeradmission
 import (
 	"context"
 	"log/slog"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -19,23 +19,25 @@ const (
 )
 
 type callerReachabilityProbe interface {
-	IsReachable(
+	Reach(
 		ctx context.Context,
-		caller yacymodel.Seed,
+		caller yacymodel.Hash,
+		addresses yacymodel.PeerAddresses,
 		self yacymodel.Hash,
 		networkName string,
-	) bool
+	) (peerwire.BaseURL, bool)
 }
 
 type reachableRoster interface {
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
+	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
 }
 
 type helloEndpoint struct {
 	identity     nodeidentity.Identity
 	status       RuntimeStatus
-	now          func() time.Time
+	clock        Clock
 	probe        callerReachabilityProbe
 	reachability reachableRoster
 }
@@ -57,7 +59,7 @@ func (e helloEndpoint) foreignNetworkReply(ctx context.Context) yacyproto.HelloR
 	return yacyproto.HelloResponse{
 		YourIP:   httpguard.RemoteAddr(ctx),
 		YourType: yacymodel.Some(yacymodel.PeerVirgin),
-		MyTime:   e.now(),
+		MyTime:   e.clock.Now(),
 		Message:  msgForeignNetwork,
 	}
 }
@@ -76,7 +78,7 @@ func (e helloEndpoint) sameNetworkReply(
 	return yacyproto.HelloResponse{
 		YourIP:   httpguard.RemoteAddr(ctx),
 		YourType: yacymodel.Some(e.classifyCaller(ctx, req.Seed)),
-		MyTime:   e.now(),
+		MyTime:   e.clock.Now(),
 		Message:  msgAdmitted,
 		Seeds:    seeds,
 	}
@@ -86,15 +88,23 @@ func (e helloEndpoint) classifyCaller(
 	ctx context.Context,
 	caller yacymodel.Seed,
 ) yacymodel.PeerType {
-	if _, ok := caller.NetworkAddress(); !ok {
+	addresses, addressable := caller.Addresses()
+	if !addressable {
 		return yacymodel.PeerJunior
 	}
 
-	if !e.probe.IsReachable(ctx, caller, e.identity.Hash, e.status.NetworkName(ctx)) {
+	answeredBaseURL, reached := e.probe.Reach(
+		ctx,
+		caller.Hash,
+		addresses,
+		e.identity.Hash,
+		e.status.NetworkName(ctx),
+	)
+	if !reached {
 		return yacymodel.PeerJunior
 	}
 
-	e.reachability.ConfirmReachable(ctx, caller)
+	e.reachability.ConfirmReachable(ctx, caller, answeredBaseURL)
 
 	if caller.PeerType == yacymodel.PeerPrincipal {
 		return yacymodel.PeerPrincipal

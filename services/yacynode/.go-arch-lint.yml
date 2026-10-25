@@ -202,6 +202,7 @@ deps:
     mayDependOn:
       - httpguard
       - nodeidentity
+      - peerwire
     canUse:
       - yacyproto
   messageadmission:
@@ -216,6 +217,7 @@ deps:
   peerroster:
     mayDependOn:
       - hashkeypart
+      - peerwire
     canUse:
       - vault
       - storedfields
@@ -375,6 +377,7 @@ deps:
     mayDependOn:
       - eviction
       - peerannouncement
+      - peerwire
       - remoteindexadmission
       - urlpostingpurge
     canUse:

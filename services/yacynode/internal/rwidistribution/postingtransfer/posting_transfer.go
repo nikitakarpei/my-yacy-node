@@ -28,7 +28,7 @@ type URLDirectory interface {
 type PostingCourier interface {
 	Offer(
 		ctx context.Context,
-		recipient yacymodel.Seed,
+		peer yacymodel.Hash,
 		postings []yacymodel.RWIPosting,
 	) postingcourier.Receipt
 }
@@ -36,7 +36,7 @@ type PostingCourier interface {
 type URLMetadataCourier interface {
 	Deliver(
 		ctx context.Context,
-		recipient yacymodel.Seed,
+		peer yacymodel.Hash,
 		metadata []yacymodel.URLMetadata,
 	) urlmetadatacourier.Receipt
 }
@@ -87,7 +87,7 @@ func New(
 
 func (t *Transfers) Send(
 	ctx context.Context,
-	peer yacymodel.Seed,
+	peer yacymodel.Hash,
 	offeredPostings []yacymodel.RWIPosting,
 ) OfferAnswer {
 	receipt := t.postings.Offer(ctx, peer, offeredPostings)
@@ -112,7 +112,7 @@ func (t *Transfers) Send(
 
 func (t *Transfers) deliverURLMetadata(
 	ctx context.Context,
-	peer yacymodel.Seed,
+	peer yacymodel.Hash,
 	urlsUnknownToPeer []yacymodel.URLHash,
 ) []yacymodel.URLHash {
 	if len(urlsUnknownToPeer) == 0 {
@@ -124,7 +124,7 @@ func (t *Transfers) deliverURLMetadata(
 		slog.WarnContext(
 			ctx,
 			"unknown url metadata not read",
-			slog.String("peer", peer.Hash.String()),
+			slog.String("peer", peer.String()),
 			slog.Any("error", err),
 		)
 
@@ -134,7 +134,7 @@ func (t *Transfers) deliverURLMetadata(
 		slog.WarnContext(
 			ctx,
 			"url metadata absent for peer's unknown urls",
-			slog.String("peer", peer.Hash.String()),
+			slog.String("peer", peer.String()),
 			slog.Int("unknownToPeer", len(urlsUnknownToPeer)),
 			slog.Int("unknownToUs", len(urlsUnknownToUs)),
 		)
