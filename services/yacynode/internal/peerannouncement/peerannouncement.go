@@ -31,7 +31,7 @@ type Config struct {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	cfg Config,
-	exchange peerwire.FormExchange,
+	walker peerwire.Walker,
 	self SelfSeed,
 	reportedHostObserver ReportedHostObserver,
 	seeds bootstrap.SeedSource,
@@ -46,7 +46,7 @@ func New(
 		reportedHostObserver: reportedHostObserver,
 		seeds:                seeds,
 		roster:               roster,
-		greeter:              newPeerGreeter(exchange, cfg.NetworkName),
+		greeter:              newPeerGreeter(walker, cfg.NetworkName),
 		observer:             observer,
 	}
 }

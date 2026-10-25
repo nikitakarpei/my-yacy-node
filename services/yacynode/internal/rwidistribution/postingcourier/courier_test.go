@@ -50,7 +50,7 @@ func (s *stubPeerWire) AnsweredBaseURLOf(context.Context, yacymodel.Hash) (peerw
 	return peerwire.BaseURL{Scheme: peerwire.HTTP}, !s.withoutAnsweredBaseURL
 }
 
-func (s *stubPeerWire) Exchange(
+func (s *stubPeerWire) TryInTurn(
 	_ context.Context,
 	_ peerwire.Request,
 	_ []peerwire.BaseURL,

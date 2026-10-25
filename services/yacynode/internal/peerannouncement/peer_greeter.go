@@ -21,12 +21,12 @@ type greetResult struct {
 }
 
 type peerGreeter struct {
-	exchange    peerwire.FormExchange
+	walker      peerwire.Walker
 	networkName string
 }
 
-func newPeerGreeter(exchange peerwire.FormExchange, networkName string) peerGreeter {
-	return peerGreeter{exchange: exchange, networkName: networkName}
+func newPeerGreeter(walker peerwire.Walker, networkName string) peerGreeter {
+	return peerGreeter{walker: walker, networkName: networkName}
 }
 
 func (g peerGreeter) Greet(
@@ -43,7 +43,7 @@ func (g peerGreeter) Greet(
 		Iam:         self.Hash,
 	}
 
-	answer, answered := g.exchange.Exchange(
+	answer, answered := g.walker.TryInTurn(
 		ctx,
 		peerwire.Request{Peer: peer, Path: yacyproto.PathHello, Form: request.Form()},
 		peerwire.BaseURLsFrom(addresses),

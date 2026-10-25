@@ -28,7 +28,7 @@ func MountHello(
 	status RuntimeStatus,
 	now func() time.Time,
 	reachability reachableRoster,
-	exchange peerwire.FormExchange,
+	walker peerwire.Walker,
 ) {
 	httpguard.MountFields(
 		router,
@@ -39,7 +39,7 @@ func MountHello(
 			identity:     identity,
 			status:       status,
 			now:          now,
-			probe:        newCallerBackPing(exchange, reachability),
+			probe:        newCallerBackPing(walker, reachability),
 			reachability: reachability,
 		}.Serve,
 	)

@@ -98,7 +98,7 @@ func muxWithHello(
 		selfStatus(t),
 		stoppedClock{}.Now,
 		reachability,
-		peerwire.NewFormExchange(client, stoppedClock{}),
+		peerwire.NewWalker(client, stoppedClock{}),
 	)
 
 	return mux

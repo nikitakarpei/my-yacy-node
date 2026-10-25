@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const exchangeBudget = 30 * time.Second
+const walkBudget = 30 * time.Second
 
 var transferRequest = peerwire.Request{
 	Path: "/yacy/transferRWI.html",
@@ -111,7 +111,7 @@ func replyingServer(reply string) *httptest.Server {
 
 func hasResult(fields yacyproto.ResponseFields) bool { return fields["result"] != "" }
 
-func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
+func TestTryInTurnPostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	var (
 		gotPath        string
 		gotContentType string
@@ -129,12 +129,12 @@ func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	defer server.Close()
 	baseURL := baseURLOf(t, server, peerwire.HTTP)
 
-	answer, answered := peerwire.NewFormExchange(server.Client(), startClock()).Exchange(
+	answer, answered := peerwire.NewWalker(server.Client(), startClock()).TryInTurn(
 		t.Context(),
 		transferRequest,
 		[]peerwire.BaseURL{baseURL},
 		hasResult,
-		exchangeBudget,
+		walkBudget,
 	)
 
 	if !answered {
@@ -157,19 +157,19 @@ func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	}
 }
 
-func TestExchangeReachesAnHTTPSBaseURL(t *testing.T) {
+func TestTryInTurnReachesAnHTTPSBaseURL(t *testing.T) {
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte("result=ok\n"))
 	}))
 	defer server.Close()
 	baseURL := baseURLOf(t, server, peerwire.HTTPS)
 
-	answer, answered := peerwire.NewFormExchange(server.Client(), startClock()).Exchange(
+	answer, answered := peerwire.NewWalker(server.Client(), startClock()).TryInTurn(
 		t.Context(),
 		transferRequest,
 		[]peerwire.BaseURL{baseURL},
 		hasResult,
-		exchangeBudget,
+		walkBudget,
 	)
 
 	if !answered || answer.BaseURL.Scheme != peerwire.HTTPS {
@@ -177,7 +177,7 @@ func TestExchangeReachesAnHTTPSBaseURL(t *testing.T) {
 	}
 }
 
-func TestExchangeMovesOnPastBaseURLsThatGiveNoAcceptedReply(t *testing.T) {
+func TestTryInTurnMovesOnPastBaseURLsThatGiveNoAcceptedReply(t *testing.T) {
 	failing := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "upstream connect error", http.StatusBadGateway)
 	}))
@@ -203,12 +203,12 @@ func TestExchangeMovesOnPastBaseURLsThatGiveNoAcceptedReply(t *testing.T) {
 		answeringBaseURL,
 	}
 
-	answer, answered := peerwire.NewFormExchange(http.DefaultClient, startClock()).Exchange(
+	answer, answered := peerwire.NewWalker(http.DefaultClient, startClock()).TryInTurn(
 		t.Context(),
 		transferRequest,
 		baseURLs,
 		hasResult,
-		exchangeBudget,
+		walkBudget,
 	)
 
 	if !answered || answer.BaseURL != answeringBaseURL {
@@ -216,18 +216,18 @@ func TestExchangeMovesOnPastBaseURLsThatGiveNoAcceptedReply(t *testing.T) {
 	}
 }
 
-func TestExchangeHasNoAnswerWhenEveryBaseURLFails(t *testing.T) {
+func TestTryInTurnHasNoAnswerWhenEveryBaseURLFails(t *testing.T) {
 	failing := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	}))
 	defer failing.Close()
 
-	_, answered := peerwire.NewFormExchange(failing.Client(), startClock()).Exchange(
+	_, answered := peerwire.NewWalker(failing.Client(), startClock()).TryInTurn(
 		t.Context(),
 		transferRequest,
 		[]peerwire.BaseURL{baseURLOf(t, failing, peerwire.HTTP)},
 		hasResult,
-		exchangeBudget,
+		walkBudget,
 	)
 
 	if answered {
@@ -243,7 +243,7 @@ func hangingServer(arrived chan<- struct{}) *httptest.Server {
 	}))
 }
 
-func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
+func TestTryInTurnGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 	arrived := make(chan struct{}, 1)
 	hanging := hangingServer(arrived)
 	defer hanging.Close()
@@ -254,7 +254,7 @@ func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 
 	answers := make(chan bool, 1)
 	go func() {
-		_, answered := peerwire.NewFormExchange(http.DefaultClient, timeline).Exchange(
+		_, answered := peerwire.NewWalker(http.DefaultClient, timeline).TryInTurn(
 			t.Context(),
 			transferRequest,
 			[]peerwire.BaseURL{
@@ -262,20 +262,20 @@ func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 				answeringBaseURL,
 			},
 			hasResult,
-			exchangeBudget,
+			walkBudget,
 		)
 		answers <- answered
 	}()
 	<-timeline.armed
 	<-arrived
-	timeline.advance(exchangeBudget / 2)
+	timeline.advance(walkBudget / 2)
 
 	if !<-answers {
 		t.Fatal("expected the second base URL to answer once the first used its share")
 	}
 }
 
-func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
+func TestTryInTurnStopsWhenTheBudgetIsSpent(t *testing.T) {
 	arrived := make(chan struct{}, 1)
 	hanging := hangingServer(arrived)
 	defer hanging.Close()
@@ -289,7 +289,7 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 
 	answers := make(chan bool, 1)
 	go func() {
-		_, answered := peerwire.NewFormExchange(http.DefaultClient, timeline).Exchange(
+		_, answered := peerwire.NewWalker(http.DefaultClient, timeline).TryInTurn(
 			t.Context(),
 			transferRequest,
 			[]peerwire.BaseURL{
@@ -297,13 +297,13 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 				baseURLOf(t, later, peerwire.HTTP),
 			},
 			hasResult,
-			exchangeBudget,
+			walkBudget,
 		)
 		answers <- answered
 	}()
 	<-timeline.armed
 	<-arrived
-	timeline.advance(exchangeBudget)
+	timeline.advance(walkBudget)
 
 	if <-answers {
 		t.Fatal("expected no answer after the budget was spent")
@@ -313,7 +313,7 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 	}
 }
 
-func TestExchangeMeasuresTheAnswerTimeOfTheAnsweringAttempt(t *testing.T) {
+func TestTryInTurnMeasuresTheAnswerTimeOfTheAnsweringAttempt(t *testing.T) {
 	timeline := startClock()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		timeline.advance(2 * time.Second)
@@ -321,12 +321,12 @@ func TestExchangeMeasuresTheAnswerTimeOfTheAnsweringAttempt(t *testing.T) {
 	}))
 	defer server.Close()
 
-	answer, _ := peerwire.NewFormExchange(server.Client(), timeline).Exchange(
+	answer, _ := peerwire.NewWalker(server.Client(), timeline).TryInTurn(
 		t.Context(),
 		transferRequest,
 		[]peerwire.BaseURL{baseURLOf(t, server, peerwire.HTTP)},
 		hasResult,
-		exchangeBudget,
+		walkBudget,
 	)
 
 	if answer.Time != 2*time.Second {

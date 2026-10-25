@@ -21,14 +21,14 @@ type answeredBaseURLs interface {
 }
 
 type callerBackPing struct {
-	exchange         peerwire.FormExchange
+	walker           peerwire.Walker
 	answeredBaseURLs answeredBaseURLs
 	slots            chan struct{}
 }
 
-func newCallerBackPing(exchange peerwire.FormExchange, baseURLs answeredBaseURLs) callerBackPing {
+func newCallerBackPing(walker peerwire.Walker, baseURLs answeredBaseURLs) callerBackPing {
 	return callerBackPing{
-		exchange:         exchange,
+		walker:           walker,
 		answeredBaseURLs: baseURLs,
 		slots:            make(chan struct{}, backPingsAtOnce),
 	}
@@ -60,7 +60,7 @@ func (p callerBackPing) Reach(
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	answer, answered := p.exchange.Exchange(
+	answer, answered := p.walker.TryInTurn(
 		ctx,
 		peerwire.Request{Peer: caller, Path: yacyproto.PathQuery, Form: query.Form()},
 		p.baseURLsFor(ctx, caller, addresses),

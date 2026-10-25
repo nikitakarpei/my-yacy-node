@@ -185,8 +185,8 @@ func (stoppedClock) Now() time.Time { return time.Unix(1_700_000_000, 0).UTC() }
 
 func (stoppedClock) After(time.Duration, func()) (stop func()) { return func() {} }
 
-func exchangeOver(client *http.Client) peerwire.FormExchange {
-	return peerwire.NewFormExchange(client, stoppedClock{})
+func walkerOver(client *http.Client) peerwire.Walker {
+	return peerwire.NewWalker(client, stoppedClock{})
 }
 
 type stubLearningSelf struct {
@@ -231,7 +231,7 @@ func announcerFor(
 
 	return peerannouncement.New(
 		configFor(reachableCap),
-		exchangeOver(http.DefaultClient),
+		walkerOver(http.DefaultClient),
 		learningSelf,
 		learningSelf,
 		&stubSeedSource{seeds: seeds},
@@ -589,7 +589,7 @@ func lastContactsObservedOver(
 	observer := newStubAnnouncementObserver()
 	announcer := peerannouncement.New(
 		configFor(4),
-		exchangeOver(client),
+		walkerOver(client),
 		self,
 		self,
 		&stubSeedSource{},

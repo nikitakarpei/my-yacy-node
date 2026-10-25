@@ -1,0 +1,104 @@
+package peerwire
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"strings"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
+)
+
+const responseMaxBodyBytes int64 = 1 << 20
+
+const (
+	failureReportMaxBytes int64 = 512
+	failureReportAbsent         = "no reported body"
+)
+
+var (
+	errUnexpectedStatus   = errors.New("unexpected status")
+	errRequestNotPrepared = errors.New("request not prepared")
+)
+
+type formPoster struct {
+	client *http.Client
+}
+
+func newFormPoster(client *http.Client) formPoster {
+	peerClient := *client
+	peerClient.CheckRedirect = refuseRedirect
+
+	return formPoster{client: &peerClient}
+}
+
+func refuseRedirect(*http.Request, []*http.Request) error {
+	return http.ErrUseLastResponse
+}
+
+func (p formPoster) post(
+	ctx context.Context,
+	baseURL BaseURL,
+	path, body string,
+) (yacyproto.ResponseFields, error) {
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		baseURL.urlOf(path),
+		strings.NewReader(body),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("%w: %w", errRequestNotPrepared, err)
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	resp, err := p.client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("post: %w", err)
+	}
+	defer closeResponseBody(ctx, resp.Body, path)
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf(
+			"%w %s: %s",
+			errUnexpectedStatus,
+			resp.Status,
+			peerFailureReport(resp.Body),
+		)
+	}
+
+	raw, err := io.ReadAll(io.LimitReader(resp.Body, responseMaxBodyBytes))
+	if err != nil {
+		return nil, fmt.Errorf("read reply: %w", err)
+	}
+
+	return yacyproto.ParseResponseFields(string(raw)), nil
+}
+
+func closeResponseBody(ctx context.Context, body io.Closer, path string) {
+	if err := body.Close(); err != nil {
+		slog.WarnContext(
+			ctx,
+			"response body close failed",
+			slog.String("path", path),
+			slog.Any("error", err),
+		)
+	}
+}
+
+func peerFailureReport(body io.Reader) string {
+	raw, err := io.ReadAll(io.LimitReader(body, failureReportMaxBytes))
+	if err != nil && len(raw) == 0 {
+		return failureReportAbsent
+	}
+
+	report := strings.Join(strings.Fields(string(raw)), " ")
+	if report == "" {
+		return failureReportAbsent
+	}
+
+	return report
+}

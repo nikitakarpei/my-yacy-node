@@ -340,8 +340,8 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peerFormExchange := peerwire.NewFormExchange(egressClient, wallclock.Clock{})
-	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, peerFormExchange)
+	peerWalker := peerwire.NewWalker(egressClient, wallclock.Clock{})
+	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, peerWalker)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{
@@ -350,7 +350,7 @@ func assembleNode(
 			ReachableCap:       config.PeerExchange.ReachableRosterCapacity,
 			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
-		peerFormExchange,
+		peerWalker,
 		runtimeStatus,
 		publicAddressSource,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
@@ -420,7 +420,7 @@ func assembleNode(
 			postingtransfer.New(
 				storage,
 				postingcourier.New(
-					peerFormExchange,
+					peerWalker,
 					peerRoster,
 					identity.NetworkName,
 					identity.Hash,
@@ -428,7 +428,7 @@ func assembleNode(
 				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
-						peerFormExchange,
+						peerWalker,
 						peerRoster,
 						identity.NetworkName,
 						identity.Hash,

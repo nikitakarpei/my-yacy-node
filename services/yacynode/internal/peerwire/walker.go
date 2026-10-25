@@ -7,29 +7,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io"
 	"log/slog"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const responseMaxBodyBytes int64 = 1 << 20
-
-const (
-	failureReportMaxBytes int64 = 512
-	failureReportAbsent         = "no reported body"
-)
-
 var (
-	errReplyNotAccepted   = errors.New("reply not accepted")
-	errAttemptTimeLimit   = errors.New("attempt time limit passed")
-	errUnexpectedStatus   = errors.New("unexpected status")
-	errRequestNotPrepared = errors.New("request not prepared")
+	errReplyNotAccepted = errors.New("reply not accepted")
+	errAttemptTimeLimit = errors.New("attempt time limit passed")
 )
 
 type Clock interface {
@@ -54,38 +43,31 @@ type attemptFailure struct {
 	cause   error
 }
 
-type FormExchange struct {
-	client *http.Client
+type Walker struct {
+	poster formPoster
 	clock  Clock
 }
 
-func NewFormExchange(client *http.Client, clock Clock) FormExchange {
-	peerClient := *client
-	peerClient.CheckRedirect = refuseRedirect
-
-	return FormExchange{client: &peerClient, clock: clock}
+func NewWalker(client *http.Client, clock Clock) Walker {
+	return Walker{poster: newFormPoster(client), clock: clock}
 }
 
-func refuseRedirect(*http.Request, []*http.Request) error {
-	return http.ErrUseLastResponse
-}
-
-func (e FormExchange) Exchange(
+func (w Walker) TryInTurn(
 	ctx context.Context,
 	request Request,
 	baseURLs []BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	budget time.Duration,
 ) (Answer, bool) {
-	deadline := e.clock.Now().Add(budget)
+	deadline := w.clock.Now().Add(budget)
 	body := request.Form.Encode()
 	var failures []attemptFailure
 	for index, baseURL := range baseURLs {
-		remaining := deadline.Sub(e.clock.Now())
+		remaining := deadline.Sub(w.clock.Now())
 		if remaining <= 0 {
 			break
 		}
-		answer, err := e.try(
+		answer, err := w.try(
 			ctx,
 			request.Path,
 			body,
@@ -106,7 +88,7 @@ func (e FormExchange) Exchange(
 }
 
 //nolint:revive // argument-limit: one attempt of the walk, each argument a distinct part of it
-func (e FormExchange) try(
+func (w Walker) try(
 	ctx context.Context,
 	path, body string,
 	baseURL BaseURL,
@@ -115,11 +97,11 @@ func (e FormExchange) try(
 ) (Answer, error) {
 	attemptCtx, cancel := context.WithCancelCause(ctx)
 	defer cancel(nil)
-	stop := e.clock.After(limit, func() { cancel(errAttemptTimeLimit) })
+	stop := w.clock.After(limit, func() { cancel(errAttemptTimeLimit) })
 	defer stop()
 
-	sentAt := e.clock.Now()
-	fields, err := e.post(attemptCtx, baseURL, path, body)
+	sentAt := w.clock.Now()
+	fields, err := w.poster.post(attemptCtx, baseURL, path, body)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)
@@ -134,72 +116,8 @@ func (e FormExchange) try(
 	return Answer{
 		Fields:  fields,
 		BaseURL: baseURL,
-		Time:    e.clock.Now().Sub(sentAt),
+		Time:    w.clock.Now().Sub(sentAt),
 	}, nil
-}
-
-func (e FormExchange) post(
-	ctx context.Context,
-	baseURL BaseURL,
-	path, body string,
-) (yacyproto.ResponseFields, error) {
-	req, err := http.NewRequestWithContext(
-		ctx,
-		http.MethodPost,
-		baseURL.urlOf(path),
-		strings.NewReader(body),
-	)
-	if err != nil {
-		return nil, fmt.Errorf("%w: %w", errRequestNotPrepared, err)
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	resp, err := e.client.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("post: %w", err)
-	}
-	defer closeResponseBody(ctx, resp.Body, path)
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf(
-			"%w %s: %s",
-			errUnexpectedStatus,
-			resp.Status,
-			peerFailureReport(resp.Body),
-		)
-	}
-
-	raw, err := io.ReadAll(io.LimitReader(resp.Body, responseMaxBodyBytes))
-	if err != nil {
-		return nil, fmt.Errorf("read reply: %w", err)
-	}
-
-	return yacyproto.ParseResponseFields(string(raw)), nil
-}
-
-func closeResponseBody(ctx context.Context, body io.Closer, path string) {
-	if err := body.Close(); err != nil {
-		slog.WarnContext(
-			ctx,
-			"response body close failed",
-			slog.String("path", path),
-			slog.Any("error", err),
-		)
-	}
-}
-
-func peerFailureReport(body io.Reader) string {
-	raw, err := io.ReadAll(io.LimitReader(body, failureReportMaxBytes))
-	if err != nil && len(raw) == 0 {
-		return failureReportAbsent
-	}
-
-	report := strings.Join(strings.Fields(string(raw)), " ")
-	if report == "" {
-		return failureReportAbsent
-	}
-
-	return report
 }
 
 func reportPassedOver(ctx context.Context, request Request, failures []attemptFailure) {
