@@ -23,6 +23,9 @@ port. Discovery writes the addresses of a new peer only. The addresses of a
 known peer change only when the peer sends its own seed and is confirmed
 reachable.
 
+The roster also keeps the origin that answered the last greet or back-ping
+of a peer. Deliveries go only to that origin. A failed greet clears it.
+
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted
 only if the reachable set still has room; if it is full, the confirmation

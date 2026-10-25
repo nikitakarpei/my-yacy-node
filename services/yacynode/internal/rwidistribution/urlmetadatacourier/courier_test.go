@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -33,26 +32,28 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
-type stubContacts struct {
+type stubPeerWire struct {
 	reply                 yacyproto.ResponseFields
 	answers               bool
 	withoutAnsweredOrigin bool
 }
 
-func answeringContacts(resp yacyproto.TransferURLResponse) *stubContacts {
-	return &stubContacts{reply: resp.Encode(), answers: true}
+func answeringPeerWire(resp yacyproto.TransferURLResponse) *stubPeerWire {
+	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-func (s *stubContacts) AnsweredOriginOf(yacymodel.Hash) (peerwire.Origin, bool) {
+func (s *stubPeerWire) AnsweredOriginOf(context.Context, yacymodel.Hash) (peerwire.Origin, bool) {
 	return peerwire.Origin{Scheme: peerwire.HTTP}, !s.withoutAnsweredOrigin
 }
 
-func (s *stubContacts) Deliver(
+func (s *stubPeerWire) Exchange(
 	_ context.Context,
-	_ peerwire.Origin,
-	question peercontact.Question,
+	_ peerwire.Request,
+	_ []peerwire.Origin,
+	accepts func(yacyproto.ResponseFields) bool,
+	_ time.Duration,
 ) (peerwire.Answer, bool) {
-	if !s.answers || !question.Accepts(s.reply) {
+	if !s.answers || !accepts(s.reply) {
 		return peerwire.Answer{}, false
 	}
 
@@ -65,15 +66,15 @@ func (r *answerTimeRecorder) ObserveURLMetadataDeliveryAnswerTime(answerTime tim
 	r.answerTimes = append(r.answerTimes, answerTime)
 }
 
-func courierOver(contacts urlmetadatacourier.Contacts) urlmetadatacourier.Courier {
-	return timedCourierOver(contacts, &answerTimeRecorder{})
+func courierOver(wire *stubPeerWire) urlmetadatacourier.Courier {
+	return timedCourierOver(wire, &answerTimeRecorder{})
 }
 
 func timedCourierOver(
-	contacts urlmetadatacourier.Contacts,
+	wire *stubPeerWire,
 	recorder *answerTimeRecorder,
 ) urlmetadatacourier.Courier {
-	return urlmetadatacourier.New(contacts, "freeworld", courierHash("self"), recorder)
+	return urlmetadatacourier.New(wire, wire, "freeworld", courierHash("self"), recorder)
 }
 
 func singleURLMetadata() []yacymodel.URLMetadata {
@@ -81,9 +82,9 @@ func singleURLMetadata() []yacymodel.URLMetadata {
 }
 
 func TestDeliverReportsAcceptedOnOK(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
@@ -95,12 +96,12 @@ func TestDeliverReportsAcceptedOnOK(t *testing.T) {
 
 func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 	rejected := urlHash("u1")
-	contacts := answeringContacts(yacyproto.TransferURLResponse{
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{
 		Result:   yacyproto.ResultOK,
 		ErrorURL: []yacymodel.URLHash{rejected},
 	})
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
@@ -114,11 +115,11 @@ func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 }
 
 func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
-	contacts := answeringContacts(
+	wire := answeringPeerWire(
 		yacyproto.TransferURLResponse{Result: yacyproto.ResultErrorNotGranted},
 	)
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
@@ -129,11 +130,11 @@ func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
 }
 
 func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
-	contacts := answeringContacts(
+	wire := answeringPeerWire(
 		yacyproto.TransferURLResponse{Result: yacyproto.ResultWrongTarget},
 	)
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
@@ -144,9 +145,9 @@ func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
 }
 
 func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
-	contacts := &stubContacts{}
+	wire := &stubPeerWire{}
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
@@ -157,10 +158,10 @@ func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
 }
 
 func TestDeliverReportsUnaddressableForAPeerWithoutAnsweredOrigin(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
-	contacts.withoutAnsweredOrigin = true
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
+	wire.withoutAnsweredOrigin = true
 
-	receipt := courierOver(contacts).Deliver(
+	receipt := courierOver(wire).Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 	if receipt.Outcome != urlmetadatacourier.Unaddressable {
@@ -169,10 +170,10 @@ func TestDeliverReportsUnaddressableForAPeerWithoutAnsweredOrigin(t *testing.T) 
 }
 
 func TestDeliverReportsHowLongThePeerTookToAnswer(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
+	wire := answeringPeerWire(yacyproto.TransferURLResponse{Result: yacyproto.ResultOK})
 	recorder := &answerTimeRecorder{}
 
-	timedCourierOver(contacts, recorder).Deliver(
+	timedCourierOver(wire, recorder).Deliver(
 		context.Background(), courierHash("peer"), singleURLMetadata(),
 	)
 

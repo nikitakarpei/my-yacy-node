@@ -43,11 +43,6 @@ type Request struct {
 	Form url.Values
 }
 
-type Attempt struct {
-	Origin  Origin
-	Accepts func(yacyproto.ResponseFields) bool
-}
-
 type Answer struct {
 	Fields yacyproto.ResponseFields
 	Origin Origin
@@ -78,13 +73,14 @@ func refuseRedirect(*http.Request, []*http.Request) error {
 func (e FormExchange) Exchange(
 	ctx context.Context,
 	request Request,
-	attempts []Attempt,
+	origins []Origin,
+	accepts func(yacyproto.ResponseFields) bool,
 	budget time.Duration,
 ) (Answer, bool) {
 	deadline := e.clock.Now().Add(budget)
 	body := request.Form.Encode()
 	var failures []attemptFailure
-	for index, attempt := range attempts {
+	for index, origin := range origins {
 		remaining := deadline.Sub(e.clock.Now())
 		if remaining <= 0 {
 			break
@@ -93,25 +89,28 @@ func (e FormExchange) Exchange(
 			ctx,
 			request.Path,
 			body,
-			attempt,
-			remaining/time.Duration(len(attempts)-index),
+			origin,
+			accepts,
+			remaining/time.Duration(len(origins)-index),
 		)
 		if err == nil {
 			reportPassedOver(ctx, request, failures)
 
 			return answer, true
 		}
-		failures = append(failures, attemptFailure{origin: attempt.Origin, cause: err})
+		failures = append(failures, attemptFailure{origin: origin, cause: err})
 	}
 	reportUnanswered(ctx, request, failures)
 
 	return Answer{}, false
 }
 
+//nolint:revive // argument-limit: one attempt of the walk, each argument a distinct part of it
 func (e FormExchange) try(
 	ctx context.Context,
 	path, body string,
-	attempt Attempt,
+	origin Origin,
+	accepts func(yacyproto.ResponseFields) bool,
 	limit time.Duration,
 ) (Answer, error) {
 	attemptCtx, cancel := context.WithCancelCause(ctx)
@@ -120,7 +119,7 @@ func (e FormExchange) try(
 	defer stop()
 
 	sentAt := e.clock.Now()
-	fields, err := e.post(attemptCtx, attempt.Origin, path, body)
+	fields, err := e.post(attemptCtx, origin, path, body)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)
@@ -128,13 +127,13 @@ func (e FormExchange) try(
 
 		return Answer{}, err
 	}
-	if !attempt.Accepts(fields) {
+	if !accepts(fields) {
 		return Answer{}, errReplyNotAccepted
 	}
 
 	return Answer{
 		Fields: fields,
-		Origin: attempt.Origin,
+		Origin: origin,
 		Time:   e.clock.Now().Sub(sentAt),
 	}, nil
 }

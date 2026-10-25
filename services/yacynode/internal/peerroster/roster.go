@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 const announceRoundsBeforeConfirmationStale = 2
@@ -19,9 +20,10 @@ const msgContactNotRecorded = "peer contact not recorded"
 var neverReachable time.Time
 
 type rosterEntry struct {
-	addresses     yacymodel.PeerAddresses
-	lastReachable time.Time
-	lastContacted time.Time
+	addresses      yacymodel.PeerAddresses
+	answeredOrigin yacymodel.Optional[peerwire.Origin]
+	lastReachable  time.Time
+	lastContacted  time.Time
 }
 
 type reachablePeer struct {
@@ -243,7 +245,11 @@ func (r *roster) selectUnreachable(
 	return keptPeers, nil
 }
 
-func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
+func (r *roster) ConfirmReachable(
+	ctx context.Context,
+	seed yacymodel.Seed,
+	answeredOrigin peerwire.Origin,
+) {
 	if seed.Hash == r.self {
 		return
 	}
@@ -259,7 +265,7 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 	}
 	confirmedAt := r.now()
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		return r.recordReachable(tx, seed.Hash, addresses, confirmedAt)
+		return r.recordReachable(tx, seed.Hash, addresses, answeredOrigin, confirmedAt)
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
@@ -291,6 +297,7 @@ func (r *roster) recordReachable(
 	tx *vault.Txn,
 	peerHash yacymodel.Hash,
 	addresses yacymodel.PeerAddresses,
+	answeredOrigin peerwire.Origin,
 	confirmedAt time.Time,
 ) error {
 	entry, _, err := r.peers.Get(tx, peerHash)
@@ -299,6 +306,7 @@ func (r *roster) recordReachable(
 	}
 
 	entry.addresses = addresses
+	entry.answeredOrigin = yacymodel.Some(answeredOrigin)
 	entry.lastContacted = confirmedAt
 	entry.lastReachable = confirmedAt
 	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
@@ -352,6 +360,7 @@ func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
 		return nil
 	}
 
+	entry.answeredOrigin = yacymodel.None[peerwire.Origin]()
 	entry.lastContacted = r.now()
 	entry.lastReachable = neverReachable
 	if _, err := r.peers.Put(tx, peer, entry); err != nil {
@@ -492,6 +501,21 @@ func (r *roster) AddressesOf(
 	ctx context.Context,
 	peer yacymodel.Hash,
 ) (yacymodel.PeerAddresses, bool) {
+	entry, known := r.entryOf(ctx, peer)
+
+	return entry.addresses, known
+}
+
+func (r *roster) AnsweredOriginOf(
+	ctx context.Context,
+	peer yacymodel.Hash,
+) (peerwire.Origin, bool) {
+	entry, _ := r.entryOf(ctx, peer)
+
+	return entry.answeredOrigin.Get()
+}
+
+func (r *roster) entryOf(ctx context.Context, peer yacymodel.Hash) (rosterEntry, bool) {
 	var entry rosterEntry
 	known := false
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
@@ -505,13 +529,13 @@ func (r *roster) AddressesOf(
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
-			"peer addresses not read",
+			"peer not read from roster",
 			slog.String("peer", peer.String()),
 			slog.Any("error", err),
 		)
 
-		return yacymodel.PeerAddresses{}, false
+		return rosterEntry{}, false
 	}
 
-	return entry.addresses, known
+	return entry, known
 }

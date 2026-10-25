@@ -8,10 +8,11 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
+
+const offerBudget = 30 * time.Second
 
 type Receipt struct {
 	Outcome           Outcome
@@ -24,33 +25,41 @@ type Observer interface {
 	ObservePostingOfferAnswerTime(answerTime time.Duration)
 }
 
-type Contacts interface {
-	AnsweredOriginOf(peer yacymodel.Hash) (peerwire.Origin, bool)
-	Deliver(
+type FormExchange interface {
+	Exchange(
 		ctx context.Context,
-		origin peerwire.Origin,
-		question peercontact.Question,
+		request peerwire.Request,
+		origins []peerwire.Origin,
+		accepts func(yacyproto.ResponseFields) bool,
+		budget time.Duration,
 	) (peerwire.Answer, bool)
 }
 
+type AnsweredOrigins interface {
+	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
+}
+
 type Courier struct {
-	contacts    Contacts
-	networkName string
-	self        yacymodel.Hash
-	observer    Observer
+	exchange        FormExchange
+	answeredOrigins AnsweredOrigins
+	networkName     string
+	self            yacymodel.Hash
+	observer        Observer
 }
 
 func New(
-	contacts Contacts,
+	exchange FormExchange,
+	answeredOrigins AnsweredOrigins,
 	networkName string,
 	self yacymodel.Hash,
 	observer Observer,
 ) Courier {
 	return Courier{
-		contacts:    contacts,
-		networkName: networkName,
-		self:        self,
-		observer:    observer,
+		exchange:        exchange,
+		answeredOrigins: answeredOrigins,
+		networkName:     networkName,
+		self:            self,
+		observer:        observer,
 	}
 }
 
@@ -59,7 +68,7 @@ func (c Courier) Offer(
 	peer yacymodel.Hash,
 	postings []yacymodel.RWIPosting,
 ) Receipt {
-	origin, known := c.contacts.AnsweredOriginOf(peer)
+	origin, known := c.answeredOrigins.AnsweredOriginOf(ctx, peer)
 	if !known {
 		slog.WarnContext(
 			ctx,
@@ -124,10 +133,13 @@ func (c Courier) postTransferRWI(
 		Key:         yacyproto.TransferRWIKey(len(postings)),
 	}
 
-	answer, answered := c.contacts.Deliver(ctx, origin, peercontact.Question{
-		Request: peerwire.Request{Peer: peer, Path: yacyproto.PathTransferRWI, Form: req.Form()},
-		Accepts: isTransferRWIReply,
-	})
+	answer, answered := c.exchange.Exchange(
+		ctx,
+		peerwire.Request{Peer: peer, Path: yacyproto.PathTransferRWI, Form: req.Form()},
+		[]peerwire.Origin{origin},
+		isTransferRWIReply,
+		offerBudget,
+	)
 	if !answered {
 		return yacyproto.TransferRWIResponse{}, false
 	}

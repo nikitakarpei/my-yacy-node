@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -28,7 +28,7 @@ func MountHello(
 	status RuntimeStatus,
 	now func() time.Time,
 	reachability reachableRoster,
-	contacts *peercontact.Contacts,
+	exchange peerwire.FormExchange,
 ) {
 	httpguard.MountFields(
 		router,
@@ -39,7 +39,7 @@ func MountHello(
 			identity:     identity,
 			status:       status,
 			now:          now,
-			probe:        newCallerBackPing(contacts),
+			probe:        newCallerBackPing(exchange, reachability),
 			reachability: reachability,
 		}.Serve,
 	)

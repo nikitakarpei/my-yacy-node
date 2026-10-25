@@ -1,13 +1,17 @@
 package peeradmission_test
 
 import (
+	"context"
+	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"sync"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -102,6 +106,60 @@ func TestCallerBackPingReachesTheCallerThroughAnAdditionalAddress(t *testing.T) 
 
 	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
 		t.Fatalf("YourType = %q, want senior for a caller behind its additional address", yourType)
+	}
+}
+
+func TestCallerBackPingConfirmsTheCallerWithTheOriginThatAnswered(t *testing.T) {
+	srv := backPingServer(true)
+	defer srv.Close()
+	reachability := &stubReachability{}
+	caller := reachableCallerSeed(t, srv.URL)
+
+	serveHello(t, muxWithHello(t, reachability, srv.Client()), helloRequest("freeworld", caller, 0))
+
+	host, _ := caller.PrimaryAddress.Get()
+	port, _ := caller.Port.Get()
+	want := peerwire.Origin{Scheme: peerwire.HTTP, Host: host, Port: port}
+	if len(reachability.confirmedOrigins) != 1 || reachability.confirmedOrigins[0] != want {
+		t.Fatalf("confirmed origins = %v, want %v", reachability.confirmedOrigins, want)
+	}
+}
+
+func TestCallerBackPingStartsAtTheOriginThatAnsweredBefore(t *testing.T) {
+	srv := backPingServer(true)
+	defer srv.Close()
+	var guard sync.Mutex
+	var dialed []string
+	client := &http.Client{Transport: &http.Transport{
+		DialContext: func(ctx context.Context, protocol, address string) (net.Conn, error) {
+			guard.Lock()
+			dialed = append(dialed, address)
+			guard.Unlock()
+			var dialer net.Dialer
+
+			conn, err := dialer.DialContext(ctx, protocol, srv.Listener.Addr().String())
+			if err != nil {
+				return nil, fmt.Errorf("dial: %w", err)
+			}
+
+			return conn, nil
+		},
+		DisableKeepAlives: true,
+	}}
+	caller := peerSeed(t, callerHash, "192.0.2.1", 8090)
+	additional, err := yacymodel.ParseHost("198.51.100.1")
+	if err != nil {
+		t.Fatalf("parse host: %v", err)
+	}
+	caller.AdditionalAddresses = yacymodel.Some([]yacymodel.Host{additional})
+	reachability := &stubReachability{answeredOrigins: map[yacymodel.Hash]peerwire.Origin{
+		caller.Hash: {Scheme: peerwire.HTTP, Host: additional, Port: 8090},
+	}}
+
+	serveHello(t, muxWithHello(t, reachability, client), helloRequest("freeworld", caller, 0))
+
+	if len(dialed) == 0 || dialed[0] != "198.51.100.1:8090" {
+		t.Fatalf("dialed = %v, want the origin that answered before first", dialed)
 	}
 }
 

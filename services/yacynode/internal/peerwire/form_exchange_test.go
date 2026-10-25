@@ -109,11 +109,7 @@ func replyingServer(reply string) *httptest.Server {
 	}))
 }
 
-func acceptsAny(yacyproto.ResponseFields) bool { return true }
-
-func attemptAt(origin peerwire.Origin) peerwire.Attempt {
-	return peerwire.Attempt{Origin: origin, Accepts: acceptsAny}
-}
+func hasResult(fields yacyproto.ResponseFields) bool { return fields["result"] != "" }
 
 func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	var (
@@ -136,7 +132,8 @@ func TestExchangePostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	answer, answered := peerwire.NewFormExchange(server.Client(), startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Attempt{attemptAt(origin)},
+		[]peerwire.Origin{origin},
+		hasResult,
 		exchangeBudget,
 	)
 
@@ -170,7 +167,8 @@ func TestExchangeReachesAnHTTPSOrigin(t *testing.T) {
 	answer, answered := peerwire.NewFormExchange(server.Client(), startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Attempt{attemptAt(origin)},
+		[]peerwire.Origin{origin},
+		hasResult,
 		exchangeBudget,
 	)
 
@@ -197,21 +195,19 @@ func TestExchangeMovesOnPastOriginsThatGiveNoAcceptedReply(t *testing.T) {
 	closed.Close()
 
 	answeringOrigin := originOf(t, answering, peerwire.HTTP)
-	attempts := []peerwire.Attempt{
-		attemptAt(closedOrigin),
-		attemptAt(originOf(t, failing, peerwire.HTTP)),
-		attemptAt(originOf(t, redirecting, peerwire.HTTP)),
-		{
-			Origin:  originOf(t, foreign, peerwire.HTTP),
-			Accepts: func(fields yacyproto.ResponseFields) bool { return fields["result"] != "" },
-		},
-		attemptAt(answeringOrigin),
+	origins := []peerwire.Origin{
+		closedOrigin,
+		originOf(t, failing, peerwire.HTTP),
+		originOf(t, redirecting, peerwire.HTTP),
+		originOf(t, foreign, peerwire.HTTP),
+		answeringOrigin,
 	}
 
 	answer, answered := peerwire.NewFormExchange(http.DefaultClient, startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		attempts,
+		origins,
+		hasResult,
 		exchangeBudget,
 	)
 
@@ -229,7 +225,8 @@ func TestExchangeHasNoAnswerWhenEveryOriginFails(t *testing.T) {
 	_, answered := peerwire.NewFormExchange(failing.Client(), startClock()).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Attempt{attemptAt(originOf(t, failing, peerwire.HTTP))},
+		[]peerwire.Origin{originOf(t, failing, peerwire.HTTP)},
+		hasResult,
 		exchangeBudget,
 	)
 
@@ -260,10 +257,11 @@ func TestExchangeGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 		_, answered := peerwire.NewFormExchange(http.DefaultClient, timeline).Exchange(
 			t.Context(),
 			transferRequest,
-			[]peerwire.Attempt{
-				attemptAt(originOf(t, hanging, peerwire.HTTP)),
-				attemptAt(answeringOrigin),
+			[]peerwire.Origin{
+				originOf(t, hanging, peerwire.HTTP),
+				answeringOrigin,
 			},
+			hasResult,
 			exchangeBudget,
 		)
 		answers <- answered
@@ -294,10 +292,11 @@ func TestExchangeStopsWhenTheBudgetIsSpent(t *testing.T) {
 		_, answered := peerwire.NewFormExchange(http.DefaultClient, timeline).Exchange(
 			t.Context(),
 			transferRequest,
-			[]peerwire.Attempt{
-				attemptAt(originOf(t, hanging, peerwire.HTTP)),
-				attemptAt(originOf(t, later, peerwire.HTTP)),
+			[]peerwire.Origin{
+				originOf(t, hanging, peerwire.HTTP),
+				originOf(t, later, peerwire.HTTP),
 			},
+			hasResult,
 			exchangeBudget,
 		)
 		answers <- answered
@@ -325,7 +324,8 @@ func TestExchangeMeasuresTheAnswerTimeOfTheAnsweringAttempt(t *testing.T) {
 	answer, _ := peerwire.NewFormExchange(server.Client(), timeline).Exchange(
 		t.Context(),
 		transferRequest,
-		[]peerwire.Attempt{attemptAt(originOf(t, server, peerwire.HTTP))},
+		[]peerwire.Origin{originOf(t, server, peerwire.HTTP)},
+		hasResult,
 		exchangeBudget,
 	)
 

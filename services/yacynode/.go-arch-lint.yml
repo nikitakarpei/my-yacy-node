@@ -32,8 +32,6 @@ components:
     in: internal/publicaddress/**
   peerwire:
     in: internal/peerwire/**
-  peercontact:
-    in: internal/peercontact/**
   nodepeerhash:
     in: internal/nodepeerhash/**
   bootstrap:
@@ -204,7 +202,6 @@ deps:
     mayDependOn:
       - httpguard
       - nodeidentity
-      - peercontact
       - peerwire
     canUse:
       - yacyproto
@@ -220,22 +217,17 @@ deps:
   peerroster:
     mayDependOn:
       - hashkeypart
+      - peerwire
     canUse:
       - vault
       - storedfields
   peerannouncement:
     mayDependOn:
-      - peercontact
       - peerwire
       - bootstrap
     canUse:
       - yacyproto
   peerwire:
-    canUse:
-      - yacyproto
-  peercontact:
-    mayDependOn:
-      - peerwire
     canUse:
       - yacyproto
   nodepeerhash:
@@ -325,13 +317,11 @@ deps:
       - storedfields
   postingcourier:
     mayDependOn:
-      - peercontact
       - peerwire
     canUse:
       - yacyproto
   urlmetadatacourier:
     mayDependOn:
-      - peercontact
       - peerwire
     canUse:
       - yacyproto

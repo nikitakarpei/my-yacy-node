@@ -34,7 +34,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/publicaddress"
@@ -341,11 +340,8 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peerContacts := peercontact.New(
-		peerwire.NewFormExchange(egressClient, wallclock.Clock{}),
-		config.PeerExchange.KnownRosterCapacity,
-	)
-	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, peerContacts)
+	peerFormExchange := peerwire.NewFormExchange(egressClient, wallclock.Clock{})
+	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, peerFormExchange)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{
@@ -354,7 +350,7 @@ func assembleNode(
 			ReachableCap:       config.PeerExchange.ReachableRosterCapacity,
 			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
-		peerContacts,
+		peerFormExchange,
 		runtimeStatus,
 		publicAddressSource,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
@@ -424,14 +420,16 @@ func assembleNode(
 			postingtransfer.New(
 				storage,
 				postingcourier.New(
-					peerContacts,
+					peerFormExchange,
+					peerRoster,
 					identity.NetworkName,
 					identity.Hash,
 					distributionObserver,
 				),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
-						peerContacts,
+						peerFormExchange,
+						peerRoster,
 						identity.NetworkName,
 						identity.Hash,
 						distributionObserver,

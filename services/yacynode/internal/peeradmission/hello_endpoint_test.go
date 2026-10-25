@@ -16,7 +16,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -28,9 +27,11 @@ func (helloRuntimeStatus) Version(context.Context) string { return "1.0" }
 func (helloRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 type stubReachability struct {
-	guard     sync.Mutex
-	seeds     []yacymodel.Seed
-	refreshed []yacymodel.Seed
+	guard            sync.Mutex
+	seeds            []yacymodel.Seed
+	refreshed        []yacymodel.Seed
+	confirmedOrigins []peerwire.Origin
+	answeredOrigins  map[yacymodel.Hash]peerwire.Origin
 }
 
 func (s *stubReachability) MostRecentlyReachablePeers(
@@ -47,11 +48,25 @@ func (s *stubReachability) MostRecentlyReachablePeers(
 	return s.seeds
 }
 
-func (s *stubReachability) ConfirmReachable(_ context.Context, seed yacymodel.Seed) {
+func (s *stubReachability) ConfirmReachable(
+	_ context.Context,
+	seed yacymodel.Seed,
+	answeredOrigin peerwire.Origin,
+) {
 	s.guard.Lock()
 	defer s.guard.Unlock()
 
 	s.refreshed = append(s.refreshed, seed)
+	s.confirmedOrigins = append(s.confirmedOrigins, answeredOrigin)
+}
+
+func (s *stubReachability) AnsweredOriginOf(
+	_ context.Context,
+	peer yacymodel.Hash,
+) (peerwire.Origin, bool) {
+	origin, found := s.answeredOrigins[peer]
+
+	return origin, found
 }
 
 var replyTime = time.Date(2026, time.June, 17, 12, 0, 0, 0, time.UTC)
@@ -83,7 +98,7 @@ func muxWithHello(
 		selfStatus(t),
 		stoppedClock{}.Now,
 		reachability,
-		peercontact.New(peerwire.NewFormExchange(client, stoppedClock{}), 16),
+		peerwire.NewFormExchange(client, stoppedClock{}),
 	)
 
 	return mux

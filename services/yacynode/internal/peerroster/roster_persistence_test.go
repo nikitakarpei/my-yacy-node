@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
@@ -59,6 +60,40 @@ func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
 	wantAddresses, _ := peerSeed.Addresses()
 	if !reflect.DeepEqual(restoredAddresses, wantAddresses) {
 		t.Errorf("addresses = %v, want %v", restoredAddresses, wantAddresses)
+	}
+}
+
+func TestRosterRestoresTheAnsweredOrigin(t *testing.T) {
+	storagePath := filepath.Join(t.TempDir(), "peer-roster")
+	peerSeed := seniorSeed(t, "peer", "203.0.113.10", 8090)
+	answeredOrigin := httpOriginOf(peerSeed)
+	answeredOrigin.Scheme = peerwire.HTTPS
+	answeredOrigin.Port = 443
+
+	storedVault := openRosterVault(t, storagePath)
+	storedRoster := openRoster(
+		t,
+		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
+	)
+	storedRoster.ConfirmReachable(t.Context(), peerSeed, answeredOrigin)
+	if err := storedVault.Close(); err != nil {
+		t.Fatalf("Close stored roster: %v", err)
+	}
+
+	restoredVault := openRosterVault(t, storagePath)
+	t.Cleanup(func() {
+		if err := restoredVault.Close(); err != nil {
+			t.Errorf("Close restored roster: %v", err)
+		}
+	})
+	restoredRoster := openRoster(
+		t,
+		rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4},
+	)
+
+	if origin, found := restoredRoster.AnsweredOriginOf(t.Context(), peerSeed.Hash); !found ||
+		origin != answeredOrigin {
+		t.Fatalf("answered origin = %v, %v, want %v", origin, found, answeredOrigin)
 	}
 }
 

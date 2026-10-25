@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -37,26 +36,28 @@ func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPostin
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
 }
 
-type stubContacts struct {
+type stubPeerWire struct {
 	reply                 yacyproto.ResponseFields
 	answers               bool
 	withoutAnsweredOrigin bool
 }
 
-func answeringContacts(resp yacyproto.TransferRWIResponse) *stubContacts {
-	return &stubContacts{reply: resp.Encode(), answers: true}
+func answeringPeerWire(resp yacyproto.TransferRWIResponse) *stubPeerWire {
+	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-func (s *stubContacts) AnsweredOriginOf(yacymodel.Hash) (peerwire.Origin, bool) {
+func (s *stubPeerWire) AnsweredOriginOf(context.Context, yacymodel.Hash) (peerwire.Origin, bool) {
 	return peerwire.Origin{Scheme: peerwire.HTTP}, !s.withoutAnsweredOrigin
 }
 
-func (s *stubContacts) Deliver(
+func (s *stubPeerWire) Exchange(
 	_ context.Context,
-	_ peerwire.Origin,
-	question peercontact.Question,
+	_ peerwire.Request,
+	_ []peerwire.Origin,
+	accepts func(yacyproto.ResponseFields) bool,
+	_ time.Duration,
 ) (peerwire.Answer, bool) {
-	if !s.answers || !question.Accepts(s.reply) {
+	if !s.answers || !accepts(s.reply) {
 		return peerwire.Answer{}, false
 	}
 
@@ -69,15 +70,15 @@ func (r *answerTimeRecorder) ObservePostingOfferAnswerTime(answerTime time.Durat
 	r.answerTimes = append(r.answerTimes, answerTime)
 }
 
-func courierOver(contacts postingcourier.Contacts) postingcourier.Courier {
-	return timedCourierOver(contacts, &answerTimeRecorder{})
+func courierOver(wire *stubPeerWire) postingcourier.Courier {
+	return timedCourierOver(wire, &answerTimeRecorder{})
 }
 
 func timedCourierOver(
-	contacts postingcourier.Contacts,
+	wire *stubPeerWire,
 	recorder *answerTimeRecorder,
 ) postingcourier.Courier {
-	return postingcourier.New(contacts, "freeworld", courierHash("self"), recorder)
+	return postingcourier.New(wire, wire, "freeworld", courierHash("self"), recorder)
 }
 
 func singlePosting() []yacymodel.RWIPosting {
@@ -85,9 +86,9 @@ func singlePosting() []yacymodel.RWIPosting {
 }
 
 func TestOfferReportsAcceptedOnOK(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
@@ -102,12 +103,12 @@ func TestOfferReportsAcceptedOnOK(t *testing.T) {
 func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	unknown := fakePosting(word, url).URLHash
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result:     yacyproto.ResultOK,
 		UnknownURL: []yacymodel.URLHash{unknown},
 	})
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
@@ -124,12 +125,12 @@ func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 
 func TestOfferReturnsURLsThePeerRejected(t *testing.T) {
 	rejected := urlHash("u1")
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result:   yacyproto.ResultOK,
 		ErrorURL: []yacymodel.URLHash{rejected},
 	})
 
-	receipt := courierOver(contacts).Offer(
+	receipt := courierOver(wire).Offer(
 		context.Background(),
 		courierHash("peer"),
 		singlePosting(),
@@ -141,12 +142,12 @@ func TestOfferReturnsURLsThePeerRejected(t *testing.T) {
 }
 
 func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result: yacyproto.ResultBusy,
 		Pause:  30 * time.Second,
 	})
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
@@ -162,12 +163,12 @@ func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 }
 
 func TestOfferReportsOverloadedPeer(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{
 		Result: yacyproto.ResultTooHighLoad,
 		Pause:  time.Minute,
 	})
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
@@ -183,11 +184,11 @@ func TestOfferReportsOverloadedPeer(t *testing.T) {
 }
 
 func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
-	contacts := answeringContacts(
+	wire := answeringPeerWire(
 		yacyproto.TransferRWIResponse{Result: yacyproto.ResultWrongTarget},
 	)
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
@@ -200,9 +201,9 @@ func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
 }
 
 func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
-	contacts := &stubContacts{}
+	wire := &stubPeerWire{}
 
-	courier := courierOver(contacts)
+	courier := courierOver(wire)
 
 	receipt := courier.Offer(
 		context.Background(),
@@ -215,11 +216,11 @@ func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
 }
 
 func TestOfferReportsUnaddressableForAPeerWithoutAnsweredOrigin(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
-	contacts.withoutAnsweredOrigin = true
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	wire.withoutAnsweredOrigin = true
 
 	receipt := courierOver(
-		contacts,
+		wire,
 	).Offer(context.Background(), courierHash("peer"), singlePosting())
 	if receipt.Outcome != postingcourier.Unaddressable {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Unaddressable)
@@ -227,10 +228,10 @@ func TestOfferReportsUnaddressableForAPeerWithoutAnsweredOrigin(t *testing.T) {
 }
 
 func TestOfferReportsHowLongThePeerTookToAnswer(t *testing.T) {
-	contacts := answeringContacts(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
 	recorder := &answerTimeRecorder{}
 
-	timedCourierOver(contacts, recorder).Offer(
+	timedCourierOver(wire, recorder).Offer(
 		context.Background(),
 		courierHash("peer"),
 		singlePosting(),

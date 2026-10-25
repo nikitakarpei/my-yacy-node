@@ -10,7 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 type SelfSeed interface {
@@ -31,7 +31,7 @@ type Config struct {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	cfg Config,
-	contacts *peercontact.Contacts,
+	exchange peerwire.FormExchange,
 	self SelfSeed,
 	reportedHostObserver ReportedHostObserver,
 	seeds bootstrap.SeedSource,
@@ -46,7 +46,7 @@ func New(
 		reportedHostObserver: reportedHostObserver,
 		seeds:                seeds,
 		roster:               roster,
-		greeter:              newPeerGreeter(contacts, cfg.NetworkName),
+		greeter:              newPeerGreeter(exchange, cfg.NetworkName),
 		observer:             observer,
 	}
 }

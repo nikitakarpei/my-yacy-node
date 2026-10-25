@@ -16,7 +16,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -34,6 +33,7 @@ type stubRoster struct {
 	reachable              []yacymodel.Hash
 	unreachable            []yacymodel.Hash
 	reachableConfirmations []yacymodel.Seed
+	answeredOrigins        []peerwire.Origin
 	confirmations          chan struct{}
 }
 
@@ -94,10 +94,15 @@ func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
 	s.discovered = append(s.discovered, seeds...)
 }
 
-func (s *stubRoster) ConfirmReachable(_ context.Context, seed yacymodel.Seed) {
+func (s *stubRoster) ConfirmReachable(
+	_ context.Context,
+	seed yacymodel.Seed,
+	answeredOrigin peerwire.Origin,
+) {
 	s.mu.Lock()
 	s.reachable = append(s.reachable, seed.Hash)
 	s.reachableConfirmations = append(s.reachableConfirmations, seed)
+	s.answeredOrigins = append(s.answeredOrigins, answeredOrigin)
 	s.mu.Unlock()
 
 	s.confirmations <- struct{}{}
@@ -123,6 +128,13 @@ func (s *stubRoster) confirmedSeeds() []yacymodel.Seed {
 	defer s.mu.Unlock()
 
 	return append([]yacymodel.Seed(nil), s.reachableConfirmations...)
+}
+
+func (s *stubRoster) confirmedOrigins() []peerwire.Origin {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	return append([]peerwire.Origin(nil), s.answeredOrigins...)
 }
 
 func (s *stubRoster) unreachableHashes() []yacymodel.Hash {
@@ -173,8 +185,8 @@ func (stoppedClock) Now() time.Time { return time.Unix(1_700_000_000, 0).UTC() }
 
 func (stoppedClock) After(time.Duration, func()) (stop func()) { return func() {} }
 
-func contactsOver(client *http.Client) *peercontact.Contacts {
-	return peercontact.New(peerwire.NewFormExchange(client, stoppedClock{}), 16)
+func exchangeOver(client *http.Client) peerwire.FormExchange {
+	return peerwire.NewFormExchange(client, stoppedClock{})
 }
 
 type stubLearningSelf struct {
@@ -219,7 +231,7 @@ func announcerFor(
 
 	return peerannouncement.New(
 		configFor(reachableCap),
-		contactsOver(http.DefaultClient),
+		exchangeOver(http.DefaultClient),
 		learningSelf,
 		learningSelf,
 		&stubSeedSource{seeds: seeds},
@@ -577,7 +589,7 @@ func lastContactsObservedOver(
 	observer := newStubAnnouncementObserver()
 	announcer := peerannouncement.New(
 		configFor(4),
-		contactsOver(client),
+		exchangeOver(client),
 		self,
 		self,
 		&stubSeedSource{},
@@ -684,6 +696,21 @@ func TestAnnounceCountsConfirmedPeersPerScheme(t *testing.T) {
 	want := map[peerwire.Scheme]int{peerwire.HTTP: 1, peerwire.HTTPS: 0}
 	if !reflect.DeepEqual(schemes, want) {
 		t.Fatalf("confirmed peers per scheme = %v, want %v", schemes, want)
+	}
+}
+
+func TestAnnounceConfirmsAPeerWithTheOriginThatAnswered(t *testing.T) {
+	self := &stubLearningSelf{seed: newStubPeer(t, "self", seniorAnswer(t)).seed}
+	peer := newStubPeer(t, "reaching", seniorAnswer(t))
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+
+	lastContactsObservedOver(t, http.DefaultClient, self, roster, 1)
+
+	host, _ := peer.seed.PrimaryAddress.Get()
+	port, _ := peer.seed.Port.Get()
+	want := peerwire.Origin{Scheme: peerwire.HTTP, Host: host, Port: port}
+	if got := roster.confirmedOrigins(); len(got) != 1 || got[0] != want {
+		t.Fatalf("confirmed origins = %v, want %v", got, want)
 	}
 }
 

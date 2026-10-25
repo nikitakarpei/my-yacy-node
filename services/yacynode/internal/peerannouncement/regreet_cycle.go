@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 const announceHelloPeerCount = 30
@@ -17,7 +18,7 @@ type ReportedHostObserver interface {
 
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredOrigin peerwire.Origin)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
@@ -167,7 +168,7 @@ func (a *announcer) contactOne(
 		)
 	}
 
-	a.roster.ConfirmReachable(ctx, result.RespondingSeed)
+	a.roster.ConfirmReachable(ctx, result.RespondingSeed, result.Origin)
 	a.roster.Discover(ctx, result.KnownSeeds...)
 
 	return contactReply{

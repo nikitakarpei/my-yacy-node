@@ -3,33 +3,46 @@ package peeradmission
 import (
 	"context"
 	"log/slog"
+	"slices"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const backPingsAtOnce = 16
+const (
+	backPingsAtOnce = 16
+	backPingBudget  = 13 * time.Second
+)
 
-type callerBackPing struct {
-	contacts *peercontact.Contacts
-	slots    chan struct{}
+type answeredOrigins interface {
+	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
 }
 
-func newCallerBackPing(contacts *peercontact.Contacts) callerBackPing {
-	return callerBackPing{contacts: contacts, slots: make(chan struct{}, backPingsAtOnce)}
+type callerBackPing struct {
+	exchange        peerwire.FormExchange
+	answeredOrigins answeredOrigins
+	slots           chan struct{}
+}
+
+func newCallerBackPing(exchange peerwire.FormExchange, origins answeredOrigins) callerBackPing {
+	return callerBackPing{
+		exchange:        exchange,
+		answeredOrigins: origins,
+		slots:           make(chan struct{}, backPingsAtOnce),
+	}
 }
 
 var _ callerReachabilityProbe = callerBackPing{}
 
-func (p callerBackPing) IsReachable(
+func (p callerBackPing) Reach(
 	ctx context.Context,
 	caller yacymodel.Hash,
 	addresses yacymodel.PeerAddresses,
 	self yacymodel.Hash,
 	networkName string,
-) bool {
+) (peerwire.Origin, bool) {
 	select {
 	case p.slots <- struct{}{}:
 		defer func() { <-p.slots }()
@@ -38,7 +51,7 @@ func (p callerBackPing) IsReachable(
 			slog.String("peer", caller.String()),
 		)
 
-		return false
+		return peerwire.Origin{}, false
 	}
 
 	query := yacyproto.QueryRequest{
@@ -47,16 +60,35 @@ func (p callerBackPing) IsReachable(
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	_, answered := p.contacts.Probe(ctx, addresses, peercontact.Question{
-		Request: peerwire.Request{
-			Peer: caller,
-			Path: yacyproto.PathQuery,
-			Form: query.Form(),
-		},
-		Accepts: isRWICountReply,
-	})
+	answer, answered := p.exchange.Exchange(
+		ctx,
+		peerwire.Request{Peer: caller, Path: yacyproto.PathQuery, Form: query.Form()},
+		p.originsFor(ctx, caller, addresses),
+		isRWICountReply,
+		backPingBudget,
+	)
 
-	return answered
+	return answer.Origin, answered
+}
+
+func (p callerBackPing) originsFor(
+	ctx context.Context,
+	caller yacymodel.Hash,
+	addresses yacymodel.PeerAddresses,
+) []peerwire.Origin {
+	origins := peerwire.OriginsFrom(addresses)
+	answeredOrigin, found := p.answeredOrigins.AnsweredOriginOf(ctx, caller)
+	if !found || !slices.Contains(origins, answeredOrigin) {
+		return origins
+	}
+
+	return append(
+		[]peerwire.Origin{answeredOrigin},
+		slices.DeleteFunc(
+			origins,
+			func(origin peerwire.Origin) bool { return origin == answeredOrigin },
+		)...,
+	)
 }
 
 func isRWICountReply(fields yacyproto.ResponseFields) bool {

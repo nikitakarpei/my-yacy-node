@@ -3,12 +3,14 @@ package peerannouncement
 import (
 	"context"
 	"net/netip"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peercontact"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
+
+const greetBudget = 30 * time.Second
 
 type greetResult struct {
 	Origin           peerwire.Origin
@@ -19,12 +21,12 @@ type greetResult struct {
 }
 
 type peerGreeter struct {
-	contacts    *peercontact.Contacts
+	exchange    peerwire.FormExchange
 	networkName string
 }
 
-func newPeerGreeter(contacts *peercontact.Contacts, networkName string) peerGreeter {
-	return peerGreeter{contacts: contacts, networkName: networkName}
+func newPeerGreeter(exchange peerwire.FormExchange, networkName string) peerGreeter {
+	return peerGreeter{exchange: exchange, networkName: networkName}
 }
 
 func (g peerGreeter) Greet(
@@ -41,10 +43,13 @@ func (g peerGreeter) Greet(
 		Iam:         self.Hash,
 	}
 
-	answer, answered := g.contacts.Greet(ctx, addresses, peercontact.Question{
-		Request: peerwire.Request{Peer: peer, Path: yacyproto.PathHello, Form: request.Form()},
-		Accepts: func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, peer, fields) },
-	})
+	answer, answered := g.exchange.Exchange(
+		ctx,
+		peerwire.Request{Peer: peer, Path: yacyproto.PathHello, Form: request.Form()},
+		peerwire.OriginsFrom(addresses),
+		func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, peer, fields) },
+		greetBudget,
+	)
 	if !answered {
 		return greetResult{}, false
 	}

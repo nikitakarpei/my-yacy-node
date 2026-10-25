@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -19,18 +20,19 @@ const (
 )
 
 type callerReachabilityProbe interface {
-	IsReachable(
+	Reach(
 		ctx context.Context,
 		caller yacymodel.Hash,
 		addresses yacymodel.PeerAddresses,
 		self yacymodel.Hash,
 		networkName string,
-	) bool
+	) (peerwire.Origin, bool)
 }
 
 type reachableRoster interface {
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredOrigin peerwire.Origin)
+	AnsweredOriginOf(ctx context.Context, peer yacymodel.Hash) (peerwire.Origin, bool)
 }
 
 type helloEndpoint struct {
@@ -92,17 +94,18 @@ func (e helloEndpoint) classifyCaller(
 		return yacymodel.PeerJunior
 	}
 
-	if !e.probe.IsReachable(
+	answeredOrigin, reached := e.probe.Reach(
 		ctx,
 		caller.Hash,
 		addresses,
 		e.identity.Hash,
 		e.status.NetworkName(ctx),
-	) {
+	)
+	if !reached {
 		return yacymodel.PeerJunior
 	}
 
-	e.reachability.ConfirmReachable(ctx, caller)
+	e.reachability.ConfirmReachable(ctx, caller, answeredOrigin)
 
 	if caller.PeerType == yacymodel.PeerPrincipal {
 		return yacymodel.PeerPrincipal

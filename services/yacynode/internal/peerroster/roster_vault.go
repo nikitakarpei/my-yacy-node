@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 const peersBucket vault.Name = "peerroster"
@@ -40,6 +41,12 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 		stored.Text(host.String())
 	}
 	stored.Varint(int64(entry.addresses.SecurePort.OrElse(0)))
+	answeredOrigin, answered := entry.answeredOrigin.Get()
+	stored.Text(string(answeredOrigin.Scheme))
+	if answered {
+		stored.Text(answeredOrigin.Host.String())
+		stored.Varint(int64(answeredOrigin.Port))
+	}
 
 	return stored.Record(), nil
 }
@@ -50,6 +57,9 @@ func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 		lastReachable: stored.Time("last reachable"),
 		lastContacted: stored.Time("last contacted"),
 		addresses:     addressesFrom(stored),
+	}
+	if stored.BytesLeft() > 0 {
+		entry.answeredOrigin = answeredOriginFrom(stored)
 	}
 	if err := stored.Err(); err != nil {
 		return rosterEntry{}, err
@@ -72,6 +82,24 @@ func addressesFrom(stored *storedfields.Reader) yacymodel.PeerAddresses {
 	addresses.SecurePort = securePortFrom(stored)
 
 	return addresses
+}
+
+func answeredOriginFrom(stored *storedfields.Reader) yacymodel.Optional[peerwire.Origin] {
+	const field = "answered origin scheme"
+	text := stored.Text(field)
+	if text == "" {
+		return yacymodel.None[peerwire.Origin]()
+	}
+	scheme, err := peerwire.ParseScheme(text)
+	if err != nil {
+		stored.Reject(field, err)
+	}
+
+	return yacymodel.Some(peerwire.Origin{
+		Scheme: scheme,
+		Host:   hostFrom(stored, "answered origin host"),
+		Port:   portFrom(stored, "answered origin port"),
+	})
 }
 
 func hostFrom(stored *storedfields.Reader, field string) yacymodel.Host {
