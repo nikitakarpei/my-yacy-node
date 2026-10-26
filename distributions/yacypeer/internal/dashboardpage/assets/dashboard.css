@@ -12,10 +12,15 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--text);
-  font: 13px/1.4 system-ui, sans-serif;
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
 }
 
-a { color: var(--accent); text-decoration: none; }
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
 
 .toolbar {
   position: sticky;
@@ -30,9 +35,15 @@ a { color: var(--accent); text-decoration: none; }
   border-bottom: 1px solid var(--border);
 }
 
-.toolbar .title { font-size: 16px; font-weight: 600; }
-.toolbar label { color: var(--muted); }
-.toolbar select, .toolbar button {
+.toolbar .title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.toolbar label {
+  color: var(--muted);
+}
+.toolbar select,
+.toolbar button {
   background: var(--panel);
   color: var(--text);
   border: 1px solid var(--border);
@@ -40,11 +51,24 @@ a { color: var(--accent); text-decoration: none; }
   padding: 3px 8px;
   font: inherit;
 }
-.toolbar button.active { border-color: var(--accent); color: var(--accent); }
-#ranges { margin-left: auto; display: flex; gap: 4px; }
-#variables { display: flex; gap: 12px; }
+.toolbar button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+#ranges {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+#variables {
+  display: flex;
+  gap: 12px;
+}
 
-.list { padding: 16px; font-size: 16px; }
+.list {
+  padding: 16px;
+  font-size: 16px;
+}
 
 .grid {
   display: grid;
@@ -96,8 +120,14 @@ a { color: var(--accent); text-decoration: none; }
   overflow-y: auto;
 }
 
-.heatmap { position: relative; width: 100%; height: 100%; }
-.heatmap canvas { display: block; }
+.heatmap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.heatmap canvas {
+  display: block;
+}
 .heatmap .tip {
   position: absolute;
   display: none;
@@ -114,7 +144,9 @@ a { color: var(--accent); text-decoration: none; }
   color: var(--muted);
 }
 
-.panel .notice.failure { color: #f2495c; }
+.panel .notice.failure {
+  color: #f2495c;
+}
 
 .stat {
   display: flex;
@@ -125,9 +157,22 @@ a { color: var(--accent); text-decoration: none; }
   height: 100%;
 }
 
-.stat .value { font-size: 32px; font-weight: 500; }
-.stat .name { color: var(--muted); }
+.stat .value {
+  font-size: 32px;
+  font-weight: 500;
+}
+.stat .name {
+  color: var(--muted);
+}
 
-.u-legend { font-size: 11px; text-align: left; }
-.u-legend .u-marker { width: 10px; height: 3px; }
-.u-legend th { font-weight: 400; }
+.u-legend {
+  font-size: 11px;
+  text-align: left;
+}
+.u-legend .u-marker {
+  width: 10px;
+  height: 3px;
+}
+.u-legend th {
+  font-weight: 400;
+}
