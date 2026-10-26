@@ -110,6 +110,28 @@ func TestLoadPeerConfigRefusesAYggdrasilListenURLThatDoesNotParse(t *testing.T) 
 	}
 }
 
+func TestLoadPeerConfigTakesTheYggdrasilPeerList(t *testing.T) {
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvYggdrasilPeerList: "https://peers.example/publicnodes.json",
+	}))
+	if err != nil {
+		t.Fatalf("load the config: %v", err)
+	}
+	want := &url.URL{Scheme: "https", Host: "peers.example", Path: "/publicnodes.json"}
+	if !reflect.DeepEqual(cfg.YggdrasilPeerList, want) {
+		t.Errorf("Yggdrasil peer list = %v, want %v", cfg.YggdrasilPeerList, want)
+	}
+}
+
+func TestLoadPeerConfigRefusesAYggdrasilPeerListThatIsNotAnHTTPURL(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvYggdrasilPeerList: "file:///etc/publicnodes.json",
+	}))
+	if err == nil {
+		t.Error("config loaded with a file Yggdrasil peer list, want an error")
+	}
+}
+
 func TestLoadPeerConfigRefusesAnEgressProxyBesideYggdrasil(t *testing.T) {
 	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
 		yacypeerassembly.EnvYggdrasilPeers: "tls://peer.example:443",

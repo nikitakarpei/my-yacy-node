@@ -6,18 +6,23 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/connecttimers/tcp"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/ipv6stack"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/jointlistener"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilnode"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilpeerchoice"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilpeerlist"
 )
 
 type yggdrasilOverlay struct {
-	node  *yggdrasilnode.Node
-	stack *ipv6stack.Stack
+	node       *yggdrasilnode.Node
+	stack      *ipv6stack.Stack
+	peerChoice *yggdrasilpeerchoice.Choice
 }
 
 func yggdrasilOverlayFor(ctx context.Context, cfg PeerConfig) (yggdrasilOverlay, error) {
@@ -41,7 +46,19 @@ func yggdrasilOverlayFor(ctx context.Context, cfg PeerConfig) (yggdrasilOverlay,
 		node.Stop()
 		return yggdrasilOverlay{}, err
 	}
-	return yggdrasilOverlay{node: node, stack: stack}, nil
+	return yggdrasilOverlay{node: node, stack: stack, peerChoice: peerChoiceFor(cfg, node)}, nil
+}
+
+func peerChoiceFor(cfg PeerConfig, node *yggdrasilnode.Node) *yggdrasilpeerchoice.Choice {
+	if !cfg.choosesYggdrasilPeers() {
+		return nil
+	}
+	return yggdrasilpeerchoice.New(
+		yggdrasilpeerlist.New(cfg.YggdrasilPeerList),
+		node,
+		tcp.New(),
+		wallclock.Clock{},
+	)
 }
 
 func (o yggdrasilOverlay) isJoined() bool {
@@ -59,7 +76,13 @@ func (o yggdrasilOverlay) runs() []func(context.Context) error {
 	if !o.isJoined() {
 		return nil
 	}
-	return []func(context.Context) error{o.stack.Run}
+	runs := []func(context.Context) error{o.stack.Run}
+	if o.peerChoice != nil {
+		runs = append(runs, func(ctx context.Context) error {
+			return o.peerChoice.Run(servicelog.ContextFor(ctx, yggdrasilnode.Name))
+		})
+	}
+	return runs
 }
 
 func (o yggdrasilOverlay) stop() {

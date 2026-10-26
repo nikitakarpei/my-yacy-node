@@ -23,8 +23,10 @@ program, connected and ready to use.
   names, else through a built-in egress proxy that only the local host can reach.
 * The program SHALL NOT start when the operator names an egress proxy and does not set
   the public host of the peer.
-* The program SHALL join the Yggdrasil network when the operator names Yggdrasil peers or
-  Yggdrasil listen URIs.
+* The program SHALL join the Yggdrasil network when the operator names Yggdrasil peers,
+  Yggdrasil listen URIs, or a public Yggdrasil peer list.
+* With a peer list, the program SHALL peer with the listed peers that are up and connect
+  fastest from its host, one for each key, and SHALL replace a peer that stays down.
 * On the Yggdrasil network, the program SHALL serve the peer endpoint of `yacynode` on its
   Yggdrasil address, and SHALL send outbound requests to Yggdrasil addresses through it.
 * On the Yggdrasil network, the program SHALL advertise its Yggdrasil address after the other
@@ -46,6 +48,7 @@ program, connected and ready to use.
 ## Known Limitations
 
 * The peer does not accept postings from other peers.
+* The server of the peer list selects the peers that the program can peer with.
 * A peer tries the Yggdrasil address of the peer only after its other hosts fail. Peers outside
   the Yggdrasil network cannot use the Yggdrasil address.
 * Some log lines do not name a service, for example the lines that a library writes.

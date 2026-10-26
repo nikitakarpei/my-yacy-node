@@ -1,12 +1,14 @@
 // Package yggdrasilnode runs the Yggdrasil node of the peer. The node joins the Yggdrasil
-// network through the peers that the operator names, takes peerings on the listen URLs that
-// the operator names, and carries the IPv6 packets of the peer from and to its Yggdrasil address.
+// network through the peers that the operator names and the peers added while it runs, takes
+// peerings on the listen URLs that the operator names, and carries the IPv6 packets of the peer
+// from and to its Yggdrasil address.
 package yggdrasilnode
 
 import (
 	"context"
 	"crypto/ed25519"
 	"fmt"
+	"log/slog"
 	"net/netip"
 	"net/url"
 
@@ -73,6 +75,35 @@ func peerOptionsFor(peering Peering) []core.SetupOption {
 func (n *Node) Address() netip.Addr {
 	nodeAddress, _ := netip.AddrFromSlice(n.core.Address())
 	return nodeAddress
+}
+
+func (n *Node) AddPeer(ctx context.Context, peerURL *url.URL) {
+	if err := n.core.AddPeer(peerURL, anySourceInterface); err != nil {
+		slog.WarnContext(ctx, "yggdrasil peer not added",
+			slog.String("peer", peerURL.Redacted()),
+			slog.Any("reason", err),
+		)
+	}
+}
+
+func (n *Node) RemovePeer(ctx context.Context, peerURL *url.URL) {
+	if err := n.core.RemovePeer(peerURL, anySourceInterface); err != nil {
+		slog.WarnContext(ctx, "yggdrasil peer not removed",
+			slog.String("peer", peerURL.Redacted()),
+			slog.Any("reason", err),
+		)
+	}
+}
+
+func (n *Node) IsPeeredWith(peerURL *url.URL) bool {
+	linkURL := *peerURL
+	linkURL.RawQuery = ""
+	for _, peer := range n.core.GetPeers() {
+		if peer.Up && peer.URI == linkURL.String() {
+			return true
+		}
+	}
+	return false
 }
 
 func (n *Node) MTU() uint32 {

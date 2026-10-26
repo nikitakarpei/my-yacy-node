@@ -3,9 +3,12 @@ package yacypeerassembly_test
 import (
 	"context"
 	"crypto/ed25519"
+	"encoding/hex"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
+	"net/http/httptest"
 	"net/netip"
 	"net/url"
 	"path/filepath"
@@ -33,6 +36,7 @@ const (
 type yggdrasilNeighbour struct {
 	stack   *ipv6stack.Stack
 	address netip.Addr
+	key     ed25519.PublicKey
 }
 
 func peerOnYggdrasil(t *testing.T) (map[string]string, *url.URL, netip.Addr) {
@@ -67,15 +71,16 @@ func runningPeer(t *testing.T, env map[string]string) {
 
 func neighbourOf(t *testing.T, peeringURL *url.URL) yggdrasilNeighbour {
 	t.Helper()
+	return neighbourWith(t, yggdrasilnode.Peering{PeerURLs: []*url.URL{peeringURL}})
+}
+
+func neighbourWith(t *testing.T, peering yggdrasilnode.Peering) yggdrasilNeighbour {
+	t.Helper()
 	key, err := yggdrasilkey.Settle(t.TempDir())
 	if err != nil {
 		t.Fatalf("settle the Yggdrasil key of the neighbour: %v", err)
 	}
-	node, err := yggdrasilnode.Start(
-		t.Context(),
-		key,
-		yggdrasilnode.Peering{PeerURLs: []*url.URL{peeringURL}},
-	)
+	node, err := yggdrasilnode.Start(t.Context(), key, peering)
 	if err != nil {
 		t.Fatalf("start the neighbour: %v", err)
 	}
@@ -88,7 +93,11 @@ func neighbourOf(t *testing.T, peeringURL *url.URL) yggdrasilNeighbour {
 	t.Cleanup(stack.Close)
 	t.Cleanup(cancel)
 	go func() { _ = stack.Run(ctx) }()
-	return yggdrasilNeighbour{stack: stack, address: node.Address()}
+	return yggdrasilNeighbour{
+		stack:   stack,
+		address: node.Address(),
+		key:     key.Public().(ed25519.PublicKey),
+	}
 }
 
 func (n yggdrasilNeighbour) client() *http.Client {
@@ -222,6 +231,32 @@ func TestRunPeerSendsARequestForAYggdrasilAddressOverYggdrasil(t *testing.T) {
 		}
 	case <-time.After(overlayDeadline):
 		t.Error("the seedlist request never reached the neighbour over Yggdrasil")
+	}
+}
+
+func peerListOf(t *testing.T, peerURL *url.URL, key ed25519.PublicKey) string {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = fmt.Fprintf(w, `{"local.md": {%q: {"up": true, "key": %q, "proto_minor": 5}}}`,
+			peerURL.String(), hex.EncodeToString(key))
+	}))
+	t.Cleanup(server.Close)
+	return server.URL + "/publicnodes.json"
+}
+
+func TestRunPeerJoinsYggdrasilThroughAPeerOfThePeerList(t *testing.T) {
+	env := peerEnvironment(t)
+	neighbourURL := &url.URL{Scheme: "tcp", Host: addressesBelowEphemeralPorts(t, 1)[0]}
+	neighbour := neighbourWith(t, yggdrasilnode.Peering{ListenURLs: []*url.URL{neighbourURL}})
+	seedlistRequests := neighbour.servedSeedlistRequests(t)
+	env[yacypeerassembly.EnvYggdrasilPeerList] = peerListOf(t, neighbourURL, neighbour.key)
+	env[yacypeerassembly.EnvSeedlistURLs] = neighbour.seedlistURL()
+	runningPeer(t, env)
+
+	select {
+	case <-seedlistRequests:
+	case <-time.After(overlayDeadline):
+		t.Error("the peer never reached the neighbour that the peer list names")
 	}
 }
 

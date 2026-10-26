@@ -22,6 +22,12 @@ components:
     in: internal/yggdrasilkey/**
   yggdrasilnode:
     in: internal/yggdrasilnode/**
+  yggdrasilpeerlist:
+    in: internal/yggdrasilpeerlist/**
+  yggdrasilpeerchoice:
+    in: internal/yggdrasilpeerchoice/**
+  connecttimers:
+    in: internal/connecttimers/**
   ipv6stack:
     in: internal/ipv6stack/**
   jointlistener:
@@ -73,6 +79,12 @@ deps:
   yggdrasilnode:
     canUse:
       - yggdrasil
+  yggdrasilpeerlist:
+    canUse:
+      - yggdrasil
+  yggdrasilpeerchoice:
+    mayDependOn:
+      - yggdrasilpeerlist
   ipv6stack:
     canUse:
       - gvisor
