@@ -5,6 +5,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"io"
 	"math/rand/v2"
 	"net"
@@ -100,6 +101,31 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 
 	awaitEveryService(t, env, ops)
 	awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics", "go_goroutines")
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirKeptMetrics(t *testing.T) {
+	env := peerEnvironment(t)
+	cfg, ops := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+	}()
+	awaitEveryService(t, env, ops)
+
+	awaitAnswer(t, "http://"+ops.Addr().String()+"/dashboards",
+		"/dashboards/yacynode", "/dashboards/yacycrawler", "/dashboards/yacydhtsearch")
+	since := time.Now().Add(-time.Hour).Unix()
+	awaitAnswer(t, fmt.Sprintf(
+		"http://%s/api/v1/query_range?query=go_goroutines%%20and%%20yacynode_info&start=%d&end=%d&step=15",
+		ops.Addr(),
+		since,
+		since+2*3600,
+	), `"instance":"yacynode"`)
 
 	cancel()
 	awaitShutdown(t, runDone)

@@ -10,7 +10,8 @@ You configure yacypeer through environment variables.
 | `YACYPEER_SEEDLIST_URLS` | seedlists of `freeworld` | Comma-separated seedlists of the YaCy network. Required for a different network. |
 | `YACYPEER_NETWORK_NAME` | `freeworld` | YaCy network the peer joins. |
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
-| `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics` and `/metrics/<service>`. |
+| `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics`, `/metrics/<service>`, the dashboards at `/dashboards`, and Prometheus range queries at `/api/v1/query_range`. |
+| `YACYPEER_METRICS_RETENTION` | `168h` | How long yacypeer keeps the metrics that the dashboards show. |
 | `YACYPEER_EGRESS_PROXY_URL` | built-in proxy | HTTP proxy for all outbound requests. It must accept `CONNECT`. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
 

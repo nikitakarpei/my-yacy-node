@@ -13,6 +13,8 @@ commonComponents:
   - presenceaccrual
 
 components:
+  yacydhtsearchdoc:
+    in: doc/**
   queryspreadsobserverspeermatchedapplog:
     in: internal/queryspreadsobservers/peermatched/applog/**
   queryspreadsobserverspeermatchedprometheus:
