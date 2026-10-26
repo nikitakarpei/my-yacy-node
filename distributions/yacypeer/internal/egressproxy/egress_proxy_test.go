@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 )
 
@@ -108,4 +109,20 @@ func TestRunRefusesARequestToALoopbackAddress(t *testing.T) {
 	if !strings.Contains(logs.String(), "egress proxy event") {
 		t.Errorf("logs = %q, want the proxy decision logged", logs.String())
 	}
+}
+
+func TestCloseReleasesTheProxyAddress(t *testing.T) {
+	proxy, err := egressproxy.Listen(t.Context())
+	if err != nil {
+		t.Fatalf("Listen: %v", err)
+	}
+
+	if err := proxy.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), proxy.URL().Host)
+	if err != nil {
+		t.Fatalf("listen on the closed proxy address: %v", err)
+	}
+	_ = reopened.Close()
 }

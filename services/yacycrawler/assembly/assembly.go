@@ -86,6 +86,16 @@ func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 	return Listeners{API: api}, nil
 }
 
+func (l Listeners) Close() error {
+	if l.API == nil {
+		return nil
+	}
+	if err := l.API.Close(); err != nil {
+		return fmt.Errorf("close the API listener: %w", err)
+	}
+	return nil
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,

@@ -84,6 +84,24 @@ func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
 	}
 }
 
+func TestListenersCloseReleasesTheConsoleAddress(t *testing.T) {
+	listeners, err := crawlconsole.ListenersFor(
+		t.Context(), crawlconsole.ServiceConfig{ListenAddr: "127.0.0.1:0"},
+	)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+
+	if err := listeners.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), listeners.Console.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the closed console address: %v", err)
+	}
+	_ = reopened.Close()
+}
+
 func hasMetricFamily(t *testing.T, registry *prometheus.Registry, name string) bool {
 	t.Helper()
 	families, err := registry.Gather()

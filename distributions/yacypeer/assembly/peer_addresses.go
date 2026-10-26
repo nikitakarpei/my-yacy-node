@@ -2,6 +2,7 @@ package yacypeerassembly
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"net/url"
 
@@ -25,9 +26,16 @@ func peerAddressesFor(
 	}
 	return peerAddresses{
 		egressProxyURL: egress.proxyURL,
-		crawlerAPI:     crawlerAPI,
+		crawlerAPI:     sharedListenerFrom(crawlerAPI),
 		natsURL:        natsURL,
 	}, nil
+}
+
+func (a peerAddresses) Close() error {
+	if err := a.crawlerAPI.Close(); err != nil {
+		return fmt.Errorf("close the crawler API listener: %w", err)
+	}
+	return nil
 }
 
 func (a peerAddresses) crawlerAPIAddress() string {

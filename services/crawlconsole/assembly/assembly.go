@@ -2,6 +2,7 @@ package crawlconsoleassembly
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net"
 	"net/http"
@@ -37,6 +38,13 @@ func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 		return Listeners{}, err
 	}
 	return Listeners{Console: console}, nil
+}
+
+func (l Listeners) Close() error {
+	if err := l.Console.Close(); err != nil {
+		return fmt.Errorf("close the console listener: %w", err)
+	}
+	return nil
 }
 
 func RunService(

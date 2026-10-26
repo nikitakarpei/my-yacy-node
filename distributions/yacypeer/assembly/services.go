@@ -2,7 +2,9 @@ package yacypeerassembly
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"io"
 	"net"
 	"path/filepath"
 	"strconv"
@@ -55,9 +57,17 @@ const (
 )
 
 type service struct {
-	registry *prometheus.Registry
-	run      func(context.Context) error
-	name     string
+	registry  *prometheus.Registry
+	listeners io.Closer
+	run       func(context.Context) error
+	name      string
+}
+
+func (s service) Close() error {
+	if err := s.listeners.Close(); err != nil {
+		return fmt.Errorf("%s: %w", s.name, err)
+	}
+	return nil
 }
 
 type serviceAssembly func(ctx context.Context, getenv func(string) string) (service, error)
@@ -77,7 +87,7 @@ func servicesFor(
 	for _, assembly := range assemblies {
 		service, err := assembly(ctx, getenv)
 		if err != nil {
-			return nil, err
+			return nil, errors.Join(err, closeEvery(services))
 		}
 		services = append(services, service)
 	}
@@ -217,7 +227,7 @@ func (cfg PeerConfig) directoryOf(serviceName string) string {
 	return filepath.Join(cfg.DataDirectory, serviceName)
 }
 
-func serviceAssemblyOf[C, L any](
+func serviceAssemblyOf[C any, L io.Closer](
 	name string,
 	wiring serviceenvironment.Wiring,
 	loadServiceConfig func(func(string) string) (C, error),
@@ -245,7 +255,8 @@ func serviceAssemblyOf[C, L any](
 		}
 		registry := prometheus.NewRegistry()
 		return service{
-			registry: registry,
+			registry:  registry,
+			listeners: listeners,
 			run: func(ctx context.Context) error {
 				return runService(servicelog.ContextFor(ctx, name), cfg, listeners, registry)
 			},

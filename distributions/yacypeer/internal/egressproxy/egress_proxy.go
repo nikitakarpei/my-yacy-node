@@ -38,6 +38,13 @@ func (p *EgressProxy) URL() *url.URL {
 	return &url.URL{Scheme: "http", Host: p.listener.Addr().String()}
 }
 
+func (p *EgressProxy) Close() error {
+	if err := p.listener.Close(); err != nil {
+		return fmt.Errorf("built-in egress proxy: %w", err)
+	}
+	return nil
+}
+
 func (p *EgressProxy) Run(ctx context.Context) error {
 	config := configFor(ctx)
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{

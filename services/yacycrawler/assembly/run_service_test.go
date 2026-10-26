@@ -203,6 +203,9 @@ func TestListenersForOpensNoAPIListenerWithoutAnAPIAddress(t *testing.T) {
 	if listeners.API != nil {
 		t.Errorf("api listener = %s, want none", listeners.API.Addr())
 	}
+	if err := listeners.Close(); err != nil {
+		t.Errorf("Close: %v", err)
+	}
 }
 
 func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
@@ -211,6 +214,24 @@ func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
 	); err == nil {
 		t.Fatal("expected error for an unusable api address")
 	}
+}
+
+func TestListenersCloseReleasesTheAPIAddress(t *testing.T) {
+	listeners, err := yacycrawler.ListenersFor(
+		t.Context(), yacycrawler.ServiceConfig{APIAddr: "127.0.0.1:0"},
+	)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+
+	if err := listeners.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), listeners.API.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the closed API address: %v", err)
+	}
+	_ = reopened.Close()
 }
 
 func publishOrder(t *testing.T, crawlNATSURL string) {

@@ -262,3 +262,21 @@ func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
 		t.Fatal("expected error for an unusable search address")
 	}
 }
+
+func TestListenersCloseReleasesTheSearchAddress(t *testing.T) {
+	listeners, err := yacydhtsearch.ListenersFor(
+		t.Context(), yacydhtsearch.ServiceConfig{ListenAddr: "127.0.0.1:0"},
+	)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+
+	if err := listeners.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), listeners.Search.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the closed search address: %v", err)
+	}
+	_ = reopened.Close()
+}

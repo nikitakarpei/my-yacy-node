@@ -115,6 +115,13 @@ func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 	return Listeners{Search: search}, nil
 }
 
+func (l Listeners) Close() error {
+	if err := l.Search.Close(); err != nil {
+		return fmt.Errorf("close the search listener: %w", err)
+	}
+	return nil
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,

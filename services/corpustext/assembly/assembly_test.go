@@ -195,6 +195,24 @@ func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
 	}
 }
 
+func TestListenersCloseReleasesTheSearchAddress(t *testing.T) {
+	listeners, err := corpustext.ListenersFor(
+		t.Context(), corpustext.ServiceConfig{SearchAddr: "127.0.0.1:0"},
+	)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+
+	if err := listeners.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), listeners.Search.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the closed search address: %v", err)
+	}
+	_ = reopened.Close()
+}
+
 func matchesFrom(t *testing.T, searchURL string) searchdocument.PageMatches {
 	t.Helper()
 	target := searchURL + searchdocument.SearchPath + "?" + searchdocument.SearchQueryParam + "=words"
