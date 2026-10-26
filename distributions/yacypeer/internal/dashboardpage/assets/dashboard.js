@@ -108,6 +108,8 @@
   };
   const panels = [];
   const querySlots = querySlotsFor(queriesAtOnce);
+  const descriptionTip = document.createElement("div");
+  descriptionTip.className = "description-tip";
 
   start();
 
@@ -392,12 +394,17 @@
         continue;
       }
       element.className = "panel";
-      const title = document.createElement("h2");
+      const heading = document.createElement("h2");
+      const title = document.createElement("span");
+      title.className = "title";
       title.textContent = titleOf(spec.title || "");
-      title.title = spec.description || "";
+      heading.append(title);
+      if (spec.description) {
+        heading.append(descriptionMarkerFor(spec.description));
+      }
       const body = document.createElement("div");
       body.className = "body";
-      element.append(title, body);
+      element.append(heading, body);
       grid.append(element);
       const panel = {
         spec,
@@ -412,6 +419,24 @@
       panels.push(panel);
       observer.observe(element);
     }
+  }
+
+  function descriptionMarkerFor(description) {
+    const marker = document.createElement("span");
+    marker.className = "description-marker";
+    marker.textContent = "ⓘ";
+    marker.addEventListener("mouseenter", () => showDescription(marker, description));
+    marker.addEventListener("mouseleave", () => descriptionTip.remove());
+    return marker;
+  }
+
+  function showDescription(marker, description) {
+    descriptionTip.textContent = description;
+    document.body.append(descriptionTip);
+    const anchor = marker.getBoundingClientRect();
+    const left = Math.min(anchor.left, window.innerWidth - descriptionTip.offsetWidth - 8);
+    descriptionTip.style.left = `${Math.max(8, left)}px`;
+    descriptionTip.style.top = `${anchor.bottom + 4}px`;
   }
 
   function flattenedPanels(listed) {

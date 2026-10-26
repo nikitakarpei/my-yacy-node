@@ -96,13 +96,39 @@ a {
 }
 
 .panel h2 {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   margin: 0;
   padding: 4px 8px;
   font-size: 13px;
   font-weight: 500;
+}
+
+.panel h2 .title {
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.panel h2 .description-marker {
+  flex: none;
+  color: var(--muted);
+  cursor: help;
+}
+
+.description-tip {
+  position: fixed;
+  z-index: 3;
+  max-width: 360px;
+  padding: 6px 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  pointer-events: none;
 }
 
 .panel .body {
