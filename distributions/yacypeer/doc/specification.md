@@ -46,6 +46,6 @@ program, connected and ready to use.
 ## Known Limitations
 
 * The peer does not accept postings from other peers.
-* The seed of the peer gives one host. Peers outside the Yggdrasil network cannot reach a peer
-  that advertises its Yggdrasil address.
+* The peer advertises one host in its seed. Peers outside the Yggdrasil network cannot reach a
+  peer that advertises its Yggdrasil address.
 * Some log lines do not name a service, for example the lines that a library writes.
