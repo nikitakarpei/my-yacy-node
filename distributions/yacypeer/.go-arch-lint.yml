@@ -18,6 +18,14 @@ components:
     in: internal/loopback/**
   visitlinksecret:
     in: internal/visitlinksecret/**
+  yggdrasilkey:
+    in: internal/yggdrasilkey/**
+  yggdrasilnode:
+    in: internal/yggdrasilnode/**
+  ipv6stack:
+    in: internal/ipv6stack/**
+  jointlistener:
+    in: internal/jointlistener/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -37,6 +45,15 @@ vendors:
   logrus:
     in:
       - github.com/sirupsen/logrus
+  yggdrasil:
+    in:
+      - github.com/yggdrasil-network/yggdrasil-go/src/address
+      - github.com/yggdrasil-network/yggdrasil-go/src/config
+      - github.com/yggdrasil-network/yggdrasil-go/src/core
+      - github.com/yggdrasil-network/yggdrasil-go/src/ipv6rwc
+  gvisor:
+    in:
+      - gvisor.dev/gvisor/pkg/**
 deps:
   natsbroker:
     mayDependOn:
@@ -53,6 +70,12 @@ deps:
       - smokescreen
       - logrus
       - serviceruntime
+  yggdrasilnode:
+    canUse:
+      - yggdrasil
+  ipv6stack:
+    canUse:
+      - gvisor
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

@@ -14,15 +14,21 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/visitcrawl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stripe/smokescreen v0.0.5-0.20260706062719-a3294a6cc4e4
+	github.com/yggdrasil-network/yggdrasil-go v0.5.15
+	gvisor.dev/gvisor v0.0.0-20250812171554-968e93457fe6
 )
 
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
+	github.com/Arceliar/ironwood v0.0.0-20261023231900-0712eccbb962 // indirect
+	github.com/Arceliar/phony v0.0.0-20220903101357-530938a4b13d // indirect
 	github.com/DataDog/datadog-go v4.5.1+incompatible // indirect
 	github.com/DataDog/zstd v1.5.7 // indirect
 	github.com/JohannesKaufmann/dom v0.3.1 // indirect
@@ -35,7 +41,8 @@ require (
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/armon/go-proxyproto v0.0.0-20170620220930-48572f11356f // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bits-and-blooms/bitset v1.24.2 // indirect
+	github.com/bits-and-blooms/bitset v1.26.0 // indirect
+	github.com/bits-and-blooms/bloom/v3 v3.7.1 // indirect
 	github.com/blevesearch/bleve/v2 v2.6.1 // indirect
 	github.com/blevesearch/bleve_index_api v1.4.1 // indirect
 	github.com/blevesearch/geo v0.2.6 // indirect
@@ -64,14 +71,18 @@ require (
 	github.com/cockroachdb/redact v1.1.5 // indirect
 	github.com/cockroachdb/swiss v0.0.0-20260820225851-333444432258 // indirect
 	github.com/cockroachdb/tokenbucket v0.0.0-20230807174530-cc333fc44b06 // indirect
+	github.com/coder/websocket v1.8.15 // indirect
 	github.com/getsentry/sentry-go v0.27.0 // indirect
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/golang/snappy v1.0.0 // indirect
+	github.com/gologme/log v1.3.0 // indirect
+	github.com/google/btree v1.1.2 // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
+	github.com/hjson/hjson-go/v4 v4.7.1 // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
@@ -101,12 +112,12 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
+	github.com/quic-go/quic-go v0.64.1 // indirect
 	github.com/redis/go-redis/v9 v9.22.0 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/rs/xid v1.2.1 // indirect
@@ -114,15 +125,15 @@ require (
 	go.etcd.io/bbolt v1.4.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
-	golang.org/x/crypto v0.52.0 // indirect
-	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
-	golang.org/x/mod v0.35.0 // indirect
-	golang.org/x/net v0.55.0 // indirect
-	golang.org/x/sync v0.21.0 // indirect
-	golang.org/x/sys v0.45.0 // indirect
-	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/crypto v0.58.0 // indirect
+	golang.org/x/exp v0.0.0-20230725093048-515e97ebf090 // indirect
+	golang.org/x/mod v0.41.0 // indirect
+	golang.org/x/net v0.61.0 // indirect
+	golang.org/x/sync v0.24.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.44.0 // indirect
+	golang.org/x/tools v0.51.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

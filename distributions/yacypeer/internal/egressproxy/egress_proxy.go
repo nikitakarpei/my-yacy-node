@@ -1,5 +1,7 @@
 // Package egressproxy runs the smokescreen proxy built into the peer. It listens on the
-// loopback interface only and refuses requests to loopback and private addresses.
+// loopback interface only and refuses requests to loopback and private addresses. It carries a
+// request for an address of an overlay network that the peer joins itself, through that
+// overlay.
 package egressproxy
 
 import (
@@ -7,6 +9,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/netip"
 	"net/url"
 	"time"
 
@@ -22,16 +25,26 @@ const (
 	shutdownLimit = 10 * time.Second
 )
 
-type EgressProxy struct {
-	listener net.Listener
+type Dialer interface {
+	DialContext(ctx context.Context, network, address string) (net.Conn, error)
 }
 
-func Listen(ctx context.Context) (*EgressProxy, error) {
+type Overlay struct {
+	Addresses netip.Prefix
+	Dialer    Dialer
+}
+
+type EgressProxy struct {
+	listener net.Listener
+	overlays []Overlay
+}
+
+func Listen(ctx context.Context, overlays []Overlay) (*EgressProxy, error) {
 	listener, err := loopback.Listen(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("built-in egress proxy: %w", err)
 	}
-	return &EgressProxy{listener: listener}, nil
+	return &EgressProxy{listener: listener, overlays: overlays}, nil
 }
 
 func (p *EgressProxy) URL() *url.URL {
@@ -46,18 +59,18 @@ func (p *EgressProxy) Close() error {
 }
 
 func (p *EgressProxy) Run(ctx context.Context) error {
-	config := configFor(ctx)
+	config := p.configFor(ctx)
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{
 		Name:     Name,
 		Listener: p.listener,
 		Server: &http.Server{
-			Handler:           smokescreen.BuildProxy(config),
+			Handler:           overlayFrontFor(p.overlays, smokescreen.BuildProxy(config)),
 			ReadHeaderTimeout: config.ReadHeaderTimeout,
 		},
 	}})
 }
 
-func configFor(ctx context.Context) *smokescreen.Config {
+func (p *EgressProxy) configFor(ctx context.Context) *smokescreen.Config {
 	config := smokescreen.NewConfig()
 	config.Log = proxyLoggerFor(ctx)
 	config.ConnectTimeout = smokescreen.DefaultConnectTimeout

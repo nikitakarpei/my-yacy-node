@@ -1,20 +1,25 @@
 package yacypeerassembly
 
 import (
+	"errors"
+	"fmt"
 	"net/url"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilnode"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const (
-	EnvDataDirectory  = "YACYPEER_DATA_DIR"
-	EnvNetworkName    = "YACYPEER_NETWORK_NAME"
-	EnvSeedlistURLs   = "YACYPEER_SEEDLIST_URLS"
-	EnvOpsAddr        = "YACYPEER_OPS_ADDR"
-	EnvEgressProxyURL = "YACYPEER_EGRESS_PROXY_URL"
+	EnvDataDirectory   = "YACYPEER_DATA_DIR"
+	EnvNetworkName     = "YACYPEER_NETWORK_NAME"
+	EnvSeedlistURLs    = "YACYPEER_SEEDLIST_URLS"
+	EnvOpsAddr         = "YACYPEER_OPS_ADDR"
+	EnvEgressProxyURL  = "YACYPEER_EGRESS_PROXY_URL"
+	EnvYggdrasilPeers  = "YACYPEER_YGGDRASIL_PEERS"
+	EnvYggdrasilListen = "YACYPEER_YGGDRASIL_LISTEN"
 
 	DefaultDataDirectory = "data"
 	DefaultOpsAddr       = loopback.Host + ":9090"
@@ -26,12 +31,15 @@ const (
 		"http://seedlist.wertewesten.net/seed.txt"
 )
 
+var errNoScheme = errors.New("must include a scheme")
+
 type PeerConfig struct {
-	EgressProxyURL *url.URL
-	DataDirectory  string
-	NetworkName    string
-	SeedlistURLs   string
-	OpsAddr        string
+	EgressProxyURL   *url.URL
+	YggdrasilPeering yggdrasilnode.Peering
+	DataDirectory    string
+	NetworkName      string
+	SeedlistURLs     string
+	OpsAddr          string
 }
 
 func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
@@ -44,13 +52,27 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	return PeerConfig{
-		EgressProxyURL: egressProxyURL,
-		DataDirectory:  envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
-		NetworkName:    networkName,
-		SeedlistURLs:   seedlistURLs,
-		OpsAddr:        envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-	}, nil
+	yggdrasilPeering, err := yggdrasilPeeringFrom(getenv)
+	if err != nil {
+		return PeerConfig{}, err
+	}
+	cfg := PeerConfig{
+		EgressProxyURL:   egressProxyURL,
+		YggdrasilPeering: yggdrasilPeering,
+		DataDirectory:    envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
+		NetworkName:      networkName,
+		SeedlistURLs:     seedlistURLs,
+		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+	}
+	if cfg.joinsYggdrasil() && cfg.namesAnEgressProxy() {
+		return PeerConfig{}, fmt.Errorf(
+			"%s: must not be set when %s or %s is set",
+			EnvEgressProxyURL,
+			EnvYggdrasilPeers,
+			EnvYggdrasilListen,
+		)
+	}
+	return cfg, nil
 }
 
 func seedlistURLsFor(getenv func(string) string, networkName string) (string, error) {
@@ -69,4 +91,35 @@ func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
 
 func (cfg PeerConfig) namesAnEgressProxy() bool {
 	return cfg.EgressProxyURL != nil
+}
+
+func yggdrasilPeeringFrom(getenv func(string) string) (yggdrasilnode.Peering, error) {
+	peerURLs, err := urlsFrom(getenv, EnvYggdrasilPeers)
+	if err != nil {
+		return yggdrasilnode.Peering{}, err
+	}
+	listenURLs, err := urlsFrom(getenv, EnvYggdrasilListen)
+	if err != nil {
+		return yggdrasilnode.Peering{}, err
+	}
+	return yggdrasilnode.Peering{PeerURLs: peerURLs, ListenURLs: listenURLs}, nil
+}
+
+func urlsFrom(getenv func(string) string, key string) ([]*url.URL, error) {
+	var urls []*url.URL
+	for _, value := range envconfig.List(getenv, key) {
+		parsed, err := url.Parse(value)
+		if err != nil {
+			return nil, fmt.Errorf("%s: %w", key, err)
+		}
+		if parsed.Scheme == "" {
+			return nil, fmt.Errorf("%s: %q %w", key, value, errNoScheme)
+		}
+		urls = append(urls, parsed)
+	}
+	return urls, nil
+}
+
+func (cfg PeerConfig) joinsYggdrasil() bool {
+	return len(cfg.YggdrasilPeering.PeerURLs)+len(cfg.YggdrasilPeering.ListenURLs) > 0
 }

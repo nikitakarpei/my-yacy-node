@@ -13,11 +13,15 @@ type egressRoute struct {
 	proxyURL     *url.URL
 }
 
-func egressRouteFor(ctx context.Context, cfg PeerConfig) (egressRoute, error) {
+func egressRouteFor(
+	ctx context.Context,
+	cfg PeerConfig,
+	overlays []egressproxy.Overlay,
+) (egressRoute, error) {
 	if cfg.namesAnEgressProxy() {
 		return egressRoute{proxyURL: cfg.EgressProxyURL}, nil
 	}
-	builtInProxy, err := egressproxy.Listen(ctx)
+	builtInProxy, err := egressproxy.Listen(ctx, overlays)
 	if err != nil {
 		return egressRoute{}, err
 	}

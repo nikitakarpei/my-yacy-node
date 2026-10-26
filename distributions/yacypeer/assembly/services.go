@@ -73,12 +73,13 @@ func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
 	addresses peerAddresses,
+	overlay yggdrasilOverlay,
 	crawler crawler,
 	visitLinkSecret string,
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
-		searchServiceAssembliesFor(cfg, addresses),
+		searchServiceAssembliesFor(cfg, addresses, overlay),
 		crawlServiceAssembliesFor(addresses, crawler.apiURL, visitLinkSecret)...,
 	)
 	services := append(make([]service, 0, len(assemblies)+1), crawler.service)
@@ -92,7 +93,11 @@ func servicesFor(
 	return services, nil
 }
 
-func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
+func searchServiceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	overlay yggdrasilOverlay,
+) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
@@ -105,8 +110,8 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
 				yacynodeassembly.EnvEgressProxyURL:    addresses.egressProxyURL.String(),
 			},
-			yacynodeConfigLoaderFor(cfg),
-			yacynodeassembly.ListenersFor,
+			yacynodeConfigLoaderFor(cfg, overlay),
+			overlay.yacynodeListenersFor,
 			yacynodeassembly.RunService,
 		),
 		serviceAssemblyOf(
@@ -136,7 +141,11 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 
 func yacynodeConfigLoaderFor(
 	cfg PeerConfig,
+	overlay yggdrasilOverlay,
 ) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
+	if overlay.isJoined() {
+		return overlay.yacynodeConfigFrom
+	}
 	if !cfg.namesAnEgressProxy() {
 		return yacynodeassembly.LoadServiceConfig
 	}

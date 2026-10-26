@@ -23,6 +23,20 @@ other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` 
 `YACYPEER_OPS_ADDR=:9090`. In a container, you must do this to reach the address from
 outside the container.
 
+## Yggdrasil
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `YACYPEER_YGGDRASIL_PEERS` | none | Comma-separated URIs of Yggdrasil peers, such as `tls://peer.example:443`. |
+| `YACYPEER_YGGDRASIL_LISTEN` | none | Comma-separated URIs where the peer accepts Yggdrasil peerings, such as `tls://[::]:9001`. |
+
+If you set one of these settings, the peer joins the Yggdrasil network. It also serves the
+peer address of yacynode on its Yggdrasil address, on the advertised port. It sends requests
+for Yggdrasil addresses through the Yggdrasil network. If you do not set
+`YACY_ADVERTISE_HOST`, the peer advertises its Yggdrasil address.
+
+You cannot set `YACYPEER_EGRESS_PROXY_URL` and a Yggdrasil setting together.
+
 ## Services
 
 yacypeer runs [yacynode](../../../services/yacynode/doc/configuration.md),

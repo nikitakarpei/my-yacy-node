@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilnode"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -33,7 +34,7 @@ func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 		SeedlistURLs:  yacypeerassembly.DefaultSeedlistURLs,
 		OpsAddr:       yacypeerassembly.DefaultOpsAddr,
 	}
-	if cfg != want {
+	if !reflect.DeepEqual(cfg, want) {
 		t.Errorf("config = %+v, want %+v", cfg, want)
 	}
 }
@@ -68,6 +69,54 @@ func TestLoadPeerConfigRefusesAnEgressProxyThatIsNotAnHTTPURL(t *testing.T) {
 	}))
 	if err == nil {
 		t.Error("config loaded with a socks5 egress proxy, want an error")
+	}
+}
+
+func TestLoadPeerConfigTakesTheYggdrasilPeering(t *testing.T) {
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvYggdrasilPeers:  "tls://peer.example:443, quic://peer.example:443",
+		yacypeerassembly.EnvYggdrasilListen: "tls://[::]:9001",
+	}))
+	if err != nil {
+		t.Fatalf("load the config: %v", err)
+	}
+	want := yggdrasilnode.Peering{
+		PeerURLs: []*url.URL{
+			{Scheme: "tls", Host: "peer.example:443"},
+			{Scheme: "quic", Host: "peer.example:443"},
+		},
+		ListenURLs: []*url.URL{{Scheme: "tls", Host: "[::]:9001"}},
+	}
+	if !reflect.DeepEqual(cfg.YggdrasilPeering, want) {
+		t.Errorf("Yggdrasil peering = %+v, want %+v", cfg.YggdrasilPeering, want)
+	}
+}
+
+func TestLoadPeerConfigRefusesAYggdrasilPeerWithoutAScheme(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvYggdrasilPeers: "peer.example",
+	}))
+	if err == nil {
+		t.Error("config loaded with a Yggdrasil peer without a scheme, want an error")
+	}
+}
+
+func TestLoadPeerConfigRefusesAYggdrasilListenURLThatDoesNotParse(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvYggdrasilListen: "tls://[::",
+	}))
+	if err == nil {
+		t.Error("config loaded with a Yggdrasil listen URL that does not parse, want an error")
+	}
+}
+
+func TestLoadPeerConfigRefusesAnEgressProxyBesideYggdrasil(t *testing.T) {
+	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvYggdrasilPeers: "tls://peer.example:443",
+		yacypeerassembly.EnvEgressProxyURL: "http://proxy.example:3128",
+	}))
+	if err == nil {
+		t.Error("config loaded with an egress proxy beside Yggdrasil, want an error")
 	}
 }
 

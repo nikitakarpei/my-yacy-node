@@ -33,7 +33,12 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer broker.Shutdown()
-	egress, err := egressRouteFor(ctx, cfg)
+	overlay, err := yggdrasilOverlayFor(ctx, cfg)
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
+	defer overlay.stop()
+	egress, err := egressRouteFor(ctx, cfg, overlay.egressOverlays())
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
@@ -43,14 +48,14 @@ func RunPeer(
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
 
-	services, err := servicesFor(ctx, cfg, addresses, crawler, visitLinkSecret, getenv)
+	services, err := servicesFor(ctx, cfg, addresses, overlay, crawler, visitLinkSecret, getenv)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
 	logStarted(ctx, addresses, crawler.apiURL, ops)
 	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), services)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, egress, services)
+		return runEvery(ctx, egress, overlay, services)
 	})
 }
 
@@ -84,8 +89,13 @@ func opsMuxFor(processRegistry *prometheus.Registry, services []service) *http.S
 	return mux
 }
 
-func runEvery(ctx context.Context, egress egressRoute, services []service) error {
-	runs := egress.runs()
+func runEvery(
+	ctx context.Context,
+	egress egressRoute,
+	overlay yggdrasilOverlay,
+	services []service,
+) error {
+	runs := append(egress.runs(), overlay.runs()...)
 	for _, service := range services {
 		runs = append(runs, service.run)
 	}
