@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"io"
+	"math/rand/v2"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -22,24 +23,56 @@ import (
 )
 
 const (
-	shutdownDeadline = 30 * time.Second
-	startDeadline    = 10 * time.Second
-	startPollPause   = 50 * time.Millisecond
-	anyLoopbackPort  = "127.0.0.1:0"
+	shutdownDeadline   = 30 * time.Second
+	startDeadline      = 10 * time.Second
+	startPollPause     = 50 * time.Millisecond
+	anyLoopbackPort    = "127.0.0.1:0"
+	loopbackHost       = "127.0.0.1"
+	firstListenPort    = 10000
+	firstEphemeralPort = 32768
+	listenPortSpan     = firstEphemeralPort - firstListenPort
+	portAttempts       = 1000
 )
 
 func peerEnvironment(t *testing.T) map[string]string {
 	t.Helper()
+	listenAddresses := addressesBelowEphemeralPorts(t, 3)
 	return map[string]string{
 		yacypeerassembly.EnvDataDirectory:          t.TempDir(),
 		yacypeerassembly.EnvSeedlistURLs:           "http://127.0.0.1:1/seed.txt",
 		"YACY_ADVERTISE_HOST":                      "127.0.0.1",
-		"YACYNODE__YACY_PEER_ADDR":                 freeAddress(t),
+		"YACYNODE__YACY_PEER_ADDR":                 listenAddresses[0],
 		"YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR": anyLoopbackPort,
 		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":       anyLoopbackPort,
-		"CRAWLCONSOLE_LISTEN_ADDR":                 freeAddress(t),
-		"VISITCRAWL_LISTEN_ADDR":                   freeAddress(t),
+		"CRAWLCONSOLE_LISTEN_ADDR":                 listenAddresses[1],
+		"VISITCRAWL_LISTEN_ADDR":                   listenAddresses[2],
 	}
+}
+
+func addressesBelowEphemeralPorts(t *testing.T, count int) []string {
+	t.Helper()
+	listeners := make([]net.Listener, 0, count)
+	defer func() {
+		for _, listener := range listeners {
+			_ = listener.Close()
+		}
+	}()
+	for attempt := 0; len(listeners) < count; attempt++ {
+		if attempt == portAttempts {
+			t.Fatalf("no %d free ports below %d", count, firstEphemeralPort)
+		}
+		port := firstListenPort + rand.IntN(listenPortSpan) //nolint:gosec // G404: no secrecy.
+		address := net.JoinHostPort(loopbackHost, strconv.Itoa(port))
+		listener, err := servergroup.Listen(t.Context(), address)
+		if err == nil {
+			listeners = append(listeners, listener)
+		}
+	}
+	addresses := make([]string, 0, count)
+	for _, listener := range listeners {
+		addresses = append(addresses, listener.Addr().String())
+	}
+	return addresses
 }
 
 func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.PeerConfig, net.Listener) {
@@ -224,16 +257,6 @@ func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
 	} {
 		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")
 	}
-}
-
-func freeAddress(t *testing.T) string {
-	t.Helper()
-	listener, err := servergroup.Listen(t.Context(), anyLoopbackPort)
-	if err != nil {
-		t.Fatalf("find a free address: %v", err)
-	}
-	defer func() { _ = listener.Close() }()
-	return listener.Addr().String()
 }
 
 func awaitAnswer(t *testing.T, url string, wantedText ...string) {
