@@ -1,6 +1,7 @@
 package nodeconfiguration_test
 
 import (
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -271,6 +272,26 @@ func TestLoadReadsTheAdvertiseHost(t *testing.T) {
 	}
 }
 
+func TestLoadReadsTheAdvertisedAdditionalHosts(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvPeerName:                 "node",
+		nodeconfiguration.EnvEgressProxyURL:           "http://proxy:4750",
+		nodeconfiguration.EnvAdvertiseAdditionalHosts: "200:1234::1, peer.example",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	hosts := make([]string, 0, len(config.Identity.AdvertiseAdditionalHosts))
+	for _, host := range config.Identity.AdvertiseAdditionalHosts {
+		hosts = append(hosts, host.String())
+	}
+	if !slices.Equal(hosts, []string{"200:1234::1", "peer.example"}) {
+		t.Errorf("AdvertiseAdditionalHosts = %v, want 200:1234::1 and peer.example", hosts)
+	}
+}
+
 func TestLoadLeavesTheAdvertiseHostToPeersWhenAnnouncing(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
@@ -299,6 +320,12 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerName:        "node",
 		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
 		nodeconfiguration.EnvAdvertiseHost:   "not a host",
+	},
+	"bad additional host": {
+		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvPeerName:                 "node",
+		nodeconfiguration.EnvEgressProxyURL:           "http://proxy:4750",
+		nodeconfiguration.EnvAdvertiseAdditionalHosts: "200:1234::1, not a host",
 	},
 	"bad port": {
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",

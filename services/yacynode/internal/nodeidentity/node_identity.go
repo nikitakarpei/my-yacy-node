@@ -11,13 +11,14 @@ import (
 )
 
 type Identity struct {
-	Hash         yacymodel.Hash
-	NetworkName  string
-	Name         yacymodel.PeerName
-	Port         int
-	Capabilities yacymodel.PeerCapabilities
-	Version      yacymodel.SoftwareVersion
-	Start        time.Time
+	Hash            yacymodel.Hash
+	NetworkName     string
+	Name            yacymodel.PeerName
+	AdditionalHosts []yacymodel.Host
+	Port            int
+	Capabilities    yacymodel.PeerCapabilities
+	Version         yacymodel.SoftwareVersion
+	Start           time.Time
 }
 
 func (id Identity) Uptime(now time.Time) int {

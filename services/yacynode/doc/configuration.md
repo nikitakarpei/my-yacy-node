@@ -21,6 +21,7 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | `YACY_PEER_NAME` | _(empty)_ | Peer name advertised to the network. Leave it empty to let the node derive a name from its peer hash. |
 | `YACY_NETWORK_NAME` | `freeworld` | YaCy network to join. Only peers on the same network exchange data. |
 | `YACY_ADVERTISE_HOST` | _(learned from peers)_ | Public IP or DNS name other peers use to reach you. Leave it empty to use the IP address that most peers saw the node connect from. Set it when `EGRESS_PROXY_URL` names a proxy on a different host. |
+| `YACY_ADVERTISE_ADDITIONAL_HOSTS` | _(empty)_ | Comma-separated more IPs or DNS names other peers can use to reach you. Peers try them after the advertised host. |
 | `YACY_ADVERTISE_PORT` | _(the `YACY_PEER_ADDR` port)_ | Port other peers use to reach you. |
 | `YACY_ACCEPT_REMOTE_INDEX` | `true` | Accept the postings that other peers transfer to you. Set it to `false` when `SCRAPE_PAGE_OFFER_NATS_URL` is set: the node does not start with both sources of postings or with no source. |
 
@@ -60,8 +61,7 @@ A separate scrape service reads pages and offers them. The node stores the words
 
 ## Distribution
 
-The node can offer its stored postings to the peers the DHT makes responsible for them.
-A word partition is one word in one ring partition. Its postings are the postings of that word whose URLs fall in that partition.
+The node can offer its stored postings to the peers the DHT makes responsible for them. A word partition is one word in one ring partition. Its postings are the postings of that word whose URLs fall in that partition.
 
 | Variable | Default | Description |
 | --- | --- | --- |

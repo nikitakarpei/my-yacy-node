@@ -121,13 +121,14 @@ func assembleNode(
 	}
 
 	identity := nodeidentity.Identity{
-		Hash:         settledPeerHash,
-		NetworkName:  config.Identity.NetworkName,
-		Name:         config.Identity.Name.OrElse(derivedPeerName),
-		Port:         config.Identity.AdvertisePort,
-		Capabilities: config.Identity.Capabilities,
-		Version:      yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
-		Start:        now(),
+		Hash:            settledPeerHash,
+		NetworkName:     config.Identity.NetworkName,
+		Name:            config.Identity.Name.OrElse(derivedPeerName),
+		AdditionalHosts: config.Identity.AdvertiseAdditionalHosts,
+		Port:            config.Identity.AdvertisePort,
+		Capabilities:    config.Identity.Capabilities,
+		Version:         yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
+		Start:           now(),
 	}
 
 	slog.InfoContext(ctx, "node identity",
