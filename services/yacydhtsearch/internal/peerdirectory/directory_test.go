@@ -218,6 +218,19 @@ func TestASeedThatLeavesOutTheAddressAPeerAnsweredOnDoesNotTakeItAway(t *testing
 	}
 }
 
+func TestAPeerOnAnIPv6HostIsKnownByABracketedAddress(t *testing.T) {
+	t.Parallel()
+
+	clock := &testClock{instant: time.Unix(0, 0)}
+	directory := directoryAt(clock, wideCapacity)
+	directory.Admit(t.Context(), []yacymodel.Seed{seedOf(t, hashOf(t, 'a'), "200:1234::1")})
+
+	known := directory.KnownPeers(t.Context())
+	if len(known) != 1 || !slices.Equal(known[0].Addresses, []string{"http://[200:1234::1]:8090"}) {
+		t.Fatalf("KnownPeers = %+v, want one peer on http://[200:1234::1]:8090", known)
+	}
+}
+
 func TestASeedWithoutAPortIsNotAPeerTheDirectoryKnows(t *testing.T) {
 	t.Parallel()
 
