@@ -24,6 +24,13 @@ func egressRouteFor(ctx context.Context, cfg PeerConfig) (egressRoute, error) {
 	return egressRoute{builtInProxy: builtInProxy, proxyURL: builtInProxy.URL()}, nil
 }
 
+func (r egressRoute) Close() error {
+	if r.builtInProxy == nil {
+		return nil
+	}
+	return r.builtInProxy.Close()
+}
+
 func (r egressRoute) runs() []func(context.Context) error {
 	if r.builtInProxy == nil {
 		return nil

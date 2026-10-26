@@ -94,6 +94,9 @@ func TestListenersForOpensNoListener(t *testing.T) {
 	if listeners != (crawlscrapebridge.Listeners{}) {
 		t.Errorf("listeners = %+v, want none", listeners)
 	}
+	if err := listeners.Close(); err != nil {
+		t.Errorf("Close: %v", err)
+	}
 }
 
 func createStream(

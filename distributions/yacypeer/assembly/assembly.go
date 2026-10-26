@@ -3,6 +3,7 @@ package yacypeerassembly
 import (
 	"context"
 	"errors"
+	"io"
 	"log/slog"
 	"net"
 	"net/http"
@@ -23,6 +24,10 @@ func RunPeer(
 	ops net.Listener,
 	getenv func(string) string,
 ) error {
+	visitLinkSecret, err := visitlinksecret.Settle(cfg.directoryOf(visitcrawlService))
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
 	broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
 		return errors.Join(err, ops.Close())
@@ -32,31 +37,41 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
-	addresses, err := peerAddressesFor(ctx, broker.ClientURL(), egress)
+	addresses := peerAddressesFor(broker.ClientURL(), egress)
+	crawler, err := crawlerFor(ctx, cfg, addresses, getenv)
 	if err != nil {
-		return errors.Join(err, ops.Close())
-	}
-	visitLinkSecret, err := visitlinksecret.Settle(cfg.directoryOf(visitcrawlService))
-	if err != nil {
-		return errors.Join(err, ops.Close())
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
 
-	services, err := servicesFor(ctx, cfg, addresses, visitLinkSecret, getenv)
+	services, err := servicesFor(ctx, cfg, addresses, crawler, visitLinkSecret, getenv)
 	if err != nil {
-		return errors.Join(err, ops.Close())
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
-	logStarted(ctx, addresses, ops)
+	logStarted(ctx, addresses, crawler.apiURL, ops)
 	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), services)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
 		return runEvery(ctx, egress, services)
 	})
 }
 
-func logStarted(ctx context.Context, addresses peerAddresses, ops net.Listener) {
+func closeEvery[C io.Closer](closers []C) error {
+	failures := make([]error, 0, len(closers))
+	for _, closer := range closers {
+		failures = append(failures, closer.Close())
+	}
+	return errors.Join(failures...)
+}
+
+func logStarted(
+	ctx context.Context,
+	addresses peerAddresses,
+	crawlerAPIURL string,
+	ops net.Listener,
+) {
 	slog.DebugContext(ctx, "yacypeer started",
 		slog.String("natsUrl", addresses.natsURL),
 		slog.String("egressProxyUrl", addresses.egressProxyURL.Redacted()),
-		slog.String("crawlerApiAddr", addresses.crawlerAPIAddress()),
+		slog.String("crawlerApiUrl", crawlerAPIURL),
 		slog.String("opsAddr", ops.Addr().String()),
 	)
 }

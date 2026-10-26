@@ -202,6 +202,24 @@ func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
 	}
 }
 
+func TestListenersCloseReleasesThePeerAddress(t *testing.T) {
+	config := nodeConfigFor(t)
+	config.Serving.PeerAddr = "127.0.0.1:0"
+	listeners, err := yacynode.ListenersFor(t.Context(), config)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+
+	if err := listeners.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), listeners.PeerProtocol.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the closed peer address: %v", err)
+	}
+	_ = reopened.Close()
+}
+
 func nodeConfigFor(t *testing.T) yacynode.ServiceConfig {
 	t.Helper()
 

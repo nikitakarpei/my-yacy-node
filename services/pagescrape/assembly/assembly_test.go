@@ -103,6 +103,19 @@ func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 	}
 }
 
+func TestListenersForOpensNoListener(t *testing.T) {
+	listeners, err := pagescrape.ListenersFor(t.Context(), pagescrape.ServiceConfig{})
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+	if listeners != (pagescrape.Listeners{}) {
+		t.Errorf("listeners = %+v, want none", listeners)
+	}
+	if err := listeners.Close(); err != nil {
+		t.Errorf("Close: %v", err)
+	}
+}
+
 func pageOfferConsumer(
 	t *testing.T,
 	ctx context.Context,

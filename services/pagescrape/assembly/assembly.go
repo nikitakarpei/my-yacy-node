@@ -38,6 +38,10 @@ func ListenersFor(context.Context, ServiceConfig) (Listeners, error) {
 	return Listeners{}, nil
 }
 
+func (Listeners) Close() error {
+	return nil
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,

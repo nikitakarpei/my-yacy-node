@@ -46,6 +46,13 @@ func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 	return Listeners{PeerProtocol: peerProtocol}, nil
 }
 
+func (l Listeners) Close() error {
+	if err := l.PeerProtocol.Close(); err != nil {
+		return fmt.Errorf("close the peer protocol listener: %w", err)
+	}
+	return nil
+}
+
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,

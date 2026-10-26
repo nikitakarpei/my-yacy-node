@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
@@ -84,6 +85,20 @@ func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 		return Listeners{}, err
 	}
 	return Listeners{API: api}, nil
+}
+
+func (l Listeners) Close() error {
+	if l.API == nil {
+		return nil
+	}
+	if err := l.API.Close(); err != nil {
+		return fmt.Errorf("close the API listener: %w", err)
+	}
+	return nil
+}
+
+func (l Listeners) APIURL() string {
+	return (&url.URL{Scheme: "http", Host: l.API.Addr().String()}).String()
 }
 
 func RunService(

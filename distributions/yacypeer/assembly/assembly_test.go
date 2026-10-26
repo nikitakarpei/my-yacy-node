@@ -199,6 +199,7 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 	for name, value := range map[string]string{
 		"CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL": "nats://elsewhere:4222",
 		"EGRESS_PROXY_URL":                       "http://elsewhere:4750",
+		"YACYCRAWLER_API_ADDR":                   "127.0.0.1:9100",
 	} {
 		t.Run(name, func(t *testing.T) {
 			env := peerEnvironment(t)
@@ -244,6 +245,30 @@ func TestRunPeerFailsWhenAServiceConfigIsInvalid(t *testing.T) {
 	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
 	if err == nil || !strings.HasPrefix(err.Error(), "corpustext:") {
 		t.Errorf("RunPeer = %v, want the corpustext config refused", err)
+	}
+}
+
+func TestRunPeerReleasesItsListenAddressesWhenAServiceCannotListen(t *testing.T) {
+	env := peerEnvironment(t)
+	occupied, err := servergroup.Listen(t.Context(), env["VISITCRAWL_LISTEN_ADDR"])
+	if err != nil {
+		t.Fatalf("occupy the visitcrawl address: %v", err)
+	}
+	defer func() { _ = occupied.Close() }()
+	cfg, ops := peerFrom(t, env)
+
+	if err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env)); err == nil {
+		t.Fatal("RunPeer = nil, want the occupied visitcrawl address refused")
+	}
+	for _, address := range []string{
+		ops.Addr().String(), env["YACYNODE__YACY_PEER_ADDR"], env["CRAWLCONSOLE_LISTEN_ADDR"],
+	} {
+		reopened, err := servergroup.Listen(t.Context(), address)
+		if err != nil {
+			t.Errorf("listen on %s after RunPeer failed: %v", address, err)
+			continue
+		}
+		_ = reopened.Close()
 	}
 }
 

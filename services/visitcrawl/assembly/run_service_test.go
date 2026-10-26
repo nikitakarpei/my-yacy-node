@@ -131,6 +131,24 @@ func TestListenersForFailsOnAnUnusableAddress(t *testing.T) {
 	}
 }
 
+func TestListenersCloseReleasesTheIntakeAddress(t *testing.T) {
+	listeners, err := visitcrawl.ListenersFor(
+		t.Context(), visitcrawl.ServiceConfig{ListenAddr: "127.0.0.1:0"},
+	)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+
+	if err := listeners.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+	reopened, err := servergroup.Listen(t.Context(), listeners.Intake.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the closed intake address: %v", err)
+	}
+	_ = reopened.Close()
+}
+
 func signedVisitURL(listenAddr, visitedPage, secret string) string {
 	seconds := strconv.FormatInt(time.Now().Add(time.Minute).Unix(), 10)
 	seal := hmac.New(sha256.New, []byte(secret))
