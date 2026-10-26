@@ -1,6 +1,7 @@
 package peerwire
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -42,18 +43,19 @@ func refuseRedirect(*http.Request, []*http.Request) error {
 func (p roundTripper) post(
 	ctx context.Context,
 	baseURL BaseURL,
-	path, body string,
+	path string,
+	body multipartForm,
 ) (yacyproto.ResponseFields, error) {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
 		baseURL.urlOf(path),
-		strings.NewReader(body),
+		bytes.NewReader(body.content),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("%w: %w", errRequestNotPrepared, err)
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Content-Type", body.contentType)
 
 	resp, err := p.client.Do(req)
 	if err != nil {

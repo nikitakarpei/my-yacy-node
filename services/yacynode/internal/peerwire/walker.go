@@ -1,6 +1,7 @@
-// Package peerwire posts a form-encoded request to a peer, trying the peer's base URLs
-// in the given order until one gives a reply the caller accepts. Each attempt has a
-// share of the time left, and a redirect ends it. It reports why each base URL failed.
+// Package peerwire posts a form to a peer as a multipart body, trying the peer's
+// base URLs in the given order until one gives a reply the caller accepts. Each
+// attempt has a share of the time left, and a redirect ends it. It reports why
+// each base URL failed.
 package peerwire
 
 import (
@@ -70,7 +71,7 @@ func (w Walker) TryInTurn(
 	budget time.Duration,
 ) (Answer, bool) {
 	deadline := w.clock.Now().Add(budget)
-	body := request.Form.Encode()
+	body := multipartFormFrom(request.Form)
 	var failures []attemptFailure
 	for index, baseURL := range baseURLs {
 		remaining := deadline.Sub(w.clock.Now())
@@ -100,7 +101,8 @@ func (w Walker) TryInTurn(
 //nolint:revive // argument-limit: one attempt of the walk, each argument a distinct part of it
 func (w Walker) try(
 	ctx context.Context,
-	path, body string,
+	path string,
+	body multipartForm,
 	baseURL BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	limit time.Duration,

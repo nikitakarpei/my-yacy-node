@@ -2,9 +2,12 @@ package peerwire_test
 
 import (
 	"io"
+	"maps"
+	"mime"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"slices"
 	"strconv"
 	"sync"
 	"testing"
@@ -15,7 +18,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const walkBudget = 30 * time.Second
+const (
+	walkBudget      = 30 * time.Second
+	formMemoryBytes = 1 << 20
+)
 
 var transferRequest = peerwire.Request{
 	Path: "/yacy/transferRWI.html",
@@ -154,8 +160,9 @@ func TestTryInTurnPostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotPath = r.URL.Path
-		gotContentType = r.Header.Get("Content-Type")
-		if err := r.ParseForm(); err != nil {
+		gotContentType, _, _ = mime.ParseMediaType(r.Header.Get("Content-Type"))
+		//nolint:gosec // G120: the test server reads one small form.
+		if err := r.ParseMultipartForm(formMemoryBytes); err != nil {
 			t.Errorf("parse form: %v", err)
 		}
 		gotForm = r.PostForm
@@ -178,7 +185,7 @@ func TestTryInTurnPostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	if gotPath != "/yacy/transferRWI.html" {
 		t.Errorf("path = %q, want /yacy/transferRWI.html", gotPath)
 	}
-	if gotContentType != "application/x-www-form-urlencoded" {
+	if gotContentType != "multipart/form-data" {
 		t.Errorf("content type = %q", gotContentType)
 	}
 	if gotForm.Get("iam") != "peer" {
@@ -189,6 +196,39 @@ func TestTryInTurnPostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	}
 	if answer.BaseURL != baseURL {
 		t.Errorf("base URL = %v, want %v", answer.BaseURL, baseURL)
+	}
+}
+
+func TestTryInTurnPostsEveryFormValueUnchanged(t *testing.T) {
+	sentForm := url.Values{
+		"indexes": {"AAAAAAAAAAAA{h=abc,a=1}\nBBBBBBBBBBBB{h=def,a=2}"},
+		"title":   {"Заголовок & 100% = a+b"},
+		"tag":     {"first", "second"},
+	}
+	var gotForm url.Values
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		//nolint:gosec // G120: the test server reads one small form.
+		if err := r.ParseMultipartForm(formMemoryBytes); err != nil {
+			t.Errorf("parse form: %v", err)
+		}
+		gotForm = r.PostForm
+		_, _ = w.Write([]byte("result=ok\n"))
+	}))
+	defer server.Close()
+
+	_, answered := peerwire.NewWalker(server.Client(), startClock()).TryInTurn(
+		t.Context(),
+		peerwire.Request{Path: "/yacy/transferURL.html", Form: sentForm},
+		[]peerwire.BaseURL{baseURLOf(t, server, peerwire.HTTP)},
+		hasResult,
+		walkBudget,
+	)
+
+	if !answered {
+		t.Fatal("expected an answer")
+	}
+	if !maps.EqualFunc(gotForm, sentForm, slices.Equal) {
+		t.Errorf("form = %v, want %v", gotForm, sentForm)
 	}
 }
 
