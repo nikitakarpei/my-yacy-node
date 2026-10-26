@@ -158,6 +158,31 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	}
 }
 
+func TestSelfSeedAdvertisesTheAdditionalHostsOfTheIdentity(t *testing.T) {
+	additionalHost, err := yacymodel.ParseHost("200:1234::1")
+	if err != nil {
+		t.Fatalf("parse host: %v", err)
+	}
+	id := testIdentity()
+	id.AdditionalHosts = []yacymodel.Host{additionalHost}
+	status := nodestatus.NewRuntimeStatus(
+		id, testAddressSource(), clockAt(id.Start), openVault(t), stubCounter{}, stubCounter{},
+	)
+
+	hosts, ok := status.SelfSeed(context.Background()).AdditionalHosts.Get()
+	if !ok || len(hosts) != 1 || hosts[0] != additionalHost {
+		t.Fatalf("IP6 = %v (set %v), want 200:1234::1", hosts, ok)
+	}
+}
+
+func TestSelfSeedHasNoAdditionalHostWhenTheIdentityStatesNone(t *testing.T) {
+	status := statusAfter(t, testAddressSource(), 0, stubCounter{}, stubCounter{})
+
+	if hosts, ok := status.SelfSeed(context.Background()).AdditionalHosts.Get(); ok {
+		t.Fatalf("IP6 = %v, want none", hosts)
+	}
+}
+
 func TestSelfSeedHasNoAddressUntilThePublicAddressIsKnown(t *testing.T) {
 	status := statusAfter(t, stubAddressSource{}, 0, stubCounter{}, stubCounter{})
 

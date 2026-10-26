@@ -50,14 +50,23 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 
 func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 	return yacymodel.Seed{
-		Hash:         id.Hash,
-		Name:         id.Name,
-		Port:         yacymodel.Some(yacymodel.Port(id.Port)),
-		Capabilities: yacymodel.Some(id.Capabilities),
-		PeerType:     yacymodel.PeerSenior,
-		Tags:         yacymodel.MatchAllTags(),
-		Version:      yacymodel.Some(id.Version),
+		Hash:            id.Hash,
+		Name:            id.Name,
+		AdditionalHosts: additionalHostsOf(id),
+		Port:            yacymodel.Some(yacymodel.Port(id.Port)),
+		Capabilities:    yacymodel.Some(id.Capabilities),
+		PeerType:        yacymodel.PeerSenior,
+		Tags:            yacymodel.MatchAllTags(),
+		Version:         yacymodel.Some(id.Version),
 	}
+}
+
+func additionalHostsOf(id nodeidentity.Identity) yacymodel.Optional[[]yacymodel.Host] {
+	if len(id.AdditionalHosts) == 0 {
+		return yacymodel.None[[]yacymodel.Host]()
+	}
+
+	return yacymodel.Some(id.AdditionalHosts)
 }
 
 func (r runtimeStatus) countOrZero(ctx context.Context, count func(*vault.Txn) (int, error)) int {

@@ -12,23 +12,25 @@ import (
 )
 
 const (
-	EnvInitialPeerHash   = "YACY_INITIAL_PEER_HASH"
-	EnvPeerName          = "YACY_PEER_NAME"
-	EnvNetworkName       = "YACY_NETWORK_NAME"
-	EnvAdvertiseHost     = "YACY_ADVERTISE_HOST"
-	EnvAdvertisePort     = "YACY_ADVERTISE_PORT"
-	EnvAcceptRemoteIndex = "YACY_ACCEPT_REMOTE_INDEX"
+	EnvInitialPeerHash          = "YACY_INITIAL_PEER_HASH"
+	EnvPeerName                 = "YACY_PEER_NAME"
+	EnvNetworkName              = "YACY_NETWORK_NAME"
+	EnvAdvertiseHost            = "YACY_ADVERTISE_HOST"
+	EnvAdvertiseAdditionalHosts = "YACY_ADVERTISE_ADDITIONAL_HOSTS"
+	EnvAdvertisePort            = "YACY_ADVERTISE_PORT"
+	EnvAcceptRemoteIndex        = "YACY_ACCEPT_REMOTE_INDEX"
 
 	DefaultAcceptRemoteIndex = true
 )
 
 type IdentityConfig struct {
-	InitialHash   yacymodel.Optional[yacymodel.Hash]
-	NetworkName   string
-	Name          yacymodel.Optional[yacymodel.PeerName]
-	AdvertiseHost yacymodel.Optional[yacymodel.Host]
-	AdvertisePort int
-	Capabilities  yacymodel.PeerCapabilities
+	InitialHash              yacymodel.Optional[yacymodel.Hash]
+	NetworkName              string
+	Name                     yacymodel.Optional[yacymodel.PeerName]
+	AdvertiseHost            yacymodel.Optional[yacymodel.Host]
+	AdvertiseAdditionalHosts []yacymodel.Host
+	AdvertisePort            int
+	Capabilities             yacymodel.PeerCapabilities
 }
 
 func loadIdentityConfig(
@@ -50,6 +52,11 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
+	additionalHosts, err := advertisedAdditionalHosts(getenv)
+	if err != nil {
+		return IdentityConfig{}, err
+	}
+
 	port, err := advertisePort(getenv, listenAddr)
 	if err != nil {
 		return IdentityConfig{}, err
@@ -61,12 +68,17 @@ func loadIdentityConfig(
 	}
 
 	return IdentityConfig{
-		InitialHash:   initialHash,
-		NetworkName:   envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork),
-		Name:          name,
-		AdvertiseHost: host,
-		AdvertisePort: port,
-		Capabilities:  capabilities,
+		InitialHash: initialHash,
+		NetworkName: envconfig.String(
+			getenv,
+			EnvNetworkName,
+			yacyproto.DefaultNetwork,
+		),
+		Name:                     name,
+		AdvertiseHost:            host,
+		AdvertiseAdditionalHosts: additionalHosts,
+		AdvertisePort:            port,
+		Capabilities:             capabilities,
 	}, nil
 }
 
@@ -86,6 +98,19 @@ func statedValueOf[T any](
 	}
 
 	return yacymodel.Some(value), nil
+}
+
+func advertisedAdditionalHosts(getenv func(string) string) ([]yacymodel.Host, error) {
+	var hosts []yacymodel.Host
+	for _, stated := range envconfig.List(getenv, EnvAdvertiseAdditionalHosts) {
+		host, err := yacymodel.ParseHost(stated)
+		if err != nil {
+			return nil, fmt.Errorf("%s: %w", EnvAdvertiseAdditionalHosts, err)
+		}
+		hosts = append(hosts, host)
+	}
+
+	return hosts, nil
 }
 
 func advertisePort(getenv func(string) string, listenAddr string) (int, error) {
