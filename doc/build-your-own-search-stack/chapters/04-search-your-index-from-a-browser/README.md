@@ -9,8 +9,8 @@ results to your browser search page.
 
 - `corpustext` puts text from crawled pages into your local search index and
   searches it. It keeps the index in the `corpustext-data` volume.
-- The `searxng-crawled-text-search` plugin adds the `corpustext` search to the
-  search page.
+- The SearXNG engine `json_engine` sends each search to `corpustext` and adds
+  the results to the search page.
 
 ## Start
 
@@ -29,6 +29,6 @@ query with `!ct` to show only the local index.
 ## More information
 
 - [Full-text indexer configuration](../../../../services/corpustext/doc/configuration.md)
-- [SearXNG local search configuration](../../../../plugins/searxng/searxng-crawled-text-search/doc/configuration.md)
+- [SearXNG local search configuration](../../building-blocks/searxng/settings-local-index-and-yacy-network.yml)
 - [Chapter 4.1: Keep the index in Elasticsearch](../04.1-keep-the-index-in-elasticsearch)
 - [Chapter 4.2: Keep the index in Manticore](../04.2-keep-the-index-in-manticore)

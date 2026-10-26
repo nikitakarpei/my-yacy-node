@@ -266,18 +266,18 @@ $(foreach m,$(E2E_IMAGE_MODULES),$(eval $(call e2e_image_rule,$(m))))
 e2e-images: $(foreach m,$(E2E_IMAGE_MODULES),e2e-$(m)-image)
 
 # Every e2e suite, where it lives, and the images it needs.
-E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxng-crawled-text-search renderproxy webarchivescrape webresearchmcp pageofferfanout pagescrape yacydhtsearch
+E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxnglocalindex renderproxy webarchivescrape webresearchmcp pageofferfanout pagescrape yacydhtsearch
 
 E2E_PATH_searxng-result-router         := plugins/searxng/searxng-result-router
-E2E_PATH_searxng-crawled-text-search   := plugins/searxng/searxng-crawled-text-search
 E2E_SUITE_DIR_pageofferfanout          := test/pageofferfanout
+E2E_SUITE_DIR_searxnglocalindex        := test/searxnglocalindex
 
 E2E_SUITE_IMAGES_yacynode                    := yacynode
 E2E_SUITE_IMAGES_yacycrawler                 := yacycrawler crawlscrapebridge
 E2E_SUITE_IMAGES_corpustext                  := yacynode yacycrawler corpustext pagescrape crawlscrapebridge
 E2E_SUITE_IMAGES_corpusmarkdown              := yacynode yacycrawler corpusmarkdown pagescrape crawlscrapebridge
 E2E_SUITE_IMAGES_searxng-result-router       := visitcrawl
-E2E_SUITE_IMAGES_searxng-crawled-text-search := corpustext pagescrape
+E2E_SUITE_IMAGES_searxnglocalindex           := corpustext pagescrape
 E2E_SUITE_IMAGES_renderproxy                 := renderproxy
 E2E_SUITE_IMAGES_webarchivescrape             := webarchivescrape corpustext pagescrape
 E2E_SUITE_IMAGES_webresearchmcp              := corpusmarkdown webresearchmcp pagescrape

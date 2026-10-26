@@ -4,7 +4,6 @@ package e2e
 
 import (
 	"context"
-	"maps"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/corpustextservice"
@@ -16,10 +15,10 @@ func startCorpusText(
 	t *testing.T,
 	ctx context.Context,
 	networkName, natsURL string,
-	searchIndexEnv map[string]string,
 ) corpustextservice.CorpusText {
 	t.Helper()
-	env := map[string]string{"CORPUSTEXT_LANGUAGES": indexedLanguages}
-	maps.Copy(env, searchIndexEnv)
-	return corpustextservice.Start(t, ctx, networkName, natsURL, env)
+	return corpustextservice.Start(
+		t, ctx, networkName, natsURL,
+		map[string]string{"CORPUSTEXT_LANGUAGES": indexedLanguages},
+	)
 }

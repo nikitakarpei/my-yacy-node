@@ -42,7 +42,7 @@ jobs:
           SUPPORTED_TAG: ${{ steps.supported.outputs.tag }}
           BUILT_TAG: sha-${{ github.sha }}
         run: |
-          for plugin in searxng-crawled-text-search searxng-result-router; do
+          for plugin in searxng-result-router; do
             docker buildx imagetools create \
               --tag "${NAMESPACE}/${plugin}:${SUPPORTED_TAG}" \
               --tag "${NAMESPACE}/${plugin}:latest" \
