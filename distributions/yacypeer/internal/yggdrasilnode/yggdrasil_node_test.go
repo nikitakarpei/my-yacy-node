@@ -3,7 +3,6 @@ package yggdrasilnode_test
 import (
 	"crypto/ed25519"
 	"crypto/rand"
-	"encoding/hex"
 	"net/url"
 	"path/filepath"
 	"testing"
@@ -17,13 +16,7 @@ const (
 	peeringPollPause = 50 * time.Millisecond
 )
 
-func startedNode(t *testing.T, peering yggdrasilnode.Peering) *yggdrasilnode.Node {
-	t.Helper()
-	node, _ := startedNodeWithKey(t, peering)
-	return node
-}
-
-func startedNodeWithKey(
+func startedNode(
 	t *testing.T,
 	peering yggdrasilnode.Peering,
 ) (*yggdrasilnode.Node, ed25519.PublicKey) {
@@ -40,37 +33,36 @@ func startedNodeWithKey(
 	return node, publicKey
 }
 
-func awaitPeering(t *testing.T, node *yggdrasilnode.Node, peerURL *url.URL, wantedUp bool) {
+func awaitPeering(t *testing.T, node *yggdrasilnode.Node, key ed25519.PublicKey, wantedUp bool) {
 	t.Helper()
 	deadline := time.Now().Add(peeringDeadline)
 	for time.Now().Before(deadline) {
-		if node.IsPeeredWith(peerURL) == wantedUp {
+		if node.IsPeeredWith(key) == wantedUp {
 			return
 		}
 		time.Sleep(peeringPollPause)
 	}
-	t.Fatalf("peering with %s up = %t, want %t", peerURL, !wantedUp, wantedUp)
+	t.Fatalf("peering with %x up = %t, want %t", key, !wantedUp, wantedUp)
 }
 
-func TestAddPeerPeersTheNodeWithThePeerOfThePinnedKey(t *testing.T) {
+func TestAddPeerPeersTheNodeWithThePeerOfTheKey(t *testing.T) {
 	listenURL := &url.URL{Scheme: "unix", Path: filepath.Join(t.TempDir(), "ygg.sock")}
-	_, peerKey := startedNodeWithKey(t, yggdrasilnode.Peering{ListenURLs: []*url.URL{listenURL}})
-	node := startedNode(t, yggdrasilnode.Peering{})
-	pinnedURL := *listenURL
-	pinnedURL.RawQuery = url.Values{"key": {hex.EncodeToString(peerKey)}}.Encode()
+	_, peerKey := startedNode(t, yggdrasilnode.Peering{ListenURLs: []*url.URL{listenURL}})
+	node, _ := startedNode(t, yggdrasilnode.Peering{})
 
-	node.AddPeer(t.Context(), &pinnedURL)
+	node.AddPeer(t.Context(), listenURL, peerKey)
 
-	awaitPeering(t, node, &pinnedURL, true)
+	awaitPeering(t, node, peerKey, true)
 }
 
 func TestRemovePeerEndsThePeeringWithThePeer(t *testing.T) {
 	listenURL := &url.URL{Scheme: "unix", Path: filepath.Join(t.TempDir(), "ygg.sock")}
-	startedNode(t, yggdrasilnode.Peering{ListenURLs: []*url.URL{listenURL}})
-	node := startedNode(t, yggdrasilnode.Peering{PeerURLs: []*url.URL{listenURL}})
-	awaitPeering(t, node, listenURL, true)
+	_, peerKey := startedNode(t, yggdrasilnode.Peering{ListenURLs: []*url.URL{listenURL}})
+	node, _ := startedNode(t, yggdrasilnode.Peering{})
+	node.AddPeer(t.Context(), listenURL, peerKey)
+	awaitPeering(t, node, peerKey, true)
 
 	node.RemovePeer(t.Context(), listenURL)
 
-	awaitPeering(t, node, listenURL, false)
+	awaitPeering(t, node, peerKey, false)
 }

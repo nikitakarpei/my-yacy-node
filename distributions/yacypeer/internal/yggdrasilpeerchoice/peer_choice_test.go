@@ -28,10 +28,10 @@ func (l *listedPeers) UpPeers(context.Context) []yggdrasilpeerlist.Peer {
 type peeredNode struct {
 	addedPeers   []string
 	removedPeers []string
-	upAnswers    map[string][]bool
+	upAnswers    map[byte][]bool
 }
 
-func (n *peeredNode) AddPeer(_ context.Context, peerURL *url.URL) {
+func (n *peeredNode) AddPeer(_ context.Context, peerURL *url.URL, _ ed25519.PublicKey) {
 	n.addedPeers = append(n.addedPeers, peerURL.Host)
 }
 
@@ -39,12 +39,12 @@ func (n *peeredNode) RemovePeer(_ context.Context, peerURL *url.URL) {
 	n.removedPeers = append(n.removedPeers, peerURL.Host)
 }
 
-func (n *peeredNode) IsPeeredWith(peerURL *url.URL) bool {
-	answers := n.upAnswers[peerURL.Host]
+func (n *peeredNode) IsPeeredWith(key ed25519.PublicKey) bool {
+	answers := n.upAnswers[key[0]]
 	if len(answers) == 0 {
 		return true
 	}
-	n.upAnswers[peerURL.Host] = answers[1:]
+	n.upAnswers[key[0]] = answers[1:]
 	return answers[0]
 }
 
@@ -77,6 +77,16 @@ func peerAt(host string, keyByte byte) yggdrasilpeerlist.Peer {
 	key := make(ed25519.PublicKey, ed25519.PublicKeySize)
 	key[0] = keyByte
 	return yggdrasilpeerlist.Peer{URL: &url.URL{Scheme: "tls", Host: host}, Key: key}
+}
+
+func peersConnectingInOrder(hosts ...string) (*listedPeers, connectTimes) {
+	list := &listedPeers{}
+	times := connectTimes{}
+	for index, host := range hosts {
+		list.peers = append(list.peers, peerAt(host, byte(index+1)))
+		times[host] = time.Duration(index+1) * 10 * time.Millisecond
+	}
+	return list, times
 }
 
 func choiceRun(
@@ -132,16 +142,8 @@ func TestRunChoosesOnePeerForEachKey(t *testing.T) {
 }
 
 func TestRunReplacesAChosenPeerThatStaysDownWithTheNextFastest(t *testing.T) {
-	list := &listedPeers{peers: []yggdrasilpeerlist.Peer{
-		peerAt("a:1", 1), peerAt("b:1", 2), peerAt("c:1", 3), peerAt("d:1", 4),
-	}}
-	node := &peeredNode{upAnswers: map[string][]bool{"b:1": {false, false}}}
-	times := connectTimes{
-		"a:1": 10 * time.Millisecond,
-		"b:1": 20 * time.Millisecond,
-		"c:1": 30 * time.Millisecond,
-		"d:1": 40 * time.Millisecond,
-	}
+	list, times := peersConnectingInOrder("a:1", "b:1", "c:1", "d:1")
+	node := &peeredNode{upAnswers: map[byte][]bool{2: {false, false}}}
 
 	choiceRun(t, list, node, times, 3)
 
@@ -153,16 +155,8 @@ func TestRunReplacesAChosenPeerThatStaysDownWithTheNextFastest(t *testing.T) {
 }
 
 func TestRunKeepsAChosenPeerThatComesBackUp(t *testing.T) {
-	list := &listedPeers{peers: []yggdrasilpeerlist.Peer{
-		peerAt("a:1", 1), peerAt("b:1", 2), peerAt("c:1", 3), peerAt("d:1", 4),
-	}}
-	node := &peeredNode{upAnswers: map[string][]bool{"b:1": {false, true, false}}}
-	times := connectTimes{
-		"a:1": 10 * time.Millisecond,
-		"b:1": 20 * time.Millisecond,
-		"c:1": 30 * time.Millisecond,
-		"d:1": 40 * time.Millisecond,
-	}
+	list, times := peersConnectingInOrder("a:1", "b:1", "c:1", "d:1")
+	node := &peeredNode{upAnswers: map[byte][]bool{2: {false, true, false}}}
 
 	choiceRun(t, list, node, times, 4)
 

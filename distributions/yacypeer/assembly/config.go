@@ -50,7 +50,7 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	egressProxyURL, err := egressProxyURLFrom(getenv)
+	egressProxyURL, err := optionalHTTPURLFrom(getenv, EnvEgressProxyURL)
 	if err != nil {
 		return PeerConfig{}, err
 	}
@@ -58,7 +58,7 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	yggdrasilPeerList, err := yggdrasilPeerListFrom(getenv)
+	yggdrasilPeerList, err := optionalHTTPURLFrom(getenv, EnvYggdrasilPeerList)
 	if err != nil {
 		return PeerConfig{}, err
 	}
@@ -90,11 +90,11 @@ func seedlistURLsFor(getenv func(string) string, networkName string) (string, er
 	return envconfig.Required(getenv, EnvSeedlistURLs)
 }
 
-func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
-	if strings.TrimSpace(getenv(EnvEgressProxyURL)) == "" {
+func optionalHTTPURLFrom(getenv func(string) string, key string) (*url.URL, error) {
+	if strings.TrimSpace(getenv(key)) == "" {
 		return nil, nil
 	}
-	return envconfig.RequiredHTTPURL(getenv, EnvEgressProxyURL)
+	return envconfig.RequiredHTTPURL(getenv, key)
 }
 
 func (cfg PeerConfig) namesAnEgressProxy() bool {
@@ -111,13 +111,6 @@ func yggdrasilPeeringFrom(getenv func(string) string) (yggdrasilnode.Peering, er
 		return yggdrasilnode.Peering{}, err
 	}
 	return yggdrasilnode.Peering{PeerURLs: peerURLs, ListenURLs: listenURLs}, nil
-}
-
-func yggdrasilPeerListFrom(getenv func(string) string) (*url.URL, error) {
-	if strings.TrimSpace(getenv(EnvYggdrasilPeerList)) == "" {
-		return nil, nil
-	}
-	return envconfig.RequiredHTTPURL(getenv, EnvYggdrasilPeerList)
 }
 
 func urlsFrom(getenv func(string) string, key string) ([]*url.URL, error) {

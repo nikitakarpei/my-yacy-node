@@ -18,6 +18,7 @@ import (
 	"time"
 
 	"github.com/yggdrasil-network/yggdrasil-go/src/address"
+	"github.com/yggdrasil-network/yggdrasil-go/src/core"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
@@ -237,8 +238,8 @@ func TestRunPeerSendsARequestForAYggdrasilAddressOverYggdrasil(t *testing.T) {
 func peerListOf(t *testing.T, peerURL *url.URL, key ed25519.PublicKey) string {
 	t.Helper()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		_, _ = fmt.Fprintf(w, `{"local.md": {%q: {"up": true, "key": %q, "proto_minor": 5}}}`,
-			peerURL.String(), hex.EncodeToString(key))
+		_, _ = fmt.Fprintf(w, `{"local.md": {%q: {"up": true, "key": %q, "proto_minor": %d}}}`,
+			peerURL.String(), hex.EncodeToString(key), core.ProtocolVersionMinor)
 	}))
 	t.Cleanup(server.Close)
 	return server.URL + "/publicnodes.json"

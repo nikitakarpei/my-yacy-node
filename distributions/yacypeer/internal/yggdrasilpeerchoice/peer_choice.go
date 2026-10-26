@@ -6,6 +6,7 @@ package yggdrasilpeerchoice
 
 import (
 	"context"
+	"crypto/ed25519"
 	"log/slog"
 	"net/url"
 	"time"
@@ -25,9 +26,9 @@ type PeerList interface {
 }
 
 type Node interface {
-	AddPeer(ctx context.Context, peerURL *url.URL)
+	AddPeer(ctx context.Context, peerURL *url.URL, key ed25519.PublicKey)
 	RemovePeer(ctx context.Context, peerURL *url.URL)
-	IsPeeredWith(peerURL *url.URL) bool
+	IsPeeredWith(key ed25519.PublicKey) bool
 }
 
 type ConnectTimer interface {
@@ -71,7 +72,7 @@ func (c *Choice) Run(ctx context.Context) error {
 func (c *Choice) dropPeersThatStayDown(ctx context.Context) {
 	keptPeers := c.chosenPeers[:0]
 	for _, chosen := range c.chosenPeers {
-		chosen.roundsDown = roundsDownAfter(chosen, c.node.IsPeeredWith(chosen.peer.URL))
+		chosen.roundsDown = roundsDownAfter(chosen, c.node.IsPeeredWith(chosen.peer.Key))
 		if chosen.roundsDown < downRoundsLimit {
 			keptPeers = append(keptPeers, chosen)
 			continue
@@ -126,7 +127,7 @@ func (c *Choice) hasChosenKeyOf(peer yggdrasilpeerlist.Peer) bool {
 }
 
 func (c *Choice) mayReadList() bool {
-	return c.listReadAt.IsZero() || c.clock.Now().Sub(c.listReadAt) >= listReadPause
+	return c.clock.Now().Sub(c.listReadAt) >= listReadPause
 }
 
 func (c *Choice) readList(ctx context.Context) {
@@ -138,7 +139,7 @@ func (c *Choice) readList(ctx context.Context) {
 }
 
 func (c *Choice) choose(ctx context.Context, next rankedPeer) {
-	c.node.AddPeer(ctx, next.peer.URL)
+	c.node.AddPeer(ctx, next.peer.URL, next.peer.Key)
 	c.chosenPeers = append(c.chosenPeers, chosenPeer{peer: next.peer})
 	slog.DebugContext(ctx, "public Yggdrasil peer chosen",
 		slog.String("peer", next.peer.URL.Redacted()),

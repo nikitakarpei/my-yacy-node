@@ -1,6 +1,6 @@
 // Package yggdrasilpeerlist reads a public Yggdrasil peer list, in the JSON format of
 // publicpeers.neilalexander.dev. It gives the peers that the list states are up and speak the
-// protocol of the node, each with its peer URL pinned to the public key that the list states.
+// protocol of the node, each with the public key that the list states for it.
 package yggdrasilpeerlist
 
 import (
@@ -22,9 +22,8 @@ import (
 )
 
 const (
-	readTimeout  = 30 * time.Second
-	listCeiling  = 4 << 20
-	keyParameter = "key"
+	readTimeout = 30 * time.Second
+	listCeiling = 4 << 20
 )
 
 var errListRefused = errors.New("the list server refused the list")
@@ -121,9 +120,6 @@ func upPeerFrom(ctx context.Context, listedURL string, listed listedPeer) (Peer,
 	if !connectableSchemes[peerURL.Scheme] {
 		return Peer{}, false
 	}
-	query := peerURL.Query()
-	query.Set(keyParameter, listed.Key)
-	peerURL.RawQuery = query.Encode()
 	return Peer{URL: peerURL, Key: key}, true
 }
 

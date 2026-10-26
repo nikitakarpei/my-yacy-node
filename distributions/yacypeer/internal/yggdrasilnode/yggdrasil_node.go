@@ -1,12 +1,13 @@
 // Package yggdrasilnode runs the Yggdrasil node of the peer. The node joins the Yggdrasil
-// network through the peers that the operator names and the peers added while it runs, takes
-// peerings on the listen URLs that the operator names, and carries the IPv6 packets of the peer
-// from and to its Yggdrasil address.
+// network through the peers that the operator names and the peers added while it runs, each
+// added peer pinned to its key. It takes peerings on the listen URLs that the operator names,
+// and carries the IPv6 packets of the peer from and to its Yggdrasil address.
 package yggdrasilnode
 
 import (
 	"context"
 	"crypto/ed25519"
+	"encoding/hex"
 	"fmt"
 	"log/slog"
 	"net/netip"
@@ -22,6 +23,7 @@ const (
 	Name                = "yggdrasil"
 	networkPrefixLength = 7
 	anySourceInterface  = ""
+	keyParameter        = "key"
 )
 
 var NetworkAddresses = netip.PrefixFrom(
@@ -77,8 +79,12 @@ func (n *Node) Address() netip.Addr {
 	return nodeAddress
 }
 
-func (n *Node) AddPeer(ctx context.Context, peerURL *url.URL) {
-	if err := n.core.AddPeer(peerURL, anySourceInterface); err != nil {
+func (n *Node) AddPeer(ctx context.Context, peerURL *url.URL, key ed25519.PublicKey) {
+	pinnedURL := *peerURL
+	query := pinnedURL.Query()
+	query.Set(keyParameter, hex.EncodeToString(key))
+	pinnedURL.RawQuery = query.Encode()
+	if err := n.core.AddPeer(&pinnedURL, anySourceInterface); err != nil {
 		slog.WarnContext(ctx, "yggdrasil peer not added",
 			slog.String("peer", peerURL.Redacted()),
 			slog.Any("reason", err),
@@ -95,11 +101,9 @@ func (n *Node) RemovePeer(ctx context.Context, peerURL *url.URL) {
 	}
 }
 
-func (n *Node) IsPeeredWith(peerURL *url.URL) bool {
-	linkURL := *peerURL
-	linkURL.RawQuery = ""
+func (n *Node) IsPeeredWith(key ed25519.PublicKey) bool {
 	for _, peer := range n.core.GetPeers() {
-		if peer.Up && peer.URI == linkURL.String() {
+		if peer.Up && key.Equal(peer.Key) {
 			return true
 		}
 	}

@@ -5,31 +5,21 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/connecttimers/tcp"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 )
 
-func listeningAddress(t *testing.T) string {
+func loopbackListener(t *testing.T) net.Listener {
 	t.Helper()
-	listener, err := (&net.ListenConfig{}).Listen(t.Context(), "tcp", "127.0.0.1:0")
+	listener, err := loopback.Listen(t.Context())
 	if err != nil {
 		t.Fatalf("listen: %v", err)
 	}
 	t.Cleanup(func() { _ = listener.Close() })
-	return listener.Addr().String()
-}
-
-func closedAddress(t *testing.T) string {
-	t.Helper()
-	listener, err := (&net.ListenConfig{}).Listen(t.Context(), "tcp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatalf("listen: %v", err)
-	}
-	address := listener.Addr().String()
-	_ = listener.Close()
-	return address
+	return listener
 }
 
 func TestConnectTimeOfAListeningAddressIsKnown(t *testing.T) {
-	address := listeningAddress(t)
+	address := loopbackListener(t).Addr().String()
 
 	if _, connected := tcp.New().ConnectTimeOf(t.Context(), address); !connected {
 		t.Errorf("%s not connected, want a connect time", address)
@@ -37,7 +27,9 @@ func TestConnectTimeOfAListeningAddressIsKnown(t *testing.T) {
 }
 
 func TestConnectTimeOfAClosedAddressIsUnknown(t *testing.T) {
-	address := closedAddress(t)
+	listener := loopbackListener(t)
+	address := listener.Addr().String()
+	_ = listener.Close()
 
 	if connectTime, connected := tcp.New().ConnectTimeOf(t.Context(), address); connected {
 		t.Errorf("%s connected in %s, want no connect time", address, connectTime)
