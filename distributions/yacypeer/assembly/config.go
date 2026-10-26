@@ -80,6 +80,13 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 			EnvYggdrasilPeerList,
 		)
 	}
+	if cfg.namesYggdrasilPeers() && cfg.choosesYggdrasilPeers() {
+		return PeerConfig{}, fmt.Errorf(
+			"%s: must not be set when %s is set",
+			EnvYggdrasilPeerList,
+			EnvYggdrasilPeers,
+		)
+	}
 	return cfg, nil
 }
 
@@ -131,6 +138,10 @@ func urlsFrom(getenv func(string) string, key string) ([]*url.URL, error) {
 func (cfg PeerConfig) joinsYggdrasil() bool {
 	return len(cfg.YggdrasilPeering.PeerURLs)+len(cfg.YggdrasilPeering.ListenURLs) > 0 ||
 		cfg.choosesYggdrasilPeers()
+}
+
+func (cfg PeerConfig) namesYggdrasilPeers() bool {
+	return len(cfg.YggdrasilPeering.PeerURLs) > 0
 }
 
 func (cfg PeerConfig) choosesYggdrasilPeers() bool {

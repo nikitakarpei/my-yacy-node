@@ -33,6 +33,7 @@ program, connected and ready to use.
   hosts of the peer.
 * The program SHALL NOT start when the operator joins the Yggdrasil network and names an
   egress proxy.
+* The program SHALL NOT start when the operator names Yggdrasil peers and a peer list.
 * The program SHALL keep its local data in one data directory.
 * The program SHALL make its Yggdrasil key on its first start, and SHALL keep it in the data
   directory.

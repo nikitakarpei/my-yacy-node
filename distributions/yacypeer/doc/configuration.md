@@ -41,7 +41,8 @@ If you set `YACYPEER_YGGDRASIL_PEER_LIST`, the peer reads the list. It connects 
 It connects to one peer for each key. If a peer stays down, the peer connects to the next
 fastest peer instead. The list server selects your peers, thus use a list that you trust.
 
-You cannot set `YACYPEER_EGRESS_PROXY_URL` and a Yggdrasil setting together.
+You cannot set `YACYPEER_EGRESS_PROXY_URL` and a Yggdrasil setting together. You cannot
+set `YACYPEER_YGGDRASIL_PEERS` and `YACYPEER_YGGDRASIL_PEER_LIST` together.
 
 ## Services
 
