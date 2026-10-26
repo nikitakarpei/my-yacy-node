@@ -1,13 +1,8 @@
 package yacyproto
 
-import (
-	"errors"
-	"io"
-)
+import "io"
 
 const messageMaxPlainBytes = 4 << 20
-
-var errPlainTextAllowanceSpent = errors.New("plain text allowance spent")
 
 type plainTextAllowance struct {
 	remainingBytes int

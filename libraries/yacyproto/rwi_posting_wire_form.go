@@ -96,7 +96,6 @@ func (rwiPostingWireCodec) encodePropertyForm(p yacymodel.RWIPosting) string {
 	return rwiPostingWireFormFromDomain(p).propertyForm()
 }
 
-// TECHDEBT: single source of truth: restates MaxTransferRWIEntryCount from transfer_rwi.go.
 const maxRWIPostingsPerTransfer = 1000
 
 func (c rwiPostingWireCodec) encodeLines(postings []yacymodel.RWIPosting) string {

@@ -91,7 +91,8 @@ func TestParseTransferURLRequestSkipsMissingDeclaredURL(t *testing.T) {
 func TestParseTransferURLRequestReadsAtMostTheRowsOfOneTransfer(t *testing.T) {
 	t.Parallel()
 
-	rowCount := yacyproto.MaxTransferRWIEntryCount + 1
+	const maxRWIPostingsPerTransfer = 1000
+	rowCount := maxRWIPostingsPerTransfer + 1
 	form := url.Values{yacyproto.FieldURLCount: {strconv.Itoa(rowCount)}}
 	row := sampleURLMetadataWireForm(t, sampleURLMetadata(t, "url-a"))
 	for i := range rowCount {
@@ -102,8 +103,8 @@ func TestParseTransferURLRequestReadsAtMostTheRowsOfOneTransfer(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseTransferURLRequest: %v", err)
 	}
-	if len(req.URLs) != yacyproto.MaxTransferRWIEntryCount {
-		t.Fatalf("URLs = %d, want %d", len(req.URLs), yacyproto.MaxTransferRWIEntryCount)
+	if len(req.URLs) != maxRWIPostingsPerTransfer {
+		t.Fatalf("URLs = %d, want %d", len(req.URLs), maxRWIPostingsPerTransfer)
 	}
 }
 

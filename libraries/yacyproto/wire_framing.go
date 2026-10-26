@@ -39,7 +39,7 @@ func decodeWireForm(
 		return "", err
 	}
 	if !allowance.take(plain) {
-		return "", fmt.Errorf("%w: %d bytes", errPlainTextAllowanceSpent, len(plain))
+		return "", fmt.Errorf("%w: plain text exceeds the allowance", errBadWireFrame)
 	}
 
 	return plain, nil

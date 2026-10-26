@@ -2,7 +2,6 @@ package yacyproto
 
 import (
 	"context"
-	"errors"
 	"log/slog"
 	"net/url"
 	"strings"
@@ -270,15 +269,6 @@ func parseSearchResources(
 		}
 
 		resource, err := searchResourceWireCodec{}.decode(ctx, raw, allowance)
-		if errors.Is(err, errPlainTextAllowanceSpent) {
-			slog.WarnContext(
-				ctx,
-				"search resource plain text limit reached",
-				slog.Int("index", i),
-				slog.Int("limit", messageMaxPlainBytes),
-			)
-			break
-		}
 		if err != nil {
 			slog.WarnContext(
 				ctx,

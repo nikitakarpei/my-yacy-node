@@ -2,7 +2,6 @@ package yacyproto
 
 import (
 	"context"
-	"errors"
 	"log/slog"
 	"net/url"
 
@@ -68,19 +67,19 @@ func urlMetadataFromForm(
 	form url.Values,
 	declaredURLCount int,
 ) []yacymodel.URLMetadata {
-	if declaredURLCount > MaxTransferRWIEntryCount {
+	if declaredURLCount > maxRWIPostingsPerTransfer {
 		slog.WarnContext(
 			ctx,
 			"transfer url count above limit",
 			slog.Int("urlCount", declaredURLCount),
-			slog.Int("limit", MaxTransferRWIEntryCount),
+			slog.Int("limit", maxRWIPostingsPerTransfer),
 		)
 	}
 
 	allowance := &plainTextAllowance{remainingBytes: messageMaxPlainBytes}
 	var metadata []yacymodel.URLMetadata
 	missingRows := 0
-	for i := range min(declaredURLCount, MaxTransferRWIEntryCount) {
+	for i := range min(declaredURLCount, maxRWIPostingsPerTransfer) {
 		raw := form.Get(indexedKey(prefixURL, i))
 		if raw == "" {
 			missingRows++
@@ -88,15 +87,6 @@ func urlMetadataFromForm(
 		}
 
 		row, err := urlMetadataWireCodec{}.decode(ctx, raw, allowance)
-		if errors.Is(err, errPlainTextAllowanceSpent) {
-			slog.WarnContext(
-				ctx,
-				"transfer url plain text limit reached",
-				slog.Int("index", i),
-				slog.Int("limit", messageMaxPlainBytes),
-			)
-			break
-		}
 		if err != nil {
 			slog.WarnContext(
 				ctx,
