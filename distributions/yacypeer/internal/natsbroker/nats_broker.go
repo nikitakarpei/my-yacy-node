@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	anyFreePort = -1
-	readyWait   = 10 * time.Second
+	anyFreePort    = -1
+	readyWait      = 10 * time.Second
+	payloadCeiling = 8 << 20
 )
 
 var errNotReady = errors.New("built-in nats not ready for connections")
@@ -25,10 +26,11 @@ type Broker struct {
 
 func Start(storeDirectory string) (*Broker, error) {
 	server, err := natsserver.NewServer(&natsserver.Options{
-		Host:      loopback.Host,
-		Port:      anyFreePort,
-		JetStream: true,
-		StoreDir:  storeDirectory,
+		Host:       loopback.Host,
+		Port:       anyFreePort,
+		MaxPayload: payloadCeiling,
+		JetStream:  true,
+		StoreDir:   storeDirectory,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("built-in nats: %w", err)
