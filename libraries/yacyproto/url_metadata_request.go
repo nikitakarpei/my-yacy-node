@@ -87,7 +87,7 @@ func ParseURLMetadataResponse(ctx context.Context, body []byte) (URLMetadataResp
 		)
 	}
 
-	return URLMetadataResponse{URLs: urlMetadataOf(ctx, feed.Channel.Items)}, nil
+	return URLMetadataResponse{URLs: urlMetadataOfFeed(ctx, feed.Channel.Items)}, nil
 }
 
 // urlMetadataFeedOf reads the feed leniently. A peer writes the title and the
@@ -129,7 +129,7 @@ type urlMetadataFeedItem struct {
 	GUID    string `xml:"guid"`
 }
 
-func urlMetadataOf(ctx context.Context, items []urlMetadataFeedItem) []yacymodel.URLMetadata {
+func urlMetadataOfFeed(ctx context.Context, items []urlMetadataFeedItem) []yacymodel.URLMetadata {
 	urls := make([]yacymodel.URLMetadata, 0, len(items))
 	for _, item := range items {
 		metadata, err := item.domain()

@@ -17,10 +17,6 @@ const (
 	wireFrameBase64 = 'b'
 	wireFrameGzip   = 'z'
 	wireFrameSep    = '|'
-
-	// wireFormMaxPlainBytes bounds gzip inflation, independent of any
-	// format-specific size check.
-	wireFormMaxPlainBytes = 1 << 20
 )
 
 var errBadWireFrame = errors.New("bad wire frame")
@@ -33,7 +29,23 @@ func tagged(tag byte, body string) string {
 	return string([]byte{tag, wireFrameSep}) + body
 }
 
-func decodeWireForm(ctx context.Context, form string) (string, error) {
+func decodeWireForm(
+	ctx context.Context,
+	form string,
+	allowance *plainTextAllowance,
+) (string, error) {
+	plain, err := plainTextOf(ctx, form, allowance)
+	if err != nil {
+		return "", err
+	}
+	if !allowance.take(plain) {
+		return "", fmt.Errorf("%w: %d bytes", errPlainTextAllowanceSpent, len(plain))
+	}
+
+	return plain, nil
+}
+
+func plainTextOf(ctx context.Context, form string, allowance *plainTextAllowance) (string, error) {
 	if len(form) < 2 || form[1] != wireFrameSep {
 		return form, nil
 	}
@@ -52,7 +64,7 @@ func decodeWireForm(ctx context.Context, form string) (string, error) {
 		if err != nil {
 			return "", fmt.Errorf("decode wire frame body: %w", err)
 		}
-		plain, err := gzipDecompress(ctx, raw)
+		plain, err := gzipDecompress(ctx, raw, allowance)
 		if err != nil {
 			return "", fmt.Errorf("inflate wire frame body: %w", err)
 		}
@@ -62,7 +74,7 @@ func decodeWireForm(ctx context.Context, form string) (string, error) {
 	}
 }
 
-func gzipDecompress(ctx context.Context, b []byte) (string, error) {
+func gzipDecompress(ctx context.Context, b []byte, allowance *plainTextAllowance) (string, error) {
 	r, err := gzip.NewReader(bytes.NewReader(b))
 	if err != nil {
 		return "", fmt.Errorf("gzip reader: %w", err)
@@ -76,14 +88,9 @@ func gzipDecompress(ctx context.Context, b []byte) (string, error) {
 			)
 		}
 	}()
-	out, err := io.ReadAll(io.LimitReader(r, wireFormMaxPlainBytes+1))
+	out, err := io.ReadAll(allowance.readerWithin(r))
 	if err != nil {
 		return "", fmt.Errorf("gzip read: %w", err)
-	}
-	if len(out) > wireFormMaxPlainBytes {
-		return "", fmt.Errorf(
-			"%w: gzip payload exceeds %d bytes", errBadWireFrame, wireFormMaxPlainBytes,
-		)
 	}
 	return string(out), nil
 }

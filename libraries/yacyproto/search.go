@@ -2,6 +2,7 @@ package yacyproto
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"net/url"
 	"strings"
@@ -256,8 +257,9 @@ func parseSearchResources(
 	m ResponseFields,
 	count int,
 ) []SearchResource {
+	allowance := &plainTextAllowance{remainingBytes: messageMaxPlainBytes}
 	var resources []SearchResource
-	for i := 0; count <= 0 || i < count; i++ {
+	for i := 0; i < len(m) && (count <= 0 || i < count); i++ {
 		raw, ok := m[indexedKey(prefixResource, i)]
 		if !ok {
 			if count <= 0 {
@@ -267,7 +269,16 @@ func parseSearchResources(
 			continue
 		}
 
-		resource, err := searchResourceWireCodec{}.decode(ctx, raw)
+		resource, err := searchResourceWireCodec{}.decode(ctx, raw, allowance)
+		if errors.Is(err, errPlainTextAllowanceSpent) {
+			slog.WarnContext(
+				ctx,
+				"search resource plain text limit reached",
+				slog.Int("index", i),
+				slog.Int("limit", messageMaxPlainBytes),
+			)
+			break
+		}
 		if err != nil {
 			slog.WarnContext(
 				ctx,

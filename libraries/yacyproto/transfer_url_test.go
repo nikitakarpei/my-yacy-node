@@ -2,8 +2,11 @@ package yacyproto_test
 
 import (
 	"context"
+	"math"
 	"net/url"
 	"reflect"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -82,6 +85,73 @@ func TestParseTransferURLRequestSkipsMissingDeclaredURL(t *testing.T) {
 	}
 	if len(req.URLs) != 1 {
 		t.Fatalf("URLs = %d, want 1 (missing url1 skipped)", len(req.URLs))
+	}
+}
+
+func TestParseTransferURLRequestReadsAtMostTheRowsOfOneTransfer(t *testing.T) {
+	t.Parallel()
+
+	rowCount := yacyproto.MaxTransferRWIEntryCount + 1
+	form := url.Values{yacyproto.FieldURLCount: {strconv.Itoa(rowCount)}}
+	row := sampleURLMetadataWireForm(t, sampleURLMetadata(t, "url-a"))
+	for i := range rowCount {
+		form.Set("url"+strconv.Itoa(i), row)
+	}
+
+	req, err := yacyproto.ParseTransferURLRequest(t.Context(), form)
+	if err != nil {
+		t.Fatalf("ParseTransferURLRequest: %v", err)
+	}
+	if len(req.URLs) != yacyproto.MaxTransferRWIEntryCount {
+		t.Fatalf("URLs = %d, want %d", len(req.URLs), yacyproto.MaxTransferRWIEntryCount)
+	}
+}
+
+func TestParseTransferURLRequestEndsAHugeDeclaredCountAtTheRowLimit(t *testing.T) {
+	t.Parallel()
+
+	form := url.Values{
+		yacyproto.FieldURLCount: {strconv.Itoa(math.MaxInt32)},
+		"url0":                  {sampleURLMetadataWireForm(t, sampleURLMetadata(t, "url-a"))},
+	}
+
+	req, err := yacyproto.ParseTransferURLRequest(t.Context(), form)
+	if err != nil {
+		t.Fatalf("ParseTransferURLRequest: %v", err)
+	}
+	if len(req.URLs) != 1 {
+		t.Fatalf("URLs = %d, want 1", len(req.URLs))
+	}
+}
+
+func TestParseTransferURLRequestStopsAtRowsThatInflatePastTheLimit(t *testing.T) {
+	t.Parallel()
+
+	const messageMaxPlainBytes = 4 << 20
+	row := strings.Replace(
+		yacyURLMetadataRow,
+		"descr=b|RXhhbXBsZQ",
+		"descr="+gzipFramed(t, strings.Repeat("x", gzipBombPlainBytes)),
+		1,
+	)
+	form := url.Values{yacyproto.FieldURLCount: {"8"}}
+	for i := range 8 {
+		form.Set("url"+strconv.Itoa(i), row)
+	}
+
+	req, err := yacyproto.ParseTransferURLRequest(t.Context(), form)
+	if err != nil {
+		t.Fatalf("ParseTransferURLRequest: %v", err)
+	}
+	inflatedBytes := 0
+	for _, metadata := range req.URLs {
+		inflatedBytes += len(metadata.Title)
+	}
+	if len(req.URLs) == 0 || inflatedBytes > messageMaxPlainBytes {
+		t.Fatalf(
+			"URLs = %d with %d title bytes, want at least 1 and at most %d bytes",
+			len(req.URLs), inflatedBytes, messageMaxPlainBytes,
+		)
 	}
 }
 
