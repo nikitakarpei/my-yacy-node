@@ -9,10 +9,12 @@ import (
 )
 
 type openChunk struct {
-	chunk    *chunkenc.XORChunk
-	appender chunkenc.Appender
-	minTime  int64
-	maxTime  int64
+	chunk             *chunkenc.XORChunk
+	appender          chunkenc.Appender
+	minTime           int64
+	maxTime           int64
+	checkpointMaxTime int64
+	isCheckpointed    bool
 }
 
 func openChunkFrom(at int64) *openChunk {
@@ -22,10 +24,14 @@ func openChunkFrom(at int64) *openChunk {
 }
 
 func (c *openChunk) cutFor(id seriesID) cutChunk {
-	return cutChunk{
+	cut := cutChunk{
 		key:     chunkKey{series: id, maxTime: c.maxTime},
 		samples: chunkSamples{data: c.chunk.Bytes(), minTime: c.minTime},
 	}
+	if c.isCheckpointed && c.checkpointMaxTime != c.maxTime {
+		cut.replacedCheckpoint = &chunkKey{series: id, maxTime: c.checkpointMaxTime}
+	}
+	return cut
 }
 
 type openChunks struct {
@@ -66,6 +72,25 @@ func (o *openChunks) cutIdleSince(idleSince int64) []cutChunk {
 		}
 	}
 	return cut
+}
+
+func (o *openChunks) uncheckpointed() []cutChunk {
+	var checkpoints []cutChunk
+	for id, open := range o.chunks {
+		if !open.isCheckpointed || open.checkpointMaxTime != open.maxTime {
+			checkpoints = append(checkpoints, open.cutFor(id))
+		}
+	}
+	return checkpoints
+}
+
+func (o *openChunks) markCheckpointed(checkpoints []cutChunk) {
+	for _, checkpoint := range checkpoints {
+		if open, exists := o.chunks[checkpoint.key.series]; exists {
+			open.checkpointMaxTime = checkpoint.key.maxTime
+			open.isCheckpointed = true
+		}
+	}
 }
 
 func (o *openChunks) copyWithin(id seriesID, mint, maxt int64) (chunks.Meta, bool) {

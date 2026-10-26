@@ -46,8 +46,9 @@ type chunkSamples struct {
 }
 
 type cutChunk struct {
-	samples chunkSamples
-	key     chunkKey
+	samples            chunkSamples
+	key                chunkKey
+	replacedCheckpoint *chunkKey
 }
 
 type recordedSamples struct {
@@ -128,6 +129,12 @@ func (s storedHistory) store(ctx context.Context, recorded recordedSamples) erro
 		}
 		for _, cut := range recorded.chunks {
 			if _, err := s.chunks.Put(tx, cut.key, cut.samples); err != nil {
+				return err
+			}
+			if cut.replacedCheckpoint == nil {
+				continue
+			}
+			if _, err := s.chunks.Delete(tx, *cut.replacedCheckpoint); err != nil {
 				return err
 			}
 		}

@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"slices"
 	"sync"
 	"time"
 
@@ -17,9 +18,10 @@ import (
 )
 
 const (
-	SampleInterval  = 15 * time.Second
-	samplesPerChunk = 120
-	idleSeriesAfter = 4 * SampleInterval
+	SampleInterval       = 15 * time.Second
+	samplesPerChunk      = 120
+	samplesPerCheckpoint = 20
+	idleSeriesAfter      = 4 * SampleInterval
 )
 
 type History struct {
@@ -61,6 +63,9 @@ func (h *History) Run(ctx context.Context, sources []Source) error {
 		if sampleCount%samplesPerChunk == 0 {
 			h.storeIdleChunks(ctx)
 			h.forgetExpired(ctx)
+		}
+		if sampleCount%samplesPerCheckpoint == 0 {
+			h.checkpointOpenChunks(ctx)
 		}
 		h.record(ctx, samplesOf(ctx, sources))
 		if err := h.clock.Sleep(ctx, SampleInterval); err != nil {
@@ -105,6 +110,17 @@ func (h *History) forgetExpired(ctx context.Context) {
 	}
 	h.series.forget(idle)
 	slog.DebugContext(ctx, "metric history forgot expired series", slog.Int("series", len(idle)))
+}
+
+func (h *History) checkpointOpenChunks(ctx context.Context) {
+	h.mu.Lock()
+	defer h.mu.Unlock()
+	checkpoints := h.open.uncheckpointed()
+	if err := h.stored.store(ctx, recordedSamples{chunks: checkpoints}); err != nil {
+		slog.WarnContext(ctx, "metric history kept no checkpoint", slog.Any("error", err))
+		return
+	}
+	h.open.markCheckpointed(checkpoints)
 }
 
 func (h *History) record(ctx context.Context, samples []sample) {
@@ -152,13 +168,19 @@ func (h *History) chunkSeriesWithin(
 	for _, series := range matched {
 		metas := stored[series.id]
 		if open, overlaps := h.open.copyWithin(series.id, mint, maxt); overlaps {
-			metas = append(metas, open)
+			metas = append(withoutCheckpointOf(metas, open), open)
 		}
 		if len(metas) > 0 {
 			selected = append(selected, chunkSeriesOf(series.labels, metas))
 		}
 	}
 	return selected, nil
+}
+
+func withoutCheckpointOf(stored []chunks.Meta, open chunks.Meta) []chunks.Meta {
+	return slices.DeleteFunc(stored, func(meta chunks.Meta) bool {
+		return meta.MinTime == open.MinTime
+	})
 }
 
 func chunkSeriesOf(seriesLabels labels.Labels, metas []chunks.Meta) storage.ChunkSeries {

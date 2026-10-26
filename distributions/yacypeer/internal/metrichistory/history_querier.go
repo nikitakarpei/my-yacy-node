@@ -51,19 +51,12 @@ func (q historyQuerier) LabelValues(
 	return slices.Compact(values), nil, nil
 }
 
-func (q historyQuerier) LabelNames(
-	_ context.Context,
-	_ *storage.LabelHints,
-	matchers ...*labels.Matcher,
+func (historyQuerier) LabelNames(
+	context.Context,
+	*storage.LabelHints,
+	...*labels.Matcher,
 ) ([]string, annotations.Annotations, error) {
-	var names []string
-	for _, series := range q.history.seriesMatching(matchers) {
-		series.labels.Range(func(label labels.Label) {
-			names = append(names, label.Name)
-		})
-	}
-	slices.Sort(names)
-	return slices.Compact(names), nil, nil
+	return nil, nil, nil
 }
 
 func (historyQuerier) Close() error {

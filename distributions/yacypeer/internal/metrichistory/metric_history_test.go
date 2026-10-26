@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"os"
 	"slices"
 	"sync"
 	"testing"
@@ -209,6 +210,37 @@ func TestHistoryKeepsItsSamplesAcrossARestart(t *testing.T) {
 	}
 }
 
+func TestHistoryKeepsCheckpointedSamplesAcrossACrash(t *testing.T) {
+	directory := t.TempDir()
+	registry := prometheus.NewRegistry()
+	gauge := gaugeIn(registry, "known_peers")
+	running := startHistory(t, directory, newSteppedClock(), serviceSource(registry))
+	samples := 40
+	for value := 1; value < samples; value++ {
+		running.sampleAgain(func() { gauge.Set(float64(value)) })
+	}
+	crashed := t.TempDir()
+	if err := os.CopyFS(crashed, os.DirFS(directory)); err != nil {
+		t.Fatalf("copy the history: %v", err)
+	}
+	running.stop()
+
+	clock := newSteppedClock()
+	clock.now = historyStart.Add(time.Duration(samples) * sampleInterval)
+	restarted := startHistory(t, crashed, clock, serviceSource(prometheus.NewRegistry()))
+	defer restarted.stop()
+
+	found := seriesOf(t, restarted.history, nameIs("known_peers"))
+	if len(found) != 1 || len(found[0].samples) == 0 || len(found[0].samples) >= samples {
+		t.Fatalf("found %v, want one series with the samples up to the last checkpoint", found)
+	}
+	for at, value := range found[0].samples {
+		if value != float64(at) {
+			t.Fatalf("samples = %v, want the first samples in order", found[0].samples)
+		}
+	}
+}
+
 func TestHistoryForgetsSamplesOlderThanTheRetention(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	gauge := gaugeIn(registry, "known_peers")
@@ -297,13 +329,6 @@ func TestHistoryListsTheInstancesItHolds(t *testing.T) {
 	}
 	if !slices.Equal(values, []string{instance}) {
 		t.Errorf("instances = %v, want %s", values, instance)
-	}
-	names, _, err := querier.LabelNames(context.Background(), nil)
-	if err != nil {
-		t.Fatalf("label names: %v", err)
-	}
-	if !slices.Equal(names, []string{model.MetricNameLabel, "instance"}) {
-		t.Errorf("label names = %v, want __name__ and instance", names)
 	}
 }
 

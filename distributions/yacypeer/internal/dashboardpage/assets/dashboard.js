@@ -1,40 +1,103 @@
 "use strict";
 
 (() => {
-  const ranges = [["1h", 3600], ["6h", 21600], ["24h", 86400], ["7d", 604800]];
+  const ranges = [
+    ["1h", 3600],
+    ["6h", 21600],
+    ["24h", 86400],
+    ["7d", 604800],
+  ];
   const queriesAtOnce = 6;
+  const statTypes = ["stat", "gauge", "bargauge"];
+  const statLookbackSeconds = 300;
   const allValue = "$__all";
   const autoValue = "auto";
   const palette = [
-    "#73BF69", "#F2CC0C", "#8AB8FF", "#FF780A", "#F2495C", "#5794F2", "#B877D9",
-    "#705DA0", "#37872D", "#FADE2A", "#447EBC", "#C15C17", "#890F02", "#0A437C",
-    "#6D1F62", "#584477", "#B7DBAB", "#F4D598", "#70DBED", "#F9BA8F",
+    "#73BF69",
+    "#F2CC0C",
+    "#8AB8FF",
+    "#FF780A",
+    "#F2495C",
+    "#5794F2",
+    "#B877D9",
+    "#705DA0",
+    "#37872D",
+    "#FADE2A",
+    "#447EBC",
+    "#C15C17",
+    "#890F02",
+    "#0A437C",
+    "#6D1F62",
+    "#584477",
+    "#B7DBAB",
+    "#F4D598",
+    "#70DBED",
+    "#F9BA8F",
   ];
   const namedColors = {
-    "green": "#73BF69", "dark-green": "#37872D", "semi-dark-green": "#56A64B",
-    "light-green": "#96D98D", "super-light-green": "#C8F2C2",
-    "yellow": "#FADE2A", "dark-yellow": "#E0B400", "light-yellow": "#FFEE52",
-    "red": "#F2495C", "dark-red": "#C4162A", "semi-dark-red": "#E02F44",
-    "light-red": "#FF7383", "super-light-red": "#FFA6B0",
-    "blue": "#5794F2", "dark-blue": "#1F60C4", "light-blue": "#8AB8FF",
-    "orange": "#FF9830", "dark-orange": "#FA6400", "light-orange": "#FFB357",
-    "purple": "#B877D9", "dark-purple": "#8F3BB8", "light-purple": "#CA95E5",
-    "text": "#CCCCDC",
+    green: "#73BF69",
+    "dark-green": "#37872D",
+    "semi-dark-green": "#56A64B",
+    "light-green": "#96D98D",
+    "super-light-green": "#C8F2C2",
+    yellow: "#FADE2A",
+    "dark-yellow": "#E0B400",
+    "light-yellow": "#FFEE52",
+    red: "#F2495C",
+    "dark-red": "#C4162A",
+    "semi-dark-red": "#E02F44",
+    "light-red": "#FF7383",
+    "super-light-red": "#FFA6B0",
+    blue: "#5794F2",
+    "dark-blue": "#1F60C4",
+    "light-blue": "#8AB8FF",
+    orange: "#FF9830",
+    "dark-orange": "#FA6400",
+    "light-orange": "#FFB357",
+    purple: "#B877D9",
+    "dark-purple": "#8F3BB8",
+    "light-purple": "#CA95E5",
+    text: "#CCCCDC",
   };
   const roundedIntervals = [
-    [10, 1], [15, 10], [35, 20], [75, 50], [150, 100], [350, 200], [750, 500],
-    [1500, 1000], [3500, 2000], [7500, 5000], [12500, 10000], [17500, 15000],
-    [25000, 20000], [45000, 30000], [90000, 60000], [210000, 120000],
-    [450000, 300000], [750000, 600000], [1050000, 900000], [1500000, 1200000],
-    [2700000, 1800000], [5400000, 3600000], [8100000, 7200000],
-    [16200000, 10800000], [32400000, 21600000], [86400000, 43200000],
-    [604800000, 86400000], [1814400000, 604800000],
+    [10, 1],
+    [15, 10],
+    [35, 20],
+    [75, 50],
+    [150, 100],
+    [350, 200],
+    [750, 500],
+    [1500, 1000],
+    [3500, 2000],
+    [7500, 5000],
+    [12500, 10000],
+    [17500, 15000],
+    [25000, 20000],
+    [45000, 30000],
+    [90000, 60000],
+    [210000, 120000],
+    [450000, 300000],
+    [750000, 600000],
+    [1050000, 900000],
+    [1500000, 1200000],
+    [2700000, 1800000],
+    [5400000, 3600000],
+    [8100000, 7200000],
+    [16200000, 10800000],
+    [32400000, 21600000],
+    [86400000, 43200000],
+    [604800000, 86400000],
+    [1814400000, 604800000],
   ];
 
   const model = JSON.parse(document.getElementById("model").textContent);
   const themeStyle = getComputedStyle(document.documentElement);
-  const theme = Object.fromEntries(["text", "muted", "border"]
-    .map((name) => [name, themeStyle.getPropertyValue(`--${name}`).trim()]));
+  const theme = Object.fromEntries(
+    ["text", "muted", "border"].map((name) => [
+      name,
+      themeStyle.getPropertyValue(`--${name}`).trim(),
+    ]),
+  );
   const scrapeSeconds = Number(document.getElementById("dashboard").dataset.sampleSeconds);
   const state = {
     rangeSeconds: rangeSecondsFrom(new URLSearchParams(location.search)),
@@ -67,19 +130,21 @@
 
   function renderRanges() {
     const container = document.getElementById("ranges");
-    container.replaceChildren(...ranges.map(([name, seconds]) => {
-      const button = document.createElement("button");
-      button.textContent = name;
-      button.className = seconds === state.rangeSeconds ? "active" : "";
-      button.addEventListener("click", async () => {
-        state.rangeSeconds = seconds;
-        rememberInAddress();
-        renderRanges();
-        await resolveVariables();
-        refresh();
-      });
-      return button;
-    }));
+    container.replaceChildren(
+      ...ranges.map(([name, seconds]) => {
+        const button = document.createElement("button");
+        button.textContent = name;
+        button.className = seconds === state.rangeSeconds ? "active" : "";
+        button.addEventListener("click", async () => {
+          state.rangeSeconds = seconds;
+          rememberInAddress();
+          renderRanges();
+          await resolveVariables();
+          refresh();
+        });
+        return button;
+      }),
+    );
   }
 
   async function resolveVariables() {
@@ -119,12 +184,17 @@
   }
 
   function splitOptions(text) {
-    return String(text || "").split(",").map((option) => option.trim()).filter(Boolean);
+    return String(text || "")
+      .split(",")
+      .map((option) => option.trim())
+      .filter(Boolean);
   }
 
   async function labelValuesOf(variable, resolved) {
     const definition = typeof variable.query === "object" ? variable.query.query : variable.query;
-    const parsed = /^\s*label_values\((.+),\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\)\s*$/.exec(definition || "");
+    const parsed = /^\s*label_values\((.+),\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\)\s*$/.exec(
+      definition || "",
+    );
     if (!parsed) {
       return [];
     }
@@ -146,38 +216,42 @@
     }
     const current = variable.current && variable.current.value;
     if (variable.type === "interval") {
-      return current && String(current).startsWith("$__auto") ? autoValue : (current || options[0]);
+      return current && String(current).startsWith("$__auto") ? autoValue : current || options[0];
     }
     if (variable.includeAll && (current === allValue || current === undefined)) {
       return allValue;
     }
-    return Array.isArray(current) ? current[0] : (current || options[0] || "");
+    return Array.isArray(current) ? current[0] : current || options[0] || "";
   }
 
   function renderVariables() {
     const container = document.getElementById("variables");
-    container.replaceChildren(...state.variables
-      .filter(({ variable }) => variable.hide !== 2 && variable.type !== "constant")
-      .map((resolved) => {
-        const label = document.createElement("label");
-        label.textContent = `${resolved.variable.label || resolved.variable.name} `;
-        const select = document.createElement("select");
-        const choices = resolved.variable.includeAll ? [allValue, ...resolved.options] : resolved.options;
-        for (const choice of choices) {
-          const option = document.createElement("option");
-          option.value = choice;
-          option.textContent = choice === allValue ? "All" : choice;
-          option.selected = choice === resolved.selected;
-          select.append(option);
-        }
-        select.addEventListener("change", () => {
-          resolved.selected = select.value;
-          rememberInAddress();
-          refresh();
-        });
-        label.append(select);
-        return label;
-      }));
+    container.replaceChildren(
+      ...state.variables
+        .filter(({ variable }) => variable.hide !== 2 && variable.type !== "constant")
+        .map((resolved) => {
+          const label = document.createElement("label");
+          label.textContent = `${resolved.variable.label || resolved.variable.name} `;
+          const select = document.createElement("select");
+          const choices = resolved.variable.includeAll
+            ? [allValue, ...resolved.options]
+            : resolved.options;
+          for (const choice of choices) {
+            const option = document.createElement("option");
+            option.value = choice;
+            option.textContent = choice === allValue ? "All" : choice;
+            option.selected = choice === resolved.selected;
+            select.append(option);
+          }
+          select.addEventListener("change", () => {
+            resolved.selected = select.value;
+            rememberInAddress();
+            refresh();
+          });
+          label.append(select);
+          return label;
+        }),
+    );
   }
 
   function rememberInAddress() {
@@ -233,7 +307,7 @@
   function autoIntervalOf(variable) {
     const count = Number(variable.auto_count) || 30;
     const floor = secondsOf(variable.auto_min || "10s") * 1000;
-    return durationTextOf(Math.max(roundedInterval(state.rangeSeconds * 1000 / count), floor));
+    return durationTextOf(Math.max(roundedInterval((state.rangeSeconds * 1000) / count), floor));
   }
 
   function roundedInterval(milliseconds) {
@@ -251,7 +325,12 @@
   }
 
   function durationTextOf(milliseconds) {
-    const units = [["d", 86400000], ["h", 3600000], ["m", 60000], ["s", 1000]];
+    const units = [
+      ["d", 86400000],
+      ["h", 3600000],
+      ["m", 60000],
+      ["s", 1000],
+    ];
     for (const [unit, size] of units) {
       if (milliseconds >= size && milliseconds % size === 0) {
         return `${milliseconds / size}${unit}`;
@@ -262,15 +341,18 @@
 
   function layOut() {
     const grid = document.getElementById("dashboard");
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        const panel = panels.find((candidate) => candidate.element === entry.target);
-        panel.visible = entry.isIntersecting;
-        if (panel.visible && panel.stale) {
-          draw(panel);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const panel = panels.find((candidate) => candidate.element === entry.target);
+          panel.visible = entry.isIntersecting;
+          if (panel.visible && panel.stale) {
+            draw(panel);
+          }
         }
-      }
-    }, { rootMargin: "300px" });
+      },
+      { rootMargin: "300px" },
+    );
     for (const spec of flattenedPanels(model.panels || [])) {
       const element = document.createElement("section");
       const position = spec.gridPos || { x: 0, y: 0, w: 12, h: 8 };
@@ -290,16 +372,25 @@
       body.className = "body";
       element.append(title, body);
       grid.append(element);
-      const panel = { spec, element, title, body, chart: null, stale: true, visible: false, generation: 0 };
+      const panel = {
+        spec,
+        element,
+        title,
+        body,
+        chart: null,
+        stale: true,
+        visible: false,
+        generation: 0,
+      };
       panels.push(panel);
       observer.observe(element);
     }
   }
 
   function flattenedPanels(listed) {
-    return listed.flatMap((spec) => (spec.type === "row" && spec.collapsed && spec.panels
-      ? [spec, ...spec.panels]
-      : [spec]));
+    return listed.flatMap((spec) =>
+      spec.type === "row" && spec.collapsed && spec.panels ? [spec, ...spec.panels] : [spec],
+    );
   }
 
   function refresh() {
@@ -319,19 +410,22 @@
     panel.stale = false;
     panel.title.textContent = titleOf(panel.spec.title || "");
     const generation = ++panel.generation;
-    const span = querySpanOf(panel);
+    const isStat = statTypes.includes(panel.spec.type);
+    const span = querySpanOf(panel, isStat ? statLookbackSeconds : state.rangeSeconds);
     const targets = (panel.spec.targets || []).filter((target) => target.expr && !target.hide);
     let answers;
     try {
-      answers = await Promise.all(targets.map(async (target) => ({
-        target,
-        series: await rangeQueryOf(
-          interpolated(target.expr, span.scoped),
-          span.start,
-          span.end,
-          span.step,
-        ),
-      })));
+      answers = await Promise.all(
+        targets.map(async (target) => ({
+          target,
+          series: await rangeQueryOf(
+            interpolated(target.expr, span.scoped),
+            span.start,
+            span.end,
+            span.step,
+          ),
+        })),
+      );
     } catch (failure) {
       if (generation === panel.generation) {
         showNotice(panel, failure.message, true);
@@ -341,18 +435,20 @@
     if (generation !== panel.generation) {
       return;
     }
-    const drawn = answers.flatMap(({ target, series }) => series
-      .filter((found) => found.values.size > 0)
-      .map((found) => ({
-        name: legendOf(target, found.metric),
-        metric: found.metric,
-        values: found.values,
-      })));
+    const drawn = answers.flatMap(({ target, series }) =>
+      series
+        .filter((found) => found.values.size > 0)
+        .map((found) => ({
+          name: legendOf(target, found.metric),
+          metric: found.metric,
+          values: found.values,
+        })),
+    );
     if (drawn.length === 0) {
       showNotice(panel, "No data", false);
       return;
     }
-    if (["stat", "gauge", "bargauge"].includes(panel.spec.type)) {
+    if (isStat) {
       drawStat(panel, drawn);
     } else if (panel.spec.type === "heatmap") {
       drawHeatmap(panel, drawn, span);
@@ -361,14 +457,17 @@
     }
   }
 
-  function querySpanOf(panel) {
-    const rangeMilliseconds = state.rangeSeconds * 1000;
+  function querySpanOf(panel, rangeSeconds) {
+    const rangeMilliseconds = rangeSeconds * 1000;
     const points = panel.spec.maxDataPoints || Math.max(100, panel.body.clientWidth || 600);
     const floor = panel.spec.interval ? secondsOf(interpolated(panel.spec.interval, {})) * 1000 : 0;
-    const interval = Math.max(roundedInterval(rangeMilliseconds / points), floor || scrapeSeconds * 1000);
+    const interval = Math.max(
+      roundedInterval(rangeMilliseconds / points),
+      floor || scrapeSeconds * 1000,
+    );
     const step = interval / 1000;
     const end = Math.ceil(state.end / step) * step;
-    const start = Math.floor((state.end - state.rangeSeconds) / step) * step;
+    const start = Math.floor((state.end - rangeSeconds) / step) * step;
     const rateInterval = Math.max(interval + scrapeSeconds * 1000, 4 * scrapeSeconds * 1000);
     return {
       start,
@@ -379,7 +478,7 @@
         __interval_ms: String(interval),
         __rate_interval: durationTextOf(rateInterval),
         __range: durationTextOf(rangeMilliseconds),
-        __range_s: String(state.rangeSeconds),
+        __range_s: String(rangeSeconds),
         __range_ms: String(rangeMilliseconds),
       },
     };
@@ -396,9 +495,11 @@
       }
       return answer.data.result.map((found) => ({
         metric: found.metric,
-        values: new Map((found.values || [])
-          .map(([at, value]) => [Number(at), Number(value)])
-          .filter(([, value]) => !Number.isNaN(value))),
+        values: new Map(
+          (found.values || [])
+            .map(([at, value]) => [Number(at), Number(value)])
+            .filter(([, value]) => !Number.isNaN(value)),
+        ),
       }));
     } finally {
       queriesRunning--;
@@ -414,10 +515,12 @@
       queriesRunning++;
       return Promise.resolve();
     }
-    return new Promise((resolve) => queriesWaiting.push(() => {
-      queriesRunning++;
-      resolve();
-    }));
+    return new Promise((resolve) =>
+      queriesWaiting.push(() => {
+        queriesRunning++;
+        resolve();
+      }),
+    );
   }
 
   function legendOf(target, metric) {
@@ -499,8 +602,9 @@
     const properties = {};
     for (const override of overrides) {
       const matcher = override.matcher || {};
-      const matches = (matcher.id === "byName" && matcher.options === name)
-        || (matcher.id === "byRegexp" && new RegExp(matcher.options).test(name));
+      const matches =
+        (matcher.id === "byName" && matcher.options === name) ||
+        (matcher.id === "byRegexp" && new RegExp(matcher.options).test(name));
       if (matches) {
         for (const property of override.properties || []) {
           properties[property.id] = property.value;
@@ -528,10 +632,13 @@
       if (onRight) {
         rightUnit ??= unit;
       }
-      const color = overrides.color && overrides.color.fixedColor
-        ? colorOf(overrides.color.fixedColor)
-        : palette[index % palette.length];
-      const fillOpacity = overrides["custom.fillOpacity"] ?? (stacked ? Math.max(custom.fillOpacity || 0, 40) : custom.fillOpacity || 0);
+      const color =
+        overrides.color && overrides.color.fixedColor
+          ? colorOf(overrides.color.fixedColor)
+          : palette[index % palette.length];
+      const fillOpacity =
+        overrides["custom.fillOpacity"] ??
+        (stacked ? Math.max(custom.fillOpacity || 0, 40) : custom.fillOpacity || 0);
       return {
         label: name,
         scale: onRight ? "right" : "y",
@@ -541,42 +648,66 @@
         paths: custom.drawStyle === "bars" ? uPlot.paths.bars({ size: [0.8, 40] }) : undefined,
         points: { show: false },
         spanGaps: Boolean(custom.spanNulls),
-        value: (chart, value, seriesIndex, at) => formatted(
-          stacked && at !== null && at !== undefined ? columns[index][at] : value,
-          unit,
-          defaults.decimals,
-        ),
+        value: (chart, value, seriesIndex, at) =>
+          formatted(
+            stacked && at !== null && at !== undefined ? columns[index][at] : value,
+            unit,
+            defaults.decimals,
+          ),
       };
     });
-    const axisStyle = { stroke: theme.muted, grid: { stroke: theme.border, width: 1 }, ticks: { stroke: theme.border, width: 1 } };
+    const axisStyle = {
+      stroke: theme.muted,
+      grid: { stroke: theme.border, width: 1 },
+      ticks: { stroke: theme.border, width: 1 },
+    };
     const axes = [
       axisStyle,
       {
         ...axisStyle,
         scale: "y",
         size: 70,
-        values: (chart, splits) => splits.map((value) => formatted(value, defaults.unit, defaults.decimals)),
+        values: (chart, splits) =>
+          splits.map((value) => formatted(value, defaults.unit, defaults.decimals)),
         splits: logBase ? (chart, axis, low, high) => powersWithin(low, high, logBase) : undefined,
       },
     ];
     if (rightUnit !== undefined) {
-      axes.push({ ...axisStyle, scale: "right", side: 1, grid: { show: false }, size: 70, values: (chart, splits) => splits.map((value) => formatted(value, rightUnit)) });
+      axes.push({
+        ...axisStyle,
+        scale: "right",
+        side: 1,
+        grid: { show: false },
+        size: 70,
+        values: (chart, splits) => splits.map((value) => formatted(value, rightUnit)),
+      });
     }
-    const legendShown = drawn.length <= 30 && !(panel.spec.options && panel.spec.options.legend && panel.spec.options.legend.showLegend === false);
+    const legendShown =
+      drawn.length <= 30 &&
+      !(
+        panel.spec.options &&
+        panel.spec.options.legend &&
+        panel.spec.options.legend.showLegend === false
+      );
     const legend = document.createElement("div");
     legend.className = "legend";
     const options = {
       width: panel.body.clientWidth,
       height: panel.body.clientHeight,
       series: [{}, ...series],
-      bands: stacked ? series.slice(1).map((drawnSeries, index) => ({ series: [index + 2, index + 1] })) : [],
+      bands: stacked
+        ? series.slice(1).map((drawnSeries, index) => ({ series: [index + 2, index + 1] }))
+        : [],
       axes,
       legend: { show: legendShown, mount: (chart, table) => legend.append(table) },
       scales: {
         x: { time: true },
         y: logBase
           ? { distr: 3, log: logBase, range: (chart, low, high) => logRangeOf(low, high, logBase) }
-          : { range: (chart, low, high) => rangeOf(low, high, defaults.min, defaults.max ?? custom.axisSoftMax) },
+          : {
+              range: (chart, low, high) =>
+                rangeOf(low, high, defaults.min, defaults.max ?? custom.axisSoftMax),
+            },
         right: { range: (chart, low, high) => rangeOf(low, high, 0, undefined) },
       },
       cursor: { points: { show: false } },
@@ -585,10 +716,11 @@
     const plot = document.createElement("div");
     panel.body.replaceChildren(plot, legend);
     panel.chart = new uPlot(options, [times, ...plotted], plot);
-    panel.resize = () => panel.chart.setSize({
-      width: panel.body.clientWidth,
-      height: Math.max(60, panel.body.clientHeight - legend.offsetHeight),
-    });
+    panel.resize = () =>
+      panel.chart.setSize({
+        width: panel.body.clientWidth,
+        height: Math.max(60, panel.body.clientHeight - legend.offsetHeight),
+      });
     panel.resize();
   }
 
@@ -600,10 +732,37 @@
     return times;
   }
 
-  const colorSchemes = Object.fromEntries(Object.entries({
-    Viridis: ["#440154", "#482777", "#3F4A8A", "#31678E", "#26838F", "#1F9D8A", "#6CCE5A", "#B6DE2B", "#FEE825"],
-    RdYlGn: ["#A50026", "#D73027", "#F46D43", "#FDAE61", "#FEE08B", "#FFFFBF", "#D9EF8B", "#A6D96A", "#66BD63", "#1A9850", "#006837"],
-  }).map(([name, stops]) => [name, stops.map((hex) => [1, 3, 5].map((at) => parseInt(hex.slice(at, at + 2), 16)))]));
+  const colorSchemes = Object.fromEntries(
+    Object.entries({
+      Viridis: [
+        "#440154",
+        "#482777",
+        "#3F4A8A",
+        "#31678E",
+        "#26838F",
+        "#1F9D8A",
+        "#6CCE5A",
+        "#B6DE2B",
+        "#FEE825",
+      ],
+      RdYlGn: [
+        "#A50026",
+        "#D73027",
+        "#F46D43",
+        "#FDAE61",
+        "#FEE08B",
+        "#FFFFBF",
+        "#D9EF8B",
+        "#A6D96A",
+        "#66BD63",
+        "#1A9850",
+        "#006837",
+      ],
+    }).map(([name, stops]) => [
+      name,
+      stops.map((hex) => [1, 3, 5].map((at) => parseInt(hex.slice(at, at + 2), 16))),
+    ]),
+  );
 
   function drawHeatmap(panel, drawn, span) {
     destroyChart(panel);
@@ -638,7 +797,12 @@
     panel.body.replaceChildren(container);
     const margin = { left: 72, right: 8, top: 4, bottom: 22 };
     const cellOf = (event) => {
-      const { cellWidth, cellHeight } = heatmapGeometryOf(panel.body, margin, rows.length, times.length);
+      const { cellWidth, cellHeight } = heatmapGeometryOf(
+        panel.body,
+        margin,
+        rows.length,
+        times.length,
+      );
       const column = Math.floor((event.offsetX - margin.left) / cellWidth);
       const row = rows.length - 1 - Math.floor((event.offsetY - margin.top) / cellHeight);
       return { column, row };
@@ -658,9 +822,18 @@
       tip.style.display = "none";
     });
     const hiddenAtOrBelow = options.filterValues?.le ?? 1e-9;
-    panel.resize = () => paintHeatmap(canvas, panel.body, margin, {
-      rows, times, grid, low, high, scheme, span, hiddenAtOrBelow, gap: options.cellGap ?? 1,
-    });
+    panel.resize = () =>
+      paintHeatmap(canvas, panel.body, margin, {
+        rows,
+        times,
+        grid,
+        low,
+        high,
+        scheme,
+        span,
+        hiddenAtOrBelow,
+        gap: options.cellGap ?? 1,
+      });
     panel.resize();
   }
 
@@ -693,7 +866,12 @@
 
   function paintHeatmap(canvas, body, margin, heatmap) {
     const { rows, times, grid, low, high, scheme, span, gap, hiddenAtOrBelow } = heatmap;
-    const { width, height, cellWidth, cellHeight } = heatmapGeometryOf(body, margin, rows.length, times.length);
+    const { width, height, cellWidth, cellHeight } = heatmapGeometryOf(
+      body,
+      margin,
+      rows.length,
+      times.length,
+    );
     const ratio = window.devicePixelRatio || 1;
     canvas.width = width * ratio;
     canvas.height = height * ratio;
@@ -710,7 +888,12 @@
           continue;
         }
         context.fillStyle = schemeColorAt(scheme, high > low ? (value - low) / (high - low) : 0.5);
-        context.fillRect(margin.left + column * cellWidth, y, Math.max(1, cellWidth - cellGap), Math.max(1, cellHeight - cellGap));
+        context.fillRect(
+          margin.left + column * cellWidth,
+          y,
+          Math.max(1, cellWidth - cellGap),
+          Math.max(1, cellHeight - cellGap),
+        );
       }
     }
     context.fillStyle = theme.muted;
@@ -719,7 +902,11 @@
     context.textBaseline = "middle";
     const rowStep = Math.max(1, Math.ceil(14 / cellHeight));
     for (let row = 0; row < rows.length; row += rowStep) {
-      context.fillText(rows[row].label, margin.left - 6, margin.top + (rows.length - row - 0.5) * cellHeight);
+      context.fillText(
+        rows[row].label,
+        margin.left - 6,
+        margin.top + (rows.length - row - 0.5) * cellHeight,
+      );
     }
     context.textAlign = "center";
     context.textBaseline = "top";
@@ -728,7 +915,9 @@
     for (let column = 0; column < times.length; column += columnStep) {
       const instant = new Date(times[column] * 1000);
       const clock = instant.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      const label = withDate ? `${instant.toLocaleDateString([], { month: "2-digit", day: "2-digit" })} ${clock}` : clock;
+      const label = withDate
+        ? `${instant.toLocaleDateString([], { month: "2-digit", day: "2-digit" })} ${clock}`
+        : clock;
       context.fillText(label, margin.left + (column + 0.5) * cellWidth, height - margin.bottom + 6);
     }
   }
@@ -756,17 +945,21 @@
   function stackedColumnsOf(columns) {
     const sums = columns[0] ? columns[0].map(() => 0) : [];
     const filled = sums.map((sum, at) => columns.some((column) => column[at] !== null));
-    return columns.map((column) => column.map((value, at) => {
-      if (!filled[at]) {
-        return null;
-      }
-      sums[at] += value || 0;
-      return sums[at];
-    }));
+    return columns.map((column) =>
+      column.map((value, at) => {
+        if (!filled[at]) {
+          return null;
+        }
+        sums[at] += value || 0;
+        return sums[at];
+      }),
+    );
   }
 
   function alphaHexOf(percent) {
-    return Math.round(Math.min(100, percent) * 2.55).toString(16).padStart(2, "0");
+    return Math.round(Math.min(100, percent) * 2.55)
+      .toString(16)
+      .padStart(2, "0");
   }
 
   function powersWithin(low, high, base) {
@@ -796,7 +989,10 @@
     }
     const [paddedLow, paddedHigh] = uPlot.rangeNum(low, high, 0.1, true);
     const from = fixedLow ?? (low >= 0 ? Math.max(0, paddedLow) : paddedLow);
-    const to = fixedHigh !== undefined && fixedHigh !== null ? Math.max(fixedHigh, from === high ? high + 1 : high) : paddedHigh;
+    const to =
+      fixedHigh !== undefined && fixedHigh !== null
+        ? Math.max(fixedHigh, from === high ? high + 1 : high)
+        : paddedHigh;
     return [from, to === from ? from + 1 : to];
   }
 
