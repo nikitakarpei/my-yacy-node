@@ -27,8 +27,8 @@ program, connected and ready to use.
   Yggdrasil listen URIs.
 * On the Yggdrasil network, the program SHALL serve the peer endpoint of `yacynode` on its
   Yggdrasil address, and SHALL send outbound requests to Yggdrasil addresses through it.
-* On the Yggdrasil network, the program SHALL advertise its Yggdrasil address, until the
-  operator sets the public host of the peer.
+* On the Yggdrasil network, the program SHALL advertise its Yggdrasil address after the other
+  hosts of the peer.
 * The program SHALL NOT start when the operator joins the Yggdrasil network and names an
   egress proxy.
 * The program SHALL keep its local data in one data directory.
@@ -46,6 +46,6 @@ program, connected and ready to use.
 ## Known Limitations
 
 * The peer does not accept postings from other peers.
-* The peer advertises one host in its seed. Peers outside the Yggdrasil network cannot reach a
-  peer that advertises its Yggdrasil address.
+* A peer tries the Yggdrasil address of the peer only after its other hosts fail. Peers outside
+  the Yggdrasil network cannot use the Yggdrasil address.
 * Some log lines do not name a service, for example the lines that a library writes.

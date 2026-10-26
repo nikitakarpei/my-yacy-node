@@ -32,8 +32,8 @@ outside the container.
 
 If you set one of these settings, the peer joins the Yggdrasil network. It also serves the
 peer address of yacynode on its Yggdrasil address, on the advertised port. It sends requests
-for Yggdrasil addresses through the Yggdrasil network. If you do not set
-`YACY_ADVERTISE_HOST`, the peer advertises its Yggdrasil address.
+for Yggdrasil addresses through the Yggdrasil network. It adds its Yggdrasil address to the
+end of `YACY_ADVERTISE_ADDITIONAL_HOSTS`.
 
 You cannot set `YACYPEER_EGRESS_PROXY_URL` and a Yggdrasil setting together.
 

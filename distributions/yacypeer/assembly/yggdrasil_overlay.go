@@ -5,6 +5,7 @@ import (
 	"errors"
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/ipv6stack"
@@ -89,8 +90,9 @@ func (o yggdrasilOverlay) yacynodeConfigFrom(
 	getenv func(string) string,
 ) (yacynodeassembly.ServiceConfig, error) {
 	return yacynodeassembly.LoadServiceConfig(func(key string) string {
-		if key == yacynodeassembly.EnvAdvertiseHost && strings.TrimSpace(getenv(key)) == "" {
-			return o.node.Address().String()
+		if key == yacynodeassembly.EnvAdvertiseAdditionalHosts {
+			advertisedHosts := envconfig.List(getenv, key)
+			return strings.Join(append(advertisedHosts, o.node.Address().String()), ",")
 		}
 		return getenv(key)
 	})

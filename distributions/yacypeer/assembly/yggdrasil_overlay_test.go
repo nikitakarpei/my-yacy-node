@@ -9,6 +9,7 @@ import (
 	"net/netip"
 	"net/url"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"testing"
 	"time"
@@ -224,9 +225,9 @@ func TestRunPeerSendsARequestForAYggdrasilAddressOverYggdrasil(t *testing.T) {
 	}
 }
 
-func TestRunPeerGreetsAYggdrasilPeerWithItsYggdrasilAddress(t *testing.T) {
+func TestRunPeerGreetsAYggdrasilPeerWithItsYggdrasilAddressAfterItsOtherHosts(t *testing.T) {
 	env, peeringURL, peerAddress := peerOnYggdrasil(t)
-	delete(env, "YACY_ADVERTISE_HOST")
+	env["YACY_ADVERTISE_ADDITIONAL_HOSTS"] = "peer.example"
 	neighbour := neighbourOf(t, peeringURL)
 	greetingSeeds := neighbour.greetingSeeds(t)
 	env[yacypeerassembly.EnvSeedlistURLs] = neighbour.seedlistURL()
@@ -234,15 +235,25 @@ func TestRunPeerGreetsAYggdrasilPeerWithItsYggdrasilAddress(t *testing.T) {
 
 	select {
 	case seed := <-greetingSeeds:
-		host, _ := seed.PrimaryHost.Get()
-		if host != yacymodel.HostFrom(peerAddress) {
-			t.Errorf(
-				"the peer greeted with host %s, want its Yggdrasil address %s",
-				host,
-				peerAddress,
-			)
+		primaryHost, _ := seed.PrimaryHost.Get()
+		additionalHosts, _ := seed.AdditionalHosts.Get()
+		if primaryHost.String() != env["YACY_ADVERTISE_HOST"] ||
+			!slices.Equal(additionalHosts, []yacymodel.Host{
+				mustHost(t, "peer.example"), yacymodel.HostFrom(peerAddress),
+			}) {
+			t.Errorf("the peer greeted with IP %s and IP6 %v, want IP %s and IP6 peer.example, %s",
+				primaryHost, additionalHosts, env["YACY_ADVERTISE_HOST"], peerAddress)
 		}
 	case <-time.After(overlayDeadline):
 		t.Error("the peer never greeted the neighbour over Yggdrasil")
 	}
+}
+
+func mustHost(t *testing.T, text string) yacymodel.Host {
+	t.Helper()
+	host, err := yacymodel.ParseHost(text)
+	if err != nil {
+		t.Fatalf("parse host %q: %v", text, err)
+	}
+	return host
 }
