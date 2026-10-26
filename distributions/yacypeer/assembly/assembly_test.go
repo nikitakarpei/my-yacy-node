@@ -199,6 +199,7 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 	for name, value := range map[string]string{
 		"CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL": "nats://elsewhere:4222",
 		"EGRESS_PROXY_URL":                       "http://elsewhere:4750",
+		"YACYCRAWLER_API_ADDR":                   "127.0.0.1:9100",
 	} {
 		t.Run(name, func(t *testing.T) {
 			env := peerEnvironment(t)

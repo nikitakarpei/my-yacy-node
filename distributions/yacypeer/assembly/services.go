@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"net"
 	"path/filepath"
 	"strconv"
 
@@ -22,7 +21,6 @@ import (
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 )
 
 var unreadSettings = []string{
@@ -35,7 +33,6 @@ var unreadSettings = []string{
 	crawlconsoleassembly.EnvOpsAddr,
 	crawlscrapebridgeassembly.EnvOpsAddr,
 	visitcrawlassembly.EnvOpsAddr,
-	yacycrawlerassembly.EnvAPIAddr,
 }
 
 var localListenAddresses = serviceenvironment.Defaults{
@@ -76,14 +73,15 @@ func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
 	addresses peerAddresses,
+	crawler crawler,
 	visitLinkSecret string,
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
 		searchServiceAssembliesFor(cfg, addresses),
-		crawlServiceAssembliesFor(cfg, addresses, visitLinkSecret)...,
+		crawlServiceAssembliesFor(addresses, crawler.apiURL, visitLinkSecret)...,
 	)
-	services := make([]service, 0, len(assemblies))
+	services := append(make([]service, 0, len(assemblies)+1), crawler.service)
 	for _, assembly := range assemblies {
 		service, err := assembly(ctx, getenv)
 		if err != nil {
@@ -155,23 +153,11 @@ func yacynodeConfigLoaderFor(
 }
 
 func crawlServiceAssembliesFor(
-	cfg PeerConfig,
 	addresses peerAddresses,
+	crawlerAPIURL string,
 	visitLinkSecret string,
 ) []serviceAssembly {
 	return []serviceAssembly{
-		serviceAssemblyOf(
-			yacycrawlerService,
-			serviceenvironment.Wiring{
-				yacycrawlerassembly.EnvCrawlNATSURL:  addresses.natsURL,
-				yacycrawlerassembly.EnvCrawlStateDir: cfg.directoryOf(yacycrawlerService),
-				yacycrawlerassembly.EnvProxyURL:      addresses.egressProxyURL.String(),
-				yacycrawlerassembly.EnvProxyDialMode: yacycrawlerassembly.DefaultProxyDialMode,
-			},
-			yacycrawlerassembly.LoadServiceConfig,
-			crawlerListenersOn(addresses.crawlerAPI),
-			yacycrawlerassembly.RunService,
-		),
 		serviceAssemblyOf(
 			pagescrapeService,
 			serviceenvironment.Wiring{
@@ -186,7 +172,7 @@ func crawlServiceAssembliesFor(
 		serviceAssemblyOf(
 			crawlconsoleService,
 			serviceenvironment.Wiring{
-				crawlconsoleassembly.EnvCrawlerAPIURL: addresses.crawlerAPIURL(),
+				crawlconsoleassembly.EnvCrawlerAPIURL: crawlerAPIURL,
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.ListenersFor,
@@ -215,14 +201,6 @@ func crawlServiceAssembliesFor(
 	}
 }
 
-func crawlerListenersOn(
-	api net.Listener,
-) func(context.Context, yacycrawlerassembly.ServiceConfig) (yacycrawlerassembly.Listeners, error) {
-	return func(context.Context, yacycrawlerassembly.ServiceConfig) (yacycrawlerassembly.Listeners, error) {
-		return yacycrawlerassembly.Listeners{API: api}, nil
-	}
-}
-
 func (cfg PeerConfig) directoryOf(serviceName string) string {
 	return filepath.Join(cfg.DataDirectory, serviceName)
 }
@@ -235,32 +213,12 @@ func serviceAssemblyOf[C any, L io.Closer](
 	runService func(context.Context, C, L, *prometheus.Registry) error,
 ) serviceAssembly {
 	return func(ctx context.Context, getenv func(string) string) (service, error) {
-		environment, err := serviceenvironment.For(
-			name,
-			wiring,
-			localListenAddresses,
-			unreadSettings,
-			getenv,
+		assembled, err := assembledServiceOf(
+			ctx, name, wiring, loadServiceConfig, listenersFor, runService, getenv,
 		)
 		if err != nil {
 			return service{}, err
 		}
-		cfg, err := loadServiceConfig(environment.Lookup)
-		if err != nil {
-			return service{}, fmt.Errorf("%s: %w", name, err)
-		}
-		listeners, err := listenersFor(ctx, cfg)
-		if err != nil {
-			return service{}, fmt.Errorf("%s: %w", name, err)
-		}
-		registry := prometheus.NewRegistry()
-		return service{
-			registry:  registry,
-			listeners: listeners,
-			run: func(ctx context.Context) error {
-				return runService(servicelog.ContextFor(ctx, name), cfg, listeners, registry)
-			},
-			name: name,
-		}, nil
+		return assembled.service(), nil
 	}
 }

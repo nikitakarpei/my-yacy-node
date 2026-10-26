@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	Host        = "127.0.0.1"
-	anyFreePort = "0"
+	Host           = "127.0.0.1"
+	AnyFreeAddress = Host + ":0"
 )
 
 func Listen(ctx context.Context) (net.Listener, error) {
-	return servergroup.Listen(ctx, net.JoinHostPort(Host, anyFreePort))
+	return servergroup.Listen(ctx, AnyFreeAddress)
 }
