@@ -58,12 +58,12 @@ func ParseTransferURLRequest(ctx context.Context, form url.Values) (TransferURLR
 		return TransferURLRequest{}, err
 	}
 
-	req.URLs = urlMetadataOfForm(ctx, form, req.URLCount)
+	req.URLs = urlMetadataFromForm(ctx, form, req.URLCount)
 
 	return req, nil
 }
 
-func urlMetadataOfForm(
+func urlMetadataFromForm(
 	ctx context.Context,
 	form url.Values,
 	declaredURLCount int,

@@ -34,7 +34,7 @@ func decodeWireForm(
 	form string,
 	allowance *plainTextAllowance,
 ) (string, error) {
-	plain, err := plainTextOf(ctx, form, allowance)
+	plain, err := plainTextFrom(ctx, form, allowance)
 	if err != nil {
 		return "", err
 	}
@@ -45,7 +45,11 @@ func decodeWireForm(
 	return plain, nil
 }
 
-func plainTextOf(ctx context.Context, form string, allowance *plainTextAllowance) (string, error) {
+func plainTextFrom(
+	ctx context.Context,
+	form string,
+	allowance *plainTextAllowance,
+) (string, error) {
 	if len(form) < 2 || form[1] != wireFrameSep {
 		return form, nil
 	}
