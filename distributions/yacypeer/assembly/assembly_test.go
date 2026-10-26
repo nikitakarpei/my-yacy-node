@@ -106,7 +106,7 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirKeptMetrics(t *testing.T) {
+func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirMetricHistory(t *testing.T) {
 	env := peerEnvironment(t)
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -121,7 +121,7 @@ func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirKeptMetrics(t *testing.T
 		"/dashboards/yacynode", "/dashboards/yacycrawler", "/dashboards/yacydhtsearch")
 	since := time.Now().Add(-time.Hour).Unix()
 	awaitAnswer(t, fmt.Sprintf(
-		"http://%s/api/v1/query_range?query=go_goroutines%%20and%%20yacynode_info&start=%d&end=%d&step=15",
+		"http://%s/dashboards/api/v1/query_range?query=go_goroutines%%20and%%20yacynode_info&start=%d&end=%d&step=15",
 		ops.Addr(),
 		since,
 		since+2*3600,

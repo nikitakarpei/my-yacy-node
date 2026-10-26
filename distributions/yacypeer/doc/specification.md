@@ -28,13 +28,11 @@ program, connected and ready to use.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.
-* The program SHALL serve the metrics of the process and of each service on one address.
-* The program SHALL keep the metrics of each service, with the metrics of the process, in the
-  data directory for the retention period that the operator sets.
-* The program SHALL show the dashboard of each service that has one on the metrics address,
-  and SHALL draw it from the kept metrics.
-* The program SHALL answer Prometheus range and label values queries over the kept metrics on
-  the metrics address.
+* The program SHALL serve the metrics of the process and of each service on the ops address.
+* The program SHALL keep a metric history of the process and of each service in the data
+  directory for the retention period that the operator sets.
+* The program SHALL show the dashboard of each service that has one on the ops address, and
+  SHALL draw it from the metric history.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.
 
@@ -43,4 +41,4 @@ program, connected and ready to use.
 * The peer does not accept postings from other peers.
 * Some log lines do not name a service, for example the lines that a library writes.
 * The dashboards draw state timeline panels as line charts.
-* A crash loses the most recent kept metrics.
+* A crash loses the most recent part of the metric history.

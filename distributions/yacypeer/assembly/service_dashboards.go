@@ -8,7 +8,7 @@ import (
 )
 
 var serviceDashboards = []dashboardpage.Dashboard{
-	{Service: yacynodeService, JSONModel: yacynodedoc.GrafanaDashboard},
-	{Service: yacycrawlerService, JSONModel: yacycrawlerdoc.GrafanaDashboard},
-	{Service: yacydhtsearchService, JSONModel: yacydhtsearchdoc.GrafanaDashboard},
+	{Service: yacynodeService, Model: yacynodedoc.GrafanaDashboard},
+	{Service: yacycrawlerService, Model: yacycrawlerdoc.GrafanaDashboard},
+	{Service: yacydhtsearchService, Model: yacydhtsearchdoc.GrafanaDashboard},
 }

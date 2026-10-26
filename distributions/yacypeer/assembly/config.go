@@ -11,17 +11,17 @@ import (
 )
 
 const (
-	EnvDataDirectory    = "YACYPEER_DATA_DIR"
-	EnvNetworkName      = "YACYPEER_NETWORK_NAME"
-	EnvSeedlistURLs     = "YACYPEER_SEEDLIST_URLS"
-	EnvOpsAddr          = "YACYPEER_OPS_ADDR"
-	EnvEgressProxyURL   = "YACYPEER_EGRESS_PROXY_URL"
-	EnvMetricsRetention = "YACYPEER_METRICS_RETENTION"
+	EnvDataDirectory          = "YACYPEER_DATA_DIR"
+	EnvNetworkName            = "YACYPEER_NETWORK_NAME"
+	EnvSeedlistURLs           = "YACYPEER_SEEDLIST_URLS"
+	EnvOpsAddr                = "YACYPEER_OPS_ADDR"
+	EnvEgressProxyURL         = "YACYPEER_EGRESS_PROXY_URL"
+	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
 
-	DefaultDataDirectory    = "data"
-	DefaultOpsAddr          = loopback.Host + ":9090"
-	DefaultMetricsRetention = 7 * 24 * time.Hour
-	DefaultSeedlistURLs     = "http://sixcooler.de/yacy/seed.txt," +
+	DefaultDataDirectory          = "data"
+	DefaultOpsAddr                = loopback.Host + ":9090"
+	DefaultMetricHistoryRetention = 7 * 24 * time.Hour
+	DefaultSeedlistURLs           = "http://sixcooler.de/yacy/seed.txt," +
 		"https://sonst.mifritscher.de/yacy/seed.txt," +
 		"http://5.45.105.16/yacyseed," +
 		"http://yacy.v16.de/seed/seed.txt," +
@@ -30,12 +30,12 @@ const (
 )
 
 type PeerConfig struct {
-	EgressProxyURL   *url.URL
-	DataDirectory    string
-	NetworkName      string
-	SeedlistURLs     string
-	OpsAddr          string
-	MetricsRetention time.Duration
+	EgressProxyURL         *url.URL
+	DataDirectory          string
+	NetworkName            string
+	SeedlistURLs           string
+	OpsAddr                string
+	MetricHistoryRetention time.Duration
 }
 
 func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
@@ -48,21 +48,21 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	metricsRetention, err := envconfig.Duration(
+	metricHistoryRetention, err := envconfig.Duration(
 		getenv,
-		EnvMetricsRetention,
-		DefaultMetricsRetention,
+		EnvMetricHistoryRetention,
+		DefaultMetricHistoryRetention,
 	)
 	if err != nil {
 		return PeerConfig{}, err
 	}
 	return PeerConfig{
-		EgressProxyURL:   egressProxyURL,
-		DataDirectory:    envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
-		NetworkName:      networkName,
-		SeedlistURLs:     seedlistURLs,
-		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		MetricsRetention: metricsRetention,
+		EgressProxyURL:         egressProxyURL,
+		DataDirectory:          envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
+		NetworkName:            networkName,
+		SeedlistURLs:           seedlistURLs,
+		OpsAddr:                envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		MetricHistoryRetention: metricHistoryRetention,
 	}, nil
 }
 

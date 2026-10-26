@@ -40,26 +40,20 @@ type chunkKey struct {
 	maxTime int64
 }
 
-type chunkSamples struct {
+type encodedChunk struct {
 	data    []byte
 	minTime int64
 }
 
-type cutChunk struct {
-	samples            chunkSamples
-	key                chunkKey
-	replacedCheckpoint *chunkKey
-}
-
-type recordedSamples struct {
+type unstoredChanges struct {
 	series []indexedSeries
-	chunks []cutChunk
+	chunks []chunkRevision
 }
 
 type storedHistory struct {
 	vault  *vault.Vault
 	series *vault.Collection[seriesID, labels.Labels]
-	chunks *vault.Collection[chunkKey, chunkSamples]
+	chunks *vault.Collection[chunkKey, encodedChunk]
 }
 
 func openStoredHistory(directory string, clock vault.Clock) (storedHistory, error) {
@@ -67,11 +61,11 @@ func openStoredHistory(directory string, clock vault.Clock) (storedHistory, erro
 	if err != nil {
 		return storedHistory{}, fmt.Errorf("metric history: %w", err)
 	}
-	storage, err := vault.New(engine, nil, nil, clock)
+	historyVault, err := vault.New(engine, nil, nil, clock)
 	if err != nil {
 		return storedHistory{}, errors.Join(err, engine.Close())
 	}
-	series, err := storage.RegisterCollection(
+	series, err := historyVault.RegisterCollection(
 		seriesBucket,
 		seriesKeys.KeyLayoutFor(
 			func(id seriesID) int64 { return int64(id) },
@@ -80,9 +74,9 @@ func openStoredHistory(directory string, clock vault.Clock) (storedHistory, erro
 		labelsCodec{},
 	)
 	if err != nil {
-		return storedHistory{}, errors.Join(err, storage.Close())
+		return storedHistory{}, errors.Join(err, historyVault.Close())
 	}
-	stored, err := storage.RegisterCollection(
+	chunks, err := historyVault.RegisterCollection(
 		chunksBucket,
 		chunkKeys.KeyLayoutFor(
 			func(key chunkKey) (int64, int64) { return int64(key.series), key.maxTime },
@@ -90,12 +84,12 @@ func openStoredHistory(directory string, clock vault.Clock) (storedHistory, erro
 				return chunkKey{series: seriesID(series), maxTime: maxTime}
 			},
 		),
-		chunkSamplesCodec{},
+		encodedChunkCodec{},
 	)
 	if err != nil {
-		return storedHistory{}, errors.Join(err, storage.Close())
+		return storedHistory{}, errors.Join(err, historyVault.Close())
 	}
-	return storedHistory{vault: storage, series: series, chunks: stored}, nil
+	return storedHistory{vault: historyVault, series: series, chunks: chunks}, nil
 }
 
 func (s storedHistory) storedSeries(ctx context.Context) (*seriesIndex, error) {
@@ -117,24 +111,24 @@ func (s storedHistory) storedSeries(ctx context.Context) (*seriesIndex, error) {
 	return newSeriesIndex(series), nil
 }
 
-func (s storedHistory) store(ctx context.Context, recorded recordedSamples) error {
-	if len(recorded.series) == 0 && len(recorded.chunks) == 0 {
+func (s storedHistory) store(ctx context.Context, unstored unstoredChanges) error {
+	if len(unstored.series) == 0 && len(unstored.chunks) == 0 {
 		return nil
 	}
 	return s.vault.Update(ctx, func(tx *vault.Txn) error {
-		for _, series := range recorded.series {
+		for _, series := range unstored.series {
 			if _, err := s.series.Put(tx, series.id, series.labels); err != nil {
 				return err
 			}
 		}
-		for _, cut := range recorded.chunks {
-			if _, err := s.chunks.Put(tx, cut.key, cut.samples); err != nil {
+		for _, revision := range unstored.chunks {
+			if _, err := s.chunks.Put(tx, revision.key, revision.encoded); err != nil {
 				return err
 			}
-			if cut.replacedCheckpoint == nil {
+			if revision.replacedCheckpoint == nil {
 				continue
 			}
-			if _, err := s.chunks.Delete(tx, *cut.replacedCheckpoint); err != nil {
+			if _, err := s.chunks.Delete(tx, *revision.replacedCheckpoint); err != nil {
 				return err
 			}
 		}
@@ -171,17 +165,17 @@ func (s storedHistory) chunksOf(
 	err := s.chunks.Scan(
 		tx,
 		chunkKeys.KeysWithFirstBetweenSeconds(int64(id), mint, math.MaxInt64),
-		func(key chunkKey, samples chunkSamples) (bool, error) {
-			if samples.minTime > maxt {
+		func(key chunkKey, encoded encodedChunk) (bool, error) {
+			if encoded.minTime > maxt {
 				return false, nil
 			}
-			chunk, err := chunkenc.FromData(chunkenc.EncXOR, samples.data)
+			chunk, err := chunkenc.FromData(chunkenc.EncXOR, encoded.data)
 			if err != nil {
 				return false, fmt.Errorf("decode chunk: %w", err)
 			}
 			metas = append(metas, chunks.Meta{
 				Chunk:   chunk,
-				MinTime: samples.minTime,
+				MinTime: encoded.minTime,
 				MaxTime: key.maxTime,
 			})
 			return true, nil
@@ -222,7 +216,7 @@ func (s storedHistory) holdsChunks(tx *vault.Txn, id seriesID) (bool, error) {
 	err := s.chunks.Scan(
 		tx,
 		chunkKeys.KeysWithFirst(int64(id)),
-		func(chunkKey, chunkSamples) (bool, error) {
+		func(chunkKey, encodedChunk) (bool, error) {
 			holds = true
 			return false, nil
 		},
@@ -272,17 +266,17 @@ func (labelsCodec) Decode(encoded []byte) (labels.Labels, error) {
 	return builder.Labels(), nil
 }
 
-type chunkSamplesCodec struct{}
+type encodedChunkCodec struct{}
 
-func (chunkSamplesCodec) Encode(samples chunkSamples) ([]byte, error) {
-	encoded := binary.AppendVarint(nil, samples.minTime)
-	return append(encoded, samples.data...), nil
+func (encodedChunkCodec) Encode(chunk encodedChunk) ([]byte, error) {
+	stored := binary.AppendVarint(nil, chunk.minTime)
+	return append(stored, chunk.data...), nil
 }
 
-func (chunkSamplesCodec) Decode(encoded []byte) (chunkSamples, error) {
+func (encodedChunkCodec) Decode(encoded []byte) (encodedChunk, error) {
 	minTime, read := binary.Varint(encoded)
 	if read <= 0 {
-		return chunkSamples{}, errBadChunk
+		return encodedChunk{}, errBadChunk
 	}
-	return chunkSamples{data: bytes.Clone(encoded[read:]), minTime: minTime}, nil
+	return encodedChunk{data: bytes.Clone(encoded[read:]), minTime: minTime}, nil
 }

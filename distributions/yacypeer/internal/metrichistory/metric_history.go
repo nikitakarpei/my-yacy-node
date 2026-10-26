@@ -62,7 +62,8 @@ func (h *History) Run(ctx context.Context, sources []Source) error {
 	for sampleCount := 0; ; sampleCount++ {
 		if sampleCount%samplesPerChunk == 0 {
 			h.storeIdleChunks(ctx)
-			h.forgetExpired(ctx)
+			emptiedSeries := h.forgetExpiredChunks(ctx)
+			h.forgetEmptiedSeries(ctx, emptiedSeries)
 		}
 		if sampleCount%samplesPerCheckpoint == 0 {
 			h.checkpointOpenChunks(ctx)
@@ -77,7 +78,7 @@ func (h *History) Run(ctx context.Context, sources []Source) error {
 func (h *History) storeOpenChunks(ctx context.Context) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
-	if err := h.stored.store(ctx, recordedSamples{chunks: h.open.cutAll()}); err != nil {
+	if err := h.stored.store(ctx, unstoredChanges{chunks: h.open.cutAll()}); err != nil {
 		slog.WarnContext(ctx, "metric history lost its open chunks", slog.Any("error", err))
 	}
 }
@@ -88,61 +89,71 @@ func (h *History) storeIdleChunks(ctx context.Context) {
 	defer h.mu.Unlock()
 	if err := h.stored.store(
 		ctx,
-		recordedSamples{chunks: h.open.cutIdleSince(idleSince)},
+		unstoredChanges{chunks: h.open.cutIdleSince(idleSince)},
 	); err != nil {
 		slog.WarnContext(ctx, "metric history lost idle chunks", slog.Any("error", err))
 	}
 }
 
-func (h *History) forgetExpired(ctx context.Context) {
+func (h *History) forgetExpiredChunks(ctx context.Context) (emptiedSeries []seriesID) {
 	cutoff := h.clock.Now().Add(-h.retention).UnixMilli()
 	h.mu.Lock()
 	defer h.mu.Unlock()
-	emptied, err := h.stored.forgetChunksBefore(ctx, cutoff, h.series.seriesIDs())
+	emptiedSeries, err := h.stored.forgetChunksBefore(ctx, cutoff, h.series.ids())
 	if err != nil {
 		slog.WarnContext(ctx, "metric history kept expired chunks", slog.Any("error", err))
-		return
+		return nil
 	}
-	idle := h.open.withoutOpenChunk(emptied)
-	if err := h.stored.forgetSeries(ctx, idle); err != nil {
+	return emptiedSeries
+}
+
+func (h *History) forgetEmptiedSeries(ctx context.Context, emptiedSeries []seriesID) {
+	h.mu.Lock()
+	defer h.mu.Unlock()
+	expiredSeries := h.open.withoutOpenChunk(emptiedSeries)
+	if err := h.stored.forgetSeries(ctx, expiredSeries); err != nil {
 		slog.WarnContext(ctx, "metric history kept expired series", slog.Any("error", err))
 		return
 	}
-	h.series.forget(idle)
-	slog.DebugContext(ctx, "metric history forgot expired series", slog.Int("series", len(idle)))
+	h.series.forget(expiredSeries)
+	slog.DebugContext(
+		ctx,
+		"metric history forgot expired series",
+		slog.Int("series", len(expiredSeries)),
+	)
 }
 
 func (h *History) checkpointOpenChunks(ctx context.Context) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
-	checkpoints := h.open.uncheckpointed()
-	if err := h.stored.store(ctx, recordedSamples{chunks: checkpoints}); err != nil {
+	dueCheckpoints := h.open.dueCheckpoints()
+	if err := h.stored.store(ctx, unstoredChanges{chunks: dueCheckpoints}); err != nil {
 		slog.WarnContext(ctx, "metric history kept no checkpoint", slog.Any("error", err))
 		return
 	}
-	h.open.markCheckpointed(checkpoints)
+	h.open.markCheckpointed(dueCheckpoints)
 }
 
 func (h *History) record(ctx context.Context, samples []sample) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
-	recorded := h.append(h.clock.Now().UnixMilli(), samples)
-	if err := h.stored.store(ctx, recorded); err != nil {
+	unstored := h.append(h.clock.Now().UnixMilli(), samples)
+	if err := h.stored.store(ctx, unstored); err != nil {
 		slog.WarnContext(ctx, "metric history lost full chunks", slog.Any("error", err))
 	}
 }
 
-func (h *History) append(at int64, samples []sample) (toStore recordedSamples) {
+func (h *History) append(at int64, samples []sample) (unstored unstoredChanges) {
 	for _, s := range samples {
 		series, isNew := h.series.add(s.labels)
 		if isNew {
-			toStore.series = append(toStore.series, series)
+			unstored.series = append(unstored.series, series)
 		}
 		if full, isFull := h.open.append(series.id, at, s.value); isFull {
-			toStore.chunks = append(toStore.chunks, full)
+			unstored.chunks = append(unstored.chunks, full)
 		}
 	}
-	return toStore
+	return unstored
 }
 
 func (h *History) Querier(mint, maxt int64) (storage.Querier, error) {
@@ -160,14 +171,14 @@ func (h *History) chunkSeriesWithin(
 		return nil, nil
 	}
 	matched := h.series.matching(matchers)
-	stored, err := h.stored.chunksWithin(ctx, matched, mint, maxt)
+	storedMetas, err := h.stored.chunksWithin(ctx, matched, mint, maxt)
 	if err != nil {
 		return nil, err
 	}
 	selected := make([]storage.ChunkSeries, 0, len(matched))
 	for _, series := range matched {
-		metas := stored[series.id]
-		if open, overlaps := h.open.copyWithin(series.id, mint, maxt); overlaps {
+		metas := storedMetas[series.id]
+		if open, overlaps := h.open.chunkWithin(series.id, mint, maxt); overlaps {
 			metas = append(withoutCheckpointOf(metas, open), open)
 		}
 		if len(metas) > 0 {

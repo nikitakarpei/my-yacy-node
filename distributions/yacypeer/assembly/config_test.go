@@ -29,11 +29,11 @@ func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 		t.Fatalf("load the config: %v", err)
 	}
 	want := yacypeerassembly.PeerConfig{
-		DataDirectory:    yacypeerassembly.DefaultDataDirectory,
-		NetworkName:      yacyproto.DefaultNetwork,
-		SeedlistURLs:     yacypeerassembly.DefaultSeedlistURLs,
-		OpsAddr:          yacypeerassembly.DefaultOpsAddr,
-		MetricsRetention: yacypeerassembly.DefaultMetricsRetention,
+		DataDirectory:          yacypeerassembly.DefaultDataDirectory,
+		NetworkName:            yacyproto.DefaultNetwork,
+		SeedlistURLs:           yacypeerassembly.DefaultSeedlistURLs,
+		OpsAddr:                yacypeerassembly.DefaultOpsAddr,
+		MetricHistoryRetention: yacypeerassembly.DefaultMetricHistoryRetention,
 	}
 	if cfg != want {
 		t.Errorf("config = %+v, want %+v", cfg, want)
@@ -42,23 +42,23 @@ func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 
 func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
-		yacypeerassembly.EnvSeedlistURLs:     "https://seeds.example/seed.txt",
-		yacypeerassembly.EnvDataDirectory:    "/var/lib/yacypeer",
-		yacypeerassembly.EnvNetworkName:      "realm",
-		yacypeerassembly.EnvOpsAddr:          "127.0.0.1:9099",
-		yacypeerassembly.EnvEgressProxyURL:   "http://proxy.example:3128",
-		yacypeerassembly.EnvMetricsRetention: "48h",
+		yacypeerassembly.EnvSeedlistURLs:           "https://seeds.example/seed.txt",
+		yacypeerassembly.EnvDataDirectory:          "/var/lib/yacypeer",
+		yacypeerassembly.EnvNetworkName:            "realm",
+		yacypeerassembly.EnvOpsAddr:                "127.0.0.1:9099",
+		yacypeerassembly.EnvEgressProxyURL:         "http://proxy.example:3128",
+		yacypeerassembly.EnvMetricHistoryRetention: "48h",
 	}))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
 	want := yacypeerassembly.PeerConfig{
-		EgressProxyURL:   &url.URL{Scheme: "http", Host: "proxy.example:3128"},
-		DataDirectory:    "/var/lib/yacypeer",
-		NetworkName:      "realm",
-		SeedlistURLs:     "https://seeds.example/seed.txt",
-		OpsAddr:          "127.0.0.1:9099",
-		MetricsRetention: 48 * time.Hour,
+		EgressProxyURL:         &url.URL{Scheme: "http", Host: "proxy.example:3128"},
+		DataDirectory:          "/var/lib/yacypeer",
+		NetworkName:            "realm",
+		SeedlistURLs:           "https://seeds.example/seed.txt",
+		OpsAddr:                "127.0.0.1:9099",
+		MetricHistoryRetention: 48 * time.Hour,
 	}
 	if !reflect.DeepEqual(cfg, want) {
 		t.Errorf("config = %+v, want %+v", cfg, want)
@@ -77,7 +77,7 @@ func TestLoadPeerConfigRefusesAnEgressProxyThatIsNotAnHTTPURL(t *testing.T) {
 
 func TestLoadPeerConfigRefusesARetentionThatIsNotADuration(t *testing.T) {
 	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
-		yacypeerassembly.EnvMetricsRetention: "a week",
+		yacypeerassembly.EnvMetricHistoryRetention: "a week",
 	}))
 	if err == nil {
 		t.Fatal("config loaded a retention that is not a duration, want an error")

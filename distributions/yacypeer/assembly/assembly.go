@@ -21,7 +21,7 @@ import (
 
 const (
 	brokerDirectoryName        = "nats"
-	metricHistoryDirectoryName = "metrics"
+	metricHistoryDirectoryName = "metric-history"
 )
 
 func RunPeer(
@@ -42,7 +42,7 @@ func RunPeer(
 	history, err := metrichistory.Open(
 		ctx,
 		cfg.directoryOf(metricHistoryDirectoryName),
-		cfg.MetricsRetention,
+		cfg.MetricHistoryRetention,
 		wallclock.Clock{},
 	)
 	if err != nil {

@@ -97,7 +97,7 @@ func pageServer(t *testing.T) *httptest.Server {
 	}}}
 	mux := http.NewServeMux()
 	dashboardpage.Register(mux, history, 15*time.Second, []dashboardpage.Dashboard{
-		{Service: "yacynode", JSONModel: []byte(`{"uid":"yacynode","title":"yacynode"}`)},
+		{Service: "yacynode", Model: []byte(`{"uid":"yacynode","title":"yacynode"}`)},
 	})
 	server := httptest.NewServer(mux)
 	t.Cleanup(server.Close)
@@ -153,7 +153,7 @@ func rangeAnswerOf(t *testing.T, body string) rangeAnswer {
 func TestRangeQueryAnswersAsPrometheusDoes(t *testing.T) {
 	server := pageServer(t)
 
-	status, body := fetched(t, server.URL+"/api/v1/query_range", url.Values{
+	status, body := fetched(t, server.URL+"/dashboards/api/v1/query_range", url.Values{
 		"query": {`known_peers{instance=~"(yacynode)"} * 2`},
 		"start": {"0"},
 		"end":   {"135"},
@@ -187,7 +187,7 @@ func TestRangeQueryRefusesAQueryItCannotRead(t *testing.T) {
 		"many points":    {"query": {"up"}, "start": {"0"}, "end": {"1000000"}, "step": {"1"}},
 	} {
 		t.Run(name, func(t *testing.T) {
-			status, body := fetched(t, server.URL+"/api/v1/query_range", form)
+			status, body := fetched(t, server.URL+"/dashboards/api/v1/query_range", form)
 			answer := rangeAnswerOf(t, body)
 			if status != http.StatusBadRequest || answer.ErrorType != "bad_data" {
 				t.Errorf("answer = %d %s, want 400 bad_data", status, body)
@@ -199,7 +199,7 @@ func TestRangeQueryRefusesAQueryItCannotRead(t *testing.T) {
 func TestRangeQueryReadsInstantsAsRFC3339(t *testing.T) {
 	server := pageServer(t)
 
-	status, body := fetched(t, server.URL+"/api/v1/query_range", url.Values{
+	status, body := fetched(t, server.URL+"/dashboards/api/v1/query_range", url.Values{
 		"query": {"known_peers"},
 		"start": {"1970-01-01T00:00:00Z"},
 		"end":   {"1970-01-01T00:02:15Z"},
@@ -229,7 +229,7 @@ func TestDashboardPageCarriesTheDashboardModel(t *testing.T) {
 	if status != http.StatusOK || !strings.Contains(body, `{"uid":"yacynode","title":"yacynode"}`) {
 		t.Errorf("page = %d %s, want the model", status, body)
 	}
-	if !strings.Contains(body, `data-sample-seconds="15"`) {
+	if !strings.Contains(body, `data-sample-interval-seconds="15"`) {
 		t.Errorf("page = %s, want the sample interval", body)
 	}
 	for _, asset := range []string{"uPlot.iife.min.js", "uPlot.min.css", "dashboard.js", "dashboard.css"} {
@@ -258,7 +258,7 @@ func TestDashboardPageRefusesAnUnknownService(t *testing.T) {
 func TestRangeQueryAnswersAnEmptyListWhenNoSeriesMatches(t *testing.T) {
 	server := pageServer(t)
 
-	status, body := fetched(t, server.URL+"/api/v1/query_range", url.Values{
+	status, body := fetched(t, server.URL+"/dashboards/api/v1/query_range", url.Values{
 		"query": {"unknown_metric"},
 		"start": {"0"},
 		"end":   {"60"},
@@ -275,7 +275,9 @@ func TestLabelValuesListTheValuesOfMatchingSeries(t *testing.T) {
 
 	status, body := fetched(
 		t,
-		server.URL+"/api/v1/label/instance/values?match[]="+url.QueryEscape("known_peers"),
+		server.URL+"/dashboards/api/v1/label/instance/values?match[]="+url.QueryEscape(
+			"known_peers",
+		),
 		nil,
 	)
 
@@ -284,7 +286,7 @@ func TestLabelValuesListTheValuesOfMatchingSeries(t *testing.T) {
 	}
 	if status, _ := fetched(
 		t,
-		server.URL+"/api/v1/label/instance/values?match[]=up{",
+		server.URL+"/dashboards/api/v1/label/instance/values?match[]=up{",
 		nil,
 	); status != http.StatusBadRequest {
 		t.Errorf("bad selector answer = %d, want 400", status)

@@ -24,7 +24,7 @@ const (
 	statusError        = "error"
 	errorTypeBadData   = "bad_data"
 	errorTypeExecution = "execution"
-	resultTypeOfMatrix = "matrix"
+	resultTypeMatrix   = "matrix"
 )
 
 var (
@@ -91,7 +91,7 @@ func (e rangeQueryEndpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	warnings, _ := result.Warnings.AsStrings(asked.expr, 0, 0)
 	writeAnswer(w, r, http.StatusOK, answer{
 		Status:   statusSuccess,
-		Data:     &answerData{ResultType: resultTypeOfMatrix, Result: matrixOf(result.Value)},
+		Data:     &answerData{ResultType: resultTypeMatrix, Result: matrixOf(result.Value)},
 		Warnings: warnings,
 	})
 }

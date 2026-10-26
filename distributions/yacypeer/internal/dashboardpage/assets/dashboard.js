@@ -98,15 +98,16 @@
       themeStyle.getPropertyValue(`--${name}`).trim(),
     ]),
   );
-  const scrapeSeconds = Number(document.getElementById("dashboard").dataset.sampleSeconds);
+  const sampleIntervalSeconds = Number(
+    document.getElementById("dashboard").dataset.sampleIntervalSeconds,
+  );
   const state = {
     rangeSeconds: rangeSecondsFrom(new URLSearchParams(location.search)),
     variables: [],
     end: 0,
   };
   const panels = [];
-  let queriesRunning = 0;
-  const queriesWaiting = [];
+  const querySlots = querySlotsFor(queriesAtOnce);
 
   start();
 
@@ -117,7 +118,7 @@
     layOut();
     const refreshSeconds = secondsOf(model.refresh || "");
     if (refreshSeconds > 0) {
-      setInterval(refresh, Math.max(refreshSeconds, scrapeSeconds) * 1000);
+      setInterval(refresh, Math.max(refreshSeconds, sampleIntervalSeconds) * 1000);
     }
     window.addEventListener("resize", debounced(resizeCharts, 200));
     document.addEventListener("visibilitychange", refresh);
@@ -126,6 +127,30 @@
   function rangeSecondsFrom(given) {
     const asked = ranges.find(([name]) => name === given.get("range"));
     return (asked || ranges[0])[1];
+  }
+
+  function querySlotsFor(slotCount) {
+    let slotsTaken = 0;
+    const waitingQueries = [];
+    return {
+      async run(query) {
+        if (slotsTaken < slotCount) {
+          slotsTaken++;
+        } else {
+          await new Promise((resolve) => waitingQueries.push(resolve));
+        }
+        try {
+          return await query();
+        } finally {
+          const nextQuery = waitingQueries.shift();
+          if (nextQuery) {
+            nextQuery();
+          } else {
+            slotsTaken--;
+          }
+        }
+      },
+    };
   }
 
   function renderRanges() {
@@ -199,9 +224,11 @@
       return [];
     }
     const [, selector, label] = parsed;
-    const asked = new URLSearchParams({ "match[]": interpolated(selector, {}, resolved) });
+    const asked = new URLSearchParams({ "match[]": interpolatedText(selector, {}, resolved) });
     try {
-      const response = await fetch(`/api/v1/label/${encodeURIComponent(label)}/values?${asked}`);
+      const response = await fetch(
+        `/dashboards/api/v1/label/${encodeURIComponent(label)}/values?${asked}`,
+      );
       const answer = await response.json();
       return answer.status === "success" ? answer.data : [];
     } catch (failure) {
@@ -263,17 +290,17 @@
     history.replaceState(null, "", `?${address}`);
   }
 
-  function interpolated(text, scoped, resolved = state.variables) {
-    return substituted(text, (name) => {
-      if (Object.hasOwn(scoped, name)) {
-        return scoped[name];
+  function interpolatedText(text, scopedVariables, resolved = state.variables) {
+    return substitutedText(text, (name) => {
+      if (Object.hasOwn(scopedVariables, name)) {
+        return scopedVariables[name];
       }
       const found = resolved.find(({ variable }) => variable.name === name);
       return found && valueOf(found);
     });
   }
 
-  function substituted(text, valueNamed) {
+  function substitutedText(text, valueNamed) {
     return String(text).replace(
       /\$\{(\w+)(?::\w+)?\}|\[\[(\w+)\]\]|\$(\w+)/g,
       (match, braced, bracketed, bare) => valueNamed(braced || bracketed || bare) ?? match,
@@ -294,7 +321,7 @@
   }
 
   function titleOf(text) {
-    return substituted(text, (name) => {
+    return substitutedText(text, (name) => {
       const found = state.variables.find(({ variable }) => variable.name === name);
       return found && (found.selected === allValue ? "All" : found.selected);
     });
@@ -307,7 +334,7 @@
   function autoIntervalOf(variable) {
     const count = Number(variable.auto_count) || 30;
     const floor = secondsOf(variable.auto_min || "10s") * 1000;
-    return durationTextOf(Math.max(roundedInterval((state.rangeSeconds * 1000) / count), floor));
+    return durationLiteralOf(Math.max(roundedInterval((state.rangeSeconds * 1000) / count), floor));
   }
 
   function roundedInterval(milliseconds) {
@@ -324,7 +351,7 @@
     return seconds;
   }
 
-  function durationTextOf(milliseconds) {
+  function durationLiteralOf(milliseconds) {
     const units = [
       ["d", 86400000],
       ["h", 3600000],
@@ -419,7 +446,7 @@
         targets.map(async (target) => ({
           target,
           series: await rangeQueryOf(
-            interpolated(target.expr, span.scoped),
+            interpolatedText(target.expr, span.scopedVariables),
             span.start,
             span.end,
             span.step,
@@ -428,7 +455,7 @@
       );
     } catch (failure) {
       if (generation === panel.generation) {
-        showNotice(panel, failure.message, true);
+        showFailure(panel, failure.message);
       }
       return;
     }
@@ -445,7 +472,7 @@
         })),
     );
     if (drawn.length === 0) {
-      showNotice(panel, "No data", false);
+      showNotice(panel, "No data");
       return;
     }
     if (isStat) {
@@ -460,67 +487,54 @@
   function querySpanOf(panel, rangeSeconds) {
     const rangeMilliseconds = rangeSeconds * 1000;
     const points = panel.spec.maxDataPoints || Math.max(100, panel.body.clientWidth || 600);
-    const floor = panel.spec.interval ? secondsOf(interpolated(panel.spec.interval, {})) * 1000 : 0;
+    const floor = panel.spec.interval
+      ? secondsOf(interpolatedText(panel.spec.interval, {})) * 1000
+      : 0;
     const interval = Math.max(
       roundedInterval(rangeMilliseconds / points),
-      floor || scrapeSeconds * 1000,
+      floor || sampleIntervalSeconds * 1000,
     );
     const step = interval / 1000;
     const end = Math.ceil(state.end / step) * step;
     const start = Math.floor((state.end - rangeSeconds) / step) * step;
-    const rateInterval = Math.max(interval + scrapeSeconds * 1000, 4 * scrapeSeconds * 1000);
+    const rateInterval = Math.max(
+      interval + sampleIntervalSeconds * 1000,
+      4 * sampleIntervalSeconds * 1000,
+    );
     return {
       start,
       end,
       step,
-      scoped: {
-        __interval: durationTextOf(interval),
+      scopedVariables: {
+        __interval: durationLiteralOf(interval),
         __interval_ms: String(interval),
-        __rate_interval: durationTextOf(rateInterval),
-        __range: durationTextOf(rangeMilliseconds),
+        __rate_interval: durationLiteralOf(rateInterval),
+        __range: durationLiteralOf(rangeMilliseconds),
         __range_s: String(rangeSeconds),
         __range_ms: String(rangeMilliseconds),
       },
     };
   }
 
-  async function rangeQueryOf(expr, start, end, step) {
-    await queryTurn();
-    try {
-      const form = new URLSearchParams({ query: expr, start, end, step });
-      const response = await fetch("/api/v1/query_range", { method: "POST", body: form });
-      const answer = await response.json();
-      if (answer.status !== "success") {
-        throw new Error(answer.error || response.statusText);
-      }
-      return answer.data.result.map((found) => ({
-        metric: found.metric,
-        values: new Map(
-          (found.values || [])
-            .map(([at, value]) => [Number(at), Number(value)])
-            .filter(([, value]) => !Number.isNaN(value)),
-        ),
-      }));
-    } finally {
-      queriesRunning--;
-      const next = queriesWaiting.shift();
-      if (next) {
-        next();
-      }
-    }
+  function rangeQueryOf(expr, start, end, step) {
+    return querySlots.run(() => seriesFromRangeQuery(expr, start, end, step));
   }
 
-  function queryTurn() {
-    if (queriesRunning < queriesAtOnce) {
-      queriesRunning++;
-      return Promise.resolve();
+  async function seriesFromRangeQuery(expr, start, end, step) {
+    const form = new URLSearchParams({ query: expr, start, end, step });
+    const response = await fetch("/dashboards/api/v1/query_range", { method: "POST", body: form });
+    const answer = await response.json();
+    if (answer.status !== "success") {
+      throw new Error(answer.error || response.statusText);
     }
-    return new Promise((resolve) =>
-      queriesWaiting.push(() => {
-        queriesRunning++;
-        resolve();
-      }),
-    );
+    return answer.data.result.map((found) => ({
+      metric: found.metric,
+      values: new Map(
+        (found.values || [])
+          .map(([at, value]) => [Number(at), Number(value)])
+          .filter(([, value]) => !Number.isNaN(value)),
+      ),
+    }));
   }
 
   function legendOf(target, metric) {
@@ -538,10 +552,18 @@
     return `${name}{${labels.join(", ")}}`;
   }
 
-  function showNotice(panel, text, isFailure) {
+  function showNotice(panel, text) {
+    replaceWithNotice(panel, text, "notice");
+  }
+
+  function showFailure(panel, text) {
+    replaceWithNotice(panel, text, "notice failure");
+  }
+
+  function replaceWithNotice(panel, text, className) {
     destroyChart(panel);
     const notice = document.createElement("div");
-    notice.className = isFailure ? "notice failure" : "notice";
+    notice.className = className;
     notice.textContent = text;
     panel.body.replaceChildren(notice);
   }
@@ -564,7 +586,7 @@
       const entry = document.createElement("div");
       const value = document.createElement("div");
       value.className = "value";
-      value.textContent = formatted(latest, defaults.unit, defaults.decimals);
+      value.textContent = valueTextOf(latest, defaults.unit, defaults.decimals);
       value.style.color = thresholdColorOf(defaults.thresholds, latest);
       entry.append(value);
       if (drawn.length > 1) {
@@ -622,8 +644,8 @@
     const columns = drawn.map(({ values }) => times.map((at) => values.get(at) ?? null));
     const scaleDistribution = custom.scaleDistribution || {};
     const logBase = scaleDistribution.type === "log" ? scaleDistribution.log || 10 : 0;
-    const stackedOrNot = stacked ? stackedColumnsOf(columns) : columns;
-    const plotted = logBase ? stackedOrNot.map(positiveOnly) : stackedOrNot;
+    const shownColumns = stacked ? stackedColumnsOf(columns) : columns;
+    const plotted = logBase ? shownColumns.map(positiveOnly) : shownColumns;
     let rightUnit;
     const series = drawn.map(({ name }, index) => {
       const overrides = overridesOf(panel.spec, name);
@@ -649,7 +671,7 @@
         points: { show: false },
         spanGaps: Boolean(custom.spanNulls),
         value: (chart, value, seriesIndex, at) =>
-          formatted(
+          valueTextOf(
             stacked && at !== null && at !== undefined ? columns[index][at] : value,
             unit,
             defaults.decimals,
@@ -668,7 +690,7 @@
         scale: "y",
         size: 70,
         values: (chart, splits) =>
-          splits.map((value) => formatted(value, defaults.unit, defaults.decimals)),
+          splits.map((value) => valueTextOf(value, defaults.unit, defaults.decimals)),
         splits: logBase ? (chart, axis, low, high) => powersWithin(low, high, logBase) : undefined,
       },
     ];
@@ -679,7 +701,7 @@
         side: 1,
         grid: { show: false },
         size: 70,
-        values: (chart, splits) => splits.map((value) => formatted(value, rightUnit)),
+        values: (chart, splits) => splits.map((value) => valueTextOf(value, rightUnit)),
       });
     }
     const legendShown =
@@ -703,12 +725,16 @@
       scales: {
         x: { time: true },
         y: logBase
-          ? { distr: 3, log: logBase, range: (chart, low, high) => logRangeOf(low, high, logBase) }
+          ? {
+              distr: 3,
+              log: logBase,
+              range: (chart, low, high) => logAxisRangeOf(low, high, logBase),
+            }
           : {
               range: (chart, low, high) =>
-                rangeOf(low, high, defaults.min, defaults.max ?? custom.axisSoftMax),
+                axisRangeOf(low, high, defaults.min, defaults.max ?? custom.axisSoftMax),
             },
-        right: { range: (chart, low, high) => rangeOf(low, high, 0, undefined) },
+        right: { range: (chart, low, high) => axisRangeOf(low, high, 0, undefined) },
       },
       cursor: { points: { show: false } },
     };
@@ -773,15 +799,15 @@
     const valueUnit = isBuckets ? "short" : fieldDefaultsOf(panel.spec).unit;
     const rows = isBuckets ? bucketRowsOf(drawn, rowUnit) : seriesRowsOf(drawn);
     const times = timesOf(span);
-    const grid = rows.map((row) => times.map((at) => row.valueAt(at)));
+    const cells = rows.map((row) => times.map((at) => row.valueAt(at)));
     let [lowest, highest] = [Infinity, -Infinity];
-    for (const value of grid.flat()) {
+    for (const value of cells.flat()) {
       if (value !== null) {
         [lowest, highest] = [Math.min(lowest, value), Math.max(highest, value)];
       }
     }
     if (lowest > highest) {
-      showNotice(panel, "No data", false);
+      showNotice(panel, "No data");
       return;
     }
     const low = colorOptions.min ?? lowest;
@@ -813,7 +839,7 @@
         tip.style.display = "none";
         return;
       }
-      tip.textContent = `${new Date(times[column] * 1000).toLocaleString()} · ${rows[row].label}: ${formatted(grid[row][column], valueUnit)}`;
+      tip.textContent = `${new Date(times[column] * 1000).toLocaleString()} · ${rows[row].label}: ${valueTextOf(cells[row][column], valueUnit)}`;
       tip.style.display = "block";
       tip.style.left = `${Math.min(event.offsetX + 12, panel.body.clientWidth - tip.offsetWidth - 4)}px`;
       tip.style.top = `${Math.max(0, event.offsetY - 24)}px`;
@@ -826,7 +852,7 @@
       paintHeatmap(canvas, panel.body, margin, {
         rows,
         times,
-        grid,
+        cells,
         low,
         high,
         scheme,
@@ -843,7 +869,7 @@
       .filter(({ bound }) => !Number.isNaN(bound))
       .sort((a, b) => a.bound - b.bound);
     return buckets.map((bucket, index) => ({
-      label: Number.isFinite(bucket.bound) ? formatted(bucket.bound, unit) : "+Inf",
+      label: Number.isFinite(bucket.bound) ? valueTextOf(bucket.bound, unit) : "+Inf",
       valueAt: (at) => {
         const count = bucket.values.get(at);
         if (count === undefined) {
@@ -865,7 +891,7 @@
   }
 
   function paintHeatmap(canvas, body, margin, heatmap) {
-    const { rows, times, grid, low, high, scheme, span, gap, hiddenAtOrBelow } = heatmap;
+    const { rows, times, cells, low, high, scheme, span, gap, hiddenAtOrBelow } = heatmap;
     const { width, height, cellWidth, cellHeight } = heatmapGeometryOf(
       body,
       margin,
@@ -883,7 +909,7 @@
     for (let row = 0; row < rows.length; row++) {
       const y = margin.top + (rows.length - 1 - row) * cellHeight;
       for (let column = 0; column < times.length; column++) {
-        const value = grid[row][column];
+        const value = cells[row][column];
         if (value === null || value <= hiddenAtOrBelow) {
           continue;
         }
@@ -976,14 +1002,14 @@
     return column.map((value) => (value !== null && value > 0 ? value : null));
   }
 
-  function logRangeOf(low, high, base) {
+  function logAxisRangeOf(low, high, base) {
     if (low === null || high === null) {
       return [1, base];
     }
     return uPlot.rangeLog(low, high, base, true);
   }
 
-  function rangeOf(low, high, fixedLow, fixedHigh) {
+  function axisRangeOf(low, high, fixedLow, fixedHigh) {
     if (low === null || high === null) {
       return [fixedLow ?? 0, fixedHigh ?? 1];
     }
@@ -1012,37 +1038,37 @@
     };
   }
 
-  function formatted(value, unit, decimals) {
+  function valueTextOf(value, unit, decimals) {
     if (value === null || value === undefined || Number.isNaN(value)) {
       return "–";
     }
     switch (unit) {
       case "percentunit":
-        return `${fixed(value * 100, decimals)}%`;
+        return `${fixedTextOf(value * 100, decimals)}%`;
       case "percent":
-        return `${fixed(value, decimals)}%`;
+        return `${fixedTextOf(value, decimals)}%`;
       case "bytes":
-        return scaled(value, 1024, ["B", "KiB", "MiB", "GiB", "TiB", "PiB"], decimals);
+        return scaledTextOf(value, 1024, ["B", "KiB", "MiB", "GiB", "TiB", "PiB"], decimals);
       case "decbytes":
-        return scaled(value, 1000, ["B", "kB", "MB", "GB", "TB", "PB"], decimals);
+        return scaledTextOf(value, 1000, ["B", "kB", "MB", "GB", "TB", "PB"], decimals);
       case "s":
-        return durationValueOf(value, decimals);
+        return durationLabelOf(value, decimals);
       case "ms":
-        return durationValueOf(value / 1000, decimals);
+        return durationLabelOf(value / 1000, decimals);
       case "ops":
-        return `${short(value, decimals)} ops/s`;
+        return `${shortTextOf(value, decimals)} ops/s`;
       case "reqps":
-        return `${short(value, decimals)} req/s`;
+        return `${shortTextOf(value, decimals)} req/s`;
       case "cps":
-        return `${short(value, decimals)} c/s`;
+        return `${shortTextOf(value, decimals)} c/s`;
       case "none":
-        return fixed(value, decimals);
+        return fixedTextOf(value, decimals);
       default:
-        return short(value, decimals);
+        return shortTextOf(value, decimals);
     }
   }
 
-  function fixed(value, decimals) {
+  function fixedTextOf(value, decimals) {
     if (decimals !== null && decimals !== undefined) {
       return value.toFixed(decimals);
     }
@@ -1053,43 +1079,43 @@
     return String(Number(value.toPrecision(3)));
   }
 
-  function scaled(value, base, units, decimals) {
+  function scaledTextOf(value, base, units, decimals) {
     let index = 0;
     let size = value;
     while (Math.abs(size) >= base && index < units.length - 1) {
       size /= base;
       index++;
     }
-    return `${fixed(size, decimals)} ${units[index]}`.trim();
+    return `${fixedTextOf(size, decimals)} ${units[index]}`.trim();
   }
 
-  function short(value, decimals) {
-    return scaled(value, 1000, ["", "K", "Mil", "Bil", "Tri"], decimals);
+  function shortTextOf(value, decimals) {
+    return scaledTextOf(value, 1000, ["", "K", "Mil", "Bil", "Tri"], decimals);
   }
 
-  function durationValueOf(seconds, decimals) {
+  function durationLabelOf(seconds, decimals) {
     const size = Math.abs(seconds);
     if (size === 0) {
       return "0 s";
     }
     if (size < 1e-6) {
-      return `${fixed(seconds * 1e9, decimals)} ns`;
+      return `${fixedTextOf(seconds * 1e9, decimals)} ns`;
     }
     if (size < 1e-3) {
-      return `${fixed(seconds * 1e6, decimals)} µs`;
+      return `${fixedTextOf(seconds * 1e6, decimals)} µs`;
     }
     if (size < 1) {
-      return `${fixed(seconds * 1e3, decimals)} ms`;
+      return `${fixedTextOf(seconds * 1e3, decimals)} ms`;
     }
     if (size < 60) {
-      return `${fixed(seconds, decimals)} s`;
+      return `${fixedTextOf(seconds, decimals)} s`;
     }
     if (size < 3600) {
-      return `${fixed(seconds / 60, decimals)} min`;
+      return `${fixedTextOf(seconds / 60, decimals)} min`;
     }
     if (size < 86400) {
-      return `${fixed(seconds / 3600, decimals)} hour`;
+      return `${fixedTextOf(seconds / 3600, decimals)} hour`;
     }
-    return `${fixed(seconds / 86400, decimals)} day`;
+    return `${fixedTextOf(seconds / 86400, decimals)} day`;
   }
 })();

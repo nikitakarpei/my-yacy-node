@@ -15,18 +15,18 @@ type indexedSeries struct {
 }
 
 type seriesIndex struct {
-	labels    map[seriesID]labels.Labels
-	ids       map[string]seriesID
-	named     map[string][]seriesID
-	keyBuffer []byte
-	nextID    seriesID
+	labels     map[seriesID]labels.Labels
+	idOfLabels map[string]seriesID
+	idsOfName  map[string][]seriesID
+	labelsKey  []byte
+	nextID     seriesID
 }
 
 func newSeriesIndex(stored []indexedSeries) *seriesIndex {
 	index := &seriesIndex{
-		labels: map[seriesID]labels.Labels{},
-		ids:    map[string]seriesID{},
-		named:  map[string][]seriesID{},
+		labels:     map[seriesID]labels.Labels{},
+		idOfLabels: map[string]seriesID{},
+		idsOfName:  map[string][]seriesID{},
 	}
 	for _, series := range stored {
 		index.put(series)
@@ -37,14 +37,14 @@ func newSeriesIndex(stored []indexedSeries) *seriesIndex {
 
 func (i *seriesIndex) put(series indexedSeries) {
 	i.labels[series.id] = series.labels
-	i.ids[string(series.labels.Bytes(nil))] = series.id
+	i.idOfLabels[string(series.labels.Bytes(nil))] = series.id
 	name := series.labels.Get(model.MetricNameLabel)
-	i.named[name] = append(i.named[name], series.id)
+	i.idsOfName[name] = append(i.idsOfName[name], series.id)
 }
 
 func (i *seriesIndex) add(seriesLabels labels.Labels) (series indexedSeries, isNew bool) {
-	i.keyBuffer = seriesLabels.Bytes(i.keyBuffer[:0])
-	if id, known := i.ids[string(i.keyBuffer)]; known {
+	i.labelsKey = seriesLabels.Bytes(i.labelsKey[:0])
+	if id, known := i.idOfLabels[string(i.labelsKey)]; known {
 		return indexedSeries{labels: seriesLabels, id: id}, false
 	}
 	series = indexedSeries{labels: seriesLabels, id: i.nextID}
@@ -67,7 +67,7 @@ func (i *seriesIndex) matching(matchers []*labels.Matcher) []indexedSeries {
 func (i *seriesIndex) candidatesFor(matchers []*labels.Matcher) []seriesID {
 	var candidates []seriesID
 	nameMatcher := i.nameMatcherOf(matchers)
-	for name, ids := range i.named {
+	for name, ids := range i.idsOfName {
 		if nameMatcher == nil || nameMatcher.Matches(name) {
 			candidates = append(candidates, ids...)
 		}
@@ -84,7 +84,7 @@ func (*seriesIndex) nameMatcherOf(matchers []*labels.Matcher) *labels.Matcher {
 	return nil
 }
 
-func (i *seriesIndex) seriesIDs() []seriesID {
+func (i *seriesIndex) ids() []seriesID {
 	ids := make([]seriesID, 0, len(i.labels))
 	for id := range i.labels {
 		ids = append(ids, id)
@@ -99,17 +99,17 @@ func (i *seriesIndex) forget(ids []seriesID) {
 			continue
 		}
 		delete(i.labels, id)
-		delete(i.ids, string(seriesLabels.Bytes(nil)))
+		delete(i.idOfLabels, string(seriesLabels.Bytes(nil)))
 		i.forgetNameOf(seriesLabels.Get(model.MetricNameLabel), id)
 	}
 }
 
 func (i *seriesIndex) forgetNameOf(name string, id seriesID) {
-	i.named[name] = slices.DeleteFunc(
-		i.named[name],
-		func(named seriesID) bool { return named == id },
+	i.idsOfName[name] = slices.DeleteFunc(
+		i.idsOfName[name],
+		func(listed seriesID) bool { return listed == id },
 	)
-	if len(i.named[name]) == 0 {
-		delete(i.named, name)
+	if len(i.idsOfName[name]) == 0 {
+		delete(i.idsOfName, name)
 	}
 }

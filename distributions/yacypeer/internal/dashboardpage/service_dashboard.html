@@ -3,28 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{if .Service}}{{.Service}} · {{end}}yacypeer dashboards</title>
+<title>{{.Service}} · yacypeer dashboards</title>
 <link rel="stylesheet" href="/dashboards/assets/uPlot.min.css">
 <link rel="stylesheet" href="/dashboards/assets/dashboard.css">
 </head>
 <body>
 <header class="toolbar">
   <a class="home" href="/dashboards">yacypeer dashboards</a>
-  {{if .Service}}<span class="title">{{.Service}}</span>
+  <span class="title">{{.Service}}</span>
   <span id="variables"></span>
-  <span id="ranges"></span>{{end}}
+  <span id="ranges"></span>
 </header>
-{{if .Service}}
-<main id="dashboard" class="grid" data-sample-seconds="{{.SampleSeconds}}"></main>
+<main id="dashboard" class="grid" data-sample-interval-seconds="{{.SampleIntervalSeconds}}"></main>
 <script id="model" type="application/json">{{.Model}}</script>
 <script src="/dashboards/assets/uPlot.iife.min.js"></script>
 <script src="/dashboards/assets/dashboard.js"></script>
-{{else}}
-<main class="list">
-  <ul>
-  {{range .Services}}<li><a href="/dashboards/{{.}}">{{.}}</a></li>
-  {{end}}</ul>
-</main>
-{{end}}
 </body>
 </html>

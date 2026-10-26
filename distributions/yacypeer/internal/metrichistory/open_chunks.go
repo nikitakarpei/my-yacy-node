@@ -9,12 +9,11 @@ import (
 )
 
 type openChunk struct {
-	chunk             *chunkenc.XORChunk
-	appender          chunkenc.Appender
-	minTime           int64
-	maxTime           int64
-	checkpointMaxTime int64
-	isCheckpointed    bool
+	chunk      *chunkenc.XORChunk
+	appender   chunkenc.Appender
+	checkpoint *chunkKey
+	minTime    int64
+	maxTime    int64
 }
 
 func openChunkFrom(at int64) *openChunk {
@@ -23,15 +22,25 @@ func openChunkFrom(at int64) *openChunk {
 	return &openChunk{chunk: chunk, appender: appender, minTime: at, maxTime: at}
 }
 
-func (c *openChunk) cutFor(id seriesID) cutChunk {
-	cut := cutChunk{
+func (c *openChunk) revisionFor(id seriesID) chunkRevision {
+	revision := chunkRevision{
 		key:     chunkKey{series: id, maxTime: c.maxTime},
-		samples: chunkSamples{data: c.chunk.Bytes(), minTime: c.minTime},
+		encoded: encodedChunk{data: c.chunk.Bytes(), minTime: c.minTime},
 	}
-	if c.isCheckpointed && c.checkpointMaxTime != c.maxTime {
-		cut.replacedCheckpoint = &chunkKey{series: id, maxTime: c.checkpointMaxTime}
+	if c.checkpoint != nil && *c.checkpoint != revision.key {
+		revision.replacedCheckpoint = c.checkpoint
 	}
-	return cut
+	return revision
+}
+
+func (c *openChunk) isCheckpointDue() bool {
+	return c.checkpoint == nil || c.checkpoint.maxTime != c.maxTime
+}
+
+type chunkRevision struct {
+	encoded            encodedChunk
+	key                chunkKey
+	replacedCheckpoint *chunkKey
 }
 
 type openChunks struct {
@@ -42,58 +51,61 @@ func newOpenChunks() *openChunks {
 	return &openChunks{chunks: map[seriesID]*openChunk{}}
 }
 
-func (o *openChunks) append(id seriesID, at int64, value float64) (full cutChunk, isFull bool) {
+func (o *openChunks) append(
+	id seriesID,
+	at int64,
+	value float64,
+) (full chunkRevision, isFull bool) {
 	open, exists := o.chunks[id]
 	if !exists {
 		open = openChunkFrom(at)
 		o.chunks[id] = open
 	} else if at <= open.maxTime {
-		return cutChunk{}, false
+		return chunkRevision{}, false
 	}
 	open.appender.Append(0, at, value)
 	open.maxTime = at
 	if open.chunk.NumSamples() < samplesPerChunk {
-		return cutChunk{}, false
+		return chunkRevision{}, false
 	}
 	delete(o.chunks, id)
-	return open.cutFor(id), true
+	return open.revisionFor(id), true
 }
 
-func (o *openChunks) cutAll() []cutChunk {
+func (o *openChunks) cutAll() []chunkRevision {
 	return o.cutIdleSince(math.MaxInt64)
 }
 
-func (o *openChunks) cutIdleSince(idleSince int64) []cutChunk {
-	var cut []cutChunk
+func (o *openChunks) cutIdleSince(idleSince int64) []chunkRevision {
+	var cut []chunkRevision
 	for id, open := range o.chunks {
 		if open.maxTime < idleSince {
-			cut = append(cut, open.cutFor(id))
+			cut = append(cut, open.revisionFor(id))
 			delete(o.chunks, id)
 		}
 	}
 	return cut
 }
 
-func (o *openChunks) uncheckpointed() []cutChunk {
-	var checkpoints []cutChunk
+func (o *openChunks) dueCheckpoints() []chunkRevision {
+	var dueCheckpoints []chunkRevision
 	for id, open := range o.chunks {
-		if !open.isCheckpointed || open.checkpointMaxTime != open.maxTime {
-			checkpoints = append(checkpoints, open.cutFor(id))
+		if open.isCheckpointDue() {
+			dueCheckpoints = append(dueCheckpoints, open.revisionFor(id))
 		}
 	}
-	return checkpoints
+	return dueCheckpoints
 }
 
-func (o *openChunks) markCheckpointed(checkpoints []cutChunk) {
+func (o *openChunks) markCheckpointed(checkpoints []chunkRevision) {
 	for _, checkpoint := range checkpoints {
 		if open, exists := o.chunks[checkpoint.key.series]; exists {
-			open.checkpointMaxTime = checkpoint.key.maxTime
-			open.isCheckpointed = true
+			open.checkpoint = &checkpoint.key
 		}
 	}
 }
 
-func (o *openChunks) copyWithin(id seriesID, mint, maxt int64) (chunks.Meta, bool) {
+func (o *openChunks) chunkWithin(id seriesID, mint, maxt int64) (chunks.Meta, bool) {
 	open, exists := o.chunks[id]
 	if !exists || open.maxTime < mint || open.minTime > maxt {
 		return chunks.Meta{}, false

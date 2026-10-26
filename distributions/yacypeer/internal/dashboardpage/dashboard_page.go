@@ -15,21 +15,27 @@ import (
 
 const (
 	pathDashboards  = "/dashboards"
-	pathRangeQuery  = "/api/v1/query_range"
-	pathLabelValues = "/api/v1/label/{name}/values"
+	pathRangeQuery  = pathDashboards + "/api/v1/query_range"
+	pathLabelValues = pathDashboards + "/api/v1/label/{name}/values"
 )
 
 //go:embed assets
 var assets embed.FS
 
-//go:embed page.html
-var pageSource string
+//go:embed dashboard_list.html
+var dashboardListSource string
 
-var page = template.Must(template.New("page").Parse(pageSource))
+//go:embed service_dashboard.html
+var serviceDashboardSource string
+
+var (
+	dashboardListPage    = template.Must(template.New("list").Parse(dashboardListSource))
+	serviceDashboardPage = template.Must(template.New("dashboard").Parse(serviceDashboardSource))
+)
 
 type Dashboard struct {
-	Service   string
-	JSONModel []byte
+	Service string
+	Model   []byte
 }
 
 func Register(
@@ -41,11 +47,11 @@ func Register(
 	models := make(map[string][]byte, len(dashboards))
 	services := make([]string, 0, len(dashboards))
 	for _, dashboard := range dashboards {
-		models[dashboard.Service] = dashboard.JSONModel
+		models[dashboard.Service] = dashboard.Model
 		services = append(services, dashboard.Service)
 	}
 	mux.Handle("GET "+pathDashboards, dashboardList(services))
-	mux.Handle("GET "+pathDashboards+"/{service}", dashboardShell(models, sampleInterval))
+	mux.Handle("GET "+pathDashboards+"/{service}", serviceDashboard(models, sampleInterval))
 	mux.Handle(
 		"GET "+pathDashboards+"/assets/",
 		http.StripPrefix(pathDashboards, http.FileServerFS(assets)),
@@ -56,11 +62,15 @@ func Register(
 
 func dashboardList(services []string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		render(w, r, pageView{Services: services})
+		render(w, r, dashboardListPage, dashboardListView{Services: services})
 	})
 }
 
-func dashboardShell(models map[string][]byte, sampleInterval time.Duration) http.Handler {
+type dashboardListView struct {
+	Services []string
+}
+
+func serviceDashboard(models map[string][]byte, sampleInterval time.Duration) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		service := r.PathValue("service")
 		model, known := models[service]
@@ -69,22 +79,21 @@ func dashboardShell(models map[string][]byte, sampleInterval time.Duration) http
 			return
 		}
 		embedded := template.JS(model) //nolint:gosec // G203: the binary embeds the model.
-		render(w, r, pageView{
-			Service:       service,
-			Model:         embedded,
-			SampleSeconds: sampleInterval.Seconds(),
+		render(w, r, serviceDashboardPage, serviceDashboardView{
+			Service:               service,
+			Model:                 embedded,
+			SampleIntervalSeconds: sampleInterval.Seconds(),
 		})
 	})
 }
 
-type pageView struct {
-	Service       string
-	Model         template.JS
-	Services      []string
-	SampleSeconds float64
+type serviceDashboardView struct {
+	Service               string
+	Model                 template.JS
+	SampleIntervalSeconds float64
 }
 
-func render(w http.ResponseWriter, r *http.Request, view pageView) {
+func render(w http.ResponseWriter, r *http.Request, page *template.Template, view any) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := page.Execute(w, view); err != nil {
 		slog.DebugContext(r.Context(), "dashboard reader left", slog.Any("error", err))
