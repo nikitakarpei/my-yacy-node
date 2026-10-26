@@ -7,11 +7,19 @@ search:
 
 engines:
   - name: crawled text search
-    engine: crawled_text_search
+    engine: json_engine
     shortcut: ct
     categories: general
     enable_http: true
-    corpustext_search_url: http://corpustext:8096
+    paging: true
+    page_size: 10
+    first_page_num: 0
+    lang_all: ""
+    search_url: http://corpustext:8096/search?query={query}&offset={pageno}&limit=10&language={lang}
+    results_query: matches
+    url_query: url
+    title_query: title
+    content_query: snippet
 
   - name: yacy
     engine: yacy

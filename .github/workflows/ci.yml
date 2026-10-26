@@ -67,12 +67,6 @@ jobs:
     uses: ./.github/workflows/build-corpustext.yml
     secrets: inherit
 
-  build-searxng-crawled-text-search:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-searxng-crawled-text-search.yml
-    secrets: inherit
-
   build-searxng-result-router:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
@@ -80,7 +74,7 @@ jobs:
     secrets: inherit
 
   publish-supported-searxng:
-    needs: [build-searxng-crawled-text-search, build-searxng-result-router]
+    needs: [build-searxng-result-router]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/publish-supported-searxng.yml
     secrets: inherit

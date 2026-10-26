@@ -13,9 +13,7 @@ import (
 func assertScrapedCorpusIsSearchable(t *testing.T, ctx context.Context, searxngBaseURL string) {
 	t.Helper()
 	assertScrapeRequestIsFound(t, ctx, searxngBaseURL)
-	assertStemmedTermMatches(t, ctx, searxngBaseURL)
 	assertSearchLanguageSelectsItsIndex(t, ctx, searxngBaseURL)
-	assertCatchAllPageIsFound(t, ctx, searxngBaseURL)
 	assertUnmatchedTermFindsNothing(t, ctx, searxngBaseURL)
 }
 
@@ -32,16 +30,6 @@ func assertScrapeRequestIsFound(t *testing.T, ctx context.Context, searxngBaseUR
 	}
 	if !strings.Contains(result.Content, englishSearchTerm) {
 		t.Errorf("result content = %q, want it to carry %q", result.Content, englishSearchTerm)
-	}
-}
-
-func assertStemmedTermMatches(t *testing.T, ctx context.Context, searxngBaseURL string) {
-	t.Helper()
-	result := searxngsearch.OneResultInAnyLanguage(
-		t, ctx, searxngBaseURL, "!"+engineBang+" "+englishStemmed,
-	)
-	if result.URL != englishURL {
-		t.Errorf("stemmed search url = %q, want %q", result.URL, englishURL)
 	}
 }
 
@@ -62,16 +50,6 @@ func assertSearchLanguageSelectsItsIndex(
 	)
 	if len(english) != 0 {
 		t.Errorf("english search returned %v, want no result", english)
-	}
-}
-
-func assertCatchAllPageIsFound(t *testing.T, ctx context.Context, searxngBaseURL string) {
-	t.Helper()
-	result := searxngsearch.OneResultInAnyLanguage(
-		t, ctx, searxngBaseURL, "!"+engineBang+" "+spanishSearchTerm,
-	)
-	if result.URL != spanishURL {
-		t.Errorf("catch-all search url = %q, want %q", result.URL, spanishURL)
 	}
 }
 

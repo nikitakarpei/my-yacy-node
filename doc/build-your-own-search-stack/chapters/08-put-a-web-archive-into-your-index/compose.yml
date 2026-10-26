@@ -153,21 +153,6 @@ services:
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
-  searxng-engines-seed:
-    image: *searxng-image
-    entrypoint: ["sh", "-c", "rm -rf /engines/* && cp -a /usr/local/searxng/searx/engines/. /engines/"]
-    volumes:
-      - searxng-engines:/engines
-
-  searxng-crawled-text-search-init:
-    image: ghcr.io/nikitakarpei/my-yacy-node/searxng-crawled-text-search:latest
-    depends_on:
-      searxng-engines-seed:
-        condition: service_completed_successfully
-    command: ["/payload/crawled_text_search.py", "/engines/crawled_text_search.py"]
-    volumes:
-      - searxng-engines:/engines
-
   visitcrawl:
     image: ghcr.io/nikitakarpei/my-yacy-node/visitcrawl:latest
     restart: unless-stopped
@@ -191,8 +176,6 @@ services:
     image: *searxng-image
     restart: unless-stopped
     depends_on:
-      searxng-crawled-text-search-init:
-        condition: service_completed_successfully
       searxng-result-router-init:
         condition: service_completed_successfully
       corpustext:
@@ -208,7 +191,6 @@ services:
       SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
     volumes:
       - ../../building-blocks/searxng/settings-local-index-yacy-network-and-visit-links.yml:/etc/searxng/settings.yml:ro
-      - searxng-engines:/usr/local/searxng/searx/engines
       - searxng-plugins:/opt/searxng-plugins:ro
 
   caddy:
@@ -286,7 +268,6 @@ volumes:
   squid-data:
   yacy-data:
   corpustext-data:
-  searxng-engines:
   searxng-plugins:
   caddy-data:
   caddy-config:

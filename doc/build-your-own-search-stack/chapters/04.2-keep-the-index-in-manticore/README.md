@@ -32,4 +32,4 @@ query with `!ct` to show only the local index.
 
 - [Manticore index operation](../../../../services/corpustext/doc/manticore.md)
 - [Full-text indexer configuration](../../../../services/corpustext/doc/configuration.md)
-- [SearXNG local search configuration](../../../../plugins/searxng/searxng-crawled-text-search/doc/configuration.md)
+- [SearXNG local search configuration](../../building-blocks/searxng/settings-local-index-and-yacy-network.yml)

@@ -4,7 +4,6 @@ requires-python = "==3.13.*"
 
 [manifest]
 members = [
-    "searxng-crawled-text-search",
     "searxng-result-router",
 ]
 
@@ -340,11 +339,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/c0/8f/0722ca900cc807c13
 wheels = [
     { url = "https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl", hash = "sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb", size = 310654, upload-time = "2026-04-12T08:24:02.83Z" },
 ]
-
-[[package]]
-name = "searxng-crawled-text-search"
-version = "0"
-source = { virtual = "plugins/searxng/searxng-crawled-text-search" }
 
 [[package]]
 name = "searxng-result-router"

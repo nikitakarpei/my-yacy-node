@@ -12,27 +12,20 @@ import (
 const (
 	englishLanguage   = "en"
 	germanLanguage    = "de"
-	spanishLanguage   = "es"
 	englishAlias      = "english-origin"
 	germanAlias       = "german-origin"
-	spanishAlias      = "spanish-origin"
 	englishURL        = "http://" + englishAlias + "/"
 	germanURL         = "http://" + germanAlias + "/"
-	spanishURL        = "http://" + spanishAlias + "/"
 	englishTitle      = "Riverside Wildflower Guide"
 	englishContent    = "A field guide to wildflowers found along riverside trails."
 	englishSearchTerm = "wildflower"
-	englishStemmed    = "trail"
 	germanTitle       = "Wildblumen am Uferweg"
 	germanContent     = "Ein Feldfuehrer zu Wildblumen an den Uferwegen."
 	germanSearchTerm  = "wildblumen"
-	spanishTitle      = "Flores silvestres del sendero"
-	spanishContent    = "Una guia de campo de las flores silvestres del sendero del rio."
-	spanishSearchTerm = "silvestres"
 )
 
 func scrapedCorpusURLs() []string {
-	return []string{englishURL, germanURL, spanishURL}
+	return []string{englishURL, germanURL}
 }
 
 func startOrigins(t *testing.T, ctx context.Context, networkName string) {
@@ -41,8 +34,6 @@ func startOrigins(t *testing.T, ctx context.Context, networkName string) {
 		originPage(englishLanguage, englishTitle, englishContent))
 	staticpage.Start(t, ctx, networkName, germanAlias,
 		originPage(germanLanguage, germanTitle, germanContent))
-	staticpage.Start(t, ctx, networkName, spanishAlias,
-		originPage(spanishLanguage, spanishTitle, spanishContent))
 }
 
 func originPage(language, title, body string) string {

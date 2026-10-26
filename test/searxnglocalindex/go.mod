@@ -1,4 +1,4 @@
-module github.com/nikitakarpei/yacy-rwi-node/searxng-crawled-text-search/test/e2e
+module github.com/nikitakarpei/yacy-rwi-node/test/searxnglocalindex
 
 go 1.27
 
@@ -48,6 +48,7 @@ require (
 	github.com/shirou/gopsutil/v4 v4.25.6 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
+	github.com/testcontainers/testcontainers-go v0.40.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
@@ -65,27 +66,26 @@ require (
 )
 
 replace (
-	github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../../../../libraries/canonicalurl
-	github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../../../../../test/e2eharness
-	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../../../services/corpustext/contract
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+	github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../e2eharness
+	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../services/corpustext/contract
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../../services/yacycrawler/contract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../services/yacycrawler/contract
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../../../../libraries/yacymodel
+replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 
-replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../../../../libraries/natstestserver
+replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
 
 require (
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
-	github.com/testcontainers/testcontainers-go v0.40.0
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../../../../services/pagescrape/contract
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../../../libraries/pagefetch
+replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
-replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../../libraries/spamassessment
+replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
