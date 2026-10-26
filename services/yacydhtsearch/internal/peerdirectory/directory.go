@@ -4,6 +4,8 @@ import (
 	"context"
 	"maps"
 	"math/rand/v2"
+	"net"
+	"net/url"
 	"slices"
 	"sync"
 	"time"
@@ -287,24 +289,19 @@ func (d *Directory) reportPeersKnown(ctx context.Context) {
 	d.observer.PeersKnown(ctx, len(d.peers), amountOfAnsweringPeers, d.limits.Capacity)
 }
 
-// TECHDEBT: single source of truth — rebuilds the seed host list Seed.Addresses derives
 func addressesOf(seed yacymodel.Seed) []string {
-	port, ok := seed.Port.Get()
+	seeded, ok := seed.Addresses()
 	if !ok {
 		return nil
 	}
 
-	var hosts []yacymodel.Host
-	if primary, ok := seed.PrimaryHost.Get(); ok {
-		hosts = append(hosts, primary)
-	}
-	if additional, ok := seed.AdditionalHosts.Get(); ok {
-		hosts = append(hosts, additional...)
-	}
-
-	addresses := make([]string, 0, len(hosts))
-	for _, host := range hosts {
-		addresses = append(addresses, "http://"+host.String()+":"+port.String())
+	addresses := make([]string, 0, len(seeded.Hosts))
+	for _, host := range seeded.Hosts {
+		address := url.URL{
+			Scheme: "http",
+			Host:   net.JoinHostPort(host.String(), seeded.Port.String()),
+		}
+		addresses = append(addresses, address.String())
 	}
 
 	return addresses
