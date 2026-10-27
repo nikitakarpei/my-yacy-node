@@ -35,24 +35,34 @@ func (c ClientAddressResolver) Resolve(r *http.Request) string {
 		host = r.RemoteAddr
 	}
 
-	peer := net.ParseIP(host)
-	if peer != nil && ipInAny(peer, c.trustedProxies) {
-		if forwarded := firstForwarded(r.Header.Get(forwardedForHeader)); forwarded != "" {
-			return forwarded
+	return c.nearestUntrustedHopFrom(host, forwardedHopsOf(r))
+}
+
+func forwardedHopsOf(r *http.Request) []string {
+	var hops []string
+	for _, line := range r.Header.Values(forwardedForHeader) {
+		for hop := range strings.SplitSeq(line, ",") {
+			hops = append(hops, strings.TrimSpace(hop))
 		}
 	}
 
-	return host
+	return hops
 }
 
-func firstForwarded(header string) string {
-	if header == "" {
-		return ""
+func (c ClientAddressResolver) nearestUntrustedHopFrom(host string, forwardedHops []string) string {
+	hop := host
+	for i := len(forwardedHops) - 1; i >= 0; i-- {
+		hopIP := net.ParseIP(hop)
+		if hopIP == nil || !ipInAny(hopIP, c.trustedProxies) {
+			return hop
+		}
+		if net.ParseIP(forwardedHops[i]) == nil {
+			return hop
+		}
+		hop = forwardedHops[i]
 	}
 
-	first, _, _ := strings.Cut(header, ",")
-
-	return strings.TrimSpace(first)
+	return hop
 }
 
 func ipInAny(ip net.IP, nets []*net.IPNet) bool {

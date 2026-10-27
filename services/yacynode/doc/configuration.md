@@ -11,7 +11,7 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | `YACY_PEER_ADDR` | `:8090` | Listen address for the YaCy peer protocol. |
 | `YACY_OPS_ADDR` | `:9090` | Listen address for the `/metrics` endpoint. |
 | `PROCESS_ENVIRONMENT_LEASE_SOCKET` | _(empty)_ | Unix socket the entrypoint waits on for the environment values a sidecar grants. Leave it empty to start the node with the environment of the container. |
-| `YACY_TRUSTED_PROXIES` | _(empty)_ | Comma-separated CIDRs or IPs of reverse proxies fronting the node. Set this when running behind a reverse proxy so peers are not told the proxy's address. |
+| `YACY_TRUSTED_PROXIES` | _(empty)_ | Comma-separated CIDRs or IPs of reverse proxies fronting the node. Set this when running behind a reverse proxy so peers are not told the proxy's address. The node takes the address of a peer from the last `X-Forwarded-For` entry that is not in this list. |
 
 ## Peer identity
 
