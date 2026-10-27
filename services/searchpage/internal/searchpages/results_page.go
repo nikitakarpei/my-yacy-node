@@ -16,6 +16,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchqueries"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchresults"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 //go:embed templates
@@ -31,19 +32,22 @@ type resultsPage struct {
 	sources        map[searchqueries.Source]ResultSource
 	resultLinks    ResultLinks
 	observer       PageObserver
+	tabBar         template.HTML
 	template       *template.Template
 	offeredSources []searchqueries.Source
 }
 
 type pageView struct {
-	Query        string
-	PreviousPage string
-	NextPage     string
-	Operators    []operatorView
-	Failures     []string
-	Results      []resultView
-	PageNumber   int
-	Searched     bool
+	Query           string
+	WebUIStylesheet string
+	TabBar          template.HTML
+	PreviousPage    string
+	NextPage        string
+	Operators       []operatorView
+	Failures        []string
+	Results         []resultView
+	PageNumber      int
+	Searched        bool
 }
 
 type operatorView struct {
@@ -66,12 +70,14 @@ type sourceAnswer struct {
 func newResultsPage(
 	sources map[searchqueries.Source]ResultSource,
 	resultLinks ResultLinks,
+	tabBar webuistyle.TabBar,
 	observer PageObserver,
 ) resultsPage {
 	return resultsPage{
 		sources:     sources,
 		resultLinks: resultLinks,
 		observer:    observer,
+		tabBar:      tabBar.HTML(),
 		template: template.Must(
 			template.New("page.html").ParseFS(templateFiles, "templates/page.html"),
 		),
@@ -100,7 +106,12 @@ func (p resultsPage) viewFor(
 	query string,
 	search searchqueries.Search,
 ) pageView {
-	view := pageView{Query: query, Operators: operatorViewsOf(p.offeredSources)}
+	view := pageView{
+		Query:           query,
+		WebUIStylesheet: webuistyle.StylesheetPath,
+		TabBar:          p.tabBar,
+		Operators:       operatorViewsOf(p.offeredSources),
+	}
 	if !search.HasWords() {
 		return view
 	}

@@ -1,0 +1,186 @@
+@layer webuistyle.base, webuistyle.components;
+
+@layer webuistyle.base {
+  :root {
+    color-scheme: light dark;
+    --webui-ink: #1a1a1a;
+    --webui-muted: #6b6b6b;
+    --webui-line: #e3e3e3;
+    --webui-input-line: #cfcfcf;
+    --webui-accent: #1a56db;
+    --webui-on-accent: #fff;
+    --webui-bg: #fafafa;
+    --webui-surface: #fff;
+    --webui-positive-ink: #03543f;
+    --webui-danger-ink: #9b1c1c;
+    --webui-danger-line: #f8b4b4;
+    --webui-danger-surface: #fde8e8;
+    --webui-space-1: 0.25rem;
+    --webui-space-2: 0.5rem;
+    --webui-space-3: 0.75rem;
+    --webui-space-4: 1rem;
+    --webui-space-5: 1.5rem;
+    --webui-space-6: 2rem;
+    --webui-text-sm: 0.875rem;
+    --webui-text-base: 0.9375rem;
+    --webui-text-lg: 1.05rem;
+    --webui-text-xl: 1.35rem;
+    --webui-radius: 6px;
+    --webui-focus-ring: 0 0 0 2px color-mix(in srgb, var(--webui-accent) 25%, transparent);
+    --webui-edge: clamp(1rem, 6vw, 5rem);
+    --webui-gutter: var(--webui-edge);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --webui-ink: #e6e6e6;
+      --webui-muted: #9a9a9a;
+      --webui-line: #2e2e2e;
+      --webui-input-line: #3a3a3a;
+      --webui-accent: #6ea8fe;
+      --webui-on-accent: #0b1220;
+      --webui-bg: #121212;
+      --webui-surface: #1c1c1c;
+      --webui-positive-ink: #8fdcb5;
+      --webui-danger-ink: #f19999;
+      --webui-danger-line: #7a2e2e;
+      --webui-danger-surface: #3b1d1d;
+    }
+  }
+  :where(body.webui-centered) {
+    --webui-gutter: max(var(--webui-edge), (100% - 96rem) / 2);
+  }
+  :where(*, ::before, ::after) {
+    box-sizing: border-box;
+  }
+  :where(body) {
+    margin: 0;
+    font:
+      var(--webui-text-base) / 1.5 system-ui,
+      sans-serif;
+    color: var(--webui-ink);
+    background: var(--webui-bg);
+  }
+  :where(a) {
+    color: var(--webui-accent);
+    text-decoration: none;
+  }
+  :where(a:hover) {
+    text-decoration: underline;
+  }
+  :where(h1) {
+    font-size: var(--webui-text-xl);
+    font-weight: 700;
+  }
+  :where(h2) {
+    font-size: var(--webui-text-lg);
+    font-weight: 600;
+  }
+  :where(button, .button, select, textarea, input:not([type="checkbox"], [type="radio"])) {
+    font-family: inherit;
+    font-size: var(--webui-text-sm);
+    line-height: 1.4;
+    border: 1px solid var(--webui-input-line);
+    border-radius: var(--webui-radius);
+    color: var(--webui-ink);
+    background-color: var(--webui-surface);
+  }
+  :where(button, .button, select) {
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+  }
+  :where(textarea, input:not([type="checkbox"], [type="radio"])) {
+    padding: 0.45rem 0.6rem;
+  }
+  :where(button, .button, select):hover {
+    border-color: var(--webui-accent);
+    text-decoration: none;
+  }
+  :where(button, .button, select, textarea, input):focus-visible {
+    outline: 0;
+    border-color: var(--webui-accent);
+    box-shadow: var(--webui-focus-ring);
+  }
+  :where(select) {
+    appearance: none;
+    padding-right: var(--webui-space-6);
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--webui-muted) 50%),
+      linear-gradient(135deg, var(--webui-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - 15px) 55%,
+      calc(100% - 10px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+  @media (pointer: coarse) {
+    :where(select, textarea, input) {
+      font-size: 1rem;
+    }
+  }
+}
+
+@layer webuistyle.components {
+  .primary {
+    color: var(--webui-on-accent);
+    background-color: var(--webui-accent);
+    border-color: var(--webui-accent);
+  }
+  [role="group"] {
+    display: inline-flex;
+  }
+  [role="group"] > :where(button, .button) {
+    margin-left: -1px;
+    border-radius: 0;
+  }
+  [role="group"] > :where(button, .button):first-child {
+    margin-left: 0;
+    border-radius: var(--webui-radius) 0 0 var(--webui-radius);
+  }
+  [role="group"] > :where(button, .button):last-child {
+    border-radius: 0 var(--webui-radius) var(--webui-radius) 0;
+  }
+  [role="group"] > :where(button, .button):is(:hover, [aria-pressed="true"]) {
+    position: relative;
+  }
+  [aria-pressed="true"] {
+    color: var(--webui-on-accent);
+    background-color: var(--webui-accent);
+    border-color: var(--webui-accent);
+  }
+  .webui-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 var(--webui-edge);
+    font:
+      var(--webui-text-sm) / 1.5 system-ui,
+      sans-serif;
+    background: var(--webui-surface);
+    border-bottom: 1px solid var(--webui-line);
+  }
+  .webui-tabs a {
+    padding: var(--webui-space-2) var(--webui-space-3);
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    color: var(--webui-muted);
+    text-decoration: none;
+  }
+  .webui-tabs > a:first-child {
+    margin-left: calc(-1 * var(--webui-space-3));
+  }
+  .webui-tabs a:hover {
+    color: var(--webui-ink);
+  }
+  .webui-tabs a[aria-current="page"] {
+    color: var(--webui-ink);
+    font-weight: 500;
+    border-bottom-color: var(--webui-accent);
+  }
+  .webui-tabs .webui-issue-tracker {
+    margin-left: auto;
+  }
+  @media (max-width: 30rem) {
+    .webui-tabs .webui-issue-tracker {
+      display: none;
+    }
+  }
+}

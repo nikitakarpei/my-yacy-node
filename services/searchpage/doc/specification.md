@@ -18,6 +18,9 @@ SearXNG.
 ## Functional Requirements
 
 * The service SHALL show the search box at `/` and at `/search`.
+* The list of search operators SHALL be open before a search and closed on the results.
+* When the operator sets a tab bar, each page SHALL show it at the top, with the tab of the
+  search page marked.
 * The service SHALL read the query from the `q` parameter and the page number from the `page`
   parameter. A page number that is not a positive number SHALL mean the first page.
 * The service SHALL search only the sources that the operator sets, and SHALL NOT start

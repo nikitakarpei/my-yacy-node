@@ -111,6 +111,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/webuistyle v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
@@ -212,3 +213,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyp
 replace github.com/nikitakarpei/yacy-rwi-node/visitcrawl => ../../services/visitcrawl
 
 replace github.com/nikitakarpei/yacy-rwi-node/searchpage => ../../services/searchpage
+
+replace github.com/nikitakarpei/yacy-rwi-node/webuistyle => ../../libraries/webuistyle

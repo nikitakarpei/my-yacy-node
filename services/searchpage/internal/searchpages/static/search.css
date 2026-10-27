@@ -1,120 +1,74 @@
-:root {
-  color-scheme: light dark;
-  --ink: #1a1a1a;
-  --muted: #6b6b6b;
-  --line: #e3e3e3;
-  --accent: #1a56db;
-  --on-accent: #fff;
-  --bg: #fafafa;
-  --surface: #fff;
-  --input-line: #cfcfcf;
-  --chip: #f3f4f6;
-  --chip-ink: #4b5563;
-  --address: #03543f;
-  --danger-ink: #9b1c1c;
-  --danger-line: #f8b4b4;
-  --notice: #fde8e8;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #e6e6e6;
-    --muted: #9a9a9a;
-    --line: #2e2e2e;
-    --accent: #6ea8fe;
-    --on-accent: #0b1220;
-    --bg: #121212;
-    --surface: #1c1c1c;
-    --input-line: #3a3a3a;
-    --chip: #2a2a2a;
-    --chip-ink: #c4c4c4;
-    --address: #8fdcb5;
-    --danger-ink: #f19999;
-    --danger-line: #7a2e2e;
-    --notice: #3b1d1d;
-  }
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  font:
-    15px / 1.5 system-ui,
-    sans-serif;
-  margin: 0;
-  color: var(--ink);
-  background: var(--bg);
-}
 header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  background: var(--webui-surface);
+  border-bottom: 1px solid var(--webui-line);
 }
 header .bar,
 main {
   max-width: 44rem;
   margin: 0;
-  padding: 0 1rem 0 clamp(1rem, 6vw, 5rem);
+  padding: 0 var(--webui-space-4) 0 var(--webui-gutter);
 }
 header .bar {
-  padding-top: 1rem;
-  padding-bottom: 0.75rem;
+  padding-top: var(--webui-space-4);
+  padding-bottom: var(--webui-space-3);
 }
 .box {
   display: flex;
-  border: 1px solid var(--input-line);
-  border-radius: 6px;
-  background: var(--surface);
+  border: 1px solid var(--webui-input-line);
+  border-radius: var(--webui-radius);
+  background: var(--webui-surface);
   overflow: hidden;
 }
 .box:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
+  border-color: var(--webui-accent);
+  box-shadow: var(--webui-focus-ring);
 }
 .box input {
   flex: 1;
   min-width: 0;
-  font: inherit;
   font-size: 1rem;
-  padding: 0.55rem 0.75rem;
+  padding: 0.55rem var(--webui-space-3);
   border: 0;
-  outline: 0;
-  color: var(--ink);
+  border-radius: 0;
+  box-shadow: none;
   background: transparent;
 }
 .box button {
   display: grid;
   place-items: center;
   width: 2.75rem;
+  padding: 0;
   border: 0;
-  cursor: pointer;
-  color: var(--on-accent);
-  background: var(--accent);
+  border-radius: 0;
+  color: var(--webui-on-accent);
+  background: var(--webui-accent);
 }
 .operators {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--muted);
+  margin-top: var(--webui-space-2);
+  font-size: var(--webui-text-sm);
+  color: var(--webui-muted);
 }
 .operators summary {
   cursor: pointer;
   width: max-content;
-  padding: 0.25rem 0;
+  padding: var(--webui-space-1) 0;
 }
 .operators dl {
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: 0.2rem 0.9rem;
-  margin: 0.5rem 0 0.25rem;
+  margin: var(--webui-space-2) 0 var(--webui-space-1);
 }
 .operators dt {
   font-family: ui-monospace, monospace;
-  color: var(--ink);
+  color: var(--webui-ink);
 }
 .operators dd {
   margin: 0;
 }
 main {
   margin-top: 1.25rem;
-  margin-bottom: 2rem;
+  margin-bottom: var(--webui-space-6);
 }
 .results {
   list-style: none;
@@ -131,52 +85,33 @@ main {
   margin: 0;
   line-height: 1.35;
 }
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
 .result .address {
   display: block;
-  font-size: 0.85rem;
-  color: var(--address);
+  font-size: var(--webui-text-sm);
+  color: var(--webui-positive-ink);
   overflow-wrap: anywhere;
 }
 .result p {
   overflow-wrap: anywhere;
   margin: 0.15rem 0 0;
-  color: var(--ink);
 }
 .result p b {
   font-weight: 600;
 }
 .none {
-  color: var(--muted);
+  color: var(--webui-muted);
 }
 .pages {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-.page {
-  padding: 0.45rem 1.1rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--ink);
-}
-.page:hover {
-  text-decoration: none;
-  border-color: var(--accent);
+  gap: var(--webui-space-3);
+  margin-top: var(--webui-space-2);
 }
 .failure {
-  margin: 0 0 1rem;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  border: 1px solid var(--danger-line);
-  border-radius: 6px;
-  background: var(--notice);
-  color: var(--danger-ink);
+  margin: 0 0 var(--webui-space-4);
+  padding: var(--webui-space-2) var(--webui-space-3);
+  font-size: var(--webui-text-sm);
+  border: 1px solid var(--webui-danger-line);
+  border-radius: var(--webui-radius);
+  background: var(--webui-danger-surface);
+  color: var(--webui-danger-ink);
 }

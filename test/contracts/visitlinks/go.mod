@@ -45,6 +45,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/webuistyle v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
@@ -56,3 +57,5 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 )
+
+replace github.com/nikitakarpei/yacy-rwi-node/webuistyle => ../../../libraries/webuistyle

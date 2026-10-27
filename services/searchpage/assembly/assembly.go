@@ -69,6 +69,7 @@ func RunService(
 	mux.Handle("/", searchpages.New(
 		resultSourcesFor(cfg),
 		resultLinksFor(cfg.VisitCrawl),
+		cfg.TabBar,
 		searchpageobserversapplog.SearchPageLog{},
 	))
 	pageServer := &http.Server{

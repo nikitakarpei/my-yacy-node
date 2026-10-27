@@ -39,6 +39,7 @@ PY_VENV_STAMP := $(PY_VENV)/.installed
 PY_CONFIG := $(CURDIR)/pyproject.toml
 
 WEB_FILES = git ls-files -z '*.js' '*.css' ':!:*.min.js' ':!:*.min.css'
+WEBUISTYLE_STYLESHEET = libraries/webuistyle/static/webuistyle.css
 JS_FILES = git ls-files -z '*.js' ':!:*.min.js'
 
 define for_each_go
@@ -73,7 +74,7 @@ endef
 	tidy tidy-go tidy-go-e2e tidy-py \
 	tidy-check tidy-check-go tidy-check-go-e2e tidy-check-py \
 	workspace \
-	lint lint-go lint-go-e2e lint-py lint-md lint-js \
+	lint lint-go lint-go-e2e lint-py lint-md lint-js lint-css \
 	arch arch-go arch-py arch-diagram \
 	test test-go test-py \
 	cover cover-go cover-py \
@@ -85,7 +86,7 @@ fmt:         fmt-go fmt-go-e2e fmt-py fmt-web
 fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py fmt-check-web
 tidy:        tidy-go tidy-go-e2e tidy-py
 tidy-check:  tidy-check-go tidy-check-go-e2e tidy-check-py
-lint:        lint-go lint-go-e2e lint-py lint-md lint-js
+lint:        lint-go lint-go-e2e lint-py lint-md lint-js lint-css
 arch:        arch-go arch-py
 test:        test-go test-py
 cover:       cover-go cover-py
@@ -217,6 +218,12 @@ lint-js: $(TOOLS_STAMP)
 	@echo "==> lint-js"
 	@out=$$($(JS_FILES) | xargs -0 -I{} $(ESBUILD) {} --target=es2022 --log-level=warning 2>&1 >/dev/null); \
 	if [ -n "$$out" ]; then echo "$$out"; exit 1; fi
+
+lint-css:
+	@echo "==> lint-css"
+	@out=$$(git ls-files -z '*.css' ':!:*.min.css' ':!:$(WEBUISTYLE_STYLESHEET)' \
+		| xargs -0 -r grep -l -e 'var(--webui-' | xargs -r grep -nE '#[0-9a-fA-F]{3,8}\b|rgba?\('); \
+	if [ -n "$$out" ]; then echo "colours belong in $(WEBUISTYLE_STYLESHEET):"; echo "$$out"; exit 1; fi
 
 # ---- misc ----
 

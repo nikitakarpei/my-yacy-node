@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchpages"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchqueries"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchresults"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 type fakeSource struct {
@@ -57,7 +58,16 @@ func TestTheFrontPageShowsOnlyTheSearchBoxAndItsOperators(t *testing.T) {
 
 	page := bodyOf(t, handler, "/")
 
-	assertContains(t, page, `name="q"`, "<title>Search</title>", "!ct", "!ya", ":de")
+	assertContains(
+		t,
+		page,
+		`name="q"`,
+		"<title>Search</title>",
+		`class="operators" open`,
+		"!ct",
+		"!ya",
+		":de",
+	)
 	assertLacks(t, page, "No results.", `class="result"`)
 	if len(asked) != 0 {
 		t.Errorf("sources were asked %v, want no search", asked)
@@ -87,7 +97,7 @@ func TestTheResultsPageMergesTheSourcesThroughTheResultLinks(t *testing.T) {
 	if strings.Index(page, "Crawled") > strings.Index(page, "Network") {
 		t.Error("network result shows before the crawled result, want the crawled one first")
 	}
-	assertLacks(t, page, "No results.", `rel="next"`, `rel="prev"`)
+	assertLacks(t, page, "No results.", `rel="next"`, `rel="prev"`, `class="operators" open`)
 }
 
 func TestTheSearchAsksOnlyTheSourcesOfItsOperators(t *testing.T) {
@@ -175,6 +185,7 @@ func TestASourceThatIsNotOfferedHasNoOperatorAndItsShortcutIsAQueryWord(t *testi
 			searchqueries.YaCyNetwork: fakeSource{asked: &asked, answered: true},
 		},
 		prefixedResultLinks{},
+		webuistyle.TabBar{},
 		&recordingObserver{},
 	)
 
@@ -217,7 +228,41 @@ func TestTheOpenSearchDescriptionBehindAnHTTPSProxySearchesOverHTTPS(t *testing.
 func TestThePageServesItsStyleSheet(t *testing.T) {
 	handler := searchPagesWith(fakeSource{}, fakeSource{})
 
-	assertContains(t, bodyOf(t, handler, "/static/search.css"), "--accent")
+	assertContains(t, bodyOf(t, handler, "/static/search.css"), ".result")
+}
+
+func TestThePageLinksTheWebUIStylesheetAndServesIt(t *testing.T) {
+	handler := searchPagesWith(fakeSource{}, fakeSource{})
+
+	assertContains(t, bodyOf(t, handler, "/"), `href="`+webuistyle.StylesheetPath+`"`)
+	assertContains(t, bodyOf(t, handler, webuistyle.StylesheetPath), "--webui-accent")
+}
+
+func TestEveryPageShowsTheTabBar(t *testing.T) {
+	handler := searchpages.New(
+		map[searchqueries.Source]searchpages.ResultSource{
+			searchqueries.YaCyNetwork: fakeSource{answered: true},
+		},
+		prefixedResultLinks{},
+		webuistyle.TabBar{Tabs: []webuistyle.Tab{
+			{Title: "Search", URL: "http://search.example", Current: true},
+			{Title: "Crawls", URL: "http://crawls.example"},
+		}},
+		&recordingObserver{},
+	)
+
+	for _, target := range []string{"/", "/search?q=yacy"} {
+		assertContains(t, bodyOf(t, handler, target),
+			`<a href="http://search.example" aria-current="page">Search</a>`,
+			`<a href="http://crawls.example">Crawls</a>`,
+		)
+	}
+}
+
+func TestAPageWithoutATabBarShowsNone(t *testing.T) {
+	handler := searchPagesWith(fakeSource{}, fakeSource{})
+
+	assertLacks(t, bodyOf(t, handler, "/"), "webui-tabs")
 }
 
 func searchPagesWith(crawledPages, yacyNetwork fakeSource) http.Handler {
@@ -227,6 +272,7 @@ func searchPagesWith(crawledPages, yacyNetwork fakeSource) http.Handler {
 			searchqueries.YaCyNetwork:  yacyNetwork,
 		},
 		prefixedResultLinks{},
+		webuistyle.TabBar{},
 		&recordingObserver{},
 	)
 }
