@@ -1,4 +1,4 @@
-package pageshell
+package webuistyle
 
 import (
 	"encoding/json"
@@ -69,7 +69,7 @@ func (b TabBar) HTML() template.HTML {
 		return ""
 	}
 	var html strings.Builder
-	html.WriteString(`<nav class="shell-tabs" aria-label="Main">`)
+	html.WriteString(`<nav class="webui-tabs" aria-label="Main">`)
 	for _, tab := range b.Tabs {
 		html.WriteString(`<a href="` + template.HTMLEscapeString(tab.URL) + `"`)
 		if tab.Current {
@@ -79,7 +79,7 @@ func (b TabBar) HTML() template.HTML {
 	}
 	if b.IssueTrackerURL != "" {
 		html.WriteString(
-			`<a class="shell-issue-tracker" href="` + template.HTMLEscapeString(b.IssueTrackerURL) +
+			`<a class="webui-issue-tracker" href="` + template.HTMLEscapeString(b.IssueTrackerURL) +
 				`" target="_blank" rel="noopener">Issue tracker <span aria-hidden="true">↗</span></a>`,
 		)
 	}

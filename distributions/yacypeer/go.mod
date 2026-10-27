@@ -105,13 +105,13 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pageshell v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/webuistyle v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
@@ -214,4 +214,4 @@ replace github.com/nikitakarpei/yacy-rwi-node/visitcrawl => ../../services/visit
 
 replace github.com/nikitakarpei/yacy-rwi-node/searchpage => ../../services/searchpage
 
-replace github.com/nikitakarpei/yacy-rwi-node/pageshell => ../../libraries/pageshell
+replace github.com/nikitakarpei/yacy-rwi-node/webuistyle => ../../libraries/webuistyle

@@ -14,9 +14,9 @@ import (
 	"sync"
 	"unicode/utf8"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchqueries"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchresults"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 //go:embed templates
@@ -39,7 +39,7 @@ type resultsPage struct {
 
 type pageView struct {
 	Query           string
-	ShellStylesheet string
+	WebUIStylesheet string
 	TabBar          template.HTML
 	PreviousPage    string
 	NextPage        string
@@ -70,7 +70,7 @@ type sourceAnswer struct {
 func newResultsPage(
 	sources map[searchqueries.Source]ResultSource,
 	resultLinks ResultLinks,
-	tabBar pageshell.TabBar,
+	tabBar webuistyle.TabBar,
 	observer PageObserver,
 ) resultsPage {
 	return resultsPage{
@@ -108,7 +108,7 @@ func (p resultsPage) viewFor(
 ) pageView {
 	view := pageView{
 		Query:           query,
-		ShellStylesheet: pageshell.StylesheetPath,
+		WebUIStylesheet: webuistyle.StylesheetPath,
 		TabBar:          p.tabBar,
 		Operators:       operatorViewsOf(p.offeredSources),
 	}

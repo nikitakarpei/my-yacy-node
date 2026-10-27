@@ -6,7 +6,7 @@ allow:
   deepScan: false
 
 components:
-  pageshell:
+  webuistyle:
     in:
       - .
       - "**"

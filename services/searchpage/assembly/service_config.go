@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 const corpusTextCallDeadline = 5 * time.Second
@@ -13,7 +13,7 @@ type ServiceConfig struct {
 	CorpusTextURL          *url.URL
 	YaCySearchURL          *url.URL
 	VisitCrawl             *VisitCrawlConfig
-	TabBar                 pageshell.TabBar
+	TabBar                 webuistyle.TabBar
 	ListenAddr             string
 	OpsAddr                string
 	YaCySearchCallDeadline time.Duration

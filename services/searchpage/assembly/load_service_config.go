@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 const (
@@ -59,7 +59,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	tabBar, err := pageshell.TabBarFrom(getenv(EnvTabBar))
+	tabBar, err := webuistyle.TabBarFrom(getenv(EnvTabBar))
 	if err != nil {
 		return ServiceConfig{}, fmt.Errorf("%s: %w", EnvTabBar, err)
 	}

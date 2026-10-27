@@ -1,4 +1,4 @@
-package pageshell_test
+package webuistyle_test
 
 import (
 	"net/http"
@@ -6,20 +6,20 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 func TestStylesheetServesTheLookOfThePages(t *testing.T) {
 	answer := httptest.NewRecorder()
 
-	pageshell.Stylesheet().ServeHTTP(
+	webuistyle.Stylesheet().ServeHTTP(
 		answer,
-		httptest.NewRequestWithContext(t.Context(), http.MethodGet, pageshell.StylesheetPath, nil),
+		httptest.NewRequestWithContext(t.Context(), http.MethodGet, webuistyle.StylesheetPath, nil),
 	)
 
 	if answer.Code != http.StatusOK ||
 		!strings.HasPrefix(answer.Header().Get("Content-Type"), "text/css") ||
-		!strings.Contains(answer.Body.String(), "--shell-accent") {
+		!strings.Contains(answer.Body.String(), "--webui-accent") {
 		t.Errorf(
 			"answer = %d %q, want the stylesheet",
 			answer.Code,

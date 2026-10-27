@@ -34,9 +34,9 @@ components:
     in: cmd/searchpage/**
 
 vendors:
-  pageshell:
+  webuistyle:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pageshell
+      - github.com/nikitakarpei/yacy-rwi-node/webuistyle
   searchdocument:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/searchdocument
@@ -63,7 +63,7 @@ deps:
       - searchqueries
       - searchresults
     canUse:
-      - pageshell
+      - webuistyle
   searchpageassembly:
     anyProjectDeps: true
     anyVendorDeps: true

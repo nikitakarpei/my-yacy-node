@@ -9,9 +9,9 @@ import (
 	"embed"
 	"net/http"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchqueries"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchresults"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 //go:embed static
@@ -37,7 +37,7 @@ type PageObserver interface {
 func New(
 	sources map[searchqueries.Source]ResultSource,
 	resultLinks ResultLinks,
-	tabBar pageshell.TabBar,
+	tabBar webuistyle.TabBar,
 	observer PageObserver,
 ) http.Handler {
 	page := newResultsPage(sources, resultLinks, tabBar, observer)
@@ -46,6 +46,6 @@ func New(
 	mux.HandleFunc("GET "+searchPath, page.show)
 	mux.HandleFunc("GET "+openSearchDescriptionPath, showOpenSearchDescription)
 	mux.Handle("GET /static/", http.FileServerFS(staticFiles))
-	mux.Handle("GET "+pageshell.StylesheetPath, pageshell.Stylesheet())
+	mux.Handle("GET "+webuistyle.StylesheetPath, webuistyle.Stylesheet())
 	return mux
 }

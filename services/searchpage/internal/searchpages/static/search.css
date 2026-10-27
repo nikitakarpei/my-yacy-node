@@ -1,33 +1,33 @@
 header {
-  background: var(--shell-surface);
-  border-bottom: 1px solid var(--shell-line);
+  background: var(--webui-surface);
+  border-bottom: 1px solid var(--webui-line);
 }
 header .bar,
 main {
   max-width: 44rem;
   margin: 0;
-  padding: 0 var(--shell-space-4) 0 var(--shell-gutter);
+  padding: 0 var(--webui-space-4) 0 var(--webui-gutter);
 }
 header .bar {
-  padding-top: var(--shell-space-4);
-  padding-bottom: var(--shell-space-3);
+  padding-top: var(--webui-space-4);
+  padding-bottom: var(--webui-space-3);
 }
 .box {
   display: flex;
-  border: 1px solid var(--shell-input-line);
-  border-radius: var(--shell-radius);
-  background: var(--shell-surface);
+  border: 1px solid var(--webui-input-line);
+  border-radius: var(--webui-radius);
+  background: var(--webui-surface);
   overflow: hidden;
 }
 .box:focus-within {
-  border-color: var(--shell-accent);
-  box-shadow: var(--shell-focus-ring);
+  border-color: var(--webui-accent);
+  box-shadow: var(--webui-focus-ring);
 }
 .box input {
   flex: 1;
   min-width: 0;
   font-size: 1rem;
-  padding: 0.55rem var(--shell-space-3);
+  padding: 0.55rem var(--webui-space-3);
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -40,35 +40,35 @@ header .bar {
   padding: 0;
   border: 0;
   border-radius: 0;
-  color: var(--shell-on-accent);
-  background: var(--shell-accent);
+  color: var(--webui-on-accent);
+  background: var(--webui-accent);
 }
 .operators {
-  margin-top: var(--shell-space-2);
-  font-size: var(--shell-text-sm);
-  color: var(--shell-muted);
+  margin-top: var(--webui-space-2);
+  font-size: var(--webui-text-sm);
+  color: var(--webui-muted);
 }
 .operators summary {
   cursor: pointer;
   width: max-content;
-  padding: var(--shell-space-1) 0;
+  padding: var(--webui-space-1) 0;
 }
 .operators dl {
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: 0.2rem 0.9rem;
-  margin: var(--shell-space-2) 0 var(--shell-space-1);
+  margin: var(--webui-space-2) 0 var(--webui-space-1);
 }
 .operators dt {
   font-family: ui-monospace, monospace;
-  color: var(--shell-ink);
+  color: var(--webui-ink);
 }
 .operators dd {
   margin: 0;
 }
 main {
   margin-top: 1.25rem;
-  margin-bottom: var(--shell-space-6);
+  margin-bottom: var(--webui-space-6);
 }
 .results {
   list-style: none;
@@ -87,8 +87,8 @@ main {
 }
 .result .address {
   display: block;
-  font-size: var(--shell-text-sm);
-  color: var(--shell-positive-ink);
+  font-size: var(--webui-text-sm);
+  color: var(--webui-positive-ink);
   overflow-wrap: anywhere;
 }
 .result p {
@@ -99,19 +99,19 @@ main {
   font-weight: 600;
 }
 .none {
-  color: var(--shell-muted);
+  color: var(--webui-muted);
 }
 .pages {
   display: flex;
-  gap: var(--shell-space-3);
-  margin-top: var(--shell-space-2);
+  gap: var(--webui-space-3);
+  margin-top: var(--webui-space-2);
 }
 .failure {
-  margin: 0 0 var(--shell-space-4);
-  padding: var(--shell-space-2) var(--shell-space-3);
-  font-size: var(--shell-text-sm);
-  border: 1px solid var(--shell-danger-line);
-  border-radius: var(--shell-radius);
-  background: var(--shell-danger-surface);
-  color: var(--shell-danger-ink);
+  margin: 0 0 var(--webui-space-4);
+  padding: var(--webui-space-2) var(--webui-space-3);
+  font-size: var(--webui-text-sm);
+  border: 1px solid var(--webui-danger-line);
+  border-radius: var(--webui-radius);
+  background: var(--webui-danger-surface);
+  color: var(--webui-danger-ink);
 }

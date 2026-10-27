@@ -1,10 +1,10 @@
-package pageshell_test
+package webuistyle_test
 
 import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 const everyTab = `{
@@ -16,7 +16,7 @@ const everyTab = `{
 }`
 
 func TestTabBarFromShowsEachTabAndMarksTheCurrentOne(t *testing.T) {
-	bar, err := pageshell.TabBarFrom(everyTab)
+	bar, err := webuistyle.TabBarFrom(everyTab)
 	if err != nil {
 		t.Fatalf("TabBarFrom: %v", err)
 	}
@@ -34,7 +34,7 @@ func TestTabBarFromShowsEachTabAndMarksTheCurrentOne(t *testing.T) {
 }
 
 func TestTabBarFromOpensTheIssueTrackerInANewTab(t *testing.T) {
-	bar, err := pageshell.TabBarFrom(everyTab)
+	bar, err := webuistyle.TabBarFrom(everyTab)
 	if err != nil {
 		t.Fatalf("TabBarFrom: %v", err)
 	}
@@ -50,7 +50,7 @@ func TestTabBarFromOpensTheIssueTrackerInANewTab(t *testing.T) {
 }
 
 func TestTabBarFromWithoutASettingShowsNoBar(t *testing.T) {
-	bar, err := pageshell.TabBarFrom(" ")
+	bar, err := webuistyle.TabBarFrom(" ")
 	if err != nil {
 		t.Fatalf("TabBarFrom: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestTabBarFromRefusesABarItCannotShow(t *testing.T) {
 		"no issue tracker": `{"tabs": [{"title": "Search", "url": "http://search", "current": true}], "issueTrackerUrl": "issues"}`,
 	} {
 		t.Run(name, func(t *testing.T) {
-			if _, err := pageshell.TabBarFrom(setting); err == nil {
+			if _, err := webuistyle.TabBarFrom(setting); err == nil {
 				t.Errorf("TabBarFrom(%s) = nil, want an error", setting)
 			}
 		})
@@ -80,7 +80,7 @@ func TestTabBarFromRefusesABarItCannotShow(t *testing.T) {
 }
 
 func TestTabBarEscapesItsTitles(t *testing.T) {
-	bar := pageshell.TabBar{Tabs: []pageshell.Tab{
+	bar := webuistyle.TabBar{Tabs: []webuistyle.Tab{
 		{Title: "<b>Search</b>", URL: "http://search", Current: true},
 	}}
 

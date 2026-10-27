@@ -1,13 +1,13 @@
-// Package pageshell gives the web pages of the peer one look and one way between them: the
+// Package webuistyle gives the web UIs of the services one look and one way between them: the
 // stylesheet that each page links before its own, and the tab bar at the top of each page.
-package pageshell
+package webuistyle
 
 import (
 	"embed"
 	"net/http"
 )
 
-const StylesheetPath = "/static/pageshell.css"
+const StylesheetPath = "/static/webuistyle.css"
 
 //go:embed static
 var staticFiles embed.FS

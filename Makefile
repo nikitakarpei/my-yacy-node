@@ -39,7 +39,7 @@ PY_VENV_STAMP := $(PY_VENV)/.installed
 PY_CONFIG := $(CURDIR)/pyproject.toml
 
 WEB_FILES = git ls-files -z '*.js' '*.css' ':!:*.min.js' ':!:*.min.css'
-PAGESHELL_STYLESHEET = libraries/pageshell/static/pageshell.css
+WEBUISTYLE_STYLESHEET = libraries/webuistyle/static/webuistyle.css
 JS_FILES = git ls-files -z '*.js' ':!:*.min.js'
 
 define for_each_go
@@ -221,9 +221,9 @@ lint-js: $(TOOLS_STAMP)
 
 lint-css:
 	@echo "==> lint-css"
-	@out=$$(git ls-files -z '*.css' ':!:*.min.css' ':!:$(PAGESHELL_STYLESHEET)' \
-		| xargs -0 -r grep -l -e 'var(--shell-' | xargs -r grep -nE '#[0-9a-fA-F]{3,8}\b|rgba?\('); \
-	if [ -n "$$out" ]; then echo "colours belong in $(PAGESHELL_STYLESHEET):"; echo "$$out"; exit 1; fi
+	@out=$$(git ls-files -z '*.css' ':!:*.min.css' ':!:$(WEBUISTYLE_STYLESHEET)' \
+		| xargs -0 -r grep -l -e 'var(--webui-' | xargs -r grep -nE '#[0-9a-fA-F]{3,8}\b|rgba?\('); \
+	if [ -n "$$out" ]; then echo "colours belong in $(WEBUISTYLE_STYLESHEET):"; echo "$$out"; exit 1; fi
 
 # ---- misc ----
 
