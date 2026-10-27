@@ -74,6 +74,30 @@ func TestLoadServiceConfigReadsOneSourceWithoutVisitCrawl(t *testing.T) {
 	}
 }
 
+func TestLoadServiceConfigReadsTheTabBar(t *testing.T) {
+	settings := everySetting()
+	settings[searchpage.EnvTabBar] = `{"tabs": [{"title": "Search", "url": "http://search:8097", "current": true}]}`
+
+	cfg, err := searchpage.LoadServiceConfig(getenvFrom(settings))
+	if err != nil {
+		t.Fatalf("LoadServiceConfig: %v", err)
+	}
+
+	if len(cfg.TabBar.Tabs) != 1 || cfg.TabBar.Tabs[0].URL != "http://search:8097" {
+		t.Errorf("tab bar = %+v, want the search tab", cfg.TabBar)
+	}
+}
+
+func TestLoadServiceConfigRefusesATabBarItCannotShow(t *testing.T) {
+	settings := everySetting()
+	settings[searchpage.EnvTabBar] = `{"tabs": [{"title": "Search", "url": "http://search:8097"}]}`
+
+	_, err := searchpage.LoadServiceConfig(getenvFrom(settings))
+	if err == nil || !strings.Contains(err.Error(), searchpage.EnvTabBar) {
+		t.Errorf("LoadServiceConfig = %v, want %s named", err, searchpage.EnvTabBar)
+	}
+}
+
 func TestLoadServiceConfigRefusesNoSource(t *testing.T) {
 	settings := everySetting()
 	delete(settings, searchpage.EnvCorpusTextURL)

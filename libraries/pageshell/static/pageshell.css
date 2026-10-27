@@ -1,0 +1,186 @@
+@layer pageshell.base, pageshell.components;
+
+@layer pageshell.base {
+  :root {
+    color-scheme: light dark;
+    --shell-ink: #1a1a1a;
+    --shell-muted: #6b6b6b;
+    --shell-line: #e3e3e3;
+    --shell-input-line: #cfcfcf;
+    --shell-accent: #1a56db;
+    --shell-on-accent: #fff;
+    --shell-bg: #fafafa;
+    --shell-surface: #fff;
+    --shell-positive-ink: #03543f;
+    --shell-danger-ink: #9b1c1c;
+    --shell-danger-line: #f8b4b4;
+    --shell-danger-surface: #fde8e8;
+    --shell-space-1: 0.25rem;
+    --shell-space-2: 0.5rem;
+    --shell-space-3: 0.75rem;
+    --shell-space-4: 1rem;
+    --shell-space-5: 1.5rem;
+    --shell-space-6: 2rem;
+    --shell-text-sm: 0.875rem;
+    --shell-text-base: 0.9375rem;
+    --shell-text-lg: 1.05rem;
+    --shell-text-xl: 1.35rem;
+    --shell-radius: 6px;
+    --shell-focus-ring: 0 0 0 2px color-mix(in srgb, var(--shell-accent) 25%, transparent);
+    --shell-edge: clamp(1rem, 6vw, 5rem);
+    --shell-gutter: var(--shell-edge);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --shell-ink: #e6e6e6;
+      --shell-muted: #9a9a9a;
+      --shell-line: #2e2e2e;
+      --shell-input-line: #3a3a3a;
+      --shell-accent: #6ea8fe;
+      --shell-on-accent: #0b1220;
+      --shell-bg: #121212;
+      --shell-surface: #1c1c1c;
+      --shell-positive-ink: #8fdcb5;
+      --shell-danger-ink: #f19999;
+      --shell-danger-line: #7a2e2e;
+      --shell-danger-surface: #3b1d1d;
+    }
+  }
+  :where(body.shell-centered) {
+    --shell-gutter: max(var(--shell-edge), (100% - 96rem) / 2);
+  }
+  :where(*, ::before, ::after) {
+    box-sizing: border-box;
+  }
+  :where(body) {
+    margin: 0;
+    font:
+      var(--shell-text-base) / 1.5 system-ui,
+      sans-serif;
+    color: var(--shell-ink);
+    background: var(--shell-bg);
+  }
+  :where(a) {
+    color: var(--shell-accent);
+    text-decoration: none;
+  }
+  :where(a:hover) {
+    text-decoration: underline;
+  }
+  :where(h1) {
+    font-size: var(--shell-text-xl);
+    font-weight: 700;
+  }
+  :where(h2) {
+    font-size: var(--shell-text-lg);
+    font-weight: 600;
+  }
+  :where(button, .button, select, textarea, input:not([type="checkbox"], [type="radio"])) {
+    font-family: inherit;
+    font-size: var(--shell-text-sm);
+    line-height: 1.4;
+    border: 1px solid var(--shell-input-line);
+    border-radius: var(--shell-radius);
+    color: var(--shell-ink);
+    background-color: var(--shell-surface);
+  }
+  :where(button, .button, select) {
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+  }
+  :where(textarea, input:not([type="checkbox"], [type="radio"])) {
+    padding: 0.45rem 0.6rem;
+  }
+  :where(button, .button, select):hover {
+    border-color: var(--shell-accent);
+    text-decoration: none;
+  }
+  :where(button, .button, select, textarea, input):focus-visible {
+    outline: 0;
+    border-color: var(--shell-accent);
+    box-shadow: var(--shell-focus-ring);
+  }
+  :where(select) {
+    appearance: none;
+    padding-right: var(--shell-space-6);
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--shell-muted) 50%),
+      linear-gradient(135deg, var(--shell-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - 15px) 55%,
+      calc(100% - 10px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+  @media (pointer: coarse) {
+    :where(select, textarea, input) {
+      font-size: 1rem;
+    }
+  }
+}
+
+@layer pageshell.components {
+  .primary {
+    color: var(--shell-on-accent);
+    background-color: var(--shell-accent);
+    border-color: var(--shell-accent);
+  }
+  [role="group"] {
+    display: inline-flex;
+  }
+  [role="group"] > :where(button, .button) {
+    margin-left: -1px;
+    border-radius: 0;
+  }
+  [role="group"] > :where(button, .button):first-child {
+    margin-left: 0;
+    border-radius: var(--shell-radius) 0 0 var(--shell-radius);
+  }
+  [role="group"] > :where(button, .button):last-child {
+    border-radius: 0 var(--shell-radius) var(--shell-radius) 0;
+  }
+  [role="group"] > :where(button, .button):is(:hover, [aria-pressed="true"]) {
+    position: relative;
+  }
+  [aria-pressed="true"] {
+    color: var(--shell-on-accent);
+    background-color: var(--shell-accent);
+    border-color: var(--shell-accent);
+  }
+  .shell-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 var(--shell-edge);
+    font:
+      var(--shell-text-sm) / 1.5 system-ui,
+      sans-serif;
+    background: var(--shell-surface);
+    border-bottom: 1px solid var(--shell-line);
+  }
+  .shell-tabs a {
+    padding: var(--shell-space-2) var(--shell-space-3);
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    color: var(--shell-muted);
+    text-decoration: none;
+  }
+  .shell-tabs > a:first-child {
+    margin-left: calc(-1 * var(--shell-space-3));
+  }
+  .shell-tabs a:hover {
+    color: var(--shell-ink);
+  }
+  .shell-tabs a[aria-current="page"] {
+    color: var(--shell-ink);
+    font-weight: 500;
+    border-bottom-color: var(--shell-accent);
+  }
+  .shell-tabs .shell-issue-tracker {
+    margin-left: auto;
+  }
+  @media (max-width: 30rem) {
+    .shell-tabs .shell-issue-tracker {
+      display: none;
+    }
+  }
+}

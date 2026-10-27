@@ -10,6 +10,7 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchpages"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchqueries"
 	"github.com/nikitakarpei/yacy-rwi-node/searchpage/internal/searchresults"
@@ -175,6 +176,7 @@ func TestASourceThatIsNotOfferedHasNoOperatorAndItsShortcutIsAQueryWord(t *testi
 			searchqueries.YaCyNetwork: fakeSource{asked: &asked, answered: true},
 		},
 		prefixedResultLinks{},
+		pageshell.TabBar{},
 		&recordingObserver{},
 	)
 
@@ -217,7 +219,41 @@ func TestTheOpenSearchDescriptionBehindAnHTTPSProxySearchesOverHTTPS(t *testing.
 func TestThePageServesItsStyleSheet(t *testing.T) {
 	handler := searchPagesWith(fakeSource{}, fakeSource{})
 
-	assertContains(t, bodyOf(t, handler, "/static/search.css"), "--accent")
+	assertContains(t, bodyOf(t, handler, "/static/search.css"), ".result")
+}
+
+func TestThePageLinksTheShellStylesheetAndServesIt(t *testing.T) {
+	handler := searchPagesWith(fakeSource{}, fakeSource{})
+
+	assertContains(t, bodyOf(t, handler, "/"), `href="`+pageshell.StylesheetPath+`"`)
+	assertContains(t, bodyOf(t, handler, pageshell.StylesheetPath), "--shell-accent")
+}
+
+func TestEveryPageShowsTheTabBar(t *testing.T) {
+	handler := searchpages.New(
+		map[searchqueries.Source]searchpages.ResultSource{
+			searchqueries.YaCyNetwork: fakeSource{answered: true},
+		},
+		prefixedResultLinks{},
+		pageshell.TabBar{Tabs: []pageshell.Tab{
+			{Title: "Search", URL: "http://search.example", Current: true},
+			{Title: "Crawls", URL: "http://crawls.example"},
+		}},
+		&recordingObserver{},
+	)
+
+	for _, target := range []string{"/", "/search?q=yacy"} {
+		assertContains(t, bodyOf(t, handler, target),
+			`<a href="http://search.example" aria-current="page">Search</a>`,
+			`<a href="http://crawls.example">Crawls</a>`,
+		)
+	}
+}
+
+func TestAPageWithoutATabBarShowsNone(t *testing.T) {
+	handler := searchPagesWith(fakeSource{}, fakeSource{})
+
+	assertLacks(t, bodyOf(t, handler, "/"), "shell-tabs")
 }
 
 func searchPagesWith(crawledPages, yacyNetwork fakeSource) http.Handler {
@@ -227,6 +263,7 @@ func searchPagesWith(crawledPages, yacyNetwork fakeSource) http.Handler {
 			searchqueries.YaCyNetwork:  yacyNetwork,
 		},
 		prefixedResultLinks{},
+		pageshell.TabBar{},
 		&recordingObserver{},
 	)
 }

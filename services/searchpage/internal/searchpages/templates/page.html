@@ -6,9 +6,11 @@
 <meta name="referrer" content="origin">
 <title>{{if .Query}}{{.Query}}{{if gt .PageNumber 1}} – page {{.PageNumber}}{{end}}{{else}}Search{{end}}</title>
 <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+<link rel="stylesheet" href="{{.ShellStylesheet}}">
 <link rel="stylesheet" href="/static/search.css">
 </head>
 <body>
+{{.TabBar}}
 <header><div class="bar">
   <search>
   <form method="get" action="/search">
@@ -41,8 +43,8 @@
   </ol>
   {{if or .PreviousPage .NextPage}}
   <nav class="pages" aria-label="Pages">
-    {{with .PreviousPage}}<a class="page" href="{{.}}" rel="prev">Previous</a>{{end}}
-    {{with .NextPage}}<a class="page" href="{{.}}" rel="next">Next</a>{{end}}
+    {{with .PreviousPage}}<a class="button" href="{{.}}" rel="prev">Previous</a>{{end}}
+    {{with .NextPage}}<a class="button" href="{{.}}" rel="next">Next</a>{{end}}
   </nav>
   {{end}}
   {{else if not .Failures}}

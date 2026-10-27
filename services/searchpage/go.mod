@@ -8,7 +8,10 @@ replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../corpustext/co
 
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
 
+replace github.com/nikitakarpei/yacy-rwi-node/pageshell => ../../libraries/pageshell
+
 require (
+	github.com/nikitakarpei/yacy-rwi-node/pageshell v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0

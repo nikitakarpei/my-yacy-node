@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pageshell"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
@@ -18,6 +19,7 @@ const (
 	EnvVisitCrawlURL          = "SEARCHPAGE_VISITCRAWL_URL"
 	EnvVisitLinkSecret        = "VISITCRAWL_LINK_SECRET"
 	EnvVisitLinkLifetime      = "SEARCHPAGE_VISIT_LINK_LIFETIME"
+	EnvTabBar                 = "SEARCHPAGE_TAB_BAR"
 	EnvOpsAddr                = "SEARCHPAGE_OPS_ADDR"
 )
 
@@ -57,11 +59,16 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	tabBar, err := pageshell.TabBarFrom(getenv(EnvTabBar))
+	if err != nil {
+		return ServiceConfig{}, fmt.Errorf("%s: %w", EnvTabBar, err)
+	}
 
 	return ServiceConfig{
 		CorpusTextURL:          corpusTextURL,
 		YaCySearchURL:          yacySearchURL,
 		VisitCrawl:             visitCrawl,
+		TabBar:                 tabBar,
 		ListenAddr:             envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		OpsAddr:                envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		YaCySearchCallDeadline: yacySearchCallDeadline,

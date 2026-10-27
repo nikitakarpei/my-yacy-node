@@ -105,6 +105,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pageshell v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
@@ -212,3 +213,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyp
 replace github.com/nikitakarpei/yacy-rwi-node/visitcrawl => ../../services/visitcrawl
 
 replace github.com/nikitakarpei/yacy-rwi-node/searchpage => ../../services/searchpage
+
+replace github.com/nikitakarpei/yacy-rwi-node/pageshell => ../../libraries/pageshell

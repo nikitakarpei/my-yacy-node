@@ -7,6 +7,14 @@ searchpage is configured entirely through environment variables.
 | Variable | Default | Meaning |
 |---|---|---|
 | `SEARCHPAGE_LISTEN_ADDR` | `:8097` | Address that serves the search page and `/visit`. |
+| `SEARCHPAGE_TAB_BAR` | none | JSON tab bar at the top of each page. Without it, the pages show no tab bar. |
+
+Give each tab a `title` and an HTTP `url`, and mark the tab of the search page as `current`.
+An `issueTrackerUrl` is optional. For example:
+
+```sh
+SEARCHPAGE_TAB_BAR='{"tabs":[{"title":"Search","url":"http://127.0.0.1:8097","current":true}]}'
+```
 
 ## Sources
 

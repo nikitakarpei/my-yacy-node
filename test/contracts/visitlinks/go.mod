@@ -42,6 +42,7 @@ require (
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pageshell v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0 // indirect
@@ -56,3 +57,5 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 )
+
+replace github.com/nikitakarpei/yacy-rwi-node/pageshell => ../../../libraries/pageshell
