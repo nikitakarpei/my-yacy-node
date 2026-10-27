@@ -14,8 +14,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 )
 
@@ -54,11 +56,11 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer overlay.stop()
-	egress, err := egressRouteFor(ctx, cfg, overlay.egressOverlays())
+	egress, err := egressproxy.Listen(ctx, cfg.EgressProxyURL, overlay.egressOverlays())
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
-	addresses := peerAddressesFor(broker.ClientURL(), egress)
+	addresses := peerAddressesFor(broker.ClientURL(), egress.URL())
 	crawler, err := crawlerFor(ctx, cfg, addresses, getenv)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
@@ -72,9 +74,14 @@ func RunPeer(
 	processRegistry := opsmetrics.ProcessRegistry()
 	opsMux := opsMuxFor(processRegistry, services, history)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, egress, overlay, services, func(ctx context.Context) error {
-			return history.Run(ctx, metricSourcesOf(processRegistry, services))
-		})
+		return runEvery(ctx, services, append(overlay.runs(),
+			func(ctx context.Context) error {
+				return egress.Run(servicelog.ContextFor(ctx, egressproxy.Name))
+			},
+			func(ctx context.Context) error {
+				return history.Run(ctx, metricSourcesOf(processRegistry, services))
+			},
+		)...)
 	})
 }
 
@@ -135,12 +142,10 @@ func metricSourcesOf(
 
 func runEvery(
 	ctx context.Context,
-	egress egressRoute,
-	overlay yggdrasilOverlay,
 	services []service,
-	historyRun func(context.Context) error,
+	workers ...func(context.Context) error,
 ) error {
-	runs := append(append(egress.runs(), overlay.runs()...), historyRun)
+	runs := workers
 	for _, service := range services {
 		runs = append(runs, service.run)
 	}

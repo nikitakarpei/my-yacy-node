@@ -37,6 +37,12 @@ const (
 
 var errNoScheme = errors.New("must include a scheme")
 
+var proxyEnvironment = []string{
+	"HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy", "NO_PROXY", "no_proxy",
+}
+
+var errProxyEnvironment = errors.New("must not be set; name the proxy in " + EnvEgressProxyURL)
+
 type PeerConfig struct {
 	EgressProxyURL         *url.URL
 	YggdrasilPeering       yggdrasilnode.Peering
@@ -49,6 +55,9 @@ type PeerConfig struct {
 }
 
 func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
+	if err := requireNoProxyEnvironment(getenv); err != nil {
+		return PeerConfig{}, err
+	}
 	networkName := envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork)
 	seedlistURLs, err := seedlistURLsFor(getenv, networkName)
 	if err != nil {
@@ -101,6 +110,16 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		)
 	}
 	return cfg, nil
+}
+
+func requireNoProxyEnvironment(getenv func(string) string) error {
+	var failures []error
+	for _, key := range proxyEnvironment {
+		if getenv(key) != "" {
+			failures = append(failures, fmt.Errorf("%s: %w", key, errProxyEnvironment))
+		}
+	}
+	return errors.Join(failures...)
 }
 
 func seedlistURLsFor(getenv func(string) string, networkName string) (string, error) {

@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/netip"
+	"net/url"
 	"strings"
 	"sync"
 	"testing"
@@ -21,7 +22,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 )
 
-const stopDeadline = 10 * time.Second
+const (
+	stopDeadline      = 10 * time.Second
+	publicDestination = "203.0.113.5"
+)
 
 type logBuffer struct {
 	buffer bytes.Buffer
@@ -41,14 +45,23 @@ func (b *logBuffer) String() string {
 	return b.buffer.String()
 }
 
-func runningProxy(t *testing.T) *egressproxy.EgressProxy {
+func runningProxy(t *testing.T, upstreamProxyURL *url.URL) *egressproxy.EgressProxy {
 	t.Helper()
-	return runningProxyAcross(t, nil)
+	return runningProxyAcross(t, upstreamProxyURL, nil)
 }
 
-func runningProxyAcross(t *testing.T, overlays []egressproxy.Overlay) *egressproxy.EgressProxy {
+func runningProxyAcross(
+	t *testing.T,
+	upstreamProxyURL *url.URL,
+	overlays []egressproxy.Overlay,
+) *egressproxy.EgressProxy {
 	t.Helper()
-	proxy, err := egressproxy.Listen(t.Context(), overlays)
+	for _, key := range []string{
+		"HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy", "NO_PROXY", "no_proxy",
+	} {
+		t.Setenv(key, "")
+	}
+	proxy, err := egressproxy.Listen(t.Context(), upstreamProxyURL, overlays)
 	if err != nil {
 		t.Fatalf("Listen: %v", err)
 	}
@@ -74,8 +87,49 @@ func clientThrough(t *testing.T, proxy *egressproxy.EgressProxy) *http.Client {
 	return &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxy.URL())}}
 }
 
+func upstreamProxy(t *testing.T) (*url.URL, <-chan string) {
+	t.Helper()
+	requests := make(chan string, 16)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests <- r.Method + " " + r.RequestURI
+		w.WriteHeader(http.StatusBadGateway)
+	}))
+	t.Cleanup(server.Close)
+	upstreamProxyURL, err := url.Parse(server.URL)
+	if err != nil {
+		t.Fatalf("parse the upstream proxy URL: %v", err)
+	}
+	return upstreamProxyURL, requests
+}
+
+func requestThrough(t *testing.T, proxy *egressproxy.EgressProxy, target string) int {
+	t.Helper()
+	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, target, nil)
+	if err != nil {
+		t.Fatalf("build the request: %v", err)
+	}
+	response, err := clientThrough(t, proxy).Do(request)
+	if err != nil {
+		t.Fatalf("request through the proxy: %v", err)
+	}
+	_ = response.Body.Close()
+	return response.StatusCode
+}
+
+func awaitUpstreamRequest(t *testing.T, requests <-chan string, want string) {
+	t.Helper()
+	select {
+	case got := <-requests:
+		if got != want {
+			t.Errorf("upstream proxy got %q, want %q", got, want)
+		}
+	case <-time.After(stopDeadline):
+		t.Errorf("upstream proxy never got %q", want)
+	}
+}
+
 func TestURLNamesTheLoopbackInterface(t *testing.T) {
-	proxy, err := egressproxy.Listen(t.Context(), nil)
+	proxy, err := egressproxy.Listen(t.Context(), nil, nil)
 	if err != nil {
 		t.Fatalf("Listen: %v", err)
 	}
@@ -97,7 +151,7 @@ func TestRunRefusesARequestToALoopbackAddress(t *testing.T) {
 		reached <- struct{}{}
 	}))
 	t.Cleanup(target.Close)
-	client := clientThrough(t, runningProxy(t))
+	client := clientThrough(t, runningProxy(t, nil))
 
 	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, target.URL, nil)
 	if err != nil {
@@ -122,8 +176,43 @@ func TestRunRefusesARequestToALoopbackAddress(t *testing.T) {
 	}
 }
 
+func TestRunSendsARequestOnThroughTheUpstreamProxy(t *testing.T) {
+	upstreamProxyURL, requests := upstreamProxy(t)
+	proxy := runningProxy(t, upstreamProxyURL)
+
+	requestThrough(t, proxy, "http://"+publicDestination+"/seed.txt")
+
+	awaitUpstreamRequest(t, requests, "GET http://"+publicDestination+"/seed.txt")
+}
+
+func TestRunSendsATunnelOnThroughTheUpstreamProxy(t *testing.T) {
+	upstreamProxyURL, requests := upstreamProxy(t)
+	proxy := runningProxy(t, upstreamProxyURL)
+
+	tunnelThrough(t, proxy, publicDestination+":443")
+
+	awaitUpstreamRequest(t, requests, "CONNECT "+publicDestination+":443")
+}
+
+func TestRunRefusesARequestToAPrivateAddressBeforeTheUpstreamProxy(t *testing.T) {
+	upstreamProxyURL, requests := upstreamProxy(t)
+	proxy := runningProxy(t, upstreamProxyURL)
+
+	status := requestThrough(t, proxy, "http://10.0.0.1/seed.txt")
+	_, _, tunnelStatus := tunnelThrough(t, proxy, "10.0.0.1:443")
+
+	if status == http.StatusBadGateway || tunnelStatus == http.StatusBadGateway {
+		t.Errorf("status %d and tunnel %d, want both refused by the proxy", status, tunnelStatus)
+	}
+	select {
+	case got := <-requests:
+		t.Errorf("upstream proxy got %q, want nothing", got)
+	default:
+	}
+}
+
 func TestCloseReleasesTheProxyAddress(t *testing.T) {
-	proxy, err := egressproxy.Listen(t.Context(), nil)
+	proxy, err := egressproxy.Listen(t.Context(), nil, nil)
 	if err != nil {
 		t.Fatalf("Listen: %v", err)
 	}
@@ -167,25 +256,11 @@ func overlayTarget(t *testing.T) *redirectingDialer {
 	}
 }
 
-func statusThrough(t *testing.T, proxy *egressproxy.EgressProxy, address string) int {
-	t.Helper()
-	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, address, nil)
-	if err != nil {
-		t.Fatalf("build the request: %v", err)
-	}
-	response, err := clientThrough(t, proxy).Do(request)
-	if err != nil {
-		t.Fatalf("request through the proxy: %v", err)
-	}
-	_ = response.Body.Close()
-	return response.StatusCode
-}
-
 func TestRunSendsARequestForAnOverlayAddressThroughTheOverlay(t *testing.T) {
 	overlayDialer := overlayTarget(t)
-	proxy := runningProxyAcross(t, yggdrasilLikeOverlay(overlayDialer))
+	proxy := runningProxyAcross(t, nil, yggdrasilLikeOverlay(overlayDialer))
 
-	status := statusThrough(t, proxy, "http://[200::1]:8090/")
+	status := requestThrough(t, proxy, "http://[200::1]:8090/")
 
 	if status != http.StatusOK {
 		t.Errorf("status = %d, want the overlay to answer", status)
@@ -198,7 +273,7 @@ func TestRunSendsARequestForAnOverlayAddressThroughTheOverlay(t *testing.T) {
 type failingDialer struct{}
 
 func (failingDialer) DialContext(context.Context, string, string) (net.Conn, error) {
-	return nil, errors.New("overlay unreachable")
+	return nil, &net.OpError{Op: "dial", Net: "tcp", Err: errors.New("overlay unreachable")}
 }
 
 func yggdrasilLikeOverlay(dialer egressproxy.Dialer) []egressproxy.Overlay {
@@ -235,7 +310,7 @@ func tunnelThrough(
 
 func TestRunTunnelsAConnectToAnOverlayAddressThroughTheOverlay(t *testing.T) {
 	overlayDialer := overlayTarget(t)
-	proxy := runningProxyAcross(t, yggdrasilLikeOverlay(overlayDialer))
+	proxy := runningProxyAcross(t, nil, yggdrasilLikeOverlay(overlayDialer))
 
 	conn, reader, status := tunnelThrough(t, proxy, "[200::1]:8090")
 	if status != http.StatusOK {
@@ -257,15 +332,17 @@ func TestRunTunnelsAConnectToAnOverlayAddressThroughTheOverlay(t *testing.T) {
 }
 
 func TestRunAnswersBadGatewayWhenTheOverlayCannotForward(t *testing.T) {
-	proxy := runningProxyAcross(t, yggdrasilLikeOverlay(failingDialer{}))
+	proxy := runningProxyAcross(t, nil, yggdrasilLikeOverlay(failingDialer{}))
 
-	if status := statusThrough(t, proxy, "http://[200::1]:8090/"); status != http.StatusBadGateway {
+	status := requestThrough(t, proxy, "http://[200::1]:8090/")
+
+	if status != http.StatusBadGateway {
 		t.Errorf("status = %d, want %d", status, http.StatusBadGateway)
 	}
 }
 
 func TestRunAnswersBadGatewayWhenTheOverlayCannotTunnel(t *testing.T) {
-	proxy := runningProxyAcross(t, yggdrasilLikeOverlay(failingDialer{}))
+	proxy := runningProxyAcross(t, nil, yggdrasilLikeOverlay(failingDialer{}))
 
 	if _, _, status := tunnelThrough(t, proxy, "[200::1]:8090"); status != http.StatusBadGateway {
 		t.Errorf("CONNECT status = %d, want %d", status, http.StatusBadGateway)

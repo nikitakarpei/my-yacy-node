@@ -18,8 +18,9 @@ program, connected and ready to use.
 * The program SHALL run a NATS server that only the local host can reach.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
+* The program SHALL NOT send outbound requests to loopback or private addresses.
 * The program SHALL send outbound requests through the egress proxy that the operator
-  names, else through a built-in egress proxy that only the local host can reach.
+  names, also when the operator names a loopback or private IP address for it.
 * The program SHALL NOT start when the operator names an egress proxy and does not set
   the public host of the peer.
 * The program SHALL join the Yggdrasil network when the operator names Yggdrasil peers,
@@ -33,6 +34,7 @@ program, connected and ready to use.
 * The program SHALL NOT start when the operator joins the Yggdrasil network and names an
   egress proxy.
 * The program SHALL NOT start when the operator names Yggdrasil peers and a peer list.
+* The program SHALL NOT start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set.
 * The program SHALL keep its local data in one data directory.
 * The program SHALL make its Yggdrasil key on its first start, and SHALL keep it in the data
   directory.
@@ -59,3 +61,5 @@ program, connected and ready to use.
 * Some log lines do not name a service, for example the lines that a library writes.
 * The dashboards draw state timeline panels as line charts.
 * A crash loses the most recent part of the metric history.
+* The program cannot reach an egress proxy that the operator names by a host name with a
+  loopback or private address.
