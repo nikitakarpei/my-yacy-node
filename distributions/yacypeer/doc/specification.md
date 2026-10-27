@@ -4,7 +4,7 @@
 
 A YaCy peer of this repository is a set of services that share a NATS server and an egress
 proxy. `yacypeer` runs these services, their NATS server, their egress proxy, and a proxy that
-keeps page copies as one program, connected and ready to use.
+caches pages as one program, connected and ready to use.
 
 ## Non-Goals
 
@@ -22,9 +22,9 @@ keeps page copies as one program, connected and ready to use.
   operator names, also when the operator names a loopback or private IP address for it.
 * The program SHALL send page fetches through the page fetch proxy that the operator names,
   else as it sends requests to peers.
-* The program SHALL answer a page fetch from a copy of the answer to an earlier fetch of the
-  same page with the same user agent, within the retention of copies.
-* The program SHALL NOT keep a copy of an answer to wait, a refusal, a server failure, an
+* The program SHALL answer a page fetch from the cached answer to an earlier fetch of the
+  same page with the same user agent, within the retention of cached pages.
+* The program SHALL NOT cache an answer to wait, a refusal, a server failure, an
   answer to a conditional fetch, or a body over the size limit.
 * The services SHALL fetch pages with one user agent.
 * The program SHALL NOT start when the operator names a peer proxy and does not set the
@@ -57,7 +57,7 @@ keeps page copies as one program, connected and ready to use.
 * A crash loses the most recent part of the metric history.
 * The program cannot reach a peer proxy that the operator names by a host name with a
   loopback or private address.
-* Within the retention of copies, a page fetch gets the copy, also when the page changed.
-* A proxy that applies rules to each request does not see the page fetches that copies answer.
+* Within the retention of cached pages, a page fetch gets the cached page, also when it changed.
+* A proxy that applies rules to each request does not see the page fetches that the cache answers.
 * The program does not check the addresses of page fetches that go through a page fetch
   proxy.

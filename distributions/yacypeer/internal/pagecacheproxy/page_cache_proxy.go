@@ -1,7 +1,7 @@
-// Package pagecopyproxy runs an HTTP forward proxy for page fetches on the loopback interface.
-// It answers a page fetch from a page copy when one exists. Else it fetches the page through the
-// proxy it is given, relays the answer, and keeps a copy of it.
-package pagecopyproxy
+// Package pagecacheproxy runs an HTTP forward proxy for page fetches on the loopback interface.
+// It answers a page fetch from a cached page when one exists. Else it fetches the page through
+// the proxy it is given, relays the answer, and caches it.
+package pagecacheproxy
 
 import (
 	"context"
@@ -15,16 +15,16 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopies"
 )
 
 const (
-	Name                  = "pagecopyproxy"
+	Name                  = "pagecacheproxy"
 	shutdownLimit         = 10 * time.Second
 	readHeaderLimit       = 10 * time.Second
 	originFetchLimit      = 30 * time.Second
-	msgFetchRefused       = "page copy proxy takes GET with an absolute URL"
+	msgFetchRefused       = "page cache proxy takes GET with an absolute URL"
 	msgOriginFetchFailed  = "page fetch failed at the origin"
 	headerUserAgent       = "User-Agent"
 	headerIfNoneMatch     = "If-None-Match"
@@ -38,26 +38,26 @@ var unrelayedHeaders = []string{
 	"Te", "Trailer", "Transfer-Encoding", "Upgrade", "Set-Cookie", headerContentLength,
 }
 
-type PageCopyProxy struct {
+type PageCacheProxy struct {
 	listener     net.Listener
-	copies       *pagecopies.Copies
+	cachedPages  *cachedpages.Pages
 	originClient *http.Client
 	maxBodyBytes int64
 }
 
 func Listen(
 	ctx context.Context,
-	copies *pagecopies.Copies,
+	cachedPages *cachedpages.Pages,
 	originProxyURL *url.URL,
 	maxBodyBytes int64,
-) (*PageCopyProxy, error) {
+) (*PageCacheProxy, error) {
 	listener, err := loopback.Listen(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("page copy proxy: %w", err)
+		return nil, fmt.Errorf("page cache proxy: %w", err)
 	}
-	return &PageCopyProxy{
-		listener: listener,
-		copies:   copies,
+	return &PageCacheProxy{
+		listener:    listener,
+		cachedPages: cachedPages,
 		originClient: &http.Client{
 			Transport: &http.Transport{Proxy: http.ProxyURL(originProxyURL)},
 			CheckRedirect: func(*http.Request, []*http.Request) error {
@@ -68,18 +68,18 @@ func Listen(
 	}, nil
 }
 
-func (p *PageCopyProxy) URL() string {
+func (p *PageCacheProxy) URL() string {
 	return loopback.URLOf(p.listener)
 }
 
-func (p *PageCopyProxy) Close() error {
+func (p *PageCacheProxy) Close() error {
 	if err := p.listener.Close(); err != nil {
-		return fmt.Errorf("page copy proxy: %w", err)
+		return fmt.Errorf("page cache proxy: %w", err)
 	}
 	return nil
 }
 
-func (p *PageCopyProxy) Run(ctx context.Context) error {
+func (p *PageCacheProxy) Run(ctx context.Context) error {
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{
 		Name:     Name,
 		Listener: p.listener,
@@ -90,13 +90,13 @@ func (p *PageCopyProxy) Run(ctx context.Context) error {
 	}})
 }
 
-func (p *PageCopyProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (p *PageCacheProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fetch, isFetchable := pageFetchFrom(r)
 	if !isFetchable {
 		http.Error(w, msgFetchRefused, http.StatusMethodNotAllowed)
 		return
 	}
-	if p.answerFromCopy(r.Context(), w, fetch) {
+	if p.answerFromCache(r.Context(), w, fetch) {
 		return
 	}
 	p.answerFromOrigin(r.Context(), w, fetch)
@@ -119,7 +119,7 @@ func pageFetchFrom(r *http.Request) (pageFetch, bool) {
 	return fetch, r.Method == http.MethodGet && r.URL.IsAbs()
 }
 
-func (f pageFetch) copyKey() string {
+func (f pageFetch) cacheKey() string {
 	return f.userAgent + "\n" + f.pageURL
 }
 
@@ -127,7 +127,7 @@ func (f pageFetch) isConditional() bool {
 	return f.ifNoneMatch != "" || f.ifModifiedSince != ""
 }
 
-func (p *PageCopyProxy) answerFromCopy(
+func (p *PageCacheProxy) answerFromCache(
 	ctx context.Context,
 	w http.ResponseWriter,
 	fetch pageFetch,
@@ -135,24 +135,24 @@ func (p *PageCopyProxy) answerFromCopy(
 	if fetch.isConditional() {
 		return false
 	}
-	pageCopy, found := p.copies.CopyFor(ctx, fetch.copyKey())
+	cachedPage, found := p.cachedPages.PageFor(ctx, fetch.cacheKey())
 	if !found {
 		return false
 	}
-	writeWholeAnswer(w, pageCopy)
-	logAnswer(ctx, fetch, "copy", pageCopy.StatusCode, int64(len(pageCopy.Body)))
+	writeWholeAnswer(w, cachedPage)
+	logAnswer(ctx, fetch, "cache", cachedPage.StatusCode, int64(len(cachedPage.Body)))
 	return true
 }
 
-func writeWholeAnswer(w http.ResponseWriter, pageCopy pagecopies.PageCopy) {
-	writeHeaderOf(w, pageCopy)
-	w.Header().Set(headerContentLength, strconv.Itoa(len(pageCopy.Body)))
-	w.WriteHeader(pageCopy.StatusCode)
-	_, _ = w.Write(pageCopy.Body)
+func writeWholeAnswer(w http.ResponseWriter, cachedPage cachedpages.Page) {
+	writeHeaderOf(w, cachedPage)
+	w.Header().Set(headerContentLength, strconv.Itoa(len(cachedPage.Body)))
+	w.WriteHeader(cachedPage.StatusCode)
+	_, _ = w.Write(cachedPage.Body)
 }
 
-func writeHeaderOf(w http.ResponseWriter, pageCopy pagecopies.PageCopy) {
-	for name, values := range pageCopy.Header {
+func writeHeaderOf(w http.ResponseWriter, cachedPage cachedpages.Page) {
+	for name, values := range cachedPage.Header {
 		w.Header()[name] = values
 	}
 }
@@ -173,7 +173,7 @@ func logAnswer(
 	)
 }
 
-func (p *PageCopyProxy) answerFromOrigin(
+func (p *PageCacheProxy) answerFromOrigin(
 	ctx context.Context,
 	w http.ResponseWriter,
 	fetch pageFetch,
@@ -185,19 +185,22 @@ func (p *PageCopyProxy) answerFromOrigin(
 	}
 	defer answer.release()
 	if !fetch.isConditional() && p.isKeepable(answer) {
-		p.copies.Keep(ctx, fetch.copyKey(), answer.pageCopy)
+		p.cachedPages.Keep(ctx, fetch.cacheKey(), answer.cachedPage)
 	}
 	bodyBytes := p.writeOriginAnswer(w, answer)
-	logAnswer(ctx, fetch, "origin", answer.pageCopy.StatusCode, bodyBytes)
+	logAnswer(ctx, fetch, "origin", answer.cachedPage.StatusCode, bodyBytes)
 }
 
 type originAnswer struct {
-	pageCopy      pagecopies.PageCopy
+	cachedPage    cachedpages.Page
 	remainingBody io.Reader
 	release       func()
 }
 
-func (p *PageCopyProxy) originAnswerTo(ctx context.Context, fetch pageFetch) (originAnswer, error) {
+func (p *PageCacheProxy) originAnswerTo(
+	ctx context.Context,
+	fetch pageFetch,
+) (originAnswer, error) {
 	ctx, cancel := context.WithTimeout(ctx, originFetchLimit)
 	request, err := originRequestFor(ctx, fetch)
 	if err != nil {
@@ -224,7 +227,7 @@ func (p *PageCopyProxy) originAnswerTo(ctx context.Context, fetch pageFetch) (or
 		header.Del(name)
 	}
 	return originAnswer{
-		pageCopy: pagecopies.PageCopy{
+		cachedPage: cachedpages.Page{
 			Header:     header,
 			Body:       body,
 			StatusCode: response.StatusCode,
@@ -259,32 +262,32 @@ func reportOriginFailure(ctx context.Context, w http.ResponseWriter, fetch pageF
 	http.Error(w, msgOriginFetchFailed, http.StatusBadGateway)
 }
 
-func (p *PageCopyProxy) isKeepable(answer originAnswer) bool {
+func (p *PageCacheProxy) isKeepable(answer originAnswer) bool {
 	if p.isCutShort(answer) {
 		return false
 	}
-	switch statusCode := answer.pageCopy.StatusCode; {
+	switch statusCode := answer.cachedPage.StatusCode; {
 	case statusCode >= 200 && statusCode < 300:
 		return true
 	case statusCode >= 300 && statusCode < 400:
-		return answer.pageCopy.Header.Get(headerLocation) != ""
+		return answer.cachedPage.Header.Get(headerLocation) != ""
 	default:
 		return statusCode == http.StatusNotFound || statusCode == http.StatusGone
 	}
 }
 
-func (p *PageCopyProxy) isCutShort(answer originAnswer) bool {
-	return int64(len(answer.pageCopy.Body)) > p.maxBodyBytes
+func (p *PageCacheProxy) isCutShort(answer originAnswer) bool {
+	return int64(len(answer.cachedPage.Body)) > p.maxBodyBytes
 }
 
-func (p *PageCopyProxy) writeOriginAnswer(w http.ResponseWriter, answer originAnswer) int64 {
+func (p *PageCacheProxy) writeOriginAnswer(w http.ResponseWriter, answer originAnswer) int64 {
 	if !p.isCutShort(answer) {
-		writeWholeAnswer(w, answer.pageCopy)
-		return int64(len(answer.pageCopy.Body))
+		writeWholeAnswer(w, answer.cachedPage)
+		return int64(len(answer.cachedPage.Body))
 	}
-	writeHeaderOf(w, answer.pageCopy)
-	w.WriteHeader(answer.pageCopy.StatusCode)
-	_, _ = w.Write(answer.pageCopy.Body)
+	writeHeaderOf(w, answer.cachedPage)
+	w.WriteHeader(answer.cachedPage.StatusCode)
+	_, _ = w.Write(answer.cachedPage.Body)
 	remainingBytes, _ := io.Copy(w, answer.remainingBody)
-	return int64(len(answer.pageCopy.Body)) + remainingBytes
+	return int64(len(answer.cachedPage.Body)) + remainingBytes
 }

@@ -1,4 +1,4 @@
-# 7. Answer repeated page fetches from page copies
+# 7. Answer repeated page fetches from cached pages
 
 Status: accepted
 
@@ -17,6 +17,6 @@ headers of the page say, and a sweep removes old files within a byte maximum.
 ## Consequences
 
 * One origin fetch serves the page read, the crawl and the scrape of a page.
-* A changed page is served from its copy until the retention ends.
+* A changed page is served from the cache until the retention ends.
 * The proxy needs no database, and its memory holds only the answers in transit.
 * An operator can send page fetches through a proxy of their own, apart from peer requests.

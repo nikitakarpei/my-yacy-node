@@ -14,12 +14,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopies"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopyproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
@@ -28,9 +28,9 @@ import (
 const (
 	brokerDirectoryName        = "nats"
 	metricHistoryDirectoryName = "metric-history"
-	pageCopiesDirectoryName    = "page-copies"
-	pageCopyRetention          = 30 * time.Minute
-	pageCopiesMaxBytes         = 512 << 20
+	cachedPagesDirectoryName   = "cached-pages"
+	cachedPageRetention        = 30 * time.Minute
+	cachedPagesMaxBytes        = 512 << 20
 	pageMaxBodyBytes           = 4 << 20
 )
 
@@ -63,19 +63,19 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
-	copies, err := pagecopies.Open(
-		servicelog.ContextFor(ctx, pagecopies.Name),
-		cfg.directoryOf(pageCopiesDirectoryName),
-		pageCopyRetention,
-		pageCopiesMaxBytes,
+	cachedPages, err := cachedpages.Open(
+		servicelog.ContextFor(ctx, cachedpages.Name),
+		cfg.directoryOf(cachedPagesDirectoryName),
+		cachedPageRetention,
+		cachedPagesMaxBytes,
 		wallclock.Clock{},
 	)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
-	copyProxy, err := pagecopyproxy.Listen(
+	cacheProxy, err := pagecacheproxy.Listen(
 		ctx,
-		copies,
+		cachedPages,
 		cfg.pageFetchProxyURLOr(egress.URL()),
 		pageMaxBodyBytes,
 	)
@@ -83,16 +83,16 @@ func RunPeer(
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
 	peer := peer{
-		egressProxyURL:   egress.URL(),
-		pageCopyProxyURL: copyProxy.URL(),
-		cfg:              cfg,
-		natsURL:          broker.ClientURL(),
-		visitLinkSecret:  visitLinkSecret,
-		webUIURLs:        webUIURLsFor(ops, getenv),
+		egressProxyURL:    egress.URL(),
+		pageCacheProxyURL: cacheProxy.URL(),
+		cfg:               cfg,
+		natsURL:           broker.ClientURL(),
+		visitLinkSecret:   visitLinkSecret,
+		webUIURLs:         webUIURLsFor(ops, getenv),
 	}
 	services, err := peer.services(ctx, getenv)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, egress, copyProxy}))
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress, cacheProxy}))
 	}
 	logStarted(ctx, peer, ops)
 	processRegistry := opsmetrics.ProcessRegistry()
@@ -103,10 +103,10 @@ func RunPeer(
 				return egress.Run(servicelog.ContextFor(ctx, egressproxy.Name))
 			},
 			func(ctx context.Context) error {
-				return copyProxy.Run(servicelog.ContextFor(ctx, pagecopyproxy.Name))
+				return cacheProxy.Run(servicelog.ContextFor(ctx, pagecacheproxy.Name))
 			},
 			func(ctx context.Context) error {
-				return copies.Run(servicelog.ContextFor(ctx, pagecopies.Name))
+				return cachedPages.Run(servicelog.ContextFor(ctx, cachedpages.Name))
 			},
 			func(ctx context.Context) error {
 				return history.Run(ctx, metricSourcesOf(processRegistry, services))

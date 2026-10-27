@@ -77,12 +77,12 @@ func (s service) Close() error {
 }
 
 type peer struct {
-	egressProxyURL   *url.URL
-	pageCopyProxyURL string
-	cfg              PeerConfig
-	natsURL          string
-	visitLinkSecret  string
-	webUIURLs        webuitabs.URLs
+	egressProxyURL    *url.URL
+	pageCacheProxyURL string
+	cfg               PeerConfig
+	natsURL           string
+	visitLinkSecret   string
+	webUIURLs         webuitabs.URLs
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -123,7 +123,7 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 				yacycrawlerassembly.EnvAPIAddr:       loopback.AnyFreeAddress,
 				yacycrawlerassembly.EnvCrawlNATSURL:  p.natsURL,
 				yacycrawlerassembly.EnvCrawlStateDir: p.cfg.directoryOf(yacycrawlerService),
-				yacycrawlerassembly.EnvProxyURL:      p.pageCopyProxyURL,
+				yacycrawlerassembly.EnvProxyURL:      p.pageCacheProxyURL,
 				yacycrawlerassembly.EnvProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
 				yacycrawlerassembly.EnvUserAgent:     pageFetchUserAgent,
 			},
@@ -138,7 +138,7 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 				yacydhtsearchassembly.EnvNetworkName:           p.cfg.NetworkName,
 				yacydhtsearchassembly.EnvSeedlistURLs:          p.cfg.SeedlistURLs,
 				yacydhtsearchassembly.EnvEgressProxyURL:        p.egressProxyURL.String(),
-				yacydhtsearchassembly.EnvPageReadProxyURL:      p.pageCopyProxyURL,
+				yacydhtsearchassembly.EnvPageReadProxyURL:      p.pageCacheProxyURL,
 				yacydhtsearchassembly.EnvPageReadProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
 				yacydhtsearchassembly.EnvPageReadUserAgent:     pageFetchUserAgent,
 			},
@@ -210,7 +210,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			pagescrapeService,
 			serviceenvironment.Wiring{
 				pagescrapeassembly.EnvScrapeNATSURL: p.natsURL,
-				pagescrapeassembly.EnvProxyURL:      p.pageCopyProxyURL,
+				pagescrapeassembly.EnvProxyURL:      p.pageCacheProxyURL,
 				pagescrapeassembly.EnvProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
 				pagescrapeassembly.EnvUserAgent:     pageFetchUserAgent,
 			},

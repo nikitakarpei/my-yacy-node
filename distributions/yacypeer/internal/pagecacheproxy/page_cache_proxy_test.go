@@ -1,4 +1,4 @@
-package pagecopyproxy_test
+package pagecacheproxy_test
 
 import (
 	"context"
@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopies"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopyproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 )
 
 const (
@@ -80,13 +80,18 @@ func urlOf(t *testing.T, rawURL string) *url.URL {
 	return parsed
 }
 
-func runningProxy(t *testing.T, egressProxyURL *url.URL) *pagecopyproxy.PageCopyProxy {
+func runningProxy(t *testing.T, egressProxyURL *url.URL) *pagecacheproxy.PageCacheProxy {
 	t.Helper()
-	copies, err := pagecopies.Open(t.Context(), t.TempDir(), time.Hour, 1<<20, stoppedClock{})
+	cachedPages, err := cachedpages.Open(t.Context(), t.TempDir(), time.Hour, 1<<20, stoppedClock{})
 	if err != nil {
-		t.Fatalf("open page copies: %v", err)
+		t.Fatalf("open page cachedPages: %v", err)
 	}
-	proxy, err := pagecopyproxy.Listen(t.Context(), copies, egressProxyURL, maxBodyBytesInTest)
+	proxy, err := pagecacheproxy.Listen(
+		t.Context(),
+		cachedPages,
+		egressProxyURL,
+		maxBodyBytesInTest,
+	)
 	if err != nil {
 		t.Fatalf("Listen: %v", err)
 	}
@@ -115,7 +120,7 @@ type fetchedPage struct {
 
 func fetchThrough(
 	t *testing.T,
-	proxy *pagecopyproxy.PageCopyProxy,
+	proxy *pagecacheproxy.PageCacheProxy,
 	pageURL string,
 	header http.Header,
 ) fetchedPage {
@@ -154,7 +159,7 @@ func assertOriginRequests(t *testing.T, pages *origin, path string, want int) {
 	}
 }
 
-func TestASecondFetchOfAPageIsAnsweredFromTheCopy(t *testing.T) {
+func TestASecondFetchOfAPageIsAnsweredFromTheCache(t *testing.T) {
 	pages, egressURL := originAnswering(t, map[string]http.HandlerFunc{
 		"/page": answerWith(http.StatusOK, pageBody, http.Header{"X-Robots-Tag": {"noarchive"}}),
 	})
@@ -184,7 +189,7 @@ func TestAFetchWithAnotherUserAgentGoesToTheOrigin(t *testing.T) {
 	assertOriginRequests(t, pages, "/page", 2)
 }
 
-func TestAConditionalFetchGoesToTheOriginAndLeavesNoCopy(t *testing.T) {
+func TestAConditionalFetchGoesToTheOriginAndCachesNothing(t *testing.T) {
 	pages, egressURL := originAnswering(t, map[string]http.HandlerFunc{
 		"/page": answerWith(http.StatusOK, pageBody, nil),
 	})
@@ -198,7 +203,7 @@ func TestAConditionalFetchGoesToTheOriginAndLeavesNoCopy(t *testing.T) {
 	assertOriginRequests(t, pages, "/page", 2)
 }
 
-func TestAnAnswerToWaitIsRelayedAndLeavesNoCopy(t *testing.T) {
+func TestAnAnswerToWaitIsRelayedAndCachesNothing(t *testing.T) {
 	pages, egressURL := originAnswering(t, map[string]http.HandlerFunc{
 		"/busy": answerWith(http.StatusServiceUnavailable, "", http.Header{"Retry-After": {"60"}}),
 	})
@@ -230,13 +235,13 @@ func TestFinalAnswersAreKept(t *testing.T) {
 			assertOriginRequests(t, pages, "/page", 1)
 			if second.statusCode != first.statusCode ||
 				second.header.Get("Location") != first.header.Get("Location") {
-				t.Fatalf("copy answered %+v, origin answered %+v", second, first)
+				t.Fatalf("cache answered %+v, origin answered %+v", second, first)
 			}
 		})
 	}
 }
 
-func TestARedirectWithoutATargetLeavesNoCopy(t *testing.T) {
+func TestARedirectWithoutATargetCachesNothing(t *testing.T) {
 	pages, egressURL := originAnswering(t, map[string]http.HandlerFunc{
 		"/page": answerWith(http.StatusFound, "", nil),
 	})
@@ -248,7 +253,7 @@ func TestARedirectWithoutATargetLeavesNoCopy(t *testing.T) {
 	assertOriginRequests(t, pages, "/page", 2)
 }
 
-func TestAPageOverTheMaximumIsRelayedWholeAndLeavesNoCopy(t *testing.T) {
+func TestAPageOverTheMaximumIsRelayedWholeAndCachesNothing(t *testing.T) {
 	largeBody := strings.Repeat("x", 3*maxBodyBytesInTest)
 	pages, egressURL := originAnswering(t, map[string]http.HandlerFunc{
 		"/large": answerWith(http.StatusOK, largeBody, nil),
@@ -314,13 +319,13 @@ func TestTheProxyRefusesARequestWithoutAnAbsoluteURL(t *testing.T) {
 }
 
 func TestCloseReleasesTheListener(t *testing.T) {
-	copies, err := pagecopies.Open(t.Context(), t.TempDir(), time.Hour, 1<<20, stoppedClock{})
+	cachedPages, err := cachedpages.Open(t.Context(), t.TempDir(), time.Hour, 1<<20, stoppedClock{})
 	if err != nil {
-		t.Fatalf("open page copies: %v", err)
+		t.Fatalf("open page cachedPages: %v", err)
 	}
-	proxy, err := pagecopyproxy.Listen(
+	proxy, err := pagecacheproxy.Listen(
 		t.Context(),
-		copies,
+		cachedPages,
 		urlOf(t, "http://127.0.0.1:1"),
 		maxBodyBytesInTest,
 	)
