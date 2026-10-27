@@ -3,6 +3,7 @@ package yacypeerassembly_test
 import (
 	"net/url"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 
@@ -81,6 +82,21 @@ func TestLoadPeerConfigRefusesARetentionThatIsNotADuration(t *testing.T) {
 	}))
 	if err == nil {
 		t.Fatal("config loaded a retention that is not a duration, want an error")
+	}
+}
+
+func TestLoadPeerConfigRefusesAProxyThatTheEnvironmentNames(t *testing.T) {
+	for _, key := range []string{
+		"HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy", "NO_PROXY", "no_proxy",
+	} {
+		t.Run(key, func(t *testing.T) {
+			_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+				key: "http://proxy.example:3128",
+			}))
+			if err == nil || !strings.Contains(err.Error(), key) {
+				t.Errorf("LoadPeerConfig = %v, want %s refused", err, key)
+			}
+		})
 	}
 }
 

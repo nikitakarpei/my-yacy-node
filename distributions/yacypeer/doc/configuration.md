@@ -19,6 +19,9 @@ yacypeer does not send outbound requests to loopback and private addresses, also
 set `YACYPEER_EGRESS_PROXY_URL`. If your proxy has a loopback or private address, name it by
 its IP address, such as `http://127.0.0.1:3128`.
 
+yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in upper or
+lower case. Name your proxy in `YACYPEER_EGRESS_PROXY_URL` instead.
+
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
 other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` or
 `YACYPEER_OPS_ADDR=:9090`. In a container, you must do this to reach the address from

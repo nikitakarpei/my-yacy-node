@@ -57,7 +57,7 @@ func (p *EgressProxy) Run(ctx context.Context) error {
 		Name:     Name,
 		Listener: p.listener,
 		Server: &http.Server{
-			Handler:           p.handlerFor(config),
+			Handler:           smokescreen.BuildProxy(config),
 			ReadHeaderTimeout: config.ReadHeaderTimeout,
 		},
 	}})
@@ -101,10 +101,4 @@ func (p *EgressProxy) upstreamProxyPort() int {
 		return port
 	}
 	return defaultPorts[p.upstreamProxyURL.Scheme]
-}
-
-func (p *EgressProxy) handlerFor(config *smokescreen.Config) http.Handler {
-	proxy := smokescreen.BuildProxy(config)
-	proxy.Tr.Proxy = http.ProxyURL(p.upstreamProxyURL)
-	return proxy
 }

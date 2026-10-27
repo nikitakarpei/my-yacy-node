@@ -23,6 +23,7 @@ program, connected and ready to use.
   names, also when the operator names a loopback or private IP address for it.
 * The program SHALL NOT start when the operator names an egress proxy and does not set
   the public host of the peer.
+* The program SHALL NOT start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set.
 * The program SHALL keep its local data in one data directory.
 * The program SHALL make the secret that signs visit links on its first start, and SHALL
   keep it in the data directory.
@@ -45,5 +46,3 @@ program, connected and ready to use.
 * A crash loses the most recent part of the metric history.
 * The program cannot reach an egress proxy that the operator names by a host name with a
   loopback or private address.
-* For outbound HTTPS requests, the program follows `NO_PROXY` from its environment. When
-  the operator names no egress proxy, it also follows `HTTPS_PROXY`.
