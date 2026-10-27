@@ -1,6 +1,7 @@
 #!/bin/sh
 # Download the pinned tools from their official releases into .toolchain,
 # verifying each archive against tools/tools.lock.
+# Named tools as arguments install only those tools.
 # No `go install` / `go tool`: nothing is compiled and the project module
 # graph is untouched.
 set -eu
@@ -22,6 +23,14 @@ case "$(uname -m)" in
 	*) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
 esac
 platform="$os-$arch"
+requested=" $* "
+
+wanted() {
+	case "$requested" in
+		"  " | *" $1 "*) return 0 ;;
+	esac
+	return 1
+}
 
 lookup() {
 	awk -v tool="$1" -v plat="$platform" \
@@ -53,22 +62,22 @@ fetch() {
 	trap - EXIT
 }
 
-# The Go toolchain is a tree, not one binary; the archive carries it under go/
-# and GOROOT is that tree at .toolchain/go.
-fetch_go() {
-	url="$1"; want="$2"
+# Go and Zig ship as trees, not one binary; each archive carries its tree under
+# one top directory. GOROOT is the Go tree at .toolchain/go.
+fetch_tree() {
+	tool="$1"; url="$2"; want="$3"; tree="$4"
 	tmp=$(mktemp -d)
 	trap 'rm -rf "$tmp"' EXIT
-	echo "==> go $platform"
-	curl -fsSL "$url" -o "$tmp/archive.tar.gz"
-	got=$(sha256 "$tmp/archive.tar.gz")
+	echo "==> $tool $platform"
+	curl -fsSL "$url" -o "$tmp/archive"
+	got=$(sha256 "$tmp/archive")
 	if [ "$got" != "$want" ]; then
-		echo "checksum mismatch for go: expected $want, got $got" >&2
+		echo "checksum mismatch for $tool: expected $want, got $got" >&2
 		exit 1
 	fi
-	rm -rf "$goroot"
-	mkdir -p "$goroot"
-	tar -xzf "$tmp/archive.tar.gz" -C "$goroot" --strip-components=1
+	rm -rf "$tree"
+	mkdir -p "$tree"
+	tar -xf "$tmp/archive" -C "$tree" --strip-components=1
 	rm -rf "$tmp"
 	trap - EXIT
 }
@@ -93,24 +102,37 @@ export PATH="$TOOLCHAIN_DIR/bin:$GOROOT/bin:$GOPATH/bin:$PATH"
 EOF
 }
 
+for tool in $requested; do
+	if [ -z "$(lookup "$tool")" ]; then
+		echo "no pinned $tool for $platform in $lock" >&2
+		exit 1
+	fi
+done
+
 mkdir -p "$bin" "$toolchain/gotmp"
 write_activate
 
-set -- $(lookup go)
-ver="$1"; sum="$2"
-fetch_go "https://go.dev/dl/go$ver.$os-$arch.tar.gz" "$sum"
+if wanted go; then
+	set -- $(lookup go)
+	ver="$1"; sum="$2"
+	fetch_tree go "https://go.dev/dl/go$ver.$os-$arch.tar.gz" "$sum" "$goroot"
+fi
 
-set -- $(lookup golangci-lint)
-ver="$1"; sum="$2"
-fetch golangci-lint \
-	"https://github.com/golangci/golangci-lint/releases/download/v$ver/golangci-lint-$ver-$platform.tar.gz" \
-	"$sum" "golangci-lint-$ver-$platform/golangci-lint"
+if wanted golangci-lint; then
+	set -- $(lookup golangci-lint)
+	ver="$1"; sum="$2"
+	fetch golangci-lint \
+		"https://github.com/golangci/golangci-lint/releases/download/v$ver/golangci-lint-$ver-$platform.tar.gz" \
+		"$sum" "golangci-lint-$ver-$platform/golangci-lint"
+fi
 
-set -- $(lookup go-arch-lint)
-ver="$1"; sum="$2"
-fetch go-arch-lint \
-	"https://github.com/fe3dback/go-arch-lint/releases/download/v$ver/go-arch-lint_${ver}_${os}_${arch}.tar.gz" \
-	"$sum" "go-arch-lint"
+if wanted go-arch-lint; then
+	set -- $(lookup go-arch-lint)
+	ver="$1"; sum="$2"
+	fetch go-arch-lint \
+		"https://github.com/fe3dback/go-arch-lint/releases/download/v$ver/go-arch-lint_${ver}_${os}_${arch}.tar.gz" \
+		"$sum" "go-arch-lint"
+fi
 
 case "$platform" in
 	linux-amd64) triple=x86_64-unknown-linux-gnu ;;
@@ -118,17 +140,21 @@ case "$platform" in
 	darwin-amd64) triple=x86_64-apple-darwin ;;
 	darwin-arm64) triple=aarch64-apple-darwin ;;
 esac
-set -- $(lookup ruff)
-ver="$1"; sum="$2"
-fetch ruff \
-	"https://github.com/astral-sh/ruff/releases/download/$ver/ruff-$triple.tar.gz" \
-	"$sum" "ruff-$triple/ruff"
+if wanted ruff; then
+	set -- $(lookup ruff)
+	ver="$1"; sum="$2"
+	fetch ruff \
+		"https://github.com/astral-sh/ruff/releases/download/$ver/ruff-$triple.tar.gz" \
+		"$sum" "ruff-$triple/ruff"
+fi
 
-set -- $(lookup uv)
-ver="$1"; sum="$2"
-fetch uv \
-	"https://github.com/astral-sh/uv/releases/download/$ver/uv-$triple.tar.gz" \
-	"$sum" "uv-$triple/uv"
+if wanted uv; then
+	set -- $(lookup uv)
+	ver="$1"; sum="$2"
+	fetch uv \
+		"https://github.com/astral-sh/uv/releases/download/$ver/uv-$triple.tar.gz" \
+		"$sum" "uv-$triple/uv"
+fi
 
 case "$platform" in
 	linux-amd64) mado_os=Linux-gnu; mado_arch=x86_64 ;;
@@ -136,11 +162,13 @@ case "$platform" in
 	darwin-amd64) mado_os=macOS; mado_arch=x86_64 ;;
 	darwin-arm64) mado_os=macOS; mado_arch=arm64 ;;
 esac
-set -- $(lookup mado)
-ver="$1"; sum="$2"
-fetch mado \
-	"https://github.com/akiomik/mado/releases/download/v$ver/mado-$mado_os-$mado_arch.tar.gz" \
-	"$sum" "mado"
+if wanted mado; then
+	set -- $(lookup mado)
+	ver="$1"; sum="$2"
+	fetch mado \
+		"https://github.com/akiomik/mado/releases/download/v$ver/mado-$mado_os-$mado_arch.tar.gz" \
+		"$sum" "mado"
+fi
 
 # esbuild and Biome publish their release binaries as npm package archives.
 case "$arch" in
@@ -148,14 +176,31 @@ case "$arch" in
 	arm64) npm_arch=arm64 ;;
 esac
 npm_platform="$os-$npm_arch"
-set -- $(lookup esbuild)
-ver="$1"; sum="$2"
-fetch esbuild \
-	"https://registry.npmjs.org/@esbuild/$npm_platform/-/$npm_platform-$ver.tgz" \
-	"$sum" "package/bin/esbuild"
+if wanted esbuild; then
+	set -- $(lookup esbuild)
+	ver="$1"; sum="$2"
+	fetch esbuild \
+		"https://registry.npmjs.org/@esbuild/$npm_platform/-/$npm_platform-$ver.tgz" \
+		"$sum" "package/bin/esbuild"
+fi
 
-set -- $(lookup biome)
-ver="$1"; sum="$2"
-fetch biome \
-	"https://registry.npmjs.org/@biomejs/cli-$npm_platform/-/cli-$npm_platform-$ver.tgz" \
-	"$sum" "package/biome"
+if wanted biome; then
+	set -- $(lookup biome)
+	ver="$1"; sum="$2"
+	fetch biome \
+		"https://registry.npmjs.org/@biomejs/cli-$npm_platform/-/cli-$npm_platform-$ver.tgz" \
+		"$sum" "package/biome"
+fi
+
+case "$platform" in
+	linux-amd64) zig_platform=x86_64-linux ;;
+	linux-arm64) zig_platform=aarch64-linux ;;
+	darwin-amd64) zig_platform=x86_64-macos ;;
+	darwin-arm64) zig_platform=aarch64-macos ;;
+esac
+if wanted zig; then
+	set -- $(lookup zig)
+	ver="$1"; sum="$2"
+	fetch_tree zig "https://ziglang.org/download/$ver/zig-$zig_platform-$ver.tar.xz" "$sum" "$toolchain/zig"
+	ln -sf ../zig/zig "$bin/zig"
+fi
