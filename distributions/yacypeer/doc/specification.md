@@ -2,8 +2,8 @@
 
 ## Context
 
-`yacypeer` runs the services of a YaCy peer, their NATS server and their egress proxy as one
-program.
+`yacypeer` runs the services of a YaCy peer, their NATS server and their egress proxies as
+one program.
 
 ## Non-Goals
 

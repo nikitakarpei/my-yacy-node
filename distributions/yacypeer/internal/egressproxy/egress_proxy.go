@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	Name          = "egressproxy"
+	serverName    = "egressproxy"
 	shutdownLimit = 10 * time.Second
 )
 
@@ -54,7 +54,7 @@ func (p *EgressProxy) Close() error {
 func (p *EgressProxy) Run(ctx context.Context) error {
 	config := p.configFor(ctx)
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{
-		Name:     Name,
+		Name:     serverName,
 		Listener: p.listener,
 		Server: &http.Server{
 			Handler:           smokescreen.BuildProxy(config),

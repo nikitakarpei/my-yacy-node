@@ -77,12 +77,12 @@ func (s service) Close() error {
 }
 
 type peer struct {
-	egressProxyURL    *url.URL
-	pageCacheProxyURL string
-	cfg               PeerConfig
-	natsURL           string
-	visitLinkSecret   string
-	webUIURLs         webuitabs.URLs
+	peerEgressProxyURL *url.URL
+	pageCacheProxyURL  string
+	cfg                PeerConfig
+	natsURL            string
+	visitLinkSecret    string
+	webUIURLs          webuitabs.URLs
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -137,7 +137,7 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 			serviceenvironment.Wiring{
 				yacydhtsearchassembly.EnvNetworkName:           p.cfg.NetworkName,
 				yacydhtsearchassembly.EnvSeedlistURLs:          p.cfg.SeedlistURLs,
-				yacydhtsearchassembly.EnvEgressProxyURL:        p.egressProxyURL.String(),
+				yacydhtsearchassembly.EnvEgressProxyURL:        p.peerEgressProxyURL.String(),
 				yacydhtsearchassembly.EnvPageReadProxyURL:      p.pageCacheProxyURL,
 				yacydhtsearchassembly.EnvPageReadProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
 				yacydhtsearchassembly.EnvPageReadUserAgent:     pageFetchUserAgent,
@@ -200,7 +200,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 				yacynodeassembly.EnvDataDir:           p.cfg.directoryOf(yacynodeService),
 				yacynodeassembly.EnvNetworkName:       p.cfg.NetworkName,
 				yacynodeassembly.EnvSeedlistURLs:      p.cfg.SeedlistURLs,
-				yacynodeassembly.EnvEgressProxyURL:    p.egressProxyURL.String(),
+				yacynodeassembly.EnvEgressProxyURL:    p.peerEgressProxyURL.String(),
 			},
 			yacynodeConfigLoaderFor(p.cfg),
 			yacynodeassembly.ListenersFor,
