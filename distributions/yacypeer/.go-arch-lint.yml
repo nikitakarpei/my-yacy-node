@@ -65,6 +65,9 @@ vendors:
   webuistyle:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/webuistyle
+  zstd:
+    in:
+      - github.com/klauspost/compress/zstd
   vault:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/vault
@@ -85,6 +88,10 @@ deps:
       - smokescreen
       - logrus
       - serviceruntime
+  cachedpages:
+    canUse:
+      - prometheusclient
+      - zstd
   pagecacheproxy:
     mayDependOn:
       - loopback
