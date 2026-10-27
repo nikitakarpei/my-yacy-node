@@ -20,8 +20,7 @@ yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, 
 
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
 other hosts reach an address, set it, such as `SEARCHPAGE_LISTEN_ADDR=:8097` or
-`YACYPEER_OPS_ADDR=:9090`. The yacypeer image sets the search page, crawl console, and
-ops addresses for all hosts.
+`YACYPEER_OPS_ADDR=:9090`.
 
 ## Services
 
