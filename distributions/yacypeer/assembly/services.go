@@ -91,9 +91,9 @@ func (p peer) services(
 	if err != nil {
 		return nil, nil, errors.Join(err, closeEvery(upstreamServices))
 	}
-	webUIServices, err := servicesFrom(
+	downstreamServices, err := servicesFrom(
 		ctx,
-		p.webUIServiceAssembliesWith(urlsOf(upstreamServices)),
+		p.downstreamServiceAssembliesWith(urlsOf(upstreamServices)),
 		getenv,
 	)
 	if err != nil {
@@ -103,7 +103,7 @@ func (p peer) services(
 			closeEvery(streamOnlyServices),
 		)
 	}
-	listeningServices := slices.Concat(upstreamServices, webUIServices)
+	listeningServices := slices.Concat(upstreamServices, downstreamServices)
 	return slices.Concat(
 		servicesOf(listeningServices),
 		streamOnlyServices,
@@ -265,7 +265,7 @@ func streamOnlyServiceAssemblyFrom[C any, L io.Closer](
 	}
 }
 
-func (p peer) webUIServiceAssembliesWith(
+func (p peer) downstreamServiceAssembliesWith(
 	upstreamURLs serviceURLs,
 ) []serviceAssembly[listeningService] {
 	return []serviceAssembly[listeningService]{
