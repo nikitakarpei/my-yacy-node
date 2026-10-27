@@ -1,4 +1,4 @@
-# 4. Run a Yggdrasil node inside the peer
+# 7. Run a Yggdrasil node inside the peer
 
 Status: accepted
 

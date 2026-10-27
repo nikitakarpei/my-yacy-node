@@ -1,4 +1,4 @@
-# 5. Run the gVisor network stack inside the peer
+# 8. Run the gVisor network stack inside the peer
 
 Status: accepted
 
