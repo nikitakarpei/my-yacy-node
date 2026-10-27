@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yacypeer dashboards</title>
+<link rel="stylesheet" href="/dashboards/assets/dashboard.css">
+</head>
+<body>
+<header class="toolbar">
+  <a class="home" href="/dashboards">yacypeer dashboards</a>
+</header>
+<main class="list">
+  <ul>
+  {{range .Services}}<li><a href="/dashboards/{{.}}">{{.}}</a></li>
+  {{end}}</ul>
+</main>
+</body>
+</html>

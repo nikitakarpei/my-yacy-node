@@ -37,6 +37,8 @@ search the pages that you crawled:
 curl 'http://127.0.0.1:8096/search?query=yacy'
 ```
 
+See the dashboards of the peer at `http://127.0.0.1:9090/dashboards`.
+
 To change these addresses, or to let other hosts reach them, see
 [Configuration](doc/configuration.md).
 

@@ -10,6 +10,8 @@ commonVendors:
   - canonicalurl
 
 components:
+  yacycrawlerdoc:
+    in: doc/**
   retrydelay:
     in: internal/crawl/retrydelay/**
   crawlid:
