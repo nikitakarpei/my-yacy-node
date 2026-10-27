@@ -11,7 +11,8 @@ crawlconsole is configured entirely through environment variables.
 | `CRAWLCONSOLE_PATH_PREFIX` | none | Path under which the console serves its pages, such as `/crawlconsole`. Start it with `/`, and do not end it with `/`. |
 | `CRAWLCONSOLE_TAB_BAR` | none | JSON tab bar at the top of each page. Without it, the pages show no tab bar. |
 
-Give each tab a `title` and an HTTP `url` or a path such as `/dashboards`, and mark the tab of the console as `current`.
+Give each tab a `title` and a `url`: an HTTP URL, or a path on the same host such as
+`/dashboards`. Mark the tab of the console as `current`.
 An `issueTrackerUrl` is optional. For example:
 
 ```sh

@@ -22,12 +22,9 @@ The `yacypeer` volume keeps the data of the peer.
 
 ## Use
 
-Search the YaCy network at `http://127.0.0.1:9090`.
-
-Crawl your own pages in the crawl console at `http://127.0.0.1:9090/crawlconsole/`.
-The search page then also shows the pages that you crawled.
-
-See the dashboards of the peer at `http://127.0.0.1:9090/dashboards`.
+Open `http://127.0.0.1:9090`. The tabs at the top link the search page, the crawl
+console and the dashboards. The search page searches the YaCy network and the pages
+that you crawl in the crawl console.
 
 To change this address, or to let other hosts reach it, see
 [Configuration](doc/configuration.md).
