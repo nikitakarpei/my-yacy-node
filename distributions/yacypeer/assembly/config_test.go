@@ -48,7 +48,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		yacypeerassembly.EnvNetworkName:            "realm",
 		yacypeerassembly.EnvOpsAddr:                "127.0.0.1:9099",
 		yacypeerassembly.EnvPeerProxyURL:           "http://proxy.example:3128",
-		yacypeerassembly.EnvPageFetchProxyURL:      "socks5h://127.0.0.1:9050",
+		yacypeerassembly.EnvPageFetchProxyURL:      "http://127.0.0.1:8118",
 		yacypeerassembly.EnvMetricHistoryRetention: "48h",
 	}))
 	if err != nil {
@@ -56,7 +56,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 	}
 	want := yacypeerassembly.PeerConfig{
 		PeerProxyURL:           &url.URL{Scheme: "http", Host: "proxy.example:3128"},
-		PageFetchProxyURL:      &url.URL{Scheme: "socks5h", Host: "127.0.0.1:9050"},
+		PageFetchProxyURL:      &url.URL{Scheme: "http", Host: "127.0.0.1:8118"},
 		DataDirectory:          "/var/lib/yacypeer",
 		NetworkName:            "realm",
 		SeedlistURLs:           "https://seeds.example/seed.txt",
@@ -79,7 +79,7 @@ func TestLoadPeerConfigRefusesAnEgressProxyThatIsNotAnHTTPURL(t *testing.T) {
 }
 
 func TestLoadPeerConfigRefusesAPageFetchProxyItCannotSpeakTo(t *testing.T) {
-	for _, proxyURL := range []string{"ftp://proxy.example:21", "proxy.example:3128", "://"} {
+	for _, proxyURL := range []string{"socks5h://127.0.0.1:9050", "proxy.example:3128", "://"} {
 		_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
 			yacypeerassembly.EnvSeedlistURLs:      "https://seeds.example/seed.txt",
 			yacypeerassembly.EnvPageFetchProxyURL: proxyURL,
@@ -87,6 +87,19 @@ func TestLoadPeerConfigRefusesAPageFetchProxyItCannotSpeakTo(t *testing.T) {
 		if err == nil {
 			t.Errorf("config loaded with page fetch proxy %q, want an error", proxyURL)
 		}
+	}
+}
+
+func TestLoadPeerConfigSendsPageFetchesThroughThePeerProxyByDefault(t *testing.T) {
+	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+		yacypeerassembly.EnvSeedlistURLs: "https://seeds.example/seed.txt",
+		yacypeerassembly.EnvPeerProxyURL: "http://proxy.example:3128",
+	}))
+	if err != nil {
+		t.Fatalf("load the config: %v", err)
+	}
+	if cfg.PageFetchProxyURL.String() != "http://proxy.example:3128" {
+		t.Errorf("page fetch proxy = %v, want the peer proxy", cfg.PageFetchProxyURL)
 	}
 }
 

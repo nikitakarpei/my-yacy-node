@@ -207,7 +207,7 @@ func (p *PageCacheProxy) originAnswerTo(
 		cancel()
 		return originAnswer{}, err
 	}
-	//nolint:gosec // G704: the origin proxy makes the connection.
+	//nolint:gosec // G704: the egress proxy refuses private addresses.
 	response, err := p.originClient.Do(request)
 	if err != nil {
 		cancel()

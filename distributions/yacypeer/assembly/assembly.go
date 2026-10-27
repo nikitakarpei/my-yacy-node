@@ -28,6 +28,7 @@ import (
 const (
 	brokerDirectoryName        = "nats"
 	metricHistoryDirectoryName = "metric-history"
+	pageEgressProxyName        = "pageegressproxy"
 	cachedPagesDirectoryName   = "cached-pages"
 	cachedPageRetention        = 30 * time.Minute
 	cachedPagesMaxBytes        = 512 << 20
@@ -63,6 +64,10 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
+	pageEgress, err := egressproxy.Listen(ctx, cfg.PageFetchProxyURL)
+	if err != nil {
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+	}
 	cachedPages, err := cachedpages.Open(
 		servicelog.ContextFor(ctx, cachedpages.Name),
 		cfg.directoryOf(cachedPagesDirectoryName),
@@ -71,16 +76,11 @@ func RunPeer(
 		wallclock.Clock{},
 	)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress, pageEgress}))
 	}
-	cacheProxy, err := pagecacheproxy.Listen(
-		ctx,
-		cachedPages,
-		cfg.pageFetchProxyURLOr(egress.URL()),
-		pageMaxBodyBytes,
-	)
+	cacheProxy, err := pagecacheproxy.Listen(ctx, cachedPages, pageEgress.URL(), pageMaxBodyBytes)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress, pageEgress}))
 	}
 	peer := peer{
 		egressProxyURL:    egress.URL(),
@@ -92,7 +92,7 @@ func RunPeer(
 	}
 	services, err := peer.services(ctx, getenv)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, egress, cacheProxy}))
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress, pageEgress, cacheProxy}))
 	}
 	logStarted(ctx, peer, ops)
 	processRegistry := opsmetrics.ProcessRegistry()
@@ -101,6 +101,9 @@ func RunPeer(
 		return runEvery(ctx, services,
 			func(ctx context.Context) error {
 				return egress.Run(servicelog.ContextFor(ctx, egressproxy.Name))
+			},
+			func(ctx context.Context) error {
+				return pageEgress.Run(servicelog.ContextFor(ctx, pageEgressProxyName))
 			},
 			func(ctx context.Context) error {
 				return cacheProxy.Run(servicelog.ContextFor(ctx, pagecacheproxy.Name))

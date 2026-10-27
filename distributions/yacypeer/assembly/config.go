@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/url"
 	"path/filepath"
-	"slices"
 	"strings"
 	"time"
 
@@ -38,15 +37,8 @@ var proxyEnvironment = []string{
 	"HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy", "NO_PROXY", "no_proxy",
 }
 
-var pageFetchProxySchemes = []string{"http", "https", "socks5", "socks5h"}
-
-var (
-	errProxyEnvironment = errors.New(
-		"must not be set; name the proxy in " + EnvPeerProxyURL + " or " + EnvPageFetchProxyURL,
-	)
-	errPageFetchProxy = errors.New(
-		"must be an absolute URL with scheme " + strings.Join(pageFetchProxySchemes, ", "),
-	)
+var errProxyEnvironment = errors.New(
+	"must not be set; name the proxy in " + EnvPeerProxyURL + " or " + EnvPageFetchProxyURL,
 )
 
 type PeerConfig struct {
@@ -68,13 +60,16 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	peerProxyURL, err := peerProxyURLFrom(getenv)
+	peerProxyURL, err := proxyURLFrom(getenv, EnvPeerProxyURL)
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	pageFetchProxyURL, err := pageFetchProxyURLFrom(getenv)
+	pageFetchProxyURL, err := proxyURLFrom(getenv, EnvPageFetchProxyURL)
 	if err != nil {
 		return PeerConfig{}, err
+	}
+	if pageFetchProxyURL == nil {
+		pageFetchProxyURL = peerProxyURL
 	}
 	metricHistoryRetention, err := envconfig.Duration(
 		getenv,
@@ -112,31 +107,11 @@ func seedlistURLsFor(getenv func(string) string, networkName string) (string, er
 	return envconfig.Required(getenv, EnvSeedlistURLs)
 }
 
-func peerProxyURLFrom(getenv func(string) string) (*url.URL, error) {
-	if strings.TrimSpace(getenv(EnvPeerProxyURL)) == "" {
+func proxyURLFrom(getenv func(string) string, key string) (*url.URL, error) {
+	if strings.TrimSpace(getenv(key)) == "" {
 		return nil, nil
 	}
-	return envconfig.RequiredHTTPURL(getenv, EnvPeerProxyURL)
-}
-
-func pageFetchProxyURLFrom(getenv func(string) string) (*url.URL, error) {
-	rawURL := strings.TrimSpace(getenv(EnvPageFetchProxyURL))
-	if rawURL == "" {
-		return nil, nil
-	}
-	proxyURL, err := url.Parse(rawURL)
-	if err != nil || proxyURL.Host == "" ||
-		!slices.Contains(pageFetchProxySchemes, proxyURL.Scheme) {
-		return nil, fmt.Errorf("%s: %w", EnvPageFetchProxyURL, errPageFetchProxy)
-	}
-	return proxyURL, nil
-}
-
-func (cfg PeerConfig) pageFetchProxyURLOr(egressProxyURL *url.URL) *url.URL {
-	if cfg.PageFetchProxyURL != nil {
-		return cfg.PageFetchProxyURL
-	}
-	return egressProxyURL
+	return envconfig.RequiredHTTPURL(getenv, key)
 }
 
 func (cfg PeerConfig) namesAPeerProxy() bool {

@@ -17,7 +17,7 @@ program.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
 * The program SHALL NOT send outbound requests to loopback or private addresses, other than
-  to a proxy that the operator names, or through a page fetch proxy.
+  to a proxy that the operator names.
 * The program SHALL send outbound requests through the peer proxy that the operator names.
 * The program SHALL send page fetches through the page fetch proxy instead, when the operator
   names one.
@@ -53,7 +53,7 @@ program.
 * A tab links a page that listens on every address through the local host. Other hosts
   cannot follow that tab.
 * A crash loses the most recent part of the metric history.
-* The program cannot reach a peer proxy that the operator names by a host name with a
-  loopback or private address.
+* The program cannot reach a proxy that the operator names by a host name with a loopback or
+  private address.
 * Within the cache retention, a page fetch gets the cached page, also when the page changed.
 * A proxy that applies rules to each request does not see the page fetches that the cache answers.
