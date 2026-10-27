@@ -58,7 +58,16 @@ func TestTheFrontPageShowsOnlyTheSearchBoxAndItsOperators(t *testing.T) {
 
 	page := bodyOf(t, handler, "/")
 
-	assertContains(t, page, `name="q"`, "<title>Search</title>", "!ct", "!ya", ":de")
+	assertContains(
+		t,
+		page,
+		`name="q"`,
+		"<title>Search</title>",
+		`class="operators" open`,
+		"!ct",
+		"!ya",
+		":de",
+	)
 	assertLacks(t, page, "No results.", `class="result"`)
 	if len(asked) != 0 {
 		t.Errorf("sources were asked %v, want no search", asked)
@@ -88,7 +97,7 @@ func TestTheResultsPageMergesTheSourcesThroughTheResultLinks(t *testing.T) {
 	if strings.Index(page, "Crawled") > strings.Index(page, "Network") {
 		t.Error("network result shows before the crawled result, want the crawled one first")
 	}
-	assertLacks(t, page, "No results.", `rel="next"`, `rel="prev"`)
+	assertLacks(t, page, "No results.", `rel="next"`, `rel="prev"`, `class="operators" open`)
 }
 
 func TestTheSearchAsksOnlyTheSourcesOfItsOperators(t *testing.T) {
