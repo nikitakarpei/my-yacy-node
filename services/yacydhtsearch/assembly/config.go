@@ -27,6 +27,7 @@ const (
 	EnvEgressProxyURL                   = "EGRESS_PROXY_URL"
 	EnvPageReadProxyURL                 = "YACYDHTSEARCH_PAGE_READ_PROXY_URL"
 	EnvPageReadProxyDialMode            = "YACYDHTSEARCH_PAGE_READ_PROXY_DIAL_MODE"
+	EnvPageReadUserAgent                = "YACYDHTSEARCH_PAGE_READ_USER_AGENT"
 	EnvQueryBudget                      = "YACYDHTSEARCH_QUERY_BUDGET"
 	EnvNetworkRedundancy                = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
 	EnvReplicasCoveringAPartition       = "YACYDHTSEARCH_REPLICAS_COVERING_A_PARTITION"
@@ -119,7 +120,8 @@ const (
 	DefaultPageByteCeiling                  = 4 * 1024 * 1024
 	DefaultPageReadMaxRedirectHops          = 3
 	DefaultSnippetLengthCeiling             = 300
-	DefaultPageReadProxyDialMode            = "tunnel"
+	DefaultPageReadProxyDialMode            = pagefetchershttp.ProxyDialTunnelName
+	DefaultPageReadUserAgent                = "yacydhtsearch (+https://yacy.net)"
 )
 
 type ServiceConfig struct {
@@ -132,6 +134,7 @@ type ServiceConfig struct {
 	EgressProxyURL                   *url.URL
 	PageReadProxyURL                 *url.URL
 	PageReadProxyDialMode            pagefetchershttp.ProxyDialMode
+	PageReadUserAgent                string
 	QueryBudget                      time.Duration
 	NetworkRedundancy                int
 	ReplicasCoveringAPartition       int
@@ -252,11 +255,16 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvNetworkName,
 			yacyproto.DefaultNetwork,
 		),
-		SeedlistURLs:                   seedlistURLs,
-		SeedlistReadBudget:             durations.seedlistReadBudget,
-		EgressProxyURL:                 egressProxyURL,
-		PageReadProxyURL:               pageReadProxyURL,
-		PageReadProxyDialMode:          pageReadProxyDialMode,
+		SeedlistURLs:          seedlistURLs,
+		SeedlistReadBudget:    durations.seedlistReadBudget,
+		EgressProxyURL:        egressProxyURL,
+		PageReadProxyURL:      pageReadProxyURL,
+		PageReadProxyDialMode: pageReadProxyDialMode,
+		PageReadUserAgent: envconfig.String(
+			getenv,
+			EnvPageReadUserAgent,
+			DefaultPageReadUserAgent,
+		),
 		QueryBudget:                    durations.queryBudget,
 		NetworkRedundancy:              counts.networkRedundancy,
 		ReplicasCoveringAPartition:     replicasCoveringAPartition,

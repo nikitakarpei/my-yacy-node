@@ -41,7 +41,7 @@ const (
 	DefaultFetchDeadline      = 30 * time.Second
 	DefaultOpsAddr            = ":9090"
 	DefaultUserAgent          = "yacycrawler (+https://yacy.net)"
-	DefaultProxyDialMode      = "tunnel"
+	DefaultProxyDialMode      = http.ProxyDialTunnelName
 	DefaultRecrawlGrace       = time.Hour
 
 	DefaultCrawlStateDir                         = "./crawl-state"

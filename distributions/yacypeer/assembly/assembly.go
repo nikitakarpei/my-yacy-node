@@ -7,16 +7,19 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
@@ -25,6 +28,12 @@ import (
 const (
 	brokerDirectoryName        = "nats"
 	metricHistoryDirectoryName = "metric-history"
+	peerEgressProxyName        = "peeregressproxy"
+	pageFetchEgressProxyName   = "pagefetchegressproxy"
+	cachedPagesDirectoryName   = "cached-pages"
+	cachedPageRetention        = 30 * time.Minute
+	cachedPagesMaxBytes        = 512 << 20
+	pageMaxBodyBytes           = 4 << 20
 )
 
 func RunPeer(
@@ -52,20 +61,47 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer closeHistory(ctx, history)
-	egress, err := egressproxy.Listen(ctx, cfg.EgressProxyURL)
+	peerEgress, err := egressproxy.Listen(ctx, cfg.PeerProxyURL)
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
+	pageFetchEgress, err := egressproxy.Listen(ctx, cfg.PageFetchProxyURL)
+	if err != nil {
+		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress}))
+	}
+	cachedPages, err := cachedpages.Open(
+		servicelog.ContextFor(ctx, cachedpages.Name),
+		cfg.directoryOf(cachedPagesDirectoryName),
+		cachedPageRetention,
+		cachedPagesMaxBytes,
+		wallclock.Clock{},
+	)
+	if err != nil {
+		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress}))
+	}
+	cacheProxy, err := pagecacheproxy.Listen(
+		ctx,
+		cachedPages,
+		pageFetchEgress.URL(),
+		pageMaxBodyBytes,
+	)
+	if err != nil {
+		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress}))
+	}
 	peer := peer{
-		egressProxyURL:  egress.URL(),
-		cfg:             cfg,
-		natsURL:         broker.ClientURL(),
-		visitLinkSecret: visitLinkSecret,
-		webUIURLs:       webUIURLsFor(ops, getenv),
+		peerEgressProxyURL: peerEgress.URL(),
+		pageCacheProxyURL:  cacheProxy.URL(),
+		cfg:                cfg,
+		natsURL:            broker.ClientURL(),
+		visitLinkSecret:    visitLinkSecret,
+		webUIURLs:          webUIURLsFor(ops, getenv),
 	}
 	services, err := peer.services(ctx, getenv)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+		return errors.Join(
+			err,
+			closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress, cacheProxy}),
+		)
 	}
 	logStarted(ctx, peer, ops)
 	processRegistry := opsmetrics.ProcessRegistry()
@@ -73,7 +109,16 @@ func RunPeer(
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
 		return runEvery(ctx, services,
 			func(ctx context.Context) error {
-				return egress.Run(servicelog.ContextFor(ctx, egressproxy.Name))
+				return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
+			},
+			func(ctx context.Context) error {
+				return pageFetchEgress.Run(servicelog.ContextFor(ctx, pageFetchEgressProxyName))
+			},
+			func(ctx context.Context) error {
+				return cacheProxy.Run(servicelog.ContextFor(ctx, pagecacheproxy.Name))
+			},
+			func(ctx context.Context) error {
+				return cachedPages.Run(servicelog.ContextFor(ctx, cachedpages.Name))
 			},
 			func(ctx context.Context) error {
 				return history.Run(ctx, metricSourcesOf(processRegistry, services))
@@ -103,7 +148,7 @@ func logStarted(
 ) {
 	slog.DebugContext(ctx, "yacypeer started",
 		slog.String("natsUrl", peer.natsURL),
-		slog.String("egressProxyUrl", peer.egressProxyURL.Redacted()),
+		slog.String("peerEgressProxyUrl", peer.peerEgressProxyURL.Redacted()),
 		slog.String("opsAddr", ops.Addr().String()),
 	)
 }

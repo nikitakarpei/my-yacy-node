@@ -18,7 +18,8 @@ const (
 	EnvNetworkName            = "YACYPEER_NETWORK_NAME"
 	EnvSeedlistURLs           = "YACYPEER_SEEDLIST_URLS"
 	EnvOpsAddr                = "YACYPEER_OPS_ADDR"
-	EnvEgressProxyURL         = "YACYPEER_EGRESS_PROXY_URL"
+	EnvPeerProxyURL           = "YACYPEER_PEER_PROXY_URL"
+	EnvPageFetchProxyURL      = "YACYPEER_PAGE_FETCH_PROXY_URL"
 	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
 
 	DefaultDataDirectory          = "data"
@@ -36,10 +37,13 @@ var proxyEnvironment = []string{
 	"HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy", "NO_PROXY", "no_proxy",
 }
 
-var errProxyEnvironment = errors.New("must not be set; name the proxy in " + EnvEgressProxyURL)
+var errProxyEnvironment = errors.New(
+	"must not be set; name the proxy in " + EnvPeerProxyURL + " or " + EnvPageFetchProxyURL,
+)
 
 type PeerConfig struct {
-	EgressProxyURL         *url.URL
+	PeerProxyURL           *url.URL
+	PageFetchProxyURL      *url.URL
 	DataDirectory          string
 	NetworkName            string
 	SeedlistURLs           string
@@ -56,7 +60,11 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	egressProxyURL, err := egressProxyURLFrom(getenv)
+	peerProxyURL, err := proxyURLFrom(getenv, EnvPeerProxyURL)
+	if err != nil {
+		return PeerConfig{}, err
+	}
+	pageFetchProxyURL, err := proxyURLFrom(getenv, EnvPageFetchProxyURL)
 	if err != nil {
 		return PeerConfig{}, err
 	}
@@ -69,7 +77,8 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		return PeerConfig{}, err
 	}
 	return PeerConfig{
-		EgressProxyURL:         egressProxyURL,
+		PeerProxyURL:           peerProxyURL,
+		PageFetchProxyURL:      pageFetchProxyURL,
 		DataDirectory:          envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
 		NetworkName:            networkName,
 		SeedlistURLs:           seedlistURLs,
@@ -95,15 +104,15 @@ func seedlistURLsFor(getenv func(string) string, networkName string) (string, er
 	return envconfig.Required(getenv, EnvSeedlistURLs)
 }
 
-func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
-	if strings.TrimSpace(getenv(EnvEgressProxyURL)) == "" {
+func proxyURLFrom(getenv func(string) string, key string) (*url.URL, error) {
+	if strings.TrimSpace(getenv(key)) == "" {
 		return nil, nil
 	}
-	return envconfig.RequiredHTTPURL(getenv, EnvEgressProxyURL)
+	return envconfig.RequiredHTTPURL(getenv, key)
 }
 
-func (cfg PeerConfig) namesAnEgressProxy() bool {
-	return cfg.EgressProxyURL != nil
+func (cfg PeerConfig) namesAPeerProxy() bool {
+	return cfg.PeerProxyURL != nil
 }
 
 func (cfg PeerConfig) directoryOf(serviceName string) string {
