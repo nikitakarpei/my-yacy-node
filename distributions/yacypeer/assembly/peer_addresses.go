@@ -7,6 +7,6 @@ type peerAddresses struct {
 	natsURL        string
 }
 
-func peerAddressesFor(natsURL string, egress egressRoute) peerAddresses {
-	return peerAddresses{egressProxyURL: egress.proxyURL(), natsURL: natsURL}
+func peerAddressesFor(natsURL string, egressProxyURL *url.URL) peerAddresses {
+	return peerAddresses{egressProxyURL: egressProxyURL, natsURL: natsURL}
 }
