@@ -37,7 +37,7 @@ const (
 
 func peerEnvironment(t *testing.T) map[string]string {
 	t.Helper()
-	listenAddresses := addressesBelowEphemeralPorts(t, 3)
+	listenAddresses := addressesBelowEphemeralPorts(t, 4)
 	return map[string]string{
 		yacypeerassembly.EnvDataDirectory:          t.TempDir(),
 		yacypeerassembly.EnvSeedlistURLs:           "http://127.0.0.1:1/seed.txt",
@@ -47,6 +47,7 @@ func peerEnvironment(t *testing.T) map[string]string {
 		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":       anyLoopbackPort,
 		"CRAWLCONSOLE_LISTEN_ADDR":                 listenAddresses[1],
 		"VISITCRAWL_LISTEN_ADDR":                   listenAddresses[2],
+		"SEARCHPAGE_LISTEN_ADDR":                   listenAddresses[3],
 	}
 }
 
@@ -166,7 +167,26 @@ func TestRunPeerSendsOutboundRequestsOnThroughTheEgressProxyTheOperatorNames(t *
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing.T) {
+func TestRunPeerSearchesTheYaCyNetworkAndTheCrawledPagesOnTheSearchPage(t *testing.T) {
+	env := peerEnvironment(t)
+	cfg, ops := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+	}()
+	awaitEveryService(t, env, ops)
+
+	awaitAnswer(t, "http://"+env["SEARCHPAGE_LISTEN_ADDR"]+"/search?q=yacy", "No results.")
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecretSigns(
+	t *testing.T,
+) {
 	env := peerEnvironment(t)
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -184,7 +204,7 @@ func TestRunPeerSendsAVisitOnToThePageWithALinkThatThePeerSecretSigns(t *testing
 		t.Fatalf("read the peer secret: %v", err)
 	}
 	const visitedPage = "https://example.org/visited"
-	destination := redirectOf(t, "http://"+env["VISITCRAWL_LISTEN_ADDR"]+"/visit?"+
+	destination := redirectOf(t, "http://"+env["SEARCHPAGE_LISTEN_ADDR"]+"/visit?"+
 		visitLinkQueryFor(visitedPage, secret))
 	if destination != visitedPage {
 		t.Errorf("visit redirected to %q, want %q", destination, visitedPage)
@@ -306,6 +326,7 @@ func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
 	for _, service := range []string{
 		"yacynode", "yacydhtsearch", "corpustext",
 		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge", "visitcrawl",
+		"searchpage",
 	} {
 		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")
 	}

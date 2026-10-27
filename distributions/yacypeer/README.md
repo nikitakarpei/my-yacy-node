@@ -24,18 +24,10 @@ With no settings, the peer joins the YaCy network. Other peers must reach port
 
 ## Use
 
-Search the YaCy network:
+Search the YaCy network at `http://127.0.0.1:8097`.
 
-```sh
-curl 'http://127.0.0.1:8080/yacysearch.json?query=yacy'
-```
-
-Crawl your own pages in the crawl console at `http://127.0.0.1:8093`. Then
-search the pages that you crawled:
-
-```sh
-curl 'http://127.0.0.1:8096/search?query=yacy'
-```
+Crawl your own pages in the crawl console at `http://127.0.0.1:8093`. The search
+page then also shows the pages that you crawled.
 
 See the dashboards of the peer at `http://127.0.0.1:9090/dashboards`.
 

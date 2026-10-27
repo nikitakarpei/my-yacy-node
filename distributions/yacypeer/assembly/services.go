@@ -14,6 +14,7 @@ import (
 	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
 	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
+	searchpageassembly "github.com/nikitakarpei/yacy-rwi-node/searchpage/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
@@ -33,6 +34,7 @@ var unreadSettings = []string{
 	crawlconsoleassembly.EnvOpsAddr,
 	crawlscrapebridgeassembly.EnvOpsAddr,
 	visitcrawlassembly.EnvOpsAddr,
+	searchpageassembly.EnvOpsAddr,
 }
 
 var localListenAddresses = serviceenvironment.Defaults{
@@ -40,6 +42,7 @@ var localListenAddresses = serviceenvironment.Defaults{
 	corpustextassembly.EnvSearchAddr:    loopback.Host + corpustextassembly.DefaultSearchAddr,
 	crawlconsoleassembly.EnvListenAddr:  loopback.Host + crawlconsoleassembly.DefaultListenAddr,
 	visitcrawlassembly.EnvListenAddr:    loopback.Host + visitcrawlassembly.DefaultListenAddr,
+	searchpageassembly.EnvListenAddr:    loopback.Host + searchpageassembly.DefaultListenAddr,
 }
 
 const (
@@ -51,6 +54,7 @@ const (
 	crawlconsoleService      = "crawlconsole"
 	crawlscrapebridgeService = "crawlscrapebridge"
 	visitcrawlService        = "visitcrawl"
+	searchpageService        = "searchpage"
 )
 
 type service struct {
@@ -77,10 +81,7 @@ func servicesFor(
 	visitLinkSecret string,
 	getenv func(string) string,
 ) ([]service, error) {
-	assemblies := append(
-		searchServiceAssembliesFor(cfg, addresses),
-		crawlServiceAssembliesFor(addresses, crawler.apiURL, visitLinkSecret)...,
-	)
+	assemblies := serviceAssembliesFor(cfg, addresses, crawler.apiURL)
 	services := append(make([]service, 0, len(assemblies)+1), crawler.service)
 	for _, assembly := range assemblies {
 		service, err := assembly(ctx, getenv)
@@ -89,10 +90,18 @@ func servicesFor(
 		}
 		services = append(services, service)
 	}
-	return services, nil
+	searchPageServices, err := searchPageServicesFor(ctx, cfg, addresses, visitLinkSecret, getenv)
+	if err != nil {
+		return nil, errors.Join(err, closeEvery(services))
+	}
+	return append(services, searchPageServices...), nil
 }
 
-func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
+func serviceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	crawlerAPIURL string,
+) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
@@ -109,55 +118,6 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 			yacynodeassembly.ListenersFor,
 			yacynodeassembly.RunService,
 		),
-		serviceAssemblyOf(
-			yacydhtsearchService,
-			serviceenvironment.Wiring{
-				yacydhtsearchassembly.EnvNetworkName:    cfg.NetworkName,
-				yacydhtsearchassembly.EnvSeedlistURLs:   cfg.SeedlistURLs,
-				yacydhtsearchassembly.EnvEgressProxyURL: addresses.egressProxyURL.String(),
-			},
-			yacydhtsearchassembly.LoadServiceConfig,
-			yacydhtsearchassembly.ListenersFor,
-			yacydhtsearchassembly.RunService,
-		),
-		serviceAssemblyOf(
-			corpustextService,
-			serviceenvironment.Wiring{
-				corpustextassembly.EnvPageOfferNATSURL: addresses.natsURL,
-				corpustextassembly.EnvPageOfferDurable: corpustextService,
-				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextService),
-			},
-			corpustextassembly.LoadServiceConfig,
-			corpustextassembly.ListenersFor,
-			corpustextassembly.RunService,
-		),
-	}
-}
-
-func yacynodeConfigLoaderFor(
-	cfg PeerConfig,
-) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
-	if !cfg.namesAnEgressProxy() {
-		return yacynodeassembly.LoadServiceConfig
-	}
-	return func(getenv func(string) string) (yacynodeassembly.ServiceConfig, error) {
-		if _, err := envconfig.Required(getenv, yacynodeassembly.EnvAdvertiseHost); err != nil {
-			return yacynodeassembly.ServiceConfig{}, fmt.Errorf(
-				"%w when %s is set",
-				err,
-				EnvEgressProxyURL,
-			)
-		}
-		return yacynodeassembly.LoadServiceConfig(getenv)
-	}
-}
-
-func crawlServiceAssembliesFor(
-	addresses peerAddresses,
-	crawlerAPIURL string,
-	visitLinkSecret string,
-) []serviceAssembly {
-	return []serviceAssembly{
 		serviceAssemblyOf(
 			pagescrapeService,
 			serviceenvironment.Wiring{
@@ -188,16 +148,24 @@ func crawlServiceAssembliesFor(
 			crawlscrapebridgeassembly.ListenersFor,
 			crawlscrapebridgeassembly.RunService,
 		),
-		serviceAssemblyOf(
-			visitcrawlService,
-			serviceenvironment.Wiring{
-				visitcrawlassembly.EnvCrawlNATSURL: addresses.natsURL,
-				visitcrawlassembly.EnvLinkSecret:   visitLinkSecret,
-			},
-			visitcrawlassembly.LoadServiceConfig,
-			visitcrawlassembly.ListenersFor,
-			visitcrawlassembly.RunService,
-		),
+	}
+}
+
+func yacynodeConfigLoaderFor(
+	cfg PeerConfig,
+) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
+	if !cfg.namesAnEgressProxy() {
+		return yacynodeassembly.LoadServiceConfig
+	}
+	return func(getenv func(string) string) (yacynodeassembly.ServiceConfig, error) {
+		if _, err := envconfig.Required(getenv, yacynodeassembly.EnvAdvertiseHost); err != nil {
+			return yacynodeassembly.ServiceConfig{}, fmt.Errorf(
+				"%w when %s is set",
+				err,
+				EnvEgressProxyURL,
+			)
+		}
+		return yacynodeassembly.LoadServiceConfig(getenv)
 	}
 }
 
