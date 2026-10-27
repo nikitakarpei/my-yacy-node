@@ -12,19 +12,15 @@ You configure yacypeer through environment variables.
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
 | `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics`, `/metrics/<service>`, and the dashboards at `/dashboards`. |
 | `YACYPEER_METRIC_HISTORY_RETENTION` | `168h` | How long yacypeer keeps the metric history that the dashboards show. |
-| `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy for requests to peers and seedlists. It must accept `CONNECT`. |
-| `YACYPEER_PAGE_FETCH_PROXY_URL` | `YACYPEER_PEER_PROXY_URL` | HTTP or SOCKS5 proxy for page fetches, such as Tor at `socks5h://127.0.0.1:9050`. |
+| `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy with `CONNECT` for peers and seedlists. |
+| `YACYPEER_PAGE_FETCH_PROXY_URL` | `YACYPEER_PEER_PROXY_URL` | HTTP or SOCKS5 proxy for page fetches, such as `socks5h://127.0.0.1:9050`. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
 
-yacypeer does not send outbound requests to loopback and private addresses, also when you
-set `YACYPEER_PEER_PROXY_URL`. If your proxy has a loopback or private address, name it by
-its IP address, such as `http://127.0.0.1:3128`. When you set `YACYPEER_PAGE_FETCH_PROXY_URL`,
-that proxy resolves and connects to the addresses of page fetches, and yacypeer does not check
-them.
+yacypeer does not send requests to loopback and private addresses, except page fetches through
+`YACYPEER_PAGE_FETCH_PROXY_URL`. Name a proxy at such an address by its IP address, such as
+`http://127.0.0.1:3128`.
 
-yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in upper or
-lower case. Name your proxy in `YACYPEER_PEER_PROXY_URL` or `YACYPEER_PAGE_FETCH_PROXY_URL`
-instead.
+yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in any case.
 
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
 other hosts reach an address, set it, such as `SEARCHPAGE_LISTEN_ADDR=:8097` or
