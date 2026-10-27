@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/crawlconsole/internal/consolemessages"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 //go:embed templates
@@ -23,20 +24,24 @@ const (
 
 type pageLayout struct {
 	screens  map[string]*template.Template
-	header   crawlerHeader
+	tabBar   template.HTML
+	controls crawlerControls
 	observer ConsoleObserver
 }
 
 type pageView struct {
 	Path              string
-	Header            headerView
+	WebUIStylesheet   string
+	TabBar            template.HTML
+	Crawler           crawlerView
 	CrawlerUnanswered bool
 	Content           any
 }
 
 func newPageLayout(
 	catalog consolemessages.Catalog,
-	header crawlerHeader,
+	tabBar webuistyle.TabBar,
+	controls crawlerControls,
 	observer ConsoleObserver,
 ) pageLayout {
 	functions := template.FuncMap{"text": catalog.TextOf, "moment": momentOf}
@@ -46,7 +51,12 @@ func newPageLayout(
 			templateFiles, "templates/layout.html", "templates/"+screen+".html",
 		))
 	}
-	return pageLayout{screens: screens, header: header, observer: observer}
+	return pageLayout{
+		screens:  screens,
+		tabBar:   tabBar.HTML(),
+		controls: controls,
+		observer: observer,
+	}
 }
 
 func momentOf(moment time.Time) string {
@@ -60,11 +70,13 @@ func (layout pageLayout) render(
 	status int,
 	content any,
 ) {
-	header := layout.header.headerFor(r)
+	crawler := layout.controls.viewFor(r)
 	view := pageView{
 		Path:              r.URL.RequestURI(),
-		Header:            header,
-		CrawlerUnanswered: !header.Answered || status == http.StatusBadGateway,
+		WebUIStylesheet:   webuistyle.StylesheetPath,
+		TabBar:            layout.tabBar,
+		Crawler:           crawler,
+		CrawlerUnanswered: !crawler.Answered || status == http.StatusBadGateway,
 		Content:           content,
 	}
 	var page bytes.Buffer

@@ -1,5 +1,6 @@
 {{define "title"}}{{if .Found}}{{.Crawl.Name}}{{else}}{{.CrawlID}}{{end}}{{end}}
 {{define "refresh"}}{{if and .Found (not .Crawl.IsFinished)}}<meta http-equiv="refresh" content="3">{{end}}{{end}}
+{{define "crawler"}}{{if .Crawler.Status.Paused}}<div class="notice">{{text "notice.crawler-paused"}}</div>{{end}}{{end}}
 {{define "content"}}
 {{if not .Found}}
 <h1>{{.CrawlID}}</h1>

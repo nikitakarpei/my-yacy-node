@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-func TestHeaderShowsWhatTheCrawlerDoes(t *testing.T) {
+func TestTheCrawlTablesShowWhatTheCrawlerDoes(t *testing.T) {
 	cases := []struct {
 		name      string
 		status    yacycrawlcontract.CrawlerStatus
@@ -44,11 +44,36 @@ func TestHeaderShowsWhatTheCrawlerDoes(t *testing.T) {
 	}
 }
 
-func TestHeaderShowsTheCrawlerDoesNotAnswer(t *testing.T) {
-	answer := consoleOver(&fakeCrawler{down: true}).get("/crawls/new")
+func TestTheCrawlTablesShowTheCrawlerDoesNotAnswer(t *testing.T) {
+	answer := consoleOver(&fakeCrawler{down: true}).get("/")
 
 	assertShows(t, answer, "Unknown", "The crawler does not answer.")
 	assertHides(t, answer, "Pause all", "Resume all")
+}
+
+func TestTheCrawlPageShowsOnlyThatTheCrawlerIsPaused(t *testing.T) {
+	crawls := map[string]yacycrawlcontract.Crawl{"c1": runningCrawlOf(t, "c1")}
+	paused := consoleOver(&fakeCrawler{
+		crawls: crawls,
+		status: yacycrawlcontract.CrawlerStatus{Paused: true},
+	})
+	crawling := consoleOver(&fakeCrawler{
+		crawls: crawls,
+		status: yacycrawlcontract.CrawlerStatus{PendingPageVisits: 30},
+	})
+
+	pausedCrawl := paused.get("/crawls/c1")
+	crawlingCrawl := crawling.get("/crawls/c1")
+
+	assertShows(t, pausedCrawl, "The crawler is paused.")
+	assertHides(t, pausedCrawl, "Resume all")
+	assertHides(t, crawlingCrawl, "The crawler is paused.", "Pause all", "pages pending")
+}
+
+func TestTheNewCrawlFormDoesNotShowThatTheCrawlerIsPaused(t *testing.T) {
+	console := consoleOver(&fakeCrawler{status: yacycrawlcontract.CrawlerStatus{Paused: true}})
+
+	assertHides(t, console.get("/crawls/new"), "The crawler is paused.", "Resume all")
 }
 
 func TestCrawlerPauseReturnsToThePageItWasSentFrom(t *testing.T) {

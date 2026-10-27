@@ -1,14 +1,14 @@
 package consolemessages
 
 var englishTexts = map[string]string{
-	"console.name":      "Crawl console",
-	"navigation.crawls": "Crawls",
+	"console.name": "Crawl console",
 	"notice.crawler-unanswered": "The crawler does not answer. " +
 		"The page shows only what the console could read.",
+	"notice.crawler-paused": "The crawler is paused.",
 
-	"header.figures":    "%d running · %d pages pending",
-	"header.pause-all":  "Pause all",
-	"header.resume-all": "Resume all",
+	"crawler.figures":    "%d running · %d pages pending",
+	"crawler.pause-all":  "Pause all",
+	"crawler.resume-all": "Resume all",
 
 	"crawler-state.crawling": "Crawling",
 	"crawler-state.idle":     "Idle",

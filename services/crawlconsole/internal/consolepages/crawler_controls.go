@@ -15,24 +15,24 @@ const (
 	crawlerUnknown  = "unknown"
 )
 
-type crawlerHeader struct {
+type crawlerControls struct {
 	crawler  Crawler
 	observer ConsoleObserver
 }
 
-type headerView struct {
+type crawlerView struct {
 	Answered     bool
 	CrawlerState string
 	Status       yacycrawlcontract.CrawlerStatus
 }
 
-func (header crawlerHeader) headerFor(r *http.Request) headerView {
-	status, err := header.crawler.CrawlerStatus(r.Context())
+func (controls crawlerControls) viewFor(r *http.Request) crawlerView {
+	status, err := controls.crawler.CrawlerStatus(r.Context())
 	if err != nil {
-		header.observer.CrawlerCallFailed(r.Context(), err)
-		return headerView{CrawlerState: crawlerUnknown}
+		controls.observer.CrawlerCallFailed(r.Context(), err)
+		return crawlerView{CrawlerState: crawlerUnknown}
 	}
-	return headerView{Answered: true, CrawlerState: crawlerStateOf(status), Status: status}
+	return crawlerView{Answered: true, CrawlerState: crawlerStateOf(status), Status: status}
 }
 
 func crawlerStateOf(status yacycrawlcontract.CrawlerStatus) string {
@@ -46,13 +46,13 @@ func crawlerStateOf(status yacycrawlcontract.CrawlerStatus) string {
 	}
 }
 
-func (header crawlerHeader) changePause(w http.ResponseWriter, r *http.Request) {
-	change := header.crawler.ResumeCrawler
+func (controls crawlerControls) changePause(w http.ResponseWriter, r *http.Request) {
+	change := controls.crawler.ResumeCrawler
 	if pausedIn(r) {
-		change = header.crawler.PauseCrawler
+		change = controls.crawler.PauseCrawler
 	}
 	if err := change(r.Context()); err != nil {
-		header.observer.CrawlerCallFailed(r.Context(), err)
+		controls.observer.CrawlerCallFailed(r.Context(), err)
 	}
 	//nolint:gosec // G710: backPathOf keeps local paths only.
 	http.Redirect(w, r, backPathOf(r), http.StatusSeeOther)
