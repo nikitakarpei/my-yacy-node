@@ -1,5 +1,6 @@
 // Package egressproxy runs the smokescreen proxy built into the peer. It listens on the
-// loopback interface only and refuses requests to loopback and private addresses.
+// loopback interface only and refuses requests to loopback and private addresses. It sends the
+// requests it allows through the upstream proxy that it is given, else to their destination.
 package egressproxy
 
 import (
@@ -7,7 +8,9 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/netip"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/stripe/smokescreen/pkg/smokescreen"
@@ -22,16 +25,19 @@ const (
 	shutdownLimit = 10 * time.Second
 )
 
+var defaultPorts = map[string]int{"http": 80, "https": 443}
+
 type EgressProxy struct {
-	listener net.Listener
+	listener         net.Listener
+	upstreamProxyURL *url.URL
 }
 
-func Listen(ctx context.Context) (*EgressProxy, error) {
+func Listen(ctx context.Context, upstreamProxyURL *url.URL) (*EgressProxy, error) {
 	listener, err := loopback.Listen(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("built-in egress proxy: %w", err)
 	}
-	return &EgressProxy{listener: listener}, nil
+	return &EgressProxy{listener: listener, upstreamProxyURL: upstreamProxyURL}, nil
 }
 
 func (p *EgressProxy) URL() *url.URL {
@@ -46,7 +52,7 @@ func (p *EgressProxy) Close() error {
 }
 
 func (p *EgressProxy) Run(ctx context.Context) error {
-	config := configFor(ctx)
+	config := p.configFor(ctx)
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{
 		Name:     Name,
 		Listener: p.listener,
@@ -57,7 +63,7 @@ func (p *EgressProxy) Run(ctx context.Context) error {
 	}})
 }
 
-func configFor(ctx context.Context) *smokescreen.Config {
+func (p *EgressProxy) configFor(ctx context.Context) *smokescreen.Config {
 	config := smokescreen.NewConfig()
 	config.Log = proxyLoggerFor(ctx)
 	config.ConnectTimeout = smokescreen.DefaultConnectTimeout
@@ -69,5 +75,30 @@ func configFor(ctx context.Context) *smokescreen.Config {
 		config.ShuttingDown,
 		nil,
 	)
+	if p.upstreamProxyURL != nil {
+		config.UpstreamHttpProxyAddr = p.upstreamProxyURL.String()
+		config.UpstreamHttpsProxyAddr = p.upstreamProxyURL.String()
+		config.AllowRanges = append(config.AllowRanges, p.upstreamProxyRules()...)
+	}
 	return config
+}
+
+func (p *EgressProxy) upstreamProxyRules() []smokescreen.RuleRange {
+	address, err := netip.ParseAddr(p.upstreamProxyURL.Hostname())
+	if err != nil {
+		return nil
+	}
+	address = address.Unmap()
+	bits := address.BitLen()
+	return []smokescreen.RuleRange{{
+		Net:  net.IPNet{IP: address.AsSlice(), Mask: net.CIDRMask(bits, bits)},
+		Port: p.upstreamProxyPort(),
+	}}
+}
+
+func (p *EgressProxy) upstreamProxyPort() int {
+	if port, err := strconv.Atoi(p.upstreamProxyURL.Port()); err == nil {
+		return port
+	}
+	return defaultPorts[p.upstreamProxyURL.Scheme]
 }

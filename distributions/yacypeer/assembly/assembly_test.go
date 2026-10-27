@@ -131,7 +131,7 @@ func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirMetricHistory(t *testing
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerSendsOutboundRequestsThroughTheEgressProxyTheOperatorNames(t *testing.T) {
+func TestRunPeerSendsOutboundRequestsOnThroughTheEgressProxyTheOperatorNames(t *testing.T) {
 	proxiedURLs := make(chan string, 16)
 	proxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		select {
@@ -143,6 +143,7 @@ func TestRunPeerSendsOutboundRequestsThroughTheEgressProxyTheOperatorNames(t *te
 	t.Cleanup(proxy.Close)
 	env := peerEnvironment(t)
 	env[yacypeerassembly.EnvEgressProxyURL] = proxy.URL
+	env[yacypeerassembly.EnvSeedlistURLs] = "http://203.0.113.5/seed.txt"
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
