@@ -72,13 +72,42 @@ func (p *EgressProxy) configFor(ctx context.Context) *smokescreen.Config {
 		nil,
 	)
 	if p.upstreamProxyURL != nil {
-		upstream := upstreamProxyFor(ctx, p.upstreamProxyURL)
+		upstreamProxy := resolveUpstreamProxy(ctx, p.upstreamProxyURL)
 		config.UpstreamHttpProxyAddr = p.upstreamProxyURL.String()
 		config.UpstreamHttpsProxyAddr = p.upstreamProxyURL.String()
-		config.AllowRanges = append(config.AllowRanges, upstream.ruleRanges()...)
-		config.ProxyDialTimeout = upstream.dial
+		config.AllowRanges = append(config.AllowRanges, upstreamProxy.addressRules()...)
+		config.ProxyDialTimeout = dialerFor(upstreamProxy)
 	}
 	return config
+}
+
+func dialerFor(
+	upstreamProxy upstreamProxy,
+) func(context.Context, string, string, time.Duration) (net.Conn, error) {
+	return func(
+		ctx context.Context,
+		network string,
+		address string,
+		timeout time.Duration,
+	) (net.Conn, error) {
+		if upstreamProxy.listensAt(address) {
+			return upstreamProxy.dial(ctx, network, timeout)
+		}
+		return dial(ctx, network, address, timeout)
+	}
+}
+
+func dial(
+	ctx context.Context,
+	network string,
+	address string,
+	timeout time.Duration,
+) (net.Conn, error) {
+	connection, err := (&net.Dialer{Timeout: timeout}).DialContext(ctx, network, address)
+	if err != nil {
+		return nil, fmt.Errorf("dial %s: %w", address, err)
+	}
+	return connection, nil
 }
 
 func (p *EgressProxy) handlerFor(config *smokescreen.Config) http.Handler {

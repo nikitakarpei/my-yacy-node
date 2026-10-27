@@ -3,7 +3,6 @@ package egressproxy
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net"
 	"net/netip"
@@ -22,7 +21,7 @@ type upstreamProxy struct {
 	addresses []netip.AddrPort
 }
 
-func upstreamProxyFor(ctx context.Context, upstreamProxyURL *url.URL) upstreamProxy {
+func resolveUpstreamProxy(ctx context.Context, upstreamProxyURL *url.URL) upstreamProxy {
 	ips, err := net.DefaultResolver.LookupNetIP(ctx, "ip", upstreamProxyURL.Hostname())
 	if err != nil {
 		slog.WarnContext(ctx, "upstream proxy not resolved",
@@ -46,39 +45,34 @@ func portOf(upstreamProxyURL *url.URL) uint16 {
 	return defaultPorts[upstreamProxyURL.Scheme]
 }
 
-func (u upstreamProxy) ruleRanges() []smokescreen.RuleRange {
-	ranges := make([]smokescreen.RuleRange, 0, len(u.addresses))
+func (u upstreamProxy) addressRules() []smokescreen.RuleRange {
+	rules := make([]smokescreen.RuleRange, 0, len(u.addresses))
 	for _, address := range u.addresses {
 		bits := address.Addr().BitLen()
-		ranges = append(ranges, smokescreen.RuleRange{
+		rules = append(rules, smokescreen.RuleRange{
 			Net:  net.IPNet{IP: address.Addr().AsSlice(), Mask: net.CIDRMask(bits, bits)},
 			Port: int(address.Port()),
 		})
 	}
-	return ranges
+	return rules
+}
+
+func (u upstreamProxy) listensAt(address string) bool {
+	selected, _ := netip.ParseAddrPort(address)
+	return slices.Contains(
+		u.addresses,
+		netip.AddrPortFrom(selected.Addr().Unmap(), selected.Port()),
+	)
 }
 
 func (u upstreamProxy) dial(
 	ctx context.Context,
 	network string,
-	address string,
 	timeout time.Duration,
 ) (net.Conn, error) {
-	dialer := &net.Dialer{Timeout: timeout}
-	selected, _ := netip.ParseAddrPort(address)
-	if !slices.Contains(
-		u.addresses,
-		netip.AddrPortFrom(selected.Addr().Unmap(), selected.Port()),
-	) {
-		connection, err := dialer.DialContext(ctx, network, address)
-		if err != nil {
-			return nil, fmt.Errorf("dial %s: %w", address, err)
-		}
-		return connection, nil
-	}
 	failures := make([]error, 0, len(u.addresses))
-	for _, upstreamAddress := range u.addresses {
-		connection, err := dialer.DialContext(ctx, network, upstreamAddress.String())
+	for _, address := range u.addresses {
+		connection, err := dial(ctx, network, address.String(), timeout)
 		if err == nil {
 			return connection, nil
 		}
