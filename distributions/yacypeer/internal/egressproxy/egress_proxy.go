@@ -6,11 +6,9 @@ package egressproxy
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"net"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 
 	"github.com/stripe/smokescreen/pkg/smokescreen"
@@ -24,8 +22,6 @@ const (
 	Name          = "egressproxy"
 	shutdownLimit = 10 * time.Second
 )
-
-var defaultPorts = map[string]int{"http": 80, "https": 443}
 
 type EgressProxy struct {
 	listener         net.Listener
@@ -76,42 +72,13 @@ func (p *EgressProxy) configFor(ctx context.Context) *smokescreen.Config {
 		nil,
 	)
 	if p.upstreamProxyURL != nil {
+		upstream := upstreamProxyFor(ctx, p.upstreamProxyURL)
 		config.UpstreamHttpProxyAddr = p.upstreamProxyURL.String()
 		config.UpstreamHttpsProxyAddr = p.upstreamProxyURL.String()
-		config.AllowRanges = append(config.AllowRanges, p.upstreamProxyRanges(ctx)...)
+		config.AllowRanges = append(config.AllowRanges, upstream.ruleRanges()...)
+		config.ProxyDialTimeout = upstream.dial
 	}
 	return config
-}
-
-func (p *EgressProxy) upstreamProxyRanges(ctx context.Context) []smokescreen.RuleRange {
-	addresses, err := net.DefaultResolver.LookupNetIP(ctx, "ip", p.upstreamProxyURL.Hostname())
-	if err != nil {
-		slog.WarnContext(ctx, "upstream proxy not resolved",
-			slog.String("upstreamProxy", p.upstreamProxyURL.Redacted()),
-			slog.Any("reason", err),
-		)
-		return nil
-	}
-	port := p.upstreamProxyPort()
-	ranges := make([]smokescreen.RuleRange, 0, len(addresses))
-	for _, address := range addresses {
-		address = address.Unmap()
-		ranges = append(ranges, smokescreen.RuleRange{
-			Net: net.IPNet{
-				IP:   address.AsSlice(),
-				Mask: net.CIDRMask(address.BitLen(), address.BitLen()),
-			},
-			Port: port,
-		})
-	}
-	return ranges
-}
-
-func (p *EgressProxy) upstreamProxyPort() int {
-	if port, err := strconv.Atoi(p.upstreamProxyURL.Port()); err == nil {
-		return port
-	}
-	return defaultPorts[p.upstreamProxyURL.Scheme]
 }
 
 func (p *EgressProxy) handlerFor(config *smokescreen.Config) http.Handler {
