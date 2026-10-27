@@ -56,6 +56,9 @@ vendors:
       - github.com/prometheus/prometheus/tsdb/chunks
       - github.com/prometheus/prometheus/tsdb/encoding
       - github.com/prometheus/prometheus/util/annotations
+  webuistyle:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/webuistyle
   vault:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/vault
@@ -85,6 +88,7 @@ deps:
     canUse:
       - prometheusclient
       - prometheusquery
+      - webuistyle
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

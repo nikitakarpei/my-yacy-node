@@ -11,6 +11,8 @@ import (
 	"time"
 
 	"github.com/prometheus/prometheus/storage"
+
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 const (
@@ -43,6 +45,7 @@ func Register(
 	history storage.Queryable,
 	sampleInterval time.Duration,
 	dashboards []Dashboard,
+	tabBar webuistyle.TabBar,
 ) {
 	models := make(map[string][]byte, len(dashboards))
 	services := make([]string, 0, len(dashboards))
@@ -50,27 +53,42 @@ func Register(
 		models[dashboard.Service] = dashboard.Model
 		services = append(services, dashboard.Service)
 	}
-	mux.Handle("GET "+pathDashboards, dashboardList(services))
-	mux.Handle("GET "+pathDashboards+"/{service}", serviceDashboard(models, sampleInterval))
+	frame := pageFrame{WebUIStylesheet: webuistyle.StylesheetPath, TabBar: tabBar.HTML()}
+	mux.Handle("GET "+pathDashboards, dashboardList(frame, services))
+	mux.Handle(
+		"GET "+pathDashboards+"/{service}",
+		serviceDashboard(frame, models, sampleInterval),
+	)
 	mux.Handle(
 		"GET "+pathDashboards+"/assets/",
 		http.StripPrefix(pathDashboards, http.FileServerFS(assets)),
 	)
+	mux.Handle("GET "+webuistyle.StylesheetPath, webuistyle.Stylesheet())
 	mux.Handle(pathRangeQuery, newRangeQueryEndpoint(history))
 	mux.Handle(pathLabelValues, labelValuesEndpoint{history: history})
 }
 
-func dashboardList(services []string) http.Handler {
+type pageFrame struct {
+	WebUIStylesheet string
+	TabBar          template.HTML
+}
+
+func dashboardList(frame pageFrame, services []string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		render(w, r, dashboardListPage, dashboardListView{Services: services})
+		render(w, r, dashboardListPage, dashboardListView{Frame: frame, Services: services})
 	})
 }
 
 type dashboardListView struct {
+	Frame    pageFrame
 	Services []string
 }
 
-func serviceDashboard(models map[string][]byte, sampleInterval time.Duration) http.Handler {
+func serviceDashboard(
+	frame pageFrame,
+	models map[string][]byte,
+	sampleInterval time.Duration,
+) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		service := r.PathValue("service")
 		model, known := models[service]
@@ -80,6 +98,7 @@ func serviceDashboard(models map[string][]byte, sampleInterval time.Duration) ht
 		}
 		embedded := template.JS(model) //nolint:gosec // G203: the binary embeds the model.
 		render(w, r, serviceDashboardPage, serviceDashboardView{
+			Frame:                 frame,
 			Service:               service,
 			Model:                 embedded,
 			SampleIntervalSeconds: sampleInterval.Seconds(),
@@ -88,6 +107,7 @@ func serviceDashboard(models map[string][]byte, sampleInterval time.Duration) ht
 }
 
 type serviceDashboardView struct {
+	Frame                 pageFrame
 	Service               string
 	Model                 template.JS
 	SampleIntervalSeconds float64
