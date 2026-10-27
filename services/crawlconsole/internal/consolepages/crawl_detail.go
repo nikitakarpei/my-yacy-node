@@ -9,10 +9,11 @@ import (
 )
 
 type crawlDetail struct {
-	crawler  Crawler
-	clock    Clock
-	layout   pageLayout
-	observer ConsoleObserver
+	crawler    Crawler
+	clock      Clock
+	layout     pageLayout
+	pathPrefix string
+	observer   ConsoleObserver
 }
 
 const (
@@ -80,17 +81,11 @@ func (detail crawlDetail) hostTableOf(r *http.Request, crawlID string) (hostTabl
 	for _, crawlHost := range page.Hosts {
 		table.Rows = append(table.Rows, hostRowFrom(crawlHost))
 	}
-	crawlPath := "/crawls/" + url.PathEscape(crawlID)
 	if page.NextCursor != "" {
-		table.NextPageURL = pageURLAt(crawlPath, query, hostsCursorParameter, page.NextCursor)
+		table.NextPageURL = pageURLFrom(query, hostsCursorParameter, page.NextCursor)
 	}
 	if page.PreviousCursor != "" {
-		table.PreviousPageURL = pageURLAt(
-			crawlPath,
-			query,
-			hostsCursorParameter,
-			page.PreviousCursor,
-		)
+		table.PreviousPageURL = pageURLFrom(query, hostsCursorParameter, page.PreviousCursor)
 	}
 	return table, true
 }
@@ -100,7 +95,7 @@ func (detail crawlDetail) cancel(w http.ResponseWriter, r *http.Request) {
 	if err := detail.crawler.Cancel(r.Context(), crawlID); err != nil {
 		detail.observer.CrawlerCallFailed(r.Context(), err)
 	}
-	returnToCrawl(w, r, crawlID)
+	returnToCrawl(w, r, detail.pathPrefix, crawlID)
 }
 
 func (detail crawlDetail) changePause(w http.ResponseWriter, r *http.Request) {
@@ -112,9 +107,9 @@ func (detail crawlDetail) changePause(w http.ResponseWriter, r *http.Request) {
 	if err := change(r.Context(), crawlID); err != nil {
 		detail.observer.CrawlerCallFailed(r.Context(), err)
 	}
-	returnToCrawl(w, r, crawlID)
+	returnToCrawl(w, r, detail.pathPrefix, crawlID)
 }
 
-func returnToCrawl(w http.ResponseWriter, r *http.Request, crawlID string) {
-	http.Redirect(w, r, "/crawls/"+url.PathEscape(crawlID), http.StatusSeeOther)
+func returnToCrawl(w http.ResponseWriter, r *http.Request, pathPrefix string, crawlID string) {
+	http.Redirect(w, r, pathPrefix+"/crawls/"+url.PathEscape(crawlID), http.StatusSeeOther)
 }

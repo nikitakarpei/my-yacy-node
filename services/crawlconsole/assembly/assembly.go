@@ -64,6 +64,7 @@ func RunService(
 				crawler,
 				consolemessages.English(),
 				cfg.TabBar,
+				cfg.PathPrefix,
 				wallclock.Clock{},
 				consolepageobserversapplog.ConsoleLog{},
 			),

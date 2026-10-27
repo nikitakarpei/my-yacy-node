@@ -69,9 +69,9 @@ func TestCrawlTablesTurnEachTablePageOnItsOwn(t *testing.T) {
 	answer := consoleOver(crawler).get("/?finished=f-at&running=r-at")
 
 	assertShows(t, answer,
-		`href="/?finished=f-at&amp;running=r-older"`,
-		`href="/?finished=f-at&amp;running=r-newer"`,
-		`href="/?finished=f-at"`,
+		`href="?finished=f-at&amp;running=r-older"`,
+		`href="?finished=f-at&amp;running=r-newer"`,
+		`href="?finished=f-at"`,
 	)
 	wantCursors := []string{"r-at", "f-at"}
 	for i, query := range crawler.crawlsQueries {

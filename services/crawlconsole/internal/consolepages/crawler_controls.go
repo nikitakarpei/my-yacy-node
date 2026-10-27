@@ -16,8 +16,9 @@ const (
 )
 
 type crawlerControls struct {
-	crawler  Crawler
-	observer ConsoleObserver
+	crawler    Crawler
+	pathPrefix string
+	observer   ConsoleObserver
 }
 
 type crawlerView struct {
@@ -55,7 +56,7 @@ func (controls crawlerControls) changePause(w http.ResponseWriter, r *http.Reque
 		controls.observer.CrawlerCallFailed(r.Context(), err)
 	}
 	//nolint:gosec // G710: backPathOf keeps local paths only.
-	http.Redirect(w, r, backPathOf(r), http.StatusSeeOther)
+	http.Redirect(w, r, controls.pathPrefix+backPathOf(r), http.StatusSeeOther)
 }
 
 func pausedIn(r *http.Request) bool {

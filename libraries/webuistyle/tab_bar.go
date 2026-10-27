@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	errIncompleteTab        = errors.New("give each tab a title and an HTTP URL")
+	errIncompleteTab        = errors.New("give each tab a title and an HTTP URL or a local path")
 	errNoSingleCurrentTab   = errors.New("mark exactly one tab as current")
 	errUnusableIssueTracker = errors.New("give the issue tracker an HTTP URL")
 )
@@ -43,7 +43,7 @@ func TabBarFrom(setting string) (TabBar, error) {
 
 func (b TabBar) validate() error {
 	for _, tab := range b.Tabs {
-		if tab.Title == "" || !isHTTPURL(tab.URL) {
+		if tab.Title == "" || !isHTTPURL(tab.URL) && !isLocalPath(tab.URL) {
 			return errIncompleteTab
 		}
 	}
@@ -62,6 +62,10 @@ func isHTTPURL(text string) bool {
 	address, err := url.Parse(text)
 	return err == nil && address.Host != "" &&
 		(address.Scheme == "http" || address.Scheme == "https")
+}
+
+func isLocalPath(text string) bool {
+	return strings.HasPrefix(text, "/") && !strings.HasPrefix(text, "//")
 }
 
 func (b TabBar) HTML() template.HTML {

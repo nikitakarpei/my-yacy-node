@@ -13,6 +13,7 @@ type ServiceConfig struct {
 	ListenAddr    string
 	CrawlerAPIURL *url.URL
 	TabBar        webuistyle.TabBar
+	PathPrefix    string
 	OpsAddr       string
 }
 

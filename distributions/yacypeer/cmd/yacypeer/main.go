@@ -29,9 +29,9 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	ops, err := servergroup.Listen(ctx, cfg.OpsAddr)
+	web, err := servergroup.Listen(ctx, cfg.WebAddr)
 	if err != nil {
 		return err
 	}
-	return yacypeerassembly.RunPeer(ctx, cfg, ops, os.Getenv)
+	return yacypeerassembly.RunPeer(ctx, cfg, web, os.Getenv)
 }

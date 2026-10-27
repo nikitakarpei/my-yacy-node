@@ -17,7 +17,7 @@ func environmentFor(
 	process map[string]string,
 ) serviceenvironment.Environment {
 	t.Helper()
-	environment, err := serviceenvironment.For("corpustext", wiring, nil, nil, processFrom(process))
+	environment, err := serviceenvironment.For("corpustext", wiring, nil, processFrom(process))
 	if err != nil {
 		t.Fatalf("For: %v", err)
 	}
@@ -57,45 +57,10 @@ func TestLookupFallsBackToTheSharedValue(t *testing.T) {
 	}
 }
 
-func TestLookupFallsBackToThePeerDefault(t *testing.T) {
-	environment, err := serviceenvironment.For(
-		"corpustext",
-		nil,
-		serviceenvironment.Defaults{"LISTEN_ADDR": "127.0.0.1:8096"},
-		nil,
-		processFrom(nil),
-	)
-	if err != nil {
-		t.Fatalf("For: %v", err)
-	}
-
-	if got := environment.Lookup("LISTEN_ADDR"); got != "127.0.0.1:8096" {
-		t.Errorf("Lookup = %q, want the peer default", got)
-	}
-}
-
-func TestLookupPrefersTheOperatorValueOverThePeerDefault(t *testing.T) {
-	environment, err := serviceenvironment.For(
-		"corpustext",
-		nil,
-		serviceenvironment.Defaults{"LISTEN_ADDR": "127.0.0.1:8096"},
-		nil,
-		processFrom(map[string]string{"LISTEN_ADDR": ":8096"}),
-	)
-	if err != nil {
-		t.Fatalf("For: %v", err)
-	}
-
-	if got := environment.Lookup("LISTEN_ADDR"); got != ":8096" {
-		t.Errorf("Lookup = %q, want the operator value", got)
-	}
-}
-
 func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 	_, err := serviceenvironment.For(
 		"corpustext",
 		serviceenvironment.Wiring{"NATS_URL": "nats://wired", "DATA_DIR": "/data"},
-		nil,
 		nil,
 		processFrom(map[string]string{
 			"NATS_URL":             "nats://elsewhere",
@@ -115,7 +80,6 @@ func TestForRefusesEveryWiredSettingTheOperatorSets(t *testing.T) {
 func TestForRefusesEveryUnreadSettingTheOperatorSets(t *testing.T) {
 	_, err := serviceenvironment.For(
 		"corpustext",
-		nil,
 		nil,
 		[]string{"OPS_ADDR"},
 		processFrom(map[string]string{"CORPUSTEXT__OPS_ADDR": ":9999"}),

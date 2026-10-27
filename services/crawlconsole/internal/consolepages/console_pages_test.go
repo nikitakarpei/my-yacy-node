@@ -33,16 +33,25 @@ type console struct {
 }
 
 func consoleOver(crawler *fakeCrawler) console {
-	return consoleWithTabBar(crawler, webuistyle.TabBar{})
+	return consoleWith(crawler, webuistyle.TabBar{}, "")
 }
 
 func consoleWithTabBar(crawler *fakeCrawler, tabBar webuistyle.TabBar) console {
+	return consoleWith(crawler, tabBar, "")
+}
+
+func consoleUnder(crawler *fakeCrawler, pathPrefix string) console {
+	return consoleWith(crawler, webuistyle.TabBar{}, pathPrefix)
+}
+
+func consoleWith(crawler *fakeCrawler, tabBar webuistyle.TabBar, pathPrefix string) console {
 	observer := &recordingObserver{}
 	return console{
 		handler: consolepages.New(
 			crawler,
 			consolemessages.English(),
 			tabBar,
+			pathPrefix,
 			fixedClock{},
 			observer,
 		),
@@ -201,4 +210,48 @@ func TestEveryConsolePageShowsTheTabBar(t *testing.T) {
 
 func TestAConsoleWithoutATabBarShowsNone(t *testing.T) {
 	assertHides(t, consoleOver(&fakeCrawler{}).get("/"), "webui-tabs")
+}
+
+func TestAConsoleUnderAPathPrefixLinksEveryPageUnderIt(t *testing.T) {
+	crawler := &fakeCrawler{
+		crawls: map[string]yacycrawlcontract.Crawl{"c1": runningCrawlOf(t, "c1")},
+		pages: map[string]yacycrawlcontract.CrawlPage{
+			"running": {Crawls: []yacycrawlcontract.Crawl{runningCrawlOf(t, "c1")}},
+		},
+	}
+	console := consoleUnder(crawler, "/console")
+
+	assertShows(t, console.get("/console/"),
+		`href="/console`+webuistyle.StylesheetPath+`"`,
+		`href="/console/static/console.css"`,
+		`href="/console/crawls/c1"`,
+		`href="/console/crawls/new"`,
+		`action="/console/crawler-pause"`,
+	)
+	assertShows(t, console.get("/console/crawls/c1"),
+		`action="/console/crawls/c1/cancel"`,
+		`href="/console/crawls/new?from=c1"`,
+	)
+	assertShows(t, console.get("/console/crawls/new"),
+		`action="/console/crawls"`,
+		`href="/console/"`,
+	)
+	assertStatus(t, console.get("/console/static/console.css"), http.StatusOK)
+}
+
+func TestAConsoleUnderAPathPrefixRedirectsUnderIt(t *testing.T) {
+	crawler := &fakeCrawler{
+		crawls: map[string]yacycrawlcontract.Crawl{"c1": runningCrawlOf(t, "c1")},
+	}
+	console := consoleUnder(crawler, "/console")
+
+	assertRedirect(t, console.post("/console/crawls/c1/cancel", nil), "/console/crawls/c1")
+	assertRedirect(t,
+		console.post("/console/crawler-pause", url.Values{"Back": {"/crawls/c1"}}),
+		"/console/crawls/c1",
+	)
+}
+
+func TestAConsoleUnderAPathPrefixServesNothingOutsideIt(t *testing.T) {
+	assertStatus(t, consoleUnder(&fakeCrawler{}, "/console").get("/"), http.StatusNotFound)
 }

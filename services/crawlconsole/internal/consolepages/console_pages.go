@@ -1,7 +1,7 @@
 // Package consolepages serves the crawl console as HTML pages that the server renders: the
 // tables of running and finished crawls with the controls that pause every page visit, one crawl
 // with its progress, hosts and controls, and the form that starts a crawl. A form sent from
-// another origin is refused.
+// another origin is refused. Every page can sit under a path prefix.
 package consolepages
 
 import (
@@ -53,18 +53,31 @@ type ConsoleObserver interface {
 	PageRenderFailed(ctx context.Context, screen string, err error)
 }
 
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	crawler Crawler,
 	catalog consolemessages.Catalog,
 	tabBar webuistyle.TabBar,
+	pathPrefix string,
 	clock Clock,
 	observer ConsoleObserver,
 ) http.Handler {
-	controls := crawlerControls{crawler: crawler, observer: observer}
-	layout := newPageLayout(catalog, tabBar, controls, observer)
+	controls := crawlerControls{crawler: crawler, pathPrefix: pathPrefix, observer: observer}
+	layout := newPageLayout(catalog, tabBar, pathPrefix, controls, observer)
 	tables := crawlTables{crawler: crawler, clock: clock, layout: layout, observer: observer}
-	detail := crawlDetail{crawler: crawler, clock: clock, layout: layout, observer: observer}
-	form := newCrawlForm{crawler: crawler, layout: layout, observer: observer}
+	detail := crawlDetail{
+		crawler:    crawler,
+		clock:      clock,
+		layout:     layout,
+		pathPrefix: pathPrefix,
+		observer:   observer,
+	}
+	form := newCrawlForm{
+		crawler:    crawler,
+		layout:     layout,
+		pathPrefix: pathPrefix,
+		observer:   observer,
+	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /{$}", tables.show)
 	mux.HandleFunc("GET /crawls/new", form.show)
@@ -75,5 +88,7 @@ func New(
 	mux.HandleFunc("POST /crawler-pause", controls.changePause)
 	mux.Handle("GET /static/", http.FileServerFS(staticFiles))
 	mux.Handle("GET "+webuistyle.StylesheetPath, webuistyle.Stylesheet())
-	return http.NewCrossOriginProtection().Handler(mux)
+	prefixedMux := http.NewServeMux()
+	prefixedMux.Handle(pathPrefix+"/", http.StripPrefix(pathPrefix, mux))
+	return http.NewCrossOriginProtection().Handler(prefixedMux)
 }

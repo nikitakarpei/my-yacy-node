@@ -57,7 +57,7 @@ func TestHostTableTurnsItsPagesOnTheCrawlPage(t *testing.T) {
 
 	answer := consoleOver(crawler).get("/crawls/c1?hosts=h-at")
 
-	assertShows(t, answer, `href="/crawls/c1?hosts=h-next"`, `href="/crawls/c1?hosts=h-previous"`,
+	assertShows(t, answer, `href="?hosts=h-next"`, `href="?hosts=h-previous"`,
 		"No hosts yet")
 	if !slices.Equal(crawler.hostCursors, []string{"h-at"}) {
 		t.Fatalf("host cursors = %v, want h-at", crawler.hostCursors)

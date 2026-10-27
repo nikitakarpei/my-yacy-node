@@ -28,6 +28,8 @@ components:
     in: internal/webuitabs/**
   dashboardpage:
     in: internal/dashboardpage/**
+  webuiproxy:
+    in: internal/webuiproxy/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:

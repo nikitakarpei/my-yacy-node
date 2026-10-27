@@ -41,10 +41,15 @@ type pageView struct {
 func newPageLayout(
 	catalog consolemessages.Catalog,
 	tabBar webuistyle.TabBar,
+	pathPrefix string,
 	controls crawlerControls,
 	observer ConsoleObserver,
 ) pageLayout {
-	functions := template.FuncMap{"text": catalog.TextOf, "moment": momentOf}
+	functions := template.FuncMap{
+		"text":   catalog.TextOf,
+		"moment": momentOf,
+		"path":   func(path string) string { return pathPrefix + path },
+	}
 	screens := map[string]*template.Template{}
 	for _, screen := range []string{crawlTablesScreen, crawlDetailScreen, newCrawlFormScreen} {
 		screens[screen] = template.Must(template.New("layout.html").Funcs(functions).ParseFS(

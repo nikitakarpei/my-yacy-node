@@ -53,9 +53,9 @@ FROM gcr.io/distroless/static-debian12:nonroot
 COPY --from=build /out/yacypeer /usr/local/bin/yacypeer
 COPY --from=build --chown=nonroot:nonroot /out/yacypeer-workdir /var/lib/yacypeer
 
-ENV SEARCHPAGE_LISTEN_ADDR=:8097 \
-    CRAWLCONSOLE_LISTEN_ADDR=:8093 \
-    YACYPEER_OPS_ADDR=:9090
+ENV YACYPEER_WEB_ADDR=:9090
+
+EXPOSE 8090 9090
 
 WORKDIR /var/lib/yacypeer
 
