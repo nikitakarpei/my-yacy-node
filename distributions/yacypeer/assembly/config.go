@@ -68,9 +68,6 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	if pageFetchProxyURL == nil {
-		pageFetchProxyURL = peerProxyURL
-	}
 	metricHistoryRetention, err := envconfig.Duration(
 		getenv,
 		EnvMetricHistoryRetention,

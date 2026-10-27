@@ -18,9 +18,8 @@ one program.
   of `yacynode`, until the operator sets their addresses.
 * The program SHALL NOT send outbound requests to loopback or private addresses, other than
   to a proxy that the operator names.
-* The program SHALL send outbound requests through the peer proxy that the operator names.
-* The program SHALL send page fetches through the page fetch proxy instead, when the operator
-  names one.
+* The program SHALL send page fetches through the page fetch proxy that the operator names.
+* The program SHALL send other outbound requests through the peer proxy that the operator names.
 * The program SHALL answer a repeated page fetch from its cache, per page and user agent,
   within the cache retention.
 * The cache SHALL hold only final answers to unconditional fetches, within the size limit.

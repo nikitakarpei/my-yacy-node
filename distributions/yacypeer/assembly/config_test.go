@@ -90,7 +90,7 @@ func TestLoadPeerConfigRefusesAPageFetchProxyItCannotSpeakTo(t *testing.T) {
 	}
 }
 
-func TestLoadPeerConfigSendsPageFetchesThroughThePeerProxyByDefault(t *testing.T) {
+func TestLoadPeerConfigSendsPageFetchesApartFromThePeerProxy(t *testing.T) {
 	cfg, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
 		yacypeerassembly.EnvSeedlistURLs: "https://seeds.example/seed.txt",
 		yacypeerassembly.EnvPeerProxyURL: "http://proxy.example:3128",
@@ -98,8 +98,8 @@ func TestLoadPeerConfigSendsPageFetchesThroughThePeerProxyByDefault(t *testing.T
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
-	if cfg.PageFetchProxyURL.String() != "http://proxy.example:3128" {
-		t.Errorf("page fetch proxy = %v, want the peer proxy", cfg.PageFetchProxyURL)
+	if cfg.PageFetchProxyURL != nil {
+		t.Errorf("page fetch proxy = %v, want none", cfg.PageFetchProxyURL)
 	}
 }
 
