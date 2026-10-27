@@ -12,13 +12,9 @@ You configure yacypeer through environment variables.
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
 | `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics`, `/metrics/<service>`, and the dashboards at `/dashboards`. |
 | `YACYPEER_METRIC_HISTORY_RETENTION` | `168h` | How long yacypeer keeps the metric history that the dashboards show. |
-| `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy with `CONNECT` for peers and seedlists. |
+| `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy with `CONNECT` for peers and seedlists. Name a loopback or private proxy by its IP address. |
 | `YACYPEER_PAGE_FETCH_PROXY_URL` | `YACYPEER_PEER_PROXY_URL` | HTTP or SOCKS5 proxy for page fetches, such as `socks5h://127.0.0.1:9050`. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
-
-yacypeer does not send requests to loopback and private addresses, except page fetches through
-`YACYPEER_PAGE_FETCH_PROXY_URL`. Name a proxy at such an address by its IP address, such as
-`http://127.0.0.1:3128`.
 
 yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in any case.
 
