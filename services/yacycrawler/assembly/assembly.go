@@ -7,7 +7,6 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
-	"net/url"
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
@@ -95,10 +94,6 @@ func (l Listeners) Close() error {
 		return fmt.Errorf("close the API listener: %w", err)
 	}
 	return nil
-}
-
-func (l Listeners) APIURL() string {
-	return (&url.URL{Scheme: "http", Host: l.API.Addr().String()}).String()
 }
 
 func RunService(

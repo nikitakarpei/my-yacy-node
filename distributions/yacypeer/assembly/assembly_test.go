@@ -178,7 +178,8 @@ func TestRunPeerSearchesTheYaCyNetworkAndTheCrawledPagesOnTheSearchPage(t *testi
 	}()
 	awaitEveryService(t, env, ops)
 
-	awaitAnswer(t, "http://"+env["SEARCHPAGE_LISTEN_ADDR"]+"/search?q=yacy", "No results.")
+	awaitAnswer(t, "http://"+env["SEARCHPAGE_LISTEN_ADDR"]+"/search?q=yacy",
+		"<dt>!ct</dt>", "<dt>!ya</dt>", "No results.")
 
 	cancel()
 	awaitShutdown(t, runDone)

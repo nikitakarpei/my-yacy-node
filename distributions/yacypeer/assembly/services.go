@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"path/filepath"
 	"strconv"
 
@@ -77,30 +78,90 @@ func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
 	addresses peerAddresses,
-	crawler crawler,
 	visitLinkSecret string,
 	getenv func(string) string,
 ) ([]service, error) {
-	assemblies := serviceAssembliesFor(cfg, addresses, crawler.apiURL)
-	services := append(make([]service, 0, len(assemblies)+1), crawler.service)
-	for _, assembly := range assemblies {
+	services, urls, err := reachableServicesFor(
+		ctx,
+		reachableServiceAssembliesFor(cfg, addresses, visitLinkSecret),
+		getenv,
+	)
+	if err != nil {
+		return nil, err
+	}
+	for _, assembly := range serviceAssembliesFor(cfg, addresses, urls, visitLinkSecret) {
 		service, err := assembly(ctx, getenv)
 		if err != nil {
 			return nil, errors.Join(err, closeEvery(services))
 		}
 		services = append(services, service)
 	}
-	searchPageServices, err := searchPageServicesFor(ctx, cfg, addresses, visitLinkSecret, getenv)
-	if err != nil {
-		return nil, errors.Join(err, closeEvery(services))
+	return services, nil
+}
+
+func reachableServiceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	visitLinkSecret string,
+) []reachableServiceAssembly {
+	return []reachableServiceAssembly{
+		reachableServiceAssemblyOf(
+			yacycrawlerService,
+			serviceenvironment.Wiring{
+				yacycrawlerassembly.EnvAPIAddr:       loopback.AnyFreeAddress,
+				yacycrawlerassembly.EnvCrawlNATSURL:  addresses.natsURL,
+				yacycrawlerassembly.EnvCrawlStateDir: cfg.directoryOf(yacycrawlerService),
+				yacycrawlerassembly.EnvProxyURL:      addresses.egressProxyURL.String(),
+				yacycrawlerassembly.EnvProxyDialMode: yacycrawlerassembly.DefaultProxyDialMode,
+			},
+			yacycrawlerassembly.LoadServiceConfig,
+			yacycrawlerassembly.ListenersFor,
+			yacycrawlerassembly.RunService,
+			func(listeners yacycrawlerassembly.Listeners) net.Listener { return listeners.API },
+		),
+		reachableServiceAssemblyOf(
+			yacydhtsearchService,
+			serviceenvironment.Wiring{
+				yacydhtsearchassembly.EnvNetworkName:    cfg.NetworkName,
+				yacydhtsearchassembly.EnvSeedlistURLs:   cfg.SeedlistURLs,
+				yacydhtsearchassembly.EnvEgressProxyURL: addresses.egressProxyURL.String(),
+			},
+			yacydhtsearchassembly.LoadServiceConfig,
+			yacydhtsearchassembly.ListenersFor,
+			yacydhtsearchassembly.RunService,
+			func(listeners yacydhtsearchassembly.Listeners) net.Listener { return listeners.Search },
+		),
+		reachableServiceAssemblyOf(
+			corpustextService,
+			serviceenvironment.Wiring{
+				corpustextassembly.EnvPageOfferNATSURL: addresses.natsURL,
+				corpustextassembly.EnvPageOfferDurable: corpustextService,
+				corpustextassembly.EnvBleveDirectory:   cfg.directoryOf(corpustextService),
+			},
+			corpustextassembly.LoadServiceConfig,
+			corpustextassembly.ListenersFor,
+			corpustextassembly.RunService,
+			func(listeners corpustextassembly.Listeners) net.Listener { return listeners.Search },
+		),
+		reachableServiceAssemblyOf(
+			visitcrawlService,
+			serviceenvironment.Wiring{
+				visitcrawlassembly.EnvCrawlNATSURL: addresses.natsURL,
+				visitcrawlassembly.EnvLinkSecret:   visitLinkSecret,
+			},
+			visitcrawlassembly.LoadServiceConfig,
+			visitcrawlassembly.ListenersFor,
+			visitcrawlassembly.RunService,
+			func(listeners visitcrawlassembly.Listeners) net.Listener { return listeners.Intake },
+		),
 	}
-	return append(services, searchPageServices...), nil
 }
 
 func serviceAssembliesFor(
 	cfg PeerConfig,
 	addresses peerAddresses,
-	crawlerAPIURL string,
+	urls serviceURLs,
+	visitLinkSecret string,
 ) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
@@ -132,7 +193,7 @@ func serviceAssembliesFor(
 		serviceAssemblyOf(
 			crawlconsoleService,
 			serviceenvironment.Wiring{
-				crawlconsoleassembly.EnvCrawlerAPIURL: crawlerAPIURL,
+				crawlconsoleassembly.EnvCrawlerAPIURL: urls[yacycrawlerService],
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.ListenersFor,
@@ -147,6 +208,18 @@ func serviceAssembliesFor(
 			crawlscrapebridgeassembly.LoadServiceConfig,
 			crawlscrapebridgeassembly.ListenersFor,
 			crawlscrapebridgeassembly.RunService,
+		),
+		serviceAssemblyOf(
+			searchpageService,
+			serviceenvironment.Wiring{
+				searchpageassembly.EnvYaCySearchURL:   urls[yacydhtsearchService],
+				searchpageassembly.EnvCorpusTextURL:   urls[corpustextService],
+				searchpageassembly.EnvVisitCrawlURL:   urls[visitcrawlService],
+				searchpageassembly.EnvVisitLinkSecret: visitLinkSecret,
+			},
+			searchpageassembly.LoadServiceConfig,
+			searchpageassembly.ListenersFor,
+			searchpageassembly.RunService,
 		),
 	}
 }
