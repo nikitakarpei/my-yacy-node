@@ -76,14 +76,13 @@ var seedColumns = map[string]bool{
 type seedWireCodec struct{}
 
 func (c seedWireCodec) decode(ctx context.Context, framed string) (yacymodel.Seed, error) {
-	plain, err := decodeWireForm(ctx, framed)
+	plain, err := decodeWireForm(
+		ctx,
+		framed,
+		&plainTextAllowance{remainingBytes: seedMaxPlainBytes},
+	)
 	if err != nil {
 		return yacymodel.Seed{}, fmt.Errorf("%w: %w", yacymodel.ErrBadSeed, err)
-	}
-	if len(plain) > seedMaxPlainBytes {
-		return yacymodel.Seed{}, fmt.Errorf(
-			"%w: seed %d bytes exceeds %d", yacymodel.ErrBadSeed, len(plain), seedMaxPlainBytes,
-		)
 	}
 
 	if open := strings.IndexByte(plain, propertyOpen); open >= 0 {

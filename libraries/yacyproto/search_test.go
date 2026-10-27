@@ -2,8 +2,11 @@ package yacyproto_test
 
 import (
 	"context"
+	"math"
 	"net/url"
 	"reflect"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -159,6 +162,53 @@ func TestParseSearchResponseSkipsMissingAndBadResources(t *testing.T) {
 	}
 	if !reflect.DeepEqual(got.Resources[0].Metadata, valid) {
 		t.Fatalf("resource = %#v, want %#v", got.Resources[0].Metadata, valid)
+	}
+}
+
+func TestParseSearchResponseEndsAHugeCountAtItsFields(t *testing.T) {
+	t.Parallel()
+
+	fields := yacyproto.ResponseFields{
+		yacyproto.FieldCount: strconv.Itoa(math.MaxInt32),
+		"resource0":          sampleURLMetadataWireForm(t, sampleURLMetadata(t, "url-a")),
+	}
+	got, err := yacyproto.ParseSearchResponse(t.Context(), fields)
+	if err != nil {
+		t.Fatalf("ParseSearchResponse: %v", err)
+	}
+	if len(got.Resources) != 1 {
+		t.Fatalf("resources = %d, want 1", len(got.Resources))
+	}
+}
+
+func TestParseSearchResponseStopsAtResourcesThatInflatePastTheLimit(t *testing.T) {
+	t.Parallel()
+
+	const messageMaxPlainBytes = 4 << 20
+	row := strings.Replace(
+		yacyURLMetadataRow,
+		"descr=b|RXhhbXBsZQ",
+		"descr="+gzipFramed(t, strings.Repeat("x", gzipBombPlainBytes)),
+		1,
+	)
+	fields := yacyproto.ResponseFields{yacyproto.FieldCount: "8"}
+	for i := range 8 {
+		fields["resource"+strconv.Itoa(i)] = row
+	}
+
+	got, err := yacyproto.ParseSearchResponse(t.Context(), fields)
+	if err != nil {
+		t.Fatalf("ParseSearchResponse: %v", err)
+	}
+	inflatedBytes := 0
+	for _, resource := range got.Resources {
+		inflatedBytes += len(resource.Metadata.Title)
+	}
+	if len(got.Resources) == 0 || inflatedBytes > messageMaxPlainBytes {
+		t.Fatalf(
+			"resources = %d with %d title bytes, want at least 1 and at most %d bytes",
+			len(got.Resources), inflatedBytes, messageMaxPlainBytes,
+		)
 	}
 }
 

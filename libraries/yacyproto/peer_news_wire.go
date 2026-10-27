@@ -28,15 +28,9 @@ const (
 type peerNewsWireCodec struct{}
 
 func (peerNewsWireCodec) decode(ctx context.Context, raw string) (yacymodel.PeerNews, error) {
-	plain, err := decodeWireForm(ctx, raw)
+	plain, err := decodeWireForm(ctx, raw, &plainTextAllowance{remainingBytes: newsRecordMaxLength})
 	if err != nil {
 		return yacymodel.PeerNews{}, fmt.Errorf("%w: %w", yacymodel.ErrBadPeerNews, err)
-	}
-	if len(plain) > newsRecordMaxLength {
-		return yacymodel.PeerNews{}, fmt.Errorf(
-			"%w: record %d bytes exceeds %d",
-			yacymodel.ErrBadPeerNews, len(plain), newsRecordMaxLength,
-		)
 	}
 	if open := strings.IndexByte(plain, '{'); open >= 0 {
 		plain = plain[open+1:]

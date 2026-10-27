@@ -50,13 +50,14 @@ type urlMetadataWireCodec struct{}
 func (urlMetadataWireCodec) decode(
 	ctx context.Context,
 	row string,
+	allowance *plainTextAllowance,
 ) (yacymodel.URLMetadata, error) {
 	properties, err := propertyPairsOfRow(row)
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
 
-	metadata, err := urlMetadataWireForm{properties: properties}.domain(ctx)
+	metadata, err := urlMetadataWireForm{properties: properties}.domain(ctx, allowance)
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
@@ -78,8 +79,11 @@ type urlMetadataWireForm struct {
 // domain projects the wire form onto the URLMetadata domain concept. A peer
 // also sends flags and score columns; the flags restate other columns, and the
 // score belongs to the sending peer's ranking, so neither is read.
-func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata, error) {
-	address, err := f.text(ctx, urlMetadataColAddress)
+func (f urlMetadataWireForm) domain(
+	ctx context.Context,
+	allowance *plainTextAllowance,
+) (yacymodel.URLMetadata, error) {
+	address, err := f.text(ctx, urlMetadataColAddress, allowance)
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("url metadata address: %w", err)
 	}
@@ -94,6 +98,7 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 
 	texts, err := f.texts(
 		ctx,
+		allowance,
 		urlMetadataColTitle,
 		urlMetadataColAuthor,
 		urlMetadataColTags,
@@ -144,8 +149,12 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 	}, nil
 }
 
-func (f urlMetadataWireForm) text(ctx context.Context, column string) (string, error) {
-	plain, err := decodeWireForm(ctx, f.properties[column])
+func (f urlMetadataWireForm) text(
+	ctx context.Context,
+	column string,
+	allowance *plainTextAllowance,
+) (string, error) {
+	plain, err := decodeWireForm(ctx, f.properties[column], allowance)
 	if err != nil {
 		return "", fmt.Errorf("column %s: %w", column, err)
 	}
@@ -155,11 +164,12 @@ func (f urlMetadataWireForm) text(ctx context.Context, column string) (string, e
 
 func (f urlMetadataWireForm) texts(
 	ctx context.Context,
+	allowance *plainTextAllowance,
 	columns ...string,
 ) (map[string]string, error) {
 	plain := make(map[string]string, len(columns))
 	for _, column := range columns {
-		value, err := f.text(ctx, column)
+		value, err := f.text(ctx, column, allowance)
 		if err != nil {
 			return nil, fmt.Errorf("url metadata: %w", err)
 		}

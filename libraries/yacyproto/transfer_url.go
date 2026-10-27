@@ -57,19 +57,36 @@ func ParseTransferURLRequest(ctx context.Context, form url.Values) (TransferURLR
 		return TransferURLRequest{}, err
 	}
 
-	for i := 0; i < req.URLCount; i++ {
+	req.URLs = urlMetadataFromForm(ctx, form, req.URLCount)
+
+	return req, nil
+}
+
+func urlMetadataFromForm(
+	ctx context.Context,
+	form url.Values,
+	declaredURLCount int,
+) []yacymodel.URLMetadata {
+	if declaredURLCount > maxRWIPostingsPerTransfer {
+		slog.WarnContext(
+			ctx,
+			"transfer url count above limit",
+			slog.Int("urlCount", declaredURLCount),
+			slog.Int("limit", maxRWIPostingsPerTransfer),
+		)
+	}
+
+	allowance := &plainTextAllowance{remainingBytes: messageMaxPlainBytes}
+	var metadata []yacymodel.URLMetadata
+	missingRows := 0
+	for i := range min(declaredURLCount, maxRWIPostingsPerTransfer) {
 		raw := form.Get(indexedKey(prefixURL, i))
 		if raw == "" {
-			slog.WarnContext(
-				ctx,
-				"transfer url row discarded",
-				slog.String("reason", "missing field"),
-				slog.Int("index", i),
-			)
+			missingRows++
 			continue
 		}
 
-		row, err := urlMetadataWireCodec{}.decode(ctx, raw)
+		row, err := urlMetadataWireCodec{}.decode(ctx, raw, allowance)
 		if err != nil {
 			slog.WarnContext(
 				ctx,
@@ -81,10 +98,18 @@ func ParseTransferURLRequest(ctx context.Context, form url.Values) (TransferURLR
 			continue
 		}
 
-		req.URLs = append(req.URLs, row)
+		metadata = append(metadata, row)
 	}
 
-	return req, nil
+	if missingRows > 0 {
+		slog.WarnContext(
+			ctx,
+			"transfer url rows missing",
+			slog.Int("missingRows", missingRows),
+		)
+	}
+
+	return metadata
 }
 
 func (r TransferURLResponse) Encode() ResponseFields {

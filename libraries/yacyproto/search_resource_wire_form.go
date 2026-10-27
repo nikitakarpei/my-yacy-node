@@ -31,13 +31,14 @@ func (searchResourceWireCodec) encode(resource SearchResource) string {
 func (searchResourceWireCodec) decode(
 	ctx context.Context,
 	row string,
+	allowance *plainTextAllowance,
 ) (SearchResource, error) {
 	properties, err := propertyPairsOfRow(row)
 	if err != nil {
 		return SearchResource{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
 
-	metadata, err := urlMetadataWireForm{properties: properties}.domain(ctx)
+	metadata, err := urlMetadataWireForm{properties: properties}.domain(ctx, allowance)
 	if err != nil {
 		return SearchResource{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}

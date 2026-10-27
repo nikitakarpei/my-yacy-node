@@ -256,8 +256,9 @@ func parseSearchResources(
 	m ResponseFields,
 	count int,
 ) []SearchResource {
+	allowance := &plainTextAllowance{remainingBytes: messageMaxPlainBytes}
 	var resources []SearchResource
-	for i := 0; count <= 0 || i < count; i++ {
+	for i := 0; i < len(m) && (count <= 0 || i < count); i++ {
 		raw, ok := m[indexedKey(prefixResource, i)]
 		if !ok {
 			if count <= 0 {
@@ -267,7 +268,7 @@ func parseSearchResources(
 			continue
 		}
 
-		resource, err := searchResourceWireCodec{}.decode(ctx, raw)
+		resource, err := searchResourceWireCodec{}.decode(ctx, raw, allowance)
 		if err != nil {
 			slog.WarnContext(
 				ctx,

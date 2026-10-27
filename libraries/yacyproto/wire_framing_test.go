@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const wireFormMaxPlainBytes = 1 << 20
+const gzipBombPlainBytes = 1 << 20
 
 func framed(tag byte, body string) string {
 	return string([]byte{tag, '|'}) + body
@@ -84,7 +84,7 @@ func TestWireFrameRejectsAnUnknownTag(t *testing.T) {
 func TestWireFrameRejectsAGzipPayloadThatInflatesPastTheBound(t *testing.T) {
 	t.Parallel()
 
-	frame := gzipFramed(t, strings.Repeat("x", wireFormMaxPlainBytes+1))
+	frame := gzipFramed(t, strings.Repeat("x", gzipBombPlainBytes))
 
 	_, err := seedFromWire(t, frame)
 	if !errors.Is(err, yacymodel.ErrBadSeed) {
