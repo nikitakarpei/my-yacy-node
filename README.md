@@ -11,7 +11,7 @@ small, single-purpose Go services.
 > “YaCy is a distributed Web Search Engine, based on a peer-to-peer network.”
 > — [YaCy FAQ](https://yacy.net/faq/)
 
-Start with [Build your own search stack](doc/build-your-own-search-stack) to see
+Start with [Build your own search stack](doc/build-your-own-search-stack/README.md) to see
 how to compose the services into working deployments.
 
 Or try the [single-binary deployment](distributions/yacypeer/README.md) first.
