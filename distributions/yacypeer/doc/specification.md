@@ -2,9 +2,8 @@
 
 ## Context
 
-A YaCy peer of this repository is a set of services that share a NATS server and an egress
-proxy. `yacypeer` runs these services, their NATS server, their egress proxy, and a proxy that
-caches pages as one program, connected and ready to use.
+`yacypeer` runs the services of a YaCy peer, their NATS server and their egress proxy as one
+program.
 
 ## Non-Goals
 
@@ -17,15 +16,15 @@ caches pages as one program, connected and ready to use.
 * The program SHALL run a NATS server that only the local host can reach.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
-* The program SHALL NOT send outbound requests to loopback or private addresses.
+* The program SHALL NOT send outbound requests to loopback or private addresses, except page
+  fetches through a page fetch proxy.
 * The program SHALL send requests to peers and seedlists through the peer proxy that the
   operator names, also when the operator names a loopback or private IP address for it.
 * The program SHALL send page fetches through the page fetch proxy that the operator names,
   else as it sends requests to peers.
-* The program SHALL answer a page fetch from the cached answer to an earlier fetch of the
-  same page with the same user agent, within the retention of cached pages.
-* The program SHALL NOT cache an answer to wait, a refusal, a server failure, an
-  answer to a conditional fetch, or a body over the size limit.
+* The program SHALL answer a repeated page fetch from its cache, per page and user agent,
+  within the cache retention.
+* The cache SHALL hold only final answers to unconditional fetches, within the size limit.
 * The services SHALL fetch pages with one user agent.
 * The program SHALL NOT start when the operator names a peer proxy and does not set the
   public host of the peer.
@@ -50,14 +49,12 @@ caches pages as one program, connected and ready to use.
 ## Known Limitations
 
 * The peer does not accept postings from other peers.
-* Some log lines do not name a service, for example the lines that a library writes.
+* Some log lines do not name a service.
 * The dashboards draw state timeline panels as line charts.
 * A tab links a page that listens on every address through the local host. Other hosts
   cannot follow that tab.
 * A crash loses the most recent part of the metric history.
 * The program cannot reach a peer proxy that the operator names by a host name with a
   loopback or private address.
-* Within the retention of cached pages, a page fetch gets the cached page, also when it changed.
+* Within the cache retention, a page fetch gets the cached page, also when the page changed.
 * A proxy that applies rules to each request does not see the page fetches that the cache answers.
-* The program does not check the addresses of page fetches that go through a page fetch
-  proxy.
