@@ -25,6 +25,12 @@ jobs:
     uses: ./.github/workflows/build-yacynode.yml
     secrets: inherit
 
+  build-yacypeer:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-yacypeer.yml
+    secrets: inherit
+
   build-localhostrunagent:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
