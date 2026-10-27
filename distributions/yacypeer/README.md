@@ -16,9 +16,8 @@ docker run -d --name yacypeer --restart unless-stopped \
   ghcr.io/nikitakarpei/my-yacy-node/yacypeer:latest
 ```
 
-With no settings, the peer joins the YaCy network. Other peers must reach port
-8090 of the host from the internet. Behind NAT, forward that port to the host.
-The `yacypeer` volume keeps the data of the peer.
+Other peers must reach port 8090 of the host from the internet. Behind NAT,
+forward that port to the host.
 
 ## Use
 
