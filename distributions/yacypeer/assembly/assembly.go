@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -17,6 +18,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopies"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecopyproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
@@ -25,6 +28,10 @@ import (
 const (
 	brokerDirectoryName        = "nats"
 	metricHistoryDirectoryName = "metric-history"
+	pageCopiesDirectoryName    = "page-copies"
+	pageCopyRetention          = 30 * time.Minute
+	pageCopiesMaxBytes         = 512 << 20
+	pageMaxBodyBytes           = 4 << 20
 )
 
 func RunPeer(
@@ -52,20 +59,40 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer closeHistory(ctx, history)
-	egress, err := egressproxy.Listen(ctx, cfg.EgressProxyURL)
+	egress, err := egressproxy.Listen(ctx, cfg.PeerProxyURL)
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
+	copies, err := pagecopies.Open(
+		servicelog.ContextFor(ctx, pagecopies.Name),
+		cfg.directoryOf(pageCopiesDirectoryName),
+		pageCopyRetention,
+		pageCopiesMaxBytes,
+		wallclock.Clock{},
+	)
+	if err != nil {
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+	}
+	copyProxy, err := pagecopyproxy.Listen(
+		ctx,
+		copies,
+		cfg.pageFetchProxyURLOr(egress.URL()),
+		pageMaxBodyBytes,
+	)
+	if err != nil {
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+	}
 	peer := peer{
-		egressProxyURL:  egress.URL(),
-		cfg:             cfg,
-		natsURL:         broker.ClientURL(),
-		visitLinkSecret: visitLinkSecret,
-		webUIURLs:       webUIURLsFor(ops, getenv),
+		egressProxyURL:   egress.URL(),
+		pageCopyProxyURL: copyProxy.URL(),
+		cfg:              cfg,
+		natsURL:          broker.ClientURL(),
+		visitLinkSecret:  visitLinkSecret,
+		webUIURLs:        webUIURLsFor(ops, getenv),
 	}
 	services, err := peer.services(ctx, getenv)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
+		return errors.Join(err, closeEvery([]io.Closer{ops, egress, copyProxy}))
 	}
 	logStarted(ctx, peer, ops)
 	processRegistry := opsmetrics.ProcessRegistry()
@@ -74,6 +101,12 @@ func RunPeer(
 		return runEvery(ctx, services,
 			func(ctx context.Context) error {
 				return egress.Run(servicelog.ContextFor(ctx, egressproxy.Name))
+			},
+			func(ctx context.Context) error {
+				return copyProxy.Run(servicelog.ContextFor(ctx, pagecopyproxy.Name))
+			},
+			func(ctx context.Context) error {
+				return copies.Run(servicelog.ContextFor(ctx, pagecopies.Name))
 			},
 			func(ctx context.Context) error {
 				return history.Run(ctx, metricSourcesOf(processRegistry, services))

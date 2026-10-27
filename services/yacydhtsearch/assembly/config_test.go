@@ -360,6 +360,33 @@ func TestPageReadsCanNameTheWholeURLToTheProxy(t *testing.T) {
 	}
 }
 
+func TestPageReadsIntroduceTheServiceByDefault(t *testing.T) {
+	t.Parallel()
+
+	cfg, err := yacydhtsearch.LoadServiceConfig(environmentOf(minimalEnvironment()))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.PageReadUserAgent != yacydhtsearch.DefaultPageReadUserAgent {
+		t.Fatalf("page read user agent = %q, want the default", cfg.PageReadUserAgent)
+	}
+}
+
+func TestPageReadsCanIntroduceThemselvesAsTheOperatorSays(t *testing.T) {
+	t.Parallel()
+
+	environment := minimalEnvironment()
+	environment[yacydhtsearch.EnvPageReadUserAgent] = "yacypeer (+https://yacy.net)"
+
+	cfg, err := yacydhtsearch.LoadServiceConfig(environmentOf(environment))
+	if err != nil {
+		t.Fatalf("load service config: %v", err)
+	}
+	if cfg.PageReadUserAgent != "yacypeer (+https://yacy.net)" {
+		t.Fatalf("page read user agent = %q, want the operator's", cfg.PageReadUserAgent)
+	}
+}
+
 func TestTheServiceRefusesAPageReadDialModeItCannotSpeak(t *testing.T) {
 	t.Parallel()
 

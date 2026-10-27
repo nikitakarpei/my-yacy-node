@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 
@@ -18,7 +19,8 @@ const (
 	EnvNetworkName            = "YACYPEER_NETWORK_NAME"
 	EnvSeedlistURLs           = "YACYPEER_SEEDLIST_URLS"
 	EnvOpsAddr                = "YACYPEER_OPS_ADDR"
-	EnvEgressProxyURL         = "YACYPEER_EGRESS_PROXY_URL"
+	EnvPeerProxyURL           = "YACYPEER_PEER_PROXY_URL"
+	EnvPageFetchProxyURL      = "YACYPEER_PAGE_FETCH_PROXY_URL"
 	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
 
 	DefaultDataDirectory          = "data"
@@ -36,10 +38,20 @@ var proxyEnvironment = []string{
 	"HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy", "NO_PROXY", "no_proxy",
 }
 
-var errProxyEnvironment = errors.New("must not be set; name the proxy in " + EnvEgressProxyURL)
+var pageFetchProxySchemes = []string{"http", "https", "socks5", "socks5h"}
+
+var (
+	errProxyEnvironment = errors.New(
+		"must not be set; name the proxy in " + EnvPeerProxyURL + " or " + EnvPageFetchProxyURL,
+	)
+	errPageFetchProxy = errors.New(
+		"must be an absolute URL with scheme " + strings.Join(pageFetchProxySchemes, ", "),
+	)
+)
 
 type PeerConfig struct {
-	EgressProxyURL         *url.URL
+	PeerProxyURL           *url.URL
+	PageFetchProxyURL      *url.URL
 	DataDirectory          string
 	NetworkName            string
 	SeedlistURLs           string
@@ -56,7 +68,11 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
-	egressProxyURL, err := egressProxyURLFrom(getenv)
+	peerProxyURL, err := peerProxyURLFrom(getenv)
+	if err != nil {
+		return PeerConfig{}, err
+	}
+	pageFetchProxyURL, err := pageFetchProxyURLFrom(getenv)
 	if err != nil {
 		return PeerConfig{}, err
 	}
@@ -69,7 +85,8 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		return PeerConfig{}, err
 	}
 	return PeerConfig{
-		EgressProxyURL:         egressProxyURL,
+		PeerProxyURL:           peerProxyURL,
+		PageFetchProxyURL:      pageFetchProxyURL,
 		DataDirectory:          envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
 		NetworkName:            networkName,
 		SeedlistURLs:           seedlistURLs,
@@ -95,15 +112,35 @@ func seedlistURLsFor(getenv func(string) string, networkName string) (string, er
 	return envconfig.Required(getenv, EnvSeedlistURLs)
 }
 
-func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
-	if strings.TrimSpace(getenv(EnvEgressProxyURL)) == "" {
+func peerProxyURLFrom(getenv func(string) string) (*url.URL, error) {
+	if strings.TrimSpace(getenv(EnvPeerProxyURL)) == "" {
 		return nil, nil
 	}
-	return envconfig.RequiredHTTPURL(getenv, EnvEgressProxyURL)
+	return envconfig.RequiredHTTPURL(getenv, EnvPeerProxyURL)
 }
 
-func (cfg PeerConfig) namesAnEgressProxy() bool {
-	return cfg.EgressProxyURL != nil
+func pageFetchProxyURLFrom(getenv func(string) string) (*url.URL, error) {
+	rawURL := strings.TrimSpace(getenv(EnvPageFetchProxyURL))
+	if rawURL == "" {
+		return nil, nil
+	}
+	proxyURL, err := url.Parse(rawURL)
+	if err != nil || proxyURL.Host == "" ||
+		!slices.Contains(pageFetchProxySchemes, proxyURL.Scheme) {
+		return nil, fmt.Errorf("%s: %w", EnvPageFetchProxyURL, errPageFetchProxy)
+	}
+	return proxyURL, nil
+}
+
+func (cfg PeerConfig) pageFetchProxyURLOr(egressProxyURL *url.URL) *url.URL {
+	if cfg.PageFetchProxyURL != nil {
+		return cfg.PageFetchProxyURL
+	}
+	return egressProxyURL
+}
+
+func (cfg PeerConfig) namesAPeerProxy() bool {
+	return cfg.PeerProxyURL != nil
 }
 
 func (cfg PeerConfig) directoryOf(serviceName string) string {

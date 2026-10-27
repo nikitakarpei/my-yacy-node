@@ -100,7 +100,6 @@ const (
 	shutdownLimit         = 15 * time.Second
 	msgServiceStarted     = "yacydhtsearch started"
 	msgServiceStopped     = "yacydhtsearch stopped"
-	pageFetchUserAgent    = "yacydhtsearch (+https://yacy.net)"
 )
 
 type Listeners struct {
@@ -405,7 +404,7 @@ func pageReadingFor(
 			pagefetchershttp.New(
 				cfg.PageReadProxyURL,
 				cfg.PageReadProxyDialMode,
-				pageFetchUserAgent,
+				cfg.PageReadUserAgent,
 				cfg.PageByteCeiling,
 				cfg.PageReadBudget,
 			),

@@ -14,6 +14,10 @@ components:
     in: internal/natsbroker/**
   egressproxy:
     in: internal/egressproxy/**
+  pagecopies:
+    in: internal/pagecopies/**
+  pagecopyproxy:
+    in: internal/pagecopyproxy/**
   loopback:
     in: internal/loopback/**
   visitlinksecret:
@@ -80,6 +84,12 @@ deps:
     canUse:
       - smokescreen
       - logrus
+      - serviceruntime
+  pagecopyproxy:
+    mayDependOn:
+      - loopback
+      - pagecopies
+    canUse:
       - serviceruntime
   metrichistory:
     canUse:

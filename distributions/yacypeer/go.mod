@@ -9,6 +9,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/crawlconsole v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -103,7 +104,6 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect

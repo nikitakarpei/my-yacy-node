@@ -15,6 +15,7 @@ import (
 	corpustextassembly "github.com/nikitakarpei/yacy-rwi-node/corpustext/assembly"
 	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
 	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	searchpageassembly "github.com/nikitakarpei/yacy-rwi-node/searchpage/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
@@ -57,6 +58,7 @@ const (
 	crawlconsoleService      = "crawlconsole"
 	crawlscrapebridgeService = "crawlscrapebridge"
 	visitcrawlService        = "visitcrawl"
+	pageFetchUserAgent       = "yacypeer (+https://yacy.net)"
 	searchpageService        = "searchpage"
 )
 
@@ -75,11 +77,12 @@ func (s service) Close() error {
 }
 
 type peer struct {
-	egressProxyURL  *url.URL
-	cfg             PeerConfig
-	natsURL         string
-	visitLinkSecret string
-	webUIURLs       webuitabs.URLs
+	egressProxyURL   *url.URL
+	pageCopyProxyURL string
+	cfg              PeerConfig
+	natsURL          string
+	visitLinkSecret  string
+	webUIURLs        webuitabs.URLs
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -120,8 +123,9 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 				yacycrawlerassembly.EnvAPIAddr:       loopback.AnyFreeAddress,
 				yacycrawlerassembly.EnvCrawlNATSURL:  p.natsURL,
 				yacycrawlerassembly.EnvCrawlStateDir: p.cfg.directoryOf(yacycrawlerService),
-				yacycrawlerassembly.EnvProxyURL:      p.egressProxyURL.String(),
-				yacycrawlerassembly.EnvProxyDialMode: yacycrawlerassembly.DefaultProxyDialMode,
+				yacycrawlerassembly.EnvProxyURL:      p.pageCopyProxyURL,
+				yacycrawlerassembly.EnvProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
+				yacycrawlerassembly.EnvUserAgent:     pageFetchUserAgent,
 			},
 			yacycrawlerassembly.LoadServiceConfig,
 			yacycrawlerassembly.ListenersFor,
@@ -131,9 +135,12 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 		upstreamServiceAssemblyFrom(
 			yacydhtsearchService,
 			serviceenvironment.Wiring{
-				yacydhtsearchassembly.EnvNetworkName:    p.cfg.NetworkName,
-				yacydhtsearchassembly.EnvSeedlistURLs:   p.cfg.SeedlistURLs,
-				yacydhtsearchassembly.EnvEgressProxyURL: p.egressProxyURL.String(),
+				yacydhtsearchassembly.EnvNetworkName:           p.cfg.NetworkName,
+				yacydhtsearchassembly.EnvSeedlistURLs:          p.cfg.SeedlistURLs,
+				yacydhtsearchassembly.EnvEgressProxyURL:        p.egressProxyURL.String(),
+				yacydhtsearchassembly.EnvPageReadProxyURL:      p.pageCopyProxyURL,
+				yacydhtsearchassembly.EnvPageReadProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
+				yacydhtsearchassembly.EnvPageReadUserAgent:     pageFetchUserAgent,
 			},
 			yacydhtsearchassembly.LoadServiceConfig,
 			yacydhtsearchassembly.ListenersFor,
@@ -203,8 +210,9 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			pagescrapeService,
 			serviceenvironment.Wiring{
 				pagescrapeassembly.EnvScrapeNATSURL: p.natsURL,
-				pagescrapeassembly.EnvProxyURL:      p.egressProxyURL.String(),
-				pagescrapeassembly.EnvProxyDialMode: pagescrapeassembly.DefaultProxyDialMode,
+				pagescrapeassembly.EnvProxyURL:      p.pageCopyProxyURL,
+				pagescrapeassembly.EnvProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
+				pagescrapeassembly.EnvUserAgent:     pageFetchUserAgent,
 			},
 			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
@@ -226,7 +234,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 func yacynodeConfigLoaderFor(
 	cfg PeerConfig,
 ) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
-	if !cfg.namesAnEgressProxy() {
+	if !cfg.namesAPeerProxy() {
 		return yacynodeassembly.LoadServiceConfig
 	}
 	return func(getenv func(string) string) (yacynodeassembly.ServiceConfig, error) {
@@ -234,7 +242,7 @@ func yacynodeConfigLoaderFor(
 			return yacynodeassembly.ServiceConfig{}, fmt.Errorf(
 				"%w when %s is set",
 				err,
-				EnvEgressProxyURL,
+				EnvPeerProxyURL,
 			)
 		}
 		return yacynodeassembly.LoadServiceConfig(getenv)

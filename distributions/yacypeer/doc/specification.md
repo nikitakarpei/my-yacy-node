@@ -3,8 +3,8 @@
 ## Context
 
 A YaCy peer of this repository is a set of services that share a NATS server and an egress
-proxy. `yacypeer` runs these services, their NATS server, and their egress proxy as one
-program, connected and ready to use.
+proxy. `yacypeer` runs these services, their NATS server, their egress proxy, and a proxy that
+keeps page copies as one program, connected and ready to use.
 
 ## Non-Goals
 
@@ -18,10 +18,17 @@ program, connected and ready to use.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
 * The program SHALL NOT send outbound requests to loopback or private addresses.
-* The program SHALL send outbound requests through the egress proxy that the operator
-  names, also when the operator names a loopback or private IP address for it.
-* The program SHALL NOT start when the operator names an egress proxy and does not set
-  the public host of the peer.
+* The program SHALL send requests to peers and seedlists through the peer proxy that the
+  operator names, also when the operator names a loopback or private IP address for it.
+* The program SHALL send page fetches through the page fetch proxy that the operator names,
+  else as it sends requests to peers.
+* The program SHALL answer a page fetch from a copy of the answer to an earlier fetch of the
+  same page with the same user agent, within the retention of copies.
+* The program SHALL NOT keep a copy of an answer to wait, a refusal, a server failure, an
+  answer to a conditional fetch, or a body over the size limit.
+* The services SHALL fetch pages with one user agent.
+* The program SHALL NOT start when the operator names a peer proxy and does not set the
+  public host of the peer.
 * The program SHALL NOT start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set.
 * The program SHALL keep its local data in one data directory.
 * The search page SHALL search the YaCy network and the crawled pages, and SHALL send a
@@ -48,5 +55,9 @@ program, connected and ready to use.
 * A tab links a page that listens on every address through the local host. Other hosts
   cannot follow that tab.
 * A crash loses the most recent part of the metric history.
-* The program cannot reach an egress proxy that the operator names by a host name with a
+* The program cannot reach a peer proxy that the operator names by a host name with a
   loopback or private address.
+* Within the retention of copies, a page fetch gets the copy, also when the page changed.
+* A proxy that applies rules to each request does not see the page fetches that copies answer.
+* The program does not check the addresses of page fetches that go through a page fetch
+  proxy.

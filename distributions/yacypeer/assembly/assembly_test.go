@@ -143,7 +143,7 @@ func TestRunPeerSendsOutboundRequestsOnThroughTheEgressProxyTheOperatorNames(t *
 	}))
 	t.Cleanup(proxy.Close)
 	env := peerEnvironment(t)
-	env[yacypeerassembly.EnvEgressProxyURL] = proxy.URL
+	env[yacypeerassembly.EnvPeerProxyURL] = proxy.URL
 	env[yacypeerassembly.EnvSeedlistURLs] = "http://203.0.113.5/seed.txt"
 	cfg, ops := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -292,7 +292,7 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 
 func TestRunPeerRequiresTheAdvertiseHostBehindTheEgressProxyTheOperatorNames(t *testing.T) {
 	env := peerEnvironment(t)
-	env[yacypeerassembly.EnvEgressProxyURL] = "http://proxy.example:3128"
+	env[yacypeerassembly.EnvPeerProxyURL] = "http://proxy.example:3128"
 	delete(env, "YACY_ADVERTISE_HOST")
 	cfg, ops := peerFrom(t, env)
 

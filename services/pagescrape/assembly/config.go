@@ -24,7 +24,7 @@ const (
 	EnvScrapePageOfferMaxBytes = "SCRAPE_PAGE_OFFER_MAX_BYTES"
 	EnvOpsAddr                 = "PAGESCRAPE_OPS_ADDR"
 
-	DefaultProxyDialMode           = "tunnel"
+	DefaultProxyDialMode           = http.ProxyDialTunnelName
 	DefaultUserAgent               = "pagescrape (+https://yacy.net)"
 	DefaultScrapeMaxBodyBytes      = 2 << 20
 	DefaultScrapeFetchDeadline     = 30 * time.Second

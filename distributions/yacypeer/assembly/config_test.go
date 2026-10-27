@@ -47,14 +47,16 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		yacypeerassembly.EnvDataDirectory:          "/var/lib/yacypeer",
 		yacypeerassembly.EnvNetworkName:            "realm",
 		yacypeerassembly.EnvOpsAddr:                "127.0.0.1:9099",
-		yacypeerassembly.EnvEgressProxyURL:         "http://proxy.example:3128",
+		yacypeerassembly.EnvPeerProxyURL:           "http://proxy.example:3128",
+		yacypeerassembly.EnvPageFetchProxyURL:      "socks5h://127.0.0.1:9050",
 		yacypeerassembly.EnvMetricHistoryRetention: "48h",
 	}))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
 	want := yacypeerassembly.PeerConfig{
-		EgressProxyURL:         &url.URL{Scheme: "http", Host: "proxy.example:3128"},
+		PeerProxyURL:           &url.URL{Scheme: "http", Host: "proxy.example:3128"},
+		PageFetchProxyURL:      &url.URL{Scheme: "socks5h", Host: "127.0.0.1:9050"},
 		DataDirectory:          "/var/lib/yacypeer",
 		NetworkName:            "realm",
 		SeedlistURLs:           "https://seeds.example/seed.txt",
@@ -68,11 +70,23 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 
 func TestLoadPeerConfigRefusesAnEgressProxyThatIsNotAnHTTPURL(t *testing.T) {
 	_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
-		yacypeerassembly.EnvSeedlistURLs:   "https://seeds.example/seed.txt",
-		yacypeerassembly.EnvEgressProxyURL: "socks5://proxy.example:1080",
+		yacypeerassembly.EnvSeedlistURLs: "https://seeds.example/seed.txt",
+		yacypeerassembly.EnvPeerProxyURL: "socks5://proxy.example:1080",
 	}))
 	if err == nil {
 		t.Error("config loaded with a socks5 egress proxy, want an error")
+	}
+}
+
+func TestLoadPeerConfigRefusesAPageFetchProxyItCannotSpeakTo(t *testing.T) {
+	for _, proxyURL := range []string{"ftp://proxy.example:21", "proxy.example:3128", "://"} {
+		_, err := yacypeerassembly.LoadPeerConfig(envFrom(map[string]string{
+			yacypeerassembly.EnvSeedlistURLs:      "https://seeds.example/seed.txt",
+			yacypeerassembly.EnvPageFetchProxyURL: proxyURL,
+		}))
+		if err == nil {
+			t.Errorf("config loaded with page fetch proxy %q, want an error", proxyURL)
+		}
 	}
 }
 

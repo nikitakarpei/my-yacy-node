@@ -9,9 +9,14 @@ const (
 	ProxyDialAbsoluteURL
 )
 
+const (
+	ProxyDialTunnelName      = "tunnel"
+	ProxyDialAbsoluteURLName = "absolute-url"
+)
+
 var proxyDialModeByName = map[string]ProxyDialMode{
-	"tunnel":       ProxyDialTunnel,
-	"absolute-url": ProxyDialAbsoluteURL,
+	ProxyDialTunnelName:      ProxyDialTunnel,
+	ProxyDialAbsoluteURLName: ProxyDialAbsoluteURL,
 }
 
 func ProxyDialModeNamed(name string) (ProxyDialMode, error) {

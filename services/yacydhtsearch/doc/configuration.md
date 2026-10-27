@@ -10,6 +10,7 @@
 | `YACYDHTSEARCH_SERVE_PROFILER` | `false` | Whether the ops address also serves the Go profiler at `/debug/pprof/`. |
 | `EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy that peer calls and seedlist reads leave through. |
 | `YACYDHTSEARCH_PAGE_READ_PROXY_URL` | the egress proxy | HTTP or HTTPS proxy that page reads leave through. |
+| `YACYDHTSEARCH_PAGE_READ_USER_AGENT` | `yacydhtsearch (+https://yacy.net)` | HTTP user agent sent with every page read. |
 | `YACYDHTSEARCH_PAGE_READ_PROXY_DIAL_MODE` | `tunnel` | How page reads address that proxy: `tunnel` opens a CONNECT tunnel, `absolute-url` names the whole address in the request line. |
 
 ## Network
