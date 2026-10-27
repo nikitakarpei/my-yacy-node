@@ -85,6 +85,7 @@ func RunPeer(
 		cachedPages,
 		pageFetchEgress.URL(),
 		pageMaxBodyBytes,
+		processRegistry,
 	)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress}))
