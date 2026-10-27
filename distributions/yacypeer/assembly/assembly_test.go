@@ -298,18 +298,21 @@ func TestRunPeerFailsWhenAServiceConfigIsInvalid(t *testing.T) {
 
 func TestRunPeerReleasesItsListenAddressesWhenAServiceCannotListen(t *testing.T) {
 	env := peerEnvironment(t)
-	occupied, err := servergroup.Listen(t.Context(), env["VISITCRAWL_LISTEN_ADDR"])
+	occupied, err := servergroup.Listen(t.Context(), env["SEARCHPAGE_LISTEN_ADDR"])
 	if err != nil {
-		t.Fatalf("occupy the visitcrawl address: %v", err)
+		t.Fatalf("occupy the searchpage address: %v", err)
 	}
 	defer func() { _ = occupied.Close() }()
 	cfg, ops := peerFrom(t, env)
 
 	if err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env)); err == nil {
-		t.Fatal("RunPeer = nil, want the occupied visitcrawl address refused")
+		t.Fatal("RunPeer = nil, want the occupied searchpage address refused")
 	}
 	for _, address := range []string{
-		ops.Addr().String(), env["YACYNODE__YACY_PEER_ADDR"], env["CRAWLCONSOLE_LISTEN_ADDR"],
+		ops.Addr().String(),
+		env["VISITCRAWL_LISTEN_ADDR"],
+		env["YACYNODE__YACY_PEER_ADDR"],
+		env["CRAWLCONSOLE_LISTEN_ADDR"],
 	} {
 		reopened, err := servergroup.Listen(t.Context(), address)
 		if err != nil {

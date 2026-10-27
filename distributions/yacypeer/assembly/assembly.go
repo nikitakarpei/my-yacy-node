@@ -55,12 +55,17 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
-	addresses := peerAddressesFor(broker.ClientURL(), egress.URL())
-	services, err := servicesFor(ctx, cfg, addresses, visitLinkSecret, getenv)
+	peer := peer{
+		egressProxyURL:  egress.URL(),
+		cfg:             cfg,
+		natsURL:         broker.ClientURL(),
+		visitLinkSecret: visitLinkSecret,
+	}
+	services, err := peer.services(ctx, getenv)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
-	logStarted(ctx, addresses, ops)
+	logStarted(ctx, peer, ops)
 	processRegistry := opsmetrics.ProcessRegistry()
 	opsMux := opsMuxFor(processRegistry, services, history)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
@@ -91,12 +96,12 @@ func closeEvery[C io.Closer](closers []C) error {
 
 func logStarted(
 	ctx context.Context,
-	addresses peerAddresses,
+	peer peer,
 	ops net.Listener,
 ) {
 	slog.DebugContext(ctx, "yacypeer started",
-		slog.String("natsUrl", addresses.natsURL),
-		slog.String("egressProxyUrl", addresses.egressProxyURL.Redacted()),
+		slog.String("natsUrl", peer.natsURL),
+		slog.String("egressProxyUrl", peer.egressProxyURL.Redacted()),
 		slog.String("opsAddr", ops.Addr().String()),
 	)
 }
