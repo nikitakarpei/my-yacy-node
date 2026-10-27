@@ -65,11 +65,19 @@ func Open(
 	if err := os.MkdirAll(directory, 0o750); err != nil {
 		return nil, fmt.Errorf("cached pages: %w", err)
 	}
-	packer, err := zstd.NewWriter(nil, zstd.WithLowerEncoderMem(true))
+	packer, err := zstd.NewWriter(
+		nil,
+		zstd.WithEncoderConcurrency(1),
+		zstd.WithLowerEncoderMem(true),
+	)
 	if err != nil {
 		return nil, fmt.Errorf("cached page packer: %w", err)
 	}
-	unpacker, err := zstd.NewReader(nil, zstd.WithDecoderLowmem(true))
+	unpacker, err := zstd.NewReader(
+		nil,
+		zstd.WithDecoderConcurrency(1),
+		zstd.WithDecoderLowmem(true),
+	)
 	if err != nil {
 		return nil, fmt.Errorf("cached page unpacker: %w", err)
 	}
