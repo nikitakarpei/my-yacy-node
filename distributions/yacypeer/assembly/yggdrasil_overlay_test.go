@@ -154,10 +154,7 @@ func (n yggdrasilNeighbour) servedSeedlistRequests(t *testing.T) <-chan string {
 func (n yggdrasilNeighbour) greetingSeeds(t *testing.T) <-chan yacymodel.Seed {
 	t.Helper()
 	greetingSeeds := make(chan yacymodel.Seed, 16)
-	mux := http.NewServeMux()
-	mux.HandleFunc("/seed.txt", func(w http.ResponseWriter, _ *http.Request) {
-		_, _ = io.WriteString(w, n.seedLine(t)+"\n")
-	})
+	mux := n.seedlistMux(t)
 	mux.HandleFunc(yacyproto.PathHello, func(w http.ResponseWriter, r *http.Request) {
 		r.Body = http.MaxBytesReader(w, r.Body, helloFormCeiling)
 		//nolint:gosec // G120: body is bounded by MaxBytesReader above.
@@ -178,6 +175,33 @@ func (n yggdrasilNeighbour) greetingSeeds(t *testing.T) <-chan yacymodel.Seed {
 	})
 	n.serve(t, mux)
 	return greetingSeeds
+}
+
+func (n yggdrasilNeighbour) servedSearches(t *testing.T) <-chan struct{} {
+	t.Helper()
+	searches := make(chan struct{}, 1)
+	mux := n.seedlistMux(t)
+	mux.HandleFunc(yacyproto.PathQuery, func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = io.WriteString(w, yacyproto.FieldResponse+"=0\n")
+	})
+	mux.HandleFunc(yacyproto.PathSearch, func(w http.ResponseWriter, _ *http.Request) {
+		select {
+		case searches <- struct{}{}:
+		default:
+		}
+		w.WriteHeader(http.StatusNotFound)
+	})
+	n.serve(t, mux)
+	return searches
+}
+
+func (n yggdrasilNeighbour) seedlistMux(t *testing.T) *http.ServeMux {
+	t.Helper()
+	mux := http.NewServeMux()
+	mux.HandleFunc("/seed.txt", func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = io.WriteString(w, n.seedLine(t)+"\n")
+	})
+	return mux
 }
 
 func (n yggdrasilNeighbour) seedLine(t *testing.T) string {
@@ -233,6 +257,28 @@ func TestRunPeerSendsARequestForAYggdrasilAddressOverYggdrasil(t *testing.T) {
 	case <-time.After(overlayDeadline):
 		t.Error("the seedlist request never reached the neighbour over Yggdrasil")
 	}
+}
+
+func TestRunPeerSearchesAYggdrasilPeerOverYggdrasil(t *testing.T) {
+	env, peeringURL, _ := peerOnYggdrasil(t)
+	searchAddress := addressesBelowEphemeralPorts(t, 1)[0]
+	env["YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR"] = searchAddress
+	neighbour := neighbourOf(t, peeringURL)
+	searches := neighbour.servedSearches(t)
+	env[yacypeerassembly.EnvSeedlistURLs] = neighbour.seedlistURL()
+	runningPeer(t, env)
+
+	deadline := time.Now().Add(overlayDeadline)
+	for time.Now().Before(deadline) {
+		scraped("http://" + searchAddress + "/yacysearch.json?query=hello")
+		select {
+		case <-searches:
+			return
+		default:
+		}
+		time.Sleep(startPollPause)
+	}
+	t.Error("the search never reached the neighbour over Yggdrasil")
 }
 
 func peerListOf(t *testing.T, peerURL *url.URL, key ed25519.PublicKey) string {

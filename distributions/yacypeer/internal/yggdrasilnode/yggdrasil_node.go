@@ -101,15 +101,6 @@ func (n *Node) RemovePeer(ctx context.Context, peerURL *url.URL) {
 	}
 }
 
-func (n *Node) IsPeeredWith(key ed25519.PublicKey) bool {
-	for _, peer := range n.core.GetPeers() {
-		if peer.Up && key.Equal(peer.Key) {
-			return true
-		}
-	}
-	return false
-}
-
 func (n *Node) MTU() uint32 {
 	return uint32(n.packets.MTU()) //nolint:gosec // G115: ipv6rwc caps the MTU at 65535.
 }

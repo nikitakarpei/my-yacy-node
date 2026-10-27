@@ -1,7 +1,8 @@
 // Package yggdrasilpeerchoice chooses the public peers of the Yggdrasil node. It peers the node
 // with the public peers that the peer list states are up and that connect fastest from here,
-// each with its own key. It looks at the chosen peers again after a pause, replaces a chosen peer
-// that stays down with the next fastest one, and reads the list again when it has no peer left.
+// each with its own key. It connects to the chosen peers again after a pause, replaces a chosen
+// peer that stays down with the next fastest one, and reads the list again when it has no peer
+// left.
 package yggdrasilpeerchoice
 
 import (
@@ -16,7 +17,7 @@ import (
 
 const (
 	wantedPeers     = 3
-	roundPause      = time.Minute
+	roundPause      = 10 * time.Minute
 	downRoundsLimit = 2
 	listReadPause   = time.Hour
 )
@@ -28,7 +29,6 @@ type PeerList interface {
 type Node interface {
 	AddPeer(ctx context.Context, peerURL *url.URL, key ed25519.PublicKey)
 	RemovePeer(ctx context.Context, peerURL *url.URL)
-	IsPeeredWith(key ed25519.PublicKey) bool
 }
 
 type ConnectTimer interface {
@@ -72,7 +72,8 @@ func (c *Choice) Run(ctx context.Context) error {
 func (c *Choice) dropPeersThatStayDown(ctx context.Context) {
 	keptPeers := c.chosenPeers[:0]
 	for _, chosen := range c.chosenPeers {
-		chosen.roundsDown = roundsDownAfter(chosen, c.node.IsPeeredWith(chosen.peer.Key))
+		_, connects := c.connectTimer.ConnectTimeOf(ctx, chosen.peer.URL.Host)
+		chosen.roundsDown = roundsDownAfter(chosen, connects)
 		if chosen.roundsDown < downRoundsLimit {
 			keptPeers = append(keptPeers, chosen)
 			continue
@@ -85,8 +86,8 @@ func (c *Choice) dropPeersThatStayDown(ctx context.Context) {
 	c.chosenPeers = keptPeers
 }
 
-func roundsDownAfter(chosen chosenPeer, isUp bool) int {
-	if isUp {
+func roundsDownAfter(chosen chosenPeer, connects bool) int {
+	if connects {
 		return 0
 	}
 	return chosen.roundsDown + 1
