@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/netip"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/stripe/smokescreen/pkg/smokescreen"
@@ -22,6 +24,8 @@ const (
 	Name          = "egressproxy"
 	shutdownLimit = 10 * time.Second
 )
+
+var defaultPorts = map[string]int{"http": 80, "https": 443}
 
 type EgressProxy struct {
 	listener         net.Listener
@@ -72,42 +76,31 @@ func (p *EgressProxy) configFor(ctx context.Context) *smokescreen.Config {
 		nil,
 	)
 	if p.upstreamProxyURL != nil {
-		upstreamProxy := resolveUpstreamProxy(ctx, p.upstreamProxyURL)
 		config.UpstreamHttpProxyAddr = p.upstreamProxyURL.String()
 		config.UpstreamHttpsProxyAddr = p.upstreamProxyURL.String()
-		config.AllowRanges = append(config.AllowRanges, upstreamProxy.addressRules()...)
-		config.ProxyDialTimeout = dialerFor(upstreamProxy)
+		config.AllowRanges = append(config.AllowRanges, p.upstreamProxyRules()...)
 	}
 	return config
 }
 
-func dialerFor(
-	upstreamProxy upstreamProxy,
-) func(context.Context, string, string, time.Duration) (net.Conn, error) {
-	return func(
-		ctx context.Context,
-		network string,
-		address string,
-		timeout time.Duration,
-	) (net.Conn, error) {
-		if upstreamProxy.listensAt(address) {
-			return upstreamProxy.dial(ctx, network, timeout)
-		}
-		return dial(ctx, network, address, timeout)
+func (p *EgressProxy) upstreamProxyRules() []smokescreen.RuleRange {
+	address, err := netip.ParseAddr(p.upstreamProxyURL.Hostname())
+	if err != nil {
+		return nil
 	}
+	address = address.Unmap()
+	bits := address.BitLen()
+	return []smokescreen.RuleRange{{
+		Net:  net.IPNet{IP: address.AsSlice(), Mask: net.CIDRMask(bits, bits)},
+		Port: p.upstreamProxyPort(),
+	}}
 }
 
-func dial(
-	ctx context.Context,
-	network string,
-	address string,
-	timeout time.Duration,
-) (net.Conn, error) {
-	connection, err := (&net.Dialer{Timeout: timeout}).DialContext(ctx, network, address)
-	if err != nil {
-		return nil, fmt.Errorf("dial %s: %w", address, err)
+func (p *EgressProxy) upstreamProxyPort() int {
+	if port, err := strconv.Atoi(p.upstreamProxyURL.Port()); err == nil {
+		return port
 	}
-	return connection, nil
+	return defaultPorts[p.upstreamProxyURL.Scheme]
 }
 
 func (p *EgressProxy) handlerFor(config *smokescreen.Config) http.Handler {

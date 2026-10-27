@@ -195,16 +195,6 @@ func TestRunSendsATunnelOnThroughTheUpstreamProxy(t *testing.T) {
 	awaitUpstreamRequest(t, requests, "CONNECT "+publicDestination+":443")
 }
 
-func TestRunReachesAnUpstreamProxyThatTheURLNamesByHostName(t *testing.T) {
-	upstreamProxyURL, requests := upstreamProxy(t)
-	upstreamProxyURL.Host = net.JoinHostPort("localhost", upstreamProxyURL.Port())
-	proxy := runningProxy(t, upstreamProxyURL)
-
-	requestThrough(t, proxy, "http://"+publicDestination+"/seed.txt")
-
-	awaitUpstreamRequest(t, requests, "GET http://"+publicDestination+"/seed.txt")
-}
-
 func TestRunRefusesARequestToAPrivateAddressBeforeTheUpstreamProxy(t *testing.T) {
 	upstreamProxyURL, requests := upstreamProxy(t)
 	proxy := runningProxy(t, upstreamProxyURL)

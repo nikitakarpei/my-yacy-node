@@ -16,8 +16,8 @@ You configure yacypeer through environment variables.
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
 
 yacypeer does not send outbound requests to loopback and private addresses, also when you
-set `YACYPEER_EGRESS_PROXY_URL`. Your proxy can have a loopback or private address. If the
-address of your proxy changes, restart the peer.
+set `YACYPEER_EGRESS_PROXY_URL`. If your proxy has a loopback or private address, name it by
+its IP address, such as `http://127.0.0.1:3128`.
 
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
 other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` or

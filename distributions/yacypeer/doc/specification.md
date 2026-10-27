@@ -20,7 +20,7 @@ program, connected and ready to use.
   of `yacynode`, until the operator sets their addresses.
 * The program SHALL NOT send outbound requests to loopback or private addresses.
 * The program SHALL send outbound requests through the egress proxy that the operator
-  names, also when that proxy has a loopback or private address.
+  names, also when the operator names a loopback or private IP address for it.
 * The program SHALL NOT start when the operator names an egress proxy and does not set
   the public host of the peer.
 * The program SHALL keep its local data in one data directory.
@@ -43,5 +43,7 @@ program, connected and ready to use.
 * Some log lines do not name a service, for example the lines that a library writes.
 * The dashboards draw state timeline panels as line charts.
 * A crash loses the most recent part of the metric history.
+* The program cannot reach an egress proxy that the operator names by a host name with a
+  loopback or private address.
 * For outbound HTTPS requests, the program follows `NO_PROXY` from its environment. When
   the operator names no egress proxy, it also follows `HTTPS_PROXY`.
