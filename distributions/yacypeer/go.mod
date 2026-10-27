@@ -10,6 +10,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/searchpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0
@@ -209,3 +210,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacynode => ../../services/yacynod
 replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyproto
 
 replace github.com/nikitakarpei/yacy-rwi-node/visitcrawl => ../../services/visitcrawl
+
+replace github.com/nikitakarpei/yacy-rwi-node/searchpage => ../../services/searchpage

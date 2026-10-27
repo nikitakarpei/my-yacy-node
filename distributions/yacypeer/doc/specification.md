@@ -8,13 +8,12 @@ program, connected and ready to use.
 
 ## Non-Goals
 
-* Serving a search page; SearXNG stays a separate program.
 * Running a part of the peer alone.
 
 ## Functional Requirements
 
 * The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `yacycrawler`,
-  `pagescrape`, `crawlconsole`, `crawlscrapebridge`, and `visitcrawl`.
+  `pagescrape`, `crawlconsole`, `crawlscrapebridge`, `visitcrawl`, and `searchpage`.
 * The program SHALL run a NATS server that only the local host can reach.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
@@ -25,6 +24,8 @@ program, connected and ready to use.
   the public host of the peer.
 * The program SHALL NOT start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set.
 * The program SHALL keep its local data in one data directory.
+* The search page SHALL search the YaCy network and the crawled pages, and SHALL send a
+  person who opens a result through `visitcrawl`.
 * The program SHALL make the secret that signs visit links on its first start, and SHALL
   keep it in the data directory.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when

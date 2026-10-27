@@ -18,7 +18,7 @@ type assembledService[C any, L io.Closer] struct {
 	name       string
 }
 
-func assembledServiceOf[C any, L io.Closer](
+func assembledServiceFrom[C any, L io.Closer](
 	ctx context.Context,
 	name string,
 	wiring serviceenvironment.Wiring,

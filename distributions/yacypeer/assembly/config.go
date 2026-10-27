@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -103,4 +104,8 @@ func egressProxyURLFrom(getenv func(string) string) (*url.URL, error) {
 
 func (cfg PeerConfig) namesAnEgressProxy() bool {
 	return cfg.EgressProxyURL != nil
+}
+
+func (cfg PeerConfig) directoryOf(serviceName string) string {
+	return filepath.Join(cfg.DataDirectory, serviceName)
 }

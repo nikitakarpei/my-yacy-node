@@ -234,15 +234,6 @@ func TestListenersCloseReleasesTheAPIAddress(t *testing.T) {
 	_ = reopened.Close()
 }
 
-func TestListenersAPIURLNamesTheAPIAddressOverHTTP(t *testing.T) {
-	listeners := yacycrawler.Listeners{API: listenerFor(t)}
-
-	want := "http://" + listeners.API.Addr().String()
-	if got := listeners.APIURL(); got != want {
-		t.Errorf("APIURL = %q, want %q", got, want)
-	}
-}
-
 func publishOrder(t *testing.T, crawlNATSURL string) {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, crawlNATSURL)

@@ -23,7 +23,7 @@ yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, 
 lower case. Name your proxy in `YACYPEER_EGRESS_PROXY_URL` instead.
 
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
-other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` or
+other hosts reach an address, set it, such as `SEARCHPAGE_LISTEN_ADDR=:8097` or
 `YACYPEER_OPS_ADDR=:9090`. In a container, you must do this to reach the address from
 outside the container.
 
@@ -35,8 +35,9 @@ yacypeer runs [yacynode](../../../services/yacynode/doc/configuration.md),
 [yacycrawler](../../../services/yacycrawler/doc/configuration.md),
 [pagescrape](../../../services/pagescrape/doc/configuration.md),
 [crawlconsole](../../../services/crawlconsole/doc/configuration.md),
-[crawlscrapebridge](../../../services/crawlscrapebridge/doc/configuration.md), and
-[visitcrawl](../../../services/visitcrawl/doc/configuration.md). Each service
+[crawlscrapebridge](../../../services/crawlscrapebridge/doc/configuration.md),
+[visitcrawl](../../../services/visitcrawl/doc/configuration.md), and
+[searchpage](../../../services/searchpage/doc/configuration.md). Each service
 reads the settings in its own configuration and serves its own endpoints.
 
 To set a value for one service only, put the service name and `__` before the setting,
