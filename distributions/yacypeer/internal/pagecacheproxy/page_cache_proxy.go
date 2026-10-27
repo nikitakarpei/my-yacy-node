@@ -14,6 +14,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
@@ -31,6 +33,8 @@ const (
 	headerIfModifiedSince = "If-Modified-Since"
 	headerLocation        = "Location"
 	headerContentLength   = "Content-Length"
+	sourceCache           = "cache"
+	sourceOrigin          = "origin"
 )
 
 var unrelayedHeaders = []string{
@@ -39,10 +43,11 @@ var unrelayedHeaders = []string{
 }
 
 type PageCacheProxy struct {
-	listener     net.Listener
-	cachedPages  *cachedpages.Pages
-	originClient *http.Client
-	maxBodyBytes int64
+	listener         net.Listener
+	cachedPages      *cachedpages.Pages
+	originClient     *http.Client
+	maxBodyBytes     int64
+	pageFetchMetrics *pageFetchMetrics
 }
 
 func Listen(
@@ -50,6 +55,7 @@ func Listen(
 	cachedPages *cachedpages.Pages,
 	originProxyURL *url.URL,
 	maxBodyBytes int64,
+	registry prometheus.Registerer,
 ) (*PageCacheProxy, error) {
 	listener, err := loopback.Listen(ctx)
 	if err != nil {
@@ -64,7 +70,8 @@ func Listen(
 				return http.ErrUseLastResponse
 			},
 		},
-		maxBodyBytes: maxBodyBytes,
+		maxBodyBytes:     maxBodyBytes,
+		pageFetchMetrics: pageFetchMetricsFor(registry),
 	}, nil
 }
 
@@ -140,7 +147,7 @@ func (p *PageCacheProxy) answerFromCache(
 		return false
 	}
 	writeWholeAnswer(w, cachedPage)
-	logAnswer(ctx, fetch, "cache", cachedPage.StatusCode, int64(len(cachedPage.Body)))
+	p.reportAnswer(ctx, fetch, sourceCache, cachedPage.StatusCode, int64(len(cachedPage.Body)))
 	return true
 }
 
@@ -157,7 +164,7 @@ func writeHeaderOf(w http.ResponseWriter, cachedPage cachedpages.Page) {
 	}
 }
 
-func logAnswer(
+func (p *PageCacheProxy) reportAnswer(
 	ctx context.Context,
 	fetch pageFetch,
 	source string,
@@ -171,6 +178,7 @@ func logAnswer(
 		slog.Int64("bodyBytes", bodyBytes),
 		slog.Bool("conditional", fetch.isConditional()),
 	)
+	p.pageFetchMetrics.record(source)
 }
 
 func (p *PageCacheProxy) answerFromOrigin(
@@ -188,7 +196,7 @@ func (p *PageCacheProxy) answerFromOrigin(
 		p.cachedPages.Keep(ctx, fetch.cacheKey(), answer.cachedPage)
 	}
 	bodyBytes := p.writeOriginAnswer(w, answer)
-	logAnswer(ctx, fetch, "origin", answer.cachedPage.StatusCode, bodyBytes)
+	p.reportAnswer(ctx, fetch, sourceOrigin, answer.cachedPage.StatusCode, bodyBytes)
 }
 
 type originAnswer struct {

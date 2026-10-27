@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
@@ -84,6 +85,15 @@ func urlOf(t *testing.T, rawURL string) *url.URL {
 
 func runningProxy(t *testing.T, egressProxyURL *url.URL) *pagecacheproxy.PageCacheProxy {
 	t.Helper()
+	return runningProxyCountingInto(t, egressProxyURL, prometheus.NewRegistry())
+}
+
+func runningProxyCountingInto(
+	t *testing.T,
+	egressProxyURL *url.URL,
+	registry *prometheus.Registry,
+) *pagecacheproxy.PageCacheProxy {
+	t.Helper()
 	cachedPages, err := cachedpages.Open(
 		t.Context(),
 		t.TempDir(),
@@ -99,6 +109,7 @@ func runningProxy(t *testing.T, egressProxyURL *url.URL) *pagecacheproxy.PageCac
 		cachedPages,
 		egressProxyURL,
 		maxBodyBytesInTest,
+		registry,
 	)
 	if err != nil {
 		t.Fatalf("Listen: %v", err)
@@ -182,6 +193,26 @@ func TestASecondFetchOfAPageIsAnsweredFromTheCache(t *testing.T) {
 			fetched.header.Get("X-Robots-Tag") != "noarchive" {
 			t.Fatalf("fetched %+v, want the page with its robots tag", fetched)
 		}
+	}
+}
+
+func TestTheProxyCountsFetchesByTheirSource(t *testing.T) {
+	_, egressURL := originAnswering(t, map[string]http.HandlerFunc{
+		"/page": answerWith(http.StatusOK, pageBody, nil),
+	})
+	registry := prometheus.NewRegistry()
+	proxy := runningProxyCountingInto(t, egressURL, registry)
+
+	fetchThrough(t, proxy, "http://pages.test/page", plainFetch())
+	fetchThrough(t, proxy, "http://pages.test/page", plainFetch())
+
+	if err := testutil.GatherAndCompare(registry, strings.NewReader(`
+# HELP yacypeer_page_fetches_total Page fetches that the page cache proxy answered, by source: cache or origin.
+# TYPE yacypeer_page_fetches_total counter
+yacypeer_page_fetches_total{source="cache"} 1
+yacypeer_page_fetches_total{source="origin"} 1
+`)); err != nil {
+		t.Fatal(err)
 	}
 }
 
@@ -342,6 +373,7 @@ func TestCloseReleasesTheListener(t *testing.T) {
 		cachedPages,
 		urlOf(t, "http://127.0.0.1:1"),
 		maxBodyBytesInTest,
+		prometheus.NewRegistry(),
 	)
 	if err != nil {
 		t.Fatalf("Listen: %v", err)

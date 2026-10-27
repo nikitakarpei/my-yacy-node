@@ -97,6 +97,7 @@ deps:
       - loopback
       - cachedpages
     canUse:
+      - prometheusclient
       - serviceruntime
   metrichistory:
     canUse:
