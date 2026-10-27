@@ -13,13 +13,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
 )
 
 const (
@@ -61,6 +61,7 @@ func RunPeer(
 		cfg:             cfg,
 		natsURL:         broker.ClientURL(),
 		visitLinkSecret: visitLinkSecret,
+		webUIURLs:       webUIURLsFor(ops, getenv),
 	}
 	services, err := peer.services(ctx, getenv)
 	if err != nil {
@@ -68,7 +69,7 @@ func RunPeer(
 	}
 	logStarted(ctx, peer, ops)
 	processRegistry := opsmetrics.ProcessRegistry()
-	opsMux := opsMuxFor(processRegistry, services, history)
+	opsMux := opsMuxFor(processRegistry, services, history, peer.webUIURLs)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
 		return runEvery(ctx, services,
 			func(ctx context.Context) error {
@@ -111,6 +112,7 @@ func opsMuxFor(
 	processRegistry *prometheus.Registry,
 	services []service,
 	history *metrichistory.History,
+	webUIURLs webuitabs.URLs,
 ) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
@@ -121,7 +123,7 @@ func opsMuxFor(
 		history,
 		metrichistory.SampleInterval,
 		serviceDashboards,
-		webuistyle.TabBar{},
+		webUIURLs.TabBarFor(webuitabs.Metrics),
 	)
 	return mux
 }

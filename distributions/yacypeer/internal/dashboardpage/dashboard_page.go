@@ -16,9 +16,9 @@ import (
 )
 
 const (
-	pathDashboards  = "/dashboards"
-	pathRangeQuery  = pathDashboards + "/api/v1/query_range"
-	pathLabelValues = pathDashboards + "/api/v1/label/{name}/values"
+	Path            = "/dashboards"
+	pathRangeQuery  = Path + "/api/v1/query_range"
+	pathLabelValues = Path + "/api/v1/label/{name}/values"
 )
 
 //go:embed assets
@@ -54,14 +54,14 @@ func Register(
 		services = append(services, dashboard.Service)
 	}
 	frame := pageFrame{WebUIStylesheet: webuistyle.StylesheetPath, TabBar: tabBar.HTML()}
-	mux.Handle("GET "+pathDashboards, dashboardList(frame, services))
+	mux.Handle("GET "+Path, dashboardList(frame, services))
 	mux.Handle(
-		"GET "+pathDashboards+"/{service}",
+		"GET "+Path+"/{service}",
 		serviceDashboard(frame, models, sampleInterval),
 	)
 	mux.Handle(
-		"GET "+pathDashboards+"/assets/",
-		http.StripPrefix(pathDashboards, http.FileServerFS(assets)),
+		"GET "+Path+"/assets/",
+		http.StripPrefix(Path, http.FileServerFS(assets)),
 	)
 	mux.Handle("GET "+webuistyle.StylesheetPath, webuistyle.Stylesheet())
 	mux.Handle(pathRangeQuery, newRangeQueryEndpoint(history))

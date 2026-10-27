@@ -20,6 +20,8 @@ components:
     in: internal/visitlinksecret/**
   metrichistory:
     in: internal/metrichistory/**
+  webuitabs:
+    in: internal/webuitabs/**
   dashboardpage:
     in: internal/dashboardpage/**
   yacypeerassembly:
@@ -84,6 +86,9 @@ deps:
       - prometheusclient
       - prometheusquery
       - vault
+  webuitabs:
+    canUse:
+      - webuistyle
   dashboardpage:
     canUse:
       - prometheusclient

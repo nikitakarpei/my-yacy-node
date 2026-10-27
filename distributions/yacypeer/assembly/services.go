@@ -24,6 +24,7 @@ import (
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
 )
 
 var unreadSettings = []string{
@@ -78,6 +79,7 @@ type peer struct {
 	cfg             PeerConfig
 	natsURL         string
 	visitLinkSecret string
+	webUIURLs       webuitabs.URLs
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -265,6 +267,7 @@ func (p peer) downstreamServiceAssembliesWith(
 			crawlconsoleService,
 			serviceenvironment.Wiring{
 				crawlconsoleassembly.EnvCrawlerAPIURL: upstreamURLs[yacycrawlerService],
+				crawlconsoleassembly.EnvTabBar:        p.webUIURLs.SettingFor(webuitabs.Crawls),
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.ListenersFor,
@@ -277,6 +280,7 @@ func (p peer) downstreamServiceAssembliesWith(
 				searchpageassembly.EnvCorpusTextURL:   upstreamURLs[corpustextService],
 				searchpageassembly.EnvVisitCrawlURL:   upstreamURLs[visitcrawlService],
 				searchpageassembly.EnvVisitLinkSecret: p.visitLinkSecret,
+				searchpageassembly.EnvTabBar:          p.webUIURLs.SettingFor(webuitabs.Search),
 			},
 			searchpageassembly.LoadServiceConfig,
 			searchpageassembly.ListenersFor,
