@@ -21,10 +21,9 @@ var defaultFields = orderFields{
 }
 
 type newCrawlForm struct {
-	crawler    Crawler
-	layout     pageLayout
-	pathPrefix string
-	observer   ConsoleObserver
+	crawler  Crawler
+	layout   pageLayout
+	observer ConsoleObserver
 }
 
 type orderFields struct {
@@ -113,7 +112,7 @@ func (form newCrawlForm) placeOrder(w http.ResponseWriter, r *http.Request) {
 		form.showProblem(w, r, http.StatusBadRequest, fields,
 			formProblem{Key: "new-crawl.refused", Value: refusal})
 	default:
-		returnToCrawl(w, r, form.pathPrefix, crawlID)
+		returnToCrawl(w, r, crawlID)
 	}
 }
 

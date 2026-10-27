@@ -62,22 +62,11 @@ func New(
 	clock Clock,
 	observer ConsoleObserver,
 ) http.Handler {
-	controls := crawlerControls{crawler: crawler, pathPrefix: pathPrefix, observer: observer}
+	controls := crawlerControls{crawler: crawler, observer: observer}
 	layout := newPageLayout(catalog, tabBar, pathPrefix, controls, observer)
 	tables := crawlTables{crawler: crawler, clock: clock, layout: layout, observer: observer}
-	detail := crawlDetail{
-		crawler:    crawler,
-		clock:      clock,
-		layout:     layout,
-		pathPrefix: pathPrefix,
-		observer:   observer,
-	}
-	form := newCrawlForm{
-		crawler:    crawler,
-		layout:     layout,
-		pathPrefix: pathPrefix,
-		observer:   observer,
-	}
+	detail := crawlDetail{crawler: crawler, clock: clock, layout: layout, observer: observer}
+	form := newCrawlForm{crawler: crawler, layout: layout, observer: observer}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /{$}", tables.show)
 	mux.HandleFunc("GET /crawls/new", form.show)
@@ -88,7 +77,5 @@ func New(
 	mux.HandleFunc("POST /crawler-pause", controls.changePause)
 	mux.Handle("GET /static/", http.FileServerFS(staticFiles))
 	mux.Handle("GET "+webuistyle.StylesheetPath, webuistyle.Stylesheet())
-	prefixedMux := http.NewServeMux()
-	prefixedMux.Handle(pathPrefix+"/", http.StripPrefix(pathPrefix, mux))
-	return http.NewCrossOriginProtection().Handler(prefixedMux)
+	return http.NewCrossOriginProtection().Handler(mountedAt(pathPrefix, mux))
 }

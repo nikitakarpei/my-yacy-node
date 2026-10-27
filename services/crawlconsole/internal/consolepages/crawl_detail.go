@@ -9,11 +9,10 @@ import (
 )
 
 type crawlDetail struct {
-	crawler    Crawler
-	clock      Clock
-	layout     pageLayout
-	pathPrefix string
-	observer   ConsoleObserver
+	crawler  Crawler
+	clock    Clock
+	layout   pageLayout
+	observer ConsoleObserver
 }
 
 const (
@@ -95,7 +94,7 @@ func (detail crawlDetail) cancel(w http.ResponseWriter, r *http.Request) {
 	if err := detail.crawler.Cancel(r.Context(), crawlID); err != nil {
 		detail.observer.CrawlerCallFailed(r.Context(), err)
 	}
-	returnToCrawl(w, r, detail.pathPrefix, crawlID)
+	returnToCrawl(w, r, crawlID)
 }
 
 func (detail crawlDetail) changePause(w http.ResponseWriter, r *http.Request) {
@@ -107,9 +106,9 @@ func (detail crawlDetail) changePause(w http.ResponseWriter, r *http.Request) {
 	if err := change(r.Context(), crawlID); err != nil {
 		detail.observer.CrawlerCallFailed(r.Context(), err)
 	}
-	returnToCrawl(w, r, detail.pathPrefix, crawlID)
+	returnToCrawl(w, r, crawlID)
 }
 
-func returnToCrawl(w http.ResponseWriter, r *http.Request, pathPrefix string, crawlID string) {
-	http.Redirect(w, r, pathPrefix+"/crawls/"+url.PathEscape(crawlID), http.StatusSeeOther)
+func returnToCrawl(w http.ResponseWriter, r *http.Request, crawlID string) {
+	http.Redirect(w, r, "/crawls/"+url.PathEscape(crawlID), http.StatusSeeOther)
 }
