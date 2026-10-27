@@ -18,8 +18,10 @@ program, connected and ready to use.
 * The program SHALL run a NATS server that only the local host can reach.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
-* The program SHALL send outbound requests through the egress proxy that the operator
-  names, else through a built-in egress proxy that only the local host can reach.
+* The program SHALL send outbound requests through a built-in egress proxy that only the
+  local host can reach. The built-in egress proxy SHALL refuse requests to loopback and
+  private addresses, and SHALL send the other requests on through the egress proxy that the
+  operator names.
 * The program SHALL NOT start when the operator names an egress proxy and does not set
   the public host of the peer.
 * The program SHALL keep its local data in one data directory.
@@ -42,3 +44,5 @@ program, connected and ready to use.
 * Some log lines do not name a service, for example the lines that a library writes.
 * The dashboards draw state timeline panels as line charts.
 * A crash loses the most recent part of the metric history.
+* For a `CONNECT` request, the built-in egress proxy uses `NO_PROXY` from its environment.
+  When the operator names no egress proxy, it also uses `HTTPS_PROXY`.

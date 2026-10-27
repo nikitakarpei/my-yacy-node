@@ -12,12 +12,13 @@ You configure yacypeer through environment variables.
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
 | `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics`, `/metrics/<service>`, and the dashboards at `/dashboards`. |
 | `YACYPEER_METRIC_HISTORY_RETENTION` | `168h` | How long yacypeer keeps the metric history that the dashboards show. |
-| `YACYPEER_EGRESS_PROXY_URL` | built-in proxy | HTTP proxy for all outbound requests. It must accept `CONNECT`. |
+| `YACYPEER_EGRESS_PROXY_URL` | none | HTTP proxy that gets the outbound requests from the built-in proxy. It must accept `CONNECT`. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
 
 The built-in proxy refuses requests to loopback and private addresses. If you set
-`YACYPEER_EGRESS_PROXY_URL`, yacypeer does not start the built-in proxy, and your proxy
-must refuse these requests.
+`YACYPEER_EGRESS_PROXY_URL`, the built-in proxy sends the other requests on to your proxy.
+Your proxy can have a loopback or private address. The peer gets the address of your proxy
+when it starts.
 
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
 other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` or

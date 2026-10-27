@@ -1,13 +1,16 @@
 // Package egressproxy runs the smokescreen proxy built into the peer. It listens on the
-// loopback interface only and refuses requests to loopback and private addresses.
+// loopback interface only and refuses requests to loopback and private addresses. It sends the
+// requests it allows through the upstream proxy that it is given, else to their destination.
 package egressproxy
 
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/stripe/smokescreen/pkg/smokescreen"
@@ -22,16 +25,19 @@ const (
 	shutdownLimit = 10 * time.Second
 )
 
+var defaultPorts = map[string]int{"http": 80, "https": 443}
+
 type EgressProxy struct {
-	listener net.Listener
+	listener         net.Listener
+	upstreamProxyURL *url.URL
 }
 
-func Listen(ctx context.Context) (*EgressProxy, error) {
+func Listen(ctx context.Context, upstreamProxyURL *url.URL) (*EgressProxy, error) {
 	listener, err := loopback.Listen(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("built-in egress proxy: %w", err)
 	}
-	return &EgressProxy{listener: listener}, nil
+	return &EgressProxy{listener: listener, upstreamProxyURL: upstreamProxyURL}, nil
 }
 
 func (p *EgressProxy) URL() *url.URL {
@@ -46,18 +52,18 @@ func (p *EgressProxy) Close() error {
 }
 
 func (p *EgressProxy) Run(ctx context.Context) error {
-	config := configFor(ctx)
+	config := p.configFor(ctx)
 	return servergroup.Run(ctx, shutdownLimit, []servergroup.NamedServer{{
 		Name:     Name,
 		Listener: p.listener,
 		Server: &http.Server{
-			Handler:           smokescreen.BuildProxy(config),
+			Handler:           p.handlerFor(config),
 			ReadHeaderTimeout: config.ReadHeaderTimeout,
 		},
 	}})
 }
 
-func configFor(ctx context.Context) *smokescreen.Config {
+func (p *EgressProxy) configFor(ctx context.Context) *smokescreen.Config {
 	config := smokescreen.NewConfig()
 	config.Log = proxyLoggerFor(ctx)
 	config.ConnectTimeout = smokescreen.DefaultConnectTimeout
@@ -69,5 +75,47 @@ func configFor(ctx context.Context) *smokescreen.Config {
 		config.ShuttingDown,
 		nil,
 	)
+	if p.upstreamProxyURL != nil {
+		config.UpstreamHttpProxyAddr = p.upstreamProxyURL.String()
+		config.UpstreamHttpsProxyAddr = p.upstreamProxyURL.String()
+		config.AllowRanges = append(config.AllowRanges, p.upstreamProxyRanges(ctx)...)
+	}
 	return config
+}
+
+func (p *EgressProxy) upstreamProxyRanges(ctx context.Context) []smokescreen.RuleRange {
+	addresses, err := net.DefaultResolver.LookupNetIP(ctx, "ip", p.upstreamProxyURL.Hostname())
+	if err != nil {
+		slog.WarnContext(ctx, "upstream proxy not resolved",
+			slog.String("upstreamProxy", p.upstreamProxyURL.Redacted()),
+			slog.Any("reason", err),
+		)
+		return nil
+	}
+	port := p.upstreamProxyPort()
+	ranges := make([]smokescreen.RuleRange, 0, len(addresses))
+	for _, address := range addresses {
+		address = address.Unmap()
+		ranges = append(ranges, smokescreen.RuleRange{
+			Net: net.IPNet{
+				IP:   address.AsSlice(),
+				Mask: net.CIDRMask(address.BitLen(), address.BitLen()),
+			},
+			Port: port,
+		})
+	}
+	return ranges
+}
+
+func (p *EgressProxy) upstreamProxyPort() int {
+	if port, err := strconv.Atoi(p.upstreamProxyURL.Port()); err == nil {
+		return port
+	}
+	return defaultPorts[p.upstreamProxyURL.Scheme]
+}
+
+func (p *EgressProxy) handlerFor(config *smokescreen.Config) http.Handler {
+	proxy := smokescreen.BuildProxy(config)
+	proxy.Tr.Proxy = http.ProxyURL(p.upstreamProxyURL)
+	return proxy
 }

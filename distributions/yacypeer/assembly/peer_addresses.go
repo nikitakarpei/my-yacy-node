@@ -8,5 +8,5 @@ type peerAddresses struct {
 }
 
 func peerAddressesFor(natsURL string, egress egressRoute) peerAddresses {
-	return peerAddresses{egressProxyURL: egress.proxyURL, natsURL: natsURL}
+	return peerAddresses{egressProxyURL: egress.proxyURL(), natsURL: natsURL}
 }
