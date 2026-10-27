@@ -31,6 +31,9 @@ page then also shows the pages that you crawled.
 
 See the dashboards of the peer at `http://127.0.0.1:9090/dashboards`.
 
+The search page, the crawl console and the dashboards link each other in a tab bar at the
+top of each page.
+
 To change these addresses, or to let other hosts reach them, see
 [Configuration](doc/configuration.md).
 

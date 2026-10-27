@@ -185,6 +185,32 @@ func TestRunPeerSearchesTheYaCyNetworkAndTheCrawledPagesOnTheSearchPage(t *testi
 	awaitShutdown(t, runDone)
 }
 
+func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *testing.T) {
+	env := peerEnvironment(t)
+	cfg, ops := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+	}()
+	awaitEveryService(t, env, ops)
+	searchTab := `href="http://` + env["SEARCHPAGE_LISTEN_ADDR"] + `"`
+	crawlsTab := `href="http://` + env["CRAWLCONSOLE_LISTEN_ADDR"] + `"`
+	metricsTab := `href="http://` + ops.Addr().String() + `/dashboards"`
+
+	for url, currentTab := range map[string]string{
+		"http://" + env["SEARCHPAGE_LISTEN_ADDR"] + "/":   searchTab,
+		"http://" + env["CRAWLCONSOLE_LISTEN_ADDR"] + "/": crawlsTab,
+		"http://" + ops.Addr().String() + "/dashboards":   metricsTab,
+	} {
+		awaitAnswer(t, url, searchTab, crawlsTab, metricsTab, currentTab+` aria-current="page"`)
+	}
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
 func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecretSigns(
 	t *testing.T,
 ) {
@@ -248,6 +274,8 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 		"CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL": "nats://elsewhere:4222",
 		"EGRESS_PROXY_URL":                       "http://elsewhere:4750",
 		"YACYCRAWLER_API_ADDR":                   "127.0.0.1:9100",
+		"CRAWLCONSOLE_TAB_BAR":                   `{"tabs":[]}`,
+		"SEARCHPAGE__SEARCHPAGE_TAB_BAR":         `{"tabs":[]}`,
 	} {
 		t.Run(name, func(t *testing.T) {
 			env := peerEnvironment(t)

@@ -36,6 +36,7 @@ program, connected and ready to use.
   directory for the retention period that the operator sets.
 * The program SHALL show the dashboard of each service that has one on the ops address, and
   SHALL draw it from the metric history.
+* The search page, the crawl console and the dashboards SHALL link each other in a tab bar.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.
 
@@ -44,6 +45,8 @@ program, connected and ready to use.
 * The peer does not accept postings from other peers.
 * Some log lines do not name a service, for example the lines that a library writes.
 * The dashboards draw state timeline panels as line charts.
+* A tab links a page that listens on every address through the local host. Other hosts
+  cannot follow that tab.
 * A crash loses the most recent part of the metric history.
 * The program cannot reach an egress proxy that the operator names by a host name with a
   loopback or private address.

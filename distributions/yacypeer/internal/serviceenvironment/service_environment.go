@@ -32,12 +32,7 @@ func For(
 	unreadSettings []string,
 	process func(string) string,
 ) (Environment, error) {
-	environment := Environment{
-		wiring:        wiring,
-		defaults:      defaults,
-		servicePrefix: strings.ToUpper(service) + serviceSeparator,
-		process:       process,
-	}
+	environment := Of(service, wiring, defaults, process)
 	if err := errors.Join(
 		environment.refused(slices.Sorted(maps.Keys(wiring)), "wired by yacypeer"),
 		environment.refused(unreadSettings, "not read by yacypeer"),
@@ -45,6 +40,20 @@ func For(
 		return Environment{}, err
 	}
 	return environment, nil
+}
+
+func Of(
+	service string,
+	wiring Wiring,
+	defaults Defaults,
+	process func(string) string,
+) Environment {
+	return Environment{
+		wiring:        wiring,
+		defaults:      defaults,
+		servicePrefix: strings.ToUpper(service) + serviceSeparator,
+		process:       process,
+	}
 }
 
 func (e Environment) Lookup(key string) string {
