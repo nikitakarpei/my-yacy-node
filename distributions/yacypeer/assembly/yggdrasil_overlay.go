@@ -1,0 +1,98 @@
+package yacypeerassembly
+
+import (
+	"context"
+	"net"
+	"net/netip"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/connecttimers/tcp"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/ipv6stack"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilnode"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilpeerchoice"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilpeerlist"
+)
+
+type yggdrasilOverlay struct {
+	node       *yggdrasilnode.Node
+	stack      *ipv6stack.Stack
+	peerChoice *yggdrasilpeerchoice.Choice
+}
+
+func yggdrasilOverlayFor(ctx context.Context, cfg PeerConfig) (yggdrasilOverlay, error) {
+	if !cfg.joinsYggdrasil() {
+		return yggdrasilOverlay{}, nil
+	}
+	key, err := yggdrasilkey.Settle(cfg.directoryOf(yggdrasilnode.Name))
+	if err != nil {
+		return yggdrasilOverlay{}, err
+	}
+	node, err := yggdrasilnode.Start(
+		servicelog.ContextFor(ctx, yggdrasilnode.Name),
+		key,
+		cfg.YggdrasilPeering,
+	)
+	if err != nil {
+		return yggdrasilOverlay{}, err
+	}
+	stack, err := ipv6stack.New(node.Address(), node, node.MTU())
+	if err != nil {
+		node.Stop()
+		return yggdrasilOverlay{}, err
+	}
+	return yggdrasilOverlay{node: node, stack: stack, peerChoice: peerChoiceFor(cfg, node)}, nil
+}
+
+func peerChoiceFor(cfg PeerConfig, node *yggdrasilnode.Node) *yggdrasilpeerchoice.Choice {
+	if !cfg.namesAYggdrasilPeerList() {
+		return nil
+	}
+	return yggdrasilpeerchoice.New(
+		yggdrasilpeerlist.New(cfg.YggdrasilPeerList),
+		node,
+		tcp.New(),
+	)
+}
+
+func (o yggdrasilOverlay) isJoined() bool {
+	return o.node != nil
+}
+
+func (o yggdrasilOverlay) egressOverlays() []egressproxy.Overlay {
+	if !o.isJoined() {
+		return nil
+	}
+	return []egressproxy.Overlay{{Addresses: yggdrasilnode.NetworkAddresses, Dialer: o.stack}}
+}
+
+func (o yggdrasilOverlay) runs() []func(context.Context) error {
+	if !o.isJoined() {
+		return nil
+	}
+	runs := []func(context.Context) error{o.stack.Run}
+	if o.peerChoice != nil {
+		runs = append(runs, func(ctx context.Context) error {
+			o.peerChoice.Choose(servicelog.ContextFor(ctx, yggdrasilnode.Name))
+			<-ctx.Done()
+			return nil
+		})
+	}
+	return runs
+}
+
+func (o yggdrasilOverlay) stop() {
+	if o.isJoined() {
+		o.stack.Close()
+		o.node.Stop()
+	}
+}
+
+func (o yggdrasilOverlay) address() netip.Addr {
+	return o.node.Address()
+}
+
+func (o yggdrasilOverlay) listen(port int) (net.Listener, error) {
+	return o.stack.Listen(port)
+}

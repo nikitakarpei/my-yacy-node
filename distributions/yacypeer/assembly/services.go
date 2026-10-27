@@ -5,8 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/netip"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -19,6 +21,7 @@ import (
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/jointlistener"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
 )
@@ -73,12 +76,13 @@ func servicesFor(
 	ctx context.Context,
 	cfg PeerConfig,
 	addresses peerAddresses,
+	overlay yggdrasilOverlay,
 	crawler crawler,
 	visitLinkSecret string,
 	getenv func(string) string,
 ) ([]service, error) {
 	assemblies := append(
-		searchServiceAssembliesFor(cfg, addresses),
+		searchServiceAssembliesFor(cfg, addresses, overlay),
 		crawlServiceAssembliesFor(addresses, crawler.apiURL, visitLinkSecret)...,
 	)
 	services := append(make([]service, 0, len(assemblies)+1), crawler.service)
@@ -92,7 +96,11 @@ func servicesFor(
 	return services, nil
 }
 
-func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []serviceAssembly {
+func searchServiceAssembliesFor(
+	cfg PeerConfig,
+	addresses peerAddresses,
+	overlay yggdrasilOverlay,
+) []serviceAssembly {
 	return []serviceAssembly{
 		serviceAssemblyOf(
 			yacynodeService,
@@ -105,8 +113,8 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 				yacynodeassembly.EnvSeedlistURLs:      cfg.SeedlistURLs,
 				yacynodeassembly.EnvEgressProxyURL:    addresses.egressProxyURL.String(),
 			},
-			yacynodeConfigLoaderFor(cfg),
-			yacynodeassembly.ListenersFor,
+			yacynodeConfigLoaderFor(cfg, overlay),
+			yacynodeListenerOpenerFor(overlay),
 			yacynodeassembly.RunService,
 		),
 		serviceAssemblyOf(
@@ -136,7 +144,11 @@ func searchServiceAssembliesFor(cfg PeerConfig, addresses peerAddresses) []servi
 
 func yacynodeConfigLoaderFor(
 	cfg PeerConfig,
+	overlay yggdrasilOverlay,
 ) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
+	if overlay.isJoined() {
+		return yacynodeConfigLoaderAdvertising(overlay.address())
+	}
 	if !cfg.namesAnEgressProxy() {
 		return yacynodeassembly.LoadServiceConfig
 	}
@@ -149,6 +161,44 @@ func yacynodeConfigLoaderFor(
 			)
 		}
 		return yacynodeassembly.LoadServiceConfig(getenv)
+	}
+}
+
+func yacynodeConfigLoaderAdvertising(
+	overlayAddress netip.Addr,
+) func(func(string) string) (yacynodeassembly.ServiceConfig, error) {
+	return func(getenv func(string) string) (yacynodeassembly.ServiceConfig, error) {
+		return yacynodeassembly.LoadServiceConfig(func(key string) string {
+			if key == yacynodeassembly.EnvAdvertiseAdditionalHosts {
+				advertisedHosts := envconfig.List(getenv, key)
+				return strings.Join(append(advertisedHosts, overlayAddress.String()), ",")
+			}
+			return getenv(key)
+		})
+	}
+}
+
+func yacynodeListenerOpenerFor(
+	overlay yggdrasilOverlay,
+) func(context.Context, yacynodeassembly.ServiceConfig) (yacynodeassembly.Listeners, error) {
+	if !overlay.isJoined() {
+		return yacynodeassembly.ListenersFor
+	}
+	return func(
+		ctx context.Context,
+		cfg yacynodeassembly.ServiceConfig,
+	) (yacynodeassembly.Listeners, error) {
+		listeners, err := yacynodeassembly.ListenersFor(ctx, cfg)
+		if err != nil {
+			return listeners, err
+		}
+		overlayListener, err := overlay.listen(cfg.Identity.AdvertisePort)
+		if err != nil {
+			return yacynodeassembly.Listeners{}, errors.Join(err, listeners.Close())
+		}
+		return yacynodeassembly.Listeners{
+			PeerProtocol: jointlistener.New(listeners.PeerProtocol, overlayListener),
+		}, nil
 	}
 }
 

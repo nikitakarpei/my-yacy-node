@@ -18,6 +18,20 @@ components:
     in: internal/loopback/**
   visitlinksecret:
     in: internal/visitlinksecret/**
+  yggdrasilkey:
+    in: internal/yggdrasilkey/**
+  yggdrasilnode:
+    in: internal/yggdrasilnode/**
+  yggdrasilpeerlist:
+    in: internal/yggdrasilpeerlist/**
+  yggdrasilpeerchoice:
+    in: internal/yggdrasilpeerchoice/**
+  connecttimers:
+    in: internal/connecttimers/**
+  ipv6stack:
+    in: internal/ipv6stack/**
+  jointlistener:
+    in: internal/jointlistener/**
   metrichistory:
     in: internal/metrichistory/**
   dashboardpage:
@@ -41,6 +55,15 @@ vendors:
   logrus:
     in:
       - github.com/sirupsen/logrus
+  yggdrasil:
+    in:
+      - github.com/yggdrasil-network/yggdrasil-go/src/address
+      - github.com/yggdrasil-network/yggdrasil-go/src/config
+      - github.com/yggdrasil-network/yggdrasil-go/src/core
+      - github.com/yggdrasil-network/yggdrasil-go/src/ipv6rwc
+  gvisor:
+    in:
+      - gvisor.dev/gvisor/pkg/**
   prometheusclient:
     in:
       - github.com/prometheus/client_golang/prometheus
@@ -76,6 +99,18 @@ deps:
       - smokescreen
       - logrus
       - serviceruntime
+  yggdrasilnode:
+    canUse:
+      - yggdrasil
+  yggdrasilpeerlist:
+    canUse:
+      - yggdrasil
+  yggdrasilpeerchoice:
+    mayDependOn:
+      - yggdrasilpeerlist
+  ipv6stack:
+    canUse:
+      - gvisor
   metrichistory:
     canUse:
       - prometheusclient

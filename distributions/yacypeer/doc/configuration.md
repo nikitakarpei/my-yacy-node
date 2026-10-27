@@ -27,6 +27,28 @@ other hosts reach an address, set it, such as `YACYDHTSEARCH_LISTEN_ADDR=:8080` 
 `YACYPEER_OPS_ADDR=:9090`. In a container, you must do this to reach the address from
 outside the container.
 
+## Yggdrasil
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `YACYPEER_YGGDRASIL_PEERS` | none | Comma-separated URIs of Yggdrasil peers, such as `tls://peer.example:443`. |
+| `YACYPEER_YGGDRASIL_LISTEN` | none | Comma-separated URIs where the peer accepts Yggdrasil peerings, such as `tls://[::]:9001`. |
+| `YACYPEER_YGGDRASIL_PEER_LIST` | none | URL of a public Yggdrasil peer list, such as `https://publicpeers.neilalexander.dev/publicnodes.json`. |
+
+If you set one of these settings, the peer joins the Yggdrasil network. It also serves the
+peer address of yacynode on its Yggdrasil address, on the advertised port. It sends requests
+for Yggdrasil addresses through the Yggdrasil network. It adds its Yggdrasil address to the
+end of `YACY_ADVERTISE_ADDITIONAL_HOSTS`.
+
+If you set `YACYPEER_YGGDRASIL_PEER_LIST`, the peer reads the list. It connects to some
+`tcp` and `tls` peers that the list shows as up and that connect fastest from your host.
+It connects to one peer for each key. It chooses these peers when it starts. To choose the
+peers again, for example when they go down, restart the peer. The list server selects your
+peers, thus use a list that you trust.
+
+You cannot set `YACYPEER_EGRESS_PROXY_URL` and a Yggdrasil setting together. You cannot
+set `YACYPEER_YGGDRASIL_PEERS` and `YACYPEER_YGGDRASIL_PEER_LIST` together.
+
 ## Services
 
 yacypeer runs [yacynode](../../../services/yacynode/doc/configuration.md),

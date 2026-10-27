@@ -17,6 +17,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.24.1
@@ -24,10 +25,15 @@ require (
 	github.com/prometheus/prometheus v0.315.1
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stripe/smokescreen v0.0.5-0.20260706062719-a3294a6cc4e4
+	github.com/yggdrasil-network/yggdrasil-go v0.5.15
+	gvisor.dev/gvisor v0.0.0-20250812171554-968e93457fe6
 )
 
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
+	github.com/Arceliar/ironwood v0.0.0-20261023231900-0712eccbb962 // indirect
+	github.com/Arceliar/phony v0.0.0-20220903101357-530938a4b13d // indirect
 	github.com/DataDog/datadog-go v4.5.1+incompatible // indirect
 	github.com/DataDog/zstd v1.5.7 // indirect
 	github.com/JohannesKaufmann/dom v0.3.1 // indirect
@@ -40,7 +46,8 @@ require (
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/armon/go-proxyproto v0.0.0-20170620220930-48572f11356f // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bits-and-blooms/bitset v1.24.2 // indirect
+	github.com/bits-and-blooms/bitset v1.26.0 // indirect
+	github.com/bits-and-blooms/bloom/v3 v3.7.1 // indirect
 	github.com/blevesearch/bleve/v2 v2.6.1 // indirect
 	github.com/blevesearch/bleve_index_api v1.4.1 // indirect
 	github.com/blevesearch/geo v0.2.6 // indirect
@@ -69,6 +76,7 @@ require (
 	github.com/cockroachdb/redact v1.1.5 // indirect
 	github.com/cockroachdb/swiss v0.0.0-20260820225851-333444432258 // indirect
 	github.com/cockroachdb/tokenbucket v0.0.0-20230807174530-cc333fc44b06 // indirect
+	github.com/coder/websocket v1.8.15 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dennwc/varint v1.0.0 // indirect
 	github.com/edsrzf/mmap-go v1.2.1-0.20241212181136-fad1cd13edbd // indirect
@@ -81,10 +89,13 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/golang/snappy v1.0.0 // indirect
+	github.com/gologme/log v1.3.0 // indirect
+	github.com/google/btree v1.1.3 // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grafana/regexp v0.0.0-20250905093917-f7b3be9d1853 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
+	github.com/hjson/hjson-go/v4 v4.7.1 // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.20.0 // indirect
@@ -111,11 +122,11 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
 	github.com/prometheus/procfs v0.21.1 // indirect
+	github.com/quic-go/quic-go v0.64.1 // indirect
 	github.com/redis/go-redis/v9 v9.22.0 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/rs/xid v1.2.1 // indirect
@@ -128,14 +139,14 @@ require (
 	go.opentelemetry.io/otel/trace v1.46.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	golang.org/x/crypto v0.57.0 // indirect
+	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/exp v0.0.0-20260709172345-9ea1abe57597 // indirect
-	golang.org/x/net v0.60.0 // indirect
+	golang.org/x/net v0.61.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
-	golang.org/x/sync v0.23.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
-	golang.org/x/term v0.46.0 // indirect
-	golang.org/x/text v0.42.0 // indirect
+	golang.org/x/sync v0.24.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/term v0.47.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20261019180522-ce908d29299b // indirect
 	google.golang.org/protobuf v1.36.12 // indirect

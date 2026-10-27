@@ -51,7 +51,12 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer closeHistory(ctx, history)
-	egress, err := egressproxy.Listen(ctx, cfg.EgressProxyURL)
+	overlay, err := yggdrasilOverlayFor(ctx, cfg)
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
+	defer overlay.stop()
+	egress, err := egressproxy.Listen(ctx, cfg.EgressProxyURL, overlay.egressOverlays())
 	if err != nil {
 		return errors.Join(err, ops.Close())
 	}
@@ -61,7 +66,7 @@ func RunPeer(
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
 
-	services, err := servicesFor(ctx, cfg, addresses, crawler, visitLinkSecret, getenv)
+	services, err := servicesFor(ctx, cfg, addresses, overlay, crawler, visitLinkSecret, getenv)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
@@ -69,14 +74,14 @@ func RunPeer(
 	processRegistry := opsmetrics.ProcessRegistry()
 	opsMux := opsMuxFor(processRegistry, services, history)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, services,
+		return runEvery(ctx, services, append(overlay.runs(),
 			func(ctx context.Context) error {
 				return egress.Run(servicelog.ContextFor(ctx, egressproxy.Name))
 			},
 			func(ctx context.Context) error {
 				return history.Run(ctx, metricSourcesOf(processRegistry, services))
 			},
-		)
+		)...)
 	})
 }
 
