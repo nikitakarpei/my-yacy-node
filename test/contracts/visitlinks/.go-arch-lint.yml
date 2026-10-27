@@ -1,0 +1,15 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  visitlinks:
+    in: .
+
+excludeFiles:
+  - "_test\\.go"
+
+deps: {}

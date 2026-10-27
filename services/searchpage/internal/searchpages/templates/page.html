@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>{{if .Query}}{{.Query}}{{if gt .PageNumber 1}} – page {{.PageNumber}}{{end}}{{else}}Search{{end}}</title>
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+<link rel="stylesheet" href="/static/search.css">
+</head>
+<body>
+<header><div class="bar">
+  <search>
+  <form method="get" action="/search">
+    <div class="box">
+      <input type="search" name="q" value="{{.Query}}" aria-label="Search" autocomplete="off"{{if not .Query}} autofocus{{end}}>
+      <button type="submit" aria-label="Search" title="Search"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    </div>
+    <details class="operators">
+      <summary>Search operators</summary>
+      <dl>
+        {{range .Operators}}<dt>!{{.Shortcut}}</dt><dd>{{.Meaning}}</dd>{{end}}
+        <dt>:de</dt><dd>only pages in one language, here German</dd>
+      </dl>
+    </details>
+  </form>
+  </search>
+</div></header>
+<main>
+{{if .Searched}}
+  {{range .Failures}}<p class="failure" role="status">{{.}}</p>{{end}}
+  {{if .Results}}
+  <ol class="results">
+    {{range .Results}}
+    <li class="result">
+      <h2><a href="{{.Link}}" rel="nofollow">{{.Title}}</a></h2>
+      <a class="address" href="{{.Link}}" rel="nofollow">{{.ShownAddress}}</a>
+      <p>{{.Snippet}}</p>
+    </li>
+    {{end}}
+  </ol>
+  {{if or .PreviousPage .NextPage}}
+  <nav class="pages" aria-label="Pages">
+    {{with .PreviousPage}}<a class="page" href="{{.}}" rel="prev">Previous</a>{{end}}
+    {{with .NextPage}}<a class="page" href="{{.}}" rel="next">Next</a>{{end}}
+  </nav>
+  {{end}}
+  {{else if not .Failures}}
+  <p class="none">No results.</p>
+  {{end}}
+{{end}}
+</main>
+</body>
+</html>

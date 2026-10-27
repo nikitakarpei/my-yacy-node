@@ -1,0 +1,72 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  searchqueries:
+    in: internal/searchqueries/**
+  searchresults:
+    in: internal/searchresults/**
+  resultsourcescorpustext:
+    in: internal/resultsources/corpustext/**
+  resultsourcesyacysearch:
+    in: internal/resultsources/yacysearch/**
+  resultsourceobserversapplog:
+    in: internal/resultsourceobservers/applog/**
+  resultlinksvisitcrawl:
+    in: internal/resultlinks/visitcrawl/**
+  resultlinksdirect:
+    in: internal/resultlinks/direct/**
+  visitrelay:
+    in: internal/visitrelay/**
+  visitrelayobserversapplog:
+    in: internal/visitrelayobservers/applog/**
+  searchpages:
+    in: internal/searchpages/**
+  searchpageobserversapplog:
+    in: internal/searchpageobservers/applog/**
+  searchpageassembly:
+    in: assembly/**
+  searchpagecmd:
+    in: cmd/searchpage/**
+
+vendors:
+  searchdocument:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/searchdocument
+      - github.com/nikitakarpei/yacy-rwi-node/searchdocument/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+
+deps:
+  resultsourcescorpustext:
+    mayDependOn:
+      - searchqueries
+      - searchresults
+    canUse:
+      - searchdocument
+  resultsourcesyacysearch:
+    mayDependOn:
+      - searchqueries
+      - searchresults
+  searchpages:
+    mayDependOn:
+      - searchqueries
+      - searchresults
+  searchpageassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  searchpagecmd:
+    mayDependOn:
+      - searchpageassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"
