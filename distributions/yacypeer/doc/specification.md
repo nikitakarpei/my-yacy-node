@@ -16,12 +16,11 @@ program.
 * The program SHALL run a NATS server that only the local host can reach.
 * The program SHALL let only the local host reach its endpoints, except the peer endpoint
   of `yacynode`, until the operator sets their addresses.
-* The program SHALL NOT send outbound requests to loopback or private addresses, except page
-  fetches through a page fetch proxy.
-* The program SHALL send requests to peers and seedlists through the peer proxy that the
-  operator names, also when the operator names a loopback or private IP address for it.
-* The program SHALL send page fetches through the page fetch proxy that the operator names,
-  else as it sends requests to peers.
+* The program SHALL NOT send outbound requests to loopback or private addresses, other than
+  to a proxy that the operator names, or through a page fetch proxy.
+* The program SHALL send outbound requests through the peer proxy that the operator names.
+* The program SHALL send page fetches through the page fetch proxy instead, when the operator
+  names one.
 * The program SHALL answer a repeated page fetch from its cache, per page and user agent,
   within the cache retention.
 * The cache SHALL hold only final answers to unconditional fetches, within the size limit.
