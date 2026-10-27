@@ -5,27 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{block "refresh" .Content}}{{end}}
 <title>{{block "title" .Content}}{{end}} · {{text "console.name"}}</title>
+<link rel="stylesheet" href="{{.WebUIStylesheet}}">
 <link rel="stylesheet" href="/static/console.css">
 </head>
-<body>
-<header><div class="bar">
-  <nav><a href="/">{{text "navigation.crawls"}}</a></nav>
-  {{with .Header}}
-  <span class="status">
-    <span class="state crawler-{{.CrawlerState}}">{{text (print "crawler-state." .CrawlerState)}}</span>
-    {{if .Answered}}<span class="muted">{{text "header.figures" .Status.AmountOfRunningCrawls .Status.PendingPageVisits}}</span>{{end}}
-  </span>
-  {{if .Answered}}
-  <form class="inline" method="post" action="/crawler-pause">
-    <input type="hidden" name="Back" value="{{$.Path}}">
-    {{if .Status.Paused}}<input type="hidden" name="Paused" value="false"><button class="primary">{{text "header.resume-all"}}</button>
-    {{else}}<input type="hidden" name="Paused" value="true"><button>{{text "header.pause-all"}}</button>{{end}}
-  </form>
-  {{end}}
-  {{end}}
-</div></header>
+<body class="webui-centered">
+{{.TabBar}}
 <main>
 {{if .CrawlerUnanswered}}<div class="notice">{{text "notice.crawler-unanswered"}}</div>{{end}}
+{{block "crawler" .}}{{if .Crawler.Status.Paused}}<div class="notice">{{text "notice.crawler-paused"}}</div>{{end}}{{end}}
 {{template "content" .Content}}
 </main>
 </body>

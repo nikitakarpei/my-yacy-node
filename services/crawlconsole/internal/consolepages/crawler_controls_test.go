@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-func TestHeaderShowsWhatTheCrawlerDoes(t *testing.T) {
+func TestTheCrawlTablesShowWhatTheCrawlerDoes(t *testing.T) {
 	cases := []struct {
 		name      string
 		status    yacycrawlcontract.CrawlerStatus
@@ -44,11 +44,25 @@ func TestHeaderShowsWhatTheCrawlerDoes(t *testing.T) {
 	}
 }
 
-func TestHeaderShowsTheCrawlerDoesNotAnswer(t *testing.T) {
-	answer := consoleOver(&fakeCrawler{down: true}).get("/crawls/new")
+func TestTheCrawlTablesShowTheCrawlerDoesNotAnswer(t *testing.T) {
+	answer := consoleOver(&fakeCrawler{down: true}).get("/")
 
 	assertShows(t, answer, "Unknown", "The crawler does not answer.")
 	assertHides(t, answer, "Pause all", "Resume all")
+}
+
+func TestTheOtherPagesShowOnlyThatTheCrawlerIsPaused(t *testing.T) {
+	paused := consoleOver(&fakeCrawler{status: yacycrawlcontract.CrawlerStatus{Paused: true}})
+	crawling := consoleOver(&fakeCrawler{
+		status: yacycrawlcontract.CrawlerStatus{PendingPageVisits: 30},
+	})
+
+	pausedForm := paused.get("/crawls/new")
+	crawlingForm := crawling.get("/crawls/new")
+
+	assertShows(t, pausedForm, "The crawler is paused.")
+	assertHides(t, pausedForm, "Resume all")
+	assertHides(t, crawlingForm, "The crawler is paused.", "Pause all", "pages pending")
 }
 
 func TestCrawlerPauseReturnsToThePageItWasSentFrom(t *testing.T) {

@@ -27,7 +27,7 @@ func TestEnglishNamesEveryWordOfTheCrawler(t *testing.T) {
 }
 
 func TestTextOfFillsThePlaceholders(t *testing.T) {
-	text, err := consolemessages.English().TextOf("header.figures", 2, 30)
+	text, err := consolemessages.English().TextOf("crawler.figures", 2, 30)
 	if err != nil {
 		t.Fatalf("TextOf: %v", err)
 	}

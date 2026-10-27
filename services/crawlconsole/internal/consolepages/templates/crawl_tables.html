@@ -3,8 +3,27 @@
 {{define "pager"}}<div class="pager">{{if .NewestPageURL}}<a href="{{.NewestPageURL}}">{{text "pager.newest"}}</a>{{end}}{{if .NewerPageURL}}<a href="{{.NewerPageURL}}">{{text "pager.newer"}}</a>{{end}}{{if .OlderPageURL}}<a href="{{.OlderPageURL}}">{{text "pager.older"}}</a>{{end}}</div>{{end}}
 {{define "other-seeds"}}{{if .AmountOfOtherSeedURLs}} <span class="muted">{{text "crawl.other-seed-urls" .AmountOfOtherSeedURLs}}</span>{{end}}{{end}}
 {{define "crawl"}}<td class="crawl">{{if .Label}}<a href="/crawls/{{.CrawlID}}">{{.Label}}</a><div><span class="url muted">{{.FirstSeedURL}}</span>{{template "other-seeds" .}}</div>{{else}}<a class="url" href="/crawls/{{.CrawlID}}">{{.FirstSeedURL}}</a>{{template "other-seeds" .}}{{end}}</td>{{end}}
+{{define "crawler"}}
+<div class="toolbar">
+  {{with .Crawler}}
+  <span class="status">
+    <span class="state crawler-{{.CrawlerState}}">{{text (print "crawler-state." .CrawlerState)}}</span>
+    {{if .Answered}}<span class="muted">{{text "crawler.figures" .Status.AmountOfRunningCrawls .Status.PendingPageVisits}}</span>{{end}}
+  </span>
+  {{end}}
+  <span class="actions">
+    {{if .Crawler.Answered}}
+    <form class="inline" method="post" action="/crawler-pause">
+      <input type="hidden" name="Back" value="{{.Path}}">
+      {{if .Crawler.Status.Paused}}<input type="hidden" name="Paused" value="false"><button class="primary">{{text "crawler.resume-all"}}</button>
+      {{else}}<input type="hidden" name="Paused" value="true"><button>{{text "crawler.pause-all"}}</button>{{end}}
+    </form>
+    {{end}}
+    <a class="button primary" href="/crawls/new">{{text "new-crawl.title"}}</a>
+  </span>
+</div>
+{{end}}
 {{define "content"}}
-<div class="toolbar"><h1>{{text "crawl-tables.title"}}</h1><a class="button primary" href="/crawls/new">{{text "new-crawl.title"}}</a></div>
 <h2>{{text "crawl-tables.running"}}</h2>
 <div class="table-scroll"><table>
   <tr><th>{{text "crawl.name"}}</th><th>{{text "crawl.state"}}</th><th class="number">{{text "crawl.pending"}}</th><th class="number">{{text "visit-outcome.published"}}</th><th>{{text "crawl.started-at"}}</th><th class="number">{{text "crawl.duration"}}</th></tr>

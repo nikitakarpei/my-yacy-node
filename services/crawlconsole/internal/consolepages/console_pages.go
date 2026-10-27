@@ -1,7 +1,7 @@
 // Package consolepages serves the crawl console as HTML pages that the server renders: the
-// tables of running and finished crawls, one crawl with its progress, hosts and controls, the form
-// that starts a crawl, and the header that pauses every page visit. A form sent from another
-// origin is refused.
+// tables of running and finished crawls with the controls that pause every page visit, one crawl
+// with its progress, hosts and controls, and the form that starts a crawl. A form sent from
+// another origin is refused.
 package consolepages
 
 import (
@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/crawlconsole/internal/consolemessages"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -55,11 +56,12 @@ type ConsoleObserver interface {
 func New(
 	crawler Crawler,
 	catalog consolemessages.Catalog,
+	tabBar webuistyle.TabBar,
 	clock Clock,
 	observer ConsoleObserver,
 ) http.Handler {
-	header := crawlerHeader{crawler: crawler, observer: observer}
-	layout := newPageLayout(catalog, header, observer)
+	controls := crawlerControls{crawler: crawler, observer: observer}
+	layout := newPageLayout(catalog, tabBar, controls, observer)
 	tables := crawlTables{crawler: crawler, clock: clock, layout: layout, observer: observer}
 	detail := crawlDetail{crawler: crawler, clock: clock, layout: layout, observer: observer}
 	form := newCrawlForm{crawler: crawler, layout: layout, observer: observer}
@@ -70,7 +72,8 @@ func New(
 	mux.HandleFunc("GET /crawls/{id}", detail.show)
 	mux.HandleFunc("POST /crawls/{id}/cancel", detail.cancel)
 	mux.HandleFunc("POST /crawls/{id}/pause", detail.changePause)
-	mux.HandleFunc("POST /crawler-pause", header.changePause)
+	mux.HandleFunc("POST /crawler-pause", controls.changePause)
 	mux.Handle("GET /static/", http.FileServerFS(staticFiles))
+	mux.Handle("GET "+webuistyle.StylesheetPath, webuistyle.Stylesheet())
 	return http.NewCrossOriginProtection().Handler(mux)
 }

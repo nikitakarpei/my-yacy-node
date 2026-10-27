@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/crawlconsole/internal/consolemessages"
 	"github.com/nikitakarpei/yacy-rwi-node/crawlconsole/internal/consolepages"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -32,11 +33,16 @@ type console struct {
 }
 
 func consoleOver(crawler *fakeCrawler) console {
+	return consoleWithTabBar(crawler, webuistyle.TabBar{})
+}
+
+func consoleWithTabBar(crawler *fakeCrawler, tabBar webuistyle.TabBar) console {
 	observer := &recordingObserver{}
 	return console{
 		handler: consolepages.New(
 			crawler,
 			consolemessages.English(),
+			tabBar,
 			fixedClock{},
 			observer,
 		),
@@ -167,4 +173,32 @@ func TestConsoleServesItsStylesheet(t *testing.T) {
 	) {
 		t.Fatalf("Content-Type = %q, want text/css", contentType)
 	}
+}
+
+func TestConsoleLinksTheWebUIStylesheetAndServesIt(t *testing.T) {
+	console := consoleOver(&fakeCrawler{})
+
+	assertShows(t, console.get("/"), `href="`+webuistyle.StylesheetPath+`"`)
+	assertShows(t, console.get(webuistyle.StylesheetPath), "--webui-accent")
+}
+
+func TestEveryConsolePageShowsTheTabBar(t *testing.T) {
+	crawler := &fakeCrawler{
+		crawls: map[string]yacycrawlcontract.Crawl{"c1": runningCrawlOf(t, "c1")},
+	}
+	console := consoleWithTabBar(crawler, webuistyle.TabBar{Tabs: []webuistyle.Tab{
+		{Title: "Search", URL: "http://search.example"},
+		{Title: "Crawls", URL: "http://crawls.example", Current: true},
+	}})
+
+	for _, path := range []string{"/", "/crawls/c1", "/crawls/new"} {
+		assertShows(t, console.get(path),
+			`<a href="http://search.example">Search</a>`,
+			`<a href="http://crawls.example" aria-current="page">Crawls</a>`,
+		)
+	}
+}
+
+func TestAConsoleWithoutATabBarShowsNone(t *testing.T) {
+	assertHides(t, consoleOver(&fakeCrawler{}).get("/"), "webui-tabs")
 }

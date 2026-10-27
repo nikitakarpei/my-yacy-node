@@ -23,6 +23,9 @@ components:
     in: cmd/crawlconsole/**
 
 vendors:
+  webuistyle:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/webuistyle
   yacycrawlcontract:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
@@ -43,6 +46,7 @@ deps:
       - consolemessages
     canUse:
       - canonicalurl
+      - webuistyle
   crawlconsoleassembly:
     anyProjectDeps: true
     anyVendorDeps: true

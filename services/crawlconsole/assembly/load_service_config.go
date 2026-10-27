@@ -1,12 +1,16 @@
 package crawlconsoleassembly
 
 import (
+	"fmt"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 )
 
 const (
 	EnvListenAddr    = "CRAWLCONSOLE_LISTEN_ADDR"
 	EnvCrawlerAPIURL = "CRAWLCONSOLE_CRAWLER_API_URL"
+	EnvTabBar        = "CRAWLCONSOLE_TAB_BAR"
 	EnvOpsAddr       = "CRAWLCONSOLE_OPS_ADDR"
 )
 
@@ -20,10 +24,15 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	tabBar, err := webuistyle.TabBarFrom(getenv(EnvTabBar))
+	if err != nil {
+		return ServiceConfig{}, fmt.Errorf("%s: %w", EnvTabBar, err)
+	}
 
 	return ServiceConfig{
 		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		CrawlerAPIURL: crawlerAPIURL,
+		TabBar:        tabBar,
 		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
 }
