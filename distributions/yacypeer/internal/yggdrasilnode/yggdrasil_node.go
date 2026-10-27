@@ -92,15 +92,6 @@ func (n *Node) AddPeer(ctx context.Context, peerURL *url.URL, key ed25519.Public
 	}
 }
 
-func (n *Node) RemovePeer(ctx context.Context, peerURL *url.URL) {
-	if err := n.core.RemovePeer(peerURL, anySourceInterface); err != nil {
-		slog.WarnContext(ctx, "yggdrasil peer not removed",
-			slog.String("peer", peerURL.Redacted()),
-			slog.Any("reason", err),
-		)
-	}
-}
-
 func (n *Node) MTU() uint32 {
 	return uint32(n.packets.MTU()) //nolint:gosec // G115: ipv6rwc caps the MTU at 65535.
 }

@@ -26,8 +26,7 @@ program, connected and ready to use.
 * The program SHALL join the Yggdrasil network when the operator names Yggdrasil peers,
   Yggdrasil listen URIs, or a public Yggdrasil peer list.
 * With a peer list, the program SHALL peer with the listed peers that are up and connect
-  fastest from its host, one for each key, and SHALL replace a peer that its host cannot
-  connect to for some time.
+  fastest from its host, one for each key, when it starts.
 * On the Yggdrasil network, the program SHALL serve the peer endpoint of `yacynode` on its
   Yggdrasil address, and SHALL send outbound requests to Yggdrasil addresses through it.
 * On the Yggdrasil network, the program SHALL advertise its Yggdrasil address after the other
@@ -51,6 +50,7 @@ program, connected and ready to use.
 
 * The peer does not accept postings from other peers.
 * The server of the peer list selects the peers that the program can peer with.
+* The program keeps a peer from the peer list that goes down until the program restarts.
 * A peer tries the Yggdrasil address of the peer only after its other hosts fail. Peers outside
   the Yggdrasil network cannot use the Yggdrasil address.
 * Some log lines do not name a service, for example the lines that a library writes.

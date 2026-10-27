@@ -12,7 +12,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/visitcrawl v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
@@ -111,6 +110,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect

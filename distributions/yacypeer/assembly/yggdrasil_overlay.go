@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/connecttimers/tcp"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
@@ -57,7 +56,6 @@ func peerChoiceFor(cfg PeerConfig, node *yggdrasilnode.Node) *yggdrasilpeerchoic
 		yggdrasilpeerlist.New(cfg.YggdrasilPeerList),
 		node,
 		tcp.New(),
-		wallclock.Clock{},
 	)
 }
 
@@ -79,7 +77,9 @@ func (o yggdrasilOverlay) runs() []func(context.Context) error {
 	runs := []func(context.Context) error{o.stack.Run}
 	if o.peerChoice != nil {
 		runs = append(runs, func(ctx context.Context) error {
-			return o.peerChoice.Run(servicelog.ContextFor(ctx, yggdrasilnode.Name))
+			o.peerChoice.Choose(servicelog.ContextFor(ctx, yggdrasilnode.Name))
+			<-ctx.Done()
+			return nil
 		})
 	}
 	return runs

@@ -1,11 +1,8 @@
 package yggdrasilnode_test
 
 import (
-	"context"
 	"crypto/ed25519"
 	"crypto/rand"
-	"io"
-	"net"
 	"net/netip"
 	"net/url"
 	"path/filepath"
@@ -95,36 +92,6 @@ func awaitPacketDelivery(t *testing.T, node, peerNode *yggdrasilnode.Node) {
 	}
 }
 
-func relayTo(t *testing.T, peerURL *url.URL) (*url.URL, <-chan struct{}) {
-	t.Helper()
-	listener, err := (&net.ListenConfig{}).Listen(t.Context(), "tcp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatalf("listen for the relay: %v", err)
-	}
-	t.Cleanup(func() { _ = listener.Close() })
-	connectionEnded := make(chan struct{})
-	go func() {
-		defer close(connectionEnded)
-		relayOnce(t.Context(), listener, peerURL)
-	}()
-	return &url.URL{Scheme: "tcp", Host: listener.Addr().String()}, connectionEnded
-}
-
-func relayOnce(ctx context.Context, listener net.Listener, peerURL *url.URL) {
-	connection, err := listener.Accept()
-	if err != nil {
-		return
-	}
-	defer func() { _ = connection.Close() }()
-	peerConnection, err := (&net.Dialer{}).DialContext(ctx, peerURL.Scheme, peerURL.Path)
-	if err != nil {
-		return
-	}
-	defer func() { _ = peerConnection.Close() }()
-	go func() { _, _ = io.Copy(connection, peerConnection) }()
-	_, _ = io.Copy(peerConnection, connection)
-}
-
 func TestAddPeerCarriesPacketsToThePeerOfTheKey(t *testing.T) {
 	peerNode, peerKey, listenURL := listeningNode(t)
 	node, _ := startedNode(t, yggdrasilnode.Peering{})
@@ -132,20 +99,4 @@ func TestAddPeerCarriesPacketsToThePeerOfTheKey(t *testing.T) {
 	node.AddPeer(t.Context(), listenURL, peerKey)
 
 	awaitPacketDelivery(t, node, peerNode)
-}
-
-func TestRemovePeerEndsTheConnectionToThePeer(t *testing.T) {
-	peerNode, peerKey, listenURL := listeningNode(t)
-	relayURL, connectionEnded := relayTo(t, listenURL)
-	node, _ := startedNode(t, yggdrasilnode.Peering{})
-	node.AddPeer(t.Context(), relayURL, peerKey)
-	awaitPacketDelivery(t, node, peerNode)
-
-	node.RemovePeer(t.Context(), relayURL)
-
-	select {
-	case <-connectionEnded:
-	case <-time.After(peeringDeadline):
-		t.Fatal("the connection to the peer stays open")
-	}
 }
