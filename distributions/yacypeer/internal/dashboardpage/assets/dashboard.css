@@ -202,3 +202,20 @@ a {
 .u-legend th {
   font-weight: 400;
 }
+
+.grid > .row,
+.grid > .panel {
+  grid-column: var(--grid-column);
+  grid-row: var(--grid-row);
+}
+
+@media (max-width: 48rem) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .grid > .row,
+  .grid > .panel {
+    grid-column: 1;
+    grid-row: auto / span var(--grid-height);
+  }
+}

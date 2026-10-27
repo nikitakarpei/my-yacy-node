@@ -12,6 +12,7 @@
   const statLookbackSeconds = 300;
   const allValue = "$__all";
   const autoValue = "auto";
+  const heatmapLabelFont = "11px system-ui, sans-serif";
   const palette = [
     "#73BF69",
     "#F2CC0C",
@@ -385,8 +386,10 @@
     for (const spec of flattenedPanels(model.panels || [])) {
       const element = document.createElement("section");
       const position = spec.gridPos || { x: 0, y: 0, w: 12, h: 8 };
-      element.style.gridColumn = `${position.x + 1} / span ${position.w}`;
-      element.style.gridRow = `${position.y + 1} / span ${position.h}`;
+      element.style.setProperty("--grid-column", `${position.x + 1} / span ${position.w}`);
+      element.style.setProperty("--grid-row", `${position.y + 1} / span ${position.h}`);
+      element.style.setProperty("--grid-height", position.h);
+      element.style.order = position.y * 24 + position.x;
       if (spec.type === "row") {
         element.className = "row";
         element.textContent = spec.title || "";
@@ -713,7 +716,7 @@
       {
         ...axisStyle,
         scale: "y",
-        size: 70,
+        size: axisSizeOf,
         values: (chart, splits) =>
           splits.map((value) => valueTextOf(value, defaults.unit, defaults.decimals)),
         splits: logBase ? (chart, axis, low, high) => powersWithin(low, high, logBase) : undefined,
@@ -725,7 +728,7 @@
         scale: "right",
         side: 1,
         grid: { show: false },
-        size: 70,
+        size: axisSizeOf,
         values: (chart, splits) => splits.map((value) => valueTextOf(value, rightUnit)),
       });
     }
@@ -773,6 +776,20 @@
         height: Math.max(60, panel.body.clientHeight - legend.offsetHeight),
       });
     panel.resize();
+  }
+
+  function axisSizeOf(chart, values, axisIndex, cycle) {
+    const axis = chart.axes[axisIndex];
+    if (cycle > 1) {
+      return axis._size;
+    }
+    const longestValue = (values || []).reduce(
+      (longest, value) => (value.length > longest.length ? value : longest),
+      "",
+    );
+    chart.ctx.font = axis.font[0];
+    const valueWidth = chart.ctx.measureText(longestValue).width / devicePixelRatio;
+    return Math.ceil(axis.ticks.size + axis.gap + valueWidth) + 4;
   }
 
   function timesOf(span) {
@@ -846,7 +863,7 @@
     tip.className = "tip";
     container.append(canvas, tip);
     panel.body.replaceChildren(container);
-    const margin = { left: 72, right: 8, top: 4, bottom: 22 };
+    const margin = { left: rowLabelWidthOf(canvas, rows) + 12, right: 8, top: 4, bottom: 22 };
     const cellOf = (event) => {
       const { cellWidth, cellHeight } = heatmapGeometryOf(
         panel.body,
@@ -886,6 +903,13 @@
         gap: options.cellGap ?? 1,
       });
     panel.resize();
+  }
+
+  function rowLabelWidthOf(canvas, rows) {
+    const context = canvas.getContext("2d");
+    context.font = heatmapLabelFont;
+    const widths = rows.map((row) => context.measureText(row.label).width);
+    return Math.ceil(Math.max(12, ...widths));
   }
 
   function bucketRowsOf(drawn, unit) {
@@ -948,7 +972,7 @@
       }
     }
     context.fillStyle = theme.muted;
-    context.font = "11px system-ui, sans-serif";
+    context.font = heatmapLabelFont;
     context.textAlign = "right";
     context.textBaseline = "middle";
     const rowStep = Math.max(1, Math.ceil(14 / cellHeight));
