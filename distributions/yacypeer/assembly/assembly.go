@@ -12,11 +12,17 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 )
 
-const brokerDirectoryName = "nats"
+const (
+	brokerDirectoryName        = "nats"
+	metricHistoryDirectoryName = "metric-history"
+)
 
 func RunPeer(
 	ctx context.Context,
@@ -33,6 +39,16 @@ func RunPeer(
 		return errors.Join(err, ops.Close())
 	}
 	defer broker.Shutdown()
+	history, err := metrichistory.Open(
+		ctx,
+		cfg.directoryOf(metricHistoryDirectoryName),
+		cfg.MetricHistoryRetention,
+		wallclock.Clock{},
+	)
+	if err != nil {
+		return errors.Join(err, ops.Close())
+	}
+	defer closeHistory(ctx, history)
 	overlay, err := yggdrasilOverlayFor(ctx, cfg)
 	if err != nil {
 		return errors.Join(err, ops.Close())
@@ -53,10 +69,19 @@ func RunPeer(
 		return errors.Join(err, closeEvery([]io.Closer{ops, egress}))
 	}
 	logStarted(ctx, addresses, crawler.apiURL, ops)
-	opsMux := opsMuxFor(opsmetrics.ProcessRegistry(), services)
+	processRegistry := opsmetrics.ProcessRegistry()
+	opsMux := opsMuxFor(processRegistry, services, history)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return runEvery(ctx, egress, overlay, services)
+		return runEvery(ctx, egress, overlay, services, func(ctx context.Context) error {
+			return history.Run(ctx, metricSourcesOf(processRegistry, services))
+		})
 	})
+}
+
+func closeHistory(ctx context.Context, history *metrichistory.History) {
+	if err := history.Close(); err != nil {
+		slog.WarnContext(ctx, "metric history did not close", slog.Any("error", err))
+	}
 }
 
 func closeEvery[C io.Closer](closers []C) error {
@@ -81,12 +106,31 @@ func logStarted(
 	)
 }
 
-func opsMuxFor(processRegistry *prometheus.Registry, services []service) *http.ServeMux {
+func opsMuxFor(
+	processRegistry *prometheus.Registry,
+	services []service,
+	history *metrichistory.History,
+) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
 		mux.Handle(opsmetrics.PathMetrics+"/"+service.name, opsmetrics.HandlerFor(service.registry))
 	}
+	dashboardpage.Register(mux, history, metrichistory.SampleInterval, serviceDashboards)
 	return mux
+}
+
+func metricSourcesOf(
+	processRegistry *prometheus.Registry,
+	services []service,
+) []metrichistory.Source {
+	sources := make([]metrichistory.Source, 0, len(services))
+	for _, service := range services {
+		sources = append(sources, metrichistory.Source{
+			Gatherer: prometheus.Gatherers{processRegistry, service.registry},
+			Instance: service.name,
+		})
+	}
+	return sources
 }
 
 func runEvery(
@@ -94,8 +138,9 @@ func runEvery(
 	egress egressRoute,
 	overlay yggdrasilOverlay,
 	services []service,
+	historyRun func(context.Context) error,
 ) error {
-	runs := append(egress.runs(), overlay.runs()...)
+	runs := append(append(egress.runs(), overlay.runs()...), historyRun)
 	for _, service := range services {
 		runs = append(runs, service.run)
 	}

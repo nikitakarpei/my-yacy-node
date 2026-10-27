@@ -10,6 +10,8 @@ commonVendors:
   - canonicalurl
 
 components:
+  yacynodedoc:
+    in: doc/**
   hashkeypart:
     in: internal/hashkeypart/**
   httpguard:

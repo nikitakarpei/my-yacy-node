@@ -32,6 +32,10 @@ components:
     in: internal/ipv6stack/**
   jointlistener:
     in: internal/jointlistener/**
+  metrichistory:
+    in: internal/metrichistory/**
+  dashboardpage:
+    in: internal/dashboardpage/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -60,6 +64,25 @@ vendors:
   gvisor:
     in:
       - gvisor.dev/gvisor/pkg/**
+  prometheusclient:
+    in:
+      - github.com/prometheus/client_golang/prometheus
+      - github.com/prometheus/common/expfmt
+      - github.com/prometheus/common/model
+  prometheusquery:
+    in:
+      - github.com/prometheus/prometheus/model/labels
+      - github.com/prometheus/prometheus/promql
+      - github.com/prometheus/prometheus/promql/parser
+      - github.com/prometheus/prometheus/storage
+      - github.com/prometheus/prometheus/tsdb/chunkenc
+      - github.com/prometheus/prometheus/tsdb/chunks
+      - github.com/prometheus/prometheus/tsdb/encoding
+      - github.com/prometheus/prometheus/util/annotations
+  vault:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/vault
+      - github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault
 deps:
   natsbroker:
     mayDependOn:
@@ -88,6 +111,15 @@ deps:
   ipv6stack:
     canUse:
       - gvisor
+  metrichistory:
+    canUse:
+      - prometheusclient
+      - prometheusquery
+      - vault
+  dashboardpage:
+    canUse:
+      - prometheusclient
+      - prometheusquery
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

@@ -1,0 +1,204 @@
+:root {
+  --background: #111217;
+  --panel: #181b1f;
+  --border: #2c3235;
+  --text: #ccccdc;
+  --muted: #8e8e9e;
+  --accent: #6e9fff;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.toolbar .title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.toolbar label {
+  color: var(--muted);
+}
+.toolbar select,
+.toolbar button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 3px 8px;
+  font: inherit;
+}
+.toolbar button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+#ranges {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+#variables {
+  display: flex;
+  gap: 12px;
+}
+
+.list {
+  padding: 16px;
+  font-size: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+  grid-auto-rows: 30px;
+  gap: 8px;
+  padding: 8px 16px 32px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.panel h2 {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.panel h2 .title {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panel h2 .description-marker {
+  flex: none;
+  color: var(--muted);
+  cursor: help;
+}
+
+.description-tip {
+  position: fixed;
+  z-index: 3;
+  max-width: 360px;
+  padding: 6px 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.panel .body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel .legend {
+  flex: none;
+  max-height: 40%;
+  overflow-y: auto;
+}
+
+.heatmap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.heatmap canvas {
+  display: block;
+}
+.heatmap .tip {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  white-space: nowrap;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--border);
+  font-size: 11px;
+}
+
+.panel .notice {
+  padding: 8px;
+  color: var(--muted);
+}
+
+.panel .notice.failure {
+  color: #f2495c;
+}
+
+.stat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.stat .value {
+  font-size: 32px;
+  font-weight: 500;
+}
+.stat .name {
+  color: var(--muted);
+}
+
+.u-legend {
+  font-size: 11px;
+  text-align: left;
+}
+.u-legend .u-marker {
+  width: 10px;
+  height: 3px;
+}
+.u-legend th {
+  font-weight: 400;
+}

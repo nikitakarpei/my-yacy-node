@@ -9,7 +9,6 @@ program, connected and ready to use.
 ## Non-Goals
 
 * Serving a search page; SearXNG stays a separate program.
-* Showing metrics; Prometheus and Grafana stay separate programs.
 * Running a part of the peer alone.
 
 ## Functional Requirements
@@ -42,7 +41,11 @@ program, connected and ready to use.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.
-* The program SHALL serve the metrics of the process and of each service on one address.
+* The program SHALL serve the metrics of the process and of each service on the ops address.
+* The program SHALL keep a metric history of the process and of each service in the data
+  directory for the retention period that the operator sets.
+* The program SHALL show the dashboard of each service that has one on the ops address, and
+  SHALL draw it from the metric history.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.
 
@@ -54,3 +57,5 @@ program, connected and ready to use.
 * A peer tries the Yggdrasil address of the peer only after its other hosts fail. Peers outside
   the Yggdrasil network cannot use the Yggdrasil address.
 * Some log lines do not name a service, for example the lines that a library writes.
+* The dashboards draw state timeline panels as line charts.
+* A crash loses the most recent part of the metric history.

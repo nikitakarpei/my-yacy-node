@@ -141,3 +141,21 @@ ver="$1"; sum="$2"
 fetch mado \
 	"https://github.com/akiomik/mado/releases/download/v$ver/mado-$mado_os-$mado_arch.tar.gz" \
 	"$sum" "mado"
+
+# esbuild and Biome publish their release binaries as npm package archives.
+case "$arch" in
+	amd64) npm_arch=x64 ;;
+	arm64) npm_arch=arm64 ;;
+esac
+npm_platform="$os-$npm_arch"
+set -- $(lookup esbuild)
+ver="$1"; sum="$2"
+fetch esbuild \
+	"https://registry.npmjs.org/@esbuild/$npm_platform/-/$npm_platform-$ver.tgz" \
+	"$sum" "package/bin/esbuild"
+
+set -- $(lookup biome)
+ver="$1"; sum="$2"
+fetch biome \
+	"https://registry.npmjs.org/@biomejs/cli-$npm_platform/-/cli-$npm_platform-$ver.tgz" \
+	"$sum" "package/biome"

@@ -26,6 +26,8 @@ GOLANGCI_LINT := $(TOOLS_BIN)/golangci-lint
 GO_ARCH_LINT := $(TOOLS_BIN)/go-arch-lint
 RUFF := $(TOOLS_BIN)/ruff
 MADO := $(TOOLS_BIN)/mado
+ESBUILD := $(TOOLS_BIN)/esbuild
+BIOME := $(TOOLS_BIN)/biome
 UV := $(TOOLS_BIN)/uv
 
 export UV_PYTHON_INSTALL_DIR := $(CURDIR)/.toolchain/python
@@ -35,6 +37,9 @@ export UV_PYTHON_PREFERENCE := only-managed
 PY_VENV := $(CURDIR)/.venv
 PY_VENV_STAMP := $(PY_VENV)/.installed
 PY_CONFIG := $(CURDIR)/pyproject.toml
+
+WEB_FILES = git ls-files -z '*.js' '*.css' ':!:*.min.js' ':!:*.min.css'
+JS_FILES = git ls-files -z '*.js' ':!:*.min.js'
 
 define for_each_go
 echo "==> $(1)"; \
@@ -63,12 +68,12 @@ done
 endef
 
 .PHONY: tools \
-	fmt fmt-go fmt-go-e2e fmt-py \
-	fmt-check fmt-check-go fmt-check-go-e2e fmt-check-py \
+	fmt fmt-go fmt-go-e2e fmt-py fmt-web \
+	fmt-check fmt-check-go fmt-check-go-e2e fmt-check-py fmt-check-web \
 	tidy tidy-go tidy-go-e2e tidy-py \
 	tidy-check tidy-check-go tidy-check-go-e2e tidy-check-py \
 	workspace \
-	lint lint-go lint-go-e2e lint-py lint-md \
+	lint lint-go lint-go-e2e lint-py lint-md lint-js \
 	arch arch-go arch-py arch-diagram \
 	test test-go test-py \
 	cover cover-go cover-py \
@@ -76,11 +81,11 @@ endef
 	build build-go verify peer-hash \
 	e2e e2e-images
 
-fmt:         fmt-go fmt-go-e2e fmt-py
-fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py
+fmt:         fmt-go fmt-go-e2e fmt-py fmt-web
+fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py fmt-check-web
 tidy:        tidy-go tidy-go-e2e tidy-py
 tidy-check:  tidy-check-go tidy-check-go-e2e tidy-check-py
-lint:        lint-go lint-go-e2e lint-py lint-md
+lint:        lint-go lint-go-e2e lint-py lint-md lint-js
 arch:        arch-go arch-py
 test:        test-go test-py
 cover:       cover-go cover-py
@@ -195,6 +200,23 @@ lint-md: $(TOOLS_STAMP)
 	@if ! out=$$(git ls-files -z '*.md' | xargs -0 $(MADO) check 2>&1); then \
 		echo "$$out"; exit 1; \
 	fi
+
+# ---- Web assets ----
+
+fmt-web: $(TOOLS_STAMP)
+	@echo "==> fmt-web"
+	@$(WEB_FILES) | xargs -0 $(BIOME) format --write --no-errors-on-unmatched
+
+fmt-check-web: $(TOOLS_STAMP)
+	@echo "==> fmt-check-web"
+	@if ! out=$$($(WEB_FILES) | xargs -0 $(BIOME) format --no-errors-on-unmatched 2>&1); then \
+		echo "$$out"; exit 1; \
+	fi
+
+lint-js: $(TOOLS_STAMP)
+	@echo "==> lint-js"
+	@out=$$($(JS_FILES) | xargs -0 -I{} $(ESBUILD) {} --target=es2022 --log-level=warning 2>&1 >/dev/null); \
+	if [ -n "$$out" ]; then echo "$$out"; exit 1; fi
 
 # ---- misc ----
 
