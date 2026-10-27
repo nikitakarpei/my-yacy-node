@@ -17,6 +17,7 @@ import (
 	"github.com/prometheus/prometheus/tsdb/chunkenc"
 	"github.com/prometheus/prometheus/util/annotations"
 
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 )
 
@@ -81,6 +82,11 @@ func (*listedSeries) Warnings() annotations.Annotations { return nil }
 
 func pageServer(t *testing.T) *httptest.Server {
 	t.Helper()
+	return pageServerWithTabBar(t, webuistyle.TabBar{})
+}
+
+func pageServerWithTabBar(t *testing.T, tabBar webuistyle.TabBar) *httptest.Server {
+	t.Helper()
 	chunk := chunkenc.NewXORChunk()
 	appender, err := chunk.Appender()
 	if err != nil {
@@ -98,7 +104,7 @@ func pageServer(t *testing.T) *httptest.Server {
 	mux := http.NewServeMux()
 	dashboardpage.Register(mux, history, 15*time.Second, []dashboardpage.Dashboard{
 		{Service: "yacynode", Model: []byte(`{"uid":"yacynode","title":"yacynode"}`)},
-	})
+	}, tabBar)
 	server := httptest.NewServer(mux)
 	t.Cleanup(server.Close)
 	return server
@@ -239,6 +245,43 @@ func TestDashboardPageCarriesTheDashboardModel(t *testing.T) {
 			nil,
 		); assetStatus != http.StatusOK {
 			t.Errorf("%s = %d, want 200", asset, assetStatus)
+		}
+	}
+}
+
+func TestDashboardPagesLinkTheWebUIStylesheetAndServeIt(t *testing.T) {
+	server := pageServer(t)
+
+	for _, path := range []string{"/dashboards", "/dashboards/yacynode"} {
+		if _, body := fetched(t, server.URL+path, nil); !strings.Contains(
+			body,
+			`href="`+webuistyle.StylesheetPath+`"`,
+		) {
+			t.Errorf("%s = %s, want the webuistyle stylesheet linked", path, body)
+		}
+	}
+	if _, body := fetched(t, server.URL+webuistyle.StylesheetPath, nil); !strings.Contains(
+		body,
+		"--webui-accent",
+	) {
+		t.Errorf("stylesheet = %s, want the webuistyle stylesheet", body)
+	}
+}
+
+func TestEveryDashboardPageShowsTheTabBar(t *testing.T) {
+	server := pageServerWithTabBar(t, webuistyle.TabBar{Tabs: []webuistyle.Tab{
+		{Title: "Search", URL: "http://search.example"},
+		{Title: "Metrics", URL: "http://metrics.example/dashboards", Current: true},
+	}})
+
+	for _, path := range []string{"/dashboards", "/dashboards/yacynode"} {
+		_, body := fetched(t, server.URL+path, nil)
+		if !strings.Contains(body, `<a href="http://search.example">Search</a>`) ||
+			!strings.Contains(
+				body,
+				`<a href="http://metrics.example/dashboards" aria-current="page">Metrics</a>`,
+			) {
+			t.Errorf("%s = %s, want the tab bar", path, body)
 		}
 	}
 }

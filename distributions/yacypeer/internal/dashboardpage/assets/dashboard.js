@@ -94,10 +94,11 @@
   const model = JSON.parse(document.getElementById("model").textContent);
   const themeStyle = getComputedStyle(document.documentElement);
   const theme = Object.fromEntries(
-    ["text", "muted", "border"].map((name) => [
-      name,
-      themeStyle.getPropertyValue(`--${name}`).trim(),
-    ]),
+    [
+      ["text", "--webui-ink"],
+      ["muted", "--webui-muted"],
+      ["border", "--webui-line"],
+    ].map(([name, property]) => [name, themeStyle.getPropertyValue(property).trim()]),
   );
   const sampleIntervalSeconds = Number(
     document.getElementById("dashboard").dataset.sampleIntervalSeconds,
@@ -161,8 +162,9 @@
     container.replaceChildren(
       ...ranges.map(([name, seconds]) => {
         const button = document.createElement("button");
+        button.type = "button";
         button.textContent = name;
-        button.className = seconds === state.rangeSeconds ? "active" : "";
+        button.setAttribute("aria-pressed", String(seconds === state.rangeSeconds));
         button.addEventListener("click", async () => {
           state.rangeSeconds = seconds;
           rememberInAddress();

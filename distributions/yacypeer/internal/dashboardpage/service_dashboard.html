@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{.Service}} · yacypeer dashboards</title>
 <link rel="stylesheet" href="/dashboards/assets/uPlot.min.css">
+<link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
 <link rel="stylesheet" href="/dashboards/assets/dashboard.css">
 </head>
 <body>
+{{.Frame.TabBar}}
 <header class="toolbar">
-  <a class="home" href="/dashboards">yacypeer dashboards</a>
-  <span class="title">{{.Service}}</span>
+  <h1>{{.Service}}</h1>
   <span id="variables"></span>
-  <span id="ranges"></span>
+  <span id="ranges" role="group" aria-label="Time range"></span>
 </header>
 <main id="dashboard" class="grid" data-sample-interval-seconds="{{.SampleIntervalSeconds}}"></main>
 <script id="model" type="application/json">{{.Model}}</script>

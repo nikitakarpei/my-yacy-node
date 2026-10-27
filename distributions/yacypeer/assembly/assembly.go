@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
@@ -115,7 +116,13 @@ func opsMuxFor(
 	for _, service := range services {
 		mux.Handle(opsmetrics.PathMetrics+"/"+service.name, opsmetrics.HandlerFor(service.registry))
 	}
-	dashboardpage.Register(mux, history, metrichistory.SampleInterval, serviceDashboards)
+	dashboardpage.Register(
+		mux,
+		history,
+		metrichistory.SampleInterval,
+		serviceDashboards,
+		webuistyle.TabBar{},
+	)
 	return mux
 }
 

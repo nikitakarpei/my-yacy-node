@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>yacypeer dashboards</title>
+<link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
 <link rel="stylesheet" href="/dashboards/assets/dashboard.css">
 </head>
 <body>
-<header class="toolbar">
-  <a class="home" href="/dashboards">yacypeer dashboards</a>
-</header>
+{{.Frame.TabBar}}
 <main class="list">
   <ul>
   {{range .Services}}<li><a href="/dashboards/{{.}}">{{.}}</a></li>
