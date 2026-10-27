@@ -2,15 +2,12 @@ package yacypeerassembly
 
 import (
 	"context"
-	"errors"
-	"strings"
+	"net"
+	"net/netip"
 
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/connecttimers/tcp"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/ipv6stack"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/jointlistener"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/yggdrasilnode"
@@ -49,7 +46,7 @@ func yggdrasilOverlayFor(ctx context.Context, cfg PeerConfig) (yggdrasilOverlay,
 }
 
 func peerChoiceFor(cfg PeerConfig, node *yggdrasilnode.Node) *yggdrasilpeerchoice.Choice {
-	if !cfg.choosesYggdrasilPeers() {
+	if !cfg.namesAYggdrasilPeerList() {
 		return nil
 	}
 	return yggdrasilpeerchoice.New(
@@ -92,31 +89,10 @@ func (o yggdrasilOverlay) stop() {
 	}
 }
 
-func (o yggdrasilOverlay) yacynodeListenersFor(
-	ctx context.Context,
-	cfg yacynodeassembly.ServiceConfig,
-) (yacynodeassembly.Listeners, error) {
-	listeners, err := yacynodeassembly.ListenersFor(ctx, cfg)
-	if err != nil || !o.isJoined() {
-		return listeners, err
-	}
-	overlayListener, err := o.stack.Listen(cfg.Identity.AdvertisePort)
-	if err != nil {
-		return yacynodeassembly.Listeners{}, errors.Join(err, listeners.Close())
-	}
-	return yacynodeassembly.Listeners{
-		PeerProtocol: jointlistener.New(listeners.PeerProtocol, overlayListener),
-	}, nil
+func (o yggdrasilOverlay) address() netip.Addr {
+	return o.node.Address()
 }
 
-func (o yggdrasilOverlay) yacynodeConfigFrom(
-	getenv func(string) string,
-) (yacynodeassembly.ServiceConfig, error) {
-	return yacynodeassembly.LoadServiceConfig(func(key string) string {
-		if key == yacynodeassembly.EnvAdvertiseAdditionalHosts {
-			advertisedHosts := envconfig.List(getenv, key)
-			return strings.Join(append(advertisedHosts, o.node.Address().String()), ",")
-		}
-		return getenv(key)
-	})
+func (o yggdrasilOverlay) listen(port int) (net.Listener, error) {
+	return o.stack.Listen(port)
 }
