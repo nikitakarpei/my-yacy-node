@@ -7,9 +7,13 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 )
@@ -69,7 +73,13 @@ func openCachedPages(
 	clock *steppedClock,
 ) *cachedpages.Pages {
 	t.Helper()
-	cachedPages, err := cachedpages.Open(t.Context(), directory, retentionInTest, maxBytes, clock)
+	cachedPages, err := cachedpages.Open(
+		t.Context(),
+		directory,
+		cachedpages.Limits{Retention: retentionInTest, MaxBytes: maxBytes},
+		clock,
+		prometheus.NewRegistry(),
+	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -200,9 +210,9 @@ func TestOpenRefusesADirectoryItCannotCreate(t *testing.T) {
 	_, err := cachedpages.Open(
 		t.Context(),
 		filepath.Join(blockingFile, "cachedPages"),
-		retentionInTest,
-		unboundedBytes,
+		cachedpages.Limits{Retention: retentionInTest, MaxBytes: unboundedBytes},
 		newSteppedClock(),
+		prometheus.NewRegistry(),
 	)
 	if err == nil {
 		t.Fatal("Open accepted a directory under a file")
@@ -275,4 +285,53 @@ func sizeOfOneCachedPageIn(t *testing.T, directory string) int64 {
 		t.Fatalf("stat a cached page: %v", err)
 	}
 	return info.Size()
+}
+
+func TestKeepPacksThePage(t *testing.T) {
+	directory := t.TempDir()
+	cachedPages := openCachedPages(t, directory, unboundedBytes, newSteppedClock())
+	body := strings.Repeat("<p>page</p>", 1000)
+
+	cachedPages.Keep(t.Context(), pageKey, pageOf(body))
+
+	if size := sizeOfOneCachedPageIn(t, directory); size >= int64(len(body))/10 {
+		t.Fatalf(
+			"cached page takes %d bytes, want under a tenth of its %d body bytes",
+			size,
+			len(body),
+		)
+	}
+	assertCachedPage(t, cachedPages, pageKey, body)
+}
+
+func TestOpenCountsTheCachedBytesAndTheEvictedPages(t *testing.T) {
+	directory := t.TempDir()
+	clock := newSteppedClock()
+	cachedPages := openCachedPages(t, directory, unboundedBytes, clock)
+	cachedPages.Keep(t.Context(), pageKey, pageOf("<p>older</p>"))
+	clock.advance(time.Second)
+	cachedPages.Keep(t.Context(), otherPageKey, pageOf("<p>newer</p>"))
+	sizeOfOnePage := sizeOfOneCachedPageIn(t, directory)
+	registry := prometheus.NewRegistry()
+
+	if _, err := cachedpages.Open(
+		t.Context(),
+		directory,
+		cachedpages.Limits{Retention: retentionInTest, MaxBytes: sizeOfOnePage},
+		clock,
+		registry,
+	); err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+
+	if err := testutil.GatherAndCompare(registry, strings.NewReader(fmt.Sprintf(`
+# HELP yacypeer_cached_page_bytes Bytes that the cached pages take on disk, at the last sweep.
+# TYPE yacypeer_cached_page_bytes gauge
+yacypeer_cached_page_bytes %d
+# HELP yacypeer_cached_pages_evicted_total Cached pages removed before their retention ended, to stay within the byte maximum.
+# TYPE yacypeer_cached_pages_evicted_total counter
+yacypeer_cached_pages_evicted_total 1
+`, sizeOfOnePage))); err != nil {
+		t.Fatal(err)
+	}
 }

@@ -12,6 +12,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 )
@@ -82,7 +84,13 @@ func urlOf(t *testing.T, rawURL string) *url.URL {
 
 func runningProxy(t *testing.T, egressProxyURL *url.URL) *pagecacheproxy.PageCacheProxy {
 	t.Helper()
-	cachedPages, err := cachedpages.Open(t.Context(), t.TempDir(), time.Hour, 1<<20, stoppedClock{})
+	cachedPages, err := cachedpages.Open(
+		t.Context(),
+		t.TempDir(),
+		cachedpages.Limits{Retention: time.Hour, MaxBytes: 1 << 20},
+		stoppedClock{},
+		prometheus.NewRegistry(),
+	)
 	if err != nil {
 		t.Fatalf("open page cachedPages: %v", err)
 	}
@@ -319,7 +327,13 @@ func TestTheProxyRefusesARequestWithoutAnAbsoluteURL(t *testing.T) {
 }
 
 func TestCloseReleasesTheListener(t *testing.T) {
-	cachedPages, err := cachedpages.Open(t.Context(), t.TempDir(), time.Hour, 1<<20, stoppedClock{})
+	cachedPages, err := cachedpages.Open(
+		t.Context(),
+		t.TempDir(),
+		cachedpages.Limits{Retention: time.Hour, MaxBytes: 1 << 20},
+		stoppedClock{},
+		prometheus.NewRegistry(),
+	)
 	if err != nil {
 		t.Fatalf("open page cachedPages: %v", err)
 	}

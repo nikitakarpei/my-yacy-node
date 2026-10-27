@@ -69,12 +69,13 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress}))
 	}
+	processRegistry := opsmetrics.ProcessRegistry()
 	cachedPages, err := cachedpages.Open(
 		servicelog.ContextFor(ctx, cachedpages.Name),
 		cfg.directoryOf(cachedPagesDirectoryName),
-		cachedPageRetention,
-		cachedPagesMaxBytes,
+		cachedpages.Limits{Retention: cachedPageRetention, MaxBytes: cachedPagesMaxBytes},
 		wallclock.Clock{},
+		processRegistry,
 	)
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress}))
@@ -104,7 +105,6 @@ func RunPeer(
 		)
 	}
 	logStarted(ctx, peer, ops)
-	processRegistry := opsmetrics.ProcessRegistry()
 	opsMux := opsMuxFor(processRegistry, services, history, peer.webUIURLs)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
 		return runEvery(ctx, services,

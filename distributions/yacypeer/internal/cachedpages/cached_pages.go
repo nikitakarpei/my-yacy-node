@@ -1,6 +1,6 @@
-// Package cachedpages keeps the answers that origins give to page fetches, as files, for one
-// retention and within a byte maximum, so that another fetch of the same page needs no origin
-// fetch.
+// Package cachedpages keeps the answers that origins give to page fetches, as packed files,
+// for one retention and within a byte maximum, so that another fetch of the same page needs no
+// origin fetch.
 package cachedpages
 
 import (
@@ -18,11 +18,14 @@ import (
 	"path/filepath"
 	"slices"
 	"time"
+
+	"github.com/klauspost/compress/zstd"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 const (
 	Name                  = "cachedpages"
-	pageFileSuffix        = ".page"
+	pageFileSuffix        = ".page.zst"
 	sweepsPerRetention    = 8
 	shortestSweepInterval = 10 * time.Second
 )
@@ -38,28 +41,45 @@ type Page struct {
 	StatusCode int
 }
 
+type Limits struct {
+	Retention time.Duration
+	MaxBytes  int64
+}
+
 type Pages struct {
-	clock     Clock
-	directory string
-	retention time.Duration
-	maxBytes  int64
+	clock        Clock
+	directory    string
+	limits       Limits
+	packer       *zstd.Encoder
+	unpacker     *zstd.Decoder
+	sweepMetrics *sweepMetrics
 }
 
 func Open(
 	ctx context.Context,
 	directory string,
-	retention time.Duration,
-	maxBytes int64,
+	limits Limits,
 	clock Clock,
+	registry prometheus.Registerer,
 ) (*Pages, error) {
 	if err := os.MkdirAll(directory, 0o750); err != nil {
 		return nil, fmt.Errorf("cached pages: %w", err)
 	}
+	packer, err := zstd.NewWriter(nil, zstd.WithLowerEncoderMem(true))
+	if err != nil {
+		return nil, fmt.Errorf("cached page packer: %w", err)
+	}
+	unpacker, err := zstd.NewReader(nil, zstd.WithDecoderLowmem(true))
+	if err != nil {
+		return nil, fmt.Errorf("cached page unpacker: %w", err)
+	}
 	cachedPages := &Pages{
-		clock:     clock,
-		directory: directory,
-		retention: retention,
-		maxBytes:  maxBytes,
+		clock:        clock,
+		directory:    directory,
+		limits:       limits,
+		packer:       packer,
+		unpacker:     unpacker,
+		sweepMetrics: sweepMetricsFor(registry),
 	}
 	cachedPages.sweep(ctx)
 	return cachedPages, nil
@@ -77,11 +97,11 @@ func (c *Pages) sweep(ctx context.Context) {
 		slog.WarnContext(ctx, "cached pages not swept", slog.Any("error", err))
 		return
 	}
-	liveFiles, expiredFiles := splitAtCutoff(pageFiles, c.clock.Now().Add(-c.retention))
-	keptFiles, evictedFiles := splitWithinMaxBytes(liveFiles, c.maxBytes)
+	liveFiles, expiredFiles := splitAtCutoff(pageFiles, c.clock.Now().Add(-c.limits.Retention))
+	keptFiles, evictedFiles := splitWithinMaxBytes(liveFiles, c.limits.MaxBytes)
 	removeEvery(ctx, expiredFiles)
 	removeEvery(ctx, evictedFiles)
-	logSweep(ctx, keptFiles, len(expiredFiles), len(evictedFiles))
+	c.reportSweep(ctx, keptFiles, len(expiredFiles), len(evictedFiles))
 }
 
 func (c *Pages) pageFiles(ctx context.Context) ([]pageFile, error) {
@@ -144,7 +164,7 @@ func removeEvery(ctx context.Context, pageFiles []pageFile) {
 	}
 }
 
-func logSweep(
+func (c *Pages) reportSweep(
 	ctx context.Context,
 	keptFiles []pageFile,
 	amountOfExpiredPages int,
@@ -160,10 +180,11 @@ func logSweep(
 		slog.Int("amountOfExpiredPages", amountOfExpiredPages),
 		slog.Int("amountOfEvictedPages", amountOfEvictedPages),
 	)
+	c.sweepMetrics.record(sumOfCachedBytes, amountOfEvictedPages)
 }
 
 func (c *Pages) PageFor(ctx context.Context, key string) (Page, bool) {
-	page, err := pageFrom(c.pathFor(key))
+	page, err := c.pageFrom(c.pathFor(key))
 	if errors.Is(err, fs.ErrNotExist) {
 		return Page{}, false
 	}
@@ -174,14 +195,18 @@ func (c *Pages) PageFor(ctx context.Context, key string) (Page, bool) {
 	return page, true
 }
 
-func pageFrom(path string) (Page, error) {
-	file, err := os.Open(path) //nolint:gosec // G304: the path is a hash under the cache directory.
+func (c *Pages) pageFrom(path string) (Page, error) {
+	//nolint:gosec // G304: the path is a hash under the cache directory.
+	packed, err := os.ReadFile(path)
 	if err != nil {
-		return Page{}, fmt.Errorf("open cached page: %w", err)
+		return Page{}, fmt.Errorf("read cached page: %w", err)
 	}
-	defer func() { _ = file.Close() }()
+	encoded, err := c.unpacker.DecodeAll(packed, nil)
+	if err != nil {
+		return Page{}, fmt.Errorf("unpack %s: %w", path, err)
+	}
 	var page Page
-	if err := gob.NewDecoder(file).Decode(&page); err != nil {
+	if err := gob.NewDecoder(bytes.NewReader(encoded)).Decode(&page); err != nil {
 		return Page{}, fmt.Errorf("decode %s: %w", path, err)
 	}
 	return page, nil
@@ -204,7 +229,7 @@ func (c *Pages) write(key string, page Page) error {
 		return fmt.Errorf("encode cached page: %w", err)
 	}
 	path := c.pathFor(key)
-	if err := os.WriteFile(path, encoded.Bytes(), 0o600); err != nil {
+	if err := os.WriteFile(path, c.packer.EncodeAll(encoded.Bytes(), nil), 0o600); err != nil {
 		return fmt.Errorf("write cached page: %w", err)
 	}
 	keptAt := c.clock.Now()
@@ -215,7 +240,7 @@ func (c *Pages) write(key string, page Page) error {
 }
 
 func (c *Pages) Run(ctx context.Context) error {
-	sweepInterval := max(c.retention/sweepsPerRetention, shortestSweepInterval)
+	sweepInterval := max(c.limits.Retention/sweepsPerRetention, shortestSweepInterval)
 	for c.clock.Sleep(ctx, sweepInterval) == nil {
 		c.sweep(ctx)
 	}
