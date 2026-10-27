@@ -8,11 +8,12 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
+	pageclassificationhttpheader "github.com/nikitakarpei/yacy-rwi-node/pageclassification/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/robotsmeta/htmlmeta"
 	robotsmetahttpheader "github.com/nikitakarpei/yacy-rwi-node/robotsmeta/httpheader"
-	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 )
 
@@ -68,9 +69,9 @@ func (reader pageReader) read(
 		document:     pageToRead.Document,
 		outcome:      outcome,
 		pageContents: pageContents,
-		spamVerdict: spamassessmenthttpheader.VerdictFrom(
-			landed.Outcome.Page.SpamAssessmentValue,
-		),
+		spamVerdict: pageclassificationhttpheader.VerdictsFrom(
+			landed.Outcome.Page.PageClassificationValue,
+		)[pageclassification.Spam],
 		timeSpentFetching: timeSpentFetching,
 		timeSpentReading:  time.Since(readingStartedAt),
 	}

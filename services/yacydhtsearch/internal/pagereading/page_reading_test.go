@@ -9,10 +9,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -641,11 +641,11 @@ func TestAPageThatAllowsIndexingIsRead(t *testing.T) {
 	}
 }
 
-type pagesAssessedForSpam struct {
-	spamAssessmentValue string
+type pagesClassified struct {
+	pageClassificationValue string
 }
 
-func (pages pagesAssessedForSpam) Fetch(
+func (pages pagesClassified) Fetch(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ pagefetch.PageVersion,
@@ -653,26 +653,27 @@ func (pages pagesAssessedForSpam) Fetch(
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			ContentType:         "text/html; charset=utf-8",
-			Body:                []byte(pageOfBerlin),
-			SpamAssessmentValue: pages.spamAssessmentValue,
+			ContentType:             "text/html; charset=utf-8",
+			Body:                    []byte(pageOfBerlin),
+			PageClassificationValue: pages.pageClassificationValue,
 		},
 	}, nil
 }
 
-func TestAReadPageGivesTheSpamVerdictOfItsHeader(t *testing.T) {
+func TestAReadPageGivesTheVerdictOfTheSpamCategoryOfItsClassification(t *testing.T) {
 	t.Parallel()
 
-	for spamAssessmentValue, wantedVerdict := range map[string]spamassessment.Verdict{
-		`spam;score=0.935;threshold=0.8;model="2026-09"`:  spamassessment.Spam,
-		`clean;score=0.007;threshold=0.8;model="2026-09"`: spamassessment.Clean,
-		"": spamassessment.Unassessed,
+	for pageClassificationValue, wantedVerdict := range map[string]pageclassification.Verdict{
+		`adult=?0;score=0.300, spam;score=0.935;threshold=0.800;model="2026-09"`: pageclassification.Positive,
+		`spam=?0;score=0.007;threshold=0.800;model="2026-09"`:                    pageclassification.Negative,
+		`adult;score=0.900;threshold=0.800;model="2026-11"`:                      pageclassification.Unassessed,
+		"": pageclassification.Unassessed,
 	} {
-		t.Run(spamAssessmentValue, func(t *testing.T) {
+		t.Run(pageClassificationValue, func(t *testing.T) {
 			t.Parallel()
 
 			observer := &recordedPageReading{}
-			reading := readingOfThePages(t, pagesAssessedForSpam{spamAssessmentValue}, observer)
+			reading := readingOfThePages(t, pagesClassified{pageClassificationValue}, observer)
 
 			pagesRead := pagesReadFrom(
 				t, reading,

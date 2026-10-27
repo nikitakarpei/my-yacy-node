@@ -9,8 +9,8 @@ import (
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/budgetbuckets"
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 )
 
@@ -34,10 +34,10 @@ const (
 	outcomePageCutOff           = "cut off"
 )
 
-var spamVerdicts = []spamassessment.Verdict{
-	spamassessment.Unassessed,
-	spamassessment.Clean,
-	spamassessment.Spam,
+var spamVerdicts = []pageclassification.Verdict{
+	pageclassification.Unassessed,
+	pageclassification.Negative,
+	pageclassification.Positive,
 }
 
 type PageReadingMetrics struct {

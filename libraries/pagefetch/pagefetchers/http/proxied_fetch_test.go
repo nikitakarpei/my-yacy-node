@@ -292,9 +292,9 @@ func TestFetchForwardsXRobotsTag(t *testing.T) {
 	}
 }
 
-func TestFetchForwardsSpamAssessment(t *testing.T) {
+func TestFetchForwardsPageClassification(t *testing.T) {
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("Spam-Assessment", `spam;score=0.935;threshold=0.8;model="2026-09"`)
+		w.Header().Set("Page-Classification", `spam;score=0.935;threshold=0.800;model="2026-09"`)
 		_, _ = w.Write([]byte("hi"))
 	})
 	defer closeFn()
@@ -304,8 +304,8 @@ func TestFetchForwardsSpamAssessment(t *testing.T) {
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
 			pagefetch.PageVersion{})
-	if outcome.Page.SpamAssessmentValue != `spam;score=0.935;threshold=0.8;model="2026-09"` {
-		t.Fatalf("spam assessment not forwarded: %+v", outcome)
+	if outcome.Page.PageClassificationValue != `spam;score=0.935;threshold=0.800;model="2026-09"` {
+		t.Fatalf("page classification not forwarded: %+v", outcome)
 	}
 }
 

@@ -18,9 +18,9 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
-  spamassessmenthttpheader:
+  pageclassificationhttpheader:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader
+      - github.com/nikitakarpei/yacy-rwi-node/pageclassification/httpheader
 
 deps:
   pagefetch:
@@ -31,7 +31,7 @@ deps:
       - pagefetch
     canUse:
       - canonicalurl
-      - spamassessmenthttpheader
+      - pageclassificationhttpheader
   redirectfollowingfetch:
     mayDependOn:
       - pagefetch

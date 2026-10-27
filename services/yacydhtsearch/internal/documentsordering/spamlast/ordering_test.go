@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/spamlast"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 )
@@ -19,7 +19,7 @@ func (foundOrdering) OrderedDocumentsOf(
 
 type assessedAddress struct {
 	address string
-	verdict spamassessment.Verdict
+	verdict pageclassification.Verdict
 }
 
 func findingsOf(assessedAddresses ...assessedAddress) queryfindings.Findings {
@@ -47,10 +47,10 @@ func TestSpamDocumentsComeAfterAllOthersInTheOrderOfTheOtherOrdering(t *testing.
 	t.Parallel()
 
 	orderedDocuments := spamlast.New(foundOrdering{}).OrderedDocumentsOf(findingsOf(
-		assessedAddress{"https://first-spam.example/", spamassessment.Spam},
-		assessedAddress{"https://clean.example/", spamassessment.Clean},
-		assessedAddress{"https://second-spam.example/", spamassessment.Spam},
-		assessedAddress{"https://unread.example/", spamassessment.Unassessed},
+		assessedAddress{"https://first-spam.example/", pageclassification.Positive},
+		assessedAddress{"https://clean.example/", pageclassification.Negative},
+		assessedAddress{"https://second-spam.example/", pageclassification.Positive},
+		assessedAddress{"https://unread.example/", pageclassification.Unassessed},
 	))
 
 	wantedAddresses := []string{

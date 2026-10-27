@@ -3,7 +3,7 @@ package pagereading
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 )
 
 type PerformedPageReading struct {
@@ -17,7 +17,7 @@ type PerformedPageReading struct {
 	AmountOfPagesOfAnUnsupportedKind int
 	AmountOfPagesOutOfBudget         int
 	AmountOfPagesCutOff              int
-	AmountOfPagesReadPerSpamVerdict  map[spamassessment.Verdict]int
+	AmountOfPagesReadPerSpamVerdict  map[pageclassification.Verdict]int
 	TimeSpent                        time.Duration
 	TimeSpentFetching                time.Duration
 	TimeSpentReading                 time.Duration
@@ -29,7 +29,7 @@ func performedPageReadingFrom(
 ) PerformedPageReading {
 	performed := PerformedPageReading{
 		AmountOfPagesToRead:             len(pageReadResults),
-		AmountOfPagesReadPerSpamVerdict: map[spamassessment.Verdict]int{},
+		AmountOfPagesReadPerSpamVerdict: map[pageclassification.Verdict]int{},
 		TimeSpent:                       timeSpent,
 	}
 	for _, pageReadResult := range pageReadResults {

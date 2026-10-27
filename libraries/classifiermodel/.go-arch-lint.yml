@@ -1,0 +1,67 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  classifiermodel:
+    in: .
+  featurehashing:
+    in: featurehashing/**
+  pagefeatures:
+    in: pagefeatures/**
+  safetensorsmodel:
+    in: safetensorsmodel/**
+  pagesite:
+    in: pagesite/**
+  htmlreading:
+    in: htmlreading/**
+  pagelinks:
+    in: pagelinks/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  xnet:
+    in:
+      - golang.org/x/net/**
+  xtext:
+    in:
+      - golang.org/x/text/**
+
+deps:
+  classifiermodel:
+    mayDependOn:
+      - pagefeatures
+  pagefeatures:
+    mayDependOn:
+      - featurehashing
+      - htmlreading
+      - pagesite
+      - pagelinks
+    canUse:
+      - canonicalurl
+  safetensorsmodel:
+    mayDependOn:
+      - classifiermodel
+      - pagefeatures
+  pagesite:
+    canUse:
+      - canonicalurl
+      - xnet
+  htmlreading:
+    mayDependOn:
+      - pagelinks
+    canUse:
+      - canonicalurl
+      - xnet
+      - xtext
+  pagelinks:
+    canUse:
+      - canonicalurl
+
+excludeFiles:
+  - "_test\\.go"

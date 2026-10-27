@@ -1884,7 +1884,7 @@
     {
       "id": 71,
       "title": "Share of the pages read, by spam verdict",
-      "description": "The verdict comes from the Spam-Assessment header of the page. A page without a readable header is unassessed.",
+      "description": "The verdict comes from the spam member of the Page-Classification header of the page. A page without a readable spam member is unassessed.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

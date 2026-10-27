@@ -3,7 +3,7 @@ package queryfindings
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -18,7 +18,7 @@ type FoundDocument struct {
 	MetadataReplicas []MetadataReplica
 	PostingReplicas  []PostingReplica
 	Facts            DocumentFacts
-	SpamVerdict      spamassessment.Verdict
+	SpamVerdict      pageclassification.Verdict
 }
 
 func FoundDocumentOf(
@@ -42,7 +42,7 @@ func FoundDocumentOf(
 }
 
 func (f FoundDocument) IsSpam() bool {
-	return f.SpamVerdict == spamassessment.Spam
+	return f.SpamVerdict == pageclassification.Positive
 }
 
 func metadataShownAmong(metadataReplicas []MetadataReplica) yacymodel.URLMetadata {

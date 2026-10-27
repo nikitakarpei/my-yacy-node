@@ -225,10 +225,10 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/robotsmeta
       - github.com/nikitakarpei/yacy-rwi-node/robotsmeta/**
-  spamassessment:
+  pageclassification:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/spamassessment
-      - github.com/nikitakarpei/yacy-rwi-node/spamassessment/**
+      - github.com/nikitakarpei/yacy-rwi-node/pageclassification
+      - github.com/nikitakarpei/yacy-rwi-node/pageclassification/**
   textsnippet:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/textsnippet
@@ -287,7 +287,7 @@ deps:
       - queryfindings
   documentsorderingspamlast:
     canUse:
-      - spamassessment
+      - pageclassification
     mayDependOn:
       - queryfindings
   searchresult:
@@ -295,7 +295,7 @@ deps:
       - yacymodel
   queryfindings:
     canUse:
-      - spamassessment
+      - pageclassification
       - yacymodel
     mayDependOn:
       - pagecontents
@@ -351,20 +351,20 @@ deps:
       - pagefetch
       - redirectfollowingfetch
       - robotsmeta
-      - spamassessment
+      - pageclassification
       - yacymodel
     mayDependOn:
       - pagecontents
   pagereadingobserversapplog:
     canUse:
-      - spamassessment
+      - pageclassification
     mayDependOn:
       - pagereading
   pagereadingobserversprometheus:
     canUse:
       - prometheus
       - budgetbuckets
-      - spamassessment
+      - pageclassification
     mayDependOn:
       - pagereading
   peermatched:

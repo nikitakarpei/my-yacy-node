@@ -5,7 +5,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 )
 
@@ -38,15 +38,15 @@ func (PageReadingLog) PageReadingPerformed(
 		slog.Int("amountOfPagesCutOff", pageReading.AmountOfPagesCutOff),
 		slog.Int(
 			"amountOfPagesReadAssessedAsSpam",
-			pageReading.AmountOfPagesReadPerSpamVerdict[spamassessment.Spam],
+			pageReading.AmountOfPagesReadPerSpamVerdict[pageclassification.Positive],
 		),
 		slog.Int(
 			"amountOfPagesReadAssessedAsClean",
-			pageReading.AmountOfPagesReadPerSpamVerdict[spamassessment.Clean],
+			pageReading.AmountOfPagesReadPerSpamVerdict[pageclassification.Negative],
 		),
 		slog.Int(
 			"amountOfPagesReadUnassessed",
-			pageReading.AmountOfPagesReadPerSpamVerdict[spamassessment.Unassessed],
+			pageReading.AmountOfPagesReadPerSpamVerdict[pageclassification.Unassessed],
 		),
 		slog.Duration("timeSpent", pageReading.TimeSpent),
 		slog.Duration("timeSpentFetching", pageReading.TimeSpentFetching),

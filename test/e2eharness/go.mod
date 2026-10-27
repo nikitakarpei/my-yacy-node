@@ -81,7 +81,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/ca
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
-replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
+replace github.com/nikitakarpei/yacy-rwi-node/pageclassification => ../../libraries/pageclassification
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

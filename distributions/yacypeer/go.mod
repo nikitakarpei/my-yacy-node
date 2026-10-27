@@ -102,12 +102,12 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pageclassification v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
@@ -182,7 +182,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../services/c
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
-replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
+replace github.com/nikitakarpei/yacy-rwi-node/pageclassification => ../../libraries/pageclassification
 
 replace github.com/nikitakarpei/yacy-rwi-node/stopwords => ../../libraries/stopwords
 

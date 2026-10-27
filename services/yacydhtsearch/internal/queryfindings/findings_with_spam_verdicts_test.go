@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,17 +15,17 @@ func TestEachAssessedDocumentCarriesItsSpamVerdict(t *testing.T) {
 		t, "https://spam.example/", "https://clean.example/", "https://unread.example/",
 	)
 
-	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
-		documentOf(t, "https://spam.example/"):  spamassessment.Spam,
-		documentOf(t, "https://clean.example/"): spamassessment.Clean,
+	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]pageclassification.Verdict{
+		documentOf(t, "https://spam.example/"):  pageclassification.Positive,
+		documentOf(t, "https://clean.example/"): pageclassification.Negative,
 	})
 
-	verdicts := make([]spamassessment.Verdict, 0, len(assessed.FoundDocuments))
+	verdicts := make([]pageclassification.Verdict, 0, len(assessed.FoundDocuments))
 	for _, foundDocument := range assessed.FoundDocuments {
 		verdicts = append(verdicts, foundDocument.SpamVerdict)
 	}
-	if len(verdicts) != 3 || verdicts[0] != spamassessment.Spam ||
-		verdicts[1] != spamassessment.Clean || verdicts[2] != spamassessment.Unassessed {
+	if len(verdicts) != 3 || verdicts[0] != pageclassification.Positive ||
+		verdicts[1] != pageclassification.Negative || verdicts[2] != pageclassification.Unassessed {
 		t.Fatalf("the documents carry %v, want spam, clean and unassessed", verdicts)
 	}
 }
@@ -37,9 +37,9 @@ func TestOnlyADocumentWhosePageIsCalledSpamIsSpam(t *testing.T) {
 		t, "https://spam.example/", "https://clean.example/", "https://unread.example/",
 	)
 
-	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
-		documentOf(t, "https://spam.example/"):  spamassessment.Spam,
-		documentOf(t, "https://clean.example/"): spamassessment.Clean,
+	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]pageclassification.Verdict{
+		documentOf(t, "https://spam.example/"):  pageclassification.Positive,
+		documentOf(t, "https://clean.example/"): pageclassification.Negative,
 	})
 
 	spam := make([]bool, 0, len(assessed.FoundDocuments))

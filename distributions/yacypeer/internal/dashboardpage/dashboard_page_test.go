@@ -248,7 +248,7 @@ func TestDashboardPageRefusesAnUnknownService(t *testing.T) {
 
 	if status, _ := fetched(
 		t,
-		server.URL+"/dashboards/spamproxy",
+		server.URL+"/dashboards/classifierproxy",
 		nil,
 	); status != http.StatusNotFound {
 		t.Errorf("page = %d, want 404", status)

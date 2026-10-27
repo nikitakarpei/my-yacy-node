@@ -1,0 +1,194 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - pageclassification
+
+components:
+  pageclassifier:
+    in: internal/pageclassifier/**
+  responsedeadline:
+    in: internal/responsedeadline/**
+  contentencoding:
+    in: internal/contentencoding/**
+  relayedheaders:
+    in: internal/relayedheaders/**
+  roundtripcancel:
+    in: internal/roundtripcancel/**
+  proxiedrequest:
+    in: internal/proxiedrequest/**
+  classificationgate:
+    in: internal/classificationgate/**
+  egresstransportstunnel:
+    in: internal/egresstransports/tunnel/**
+  egresstransportsabsoluteurl:
+    in: internal/egresstransports/absoluteurl/**
+  requestrelay:
+    in: internal/requestrelay/**
+  classificationadding:
+    in: internal/roundtrippers/classificationadding/**
+  deadlineenforcing:
+    in: internal/roundtrippers/deadlineenforcing/**
+  idlecancelling:
+    in: internal/roundtrippers/idlecancelling/**
+  failurereporting:
+    in: internal/roundtrippers/failurereporting/**
+  proxyintake:
+    in: internal/proxyintake/**
+  requestrelayobserversapplog:
+    in: internal/requestrelayobservers/applog/**
+  requestrelayobserversprometheus:
+    in: internal/requestrelayobservers/prometheus/**
+  classificationgateobserversapplog:
+    in: internal/classificationgateobservers/applog/**
+  classificationgateobserversprometheus:
+    in: internal/classificationgateobservers/prometheus/**
+  proxyintakeobserversapplog:
+    in: internal/proxyintakeobservers/applog/**
+  failurereportingobserversapplog:
+    in: internal/roundtrippersobservers/failurereporting/applog/**
+  failurereportingobserversprometheus:
+    in: internal/roundtrippersobservers/failurereporting/prometheus/**
+  classificationaddingobserversapplog:
+    in: internal/roundtrippersobservers/classificationadding/applog/**
+  classificationaddingobserversprometheus:
+    in: internal/roundtrippersobservers/classificationadding/prometheus/**
+  deadlineenforcingobserversapplog:
+    in: internal/roundtrippersobservers/deadlineenforcing/applog/**
+  deadlineenforcingobserversprometheus:
+    in: internal/roundtrippersobservers/deadlineenforcing/prometheus/**
+  classifierproxyassembly:
+    in: assembly/**
+  classifierproxycmd:
+    in: cmd/classifierproxy/**
+
+vendors:
+  pageclassification:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pageclassification
+      - github.com/nikitakarpei/yacy-rwi-node/pageclassification/httpheader
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  classifiermodel:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/classifiermodel
+      - github.com/nikitakarpei/yacy-rwi-node/classifiermodel/htmlreading
+      - github.com/nikitakarpei/yacy-rwi-node/classifiermodel/pagefeatures
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+
+deps:
+  pageclassifier:
+    canUse:
+      - canonicalurl
+      - classifiermodel
+  relayedheaders:
+    mayDependOn:
+      - contentencoding
+  classificationgate:
+    canUse:
+      - canonicalurl
+  proxiedrequest:
+    canUse:
+      - canonicalurl
+  requestrelay:
+    mayDependOn:
+      - proxiedrequest
+      - roundtripcancel
+      - relayedheaders
+      - responsedeadline
+    canUse:
+      - canonicalurl
+  classificationadding:
+    mayDependOn:
+      - classificationgate
+      - contentencoding
+      - proxiedrequest
+      - roundtripcancel
+      - relayedheaders
+    canUse:
+      - canonicalurl
+  deadlineenforcing:
+    mayDependOn:
+      - proxiedrequest
+      - roundtripcancel
+    canUse:
+      - canonicalurl
+  idlecancelling:
+    mayDependOn:
+      - roundtripcancel
+  proxyintake:
+    mayDependOn:
+      - requestrelay
+    canUse:
+      - canonicalurl
+  requestrelayobserversapplog:
+    mayDependOn:
+      - requestrelay
+    canUse:
+      - canonicalurl
+  classificationaddingobserversapplog:
+    mayDependOn:
+      - classificationadding
+    canUse:
+      - canonicalurl
+  classificationaddingobserversprometheus:
+    mayDependOn:
+      - classificationadding
+    canUse:
+      - canonicalurl
+      - prometheus
+  deadlineenforcingobserversapplog:
+    mayDependOn:
+      - deadlineenforcing
+    canUse:
+      - canonicalurl
+  deadlineenforcingobserversprometheus:
+    mayDependOn:
+      - deadlineenforcing
+    canUse:
+      - canonicalurl
+      - prometheus
+  requestrelayobserversprometheus:
+    mayDependOn:
+      - requestrelay
+    canUse:
+      - canonicalurl
+      - prometheus
+  classificationgateobserversapplog:
+    canUse:
+      - canonicalurl
+  classificationgateobserversprometheus:
+    canUse:
+      - canonicalurl
+      - prometheus
+  failurereportingobserversapplog:
+    mayDependOn:
+      - failurereporting
+  failurereportingobserversprometheus:
+    mayDependOn:
+      - failurereporting
+    canUse:
+      - prometheus
+  classifierproxyassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  classifierproxycmd:
+    mayDependOn:
+      - classifierproxyassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"

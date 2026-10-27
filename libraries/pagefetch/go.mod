@@ -4,10 +4,10 @@ go 1.27
 
 require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageclassification v0.0.0
 )
 
 replace (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
-	github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../spamassessment
+	github.com/nikitakarpei/yacy-rwi-node/pageclassification => ../pageclassification
 )

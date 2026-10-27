@@ -3,7 +3,7 @@ package pagereading
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
+	"github.com/nikitakarpei/yacy-rwi-node/pageclassification"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -12,7 +12,7 @@ type pageReadResult struct {
 	document          yacymodel.URLHash
 	outcome           readOutcome
 	pageContents      pagecontents.PageContents
-	spamVerdict       spamassessment.Verdict
+	spamVerdict       pageclassification.Verdict
 	timeSpentFetching time.Duration
 	timeSpentReading  time.Duration
 }

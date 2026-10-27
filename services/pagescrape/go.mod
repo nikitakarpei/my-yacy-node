@@ -25,7 +25,7 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pageclassification v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
@@ -43,7 +43,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
-replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
+replace github.com/nikitakarpei/yacy-rwi-node/pageclassification => ../../libraries/pageclassification
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ./contract
 

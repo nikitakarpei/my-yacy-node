@@ -8,11 +8,11 @@ require (
 	github.com/klauspost/compress v1.18.6
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageclassification v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
@@ -69,6 +69,6 @@ replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pag
 
 replace github.com/nikitakarpei/yacy-rwi-node/robotsmeta => ../../libraries/robotsmeta
 
-replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
+replace github.com/nikitakarpei/yacy-rwi-node/pageclassification => ../../libraries/pageclassification
 
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
