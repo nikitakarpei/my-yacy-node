@@ -12,7 +12,7 @@
 {{.TabBar}}
 <main>
 {{if .CrawlerUnanswered}}<div class="notice">{{text "notice.crawler-unanswered"}}</div>{{end}}
-{{block "crawler" .}}{{if .Crawler.Status.Paused}}<div class="notice">{{text "notice.crawler-paused"}}</div>{{end}}{{end}}
+{{block "crawler" .}}{{end}}
 {{template "content" .Content}}
 </main>
 </body>

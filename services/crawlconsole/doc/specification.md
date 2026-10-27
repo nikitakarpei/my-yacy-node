@@ -28,7 +28,7 @@ the server renders. It reads and changes crawls only through the operator API of
 * The console SHALL fill the form from the order of a crawl that the operator duplicates.
 * The console SHALL show on the crawl tables whether the crawler crawls, is idle, or is
   paused, and SHALL let the operator pause and resume every page visit there.
-* The console SHALL tell the operator on the other pages when the crawler is paused.
+* The console SHALL show on the page of a crawl when the crawler is paused.
 * When the operator sets a tab bar, each page SHALL show it at the top, with the tab of the
   console marked.
 * The console SHALL refuse a form that comes from another origin.

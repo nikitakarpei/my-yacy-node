@@ -4,8 +4,7 @@ var englishTexts = map[string]string{
 	"console.name": "Crawl console",
 	"notice.crawler-unanswered": "The crawler does not answer. " +
 		"The page shows only what the console could read.",
-	"notice.crawler-paused": "The crawler is paused. " +
-		"Crawls continue when it resumes on the Crawls page.",
+	"notice.crawler-paused": "The crawler is paused.",
 
 	"crawler.figures":    "%d running · %d pages pending",
 	"crawler.pause-all":  "Pause all",

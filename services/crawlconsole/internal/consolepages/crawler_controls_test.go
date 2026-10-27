@@ -51,18 +51,29 @@ func TestTheCrawlTablesShowTheCrawlerDoesNotAnswer(t *testing.T) {
 	assertHides(t, answer, "Pause all", "Resume all")
 }
 
-func TestTheOtherPagesShowOnlyThatTheCrawlerIsPaused(t *testing.T) {
-	paused := consoleOver(&fakeCrawler{status: yacycrawlcontract.CrawlerStatus{Paused: true}})
+func TestTheCrawlPageShowsOnlyThatTheCrawlerIsPaused(t *testing.T) {
+	crawls := map[string]yacycrawlcontract.Crawl{"c1": runningCrawlOf(t, "c1")}
+	paused := consoleOver(&fakeCrawler{
+		crawls: crawls,
+		status: yacycrawlcontract.CrawlerStatus{Paused: true},
+	})
 	crawling := consoleOver(&fakeCrawler{
+		crawls: crawls,
 		status: yacycrawlcontract.CrawlerStatus{PendingPageVisits: 30},
 	})
 
-	pausedForm := paused.get("/crawls/new")
-	crawlingForm := crawling.get("/crawls/new")
+	pausedCrawl := paused.get("/crawls/c1")
+	crawlingCrawl := crawling.get("/crawls/c1")
 
-	assertShows(t, pausedForm, "The crawler is paused.")
-	assertHides(t, pausedForm, "Resume all")
-	assertHides(t, crawlingForm, "The crawler is paused.", "Pause all", "pages pending")
+	assertShows(t, pausedCrawl, "The crawler is paused.")
+	assertHides(t, pausedCrawl, "Resume all")
+	assertHides(t, crawlingCrawl, "The crawler is paused.", "Pause all", "pages pending")
+}
+
+func TestTheNewCrawlFormDoesNotShowThatTheCrawlerIsPaused(t *testing.T) {
+	console := consoleOver(&fakeCrawler{status: yacycrawlcontract.CrawlerStatus{Paused: true}})
+
+	assertHides(t, console.get("/crawls/new"), "The crawler is paused.", "Resume all")
 }
 
 func TestCrawlerPauseReturnsToThePageItWasSentFrom(t *testing.T) {
