@@ -21,7 +21,7 @@ forward that port to the host.
 
 ## Use
 
-Go to http://127.0.0.1:9090 in your browser. The tabs at the top take you to the search page, the crawl console, and the dashboards. Searches cover the whole YaCy network plus any websites you’ve crawled yourself in the crawl console.
+Go to `http://127.0.0.1:9090` in your browser. The tabs at the top take you to the search page, the crawl console, and the dashboards. Searches cover the whole YaCy network plus any websites you’ve crawled yourself in the crawl console.
 
 ## Build from source
 
