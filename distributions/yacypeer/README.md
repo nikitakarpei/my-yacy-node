@@ -21,12 +21,7 @@ forward that port to the host.
 
 ## Use
 
-Open `http://127.0.0.1:9090`. The tabs at the top link the search page, the crawl
-console and the dashboards. The search page searches the YaCy network and the pages
-that you crawl in the crawl console.
-
-To change this address, or to let other hosts reach it, see
-[Configuration](doc/configuration.md).
+Go to http://127.0.0.1:9090 in your browser. The tabs at the top take you to the search page, the crawl console, and the dashboards. Searches cover the whole YaCy network plus any websites you’ve crawled yourself in the crawl console.
 
 ## Build from source
 
