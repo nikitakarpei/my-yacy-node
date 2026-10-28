@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -30,6 +31,8 @@ func TestNewCrawlFormOffersTheDefaults(t *testing.T) {
 	assertShows(t, answer,
 		`value="domain" checked`, `id="MaxDepth" name="MaxDepth" min="0" required value="2"`,
 		"Any Page", "Pages in Same Directory",
+		`name="RecrawlGrace" min="1" value="" placeholder="any age"`,
+		`<option value="days" selected>days</option>`,
 	)
 }
 
@@ -43,6 +46,18 @@ func TestNewCrawlFormDuplicatesTheOrderOfACrawl(t *testing.T) {
 	assertShows(t, answer,
 		"https://example.org/docs/\nhttps://example.org/blog/</textarea>",
 		`value="docs site"`, `value="domain" checked`, `value="3"`, `value="50"`,
+	)
+}
+
+func TestNewCrawlFormDuplicatesTheRecrawlGraceOfACrawl(t *testing.T) {
+	crawl := runningCrawlOf(t, "c1")
+	crawl.Order.Profile.RecrawlGrace = 36 * time.Hour
+	crawler := &fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}}
+
+	answer := consoleOver(crawler).get("/crawls/new?from=c1")
+
+	assertShows(t, answer,
+		`name="RecrawlGrace" min="1" value="36"`, `<option value="hours" selected>hours</option>`,
 	)
 }
 
@@ -115,6 +130,19 @@ func TestPlaceOrderKeepsAPageLimit(t *testing.T) {
 	}
 }
 
+func TestPlaceOrderKeepsARecrawlGrace(t *testing.T) {
+	crawler := &fakeCrawler{}
+	fields := orderFields()
+	fields.Set("RecrawlGrace", "90")
+	fields.Set("RecrawlGraceUnit", "minutes")
+
+	consoleOver(crawler).post("/crawls", fields)
+
+	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != 90*time.Minute {
+		t.Fatalf("RecrawlGrace = %s, want 1h30m", grace)
+	}
+}
+
 func TestPlaceOrderShowsWhyTheCrawlerRefusedIt(t *testing.T) {
 	crawler := &fakeCrawler{refusal: "unknown crawl scope"}
 
@@ -140,11 +168,24 @@ func TestPlaceOrderRefusesAFieldItCannotRead(t *testing.T) {
 		},
 		{"MaxDepth", "two", "Max Discovery Depth &#34;two&#34; is not a whole number."},
 		{"MaxPagesPerHost", "many", "Max Pages per Host &#34;many&#34; is not a whole number."},
+		{
+			"RecrawlGrace",
+			"soon",
+			"Re-crawl Pages Older Than &#34;soon&#34; is not a whole number.",
+		},
+		{
+			"RecrawlGraceUnit",
+			"weeks",
+			"Re-crawl Pages Older Than has no unit &#34;weeks&#34;.",
+		},
+		{"RecrawlGrace", "31", "Re-crawl Pages Older Than is at most 30 days."},
 	}
 	for _, tc := range cases {
-		t.Run(tc.field, func(t *testing.T) {
+		t.Run(tc.field+"="+tc.value, func(t *testing.T) {
 			crawler := &fakeCrawler{}
 			fields := orderFields()
+			fields.Set("RecrawlGrace", "2")
+			fields.Set("RecrawlGraceUnit", "days")
 			fields.Set(tc.field, tc.value)
 
 			answer := consoleOver(crawler).post("/crawls", fields)

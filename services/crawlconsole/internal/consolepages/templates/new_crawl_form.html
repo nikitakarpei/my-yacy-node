@@ -34,6 +34,15 @@
         <label for="MaxPagesPerHost">{{text "order.max-pages-per-host"}}</label>
         <input type="number" id="MaxPagesPerHost" name="MaxPagesPerHost" min="1" value="{{.Fields.MaxPagesPerHost}}" placeholder="{{text "order.no-page-limit"}}">
       </div>
+      <div>
+        <label for="RecrawlGrace">{{text "order.recrawl-grace"}} <span class="hint">{{text "new-crawl.recrawl-grace-hint"}}</span></label>
+        <div class="amount-with-unit">
+          <input type="number" id="RecrawlGrace" name="RecrawlGrace" min="1" value="{{.Fields.RecrawlGrace.Amount}}" placeholder="{{text "order.recrawl-grace-any-age"}}">
+          <select name="RecrawlGraceUnit" aria-label="{{text "new-crawl.recrawl-grace-unit"}}">
+            {{range .RecrawlGraceUnits}}<option value="{{.Name}}"{{if eq .Name $.Fields.RecrawlGrace.Unit}} selected{{end}}>{{text (print "recrawl-grace-unit." .Name)}}</option>{{end}}
+          </select>
+        </div>
+      </div>
     </div>
   </fieldset>
   <fieldset>

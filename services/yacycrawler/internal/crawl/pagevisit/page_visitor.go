@@ -69,11 +69,11 @@ func (visitor *pageVisitor) VisitPage(
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) PageVisitOutcome {
 	url := pendingPageVisit.URL
-	lastVisit, visited := visitor.lastPageVisitOf(ctx, url)
-	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
+	recrawl := visitor.recrawlOf(ctx, order, url)
+	if !recrawl.Due {
 		return droppedOutcome(yacycrawlcontract.DropReasonNotDue)
 	}
-	visitedPage := visitor.fetchAndRead(ctx, url, lastVisit.Version)
+	visitedPage := visitor.fetchAndRead(ctx, url, recrawl.KnownVersion)
 	if visitedPage.isReadable() && !visitor.publishCrawledPage(ctx, visitedPage) {
 		return returnedOutcome(errCrawledPageUnpublished)
 	}
@@ -86,6 +86,18 @@ func (visitor *pageVisitor) VisitPage(
 		visitor.recordPageVisit(ctx, url, visitedPage.fetchOutcome.Version)
 	}
 	return visitedPage.outcome()
+}
+
+func (visitor *pageVisitor) recrawlOf(
+	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+	url canonicalurl.CanonicalURL,
+) Recrawl {
+	lastVisit, visited := visitor.lastPageVisitOf(ctx, url)
+	if !visited {
+		return Recrawl{Due: true}
+	}
+	return visitor.recrawlRule.RecrawlOf(lastVisit, order.RecrawlGrace())
 }
 
 func (visitor *pageVisitor) lastPageVisitOf(

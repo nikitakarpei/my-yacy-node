@@ -2,6 +2,7 @@ package acceptedorder_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
@@ -18,6 +19,7 @@ func crawlOrder(t *testing.T) yacycrawlcontract.CrawlOrder {
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        2,
 			MaxPagesPerHost: 7,
+			RecrawlGrace:    time.Hour,
 		},
 		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "http://host/one"),
@@ -47,6 +49,9 @@ func TestAnAcceptedOrderCarriesWhatTheOperatorSent(t *testing.T) {
 	}
 	if accepted.MaxPagesPerHost() != 7 {
 		t.Errorf("max pages per host = %d, want 7", accepted.MaxPagesPerHost())
+	}
+	if accepted.RecrawlGrace() != time.Hour {
+		t.Errorf("recrawl grace = %s, want 1h", accepted.RecrawlGrace())
 	}
 	if accepted.CrawlOrder().Profile.MaxDepth != 2 {
 		t.Errorf("crawl order = %+v, want the order the operator sent", accepted.CrawlOrder())
@@ -91,5 +96,25 @@ func TestAnOrderWithoutSeedsIsNotAccepted(t *testing.T) {
 
 	if _, err := acceptedorder.AcceptedOrderFrom(order); err == nil {
 		t.Fatal("an order without seed URLs cannot be accepted")
+	}
+}
+
+func TestAnOrderWithARecrawlGraceOutsideItsBoundsIsNotAccepted(t *testing.T) {
+	for _, recrawlGrace := range []time.Duration{
+		-time.Second, yacycrawlcontract.MaxRecrawlGrace + time.Second,
+	} {
+		order := crawlOrder(t)
+		order.Profile.RecrawlGrace = recrawlGrace
+		if _, err := acceptedorder.AcceptedOrderFrom(order); err == nil {
+			t.Fatalf("an order with the recrawl grace %s cannot be accepted", recrawlGrace)
+		}
+	}
+}
+
+func TestAnOrderWithTheLongestRecrawlGraceIsAccepted(t *testing.T) {
+	order := crawlOrder(t)
+	order.Profile.RecrawlGrace = yacycrawlcontract.MaxRecrawlGrace
+	if _, err := acceptedorder.AcceptedOrderFrom(order); err != nil {
+		t.Fatalf("accept order: %v", err)
 	}
 }

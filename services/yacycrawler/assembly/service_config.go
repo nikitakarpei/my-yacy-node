@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitlimits"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -20,7 +21,7 @@ const (
 	orderIntakeConcurrency = 4
 	fetchDeadlinesPerLease = 3
 
-	pageVisitRetention = 30 * 24 * time.Hour
+	pageVisitRetention = yacycrawlcontract.MaxRecrawlGrace
 
 	pageVisitLimitRetention = 7 * 24 * time.Hour
 
@@ -41,7 +42,6 @@ type ServiceConfig struct {
 	FetchConcurrency   int
 	MaxBodyBytes       int64
 	FetchDeadline      time.Duration
-	RecrawlGrace       time.Duration
 	OpsAddr            string
 	APIAddr            string
 	UserAgent          string
@@ -49,10 +49,6 @@ type ServiceConfig struct {
 
 func (cfg ServiceConfig) ServesAPI() bool {
 	return cfg.APIAddr != ""
-}
-
-func (cfg ServiceConfig) SuppressesRecrawl() bool {
-	return cfg.RecrawlGrace > 0
 }
 
 func (cfg ServiceConfig) PendingPageVisitLease() time.Duration {

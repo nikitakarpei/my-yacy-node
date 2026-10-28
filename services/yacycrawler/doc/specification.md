@@ -23,17 +23,18 @@ host than an always-on node.
 
 ## Functional Requirements
 
-* The service SHALL idle until a crawl order arrives, then accept it. The first order of an
-  ID SHALL start one crawl; a later order with that ID SHALL be ignored while its crawl is
-  kept.
-* The service SHALL reject an order it cannot read, or that has no seed URLs: it reports the
-  order, keeps nothing, and does not take it again.
+* The service SHALL idle until a crawl order arrives, then accept it.
+* The first order of an ID SHALL start one crawl; the service SHALL ignore a later order with
+  that ID while its crawl is kept.
+* The service SHALL reject an order it cannot read: it reports the order, keeps nothing, and
+  does not take it again.
+* An order with no seed URLs, or with a recrawl grace past the contract maximum, is unreadable.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
 * A crawl SHALL succeed only when it has no more pending page visits, about a second
   after the last one ends, and SHALL take no more page visits afterwards.
-* Before fetching a page, the service SHALL ask the recrawl rule whether the page is
-  due, and skip the fetch if not.
+* The service SHALL skip a page visited within the recrawl grace of its order. After the
+  grace, it SHALL fetch the page only if it changed; with no grace, it SHALL fetch it in full.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it; a visit asked to wait past the longest deferral drops.
@@ -60,11 +61,9 @@ host than an always-on node.
 * The service SHALL bound every outbound fetch with an explicit deadline.
 * The core SHALL keep no state of its own; anything remembered lives behind an interface
   it consults. A run survives the restart of any instance, and of all of them.
-* The message broker (at-least-once delivery with acknowledgment and redelivery) and the
-  page-fetch mechanism SHALL each be replaceable behind a narrow interface, with no change to
-  crawl logic.
-* The page visit records SHALL sit behind a narrow interface; with no recrawl grace, none are
-  kept and the recrawl rule holds every page due.
+* The message broker and the page-fetch mechanism SHALL each be replaceable behind a narrow
+  interface, with no change to crawl logic.
+* The page visit records SHALL sit behind a narrow interface.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations

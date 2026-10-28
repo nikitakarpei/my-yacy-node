@@ -56,6 +56,7 @@ type visitedCall struct {
 type fakePageVisitRecords struct {
 	due          bool
 	version      pagefetch.PageVersion
+	askedGrace   time.Duration
 	visitedCalls []visitedCall
 	readErr      error
 	recordErr    error
@@ -71,8 +72,12 @@ func (f *fakePageVisitRecords) LastPageVisitOf(
 	return pagevisit.LastPageVisit{Version: f.version}, true, nil
 }
 
-func (f *fakePageVisitRecords) PageDueForRecrawl(pagevisit.LastPageVisit) bool {
-	return f.due
+func (f *fakePageVisitRecords) RecrawlOf(
+	_ pagevisit.LastPageVisit,
+	recrawlGrace time.Duration,
+) pagevisit.Recrawl {
+	f.askedGrace = recrawlGrace
+	return pagevisit.Recrawl{Due: f.due, KnownVersion: f.version}
 }
 
 func (f *fakePageVisitRecords) RecordPageVisit(
@@ -579,7 +584,18 @@ func TestAPageNotDueIsNotFetched(t *testing.T) {
 	}
 }
 
-func TestTheFetchAsksForTheVersionLastVisited(t *testing.T) {
+func TestTheRecrawlRuleIsAskedUnderTheGraceOfTheOrder(t *testing.T) {
+	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
+	scene.profile.RecrawlGrace = time.Hour
+
+	scene.visit(t)
+
+	if scene.pageVisitRecords.askedGrace != time.Hour {
+		t.Fatalf("asked grace = %s, want the 1h of the order", scene.pageVisitRecords.askedGrace)
+	}
+}
+
+func TestTheFetchAsksForTheVersionTheRecrawlKnows(t *testing.T) {
 	known := pagefetch.PageVersion{EntityTag: `"stored-etag"`}
 	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
 	scene.pageVisitRecords.version = known

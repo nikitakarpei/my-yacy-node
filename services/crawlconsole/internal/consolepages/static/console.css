@@ -191,6 +191,10 @@ input[type="number"],
 textarea {
   width: 100%;
 }
+.amount-with-unit {
+  display: flex;
+  gap: var(--webui-space-2);
+}
 textarea {
   font-family: ui-monospace, monospace;
   font-size: 0.85rem;

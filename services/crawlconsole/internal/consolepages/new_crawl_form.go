@@ -16,8 +16,9 @@ const (
 )
 
 var defaultFields = orderFields{
-	Scope:    string(defaultScope),
-	MaxDepth: strconv.Itoa(defaultMaxDepth),
+	Scope:        string(defaultScope),
+	MaxDepth:     strconv.Itoa(defaultMaxDepth),
+	RecrawlGrace: writtenRecrawlGraceOf(yacycrawlcontract.NoRecrawlGrace),
 }
 
 type newCrawlForm struct {
@@ -35,12 +36,14 @@ type orderFields struct {
 	URLMustNotMatch string
 	AllowQueryURLs  bool
 	MaxPagesPerHost string
+	RecrawlGrace    writtenRecrawlGrace
 }
 
 type newCrawlView struct {
-	Fields  orderFields
-	Scopes  []yacycrawlcontract.CrawlScope
-	Problem formProblem
+	Fields            orderFields
+	Scopes            []yacycrawlcontract.CrawlScope
+	RecrawlGraceUnits []recrawlGraceUnit
+	Problem           formProblem
 }
 
 type formProblem struct {
@@ -51,8 +54,9 @@ type formProblem struct {
 func (form newCrawlForm) show(w http.ResponseWriter, r *http.Request) {
 	fields, answered := form.fieldsFor(r)
 	form.layout.render(w, r, newCrawlFormScreen, statusOfAnswer(answered), newCrawlView{
-		Fields: fields,
-		Scopes: yacycrawlcontract.CrawlScopes,
+		Fields:            fields,
+		Scopes:            yacycrawlcontract.CrawlScopes,
+		RecrawlGraceUnits: recrawlGraceUnits,
 	})
 }
 
@@ -81,6 +85,7 @@ func orderFieldsFrom(order yacycrawlcontract.CrawlOrder) orderFields {
 		URLMustMatch:    order.Profile.URLMustMatch,
 		URLMustNotMatch: order.Profile.URLMustNotMatch,
 		AllowQueryURLs:  order.Profile.AllowQueryURLs,
+		RecrawlGrace:    writtenRecrawlGraceOf(order.Profile.RecrawlGrace),
 	}
 	if order.Profile.MaxPagesPerHost != yacycrawlcontract.UnlimitedPagesPerHost {
 		fields.MaxPagesPerHost = strconv.Itoa(order.Profile.MaxPagesPerHost)
@@ -126,6 +131,10 @@ func orderFieldsOf(r *http.Request) orderFields {
 		URLMustNotMatch: r.PostFormValue("URLMustNotMatch"),
 		AllowQueryURLs:  r.PostFormValue("AllowQueryURLs") != "",
 		MaxPagesPerHost: strings.TrimSpace(r.PostFormValue("MaxPagesPerHost")),
+		RecrawlGrace: writtenRecrawlGrace{
+			Amount: strings.TrimSpace(r.PostFormValue("RecrawlGrace")),
+			Unit:   r.PostFormValue("RecrawlGraceUnit"),
+		},
 	}
 }
 
@@ -150,6 +159,10 @@ func crawlOrderFrom(
 				Value: fields.MaxPagesPerHost,
 			}
 	}
+	recrawlGrace, problem := recrawlGraceFrom(fields.RecrawlGrace)
+	if problem.Key != "" {
+		return yacycrawlcontract.CrawlOrder{}, problem
+	}
 	return yacycrawlcontract.CrawlOrder{
 		OrderID:  orderID,
 		Label:    fields.Label,
@@ -161,6 +174,7 @@ func crawlOrderFrom(
 			MaxDepth:        maxDepth,
 			AllowQueryURLs:  fields.AllowQueryURLs,
 			MaxPagesPerHost: maxPagesPerHost,
+			RecrawlGrace:    recrawlGrace,
 		},
 	}, formProblem{}
 }
@@ -197,8 +211,9 @@ func (form newCrawlForm) showProblem(
 	problem formProblem,
 ) {
 	form.layout.render(w, r, newCrawlFormScreen, status, newCrawlView{
-		Fields:  fields,
-		Scopes:  yacycrawlcontract.CrawlScopes,
-		Problem: problem,
+		Fields:            fields,
+		Scopes:            yacycrawlcontract.CrawlScopes,
+		RecrawlGraceUnits: recrawlGraceUnits,
+		Problem:           problem,
 	})
 }

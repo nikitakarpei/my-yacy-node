@@ -51,7 +51,6 @@ the directory.
 | `YACYCRAWLER_FETCH_DEADLINE` | `30s` | Deadline for a single fetch. |
 | `YACYCRAWLER_FETCH_CONCURRENCY` | `4` | Concurrent fetches on one instance. |
 | `YACYCRAWLER_FETCH_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. |
-| `YACYCRAWLER_RECRAWL_GRACE` | `1h` | Minimum time between visits to the same URL. `0` disables suppression. |
 
 ## Operations
 
