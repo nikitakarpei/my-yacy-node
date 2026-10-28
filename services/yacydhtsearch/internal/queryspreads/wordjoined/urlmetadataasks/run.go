@@ -11,26 +11,28 @@ type run struct {
 	beganAt                       time.Time
 	timeToFirstAsk                yacymodel.Optional[time.Duration]
 	asks                          []peerasks.URLMetadataAsk
-	lookedUpDocuments             yacymodel.URLHashes
+	lookedUpDocuments             map[yacymodel.URLHash]struct{}
 	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
-	lookedUpDocumentsWithMetadata yacymodel.URLHashes
-	givenDocuments                yacymodel.URLHashes
+	lookedUpDocumentsWithMetadata map[yacymodel.URLHash]struct{}
+	givenDocuments                map[yacymodel.URLHash]struct{}
 	endReason                     EndReason
 	amountOfDocumentsCutOff       int
 }
 
 func noAsksPutYet() *run {
 	return &run{
-		beganAt:                     time.Now(),
-		asksInFlightPerOpenDocument: map[yacymodel.URLHash]int{},
+		beganAt:                       time.Now(),
+		lookedUpDocuments:             map[yacymodel.URLHash]struct{}{},
+		asksInFlightPerOpenDocument:   map[yacymodel.URLHash]int{},
+		lookedUpDocumentsWithMetadata: map[yacymodel.URLHash]struct{}{},
+		givenDocuments:                map[yacymodel.URLHash]struct{}{},
 	}
 }
 
 func (run *run) give(documents []yacymodel.URLHash) {
-	run.givenDocuments = yacymodel.UnionOf(
-		run.givenDocuments,
-		yacymodel.URLHashesFrom(documents...),
-	)
+	for _, document := range documents {
+		run.givenDocuments[document] = struct{}{}
+	}
 }
 
 func (run *run) add(asks []peerasks.URLMetadataAsk) {
@@ -51,14 +53,12 @@ func (run *run) keep(asks []peerasks.URLMetadataAsk) {
 }
 
 func (run *run) openTheDocumentsOf(asks []peerasks.URLMetadataAsk) {
-	var lookedUpDocuments yacymodel.URLHashesBuilder
 	for _, ask := range asks {
 		for _, document := range ask.Documents {
-			lookedUpDocuments.Add(document)
+			run.lookedUpDocuments[document] = struct{}{}
 			run.asksInFlightPerOpenDocument[document]++
 		}
 	}
-	run.lookedUpDocuments = yacymodel.UnionOf(run.lookedUpDocuments, lookedUpDocuments.URLHashes())
 }
 
 func (run *run) endBy(endReason EndReason) {
@@ -66,30 +66,26 @@ func (run *run) endBy(endReason EndReason) {
 }
 
 func (run *run) covered() bool {
-	return run.lookedUpDocumentsWithMetadata.Amount() == run.lookedUpDocuments.Amount()
+	return len(run.lookedUpDocumentsWithMetadata) == len(run.lookedUpDocuments)
 }
 
 func (run *run) settle(outcome peerasks.URLMetadataAskOutcome) {
 	if answeredAsk, answered := outcome.Answer.Get(); answered {
-		run.settleWithMetadata(answeredAsk.MetadataOfEachDocument)
+		for _, metadata := range answeredAsk.MetadataOfEachDocument {
+			run.settleWithMetadata(metadata.Hash)
+		}
 	}
 	for _, document := range outcome.Ask.Documents {
 		run.settleOneAskNaming(document)
 	}
 }
 
-func (run *run) settleWithMetadata(metadataOfEachDocument []yacymodel.URLMetadata) {
-	var documentsWithMetadata yacymodel.URLHashesBuilder
-	for _, metadata := range metadataOfEachDocument {
-		if _, open := run.asksInFlightPerOpenDocument[metadata.Hash]; !open {
-			continue
-		}
-		delete(run.asksInFlightPerOpenDocument, metadata.Hash)
-		documentsWithMetadata.Add(metadata.Hash)
+func (run *run) settleWithMetadata(document yacymodel.URLHash) {
+	if _, open := run.asksInFlightPerOpenDocument[document]; !open {
+		return
 	}
-	run.lookedUpDocumentsWithMetadata = yacymodel.UnionOf(run.lookedUpDocumentsWithMetadata,
-		documentsWithMetadata.URLHashes(),
-	)
+	delete(run.asksInFlightPerOpenDocument, document)
+	run.lookedUpDocumentsWithMetadata[document] = struct{}{}
 }
 
 func (run *run) settleOneAskNaming(document yacymodel.URLHash) {
@@ -103,8 +99,8 @@ func (run *run) settleOneAskNaming(document yacymodel.URLHash) {
 }
 
 func (run *run) settledShare() float64 {
-	return float64(run.lookedUpDocuments.Amount()-len(run.asksInFlightPerOpenDocument)) /
-		float64(run.lookedUpDocuments.Amount())
+	return float64(len(run.lookedUpDocuments)-len(run.asksInFlightPerOpenDocument)) /
+		float64(len(run.lookedUpDocuments))
 }
 
 func (run *run) cutOff() {
@@ -114,9 +110,9 @@ func (run *run) cutOff() {
 
 func (run *run) performed() Performed {
 	return Performed{
-		AmountOfLookedUpDocuments:             run.lookedUpDocuments.Amount(),
-		AmountOfLookedUpDocumentsWithMetadata: run.lookedUpDocumentsWithMetadata.Amount(),
-		AmountOfDocumentsNotAsked:             run.givenDocuments.Amount() - run.lookedUpDocuments.Amount(),
+		AmountOfLookedUpDocuments:             len(run.lookedUpDocuments),
+		AmountOfLookedUpDocumentsWithMetadata: len(run.lookedUpDocumentsWithMetadata),
+		AmountOfDocumentsNotAsked:             len(run.givenDocuments) - len(run.lookedUpDocuments),
 		EndReason:                             run.endReason,
 		AmountOfDocumentsCutOff:               run.amountOfDocumentsCutOff,
 		AmountOfDocumentsPerAsk:               amountOfDocumentsPerAskIn(run.asks),
