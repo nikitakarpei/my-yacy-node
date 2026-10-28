@@ -41,7 +41,8 @@ host than an always-on node.
 * The service SHALL publish a page that refuses indexing, marked as refusing indexing, so
   that a consumer, not the crawler, decides what to do with it.
 * The service SHALL publish the canonical URL and the content type of each page it read, of
-  any media type, and never the page's content. Only an HTML page gives links to follow.
+  any media type, and never the page's content. Only an HTML page or an RSS or Atom feed
+  gives links to follow.
 * A crawl SHALL hold one page visit for each URL it admits, and each SHALL end either
   completed, or dropped when the crawler stops trying to visit it.
 * A publication SHALL fail only on a hard, non-retryable broker error, and never terminally:

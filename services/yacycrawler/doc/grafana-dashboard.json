@@ -578,7 +578,7 @@
     {
       "id": 52,
       "title": "Page base URLs the crawler could not resolve",
-      "description": "A page can state the URL its links are relative to. When the crawler cannot resolve that URL, it uses the page URL instead.",
+      "description": "A page can state the URL its links are relative to. When the crawler cannot resolve that URL, it uses the page URL, or the base URL a feed states around it, instead.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

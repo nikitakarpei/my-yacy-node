@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 )
 
-type PageReading interface {
+type PageReader interface {
 	ReadingOfPage(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,

@@ -30,12 +30,12 @@ components:
     in: internal/crawl/pagevisit/**
   observedfetch:
     in: internal/crawl/observedfetch/**
-  pagehtml:
-    in: internal/crawl/pagehtml/**
-  linkdiscovery:
-    in: internal/crawl/linkdiscovery/**
+  linkresolution:
+    in: internal/crawl/linkresolution/**
   pagehtmlreading:
     in: internal/crawl/pagehtmlreading/**
+  pagefeedreading:
+    in: internal/crawl/pagefeedreading/**
   pagereading:
     in: internal/crawl/pagereading/**
   pagevisitallowance:
@@ -76,14 +76,12 @@ components:
     in: internal/crawlobservers/observedfetch/applog/**
   crawlobserversobservedfetchprometheus:
     in: internal/crawlobservers/observedfetch/prometheus/**
-  crawlobserverspagehtmlapplog:
-    in: internal/crawlobservers/pagehtml/applog/**
-  crawlobserverspagehtmlprometheus:
-    in: internal/crawlobservers/pagehtml/prometheus/**
-  crawlobserverslinkdiscoveryapplog:
-    in: internal/crawlobservers/linkdiscovery/applog/**
-  crawlobserverslinkdiscoveryprometheus:
-    in: internal/crawlobservers/linkdiscovery/prometheus/**
+  crawlobserverslinkresolutionapplog:
+    in: internal/crawlobservers/linkresolution/applog/**
+  crawlobserverslinkresolutionprometheus:
+    in: internal/crawlobservers/linkresolution/prometheus/**
+  crawlobserverspagefeedreadingapplog:
+    in: internal/crawlobservers/pagefeedreading/applog/**
   crawlobserverspagereadingapplog:
     in: internal/crawlobservers/pagereading/applog/**
   crawlobserverspagereadingprometheus:
@@ -193,12 +191,7 @@ deps:
       - yacycrawlcontract
       - serviceruntime
       - vault
-  pagehtml:
-    canUse:
-      - nethtml
-  linkdiscovery:
-    mayDependOn:
-      - pagehtml
+  linkresolution:
     canUse:
       - canonicalurl
   pagevisit:
@@ -217,15 +210,20 @@ deps:
       - pagefetch
   pagehtmlreading:
     mayDependOn:
-      - pagehtml
-      - linkdiscovery
+      - linkresolution
+      - pagereading
     canUse:
       - canonicalurl
-      - pagefetch
+      - nethtml
       - robotsmeta
-  pagereading:
+  pagefeedreading:
     mayDependOn:
-      - pagehtmlreading
+      - linkresolution
+      - pagereading
+    canUse:
+      - canonicalurl
+      - nethtml
+  pagereading:
     canUse:
       - canonicalurl
       - pagefetch
@@ -339,15 +337,15 @@ deps:
       - budgetbuckets
       - canonicalurl
       - pagefetch
-  crawlobserverspagehtmlprometheus:
-    canUse:
-      - prometheus
-  crawlobserverslinkdiscoveryapplog:
+  crawlobserverslinkresolutionapplog:
     canUse:
       - canonicalurl
-  crawlobserverslinkdiscoveryprometheus:
+  crawlobserverslinkresolutionprometheus:
     canUse:
       - prometheus
+      - canonicalurl
+  crawlobserverspagefeedreadingapplog:
+    canUse:
       - canonicalurl
   crawlobserverspagereadingapplog:
     canUse:

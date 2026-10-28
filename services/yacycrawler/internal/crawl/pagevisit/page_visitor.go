@@ -32,7 +32,7 @@ type pageVisitor struct {
 	recrawlRule      RecrawlRule
 	pageVisitRecords PageVisitRecords
 	recordObserver   PageVisitRecordObserver
-	pageReading      PageReading
+	pageReader       PageReader
 	crawledPages     CrawledPages
 	frontier         Frontier
 	linkObserver     LinkAdmissionObserver
@@ -45,7 +45,7 @@ func New(
 	recrawlRule RecrawlRule,
 	pageVisitRecords PageVisitRecords,
 	recordObserver PageVisitRecordObserver,
-	pageReading PageReading,
+	pageReader PageReader,
 	crawledPages CrawledPages,
 	frontier Frontier,
 	linkObserver LinkAdmissionObserver,
@@ -56,7 +56,7 @@ func New(
 		recrawlRule:      recrawlRule,
 		pageVisitRecords: pageVisitRecords,
 		recordObserver:   recordObserver,
-		pageReading:      pageReading,
+		pageReader:       pageReader,
 		crawledPages:     crawledPages,
 		frontier:         frontier,
 		linkObserver:     linkObserver,
@@ -126,7 +126,7 @@ func (visitor *pageVisitor) fetchAndRead(
 	if fetchOutcome.Status != pagefetch.FetchSucceeded {
 		return visitedPage{url: url, fetchOutcome: fetchOutcome}
 	}
-	reading, err := visitor.pageReading.ReadingOfPage(ctx, url, fetchOutcome.Page)
+	reading, err := visitor.pageReader.ReadingOfPage(ctx, url, fetchOutcome.Page)
 	return visitedPage{url: url, fetchOutcome: fetchOutcome, reading: reading, readingErr: err}
 }
 

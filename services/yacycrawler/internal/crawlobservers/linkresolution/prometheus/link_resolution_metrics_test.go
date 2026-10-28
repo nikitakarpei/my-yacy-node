@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	crawlobserverslinkdiscoveryprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/prometheus"
+	crawlobserverslinkresolutionprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkresolution/prometheus"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 
 func TestLinkResolutionMetricsCountEveryLinkThatCannotBeResolved(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	metrics := crawlobserverslinkdiscoveryprometheus.New(registry)
+	metrics := crawlobserverslinkresolutionprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://host.example/page")
 
 	metrics.BaseURLUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
@@ -28,7 +28,7 @@ func TestLinkResolutionMetricsCountEveryLinkThatCannotBeResolved(t *testing.T) {
 
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(
 		"# HELP "+baseURLMetricName+
-			" Pages whose stated base URL cannot be resolved, read against the page URL instead.\n"+
+			" Stated base URLs that cannot be resolved, read against the enclosing base URL instead.\n"+
 			"# TYPE "+baseURLMetricName+" counter\n"+
 			baseURLMetricName+" 1\n"+
 			"# HELP "+linksMetricName+
@@ -42,7 +42,7 @@ func TestLinkResolutionMetricsCountEveryLinkThatCannotBeResolved(t *testing.T) {
 
 func TestEveryUnresolvedLinkReadsZeroBeforeItHappens(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	crawlobserverslinkdiscoveryprometheus.New(registry)
+	crawlobserverslinkresolutionprometheus.New(registry)
 
 	if counters := testutil.CollectAndCount(
 		registry, baseURLMetricName, linksMetricName,
@@ -53,7 +53,7 @@ func TestEveryUnresolvedLinkReadsZeroBeforeItHappens(t *testing.T) {
 
 func TestLinkResolutionMetricsExposeNoPageAddress(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
-	metrics := crawlobserverslinkdiscoveryprometheus.New(registry)
+	metrics := crawlobserverslinkresolutionprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://private.example/page")
 
 	metrics.BaseURLUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
