@@ -93,8 +93,9 @@ var englishTexts = map[string]string{
 	"order.query-urls-skipped":      "Skipped",
 	"order.max-pages-per-host":      "Max Pages per Host",
 	"order.no-page-limit":           "no limit",
-	"order.recrawl-grace":           "Skip Pages Crawled in the Last",
-	"order.no-recrawl-grace":        "none",
+	"order.recrawl-grace":           "Already Crawled Pages",
+	"order.pages-skipped-within":    "Skipped if crawled in the last %s",
+	"order.no-recrawl-grace":        "Crawled again",
 
 	"recrawl-grace.minute":  "%d minute",
 	"recrawl-grace.minutes": "%d minutes",

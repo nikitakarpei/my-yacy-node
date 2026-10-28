@@ -51,7 +51,7 @@
   <dt>{{text "order.url-must-not-match"}}</dt><dd class="url">{{or .Profile.URLMustNotMatch (text "order.url-must-not-match-none")}}</dd>
   <dt>{{text "order.query-urls"}}</dt><dd>{{if .Profile.AllowQueryURLs}}{{text "order.query-urls-included"}}{{else}}{{text "order.query-urls-skipped"}}{{end}}</dd>
   <dt>{{text "order.max-pages-per-host"}}</dt><dd>{{if .Profile.MaxPagesPerHost}}{{.Profile.MaxPagesPerHost}}{{else}}{{text "order.no-page-limit"}}{{end}}</dd>
-  <dt>{{text "order.recrawl-grace"}}</dt><dd>{{if .Profile.RecrawlGrace}}{{with $.RecrawlGrace}}{{text (print "recrawl-grace." .Unit) .Amount}}{{end}}{{else}}{{text "order.no-recrawl-grace"}}{{end}}</dd>
+  <dt>{{text "order.recrawl-grace"}}</dt><dd>{{if .Profile.RecrawlGrace}}{{with $.RecrawlGrace}}{{text "order.pages-skipped-within" (text (print "recrawl-grace." .Unit) .Amount)}}{{end}}{{else}}{{text "order.no-recrawl-grace"}}{{end}}</dd>
 </dl>
 </div>
 </div>
