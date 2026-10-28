@@ -11,10 +11,10 @@ type run struct {
 	beganAt                       time.Time
 	timeToFirstAsk                yacymodel.Optional[time.Duration]
 	asks                          []peerasks.URLMetadataAsk
-	lookedUpDocuments             yacymodel.URLHashes
+	lookedUpDocuments             map[yacymodel.URLHash]struct{}
 	asksInFlightPerOpenDocument   map[yacymodel.URLHash]int
-	lookedUpDocumentsWithMetadata yacymodel.URLHashes
-	givenDocuments                yacymodel.URLHashes
+	lookedUpDocumentsWithMetadata map[yacymodel.URLHash]struct{}
+	givenDocuments                map[yacymodel.URLHash]struct{}
 	endReason                     EndReason
 	amountOfDocumentsCutOff       int
 }
@@ -22,15 +22,17 @@ type run struct {
 func noAsksPutYet() *run {
 	return &run{
 		beganAt:                       time.Now(),
-		lookedUpDocuments:             yacymodel.URLHashes{},
+		lookedUpDocuments:             map[yacymodel.URLHash]struct{}{},
 		asksInFlightPerOpenDocument:   map[yacymodel.URLHash]int{},
-		lookedUpDocumentsWithMetadata: yacymodel.URLHashes{},
-		givenDocuments:                yacymodel.URLHashes{},
+		lookedUpDocumentsWithMetadata: map[yacymodel.URLHash]struct{}{},
+		givenDocuments:                map[yacymodel.URLHash]struct{}{},
 	}
 }
 
 func (run *run) give(documents []yacymodel.URLHash) {
-	run.givenDocuments.AddEach(documents)
+	for _, document := range documents {
+		run.givenDocuments[document] = struct{}{}
+	}
 }
 
 func (run *run) add(asks []peerasks.URLMetadataAsk) {
@@ -53,7 +55,7 @@ func (run *run) keep(asks []peerasks.URLMetadataAsk) {
 func (run *run) openTheDocumentsOf(asks []peerasks.URLMetadataAsk) {
 	for _, ask := range asks {
 		for _, document := range ask.Documents {
-			run.lookedUpDocuments.Add(document)
+			run.lookedUpDocuments[document] = struct{}{}
 			run.asksInFlightPerOpenDocument[document]++
 		}
 	}
@@ -83,7 +85,7 @@ func (run *run) settleWithMetadata(document yacymodel.URLHash) {
 		return
 	}
 	delete(run.asksInFlightPerOpenDocument, document)
-	run.lookedUpDocumentsWithMetadata.Add(document)
+	run.lookedUpDocumentsWithMetadata[document] = struct{}{}
 }
 
 func (run *run) settleOneAskNaming(document yacymodel.URLHash) {

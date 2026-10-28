@@ -82,13 +82,13 @@ func TestEndpointReportsTheTermItHoldsMostAndTheTermNearestItsPosition(t *testin
 	if resp.Count != 1 {
 		t.Errorf("Count = %d, want 1", resp.Count)
 	}
-	if len(resp.IndexAbstract[word1]) == 0 {
+	if resp.IndexAbstract[word1].Amount() == 0 {
 		t.Errorf(
 			"IndexAbstract = %v, want w1, whose postings this node holds most of",
 			resp.IndexAbstract,
 		)
 	}
-	if len(resp.IndexAbstract[word2]) == 0 {
+	if resp.IndexAbstract[word2].Amount() == 0 {
 		t.Errorf("IndexAbstract = %v, want w2, which sits nearest this node", resp.IndexAbstract)
 	}
 }
@@ -149,7 +149,7 @@ func TestEndpointReportsRequestedTerms(t *testing.T) {
 		Abstracts:   yacyproto.SearchAbstracts(word.String()),
 	})
 
-	if len(resp.IndexAbstract[word]) == 0 {
+	if resp.IndexAbstract[word].Amount() == 0 {
 		t.Errorf("IndexAbstract = %v, want the requested term", resp.IndexAbstract)
 	}
 	if len(resp.IndexCount) != 0 {
@@ -171,7 +171,7 @@ func TestEndpointRestrictsARequestedAbstractToTheNamedDocuments(t *testing.T) {
 	})
 
 	wantedDocuments := []yacymodel.URLHash{documentHashOf("u2")}
-	if !slices.Equal(resp.IndexAbstract[word], wantedDocuments) {
+	if !slices.Equal(resp.IndexAbstract[word].InHashOrder(), wantedDocuments) {
 		t.Errorf(
 			"IndexAbstract[w1] = %v, want %v, the documents the request names",
 			resp.IndexAbstract[word],

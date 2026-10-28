@@ -91,7 +91,7 @@ func (w Wire) answersAsAPeer(ctx context.Context, address string, resp *http.Res
 }
 
 func rwiCountFailureIn(answer []byte) error {
-	fields := yacyproto.ParseResponseFields(string(answer))
+	fields := yacyproto.ParseResponseFields(answer)
 	if _, carried := fields[yacyproto.FieldResponse]; !carried {
 		return errAnswerCarriedNoRWICount
 	}

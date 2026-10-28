@@ -1,7 +1,6 @@
 package wordjoined
 
 import (
-	"maps"
 	"slices"
 	"sync"
 
@@ -33,8 +32,6 @@ func noDocumentsFoundYet(
 		measurement:           measurement,
 		growth:                growth,
 		documentsThePeersSent: queryfindings.EmptyDocumentsThePeersSent(),
-		documentsWithMetadata: yacymodel.URLHashes{},
-		joinedDocuments:       yacymodel.URLHashes{},
 	}
 }
 
@@ -45,28 +42,26 @@ func (found *documentsTheSpreadFound) WordPartitionAnswered(
 ) {
 	found.mutex.Lock()
 	defer found.mutex.Unlock()
+	var documentsWithMetadata yacymodel.URLHashesBuilder
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			metadata, sent := listedDocument.Metadata().Get()
-			if !sent {
-				continue
-			}
-			found.keepMetadataReplica(queryfindings.MetadataReplica{
-				Holder: answer.Replica.Hash, Metadata: metadata,
+		for _, matchedDocument := range answer.MatchedDocuments {
+			found.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
+				Holder: answer.Holder.Hash, Metadata: matchedDocument.Metadata,
 			})
-			if posting, sent := listedDocument.Posting().Get(); sent {
+			documentsWithMetadata.Add(matchedDocument.Metadata.Hash)
+			if posting, sent := matchedDocument.Posting.Get(); sent {
 				found.documentsThePeersSent.KeepPostingReplica(queryfindings.PostingReplica{
-					Holder: answer.Replica.Hash, Word: word, Posting: posting,
+					Holder: answer.Holder.Hash, Word: word, Posting: posting,
 				})
 			}
 		}
 	}
+	found.keepDocumentsWithMetadata(documentsWithMetadata.URLHashes())
 	found.notifyIfFindingsGrew()
 }
 
-func (found *documentsTheSpreadFound) keepMetadataReplica(replica queryfindings.MetadataReplica) {
-	found.documentsThePeersSent.KeepMetadataReplica(replica)
-	found.documentsWithMetadata.Add(replica.Metadata.Hash)
+func (found *documentsTheSpreadFound) keepDocumentsWithMetadata(documents yacymodel.URLHashes) {
+	found.documentsWithMetadata = yacymodel.UnionOf(found.documentsWithMetadata, documents)
 }
 
 func (found *documentsTheSpreadFound) notifyIfFindingsGrew() {
@@ -80,7 +75,7 @@ func (found *documentsTheSpreadFound) notifyIfFindingsGrew() {
 
 func (found *documentsTheSpreadFound) amountOfFoundDocuments() int {
 	amount := 0
-	for document := range found.joinedDocuments {
+	for document := range found.joinedDocuments.All() {
 		if found.documentsWithMetadata.Contains(document) {
 			amount++
 		}
@@ -112,19 +107,31 @@ func (found *documentsTheSpreadFound) PeerSentURLMetadata(
 ) {
 	found.mutex.Lock()
 	defer found.mutex.Unlock()
+	var documentsWithMetadata yacymodel.URLHashesBuilder
 	for _, metadata := range metadataOfEachDocument {
-		found.keepMetadataReplica(queryfindings.MetadataReplica{
+		found.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
 			Holder: peer, Metadata: metadata,
 		})
+		documentsWithMetadata.Add(metadata.Hash)
 	}
+	found.keepDocumentsWithMetadata(documentsWithMetadata.URLHashes())
 	found.notifyIfFindingsGrew()
 }
 
 func (found *documentsTheSpreadFound) DocumentsJoined(documents yacymodel.URLHashes) {
 	found.mutex.Lock()
 	defer found.mutex.Unlock()
-	maps.Copy(found.joinedDocuments, documents)
+	found.joinedDocuments = yacymodel.UnionOf(found.joinedDocuments, documents)
 	found.notifyIfFindingsGrew()
+}
+
+func (found *documentsTheSpreadFound) withoutMetadataAmong(
+	documents yacymodel.URLHashes,
+) yacymodel.URLHashes {
+	found.mutex.Lock()
+	defer found.mutex.Unlock()
+
+	return documents.Without(found.documentsWithMetadata)
 }
 
 func (found *documentsTheSpreadFound) findings() queryfindings.Findings {

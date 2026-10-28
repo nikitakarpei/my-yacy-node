@@ -45,7 +45,7 @@ type SearchResponse struct {
 	Count         int
 	Resources     []SearchResource
 	IndexCount    map[yacymodel.Hash]int
-	IndexAbstract map[yacymodel.Hash][]yacymodel.URLHash
+	IndexAbstract map[yacymodel.Hash]yacymodel.URLHashes
 }
 
 func (r SearchRequest) Form() url.Values {
@@ -288,10 +288,10 @@ func parseSearchResources(
 
 func parseSearchIndexes(
 	m ResponseFields,
-) (map[yacymodel.Hash]int, map[yacymodel.Hash][]yacymodel.URLHash, error) {
+) (map[yacymodel.Hash]int, map[yacymodel.Hash]yacymodel.URLHashes, error) {
 	var (
 		counts    map[yacymodel.Hash]int
-		abstracts map[yacymodel.Hash][]yacymodel.URLHash
+		abstracts map[yacymodel.Hash]yacymodel.URLHashes
 	)
 
 	for key, value := range m {
@@ -319,7 +319,7 @@ func parseSearchIndexes(
 			}
 
 			if abstracts == nil {
-				abstracts = map[yacymodel.Hash][]yacymodel.URLHash{}
+				abstracts = map[yacymodel.Hash]yacymodel.URLHashes{}
 			}
 
 			abstracts[hash] = decodeSearchIndexAbstract(value)

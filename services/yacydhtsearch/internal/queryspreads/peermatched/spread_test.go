@@ -55,30 +55,27 @@ func (network *peerNetwork) answerEachAsk(
 func (network *peerNetwork) settledAskOf(ask wordpartitionasks.Ask) wordpartitionasks.SettledAsk {
 	answers := make([]wordpartitionasks.ReplicaAnswer, 0, len(ask.ReplicasInOrder))
 	for _, replica := range ask.ReplicasInOrder {
-		answers = append(answers, wordpartitionasks.ReplicaAnswer{
-			Replica:         replica,
-			ListedDocuments: network.listedDocumentsOf(replica),
-		})
+		answers = append(answers, network.answerOf(replica))
 	}
 
 	return wordpartitionasks.SettledAsk{Ask: ask, Answers: answers}
 }
 
-func (network *peerNetwork) listedDocumentsOf(
+func (network *peerNetwork) answerOf(
 	peer peerdirectory.AskablePeer,
-) []wordpartitionasks.ListedDocument {
+) wordpartitionasks.ReplicaAnswer {
 	_, countsAWord := network.peersCountingAWord[peer.Address]
 	_, listsOnlyHashes := network.peersListingOnlyHashes[peer.Address]
 	addresses := network.itemsPerPeer[peer.Address]
-	listedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(addresses))
+	answer := wordpartitionasks.ReplicaAnswer{Holder: peer}
+	var listedDocuments yacymodel.URLHashesBuilder
 	for _, address := range addresses {
 		hash, err := yacymodel.URLHashOf(address)
 		if err != nil {
 			continue
 		}
+		listedDocuments.Add(hash)
 		if listsOnlyHashes {
-			listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocument{Hash: hash})
-
 			continue
 		}
 		posting := yacymodel.None[yacymodel.RWIPosting]()
@@ -90,13 +87,14 @@ func (network *peerNetwork) listedDocumentsOf(
 				ExternalLinks: 7,
 			})
 		}
-		listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocumentFrom(
-			yacymodel.URLMetadata{Hash: hash, Address: address},
-			posting,
-		))
+		answer.MatchedDocuments = append(answer.MatchedDocuments, wordpartitionasks.MatchedDocument{
+			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
+			Posting:  posting,
+		})
 	}
+	answer.ListedDocuments = listedDocuments.URLHashes()
 
-	return listedDocuments
+	return answer
 }
 
 type everyAskablePeer struct{}

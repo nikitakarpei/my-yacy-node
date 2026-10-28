@@ -52,7 +52,7 @@ func (answers answersOfWord) amountInAPartition() yacymodel.Optional[int] {
 func (answers answersOfWord) listAnyDocument() bool {
 	for _, answersOfThePartition := range answers {
 		for _, answer := range answersOfThePartition {
-			if len(answer.ListedDocuments) > 0 {
+			if answer.ListedDocuments.Amount() > 0 {
 				return true
 			}
 		}
@@ -62,16 +62,17 @@ func (answers answersOfWord) listAnyDocument() bool {
 }
 
 func (answers answersOfWord) documents() yacymodel.URLHashes {
-	documents := yacymodel.URLHashes{}
+	var listedDocumentsOfEachAnswer []yacymodel.URLHashes
 	for _, answersOfThePartition := range answers {
 		for _, answer := range answersOfThePartition {
-			for _, listedDocument := range answer.ListedDocuments {
-				documents.Add(listedDocument.Hash)
-			}
+			listedDocumentsOfEachAnswer = append(
+				listedDocumentsOfEachAnswer,
+				answer.ListedDocuments,
+			)
 		}
 	}
 
-	return documents
+	return yacymodel.UnionOf(listedDocumentsOfEachAnswer...)
 }
 
 type answersOfPartition []wordpartitionasks.ReplicaAnswer

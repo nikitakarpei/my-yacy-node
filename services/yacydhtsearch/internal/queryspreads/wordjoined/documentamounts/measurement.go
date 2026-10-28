@@ -79,5 +79,5 @@ func (measurement *Measurement) AmountOfQueryWordsHeldByNoPeer() int {
 func (measurement *Measurement) AmountListedOf(word yacymodel.Hash) int {
 	measurement.mutex.Lock()
 	defer measurement.mutex.Unlock()
-	return len(measurement.answersPerQueryWord[word].documents())
+	return measurement.answersPerQueryWord[word].documents().Amount()
 }

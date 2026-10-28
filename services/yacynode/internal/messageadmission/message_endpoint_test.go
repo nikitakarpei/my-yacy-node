@@ -147,7 +147,7 @@ func send(
 		t.Fatalf("status = %d, want 200, body = %q", rec.Code, rec.Body.String())
 	}
 
-	resp, err := yacyproto.ParseMessageResponse(yacyproto.ParseResponseFields(rec.Body.String()))
+	resp, err := yacyproto.ParseMessageResponse(yacyproto.ParseResponseFields(rec.Body.Bytes()))
 	if err != nil {
 		t.Fatalf("parse message response: %v", err)
 	}

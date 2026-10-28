@@ -160,16 +160,13 @@ func documentsIn(t *testing.T, partition uint, amount int) []yacymodel.URLHash {
 }
 
 func answerOf(address string, documents ...yacymodel.URLHash) wordpartitionasks.ReplicaAnswer {
-	answer := wordpartitionasks.ReplicaAnswer{
-		Replica: peerdirectory.AskablePeer{Hash: yacymodel.WordHash(address), Address: address},
+	return wordpartitionasks.ReplicaAnswer{
+		Holder: peerdirectory.AskablePeer{
+			Hash:    yacymodel.WordHash(address),
+			Address: address,
+		},
+		ListedDocuments: yacymodel.URLHashesFrom(documents...),
 	}
-	for _, document := range documents {
-		answer.ListedDocuments = append(
-			answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
-		)
-	}
-
-	return answer
 }
 
 func firstWordListing(documents ...yacymodel.URLHash) replicasOfTheNetwork {
@@ -459,7 +456,7 @@ func TestTheDocumentsToMatchAreNamedInHashOrder(t *testing.T) {
 
 	askedFirstThenSecondAmongIt(t, replicas, 0)
 
-	want := yacymodel.URLHashes{documents[0]: {}, documents[1]: {}}.InHashOrder()
+	want := yacymodel.URLHashesFrom(documents[0], documents[1]).InHashOrder()
 	if asksOfTheSecondWord := replicas.asksOf(secondWord); len(asksOfTheSecondWord) != 1 ||
 		!slices.Equal(asksOfTheSecondWord[0].DocumentsToMatch, want) {
 		t.Fatalf("the inquiry asked %v, want one ask naming %v", asksOfTheSecondWord, want)
@@ -530,10 +527,10 @@ func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 
 	documents := documentsIn(t, 0, 2)
 	withMetadata := answerOf("first", documents...)
-	withMetadata.ListedDocuments[0] = wordpartitionasks.ListedDocumentFrom(
-		yacymodel.URLMetadata{Hash: documents[0]},
-		yacymodel.Some(yacymodel.RWIPosting{Hits: 1}),
-	)
+	withMetadata.MatchedDocuments = []wordpartitionasks.MatchedDocument{{
+		Metadata: yacymodel.URLMetadata{Hash: documents[0]},
+		Posting:  yacymodel.Some(yacymodel.RWIPosting{Hits: 1}),
+	}}
 	withMetadata.AmountOfDocumentsHeld = yacymodel.Some(512)
 	reports := &documentAsksReports{}
 	inquiry := inquiryOver(

@@ -46,10 +46,10 @@ func replicaAnswersIn(answered []wordpartitionasks.SettledAsk) []wordpartitionas
 func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.ReplicaAnswer) int {
 	peers := map[peerdirectory.AskablePeer]struct{}{}
 	for _, answer := range answers {
-		if len(answer.ListedDocuments) == 0 {
+		if answer.ListedDocuments.Amount() == 0 {
 			continue
 		}
-		peers[answer.Replica] = struct{}{}
+		peers[answer.Holder] = struct{}{}
 	}
 
 	return len(peers)
@@ -58,12 +58,7 @@ func amountOfPeersWithANonEmptyAbstractAmong(answers []wordpartitionasks.Replica
 func amountOfListedDocumentsWithMetadataAmong(answers []wordpartitionasks.ReplicaAnswer) int {
 	amount := 0
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Metadata().Present() {
-				continue
-			}
-			amount++
-		}
+		amount += len(answer.MatchedDocuments)
 	}
 
 	return amount
@@ -72,11 +67,10 @@ func amountOfListedDocumentsWithMetadataAmong(answers []wordpartitionasks.Replic
 func amountOfListedDocumentsWithAPostingAmong(answers []wordpartitionasks.ReplicaAnswer) int {
 	amount := 0
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			if !listedDocument.Posting().Present() {
-				continue
+		for _, matchedDocument := range answer.MatchedDocuments {
+			if matchedDocument.Posting.Present() {
+				amount++
 			}
-			amount++
 		}
 	}
 

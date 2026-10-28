@@ -5,7 +5,6 @@
 package documentjoin
 
 import (
-	"maps"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -36,14 +35,13 @@ func JoinerOf(query searchquery.Query, observer JoinObserver) *Joiner {
 		observer:                    observer,
 		query:                       query,
 		listedDocumentsPerQueryWord: noListedDocumentsPerQueryWord(query.WordHashes()),
-		joinedDocuments:             yacymodel.URLHashes{},
 	}
 }
 
 func (joiner *Joiner) ListUnder(word yacymodel.Hash, documents yacymodel.URLHashes) {
 	joiner.listUnderTheQueryWordsOf(word, documents)
 	joinedDocuments := joiner.newlyJoinedAmong(documents)
-	if len(joinedDocuments) == 0 {
+	if joinedDocuments.Amount() == 0 {
 		return
 	}
 	joiner.keep(joinedDocuments)
@@ -65,8 +63,8 @@ func (joiner *Joiner) listUnderTheQueryWordsOf(word yacymodel.Hash, documents ya
 }
 
 func (joiner *Joiner) newlyJoinedAmong(documents yacymodel.URLHashes) yacymodel.URLHashes {
-	joinedDocuments := yacymodel.URLHashes{}
-	for document := range documents {
+	var joinedDocuments yacymodel.URLHashesBuilder
+	for document := range documents.All() {
 		if joiner.joinedDocuments.Contains(document) ||
 			!joiner.listedDocumentsPerQueryWord.listedForEveryQueryWord(document) {
 			continue
@@ -74,13 +72,13 @@ func (joiner *Joiner) newlyJoinedAmong(documents yacymodel.URLHashes) yacymodel.
 		joinedDocuments.Add(document)
 	}
 
-	return joinedDocuments
+	return joinedDocuments.URLHashes()
 }
 
 func (joiner *Joiner) keep(joinedDocuments yacymodel.URLHashes) {
-	maps.Copy(joiner.joinedDocuments, joinedDocuments)
+	joiner.joinedDocuments = yacymodel.UnionOf(joiner.joinedDocuments, joinedDocuments)
 }
 
 func (joiner *Joiner) JoinedDocuments() yacymodel.URLHashes {
-	return maps.Clone(joiner.joinedDocuments)
+	return joiner.joinedDocuments
 }

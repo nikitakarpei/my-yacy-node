@@ -128,8 +128,8 @@ func coversThePartition(answer ReplicaAnswer) bool {
 }
 
 func amountOfDocumentsListedIn(answer ReplicaAnswer) int {
-	if len(answer.ListedDocuments) > 0 {
-		return len(answer.ListedDocuments)
+	if answer.ListedDocuments.Amount() > 0 {
+		return answer.ListedDocuments.Amount()
 	}
 	amountHeld, counted := answer.AmountOfDocumentsHeld.Get()
 	if !counted {

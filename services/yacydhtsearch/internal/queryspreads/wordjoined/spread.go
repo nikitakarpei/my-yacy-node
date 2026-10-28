@@ -60,17 +60,24 @@ func (spread Spread) SpreadOverPeers(
 	growth queryfindings.Growth,
 ) queryfindings.Findings {
 	startedAt := time.Now()
-	holders := documentholders.NoneYet()
+	listings := documentholders.NoListingsYet()
 	measurement := documentamounts.NoneMeasuredYet(query, spread.partitions)
 	found := noDocumentsFoundYet(query, measurement, growth)
 	urlMetadataLookup := spread.urlMetadataAsker.Begin(ctx, found)
 	documentsJoiner := documentjoin.JoinerOf(query, documentjoin.JoinObservers{
 		found,
-		urlMetadataLookupOfJoinedDocuments{holders, urlMetadataLookup},
+		urlMetadataLookupOfJoinedDocuments{listings, found, urlMetadataLookup},
 	})
 	documentInquiry := spread.documentsAsker.Begin(
-		ctx, query, chosenPeersPerQueryWord,
-		documentasks.Inquirers{holders, measurement, found, joinOfListedDocuments{documentsJoiner}},
+		ctx,
+		query,
+		chosenPeersPerQueryWord,
+		documentasks.Inquirers{
+			listings,
+			measurement,
+			found,
+			joinOfListedDocuments{documentsJoiner},
+		},
 	)
 
 	leadingWord := spread.leadingWordFinder.FindFor(ctx, query)
@@ -90,7 +97,7 @@ func (spread Spread) SpreadOverPeers(
 
 	spread.documentAmountsCache.Remember(ctx, measurement.InAPartitionPerQueryWord())
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
-		query, holders, measurement, leadingWord, joinedDocuments, time.Since(startedAt),
+		query, measurement, leadingWord, joinedDocuments, time.Since(startedAt),
 	))
 
 	return found.findings()

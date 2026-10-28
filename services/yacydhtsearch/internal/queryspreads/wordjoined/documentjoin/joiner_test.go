@@ -1,7 +1,6 @@
 package documentjoin_test
 
 import (
-	"maps"
 	"reflect"
 	"testing"
 
@@ -41,10 +40,7 @@ func joinerOver(joins *joinsInTurn) *documentjoin.Joiner {
 }
 
 func documentsOf(documents ...yacymodel.URLHash) yacymodel.URLHashes {
-	listedDocuments := yacymodel.URLHashes{}
-	listedDocuments.AddEach(documents)
-
-	return listedDocuments
+	return yacymodel.URLHashesFrom(documents...)
 }
 
 func TestADocumentJoinsOnTheListingOfTheLastQueryWordThatListsIt(t *testing.T) {
@@ -110,7 +106,7 @@ func TestTheListingOfAWordOutsideTheQueryJoinsNothing(t *testing.T) {
 
 	joiner.ListUnder(yacymodel.WordHash("rain"), documentsOf(document))
 
-	if len(joins.joined) != 0 || len(joiner.JoinedDocuments()) != 0 {
+	if len(joins.joined) != 0 || joiner.JoinedDocuments().Amount() != 0 {
 		t.Fatalf(
 			"the listing of a word outside the query joined %v, and the join holds %v, "+
 				"want nothing",
@@ -129,8 +125,12 @@ func TestTheJoinedDocumentsAreEveryDocumentJoinedSoFar(t *testing.T) {
 	joiner.ListUnder(yacymodel.WordHash(secondWord), documentsOf(joinedFirst))
 	joiner.ListUnder(yacymodel.WordHash(firstWord+secondWord), documentsOf(joinedLater))
 
-	if got, want := joiner.JoinedDocuments(), documentsOf(joinedFirst, joinedLater); !maps.Equal(
-		got, want,
+	if got, want := joiner.JoinedDocuments(), documentsOf(
+		joinedFirst,
+		joinedLater,
+	); !reflect.DeepEqual(
+		got,
+		want,
 	) {
 		t.Fatalf("the join holds %v, want %v", got, want)
 	}

@@ -496,7 +496,9 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 	word := yacymodel.WordHash("berlin")
 	document := mustParseURLHash(t, "bbbbbbAAAAAA")
 	body := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{word: {document}},
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
+			word: yacymodel.URLHashesFrom(document),
+		},
 	}.Encode().Encode()
 	address, requests := peerAnswering(t, body, http.StatusOK)
 	observer := &recordedOutcome{}
@@ -512,11 +514,10 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 		},
 	)
 
-	if !replied || len(answeredAsk.Abstract) != 1 ||
-		answeredAsk.Abstract[0] != document {
+	if !replied || answeredAsk.Abstract.Amount() != 1 || !answeredAsk.Abstract.Contains(document) {
 		t.Fatalf(
 			"AskForSearchDocuments = %+v, %v, want the document in the abstract of the peer",
-			answeredAsk.Abstract,
+			answeredAsk.Abstract.InHashOrder(),
 			replied,
 		)
 	}
@@ -642,8 +643,8 @@ func TestAPeerThatCountsNoDocumentForTheWordAnswersWithoutACount(t *testing.T) {
 
 	word := yacymodel.WordHash("berlin")
 	body := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{
-			word: {mustParseURLHash(t, "bbbbbbAAAAAA")},
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
+			word: yacymodel.URLHashesFrom(mustParseURLHash(t, "bbbbbbAAAAAA")),
 		},
 	}.Encode().Encode()
 	address, _ := peerAnswering(t, body, http.StatusOK)
@@ -664,8 +665,10 @@ func TestASearchDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 	t.Parallel()
 
 	body := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{
-			yacymodel.WordHash("weather"): {mustParseURLHash(t, "bbbbbbAAAAAA")},
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
+			yacymodel.WordHash("weather"): yacymodel.URLHashesFrom(
+				mustParseURLHash(t, "bbbbbbAAAAAA"),
+			),
 		},
 	}.Encode().Encode()
 	address, _ := peerAnswering(t, body, http.StatusOK)
@@ -679,10 +682,10 @@ func TestASearchDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 		},
 	)
 
-	if !replied || len(answeredAsk.Abstract) != 0 {
+	if !replied || answeredAsk.Abstract.Amount() != 0 {
 		t.Fatalf(
 			"AskForSearchDocuments = %+v, want no document of the word it did not ask for",
-			answeredAsk.Abstract,
+			answeredAsk.Abstract.InHashOrder(),
 		)
 	}
 }

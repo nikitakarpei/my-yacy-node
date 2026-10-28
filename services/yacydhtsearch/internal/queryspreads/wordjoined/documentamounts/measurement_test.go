@@ -75,14 +75,10 @@ func answerCounting(
 	amountHeld int,
 	documents ...yacymodel.URLHash,
 ) wordpartitionasks.ReplicaAnswer {
-	answer := wordpartitionasks.ReplicaAnswer{AmountOfDocumentsHeld: yacymodel.Some(amountHeld)}
-	for _, document := range documents {
-		answer.ListedDocuments = append(
-			answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
-		)
+	return wordpartitionasks.ReplicaAnswer{
+		AmountOfDocumentsHeld: yacymodel.Some(amountHeld),
+		ListedDocuments:       yacymodel.URLHashesFrom(documents...),
 	}
-
-	return answer
 }
 
 func heldForBothWords(amountHeld int) map[yacymodel.Hash]int {

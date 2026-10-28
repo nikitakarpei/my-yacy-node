@@ -973,10 +973,10 @@ func peerListingTheAddressForEachWord(t *testing.T, address string, words ...str
 	if err != nil {
 		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
-	documentsPerWord := make(map[yacymodel.Hash][]yacymodel.URLHash, len(words))
+	documentsPerWord := make(map[yacymodel.Hash]yacymodel.URLHashes, len(words))
 	documentsHeldPerWord := make(map[yacymodel.Hash]int, len(words))
 	for _, word := range words {
-		documentsPerWord[yacymodel.WordHash(word)] = []yacymodel.URLHash{documentHash}
+		documentsPerWord[yacymodel.WordHash(word)] = yacymodel.URLHashesFrom(documentHash)
 		documentsHeldPerWord[yacymodel.WordHash(word)] = 1
 	}
 	body := yacyproto.SearchResponse{

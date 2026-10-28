@@ -9,13 +9,13 @@ import (
 
 const pathPrefixLength = yacymodel.HashLength - yacymodel.HostHashLength
 
-func encodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
-	if len(urlHashes) == 0 {
+func encodeSearchIndexAbstract(urlHashes yacymodel.URLHashes) string {
+	if urlHashes.Amount() == 0 {
 		return "{}"
 	}
 
 	domains := make(map[string][]string)
-	for _, hash := range urlHashes {
+	for hash := range urlHashes.All() {
 		if hash.IsZero() {
 			continue
 		}
@@ -53,38 +53,43 @@ func encodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
 	return b.String()
 }
 
-func decodeSearchIndexAbstract(abstract string) []yacymodel.URLHash {
+func decodeSearchIndexAbstract(abstract string) yacymodel.URLHashes {
 	packed, ok := strings.CutPrefix(abstract, "{")
 	if !ok {
-		return nil
+		return yacymodel.URLHashes{}
 	}
 	packed, ok = strings.CutSuffix(packed, "}")
 	if !ok {
-		return nil
+		return yacymodel.URLHashes{}
 	}
 
-	var urlHashes []yacymodel.URLHash
-	for _, group := range strings.Split(packed, ",") {
-		urlHashes = append(urlHashes, urlHashesOfDomainGroup(group)...)
+	var urlHashes yacymodel.URLHashesBuilder
+	urlHashes.Grow(amountOfURLHashesIn(packed))
+	for group := range strings.SplitSeq(packed, ",") {
+		addURLHashesOfDomainGroup(&urlHashes, group)
 	}
 
-	return urlHashes
+	return urlHashes.URLHashes()
 }
 
-func urlHashesOfDomainGroup(group string) []yacymodel.URLHash {
+func amountOfURLHashesIn(packed string) int {
+	amountOfDomainGroups := strings.Count(packed, ",") + 1
+	separatorsAndDomains := amountOfDomainGroups - 1 + amountOfDomainGroups*(yacymodel.HostHashLength+1)
+
+	return max(0, len(packed)-separatorsAndDomains) / pathPrefixLength
+}
+
+func addURLHashesOfDomainGroup(urlHashes *yacymodel.URLHashesBuilder, group string) {
 	domain, paths, ok := strings.Cut(group, ":")
 	if !ok || len(domain) != yacymodel.HostHashLength {
-		return nil
+		return
 	}
 
-	urlHashes := make([]yacymodel.URLHash, 0, len(paths)/pathPrefixLength)
 	for start := 0; start+pathPrefixLength <= len(paths); start += pathPrefixLength {
 		urlHash, err := yacymodel.ParseURLHash(paths[start:start+pathPrefixLength] + domain)
 		if err != nil {
 			continue
 		}
-		urlHashes = append(urlHashes, urlHash)
+		urlHashes.Add(urlHash)
 	}
-
-	return urlHashes
 }

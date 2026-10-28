@@ -103,9 +103,15 @@ func (h Hash) AppendBytes(buffer []byte) []byte {
 }
 
 func (h Hash) CompareInAlphabetOrder(other Hash) int {
-	var raw, otherRaw [HashByteLength]byte
+	if h.present != other.present {
+		if h.present {
+			return 1
+		}
 
-	return bytes.Compare(h.AppendBytes(raw[:0]), other.AppendBytes(otherRaw[:0]))
+		return -1
+	}
+
+	return bytes.Compare(h.raw[:], other.raw[:])
 }
 
 func (h Hash) MarshalText() ([]byte, error) {

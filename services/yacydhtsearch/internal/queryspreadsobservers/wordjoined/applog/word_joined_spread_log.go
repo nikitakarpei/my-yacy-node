@@ -25,10 +25,6 @@ func (WordJoinedSpreadLog) WordJoinedSpreadPerformed(
 			attributesOfQueryWords(spread),
 			[]slog.Attr{
 				slog.Int("amountOfJoinedDocuments", spread.AmountOfJoinedDocuments),
-				slog.Int(
-					"amountOfJoinedDocumentsWithMetadata",
-					spread.AmountOfJoinedDocumentsWithMetadata,
-				),
 				slog.Duration("timeSpent", spread.TimeSpent),
 			},
 		)...,

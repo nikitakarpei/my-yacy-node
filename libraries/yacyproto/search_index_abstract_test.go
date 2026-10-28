@@ -2,6 +2,7 @@ package yacyproto_test
 
 import (
 	"context"
+	"reflect"
 	"slices"
 	"testing"
 
@@ -33,7 +34,7 @@ func indexAbstractOfQueryWord(
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
 
-	return response.IndexAbstract[queryWord]
+	return response.IndexAbstract[queryWord].InHashOrder()
 }
 
 func TestASearchResponseCarriesTheDocumentsHeldForAQueryWord(t *testing.T) {
@@ -47,17 +48,19 @@ func TestASearchResponseCarriesTheDocumentsHeldForAQueryWord(t *testing.T) {
 	}
 
 	fields := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{queryWord: documents},
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
+			queryWord: yacymodel.URLHashesFrom(documents...),
+		},
 	}.Encode()
 	response, err := yacyproto.ParseSearchResponse(context.Background(), fields)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
 
-	if !slices.Equal(response.IndexAbstract[queryWord], documents) {
-		t.Fatalf(
-			"documents = %v, want %v", response.IndexAbstract[queryWord], documents,
-		)
+	if got := response.IndexAbstract[queryWord]; !reflect.DeepEqual(
+		got, yacymodel.URLHashesFrom(documents...),
+	) {
+		t.Fatalf("documents = %v, want %v", got.InHashOrder(), documents)
 	}
 }
 
@@ -66,11 +69,11 @@ func TestASearchResponseGroupsTheDocumentsItCarriesByHost(t *testing.T) {
 
 	queryWord := sampleHash(t, "alpha")
 	fields := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{queryWord: {
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{queryWord: yacymodel.URLHashesFrom(
 			mustParseURLHash(t, "bbbbbbAAAAAA"),
 			mustParseURLHash(t, "aaaaaaBBBBBB"),
 			mustParseURLHash(t, "ccccccAAAAAA"),
-		}},
+		)},
 	}.Encode()
 
 	want := "{AAAAAA:bbbbbbcccccc,BBBBBB:aaaaaa}"
@@ -84,7 +87,7 @@ func TestASearchResponseCarriesNoDocumentForAQueryWordItHoldsNoneFor(t *testing.
 
 	queryWord := sampleHash(t, "alpha")
 	fields := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{queryWord: nil},
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{queryWord: {}},
 	}.Encode()
 
 	if got := fields["indexabstract."+queryWord.String()]; got != "{}" {

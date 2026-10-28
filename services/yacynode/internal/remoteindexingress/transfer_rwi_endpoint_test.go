@@ -142,7 +142,7 @@ func transferRWI(
 		t.Fatalf("read body: %v", err)
 	}
 
-	resp, err := yacyproto.ParseTransferRWIResponse(yacyproto.ParseResponseFields(string(body)))
+	resp, err := yacyproto.ParseTransferRWIResponse(yacyproto.ParseResponseFields(body))
 	if err != nil {
 		t.Fatalf("ParseTransferRWIResponse: %v", err)
 	}

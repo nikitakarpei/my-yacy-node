@@ -142,6 +142,10 @@ func (p DHTRingPartitions) PartitionOf(url URLHash) uint {
 	return uint(uint64(DHTRingPositionOf(url.hash)) >> p.shiftLength())
 }
 
+func (p DHTRingPartitions) URLHashesIn(partition uint, hashes URLHashes) URLHashes {
+	return hashes.between(p.LowestURLHashIn(partition), p.HighestURLHashIn(partition))
+}
+
 func (p DHTRingPartitions) LowestURLHashIn(partition uint) URLHash {
 	return p.urlHashIn(partition, 0x00)
 }
