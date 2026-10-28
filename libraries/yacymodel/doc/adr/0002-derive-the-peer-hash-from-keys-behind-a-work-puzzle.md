@@ -14,6 +14,8 @@ so its width cannot change.
 
 ## Decision
 
+A peer key has an operational key (Ed25519) and a recovery key (SLH-DSA, ADR 0001).
+
 ```text
 recovery commitment = SHA-256(recovery public key)
 key digest          = SHA-256("yacy-peer-id/1" ‖ Ed25519 public key ‖ recovery commitment)
@@ -22,6 +24,9 @@ peer hash           = H[0..8]   (72 bits)
 fingerprint         = H[0..27]  (224 bits)
 ```
 
+- The hash commits to the recovery key now. Shor's algorithm breaks Ed25519, and a later change
+  of the hash would move every peer on the DHT ring and empty its data. With the commitment, the
+  recovery key can later authorize a new operational key under the same hash.
 - An identity is valid only when `H` ends with at least 28 zero bits. Without the puzzle, a
   second key for an existing hash costs 2^72 operations, which is in reach when an attacker can
   pick from many peers. The puzzle multiplies each try by 2^28.
@@ -51,5 +56,9 @@ pair gives no advantage.
 
 A new identity costs milliseconds on a GPU. The puzzle does not limit the number of identities
 that one party makes.
+
+The SLH-DSA parameter set is fixed with the commitment. The recovery key is kept with the
+operational key, so one step runs a peer; loss of both loses the identity, and theft of both gives
+it to the thief.
 
 Tests cannot use readable fixed hashes.

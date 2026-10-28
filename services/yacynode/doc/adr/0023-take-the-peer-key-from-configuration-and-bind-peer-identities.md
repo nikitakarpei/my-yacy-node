@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-`yacymodel` ADRs 0002, 0003 and 0004 derive the peer hash from a peer key and sign the address
+`yacymodel` ADRs 0002 and 0004 derive the peer hash from a peer key and sign the address
 fields of a seed. The node keeps its peer hash for the life of its data, because its postings
 belong to that position on the DHT ring.
 

@@ -8,9 +8,8 @@ Accepted
 
 ## Context
 
-The peer hash commits to a recovery key (ADR 0003). That key must stay secure when quantum
-computers break Ed25519, and when a new attack breaks lattice-based schemes such as ML-DSA. The
-standard library has ML-DSA but no SLH-DSA.
+A peer needs a recovery key that stays secure when quantum computers break Ed25519, and when a new
+attack breaks lattice-based schemes such as ML-DSA. The standard library has ML-DSA but no SLH-DSA.
 
 ## Decision
 
@@ -19,7 +18,7 @@ pinned in `go.mod`.
 
 - SLH-DSA depends only on hash functions.
 - SLH-DSA is stateless, so a peer restored from a backup can sign again safely.
-- The "s" parameter sets have the smallest signatures (about 8 KB). Signing is slow, and the
+- The "s" parameter sets have the smallest signatures (about 8 KB). Signing is slow, and a
   recovery key signs rarely.
 
 ## Consequences
