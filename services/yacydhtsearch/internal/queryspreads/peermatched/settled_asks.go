@@ -1,8 +1,6 @@
 package peermatched
 
 import (
-	"slices"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
@@ -35,17 +33,13 @@ func (settled *settledAsks) keepAsTheySettle(
 func (settled *settledAsks) keep(settledAsk wordpartitionasks.SettledAsk) {
 	settled.asks = append(settled.asks, settledAsk)
 	for _, answer := range settledAsk.Answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			metadata, sent := listedDocument.Metadata().Get()
-			if !sent {
-				continue
-			}
+		for _, matchedDocument := range answer.MatchedDocuments {
 			settled.documentsThePeersSent.KeepMetadataReplica(queryfindings.MetadataReplica{
-				Holder: answer.Replica.Hash, Metadata: metadata,
+				Holder: answer.Holder.Hash, Metadata: matchedDocument.Metadata,
 			})
-			if posting, sent := listedDocument.Posting().Get(); sent {
+			if posting, sent := matchedDocument.Posting.Get(); sent {
 				settled.documentsThePeersSent.KeepPostingReplica(queryfindings.PostingReplica{
-					Holder: answer.Replica.Hash, Word: settledAsk.Word, Posting: posting,
+					Holder: answer.Holder.Hash, Word: settledAsk.Word, Posting: posting,
 				})
 			}
 		}
@@ -74,7 +68,7 @@ func (settled *settledAsks) amountOfPeersThatMatchedNothing() int {
 	var peersThatMatchedNothing int
 	for _, settledAsk := range settled.asks {
 		for _, answer := range settledAsk.Answers {
-			if slices.ContainsFunc(answer.ListedDocuments, isMatched) {
+			if len(answer.MatchedDocuments) > 0 {
 				continue
 			}
 			peersThatMatchedNothing++
@@ -82,8 +76,4 @@ func (settled *settledAsks) amountOfPeersThatMatchedNothing() int {
 	}
 
 	return peersThatMatchedNothing
-}
-
-func isMatched(listedDocument wordpartitionasks.ListedDocument) bool {
-	return listedDocument.Metadata().Present()
 }

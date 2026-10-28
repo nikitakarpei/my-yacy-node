@@ -3,6 +3,7 @@ package wordpartitionasks_test
 import (
 	"cmp"
 	"context"
+	"fmt"
 	"slices"
 	"sync"
 	"testing"
@@ -61,7 +62,7 @@ func TestOneReplicaCoveringAPartitionLeavesTheOtherReplicasUnasked(t *testing.T)
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if len(answers) != 1 || answers[0].Replica.Address != "berlin-one" {
+	if len(answers) != 1 || answers[0].Holder.Address != "berlin-one" {
 		t.Fatalf("the run = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one")
@@ -100,7 +101,7 @@ func TestAnEmptyAnswerOfAPeerThatSearchedSettlesTheWordPartition(t *testing.T) {
 		t.Context(), asksForTheWord("bananaphotos", 1, "bananaphotos-one", "bananaphotos-two"),
 	)
 
-	if len(answers) != 1 || answers[0].Replica.Address != "bananaphotos-one" {
+	if len(answers) != 1 || answers[0].Holder.Address != "bananaphotos-one" {
 		t.Fatalf("AskForSearchDocuments = %+v, want the first replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "bananaphotos-one")
@@ -119,7 +120,7 @@ func TestAFailureAsksTheNextReplicaAtOnce(t *testing.T) {
 		t.Context(), asksForTheWord("berlin", 1, "berlin-one", "berlin-two"),
 	)
 
-	if len(answers) != 1 || answers[0].Replica.Address != "berlin-two" {
+	if len(answers) != 1 || answers[0].Holder.Address != "berlin-two" {
 		t.Fatalf("the run = %+v, want the second replica only", answers)
 	}
 	asking.calls.wantAddressesPut(t, "berlin-one", "berlin-two")
@@ -581,11 +582,21 @@ func (calls *replicaCallsOfTheTests) Put(
 	}
 
 	return wordpartitionasks.ReplicaAnswer{
-		Replica:               replica,
-		ListedDocuments:       make([]wordpartitionasks.ListedDocument, script.documentsListed),
+		Holder:                replica,
+		ListedDocuments:       documentsListedAs(script.documentsListed),
 		AmountOfDocumentsHeld: script.documentsHeld,
 		Searched:              script.searched,
 	}, true
+}
+
+func documentsListedAs(amountOfDocuments int) yacymodel.URLHashes {
+	var documents yacymodel.URLHashesBuilder
+	for document := range amountOfDocuments {
+		hash, _ := yacymodel.URLHashOf(fmt.Sprintf("https://%d.example/", document))
+		documents.Add(hash)
+	}
+
+	return documents.URLHashes()
 }
 
 func (calls *replicaCallsOfTheTests) answered(
@@ -901,7 +912,7 @@ func wantAnswersIn(
 func addressesOf(answers []wordpartitionasks.ReplicaAnswer) []string {
 	addresses := make([]string, 0, len(answers))
 	for _, answer := range answers {
-		addresses = append(addresses, answer.Replica.Address)
+		addresses = append(addresses, answer.Holder.Address)
 	}
 
 	return addresses

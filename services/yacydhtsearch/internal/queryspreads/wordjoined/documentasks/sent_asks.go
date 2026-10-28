@@ -64,19 +64,18 @@ func (asks *sentAsks) documentsListedIn(
 	partition uint,
 	words []yacymodel.Hash,
 ) yacymodel.URLHashes {
-	var documents yacymodel.URLHashesBuilder
+	var documentsOfEachAnswer []yacymodel.URLHashes
 	for _, answered := range asks.answered {
 		if !slices.Contains(words, answered.Word) {
 			continue
 		}
 		for _, answer := range answered.Answers {
-			for _, listedDocument := range answer.ListedDocuments {
-				if asks.partitions.PartitionOf(listedDocument.Hash) == partition {
-					documents.Add(listedDocument.Hash)
-				}
-			}
+			documentsOfEachAnswer = append(
+				documentsOfEachAnswer,
+				asks.partitions.URLHashesIn(partition, answer.ListedDocuments),
+			)
 		}
 	}
 
-	return documents.URLHashes()
+	return yacymodel.UnionOf(documentsOfEachAnswer...)
 }

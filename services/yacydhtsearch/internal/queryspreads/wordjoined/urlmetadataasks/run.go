@@ -27,7 +27,7 @@ func noAsksPutYet() *run {
 }
 
 func (run *run) give(documents []yacymodel.URLHash) {
-	run.givenDocuments = run.givenDocuments.UnionWith(yacymodel.URLHashesOf(documents...))
+	run.givenDocuments = yacymodel.UnionOf(run.givenDocuments, yacymodel.URLHashesOf(documents...))
 }
 
 func (run *run) add(asks []peerasks.URLMetadataAsk) {
@@ -55,7 +55,7 @@ func (run *run) openTheDocumentsOf(asks []peerasks.URLMetadataAsk) {
 			run.asksInFlightPerOpenDocument[document]++
 		}
 	}
-	run.lookedUpDocuments = run.lookedUpDocuments.UnionWith(lookedUpDocuments.URLHashes())
+	run.lookedUpDocuments = yacymodel.UnionOf(run.lookedUpDocuments, lookedUpDocuments.URLHashes())
 }
 
 func (run *run) endBy(endReason EndReason) {
@@ -84,7 +84,7 @@ func (run *run) settleWithMetadata(metadataOfEachDocument []yacymodel.URLMetadat
 		delete(run.asksInFlightPerOpenDocument, metadata.Hash)
 		documentsWithMetadata.Add(metadata.Hash)
 	}
-	run.lookedUpDocumentsWithMetadata = run.lookedUpDocumentsWithMetadata.UnionWith(
+	run.lookedUpDocumentsWithMetadata = yacymodel.UnionOf(run.lookedUpDocumentsWithMetadata,
 		documentsWithMetadata.URLHashes(),
 	)
 }

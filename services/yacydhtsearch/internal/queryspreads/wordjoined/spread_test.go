@@ -163,15 +163,15 @@ func (network *peerNetwork) answerOfTheReplica(
 		return wordpartitionasks.ReplicaAnswer{}, false
 	}
 
+	matchedDocuments := network.matchedDocumentsOf(network.namedAmong(
+		ask,
+		documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
+	))
+
 	return wordpartitionasks.ReplicaAnswer{
-		Replica: ask.Peer,
-		ListedDocuments: listedDocumentsFrom(
-			network.abstractFor(ask),
-			network.documentsWithMetadataOf(network.namedAmong(
-				ask,
-				documentsPerWordOf(network.answeredItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
-			)),
-		),
+		Holder:                ask.Peer,
+		ListedDocuments:       listedDocumentsFrom(network.abstractFor(ask), matchedDocuments),
+		MatchedDocuments:      matchedDocuments,
 		AmountOfDocumentsHeld: network.documentsCountedBy(ask.Peer.Address, ask.Word),
 		Searched:              network.searchedBy(ask.Peer.Address),
 	}, true
@@ -179,28 +179,17 @@ func (network *peerNetwork) answerOfTheReplica(
 
 func listedDocumentsFrom(
 	abstract []yacymodel.URLHash,
-	documentsWithMetadata []wordpartitionasks.ListedDocument,
-) []wordpartitionasks.ListedDocument {
-	listedDocuments := make([]wordpartitionasks.ListedDocument, 0, len(abstract))
+	matchedDocuments []wordpartitionasks.MatchedDocument,
+) yacymodel.URLHashes {
+	var listedDocuments yacymodel.URLHashesBuilder
 	for _, document := range abstract {
-		listedDocuments = append(listedDocuments, wordpartitionasks.ListedDocument{Hash: document})
+		listedDocuments.Add(document)
 	}
-	for _, documentWithMetadata := range documentsWithMetadata {
-		place := slices.IndexFunc(
-			listedDocuments,
-			func(listedDocument wordpartitionasks.ListedDocument) bool {
-				return listedDocument.Hash == documentWithMetadata.Hash
-			},
-		)
-		if place < 0 {
-			listedDocuments = append(listedDocuments, documentWithMetadata)
-
-			continue
-		}
-		listedDocuments[place] = documentWithMetadata
+	for _, matchedDocument := range matchedDocuments {
+		listedDocuments.Add(matchedDocument.Metadata.Hash)
 	}
 
-	return listedDocuments
+	return listedDocuments.URLHashes()
 }
 
 func (network *peerNetwork) searchedBy(address string) bool {
@@ -242,10 +231,10 @@ func (network *peerNetwork) namedAmong(
 	return namedDocuments
 }
 
-func (network *peerNetwork) documentsWithMetadataOf(
+func (network *peerNetwork) matchedDocumentsOf(
 	documents []yacymodel.URLHash,
-) []wordpartitionasks.ListedDocument {
-	documentsWithMetadata := make([]wordpartitionasks.ListedDocument, 0, len(documents))
+) []wordpartitionasks.MatchedDocument {
+	matchedDocuments := make([]wordpartitionasks.MatchedDocument, 0, len(documents))
 	for _, document := range documents {
 		posting := yacymodel.None[yacymodel.RWIPosting]()
 		if network.countsAWordWithEachItem {
@@ -256,13 +245,13 @@ func (network *peerNetwork) documentsWithMetadataOf(
 				ExternalLinks: 7,
 			})
 		}
-		documentsWithMetadata = append(documentsWithMetadata, wordpartitionasks.ListedDocumentFrom(
-			yacymodel.URLMetadata{Hash: document},
-			posting,
-		))
+		matchedDocuments = append(matchedDocuments, wordpartitionasks.MatchedDocument{
+			Metadata: yacymodel.URLMetadata{Hash: document},
+			Posting:  posting,
+		})
 	}
 
-	return documentsWithMetadata
+	return matchedDocuments
 }
 
 func (network *peerNetwork) documentsCountedBy(

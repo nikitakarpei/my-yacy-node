@@ -76,7 +76,7 @@ func (joiner *Joiner) newlyJoinedAmong(documents yacymodel.URLHashes) yacymodel.
 }
 
 func (joiner *Joiner) keep(joinedDocuments yacymodel.URLHashes) {
-	joiner.joinedDocuments = joiner.joinedDocuments.UnionWith(joinedDocuments)
+	joiner.joinedDocuments = yacymodel.UnionOf(joiner.joinedDocuments, joinedDocuments)
 }
 
 func (joiner *Joiner) JoinedDocuments() yacymodel.URLHashes {

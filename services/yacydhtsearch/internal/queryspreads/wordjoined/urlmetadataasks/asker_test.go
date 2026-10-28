@@ -164,18 +164,13 @@ type peerAbstract struct {
 func answersOf(abstracts ...peerAbstract) []wordpartitionasks.ReplicaAnswer {
 	answers := make([]wordpartitionasks.ReplicaAnswer, 0, len(abstracts))
 	for _, abstract := range abstracts {
-		answer := wordpartitionasks.ReplicaAnswer{
-			Replica: peerdirectory.AskablePeer{
+		answers = append(answers, wordpartitionasks.ReplicaAnswer{
+			Holder: peerdirectory.AskablePeer{
 				Hash:    yacymodel.WordHash(abstract.address),
 				Address: abstract.address,
 			},
-		}
-		for _, document := range abstract.documents {
-			answer.ListedDocuments = append(
-				answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
-			)
-		}
-		answers = append(answers, answer)
+			ListedDocuments: yacymodel.URLHashesOf(abstract.documents...),
+		})
 	}
 
 	return answers
@@ -277,14 +272,12 @@ func holdersIn(answers []wordpartitionasks.ReplicaAnswer) documentholders.Holder
 }
 
 func documentsAcross(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {
-	var documents yacymodel.URLHashesBuilder
+	listedDocumentsOfEachAnswer := make([]yacymodel.URLHashes, 0, len(answers))
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			documents.Add(listedDocument.Hash)
-		}
+		listedDocumentsOfEachAnswer = append(listedDocumentsOfEachAnswer, answer.ListedDocuments)
 	}
 
-	return documents.URLHashes()
+	return yacymodel.UnionOf(listedDocumentsOfEachAnswer...)
 }
 
 func TestTheAsksEndOnceTheirAnswersCoverEveryDocumentWithoutTheStuckPeer(t *testing.T) {

@@ -67,8 +67,9 @@ func replicaAnswerFrom(
 	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
 ) wordpartitionasks.ReplicaAnswer {
 	return wordpartitionasks.ReplicaAnswer{
-		Replica:               answeredAsk.Ask.Peer,
+		Holder:                answeredAsk.Ask.Peer,
 		ListedDocuments:       listedDocumentsIn(answeredAsk),
+		MatchedDocuments:      matchedDocumentsIn(answeredAsk),
 		AmountOfDocumentsHeld: answeredAsk.AmountOfDocumentsHeldForTheWord,
 		Searched:              answeredAsk.PeerSearched,
 	}

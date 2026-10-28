@@ -17,7 +17,7 @@ func (listedDocuments listedDocumentsPerQueryWord) add(
 	word yacymodel.Hash,
 	documents yacymodel.URLHashes,
 ) {
-	listedDocuments[word] = listedDocuments[word].UnionWith(documents)
+	listedDocuments[word] = yacymodel.UnionOf(listedDocuments[word], documents)
 }
 
 func (listedDocuments listedDocumentsPerQueryWord) listedForEveryQueryWord(

@@ -6,45 +6,41 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func listedDocumentsIn(
-	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
-) []wordpartitionasks.ListedDocument {
-	amountOfDocumentsSent := len(answeredAsk.Abstract) + len(answeredAsk.MatchedDocuments)
-	listed := listedDocumentsByHash{
-		documents:           make([]wordpartitionasks.ListedDocument, 0, amountOfDocumentsSent),
-		placeOfEachDocument: make(map[yacymodel.URLHash]int, amountOfDocumentsSent),
-	}
+func listedDocumentsIn(answeredAsk peerasks.AnsweredSearchDocumentsAsk) yacymodel.URLHashes {
+	var listedDocuments yacymodel.URLHashesBuilder
+	listedDocuments.Grow(len(answeredAsk.Abstract) + len(answeredAsk.MatchedDocuments))
 	for _, document := range answeredAsk.Abstract {
-		listed.placeOf(document)
+		listedDocuments.Add(document)
 	}
 	for _, matchedDocument := range answeredAsk.MatchedDocuments {
-		listed.describe(matchedDocument)
+		listedDocuments.Add(matchedDocument.Metadata.Hash)
 	}
 
-	return listed.documents
+	return listedDocuments.URLHashes()
 }
 
-type listedDocumentsByHash struct {
-	documents           []wordpartitionasks.ListedDocument
-	placeOfEachDocument map[yacymodel.URLHash]int
-}
-
-func (listed *listedDocumentsByHash) placeOf(document yacymodel.URLHash) int {
-	place, alreadyListed := listed.placeOfEachDocument[document]
-	if alreadyListed {
-		return place
-	}
-	place = len(listed.documents)
-	listed.placeOfEachDocument[document] = place
-	listed.documents = append(listed.documents, wordpartitionasks.ListedDocument{Hash: document})
-
-	return place
-}
-
-func (listed *listedDocumentsByHash) describe(matchedDocument peerasks.MatchedDocument) {
-	place := listed.placeOf(matchedDocument.Metadata.Hash)
-	listed.documents[place] = wordpartitionasks.ListedDocumentFrom(
-		matchedDocument.Metadata,
-		matchedDocument.Posting,
+func matchedDocumentsIn(
+	answeredAsk peerasks.AnsweredSearchDocumentsAsk,
+) []wordpartitionasks.MatchedDocument {
+	placeOfEachDocument := make(map[yacymodel.URLHash]int, len(answeredAsk.MatchedDocuments))
+	matchedDocuments := make(
+		[]wordpartitionasks.MatchedDocument,
+		0,
+		len(answeredAsk.MatchedDocuments),
 	)
+	for _, matchedDocument := range answeredAsk.MatchedDocuments {
+		document := wordpartitionasks.MatchedDocument{
+			Metadata: matchedDocument.Metadata,
+			Posting:  matchedDocument.Posting,
+		}
+		if place, matchedBefore := placeOfEachDocument[matchedDocument.Metadata.Hash]; matchedBefore {
+			matchedDocuments[place] = document
+
+			continue
+		}
+		placeOfEachDocument[matchedDocument.Metadata.Hash] = len(matchedDocuments)
+		matchedDocuments = append(matchedDocuments, document)
+	}
+
+	return matchedDocuments
 }

@@ -46,12 +46,13 @@ func TestURLHashesComeInHashOrder(t *testing.T) {
 	}
 }
 
-func TestURLHashesUnitedWithOthersHoldEachHashOfAllOnce(t *testing.T) {
+func TestTheUnionOfURLHashesHoldsEachHashOfAllOnce(t *testing.T) {
 	first := urlHashFrom(t, "AAAAAAAAAAAA")
 	second := urlHashFrom(t, "BBBBBBBBBBBB")
 	third := urlHashFrom(t, "CCCCCCCCCCCC")
 
-	union := yacymodel.URLHashesOf(first, second).UnionWith(
+	union := yacymodel.UnionOf(
+		yacymodel.URLHashesOf(first, second),
 		yacymodel.URLHashesOf(second, third),
 		yacymodel.URLHashesOf(third),
 	)

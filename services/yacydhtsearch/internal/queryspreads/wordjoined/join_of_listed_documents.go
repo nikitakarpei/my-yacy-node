@@ -19,12 +19,10 @@ func (join joinOfListedDocuments) WordPartitionAnswered(
 }
 
 func documentsListedIn(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {
-	var listedDocuments yacymodel.URLHashesBuilder
+	listedDocumentsOfEachAnswer := make([]yacymodel.URLHashes, 0, len(answers))
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			listedDocuments.Add(listedDocument.Hash)
-		}
+		listedDocumentsOfEachAnswer = append(listedDocumentsOfEachAnswer, answer.ListedDocuments)
 	}
 
-	return listedDocuments.URLHashes()
+	return yacymodel.UnionOf(listedDocumentsOfEachAnswer...)
 }

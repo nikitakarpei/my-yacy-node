@@ -45,36 +45,52 @@ func TestTheAskToTheReplicaCarriesTheWordPartitionAskAndTheWants(t *testing.T) {
 	}
 }
 
-func TestAMatchedDocumentMergesOntoTheAbstractEntryOfItsHash(t *testing.T) {
+func TestTheAnswerListsEachDocumentOfTheAbstractAndTheMatchedDocumentsOnce(t *testing.T) {
 	t.Parallel()
 
 	inBoth := documentAt(t, "https://both.example/")
 	onlyListed := documentAt(t, "https://listed.example/")
 	onlyMatched := documentAt(t, "https://matched.example/")
-	posting := yacymodel.RWIPosting{Hits: 3}
 	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
 		Abstract: []yacymodel.URLHash{onlyListed, inBoth},
 		MatchedDocuments: []peerasks.MatchedDocument{
 			{Metadata: yacymodel.URLMetadata{Hash: onlyMatched}},
-			{Metadata: yacymodel.URLMetadata{Hash: inBoth}, Posting: yacymodel.Some(posting)},
+			{Metadata: yacymodel.URLMetadata{Hash: inBoth}},
 		},
 	}}
 
 	answer, _ := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
 
-	wanted := []wordpartitionasks.ListedDocument{
-		{Hash: onlyListed},
-		wordpartitionasks.ListedDocumentFrom(
-			yacymodel.URLMetadata{Hash: inBoth},
-			yacymodel.Some(posting),
-		),
-		wordpartitionasks.ListedDocumentFrom(
-			yacymodel.URLMetadata{Hash: onlyMatched},
-			yacymodel.None[yacymodel.RWIPosting](),
-		),
+	if want := yacymodel.URLHashesOf(onlyListed, inBoth, onlyMatched); !reflect.DeepEqual(
+		answer.ListedDocuments, want,
+	) {
+		t.Fatalf("the replica listed %v, want %v",
+			answer.ListedDocuments.InHashOrder(), want.InHashOrder())
 	}
-	if !reflect.DeepEqual(answer.ListedDocuments, wanted) {
-		t.Fatalf("the replica listed %+v, want %+v", answer.ListedDocuments, wanted)
+}
+
+func TestADocumentMatchedTwiceKeepsItsLastMatch(t *testing.T) {
+	t.Parallel()
+
+	document := documentAt(t, "https://document.example/")
+	other := documentAt(t, "https://other.example/")
+	posting := yacymodel.RWIPosting{Hits: 3}
+	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
+		MatchedDocuments: []peerasks.MatchedDocument{
+			{Metadata: yacymodel.URLMetadata{Hash: document}},
+			{Metadata: yacymodel.URLMetadata{Hash: other}},
+			{Metadata: yacymodel.URLMetadata{Hash: document}, Posting: yacymodel.Some(posting)},
+		},
+	}}
+
+	answer, _ := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
+
+	want := []wordpartitionasks.MatchedDocument{
+		{Metadata: yacymodel.URLMetadata{Hash: document}, Posting: yacymodel.Some(posting)},
+		{Metadata: yacymodel.URLMetadata{Hash: other}},
+	}
+	if !reflect.DeepEqual(answer.MatchedDocuments, want) {
+		t.Fatalf("the replica matched %+v, want %+v", answer.MatchedDocuments, want)
 	}
 }
 
@@ -90,7 +106,7 @@ func TestAnAnswerThatOnlyMatchesDocumentsListsThem(t *testing.T) {
 
 	answer, _ := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
 
-	if len(answer.ListedDocuments) != 2 {
+	if answer.ListedDocuments.Amount() != 2 {
 		t.Fatalf("the replica listed %+v, want both matched documents", answer.ListedDocuments)
 	}
 }
@@ -105,9 +121,9 @@ func TestTheAnswerTellsTheReplicaTheAmountHeldAndTheSearch(t *testing.T) {
 
 	answer, answered := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
 
-	if !answered || answer.Replica != peerAt("first") ||
+	if !answered || answer.Holder != peerAt("first") ||
 		answer.AmountOfDocumentsHeld != yacymodel.Some(5) || !answer.Searched ||
-		len(answer.ListedDocuments) != 0 {
+		answer.ListedDocuments.Amount() != 0 {
 		t.Fatalf(
 			"the replica answered %+v %t, want the first replica holding five documents after "+
 				"a search",

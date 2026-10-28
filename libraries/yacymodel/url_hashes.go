@@ -37,12 +37,11 @@ func (hashes URLHashes) InHashOrder() []URLHash {
 	return slices.Clone(hashes.inHashOrder)
 }
 
-func (hashes URLHashes) UnionWith(others ...URLHashes) URLHashes {
+func UnionOf(sets ...URLHashes) URLHashes {
 	var builder URLHashesBuilder
-	builder.Grow(hashes.Amount() + amountInEachOf(others))
-	builder.AddEach(hashes)
-	for _, other := range others {
-		builder.AddEach(other)
+	builder.Grow(amountInEachOf(sets))
+	for _, set := range sets {
+		builder.AddEach(set)
 	}
 
 	return builder.URLHashes()

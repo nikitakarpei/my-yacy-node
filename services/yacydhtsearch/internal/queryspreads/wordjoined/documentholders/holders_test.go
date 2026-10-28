@@ -23,15 +23,11 @@ func documentHashOf(t *testing.T, address string) yacymodel.URLHash {
 
 func answerOf(peerAddress string, documents ...yacymodel.URLHash) wordpartitionasks.ReplicaAnswer {
 	answer := wordpartitionasks.ReplicaAnswer{
-		Replica: peerdirectory.AskablePeer{
+		Holder: peerdirectory.AskablePeer{
 			Hash:    yacymodel.WordHash(peerAddress),
 			Address: peerAddress,
 		},
-	}
-	for _, document := range documents {
-		answer.ListedDocuments = append(
-			answer.ListedDocuments, wordpartitionasks.ListedDocument{Hash: document},
-		)
+		ListedDocuments: yacymodel.URLHashesOf(documents...),
 	}
 
 	return answer
@@ -42,17 +38,6 @@ func holdersAnswered(answers ...wordpartitionasks.ReplicaAnswer) documentholders
 	holders.WordPartitionAnswered(yacymodel.WordHash("berlin"), 0, answers)
 
 	return holders
-}
-
-func withMetadataOnTheFirstDocument(
-	answer wordpartitionasks.ReplicaAnswer,
-) wordpartitionasks.ReplicaAnswer {
-	answer.ListedDocuments[0] = wordpartitionasks.ListedDocumentFrom(
-		yacymodel.URLMetadata{Hash: answer.ListedDocuments[0].Hash},
-		yacymodel.None[yacymodel.RWIPosting](),
-	)
-
-	return answer
 }
 
 func TestTheDocumentFewerPeersHoldComesFirst(t *testing.T) {

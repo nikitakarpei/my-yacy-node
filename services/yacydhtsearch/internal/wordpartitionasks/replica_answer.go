@@ -5,10 +5,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-// TECHDEBT: Vocabulary — the peer that sent a document is Replica here and Holder in queryfindings.MetadataReplica.
 type ReplicaAnswer struct {
-	Replica               peerdirectory.AskablePeer
-	ListedDocuments       []ListedDocument
+	Holder                peerdirectory.AskablePeer
+	ListedDocuments       yacymodel.URLHashes
+	MatchedDocuments      []MatchedDocument
 	AmountOfDocumentsHeld yacymodel.Optional[int]
 	Searched              bool
+}
+
+type MatchedDocument struct {
+	Metadata yacymodel.URLMetadata
+	Posting  yacymodel.Optional[yacymodel.RWIPosting]
 }

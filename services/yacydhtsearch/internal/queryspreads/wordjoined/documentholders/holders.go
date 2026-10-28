@@ -28,21 +28,18 @@ func (holders Holders) WordPartitionAnswered(
 	answers []wordpartitionasks.ReplicaAnswer,
 ) {
 	for _, answer := range answers {
-		for _, listedDocument := range answer.ListedDocuments {
-			holders.keep(answer.Replica, listedDocument)
+		for document := range answer.ListedDocuments.All() {
+			holders.keep(answer.Holder, document)
 		}
 	}
 }
 
-func (holders Holders) keep(
-	replica peerdirectory.AskablePeer,
-	listedDocument wordpartitionasks.ListedDocument,
-) {
-	peers := holders.peersPerDocument[listedDocument.Hash]
+func (holders Holders) keep(holder peerdirectory.AskablePeer, document yacymodel.URLHash) {
+	peers := holders.peersPerDocument[document]
 	if !slices.ContainsFunc(peers, func(peer peerdirectory.AskablePeer) bool {
-		return peer.Hash == replica.Hash
+		return peer.Hash == holder.Hash
 	}) {
-		holders.peersPerDocument[listedDocument.Hash] = append(peers, replica)
+		holders.peersPerDocument[document] = append(peers, holder)
 	}
 }
 
