@@ -97,7 +97,10 @@ func TestRosterDropsSeedsThatBreakTheBoundIdentity(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			ctx := context.Background()
 			observer := &droppingObserver{}
-			roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer})
+			roster := openRoster(
+				t,
+				rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer},
+			)
 			bound := signedSeedAt(t, "203.0.113.1", signingStart)
 			roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
 			roster.ConfirmUnreachable(ctx, bound.Hash)
@@ -133,7 +136,10 @@ func TestRosterKeepsTheBoundIdentityAcrossARestart(t *testing.T) {
 	ctx := context.Background()
 	storagePath := filepath.Join(t.TempDir(), "peer-roster")
 	storedVault := openRosterVault(t, storagePath)
-	storedRoster := openRoster(t, rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4})
+	storedRoster := openRoster(
+		t,
+		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
+	)
 	bound := signedSeedAt(t, "203.0.113.1", signingStart)
 	storedRoster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
 	if err := storedVault.Close(); err != nil {
@@ -164,7 +170,9 @@ func signedSeedAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
 	key := peerkeytest.Key(0)
 	seed := unsignedSeedAt(t, ip)
 	seed.Identity = yacymodel.Some(key.Identity())
-	seed.AddressSignature = yacymodel.Some(key.AddressSignatureOf(seed, rosterNetworkName, issuedAt))
+	seed.AddressSignature = yacymodel.Some(
+		key.AddressSignatureOf(seed, rosterNetworkName, issuedAt),
+	)
 
 	return seed
 }

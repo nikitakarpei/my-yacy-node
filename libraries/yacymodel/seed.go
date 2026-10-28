@@ -68,7 +68,10 @@ func (s Seed) VerifiedIdentityIn(networkName string) (PeerIdentity, bool) {
 	if !identified || !signed || identity.Hash() != s.Hash {
 		return PeerIdentity{}, false
 	}
-	if !identity.verifies(addressClaimOf(s, networkName, signature.IssuedAt), signature.Signature[:]) {
+	if !identity.verifies(
+		addressClaimOf(s, networkName, signature.IssuedAt),
+		signature.Signature[:],
+	) {
 		return PeerIdentity{}, false
 	}
 

@@ -44,7 +44,9 @@ func dropReasonBetween(
 	}
 }
 
-func (b identityBinding) dropReasonFor(replacement identityBinding) yacymodel.Optional[SeedDropReason] {
+func (b identityBinding) dropReasonFor(
+	replacement identityBinding,
+) yacymodel.Optional[SeedDropReason] {
 	switch {
 	case replacement.identity != b.identity:
 		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)

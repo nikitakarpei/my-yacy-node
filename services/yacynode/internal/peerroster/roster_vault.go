@@ -121,7 +121,9 @@ func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[identityB
 		stored.Reject(field, err)
 	}
 
-	return yacymodel.Some(identityBinding{identity: identity, issuedAt: stored.Time("bound issue time")})
+	return yacymodel.Some(
+		identityBinding{identity: identity, issuedAt: stored.Time("bound issue time")},
+	)
 }
 
 func hostFrom(stored *storedfields.Reader, field string) yacymodel.Host {

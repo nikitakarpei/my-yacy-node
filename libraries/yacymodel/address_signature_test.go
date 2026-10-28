@@ -109,7 +109,9 @@ func signedSeed(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {
 	t.Helper()
 	seed := unsignedSeedOf(t, key)
 	seed.Identity = yacymodel.Some(key.Identity())
-	seed.AddressSignature = yacymodel.Some(key.AddressSignatureOf(seed, signedNetworkName, signingTime))
+	seed.AddressSignature = yacymodel.Some(
+		key.AddressSignatureOf(seed, signedNetworkName, signingTime),
+	)
 
 	return seed
 }

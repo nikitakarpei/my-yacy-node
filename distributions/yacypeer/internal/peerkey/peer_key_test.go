@@ -89,7 +89,14 @@ func TestSettleFails(t *testing.T) {
 }
 
 func TestSettleFailsWhenNoKeyCanBeMade(t *testing.T) {
-	if _, err := peerkey.Settle(t.Context(), t.TempDir(), unsolvableKey); !errors.Is(err, errNoEntropy) {
+	if _, err := peerkey.Settle(
+		t.Context(),
+		t.TempDir(),
+		unsolvableKey,
+	); !errors.Is(
+		err,
+		errNoEntropy,
+	) {
 		t.Errorf("Settle = %v, want %v", err, errNoEntropy)
 	}
 }

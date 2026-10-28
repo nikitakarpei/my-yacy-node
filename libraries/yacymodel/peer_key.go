@@ -73,7 +73,9 @@ func unprovenPeerKeyFrom(
 		operationalKey: operationalKey,
 		recoverySeeds:  recoverySeeds,
 		identity: PeerIdentity{
-			operationalKey:     [ed25519.PublicKeySize]byte(operationalKey.Public().(ed25519.PublicKey)),
+			operationalKey: [ed25519.PublicKeySize]byte(
+				operationalKey.Public().(ed25519.PublicKey),
+			),
 			recoveryCommitment: recoveryCommitment,
 		},
 	}, nil
