@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strconv"
@@ -21,6 +22,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 )
@@ -40,11 +42,25 @@ const (
 func peerEnvironment(t *testing.T) map[string]string {
 	t.Helper()
 	return map[string]string{
-		yacypeerassembly.EnvDataDirectory: t.TempDir(),
+		yacypeerassembly.EnvDataDirectory: dataDirectoryWithSolvedPeerKey(t),
 		yacypeerassembly.EnvSeedlistURLs:  "http://127.0.0.1:1/seed.txt",
 		"YACY_ADVERTISE_HOST":             "127.0.0.1",
 		"YACYNODE__YACY_PEER_ADDR":        addressesBelowEphemeralPorts(t, 1)[0],
 	}
+}
+
+func dataDirectoryWithSolvedPeerKey(t *testing.T) string {
+	t.Helper()
+	dataDirectory := t.TempDir()
+	keyDirectory := filepath.Join(dataDirectory, "peer-key")
+	if err := os.Mkdir(keyDirectory, 0o700); err != nil {
+		t.Fatalf("make the peer key directory: %v", err)
+	}
+	keyText := []byte(peerkeytest.Key(0).String() + "\n")
+	if err := os.WriteFile(filepath.Join(keyDirectory, "peer-key"), keyText, 0o600); err != nil {
+		t.Fatalf("keep the peer key: %v", err)
+	}
+	return dataDirectory
 }
 
 func addressesBelowEphemeralPorts(t *testing.T, count int) []string {

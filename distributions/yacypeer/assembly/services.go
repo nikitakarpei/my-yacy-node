@@ -22,6 +22,7 @@ import (
 	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	yacynodeassembly "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
@@ -75,6 +76,7 @@ type peer struct {
 	cfg                PeerConfig
 	natsURL            string
 	visitLinkSecret    string
+	peerKey            yacymodel.PeerKey
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -192,6 +194,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 		streamOnlyServiceAssemblyFrom(
 			yacynodeService,
 			serviceenvironment.Wiring{
+				yacynodeassembly.EnvPeerKey:           p.peerKey.String(),
 				yacynodeassembly.EnvPageOfferNATSURL:  p.natsURL,
 				yacynodeassembly.EnvPageOfferDurable:  yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),

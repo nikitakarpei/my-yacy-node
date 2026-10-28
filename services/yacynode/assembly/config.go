@@ -3,6 +3,7 @@ package yacynodeassembly
 import "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 
 const (
+	EnvPeerKey                  = nodeconfiguration.EnvPeerKey
 	EnvPageOfferNATSURL         = nodeconfiguration.EnvPageOfferNATSURL
 	EnvPageOfferDurable         = nodeconfiguration.EnvPageOfferDurable
 	EnvAcceptRemoteIndex        = nodeconfiguration.EnvAcceptRemoteIndex

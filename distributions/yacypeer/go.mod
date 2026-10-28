@@ -21,6 +21,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/webuistyle v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.24.1
@@ -115,7 +116,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect

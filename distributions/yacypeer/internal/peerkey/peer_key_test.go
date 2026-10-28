@@ -1,0 +1,95 @@
+package peerkey_test
+
+import (
+	"errors"
+	"os"
+	"path/filepath"
+	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerkey"
+)
+
+var errNoEntropy = errors.New("no entropy")
+
+func solvedKey() (yacymodel.PeerKey, error) {
+	return peerkeytest.Key(0), nil
+}
+
+func unsolvableKey() (yacymodel.PeerKey, error) {
+	return yacymodel.PeerKey{}, errNoEntropy
+}
+
+func TestSettleMakesAKeyOnTheFirstStartAndKeepsIt(t *testing.T) {
+	directory := filepath.Join(t.TempDir(), "peer-key")
+
+	first, err := peerkey.Settle(t.Context(), directory, solvedKey)
+	if err != nil {
+		t.Fatalf("first Settle: %v", err)
+	}
+	second, err := peerkey.Settle(t.Context(), directory, unsolvableKey)
+	if err != nil {
+		t.Fatalf("second Settle: %v", err)
+	}
+	if first.String() != peerkeytest.Key(0).String() || second.String() != first.String() {
+		t.Errorf("keys = %q and %q, want the made key twice", first, second)
+	}
+}
+
+func TestSettleLetsOnlyTheOwnerReadTheKey(t *testing.T) {
+	directory := t.TempDir()
+	if _, err := peerkey.Settle(t.Context(), directory, solvedKey); err != nil {
+		t.Fatalf("Settle: %v", err)
+	}
+
+	entries, err := os.ReadDir(directory)
+	if err != nil || len(entries) != 1 {
+		t.Fatalf("directory holds %v (%v), want one file", entries, err)
+	}
+	info, err := entries[0].Info()
+	if err != nil {
+		t.Fatalf("stat: %v", err)
+	}
+	if info.Mode().Perm() != 0o600 {
+		t.Errorf("mode = %v, want 0600", info.Mode().Perm())
+	}
+}
+
+func TestSettleFails(t *testing.T) {
+	for name, directoryFor := range map[string]func(t *testing.T) string{
+		"directory is a file": func(t *testing.T) string {
+			file := filepath.Join(t.TempDir(), "file")
+			if err := os.WriteFile(file, nil, 0o600); err != nil {
+				t.Fatalf("write file: %v", err)
+			}
+			return file
+		},
+		"kept key is bad": func(t *testing.T) string {
+			directory := t.TempDir()
+			if err := os.WriteFile(filepath.Join(directory, "peer-key"), []byte("bad\n"), 0o600); err != nil {
+				t.Fatalf("write key: %v", err)
+			}
+			return directory
+		},
+		"kept key is unreadable": func(t *testing.T) string {
+			directory := t.TempDir()
+			if err := os.Mkdir(filepath.Join(directory, "peer-key"), 0o700); err != nil {
+				t.Fatalf("make directory: %v", err)
+			}
+			return directory
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			if _, err := peerkey.Settle(t.Context(), directoryFor(t), solvedKey); err == nil {
+				t.Error("Settle = nil, want an error")
+			}
+		})
+	}
+}
+
+func TestSettleFailsWhenNoKeyCanBeMade(t *testing.T) {
+	if _, err := peerkey.Settle(t.Context(), t.TempDir(), unsolvableKey); !errors.Is(err, errNoEntropy) {
+		t.Errorf("Settle = %v, want %v", err, errNoEntropy)
+	}
+}

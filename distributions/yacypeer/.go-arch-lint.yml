@@ -22,6 +22,8 @@ components:
     in: internal/loopback/**
   visitlinksecret:
     in: internal/visitlinksecret/**
+  peerkey:
+    in: internal/peerkey/**
   metrichistory:
     in: internal/metrichistory/**
   webuitabs:
@@ -70,6 +72,9 @@ vendors:
   zstd:
     in:
       - github.com/klauspost/compress/zstd
+  yacymodel:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacymodel
   vault:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/vault
@@ -109,6 +114,9 @@ deps:
   webuitabs:
     canUse:
       - webuistyle
+  peerkey:
+    canUse:
+      - yacymodel
   dashboardpage:
     canUse:
       - prometheusclient
