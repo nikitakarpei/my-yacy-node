@@ -29,6 +29,7 @@ func TestNewCrawlFormOffersTheDefaults(t *testing.T) {
 	assertStatus(t, answer, http.StatusOK)
 	assertShows(t, answer,
 		`value="domain" checked`, `id="MaxDepth" name="MaxDepth" min="0" required value="2"`,
+		`name="MaxPagesPerHost" min="1" value="1000"`,
 		"Any Page", "Pages in Same Directory",
 	)
 }

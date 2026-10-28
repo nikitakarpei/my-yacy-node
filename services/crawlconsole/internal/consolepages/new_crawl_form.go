@@ -11,13 +11,15 @@ import (
 )
 
 const (
-	defaultScope    = yacycrawlcontract.ScopeDomain
-	defaultMaxDepth = 2
+	defaultScope           = yacycrawlcontract.ScopeDomain
+	defaultMaxDepth        = 2
+	defaultMaxPagesPerHost = 1000
 )
 
 var defaultFields = orderFields{
-	Scope:    string(defaultScope),
-	MaxDepth: strconv.Itoa(defaultMaxDepth),
+	Scope:           string(defaultScope),
+	MaxDepth:        strconv.Itoa(defaultMaxDepth),
+	MaxPagesPerHost: strconv.Itoa(defaultMaxPagesPerHost),
 }
 
 type newCrawlForm struct {

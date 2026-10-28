@@ -3,14 +3,16 @@ package linkdiscovery
 
 import (
 	"context"
+	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
 const (
-	elementAnchor = "a"
-	elementBase   = "base"
+	elementAnchor    = "a"
+	elementBase      = "base"
+	linkTypeNoFollow = "nofollow"
 )
 
 type LinkDiscovery struct {
@@ -27,7 +29,7 @@ func (discovery *LinkDiscovery) LinkedURLsFrom(
 	pageURL canonicalurl.CanonicalURL,
 ) []canonicalurl.CanonicalURL {
 	baseURL := discovery.baseURLOf(ctx, pageURL, baseHrefOf(elementTree))
-	urls, unresolved := distinctURLsFrom(linkHrefsOf(elementTree), baseURL)
+	urls, unresolved := distinctURLsFrom(discoverableHrefsOf(elementTree), baseURL)
 	discovery.reportUnresolvedLinks(ctx, baseURL, unresolved)
 	return urls
 }
@@ -68,14 +70,27 @@ func baseHrefOf(elementTree pagehtml.ElementTree) string {
 	return ""
 }
 
-func linkHrefsOf(elementTree pagehtml.ElementTree) []string {
+func discoverableHrefsOf(elementTree pagehtml.ElementTree) []string {
 	var hrefs []string
-	for element := range elementTree.ElementsNamed(elementAnchor) {
-		if href, ok := element.AttributeOf("href"); ok {
+	for anchor := range elementTree.ElementsNamed(elementAnchor) {
+		if refusesDiscovery(anchor) {
+			continue
+		}
+		if href, ok := anchor.AttributeOf("href"); ok {
 			hrefs = append(hrefs, href)
 		}
 	}
 	return hrefs
+}
+
+func refusesDiscovery(anchor pagehtml.Element) bool {
+	linkTypes, _ := anchor.AttributeOf("rel")
+	for linkType := range strings.FieldsSeq(linkTypes) {
+		if strings.EqualFold(linkType, linkTypeNoFollow) {
+			return true
+		}
+	}
+	return false
 }
 
 func distinctURLsFrom(

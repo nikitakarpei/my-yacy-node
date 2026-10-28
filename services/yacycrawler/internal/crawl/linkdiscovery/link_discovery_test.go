@@ -69,6 +69,16 @@ func TestARepeatedLinkIsDiscoveredOnce(t *testing.T) {
 	}
 }
 
+func TestALinkMarkedNoFollowIsNotDiscovered(t *testing.T) {
+	urls, _ := linkedURLsFrom(t, "http://host.example/dir/p",
+		`<html><body><a href="/kept">k</a><a rel="nofollow" href="/trap">t</a>`+
+			`<a rel="external NOFOLLOW" href="/marked">m</a>`+
+			`<a rel="noopener" href="/opened">o</a></body></html>`,
+	)
+
+	assertURLs(t, urls, []string{"http://host.example/kept", "http://host.example/opened"})
+}
+
 func TestAPageWithoutLinksDiscoversNothing(t *testing.T) {
 	urls, observer := linkedURLsFrom(
 		t, "http://host.example/", `<html><body>text</body></html>`,

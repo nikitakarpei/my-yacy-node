@@ -41,6 +41,7 @@ host than an always-on node.
   that a consumer, not the crawler, decides what to do with it.
 * The service SHALL publish the canonical URL and the content type of each page it read, of
   any media type, and never the page's content. Only an HTML page gives links to follow.
+* The service SHALL NOT follow a link that its page marks `rel="nofollow"`.
 * A crawl SHALL hold one page visit for each URL it admits, and each SHALL end either
   completed, or dropped when the crawler stops trying to visit it.
 * A publication SHALL fail only on a hard, non-retryable broker error, and never terminally:
