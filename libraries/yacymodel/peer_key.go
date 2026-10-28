@@ -1,39 +1,25 @@
 package yacymodel
 
 import (
-	"bytes"
 	"crypto/ed25519"
 	"crypto/rand"
-	"crypto/sha256"
-	"encoding/binary"
 	"errors"
 	"fmt"
 	"io"
-	"runtime"
-	"strings"
-	"sync"
-	"sync/atomic"
 	"time"
-
-	"github.com/cloudflare/circl/sign/slhdsa"
 )
-
-const recoveryScheme = slhdsa.SHA2_128s
-
-const recoverySeedsSize = 48
 
 var ErrBadPeerKey = errors.New("bad peer key")
 
 type PeerKey struct {
-	operationalKey ed25519.PrivateKey
-	recoverySeeds  [recoverySeedsSize]byte
-	identity       PeerIdentity
+	material keyMaterial
+	identity PeerIdentity
 }
 
 func ParsePeerKey(text string) (PeerKey, error) {
-	parts := strings.Split(text, identityPartSeparator)
-	if len(parts) != 3 {
-		return PeerKey{}, fmt.Errorf("%w: %d parts, want 3", ErrBadPeerKey, len(parts))
+	parts, separated := partsOf(text)
+	if !separated {
+		return PeerKey{}, fmt.Errorf("%w: want 3 parts", ErrBadPeerKey)
 	}
 
 	var (
@@ -51,61 +37,12 @@ func ParsePeerKey(text string) (PeerKey, error) {
 		return PeerKey{}, fmt.Errorf("%w: nonce: %w", ErrBadPeerKey, err)
 	}
 
-	unproven, err := unprovenPeerKeyFrom(operationalSeed, recoverySeeds)
+	material, err := keyMaterialFrom(operationalSeed, recoverySeeds)
 	if err != nil {
 		return PeerKey{}, err
 	}
 
-	return unproven.provenBy(nonce)
-}
-
-func unprovenPeerKeyFrom(
-	operationalSeed [ed25519.SeedSize]byte,
-	recoverySeeds [recoverySeedsSize]byte,
-) (PeerKey, error) {
-	operationalKey := ed25519.NewKeyFromSeed(operationalSeed[:])
-	recoveryCommitment, err := recoveryCommitmentOf(recoverySeeds)
-	if err != nil {
-		return PeerKey{}, err
-	}
-
-	return PeerKey{
-		operationalKey: operationalKey,
-		recoverySeeds:  recoverySeeds,
-		identity: PeerIdentity{
-			operationalKey: [ed25519.PublicKeySize]byte(
-				operationalKey.Public().(ed25519.PublicKey),
-			),
-			recoveryCommitment: recoveryCommitment,
-		},
-	}, nil
-}
-
-func recoveryCommitmentOf(recoverySeeds [recoverySeedsSize]byte) ([sha256.Size]byte, error) {
-	recoveryPublicKey, _, err := slhdsa.GenerateKey(
-		bytes.NewReader(recoverySeeds[:]),
-		recoveryScheme,
-	)
-	if err != nil {
-		return [sha256.Size]byte{}, fmt.Errorf("%w: recovery key: %w", ErrBadPeerKey, err)
-	}
-	encodedKey, err := recoveryPublicKey.MarshalBinary()
-	if err != nil {
-		return [sha256.Size]byte{}, fmt.Errorf("%w: recovery key: %w", ErrBadPeerKey, err)
-	}
-
-	return sha256.Sum256(encodedKey), nil
-}
-
-func (k PeerKey) provenBy(nonce uint64) (PeerKey, error) {
-	k.identity.nonce = nonce
-	identity, err := k.identity.proven()
-	if err != nil {
-		return PeerKey{}, fmt.Errorf("%w: %w", ErrBadPeerKey, err)
-	}
-	k.identity = identity
-
-	return k, nil
+	return material.provenBy(nonce)
 }
 
 func NewPeerKey() (PeerKey, error) {
@@ -124,52 +61,12 @@ func GeneratePeerKey(entropy io.Reader) (PeerKey, error) {
 		return PeerKey{}, fmt.Errorf("read entropy: %w", err)
 	}
 
-	unproven, err := unprovenPeerKeyFrom(operationalSeed, recoverySeeds)
+	material, err := keyMaterialFrom(operationalSeed, recoverySeeds)
 	if err != nil {
 		return PeerKey{}, err
 	}
 
-	return unproven.provenBy(solvedNonceFor(unproven.identity))
-}
-
-func solvedNonceFor(identity PeerIdentity) uint64 {
-	keyDigest := keyDigestOf(identity.operationalKey, identity.recoveryCommitment)
-	var (
-		solved      atomic.Bool
-		solvedNonce uint64
-		solvedOnce  sync.Once
-		searches    sync.WaitGroup
-	)
-	var firstNonce uint64
-	for range runtime.GOMAXPROCS(0) {
-		searchStart := firstNonce
-		searches.Go(func() {
-			nonce, found := nonceSearchedFrom(keyDigest, searchStart, &solved)
-			if found {
-				solvedOnce.Do(func() { solvedNonce = nonce })
-			}
-		})
-		firstNonce += 1 << 56
-	}
-	searches.Wait()
-
-	return solvedNonce
-}
-
-func nonceSearchedFrom(
-	keyDigest [sha256.Size]byte,
-	firstNonce uint64,
-	solved *atomic.Bool,
-) (uint64, bool) {
-	for nonce := firstNonce; !solved.Load(); nonce++ {
-		if workOf(puzzleDigestOf(keyDigest, nonce)) >= identityWorkMinimum {
-			solved.Store(true)
-
-			return nonce, true
-		}
-	}
-
-	return 0, false
+	return material.provenBy(material.solvedNonce())
 }
 
 func (k PeerKey) Identity() PeerIdentity {
@@ -177,12 +74,7 @@ func (k PeerKey) Identity() PeerIdentity {
 }
 
 func (k PeerKey) String() string {
-	var nonce [8]byte
-	binary.BigEndian.PutUint64(nonce[:], k.identity.nonce)
-
-	return Encode(k.operationalKey.Seed()) + identityPartSeparator +
-		Encode(k.recoverySeeds[:]) + identityPartSeparator +
-		Encode(nonce[:])
+	return k.material.String() + identityPartSeparator + nonceTextOf(k.identity.nonce)
 }
 
 func (k PeerKey) AddressSignatureOf(
@@ -192,7 +84,7 @@ func (k PeerKey) AddressSignatureOf(
 ) AddressSignature {
 	signature := AddressSignature{IssuedAt: issuedAt.UTC().Truncate(time.Second)}
 	copy(signature.Signature[:], ed25519.Sign(
-		k.operationalKey,
+		k.material.operationalKey,
 		addressClaimOf(seed, networkName, signature.IssuedAt),
 	))
 

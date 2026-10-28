@@ -136,10 +136,10 @@ func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 func TestSelfSeedProvesTheIdentityOfThePeerKey(t *testing.T) {
 	status := statusAfter(t, testAddressSource(), 0, stubCounter{}, stubCounter{})
 
-	identity, verified := status.SelfSeed(context.Background()).VerifiedIdentityIn("freeworld")
-	if !verified || identity != peerkeytest.Key(0).Identity() {
-		t.Fatalf("VerifiedIdentityIn = %v (verified %v), want the identity of the key",
-			identity, verified)
+	signed, verified := status.SelfSeed(context.Background()).SignedIdentityIn("freeworld")
+	if !verified || signed.Identity != peerkeytest.Key(0).Identity() {
+		t.Fatalf("SignedIdentityIn = %v (verified %v), want the identity of the key",
+			signed, verified)
 	}
 }
 

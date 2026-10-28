@@ -15,12 +15,12 @@ var signingTime = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
 func TestSignedSeedVerifiesTheIdentityOfItsKey(t *testing.T) {
 	key := peerkeytest.Key(0)
 
-	identity, verified := signedSeed(t, key).VerifiedIdentityIn(signedNetworkName)
+	signed, verified := signedSeed(t, key).SignedIdentityIn(signedNetworkName)
 	if !verified {
-		t.Fatal("VerifiedIdentityIn = unverified, want the identity of the signing key")
+		t.Fatal("SignedIdentityIn = unverified, want the identity of the signing key")
 	}
-	if identity != key.Identity() {
-		t.Errorf("VerifiedIdentityIn = %v, want %v", identity, key.Identity())
+	if signed.Identity != key.Identity() || !signed.IssuedAt.Equal(signingTime) {
+		t.Errorf("SignedIdentityIn = %v, want %v issued at %v", signed, key.Identity(), signingTime)
 	}
 }
 
@@ -32,8 +32,8 @@ func TestSignedSeedKeepsItsIdentityWhenJavaMovesItsHosts(t *testing.T) {
 		hostOf(t, "::ffff:192.0.2.1"),
 	})
 
-	if _, verified := seed.VerifiedIdentityIn(signedNetworkName); !verified {
-		t.Error("VerifiedIdentityIn = unverified, want the hosts read as one set")
+	if _, verified := seed.SignedIdentityIn(signedNetworkName); !verified {
+		t.Error("SignedIdentityIn = unverified, want the hosts read as one set")
 	}
 }
 
@@ -54,7 +54,10 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 			seed.Port = yacymodel.Some(yacymodel.Port(8091))
 		},
 		"secure port": func(seed *yacymodel.Seed) {
-			seed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
+			seed.SecurePort = yacymodel.Some(yacymodel.Port(8444))
+		},
+		"secure port withdrawn": func(seed *yacymodel.Seed) {
+			seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{})
 		},
 		"issue time": func(seed *yacymodel.Seed) {
 			signature, _ := seed.AddressSignature.Get()
@@ -78,8 +81,8 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 			seed := signedSeed(t, peerkeytest.Key(0))
 			change(&seed)
 
-			if _, verified := seed.VerifiedIdentityIn(signedNetworkName); verified {
-				t.Error("VerifiedIdentityIn = verified, want unverified")
+			if _, verified := seed.SignedIdentityIn(signedNetworkName); verified {
+				t.Error("SignedIdentityIn = verified, want unverified")
 			}
 		})
 	}
@@ -88,8 +91,8 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 func TestSignedSeedLosesItsIdentityInAnotherNetwork(t *testing.T) {
 	seed := signedSeed(t, peerkeytest.Key(0))
 
-	if _, verified := seed.VerifiedIdentityIn("othernetwork"); verified {
-		t.Error("VerifiedIdentityIn = verified in another network, want unverified")
+	if _, verified := seed.SignedIdentityIn("othernetwork"); verified {
+		t.Error("SignedIdentityIn = verified in another network, want unverified")
 	}
 }
 
@@ -120,6 +123,8 @@ func unsignedSeedOf(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {
 	t.Helper()
 	seed := addressableSeed(t)
 	seed.Hash = key.Identity().Hash()
+	seed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
+	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
 	seed.AdditionalHosts = yacymodel.Some([]yacymodel.Host{
 		hostOf(t, "2001:db8::1"),
 		hostOf(t, "peer.example"),

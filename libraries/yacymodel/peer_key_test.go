@@ -2,7 +2,7 @@ package yacymodel_test
 
 import (
 	"bytes"
-	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"io"
 	"strings"
@@ -95,8 +95,17 @@ func TestParsePeerIdentityRejects(t *testing.T) {
 	}
 }
 
+const quicklySolvedEntropy = "e09761483d092260bb47418d6081c3ea30b640186d15ed263954bdcfeb652b9c" +
+	"27eac2f3aada231935a88b823de9fde7ee18e3a2baed27ac459cb551d4bb1c7e" +
+	"aaea5ef9eb67bebb2037b980062a2e12"
+
 func TestGeneratePeerKeySolvesTheWorkOfANewIdentity(t *testing.T) {
-	key, err := yacymodel.GeneratePeerKey(rand.Reader)
+	entropy, err := hex.DecodeString(quicklySolvedEntropy)
+	if err != nil {
+		t.Fatalf("decode entropy: %v", err)
+	}
+
+	key, err := yacymodel.GeneratePeerKey(bytes.NewReader(entropy))
 	if err != nil {
 		t.Fatalf("GeneratePeerKey: %v", err)
 	}

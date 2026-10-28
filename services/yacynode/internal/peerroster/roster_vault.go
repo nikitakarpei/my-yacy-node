@@ -50,8 +50,8 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 	binding, bound := entry.binding.Get()
 	stored.Presence(bound)
 	if bound {
-		stored.Text(binding.identity.String())
-		stored.Time(binding.issuedAt)
+		stored.Text(binding.Identity.String())
+		stored.Time(binding.IssuedAt)
 	}
 
 	return stored.Record(), nil
@@ -111,9 +111,9 @@ func answeredBaseURLFrom(stored *storedfields.Reader) yacymodel.Optional[peerwir
 	})
 }
 
-func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[identityBinding] {
+func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.SignedIdentity] {
 	if !stored.Presence("bound") {
-		return yacymodel.None[identityBinding]()
+		return yacymodel.None[yacymodel.SignedIdentity]()
 	}
 	const field = "bound identity"
 	identity, err := yacymodel.ParsePeerIdentity(stored.Text(field))
@@ -122,7 +122,7 @@ func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[identityB
 	}
 
 	return yacymodel.Some(
-		identityBinding{identity: identity, issuedAt: stored.Time("bound issue time")},
+		yacymodel.SignedIdentity{Identity: identity, IssuedAt: stored.Time("bound issue time")},
 	)
 }
 

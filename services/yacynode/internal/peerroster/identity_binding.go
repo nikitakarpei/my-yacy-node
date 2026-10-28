@@ -1,8 +1,6 @@
 package peerroster
 
 import (
-	"time"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -13,24 +11,29 @@ const (
 	DropOfOlderAddressSignature    SeedDropReason = "older address signature"
 )
 
-type identityBinding struct {
-	identity yacymodel.PeerIdentity
-	issuedAt time.Time
+type seedDrop struct {
+	reason SeedDropReason
 }
 
-func bindingFrom(seed yacymodel.Seed, networkName string) yacymodel.Optional[identityBinding] {
-	identity, verified := seed.VerifiedIdentityIn(networkName)
-	if !verified {
-		return yacymodel.None[identityBinding]()
-	}
-	signature, _ := seed.AddressSignature.Get()
+func (d seedDrop) Error() string {
+	return "seed dropped: " + string(d.reason)
+}
 
-	return yacymodel.Some(identityBinding{identity: identity, issuedAt: signature.IssuedAt})
+func signedIdentityOf(
+	seed yacymodel.Seed,
+	networkName string,
+) yacymodel.Optional[yacymodel.SignedIdentity] {
+	signed, verified := seed.SignedIdentityIn(networkName)
+	if !verified {
+		return yacymodel.None[yacymodel.SignedIdentity]()
+	}
+
+	return yacymodel.Some(signed)
 }
 
 func dropReasonBetween(
-	bound yacymodel.Optional[identityBinding],
-	next yacymodel.Optional[identityBinding],
+	bound yacymodel.Optional[yacymodel.SignedIdentity],
+	next yacymodel.Optional[yacymodel.SignedIdentity],
 ) yacymodel.Optional[SeedDropReason] {
 	current, isBound := bound.Get()
 	replacement, verified := next.Get()
@@ -40,17 +43,18 @@ func dropReasonBetween(
 	case !verified:
 		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
 	default:
-		return current.dropReasonFor(replacement)
+		return dropReasonFor(current, replacement)
 	}
 }
 
-func (b identityBinding) dropReasonFor(
-	replacement identityBinding,
+func dropReasonFor(
+	bound yacymodel.SignedIdentity,
+	replacement yacymodel.SignedIdentity,
 ) yacymodel.Optional[SeedDropReason] {
 	switch {
-	case replacement.identity != b.identity:
+	case replacement.Identity != bound.Identity:
 		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
-	case b.issuedAt.After(replacement.issuedAt):
+	case bound.IssuedAt.After(replacement.IssuedAt):
 		return yacymodel.Some(DropOfOlderAddressSignature)
 	default:
 		return yacymodel.None[SeedDropReason]()

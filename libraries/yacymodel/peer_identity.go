@@ -25,25 +25,36 @@ type PeerIdentity struct {
 }
 
 func ParsePeerIdentity(text string) (PeerIdentity, error) {
-	parts := strings.Split(text, identityPartSeparator)
-	if len(parts) != 3 {
-		return PeerIdentity{}, fmt.Errorf("%w: %d parts, want 3", ErrBadPeerIdentity, len(parts))
+	parts, separated := partsOf(text)
+	if !separated {
+		return PeerIdentity{}, fmt.Errorf("%w: want 3 parts", ErrBadPeerIdentity)
 	}
 
-	var identity PeerIdentity
-	if err := decodeExactly(parts[0], identity.operationalKey[:]); err != nil {
+	var (
+		operationalKey     [ed25519.PublicKeySize]byte
+		recoveryCommitment [sha256.Size]byte
+	)
+	if err := decodeExactly(parts[0], operationalKey[:]); err != nil {
 		return PeerIdentity{}, fmt.Errorf("%w: operational key: %w", ErrBadPeerIdentity, err)
 	}
-	if err := decodeExactly(parts[1], identity.recoveryCommitment[:]); err != nil {
+	if err := decodeExactly(parts[1], recoveryCommitment[:]); err != nil {
 		return PeerIdentity{}, fmt.Errorf("%w: recovery commitment: %w", ErrBadPeerIdentity, err)
 	}
 	nonce, err := nonceOf(parts[2])
 	if err != nil {
 		return PeerIdentity{}, fmt.Errorf("%w: nonce: %w", ErrBadPeerIdentity, err)
 	}
-	identity.nonce = nonce
 
-	return identity.proven()
+	return provenIdentityFrom(operationalKey, recoveryCommitment, nonce)
+}
+
+func partsOf(text string) ([3]string, bool) {
+	parts := strings.Split(text, identityPartSeparator)
+	if len(parts) != 3 {
+		return [3]string{}, false
+	}
+
+	return [3]string(parts), true
 }
 
 func decodeExactly(text string, raw []byte) error {
@@ -68,13 +79,22 @@ func nonceOf(text string) (uint64, error) {
 	return binary.BigEndian.Uint64(nonce[:]), nil
 }
 
-func (id PeerIdentity) proven() (PeerIdentity, error) {
-	if work := workOf(id.digest()); work < identityWorkMinimum {
+func provenIdentityFrom(
+	operationalKey [ed25519.PublicKeySize]byte,
+	recoveryCommitment [sha256.Size]byte,
+	nonce uint64,
+) (PeerIdentity, error) {
+	identity := PeerIdentity{
+		operationalKey:     operationalKey,
+		recoveryCommitment: recoveryCommitment,
+		nonce:              nonce,
+	}
+	if work := workOf(identity.digest()); work < identityWorkMinimum {
 		return PeerIdentity{}, fmt.Errorf("%w: work %d, want at least %d",
 			ErrBadPeerIdentity, work, identityWorkMinimum)
 	}
 
-	return id, nil
+	return identity, nil
 }
 
 func workOf(digest [sha256.Size]byte) int {
@@ -112,12 +132,16 @@ func (id PeerIdentity) Hash() Hash {
 }
 
 func (id PeerIdentity) String() string {
-	var nonce [8]byte
-	binary.BigEndian.PutUint64(nonce[:], id.nonce)
-
 	return Encode(id.operationalKey[:]) + identityPartSeparator +
 		Encode(id.recoveryCommitment[:]) + identityPartSeparator +
-		Encode(nonce[:])
+		nonceTextOf(id.nonce)
+}
+
+func nonceTextOf(nonce uint64) string {
+	var raw [8]byte
+	binary.BigEndian.PutUint64(raw[:], nonce)
+
+	return Encode(raw[:])
 }
 
 func (id PeerIdentity) verifies(claim, signature []byte) bool {

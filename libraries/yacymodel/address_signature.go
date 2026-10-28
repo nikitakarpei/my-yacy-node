@@ -25,7 +25,7 @@ func addressClaimOf(seed Seed, networkName string, issuedAt time.Time) []byte {
 		claim = appendClaimField(claim, host)
 	}
 	claim = appendClaimField(claim, portTextOf(seed.Port))
-	claim = appendClaimField(claim, portTextOf(seed.SecurePort))
+	claim = appendClaimField(claim, portTextOf(seed.announcedSecurePort()))
 
 	return appendClaimField(claim, strconv.FormatInt(issuedAt.Unix(), 10))
 }
