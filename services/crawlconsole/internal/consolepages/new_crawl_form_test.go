@@ -28,11 +28,17 @@ func TestNewCrawlFormOffersTheDefaults(t *testing.T) {
 	answer := consoleOver(&fakeCrawler{}).get("/crawls/new")
 
 	assertStatus(t, answer, http.StatusOK)
-	assertShows(t, answer,
-		`value="domain" checked`, `id="MaxDepth" name="MaxDepth" min="0" required value="2"`,
-		"Any Page", "Pages in Same Directory",
-		`name="RecrawlGrace" min="1" value="" placeholder="any age"`,
-		`<option value="days" selected>days</option>`,
+	assertShows(
+		t,
+		answer,
+		`value="domain" checked`,
+		`id="MaxDepth" name="MaxDepth" min="0" required value="2"`,
+		"Any Page",
+		"Pages in Same Directory",
+		`name="HasRecrawlGrace">`,
+		`<option value="1h0m0s">1 hour</option>`,
+		`<option value="24h0m0s" selected>1 day</option>`,
+		`<option value="720h0m0s">30 days</option>`,
 	)
 }
 
@@ -57,7 +63,8 @@ func TestNewCrawlFormDuplicatesTheRecrawlGraceOfACrawl(t *testing.T) {
 	answer := consoleOver(crawler).get("/crawls/new?from=c1")
 
 	assertShows(t, answer,
-		`name="RecrawlGrace" min="1" value="36"`, `<option value="hours" selected>hours</option>`,
+		`name="HasRecrawlGrace" checked>`, `<option value="36h0m0s" selected>36 hours</option>`,
+		`<option value="168h0m0s">7 days</option>`,
 	)
 }
 
@@ -133,13 +140,25 @@ func TestPlaceOrderKeepsAPageLimit(t *testing.T) {
 func TestPlaceOrderKeepsARecrawlGrace(t *testing.T) {
 	crawler := &fakeCrawler{}
 	fields := orderFields()
-	fields.Set("RecrawlGrace", "90")
-	fields.Set("RecrawlGraceUnit", "minutes")
+	fields.Set("HasRecrawlGrace", "on")
+	fields.Set("RecrawlGrace", "168h0m0s")
 
 	consoleOver(crawler).post("/crawls", fields)
 
-	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != 90*time.Minute {
-		t.Fatalf("RecrawlGrace = %s, want 1h30m", grace)
+	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != 7*24*time.Hour {
+		t.Fatalf("RecrawlGrace = %s, want 7 days", grace)
+	}
+}
+
+func TestPlaceOrderIgnoresARecrawlGraceThatIsNotChosen(t *testing.T) {
+	crawler := &fakeCrawler{}
+	fields := orderFields()
+	fields.Set("RecrawlGrace", "24h0m0s")
+
+	consoleOver(crawler).post("/crawls", fields)
+
+	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != yacycrawlcontract.NoRecrawlGrace {
+		t.Fatalf("RecrawlGrace = %s, want none", grace)
 	}
 }
 
@@ -171,21 +190,25 @@ func TestPlaceOrderRefusesAFieldItCannotRead(t *testing.T) {
 		{
 			"RecrawlGrace",
 			"soon",
-			"Re-crawl Pages Older Than &#34;soon&#34; is not a whole number.",
+			"Skip pages crawled in the last: &#34;soon&#34; is not one of the choices.",
 		},
 		{
-			"RecrawlGraceUnit",
-			"weeks",
-			"Re-crawl Pages Older Than has no unit &#34;weeks&#34;.",
+			"RecrawlGrace",
+			"721h",
+			"Skip pages crawled in the last: &#34;721h&#34; is not one of the choices.",
 		},
-		{"RecrawlGrace", "31", "Re-crawl Pages Older Than is at most 30 days."},
+		{
+			"RecrawlGrace",
+			"0s",
+			"Skip pages crawled in the last: &#34;0s&#34; is not one of the choices.",
+		},
 	}
 	for _, tc := range cases {
 		t.Run(tc.field+"="+tc.value, func(t *testing.T) {
 			crawler := &fakeCrawler{}
 			fields := orderFields()
-			fields.Set("RecrawlGrace", "2")
-			fields.Set("RecrawlGraceUnit", "days")
+			fields.Set("HasRecrawlGrace", "on")
+			fields.Set("RecrawlGrace", "24h0m0s")
 			fields.Set(tc.field, tc.value)
 
 			answer := consoleOver(crawler).post("/crawls", fields)

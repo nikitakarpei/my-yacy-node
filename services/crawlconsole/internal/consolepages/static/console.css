@@ -191,9 +191,14 @@ input[type="number"],
 textarea {
   width: 100%;
 }
-.amount-with-unit {
+.recrawl-grace {
   display: flex;
+  align-items: center;
   gap: var(--webui-space-2);
+  margin-top: 0.9rem;
+}
+.recrawl-grace label.choice {
+  margin: 0;
 }
 textarea {
   font-family: ui-monospace, monospace;

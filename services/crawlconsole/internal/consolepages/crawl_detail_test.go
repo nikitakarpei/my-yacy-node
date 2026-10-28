@@ -52,10 +52,11 @@ func TestCrawlDetailShowsTheProgressAndTheOrder(t *testing.T) {
 
 func TestCrawlDetailShowsTheRecrawlGraceOfTheOrder(t *testing.T) {
 	for recrawlGrace, shown := range map[time.Duration]string{
-		yacycrawlcontract.NoRecrawlGrace: "<dd>any age</dd>",
-		48 * time.Hour:                   "<dd>2d</dd>",
-		36 * time.Hour:                   "<dd>36h</dd>",
-		90 * time.Second:                 "<dd>2m</dd>",
+		yacycrawlcontract.NoRecrawlGrace: "<dd>none</dd>",
+		48 * time.Hour:                   "<dd>2 days</dd>",
+		36 * time.Hour:                   "<dd>36 hours</dd>",
+		time.Hour:                        "<dd>1 hour</dd>",
+		90 * time.Second:                 "<dd>2 minutes</dd>",
 	} {
 		crawl := runningCrawlOf(t, "c1")
 		crawl.Order.Profile.RecrawlGrace = recrawlGrace
@@ -64,7 +65,7 @@ func TestCrawlDetailShowsTheRecrawlGraceOfTheOrder(t *testing.T) {
 			&fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}},
 		).get("/crawls/c1")
 
-		assertShows(t, answer, "<dt>Re-crawl Pages Older Than</dt>"+shown)
+		assertShows(t, answer, "<dt>Skip Pages Crawled in the Last</dt>"+shown)
 	}
 }
 
