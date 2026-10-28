@@ -41,6 +41,13 @@ func (h Host) Addr() (netip.Addr, bool) {
 	return h.addr, h.addr.IsValid()
 }
 
+func (h Host) normalized() string {
+	if h.addr.IsValid() {
+		return h.addr.Unmap().String()
+	}
+	return strings.ToLower(h.hostname)
+}
+
 func isHostname(s string) bool {
 	if s == "" || len(s) > 255 {
 		return false

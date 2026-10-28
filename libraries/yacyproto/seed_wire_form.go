@@ -43,6 +43,8 @@ const (
 	seedColURLsSent          = "sU"
 	seedColURLsReceived      = "rU"
 	seedColNews              = "news"
+	seedColIdentity          = "Identity"
+	seedColAddressSignature  = "AddressSignature"
 )
 
 const (
@@ -67,7 +69,7 @@ var seedColumns = map[string]bool{
 	seedColIndexedWords: true, seedColStoredURLs: true, seedColNoticedURLs: true,
 	seedColRemoteCrawlURLs: true, seedColStoredSeeds: true, seedColWordsSent: true,
 	seedColWordsReceived: true, seedColURLsSent: true, seedColURLsReceived: true,
-	seedColNews: true,
+	seedColNews: true, seedColIdentity: true, seedColAddressSignature: true,
 }
 
 // seedWireCodec translates between the seed domain type and YaCy's peer
@@ -173,6 +175,8 @@ func (f seedWireForm) domain(ctx context.Context) (yacymodel.Seed, error) {
 	}
 
 	seed.AdditionalHosts = f.additionalHosts()
+	seed.Identity = f.identity()
+	seed.AddressSignature = f.addressSignature()
 
 	if capabilities, ok := f.properties[seedColCapabilities]; ok {
 		seed.Capabilities = yacymodel.Some(peerCapabilitiesWireCodec{}.decode(capabilities))
@@ -235,6 +239,26 @@ func (f seedWireForm) additionalHosts() yacymodel.Optional[[]yacymodel.Host] {
 		return yacymodel.None[[]yacymodel.Host]()
 	}
 	return yacymodel.Some(hosts)
+}
+
+func (f seedWireForm) identity() yacymodel.Optional[yacymodel.PeerIdentity] {
+	value := f.properties[seedColIdentity]
+	if value == "" {
+		return yacymodel.None[yacymodel.PeerIdentity]()
+	}
+	identity, err := yacymodel.ParsePeerIdentity(value)
+	if err != nil {
+		return yacymodel.None[yacymodel.PeerIdentity]()
+	}
+	return yacymodel.Some(identity)
+}
+
+func (f seedWireForm) addressSignature() yacymodel.Optional[yacymodel.AddressSignature] {
+	signature, ok := addressSignatureWireCodec{}.decode(f.properties[seedColAddressSignature])
+	if !ok {
+		return yacymodel.None[yacymodel.AddressSignature]()
+	}
+	return yacymodel.Some(signature)
 }
 
 func (f seedWireForm) port(column string) yacymodel.Optional[yacymodel.Port] {
@@ -386,6 +410,12 @@ func seedWireFormFromDomain(seed yacymodel.Seed) seedWireForm {
 	f.putActivity(seed)
 	if news, ok := seed.News.Get(); ok {
 		f.put(seedColNews, peerNewsWireCodec{}.encode(news))
+	}
+	if identity, ok := seed.Identity.Get(); ok {
+		f.put(seedColIdentity, identity.String())
+	}
+	if signature, ok := seed.AddressSignature.Get(); ok {
+		f.put(seedColAddressSignature, addressSignatureWireCodec{}.encode(signature))
 	}
 
 	return f

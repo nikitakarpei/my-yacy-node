@@ -11,7 +11,15 @@ components:
       - .
       - "**"
 
-deps: {}
+vendors:
+  circl:
+    in:
+      - github.com/cloudflare/circl/sign/slhdsa
+
+deps:
+  yacymodel:
+    canUse:
+      - circl
 
 excludeFiles:
   - "_test\\.go"
