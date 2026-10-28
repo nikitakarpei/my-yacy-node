@@ -29,15 +29,9 @@ Rules for verifiers:
 
 ## Open options
 
-Expiry of a certificate:
-
-| Option | Gives | Costs |
-| --- | --- | --- |
-| No expiry | A peer never drops out because a renewal failed | An old certificate stays valid at a verifier that never saw a newer one |
-| Expiry after years | Limits the life of an old certificate | A missed renewal drops the peer; each renewal is a slow 8 KB signature that verifiers fetch again; validity depends on clocks |
-| Short-lived certificates from an intermediate key that the recovery key certifies | Limits the life of an old certificate tightly | One more key and a renewal loop |
-
-A move of the whole network to certificates only: when, and what starts it.
+- Expiry of a certificate. Expiry limits the life of an old certificate at a verifier that never
+  saw a newer one. A peer whose renewal fails drops out, and validity depends on clocks.
+- A move of the whole network to certificates only: when, and what starts it.
 
 ## Consequences
 
