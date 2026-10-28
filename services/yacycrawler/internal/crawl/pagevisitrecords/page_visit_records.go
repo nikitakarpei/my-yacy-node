@@ -1,5 +1,5 @@
 // Package pagevisitrecords keeps the last page visit of every page for the retention of
-// page visits, with the page version that visit saw, or keeps none.
+// page visits, with the page version that visit saw.
 package pagevisitrecords
 
 import (

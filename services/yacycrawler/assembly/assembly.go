@@ -298,7 +298,7 @@ type crawlStateStores struct {
 	frontier         *frontier.Frontier
 	progressCounts   *crawlprogress.Counts
 	pageVisitLimits  *pagevisitlimits.PageVisitLimits
-	pageVisitRecords pagevisit.PageVisitRecords
+	pageVisitRecords *pagevisitrecords.PageVisitRecords
 }
 
 func openCrawlStateStores(
@@ -335,7 +335,9 @@ func openCrawlStateStores(
 	if err != nil {
 		return crawlStateStores{}, err
 	}
-	pageVisitRecords, err := pageVisitRecordsOf(ctx, storage, cfg)
+	pageVisitRecords, err := pagevisitrecords.Open(
+		ctx, storage, wallclock.Clock{}, cfg.PageVisitRetention(),
+	)
 	if err != nil {
 		return crawlStateStores{}, err
 	}
@@ -347,17 +349,6 @@ func openCrawlStateStores(
 		pageVisitLimits:  pageVisitLimits,
 		pageVisitRecords: pageVisitRecords,
 	}, nil
-}
-
-func pageVisitRecordsOf(
-	ctx context.Context,
-	storage *vault.Vault,
-	cfg ServiceConfig,
-) (pagevisit.PageVisitRecords, error) {
-	if !cfg.SuppressesRecrawl() {
-		return pagevisitrecords.None{}, nil
-	}
-	return pagevisitrecords.Open(ctx, storage, wallclock.Clock{}, cfg.PageVisitRetention())
 }
 
 func buildOrderConsumer(
@@ -473,7 +464,7 @@ func buildPageVisitor(
 	return pagevisit.New(
 		crawlState.storage,
 		observedfetch.New(fetch, wallclock.Clock{}, pageFetchObserver),
-		dueaftergrace.New(wallclock.Clock{}, cfg.RecrawlGrace),
+		dueaftergrace.New(wallclock.Clock{}),
 		crawlState.pageVisitRecords,
 		pageVisitRecordObserver,
 		pageReading,

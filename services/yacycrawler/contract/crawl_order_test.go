@@ -3,10 +3,12 @@ package yacycrawlcontract_test
 import (
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 )
 
 func TestCrawlOrderRoundTrip(t *testing.T) {
@@ -20,6 +22,7 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 			MaxDepth:        4,
 			AllowQueryURLs:  true,
 			MaxPagesPerHost: 100,
+			RecrawlGrace:    yacycrawlcontracttest.RecrawlGraceOf(t, time.Hour),
 		},
 		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),

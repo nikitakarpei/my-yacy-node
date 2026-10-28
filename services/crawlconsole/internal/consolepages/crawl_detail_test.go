@@ -5,8 +5,10 @@ import (
 	"net/url"
 	"slices"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 )
 
 func TestCrawlDetailShowsTheProgressAndTheOrder(t *testing.T) {
@@ -47,6 +49,25 @@ func TestCrawlDetailShowsTheProgressAndTheOrder(t *testing.T) {
 		`action="/crawls/c1/cancel"`,
 		`href="/crawls/new?from=c1"`,
 	)
+}
+
+func TestCrawlDetailShowsTheRecrawlGraceOfTheOrder(t *testing.T) {
+	for length, shown := range map[time.Duration]string{
+		yacycrawlcontract.NoRecrawlGrace.Length(): "<dd>Crawl every page again</dd>",
+		48 * time.Hour:   "<dd>Skip pages crawled in the last 2 days</dd>",
+		36 * time.Hour:   "<dd>Skip pages crawled in the last 36 hours</dd>",
+		time.Hour:        "<dd>Skip pages crawled in the last 1 hour</dd>",
+		90 * time.Second: "<dd>Skip pages crawled in the last 2 minutes</dd>",
+	} {
+		crawl := runningCrawlOf(t, "c1")
+		crawl.Order.Profile.RecrawlGrace = yacycrawlcontracttest.RecrawlGraceOf(t, length)
+
+		answer := consoleOver(
+			&fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}},
+		).get("/crawls/c1")
+
+		assertShows(t, answer, "<dt>Recrawl Policy</dt>"+shown)
+	}
 }
 
 func TestCrawlDetailOffersResumeAndCancelForAPausedCrawl(t *testing.T) {

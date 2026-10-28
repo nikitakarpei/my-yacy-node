@@ -52,6 +52,10 @@ func (o AcceptedOrder) MaxPagesPerHost() int {
 	return o.order.Profile.MaxPagesPerHost
 }
 
+func (o AcceptedOrder) RecrawlGrace() yacycrawlcontract.RecrawlGrace {
+	return o.order.Profile.RecrawlGrace
+}
+
 func (o AcceptedOrder) Admits(url canonicalurl.CanonicalURL, depth int) bool {
 	return o.admission.Admits(url, depth)
 }

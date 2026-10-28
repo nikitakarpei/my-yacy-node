@@ -54,6 +54,9 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.CrawlProfile.MaxPagesPerHost != visitcrawl.DefaultCrawlMaxPagesPerHost {
 		t.Fatalf("max pages per host = %d", cfg.CrawlProfile.MaxPagesPerHost)
 	}
+	if cfg.CrawlProfile.RecrawlGrace.Length() != visitcrawl.DefaultCrawlRecrawlGrace {
+		t.Fatalf("recrawl grace = %s", cfg.CrawlProfile.RecrawlGrace.Length())
+	}
 }
 
 func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
@@ -80,6 +83,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env["VISITCRAWL_SCOPE"] = "wide"
 	env["VISITCRAWL_MAX_DEPTH"] = "3"
 	env["VISITCRAWL_ALLOW_QUERY_URLS"] = "true"
+	env["VISITCRAWL_RECRAWL_GRACE"] = "720h"
 	cfg, err := visitcrawl.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -92,6 +96,12 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 	if !cfg.CrawlProfile.AllowQueryURLs {
 		t.Fatal("allow query urls should be true")
+	}
+	if cfg.CrawlProfile.RecrawlGrace != yacycrawlcontract.MaxRecrawlGrace {
+		t.Fatalf(
+			"recrawl grace = %s, want the longest grace",
+			cfg.CrawlProfile.RecrawlGrace.Length(),
+		)
 	}
 }
 
@@ -112,6 +122,8 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"VISITCRAWL_MAX_DEPTH": "-1"},
 		{"VISITCRAWL_MAX_PAGES_PER_HOST": "-1"},
 		{"VISITCRAWL_ALLOW_QUERY_URLS": "maybe"},
+		{"VISITCRAWL_RECRAWL_GRACE": "-1h"},
+		{"VISITCRAWL_RECRAWL_GRACE": "721h"},
 		{"VISITCRAWL_URL_MUST_MATCH": "([unclosed"},
 		{"VISITCRAWL_URL_MUST_NOT_MATCH": "([unclosed"},
 	} {

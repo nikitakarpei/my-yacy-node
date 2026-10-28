@@ -21,12 +21,13 @@ const (
 )
 
 type crawlDetailView struct {
-	CrawlID  string
-	Answered bool
-	Found    bool
-	Crawl    crawlRow
-	Order    *yacycrawlcontract.CrawlOrder
-	Hosts    hostTable
+	CrawlID      string
+	Answered     bool
+	Found        bool
+	Crawl        crawlRow
+	Order        *yacycrawlcontract.CrawlOrder
+	RecrawlGrace shownRecrawlGrace
+	Hosts        hostTable
 }
 
 type hostTable struct {
@@ -55,13 +56,17 @@ func (detail crawlDetail) show(w http.ResponseWriter, r *http.Request) {
 }
 
 func crawlDetailViewOf(crawl yacycrawlcontract.Crawl, now time.Time) crawlDetailView {
-	return crawlDetailView{
+	view := crawlDetailView{
 		CrawlID:  crawl.CrawlID,
 		Answered: true,
 		Found:    true,
 		Crawl:    crawlRowFrom(crawl, now),
 		Order:    crawl.Order,
 	}
+	if crawl.Order != nil {
+		view.RecrawlGrace = shownRecrawlGraceOf(crawl.Order.Profile.RecrawlGrace.Length())
+	}
+	return view
 }
 
 func (detail crawlDetail) hostTableOf(r *http.Request, crawlID string) (hostTable, bool) {

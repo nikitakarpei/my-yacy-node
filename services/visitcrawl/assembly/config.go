@@ -27,6 +27,7 @@ const (
 	EnvCrawlURLMustNotMatch = "VISITCRAWL_URL_MUST_NOT_MATCH"
 	EnvCrawlMaxPagesPerHost = "VISITCRAWL_MAX_PAGES_PER_HOST"
 	EnvCrawlAllowQueryURLs  = "VISITCRAWL_ALLOW_QUERY_URLS"
+	EnvCrawlRecrawlGrace    = "VISITCRAWL_RECRAWL_GRACE"
 
 	DefaultCrawlOrdersSubject   = "yacy.crawl.orders"
 	DefaultListenAddr           = ":8091"
@@ -37,6 +38,7 @@ const (
 	DefaultCrawlScope           = "domain"
 	DefaultCrawlMaxDepth        = 1
 	DefaultCrawlMaxPagesPerHost = 100
+	DefaultCrawlRecrawlGrace    = time.Hour
 )
 
 type ServiceConfig struct {
@@ -122,6 +124,10 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 	if err != nil {
 		return yacycrawlcontract.CrawlProfile{}, err
 	}
+	recrawlGrace, err := recrawlGraceFrom(getenv)
+	if err != nil {
+		return yacycrawlcontract.CrawlProfile{}, err
+	}
 	urlMustMatch, err := readablePattern(
 		matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
 		EnvCrawlURLMustMatch,
@@ -144,7 +150,24 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 		MaxDepth:        maxDepth,
 		AllowQueryURLs:  allowQueryURLs,
 		MaxPagesPerHost: maxPagesPerHost,
+		RecrawlGrace:    recrawlGrace,
 	}, nil
+}
+
+func recrawlGraceFrom(getenv func(string) string) (yacycrawlcontract.RecrawlGrace, error) {
+	length, err := envconfig.NonNegativeDuration(
+		getenv,
+		EnvCrawlRecrawlGrace,
+		DefaultCrawlRecrawlGrace,
+	)
+	if err != nil {
+		return yacycrawlcontract.NoRecrawlGrace, err
+	}
+	recrawlGrace, err := yacycrawlcontract.RecrawlGraceOf(length)
+	if err != nil {
+		return yacycrawlcontract.NoRecrawlGrace, fmt.Errorf("%s: %w", EnvCrawlRecrawlGrace, err)
+	}
+	return recrawlGrace, nil
 }
 
 func readablePattern(pattern string, name string) (string, error) {

@@ -206,15 +206,3 @@ func TestAPageVisitIsForgottenOnceItsRetentionPasses(t *testing.T) {
 		t.Fatalf("a page visit past its retention read back as %+v (%v)", visit, err)
 	}
 }
-
-func TestNoRecordsKeepNoPageVisit(t *testing.T) {
-	s := pageVisitRecords(t)
-	s.records = pagevisitrecords.None{}
-
-	if err := s.record(t, pagefetch.PageVersion{}); err != nil {
-		t.Fatalf("RecordPageVisit: %v", err)
-	}
-	if visit, visited, err := s.lastPageVisit(t); err != nil || visited {
-		t.Fatalf("want no page visit, got %+v (%v)", visit, err)
-	}
-}

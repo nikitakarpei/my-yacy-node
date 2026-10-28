@@ -5,9 +5,11 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 )
 
 func orderFields() url.Values {
@@ -27,9 +29,17 @@ func TestNewCrawlFormOffersTheDefaults(t *testing.T) {
 	answer := consoleOver(&fakeCrawler{}).get("/crawls/new")
 
 	assertStatus(t, answer, http.StatusOK)
-	assertShows(t, answer,
-		`value="domain" checked`, `id="MaxDepth" name="MaxDepth" min="0" required value="2"`,
-		"Any Page", "Pages in Same Directory",
+	assertShows(
+		t,
+		answer,
+		`value="domain" checked`,
+		`id="MaxDepth" name="MaxDepth" min="0" required value="2"`,
+		"Any Page",
+		"Pages in Same Directory",
+		`name="HasRecrawlGrace">`,
+		`<option value="1h0m0s">1 hour</option>`,
+		`<option value="24h0m0s" selected>1 day</option>`,
+		`<option value="720h0m0s">30 days</option>`,
 	)
 }
 
@@ -43,6 +53,19 @@ func TestNewCrawlFormDuplicatesTheOrderOfACrawl(t *testing.T) {
 	assertShows(t, answer,
 		"https://example.org/docs/\nhttps://example.org/blog/</textarea>",
 		`value="docs site"`, `value="domain" checked`, `value="3"`, `value="50"`,
+	)
+}
+
+func TestNewCrawlFormDuplicatesTheRecrawlGraceOfACrawl(t *testing.T) {
+	crawl := runningCrawlOf(t, "c1")
+	crawl.Order.Profile.RecrawlGrace = yacycrawlcontracttest.RecrawlGraceOf(t, 36*time.Hour)
+	crawler := &fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}}
+
+	answer := consoleOver(crawler).get("/crawls/new?from=c1")
+
+	assertShows(t, answer,
+		`name="HasRecrawlGrace" checked>`, `<option value="36h0m0s" selected>36 hours</option>`,
+		`<option value="168h0m0s">7 days</option>`,
 	)
 }
 
@@ -115,6 +138,31 @@ func TestPlaceOrderKeepsAPageLimit(t *testing.T) {
 	}
 }
 
+func TestPlaceOrderKeepsARecrawlGrace(t *testing.T) {
+	crawler := &fakeCrawler{}
+	fields := orderFields()
+	fields.Set("HasRecrawlGrace", "on")
+	fields.Set("RecrawlGrace", "168h0m0s")
+
+	consoleOver(crawler).post("/crawls", fields)
+
+	if grace := crawler.placedOrders[0].Profile.RecrawlGrace.Length(); grace != 7*24*time.Hour {
+		t.Fatalf("RecrawlGrace = %s, want 7 days", grace)
+	}
+}
+
+func TestPlaceOrderIgnoresARecrawlGraceThatIsNotChosen(t *testing.T) {
+	crawler := &fakeCrawler{}
+	fields := orderFields()
+	fields.Set("RecrawlGrace", "24h0m0s")
+
+	consoleOver(crawler).post("/crawls", fields)
+
+	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != yacycrawlcontract.NoRecrawlGrace {
+		t.Fatalf("RecrawlGrace = %s, want none", grace.Length())
+	}
+}
+
 func TestPlaceOrderShowsWhyTheCrawlerRefusedIt(t *testing.T) {
 	crawler := &fakeCrawler{refusal: "unknown crawl scope"}
 
@@ -140,11 +188,28 @@ func TestPlaceOrderRefusesAFieldItCannotRead(t *testing.T) {
 		},
 		{"MaxDepth", "two", "Max Discovery Depth &#34;two&#34; is not a whole number."},
 		{"MaxPagesPerHost", "many", "Max Pages per Host &#34;many&#34; is not a whole number."},
+		{
+			"RecrawlGrace",
+			"soon",
+			"Skip pages crawled in the last: &#34;soon&#34; is not one of the choices.",
+		},
+		{
+			"RecrawlGrace",
+			"721h",
+			"Skip pages crawled in the last: &#34;721h&#34; is not one of the choices.",
+		},
+		{
+			"RecrawlGrace",
+			"0s",
+			"Skip pages crawled in the last: &#34;0s&#34; is not one of the choices.",
+		},
 	}
 	for _, tc := range cases {
-		t.Run(tc.field, func(t *testing.T) {
+		t.Run(tc.field+"="+tc.value, func(t *testing.T) {
 			crawler := &fakeCrawler{}
 			fields := orderFields()
+			fields.Set("HasRecrawlGrace", "on")
+			fields.Set("RecrawlGrace", "24h0m0s")
 			fields.Set(tc.field, tc.value)
 
 			answer := consoleOver(crawler).post("/crawls", fields)

@@ -24,7 +24,6 @@ const (
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
 	EnvAPIAddr       = "YACYCRAWLER_API_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_FETCH_USER_AGENT"
-	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
 
 	EnvCrawlStatePebbleBlockCache            = "CRAWL_STATE_PEBBLE_BLOCK_CACHE"
 	EnvCrawlStatePebbleMemtableSize          = "CRAWL_STATE_PEBBLE_MEMTABLE_SIZE"
@@ -42,7 +41,6 @@ const (
 	DefaultOpsAddr            = ":9090"
 	DefaultUserAgent          = "yacycrawler (+https://yacy.net)"
 	DefaultProxyDialMode      = http.ProxyDialTunnelName
-	DefaultRecrawlGrace       = time.Hour
 
 	DefaultCrawlStateDir                         = "./crawl-state"
 	DefaultCrawlStatePebbleBlockCache            = "64MB"
@@ -73,10 +71,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	recrawlGrace, err := envconfig.NonNegativeDuration(getenv, EnvRecrawlGrace, DefaultRecrawlGrace)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 
 	return ServiceConfig{
 		CrawlNATSURL:     crawlNATSURL,
@@ -97,7 +91,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		FetchConcurrency: limits.fetchConcurrency,
 		MaxBodyBytes:     limits.maxBodyBytes,
 		FetchDeadline:    limits.fetchDeadline,
-		RecrawlGrace:     recrawlGrace,
 		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		APIAddr:          envconfig.String(getenv, EnvAPIAddr, ""),
 		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),

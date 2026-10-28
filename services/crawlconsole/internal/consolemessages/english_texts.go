@@ -93,6 +93,16 @@ var englishTexts = map[string]string{
 	"order.query-urls-skipped":      "Skipped",
 	"order.max-pages-per-host":      "Max Pages per Host",
 	"order.no-page-limit":           "no limit",
+	"order.recrawl-grace":           "Recrawl Policy",
+	"order.pages-skipped-within":    "Skip pages crawled in the last %s",
+	"order.no-recrawl-grace":        "Crawl every page again",
+
+	"recrawl-grace.minute":  "%d minute",
+	"recrawl-grace.minutes": "%d minutes",
+	"recrawl-grace.hour":    "%d hour",
+	"recrawl-grace.hours":   "%d hours",
+	"recrawl-grace.day":     "%d day",
+	"recrawl-grace.days":    "%d days",
 
 	"crawl-scope.wide":         "Any Page",
 	"crawl-scope.domain":       "Pages on Same Domain",
@@ -110,11 +120,13 @@ var englishTexts = map[string]string{
 	"new-crawl.allow-query-urls":   "Include URLs with a query string",
 	"new-crawl.max-depth-hint":     "links followed from a start URL",
 	"new-crawl.label-hint":         "optional",
+	"new-crawl.has-recrawl-grace":  "Skip pages crawled in the last",
 	"new-crawl.start":              "Start crawl",
 	"new-crawl.back":               "Back",
 
 	"new-crawl.seed-url-unreadable":           "The Crawl Start URL %s is not a web address.",
 	"new-crawl.max-depth-unreadable":          "Max Discovery Depth %q is not a whole number.",
 	"new-crawl.max-pages-per-host-unreadable": "Max Pages per Host %q is not a whole number.",
+	"new-crawl.recrawl-grace-unreadable":      "Skip pages crawled in the last: %q is not one of the choices.",
 	"new-crawl.refused":                       "The crawler refused the crawl: %s",
 }

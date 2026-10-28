@@ -1,10 +1,12 @@
-// Package dueaftergrace holds a page due for another visit once a configured
-// grace window has elapsed since its last page visit.
+// Package dueaftergrace holds a page due for another visit once the recrawl grace
+// of its order has elapsed since its last page visit. The visit then asks the
+// origin whether the page changed; with no grace, it fetches the page in full.
 package dueaftergrace
 
 import (
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -14,13 +16,22 @@ type Clock interface {
 
 type RecrawlRule struct {
 	clock Clock
-	grace time.Duration
 }
 
-func New(clock Clock, grace time.Duration) *RecrawlRule {
-	return &RecrawlRule{clock: clock, grace: grace}
+func New(clock Clock) *RecrawlRule {
+	return &RecrawlRule{clock: clock}
 }
 
-func (rule *RecrawlRule) PageDueForRecrawl(lastVisit pagevisit.LastPageVisit) bool {
-	return rule.clock.Now().Sub(lastVisit.VisitedAt) >= rule.grace
+func (rule *RecrawlRule) RecrawlOf(
+	lastVisit pagevisit.LastPageVisit,
+	recrawlGrace yacycrawlcontract.RecrawlGrace,
+) pagevisit.Recrawl {
+	switch {
+	case recrawlGrace == yacycrawlcontract.NoRecrawlGrace:
+		return pagevisit.Recrawl{Due: true}
+	case recrawlGrace.Covers(rule.clock.Now().Sub(lastVisit.VisitedAt)):
+		return pagevisit.Recrawl{Due: false}
+	default:
+		return pagevisit.Recrawl{Due: true, KnownVersion: lastVisit.Version}
+	}
 }

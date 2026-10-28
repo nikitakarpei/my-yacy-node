@@ -2,10 +2,12 @@ package acceptedorder_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 )
 
@@ -18,6 +20,7 @@ func crawlOrder(t *testing.T) yacycrawlcontract.CrawlOrder {
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        2,
 			MaxPagesPerHost: 7,
+			RecrawlGrace:    yacycrawlcontracttest.RecrawlGraceOf(t, time.Hour),
 		},
 		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "http://host/one"),
@@ -47,6 +50,9 @@ func TestAnAcceptedOrderCarriesWhatTheOperatorSent(t *testing.T) {
 	}
 	if accepted.MaxPagesPerHost() != 7 {
 		t.Errorf("max pages per host = %d, want 7", accepted.MaxPagesPerHost())
+	}
+	if accepted.RecrawlGrace().Length() != time.Hour {
+		t.Errorf("recrawl grace = %s, want 1h", accepted.RecrawlGrace().Length())
 	}
 	if accepted.CrawlOrder().Profile.MaxDepth != 2 {
 		t.Errorf("crawl order = %+v, want the order the operator sent", accepted.CrawlOrder())
