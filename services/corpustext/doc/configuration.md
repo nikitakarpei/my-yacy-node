@@ -46,8 +46,8 @@ When `SEARCH_INDEX_ENGINE` is `manticore`:
 |---|---|---|
 | `CORPUSTEXT_SEARCH_ADDR` | `:8096` | Address serving `GET /search`. |
 
-The service answers searches also while the broker is unavailable. Meanwhile it logs an
-error and tries again after 1 second, doubling the pause up to 30 seconds.
+The service answers searches also while the broker is unavailable. Meanwhile it logs a
+warning and tries again after 1 second, doubling the pause up to 30 seconds.
 
 ## Operations
 

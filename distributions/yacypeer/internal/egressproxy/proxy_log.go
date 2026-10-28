@@ -47,9 +47,9 @@ func (l proxyLog) Fire(entry *logrus.Entry) error {
 
 func levelOf(level logrus.Level) slog.Level {
 	switch level {
-	case logrus.PanicLevel, logrus.FatalLevel, logrus.ErrorLevel:
+	case logrus.PanicLevel, logrus.FatalLevel:
 		return slog.LevelError
-	case logrus.WarnLevel:
+	case logrus.ErrorLevel, logrus.WarnLevel:
 		return slog.LevelWarn
 	default:
 		return slog.LevelDebug

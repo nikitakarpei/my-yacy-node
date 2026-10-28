@@ -51,7 +51,7 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 
 ## Page offer intake
 
-A separate scrape service reads pages and offers them. The node stores the words of each offered page as postings. Without a page offer server it is a pure peer. While the page offers are unavailable, the node serves peers, logs an error, and tries again after 1 second, doubling the pause up to 30 seconds.
+A separate scrape service reads pages and offers them. The node stores the words of each offered page as postings. Without a page offer server it is a pure peer. While the page offers are unavailable, the node serves peers, logs a warning, and tries again after 1 second, doubling the pause up to 30 seconds.
 
 | Variable | Default | Description |
 | --- | --- | --- |

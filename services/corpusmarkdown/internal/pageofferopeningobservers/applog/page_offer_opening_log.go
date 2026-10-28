@@ -21,7 +21,7 @@ func (PageOfferOpeningLog) StreamUnavailable(
 	retryPause time.Duration,
 	cause error,
 ) {
-	slog.ErrorContext(ctx, msgPageOffersUnavailable,
+	slog.WarnContext(ctx, msgPageOffersUnavailable,
 		slog.Duration("retryPause", retryPause),
 		slog.Any("error", cause),
 	)

@@ -20,7 +20,7 @@ func (CrawledPageOpeningLog) StreamUnavailable(
 	retryPause time.Duration,
 	cause error,
 ) {
-	slog.ErrorContext(ctx, msgCrawledPagesUnavailable,
+	slog.WarnContext(ctx, msgCrawledPagesUnavailable,
 		slog.Duration("retryPause", retryPause),
 		slog.Any("error", cause),
 	)
