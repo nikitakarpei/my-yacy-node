@@ -54,11 +54,9 @@ type formProblem struct {
 
 func (form newCrawlForm) show(w http.ResponseWriter, r *http.Request) {
 	fields, answered := form.fieldsFor(r)
-	form.layout.render(w, r, newCrawlFormScreen, statusOfAnswer(answered), newCrawlView{
-		Fields:              fields,
-		Scopes:              yacycrawlcontract.CrawlScopes,
-		RecrawlGraceOptions: recrawlGraceOptionsWith(fields.RecrawlGrace),
-	})
+	form.layout.render(
+		w, r, newCrawlFormScreen, statusOfAnswer(answered), newCrawlViewOf(fields, formProblem{}),
+	)
 }
 
 func (form newCrawlForm) fieldsFor(r *http.Request) (orderFields, bool) {
@@ -104,6 +102,15 @@ func seedLinesOf(seedURLs []canonicalurl.CanonicalURL) string {
 		lines = append(lines, seedURL.String())
 	}
 	return strings.Join(lines, "\n")
+}
+
+func newCrawlViewOf(fields orderFields, problem formProblem) newCrawlView {
+	return newCrawlView{
+		Fields:              fields,
+		Scopes:              yacycrawlcontract.CrawlScopes,
+		RecrawlGraceOptions: recrawlGraceOptionsWith(fields.RecrawlGrace),
+		Problem:             problem,
+	}
 }
 
 func (form newCrawlForm) placeOrder(w http.ResponseWriter, r *http.Request) {
@@ -216,10 +223,5 @@ func (form newCrawlForm) showProblem(
 	fields orderFields,
 	problem formProblem,
 ) {
-	form.layout.render(w, r, newCrawlFormScreen, status, newCrawlView{
-		Fields:              fields,
-		Scopes:              yacycrawlcontract.CrawlScopes,
-		RecrawlGraceOptions: recrawlGraceOptionsWith(fields.RecrawlGrace),
-		Problem:             problem,
-	})
+	form.layout.render(w, r, newCrawlFormScreen, status, newCrawlViewOf(fields, problem))
 }
