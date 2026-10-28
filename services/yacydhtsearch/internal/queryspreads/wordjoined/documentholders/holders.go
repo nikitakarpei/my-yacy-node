@@ -10,28 +10,11 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type Holders struct {
 	peersPerDocument map[yacymodel.URLHash][]peerdirectory.AskablePeer
-}
-
-func NoneYet() Holders {
-	return Holders{peersPerDocument: map[yacymodel.URLHash][]peerdirectory.AskablePeer{}}
-}
-
-func (holders Holders) WordPartitionAnswered(
-	_ yacymodel.Hash,
-	_ uint,
-	answers []wordpartitionasks.ReplicaAnswer,
-) {
-	for _, answer := range answers {
-		for document := range answer.ListedDocuments.All() {
-			holders.keep(answer.Holder, document)
-		}
-	}
 }
 
 func (holders Holders) keep(holder peerdirectory.AskablePeer, document yacymodel.URLHash) {
@@ -41,19 +24,6 @@ func (holders Holders) keep(holder peerdirectory.AskablePeer, document yacymodel
 	}) {
 		holders.peersPerDocument[document] = append(peers, holder)
 	}
-}
-
-func (holders Holders) HoldersOf(documents yacymodel.URLHashes) Holders {
-	holdersOfTheDocuments := NoneYet()
-	for document := range documents.All() {
-		peers, listed := holders.peersPerDocument[document]
-		if !listed {
-			continue
-		}
-		holdersOfTheDocuments.peersPerDocument[document] = slices.Clone(peers)
-	}
-
-	return holdersOfTheDocuments
 }
 
 func (holders Holders) LeastHeldFirst() []yacymodel.URLHash {

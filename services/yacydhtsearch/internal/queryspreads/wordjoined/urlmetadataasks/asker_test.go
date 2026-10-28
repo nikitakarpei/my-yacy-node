@@ -265,10 +265,10 @@ func (asked askedPeers) settledFor(
 }
 
 func holdersIn(answers []wordpartitionasks.ReplicaAnswer) documentholders.Holders {
-	holders := documentholders.NoneYet()
-	holders.WordPartitionAnswered(yacymodel.WordHash("berlin"), 0, answers)
+	listings := documentholders.NoListingsYet()
+	listings.WordPartitionAnswered(yacymodel.WordHash("berlin"), 0, answers)
 
-	return holders.HoldersOf(documentsAcross(answers))
+	return listings.HoldersOf(documentsAcross(answers))
 }
 
 func documentsAcross(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {
