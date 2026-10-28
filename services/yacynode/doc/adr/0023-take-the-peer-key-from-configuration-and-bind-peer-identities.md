@@ -17,8 +17,10 @@ belong to that position on the DHT ring.
 The node reads its peer key from `YACY_PEER_KEY` and stores no secret. The node does not start
 without a valid key. `YACY_INITIAL_PEER_HASH` is removed.
 
-The node stores the peer hash that derives from the key. It refuses to start when the stored hash is
-different, also for a data directory with a hash from before peer keys.
+- A deployment holds secrets in its environment; the data directory holds none. `yacypeer` makes
+  and keeps the key for a one-step peer.
+- The node stores the peer hash that derives from the key, and refuses to start when the stored hash
+  is different. A different key would serve postings for another ring position.
 
 The node puts `Identity` in its seed and signs the address fields each time it makes the seed.
 
@@ -34,12 +36,16 @@ address signature:
 | Not valid or not signed | Present | Drop |
 | Older address signature | Present | Drop |
 
+- Seeds without a valid identity stay accepted, because Java peers and pruned gossip copies have
+  none. Removal of the columns gives no more than this.
+- After binding, only the key holder can change the peer's address, and an older address cannot
+  return.
+
 The roster observer reports each drop at WARN with its reason.
 
 ## Consequences
 
-A peer that the roster has not bound has only the protection of a legacy peer. Removal of the
-columns gets legacy treatment.
+A peer that the roster has not bound has only the protection of a legacy peer.
 
 A peer that the roster drops from its known peers loses its binding.
 

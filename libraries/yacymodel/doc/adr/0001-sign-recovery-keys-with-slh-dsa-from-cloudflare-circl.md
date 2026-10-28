@@ -8,14 +8,19 @@ Accepted
 
 ## Context
 
-The peer hash commits to a hash-based recovery key (ADR 0003). The standard library has
-ML-DSA but no SLH-DSA.
+The peer hash commits to a recovery key (ADR 0003). That key must stay secure when quantum
+computers break Ed25519, and when a new attack breaks lattice-based schemes such as ML-DSA. The
+standard library has ML-DSA but no SLH-DSA.
 
 ## Decision
 
 We use `github.com/cloudflare/circl/sign/slhdsa` with the parameter set SLH-DSA-SHA2-128s,
-pinned in `go.mod`. `yacymodel` uses it to generate recovery keys and, in a later phase, to sign
-and verify delegation certificates.
+pinned in `go.mod`.
+
+- SLH-DSA depends only on hash functions.
+- SLH-DSA is stateless, so a peer restored from a backup can sign again safely.
+- The "s" parameter sets have the smallest signatures (about 8 KB). Signing is slow, and the
+  recovery key signs rarely.
 
 ## Consequences
 
