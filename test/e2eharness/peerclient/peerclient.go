@@ -27,6 +27,8 @@ const (
 
 var helloProbeHash = mustHash("REMOTEPEER12")
 
+const helloSeedCount = 20
+
 func mustHash(raw string) yacymodel.Hash {
 	hash, err := yacymodel.ParseHash(raw)
 	if err != nil {
@@ -75,10 +77,27 @@ func ResolveHash(
 	peerURL string,
 ) yacymodel.Hash {
 	t.Helper()
+	resp := Hello(t, ctx, probe, peerURL, helloProbeSeed())
+	seed, ok := resp.OwnSeed().Get()
+	if !ok {
+		t.Fatal("own seed not present in hello response")
+	}
+	return seed.Hash
+}
+
+func Hello(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	peerURL string,
+	caller yacymodel.Seed,
+) yacyproto.HelloResponse {
+	t.Helper()
 	req := yacyproto.HelloRequest{
 		NetworkName: yacyproto.DefaultNetwork,
-		Iam:         helloProbeHash,
-		Seed:        helloProbeSeed(),
+		Iam:         caller.Hash,
+		Seed:        caller,
+		Count:       helloSeedCount,
 	}
 	result := probe.Get(ctx, peerURL+"/yacy/hello.html?"+req.Form().Encode())
 	if !result.OK {
@@ -89,11 +108,7 @@ func ResolveHash(
 	if err != nil {
 		t.Fatalf("parse hello response: %v", err)
 	}
-	seed, ok := resp.OwnSeed().Get()
-	if !ok {
-		t.Fatal("own seed not present in hello response")
-	}
-	return seed.Hash
+	return resp
 }
 
 func helloProbeSeed() yacymodel.Seed {

@@ -18,6 +18,10 @@ type Peer struct {
 	URL   string
 }
 
+func KeyAfterFleet(index int) yacymodel.PeerKey {
+	return peerkeytest.Key(FleetSize + index)
+}
+
 func StartFleet(
 	t *testing.T,
 	ctx context.Context,

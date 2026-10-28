@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 )
 
 const (
@@ -51,7 +50,7 @@ func TestRealYaCyFindsNodeDocument(t *testing.T) {
 		yacypeer.RemoteSearchOverrides()...,
 	)
 
-	nodeKey := peerkeytest.Key(46)
+	nodeKey := searchNodeKey
 	nodeHash := nodeKey.Identity().Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,

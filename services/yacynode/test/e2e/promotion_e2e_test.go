@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerdirectory"
 )
 
@@ -25,7 +24,7 @@ const (
 )
 
 var (
-	nodeKey  = peerkeytest.Key(47)
+	nodeKey  = promotionNodeKey
 	nodeHash = nodeKey.Identity().Hash()
 )
 
