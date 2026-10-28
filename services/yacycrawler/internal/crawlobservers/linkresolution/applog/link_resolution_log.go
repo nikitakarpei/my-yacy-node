@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	msgBaseURLUnresolved = "base url unresolved, using page url"
+	msgBaseURLUnresolved = "base url unresolved, using the enclosing base url"
 	msgLinksUnresolved   = "links unresolved, left off the frontier"
 )
 
@@ -16,12 +16,12 @@ type LinkResolutionLog struct{}
 
 func (LinkResolutionLog) BaseURLUnresolved(
 	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	enclosingBaseURL canonicalurl.CanonicalURL,
 	statedBaseURL string,
 	cause error,
 ) {
 	slog.WarnContext(ctx, msgBaseURLUnresolved,
-		slog.String("url", pageURL.String()),
+		slog.String("url", enclosingBaseURL.String()),
 		slog.String("statedBaseUrl", statedBaseURL),
 		slog.Any("error", cause),
 	)
@@ -29,11 +29,11 @@ func (LinkResolutionLog) BaseURLUnresolved(
 
 func (LinkResolutionLog) LinksUnresolved(
 	ctx context.Context,
-	baseURL canonicalurl.CanonicalURL,
+	pageURL canonicalurl.CanonicalURL,
 	links int,
 ) {
 	slog.WarnContext(ctx, msgLinksUnresolved,
-		slog.String("url", baseURL.String()),
+		slog.String("url", pageURL.String()),
 		slog.Int("links", links),
 	)
 }

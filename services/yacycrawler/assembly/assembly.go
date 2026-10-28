@@ -26,10 +26,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlprogress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkresolution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/observedfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagefeedreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
@@ -46,14 +46,13 @@ import (
 	crawlobserverscrawlprogressapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/crawlprogress/applog"
 	crawlobserversfrontierapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/frontier/applog"
 	crawlobserversfrontierprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/frontier/prometheus"
-	crawlobserverslinkdiscoveryapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/applog"
-	crawlobserverslinkdiscoveryprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkdiscovery/prometheus"
+	crawlobserverslinkresolutionapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkresolution/applog"
+	crawlobserverslinkresolutionprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/linkresolution/prometheus"
 	crawlobserversobservedfetchapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/observedfetch/applog"
 	crawlobserversobservedfetchprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/observedfetch/prometheus"
 	crawlobserversorderintakeapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/orderintake/applog"
 	crawlobserversorderintakeprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/orderintake/prometheus"
-	crawlobserverspagehtmlapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtml/applog"
-	crawlobserverspagehtmlprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagehtml/prometheus"
+	crawlobserverspagefeedreadingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagefeedreading/applog"
 	crawlobserverspagereadingapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagereading/applog"
 	crawlobserverspagereadingprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagereading/prometheus"
 	crawlobserverspagevisitapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlobservers/pagevisit/applog"
@@ -114,19 +113,19 @@ func RunService(
 		crawlobserversobservedfetchapplog.PageFetchLog{},
 		crawlobserversobservedfetchprometheus.New(registry, cfg.FetchDeadline),
 	}
-	pageReading := pagereading.NewPageReading(
-		pagehtmlreading.NewHTMLPageReading(
-			pagehtml.NewHTMLParser(pagehtml.MediaTypeObservers{
-				crawlobserverspagehtmlapplog.MediaTypeLog{},
-				crawlobserverspagehtmlprometheus.New(registry),
-			}),
-			linkdiscovery.NewLinkDiscovery(linkdiscovery.LinkResolutionObservers{
-				crawlobserverslinkdiscoveryapplog.LinkResolutionLog{},
-				crawlobserverslinkdiscoveryprometheus.New(registry),
-			}),
-		),
-		pagereading.RefusalEnforcementObservers{
-			crawlobserverspagereadingapplog.RefusalEnforcementLog{},
+	linkResolution := linkresolution.New(linkresolution.LinkResolutionObservers{
+		crawlobserverslinkresolutionapplog.LinkResolutionLog{},
+		crawlobserverslinkresolutionprometheus.New(registry),
+	})
+	pageReader := pagereading.NewPageReader(
+		[]pagereading.PageFormat{
+			pagehtmlreading.NewHTMLPageReader(linkResolution),
+			pagefeedreading.NewFeedPageReader(
+				linkResolution, crawlobserverspagefeedreadingapplog.FeedReadingLog{},
+			),
+		},
+		pagereading.PageReadingObservers{
+			crawlobserverspagereadingapplog.PageReadingLog{},
 			crawlobserverspagereadingprometheus.New(registry),
 		},
 	)
@@ -182,7 +181,7 @@ func RunService(
 		pendingPageVisitObservers,
 		pageFetchObservers,
 		pageVisitRecordObservers,
-		pageReading,
+		pageReader,
 		crawledPageObservers,
 		progressCounter,
 	)
@@ -413,7 +412,7 @@ func buildPageVisitConsumer(
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
-	pageReading pagevisit.PageReading,
+	pageReader pagevisit.PageReader,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	linkObserver pagevisit.LinkAdmissionObserver,
 ) *pagevisitintake.PageVisitConsumer {
@@ -423,7 +422,7 @@ func buildPageVisitConsumer(
 		cfg,
 		pageFetchObserver,
 		pageVisitRecordObserver,
-		pageReading,
+		pageReader,
 		crawledPageObserver,
 		linkObserver,
 	)
@@ -450,7 +449,7 @@ func buildPageVisitor(
 	cfg ServiceConfig,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
-	pageReading pagevisit.PageReading,
+	pageReader pagevisit.PageReader,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	linkObserver pagevisit.LinkAdmissionObserver,
 ) pagevisit.PageVisitor {
@@ -467,7 +466,7 @@ func buildPageVisitor(
 		dueaftergrace.New(wallclock.Clock{}),
 		crawlState.pageVisitRecords,
 		pageVisitRecordObserver,
-		pageReading,
+		pageReader,
 		crawledpagesjetstream.New(js, crawledPageObserver),
 		crawlState.frontier,
 		linkObserver,

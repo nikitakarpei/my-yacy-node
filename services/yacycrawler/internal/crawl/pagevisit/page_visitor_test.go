@@ -15,8 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkresolution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
@@ -183,7 +182,7 @@ type pageVisitScene struct {
 	fetch            *fakeFetch
 	pageVisitRecords *fakePageVisitRecords
 	recordFailures   *recordedRecordFailures
-	pageReading      pagevisit.PageReading
+	pageReader       pagevisit.PageReader
 	crawledPages     *fakeCrawledPages
 	frontier         *fakeFrontier
 	unadmittedLinks  *countedUnadmittedLinks
@@ -195,12 +194,13 @@ func sceneFetching(outcome pagefetch.FetchOutcome) *pageVisitScene {
 		fetch:            &fakeFetch{outcome: outcome},
 		pageVisitRecords: &fakePageVisitRecords{due: true},
 		recordFailures:   &recordedRecordFailures{},
-		pageReading: pagereading.NewPageReading(
-			pagehtmlreading.NewHTMLPageReading(
-				pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
-				linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
-			),
-			silentRefusalEnforcementObserver{},
+		pageReader: pagereading.NewPageReader(
+			[]pagereading.PageFormat{
+				pagehtmlreading.NewHTMLPageReader(
+					linkresolution.New(silentLinkResolutionObserver{}),
+				),
+			},
+			silentPageReadingObserver{},
 		),
 		crawledPages:    &fakeCrawledPages{},
 		frontier:        &fakeFrontier{},
@@ -234,7 +234,7 @@ func (scene *pageVisitScene) visit(t *testing.T) pagevisit.PageVisitOutcome {
 		scene.pageVisitRecords,
 		scene.pageVisitRecords,
 		scene.recordFailures,
-		scene.pageReading,
+		scene.pageReader,
 		scene.crawledPages,
 		scene.frontier,
 		scene.unadmittedLinks,
@@ -497,7 +497,7 @@ func TestAPageThatIsNotHTMLCanRefuseIndexingInItsHeaders(t *testing.T) {
 
 func TestUnreadablePageHTMLCompletesUnpublished(t *testing.T) {
 	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
-	scene.pageReading = unreadableHTMLPage{err: errors.New("boom")}
+	scene.pageReader = unreadableHTMLPage{err: errors.New("boom")}
 
 	outcome := scene.completedVisit(t)
 
@@ -608,10 +608,6 @@ func TestTheFetchAsksForTheVersionTheRecrawlKnows(t *testing.T) {
 	}
 }
 
-type silentMediaTypeObserver struct{}
-
-func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error) {}
-
 type silentLinkResolutionObserver struct{}
 
 func (silentLinkResolutionObserver) BaseURLUnresolved(
@@ -629,9 +625,11 @@ func (silentLinkResolutionObserver) LinksUnresolved(
 ) {
 }
 
-type silentRefusalEnforcementObserver struct{}
+type silentPageReadingObserver struct{}
 
-func (silentRefusalEnforcementObserver) LinkDiscoveryRefusalEnforced(
+func (silentPageReadingObserver) MediaTypeUnparsed(context.Context, string, error) {}
+
+func (silentPageReadingObserver) LinkDiscoveryRefusalEnforced(
 	context.Context,
 	canonicalurl.CanonicalURL,
 ) {

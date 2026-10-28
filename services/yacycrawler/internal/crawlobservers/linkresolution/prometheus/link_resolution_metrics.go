@@ -17,7 +17,7 @@ func New(registry prometheusclient.Registerer) *LinkResolutionMetrics {
 	metrics := &LinkResolutionMetrics{
 		baseURLsUnresolved: prometheusclient.NewCounter(prometheusclient.CounterOpts{
 			Name: "yacycrawler_page_base_urls_unresolved_total",
-			Help: "Pages whose stated base URL cannot be resolved, read against the page URL instead.",
+			Help: "Stated base URLs that cannot be resolved, read against the enclosing base URL instead.",
 		}),
 		linksUnresolved: prometheusclient.NewCounter(prometheusclient.CounterOpts{
 			Name: "yacycrawler_page_links_unresolved_total",
