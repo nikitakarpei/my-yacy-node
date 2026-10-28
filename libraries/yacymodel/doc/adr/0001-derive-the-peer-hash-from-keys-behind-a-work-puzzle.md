@@ -51,8 +51,8 @@ ends with a minimum of zero bits.
 To take the hash of an existing peer costs about 2^100 SHA-256 operations, or about 2^52 with
 Grover's algorithm. The 72-bit hash sets this limit, and no later change can raise it.
 
-Two keys with one hash cost about 2^64. A verifier binds the full identity, not the hash, so such a
-pair gives no advantage.
+Two identities of one party with one hash cost about 2^64. They take no hash from another peer, and
+a verifier binds the full identity, so such a pair gives no advantage.
 
 A new identity costs milliseconds on a GPU. The puzzle does not limit the number of identities
 that one party makes.
