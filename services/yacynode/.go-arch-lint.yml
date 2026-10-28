@@ -117,7 +117,7 @@ components:
   cmd:
     in:
       - cmd/yacy-entrypoint/**
-      - cmd/yacy-peer-hash/**
+      - cmd/yacy-peer-key/**
   yacynodecmd:
     in: cmd/yacy-rwi-node/**
 

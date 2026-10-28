@@ -6,8 +6,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
+
+var peerKeyText = peerkeytest.Key(0).String()
 
 func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
@@ -15,9 +18,9 @@ func envFrom(values map[string]string) func(string) string {
 
 func TestLoadAppliesDefaults(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -92,7 +95,7 @@ func TestLoadAppliesDefaults(t *testing.T) {
 
 func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "node",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvPageOfferNATSURL:  "nats://localhost:4222",
@@ -120,7 +123,7 @@ func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+		nodeconfiguration.EnvPeerKey:                     peerKeyText,
 		nodeconfiguration.EnvPeerName:                    "node",
 		nodeconfiguration.EnvEgressProxyURL:              "http://proxy:4750",
 		nodeconfiguration.EnvNetworkName:                 "testnet",
@@ -201,10 +204,10 @@ func TestLoadReadsOverrides(t *testing.T) {
 
 func TestLoadReadsEveryTrustedProxyNotation(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
-		nodeconfiguration.EnvTrustedProxies:  "10.0.0.1, 192.168.0.0/16, , ::1",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvTrustedProxies: "10.0.0.1, 192.168.0.0/16, , ::1",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -218,22 +221,23 @@ func TestLoadReadsEveryTrustedProxyNotation(t *testing.T) {
 	}
 }
 
-func TestLoadLeavesTheInitialPeerHashUnstated(t *testing.T) {
+func TestLoadReadsThePeerKey(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
 		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if config.Identity.InitialHash.Present() {
-		t.Errorf("InitialHash = %v, want absent without the variable", config.Identity.InitialHash)
+	if config.Identity.PeerKey.String() != peerKeyText {
+		t.Errorf("PeerKey = %v, want the stated key", config.Identity.PeerKey)
 	}
 }
 
 func TestLoadLeavesThePeerNameUnstated(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
 		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
 	}))
 	if err != nil {
@@ -257,10 +261,10 @@ func TestLoadRejects(t *testing.T) {
 
 func TestLoadReadsTheAdvertiseHost(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
-		nodeconfiguration.EnvAdvertiseHost:   "203.0.113.1",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvAdvertiseHost:  "203.0.113.1",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -274,7 +278,7 @@ func TestLoadReadsTheAdvertiseHost(t *testing.T) {
 
 func TestLoadReadsTheAdvertisedAdditionalHosts(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvPeerKey:                  peerKeyText,
 		nodeconfiguration.EnvPeerName:                 "node",
 		nodeconfiguration.EnvEgressProxyURL:           "http://proxy:4750",
 		nodeconfiguration.EnvAdvertiseAdditionalHosts: "200:1234::1, peer.example",
@@ -294,10 +298,10 @@ func TestLoadReadsTheAdvertisedAdditionalHosts(t *testing.T) {
 
 func TestLoadLeavesTheAdvertiseHostToPeersWhenAnnouncing(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
-		nodeconfiguration.EnvSeedlistURLs:    "http://seed",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvSeedlistURLs:   "http://seed",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -309,108 +313,116 @@ func TestLoadLeavesTheAdvertiseHostToPeersWhenAnnouncing(t *testing.T) {
 }
 
 var rejectedEnvironments = map[string]map[string]string{
-	"bad hash": {nodeconfiguration.EnvInitialPeerHash: "short"},
+	"no peer key": {
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+	},
+	"bad peer key": {
+		nodeconfiguration.EnvPeerKey:        "short",
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+	},
 	"bad name": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "has space",
-		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "has space",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
 	},
 	"bad host": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
-		nodeconfiguration.EnvAdvertiseHost:   "not a host",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvAdvertiseHost:  "not a host",
 	},
 	"bad additional host": {
-		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvPeerKey:                  peerKeyText,
 		nodeconfiguration.EnvPeerName:                 "node",
 		nodeconfiguration.EnvEgressProxyURL:           "http://proxy:4750",
 		nodeconfiguration.EnvAdvertiseAdditionalHosts: "200:1234::1, not a host",
 	},
 	"bad port": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
-		nodeconfiguration.EnvAdvertisePort:   "-3",
+		nodeconfiguration.EnvPeerKey:       peerKeyText,
+		nodeconfiguration.EnvPeerName:      "n",
+		nodeconfiguration.EnvAdvertisePort: "-3",
 	},
 	"bad quota": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
-		nodeconfiguration.EnvStorageQuota:    "big",
+		nodeconfiguration.EnvPeerKey:      peerKeyText,
+		nodeconfiguration.EnvPeerName:     "n",
+		nodeconfiguration.EnvStorageQuota: "big",
 	},
 	"bad block cache": {
-		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerKey:          peerKeyText,
 		nodeconfiguration.EnvPeerName:         "n",
 		nodeconfiguration.EnvPebbleBlockCache: "plenty",
 	},
 	"bad memtable size": {
-		nodeconfiguration.EnvInitialPeerHash:    "0123456789AB",
+		nodeconfiguration.EnvPeerKey:            peerKeyText,
 		nodeconfiguration.EnvPeerName:           "n",
 		nodeconfiguration.EnvPebbleMemtableSize: "plenty",
 	},
 	"bad compaction concurrency": {
-		nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+		nodeconfiguration.EnvPeerKey:                     peerKeyText,
 		nodeconfiguration.EnvPeerName:                    "n",
 		nodeconfiguration.EnvPebbleCompactionConcurrency: "0",
 	},
 	"bad write concurrency": {
-		nodeconfiguration.EnvInitialPeerHash:        "0123456789AB",
+		nodeconfiguration.EnvPeerKey:                peerKeyText,
 		nodeconfiguration.EnvPeerName:               "n",
 		nodeconfiguration.EnvPebbleWriteConcurrency: "0",
 	},
 	"bad open file limit": {
-		nodeconfiguration.EnvInitialPeerHash:     "0123456789AB",
+		nodeconfiguration.EnvPeerKey:             peerKeyText,
 		nodeconfiguration.EnvPeerName:            "n",
 		nodeconfiguration.EnvPebbleOpenFileLimit: "-1",
 	},
 	"bad announce interval": {
-		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerKey:          peerKeyText,
 		nodeconfiguration.EnvPeerName:         "n",
 		nodeconfiguration.EnvAnnounceInterval: "nope",
 	},
 	"negative announce interval": {
-		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerKey:          peerKeyText,
 		nodeconfiguration.EnvPeerName:         "n",
 		nodeconfiguration.EnvAnnounceInterval: "-1s",
 	},
 	"bad trusted proxy ip": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
-		nodeconfiguration.EnvTrustedProxies:  "999.0.0.1",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "n",
+		nodeconfiguration.EnvTrustedProxies: "999.0.0.1",
 	},
 	"bad trusted proxy mask": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
-		nodeconfiguration.EnvTrustedProxies:  "10.0.0.0/99",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "n",
+		nodeconfiguration.EnvTrustedProxies: "10.0.0.0/99",
 	},
 	"missing proxy url": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
+		nodeconfiguration.EnvPeerKey:  peerKeyText,
+		nodeconfiguration.EnvPeerName: "n",
 	},
 	"non-http proxy url": {
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "n",
-		nodeconfiguration.EnvEgressProxyURL:  "socks5://proxy:1080",
+		nodeconfiguration.EnvPeerKey:        peerKeyText,
+		nodeconfiguration.EnvPeerName:       "n",
+		nodeconfiguration.EnvEgressProxyURL: "socks5://proxy:1080",
 	},
 	"non-http message webhook": {
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "n",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvMessageWebhookURL: "ftp://inbox/hook",
 	},
 	"message webhook without host": {
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "n",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvMessageWebhookURL: "http:///hook",
 	},
 	"malformed message webhook": {
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "n",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvMessageWebhookURL: "http://inbox:port/hook",
 	},
 	"bad accept remote index": {
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "n",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvAcceptRemoteIndex: "maybe",
@@ -419,7 +431,7 @@ var rejectedEnvironments = map[string]map[string]string{
 
 func TestLoadReadsTheMessageWebhook(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "node",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 		nodeconfiguration.EnvMessageWebhookURL: "http://ntfy/peer-messages",
@@ -437,13 +449,13 @@ func TestLoadReadsTheMessageWebhook(t *testing.T) {
 func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {
 	cases := map[string]map[string]string{
 		"remote index and page offers": {
-			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+			nodeconfiguration.EnvPeerKey:          peerKeyText,
 			nodeconfiguration.EnvPeerName:         "n",
 			nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
 			nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
 		},
 		"neither remote index nor page offers": {
-			nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
+			nodeconfiguration.EnvPeerKey:           peerKeyText,
 			nodeconfiguration.EnvPeerName:          "n",
 			nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
 			nodeconfiguration.EnvAcceptRemoteIndex: "false",
@@ -460,6 +472,7 @@ func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {
 
 func TestLoadReadsPeerExclusionOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvPeerKey:                                     peerKeyText,
 		nodeconfiguration.EnvEgressProxyURL:                              "http://proxy:4750",
 		nodeconfiguration.EnvDistributionUnacceptedOffersBeforeExclusion: "5",
 		nodeconfiguration.EnvDistributionPeerExclusionDuration:           "2h",
@@ -479,6 +492,7 @@ func TestLoadReadsPeerExclusionOverrides(t *testing.T) {
 
 func TestLoadReadsPeerWorkInFlight(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvPeerKey:                      peerKeyText,
 		nodeconfiguration.EnvEgressProxyURL:               "http://proxy:4750",
 		nodeconfiguration.EnvDistributionPeerWorkInFlight: "3s",
 	}))

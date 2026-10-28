@@ -1,8 +1,7 @@
-// Command yacy-peer-hash prints a freshly generated YaCy peer hash.
+// Command yacy-peer-key prints a new YaCy peer key.
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
 	"io"
 	"os"
@@ -11,19 +10,19 @@ import (
 )
 
 func main() {
-	if err := run(os.Stdout, rand.Reader); err != nil {
+	if err := run(os.Stdout); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
-func run(out io.Writer, entropy io.Reader) error {
-	hash, err := yacymodel.GenerateHash(entropy)
+func run(out io.Writer) error {
+	key, err := yacymodel.NewPeerKey()
 	if err != nil {
-		return fmt.Errorf("generate peer hash: %w", err)
+		return fmt.Errorf("generate peer key: %w", err)
 	}
-	if _, err := fmt.Fprintln(out, hash); err != nil {
-		return fmt.Errorf("write peer hash: %w", err)
+	if _, err := fmt.Fprintln(out, key); err != nil {
+		return fmt.Errorf("write peer key: %w", err)
 	}
 	return nil
 }

@@ -43,6 +43,7 @@ type URLCounter interface {
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func NewRuntimeStatus(
 	id nodeidentity.Identity,
+	key yacymodel.PeerKey,
 	addressSource PublicAddressSource,
 	now func() time.Time,
 	v *vault.Vault,
@@ -51,8 +52,9 @@ func NewRuntimeStatus(
 ) RuntimeStatus {
 	return runtimeStatus{
 		id:            id,
+		key:           key,
 		addressSource: addressSource,
-		base:          baseSeed(id),
+		base:          baseSeed(id, key.Identity()),
 		now:           now,
 		vault:         v,
 		words:         words,
