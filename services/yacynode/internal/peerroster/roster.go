@@ -340,12 +340,14 @@ func (r *roster) recordReachableIn(
 	if err != nil {
 		return yacymodel.None[SeedDropReason](), fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
-	binding, dropReason := bindingAfter(entry.binding, seed, r.networkName)
-	if dropReason.Present() {
-		return dropReason, nil
+	next := bindingFrom(seed, r.networkName)
+	if bound, isBound := entry.binding.Get(); isBound {
+		if dropReason := bound.dropReasonFor(next); dropReason.Present() {
+			return dropReason, nil
+		}
 	}
 
-	entry.binding = binding
+	entry.binding = next
 	entry.addresses = addresses
 	entry.answeredBaseURL = yacymodel.Some(answeredBaseURL)
 	entry.lastContacted = confirmedAt

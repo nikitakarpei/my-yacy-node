@@ -18,20 +18,6 @@ type identityBinding struct {
 	issuedAt time.Time
 }
 
-func bindingAfter(
-	bound yacymodel.Optional[identityBinding],
-	seed yacymodel.Seed,
-	networkName string,
-) (yacymodel.Optional[identityBinding], yacymodel.Optional[SeedDropReason]) {
-	next := bindingFrom(seed, networkName)
-	current, isBound := bound.Get()
-	if !isBound {
-		return next, yacymodel.None[SeedDropReason]()
-	}
-
-	return current.replacedBy(next)
-}
-
 func bindingFrom(seed yacymodel.Seed, networkName string) yacymodel.Optional[identityBinding] {
 	identity, verified := seed.VerifiedIdentityIn(networkName)
 	if !verified {
@@ -42,16 +28,16 @@ func bindingFrom(seed yacymodel.Seed, networkName string) yacymodel.Optional[ide
 	return yacymodel.Some(identityBinding{identity: identity, issuedAt: signature.IssuedAt})
 }
 
-func (b identityBinding) replacedBy(
+func (b identityBinding) dropReasonFor(
 	next yacymodel.Optional[identityBinding],
-) (yacymodel.Optional[identityBinding], yacymodel.Optional[SeedDropReason]) {
+) yacymodel.Optional[SeedDropReason] {
 	replacement, verified := next.Get()
 	switch {
 	case !verified || replacement.identity != b.identity:
-		return yacymodel.Some(b), yacymodel.Some(DropOfSeedWithoutBoundIdentity)
+		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
 	case b.issuedAt.After(replacement.issuedAt):
-		return yacymodel.Some(b), yacymodel.Some(DropOfOlderAddressSignature)
+		return yacymodel.Some(DropOfOlderAddressSignature)
 	default:
-		return next, yacymodel.None[SeedDropReason]()
+		return yacymodel.None[SeedDropReason]()
 	}
 }
