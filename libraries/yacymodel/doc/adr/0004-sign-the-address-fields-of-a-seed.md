@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-Seeds travel through Java peers that do not check them. `Identity` (ADR 0002) is public, so
+Seeds travel through Java peers that do not check them. `Identity` (ADR 0001) is public, so
 anyone can copy it into a seed with another address. A peer can also claim an address in its own
 hello and answer the callback there.
 

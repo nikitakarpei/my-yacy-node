@@ -1,4 +1,4 @@
-# 2. Derive the peer hash from keys behind a work puzzle
+# 1. Derive the peer hash from keys behind a work puzzle
 
 Date: 2026-10-28
 
@@ -14,7 +14,7 @@ so its width cannot change.
 
 ## Decision
 
-A peer key has an operational key (Ed25519) and a recovery key (SLH-DSA, ADR 0001).
+A peer key has an operational key (Ed25519) and a recovery key of a hash-based signature scheme.
 
 ```text
 recovery commitment = SHA-256(recovery public key)
@@ -57,7 +57,7 @@ pair gives no advantage.
 A new identity costs milliseconds on a GPU. The puzzle does not limit the number of identities
 that one party makes.
 
-The SLH-DSA parameter set is fixed with the commitment. The recovery key is kept with the
+The recovery key's scheme is fixed with the commitment. The recovery key is kept with the
 operational key, so one step runs a peer; loss of both loses the identity, and theft of both gives
 it to the thief.
 

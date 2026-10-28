@@ -8,7 +8,7 @@ Accepted. Not built; this records the later phase.
 
 ## Context
 
-The peer hash commits to a recovery key (ADR 0002). A peer needs a way to replace its operational
+The peer hash commits to a recovery key (ADR 0001). A peer needs a way to replace its operational
 key, for a new algorithm or after theft, without a change of hash.
 
 ## Decision
@@ -17,7 +17,7 @@ The recovery key signs a delegation certificate:
 `("yacy-peer-delegation/1", fingerprint, algorithm, K, seq)` for an operational key `K`.
 
 - `K` is outside the hash, so its algorithm can change without a change of hash.
-- The recovery key is hash-based (ADR 0001), so the chain depends only on hash functions.
+- The recovery key is hash-based (ADR 0002), so the chain depends only on hash functions.
 - Certificates have no expiry. Expiry would need regular signatures by the recovery key. A
   pinned `seq` stops a return to an old certificate.
 - Certificates travel through a peer endpoint, never in seeds: with a certificate, a seed
