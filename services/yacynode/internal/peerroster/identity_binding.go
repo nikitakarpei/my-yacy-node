@@ -11,11 +11,11 @@ const (
 	DropOfOlderAddressSignature    SeedDropReason = "older address signature"
 )
 
-type seedDrop struct {
+type seedDropError struct {
 	reason SeedDropReason
 }
 
-func (d seedDrop) Error() string {
+func (d seedDropError) Error() string {
 	return "seed dropped: " + string(d.reason)
 }
 

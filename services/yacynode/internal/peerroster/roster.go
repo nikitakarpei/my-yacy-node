@@ -301,7 +301,7 @@ func (r *roster) recordReachable(
 	err := r.vault.Update(ctx, func(tx *vault.Txn) error {
 		return r.recordReachableIn(tx, seed, addresses, answeredBaseURL, confirmedAt)
 	})
-	var drop seedDrop
+	var drop seedDropError
 	switch {
 	case errors.As(err, &drop):
 		slog.WarnContext(
@@ -341,7 +341,7 @@ func (r *roster) recordReachableIn(
 	}
 	next := signedIdentityOf(seed, r.networkName)
 	if reason, dropped := dropReasonBetween(entry.binding, next).Get(); dropped {
-		return seedDrop{reason: reason}
+		return seedDropError{reason: reason}
 	}
 
 	entry.binding = next
