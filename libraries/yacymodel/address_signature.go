@@ -37,8 +37,9 @@ func appendClaimField(claim []byte, field string) []byte {
 }
 
 func signedHostsOf(seed Seed) []string {
-	var hosts []string
-	for _, host := range seed.hosts() {
+	seedHosts := seed.hosts()
+	hosts := make([]string, 0, len(seedHosts))
+	for _, host := range seedHosts {
 		hosts = append(hosts, host.normalized())
 	}
 	slices.Sort(hosts)

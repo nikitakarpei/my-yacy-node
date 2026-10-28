@@ -140,13 +140,16 @@ func solvedNonceFor(identity PeerIdentity) uint64 {
 		solvedOnce  sync.Once
 		searches    sync.WaitGroup
 	)
-	for search := range runtime.GOMAXPROCS(0) {
+	var firstNonce uint64
+	for range runtime.GOMAXPROCS(0) {
+		searchStart := firstNonce
 		searches.Go(func() {
-			nonce, found := nonceSearchedFrom(keyDigest, uint64(search)<<56, &solved)
+			nonce, found := nonceSearchedFrom(keyDigest, searchStart, &solved)
 			if found {
 				solvedOnce.Do(func() { solvedNonce = nonce })
 			}
 		})
+		firstNonce += 1 << 56
 	}
 	searches.Wait()
 
