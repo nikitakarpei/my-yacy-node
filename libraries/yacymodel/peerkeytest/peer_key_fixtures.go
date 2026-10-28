@@ -2,15 +2,32 @@
 // of a new peer key.
 package peerkeytest
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+import (
+	"sync"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
 
 func Key(index int) yacymodel.PeerKey {
-	key, err := yacymodel.ParsePeerKey(keyTexts[index])
-	if err != nil {
-		panic(err)
+	return parsedKeys[index]()
+}
+
+var parsedKeys = onceParsed(keyTexts)
+
+func onceParsed(texts [len(keyTexts)]string) [len(keyTexts)]func() yacymodel.PeerKey {
+	var keys [len(keyTexts)]func() yacymodel.PeerKey
+	for index, text := range texts {
+		keys[index] = sync.OnceValue(func() yacymodel.PeerKey {
+			key, err := yacymodel.ParsePeerKey(text)
+			if err != nil {
+				panic(err)
+			}
+
+			return key
+		})
 	}
 
-	return key
+	return keys
 }
 
 var keyTexts = [...]string{

@@ -15,6 +15,13 @@ type AddressSignature struct {
 	Signature [ed25519.SignatureSize]byte
 }
 
+func ParseSignature(text string) ([ed25519.SignatureSize]byte, error) {
+	var signature [ed25519.SignatureSize]byte
+	err := decodeExactly(text, signature[:])
+
+	return signature, err
+}
+
 func addressClaimOf(seed Seed, networkName string, issuedAt time.Time) []byte {
 	claim := []byte(addressSignatureDomain)
 	claim = appendClaimField(claim, networkName)

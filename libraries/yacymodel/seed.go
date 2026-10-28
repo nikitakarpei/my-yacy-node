@@ -62,20 +62,18 @@ func (s Seed) IsAddressable() bool {
 	return addressable
 }
 
-func (s Seed) SignedIdentityIn(networkName string) (SignedIdentity, bool) {
+func (s Seed) SignedIdentityIn(networkName string) Optional[SignedIdentity] {
 	identity, identified := s.Identity.Get()
 	signature, signed := s.AddressSignature.Get()
-	if !identified || !signed || identity.Hash() != s.Hash {
-		return SignedIdentity{}, false
-	}
-	if !identity.verifies(
-		addressClaimOf(s, networkName, signature.IssuedAt),
-		signature.Signature[:],
-	) {
-		return SignedIdentity{}, false
+	if !identified || !signed || identity.Hash() != s.Hash ||
+		!identity.verifies(
+			addressClaimOf(s, networkName, signature.IssuedAt),
+			signature.Signature[:],
+		) {
+		return None[SignedIdentity]()
 	}
 
-	return SignedIdentity{Identity: identity, IssuedAt: signature.IssuedAt}, true
+	return Some(SignedIdentity{Identity: identity, IssuedAt: signature.IssuedAt})
 }
 
 func (s Seed) AcceptsRemoteIndex() bool {

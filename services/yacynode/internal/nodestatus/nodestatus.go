@@ -54,7 +54,7 @@ func NewRuntimeStatus(
 		id:            id,
 		key:           key,
 		addressSource: addressSource,
-		base:          baseSeed(id, key.Identity()),
+		base:          baseSeed(id),
 		now:           now,
 		vault:         v,
 		words:         words,

@@ -11,26 +11,6 @@ const (
 	DropOfOlderAddressSignature    SeedDropReason = "older address signature"
 )
 
-type seedDropError struct {
-	reason SeedDropReason
-}
-
-func (d seedDropError) Error() string {
-	return "seed dropped: " + string(d.reason)
-}
-
-func signedIdentityOf(
-	seed yacymodel.Seed,
-	networkName string,
-) yacymodel.Optional[yacymodel.SignedIdentity] {
-	signed, verified := seed.SignedIdentityIn(networkName)
-	if !verified {
-		return yacymodel.None[yacymodel.SignedIdentity]()
-	}
-
-	return yacymodel.Some(signed)
-}
-
 func dropReasonBetween(
 	bound yacymodel.Optional[yacymodel.SignedIdentity],
 	next yacymodel.Optional[yacymodel.SignedIdentity],

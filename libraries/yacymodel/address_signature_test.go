@@ -15,7 +15,7 @@ var signingTime = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
 func TestSignedSeedVerifiesTheIdentityOfItsKey(t *testing.T) {
 	key := peerkeytest.Key(0)
 
-	signed, verified := signedSeed(t, key).SignedIdentityIn(signedNetworkName)
+	signed, verified := signedSeed(t, key).SignedIdentityIn(signedNetworkName).Get()
 	if !verified {
 		t.Fatal("SignedIdentityIn = unverified, want the identity of the signing key")
 	}
@@ -32,7 +32,7 @@ func TestSignedSeedKeepsItsIdentityWhenJavaMovesItsHosts(t *testing.T) {
 		hostOf(t, "::ffff:192.0.2.1"),
 	})
 
-	if _, verified := seed.SignedIdentityIn(signedNetworkName); !verified {
+	if _, verified := seed.SignedIdentityIn(signedNetworkName).Get(); !verified {
 		t.Error("SignedIdentityIn = unverified, want the hosts read as one set")
 	}
 }
@@ -81,7 +81,7 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 			seed := signedSeed(t, peerkeytest.Key(0))
 			change(&seed)
 
-			if _, verified := seed.SignedIdentityIn(signedNetworkName); verified {
+			if _, verified := seed.SignedIdentityIn(signedNetworkName).Get(); verified {
 				t.Error("SignedIdentityIn = verified, want unverified")
 			}
 		})
@@ -91,18 +91,20 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 func TestSignedSeedLosesItsIdentityInAnotherNetwork(t *testing.T) {
 	seed := signedSeed(t, peerkeytest.Key(0))
 
-	if _, verified := seed.SignedIdentityIn("othernetwork"); verified {
+	if _, verified := seed.SignedIdentityIn("othernetwork").Get(); verified {
 		t.Error("SignedIdentityIn = verified in another network, want unverified")
 	}
 }
 
 func TestAddressSignatureIssuesAtTheSecond(t *testing.T) {
-	signature := peerkeytest.Key(0).AddressSignatureOf(
-		unsignedSeedOf(t, peerkeytest.Key(0)),
+	key := peerkeytest.Key(0)
+	seed := key.SignedSeedFrom(
+		unsignedSeedOf(t, key),
 		signedNetworkName,
 		signingTime.Add(700*time.Millisecond),
 	)
 
+	signature, _ := seed.AddressSignature.Get()
 	if !signature.IssuedAt.Equal(signingTime) {
 		t.Errorf("IssuedAt = %v, want %v", signature.IssuedAt, signingTime)
 	}
@@ -110,13 +112,8 @@ func TestAddressSignatureIssuesAtTheSecond(t *testing.T) {
 
 func signedSeed(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {
 	t.Helper()
-	seed := unsignedSeedOf(t, key)
-	seed.Identity = yacymodel.Some(key.Identity())
-	seed.AddressSignature = yacymodel.Some(
-		key.AddressSignatureOf(seed, signedNetworkName, signingTime),
-	)
 
-	return seed
+	return key.SignedSeedFrom(unsignedSeedOf(t, key), signedNetworkName, signingTime)
 }
 
 func unsignedSeedOf(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {

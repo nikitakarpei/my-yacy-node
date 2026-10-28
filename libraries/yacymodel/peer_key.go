@@ -17,24 +17,13 @@ type PeerKey struct {
 }
 
 func ParsePeerKey(text string) (PeerKey, error) {
-	parts, separated := partsOf(text)
-	if !separated {
-		return PeerKey{}, fmt.Errorf("%w: want 3 parts", ErrBadPeerKey)
-	}
-
 	var (
 		operationalSeed [ed25519.SeedSize]byte
 		recoverySeeds   [recoverySeedsSize]byte
 	)
-	if err := decodeExactly(parts[0], operationalSeed[:]); err != nil {
-		return PeerKey{}, fmt.Errorf("%w: operational key: %w", ErrBadPeerKey, err)
-	}
-	if err := decodeExactly(parts[1], recoverySeeds[:]); err != nil {
-		return PeerKey{}, fmt.Errorf("%w: recovery key: %w", ErrBadPeerKey, err)
-	}
-	nonce, err := nonceOf(parts[2])
+	nonce, err := decodeParts(text, operationalSeed[:], recoverySeeds[:])
 	if err != nil {
-		return PeerKey{}, fmt.Errorf("%w: nonce: %w", ErrBadPeerKey, err)
+		return PeerKey{}, fmt.Errorf("%w: %w", ErrBadPeerKey, err)
 	}
 
 	material, err := keyMaterialFrom(operationalSeed, recoverySeeds)
@@ -50,18 +39,15 @@ func NewPeerKey() (PeerKey, error) {
 }
 
 func GeneratePeerKey(entropy io.Reader) (PeerKey, error) {
-	var (
-		operationalSeed [ed25519.SeedSize]byte
-		recoverySeeds   [recoverySeedsSize]byte
-	)
-	if _, err := io.ReadFull(entropy, operationalSeed[:]); err != nil {
-		return PeerKey{}, fmt.Errorf("read entropy: %w", err)
-	}
-	if _, err := io.ReadFull(entropy, recoverySeeds[:]); err != nil {
+	var seeds [ed25519.SeedSize + recoverySeedsSize]byte
+	if _, err := io.ReadFull(entropy, seeds[:]); err != nil {
 		return PeerKey{}, fmt.Errorf("read entropy: %w", err)
 	}
 
-	material, err := keyMaterialFrom(operationalSeed, recoverySeeds)
+	material, err := keyMaterialFrom(
+		[ed25519.SeedSize]byte(seeds[:ed25519.SeedSize]),
+		[recoverySeedsSize]byte(seeds[ed25519.SeedSize:]),
+	)
 	if err != nil {
 		return PeerKey{}, err
 	}
@@ -77,7 +63,14 @@ func (k PeerKey) String() string {
 	return k.material.String() + identityPartSeparator + nonceTextOf(k.identity.nonce)
 }
 
-func (k PeerKey) AddressSignatureOf(
+func (k PeerKey) SignedSeedFrom(seed Seed, networkName string, issuedAt time.Time) Seed {
+	seed.Identity = Some(k.identity)
+	seed.AddressSignature = Some(k.addressSignatureOf(seed, networkName, issuedAt))
+
+	return seed
+}
+
+func (k PeerKey) addressSignatureOf(
 	seed Seed,
 	networkName string,
 	issuedAt time.Time,

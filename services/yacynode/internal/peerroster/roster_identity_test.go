@@ -167,14 +167,8 @@ func restoredRosterAt(t *testing.T, storagePath string) peerroster.Roster {
 
 func signedSeedAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
 	t.Helper()
-	key := peerkeytest.Key(0)
-	seed := unsignedSeedAt(t, ip)
-	seed.Identity = yacymodel.Some(key.Identity())
-	seed.AddressSignature = yacymodel.Some(
-		key.AddressSignatureOf(seed, rosterNetworkName, issuedAt),
-	)
 
-	return seed
+	return peerkeytest.Key(0).SignedSeedFrom(unsignedSeedAt(t, ip), rosterNetworkName, issuedAt)
 }
 
 func unsignedSeedAt(t *testing.T, ip string) yacymodel.Seed {

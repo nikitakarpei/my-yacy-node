@@ -2,7 +2,6 @@ package peerroster
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log/slog"
 	"slices"
@@ -96,7 +95,7 @@ func (r *roster) discoverOne(
 	}
 	entry := rosterEntry{
 		addresses:     addresses,
-		binding:       signedIdentityOf(seed, r.networkName),
+		binding:       seed.SignedIdentityIn(r.networkName),
 		lastContacted: r.now(),
 	}
 	if _, err := r.peers.Put(tx, seed.Hash, entry); err != nil {
@@ -298,22 +297,20 @@ func (r *roster) recordReachable(
 	answeredBaseURL peerwire.BaseURL,
 	confirmedAt time.Time,
 ) bool {
-	err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		return r.recordReachableIn(tx, seed, addresses, answeredBaseURL, confirmedAt)
-	})
-	var drop seedDropError
-	switch {
-	case errors.As(err, &drop):
-		slog.WarnContext(
-			ctx,
-			"peer seed dropped",
-			slog.String("peer", seed.Hash.String()),
-			slog.String("reason", string(drop.reason)),
-		)
-		r.observer.ObserveDroppedSeed(drop.reason)
+	contact := rosterEntry{
+		addresses:       addresses,
+		binding:         seed.SignedIdentityIn(r.networkName),
+		answeredBaseURL: yacymodel.Some(answeredBaseURL),
+		lastReachable:   confirmedAt,
+		lastContacted:   confirmedAt,
+	}
+	var dropReason yacymodel.Optional[SeedDropReason]
+	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		dropReason, err = r.recordReachableIn(tx, seed.Hash, contact)
 
-		return false
-	case err != nil:
+		return err
+	}); err != nil {
 		slog.WarnContext(
 			ctx,
 			msgContactNotRecorded,
@@ -322,38 +319,48 @@ func (r *roster) recordReachable(
 		)
 
 		return false
-	default:
-		return true
 	}
+	if reason, dropped := dropReason.Get(); dropped {
+		r.reportDroppedSeed(ctx, seed.Hash, reason)
+
+		return false
+	}
+
+	return true
 }
 
 func (r *roster) recordReachableIn(
 	tx *vault.Txn,
-	seed yacymodel.Seed,
-	addresses yacymodel.PeerAddresses,
-	answeredBaseURL peerwire.BaseURL,
-	confirmedAt time.Time,
-) error {
-	peerHash := seed.Hash
-	entry, _, err := r.peers.Get(tx, peerHash)
+	peerHash yacymodel.Hash,
+	contact rosterEntry,
+) (yacymodel.Optional[SeedDropReason], error) {
+	known, _, err := r.peers.Get(tx, peerHash)
 	if err != nil {
-		return fmt.Errorf("read peer %s: %w", peerHash, err)
+		return yacymodel.None[SeedDropReason](), fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
-	next := signedIdentityOf(seed, r.networkName)
-	if reason, dropped := dropReasonBetween(entry.binding, next).Get(); dropped {
-		return seedDropError{reason: reason}
+	dropReason := dropReasonBetween(known.binding, contact.binding)
+	if _, dropped := dropReason.Get(); dropped {
+		return dropReason, nil
 	}
-
-	entry.binding = next
-	entry.addresses = addresses
-	entry.answeredBaseURL = yacymodel.Some(answeredBaseURL)
-	entry.lastContacted = confirmedAt
-	entry.lastReachable = confirmedAt
-	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
-		return fmt.Errorf("store peer %s: %w", peerHash, err)
+	if _, err := r.peers.Put(tx, peerHash, contact); err != nil {
+		return yacymodel.None[SeedDropReason](), fmt.Errorf("store peer %s: %w", peerHash, err)
 	}
 
-	return nil
+	return dropReason, nil
+}
+
+func (r *roster) reportDroppedSeed(
+	ctx context.Context,
+	peerHash yacymodel.Hash,
+	reason SeedDropReason,
+) {
+	slog.WarnContext(
+		ctx,
+		"peer seed dropped",
+		slog.String("peer", peerHash.String()),
+		slog.String("reason", string(reason)),
+	)
+	r.observer.ObserveDroppedSeed(reason)
 }
 
 func (r *roster) admitReachable(

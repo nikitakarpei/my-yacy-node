@@ -18,6 +18,8 @@ const identityPartSeparator = ":"
 
 var ErrBadPeerIdentity = errors.New("bad peer identity")
 
+var errPartCount = errors.New("want 3 parts")
+
 type PeerIdentity struct {
 	operationalKey     [ed25519.PublicKeySize]byte
 	recoveryCommitment [sha256.Size]byte
@@ -25,36 +27,35 @@ type PeerIdentity struct {
 }
 
 func ParsePeerIdentity(text string) (PeerIdentity, error) {
-	parts, separated := partsOf(text)
-	if !separated {
-		return PeerIdentity{}, fmt.Errorf("%w: want 3 parts", ErrBadPeerIdentity)
-	}
-
 	var (
 		operationalKey     [ed25519.PublicKeySize]byte
 		recoveryCommitment [sha256.Size]byte
 	)
-	if err := decodeExactly(parts[0], operationalKey[:]); err != nil {
-		return PeerIdentity{}, fmt.Errorf("%w: operational key: %w", ErrBadPeerIdentity, err)
-	}
-	if err := decodeExactly(parts[1], recoveryCommitment[:]); err != nil {
-		return PeerIdentity{}, fmt.Errorf("%w: recovery commitment: %w", ErrBadPeerIdentity, err)
-	}
-	nonce, err := nonceOf(parts[2])
+	nonce, err := decodeParts(text, operationalKey[:], recoveryCommitment[:])
 	if err != nil {
-		return PeerIdentity{}, fmt.Errorf("%w: nonce: %w", ErrBadPeerIdentity, err)
+		return PeerIdentity{}, fmt.Errorf("%w: %w", ErrBadPeerIdentity, err)
 	}
 
 	return provenIdentityFrom(operationalKey, recoveryCommitment, nonce)
 }
 
-func partsOf(text string) ([3]string, bool) {
+func decodeParts(text string, first, second []byte) (uint64, error) {
 	parts := strings.Split(text, identityPartSeparator)
 	if len(parts) != 3 {
-		return [3]string{}, false
+		return 0, errPartCount
+	}
+	if err := decodeExactly(parts[0], first); err != nil {
+		return 0, fmt.Errorf("part 1: %w", err)
+	}
+	if err := decodeExactly(parts[1], second); err != nil {
+		return 0, fmt.Errorf("part 2: %w", err)
+	}
+	nonce, err := nonceOf(parts[2])
+	if err != nil {
+		return 0, fmt.Errorf("nonce: %w", err)
 	}
 
-	return [3]string(parts), true
+	return nonce, nil
 }
 
 func decodeExactly(text string, raw []byte) error {

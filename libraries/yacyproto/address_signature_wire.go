@@ -24,15 +24,10 @@ func (addressSignatureWireCodec) decode(text string) (yacymodel.AddressSignature
 	if !ok {
 		return yacymodel.AddressSignature{}, false
 	}
-	signatureBytes, err := yacymodel.Decode(signatureText)
+	signature, err := yacymodel.ParseSignature(signatureText)
 	if err != nil {
 		return yacymodel.AddressSignature{}, false
 	}
-	signature := yacymodel.AddressSignature{IssuedAt: issuedAt}
-	if len(signatureBytes) != len(signature.Signature) {
-		return yacymodel.AddressSignature{}, false
-	}
-	copy(signature.Signature[:], signatureBytes)
 
-	return signature, true
+	return yacymodel.AddressSignature{IssuedAt: issuedAt, Signature: signature}, true
 }

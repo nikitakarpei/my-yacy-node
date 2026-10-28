@@ -45,12 +45,11 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	seed.LastSeen = yacymodel.Some(now.UTC())
 	seed.IndexedWords = r.countOrZero(ctx, r.words.EstimatedAmountOfWords)
 	seed.StoredURLs = r.countOrZero(ctx, r.urls.Count)
-	seed.AddressSignature = yacymodel.Some(r.key.AddressSignatureOf(seed, r.id.NetworkName, now))
 
-	return seed
+	return r.key.SignedSeedFrom(seed, r.id.NetworkName, now)
 }
 
-func baseSeed(id nodeidentity.Identity, peerIdentity yacymodel.PeerIdentity) yacymodel.Seed {
+func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 	return yacymodel.Seed{
 		Hash:            id.Hash,
 		Name:            id.Name,
@@ -60,7 +59,6 @@ func baseSeed(id nodeidentity.Identity, peerIdentity yacymodel.PeerIdentity) yac
 		PeerType:        yacymodel.PeerSenior,
 		Tags:            yacymodel.MatchAllTags(),
 		Version:         yacymodel.Some(id.Version),
-		Identity:        yacymodel.Some(peerIdentity),
 	}
 }
 

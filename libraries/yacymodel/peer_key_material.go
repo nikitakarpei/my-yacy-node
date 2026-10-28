@@ -72,16 +72,14 @@ func (m keyMaterial) solvedNonce() uint64 {
 	var (
 		solved      atomic.Bool
 		solvedNonce uint64
-		solvedOnce  sync.Once
 		searches    sync.WaitGroup
 		firstNonce  uint64
 	)
 	for range runtime.GOMAXPROCS(0) {
 		searchStart := firstNonce
 		searches.Go(func() {
-			nonce, found := nonceSearchedFrom(keyDigest, searchStart, &solved)
-			if found {
-				solvedOnce.Do(func() { solvedNonce = nonce })
+			if nonce, found := nonceSearchedFrom(keyDigest, searchStart, &solved); found {
+				solvedNonce = nonce
 			}
 		})
 		firstNonce += 1 << 56
@@ -97,9 +95,8 @@ func nonceSearchedFrom(
 	solved *atomic.Bool,
 ) (uint64, bool) {
 	for nonce := firstNonce; !solved.Load(); nonce++ {
-		if workOf(puzzleDigestOf(keyDigest, nonce)) >= identityWorkMinimum {
-			solved.Store(true)
-
+		if workOf(puzzleDigestOf(keyDigest, nonce)) >= identityWorkMinimum &&
+			solved.CompareAndSwap(false, true) {
 			return nonce, true
 		}
 	}
