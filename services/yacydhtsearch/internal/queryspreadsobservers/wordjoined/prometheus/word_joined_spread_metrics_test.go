@@ -33,11 +33,10 @@ func TestOneWordJoinedSpreadPublishesWhatTheJoinFound(t *testing.T) {
 	metrics := queryspreadsobserverswordjoinedprometheus.New(registry, 5*time.Second)
 
 	metrics.WordJoinedSpreadPerformed(t.Context(), wordjoined.PerformedWordJoinedSpread{
-		AmountOfQueryWords:                  4,
-		AmountOfQueryWordsHeldByNoPeer:      1,
-		AmountOfJoinedDocuments:             10,
-		AmountOfJoinedDocumentsWithMetadata: 2,
-		TimeSpent:                           250 * time.Millisecond,
+		AmountOfQueryWords:             4,
+		AmountOfQueryWordsHeldByNoPeer: 1,
+		AmountOfJoinedDocuments:        10,
+		TimeSpent:                      250 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)

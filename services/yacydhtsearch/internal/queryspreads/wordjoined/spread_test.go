@@ -1285,15 +1285,12 @@ func TestTheDocumentAsksReportWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *
 		secondWord: {"first"},
 	}}, network, observer)
 
-	performed := observer.performed[0]
 	documentAsks := observer.documentAsks[0]
-	if performed.AmountOfJoinedDocumentsWithMetadata != 1 ||
-		documentAsks.AmountOfListedDocumentsWithMetadata != 2 ||
+	if documentAsks.AmountOfListedDocumentsWithMetadata != 2 ||
 		documentAsks.AmountOfListedDocumentsWithAPosting != 2 {
 		t.Fatalf(
-			"the spread reported %+v and the document asks %+v, want the joined document "+
-				"answered once and two counts",
-			performed, documentAsks,
+			"the document asks reported %+v, want two documents with metadata and two with a posting",
+			documentAsks,
 		)
 	}
 	if !slices.Equal(
