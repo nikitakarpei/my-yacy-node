@@ -9,7 +9,9 @@ components:
   yacymodel:
     in:
       - .
-      - "**"
+  peerkeytest:
+    in:
+      - peerkeytest/**
 
 vendors:
   circl:
@@ -20,6 +22,9 @@ deps:
   yacymodel:
     canUse:
       - circl
+  peerkeytest:
+    mayDependOn:
+      - yacymodel
 
 excludeFiles:
   - "_test\\.go"
