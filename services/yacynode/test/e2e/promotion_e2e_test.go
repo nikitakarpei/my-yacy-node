@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerdirectory"
 )
 
@@ -23,7 +24,10 @@ const (
 	nodeAlias = "node-e2e"
 )
 
-var nodeHash = mustHash("ABCDEFGHIJKL")
+var (
+	nodeKey  = peerkeytest.Key(47)
+	nodeHash = nodeKey.Identity().Hash()
+)
 
 func mustURLHash(address string) yacymodel.URLHash {
 	hash, err := yacymodel.URLHashOf(address)
@@ -56,7 +60,7 @@ func TestRealYaCyPromotesNodeToSenior(t *testing.T) {
 	nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       nodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 		SeedlistURL: "http://" + yacyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 	})
 

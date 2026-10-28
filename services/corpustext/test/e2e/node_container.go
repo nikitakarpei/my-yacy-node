@@ -12,11 +12,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 )
 
 const (
 	nodeAlias    = "node"
-	nodePeerHash = "E2ETEXTINDX1"
 	envNodeImage = "YACY_NODE_IMAGE"
 )
 
@@ -30,7 +30,7 @@ func startNode(t *testing.T, ctx context.Context, networkName string) {
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {nodeAlias}},
 			Env: map[string]string{
-				"YACY_INITIAL_PEER_HASH":     nodePeerHash,
+				"YACY_PEER_KEY":              peerkeytest.Key(43).String(),
 				"YACY_PEER_NAME":             nodeAlias,
 				"YACY_ADVERTISE_HOST":        nodeAlias,
 				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),

@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -36,11 +37,12 @@ func TestNodeAdmitsThePostingOfAPageWithMoreLinksThanAPostingByteHolds(t *testin
 
 	egressproxy.Start(t, ctx, network.Name)
 
-	nodeHash := mustHash("ADMITNODEHSH")
+	nodeKey := peerkeytest.Key(45)
+	nodeHash := nodeKey.Identity().Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       admissionNodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 	})
 
 	nodepeer.PushURLMetadata(t, ctx, probe, nodeURL, nodeHash, linkHeavyDocument)

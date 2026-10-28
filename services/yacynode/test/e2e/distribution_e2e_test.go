@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 )
 
 const (
@@ -41,11 +42,12 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 	yacyHash := peerclient.ResolveHash(t, ctx, probe, yacyURL)
 
 	seedlistURL := "http://" + distributionYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html"
-	nodeHash := mustHash("DISTNODEHASH")
+	nodeKey := peerkeytest.Key(44)
+	nodeHash := nodeKey.Identity().Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       distributionNodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 		SeedlistURL: seedlistURL,
 		Distribution: nodepeer.DistributionConfig{
 			Enabled:           true,
