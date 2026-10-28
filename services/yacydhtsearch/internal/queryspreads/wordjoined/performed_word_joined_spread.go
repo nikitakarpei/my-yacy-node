@@ -17,7 +17,6 @@ type PerformedWordJoinedSpread struct {
 	TimeSpent                         time.Duration
 }
 
-//nolint:revive // argument-limit: the report reads each unit of the spread it describes
 func performedWordJoinedSpreadFrom(
 	query searchquery.Query,
 	measurement *documentamounts.Measurement,
