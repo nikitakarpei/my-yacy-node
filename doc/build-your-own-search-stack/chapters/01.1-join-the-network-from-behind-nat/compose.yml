@@ -42,6 +42,7 @@ services:
     environment:
       PROCESS_ENVIRONMENT_LEASE_SOCKET: /run/yacy/process-environment-lease.sock
       YACY_TRUSTED_PROXIES: 172.29.94.10/32
+      YACY_PEER_KEY: ${YACY_PEER_KEY:?set YACY_PEER_KEY in .env}
       YACY_NETWORK_NAME: ${YACY_NETWORK_NAME:-freeworld}
       YACY_SEEDLIST_URLS: >-
         http://sixcooler.de/yacy/seed.txt,

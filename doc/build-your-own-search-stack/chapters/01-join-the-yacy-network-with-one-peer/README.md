@@ -16,6 +16,13 @@ support the network without running a crawler.
 
 ## Start
 
+Make a peer key once. The peer hash and the data of the node belong to this key, so
+keep `.env` safe:
+
+```sh
+echo "YACY_PEER_KEY=$(docker run --rm ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest yacy-peer-key)" >> .env
+```
+
 Allow inbound connections to port 8090, then start the stack. Use
 [chapter 1.1](../01.1-join-the-network-from-behind-nat) if you have no public
 address for that port:

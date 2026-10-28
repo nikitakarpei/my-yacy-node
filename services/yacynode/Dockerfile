@@ -54,6 +54,14 @@ RUN --mount=type=cache,target=/go/pkg/mod \
         -o /out/yacy-entrypoint \
         ./cmd/yacy-entrypoint
 
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=$TARGETOS GOARCH=$TARGETARCH \
+    go build \
+        -ldflags="-s -w" \
+        -o /out/yacy-peer-key \
+        ./cmd/yacy-peer-key
+
 RUN mkdir -p /out/data
 
 FROM gcr.io/distroless/static-debian12:nonroot
@@ -65,6 +73,7 @@ ENV YACY_DATA_DIR=/data \
 COPY --from=build --chown=nonroot:nonroot /out/data /data
 COPY --from=build /out/yacy-rwi-node /usr/local/bin/yacy-rwi-node
 COPY --from=build /out/yacy-entrypoint /usr/local/bin/yacy-entrypoint
+COPY --from=build /out/yacy-peer-key /usr/local/bin/yacy-peer-key
 
 EXPOSE 8090 9090
 

@@ -18,6 +18,10 @@ You configure yacypeer through environment variables.
 
 yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in any case.
 
+yacypeer makes the peer key of yacynode on its first start, and keeps it in the file
+`peer-key/peer-key` of the data directory. To make the key takes some seconds. The peer
+hash and the data of yacynode belong to this key, so keep a copy of the file.
+
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
 other hosts reach the web address, set it, such as `YACYPEER_WEB_ADDR=:9090`.
 

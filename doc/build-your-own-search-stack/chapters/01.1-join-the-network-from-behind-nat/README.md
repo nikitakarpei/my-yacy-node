@@ -20,6 +20,13 @@ to keep one hostname for longer. Each new hostname restarts the node.
 
 ## Start
 
+Make a peer key once. The peer hash and the data of the node belong to this key, so
+keep `.env` safe:
+
+```sh
+echo "YACY_PEER_KEY=$(docker run --rm ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest yacy-peer-key)" >> .env
+```
+
 ```sh
 docker compose up -d
 ```
