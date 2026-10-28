@@ -28,12 +28,25 @@ func bindingFrom(seed yacymodel.Seed, networkName string) yacymodel.Optional[ide
 	return yacymodel.Some(identityBinding{identity: identity, issuedAt: signature.IssuedAt})
 }
 
-func (b identityBinding) dropReasonFor(
+func dropReasonBetween(
+	bound yacymodel.Optional[identityBinding],
 	next yacymodel.Optional[identityBinding],
 ) yacymodel.Optional[SeedDropReason] {
+	current, isBound := bound.Get()
 	replacement, verified := next.Get()
 	switch {
-	case !verified || replacement.identity != b.identity:
+	case !isBound:
+		return yacymodel.None[SeedDropReason]()
+	case !verified:
+		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
+	default:
+		return current.dropReasonFor(replacement)
+	}
+}
+
+func (b identityBinding) dropReasonFor(replacement identityBinding) yacymodel.Optional[SeedDropReason] {
+	switch {
+	case replacement.identity != b.identity:
 		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
 	case b.issuedAt.After(replacement.issuedAt):
 		return yacymodel.Some(DropOfOlderAddressSignature)

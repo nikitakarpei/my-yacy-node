@@ -341,10 +341,8 @@ func (r *roster) recordReachableIn(
 		return yacymodel.None[SeedDropReason](), fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
 	next := bindingFrom(seed, r.networkName)
-	if bound, isBound := entry.binding.Get(); isBound {
-		if dropReason := bound.dropReasonFor(next); dropReason.Present() {
-			return dropReason, nil
-		}
+	if dropReason := dropReasonBetween(entry.binding, next); dropReason.Present() {
+		return dropReason, nil
 	}
 
 	entry.binding = next
