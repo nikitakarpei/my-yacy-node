@@ -26,7 +26,7 @@ type crawlDetailView struct {
 	Found        bool
 	Crawl        crawlRow
 	Order        *yacycrawlcontract.CrawlOrder
-	RecrawlGrace writtenRecrawlGrace
+	RecrawlGrace shownRecrawlGrace
 	Hosts        hostTable
 }
 
@@ -64,7 +64,7 @@ func crawlDetailViewOf(crawl yacycrawlcontract.Crawl, now time.Time) crawlDetail
 		Order:    crawl.Order,
 	}
 	if crawl.Order != nil {
-		view.RecrawlGrace = writtenRecrawlGraceOf(crawl.Order.Profile.RecrawlGrace)
+		view.RecrawlGrace = shownRecrawlGraceOf(crawl.Order.Profile.RecrawlGrace.Length())
 	}
 	return view
 }

@@ -6,7 +6,6 @@ package acceptedorder
 import (
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -16,10 +15,6 @@ import (
 var (
 	errNoSeedURLs           = errors.New("the order has no seed URLs")
 	errNegativePagesPerHost = errors.New("MaxPagesPerHost is below 0")
-	errNegativeRecrawlGrace = errors.New("RecrawlGrace is below 0")
-	errRecrawlGracePastMax  = fmt.Errorf(
-		"RecrawlGrace is past %s", yacycrawlcontract.MaxRecrawlGrace,
-	)
 )
 
 type AcceptedOrder struct {
@@ -38,25 +33,11 @@ func AcceptedOrderFrom(order yacycrawlcontract.CrawlOrder) (AcceptedOrder, error
 			errNegativePagesPerHost,
 		)
 	}
-	if err := readableRecrawlGrace(order.Profile.RecrawlGrace); err != nil {
-		return AcceptedOrder{}, fmt.Errorf("read the profile of order %s: %w", order.OrderID, err)
-	}
 	admission, err := profileadmission.New(order.Profile, order.SeedURLs)
 	if err != nil {
 		return AcceptedOrder{}, fmt.Errorf("read the profile of order %s: %w", order.OrderID, err)
 	}
 	return AcceptedOrder{order: order, admission: admission}, nil
-}
-
-func readableRecrawlGrace(recrawlGrace time.Duration) error {
-	switch {
-	case recrawlGrace < yacycrawlcontract.NoRecrawlGrace:
-		return errNegativeRecrawlGrace
-	case recrawlGrace > yacycrawlcontract.MaxRecrawlGrace:
-		return errRecrawlGracePastMax
-	default:
-		return nil
-	}
 }
 
 func (o AcceptedOrder) OrderID() string {
@@ -71,7 +52,7 @@ func (o AcceptedOrder) MaxPagesPerHost() int {
 	return o.order.Profile.MaxPagesPerHost
 }
 
-func (o AcceptedOrder) RecrawlGrace() time.Duration {
+func (o AcceptedOrder) RecrawlGrace() yacycrawlcontract.RecrawlGrace {
 	return o.order.Profile.RecrawlGrace
 }
 

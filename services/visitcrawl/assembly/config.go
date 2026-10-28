@@ -154,22 +154,18 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 	}, nil
 }
 
-func recrawlGraceFrom(getenv func(string) string) (time.Duration, error) {
-	recrawlGrace, err := envconfig.NonNegativeDuration(
+func recrawlGraceFrom(getenv func(string) string) (yacycrawlcontract.RecrawlGrace, error) {
+	length, err := envconfig.NonNegativeDuration(
 		getenv,
 		EnvCrawlRecrawlGrace,
 		DefaultCrawlRecrawlGrace,
 	)
 	if err != nil {
-		return 0, err
+		return yacycrawlcontract.NoRecrawlGrace, err
 	}
-	if recrawlGrace > yacycrawlcontract.MaxRecrawlGrace {
-		return 0, fmt.Errorf(
-			"%s: %s is past %s",
-			EnvCrawlRecrawlGrace,
-			recrawlGrace,
-			yacycrawlcontract.MaxRecrawlGrace,
-		)
+	recrawlGrace, err := yacycrawlcontract.RecrawlGraceOf(length)
+	if err != nil {
+		return yacycrawlcontract.NoRecrawlGrace, fmt.Errorf("%s: %w", EnvCrawlRecrawlGrace, err)
 	}
 	return recrawlGrace, nil
 }

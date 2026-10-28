@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 )
 
 func orderFields() url.Values {
@@ -57,7 +58,7 @@ func TestNewCrawlFormDuplicatesTheOrderOfACrawl(t *testing.T) {
 
 func TestNewCrawlFormDuplicatesTheRecrawlGraceOfACrawl(t *testing.T) {
 	crawl := runningCrawlOf(t, "c1")
-	crawl.Order.Profile.RecrawlGrace = 36 * time.Hour
+	crawl.Order.Profile.RecrawlGrace = yacycrawlcontracttest.RecrawlGraceOf(t, 36*time.Hour)
 	crawler := &fakeCrawler{crawls: map[string]yacycrawlcontract.Crawl{"c1": crawl}}
 
 	answer := consoleOver(crawler).get("/crawls/new?from=c1")
@@ -145,7 +146,7 @@ func TestPlaceOrderKeepsARecrawlGrace(t *testing.T) {
 
 	consoleOver(crawler).post("/crawls", fields)
 
-	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != 7*24*time.Hour {
+	if grace := crawler.placedOrders[0].Profile.RecrawlGrace.Length(); grace != 7*24*time.Hour {
 		t.Fatalf("RecrawlGrace = %s, want 7 days", grace)
 	}
 }
@@ -158,7 +159,7 @@ func TestPlaceOrderIgnoresARecrawlGraceThatIsNotChosen(t *testing.T) {
 	consoleOver(crawler).post("/crawls", fields)
 
 	if grace := crawler.placedOrders[0].Profile.RecrawlGrace; grace != yacycrawlcontract.NoRecrawlGrace {
-		t.Fatalf("RecrawlGrace = %s, want none", grace)
+		t.Fatalf("RecrawlGrace = %s, want none", grace.Length())
 	}
 }
 

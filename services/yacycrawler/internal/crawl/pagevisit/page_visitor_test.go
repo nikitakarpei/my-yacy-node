@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/yacycrawlcontracttest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/crawlid"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
@@ -56,7 +57,7 @@ type visitedCall struct {
 type fakePageVisitRecords struct {
 	due          bool
 	version      pagefetch.PageVersion
-	askedGrace   time.Duration
+	askedGrace   yacycrawlcontract.RecrawlGrace
 	visitedCalls []visitedCall
 	readErr      error
 	recordErr    error
@@ -74,7 +75,7 @@ func (f *fakePageVisitRecords) LastPageVisitOf(
 
 func (f *fakePageVisitRecords) RecrawlOf(
 	_ pagevisit.LastPageVisit,
-	recrawlGrace time.Duration,
+	recrawlGrace yacycrawlcontract.RecrawlGrace,
 ) pagevisit.Recrawl {
 	f.askedGrace = recrawlGrace
 	return pagevisit.Recrawl{Due: f.due, KnownVersion: f.version}
@@ -586,12 +587,12 @@ func TestAPageNotDueIsNotFetched(t *testing.T) {
 
 func TestTheRecrawlRuleIsAskedUnderTheGraceOfTheOrder(t *testing.T) {
 	scene := sceneFetching(fetchedOutcome(pageLinkingNext))
-	scene.profile.RecrawlGrace = time.Hour
+	scene.profile.RecrawlGrace = yacycrawlcontracttest.RecrawlGraceOf(t, time.Hour)
 
 	scene.visit(t)
 
-	if scene.pageVisitRecords.askedGrace != time.Hour {
-		t.Fatalf("asked grace = %s, want the 1h of the order", scene.pageVisitRecords.askedGrace)
+	if asked := scene.pageVisitRecords.askedGrace.Length(); asked != time.Hour {
+		t.Fatalf("asked grace = %s, want the 1h of the order", asked)
 	}
 }
 

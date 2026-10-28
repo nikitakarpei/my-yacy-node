@@ -24,12 +24,12 @@ func New(clock Clock) *RecrawlRule {
 
 func (rule *RecrawlRule) RecrawlOf(
 	lastVisit pagevisit.LastPageVisit,
-	recrawlGrace time.Duration,
+	recrawlGrace yacycrawlcontract.RecrawlGrace,
 ) pagevisit.Recrawl {
 	switch {
 	case recrawlGrace == yacycrawlcontract.NoRecrawlGrace:
 		return pagevisit.Recrawl{Due: true}
-	case rule.clock.Now().Sub(lastVisit.VisitedAt) < recrawlGrace:
+	case recrawlGrace.Covers(rule.clock.Now().Sub(lastVisit.VisitedAt)):
 		return pagevisit.Recrawl{Due: false}
 	default:
 		return pagevisit.Recrawl{Due: true, KnownVersion: lastVisit.Version}

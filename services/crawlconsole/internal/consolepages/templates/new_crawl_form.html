@@ -38,7 +38,7 @@
     <div class="recrawl-grace">
       <label class="choice"><input type="checkbox" name="HasRecrawlGrace"{{if .Fields.HasRecrawlGrace}} checked{{end}}> {{text "new-crawl.has-recrawl-grace"}}</label>
       <select name="RecrawlGrace" aria-label="{{text "new-crawl.has-recrawl-grace"}}">
-        {{range .RecrawlGraceOptions}}<option value="{{.Value}}"{{if eq .Value $.Fields.RecrawlGrace}} selected{{end}}>{{text (print "recrawl-grace." .Written.Unit) .Written.Amount}}</option>{{end}}
+        {{range .RecrawlGraceOptions}}<option value="{{.Value}}"{{if eq .Value $.Fields.RecrawlGrace}} selected{{end}}>{{text (print "recrawl-grace." .Unit) .Amount}}</option>{{end}}
       </select>
     </div>
   </fieldset>

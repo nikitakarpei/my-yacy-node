@@ -21,8 +21,6 @@ const (
 	orderIntakeConcurrency = 4
 	fetchDeadlinesPerLease = 3
 
-	pageVisitRetention = yacycrawlcontract.MaxRecrawlGrace
-
 	pageVisitLimitRetention = 7 * 24 * time.Hour
 
 	crawlRetention = 7 * 24 * time.Hour
@@ -56,7 +54,7 @@ func (cfg ServiceConfig) PendingPageVisitLease() time.Duration {
 }
 
 func (ServiceConfig) PageVisitRetention() time.Duration {
-	return pageVisitRetention
+	return yacycrawlcontract.MaxRecrawlGrace.Length()
 }
 
 func (ServiceConfig) PageVisitLimitRetention() time.Duration {

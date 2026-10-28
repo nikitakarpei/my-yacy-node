@@ -93,7 +93,7 @@ func orderFieldsFrom(order yacycrawlcontract.CrawlOrder) orderFields {
 	}
 	if order.Profile.RecrawlGrace != yacycrawlcontract.NoRecrawlGrace {
 		fields.HasRecrawlGrace = true
-		fields.RecrawlGrace = order.Profile.RecrawlGrace.String()
+		fields.RecrawlGrace = order.Profile.RecrawlGrace.Length().String()
 	}
 	return fields
 }
