@@ -10,7 +10,7 @@ You configure yacypeer through environment variables.
 | `YACYPEER_SEEDLIST_URLS` | seedlists of `freeworld` | Comma-separated seedlists of the YaCy network. Required for a different network. |
 | `YACYPEER_NETWORK_NAME` | `freeworld` | YaCy network the peer joins. |
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
-| `YACYPEER_OPS_ADDR` | `127.0.0.1:9090` | Address that serves `/metrics`, `/metrics/<service>`, and the dashboards at `/dashboards`. |
+| `YACYPEER_WEB_ADDR` | `127.0.0.1:9090` | Address that serves the search page at `/`, the crawl console at `/crawlconsole/`, the dashboards at `/dashboards`, `/metrics`, and `/metrics/<service>`. |
 | `YACYPEER_METRIC_HISTORY_RETENTION` | `168h` | How long yacypeer keeps the metric history that the dashboards show. |
 | `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy with `CONNECT` for peers and seedlists. Name a loopback or private proxy by its IP address. |
 | `YACYPEER_PAGE_FETCH_PROXY_URL` | none | Proxy like `YACYPEER_PEER_PROXY_URL`, for page fetches. |
@@ -19,8 +19,7 @@ You configure yacypeer through environment variables.
 yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in any case.
 
 Only the local host can reach yacypeer, except on the peer address of yacynode. To let
-other hosts reach an address, set it, such as `SEARCHPAGE_LISTEN_ADDR=:8097` or
-`YACYPEER_OPS_ADDR=:9090`.
+other hosts reach the web address, set it, such as `YACYPEER_WEB_ADDR=:9090`.
 
 ## Services
 
@@ -39,6 +38,7 @@ To set a value for one service only, put the service name and `__` before the se
 such as `CORPUSTEXT__CORPUSTEXT_LANGUAGES`. This value has priority over the setting
 without a prefix.
 
-yacypeer wires the settings that connect the services. It serves their metrics itself, so
+yacypeer wires the settings that connect the services, and gives each service a free port
+of the local host. It serves their metrics itself, so
 it does not read their ops settings. If you set one of these settings, yacypeer does not
 start and names the setting.

@@ -33,7 +33,7 @@ func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 		DataDirectory:          yacypeerassembly.DefaultDataDirectory,
 		NetworkName:            yacyproto.DefaultNetwork,
 		SeedlistURLs:           yacypeerassembly.DefaultSeedlistURLs,
-		OpsAddr:                yacypeerassembly.DefaultOpsAddr,
+		WebAddr:                yacypeerassembly.DefaultWebAddr,
 		MetricHistoryRetention: yacypeerassembly.DefaultMetricHistoryRetention,
 	}
 	if cfg != want {
@@ -46,7 +46,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		yacypeerassembly.EnvSeedlistURLs:           "https://seeds.example/seed.txt",
 		yacypeerassembly.EnvDataDirectory:          "/var/lib/yacypeer",
 		yacypeerassembly.EnvNetworkName:            "realm",
-		yacypeerassembly.EnvOpsAddr:                "127.0.0.1:9099",
+		yacypeerassembly.EnvWebAddr:                "127.0.0.1:9099",
 		yacypeerassembly.EnvPeerProxyURL:           "http://proxy.example:3128",
 		yacypeerassembly.EnvPageFetchProxyURL:      "http://127.0.0.1:8118",
 		yacypeerassembly.EnvMetricHistoryRetention: "48h",
@@ -60,7 +60,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		DataDirectory:          "/var/lib/yacypeer",
 		NetworkName:            "realm",
 		SeedlistURLs:           "https://seeds.example/seed.txt",
-		OpsAddr:                "127.0.0.1:9099",
+		WebAddr:                "127.0.0.1:9099",
 		MetricHistoryRetention: 48 * time.Hour,
 	}
 	if !reflect.DeepEqual(cfg, want) {

@@ -35,7 +35,9 @@ func TestURLOfReachesAListenerOfEveryHostThroughTheLoopbackHost(t *testing.T) {
 	if err != nil {
 		t.Fatalf("split %q: %v", listener.Addr(), err)
 	}
-	if got, want := loopback.URLOf(listener), "http://"+loopback.Host+":"+port; got != want {
+	if got, want := loopback.URLOf(listener).
+		String(),
+		"http://"+loopback.Host+":"+port; got != want {
 		t.Errorf("URLOf = %q, want %q", got, want)
 	}
 }
@@ -47,21 +49,10 @@ func TestURLOfKeepsTheHostOfAListener(t *testing.T) {
 	}
 	defer func() { _ = listener.Close() }()
 
-	if got, want := loopback.URLOf(listener), "http://"+listener.Addr().String(); got != want {
+	if got, want := loopback.URLOf(listener).
+		String(),
+		"http://"+listener.Addr().
+			String(); got != want {
 		t.Errorf("URLOf = %q, want %q", got, want)
-	}
-}
-
-func TestURLAtReachesAnAddressOfEveryHostThroughTheLoopbackHost(t *testing.T) {
-	for _, address := range []string{":8097", "0.0.0.0:8097", "[::]:8097"} {
-		if got, want := loopback.URLAt(address), "http://"+loopback.Host+":8097"; got != want {
-			t.Errorf("URLAt(%q) = %q, want %q", address, got, want)
-		}
-	}
-}
-
-func TestURLAtKeepsTheHostOfAnAddress(t *testing.T) {
-	if got, want := loopback.URLAt("192.0.2.7:8097"), "http://192.0.2.7:8097"; got != want {
-		t.Errorf("URLAt = %q, want %q", got, want)
 	}
 }

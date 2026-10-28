@@ -41,14 +41,6 @@ var unreadSettings = []string{
 	searchpageassembly.EnvOpsAddr,
 }
 
-var localListenAddresses = serviceenvironment.Defaults{
-	yacydhtsearchassembly.EnvListenAddr: loopback.Host + yacydhtsearchassembly.DefaultListenAddr,
-	corpustextassembly.EnvSearchAddr:    loopback.Host + corpustextassembly.DefaultSearchAddr,
-	crawlconsoleassembly.EnvListenAddr:  loopback.Host + crawlconsoleassembly.DefaultListenAddr,
-	visitcrawlassembly.EnvListenAddr:    loopback.Host + visitcrawlassembly.DefaultListenAddr,
-	searchpageassembly.EnvListenAddr:    loopback.Host + searchpageassembly.DefaultListenAddr,
-}
-
 const (
 	yacynodeService          = "yacynode"
 	yacydhtsearchService     = "yacydhtsearch"
@@ -60,6 +52,7 @@ const (
 	visitcrawlService        = "visitcrawl"
 	pageFetchUserAgent       = "yacypeer (+https://yacy.net)"
 	searchpageService        = "searchpage"
+	crawlConsolePathPrefix   = "/" + crawlconsoleService
 )
 
 type service struct {
@@ -82,19 +75,21 @@ type peer struct {
 	cfg                PeerConfig
 	natsURL            string
 	visitLinkSecret    string
-	webUIURLs          webuitabs.URLs
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
 
-func (p peer) services(ctx context.Context, getenv func(string) string) ([]service, error) {
+func (p peer) services(
+	ctx context.Context,
+	getenv func(string) string,
+) ([]service, serviceURLs, error) {
 	upstreamServices, err := servicesFrom(ctx, p.upstreamServiceAssemblies(), getenv)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	streamOnlyServices, err := servicesFrom(ctx, p.streamOnlyServiceAssemblies(), getenv)
 	if err != nil {
-		return nil, errors.Join(err, closeEvery(upstreamServices))
+		return nil, nil, errors.Join(err, closeEvery(upstreamServices))
 	}
 	downstreamServices, err := servicesFrom(
 		ctx,
@@ -102,22 +97,22 @@ func (p peer) services(ctx context.Context, getenv func(string) string) ([]servi
 		getenv,
 	)
 	if err != nil {
-		return nil, errors.Join(
+		return nil, nil, errors.Join(
 			err,
 			closeEvery(upstreamServices),
 			closeEvery(streamOnlyServices),
 		)
 	}
+	listeningServices := slices.Concat(upstreamServices, downstreamServices)
 	return slices.Concat(
-		servicesOf(upstreamServices),
+		servicesOf(listeningServices),
 		streamOnlyServices,
-		downstreamServices,
-	), nil
+	), urlsOf(listeningServices), nil
 }
 
-func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
-	return []serviceAssembly[upstreamService]{
-		upstreamServiceAssemblyFrom(
+func (p peer) upstreamServiceAssemblies() []serviceAssembly[listeningService] {
+	return []serviceAssembly[listeningService]{
+		listeningServiceAssemblyFrom(
 			yacycrawlerService,
 			serviceenvironment.Wiring{
 				yacycrawlerassembly.EnvAPIAddr:       loopback.AnyFreeAddress,
@@ -132,9 +127,10 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 			yacycrawlerassembly.RunService,
 			func(listeners yacycrawlerassembly.Listeners) net.Listener { return listeners.API },
 		),
-		upstreamServiceAssemblyFrom(
+		listeningServiceAssemblyFrom(
 			yacydhtsearchService,
 			serviceenvironment.Wiring{
+				yacydhtsearchassembly.EnvListenAddr:            loopback.AnyFreeAddress,
 				yacydhtsearchassembly.EnvNetworkName:           p.cfg.NetworkName,
 				yacydhtsearchassembly.EnvSeedlistURLs:          p.cfg.SeedlistURLs,
 				yacydhtsearchassembly.EnvEgressProxyURL:        p.peerEgressProxyURL.String(),
@@ -147,9 +143,10 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 			yacydhtsearchassembly.RunService,
 			func(listeners yacydhtsearchassembly.Listeners) net.Listener { return listeners.Search },
 		),
-		upstreamServiceAssemblyFrom(
+		listeningServiceAssemblyFrom(
 			corpustextService,
 			serviceenvironment.Wiring{
+				corpustextassembly.EnvSearchAddr:       loopback.AnyFreeAddress,
 				corpustextassembly.EnvPageOfferNATSURL: p.natsURL,
 				corpustextassembly.EnvPageOfferDurable: corpustextService,
 				corpustextassembly.EnvBleveDirectory:   p.cfg.directoryOf(corpustextService),
@@ -159,9 +156,10 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[upstreamService] {
 			corpustextassembly.RunService,
 			func(listeners corpustextassembly.Listeners) net.Listener { return listeners.Search },
 		),
-		upstreamServiceAssemblyFrom(
+		listeningServiceAssemblyFrom(
 			visitcrawlService,
 			serviceenvironment.Wiring{
+				visitcrawlassembly.EnvListenAddr:   loopback.AnyFreeAddress,
 				visitcrawlassembly.EnvCrawlNATSURL: p.natsURL,
 				visitcrawlassembly.EnvLinkSecret:   p.visitLinkSecret,
 			},
@@ -191,7 +189,7 @@ func servicesFrom[S io.Closer](
 
 func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 	return []serviceAssembly[service]{
-		serviceAssemblyFrom(
+		streamOnlyServiceAssemblyFrom(
 			yacynodeService,
 			serviceenvironment.Wiring{
 				yacynodeassembly.EnvPageOfferNATSURL:  p.natsURL,
@@ -206,7 +204,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			yacynodeassembly.ListenersFor,
 			yacynodeassembly.RunService,
 		),
-		serviceAssemblyFrom(
+		streamOnlyServiceAssemblyFrom(
 			pagescrapeService,
 			serviceenvironment.Wiring{
 				pagescrapeassembly.EnvScrapeNATSURL: p.natsURL,
@@ -218,7 +216,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			pagescrapeassembly.ListenersFor,
 			pagescrapeassembly.RunService,
 		),
-		serviceAssemblyFrom(
+		streamOnlyServiceAssemblyFrom(
 			crawlscrapebridgeService,
 			serviceenvironment.Wiring{
 				crawlscrapebridgeassembly.EnvCrawlNATSURL:         p.natsURL,
@@ -249,7 +247,7 @@ func yacynodeConfigLoaderFor(
 	}
 }
 
-func serviceAssemblyFrom[C any, L io.Closer](
+func streamOnlyServiceAssemblyFrom[C any, L io.Closer](
 	name string,
 	wiring serviceenvironment.Wiring,
 	loadServiceConfig func(func(string) string) (C, error),
@@ -269,30 +267,35 @@ func serviceAssemblyFrom[C any, L io.Closer](
 
 func (p peer) downstreamServiceAssembliesWith(
 	upstreamURLs serviceURLs,
-) []serviceAssembly[service] {
-	return []serviceAssembly[service]{
-		serviceAssemblyFrom(
+) []serviceAssembly[listeningService] {
+	return []serviceAssembly[listeningService]{
+		listeningServiceAssemblyFrom(
 			crawlconsoleService,
 			serviceenvironment.Wiring{
-				crawlconsoleassembly.EnvCrawlerAPIURL: upstreamURLs[yacycrawlerService],
-				crawlconsoleassembly.EnvTabBar:        p.webUIURLs.SettingFor(webuitabs.Crawls),
+				crawlconsoleassembly.EnvListenAddr:    loopback.AnyFreeAddress,
+				crawlconsoleassembly.EnvPathPrefix:    crawlConsolePathPrefix,
+				crawlconsoleassembly.EnvCrawlerAPIURL: upstreamURLs[yacycrawlerService].String(),
+				crawlconsoleassembly.EnvTabBar:        webUIURLs.SettingFor(webuitabs.Crawls),
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.ListenersFor,
 			crawlconsoleassembly.RunService,
+			func(listeners crawlconsoleassembly.Listeners) net.Listener { return listeners.Console },
 		),
-		serviceAssemblyFrom(
+		listeningServiceAssemblyFrom(
 			searchpageService,
 			serviceenvironment.Wiring{
-				searchpageassembly.EnvYaCySearchURL:   upstreamURLs[yacydhtsearchService],
-				searchpageassembly.EnvCorpusTextURL:   upstreamURLs[corpustextService],
-				searchpageassembly.EnvVisitCrawlURL:   upstreamURLs[visitcrawlService],
+				searchpageassembly.EnvListenAddr:      loopback.AnyFreeAddress,
+				searchpageassembly.EnvYaCySearchURL:   upstreamURLs[yacydhtsearchService].String(),
+				searchpageassembly.EnvCorpusTextURL:   upstreamURLs[corpustextService].String(),
+				searchpageassembly.EnvVisitCrawlURL:   upstreamURLs[visitcrawlService].String(),
 				searchpageassembly.EnvVisitLinkSecret: p.visitLinkSecret,
-				searchpageassembly.EnvTabBar:          p.webUIURLs.SettingFor(webuitabs.Search),
+				searchpageassembly.EnvTabBar:          webUIURLs.SettingFor(webuitabs.Search),
 			},
 			searchpageassembly.LoadServiceConfig,
 			searchpageassembly.ListenersFor,
 			searchpageassembly.RunService,
+			func(listeners searchpageassembly.Listeners) net.Listener { return listeners.Page },
 		),
 	}
 }

@@ -10,13 +10,13 @@
 <div class="toolbar">
   <h1>{{.Name}} <span class="state state-{{.State}}">{{text (print "crawl-state." .State)}}</span></h1>
   <div>
-    <a class="button" href="/crawls/new?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a>
+    <a class="button" href="{{path "/crawls/new"}}?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a>
     {{if .IsResumable}}
-    <form class="inline" method="post" action="/crawls/{{.CrawlID}}/pause"><input type="hidden" name="Paused" value="false"><button>{{text "crawl-detail.resume"}}</button></form>
+    <form class="inline" method="post" action="{{path "/crawls/"}}{{.CrawlID}}/pause"><input type="hidden" name="Paused" value="false"><button>{{text "crawl-detail.resume"}}</button></form>
     {{else if .IsPausable}}
-    <form class="inline" method="post" action="/crawls/{{.CrawlID}}/pause"><input type="hidden" name="Paused" value="true"><button>{{text "crawl-detail.pause"}}</button></form>
+    <form class="inline" method="post" action="{{path "/crawls/"}}{{.CrawlID}}/pause"><input type="hidden" name="Paused" value="true"><button>{{text "crawl-detail.pause"}}</button></form>
     {{end}}
-    {{if .IsCancellable}}<form class="inline" method="post" action="/crawls/{{.CrawlID}}/cancel" onsubmit="return confirm({{text "crawl-detail.cancel-confirmation"}})"><button class="danger">{{text "crawl-detail.cancel"}}</button></form>{{end}}
+    {{if .IsCancellable}}<form class="inline" method="post" action="{{path "/crawls/"}}{{.CrawlID}}/cancel" onsubmit="return confirm({{text "crawl-detail.cancel-confirmation"}})"><button class="danger">{{text "crawl-detail.cancel"}}</button></form>{{end}}
   </div>
 </div>
 {{end}}

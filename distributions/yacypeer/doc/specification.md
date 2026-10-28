@@ -35,11 +35,14 @@ one program.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.
-* The program SHALL serve the metrics of the process and of each service on the ops address.
+* The program SHALL serve the metrics of the process and of each service on the web address.
 * The program SHALL keep a metric history of the process and of each service in the data
   directory for the retention period that the operator sets.
-* The program SHALL show the dashboard of each service that has one on the ops address, and
+* The program SHALL show the dashboard of each service that has one on the web address, and
   SHALL draw it from the metric history.
+* The program SHALL serve the search page and the crawl console on the web address.
+* The services SHALL listen only on free ports of the local host, except yacynode on its
+  peer address.
 * The search page, the crawl console and the dashboards SHALL link each other in a tab bar.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.

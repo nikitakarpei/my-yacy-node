@@ -1,5 +1,5 @@
 // Package loopback opens the listeners of the peer that only the local host can reach, and gives
-// the URL at which the local host reaches a listener or a listen address of the peer.
+// the URL at which the local host reaches a listener of the peer.
 package loopback
 
 import (
@@ -20,19 +20,11 @@ func Listen(ctx context.Context) (net.Listener, error) {
 	return servergroup.Listen(ctx, AnyFreeAddress)
 }
 
-func URLOf(listener net.Listener) string {
+func URLOf(listener net.Listener) *url.URL {
 	address := listener.Addr().(*net.TCPAddr)
-	return urlFor(address.IP.String(), strconv.Itoa(address.Port))
-}
-
-func URLAt(address string) string {
-	host, port, _ := net.SplitHostPort(address)
-	return urlFor(host, port)
-}
-
-func urlFor(host string, port string) string {
-	if host == "" || net.ParseIP(host).IsUnspecified() {
+	host := address.IP.String()
+	if address.IP.IsUnspecified() {
 		host = Host
 	}
-	return (&url.URL{Scheme: "http", Host: net.JoinHostPort(host, port)}).String()
+	return &url.URL{Scheme: "http", Host: net.JoinHostPort(host, strconv.Itoa(address.Port))}
 }

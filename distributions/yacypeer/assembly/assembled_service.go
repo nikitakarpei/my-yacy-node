@@ -30,7 +30,6 @@ func assembledServiceFrom[C any, L io.Closer](
 	environment, err := serviceenvironment.For(
 		name,
 		wiring,
-		localListenAddresses,
 		unreadSettings,
 		getenv,
 	)

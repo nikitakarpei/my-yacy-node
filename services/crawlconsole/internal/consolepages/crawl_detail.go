@@ -80,17 +80,11 @@ func (detail crawlDetail) hostTableOf(r *http.Request, crawlID string) (hostTabl
 	for _, crawlHost := range page.Hosts {
 		table.Rows = append(table.Rows, hostRowFrom(crawlHost))
 	}
-	crawlPath := "/crawls/" + url.PathEscape(crawlID)
 	if page.NextCursor != "" {
-		table.NextPageURL = pageURLAt(crawlPath, query, hostsCursorParameter, page.NextCursor)
+		table.NextPageURL = pageURLFrom(query, hostsCursorParameter, page.NextCursor)
 	}
 	if page.PreviousCursor != "" {
-		table.PreviousPageURL = pageURLAt(
-			crawlPath,
-			query,
-			hostsCursorParameter,
-			page.PreviousCursor,
-		)
+		table.PreviousPageURL = pageURLFrom(query, hostsCursorParameter, page.PreviousCursor)
 	}
 	return table, true
 }

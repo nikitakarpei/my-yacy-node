@@ -10,7 +10,8 @@ import (
 const everyTab = `{
 	"tabs": [
 		{"title": "Search", "url": "http://127.0.0.1:8097", "current": true},
-		{"title": "Crawls", "url": "https://console.example/crawls"}
+		{"title": "Crawls", "url": "https://console.example/crawls"},
+		{"title": "Metrics", "url": "/dashboards"}
 	],
 	"issueTrackerUrl": "https://code.example/issues"
 }`
@@ -26,6 +27,7 @@ func TestTabBarFromShowsEachTabAndMarksTheCurrentOne(t *testing.T) {
 	for _, want := range []string{
 		`<a href="http://127.0.0.1:8097" aria-current="page">Search</a>`,
 		`<a href="https://console.example/crawls">Crawls</a>`,
+		`<a href="/dashboards">Metrics</a>`,
 	} {
 		if !strings.Contains(html, want) {
 			t.Errorf("tab bar = %s, want %s", html, want)
@@ -65,7 +67,8 @@ func TestTabBarFromRefusesABarItCannotShow(t *testing.T) {
 		"not JSON":         `Search`,
 		"no title":         `{"tabs": [{"url": "http://search", "current": true}]}`,
 		"no web address":   `{"tabs": [{"title": "Search", "url": "ftp://search", "current": true}]}`,
-		"no host":          `{"tabs": [{"title": "Search", "url": "/search", "current": true}]}`,
+		"no host":          `{"tabs": [{"title": "Search", "url": "//search", "current": true}]}`,
+		"no path":          `{"tabs": [{"title": "Search", "url": "search", "current": true}]}`,
 		"no address":       `{"tabs": [{"title": "Search", "url": "http://%zz", "current": true}]}`,
 		"no current tab":   `{"tabs": [{"title": "Search", "url": "http://search"}]}`,
 		"two current tabs": `{"tabs": [{"title": "A", "url": "http://a", "current": true}, {"title": "B", "url": "http://b", "current": true}]}`,

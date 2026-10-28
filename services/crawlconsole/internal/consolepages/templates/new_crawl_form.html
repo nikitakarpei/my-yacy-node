@@ -2,7 +2,7 @@
 {{define "content"}}
 <h1>{{text "new-crawl.title"}}</h1>
 {{if .Problem.Key}}<div class="notice">{{text .Problem.Key .Problem.Value}}</div>{{end}}
-<form method="post" action="/crawls">
+<form method="post" action="{{path "/crawls"}}">
   <fieldset>
     <legend>{{text "new-crawl.scope"}}</legend>
     <label for="SeedURLs">{{text "order.seed-urls"}} <span class="hint">{{text "new-crawl.seed-urls-hint"}}</span></label>
@@ -41,6 +41,6 @@
     <label for="Label">{{text "order.label"}} <span class="hint">{{text "new-crawl.label-hint"}}</span></label>
     <input type="text" id="Label" name="Label" value="{{.Fields.Label}}">
   </fieldset>
-  <div class="form-actions"><button class="primary">{{text "new-crawl.start"}}</button><a class="button" href="/">{{text "new-crawl.back"}}</a></div>
+  <div class="form-actions"><button class="primary">{{text "new-crawl.start"}}</button><a class="button" href="{{path "/"}}">{{text "new-crawl.back"}}</a></div>
 </form>
 {{end}}

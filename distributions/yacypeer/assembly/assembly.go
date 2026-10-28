@@ -22,6 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuiproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
 )
 
@@ -39,16 +40,16 @@ const (
 func RunPeer(
 	ctx context.Context,
 	cfg PeerConfig,
-	ops net.Listener,
+	web net.Listener,
 	getenv func(string) string,
 ) error {
 	visitLinkSecret, err := visitlinksecret.Settle(cfg.directoryOf(visitcrawlService))
 	if err != nil {
-		return errors.Join(err, ops.Close())
+		return errors.Join(err, web.Close())
 	}
 	broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
-		return errors.Join(err, ops.Close())
+		return errors.Join(err, web.Close())
 	}
 	defer broker.Shutdown()
 	history, err := metrichistory.Open(
@@ -58,16 +59,16 @@ func RunPeer(
 		wallclock.Clock{},
 	)
 	if err != nil {
-		return errors.Join(err, ops.Close())
+		return errors.Join(err, web.Close())
 	}
 	defer closeHistory(ctx, history)
 	peerEgress, err := egressproxy.Listen(ctx, cfg.PeerProxyURL)
 	if err != nil {
-		return errors.Join(err, ops.Close())
+		return errors.Join(err, web.Close())
 	}
 	pageFetchEgress, err := egressproxy.Listen(ctx, cfg.PageFetchProxyURL)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress}))
+		return errors.Join(err, closeEvery([]io.Closer{web, peerEgress}))
 	}
 	processRegistry := opsmetrics.ProcessRegistry()
 	cachedPages, err := cachedpages.Open(
@@ -78,7 +79,7 @@ func RunPeer(
 		processRegistry,
 	)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress}))
+		return errors.Join(err, closeEvery([]io.Closer{web, peerEgress, pageFetchEgress}))
 	}
 	cacheProxy, err := pagecacheproxy.Listen(
 		ctx,
@@ -88,7 +89,7 @@ func RunPeer(
 		processRegistry,
 	)
 	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress}))
+		return errors.Join(err, closeEvery([]io.Closer{web, peerEgress, pageFetchEgress}))
 	}
 	peer := peer{
 		peerEgressProxyURL: peerEgress.URL(),
@@ -96,18 +97,17 @@ func RunPeer(
 		cfg:                cfg,
 		natsURL:            broker.ClientURL(),
 		visitLinkSecret:    visitLinkSecret,
-		webUIURLs:          webUIURLsFor(ops, getenv),
 	}
-	services, err := peer.services(ctx, getenv)
+	services, urls, err := peer.services(ctx, getenv)
 	if err != nil {
 		return errors.Join(
 			err,
-			closeEvery([]io.Closer{ops, peerEgress, pageFetchEgress, cacheProxy}),
+			closeEvery([]io.Closer{web, peerEgress, pageFetchEgress, cacheProxy}),
 		)
 	}
-	logStarted(ctx, peer, ops)
-	opsMux := opsMuxFor(processRegistry, services, history, peer.webUIURLs)
-	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
+	logStarted(ctx, peer, web)
+	webMux := webMuxFor(processRegistry, services, history, urls)
+	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
 		return runEvery(ctx, services,
 			func(ctx context.Context) error {
 				return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
@@ -145,20 +145,20 @@ func closeEvery[C io.Closer](closers []C) error {
 func logStarted(
 	ctx context.Context,
 	peer peer,
-	ops net.Listener,
+	web net.Listener,
 ) {
 	slog.DebugContext(ctx, "yacypeer started",
 		slog.String("natsUrl", peer.natsURL),
 		slog.String("peerEgressProxyUrl", peer.peerEgressProxyURL.Redacted()),
-		slog.String("opsAddr", ops.Addr().String()),
+		slog.String("webAddr", web.Addr().String()),
 	)
 }
 
-func opsMuxFor(
+func webMuxFor(
 	processRegistry *prometheus.Registry,
 	services []service,
 	history *metrichistory.History,
-	webUIURLs webuitabs.URLs,
+	urls serviceURLs,
 ) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
@@ -171,6 +171,8 @@ func opsMuxFor(
 		serviceDashboards,
 		webUIURLs.TabBarFor(webuitabs.Metrics),
 	)
+	mux.Handle(crawlConsolePathPrefix+"/", webuiproxy.To(urls[crawlconsoleService]))
+	mux.Handle("/", webuiproxy.To(urls[searchpageService]))
 	return mux
 }
 

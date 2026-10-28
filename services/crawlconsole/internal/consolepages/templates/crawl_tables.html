@@ -2,7 +2,7 @@
 {{define "refresh"}}<meta http-equiv="refresh" content="5">{{end}}
 {{define "pager"}}<div class="pager">{{if .NewestPageURL}}<a href="{{.NewestPageURL}}">{{text "pager.newest"}}</a>{{end}}{{if .NewerPageURL}}<a href="{{.NewerPageURL}}">{{text "pager.newer"}}</a>{{end}}{{if .OlderPageURL}}<a href="{{.OlderPageURL}}">{{text "pager.older"}}</a>{{end}}</div>{{end}}
 {{define "other-seeds"}}{{if .AmountOfOtherSeedURLs}} <span class="muted">{{text "crawl.other-seed-urls" .AmountOfOtherSeedURLs}}</span>{{end}}{{end}}
-{{define "crawl"}}<td class="crawl">{{if .Label}}<a href="/crawls/{{.CrawlID}}">{{.Label}}</a><div><span class="url muted">{{.FirstSeedURL}}</span>{{template "other-seeds" .}}</div>{{else}}<a class="url" href="/crawls/{{.CrawlID}}">{{.FirstSeedURL}}</a>{{template "other-seeds" .}}{{end}}</td>{{end}}
+{{define "crawl"}}<td class="crawl">{{if .Label}}<a href="{{path "/crawls/"}}{{.CrawlID}}">{{.Label}}</a><div><span class="url muted">{{.FirstSeedURL}}</span>{{template "other-seeds" .}}</div>{{else}}<a class="url" href="{{path "/crawls/"}}{{.CrawlID}}">{{.FirstSeedURL}}</a>{{template "other-seeds" .}}{{end}}</td>{{end}}
 {{define "crawler"}}
 <div class="toolbar">
   {{with .Crawler}}
@@ -13,13 +13,13 @@
   {{end}}
   <span class="actions">
     {{if .Crawler.Answered}}
-    <form class="inline" method="post" action="/crawler-pause">
+    <form class="inline" method="post" action="{{path "/crawler-pause"}}">
       <input type="hidden" name="Back" value="{{.Path}}">
       {{if .Crawler.Status.Paused}}<input type="hidden" name="Paused" value="false"><button class="primary">{{text "crawler.resume-all"}}</button>
       {{else}}<input type="hidden" name="Paused" value="true"><button>{{text "crawler.pause-all"}}</button>{{end}}
     </form>
     {{end}}
-    <a class="button primary" href="/crawls/new">{{text "new-crawl.title"}}</a>
+    <a class="button primary" href="{{path "/crawls/new"}}">{{text "new-crawl.title"}}</a>
   </span>
 </div>
 {{end}}
@@ -52,7 +52,7 @@
     <td class="muted moment">{{moment .StartedAt}}</td>
     <td class="muted moment">{{moment .FinishedAt}}</td>
     <td class="number">{{template "duration" .Duration}}</td>
-    <td class="actions"><a class="button small" href="/crawls/new?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a></td>
+    <td class="actions"><a class="button small" href="{{path "/crawls/new"}}?from={{.CrawlID}}">{{text "crawl.duplicate"}}</a></td>
   </tr>
   {{else}}
   <tr><td colspan="7" class="muted">{{text "crawl-tables.no-finished-crawls"}}</td></tr>

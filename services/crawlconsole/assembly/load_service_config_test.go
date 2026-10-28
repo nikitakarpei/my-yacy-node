@@ -62,3 +62,33 @@ func TestLoadServiceConfigRefusesATabBarItCannotShow(t *testing.T) {
 		t.Fatalf("load = %v, want %s named", err, crawlconsole.EnvTabBar)
 	}
 }
+
+func TestLoadServiceConfigReadsThePathPrefix(t *testing.T) {
+	cfg, err := crawlconsole.LoadServiceConfig(envFrom(map[string]string{
+		crawlconsole.EnvCrawlerAPIURL: "http://yacycrawler:9095",
+		crawlconsole.EnvPathPrefix:    "/console",
+	}))
+	if err != nil {
+		t.Fatalf("load: %v", err)
+	}
+	if cfg.PathPrefix != "/console" {
+		t.Fatalf("path prefix = %q, want /console", cfg.PathPrefix)
+	}
+}
+
+func TestLoadServiceConfigRefusesAPathPrefixItCannotServe(t *testing.T) {
+	for _, value := range []string{"console", "/console/", "/"} {
+		_, err := crawlconsole.LoadServiceConfig(envFrom(map[string]string{
+			crawlconsole.EnvCrawlerAPIURL: "http://yacycrawler:9095",
+			crawlconsole.EnvPathPrefix:    value,
+		}))
+		if err == nil || !strings.Contains(err.Error(), crawlconsole.EnvPathPrefix) {
+			t.Errorf(
+				"load with path prefix %q = %v, want %s named",
+				value,
+				err,
+				crawlconsole.EnvPathPrefix,
+			)
+		}
+	}
+}

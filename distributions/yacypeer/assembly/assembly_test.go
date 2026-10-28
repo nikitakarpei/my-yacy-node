@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"html"
 	"io"
 	"math/rand/v2"
 	"net"
@@ -13,6 +14,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"testing"
@@ -37,17 +39,11 @@ const (
 
 func peerEnvironment(t *testing.T) map[string]string {
 	t.Helper()
-	listenAddresses := addressesBelowEphemeralPorts(t, 4)
 	return map[string]string{
-		yacypeerassembly.EnvDataDirectory:          t.TempDir(),
-		yacypeerassembly.EnvSeedlistURLs:           "http://127.0.0.1:1/seed.txt",
-		"YACY_ADVERTISE_HOST":                      "127.0.0.1",
-		"YACYNODE__YACY_PEER_ADDR":                 listenAddresses[0],
-		"YACYDHTSEARCH__YACYDHTSEARCH_LISTEN_ADDR": anyLoopbackPort,
-		"CORPUSTEXT__CORPUSTEXT_SEARCH_ADDR":       anyLoopbackPort,
-		"CRAWLCONSOLE_LISTEN_ADDR":                 listenAddresses[1],
-		"VISITCRAWL_LISTEN_ADDR":                   listenAddresses[2],
-		"SEARCHPAGE_LISTEN_ADDR":                   listenAddresses[3],
+		yacypeerassembly.EnvDataDirectory: t.TempDir(),
+		yacypeerassembly.EnvSeedlistURLs:  "http://127.0.0.1:1/seed.txt",
+		"YACY_ADVERTISE_HOST":             "127.0.0.1",
+		"YACYNODE__YACY_PEER_ADDR":        addressesBelowEphemeralPorts(t, 1)[0],
 	}
 }
 
@@ -83,25 +79,25 @@ func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.PeerConfig,
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
 	}
-	ops, err := servergroup.Listen(t.Context(), anyLoopbackPort)
+	web, err := servergroup.Listen(t.Context(), anyLoopbackPort)
 	if err != nil {
-		t.Fatalf("listen for ops: %v", err)
+		t.Fatalf("listen for the web address: %v", err)
 	}
-	return cfg, ops
+	return cfg, web
 }
 
 func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 	env := peerEnvironment(t)
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
 
-	awaitEveryService(t, env, ops)
-	awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics", "go_goroutines")
+	awaitEveryService(t, env, web)
+	awaitAnswer(t, "http://"+web.Addr().String()+"/metrics", "go_goroutines")
 
 	cancel()
 	awaitShutdown(t, runDone)
@@ -109,21 +105,21 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 
 func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirMetricHistory(t *testing.T) {
 	env := peerEnvironment(t)
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, ops)
+	awaitEveryService(t, env, web)
 
-	awaitAnswer(t, "http://"+ops.Addr().String()+"/dashboards",
+	awaitAnswer(t, "http://"+web.Addr().String()+"/dashboards",
 		"/dashboards/yacynode", "/dashboards/yacycrawler", "/dashboards/yacydhtsearch")
 	since := time.Now().Add(-time.Hour).Unix()
 	awaitAnswer(t, fmt.Sprintf(
 		"http://%s/dashboards/api/v1/query_range?query=go_goroutines%%20and%%20yacynode_info&start=%d&end=%d&step=15",
-		ops.Addr(),
+		web.Addr(),
 		since,
 		since+2*3600,
 	), `"instance":"yacynode"`)
@@ -145,12 +141,12 @@ func TestRunPeerSendsOutboundRequestsOnThroughTheEgressProxyTheOperatorNames(t *
 	env := peerEnvironment(t)
 	env[yacypeerassembly.EnvPeerProxyURL] = proxy.URL
 	env[yacypeerassembly.EnvSeedlistURLs] = "http://203.0.113.5/seed.txt"
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
 
 	select {
@@ -162,23 +158,23 @@ func TestRunPeerSendsOutboundRequestsOnThroughTheEgressProxyTheOperatorNames(t *
 		t.Error("no request reached the egress proxy the operator names")
 	}
 
-	awaitEveryService(t, env, ops)
+	awaitEveryService(t, env, web)
 	cancel()
 	awaitShutdown(t, runDone)
 }
 
 func TestRunPeerSearchesTheYaCyNetworkAndTheCrawledPagesOnTheSearchPage(t *testing.T) {
 	env := peerEnvironment(t)
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, ops)
+	awaitEveryService(t, env, web)
 
-	awaitAnswer(t, "http://"+env["SEARCHPAGE_LISTEN_ADDR"]+"/search?q=yacy",
+	awaitAnswer(t, "http://"+web.Addr().String()+"/search?q=yacy",
 		"<dt>!ct</dt>", "<dt>!ya</dt>", "No results.")
 
 	cancel()
@@ -187,24 +183,27 @@ func TestRunPeerSearchesTheYaCyNetworkAndTheCrawledPagesOnTheSearchPage(t *testi
 
 func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *testing.T) {
 	env := peerEnvironment(t)
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, ops)
-	searchTab := `href="http://` + env["SEARCHPAGE_LISTEN_ADDR"] + `"`
-	crawlsTab := `href="http://` + env["CRAWLCONSOLE_LISTEN_ADDR"] + `"`
-	metricsTab := `href="http://` + ops.Addr().String() + `/dashboards"`
+	awaitEveryService(t, env, web)
+	const (
+		searchTab  = `href="/"`
+		crawlsTab  = `href="/crawlconsole/"`
+		metricsTab = `href="/dashboards"`
+	)
 
-	for url, currentTab := range map[string]string{
-		"http://" + env["SEARCHPAGE_LISTEN_ADDR"] + "/":   searchTab,
-		"http://" + env["CRAWLCONSOLE_LISTEN_ADDR"] + "/": crawlsTab,
-		"http://" + ops.Addr().String() + "/dashboards":   metricsTab,
+	for path, currentTab := range map[string]string{
+		"/":              searchTab,
+		"/crawlconsole/": crawlsTab,
+		"/dashboards":    metricsTab,
 	} {
-		awaitAnswer(t, url, searchTab, crawlsTab, metricsTab, currentTab+` aria-current="page"`)
+		awaitAnswer(t, "http://"+web.Addr().String()+path,
+			searchTab, crawlsTab, metricsTab, currentTab+` aria-current="page"`)
 	}
 
 	cancel()
@@ -215,14 +214,14 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 	t *testing.T,
 ) {
 	env := peerEnvironment(t)
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- yacypeerassembly.RunPeer(ctx, cfg, ops, envFrom(env))
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, ops)
+	awaitEveryService(t, env, web)
 
 	secret, err := visitlinksecret.Settle(
 		filepath.Join(env[yacypeerassembly.EnvDataDirectory], "visitcrawl"),
@@ -231,7 +230,7 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 		t.Fatalf("read the peer secret: %v", err)
 	}
 	const visitedPage = "https://example.org/visited"
-	destination := redirectOf(t, "http://"+env["SEARCHPAGE_LISTEN_ADDR"]+"/visit?"+
+	destination := redirectOf(t, "http://"+web.Addr().String()+"/visit?"+
 		visitLinkQueryFor(visitedPage, secret))
 	if destination != visitedPage {
 		t.Errorf("visit redirected to %q, want %q", destination, visitedPage)
@@ -239,6 +238,59 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 
 	cancel()
 	awaitShutdown(t, runDone)
+}
+
+func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
+	env := peerEnvironment(t)
+	cfg, web := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
+	}()
+	awaitEveryService(t, env, web)
+
+	for _, page := range []string{"/", "/search?q=yacy", "/crawlconsole/", "/crawlconsole/crawls/new", "/dashboards"} {
+		body, _ := scraped("http://" + web.Addr().String() + page)
+		links := localLinksOf(body)
+		if len(links) == 0 {
+			t.Errorf("%s links nothing", page)
+		}
+		for _, link := range links {
+			if status := statusOf(t, "http://"+web.Addr().String()+link); status != http.StatusOK {
+				t.Errorf("%s links %s, which answers %d", page, link, status)
+			}
+		}
+	}
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+var localLinkPattern = regexp.MustCompile(`(?:href|src)="(/[^"]*)"`)
+
+func localLinksOf(body string) []string {
+	matches := localLinkPattern.FindAllStringSubmatch(body, -1)
+	links := make([]string, 0, len(matches))
+	for _, match := range matches {
+		links = append(links, html.UnescapeString(match[1]))
+	}
+	return links
+}
+
+func statusOf(t *testing.T, pageURL string) int {
+	t.Helper()
+	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, pageURL, nil)
+	if err != nil {
+		t.Fatalf("build the request: %v", err)
+	}
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		t.Fatalf("get %s: %v", pageURL, err)
+	}
+	_ = response.Body.Close()
+	return response.StatusCode
 }
 
 func visitLinkQueryFor(visitedPage string, secret string) string {
@@ -274,15 +326,17 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 		"CORPUSTEXT__SCRAPE_PAGE_OFFER_NATS_URL": "nats://elsewhere:4222",
 		"EGRESS_PROXY_URL":                       "http://elsewhere:4750",
 		"YACYCRAWLER_API_ADDR":                   "127.0.0.1:9100",
+		"SEARCHPAGE_LISTEN_ADDR":                 ":8097",
+		"CRAWLCONSOLE_PATH_PREFIX":               "/crawls",
 		"CRAWLCONSOLE_TAB_BAR":                   `{"tabs":[]}`,
 		"SEARCHPAGE__SEARCHPAGE_TAB_BAR":         `{"tabs":[]}`,
 	} {
 		t.Run(name, func(t *testing.T) {
 			env := peerEnvironment(t)
 			env[name] = value
-			cfg, ops := peerFrom(t, env)
+			cfg, web := peerFrom(t, env)
 
-			err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+			err := yacypeerassembly.RunPeer(t.Context(), cfg, web, envFrom(env))
 			if err == nil || !strings.Contains(err.Error(), name) {
 				t.Errorf("RunPeer = %v, want the overridden wiring named", err)
 			}
@@ -294,9 +348,9 @@ func TestRunPeerRequiresTheAdvertiseHostBehindTheEgressProxyTheOperatorNames(t *
 	env := peerEnvironment(t)
 	env[yacypeerassembly.EnvPeerProxyURL] = "http://proxy.example:3128"
 	delete(env, "YACY_ADVERTISE_HOST")
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 
-	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, web, envFrom(env))
 	if err == nil || !strings.Contains(err.Error(), "YACY_ADVERTISE_HOST") {
 		t.Errorf("RunPeer = %v, want the advertise host required", err)
 	}
@@ -305,20 +359,20 @@ func TestRunPeerRequiresTheAdvertiseHostBehindTheEgressProxyTheOperatorNames(t *
 func TestRunPeerRefusesAServiceOpsAddress(t *testing.T) {
 	env := peerEnvironment(t)
 	env["CORPUSTEXT_OPS_ADDR"] = ":9096"
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 
-	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, web, envFrom(env))
 	if err == nil || !strings.Contains(err.Error(), "CORPUSTEXT_OPS_ADDR") {
-		t.Errorf("RunPeer = %v, want the service ops address named", err)
+		t.Errorf("RunPeer = %v, want the service web address named", err)
 	}
 }
 
 func TestRunPeerFailsWhenAServiceConfigIsInvalid(t *testing.T) {
 	env := peerEnvironment(t)
 	env["CORPUSTEXT__SEARCH_INDEX_ENGINE"] = "unknown"
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 
-	err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env))
+	err := yacypeerassembly.RunPeer(t.Context(), cfg, web, envFrom(env))
 	if err == nil || !strings.HasPrefix(err.Error(), "corpustext:") {
 		t.Errorf("RunPeer = %v, want the corpustext config refused", err)
 	}
@@ -326,41 +380,33 @@ func TestRunPeerFailsWhenAServiceConfigIsInvalid(t *testing.T) {
 
 func TestRunPeerReleasesItsListenAddressesWhenAServiceCannotListen(t *testing.T) {
 	env := peerEnvironment(t)
-	occupied, err := servergroup.Listen(t.Context(), env["SEARCHPAGE_LISTEN_ADDR"])
+	occupied, err := servergroup.Listen(t.Context(), env["YACYNODE__YACY_PEER_ADDR"])
 	if err != nil {
-		t.Fatalf("occupy the searchpage address: %v", err)
+		t.Fatalf("occupy the yacynode peer address: %v", err)
 	}
 	defer func() { _ = occupied.Close() }()
-	cfg, ops := peerFrom(t, env)
+	cfg, web := peerFrom(t, env)
 
-	if err := yacypeerassembly.RunPeer(t.Context(), cfg, ops, envFrom(env)); err == nil {
-		t.Fatal("RunPeer = nil, want the occupied searchpage address refused")
+	if err := yacypeerassembly.RunPeer(t.Context(), cfg, web, envFrom(env)); err == nil {
+		t.Fatal("RunPeer = nil, want the occupied yacynode peer address refused")
 	}
-	for _, address := range []string{
-		ops.Addr().String(),
-		env["VISITCRAWL_LISTEN_ADDR"],
-		env["YACYNODE__YACY_PEER_ADDR"],
-		env["CRAWLCONSOLE_LISTEN_ADDR"],
-	} {
-		reopened, err := servergroup.Listen(t.Context(), address)
-		if err != nil {
-			t.Errorf("listen on %s after RunPeer failed: %v", address, err)
-			continue
-		}
-		_ = reopened.Close()
+	reopened, err := servergroup.Listen(t.Context(), web.Addr().String())
+	if err != nil {
+		t.Fatalf("listen on the web address after RunPeer failed: %v", err)
 	}
+	_ = reopened.Close()
 }
 
-func awaitEveryService(t *testing.T, env map[string]string, ops net.Listener) {
+func awaitEveryService(t *testing.T, env map[string]string, web net.Listener) {
 	t.Helper()
 	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
-	awaitAnswer(t, "http://"+env["CRAWLCONSOLE_LISTEN_ADDR"]+"/", "No running crawls.")
+	awaitAnswer(t, "http://"+web.Addr().String()+"/crawlconsole/", "No running crawls.")
 	for _, service := range []string{
 		"yacynode", "yacydhtsearch", "corpustext",
 		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge", "visitcrawl",
 		"searchpage",
 	} {
-		awaitAnswer(t, "http://"+ops.Addr().String()+"/metrics/"+service, service+"_info 1")
+		awaitAnswer(t, "http://"+web.Addr().String()+"/metrics/"+service, service+"_info 1")
 	}
 }
 

@@ -76,7 +76,7 @@ func Listen(
 }
 
 func (p *PageCacheProxy) URL() string {
-	return loopback.URLOf(p.listener)
+	return loopback.URLOf(p.listener).String()
 }
 
 func (p *PageCacheProxy) Close() error {

@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{block "refresh" .Content}}{{end}}
 <title>{{block "title" .Content}}{{end}} · {{text "console.name"}}</title>
-<link rel="stylesheet" href="{{.WebUIStylesheet}}">
-<link rel="stylesheet" href="/static/console.css">
+<link rel="stylesheet" href="{{path .WebUIStylesheet}}">
+<link rel="stylesheet" href="{{path "/static/console.css"}}">
 </head>
 <body class="webui-centered">
 {{.TabBar}}

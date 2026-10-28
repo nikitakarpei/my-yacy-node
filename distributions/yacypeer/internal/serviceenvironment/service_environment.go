@@ -1,7 +1,6 @@
 // Package serviceenvironment gives each service of the peer the settings it reads: the value
 // the peer wires, else the value the operator sets for that service, else the value the
-// operator sets for every service, else the value the peer defaults to. It refuses a setting
-// the operator must not set.
+// operator sets for every service. It refuses a setting the operator must not set.
 package serviceenvironment
 
 import (
@@ -16,11 +15,8 @@ const serviceSeparator = "__"
 
 type Wiring map[string]string
 
-type Defaults map[string]string
-
 type Environment struct {
 	wiring        Wiring
-	defaults      Defaults
 	servicePrefix string
 	process       func(string) string
 }
@@ -28,11 +24,14 @@ type Environment struct {
 func For(
 	service string,
 	wiring Wiring,
-	defaults Defaults,
 	unreadSettings []string,
 	process func(string) string,
 ) (Environment, error) {
-	environment := Of(service, wiring, defaults, process)
+	environment := Environment{
+		wiring:        wiring,
+		servicePrefix: strings.ToUpper(service) + serviceSeparator,
+		process:       process,
+	}
 	if err := errors.Join(
 		environment.refused(slices.Sorted(maps.Keys(wiring)), "wired by yacypeer"),
 		environment.refused(unreadSettings, "not read by yacypeer"),
@@ -42,20 +41,6 @@ func For(
 	return environment, nil
 }
 
-func Of(
-	service string,
-	wiring Wiring,
-	defaults Defaults,
-	process func(string) string,
-) Environment {
-	return Environment{
-		wiring:        wiring,
-		defaults:      defaults,
-		servicePrefix: strings.ToUpper(service) + serviceSeparator,
-		process:       process,
-	}
-}
-
 func (e Environment) Lookup(key string) string {
 	if value, wired := e.wiring[key]; wired {
 		return value
@@ -63,10 +48,7 @@ func (e Environment) Lookup(key string) string {
 	if e.isSet(e.servicePrefix + key) {
 		return e.process(e.servicePrefix + key)
 	}
-	if e.isSet(key) {
-		return e.process(key)
-	}
-	return e.defaults[key]
+	return e.process(key)
 }
 
 func (e Environment) refused(keys []string, reason string) error {

@@ -17,13 +17,13 @@ const (
 	EnvDataDirectory          = "YACYPEER_DATA_DIR"
 	EnvNetworkName            = "YACYPEER_NETWORK_NAME"
 	EnvSeedlistURLs           = "YACYPEER_SEEDLIST_URLS"
-	EnvOpsAddr                = "YACYPEER_OPS_ADDR"
+	EnvWebAddr                = "YACYPEER_WEB_ADDR"
 	EnvPeerProxyURL           = "YACYPEER_PEER_PROXY_URL"
 	EnvPageFetchProxyURL      = "YACYPEER_PAGE_FETCH_PROXY_URL"
 	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
 
 	DefaultDataDirectory          = "data"
-	DefaultOpsAddr                = loopback.Host + ":9090"
+	DefaultWebAddr                = loopback.Host + ":9090"
 	DefaultMetricHistoryRetention = 7 * 24 * time.Hour
 	DefaultSeedlistURLs           = "http://sixcooler.de/yacy/seed.txt," +
 		"https://sonst.mifritscher.de/yacy/seed.txt," +
@@ -47,7 +47,7 @@ type PeerConfig struct {
 	DataDirectory          string
 	NetworkName            string
 	SeedlistURLs           string
-	OpsAddr                string
+	WebAddr                string
 	MetricHistoryRetention time.Duration
 }
 
@@ -82,7 +82,7 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		DataDirectory:          envconfig.String(getenv, EnvDataDirectory, DefaultDataDirectory),
 		NetworkName:            networkName,
 		SeedlistURLs:           seedlistURLs,
-		OpsAddr:                envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		WebAddr:                envconfig.String(getenv, EnvWebAddr, DefaultWebAddr),
 		MetricHistoryRetention: metricHistoryRetention,
 	}, nil
 }

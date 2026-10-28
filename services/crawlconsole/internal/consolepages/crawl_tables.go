@@ -79,20 +79,20 @@ func (tables crawlTables) tableOf(
 		table.Rows = append(table.Rows, crawlRowFrom(crawl, now))
 	}
 	if page.OlderCursor != "" {
-		table.OlderPageURL = pageURLAt("/", query, cursorParameter, page.OlderCursor)
+		table.OlderPageURL = pageURLFrom(query, cursorParameter, page.OlderCursor)
 	}
 	if page.NewerCursor != "" {
-		table.NewerPageURL = pageURLAt("/", query, cursorParameter, page.NewerCursor)
-		table.NewestPageURL = pageURLAt("/", query, cursorParameter, "")
+		table.NewerPageURL = pageURLFrom(query, cursorParameter, page.NewerCursor)
+		table.NewestPageURL = pageURLFrom(query, cursorParameter, "")
 	}
 	return table, true
 }
 
-func pageURLAt(path string, query url.Values, cursorParameter string, cursor string) string {
+func pageURLFrom(query url.Values, cursorParameter string, cursor string) string {
 	pageQuery := maps.Clone(query)
 	pageQuery.Del(cursorParameter)
 	if cursor != "" {
 		pageQuery.Set(cursorParameter, cursor)
 	}
-	return path + "?" + pageQuery.Encode()
+	return "?" + pageQuery.Encode()
 }
