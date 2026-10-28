@@ -11,7 +11,9 @@ type sentAsks struct {
 	partitions yacymodel.DHTRingPartitions
 	sent       map[wordPartitionKey]struct{}
 	pending    map[wordPartitionKey]struct{}
+	skipped    map[wordPartitionKey]struct{}
 	answered   []wordpartitionasks.SettledAsk
+	endedWords map[yacymodel.Hash]struct{}
 }
 
 func noAsksSentYet(partitions yacymodel.DHTRingPartitions) *sentAsks {
@@ -19,6 +21,8 @@ func noAsksSentYet(partitions yacymodel.DHTRingPartitions) *sentAsks {
 		partitions: partitions,
 		sent:       map[wordPartitionKey]struct{}{},
 		pending:    map[wordPartitionKey]struct{}{},
+		skipped:    map[wordPartitionKey]struct{}{},
+		endedWords: map[yacymodel.Hash]struct{}{},
 	}
 }
 
@@ -78,4 +82,48 @@ func (asks *sentAsks) documentsListedIn(
 	}
 
 	return yacymodel.UnionOf(documentsOfEachAnswer...)
+}
+
+func (asks *sentAsks) skip(words []yacymodel.Hash, partition uint) {
+	for _, word := range words {
+		asks.skipped[wordPartitionKey{word: word, partition: partition}] = struct{}{}
+	}
+}
+
+func (asks *sentAsks) newlyEndedAmong(words []yacymodel.Hash) []yacymodel.Hash {
+	var newlyEndedWords []yacymodel.Hash
+	for _, word := range words {
+		if _, ended := asks.endedWords[word]; ended || !asks.everyPartitionSettledFor(word) {
+			continue
+		}
+		asks.endedWords[word] = struct{}{}
+		newlyEndedWords = append(newlyEndedWords, word)
+	}
+
+	return newlyEndedWords
+}
+
+func (asks *sentAsks) everyPartitionSettledFor(word yacymodel.Hash) bool {
+	for partition := range uint(asks.partitions) {
+		key := wordPartitionKey{word: word, partition: partition}
+		_, sent := asks.sent[key]
+		_, skipped := asks.skipped[key]
+		_, pending := asks.pending[key]
+		if pending || !sent && !skipped {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (asks *sentAsks) amountOfDocumentsListed() int {
+	amount := 0
+	for _, answered := range asks.answered {
+		for _, answer := range answered.Answers {
+			amount += answer.ListedDocuments.Amount()
+		}
+	}
+
+	return amount
 }

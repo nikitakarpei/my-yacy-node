@@ -7,6 +7,7 @@ package documentasks
 
 import (
 	"context"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
@@ -67,6 +68,7 @@ func (asker Asker) Begin(
 ) *Inquiry {
 	return &Inquiry{
 		ctx:                     ctx,
+		beganAt:                 time.Now(),
 		compoundWords:           query.CompoundWords,
 		chosenPeers:             chosenPeersFor(query, chosenPeersPerQueryWord),
 		partitions:              asker.partitions,

@@ -121,10 +121,20 @@ func (asked *askedPartitions) AskedAmongTheDocuments(
 	maps.Copy(asked.decisionPerPartition, decisionPerPartition)
 }
 
+func (*askedPartitions) ListingsEnded(context.Context, documentasks.EndedListings) {}
+
 func (*askedPartitions) DocumentAsksPerformed(context.Context, documentasks.Performed) {}
 
 type documentAsksReports struct {
-	performed []documentasks.Performed
+	endedWords []yacymodel.Hash
+	performed  []documentasks.Performed
+}
+
+func (reports *documentAsksReports) ListingsEnded(
+	_ context.Context,
+	ended documentasks.EndedListings,
+) {
+	reports.endedWords = append(reports.endedWords, ended.Word)
 }
 
 func (*documentAsksReports) AskedAmongTheDocuments(
@@ -576,5 +586,57 @@ func TestTheReportCountsTheCompoundWordsThePartitionsAnswered(t *testing.T) {
 			"the document asks reported %+v for the compound words %v, want the one answered",
 			reports.performed, query.CompoundWords,
 		)
+	}
+}
+
+func TestTheListingsOfEachWordEndOnceEveryPartitionOfItSettled(t *testing.T) {
+	t.Parallel()
+
+	reports := &documentAsksReports{}
+	inquiry := inquiryOver(t, firstWordListing(), reports, &wordPartitionsAnsweredInTurn{})
+
+	inquiry.WhichDocumentsHave(wordsOf(firstWord, secondWord))
+	endedBeforeTheEnd := slices.Clone(reports.endedWords)
+	inquiry.End()
+
+	want := wordsOf(firstWord, secondWord)
+	if !slices.Equal(
+		slices.SortedFunc(slices.Values(endedBeforeTheEnd), yacymodel.Hash.CompareInAlphabetOrder),
+		slices.SortedFunc(slices.Values(want), yacymodel.Hash.CompareInAlphabetOrder),
+	) ||
+		len(reports.endedWords) != len(want) {
+		t.Fatalf("the listings of %v ended, want those of %v once each", reports.endedWords, want)
+	}
+}
+
+func TestTheListingsOfAWordEndAlsoWhenAPartitionHadNothingToMatch(t *testing.T) {
+	t.Parallel()
+
+	reports := &documentAsksReports{}
+	inquiry := inquiryOver(
+		t, firstWordListing(documentsIn(t, 1, 1)...), reports, &wordPartitionsAnsweredInTurn{},
+	)
+	inquiry.ExpectInAPartition(yacymodel.WordHash(firstWord), 0)
+
+	inquiry.WhichDocumentsHavingTheseAlsoHave(wordsOf(firstWord), wordsOf(secondWord))
+
+	if !slices.Contains(reports.endedWords, yacymodel.WordHash(secondWord)) {
+		t.Fatalf("the listings of %v ended, want also those of the second word", reports.endedWords)
+	}
+}
+
+func TestTheListingsOfAWordNeverAskedDoNotEnd(t *testing.T) {
+	t.Parallel()
+
+	reports := &documentAsksReports{}
+	replicas := firstWordListing(documentsIn(t, 0, 1)...)
+	inquiry := inquiryOver(t, replicas, reports, &wordPartitionsAnsweredInTurn{})
+	inquiry.ExpectInAPartition(yacymodel.WordHash(firstWord), 0)
+	inquiry.WhichDocumentsHave(wordsOf(firstWord))
+
+	inquiry.End()
+
+	if slices.Contains(reports.endedWords, yacymodel.WordHash(secondWord)) {
+		t.Fatalf("the listings of %v ended, want none of a word never asked", reports.endedWords)
 	}
 }
