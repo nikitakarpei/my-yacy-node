@@ -23,7 +23,7 @@ type SearchDocumentsAskOutcomes = AskOutcomes[SearchDocumentsAsk, AnsweredSearch
 
 type AnsweredSearchDocumentsAsk struct {
 	Ask                             SearchDocumentsAsk
-	Abstract                        []yacymodel.URLHash
+	Abstract                        yacymodel.URLHashes
 	MatchedDocuments                []MatchedDocument
 	AmountOfDocumentsHeldForTheWord yacymodel.Optional[int]
 	PeerSearched                    bool

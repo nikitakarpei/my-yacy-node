@@ -52,7 +52,7 @@ func TestTheAnswerListsEachDocumentOfTheAbstractAndTheMatchedDocumentsOnce(t *te
 	onlyListed := documentAt(t, "https://listed.example/")
 	onlyMatched := documentAt(t, "https://matched.example/")
 	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
-		Abstract: []yacymodel.URLHash{onlyListed, inBoth},
+		Abstract: yacymodel.URLHashesOf(onlyListed, inBoth),
 		MatchedDocuments: []peerasks.MatchedDocument{
 			{Metadata: yacymodel.URLMetadata{Hash: onlyMatched}},
 			{Metadata: yacymodel.URLMetadata{Hash: inBoth}},

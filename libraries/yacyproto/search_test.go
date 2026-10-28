@@ -64,8 +64,8 @@ func TestSearchResponseRoundTrip(t *testing.T) {
 			sampleSearchResource(t, "url-b"),
 		},
 		IndexCount: map[yacymodel.Hash]int{alpha: 17},
-		IndexAbstract: map[yacymodel.Hash][]yacymodel.URLHash{
-			alpha: {mustParseURLHash(t, "bbbbbbAAAAAA")},
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
+			alpha: yacymodel.URLHashesOf(mustParseURLHash(t, "bbbbbbAAAAAA")),
 		},
 	}
 

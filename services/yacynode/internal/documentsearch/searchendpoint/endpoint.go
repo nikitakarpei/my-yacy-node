@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
@@ -92,7 +93,7 @@ func (e endpoint) Serve(
 		resp.Resources = searchResourcesFrom(result)
 		resp.Count = len(resp.Resources)
 		resp.IndexCount = result.AmountOfPostingsPerTerm
-		resp.IndexAbstract = result.IndexAbstracts
+		resp.IndexAbstract = indexAbstractsFrom(result.IndexAbstracts)
 	} else {
 		e.observation.observeNetworkMismatch()
 	}
@@ -119,4 +120,15 @@ func searchResourcesFrom(result searchresult.Result) []yacyproto.SearchResource 
 	}
 
 	return resources
+}
+
+func indexAbstractsFrom(
+	abstracts indexabstract.IndexAbstracts,
+) map[yacymodel.Hash]yacymodel.URLHashes {
+	indexAbstracts := make(map[yacymodel.Hash]yacymodel.URLHashes, len(abstracts))
+	for word, documents := range abstracts {
+		indexAbstracts[word] = yacymodel.URLHashesOf(documents...)
+	}
+
+	return indexAbstracts
 }

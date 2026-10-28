@@ -200,7 +200,7 @@ func (w Wire) urlMetadataResponse(
 		return yacyproto.URLMetadataResponse{}, false
 	}
 
-	response, err := yacyproto.ParseURLMetadataResponse(ctx, []byte(body))
+	response, err := yacyproto.ParseURLMetadataResponse(ctx, body)
 	if err != nil {
 		w.observer.PeerAnswerUnreadable(
 			ctx,
@@ -262,7 +262,7 @@ func (w Wire) putSearchDocumentsAsk(
 	w.observer.PeerSearchedDocuments(
 		ctx,
 		ask.Peer.Address,
-		len(abstract),
+		abstract.Amount(),
 		len(matchedDocuments),
 		time.Since(startedAt),
 	)
@@ -336,7 +336,7 @@ func (w Wire) answerBody(
 	ctx context.Context,
 	call peerCall,
 	startedAt time.Time,
-) (string, bool) {
+) ([]byte, bool) {
 	req, err := http.NewRequestWithContext(
 		ctx, http.MethodPost, call.address+call.path, strings.NewReader(call.form.Encode()),
 	)
@@ -349,7 +349,7 @@ func (w Wire) answerBody(
 			err,
 			time.Since(startedAt),
 		)
-		return "", false
+		return nil, false
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
@@ -358,7 +358,7 @@ func (w Wire) answerBody(
 	resp, err := headersWait.responseTo(w.client, req)
 	if err != nil {
 		w.reportUnansweredPeerCall(ctx, call, headersWait, err, time.Since(startedAt))
-		return "", false
+		return nil, false
 	}
 	defer func() { _ = resp.Body.Close() }()
 
@@ -371,15 +371,15 @@ func (w Wire) answerBody(
 			resp.StatusCode,
 			time.Since(startedAt),
 		)
-		return "", false
+		return nil, false
 	}
 	body, err := io.ReadAll(io.LimitReader(resp.Body, w.maxResponseBytes))
 	if err != nil {
 		w.reportUnreadAnswer(ctx, call, err, time.Since(startedAt))
-		return "", false
+		return nil, false
 	}
 
-	return string(body), true
+	return body, true
 }
 
 func (w Wire) reportUnansweredPeerCall(

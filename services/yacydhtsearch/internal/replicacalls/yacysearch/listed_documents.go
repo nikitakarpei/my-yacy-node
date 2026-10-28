@@ -7,16 +7,12 @@ import (
 )
 
 func listedDocumentsIn(answeredAsk peerasks.AnsweredSearchDocumentsAsk) yacymodel.URLHashes {
-	var listedDocuments yacymodel.URLHashesBuilder
-	listedDocuments.Grow(len(answeredAsk.Abstract) + len(answeredAsk.MatchedDocuments))
-	for _, document := range answeredAsk.Abstract {
-		listedDocuments.Add(document)
-	}
+	var matchedDocuments yacymodel.URLHashesBuilder
 	for _, matchedDocument := range answeredAsk.MatchedDocuments {
-		listedDocuments.Add(matchedDocument.Metadata.Hash)
+		matchedDocuments.Add(matchedDocument.Metadata.Hash)
 	}
 
-	return listedDocuments.URLHashes()
+	return yacymodel.UnionOf(answeredAsk.Abstract, matchedDocuments.URLHashes())
 }
 
 func matchedDocumentsIn(

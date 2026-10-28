@@ -77,7 +77,7 @@ func (p roundTripper) post(
 		return nil, fmt.Errorf("read reply: %w", err)
 	}
 
-	return yacyproto.ParseResponseFields(string(raw)), nil
+	return yacyproto.ParseResponseFields(raw), nil
 }
 
 func closeResponseBody(ctx context.Context, body io.Closer, path string) {
