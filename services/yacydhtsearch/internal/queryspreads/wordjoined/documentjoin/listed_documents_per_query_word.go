@@ -1,10 +1,6 @@
 package documentjoin
 
-import (
-	"maps"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type listedDocumentsPerQueryWord map[yacymodel.Hash]yacymodel.URLHashes
 
@@ -21,7 +17,7 @@ func (listedDocuments listedDocumentsPerQueryWord) add(
 	word yacymodel.Hash,
 	documents yacymodel.URLHashes,
 ) {
-	maps.Copy(listedDocuments[word], documents)
+	listedDocuments[word] = listedDocuments[word].UnionWith(documents)
 }
 
 func (listedDocuments listedDocumentsPerQueryWord) listedForEveryQueryWord(

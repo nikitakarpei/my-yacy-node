@@ -8,11 +8,12 @@ import (
 
 type urlMetadataLookupOfJoinedDocuments struct {
 	holders           documentholders.Holders
+	found             *documentsTheSpreadFound
 	urlMetadataLookup *urlmetadataasks.Lookup
 }
 
 func (lookup urlMetadataLookupOfJoinedDocuments) DocumentsJoined(documents yacymodel.URLHashes) {
 	lookup.urlMetadataLookup.AskFor(
-		lookup.holders.HoldersOf(lookup.holders.WithoutMetadataAmong(documents)),
+		lookup.holders.HoldersOf(lookup.found.withoutMetadataAmong(documents)),
 	)
 }

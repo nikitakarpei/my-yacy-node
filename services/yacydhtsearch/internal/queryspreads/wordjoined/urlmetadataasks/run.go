@@ -21,16 +21,13 @@ type run struct {
 
 func noAsksPutYet() *run {
 	return &run{
-		beganAt:                       time.Now(),
-		lookedUpDocuments:             yacymodel.URLHashes{},
-		asksInFlightPerOpenDocument:   map[yacymodel.URLHash]int{},
-		lookedUpDocumentsWithMetadata: yacymodel.URLHashes{},
-		givenDocuments:                yacymodel.URLHashes{},
+		beganAt:                     time.Now(),
+		asksInFlightPerOpenDocument: map[yacymodel.URLHash]int{},
 	}
 }
 
 func (run *run) give(documents []yacymodel.URLHash) {
-	run.givenDocuments.AddEach(documents)
+	run.givenDocuments = run.givenDocuments.UnionWith(yacymodel.URLHashesOf(documents...))
 }
 
 func (run *run) add(asks []peerasks.URLMetadataAsk) {
@@ -51,12 +48,14 @@ func (run *run) keep(asks []peerasks.URLMetadataAsk) {
 }
 
 func (run *run) openTheDocumentsOf(asks []peerasks.URLMetadataAsk) {
+	var lookedUpDocuments yacymodel.URLHashesBuilder
 	for _, ask := range asks {
 		for _, document := range ask.Documents {
-			run.lookedUpDocuments.Add(document)
+			lookedUpDocuments.Add(document)
 			run.asksInFlightPerOpenDocument[document]++
 		}
 	}
+	run.lookedUpDocuments = run.lookedUpDocuments.UnionWith(lookedUpDocuments.URLHashes())
 }
 
 func (run *run) endBy(endReason EndReason) {
@@ -64,26 +63,30 @@ func (run *run) endBy(endReason EndReason) {
 }
 
 func (run *run) covered() bool {
-	return len(run.lookedUpDocumentsWithMetadata) == len(run.lookedUpDocuments)
+	return run.lookedUpDocumentsWithMetadata.Amount() == run.lookedUpDocuments.Amount()
 }
 
 func (run *run) settle(outcome peerasks.URLMetadataAskOutcome) {
 	if answeredAsk, answered := outcome.Answer.Get(); answered {
-		for _, metadata := range answeredAsk.MetadataOfEachDocument {
-			run.settleWithMetadata(metadata.Hash)
-		}
+		run.settleWithMetadata(answeredAsk.MetadataOfEachDocument)
 	}
 	for _, document := range outcome.Ask.Documents {
 		run.settleOneAskNaming(document)
 	}
 }
 
-func (run *run) settleWithMetadata(document yacymodel.URLHash) {
-	if _, open := run.asksInFlightPerOpenDocument[document]; !open {
-		return
+func (run *run) settleWithMetadata(metadataOfEachDocument []yacymodel.URLMetadata) {
+	var documentsWithMetadata yacymodel.URLHashesBuilder
+	for _, metadata := range metadataOfEachDocument {
+		if _, open := run.asksInFlightPerOpenDocument[metadata.Hash]; !open {
+			continue
+		}
+		delete(run.asksInFlightPerOpenDocument, metadata.Hash)
+		documentsWithMetadata.Add(metadata.Hash)
 	}
-	delete(run.asksInFlightPerOpenDocument, document)
-	run.lookedUpDocumentsWithMetadata.Add(document)
+	run.lookedUpDocumentsWithMetadata = run.lookedUpDocumentsWithMetadata.UnionWith(
+		documentsWithMetadata.URLHashes(),
+	)
 }
 
 func (run *run) settleOneAskNaming(document yacymodel.URLHash) {
@@ -97,8 +100,8 @@ func (run *run) settleOneAskNaming(document yacymodel.URLHash) {
 }
 
 func (run *run) settledShare() float64 {
-	return float64(len(run.lookedUpDocuments)-len(run.asksInFlightPerOpenDocument)) /
-		float64(len(run.lookedUpDocuments))
+	return float64(run.lookedUpDocuments.Amount()-len(run.asksInFlightPerOpenDocument)) /
+		float64(run.lookedUpDocuments.Amount())
 }
 
 func (run *run) cutOff() {
@@ -108,9 +111,9 @@ func (run *run) cutOff() {
 
 func (run *run) performed() Performed {
 	return Performed{
-		AmountOfLookedUpDocuments:             len(run.lookedUpDocuments),
-		AmountOfLookedUpDocumentsWithMetadata: len(run.lookedUpDocumentsWithMetadata),
-		AmountOfDocumentsNotAsked:             len(run.givenDocuments) - len(run.lookedUpDocuments),
+		AmountOfLookedUpDocuments:             run.lookedUpDocuments.Amount(),
+		AmountOfLookedUpDocumentsWithMetadata: run.lookedUpDocumentsWithMetadata.Amount(),
+		AmountOfDocumentsNotAsked:             run.givenDocuments.Amount() - run.lookedUpDocuments.Amount(),
 		EndReason:                             run.endReason,
 		AmountOfDocumentsCutOff:               run.amountOfDocumentsCutOff,
 		AmountOfDocumentsPerAsk:               amountOfDocumentsPerAskIn(run.asks),

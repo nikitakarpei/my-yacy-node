@@ -1,7 +1,6 @@
 // Package documentholders keeps which peers listed each document in their
-// answers and which documents came with metadata. The holders of some documents
-// name the peers that hold them and order the documents by how many peers hold
-// them.
+// answers. The holders of some documents name the peers that hold them and order
+// the documents by how many peers hold them.
 package documentholders
 
 import (
@@ -16,15 +15,11 @@ import (
 )
 
 type Holders struct {
-	peersPerDocument      map[yacymodel.URLHash][]peerdirectory.AskablePeer
-	documentsWithMetadata yacymodel.URLHashes
+	peersPerDocument map[yacymodel.URLHash][]peerdirectory.AskablePeer
 }
 
 func NoneYet() Holders {
-	return Holders{
-		peersPerDocument:      map[yacymodel.URLHash][]peerdirectory.AskablePeer{},
-		documentsWithMetadata: yacymodel.URLHashes{},
-	}
+	return Holders{peersPerDocument: map[yacymodel.URLHash][]peerdirectory.AskablePeer{}}
 }
 
 func (holders Holders) WordPartitionAnswered(
@@ -49,14 +44,11 @@ func (holders Holders) keep(
 	}) {
 		holders.peersPerDocument[listedDocument.Hash] = append(peers, replica)
 	}
-	if listedDocument.Metadata().Present() {
-		holders.documentsWithMetadata.Add(listedDocument.Hash)
-	}
 }
 
 func (holders Holders) HoldersOf(documents yacymodel.URLHashes) Holders {
 	holdersOfTheDocuments := NoneYet()
-	for document := range documents {
+	for document := range documents.All() {
 		peers, listed := holders.peersPerDocument[document]
 		if !listed {
 			continue
@@ -65,18 +57,6 @@ func (holders Holders) HoldersOf(documents yacymodel.URLHashes) Holders {
 	}
 
 	return holdersOfTheDocuments
-}
-
-func (holders Holders) WithoutMetadataAmong(documents yacymodel.URLHashes) yacymodel.URLHashes {
-	documentsWithoutMetadata := yacymodel.URLHashes{}
-	for document := range documents {
-		if holders.documentsWithMetadata.Contains(document) {
-			continue
-		}
-		documentsWithoutMetadata.Add(document)
-	}
-
-	return documentsWithoutMetadata
 }
 
 func (holders Holders) LeastHeldFirst() []yacymodel.URLHash {

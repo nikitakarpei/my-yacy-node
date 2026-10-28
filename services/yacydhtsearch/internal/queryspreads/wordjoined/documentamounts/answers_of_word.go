@@ -62,7 +62,7 @@ func (answers answersOfWord) listAnyDocument() bool {
 }
 
 func (answers answersOfWord) documents() yacymodel.URLHashes {
-	documents := yacymodel.URLHashes{}
+	var documents yacymodel.URLHashesBuilder
 	for _, answersOfThePartition := range answers {
 		for _, answer := range answersOfThePartition {
 			for _, listedDocument := range answer.ListedDocuments {
@@ -71,7 +71,7 @@ func (answers answersOfWord) documents() yacymodel.URLHashes {
 		}
 	}
 
-	return documents
+	return documents.URLHashes()
 }
 
 type answersOfPartition []wordpartitionasks.ReplicaAnswer

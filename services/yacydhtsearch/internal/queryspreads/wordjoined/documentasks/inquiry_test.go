@@ -459,7 +459,7 @@ func TestTheDocumentsToMatchAreNamedInHashOrder(t *testing.T) {
 
 	askedFirstThenSecondAmongIt(t, replicas, 0)
 
-	want := yacymodel.URLHashes{documents[0]: {}, documents[1]: {}}.InHashOrder()
+	want := yacymodel.URLHashesOf(documents[0], documents[1]).InHashOrder()
 	if asksOfTheSecondWord := replicas.asksOf(secondWord); len(asksOfTheSecondWord) != 1 ||
 		!slices.Equal(asksOfTheSecondWord[0].DocumentsToMatch, want) {
 		t.Fatalf("the inquiry asked %v, want one ask naming %v", asksOfTheSecondWord, want)

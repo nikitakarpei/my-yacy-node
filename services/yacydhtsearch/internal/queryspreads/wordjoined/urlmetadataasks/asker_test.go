@@ -277,14 +277,14 @@ func holdersIn(answers []wordpartitionasks.ReplicaAnswer) documentholders.Holder
 }
 
 func documentsAcross(answers []wordpartitionasks.ReplicaAnswer) yacymodel.URLHashes {
-	documents := yacymodel.URLHashes{}
+	var documents yacymodel.URLHashesBuilder
 	for _, answer := range answers {
 		for _, listedDocument := range answer.ListedDocuments {
 			documents.Add(listedDocument.Hash)
 		}
 	}
 
-	return documents
+	return documents.URLHashes()
 }
 
 func TestTheAsksEndOnceTheirAnswersCoverEveryDocumentWithoutTheStuckPeer(t *testing.T) {

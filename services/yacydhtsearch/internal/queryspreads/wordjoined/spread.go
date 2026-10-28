@@ -66,7 +66,7 @@ func (spread Spread) SpreadOverPeers(
 	urlMetadataLookup := spread.urlMetadataAsker.Begin(ctx, found)
 	documentsJoiner := documentjoin.JoinerOf(query, documentjoin.JoinObservers{
 		found,
-		urlMetadataLookupOfJoinedDocuments{holders, urlMetadataLookup},
+		urlMetadataLookupOfJoinedDocuments{holders, found, urlMetadataLookup},
 	})
 	documentInquiry := spread.documentsAsker.Begin(
 		ctx, query, chosenPeersPerQueryWord,
@@ -86,12 +86,13 @@ func (spread Spread) SpreadOverPeers(
 	}
 	documentInquiry.End()
 	urlMetadataLookup.End()
-	joinedDocuments := documentsJoiner.JoinedDocuments()
+	findings := found.findings()
 
 	spread.documentAmountsCache.Remember(ctx, measurement.InAPartitionPerQueryWord())
 	spread.observer.WordJoinedSpreadPerformed(ctx, performedWordJoinedSpreadFrom(
-		query, holders, measurement, leadingWord, joinedDocuments, time.Since(startedAt),
+		query, measurement, leadingWord, documentsJoiner.JoinedDocuments(), findings.FoundDocuments,
+		time.Since(startedAt),
 	))
 
-	return found.findings()
+	return findings
 }

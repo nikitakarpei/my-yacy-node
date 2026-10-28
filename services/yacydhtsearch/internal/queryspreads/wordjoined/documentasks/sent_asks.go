@@ -64,7 +64,7 @@ func (asks *sentAsks) documentsListedIn(
 	partition uint,
 	words []yacymodel.Hash,
 ) yacymodel.URLHashes {
-	documents := yacymodel.URLHashes{}
+	var documents yacymodel.URLHashesBuilder
 	for _, answered := range asks.answered {
 		if !slices.Contains(words, answered.Word) {
 			continue
@@ -78,5 +78,5 @@ func (asks *sentAsks) documentsListedIn(
 		}
 	}
 
-	return documents
+	return documents.URLHashes()
 }

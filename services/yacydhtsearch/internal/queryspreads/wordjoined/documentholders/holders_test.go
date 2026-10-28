@@ -1,7 +1,6 @@
 package documentholders_test
 
 import (
-	"maps"
 	"slices"
 	"testing"
 
@@ -65,7 +64,7 @@ func TestTheDocumentFewerPeersHoldComesFirst(t *testing.T) {
 		answerOf("first", heldByTwo, heldByOne),
 		answerOf("second", heldByTwo),
 		answerOf("second", heldByTwo),
-	).HoldersOf(yacymodel.URLHashes{heldByOne: {}, heldByTwo: {}})
+	).HoldersOf(yacymodel.URLHashesOf(heldByOne, heldByTwo))
 
 	got := holders.LeastHeldFirst()
 	if want := []yacymodel.URLHash{heldByOne, heldByTwo}; !slices.Equal(got, want) {
@@ -79,7 +78,7 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
 	holders := holdersAnswered(answerOf("peer", first, second)).
-		HoldersOf(yacymodel.URLHashes{first: {}, second: {}})
+		HoldersOf(yacymodel.URLHashesOf(first, second))
 
 	got := holders.LeastHeldFirst()
 	want := []yacymodel.URLHash{first, second}
@@ -128,27 +127,10 @@ func TestThePeersOfSomeDocumentsAreThePeersThatListedOneOfThem(t *testing.T) {
 		answerOf("first", listed, other),
 		answerOf("second", listed),
 		answerOf("third", other),
-	).HoldersOf(yacymodel.URLHashes{listed: {}, unlisted: {}})
+	).HoldersOf(yacymodel.URLHashesOf(listed, unlisted))
 
 	got := sortedAddressesOf(holders.Peers())
 	if want := []string{"first", "second"}; !slices.Equal(got, want) {
 		t.Fatalf("the peers of the documents are %v, want %v", got, want)
-	}
-}
-
-func TestOnlyADocumentNoAnswerCarriedMetadataForIsWithoutMetadata(t *testing.T) {
-	t.Parallel()
-
-	withMetadata := documentHashOf(t, "https://with-metadata.example/")
-	withoutMetadata := documentHashOf(t, "https://without-metadata.example/")
-	holders := holdersAnswered(
-		withMetadataOnTheFirstDocument(answerOf("first", withMetadata, withoutMetadata)),
-		answerOf("second", withMetadata),
-	)
-
-	got := holders.WithoutMetadataAmong(yacymodel.URLHashes{withMetadata: {}, withoutMetadata: {}})
-
-	if want := (yacymodel.URLHashes{withoutMetadata: {}}); !maps.Equal(got, want) {
-		t.Fatalf("the documents without metadata are %v, want %v", got, want)
 	}
 }
