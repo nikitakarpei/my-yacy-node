@@ -19,5 +19,5 @@ func (builder *URLHashesBuilder) URLHashes() URLHashes {
 	builder.added = nil
 	slices.SortFunc(inHashOrder, URLHash.CompareInAlphabetOrder)
 
-	return urlHashesHolding(slices.Compact(inHashOrder))
+	return URLHashes{inHashOrder: withoutSpareCapacity(slices.Compact(inHashOrder))}
 }

@@ -76,18 +76,18 @@ func unionOfTwo(first, second URLHashes) URLHashes {
 	}
 	union = append(union, firstLeft...)
 
-	return urlHashesHolding(append(union, secondLeft...))
+	return URLHashes{inHashOrder: withoutSpareCapacity(append(union, secondLeft...))}
 }
 
-func urlHashesHolding(inHashOrder []URLHash) URLHashes {
-	if len(inHashOrder) == 0 {
-		return URLHashes{}
+func withoutSpareCapacity(hashes []URLHash) []URLHash {
+	if len(hashes) == 0 {
+		return nil
 	}
-	if unusedCapacity := cap(inHashOrder) - len(inHashOrder); unusedCapacity > len(inHashOrder)/4 {
-		inHashOrder = slices.Clone(inHashOrder)
+	if spareCapacity := cap(hashes) - len(hashes); spareCapacity > len(hashes)/4 {
+		return slices.Clone(hashes)
 	}
 
-	return URLHashes{inHashOrder: slices.Clip(inHashOrder)}
+	return slices.Clip(hashes)
 }
 
 func (hashes URLHashes) Without(excluded URLHashes) URLHashes {
