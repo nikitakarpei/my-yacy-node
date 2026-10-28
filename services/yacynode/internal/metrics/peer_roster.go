@@ -2,11 +2,14 @@ package metrics
 
 import (
 	"github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 )
 
 type PeerRosterMetrics struct {
 	knownPeers     prometheus.Gauge
 	reachablePeers prometheus.Gauge
+	droppedSeeds   *prometheus.CounterVec
 }
 
 func NewPeerRosterMetrics(registry prometheus.Registerer) *PeerRosterMetrics {
@@ -18,9 +21,17 @@ func NewPeerRosterMetrics(registry prometheus.Registerer) *PeerRosterMetrics {
 		Name: "yacynode_peerroster_reachable_peers",
 		Help: "Peers currently confirmed reachable.",
 	})
-	registry.MustRegister(knownPeers, reachablePeers)
+	droppedSeeds := prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: "yacynode_peerroster_dropped_seeds_total",
+		Help: "Peer seeds dropped because they break the identity bound to the peer, by reason.",
+	}, []string{"reason"})
+	registry.MustRegister(knownPeers, reachablePeers, droppedSeeds)
 
-	return &PeerRosterMetrics{knownPeers: knownPeers, reachablePeers: reachablePeers}
+	return &PeerRosterMetrics{
+		knownPeers:     knownPeers,
+		reachablePeers: reachablePeers,
+		droppedSeeds:   droppedSeeds,
+	}
 }
 
 func (p *PeerRosterMetrics) ObserveKnownPeers(count int) {
@@ -29,4 +40,8 @@ func (p *PeerRosterMetrics) ObserveKnownPeers(count int) {
 
 func (p *PeerRosterMetrics) ObserveReachablePeers(count int) {
 	p.reachablePeers.Set(float64(count))
+}
+
+func (p *PeerRosterMetrics) ObserveDroppedSeed(reason peerroster.SeedDropReason) {
+	p.droppedSeeds.WithLabelValues(string(reason)).Inc()
 }

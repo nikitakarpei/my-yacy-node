@@ -333,6 +333,7 @@ func assembleNode(
 		config.PeerExchange.ReachableRosterCapacity,
 		config.PeerExchange.AnnounceInterval,
 		identity.Hash,
+		identity.NetworkName,
 		rosterObserverFanOut{
 			metrics: metrics.NewPeerRosterMetrics(registry),
 			relay:   loopRelay,

@@ -15,10 +15,6 @@ type AddressSignature struct {
 	Signature [ed25519.SignatureSize]byte
 }
 
-func (a AddressSignature) IssuedAfter(other AddressSignature) bool {
-	return a.IssuedAt.After(other.IssuedAt)
-}
-
 func addressClaimOf(seed Seed, networkName string, issuedAt time.Time) []byte {
 	claim := []byte(addressSignatureDomain)
 	claim = appendClaimField(claim, networkName)

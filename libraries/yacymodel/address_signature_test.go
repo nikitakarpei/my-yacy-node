@@ -105,20 +105,6 @@ func TestAddressSignatureIssuesAtTheSecond(t *testing.T) {
 	}
 }
 
-func TestAddressSignatureIssuedLaterIsAfter(t *testing.T) {
-	key := peerkeytest.Key(0)
-	seed := unsignedSeedOf(t, key)
-	earlier := key.AddressSignatureOf(seed, signedNetworkName, signingTime)
-	later := key.AddressSignatureOf(seed, signedNetworkName, signingTime.Add(time.Second))
-
-	if !later.IssuedAfter(earlier) {
-		t.Error("later.IssuedAfter(earlier) = false, want true")
-	}
-	if earlier.IssuedAfter(later) || earlier.IssuedAfter(earlier) {
-		t.Error("earlier.IssuedAfter = true, want false")
-	}
-}
-
 func signedSeed(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {
 	t.Helper()
 	seed := unsignedSeedOf(t, key)

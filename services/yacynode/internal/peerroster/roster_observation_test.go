@@ -4,6 +4,8 @@ import (
 	"context"
 	"sync"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 )
 
 type countingObserver struct {
@@ -25,6 +27,8 @@ func (o *countingObserver) ObserveReachablePeers(count int) {
 
 	o.reachablePeers = count
 }
+
+func (o *countingObserver) ObserveDroppedSeed(peerroster.SeedDropReason) {}
 
 func (o *countingObserver) counts() (knownPeers, reachablePeers int) {
 	o.mu.Lock()

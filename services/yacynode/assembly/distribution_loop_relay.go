@@ -45,3 +45,7 @@ func (f rosterObserverFanOut) ObserveReachablePeers(count int) {
 	f.metrics.ObserveReachablePeers(count)
 	f.relay.ObserveReachablePeers(count)
 }
+
+func (f rosterObserverFanOut) ObserveDroppedSeed(reason peerroster.SeedDropReason) {
+	f.metrics.ObserveDroppedSeed(reason)
+}

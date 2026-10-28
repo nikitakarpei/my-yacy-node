@@ -47,6 +47,12 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 		stored.Text(answeredBaseURL.Host.String())
 		stored.Varint(int64(answeredBaseURL.Port))
 	}
+	binding, bound := entry.binding.Get()
+	stored.Presence(bound)
+	if bound {
+		stored.Text(binding.identity.String())
+		stored.Time(binding.issuedAt)
+	}
 
 	return stored.Record(), nil
 }
@@ -60,6 +66,9 @@ func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 	}
 	if stored.BytesLeft() > 0 {
 		entry.answeredBaseURL = answeredBaseURLFrom(stored)
+	}
+	if stored.BytesLeft() > 0 {
+		entry.binding = storedBindingFrom(stored)
 	}
 	if err := stored.Err(); err != nil {
 		return rosterEntry{}, err
@@ -100,6 +109,19 @@ func answeredBaseURLFrom(stored *storedfields.Reader) yacymodel.Optional[peerwir
 		Host:   hostFrom(stored, "answered base URL host"),
 		Port:   portFrom(stored, "answered base URL port"),
 	})
+}
+
+func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[identityBinding] {
+	if !stored.Presence("bound") {
+		return yacymodel.None[identityBinding]()
+	}
+	const field = "bound identity"
+	identity, err := yacymodel.ParsePeerIdentity(stored.Text(field))
+	if err != nil {
+		stored.Reject(field, err)
+	}
+
+	return yacymodel.Some(identityBinding{identity: identity, issuedAt: stored.Time("bound issue time")})
 }
 
 func hostFrom(stored *storedfields.Reader, field string) yacymodel.Host {

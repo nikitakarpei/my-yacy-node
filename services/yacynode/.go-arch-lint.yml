@@ -379,6 +379,7 @@ deps:
     mayDependOn:
       - eviction
       - peerannouncement
+      - peerroster
       - peerwire
       - remoteindexadmission
       - urlpostingpurge

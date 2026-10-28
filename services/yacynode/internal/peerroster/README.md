@@ -23,6 +23,12 @@ port. Discovery writes the addresses of a new peer only. The addresses of a
 known peer change only when the peer sends its own seed and is confirmed
 reachable.
 
+The roster binds the identity of a peer from the first seed with a valid
+identity and a valid address signature. After that, the roster drops each
+seed of the peer without that identity and a valid signature, and each seed
+with an older address signature. A dropped seed changes nothing. A peer
+without a bound identity is a legacy peer. Eviction removes the binding.
+
 The roster also keeps the base URL that answered the last greet or back-ping
 of a peer. Deliveries go only to that base URL. A failed greet clears it.
 

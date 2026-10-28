@@ -32,7 +32,7 @@ type Roster interface {
 
 var _ Roster = (*roster)(nil)
 
-//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: eight explicit, independently-meaningful collaborators
 func Open(
 	storage *vault.Vault,
 	now func() time.Time,
@@ -40,6 +40,7 @@ func Open(
 	reachableCap int,
 	announceInterval time.Duration,
 	self yacymodel.Hash,
+	networkName string,
 	observer RosterObserver,
 ) (Roster, error) {
 	peers, err := registerRoster(storage)
@@ -55,6 +56,7 @@ func Open(
 		reachableCap:     reachableCap,
 		announceInterval: announceInterval,
 		self:             self,
+		networkName:      networkName,
 		observer:         observer,
 		reachable:        make(map[yacymodel.Hash]reachablePeer),
 	}, nil
