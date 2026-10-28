@@ -7,7 +7,6 @@ type DocumentAsksObserver interface {
 		ctx context.Context,
 		decisionPerPartition DocumentsToMatchDecisionPerPartition,
 	)
-	ListingsEnded(ctx context.Context, ended EndedListings)
 	DocumentAsksPerformed(ctx context.Context, performed Performed)
 }
 
@@ -19,12 +18,6 @@ func (observers DocumentAsksObservers) AskedAmongTheDocuments(
 ) {
 	for _, observer := range observers {
 		observer.AskedAmongTheDocuments(ctx, decisionPerPartition)
-	}
-}
-
-func (observers DocumentAsksObservers) ListingsEnded(ctx context.Context, ended EndedListings) {
-	for _, observer := range observers {
-		observer.ListingsEnded(ctx, ended)
 	}
 }
 

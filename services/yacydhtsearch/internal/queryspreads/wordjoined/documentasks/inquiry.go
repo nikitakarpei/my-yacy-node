@@ -3,7 +3,6 @@ package documentasks
 import (
 	"context"
 	"slices"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
@@ -12,7 +11,6 @@ import (
 
 type Inquiry struct {
 	ctx                     context.Context
-	beganAt                 time.Time
 	compoundWords           []searchquery.CompoundWord
 	chosenPeers             chosenPeers
 	partitions              yacymodel.DHTRingPartitions
@@ -57,17 +55,6 @@ func (inquiry *Inquiry) settle(settledAsk wordpartitionasks.SettledAsk) {
 	inquiry.inquirer.WordPartitionAnswered(
 		settledAsk.Word, settledAsk.Partition, settledAsk.Answers,
 	)
-	inquiry.reportTheListingsThatEndedAmong([]yacymodel.Hash{settledAsk.Word})
-}
-
-func (inquiry *Inquiry) reportTheListingsThatEndedAmong(words []yacymodel.Hash) {
-	for _, word := range inquiry.sentAsks.newlyEndedAmong(words) {
-		inquiry.observer.ListingsEnded(inquiry.ctx, EndedListings{
-			Word:                         word,
-			TimeSinceTheInquiryBegan:     time.Since(inquiry.beganAt),
-			AmountOfDocumentsListedSoFar: inquiry.sentAsks.amountOfDocumentsListed(),
-		})
-	}
 }
 
 func (inquiry *Inquiry) WhichDocumentsHavingTheseAlsoHave(these, those []yacymodel.Hash) {
@@ -177,8 +164,6 @@ func (inquiry *Inquiry) askWhetherTheyAlsoHave(
 	documentsToMatch := listedDocuments.InHashOrder()
 	switch {
 	case len(documentsToMatch) == 0:
-		inquiry.skip(words, partition)
-
 		return NoDocumentsToMatch
 	case len(documentsToMatch) > inquiry.documentsToMatchCeiling:
 		inquiry.send(asks)
@@ -189,11 +174,6 @@ func (inquiry *Inquiry) askWhetherTheyAlsoHave(
 
 		return NamedTheDocumentsToMatch
 	}
-}
-
-func (inquiry *Inquiry) skip(words []yacymodel.Hash, partition uint) {
-	inquiry.sentAsks.skip(words, partition)
-	inquiry.reportTheListingsThatEndedAmong(words)
 }
 
 func (inquiry *Inquiry) ExpectInAPartition(word yacymodel.Hash, amountOfDocuments int) {

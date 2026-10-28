@@ -53,6 +53,4 @@ func (m *DocumentAsksMetrics) AskedAmongTheDocuments(
 	}
 }
 
-func (*DocumentAsksMetrics) ListingsEnded(context.Context, documentasks.EndedListings) {}
-
 func (*DocumentAsksMetrics) DocumentAsksPerformed(context.Context, documentasks.Performed) {}

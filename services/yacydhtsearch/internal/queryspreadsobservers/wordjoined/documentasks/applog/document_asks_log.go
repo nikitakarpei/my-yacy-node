@@ -12,7 +12,6 @@ import (
 
 const (
 	msgPartitionsAskedForTheOtherWords = "partitions asked for the other words"
-	msgListingsEnded                   = "listings of a word ended"
 	msgDocumentAsksPerformed           = "document asks performed"
 )
 
@@ -29,16 +28,6 @@ func (DocumentAsksLog) AskedAmongTheDocuments(
 			"amountOfPartitionsPerOtherWordAsks",
 			decisionPerPartition.AmountOfPartitionsPerDecision(),
 		),
-	)
-}
-
-func (DocumentAsksLog) ListingsEnded(ctx context.Context, ended documentasks.EndedListings) {
-	slog.DebugContext(
-		ctx,
-		msgListingsEnded,
-		slog.String("word", ended.Word.String()),
-		slog.Duration("timeSinceTheInquiryBegan", ended.TimeSinceTheInquiryBegan),
-		slog.Int("amountOfDocumentsListedSoFar", ended.AmountOfDocumentsListedSoFar),
 	)
 }
 

@@ -416,8 +416,6 @@ type recordedSpreads struct {
 	urlMetadataLookups   []urlmetadataasks.Performed
 }
 
-func (*recordedSpreads) ListingsEnded(context.Context, documentasks.EndedListings) {}
-
 func (recorded *recordedSpreads) DocumentAsksPerformed(
 	_ context.Context,
 	performed documentasks.Performed,
