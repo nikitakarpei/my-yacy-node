@@ -27,7 +27,7 @@ func answerOf(peerAddress string, documents ...yacymodel.URLHash) wordpartitiona
 			Hash:    yacymodel.WordHash(peerAddress),
 			Address: peerAddress,
 		},
-		ListedDocuments: yacymodel.URLHashesOf(documents...),
+		ListedDocuments: yacymodel.URLHashesFrom(documents...),
 	}
 
 	return answer
@@ -49,7 +49,7 @@ func TestTheDocumentFewerPeersHoldComesFirst(t *testing.T) {
 		answerOf("first", heldByTwo, heldByOne),
 		answerOf("second", heldByTwo),
 		answerOf("second", heldByTwo),
-	).HoldersOf(yacymodel.URLHashesOf(heldByOne, heldByTwo))
+	).HoldersOf(yacymodel.URLHashesFrom(heldByOne, heldByTwo))
 
 	got := holders.LeastHeldFirst()
 	if want := []yacymodel.URLHash{heldByOne, heldByTwo}; !slices.Equal(got, want) {
@@ -63,7 +63,7 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 	first := documentHashOf(t, "https://first.example/")
 	second := documentHashOf(t, "https://second.example/")
 	holders := listingsAnswered(answerOf("peer", first, second)).
-		HoldersOf(yacymodel.URLHashesOf(first, second))
+		HoldersOf(yacymodel.URLHashesFrom(first, second))
 
 	got := holders.LeastHeldFirst()
 	want := []yacymodel.URLHash{first, second}
@@ -86,7 +86,9 @@ func TestThePeersHoldingADocumentAreThePeersThatListedIt(t *testing.T) {
 		answerOf("third", listed, other),
 	)
 
-	got := sortedAddressesOf(holders.HoldersOf(yacymodel.URLHashesOf(listed)).PeersHolding(listed))
+	got := sortedAddressesOf(
+		holders.HoldersOf(yacymodel.URLHashesFrom(listed)).PeersHolding(listed),
+	)
 	if want := []string{"first", "third"}; !slices.Equal(got, want) {
 		t.Fatalf("the peers holding the document are %v, want %v", got, want)
 	}
@@ -112,7 +114,7 @@ func TestThePeersOfSomeDocumentsAreThePeersThatListedOneOfThem(t *testing.T) {
 		answerOf("first", listed, other),
 		answerOf("second", listed),
 		answerOf("third", other),
-	).HoldersOf(yacymodel.URLHashesOf(listed, unlisted))
+	).HoldersOf(yacymodel.URLHashesFrom(listed, unlisted))
 
 	got := sortedAddressesOf(holders.Peers())
 	if want := []string{"first", "second"}; !slices.Equal(got, want) {

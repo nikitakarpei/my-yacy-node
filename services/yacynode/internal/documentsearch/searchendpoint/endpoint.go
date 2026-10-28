@@ -127,7 +127,7 @@ func indexAbstractsFrom(
 ) map[yacymodel.Hash]yacymodel.URLHashes {
 	indexAbstracts := make(map[yacymodel.Hash]yacymodel.URLHashes, len(abstracts))
 	for word, documents := range abstracts {
-		indexAbstracts[word] = yacymodel.URLHashesOf(documents...)
+		indexAbstracts[word] = yacymodel.URLHashesFrom(documents...)
 	}
 
 	return indexAbstracts

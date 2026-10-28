@@ -77,7 +77,7 @@ func answerCounting(
 ) wordpartitionasks.ReplicaAnswer {
 	return wordpartitionasks.ReplicaAnswer{
 		AmountOfDocumentsHeld: yacymodel.Some(amountHeld),
-		ListedDocuments:       yacymodel.URLHashesOf(documents...),
+		ListedDocuments:       yacymodel.URLHashesFrom(documents...),
 	}
 }
 

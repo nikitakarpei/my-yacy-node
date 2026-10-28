@@ -169,7 +169,7 @@ func answersOf(abstracts ...peerAbstract) []wordpartitionasks.ReplicaAnswer {
 				Hash:    yacymodel.WordHash(abstract.address),
 				Address: abstract.address,
 			},
-			ListedDocuments: yacymodel.URLHashesOf(abstract.documents...),
+			ListedDocuments: yacymodel.URLHashesFrom(abstract.documents...),
 		})
 	}
 

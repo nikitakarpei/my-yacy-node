@@ -49,7 +49,7 @@ func TestASearchResponseCarriesTheDocumentsHeldForAQueryWord(t *testing.T) {
 
 	fields := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
-			queryWord: yacymodel.URLHashesOf(documents...),
+			queryWord: yacymodel.URLHashesFrom(documents...),
 		},
 	}.Encode()
 	response, err := yacyproto.ParseSearchResponse(context.Background(), fields)
@@ -58,7 +58,7 @@ func TestASearchResponseCarriesTheDocumentsHeldForAQueryWord(t *testing.T) {
 	}
 
 	if got := response.IndexAbstract[queryWord]; !reflect.DeepEqual(
-		got, yacymodel.URLHashesOf(documents...),
+		got, yacymodel.URLHashesFrom(documents...),
 	) {
 		t.Fatalf("documents = %v, want %v", got.InHashOrder(), documents)
 	}
@@ -69,7 +69,7 @@ func TestASearchResponseGroupsTheDocumentsItCarriesByHost(t *testing.T) {
 
 	queryWord := sampleHash(t, "alpha")
 	fields := yacyproto.SearchResponse{
-		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{queryWord: yacymodel.URLHashesOf(
+		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{queryWord: yacymodel.URLHashesFrom(
 			mustParseURLHash(t, "bbbbbbAAAAAA"),
 			mustParseURLHash(t, "aaaaaaBBBBBB"),
 			mustParseURLHash(t, "ccccccAAAAAA"),

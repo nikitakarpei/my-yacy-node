@@ -9,7 +9,7 @@ type URLHashes struct {
 	inHashOrder []URLHash
 }
 
-func URLHashesOf(hashes ...URLHash) URLHashes {
+func URLHashesFrom(hashes ...URLHash) URLHashes {
 	var builder URLHashesBuilder
 	builder.Grow(len(hashes))
 	for _, hash := range hashes {

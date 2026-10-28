@@ -27,7 +27,10 @@ func noAsksPutYet() *run {
 }
 
 func (run *run) give(documents []yacymodel.URLHash) {
-	run.givenDocuments = yacymodel.UnionOf(run.givenDocuments, yacymodel.URLHashesOf(documents...))
+	run.givenDocuments = yacymodel.UnionOf(
+		run.givenDocuments,
+		yacymodel.URLHashesFrom(documents...),
+	)
 }
 
 func (run *run) add(asks []peerasks.URLMetadataAsk) {

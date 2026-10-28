@@ -497,7 +497,7 @@ func TestASearchDocumentsAskAsksForTheAbstractAndTheItemsOfOneWordOnly(t *testin
 	document := mustParseURLHash(t, "bbbbbbAAAAAA")
 	body := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
-			word: yacymodel.URLHashesOf(document),
+			word: yacymodel.URLHashesFrom(document),
 		},
 	}.Encode().Encode()
 	address, requests := peerAnswering(t, body, http.StatusOK)
@@ -644,7 +644,7 @@ func TestAPeerThatCountsNoDocumentForTheWordAnswersWithoutACount(t *testing.T) {
 	word := yacymodel.WordHash("berlin")
 	body := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
-			word: yacymodel.URLHashesOf(mustParseURLHash(t, "bbbbbbAAAAAA")),
+			word: yacymodel.URLHashesFrom(mustParseURLHash(t, "bbbbbbAAAAAA")),
 		},
 	}.Encode().Encode()
 	address, _ := peerAnswering(t, body, http.StatusOK)
@@ -666,7 +666,7 @@ func TestASearchDocumentsAskReadsNoDocumentOfAnotherWord(t *testing.T) {
 
 	body := yacyproto.SearchResponse{
 		IndexAbstract: map[yacymodel.Hash]yacymodel.URLHashes{
-			yacymodel.WordHash("weather"): yacymodel.URLHashesOf(
+			yacymodel.WordHash("weather"): yacymodel.URLHashesFrom(
 				mustParseURLHash(t, "bbbbbbAAAAAA"),
 			),
 		},

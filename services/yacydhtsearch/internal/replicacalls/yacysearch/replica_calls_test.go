@@ -52,7 +52,7 @@ func TestTheAnswerListsEachDocumentOfTheAbstractAndTheMatchedDocumentsOnce(t *te
 	onlyListed := documentAt(t, "https://listed.example/")
 	onlyMatched := documentAt(t, "https://matched.example/")
 	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
-		Abstract: yacymodel.URLHashesOf(onlyListed, inBoth),
+		Abstract: yacymodel.URLHashesFrom(onlyListed, inBoth),
 		MatchedDocuments: []peerasks.MatchedDocument{
 			{Metadata: yacymodel.URLMetadata{Hash: onlyMatched}},
 			{Metadata: yacymodel.URLMetadata{Hash: inBoth}},
@@ -61,7 +61,7 @@ func TestTheAnswerListsEachDocumentOfTheAbstractAndTheMatchedDocumentsOnce(t *te
 
 	answer, _ := replicaCallsOf(peers).Put(t.Context(), askForBerlin(), peerAt("first"))
 
-	if want := yacymodel.URLHashesOf(onlyListed, inBoth, onlyMatched); !reflect.DeepEqual(
+	if want := yacymodel.URLHashesFrom(onlyListed, inBoth, onlyMatched); !reflect.DeepEqual(
 		answer.ListedDocuments, want,
 	) {
 		t.Fatalf("the replica listed %v, want %v",

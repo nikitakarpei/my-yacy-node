@@ -40,7 +40,7 @@ func joinerOver(joins *joinsInTurn) *documentjoin.Joiner {
 }
 
 func documentsOf(documents ...yacymodel.URLHash) yacymodel.URLHashes {
-	return yacymodel.URLHashesOf(documents...)
+	return yacymodel.URLHashesFrom(documents...)
 }
 
 func TestADocumentJoinsOnTheListingOfTheLastQueryWordThatListsIt(t *testing.T) {

@@ -11,7 +11,7 @@ func TestURLHashesContainEachHashOnce(t *testing.T) {
 	first := hashOfAddress(t, "https://first.example/")
 	second := hashOfAddress(t, "https://second.example/")
 
-	hashes := yacymodel.URLHashesOf(first, second, first)
+	hashes := yacymodel.URLHashesFrom(first, second, first)
 
 	if hashes.Amount() != 2 || !hashes.Contains(first) || !hashes.Contains(second) {
 		t.Fatalf("the hashes hold %v, want the two hashes once each", hashes.InHashOrder())
@@ -19,7 +19,7 @@ func TestURLHashesContainEachHashOnce(t *testing.T) {
 }
 
 func TestURLHashesDoNotContainAHashNeverAdded(t *testing.T) {
-	hashes := yacymodel.URLHashesOf(hashOfAddress(t, "https://first.example/"))
+	hashes := yacymodel.URLHashesFrom(hashOfAddress(t, "https://first.example/"))
 
 	if hashes.Contains(hashOfAddress(t, "https://second.example/")) {
 		t.Fatal("the hashes contain a hash never added")
@@ -27,7 +27,7 @@ func TestURLHashesDoNotContainAHashNeverAdded(t *testing.T) {
 }
 
 func TestURLHashesComeInHashOrder(t *testing.T) {
-	hashes := yacymodel.URLHashesOf(
+	hashes := yacymodel.URLHashesFrom(
 		urlHashFrom(
 			t,
 			"zzzzzzAAAAAA",
@@ -52,9 +52,9 @@ func TestTheUnionOfURLHashesHoldsEachHashOfAllOnce(t *testing.T) {
 	third := urlHashFrom(t, "CCCCCCCCCCCC")
 
 	union := yacymodel.UnionOf(
-		yacymodel.URLHashesOf(first, second),
-		yacymodel.URLHashesOf(second, third),
-		yacymodel.URLHashesOf(third),
+		yacymodel.URLHashesFrom(first, second),
+		yacymodel.URLHashesFrom(second, third),
+		yacymodel.URLHashesFrom(third),
 	)
 
 	if want := []yacymodel.URLHash{first, second, third}; !slices.Equal(union.InHashOrder(), want) {
@@ -66,7 +66,7 @@ func TestURLHashesWithoutOthersKeepOnlyTheirOwnHashes(t *testing.T) {
 	first := urlHashFrom(t, "AAAAAAAAAAAA")
 	second := urlHashFrom(t, "BBBBBBBBBBBB")
 
-	kept := yacymodel.URLHashesOf(first, second).Without(yacymodel.URLHashesOf(second))
+	kept := yacymodel.URLHashesFrom(first, second).Without(yacymodel.URLHashesFrom(second))
 
 	if want := []yacymodel.URLHash{first}; !slices.Equal(kept.InHashOrder(), want) {
 		t.Fatalf("the hashes without the others are %v, want %v", kept.InHashOrder(), want)
@@ -93,7 +93,7 @@ func TestURLHashesInAPartitionAreTheHashesThePartitionHolds(t *testing.T) {
 	if err != nil {
 		t.Fatalf("dht ring partitions: %v", err)
 	}
-	hashes := yacymodel.URLHashesOf(
+	hashes := yacymodel.URLHashesFrom(
 		partitions.LowestURLHashIn(2), partitions.HighestURLHashIn(2),
 		partitions.HighestURLHashIn(1), partitions.LowestURLHashIn(3),
 		urlHashFrom(t, "AAAAAAAAAAAA"), urlHashFrom(t, "____________"),
