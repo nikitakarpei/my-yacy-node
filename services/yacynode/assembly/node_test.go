@@ -213,7 +213,7 @@ func nodeConfigFor(t *testing.T) yacynode.ServiceConfig {
 	t.Helper()
 
 	config, err := yacynode.LoadServiceConfig(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerKey:        peerkeytest.Key(0).String(),
+		nodeconfiguration.EnvPeerKey:        peerkeytest.SecretTextOf(peerkeytest.Key(0)),
 		nodeconfiguration.EnvPeerName:       "node",
 		nodeconfiguration.EnvNetworkName:    nodeNetwork,
 		nodeconfiguration.EnvEgressProxyURL: "http://127.0.0.1:1",

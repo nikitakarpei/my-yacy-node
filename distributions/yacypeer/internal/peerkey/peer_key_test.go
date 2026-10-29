@@ -33,8 +33,9 @@ func TestSettleMakesAKeyOnTheFirstStartAndKeepsIt(t *testing.T) {
 	if err != nil {
 		t.Fatalf("second Settle: %v", err)
 	}
-	if first.String() != peerkeytest.Key(0).String() || second.String() != first.String() {
-		t.Errorf("keys = %q and %q, want the made key twice", first, second)
+	made := peerkeytest.SecretTextOf(peerkeytest.Key(0))
+	if peerkeytest.SecretTextOf(first) != made || peerkeytest.SecretTextOf(second) != made {
+		t.Errorf("keys = %v and %v, want the made key twice", first, second)
 	}
 }
 

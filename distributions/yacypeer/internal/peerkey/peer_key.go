@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"io/fs"
 	"log/slog"
 	"os"
@@ -95,7 +96,7 @@ func solvedKey(
 }
 
 func keep(root *os.Root, key yacymodel.PeerKey) error {
-	if err := writeDurably(root, draftFileName, []byte(key.String()+"\n")); err != nil {
+	if err := writeDurably(root, draftFileName, keyFileWriterOf(key)); err != nil {
 		return fmt.Errorf("keep the peer key: %w", err)
 	}
 	if err := root.Rename(draftFileName, fileName); err != nil {
@@ -108,12 +109,25 @@ func keep(root *os.Root, key yacymodel.PeerKey) error {
 	return nil
 }
 
-func writeDurably(root *os.Root, name string, content []byte) error {
+func keyFileWriterOf(key yacymodel.PeerKey) func(io.Writer) error {
+	return func(file io.Writer) error {
+		if err := key.WriteSecret(file); err != nil {
+			return err
+		}
+		if _, err := io.WriteString(file, "\n"); err != nil {
+			return fmt.Errorf("end the peer key line: %w", err)
+		}
+
+		return nil
+	}
+}
+
+func writeDurably(root *os.Root, name string, writeContent func(io.Writer) error) error {
 	file, err := root.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, keyFileMode)
 	if err != nil {
 		return fmt.Errorf("open %s: %w", name, err)
 	}
-	if _, err := file.Write(content); err != nil {
+	if err := writeContent(file); err != nil {
 		_ = file.Close()
 
 		return fmt.Errorf("write %s: %w", name, err)

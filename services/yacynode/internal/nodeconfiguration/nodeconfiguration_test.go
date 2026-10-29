@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
 
-var peerKeyText = peerkeytest.Key(0).String()
+var peerKeyText = peerkeytest.SecretTextOf(peerkeytest.Key(0))
 
 func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
@@ -230,7 +230,7 @@ func TestLoadReadsThePeerKey(t *testing.T) {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if config.Identity.PeerKey.String() != peerKeyText {
+	if peerkeytest.SecretTextOf(config.Identity.PeerKey) != peerKeyText {
 		t.Errorf("PeerKey = %v, want the stated key", config.Identity.PeerKey)
 	}
 }

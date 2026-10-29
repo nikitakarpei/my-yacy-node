@@ -1,58 +1,68 @@
 package peerroster
 
 import (
+	"maps"
+	"time"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
+
+const issuedAtTolerance = 10 * time.Minute
 
 type SeedDropReason string
 
 const (
 	DropOfSeedWithoutBoundIdentity SeedDropReason = "seed without the bound identity"
 	DropOfOlderAddressSignature    SeedDropReason = "older address signature"
+	DropOfFutureAddressSignature   SeedDropReason = "future address signature"
 )
 
-func dropReasonBetween(
-	bound yacymodel.Optional[yacymodel.SignedIdentity],
-	next yacymodel.Optional[yacymodel.SignedIdentity],
-) yacymodel.Optional[SeedDropReason] {
-	current, isBound := bound.Get()
-	replacement, verified := next.Get()
+type seedStanding int
+
+const (
+	legacySeed seedStanding = iota
+	newerSeed
+	currentSeed
+	staleSeed
+	replayedSeed
+	foreignSeed
+	futureSeed
+)
+
+func standingOf(offered, known rosterEntry, now time.Time) seedStanding {
+	next, verified := offered.binding.Get()
+	bound, isBound := known.binding.Get()
 	switch {
+	case verified && next.IssuedAt.After(now.Add(issuedAtTolerance)):
+		return futureSeed
+	case !isBound && verified:
+		return newerSeed
 	case !isBound:
-		return yacymodel.None[SeedDropReason]()
-	case !verified:
-		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
+		return legacySeed
+	case !verified || next.Identity != bound.Identity:
+		return foreignSeed
+	case next.IssuedAt.After(bound.IssuedAt):
+		return newerSeed
+	case next.IssuedAt.Equal(bound.IssuedAt):
+		return currentSeed
+	case sameAddresses(offered.addresses, known.addresses):
+		return staleSeed
 	default:
-		return dropReasonFor(current, replacement)
+		return replayedSeed
 	}
 }
 
-func dropReasonFor(
-	bound yacymodel.SignedIdentity,
-	replacement yacymodel.SignedIdentity,
-) yacymodel.Optional[SeedDropReason] {
-	switch {
-	case replacement.Identity != bound.Identity:
-		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
-	case bound.IssuedAt.After(replacement.IssuedAt):
-		return yacymodel.Some(DropOfOlderAddressSignature)
-	default:
-		return yacymodel.None[SeedDropReason]()
-	}
+func sameAddresses(first, second yacymodel.PeerAddresses) bool {
+	return first.Port == second.Port &&
+		first.SecurePort == second.SecurePort &&
+		maps.Equal(hostSetOf(first.Hosts), hostSetOf(second.Hosts))
 }
 
-func supersedes(
-	gossiped yacymodel.Optional[yacymodel.SignedIdentity],
-	bound yacymodel.Optional[yacymodel.SignedIdentity],
-) bool {
-	next, verified := gossiped.Get()
-	current, isBound := bound.Get()
-	switch {
-	case !verified:
-		return false
-	case !isBound:
-		return true
-	default:
-		return next.Identity == current.Identity && next.IssuedAt.After(current.IssuedAt)
+func hostSetOf(hosts []yacymodel.Host) map[yacymodel.Host]struct{} {
+	hostSet := make(map[yacymodel.Host]struct{}, len(hosts))
+	for _, host := range hosts {
+		hostSet[host] = struct{}{}
 	}
+
+	return hostSet
 }

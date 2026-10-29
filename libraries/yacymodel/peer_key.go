@@ -69,8 +69,17 @@ func (k PeerKey) Hash() Hash {
 	return k.identity.Hash()
 }
 
-func (k PeerKey) String() string {
-	return k.material.String() + identityPartSeparator + nonceTextOf(k.identity.nonce)
+func (k PeerKey) WriteSecret(w io.Writer) error {
+	secretText := k.material.secretText() + identityPartSeparator + nonceTextOf(k.identity.nonce)
+	if _, err := io.WriteString(w, secretText); err != nil {
+		return fmt.Errorf("write the peer key: %w", err)
+	}
+
+	return nil
+}
+
+func (k PeerKey) Format(state fmt.State, _ rune) {
+	_, _ = fmt.Fprintf(state, "peer key of %s", k.Hash())
 }
 
 func (k PeerKey) SignedSeedFrom(seed Seed, networkName string, issuedAt time.Time) Seed {

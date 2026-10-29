@@ -3,6 +3,7 @@
 package peerkeytest
 
 import (
+	"strings"
 	"sync"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -10,6 +11,15 @@ import (
 
 func Key(index int) yacymodel.PeerKey {
 	return parsedKeys[index]()
+}
+
+func SecretTextOf(key yacymodel.PeerKey) string {
+	var secretText strings.Builder
+	if err := key.WriteSecret(&secretText); err != nil {
+		panic(err)
+	}
+
+	return secretText.String()
 }
 
 var parsedKeys = onceParsed(keyTexts)

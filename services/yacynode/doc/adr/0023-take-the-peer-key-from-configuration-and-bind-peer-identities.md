@@ -34,12 +34,18 @@ address signature:
 | Any | Different | Drop |
 | Not valid or not signed | None | Accept as a legacy peer |
 | Not valid or not signed | Present | Drop |
-| Older address signature | Present | Drop |
+| Older address signature, same addresses | Present | Accept the contact; keep the bound signature |
+| Older address signature, other addresses | Present | Drop |
+| Signed more than 10 minutes after the local time | Any | Drop; do not bind |
 
 - Seeds without a valid identity stay accepted, because Java peers and pruned gossip copies have
   none. Removal of the columns gives no more than this.
 - After binding, only the key holder can change the peer's address, and an older address cannot
   return.
+- Concurrent contacts deliver the seeds of a peer out of order. An older seed for the same addresses
+  is such a copy, not a replay, so it is not a drop.
+- A seed from a clock that runs ahead would hold the binding until that time, and the peer could not
+  move.
 - Discovery applies the table to known peers too. It accepts only a valid seed with a newer address
   signature and drops nothing, because stale gossip copies are normal. A valid seed binds a known
   legacy peer, so the binding does not wait for a confirmed contact.

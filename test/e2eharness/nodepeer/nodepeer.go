@@ -21,6 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -64,7 +65,7 @@ func Start(
 ) (testcontainers.Container, string) {
 	t.Helper()
 	env := map[string]string{
-		"YACY_PEER_KEY":                  cfg.Key.String(),
+		"YACY_PEER_KEY":                  peerkeytest.SecretTextOf(cfg.Key),
 		"YACY_PEER_NAME":                 cfg.Alias,
 		"YACY_NETWORK_NAME":              yacyproto.DefaultNetwork,
 		"YACY_PEER_ADDR":                 ":" + peerclient.Port,

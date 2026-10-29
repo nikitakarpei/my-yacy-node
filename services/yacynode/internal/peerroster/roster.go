@@ -32,6 +32,11 @@ type reachablePeer struct {
 	confirmedAt time.Time
 }
 
+type peerMove struct {
+	seed       yacymodel.Seed
+	answerKept bool
+}
+
 type knownPeer struct {
 	peerHash    yacymodel.Hash
 	rosterEntry rosterEntry
@@ -53,18 +58,24 @@ type roster struct {
 }
 
 func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
+	var moves []peerMove
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		return r.discoverEach(tx, seeds)
+		var err error
+		moves, err = r.discoverEach(tx, seeds)
+
+		return err
 	}); err != nil {
 		slog.WarnContext(ctx, "peer discovery discarded", slog.Any("error", err))
 
 		return
 	}
 
+	r.followMoves(ctx, moves)
 	r.keepWithinCapacity(ctx)
 }
 
-func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) error {
+func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) ([]peerMove, error) {
+	var moves []peerMove
 	for _, seed := range seeds {
 		if seed.Hash == r.self {
 			continue
@@ -73,35 +84,49 @@ func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) error {
 		if !addressable {
 			continue
 		}
-		if err := r.discoverOne(tx, seed, addresses); err != nil {
-			return err
+		move, err := r.discoverOne(tx, seed, addresses)
+		if err != nil {
+			return nil, err
+		}
+		if moved, isMoved := move.Get(); isMoved {
+			moves = append(moves, moved)
 		}
 	}
 
-	return nil
+	return moves, nil
 }
 
 func (r *roster) discoverOne(
 	tx *vault.Txn,
 	seed yacymodel.Seed,
 	addresses yacymodel.PeerAddresses,
-) error {
+) (yacymodel.Optional[peerMove], error) {
 	known, isKnown, err := r.peers.Get(tx, seed.Hash)
 	if err != nil {
-		return fmt.Errorf("read peer %s: %w", seed.Hash, err)
+		return yacymodel.None[peerMove](), fmt.Errorf("read peer %s: %w", seed.Hash, err)
 	}
-	gossiped := seed.SignedIdentityIn(r.networkName)
+	now := r.now()
+	offered := rosterEntry{
+		addresses:     addresses,
+		binding:       seed.SignedIdentityIn(r.networkName),
+		lastContacted: now,
+	}
+	standing := standingOf(offered, known, now)
 	switch {
 	case !isKnown:
-		return r.storePeer(tx, seed.Hash, rosterEntry{
-			addresses:     addresses,
-			binding:       gossiped,
-			lastContacted: r.now(),
-		})
-	case supersedes(gossiped, known.binding):
-		return r.storePeer(tx, seed.Hash, known.movedTo(addresses, gossiped))
+		if standing == futureSeed {
+			offered.binding = yacymodel.None[yacymodel.SignedIdentity]()
+		}
+
+		return yacymodel.None[peerMove](), r.storePeer(tx, seed.Hash, offered)
+	case standing == newerSeed:
+		moved := known.movedTo(addresses, offered.binding)
+		_, answerKept := moved.answeredBaseURL.Get()
+
+		return yacymodel.Some(peerMove{seed: seed, answerKept: answerKept}),
+			r.storePeer(tx, seed.Hash, moved)
 	default:
-		return nil
+		return yacymodel.None[peerMove](), nil
 	}
 }
 
@@ -125,6 +150,42 @@ func (e rosterEntry) movedTo(
 	}
 
 	return e
+}
+
+func (r *roster) followMoves(ctx context.Context, moves []peerMove) {
+	if len(moves) == 0 {
+		return
+	}
+	for _, move := range moves {
+		if r.followMove(move) {
+			slog.DebugContext(
+				ctx,
+				"reachable peer moved by gossip, confirmation dropped",
+				slog.String("peer", move.seed.Hash.String()),
+			)
+		}
+	}
+	r.observer.ObserveReachablePeers(r.reachablePeerCount())
+}
+
+func (r *roster) followMove(move peerMove) (confirmationDropped bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	reachable, isReachable := r.reachable[move.seed.Hash]
+	switch {
+	case !isReachable:
+		return false
+	case move.answerKept:
+		reachable.seed = move.seed
+		r.reachable[move.seed.Hash] = reachable
+
+		return false
+	default:
+		delete(r.reachable, move.seed.Hash)
+
+		return true
+	}
 }
 
 func (r *roster) keepWithinCapacity(ctx context.Context) {
@@ -360,12 +421,19 @@ func (r *roster) recordReachableIn(
 	if err != nil {
 		return yacymodel.None[SeedDropReason](), fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
-	dropReason := dropReasonBetween(known.binding, contact.binding)
-	if _, dropped := dropReason.Get(); dropped {
-		return dropReason, nil
+	switch standingOf(contact, known, r.now()) {
+	case replayedSeed:
+		return yacymodel.Some(DropOfOlderAddressSignature), nil
+	case foreignSeed:
+		return yacymodel.Some(DropOfSeedWithoutBoundIdentity), nil
+	case futureSeed:
+		return yacymodel.Some(DropOfFutureAddressSignature), nil
+	case staleSeed:
+		contact.binding = known.binding
+	case legacySeed, newerSeed, currentSeed:
 	}
 
-	return dropReason, r.storePeer(tx, peerHash, contact)
+	return yacymodel.None[SeedDropReason](), r.storePeer(tx, peerHash, contact)
 }
 
 func (r *roster) reportDroppedSeed(

@@ -22,7 +22,10 @@ func run(out io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("generate peer key: %w", err)
 	}
-	if _, err := fmt.Fprintln(out, key); err != nil {
+	if err := key.WriteSecret(out); err != nil {
+		return err
+	}
+	if _, err := fmt.Fprintln(out); err != nil {
 		return fmt.Errorf("write peer key: %w", err)
 	}
 	return nil

@@ -56,7 +56,7 @@ func dataDirectoryWithSolvedPeerKey(t *testing.T) string {
 	if err := os.Mkdir(keyDirectory, 0o700); err != nil {
 		t.Fatalf("make the peer key directory: %v", err)
 	}
-	keyText := []byte(peerkeytest.Key(0).String() + "\n")
+	keyText := []byte(peerkeytest.SecretTextOf(peerkeytest.Key(0)) + "\n")
 	if err := os.WriteFile(filepath.Join(keyDirectory, "peer-key"), keyText, 0o600); err != nil {
 		t.Fatalf("keep the peer key: %v", err)
 	}

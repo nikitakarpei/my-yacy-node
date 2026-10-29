@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"slices"
 	"strconv"
+	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -194,7 +195,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 		streamOnlyServiceAssemblyFrom(
 			yacynodeService,
 			serviceenvironment.Wiring{
-				yacynodeassembly.EnvPeerKey:           p.peerKey.String(),
+				yacynodeassembly.EnvPeerKey:           secretTextOf(p.peerKey),
 				yacynodeassembly.EnvPageOfferNATSURL:  p.natsURL,
 				yacynodeassembly.EnvPageOfferDurable:  yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),
@@ -230,6 +231,13 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			crawlscrapebridgeassembly.RunService,
 		),
 	}
+}
+
+func secretTextOf(key yacymodel.PeerKey) string {
+	var secretText strings.Builder
+	_ = key.WriteSecret(&secretText)
+
+	return secretText.String()
 }
 
 func yacynodeConfigLoaderFor(

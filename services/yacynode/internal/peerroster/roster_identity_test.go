@@ -3,6 +3,7 @@ package peerroster_test
 import (
 	"context"
 	"path/filepath"
+	"reflect"
 	"slices"
 	"sync"
 	"testing"
@@ -13,7 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 )
 
-var signingStart = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
+var signingStart = time.Unix(defaultClockStart, 0).UTC()
 
 type droppingObserver struct {
 	countingObserver
@@ -87,11 +88,17 @@ func TestRosterDropsSeedsThatBreakTheBoundIdentity(t *testing.T) {
 			},
 			wantReason: peerroster.DropOfSeedWithoutBoundIdentity,
 		},
-		"older signature": {
+		"older signature over other addresses": {
 			forgedSeed: func(t *testing.T) yacymodel.Seed {
 				return signedSeedAt(t, "198.51.100.9", signingStart.Add(-time.Minute))
 			},
 			wantReason: peerroster.DropOfOlderAddressSignature,
+		},
+		"signature from the future": {
+			forgedSeed: func(t *testing.T) yacymodel.Seed {
+				return signedSeedAt(t, "198.51.100.9", signingStart.Add(time.Hour))
+			},
+			wantReason: peerroster.DropOfFutureAddressSignature,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
@@ -119,6 +126,41 @@ func TestRosterDropsSeedsThatBreakTheBoundIdentity(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestRosterConfirmsAStaleCopyOfTheBoundSeedWithoutADrop(t *testing.T) {
+	ctx := context.Background()
+	observer := &droppingObserver{}
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer})
+	stale := signedSeedAt(t, "203.0.113.1", signingStart)
+	bound := signedSeedAt(t, "203.0.113.1", signingStart.Add(time.Second))
+	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+	roster.ConfirmUnreachable(ctx, bound.Hash)
+
+	roster.ConfirmReachable(ctx, stale, httpBaseURLOf(stale))
+	moved := signedSeedAt(t, "203.0.113.2", signingStart)
+	roster.ConfirmReachable(ctx, moved, httpBaseURLOf(moved))
+
+	assertHostOf(t, roster, bound.Hash, "203.0.113.1")
+	if !roster.IsReachable(ctx, bound.Hash) {
+		t.Error("IsReachable = false, want the stale copy confirmed")
+	}
+	if dropReasons := observer.observedDropReasons(); !slices.Equal(
+		dropReasons, []peerroster.SeedDropReason{peerroster.DropOfOlderAddressSignature},
+	) {
+		t.Errorf("drop reasons = %v, want only the older seed over other addresses", dropReasons)
+	}
+}
+
+func TestRosterDoesNotBindAPeerFromASeedSignedInTheFuture(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+
+	roster.Discover(ctx, signedSeedAt(t, "203.0.113.1", signingStart.Add(time.Hour)))
+	legacy := unsignedSeedAt(t, "203.0.113.2")
+	roster.ConfirmReachable(ctx, legacy, httpBaseURLOf(legacy))
+
+	assertHostOf(t, roster, legacy.Hash, "203.0.113.2")
 }
 
 func TestRosterBindsAPeerDiscoveredFromAVerifiedSeed(t *testing.T) {
@@ -158,11 +200,24 @@ func TestDiscoverMovesABoundPeerOnItsNewerSignedSeed(t *testing.T) {
 			bound := signedSeedAt(t, "203.0.113.1", signingStart)
 			roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
 
-			roster.Discover(ctx, signedSeedAt(t, test.gossipedHost, signingStart.Add(time.Minute)))
+			gossiped := signedSeedAt(t, test.gossipedHost, signingStart.Add(time.Minute))
+			roster.Discover(ctx, gossiped)
 
 			assertHostOf(t, roster, bound.Hash, test.gossipedHost)
 			if _, kept := roster.AnsweredBaseURLOf(ctx, bound.Hash); kept != test.wantAnswerKept {
 				t.Errorf("answered base URL kept = %v, want %v", kept, test.wantAnswerKept)
+			}
+			wantReachable := []yacymodel.Seed{}
+			if test.wantAnswerKept {
+				wantReachable = []yacymodel.Seed{gossiped}
+			}
+			if reachable := roster.ReachablePeers(
+				ctx,
+			); !reflect.DeepEqual(
+				reachable,
+				wantReachable,
+			) {
+				t.Errorf("ReachablePeers = %v, want %v", reachable, wantReachable)
 			}
 		})
 	}

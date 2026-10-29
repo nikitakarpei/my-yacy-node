@@ -27,13 +27,17 @@ change only when the peer sends its own seed and is confirmed reachable.
 The roster binds the identity of a peer from the first seed with a valid
 identity and a valid address signature. After that, the roster drops each
 seed of the peer without that identity and a valid signature, and each seed
-with an older address signature. A dropped seed changes nothing. A peer
+with an older address signature for other addresses. An older seed for the
+same addresses confirms the peer and keeps the bound signature.
+
+The roster drops each seed signed more than 10 minutes after the local time,
+and binds no identity from it. A dropped seed changes nothing. A peer
 without a bound identity is a legacy peer. Eviction removes the binding.
 
 The roster also keeps the base URL that answered the last greet or back-ping
 of a peer. Deliveries go only to that base URL. A failed greet clears it.
 When discovery moves a peer to addresses without that base URL, the roster
-clears it.
+clears it and the peer is no longer reachable.
 
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted

@@ -111,6 +111,6 @@ func nonceSearchedFrom(
 	return 0, false
 }
 
-func (m keyMaterial) String() string {
+func (m keyMaterial) secretText() string {
 	return Encode(m.operationalKey.Seed()) + identityPartSeparator + Encode(m.recoverySeeds[:])
 }

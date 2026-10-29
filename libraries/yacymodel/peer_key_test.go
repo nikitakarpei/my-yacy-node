@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
 	"strings"
 	"testing"
@@ -16,15 +17,29 @@ import (
 func TestPeerKeyTextRoundTrips(t *testing.T) {
 	key := peerkeytest.Key(0)
 
-	parsed, err := yacymodel.ParsePeerKey(key.String())
+	parsed, err := yacymodel.ParsePeerKey(peerkeytest.SecretTextOf(key))
 	if err != nil {
-		t.Fatalf("ParsePeerKey(%q): %v", key, err)
+		t.Fatalf("ParsePeerKey(the text of %v): %v", key, err)
 	}
-	if parsed.String() != key.String() {
-		t.Errorf("String = %q, want %q", parsed, key)
+	if peerkeytest.SecretTextOf(parsed) != peerkeytest.SecretTextOf(key) {
+		t.Errorf("SecretText of %v differs from the parsed text", key)
 	}
 	if parsed.Identity() != key.Identity() {
 		t.Errorf("Identity = %v, want %v", parsed.Identity(), key.Identity())
+	}
+}
+
+func TestPeerKeyPrintsNoSecret(t *testing.T) {
+	key := peerkeytest.Key(0)
+	printed := fmt.Sprintf("%v %+v %#v %s %q", key, key, key, key, key)
+
+	for _, secretPart := range strings.Split(peerkeytest.SecretTextOf(key), ":")[:2] {
+		if strings.Contains(printed, secretPart) {
+			t.Errorf("printed key %q holds the secret part %q", printed, secretPart)
+		}
+	}
+	if !strings.Contains(printed, key.Hash().String()) {
+		t.Errorf("printed key %q, want its hash %s", printed, key.Hash())
 	}
 }
 
@@ -40,11 +55,11 @@ func TestPeerKeysOfOnePeerDeriveOneHashAndOthersAnother(t *testing.T) {
 }
 
 func TestParsePeerKeyRejects(t *testing.T) {
-	parts := strings.Split(peerkeytest.Key(0).String(), ":")
+	parts := strings.Split(peerkeytest.SecretTextOf(peerkeytest.Key(0)), ":")
 	for name, text := range map[string]string{
 		"empty":                       "",
 		"two parts":                   parts[0] + ":" + parts[1],
-		"four parts":                  peerkeytest.Key(0).String() + ":" + parts[2],
+		"four parts":                  peerkeytest.SecretTextOf(peerkeytest.Key(0)) + ":" + parts[2],
 		"short operational key":       parts[0][1:] + ":" + parts[1] + ":" + parts[2],
 		"bad symbol":                  "*" + parts[0][1:] + ":" + parts[1] + ":" + parts[2],
 		"short recovery key":          parts[0] + ":" + parts[1][1:] + ":" + parts[2],
@@ -55,7 +70,7 @@ func TestParsePeerKeyRejects(t *testing.T) {
 	} {
 		t.Run(name, func(t *testing.T) {
 			if _, err := yacymodel.ParsePeerKey(text); !errors.Is(err, yacymodel.ErrBadPeerKey) {
-				t.Errorf("ParsePeerKey(%q) = %v, want ErrBadPeerKey", text, err)
+				t.Errorf("ParsePeerKey = %v, want ErrBadPeerKey", err)
 			}
 		})
 	}
@@ -111,9 +126,9 @@ func TestGeneratePeerKeySolvesTheWorkOfANewIdentity(t *testing.T) {
 		t.Fatalf("GeneratePeerKey: %v", err)
 	}
 
-	parsed, err := yacymodel.ParsePeerKey(key.String())
+	parsed, err := yacymodel.ParsePeerKey(peerkeytest.SecretTextOf(key))
 	if err != nil {
-		t.Fatalf("ParsePeerKey(%q): %v", key, err)
+		t.Fatalf("ParsePeerKey(the text of %v): %v", key, err)
 	}
 	if _, err := yacymodel.ParsePeerIdentity(parsed.Identity().String()); err != nil {
 		t.Fatalf("ParsePeerIdentity(%q): %v", parsed.Identity(), err)
@@ -144,11 +159,11 @@ func TestGeneratePeerKeyStopsWhenCancelled(t *testing.T) {
 }
 
 func nonceTextOf(key yacymodel.PeerKey) string {
-	return strings.Split(key.String(), ":")[2]
+	return strings.Split(peerkeytest.SecretTextOf(key), ":")[2]
 }
 
 func recoveryTextOf(key yacymodel.PeerKey) string {
-	return strings.Split(key.String(), ":")[1]
+	return strings.Split(peerkeytest.SecretTextOf(key), ":")[1]
 }
 
 func withLastSymbolRaised(text string) string {

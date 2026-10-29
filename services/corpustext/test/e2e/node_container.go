@@ -30,7 +30,7 @@ func startNode(t *testing.T, ctx context.Context, networkName string) {
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {nodeAlias}},
 			Env: map[string]string{
-				"YACY_PEER_KEY":              peerkeytest.Key(0).String(),
+				"YACY_PEER_KEY":              peerkeytest.SecretTextOf(peerkeytest.Key(0)),
 				"YACY_PEER_NAME":             nodeAlias,
 				"YACY_ADVERTISE_HOST":        nodeAlias,
 				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
