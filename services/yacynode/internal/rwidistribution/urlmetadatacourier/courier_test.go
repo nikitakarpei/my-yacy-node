@@ -46,8 +46,14 @@ func answeringPeerWire(resp yacyproto.TransferURLResponse) *stubPeerWire {
 	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-func (s *stubPeerWire) RecordOf(context.Context, yacymodel.Hash) (peerroster.PeerRecord, bool) {
-	record := peerroster.PeerRecord{Identity: s.identity}
+func (s *stubPeerWire) RecordOf(
+	_ context.Context,
+	peer yacymodel.Hash,
+) (peerroster.PeerRecord, bool) {
+	record := peerroster.PeerRecord{Callee: peerwire.UnidentifiedCallee(peer)}
+	if identity, identified := s.identity.Get(); identified {
+		record.Callee = peerwire.IdentifiedCallee(identity)
+	}
 	if !s.withoutAnsweredBaseURL {
 		record.AnsweredBaseURL = yacymodel.Some(peerwire.BaseURL{Scheme: peerwire.HTTP})
 	}
@@ -110,7 +116,7 @@ func TestDeliverNamesTheBoundIdentityOfThePeer(t *testing.T) {
 
 	courierOver(wire).Deliver(context.Background(), courierHash("peer"), singleURLMetadata())
 
-	if len(wire.requests) != 1 || wire.requests[0].Callee.Identity != wire.identity {
+	if len(wire.requests) != 1 || wire.requests[0].Callee.Identity() != wire.identity {
 		t.Fatalf("requests = %v, want one naming %v", wire.requests, wire.identity)
 	}
 }

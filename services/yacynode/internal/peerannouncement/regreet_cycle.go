@@ -140,7 +140,7 @@ func (a *announcer) contactOne(
 		return contactReply{outcome: PeerDidNotAnswer}
 	}
 
-	result, answered := a.greeter.Greet(ctx, peerHash, record, self, announceHelloPeerCount)
+	result, answered := a.greeter.Greet(ctx, record, self, announceHelloPeerCount)
 	if !answered {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
 		slog.WarnContext(ctx, "peer greet failed", slog.String("peer", peerHash.String()))

@@ -91,7 +91,7 @@ func (c Courier) Deliver(
 	answer, replied := c.formPoster.TryAt(
 		ctx,
 		peerwire.Request{
-			Callee: peerwire.Callee{Hash: peer, Identity: record.Identity},
+			Callee: record.Callee,
 			Path:   yacyproto.PathTransferURL,
 			Form:   req.Form(),
 		},

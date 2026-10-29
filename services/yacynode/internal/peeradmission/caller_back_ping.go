@@ -66,20 +66,29 @@ func (p callerBackPing) Reach(
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	identity := caller.IdentityIn(networkName)
+	callee := calleeOf(caller, networkName)
 	answer, answered := p.walker.TryInTurn(
 		ctx,
-		peerwire.Request{
-			Callee: peerwire.Callee{Hash: caller.Hash, Identity: identity},
-			Path:   yacyproto.PathQuery,
-			Form:   query.Form(),
-		},
-		p.baseURLsAnsweredFirst(ctx, caller.Hash, peerwire.BaseURLsFrom(addresses, identity)),
+		peerwire.Request{Callee: callee, Path: yacyproto.PathQuery, Form: query.Form()},
+		p.baseURLsAnsweredFirst(
+			ctx,
+			caller.Hash,
+			peerwire.BaseURLsFrom(addresses, callee.Identity()),
+		),
 		isRWICountReply,
 		backPingBudget,
 	)
 
 	return answer.BaseURL, answered
+}
+
+func calleeOf(caller yacymodel.Seed, networkName string) peerwire.Callee {
+	identity, identified := caller.IdentityIn(networkName).Get()
+	if !identified {
+		return peerwire.UnidentifiedCallee(caller.Hash)
+	}
+
+	return peerwire.IdentifiedCallee(identity)
 }
 
 func (p callerBackPing) takeSlot(ctx context.Context) bool {

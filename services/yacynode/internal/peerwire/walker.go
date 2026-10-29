@@ -32,11 +32,6 @@ type PeerTransports interface {
 	TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper
 }
 
-type Callee struct {
-	Hash     yacymodel.Hash
-	Identity yacymodel.Optional[yacymodel.PeerIdentity]
-}
-
 type Request struct {
 	Callee Callee
 	Path   string
@@ -125,7 +120,7 @@ func (w Walker) try(
 	sentAt := w.clock.Now()
 	fields, err := w.roundTripper.post(
 		attemptCtx,
-		request.Callee.Identity,
+		request.Callee.Identity(),
 		baseURL,
 		request.Path,
 		body,
@@ -151,7 +146,7 @@ func (w Walker) try(
 func reportPassedOver(ctx context.Context, request Request, failures []attemptFailure) {
 	for _, failure := range failures {
 		slog.DebugContext(ctx, "peer base URL passed over",
-			slog.String("peer", request.Callee.Hash.String()),
+			slog.String("peer", request.Callee.Hash().String()),
 			slog.String("baseUrl", failure.baseURL.String()),
 			slog.String("path", request.Path),
 			slog.Any("cause", failure.cause),
@@ -162,7 +157,7 @@ func reportPassedOver(ctx context.Context, request Request, failures []attemptFa
 func reportUnanswered(ctx context.Context, request Request, failures []attemptFailure) {
 	for _, failure := range failures {
 		slog.WarnContext(ctx, "peer base URL did not answer",
-			slog.String("peer", request.Callee.Hash.String()),
+			slog.String("peer", request.Callee.Hash().String()),
 			slog.String("baseUrl", failure.baseURL.String()),
 			slog.String("path", request.Path),
 			slog.Any("cause", failure.cause),

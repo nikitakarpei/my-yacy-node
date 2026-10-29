@@ -311,8 +311,8 @@ func TestRosterRecordsTheBoundIdentityOfAPeer(t *testing.T) {
 	roster.Discover(ctx, seed)
 
 	record, _ := roster.RecordOf(ctx, seed.Hash)
-	if identity, _ := record.Identity.Get(); identity != peerkeytest.Key(0).Identity() {
-		t.Errorf("Identity = %v, want the identity of the signed seed", record.Identity)
+	if record.Callee != peerwire.IdentifiedCallee(peerkeytest.Key(0).Identity()) {
+		t.Errorf("Callee = %v, want the identity of the signed seed", record.Callee)
 	}
 }
 

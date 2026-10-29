@@ -161,10 +161,7 @@ func TestTryAtGoesToAnHTTPSBaseURLThroughTheTransportForTheIdentityOfThePeer(t *
 	defer server.Close()
 	peerTransports := &recordingPeerTransports{transport: server.Client().Transport}
 	request := transferRequest
-	request.Callee = peerwire.Callee{
-		Hash:     peerkeytest.Key(0).Hash(),
-		Identity: yacymodel.Some(peerkeytest.Key(0).Identity()),
-	}
+	request.Callee = peerwire.IdentifiedCallee(peerkeytest.Key(0).Identity())
 
 	_, answered := peerwire.NewWalker(http.DefaultClient, peerTransports, startClock()).TryAt(
 		t.Context(),

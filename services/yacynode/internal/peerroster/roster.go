@@ -601,15 +601,24 @@ func (r *roster) UnreachablePeerHashes(ctx context.Context, limit int) []yacymod
 func (r *roster) RecordOf(ctx context.Context, peer yacymodel.Hash) (PeerRecord, bool) {
 	entry, known := r.entryOf(ctx, peer)
 
-	return entry.record(), known
+	return entry.recordOf(peer), known
 }
 
-func (e rosterEntry) record() PeerRecord {
+func (e rosterEntry) recordOf(peer yacymodel.Hash) PeerRecord {
 	return PeerRecord{
+		Callee:          e.calleeOf(peer),
 		Addresses:       e.addresses,
-		Identity:        e.boundIdentity(),
 		AnsweredBaseURL: e.answeredBaseURL,
 	}
+}
+
+func (e rosterEntry) calleeOf(peer yacymodel.Hash) peerwire.Callee {
+	identity, bound := e.boundIdentity().Get()
+	if !bound {
+		return peerwire.UnidentifiedCallee(peer)
+	}
+
+	return peerwire.IdentifiedCallee(identity)
 }
 
 func (r *roster) entryOf(ctx context.Context, peer yacymodel.Hash) (rosterEntry, bool) {

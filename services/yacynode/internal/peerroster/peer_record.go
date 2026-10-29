@@ -6,7 +6,7 @@ import (
 )
 
 type PeerRecord struct {
+	Callee          peerwire.Callee
 	Addresses       yacymodel.PeerAddresses
-	Identity        yacymodel.Optional[yacymodel.PeerIdentity]
 	AnsweredBaseURL yacymodel.Optional[peerwire.BaseURL]
 }

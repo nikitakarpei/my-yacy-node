@@ -42,7 +42,10 @@ func newStubRoster(reachable, unreachable []yacymodel.Seed) *stubRoster {
 	records := make(map[yacymodel.Hash]peerroster.PeerRecord)
 	for _, seed := range append(append([]yacymodel.Seed{}, reachable...), unreachable...) {
 		if addresses, addressable := seed.Addresses(); addressable {
-			records[seed.Hash] = peerroster.PeerRecord{Addresses: addresses}
+			records[seed.Hash] = peerroster.PeerRecord{
+				Callee:    peerwire.UnidentifiedCallee(seed.Hash),
+				Addresses: addresses,
+			}
 		}
 	}
 	unreachablePeerHashes := make([]yacymodel.Hash, len(unreachable))
