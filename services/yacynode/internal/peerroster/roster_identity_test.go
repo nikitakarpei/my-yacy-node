@@ -186,7 +186,7 @@ func TestDiscoverBindsAKnownLegacyPeerFromItsSignedSeed(t *testing.T) {
 	assertHostOf(t, roster, forged.Hash, "203.0.113.2")
 }
 
-func TestDiscoverMovesABoundPeerOnItsNewerSignedSeed(t *testing.T) {
+func TestDiscoverMovesAnUnreachableBoundPeerOnItsNewerSignedSeed(t *testing.T) {
 	for name, test := range map[string]struct {
 		gossipedHost   string
 		wantAnswerKept bool
@@ -196,30 +196,37 @@ func TestDiscoverMovesABoundPeerOnItsNewerSignedSeed(t *testing.T) {
 	} {
 		t.Run(name, func(t *testing.T) {
 			ctx := context.Background()
-			roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+			storagePath := filepath.Join(t.TempDir(), "peer-roster")
 			bound := signedSeedAt(t, "203.0.113.1", signingStart)
-			roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+			confirmedAndClosedAt(t, storagePath, bound)
+			roster := restoredRosterAt(t, storagePath)
 
-			gossiped := signedSeedAt(t, test.gossipedHost, signingStart.Add(time.Minute))
-			roster.Discover(ctx, gossiped)
+			roster.Discover(ctx, signedSeedAt(t, test.gossipedHost, signingStart.Add(time.Minute)))
 
 			assertHostOf(t, roster, bound.Hash, test.gossipedHost)
 			if _, kept := roster.AnsweredBaseURLOf(ctx, bound.Hash); kept != test.wantAnswerKept {
 				t.Errorf("answered base URL kept = %v, want %v", kept, test.wantAnswerKept)
 			}
-			wantReachable := []yacymodel.Seed{}
-			if test.wantAnswerKept {
-				wantReachable = []yacymodel.Seed{gossiped}
-			}
-			if reachable := roster.ReachablePeers(
-				ctx,
-			); !reflect.DeepEqual(
-				reachable,
-				wantReachable,
-			) {
-				t.Errorf("ReachablePeers = %v, want %v", reachable, wantReachable)
-			}
 		})
+	}
+}
+
+func TestDiscoverLeavesAReachablePeerToItsOwnContacts(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+	bound := signedSeedAt(t, "203.0.113.1", signingStart)
+	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+
+	roster.Discover(ctx, signedSeedAt(t, "203.0.113.2", signingStart.Add(time.Minute)))
+
+	assertHostOf(t, roster, bound.Hash, "203.0.113.1")
+	if reachable := roster.ReachablePeers(
+		ctx,
+	); !reflect.DeepEqual(
+		reachable,
+		[]yacymodel.Seed{bound},
+	) {
+		t.Errorf("ReachablePeers = %v, want the confirmed seed", reachable)
 	}
 }
 
@@ -244,13 +251,11 @@ func TestDiscoverIgnoresGossipThatDoesNotSupersedeTheBinding(t *testing.T) {
 			)
 			bound := signedSeedAt(t, "203.0.113.1", signingStart)
 			roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+			roster.ConfirmUnreachable(ctx, bound.Hash)
 
 			roster.Discover(ctx, gossiped(t))
 
 			assertHostOf(t, roster, bound.Hash, "203.0.113.1")
-			if _, kept := roster.AnsweredBaseURLOf(ctx, bound.Hash); !kept {
-				t.Error("answered base URL dropped, want it kept")
-			}
 			if dropReasons := observer.observedDropReasons(); len(dropReasons) != 0 {
 				t.Errorf("drop reasons = %v, want none for gossip", dropReasons)
 			}
@@ -258,19 +263,24 @@ func TestDiscoverIgnoresGossipThatDoesNotSupersedeTheBinding(t *testing.T) {
 	}
 }
 
-func TestRosterKeepsTheBoundIdentityAcrossARestart(t *testing.T) {
-	ctx := context.Background()
-	storagePath := filepath.Join(t.TempDir(), "peer-roster")
+func confirmedAndClosedAt(t *testing.T, storagePath string, seed yacymodel.Seed) {
+	t.Helper()
 	storedVault := openRosterVault(t, storagePath)
 	storedRoster := openRoster(
 		t,
 		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
 	)
-	bound := signedSeedAt(t, "203.0.113.1", signingStart)
-	storedRoster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+	storedRoster.ConfirmReachable(context.Background(), seed, httpBaseURLOf(seed))
 	if err := storedVault.Close(); err != nil {
 		t.Fatalf("Close stored roster: %v", err)
 	}
+}
+
+func TestRosterKeepsTheBoundIdentityAcrossARestart(t *testing.T) {
+	ctx := context.Background()
+	storagePath := filepath.Join(t.TempDir(), "peer-roster")
+	bound := signedSeedAt(t, "203.0.113.1", signingStart)
+	confirmedAndClosedAt(t, storagePath, bound)
 
 	restoredRoster := restoredRosterAt(t, storagePath)
 	forged := unsignedSeedAt(t, "198.51.100.9")

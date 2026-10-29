@@ -29,8 +29,13 @@ const (
 	futureSeed
 )
 
-func standingOf(offered, known rosterEntry, now time.Time) seedStanding {
-	next, verified := offered.binding.Get()
+func standingOf(
+	signed yacymodel.Optional[yacymodel.SignedIdentity],
+	addresses yacymodel.PeerAddresses,
+	known rosterEntry,
+	now time.Time,
+) seedStanding {
+	next, verified := signed.Get()
 	bound, isBound := known.binding.Get()
 	switch {
 	case verified && next.IssuedAt.After(now.Add(issuedAtTolerance)):
@@ -45,7 +50,7 @@ func standingOf(offered, known rosterEntry, now time.Time) seedStanding {
 		return newerSeed
 	case next.IssuedAt.Equal(bound.IssuedAt):
 		return currentSeed
-	case sameAddresses(offered.addresses, known.addresses):
+	case sameAddresses(addresses, known.addresses):
 		return staleSeed
 	default:
 		return replayedSeed

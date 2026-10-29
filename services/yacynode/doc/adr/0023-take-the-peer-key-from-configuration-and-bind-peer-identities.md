@@ -46,8 +46,9 @@ address signature:
   is such a copy, not a replay, so it is not a drop.
 - A seed from a clock that runs ahead would hold the binding until that time, and the peer could not
   move.
-- Discovery applies the table to known peers too. It accepts only a valid seed with a newer address
-  signature and drops nothing, because stale gossip copies are normal. A valid seed binds a known
+- Discovery applies the table to known peers that are not reachable. It accepts only a valid seed
+  with a newer address signature and drops nothing, because stale gossip copies are normal. A
+  reachable peer changes only on its own confirmed contact. A valid seed binds a known
   legacy peer, so the binding does not wait for a confirmed contact.
 
 The roster observer reports each drop at WARN with its reason.
