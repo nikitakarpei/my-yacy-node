@@ -129,15 +129,15 @@ func unsignedSeed(t *testing.T) yacymodel.Seed {
 	return seed
 }
 
-func TestIdentityOfASignedSeedIsTheIdentityOfItsKey(t *testing.T) {
-	signed := signedSeed(t, peerkeytest.Key(0)).SignedIdentityIn(signedNetworkName)
+func TestIdentityInTheNetworkOfASignedSeedIsTheIdentityOfItsKey(t *testing.T) {
+	seed := signedSeed(t, peerkeytest.Key(0))
 
-	if identity, _ := yacymodel.IdentityOf(signed).
+	if identity, _ := seed.IdentityIn(signedNetworkName).
 		Get(); identity != peerkeytest.Key(0).
 		Identity() {
-		t.Errorf("IdentityOf = %v, want %v", identity, peerkeytest.Key(0).Identity())
+		t.Errorf("IdentityIn = %v, want %v", identity, peerkeytest.Key(0).Identity())
 	}
-	if yacymodel.IdentityOf(yacymodel.None[yacymodel.SignedIdentity]()).Present() {
-		t.Error("IdentityOf an unsigned seed is present, want none")
+	if seed.IdentityIn("othernet").Present() {
+		t.Error("IdentityIn another network is present, want none")
 	}
 }

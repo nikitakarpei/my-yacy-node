@@ -76,6 +76,15 @@ func (s Seed) SignedIdentityIn(networkName string) Optional[SignedIdentity] {
 	return Some(SignedIdentity{Identity: identity, IssuedAt: signature.IssuedAt})
 }
 
+func (s Seed) IdentityIn(networkName string) Optional[PeerIdentity] {
+	signed, verified := s.SignedIdentityIn(networkName).Get()
+	if !verified {
+		return None[PeerIdentity]()
+	}
+
+	return Some(signed.Identity)
+}
+
 func (s Seed) AcceptsRemoteIndex() bool {
 	capabilities, known := s.Capabilities.Get()
 

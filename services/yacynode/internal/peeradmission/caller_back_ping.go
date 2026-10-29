@@ -66,7 +66,7 @@ func (p callerBackPing) Reach(
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	identity := yacymodel.IdentityOf(caller.SignedIdentityIn(networkName))
+	identity := caller.IdentityIn(networkName)
 	answer, answered := p.walker.TryInTurn(
 		ctx,
 		peerwire.Request{

@@ -141,7 +141,16 @@ func answeredBaseURLAmong(
 }
 
 func (e rosterEntry) baseURLs() []peerwire.BaseURL {
-	return peerwire.BaseURLsFrom(e.addresses, yacymodel.IdentityOf(e.binding))
+	return peerwire.BaseURLsFrom(e.addresses, e.boundIdentity())
+}
+
+func (e rosterEntry) boundIdentity() yacymodel.Optional[yacymodel.PeerIdentity] {
+	binding, bound := e.binding.Get()
+	if !bound {
+		return yacymodel.None[yacymodel.PeerIdentity]()
+	}
+
+	return yacymodel.Some(binding.Identity)
 }
 
 func (r *roster) keepWithinCapacity(ctx context.Context) {
@@ -598,7 +607,7 @@ func (r *roster) RecordOf(ctx context.Context, peer yacymodel.Hash) (PeerRecord,
 func (e rosterEntry) record() PeerRecord {
 	return PeerRecord{
 		Addresses:       e.addresses,
-		Identity:        yacymodel.IdentityOf(e.binding),
+		Identity:        e.boundIdentity(),
 		AnsweredBaseURL: e.answeredBaseURL,
 	}
 }
