@@ -19,9 +19,9 @@ docker run -d --name yacypeer --restart unless-stopped \
 Other peers must reach port 8090 of the host from the internet. Behind NAT,
 forward that port to the host.
 
-The first start makes the peer key, so it can take a minute or more on a small
-board. The key is in `peer.key` of the volume. Keep a copy of this file: the
-peer hash and the data of the peer belong to the key.
+The first start searches the peer key for one minute. The key is in `peer.key`
+of the volume. Keep a copy of this file: the peer hash and the data of the peer
+belong to the key.
 
 ## Use
 

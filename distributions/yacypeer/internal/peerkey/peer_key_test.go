@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
@@ -14,22 +15,22 @@ import (
 
 var errNoEntropy = errors.New("no entropy")
 
-func solvedKey(context.Context) (yacymodel.PeerKey, error) {
+func solvedKey(context.Context, time.Duration) (yacymodel.PeerKey, error) {
 	return peerkeytest.Key(0), nil
 }
 
-func unsolvableKey(context.Context) (yacymodel.PeerKey, error) {
+func unsolvableKey(context.Context, time.Duration) (yacymodel.PeerKey, error) {
 	return yacymodel.PeerKey{}, errNoEntropy
 }
 
 func TestSettleMakesAKeyOnTheFirstStartAndKeepsIt(t *testing.T) {
 	directory := filepath.Join(t.TempDir(), "data")
 
-	first, err := peerkey.Settle(t.Context(), directory, solvedKey)
+	first, err := peerkey.Settle(t.Context(), directory, time.Minute, solvedKey)
 	if err != nil {
 		t.Fatalf("first Settle: %v", err)
 	}
-	second, err := peerkey.Settle(t.Context(), directory, unsolvableKey)
+	second, err := peerkey.Settle(t.Context(), directory, time.Minute, unsolvableKey)
 	if err != nil {
 		t.Fatalf("second Settle: %v", err)
 	}
@@ -41,7 +42,7 @@ func TestSettleMakesAKeyOnTheFirstStartAndKeepsIt(t *testing.T) {
 
 func TestSettleLetsOnlyTheOwnerReadTheKey(t *testing.T) {
 	directory := t.TempDir()
-	if _, err := peerkey.Settle(t.Context(), directory, solvedKey); err != nil {
+	if _, err := peerkey.Settle(t.Context(), directory, time.Minute, solvedKey); err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
 
@@ -68,11 +69,11 @@ func TestSettleReplacesADraftLeftByAnEarlierStart(t *testing.T) {
 		t.Fatalf("write draft: %v", err)
 	}
 
-	key, err := peerkey.Settle(t.Context(), directory, solvedKey)
+	key, err := peerkey.Settle(t.Context(), directory, time.Minute, solvedKey)
 	if err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	kept, err := peerkey.Settle(t.Context(), directory, unsolvableKey)
+	kept, err := peerkey.Settle(t.Context(), directory, time.Minute, unsolvableKey)
 	if err != nil || peerkeytest.SecretTextOf(kept) != peerkeytest.SecretTextOf(key) {
 		t.Errorf("kept key = %v (%v), want %v", kept, err, key)
 	}
@@ -103,7 +104,12 @@ func TestSettleFails(t *testing.T) {
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			if _, err := peerkey.Settle(t.Context(), directoryFor(t), solvedKey); err == nil {
+			if _, err := peerkey.Settle(
+				t.Context(),
+				directoryFor(t),
+				time.Minute,
+				solvedKey,
+			); err == nil {
 				t.Error("Settle = nil, want an error")
 			}
 		})
@@ -111,14 +117,24 @@ func TestSettleFails(t *testing.T) {
 }
 
 func TestSettleFailsWhenNoKeyCanBeMade(t *testing.T) {
-	if _, err := peerkey.Settle(
-		t.Context(),
-		t.TempDir(),
-		unsolvableKey,
-	); !errors.Is(
-		err,
-		errNoEntropy,
-	) {
+	_, err := peerkey.Settle(t.Context(), t.TempDir(), time.Minute, unsolvableKey)
+	if !errors.Is(err, errNoEntropy) {
 		t.Errorf("Settle = %v, want %v", err, errNoEntropy)
+	}
+}
+
+func TestSettleSearchesANewKeyForTheSearchTime(t *testing.T) {
+	var searchedFor time.Duration
+	searchedKey := func(ctx context.Context, searchTime time.Duration) (yacymodel.PeerKey, error) {
+		searchedFor = searchTime
+
+		return solvedKey(ctx, searchTime)
+	}
+
+	if _, err := peerkey.Settle(t.Context(), t.TempDir(), 3*time.Minute, searchedKey); err != nil {
+		t.Fatalf("Settle: %v", err)
+	}
+	if searchedFor != 3*time.Minute {
+		t.Errorf("search time = %v, want 3m", searchedFor)
 	}
 }

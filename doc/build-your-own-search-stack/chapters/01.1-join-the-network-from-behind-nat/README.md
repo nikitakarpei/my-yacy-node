@@ -20,7 +20,7 @@ to keep one hostname for longer. Each new hostname restarts the node.
 
 ## Start
 
-Make a peer key once, and keep `.env` safe:
+Make a peer key once. This takes one minute. Keep `.env` safe:
 
 ```sh
 echo "YACY_PEER_KEY=$(docker run --rm ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest yacy-peer-key)" >> .env

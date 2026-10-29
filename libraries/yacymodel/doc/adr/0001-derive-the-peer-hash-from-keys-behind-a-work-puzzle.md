@@ -35,6 +35,8 @@ fingerprint         = H[0..27]  (224 bits)
 - 28 bits cost a new peer about 17 s on a 6-core ARM board. More bits do not protect existing
   hashes in a way that matters, and they slow every new peer.
 - The minimum is a constant. It is not configurable and is never lowered.
+- A key maker searches for a set time and keeps the nonce with the most zero bits. A fast machine
+  gets more than the minimum, and a later rule can weigh it.
 - The key digest is computed once, so each try of the puzzle hashes one SHA-256 block.
 
 The seed column `Identity` holds `<Ed25519 public key>:<recovery commitment>:<nonce>` in YaCy

@@ -35,11 +35,16 @@ func ParsePeerKey(text string) (PeerKey, error) {
 	return material.provenBy(nonce)
 }
 
-func NewPeerKey(ctx context.Context) (PeerKey, error) {
-	return GeneratePeerKey(ctx, rand.Reader)
+func NewPeerKey(ctx context.Context, searchTime time.Duration, clock Clock) (PeerKey, error) {
+	return GeneratePeerKey(ctx, rand.Reader, searchTime, clock)
 }
 
-func GeneratePeerKey(ctx context.Context, entropy io.Reader) (PeerKey, error) {
+func GeneratePeerKey(
+	ctx context.Context,
+	entropy io.Reader,
+	searchTime time.Duration,
+	clock Clock,
+) (PeerKey, error) {
 	var seeds [ed25519.SeedSize + recoverySeedsSize]byte
 	if _, err := io.ReadFull(entropy, seeds[:]); err != nil {
 		return PeerKey{}, fmt.Errorf("read entropy: %w", err)
@@ -53,7 +58,7 @@ func GeneratePeerKey(ctx context.Context, entropy io.Reader) (PeerKey, error) {
 		return PeerKey{}, err
 	}
 
-	nonce, err := material.solvedNonce(ctx)
+	nonce, err := bestNonceFor(ctx, material.keyDigest(), searchTime, clock)
 	if err != nil {
 		return PeerKey{}, err
 	}
@@ -67,6 +72,10 @@ func (k PeerKey) Identity() PeerIdentity {
 
 func (k PeerKey) Hash() Hash {
 	return k.identity.Hash()
+}
+
+func (k PeerKey) Work() int {
+	return k.identity.Work()
 }
 
 func (k PeerKey) WriteSecret(w io.Writer) error {

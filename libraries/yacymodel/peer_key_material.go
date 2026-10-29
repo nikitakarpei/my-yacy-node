@@ -2,14 +2,9 @@ package yacymodel
 
 import (
 	"bytes"
-	"context"
 	"crypto/ed25519"
 	"crypto/sha256"
 	"fmt"
-	"math"
-	"runtime"
-	"sync"
-	"sync/atomic"
 
 	"github.com/cloudflare/circl/sign/slhdsa"
 )
@@ -69,49 +64,8 @@ func (m keyMaterial) operationalPublicKey() [ed25519.PublicKeySize]byte {
 	return [ed25519.PublicKeySize]byte(m.operationalKey.Public().(ed25519.PublicKey))
 }
 
-func (m keyMaterial) solvedNonce(ctx context.Context) (uint64, error) {
-	keyDigest := keyDigestFrom(m.operationalPublicKey(), m.recoveryCommitment)
-	var (
-		searchOver  atomic.Bool
-		solvedNonce uint64
-		solved      bool
-		searches    sync.WaitGroup
-	)
-	stopSearchOnCancel := context.AfterFunc(ctx, func() { searchOver.Store(true) })
-	defer stopSearchOnCancel()
-	searchCount := runtime.GOMAXPROCS(0)
-	searchSpan := math.MaxUint64 / uint64(max(searchCount, 1))
-	var searchStart uint64
-	for range searchCount {
-		firstNonce := searchStart
-		searches.Go(func() {
-			if nonce, found := nonceSearchedFrom(keyDigest, firstNonce, &searchOver); found {
-				solvedNonce, solved = nonce, true
-			}
-		})
-		searchStart += searchSpan
-	}
-	searches.Wait()
-	if !solved {
-		return 0, fmt.Errorf("solve the peer key: %w", context.Cause(ctx))
-	}
-
-	return solvedNonce, nil
-}
-
-func nonceSearchedFrom(
-	keyDigest [sha256.Size]byte,
-	firstNonce uint64,
-	searchOver *atomic.Bool,
-) (uint64, bool) {
-	for nonce := firstNonce; !searchOver.Load(); nonce++ {
-		if workOf(puzzleDigestFrom(keyDigest, nonce)) >= identityWorkMinimum &&
-			searchOver.CompareAndSwap(false, true) {
-			return nonce, true
-		}
-	}
-
-	return 0, false
+func (m keyMaterial) keyDigest() [sha256.Size]byte {
+	return keyDigestFrom(m.operationalPublicKey(), m.recoveryCommitment)
 }
 
 func (m keyMaterial) secretText() string {

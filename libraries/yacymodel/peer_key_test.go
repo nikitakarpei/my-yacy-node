@@ -9,6 +9,7 @@ import (
 	"io"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
@@ -121,7 +122,12 @@ func TestGeneratePeerKeySolvesTheWorkOfANewIdentity(t *testing.T) {
 		t.Fatalf("decode entropy: %v", err)
 	}
 
-	key, err := yacymodel.GeneratePeerKey(t.Context(), bytes.NewReader(entropy))
+	key, err := yacymodel.GeneratePeerKey(
+		t.Context(),
+		bytes.NewReader(entropy),
+		time.Minute,
+		expiredClock{},
+	)
 	if err != nil {
 		t.Fatalf("GeneratePeerKey: %v", err)
 	}
@@ -133,6 +139,9 @@ func TestGeneratePeerKeySolvesTheWorkOfANewIdentity(t *testing.T) {
 	if _, err := yacymodel.ParsePeerIdentity(parsed.Identity().String()); err != nil {
 		t.Fatalf("ParsePeerIdentity(%q): %v", parsed.Identity(), err)
 	}
+	if parsed.Work() < 28 {
+		t.Errorf("Work = %d, want at least 28", parsed.Work())
+	}
 }
 
 func TestGeneratePeerKeyFailsWithoutEntropy(t *testing.T) {
@@ -141,7 +150,12 @@ func TestGeneratePeerKeyFailsWithoutEntropy(t *testing.T) {
 		"operational key alone": bytes.NewReader(make([]byte, 32)),
 	} {
 		t.Run(name, func(t *testing.T) {
-			if _, err := yacymodel.GeneratePeerKey(t.Context(), entropy); err == nil {
+			if _, err := yacymodel.GeneratePeerKey(
+				t.Context(),
+				entropy,
+				time.Minute,
+				expiredClock{},
+			); err == nil {
 				t.Error("GeneratePeerKey = nil, want an error")
 			}
 		})
@@ -152,10 +166,65 @@ func TestGeneratePeerKeyStopsWhenCancelled(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	cancel()
 
-	_, err := yacymodel.GeneratePeerKey(ctx, bytes.NewReader(make([]byte, 80)))
+	_, err := yacymodel.GeneratePeerKey(
+		ctx,
+		bytes.NewReader(make([]byte, 80)),
+		time.Minute,
+		newHeldClock(),
+	)
 	if !errors.Is(err, context.Canceled) {
 		t.Errorf("GeneratePeerKey = %v, want %v", err, context.Canceled)
 	}
+}
+
+func TestGeneratePeerKeyKeepsSearchingUntilItsSearchTimeIsOver(t *testing.T) {
+	entropy, err := hex.DecodeString(quicklySolvedEntropy)
+	if err != nil {
+		t.Fatalf("decode entropy: %v", err)
+	}
+	clock := newHeldClock()
+	go clock.expireWhenHeld()
+
+	key, err := yacymodel.GeneratePeerKey(t.Context(), bytes.NewReader(entropy), time.Minute, clock)
+	if err != nil {
+		t.Fatalf("GeneratePeerKey: %v", err)
+	}
+	if clock.timeout != time.Minute {
+		t.Errorf("search time = %v, want %v", clock.timeout, time.Minute)
+	}
+	if key.Work() < 28 {
+		t.Errorf("Work = %d, want at least 28", key.Work())
+	}
+}
+
+type expiredClock struct{}
+
+func (expiredClock) After(_ time.Duration, expire func()) (stop func()) {
+	expire()
+
+	return func() {}
+}
+
+type heldClock struct {
+	timeout time.Duration
+	expire  func()
+	held    chan struct{}
+}
+
+func newHeldClock() *heldClock {
+	return &heldClock{held: make(chan struct{})}
+}
+
+func (c *heldClock) After(timeout time.Duration, expire func()) (stop func()) {
+	c.timeout, c.expire = timeout, expire
+	close(c.held)
+
+	return func() {}
+}
+
+func (c *heldClock) expireWhenHeld() {
+	<-c.held
+	c.expire()
 }
 
 func nonceTextOf(key yacymodel.PeerKey) string {

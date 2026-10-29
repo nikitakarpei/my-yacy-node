@@ -35,6 +35,7 @@ func TestLoadPeerConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 		SeedlistURLs:           yacypeerassembly.DefaultSeedlistURLs,
 		WebAddr:                yacypeerassembly.DefaultWebAddr,
 		MetricHistoryRetention: yacypeerassembly.DefaultMetricHistoryRetention,
+		PeerKeySearchTime:      yacypeerassembly.DefaultPeerKeySearchTime,
 	}
 	if cfg != want {
 		t.Errorf("config = %+v, want %+v", cfg, want)
@@ -50,6 +51,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		yacypeerassembly.EnvPeerProxyURL:           "http://proxy.example:3128",
 		yacypeerassembly.EnvPageFetchProxyURL:      "http://127.0.0.1:8118",
 		yacypeerassembly.EnvMetricHistoryRetention: "48h",
+		yacypeerassembly.EnvPeerKeySearchTime:      "5m",
 	}))
 	if err != nil {
 		t.Fatalf("load the config: %v", err)
@@ -62,6 +64,7 @@ func TestLoadPeerConfigTakesEveryNamedSetting(t *testing.T) {
 		SeedlistURLs:           "https://seeds.example/seed.txt",
 		WebAddr:                "127.0.0.1:9099",
 		MetricHistoryRetention: 48 * time.Hour,
+		PeerKeySearchTime:      5 * time.Minute,
 	}
 	if !reflect.DeepEqual(cfg, want) {
 		t.Errorf("config = %+v, want %+v", cfg, want)

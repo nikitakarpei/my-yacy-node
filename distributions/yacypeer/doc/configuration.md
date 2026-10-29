@@ -12,6 +12,7 @@ You configure yacypeer through environment variables.
 | `YACYPEER_DATA_DIR` | `data` | Directory that holds the local data of the peer. |
 | `YACYPEER_WEB_ADDR` | `127.0.0.1:9090` | Address that serves the search page at `/`, the crawl console at `/crawlconsole/`, the dashboards at `/dashboards`, `/metrics`, and `/metrics/<service>`. |
 | `YACYPEER_METRIC_HISTORY_RETENTION` | `168h` | How long yacypeer keeps the metric history that the dashboards show. |
+| `YACYPEER_PEER_KEY_SEARCH_TIME` | `1m` | How long the first start searches the peer key. A longer search can give a stronger key. |
 | `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy with `CONNECT` for peers and seedlists. Name a loopback or private proxy by its IP address. |
 | `YACYPEER_PAGE_FETCH_PROXY_URL` | none | Proxy like `YACYPEER_PEER_PROXY_URL`, for page fetches. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |

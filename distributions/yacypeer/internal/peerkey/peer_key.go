@@ -27,7 +27,8 @@ const (
 func Settle(
 	ctx context.Context,
 	directory string,
-	newKey func(context.Context) (yacymodel.PeerKey, error),
+	searchTime time.Duration,
+	newKey func(context.Context, time.Duration) (yacymodel.PeerKey, error),
 ) (yacymodel.PeerKey, error) {
 	root, err := openedDirectory(directory)
 	if err != nil {
@@ -41,7 +42,7 @@ func Settle(
 	if key, kept := keptKey.Get(); kept {
 		return key, nil
 	}
-	key, err := solvedKey(ctx, newKey)
+	key, err := searchedKey(ctx, searchTime, newKey)
 	if err != nil {
 		return yacymodel.PeerKey{}, err
 	}
@@ -77,18 +78,20 @@ func keptKeyIn(root *os.Root) (yacymodel.Optional[yacymodel.PeerKey], error) {
 	return yacymodel.Some(key), nil
 }
 
-func solvedKey(
+func searchedKey(
 	ctx context.Context,
-	newKey func(context.Context) (yacymodel.PeerKey, error),
+	searchTime time.Duration,
+	newKey func(context.Context, time.Duration) (yacymodel.PeerKey, error),
 ) (yacymodel.PeerKey, error) {
-	slog.InfoContext(ctx, "peer key solving started")
+	slog.InfoContext(ctx, "peer key search started", slog.Duration("searchTime", searchTime))
 	started := time.Now()
-	key, err := newKey(ctx)
+	key, err := newKey(ctx, searchTime)
 	if err != nil {
 		return yacymodel.PeerKey{}, fmt.Errorf("make the peer key: %w", err)
 	}
 	slog.InfoContext(ctx, "peer key made",
 		slog.String("peer", key.Hash().String()),
+		slog.Int("workBits", key.Work()),
 		slog.Duration("duration", time.Since(started)),
 	)
 

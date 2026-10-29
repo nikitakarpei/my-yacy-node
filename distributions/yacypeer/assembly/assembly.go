@@ -49,7 +49,7 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
-	peerKey, err := peerkey.Settle(ctx, cfg.DataDirectory, yacymodel.NewPeerKey)
+	peerKey, err := peerkey.Settle(ctx, cfg.DataDirectory, cfg.PeerKeySearchTime, newPeerKey)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -133,6 +133,10 @@ func RunPeer(
 			},
 		)
 	})
+}
+
+func newPeerKey(ctx context.Context, searchTime time.Duration) (yacymodel.PeerKey, error) {
+	return yacymodel.NewPeerKey(ctx, searchTime, wallclock.Clock{})
 }
 
 func closeHistory(ctx context.Context, history *metrichistory.History) {

@@ -126,6 +126,10 @@ func keyDigestFrom(
 	return [sha256.Size]byte(keyDigest.Sum(nil))
 }
 
+func (id PeerIdentity) Work() int {
+	return workOf(id.digest())
+}
+
 func (id PeerIdentity) Hash() Hash {
 	digest := id.digest()
 
