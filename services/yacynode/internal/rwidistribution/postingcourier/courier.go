@@ -139,10 +139,9 @@ func (c Courier) postTransferRWI(
 	answer, answered := c.formPoster.TryAt(
 		ctx,
 		peerwire.Request{
-			Peer:     peer,
-			Identity: identity,
-			Path:     yacyproto.PathTransferRWI,
-			Form:     req.Form(),
+			Callee: peerwire.Callee{Hash: peer, Identity: identity},
+			Path:   yacyproto.PathTransferRWI,
+			Form:   req.Form(),
 		},
 		baseURL,
 		isTransferRWIReply,

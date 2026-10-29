@@ -47,10 +47,9 @@ func (g peerGreeter) Greet(
 	answer, answered := g.walker.TryInTurn(
 		ctx,
 		peerwire.Request{
-			Peer:     peer,
-			Identity: record.Identity,
-			Path:     yacyproto.PathHello,
-			Form:     request.Form(),
+			Callee: peerwire.Callee{Hash: peer, Identity: record.Identity},
+			Path:   yacyproto.PathHello,
+			Form:   request.Form(),
 		},
 		peerwire.BaseURLsFrom(record.Addresses, record.Identity),
 		func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, peer, fields) },

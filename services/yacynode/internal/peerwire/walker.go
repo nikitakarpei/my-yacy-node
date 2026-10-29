@@ -1,8 +1,8 @@
 // Package peerwire posts a form to a peer as a multipart body, trying the peer's
 // base URLs in the given order until one gives a reply the caller accepts. Each
-// attempt has a share of the time left, and a redirect ends it. When the request
-// names the identity of the peer, an https base URL goes through the transport for
-// that identity. It reports why each base URL failed.
+// attempt has a share of the time left, and a redirect ends it. When the callee has
+// a known identity, an https base URL goes through the transport for that identity.
+// It reports why each base URL failed.
 package peerwire
 
 import (
@@ -32,11 +32,15 @@ type PeerTransports interface {
 	TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper
 }
 
-type Request struct {
-	Peer     yacymodel.Hash
+type Callee struct {
+	Hash     yacymodel.Hash
 	Identity yacymodel.Optional[yacymodel.PeerIdentity]
-	Path     string
-	Form     url.Values
+}
+
+type Request struct {
+	Callee Callee
+	Path   string
+	Form   url.Values
 }
 
 type Answer struct {
@@ -119,7 +123,13 @@ func (w Walker) try(
 	defer stop()
 
 	sentAt := w.clock.Now()
-	fields, err := w.roundTripper.post(attemptCtx, request.Identity, baseURL, request.Path, body)
+	fields, err := w.roundTripper.post(
+		attemptCtx,
+		request.Callee.Identity,
+		baseURL,
+		request.Path,
+		body,
+	)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)
@@ -141,7 +151,7 @@ func (w Walker) try(
 func reportPassedOver(ctx context.Context, request Request, failures []attemptFailure) {
 	for _, failure := range failures {
 		slog.DebugContext(ctx, "peer base URL passed over",
-			slog.String("peer", request.Peer.String()),
+			slog.String("peer", request.Callee.Hash.String()),
 			slog.String("baseUrl", failure.baseURL.String()),
 			slog.String("path", request.Path),
 			slog.Any("cause", failure.cause),
@@ -152,7 +162,7 @@ func reportPassedOver(ctx context.Context, request Request, failures []attemptFa
 func reportUnanswered(ctx context.Context, request Request, failures []attemptFailure) {
 	for _, failure := range failures {
 		slog.WarnContext(ctx, "peer base URL did not answer",
-			slog.String("peer", request.Peer.String()),
+			slog.String("peer", request.Callee.Hash.String()),
 			slog.String("baseUrl", failure.baseURL.String()),
 			slog.String("path", request.Path),
 			slog.Any("cause", failure.cause),

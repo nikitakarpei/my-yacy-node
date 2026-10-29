@@ -116,7 +116,7 @@ func TestOfferNamesTheBoundIdentityOfThePeer(t *testing.T) {
 
 	courierOver(wire).Offer(context.Background(), courierHash("peer"), singlePosting())
 
-	if len(wire.requests) != 1 || wire.requests[0].Identity != wire.identity {
+	if len(wire.requests) != 1 || wire.requests[0].Callee.Identity != wire.identity {
 		t.Fatalf("requests = %v, want one naming %v", wire.requests, wire.identity)
 	}
 }

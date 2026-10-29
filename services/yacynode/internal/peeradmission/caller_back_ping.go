@@ -70,10 +70,9 @@ func (p callerBackPing) Reach(
 	answer, answered := p.walker.TryInTurn(
 		ctx,
 		peerwire.Request{
-			Peer:     caller.Hash,
-			Identity: identity,
-			Path:     yacyproto.PathQuery,
-			Form:     query.Form(),
+			Callee: peerwire.Callee{Hash: caller.Hash, Identity: identity},
+			Path:   yacyproto.PathQuery,
+			Form:   query.Form(),
 		},
 		p.baseURLsAnsweredFirst(ctx, caller.Hash, peerwire.BaseURLsFrom(addresses, identity)),
 		isRWICountReply,

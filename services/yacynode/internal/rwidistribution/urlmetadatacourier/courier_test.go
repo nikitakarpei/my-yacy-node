@@ -110,7 +110,7 @@ func TestDeliverNamesTheBoundIdentityOfThePeer(t *testing.T) {
 
 	courierOver(wire).Deliver(context.Background(), courierHash("peer"), singleURLMetadata())
 
-	if len(wire.requests) != 1 || wire.requests[0].Identity != wire.identity {
+	if len(wire.requests) != 1 || wire.requests[0].Callee.Identity != wire.identity {
 		t.Fatalf("requests = %v, want one naming %v", wire.requests, wire.identity)
 	}
 }
