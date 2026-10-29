@@ -131,14 +131,21 @@ func TestLoadServesAndAnnouncesTheSecurePortByDefault(t *testing.T) {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if addr, _ := config.Serving.SecurePeerAddr.Get(); addr != nodeconfiguration.DefaultSecurePeerAddr {
-		t.Errorf("SecurePeerAddr = %q, want %q", addr, nodeconfiguration.DefaultSecurePeerAddr)
+	if config.Serving.SecurePeerAddr != nodeconfiguration.DefaultSecurePeerAddr {
+		t.Errorf(
+			"SecurePeerAddr = %q, want %q",
+			config.Serving.SecurePeerAddr,
+			nodeconfiguration.DefaultSecurePeerAddr,
+		)
 	}
-	if port, _ := config.Identity.AdvertiseSecurePort.Get(); port != 8443 {
-		t.Errorf("AdvertiseSecurePort = %d, want 8443 (from secure peer addr)", port)
+	if config.Identity.AdvertiseSecurePort != 8443 {
+		t.Errorf(
+			"AdvertiseSecurePort = %d, want 8443 (from secure peer addr)",
+			config.Identity.AdvertiseSecurePort,
+		)
 	}
 	if !config.Identity.Capabilities.SSLAvailable {
-		t.Error("SSLAvailable = false, want true while the secure peer protocol is served")
+		t.Error("SSLAvailable = false, want true")
 	}
 }
 
@@ -154,34 +161,11 @@ func TestLoadReadsTheSecurePeerOverrides(t *testing.T) {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if addr, _ := config.Serving.SecurePeerAddr.Get(); addr != ":7443" {
-		t.Errorf("SecurePeerAddr = %q, want :7443", addr)
+	if config.Serving.SecurePeerAddr != ":7443" {
+		t.Errorf("SecurePeerAddr = %q, want :7443", config.Serving.SecurePeerAddr)
 	}
-	if port, _ := config.Identity.AdvertiseSecurePort.Get(); port != 9443 {
-		t.Errorf("AdvertiseSecurePort = %d, want 9443", port)
-	}
-}
-
-func TestLoadServesAndAnnouncesNoSecurePortWhenTheSecurePeerProtocolIsOff(t *testing.T) {
-	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerKey:           peerKeyText,
-		nodeconfiguration.EnvPeerName:          "node",
-		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
-		nodeconfiguration.EnvSecurePeerEnabled: "false",
-		nodeconfiguration.EnvSecurePeerAddr:    ":7443",
-	}))
-	if err != nil {
-		t.Fatalf("load config: %v", err)
-	}
-
-	if config.Serving.SecurePeerAddr.Present() {
-		t.Errorf("SecurePeerAddr = %v, want none", config.Serving.SecurePeerAddr)
-	}
-	if config.Identity.AdvertiseSecurePort.Present() {
-		t.Errorf("AdvertiseSecurePort = %v, want none", config.Identity.AdvertiseSecurePort)
-	}
-	if config.Identity.Capabilities.SSLAvailable {
-		t.Error("SSLAvailable = true, want false")
+	if config.Identity.AdvertiseSecurePort != 9443 {
+		t.Errorf("AdvertiseSecurePort = %d, want 9443", config.Identity.AdvertiseSecurePort)
 	}
 }
 
@@ -408,11 +392,6 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerName:      "n",
 		nodeconfiguration.EnvAdvertisePort: "-3",
 	},
-	"bad secure peer switch": {
-		nodeconfiguration.EnvPeerKey:           peerKeyText,
-		nodeconfiguration.EnvPeerName:          "n",
-		nodeconfiguration.EnvSecurePeerEnabled: "maybe",
-	},
 	"bad secure peer addr": {
 		nodeconfiguration.EnvPeerKey:        peerKeyText,
 		nodeconfiguration.EnvPeerName:       "n",
@@ -422,12 +401,6 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerKey:             peerKeyText,
 		nodeconfiguration.EnvPeerName:            "n",
 		nodeconfiguration.EnvAdvertiseSecurePort: "-3",
-	},
-	"secure port while the secure peer protocol is off": {
-		nodeconfiguration.EnvPeerKey:             peerKeyText,
-		nodeconfiguration.EnvPeerName:            "n",
-		nodeconfiguration.EnvSecurePeerEnabled:   "false",
-		nodeconfiguration.EnvAdvertiseSecurePort: "9443",
 	},
 	"bad quota": {
 		nodeconfiguration.EnvPeerKey:      peerKeyText,

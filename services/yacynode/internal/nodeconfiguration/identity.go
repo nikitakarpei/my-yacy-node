@@ -29,7 +29,7 @@ type IdentityConfig struct {
 	AdvertiseHost            yacymodel.Optional[yacymodel.Host]
 	AdvertiseAdditionalHosts []yacymodel.Host
 	AdvertisePort            int
-	AdvertiseSecurePort      yacymodel.Optional[int]
+	AdvertiseSecurePort      int
 	Capabilities             yacymodel.PeerCapabilities
 }
 
@@ -62,12 +62,12 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
-	securePort, err := advertisedSecurePort(getenv, serving.SecurePeerPort)
+	securePort, err := envconfig.PositiveInt(getenv, EnvAdvertiseSecurePort, serving.SecurePeerPort)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
 
-	capabilities, err := peerCapabilities(getenv, securePort.Present())
+	capabilities, err := peerCapabilities(getenv)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
@@ -133,31 +133,7 @@ func advertisedAdditionalHosts(getenv func(string) string) ([]yacymodel.Host, er
 	return hosts, nil
 }
 
-func advertisedSecurePort(
-	getenv func(string) string,
-	securePeerPort yacymodel.Optional[int],
-) (yacymodel.Optional[int], error) {
-	listenPort, serving := securePeerPort.Get()
-	if !serving {
-		if strings.TrimSpace(getenv(EnvAdvertiseSecurePort)) != "" {
-			return yacymodel.None[int](), fmt.Errorf("%s: must not be set while %s is false",
-				EnvAdvertiseSecurePort, EnvSecurePeerEnabled)
-		}
-
-		return yacymodel.None[int](), nil
-	}
-	port, err := envconfig.PositiveInt(getenv, EnvAdvertiseSecurePort, listenPort)
-	if err != nil {
-		return yacymodel.None[int](), err
-	}
-
-	return yacymodel.Some(port), nil
-}
-
-func peerCapabilities(
-	getenv func(string) string,
-	sslAvailable bool,
-) (yacymodel.PeerCapabilities, error) {
+func peerCapabilities(getenv func(string) string) (yacymodel.PeerCapabilities, error) {
 	acceptRemoteIndex, err := envconfig.Bool(getenv, EnvAcceptRemoteIndex, DefaultAcceptRemoteIndex)
 	if err != nil {
 		return yacymodel.PeerCapabilities{}, err
@@ -166,6 +142,6 @@ func peerCapabilities(
 	return yacymodel.PeerCapabilities{
 		DirectConnect:     true,
 		AcceptRemoteIndex: acceptRemoteIndex,
-		SSLAvailable:      sslAvailable,
+		SSLAvailable:      true,
 	}, nil
 }

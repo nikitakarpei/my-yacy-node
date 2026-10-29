@@ -54,21 +54,12 @@ func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 		Name:            id.Name,
 		AdditionalHosts: additionalHostsOf(id),
 		Port:            yacymodel.Some(yacymodel.Port(id.Port)),
-		SecurePort:      securePortOf(id),
+		SecurePort:      yacymodel.Some(yacymodel.Port(id.SecurePort)),
 		Capabilities:    yacymodel.Some(id.Capabilities),
 		PeerType:        yacymodel.PeerSenior,
 		Tags:            yacymodel.MatchAllTags(),
 		Version:         yacymodel.Some(id.Version),
 	}
-}
-
-func securePortOf(id nodeidentity.Identity) yacymodel.Optional[yacymodel.Port] {
-	port, serving := id.SecurePort.Get()
-	if !serving {
-		return yacymodel.None[yacymodel.Port]()
-	}
-
-	return yacymodel.Some(yacymodel.Port(port))
 }
 
 func additionalHostsOf(id nodeidentity.Identity) yacymodel.Optional[[]yacymodel.Host] {
