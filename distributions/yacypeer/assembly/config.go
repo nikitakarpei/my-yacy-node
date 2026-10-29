@@ -21,10 +21,12 @@ const (
 	EnvPeerProxyURL           = "YACYPEER_PEER_PROXY_URL"
 	EnvPageFetchProxyURL      = "YACYPEER_PAGE_FETCH_PROXY_URL"
 	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
+	EnvPeerKeySearchTime      = "YACYPEER_PEER_KEY_SEARCH_TIME"
 
 	DefaultDataDirectory          = "data"
 	DefaultWebAddr                = loopback.Host + ":9090"
 	DefaultMetricHistoryRetention = 7 * 24 * time.Hour
+	DefaultPeerKeySearchTime      = time.Minute
 	DefaultSeedlistURLs           = "http://sixcooler.de/yacy/seed.txt," +
 		"https://sonst.mifritscher.de/yacy/seed.txt," +
 		"http://5.45.105.16/yacyseed," +
@@ -49,6 +51,7 @@ type PeerConfig struct {
 	SeedlistURLs           string
 	WebAddr                string
 	MetricHistoryRetention time.Duration
+	PeerKeySearchTime      time.Duration
 }
 
 func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
@@ -76,6 +79,14 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
+	peerKeySearchTime, err := envconfig.NonNegativeDuration(
+		getenv,
+		EnvPeerKeySearchTime,
+		DefaultPeerKeySearchTime,
+	)
+	if err != nil {
+		return PeerConfig{}, err
+	}
 	return PeerConfig{
 		PeerProxyURL:           peerProxyURL,
 		PageFetchProxyURL:      pageFetchProxyURL,
@@ -84,6 +95,7 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		SeedlistURLs:           seedlistURLs,
 		WebAddr:                envconfig.String(getenv, EnvWebAddr, DefaultWebAddr),
 		MetricHistoryRetention: metricHistoryRetention,
+		PeerKeySearchTime:      peerKeySearchTime,
 	}, nil
 }
 

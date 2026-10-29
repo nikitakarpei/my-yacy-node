@@ -50,6 +50,9 @@ type Seed struct {
 	URLsReceived  int
 
 	News Optional[PeerNews]
+
+	Identity         Optional[PeerIdentity]
+	AddressSignature Optional[AddressSignature]
 }
 
 // IsAddressable reports whether the peer published any address a peer can reach.
@@ -57,6 +60,20 @@ func (s Seed) IsAddressable() bool {
 	_, addressable := s.Addresses()
 
 	return addressable
+}
+
+func (s Seed) SignedIdentityIn(networkName string) Optional[SignedIdentity] {
+	identity, identified := s.Identity.Get()
+	signature, signed := s.AddressSignature.Get()
+	if !identified || !signed || identity.Hash() != s.Hash ||
+		!identity.verifies(
+			addressClaimFrom(s, networkName, signature.IssuedAt),
+			signature.Signature[:],
+		) {
+		return None[SignedIdentity]()
+	}
+
+	return Some(SignedIdentity{Identity: identity, IssuedAt: signature.IssuedAt})
 }
 
 func (s Seed) AcceptsRemoteIndex() bool {

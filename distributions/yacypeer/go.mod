@@ -21,6 +21,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/webuistyle v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawler v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.24.1
@@ -66,6 +67,7 @@ require (
 	github.com/blevesearch/zapx/v17 v17.2.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
+	github.com/cloudflare/circl v1.6.5 // indirect
 	github.com/cockroachdb/crlib v0.0.0-20241112164430-1264a2edc35b // indirect
 	github.com/cockroachdb/errors v1.11.3 // indirect
 	github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b // indirect
@@ -114,7 +116,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/textsnippet v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect

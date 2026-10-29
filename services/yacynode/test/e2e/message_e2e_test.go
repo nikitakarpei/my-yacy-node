@@ -34,7 +34,7 @@ func TestRealYaCySendsAMessageToTheOperatorWebhook(t *testing.T) {
 	nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName:       network.Name,
 		Alias:             nodeAlias,
-		Hash:              nodeHash,
+		Key:               nodeKey,
 		SeedlistURL:       "http://" + yacyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 		MessageWebhookURL: webhook.NetworkURL,
 	})

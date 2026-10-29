@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 )
@@ -56,7 +57,7 @@ func mustPeerName(name string) yacymodel.PeerName {
 
 func testIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{
-		Hash:         yacymodel.WordHash("self"),
+		Hash:         peerkeytest.Key(0).Hash(),
 		NetworkName:  "freeworld",
 		Name:         mustPeerName("node"),
 		Port:         8090,
@@ -100,6 +101,7 @@ func statusAfter(
 
 	return nodestatus.NewRuntimeStatus(
 		id,
+		peerkeytest.Key(0),
 		addressSource,
 		clockAt(start.Add(elapsed)),
 		openVault(t),
@@ -131,13 +133,23 @@ func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 	}
 }
 
+func TestSelfSeedProvesTheIdentityOfThePeerKey(t *testing.T) {
+	status := statusAfter(t, testAddressSource(), 0, stubCounter{}, stubCounter{})
+
+	signed, verified := status.SelfSeed(context.Background()).SignedIdentityIn("freeworld").Get()
+	if !verified || signed.Identity != peerkeytest.Key(0).Identity() {
+		t.Fatalf("SignedIdentityIn = %v (verified %v), want the identity of the key",
+			signed, verified)
+	}
+}
+
 func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	counts := stubCounter{}
 	status := statusAfter(t, testAddressSource(), 0, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
-	if seed.Hash != yacymodel.WordHash("self") {
+	if seed.Hash != peerkeytest.Key(0).Hash() {
 		t.Fatalf("Hash = %q, want self hash", seed.Hash)
 	}
 	if seed.Name != mustPeerName("node") {
@@ -166,7 +178,13 @@ func TestSelfSeedAdvertisesTheAdditionalHostsOfTheIdentity(t *testing.T) {
 	id := testIdentity()
 	id.AdditionalHosts = []yacymodel.Host{additionalHost}
 	status := nodestatus.NewRuntimeStatus(
-		id, testAddressSource(), clockAt(id.Start), openVault(t), stubCounter{}, stubCounter{},
+		id,
+		peerkeytest.Key(0),
+		testAddressSource(),
+		clockAt(id.Start),
+		openVault(t),
+		stubCounter{},
+		stubCounter{},
 	)
 
 	hosts, ok := status.SelfSeed(context.Background()).AdditionalHosts.Get()

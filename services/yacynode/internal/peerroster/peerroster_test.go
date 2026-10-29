@@ -14,6 +14,8 @@ import (
 
 const hashFiller = "AAAAAAAAAAAA"
 
+const rosterNetworkName = "freeworld"
+
 func hashFor(base string) yacymodel.Hash {
 	padded := base + hashFiller
 	hash, err := yacymodel.ParseHash(padded[:yacymodel.HashLength])
@@ -87,6 +89,7 @@ func openRoster(t *testing.T, fixture rosterFixture) peerroster.Roster {
 		fixture.reachableCap,
 		fixture.announcementInterval(),
 		selfHash(),
+		rosterNetworkName,
 		fixture.rosterObserver(),
 	)
 	if err != nil {

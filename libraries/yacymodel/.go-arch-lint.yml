@@ -9,9 +9,22 @@ components:
   yacymodel:
     in:
       - .
-      - "**"
+  peerkeytest:
+    in:
+      - peerkeytest/**
 
-deps: {}
+vendors:
+  circl:
+    in:
+      - github.com/cloudflare/circl/sign/slhdsa
+
+deps:
+  yacymodel:
+    canUse:
+      - circl
+  peerkeytest:
+    mayDependOn:
+      - yacymodel
 
 excludeFiles:
   - "_test\\.go"

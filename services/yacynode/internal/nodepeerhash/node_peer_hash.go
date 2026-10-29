@@ -1,7 +1,7 @@
 // Package nodepeerhash keeps the peer hash the node answers to for the life of its
 // data. The hash places the node on the DHT ring, so the stored postings belong
-// to that position: the node adopts a hash on the first start over an empty data
-// directory and refuses to run under a different one afterwards.
+// to that position: the node stores the hash of its peer key on the first start
+// over an empty data directory and refuses to run under another key afterwards.
 package nodepeerhash
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-var errInitialHashRejected = errors.New("configured peer hash differs from the stored peer hash")
+var errKeyHashRejected = errors.New("hash of the peer key differs from the stored peer hash")
 
 type PeerHash struct {
 	storage        *vault.Vault
@@ -30,23 +30,16 @@ func Open(storage *vault.Vault) (*PeerHash, error) {
 	return &PeerHash{storage: storage, peerHashByPeer: peerHashByPeer}, nil
 }
 
-func (p *PeerHash) Settle(
-	ctx context.Context,
-	initialHash yacymodel.Optional[yacymodel.Hash],
-) (yacymodel.Hash, error) {
+func (p *PeerHash) Settle(ctx context.Context, keyHash yacymodel.Hash) error {
 	stored, found, err := p.storedHash(ctx)
 	if err != nil {
-		return yacymodel.Hash{}, err
+		return err
 	}
 	if found {
-		if err := confirmHashUnchanged(stored, initialHash); err != nil {
-			return yacymodel.Hash{}, err
-		}
-
-		return stored, nil
+		return confirmHashUnchanged(stored, keyHash)
 	}
 
-	return p.adoptHash(ctx, initialHash)
+	return p.storeHash(ctx, keyHash)
 }
 
 func (p *PeerHash) storedHash(ctx context.Context) (yacymodel.Hash, bool, error) {
@@ -67,55 +60,27 @@ func (p *PeerHash) storedHash(ctx context.Context) (yacymodel.Hash, bool, error)
 	return stored, found, nil
 }
 
-func confirmHashUnchanged(
-	stored yacymodel.Hash,
-	initialHash yacymodel.Optional[yacymodel.Hash],
-) error {
-	configured, present := initialHash.Get()
-	if present && configured != stored {
-		return fmt.Errorf("%w: %s is stored, %s is configured",
-			errInitialHashRejected, stored, configured)
+func confirmHashUnchanged(stored, keyHash yacymodel.Hash) error {
+	if keyHash != stored {
+		return fmt.Errorf("%w: %s is stored, the key derives %s",
+			errKeyHashRejected, stored, keyHash)
 	}
 
 	return nil
 }
 
-func (p *PeerHash) adoptHash(
-	ctx context.Context,
-	initialHash yacymodel.Optional[yacymodel.Hash],
-) (yacymodel.Hash, error) {
-	adopted, err := hashToAdopt(initialHash)
-	if err != nil {
-		return yacymodel.Hash{}, err
-	}
-
+func (p *PeerHash) storeHash(ctx context.Context, keyHash yacymodel.Hash) error {
 	if err := p.storage.Update(ctx, func(tx *vault.Txn) error {
-		_, err := p.peerHashByPeer.Put(tx, selfPeer, adopted)
+		_, err := p.peerHashByPeer.Put(tx, selfPeer, keyHash)
 
 		return err
 	}); err != nil {
-		return yacymodel.Hash{}, fmt.Errorf("store peer hash: %w", err)
+		return fmt.Errorf("store peer hash: %w", err)
 	}
 
-	slog.InfoContext(ctx, "peer hash adopted for the life of this data directory",
-		slog.String("peer", adopted.String()),
-		slog.Bool("configured", initialHash.Present()),
+	slog.InfoContext(ctx, "peer hash stored for the life of this data directory",
+		slog.String("peer", keyHash.String()),
 	)
 
-	return adopted, nil
-}
-
-func hashToAdopt(
-	initialHash yacymodel.Optional[yacymodel.Hash],
-) (yacymodel.Hash, error) {
-	if configured, present := initialHash.Get(); present {
-		return configured, nil
-	}
-
-	generated, err := yacymodel.NewHash()
-	if err != nil {
-		return yacymodel.Hash{}, fmt.Errorf("generate peer hash: %w", err)
-	}
-
-	return generated, nil
+	return nil
 }

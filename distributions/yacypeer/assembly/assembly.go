@@ -14,12 +14,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuiproxy"
@@ -44,6 +46,10 @@ func RunPeer(
 	getenv func(string) string,
 ) error {
 	visitLinkSecret, err := visitlinksecret.Settle(cfg.directoryOf(visitcrawlService))
+	if err != nil {
+		return errors.Join(err, web.Close())
+	}
+	peerKey, err := peerkey.Settle(ctx, cfg.DataDirectory, cfg.PeerKeySearchTime, newPeerKey)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -97,6 +103,7 @@ func RunPeer(
 		cfg:                cfg,
 		natsURL:            broker.ClientURL(),
 		visitLinkSecret:    visitLinkSecret,
+		peerKey:            peerKey,
 	}
 	services, urls, err := peer.services(ctx, getenv)
 	if err != nil {
@@ -126,6 +133,10 @@ func RunPeer(
 			},
 		)
 	})
+}
+
+func newPeerKey(ctx context.Context, searchTime time.Duration) (yacymodel.PeerKey, error) {
+	return yacymodel.NewPeerKey(ctx, searchTime, wallclock.Clock{})
 }
 
 func closeHistory(ctx context.Context, history *metrichistory.History) {

@@ -41,11 +41,12 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 	yacyHash := peerclient.ResolveHash(t, ctx, probe, yacyURL)
 
 	seedlistURL := "http://" + distributionYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html"
-	nodeHash := mustHash("DISTNODEHASH")
+	nodeKey := distributionNodeKey
+	nodeHash := nodeKey.Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       distributionNodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 		SeedlistURL: seedlistURL,
 		Distribution: nodepeer.DistributionConfig{
 			Enabled:           true,

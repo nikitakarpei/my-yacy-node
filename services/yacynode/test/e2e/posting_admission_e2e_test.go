@@ -36,11 +36,12 @@ func TestNodeAdmitsThePostingOfAPageWithMoreLinksThanAPostingByteHolds(t *testin
 
 	egressproxy.Start(t, ctx, network.Name)
 
-	nodeHash := mustHash("ADMITNODEHSH")
+	nodeKey := postingAdmissionNodeKey
+	nodeHash := nodeKey.Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       admissionNodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 	})
 
 	nodepeer.PushURLMetadata(t, ctx, probe, nodeURL, nodeHash, linkHeavyDocument)

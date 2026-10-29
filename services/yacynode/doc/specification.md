@@ -20,9 +20,10 @@ Additional YaCy-related capabilities can be provided by separate services when n
 ## Functional Requirements
 
 * The node SHALL advertise one YaCy Senior peer identity.
-* The node SHALL store one peer hash for the life of its data, stated by the operator on the first
-  start or generated.
-* The node SHALL refuse to start when the operator states a different peer hash afterwards.
+* The node SHALL derive its peer hash from the peer key that the operator states, and SHALL refuse
+  to start without a valid key or when its data holds the hash of a different key.
+* The node SHALL sign the addresses in its seed with its peer key.
+* The node SHALL drop each seed of a peer that breaks the identity bound from its first signed seed.
 * The node SHALL allow operators to configure the peer name it advertises.
 * The node SHALL allow operators to configure the public hosts and port advertised in its YaCy seed.
 * The node SHALL advertise the public IP address that most peers reached by IP address saw it
@@ -49,8 +50,7 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL NOT store a posting whose word is a stopword of the posting language.
 * The node SHALL allow operators to configure its storage quota.
 * The node SHALL NOT store full document bodies.
-* The node SHALL let operators enable outbound DHT distribution of its stored postings; it
-  is disabled by default.
+* The node SHALL let operators enable outbound DHT distribution, which is off by default.
 * The node SHALL let operators configure how many responsible peers hold each posting.
 * The node SHALL count itself as one of those peers when the DHT makes it responsible for a
   posting.

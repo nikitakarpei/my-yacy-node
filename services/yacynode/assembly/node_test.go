@@ -17,15 +17,15 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	yacynode "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const (
-	nodeHashText = "0123456789AB"
-	nodeNetwork  = "testnet"
-	settleFor    = 5 * time.Second
+	nodeNetwork = "testnet"
+	settleFor   = 5 * time.Second
 )
 
 func TestRunServiceStopsWhenItsContextIsCanceled(t *testing.T) {
@@ -99,7 +99,7 @@ func TestHelloAnswersWithTheNodesOwnSeed(t *testing.T) {
 	if !found {
 		t.Fatal("hello answered with no seed of its own")
 	}
-	if want := nodeHash(t); own.Hash != want {
+	if want := peerkeytest.Key(0).Hash(); own.Hash != want {
 		t.Errorf("own seed hash = %v, want %v", own.Hash, want)
 	}
 	if _, classified := resp.YourType.Get(); !classified {
@@ -134,17 +134,6 @@ func callerSeed(t *testing.T) yacymodel.Seed {
 		PrimaryHost: yacymodel.Some(host),
 		Port:        yacymodel.Some(port),
 	}
-}
-
-func nodeHash(t *testing.T) yacymodel.Hash {
-	t.Helper()
-
-	hash, err := yacymodel.ParseHash(nodeHashText)
-	if err != nil {
-		t.Fatalf("parse node hash: %v", err)
-	}
-
-	return hash
 }
 
 func TestRunServicePublishesWhatStorageHolds(t *testing.T) {
@@ -224,11 +213,11 @@ func nodeConfigFor(t *testing.T) yacynode.ServiceConfig {
 	t.Helper()
 
 	config, err := yacynode.LoadServiceConfig(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: nodeHashText,
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvNetworkName:     nodeNetwork,
-		nodeconfiguration.EnvEgressProxyURL:  "http://127.0.0.1:1",
-		nodeconfiguration.EnvDataDir:         t.TempDir(),
+		nodeconfiguration.EnvPeerKey:        peerkeytest.SecretTextOf(peerkeytest.Key(0)),
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvNetworkName:    nodeNetwork,
+		nodeconfiguration.EnvEgressProxyURL: "http://127.0.0.1:1",
+		nodeconfiguration.EnvDataDir:        t.TempDir(),
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)

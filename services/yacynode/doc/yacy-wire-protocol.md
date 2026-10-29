@@ -18,5 +18,11 @@ go doc ./yacymodel
 go doc ./yacyproto
 ```
 
+Seed columns `Identity` (public peer key) and `AddressSignature` (signature of the seed
+addresses) pass through stock YaCy peers unread. `yacymodel`
+[ADR 0001](../../../libraries/yacymodel/doc/adr/0001-derive-the-peer-hash-from-keys-behind-a-work-puzzle.md)
+and [ADR 0004](../../../libraries/yacymodel/doc/adr/0004-sign-the-address-fields-of-a-seed.md)
+define them.
+
 For the reasoning behind the two-module split, see
 [ADR 0004](adr/0004-isolate-wire-protocol-module.md).

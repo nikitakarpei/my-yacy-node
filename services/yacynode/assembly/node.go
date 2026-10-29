@@ -110,18 +110,18 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer hash: %w", err)
 	}
 
-	settledPeerHash, err := selfPeerHash.Settle(ctx, config.Identity.InitialHash)
-	if err != nil {
+	keyHash := config.Identity.PeerKey.Hash()
+	if err := selfPeerHash.Settle(ctx, keyHash); err != nil {
 		return node{}, fmt.Errorf("settle peer hash: %w", err)
 	}
 
-	derivedPeerName, err := nodeidentity.PeerNameFromHash(settledPeerHash)
+	derivedPeerName, err := nodeidentity.PeerNameFromHash(keyHash)
 	if err != nil {
 		return node{}, err
 	}
 
 	identity := nodeidentity.Identity{
-		Hash:            settledPeerHash,
+		Hash:            keyHash,
 		NetworkName:     config.Identity.NetworkName,
 		Name:            config.Identity.Name.OrElse(derivedPeerName),
 		AdditionalHosts: config.Identity.AdvertiseAdditionalHosts,
@@ -284,6 +284,7 @@ func assembleNode(
 	publicAddressSource := publicaddress.For(config.Identity.AdvertiseHost)
 	runtimeStatus := nodestatus.NewRuntimeStatus(
 		identity,
+		config.Identity.PeerKey,
 		publicAddressSource,
 		now,
 		storage,
@@ -332,6 +333,7 @@ func assembleNode(
 		config.PeerExchange.ReachableRosterCapacity,
 		config.PeerExchange.AnnounceInterval,
 		identity.Hash,
+		identity.NetworkName,
 		rosterObserverFanOut{
 			metrics: metrics.NewPeerRosterMetrics(registry),
 			relay:   loopRelay,

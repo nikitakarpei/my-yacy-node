@@ -79,7 +79,7 @@ endef
 	test test-go test-py \
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
-	build build-go verify peer-hash \
+	build build-go verify peer-key \
 	e2e e2e-images
 
 fmt:         fmt-go fmt-go-e2e fmt-py fmt-web
@@ -232,8 +232,8 @@ workspace: $(TOOLS_STAMP)
 	@rm -f go.work go.work.sum
 	@GOWORK= $(GO) work init $(GO_MODULES)
 
-peer-hash: $(TOOLS_STAMP)
-	cd services/yacynode && $(GO) run ./cmd/yacy-peer-hash
+peer-key: $(TOOLS_STAMP)
+	cd services/yacynode && $(GO) run ./cmd/yacy-peer-key
 
 # ---- e2e ----
 

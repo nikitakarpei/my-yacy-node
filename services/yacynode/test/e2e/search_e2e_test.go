@@ -50,11 +50,12 @@ func TestRealYaCyFindsNodeDocument(t *testing.T) {
 		yacypeer.RemoteSearchOverrides()...,
 	)
 
-	nodeHash := mustHash("SRCHNODEHASH")
+	nodeKey := searchNodeKey
+	nodeHash := nodeKey.Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       searchNodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 		SeedlistURL: "http://" + searchYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 	})
 

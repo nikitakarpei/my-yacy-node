@@ -6,71 +6,32 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 )
 
-const (
-	configuredHashText = "0123456789AB"
-	differentHashText  = "BA9876543210"
-)
-
-func TestSettleAdoptsTheConfiguredHashAndKeepsIt(t *testing.T) {
+func TestSettleKeepsTheHashOfTheFirstKey(t *testing.T) {
 	storedData := memoryvault.OpenEngine(1 << 20)
+	keyHash := peerkeytest.Key(0).Hash()
 
-	adopted := settle(t, storedData, yacymodel.Some(mustParseHash(t, configuredHashText)))
-	if adopted != mustParseHash(t, configuredHashText) {
-		t.Fatalf("Settle = %s, want the configured %s", adopted, configuredHashText)
-	}
-
-	kept := settle(t, storedData, yacymodel.None[yacymodel.Hash]())
-	if kept != adopted {
-		t.Fatalf("Settle after restart = %s, want the adopted %s", kept, adopted)
+	for _, start := range []string{"first start", "restart"} {
+		if err := selfPeerHashIn(t, storedData).Settle(t.Context(), keyHash); err != nil {
+			t.Fatalf("Settle on %s = %v, want nil", start, err)
+		}
 	}
 }
 
-func TestSettleGeneratesAHashWhenNoneIsConfigured(t *testing.T) {
+func TestSettleRefusesTheKeyOfAnotherPeer(t *testing.T) {
 	storedData := memoryvault.OpenEngine(1 << 20)
-
-	generated := settle(t, storedData, yacymodel.None[yacymodel.Hash]())
-	if generated == (yacymodel.Hash{}) {
-		t.Fatal("Settle returned the zero hash, want a generated one")
-	}
-
-	kept := settle(t, storedData, yacymodel.None[yacymodel.Hash]())
-	if kept != generated {
-		t.Fatalf("Settle after restart = %s, want the generated %s", kept, generated)
-	}
-}
-
-func TestSettleRefusesAConfiguredHashTheDataDoesNotBelongTo(t *testing.T) {
-	storedData := memoryvault.OpenEngine(1 << 20)
-
-	stored := settle(t, storedData, yacymodel.Some(mustParseHash(t, configuredHashText)))
-
-	_, err := selfPeerHashIn(t, storedData).Settle(
-		t.Context(),
-		yacymodel.Some(mustParseHash(t, differentHashText)),
-	)
-	if err == nil {
-		t.Fatalf("Settle with %s returned nil, want the refusal of %s",
-			differentHashText, stored)
-	}
-}
-
-func settle(
-	t *testing.T,
-	storedData vault.Engine,
-	configuredHash yacymodel.Optional[yacymodel.Hash],
-) yacymodel.Hash {
-	t.Helper()
-
-	settled, err := selfPeerHashIn(t, storedData).Settle(t.Context(), configuredHash)
-	if err != nil {
+	storedHash := peerkeytest.Key(0).Hash()
+	if err := selfPeerHashIn(t, storedData).Settle(t.Context(), storedHash); err != nil {
 		t.Fatalf("settle peer hash: %v", err)
 	}
 
-	return settled
+	otherHash := peerkeytest.Key(1).Hash()
+	if err := selfPeerHashIn(t, storedData).Settle(t.Context(), otherHash); err == nil {
+		t.Fatalf("Settle with %s = nil, want the refusal of %s", otherHash, storedHash)
+	}
 }
 
 func selfPeerHashIn(t *testing.T, storedData vault.Engine) *nodepeerhash.PeerHash {
@@ -87,15 +48,4 @@ func selfPeerHashIn(t *testing.T, storedData vault.Engine) *nodepeerhash.PeerHas
 	}
 
 	return selfPeerHash
-}
-
-func mustParseHash(t *testing.T, text string) yacymodel.Hash {
-	t.Helper()
-
-	hash, err := yacymodel.ParseHash(text)
-	if err != nil {
-		t.Fatalf("parse hash %q: %v", text, err)
-	}
-
-	return hash
 }

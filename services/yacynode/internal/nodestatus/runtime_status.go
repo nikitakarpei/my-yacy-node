@@ -15,6 +15,7 @@ const msgCountUnavailable = "count unavailable for self seed"
 
 type runtimeStatus struct {
 	id            nodeidentity.Identity
+	key           yacymodel.PeerKey
 	addressSource PublicAddressSource
 	base          yacymodel.Seed
 	now           func() time.Time
@@ -45,12 +46,11 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	seed.IndexedWords = r.countOrZero(ctx, r.words.EstimatedAmountOfWords)
 	seed.StoredURLs = r.countOrZero(ctx, r.urls.Count)
 
-	return seed
+	return r.key.SignedSeedFrom(seed, r.id.NetworkName, now)
 }
 
 func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 	return yacymodel.Seed{
-		Hash:            id.Hash,
 		Name:            id.Name,
 		AdditionalHosts: additionalHostsOf(id),
 		Port:            yacymodel.Some(yacymodel.Port(id.Port)),

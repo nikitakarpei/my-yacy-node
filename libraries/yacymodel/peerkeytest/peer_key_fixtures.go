@@ -1,0 +1,94 @@
+// Package peerkeytest holds solved peer keys, so a test does not spend the work
+// of a new peer key.
+package peerkeytest
+
+import (
+	"strings"
+	"sync"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+func Key(index int) yacymodel.PeerKey {
+	return parsedKeys[index]()
+}
+
+func SecretTextOf(key yacymodel.PeerKey) string {
+	var secretText strings.Builder
+	if err := key.WriteSecret(&secretText); err != nil {
+		panic(err)
+	}
+
+	return secretText.String()
+}
+
+var parsedKeys = onceParsed(keyTexts)
+
+func onceParsed(texts [len(keyTexts)]string) [len(keyTexts)]func() yacymodel.PeerKey {
+	var keys [len(keyTexts)]func() yacymodel.PeerKey
+	for index, text := range texts {
+		keys[index] = sync.OnceValue(func() yacymodel.PeerKey {
+			key, err := yacymodel.ParsePeerKey(text)
+			if err != nil {
+				panic(err)
+			}
+
+			return key
+		})
+	}
+
+	return keys
+}
+
+// Each key text is a line that yacy-peer-key printed. A new key costs about 2^28 hashes of
+// work, so tests take these solved keys; the e2e fleet and the named nodes use up to 48.
+var keyTexts = [...]string{
+	"HtOfWefCBi5M4WP0wuc6KC3J7o3OzG6ZAEkpsxdd0wI:MfBEL3Pf_YkGY_ZrpKqvMxmXBWZCQD59TCmQg8L9AZ3zwxWdqvMFCj4g_5Bj69rX:AgAAAALpU84",
+	"uRFE7Gtk_tILiLuoknRfTI129Vm1D9lFj5Nsgd1hizE:Nv9u2KRWJiAgmom1ey2kwGttEiXIq6MXe6cbh_cUwVa0DRXEJLqFexG_A6JzoHNt:AwAAAADjLDY",
+	"EkSQDZWy9cnoou5D8ng20r5pBjXBC1siOfj2tuLRxJc:X7cPauroc6KBiWscNf1H0uebyGyVMS7uE3GQ20TnyQ1zJFizkclpJwYqFoJ6p-RW:AQAAAAFUVMo",
+	"dN5crNqfZ8kCuP8xeKBHmIMRD1RLJBRX2pwu6RSAfiA:MhazeDAjDnQ91bfq6hqc4PCTGpCgd62sWpmmzweFk7gaFso-A0k9eskXshcAH9o9:AwAAAABXrTg",
+	"ir-U-D-1ZKrYfsHK87q2Onpj9I8GhBPApuL4lNKiGho:_1pZlDk4mz2V-nJggeQIIccIKfi7lxvI2aT44VgPUhuwsnskQgbMbbG6rp8jxz5V:AQAAAAG7rhw",
+	"p5BPbqi_HWFHTZSHopxGea1Ga2dMw517Te4Yv96ux14:pXla02Jv8GvIJFTGlmiZk6hlyWRCcMLxYznTf7xGlgwjHn7RhaHM0Zc-EgdGTSj4:AQAAAANV5OY",
+	"ZwnFFS1gxHmpkjIo3SxccGUnCMxLLBxDaCuaOF99p8E:Ns4u06I1IhlY88EUIdRzeobuga7h8Hhk0iICsmXFPDzBwwt7P8z3L70jaqTlnRfG:AAAAAAERrnc",
+	"bsOwu5v2cYvjrhRc-CLB9FKC3Xg28352ZGqyNdNEzyM:WI_ym2OmUm4e8JjiXJY4Opmh7_LgCubGOlgDmA4pieIfC3msjdka3XLj2mVaG1D7:AwAAAAQDOQ8",
+	"Rw0j6pLvATYwXk1Wn-qAd05jOeh-VFlO35NxSUqOgWQ:y6w0dilZHIwUtG9kqcS6GfpVEICwppMyE88GrSHBvvDjZU2FO2bjkVv6753unBNq:AAAAAALheBo",
+	"pDT-I8Obe3xyu9f-niG_cXP-HZulKaUW-qfnoWccMx4:0DhOvJWDFppfJM_4FmDfcdHwglifKrTdj_z3rmJqZUAYRjmtWVLRyk_hYBstLO1a:AgAAAALJt3s",
+	"JO8C15iyZdrXZUM1vEF0P1Gj43xla_tAOJlfDvdqJr0:6kUErbkMZ6Iyu-Z0rJZudtNTFCv7ynd2kRnKcvIY7UtDFqgll8Kq8hT7NvJdjTyM:AwAAAAR66HI",
+	"J2NcMi9toyIo4XZhXugyihSKCLtNtePuDhVPBxR9_6U:HX6mI7Xoq-M4Cv5Ug9-6CfviEfkBpfQyaBZe7j1my7jQr_GfRwdML7Gufj2WkSrE:AQAAAAT9sPE",
+	"rYrX5zsapYweZCaf0IaR_PgVOZiL3vLd-tk1c_238nI:p-f1kwvE4KBGGF-rPRRxoSC9QEXtK3VDzWdag15GfMMc8ZVs_YcS_NLsBV0hhsMu:AgAAAAFmIy8",
+	"URUk51m6iBpwbjIvGr3X2zgRHL1nb1T1aTQAFuIxUfk:erEc-qaFZ2yvr2j-8h5bt3JkjFkSXOorQ3AX8f0s18pJGnwg_w3IIsBK-LzrXex8:AQAAAAAHmqk",
+	"JqKXr8tN7CFfQPmofnL6qbqNpvOSc0UtkcqOcimah7c:EPOvgPVSL7c_sWJdn32PP7PyGgCzMal4d-VVsqgG5w9BiKSWAKRfH1jCJIYB38zY:AAAAAAc4TKw",
+	"EhYnR1v1DMAlt0AZuL6IfDOTQRDEvNMqwVXjxAxoa7c:EuMwNdrca41lKexuQLF2PSdchb7bztYo20iD-9Sqi1JiGHeAgT23YfE13QiFfLfV:AwAAAABvEps",
+	"f-oBosQ-NO7FiIbtpLaQXfimoUPwOE-Idbwe1fTrOWI:WMWN4Ubd6UmhIw6XGxsqjP40tc0TDPZk_6ktS8wO_ZS-xnxdRjwbUz2LlbN9p7Y8:AQAAAADLZzU",
+	"V0eiL-mXXB8q4_h8aHHvo8QYsToYtrg00DM1J8nvQms:mR_MIj-ZW8CJhi8iiulPNkRVF7OsP-CbVxXsfO4ip7xqGxXSnMbP_eBsGWa54uVv:AgAAAAMOx0Q",
+	"fqKbh0Z6Up3F4Z1KHVLrI0CKAed-nUibCYM9WtNxBP8:Q1W6v0oBChN321JAVp5eTu5v5QeI6ZUBZrL1yBLc-e3ez3iatMijT5Mw1URG7KLV:AAAAAARsQB4",
+	"_lB_6VvUtMeERjorg8vrpu_EYi3vW3l4D5pFV7guKwI:VFZmTLQV2wmKqTGZx4bXO9JvDt-TilEWfoM52nsi3D4QHXqvq8-KcanEmwepG9Ro:AAAAAAEsFng",
+	"5rczE5eJYwfSCKIXC0UJnJQJ7KJLH6gCjhXGBGe3eKE:SO0ItLWdoloUjqgIUpK5vkNQ0plfjBU_ukwXvlbq3zD7-Bvsu_rpgvEqsTc0UZzA:AgAAAAb2t6I",
+	"k5TctqkZD6IknFpcQYt6ZibetRU9FrYjLBlfV0dcJuo:rg49aQgXpqBcgq7jpRnuMWhoupzGZ9-gqRDuGUWRdf2GtcX8RDTovFObvH7F49tO:AQAAAAOsmnQ",
+	"0hlXmkG04E7fXExgPy07rCF1tjHe-xcLAOVvPcp5bCs:qHUhuFrgBfQoK3LojDuh38_S39T0uH5aR9pTfwriyj2a-KGX-n2K1mh6d0HvSeZd:AAAAAAGyc9o",
+	"UM9Ivufl0oMN9uj9JdQBgLiSg02wpKzM5-EJRr5uMVk:ttLkMRwqwtmd0sUSv-xy828vXcdsA5GISbFcfZ3d_ijIhM1pditPUS0YVcklODRD:AAAAAAhmCTI",
+	"c-jzR_lr_oJwWj-IuNod_AH4W5nvNhtV5MYdOZcdhQ8:A27Mco8H5P9yS520MLIxqBWgncD8phHla4OrtlemOb9Hze-rs56rGSrDcQwzBouS:AAAAAABrjzo",
+	"nb-Xu3Am9HglLTFxbvo0xCHAs_K7BXAK--2YBU8zC6Q:LrHEt_r6-7_ldsExOAMXmXOJp8LR131SxzX0DVHSlZ1oWRmXxtGjcBm9HCBQlT1g:AwAAAAHW_ag",
+	"2-2OZRJZffmIX-etBjlAnrS0SDZ8_Ju8R_QqY_UDSHI:q5NLdfUHpMvLj58P8btrVGIgtGOYQH5rx014AC0FRnbBvJfh0_7vSL9KF7z-y_Ai:AQAAAALGXiw",
+	"MmQayALWmcMmTS2c2fR7W04xD78m7zuDWA_JD5N7_NM:wf0d4gRfdqRJSlXnrpoaaEpyQrMmf_DrL9ARuxs41wqNjtCr7lgU0410pBm6TihG:AgAAAAcStM0",
+	"qA9a0XJwwjIZJa2appRJXBa0ZMXqyCVh_An6ZCfV0sA:-jztdJLzRfS2Lmqjiz-xhuzIxLBYP6hVSoMzueK1RyoyvEybCfeHF67LLiIURXtA:AwAAAAVgC9Q",
+	"2zmNsgVf9JP_5CiG-FHCMbLSQbm-awFsSaQeHWUec_A:Dta8D1xLnsZJX9pVeQWPEZnXpTIQ2D9doxZzkp7_EFfSiCwrpUJcr-gE0c2q_PF2:AwAAAAAAKaY",
+	"-Hv2lCS9wkTGT-KAUxhvW-VRve_T4Vc272AH9g55xaA:fisUdH7FgBt-GSdL6E6WvJR2rDBMEhoyAeoPNXn3nXn58Jpp3G4ziLL2IqVFEftl:AgAAAACIQgY",
+	"tqfSOPXSjNUI9pR3r40HsCnKt9FEPogOF43_MvlbuXs:2tO9uY058eZ0m3pFkL_cayoH43wmx_5fdULywaQn4YmospTaRxPf25Tfsp98Hlmn:AAAAAAD9mKc",
+	"rPZLM1Ys9H-cTlWCk4-MerNjwb9hv5EOyLUDSgL2lL0:Yk0tjwZ2QlwoWd2LjxRVw0eXjqU-h8aflfXmP6ejXIKXainN3KY1dH90r5Py0V5D:AwAAAAAJ5KE",
+	"xhObgSeK7pNmyXtSP9__Ux731sNWqfNRHC0UbrHiH3Q:tNge5Z8PYw8nmuO1PexDpAG3kl7ij0xThkcV7iUBuSJQQBuAn5hG91SIELBc7BDc:AgAAAAjb-DM",
+	"eXtoams3e9caYqZbUg3BMcUiUWkTjvLX4_Y60zR5EU0:0kUIqq5nPxm1_bUkYOIVL1ty-WMFPabQTof68UvNSfpif-1w81Jrd4M1oULf8kD-:AQAAAAMPpJ8",
+	"gQIGSIRjpHOUSoFoURe6AdqJYYmjBTGCX-W09tonvxE:oiM3Ie2qqNNnU_UOqtUMT1ldz3TWPO1pS9zWwReRjUfCNrPpbGXiXikGoU2So5BZ:AgAAAAN7G3M",
+	"wI0XtXrq2fOCORPBUYNq5D7WGeBmueSGX-eORaCAsdc:rBPFMpfIz4ga03By6yHSFi9wygJxKjaoDFdK9nFCuAn3X90KYeWHx9sYPwFqR8Lp:AwAAAANxWmk",
+	"h3EX1wBAexqBP2NJzje5pltGbk4FHni2lZtYFM_Ff5I:neA5jEQCGOxoeKoRdBAU0tDDUHzokt8StTbAtL76nEjUtgOdAbhqdiiZ-oNltIIq:AwAAAAHD0TU",
+	"zF9cXlGwcWT29KeCswbty7GFzfz6C63wDtVTep0SU9Q:Rf_w32Y9Krn4LxiUnPcnqpb82pYMWRoPM8cG41lE-osTZPrTMJ76E3SnRXrdeT91:AgAAAAD_ZJA",
+	"bDS-jgdrptuyCzTd1pbZ8y404kXWZStESevTN2EBR_c:4LrkFU6oGkXdYA33tiXTEPo4oWmdLjMckG1n_0aq_tC1hcvlYTeXgV_QwYx7sC1f:AAAAAAF90_k",
+	"rVmnoQsIdRs4uY8g4-Er0e2UhXFDV-fmjQGmCdvxehc:MLTvVkJeC42e47Da4M5DJvrRBshSgvFHnYewmokkrVXDcq6lNViW4WL7j8LAPq7t:AQAAAAIEHKI",
+	"LIR2SOE0zu7GqrVKpZMZDy4CBgWmtsnTfEC3b4h4h6k:cwrG2Gd47dQ4CA3UQR67DTEnNr9v8BN6WWfggrURBD7KrJELca0SJVRRCkNQdRUv:AwAAAAGapiE",
+	"ZmKTMI-z1F9H8ipoLj3GpY4Mvq-6SiGh2UXzgfD09HE:m36WZ24MNSASqdky14OtVC3b1JPQc7pMASS7sLBQdhE71ldMSIdFJchUQMTjZwVb:AgAAAAD7bKM",
+	"PY61aIaDWBlsXim3JugXahVuht9iPBo9Lm31pml0ztg:vxxmrXKDPkkuC1IneMBurazx0rI89r1kTlmMJ2kkQHLqbHPV83JhO5OiB0AW0P6r:AgAAAABifHI",
+	"GzmVKEjAmYuInj4r6QnafTp8WkuWsRIG60lSA_TciWs:yFsAki_WCWvCRDA94nlaE4q-QXDmDng6UlHRnRD64bVAD_K_G9KDLMOaSiecE95l:AwAAAAQ8raY",
+	"07OT2wfIVwx54zOcpr5YgaHKFlHMlu7I_n2g5pN59b4:z_syeT6ow2Q13uHwyCE5WwXCBHRBiKICxAEAOsTYgGe2MlfQ5i3m6Fr_IizB4tJY:AgAAAAMVKw0",
+	"h34m6Cr9yo-L62xBpXws895lndyxPbOMXlojXVN5Mjs:hd2DnoFZ1paVHHZNiQsjuzmIqNh9kkK3pWSrXLlyW4i2YcGWhmaEN2l-JrBRVsBy:AwAAAAN-wes",
+	"vevC8hBiu8KI-y6A0G4tpq68CaQhP_z41u3ZhKQpw0A:gOywUZVxpb3k7cP5w-UfTHp_meCcnamNPHLvo7_CB-qEQ4bJFv7isRw3VTxpswWJ:AQAAAAEHoRw",
+}

@@ -23,7 +23,10 @@ const (
 	nodeAlias = "node-e2e"
 )
 
-var nodeHash = mustHash("ABCDEFGHIJKL")
+var (
+	nodeKey  = promotionNodeKey
+	nodeHash = nodeKey.Hash()
+)
 
 func mustURLHash(address string) yacymodel.URLHash {
 	hash, err := yacymodel.URLHashOf(address)
@@ -56,7 +59,7 @@ func TestRealYaCyPromotesNodeToSenior(t *testing.T) {
 	nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       nodeAlias,
-		Hash:        nodeHash,
+		Key:         nodeKey,
 		SeedlistURL: "http://" + yacyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 	})
 

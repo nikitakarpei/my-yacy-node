@@ -19,6 +19,10 @@ docker run -d --name yacypeer --restart unless-stopped \
 Other peers must reach port 8090 of the host from the internet. Behind NAT,
 forward that port to the host.
 
+The first start searches the peer key for one minute. The key is in `peer.key`
+of the volume. Keep a copy of this file: the peer hash and the data of the peer
+belong to the key.
+
 ## Use
 
 Go to `http://127.0.0.1:9090` in your browser. The tabs at the top take you to the search page, the crawl console, and the dashboards. Searches cover the whole YaCy network plus any websites you’ve crawled yourself in the crawl console.
