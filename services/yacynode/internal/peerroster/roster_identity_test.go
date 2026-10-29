@@ -152,15 +152,16 @@ func TestRosterConfirmsAStaleCopyOfTheBoundSeedWithoutADrop(t *testing.T) {
 	}
 }
 
-func TestRosterDoesNotBindAPeerFromASeedSignedInTheFuture(t *testing.T) {
+func TestDiscoverIgnoresASeedSignedInTheFuture(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+	future := signedSeedAt(t, "203.0.113.1", signingStart.Add(time.Hour))
 
-	roster.Discover(ctx, signedSeedAt(t, "203.0.113.1", signingStart.Add(time.Hour)))
-	legacy := unsignedSeedAt(t, "203.0.113.2")
-	roster.ConfirmReachable(ctx, legacy, httpBaseURLOf(legacy))
+	roster.Discover(ctx, future)
 
-	assertHostOf(t, roster, legacy.Hash, "203.0.113.2")
+	if addresses, known := roster.AddressesOf(ctx, future.Hash); known {
+		t.Errorf("AddressesOf = %v, want the peer unknown", addresses)
+	}
 }
 
 func TestRosterBindsAPeerDiscoveredFromAVerifiedSeed(t *testing.T) {

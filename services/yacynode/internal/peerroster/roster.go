@@ -94,8 +94,8 @@ func (r *roster) discoverOne(
 	signed := seed.SignedIdentityIn(r.networkName)
 	standing := standingOf(signed, addresses, known, now)
 	switch {
-	case !isKnown && standing == futureSeed:
-		return r.storePeer(tx, seed.Hash, rosterEntry{addresses: addresses, lastContacted: now})
+	case standing == futureSeed:
+		return nil
 	case !isKnown:
 		return r.storePeer(tx, seed.Hash, rosterEntry{
 			addresses:     addresses,
