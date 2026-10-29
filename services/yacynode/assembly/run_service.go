@@ -19,7 +19,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerport"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peertls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 )
@@ -37,34 +39,22 @@ const (
 )
 
 type Listeners struct {
-	PeerProtocol       net.Listener
-	SecurePeerProtocol net.Listener
+	PeerPort net.Listener
 }
 
 func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	peerProtocol, err := servergroup.Listen(ctx, cfg.Serving.PeerAddr)
+	peerPort, err := servergroup.Listen(ctx, cfg.Serving.PeerAddr)
 	if err != nil {
 		return Listeners{}, err
 	}
-	securePeerProtocol, err := servergroup.Listen(ctx, cfg.Serving.SecurePeerAddr)
-	if err != nil {
-		return Listeners{}, errors.Join(err, peerProtocol.Close())
-	}
-	return Listeners{
-		PeerProtocol:       peerProtocol,
-		SecurePeerProtocol: securePeerProtocol,
-	}, nil
+	return Listeners{PeerPort: peerPort}, nil
 }
 
 func (l Listeners) Close() error {
-	var errs []error
-	if err := l.PeerProtocol.Close(); err != nil {
-		errs = append(errs, fmt.Errorf("close the peer protocol listener: %w", err))
+	if err := l.PeerPort.Close(); err != nil {
+		return fmt.Errorf("close the peer port: %w", err)
 	}
-	if err := l.SecurePeerProtocol.Close(); err != nil {
-		errs = append(errs, fmt.Errorf("close the secure peer protocol listener: %w", err))
-	}
-	return errors.Join(errs...)
+	return nil
 }
 
 func RunService(
@@ -137,7 +127,13 @@ func runNode(
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)
 	}
-	servers, err := peerProtocolServersFor(config.Identity, listeners, assembledNode.peerHandler)
+	servers, err := peerProtocolServersFor(
+		ctx,
+		config.Identity,
+		listeners,
+		assembledNode.peerHandler,
+		metrics.NewPeerPortMetrics(registry),
+	)
 	if err != nil {
 		return err
 	}
@@ -184,23 +180,30 @@ func runNode(
 }
 
 func peerProtocolServersFor(
+	ctx context.Context,
 	identity nodeconfiguration.IdentityConfig,
 	listeners Listeners,
 	peerHandler http.Handler,
+	connectionObserver peerport.ConnectionObserver,
 ) ([]servergroup.NamedServer, error) {
-	peerProtocolServer := servergroup.NamedServer{
-		Name:     "peer protocol",
-		Listener: listeners.PeerProtocol,
-		Server:   serverFor(peerHandler),
-	}
 	tlsConfig, err := peertls.ServerConfigFor(identity.PeerKey, identity.NetworkName)
 	if err != nil {
 		return nil, fmt.Errorf("secure peer protocol: %w", err)
 	}
+	schemeListeners := peerport.ListenersOn(
+		ctx,
+		listeners.PeerPort,
+		wallclock.Clock{},
+		connectionObserver,
+	)
 
-	return []servergroup.NamedServer{peerProtocolServer, {
+	return []servergroup.NamedServer{{
+		Name:     "peer protocol",
+		Listener: schemeListeners.HTTP,
+		Server:   serverFor(peerHandler),
+	}, {
 		Name:     "secure peer protocol",
-		Listener: tls.NewListener(listeners.SecurePeerProtocol, tlsConfig),
+		Listener: tls.NewListener(schemeListeners.HTTPS, tlsConfig),
 		Server:   serverFor(peerHandler),
 	}}, nil
 }

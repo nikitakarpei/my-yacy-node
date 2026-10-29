@@ -16,7 +16,6 @@ type Identity struct {
 	Name            yacymodel.PeerName
 	AdditionalHosts []yacymodel.Host
 	Port            int
-	SecurePort      int
 	Capabilities    yacymodel.PeerCapabilities
 	Version         yacymodel.SoftwareVersion
 	Start           time.Time

@@ -68,7 +68,6 @@ FROM gcr.io/distroless/static-debian12:nonroot
 
 ENV YACY_DATA_DIR=/data \
     YACY_PEER_ADDR=:8090 \
-    YACY_SECURE_PEER_ADDR=:8443 \
     YACY_OPS_ADDR=:9090
 
 COPY --from=build --chown=nonroot:nonroot /out/data /data
@@ -76,7 +75,7 @@ COPY --from=build /out/yacy-rwi-node /usr/local/bin/yacy-rwi-node
 COPY --from=build /out/yacy-entrypoint /usr/local/bin/yacy-entrypoint
 COPY --from=build /out/yacy-peer-key /usr/local/bin/yacy-peer-key
 
-EXPOSE 8090 8443 9090
+EXPOSE 8090 9090
 
 VOLUME ["/data"]
 

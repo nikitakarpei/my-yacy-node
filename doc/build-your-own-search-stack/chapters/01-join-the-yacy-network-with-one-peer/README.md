@@ -22,7 +22,7 @@ Make a peer key once. This takes one minute. Keep `.env` safe:
 echo "YACY_PEER_KEY=$(docker run --rm ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest yacy-peer-key)" >> .env
 ```
 
-Allow inbound connections to ports 8090 and 8443, then start the stack:
+Allow inbound connections to port 8090, then start the stack:
 
 ```sh
 docker compose up -d

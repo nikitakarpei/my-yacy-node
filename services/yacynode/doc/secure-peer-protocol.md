@@ -1,13 +1,12 @@
 # Secure peer protocol
 
-The node serves the YaCy peer protocol over TLS on a second port, the secure
-port. The certificate of the node proves that the node holds its peer key. The
-seed of the node announces the secure port.
+The node serves the YaCy peer protocol over HTTP and over TLS on one port, the
+port of `YACY_PEER_ADDR`. The certificate of the node proves that the node holds
+its peer key. The seed of the node announces this port as its port and as its
+secure port.
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `YACY_SECURE_PEER_ADDR` | `:8443` | Listen address for the secure peer protocol. |
-| `YACY_ADVERTISE_SECURE_PORT` | _(the `YACY_SECURE_PEER_ADDR` port)_ | Secure port other peers use to reach you. |
+The metric `yacynode_peerport_connections_total` counts the connections to the
+port by scheme, `http` or `https`.
 
 ## Calls to other peers
 
@@ -24,11 +23,11 @@ the peer, with a certificate from a public authority, and then plain HTTP.
 
 ## Java peers
 
-Java peers use the plain port by default. A Java peer uses the secure port only
-when its operator turns on `network.unit.protocol.https.preferred` or
+Java peers use HTTP by default. A Java peer uses TLS only when its operator
+turns on `network.unit.protocol.https.preferred` or
 `remotesearch.https.preferred`.
 
 ## Network
 
-Other peers must reach the secure port. TLS must end in the node, so do not put
-a reverse proxy in front of the secure port.
+Other peers must reach the port. TLS must end in the node, so do not put a
+reverse proxy in front of the port.

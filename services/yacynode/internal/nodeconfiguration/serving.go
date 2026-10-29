@@ -11,20 +11,16 @@ import (
 
 const (
 	EnvPeerAddr       = "YACY_PEER_ADDR"
-	EnvSecurePeerAddr = "YACY_SECURE_PEER_ADDR"
 	EnvOpsAddr        = "YACY_OPS_ADDR"
 	EnvTrustedProxies = "YACY_TRUSTED_PROXIES"
 
-	DefaultPeerAddr       = ":8090"
-	DefaultSecurePeerAddr = ":8443"
-	DefaultOpsAddr        = ":9090"
+	DefaultPeerAddr = ":8090"
+	DefaultOpsAddr  = ":9090"
 )
 
 type ServingConfig struct {
 	PeerAddr             string
 	PeerPort             int
-	SecurePeerAddr       string
-	SecurePeerPort       int
 	OpsAddr              string
 	TrustedProxyNetworks []*net.IPNet
 }
@@ -41,17 +37,9 @@ func loadServingConfig(getenv func(string) string) (ServingConfig, error) {
 		return ServingConfig{}, err
 	}
 
-	securePeerAddr := envconfig.String(getenv, EnvSecurePeerAddr, DefaultSecurePeerAddr)
-	securePeerPort, err := listenPortOf(EnvSecurePeerAddr, securePeerAddr)
-	if err != nil {
-		return ServingConfig{}, err
-	}
-
 	return ServingConfig{
 		PeerAddr:             peerAddr,
 		PeerPort:             peerPort,
-		SecurePeerAddr:       securePeerAddr,
-		SecurePeerPort:       securePeerPort,
 		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		TrustedProxyNetworks: trustedProxyNetworks,
 	}, nil

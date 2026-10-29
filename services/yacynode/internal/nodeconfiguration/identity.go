@@ -16,7 +16,6 @@ const (
 	EnvAdvertiseHost            = "YACY_ADVERTISE_HOST"
 	EnvAdvertiseAdditionalHosts = "YACY_ADVERTISE_ADDITIONAL_HOSTS"
 	EnvAdvertisePort            = "YACY_ADVERTISE_PORT"
-	EnvAdvertiseSecurePort      = "YACY_ADVERTISE_SECURE_PORT"
 	EnvAcceptRemoteIndex        = "YACY_ACCEPT_REMOTE_INDEX"
 
 	DefaultAcceptRemoteIndex = true
@@ -29,7 +28,6 @@ type IdentityConfig struct {
 	AdvertiseHost            yacymodel.Optional[yacymodel.Host]
 	AdvertiseAdditionalHosts []yacymodel.Host
 	AdvertisePort            int
-	AdvertiseSecurePort      int
 	Capabilities             yacymodel.PeerCapabilities
 }
 
@@ -62,11 +60,6 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
-	securePort, err := envconfig.PositiveInt(getenv, EnvAdvertiseSecurePort, serving.SecurePeerPort)
-	if err != nil {
-		return IdentityConfig{}, err
-	}
-
 	capabilities, err := peerCapabilities(getenv)
 	if err != nil {
 		return IdentityConfig{}, err
@@ -83,7 +76,6 @@ func loadIdentityConfig(
 		AdvertiseHost:            host,
 		AdvertiseAdditionalHosts: additionalHosts,
 		AdvertisePort:            port,
-		AdvertiseSecurePort:      securePort,
 		Capabilities:             capabilities,
 	}, nil
 }
