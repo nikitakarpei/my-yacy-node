@@ -46,7 +46,7 @@ var _ callerReachabilityProbe = callerBackPing{}
 func (p callerBackPing) Reach(
 	ctx context.Context,
 	caller yacymodel.Hash,
-	addresses yacymodel.PeerAddresses,
+	baseURLs []peerwire.BaseURL,
 	self yacymodel.Hash,
 	networkName string,
 ) (peerwire.BaseURL, bool) {
@@ -68,7 +68,7 @@ func (p callerBackPing) Reach(
 	answer, answered := p.walker.TryInTurn(
 		ctx,
 		peerwire.Request{Peer: caller, Path: yacyproto.PathQuery, Form: query.Form()},
-		p.baseURLsFor(ctx, caller, addresses),
+		p.baseURLsAnsweredFirst(ctx, caller, baseURLs),
 		isRWICountReply,
 		backPingBudget,
 	)
@@ -97,12 +97,11 @@ func (p callerBackPing) takeSlot(ctx context.Context) bool {
 	}
 }
 
-func (p callerBackPing) baseURLsFor(
+func (p callerBackPing) baseURLsAnsweredFirst(
 	ctx context.Context,
 	caller yacymodel.Hash,
-	addresses yacymodel.PeerAddresses,
+	baseURLs []peerwire.BaseURL,
 ) []peerwire.BaseURL {
-	baseURLs := peerwire.BaseURLsFrom(addresses)
 	answeredBaseURL, found := p.answeredBaseURLs.AnsweredBaseURLOf(ctx, caller)
 	if !found || !slices.Contains(baseURLs, answeredBaseURL) {
 		return baseURLs

@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -115,6 +116,12 @@ func replyingServer(reply string) *httptest.Server {
 	}))
 }
 
+type unusedPeerTransports struct{}
+
+func (unusedPeerTransports) TransportFor(yacymodel.Hash) http.RoundTripper {
+	panic("a walk to a base URL without peer-https asked for a peer transport")
+}
+
 func hasResult(fields yacyproto.ResponseFields) bool { return fields["result"] != "" }
 
 func TestTryAtReturnsTheAcceptedReplyFromTheGivenBaseURL(t *testing.T) {
@@ -122,16 +129,51 @@ func TestTryAtReturnsTheAcceptedReplyFromTheGivenBaseURL(t *testing.T) {
 	defer server.Close()
 	baseURL := baseURLOf(t, server, peerwire.HTTP)
 
-	answer, answered := peerwire.NewWalker(server.Client(), startClock()).TryAt(
+	answer, answered := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, startClock()).
+		TryAt(
+			t.Context(),
+			transferRequest,
+			baseURL,
+			hasResult,
+			walkBudget,
+		)
+
+	if !answered || answer.BaseURL != baseURL || answer.Fields["result"] != "ok" {
+		t.Fatalf("answer = %v, %v, want ok from %v", answer, answered, baseURL)
+	}
+}
+
+type recordingPeerTransports struct {
+	transport http.RoundTripper
+	peers     []yacymodel.Hash
+}
+
+func (r *recordingPeerTransports) TransportFor(peer yacymodel.Hash) http.RoundTripper {
+	r.peers = append(r.peers, peer)
+
+	return r.transport
+}
+
+func TestTryAtGoesToAPeerHTTPSBaseURLThroughTheTransportForTheCalledPeer(t *testing.T) {
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte("result=ok\n"))
+	}))
+	defer server.Close()
+	peerTransports := &recordingPeerTransports{transport: server.Client().Transport}
+	request := transferRequest
+	request.Peer = peerkeytest.Key(0).Hash()
+
+	_, answered := peerwire.NewWalker(http.DefaultClient, peerTransports, startClock()).TryAt(
 		t.Context(),
-		transferRequest,
-		baseURL,
+		request,
+		baseURLOf(t, server, peerwire.PeerHTTPS),
 		hasResult,
 		walkBudget,
 	)
 
-	if !answered || answer.BaseURL != baseURL || answer.Fields["result"] != "ok" {
-		t.Fatalf("answer = %v, %v, want ok from %v", answer, answered, baseURL)
+	if !answered || !slices.Equal(peerTransports.peers, []yacymodel.Hash{request.Peer}) {
+		t.Fatalf("answered = %v through transports for %v, want ok through the transport for %v",
+			answered, peerTransports.peers, request.Peer)
 	}
 }
 
@@ -139,7 +181,7 @@ func TestTryAtHasNoAnswerWhenTheReplyIsNotAccepted(t *testing.T) {
 	server := replyingServer("<html lang=\"en\">\n")
 	defer server.Close()
 
-	_, answered := peerwire.NewWalker(server.Client(), startClock()).TryAt(
+	_, answered := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, startClock()).TryAt(
 		t.Context(),
 		transferRequest,
 		baseURLOf(t, server, peerwire.HTTP),
@@ -171,13 +213,14 @@ func TestTryInTurnPostsTheFormAndReturnsTheAcceptedReply(t *testing.T) {
 	defer server.Close()
 	baseURL := baseURLOf(t, server, peerwire.HTTP)
 
-	answer, answered := peerwire.NewWalker(server.Client(), startClock()).TryInTurn(
-		t.Context(),
-		transferRequest,
-		[]peerwire.BaseURL{baseURL},
-		hasResult,
-		walkBudget,
-	)
+	answer, answered := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, startClock()).
+		TryInTurn(
+			t.Context(),
+			transferRequest,
+			[]peerwire.BaseURL{baseURL},
+			hasResult,
+			walkBudget,
+		)
 
 	if !answered {
 		t.Fatal("expected an answer")
@@ -216,13 +259,14 @@ func TestTryInTurnPostsEveryFormValueUnchanged(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, answered := peerwire.NewWalker(server.Client(), startClock()).TryInTurn(
-		t.Context(),
-		peerwire.Request{Path: "/yacy/transferURL.html", Form: sentForm},
-		[]peerwire.BaseURL{baseURLOf(t, server, peerwire.HTTP)},
-		hasResult,
-		walkBudget,
-	)
+	_, answered := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, startClock()).
+		TryInTurn(
+			t.Context(),
+			peerwire.Request{Path: "/yacy/transferURL.html", Form: sentForm},
+			[]peerwire.BaseURL{baseURLOf(t, server, peerwire.HTTP)},
+			hasResult,
+			walkBudget,
+		)
 
 	if !answered {
 		t.Fatal("expected an answer")
@@ -239,13 +283,14 @@ func TestTryInTurnReachesAnHTTPSBaseURL(t *testing.T) {
 	defer server.Close()
 	baseURL := baseURLOf(t, server, peerwire.HTTPS)
 
-	answer, answered := peerwire.NewWalker(server.Client(), startClock()).TryInTurn(
-		t.Context(),
-		transferRequest,
-		[]peerwire.BaseURL{baseURL},
-		hasResult,
-		walkBudget,
-	)
+	answer, answered := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, startClock()).
+		TryInTurn(
+			t.Context(),
+			transferRequest,
+			[]peerwire.BaseURL{baseURL},
+			hasResult,
+			walkBudget,
+		)
 
 	if !answered || answer.BaseURL.Scheme != peerwire.HTTPS {
 		t.Fatalf("answer = %v, %v, want an answer over https", answer, answered)
@@ -278,13 +323,14 @@ func TestTryInTurnMovesOnPastBaseURLsThatGiveNoAcceptedReply(t *testing.T) {
 		answeringBaseURL,
 	}
 
-	answer, answered := peerwire.NewWalker(http.DefaultClient, startClock()).TryInTurn(
-		t.Context(),
-		transferRequest,
-		baseURLs,
-		hasResult,
-		walkBudget,
-	)
+	answer, answered := peerwire.NewWalker(http.DefaultClient, unusedPeerTransports{}, startClock()).
+		TryInTurn(
+			t.Context(),
+			transferRequest,
+			baseURLs,
+			hasResult,
+			walkBudget,
+		)
 
 	if !answered || answer.BaseURL != answeringBaseURL {
 		t.Fatalf("answer = %v, %v, want the last base URL", answer, answered)
@@ -297,13 +343,14 @@ func TestTryInTurnHasNoAnswerWhenEveryBaseURLFails(t *testing.T) {
 	}))
 	defer failing.Close()
 
-	_, answered := peerwire.NewWalker(failing.Client(), startClock()).TryInTurn(
-		t.Context(),
-		transferRequest,
-		[]peerwire.BaseURL{baseURLOf(t, failing, peerwire.HTTP)},
-		hasResult,
-		walkBudget,
-	)
+	_, answered := peerwire.NewWalker(failing.Client(), unusedPeerTransports{}, startClock()).
+		TryInTurn(
+			t.Context(),
+			transferRequest,
+			[]peerwire.BaseURL{baseURLOf(t, failing, peerwire.HTTP)},
+			hasResult,
+			walkBudget,
+		)
 
 	if answered {
 		t.Fatal("expected no answer")
@@ -329,16 +376,17 @@ func TestTryInTurnGivesEachAttemptAShareOfTheTimeLeft(t *testing.T) {
 
 	answers := make(chan bool, 1)
 	go func() {
-		_, answered := peerwire.NewWalker(http.DefaultClient, timeline).TryInTurn(
-			t.Context(),
-			transferRequest,
-			[]peerwire.BaseURL{
-				baseURLOf(t, hanging, peerwire.HTTP),
-				answeringBaseURL,
-			},
-			hasResult,
-			walkBudget,
-		)
+		_, answered := peerwire.NewWalker(http.DefaultClient, unusedPeerTransports{}, timeline).
+			TryInTurn(
+				t.Context(),
+				transferRequest,
+				[]peerwire.BaseURL{
+					baseURLOf(t, hanging, peerwire.HTTP),
+					answeringBaseURL,
+				},
+				hasResult,
+				walkBudget,
+			)
 		answers <- answered
 	}()
 	<-timeline.armed
@@ -364,16 +412,17 @@ func TestTryInTurnStopsWhenTheBudgetIsSpent(t *testing.T) {
 
 	answers := make(chan bool, 1)
 	go func() {
-		_, answered := peerwire.NewWalker(http.DefaultClient, timeline).TryInTurn(
-			t.Context(),
-			transferRequest,
-			[]peerwire.BaseURL{
-				baseURLOf(t, hanging, peerwire.HTTP),
-				baseURLOf(t, later, peerwire.HTTP),
-			},
-			hasResult,
-			walkBudget,
-		)
+		_, answered := peerwire.NewWalker(http.DefaultClient, unusedPeerTransports{}, timeline).
+			TryInTurn(
+				t.Context(),
+				transferRequest,
+				[]peerwire.BaseURL{
+					baseURLOf(t, hanging, peerwire.HTTP),
+					baseURLOf(t, later, peerwire.HTTP),
+				},
+				hasResult,
+				walkBudget,
+			)
 		answers <- answered
 	}()
 	<-timeline.armed
@@ -396,7 +445,7 @@ func TestTryInTurnMeasuresTheAnswerTimeOfTheAnsweringAttempt(t *testing.T) {
 	}))
 	defer server.Close()
 
-	answer, _ := peerwire.NewWalker(server.Client(), timeline).TryInTurn(
+	answer, _ := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, timeline).TryInTurn(
 		t.Context(),
 		transferRequest,
 		[]peerwire.BaseURL{baseURLOf(t, server, peerwire.HTTP)},

@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 var signingStart = time.Unix(defaultClockStart, 0).UTC()
@@ -159,8 +160,8 @@ func TestDiscoverIgnoresASeedSignedInTheFuture(t *testing.T) {
 
 	roster.Discover(ctx, future)
 
-	if addresses, known := roster.AddressesOf(ctx, future.Hash); known {
-		t.Errorf("AddressesOf = %v, want the peer unknown", addresses)
+	if baseURLs, known := roster.BaseURLsOf(ctx, future.Hash); known {
+		t.Errorf("BaseURLsOf = %v, want the peer unknown", baseURLs)
 	}
 }
 
@@ -302,6 +303,26 @@ func restoredRosterAt(t *testing.T, storagePath string) peerroster.Roster {
 	return openRoster(t, rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4})
 }
 
+func TestRosterReachesABoundPeerOnlyOverPeerHTTPSAtItsSignedSecurePort(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+	seed := unsignedSeedAt(t, "203.0.113.1")
+	seed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
+	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
+
+	roster.Discover(ctx, peerkeytest.Key(0).SignedSeedFrom(seed, rosterNetworkName, signingStart))
+
+	baseURLs, _ := roster.BaseURLsOf(ctx, seed.Hash)
+	want := []peerwire.BaseURL{{
+		Scheme: peerwire.PeerHTTPS,
+		Host:   hostOf(t, "203.0.113.1"),
+		Port:   yacymodel.Port(8443),
+	}}
+	if !slices.Equal(baseURLs, want) {
+		t.Errorf("BaseURLsOf = %v, want %v", baseURLs, want)
+	}
+}
+
 func signedSeedAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
 	t.Helper()
 
@@ -328,8 +349,8 @@ func hostOf(t *testing.T, text string) yacymodel.Host {
 
 func assertHostOf(t *testing.T, roster peerroster.Roster, peer yacymodel.Hash, want string) {
 	t.Helper()
-	addresses, known := roster.AddressesOf(context.Background(), peer)
-	if !known || len(addresses.Hosts) == 0 || addresses.Hosts[0].String() != want {
-		t.Errorf("AddressesOf = %v (known %v), want host %s", addresses, known, want)
+	baseURLs, known := roster.BaseURLsOf(context.Background(), peer)
+	if !known || len(baseURLs) == 0 || baseURLs[0].Host.String() != want {
+		t.Errorf("BaseURLsOf = %v (known %v), want host %s", baseURLs, known, want)
 	}
 }

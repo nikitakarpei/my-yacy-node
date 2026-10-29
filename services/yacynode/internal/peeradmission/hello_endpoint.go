@@ -22,7 +22,7 @@ type callerReachabilityProbe interface {
 	Reach(
 		ctx context.Context,
 		caller yacymodel.Hash,
-		addresses yacymodel.PeerAddresses,
+		baseURLs []peerwire.BaseURL,
 		self yacymodel.Hash,
 		networkName string,
 	) (peerwire.BaseURL, bool)
@@ -96,7 +96,7 @@ func (e helloEndpoint) classifyCaller(
 	answeredBaseURL, reached := e.probe.Reach(
 		ctx,
 		caller.Hash,
-		addresses,
+		peerwire.BaseURLsFrom(addresses, caller.SignedIdentityIn(e.identity.NetworkName)),
 		e.identity.Hash,
 		e.status.NetworkName(ctx),
 	)

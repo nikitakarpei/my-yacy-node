@@ -4,7 +4,7 @@ Date: 2026-10-29
 
 ## Status
 
-Accepted. Not built.
+Accepted
 
 ## Context
 
@@ -16,12 +16,11 @@ TLS key.
 
 ## Decision
 
-At each start, a peer makes a new ECDSA P-256 TLS key and a self-signed certificate for it. The
-certificate holds a non-critical extension with the OID
-`2.25.62252900205088142946132973079864517537`. Its value is the DER form of:
+At each start, a peer makes a new ECDSA P-256 TLS key and a self-signed certificate for it. A
+URI in the subject alternative names of the certificate holds the endorsement of the TLS key:
 
 ```text
-SEQUENCE { identity UTF8String, signature OCTET STRING }
+yacy-tls-key:<identity>:<signature>
 ```
 
 The signature is Ed25519 by the operational key over:
@@ -31,16 +30,18 @@ The signature is Ed25519 by the operational key over:
 ```
 
 - The TLS key is not the operational key, so the key that signs seeds stays out of the TLS stack.
+- The endorsement is a URI and not a certificate extension. An extension needs an OID, and Go
+  cannot write an OID from a UUID. A short OID needs a registered arc.
 - P-256 works with all Java versions that run YaCy. Ed25519 in TLS needs Java 15 or later.
 - The peer serves TLS 1.3 on its own port. The seed announces this port with the SSL flag in
   `Flags` and with `PortSSL`. The address signature (ADR 0004) covers both.
 
 Rules for a client that connects to a peer hash:
 
-- The identity in the extension must give that peer hash. If the client has a bound identity
-  for the peer, the two identities must be equal.
+- The identity in the URI must give that peer hash. The peer hash commits to the identity, so a
+  bound identity needs no second check.
 - The signature must be valid for the TLS key of the connection.
-- The client ignores the names and the dates of the certificate.
+- The client ignores the host names and the dates of the certificate.
 - A bound peer whose signed seed announces a secure port gets TLS only. The client does not use
   plain HTTP for this peer.
 - For other peers, the client keeps the current rules.

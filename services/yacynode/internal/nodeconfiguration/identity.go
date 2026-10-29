@@ -18,6 +18,7 @@ const (
 	EnvAdvertiseHost            = "YACY_ADVERTISE_HOST"
 	EnvAdvertiseAdditionalHosts = "YACY_ADVERTISE_ADDITIONAL_HOSTS"
 	EnvAdvertisePort            = "YACY_ADVERTISE_PORT"
+	EnvAdvertiseSecurePort      = "YACY_ADVERTISE_SECURE_PORT"
 	EnvAcceptRemoteIndex        = "YACY_ACCEPT_REMOTE_INDEX"
 
 	DefaultAcceptRemoteIndex = true
@@ -30,12 +31,13 @@ type IdentityConfig struct {
 	AdvertiseHost            yacymodel.Optional[yacymodel.Host]
 	AdvertiseAdditionalHosts []yacymodel.Host
 	AdvertisePort            int
+	AdvertiseSecurePort      yacymodel.Optional[int]
 	Capabilities             yacymodel.PeerCapabilities
 }
 
 func loadIdentityConfig(
 	getenv func(string) string,
-	listenAddr string,
+	serving ServingConfig,
 ) (IdentityConfig, error) {
 	peerKey, err := requiredPeerKey(getenv)
 	if err != nil {
@@ -57,12 +59,17 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
-	port, err := advertisePort(getenv, listenAddr)
+	port, err := advertisePort(getenv, EnvPeerAddr, serving.PeerAddr, EnvAdvertisePort)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
 
-	capabilities, err := peerCapabilities(getenv)
+	securePort, err := advertiseSecurePort(getenv, serving.SecurePeerAddr)
+	if err != nil {
+		return IdentityConfig{}, err
+	}
+
+	capabilities, err := peerCapabilities(getenv, securePort.Present())
 	if err != nil {
 		return IdentityConfig{}, err
 	}
@@ -78,6 +85,7 @@ func loadIdentityConfig(
 		AdvertiseHost:            host,
 		AdvertiseAdditionalHosts: additionalHosts,
 		AdvertisePort:            port,
+		AdvertiseSecurePort:      securePort,
 		Capabilities:             capabilities,
 	}, nil
 }
@@ -127,33 +135,57 @@ func advertisedAdditionalHosts(getenv func(string) string) ([]yacymodel.Host, er
 	return hosts, nil
 }
 
-func advertisePort(getenv func(string) string, listenAddr string) (int, error) {
-	listenPort, err := listenPortOf(listenAddr)
+func advertisePort(
+	getenv func(string) string,
+	listenAddrKey string,
+	listenAddr string,
+	advertisePortKey string,
+) (int, error) {
+	listenPort, err := listenPortOf(listenAddrKey, listenAddr)
 	if err != nil {
 		return 0, err
 	}
 
-	return envconfig.PositiveInt(getenv, EnvAdvertisePort, listenPort)
+	return envconfig.PositiveInt(getenv, advertisePortKey, listenPort)
 }
 
-func listenPortOf(listenAddr string) (int, error) {
+func listenPortOf(listenAddrKey, listenAddr string) (int, error) {
 	_, portPart, err := net.SplitHostPort(listenAddr)
 	if err != nil {
-		return 0, fmt.Errorf("%s: %w", EnvPeerAddr, err)
+		return 0, fmt.Errorf("%s: %w", listenAddrKey, err)
 	}
 
 	port, err := strconv.Atoi(portPart)
 	if err != nil {
-		return 0, fmt.Errorf("%s: %w", EnvPeerAddr, err)
+		return 0, fmt.Errorf("%s: %w", listenAddrKey, err)
 	}
 	if port <= 0 {
-		return 0, fmt.Errorf("%s: must carry a positive port", EnvPeerAddr)
+		return 0, fmt.Errorf("%s: must carry a positive port", listenAddrKey)
 	}
 
 	return port, nil
 }
 
-func peerCapabilities(getenv func(string) string) (yacymodel.PeerCapabilities, error) {
+func advertiseSecurePort(
+	getenv func(string) string,
+	securePeerAddr yacymodel.Optional[string],
+) (yacymodel.Optional[int], error) {
+	listenAddr, serving := securePeerAddr.Get()
+	if !serving {
+		return yacymodel.None[int](), nil
+	}
+	port, err := advertisePort(getenv, EnvSecurePeerAddr, listenAddr, EnvAdvertiseSecurePort)
+	if err != nil {
+		return yacymodel.None[int](), err
+	}
+
+	return yacymodel.Some(port), nil
+}
+
+func peerCapabilities(
+	getenv func(string) string,
+	sslAvailable bool,
+) (yacymodel.PeerCapabilities, error) {
 	acceptRemoteIndex, err := envconfig.Bool(getenv, EnvAcceptRemoteIndex, DefaultAcceptRemoteIndex)
 	if err != nil {
 		return yacymodel.PeerCapabilities{}, err
@@ -162,5 +194,6 @@ func peerCapabilities(getenv func(string) string) (yacymodel.PeerCapabilities, e
 	return yacymodel.PeerCapabilities{
 		DirectConnect:     true,
 		AcceptRemoteIndex: acceptRemoteIndex,
+		SSLAvailable:      sslAvailable,
 	}, nil
 }

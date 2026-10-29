@@ -1,6 +1,6 @@
 # Configuration
 
-For the webhook that gets messages from other peers, see [Peer messages](peer-messages.md).
+For the webhook that gets messages from other peers, see [Peer messages](peer-messages.md). For TLS between peers, see [Secure peer protocol](secure-peer-protocol.md).
 
 ## Process
 

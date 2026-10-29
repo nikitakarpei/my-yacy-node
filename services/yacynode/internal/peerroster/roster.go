@@ -124,7 +124,7 @@ func (e rosterEntry) movedTo(
 	e.addresses = addresses
 	e.binding = binding
 	if answered, isAnswered := e.answeredBaseURL.Get(); isAnswered &&
-		!slices.Contains(peerwire.BaseURLsFrom(addresses), answered) {
+		!slices.Contains(peerwire.BaseURLsFrom(addresses, binding), answered) {
 		e.answeredBaseURL = yacymodel.None[peerwire.BaseURL]()
 	}
 
@@ -575,13 +575,13 @@ func (r *roster) UnreachablePeerHashes(ctx context.Context, limit int) []yacymod
 	return peerHashes
 }
 
-func (r *roster) AddressesOf(
-	ctx context.Context,
-	peer yacymodel.Hash,
-) (yacymodel.PeerAddresses, bool) {
+func (r *roster) BaseURLsOf(ctx context.Context, peer yacymodel.Hash) ([]peerwire.BaseURL, bool) {
 	entry, known := r.entryOf(ctx, peer)
+	if !known {
+		return nil, false
+	}
 
-	return entry.addresses, known
+	return peerwire.BaseURLsFrom(entry.addresses, entry.binding), true
 }
 
 func (r *roster) AnsweredBaseURLOf(

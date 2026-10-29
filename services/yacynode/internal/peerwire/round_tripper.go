@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -26,14 +27,15 @@ var (
 )
 
 type roundTripper struct {
-	client *http.Client
+	client         *http.Client
+	peerTransports PeerTransports
 }
 
-func newRoundTripper(client *http.Client) roundTripper {
+func newRoundTripper(client *http.Client, peerTransports PeerTransports) roundTripper {
 	peerClient := *client
 	peerClient.CheckRedirect = refuseRedirect
 
-	return roundTripper{client: &peerClient}
+	return roundTripper{client: &peerClient, peerTransports: peerTransports}
 }
 
 func refuseRedirect(*http.Request, []*http.Request) error {
@@ -42,6 +44,7 @@ func refuseRedirect(*http.Request, []*http.Request) error {
 
 func (p roundTripper) post(
 	ctx context.Context,
+	peer yacymodel.Hash,
 	baseURL BaseURL,
 	path string,
 	body multipartForm,
@@ -57,7 +60,7 @@ func (p roundTripper) post(
 	}
 	req.Header.Set("Content-Type", body.contentType)
 
-	resp, err := p.client.Do(req)
+	resp, err := p.clientFor(peer, baseURL).Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("post: %w", err)
 	}
@@ -78,6 +81,16 @@ func (p roundTripper) post(
 	}
 
 	return yacyproto.ParseResponseFields(raw), nil
+}
+
+func (p roundTripper) clientFor(peer yacymodel.Hash, baseURL BaseURL) *http.Client {
+	if baseURL.Scheme != PeerHTTPS {
+		return p.client
+	}
+	peerClient := *p.client
+	peerClient.Transport = p.peerTransports.TransportFor(peer)
+
+	return &peerClient
 }
 
 func closeResponseBody(ctx context.Context, body io.Closer, path string) {

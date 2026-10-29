@@ -6,19 +6,25 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	EnvPeerAddr       = "YACY_PEER_ADDR"
-	EnvOpsAddr        = "YACY_OPS_ADDR"
-	EnvTrustedProxies = "YACY_TRUSTED_PROXIES"
+	EnvPeerAddr          = "YACY_PEER_ADDR"
+	EnvSecurePeerEnabled = "YACY_SECURE_PEER_ENABLED"
+	EnvSecurePeerAddr    = "YACY_SECURE_PEER_ADDR"
+	EnvOpsAddr           = "YACY_OPS_ADDR"
+	EnvTrustedProxies    = "YACY_TRUSTED_PROXIES"
 
-	DefaultPeerAddr = ":8090"
-	DefaultOpsAddr  = ":9090"
+	DefaultPeerAddr          = ":8090"
+	DefaultSecurePeerEnabled = true
+	DefaultSecurePeerAddr    = ":8443"
+	DefaultOpsAddr           = ":9090"
 )
 
 type ServingConfig struct {
 	PeerAddr             string
+	SecurePeerAddr       yacymodel.Optional[string]
 	OpsAddr              string
 	TrustedProxyNetworks []*net.IPNet
 }
@@ -29,11 +35,29 @@ func loadServingConfig(getenv func(string) string) (ServingConfig, error) {
 		return ServingConfig{}, fmt.Errorf("%s: %w", EnvTrustedProxies, err)
 	}
 
+	securePeerAddr, err := securePeerAddrOf(getenv)
+	if err != nil {
+		return ServingConfig{}, err
+	}
+
 	return ServingConfig{
 		PeerAddr:             envconfig.String(getenv, EnvPeerAddr, DefaultPeerAddr),
+		SecurePeerAddr:       securePeerAddr,
 		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		TrustedProxyNetworks: trustedProxyNetworks,
 	}, nil
+}
+
+func securePeerAddrOf(getenv func(string) string) (yacymodel.Optional[string], error) {
+	enabled, err := envconfig.Bool(getenv, EnvSecurePeerEnabled, DefaultSecurePeerEnabled)
+	if err != nil {
+		return yacymodel.None[string](), err
+	}
+	if !enabled {
+		return yacymodel.None[string](), nil
+	}
+
+	return yacymodel.Some(envconfig.String(getenv, EnvSecurePeerAddr, DefaultSecurePeerAddr)), nil
 }
 
 func trustedProxyNetworksFrom(raw string) ([]*net.IPNet, error) {

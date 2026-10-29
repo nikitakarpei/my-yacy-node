@@ -84,7 +84,7 @@ func muxWithHello(
 ) *http.ServeMux {
 	t.Helper()
 
-	return muxWithHelloAt(t, reachability, client, stoppedClock{})
+	return muxWithHelloAt(t, reachability, client, stoppedClock{}, nil)
 }
 
 func muxWithHelloAt(
@@ -92,6 +92,7 @@ func muxWithHelloAt(
 	reachability *stubReachability,
 	client *http.Client,
 	clock peeradmission.Clock,
+	peerTransports peerwire.PeerTransports,
 ) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -109,7 +110,7 @@ func muxWithHelloAt(
 		selfStatus(t),
 		clock,
 		reachability,
-		peerwire.NewWalker(client, stoppedClock{}),
+		peerwire.NewWalker(client, peerTransports, stoppedClock{}),
 	)
 
 	return mux
@@ -163,7 +164,11 @@ func serveHello(
 }
 
 func backPingServer(reachable bool) *httptest.Server {
-	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+	return httptest.NewServer(backPingHandler(reachable))
+}
+
+func backPingHandler(reachable bool) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		if !reachable {
 			http.Error(w, "boom", http.StatusInternalServerError)
 
@@ -171,7 +176,7 @@ func backPingServer(reachable bool) *httptest.Server {
 		}
 		resp := yacyproto.QueryResponse{Response: 3}
 		_, _ = io.WriteString(w, resp.Encode().Encode())
-	}))
+	})
 }
 
 func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
@@ -214,6 +219,46 @@ func TestHelloBackPingNamesThisNodeAsTheAsker(t *testing.T) {
 
 	if want := []string{localPeer().Hash.String()}; !slices.Equal(askers, want) {
 		t.Fatalf("back-ping askers = %v, want %v", askers, want)
+	}
+}
+
+type recordingPeerTransports struct {
+	transport http.RoundTripper
+	peers     []yacymodel.Hash
+}
+
+func (r *recordingPeerTransports) TransportFor(peer yacymodel.Hash) http.RoundTripper {
+	r.peers = append(r.peers, peer)
+
+	return r.transport
+}
+
+func TestHelloBackPingsASignedCallerOverPeerHTTPSAtItsSecurePort(t *testing.T) {
+	srv := httptest.NewTLSServer(backPingHandler(true))
+	defer srv.Close()
+	peerTransports := &recordingPeerTransports{transport: srv.Client().Transport}
+	reachability := &stubReachability{}
+	mux := muxWithHelloAt(t, reachability, http.DefaultClient, stoppedClock{}, peerTransports)
+	caller := signedCallerSeedWithSecurePort(t, srv.URL)
+
+	resp := serveHello(t, mux, helloRequest("freeworld", caller, 0))
+
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
+		t.Fatalf("YourType = %q, want senior", yourType)
+	}
+	if len(reachability.confirmedBaseURLs) != 1 ||
+		reachability.confirmedBaseURLs[0].Scheme != peerwire.PeerHTTPS {
+		t.Errorf(
+			"confirmed base URLs = %v, want one peer-https base URL",
+			reachability.confirmedBaseURLs,
+		)
+	}
+	if !slices.Equal(peerTransports.peers, []yacymodel.Hash{caller.Hash}) {
+		t.Errorf(
+			"peer transports asked for %v, want the caller %v",
+			peerTransports.peers,
+			caller.Hash,
+		)
 	}
 }
 

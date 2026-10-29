@@ -86,13 +86,12 @@ func TestReachableConfirmationReplacesDiscoveredSeedAndAddresses(t *testing.T) {
 	if !present || !capabilities.AcceptRemoteIndex {
 		t.Fatalf("reachable peer did not retain fresh capabilities")
 	}
-	addresses, found := roster.AddressesOf(ctx, fresh.Hash)
+	baseURLs, found := roster.BaseURLsOf(ctx, fresh.Hash)
 	if !found {
-		t.Fatal("fresh addresses not found")
+		t.Fatal("fresh base URLs not found")
 	}
-	wantAddresses, _ := fresh.Addresses()
-	if !reflect.DeepEqual(addresses, wantAddresses) {
-		t.Errorf("addresses = %v, want %v", addresses, wantAddresses)
+	if want := unsignedBaseURLsOf(fresh); !reflect.DeepEqual(baseURLs, want) {
+		t.Errorf("base URLs = %v, want %v", baseURLs, want)
 	}
 }
 
@@ -104,10 +103,9 @@ func TestDiscoveryKeepsTheAddressesOfAKnownPeer(t *testing.T) {
 	roster.Discover(ctx, known)
 	roster.Discover(ctx, seniorSeed(t, "peer", "198.51.100.9", 8091))
 
-	addresses, _ := roster.AddressesOf(ctx, known.Hash)
-	wantAddresses, _ := known.Addresses()
-	if !reflect.DeepEqual(addresses, wantAddresses) {
-		t.Errorf("addresses = %v, want the first discovered %v", addresses, wantAddresses)
+	baseURLs, _ := roster.BaseURLsOf(ctx, known.Hash)
+	if want := unsignedBaseURLsOf(known); !reflect.DeepEqual(baseURLs, want) {
+		t.Errorf("base URLs = %v, want the first discovered %v", baseURLs, want)
 	}
 }
 
@@ -123,9 +121,9 @@ func TestDiscoveryKeepsAPeerWithOnlyAdditionalHosts(t *testing.T) {
 
 	roster.Discover(ctx, peer)
 
-	addresses, found := roster.AddressesOf(ctx, peer.Hash)
-	if !found || !reflect.DeepEqual(addresses.Hosts, []yacymodel.Host{host}) {
-		t.Fatalf("addresses = %v, %v, want the additional host", addresses, found)
+	baseURLs, found := roster.BaseURLsOf(ctx, peer.Hash)
+	if !found || len(baseURLs) != 1 || baseURLs[0].Host != host {
+		t.Fatalf("base URLs = %v, %v, want the additional host", baseURLs, found)
 	}
 }
 

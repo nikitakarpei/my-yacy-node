@@ -38,12 +38,13 @@ const (
 )
 
 type Config struct {
-	NetworkName       string
-	Alias             string
-	Key               yacymodel.PeerKey
-	SeedlistURL       string
-	MessageWebhookURL string
-	Distribution      DistributionConfig
+	NetworkName          string
+	Alias                string
+	Key                  yacymodel.PeerKey
+	SeedlistURL          string
+	MessageWebhookURL    string
+	AdvertisedSecurePort string
+	Distribution         DistributionConfig
 }
 
 // DistributionConfig turns on the node's outbound RWI distribution.
@@ -82,6 +83,9 @@ func Start(
 	}
 	if cfg.MessageWebhookURL != "" {
 		env["YACY_MESSAGE_WEBHOOK_URL"] = cfg.MessageWebhookURL
+	}
+	if cfg.AdvertisedSecurePort != "" {
+		env["YACY_ADVERTISE_SECURE_PORT"] = cfg.AdvertisedSecurePort
 	}
 	if cfg.Distribution.Enabled {
 		env["YACY_DISTRIBUTION_ENABLED"] = "true"

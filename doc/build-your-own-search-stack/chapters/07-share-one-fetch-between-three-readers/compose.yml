@@ -178,6 +178,7 @@ services:
         condition: service_started
     ports:
       - "8090:8090"
+      - "8443:8443"
       - "127.0.0.1:9090:9090"
     environment:
       YACY_PEER_KEY: ${YACY_PEER_KEY:?set YACY_PEER_KEY in .env}

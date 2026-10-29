@@ -217,7 +217,7 @@ func TestCallerBackPingWaitsForAFreeSlot(t *testing.T) {
 	srv := busyBackPingServer(arrived, release)
 	defer srv.Close()
 	clock := armingClock{armed: make(chan struct{}, 1)}
-	mux := muxWithHelloAt(t, &stubReachability{}, srv.Client(), clock)
+	mux := muxWithHelloAt(t, &stubReachability{}, srv.Client(), clock, nil)
 	caller := reachableCallerSeed(t, srv.URL)
 	running := takeEveryBackPingSlot(t, mux, caller, arrived)
 
@@ -238,7 +238,7 @@ func TestCallerBackPingSkipsACallerWhenNoSlotFreesInTime(t *testing.T) {
 	release := make(chan struct{})
 	srv := busyBackPingServer(arrived, release)
 	defer srv.Close()
-	mux := muxWithHelloAt(t, &stubReachability{}, srv.Client(), expiredClock{})
+	mux := muxWithHelloAt(t, &stubReachability{}, srv.Client(), expiredClock{}, nil)
 	caller := reachableCallerSeed(t, srv.URL)
 	running := takeEveryBackPingSlot(t, mux, caller, arrived)
 

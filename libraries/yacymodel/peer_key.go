@@ -115,6 +115,13 @@ func (k PeerKey) SignedSeedFrom(seed Seed, networkName string, issuedAt time.Tim
 	return seed
 }
 
+func (k PeerKey) EndorsementOf(tlsPublicKey []byte, networkName string) TLSKeyEndorsement {
+	return TLSKeyEndorsement{
+		Identity:  k.identity,
+		Signature: k.secret.signatureFrom(tlsKeyClaimFrom(k.Hash(), tlsPublicKey, networkName)),
+	}
+}
+
 func (k PeerKey) addressSignatureFrom(
 	seed Seed,
 	networkName string,

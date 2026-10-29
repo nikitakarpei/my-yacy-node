@@ -11,4 +11,8 @@ var (
 	promotionNodeKey        = nodepeer.KeyAfterFleet(3)
 	verifyingNodeKey        = nodepeer.KeyAfterFleet(4)
 	boundNodeKey            = nodepeer.KeyAfterFleet(5)
+	httpsPreferringNodeKey  = nodepeer.KeyAfterFleet(6)
+	callingNodeKey          = nodepeer.KeyAfterFleet(7)
+	secureNodeKey           = nodepeer.KeyAfterFleet(8)
+	closedSecurePortNodeKey = nodepeer.KeyAfterFleet(9)
 )

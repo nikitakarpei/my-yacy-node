@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 const hashFiller = "AAAAAAAAAAAA"
@@ -28,6 +29,12 @@ func hashFor(base string) yacymodel.Hash {
 
 func selfHash() yacymodel.Hash {
 	return hashFor("self")
+}
+
+func unsignedBaseURLsOf(seed yacymodel.Seed) []peerwire.BaseURL {
+	addresses, _ := seed.Addresses()
+
+	return peerwire.BaseURLsFrom(addresses, yacymodel.None[yacymodel.SignedIdentity]())
 }
 
 func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {

@@ -22,7 +22,7 @@ type peerRoster interface {
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
-	AddressesOf(ctx context.Context, peer yacymodel.Hash) (yacymodel.PeerAddresses, bool)
+	BaseURLsOf(ctx context.Context, peer yacymodel.Hash) ([]peerwire.BaseURL, bool)
 }
 
 // TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
@@ -134,12 +134,12 @@ func (a *announcer) contactOne(
 	self yacymodel.Seed,
 	peerHash yacymodel.Hash,
 ) contactReply {
-	addresses, found := a.roster.AddressesOf(ctx, peerHash)
+	baseURLs, found := a.roster.BaseURLsOf(ctx, peerHash)
 	if !found {
 		return contactReply{outcome: PeerDidNotAnswer}
 	}
 
-	result, answered := a.greeter.Greet(ctx, peerHash, addresses, self, announceHelloPeerCount)
+	result, answered := a.greeter.Greet(ctx, peerHash, baseURLs, self, announceHelloPeerCount)
 	if !answered {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
 		slog.WarnContext(ctx, "peer greet failed", slog.String("peer", peerHash.String()))

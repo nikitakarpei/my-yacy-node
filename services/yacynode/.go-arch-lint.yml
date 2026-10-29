@@ -34,6 +34,8 @@ components:
     in: internal/publicaddress/**
   peerwire:
     in: internal/peerwire/**
+  peertls:
+    in: internal/peertls/**
   nodepeerhash:
     in: internal/nodepeerhash/**
   bootstrap:

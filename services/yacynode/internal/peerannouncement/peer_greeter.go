@@ -32,7 +32,7 @@ func newPeerGreeter(walker peerwire.Walker, networkName string) peerGreeter {
 func (g peerGreeter) Greet(
 	ctx context.Context,
 	peer yacymodel.Hash,
-	addresses yacymodel.PeerAddresses,
+	baseURLs []peerwire.BaseURL,
 	self yacymodel.Seed,
 	count int,
 ) (greetResult, bool) {
@@ -46,7 +46,7 @@ func (g peerGreeter) Greet(
 	answer, answered := g.walker.TryInTurn(
 		ctx,
 		peerwire.Request{Peer: peer, Path: yacyproto.PathHello, Form: request.Form()},
-		peerwire.BaseURLsFrom(addresses),
+		baseURLs,
 		func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, peer, fields) },
 		greetBudget,
 	)

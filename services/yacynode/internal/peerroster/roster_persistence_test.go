@@ -53,13 +53,12 @@ func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
 		t.Fatalf("persisted peer missing from unreachable peer hashes")
 	}
 
-	restoredAddresses, found := restoredRoster.AddressesOf(t.Context(), peerSeed.Hash)
+	restoredBaseURLs, found := restoredRoster.BaseURLsOf(t.Context(), peerSeed.Hash)
 	if !found {
-		t.Fatal("persisted peer addresses not found")
+		t.Fatal("persisted peer base URLs not found")
 	}
-	wantAddresses, _ := peerSeed.Addresses()
-	if !reflect.DeepEqual(restoredAddresses, wantAddresses) {
-		t.Errorf("addresses = %v, want %v", restoredAddresses, wantAddresses)
+	if want := unsignedBaseURLsOf(peerSeed); !reflect.DeepEqual(restoredBaseURLs, want) {
+		t.Errorf("base URLs = %v, want %v", restoredBaseURLs, want)
 	}
 }
 
@@ -158,9 +157,8 @@ func TestRosterReadsARecordStoredBeforeAdditionalHosts(t *testing.T) {
 		rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4},
 	)
 
-	addresses, found := restoredRoster.AddressesOf(t.Context(), peerSeed.Hash)
-	wantAddresses, _ := peerSeed.Addresses()
-	if !found || !reflect.DeepEqual(addresses, wantAddresses) {
-		t.Errorf("addresses = %v, %v, want %v", addresses, found, wantAddresses)
+	baseURLs, found := restoredRoster.BaseURLsOf(t.Context(), peerSeed.Hash)
+	if want := unsignedBaseURLsOf(peerSeed); !found || !reflect.DeepEqual(baseURLs, want) {
+		t.Errorf("base URLs = %v, %v, want %v", baseURLs, found, want)
 	}
 }

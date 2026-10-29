@@ -1,7 +1,8 @@
 // Package peerwire posts a form to a peer as a multipart body, trying the peer's
 // base URLs in the given order until one gives a reply the caller accepts. Each
-// attempt has a share of the time left, and a redirect ends it. It reports why
-// each base URL failed.
+// attempt has a share of the time left, and a redirect ends it. A peer-https base
+// URL goes through the transport for the called peer. It reports why each base URL
+// failed.
 package peerwire
 
 import (
@@ -27,6 +28,10 @@ type Clock interface {
 	After(timeout time.Duration, expire func()) (stop func())
 }
 
+type PeerTransports interface {
+	TransportFor(peer yacymodel.Hash) http.RoundTripper
+}
+
 type Request struct {
 	Peer yacymodel.Hash
 	Path string
@@ -49,8 +54,8 @@ type Walker struct {
 	clock        Clock
 }
 
-func NewWalker(client *http.Client, clock Clock) Walker {
-	return Walker{roundTripper: newRoundTripper(client), clock: clock}
+func NewWalker(client *http.Client, peerTransports PeerTransports, clock Clock) Walker {
+	return Walker{roundTripper: newRoundTripper(client, peerTransports), clock: clock}
 }
 
 func (w Walker) TryAt(
@@ -80,7 +85,7 @@ func (w Walker) TryInTurn(
 		}
 		answer, err := w.try(
 			ctx,
-			request.Path,
+			request,
 			body,
 			baseURL,
 			accepts,
@@ -101,7 +106,7 @@ func (w Walker) TryInTurn(
 //nolint:revive // argument-limit: one attempt of the walk, each argument a distinct part of it
 func (w Walker) try(
 	ctx context.Context,
-	path string,
+	request Request,
 	body multipartForm,
 	baseURL BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
@@ -113,7 +118,7 @@ func (w Walker) try(
 	defer stop()
 
 	sentAt := w.clock.Now()
-	fields, err := w.roundTripper.post(attemptCtx, baseURL, path, body)
+	fields, err := w.roundTripper.post(attemptCtx, request.Peer, baseURL, request.Path, body)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)
