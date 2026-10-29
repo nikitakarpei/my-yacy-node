@@ -20,11 +20,11 @@ const msgContactNotRecorded = "peer contact not recorded"
 var neverReachable time.Time
 
 type rosterEntry struct {
-	addresses       yacymodel.PeerAddresses
-	binding         yacymodel.Optional[yacymodel.VerifiedAddressSignature]
-	answeredBaseURL yacymodel.Optional[peerwire.BaseURL]
-	lastReachable   time.Time
-	lastContacted   time.Time
+	addresses           yacymodel.PeerAddresses
+	binding             yacymodel.Optional[yacymodel.VerifiedAddressSignature]
+	lastAnsweredBaseURL yacymodel.Optional[peerwire.BaseURL]
+	lastReachable       time.Time
+	lastContacted       time.Time
 }
 
 type reachablePeer struct {
@@ -123,34 +123,8 @@ func (e rosterEntry) movedTo(
 ) rosterEntry {
 	e.addresses = addresses
 	e.binding = binding
-	e.answeredBaseURL = answeredBaseURLAmong(e.answeredBaseURL, e.baseURLs())
 
 	return e
-}
-
-func answeredBaseURLAmong(
-	answered yacymodel.Optional[peerwire.BaseURL],
-	baseURLs []peerwire.BaseURL,
-) yacymodel.Optional[peerwire.BaseURL] {
-	if answeredBaseURL, isAnswered := answered.Get(); isAnswered &&
-		!slices.Contains(baseURLs, answeredBaseURL) {
-		return yacymodel.None[peerwire.BaseURL]()
-	}
-
-	return answered
-}
-
-func (e rosterEntry) baseURLs() []peerwire.BaseURL {
-	return peerwire.BaseURLsFrom(e.addresses, e.boundIdentity())
-}
-
-func (e rosterEntry) boundIdentity() yacymodel.Optional[yacymodel.PeerIdentity] {
-	binding, bound := e.binding.Get()
-	if !bound {
-		return yacymodel.None[yacymodel.PeerIdentity]()
-	}
-
-	return yacymodel.Some(binding.Identity)
 }
 
 func (r *roster) keepWithinCapacity(ctx context.Context) {
@@ -346,11 +320,11 @@ func (r *roster) recordReachable(
 	confirmedAt time.Time,
 ) bool {
 	contact := rosterEntry{
-		addresses:       addresses,
-		binding:         seed.VerifiedAddressSignatureIn(r.networkName),
-		answeredBaseURL: yacymodel.Some(answeredBaseURL),
-		lastReachable:   confirmedAt,
-		lastContacted:   confirmedAt,
+		addresses:           addresses,
+		binding:             seed.VerifiedAddressSignatureIn(r.networkName),
+		lastAnsweredBaseURL: yacymodel.Some(answeredBaseURL),
+		lastReachable:       confirmedAt,
+		lastContacted:       confirmedAt,
 	}
 	var dropReason yacymodel.Optional[SeedDropReason]
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
@@ -397,7 +371,6 @@ func (r *roster) recordReachableIn(
 		contact.binding = known.binding
 	case legacySeed, newerSeed, currentSeed:
 	}
-	contact.answeredBaseURL = answeredBaseURLAmong(contact.answeredBaseURL, contact.baseURLs())
 
 	return yacymodel.None[SeedDropReason](), r.storePeer(tx, peerHash, contact)
 }
@@ -460,7 +433,7 @@ func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
 		return nil
 	}
 
-	entry.answeredBaseURL = yacymodel.None[peerwire.BaseURL]()
+	entry.lastAnsweredBaseURL = yacymodel.None[peerwire.BaseURL]()
 	entry.lastContacted = r.now()
 	entry.lastReachable = neverReachable
 
@@ -606,19 +579,38 @@ func (r *roster) RecordOf(ctx context.Context, peer yacymodel.Hash) (PeerRecord,
 
 func (e rosterEntry) recordOf(peer yacymodel.Hash) PeerRecord {
 	return PeerRecord{
-		Callee:          e.calleeOf(peer),
+		Callee:          e.calleeFrom(peer),
 		Addresses:       e.addresses,
-		AnsweredBaseURL: e.answeredBaseURL,
+		AnsweredBaseURL: e.answeredBaseURL(),
 	}
 }
 
-func (e rosterEntry) calleeOf(peer yacymodel.Hash) peerwire.Callee {
+func (e rosterEntry) answeredBaseURL() yacymodel.Optional[peerwire.BaseURL] {
+	answered, isAnswered := e.lastAnsweredBaseURL.Get()
+	if !isAnswered ||
+		!slices.Contains(peerwire.BaseURLsFrom(e.addresses, e.boundIdentity()), answered) {
+		return yacymodel.None[peerwire.BaseURL]()
+	}
+
+	return e.lastAnsweredBaseURL
+}
+
+func (e rosterEntry) calleeFrom(peer yacymodel.Hash) peerwire.Callee {
 	identity, bound := e.boundIdentity().Get()
 	if !bound {
 		return peerwire.UnidentifiedCallee(peer)
 	}
 
 	return peerwire.IdentifiedCallee(identity)
+}
+
+func (e rosterEntry) boundIdentity() yacymodel.Optional[yacymodel.PeerIdentity] {
+	binding, bound := e.binding.Get()
+	if !bound {
+		return yacymodel.None[yacymodel.PeerIdentity]()
+	}
+
+	return yacymodel.Some(binding.Identity)
 }
 
 func (r *roster) entryOf(ctx context.Context, peer yacymodel.Hash) (rosterEntry, bool) {

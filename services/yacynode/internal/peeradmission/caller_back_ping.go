@@ -66,7 +66,7 @@ func (p callerBackPing) Reach(
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	callee := calleeOf(caller, networkName)
+	callee := calleeFrom(caller, networkName)
 	answer, answered := p.walker.TryInTurn(
 		ctx,
 		peerwire.Request{Callee: callee, Path: yacyproto.PathQuery, Form: query.Form()},
@@ -82,7 +82,7 @@ func (p callerBackPing) Reach(
 	return answer.BaseURL, answered
 }
 
-func calleeOf(caller yacymodel.Seed, networkName string) peerwire.Callee {
+func calleeFrom(caller yacymodel.Seed, networkName string) peerwire.Callee {
 	identity, identified := caller.IdentityIn(networkName).Get()
 	if !identified {
 		return peerwire.UnidentifiedCallee(caller.Hash)

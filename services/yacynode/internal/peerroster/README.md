@@ -27,9 +27,9 @@ drops seeds that break the identity, bring back older addresses, or are
 signed in the future. A peer without a binding is a legacy peer.
 
 The roster also keeps the base URL that answered the last greet or back-ping
-of a peer. Deliveries go only to that base URL. A failed greet or a move
-away from it clears it. The roster keeps it only while the addresses and the
-identity of the peer give it.
+of a peer. Deliveries go only to that base URL. A failed greet clears it. The
+roster gives it out only while the addresses and the identity of the peer give
+it.
 
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted
