@@ -46,41 +46,64 @@ func mustHash(raw string) yacymodel.Hash {
 	return hash
 }
 
+var httpsPreferringYaCyOverrides = []string{
+	"sed -i 's#^network.unit.protocol.https.preferred.*#network.unit.protocol.https.preferred = true#' " +
+		"/opt/yacy_search_server/defaults/yacy.init",
+	"sed -i 's#^remotesearch.https.preferred.*#remotesearch.https.preferred = true#' " +
+		"/opt/yacy_search_server/defaults/yacy.init",
+}
+
 func TestRealYaCyPromotesNodeToSenior(t *testing.T) {
-	ctx := context.Background()
-	probe := httpprobe.New(t)
+	for name, promotion := range map[string]struct {
+		yacyOverrides  []string
+		advertisedPort string
+	}{
+		"over plain HTTP": {},
+		"over TLS only, when YaCy prefers HTTPS": {
+			yacyOverrides:  httpsPreferringYaCyOverrides,
+			advertisedPort: closedPort,
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+			probe := httpprobe.New(t)
+			network := hermeticnetwork.New(t, ctx)
+			egressproxy.Start(t, ctx, network.Name)
+			_, yacyURL := yacypeer.Start(
+				t,
+				ctx,
+				probe,
+				network.Name,
+				yacyAlias,
+				promotion.yacyOverrides...)
+			nodepeer.Start(t, ctx, probe, nodepeer.Config{
+				NetworkName:    network.Name,
+				Alias:          nodeAlias,
+				Key:            nodeKey,
+				SeedlistURL:    "http://" + yacyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
+				AdvertisedPort: promotion.advertisedPort,
+			})
 
-	network := hermeticnetwork.New(t, ctx)
+			waitPeerActiveConnected(t, ctx, probe, yacyURL, nodeHash, 15*time.Second)
 
-	egressproxy.Start(t, ctx, network.Name)
-
-	_, yacyURL := yacypeer.Start(t, ctx, probe, network.Name, yacyAlias)
-
-	nodepeer.Start(t, ctx, probe, nodepeer.Config{
-		NetworkName: network.Name,
-		Alias:       nodeAlias,
-		Key:         nodeKey,
-		SeedlistURL: "http://" + yacyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
-	})
-
-	waitPeerActiveConnected(t, ctx, probe, yacyURL, nodeHash, 15*time.Second)
-
-	promoted := pollwait.For(45*time.Second, func() bool {
-		result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml")
-		if !result.OK {
-			return false
-		}
-		seniors, err := peerdirectory.SeniorHashes([]byte(result.Body))
-		if err != nil {
-			return false
-		}
-		_, ok := seniors[nodeHash.String()]
-		return ok
-	})
-	if !promoted {
-		if result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml"); result.OK {
-			t.Logf("final seedlist.xml:\n%s", result.Body)
-		}
-		t.Fatalf("real YaCy never published node hash %s as PeerType=senior", nodeHash)
+			promoted := pollwait.For(45*time.Second, func() bool {
+				result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml")
+				if !result.OK {
+					return false
+				}
+				seniors, err := peerdirectory.SeniorHashes([]byte(result.Body))
+				if err != nil {
+					return false
+				}
+				_, ok := seniors[nodeHash.String()]
+				return ok
+			})
+			if !promoted {
+				if result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml"); result.OK {
+					t.Logf("final seedlist.xml:\n%s", result.Body)
+				}
+				t.Fatalf("real YaCy never published node hash %s as PeerType=senior", nodeHash)
+			}
+		})
 	}
 }

@@ -5,6 +5,7 @@
 package nodepeer
 
 import (
+	"cmp"
 	"context"
 	"strconv"
 	"testing"
@@ -43,6 +44,7 @@ type Config struct {
 	Key                  yacymodel.PeerKey
 	SeedlistURL          string
 	MessageWebhookURL    string
+	AdvertisedPort       string
 	AdvertisedSecurePort string
 	Distribution         DistributionConfig
 }
@@ -71,7 +73,7 @@ func Start(
 		"YACY_NETWORK_NAME":              yacyproto.DefaultNetwork,
 		"YACY_PEER_ADDR":                 ":" + peerclient.Port,
 		"YACY_ADVERTISE_HOST":            cfg.Alias,
-		"YACY_ADVERTISE_PORT":            peerclient.Port,
+		"YACY_ADVERTISE_PORT":            cmp.Or(cfg.AdvertisedPort, peerclient.Port),
 		"YACY_DATA_DIR":                  "/tmp/data",
 		"YACY_ANNOUNCE_INTERVAL":         "10s",
 		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(FleetSize + 8),
@@ -108,7 +110,7 @@ func Start(
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image:          image(t),
 			Name:           cfg.Alias,
-			ExposedPorts:   []string{peerclient.ExposedPort},
+			ExposedPorts:   []string{peerclient.ExposedPort, opsExposedPort},
 			Env:            env,
 			Networks:       []string{cfg.NetworkName},
 			NetworkAliases: map[string][]string{cfg.NetworkName: {cfg.Alias}},
