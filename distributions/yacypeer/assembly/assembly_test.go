@@ -52,12 +52,8 @@ func peerEnvironment(t *testing.T) map[string]string {
 func dataDirectoryWithSolvedPeerKey(t *testing.T) string {
 	t.Helper()
 	dataDirectory := t.TempDir()
-	keyDirectory := filepath.Join(dataDirectory, "peer-key")
-	if err := os.Mkdir(keyDirectory, 0o700); err != nil {
-		t.Fatalf("make the peer key directory: %v", err)
-	}
 	keyText := []byte(peerkeytest.SecretTextOf(peerkeytest.Key(0)) + "\n")
-	if err := os.WriteFile(filepath.Join(keyDirectory, "peer-key"), keyText, 0o400); err != nil {
+	if err := os.WriteFile(filepath.Join(dataDirectory, "peer.key"), keyText, 0o400); err != nil {
 		t.Fatalf("keep the peer key: %v", err)
 	}
 	return dataDirectory

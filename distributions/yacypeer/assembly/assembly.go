@@ -34,7 +34,6 @@ const (
 	peerEgressProxyName        = "peeregressproxy"
 	pageFetchEgressProxyName   = "pagefetchegressproxy"
 	cachedPagesDirectoryName   = "cached-pages"
-	peerKeyDirectoryName       = "peer-key"
 	cachedPageRetention        = 30 * time.Minute
 	cachedPagesMaxBytes        = 512 << 20
 	pageMaxBodyBytes           = 4 << 20
@@ -50,7 +49,7 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
-	peerKey, err := peerkey.Settle(ctx, cfg.directoryOf(peerKeyDirectoryName), yacymodel.NewPeerKey)
+	peerKey, err := peerkey.Settle(ctx, cfg.DataDirectory, yacymodel.NewPeerKey)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}

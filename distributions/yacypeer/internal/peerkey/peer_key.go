@@ -18,8 +18,8 @@ import (
 )
 
 const (
-	fileName          = "peer-key"
-	draftFileName     = "peer-key.draft"
+	fileName          = "peer.key"
+	draftFileName     = "peer.key.draft"
 	directoryFileMode = 0o700
 	keyFileMode       = 0o400
 )

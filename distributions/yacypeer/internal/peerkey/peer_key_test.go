@@ -23,7 +23,7 @@ func unsolvableKey(context.Context) (yacymodel.PeerKey, error) {
 }
 
 func TestSettleMakesAKeyOnTheFirstStartAndKeepsIt(t *testing.T) {
-	directory := filepath.Join(t.TempDir(), "peer-key")
+	directory := filepath.Join(t.TempDir(), "data")
 
 	first, err := peerkey.Settle(t.Context(), directory, solvedKey)
 	if err != nil {
@@ -61,7 +61,7 @@ func TestSettleLetsOnlyTheOwnerReadTheKey(t *testing.T) {
 func TestSettleReplacesADraftLeftByAnEarlierStart(t *testing.T) {
 	directory := t.TempDir()
 	if err := os.WriteFile(
-		filepath.Join(directory, "peer-key.draft"),
+		filepath.Join(directory, "peer.key.draft"),
 		[]byte("cut"),
 		0o400,
 	); err != nil {
@@ -89,14 +89,14 @@ func TestSettleFails(t *testing.T) {
 		},
 		"kept key is bad": func(t *testing.T) string {
 			directory := t.TempDir()
-			if err := os.WriteFile(filepath.Join(directory, "peer-key"), []byte("bad\n"), 0o600); err != nil {
+			if err := os.WriteFile(filepath.Join(directory, "peer.key"), []byte("bad\n"), 0o600); err != nil {
 				t.Fatalf("write key: %v", err)
 			}
 			return directory
 		},
 		"kept key is unreadable": func(t *testing.T) string {
 			directory := t.TempDir()
-			if err := os.Mkdir(filepath.Join(directory, "peer-key"), 0o700); err != nil {
+			if err := os.Mkdir(filepath.Join(directory, "peer.key"), 0o700); err != nil {
 				t.Fatalf("make directory: %v", err)
 			}
 			return directory

@@ -20,8 +20,8 @@ Other peers must reach port 8090 of the host from the internet. Behind NAT,
 forward that port to the host.
 
 The first start makes the peer key, and this takes some seconds. The key is in
-the file `peer-key/peer-key` of the volume. The peer hash and the data of the
-peer belong to this key, so keep a copy of the file.
+the file `peer.key` of the volume. The peer hash and the data of the peer
+belong to this key, so keep a copy of the file.
 
 ## Use
 
