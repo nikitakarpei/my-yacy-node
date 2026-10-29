@@ -2,7 +2,7 @@ package yacymodel
 
 import "time"
 
-type SignedIdentity struct {
+type VerifiedAddressSignature struct {
 	Identity PeerIdentity
 	IssuedAt time.Time
 }

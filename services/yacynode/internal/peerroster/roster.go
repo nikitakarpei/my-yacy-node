@@ -21,7 +21,7 @@ var neverReachable time.Time
 
 type rosterEntry struct {
 	addresses       yacymodel.PeerAddresses
-	binding         yacymodel.Optional[yacymodel.SignedIdentity]
+	binding         yacymodel.Optional[yacymodel.VerifiedAddressSignature]
 	answeredBaseURL yacymodel.Optional[peerwire.BaseURL]
 	lastReachable   time.Time
 	lastContacted   time.Time
@@ -91,7 +91,7 @@ func (r *roster) discoverOne(
 		return fmt.Errorf("read peer %s: %w", seed.Hash, err)
 	}
 	now := r.now()
-	signed := seed.SignedIdentityIn(r.networkName)
+	signed := seed.VerifiedAddressSignatureIn(r.networkName)
 	standing := standingOf(signed, addresses, known, now)
 	switch {
 	case standing == futureSeed:
@@ -119,7 +119,7 @@ func (r *roster) storePeer(tx *vault.Txn, peerHash yacymodel.Hash, entry rosterE
 
 func (e rosterEntry) movedTo(
 	addresses yacymodel.PeerAddresses,
-	binding yacymodel.Optional[yacymodel.SignedIdentity],
+	binding yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 ) rosterEntry {
 	e.addresses = addresses
 	e.binding = binding
@@ -347,7 +347,7 @@ func (r *roster) recordReachable(
 ) bool {
 	contact := rosterEntry{
 		addresses:       addresses,
-		binding:         seed.SignedIdentityIn(r.networkName),
+		binding:         seed.VerifiedAddressSignatureIn(r.networkName),
 		answeredBaseURL: yacymodel.Some(answeredBaseURL),
 		lastReachable:   confirmedAt,
 		lastContacted:   confirmedAt,

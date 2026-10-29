@@ -111,9 +111,11 @@ func answeredBaseURLFrom(stored *storedfields.Reader) yacymodel.Optional[peerwir
 	})
 }
 
-func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.SignedIdentity] {
+func storedBindingFrom(
+	stored *storedfields.Reader,
+) yacymodel.Optional[yacymodel.VerifiedAddressSignature] {
 	if !stored.Presence("bound") {
-		return yacymodel.None[yacymodel.SignedIdentity]()
+		return yacymodel.None[yacymodel.VerifiedAddressSignature]()
 	}
 	const field = "bound identity"
 	identity, err := yacymodel.ParsePeerIdentity(stored.Text(field))
@@ -122,7 +124,10 @@ func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel
 	}
 
 	return yacymodel.Some(
-		yacymodel.SignedIdentity{Identity: identity, IssuedAt: stored.Time("bound issue time")},
+		yacymodel.VerifiedAddressSignature{
+			Identity: identity,
+			IssuedAt: stored.Time("bound issue time"),
+		},
 	)
 }
 

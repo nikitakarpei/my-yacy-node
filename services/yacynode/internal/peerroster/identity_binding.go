@@ -30,7 +30,7 @@ const (
 )
 
 func standingOf(
-	signed yacymodel.Optional[yacymodel.SignedIdentity],
+	signed yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 	addresses yacymodel.PeerAddresses,
 	known rosterEntry,
 	now time.Time,
