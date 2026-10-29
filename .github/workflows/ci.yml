@@ -31,12 +31,6 @@ jobs:
     uses: ./.github/workflows/build-yacypeer.yml
     secrets: inherit
 
-  build-localhostrunagent:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-localhostrunagent.yml
-    secrets: inherit
-
   build-yacycrawler:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
