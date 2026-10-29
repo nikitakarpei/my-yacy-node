@@ -28,8 +28,8 @@ The node signs the addresses of its seed. The roster binds a peer to its first v
 | Other identity, or not valid | Present | Drop |
 | Not valid | None | Accept as a legacy peer |
 
-Discovery applies the table to every known peer and drops nothing. A move takes a peer out of the
-reachable set until a contact confirms it again.
+Discovery applies the table to every known peer and drops nothing. A move to other addresses takes
+a peer out of the reachable set until a contact confirms it again.
 
 Only a newer signature replaces the seed of a peer. A seed with the same signature confirms only
 that the peer answered.

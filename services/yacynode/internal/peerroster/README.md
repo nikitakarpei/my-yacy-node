@@ -20,8 +20,8 @@ evicted to make room for a new one.
 
 The roster keeps every host in a peer's seed, its port, and its secure
 port. A known peer moves on its own confirmed contact or on a newer signed
-seed from discovery. A move takes the peer out of the reachable set until a
-contact confirms it again.
+seed from discovery. A move to other addresses takes the peer out of the
+reachable set until a contact confirms it again.
 
 The roster binds a peer to the identity of its first signed seed. It then
 drops seeds that break the identity, carry an older signature, or are

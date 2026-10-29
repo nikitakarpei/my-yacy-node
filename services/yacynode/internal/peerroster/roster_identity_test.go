@@ -253,6 +253,25 @@ func TestDiscoverMovesAReachablePeerAndLeavesItUnconfirmedAtItsNewAddresses(t *t
 	}
 }
 
+func TestDiscoverKeepsAReachablePeerAtItsAddressesAndTakesItsNewerSeed(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+	bound := signedSeedAt(t, "203.0.113.1", signingStart)
+	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+	newer := signedSeedAt(t, "203.0.113.1", signingStart.Add(time.Minute))
+
+	roster.Discover(ctx, newer)
+
+	if reachable := roster.ReachablePeers(
+		ctx,
+	); !reflect.DeepEqual(
+		reachable,
+		[]yacymodel.Seed{newer},
+	) {
+		t.Errorf("ReachablePeers = %v, want the newer seed", reachable)
+	}
+}
+
 func TestRosterKeepsAPeerReachableWhenItsConfirmationDoesNotMoveIt(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})

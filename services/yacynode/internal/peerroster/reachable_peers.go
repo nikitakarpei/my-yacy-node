@@ -1,6 +1,8 @@
 package peerroster
 
 import (
+	"context"
+	"log/slog"
 	"slices"
 	"sync"
 	"time"
@@ -15,37 +17,62 @@ type reachablePeer struct {
 
 type reachablePeers struct {
 	capacity int
+	observer RosterObserver
 
 	mu    sync.Mutex
 	peers map[yacymodel.Hash]reachablePeer
 }
 
-func newReachablePeers(capacity int) *reachablePeers {
-	return &reachablePeers{capacity: capacity, peers: make(map[yacymodel.Hash]reachablePeer)}
+func newReachablePeers(capacity int, observer RosterObserver) *reachablePeers {
+	return &reachablePeers{
+		capacity: capacity,
+		observer: observer,
+		peers:    make(map[yacymodel.Hash]reachablePeer),
+	}
 }
 
-func (s *reachablePeers) admit(
+func (s *reachablePeers) keepContactSeed(
+	ctx context.Context,
 	seed yacymodel.Seed,
 	confirmedAt time.Time,
-) (admitted, wasReachable bool) {
+) {
 	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	_, wasReachable = s.peers[seed.Hash]
-	admitted = wasReachable || len(s.peers) < s.capacity
+	_, wasReachable := s.peers[seed.Hash]
+	admitted := wasReachable || len(s.peers) < s.capacity
 	if admitted {
 		s.peers[seed.Hash] = reachablePeer{seed: seed, confirmedAt: confirmedAt}
 	}
+	amount := len(s.peers)
+	s.mu.Unlock()
 
-	return admitted, wasReachable
+	switch {
+	case admitted && !wasReachable:
+		slog.DebugContext(ctx, "peer became reachable", slog.String("peer", seed.Hash.String()))
+	case !admitted:
+		slog.DebugContext(
+			ctx,
+			"peer reachable but reachable roster full",
+			slog.String("peer", seed.Hash.String()),
+		)
+	}
+	s.observer.ObserveReachablePeers(amount)
 }
 
-func (s *reachablePeers) refresh(peer yacymodel.Hash, confirmedAt time.Time) {
+func (s *reachablePeers) keepContactTime(peer yacymodel.Hash, confirmedAt time.Time) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if reachable, isReachable := s.peers[peer]; isReachable {
 		s.peers[peer] = reachablePeer{seed: reachable.seed, confirmedAt: confirmedAt}
+	}
+}
+
+func (s *reachablePeers) keepGossipSeed(seed yacymodel.Seed) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if reachable, isReachable := s.peers[seed.Hash]; isReachable {
+		s.peers[seed.Hash] = reachablePeer{seed: seed, confirmedAt: reachable.confirmedAt}
 	}
 }
 

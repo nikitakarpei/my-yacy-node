@@ -41,6 +41,10 @@ func dropReasonOf(standing seedStanding) yacymodel.Optional[SeedDropReason] {
 	return yacymodel.None[SeedDropReason]()
 }
 
+func (s seedStanding) replacesSeed() bool {
+	return s == legacySeed || s == newerSeed
+}
+
 func standingOf(
 	verifiedSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 	known rosterEntry,

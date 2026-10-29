@@ -56,6 +56,6 @@ func Open(
 		self:             self,
 		networkName:      networkName,
 		observer:         observer,
-		reachable:        newReachablePeers(reachableCap),
+		reachablePeers:   newReachablePeers(reachableCap, observer),
 	}, nil
 }
