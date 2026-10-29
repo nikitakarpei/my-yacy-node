@@ -67,7 +67,7 @@ func (s Seed) SignedIdentityIn(networkName string) Optional[SignedIdentity] {
 	signature, signed := s.AddressSignature.Get()
 	if !identified || !signed || identity.Hash() != s.Hash ||
 		!identity.verifies(
-			addressClaimOf(s, networkName, signature.IssuedAt),
+			addressClaimFrom(s, networkName, signature.IssuedAt),
 			signature.Signature[:],
 		) {
 		return None[SignedIdentity]()

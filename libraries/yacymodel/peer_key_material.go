@@ -6,6 +6,7 @@ import (
 	"crypto/ed25519"
 	"crypto/sha256"
 	"fmt"
+	"math"
 	"runtime"
 	"sync"
 	"sync/atomic"
@@ -27,7 +28,7 @@ func keyMaterialFrom(
 	operationalSeed [ed25519.SeedSize]byte,
 	recoverySeeds [recoverySeedsSize]byte,
 ) (keyMaterial, error) {
-	recoveryCommitment, err := recoveryCommitmentOf(recoverySeeds)
+	recoveryCommitment, err := recoveryCommitmentFrom(recoverySeeds)
 	if err != nil {
 		return keyMaterial{}, err
 	}
@@ -39,7 +40,7 @@ func keyMaterialFrom(
 	}, nil
 }
 
-func recoveryCommitmentOf(recoverySeeds [recoverySeedsSize]byte) ([sha256.Size]byte, error) {
+func recoveryCommitmentFrom(recoverySeeds [recoverySeedsSize]byte) ([sha256.Size]byte, error) {
 	recoveryPublicKey, _, err := slhdsa.GenerateKey(
 		bytes.NewReader(recoverySeeds[:]),
 		recoveryScheme,
@@ -69,24 +70,26 @@ func (m keyMaterial) operationalPublicKey() [ed25519.PublicKeySize]byte {
 }
 
 func (m keyMaterial) solvedNonce(ctx context.Context) (uint64, error) {
-	keyDigest := keyDigestOf(m.operationalPublicKey(), m.recoveryCommitment)
+	keyDigest := keyDigestFrom(m.operationalPublicKey(), m.recoveryCommitment)
 	var (
 		searchOver  atomic.Bool
 		solvedNonce uint64
 		solved      bool
 		searches    sync.WaitGroup
-		firstNonce  uint64
 	)
 	stopSearchOnCancel := context.AfterFunc(ctx, func() { searchOver.Store(true) })
 	defer stopSearchOnCancel()
-	for range runtime.GOMAXPROCS(0) {
-		searchStart := firstNonce
+	searchCount := runtime.GOMAXPROCS(0)
+	searchSpan := math.MaxUint64 / uint64(max(searchCount, 1))
+	var searchStart uint64
+	for range searchCount {
+		firstNonce := searchStart
 		searches.Go(func() {
-			if nonce, found := nonceSearchedFrom(keyDigest, searchStart, &searchOver); found {
+			if nonce, found := nonceSearchedFrom(keyDigest, firstNonce, &searchOver); found {
 				solvedNonce, solved = nonce, true
 			}
 		})
-		firstNonce += 1 << 56
+		searchStart += searchSpan
 	}
 	searches.Wait()
 	if !solved {
@@ -102,7 +105,7 @@ func nonceSearchedFrom(
 	searchOver *atomic.Bool,
 ) (uint64, bool) {
 	for nonce := firstNonce; !searchOver.Load(); nonce++ {
-		if workOf(puzzleDigestOf(keyDigest, nonce)) >= identityWorkMinimum &&
+		if workOf(puzzleDigestFrom(keyDigest, nonce)) >= identityWorkMinimum &&
 			searchOver.CompareAndSwap(false, true) {
 			return nonce, true
 		}

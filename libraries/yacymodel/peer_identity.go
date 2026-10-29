@@ -50,7 +50,7 @@ func decodeParts(text string, first, second []byte) (uint64, error) {
 	if err := decodeExactly(parts[1], second); err != nil {
 		return 0, fmt.Errorf("part 2: %w", err)
 	}
-	nonce, err := nonceOf(parts[2])
+	nonce, err := nonceFrom(parts[2])
 	if err != nil {
 		return 0, fmt.Errorf("nonce: %w", err)
 	}
@@ -71,7 +71,7 @@ func decodeExactly(text string, raw []byte) error {
 	return nil
 }
 
-func nonceOf(text string) (uint64, error) {
+func nonceFrom(text string) (uint64, error) {
 	var nonce [8]byte
 	if err := decodeExactly(text, nonce[:]); err != nil {
 		return 0, err
@@ -103,10 +103,10 @@ func workOf(digest [sha256.Size]byte) int {
 }
 
 func (id PeerIdentity) digest() [sha256.Size]byte {
-	return puzzleDigestOf(keyDigestOf(id.operationalKey, id.recoveryCommitment), id.nonce)
+	return puzzleDigestFrom(keyDigestFrom(id.operationalKey, id.recoveryCommitment), id.nonce)
 }
 
-func puzzleDigestOf(keyDigest [sha256.Size]byte, nonce uint64) [sha256.Size]byte {
+func puzzleDigestFrom(keyDigest [sha256.Size]byte, nonce uint64) [sha256.Size]byte {
 	var input [sha256.Size + 8]byte
 	copy(input[:], keyDigest[:])
 	binary.BigEndian.PutUint64(input[sha256.Size:], nonce)
@@ -114,7 +114,7 @@ func puzzleDigestOf(keyDigest [sha256.Size]byte, nonce uint64) [sha256.Size]byte
 	return sha256.Sum256(input[:])
 }
 
-func keyDigestOf(
+func keyDigestFrom(
 	operationalKey [ed25519.PublicKeySize]byte,
 	recoveryCommitment [sha256.Size]byte,
 ) [sha256.Size]byte {

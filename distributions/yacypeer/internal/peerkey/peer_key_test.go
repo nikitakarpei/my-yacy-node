@@ -53,8 +53,28 @@ func TestSettleLetsOnlyTheOwnerReadTheKey(t *testing.T) {
 	if err != nil {
 		t.Fatalf("stat: %v", err)
 	}
-	if info.Mode().Perm() != 0o600 {
-		t.Errorf("mode = %v, want 0600", info.Mode().Perm())
+	if info.Mode().Perm() != 0o400 {
+		t.Errorf("mode = %v, want 0400", info.Mode().Perm())
+	}
+}
+
+func TestSettleReplacesADraftLeftByAnEarlierStart(t *testing.T) {
+	directory := t.TempDir()
+	if err := os.WriteFile(
+		filepath.Join(directory, "peer-key.draft"),
+		[]byte("cut"),
+		0o400,
+	); err != nil {
+		t.Fatalf("write draft: %v", err)
+	}
+
+	key, err := peerkey.Settle(t.Context(), directory, solvedKey)
+	if err != nil {
+		t.Fatalf("Settle: %v", err)
+	}
+	kept, err := peerkey.Settle(t.Context(), directory, unsolvableKey)
+	if err != nil || peerkeytest.SecretTextOf(kept) != peerkeytest.SecretTextOf(key) {
+		t.Errorf("kept key = %v (%v), want %v", kept, err, key)
 	}
 }
 

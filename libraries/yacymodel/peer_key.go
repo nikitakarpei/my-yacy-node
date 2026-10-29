@@ -85,12 +85,12 @@ func (k PeerKey) Format(state fmt.State, _ rune) {
 func (k PeerKey) SignedSeedFrom(seed Seed, networkName string, issuedAt time.Time) Seed {
 	seed.Hash = k.identity.Hash()
 	seed.Identity = Some(k.identity)
-	seed.AddressSignature = Some(k.addressSignatureOf(seed, networkName, issuedAt))
+	seed.AddressSignature = Some(k.addressSignatureFrom(seed, networkName, issuedAt))
 
 	return seed
 }
 
-func (k PeerKey) addressSignatureOf(
+func (k PeerKey) addressSignatureFrom(
 	seed Seed,
 	networkName string,
 	issuedAt time.Time,
@@ -98,7 +98,7 @@ func (k PeerKey) addressSignatureOf(
 	signature := AddressSignature{IssuedAt: issuedAt.UTC().Truncate(time.Second)}
 	copy(signature.Signature[:], ed25519.Sign(
 		k.material.operationalKey,
-		addressClaimOf(seed, networkName, signature.IssuedAt),
+		addressClaimFrom(seed, networkName, signature.IssuedAt),
 	))
 
 	return signature

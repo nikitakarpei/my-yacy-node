@@ -54,7 +54,7 @@ func TestNodeKeepsTheBoundIdentityOfAPeerAgainstAForgedHello(t *testing.T) {
 		t.Fatalf("verifying node never listed %s with its identity", boundHash)
 	}
 
-	peerclient.Hello(t, ctx, probe, verifyingURL, forgedSeedOf(t, boundHash))
+	peerclient.Hello(t, ctx, probe, verifyingURL, forgedSeedFor(t, boundHash))
 
 	seed, known := knownSeedOf(t, ctx, probe, verifyingURL, boundHash)
 	if !known {
@@ -92,7 +92,7 @@ func unaddressedCallerSeed(t *testing.T) yacymodel.Seed {
 	}
 }
 
-func forgedSeedOf(t *testing.T, peer yacymodel.Hash) yacymodel.Seed {
+func forgedSeedFor(t *testing.T, peer yacymodel.Hash) yacymodel.Seed {
 	t.Helper()
 	port, err := yacymodel.ParsePort(peerclient.Port)
 	if err != nil {

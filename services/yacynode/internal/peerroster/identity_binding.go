@@ -55,10 +55,10 @@ func standingOf(offered, known rosterEntry, now time.Time) seedStanding {
 func sameAddresses(first, second yacymodel.PeerAddresses) bool {
 	return first.Port == second.Port &&
 		first.SecurePort == second.SecurePort &&
-		maps.Equal(hostSetOf(first.Hosts), hostSetOf(second.Hosts))
+		maps.Equal(hostSetFrom(first.Hosts), hostSetFrom(second.Hosts))
 }
 
-func hostSetOf(hosts []yacymodel.Host) map[yacymodel.Host]struct{} {
+func hostSetFrom(hosts []yacymodel.Host) map[yacymodel.Host]struct{} {
 	hostSet := make(map[yacymodel.Host]struct{}, len(hosts))
 	for _, host := range hosts {
 		hostSet[host] = struct{}{}

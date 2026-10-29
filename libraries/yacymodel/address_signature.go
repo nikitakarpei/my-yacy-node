@@ -22,11 +22,11 @@ func ParseSignature(text string) ([ed25519.SignatureSize]byte, error) {
 	return signature, err
 }
 
-func addressClaimOf(seed Seed, networkName string, issuedAt time.Time) []byte {
+func addressClaimFrom(seed Seed, networkName string, issuedAt time.Time) []byte {
 	claim := []byte(addressSignatureDomain)
 	claim = appendClaimField(claim, networkName)
 	claim = appendClaimField(claim, seed.Hash.String())
-	hosts := signedHostsOf(seed)
+	hosts := signedHostsFrom(seed)
 	claim = appendClaimField(claim, strconv.Itoa(len(hosts)))
 	for _, host := range hosts {
 		claim = appendClaimField(claim, host)
@@ -43,7 +43,7 @@ func appendClaimField(claim []byte, field string) []byte {
 	return append(claim, field...)
 }
 
-func signedHostsOf(seed Seed) []string {
+func signedHostsFrom(seed Seed) []string {
 	seedHosts := seed.hosts()
 	hosts := make([]string, 0, len(seedHosts))
 	for _, host := range seedHosts {

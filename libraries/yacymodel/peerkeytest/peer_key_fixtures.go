@@ -40,6 +40,8 @@ func onceParsed(texts [len(keyTexts)]string) [len(keyTexts)]func() yacymodel.Pee
 	return keys
 }
 
+// Each key text is a line that yacy-peer-key printed. A new key costs about 2^28 hashes of
+// work, so tests take these solved keys; the e2e fleet and the named nodes use up to 48.
 var keyTexts = [...]string{
 	"HtOfWefCBi5M4WP0wuc6KC3J7o3OzG6ZAEkpsxdd0wI:MfBEL3Pf_YkGY_ZrpKqvMxmXBWZCQD59TCmQg8L9AZ3zwxWdqvMFCj4g_5Bj69rX:AgAAAALpU84",
 	"uRFE7Gtk_tILiLuoknRfTI129Vm1D9lFj5Nsgd1hizE:Nv9u2KRWJiAgmom1ey2kwGttEiXIq6MXe6cbh_cUwVa0DRXEJLqFexG_A6JzoHNt:AwAAAADjLDY",

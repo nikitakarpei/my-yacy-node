@@ -21,7 +21,7 @@ const (
 	fileName          = "peer-key"
 	draftFileName     = "peer-key.draft"
 	directoryFileMode = 0o700
-	keyFileMode       = 0o600
+	keyFileMode       = 0o400
 )
 
 func Settle(
@@ -96,7 +96,10 @@ func solvedKey(
 }
 
 func keep(root *os.Root, key yacymodel.PeerKey) error {
-	if err := writeDurably(root, draftFileName, keyFileWriterOf(key)); err != nil {
+	if err := root.Remove(draftFileName); err != nil && !errors.Is(err, fs.ErrNotExist) {
+		return fmt.Errorf("keep the peer key: %w", err)
+	}
+	if err := writeDurably(root, draftFileName, keyFileWriterFor(key)); err != nil {
 		return fmt.Errorf("keep the peer key: %w", err)
 	}
 	if err := root.Rename(draftFileName, fileName); err != nil {
@@ -109,7 +112,7 @@ func keep(root *os.Root, key yacymodel.PeerKey) error {
 	return nil
 }
 
-func keyFileWriterOf(key yacymodel.PeerKey) func(io.Writer) error {
+func keyFileWriterFor(key yacymodel.PeerKey) func(io.Writer) error {
 	return func(file io.Writer) error {
 		if err := key.WriteSecret(file); err != nil {
 			return err
