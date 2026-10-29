@@ -50,8 +50,8 @@ func TestObservedCountsFollowReachabilityConfirmations(t *testing.T) {
 		t.Fatalf("after discovery known = %d, reachable = %d, want 2 and 0", known, reachable)
 	}
 
-	roster.ConfirmFirsthandSeed(ctx, first, httpBaseURLOf(first))
-	roster.ConfirmFirsthandSeed(ctx, second, httpBaseURLOf(second))
+	roster.ConfirmReachable(ctx, first, httpBaseURLOf(first))
+	roster.ConfirmReachable(ctx, second, httpBaseURLOf(second))
 
 	if known, reachable := observer.counts(); known != 2 || reachable != 2 {
 		t.Fatalf("after confirmation known = %d, reachable = %d, want 2 and 2", known, reachable)
@@ -73,8 +73,8 @@ func TestObservedReachableCountStopsAtReachableCapacity(t *testing.T) {
 	refused := seniorSeed(t, "refused", "203.0.113.2", 8090)
 	roster.Discover(ctx, admitted, refused)
 
-	roster.ConfirmFirsthandSeed(ctx, admitted, httpBaseURLOf(admitted))
-	roster.ConfirmFirsthandSeed(ctx, refused, httpBaseURLOf(refused))
+	roster.ConfirmReachable(ctx, admitted, httpBaseURLOf(admitted))
+	roster.ConfirmReachable(ctx, refused, httpBaseURLOf(refused))
 
 	if _, reachable := observer.counts(); reachable != 1 {
 		t.Fatalf("reachable = %d, want 1 at capacity", reachable)

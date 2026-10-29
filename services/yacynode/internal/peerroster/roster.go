@@ -282,18 +282,7 @@ func (r *roster) selectUnreachable(
 	return keptPeers, nil
 }
 
-func (r *roster) ConfirmFirsthandSeed(
-	ctx context.Context,
-	seed yacymodel.Seed,
-	answeredBaseURL peerwire.BaseURL,
-) {
-	confirmedAt := r.now()
-	if _, recorded := r.recordReachable(ctx, seed, answeredBaseURL, confirmedAt); recorded {
-		r.admitReachable(ctx, seed, confirmedAt)
-	}
-}
-
-func (r *roster) ConfirmSecondhandSeed(
+func (r *roster) ConfirmReachable(
 	ctx context.Context,
 	seed yacymodel.Seed,
 	answeredBaseURL peerwire.BaseURL,

@@ -75,7 +75,7 @@ func TestRosterRestoresTheAnsweredBaseURL(t *testing.T) {
 		t,
 		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
 	)
-	storedRoster.ConfirmFirsthandSeed(t.Context(), peerSeed, answeredBaseURL)
+	storedRoster.ConfirmReachable(t.Context(), peerSeed, answeredBaseURL)
 	if err := storedVault.Close(); err != nil {
 		t.Fatalf("Close stored roster: %v", err)
 	}

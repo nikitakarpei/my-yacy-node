@@ -25,12 +25,9 @@ contact confirms it again.
 
 The roster binds a peer to the identity of its first signed seed. It then
 drops seeds that break the identity, carry an older signature, or are
-signed in the future. A peer without a binding is a legacy peer.
-
-A seed from the answer of the peer itself is first-hand. A seed from a
-hello caller is second-hand, because the caller can send a copy of the seed
-of another peer. A second-hand seed with the same signature as the binding
-confirms the contact but keeps the reachable seed that the peer gave.
+signed in the future. A peer without a binding is a legacy peer. Only a
+newer signature replaces the seed of a peer. A seed with the same signature
+confirms only that the peer answered.
 
 The roster also keeps the base URL that answered the last greet or back-ping
 of a peer. Deliveries go only to that base URL. A failed greet clears it. The
