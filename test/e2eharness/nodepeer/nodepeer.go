@@ -36,6 +36,8 @@ const (
 	FleetSize = MinConnectedPeersForDHT + 3
 
 	envNodeImage = "YACY_NODE_IMAGE"
+
+	defaultAnnounceInterval = 10 * time.Second
 )
 
 type Config struct {
@@ -46,6 +48,7 @@ type Config struct {
 	MessageWebhookURL    string
 	AdvertisedPort       string
 	AdvertisedSecurePort string
+	AnnounceInterval     time.Duration
 	Distribution         DistributionConfig
 }
 
@@ -67,6 +70,7 @@ func Start(
 	cfg Config,
 ) (testcontainers.Container, string) {
 	t.Helper()
+	announceInterval := cmp.Or(cfg.AnnounceInterval, defaultAnnounceInterval)
 	env := map[string]string{
 		"YACY_PEER_KEY":                  peerkeytest.SecretTextOf(cfg.Key),
 		"YACY_PEER_NAME":                 cfg.Alias,
@@ -75,7 +79,7 @@ func Start(
 		"YACY_ADVERTISE_HOST":            cfg.Alias,
 		"YACY_ADVERTISE_PORT":            cmp.Or(cfg.AdvertisedPort, peerclient.Port),
 		"YACY_DATA_DIR":                  "/tmp/data",
-		"YACY_ANNOUNCE_INTERVAL":         "10s",
+		"YACY_ANNOUNCE_INTERVAL":         announceInterval.String(),
 		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(FleetSize + 8),
 		"EGRESS_PROXY_URL":               egressproxy.NetworkURL(),
 		"LOG_LEVEL":                      "debug",
