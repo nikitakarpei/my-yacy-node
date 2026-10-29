@@ -42,7 +42,7 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 
 	seedlistURL := "http://" + distributionYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html"
 	nodeKey := distributionNodeKey
-	nodeHash := nodeKey.Identity().Hash()
+	nodeHash := nodeKey.Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       distributionNodeAlias,

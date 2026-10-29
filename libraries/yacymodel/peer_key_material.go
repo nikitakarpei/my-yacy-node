@@ -2,6 +2,7 @@ package yacymodel
 
 import (
 	"bytes"
+	"context"
 	"crypto/ed25519"
 	"crypto/sha256"
 	"fmt"
@@ -67,36 +68,42 @@ func (m keyMaterial) operationalPublicKey() [ed25519.PublicKeySize]byte {
 	return [ed25519.PublicKeySize]byte(m.operationalKey.Public().(ed25519.PublicKey))
 }
 
-func (m keyMaterial) solvedNonce() uint64 {
+func (m keyMaterial) solvedNonce(ctx context.Context) (uint64, error) {
 	keyDigest := keyDigestOf(m.operationalPublicKey(), m.recoveryCommitment)
 	var (
-		solved      atomic.Bool
+		searchOver  atomic.Bool
 		solvedNonce uint64
+		solved      bool
 		searches    sync.WaitGroup
 		firstNonce  uint64
 	)
+	stopSearchOnCancel := context.AfterFunc(ctx, func() { searchOver.Store(true) })
+	defer stopSearchOnCancel()
 	for range runtime.GOMAXPROCS(0) {
 		searchStart := firstNonce
 		searches.Go(func() {
-			if nonce, found := nonceSearchedFrom(keyDigest, searchStart, &solved); found {
-				solvedNonce = nonce
+			if nonce, found := nonceSearchedFrom(keyDigest, searchStart, &searchOver); found {
+				solvedNonce, solved = nonce, true
 			}
 		})
 		firstNonce += 1 << 56
 	}
 	searches.Wait()
+	if !solved {
+		return 0, fmt.Errorf("solve the peer key: %w", context.Cause(ctx))
+	}
 
-	return solvedNonce
+	return solvedNonce, nil
 }
 
 func nonceSearchedFrom(
 	keyDigest [sha256.Size]byte,
 	firstNonce uint64,
-	solved *atomic.Bool,
+	searchOver *atomic.Bool,
 ) (uint64, bool) {
-	for nonce := firstNonce; !solved.Load(); nonce++ {
+	for nonce := firstNonce; !searchOver.Load(); nonce++ {
 		if workOf(puzzleDigestOf(keyDigest, nonce)) >= identityWorkMinimum &&
-			solved.CompareAndSwap(false, true) {
+			searchOver.CompareAndSwap(false, true) {
 			return nonce, true
 		}
 	}

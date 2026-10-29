@@ -2,6 +2,7 @@ package yacymodel_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/hex"
 	"errors"
 	"io"
@@ -30,10 +31,10 @@ func TestPeerKeyTextRoundTrips(t *testing.T) {
 func TestPeerKeysOfOnePeerDeriveOneHashAndOthersAnother(t *testing.T) {
 	first, second := peerkeytest.Key(0), peerkeytest.Key(1)
 
-	if first.Identity().Hash() == second.Identity().Hash() {
-		t.Errorf("two keys derive one hash %s", first.Identity().Hash())
+	if first.Hash() == second.Hash() {
+		t.Errorf("two keys derive one hash %s", first.Hash())
 	}
-	if first.Identity().Hash() != peerkeytest.Key(0).Identity().Hash() {
+	if first.Hash() != peerkeytest.Key(0).Hash() {
 		t.Error("one key derives two hashes")
 	}
 }
@@ -105,7 +106,7 @@ func TestGeneratePeerKeySolvesTheWorkOfANewIdentity(t *testing.T) {
 		t.Fatalf("decode entropy: %v", err)
 	}
 
-	key, err := yacymodel.GeneratePeerKey(bytes.NewReader(entropy))
+	key, err := yacymodel.GeneratePeerKey(t.Context(), bytes.NewReader(entropy))
 	if err != nil {
 		t.Fatalf("GeneratePeerKey: %v", err)
 	}
@@ -125,10 +126,20 @@ func TestGeneratePeerKeyFailsWithoutEntropy(t *testing.T) {
 		"operational key alone": bytes.NewReader(make([]byte, 32)),
 	} {
 		t.Run(name, func(t *testing.T) {
-			if _, err := yacymodel.GeneratePeerKey(entropy); err == nil {
+			if _, err := yacymodel.GeneratePeerKey(t.Context(), entropy); err == nil {
 				t.Error("GeneratePeerKey = nil, want an error")
 			}
 		})
+	}
+}
+
+func TestGeneratePeerKeyStopsWhenCancelled(t *testing.T) {
+	ctx, cancel := context.WithCancel(t.Context())
+	cancel()
+
+	_, err := yacymodel.GeneratePeerKey(ctx, bytes.NewReader(make([]byte, 80)))
+	if !errors.Is(err, context.Canceled) {
+		t.Errorf("GeneratePeerKey = %v, want %v", err, context.Canceled)
 	}
 }
 

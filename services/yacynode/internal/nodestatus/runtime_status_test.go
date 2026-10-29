@@ -57,7 +57,7 @@ func mustPeerName(name string) yacymodel.PeerName {
 
 func testIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{
-		Hash:         peerkeytest.Key(0).Identity().Hash(),
+		Hash:         peerkeytest.Key(0).Hash(),
 		NetworkName:  "freeworld",
 		Name:         mustPeerName("node"),
 		Port:         8090,
@@ -149,7 +149,7 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 
 	seed := status.SelfSeed(context.Background())
 
-	if seed.Hash != peerkeytest.Key(0).Identity().Hash() {
+	if seed.Hash != peerkeytest.Key(0).Hash() {
 		t.Fatalf("Hash = %q, want self hash", seed.Hash)
 	}
 	if seed.Name != mustPeerName("node") {

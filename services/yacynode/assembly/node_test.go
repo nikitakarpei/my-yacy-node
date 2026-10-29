@@ -99,7 +99,7 @@ func TestHelloAnswersWithTheNodesOwnSeed(t *testing.T) {
 	if !found {
 		t.Fatal("hello answered with no seed of its own")
 	}
-	if want := peerkeytest.Key(0).Identity().Hash(); own.Hash != want {
+	if want := peerkeytest.Key(0).Hash(); own.Hash != want {
 		t.Errorf("own seed hash = %v, want %v", own.Hash, want)
 	}
 	if _, classified := resp.YourType.Get(); !classified {

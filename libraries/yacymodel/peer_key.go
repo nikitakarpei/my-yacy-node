@@ -1,6 +1,7 @@
 package yacymodel
 
 import (
+	"context"
 	"crypto/ed25519"
 	"crypto/rand"
 	"errors"
@@ -34,11 +35,11 @@ func ParsePeerKey(text string) (PeerKey, error) {
 	return material.provenBy(nonce)
 }
 
-func NewPeerKey() (PeerKey, error) {
-	return GeneratePeerKey(rand.Reader)
+func NewPeerKey(ctx context.Context) (PeerKey, error) {
+	return GeneratePeerKey(ctx, rand.Reader)
 }
 
-func GeneratePeerKey(entropy io.Reader) (PeerKey, error) {
+func GeneratePeerKey(ctx context.Context, entropy io.Reader) (PeerKey, error) {
 	var seeds [ed25519.SeedSize + recoverySeedsSize]byte
 	if _, err := io.ReadFull(entropy, seeds[:]); err != nil {
 		return PeerKey{}, fmt.Errorf("read entropy: %w", err)
@@ -52,11 +53,20 @@ func GeneratePeerKey(entropy io.Reader) (PeerKey, error) {
 		return PeerKey{}, err
 	}
 
-	return material.provenBy(material.solvedNonce())
+	nonce, err := material.solvedNonce(ctx)
+	if err != nil {
+		return PeerKey{}, err
+	}
+
+	return material.provenBy(nonce)
 }
 
 func (k PeerKey) Identity() PeerIdentity {
 	return k.identity
+}
+
+func (k PeerKey) Hash() Hash {
+	return k.identity.Hash()
 }
 
 func (k PeerKey) String() string {
@@ -64,6 +74,7 @@ func (k PeerKey) String() string {
 }
 
 func (k PeerKey) SignedSeedFrom(seed Seed, networkName string, issuedAt time.Time) Seed {
+	seed.Hash = k.identity.Hash()
 	seed.Identity = Some(k.identity)
 	seed.AddressSignature = Some(k.addressSignatureOf(seed, networkName, issuedAt))
 

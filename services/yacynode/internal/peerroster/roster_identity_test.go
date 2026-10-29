@@ -245,7 +245,7 @@ func signedSeedAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
 func unsignedSeedAt(t *testing.T, ip string) yacymodel.Seed {
 	t.Helper()
 	seed := seniorSeed(t, "keyed", ip, 8090)
-	seed.Hash = peerkeytest.Key(0).Identity().Hash()
+	seed.Hash = peerkeytest.Key(0).Hash()
 
 	return seed
 }

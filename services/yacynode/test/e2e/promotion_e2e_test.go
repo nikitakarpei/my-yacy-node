@@ -25,7 +25,7 @@ const (
 
 var (
 	nodeKey  = promotionNodeKey
-	nodeHash = nodeKey.Identity().Hash()
+	nodeHash = nodeKey.Hash()
 )
 
 func mustURLHash(address string) yacymodel.URLHash {

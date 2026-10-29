@@ -2,6 +2,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
@@ -17,7 +18,7 @@ func main() {
 }
 
 func run(out io.Writer) error {
-	key, err := yacymodel.NewPeerKey()
+	key, err := yacymodel.NewPeerKey(context.Background())
 	if err != nil {
 		return fmt.Errorf("generate peer key: %w", err)
 	}

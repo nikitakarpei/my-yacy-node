@@ -110,7 +110,7 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer hash: %w", err)
 	}
 
-	keyHash := config.Identity.PeerKey.Identity().Hash()
+	keyHash := config.Identity.PeerKey.Hash()
 	if err := selfPeerHash.Settle(ctx, keyHash); err != nil {
 		return node{}, fmt.Errorf("settle peer hash: %w", err)
 	}

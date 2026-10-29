@@ -39,7 +39,7 @@ func StartFleet(
 			Key:         key,
 			SeedlistURL: seedlistURL,
 		})
-		fleet[i] = Peer{Alias: alias, Hash: key.Identity().Hash(), URL: url}
+		fleet[i] = Peer{Alias: alias, Hash: key.Hash(), URL: url}
 	}
 	return fleet
 }

@@ -65,7 +65,7 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 			seed.AddressSignature = yacymodel.Some(signature)
 		},
 		"hash": func(seed *yacymodel.Seed) {
-			seed.Hash = peerkeytest.Key(1).Identity().Hash()
+			seed.Hash = peerkeytest.Key(1).Hash()
 		},
 		"identity": func(seed *yacymodel.Seed) {
 			seed.Identity = yacymodel.Some(peerkeytest.Key(1).Identity())
@@ -99,7 +99,7 @@ func TestSignedSeedLosesItsIdentityInAnotherNetwork(t *testing.T) {
 func TestAddressSignatureIssuesAtTheSecond(t *testing.T) {
 	key := peerkeytest.Key(0)
 	seed := key.SignedSeedFrom(
-		unsignedSeedOf(t, key),
+		unsignedSeed(t),
 		signedNetworkName,
 		signingTime.Add(700*time.Millisecond),
 	)
@@ -113,13 +113,12 @@ func TestAddressSignatureIssuesAtTheSecond(t *testing.T) {
 func signedSeed(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {
 	t.Helper()
 
-	return key.SignedSeedFrom(unsignedSeedOf(t, key), signedNetworkName, signingTime)
+	return key.SignedSeedFrom(unsignedSeed(t), signedNetworkName, signingTime)
 }
 
-func unsignedSeedOf(t *testing.T, key yacymodel.PeerKey) yacymodel.Seed {
+func unsignedSeed(t *testing.T) yacymodel.Seed {
 	t.Helper()
 	seed := addressableSeed(t)
-	seed.Hash = key.Identity().Hash()
 	seed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
 	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
 	seed.AdditionalHosts = yacymodel.Some([]yacymodel.Host{

@@ -51,7 +51,6 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 
 func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 	return yacymodel.Seed{
-		Hash:            id.Hash,
 		Name:            id.Name,
 		AdditionalHosts: additionalHostsOf(id),
 		Port:            yacymodel.Some(yacymodel.Port(id.Port)),

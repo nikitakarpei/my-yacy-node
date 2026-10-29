@@ -12,7 +12,7 @@ import (
 
 func TestSettleKeepsTheHashOfTheFirstKey(t *testing.T) {
 	storedData := memoryvault.OpenEngine(1 << 20)
-	keyHash := peerkeytest.Key(0).Identity().Hash()
+	keyHash := peerkeytest.Key(0).Hash()
 
 	for _, start := range []string{"first start", "restart"} {
 		if err := selfPeerHashIn(t, storedData).Settle(t.Context(), keyHash); err != nil {
@@ -23,12 +23,12 @@ func TestSettleKeepsTheHashOfTheFirstKey(t *testing.T) {
 
 func TestSettleRefusesTheKeyOfAnotherPeer(t *testing.T) {
 	storedData := memoryvault.OpenEngine(1 << 20)
-	storedHash := peerkeytest.Key(0).Identity().Hash()
+	storedHash := peerkeytest.Key(0).Hash()
 	if err := selfPeerHashIn(t, storedData).Settle(t.Context(), storedHash); err != nil {
 		t.Fatalf("settle peer hash: %v", err)
 	}
 
-	otherHash := peerkeytest.Key(1).Identity().Hash()
+	otherHash := peerkeytest.Key(1).Hash()
 	if err := selfPeerHashIn(t, storedData).Settle(t.Context(), otherHash); err == nil {
 		t.Fatalf("Settle with %s = nil, want the refusal of %s", otherHash, storedHash)
 	}

@@ -43,7 +43,7 @@ func TestNodeKeepsTheBoundIdentityOfAPeerAgainstAForgedHello(t *testing.T) {
 		Key:         boundNodeKey,
 		SeedlistURL: seedlistURL,
 	})
-	boundHash := boundNodeKey.Identity().Hash()
+	boundHash := boundNodeKey.Hash()
 
 	bound := pollwait.For(120*time.Second, func() bool {
 		seed, known := knownSeedOf(t, ctx, probe, verifyingURL, boundHash)

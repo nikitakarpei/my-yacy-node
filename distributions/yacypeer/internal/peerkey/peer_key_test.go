@@ -1,6 +1,7 @@
 package peerkey_test
 
 import (
+	"context"
 	"errors"
 	"os"
 	"path/filepath"
@@ -13,11 +14,11 @@ import (
 
 var errNoEntropy = errors.New("no entropy")
 
-func solvedKey() (yacymodel.PeerKey, error) {
+func solvedKey(context.Context) (yacymodel.PeerKey, error) {
 	return peerkeytest.Key(0), nil
 }
 
-func unsolvableKey() (yacymodel.PeerKey, error) {
+func unsolvableKey(context.Context) (yacymodel.PeerKey, error) {
 	return yacymodel.PeerKey{}, errNoEntropy
 }
 

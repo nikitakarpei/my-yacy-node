@@ -51,7 +51,7 @@ func TestRealYaCyFindsNodeDocument(t *testing.T) {
 	)
 
 	nodeKey := searchNodeKey
-	nodeHash := nodeKey.Identity().Hash()
+	nodeHash := nodeKey.Hash()
 	_, nodeURL := nodepeer.Start(t, ctx, probe, nodepeer.Config{
 		NetworkName: network.Name,
 		Alias:       searchNodeAlias,
