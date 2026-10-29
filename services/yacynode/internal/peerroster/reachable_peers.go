@@ -40,6 +40,15 @@ func (s *reachablePeers) admit(
 	return admitted, wasReachable
 }
 
+func (s *reachablePeers) refresh(peer yacymodel.Hash, confirmedAt time.Time) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if reachable, isReachable := s.peers[peer]; isReachable {
+		s.peers[peer] = reachablePeer{seed: reachable.seed, confirmedAt: confirmedAt}
+	}
+}
+
 func (s *reachablePeers) evict(peer yacymodel.Hash) (wasReachable bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

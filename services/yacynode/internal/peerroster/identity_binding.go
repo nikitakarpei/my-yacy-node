@@ -27,6 +27,20 @@ const (
 	futureSeed
 )
 
+func dropReasonOf(standing seedStanding) yacymodel.Optional[SeedDropReason] {
+	switch standing {
+	case olderSeed:
+		return yacymodel.Some(DropOfOlderAddressSignature)
+	case foreignSeed:
+		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
+	case futureSeed:
+		return yacymodel.Some(DropOfFutureAddressSignature)
+	case legacySeed, newerSeed, currentSeed:
+	}
+
+	return yacymodel.None[SeedDropReason]()
+}
+
 func standingOf(
 	verifiedSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 	known rosterEntry,

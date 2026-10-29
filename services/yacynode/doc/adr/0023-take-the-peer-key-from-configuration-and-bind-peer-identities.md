@@ -31,6 +31,10 @@ The node signs the addresses of its seed. The roster binds a peer to its first v
 Discovery applies the table to every known peer and drops nothing. A move takes a peer out of the
 reachable set until a contact confirms it again.
 
+A hello caller can send a copy of the seed of another peer. When that seed has the same signature
+as the binding, the roster records the contact but keeps the reachable seed from the answer of the
+peer itself.
+
 ## Consequences
 
 Java peers and pruned gossip copies stay legacy peers. Eviction removes a binding.

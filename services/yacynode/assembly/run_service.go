@@ -218,6 +218,7 @@ func peerProtocolServersFor(
 
 const (
 	serverReadHeaderTimeout = 10 * time.Second
+	serverReadTimeout       = 30 * time.Second
 	serverIdleTimeout       = time.Minute
 )
 
@@ -225,6 +226,7 @@ func serverFor(handler http.Handler) *http.Server {
 	return &http.Server{
 		Handler:           handler,
 		ReadHeaderTimeout: serverReadHeaderTimeout,
+		ReadTimeout:       serverReadTimeout,
 		IdleTimeout:       serverIdleTimeout,
 	}
 }

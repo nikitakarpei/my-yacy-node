@@ -50,7 +50,7 @@ func (s *stubReachability) MostRecentlyReachablePeers(
 	return s.seeds
 }
 
-func (s *stubReachability) ConfirmReachable(
+func (s *stubReachability) ConfirmSecondhandSeed(
 	_ context.Context,
 	seed yacymodel.Seed,
 	answeredBaseURL peerwire.BaseURL,

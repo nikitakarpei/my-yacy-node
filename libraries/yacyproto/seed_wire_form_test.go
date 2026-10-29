@@ -313,6 +313,42 @@ func TestSeedLeavesAMalformedTimestampAbsent(t *testing.T) {
 	}
 }
 
+func TestSeedKeepsOnlyAnAddressSignatureIssuedAtAWholeSecond(t *testing.T) {
+	t.Parallel()
+
+	signatureText := yacymodel.Encode(make([]byte, 64))
+	for name, test := range map[string]struct {
+		issuedAt      string
+		wantSignature bool
+	}{
+		"whole second":         {issuedAt: "20261029120000", wantSignature: true},
+		"fraction of a second": {issuedAt: "20261029120000.5"},
+	} {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			frame := seedFrameWithColumn(
+				t,
+				sampleSeed(t, "alpha", "example-peer"),
+				"AddressSignature",
+				test.issuedAt+":"+signatureText,
+			)
+
+			got, err := seedFromWire(t, frame)
+			if err != nil {
+				t.Fatalf("parse seed wire form: %v", err)
+			}
+			if got.AddressSignature.Present() != test.wantSignature {
+				t.Errorf(
+					"address signature present = %v, want %v",
+					got.AddressSignature.Present(),
+					test.wantSignature,
+				)
+			}
+		})
+	}
+}
+
 func TestSeedRoundTripsPeerTags(t *testing.T) {
 	t.Parallel()
 

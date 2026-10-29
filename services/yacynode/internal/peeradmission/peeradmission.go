@@ -1,8 +1,9 @@
 // Package peeradmission answers inbound hello requests: it classifies the calling
 // peer by probing it back, and returns the peers the roster saw most recently.
-// On a confirmed back-ping it refreshes that caller's recency in the roster, but
-// it never introduces a peer learned from an inbound request. A caller from
-// another network is answered as a virgin peer, with no peers at all.
+// On a confirmed back-ping it gives the caller's seed to the roster as a
+// second-hand seed, because the caller can send a copy of another peer's seed.
+// A caller from another network is answered as a virgin peer, with no peers at
+// all.
 package peeradmission
 
 import (

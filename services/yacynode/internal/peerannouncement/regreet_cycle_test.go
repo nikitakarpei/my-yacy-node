@@ -98,7 +98,7 @@ func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
 	s.discovered = append(s.discovered, seeds...)
 }
 
-func (s *stubRoster) ConfirmReachable(
+func (s *stubRoster) ConfirmFirsthandSeed(
 	_ context.Context,
 	seed yacymodel.Seed,
 	answeredBaseURL peerwire.BaseURL,

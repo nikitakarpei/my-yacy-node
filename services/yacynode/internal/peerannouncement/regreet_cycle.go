@@ -19,7 +19,7 @@ type ReportedHostObserver interface {
 
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
+	ConfirmFirsthandSeed(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
@@ -169,7 +169,7 @@ func (a *announcer) contactOne(
 		)
 	}
 
-	a.roster.ConfirmReachable(ctx, result.RespondingSeed, result.BaseURL)
+	a.roster.ConfirmFirsthandSeed(ctx, result.RespondingSeed, result.BaseURL)
 	a.roster.Discover(ctx, result.KnownSeeds...)
 
 	return contactReply{

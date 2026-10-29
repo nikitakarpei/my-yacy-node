@@ -282,13 +282,41 @@ func (r *roster) selectUnreachable(
 	return keptPeers, nil
 }
 
-func (r *roster) ConfirmReachable(
+func (r *roster) ConfirmFirsthandSeed(
 	ctx context.Context,
 	seed yacymodel.Seed,
 	answeredBaseURL peerwire.BaseURL,
 ) {
+	confirmedAt := r.now()
+	if _, recorded := r.recordReachable(ctx, seed, answeredBaseURL, confirmedAt); recorded {
+		r.admitReachable(ctx, seed, confirmedAt)
+	}
+}
+
+func (r *roster) ConfirmSecondhandSeed(
+	ctx context.Context,
+	seed yacymodel.Seed,
+	answeredBaseURL peerwire.BaseURL,
+) {
+	confirmedAt := r.now()
+	standing, recorded := r.recordReachable(ctx, seed, answeredBaseURL, confirmedAt)
+	switch {
+	case !recorded:
+	case standing == currentSeed:
+		r.reachable.refresh(seed.Hash, confirmedAt)
+	default:
+		r.admitReachable(ctx, seed, confirmedAt)
+	}
+}
+
+func (r *roster) recordReachable(
+	ctx context.Context,
+	seed yacymodel.Seed,
+	answeredBaseURL peerwire.BaseURL,
+	confirmedAt time.Time,
+) (seedStanding, bool) {
 	if seed.Hash == r.self {
-		return
+		return legacySeed, false
 	}
 	addresses, addressable := seed.Addresses()
 	if !addressable {
@@ -298,36 +326,8 @@ func (r *roster) ConfirmReachable(
 			slog.String("peer", seed.Hash.String()),
 		)
 
-		return
+		return legacySeed, false
 	}
-	confirmedAt := r.now()
-	if !r.recordReachable(ctx, seed, addresses, answeredBaseURL, confirmedAt) {
-		return
-	}
-
-	admitted, wasReachable := r.reachable.admit(seed, confirmedAt)
-	switch {
-	case admitted && !wasReachable:
-		slog.DebugContext(ctx, "peer became reachable", slog.String("peer", seed.Hash.String()))
-	case !admitted:
-		slog.DebugContext(
-			ctx,
-			"peer reachable but reachable roster full",
-			slog.String("peer", seed.Hash.String()),
-		)
-	}
-
-	r.keepWithinCapacity(ctx)
-	r.observer.ObserveReachablePeers(r.reachable.amount())
-}
-
-func (r *roster) recordReachable(
-	ctx context.Context,
-	seed yacymodel.Seed,
-	addresses yacymodel.PeerAddresses,
-	answeredBaseURL peerwire.BaseURL,
-	confirmedAt time.Time,
-) bool {
 	contact := rosterEntry{
 		addresses:           addresses,
 		binding:             seed.VerifiedAddressSignatureIn(r.networkName),
@@ -335,10 +335,10 @@ func (r *roster) recordReachable(
 		lastReachable:       confirmedAt,
 		lastContacted:       confirmedAt,
 	}
-	var dropReason yacymodel.Optional[SeedDropReason]
+	var standing seedStanding
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		dropReason, err = r.recordReachableIn(tx, seed.Hash, contact)
+		standing, err = r.recordReachableIn(tx, seed.Hash, contact)
 
 		return err
 	}); err != nil {
@@ -349,37 +349,32 @@ func (r *roster) recordReachable(
 			slog.Any("error", err),
 		)
 
-		return false
+		return standing, false
 	}
-	if reason, dropped := dropReason.Get(); dropped {
+	if reason, dropped := dropReasonOf(standing).Get(); dropped {
 		r.reportDroppedSeed(ctx, seed.Hash, reason)
 
-		return false
+		return standing, false
 	}
 
-	return true
+	return standing, true
 }
 
 func (r *roster) recordReachableIn(
 	tx *vault.Txn,
 	peerHash yacymodel.Hash,
 	contact rosterEntry,
-) (yacymodel.Optional[SeedDropReason], error) {
+) (seedStanding, error) {
 	known, _, err := r.peers.Get(tx, peerHash)
 	if err != nil {
-		return yacymodel.None[SeedDropReason](), fmt.Errorf("read peer %s: %w", peerHash, err)
+		return legacySeed, fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
-	switch standingOf(contact.binding, known, r.now()) {
-	case olderSeed:
-		return yacymodel.Some(DropOfOlderAddressSignature), nil
-	case foreignSeed:
-		return yacymodel.Some(DropOfSeedWithoutBoundIdentity), nil
-	case futureSeed:
-		return yacymodel.Some(DropOfFutureAddressSignature), nil
-	case legacySeed, newerSeed, currentSeed:
+	standing := standingOf(contact.binding, known, r.now())
+	if dropReasonOf(standing).Present() {
+		return standing, nil
 	}
 
-	return yacymodel.None[SeedDropReason](), r.storePeer(tx, peerHash, contact)
+	return standing, r.storePeer(tx, peerHash, contact)
 }
 
 func (r *roster) reportDroppedSeed(
@@ -394,6 +389,23 @@ func (r *roster) reportDroppedSeed(
 		slog.String("reason", string(reason)),
 	)
 	r.observer.ObserveDroppedSeed(reason)
+}
+
+func (r *roster) admitReachable(ctx context.Context, seed yacymodel.Seed, confirmedAt time.Time) {
+	admitted, wasReachable := r.reachable.admit(seed, confirmedAt)
+	switch {
+	case admitted && !wasReachable:
+		slog.DebugContext(ctx, "peer became reachable", slog.String("peer", seed.Hash.String()))
+	case !admitted:
+		slog.DebugContext(
+			ctx,
+			"peer reachable but reachable roster full",
+			slog.String("peer", seed.Hash.String()),
+		)
+	}
+
+	r.keepWithinCapacity(ctx)
+	r.observer.ObserveReachablePeers(r.reachable.amount())
 }
 
 func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {

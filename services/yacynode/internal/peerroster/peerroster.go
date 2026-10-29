@@ -19,7 +19,12 @@ import (
 
 type Roster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
+	ConfirmFirsthandSeed(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
+	ConfirmSecondhandSeed(
+		ctx context.Context,
+		seed yacymodel.Seed,
+		answeredBaseURL peerwire.BaseURL,
+	)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed

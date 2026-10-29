@@ -31,7 +31,11 @@ type callerReachabilityProbe interface {
 
 type reachableRoster interface {
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
-	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
+	ConfirmSecondhandSeed(
+		ctx context.Context,
+		seed yacymodel.Seed,
+		answeredBaseURL peerwire.BaseURL,
+	)
 	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
@@ -105,7 +109,7 @@ func (e helloEndpoint) classifyCaller(
 		return yacymodel.PeerJunior
 	}
 
-	e.reachability.ConfirmReachable(ctx, caller, answeredBaseURL)
+	e.reachability.ConfirmSecondhandSeed(ctx, caller, answeredBaseURL)
 
 	if caller.PeerType == yacymodel.PeerPrincipal {
 		return yacymodel.PeerPrincipal
