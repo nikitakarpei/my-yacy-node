@@ -4,7 +4,7 @@ Date: 2026-10-29
 
 ## Status
 
-Proposed. Not built. The open options below are decided before it is built.
+Accepted. Not built.
 
 ## Context
 
@@ -44,12 +44,7 @@ Rules for a client that connects to a peer hash:
 - A bound peer whose signed seed announces a secure port gets TLS only. The client does not use
   plain HTTP for this peer.
 - For other peers, the client keeps the current rules.
-
-## Open options
-
-- Client certificates. A peer can send its own certificate, so that the server knows the peer
-  hash of the caller. Java peers do not send one, so the server must accept connections without
-  one. What the server does with a known caller is not decided.
+- Clients send no certificate. A later decision can add them without a break.
 
 ## Consequences
 
