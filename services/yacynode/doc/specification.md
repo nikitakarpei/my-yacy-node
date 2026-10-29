@@ -22,7 +22,8 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL advertise one YaCy Senior peer identity.
 * The node SHALL derive its peer hash from the peer key that the operator states, and SHALL refuse
   to start without a valid key or when its data holds the hash of a different key.
-* The node SHALL sign the addresses in its seed with its peer key, and SHALL serve the peer protocol over TLS that its peer key proves.
+* The node SHALL sign the addresses in its seed with its peer key.
+* The node SHALL serve the peer protocol over TLS that its peer key proves.
 * The node SHALL drop each seed of a peer that breaks the identity bound from its first signed seed.
 * The node SHALL allow operators to configure the peer name it advertises.
 * The node SHALL allow operators to configure the public hosts and port advertised in its YaCy seed.
@@ -31,7 +32,7 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL announce itself through configured YaCy seedlists.
 * The node SHALL require operators to configure a proxy for outbound connections.
 * The node SHALL be reachable through one stable public endpoint.
-* The node SHALL contact a peer with a signed seed only over TLS that the key of the peer proves when the seed announces a secure port, else only over plain HTTP, and other peers at their seed addresses in turn, over HTTPS first for a DNS name.
+* The node SHALL contact a peer as [Secure peer protocol](secure-peer-protocol.md) states.
 * The node SHALL announce in peer-liveness responses only its own seed and peers obtained from
   configured seedlists, and SHALL NOT redistribute peers self-reported in inbound requests.
 * The node SHALL honor the requested peer count in peer-liveness requests and select the announced

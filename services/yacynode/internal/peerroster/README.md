@@ -19,17 +19,18 @@ once it is full, the stalest peer that is not currently reachable is
 evicted to make room for a new one.
 
 The roster keeps every host in a peer's seed, its port, and its secure
-port. A known peer moves on its own confirmed contact, or on a newer signed
-seed from discovery while it is not reachable.
+port. A known peer moves on its own confirmed contact or on a newer signed
+seed from discovery. A move takes the peer out of the reachable set until a
+contact confirms it again.
 
 The roster binds a peer to the identity of its first signed seed. It then
-drops seeds that break the identity, bring back older addresses, or are
+drops seeds that break the identity, carry an older signature, or are
 signed in the future. A peer without a binding is a legacy peer.
 
 The roster also keeps the base URL that answered the last greet or back-ping
 of a peer. Deliveries go only to that base URL. A failed greet clears it. The
-roster gives it out only while the addresses and the identity of the peer give
-it.
+roster gives out that base URL only while it is one of the base URLs for the
+current addresses and identity of the peer.
 
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted

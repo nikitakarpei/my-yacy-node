@@ -129,27 +129,53 @@ func TestRosterDropsSeedsThatBreakTheBoundIdentity(t *testing.T) {
 	}
 }
 
-func TestRosterConfirmsAStaleCopyOfTheBoundSeedWithoutADrop(t *testing.T) {
+func TestRosterDropsAnOlderCopyOfTheBoundSeedOnAnyAddresses(t *testing.T) {
 	ctx := context.Background()
 	observer := &droppingObserver{}
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer})
-	stale := signedSeedAt(t, "203.0.113.1", signingStart)
 	bound := signedSeedAt(t, "203.0.113.1", signingStart.Add(time.Second))
 	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
 	roster.ConfirmUnreachable(ctx, bound.Hash)
 
-	roster.ConfirmReachable(ctx, stale, httpBaseURLOf(stale))
-	moved := signedSeedAt(t, "203.0.113.2", signingStart)
-	roster.ConfirmReachable(ctx, moved, httpBaseURLOf(moved))
+	sameAddresses := signedSeedAt(t, "203.0.113.1", signingStart)
+	roster.ConfirmReachable(ctx, sameAddresses, httpBaseURLOf(sameAddresses))
+	otherAddresses := signedSeedAt(t, "203.0.113.2", signingStart)
+	roster.ConfirmReachable(ctx, otherAddresses, httpBaseURLOf(otherAddresses))
 
 	assertHostOf(t, roster, bound.Hash, "203.0.113.1")
-	if !roster.IsReachable(ctx, bound.Hash) {
-		t.Error("IsReachable = false, want the stale copy confirmed")
+	if roster.IsReachable(ctx, bound.Hash) {
+		t.Error("IsReachable = true, want no older copy confirmed")
+	}
+	want := []peerroster.SeedDropReason{
+		peerroster.DropOfOlderAddressSignature,
+		peerroster.DropOfOlderAddressSignature,
+	}
+	if dropReasons := observer.observedDropReasons(); !slices.Equal(dropReasons, want) {
+		t.Errorf("drop reasons = %v, want %v", dropReasons, want)
+	}
+}
+
+func TestRosterDropsAReplayOfTheBoundSeedOnceGossipBroughtANewerOne(t *testing.T) {
+	ctx := context.Background()
+	observer := &droppingObserver{}
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer})
+	bound := signedSeedAt(t, "203.0.113.1", signingStart)
+	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+
+	roster.Discover(
+		ctx,
+		signedSeedWithSecurePortAt(t, "203.0.113.1", signingStart.Add(time.Minute)),
+	)
+	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+
+	record, _ := roster.RecordOf(ctx, bound.Hash)
+	if !record.Addresses.SecurePort.Present() {
+		t.Errorf("addresses = %v, want the secure port of the newer seed", record.Addresses)
 	}
 	if dropReasons := observer.observedDropReasons(); !slices.Equal(
 		dropReasons, []peerroster.SeedDropReason{peerroster.DropOfOlderAddressSignature},
 	) {
-		t.Errorf("drop reasons = %v, want only the older seed over other addresses", dropReasons)
+		t.Errorf("drop reasons = %v, want the replayed seed dropped as older", dropReasons)
 	}
 }
 
@@ -161,7 +187,7 @@ func TestDiscoverIgnoresASeedSignedInTheFuture(t *testing.T) {
 	roster.Discover(ctx, future)
 
 	if addresses, known := addressesOf(ctx, roster, future.Hash); known {
-		t.Errorf("AddressesOf = %v, want the peer unknown", addresses)
+		t.Errorf("addresses = %v, want the peer unknown", addresses)
 	}
 }
 
@@ -213,7 +239,7 @@ func TestDiscoverMovesAnUnreachableBoundPeerOnItsNewerSignedSeed(t *testing.T) {
 	}
 }
 
-func TestDiscoverLeavesAReachablePeerToItsOwnContacts(t *testing.T) {
+func TestDiscoverMovesAReachablePeerAndLeavesItUnconfirmedAtItsNewAddresses(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	bound := signedSeedAt(t, "203.0.113.1", signingStart)
@@ -221,7 +247,20 @@ func TestDiscoverLeavesAReachablePeerToItsOwnContacts(t *testing.T) {
 
 	roster.Discover(ctx, signedSeedAt(t, "203.0.113.2", signingStart.Add(time.Minute)))
 
-	assertHostOf(t, roster, bound.Hash, "203.0.113.1")
+	assertHostOf(t, roster, bound.Hash, "203.0.113.2")
+	if reachable := roster.ReachablePeers(ctx); len(reachable) != 0 {
+		t.Errorf("ReachablePeers = %v, want the moved peer no longer confirmed", reachable)
+	}
+}
+
+func TestRosterKeepsAPeerReachableWhenItsConfirmationDoesNotMoveIt(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+	bound := signedSeedAt(t, "203.0.113.1", signingStart)
+	roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+
+	roster.Discover(ctx, bound)
+
 	if reachable := roster.ReachablePeers(
 		ctx,
 	); !reflect.DeepEqual(
@@ -336,7 +375,7 @@ func TestRosterKeepsOnlyAnAnsweredBaseURLThatTheBindingAllows(t *testing.T) {
 
 			roster.ConfirmReachable(
 				ctx,
-				signedSeedWithSecurePortAt(t, "203.0.113.1"),
+				signedSeedWithSecurePortAt(t, "203.0.113.1", signingStart),
 				test.answered,
 			)
 
@@ -351,13 +390,13 @@ func TestRosterKeepsOnlyAnAnsweredBaseURLThatTheBindingAllows(t *testing.T) {
 	}
 }
 
-func signedSeedWithSecurePortAt(t *testing.T, ip string) yacymodel.Seed {
+func signedSeedWithSecurePortAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
 	t.Helper()
 	seed := unsignedSeedAt(t, ip)
 	seed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
 	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
 
-	return peerkeytest.Key(0).SignedSeedFrom(seed, rosterNetworkName, signingStart)
+	return peerkeytest.Key(0).SignedSeedFrom(seed, rosterNetworkName, issuedAt)
 }
 
 func signedSeedAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
@@ -388,6 +427,6 @@ func assertHostOf(t *testing.T, roster peerroster.Roster, peer yacymodel.Hash, w
 	t.Helper()
 	addresses, known := addressesOf(context.Background(), roster, peer)
 	if !known || len(addresses.Hosts) == 0 || addresses.Hosts[0].String() != want {
-		t.Errorf("AddressesOf = %v (known %v), want host %s", addresses, known, want)
+		t.Errorf("addresses = %v (known %v), want host %s", addresses, known, want)
 	}
 }

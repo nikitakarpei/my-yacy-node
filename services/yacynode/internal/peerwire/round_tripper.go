@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -44,7 +43,7 @@ func refuseRedirect(*http.Request, []*http.Request) error {
 
 func (p roundTripper) post(
 	ctx context.Context,
-	identity yacymodel.Optional[yacymodel.PeerIdentity],
+	callee Callee,
 	baseURL BaseURL,
 	path string,
 	body multipartForm,
@@ -60,7 +59,7 @@ func (p roundTripper) post(
 	}
 	req.Header.Set("Content-Type", body.contentType)
 
-	resp, err := p.clientFor(identity, baseURL).Do(req)
+	resp, err := p.clientFor(callee, baseURL).Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("post: %w", err)
 	}
@@ -83,16 +82,13 @@ func (p roundTripper) post(
 	return yacyproto.ParseResponseFields(raw), nil
 }
 
-func (p roundTripper) clientFor(
-	identity yacymodel.Optional[yacymodel.PeerIdentity],
-	baseURL BaseURL,
-) *http.Client {
-	expected, identified := identity.Get()
+func (p roundTripper) clientFor(callee Callee, baseURL BaseURL) *http.Client {
+	identity, identified := callee.identity.Get()
 	if !identified || baseURL.Scheme != HTTPS {
 		return p.client
 	}
 	peerClient := *p.client
-	peerClient.Transport = p.peerTransports.TransportFor(expected)
+	peerClient.Transport = p.peerTransports.TransportFor(identity)
 
 	return &peerClient
 }

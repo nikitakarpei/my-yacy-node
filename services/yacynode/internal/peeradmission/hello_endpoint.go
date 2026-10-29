@@ -22,7 +22,7 @@ const (
 type callerReachabilityProbe interface {
 	Reach(
 		ctx context.Context,
-		caller yacymodel.Seed,
+		caller peerwire.Callee,
 		addresses yacymodel.PeerAddresses,
 		self yacymodel.Hash,
 		networkName string,
@@ -96,7 +96,7 @@ func (e helloEndpoint) classifyCaller(
 
 	answeredBaseURL, reached := e.probe.Reach(
 		ctx,
-		caller,
+		calleeFrom(caller, e.identity.NetworkName),
 		addresses,
 		e.identity.Hash,
 		e.status.NetworkName(ctx),
@@ -112,6 +112,15 @@ func (e helloEndpoint) classifyCaller(
 	}
 
 	return yacymodel.PeerSenior
+}
+
+func calleeFrom(caller yacymodel.Seed, networkName string) peerwire.Callee {
+	identity, identified := caller.IdentityIn(networkName).Get()
+	if !identified {
+		return peerwire.UnidentifiedCallee(caller.Hash)
+	}
+
+	return peerwire.IdentifiedCallee(identity)
 }
 
 func (e helloEndpoint) knownPeers(ctx context.Context, count int) []yacymodel.Seed {

@@ -1,7 +1,6 @@
 package peerroster
 
 import (
-	"maps"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -23,19 +22,17 @@ const (
 	legacySeed seedStanding = iota
 	newerSeed
 	currentSeed
-	staleSeed
-	replayedSeed
+	olderSeed
 	foreignSeed
 	futureSeed
 )
 
 func standingOf(
-	signed yacymodel.Optional[yacymodel.VerifiedAddressSignature],
-	addresses yacymodel.PeerAddresses,
+	verifiedSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 	known rosterEntry,
 	now time.Time,
 ) seedStanding {
-	next, verified := signed.Get()
+	next, verified := verifiedSignature.Get()
 	bound, isBound := known.binding.Get()
 	switch {
 	case verified && next.IssuedAt.After(now.Add(issuedAtTolerance)):
@@ -50,24 +47,7 @@ func standingOf(
 		return newerSeed
 	case next.IssuedAt.Equal(bound.IssuedAt):
 		return currentSeed
-	case sameAddresses(addresses, known.addresses):
-		return staleSeed
 	default:
-		return replayedSeed
+		return olderSeed
 	}
-}
-
-func sameAddresses(first, second yacymodel.PeerAddresses) bool {
-	return first.Port == second.Port &&
-		first.SecurePort == second.SecurePort &&
-		maps.Equal(hostSetFrom(first.Hosts), hostSetFrom(second.Hosts))
-}
-
-func hostSetFrom(hosts []yacymodel.Host) map[yacymodel.Host]struct{} {
-	hostSet := make(map[yacymodel.Host]struct{}, len(hosts))
-	for _, host := range hosts {
-		hostSet[host] = struct{}{}
-	}
-
-	return hostSet
 }

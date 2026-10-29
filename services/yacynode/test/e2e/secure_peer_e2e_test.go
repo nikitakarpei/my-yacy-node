@@ -57,29 +57,29 @@ func TestNodeReachesASignedPeerOnlyAtItsSecurePort(t *testing.T) {
 		AdvertisedSecurePort: closedPort,
 	})
 
-	seriesOf := func(series string) float64 {
+	valueOf := func(series string) float64 {
 		value, _ := nodepeer.SeriesValueOf(t, ctx, probe, callingNode, series)
 		return value
 	}
-	javaOverHTTPSecureNodeOverHTTPSAndClosedNodeUnanswered := pollwait.For(
+	expectedRoundSeen := pollwait.For(
 		120*time.Second,
 		func() bool {
-			return seriesOf(peersReachedOverHTTP) == 1 &&
-				seriesOf(peersReachedOverHTTPS) == 1 &&
-				seriesOf(peersThatDidNotAnswer) == 1
+			return valueOf(peersReachedOverHTTP) == 1 &&
+				valueOf(peersReachedOverHTTPS) == 1 &&
+				valueOf(peersThatDidNotAnswer) == 1
 		},
 	)
-	if !javaOverHTTPSecureNodeOverHTTPSAndClosedNodeUnanswered {
+	if !expectedRoundSeen {
 		t.Fatalf(
 			"calling node never had a round with Java over HTTP, %s over HTTPS and %s unanswered; "+
 				"last round: http=%v https=%v did_not_answer=%v",
 			secureNodeAlias,
 			closedSecurePortAlias,
-			seriesOf(
+			valueOf(
 				peersReachedOverHTTP,
 			),
-			seriesOf(peersReachedOverHTTPS),
-			seriesOf(peersThatDidNotAnswer),
+			valueOf(peersReachedOverHTTPS),
+			valueOf(peersThatDidNotAnswer),
 		)
 	}
 }

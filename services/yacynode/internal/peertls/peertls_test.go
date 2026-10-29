@@ -11,21 +11,26 @@ import (
 	"math/big"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/egresstunnel/egresstunneltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peertls"
 )
 
 const networkName = "freeworld"
 
-var directTransports = peertls.NewTransports(nil, networkName)
-
 func TestTransportForAPeerReachesThePeerThatHoldsItsKey(t *testing.T) {
 	server := peerServer(t, serverConfigOf(t, peerkeytest.Key(0)))
 
-	if err := callOf(t, server, directTransports, peerkeytest.Key(0).Identity()); err != nil {
+	if err := callOf(
+		t,
+		server,
+		transportsFor(t, networkName),
+		peerkeytest.Key(0).Identity(),
+	); err != nil {
 		t.Fatalf("call = %v, want an answer", err)
 	}
 }
@@ -37,19 +42,23 @@ func TestTransportForAPeerRefusesAServerThatCannotProveItsKey(t *testing.T) {
 	}{
 		"another peer": {
 			config:     serverConfigOf(t, peerkeytest.Key(1)),
-			transports: directTransports,
+			transports: transportsFor(t, networkName),
 		},
 		"another network": {
 			config:     serverConfigOf(t, peerkeytest.Key(0)),
-			transports: peertls.NewTransports(nil, "othernet"),
+			transports: transportsFor(t, "othernet"),
 		},
 		"no endorsement": {
 			config:     configWithoutEndorsement(t),
-			transports: directTransports,
+			transports: transportsFor(t, networkName),
+		},
+		"malformed endorsement": {
+			config:     configWithMalformedEndorsement(t),
+			transports: transportsFor(t, networkName),
 		},
 		"endorsement of another TLS key": {
 			config:     configWithCopiedEndorsement(t, serverConfigOf(t, peerkeytest.Key(0))),
-			transports: directTransports,
+			transports: transportsFor(t, networkName),
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
@@ -74,6 +83,12 @@ func TestServerConfigMakesANewTLSKeyAtEachStart(t *testing.T) {
 	if string(first.RawSubjectPublicKeyInfo) == string(second.RawSubjectPublicKeyInfo) {
 		t.Error("two starts serve one TLS key, want a new key at each start")
 	}
+}
+
+func transportsFor(t *testing.T, network string) peertls.Transports {
+	t.Helper()
+
+	return peertls.NewTransports(egresstunneltest.StartedProxy(t, nil), network)
 }
 
 func serverConfigOf(t *testing.T, key yacymodel.PeerKey) *tls.Config {
@@ -139,6 +154,15 @@ func configWithoutEndorsement(t *testing.T) *tls.Config {
 	t.Helper()
 
 	return configOfSelfSignedCertificate(t, &x509.Certificate{SerialNumber: big.NewInt(1)})
+}
+
+func configWithMalformedEndorsement(t *testing.T) *tls.Config {
+	t.Helper()
+
+	return configOfSelfSignedCertificate(t, &x509.Certificate{
+		SerialNumber: big.NewInt(1),
+		URIs:         []*url.URL{{Scheme: "yacy-tls-key", Opaque: "not-an-identity"}},
+	})
 }
 
 func configWithCopiedEndorsement(t *testing.T, endorsed *tls.Config) *tls.Config {

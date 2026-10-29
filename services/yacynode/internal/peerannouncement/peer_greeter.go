@@ -50,7 +50,7 @@ func (g peerGreeter) Greet(
 			Path:   yacyproto.PathHello,
 			Form:   request.Form(),
 		},
-		peerwire.BaseURLsFrom(record.Addresses, record.Callee.Identity()),
+		record.BaseURLs(),
 		func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, record.Callee.Hash(), fields) },
 		greetBudget,
 	)

@@ -46,14 +46,14 @@ var _ callerReachabilityProbe = callerBackPing{}
 
 func (p callerBackPing) Reach(
 	ctx context.Context,
-	caller yacymodel.Seed,
+	caller peerwire.Callee,
 	addresses yacymodel.PeerAddresses,
 	self yacymodel.Hash,
 	networkName string,
 ) (peerwire.BaseURL, bool) {
 	if !p.takeSlot(ctx) {
 		slog.WarnContext(ctx, "caller back-ping skipped, no back-ping slot freed in time",
-			slog.String("peer", caller.Hash.String()),
+			slog.String("peer", caller.Hash().String()),
 		)
 
 		return peerwire.BaseURL{}, false
@@ -62,33 +62,19 @@ func (p callerBackPing) Reach(
 
 	query := yacyproto.QueryRequest{
 		NetworkName: networkName,
-		YouAre:      caller.Hash,
+		YouAre:      caller.Hash(),
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
-	callee := calleeFrom(caller, networkName)
 	answer, answered := p.walker.TryInTurn(
 		ctx,
-		peerwire.Request{Callee: callee, Path: yacyproto.PathQuery, Form: query.Form()},
-		p.baseURLsAnsweredFirst(
-			ctx,
-			caller.Hash,
-			peerwire.BaseURLsFrom(addresses, callee.Identity()),
-		),
+		peerwire.Request{Callee: caller, Path: yacyproto.PathQuery, Form: query.Form()},
+		p.baseURLsAnsweredFirst(ctx, caller.Hash(), caller.BaseURLsFrom(addresses)),
 		isRWICountReply,
 		backPingBudget,
 	)
 
 	return answer.BaseURL, answered
-}
-
-func calleeFrom(caller yacymodel.Seed, networkName string) peerwire.Callee {
-	identity, identified := caller.IdentityIn(networkName).Get()
-	if !identified {
-		return peerwire.UnidentifiedCallee(caller.Hash)
-	}
-
-	return peerwire.IdentifiedCallee(identity)
 }
 
 func (p callerBackPing) takeSlot(ctx context.Context) bool {

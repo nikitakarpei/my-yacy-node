@@ -2,8 +2,6 @@ package nodeconfiguration
 
 import (
 	"fmt"
-	"net"
-	"strconv"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
@@ -59,12 +57,12 @@ func loadIdentityConfig(
 		return IdentityConfig{}, err
 	}
 
-	port, err := advertisePort(getenv, EnvPeerAddr, serving.PeerAddr, EnvAdvertisePort)
+	port, err := envconfig.PositiveInt(getenv, EnvAdvertisePort, serving.PeerPort)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
 
-	securePort, err := advertiseSecurePort(getenv, serving.SecurePeerAddr)
+	securePort, err := advertisedSecurePort(getenv, serving.SecurePeerPort)
 	if err != nil {
 		return IdentityConfig{}, err
 	}
@@ -135,46 +133,20 @@ func advertisedAdditionalHosts(getenv func(string) string) ([]yacymodel.Host, er
 	return hosts, nil
 }
 
-func advertisePort(
+func advertisedSecurePort(
 	getenv func(string) string,
-	listenAddrKey string,
-	listenAddr string,
-	advertisePortKey string,
-) (int, error) {
-	listenPort, err := listenPortOf(listenAddrKey, listenAddr)
-	if err != nil {
-		return 0, err
-	}
-
-	return envconfig.PositiveInt(getenv, advertisePortKey, listenPort)
-}
-
-func listenPortOf(listenAddrKey, listenAddr string) (int, error) {
-	_, portPart, err := net.SplitHostPort(listenAddr)
-	if err != nil {
-		return 0, fmt.Errorf("%s: %w", listenAddrKey, err)
-	}
-
-	port, err := strconv.Atoi(portPart)
-	if err != nil {
-		return 0, fmt.Errorf("%s: %w", listenAddrKey, err)
-	}
-	if port <= 0 {
-		return 0, fmt.Errorf("%s: must carry a positive port", listenAddrKey)
-	}
-
-	return port, nil
-}
-
-func advertiseSecurePort(
-	getenv func(string) string,
-	securePeerAddr yacymodel.Optional[string],
+	securePeerPort yacymodel.Optional[int],
 ) (yacymodel.Optional[int], error) {
-	listenAddr, serving := securePeerAddr.Get()
+	listenPort, serving := securePeerPort.Get()
 	if !serving {
+		if strings.TrimSpace(getenv(EnvAdvertiseSecurePort)) != "" {
+			return yacymodel.None[int](), fmt.Errorf("%s: must not be set while %s is false",
+				EnvAdvertiseSecurePort, EnvSecurePeerEnabled)
+		}
+
 		return yacymodel.None[int](), nil
 	}
-	port, err := advertisePort(getenv, EnvSecurePeerAddr, listenAddr, EnvAdvertiseSecurePort)
+	port, err := envconfig.PositiveInt(getenv, EnvAdvertiseSecurePort, listenPort)
 	if err != nil {
 		return yacymodel.None[int](), err
 	}

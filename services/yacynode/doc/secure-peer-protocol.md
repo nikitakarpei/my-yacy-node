@@ -8,7 +8,7 @@ seed of the node announces the secure port.
 | --- | --- | --- |
 | `YACY_SECURE_PEER_ENABLED` | `true` | Serve and announce the secure port. Set it to `false` when other peers cannot reach a second port of the node. |
 | `YACY_SECURE_PEER_ADDR` | `:8443` | Listen address for the secure peer protocol. |
-| `YACY_ADVERTISE_SECURE_PORT` | _(the `YACY_SECURE_PEER_ADDR` port)_ | Secure port other peers use to reach you. |
+| `YACY_ADVERTISE_SECURE_PORT` | _(the `YACY_SECURE_PEER_ADDR` port)_ | Secure port other peers use to reach you. Do not set it when `YACY_SECURE_PEER_ENABLED` is `false`. |
 
 ## Calls to other peers
 
@@ -20,7 +20,8 @@ that peer.
 When the signed seed of a peer announces no secure port, the node calls that
 peer only over plain HTTP.
 
-The node calls all other peers as before.
+When a peer has no signed seed, the node tries HTTPS first for each DNS name of
+the peer, with a certificate from a public authority, and then plain HTTP.
 
 ## Java peers
 

@@ -120,7 +120,7 @@ func (w Walker) try(
 	sentAt := w.clock.Now()
 	fields, err := w.roundTripper.post(
 		attemptCtx,
-		request.Callee.Identity(),
+		request.Callee,
 		baseURL,
 		request.Path,
 		body,

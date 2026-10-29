@@ -69,8 +69,8 @@ func (c Courier) Deliver(
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
 	record, _ := c.peerRecords.RecordOf(ctx, peer)
-	baseURL, answered := record.AnsweredBaseURL.Get()
-	if !answered {
+	baseURL, known := record.AnsweredBaseURL.Get()
+	if !known {
 		slog.WarnContext(
 			ctx,
 			"url metadata not delivered to peer without answered base URL",
@@ -88,7 +88,7 @@ func (c Courier) Deliver(
 		URLs:        metadata,
 	}
 
-	answer, replied := c.formPoster.TryAt(
+	answer, answered := c.formPoster.TryAt(
 		ctx,
 		peerwire.Request{
 			Callee: record.Callee,
@@ -99,7 +99,7 @@ func (c Courier) Deliver(
 		isTransferURLReply,
 		deliveryBudget,
 	)
-	if !replied {
+	if !answered {
 		slog.WarnContext(ctx, "url metadata delivery failed", slog.String("peer", peer.String()))
 
 		return Receipt{Outcome: Unreachable}

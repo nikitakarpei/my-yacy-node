@@ -52,11 +52,10 @@ func Open(
 		peers:            peers,
 		now:              now,
 		reservoirCap:     reservoirCap,
-		reachableCap:     reachableCap,
 		announceInterval: announceInterval,
 		self:             self,
 		networkName:      networkName,
 		observer:         observer,
-		reachable:        make(map[yacymodel.Hash]reachablePeer),
+		reachable:        newReachablePeers(reachableCap),
 	}, nil
 }

@@ -19,6 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	yacynode "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/egresstunnel/egresstunneltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peertls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -118,7 +119,7 @@ func TestRunServiceServesThePeerProtocolOverTLSThatItsPeerKeyEndorses(t *testing
 	defer node.stop()
 
 	client := &http.Client{
-		Transport: peertls.NewTransports(nil, nodeNetwork).
+		Transport: peertls.NewTransports(egresstunneltest.StartedProxy(t, nil), nodeNetwork).
 			TransportFor(peerkeytest.Key(0).Identity()),
 	}
 	request, err := http.NewRequestWithContext(

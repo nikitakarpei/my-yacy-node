@@ -3,20 +3,18 @@ package peertls
 import (
 	"context"
 	"crypto/tls"
-	"crypto/x509"
 	"errors"
 	"fmt"
 	"net"
 	"net/http"
 	"net/url"
-	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/egresstunnel"
 )
 
 var (
 	errNoCertificate = errors.New("no certificate")
-	errNoEndorsement = errors.New("no TLS key endorsement")
 	errOtherIdentity = errors.New("certificate of another identity")
 	errNotEndorsed   = errors.New("TLS key not endorsed")
 )
@@ -44,7 +42,7 @@ func (t Transports) verifiedConnectionTo(
 	address string,
 	identity yacymodel.PeerIdentity,
 ) (net.Conn, error) {
-	tunnel, err := tunnelTo(ctx, t.proxyURL, address)
+	tunnel, err := egresstunnel.ConnectionThrough(ctx, t.proxyURL, address)
 	if err != nil {
 		return nil, err
 	}
@@ -92,31 +90,4 @@ func verifyIdentity(
 	}
 
 	return nil
-}
-
-func endorsementOf(certificate *x509.Certificate) (yacymodel.TLSKeyEndorsement, error) {
-	for _, uri := range certificate.URIs {
-		if uri.Scheme == endorsementScheme {
-			return endorsementFrom(uri.Opaque)
-		}
-	}
-
-	return yacymodel.TLSKeyEndorsement{}, errNoEndorsement
-}
-
-func endorsementFrom(text string) (yacymodel.TLSKeyEndorsement, error) {
-	cut := strings.LastIndex(text, endorsementPartSeparator)
-	if cut < 0 {
-		return yacymodel.TLSKeyEndorsement{}, errNoEndorsement
-	}
-	identity, err := yacymodel.ParsePeerIdentity(text[:cut])
-	if err != nil {
-		return yacymodel.TLSKeyEndorsement{}, fmt.Errorf("%w: %w", errNoEndorsement, err)
-	}
-	signature, err := yacymodel.ParseSignature(text[cut+1:])
-	if err != nil {
-		return yacymodel.TLSKeyEndorsement{}, fmt.Errorf("%w: %w", errNoEndorsement, err)
-	}
-
-	return yacymodel.TLSKeyEndorsement{Identity: identity, Signature: signature}, nil
 }

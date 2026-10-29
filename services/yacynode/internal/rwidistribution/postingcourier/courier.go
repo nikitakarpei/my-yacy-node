@@ -70,8 +70,8 @@ func (c Courier) Offer(
 	postings []yacymodel.RWIPosting,
 ) Receipt {
 	record, _ := c.peerRecords.RecordOf(ctx, peer)
-	baseURL, answered := record.AnsweredBaseURL.Get()
-	if !answered {
+	baseURL, known := record.AnsweredBaseURL.Get()
+	if !known {
 		slog.WarnContext(
 			ctx,
 			"posting offer not sent to peer without answered base URL",
@@ -81,8 +81,8 @@ func (c Courier) Offer(
 		return Receipt{Outcome: Unaddressable}
 	}
 
-	resp, replied := c.postTransferRWI(ctx, record.Callee, baseURL, postings)
-	if !replied {
+	resp, answered := c.postTransferRWI(ctx, record.Callee, baseURL, postings)
+	if !answered {
 		slog.WarnContext(ctx, "posting offer failed", slog.String("peer", peer.String()))
 
 		return Receipt{Outcome: Unreachable}

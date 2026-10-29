@@ -68,11 +68,3 @@ func certificateFor(key yacymodel.PeerKey, networkName string) (tls.Certificate,
 
 	return tls.Certificate{Certificate: [][]byte{certificate}, PrivateKey: tlsKey}, nil
 }
-
-func endorsementURIOf(endorsement yacymodel.TLSKeyEndorsement) *url.URL {
-	return &url.URL{
-		Scheme: endorsementScheme,
-		Opaque: endorsement.Identity.String() + endorsementPartSeparator +
-			yacymodel.Encode(endorsement.Signature[:]),
-	}
-}

@@ -10,3 +10,7 @@ type PeerRecord struct {
 	Addresses       yacymodel.PeerAddresses
 	AnsweredBaseURL yacymodel.Optional[peerwire.BaseURL]
 }
+
+func (r PeerRecord) BaseURLs() []peerwire.BaseURL {
+	return r.Callee.BaseURLsFrom(r.Addresses)
+}

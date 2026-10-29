@@ -1,4 +1,6 @@
-package peertls
+// Package egresstunnel opens a TCP connection to an address through the egress proxy with HTTP
+// CONNECT. It talks TLS to an https proxy and checks the certificate of the proxy.
+package egresstunnel
 
 import (
 	"bufio"
@@ -14,27 +16,19 @@ import (
 
 var (
 	errTunnelRefused   = errors.New("proxy refused the tunnel")
+	errTunnelWithBody  = errors.New("proxy answered the tunnel with a body")
 	errEarlyProxyBytes = errors.New("proxy sent bytes before the tunnel opened")
 )
 
 var proxyDefaultPorts = map[string]string{"http": "80", "https": "443"}
 
-func tunnelTo(ctx context.Context, proxyURL *url.URL, address string) (net.Conn, error) {
-	if proxyURL == nil {
-		var dialer net.Dialer
-		connection, err := dialer.DialContext(ctx, "tcp", address)
-		if err != nil {
-			return nil, fmt.Errorf("dial %s: %w", address, err)
-		}
-
-		return connection, nil
-	}
+func ConnectionThrough(ctx context.Context, proxyURL *url.URL, address string) (net.Conn, error) {
 	proxyConnection, err := proxyConnectionTo(ctx, proxyURL)
 	if err != nil {
 		return nil, err
 	}
 	if err := openTunnel(ctx, proxyConnection, proxyURL, address); err != nil {
-		return nil, errors.Join(err, proxyConnection.Close())
+		return nil, err
 	}
 
 	return proxyConnection, nil
@@ -73,8 +67,20 @@ func proxyAddressOf(proxyURL *url.URL) string {
 
 func openTunnel(ctx context.Context, connection net.Conn, proxyURL *url.URL, address string) error {
 	stopClosingOnCancel := context.AfterFunc(ctx, func() { _ = connection.Close() })
-	defer stopClosingOnCancel()
+	err := askForTunnel(connection, proxyURL, address)
+	if !stopClosingOnCancel() {
+		return fmt.Errorf("open the tunnel: %w", context.Cause(ctx))
+	}
+	if err != nil {
+		_ = connection.Close()
 
+		return err
+	}
+
+	return nil
+}
+
+func askForTunnel(connection net.Conn, proxyURL *url.URL, address string) error {
 	connect := connectRequestFor(proxyURL, address)
 	if err := connect.Write(connection); err != nil {
 		return fmt.Errorf("ask the proxy for a tunnel: %w", err)
@@ -84,15 +90,21 @@ func openTunnel(ctx context.Context, connection net.Conn, proxyURL *url.URL, add
 	if err != nil {
 		return fmt.Errorf("read the proxy reply: %w", err)
 	}
+	announcesBody := reply.ContentLength > 0 || len(reply.TransferEncoding) > 0
+	if announcesBody {
+		_ = connection.Close()
+	}
 	_ = reply.Body.Close()
-	if reply.StatusCode != http.StatusOK {
+	switch {
+	case reply.StatusCode != http.StatusOK:
 		return fmt.Errorf("%w: %s", errTunnelRefused, reply.Status)
-	}
-	if replies.Buffered() > 0 {
+	case announcesBody:
+		return errTunnelWithBody
+	case replies.Buffered() > 0:
 		return errEarlyProxyBytes
+	default:
+		return nil
 	}
-
-	return nil
 }
 
 func connectRequestFor(proxyURL *url.URL, address string) *http.Request {

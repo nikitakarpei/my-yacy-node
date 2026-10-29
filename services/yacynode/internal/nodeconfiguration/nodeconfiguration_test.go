@@ -423,6 +423,12 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerName:            "n",
 		nodeconfiguration.EnvAdvertiseSecurePort: "-3",
 	},
+	"secure port while the secure peer protocol is off": {
+		nodeconfiguration.EnvPeerKey:             peerKeyText,
+		nodeconfiguration.EnvPeerName:            "n",
+		nodeconfiguration.EnvSecurePeerEnabled:   "false",
+		nodeconfiguration.EnvAdvertiseSecurePort: "9443",
+	},
 	"bad quota": {
 		nodeconfiguration.EnvPeerKey:      peerKeyText,
 		nodeconfiguration.EnvPeerName:     "n",
