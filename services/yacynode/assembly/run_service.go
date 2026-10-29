@@ -39,20 +39,20 @@ const (
 )
 
 type Listeners struct {
-	PeerProtocol net.Listener
+	PeerPort net.Listener
 }
 
 func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
-	peerProtocol, err := servergroup.Listen(ctx, cfg.Serving.PeerAddr)
+	peerPort, err := servergroup.Listen(ctx, cfg.Serving.PeerAddr)
 	if err != nil {
 		return Listeners{}, err
 	}
-	return Listeners{PeerProtocol: peerProtocol}, nil
+	return Listeners{PeerPort: peerPort}, nil
 }
 
 func (l Listeners) Close() error {
-	if err := l.PeerProtocol.Close(); err != nil {
-		return fmt.Errorf("close the peer protocol listener: %w", err)
+	if err := l.PeerPort.Close(); err != nil {
+		return fmt.Errorf("close the peer port: %w", err)
 	}
 	return nil
 }
@@ -190,20 +190,20 @@ func peerProtocolServersFor(
 	if err != nil {
 		return nil, fmt.Errorf("secure peer protocol: %w", err)
 	}
-	peerPort := peerport.ListenersOn(
+	schemeListeners := peerport.ListenersOn(
 		ctx,
-		listeners.PeerProtocol,
+		listeners.PeerPort,
 		wallclock.Clock{},
 		connectionObserver,
 	)
 
 	return []servergroup.NamedServer{{
 		Name:     "peer protocol",
-		Listener: peerPort.HTTP,
+		Listener: schemeListeners.HTTP,
 		Server:   serverFor(peerHandler),
 	}, {
 		Name:     "secure peer protocol",
-		Listener: tls.NewListener(peerPort.HTTPS, tlsConfig),
+		Listener: tls.NewListener(schemeListeners.HTTPS, tlsConfig),
 		Server:   serverFor(peerHandler),
 	}}, nil
 }

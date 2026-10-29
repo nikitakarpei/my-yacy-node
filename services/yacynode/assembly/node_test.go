@@ -195,7 +195,7 @@ func TestRunServiceFailsWhenStorageCannotBeOpened(t *testing.T) {
 	err := yacynode.RunService(
 		t.Context(),
 		config,
-		yacynode.Listeners{PeerProtocol: listenerFor(t)},
+		yacynode.Listeners{PeerPort: listenerFor(t)},
 		prometheus.NewRegistry(),
 	)
 	if err == nil {
@@ -212,8 +212,8 @@ func TestListenersForListensOnThePeerAddress(t *testing.T) {
 		t.Fatalf("ListenersFor: %v", err)
 	}
 	t.Cleanup(func() { _ = listeners.Close() })
-	if listeners.PeerProtocol.Addr().String() == "127.0.0.1:0" {
-		t.Errorf("peer protocol listener = %s, want a bound port", listeners.PeerProtocol.Addr())
+	if listeners.PeerPort.Addr().String() == "127.0.0.1:0" {
+		t.Errorf("peer port = %s, want a bound port", listeners.PeerPort.Addr())
 	}
 }
 
@@ -237,7 +237,7 @@ func TestListenersCloseReleasesThePeerAddress(t *testing.T) {
 	if err := listeners.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}
-	address := listeners.PeerProtocol.Addr()
+	address := listeners.PeerPort.Addr()
 	reopened, err := servergroup.Listen(t.Context(), address.String())
 	if err != nil {
 		t.Fatalf("listen on the closed address %s: %v", address, err)
@@ -296,10 +296,10 @@ type runningNode struct {
 func startNode(t *testing.T, config yacynode.ServiceConfig) runningNode {
 	t.Helper()
 
-	listeners := yacynode.Listeners{PeerProtocol: listenerFor(t)}
+	listeners := yacynode.Listeners{PeerPort: listenerFor(t)}
 	ctx, cancel := context.WithCancel(context.Background())
 	node := runningNode{
-		peerAddr: listeners.PeerProtocol.Addr().String(),
+		peerAddr: listeners.PeerPort.Addr().String(),
 		registry: prometheus.NewRegistry(),
 		stop:     cancel,
 		stopped:  make(chan error, 1),
