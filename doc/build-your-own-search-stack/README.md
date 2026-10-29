@@ -27,7 +27,6 @@ Complete every empty value in `.env`.
 | # | Capability |
 | --- | --- |
 | 1 | [Join the YaCy network with one peer](chapters/01-join-the-yacy-network-with-one-peer) |
-| 1.1 | [Join the network from behind NAT](chapters/01.1-join-the-network-from-behind-nat) |
 | 2 | [Search the YaCy network from your browser](chapters/02-search-the-yacy-network-from-your-browser) |
 | 3 | [Give your peer a crawler](chapters/03-give-your-peer-a-crawler) |
 | 4 | [Search your index from a browser](chapters/04-search-your-index-from-a-browser) |

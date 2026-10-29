@@ -38,8 +38,6 @@ components:
     in: foregroundprocess/**
   processenvironmentleaseclient:
     in: processenvironmentleaseclient/**
-  processenvironmentleaseserver:
-    in: processenvironmentleaseserver/**
   processentrypoint:
     in: processentrypoint/**
 
@@ -90,9 +88,6 @@ deps:
     canUse:
       - nats
   processenvironmentleaseclient:
-    canUse:
-      - processenvironmentlease
-  processenvironmentleaseserver:
     canUse:
       - processenvironmentlease
   processentrypoint:

@@ -215,34 +215,18 @@ func TestListenersForListensOnThePeerAddress(t *testing.T) {
 	if listeners.PeerProtocol.Addr().String() == "127.0.0.1:0" {
 		t.Errorf("peer protocol listener = %s, want a bound port", listeners.PeerProtocol.Addr())
 	}
-	securePeerProtocol, serving := listeners.SecurePeerProtocol.Get()
-	if !serving || securePeerProtocol.Addr().String() == "127.0.0.1:0" {
+	if listeners.SecurePeerProtocol.Addr().String() == "127.0.0.1:0" {
 		t.Errorf(
-			"secure peer protocol listener = %v, want a bound port",
-			listeners.SecurePeerProtocol,
+			"secure peer protocol listener = %s, want a bound port",
+			listeners.SecurePeerProtocol.Addr(),
 		)
-	}
-}
-
-func TestListenersForOpensNoSecureListenerWhenTheSecurePeerProtocolIsOff(t *testing.T) {
-	config := nodeConfigFor(t)
-	config.Serving.PeerAddr = "127.0.0.1:0"
-	config.Serving.SecurePeerAddr = yacymodel.None[string]()
-
-	listeners, err := yacynode.ListenersFor(t.Context(), config)
-	if err != nil {
-		t.Fatalf("ListenersFor: %v", err)
-	}
-	t.Cleanup(func() { _ = listeners.Close() })
-	if listeners.SecurePeerProtocol.Present() {
-		t.Errorf("secure peer protocol listener = %v, want none", listeners.SecurePeerProtocol)
 	}
 }
 
 func TestListenersForFailsOnAnUnusableSecureAddress(t *testing.T) {
 	config := nodeConfigFor(t)
 	config.Serving.PeerAddr = "127.0.0.1:0"
-	config.Serving.SecurePeerAddr = yacymodel.Some("not-an-address")
+	config.Serving.SecurePeerAddr = "not-an-address"
 
 	if _, err := yacynode.ListenersFor(t.Context(), config); err == nil {
 		t.Fatal("expected error for an unusable secure peer address")
@@ -269,8 +253,10 @@ func TestListenersCloseReleasesThePeerAddress(t *testing.T) {
 	if err := listeners.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}
-	securePeerProtocol, _ := listeners.SecurePeerProtocol.Get()
-	for _, address := range []net.Addr{listeners.PeerProtocol.Addr(), securePeerProtocol.Addr()} {
+	for _, address := range []net.Addr{
+		listeners.PeerProtocol.Addr(),
+		listeners.SecurePeerProtocol.Addr(),
+	} {
 		reopened, err := servergroup.Listen(t.Context(), address.String())
 		if err != nil {
 			t.Fatalf("listen on the closed address %s: %v", address, err)
@@ -292,7 +278,7 @@ func nodeConfigFor(t *testing.T) yacynode.ServiceConfig {
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
-	config.Serving.SecurePeerAddr = yacymodel.Some("127.0.0.1:0")
+	config.Serving.SecurePeerAddr = "127.0.0.1:0"
 
 	return config
 }
@@ -335,7 +321,7 @@ func startNode(t *testing.T, config yacynode.ServiceConfig) runningNode {
 	securePeerProtocol := listenerFor(t)
 	listeners := yacynode.Listeners{
 		PeerProtocol:       listenerFor(t),
-		SecurePeerProtocol: yacymodel.Some(securePeerProtocol),
+		SecurePeerProtocol: securePeerProtocol,
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	node := runningNode{

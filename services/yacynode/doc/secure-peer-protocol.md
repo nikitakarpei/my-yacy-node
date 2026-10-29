@@ -6,9 +6,8 @@ seed of the node announces the secure port.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `YACY_SECURE_PEER_ENABLED` | `true` | Serve and announce the secure port. Set it to `false` when other peers cannot reach a second port of the node. |
 | `YACY_SECURE_PEER_ADDR` | `:8443` | Listen address for the secure peer protocol. |
-| `YACY_ADVERTISE_SECURE_PORT` | _(the `YACY_SECURE_PEER_ADDR` port)_ | Secure port other peers use to reach you. Do not set it when `YACY_SECURE_PEER_ENABLED` is `false`. |
+| `YACY_ADVERTISE_SECURE_PORT` | _(the `YACY_SECURE_PEER_ADDR` port)_ | Secure port other peers use to reach you. |
 
 ## Calls to other peers
 

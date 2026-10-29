@@ -22,9 +22,7 @@ Make a peer key once. This takes one minute. Keep `.env` safe:
 echo "YACY_PEER_KEY=$(docker run --rm ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest yacy-peer-key)" >> .env
 ```
 
-Allow inbound connections to ports 8090 and 8443, then start the stack. Use
-[chapter 1.1](../01.1-join-the-network-from-behind-nat) if you have no public
-address for these ports:
+Allow inbound connections to ports 8090 and 8443, then start the stack:
 
 ```sh
 docker compose up -d
@@ -44,6 +42,5 @@ other peers.
 
 ## More information
 
-- [Join the network from behind NAT](../01.1-join-the-network-from-behind-nat)
 - [Node configuration](../../../../services/yacynode/doc/configuration.md)
 - [Node behavior](../../../../services/yacynode/doc/specification.md)

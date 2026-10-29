@@ -18,7 +18,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault/pebblemetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peertls"
@@ -39,7 +38,7 @@ const (
 
 type Listeners struct {
 	PeerProtocol       net.Listener
-	SecurePeerProtocol yacymodel.Optional[net.Listener]
+	SecurePeerProtocol net.Listener
 }
 
 func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
@@ -47,17 +46,13 @@ func ListenersFor(ctx context.Context, cfg ServiceConfig) (Listeners, error) {
 	if err != nil {
 		return Listeners{}, err
 	}
-	securePeerAddr, serving := cfg.Serving.SecurePeerAddr.Get()
-	if !serving {
-		return Listeners{PeerProtocol: peerProtocol}, nil
-	}
-	securePeerProtocol, err := servergroup.Listen(ctx, securePeerAddr)
+	securePeerProtocol, err := servergroup.Listen(ctx, cfg.Serving.SecurePeerAddr)
 	if err != nil {
 		return Listeners{}, errors.Join(err, peerProtocol.Close())
 	}
 	return Listeners{
 		PeerProtocol:       peerProtocol,
-		SecurePeerProtocol: yacymodel.Some(securePeerProtocol),
+		SecurePeerProtocol: securePeerProtocol,
 	}, nil
 }
 
@@ -66,10 +61,8 @@ func (l Listeners) Close() error {
 	if err := l.PeerProtocol.Close(); err != nil {
 		errs = append(errs, fmt.Errorf("close the peer protocol listener: %w", err))
 	}
-	if securePeerProtocol, serving := l.SecurePeerProtocol.Get(); serving {
-		if err := securePeerProtocol.Close(); err != nil {
-			errs = append(errs, fmt.Errorf("close the secure peer protocol listener: %w", err))
-		}
+	if err := l.SecurePeerProtocol.Close(); err != nil {
+		errs = append(errs, fmt.Errorf("close the secure peer protocol listener: %w", err))
 	}
 	return errors.Join(errs...)
 }
@@ -200,10 +193,6 @@ func peerProtocolServersFor(
 		Listener: listeners.PeerProtocol,
 		Server:   serverFor(peerHandler),
 	}
-	securePeerProtocol, serving := listeners.SecurePeerProtocol.Get()
-	if !serving {
-		return []servergroup.NamedServer{peerProtocolServer}, nil
-	}
 	tlsConfig, err := peertls.ServerConfigFor(identity.PeerKey, identity.NetworkName)
 	if err != nil {
 		return nil, fmt.Errorf("secure peer protocol: %w", err)
@@ -211,7 +200,7 @@ func peerProtocolServersFor(
 
 	return []servergroup.NamedServer{peerProtocolServer, {
 		Name:     "secure peer protocol",
-		Listener: tls.NewListener(securePeerProtocol, tlsConfig),
+		Listener: tls.NewListener(listeners.SecurePeerProtocol, tlsConfig),
 		Server:   serverFor(peerHandler),
 	}}, nil
 }
