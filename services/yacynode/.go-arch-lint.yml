@@ -36,6 +36,8 @@ components:
     in: internal/peerwire/**
   peertls:
     in: internal/peertls/**
+  peerport:
+    in: internal/peerport/**
   egresstunnel:
     in: internal/egresstunnel/**
   nodepeerhash:
@@ -390,6 +392,7 @@ deps:
     mayDependOn:
       - eviction
       - peerannouncement
+      - peerport
       - peerroster
       - peerwire
       - remoteindexadmission

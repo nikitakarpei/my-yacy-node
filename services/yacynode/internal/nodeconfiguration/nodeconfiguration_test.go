@@ -121,54 +121,6 @@ func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 	}
 }
 
-func TestLoadServesAndAnnouncesTheSecurePortByDefault(t *testing.T) {
-	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerKey:        peerKeyText,
-		nodeconfiguration.EnvPeerName:       "node",
-		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
-	}))
-	if err != nil {
-		t.Fatalf("load config: %v", err)
-	}
-
-	if config.Serving.SecurePeerAddr != nodeconfiguration.DefaultSecurePeerAddr {
-		t.Errorf(
-			"SecurePeerAddr = %q, want %q",
-			config.Serving.SecurePeerAddr,
-			nodeconfiguration.DefaultSecurePeerAddr,
-		)
-	}
-	if config.Identity.AdvertiseSecurePort != 8443 {
-		t.Errorf(
-			"AdvertiseSecurePort = %d, want 8443 (from secure peer addr)",
-			config.Identity.AdvertiseSecurePort,
-		)
-	}
-	if !config.Identity.Capabilities.SSLAvailable {
-		t.Error("SSLAvailable = false, want true")
-	}
-}
-
-func TestLoadReadsTheSecurePeerOverrides(t *testing.T) {
-	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerKey:             peerKeyText,
-		nodeconfiguration.EnvPeerName:            "node",
-		nodeconfiguration.EnvEgressProxyURL:      "http://proxy:4750",
-		nodeconfiguration.EnvSecurePeerAddr:      ":7443",
-		nodeconfiguration.EnvAdvertiseSecurePort: "9443",
-	}))
-	if err != nil {
-		t.Fatalf("load config: %v", err)
-	}
-
-	if config.Serving.SecurePeerAddr != ":7443" {
-		t.Errorf("SecurePeerAddr = %q, want :7443", config.Serving.SecurePeerAddr)
-	}
-	if config.Identity.AdvertiseSecurePort != 9443 {
-		t.Errorf("AdvertiseSecurePort = %d, want 9443", config.Identity.AdvertiseSecurePort)
-	}
-}
-
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvPeerKey:                     peerKeyText,
@@ -391,16 +343,6 @@ var rejectedEnvironments = map[string]map[string]string{
 		nodeconfiguration.EnvPeerKey:       peerKeyText,
 		nodeconfiguration.EnvPeerName:      "n",
 		nodeconfiguration.EnvAdvertisePort: "-3",
-	},
-	"bad secure peer addr": {
-		nodeconfiguration.EnvPeerKey:        peerKeyText,
-		nodeconfiguration.EnvPeerName:       "n",
-		nodeconfiguration.EnvSecurePeerAddr: "no port",
-	},
-	"bad secure port": {
-		nodeconfiguration.EnvPeerKey:             peerKeyText,
-		nodeconfiguration.EnvPeerName:            "n",
-		nodeconfiguration.EnvAdvertiseSecurePort: "-3",
 	},
 	"bad quota": {
 		nodeconfiguration.EnvPeerKey:      peerKeyText,

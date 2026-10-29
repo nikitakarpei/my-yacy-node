@@ -127,7 +127,6 @@ func assembleNode(
 		Name:            config.Identity.Name.OrElse(derivedPeerName),
 		AdditionalHosts: config.Identity.AdvertiseAdditionalHosts,
 		Port:            config.Identity.AdvertisePort,
-		SecurePort:      config.Identity.AdvertiseSecurePort,
 		Capabilities:    config.Identity.Capabilities,
 		Version:         yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
 		Start:           now(),
