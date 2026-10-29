@@ -18,9 +18,8 @@ go doc ./yacymodel
 go doc ./yacyproto
 ```
 
-The seed of the node has two columns that stock YaCy peers keep but do not read:
-`Identity` holds the public part of the peer key, and `AddressSignature` holds the
-signature of the seed addresses. `yacymodel`
+Seed columns `Identity` (public peer key) and `AddressSignature` (signature of the seed
+addresses) pass through stock YaCy peers unread. `yacymodel`
 [ADR 0001](../../../libraries/yacymodel/doc/adr/0001-derive-the-peer-hash-from-keys-behind-a-work-puzzle.md)
 and [ADR 0004](../../../libraries/yacymodel/doc/adr/0004-sign-the-address-fields-of-a-seed.md)
 define them.

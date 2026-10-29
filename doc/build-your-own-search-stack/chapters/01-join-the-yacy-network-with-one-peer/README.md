@@ -16,8 +16,7 @@ support the network without running a crawler.
 
 ## Start
 
-Make a peer key once. The peer hash and the data of the node belong to this key, so
-keep `.env` safe:
+Make a peer key once, and keep `.env` safe:
 
 ```sh
 echo "YACY_PEER_KEY=$(docker run --rm ghcr.io/nikitakarpei/my-yacy-node/yacynode:latest yacy-peer-key)" >> .env

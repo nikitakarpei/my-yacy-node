@@ -14,49 +14,25 @@ belong to that position on the DHT ring.
 
 ## Decision
 
-The node reads its peer key from `YACY_PEER_KEY` and stores no secret. The node does not start
-without a valid key. `YACY_INITIAL_PEER_HASH` is removed.
+The node reads its peer key from `YACY_PEER_KEY` and keeps no secret on disk.
+`YACY_INITIAL_PEER_HASH` is removed. The node stores the hash of the key and does not start with
+another key.
 
-- A deployment holds secrets in its environment; the data directory holds none. `yacypeer` makes
-  and keeps the key for a one-step peer.
-- The node stores the peer hash that derives from the key, and refuses to start when the stored hash
-  is different. A different key would serve postings for another ring position.
-
-The node puts `Identity` in its seed and signs the address fields each time it makes the seed.
-
-The roster binds the identity of a peer, from the first seed with a valid identity and a valid
-address signature:
+The node signs the addresses of its seed. The roster binds a peer to its first valid signed seed:
 
 | Seed | Bound identity | Result |
 | --- | --- | --- |
-| Valid | None | Bind and accept |
-| Valid | Same | Accept; addresses change as before |
-| Any | Different | Drop |
-| Not valid or not signed | None | Accept as a legacy peer |
-| Not valid or not signed | Present | Drop |
-| Older address signature, same addresses | Present | Accept the contact; keep the bound signature |
-| Older address signature, other addresses | Present | Drop |
-| Signed more than 10 minutes after the local time | Any | Drop; do not bind |
+| Valid, same or newer signature | None or same | Accept; bind |
+| Valid, older signature, same addresses | Same | Accept as a stale copy |
+| Valid, older signature, other addresses | Same | Drop |
+| Signed more than 10 minutes ahead | Any | Drop |
+| Other identity, or not valid | Present | Drop |
+| Not valid | None | Accept as a legacy peer |
 
-- Seeds without a valid identity stay accepted, because Java peers and pruned gossip copies have
-  none. Removal of the columns gives no more than this.
-- After binding, only the key holder can change the peer's address, and an older address cannot
-  return.
-- Concurrent contacts deliver the seeds of a peer out of order. An older seed for the same addresses
-  is such a copy, not a replay, so it is not a drop.
-- A seed from a clock that runs ahead would hold the binding until that time, and the peer could not
-  move.
-- Discovery applies the table to known peers that are not reachable. It accepts only a valid seed
-  with a newer address signature and drops nothing, because stale gossip copies are normal. A
-  reachable peer changes only on its own confirmed contact. A valid seed binds a known
-  legacy peer, so the binding does not wait for a confirmed contact.
-
-The roster observer reports each drop at WARN with its reason.
+Discovery applies the table only to peers that are not reachable, and drops nothing.
 
 ## Consequences
 
-A peer that the roster has not bound has only the protection of a legacy peer.
+Java peers and pruned gossip copies stay legacy peers. Eviction removes a binding.
 
-A peer that the roster drops from its known peers loses its binding.
-
-Requests stay unsigned, so `iam` is still a claim. Java peers still accept forged seeds.
+Requests stay unsigned, so `iam` is still a claim.
