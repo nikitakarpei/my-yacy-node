@@ -160,8 +160,8 @@ func TestDiscoverIgnoresASeedSignedInTheFuture(t *testing.T) {
 
 	roster.Discover(ctx, future)
 
-	if baseURLs, known := roster.BaseURLsOf(ctx, future.Hash); known {
-		t.Errorf("BaseURLsOf = %v, want the peer unknown", baseURLs)
+	if addresses, known := addressesOf(ctx, roster, future.Hash); known {
+		t.Errorf("AddressesOf = %v, want the peer unknown", addresses)
 	}
 }
 
@@ -206,7 +206,7 @@ func TestDiscoverMovesAnUnreachableBoundPeerOnItsNewerSignedSeed(t *testing.T) {
 			roster.Discover(ctx, signedSeedAt(t, test.gossipedHost, signingStart.Add(time.Minute)))
 
 			assertHostOf(t, roster, bound.Hash, test.gossipedHost)
-			if _, kept := roster.AnsweredBaseURLOf(ctx, bound.Hash); kept != test.wantAnswerKept {
+			if _, kept := answeredBaseURLOf(ctx, roster, bound.Hash); kept != test.wantAnswerKept {
 				t.Errorf("answered base URL kept = %v, want %v", kept, test.wantAnswerKept)
 			}
 		})
@@ -303,24 +303,61 @@ func restoredRosterAt(t *testing.T, storagePath string) peerroster.Roster {
 	return openRoster(t, rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4})
 }
 
-func TestRosterReachesABoundPeerOnlyOverPeerHTTPSAtItsSignedSecurePort(t *testing.T) {
+func TestRosterRecordsTheBoundIdentityOfAPeer(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
-	seed := unsignedSeedAt(t, "203.0.113.1")
+	seed := signedSeedAt(t, "203.0.113.1", signingStart)
+
+	roster.Discover(ctx, seed)
+
+	record, _ := roster.RecordOf(ctx, seed.Hash)
+	if identity, _ := record.Identity.Get(); identity != peerkeytest.Key(0).Identity() {
+		t.Errorf("Identity = %v, want the identity of the signed seed", record.Identity)
+	}
+}
+
+func TestRosterKeepsOnlyAnAnsweredBaseURLThatTheBindingAllows(t *testing.T) {
+	for name, test := range map[string]struct {
+		answered       peerwire.BaseURL
+		wantAnswerKept bool
+	}{
+		"plain HTTP to a peer bound to a secure port": {
+			answered: peerwire.BaseURL{Scheme: peerwire.HTTP, Host: hostOf(t, "203.0.113.1"), Port: 8090},
+		},
+		"HTTPS at the secure port": {
+			answered:       peerwire.BaseURL{Scheme: peerwire.HTTPS, Host: hostOf(t, "203.0.113.1"), Port: 8443},
+			wantAnswerKept: true,
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+			roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+			roster.Discover(ctx, unsignedSeedAt(t, "203.0.113.1"))
+
+			roster.ConfirmReachable(
+				ctx,
+				signedSeedWithSecurePortAt(t, "203.0.113.1"),
+				test.answered,
+			)
+
+			if _, kept := answeredBaseURLOf(
+				ctx,
+				roster,
+				peerkeytest.Key(0).Hash(),
+			); kept != test.wantAnswerKept {
+				t.Errorf("answered base URL kept = %v, want %v", kept, test.wantAnswerKept)
+			}
+		})
+	}
+}
+
+func signedSeedWithSecurePortAt(t *testing.T, ip string) yacymodel.Seed {
+	t.Helper()
+	seed := unsignedSeedAt(t, ip)
 	seed.SecurePort = yacymodel.Some(yacymodel.Port(8443))
 	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
 
-	roster.Discover(ctx, peerkeytest.Key(0).SignedSeedFrom(seed, rosterNetworkName, signingStart))
-
-	baseURLs, _ := roster.BaseURLsOf(ctx, seed.Hash)
-	want := []peerwire.BaseURL{{
-		Scheme: peerwire.PeerHTTPS,
-		Host:   hostOf(t, "203.0.113.1"),
-		Port:   yacymodel.Port(8443),
-	}}
-	if !slices.Equal(baseURLs, want) {
-		t.Errorf("BaseURLsOf = %v, want %v", baseURLs, want)
-	}
+	return peerkeytest.Key(0).SignedSeedFrom(seed, rosterNetworkName, signingStart)
 }
 
 func signedSeedAt(t *testing.T, ip string, issuedAt time.Time) yacymodel.Seed {
@@ -349,8 +386,8 @@ func hostOf(t *testing.T, text string) yacymodel.Host {
 
 func assertHostOf(t *testing.T, roster peerroster.Roster, peer yacymodel.Hash, want string) {
 	t.Helper()
-	baseURLs, known := roster.BaseURLsOf(context.Background(), peer)
-	if !known || len(baseURLs) == 0 || baseURLs[0].Host.String() != want {
-		t.Errorf("BaseURLsOf = %v (known %v), want host %s", baseURLs, known, want)
+	addresses, known := addressesOf(context.Background(), roster, peer)
+	if !known || len(addresses.Hosts) == 0 || addresses.Hosts[0].String() != want {
+		t.Errorf("AddressesOf = %v (known %v), want host %s", addresses, known, want)
 	}
 }

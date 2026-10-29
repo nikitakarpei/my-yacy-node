@@ -216,12 +216,16 @@ func peerProtocolServersFor(
 	}}, nil
 }
 
-const serverReadHeaderTimeout = 10 * time.Second
+const (
+	serverReadHeaderTimeout = 10 * time.Second
+	serverIdleTimeout       = time.Minute
+)
 
 func serverFor(handler http.Handler) *http.Server {
 	return &http.Server{
 		Handler:           handler,
 		ReadHeaderTimeout: serverReadHeaderTimeout,
+		IdleTimeout:       serverIdleTimeout,
 	}
 }
 

@@ -1,8 +1,8 @@
 // Package peerwire posts a form to a peer as a multipart body, trying the peer's
 // base URLs in the given order until one gives a reply the caller accepts. Each
-// attempt has a share of the time left, and a redirect ends it. A peer-https base
-// URL goes through the transport for the called peer. It reports why each base URL
-// failed.
+// attempt has a share of the time left, and a redirect ends it. When the request
+// names the identity of the peer, an https base URL goes through the transport for
+// that identity. It reports why each base URL failed.
 package peerwire
 
 import (
@@ -29,13 +29,14 @@ type Clock interface {
 }
 
 type PeerTransports interface {
-	TransportFor(peer yacymodel.Hash) http.RoundTripper
+	TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper
 }
 
 type Request struct {
-	Peer yacymodel.Hash
-	Path string
-	Form url.Values
+	Peer     yacymodel.Hash
+	Identity yacymodel.Optional[yacymodel.PeerIdentity]
+	Path     string
+	Form     url.Values
 }
 
 type Answer struct {
@@ -118,7 +119,7 @@ func (w Walker) try(
 	defer stop()
 
 	sentAt := w.clock.Now()
-	fields, err := w.roundTripper.post(attemptCtx, request.Peer, baseURL, request.Path, body)
+	fields, err := w.roundTripper.post(attemptCtx, request.Identity, baseURL, request.Path, body)
 	if err != nil {
 		if cause := context.Cause(attemptCtx); cause != nil {
 			return Answer{}, fmt.Errorf("attempt ended: %w", cause)

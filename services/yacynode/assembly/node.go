@@ -347,7 +347,7 @@ func assembleNode(
 
 	peerWalker := peerwire.NewWalker(
 		egressClient,
-		peertls.NewTransports(http.ProxyURL(config.Egress.ProxyURL), identity.NetworkName),
+		peertls.NewTransports(config.Egress.ProxyURL, identity.NetworkName),
 		wallclock.Clock{},
 	)
 	peeradmission.MountHello(

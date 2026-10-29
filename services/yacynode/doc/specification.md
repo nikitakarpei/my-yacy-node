@@ -31,7 +31,7 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL announce itself through configured YaCy seedlists.
 * The node SHALL require operators to configure a proxy for outbound connections.
 * The node SHALL be reachable through one stable public endpoint.
-* The node SHALL contact a peer whose signed seed announces a secure port only over TLS that the key of the peer proves, and other peers at their seed addresses in turn, over HTTPS first for a DNS name.
+* The node SHALL contact a peer with a signed seed only over TLS that the key of the peer proves when the seed announces a secure port, else only over plain HTTP, and other peers at their seed addresses in turn, over HTTPS first for a DNS name.
 * The node SHALL announce in peer-liveness responses only its own seed and peers obtained from
   configured seedlists, and SHALL NOT redistribute peers self-reported in inbound requests.
 * The node SHALL honor the requested peer count in peer-liveness requests and select the announced

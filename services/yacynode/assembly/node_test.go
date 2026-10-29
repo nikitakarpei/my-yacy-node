@@ -118,7 +118,8 @@ func TestRunServiceServesThePeerProtocolOverTLSThatItsPeerKeyEndorses(t *testing
 	defer node.stop()
 
 	client := &http.Client{
-		Transport: peertls.NewTransports(nil, nodeNetwork).TransportFor(peerkeytest.Key(0).Hash()),
+		Transport: peertls.NewTransports(nil, nodeNetwork).
+			TransportFor(peerkeytest.Key(0).Identity()),
 	}
 	request, err := http.NewRequestWithContext(
 		t.Context(),

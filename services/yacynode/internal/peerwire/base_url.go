@@ -20,14 +20,13 @@ var errUnknownScheme = errors.New("unknown scheme")
 type Scheme string
 
 const (
-	HTTP      Scheme = "http"
-	HTTPS     Scheme = "https"
-	PeerHTTPS Scheme = "peer-https"
+	HTTP  Scheme = "http"
+	HTTPS Scheme = "https"
 )
 
 func ParseScheme(text string) (Scheme, error) {
 	switch scheme := Scheme(text); scheme {
-	case HTTP, HTTPS, PeerHTTPS:
+	case HTTP, HTTPS:
 		return scheme, nil
 	default:
 		return "", fmt.Errorf("%w: %q", errUnknownScheme, text)
@@ -42,26 +41,28 @@ type BaseURL struct {
 
 func BaseURLsFrom(
 	addresses yacymodel.PeerAddresses,
-	signedIdentity yacymodel.Optional[yacymodel.SignedIdentity],
+	identity yacymodel.Optional[yacymodel.PeerIdentity],
 ) []BaseURL {
-	securePort, announced := addresses.SecurePort.Get()
-	if _, signed := signedIdentity.Get(); signed && announced {
-		return peerHTTPSBaseURLsFrom(addresses.Hosts, securePort)
+	if !identity.Present() {
+		return unidentifiedBaseURLsFrom(addresses)
+	}
+	if securePort, announced := addresses.SecurePort.Get(); announced {
+		return baseURLsAt(HTTPS, addresses.Hosts, securePort)
 	}
 
-	return unsignedBaseURLsFrom(addresses)
+	return baseURLsAt(HTTP, addresses.Hosts, addresses.Port)
 }
 
-func peerHTTPSBaseURLsFrom(hosts []yacymodel.Host, securePort yacymodel.Port) []BaseURL {
+func baseURLsAt(scheme Scheme, hosts []yacymodel.Host, port yacymodel.Port) []BaseURL {
 	baseURLs := make([]BaseURL, 0, hostsPerPeer)
 	for _, host := range hosts[:min(len(hosts), hostsPerPeer)] {
-		baseURLs = append(baseURLs, BaseURL{Scheme: PeerHTTPS, Host: host, Port: securePort})
+		baseURLs = append(baseURLs, BaseURL{Scheme: scheme, Host: host, Port: port})
 	}
 
 	return baseURLs
 }
 
-func unsignedBaseURLsFrom(addresses yacymodel.PeerAddresses) []BaseURL {
+func unidentifiedBaseURLsFrom(addresses yacymodel.PeerAddresses) []BaseURL {
 	var baseURLs []BaseURL
 	for _, host := range addresses.Hosts[:min(len(addresses.Hosts), hostsPerPeer)] {
 		if _, isAddr := host.Addr(); !isAddr {
@@ -83,18 +84,10 @@ func (o BaseURL) String() string {
 
 func (o BaseURL) urlOf(path string) string {
 	target := url.URL{
-		Scheme: o.Scheme.urlScheme(),
+		Scheme: string(o.Scheme),
 		Host:   net.JoinHostPort(o.Host.String(), o.Port.String()),
 		Path:   path,
 	}
 
 	return target.String()
-}
-
-func (s Scheme) urlScheme() string {
-	if s == PeerHTTPS {
-		return string(HTTPS)
-	}
-
-	return string(s)
 }

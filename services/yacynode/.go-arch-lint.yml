@@ -204,6 +204,7 @@ deps:
       - yacyproto
   peeradmission:
     mayDependOn:
+      - peerroster
       - httpguard
       - nodeidentity
       - peerwire
@@ -227,6 +228,7 @@ deps:
       - storedfields
   peerannouncement:
     mayDependOn:
+      - peerroster
       - peerwire
       - bootstrap
     canUse:
@@ -321,11 +323,13 @@ deps:
       - storedfields
   postingcourier:
     mayDependOn:
+      - peerroster
       - peerwire
     canUse:
       - yacyproto
   urlmetadatacourier:
     mayDependOn:
+      - peerroster
       - peerwire
     canUse:
       - yacyproto

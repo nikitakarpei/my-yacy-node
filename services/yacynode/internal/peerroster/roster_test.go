@@ -86,12 +86,13 @@ func TestReachableConfirmationReplacesDiscoveredSeedAndAddresses(t *testing.T) {
 	if !present || !capabilities.AcceptRemoteIndex {
 		t.Fatalf("reachable peer did not retain fresh capabilities")
 	}
-	baseURLs, found := roster.BaseURLsOf(ctx, fresh.Hash)
+	addresses, found := addressesOf(ctx, roster, fresh.Hash)
 	if !found {
-		t.Fatal("fresh base URLs not found")
+		t.Fatal("fresh addresses not found")
 	}
-	if want := unsignedBaseURLsOf(fresh); !reflect.DeepEqual(baseURLs, want) {
-		t.Errorf("base URLs = %v, want %v", baseURLs, want)
+	wantAddresses, _ := fresh.Addresses()
+	if !reflect.DeepEqual(addresses, wantAddresses) {
+		t.Errorf("addresses = %v, want %v", addresses, wantAddresses)
 	}
 }
 
@@ -103,9 +104,10 @@ func TestDiscoveryKeepsTheAddressesOfAKnownPeer(t *testing.T) {
 	roster.Discover(ctx, known)
 	roster.Discover(ctx, seniorSeed(t, "peer", "198.51.100.9", 8091))
 
-	baseURLs, _ := roster.BaseURLsOf(ctx, known.Hash)
-	if want := unsignedBaseURLsOf(known); !reflect.DeepEqual(baseURLs, want) {
-		t.Errorf("base URLs = %v, want the first discovered %v", baseURLs, want)
+	addresses, _ := addressesOf(ctx, roster, known.Hash)
+	wantAddresses, _ := known.Addresses()
+	if !reflect.DeepEqual(addresses, wantAddresses) {
+		t.Errorf("addresses = %v, want the first discovered %v", addresses, wantAddresses)
 	}
 }
 
@@ -121,9 +123,9 @@ func TestDiscoveryKeepsAPeerWithOnlyAdditionalHosts(t *testing.T) {
 
 	roster.Discover(ctx, peer)
 
-	baseURLs, found := roster.BaseURLsOf(ctx, peer.Hash)
-	if !found || len(baseURLs) != 1 || baseURLs[0].Host != host {
-		t.Fatalf("base URLs = %v, %v, want the additional host", baseURLs, found)
+	addresses, found := addressesOf(ctx, roster, peer.Hash)
+	if !found || !reflect.DeepEqual(addresses.Hosts, []yacymodel.Host{host}) {
+		t.Fatalf("addresses = %v, %v, want the additional host", addresses, found)
 	}
 }
 
@@ -142,17 +144,15 @@ func TestReachableUnknownPeerIsAdmitted(t *testing.T) {
 func TestRosterKeepsTheBaseURLThatAnsweredTheLastConfirmation(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
-	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
+	senior := seniorSeed(t, "senior", "senior.example", 8090)
 	secureBaseURL := httpBaseURLOf(senior)
 	secureBaseURL.Scheme = peerwire.HTTPS
+	secureBaseURL.Port = 443
 
 	roster.ConfirmReachable(ctx, senior, httpBaseURLOf(senior))
 	roster.ConfirmReachable(ctx, senior, secureBaseURL)
 
-	if baseURL, found := roster.AnsweredBaseURLOf(
-		ctx,
-		senior.Hash,
-	); !found ||
+	if baseURL, found := answeredBaseURLOf(ctx, roster, senior.Hash); !found ||
 		baseURL != secureBaseURL {
 		t.Fatalf("answered base URL = %v, %v, want %v", baseURL, found, secureBaseURL)
 	}
@@ -165,7 +165,7 @@ func TestRosterHasNoAnsweredBaseURLForADiscoveredPeer(t *testing.T) {
 
 	roster.Discover(ctx, senior)
 
-	if baseURL, found := roster.AnsweredBaseURLOf(ctx, senior.Hash); found {
+	if baseURL, found := answeredBaseURLOf(ctx, roster, senior.Hash); found {
 		t.Fatalf("answered base URL = %v, want none before a confirmation", baseURL)
 	}
 }
@@ -178,7 +178,7 @@ func TestRosterForgetsTheAnsweredBaseURLOfAnUnreachablePeer(t *testing.T) {
 
 	roster.ConfirmUnreachable(ctx, senior.Hash)
 
-	if baseURL, found := roster.AnsweredBaseURLOf(ctx, senior.Hash); found {
+	if baseURL, found := answeredBaseURLOf(ctx, roster, senior.Hash); found {
 		t.Fatalf("answered base URL = %v, want none after a failed contact", baseURL)
 	}
 }

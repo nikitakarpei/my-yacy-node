@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -32,7 +33,7 @@ func newPeerGreeter(walker peerwire.Walker, networkName string) peerGreeter {
 func (g peerGreeter) Greet(
 	ctx context.Context,
 	peer yacymodel.Hash,
-	baseURLs []peerwire.BaseURL,
+	record peerroster.PeerRecord,
 	self yacymodel.Seed,
 	count int,
 ) (greetResult, bool) {
@@ -45,8 +46,13 @@ func (g peerGreeter) Greet(
 
 	answer, answered := g.walker.TryInTurn(
 		ctx,
-		peerwire.Request{Peer: peer, Path: yacyproto.PathHello, Form: request.Form()},
-		baseURLs,
+		peerwire.Request{
+			Peer:     peer,
+			Identity: record.Identity,
+			Path:     yacyproto.PathHello,
+			Form:     request.Form(),
+		},
+		peerwire.BaseURLsFrom(record.Addresses, record.Identity),
 		func(fields yacyproto.ResponseFields) bool { return isHelloOf(ctx, peer, fields) },
 		greetBudget,
 	)

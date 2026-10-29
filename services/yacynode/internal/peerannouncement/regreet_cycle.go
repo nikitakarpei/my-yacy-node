@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
@@ -22,7 +23,7 @@ type peerRoster interface {
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
-	BaseURLsOf(ctx context.Context, peer yacymodel.Hash) ([]peerwire.BaseURL, bool)
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
 // TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
@@ -134,12 +135,12 @@ func (a *announcer) contactOne(
 	self yacymodel.Seed,
 	peerHash yacymodel.Hash,
 ) contactReply {
-	baseURLs, found := a.roster.BaseURLsOf(ctx, peerHash)
+	record, found := a.roster.RecordOf(ctx, peerHash)
 	if !found {
 		return contactReply{outcome: PeerDidNotAnswer}
 	}
 
-	result, answered := a.greeter.Greet(ctx, peerHash, baseURLs, self, announceHelloPeerCount)
+	result, answered := a.greeter.Greet(ctx, peerHash, record, self, announceHelloPeerCount)
 	if !answered {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
 		slog.WarnContext(ctx, "peer greet failed", slog.String("peer", peerHash.String()))

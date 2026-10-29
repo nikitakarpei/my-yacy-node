@@ -14,8 +14,10 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -60,13 +62,16 @@ func (s *stubReachability) ConfirmReachable(
 	s.confirmedBaseURLs = append(s.confirmedBaseURLs, answeredBaseURL)
 }
 
-func (s *stubReachability) AnsweredBaseURLOf(
+func (s *stubReachability) RecordOf(
 	_ context.Context,
 	peer yacymodel.Hash,
-) (peerwire.BaseURL, bool) {
+) (peerroster.PeerRecord, bool) {
 	baseURL, found := s.answeredBaseURLs[peer]
+	if !found {
+		return peerroster.PeerRecord{}, false
+	}
 
-	return baseURL, found
+	return peerroster.PeerRecord{AnsweredBaseURL: yacymodel.Some(baseURL)}, true
 }
 
 var replyTime = time.Date(2026, time.June, 17, 12, 0, 0, 0, time.UTC)
@@ -223,17 +228,17 @@ func TestHelloBackPingNamesThisNodeAsTheAsker(t *testing.T) {
 }
 
 type recordingPeerTransports struct {
-	transport http.RoundTripper
-	peers     []yacymodel.Hash
+	transport  http.RoundTripper
+	identities []yacymodel.PeerIdentity
 }
 
-func (r *recordingPeerTransports) TransportFor(peer yacymodel.Hash) http.RoundTripper {
-	r.peers = append(r.peers, peer)
+func (r *recordingPeerTransports) TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper {
+	r.identities = append(r.identities, identity)
 
 	return r.transport
 }
 
-func TestHelloBackPingsASignedCallerOverPeerHTTPSAtItsSecurePort(t *testing.T) {
+func TestHelloBackPingsASignedCallerOverHTTPSForItsIdentityAtItsSecurePort(t *testing.T) {
 	srv := httptest.NewTLSServer(backPingHandler(true))
 	defer srv.Close()
 	peerTransports := &recordingPeerTransports{transport: srv.Client().Transport}
@@ -247,17 +252,17 @@ func TestHelloBackPingsASignedCallerOverPeerHTTPSAtItsSecurePort(t *testing.T) {
 		t.Fatalf("YourType = %q, want senior", yourType)
 	}
 	if len(reachability.confirmedBaseURLs) != 1 ||
-		reachability.confirmedBaseURLs[0].Scheme != peerwire.PeerHTTPS {
+		reachability.confirmedBaseURLs[0].Scheme != peerwire.HTTPS {
 		t.Errorf(
-			"confirmed base URLs = %v, want one peer-https base URL",
+			"confirmed base URLs = %v, want one https base URL",
 			reachability.confirmedBaseURLs,
 		)
 	}
-	if !slices.Equal(peerTransports.peers, []yacymodel.Hash{caller.Hash}) {
+	want := []yacymodel.PeerIdentity{peerkeytest.Key(0).Identity()}
+	if !slices.Equal(peerTransports.identities, want) {
 		t.Errorf(
-			"peer transports asked for %v, want the caller %v",
-			peerTransports.peers,
-			caller.Hash,
+			"peer transports asked for %v, want the caller's identity",
+			peerTransports.identities,
 		)
 	}
 }

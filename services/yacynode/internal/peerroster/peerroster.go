@@ -26,8 +26,7 @@ type Roster interface {
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
-	BaseURLsOf(ctx context.Context, peer yacymodel.Hash) ([]peerwire.BaseURL, bool)
-	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (PeerRecord, bool)
 }
 
 var _ Roster = (*roster)(nil)

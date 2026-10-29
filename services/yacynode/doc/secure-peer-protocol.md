@@ -13,8 +13,12 @@ seed of the node announces the secure port.
 ## Calls to other peers
 
 When the signed seed of a peer announces a secure port, the node calls that
-peer only over TLS. The node accepts only a certificate that the key of that
-peer hash endorses. The node does not use plain HTTP for that peer.
+peer only over TLS. The node accepts only a certificate that holds the identity
+of the peer and that its key endorses. The node does not use plain HTTP for
+that peer.
+
+When the signed seed of a peer announces no secure port, the node calls that
+peer only over plain HTTP.
 
 The node calls all other peers as before.
 

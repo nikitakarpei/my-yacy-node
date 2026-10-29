@@ -20,45 +20,47 @@ import (
 
 const networkName = "freeworld"
 
+var directTransports = peertls.NewTransports(nil, networkName)
+
 func TestTransportForAPeerReachesThePeerThatHoldsItsKey(t *testing.T) {
 	server := peerServer(t, serverConfigOf(t, peerkeytest.Key(0)))
 
-	if err := callOf(t, server, peerkeytest.Key(0).Hash(), networkName); err != nil {
+	if err := callOf(t, server, directTransports, peerkeytest.Key(0).Identity()); err != nil {
 		t.Fatalf("call = %v, want an answer", err)
 	}
 }
 
 func TestTransportForAPeerRefusesAServerThatCannotProveItsKey(t *testing.T) {
 	for name, refused := range map[string]struct {
-		config  *tls.Config
-		peer    yacymodel.Hash
-		network string
+		config     *tls.Config
+		transports peertls.Transports
 	}{
 		"another peer": {
-			config:  serverConfigOf(t, peerkeytest.Key(1)),
-			peer:    peerkeytest.Key(0).Hash(),
-			network: networkName,
+			config:     serverConfigOf(t, peerkeytest.Key(1)),
+			transports: directTransports,
 		},
 		"another network": {
-			config:  serverConfigOf(t, peerkeytest.Key(0)),
-			peer:    peerkeytest.Key(0).Hash(),
-			network: "othernet",
+			config:     serverConfigOf(t, peerkeytest.Key(0)),
+			transports: peertls.NewTransports(nil, "othernet"),
 		},
 		"no endorsement": {
-			config:  configWithoutEndorsement(t),
-			peer:    peerkeytest.Key(0).Hash(),
-			network: networkName,
+			config:     configWithoutEndorsement(t),
+			transports: directTransports,
 		},
 		"endorsement of another TLS key": {
-			config:  configWithCopiedEndorsement(t, serverConfigOf(t, peerkeytest.Key(0))),
-			peer:    peerkeytest.Key(0).Hash(),
-			network: networkName,
+			config:     configWithCopiedEndorsement(t, serverConfigOf(t, peerkeytest.Key(0))),
+			transports: directTransports,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
 			server := peerServer(t, refused.config)
 
-			if err := callOf(t, server, refused.peer, refused.network); err == nil {
+			if err := callOf(
+				t,
+				server,
+				refused.transports,
+				peerkeytest.Key(0).Identity(),
+			); err == nil {
 				t.Fatal("call answered, want the server refused")
 			}
 		})
@@ -98,10 +100,15 @@ func peerServer(t *testing.T, config *tls.Config) *httptest.Server {
 	return server
 }
 
-func callOf(t *testing.T, server *httptest.Server, peer yacymodel.Hash, network string) error {
+func callOf(
+	t *testing.T,
+	server *httptest.Server,
+	transports peertls.Transports,
+	identity yacymodel.PeerIdentity,
+) error {
 	t.Helper()
 
-	client := &http.Client{Transport: peertls.NewTransports(nil, network).TransportFor(peer)}
+	client := &http.Client{Transport: transports.TransportFor(identity)}
 	request, err := http.NewRequestWithContext(t.Context(), http.MethodGet, server.URL, nil)
 	if err != nil {
 		t.Fatalf("request: %v", err)

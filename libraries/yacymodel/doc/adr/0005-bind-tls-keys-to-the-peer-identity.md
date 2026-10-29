@@ -36,14 +36,14 @@ The signature is Ed25519 by the operational key over:
 - The peer serves TLS 1.3 on its own port. The seed announces this port with the SSL flag in
   `Flags` and with `PortSSL`. The address signature (ADR 0004) covers both.
 
-Rules for a client that connects to a peer hash:
+Rules for a client that calls a peer whose identity it knows, from the binding or from the signed
+seed of the peer:
 
-- The identity in the URI must give that peer hash. The peer hash commits to the identity, so a
-  bound identity needs no second check.
+- The identity in the URI must be that identity.
 - The signature must be valid for the TLS key of the connection.
 - The client ignores the host names and the dates of the certificate.
-- A bound peer whose signed seed announces a secure port gets TLS only. The client does not use
-  plain HTTP for this peer.
+- When the signed seed announces a secure port, the client uses TLS only. Else it uses plain HTTP
+  only. An HTTPS URL of such a peer always means a check against its peer key.
 - For other peers, the client keeps the current rules.
 - Clients send no certificate. A later decision can add them without a break.
 

@@ -1,6 +1,7 @@
 package peerroster_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -31,10 +32,24 @@ func selfHash() yacymodel.Hash {
 	return hashFor("self")
 }
 
-func unsignedBaseURLsOf(seed yacymodel.Seed) []peerwire.BaseURL {
-	addresses, _ := seed.Addresses()
+func addressesOf(
+	ctx context.Context,
+	roster peerroster.Roster,
+	peer yacymodel.Hash,
+) (yacymodel.PeerAddresses, bool) {
+	record, known := roster.RecordOf(ctx, peer)
 
-	return peerwire.BaseURLsFrom(addresses, yacymodel.None[yacymodel.SignedIdentity]())
+	return record.Addresses, known
+}
+
+func answeredBaseURLOf(
+	ctx context.Context,
+	roster peerroster.Roster,
+	peer yacymodel.Hash,
+) (peerwire.BaseURL, bool) {
+	record, _ := roster.RecordOf(ctx, peer)
+
+	return record.AnsweredBaseURL.Get()
 }
 
 func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {

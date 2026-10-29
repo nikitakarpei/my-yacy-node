@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -17,27 +18,27 @@ const (
 	backPingSlotWait = 15 * time.Second
 )
 
-type answeredBaseURLs interface {
-	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
+type peerRecords interface {
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
 type callerBackPing struct {
-	walker           peerwire.Walker
-	answeredBaseURLs answeredBaseURLs
-	clock            Clock
-	slots            chan struct{}
+	walker      peerwire.Walker
+	peerRecords peerRecords
+	clock       Clock
+	slots       chan struct{}
 }
 
 func newCallerBackPing(
 	walker peerwire.Walker,
-	baseURLs answeredBaseURLs,
+	records peerRecords,
 	clock Clock,
 ) callerBackPing {
 	return callerBackPing{
-		walker:           walker,
-		answeredBaseURLs: baseURLs,
-		clock:            clock,
-		slots:            make(chan struct{}, backPingsAtOnce),
+		walker:      walker,
+		peerRecords: records,
+		clock:       clock,
+		slots:       make(chan struct{}, backPingsAtOnce),
 	}
 }
 
@@ -45,14 +46,14 @@ var _ callerReachabilityProbe = callerBackPing{}
 
 func (p callerBackPing) Reach(
 	ctx context.Context,
-	caller yacymodel.Hash,
-	baseURLs []peerwire.BaseURL,
+	caller yacymodel.Seed,
+	addresses yacymodel.PeerAddresses,
 	self yacymodel.Hash,
 	networkName string,
 ) (peerwire.BaseURL, bool) {
 	if !p.takeSlot(ctx) {
 		slog.WarnContext(ctx, "caller back-ping skipped, no back-ping slot freed in time",
-			slog.String("peer", caller.String()),
+			slog.String("peer", caller.Hash.String()),
 		)
 
 		return peerwire.BaseURL{}, false
@@ -61,14 +62,20 @@ func (p callerBackPing) Reach(
 
 	query := yacyproto.QueryRequest{
 		NetworkName: networkName,
-		YouAre:      caller,
+		YouAre:      caller.Hash,
 		Iam:         self,
 		Object:      yacyproto.ObjectRWICount,
 	}
+	identity := yacymodel.IdentityOf(caller.SignedIdentityIn(networkName))
 	answer, answered := p.walker.TryInTurn(
 		ctx,
-		peerwire.Request{Peer: caller, Path: yacyproto.PathQuery, Form: query.Form()},
-		p.baseURLsAnsweredFirst(ctx, caller, baseURLs),
+		peerwire.Request{
+			Peer:     caller.Hash,
+			Identity: identity,
+			Path:     yacyproto.PathQuery,
+			Form:     query.Form(),
+		},
+		p.baseURLsAnsweredFirst(ctx, caller.Hash, peerwire.BaseURLsFrom(addresses, identity)),
 		isRWICountReply,
 		backPingBudget,
 	)
@@ -102,7 +109,8 @@ func (p callerBackPing) baseURLsAnsweredFirst(
 	caller yacymodel.Hash,
 	baseURLs []peerwire.BaseURL,
 ) []peerwire.BaseURL {
-	answeredBaseURL, found := p.answeredBaseURLs.AnsweredBaseURLOf(ctx, caller)
+	record, _ := p.peerRecords.RecordOf(ctx, caller)
+	answeredBaseURL, found := record.AnsweredBaseURL.Get()
 	if !found || !slices.Contains(baseURLs, answeredBaseURL) {
 		return baseURLs
 	}

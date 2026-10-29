@@ -118,8 +118,8 @@ func replyingServer(reply string) *httptest.Server {
 
 type unusedPeerTransports struct{}
 
-func (unusedPeerTransports) TransportFor(yacymodel.Hash) http.RoundTripper {
-	panic("a walk to a base URL without peer-https asked for a peer transport")
+func (unusedPeerTransports) TransportFor(yacymodel.PeerIdentity) http.RoundTripper {
+	panic("a walk without an identity asked for a peer transport")
 }
 
 func hasResult(fields yacyproto.ResponseFields) bool { return fields["result"] != "" }
@@ -144,17 +144,17 @@ func TestTryAtReturnsTheAcceptedReplyFromTheGivenBaseURL(t *testing.T) {
 }
 
 type recordingPeerTransports struct {
-	transport http.RoundTripper
-	peers     []yacymodel.Hash
+	transport  http.RoundTripper
+	identities []yacymodel.PeerIdentity
 }
 
-func (r *recordingPeerTransports) TransportFor(peer yacymodel.Hash) http.RoundTripper {
-	r.peers = append(r.peers, peer)
+func (r *recordingPeerTransports) TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper {
+	r.identities = append(r.identities, identity)
 
 	return r.transport
 }
 
-func TestTryAtGoesToAPeerHTTPSBaseURLThroughTheTransportForTheCalledPeer(t *testing.T) {
+func TestTryAtGoesToAnHTTPSBaseURLThroughTheTransportForTheIdentityOfThePeer(t *testing.T) {
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte("result=ok\n"))
 	}))
@@ -162,18 +162,39 @@ func TestTryAtGoesToAPeerHTTPSBaseURLThroughTheTransportForTheCalledPeer(t *test
 	peerTransports := &recordingPeerTransports{transport: server.Client().Transport}
 	request := transferRequest
 	request.Peer = peerkeytest.Key(0).Hash()
+	request.Identity = yacymodel.Some(peerkeytest.Key(0).Identity())
 
 	_, answered := peerwire.NewWalker(http.DefaultClient, peerTransports, startClock()).TryAt(
 		t.Context(),
 		request,
-		baseURLOf(t, server, peerwire.PeerHTTPS),
+		baseURLOf(t, server, peerwire.HTTPS),
 		hasResult,
 		walkBudget,
 	)
 
-	if !answered || !slices.Equal(peerTransports.peers, []yacymodel.Hash{request.Peer}) {
+	want := []yacymodel.PeerIdentity{peerkeytest.Key(0).Identity()}
+	if !answered || !slices.Equal(peerTransports.identities, want) {
 		t.Fatalf("answered = %v through transports for %v, want ok through the transport for %v",
-			answered, peerTransports.peers, request.Peer)
+			answered, peerTransports.identities, want)
+	}
+}
+
+func TestTryAtGoesToAnHTTPSBaseURLOfAPeerWithoutIdentityThroughTheGivenClient(t *testing.T) {
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte("result=ok\n"))
+	}))
+	defer server.Close()
+
+	_, answered := peerwire.NewWalker(server.Client(), unusedPeerTransports{}, startClock()).TryAt(
+		t.Context(),
+		transferRequest,
+		baseURLOf(t, server, peerwire.HTTPS),
+		hasResult,
+		walkBudget,
+	)
+
+	if !answered {
+		t.Fatal("an https base URL without identity did not answer through the given client")
 	}
 }
 

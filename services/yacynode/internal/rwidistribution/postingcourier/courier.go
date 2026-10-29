@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -35,31 +36,31 @@ type FormPoster interface {
 	) (peerwire.Answer, bool)
 }
 
-type AnsweredBaseURLs interface {
-	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
+type PeerRecords interface {
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
 type Courier struct {
-	formPoster       FormPoster
-	answeredBaseURLs AnsweredBaseURLs
-	networkName      string
-	self             yacymodel.Hash
-	observer         Observer
+	formPoster  FormPoster
+	peerRecords PeerRecords
+	networkName string
+	self        yacymodel.Hash
+	observer    Observer
 }
 
 func New(
 	formPoster FormPoster,
-	answeredBaseURLs AnsweredBaseURLs,
+	peerRecords PeerRecords,
 	networkName string,
 	self yacymodel.Hash,
 	observer Observer,
 ) Courier {
 	return Courier{
-		formPoster:       formPoster,
-		answeredBaseURLs: answeredBaseURLs,
-		networkName:      networkName,
-		self:             self,
-		observer:         observer,
+		formPoster:  formPoster,
+		peerRecords: peerRecords,
+		networkName: networkName,
+		self:        self,
+		observer:    observer,
 	}
 }
 
@@ -68,8 +69,9 @@ func (c Courier) Offer(
 	peer yacymodel.Hash,
 	postings []yacymodel.RWIPosting,
 ) Receipt {
-	baseURL, known := c.answeredBaseURLs.AnsweredBaseURLOf(ctx, peer)
-	if !known {
+	record, _ := c.peerRecords.RecordOf(ctx, peer)
+	baseURL, answered := record.AnsweredBaseURL.Get()
+	if !answered {
 		slog.WarnContext(
 			ctx,
 			"posting offer not sent to peer without answered base URL",
@@ -79,8 +81,8 @@ func (c Courier) Offer(
 		return Receipt{Outcome: Unaddressable}
 	}
 
-	resp, answered := c.postTransferRWI(ctx, baseURL, peer, postings)
-	if !answered {
+	resp, replied := c.postTransferRWI(ctx, peer, record.Identity, baseURL, postings)
+	if !replied {
 		slog.WarnContext(ctx, "posting offer failed", slog.String("peer", peer.String()))
 
 		return Receipt{Outcome: Unreachable}
@@ -119,8 +121,9 @@ func (c Courier) Offer(
 
 func (c Courier) postTransferRWI(
 	ctx context.Context,
-	baseURL peerwire.BaseURL,
 	peer yacymodel.Hash,
+	identity yacymodel.Optional[yacymodel.PeerIdentity],
+	baseURL peerwire.BaseURL,
 	postings []yacymodel.RWIPosting,
 ) (yacyproto.TransferRWIResponse, bool) {
 	req := yacyproto.TransferRWIRequest{
@@ -135,7 +138,12 @@ func (c Courier) postTransferRWI(
 
 	answer, answered := c.formPoster.TryAt(
 		ctx,
-		peerwire.Request{Peer: peer, Path: yacyproto.PathTransferRWI, Form: req.Form()},
+		peerwire.Request{
+			Peer:     peer,
+			Identity: identity,
+			Path:     yacyproto.PathTransferRWI,
+			Form:     req.Form(),
+		},
 		baseURL,
 		isTransferRWIReply,
 		offerBudget,
