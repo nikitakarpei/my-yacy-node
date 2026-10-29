@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -21,7 +22,7 @@ const (
 type callerReachabilityProbe interface {
 	Reach(
 		ctx context.Context,
-		caller yacymodel.Hash,
+		caller peerwire.Callee,
 		addresses yacymodel.PeerAddresses,
 		self yacymodel.Hash,
 		networkName string,
@@ -31,7 +32,7 @@ type callerReachabilityProbe interface {
 type reachableRoster interface {
 	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 	ConfirmReachable(ctx context.Context, seed yacymodel.Seed, answeredBaseURL peerwire.BaseURL)
-	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
 type helloEndpoint struct {
@@ -95,7 +96,7 @@ func (e helloEndpoint) classifyCaller(
 
 	answeredBaseURL, reached := e.probe.Reach(
 		ctx,
-		caller.Hash,
+		calleeFrom(caller, e.identity.NetworkName),
 		addresses,
 		e.identity.Hash,
 		e.status.NetworkName(ctx),
@@ -111,6 +112,15 @@ func (e helloEndpoint) classifyCaller(
 	}
 
 	return yacymodel.PeerSenior
+}
+
+func calleeFrom(caller yacymodel.Seed, networkName string) peerwire.Callee {
+	identity, identified := caller.IdentityIn(networkName).Get()
+	if !identified {
+		return peerwire.UnidentifiedCallee(caller.Hash)
+	}
+
+	return peerwire.IdentifiedCallee(identity)
 }
 
 func (e helloEndpoint) knownPeers(ctx context.Context, count int) []yacymodel.Seed {

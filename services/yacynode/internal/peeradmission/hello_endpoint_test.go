@@ -14,8 +14,10 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -60,13 +62,16 @@ func (s *stubReachability) ConfirmReachable(
 	s.confirmedBaseURLs = append(s.confirmedBaseURLs, answeredBaseURL)
 }
 
-func (s *stubReachability) AnsweredBaseURLOf(
+func (s *stubReachability) RecordOf(
 	_ context.Context,
 	peer yacymodel.Hash,
-) (peerwire.BaseURL, bool) {
+) (peerroster.PeerRecord, bool) {
 	baseURL, found := s.answeredBaseURLs[peer]
+	if !found {
+		return peerroster.PeerRecord{}, false
+	}
 
-	return baseURL, found
+	return peerroster.PeerRecord{AnsweredBaseURL: yacymodel.Some(baseURL)}, true
 }
 
 var replyTime = time.Date(2026, time.June, 17, 12, 0, 0, 0, time.UTC)
@@ -84,7 +89,7 @@ func muxWithHello(
 ) *http.ServeMux {
 	t.Helper()
 
-	return muxWithHelloAt(t, reachability, client, stoppedClock{})
+	return muxWithHelloAt(t, reachability, client, stoppedClock{}, nil)
 }
 
 func muxWithHelloAt(
@@ -92,6 +97,7 @@ func muxWithHelloAt(
 	reachability *stubReachability,
 	client *http.Client,
 	clock peeradmission.Clock,
+	peerTransports peerwire.PeerTransports,
 ) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -109,7 +115,7 @@ func muxWithHelloAt(
 		selfStatus(t),
 		clock,
 		reachability,
-		peerwire.NewWalker(client, stoppedClock{}),
+		peerwire.NewWalker(client, peerTransports, stoppedClock{}),
 	)
 
 	return mux
@@ -163,7 +169,11 @@ func serveHello(
 }
 
 func backPingServer(reachable bool) *httptest.Server {
-	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+	return httptest.NewServer(backPingHandler(reachable))
+}
+
+func backPingHandler(reachable bool) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		if !reachable {
 			http.Error(w, "boom", http.StatusInternalServerError)
 
@@ -171,7 +181,7 @@ func backPingServer(reachable bool) *httptest.Server {
 		}
 		resp := yacyproto.QueryResponse{Response: 3}
 		_, _ = io.WriteString(w, resp.Encode().Encode())
-	}))
+	})
 }
 
 func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
@@ -214,6 +224,46 @@ func TestHelloBackPingNamesThisNodeAsTheAsker(t *testing.T) {
 
 	if want := []string{localPeer().Hash.String()}; !slices.Equal(askers, want) {
 		t.Fatalf("back-ping askers = %v, want %v", askers, want)
+	}
+}
+
+type recordingPeerTransports struct {
+	transport  http.RoundTripper
+	identities []yacymodel.PeerIdentity
+}
+
+func (r *recordingPeerTransports) TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper {
+	r.identities = append(r.identities, identity)
+
+	return r.transport
+}
+
+func TestHelloBackPingsASignedCallerOverHTTPSForItsIdentityAtItsSecurePort(t *testing.T) {
+	srv := httptest.NewTLSServer(backPingHandler(true))
+	defer srv.Close()
+	peerTransports := &recordingPeerTransports{transport: srv.Client().Transport}
+	reachability := &stubReachability{}
+	mux := muxWithHelloAt(t, reachability, http.DefaultClient, stoppedClock{}, peerTransports)
+	caller := signedCallerSeedWithSecurePort(t, srv.URL)
+
+	resp := serveHello(t, mux, helloRequest("freeworld", caller, 0))
+
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
+		t.Fatalf("YourType = %q, want senior", yourType)
+	}
+	if len(reachability.confirmedBaseURLs) != 1 ||
+		reachability.confirmedBaseURLs[0].Scheme != peerwire.HTTPS {
+		t.Errorf(
+			"confirmed base URLs = %v, want one https base URL",
+			reachability.confirmedBaseURLs,
+		)
+	}
+	want := []yacymodel.PeerIdentity{peerkeytest.Key(0).Identity()}
+	if !slices.Equal(peerTransports.identities, want) {
+		t.Errorf(
+			"peer transports asked for %v, want the caller's identity",
+			peerTransports.identities,
+		)
 	}
 }
 

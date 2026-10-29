@@ -55,7 +55,7 @@ COPY --from=build --chown=nonroot:nonroot /out/yacypeer-workdir /var/lib/yacypee
 
 ENV YACYPEER_WEB_ADDR=:9090
 
-EXPOSE 8090 9090
+EXPOSE 8090 8443 9090
 
 WORKDIR /var/lib/yacypeer
 

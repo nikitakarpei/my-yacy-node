@@ -2,7 +2,7 @@
 
 > "Can I run a peer without a public IP or a rented server?"
 
-Chapter 1 needs an address that other peers reach on port 8090. NAT,
+Chapter 1 needs an address that other peers reach on ports 8090 and 8443. NAT,
 carrier-grade NAT, and changing addresses hide it. A tunnel grants a public
 hostname instead.
 
@@ -12,7 +12,8 @@ hostname instead.
   the node. It leases the public hostname to the node, and the node announces
   that hostname to other peers.
 
-Port 8090 stays private, and the lease replaces `YACY_ADVERTISE_HOST`.
+Port 8090 stays private, and the lease replaces `YACY_ADVERTISE_HOST`. The
+tunnel carries one port only, so the node serves no secure port.
 
 Optionally
 [register an SSH key](../../../../services/localhostrunagent/doc/configuration.md)

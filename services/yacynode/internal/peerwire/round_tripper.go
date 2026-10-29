@@ -26,14 +26,15 @@ var (
 )
 
 type roundTripper struct {
-	client *http.Client
+	client         *http.Client
+	peerTransports PeerTransports
 }
 
-func newRoundTripper(client *http.Client) roundTripper {
+func newRoundTripper(client *http.Client, peerTransports PeerTransports) roundTripper {
 	peerClient := *client
 	peerClient.CheckRedirect = refuseRedirect
 
-	return roundTripper{client: &peerClient}
+	return roundTripper{client: &peerClient, peerTransports: peerTransports}
 }
 
 func refuseRedirect(*http.Request, []*http.Request) error {
@@ -42,6 +43,7 @@ func refuseRedirect(*http.Request, []*http.Request) error {
 
 func (p roundTripper) post(
 	ctx context.Context,
+	callee Callee,
 	baseURL BaseURL,
 	path string,
 	body multipartForm,
@@ -57,7 +59,7 @@ func (p roundTripper) post(
 	}
 	req.Header.Set("Content-Type", body.contentType)
 
-	resp, err := p.client.Do(req)
+	resp, err := p.clientFor(callee, baseURL).Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("post: %w", err)
 	}
@@ -78,6 +80,17 @@ func (p roundTripper) post(
 	}
 
 	return yacyproto.ParseResponseFields(raw), nil
+}
+
+func (p roundTripper) clientFor(callee Callee, baseURL BaseURL) *http.Client {
+	identity, identified := callee.identity.Get()
+	if !identified || baseURL.Scheme != HTTPS {
+		return p.client
+	}
+	peerClient := *p.client
+	peerClient.Transport = p.peerTransports.TransportFor(identity)
+
+	return &peerClient
 }
 
 func closeResponseBody(ctx context.Context, body io.Closer, path string) {

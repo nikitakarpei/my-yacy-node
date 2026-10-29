@@ -15,12 +15,17 @@ var signingTime = time.Date(2026, 10, 28, 12, 0, 0, 0, time.UTC)
 func TestSignedSeedVerifiesTheIdentityOfItsKey(t *testing.T) {
 	key := peerkeytest.Key(0)
 
-	signed, verified := signedSeed(t, key).SignedIdentityIn(signedNetworkName).Get()
+	signed, verified := signedSeed(t, key).VerifiedAddressSignatureIn(signedNetworkName).Get()
 	if !verified {
-		t.Fatal("SignedIdentityIn = unverified, want the identity of the signing key")
+		t.Fatal("VerifiedAddressSignatureIn = unverified, want the identity of the signing key")
 	}
 	if signed.Identity != key.Identity() || !signed.IssuedAt.Equal(signingTime) {
-		t.Errorf("SignedIdentityIn = %v, want %v issued at %v", signed, key.Identity(), signingTime)
+		t.Errorf(
+			"VerifiedAddressSignatureIn = %v, want %v issued at %v",
+			signed,
+			key.Identity(),
+			signingTime,
+		)
 	}
 }
 
@@ -32,8 +37,8 @@ func TestSignedSeedKeepsItsIdentityWhenJavaMovesItsHosts(t *testing.T) {
 		hostOf(t, "::ffff:192.0.2.1"),
 	})
 
-	if _, verified := seed.SignedIdentityIn(signedNetworkName).Get(); !verified {
-		t.Error("SignedIdentityIn = unverified, want the hosts read as one set")
+	if _, verified := seed.VerifiedAddressSignatureIn(signedNetworkName).Get(); !verified {
+		t.Error("VerifiedAddressSignatureIn = unverified, want the hosts read as one set")
 	}
 }
 
@@ -81,8 +86,8 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 			seed := signedSeed(t, peerkeytest.Key(0))
 			change(&seed)
 
-			if _, verified := seed.SignedIdentityIn(signedNetworkName).Get(); verified {
-				t.Error("SignedIdentityIn = verified, want unverified")
+			if _, verified := seed.VerifiedAddressSignatureIn(signedNetworkName).Get(); verified {
+				t.Error("VerifiedAddressSignatureIn = verified, want unverified")
 			}
 		})
 	}
@@ -91,8 +96,8 @@ func TestSignedSeedLosesItsIdentityWhenItsAddressChanges(t *testing.T) {
 func TestSignedSeedLosesItsIdentityInAnotherNetwork(t *testing.T) {
 	seed := signedSeed(t, peerkeytest.Key(0))
 
-	if _, verified := seed.SignedIdentityIn("othernetwork").Get(); verified {
-		t.Error("SignedIdentityIn = verified in another network, want unverified")
+	if _, verified := seed.VerifiedAddressSignatureIn("othernetwork").Get(); verified {
+		t.Error("VerifiedAddressSignatureIn = verified in another network, want unverified")
 	}
 }
 
@@ -127,4 +132,17 @@ func unsignedSeed(t *testing.T) yacymodel.Seed {
 	})
 
 	return seed
+}
+
+func TestIdentityInTheNetworkOfASignedSeedIsTheIdentityOfItsKey(t *testing.T) {
+	seed := signedSeed(t, peerkeytest.Key(0))
+
+	if identity, _ := seed.IdentityIn(signedNetworkName).
+		Get(); identity != peerkeytest.Key(0).
+		Identity() {
+		t.Errorf("IdentityIn = %v, want %v", identity, peerkeytest.Key(0).Identity())
+	}
+	if seed.IdentityIn("othernet").Present() {
+		t.Error("IdentityIn another network is present, want none")
+	}
 }

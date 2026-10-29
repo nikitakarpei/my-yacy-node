@@ -41,7 +41,7 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 		stored.Text(host.String())
 	}
 	stored.Varint(int64(entry.addresses.SecurePort.OrElse(0)))
-	answeredBaseURL, answered := entry.answeredBaseURL.Get()
+	answeredBaseURL, answered := entry.lastAnsweredBaseURL.Get()
 	stored.Text(string(answeredBaseURL.Scheme))
 	if answered {
 		stored.Text(answeredBaseURL.Host.String())
@@ -65,7 +65,7 @@ func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 		addresses:     addressesFrom(stored),
 	}
 	if stored.BytesLeft() > 0 {
-		entry.answeredBaseURL = answeredBaseURLFrom(stored)
+		entry.lastAnsweredBaseURL = lastAnsweredBaseURLFrom(stored)
 	}
 	if stored.BytesLeft() > 0 {
 		entry.binding = storedBindingFrom(stored)
@@ -93,8 +93,8 @@ func addressesFrom(stored *storedfields.Reader) yacymodel.PeerAddresses {
 	return addresses
 }
 
-func answeredBaseURLFrom(stored *storedfields.Reader) yacymodel.Optional[peerwire.BaseURL] {
-	const field = "answered base URL scheme"
+func lastAnsweredBaseURLFrom(stored *storedfields.Reader) yacymodel.Optional[peerwire.BaseURL] {
+	const field = "last answered base URL scheme"
 	text := stored.Text(field)
 	if text == "" {
 		return yacymodel.None[peerwire.BaseURL]()
@@ -106,14 +106,16 @@ func answeredBaseURLFrom(stored *storedfields.Reader) yacymodel.Optional[peerwir
 
 	return yacymodel.Some(peerwire.BaseURL{
 		Scheme: scheme,
-		Host:   hostFrom(stored, "answered base URL host"),
-		Port:   portFrom(stored, "answered base URL port"),
+		Host:   hostFrom(stored, "last answered base URL host"),
+		Port:   portFrom(stored, "last answered base URL port"),
 	})
 }
 
-func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.SignedIdentity] {
+func storedBindingFrom(
+	stored *storedfields.Reader,
+) yacymodel.Optional[yacymodel.VerifiedAddressSignature] {
 	if !stored.Presence("bound") {
-		return yacymodel.None[yacymodel.SignedIdentity]()
+		return yacymodel.None[yacymodel.VerifiedAddressSignature]()
 	}
 	const field = "bound identity"
 	identity, err := yacymodel.ParsePeerIdentity(stored.Text(field))
@@ -122,7 +124,10 @@ func storedBindingFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel
 	}
 
 	return yacymodel.Some(
-		yacymodel.SignedIdentity{Identity: identity, IssuedAt: stored.Time("bound issue time")},
+		yacymodel.VerifiedAddressSignature{
+			Identity: identity,
+			IssuedAt: stored.Time("bound issue time"),
+		},
 	)
 }
 

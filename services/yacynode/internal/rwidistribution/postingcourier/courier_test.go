@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -40,23 +42,37 @@ type stubPeerWire struct {
 	reply                  yacyproto.ResponseFields
 	answers                bool
 	withoutAnsweredBaseURL bool
+	identity               yacymodel.Optional[yacymodel.PeerIdentity]
+	requests               []peerwire.Request
 }
 
 func answeringPeerWire(resp yacyproto.TransferRWIResponse) *stubPeerWire {
 	return &stubPeerWire{reply: resp.Encode(), answers: true}
 }
 
-func (s *stubPeerWire) AnsweredBaseURLOf(context.Context, yacymodel.Hash) (peerwire.BaseURL, bool) {
-	return peerwire.BaseURL{Scheme: peerwire.HTTP}, !s.withoutAnsweredBaseURL
+func (s *stubPeerWire) RecordOf(
+	_ context.Context,
+	peer yacymodel.Hash,
+) (peerroster.PeerRecord, bool) {
+	record := peerroster.PeerRecord{Callee: peerwire.UnidentifiedCallee(peer)}
+	if identity, identified := s.identity.Get(); identified {
+		record.Callee = peerwire.IdentifiedCallee(identity)
+	}
+	if !s.withoutAnsweredBaseURL {
+		record.AnsweredBaseURL = yacymodel.Some(peerwire.BaseURL{Scheme: peerwire.HTTP})
+	}
+
+	return record, true
 }
 
 func (s *stubPeerWire) TryAt(
 	_ context.Context,
-	_ peerwire.Request,
+	request peerwire.Request,
 	_ peerwire.BaseURL,
 	accepts func(yacyproto.ResponseFields) bool,
 	_ time.Duration,
 ) (peerwire.Answer, bool) {
+	s.requests = append(s.requests, request)
 	if !s.answers || !accepts(s.reply) {
 		return peerwire.Answer{}, false
 	}
@@ -97,6 +113,17 @@ func TestOfferReportsAcceptedOnOK(t *testing.T) {
 	)
 	if receipt.Outcome != postingcourier.Accepted {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Accepted)
+	}
+}
+
+func TestOfferNamesTheBoundIdentityOfThePeer(t *testing.T) {
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	wire.identity = yacymodel.Some(peerkeytest.Key(0).Identity())
+
+	courierOver(wire).Offer(context.Background(), courierHash("peer"), singlePosting())
+
+	if len(wire.requests) != 1 || wire.requests[0].Callee.Identity() != wire.identity {
+		t.Fatalf("requests = %v, want one naming %v", wire.requests, wire.identity)
 	}
 }
 

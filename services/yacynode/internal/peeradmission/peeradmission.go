@@ -1,7 +1,6 @@
 // Package peeradmission answers inbound hello requests: it classifies the calling
 // peer by probing it back, and returns the peers the roster saw most recently.
-// On a confirmed back-ping it refreshes that caller's recency in the roster, but
-// it never introduces a peer learned from an inbound request. A caller from
+// On a confirmed back-ping it confirms the caller in the roster. A caller from
 // another network is answered as a virgin peer, with no peers at all.
 package peeradmission
 

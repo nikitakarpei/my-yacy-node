@@ -3,22 +3,31 @@ package nodeconfiguration
 import (
 	"fmt"
 	"net"
+	"strconv"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
-	EnvPeerAddr       = "YACY_PEER_ADDR"
-	EnvOpsAddr        = "YACY_OPS_ADDR"
-	EnvTrustedProxies = "YACY_TRUSTED_PROXIES"
+	EnvPeerAddr          = "YACY_PEER_ADDR"
+	EnvSecurePeerEnabled = "YACY_SECURE_PEER_ENABLED"
+	EnvSecurePeerAddr    = "YACY_SECURE_PEER_ADDR"
+	EnvOpsAddr           = "YACY_OPS_ADDR"
+	EnvTrustedProxies    = "YACY_TRUSTED_PROXIES"
 
-	DefaultPeerAddr = ":8090"
-	DefaultOpsAddr  = ":9090"
+	DefaultPeerAddr          = ":8090"
+	DefaultSecurePeerEnabled = true
+	DefaultSecurePeerAddr    = ":8443"
+	DefaultOpsAddr           = ":9090"
 )
 
 type ServingConfig struct {
 	PeerAddr             string
+	PeerPort             int
+	SecurePeerAddr       yacymodel.Optional[string]
+	SecurePeerPort       yacymodel.Optional[int]
 	OpsAddr              string
 	TrustedProxyNetworks []*net.IPNet
 }
@@ -29,11 +38,72 @@ func loadServingConfig(getenv func(string) string) (ServingConfig, error) {
 		return ServingConfig{}, fmt.Errorf("%s: %w", EnvTrustedProxies, err)
 	}
 
+	peerAddr := envconfig.String(getenv, EnvPeerAddr, DefaultPeerAddr)
+	peerPort, err := listenPortOf(EnvPeerAddr, peerAddr)
+	if err != nil {
+		return ServingConfig{}, err
+	}
+
+	securePeerAddr, err := securePeerAddrFrom(getenv)
+	if err != nil {
+		return ServingConfig{}, err
+	}
+
+	securePeerPort, err := securePeerPortOf(securePeerAddr)
+	if err != nil {
+		return ServingConfig{}, err
+	}
+
 	return ServingConfig{
-		PeerAddr:             envconfig.String(getenv, EnvPeerAddr, DefaultPeerAddr),
+		PeerAddr:             peerAddr,
+		PeerPort:             peerPort,
+		SecurePeerAddr:       securePeerAddr,
+		SecurePeerPort:       securePeerPort,
 		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		TrustedProxyNetworks: trustedProxyNetworks,
 	}, nil
+}
+
+func listenPortOf(listenAddrKey, listenAddr string) (int, error) {
+	_, portPart, err := net.SplitHostPort(listenAddr)
+	if err != nil {
+		return 0, fmt.Errorf("%s: %w", listenAddrKey, err)
+	}
+
+	port, err := strconv.Atoi(portPart)
+	if err != nil {
+		return 0, fmt.Errorf("%s: %w", listenAddrKey, err)
+	}
+	if port <= 0 {
+		return 0, fmt.Errorf("%s: must carry a positive port", listenAddrKey)
+	}
+
+	return port, nil
+}
+
+func securePeerAddrFrom(getenv func(string) string) (yacymodel.Optional[string], error) {
+	enabled, err := envconfig.Bool(getenv, EnvSecurePeerEnabled, DefaultSecurePeerEnabled)
+	if err != nil {
+		return yacymodel.None[string](), err
+	}
+	if !enabled {
+		return yacymodel.None[string](), nil
+	}
+
+	return yacymodel.Some(envconfig.String(getenv, EnvSecurePeerAddr, DefaultSecurePeerAddr)), nil
+}
+
+func securePeerPortOf(securePeerAddr yacymodel.Optional[string]) (yacymodel.Optional[int], error) {
+	listenAddr, serving := securePeerAddr.Get()
+	if !serving {
+		return yacymodel.None[int](), nil
+	}
+	port, err := listenPortOf(EnvSecurePeerAddr, listenAddr)
+	if err != nil {
+		return yacymodel.None[int](), err
+	}
+
+	return yacymodel.Some(port), nil
 }
 
 func trustedProxyNetworksFrom(raw string) ([]*net.IPNet, error) {

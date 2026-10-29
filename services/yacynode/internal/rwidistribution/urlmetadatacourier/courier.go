@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -34,31 +35,31 @@ type FormPoster interface {
 	) (peerwire.Answer, bool)
 }
 
-type AnsweredBaseURLs interface {
-	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
+type PeerRecords interface {
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
 type Courier struct {
-	formPoster       FormPoster
-	answeredBaseURLs AnsweredBaseURLs
-	networkName      string
-	self             yacymodel.Hash
-	observer         Observer
+	formPoster  FormPoster
+	peerRecords PeerRecords
+	networkName string
+	self        yacymodel.Hash
+	observer    Observer
 }
 
 func New(
 	formPoster FormPoster,
-	answeredBaseURLs AnsweredBaseURLs,
+	peerRecords PeerRecords,
 	networkName string,
 	self yacymodel.Hash,
 	observer Observer,
 ) Courier {
 	return Courier{
-		formPoster:       formPoster,
-		answeredBaseURLs: answeredBaseURLs,
-		networkName:      networkName,
-		self:             self,
-		observer:         observer,
+		formPoster:  formPoster,
+		peerRecords: peerRecords,
+		networkName: networkName,
+		self:        self,
+		observer:    observer,
 	}
 }
 
@@ -67,7 +68,8 @@ func (c Courier) Deliver(
 	peer yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
 ) Receipt {
-	baseURL, known := c.answeredBaseURLs.AnsweredBaseURLOf(ctx, peer)
+	record, _ := c.peerRecords.RecordOf(ctx, peer)
+	baseURL, known := record.AnsweredBaseURL.Get()
 	if !known {
 		slog.WarnContext(
 			ctx,
@@ -88,7 +90,11 @@ func (c Courier) Deliver(
 
 	answer, answered := c.formPoster.TryAt(
 		ctx,
-		peerwire.Request{Peer: peer, Path: yacyproto.PathTransferURL, Form: req.Form()},
+		peerwire.Request{
+			Callee: record.Callee,
+			Path:   yacyproto.PathTransferURL,
+			Form:   req.Form(),
+		},
 		baseURL,
 		isTransferURLReply,
 		deliveryBudget,

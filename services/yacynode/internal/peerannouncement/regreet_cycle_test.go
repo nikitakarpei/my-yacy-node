@@ -16,6 +16,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -28,7 +29,7 @@ type stubRoster struct {
 	mu                     sync.Mutex
 	reachablePeers         []yacymodel.Seed
 	unreachablePeerHashes  []yacymodel.Hash
-	addresses              map[yacymodel.Hash]yacymodel.PeerAddresses
+	records                map[yacymodel.Hash]peerroster.PeerRecord
 	discovered             []yacymodel.Seed
 	reachable              []yacymodel.Hash
 	unreachable            []yacymodel.Hash
@@ -38,10 +39,13 @@ type stubRoster struct {
 }
 
 func newStubRoster(reachable, unreachable []yacymodel.Seed) *stubRoster {
-	addresses := make(map[yacymodel.Hash]yacymodel.PeerAddresses)
+	records := make(map[yacymodel.Hash]peerroster.PeerRecord)
 	for _, seed := range append(append([]yacymodel.Seed{}, reachable...), unreachable...) {
-		if seedAddresses, addressable := seed.Addresses(); addressable {
-			addresses[seed.Hash] = seedAddresses
+		if addresses, addressable := seed.Addresses(); addressable {
+			records[seed.Hash] = peerroster.PeerRecord{
+				Callee:    peerwire.UnidentifiedCallee(seed.Hash),
+				Addresses: addresses,
+			}
 		}
 	}
 	unreachablePeerHashes := make([]yacymodel.Hash, len(unreachable))
@@ -52,7 +56,7 @@ func newStubRoster(reachable, unreachable []yacymodel.Seed) *stubRoster {
 	return &stubRoster{
 		reachablePeers:        reachable,
 		unreachablePeerHashes: unreachablePeerHashes,
-		addresses:             addresses,
+		records:               records,
 		confirmations:         make(chan struct{}, 16),
 	}
 }
@@ -75,16 +79,16 @@ func (s *stubRoster) UnreachablePeerHashes(_ context.Context, limit int) []yacym
 	return append([]yacymodel.Hash(nil), s.unreachablePeerHashes[:limit]...)
 }
 
-func (s *stubRoster) AddressesOf(
+func (s *stubRoster) RecordOf(
 	_ context.Context,
 	peer yacymodel.Hash,
-) (yacymodel.PeerAddresses, bool) {
+) (peerroster.PeerRecord, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	addresses, found := s.addresses[peer]
+	record, found := s.records[peer]
 
-	return addresses, found
+	return record, found
 }
 
 func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
@@ -186,7 +190,7 @@ func (stoppedClock) Now() time.Time { return time.Unix(1_700_000_000, 0).UTC() }
 func (stoppedClock) After(time.Duration, func()) (stop func()) { return func() {} }
 
 func walkerOver(client *http.Client) peerwire.Walker {
-	return peerwire.NewWalker(client, stoppedClock{})
+	return peerwire.NewWalker(client, nil, stoppedClock{})
 }
 
 type stubLearningSelf struct {

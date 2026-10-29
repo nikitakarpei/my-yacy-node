@@ -19,7 +19,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	yacynode "github.com/nikitakarpei/yacy-rwi-node/yacynode/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/egresstunnel/egresstunneltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peertls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -105,6 +107,39 @@ func TestHelloAnswersWithTheNodesOwnSeed(t *testing.T) {
 	if _, classified := resp.YourType.Get(); !classified {
 		t.Error("hello left the caller unclassified, so it never read its own network name")
 	}
+	capabilities, _ := own.Capabilities.Get()
+	if own.SecurePort != yacymodel.Some(yacymodel.Port(8443)) || !capabilities.SSLAvailable {
+		t.Errorf("own seed secure port = %v with SSL %v, want 8443 with SSL",
+			own.SecurePort, capabilities.SSLAvailable)
+	}
+}
+
+func TestRunServiceServesThePeerProtocolOverTLSThatItsPeerKeyEndorses(t *testing.T) {
+	node := startNode(t, nodeConfigFor(t))
+	defer node.stop()
+
+	client := &http.Client{
+		Transport: peertls.NewTransports(egresstunneltest.StartedProxy(t, nil), nodeNetwork).
+			TransportFor(peerkeytest.Key(0).Identity()),
+	}
+	request, err := http.NewRequestWithContext(
+		t.Context(),
+		http.MethodGet,
+		"https://"+node.securePeerAddr+"/",
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("build request: %v", err)
+	}
+	resp, err := client.Do(request)
+	if err != nil {
+		node.failUnanswered(t, err)
+	}
+	_ = resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		t.Errorf("landing page over TLS = %d, want 200", resp.StatusCode)
+	}
 }
 
 func callerSeed(t *testing.T) yacymodel.Seed {
@@ -176,9 +211,41 @@ func TestListenersForListensOnThePeerAddress(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ListenersFor: %v", err)
 	}
-	t.Cleanup(func() { _ = listeners.PeerProtocol.Close() })
+	t.Cleanup(func() { _ = listeners.Close() })
 	if listeners.PeerProtocol.Addr().String() == "127.0.0.1:0" {
 		t.Errorf("peer protocol listener = %s, want a bound port", listeners.PeerProtocol.Addr())
+	}
+	securePeerProtocol, serving := listeners.SecurePeerProtocol.Get()
+	if !serving || securePeerProtocol.Addr().String() == "127.0.0.1:0" {
+		t.Errorf(
+			"secure peer protocol listener = %v, want a bound port",
+			listeners.SecurePeerProtocol,
+		)
+	}
+}
+
+func TestListenersForOpensNoSecureListenerWhenTheSecurePeerProtocolIsOff(t *testing.T) {
+	config := nodeConfigFor(t)
+	config.Serving.PeerAddr = "127.0.0.1:0"
+	config.Serving.SecurePeerAddr = yacymodel.None[string]()
+
+	listeners, err := yacynode.ListenersFor(t.Context(), config)
+	if err != nil {
+		t.Fatalf("ListenersFor: %v", err)
+	}
+	t.Cleanup(func() { _ = listeners.Close() })
+	if listeners.SecurePeerProtocol.Present() {
+		t.Errorf("secure peer protocol listener = %v, want none", listeners.SecurePeerProtocol)
+	}
+}
+
+func TestListenersForFailsOnAnUnusableSecureAddress(t *testing.T) {
+	config := nodeConfigFor(t)
+	config.Serving.PeerAddr = "127.0.0.1:0"
+	config.Serving.SecurePeerAddr = yacymodel.Some("not-an-address")
+
+	if _, err := yacynode.ListenersFor(t.Context(), config); err == nil {
+		t.Fatal("expected error for an unusable secure peer address")
 	}
 }
 
@@ -202,11 +269,14 @@ func TestListenersCloseReleasesThePeerAddress(t *testing.T) {
 	if err := listeners.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}
-	reopened, err := servergroup.Listen(t.Context(), listeners.PeerProtocol.Addr().String())
-	if err != nil {
-		t.Fatalf("listen on the closed peer address: %v", err)
+	securePeerProtocol, _ := listeners.SecurePeerProtocol.Get()
+	for _, address := range []net.Addr{listeners.PeerProtocol.Addr(), securePeerProtocol.Addr()} {
+		reopened, err := servergroup.Listen(t.Context(), address.String())
+		if err != nil {
+			t.Fatalf("listen on the closed address %s: %v", address, err)
+		}
+		_ = reopened.Close()
 	}
-	_ = reopened.Close()
 }
 
 func nodeConfigFor(t *testing.T) yacynode.ServiceConfig {
@@ -222,6 +292,7 @@ func nodeConfigFor(t *testing.T) yacynode.ServiceConfig {
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
+	config.Serving.SecurePeerAddr = yacymodel.Some("127.0.0.1:0")
 
 	return config
 }
@@ -250,24 +321,30 @@ func listenerFor(t *testing.T) net.Listener {
 }
 
 type runningNode struct {
-	peerAddr string
-	registry *prometheus.Registry
-	stop     context.CancelFunc
-	stopped  chan error
-	finished chan struct{}
+	peerAddr       string
+	securePeerAddr string
+	registry       *prometheus.Registry
+	stop           context.CancelFunc
+	stopped        chan error
+	finished       chan struct{}
 }
 
 func startNode(t *testing.T, config yacynode.ServiceConfig) runningNode {
 	t.Helper()
 
-	listeners := yacynode.Listeners{PeerProtocol: listenerFor(t)}
+	securePeerProtocol := listenerFor(t)
+	listeners := yacynode.Listeners{
+		PeerProtocol:       listenerFor(t),
+		SecurePeerProtocol: yacymodel.Some(securePeerProtocol),
+	}
 	ctx, cancel := context.WithCancel(context.Background())
 	node := runningNode{
-		peerAddr: listeners.PeerProtocol.Addr().String(),
-		registry: prometheus.NewRegistry(),
-		stop:     cancel,
-		stopped:  make(chan error, 1),
-		finished: make(chan struct{}),
+		peerAddr:       listeners.PeerProtocol.Addr().String(),
+		securePeerAddr: securePeerProtocol.Addr().String(),
+		registry:       prometheus.NewRegistry(),
+		stop:           cancel,
+		stopped:        make(chan error, 1),
+		finished:       make(chan struct{}),
 	}
 	go func() {
 		defer close(node.finished)

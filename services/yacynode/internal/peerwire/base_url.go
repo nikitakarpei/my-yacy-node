@@ -9,12 +9,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	hostsPerPeer    = 4
-	baseURLsPerPeer = 5
-	httpsPort       = yacymodel.Port(443)
-)
-
 var errUnknownScheme = errors.New("unknown scheme")
 
 type Scheme string
@@ -37,22 +31,6 @@ type BaseURL struct {
 	Scheme Scheme
 	Host   yacymodel.Host
 	Port   yacymodel.Port
-}
-
-func BaseURLsFrom(addresses yacymodel.PeerAddresses) []BaseURL {
-	var baseURLs []BaseURL
-	for _, host := range addresses.Hosts[:min(len(addresses.Hosts), hostsPerPeer)] {
-		if _, isAddr := host.Addr(); !isAddr {
-			baseURLs = append(baseURLs, BaseURL{Scheme: HTTPS, Host: host, Port: httpsPort})
-			if securePort, announced := addresses.SecurePort.Get(); announced &&
-				securePort != httpsPort {
-				baseURLs = append(baseURLs, BaseURL{Scheme: HTTPS, Host: host, Port: securePort})
-			}
-		}
-		baseURLs = append(baseURLs, BaseURL{Scheme: HTTP, Host: host, Port: addresses.Port})
-	}
-
-	return baseURLs[:min(len(baseURLs), baseURLsPerPeer)]
 }
 
 func (o BaseURL) String() string {

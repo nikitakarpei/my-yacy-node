@@ -5,11 +5,18 @@ package nodepeer
 import (
 	"context"
 	"fmt"
+	"math/rand/v2"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
+)
+
+const (
+	shortestFleetAnnounceInterval = 30 * time.Second
+	fleetAnnounceJitter           = 10 * time.Second
 )
 
 type Peer struct {
@@ -38,6 +45,8 @@ func StartFleet(
 			Alias:       alias,
 			Key:         key,
 			SeedlistURL: seedlistURL,
+			//nolint:gosec // G404: the jitter only spreads the load of the fleet.
+			AnnounceInterval: shortestFleetAnnounceInterval + rand.N(fleetAnnounceJitter),
 		})
 		fleet[i] = Peer{Alias: alias, Hash: key.Hash(), URL: url}
 	}

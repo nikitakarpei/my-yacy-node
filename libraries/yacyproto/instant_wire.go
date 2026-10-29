@@ -16,7 +16,7 @@ func (instantWireCodec) encode(instant time.Time) string {
 
 func (instantWireCodec) decode(text string) (time.Time, bool) {
 	instant, err := time.ParseInLocation(instantWireLayout, text, time.UTC)
-	if err != nil {
+	if err != nil || instant.Format(instantWireLayout) != text {
 		return time.Time{}, false
 	}
 	return instant, true

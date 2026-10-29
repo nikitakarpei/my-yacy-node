@@ -1,6 +1,7 @@
 package peerroster_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 const hashFiller = "AAAAAAAAAAAA"
@@ -28,6 +30,26 @@ func hashFor(base string) yacymodel.Hash {
 
 func selfHash() yacymodel.Hash {
 	return hashFor("self")
+}
+
+func addressesOf(
+	ctx context.Context,
+	roster peerroster.Roster,
+	peer yacymodel.Hash,
+) (yacymodel.PeerAddresses, bool) {
+	record, known := roster.RecordOf(ctx, peer)
+
+	return record.Addresses, known
+}
+
+func answeredBaseURLOf(
+	ctx context.Context,
+	roster peerroster.Roster,
+	peer yacymodel.Hash,
+) (peerwire.BaseURL, bool) {
+	record, _ := roster.RecordOf(ctx, peer)
+
+	return record.AnsweredBaseURL.Get()
 }
 
 func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {

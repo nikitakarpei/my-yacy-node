@@ -34,6 +34,10 @@ components:
     in: internal/publicaddress/**
   peerwire:
     in: internal/peerwire/**
+  peertls:
+    in: internal/peertls/**
+  egresstunnel:
+    in: internal/egresstunnel/**
   nodepeerhash:
     in: internal/nodepeerhash/**
   bootstrap:
@@ -178,6 +182,9 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
+  peertls:
+    mayDependOn:
+      - egresstunnel
   hashkeypart:
     canUse:
       - vault
@@ -202,6 +209,7 @@ deps:
       - yacyproto
   peeradmission:
     mayDependOn:
+      - peerroster
       - httpguard
       - nodeidentity
       - peerwire
@@ -225,6 +233,7 @@ deps:
       - storedfields
   peerannouncement:
     mayDependOn:
+      - peerroster
       - peerwire
       - bootstrap
     canUse:
@@ -319,11 +328,13 @@ deps:
       - storedfields
   postingcourier:
     mayDependOn:
+      - peerroster
       - peerwire
     canUse:
       - yacyproto
   urlmetadatacourier:
     mayDependOn:
+      - peerroster
       - peerwire
     canUse:
       - yacyproto

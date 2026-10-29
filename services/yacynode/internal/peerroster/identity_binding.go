@@ -1,7 +1,6 @@
 package peerroster
 
 import (
-	"maps"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -23,51 +22,50 @@ const (
 	legacySeed seedStanding = iota
 	newerSeed
 	currentSeed
-	staleSeed
-	replayedSeed
-	foreignSeed
+	olderSeed
+	unprovenSeed
 	futureSeed
 )
 
-func standingOf(
-	signed yacymodel.Optional[yacymodel.SignedIdentity],
-	addresses yacymodel.PeerAddresses,
-	known rosterEntry,
+func dropReasonOf(standing seedStanding) yacymodel.Optional[SeedDropReason] {
+	switch standing {
+	case olderSeed:
+		return yacymodel.Some(DropOfOlderAddressSignature)
+	case unprovenSeed:
+		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
+	case futureSeed:
+		return yacymodel.Some(DropOfFutureAddressSignature)
+	case legacySeed, newerSeed, currentSeed:
+	}
+
+	return yacymodel.None[SeedDropReason]()
+}
+
+func (s seedStanding) replacesSeed() bool {
+	return s == legacySeed || s == newerSeed
+}
+
+func seedStandingAgainst(
+	boundSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
+	presentedSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 	now time.Time,
 ) seedStanding {
-	next, verified := signed.Get()
-	bound, isBound := known.binding.Get()
+	bound, isBound := boundSignature.Get()
+	presented, isPresented := presentedSignature.Get()
 	switch {
-	case verified && next.IssuedAt.After(now.Add(issuedAtTolerance)):
+	case isPresented && presented.IssuedAt.After(now.Add(issuedAtTolerance)):
 		return futureSeed
-	case !isBound && verified:
+	case !isBound && isPresented:
 		return newerSeed
 	case !isBound:
 		return legacySeed
-	case !verified || next.Identity != bound.Identity:
-		return foreignSeed
-	case next.IssuedAt.After(bound.IssuedAt):
+	case !isPresented || presented.Identity != bound.Identity:
+		return unprovenSeed
+	case presented.IssuedAt.After(bound.IssuedAt):
 		return newerSeed
-	case next.IssuedAt.Equal(bound.IssuedAt):
+	case presented.IssuedAt.Equal(bound.IssuedAt):
 		return currentSeed
-	case sameAddresses(addresses, known.addresses):
-		return staleSeed
 	default:
-		return replayedSeed
+		return olderSeed
 	}
-}
-
-func sameAddresses(first, second yacymodel.PeerAddresses) bool {
-	return first.Port == second.Port &&
-		first.SecurePort == second.SecurePort &&
-		maps.Equal(hostSetFrom(first.Hosts), hostSetFrom(second.Hosts))
-}
-
-func hostSetFrom(hosts []yacymodel.Host) map[yacymodel.Host]struct{} {
-	hostSet := make(map[yacymodel.Host]struct{}, len(hosts))
-	for _, host := range hosts {
-		hostSet[host] = struct{}{}
-	}
-
-	return hostSet
 }

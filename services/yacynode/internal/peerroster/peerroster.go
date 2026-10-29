@@ -26,8 +26,7 @@ type Roster interface {
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
-	AddressesOf(ctx context.Context, peer yacymodel.Hash) (yacymodel.PeerAddresses, bool)
-	AnsweredBaseURLOf(ctx context.Context, peer yacymodel.Hash) (peerwire.BaseURL, bool)
+	RecordOf(ctx context.Context, peer yacymodel.Hash) (PeerRecord, bool)
 }
 
 var _ Roster = (*roster)(nil)
@@ -53,11 +52,10 @@ func Open(
 		peers:            peers,
 		now:              now,
 		reservoirCap:     reservoirCap,
-		reachableCap:     reachableCap,
 		announceInterval: announceInterval,
 		self:             self,
 		networkName:      networkName,
 		observer:         observer,
-		reachable:        make(map[yacymodel.Hash]reachablePeer),
+		reachablePeers:   newReachablePeers(reachableCap, observer),
 	}, nil
 }

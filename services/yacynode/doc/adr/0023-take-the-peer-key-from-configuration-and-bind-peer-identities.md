@@ -23,13 +23,16 @@ The node signs the addresses of its seed. The roster binds a peer to its first v
 | Seed | Bound identity | Result |
 | --- | --- | --- |
 | Valid, same or newer signature | None or same | Accept; bind |
-| Valid, older signature, same addresses | Same | Accept as a stale copy |
-| Valid, older signature, other addresses | Same | Drop |
+| Valid, older signature | Same | Drop |
 | Signed more than 10 minutes ahead | Any | Drop |
 | Other identity, or not valid | Present | Drop |
 | Not valid | None | Accept as a legacy peer |
 
-Discovery applies the table only to peers that are not reachable, and drops nothing.
+Discovery applies the table to every known peer and drops nothing. A move to other addresses takes
+a peer out of the reachable set until a contact confirms it again.
+
+Only a newer signature replaces the seed of a peer. A seed with the same signature confirms only
+that the peer answered.
 
 ## Consequences
 

@@ -35,6 +35,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peertls"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/publicaddress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
@@ -126,6 +127,7 @@ func assembleNode(
 		Name:            config.Identity.Name.OrElse(derivedPeerName),
 		AdditionalHosts: config.Identity.AdvertiseAdditionalHosts,
 		Port:            config.Identity.AdvertisePort,
+		SecurePort:      config.Identity.AdvertiseSecurePort,
 		Capabilities:    config.Identity.Capabilities,
 		Version:         yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
 		Start:           now(),
@@ -343,7 +345,11 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peerWalker := peerwire.NewWalker(egressClient, wallclock.Clock{})
+	peerWalker := peerwire.NewWalker(
+		egressClient,
+		peertls.NewTransports(config.Egress.ProxyURL, identity.NetworkName),
+		wallclock.Clock{},
+	)
 	peeradmission.MountHello(
 		router,
 		identity,

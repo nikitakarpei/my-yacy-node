@@ -5,6 +5,7 @@
 package nodepeer
 
 import (
+	"cmp"
 	"context"
 	"strconv"
 	"testing"
@@ -35,15 +36,20 @@ const (
 	FleetSize = MinConnectedPeersForDHT + 3
 
 	envNodeImage = "YACY_NODE_IMAGE"
+
+	defaultAnnounceInterval = 10 * time.Second
 )
 
 type Config struct {
-	NetworkName       string
-	Alias             string
-	Key               yacymodel.PeerKey
-	SeedlistURL       string
-	MessageWebhookURL string
-	Distribution      DistributionConfig
+	NetworkName          string
+	Alias                string
+	Key                  yacymodel.PeerKey
+	SeedlistURL          string
+	MessageWebhookURL    string
+	AdvertisedPort       string
+	AdvertisedSecurePort string
+	AnnounceInterval     time.Duration
+	Distribution         DistributionConfig
 }
 
 // DistributionConfig turns on the node's outbound RWI distribution.
@@ -64,15 +70,16 @@ func Start(
 	cfg Config,
 ) (testcontainers.Container, string) {
 	t.Helper()
+	announceInterval := cmp.Or(cfg.AnnounceInterval, defaultAnnounceInterval)
 	env := map[string]string{
 		"YACY_PEER_KEY":                  peerkeytest.SecretTextOf(cfg.Key),
 		"YACY_PEER_NAME":                 cfg.Alias,
 		"YACY_NETWORK_NAME":              yacyproto.DefaultNetwork,
 		"YACY_PEER_ADDR":                 ":" + peerclient.Port,
 		"YACY_ADVERTISE_HOST":            cfg.Alias,
-		"YACY_ADVERTISE_PORT":            peerclient.Port,
+		"YACY_ADVERTISE_PORT":            cmp.Or(cfg.AdvertisedPort, peerclient.Port),
 		"YACY_DATA_DIR":                  "/tmp/data",
-		"YACY_ANNOUNCE_INTERVAL":         "10s",
+		"YACY_ANNOUNCE_INTERVAL":         announceInterval.String(),
 		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(FleetSize + 8),
 		"EGRESS_PROXY_URL":               egressproxy.NetworkURL(),
 		"LOG_LEVEL":                      "debug",
@@ -82,6 +89,9 @@ func Start(
 	}
 	if cfg.MessageWebhookURL != "" {
 		env["YACY_MESSAGE_WEBHOOK_URL"] = cfg.MessageWebhookURL
+	}
+	if cfg.AdvertisedSecurePort != "" {
+		env["YACY_ADVERTISE_SECURE_PORT"] = cfg.AdvertisedSecurePort
 	}
 	if cfg.Distribution.Enabled {
 		env["YACY_DISTRIBUTION_ENABLED"] = "true"
@@ -104,7 +114,7 @@ func Start(
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image:          image(t),
 			Name:           cfg.Alias,
-			ExposedPorts:   []string{peerclient.ExposedPort},
+			ExposedPorts:   []string{peerclient.ExposedPort, opsExposedPort},
 			Env:            env,
 			Networks:       []string{cfg.NetworkName},
 			NetworkAliases: map[string][]string{cfg.NetworkName: {cfg.Alias}},

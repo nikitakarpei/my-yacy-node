@@ -11,13 +11,13 @@ for `docker`.
 
 ```sh
 docker run -d --name yacypeer --restart unless-stopped \
-  -p 8090:8090 -p 127.0.0.1:9090:9090 \
+  -p 8090:8090 -p 8443:8443 -p 127.0.0.1:9090:9090 \
   -v yacypeer:/var/lib/yacypeer \
   ghcr.io/nikitakarpei/my-yacy-node/yacypeer:latest
 ```
 
-Other peers must reach port 8090 of the host from the internet. Behind NAT,
-forward that port to the host.
+Other peers must reach ports 8090 and 8443 of the host from the internet. Behind
+NAT, forward these ports to the host. Port 8443 carries TLS between peers.
 
 The first start searches the peer key for one minute. The key is in `peer.key`
 of the volume. Keep a copy of this file: the peer hash and the data of the peer

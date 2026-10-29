@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 )
 
@@ -74,6 +75,17 @@ func reachableCallerSeed(t testing.TB, rawURL string) yacymodel.Seed {
 	}
 
 	return peerSeed(t, callerHash, host, port)
+}
+
+func signedCallerSeedWithSecurePort(t testing.TB, rawURL string) yacymodel.Seed {
+	t.Helper()
+
+	seed := reachableCallerSeed(t, rawURL)
+	seed.Hash = peerkeytest.Key(0).Hash()
+	seed.SecurePort = seed.Port
+	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{SSLAvailable: true})
+
+	return peerkeytest.Key(0).SignedSeedFrom(seed, "freeworld", replyTime)
 }
 
 func unreachableCallerSeed(t testing.TB) yacymodel.Seed {

@@ -53,7 +53,7 @@ func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
 		t.Fatalf("persisted peer missing from unreachable peer hashes")
 	}
 
-	restoredAddresses, found := restoredRoster.AddressesOf(t.Context(), peerSeed.Hash)
+	restoredAddresses, found := addressesOf(t.Context(), restoredRoster, peerSeed.Hash)
 	if !found {
 		t.Fatal("persisted peer addresses not found")
 	}
@@ -65,7 +65,7 @@ func TestRosterRestoresPeerAddressesWithoutRestoringReachability(t *testing.T) {
 
 func TestRosterRestoresTheAnsweredBaseURL(t *testing.T) {
 	storagePath := filepath.Join(t.TempDir(), "peer-roster")
-	peerSeed := seniorSeed(t, "peer", "203.0.113.10", 8090)
+	peerSeed := seniorSeed(t, "peer", "peer.example", 8090)
 	answeredBaseURL := httpBaseURLOf(peerSeed)
 	answeredBaseURL.Scheme = peerwire.HTTPS
 	answeredBaseURL.Port = 443
@@ -91,7 +91,7 @@ func TestRosterRestoresTheAnsweredBaseURL(t *testing.T) {
 		rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4},
 	)
 
-	if baseURL, found := restoredRoster.AnsweredBaseURLOf(t.Context(), peerSeed.Hash); !found ||
+	if baseURL, found := answeredBaseURLOf(t.Context(), restoredRoster, peerSeed.Hash); !found ||
 		baseURL != answeredBaseURL {
 		t.Fatalf("answered base URL = %v, %v, want %v", baseURL, found, answeredBaseURL)
 	}
@@ -158,7 +158,7 @@ func TestRosterReadsARecordStoredBeforeAdditionalHosts(t *testing.T) {
 		rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4},
 	)
 
-	addresses, found := restoredRoster.AddressesOf(t.Context(), peerSeed.Hash)
+	addresses, found := addressesOf(t.Context(), restoredRoster, peerSeed.Hash)
 	wantAddresses, _ := peerSeed.Addresses()
 	if !found || !reflect.DeepEqual(addresses, wantAddresses) {
 		t.Errorf("addresses = %v, %v, want %v", addresses, found, wantAddresses)
