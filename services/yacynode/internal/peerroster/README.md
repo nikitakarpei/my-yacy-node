@@ -19,9 +19,10 @@ once it is full, the stalest peer that is not currently reachable is
 evicted to make room for a new one.
 
 The roster keeps every host in a peer's seed, its port, and its secure
-port. Discovery writes the addresses of a new peer only. The addresses of a
-known peer change only when the peer sends its own seed and is confirmed
-reachable.
+port. Discovery writes the addresses of a new peer. For a known peer,
+discovery uses only a seed with a valid identity and an address signature
+newer than the bound signature. Otherwise, the addresses of a known peer
+change only when the peer sends its own seed and is confirmed reachable.
 
 The roster binds the identity of a peer from the first seed with a valid
 identity and a valid address signature. After that, the roster drops each
@@ -31,6 +32,8 @@ without a bound identity is a legacy peer. Eviction removes the binding.
 
 The roster also keeps the base URL that answered the last greet or back-ping
 of a peer. Deliveries go only to that base URL. A failed greet clears it.
+When discovery moves a peer to addresses without that base URL, the roster
+clears it.
 
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted

@@ -132,6 +132,77 @@ func TestRosterBindsAPeerDiscoveredFromAVerifiedSeed(t *testing.T) {
 	assertHostOf(t, roster, forged.Hash, "203.0.113.1")
 }
 
+func TestDiscoverBindsAKnownLegacyPeerFromItsSignedSeed(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+
+	roster.Discover(ctx, unsignedSeedAt(t, "203.0.113.1"))
+	roster.Discover(ctx, signedSeedAt(t, "203.0.113.2", signingStart))
+	forged := unsignedSeedAt(t, "198.51.100.9")
+	roster.ConfirmReachable(ctx, forged, httpBaseURLOf(forged))
+
+	assertHostOf(t, roster, forged.Hash, "203.0.113.2")
+}
+
+func TestDiscoverMovesABoundPeerOnItsNewerSignedSeed(t *testing.T) {
+	for name, test := range map[string]struct {
+		gossipedHost   string
+		wantAnswerKept bool
+	}{
+		"to a new host":    {gossipedHost: "203.0.113.2", wantAnswerKept: false},
+		"on the same host": {gossipedHost: "203.0.113.1", wantAnswerKept: true},
+	} {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+			roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
+			bound := signedSeedAt(t, "203.0.113.1", signingStart)
+			roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+
+			roster.Discover(ctx, signedSeedAt(t, test.gossipedHost, signingStart.Add(time.Minute)))
+
+			assertHostOf(t, roster, bound.Hash, test.gossipedHost)
+			if _, kept := roster.AnsweredBaseURLOf(ctx, bound.Hash); kept != test.wantAnswerKept {
+				t.Errorf("answered base URL kept = %v, want %v", kept, test.wantAnswerKept)
+			}
+		})
+	}
+}
+
+func TestDiscoverIgnoresGossipThatDoesNotSupersedeTheBinding(t *testing.T) {
+	for name, gossiped := range map[string]func(t *testing.T) yacymodel.Seed{
+		"unsigned": func(t *testing.T) yacymodel.Seed {
+			return unsignedSeedAt(t, "198.51.100.9")
+		},
+		"older signature": func(t *testing.T) yacymodel.Seed {
+			return signedSeedAt(t, "198.51.100.9", signingStart.Add(-time.Minute))
+		},
+		"signature of the same second": func(t *testing.T) yacymodel.Seed {
+			return signedSeedAt(t, "198.51.100.9", signingStart)
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
+			observer := &droppingObserver{}
+			roster := openRoster(
+				t,
+				rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer},
+			)
+			bound := signedSeedAt(t, "203.0.113.1", signingStart)
+			roster.ConfirmReachable(ctx, bound, httpBaseURLOf(bound))
+
+			roster.Discover(ctx, gossiped(t))
+
+			assertHostOf(t, roster, bound.Hash, "203.0.113.1")
+			if _, kept := roster.AnsweredBaseURLOf(ctx, bound.Hash); !kept {
+				t.Error("answered base URL dropped, want it kept")
+			}
+			if dropReasons := observer.observedDropReasons(); len(dropReasons) != 0 {
+				t.Errorf("drop reasons = %v, want none for gossip", dropReasons)
+			}
+		})
+	}
+}
+
 func TestRosterKeepsTheBoundIdentityAcrossARestart(t *testing.T) {
 	ctx := context.Background()
 	storagePath := filepath.Join(t.TempDir(), "peer-roster")

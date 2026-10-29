@@ -86,23 +86,45 @@ func (r *roster) discoverOne(
 	seed yacymodel.Seed,
 	addresses yacymodel.PeerAddresses,
 ) error {
-	_, known, err := r.peers.Get(tx, seed.Hash)
+	known, isKnown, err := r.peers.Get(tx, seed.Hash)
 	if err != nil {
 		return fmt.Errorf("read peer %s: %w", seed.Hash, err)
 	}
-	if known {
+	gossiped := seed.SignedIdentityIn(r.networkName)
+	switch {
+	case !isKnown:
+		return r.storePeer(tx, seed.Hash, rosterEntry{
+			addresses:     addresses,
+			binding:       gossiped,
+			lastContacted: r.now(),
+		})
+	case supersedes(gossiped, known.binding):
+		return r.storePeer(tx, seed.Hash, known.movedTo(addresses, gossiped))
+	default:
 		return nil
 	}
-	entry := rosterEntry{
-		addresses:     addresses,
-		binding:       seed.SignedIdentityIn(r.networkName),
-		lastContacted: r.now(),
-	}
-	if _, err := r.peers.Put(tx, seed.Hash, entry); err != nil {
-		return fmt.Errorf("store peer %s: %w", seed.Hash, err)
+}
+
+func (r *roster) storePeer(tx *vault.Txn, peerHash yacymodel.Hash, entry rosterEntry) error {
+	if _, err := r.peers.Put(tx, peerHash, entry); err != nil {
+		return fmt.Errorf("store peer %s: %w", peerHash, err)
 	}
 
 	return nil
+}
+
+func (e rosterEntry) movedTo(
+	addresses yacymodel.PeerAddresses,
+	binding yacymodel.Optional[yacymodel.SignedIdentity],
+) rosterEntry {
+	e.addresses = addresses
+	e.binding = binding
+	if answered, isAnswered := e.answeredBaseURL.Get(); isAnswered &&
+		!slices.Contains(peerwire.BaseURLsFrom(addresses), answered) {
+		e.answeredBaseURL = yacymodel.None[peerwire.BaseURL]()
+	}
+
+	return e
 }
 
 func (r *roster) keepWithinCapacity(ctx context.Context) {
@@ -342,11 +364,8 @@ func (r *roster) recordReachableIn(
 	if _, dropped := dropReason.Get(); dropped {
 		return dropReason, nil
 	}
-	if _, err := r.peers.Put(tx, peerHash, contact); err != nil {
-		return yacymodel.None[SeedDropReason](), fmt.Errorf("store peer %s: %w", peerHash, err)
-	}
 
-	return dropReason, nil
+	return dropReason, r.storePeer(tx, peerHash, contact)
 }
 
 func (r *roster) reportDroppedSeed(
@@ -410,11 +429,8 @@ func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
 	entry.answeredBaseURL = yacymodel.None[peerwire.BaseURL]()
 	entry.lastContacted = r.now()
 	entry.lastReachable = neverReachable
-	if _, err := r.peers.Put(tx, peer, entry); err != nil {
-		return fmt.Errorf("store peer %s: %w", peer, err)
-	}
 
-	return nil
+	return r.storePeer(tx, peer, entry)
 }
 
 func (r *roster) evictReachable(peer yacymodel.Hash) (wasReachable bool) {

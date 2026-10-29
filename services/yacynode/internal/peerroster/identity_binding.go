@@ -40,3 +40,19 @@ func dropReasonFor(
 		return yacymodel.None[SeedDropReason]()
 	}
 }
+
+func supersedes(
+	gossiped yacymodel.Optional[yacymodel.SignedIdentity],
+	bound yacymodel.Optional[yacymodel.SignedIdentity],
+) bool {
+	next, verified := gossiped.Get()
+	current, isBound := bound.Get()
+	switch {
+	case !verified:
+		return false
+	case !isBound:
+		return true
+	default:
+		return next.Identity == current.Identity && next.IssuedAt.After(current.IssuedAt)
+	}
+}
