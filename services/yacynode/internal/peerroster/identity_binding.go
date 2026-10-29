@@ -23,7 +23,7 @@ const (
 	newerSeed
 	currentSeed
 	olderSeed
-	foreignSeed
+	unprovenSeed
 	futureSeed
 )
 
@@ -31,7 +31,7 @@ func dropReasonOf(standing seedStanding) yacymodel.Optional[SeedDropReason] {
 	switch standing {
 	case olderSeed:
 		return yacymodel.Some(DropOfOlderAddressSignature)
-	case foreignSeed:
+	case unprovenSeed:
 		return yacymodel.Some(DropOfSeedWithoutBoundIdentity)
 	case futureSeed:
 		return yacymodel.Some(DropOfFutureAddressSignature)
@@ -45,25 +45,25 @@ func (s seedStanding) replacesSeed() bool {
 	return s == legacySeed || s == newerSeed
 }
 
-func standingOf(
-	verifiedSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
-	known rosterEntry,
+func seedStandingAgainst(
+	boundSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
+	presentedSignature yacymodel.Optional[yacymodel.VerifiedAddressSignature],
 	now time.Time,
 ) seedStanding {
-	next, verified := verifiedSignature.Get()
-	bound, isBound := known.binding.Get()
+	bound, isBound := boundSignature.Get()
+	presented, isPresented := presentedSignature.Get()
 	switch {
-	case verified && next.IssuedAt.After(now.Add(issuedAtTolerance)):
+	case isPresented && presented.IssuedAt.After(now.Add(issuedAtTolerance)):
 		return futureSeed
-	case !isBound && verified:
+	case !isBound && isPresented:
 		return newerSeed
 	case !isBound:
 		return legacySeed
-	case !verified || next.Identity != bound.Identity:
-		return foreignSeed
-	case next.IssuedAt.After(bound.IssuedAt):
+	case !isPresented || presented.Identity != bound.Identity:
+		return unprovenSeed
+	case presented.IssuedAt.After(bound.IssuedAt):
 		return newerSeed
-	case next.IssuedAt.Equal(bound.IssuedAt):
+	case presented.IssuedAt.Equal(bound.IssuedAt):
 		return currentSeed
 	default:
 		return olderSeed

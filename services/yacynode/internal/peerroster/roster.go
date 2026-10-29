@@ -96,7 +96,7 @@ func (r *roster) discoverOne(
 	}
 	now := r.now()
 	verifiedSignature := seed.VerifiedAddressSignatureIn(r.networkName)
-	standing := standingOf(verifiedSignature, known, now)
+	standing := seedStandingAgainst(known.binding, verifiedSignature, now)
 	switch {
 	case standing == futureSeed:
 		return false, nil
@@ -355,7 +355,7 @@ func (r *roster) recordContactIn(
 	if err != nil {
 		return legacySeed, fmt.Errorf("read peer %s: %w", peerHash, err)
 	}
-	standing := standingOf(contact.binding, known, r.now())
+	standing := seedStandingAgainst(known.binding, contact.binding, r.now())
 	if dropReasonOf(standing).Present() {
 		return standing, nil
 	}
