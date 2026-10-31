@@ -10,6 +10,9 @@ type ProvenPosting struct {
 
 func ProvenPostingFrom(posting RWIPosting, proof PostingsProof) (ProvenPosting, error) {
 	postings := []RWIPosting{posting}
+	if err := failureOf(postings); err != nil {
+		return ProvenPosting{}, err
+	}
 	if !proof.liesBesidePathsOf(postings) {
 		return ProvenPosting{}, fmt.Errorf(
 			"%w: a proof entry lies beside no path of the posting",
@@ -32,20 +35,27 @@ func (p ProvenPosting) Root() PostingsRoot {
 	return p.root
 }
 
-func ProvenPagePostingsJoinedFrom(provenPostings []ProvenPosting) Optional[PagePostings] {
-	if len(provenPostings) == 0 {
-		return None[PagePostings]()
+func PagePostingsJoinedFrom(provenPostings []ProvenPosting) (PagePostings, error) {
+	postings := postingsOfEach(provenPostings)
+	if err := failureOf(postings); err != nil {
+		return PagePostings{}, err
 	}
-	postings := make([]RWIPosting, 0, len(provenPostings))
 	mergedProof := provenPostings[0].proof
-	for _, provenPosting := range provenPostings {
-		postings = append(postings, provenPosting.posting)
+	for _, provenPosting := range provenPostings[1:] {
 		mergedProof = mergedProof.MergedWith(provenPosting.proof)
 	}
-	pagePostings, err := ProvenPagePostingsFrom(postings, mergedProof)
-	if err != nil {
-		return None[PagePostings]()
+
+	return PagePostings{
+		postings: postings,
+		proof:    Some(mergedProof.narrowedFrom(postings, postings)),
+	}, nil
+}
+
+func postingsOfEach(provenPostings []ProvenPosting) []RWIPosting {
+	postings := make([]RWIPosting, 0, len(provenPostings))
+	for _, provenPosting := range provenPostings {
+		postings = append(postings, provenPosting.posting)
 	}
 
-	return Some(pagePostings)
+	return postings
 }

@@ -66,7 +66,7 @@ func (p PostingsProof) narrowedFrom(postings, keptPostings []RWIPosting) Posting
 	))
 }
 
-func (p PostingsProof) provenPostingsOf(postings []RWIPosting) []ProvenPosting {
+func (p PostingsProof) provenPostingsFrom(postings []RWIPosting) []ProvenPosting {
 	subtree := p.subtreeOver(postings)
 	root := p.rootOf(subtree)
 	eachEntries := subtree.EntriesAroundEach(leafPositionsOfPostings(postings, p.partitionExponent))
