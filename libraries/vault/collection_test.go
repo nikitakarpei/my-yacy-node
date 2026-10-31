@@ -2,6 +2,7 @@ package vault_test
 
 import (
 	"context"
+	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -202,6 +203,51 @@ func TestDeleteReturningReportsTheValueItRemoved(t *testing.T) {
 	}
 }
 
+func TestDeleteWithinVisitingVisitsTheValuesItRemoved(t *testing.T) {
+	ctx := context.Background()
+	v, words := openWords(t)
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		for key, value := range map[string]string{"a": "alpha", "b": "beta", "c": "gamma"} {
+			if _, err := words.Put(tx, key, value); err != nil {
+				return wrap(err)
+			}
+		}
+
+		var visited []vault.KeyedValue[string, string]
+		if err := words.DeleteWithinVisiting(
+			tx,
+			stringKeyParts.KeysFromFirst("b"),
+			func(key, value string) error {
+				visited = append(visited, vault.KeyedValue[string, string]{Key: key, Value: value})
+
+				return nil
+			},
+		); err != nil {
+			return wrap(err)
+		}
+		want := []vault.KeyedValue[string, string]{
+			{Key: "b", Value: "beta"},
+			{Key: "c", Value: "gamma"},
+		}
+		if !slices.Equal(visited, want) {
+			t.Fatalf("DeleteWithinVisiting visited %v, want %v", visited, want)
+		}
+
+		_, kept, err := words.Get(tx, "a")
+		if err != nil {
+			return wrap(err)
+		}
+		if !kept {
+			t.Fatal("DeleteWithinVisiting removed a record outside the range")
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
 func TestReturningWritesFailOverARecordThatDoesNotDecode(t *testing.T) {
 	ctx := context.Background()
 	v, words := openUndecodableWords(t)
@@ -230,6 +276,17 @@ func TestReturningWritesFailOverARecordThatDoesNotDecode(t *testing.T) {
 	})
 	if deleteErr == nil {
 		t.Fatal("DeleteReturning over a record that does not decode succeeded, want error")
+	}
+
+	deleteWithinErr := v.Update(ctx, func(tx *vault.Txn) error {
+		return words.DeleteWithinVisiting(
+			tx,
+			vault.EveryKey(),
+			func(string, string) error { return nil },
+		)
+	})
+	if deleteWithinErr == nil {
+		t.Fatal("DeleteWithinVisiting over a record that does not decode succeeded, want error")
 	}
 }
 

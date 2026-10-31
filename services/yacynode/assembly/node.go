@@ -32,6 +32,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
@@ -201,7 +202,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, err
 	}
-	postings, postingWriter, postingPurger, err := rwipostings.Open(
+	postings, postingWriter, postingPurger, _, err := rwipostings.Open(
 		ctx,
 		storage,
 		dhtRingPartitions,
@@ -278,9 +279,9 @@ func assembleNode(
 		urlEvictor,
 		urlMetadataWriter,
 		postingWriter,
-		stopwordHashes,
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
+	pageIndexBuilder := pagerwi.NewIndexBuilder(stopwordHashes, dhtRingPartitions)
 
 	publicAddressSource := publicaddress.For(config.Identity.AdvertiseHost)
 	runtimeStatus := nodestatus.NewRuntimeStatus(
@@ -377,7 +378,7 @@ func assembleNode(
 
 	if config.PageOfferIntake.Enabled() {
 		intake, intakeErr := openPageOfferIntake(
-			ctx, config.PageOfferIntake, pageReceiver, registry,
+			ctx, config.PageOfferIntake, pageIndexBuilder, pageReceiver, registry,
 		)
 		if intakeErr != nil {
 			return node{}, intakeErr

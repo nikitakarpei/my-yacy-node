@@ -76,13 +76,57 @@ func (stopwordThe) Contains(word yacymodel.Hash, language yacymodel.Language) bo
 	return word == yacymodel.WordHash("the") && language == yacymodel.LanguageOfUndeclaredDocument
 }
 
+type transferReceiver struct {
+	t         *testing.T
+	admission remoteindexadmission.PostingAdmission
+}
+
+func (r transferReceiver) Receive(
+	ctx context.Context,
+	origin rwiorigin.Origin,
+	postings []yacymodel.RWIPosting,
+) (remoteindexadmission.PostingReceipt, error) {
+	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(r.t, postings))
+}
+
+func receivedPagePostingsOf(
+	t *testing.T,
+	postings []yacymodel.RWIPosting,
+) []yacymodel.PagePostings {
+	t.Helper()
+
+	postingsPerURL, _ := yacymodel.PostingsPerURLFrom(postings)
+	receivedPagePostings := make([]yacymodel.PagePostings, 0, len(postingsPerURL))
+	for _, postingsOfURL := range postingsPerURL {
+		unproven, err := yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
+		if err != nil {
+			t.Fatal(err)
+		}
+		receivedPagePostings = append(receivedPagePostings, unproven)
+	}
+
+	return receivedPagePostings
+}
+
+type recordingWriter struct {
+	writer rwipostings.PostingWriter
+	writes []yacymodel.PagePostings
+}
+
+func (w *recordingWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostings) error {
+	w.writes = append(w.writes, pagePostings)
+
+	return w.writer.Write(tx, pagePostings)
+}
+
 type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     remoteindexadmission.URLMetadataIntake
 	crawled  urlmeta.URLMetadataWriter
-	receiver remoteindexadmission.PostingAdmission
+	receiver transferReceiver
+	written  *recordingWriter
 	observed *observedAdmission
 	clock    *time.Time
 }
@@ -107,7 +151,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	clock := harnessStart
 	now := func() time.Time { return clock }
 
-	index, writer, purger, err := rwipostings.Open(
+	index, writer, purger, _, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions{},
@@ -118,6 +162,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
+	written := &recordingWriter{writer: writer}
 	escrow, err := rwiescrow.Open(context.Background(), v, escrowCapacity, now)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
@@ -131,11 +176,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
-	observed := &observedAdmission{
-		received:    map[remoteindexadmission.PostingOutcome]int{},
-		released:    map[remoteindexadmission.PostingOutcome]int{},
-		urlMetadata: map[remoteindexadmission.URLMetadataOutcome]int{},
-	}
+	observed := newObservedAdmission()
 	postingAdmission, urlMetadataIntake, err := remoteindexadmission.Open(
 		v,
 		urlDirectory,
@@ -143,7 +184,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		urlWriter,
 		escrow,
 		index,
-		writer,
+		written,
 		stopwordThe{},
 		observed,
 		now,
@@ -163,9 +204,18 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		escrow:   escrow,
 		urls:     urlMetadataIntake,
 		crawled:  urlWriter,
-		receiver: postingAdmission,
+		receiver: transferReceiver{t: t, admission: postingAdmission},
+		written:  written,
 		observed: observed,
 		clock:    &clock,
+	}
+}
+
+func newObservedAdmission() *observedAdmission {
+	return &observedAdmission{
+		received:    map[remoteindexadmission.PostingOutcome]int{},
+		released:    map[remoteindexadmission.PostingOutcome]int{},
+		urlMetadata: map[remoteindexadmission.URLMetadataOutcome]int{},
 	}
 }
 
@@ -450,6 +500,49 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	}
 	if got := h.heldCount(t); got != 2 {
 		t.Fatalf("held count = %d, want both postings held", got)
+	}
+}
+
+func TestReleasedPostingsOfOneURLAreWrittenAtOnce(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.receive(t, []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u1")})
+	h.written.writes = nil
+
+	h.storeMetadata(t, "u1")
+
+	if len(h.written.writes) == 0 {
+		t.Fatal("no write of the released postings")
+	}
+	for _, write := range h.written.writes {
+		if write.AmountOfPostings() != 2 {
+			t.Errorf(
+				"a write of released postings holds %d postings, want both",
+				write.AmountOfPostings(),
+			)
+		}
+	}
+}
+
+func TestPostingsOfOneURLAreWrittenAtOnce(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, "u1")
+	h.storeMetadata(t, "u2")
+
+	h.receive(t, []yacymodel.RWIPosting{
+		posting("w1", "u1"),
+		posting("w1", "u2"),
+		posting("w2", "u1"),
+	})
+
+	postingsPerURL := map[yacymodel.URLHash]int{urlHash("u1"): 2, urlHash("u2"): 1}
+	for _, write := range h.written.writes {
+		if got := write.AmountOfPostings(); got != postingsPerURL[write.URL()] {
+			t.Errorf("a write of %v holds %d postings, want all %d of its url",
+				write.URL(), got, postingsPerURL[write.URL()])
+		}
+	}
+	if len(h.written.writes) == 0 {
+		t.Fatal("no write")
 	}
 }
 

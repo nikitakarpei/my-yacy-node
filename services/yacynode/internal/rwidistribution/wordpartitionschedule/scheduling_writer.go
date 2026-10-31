@@ -25,11 +25,11 @@ func (s *Schedule) WriterFrom(
 	}
 }
 
-func (a schedulingWriter) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
-	if err := a.writer.Write(tx, postings...); err != nil {
+func (a schedulingWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostings) error {
+	if err := a.writer.Write(tx, pagePostings); err != nil {
 		return err
 	}
-	for _, posting := range postings {
+	for _, posting := range pagePostings.Postings() {
 		if err := a.countAdmission(tx, posting); err != nil {
 			return err
 		}

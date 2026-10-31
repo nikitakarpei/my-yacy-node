@@ -19,6 +19,7 @@ import (
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageofferbroker"
 	pageofferopeningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageofferopeningobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
 
 const corpus = "yacynode"
@@ -32,6 +33,7 @@ type pageOfferIntake struct {
 func openPageOfferIntake(
 	ctx context.Context,
 	config nodeconfiguration.PageOfferIntakeConfig,
+	pageIndexBuilder pagerwi.IndexBuilder,
 	pages pageadmission.PageReceiver,
 	registry prometheus.Registerer,
 ) (*pageOfferIntake, error) {
@@ -49,6 +51,7 @@ func openPageOfferIntake(
 		),
 		consumerConfig: pageintake.OfferedPageConsumerConfig{
 			FormatDerivations: formatDerivations,
+			PageIndexBuilder:  pageIndexBuilder,
 			PageReceiver:      pages,
 			PageIntakeObserver: pageintake.PageIntakeObservers{
 				pageintakeobserversapplog.PageIntakeLog{},

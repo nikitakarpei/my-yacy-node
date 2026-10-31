@@ -1,9 +1,8 @@
-// Package rwipostings owns the RWI postings of this node, and is their only
-// writer: callers read through PostingIndex, add through PostingWriter, and
-// drop through PostingPurger, one posting or every posting of a url at once.
-// Vault keeps the projections handed to Open in step. Each url keeps its words
-// as one set, where a word the ranking lists takes fewer bytes. PostingCodec
-// publishes the stored value codec of a posting.
+// Package rwipostings owns the RWI postings of this node and their held proofs,
+// and is their only writer: callers read through PostingIndex and PostingProofs,
+// add page postings through PostingWriter, and drop through PostingPurger. A
+// held proof leads the postings held for a url to its postings root. Vault keeps
+// the projections handed to Open in step; each url keeps its words as one set.
 package rwipostings
 
 import (
@@ -42,7 +41,14 @@ type PostingIndex interface {
 }
 
 type PostingWriter interface {
-	Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error
+	Write(tx *vault.Txn, pagePostings yacymodel.PagePostings) error
+}
+
+type PostingProofs interface {
+	ProofsFor(
+		ctx context.Context,
+		offeredPostings []yacymodel.RWIPosting,
+	) map[yacymodel.URLHash]yacymodel.PostingsProof
 }
 
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
@@ -53,8 +59,8 @@ func Open(
 	rankedWords []yacymodel.Hash,
 	urlWordsObserver vault.MemberSetObserver,
 	projections []vault.Projection[yacymodel.RWIPosting],
-) (PostingIndex, PostingWriter, PostingPurger, error) {
-	postings, urlWords, err := registerPostings(
+) (PostingIndex, PostingWriter, PostingPurger, PostingProofs, error) {
+	postings, urlWordsIndex, err := registerPostings(
 		ctx,
 		vault,
 		rankedWords,
@@ -62,16 +68,23 @@ func Open(
 		projections,
 	)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, nil, nil, err
+	}
+	proofs, err := registerHeldProofs(vault)
+	if err != nil {
+		return nil, nil, nil, nil, err
 	}
 
+	wordsPerURL := wordsPerURL{index: urlWordsIndex}
+	heldProofs := heldProofs{proofs: proofs, wordsPerURL: wordsPerURL, postings: postings}
 	directory := postingDirectory{
-		postings:   postings,
-		urlWords:   urlWords,
-		partitions: partitions,
+		postings:    postings,
+		wordsPerURL: wordsPerURL,
+		heldProofs:  heldProofs,
+		partitions:  partitions,
 	}
 
-	return directory, directory, directory, nil
+	return directory, directory, directory, postingProofs{vault: vault, heldProofs: heldProofs}, nil
 }
 
 func PostingCodec() vault.ValueCodec[yacymodel.RWIPosting] {

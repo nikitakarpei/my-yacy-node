@@ -281,6 +281,26 @@ func TestDeletingAKeyRangeDropsItsRecordsAndTheirIndexEntries(t *testing.T) {
 	}
 }
 
+func TestVisitingADeletedKeyRangeDropsTheIndexEntriesOfItsRecords(t *testing.T) {
+	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
+	d.define(t, definitionOf("a", "x"), definitionOf("b", "y"), definitionOf("c", "x"))
+
+	d.write(t, func(tx *vault.Txn) error {
+		return d.words.DeleteWithinVisiting(
+			tx,
+			stringKeyParts.KeysFromFirst("b"),
+			func(string, string) error { return nil },
+		)
+	})
+
+	if got, want := d.entries(t), []string{"x/a"}; !slices.Equal(got, want) {
+		t.Fatalf("entries = %v, want %v", got, want)
+	}
+	if got, want := d.counts(t), map[string]int{"x": 1}; !maps.Equal(got, want) {
+		t.Fatalf("counts = %v, want %v", got, want)
+	}
+}
+
 func TestDeletingAKeyRangeIsRefusedInsideARead(t *testing.T) {
 	d := openDictionary(t, newDoubleEngine(), firstVersion, plainMeaning)
 	d.define(t, definitionOf("a", "x"))

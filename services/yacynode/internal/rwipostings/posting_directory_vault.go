@@ -32,7 +32,7 @@ func registerPostings(
 	if err != nil {
 		return nil, nil, fmt.Errorf("rank words: %w", err)
 	}
-	urlWords, err := v.RegisterMemberSetIndex(
+	urlWordsIndex, err := v.RegisterMemberSetIndex(
 		urlWordsBucket,
 		urlWordsVersion,
 		postingKeyParts,
@@ -51,7 +51,7 @@ func registerPostings(
 	postings, err := v.RegisterIndexedCollection(
 		ctx,
 		postingsBucket,
-		urlWords,
+		urlWordsIndex,
 		postingValueCodec{},
 		vault.ProjectedAs(postingWithIdentity, projections...),
 	)
@@ -59,7 +59,7 @@ func registerPostings(
 		return nil, nil, fmt.Errorf("register rwi posting collection: %w", err)
 	}
 
-	return postings, urlWords, nil
+	return postings, urlWordsIndex, nil
 }
 
 var postingKeyParts = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash)

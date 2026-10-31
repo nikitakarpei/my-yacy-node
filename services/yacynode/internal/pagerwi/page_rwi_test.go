@@ -18,6 +18,8 @@ const (
 	pageURL       = "http://example.com/article"
 	sampleText    = "the quick brown fox the fox"
 	documentTitle = "Hello World"
+
+	ringPartitionExponent = 4
 )
 
 var reachedAt = time.Unix(1_700_000_000, 0)
@@ -42,34 +44,82 @@ func extractedDocument() documentextraction.Document {
 	}
 }
 
-func indexOf(t *testing.T, text string) pagerwi.PageRWI {
+type noStopwords struct{}
+
+func (noStopwords) Contains(yacymodel.Hash, yacymodel.Language) bool { return false }
+
+func indexBuilderWithoutStopwords(t *testing.T) pagerwi.IndexBuilder {
 	t.Helper()
-	return pagerwi.Of(scrapedPage(t, text), extractedDocument(), []byte(text), reachedAt)
+
+	return indexBuilderOf(t, noStopwords{})
 }
 
-func TestOfIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testing.T) {
+func indexBuilderOf(t *testing.T, stopwords pagerwi.Stopwords) pagerwi.IndexBuilder {
+	t.Helper()
+
+	return pagerwi.NewIndexBuilder(stopwords, ringPartitions(t))
+}
+
+func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
+	t.Helper()
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(ringPartitionExponent)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return partitions
+}
+
+func withPagePostings(t *testing.T, pageRWI pagerwi.PageRWI) pagerwi.PageRWI {
+	t.Helper()
+	if !pageRWI.PagePostings().Present() {
+		t.Fatal("the page has no page postings")
+	}
+
+	return pageRWI
+}
+
+func postingsOf(pageRWI pagerwi.PageRWI) []yacymodel.RWIPosting {
+	pagePostings, _ := pageRWI.PagePostings().Get()
+
+	return pagePostings.Postings()
+}
+
+func pageRWIOf(t *testing.T, text string) pagerwi.PageRWI {
+	t.Helper()
+	return withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scrapedPage(t, text), extractedDocument(), []byte(text), reachedAt),
+	)
+}
+
+func TestRWIFromIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testing.T) {
 	const replayURL = "http://archive.example/replay/http://example.com/"
 	scraped := scrapedPage(t, sampleText)
 	scraped.LandedURL = canonicalurltest.CanonicalURLOf(t, replayURL)
 
-	index := pagerwi.Of(scraped, extractedDocument(), []byte(sampleText), reachedAt)
+	pageRWI := withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText), reachedAt),
+	)
 
-	if index.PageURL.String() != pageURL {
-		t.Fatalf("page url = %q, want %q", index.PageURL, pageURL)
-	}
-	if index.Metadata.Address != pageURL {
-		t.Fatalf("metadata address = %q, want %q", index.Metadata.Address, pageURL)
+	if pageRWI.Metadata().Address != pageURL {
+		t.Fatalf("metadata address = %q, want %q", pageRWI.Metadata().Address, pageURL)
 	}
 }
 
-func TestOfProducesPostingsCarryingTheURLHash(t *testing.T) {
-	index := indexOf(t, sampleText)
+func TestRWIFromProducesPostingsCarryingTheURLHash(t *testing.T) {
+	pageRWI := pageRWIOf(t, sampleText)
 
-	if len(index.Postings) == 0 {
+	if len(postingsOf(pageRWI)) == 0 {
 		t.Fatal("no postings")
 	}
 	urlHash := urlhashtest.URLHashOf(t, pageURL)
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.URLHash != urlHash {
 			t.Fatalf("posting url hash = %q, want %q", posting.URLHash, urlHash)
 		}
@@ -79,12 +129,12 @@ func TestOfProducesPostingsCarryingTheURLHash(t *testing.T) {
 	}
 }
 
-func TestOfCountsRepeatedWords(t *testing.T) {
-	index := indexOf(t, sampleText)
+func TestRWIFromCountsRepeatedWords(t *testing.T) {
+	pageRWI := pageRWIOf(t, sampleText)
 
 	foxHash := yacymodel.WordHash("fox")
 	var found bool
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.WordHash == foxHash {
 			found = true
 			if posting.Hits != 2 {
@@ -97,9 +147,9 @@ func TestOfCountsRepeatedWords(t *testing.T) {
 	}
 }
 
-func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
+func TestRWIFromCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	document := extractedDocument()
-	metadata := indexOf(t, sampleText).Metadata
+	metadata := pageRWIOf(t, sampleText).Metadata()
 
 	if want := urlhashtest.URLHashOf(t, pageURL); metadata.Hash != want {
 		t.Fatalf("metadata url hash = %q, want %q", metadata.Hash, want)
@@ -119,13 +169,18 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	}
 }
 
-func TestOfRecordsTheUndeclaredLanguageInEveryPosting(t *testing.T) {
+func TestRWIFromRecordsTheUndeclaredLanguageInEveryPosting(t *testing.T) {
 	document := extractedDocument()
 	document.Language = ""
 
-	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+	pageRWI := withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+	)
 
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.Language != yacymodel.LanguageOfUndeclaredDocument {
 			t.Fatalf("language = %q, want %q",
 				posting.Language, yacymodel.LanguageOfUndeclaredDocument)
@@ -133,70 +188,80 @@ func TestOfRecordsTheUndeclaredLanguageInEveryPosting(t *testing.T) {
 	}
 }
 
-func TestOfLeavesMetadataLanguageAbsentWhenThePageDeclaresNone(t *testing.T) {
+func TestRWIFromLeavesMetadataLanguageAbsentWhenThePageDeclaresNone(t *testing.T) {
 	document := extractedDocument()
 	document.Language = ""
 
-	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+	pageRWI := withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+	)
 
-	if language, ok := index.Metadata.Language.Get(); ok {
+	if language, ok := pageRWI.Metadata().Language.Get(); ok {
 		t.Fatalf("metadata language = %q, want absent", language)
 	}
 }
 
-func TestOfDropsWordsShorterThanTwoCharacters(t *testing.T) {
-	index := indexOf(t, "a fox I saw")
+func TestRWIFromDropsWordsShorterThanTwoCharacters(t *testing.T) {
+	pageRWI := pageRWIOf(t, "a fox I saw")
 
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.WordHash == yacymodel.WordHash("a") ||
 			posting.WordHash == yacymodel.WordHash("i") {
 			t.Fatalf("short word should not be indexed: %q", posting.WordHash)
 		}
 	}
-	if len(index.Postings) != 2 {
-		t.Fatalf("want postings for 'fox' and 'saw' only, got %d", len(index.Postings))
+	if len(postingsOf(pageRWI)) != 2 {
+		t.Fatalf("want postings for 'fox' and 'saw' only, got %d", len(postingsOf(pageRWI)))
 	}
 }
 
-func TestOfKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
+func TestRWIFromKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 	assertWordIndexed(t, "state-of-the-art design", "state-of-the-art")
 }
 
-func TestOfKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
+func TestRWIFromKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	assertWordIndexed(t, "the price is 1,234.56 today", "1,234.56")
 }
 
-func TestOfIndexesEveryWordOfThePageText(t *testing.T) {
+func TestRWIFromIndexesEveryWordOfThePageText(t *testing.T) {
 	words := []string{"navigation", "menu", "the", "quick", "fox"}
 
-	index := indexOf(t, strings.Join(words, " "))
+	pageRWI := pageRWIOf(t, strings.Join(words, " "))
 
-	if len(index.Postings) != len(words) {
-		t.Fatalf("postings = %d, want one per word of %v", len(index.Postings), words)
+	if len(postingsOf(pageRWI)) != len(words) {
+		t.Fatalf("postings = %d, want one per word of %v", len(postingsOf(pageRWI)), words)
 	}
 	for _, word := range words {
 		assertWordIndexed(t, strings.Join(words, " "), word)
 	}
 }
 
-func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
+func TestRWIFromMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
 	page := scrapedPage(t, "the quick fox")
 
-	index := pagerwi.Of(page, extractedDocument(), []byte("the quick fox"), reachedAt)
+	pageRWI := withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), page, extractedDocument(), []byte("the quick fox"), reachedAt),
+	)
 
-	if size, known := index.Metadata.ByteSize.Get(); !known || int(size) != len(page.Body) {
+	if size, known := pageRWI.Metadata().ByteSize.Get(); !known || int(size) != len(page.Body) {
 		t.Fatalf(
 			"byte size = %v, want the fetched document size %d",
-			index.Metadata.ByteSize,
+			pageRWI.Metadata().ByteSize,
 			len(page.Body),
 		)
 	}
 }
 
-func TestOfPostingsMeasureThePageURL(t *testing.T) {
-	index := indexOf(t, sampleText)
+func TestRWIFromPostingsMeasureThePageURL(t *testing.T) {
+	pageRWI := pageRWIOf(t, sampleText)
 
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if int(posting.URLLength) != len(pageURL) {
 			t.Fatalf("url length = %d, want %d", posting.URLLength, len(pageURL))
 		}
@@ -206,10 +271,10 @@ func TestOfPostingsMeasureThePageURL(t *testing.T) {
 	}
 }
 
-func TestOfCountsPhrasesAndPhrasePositions(t *testing.T) {
-	index := indexOf(t, "the quick fox jumps. the lazy dog sleeps.")
+func TestRWIFromCountsPhrasesAndPhrasePositions(t *testing.T) {
+	pageRWI := pageRWIOf(t, "the quick fox jumps. the lazy dog sleeps.")
 
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.Phrases != 2 {
 			t.Fatalf("phrase count = %d, want 2", posting.Phrases)
 		}
@@ -218,7 +283,7 @@ func TestOfCountsPhrasesAndPhrasePositions(t *testing.T) {
 	sleepsHash := yacymodel.WordHash("sleeps")
 	var jumpsPhrase, sleepsPhrase uint8
 	var jumpsFound, sleepsFound bool
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.WordHash == jumpsHash {
 			jumpsPhrase, jumpsFound = posting.PhrasePosition, true
 		}
@@ -235,13 +300,13 @@ func TestOfCountsPhrasesAndPhrasePositions(t *testing.T) {
 	}
 }
 
-func TestOfCountsTheWordsOfTheTextAndOfTheTitleInEveryPosting(t *testing.T) {
-	index := indexOf(t, sampleText)
+func TestRWIFromCountsTheWordsOfTheTextAndOfTheTitleInEveryPosting(t *testing.T) {
+	pageRWI := pageRWIOf(t, sampleText)
 
-	if len(index.Postings) == 0 {
+	if len(postingsOf(pageRWI)) == 0 {
 		t.Fatal("no postings")
 	}
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.TextWords != 6 {
 			t.Fatalf("text words = %d, want the 6 words of %q", posting.TextWords, sampleText)
 		}
@@ -251,24 +316,29 @@ func TestOfCountsTheWordsOfTheTextAndOfTheTitleInEveryPosting(t *testing.T) {
 	}
 }
 
-func TestOfCountsTitleWordsBetweenSpacesAsYaCyDoes(t *testing.T) {
+func TestRWIFromCountsTitleWordsBetweenSpacesAsYaCyDoes(t *testing.T) {
 	document := extractedDocument()
 	document.Title = "Hello · World"
 
-	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+	pageRWI := withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+	)
 
-	if got := index.Postings[0].TitleWords; got != 3 {
+	if got := postingsOf(pageRWI)[0].TitleWords; got != 3 {
 		t.Fatalf("title words = %d, want the 3 space-separated words of %q", got, document.Title)
 	}
 }
 
-func TestOfMarksAWordOfTheTitleAsAppearingInIt(t *testing.T) {
-	index := indexOf(t, "hello there quick fox")
+func TestRWIFromMarksAWordOfTheTitleAsAppearingInIt(t *testing.T) {
+	pageRWI := pageRWIOf(t, "hello there quick fox")
 
-	if !postingOf(t, index, "hello").Appearance.AppearsInTitle {
+	if !postingOf(t, pageRWI, "hello").Appearance.AppearsInTitle {
 		t.Errorf("word %q of title %q should appear in the title", "hello", documentTitle)
 	}
-	if postingOf(t, index, "quick").Appearance.AppearsInTitle {
+	if postingOf(t, pageRWI, "quick").Appearance.AppearsInTitle {
 		t.Errorf(
 			"word %q is absent from title %q and should not appear in it",
 			"quick",
@@ -277,11 +347,11 @@ func TestOfMarksAWordOfTheTitleAsAppearingInIt(t *testing.T) {
 	}
 }
 
-func postingOf(t *testing.T, index pagerwi.PageRWI, word string) yacymodel.RWIPosting {
+func postingOf(t *testing.T, pageRWI pagerwi.PageRWI, word string) yacymodel.RWIPosting {
 	t.Helper()
 
 	wordHash := yacymodel.WordHash(word)
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.WordHash == wordHash {
 			return posting
 		}
@@ -291,13 +361,18 @@ func postingOf(t *testing.T, index pagerwi.PageRWI, word string) yacymodel.RWIPo
 	return yacymodel.RWIPosting{}
 }
 
-func TestOfMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
+func TestRWIFromMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
 	document := extractedDocument()
 	document.Title = ""
 
-	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+	pageRWI := withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+	)
 
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.Appearance.AppearsInTitle {
 			t.Fatalf("word %q should not appear in an absent title", posting.WordHash)
 		}
@@ -308,7 +383,7 @@ func assertWordIndexed(t *testing.T, text string, word string) {
 	t.Helper()
 
 	wordHash := yacymodel.WordHash(word)
-	for _, posting := range indexOf(t, text).Postings {
+	for _, posting := range postingsOf(pageRWIOf(t, text)) {
 		if posting.WordHash == wordHash {
 			return
 		}
@@ -316,12 +391,17 @@ func assertWordIndexed(t *testing.T, text string, word string) {
 	t.Fatalf("word %q should be indexed", word)
 }
 
-func indexOfPageModifiedAt(t *testing.T, modifiedAt time.Time) pagerwi.PageRWI {
+func pageRWIOfPageModifiedAt(t *testing.T, modifiedAt time.Time) pagerwi.PageRWI {
 	t.Helper()
 	scraped := scrapedPage(t, sampleText)
 	scraped.PageModifiedAt = modifiedAt
 
-	return pagerwi.Of(scraped, extractedDocument(), []byte(sampleText), reachedAt)
+	return withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText), reachedAt),
+	)
 }
 
 func microDateOf(t *testing.T, instant time.Time) yacymodel.MicroDate {
@@ -335,16 +415,16 @@ func microDateOf(t *testing.T, instant time.Time) yacymodel.MicroDate {
 	return date
 }
 
-func TestOfRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
+func TestRWIFromRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
 	modifiedAt := reachedAt.Add(-72 * time.Hour)
 
-	index := indexOfPageModifiedAt(t, modifiedAt)
+	pageRWI := pageRWIOfPageModifiedAt(t, modifiedAt)
 
-	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+	if modified, ok := pageRWI.Metadata().Modified.Get(); !ok ||
 		modified != yacymodel.CalendarDayOf(modifiedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, modifiedAt)
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata().Modified, modifiedAt)
 	}
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.LastModified != microDateOf(t, modifiedAt) {
 			t.Fatalf("posting last modified = %v, want %v",
 				posting.LastModified, microDateOf(t, modifiedAt))
@@ -352,23 +432,23 @@ func TestOfRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
 	}
 }
 
-func TestOfKeepsTheTimeThePageWasFetchedAsTheLoadedDate(t *testing.T) {
-	index := indexOfPageModifiedAt(t, reachedAt.Add(-72*time.Hour))
+func TestRWIFromKeepsTheTimeThePageWasFetchedAsTheLoadedDate(t *testing.T) {
+	pageRWI := pageRWIOfPageModifiedAt(t, reachedAt.Add(-72*time.Hour))
 
-	if loaded, ok := index.Metadata.Loaded.Get(); !ok ||
+	if loaded, ok := pageRWI.Metadata().Loaded.Get(); !ok ||
 		loaded != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata loaded = %+v, want %v", index.Metadata.Loaded, reachedAt)
+		t.Fatalf("metadata loaded = %+v, want %v", pageRWI.Metadata().Loaded, reachedAt)
 	}
 }
 
-func TestOfFallsBackToTheTimeThePageWasReachedWhenTheOriginSaidNothing(t *testing.T) {
-	index := indexOfPageModifiedAt(t, time.Time{})
+func TestRWIFromFallsBackToTheTimeThePageWasReachedWhenTheOriginSaidNothing(t *testing.T) {
+	pageRWI := pageRWIOfPageModifiedAt(t, time.Time{})
 
-	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+	if modified, ok := pageRWI.Metadata().Modified.Get(); !ok ||
 		modified != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata().Modified, reachedAt)
 	}
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.LastModified != microDateOf(t, reachedAt) {
 			t.Fatalf("posting last modified = %v, want %v",
 				posting.LastModified, microDateOf(t, reachedAt))
@@ -376,14 +456,14 @@ func TestOfFallsBackToTheTimeThePageWasReachedWhenTheOriginSaidNothing(t *testin
 	}
 }
 
-func TestOfHoldsBackAModifiedDateLaterThanTheTimeThePageWasReached(t *testing.T) {
-	index := indexOfPageModifiedAt(t, reachedAt.Add(240*time.Hour))
+func TestRWIFromHoldsBackAModifiedDateLaterThanTheTimeThePageWasReached(t *testing.T) {
+	pageRWI := pageRWIOfPageModifiedAt(t, reachedAt.Add(240*time.Hour))
 
-	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+	if modified, ok := pageRWI.Metadata().Modified.Get(); !ok ||
 		modified != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata().Modified, reachedAt)
 	}
-	for _, posting := range index.Postings {
+	for _, posting := range postingsOf(pageRWI) {
 		if posting.LastModified > microDateOf(t, reachedAt) {
 			t.Fatalf("posting last modified = %v, want no later than %v",
 				posting.LastModified, microDateOf(t, reachedAt))
@@ -391,33 +471,38 @@ func TestOfHoldsBackAModifiedDateLaterThanTheTimeThePageWasReached(t *testing.T)
 	}
 }
 
-func TestOfFallsBackToTheTimeThePageWasReachedForAModifiedDateBeforeTheEpoch(t *testing.T) {
-	index := indexOfPageModifiedAt(t, time.Date(1965, time.March, 4, 0, 0, 0, 0, time.UTC))
+func TestRWIFromFallsBackToTheTimeThePageWasReachedForAModifiedDateBeforeTheEpoch(t *testing.T) {
+	pageRWI := pageRWIOfPageModifiedAt(t, time.Date(1965, time.March, 4, 0, 0, 0, 0, time.UTC))
 
-	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+	if modified, ok := pageRWI.Metadata().Modified.Get(); !ok ||
 		modified != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata().Modified, reachedAt)
 	}
-	if got := index.Postings[0].LastModified; got != microDateOf(t, reachedAt) {
+	if got := postingsOf(pageRWI)[0].LastModified; got != microDateOf(t, reachedAt) {
 		t.Fatalf("posting last modified = %v, want %v", got, microDateOf(t, reachedAt))
 	}
 }
 
 const amountOfOversizedPageSentences = 65600
 
-func indexOfOversizedPage(t *testing.T) pagerwi.PageRWI {
+func pageRWIOfOversizedPage(t *testing.T) pagerwi.PageRWI {
 	t.Helper()
 	text := strings.Repeat("fox. ", amountOfOversizedPageSentences) + "zebra."
 	document := extractedDocument()
 	document.LocalLinks = 300
 	document.ExternalLinks = 256
 
-	return pagerwi.Of(scrapedPage(t, text), document, []byte(text), reachedAt)
+	return withPagePostings(
+		t,
+		indexBuilderWithoutStopwords(
+			t,
+		).RWIFrom(t.Context(), scrapedPage(t, text), document, []byte(text), reachedAt),
+	)
 }
 
-func TestOfKeepsTheLowByteOfOneByteCountsOfAnOversizedPage(t *testing.T) {
-	index := indexOfOversizedPage(t)
-	fox, zebra := postingOf(t, index, "fox"), postingOf(t, index, "zebra")
+func TestRWIFromKeepsTheLowByteOfOneByteCountsOfAnOversizedPage(t *testing.T) {
+	pageRWI := pageRWIOfOversizedPage(t)
+	fox, zebra := postingOf(t, pageRWI, "fox"), postingOf(t, pageRWI, "zebra")
 
 	if fox.Hits != 64 {
 		t.Errorf("hits = %d, want the low byte 64 of %d", fox.Hits, amountOfOversizedPageSentences)
@@ -429,16 +514,16 @@ func TestOfKeepsTheLowByteOfOneByteCountsOfAnOversizedPage(t *testing.T) {
 		t.Errorf("links = %d local, %d external, want the low bytes 44 and 0",
 			fox.LocalLinks, fox.ExternalLinks)
 	}
-	if index.Metadata.LocalLinks != 300 {
+	if pageRWI.Metadata().LocalLinks != 300 {
 		t.Errorf(
 			"metadata local links = %d, want the 300 the page holds",
-			index.Metadata.LocalLinks,
+			pageRWI.Metadata().LocalLinks,
 		)
 	}
 }
 
-func TestOfHoldsTwoByteCountsOfAnOversizedPageAtTheirCeiling(t *testing.T) {
-	zebra := postingOf(t, indexOfOversizedPage(t), "zebra")
+func TestRWIFromHoldsTwoByteCountsOfAnOversizedPageAtTheirCeiling(t *testing.T) {
+	zebra := postingOf(t, pageRWIOfOversizedPage(t), "zebra")
 
 	if zebra.TextWords != math.MaxUint16 || zebra.Phrases != math.MaxUint16 {
 		t.Errorf("text words = %d, phrases = %d, want both at %d",
@@ -446,5 +531,78 @@ func TestOfHoldsTwoByteCountsOfAnOversizedPageAtTheirCeiling(t *testing.T) {
 	}
 	if zebra.TextPosition != math.MaxUint16 {
 		t.Errorf("text position = %d, want %d", zebra.TextPosition, math.MaxUint16)
+	}
+}
+
+type stopwordThe struct{}
+
+func (stopwordThe) Contains(word yacymodel.Hash, _ yacymodel.Language) bool {
+	return word == yacymodel.WordHash("the")
+}
+
+func TestRWIFromBuildsNoPostingOfAStopword(t *testing.T) {
+	pageRWI := withPagePostings(t, indexBuilderOf(t, stopwordThe{}).RWIFrom(t.Context(),
+		scrapedPage(t, sampleText),
+		extractedDocument(),
+		[]byte(sampleText),
+		reachedAt,
+	))
+
+	for _, posting := range postingsOf(pageRWI) {
+		if posting.WordHash == yacymodel.WordHash("the") {
+			t.Fatal("the stopword of the page has a posting, want none")
+		}
+	}
+	if len(postingsOf(pageRWI)) != 3 {
+		t.Fatalf("postings = %d, want quick, brown and fox", len(postingsOf(pageRWI)))
+	}
+	if textWords := postingsOf(pageRWI)[0].TextWords; textWords != 6 {
+		t.Fatalf(
+			"text words = %d, want the 6 words of %q with its stopwords",
+			textWords,
+			sampleText,
+		)
+	}
+}
+
+func TestRWIFromRootsTheMetadataAtThePostingsWithoutStopwords(t *testing.T) {
+	pageRWI := withPagePostings(t, indexBuilderOf(t, stopwordThe{}).RWIFrom(t.Context(),
+		scrapedPage(t, sampleText),
+		extractedDocument(),
+		[]byte(sampleText),
+		reachedAt,
+	))
+
+	kept, err := yacymodel.ProvenPagePostingsFrom(
+		postingsOf(pageRWI),
+		yacymodel.EmptyPostingsProof(ringPartitions(t)),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := pageRWI.Metadata().PostingsRoot; !got.Present() || got != kept.Root() {
+		t.Fatalf(
+			"metadata postings root = %+v, want the root %+v of the kept postings",
+			got,
+			kept.Root(),
+		)
+	}
+}
+
+func TestRWIFromAPageOfStopwordsOnlyHasMetadataWithoutPagePostingsOrRoot(t *testing.T) {
+	pageRWI := indexBuilderOf(t, stopwordThe{}).RWIFrom(t.Context(),
+		scrapedPage(t, "the the"),
+		extractedDocument(),
+		[]byte("the the"),
+		reachedAt,
+	)
+
+	if pageRWI.PagePostings().Present() {
+		t.Errorf("page postings = %+v, want none for a page of stopwords only",
+			pageRWI.PagePostings())
+	}
+	metadata := pageRWI.Metadata()
+	if metadata.Hash != urlhashtest.URLHashOf(t, pageURL) || metadata.PostingsRoot.Present() {
+		t.Errorf("metadata = %+v, want the page url hash and no postings root", metadata)
 	}
 }

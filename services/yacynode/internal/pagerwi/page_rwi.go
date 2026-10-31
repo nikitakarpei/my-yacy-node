@@ -1,8 +1,12 @@
 // Package pagerwi turns a scraped page and the document it holds into the reverse word index
-// the node stores: one URL metadata row and one posting per distinct word of the page's text.
+// the node stores: one posting per distinct word of the page's text that is no stopword of its
+// language, and one URL metadata row that carries the postings root of those postings. A page
+// without such a word has no page postings and no postings root.
 package pagerwi
 
 import (
+	"context"
+	"log/slog"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -11,52 +15,54 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PageRWI struct {
-	PageURL  canonicalurl.CanonicalURL
-	Metadata yacymodel.URLMetadata
-	Postings []yacymodel.RWIPosting
+type Stopwords interface {
+	Contains(word yacymodel.Hash, language yacymodel.Language) bool
 }
 
-func Of(
+type IndexBuilder struct {
+	stopwords  Stopwords
+	emptyProof yacymodel.PostingsProof
+}
+
+func NewIndexBuilder(stopwords Stopwords, partitions yacymodel.DHTRingPartitions) IndexBuilder {
+	return IndexBuilder{stopwords: stopwords, emptyProof: yacymodel.EmptyPostingsProof(partitions)}
+}
+
+type PageRWI struct {
+	pagePostings yacymodel.Optional[yacymodel.PagePostings]
+	metadata     yacymodel.URLMetadata
+}
+
+func (b IndexBuilder) RWIFrom(
+	ctx context.Context,
 	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
 ) PageRWI {
-	pageURL := scrapedPage.PageURL
+	urlHash := yacymodel.URLHashOf(scrapedPage.PageURL.WebAddress())
 	modifiedAt := recordedModifiedAtOf(scrapedPage, reachedAt)
-
 	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
 	_, titleWordOccurrences, _ := tokenize(document.Title)
-
-	metadata := metadataOf(scrapedPage, document, reachedAt, modifiedAt, textStats.Words)
-	shared := sharedPosting(pageURL, document, modifiedAt, metadata.Hash)
-	shared.TitleWords = yacymodel.TitleWordsOf(document.Title)
-	shared.TextWords = yacymodel.SaturatedCardinalFrom[uint16](textStats.Words)
-	shared.Phrases = yacymodel.SaturatedCardinalFrom[uint16](textStats.Phrases)
-
-	postings := make([]yacymodel.RWIPosting, 0, len(textWordsInOrder))
-	for _, word := range textWordsInOrder {
-		occurrenceInText := textWordOccurrences[word]
-		_, appearsInTitle := titleWordOccurrences[word]
-		posting := shared
-		posting.WordHash = yacymodel.WordHash(word)
-		posting.Appearance.AppearsInTitle = appearsInTitle
-		posting.Hits = yacymodel.WrappedCardinalFrom(occurrenceInText.count)
-		posting.TextPosition = yacymodel.SaturatedCardinalFrom[uint16](
-			occurrenceInText.firstPosition,
-		)
-		posting.PhraseRelativePosition = yacymodel.WrappedCardinalFrom(
-			occurrenceInText.firstPositionInPhrase,
-		)
-		posting.PhrasePosition = yacymodel.WrappedCardinalFrom(occurrenceInText.firstPhraseNumber)
-		postings = append(postings, posting)
-	}
+	postings := b.postingsFrom(
+		sharedPostingOf(scrapedPage.PageURL, document, modifiedAt, urlHash, textStats),
+		textWordsInOrder,
+		textWordOccurrences,
+		titleWordOccurrences,
+	)
+	pagePostings := b.pagePostingsFrom(ctx, postings)
 
 	return PageRWI{
-		PageURL:  pageURL,
-		Metadata: metadata,
-		Postings: postings,
+		metadata: metadataOf(
+			scrapedPage,
+			document,
+			reachedAt,
+			modifiedAt,
+			textStats.Words,
+			urlHash,
+			postingsRootOf(pagePostings),
+		),
+		pagePostings: pagePostings,
 	}
 }
 
@@ -73,30 +79,35 @@ func recordedModifiedAtOf(
 	return declared
 }
 
-func metadataOf(
-	scrapedPage pagescrapecontract.OfferedPage,
+func sharedPostingOf(
+	pageURL canonicalurl.CanonicalURL,
 	document documentextraction.Document,
-	reachedAt time.Time,
 	modifiedAt time.Time,
-	wordCount int,
-) yacymodel.URLMetadata {
-	pageURL := scrapedPage.PageURL
-
-	return yacymodel.URLMetadata{
-		Hash:         yacymodel.URLHashOf(pageURL.WebAddress()),
-		Address:      pageURL.String(),
-		Title:        document.Title,
-		Modified:     yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
-		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
-		DocumentType: yacymodel.DocumentTypeText,
-		Language:     declaredLanguageOf(document),
-		ByteSize: yacymodel.Some(
-			yacymodel.SaturatedCardinalFrom[uint32](len(scrapedPage.Body)),
-		),
-		WordCount:     yacymodel.SaturatedCardinalFrom[uint32](wordCount),
-		LocalLinks:    yacymodel.SaturatedCardinalFrom[uint32](document.LocalLinks),
-		ExternalLinks: yacymodel.SaturatedCardinalFrom[uint32](document.ExternalLinks),
+	urlHash yacymodel.URLHash,
+	textStats textStatistics,
+) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		URLHash:       urlHash,
+		LastModified:  yacymodel.MicroDateOf(modifiedAt).OrElse(0),
+		DocumentType:  yacymodel.DocumentTypeText,
+		Language:      recordedLanguageOf(document),
+		TitleWords:    yacymodel.TitleWordsOf(document.Title),
+		TextWords:     yacymodel.SaturatedCardinalFrom[uint16](textStats.Words),
+		Phrases:       yacymodel.SaturatedCardinalFrom[uint16](textStats.Phrases),
+		LocalLinks:    yacymodel.WrappedCardinalFrom(document.LocalLinks),
+		ExternalLinks: yacymodel.WrappedCardinalFrom(document.ExternalLinks),
+		URLLength:     yacymodel.WrappedCardinalFrom(len(pageURL.String())),
+		URLComponents: yacymodel.URLComponentsOf(pageURL.String()),
 	}
+}
+
+func recordedLanguageOf(document documentextraction.Document) yacymodel.Language {
+	declared, ok := declaredLanguageOf(document).Get()
+	if !ok {
+		return yacymodel.LanguageOfUndeclaredDocument
+	}
+
+	return declared
 }
 
 func declaredLanguageOf(
@@ -113,29 +124,103 @@ func declaredLanguageOf(
 	return yacymodel.Some(language)
 }
 
-func sharedPosting(
-	pageURL canonicalurl.CanonicalURL,
+func (b IndexBuilder) postingsFrom(
+	shared yacymodel.RWIPosting,
+	textWordsInOrder []string,
+	textWordOccurrences map[string]wordOccurrence,
+	titleWordOccurrences map[string]wordOccurrence,
+) []yacymodel.RWIPosting {
+	postings := make([]yacymodel.RWIPosting, 0, len(textWordsInOrder))
+	postedWords := make(map[yacymodel.Hash]struct{}, len(textWordsInOrder))
+	for _, word := range textWordsInOrder {
+		wordHash := yacymodel.WordHash(word)
+		if _, posted := postedWords[wordHash]; posted ||
+			b.stopwords.Contains(wordHash, shared.Language) {
+			continue
+		}
+		postedWords[wordHash] = struct{}{}
+		posting := shared
+		posting.WordHash = wordHash
+		occurrenceInText := textWordOccurrences[word]
+		_, appearsInTitle := titleWordOccurrences[word]
+		posting.Appearance.AppearsInTitle = appearsInTitle
+		posting.Hits = yacymodel.WrappedCardinalFrom(occurrenceInText.count)
+		posting.TextPosition = yacymodel.SaturatedCardinalFrom[uint16](
+			occurrenceInText.firstPosition,
+		)
+		posting.PhraseRelativePosition = yacymodel.WrappedCardinalFrom(
+			occurrenceInText.firstPositionInPhrase,
+		)
+		posting.PhrasePosition = yacymodel.WrappedCardinalFrom(occurrenceInText.firstPhraseNumber)
+		postings = append(postings, posting)
+	}
+
+	return postings
+}
+
+func (b IndexBuilder) pagePostingsFrom(
+	ctx context.Context,
+	postings []yacymodel.RWIPosting,
+) yacymodel.Optional[yacymodel.PagePostings] {
+	if len(postings) == 0 {
+		return yacymodel.None[yacymodel.PagePostings]()
+	}
+	// A crawl holds every posting of the page, so no hash is missing from its proof.
+	pagePostings, err := yacymodel.ProvenPagePostingsFrom(postings, b.emptyProof)
+	if err != nil {
+		slog.WarnContext(ctx, "page postings not built",
+			slog.String("url", postings[0].URLHash.String()),
+			slog.Any("error", err),
+		)
+
+		return yacymodel.None[yacymodel.PagePostings]()
+	}
+
+	return yacymodel.Some(pagePostings)
+}
+
+func postingsRootOf(
+	pagePostings yacymodel.Optional[yacymodel.PagePostings],
+) yacymodel.Optional[yacymodel.PostingsRoot] {
+	if pagePostings, present := pagePostings.Get(); present {
+		return pagePostings.Root()
+	}
+
+	return yacymodel.None[yacymodel.PostingsRoot]()
+}
+
+//nolint:revive // argument-limit: each argument is a distinct source of one metadata row
+func metadataOf(
+	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
+	reachedAt time.Time,
 	modifiedAt time.Time,
+	wordCount int,
 	urlHash yacymodel.URLHash,
-) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{
-		URLHash:       urlHash,
-		LastModified:  yacymodel.MicroDateOf(modifiedAt).OrElse(0),
-		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      recordedLanguageOf(document),
-		LocalLinks:    yacymodel.WrappedCardinalFrom(document.LocalLinks),
-		ExternalLinks: yacymodel.WrappedCardinalFrom(document.ExternalLinks),
-		URLLength:     yacymodel.WrappedCardinalFrom(len(pageURL.String())),
-		URLComponents: yacymodel.URLComponentsOf(pageURL.String()),
+	postingsRoot yacymodel.Optional[yacymodel.PostingsRoot],
+) yacymodel.URLMetadata {
+	return yacymodel.URLMetadata{
+		Hash:         urlHash,
+		Address:      scrapedPage.PageURL.String(),
+		Title:        document.Title,
+		Modified:     yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
+		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
+		DocumentType: yacymodel.DocumentTypeText,
+		Language:     declaredLanguageOf(document),
+		PostingsRoot: postingsRoot,
+		ByteSize: yacymodel.Some(
+			yacymodel.SaturatedCardinalFrom[uint32](len(scrapedPage.Body)),
+		),
+		WordCount:     yacymodel.SaturatedCardinalFrom[uint32](wordCount),
+		LocalLinks:    yacymodel.SaturatedCardinalFrom[uint32](document.LocalLinks),
+		ExternalLinks: yacymodel.SaturatedCardinalFrom[uint32](document.ExternalLinks),
 	}
 }
 
-func recordedLanguageOf(document documentextraction.Document) yacymodel.Language {
-	declared, ok := declaredLanguageOf(document).Get()
-	if !ok {
-		return yacymodel.LanguageOfUndeclaredDocument
-	}
+func (r PageRWI) Metadata() yacymodel.URLMetadata {
+	return r.metadata
+}
 
-	return declared
+func (r PageRWI) PagePostings() yacymodel.Optional[yacymodel.PagePostings] {
+	return r.pagePostings
 }

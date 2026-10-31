@@ -2,6 +2,7 @@ package vault_test
 
 import (
 	"context"
+	"maps"
 	"slices"
 	"testing"
 
@@ -350,5 +351,30 @@ func TestUnchangedDictionaryValuesKeepTheSets(t *testing.T) {
 	assertWords(t, after.wordsOf(t, "p1"), "the", "zebra")
 	if len(after.observed.addedForms) != 0 {
 		t.Fatalf("members added at open = %d, want 0", len(after.observed.addedForms))
+	}
+}
+
+func TestAVisitorOfADeletedRangeReadsTheMembersLeftAfterEachRemoval(t *testing.T) {
+	words := openPageWords(t, newDoubleEngine(), []string{"the"})
+	words.mention(t, "p1", "the", "zebra")
+	words.mention(t, "p2", "the")
+
+	membersLeft := map[string][]string{}
+	words.write(t, func(tx *vault.Txn) error {
+		return words.collection.DeleteWithinVisiting(
+			tx,
+			mentionKeyParts.KeysWithFirst("the"),
+			func(removed mention, _ string) error {
+				members, err := words.words.MembersOf(tx, removed.page)
+				membersLeft[removed.page] = members
+
+				return err
+			},
+		)
+	})
+
+	want := map[string][]string{"p1": {"zebra"}, "p2": nil}
+	if !maps.EqualFunc(membersLeft, want, slices.Equal) {
+		t.Fatalf("members left = %v, want %v", membersLeft, want)
 	}
 }

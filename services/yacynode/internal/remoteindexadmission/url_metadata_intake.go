@@ -128,7 +128,7 @@ func (i URLMetadataIntake) admit(
 	case arrivedVersion.IsDatedAfter(i.now()):
 		return URLMetadataDroppedFutureDate, nil
 	case !metadataStored:
-		return i.store(tx, sender, arrived, arrivedVersion)
+		return i.store(ctx, tx, sender, arrived, arrivedVersion)
 	case version.Is(arrivedVersion):
 		return URLMetadataDroppedAlreadyStored, nil
 	case !version.IsReplacedBy(arrivedVersion):
@@ -146,12 +146,13 @@ func (i URLMetadataIntake) admit(
 }
 
 func (i URLMetadataIntake) store(
+	ctx context.Context,
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
 	arrivedVersion pageversion.Version,
 ) (URLMetadataOutcome, error) {
-	if err := i.write(tx, sender, arrived, arrivedVersion); err != nil {
+	if err := i.write(ctx, tx, sender, arrived, arrivedVersion); err != nil {
 		return "", err
 	}
 
@@ -159,6 +160,7 @@ func (i URLMetadataIntake) store(
 }
 
 func (i URLMetadataIntake) write(
+	ctx context.Context,
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
@@ -168,7 +170,7 @@ func (i URLMetadataIntake) write(
 		return err
 	}
 
-	return i.releaser.releaseWaitingFor(tx, arrived.Hash, arrivedVersion)
+	return i.releaser.releaseWaitingFor(ctx, tx, arrived.Hash, arrivedVersion)
 }
 
 func (i URLMetadataIntake) replaceWith(
@@ -184,7 +186,7 @@ func (i URLMetadataIntake) replaceWith(
 	if _, err := i.evictor.Purge(ctx, tx, []yacymodel.URLHash{arrived.Hash}); err != nil {
 		return "", fmt.Errorf("purge the replaced version: %w", err)
 	}
-	if err := i.write(tx, sender, arrived, arrivedVersion); err != nil {
+	if err := i.write(ctx, tx, sender, arrived, arrivedVersion); err != nil {
 		return "", err
 	}
 
