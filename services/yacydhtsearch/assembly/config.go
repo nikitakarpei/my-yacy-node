@@ -496,11 +496,11 @@ func replicasCoveringAPartitionOf(
 func partitionsOf(getenv func(string) string) (yacymodel.DHTRingPartitions, error) {
 	exponent, err := envconfig.PositiveInt(getenv, EnvPartitionExponent, DefaultPartitionExponent)
 	if err != nil {
-		return 0, err
+		return yacymodel.DHTRingPartitions{}, err
 	}
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(uint(exponent))
 	if err != nil {
-		return 0, fmt.Errorf("%s: %w", EnvPartitionExponent, err)
+		return yacymodel.DHTRingPartitions{}, fmt.Errorf("%s: %w", EnvPartitionExponent, err)
 	}
 
 	return partitions, nil

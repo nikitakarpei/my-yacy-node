@@ -19,15 +19,15 @@ import (
 )
 
 const (
-	responseLimit  = 1 << 20
-	networkName    = "freeworld"
-	ringPartitions = yacymodel.DHTRingPartitions(16)
+	responseLimit = 1 << 20
+	networkName   = "freeworld"
 
 	spreadBudgetOfTheTests             = 8 * time.Second
 	urlMetadataCallBudgetOfTheTests    = 4 * time.Second
 	searchCallBudgetOfTheTests         = 4 * time.Second
 	searchCallHeadersTimeoutOfTheTests = time.Second
 	callsInFlightOfTheTests            = 48
+	ringPartitionExponent              = 4
 )
 
 type recordedOutcome struct {
@@ -194,47 +194,61 @@ func (r *recordedOutcome) PeerCallCancelled(
 	r.spent = spent
 }
 
-func wireTo(observer peercallwire.PeerCallObserver) peercallwire.Wire {
-	return wireHolding(callsInFlightOfTheTests, observer)
+func wireTo(t *testing.T, observer peercallwire.PeerCallObserver) peercallwire.Wire {
+	t.Helper()
+
+	return wireHolding(t, callsInFlightOfTheTests, observer)
 }
 
 func wireHolding(
+	t *testing.T,
 	callsInFlight int,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
+	t.Helper()
+
 	limits := limitsOfTheTests()
 	limits.PeerCallsInFlight = callsInFlight
 
-	return wireCalling(http.DefaultClient, newClockTheTestFires(), limits, observer)
+	return wireCalling(t, http.DefaultClient, newClockTheTestFires(), limits, observer)
 }
 
 func wireSearchingAtMost(
+	t *testing.T,
 	searchCallBudget time.Duration,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
+	t.Helper()
+
 	limits := limitsOfTheTests()
 	limits.SearchCallBudget = searchCallBudget
 
-	return wireCalling(http.DefaultClient, newClockTheTestFires(), limits, observer)
+	return wireCalling(t, http.DefaultClient, newClockTheTestFires(), limits, observer)
 }
 
 func wireWaitingForHeadersAtMost(
+	t *testing.T,
 	searchCallHeadersTimeout time.Duration,
 	clock peercallwire.Clock,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
+	t.Helper()
+
 	limits := limitsOfTheTests()
 	limits.SearchCallHeadersTimeout = searchCallHeadersTimeout
 
-	return wireCalling(http.DefaultClient, clock, limits, observer)
+	return wireCalling(t, http.DefaultClient, clock, limits, observer)
 }
 
 func wireThrough(
+	t *testing.T,
 	transport http.RoundTripper,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
+	t.Helper()
+
 	return wireCalling(
-		&http.Client{Transport: transport}, newClockTheTestFires(), limitsOfTheTests(), observer,
+		t, &http.Client{Transport: transport}, newClockTheTestFires(), limitsOfTheTests(), observer,
 	)
 }
 
@@ -248,15 +262,23 @@ func limitsOfTheTests() peercallwire.PeerCallLimits {
 }
 
 func wireCalling(
+	t *testing.T,
 	client *http.Client,
 	clock peercallwire.Clock,
 	limits peercallwire.PeerCallLimits,
 	observer peercallwire.PeerCallObserver,
 ) peercallwire.Wire {
+	t.Helper()
+
+	searchedNetwork := peercallwire.SearchedNetwork{
+		Name:           networkName,
+		RingPartitions: ringPartitions(t),
+	}
+
 	return peercallwire.New(
 		client,
 		clock,
-		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions},
+		searchedNetwork,
 		limits,
 		observer,
 	)
@@ -294,7 +316,7 @@ func matchedDocumentsOf(
 ) ([]peerasks.MatchedDocument, bool) {
 	t.Helper()
 
-	answeredAsks := wireTo(observer).AskForSearchDocuments(
+	answeredAsks := wireTo(t, observer).AskForSearchDocuments(
 		callWithin(t, spreadBudgetOfTheTests), []peerasks.SearchDocumentsAsk{ask},
 	)
 	if len(answeredAsks) == 0 {
@@ -311,7 +333,7 @@ func searchDocumentsAnswerOf(
 ) (peerasks.AnsweredSearchDocumentsAsk, bool) {
 	t.Helper()
 
-	answeredAsks := wireTo(observer).AskForSearchDocuments(
+	answeredAsks := wireTo(t, observer).AskForSearchDocuments(
 		callWithin(t, spreadBudgetOfTheTests), []peerasks.SearchDocumentsAsk{ask},
 	)
 	if len(answeredAsks) == 0 {
@@ -445,7 +467,7 @@ func TestASearchDocumentsAskCarriesTheQueryAndTheNetworkTheServiceSearches(t *te
 		t.Fatalf("the peer received %d requests, want one", len(requests.received))
 	}
 	request := requests.received[0]
-	if request.NetworkName != networkName || request.Partitions != int(ringPartitions) {
+	if request.NetworkName != networkName || request.Partitions != 1<<ringPartitionExponent {
 		t.Fatalf("request = %+v, want the network facts the service searches", request)
 	}
 	grantedAnswerTime := time.Duration(request.Time) * time.Millisecond
@@ -471,7 +493,7 @@ func TestAPeerIsGrantedTheCallBudgetLessTheMarginTheAnswerNeeds(t *testing.T) {
 	)
 	address, requests := peerAnswering(t, searchAnswerHolding(t), http.StatusOK)
 
-	wireSearchingAtMost(searchCallBudget, &recordedOutcome{}).AskForSearchDocuments(
+	wireSearchingAtMost(t, searchCallBudget, &recordedOutcome{}).AskForSearchDocuments(
 		callWithin(t, spreadBudgetOfTheTests),
 		[]peerasks.SearchDocumentsAsk{{Peer: peerAt(address)}},
 	)
@@ -805,7 +827,7 @@ func TestAURLMetadataAskFetchesTheDocumentsItNames(t *testing.T) {
 			`</item></channel></rss>`,
 	)
 
-	answeredAsks := outcomesOf(wireTo(&recordedOutcome{}).AskForURLMetadata(
+	answeredAsks := outcomesOf(wireTo(t, &recordedOutcome{}).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
@@ -846,7 +868,7 @@ func TestAnAnsweredURLMetadataAskIsReportedAsTheMetadataItIs(t *testing.T) {
 	)
 
 	observer := &recordedOutcome{}
-	outcomesOf(wireTo(observer).AskForURLMetadata(
+	outcomesOf(wireTo(t, observer).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
@@ -881,7 +903,7 @@ func TestAURLMetadataAskGoesToTheURLsEndpointWithTheNamesAndTheNetwork(t *testin
 		`<rss><yacy><response>ok</response></yacy><channel></channel></rss>`,
 	)
 
-	outcomesOf(wireTo(&recordedOutcome{}).AskForURLMetadata(
+	outcomesOf(wireTo(t, &recordedOutcome{}).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
@@ -913,7 +935,7 @@ func TestAPeerThatRejectsTheURLMetadataCallYieldsNoItems(t *testing.T) {
 			`<channel></channel></rss>`,
 	)
 
-	answeredAsks := outcomesOf(wireTo(observer).AskForURLMetadata(
+	answeredAsks := outcomesOf(wireTo(t, observer).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{{
 			Peer:      peerAt(address),
@@ -950,7 +972,7 @@ func TestEveryURLMetadataAskHandsOverItsOutcomeOnceItSettled(t *testing.T) {
 			`<channel></channel></rss>`,
 	)
 
-	outcomes := outcomesOf(wireTo(&recordedOutcome{}).AskForURLMetadata(
+	outcomes := outcomesOf(wireTo(t, &recordedOutcome{}).AskForURLMetadata(
 		t.Context(),
 		[]peerasks.URLMetadataAsk{
 			{Peer: peerAt(answering), Documents: []yacymodel.URLHash{document}},
@@ -982,7 +1004,7 @@ func TestASearchDocumentsAskNamesTheDocumentsToMatch(t *testing.T) {
 	}
 	address, calls := peerRecordingTheFormPosted(t, "")
 
-	wireTo(&recordedOutcome{}).AskForSearchDocuments(
+	wireTo(t, &recordedOutcome{}).AskForSearchDocuments(
 		callWithin(t, spreadBudgetOfTheTests),
 		[]peerasks.SearchDocumentsAsk{
 			{Peer: peerAt(address), Word: word, DocumentsToMatch: documents},
@@ -1092,7 +1114,7 @@ func TestACallCancelledWhileThePeerAnswersIsNotReportedAsAnUnreachablePeer(t *te
 		endSearch()
 	}()
 
-	answeredAsks := wireTo(observer).AskForSearchDocuments(
+	answeredAsks := wireTo(t, observer).AskForSearchDocuments(
 		ctx, []peerasks.SearchDocumentsAsk{{
 			Peer: peerAt(server.URL),
 			DocumentsToMatch: []yacymodel.URLHash{
@@ -1149,6 +1171,7 @@ func TestACallCancelledWhileItsAnswerIsReadIsNotReportedAsAnUnreadableAnswer(t *
 	}()
 
 	outcomes := outcomesOf(wireThrough(
+		t,
 		transportSignallingTheFirstAnswerRead{startedReading: answerReadStarted},
 		observer,
 	).AskForURLMetadata(
@@ -1215,7 +1238,7 @@ func TestASearchCallWithoutHeadersWithinTheTimeoutIsReportedAsLate(t *testing.T)
 	ctx := callWithin(t, spreadBudgetOfTheTests)
 	answered := make(chan []peerasks.AnsweredSearchDocumentsAsk)
 	go func() {
-		answered <- wireWaitingForHeadersAtMost(searchCallHeadersTimeoutOfTheTests, clock, observer).
+		answered <- wireWaitingForHeadersAtMost(t, searchCallHeadersTimeoutOfTheTests, clock, observer).
 			AskForSearchDocuments(ctx, []peerasks.SearchDocumentsAsk{{Peer: peerAt(address)}})
 	}()
 	expire := <-clock.started
@@ -1281,7 +1304,7 @@ func TestASearchAnswerThatArrivesSlowlyAfterItsHeadersIsStillRead(t *testing.T) 
 	ctx := callWithin(t, spreadBudgetOfTheTests)
 	answered := make(chan []peerasks.AnsweredSearchDocumentsAsk)
 	go func() {
-		answered <- wireWaitingForHeadersAtMost(searchCallHeadersTimeoutOfTheTests, clock, observer).
+		answered <- wireWaitingForHeadersAtMost(t, searchCallHeadersTimeoutOfTheTests, clock, observer).
 			AskForSearchDocuments(ctx, []peerasks.SearchDocumentsAsk{{Peer: peerAt(server.URL)}})
 	}()
 	<-clock.started
@@ -1309,7 +1332,7 @@ func TestAURLMetadataCallIsNotTimedOnItsHeaders(t *testing.T) {
 	clock := newClockTheTestFires()
 
 	answeredAsks := outcomesOf(
-		wireWaitingForHeadersAtMost(searchCallHeadersTimeoutOfTheTests, clock, observer).
+		wireWaitingForHeadersAtMost(t, searchCallHeadersTimeoutOfTheTests, clock, observer).
 			AskForURLMetadata(
 				t.Context(),
 				[]peerasks.URLMetadataAsk{{
@@ -1337,7 +1360,7 @@ func TestASearchCallWithoutAHeadersTimeoutIsNotTimedOnItsHeaders(t *testing.T) {
 	)
 	clock := newClockTheTestFires()
 
-	answeredAsks := wireWaitingForHeadersAtMost(0, clock, observer).AskForSearchDocuments(
+	answeredAsks := wireWaitingForHeadersAtMost(t, 0, clock, observer).AskForSearchDocuments(
 		callWithin(t, spreadBudgetOfTheTests),
 		[]peerasks.SearchDocumentsAsk{{Peer: peerAt(address)}},
 	)
@@ -1360,4 +1383,15 @@ func languageFrom(t *testing.T, code string) yacymodel.Language {
 	}
 
 	return language
+}
+
+func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(ringPartitionExponent)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
+	return partitions
 }

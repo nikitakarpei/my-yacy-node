@@ -35,9 +35,9 @@ func (peers chosenPeers) asksOfEveryPartitionFor(
 	words []yacymodel.Hash,
 	partitions yacymodel.DHTRingPartitions,
 ) []wordpartitionasks.Ask {
-	asks := make([]wordpartitionasks.Ask, 0, len(words)*int(partitions))
+	asks := make([]wordpartitionasks.Ask, 0, len(words)*int(partitions.Amount()))
 	for _, word := range words {
-		for partition := range uint(partitions) {
+		for partition := range partitions.Amount() {
 			if ask, chosen := peers.askOf(word, partition).Get(); chosen {
 				asks = append(asks, ask)
 			}

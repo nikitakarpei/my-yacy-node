@@ -19,9 +19,19 @@ import (
 const (
 	firstWord               = "berlin"
 	secondWord              = "weather"
-	twoPartitionsOfTheRing  = 2
 	documentsToMatchCeiling = 2
 )
+
+func twoPartitionsOfTheRing(t *testing.T) yacymodel.DHTRingPartitions {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(1)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
+	return partitions
+}
 
 type replicasOfTheNetwork struct {
 	answersPerWord            map[yacymodel.Hash][]wordpartitionasks.ReplicaAnswer
@@ -143,14 +153,13 @@ func (reports *documentAsksReports) DocumentAsksPerformed(
 func documentsIn(t *testing.T, partition uint, amount int) []yacymodel.URLHash {
 	t.Helper()
 
-	partitions := yacymodel.DHTRingPartitions(twoPartitionsOfTheRing)
 	documents := make([]yacymodel.URLHash, 0, amount)
 	for place := 0; len(documents) < amount; place++ {
 		document, err := yacymodel.URLHashOf(fmt.Sprintf("https://document-%d.example/", place))
 		if err != nil {
 			t.Fatalf("document %d has no hash: %v", place, err)
 		}
-		if partitions.PartitionOf(document) != partition {
+		if twoPartitionsOfTheRing(t).PartitionOf(document) != partition {
 			continue
 		}
 		documents = append(documents, document)
@@ -252,7 +261,7 @@ func inquiryOver(
 ) *documentasks.Inquiry {
 	t.Helper()
 
-	return documentasks.New(replicas, twoPartitionsOfTheRing, documentsToMatchCeiling, observer).
+	return documentasks.New(replicas, twoPartitionsOfTheRing(t), documentsToMatchCeiling, observer).
 		Begin(t.Context(), query, chosenPeersInBothPartitions(), inquirer)
 }
 
@@ -548,8 +557,8 @@ func TestTheInquiryReportsWhatTheReplicasCarriedOnceItEnds(t *testing.T) {
 
 	want := []documentasks.Performed{{
 		AmountOfPeersWithANonEmptyAbstract:  2,
-		AmountOfListedDocumentsWithMetadata: twoPartitionsOfTheRing,
-		AmountOfListedDocumentsWithAPosting: twoPartitionsOfTheRing,
+		AmountOfListedDocumentsWithMetadata: int(twoPartitionsOfTheRing(t).Amount()),
+		AmountOfListedDocumentsWithAPosting: int(twoPartitionsOfTheRing(t).Amount()),
 		AmountOfDocumentsHeldInEachAnswer:   []int{512, 512},
 	}}
 	if amountOfReportsBeforeTheEnd != 0 || !reflect.DeepEqual(reports.performed, want) {

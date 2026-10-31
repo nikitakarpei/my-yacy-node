@@ -83,7 +83,7 @@ func openHarnessOn(t *testing.T, v *vault.Vault) harness {
 	_, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
-		yacymodel.DHTRingPartitions(1),
+		yacymodel.DHTRingPartitions{},
 		nil,
 		nil,
 		[]vault.Projection[yacymodel.RWIPosting]{projection},

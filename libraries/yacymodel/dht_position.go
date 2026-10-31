@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"math/bits"
 )
 
 // DHTRingPosition is where something sits on the DHT ring. The ring is 63 bits
@@ -17,31 +16,35 @@ const MaxDHTRingPosition = DHTRingPosition(1)<<63 - 1
 // forward around the ring.
 type DHTRingDistance uint64
 
-// DHTRingPartitions is how many equal parts the ring is cut into. The count is
-// always a power of two, so you build it from the exponent and not from the
-// count.
-type DHTRingPartitions uint
+// DHTRingPartitions is how many equal parts the ring is cut into. The amount is
+// always a power of two. The zero value is the whole ring.
+type DHTRingPartitions struct {
+	exponent uint
+}
 
 // DHTRingPartitionsFromExponent makes 1<<exponent partitions. The exponent is
 // how many of the high bits of a posting's position come from its url hash
 // (Distribution.java:49-52).
 func DHTRingPartitionsFromExponent(exponent uint) (DHTRingPartitions, error) {
 	if exponent >= 63 {
-		return 0, fmt.Errorf("dht ring partition exponent %d out of range [0,63)", exponent)
+		return DHTRingPartitions{}, fmt.Errorf(
+			"dht ring partition exponent %d out of range [0,63)",
+			exponent,
+		)
 	}
-	return DHTRingPartitions(1) << exponent, nil
+	return DHTRingPartitions{exponent: exponent}, nil
 }
 
 func PeersHoldingOneWordOf(partitions DHTRingPartitions, networkRedundancy int) int {
-	return int(partitions) * networkRedundancy
+	return int(partitions.Amount()) * networkRedundancy
+}
+
+func (p DHTRingPartitions) Amount() uint {
+	return 1 << p.exponent
 }
 
 func (p DHTRingPartitions) shiftLength() uint {
-	return 63 - p.exponent()
-}
-
-func (p DHTRingPartitions) exponent() uint {
-	return uint(bits.Len(uint(p)) - 1)
+	return 63 - p.exponent
 }
 
 const dhtRingPositionSymbols = 10
@@ -156,7 +159,7 @@ func (p DHTRingPartitions) HighestURLHashIn(partition uint) URLHash {
 
 func (p DHTRingPartitions) urlHashIn(partition uint, filler byte) URLHash {
 	raw := bytes.Repeat([]byte{filler}, HashByteLength)
-	partitionShift := 64 - p.exponent()
+	partitionShift := 64 - p.exponent
 	fillerBits := binary.BigEndian.Uint64(raw) &^ (^uint64(0) << partitionShift)
 	binary.BigEndian.PutUint64(raw, uint64(partition)<<partitionShift|fillerBits)
 

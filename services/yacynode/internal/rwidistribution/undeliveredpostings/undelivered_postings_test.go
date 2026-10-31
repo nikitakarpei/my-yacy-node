@@ -356,7 +356,7 @@ func TestAnyInSeesOnlyItsOwnWordPartition(t *testing.T) {
 	}
 	otherPartition := yacymodel.WordPartition{
 		Word:      word,
-		Partition: (stored.Partition + 1) % uint(h.partitions),
+		Partition: (stored.Partition + 1) % h.partitions.Amount(),
 	}
 	if h.anyIn(t, otherPartition) {
 		t.Fatalf("AnyIn(%+v) = true, want false", otherPartition)

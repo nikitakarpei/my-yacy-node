@@ -40,8 +40,12 @@ func (q peersOneQueryMayAsk) peersNearestToTheWordInEachPartition(
 	peersNotChosenForEarlierWords := peersNotChosenForEarlierWordsAmong(
 		q.askablePeers, peersChosenForEarlierWords,
 	)
-	nearestToTheWordInEachPartition := make([][]peerAtRingFractionFromTheWord, 0, q.partitions)
-	for partition := range uint(q.partitions) {
+	nearestToTheWordInEachPartition := make(
+		[][]peerAtRingFractionFromTheWord,
+		0,
+		q.partitions.Amount(),
+	)
+	for partition := range q.partitions.Amount() {
 		wordPosition := yacymodel.DHTRingPositionOfWordInPartition(
 			queryWord, partition, q.partitions,
 		)

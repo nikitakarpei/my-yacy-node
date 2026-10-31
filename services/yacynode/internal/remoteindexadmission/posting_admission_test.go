@@ -113,7 +113,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
-		yacymodel.DHTRingPartitions(1),
+		yacymodel.DHTRingPartitions{},
 		nil,
 		nil,
 		nil,
