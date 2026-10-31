@@ -26,7 +26,7 @@ func joinedPostingOf(postings []yacymodel.RWIPosting) yacymodel.RWIPosting {
 
 const positionAbsent = 0
 
-func earliestPosition(position, additional int) int {
+func earliestPosition(position, additional uint16) uint16 {
 	if position == positionAbsent || additional == positionAbsent {
 		return max(position, additional)
 	}
@@ -44,5 +44,5 @@ func termSpreadOf(postings []yacymodel.RWIPosting) int {
 		lastTermPosition = max(lastTermPosition, posting.TextPosition)
 	}
 
-	return (lastTermPosition - firstTermPosition) / (len(postings) - 1)
+	return int(lastTermPosition-firstTermPosition) / (len(postings) - 1)
 }

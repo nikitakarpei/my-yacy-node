@@ -169,13 +169,13 @@ func (f urlMetadataWireForm) texts(
 	return plain, nil
 }
 
-func (f urlMetadataWireForm) byteSize() yacymodel.Optional[int] {
+func (f urlMetadataWireForm) byteSize() yacymodel.Optional[uint32] {
 	size, readable := f.decimal(urlMetadataColByteSize)
 	if !readable || size < 0 {
-		return yacymodel.None[int]()
+		return yacymodel.None[uint32]()
 	}
 
-	return yacymodel.Some(size)
+	return yacymodel.Some(yacymodel.SaturatedCardinalFrom[uint32](size))
 }
 
 func (f urlMetadataWireForm) decimal(column string) (int, bool) {
@@ -188,13 +188,13 @@ func (f urlMetadataWireForm) decimal(column string) (int, bool) {
 	return number, err == nil
 }
 
-func (f urlMetadataWireForm) cardinal(column string) int {
+func (f urlMetadataWireForm) cardinal(column string) uint32 {
 	number, readable := f.decimal(column)
 	if !readable || number < 0 {
 		return 0
 	}
 
-	return number
+	return yacymodel.SaturatedCardinalFrom[uint32](number)
 }
 
 func (f urlMetadataWireForm) documentType() yacymodel.DocumentType {
@@ -283,8 +283,8 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	f.putDay(urlMetadataColLoaded, m.Loaded)
 	f.putDay(urlMetadataColFreshUntil, m.FreshUntil)
 	f.putReferrer(m.Referrer)
-	f.put(urlMetadataColByteSize, strconv.Itoa(m.ByteSize.OrElse(unknownByteSize)))
-	f.put(urlMetadataColWordCount, strconv.Itoa(m.WordCount))
+	f.put(urlMetadataColByteSize, byteSizeTextFrom(m.ByteSize))
+	f.put(urlMetadataColWordCount, cardinalTextFrom(m.WordCount))
 	f.put(urlMetadataColDocType, string(charByDocumentType[m.DocumentType]))
 	if m.MediaType != "" {
 		f.putEncoded(urlMetadataColMediaType, m.MediaType)
@@ -293,12 +293,12 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	if language, ok := m.Language.Get(); ok {
 		f.put(urlMetadataColLanguage, language.String())
 	}
-	f.put(urlMetadataColLocalLinks, strconv.Itoa(m.LocalLinks))
-	f.put(urlMetadataColExternalLinks, strconv.Itoa(m.ExternalLinks))
-	f.put(urlMetadataColImageLinks, strconv.Itoa(m.ImageLinks))
-	f.put(urlMetadataColAudioLinks, strconv.Itoa(m.AudioLinks))
-	f.put(urlMetadataColVideoLinks, strconv.Itoa(m.VideoLinks))
-	f.put(urlMetadataColAppLinks, strconv.Itoa(m.ApplicationLinks))
+	f.put(urlMetadataColLocalLinks, cardinalTextFrom(m.LocalLinks))
+	f.put(urlMetadataColExternalLinks, cardinalTextFrom(m.ExternalLinks))
+	f.put(urlMetadataColImageLinks, cardinalTextFrom(m.ImageLinks))
+	f.put(urlMetadataColAudioLinks, cardinalTextFrom(m.AudioLinks))
+	f.put(urlMetadataColVideoLinks, cardinalTextFrom(m.VideoLinks))
+	f.put(urlMetadataColAppLinks, cardinalTextFrom(m.ApplicationLinks))
 	if m.Snippet != "" {
 		f.putEncoded(urlMetadataColSnippet, m.Snippet)
 	}
@@ -307,6 +307,15 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	}
 
 	return f
+}
+
+func byteSizeTextFrom(byteSize yacymodel.Optional[uint32]) string {
+	size, known := byteSize.Get()
+	if !known {
+		return strconv.Itoa(unknownByteSize)
+	}
+
+	return cardinalTextFrom(size)
 }
 
 func urlMetadataFlags(m yacymodel.URLMetadata) bitfield {

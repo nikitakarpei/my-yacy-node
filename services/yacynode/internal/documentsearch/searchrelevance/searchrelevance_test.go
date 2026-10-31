@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 )
 
-func postingOf(term yacymodel.Hash, document string, hits int) yacymodel.RWIPosting {
+func postingOf(term yacymodel.Hash, document string, hits uint8) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: term,
 		URLHash:  searchtest.URLHashFor(document),

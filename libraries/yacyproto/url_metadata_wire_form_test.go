@@ -1,6 +1,7 @@
 package yacyproto_test
 
 import (
+	"math"
 	"net/url"
 	"reflect"
 	"strings"
@@ -36,7 +37,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		DocumentType:     yacymodel.DocumentTypeText,
 		MediaType:        "text/html",
 		Language:         yacymodel.Some(englishLanguage(t)),
-		ByteSize:         yacymodel.Some(1024),
+		ByteSize:         yacymodel.Some[uint32](1024),
 		WordCount:        12,
 		LocalLinks:       3,
 		ExternalLinks:    4,
@@ -90,7 +91,7 @@ func TestTransferURLRequestReadsARowAsRealYaCyWritesIt(t *testing.T) {
 		FreshUntil:    yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      yacymodel.Some(englishLanguage(t)),
-		ByteSize:      yacymodel.Some(1024),
+		ByteSize:      yacymodel.Some[uint32](1024),
 		WordCount:     12,
 		LocalLinks:    3,
 		ExternalLinks: 4,
@@ -164,11 +165,55 @@ func TestTransferURLRequestReadsANegativeCountAsZero(t *testing.T) {
 	}
 }
 
+func TestTransferURLRequestHoldsACountWiderThanFourBytesAtItsCeiling(t *testing.T) {
+	t.Parallel()
+
+	for written, want := range map[string]uint32{
+		"4294967295": math.MaxUint32,
+		"4294967296": math.MaxUint32,
+		"5000000000": math.MaxUint32,
+	} {
+		row := strings.Replace(yacyURLMetadataRow, "wc=12", "wc="+written, 1)
+		row = strings.Replace(row, "size=1024", "size="+written, 1)
+		metadata := metadataFromRow(t, row)
+		if metadata.WordCount != want {
+			t.Errorf("word count of %s = %d, want %d", written, metadata.WordCount, want)
+		}
+		if size, _ := metadata.ByteSize.Get(); size != want {
+			t.Errorf("byte size of %s = %d, want %d", written, size, want)
+		}
+	}
+}
+
+func TestTransferURLRequestCarriesCountsAtTheirCeiling(t *testing.T) {
+	t.Parallel()
+
+	written := fullURLMetadata(t)
+	written.ByteSize = yacymodel.Some[uint32](math.MaxUint32)
+	written.WordCount = math.MaxUint32
+	written.LocalLinks = math.MaxUint32
+	written.ExternalLinks = math.MaxUint32
+	written.ImageLinks = math.MaxUint32
+	written.AudioLinks = math.MaxUint32
+	written.VideoLinks = math.MaxUint32
+	written.ApplicationLinks = math.MaxUint32
+
+	if got := metadataFromRow(
+		t,
+		sampleURLMetadataWireForm(t, written),
+	); !reflect.DeepEqual(
+		got,
+		written,
+	) {
+		t.Errorf("round trip =\n %+v\nwant\n %+v", got, written)
+	}
+}
+
 func TestTransferURLRequestWritesAnAbsentSizeAsYaCyDoes(t *testing.T) {
 	t.Parallel()
 
 	metadata := fullURLMetadata(t)
-	metadata.ByteSize = yacymodel.None[int]()
+	metadata.ByteSize = yacymodel.None[uint32]()
 
 	if row := sampleURLMetadataWireForm(t, metadata); !strings.Contains(row, "size=-1,") {
 		t.Errorf("row does not carry the unknown size as -1: %s", row)

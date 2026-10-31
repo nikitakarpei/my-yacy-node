@@ -66,7 +66,7 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Language {
 	return language
 }
 
-func postingEntry(word yacymodel.Hash, document string, position int) yacymodel.RWIPosting {
+func postingEntry(word yacymodel.Hash, document string, position uint16) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:     word,
 		URLHash:      searchtest.URLHashFor(document),
@@ -340,7 +340,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	inLanguage := func(
 		word yacymodel.Hash,
 		document, language string,
-		position int,
+		position uint16,
 	) yacymodel.RWIPosting {
 		posting := postingEntry(word, document, position)
 		posting.Language = mustLanguage(t, language)

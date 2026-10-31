@@ -1,9 +1,9 @@
 package yacyproto_test
 
 import (
+	"math"
 	"net/url"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -22,16 +22,6 @@ func mustPostingURLHash(t *testing.T) yacymodel.URLHash {
 	}
 
 	return hash
-}
-
-func mustParseDay(t *testing.T, day string) time.Time {
-	t.Helper()
-	parsed, err := time.Parse("2006-01-02", day)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return parsed
 }
 
 func postingFromLine(t *testing.T, line string) yacymodel.RWIPosting {
@@ -65,7 +55,7 @@ func TestTransferRWIRequestCarriesEveryPostingColumn(t *testing.T) {
 	want := yacymodel.RWIPosting{
 		WordHash:               mustHash(t, postingWordHash),
 		URLHash:                mustPostingURLHash(t),
-		LastModified:           yacymodel.MicroDateFromTime(mustParseDay(t, "2026-07-18")),
+		LastModified:           yacymodel.MicroDate(20652),
 		TitleWords:             3,
 		TextWords:              120,
 		Phrases:                8,
@@ -84,6 +74,46 @@ func TestTransferRWIRequestCarriesEveryPostingColumn(t *testing.T) {
 
 	if got := postingRoundTrip(t, want); got != want {
 		t.Fatalf("round trip = %+v, want %+v", got, want)
+	}
+}
+
+func TestTransferRWIRequestWritesAPostingAsALine(t *testing.T) {
+	t.Parallel()
+
+	posting := postingFromCardinals(7, 120)
+	posting.WordHash = mustHash(t, postingWordHash)
+	posting.URLHash = mustPostingURLHash(t)
+	posting.Language = englishLanguage(t)
+	posting.DocumentType = yacymodel.DocumentTypeHTML
+	posting.LastModified = yacymodel.MicroDate(20652)
+	posting.Appearance = yacymodel.Appearance{HasImage: true}
+	posting.ExternalLinks = math.MaxUint8
+	posting.TextPosition = math.MaxUint16
+
+	want := postingWordHash + "{a=20652,c=7,d=104,h=" + postingURLHash + ",l=en,m=7,n=7,o=7,p=120," +
+		"r=7,t=65535,u=7,w=120,x=7,y=255,z=AAAQAA}"
+	got := yacyproto.TransferRWIRequest{
+		Indexes: []yacymodel.RWIPosting{posting},
+	}.Form().Get(yacyproto.FieldIndexes)
+	if got != want {
+		t.Fatalf("line = %q, want %q", got, want)
+	}
+}
+
+func postingFromCardinals(oneByteCardinal uint8, twoByteCardinal uint16) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		LastModified:           yacymodel.MicroDate(twoByteCardinal),
+		TitleWords:             oneByteCardinal,
+		LocalLinks:             oneByteCardinal,
+		ExternalLinks:          oneByteCardinal,
+		URLLength:              oneByteCardinal,
+		URLComponents:          oneByteCardinal,
+		Hits:                   oneByteCardinal,
+		PhraseRelativePosition: oneByteCardinal,
+		PhrasePosition:         oneByteCardinal,
+		TextWords:              twoByteCardinal,
+		Phrases:                twoByteCardinal,
+		TextPosition:           twoByteCardinal,
 	}
 }
 
@@ -128,28 +158,6 @@ func TestTransferRWIRequestFoldsALastModifiedDateWiderThanItsColumn(t *testing.T
 	}
 }
 
-func TestTransferRWIRequestWrapsTheLastModifiedDateAtItsColumnWidth(t *testing.T) {
-	t.Parallel()
-
-	const modulus = 65536
-	cases := map[yacymodel.MicroDate]yacymodel.MicroDate{
-		modulus:     0,
-		-1:          modulus - 1,
-		modulus + 5: 5,
-	}
-	for written, want := range cases {
-		posting := yacymodel.RWIPosting{
-			WordHash:     mustHash(t, postingWordHash),
-			URLHash:      mustPostingURLHash(t),
-			Language:     englishLanguage(t),
-			LastModified: written,
-		}
-		if got := postingRoundTrip(t, posting).LastModified; got != want {
-			t.Errorf("last modified %d round trips to %d, want %d", written, got, want)
-		}
-	}
-}
-
 func TestTransferRWIRequestReadsASparseLine(t *testing.T) {
 	t.Parallel()
 
@@ -184,77 +192,19 @@ func TestTransferRWIRequestRejectsALineWithoutALanguage(t *testing.T) {
 	}
 }
 
-func postingFromCardinals(t *testing.T, byteCardinal, uint16Cardinal int) yacymodel.RWIPosting {
-	t.Helper()
-
-	return yacymodel.RWIPosting{
-		WordHash:               mustHash(t, postingWordHash),
-		URLHash:                mustPostingURLHash(t),
-		Language:               englishLanguage(t),
-		TitleWords:             byteCardinal,
-		LocalLinks:             byteCardinal,
-		ExternalLinks:          byteCardinal,
-		URLLength:              byteCardinal,
-		URLComponents:          byteCardinal,
-		Hits:                   byteCardinal,
-		PhraseRelativePosition: byteCardinal,
-		PhrasePosition:         byteCardinal,
-		TextWords:              uint16Cardinal,
-		Phrases:                uint16Cardinal,
-		TextPosition:           uint16Cardinal,
-	}
-}
-
-func TestTransferRWIRequestKeepsTheLowByteOfByteCardinalsAsYaCyDoes(t *testing.T) {
+func TestTransferRWIRequestCarriesCardinalsAtTheEdgesOfTheirWidths(t *testing.T) {
 	t.Parallel()
 
-	const uint16Ceiling = 65535
-	cases := map[string]struct {
-		written, want yacymodel.RWIPosting
-	}{
-		"at the ceiling": {
-			postingFromCardinals(t, 255, uint16Ceiling),
-			postingFromCardinals(t, 255, uint16Ceiling),
-		},
-		"one above the ceiling": {
-			postingFromCardinals(t, 256, uint16Ceiling),
-			postingFromCardinals(t, 0, uint16Ceiling),
-		},
-		"far above the ceiling": {
-			postingFromCardinals(t, 300, uint16Ceiling),
-			postingFromCardinals(t, 44, uint16Ceiling),
-		},
-	}
-	for name, testCase := range cases {
-		if got := postingRoundTrip(t, testCase.written); got != testCase.want {
-			t.Errorf("%s round trips to %+v, want %+v", name, got, testCase.want)
-		}
-	}
-}
-
-func TestTransferRWIRequestSaturatesUint16CardinalsWiderThanTheirColumn(t *testing.T) {
-	t.Parallel()
-
-	const uint16Ceiling = 65535
-	cases := map[string]struct {
-		written, want yacymodel.RWIPosting
-	}{
-		"one above the ceiling": {
-			postingFromCardinals(t, 0, uint16Ceiling+1),
-			postingFromCardinals(t, 0, uint16Ceiling),
-		},
-		"far above the ceiling": {
-			postingFromCardinals(t, 0, 1<<20),
-			postingFromCardinals(t, 0, uint16Ceiling),
-		},
-		"below zero": {
-			postingFromCardinals(t, -1, -300),
-			postingFromCardinals(t, 0, 0),
-		},
-	}
-	for name, testCase := range cases {
-		if got := postingRoundTrip(t, testCase.written); got != testCase.want {
-			t.Errorf("%s round trips to %+v, want %+v", name, got, testCase.want)
+	for name, cardinals := range map[string]yacymodel.RWIPosting{
+		"zero":    postingFromCardinals(0, 0),
+		"ceiling": postingFromCardinals(math.MaxUint8, math.MaxUint16),
+	} {
+		written := cardinals
+		written.WordHash = mustHash(t, postingWordHash)
+		written.URLHash = mustPostingURLHash(t)
+		written.Language = englishLanguage(t)
+		if got := postingRoundTrip(t, written); got != written {
+			t.Errorf("%s round trips to %+v, want %+v", name, got, written)
 		}
 	}
 }

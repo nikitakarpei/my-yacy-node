@@ -1,6 +1,7 @@
 package pagerwi_test
 
 import (
+	"math"
 	"strings"
 	"testing"
 	"time"
@@ -109,8 +110,8 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	if metadata.WordCount == 0 {
 		t.Fatal("word count = 0, want nonzero")
 	}
-	if metadata.LocalLinks != document.LocalLinks ||
-		metadata.ExternalLinks != document.ExternalLinks {
+	if int(metadata.LocalLinks) != document.LocalLinks ||
+		int(metadata.ExternalLinks) != document.ExternalLinks {
 		t.Fatalf("links = %d local, %d external", metadata.LocalLinks, metadata.ExternalLinks)
 	}
 	if loaded, ok := metadata.Loaded.Get(); !ok || loaded != yacymodel.CalendarDayOf(reachedAt) {
@@ -183,7 +184,7 @@ func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
 
 	index := pagerwi.Of(page, extractedDocument(), []byte("the quick fox"), reachedAt)
 
-	if size, known := index.Metadata.ByteSize.Get(); !known || size != len(page.Body) {
+	if size, known := index.Metadata.ByteSize.Get(); !known || int(size) != len(page.Body) {
 		t.Fatalf(
 			"byte size = %v, want the fetched document size %d",
 			index.Metadata.ByteSize,
@@ -196,7 +197,7 @@ func TestOfPostingsMeasureThePageURL(t *testing.T) {
 	index := indexOf(t, sampleText)
 
 	for _, posting := range index.Postings {
-		if posting.URLLength != len(pageURL) {
+		if int(posting.URLLength) != len(pageURL) {
 			t.Fatalf("url length = %d, want %d", posting.URLLength, len(pageURL))
 		}
 		if posting.URLComponents != 3 {
@@ -215,7 +216,7 @@ func TestOfCountsPhrasesAndPhrasePositions(t *testing.T) {
 	}
 	jumpsHash := yacymodel.WordHash("jumps")
 	sleepsHash := yacymodel.WordHash("sleeps")
-	var jumpsPhrase, sleepsPhrase int
+	var jumpsPhrase, sleepsPhrase uint8
 	var jumpsFound, sleepsFound bool
 	for _, posting := range index.Postings {
 		if posting.WordHash == jumpsHash {
@@ -264,16 +265,30 @@ func TestOfCountsTitleWordsBetweenSpacesAsYaCyDoes(t *testing.T) {
 func TestOfMarksAWordOfTheTitleAsAppearingInIt(t *testing.T) {
 	index := indexOf(t, "hello there quick fox")
 
-	if !appearanceOf(t, index, "hello").AppearsInTitle {
+	if !postingOf(t, index, "hello").Appearance.AppearsInTitle {
 		t.Errorf("word %q of title %q should appear in the title", "hello", documentTitle)
 	}
-	if appearanceOf(t, index, "quick").AppearsInTitle {
+	if postingOf(t, index, "quick").Appearance.AppearsInTitle {
 		t.Errorf(
 			"word %q is absent from title %q and should not appear in it",
 			"quick",
 			documentTitle,
 		)
 	}
+}
+
+func postingOf(t *testing.T, index pagerwi.PageRWI, word string) yacymodel.RWIPosting {
+	t.Helper()
+
+	wordHash := yacymodel.WordHash(word)
+	for _, posting := range index.Postings {
+		if posting.WordHash == wordHash {
+			return posting
+		}
+	}
+	t.Fatalf("word %q should be indexed", word)
+
+	return yacymodel.RWIPosting{}
 }
 
 func TestOfMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
@@ -287,20 +302,6 @@ func TestOfMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
 			t.Fatalf("word %q should not appear in an absent title", posting.WordHash)
 		}
 	}
-}
-
-func appearanceOf(t *testing.T, index pagerwi.PageRWI, word string) yacymodel.Appearance {
-	t.Helper()
-
-	wordHash := yacymodel.WordHash(word)
-	for _, posting := range index.Postings {
-		if posting.WordHash == wordHash {
-			return posting.Appearance
-		}
-	}
-	t.Fatalf("word %q should be indexed", word)
-
-	return yacymodel.Appearance{}
 }
 
 func assertWordIndexed(t *testing.T, text string, word string) {
@@ -323,6 +324,17 @@ func indexOfPageModifiedAt(t *testing.T, modifiedAt time.Time) pagerwi.PageRWI {
 	return pagerwi.Of(scraped, extractedDocument(), []byte(sampleText), reachedAt)
 }
 
+func microDateOf(t *testing.T, instant time.Time) yacymodel.MicroDate {
+	t.Helper()
+
+	date, ok := yacymodel.MicroDateOf(instant).Get()
+	if !ok {
+		t.Fatalf("MicroDateOf(%v) is absent", instant)
+	}
+
+	return date
+}
+
 func TestOfRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
 	modifiedAt := reachedAt.Add(-72 * time.Hour)
 
@@ -333,9 +345,9 @@ func TestOfRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
 		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, modifiedAt)
 	}
 	for _, posting := range index.Postings {
-		if posting.LastModified != yacymodel.MicroDateFromTime(modifiedAt) {
+		if posting.LastModified != microDateOf(t, modifiedAt) {
 			t.Fatalf("posting last modified = %v, want %v",
-				posting.LastModified, yacymodel.MicroDateFromTime(modifiedAt))
+				posting.LastModified, microDateOf(t, modifiedAt))
 		}
 	}
 }
@@ -357,9 +369,9 @@ func TestOfFallsBackToTheTimeThePageWasReachedWhenTheOriginSaidNothing(t *testin
 		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
 	}
 	for _, posting := range index.Postings {
-		if posting.LastModified != yacymodel.MicroDateFromTime(reachedAt) {
+		if posting.LastModified != microDateOf(t, reachedAt) {
 			t.Fatalf("posting last modified = %v, want %v",
-				posting.LastModified, yacymodel.MicroDateFromTime(reachedAt))
+				posting.LastModified, microDateOf(t, reachedAt))
 		}
 	}
 }
@@ -372,9 +384,67 @@ func TestOfHoldsBackAModifiedDateLaterThanTheTimeThePageWasReached(t *testing.T)
 		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
 	}
 	for _, posting := range index.Postings {
-		if posting.LastModified > yacymodel.MicroDateFromTime(reachedAt) {
+		if posting.LastModified > microDateOf(t, reachedAt) {
 			t.Fatalf("posting last modified = %v, want no later than %v",
-				posting.LastModified, yacymodel.MicroDateFromTime(reachedAt))
+				posting.LastModified, microDateOf(t, reachedAt))
 		}
+	}
+}
+
+func TestOfFallsBackToTheTimeThePageWasReachedForAModifiedDateBeforeTheEpoch(t *testing.T) {
+	index := indexOfPageModifiedAt(t, time.Date(1965, time.March, 4, 0, 0, 0, 0, time.UTC))
+
+	if modified, ok := index.Metadata.Modified.Get(); !ok ||
+		modified != yacymodel.CalendarDayOf(reachedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", index.Metadata.Modified, reachedAt)
+	}
+	if got := index.Postings[0].LastModified; got != microDateOf(t, reachedAt) {
+		t.Fatalf("posting last modified = %v, want %v", got, microDateOf(t, reachedAt))
+	}
+}
+
+const amountOfOversizedPageSentences = 65600
+
+func indexOfOversizedPage(t *testing.T) pagerwi.PageRWI {
+	t.Helper()
+	text := strings.Repeat("fox. ", amountOfOversizedPageSentences) + "zebra."
+	document := extractedDocument()
+	document.LocalLinks = 300
+	document.ExternalLinks = 256
+
+	return pagerwi.Of(scrapedPage(t, text), document, []byte(text), reachedAt)
+}
+
+func TestOfKeepsTheLowByteOfOneByteCountsOfAnOversizedPage(t *testing.T) {
+	index := indexOfOversizedPage(t)
+	fox, zebra := postingOf(t, index, "fox"), postingOf(t, index, "zebra")
+
+	if fox.Hits != 64 {
+		t.Errorf("hits = %d, want the low byte 64 of %d", fox.Hits, amountOfOversizedPageSentences)
+	}
+	if zebra.PhrasePosition != 164 {
+		t.Errorf("phrase position = %d, want the low byte 164", zebra.PhrasePosition)
+	}
+	if fox.LocalLinks != 44 || fox.ExternalLinks != 0 {
+		t.Errorf("links = %d local, %d external, want the low bytes 44 and 0",
+			fox.LocalLinks, fox.ExternalLinks)
+	}
+	if index.Metadata.LocalLinks != 300 {
+		t.Errorf(
+			"metadata local links = %d, want the 300 the page holds",
+			index.Metadata.LocalLinks,
+		)
+	}
+}
+
+func TestOfHoldsTwoByteCountsOfAnOversizedPageAtTheirCeiling(t *testing.T) {
+	zebra := postingOf(t, indexOfOversizedPage(t), "zebra")
+
+	if zebra.TextWords != math.MaxUint16 || zebra.Phrases != math.MaxUint16 {
+		t.Errorf("text words = %d, phrases = %d, want both at %d",
+			zebra.TextWords, zebra.Phrases, math.MaxUint16)
+	}
+	if zebra.TextPosition != math.MaxUint16 {
+		t.Errorf("text position = %d, want %d", zebra.TextPosition, math.MaxUint16)
 	}
 }

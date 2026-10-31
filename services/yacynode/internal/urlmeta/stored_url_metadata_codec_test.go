@@ -1,6 +1,7 @@
 package urlmeta_test
 
 import (
+	"math"
 	"reflect"
 	"testing"
 	"time"
@@ -48,7 +49,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		DocumentType:     yacymodel.DocumentTypeText,
 		MediaType:        "text/html",
 		Language:         mustLanguage(t, "en"),
-		ByteSize:         yacymodel.Some(1024),
+		ByteSize:         yacymodel.Some[uint32](1024),
 		WordCount:        12,
 		LocalLinks:       3,
 		ExternalLinks:    4,
@@ -81,6 +82,22 @@ func writtenThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URL
 
 func TestStoredURLMetadataKeepsEveryField(t *testing.T) {
 	stored := fullURLMetadata(t)
+
+	if read := writtenThenRead(t, stored); !reflect.DeepEqual(read, stored) {
+		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
+	}
+}
+
+func TestStoredURLMetadataKeepsCountsAtTheirCeiling(t *testing.T) {
+	stored := fullURLMetadata(t)
+	stored.ByteSize = yacymodel.Some[uint32](math.MaxUint32)
+	stored.WordCount = math.MaxUint32
+	stored.LocalLinks = math.MaxUint32
+	stored.ExternalLinks = math.MaxUint32
+	stored.ImageLinks = math.MaxUint32
+	stored.AudioLinks = math.MaxUint32
+	stored.VideoLinks = math.MaxUint32
+	stored.ApplicationLinks = math.MaxUint32
 
 	if read := writtenThenRead(t, stored); !reflect.DeepEqual(read, stored) {
 		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
