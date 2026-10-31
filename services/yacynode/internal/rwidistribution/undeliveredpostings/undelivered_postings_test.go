@@ -2,7 +2,6 @@ package undeliveredpostings_test
 
 import (
 	"context"
-	"fmt"
 	"slices"
 	"strconv"
 	"testing"
@@ -11,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/postingcollectiontest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/undeliveredpostings"
 )
 
@@ -28,7 +28,7 @@ type postingIdentity struct {
 type harness struct {
 	vault       *vault.Vault
 	partitions  yacymodel.DHTRingPartitions
-	postings    *vault.Collection[postingIdentity, int]
+	postings    *postingcollectiontest.Postings
 	undelivered *undeliveredpostings.Postings
 }
 
@@ -53,45 +53,12 @@ func openHarness(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	postings, err := v.RegisterProjectedCollection(
-		context.Background(),
-		"rwi",
-		postingIdentityKeyLayout,
-		hitsCodec{},
-		vault.ProjectedAs(postingOf, projection),
-	)
+	postings, err := postingcollectiontest.Open(context.Background(), v, projection)
 	if err != nil {
-		t.Fatalf("RegisterProjectedCollection: %v", err)
+		t.Fatalf("postingcollectiontest.Open: %v", err)
 	}
 
 	return harness{vault: v, partitions: partitions, postings: postings, undelivered: undelivered}
-}
-
-var postingIdentityKeyLayout = vault.PairKey(
-	vault.TextKeyPartFrom(yacymodel.Hash.String, yacymodel.ParseHash),
-	vault.TextKeyPartFrom(yacymodel.URLHash.String, yacymodel.ParseURLHash),
-).KeyLayoutFor(
-	func(identity postingIdentity) (yacymodel.Hash, yacymodel.URLHash) {
-		return identity.word, identity.url
-	},
-	func(word yacymodel.Hash, url yacymodel.URLHash) postingIdentity {
-		return postingIdentity{word: word, url: url}
-	},
-)
-
-type hitsCodec struct{}
-
-func (hitsCodec) Encode(hits int) ([]byte, error) {
-	return []byte(strconv.Itoa(hits)), nil
-}
-
-func (hitsCodec) Decode(stored []byte) (int, error) {
-	hits, err := strconv.Atoi(string(stored))
-	if err != nil {
-		return 0, fmt.Errorf("decode hits: %w", err)
-	}
-
-	return hits, nil
 }
 
 func postingOf(identity postingIdentity, hits int) yacymodel.RWIPosting {
@@ -103,7 +70,7 @@ func (h harness) store(t *testing.T, hits int, identities ...postingIdentity) {
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, identity := range identities {
-			if _, err := h.postings.Put(tx, identity, hits); err != nil {
+			if err := h.postings.Store(tx, postingOf(identity, hits)); err != nil {
 				return err
 			}
 		}
@@ -115,11 +82,7 @@ func (h harness) store(t *testing.T, hits int, identities ...postingIdentity) {
 func (h harness) remove(t *testing.T, identity postingIdentity) {
 	t.Helper()
 
-	h.write(t, func(tx *vault.Txn) error {
-		_, err := h.postings.Delete(tx, identity)
-
-		return err
-	})
+	h.write(t, func(tx *vault.Txn) error { return h.postings.Remove(tx, postingOf(identity, 0)) })
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {

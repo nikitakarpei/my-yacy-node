@@ -2,7 +2,6 @@ package rwiringoccupancy_test
 
 import (
 	"context"
-	"fmt"
 	"maps"
 	"net/url"
 	"testing"
@@ -11,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/postingcollectiontest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiringoccupancy"
 )
 
@@ -23,8 +22,7 @@ const (
 type harness struct {
 	vault         *vault.Vault
 	ringOccupancy rwiringoccupancy.RingOccupancyQuery
-	writer        rwipostings.PostingWriter
-	purger        rwipostings.PostingPurger
+	postings      *postingcollectiontest.Postings
 }
 
 func openHarness(t *testing.T) harness {
@@ -46,24 +44,19 @@ func openHarnessOver(t *testing.T, engine vault.Engine, partitionExponent uint) 
 		}
 	})
 
-	partitions := ringPartitionsOf(t, partitionExponent)
-	ringOccupancy, projection, err := rwiringoccupancy.Open(v, partitions)
+	ringOccupancy, projection, err := rwiringoccupancy.Open(
+		v,
+		ringPartitionsOf(t, partitionExponent),
+	)
 	if err != nil {
 		t.Fatalf("rwiringoccupancy.Open: %v", err)
 	}
-	_, writer, purger, err := rwipostings.Open(
-		context.Background(),
-		v,
-		partitions,
-		nil,
-		nil,
-		[]vault.Projection[yacymodel.RWIPosting]{projection},
-	)
+	postings, err := postingcollectiontest.Open(context.Background(), v, projection)
 	if err != nil {
-		t.Fatalf("rwipostings.Open: %v", err)
+		t.Fatalf("postingcollectiontest.Open: %v", err)
 	}
 
-	return harness{vault: v, ringOccupancy: ringOccupancy, writer: writer, purger: purger}
+	return harness{vault: v, ringOccupancy: ringOccupancy, postings: postings}
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -77,29 +70,13 @@ func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
 func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
-	h.write(t, func(tx *vault.Txn) error {
-		for _, posting := range postings {
-			if err := h.writer.Write(tx, posting); err != nil {
-				return fmt.Errorf("store posting: %w", err)
-			}
-		}
-
-		return nil
-	})
+	h.write(t, func(tx *vault.Txn) error { return h.postings.Store(tx, postings...) })
 }
 
-func (h harness) purge(t *testing.T, postings ...yacymodel.RWIPosting) {
+func (h harness) remove(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
-	h.write(t, func(tx *vault.Txn) error {
-		for _, posting := range postings {
-			if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
-				return fmt.Errorf("purge posting: %w", err)
-			}
-		}
-
-		return nil
-	})
+	h.write(t, func(tx *vault.Txn) error { return h.postings.Remove(tx, postings...) })
 }
 
 func (h harness) occupancyOfDHTRingSectors(
@@ -202,12 +179,12 @@ func TestEachStoredPostingRaisesTheOccupancyOfItsSector(t *testing.T) {
 	}
 }
 
-func TestEachPurgedPostingLowersTheOccupancyOfItsSector(t *testing.T) {
+func TestEachRemovedPostingLowersTheOccupancyOfItsSector(t *testing.T) {
 	h := openHarness(t)
 	remaining := postingOf("w1", "u1")
 	h.store(t, remaining, postingOf("w2", "u1"))
 
-	h.purge(t, postingOf("w2", "u1"))
+	h.remove(t, postingOf("w2", "u1"))
 
 	want := map[yacymodel.DHTRingSector]int{sectorOf(t, remaining): 1}
 	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
@@ -215,29 +192,44 @@ func TestEachPurgedPostingLowersTheOccupancyOfItsSector(t *testing.T) {
 	}
 }
 
-func TestTheLastPurgedPostingLeavesItsSectorUnoccupied(t *testing.T) {
+func TestTheLastRemovedPostingLeavesItsSectorUnoccupied(t *testing.T) {
 	h := openHarness(t)
 	h.store(t, postingOf("w1", "u1"))
 
-	h.purge(t, postingOf("w1", "u1"))
+	h.remove(t, postingOf("w1", "u1"))
 
 	if occupancy := h.occupancyOfDHTRingSectors(t); len(occupancy) != 0 {
 		t.Fatalf("occupancy = %v, want none", occupancy)
 	}
 }
 
-func TestAPostingPurgedAndStoredAgainLeavesTheOccupancyAlone(t *testing.T) {
+func TestAPostingRemovedAndStoredAgainLeavesTheOccupancyAlone(t *testing.T) {
 	h := openHarness(t)
 	posting := postingOf("w1", "u1")
 	h.store(t, posting)
 
 	h.write(t, func(tx *vault.Txn) error {
-		if _, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash); err != nil {
+		if err := h.postings.Remove(tx, posting); err != nil {
 			return err
 		}
 
-		return h.writer.Write(tx, posting)
+		return h.postings.Store(tx, posting)
 	})
+
+	want := map[yacymodel.DHTRingSector]int{sectorOf(t, posting): 1}
+	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
+		t.Fatalf("occupancy = %v, want %v", got, want)
+	}
+}
+
+func TestAPostingStoredAgainLeavesTheOccupancyAlone(t *testing.T) {
+	h := openHarness(t)
+	posting := postingOf("w1", "u1")
+	storedAgain := posting
+	storedAgain.Hits = 2
+
+	h.store(t, posting)
+	h.store(t, storedAgain)
 
 	want := map[yacymodel.DHTRingSector]int{sectorOf(t, posting): 1}
 	if got := h.occupancyOfDHTRingSectors(t); !maps.Equal(got, want) {
