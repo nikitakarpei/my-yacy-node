@@ -102,7 +102,7 @@ func (inquiry *Inquiry) everyPartition(
 	decision DocumentsToMatchDecision,
 ) DocumentsToMatchDecisionPerPartition {
 	decisionPerPartition := DocumentsToMatchDecisionPerPartition{}
-	for partition := range uint(inquiry.partitions) {
+	for partition := range inquiry.partitions.Amount() {
 		decisionPerPartition[partition] = decision
 	}
 
@@ -127,8 +127,8 @@ func (inquiry *Inquiry) asEachPartitionListsDocumentsHaving(
 }
 
 func (inquiry *Inquiry) partitionsOfTheRing() []uint {
-	partitionsOfTheRing := make([]uint, 0, inquiry.partitions)
-	for partition := range uint(inquiry.partitions) {
+	partitionsOfTheRing := make([]uint, 0, inquiry.partitions.Amount())
+	for partition := range inquiry.partitions.Amount() {
 		partitionsOfTheRing = append(partitionsOfTheRing, partition)
 	}
 

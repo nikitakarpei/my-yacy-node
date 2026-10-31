@@ -6,3 +6,7 @@ type SearchedNetwork struct {
 	Name           string
 	RingPartitions yacymodel.DHTRingPartitions
 }
+
+func (network SearchedNetwork) amountOfRingPartitions() int {
+	return int(network.RingPartitions.Amount())
+}

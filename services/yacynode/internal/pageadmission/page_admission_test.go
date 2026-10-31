@@ -82,7 +82,7 @@ func openHarnessWithWriter(
 	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
-		yacymodel.DHTRingPartitions(1),
+		yacymodel.DHTRingPartitions{},
 		nil,
 		nil,
 		nil,

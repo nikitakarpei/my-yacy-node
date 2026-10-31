@@ -115,7 +115,7 @@ func (w Wire) requestFor(
 		NetworkName: w.searchedNetwork.Name,
 		Exclude:     excludedWords,
 		Time:        grantedAnswerTimeOf(ctx),
-		Partitions:  int(w.searchedNetwork.RingPartitions),
+		Partitions:  w.searchedNetwork.amountOfRingPartitions(),
 		ContentDom:  yacyproto.ContentDomainText,
 		Language:    language.String(),
 	}
