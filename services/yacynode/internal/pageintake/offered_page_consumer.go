@@ -142,9 +142,9 @@ func (c *OfferedPageConsumer) store(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
-	index yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI yacymodel.Optional[pagerwi.PageRWI],
 ) {
-	if !c.admitPage(ctx, message, pageURL, index) {
+	if !c.admitPage(ctx, message, pageURL, pageRWI) {
 		return
 	}
 	c.intakeReceipts.ReportKeptPage(ctx, pageURL)
@@ -156,10 +156,10 @@ func (c *OfferedPageConsumer) admitPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
-	index yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI yacymodel.Optional[pagerwi.PageRWI],
 ) bool {
-	amountOfPostings := amountOfPostingsOf(index)
-	receipt, err := c.pageReceiver.Receive(ctx, yacymodel.URLHashOf(pageURL.WebAddress()), index)
+	amountOfPostings := amountOfPostingsOf(pageRWI)
+	receipt, err := c.pageReceiver.Receive(ctx, yacymodel.URLHashOf(pageURL.WebAddress()), pageRWI)
 	if err != nil {
 		c.pageIntakeObserver.PageAdmissionFailed(
 			ctx,
@@ -193,13 +193,13 @@ func (c *OfferedPageConsumer) admitPage(
 	return true
 }
 
-func amountOfPostingsOf(index yacymodel.Optional[pagerwi.PageRWI]) int {
-	indexed, present := index.Get()
-	if !present {
+func amountOfPostingsOf(pageRWI yacymodel.Optional[pagerwi.PageRWI]) int {
+	rwi, indexed := pageRWI.Get()
+	if !indexed {
 		return 0
 	}
 
-	return indexed.AmountOfPostings()
+	return rwi.AmountOfPostings()
 }
 
 func (c *OfferedPageConsumer) reject(

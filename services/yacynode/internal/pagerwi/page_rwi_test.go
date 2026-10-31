@@ -70,14 +70,14 @@ func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
 	return partitions
 }
 
-func indexed(t *testing.T, index yacymodel.Optional[pagerwi.PageRWI]) pagerwi.PageRWI {
+func indexed(t *testing.T, pageRWI yacymodel.Optional[pagerwi.PageRWI]) pagerwi.PageRWI {
 	t.Helper()
-	pageRWI, present := index.Get()
+	rwi, present := pageRWI.Get()
 	if !present {
 		t.Fatal("the page has no rwi")
 	}
 
-	return pageRWI
+	return rwi
 }
 
 func postingsOf(index pagerwi.PageRWI) []yacymodel.RWIPosting {
@@ -106,9 +106,6 @@ func TestRWIFromIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testin
 		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText), reachedAt),
 	)
 
-	if index.PageURL().String() != pageURL {
-		t.Fatalf("page url = %q, want %q", index.PageURL(), pageURL)
-	}
 	if index.Metadata().Address != pageURL {
 		t.Fatalf("metadata address = %q, want %q", index.Metadata().Address, pageURL)
 	}

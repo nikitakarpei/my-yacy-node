@@ -30,7 +30,6 @@ func NewIndexBuilder(stopwords Stopwords, partitions yacymodel.DHTRingPartitions
 
 type PageRWI struct {
 	pagePostings yacymodel.PagePostings
-	pageURL      canonicalurl.CanonicalURL
 	metadata     yacymodel.URLMetadata
 }
 
@@ -57,7 +56,6 @@ func (b IndexBuilder) RWIFrom(
 	}
 
 	return yacymodel.Some(PageRWI{
-		pageURL: scrapedPage.PageURL,
 		metadata: metadataOf(
 			scrapedPage,
 			document,
@@ -208,10 +206,6 @@ func metadataOf(
 		LocalLinks:    yacymodel.SaturatedCardinalFrom[uint32](document.LocalLinks),
 		ExternalLinks: yacymodel.SaturatedCardinalFrom[uint32](document.ExternalLinks),
 	}
-}
-
-func (r PageRWI) PageURL() canonicalurl.CanonicalURL {
-	return r.pageURL
 }
 
 func (r PageRWI) Metadata() yacymodel.URLMetadata {
