@@ -58,16 +58,21 @@ func (urlMetadataWireCodec) decode(
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
 
-	metadata, err := urlMetadataWireForm{properties: properties}.domain(ctx)
+	form := urlMetadataWireForm{properties: properties}
+	metadata, err := form.domain(ctx)
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
+	metadata.PostingsRoot = form.postingsRoot(ctx, metadata.Hash)
 
 	return metadata, nil
 }
 
 func (urlMetadataWireCodec) encode(metadata yacymodel.URLMetadata) string {
-	return urlMetadataWireFormOf(metadata).row()
+	form := urlMetadataWireFormOf(metadata)
+	form.putPostingsRoot(metadata.PostingsRoot)
+
+	return form.row()
 }
 
 // urlMetadataWireForm is the url metadata in its property-form wire
@@ -143,7 +148,6 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 		ApplicationLinks: f.cardinal(urlMetadataColAppLinks),
 		Snippet:          texts[urlMetadataColSnippet],
 		FaviconAddress:   texts[urlMetadataColFavicon],
-		PostingsRoot:     f.postingsRoot(ctx, hash),
 	}, nil
 }
 
@@ -342,11 +346,16 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	if m.FaviconAddress != "" {
 		f.putEncoded(urlMetadataColFavicon, m.FaviconAddress)
 	}
-	if root, ok := m.PostingsRoot.Get(); ok {
-		f.put(urlMetadataColPostingsRoot, yacymodel.Encode(root.Bytes()))
-	}
 
 	return f
+}
+
+func (f *urlMetadataWireForm) putPostingsRoot(
+	postingsRoot yacymodel.Optional[yacymodel.PostingsRoot],
+) {
+	if root, ok := postingsRoot.Get(); ok {
+		f.put(urlMetadataColPostingsRoot, yacymodel.Encode(root.Bytes()))
+	}
 }
 
 func byteSizeTextFrom(byteSize yacymodel.Optional[uint32]) string {

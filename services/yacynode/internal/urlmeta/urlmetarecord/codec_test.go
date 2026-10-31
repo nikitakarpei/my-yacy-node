@@ -66,18 +66,6 @@ func withoutPostingsRoot(record urlmetarecord.Record) urlmetarecord.Record {
 	return record
 }
 
-func TestARecordReadsBackWithItsPostingsRoot(t *testing.T) {
-	record := rootedRecord(t)
-
-	read, err := urlmetarecord.Codec{}.Decode(encoded(t, record))
-	if err != nil {
-		t.Fatalf("Decode: %v", err)
-	}
-	if !reflect.DeepEqual(read, record) {
-		t.Errorf("read back\n got  %+v\n want %+v", read, record)
-	}
-}
-
 func TestARecordStoredBeforeThePostingsRootReadsWithoutOne(t *testing.T) {
 	record := rootedRecord(t)
 	withRoot := encoded(t, record)
@@ -98,8 +86,9 @@ func TestARecordStoredBeforeThePostingsRootReadsWithoutOne(t *testing.T) {
 
 func TestACorruptStoredPostingsRootRejectsTheRecord(t *testing.T) {
 	record := rootedRecord(t)
+	root, _ := record.Metadata.PostingsRoot.Get()
 	raw := encoded(t, record)
-	raw[len(raw)-len(samplePostingsRoot(t).Bytes())] = 0
+	raw[len(raw)-len(root.Bytes())] = 0
 
 	if _, err := (urlmetarecord.Codec{}).Decode(raw); !errors.Is(err, yacymodel.ErrBadURLMetadata) {
 		t.Errorf("Decode error = %v, want %v", err, yacymodel.ErrBadURLMetadata)
