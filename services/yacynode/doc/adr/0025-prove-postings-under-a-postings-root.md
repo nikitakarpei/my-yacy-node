@@ -37,3 +37,7 @@ root arrives. The root does not show who crawled the page, or that the page held
   format version, which the root and the proof carry.
 - During the upgrade, older Go nodes pass on roots but send no proofs. Receivers that check
   proofs drop those postings until the senders upgrade.
+- A node keeps the postings proof of a URL and the postings of the URL in different stores.
+  Only the write and purge paths keep the proof correct for the postings. If the proof is not
+  correct, the node sends the postings of that URL with no proof or with a proof that does not
+  lead to the root.
