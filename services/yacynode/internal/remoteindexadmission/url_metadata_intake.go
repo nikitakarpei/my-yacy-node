@@ -32,7 +32,7 @@ type URLMetadataIntake struct {
 	evictor       urlmeta.URLEvictor
 	urlWriter     urlmeta.URLMetadataWriter
 	swapAllowance swapAllowance
-	postings      PostingAdmission
+	releaser      waitingPostingReleaser
 	observer      Observer
 	now           func() time.Time
 }
@@ -170,7 +170,7 @@ func (i URLMetadataIntake) write(
 		return err
 	}
 
-	return i.postings.releaseWaitingFor(tx, arrived.Hash, currentVersion)
+	return i.releaser.releaseWaitingFor(tx, arrived.Hash, currentVersion)
 }
 
 func (i URLMetadataIntake) replaceWith(
