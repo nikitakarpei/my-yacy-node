@@ -112,7 +112,9 @@ func (e *PostingEscrow) PostingsWaitingFor(
 		tx,
 		everyPostingWaitingFor(url),
 		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
-			waiting = append(waiting, waitingPostingOf(ctx, identity, escrowed))
+			if waitingPosting, present := waitingPostingOf(ctx, identity, escrowed).Get(); present {
+				waiting = append(waiting, waitingPosting)
+			}
 
 			return true, nil
 		},
@@ -128,39 +130,35 @@ func waitingPostingOf(
 	ctx context.Context,
 	identity postingIdentity,
 	escrowed escrowedPosting,
-) WaitingPosting {
+) yacymodel.Optional[WaitingPosting] {
 	posting := escrowed.Posting
 	posting.WordHash = identity.Word
 	posting.URLHash = identity.URL
+	provenPosting := yacymodel.None[yacymodel.ProvenPosting]()
+	if escrowedProof, proven := escrowed.Proof.Get(); proven {
+		acceptedPosting, err := yacymodel.ProvenPostingFrom(posting, escrowedProof)
+		if err != nil {
+			reportRefusedProof(ctx, posting, err)
 
-	return WaitingPosting{
+			return yacymodel.None[WaitingPosting]()
+		}
+		provenPosting = yacymodel.Some(acceptedPosting)
+	}
+
+	return yacymodel.Some(WaitingPosting{
 		origin:        escrowed.Origin,
 		posting:       posting,
-		provenPosting: provenPostingOf(ctx, posting, escrowed.Proof),
+		provenPosting: provenPosting,
 		identity:      identity,
-	}
+	})
 }
 
-func provenPostingOf(
-	ctx context.Context,
-	posting yacymodel.RWIPosting,
-	proof yacymodel.Optional[yacymodel.PostingsProof],
-) yacymodel.Optional[yacymodel.ProvenPosting] {
-	escrowedProof, proven := proof.Get()
-	if !proven {
-		return yacymodel.None[yacymodel.ProvenPosting]()
-	}
-	provenPosting, err := yacymodel.ProvenPostingFrom(posting, escrowedProof)
-	if err != nil {
-		slog.WarnContext(ctx, "escrowed proof refused, posting waits without it",
-			slog.String("url", posting.URLHash.String()),
-			slog.Any("error", err),
-		)
-
-		return yacymodel.None[yacymodel.ProvenPosting]()
-	}
-
-	return yacymodel.Some(provenPosting)
+func reportRefusedProof(ctx context.Context, posting yacymodel.RWIPosting, err error) {
+	slog.WarnContext(ctx, "escrowed proof refused, posting left to expire",
+		slog.String("url", posting.URLHash.String()),
+		slog.String("word", posting.WordHash.String()),
+		slog.Any("error", err),
+	)
 }
 
 func (e *PostingEscrow) Release(tx *vault.Txn, waiting WaitingPosting) error {

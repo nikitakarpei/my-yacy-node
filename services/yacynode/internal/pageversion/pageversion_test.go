@@ -114,79 +114,104 @@ func TestArrivedVersionIsTheStoredOneFromAnySource(t *testing.T) {
 	}
 }
 
-func TestArrivedVersionReplacesTheStoredOneOnANewerDayOrWithTheFirstRootOfTheDay(t *testing.T) {
+func TestUnrootedVersionIsReplacedOnANewerDayOrByARootedVersionOfAnyDay(t *testing.T) {
 	stored := unrootedVersionOf(postingOn(storedDay, 2), fromSender)
-	rootedStored := rootedVersionOf(postingOn(storedDay, 2), fromSender)
 	for name, c := range map[string]struct {
-		stored  pageversion.Version
 		arrived pageversion.Version
 		want    pageversion.Replacement
 	}{
 		"older day": {
-			stored,
 			unrootedVersionOf(postingOn(storedDay-1, 2), fromSender),
-			pageversion.ReplacementRefused,
+			pageversion.ReplacementRefusedNotNewerVersion,
 		},
 		"same day, same fingerprint": {
-			stored,
 			unrootedVersionOf(postingOn(storedDay, 2), fromSender),
-			pageversion.ReplacementRefused,
+			pageversion.ReplacementRefusedNotNewerVersion,
 		},
 		"same day, other fingerprint": {
-			stored,
 			unrootedVersionOf(postingOn(storedDay, 3), fromSender),
-			pageversion.ReplacementRefused,
+			pageversion.ReplacementRefusedNotNewerVersion,
 		},
 		"newer day": {
-			stored,
 			unrootedVersionOf(postingOn(storedDay+1, 2), fromSender),
-			pageversion.ReplacementAllowedOlderVersion,
+			pageversion.ReplacementAllowedNewerVersion,
 		},
 		"newer day, other fingerprint": {
-			stored,
 			unrootedVersionOf(postingOn(storedDay+1, 3), fromSender),
-			pageversion.ReplacementAllowedOlderVersion,
+			pageversion.ReplacementAllowedNewerVersion,
 		},
 		"same day with a root": {
-			stored,
 			rootedVersionOf(postingOn(storedDay, 2), fromOther),
-			pageversion.ReplacementAllowedUnrootedVersion,
+			pageversion.ReplacementAllowedRootedVersion,
 		},
 		"same day, other fingerprint with a root": {
-			stored,
 			rootedVersionOf(postingOn(storedDay, 3), fromSender),
-			pageversion.ReplacementAllowedUnrootedVersion,
+			pageversion.ReplacementAllowedRootedVersion,
 		},
 		"older day with a root": {
-			stored,
 			rootedVersionOf(postingOn(storedDay-1, 2), fromSender),
-			pageversion.ReplacementRefused,
+			pageversion.ReplacementAllowedRootedVersion,
 		},
-		"same day, another root": {
-			rootedStored,
-			versionUnderAnotherRoot(postingOn(storedDay, 2), fromSender),
-			pageversion.ReplacementRefused,
-		},
-		"same day without a root": {
-			rootedStored,
-			unrootedVersionOf(postingOn(storedDay, 2), fromSender),
-			pageversion.ReplacementRefused,
-		},
-		"newer day without a root": {
-			rootedStored,
-			unrootedVersionOf(postingOn(storedDay+1, 2), fromSender),
-			pageversion.ReplacementAllowedOlderVersion,
+		"newer day with a root": {
+			rootedVersionOf(postingOn(storedDay+1, 2), fromSender),
+			pageversion.ReplacementAllowedRootedVersion,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			if got := c.stored.ReplacementBy(c.arrived); got != c.want {
-				t.Fatalf("ReplacementBy = %v, want %v", got, c.want)
-			}
-			if got := c.stored.IsReplacedBy(
-				c.arrived,
-			); got != (c.want != pageversion.ReplacementRefused) {
-				t.Fatalf("IsReplacedBy = %v, want it for %v", got, c.want)
-			}
+			assertReplacement(t, stored, c.arrived, c.want)
+		})
+	}
+}
+
+func assertReplacement(
+	t *testing.T,
+	stored pageversion.Version,
+	arrived pageversion.Version,
+	want pageversion.Replacement,
+) {
+	t.Helper()
+
+	if got := stored.ReplacementBy(arrived); got != want {
+		t.Fatalf("ReplacementBy = %v, want %v", got, want)
+	}
+	if got := stored.IsReplacedBy(arrived); got != want.IsAllowed() {
+		t.Fatalf("IsReplacedBy = %v, want it for %v", got, want)
+	}
+}
+
+func TestRootedVersionIsReplacedOnlyByARootedVersionOfANewerDay(t *testing.T) {
+	rootedStored := rootedVersionOf(postingOn(storedDay, 2), fromSender)
+	for name, c := range map[string]struct {
+		arrived pageversion.Version
+		want    pageversion.Replacement
+	}{
+		"newer day with a root": {
+			rootedVersionOf(postingOn(storedDay+1, 2), fromOther),
+			pageversion.ReplacementAllowedNewerVersion,
+		},
+		"same day, another root": {
+			versionUnderAnotherRoot(postingOn(storedDay, 2), fromSender),
+			pageversion.ReplacementRefusedNotNewerVersion,
+		},
+		"older day with a root": {
+			rootedVersionOf(postingOn(storedDay-1, 2), fromSender),
+			pageversion.ReplacementRefusedNotNewerVersion,
+		},
+		"newer day without a root": {
+			unrootedVersionOf(postingOn(storedDay+1, 2), fromSender),
+			pageversion.ReplacementRefusedUnrootedVersion,
+		},
+		"same day without a root": {
+			unrootedVersionOf(postingOn(storedDay, 2), fromSender),
+			pageversion.ReplacementRefusedUnrootedVersion,
+		},
+		"older day without a root": {
+			unrootedVersionOf(postingOn(storedDay-1, 2), fromSender),
+			pageversion.ReplacementRefusedUnrootedVersion,
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			assertReplacement(t, rootedStored, c.arrived, c.want)
 		})
 	}
 }
@@ -334,7 +359,7 @@ func TestArrivedVersionJoinsARootedVersionFromAnySourceOnlyUnderItsRoot(t *testi
 		"other fingerprint without a root": {
 			rootedByPeer,
 			unrootedVersionOf(crawl.postingOfOtherVersion, fromSender),
-			pageversion.JoiningRefusedOtherVersion,
+			pageversion.JoiningRefusedUnrootedVersion,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {

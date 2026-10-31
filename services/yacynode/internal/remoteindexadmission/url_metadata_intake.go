@@ -21,6 +21,7 @@ const (
 	URLMetadataReplacedUnrootedVersion    URLMetadataOutcome = "replaced_unrooted_version"
 	URLMetadataDroppedAlreadyStored       URLMetadataOutcome = "dropped_already_stored"
 	URLMetadataDroppedNotNewerVersion     URLMetadataOutcome = "dropped_not_newer_version"
+	URLMetadataDroppedUnrootedVersion     URLMetadataOutcome = "dropped_unrooted_version"
 	URLMetadataDroppedFutureDate          URLMetadataOutcome = "dropped_future_date"
 	URLMetadataDroppedTooManyReplacements URLMetadataOutcome = "dropped_too_many_replacements"
 )
@@ -134,8 +135,8 @@ func (i URLMetadataIntake) admit(
 		return URLMetadataDroppedAlreadyStored, nil
 	}
 	replacement := version.ReplacementBy(arrivedVersion)
-	if replacement == pageversion.ReplacementRefused {
-		return URLMetadataDroppedNotNewerVersion, nil
+	if !replacement.IsAllowed() {
+		return droppedOutcomeOf(replacement), nil
 	}
 	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network, hourlySwapLimit)
 	if err != nil {
@@ -179,6 +180,14 @@ func (i URLMetadataIntake) write(
 	return i.releaser.releaseWaitingFor(ctx, tx, arrived.Hash, arrivedVersion)
 }
 
+func droppedOutcomeOf(replacement pageversion.Replacement) URLMetadataOutcome {
+	if replacement == pageversion.ReplacementRefusedUnrootedVersion {
+		return URLMetadataDroppedUnrootedVersion
+	}
+
+	return URLMetadataDroppedNotNewerVersion
+}
+
 func (i URLMetadataIntake) replaceWith(
 	ctx context.Context,
 	tx *vault.Txn,
@@ -197,7 +206,7 @@ func (i URLMetadataIntake) replaceWith(
 }
 
 func replacedOutcomeOf(replacement pageversion.Replacement) URLMetadataOutcome {
-	if replacement == pageversion.ReplacementAllowedUnrootedVersion {
+	if replacement == pageversion.ReplacementAllowedRootedVersion {
 		return URLMetadataReplacedUnrootedVersion
 	}
 

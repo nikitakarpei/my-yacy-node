@@ -1,8 +1,8 @@
-// Package remoteindexadmission admits what peers send to this node's remote
-// index: postings over transferRWI and their URL metadata over transferURL. A
-// later version replaces the stored one and its postings, within an hourly limit
-// per sender network. A posting joins a rooted version by proof, an unrooted one
-// from the network that sent its metadata, and waits in escrow for a later one.
+// Package remoteindexadmission admits the postings and URL metadata that peers send. A version
+// replaces the stored one and its postings as pageversion orders them, within an hourly limit per
+// sender network. A posting joins a rooted version by proof and an unrooted one from the network
+// that sent its metadata. It waits in escrow for metadata of a version that would replace the
+// stored one.
 package remoteindexadmission
 
 import (

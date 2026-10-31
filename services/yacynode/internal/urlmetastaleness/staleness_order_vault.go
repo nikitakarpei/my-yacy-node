@@ -2,6 +2,7 @@ package urlmetastaleness
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -10,7 +11,7 @@ import (
 
 const orderBucket vault.Name = "urlmeta_staleness_order"
 
-const orderVersion = "1"
+const orderVersion = "2"
 
 func registerStalenessOrder(
 	v *vault.Vault,
@@ -28,13 +29,15 @@ var freshnessRankKeyPart = vault.TextKeyPartFrom(
 	func(text string) (freshnessRank, error) { return freshnessRank(text), nil },
 )
 
-var orderKeyParts = vault.PairKey(freshnessRankKeyPart, hashkeypart.URLHash)
+var rootedKeyPart = vault.TextKeyPartFrom(strconv.FormatBool, strconv.ParseBool)
+
+var orderKeyParts = vault.TripleKey(rootedKeyPart, freshnessRankKeyPart, hashkeypart.URLHash)
 
 var orderKeyLayout = orderKeyParts.KeyLayoutFor(
-	func(ranked rankedURL) (freshnessRank, yacymodel.URLHash) {
-		return ranked.rank, ranked.hash
+	func(ranked rankedURL) (bool, freshnessRank, yacymodel.URLHash) {
+		return ranked.rooted, ranked.freshness, ranked.hash
 	},
-	func(rank freshnessRank, hash yacymodel.URLHash) rankedURL {
-		return rankedURL{rank: rank, hash: hash}
+	func(rooted bool, freshness freshnessRank, hash yacymodel.URLHash) rankedURL {
+		return rankedURL{rooted: rooted, freshness: freshness, hash: hash}
 	},
 )

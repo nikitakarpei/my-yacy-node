@@ -8,6 +8,8 @@ Accepted
 
 Amended by ADR 0015: the redistribute policy is dropped and distribution deletes handed-off postings.
 
+Amended by ADR 0025: eviction takes every URL without a postings root before any URL with one.
+
 ## Context
 
 The node stores accepted RWI postings and their URL metadata until the storage quota is reached, then
