@@ -218,10 +218,13 @@ func (c *Collection[K, V]) DeleteReturning(
 }
 
 func (c *Collection[K, V]) DeleteWithin(tx *Txn, keys KeyRange) (amountOfDeleted int, err error) {
-	err = c.deleteRecordsWithin(tx, keys, func(deleted keyedRecord[K]) error {
+	err = c.deleteRecordsWithin(tx, keys, func(key K, record []byte) error {
 		amountOfDeleted++
+		if err := c.projections.recordRemoved(tx, key, record); err != nil {
+			return fmt.Errorf("delete %s: %w", c.name, err)
+		}
 
-		return c.projections.recordRemoved(tx, deleted.key, deleted.record)
+		return nil
 	})
 	if err != nil {
 		return 0, err
@@ -235,28 +238,23 @@ func (c *Collection[K, V]) DeleteWithinVisiting(
 	keys KeyRange,
 	visit func(K, V) error,
 ) error {
-	return c.deleteRecordsWithin(tx, keys, func(deleted keyedRecord[K]) error {
-		removed, err := c.codec.storedValueFrom(deleted.record)
+	return c.deleteRecordsWithin(tx, keys, func(key K, record []byte) error {
+		removed, err := c.codec.storedValueFrom(record)
 		if err != nil {
-			return err
+			return fmt.Errorf("delete %s: %w", c.name, err)
 		}
-		if err := c.projections.valueRemoved(tx, deleted.key, removed); err != nil {
-			return err
+		if err := c.projections.valueRemoved(tx, key, removed); err != nil {
+			return fmt.Errorf("delete %s: %w", c.name, err)
 		}
 
-		return visit(deleted.key, removed.value)
+		return visit(key, removed.value)
 	})
-}
-
-type keyedRecord[K any] struct {
-	key    K
-	record []byte
 }
 
 func (c *Collection[K, V]) deleteRecordsWithin(
 	tx *Txn,
 	keys KeyRange,
-	deleted func(keyedRecord[K]) error,
+	deleted func(key K, record []byte) error,
 ) error {
 	if !tx.etx.Writable() {
 		return errReadOnly
@@ -272,8 +270,8 @@ func (c *Collection[K, V]) deleteRecordsWithin(
 		if err != nil {
 			return err
 		}
-		if err := deleted(keyedRecord[K]{key: key, record: stored.record}); err != nil {
-			return fmt.Errorf("delete %s: %w", c.name, err)
+		if err := deleted(key, stored.record); err != nil {
+			return err
 		}
 	}
 
