@@ -27,7 +27,10 @@ func samplePostingsRoot(t *testing.T) yacymodel.PostingsRoot {
 		t.Fatalf("partitions: %v", err)
 	}
 	crawled, err := yacymodel.ProvenPagePostingsFrom(
-		[]yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("sample")}},
+		[]yacymodel.RWIPosting{{
+			WordHash: yacymodel.WordHash("sample"),
+			URLHash:  sampleURLHash(t, "sample"),
+		}},
 		yacymodel.EmptyPostingsProof(partitions),
 	)
 	if err != nil {
