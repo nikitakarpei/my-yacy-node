@@ -188,3 +188,22 @@ func TestSearchResponsePostingNamesTheDocumentOfItsRow(t *testing.T) {
 		t.Fatalf("posting names %q, row names %q", posting.URLHash, documentHash)
 	}
 }
+
+func TestSearchResponseCarriesNoPostingsRoot(t *testing.T) {
+	t.Parallel()
+
+	resource := sampleSearchResource(t, "url-a")
+	resource.Metadata.PostingsRoot = yacymodel.Some(samplePostingsRoot(t))
+	fields := yacyproto.SearchResponse{
+		Count:     1,
+		Resources: []yacyproto.SearchResource{resource},
+	}.Encode()
+
+	got, err := yacyproto.ParseSearchResponse(context.Background(), fields)
+	if err != nil {
+		t.Fatalf("ParseSearchResponse: %v", err)
+	}
+	if len(got.Resources) != 1 || got.Resources[0].Metadata.PostingsRoot.Present() {
+		t.Fatalf("resources = %+v, want one without a postings root", got.Resources)
+	}
+}

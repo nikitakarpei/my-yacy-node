@@ -244,9 +244,9 @@ func writePostingsRoot(
 	stored *storedfields.Writer,
 	postingsRoot yacymodel.Optional[yacymodel.PostingsRoot],
 ) {
-	root, committed := postingsRoot.Get()
-	stored.Presence(committed)
-	if committed {
+	root, rooted := postingsRoot.Get()
+	stored.Presence(rooted)
+	if rooted {
 		stored.Bytes(root.Bytes())
 	}
 }
