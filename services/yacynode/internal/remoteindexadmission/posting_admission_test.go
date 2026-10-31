@@ -327,6 +327,25 @@ func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 	}
 }
 
+func TestNoPostingIsWrittenWhenNoPostingOfAPagePassed(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	h.storeMetadata(t, "u1")
+	h.written.writes = nil
+
+	if _, err := h.receiver.Receive(
+		context.Background(),
+		sendingPeer,
+		[]yacymodel.RWIPosting{posting("the", "u1")},
+	); err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+	h.storeMetadata(t, "u2")
+
+	if len(h.written.writes) != 0 {
+		t.Fatalf("writes = %+v, want none when no posting passed", h.written.writes)
+	}
+}
+
 func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	entry := posting("w1", "u1")

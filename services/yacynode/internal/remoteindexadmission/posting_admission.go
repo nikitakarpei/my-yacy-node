@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"slices"
 	"time"
 
@@ -130,6 +131,7 @@ func (a PostingAdmission) admitEachPage(
 		}
 		url := pagePostings.URL()
 		somePostingsHeld, err := a.admitPage(
+			ctx,
 			tx,
 			origin,
 			pagePostings,
@@ -170,6 +172,7 @@ func storedVersionOf(
 }
 
 func (a PostingAdmission) admitPage(
+	ctx context.Context,
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	pagePostings yacymodel.PagePostings,
@@ -188,7 +191,32 @@ func (a PostingAdmission) admitPage(
 		}
 	}
 
-	return somePostingsHeld, a.placer.index(tx, pagePostings, postingsToIndex)
+	return somePostingsHeld, a.indexPassed(ctx, tx, pagePostings, postingsToIndex)
+}
+
+func (a PostingAdmission) indexPassed(
+	ctx context.Context,
+	tx *vault.Txn,
+	pagePostings yacymodel.PagePostings,
+	passedPostings []yacymodel.RWIPosting,
+) error {
+	if len(passedPostings) == 0 {
+		return nil
+	}
+	pagePostingsToIndex, present := pagePostings.NarrowedTo(passedPostings).Get()
+	if !present {
+		reportPassedPostingsOutsideTheirPagePostings(ctx, pagePostings.URL())
+
+		return nil
+	}
+
+	return a.placer.index(tx, pagePostingsToIndex)
+}
+
+func reportPassedPostingsOutsideTheirPagePostings(ctx context.Context, url yacymodel.URLHash) {
+	slog.ErrorContext(ctx, "postings of a url passed admission outside their page postings",
+		slog.String("url", url.String()),
+	)
 }
 
 func (a PostingAdmission) admit(
