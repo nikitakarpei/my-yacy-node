@@ -3,6 +3,7 @@ package yacyproto
 import (
 	"cmp"
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"slices"
@@ -12,6 +13,8 @@ import (
 )
 
 const postingsProofSeparator = "="
+
+var errBadPostingsProofLine = errors.New("bad postings proof line")
 
 type postingsProofWireCodec struct{}
 
@@ -98,14 +101,14 @@ func (postingsProofWireCodec) decode(
 	if !separated {
 		return yacymodel.URLHash{}, yacymodel.PostingsProof{}, fmt.Errorf(
 			"%w: missing separator",
-			yacymodel.ErrBadPostingsProof,
+			errBadPostingsProofLine,
 		)
 	}
 	urlHash, err := yacymodel.ParseURLHash(rawURLHash)
 	if err != nil {
 		return yacymodel.URLHash{}, yacymodel.PostingsProof{}, fmt.Errorf(
 			"%w: url hash: %w",
-			yacymodel.ErrBadPostingsProof,
+			errBadPostingsProofLine,
 			err,
 		)
 	}
@@ -113,7 +116,7 @@ func (postingsProofWireCodec) decode(
 	if err != nil {
 		return yacymodel.URLHash{}, yacymodel.PostingsProof{}, fmt.Errorf(
 			"%w: %w",
-			yacymodel.ErrBadPostingsProof,
+			errBadPostingsProofLine,
 			err,
 		)
 	}
