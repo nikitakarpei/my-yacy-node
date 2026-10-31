@@ -18,6 +18,9 @@ func TestIdentifiedCalleeHasTheHashOfItsIdentity(t *testing.T) {
 	if identity, _ := callee.Identity().Get(); identity != peerkeytest.Key(0).Identity() {
 		t.Errorf("Identity = %v, want %v", identity, peerkeytest.Key(0).Identity())
 	}
+	if !callee.IsIdentified() {
+		t.Error("IsIdentified = false, want true")
+	}
 }
 
 func TestUnidentifiedCalleeHasOnlyItsHash(t *testing.T) {
@@ -26,6 +29,9 @@ func TestUnidentifiedCalleeHasOnlyItsHash(t *testing.T) {
 	if callee.Hash() != peerkeytest.Key(1).Hash() ||
 		callee.Identity() != yacymodel.None[yacymodel.PeerIdentity]() {
 		t.Errorf("callee = %v, want hash %v without identity", callee, peerkeytest.Key(1).Hash())
+	}
+	if callee.IsIdentified() {
+		t.Error("IsIdentified = true, want false")
 	}
 }
 

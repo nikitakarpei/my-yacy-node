@@ -18,7 +18,7 @@ type harness struct {
 	index  rwipostings.PostingIndex
 	writer rwipostings.PostingWriter
 	purger rwipostings.PostingPurger
-	proofs rwipostings.PostingProofs
+	proofs rwipostings.PostingsProofs
 }
 
 func (h harness) write(t *testing.T, pagePostings yacymodel.PagePostings) {

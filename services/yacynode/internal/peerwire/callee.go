@@ -29,8 +29,12 @@ func (c Callee) Identity() yacymodel.Optional[yacymodel.PeerIdentity] {
 	return c.identity
 }
 
+func (c Callee) IsIdentified() bool {
+	return c.identity.Present()
+}
+
 func (c Callee) BaseURLsFrom(addresses yacymodel.PeerAddresses) []BaseURL {
-	if !c.identity.Present() {
+	if !c.IsIdentified() {
 		return unidentifiedBaseURLsFrom(addresses)
 	}
 

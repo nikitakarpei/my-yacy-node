@@ -21,13 +21,14 @@ const (
 )
 
 const (
-	FieldWordCount  = "wordc"
-	FieldEntryCount = "entryc"
-	FieldIndexes    = "indexes"
-	FieldResult     = "result"
-	FieldPause      = "pause"
-	FieldUnknownURL = "unknownURL"
-	FieldErrorURL   = "errorURL"
+	FieldWordCount      = "wordc"
+	FieldEntryCount     = "entryc"
+	FieldIndexes        = "indexes"
+	FieldPostingsProofs = "postingsproofs"
+	FieldResult         = "result"
+	FieldPause          = "pause"
+	FieldUnknownURL     = "unknownURL"
+	FieldErrorURL       = "errorURL"
 )
 
 const (
