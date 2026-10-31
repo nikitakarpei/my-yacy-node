@@ -77,7 +77,6 @@ func (stopwordThe) Contains(word yacymodel.Hash, language yacymodel.Language) bo
 }
 
 type transferReceiver struct {
-	t         *testing.T
 	admission remoteindexadmission.PostingAdmission
 }
 
@@ -86,46 +85,13 @@ func (r transferReceiver) Receive(
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
 ) (remoteindexadmission.PostingReceipt, error) {
-	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(r.t, postings))
+	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(postings))
 }
 
-func receivedPagePostingsOf(
-	t *testing.T,
-	postings []yacymodel.RWIPosting,
-) []yacymodel.PagePostings {
-	t.Helper()
-
-	var urls []yacymodel.URLHash
-	postingsOfURL := map[yacymodel.URLHash][]yacymodel.RWIPosting{}
-	for _, posting := range postings {
-		if _, seen := postingsOfURL[posting.URLHash]; !seen {
-			urls = append(urls, posting.URLHash)
-		}
-		postingsOfURL[posting.URLHash] = append(postingsOfURL[posting.URLHash], posting)
-	}
-	receivedPagePostings := make([]yacymodel.PagePostings, 0, len(urls))
-	for _, url := range urls {
-		receivedPagePostings = append(
-			receivedPagePostings,
-			unprovenPagePostingsOf(t, postingsOfURL[url]...),
-		)
-	}
+func receivedPagePostingsOf(postings []yacymodel.RWIPosting) []yacymodel.PagePostings {
+	receivedPagePostings, _ := yacymodel.PagePostingsPerURLFrom(postings)
 
 	return receivedPagePostings
-}
-
-func unprovenPagePostingsOf(
-	t *testing.T,
-	postings ...yacymodel.RWIPosting,
-) yacymodel.PagePostings {
-	t.Helper()
-
-	pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return pagePostings
 }
 
 type recordingWriter struct {
@@ -224,7 +190,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		escrow:   escrow,
 		urls:     urlMetadataIntake,
 		crawled:  urlWriter,
-		receiver: transferReceiver{t: t, admission: postingAdmission},
+		receiver: transferReceiver{admission: postingAdmission},
 		written:  written,
 		observed: observed,
 		clock:    &clock,
