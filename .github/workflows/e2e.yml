@@ -12,22 +12,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Cache pinned toolchain
-        uses: actions/cache@v6
+      - name: Restore pinned toolchain
+        id: toolchain-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             .toolchain/bin
             .toolchain/go
           key: toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
 
-      - name: Cache Go modules and build output
-        uses: actions/cache@v6
+      - name: Restore Go modules and build output
+        id: go-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/go/pkg/mod
             ~/.cache/go-build
-          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
-          restore-keys: go-${{ runner.os }}-
+          key: go-e2e-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: go-e2e-${{ runner.os }}-
 
       - name: Run e2e suites
         env:
@@ -35,6 +37,24 @@ jobs:
         run: |
           mkdir -p "$E2E_CONTAINER_LOG_DIR"
           make e2e
+
+      - name: Save pinned toolchain
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.toolchain-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .toolchain/bin
+            .toolchain/go
+          key: ${{ steps.toolchain-cache.outputs.cache-primary-key }}
+
+      - name: Save Go modules and build output
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.go-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ steps.go-cache.outputs.cache-primary-key }}
 
       - name: Upload container logs of failed suites
         if: failure()

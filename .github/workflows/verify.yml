@@ -10,28 +10,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Cache pinned toolchain
-        uses: actions/cache@v6
+      - name: Restore pinned toolchain
+        id: toolchain-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             .toolchain/bin
             .toolchain/go
           key: toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
 
-      - name: Cache Go modules, build output and lint results
-        uses: actions/cache@v6
+      - name: Restore Go modules, build output and lint results
+        id: go-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/go/pkg/mod
             ~/.cache/go-build
             ~/.cache/golangci-lint
-          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-${{ github.sha }}
+          key: go-verify-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-${{ github.sha }}
           restore-keys: |
-            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
-            go-${{ runner.os }}-
+            go-verify-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
+            go-verify-${{ runner.os }}-
 
-      - name: Cache pinned Python and its packages
-        uses: actions/cache@v6
+      - name: Restore pinned Python and its packages
+        id: python-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             .toolchain/python
@@ -41,3 +44,31 @@ jobs:
 
       - name: Run make verify
         run: make verify RACE_FLAG=-race
+
+      - name: Save pinned toolchain
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.toolchain-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .toolchain/bin
+            .toolchain/go
+          key: ${{ steps.toolchain-cache.outputs.cache-primary-key }}
+
+      - name: Save Go modules, build output and lint results
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.go-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+            ~/.cache/golangci-lint
+          key: ${{ steps.go-cache.outputs.cache-primary-key }}
+
+      - name: Save pinned Python and its packages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.python-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .toolchain/python
+            .toolchain/uvcache
+          key: ${{ steps.python-cache.outputs.cache-primary-key }}
