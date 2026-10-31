@@ -31,27 +31,23 @@ type discardedPurges struct{}
 func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
 
 type observedAdmission struct {
-	received    map[remoteindexadmission.ReceivedPostingOutcome]int
-	released    map[remoteindexadmission.PostingPlacement]int
+	received    map[remoteindexadmission.PostingOutcome]int
+	released    map[remoteindexadmission.PostingOutcome]int
 	urlMetadata map[remoteindexadmission.URLMetadataOutcome]int
 }
 
 func (o *observedAdmission) ObserveReceivedPostings(
-	outcome remoteindexadmission.ReceivedPostingOutcome,
+	outcome remoteindexadmission.PostingOutcome,
 	postings int,
 ) {
 	o.received[outcome] += postings
 }
 
 func (o *observedAdmission) ObserveReleasedPostings(
-	placement remoteindexadmission.PostingPlacement,
+	outcome remoteindexadmission.PostingOutcome,
 	postings int,
 ) {
-	o.released[placement] += postings
-}
-
-func (o *observedAdmission) receivedAndPlaced(placement remoteindexadmission.PostingPlacement) int {
-	return o.received[remoteindexadmission.ReceivedPostingOutcome(placement)]
+	o.released[outcome] += postings
 }
 
 func (o *observedAdmission) ObserveURLMetadata(
@@ -135,8 +131,8 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
 	observed := &observedAdmission{
-		received:    map[remoteindexadmission.ReceivedPostingOutcome]int{},
-		released:    map[remoteindexadmission.PostingPlacement]int{},
+		received:    map[remoteindexadmission.PostingOutcome]int{},
+		released:    map[remoteindexadmission.PostingOutcome]int{},
 		urlMetadata: map[remoteindexadmission.URLMetadataOutcome]int{},
 	}
 	postingAdmission, urlMetadataIntake, err := remoteindexadmission.Open(
@@ -297,10 +293,10 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 	if got := h.heldCount(t); got != 0 {
 		t.Fatalf("held count = %d, want 0", got)
 	}
-	wantReceived := map[remoteindexadmission.ReceivedPostingOutcome]int{
+	wantReceived := map[remoteindexadmission.PostingOutcome]int{
 		remoteindexadmission.PostingHeldForURLMetadata: 1,
 	}
-	wantReleased := map[remoteindexadmission.PostingPlacement]int{
+	wantReleased := map[remoteindexadmission.PostingOutcome]int{
 		remoteindexadmission.PostingIndexed: 1,
 	}
 	if !maps.Equal(h.observed.received, wantReceived) ||
@@ -549,9 +545,9 @@ func TestOlderPostingLeavesTheIndexedVersionAlone(t *testing.T) {
 	if got := h.heldCount(
 		t,
 	); got != 0 ||
-		h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion) != 1 {
+		h.observed.received[remoteindexadmission.PostingDroppedNotNewerVersion] != 1 {
 		t.Fatalf("held count = %d, other versions = %d, want the older posting dropped",
-			got, h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion))
+			got, h.observed.received[remoteindexadmission.PostingDroppedNotNewerVersion])
 	}
 }
 
@@ -573,10 +569,10 @@ func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
 	if h.indexed(t, other) || h.heldCount(t) != 0 || len(receipt.UnknownURL) != 0 {
 		t.Fatalf("receipt = %+v, held = %d, want the posting dropped", receipt, h.heldCount(t))
 	}
-	if h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion) != 1 {
+	if h.observed.received[remoteindexadmission.PostingDroppedNotNewerVersion] != 1 {
 		t.Fatalf(
 			"other versions = %d, want 1",
-			h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedNotNewerVersion),
+			h.observed.received[remoteindexadmission.PostingDroppedNotNewerVersion],
 		)
 	}
 }
@@ -619,7 +615,7 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 		name    string
 		origin  rwiorigin.Origin
 		posting yacymodel.RWIPosting
-		want    remoteindexadmission.PostingPlacement
+		want    remoteindexadmission.PostingOutcome
 	}{
 		{name: "missing word from the network", origin: sendingPeer, posting: postingOn("w2", today), want: remoteindexadmission.PostingIndexed},
 		{name: "indexed word from the network", origin: sendingPeer, posting: resent, want: remoteindexadmission.PostingDroppedAlreadyIndexed},
@@ -627,7 +623,7 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 		{name: "missing word from another peer of the network", origin: neighbourPeer, posting: postingOn("w4", today), want: remoteindexadmission.PostingIndexed},
 	} {
 		t.Run(c.name, func(t *testing.T) {
-			before := h.observed.receivedAndPlaced(c.want)
+			before := h.observed.received[c.want]
 			if _, err := h.receiver.Receive(
 				context.Background(),
 				c.origin,
@@ -635,7 +631,7 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 			); err != nil {
 				t.Fatalf("Receive: %v", err)
 			}
-			if h.observed.receivedAndPlaced(c.want) != before+1 {
+			if h.observed.received[c.want] != before+1 {
 				t.Fatalf("outcomes = %v, want one more %q", h.observed.received, c.want)
 			}
 		})
@@ -660,7 +656,7 @@ func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	h.receive(t, []yacymodel.RWIPosting{sent})
 
 	if h.indexed(t, sent) ||
-		h.observed.receivedAndPlaced(remoteindexadmission.PostingDroppedPageFromOtherSource) != 1 {
+		h.observed.received[remoteindexadmission.PostingDroppedPageFromOtherSource] != 1 {
 		t.Fatalf("outcomes = %v, want the peer posting dropped", h.observed.received)
 	}
 }

@@ -16,24 +16,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-type ReceivedPostingOutcome string
+type PostingOutcome string
 
 const (
-	PostingHeldForURLMetadata     ReceivedPostingOutcome = "held_for_url_metadata"
-	PostingDroppedFutureDate      ReceivedPostingOutcome = "dropped_future_date"
-	PostingDroppedStopword        ReceivedPostingOutcome = "dropped_stopword"
-	PostingRefusedTooManyPostings ReceivedPostingOutcome = "refused_too_many_postings"
-	PostingRefusedStorageFull     ReceivedPostingOutcome = "refused_storage_full"
-	PostingRefusedEscrowFull      ReceivedPostingOutcome = "refused_escrow_full"
-)
-
-type PostingPlacement string
-
-const (
-	PostingIndexed                    PostingPlacement = "indexed"
-	PostingDroppedAlreadyIndexed      PostingPlacement = "dropped_already_indexed"
-	PostingDroppedNotNewerVersion     PostingPlacement = "dropped_not_newer_version"
-	PostingDroppedPageFromOtherSource PostingPlacement = "dropped_page_from_other_source"
+	PostingHeldForURLMetadata         PostingOutcome = "held_for_url_metadata"
+	PostingDroppedFutureDate          PostingOutcome = "dropped_future_date"
+	PostingDroppedStopword            PostingOutcome = "dropped_stopword"
+	PostingRefusedTooManyPostings     PostingOutcome = "refused_too_many_postings"
+	PostingRefusedStorageFull         PostingOutcome = "refused_storage_full"
+	PostingRefusedEscrowFull          PostingOutcome = "refused_escrow_full"
+	PostingIndexed                    PostingOutcome = "indexed"
+	PostingDroppedAlreadyIndexed      PostingOutcome = "dropped_already_indexed"
+	PostingDroppedNotNewerVersion     PostingOutcome = "dropped_not_newer_version"
+	PostingDroppedPageFromOtherSource PostingOutcome = "dropped_page_from_other_source"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -103,7 +98,7 @@ func (a PostingAdmission) Receive(
 }
 
 func (a PostingAdmission) busyReceiptRefusing(
-	outcome ReceivedPostingOutcome,
+	outcome PostingOutcome,
 	postings []yacymodel.RWIPosting,
 ) PostingReceipt {
 	a.observer.ObserveReceivedPostings(outcome, len(postings))
@@ -173,7 +168,7 @@ func (a PostingAdmission) admit(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 	storedVersion yacymodel.Optional[urlmeta.CurrentVersion],
-) (ReceivedPostingOutcome, error) {
+) (PostingOutcome, error) {
 	postingFingerprint := pagefingerprint.FromPosting(posting)
 	currentVersion, metadataStored := storedVersion.Get()
 	switch {
@@ -184,16 +179,15 @@ func (a PostingAdmission) admit(
 	case !metadataStored || currentVersion.IsOlderThan(postingFingerprint):
 		return a.hold(tx, origin, posting)
 	}
-	placement, err := a.place(tx, origin, posting, currentVersion)
 
-	return ReceivedPostingOutcome(placement), err
+	return a.place(tx, origin, posting, currentVersion)
 }
 
 func (a PostingAdmission) hold(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-) (ReceivedPostingOutcome, error) {
+) (PostingOutcome, error) {
 	if err := a.escrow.Hold(tx, origin, posting); err != nil {
 		return "", fmt.Errorf("hold posting: %w", err)
 	}
@@ -206,7 +200,7 @@ func (a PostingAdmission) place(
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
 	currentVersion urlmeta.CurrentVersion,
-) (PostingPlacement, error) {
+) (PostingOutcome, error) {
 	switch {
 	case !currentVersion.Describes(pagefingerprint.FromPosting(posting)):
 		return PostingDroppedNotNewerVersion, nil
@@ -236,7 +230,7 @@ func (a PostingAdmission) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting)
 func (a PostingAdmission) write(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
-) (PostingPlacement, error) {
+) (PostingOutcome, error) {
 	if err := a.postingWriter.Write(tx, posting); err != nil {
 		return "", fmt.Errorf("write posting: %w", err)
 	}
@@ -273,11 +267,11 @@ func (a PostingAdmission) release(
 	if err := a.escrow.Release(tx, waiting.Posting); err != nil {
 		return fmt.Errorf("release posting: %w", err)
 	}
-	placement, err := a.place(tx, waiting.Origin, waiting.Posting, currentVersion)
+	outcome, err := a.place(tx, waiting.Origin, waiting.Posting, currentVersion)
 	if err != nil {
 		return err
 	}
-	tx.RunAfterCommit(func() { a.observer.ObserveReleasedPostings(placement, 1) })
+	tx.RunAfterCommit(func() { a.observer.ObserveReleasedPostings(outcome, 1) })
 
 	return nil
 }
