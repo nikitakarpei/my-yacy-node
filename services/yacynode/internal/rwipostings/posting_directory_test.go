@@ -44,7 +44,7 @@ func TestPostingsOfWordInAPartitionHoldOnlyThatWordAndPartition(t *testing.T) {
 		}
 	}
 	word := words[1]
-	partition, wantedPostings := busiestPartitionOf(word)
+	partition, wantedPostings := busiestPartitionOf(t, word)
 
 	visitedPostings := h.postingsOfWordIn(t, word, partition, len(wantedPostings)+1)
 
@@ -62,7 +62,7 @@ func TestPostingsOfWordInAPartitionStopWhenTheVisitorAsks(t *testing.T) {
 	for document := range documentsPerWord {
 		h.writeEach(t, postingOfWordOn(word, urlHash(strconv.Itoa(document))))
 	}
-	partition, wantedPostings := busiestPartitionOf(word)
+	partition, wantedPostings := busiestPartitionOf(t, word)
 
 	visitedPostings := h.postingsOfWordIn(t, word, partition, 1)
 
@@ -98,11 +98,16 @@ func postingOfWordOn(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPo
 	}
 }
 
-func busiestPartitionOf(word yacymodel.Hash) (uint, []yacymodel.RWIPosting) {
+func busiestPartitionOf(
+	t *testing.T,
+	word yacymodel.Hash,
+) (uint, []yacymodel.RWIPosting) {
+	t.Helper()
+
 	postingsPerPartition := make(map[uint][]yacymodel.RWIPosting)
 	for document := range documentsPerWord {
 		url := urlHash(strconv.Itoa(document))
-		partition := ringPartitions.PartitionOf(url)
+		partition := ringPartitions(t).PartitionOf(url)
 		postingsPerPartition[partition] = append(
 			postingsPerPartition[partition],
 			postingOfWordOn(word, url),

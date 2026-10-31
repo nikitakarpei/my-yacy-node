@@ -79,15 +79,33 @@ func TestDHTRingPositionOfPosting(t *testing.T) {
 }
 
 func TestDHTRingPartitionsFromExponent(t *testing.T) {
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if partitions != 16 {
-		t.Errorf("DHTRingPartitionsFromExponent(4) = %d, want 16", partitions)
+	for _, exponent := range []uint{0, 4, 62} {
+		partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
+		if err != nil {
+			t.Fatalf("DHTRingPartitionsFromExponent(%d): %v", exponent, err)
+		}
+		if got, want := partitions.Amount(), uint(1)<<exponent; got != want {
+			t.Errorf(
+				"DHTRingPartitionsFromExponent(%d).Amount() = %d, want %d",
+				exponent,
+				got,
+				want,
+			)
+		}
 	}
 	if _, err := yacymodel.DHTRingPartitionsFromExponent(63); err == nil {
 		t.Errorf("DHTRingPartitionsFromExponent(63) should fail")
+	}
+}
+
+func TestZeroDHTRingPartitionsIsTheWholeRing(t *testing.T) {
+	wholeRing, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var zero yacymodel.DHTRingPartitions
+	if zero != wholeRing {
+		t.Errorf("zero DHTRingPartitions = %v, want the partitions of exponent 0", zero)
 	}
 }
 
@@ -164,12 +182,12 @@ func TestPeersHoldingOneWordOfCountsEveryPartitionOfTheRing(t *testing.T) {
 
 	holders := yacymodel.PeersHoldingOneWordOf(partitions, networkRedundancy)
 
-	if holders != int(partitions)*networkRedundancy {
+	if holders != int(partitions.Amount())*networkRedundancy {
 		t.Fatalf(
 			"PeersHoldingOneWordOf = %d, want %d peers for each of the %d partitions",
 			holders,
 			networkRedundancy,
-			partitions,
+			partitions.Amount(),
 		)
 	}
 }
@@ -183,11 +201,11 @@ func TestDHTRingPositionOfWordInPartitionHoldsEveryPostingOfThatWord(t *testing.
 	word := yacymodel.WordHash("partitionprobe")
 
 	named := map[yacymodel.DHTRingPosition]struct{}{}
-	for partition := range uint(partitions) {
+	for partition := range partitions.Amount() {
 		named[yacymodel.DHTRingPositionOfWordInPartition(word, partition, partitions)] = struct{}{}
 	}
-	if len(named) != int(partitions) {
-		t.Fatalf("partitions name %d distinct positions, want %d", len(named), partitions)
+	if len(named) != int(partitions.Amount()) {
+		t.Fatalf("partitions name %d distinct positions, want %d", len(named), partitions.Amount())
 	}
 
 	for document := range 4096 {
@@ -233,7 +251,7 @@ func TestPartitionOfPutsThePostingOfEveryWordOnTheURLInThatPartition(t *testing.
 				if posting != wordInPartition {
 					t.Fatalf(
 						"%d partitions: posting of %v on %v sits at %d, partition %d names %d",
-						partitions, word, url, posting, partition, wordInPartition,
+						partitions.Amount(), word, url, posting, partition, wordInPartition,
 					)
 				}
 			}
@@ -262,18 +280,18 @@ func TestLowestAndHighestURLHashInAPartitionMapBackToThatPartition(t *testing.T)
 		if err != nil {
 			t.Fatalf("dht ring partitions: %v", err)
 		}
-		last := uint(partitions) - 1
+		last := partitions.Amount() - 1
 		for _, partition := range []uint{0, last / 2, last} {
 			lowest := partitions.LowestURLHashIn(partition)
 			highest := partitions.HighestURLHashIn(partition)
 
 			if got := partitions.PartitionOf(lowest); got != partition {
 				t.Fatalf("%d partitions: lowest %v sits in %d, want %d",
-					partitions, lowest, got, partition)
+					partitions.Amount(), lowest, got, partition)
 			}
 			if got := partitions.PartitionOf(highest); got != partition {
 				t.Fatalf("%d partitions: highest %v sits in %d, want %d",
-					partitions, highest, got, partition)
+					partitions.Amount(), highest, got, partition)
 			}
 		}
 	}
@@ -284,7 +302,7 @@ func TestURLHashesOfThePartitionsCoverTheWholeHashRange(t *testing.T) {
 	if err != nil {
 		t.Fatalf("dht ring partitions: %v", err)
 	}
-	last := uint(partitions) - 1
+	last := partitions.Amount() - 1
 
 	if lowest := partitions.LowestURLHashIn(0).String(); lowest != "AAAAAAAAAAAA" {
 		t.Fatalf("lowest url hash of the first partition = %s", lowest)

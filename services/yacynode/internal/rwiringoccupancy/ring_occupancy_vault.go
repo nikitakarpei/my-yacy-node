@@ -31,7 +31,7 @@ func registerRingOccupancy(
 }
 
 func ringOccupancyVersionFor(partitions yacymodel.DHTRingPartitions) string {
-	return fmt.Sprintf("%s over %d partitions", ringOccupancyVersion, uint(partitions))
+	return fmt.Sprintf("%s over %d partitions", ringOccupancyVersion, partitions.Amount())
 }
 
 func dhtRingSectorOf(

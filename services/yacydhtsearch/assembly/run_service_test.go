@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	yacydhtsearch "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) {
@@ -95,6 +96,11 @@ func metricNamesOf(t *testing.T, registry *prometheus.Registry) map[string]bool 
 func serviceConfigFor(t *testing.T) yacydhtsearch.ServiceConfig {
 	t.Helper()
 
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
 	return yacydhtsearch.ServiceConfig{
 		NetworkName:                    "freeworld",
 		SeedlistURLs:                   []string{"http://127.0.0.1:1/yacy/seedlist.html"},
@@ -111,7 +117,7 @@ func serviceConfigFor(t *testing.T) yacydhtsearch.ServiceConfig {
 		DirectoryCapacity:              8,
 		RefreshInterval:                time.Hour,
 		ProbeBudget:                    time.Second,
-		Partitions:                     16,
+		Partitions:                     partitions,
 		MaxResponseBytes:               1024,
 		RankedItemsCeiling:             50,
 		URLMetadataAskDocumentsCeiling: 1000,

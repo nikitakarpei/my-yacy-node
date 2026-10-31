@@ -96,7 +96,7 @@ func TestARankingThatListsAWordTwiceIsRefused(t *testing.T) {
 	_, _, _, err := rwipostings.Open(
 		context.Background(),
 		openVault(t),
-		ringPartitions,
+		ringPartitions(t),
 		[]yacymodel.Hash{word, word},
 		nil,
 		nil,

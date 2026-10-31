@@ -143,7 +143,7 @@ func TestEveryAskThatCameBackCarriesTheAskItAnswers(t *testing.T) {
 	first := network.peerHolding(t, "https://a.example/")
 	second := network.peerHolding(t, "https://b.example/")
 
-	answeredAsks := wireTo(&recordedOutcome{}).AskForSearchDocuments(
+	answeredAsks := wireTo(t, &recordedOutcome{}).AskForSearchDocuments(
 		t.Context(),
 		asksOfPeersAt(first, second),
 	)
@@ -178,7 +178,7 @@ func TestAPeerThatOutlastsTheTimeTheAskHasLeftIsNoAnswer(t *testing.T) {
 	holder := network.peerHolding(t, "https://a.example/")
 
 	startedAt := time.Now()
-	answeredAsks := wireTo(&recordedOutcome{}).
+	answeredAsks := wireTo(t, &recordedOutcome{}).
 		AskForSearchDocuments(callWithin(t, shortSpreadBudget), asksOfPeersAt(slow, holder))
 
 	if len(answeredAsks) != 1 ||
@@ -204,7 +204,7 @@ func TestASearchAskThatOutlastsTheSearchCallBudgetIsNoAnswer(t *testing.T) {
 	holder := network.peerHolding(t, "https://a.example/")
 
 	startedAt := time.Now()
-	answeredAsks := wireSearchingAtMost(shortSearchCallBudget, &recordedOutcome{}).
+	answeredAsks := wireSearchingAtMost(t, shortSearchCallBudget, &recordedOutcome{}).
 		AskForSearchDocuments(callWithin(t, spreadBudgetOfTheTests), asksOfPeersAt(slow, holder))
 
 	if len(answeredAsks) != 1 ||
@@ -234,7 +234,7 @@ func TestAURLMetadataAskThatOutlastsTheSearchCallBudgetIsStillAnswered(t *testin
 			`</item></channel></rss>`,
 	)
 
-	answeredAsks := outcomesOf(wireSearchingAtMost(shortSearchCallBudget, &recordedOutcome{}).
+	answeredAsks := outcomesOf(wireSearchingAtMost(t, shortSearchCallBudget, &recordedOutcome{}).
 		AskForURLMetadata(
 			callWithin(t, spreadBudgetOfTheTests),
 			[]peerasks.URLMetadataAsk{{
@@ -275,7 +275,7 @@ func TestTheWireHoldsItsCallsInFlightAndPutsTheAsksInTheOrderGiven(t *testing.T)
 		)
 	}
 
-	answeredAsks := wireHolding(callsInFlight, &recordedOutcome{}).
+	answeredAsks := wireHolding(t, callsInFlight, &recordedOutcome{}).
 		AskForSearchDocuments(callWithin(t, spreadBudgetOfTheTests), asks)
 
 	if len(answeredAsks) != asksOfTheRound {
@@ -316,7 +316,7 @@ func askIndicesOf(hosts []string, asks []peerasks.SearchDocumentsAsk) []int {
 func TestAskingNoPeerCollectsNoAnswer(t *testing.T) {
 	t.Parallel()
 
-	answeredAsks := wireTo(&recordedOutcome{}).AskForSearchDocuments(t.Context(), nil)
+	answeredAsks := wireTo(t, &recordedOutcome{}).AskForSearchDocuments(t.Context(), nil)
 
 	if len(answeredAsks) != 0 {
 		t.Fatalf("AskForSearchDocuments = %+v, want no answers", answeredAsks)

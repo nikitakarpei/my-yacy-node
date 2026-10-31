@@ -73,10 +73,10 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 			cfg.ReplicasCoveringAPartition,
 		)
 	}
-	if cfg.Partitions != 1<<yacydhtsearch.DefaultPartitionExponent {
+	if cfg.Partitions.Amount() != 1<<yacydhtsearch.DefaultPartitionExponent {
 		t.Fatalf(
 			"Partitions = %d, want %d",
-			cfg.Partitions,
+			cfg.Partitions.Amount(),
 			1<<yacydhtsearch.DefaultPartitionExponent,
 		)
 	}

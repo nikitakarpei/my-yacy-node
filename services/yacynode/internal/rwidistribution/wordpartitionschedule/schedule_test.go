@@ -230,9 +230,9 @@ func (h *harness) read(t *testing.T, view func(tx *vault.Txn) error) {
 }
 
 func (h *harness) everyWordPartition() []yacymodel.WordPartition {
-	wordPartitions := make([]yacymodel.WordPartition, 0, amountOfWords*int(h.partitions))
+	wordPartitions := make([]yacymodel.WordPartition, 0, amountOfWords*int(h.partitions.Amount()))
 	for word := range amountOfWords {
-		for partition := range uint(h.partitions) {
+		for partition := range h.partitions.Amount() {
 			wordPartitions = append(wordPartitions, yacymodel.WordPartition{
 				Word:      yacymodel.WordHash("word" + strconv.Itoa(word)),
 				Partition: partition,

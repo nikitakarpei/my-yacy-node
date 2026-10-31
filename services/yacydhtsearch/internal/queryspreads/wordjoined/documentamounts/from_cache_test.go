@@ -12,9 +12,8 @@ import (
 )
 
 const (
-	firstWord              = "berlin"
-	secondWord             = "weather"
-	twoPartitionsOfTheRing = 2
+	firstWord  = "berlin"
+	secondWord = "weather"
 )
 
 var query = queryreading.QueryFrom(firstWord+" "+secondWord, yacymodel.Language{})

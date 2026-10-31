@@ -83,7 +83,7 @@ func TestPurgingAWordInAPartitionDropsOnlyThosePostings(t *testing.T) {
 		}
 	}
 	word := words[1]
-	partition, purgedPostings := busiestPartitionOf(word)
+	partition, purgedPostings := busiestPartitionOf(t, word)
 
 	var amountOfPurgedPostings int
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
@@ -113,7 +113,7 @@ func TestPurgingAWordInAPartitionDropsOnlyThosePostings(t *testing.T) {
 	}
 	for document := range documentsPerWord {
 		url := urlHash(strconv.Itoa(document))
-		if ringPartitions.PartitionOf(url) == partition {
+		if ringPartitions(t).PartitionOf(url) == partition {
 			continue
 		}
 		if _, found := h.postingOf(t, word, url); !found {

@@ -50,17 +50,17 @@ func TestWordPartitionsOfOneWordDifferPerPartition(t *testing.T) {
 	word := yacymodel.WordHash("wordpartition")
 
 	positions := map[yacymodel.DHTRingPosition]struct{}{}
-	for partition := range uint(partitions) {
+	for partition := range partitions.Amount() {
 		positions[yacymodel.DHTRingPositionOfWordPartition(
 			yacymodel.WordPartition{Word: word, Partition: partition},
 			partitions,
 		)] = struct{}{}
 	}
-	if len(positions) != int(partitions) {
+	if len(positions) != int(partitions.Amount()) {
 		t.Fatalf(
 			"word partitions sit at %d distinct positions, want %d",
 			len(positions),
-			partitions,
+			partitions.Amount(),
 		)
 	}
 }

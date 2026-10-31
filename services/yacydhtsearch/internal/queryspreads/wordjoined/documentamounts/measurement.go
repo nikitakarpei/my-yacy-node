@@ -17,7 +17,7 @@ type Measurement struct {
 func NoneMeasuredYet(query searchquery.Query, partitions yacymodel.DHTRingPartitions) *Measurement {
 	answersPerQueryWord := make(map[yacymodel.Hash]answersOfWord, len(query.WordHashes()))
 	for _, word := range query.WordHashes() {
-		answersPerQueryWord[word] = make(answersOfWord, partitions)
+		answersPerQueryWord[word] = make(answersOfWord, partitions.Amount())
 	}
 
 	return &Measurement{queryWords: query.WordHashes(), answersPerQueryWord: answersPerQueryWord}

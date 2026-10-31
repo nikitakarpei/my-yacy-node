@@ -83,7 +83,7 @@ func openHarnessRanking(t *testing.T, rankedWords []yacymodel.Hash) harness {
 	index, writer, purger, err := rwipostings.Open(
 		context.Background(),
 		v,
-		ringPartitions,
+		ringPartitions(t),
 		rankedWords,
 		nil,
 		nil,
@@ -116,7 +116,16 @@ func openVault(t *testing.T) *vault.Vault {
 	return v
 }
 
-var ringPartitions = yacymodel.DHTRingPartitions(1) << 4
+func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
+	return partitions
+}
 
 func (h harness) writeEach(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()

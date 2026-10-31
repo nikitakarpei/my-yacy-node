@@ -10,6 +10,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+var wholeRing = yacymodel.DHTRingPartitions{}
+
+func partitionsFromExponent(t *testing.T, exponent uint) yacymodel.DHTRingPartitions {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
+	return partitions
+}
+
 type answeredWordPartition struct {
 	spelledWord string
 	partition   uint
@@ -88,6 +101,8 @@ func heldForBothWords(amountHeld int) map[yacymodel.Hash]int {
 func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
 	t.Parallel()
 
+	twoPartitionsOfTheRing := partitionsFromExponent(t, 1)
+
 	measurement := measurementOf(
 		twoPartitionsOfTheRing,
 		answeredForBothWords(0, counted(100), counted(100), counted(100)),
@@ -102,7 +117,10 @@ func TestEveryPartitionOfAQueryWordAddsWhatItsReplicasCounted(t *testing.T) {
 func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
 	t.Parallel()
 
-	measurement := measurementOf(1, answeredForBothWords(0, counted(10), counted(20)))
+	measurement := measurementOf(
+		wholeRing,
+		answeredForBothWords(0, counted(10), counted(20)),
+	)
 
 	if got, want := measurement.HeldPerQueryWord(), heldForBothWords(10); !maps.Equal(got, want) {
 		t.Fatalf("the measurement estimates %v held, want %v", got, want)
@@ -112,14 +130,17 @@ func TestAPartitionOfAnEvenAmountOfCountsTakesTheLowerMiddleOne(t *testing.T) {
 func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *testing.T) {
 	t.Parallel()
 
+	fourPartitionsOfTheRing := partitionsFromExponent(t, 2)
+
 	measurement := measurementOf(
-		3,
+		fourPartitionsOfTheRing,
 		answeredForBothWords(0, counted(10)),
 		answeredForBothWords(1, counted(30)),
 		answeredForBothWords(2, wordpartitionasks.ReplicaAnswer{}),
+		answeredForBothWords(3, wordpartitionasks.ReplicaAnswer{}),
 	)
 
-	if got, want := measurement.HeldPerQueryWord(), heldForBothWords(10+30+10); !maps.Equal(
+	if got, want := measurement.HeldPerQueryWord(), heldForBothWords(10+30+10+10); !maps.Equal(
 		got, want,
 	) {
 		t.Fatalf("the measurement estimates %v held, want %v", got, want)
@@ -128,6 +149,8 @@ func TestAPartitionNoPeerCountedTakesTheMiddleOfThePartitionsThatWereCounted(t *
 
 func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 	t.Parallel()
+
+	twoPartitionsOfTheRing := partitionsFromExponent(t, 1)
 
 	measurement := measurementOf(
 		twoPartitionsOfTheRing,
@@ -143,8 +166,10 @@ func TestAQueryWordNoPeerCountedCarriesNoDocumentsHeld(t *testing.T) {
 func TestTheAmountInAPartitionIsTheMiddleOfThePartitionsThatWereCounted(t *testing.T) {
 	t.Parallel()
 
+	fourPartitionsOfTheRing := partitionsFromExponent(t, 2)
+
 	measurement := measurementOf(
-		4,
+		fourPartitionsOfTheRing,
 		answeredForBothWords(0, counted(10)),
 		answeredForBothWords(1, counted(30), counted(50)),
 		answeredForBothWords(2, counted(20)),
@@ -161,6 +186,8 @@ func TestTheAmountInAPartitionIsTheMiddleOfThePartitionsThatWereCounted(t *testi
 func TestAQueryWordNoPeerCountedHasNoAmountInAPartition(t *testing.T) {
 	t.Parallel()
 
+	twoPartitionsOfTheRing := partitionsFromExponent(t, 1)
+
 	measurement := measurementOf(twoPartitionsOfTheRing, []answeredWordPartition{
 		answeredFor(firstWord, 0, wordpartitionasks.ReplicaAnswer{}),
 		answeredFor(secondWord, 0, counted(10)),
@@ -176,7 +203,7 @@ func TestAnAnsweredCompoundWordIsNoQueryWord(t *testing.T) {
 	t.Parallel()
 
 	documents := distinctDocuments(t, 2)
-	measurement := measurementOf(1, []answeredWordPartition{
+	measurement := measurementOf(wholeRing, []answeredWordPartition{
 		answeredFor(firstWord, 0, answerCounting(1, documents[0])),
 		answeredFor(firstWord+secondWord, 0, answerCounting(1, documents[1])),
 	})
@@ -192,8 +219,10 @@ func TestAnAnsweredCompoundWordIsNoQueryWord(t *testing.T) {
 func TestTheAmountListedOfAQueryWordCountsEachDocumentItsReplicasListedOnce(t *testing.T) {
 	t.Parallel()
 
+	twoPartitionsOfTheRing := partitionsFromExponent(t, 1)
+
 	documents := distinctDocuments(t, 3)
-	measurement := measurementOf(2, []answeredWordPartition{
+	measurement := measurementOf(twoPartitionsOfTheRing, []answeredWordPartition{
 		answeredFor(firstWord, 0, answerCounting(3, documents...)),
 		answeredFor(firstWord, 1, answerCounting(1, documents[0])),
 	})

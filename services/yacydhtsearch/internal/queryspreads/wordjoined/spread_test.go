@@ -32,10 +32,21 @@ const (
 	urlMetadataAsksPerDocument      = 2
 	documentsOneURLMetadataAskNames = 1
 	documentsToMatchCeiling         = 10
-	onePartitionOfTheRing           = 1
 	compoundWordsCeiling            = 4
-	twoPartitionsOfTheRing          = 2
 )
+
+var wholeRing = yacymodel.DHTRingPartitions{}
+
+func partitionsFromExponent(t *testing.T, exponent uint) yacymodel.DHTRingPartitions {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+
+	return partitions
+}
 
 type peerNetwork struct {
 	mutex                                         sync.Mutex
@@ -529,7 +540,7 @@ func settingsOfOnePartition() spreadSettings {
 	return spreadSettings{
 		query:                          firstWord + " " + secondWord,
 		askablePeers:                   []string{"first", "second"},
-		partitions:                     onePartitionOfTheRing,
+		partitions:                     wholeRing,
 		documentsToMatchCeiling:        documentsToMatchCeiling,
 		urlMetadataAskDocumentsCeiling: urlMetadataAskDocumentsCeiling,
 	}
@@ -1306,6 +1317,8 @@ func TestTheDocumentAsksReportWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *
 func TestEachAskOfAQueryWordNamesThePartitionOfItsReplica(t *testing.T) {
 	t.Parallel()
 
+	twoPartitionsOfTheRing := partitionsFromExponent(t, 1)
+
 	network := networkOf(map[string]map[string][]string{})
 
 	spreadAcrossPartitions(network, responsiblePeers{
@@ -1430,6 +1443,8 @@ func TestADocumentInTheAbstractOfTheCompoundWordOfTwoWordsIsJoinedForBoth(t *tes
 func networkWhereTheSecondWordLeadsInPartitionZero(t *testing.T) *peerNetwork {
 	t.Helper()
 
+	twoPartitionsOfTheRing := partitionsFromExponent(t, 1)
+
 	documentsInPartitionZero := addressesInPartition(t, twoPartitionsOfTheRing, 0, 3)
 	documentsInPartitionOne := addressesInPartition(t, twoPartitionsOfTheRing, 1, 3)
 
@@ -1445,7 +1460,7 @@ func TestAQueryWhoseWordsAllHaveACachedAmountLeadsWithTheRarestCachedWord(t *tes
 	t.Parallel()
 
 	network := networkWhereTheSecondWordLeadsInPartitionZero(t)
-	settings := settingsOfTwoPartitions()
+	settings := settingsOfTwoPartitions(t)
 	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(
 		map[string]int{firstWord: 1, secondWord: 5},
 	)
@@ -1472,7 +1487,7 @@ func TestAQueryWithAWordWithoutACachedAmountAsksEveryWordWholeInEveryPartition(t
 	t.Parallel()
 
 	network := networkWhereTheSecondWordLeadsInPartitionZero(t)
-	settings := settingsOfTwoPartitions()
+	settings := settingsOfTwoPartitions(t)
 	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{firstWord: 1})
 
 	settings.spread(network, &recordedSpreads{})
@@ -1496,7 +1511,7 @@ func TestTheSpreadRemembersTheDocumentsInAPartitionForEachWordAPeerCounted(t *te
 	network.documentsHeldByEachPeer = map[string]int{
 		"first-in-0": 10, "first-in-1": 30, "second-in-0": 4, "second-in-1": 6,
 	}
-	settings := settingsOfTwoPartitions()
+	settings := settingsOfTwoPartitions(t)
 	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
 
 	settings.spread(network, &recordedSpreads{})
@@ -1514,7 +1529,7 @@ func TestAWordNoPeerCountedIsNotRemembered(t *testing.T) {
 
 	network := networkWhereTheSecondWordLeadsInPartitionZero(t)
 	network.peersCountingNoDocument = map[string]struct{}{"first-in-0": {}, "first-in-1": {}}
-	settings := settingsOfTwoPartitions()
+	settings := settingsOfTwoPartitions(t)
 	settings.queryWordDocumentAmounts = queryWordDocumentAmountsOf(map[string]int{})
 
 	settings.spread(network, &recordedSpreads{})

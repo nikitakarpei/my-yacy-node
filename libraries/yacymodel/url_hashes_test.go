@@ -99,7 +99,7 @@ func TestURLHashesInAPartitionAreTheHashesThePartitionHolds(t *testing.T) {
 		urlHashFrom(t, "AAAAAAAAAAAA"), urlHashFrom(t, "____________"),
 	)
 
-	for partition := range uint(partitions) {
+	for partition := range partitions.Amount() {
 		for hash := range partitions.URLHashesIn(partition, hashes).All() {
 			if got := partitions.PartitionOf(hash); got != partition {
 				t.Fatalf("hash %v of partition %d sits in %d", hash, partition, got)
