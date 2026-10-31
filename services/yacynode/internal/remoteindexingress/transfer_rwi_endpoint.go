@@ -114,7 +114,7 @@ func pagePostingsOfURL(
 	}
 	proven, err := yacymodel.ProvenPagePostingsFrom(postingsOfURL, proof)
 	if err != nil {
-		reportRefusedProofOfURL(ctx, url, err)
+		reportDroppedProof(ctx, url, err)
 
 		return yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
 	}
@@ -122,7 +122,7 @@ func pagePostingsOfURL(
 	return proven, nil
 }
 
-func reportRefusedProofOfURL(ctx context.Context, url yacymodel.URLHash, err error) {
+func reportDroppedProof(ctx context.Context, url yacymodel.URLHash, err error) {
 	slog.WarnContext(ctx, "transfer rwi postings proof of a url dropped",
 		slog.String("url", url.String()),
 		slog.Any("error", err),

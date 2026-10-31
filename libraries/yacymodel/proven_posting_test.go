@@ -1,6 +1,8 @@
 package yacymodel_test
 
 import (
+	"bytes"
+	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -11,9 +13,9 @@ func TestProvenPostingsJoinUnderTheRootOfTheirPage(t *testing.T) {
 	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 4))
 	provenPostings := whole.EachProvenPosting()
 
-	joined, present := yacymodel.ProvenPagePostingsJoinedFrom(provenPostings[1:4]).Get()
-	if !present {
-		t.Fatal("proven postings of one page do not join")
+	joined, err := yacymodel.PagePostingsJoinedFrom(provenPostings[1:4])
+	if err != nil {
+		t.Fatalf("PagePostingsJoinedFrom: %v", err)
 	}
 	if joined.AmountOfPostings() != 3 || joined.Root() != whole.Root() {
 		t.Fatalf("joined %d postings under %+v, want 3 under %+v",
@@ -22,8 +24,31 @@ func TestProvenPostingsJoinUnderTheRootOfTheirPage(t *testing.T) {
 	if yacymodel.Some(provenPostings[0].Root()) != whole.Root() {
 		t.Fatalf("root of a proven posting = %+v, want %+v", provenPostings[0].Root(), whole.Root())
 	}
-	if yacymodel.ProvenPagePostingsJoinedFrom(nil).Present() {
-		t.Error("no proven postings join into page postings")
+	if _, err := yacymodel.PagePostingsJoinedFrom(nil); !errors.Is(
+		err,
+		yacymodel.ErrBadPagePostings,
+	) {
+		t.Errorf("PagePostingsJoinedFrom(nil) = %v, want ErrBadPagePostings", err)
+	}
+}
+
+func TestJoinedProvenPostingsTakeTheMinimalProofOfTheirPostings(t *testing.T) {
+	random := seededRandom(34)
+	for _, exponent := range partitionExponents {
+		postings := randomPagePostings(random, 2+random.IntN(200))
+		whole := wholePagePostingsOf(t, postings, partitionsFrom(t, exponent))
+		provenPostings := whole.EachProvenPosting()
+		kept := provenPostings[:1+random.IntN(len(provenPostings)-1)]
+
+		joined, err := yacymodel.PagePostingsJoinedFrom(kept)
+		if err != nil {
+			t.Fatalf("PagePostingsJoinedFrom: %v", err)
+		}
+		minimal := narrowedTo(t, whole, joined.Postings())
+		if !bytes.Equal(proofOf(t, joined).Bytes(), proofOf(t, minimal).Bytes()) {
+			t.Fatalf("joined proof = %x, want the minimal %x",
+				proofOf(t, joined).Bytes(), proofOf(t, minimal).Bytes())
+		}
 	}
 }
 
@@ -38,5 +63,25 @@ func TestProvenPostingFromRefusesAProofBesideNoPathOfItsPosting(t *testing.T) {
 	rebuilt, err := yacymodel.ProvenPostingFrom(provenPosting.Posting(), provenPosting.Proof())
 	if err != nil || yacymodel.Some(rebuilt.Root()) != whole.Root() {
 		t.Fatalf("rebuilt proven posting = %+v, %v, want it under %+v", rebuilt, err, whole.Root())
+	}
+}
+
+func TestProvenPostingFromRefusesAPostingWithoutItsHashes(t *testing.T) {
+	posting := randomPagePostings(seededRandom(35), 1)[0]
+	proof := yacymodel.EmptyPostingsProof(partitionsFrom(t, 4))
+	withoutWord, withoutURL := posting, posting
+	withoutWord.WordHash = yacymodel.Hash{}
+	withoutURL.URLHash = yacymodel.URLHash{}
+
+	for name, malformed := range map[string]yacymodel.RWIPosting{
+		"no word hash": withoutWord,
+		"no url hash":  withoutURL,
+	} {
+		if _, err := yacymodel.ProvenPostingFrom(malformed, proof); !errors.Is(
+			err,
+			yacymodel.ErrBadPagePostings,
+		) {
+			t.Errorf("%s: ProvenPostingFrom = %v, want ErrBadPagePostings", name, err)
+		}
 	}
 }

@@ -2,6 +2,7 @@ package pageversion_test
 
 import (
 	"bytes"
+	"net/url"
 	"testing"
 	"time"
 
@@ -21,11 +22,13 @@ var (
 	crawlDay       = yacymodel.NewCalendarDay(2020, time.January, 1)
 	fromSender     = pageversion.SourcePeer(sendingNetwork)
 	fromOther      = pageversion.SourcePeer(otherNetwork)
+	pageURLHash    = yacymodel.URLHashOf(&url.URL{Scheme: "https", Host: "example.org", Path: "/"})
 )
 
 func postingOn(day yacymodel.MicroDate, titleWords uint8) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:     yacymodel.WordHash("word"),
+		URLHash:      pageURLHash,
 		LastModified: day,
 		TitleWords:   titleWords,
 	}
@@ -229,6 +232,7 @@ func crawlOnCrawlDayOf(t *testing.T) crawlOnCrawlDay {
 	crawl := crawlOnCrawlDay{
 		postingOfVersion: yacymodel.RWIPosting{
 			WordHash:     yacymodel.WordHash("word"),
+			URLHash:      pageURLHash,
 			LastModified: modified,
 			TitleWords:   2,
 			Language:     yacymodel.LanguageOfUndeclaredDocument,

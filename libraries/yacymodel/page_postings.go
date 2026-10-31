@@ -148,5 +148,5 @@ func (p PagePostings) EachProvenPosting() []ProvenPosting {
 		return nil
 	}
 
-	return proof.provenPostingsOf(p.postings)
+	return proof.provenPostingsFrom(p.postings)
 }
