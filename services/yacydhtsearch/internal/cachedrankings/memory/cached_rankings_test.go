@@ -7,7 +7,7 @@ import (
 	cachedrankingsmemory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/cachedrankings/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -18,10 +18,7 @@ const (
 func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return searchresult.Ranking{
 		Items: []searchresult.Item{

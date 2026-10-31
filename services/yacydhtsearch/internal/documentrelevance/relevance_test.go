@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentrelevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -26,10 +27,7 @@ type foundDocument queryfindings.FoundDocument
 func foundDocumentAt(t *testing.T, address string) foundDocument {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return foundDocument{
 		Hash:    hash,
@@ -289,10 +287,7 @@ func relevanceOfDocumentAt(
 ) float64 {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return documentrelevance.RelevanceScorerWeighedBy(documentrelevance.DefaultRelevanceWeights()).
 		RelevancePerDocumentOf(findings)[hash]

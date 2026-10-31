@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const gainTolerance = 1e-9
@@ -90,10 +91,7 @@ func normalizedGainOf(t *testing.T, documentsInOrder ...documentInTheOrder) floa
 	gradedPerHash := make(gradedDocuments, len(documentsInOrder))
 	orderedDocuments := make([]queryfindings.FoundDocument, 0, len(documentsInOrder))
 	for _, document := range documentsInOrder {
-		hash, err := yacymodel.URLHashOf(document.address)
-		if err != nil {
-			t.Fatalf("hash %s: %v", document.address, err)
-		}
+		hash := urlhashtest.URLHashOf(t, document.address)
 		if grade, present := document.grade.Get(); present {
 			gradedPerHash[hash] = gradedDocument{
 				grade: grade,

@@ -174,7 +174,7 @@ func postingOf(word, document string) yacymodel.RWIPosting {
 
 	return yacymodel.RWIPosting{
 		WordHash: yacymodel.WordHash(word),
-		URLHash:  yacymodel.URLNormalformOf(address).Hash(),
+		URLHash:  yacymodel.URLHashOf(address),
 		Language: yacymodel.LanguageOfUndeclaredDocument,
 		Hits:     1,
 	}

@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const answeredAddress = "https://a.example/"
@@ -85,10 +85,7 @@ func networkAnsweringOneAddress(t *testing.T) *countedNetwork {
 func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return searchresult.Ranking{
 		Items: []searchresult.Item{

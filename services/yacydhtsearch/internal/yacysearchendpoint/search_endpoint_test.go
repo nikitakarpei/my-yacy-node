@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const rankedItems = 50
@@ -181,10 +182,7 @@ func rankingOver(t *testing.T, addresses ...string) searchresult.Ranking {
 
 	items := make([]searchresult.Item, 0, len(addresses))
 	for _, address := range addresses {
-		hash, err := yacymodel.URLHashOf(address)
-		if err != nil {
-			t.Fatalf("URLHashOf(%q): %v", address, err)
-		}
+		hash := urlhashtest.URLHashOf(t, address)
 		items = append(
 			items,
 			searchresult.Item{Hash: hash, Address: address},

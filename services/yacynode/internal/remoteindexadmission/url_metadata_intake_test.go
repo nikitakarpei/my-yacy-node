@@ -14,7 +14,7 @@ import (
 func metadataOn(t *testing.T, seed string, day yacymodel.MicroDate) yacymodel.URLMetadata {
 	t.Helper()
 
-	metadata := metadataOfPostingsTo(t, seed)
+	metadata := metadataOfPostingsTo(seed)
 	metadata.Modified = yacymodel.Some(yacymodel.CalendarDayOf(day.Time()))
 
 	return metadata
@@ -61,9 +61,9 @@ func TestURLMetadataIntakeReportsOneOutcomePerRecord(t *testing.T) {
 
 func TestURLMetadataIntakeBusyAtCapacity(t *testing.T) {
 	h := openHarness(t, usedBytesOfAnEmptyNode(t)+1, 100)
-	h.receiveMetadata(t, sendingPeer, metadataOfPostingsTo(t, "u1"))
+	h.receiveMetadata(t, sendingPeer, metadataOfPostingsTo("u1"))
 
-	if receipt := h.receiveMetadata(t, sendingPeer, metadataOfPostingsTo(t, "u2")); !receipt.Busy {
+	if receipt := h.receiveMetadata(t, sendingPeer, metadataOfPostingsTo("u2")); !receipt.Busy {
 		t.Fatalf("receipt = %+v, want Busy", receipt)
 	}
 }

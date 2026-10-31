@@ -7,13 +7,8 @@ import (
 
 type URLHash struct{ hash Hash }
 
-func URLHashOf(address string) (URLHash, error) {
-	parsed, err := url.Parse(address)
-	if err != nil {
-		return URLHash{}, fmt.Errorf("url hash: address %q: %w", address, err)
-	}
-
-	return URLNormalformOf(parsed).Hash(), nil
+func URLHashOf(address *url.URL) URLHash {
+	return URLNormalformOf(address).hash()
 }
 
 func ParseURLHash(raw string) (URLHash, error) {

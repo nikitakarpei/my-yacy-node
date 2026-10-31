@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentjoin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -15,17 +16,6 @@ const (
 )
 
 var query = queryreading.QueryFrom(firstWord+" "+secondWord, yacymodel.Language{})
-
-func documentHashOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("%q has no document hash: %v", address, err)
-	}
-
-	return hash
-}
 
 type joinsInTurn struct {
 	joined []yacymodel.URLHashes
@@ -46,8 +36,8 @@ func documentsOf(documents ...yacymodel.URLHash) yacymodel.URLHashes {
 func TestADocumentJoinsOnTheListingOfTheLastQueryWordThatListsIt(t *testing.T) {
 	t.Parallel()
 
-	listedByBoth := documentHashOf(t, "https://listed-by-both.example/")
-	listedByOne := documentHashOf(t, "https://listed-by-one.example/")
+	listedByBoth := urlhashtest.URLHashOf(t, "https://listed-by-both.example/")
+	listedByOne := urlhashtest.URLHashOf(t, "https://listed-by-one.example/")
 	joins := &joinsInTurn{}
 	joiner := joinerOver(joins)
 
@@ -64,7 +54,7 @@ func TestADocumentJoinsOnTheListingOfTheLastQueryWordThatListsIt(t *testing.T) {
 func TestTheListingOfACompoundWordJoinsForEachOfItsPartWords(t *testing.T) {
 	t.Parallel()
 
-	document := documentHashOf(t, "https://document.example/")
+	document := urlhashtest.URLHashOf(t, "https://document.example/")
 	joins := &joinsInTurn{}
 	joiner := joinerOver(joins)
 
@@ -83,7 +73,7 @@ func TestTheListingOfACompoundWordJoinsForEachOfItsPartWords(t *testing.T) {
 func TestADocumentJoinsOnce(t *testing.T) {
 	t.Parallel()
 
-	document := documentHashOf(t, "https://document.example/")
+	document := urlhashtest.URLHashOf(t, "https://document.example/")
 	joins := &joinsInTurn{}
 	joiner := joinerOver(joins)
 	joiner.ListUnder(yacymodel.WordHash(firstWord), documentsOf(document))
@@ -99,7 +89,7 @@ func TestADocumentJoinsOnce(t *testing.T) {
 func TestTheListingOfAWordOutsideTheQueryJoinsNothing(t *testing.T) {
 	t.Parallel()
 
-	document := documentHashOf(t, "https://document.example/")
+	document := urlhashtest.URLHashOf(t, "https://document.example/")
 	joins := &joinsInTurn{}
 	joiner := joinerOver(joins)
 	joiner.ListUnder(yacymodel.WordHash(firstWord), documentsOf(document))
@@ -118,8 +108,8 @@ func TestTheListingOfAWordOutsideTheQueryJoinsNothing(t *testing.T) {
 func TestTheJoinedDocumentsAreEveryDocumentJoinedSoFar(t *testing.T) {
 	t.Parallel()
 
-	joinedFirst := documentHashOf(t, "https://joined-first.example/")
-	joinedLater := documentHashOf(t, "https://joined-later.example/")
+	joinedFirst := urlhashtest.URLHashOf(t, "https://joined-first.example/")
+	joinedLater := urlhashtest.URLHashOf(t, "https://joined-later.example/")
 	joiner := joinerOver(&joinsInTurn{})
 	joiner.ListUnder(yacymodel.WordHash(firstWord), documentsOf(joinedFirst, joinedLater))
 	joiner.ListUnder(yacymodel.WordHash(secondWord), documentsOf(joinedFirst))
@@ -139,7 +129,7 @@ func TestTheJoinedDocumentsAreEveryDocumentJoinedSoFar(t *testing.T) {
 func TestEveryJoinObserverIsToldTheJoinedDocuments(t *testing.T) {
 	t.Parallel()
 
-	document := documentHashOf(t, "https://document.example/")
+	document := urlhashtest.URLHashOf(t, "https://document.example/")
 	first, second := &joinsInTurn{}, &joinsInTurn{}
 	joiner := documentjoin.JoinerOf(query, documentjoin.JoinObservers{first, second})
 

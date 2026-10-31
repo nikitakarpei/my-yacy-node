@@ -3,11 +3,11 @@ package hashkeypart_test
 import (
 	"bytes"
 	"errors"
-	neturl "net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 )
 
@@ -32,26 +32,22 @@ func TestHashKeysCarryTheHashBytes(t *testing.T) {
 }
 
 func TestURLHashKeysCarryTheHashBytes(t *testing.T) {
-	address, err := neturl.Parse("http://example.org/page")
-	if err != nil {
-		t.Fatalf("parse address: %v", err)
-	}
-	url := yacymodel.URLNormalformOf(address).Hash()
+	urlHash := urlhashtest.URLHashOf(t, "http://example.org/page")
 	parts := vault.SingleKey(hashkeypart.URLHash)
 
 	if !bytes.Equal(
-		parts.Key(url).Bytes(),
-		vault.SingleKey(vault.TextKeyPart).Key(string(url.Bytes())).Bytes(),
+		parts.Key(urlHash).Bytes(),
+		vault.SingleKey(vault.TextKeyPart).Key(string(urlHash.Bytes())).Bytes(),
 	) {
-		t.Fatalf("key(%s) differs from the key of its byte form", url)
+		t.Fatalf("key(%s) differs from the key of its byte form", urlHash)
 	}
 
-	decoded, err := parts.PartsOf(parts.Key(url).Bytes())
+	decoded, err := parts.PartsOf(parts.Key(urlHash).Bytes())
 	if err != nil {
-		t.Fatalf("PartsOf(%s) failed: %v", url, err)
+		t.Fatalf("PartsOf(%s) failed: %v", urlHash, err)
 	}
-	if decoded != url {
-		t.Fatalf("PartsOf = %s, want %s", decoded, url)
+	if decoded != urlHash {
+		t.Fatalf("PartsOf = %s, want %s", decoded, urlHash)
 	}
 }
 

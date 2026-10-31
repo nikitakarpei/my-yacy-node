@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"maps"
+	"net/url"
 	"slices"
 	"strings"
 	"sync"
@@ -331,11 +332,11 @@ func (network *peerNetwork) AskForURLMetadata(
 func documentHashesOf(addresses []string) []yacymodel.URLHash {
 	hashes := make([]yacymodel.URLHash, 0, len(addresses))
 	for _, address := range addresses {
-		hash, err := yacymodel.URLHashOf(address)
+		webAddress, err := url.Parse(address)
 		if err != nil {
-			continue
+			panic(err)
 		}
-		hashes = append(hashes, hash)
+		hashes = append(hashes, yacymodel.URLHashOf(webAddress))
 	}
 
 	return hashes

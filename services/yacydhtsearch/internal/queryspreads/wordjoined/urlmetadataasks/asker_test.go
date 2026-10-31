@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/urlmetadataasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -181,10 +182,7 @@ func documentsOf(t *testing.T, site string, amountOfDocuments int) []yacymodel.U
 
 	documents := make([]yacymodel.URLHash, 0, amountOfDocuments)
 	for number := range amountOfDocuments {
-		document, err := yacymodel.URLHashOf(fmt.Sprintf("https://%s.example/%d", site, number))
-		if err != nil {
-			t.Fatalf("document %d of %q has no hash: %v", number, site, err)
-		}
+		document := urlhashtest.URLHashOf(t, fmt.Sprintf("https://%s.example/%d", site, number))
 		documents = append(documents, document)
 	}
 

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 func mustURLHash(t *testing.T, raw string) yacymodel.URLHash {
@@ -58,7 +59,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		Snippet:          "an example",
 		FaviconAddress:   "https://example.org/favicon.ico",
 	}
-	metadata.Hash = urlHashOf(t, metadata.Address)
+	metadata.Hash = urlhashtest.URLHashOf(t, metadata.Address)
 
 	return metadata
 }
@@ -89,7 +90,7 @@ func TestStoredURLMetadataKeepsEveryField(t *testing.T) {
 func TestStoredURLMetadataKeepsAbsentValues(t *testing.T) {
 	const address = "https://example.org/"
 
-	stored := yacymodel.URLMetadata{Hash: urlHashOf(t, address), Address: address}
+	stored := yacymodel.URLMetadata{Hash: urlhashtest.URLHashOf(t, address), Address: address}
 
 	if read := writtenThenRead(t, stored); !reflect.DeepEqual(read, stored) {
 		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
