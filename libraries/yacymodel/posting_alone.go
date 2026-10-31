@@ -1,51 +1,53 @@
 package yacymodel
 
 type PostingAlone struct {
-	pagePostings PagePostings
+	proof   Optional[PostingsProof]
+	posting RWIPosting
+	root    Optional[PostingsRoot]
 }
 
-func PostingAloneFrom(posting RWIPosting, proof Optional[PostingsProof]) (PostingAlone, error) {
-	pagePostings, err := pagePostingsFrom([]RWIPosting{posting}, proof)
+func ProvenPostingAloneFrom(posting RWIPosting, proof PostingsProof) (PostingAlone, error) {
+	pagePostings, err := ProvenPagePostingsFrom([]RWIPosting{posting}, proof)
 	if err != nil {
 		return PostingAlone{}, err
 	}
 
-	return PostingAlone{pagePostings: pagePostings}, nil
+	return PostingAlone{posting: posting, proof: Some(proof), root: pagePostings.Root()}, nil
 }
 
 func UnprovenPostingAloneFrom(posting RWIPosting) PostingAlone {
-	return PostingAlone{pagePostings: PagePostings{postings: []RWIPosting{posting}}}
+	return PostingAlone{posting: posting}
 }
 
 func (a PostingAlone) Posting() RWIPosting {
-	return a.pagePostings.postings[0]
+	return a.posting
 }
 
 func (a PostingAlone) Proof() Optional[PostingsProof] {
-	return a.pagePostings.proof
+	return a.proof
 }
 
 func (a PostingAlone) Root() Optional[PostingsRoot] {
-	return a.pagePostings.Root()
+	return a.root
 }
 
 func PagePostingsJoinedFrom(postingsAlone []PostingAlone) Optional[PagePostings] {
 	postings := make([]RWIPosting, 0, len(postingsAlone))
 	for _, alone := range postingsAlone {
-		postings = append(postings, alone.Posting())
+		postings = append(postings, alone.posting)
 	}
-	joined, err := pagePostingsFrom(postings, mergedProofOf(postingsAlone))
-	if err != nil {
-		return None[PagePostings]()
+	proof, proven := mergedProofOf(postingsAlone).Get()
+	if !proven {
+		return presentUnlessRefused(UnprovenPagePostingsFrom(postings))
 	}
 
-	return Some(joined)
+	return presentUnlessRefused(ProvenPagePostingsFrom(postings, proof))
 }
 
 func mergedProofOf(postingsAlone []PostingAlone) Optional[PostingsProof] {
 	proofs := make([]PostingsProof, 0, len(postingsAlone))
 	for _, alone := range postingsAlone {
-		proof, proven := alone.Proof().Get()
+		proof, proven := alone.proof.Get()
 		if !proven {
 			return None[PostingsProof]()
 		}
@@ -62,10 +64,10 @@ func mergedProofOf(postingsAlone []PostingAlone) Optional[PostingsProof] {
 	return Some(merged)
 }
 
-func pagePostingsFrom(postings []RWIPosting, proof Optional[PostingsProof]) (PagePostings, error) {
-	if provenProof, proven := proof.Get(); proven {
-		return ProvenPagePostingsFrom(postings, provenProof)
+func presentUnlessRefused(pagePostings PagePostings, err error) Optional[PagePostings] {
+	if err != nil {
+		return None[PagePostings]()
 	}
 
-	return UnprovenPagePostingsFrom(postings)
+	return Some(pagePostings)
 }

@@ -40,15 +40,17 @@ func TestPostingsAloneJoinWithoutProofWhenOneHasNone(t *testing.T) {
 	}
 }
 
-func TestPostingAloneFromRefusesAProofBesideNoPathOfItsPosting(t *testing.T) {
+func TestProvenPostingAloneFromRefusesAProofBesideNoPathOfItsPosting(t *testing.T) {
 	postings := randomPagePostings(seededRandom(33), 2)
 	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 4))
 	alone := whole.EachPostingAlone()[0]
 
-	if _, err := yacymodel.PostingAloneFrom(postings[1], alone.Proof()); err == nil {
+	proof, _ := alone.Proof().Get()
+
+	if _, err := yacymodel.ProvenPostingAloneFrom(postings[1], proof); err == nil {
 		t.Error("a proof beside another posting's path was accepted")
 	}
-	rebuilt, err := yacymodel.PostingAloneFrom(alone.Posting(), alone.Proof())
+	rebuilt, err := yacymodel.ProvenPostingAloneFrom(alone.Posting(), proof)
 	if err != nil || rebuilt.Root() != whole.Root() {
 		t.Fatalf("rebuilt posting alone = %+v, %v, want it under %+v", rebuilt, err, whole.Root())
 	}

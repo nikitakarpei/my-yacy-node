@@ -1,5 +1,5 @@
 // Package pagefingerprint holds the page fields that a crawl writes into both
-// its postings and its URL metadata, and the key bytes that store them.
+// its postings and its URL metadata, and writes them as stored fields.
 package pagefingerprint
 
 import (

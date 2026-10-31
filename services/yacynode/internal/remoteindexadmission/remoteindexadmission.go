@@ -11,6 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -35,7 +36,12 @@ type URLMetadataReceiver interface {
 
 type Escrow interface {
 	IsFull(ctx context.Context) (bool, error)
-	Hold(tx *vault.Txn, origin rwiorigin.Origin, postingAlone yacymodel.PostingAlone) error
+	Hold(
+		tx *vault.Txn,
+		origin rwiorigin.Origin,
+		postingAlone yacymodel.PostingAlone,
+		version pageversion.Version,
+	) error
 	PostingsWaitingFor(
 		ctx context.Context,
 		tx *vault.Txn,

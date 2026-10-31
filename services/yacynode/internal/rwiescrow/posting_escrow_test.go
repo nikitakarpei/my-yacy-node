@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
@@ -86,7 +87,11 @@ func (h *harness) holdWaiting(t *testing.T, postingsAlone ...yacymodel.PostingAl
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, postingAlone := range postingsAlone {
-			if err := h.escrow.Hold(tx, holdingOrigin, postingAlone); err != nil {
+			version := pageversion.FromPostingAlone(
+				postingAlone,
+				pageversion.SourcePeer(holdingOrigin),
+			)
+			if err := h.escrow.Hold(tx, holdingOrigin, postingAlone, version); err != nil {
 				return fmt.Errorf("hold: %w", err)
 			}
 		}
