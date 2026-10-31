@@ -2,6 +2,7 @@ package urlmetarecord_test
 
 import (
 	"errors"
+	"math"
 	"reflect"
 	"testing"
 	"time"
@@ -37,17 +38,50 @@ func samplePostingsRoot(t *testing.T) yacymodel.PostingsRoot {
 	return root
 }
 
-func rootedRecord(t *testing.T) urlmetarecord.Record {
+func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		t.Fatalf("parse language %q: %v", raw, err)
+	}
+
+	return yacymodel.Some(language)
+}
+
+func fullRecord(t *testing.T) urlmetarecord.Record {
 	t.Helper()
 
 	return urlmetarecord.Record{
 		Metadata: yacymodel.URLMetadata{
-			Address:      "https://example.org/",
-			Title:        "Example",
-			Loaded:       yacymodel.Some(yacymodel.NewCalendarDay(2025, time.February, 3)),
-			WordCount:    12,
-			Snippet:      "an example",
-			PostingsRoot: yacymodel.Some(samplePostingsRoot(t)),
+			Address: "https://example.org/",
+			Referrer: yacymodel.Some(
+				urlhashtest.URLHashOf(t, "https://example.org/referrer"),
+			),
+			Title:     "Example, Inc.",
+			Author:    "A. Author",
+			Tags:      []string{"news", "indexof"},
+			Publisher: "Example Press",
+			Location: yacymodel.Some(
+				yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405},
+			),
+			Modified:         yacymodel.Some(yacymodel.NewCalendarDay(2025, time.January, 1)),
+			Loaded:           yacymodel.Some(yacymodel.NewCalendarDay(2025, time.February, 3)),
+			FreshUntil:       yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)),
+			DocumentType:     yacymodel.DocumentTypeText,
+			MediaType:        "text/html",
+			Language:         mustLanguage(t, "en"),
+			ByteSize:         yacymodel.Some[uint32](1024),
+			WordCount:        12,
+			LocalLinks:       3,
+			ExternalLinks:    4,
+			ImageLinks:       5,
+			AudioLinks:       6,
+			VideoLinks:       7,
+			ApplicationLinks: 8,
+			Snippet:          "an example",
+			FaviconAddress:   "https://example.org/favicon.ico",
+			PostingsRoot:     yacymodel.Some(samplePostingsRoot(t)),
 		},
 		Source: pageversion.SourceThisNode(),
 	}
@@ -64,6 +98,52 @@ func encoded(t *testing.T, record urlmetarecord.Record) []byte {
 	return raw
 }
 
+func decoded(t *testing.T, raw []byte) urlmetarecord.Record {
+	t.Helper()
+
+	record, err := urlmetarecord.Codec{}.Decode(raw)
+	if err != nil {
+		t.Fatalf("Decode: %v", err)
+	}
+
+	return record
+}
+
+func TestStoredURLMetadataKeepsEveryField(t *testing.T) {
+	stored := fullRecord(t)
+
+	if read := decoded(t, encoded(t, stored)); !reflect.DeepEqual(read, stored) {
+		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
+	}
+}
+
+func TestStoredURLMetadataKeepsCountsAtTheirCeiling(t *testing.T) {
+	stored := fullRecord(t)
+	stored.Metadata.ByteSize = yacymodel.Some[uint32](math.MaxUint32)
+	stored.Metadata.WordCount = math.MaxUint32
+	stored.Metadata.LocalLinks = math.MaxUint32
+	stored.Metadata.ExternalLinks = math.MaxUint32
+	stored.Metadata.ImageLinks = math.MaxUint32
+	stored.Metadata.AudioLinks = math.MaxUint32
+	stored.Metadata.VideoLinks = math.MaxUint32
+	stored.Metadata.ApplicationLinks = math.MaxUint32
+
+	if read := decoded(t, encoded(t, stored)); !reflect.DeepEqual(read, stored) {
+		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
+	}
+}
+
+func TestStoredURLMetadataKeepsAbsentValues(t *testing.T) {
+	stored := urlmetarecord.Record{
+		Metadata: yacymodel.URLMetadata{Address: "https://example.org/"},
+		Source:   pageversion.SourceThisNode(),
+	}
+
+	if read := decoded(t, encoded(t, stored)); !reflect.DeepEqual(read, stored) {
+		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
+	}
+}
+
 func withoutPostingsRoot(record urlmetarecord.Record) urlmetarecord.Record {
 	record.Metadata.PostingsRoot = yacymodel.None[yacymodel.PostingsRoot]()
 
@@ -71,7 +151,7 @@ func withoutPostingsRoot(record urlmetarecord.Record) urlmetarecord.Record {
 }
 
 func TestARecordStoredBeforeThePostingsRootReadsWithoutOne(t *testing.T) {
-	record := rootedRecord(t)
+	record := fullRecord(t)
 	withRoot := encoded(t, record)
 	withoutRoot := encoded(t, withoutPostingsRoot(record))
 	sharedLength := 0
@@ -79,17 +159,14 @@ func TestARecordStoredBeforeThePostingsRootReadsWithoutOne(t *testing.T) {
 		sharedLength++
 	}
 
-	read, err := urlmetarecord.Codec{}.Decode(withRoot[:sharedLength])
-	if err != nil {
-		t.Fatalf("Decode: %v", err)
-	}
-	if want := withoutPostingsRoot(record); !reflect.DeepEqual(read, want) {
+	read, want := decoded(t, withRoot[:sharedLength]), withoutPostingsRoot(record)
+	if !reflect.DeepEqual(read, want) {
 		t.Errorf("read back\n got  %+v\n want %+v", read, want)
 	}
 }
 
 func TestACorruptStoredPostingsRootRejectsTheRecord(t *testing.T) {
-	record := rootedRecord(t)
+	record := fullRecord(t)
 	root, _ := record.Metadata.PostingsRoot.Get()
 	raw := encoded(t, record)
 	raw[len(raw)-len(root.Bytes())] = 0
