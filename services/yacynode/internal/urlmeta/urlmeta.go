@@ -1,8 +1,7 @@
 // Package urlmeta owns URL metadata storage and lookup, and the urls.xml
 // endpoint. Its published ports speak the yacymodel vocabulary and never leak
 // the schema. A port that reads or writes stored metadata takes the transaction
-// its caller opened, so the caller decides and writes in one transaction. Each
-// record knows its source: this node or the network of the peer that sent it.
+// its caller opened, so the caller decides and writes in one transaction.
 package urlmeta
 
 import (
