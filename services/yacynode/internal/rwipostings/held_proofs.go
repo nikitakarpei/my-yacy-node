@@ -11,8 +11,8 @@ import (
 
 type heldProofs struct {
 	proofs      *vault.Collection[yacymodel.URLHash, yacymodel.PostingsProof]
-	wordsPerURL    wordsPerURL
-	urlPostings *urlPostingsIndex
+	wordsPerURL wordsPerURL
+	postings    *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
 }
 
 func (h heldProofs) mergeWith(tx *vault.Txn, pagePostings yacymodel.PagePostings) error {
@@ -117,18 +117,20 @@ func (h heldProofs) postingsOf(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 ) ([]yacymodel.RWIPosting, error) {
-	var postings []yacymodel.RWIPosting
-	err := h.urlPostings.Scan(
-		tx,
-		urlPostingKeyParts.KeysWithFirst(url),
-		func(posting yacymodel.RWIPosting) (bool, error) {
-			postings = append(postings, posting)
-
-			return true, nil
-		},
-	)
+	words, err := h.wordsPerURL.wordsOf(tx, url)
 	if err != nil {
-		return nil, fmt.Errorf("scan rwi postings of a url: %w", err)
+		return nil, err
+	}
+	postings := make([]yacymodel.RWIPosting, 0, len(words))
+	for _, word := range words {
+		identity := postingIdentity{word: word, url: url}
+		storedPosting, found, err := h.postings.Get(tx, identity)
+		if err != nil {
+			return nil, fmt.Errorf("read rwi posting: %w", err)
+		}
+		if found {
+			postings = append(postings, postingWithIdentity(identity, storedPosting))
+		}
 	}
 
 	return postings, nil

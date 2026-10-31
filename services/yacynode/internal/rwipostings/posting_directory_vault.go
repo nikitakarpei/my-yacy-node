@@ -3,7 +3,6 @@ package rwipostings
 import (
 	"context"
 	"fmt"
-	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -12,17 +11,11 @@ import (
 )
 
 const (
-	postingsBucket    vault.Name = "rwi"
-	urlWordsBucket    vault.Name = "rwi_url_words"
-	urlPostingsBucket vault.Name = "rwi_url_postings"
+	postingsBucket vault.Name = "rwi"
+	urlWordsBucket vault.Name = "rwi_url_words"
 )
 
-const (
-	urlWordsVersion    = "1"
-	urlPostingsVersion = "1"
-)
-
-type urlPostingsIndex = vault.ValueIndex[yacymodel.RWIPosting, yacymodel.RWIPosting]
+const urlWordsVersion = "1"
 
 func registerPostings(
 	ctx context.Context,
@@ -33,12 +26,11 @@ func registerPostings(
 ) (
 	*vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting],
 	*vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
-	*urlPostingsIndex,
 	error,
 ) {
 	wordRanking, err := vault.FixedDictionaryFrom(hashkeypart.Hash, rankedWords)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("rank words: %w", err)
+		return nil, nil, fmt.Errorf("rank words: %w", err)
 	}
 	urlWordsIndex, err := v.RegisterMemberSetIndex(
 		urlWordsBucket,
@@ -54,64 +46,23 @@ func registerPostings(
 		urlWordsObserver,
 	)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("register url words: %w", err)
+		return nil, nil, fmt.Errorf("register url words: %w", err)
 	}
-	urlPostings, err := v.RegisterValueIndex(
-		urlPostingsBucket,
-		urlPostingsVersion,
-		urlPostingKeyLayout,
-		func(posting yacymodel.RWIPosting) yacymodel.RWIPosting { return posting },
-	)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("register url postings: %w", err)
-	}
-	postingProjections := append(slices.Clone(projectionsOfConsumers), urlPostings)
 	postings, err := v.RegisterIndexedCollection(
 		ctx,
 		postingsBucket,
 		urlWordsIndex,
 		postingValueCodec{},
-		vault.ProjectedAs(postingWithIdentity, postingProjections...),
+		vault.ProjectedAs(postingWithIdentity, projectionsOfConsumers...),
 	)
 	if err != nil {
-		return nil, nil, nil, fmt.Errorf("register rwi posting collection: %w", err)
+		return nil, nil, fmt.Errorf("register rwi posting collection: %w", err)
 	}
 
-	return postings, urlWordsIndex, urlPostings, nil
+	return postings, urlWordsIndex, nil
 }
 
 var postingKeyParts = vault.PairKey(hashkeypart.Hash, hashkeypart.URLHash)
-
-var postingFieldsKeyPart = vault.BytesKeyPartFrom(appendPostingFields, postingFieldsFrom)
-
-var urlPostingKeyParts = vault.TripleKey(
-	hashkeypart.URLHash,
-	hashkeypart.Hash,
-	postingFieldsKeyPart,
-)
-
-var urlPostingKeyLayout = urlPostingKeyParts.KeyLayoutFor(
-	func(posting yacymodel.RWIPosting) (yacymodel.URLHash, yacymodel.Hash, yacymodel.RWIPosting) {
-		return posting.URLHash, posting.WordHash, posting
-	},
-	func(
-		url yacymodel.URLHash,
-		word yacymodel.Hash,
-		fields yacymodel.RWIPosting,
-	) yacymodel.RWIPosting {
-		fields.URLHash, fields.WordHash = url, word
-
-		return fields
-	},
-)
-
-func appendPostingFields(posting yacymodel.RWIPosting, encoded []byte) []byte {
-	return append(encoded, postingFieldsOf(posting)...)
-}
-
-func postingFieldsFrom(stored vault.StoredBytes) (yacymodel.RWIPosting, error) {
-	return postingValueCodec{}.Decode(stored.AppendTo(nil))
-}
 
 func postingsOfWordBetween(
 	word yacymodel.Hash,
@@ -123,10 +74,6 @@ func postingsOfWordBetween(
 type postingValueCodec struct{}
 
 func (postingValueCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
-	return postingFieldsOf(posting), nil
-}
-
-func postingFieldsOf(posting yacymodel.RWIPosting) []byte {
 	var stored storedfields.Writer
 	stored.Varint(int64(posting.LastModified))
 	stored.Count(int(posting.TitleWords))
@@ -144,7 +91,7 @@ func postingFieldsOf(posting yacymodel.RWIPosting) []byte {
 	stored.Count(int(posting.PhraseRelativePosition))
 	stored.Count(int(posting.PhrasePosition))
 
-	return stored.Record()
+	return stored.Record(), nil
 }
 
 func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {

@@ -2,7 +2,7 @@
 // and is their only writer: callers read through PostingIndex and PostingsProofs,
 // add page postings through PostingWriter, and drop through PostingPurger. A held
 // proof leads a url's postings to its postings root. Vault keeps the projections
-// handed to Open in step; each url keeps its words as one set, its postings in a row.
+// handed to Open in step; each url keeps its words as one set.
 package rwipostings
 
 import (
@@ -60,7 +60,7 @@ func Open(
 	urlWordsObserver vault.MemberSetObserver,
 	projectionsOfConsumers []vault.Projection[yacymodel.RWIPosting],
 ) (PostingIndex, PostingWriter, PostingPurger, PostingsProofs, error) {
-	postings, urlWordsIndex, urlPostings, err := registerPostings(
+	postings, urlWordsIndex, err := registerPostings(
 		ctx,
 		vault,
 		rankedWords,
@@ -76,15 +76,18 @@ func Open(
 	}
 
 	wordsPerURL := wordsPerURL{index: urlWordsIndex}
-	heldProofs := heldProofs{proofs: proofs, wordsPerURL: wordsPerURL, urlPostings: urlPostings}
+	heldProofs := heldProofs{proofs: proofs, wordsPerURL: wordsPerURL, postings: postings}
 	directory := postingDirectory{
-		postings:   postings,
+		postings:    postings,
 		wordsPerURL: wordsPerURL,
-		heldProofs: heldProofs,
-		partitions: partitions,
+		heldProofs:  heldProofs,
+		partitions:  partitions,
 	}
 
-	return directory, directory, directory, postingsProofs{vault: vault, heldProofs: heldProofs}, nil
+	return directory, directory, directory, postingsProofs{
+		vault:      vault,
+		heldProofs: heldProofs,
+	}, nil
 }
 
 func PostingCodec() vault.ValueCodec[yacymodel.RWIPosting] {
