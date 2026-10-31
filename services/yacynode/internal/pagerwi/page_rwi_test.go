@@ -70,18 +70,19 @@ func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
 	return partitions
 }
 
-func indexed(t *testing.T, pageRWI yacymodel.Optional[pagerwi.PageRWI]) pagerwi.PageRWI {
+func indexed(t *testing.T, pageRWI pagerwi.PageRWI) pagerwi.PageRWI {
 	t.Helper()
-	rwi, present := pageRWI.Get()
-	if !present {
-		t.Fatal("the page has no rwi")
+	if !pageRWI.PagePostings().Present() {
+		t.Fatal("the page has no page postings")
 	}
 
-	return rwi
+	return pageRWI
 }
 
 func postingsOf(index pagerwi.PageRWI) []yacymodel.RWIPosting {
-	return index.PagePostings().Postings()
+	pagePostings, _ := index.PagePostings().Get()
+
+	return pagePostings.Postings()
 }
 
 func indexOf(t *testing.T, text string) pagerwi.PageRWI {
@@ -588,7 +589,7 @@ func TestRWIFromRootsTheMetadataAtThePostingsWithoutStopwords(t *testing.T) {
 	}
 }
 
-func TestRWIFromAPageOfStopwordsOnlyHasNoRWI(t *testing.T) {
+func TestRWIFromAPageOfStopwordsOnlyHasMetadataWithoutPagePostingsOrRoot(t *testing.T) {
 	index := indexBuilderOf(t, stopwordThe{}).RWIFrom(t.Context(),
 		scrapedPage(t, "the the"),
 		extractedDocument(),
@@ -596,7 +597,12 @@ func TestRWIFromAPageOfStopwordsOnlyHasNoRWI(t *testing.T) {
 		reachedAt,
 	)
 
-	if index.Present() {
-		t.Errorf("page rwi = %+v, want none for a page of stopwords only", index)
+	if index.PagePostings().Present() {
+		t.Errorf("page postings = %+v, want none for a page of stopwords only",
+			index.PagePostings())
+	}
+	metadata := index.Metadata()
+	if metadata.Hash != urlhashtest.URLHashOf(t, pageURL) || metadata.PostingsRoot.Present() {
+		t.Errorf("metadata = %+v, want the page url hash and no postings root", metadata)
 	}
 }

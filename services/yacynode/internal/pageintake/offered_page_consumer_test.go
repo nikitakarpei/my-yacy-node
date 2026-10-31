@@ -27,21 +27,16 @@ const (
 )
 
 type recordingPages struct {
-	receipt      pageadmission.Receipt
-	err          error
-	receivedURLs []yacymodel.URLHash
-	received     []pagerwi.PageRWI
+	receipt  pageadmission.Receipt
+	err      error
+	received []pagerwi.PageRWI
 }
 
 func (r *recordingPages) Receive(
 	_ context.Context,
-	url yacymodel.URLHash,
-	pageRWI yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI pagerwi.PageRWI,
 ) (pageadmission.Receipt, error) {
-	r.receivedURLs = append(r.receivedURLs, url)
-	if received, present := pageRWI.Get(); present {
-		r.received = append(r.received, received)
-	}
+	r.received = append(r.received, pageRWI)
 
 	return r.receipt, r.err
 }
@@ -258,7 +253,7 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	assertWordsAdmitted(t, pages, "alpha", "beta")
 }
 
-func TestPageWithoutWordsReachesAdmissionWithoutRWIAndIsReportedAsKept(t *testing.T) {
+func TestPageWithoutWordsReachesAdmissionWithoutPagePostingsAndIsReportedAsKept(t *testing.T) {
 	receipts := &recordingIntakeReceipts{}
 	pages := &recordingPages{}
 	message := offeredPage(t, pagescrapecontract.OfferedPage{
@@ -280,11 +275,12 @@ func TestPageWithoutWordsReachesAdmissionWithoutRWIAndIsReportedAsKept(t *testin
 		t.Errorf("action = %q, want ack", action)
 	}
 	wantURL := urlhashtest.URLHashOf(t, offeredPageURL)
-	if len(pages.receivedURLs) != 1 || pages.receivedURLs[0] != wantURL {
-		t.Fatalf("received urls = %v, want only %v", pages.receivedURLs, wantURL)
+	if len(pages.received) != 1 || pages.received[0].Metadata().Hash != wantURL {
+		t.Fatalf("received page rwis = %+v, want one for %v", pages.received, wantURL)
 	}
-	if len(pages.received) != 0 {
-		t.Errorf("received %d page rwis, want none for a page without words", len(pages.received))
+	if pages.received[0].PagePostings().Present() {
+		t.Errorf("received page postings %+v, want none for a page without words",
+			pages.received[0].PagePostings())
 	}
 	if len(receipts.kept) != 1 || receipts.kept[0].String() != offeredPageURL {
 		t.Errorf("kept receipts = %v, want one for the offered page", receipts.kept)
@@ -435,10 +431,11 @@ func assertAdmissionDisposal(
 	if len(admitted) != 1 {
 		t.Fatalf("admission calls = %d, want one", len(admitted))
 	}
+	pagePostings, _ := admitted[0].PagePostings().Get()
 	if len(observer.postingsNotAdmitted) != 1 ||
-		observer.postingsNotAdmitted[0] != admitted[0].AmountOfPostings() {
+		observer.postingsNotAdmitted[0] != pagePostings.AmountOfPostings() {
 		t.Errorf("postings not admitted = %v, want %d",
-			observer.postingsNotAdmitted, admitted[0].AmountOfPostings())
+			observer.postingsNotAdmitted, pagePostings.AmountOfPostings())
 	}
 	if got := len(observer.admissionFailures) != 0; got != expectation.wantFailureCause {
 		t.Errorf("failure cause reported = %t, want %t", got, expectation.wantFailureCause)
@@ -480,7 +477,7 @@ func assertWordsAdmitted(t *testing.T, pages *recordingPages, words ...string) {
 		t.Fatalf("admitted over %d calls, want one call for the page", len(pages.received))
 	}
 	admitted := map[yacymodel.Hash]bool{}
-	pagePostings := pages.received[0].PagePostings()
+	pagePostings, _ := pages.received[0].PagePostings().Get()
 	for _, posting := range pagePostings.Postings() {
 		admitted[posting.WordHash] = true
 	}
