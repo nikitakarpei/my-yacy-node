@@ -2,7 +2,6 @@ package rwipostingimpactorder_test
 
 import (
 	"context"
-	"fmt"
 	"net/url"
 	"testing"
 
@@ -10,15 +9,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/postingcollectiontest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type harness struct {
 	vault       *vault.Vault
 	impactOrder rwipostingimpactorder.ImpactOrderQuery
-	writer      rwipostings.PostingWriter
-	purger      rwipostings.PostingPurger
+	postings    *postingcollectiontest.Postings
 }
 
 func openHarness(t *testing.T) harness {
@@ -38,43 +36,24 @@ func openHarness(t *testing.T) harness {
 	if err != nil {
 		t.Fatalf("rwipostingimpactorder.Open: %v", err)
 	}
-	_, writer, purger, err := rwipostings.Open(
-		context.Background(),
-		v,
-		yacymodel.DHTRingPartitions{},
-		nil,
-		nil,
-		[]vault.Projection[yacymodel.RWIPosting]{projection},
-	)
+	postings, err := postingcollectiontest.Open(context.Background(), v, projection)
 	if err != nil {
-		t.Fatalf("rwipostings.Open: %v", err)
+		t.Fatalf("postingcollectiontest.Open: %v", err)
 	}
 
-	return harness{vault: v, impactOrder: impactOrder, writer: writer, purger: purger}
+	return harness{vault: v, impactOrder: impactOrder, postings: postings}
 }
 
 func (h harness) store(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
-	h.write(t, func(tx *vault.Txn) error {
-		for _, posting := range postings {
-			if err := h.writer.Write(tx, posting); err != nil {
-				return fmt.Errorf("store posting: %w", err)
-			}
-		}
-
-		return nil
-	})
+	h.write(t, func(tx *vault.Txn) error { return h.postings.Store(tx, postings...) })
 }
 
-func (h harness) purge(t *testing.T, posting yacymodel.RWIPosting) {
+func (h harness) remove(t *testing.T, posting yacymodel.RWIPosting) {
 	t.Helper()
 
-	h.write(t, func(tx *vault.Txn) error {
-		_, err := h.purger.PurgePosting(tx, posting.WordHash, posting.URLHash)
-
-		return err
-	})
+	h.write(t, func(tx *vault.Txn) error { return h.postings.Remove(tx, posting) })
 }
 
 func (h harness) write(t *testing.T, change func(tx *vault.Txn) error) {
@@ -202,11 +181,11 @@ func TestOnlyThePostingsOfTheWordComeBack(t *testing.T) {
 	}
 }
 
-func TestAPurgedPostingLeavesTheOrder(t *testing.T) {
+func TestARemovedPostingLeavesTheOrder(t *testing.T) {
 	h := openHarness(t)
 
 	h.store(t, postingOf("w1", "u1", 1), postingOf("w1", "u2", 9))
-	h.purge(t, postingOf("w1", "u2", 9))
+	h.remove(t, postingOf("w1", "u2", 9))
 
 	documents := h.documentsInImpactOrder(t, yacymodel.WordHash("w1"))
 	if len(documents) != 1 || documents[0] != documentHashOf("u1").String() {
