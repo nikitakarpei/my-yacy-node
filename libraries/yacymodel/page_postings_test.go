@@ -101,7 +101,7 @@ func wholePagePostingsOf(
 ) yacymodel.PagePostings {
 	t.Helper()
 
-	return pagePostingsOf(t, postings, yacymodel.Some(yacymodel.EmptyPostingsProof(partitions)))
+	return provenPagePostingsOf(t, postings, yacymodel.EmptyPostingsProof(partitions))
 }
 
 func rootOf(t *testing.T, pagePostings yacymodel.PagePostings) yacymodel.PostingsRoot {
@@ -168,7 +168,7 @@ func assertRoot(
 	}
 }
 
-func TestMergedAndPurgedHeldProofsKeepTheRootAndStayMinimal(t *testing.T) {
+func TestMergedAndPurgedProofsKeepTheRootAndPurgedProofsAreMinimal(t *testing.T) {
 	random := seededRandom(3)
 	for _, exponent := range partitionExponents {
 		partitions := partitionsFrom(t, exponent)
@@ -177,27 +177,27 @@ func TestMergedAndPurgedHeldProofsKeepTheRootAndStayMinimal(t *testing.T) {
 		root := rootOf(t, whole)
 
 		for range 10 {
-			holders := []heldPostings{
-				heldPostingsOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
-				heldPostingsOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
+			holders := []provenPostings{
+				provenPostingsOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
+				provenPostingsOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
 			}
 			for range 12 {
 				holder := random.IntN(2)
 				source := whole
 				if other := holders[1-holder]; random.IntN(2) == 0 && len(other.postings) > 0 {
-					source = pagePostingsOf(t, other.postings, yacymodel.Some(other.proof))
+					source = provenPagePostingsOf(t, other.postings, other.proof)
 				}
 				holders[holder] = mergedOrPurged(t, random, holders[holder], source, whole)
 
-				held := holders[holder]
-				if len(held.postings) == 0 {
+				proven := holders[holder]
+				if len(proven.postings) == 0 {
 					continue
 				}
-				heldPagePostings := pagePostingsOf(t, held.postings, yacymodel.Some(held.proof))
-				assertRoot(t, narrowedTo(t, heldPagePostings, held.postings), root)
+				provenPagePostings := provenPagePostingsOf(t, proven.postings, proven.proof)
+				assertRoot(t, narrowedTo(t, provenPagePostings, proven.postings), root)
 				assertRoot(
 					t,
-					narrowedTo(t, heldPagePostings, randomSubsetOf(random, held.postings)),
+					narrowedTo(t, provenPagePostings, randomSubsetOf(random, proven.postings)),
 					root,
 				)
 			}
@@ -205,15 +205,15 @@ func TestMergedAndPurgedHeldProofsKeepTheRootAndStayMinimal(t *testing.T) {
 	}
 }
 
-type heldPostings struct {
+type provenPostings struct {
 	postings []yacymodel.RWIPosting
 	proof    yacymodel.PostingsProof
 }
 
-func heldPostingsOf(t *testing.T, pagePostings yacymodel.PagePostings) heldPostings {
+func provenPostingsOf(t *testing.T, pagePostings yacymodel.PagePostings) provenPostings {
 	t.Helper()
 
-	return heldPostings{postings: pagePostings.Postings(), proof: proofOf(t, pagePostings)}
+	return provenPostings{postings: pagePostings.Postings(), proof: proofOf(t, pagePostings)}
 }
 
 func proofOf(t *testing.T, pagePostings yacymodel.PagePostings) yacymodel.PostingsProof {
@@ -226,13 +226,13 @@ func proofOf(t *testing.T, pagePostings yacymodel.PagePostings) yacymodel.Postin
 	return proof
 }
 
-func pagePostingsOf(
+func provenPagePostingsOf(
 	t *testing.T,
 	postings []yacymodel.RWIPosting,
-	proof yacymodel.Optional[yacymodel.PostingsProof],
+	proof yacymodel.PostingsProof,
 ) yacymodel.PagePostings {
 	t.Helper()
-	pagePostings, err := yacymodel.PagePostingsFrom(postings, proof)
+	pagePostings, err := yacymodel.ProvenPagePostingsFrom(postings, proof)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -243,45 +243,45 @@ func pagePostingsOf(
 func mergedOrPurged(
 	t *testing.T,
 	random *rand.Rand,
-	held heldPostings,
+	proven provenPostings,
 	source yacymodel.PagePostings,
 	whole yacymodel.PagePostings,
-) heldPostings {
+) provenPostings {
 	t.Helper()
 	if random.IntN(2) == 0 {
 		written := narrowedTo(t, source, randomSubsetOf(random, source.Postings()))
 		mergedProof := proofOf(t, written)
-		if len(held.postings) > 0 {
-			mergedProof = held.proof.MergedWith(mergedProof)
+		if len(proven.postings) > 0 {
+			mergedProof = proven.proof.MergedWith(mergedProof)
 		}
 
-		return heldPostings{
-			postings: postingsUnionOf(held.postings, written.Postings()),
+		return provenPostings{
+			postings: postingsUnionOf(proven.postings, written.Postings()),
 			proof:    mergedProof,
 		}
 	}
-	if len(held.postings) == 0 {
-		return held
+	if len(proven.postings) == 0 {
+		return proven
 	}
-	purged := randomSubsetOf(random, held.postings)
-	remaining := postingsWithout(held.postings, purged)
+	purged := randomSubsetOf(random, proven.postings)
+	remaining := postingsWithout(proven.postings, purged)
 	if len(remaining) == 0 {
-		return heldPostings{}
+		return provenPostings{}
 	}
-	narrowedProof := held.proof.NarrowedTo(wordsOf(remaining), purged)
+	narrowedProof := proven.proof.NarrowedTo(wordsOf(remaining), purged)
 	minimalProof := proofOf(t, narrowedTo(t, whole, remaining))
 	if !bytes.Equal(narrowedProof.Bytes(), minimalProof.Bytes()) {
-		t.Fatalf("held proof after a purge = %x, want the minimal %x",
+		t.Fatalf("proof after a purge = %x, want the minimal %x",
 			narrowedProof.Bytes(), minimalProof.Bytes())
 	}
 
-	return heldPostings{postings: remaining, proof: narrowedProof}
+	return provenPostings{postings: remaining, proof: narrowedProof}
 }
 
-func postingsUnionOf(held, written []yacymodel.RWIPosting) []yacymodel.RWIPosting {
-	union := slices.Clone(held)
+func postingsUnionOf(proven, written []yacymodel.RWIPosting) []yacymodel.RWIPosting {
+	union := slices.Clone(proven)
 	for _, posting := range written {
-		if !slices.Contains(held, posting) {
+		if !slices.Contains(proven, posting) {
 			union = append(union, posting)
 		}
 	}
@@ -289,8 +289,8 @@ func postingsUnionOf(held, written []yacymodel.RWIPosting) []yacymodel.RWIPostin
 	return union
 }
 
-func postingsWithout(held, purged []yacymodel.RWIPosting) []yacymodel.RWIPosting {
-	return slices.DeleteFunc(slices.Clone(held), func(posting yacymodel.RWIPosting) bool {
+func postingsWithout(postings, purged []yacymodel.RWIPosting) []yacymodel.RWIPosting {
+	return slices.DeleteFunc(slices.Clone(postings), func(posting yacymodel.RWIPosting) bool {
 		return slices.Contains(purged, posting)
 	})
 }
@@ -331,7 +331,7 @@ func TestPostingsOfARingArcNeedAProofAlongItsTwoEdges(t *testing.T) {
 	}
 }
 
-func TestPagePostingsFromRejectsMalformedPostings(t *testing.T) {
+func TestPagePostingsRejectMalformedPostings(t *testing.T) {
 	random := seededRandom(6)
 	postings := randomPagePostings(random, 3)
 	otherPage := randomPagePostings(random, 1)
@@ -343,14 +343,20 @@ func TestPagePostingsFromRejectsMalformedPostings(t *testing.T) {
 		"two pages":       slices.Concat(postings, otherPage),
 		"same word twice": append(slices.Clone(postings), sameWordTwice),
 	} {
-		if _, err := yacymodel.PagePostingsFrom(
+		if _, err := yacymodel.UnprovenPagePostingsFrom(malformed); !errors.Is(
+			err,
+			yacymodel.ErrBadPagePostings,
+		) {
+			t.Errorf("%s: UnprovenPagePostingsFrom = %v, want ErrBadPagePostings", name, err)
+		}
+		if _, err := yacymodel.ProvenPagePostingsFrom(
 			malformed,
-			yacymodel.None[yacymodel.PostingsProof](),
+			yacymodel.PostingsProof{},
 		); !errors.Is(
 			err,
 			yacymodel.ErrBadPagePostings,
 		) {
-			t.Errorf("%s: PagePostingsFrom = %v, want ErrBadPagePostings", name, err)
+			t.Errorf("%s: ProvenPagePostingsFrom = %v, want ErrBadPagePostings", name, err)
 		}
 	}
 }
@@ -358,7 +364,7 @@ func TestPagePostingsFromRejectsMalformedPostings(t *testing.T) {
 func TestZeroProofIsTheProofOfAWholePageInOnePartition(t *testing.T) {
 	postings := randomPagePostings(seededRandom(22), 3)
 
-	zeroProven := pagePostingsOf(t, postings, yacymodel.Some(yacymodel.PostingsProof{}))
+	zeroProven := provenPagePostingsOf(t, postings, yacymodel.PostingsProof{})
 
 	if got, want := zeroProven.Root(), wholePagePostingsOf(
 		t,
@@ -395,7 +401,10 @@ func TestZeroPagePostingsHoldNothing(t *testing.T) {
 
 func TestPagePostingsWithoutProofHaveNoRootAndNarrowWithoutProof(t *testing.T) {
 	postings := randomPagePostings(seededRandom(17), 3)
-	unproven := pagePostingsOf(t, postings, yacymodel.None[yacymodel.PostingsProof]())
+	unproven, err := yacymodel.UnprovenPagePostingsFrom(postings)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if unproven.Root().Present() {
 		t.Error("root is present without a proof")
@@ -447,7 +456,7 @@ func TestPagePostingsRejectAProofEntryBesideNoPathOfThePostings(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if _, err := yacymodel.PagePostingsFrom(postings, yacymodel.Some(proof)); err == nil {
+		if _, err := yacymodel.ProvenPagePostingsFrom(postings, proof); err == nil {
 			t.Errorf("%s: page postings accepted the proof", name)
 		}
 	}
@@ -482,7 +491,7 @@ func TestPagePostingsRejectAJunkProofOfManyEntriesForOnePosting(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if _, err := yacymodel.PagePostingsFrom(posting, yacymodel.Some(proof)); err == nil {
+	if _, err := yacymodel.ProvenPagePostingsFrom(posting, proof); err == nil {
 		t.Error("page postings accepted a junk proof")
 	}
 }
@@ -518,10 +527,7 @@ func TestRootDiffersForForgedPagePostings(t *testing.T) {
 		"same words on another page":    {onOtherPage, keptProof},
 		"posting moved to another word": {moved, keptProof},
 	} {
-		pagePostings, err := yacymodel.PagePostingsFrom(
-			forged.postings,
-			yacymodel.Some(forged.proof),
-		)
+		pagePostings, err := yacymodel.ProvenPagePostingsFrom(forged.postings, forged.proof)
 		if err == nil && pagePostings.Root() == yacymodel.Some(root) {
 			t.Errorf("%s: forged postings give the root", name)
 		}
@@ -544,7 +550,7 @@ func TestEntryOfAnEmptySubtreeKeepsTheRoot(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	withEntry := pagePostingsOf(t, postings, yacymodel.Some(entry))
+	withEntry := provenPagePostingsOf(t, postings, entry)
 
 	if got := rootOf(t, withEntry); got != root {
 		t.Errorf("root with an empty subtree entry = %x, want %x", got.Bytes(), root.Bytes())

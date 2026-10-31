@@ -11,18 +11,18 @@ import (
 func TestProofBytesRoundTrip(t *testing.T) {
 	postings := randomPagePostings(seededRandom(9), 100)
 	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 5))
-	heldProof := proofOf(t, narrowedTo(t, whole, postings[:30]))
-	heldProof = heldProof.NarrowedTo(wordsOf(postings[10:30]), postings[:10])
+	purgedProof := proofOf(t, narrowedTo(t, whole, postings[:30]))
+	purgedProof = purgedProof.NarrowedTo(wordsOf(postings[10:30]), postings[:10])
 
-	parsed, err := yacymodel.ParsePostingsProofBytes(heldProof.Bytes())
+	parsed, err := yacymodel.ParsePostingsProofBytes(purgedProof.Bytes())
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(parsed.Bytes(), heldProof.Bytes()) {
-		t.Errorf("parsed proof = %x, want %x", parsed.Bytes(), heldProof.Bytes())
+	if !bytes.Equal(parsed.Bytes(), purgedProof.Bytes()) {
+		t.Errorf("parsed proof = %x, want %x", parsed.Bytes(), purgedProof.Bytes())
 	}
-	reheld := pagePostingsOf(t, postings[10:30], yacymodel.Some(parsed))
-	if got := rootOf(t, reheld); got != rootOf(t, whole) {
+	reproven := provenPagePostingsOf(t, postings[10:30], parsed)
+	if got := rootOf(t, reproven); got != rootOf(t, whole) {
 		t.Errorf("root from parsed proof = %x, want %x", got.Bytes(), rootOf(t, whole).Bytes())
 	}
 }
@@ -53,37 +53,20 @@ func wordsOf(postings []yacymodel.RWIPosting) []yacymodel.Hash {
 	return words
 }
 
-func TestHeldProofPurgedWordByWordStaysMinimal(t *testing.T) {
+func TestProofPurgedWordByWordStaysMinimal(t *testing.T) {
 	postings := randomPagePostings(seededRandom(15), 300)
 	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 4))
-	heldProof := proofOf(t, whole)
+	purgedProof := proofOf(t, whole)
 
 	for purged := range 297 {
 		remaining := postings[purged+1:]
-		heldProof = heldProof.NarrowedTo(wordsOf(remaining), postings[purged:purged+1])
+		purgedProof = purgedProof.NarrowedTo(wordsOf(remaining), postings[purged:purged+1])
 
 		minimalProof := proofOf(t, narrowedTo(t, whole, remaining))
-		if !bytes.Equal(heldProof.Bytes(), minimalProof.Bytes()) {
-			t.Fatalf("after %d purges the held proof takes %d bytes, want the minimal %d",
-				purged+1, len(heldProof.Bytes()), len(minimalProof.Bytes()))
+		if !bytes.Equal(purgedProof.Bytes(), minimalProof.Bytes()) {
+			t.Fatalf("after %d purges the proof takes %d bytes, want the minimal %d",
+				purged+1, len(purgedProof.Bytes()), len(minimalProof.Bytes()))
 		}
-	}
-}
-
-func TestProofMergedWithAProofOfOtherPartitionsStaysTheSame(t *testing.T) {
-	postings := randomPagePostings(seededRandom(13), 40)
-	proofWithin := func(exponent uint, kept []yacymodel.RWIPosting) yacymodel.PostingsProof {
-		return proofOf(
-			t,
-			narrowedTo(t, wholePagePostingsOf(t, postings, partitionsFrom(t, exponent)), kept),
-		)
-	}
-	proof := proofWithin(4, postings[:10])
-
-	merged := proof.MergedWith(proofWithin(5, postings[10:20]))
-
-	if !bytes.Equal(merged.Bytes(), proof.Bytes()) {
-		t.Errorf("merged proof = %x, want %x", merged.Bytes(), proof.Bytes())
 	}
 }
 

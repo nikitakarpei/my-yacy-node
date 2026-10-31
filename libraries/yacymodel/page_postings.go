@@ -13,21 +13,26 @@ type PagePostings struct {
 	proof    Optional[PostingsProof]
 }
 
-func PagePostingsFrom(
-	postings []RWIPosting,
-	proof Optional[PostingsProof],
-) (PagePostings, error) {
+func UnprovenPagePostingsFrom(postings []RWIPosting) (PagePostings, error) {
 	if err := failureOf(postings); err != nil {
 		return PagePostings{}, err
 	}
-	if provenProof, proven := proof.Get(); proven && !provenProof.liesBesidePathsOf(postings) {
+
+	return PagePostings{postings: slices.Clone(postings)}, nil
+}
+
+func ProvenPagePostingsFrom(postings []RWIPosting, proof PostingsProof) (PagePostings, error) {
+	if err := failureOf(postings); err != nil {
+		return PagePostings{}, err
+	}
+	if !proof.liesBesidePathsOf(postings) {
 		return PagePostings{}, fmt.Errorf(
 			"%w: a proof entry lies beside no path of the postings",
 			ErrBadPagePostings,
 		)
 	}
 
-	return PagePostings{postings: slices.Clone(postings), proof: proof}, nil
+	return PagePostings{postings: slices.Clone(postings), proof: Some(proof)}, nil
 }
 
 func failureOf(postings []RWIPosting) error {
@@ -54,9 +59,9 @@ func holdsOneURL(postings []RWIPosting) bool {
 }
 
 func holdsEachWordOnce(postings []RWIPosting) bool {
-	words := make(map[[HashByteLength]byte]struct{}, len(postings))
+	words := make(map[Hash]struct{}, len(postings))
 	for _, posting := range postings {
-		words[posting.WordHash.raw] = struct{}{}
+		words[posting.WordHash] = struct{}{}
 	}
 
 	return len(words) == len(postings)
@@ -88,29 +93,18 @@ func (p PagePostings) Root() Optional[PostingsRoot] {
 		return None[PostingsRoot]()
 	}
 
-	return Some(PostingsRoot{
-		digest:            p.treeWith(proof).hash(),
-		partitionExponent: proof.partitionExponent,
-	})
-}
-
-func (p PagePostings) treeWith(proof PostingsProof) postingsSubtree {
-	return postingsSubtree{
-		leaves:  leavesOf(p.postings, proof.partitionExponent),
-		entries: proof.entries,
-	}
+	return Some(proof.rootOver(p.postings))
 }
 
 func (p PagePostings) NarrowedTo(keptPostings []RWIPosting) Optional[PagePostings] {
-	if !p.holdsEach(keptPostings) {
-		return None[PagePostings]()
-	}
-	narrowed, err := PagePostingsFrom(keptPostings, p.proofNarrowedTo(keptPostings))
-	if err != nil {
+	if !p.holdsEach(keptPostings) || failureOf(keptPostings) != nil {
 		return None[PagePostings]()
 	}
 
-	return Some(narrowed)
+	return Some(PagePostings{
+		postings: slices.Clone(keptPostings),
+		proof:    p.proofNarrowedTo(keptPostings),
+	})
 }
 
 func (p PagePostings) holdsEach(postings []RWIPosting) bool {
@@ -133,9 +127,5 @@ func (p PagePostings) proofNarrowedTo(keptPostings []RWIPosting) Optional[Postin
 		return None[PostingsProof]()
 	}
 
-	return Some(PostingsProof{
-		entries: p.treeWith(proof).
-			entriesAround(leafPositionsOf(keptPostings, proof.partitionExponent)),
-		partitionExponent: proof.partitionExponent,
-	})
+	return Some(proof.narrowedFrom(p.postings, keptPostings))
 }
