@@ -27,12 +27,9 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
-	var postingsAloneToIndex []yacymodel.PostingAlone
+	var passedPostings []rwiescrow.WaitingPosting
 	for _, waitingPosting := range waitingPostings {
-		arrivedVersion := pageversion.FromPostingAlone(
-			waitingPosting.PostingAlone(),
-			pageversion.SourcePeer(waitingPosting.Origin()),
-		)
+		arrivedVersion := arrivedVersionOf(waitingPosting)
 		if storedVersion.IsReplacedBy(arrivedVersion) {
 			continue
 		}
@@ -41,11 +38,21 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 			return err
 		}
 		if outcome == PostingIndexed {
-			postingsAloneToIndex = append(postingsAloneToIndex, waitingPosting.PostingAlone())
+			passedPostings = append(passedPostings, waitingPosting)
 		}
 	}
 
-	return r.indexReleased(ctx, tx, postingsAloneToIndex)
+	return r.indexReleased(ctx, tx, url, passedPostings)
+}
+
+func arrivedVersionOf(waitingPosting rwiescrow.WaitingPosting) pageversion.Version {
+	source := pageversion.SourcePeer(waitingPosting.Origin())
+	provenPosting, proven := waitingPosting.Proven().Get()
+	if proven {
+		return pageversion.FromProvenPosting(provenPosting, source)
+	}
+
+	return pageversion.FromPosting(waitingPosting.Posting(), source)
 }
 
 func (r waitingPostingReleaser) release(
@@ -74,14 +81,46 @@ func (r waitingPostingReleaser) release(
 func (r waitingPostingReleaser) indexReleased(
 	ctx context.Context,
 	tx *vault.Txn,
-	postingsAloneToIndex []yacymodel.PostingAlone,
+	url yacymodel.URLHash,
+	releasedPostings []rwiescrow.WaitingPosting,
 ) error {
-	if len(postingsAloneToIndex) == 0 {
+	provenPostings, unprovenPostings := provenAndUnprovenOf(releasedPostings)
+	if err := r.indexReleasedProven(ctx, tx, url, provenPostings); err != nil {
+		return err
+	}
+
+	return r.indexReleasedUnproven(ctx, tx, url, unprovenPostings)
+}
+
+func provenAndUnprovenOf(
+	releasedPostings []rwiescrow.WaitingPosting,
+) ([]yacymodel.ProvenPosting, []yacymodel.RWIPosting) {
+	var provenPostings []yacymodel.ProvenPosting
+	var unprovenPostings []yacymodel.RWIPosting
+	for _, releasedPosting := range releasedPostings {
+		provenPosting, proven := releasedPosting.Proven().Get()
+		if proven {
+			provenPostings = append(provenPostings, provenPosting)
+		} else {
+			unprovenPostings = append(unprovenPostings, releasedPosting.Posting())
+		}
+	}
+
+	return provenPostings, unprovenPostings
+}
+
+func (r waitingPostingReleaser) indexReleasedProven(
+	ctx context.Context,
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+	provenPostings []yacymodel.ProvenPosting,
+) error {
+	if len(provenPostings) == 0 {
 		return nil
 	}
-	released, joined := yacymodel.PagePostingsJoinedFrom(postingsAloneToIndex).Get()
+	released, joined := yacymodel.ProvenPagePostingsJoinedFrom(provenPostings).Get()
 	if !joined {
-		reportUnjoinedReleasedPostings(ctx, postingsAloneToIndex[0].Posting().URLHash)
+		reportUnjoinedReleasedPostings(ctx, url)
 
 		return nil
 	}
@@ -93,4 +132,23 @@ func reportUnjoinedReleasedPostings(ctx context.Context, url yacymodel.URLHash) 
 	slog.ErrorContext(ctx, "released postings of a url form no page postings",
 		slog.String("url", url.String()),
 	)
+}
+
+func (r waitingPostingReleaser) indexReleasedUnproven(
+	ctx context.Context,
+	tx *vault.Txn,
+	url yacymodel.URLHash,
+	unprovenPostings []yacymodel.RWIPosting,
+) error {
+	if len(unprovenPostings) == 0 {
+		return nil
+	}
+	released, err := yacymodel.UnprovenPagePostingsFrom(unprovenPostings)
+	if err != nil {
+		reportUnjoinedReleasedPostings(ctx, url)
+
+		return nil //nolint:nilerr
+	}
+
+	return r.placer.index(tx, released)
 }

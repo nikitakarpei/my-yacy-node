@@ -36,10 +36,16 @@ type URLMetadataReceiver interface {
 
 type Escrow interface {
 	IsFull(ctx context.Context) (bool, error)
-	Hold(
+	HoldProven(
 		tx *vault.Txn,
 		origin rwiorigin.Origin,
-		postingAlone yacymodel.PostingAlone,
+		provenPosting yacymodel.ProvenPosting,
+		version pageversion.Version,
+	) error
+	HoldUnproven(
+		tx *vault.Txn,
+		origin rwiorigin.Origin,
+		posting yacymodel.RWIPosting,
 		version pageversion.Version,
 	) error
 	PostingsWaitingFor(

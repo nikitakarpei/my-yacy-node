@@ -131,7 +131,7 @@ func TestNarrowedPagePostingsLeadToTheRoot(t *testing.T) {
 	}
 }
 
-func TestEachPostingAloneTakesTheProofOfItsNarrowing(t *testing.T) {
+func TestEachProvenPostingTakesTheProofOfItsNarrowing(t *testing.T) {
 	random := seededRandom(12)
 	for _, exponent := range partitionExponents {
 		partitions := partitionsFrom(t, exponent)
@@ -140,16 +140,19 @@ func TestEachPostingAloneTakesTheProofOfItsNarrowing(t *testing.T) {
 
 		for range 5 {
 			source := narrowedTo(t, whole, randomSubsetOf(random, postings))
-			eachAlone := source.EachPostingAlone()
-			if len(eachAlone) != len(source.Postings()) {
-				t.Fatalf("%d postings alone, want %d", len(eachAlone), len(source.Postings()))
+			provenPostings := source.EachProvenPosting()
+			if len(provenPostings) != len(source.Postings()) {
+				t.Fatalf("%d proven postings, want %d", len(provenPostings), len(source.Postings()))
 			}
-			for index, alone := range eachAlone {
+			for index, provenPosting := range provenPostings {
 				narrowed := narrowedTo(t, source, source.Postings()[index:index+1])
-				aloneProof, _ := alone.Proof().Get()
-				if alone.Posting() != narrowed.Postings()[0] ||
-					!bytes.Equal(aloneProof.Bytes(), proofOf(t, narrowed).Bytes()) {
-					t.Fatalf("posting alone = %+v, want its narrowing %+v", alone, narrowed)
+				if provenPosting.Posting() != narrowed.Postings()[0] ||
+					!bytes.Equal(provenPosting.Proof().Bytes(), proofOf(t, narrowed).Bytes()) {
+					t.Fatalf(
+						"proven posting = %+v, want its narrowing %+v",
+						provenPosting,
+						narrowed,
+					)
 				}
 			}
 		}
@@ -445,10 +448,8 @@ func TestPagePostingsWithoutProofHaveNoRootAndNarrowWithoutProof(t *testing.T) {
 	if narrowedTo(t, unproven, postings[:1]).Proof().Present() {
 		t.Error("narrowed proof is present without a proof")
 	}
-	for _, alone := range unproven.EachPostingAlone() {
-		if alone.Proof().Present() {
-			t.Error("proof of a posting alone is present without a proof")
-		}
+	if len(unproven.EachProvenPosting()) > 0 {
+		t.Error("page postings without a proof give proven postings")
 	}
 }
 
