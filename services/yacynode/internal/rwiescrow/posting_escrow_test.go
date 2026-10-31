@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 	"testing"
 	"time"
 
@@ -78,11 +79,35 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 func (h *harness) holdUnproven(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
+	h.hold(t, unprovenPagePostingsOf(t, postings)...)
+}
+
+func unprovenPagePostingsOf(
+	t *testing.T,
+	postings []yacymodel.RWIPosting,
+) []yacymodel.PagePosting {
+	t.Helper()
+
+	pagePostings := make([]yacymodel.PagePosting, 0, len(postings))
+	for _, entry := range postings {
+		pagePosting, err := yacymodel.UnprovenPagePostingFrom(entry)
+		if err != nil {
+			t.Fatalf("UnprovenPagePostingFrom: %v", err)
+		}
+		pagePostings = append(pagePostings, pagePosting)
+	}
+
+	return pagePostings
+}
+
+func (h *harness) hold(t *testing.T, pagePostings ...yacymodel.PagePosting) {
+	t.Helper()
+
 	h.update(t, func(tx *vault.Txn) error {
-		for _, entry := range postings {
-			version := pageversion.FromPosting(entry, pageversion.SourcePeer(holdingOrigin))
-			if err := h.escrow.HoldUnproven(tx, holdingOrigin, entry, version); err != nil {
-				return fmt.Errorf("hold unproven: %w", err)
+		for _, pagePosting := range pagePostings {
+			version := versionHeldFor(pagePosting)
+			if err := h.escrow.Hold(tx, holdingOrigin, pagePosting, version); err != nil {
+				return fmt.Errorf("hold: %w", err)
 			}
 		}
 
@@ -90,22 +115,8 @@ func (h *harness) holdUnproven(t *testing.T, postings ...yacymodel.RWIPosting) {
 	})
 }
 
-func (h *harness) holdProven(t *testing.T, provenPostings ...yacymodel.ProvenPosting) {
-	t.Helper()
-
-	h.update(t, func(tx *vault.Txn) error {
-		for _, provenPosting := range provenPostings {
-			version := pageversion.FromProvenPosting(
-				provenPosting,
-				pageversion.SourcePeer(holdingOrigin),
-			)
-			if err := h.escrow.HoldProven(tx, holdingOrigin, provenPosting, version); err != nil {
-				return fmt.Errorf("hold proven: %w", err)
-			}
-		}
-
-		return nil
-	})
+func versionHeldFor(pagePosting yacymodel.PagePosting) pageversion.Version {
+	return pageversion.FromPagePosting(pagePosting, pageversion.SourcePeer(holdingOrigin))
 }
 
 func (h *harness) update(t *testing.T, write func(tx *vault.Txn) error) {
@@ -116,10 +127,10 @@ func (h *harness) update(t *testing.T, write func(tx *vault.Txn) error) {
 	}
 }
 
-func (h *harness) waitingFor(t *testing.T, url yacymodel.URLHash) rwiescrow.WaitingPostings {
+func (h *harness) waitingFor(t *testing.T, url yacymodel.URLHash) []rwiescrow.WaitingPosting {
 	t.Helper()
 
-	var waiting rwiescrow.WaitingPostings
+	var waiting []rwiescrow.WaitingPosting
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
 		postings, err := h.escrow.PostingsWaitingFor(context.Background(), tx, url)
 		waiting = postings
@@ -137,28 +148,26 @@ func (h *harness) release(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	var released []rwiescrow.WaitingPosting
 	for _, entry := range postings {
-		for _, waiting := range h.waitingFor(t, entry.URLHash).Unproven {
+		for _, waiting := range h.waitingFor(t, entry.URLHash) {
 			if holdsOnly(waiting, entry) {
 				released = append(released, waiting)
 			}
 		}
 	}
+	h.releaseWaiting(t, released...)
+}
+
+func (h *harness) releaseWaiting(t *testing.T, waitingPostings ...rwiescrow.WaitingPosting) {
+	t.Helper()
+
 	h.update(t, func(tx *vault.Txn) error {
-		for _, waiting := range released {
-			if err := h.escrow.ReleaseUnproven(tx, waiting); err != nil {
+		for _, waiting := range waitingPostings {
+			if err := h.escrow.Release(tx, waiting); err != nil {
 				return err
 			}
 		}
 
 		return nil
-	})
-}
-
-func (h *harness) releaseProven(t *testing.T, waiting rwiescrow.WaitingProvenPosting) {
-	t.Helper()
-
-	h.update(t, func(tx *vault.Txn) error {
-		return h.escrow.ReleaseProven(tx, waiting)
 	})
 }
 
@@ -215,9 +224,10 @@ func TestHeldPostingWaitsForItsURLWithItsOrigin(t *testing.T) {
 	h.holdUnproven(t, entry)
 
 	waiting := h.waitingFor(t, entry.URLHash)
-	if len(waiting.Unproven) != 1 || !holdsOnly(waiting.Unproven[0], entry) ||
-		waiting.Unproven[0].Origin() != holdingOrigin || len(waiting.Proven) != 0 {
-		t.Fatalf("waiting = %+v, want the held posting with its origin", waiting)
+	if len(waiting) != 1 || !holdsOnly(waiting[0], entry) ||
+		waiting[0].PagePosting().Proof().Present() ||
+		waiting[0].Version() != versionHeldFor(waiting[0].PagePosting()) {
+		t.Fatalf("waiting = %+v, want the held posting with the version of its origin", waiting)
 	}
 }
 
@@ -225,7 +235,7 @@ func TestPostingsWaitingForAURLLeaveOtherURLsOut(t *testing.T) {
 	h := openHarness(t)
 	h.holdUnproven(t, posting("w1", "u1"), posting("w2", "u1"), posting("w1", "u2"))
 
-	if waiting := h.waitingFor(t, urlHash("u1")); len(waiting.Unproven) != 2 {
+	if waiting := h.waitingFor(t, urlHash("u1")); len(waiting) != 2 {
 		t.Fatalf("waiting = %+v, want the two postings of u1", waiting)
 	}
 }
@@ -238,7 +248,7 @@ func TestReleasedPostingStopsWaiting(t *testing.T) {
 	h.release(t, released)
 
 	waiting := h.waitingFor(t, urlHash("u1"))
-	if len(waiting.Unproven) != 1 || !holdsOnly(waiting.Unproven[0], kept) {
+	if len(waiting) != 1 || !holdsOnly(waiting[0], kept) {
 		t.Fatalf("waiting = %+v, want only the kept posting", waiting)
 	}
 }
@@ -378,10 +388,10 @@ func TestExpireTakesTheOldestHoldFirst(t *testing.T) {
 		t.Fatalf("expired = %d, want 1 at the limit", expired)
 	}
 
-	if len(h.waitingFor(t, oldest.URLHash).Unproven) != 0 {
+	if len(h.waitingFor(t, oldest.URLHash)) != 0 {
 		t.Fatal("the oldest hold outlived an expiry run that stopped at one posting")
 	}
-	if len(h.waitingFor(t, newest.URLHash).Unproven) != 1 {
+	if len(h.waitingFor(t, newest.URLHash)) != 1 {
 		t.Fatal("the newer hold expired before the oldest one")
 	}
 }
@@ -413,18 +423,18 @@ func TestEscrowHoldsEachVersionOfAWordApart(t *testing.T) {
 	h.release(t, older)
 
 	waiting := h.waitingFor(t, newer.URLHash)
-	if len(waiting.Unproven) != 1 || !holdsOnly(waiting.Unproven[0], newer) {
+	if len(waiting) != 1 || !holdsOnly(waiting[0], newer) {
 		t.Fatalf("waiting = %+v, want the newer version still waiting", waiting)
 	}
 }
 
 func holdsOnly(waiting rwiescrow.WaitingPosting, posting yacymodel.RWIPosting) bool {
-	return waiting.Posting() == posting
+	return waiting.PagePosting().Posting() == posting
 }
 
 const crawlerRingExponent = 2
 
-func crawledProvenPostingsFrom(postings ...yacymodel.RWIPosting) []yacymodel.ProvenPosting {
+func crawledPagePostingsFrom(postings ...yacymodel.RWIPosting) []yacymodel.PagePosting {
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(crawlerRingExponent)
 	if err != nil {
 		panic(err)
@@ -437,23 +447,23 @@ func crawledProvenPostingsFrom(postings ...yacymodel.RWIPosting) []yacymodel.Pro
 		panic(err)
 	}
 
-	return crawled.EachProvenPosting()
+	return crawled.EachPagePosting()
 }
 
 func TestHeldPostingWaitsWithTheProofItArrivedWith(t *testing.T) {
 	h := openHarness(t)
-	proven := crawledProvenPostingsFrom(posting("w1", "u1"), posting("w2", "u1"))[0]
+	proven := crawledPagePostingsFrom(posting("w1", "u1"), posting("w2", "u1"))[0]
 
-	h.holdProven(t, proven)
+	h.hold(t, proven)
 
 	waiting := h.waitingFor(t, urlHash("u1"))
-	if len(waiting.Proven) != 1 || len(waiting.Unproven) != 0 ||
-		waiting.Proven[0].ProvenPosting().Posting() != proven.Posting() ||
-		waiting.Proven[0].Origin() != holdingOrigin {
-		t.Fatalf("waiting = %+v, want the proven posting with its origin", waiting)
+	if len(waiting) != 1 || waiting[0].PagePosting().Posting() != proven.Posting() ||
+		waiting[0].Version() != versionHeldFor(proven) {
+		t.Fatalf("waiting = %+v, want the proven posting with the version of its origin", waiting)
 	}
-	if waitingProven := waiting.Proven[0].ProvenPosting(); waitingProven.Root() != proven.Root() {
-		t.Fatalf("waiting proven posting = %+v, want the root it arrived under %+v",
+	if waitingProven := waiting[0].PagePosting(); waitingProven.Root() != proven.Root() ||
+		!waitingProven.Proof().Present() {
+		t.Fatalf("waiting page posting = %+v, want the proof and root it arrived under %+v",
 			waitingProven, proven.Root())
 	}
 }
@@ -461,33 +471,41 @@ func TestHeldPostingWaitsWithTheProofItArrivedWith(t *testing.T) {
 func TestEscrowHoldsEachRootOfAWordApart(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
-	underOneRoot := crawledProvenPostingsFrom(entry)[0]
-	underAnotherRoot := crawledProvenPostingsFrom(entry, posting("w2", "u1"))[0]
+	underOneRoot := crawledPagePostingsFrom(entry)[0]
+	underAnotherRoot := crawledPagePostingsFrom(entry, posting("w2", "u1"))[0]
 
-	h.holdProven(t, underOneRoot, underAnotherRoot)
+	h.hold(t, underOneRoot, underAnotherRoot)
 	h.holdUnproven(t, entry)
-	for _, waiting := range h.waitingFor(t, entry.URLHash).Proven {
-		if waiting.ProvenPosting().Root() == underAnotherRoot.Root() {
-			h.releaseProven(t, waiting)
+	for _, waiting := range h.waitingFor(t, entry.URLHash) {
+		if waiting.PagePosting().Root() == underAnotherRoot.Root() {
+			h.releaseWaiting(t, waiting)
 		}
 	}
 
 	waiting := h.waitingFor(t, entry.URLHash)
-	if len(waiting.Proven) != 1 || len(waiting.Unproven) != 1 || h.escrowedCount(t) != 2 {
+	if len(waiting) != 2 || h.escrowedCount(t) != 2 ||
+		!waitsUnder(waiting, underOneRoot.Root()) ||
+		!waitsUnder(waiting, yacymodel.None[yacymodel.PostingsRoot]()) {
 		t.Fatalf("waiting = %+v, want the posting under one root and the unproven one", waiting)
 	}
-	if waiting.Proven[0].ProvenPosting().Root() != underOneRoot.Root() {
-		t.Fatalf("waiting = %+v, want the released root gone", waiting)
-	}
+}
+
+func waitsUnder(
+	waiting []rwiescrow.WaitingPosting,
+	root yacymodel.Optional[yacymodel.PostingsRoot],
+) bool {
+	return slices.ContainsFunc(waiting, func(waitingPosting rwiescrow.WaitingPosting) bool {
+		return waitingPosting.PagePosting().Root() == root
+	})
 }
 
 func TestPostingsWaitingForAURLLeaveOutAPostingWithARefusedProof(t *testing.T) {
 	h := openHarness(t)
-	h.holdProven(t, crawledProvenPostingsFrom(posting("w1", "u1"), posting("w2", "u1"))...)
+	h.hold(t, crawledPagePostingsFrom(posting("w1", "u1"), posting("w2", "u1"))...)
 
 	h.swapStoredValuesOf(t, "rwi_escrow")
 
-	if waiting := h.waitingFor(t, urlHash("u1")); len(waiting.Proven) != 0 {
+	if waiting := h.waitingFor(t, urlHash("u1")); len(waiting) != 0 {
 		t.Fatalf("waiting = %+v, want no posting with a refused escrowed proof", waiting)
 	}
 }

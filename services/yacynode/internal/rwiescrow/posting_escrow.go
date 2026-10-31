@@ -3,6 +3,7 @@ package rwiescrow
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -37,24 +38,13 @@ type PostingEscrow struct {
 	now      func() time.Time
 }
 
-func (e *PostingEscrow) HoldProven(
+func (e *PostingEscrow) Hold(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
-	provenPosting yacymodel.ProvenPosting,
+	pagePosting yacymodel.PagePosting,
 	version pageversion.Version,
 ) error {
-	proof := yacymodel.Some(provenPosting.Proof())
-
-	return e.hold(tx, origin, provenPosting.Posting(), proof, version)
-}
-
-func (e *PostingEscrow) hold(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-	proof yacymodel.Optional[yacymodel.PostingsProof],
-	version pageversion.Version,
-) error {
+	posting := pagePosting.Posting()
 	identity := postingIdentity{
 		Word:    posting.WordHash,
 		URL:     posting.URLHash,
@@ -64,7 +54,7 @@ func (e *PostingEscrow) hold(
 		HeldAt:  e.now(),
 		Origin:  origin,
 		Posting: posting,
-		Proof:   proof,
+		Proof:   pagePosting.Proof(),
 	})
 	if err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
@@ -73,42 +63,43 @@ func (e *PostingEscrow) hold(
 	return nil
 }
 
-func (e *PostingEscrow) HoldUnproven(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-	version pageversion.Version,
-) error {
-	return e.hold(tx, origin, posting, yacymodel.None[yacymodel.PostingsProof](), version)
-}
-
 func (e *PostingEscrow) PostingsWaitingFor(
 	ctx context.Context,
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-) (WaitingPostings, error) {
-	var waiting WaitingPostings
+) ([]WaitingPosting, error) {
+	var waitingPostings []WaitingPosting
 	err := e.escrowed.Scan(
 		tx,
 		everyPostingWaitingFor(url),
 		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
-			waiting.add(ctx, identity, escrowed)
+			waitingPosting, err := waitingPostingFrom(identity, escrowed)
+			if err != nil {
+				reportRefusedPosting(ctx, identity, err)
+
+				return true, nil
+			}
+			waitingPostings = append(waitingPostings, waitingPosting)
 
 			return true, nil
 		},
 	)
 	if err != nil {
-		return WaitingPostings{}, fmt.Errorf("read postings waiting for url: %w", err)
+		return nil, fmt.Errorf("read postings waiting for url: %w", err)
 	}
 
-	return waiting, nil
+	return waitingPostings, nil
 }
 
-func (e *PostingEscrow) ReleaseProven(tx *vault.Txn, waiting WaitingProvenPosting) error {
-	return e.drop(tx, waiting.identity)
+func reportRefusedPosting(ctx context.Context, identity postingIdentity, err error) {
+	slog.WarnContext(ctx, "escrowed posting refused, posting left to expire",
+		slog.String("url", identity.URL.String()),
+		slog.String("word", identity.Word.String()),
+		slog.Any("error", err),
+	)
 }
 
-func (e *PostingEscrow) ReleaseUnproven(tx *vault.Txn, waiting WaitingPosting) error {
+func (e *PostingEscrow) Release(tx *vault.Txn, waiting WaitingPosting) error {
 	return e.drop(tx, waiting.identity)
 }
 

@@ -38,17 +38,22 @@ func unrootedVersionOf(
 	posting yacymodel.RWIPosting,
 	source pageversion.Source,
 ) pageversion.Version {
-	return pageversion.FromPosting(posting, source)
+	unproven, err := yacymodel.UnprovenPagePostingFrom(posting)
+	if err != nil {
+		panic(err)
+	}
+
+	return pageversion.FromPagePosting(unproven, source)
 }
 
 func rootedVersionOf(
 	posting yacymodel.RWIPosting,
 	source pageversion.Source,
 ) pageversion.Version {
-	return pageversion.FromProvenPosting(crawledProvenPostingsFrom(posting)[0], source)
+	return pageversion.FromPagePosting(crawledPagePostingsFrom(posting)[0], source)
 }
 
-func crawledProvenPostingsFrom(postings ...yacymodel.RWIPosting) []yacymodel.ProvenPosting {
+func crawledPagePostingsFrom(postings ...yacymodel.RWIPosting) []yacymodel.PagePosting {
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(crawlerRingExponent)
 	if err != nil {
 		panic(err)
@@ -61,7 +66,7 @@ func crawledProvenPostingsFrom(postings ...yacymodel.RWIPosting) []yacymodel.Pro
 		panic(err)
 	}
 
-	return crawled.EachProvenPosting()
+	return crawled.EachPagePosting()
 }
 
 func versionUnderAnotherRoot(
@@ -71,7 +76,7 @@ func versionUnderAnotherRoot(
 	otherWord := posting
 	otherWord.WordHash = yacymodel.WordHash("other word")
 
-	return pageversion.FromProvenPosting(crawledProvenPostingsFrom(posting, otherWord)[0], source)
+	return pageversion.FromPagePosting(crawledPagePostingsFrom(posting, otherWord)[0], source)
 }
 
 func TestArrivedVersionIsTheStoredOneFromAnySource(t *testing.T) {
@@ -272,9 +277,7 @@ func crawlOnCrawlDayOf(t *testing.T) crawlOnCrawlDay {
 	crawl.postingOfOtherVersion = crawl.postingOfVersion
 	crawl.postingOfOtherVersion.TitleWords = 3
 	crawl.rootedMetadata = crawl.metadata
-	crawl.rootedMetadata.PostingsRoot = yacymodel.Some(
-		crawledProvenPostingsFrom(crawl.postingOfVersion)[0].Root(),
-	)
+	crawl.rootedMetadata.PostingsRoot = crawledPagePostingsFrom(crawl.postingOfVersion)[0].Root()
 
 	return crawl
 }

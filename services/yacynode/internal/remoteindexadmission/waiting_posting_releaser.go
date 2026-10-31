@@ -3,7 +3,6 @@ package remoteindexadmission
 import (
 	"context"
 	"fmt"
-	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -27,128 +26,54 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
-	passedProvenPostings, err := r.releaseProven(tx, waitingPostings.Proven, storedVersion)
-	if err != nil {
-		return err
-	}
-	passedPostings, err := r.releaseUnproven(tx, waitingPostings.Unproven, storedVersion)
+	passedPagePostings, err := r.release(tx, waitingPostings, storedVersion)
 	if err != nil {
 		return err
 	}
 
-	return r.indexPassedPostings(ctx, tx, url, passedProvenPostings, passedPostings)
+	return r.placer.indexJoined(ctx, tx, passedPagePostings)
 }
 
-func (r waitingPostingReleaser) releaseProven(
+func (r waitingPostingReleaser) release(
 	tx *vault.Txn,
-	waitingPostings []rwiescrow.WaitingProvenPosting,
+	waitingPostings []rwiescrow.WaitingPosting,
 	storedVersion pageversion.Version,
-) ([]yacymodel.ProvenPosting, error) {
-	var passedPostings []yacymodel.ProvenPosting
+) ([]yacymodel.PagePosting, error) {
+	var passedPagePostings []yacymodel.PagePosting
 	for _, waitingPosting := range waitingPostings {
-		provenPosting := waitingPosting.ProvenPosting()
-		source := pageversion.SourcePeer(waitingPosting.Origin())
-		arrivedVersion := pageversion.FromProvenPosting(provenPosting, source)
-		if storedVersion.IsReplacedBy(arrivedVersion) {
+		if storedVersion.IsReplacedBy(waitingPosting.Version()) {
 			continue
 		}
-		if err := r.escrow.ReleaseProven(tx, waitingPosting); err != nil {
-			return nil, fmt.Errorf("release proven posting: %w", err)
+		if err := r.escrow.Release(tx, waitingPosting); err != nil {
+			return nil, fmt.Errorf("release posting: %w", err)
 		}
-		outcome, err := r.observedOutcomeOf(
-			tx,
-			provenPosting.Posting(),
-			arrivedVersion,
-			storedVersion,
-		)
+		outcome, err := r.observedOutcomeOf(tx, waitingPosting, storedVersion)
 		if err != nil {
 			return nil, err
 		}
 		if outcome == PostingIndexed {
-			passedPostings = append(passedPostings, provenPosting)
+			passedPagePostings = append(passedPagePostings, waitingPosting.PagePosting())
 		}
 	}
 
-	return passedPostings, nil
+	return passedPagePostings, nil
 }
 
 func (r waitingPostingReleaser) observedOutcomeOf(
 	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
-	arrivedVersion pageversion.Version,
+	waitingPosting rwiescrow.WaitingPosting,
 	storedVersion pageversion.Version,
 ) (PostingOutcome, error) {
-	outcome, err := r.placer.placementOf(tx, posting, arrivedVersion, storedVersion)
+	outcome, err := r.placer.placementOf(
+		tx,
+		waitingPosting.PagePosting(),
+		waitingPosting.Version(),
+		storedVersion,
+	)
 	if err != nil {
 		return "", err
 	}
 	tx.RunAfterCommit(func() { r.observer.ObserveReleasedPostings(outcome, 1) })
 
 	return outcome, nil
-}
-
-func (r waitingPostingReleaser) releaseUnproven(
-	tx *vault.Txn,
-	waitingPostings []rwiescrow.WaitingPosting,
-	storedVersion pageversion.Version,
-) ([]yacymodel.RWIPosting, error) {
-	var passedPostings []yacymodel.RWIPosting
-	for _, waitingPosting := range waitingPostings {
-		posting := waitingPosting.Posting()
-		source := pageversion.SourcePeer(waitingPosting.Origin())
-		arrivedVersion := pageversion.FromPosting(posting, source)
-		if storedVersion.IsReplacedBy(arrivedVersion) {
-			continue
-		}
-		if err := r.escrow.ReleaseUnproven(tx, waitingPosting); err != nil {
-			return nil, fmt.Errorf("release unproven posting: %w", err)
-		}
-		outcome, err := r.observedOutcomeOf(tx, posting, arrivedVersion, storedVersion)
-		if err != nil {
-			return nil, err
-		}
-		if outcome == PostingIndexed {
-			passedPostings = append(passedPostings, posting)
-		}
-	}
-
-	return passedPostings, nil
-}
-
-func (r waitingPostingReleaser) indexPassedPostings(
-	ctx context.Context,
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-	passedProvenPostings []yacymodel.ProvenPosting,
-	passedPostings []yacymodel.RWIPosting,
-) error {
-	if len(passedProvenPostings) == 0 && len(passedPostings) == 0 {
-		return nil
-	}
-	passedPagePostings, err := pagePostingsFrom(passedProvenPostings, passedPostings)
-	if err != nil {
-		reportUnjoinedPassedPostings(ctx, url, err)
-
-		return nil
-	}
-
-	return r.placer.index(tx, passedPagePostings)
-}
-
-func pagePostingsFrom(
-	passedProvenPostings []yacymodel.ProvenPosting,
-	passedPostings []yacymodel.RWIPosting,
-) (yacymodel.PagePostings, error) {
-	if len(passedProvenPostings) > 0 {
-		return yacymodel.PagePostingsJoinedFrom(passedProvenPostings)
-	}
-
-	return yacymodel.UnprovenPagePostingsFrom(passedPostings)
-}
-
-func reportUnjoinedPassedPostings(ctx context.Context, url yacymodel.URLHash, err error) {
-	slog.ErrorContext(ctx, "postings of a url passed release and form no page postings",
-		slog.String("url", url.String()),
-		slog.Any("error", err),
-	)
 }

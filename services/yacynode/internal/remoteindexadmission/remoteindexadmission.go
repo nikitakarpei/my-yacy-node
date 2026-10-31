@@ -36,25 +36,18 @@ type URLMetadataReceiver interface {
 
 type Escrow interface {
 	IsFull(ctx context.Context) (bool, error)
-	HoldProven(
+	Hold(
 		tx *vault.Txn,
 		origin rwiorigin.Origin,
-		provenPosting yacymodel.ProvenPosting,
-		version pageversion.Version,
-	) error
-	HoldUnproven(
-		tx *vault.Txn,
-		origin rwiorigin.Origin,
-		posting yacymodel.RWIPosting,
+		pagePosting yacymodel.PagePosting,
 		version pageversion.Version,
 	) error
 	PostingsWaitingFor(
 		ctx context.Context,
 		tx *vault.Txn,
 		url yacymodel.URLHash,
-	) (rwiescrow.WaitingPostings, error)
-	ReleaseProven(tx *vault.Txn, waiting rwiescrow.WaitingProvenPosting) error
-	ReleaseUnproven(tx *vault.Txn, waiting rwiescrow.WaitingPosting) error
+	) ([]rwiescrow.WaitingPosting, error)
+	Release(tx *vault.Txn, waiting rwiescrow.WaitingPosting) error
 }
 
 type Stopwords interface {
