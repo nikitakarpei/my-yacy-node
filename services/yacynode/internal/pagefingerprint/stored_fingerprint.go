@@ -4,13 +4,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 )
 
-func AppendBytes(fingerprint Fingerprint, buffer []byte) []byte {
-	var stored storedfields.Writer
-	Write(&stored, fingerprint)
-
-	return append(buffer, stored.Record()...)
-}
-
 func Write(stored *storedfields.Writer, fingerprint Fingerprint) {
 	stored.Varint(int64(fingerprint.Modified))
 	stored.Count(int(fingerprint.LocalLinks))

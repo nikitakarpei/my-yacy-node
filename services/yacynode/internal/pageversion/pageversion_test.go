@@ -2,12 +2,12 @@ package pageversion_test
 
 import (
 	"bytes"
+	"encoding/hex"
 	"net/url"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
@@ -378,17 +378,21 @@ func TestVersionBytesTellVersionsApartButNotSources(t *testing.T) {
 	if !bytes.Equal(unrooted, pageversion.AppendBytes(unrootedVersionOf(posting, fromOther), nil)) {
 		t.Fatal("the source changes the bytes of a version")
 	}
-	if !bytes.Equal(
-		unrooted,
-		pagefingerprint.AppendBytes(pagefingerprint.FromPosting(posting), nil),
-	) {
-		t.Fatal("a version without a root has other bytes than its fingerprint")
-	}
 	if bytes.Equal(rooted, unrooted) ||
 		bytes.Equal(
 			rooted,
 			pageversion.AppendBytes(versionUnderAnotherRoot(posting, fromSender), nil),
 		) {
 		t.Fatal("two roots of one fingerprint share their bytes")
+	}
+}
+
+func TestVersionBytesWithoutARootKeepTheEscrowKeyBytesOfEarlierNodes(t *testing.T) {
+	const escrowKeyBytesOfEarlierNodes = "c0b8020000020000"
+
+	unrooted := pageversion.AppendBytes(unrootedVersionOf(postingOn(storedDay, 2), fromSender), nil)
+
+	if got := hex.EncodeToString(unrooted); got != escrowKeyBytesOfEarlierNodes {
+		t.Fatalf("bytes = %s, want the escrow key bytes %s", got, escrowKeyBytesOfEarlierNodes)
 	}
 }

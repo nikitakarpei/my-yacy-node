@@ -32,6 +32,25 @@ func TestProvenPostingsJoinUnderTheRootOfTheirPage(t *testing.T) {
 	}
 }
 
+func TestPagePostingsJoinedFromRefusesProvenPostingsOfDifferentRoots(t *testing.T) {
+	postings := randomPagePostings(seededRandom(36), 3)
+	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 4))
+	underOtherPostings := wholePagePostingsOf(t, postings[:2], partitionsFrom(t, 4))
+	underOtherPartitions := wholePagePostingsOf(t, postings, partitionsFrom(t, 5))
+
+	for name, joining := range map[string][]yacymodel.ProvenPosting{
+		"other postings":   {whole.EachProvenPosting()[0], underOtherPostings.EachProvenPosting()[1]},
+		"other partitions": {whole.EachProvenPosting()[0], underOtherPartitions.EachProvenPosting()[1]},
+	} {
+		if _, err := yacymodel.PagePostingsJoinedFrom(joining); !errors.Is(
+			err,
+			yacymodel.ErrBadPagePostings,
+		) {
+			t.Errorf("%s: PagePostingsJoinedFrom = %v, want ErrBadPagePostings", name, err)
+		}
+	}
+}
+
 func TestJoinedProvenPostingsTakeTheMinimalProofOfTheirPostings(t *testing.T) {
 	random := seededRandom(34)
 	for _, exponent := range partitionExponents {

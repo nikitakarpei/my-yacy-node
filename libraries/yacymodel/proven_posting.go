@@ -40,6 +40,12 @@ func PagePostingsJoinedFrom(provenPostings []ProvenPosting) (PagePostings, error
 	if err := failureOf(postings); err != nil {
 		return PagePostings{}, err
 	}
+	if !holdsOneRoot(provenPostings) {
+		return PagePostings{}, fmt.Errorf(
+			"%w: proven postings of more than one root",
+			ErrBadPagePostings,
+		)
+	}
 	mergedProof := provenPostings[0].proof
 	for _, provenPosting := range provenPostings[1:] {
 		mergedProof = mergedProof.MergedWith(provenPosting.proof)
@@ -58,4 +64,14 @@ func postingsOfEach(provenPostings []ProvenPosting) []RWIPosting {
 	}
 
 	return postings
+}
+
+func holdsOneRoot(provenPostings []ProvenPosting) bool {
+	for _, provenPosting := range provenPostings[1:] {
+		if provenPosting.root != provenPostings[0].root {
+			return false
+		}
+	}
+
+	return true
 }
