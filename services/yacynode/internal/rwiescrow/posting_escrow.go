@@ -44,16 +44,15 @@ func (e *PostingEscrow) Hold(
 	pagePosting yacymodel.PagePosting,
 	version pageversion.Version,
 ) error {
-	posting := pagePosting.Posting()
 	identity := postingIdentity{
-		Word:    posting.WordHash,
-		URL:     posting.URLHash,
+		Word:    pagePosting.Word(),
+		URL:     pagePosting.URL(),
 		Version: pageversion.AppendBytes(version, nil),
 	}
 	_, err := e.escrowed.Put(tx, identity, escrowedPosting{
 		HeldAt:  e.now(),
 		Origin:  origin,
-		Posting: posting,
+		Posting: pagePosting.Posting(),
 		Proof:   pagePosting.Proof(),
 	})
 	if err != nil {

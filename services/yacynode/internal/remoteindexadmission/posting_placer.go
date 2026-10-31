@@ -31,7 +31,7 @@ func (p postingPlacer) placementOf(
 		return PostingDroppedUnrootedVersion, nil
 	case pageversion.JoiningAllowed:
 	}
-	postingIndexed, err := p.isIndexed(tx, pagePosting.Posting())
+	postingIndexed, err := p.isIndexed(tx, pagePosting)
 	if err != nil {
 		return "", err
 	}
@@ -42,8 +42,8 @@ func (p postingPlacer) placementOf(
 	return PostingIndexed, nil
 }
 
-func (p postingPlacer) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (bool, error) {
-	_, indexed, err := p.postings.PostingOf(tx, posting.WordHash, posting.URLHash)
+func (p postingPlacer) isIndexed(tx *vault.Txn, pagePosting yacymodel.PagePosting) (bool, error) {
+	_, indexed, err := p.postings.PostingOf(tx, pagePosting.Word(), pagePosting.URL())
 	if err != nil {
 		return false, fmt.Errorf("read indexed posting: %w", err)
 	}
@@ -61,7 +61,7 @@ func (p postingPlacer) indexJoined(
 	}
 	joinedPagePostings, err := yacymodel.PagePostingsJoinedFrom(passedPagePostings)
 	if err != nil {
-		reportUnjoinedPassedPostings(ctx, passedPagePostings[0].Posting().URLHash, err)
+		reportUnjoinedPassedPostings(ctx, passedPagePostings[0].URL(), err)
 
 		return nil
 	}

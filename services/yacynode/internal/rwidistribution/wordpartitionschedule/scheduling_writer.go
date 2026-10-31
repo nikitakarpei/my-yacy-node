@@ -29,8 +29,9 @@ func (a schedulingWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostin
 	if err := a.writer.Write(tx, pagePostings); err != nil {
 		return err
 	}
-	for _, posting := range pagePostings.Postings() {
-		if err := a.countAdmission(tx, posting); err != nil {
+	for _, word := range pagePostings.Words() {
+		wordPartition := yacymodel.WordPartitionOfWordAndURL(word, pagePostings.URL(), a.partitions)
+		if err := a.countAdmission(tx, wordPartition); err != nil {
 			return err
 		}
 	}
@@ -38,8 +39,10 @@ func (a schedulingWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostin
 	return nil
 }
 
-func (a schedulingWriter) countAdmission(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	wordPartition := yacymodel.WordPartitionOfPosting(posting, a.partitions)
+func (a schedulingWriter) countAdmission(
+	tx *vault.Txn,
+	wordPartition yacymodel.WordPartition,
+) error {
 	if err := a.admissions.count(tx, wordPartition); err != nil {
 		return err
 	}

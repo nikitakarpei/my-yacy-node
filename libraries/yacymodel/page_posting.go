@@ -39,6 +39,18 @@ func (p PagePosting) Posting() RWIPosting {
 	return p.posting
 }
 
+func (p PagePosting) Word() Hash {
+	return p.posting.WordHash
+}
+
+func (p PagePosting) URL() URLHash {
+	return p.posting.URLHash
+}
+
+func (p PagePosting) Language() Language {
+	return p.posting.Language
+}
+
 func (p PagePosting) Proof() Optional[PostingsProof] {
 	return p.proof
 }

@@ -88,6 +88,15 @@ func (p PagePostings) Postings() []RWIPosting {
 	return slices.Clone(p.postings)
 }
 
+func (p PagePostings) Words() []Hash {
+	words := make([]Hash, 0, len(p.postings))
+	for _, posting := range p.postings {
+		words = append(words, posting.WordHash)
+	}
+
+	return words
+}
+
 func (p PagePostings) AmountOfPostings() int {
 	return len(p.postings)
 }

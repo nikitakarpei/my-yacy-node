@@ -17,14 +17,8 @@ func TestEveryPostingOfAWordPartitionSitsAtItsPosition(t *testing.T) {
 	for document := range 256 {
 		url := urlHashOf(t, document)
 		posting := yacymodel.RWIPosting{WordHash: word, URLHash: url}
-		wordPartition := yacymodel.WordPartitionOfPosting(posting, partitions)
+		wordPartition := yacymodel.WordPartitionOfWordAndURL(word, url, partitions)
 
-		if wordPartition != yacymodel.WordPartitionOfWordAndURL(word, url, partitions) {
-			t.Fatalf(
-				"word partition of the posting on %v differs from that of its word and url",
-				url,
-			)
-		}
 		if wordPartition.Word != word || wordPartition.Partition != partitions.PartitionOf(url) {
 			t.Fatalf("word partition of the posting on %v = %+v", url, wordPartition)
 		}

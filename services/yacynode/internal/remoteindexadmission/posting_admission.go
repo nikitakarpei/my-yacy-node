@@ -220,10 +220,9 @@ func (a PostingAdmission) admit(
 	arrivedVersion pageversion.Version,
 	storedVersion yacymodel.Optional[pageversion.Version],
 ) (PostingOutcome, error) {
-	posting := pagePosting.Posting()
 	version, metadataStored := storedVersion.Get()
 	switch {
-	case a.stopwords.Contains(posting.WordHash, posting.Language):
+	case a.stopwords.Contains(pagePosting.Word(), pagePosting.Language()):
 		return PostingDroppedStopword, nil
 	case arrivedVersion.IsDatedAfter(a.now()):
 		return PostingDroppedFutureDate, nil
