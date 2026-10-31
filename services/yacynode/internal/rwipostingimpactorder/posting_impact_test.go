@@ -7,14 +7,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
-const largestHitsOnTheWire = 255
-
-func TestEveryHitCountTheWireCarriesHasAnImpactOfItsOwn(t *testing.T) {
+func TestEveryHitCountAPostingHoldsHasAnImpactOfItsOwn(t *testing.T) {
 	t.Parallel()
 
 	previousImpact := rwipostingimpactorder.ImpactOf(postingOf("w1", "u1", 1))
-	for hits := 2; hits <= largestHitsOnTheWire; hits++ {
-		impact := rwipostingimpactorder.ImpactOf(postingOf("w1", "u1", hits))
+	for hits := 2; hits <= math.MaxUint8; hits++ {
+		impact := rwipostingimpactorder.ImpactOf(postingOf("w1", "u1", uint8(hits)))
 		if impact <= previousImpact {
 			t.Fatalf(
 				"impact of %d hits = %d, want more than the impact of %d hits (%d)",
@@ -25,13 +23,13 @@ func TestEveryHitCountTheWireCarriesHasAnImpactOfItsOwn(t *testing.T) {
 	}
 }
 
-func TestAPostingOfATitleOutweighsTheMostHitsAnIntegerHolds(t *testing.T) {
+func TestAPostingOfATitleOutweighsTheMostHitsAPostingHolds(t *testing.T) {
 	t.Parallel()
 
 	titlePosting := postingOf("w1", "u1", 1)
 	titlePosting.Appearance.AppearsInTitle = true
 
-	textPosting := postingOf("w1", "u2", math.MaxInt64)
+	textPosting := postingOf("w1", "u2", math.MaxUint8)
 	if rwipostingimpactorder.ImpactOf(titlePosting) <=
 		rwipostingimpactorder.ImpactOf(textPosting) {
 		t.Fatalf(

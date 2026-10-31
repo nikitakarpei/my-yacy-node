@@ -80,7 +80,7 @@ func (document foundDocument) shownAtAddress(address string) foundDocument {
 	return document
 }
 
-func (document foundDocument) withHitsAPeerCounted(word string, hits int) foundDocument {
+func (document foundDocument) withHitsAPeerCounted(word string, hits uint8) foundDocument {
 	document.PostingReplicas = append(
 		slices.Clone(document.PostingReplicas),
 		queryfindings.PostingReplica{

@@ -10,14 +10,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-// YaCy stores a posting's link and title-word counts in one byte, so they wrap at this modulus.
-const postingCountModulus = 256
-
 type Fingerprint struct {
 	Modified      yacymodel.MicroDate
-	LocalLinks    int
-	ExternalLinks int
-	TitleWords    int
+	LocalLinks    uint8
+	ExternalLinks uint8
+	TitleWords    uint8
 	Language      yacymodel.Language
 	DocumentType  yacymodel.DocumentType
 }
@@ -25,9 +22,9 @@ type Fingerprint struct {
 func FromPosting(posting yacymodel.RWIPosting) Fingerprint {
 	return Fingerprint{
 		Modified:      posting.LastModified,
-		LocalLinks:    posting.LocalLinks % postingCountModulus,
-		ExternalLinks: posting.ExternalLinks % postingCountModulus,
-		TitleWords:    posting.TitleWords % postingCountModulus,
+		LocalLinks:    posting.LocalLinks,
+		ExternalLinks: posting.ExternalLinks,
+		TitleWords:    posting.TitleWords,
 		Language:      posting.Language,
 		DocumentType:  posting.DocumentType,
 	}
@@ -36,22 +33,26 @@ func FromPosting(posting yacymodel.RWIPosting) Fingerprint {
 func FromMetadata(metadata yacymodel.URLMetadata) Fingerprint {
 	return Fingerprint{
 		Modified:      modifiedDayOf(metadata),
-		LocalLinks:    metadata.LocalLinks % postingCountModulus,
-		ExternalLinks: metadata.ExternalLinks % postingCountModulus,
-		TitleWords:    yacymodel.TitleWordsOf(metadata.Title) % postingCountModulus,
+		LocalLinks:    yacymodel.WrappedCardinalFrom(metadata.LocalLinks),
+		ExternalLinks: yacymodel.WrappedCardinalFrom(metadata.ExternalLinks),
+		TitleWords:    yacymodel.TitleWordsOf(metadata.Title),
 		Language:      declaredLanguageOf(metadata),
 		DocumentType:  metadata.DocumentType,
 	}
 }
 
 func (f Fingerprint) IsDatedAfter(now time.Time) bool {
-	return f.Modified > yacymodel.MicroDateFromTime(now)
+	today, inRange := yacymodel.MicroDateOf(now).Get()
+
+	return inRange && f.Modified > today
 }
 
 func modifiedDayOf(metadata yacymodel.URLMetadata) yacymodel.MicroDate {
 	for _, day := range []yacymodel.Optional[yacymodel.CalendarDay]{metadata.Modified, metadata.Loaded} {
 		if present, ok := day.Get(); ok {
-			return yacymodel.MicroDateFromTime(present.Time())
+			if date, inRange := yacymodel.MicroDateOf(present.Time()).Get(); inRange {
+				return date
+			}
 		}
 	}
 

@@ -18,14 +18,19 @@ const (
 	applicationMediaTypePrefix = "application/"
 )
 
-// URLMetadata is what the index knows about the document at one address. Hash
-// is the name the index that reported it holds the document under, and the name
-// an ask for the document must use.
 type URLMetadata struct {
 	Hash             URLHash
 	Referrer         Optional[URLHash]
 	DocumentType     DocumentType
 	Language         Optional[Language]
+	ByteSize         Optional[uint32]
+	WordCount        uint32
+	LocalLinks       uint32
+	ExternalLinks    uint32
+	ImageLinks       uint32
+	AudioLinks       uint32
+	VideoLinks       uint32
+	ApplicationLinks uint32
 	Address          string
 	Title            string
 	Author           string
@@ -36,14 +41,6 @@ type URLMetadata struct {
 	Loaded           Optional[CalendarDay]
 	FreshUntil       Optional[CalendarDay]
 	MediaType        string
-	ByteSize         Optional[int]
-	WordCount        int
-	LocalLinks       int
-	ExternalLinks    int
-	ImageLinks       int
-	AudioLinks       int
-	VideoLinks       int
-	ApplicationLinks int
 	Snippet          string
 	FaviconAddress   string
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func TestURLComponentsCountTheWordsOfTheURLAfterItsScheme(t *testing.T) {
-	for address, want := range map[string]int{
+	for address, want := range map[string]uint8{
 		"http://example.com/article":              3,
 		"https://www.mensa.org/terms-conditions/": 5,
 		"https://example.com/snake_case/it's":     6,

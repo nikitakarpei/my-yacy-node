@@ -32,8 +32,8 @@ func Of(
 	metadata := metadataOf(scrapedPage, document, reachedAt, modifiedAt, textStats.Words)
 	shared := sharedPosting(pageURL, document, modifiedAt, metadata.Hash)
 	shared.TitleWords = yacymodel.TitleWordsOf(document.Title)
-	shared.TextWords = textStats.Words
-	shared.Phrases = textStats.Phrases
+	shared.TextWords = yacymodel.SaturatedCardinalFrom[uint16](textStats.Words)
+	shared.Phrases = yacymodel.SaturatedCardinalFrom[uint16](textStats.Phrases)
 
 	postings := make([]yacymodel.RWIPosting, 0, len(textWordsInOrder))
 	for _, word := range textWordsInOrder {
@@ -42,10 +42,14 @@ func Of(
 		posting := shared
 		posting.WordHash = yacymodel.WordHash(word)
 		posting.Appearance.AppearsInTitle = appearsInTitle
-		posting.Hits = occurrenceInText.count
-		posting.TextPosition = occurrenceInText.firstPosition
-		posting.PhraseRelativePosition = occurrenceInText.firstPositionInPhrase
-		posting.PhrasePosition = occurrenceInText.firstPhraseNumber
+		posting.Hits = yacymodel.WrappedCardinalFrom(occurrenceInText.count)
+		posting.TextPosition = yacymodel.SaturatedCardinalFrom[uint16](
+			occurrenceInText.firstPosition,
+		)
+		posting.PhraseRelativePosition = yacymodel.WrappedCardinalFrom(
+			occurrenceInText.firstPositionInPhrase,
+		)
+		posting.PhrasePosition = yacymodel.WrappedCardinalFrom(occurrenceInText.firstPhraseNumber)
 		postings = append(postings, posting)
 	}
 
@@ -61,7 +65,8 @@ func recordedModifiedAtOf(
 	reachedAt time.Time,
 ) time.Time {
 	declared := scrapedPage.PageModifiedAt
-	if declared.IsZero() || declared.After(reachedAt) {
+	if declared.IsZero() || declared.After(reachedAt) ||
+		!yacymodel.MicroDateOf(declared).Present() {
 		return reachedAt
 	}
 
@@ -78,17 +83,19 @@ func metadataOf(
 	pageURL := scrapedPage.PageURL
 
 	return yacymodel.URLMetadata{
-		Hash:          yacymodel.URLHashOf(pageURL.WebAddress()),
-		Address:       pageURL.String(),
-		Title:         document.Title,
-		Modified:      yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
-		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
-		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      declaredLanguageOf(document),
-		ByteSize:      yacymodel.Some(len(scrapedPage.Body)),
-		WordCount:     wordCount,
-		LocalLinks:    document.LocalLinks,
-		ExternalLinks: document.ExternalLinks,
+		Hash:         yacymodel.URLHashOf(pageURL.WebAddress()),
+		Address:      pageURL.String(),
+		Title:        document.Title,
+		Modified:     yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
+		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
+		DocumentType: yacymodel.DocumentTypeText,
+		Language:     declaredLanguageOf(document),
+		ByteSize: yacymodel.Some(
+			yacymodel.SaturatedCardinalFrom[uint32](len(scrapedPage.Body)),
+		),
+		WordCount:     yacymodel.SaturatedCardinalFrom[uint32](wordCount),
+		LocalLinks:    yacymodel.SaturatedCardinalFrom[uint32](document.LocalLinks),
+		ExternalLinks: yacymodel.SaturatedCardinalFrom[uint32](document.ExternalLinks),
 	}
 }
 
@@ -114,12 +121,12 @@ func sharedPosting(
 ) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		URLHash:       urlHash,
-		LastModified:  yacymodel.MicroDateFromTime(modifiedAt),
+		LastModified:  yacymodel.MicroDateOf(modifiedAt).OrElse(0),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      recordedLanguageOf(document),
-		LocalLinks:    document.LocalLinks,
-		ExternalLinks: document.ExternalLinks,
-		URLLength:     len(pageURL.String()),
+		LocalLinks:    yacymodel.WrappedCardinalFrom(document.LocalLinks),
+		ExternalLinks: yacymodel.WrappedCardinalFrom(document.ExternalLinks),
+		URLLength:     yacymodel.WrappedCardinalFrom(len(pageURL.String())),
 		URLComponents: yacymodel.URLComponentsOf(pageURL.String()),
 	}
 }

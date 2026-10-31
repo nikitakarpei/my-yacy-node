@@ -61,11 +61,11 @@ func openHarness(t *testing.T) harness {
 	return harness{vault: v, partitions: partitions, postings: postings, undelivered: undelivered}
 }
 
-func postingOf(identity postingIdentity, hits int) yacymodel.RWIPosting {
+func postingOf(identity postingIdentity, hits uint8) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: identity.word, URLHash: identity.url, Hits: hits}
 }
 
-func (h harness) store(t *testing.T, hits int, identities ...postingIdentity) {
+func (h harness) store(t *testing.T, hits uint8, identities ...postingIdentity) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {

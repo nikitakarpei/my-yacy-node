@@ -31,7 +31,7 @@ func foundDocumentOfMetadata(
 }
 
 func replicaOfCountedWord(
-	hits int, localLinks int, externalLinks int,
+	hits, localLinks, externalLinks uint8,
 ) queryfindings.PostingReplica {
 	return queryfindings.PostingReplica{
 		Holder: yacymodel.WordHash("a holder"),

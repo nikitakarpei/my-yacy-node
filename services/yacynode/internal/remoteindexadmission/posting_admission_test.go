@@ -60,7 +60,7 @@ func (o *observedAdmission) ObserveURLMetadata(
 var harnessStart = time.Date(2026, time.October, 16, 12, 0, 0, 0, time.UTC)
 
 func harnessToday() yacymodel.MicroDate {
-	return yacymodel.MicroDateFromTime(harnessStart)
+	return yacymodel.MicroDateOf(harnessStart).OrElse(0)
 }
 
 var (

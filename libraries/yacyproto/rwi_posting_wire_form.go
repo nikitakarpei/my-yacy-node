@@ -28,8 +28,6 @@ const (
 	colTextPosition      = "t"
 	colPhraseRelativePos = "r"
 	colPhrasePosition    = "o"
-	byteColumnCeiling    = 0xff
-	uint16ColumnCeiling  = 0xffff
 	propertyOpen         = '{'
 	propertyClose        = '}'
 )
@@ -178,21 +176,21 @@ func (e rwiPostingWireForm) domain() (yacymodel.RWIPosting, error) {
 	return yacymodel.RWIPosting{
 		WordHash:               e.wordHash,
 		URLHash:                urlHash,
-		LastModified:           microDateWireCodec{}.decode(e.uint16Cardinal(colLastModified)),
-		TitleWords:             int(e.byteCardinal(colTitleWordCount)),
-		TextWords:              int(e.uint16Cardinal(colTextWordCount)),
-		Phrases:                int(e.uint16Cardinal(colPhraseCount)),
+		LastModified:           yacymodel.MicroDate(e.uint16Cardinal(colLastModified)),
+		TitleWords:             e.byteCardinal(colTitleWordCount),
+		TextWords:              e.uint16Cardinal(colTextWordCount),
+		Phrases:                e.uint16Cardinal(colPhraseCount),
 		DocumentType:           documentTypeByChar[e.byteCardinal(colDocType)],
 		Language:               language,
-		LocalLinks:             int(e.byteCardinal(colLocalLinkCount)),
-		ExternalLinks:          int(e.byteCardinal(colExternalLinkCount)),
-		URLLength:              int(e.byteCardinal(colURLLength)),
-		URLComponents:          int(e.byteCardinal(colURLComponentCount)),
+		LocalLinks:             e.byteCardinal(colLocalLinkCount),
+		ExternalLinks:          e.byteCardinal(colExternalLinkCount),
+		URLLength:              e.byteCardinal(colURLLength),
+		URLComponents:          e.byteCardinal(colURLComponentCount),
 		Appearance:             appearance,
-		Hits:                   int(e.byteCardinal(colHitCount)),
-		TextPosition:           int(e.uint16Cardinal(colTextPosition)),
-		PhraseRelativePosition: int(e.byteCardinal(colPhraseRelativePos)),
-		PhrasePosition:         int(e.byteCardinal(colPhrasePosition)),
+		Hits:                   e.byteCardinal(colHitCount),
+		TextPosition:           e.uint16Cardinal(colTextPosition),
+		PhraseRelativePosition: e.byteCardinal(colPhraseRelativePos),
+		PhrasePosition:         e.byteCardinal(colPhrasePosition),
 	}, nil
 }
 
@@ -205,11 +203,11 @@ func (e rwiPostingWireForm) cardinal(column string) uint64 {
 }
 
 func (e rwiPostingWireForm) byteCardinal(column string) byte {
-	return byte(e.cardinal(column) % (byteColumnCeiling + 1))
+	return byte(e.cardinal(column)) //nolint:gosec // YaCy reads the column modulo its width.
 }
 
 func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
-	return uint16(e.cardinal(column) % (uint16ColumnCeiling + 1))
+	return uint16(e.cardinal(column)) //nolint:gosec // YaCy reads the column modulo its width.
 }
 
 // language keeps only the leading ISO 639-1 code: YaCy peers are known to send
@@ -242,51 +240,28 @@ func (e rwiPostingWireForm) appearance() (yacymodel.Appearance, error) {
 func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 	props := map[string]string{
 		colURLHash:           p.URLHash.String(),
-		colLastModified:      strconv.FormatUint(microDateWireCodec{}.encode(p.LastModified), 10),
-		colTitleWordCount:    byteCardinalTextFrom(p.TitleWords),
-		colTextWordCount:     uint16CardinalTextFrom(p.TextWords),
-		colPhraseCount:       uint16CardinalTextFrom(p.Phrases),
-		colDocType:           strconv.FormatUint(uint64(charByDocumentType[p.DocumentType]), 10),
-		colLocalLinkCount:    byteCardinalTextFrom(p.LocalLinks),
-		colExternalLinkCount: byteCardinalTextFrom(p.ExternalLinks),
-		colURLLength:         byteCardinalTextFrom(p.URLLength),
-		colURLComponentCount: byteCardinalTextFrom(p.URLComponents),
+		colLastModified:      cardinalTextFrom(p.LastModified),
+		colTitleWordCount:    cardinalTextFrom(p.TitleWords),
+		colTextWordCount:     cardinalTextFrom(p.TextWords),
+		colPhraseCount:       cardinalTextFrom(p.Phrases),
+		colDocType:           cardinalTextFrom(charByDocumentType[p.DocumentType]),
+		colLocalLinkCount:    cardinalTextFrom(p.LocalLinks),
+		colExternalLinkCount: cardinalTextFrom(p.ExternalLinks),
+		colURLLength:         cardinalTextFrom(p.URLLength),
+		colURLComponentCount: cardinalTextFrom(p.URLComponents),
 		colFlags:             yacymodel.Encode(bitfieldFromAppearance(p.Appearance)),
-		colHitCount:          byteCardinalTextFrom(p.Hits),
-		colTextPosition:      uint16CardinalTextFrom(p.TextPosition),
-		colPhraseRelativePos: byteCardinalTextFrom(p.PhraseRelativePosition),
-		colPhrasePosition:    byteCardinalTextFrom(p.PhrasePosition),
+		colHitCount:          cardinalTextFrom(p.Hits),
+		colTextPosition:      cardinalTextFrom(p.TextPosition),
+		colPhraseRelativePos: cardinalTextFrom(p.PhraseRelativePosition),
+		colPhrasePosition:    cardinalTextFrom(p.PhrasePosition),
 	}
 	props[colLanguage] = p.Language.String()
 
 	return rwiPostingWireForm{wordHash: p.WordHash, properties: props}
 }
 
-func byteCardinalTextFrom(value int) string {
-	return strconv.Itoa(lowByteOf(value))
-}
-
-func lowByteOf(value int) int {
-	if value < 0 {
-		return 0
-	}
-
-	return value % (byteColumnCeiling + 1)
-}
-
-func saturatedCardinalFrom(value, ceiling int) int {
-	if value < 0 {
-		return 0
-	}
-	if value > ceiling {
-		return ceiling
-	}
-
-	return value
-}
-
-func uint16CardinalTextFrom(value int) string {
-	return strconv.Itoa(saturatedCardinalFrom(value, uint16ColumnCeiling))
+func cardinalTextFrom[Cardinal ~uint8 | ~uint16 | ~uint32](value Cardinal) string {
+	return strconv.FormatUint(uint64(value), 10)
 }
 
 func parseRWIPostingLine(line string) (rwiPostingWireForm, error) {

@@ -4,7 +4,7 @@ import "strings"
 
 const urlComponentSeparators = " /()-:_.,?!'\""
 
-func URLComponentsOf(address string) int {
+func URLComponentsOf(address string) uint8 {
 	if schemeEnd := strings.Index(address, "//"); schemeEnd > 0 {
 		address = address[schemeEnd+len("//"):]
 	}
@@ -30,5 +30,5 @@ func URLComponentsOf(address string) int {
 		components += emptyPieces + 1
 	}
 
-	return components
+	return WrappedCardinalFrom(components)
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func TestTitleWordsCountWordsBetweenRunsOfSpaces(t *testing.T) {
-	for title, want := range map[string]int{
+	for title, want := range map[string]uint8{
 		"":              1,
 		"Hello":         1,
 		"Hello World":   2,
