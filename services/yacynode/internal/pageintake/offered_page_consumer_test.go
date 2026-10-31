@@ -33,9 +33,12 @@ type recordingPages struct {
 
 func (r *recordingPages) Receive(
 	_ context.Context,
-	page pagerwi.PageRWI,
+	_ yacymodel.URLHash,
+	page yacymodel.Optional[pagerwi.PageRWI],
 ) (pageadmission.Receipt, error) {
-	r.received = append(r.received, page)
+	if received, present := page.Get(); present {
+		r.received = append(r.received, received)
+	}
 
 	return r.receipt, r.err
 }
@@ -204,6 +207,7 @@ func runWith(
 		pageintake.OfferedPageConsumerConfig{
 			OfferedPageSource:          pullintaketest.MessageSourceOf(msg),
 			FormatDerivations:          formatDerivations,
+			PageIndexBuilder:           indexBuilderWithoutStopwords(t),
 			PageReceiver:               collaborators.pageReceiver,
 			IntakeReceipts:             collaborators.intakeReceipts,
 			PageIntakeObserver:         collaborators.pageIntakeObserver,
@@ -239,11 +243,11 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 		t.Fatalf("admitted %d pages, want one for the offered page", len(pages.received))
 	}
 	admitted := pages.received[0]
-	if admitted.Metadata.Address != offeredPageURL {
-		t.Errorf("admitted address = %q, want the offered page", admitted.Metadata.Address)
+	if admitted.Metadata().Address != offeredPageURL {
+		t.Errorf("admitted address = %q, want the offered page", admitted.Metadata().Address)
 	}
-	if admitted.Metadata.Title != pageTitle {
-		t.Errorf("admitted title = %q, want the extracted title", admitted.Metadata.Title)
+	if admitted.Metadata().Title != pageTitle {
+		t.Errorf("admitted title = %q, want the extracted title", admitted.Metadata().Title)
 	}
 	if len(receipts.kept) != 1 || receipts.kept[0].String() != offeredPageURL {
 		t.Errorf("kept receipts = %v, want one for the offered page", receipts.kept)
@@ -268,7 +272,7 @@ func TestPageThatLandedElsewhereIsIndexedUnderTheOfferedURL(t *testing.T) {
 		t.Errorf("action = %q, want ack", action)
 	}
 	if len(pages.received) != 1 ||
-		pages.received[0].Metadata.Address != offeredPageURL {
+		pages.received[0].Metadata().Address != offeredPageURL {
 		t.Fatalf("admitted %+v, want one page under the offered url", pages.received)
 	}
 }
@@ -396,9 +400,9 @@ func assertAdmissionDisposal(
 		t.Fatalf("admission calls = %d, want one", len(admitted))
 	}
 	if len(observer.postingsNotAdmitted) != 1 ||
-		observer.postingsNotAdmitted[0] != len(admitted[0].Postings) {
+		observer.postingsNotAdmitted[0] != admitted[0].AmountOfPostings() {
 		t.Errorf("postings not admitted = %v, want %d",
-			observer.postingsNotAdmitted, len(admitted[0].Postings))
+			observer.postingsNotAdmitted, admitted[0].AmountOfPostings())
 	}
 	if got := len(observer.admissionFailures) != 0; got != expectation.wantFailureCause {
 		t.Errorf("failure cause reported = %t, want %t", got, expectation.wantFailureCause)
@@ -418,6 +422,21 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	}
 }
 
+type noStopwords struct{}
+
+func (noStopwords) Contains(yacymodel.Hash, yacymodel.Language) bool { return false }
+
+func indexBuilderWithoutStopwords(t *testing.T) pagerwi.IndexBuilder {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagerwi.NewIndexBuilder(noStopwords{}, partitions)
+}
+
 func assertWordsAdmitted(t *testing.T, pages *recordingPages, words ...string) {
 	t.Helper()
 
@@ -425,12 +444,13 @@ func assertWordsAdmitted(t *testing.T, pages *recordingPages, words ...string) {
 		t.Fatalf("admitted over %d calls, want one call for the page", len(pages.received))
 	}
 	admitted := map[yacymodel.Hash]bool{}
-	for _, posting := range pages.received[0].Postings {
+	pagePostings := pages.received[0].PagePostings()
+	for _, posting := range pagePostings.Postings() {
 		admitted[posting.WordHash] = true
 	}
 	for _, word := range words {
 		if !admitted[yacymodel.WordHash(word)] {
-			t.Errorf("word %q should be admitted, got %v", word, pages.received[0].Postings)
+			t.Errorf("word %q should be admitted, got %v", word, pagePostings.Postings())
 		}
 	}
 }

@@ -51,7 +51,7 @@ func openHarness(t *testing.T, self yacymodel.Hash, redundancy int) *harness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, writer, purger, err := rwipostings.Open(
+	index, writer, purger, _, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -102,17 +102,33 @@ func (h *harness) admit(
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, url := range urls {
-			if err := h.writer.Write(tx, yacymodel.RWIPosting{
+			posting := yacymodel.RWIPosting{
 				WordHash: wordPartition.Word,
 				URLHash:  url,
 				Language: yacymodel.LanguageOfUndeclaredDocument,
-			}); err != nil {
+			}
+			pagePostings := unprovenPagePostingsOf(t, posting)
+			if err := h.writer.Write(tx, pagePostings); err != nil {
 				return err
 			}
 		}
 
 		return nil
 	})
+}
+
+func unprovenPagePostingsOf(
+	t *testing.T,
+	postings ...yacymodel.RWIPosting,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagePostings
 }
 
 func (h *harness) deliver(t *testing.T, wordPartitions ...yacymodel.WordPartition) {

@@ -39,6 +39,14 @@ func (p attachedProjections[K, V]) recordRemoved(tx *Txn, key K, removedRecord [
 		return fmt.Errorf("removed record: %w", err)
 	}
 
+	return p.valueRemoved(tx, key, removed)
+}
+
+func (p attachedProjections[K, V]) valueRemoved(tx *Txn, key K, removed storedValue[V]) error {
+	if p.projections == nil {
+		return nil
+	}
+
 	return p.projections.recordRemoved(tx, key, removed)
 }
 

@@ -24,7 +24,7 @@ type PostingReceiver interface {
 	Receive(
 		ctx context.Context,
 		origin rwiorigin.Origin,
-		postings []yacymodel.RWIPosting,
+		receivedPagePostings []yacymodel.PagePostings,
 	) (PostingReceipt, error)
 }
 

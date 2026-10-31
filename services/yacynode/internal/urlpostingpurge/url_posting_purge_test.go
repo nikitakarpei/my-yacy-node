@@ -51,7 +51,7 @@ func openHarness(t *testing.T) harness {
 		}
 	})
 
-	index, writer, purger, err := rwipostings.Open(
+	index, writer, purger, _, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions{},
@@ -111,15 +111,34 @@ func (h harness) writePosting(t *testing.T, word string, url yacymodel.URLHash) 
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.writer.Write(tx, yacymodel.RWIPosting{
+		posting := yacymodel.RWIPosting{
 			WordHash: yacymodel.WordHash(word),
 			URLHash:  url,
 			Language: yacymodel.LanguageOfUndeclaredDocument,
 			Hits:     1,
-		})
+		}
+
+		return h.writer.Write(
+			tx,
+			unprovenPagePostingsOf(t, posting),
+		)
 	}); err != nil {
 		t.Fatalf("Write: %v", err)
 	}
+}
+
+func unprovenPagePostingsOf(
+	t *testing.T,
+	postings ...yacymodel.RWIPosting,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagePostings
 }
 
 func (h harness) purgeMetadata(t *testing.T, url yacymodel.URLHash) {

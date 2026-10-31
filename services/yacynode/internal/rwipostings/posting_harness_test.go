@@ -18,6 +18,54 @@ type harness struct {
 	index  rwipostings.PostingIndex
 	writer rwipostings.PostingWriter
 	purger rwipostings.PostingPurger
+	proofs rwipostings.PostingProofs
+}
+
+func (h harness) write(t *testing.T, pagePostings yacymodel.PagePostings) {
+	t.Helper()
+
+	h.update(t, func(tx *vault.Txn) error { return h.writer.Write(tx, pagePostings) })
+}
+
+func (h harness) update(t *testing.T, change func(tx *vault.Txn) error) {
+	t.Helper()
+
+	if err := h.vault.Update(context.Background(), change); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func (h harness) handOff(t *testing.T, posting yacymodel.RWIPosting) {
+	t.Helper()
+
+	h.update(t, func(tx *vault.Txn) error {
+		_, err := h.purger.PurgePostingsOfWordIn(
+			tx,
+			posting.WordHash,
+			ringPartitions(t).PartitionOf(posting.URLHash),
+		)
+
+		return err
+	})
+}
+
+func (h harness) rootFromProofsFor(
+	t *testing.T,
+	postings []yacymodel.RWIPosting,
+) yacymodel.Optional[yacymodel.PostingsRoot] {
+	t.Helper()
+
+	proof, found := h.proofs.ProofsFor(t.Context(), postings)[postings[0].URLHash]
+	if !found {
+		t.Fatalf("ProofsFor gave no proof for %v", postings[0].URLHash)
+	}
+
+	pagePostings, err := yacymodel.ProvenPagePostingsFrom(postings, proof)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagePostings.Root()
 }
 
 func (h harness) postingOf(
@@ -80,7 +128,7 @@ func openHarnessRanking(t *testing.T, rankedWords []yacymodel.Hash) harness {
 	t.Helper()
 
 	v := openVault(t)
-	index, writer, purger, err := rwipostings.Open(
+	index, writer, purger, proofs, err := rwipostings.Open(
 		context.Background(),
 		v,
 		ringPartitions(t),
@@ -97,6 +145,7 @@ func openHarnessRanking(t *testing.T, rankedWords []yacymodel.Hash) harness {
 		index:  index,
 		writer: writer,
 		purger: purger,
+		proofs: proofs,
 	}
 }
 
@@ -132,7 +181,10 @@ func (h harness) writeEach(t *testing.T, postings ...yacymodel.RWIPosting) {
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, entry := range postings {
-			if err := h.writer.Write(tx, entry); err != nil {
+			if err := h.writer.Write(
+				tx,
+				unprovenPagePostingsOf(t, entry),
+			); err != nil {
 				return fmt.Errorf("write posting: %w", err)
 			}
 		}
@@ -141,6 +193,20 @@ func (h harness) writeEach(t *testing.T, postings ...yacymodel.RWIPosting) {
 	}); err != nil {
 		t.Fatalf("Write: %v", err)
 	}
+}
+
+func unprovenPagePostingsOf(
+	t *testing.T,
+	postings ...yacymodel.RWIPosting,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagePostings
 }
 
 func urlHash(seed string) yacymodel.URLHash {

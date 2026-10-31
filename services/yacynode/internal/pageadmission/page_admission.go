@@ -15,15 +15,18 @@ import (
 )
 
 type pageAdmission struct {
-	vault     *vault.Vault
-	urls      urlmeta.URLEvictor
-	metadata  urlmeta.URLMetadataWriter
-	postings  rwipostings.PostingWriter
-	stopwords Stopwords
-	pause     time.Duration
+	vault    *vault.Vault
+	urls     urlmeta.URLEvictor
+	metadata urlmeta.URLMetadataWriter
+	postings rwipostings.PostingWriter
+	pause    time.Duration
 }
 
-func (a pageAdmission) Receive(ctx context.Context, page pagerwi.PageRWI) (Receipt, error) {
+func (a pageAdmission) Receive(
+	ctx context.Context,
+	url yacymodel.URLHash,
+	page yacymodel.Optional[pagerwi.PageRWI],
+) (Receipt, error) {
 	atCapacity, err := a.vault.AtCapacity(ctx)
 	if err != nil {
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)
@@ -33,7 +36,7 @@ func (a pageAdmission) Receive(ctx context.Context, page pagerwi.PageRWI) (Recei
 	}
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		return a.replaceEverythingHeldForPage(ctx, tx, page)
+		return a.replaceEverythingHeldForPage(ctx, tx, url, page)
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
 		return Receipt{Busy: true, Pause: a.pause}, nil
@@ -48,33 +51,45 @@ func (a pageAdmission) Receive(ctx context.Context, page pagerwi.PageRWI) (Recei
 func (a pageAdmission) replaceEverythingHeldForPage(
 	ctx context.Context,
 	tx *vault.Txn,
-	page pagerwi.PageRWI,
+	url yacymodel.URLHash,
+	page yacymodel.Optional[pagerwi.PageRWI],
 ) error {
-	if _, err := a.urls.Purge(
-		ctx,
-		tx,
-		[]yacymodel.URLHash{page.Metadata.Hash},
-	); err != nil {
+	if err := a.purge(ctx, tx, url); err != nil {
+		return err
+	}
+	index, indexed := page.Get()
+	if !indexed {
+		return nil
+	}
+	if err := a.writeMetadata(tx, index.Metadata()); err != nil {
+		return err
+	}
+
+	return a.writePostings(tx, index.PagePostings())
+}
+
+func (a pageAdmission) purge(ctx context.Context, tx *vault.Txn, url yacymodel.URLHash) error {
+	if _, err := a.urls.Purge(ctx, tx, []yacymodel.URLHash{url}); err != nil {
 		return fmt.Errorf("purge page url: %w", err)
 	}
-	if err := a.metadata.Write(tx, page.Metadata, pageversion.SourceThisNode()); err != nil {
+
+	return nil
+}
+
+func (a pageAdmission) writeMetadata(tx *vault.Txn, metadata yacymodel.URLMetadata) error {
+	if err := a.metadata.Write(tx, metadata, pageversion.SourceThisNode()); err != nil {
 		return fmt.Errorf("write page url metadata: %w", err)
 	}
 
-	return a.postings.Write(tx, a.postingsWithoutStopwordsOf(page.Postings)...)
+	return nil
 }
 
-func (a pageAdmission) postingsWithoutStopwordsOf(
-	postings []yacymodel.RWIPosting,
-) []yacymodel.RWIPosting {
-	postingsWithoutStopwords := make([]yacymodel.RWIPosting, 0, len(postings))
-	for _, posting := range postings {
-		if !a.stopwords.Contains(posting.WordHash, posting.Language) {
-			postingsWithoutStopwords = append(postingsWithoutStopwords, posting)
-		}
+func (a pageAdmission) writePostings(tx *vault.Txn, pagePostings yacymodel.PagePostings) error {
+	if err := a.postings.Write(tx, pagePostings); err != nil {
+		return fmt.Errorf("write page postings: %w", err)
 	}
 
-	return postingsWithoutStopwords
+	return nil
 }
 
 var _ PageReceiver = pageAdmission{}

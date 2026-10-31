@@ -190,8 +190,25 @@ func (h *harness) admit(t *testing.T, wordPartition yacymodel.WordPartition) {
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		return h.writer.Write(tx, h.postingIn(wordPartition))
+		return h.writer.Write(
+			tx,
+			unprovenPagePostingsOf(t, h.postingIn(wordPartition)),
+		)
 	})
+}
+
+func unprovenPagePostingsOf(
+	t *testing.T,
+	postings ...yacymodel.RWIPosting,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagePostings
 }
 
 func (h *harness) postingIn(wordPartition yacymodel.WordPartition) yacymodel.RWIPosting {

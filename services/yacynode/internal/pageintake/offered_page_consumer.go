@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
@@ -25,6 +26,7 @@ type IntakeReceipts interface {
 type OfferedPageConsumer struct {
 	offeredPageSource          pullintake.MessageSource
 	formatDerivations          pageformats.FormatDerivationCatalog
+	pageIndexBuilder           pagerwi.IndexBuilder
 	pageReceiver               pageadmission.PageReceiver
 	intakeReceipts             IntakeReceipts
 	pageIntakeObserver         PageIntakeObserver
@@ -34,6 +36,7 @@ type OfferedPageConsumer struct {
 type OfferedPageConsumerConfig struct {
 	OfferedPageSource          pullintake.MessageSource
 	FormatDerivations          pageformats.FormatDerivationCatalog
+	PageIndexBuilder           pagerwi.IndexBuilder
 	PageReceiver               pageadmission.PageReceiver
 	IntakeReceipts             IntakeReceipts
 	PageIntakeObserver         PageIntakeObserver
@@ -44,6 +47,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 	return &OfferedPageConsumer{
 		offeredPageSource:          config.OfferedPageSource,
 		formatDerivations:          config.FormatDerivations,
+		pageIndexBuilder:           config.PageIndexBuilder,
 		pageReceiver:               config.PageReceiver,
 		intakeReceipts:             config.IntakeReceipts,
 		pageIntakeObserver:         config.PageIntakeObserver,
@@ -82,7 +86,12 @@ func (c *OfferedPageConsumer) takeIn(
 
 		return c.reject(ctx, message, page.PageURL)
 	}
-	c.store(ctx, message, pagerwi.Of(page, document, text, reachedAt))
+	c.store(
+		ctx,
+		message,
+		page.PageURL,
+		c.pageIndexBuilder.RWIFrom(ctx, page, document, text, reachedAt),
+	)
 
 	return nil
 }
@@ -132,28 +141,31 @@ func (c *OfferedPageConsumer) fullTextOf(
 func (c *OfferedPageConsumer) store(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	index pagerwi.PageRWI,
+	pageURL canonicalurl.CanonicalURL,
+	index yacymodel.Optional[pagerwi.PageRWI],
 ) {
-	if !c.admitPage(ctx, message, index) {
+	if !c.admitPage(ctx, message, pageURL, index) {
 		return
 	}
-	c.intakeReceipts.ReportKeptPage(ctx, index.PageURL)
+	c.intakeReceipts.ReportKeptPage(ctx, pageURL)
 	message.Acknowledge(ctx)
-	c.pageIntakeObserver.PageIndexed(ctx, message.Identity(), index.PageURL)
+	c.pageIntakeObserver.PageIndexed(ctx, message.Identity(), pageURL)
 }
 
 func (c *OfferedPageConsumer) admitPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	index pagerwi.PageRWI,
+	pageURL canonicalurl.CanonicalURL,
+	index yacymodel.Optional[pagerwi.PageRWI],
 ) bool {
-	receipt, err := c.pageReceiver.Receive(ctx, index)
+	amountOfPostings := amountOfPostingsOf(index)
+	receipt, err := c.pageReceiver.Receive(ctx, yacymodel.URLHashOf(pageURL.WebAddress()), index)
 	if err != nil {
 		c.pageIntakeObserver.PageAdmissionFailed(
 			ctx,
 			message.Identity(),
-			index.PageURL,
-			len(index.Postings),
+			pageURL,
+			amountOfPostings,
 			err,
 		)
 		message.Return(ctx)
@@ -164,8 +176,8 @@ func (c *OfferedPageConsumer) admitPage(
 		c.pageIntakeObserver.PageAdmissionBusy(
 			ctx,
 			message.Identity(),
-			index.PageURL,
-			len(index.Postings),
+			pageURL,
+			amountOfPostings,
 		)
 		message.Return(ctx)
 
@@ -174,11 +186,20 @@ func (c *OfferedPageConsumer) admitPage(
 	c.pageIntakeObserver.PageAdmitted(
 		ctx,
 		message.Identity(),
-		index.PageURL,
-		len(index.Postings),
+		pageURL,
+		amountOfPostings,
 	)
 
 	return true
+}
+
+func amountOfPostingsOf(index yacymodel.Optional[pagerwi.PageRWI]) int {
+	indexed, present := index.Get()
+	if !present {
+		return 0
+	}
+
+	return indexed.AmountOfPostings()
 }
 
 func (c *OfferedPageConsumer) reject(
