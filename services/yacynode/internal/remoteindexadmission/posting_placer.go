@@ -47,15 +47,7 @@ func (p postingPlacer) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (b
 	return indexed, nil
 }
 
-func (p postingPlacer) index(
-	tx *vault.Txn,
-	pagePostings yacymodel.PagePostings,
-	postingsToIndex []yacymodel.RWIPosting,
-) error {
-	pagePostingsToIndex, present := pagePostings.NarrowedTo(postingsToIndex).Get()
-	if !present {
-		return nil
-	}
+func (p postingPlacer) index(tx *vault.Txn, pagePostingsToIndex yacymodel.PagePostings) error {
 	if err := p.writer.Write(tx, pagePostingsToIndex); err != nil {
 		return fmt.Errorf("write postings: %w", err)
 	}

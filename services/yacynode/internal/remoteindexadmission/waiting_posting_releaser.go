@@ -1,7 +1,9 @@
 package remoteindexadmission
 
 import (
+	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -15,6 +17,7 @@ type waitingPostingReleaser struct {
 }
 
 func (r waitingPostingReleaser) releaseWaitingFor(
+	ctx context.Context,
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 	storedVersion pageversion.Version,
@@ -41,7 +44,7 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 		}
 	}
 
-	return r.indexReleased(tx, postingsToIndex)
+	return r.indexReleased(ctx, tx, postingsToIndex)
 }
 
 func (r waitingPostingReleaser) release(
@@ -63,6 +66,7 @@ func (r waitingPostingReleaser) release(
 }
 
 func (r waitingPostingReleaser) indexReleased(
+	ctx context.Context,
 	tx *vault.Txn,
 	postingsToIndex []yacymodel.RWIPosting,
 ) error {
@@ -71,8 +75,21 @@ func (r waitingPostingReleaser) indexReleased(
 	}
 	released, err := yacymodel.UnprovenPagePostingsFrom(postingsToIndex)
 	if err != nil {
-		return fmt.Errorf("released postings: %w", err)
+		reportReleasedPostingsFormingNoPagePostings(ctx, postingsToIndex[0].URLHash, err)
+
+		return nil
 	}
 
-	return r.placer.index(tx, released, postingsToIndex)
+	return r.placer.index(tx, released)
+}
+
+func reportReleasedPostingsFormingNoPagePostings(
+	ctx context.Context,
+	url yacymodel.URLHash,
+	err error,
+) {
+	slog.ErrorContext(ctx, "released postings of a url form no page postings",
+		slog.String("url", url.String()),
+		slog.Any("error", err),
+	)
 }
