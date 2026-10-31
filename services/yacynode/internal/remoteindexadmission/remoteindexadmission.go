@@ -94,20 +94,19 @@ func Open(
 		return PostingAdmission{}, URLMetadataIntake{}, err
 	}
 
+	placer := postingPlacer{postings: postings, writer: postingWriter}
 	postingAdmission := PostingAdmission{
-		vault:         v,
-		urls:          urls,
-		escrow:        escrow,
-		postings:      postings,
-		postingWriter: postingWriter,
-		stopwords:     stopwords,
-		observer:      observer,
-		now:           now,
-		postingCap:    config.PostingCap,
-		pause:         config.Pause,
+		vault:      v,
+		urls:       urls,
+		escrow:     escrow,
+		placer:     placer,
+		stopwords:  stopwords,
+		observer:   observer,
+		now:        now,
+		postingCap: config.PostingCap,
+		pause:      config.Pause,
 	}
-
-	return postingAdmission, URLMetadataIntake{
+	urlMetadataIntake := URLMetadataIntake{
 		vault:     v,
 		urls:      urls,
 		evictor:   evictor,
@@ -119,8 +118,14 @@ func Open(
 			now:     now,
 			limit:   config.SwapLimit,
 		},
-		postings: postingAdmission,
+		releaser: waitingPostingReleaser{
+			escrow:   escrow,
+			placer:   placer,
+			observer: observer,
+		},
 		observer: observer,
 		now:      now,
-	}, nil
+	}
+
+	return postingAdmission, urlMetadataIntake, nil
 }

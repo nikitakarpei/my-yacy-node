@@ -10,9 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
@@ -36,14 +34,13 @@ var errEscrowFull = errors.New("escrow holds as many postings as it can")
 var _ PostingReceiver = PostingAdmission{}
 
 type PostingAdmission struct {
-	vault         *vault.Vault
-	urls          urlmeta.URLDirectory
-	escrow        Escrow
-	postings      rwipostings.PostingIndex
-	postingWriter rwipostings.PostingWriter
-	stopwords     Stopwords
-	observer      Observer
-	now           func() time.Time
+	vault     *vault.Vault
+	urls      urlmeta.URLDirectory
+	escrow    Escrow
+	placer    postingPlacer
+	stopwords Stopwords
+	observer  Observer
+	now       func() time.Time
 
 	postingCap int
 	pause      time.Duration
@@ -180,7 +177,7 @@ func (a PostingAdmission) admit(
 		return a.hold(tx, origin, posting)
 	}
 
-	return a.place(tx, origin, posting, currentVersion)
+	return a.placer.place(tx, origin, posting, currentVersion)
 }
 
 func (a PostingAdmission) hold(
@@ -193,85 +190,4 @@ func (a PostingAdmission) hold(
 	}
 
 	return PostingHeldForURLMetadata, nil
-}
-
-func (a PostingAdmission) place(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-	currentVersion urlmeta.CurrentVersion,
-) (PostingOutcome, error) {
-	switch {
-	case !currentVersion.Describes(pagefingerprint.FromPosting(posting)):
-		return PostingDroppedNotNewerVersion, nil
-	case !currentVersion.CameFrom(origin):
-		return PostingDroppedPageFromOtherSource, nil
-	}
-	postingIndexed, err := a.isIndexed(tx, posting)
-	if err != nil {
-		return "", err
-	}
-	if postingIndexed {
-		return PostingDroppedAlreadyIndexed, nil
-	}
-
-	return a.write(tx, posting)
-}
-
-func (a PostingAdmission) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (bool, error) {
-	_, indexed, err := a.postings.PostingOf(tx, posting.WordHash, posting.URLHash)
-	if err != nil {
-		return false, fmt.Errorf("read indexed posting: %w", err)
-	}
-
-	return indexed, nil
-}
-
-func (a PostingAdmission) write(
-	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
-) (PostingOutcome, error) {
-	if err := a.postingWriter.Write(tx, posting); err != nil {
-		return "", fmt.Errorf("write posting: %w", err)
-	}
-
-	return PostingIndexed, nil
-}
-
-func (a PostingAdmission) releaseWaitingFor(
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-	currentVersion urlmeta.CurrentVersion,
-) error {
-	waiting, err := a.escrow.PostingsWaitingFor(tx, url)
-	if err != nil {
-		return fmt.Errorf("postings waiting for url: %w", err)
-	}
-	for _, posting := range waiting {
-		if currentVersion.IsOlderThan(pagefingerprint.FromPosting(posting.Posting)) {
-			continue
-		}
-		if err := a.release(tx, posting, currentVersion); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (a PostingAdmission) release(
-	tx *vault.Txn,
-	waiting rwiescrow.WaitingPosting,
-	currentVersion urlmeta.CurrentVersion,
-) error {
-	if err := a.escrow.Release(tx, waiting.Posting); err != nil {
-		return fmt.Errorf("release posting: %w", err)
-	}
-	outcome, err := a.place(tx, waiting.Origin, waiting.Posting, currentVersion)
-	if err != nil {
-		return err
-	}
-	tx.RunAfterCommit(func() { a.observer.ObserveReleasedPostings(outcome, 1) })
-
-	return nil
 }
