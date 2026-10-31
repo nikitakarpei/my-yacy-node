@@ -257,3 +257,25 @@ func TestPostingsProvenFromTwoNetworksJoinUnderTheRootTheyWaitedFor(t *testing.T
 		t.Fatalf("root of the released postings = %+v, want %+v", got, crawled.Root())
 	}
 }
+
+func TestReleasedProvenPostingsOfOneURLAreWrittenAtOnce(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	crawled := crawledPageOf(today, "w1", "w2", "w3")
+	h.receiveProven(t, otherPeer, sentPagePostingsOf(crawled, "w1", "w2"))
+	h.written.writes = nil
+
+	h.receiveMetadata(t, sendingPeer, rootedMetadataOf(t, today, crawled))
+
+	if len(h.written.writes) == 0 {
+		t.Fatal("no write of the released proven postings")
+	}
+	for _, write := range h.written.writes {
+		if write.AmountOfPostings() != 2 {
+			t.Errorf(
+				"a write of released proven postings holds %d postings, want both",
+				write.AmountOfPostings(),
+			)
+		}
+	}
+}
