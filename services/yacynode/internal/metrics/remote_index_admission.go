@@ -38,17 +38,17 @@ func NewRemoteIndexAdmissionMetrics(registry prometheus.Registerer) *RemoteIndex
 }
 
 func (m *RemoteIndexAdmissionMetrics) ObserveReceivedPostings(
-	outcome remoteindexadmission.ReceivedPostingOutcome,
+	outcome remoteindexadmission.PostingOutcome,
 	postings int,
 ) {
 	m.receivedPostings.WithLabelValues(string(outcome)).Add(float64(postings))
 }
 
 func (m *RemoteIndexAdmissionMetrics) ObserveReleasedPostings(
-	placement remoteindexadmission.PostingPlacement,
+	outcome remoteindexadmission.PostingOutcome,
 	postings int,
 ) {
-	m.releasedPostings.WithLabelValues(string(placement)).Add(float64(postings))
+	m.releasedPostings.WithLabelValues(string(outcome)).Add(float64(postings))
 }
 
 func (m *RemoteIndexAdmissionMetrics) ObserveURLMetadata(
