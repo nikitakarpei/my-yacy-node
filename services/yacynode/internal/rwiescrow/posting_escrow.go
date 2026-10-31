@@ -3,29 +3,26 @@ package rwiescrow
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 )
 
 type postingIdentity struct {
-	Word        yacymodel.Hash
-	URL         yacymodel.URLHash
-	Fingerprint pagefingerprint.Fingerprint
+	Word    yacymodel.Hash
+	URL     yacymodel.URLHash
+	Version []byte
 }
 
 type escrowedPosting struct {
 	HeldAt  time.Time
 	Origin  rwiorigin.Origin
 	Posting yacymodel.RWIPosting
-}
-
-type WaitingPosting struct {
-	Origin  rwiorigin.Origin
-	Posting yacymodel.RWIPosting
+	Proof   yacymodel.Optional[yacymodel.PostingsProof]
 }
 
 type postingHold struct {
@@ -44,12 +41,19 @@ type PostingEscrow struct {
 func (e *PostingEscrow) Hold(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
+	pagePosting yacymodel.PagePosting,
+	version pageversion.Version,
 ) error {
-	_, err := e.escrowed.Put(tx, identityOf(posting), escrowedPosting{
+	identity := postingIdentity{
+		Word:    pagePosting.Word(),
+		URL:     pagePosting.URL(),
+		Version: pageversion.AppendBytes(version, nil),
+	}
+	_, err := e.escrowed.Put(tx, identity, escrowedPosting{
 		HeldAt:  e.now(),
 		Origin:  origin,
-		Posting: posting,
+		Posting: pagePosting.Posting(),
+		Proof:   pagePosting.Proof(),
 	})
 	if err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
@@ -58,29 +62,23 @@ func (e *PostingEscrow) Hold(
 	return nil
 }
 
-func identityOf(posting yacymodel.RWIPosting) postingIdentity {
-	return postingIdentity{
-		Word:        posting.WordHash,
-		URL:         posting.URLHash,
-		Fingerprint: pagefingerprint.FromPosting(posting),
-	}
-}
-
 func (e *PostingEscrow) PostingsWaitingFor(
+	ctx context.Context,
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 ) ([]WaitingPosting, error) {
-	var waiting []WaitingPosting
+	var waitingPostings []WaitingPosting
 	err := e.escrowed.Scan(
 		tx,
 		everyPostingWaitingFor(url),
 		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
-			escrowed.Posting.WordHash = identity.Word
-			escrowed.Posting.URLHash = identity.URL
-			waiting = append(
-				waiting,
-				WaitingPosting{Origin: escrowed.Origin, Posting: escrowed.Posting},
-			)
+			waitingPosting, err := waitingPostingFrom(identity, escrowed)
+			if err != nil {
+				reportRefusedPosting(ctx, identity, err)
+
+				return true, nil
+			}
+			waitingPostings = append(waitingPostings, waitingPosting)
 
 			return true, nil
 		},
@@ -89,11 +87,19 @@ func (e *PostingEscrow) PostingsWaitingFor(
 		return nil, fmt.Errorf("read postings waiting for url: %w", err)
 	}
 
-	return waiting, nil
+	return waitingPostings, nil
 }
 
-func (e *PostingEscrow) Release(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	return e.drop(tx, identityOf(posting))
+func reportRefusedPosting(ctx context.Context, identity postingIdentity, err error) {
+	slog.WarnContext(ctx, "escrowed posting refused, posting left to expire",
+		slog.String("url", identity.URL.String()),
+		slog.String("word", identity.Word.String()),
+		slog.Any("error", err),
+	)
+}
+
+func (e *PostingEscrow) Release(tx *vault.Txn, waiting WaitingPosting) error {
+	return e.drop(tx, waiting.identity)
 }
 
 func (e *PostingEscrow) Expire(

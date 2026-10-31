@@ -1,7 +1,8 @@
 // Package urlmetastaleness orders url metadata from stalest to freshest so
-// eviction can name the stalest urls without decompressing a single row. It is
-// a projection of the url metadata this node holds, and vault keeps it in step
-// with them.
+// eviction can name the stalest urls without decompressing a single row. Every
+// url whose metadata has no postings root ranks staler than any url whose
+// metadata has one. It is a projection of the url metadata this node holds, and vault
+// keeps it in step with them.
 package urlmetastaleness
 
 import (

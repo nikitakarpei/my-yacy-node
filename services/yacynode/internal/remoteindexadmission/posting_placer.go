@@ -1,7 +1,9 @@
 package remoteindexadmission
 
 import (
+	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -16,7 +18,7 @@ type postingPlacer struct {
 
 func (p postingPlacer) placementOf(
 	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
+	pagePosting yacymodel.PagePosting,
 	arrivedVersion pageversion.Version,
 	storedVersion pageversion.Version,
 ) (PostingOutcome, error) {
@@ -25,9 +27,11 @@ func (p postingPlacer) placementOf(
 		return PostingDroppedNotNewerVersion, nil
 	case pageversion.JoiningRefusedOtherSource:
 		return PostingDroppedPageFromOtherSource, nil
+	case pageversion.JoiningRefusedUnrootedVersion:
+		return PostingDroppedUnrootedVersion, nil
 	case pageversion.JoiningAllowed:
 	}
-	postingIndexed, err := p.isIndexed(tx, posting)
+	postingIndexed, err := p.isIndexed(tx, pagePosting)
 	if err != nil {
 		return "", err
 	}
@@ -38,8 +42,8 @@ func (p postingPlacer) placementOf(
 	return PostingIndexed, nil
 }
 
-func (p postingPlacer) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (bool, error) {
-	_, indexed, err := p.postings.PostingOf(tx, posting.WordHash, posting.URLHash)
+func (p postingPlacer) isIndexed(tx *vault.Txn, pagePosting yacymodel.PagePosting) (bool, error) {
+	_, indexed, err := p.postings.PostingOf(tx, pagePosting.Word(), pagePosting.URL())
 	if err != nil {
 		return false, fmt.Errorf("read indexed posting: %w", err)
 	}
@@ -47,10 +51,30 @@ func (p postingPlacer) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (b
 	return indexed, nil
 }
 
-func (p postingPlacer) index(tx *vault.Txn, passedPagePostings yacymodel.PagePostings) error {
-	if err := p.writer.Write(tx, passedPagePostings); err != nil {
+func (p postingPlacer) indexJoined(
+	ctx context.Context,
+	tx *vault.Txn,
+	passedPagePostings []yacymodel.PagePosting,
+) error {
+	if len(passedPagePostings) == 0 {
+		return nil
+	}
+	joinedPagePostings, err := yacymodel.PagePostingsJoinedFrom(passedPagePostings)
+	if err != nil {
+		reportUnjoinedPassedPostings(ctx, passedPagePostings[0].URL(), err)
+
+		return nil
+	}
+	if err := p.writer.Write(tx, joinedPagePostings); err != nil {
 		return fmt.Errorf("write postings: %w", err)
 	}
 
 	return nil
+}
+
+func reportUnjoinedPassedPostings(ctx context.Context, url yacymodel.URLHash, err error) {
+	slog.ErrorContext(ctx, "passed postings of a url form no page postings",
+		slog.String("url", url.String()),
+		slog.Any("error", err),
+	)
 }

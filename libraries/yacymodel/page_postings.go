@@ -11,6 +11,7 @@ var ErrBadPagePostings = errors.New("bad page postings")
 type PagePostings struct {
 	postings []RWIPosting
 	proof    Optional[PostingsProof]
+	root     Optional[PostingsRoot]
 }
 
 func UnprovenPagePostingsFrom(postings []RWIPosting) (PagePostings, error) {
@@ -76,11 +77,24 @@ func ProvenPagePostingsFrom(postings []RWIPosting, proof PostingsProof) (PagePos
 		)
 	}
 
-	return PagePostings{postings: slices.Clone(postings), proof: Some(proof)}, nil
+	return PagePostings{
+		postings: slices.Clone(postings),
+		proof:    Some(proof),
+		root:     Some(proof.rootOver(postings)),
+	}, nil
 }
 
 func (p PagePostings) Postings() []RWIPosting {
 	return slices.Clone(p.postings)
+}
+
+func (p PagePostings) Words() []Hash {
+	words := make([]Hash, 0, len(p.postings))
+	for _, posting := range p.postings {
+		words = append(words, posting.WordHash)
+	}
+
+	return words
 }
 
 func (p PagePostings) AmountOfPostings() int {
@@ -100,12 +114,7 @@ func (p PagePostings) URL() URLHash {
 }
 
 func (p PagePostings) Root() Optional[PostingsRoot] {
-	proof, proven := p.proof.Get()
-	if !proven {
-		return None[PostingsRoot]()
-	}
-
-	return Some(proof.rootOver(p.postings))
+	return p.root
 }
 
 func (p PagePostings) NarrowedTo(keptPostings []RWIPosting) Optional[PagePostings] {
@@ -116,6 +125,7 @@ func (p PagePostings) NarrowedTo(keptPostings []RWIPosting) Optional[PagePosting
 	return Some(PagePostings{
 		postings: slices.Clone(keptPostings),
 		proof:    p.proofNarrowedTo(keptPostings),
+		root:     p.root,
 	})
 }
 
@@ -140,4 +150,22 @@ func (p PagePostings) proofNarrowedTo(keptPostings []RWIPosting) Optional[Postin
 	}
 
 	return Some(proof.narrowedFrom(p.postings, keptPostings))
+}
+
+func (p PagePostings) EachPagePosting() []PagePosting {
+	proof, proven := p.proof.Get()
+	if !proven {
+		return unprovenPagePostingsFrom(p.postings)
+	}
+
+	return proof.pagePostingsFrom(p.postings, p.root)
+}
+
+func unprovenPagePostingsFrom(postings []RWIPosting) []PagePosting {
+	pagePostings := make([]PagePosting, 0, len(postings))
+	for _, posting := range postings {
+		pagePostings = append(pagePostings, PagePosting{posting: posting})
+	}
+
+	return pagePostings
 }

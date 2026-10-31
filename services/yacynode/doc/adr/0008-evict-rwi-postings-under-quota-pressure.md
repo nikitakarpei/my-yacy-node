@@ -6,7 +6,8 @@ Date: 2026-06-20
 
 Accepted
 
-Amended by ADR 0015: the redistribute policy is dropped and distribution deletes handed-off postings.
+Amended by ADR 0015 and ADR 0025: the redistribute policy is dropped, distribution deletes handed-off
+postings, and eviction takes every URL without a postings root before any URL with one.
 
 ## Context
 

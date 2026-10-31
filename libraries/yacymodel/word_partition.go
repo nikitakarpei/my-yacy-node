@@ -5,10 +5,6 @@ type WordPartition struct {
 	Partition uint
 }
 
-func WordPartitionOfPosting(posting RWIPosting, partitions DHTRingPartitions) WordPartition {
-	return WordPartitionOfWordAndURL(posting.WordHash, posting.URLHash, partitions)
-}
-
 func WordPartitionOfWordAndURL(
 	word Hash,
 	url URLHash,

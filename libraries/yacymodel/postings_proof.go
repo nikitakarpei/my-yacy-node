@@ -65,6 +65,25 @@ func (p PostingsProof) narrowedFrom(postings, keptPostings []RWIPosting) Posting
 	))
 }
 
+func (p PostingsProof) pagePostingsFrom(
+	postings []RWIPosting,
+	root Optional[PostingsRoot],
+) []PagePosting {
+	eachEntries := p.subtreeOver(postings).EntriesAroundEach(
+		leafPositionsOfPostings(postings, p.partitionExponent),
+	)
+	pagePostings := make([]PagePosting, 0, len(eachEntries))
+	for index, entries := range eachEntries {
+		pagePostings = append(pagePostings, PagePosting{
+			posting: postings[index],
+			proof:   Some(p.withEntries(entries)),
+			root:    root,
+		})
+	}
+
+	return pagePostings
+}
+
 func (p PostingsProof) Bytes() []byte {
 	return postingstree.AppendEntries([]byte{postingsProofFormat, p.partitionExponent}, p.entries)
 }

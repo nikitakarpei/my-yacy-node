@@ -18,8 +18,10 @@ type URLMetadataOutcome string
 const (
 	URLMetadataStoredNewURL               URLMetadataOutcome = "stored_new_url"
 	URLMetadataReplacedOlderVersion       URLMetadataOutcome = "replaced_older_version"
+	URLMetadataReplacedUnrootedVersion    URLMetadataOutcome = "replaced_unrooted_version"
 	URLMetadataDroppedAlreadyStored       URLMetadataOutcome = "dropped_already_stored"
 	URLMetadataDroppedNotNewerVersion     URLMetadataOutcome = "dropped_not_newer_version"
+	URLMetadataDroppedUnrootedVersion     URLMetadataOutcome = "dropped_unrooted_version"
 	URLMetadataDroppedFutureDate          URLMetadataOutcome = "dropped_future_date"
 	URLMetadataDroppedTooManyReplacements URLMetadataOutcome = "dropped_too_many_replacements"
 )
@@ -131,8 +133,10 @@ func (i URLMetadataIntake) admit(
 		return i.store(ctx, tx, sender, arrived, arrivedVersion)
 	case version.Is(arrivedVersion):
 		return URLMetadataDroppedAlreadyStored, nil
-	case !version.IsReplacedBy(arrivedVersion):
-		return URLMetadataDroppedNotNewerVersion, nil
+	}
+	replacement := version.ReplacementBy(arrivedVersion)
+	if !replacement.IsAllowed() {
+		return droppedOutcomeOf(replacement), nil
 	}
 	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network, hourlySwapLimit)
 	if err != nil {
@@ -141,8 +145,11 @@ func (i URLMetadataIntake) admit(
 	if !swapAllowed {
 		return URLMetadataDroppedTooManyReplacements, nil
 	}
+	if err := i.replaceWith(ctx, tx, sender, arrived, arrivedVersion); err != nil {
+		return "", err
+	}
 
-	return i.replaceWith(ctx, tx, sender, arrived, arrivedVersion)
+	return replacedOutcomeOf(replacement), nil
 }
 
 func (i URLMetadataIntake) store(
@@ -173,22 +180,35 @@ func (i URLMetadataIntake) write(
 	return i.releaser.releaseWaitingFor(ctx, tx, arrived.Hash, arrivedVersion)
 }
 
+func droppedOutcomeOf(replacement pageversion.Replacement) URLMetadataOutcome {
+	if replacement == pageversion.ReplacementRefusedUnrootedVersion {
+		return URLMetadataDroppedUnrootedVersion
+	}
+
+	return URLMetadataDroppedNotNewerVersion
+}
+
 func (i URLMetadataIntake) replaceWith(
 	ctx context.Context,
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
 	arrivedVersion pageversion.Version,
-) (URLMetadataOutcome, error) {
+) error {
 	if err := i.swapAllowance.spend(tx, sender.Network); err != nil {
-		return "", err
+		return err
 	}
 	if _, err := i.evictor.Purge(ctx, tx, []yacymodel.URLHash{arrived.Hash}); err != nil {
-		return "", fmt.Errorf("purge the replaced version: %w", err)
-	}
-	if err := i.write(ctx, tx, sender, arrived, arrivedVersion); err != nil {
-		return "", err
+		return fmt.Errorf("purge the replaced version: %w", err)
 	}
 
-	return URLMetadataReplacedOlderVersion, nil
+	return i.write(ctx, tx, sender, arrived, arrivedVersion)
+}
+
+func replacedOutcomeOf(replacement pageversion.Replacement) URLMetadataOutcome {
+	if replacement == pageversion.ReplacementAllowedRootedVersion {
+		return URLMetadataReplacedUnrootedVersion
+	}
+
+	return URLMetadataReplacedOlderVersion
 }

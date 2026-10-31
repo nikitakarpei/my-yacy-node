@@ -131,6 +131,49 @@ func TestNarrowedPagePostingsLeadToTheRoot(t *testing.T) {
 	}
 }
 
+func TestEachPagePostingTakesTheProofOfItsNarrowing(t *testing.T) {
+	random := seededRandom(12)
+	for _, exponent := range partitionExponents {
+		partitions := partitionsFrom(t, exponent)
+		postings := randomPagePostings(random, 1+random.IntN(30))
+		whole := wholePagePostingsOf(t, postings, partitions)
+
+		for range 3 {
+			source := narrowedTo(t, whole, randomSubsetOf(random, postings))
+			pagePostings := source.EachPagePosting()
+			if len(pagePostings) != len(source.Postings()) {
+				t.Fatalf("%d page postings, want %d", len(pagePostings), len(source.Postings()))
+			}
+			for index, pagePosting := range pagePostings {
+				narrowed := narrowedTo(t, source, source.Postings()[index:index+1])
+				if pagePosting.Posting() != narrowed.Postings()[0] ||
+					pagePosting.Root() != whole.Root() ||
+					!bytes.Equal(pagePostingProofOf(t, pagePosting).Bytes(),
+						proofOf(t, narrowed).Bytes()) {
+					t.Fatalf(
+						"page posting = %+v, want its narrowing %+v",
+						pagePosting,
+						narrowed,
+					)
+				}
+			}
+		}
+	}
+}
+
+func pagePostingProofOf(
+	t *testing.T,
+	pagePosting yacymodel.PagePosting,
+) yacymodel.PostingsProof {
+	t.Helper()
+	proof, proven := pagePosting.Proof().Get()
+	if !proven {
+		t.Fatalf("no proof for posting %+v", pagePosting.Posting())
+	}
+
+	return proof
+}
+
 func narrowedTo(
 	t *testing.T,
 	pagePostings yacymodel.PagePostings,
@@ -419,6 +462,17 @@ func TestPagePostingsWithoutProofHaveNoRootAndNarrowWithoutProof(t *testing.T) {
 	}
 	if narrowedTo(t, unproven, postings[:1]).Proof().Present() {
 		t.Error("narrowed proof is present without a proof")
+	}
+	pagePostings := unproven.EachPagePosting()
+	if len(pagePostings) != len(postings) {
+		t.Fatalf("%d page postings, want %d", len(pagePostings), len(postings))
+	}
+	for index, pagePosting := range pagePostings {
+		if pagePosting.Posting() != postings[index] || pagePosting.Proof().Present() ||
+			pagePosting.Root().Present() {
+			t.Errorf("page posting = %+v, want posting %+v without proof or root",
+				pagePosting, postings[index])
+		}
 	}
 }
 

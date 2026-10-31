@@ -73,3 +73,8 @@ Later `hello.html` handshakes can add active peers, but peer arrival does not
 recreate the dispatcher. While it is `null`, `dhtTransferJob()` returns without
 distributing RWI. Persist at least one active connected peer and restart YaCy so
 the next boot constructs the dispatcher.
+
+## Postings roots and proofs
+
+A `transferURL` row carries the postings root in `postingsroot`. YaCy ignores it.
+Go peers send `postingsproofs` in `transferRWI` only to peers with a signed seed.

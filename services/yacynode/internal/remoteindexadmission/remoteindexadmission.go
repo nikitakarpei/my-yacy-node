@@ -1,11 +1,8 @@
-// Package remoteindexadmission admits what peers send to this node's remote
-// index: postings over transferRWI and their URL metadata over transferURL.
-// URL metadata of a later version replaces the stored metadata and every
-// posting of its URL in one transaction, within an hourly limit per sender
-// network. A posting of the version the stored metadata describes joins the
-// index when the network that sent the metadata sends its missing word; a
-// posting of a later version waits in escrow for its metadata, and any other
-// posting is dropped.
+// Package remoteindexadmission admits the postings and URL metadata that peers send. A version
+// replaces the stored one and its postings as pageversion orders them, within an hourly limit per
+// sender network. A posting joins a rooted version by proof and an unrooted one from the network
+// that sent its metadata. A posting waits in escrow when its URL has no stored metadata or when
+// its version would replace the stored one.
 package remoteindexadmission
 
 import (
@@ -14,6 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -38,9 +36,18 @@ type URLMetadataReceiver interface {
 
 type Escrow interface {
 	IsFull(ctx context.Context) (bool, error)
-	Hold(tx *vault.Txn, origin rwiorigin.Origin, posting yacymodel.RWIPosting) error
-	PostingsWaitingFor(tx *vault.Txn, url yacymodel.URLHash) ([]rwiescrow.WaitingPosting, error)
-	Release(tx *vault.Txn, posting yacymodel.RWIPosting) error
+	Hold(
+		tx *vault.Txn,
+		origin rwiorigin.Origin,
+		pagePosting yacymodel.PagePosting,
+		version pageversion.Version,
+	) error
+	PostingsWaitingFor(
+		ctx context.Context,
+		tx *vault.Txn,
+		url yacymodel.URLHash,
+	) ([]rwiescrow.WaitingPosting, error)
+	Release(tx *vault.Txn, waiting rwiescrow.WaitingPosting) error
 }
 
 type Stopwords interface {

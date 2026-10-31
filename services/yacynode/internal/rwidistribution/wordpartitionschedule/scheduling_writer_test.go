@@ -38,7 +38,7 @@ func TestSchedulingWriterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	if len(wrapped.written) != 1 || wrapped.written[0] != posting {
 		t.Fatalf("wrapped writer got %v, want [%v]", wrapped.written, posting)
 	}
-	want := yacymodel.WordPartitionOfPosting(posting, h.partitions)
+	want := yacymodel.WordPartitionOfWordAndURL(posting.WordHash, posting.URLHash, h.partitions)
 	if due := h.dueWordPartitions(t); !slices.Equal(due, []yacymodel.WordPartition{want}) {
 		t.Fatalf("due word partitions = %v, want [%v]", due, want)
 	}
@@ -138,7 +138,7 @@ func TestSchedulingWriterReportsThePositionOnlyAfterCommit(t *testing.T) {
 		t.Fatalf("reported inside the transaction = %d, want none", reportedInside)
 	}
 	want := yacymodel.DHTRingPositionOfWordPartition(
-		yacymodel.WordPartitionOfPosting(posting, h.partitions),
+		yacymodel.WordPartitionOfWordAndURL(posting.WordHash, posting.URLHash, h.partitions),
 		h.partitions,
 	)
 	if len(observer.positions) != 1 || observer.positions[0] != want {
