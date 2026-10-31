@@ -1128,7 +1128,7 @@
     {
       "id": 144,
       "title": "Peer URL metadata by outcome",
-      "description": "What the node decided for each URL metadata record a peer sent. Metadata with a postings root replaces any metadata without one. Otherwise metadata of a newer day replaces the stored metadata, but metadata without a postings root never replaces metadata with one. A replacement takes every posting of its URL with it.",
+      "description": "What the node decided for each URL metadata record a peer sent.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

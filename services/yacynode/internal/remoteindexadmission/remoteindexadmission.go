@@ -1,8 +1,8 @@
 // Package remoteindexadmission admits the postings and URL metadata that peers send. A version
 // replaces the stored one and its postings as pageversion orders them, within an hourly limit per
 // sender network. A posting joins a rooted version by proof and an unrooted one from the network
-// that sent its metadata. It waits in escrow for metadata of a version that would replace the
-// stored one.
+// that sent its metadata. A posting waits in escrow when its URL has no stored metadata or when
+// its version would replace the stored one.
 package remoteindexadmission
 
 import (
@@ -52,8 +52,9 @@ type Escrow interface {
 		ctx context.Context,
 		tx *vault.Txn,
 		url yacymodel.URLHash,
-	) ([]rwiescrow.WaitingPosting, error)
-	Release(tx *vault.Txn, waiting rwiescrow.WaitingPosting) error
+	) (rwiescrow.WaitingPostings, error)
+	ReleaseProven(tx *vault.Txn, waiting rwiescrow.WaitingProvenPosting) error
+	ReleaseUnproven(tx *vault.Txn, waiting rwiescrow.WaitingPosting) error
 }
 
 type Stopwords interface {

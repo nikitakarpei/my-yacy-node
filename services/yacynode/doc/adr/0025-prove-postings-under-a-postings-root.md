@@ -36,15 +36,10 @@ page, or that the page held the words.
   peers send for a URL whose version has a root. If only Java peers crawl the page again, the
   node keeps the older version with a root. Only a version with a root and a newer day replaces
   it.
-- Anyone can send URL metadata with a root for new URLs at no swap cost. When storage is full,
-  the node removes every URL without a root before those records. This includes new content
-  that Java peers send.
 - Postings that wait for a version with a root can fill the escrow during an upgrade. The hold
   period sets a limit (ADR 0018).
 - No standard defines the tree. The leaf encoding and the tree do not change without a new
   format version, which the root and the proof carry.
-- During the upgrade, older Go peers pass on roots but send no proofs. Receivers that check
-  proofs drop those postings until the senders upgrade.
 - A node keeps the postings proof of a URL and the postings of the URL in different stores.
   Only the write and purge paths keep the proof correct for the postings. If the proof is not
   correct, the node sends the postings of that URL with no proof or with a proof that does not
