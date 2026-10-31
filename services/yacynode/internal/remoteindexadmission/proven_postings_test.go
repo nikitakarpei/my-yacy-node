@@ -135,7 +135,7 @@ func TestPostingProvenUnderTheStoredRootJoinsFromAnyNetwork(t *testing.T) {
 	}
 }
 
-func TestPostingOfARootedVersionIsDroppedWithoutAProofOrUnderAnotherRoot(t *testing.T) {
+func TestUnprovenPostingOrOneUnderAnotherRootOfARootedVersionIsDropped(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
 	crawled := crawledPageOf(today, "w1", "w2")
@@ -277,5 +277,111 @@ func TestReleasedProvenPostingsOfOneURLAreWrittenAtOnce(t *testing.T) {
 				write.AmountOfPostings(),
 			)
 		}
+	}
+}
+
+func TestNewerUnrootedMetadataLeavesTheRootedVersionAndItsProvenPostings(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	crawled := crawledPageOf(today-5, "w1", "w2")
+	h.receiveMetadata(t, sendingPeer, rootedMetadataOf(t, today-5, crawled))
+	h.receiveProven(t, sendingPeer, sentPagePostingsOf(crawled, "w1", "w2"))
+
+	h.receiveMetadata(t, otherPeer, metadataOn(t, "u1", today))
+
+	proven := crawled.Postings()
+	if !h.indexed(t, proven[0]) || !h.indexed(t, proven[1]) ||
+		h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedUnrootedVersion] != 1 {
+		t.Fatalf("outcomes = %v, want the newer unrooted metadata dropped", h.observed.urlMetadata)
+	}
+	if got := h.indexedPagePostingsOf(t, proven...).Root(); got != crawled.Root() {
+		t.Fatalf("root of the proven postings = %+v, want %+v", got, crawled.Root())
+	}
+}
+
+func TestUnprovenNewerPostingForARootedVersionIsDroppedOnArrival(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	crawled := crawledPageOf(today-5, "w1")
+	h.receiveMetadata(t, sendingPeer, rootedMetadataOf(t, today-5, crawled))
+
+	receipt := h.receiveProven(t, sendingPeer, crawledPageOf(today, "w2"))
+	newer := postingOn("w2", today)
+	h.receiveUnproven(t, sendingPeer, []yacymodel.RWIPosting{newer})
+
+	if len(receipt.UnknownURL) != 1 || h.heldCount(t) != 1 || h.indexed(t, newer) ||
+		h.observed.received[remoteindexadmission.PostingDroppedUnrootedVersion] != 1 {
+		t.Fatalf("outcomes = %v, held = %d, want only the newer proven posting held",
+			h.observed.received, h.heldCount(t))
+	}
+}
+
+func TestUnprovenNewerPostingForARootedVersionIsDroppedOnRelease(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	h.receive(t, []yacymodel.RWIPosting{postingOn("w1", today)})
+
+	h.receiveMetadata(t, sendingPeer, rootedMetadataOf(t, today-1, crawledPageOf(today-1, "w1")))
+
+	if h.heldCount(t) != 0 || h.indexed(t, postingOn("w1", today)) ||
+		h.observed.released[remoteindexadmission.PostingDroppedUnrootedVersion] != 1 {
+		t.Fatalf("released = %v, held = %d, want the unproven posting dropped",
+			h.observed.released, h.heldCount(t))
+	}
+}
+
+func TestUnrootedMetadataOfTheSameOrAnOlderDayForARootedVersionIsDroppedAsUnrooted(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	crawled := crawledPageOf(today-1, "w1")
+	h.receiveMetadata(t, sendingPeer, rootedMetadataOf(t, today-1, crawled))
+
+	h.receiveMetadata(t, otherPeer, metadataOn(t, "u1", today-1), metadataOn(t, "u1", today-2))
+
+	if h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedUnrootedVersion] != 2 {
+		t.Fatalf("outcomes = %v, want both unrooted records dropped as unrooted",
+			h.observed.urlMetadata)
+	}
+}
+
+func TestOlderRootedVersionReplacesANewerUnrootedOneAndReleasesItsProvenPostings(
+	t *testing.T,
+) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	crawled := crawledPageOf(today-5, "w1", "w2")
+	h.receiveProven(t, otherPeer, sentPagePostingsOf(crawled, "w1", "w2"))
+
+	h.receiveMetadata(t, sendingPeer, metadataOn(t, "u1", today))
+	if h.heldCount(t) != 2 || len(h.observed.released) != 0 {
+		t.Fatalf("held = %d, released = %v, want both proven postings still waiting",
+			h.heldCount(t), h.observed.released)
+	}
+
+	h.receiveMetadata(t, otherPeer, rootedMetadataOf(t, today-5, crawled))
+
+	proven := crawled.Postings()
+	if !h.indexed(t, proven[0]) || !h.indexed(t, proven[1]) || h.heldCount(t) != 0 ||
+		h.observed.urlMetadata[remoteindexadmission.URLMetadataReplacedUnrootedVersion] != 1 ||
+		h.observed.released[remoteindexadmission.PostingIndexed] != 2 {
+		t.Fatalf("metadata outcomes = %v, released = %v, want the rooted version in place",
+			h.observed.urlMetadata, h.observed.released)
+	}
+	if got := h.indexedPagePostingsOf(t, proven...).Root(); got != crawled.Root() {
+		t.Fatalf("root of the released postings = %+v, want %+v", got, crawled.Root())
+	}
+}
+
+func TestProvenOlderPostingForAnUnrootedVersionIsHeld(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	h.receiveMetadata(t, sendingPeer, metadataOn(t, "u1", today))
+
+	receipt := h.receiveProven(t, otherPeer, crawledPageOf(today-5, "w1"))
+
+	if len(receipt.UnknownURL) != 1 || h.heldCount(t) != 1 ||
+		h.observed.received[remoteindexadmission.PostingHeldForURLMetadata] != 1 {
+		t.Fatalf("outcomes = %v, held = %d, want the proven older posting held",
+			h.observed.received, h.heldCount(t))
 	}
 }

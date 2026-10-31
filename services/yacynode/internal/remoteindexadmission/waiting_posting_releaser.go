@@ -108,7 +108,7 @@ func pagePostingsFrom(
 			provenPostings = append(provenPostings, provenPosting)
 		}
 	}
-	if len(provenPostings) == len(postings) {
+	if len(provenPostings) > 0 {
 		return yacymodel.PagePostingsJoinedFrom(provenPostings)
 	}
 

@@ -489,20 +489,14 @@ func isUnder(waiting rwiescrow.WaitingPosting, root yacymodel.PostingsRoot) bool
 	return proven && provenPosting.Root() == root
 }
 
-func TestPostingWaitsUnprovenWhenItsStoredProofIsRefused(t *testing.T) {
+func TestPostingsWaitingForAURLLeaveOutAPostingWithARefusedProof(t *testing.T) {
 	h := openHarness(t)
 	h.holdProven(t, crawledProvenPostingsFrom(posting("w1", "u1"), posting("w2", "u1"))...)
 
 	h.swapStoredValuesOf(t, "rwi_escrow")
 
-	waiting := h.waitingFor(t, urlHash("u1"))
-	if len(waiting) != 2 {
-		t.Fatalf("waiting = %+v, want both postings", waiting)
-	}
-	for _, waitingPosting := range waiting {
-		if waitingPosting.ProvenPosting().Present() {
-			t.Fatalf("waiting = %+v, want each posting without the refused proof", waiting)
-		}
+	if waiting := h.waitingFor(t, urlHash("u1")); len(waiting) != 0 {
+		t.Fatalf("waiting = %+v, want no posting with a refused escrowed proof", waiting)
 	}
 }
 

@@ -21,9 +21,10 @@ type Version struct {
 type Replacement byte
 
 const (
-	ReplacementRefused Replacement = iota + 1
-	ReplacementAllowedOlderVersion
-	ReplacementAllowedUnrootedVersion
+	ReplacementAllowedNewerVersion Replacement = iota + 1
+	ReplacementAllowedRootedVersion
+	ReplacementRefusedNotNewerVersion
+	ReplacementRefusedUnrootedVersion
 )
 
 type Joining byte
@@ -64,19 +65,24 @@ func (v Version) Is(other Version) bool {
 }
 
 func (v Version) IsReplacedBy(arrived Version) bool {
-	return v.ReplacementBy(arrived) != ReplacementRefused
+	return v.ReplacementBy(arrived).IsAllowed()
 }
 
 func (v Version) ReplacementBy(arrived Version) Replacement {
 	switch {
+	case v.root.Present() && !arrived.root.Present():
+		return ReplacementRefusedUnrootedVersion
+	case !v.root.Present() && arrived.root.Present():
+		return ReplacementAllowedRootedVersion
 	case v.fingerprint.Modified < arrived.fingerprint.Modified:
-		return ReplacementAllowedOlderVersion
-	case v.fingerprint.Modified == arrived.fingerprint.Modified &&
-		!v.root.Present() && arrived.root.Present():
-		return ReplacementAllowedUnrootedVersion
+		return ReplacementAllowedNewerVersion
 	default:
-		return ReplacementRefused
+		return ReplacementRefusedNotNewerVersion
 	}
+}
+
+func (r Replacement) IsAllowed() bool {
+	return r == ReplacementAllowedNewerVersion || r == ReplacementAllowedRootedVersion
 }
 
 func (v Version) IsDatedAfter(now time.Time) bool {
@@ -91,7 +97,7 @@ func (v Version) JoiningOf(arrived Version) Joining {
 		return JoiningAllowed
 	case v.Is(arrived):
 		return JoiningRefusedOtherSource
-	case v.fingerprint == arrived.fingerprint && v.root.Present() && !arrived.root.Present():
+	case v.root.Present() && !arrived.root.Present():
 		return JoiningRefusedUnrootedVersion
 	default:
 		return JoiningRefusedOtherVersion

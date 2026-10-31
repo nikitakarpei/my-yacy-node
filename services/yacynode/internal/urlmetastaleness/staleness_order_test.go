@@ -2,6 +2,7 @@ package urlmetastaleness_test
 
 import (
 	"context"
+	"slices"
 	"testing"
 	"time"
 
@@ -50,7 +51,7 @@ func openOrder(t *testing.T) harness {
 	return harness{vault: v, order: order, writer: writer, evictor: evictor}
 }
 
-func (h harness) store(
+func (h harness) storeUnrooted(
 	t *testing.T,
 	hash yacymodel.URLHash,
 	loaded yacymodel.Optional[yacymodel.CalendarDay],
@@ -109,9 +110,9 @@ func TestStalestURLsReturnsStalestFirst(t *testing.T) {
 	fresh := urlHash("fresh")
 	stale := urlHash("stale")
 	middle := urlHash("middle")
-	h.store(t, fresh, dayIn(2026))
-	h.store(t, stale, dayIn(2020))
-	h.store(t, middle, dayIn(2023))
+	h.storeUnrooted(t, fresh, dayIn(2026))
+	h.storeUnrooted(t, stale, dayIn(2020))
+	h.storeUnrooted(t, middle, dayIn(2023))
 
 	candidates := h.stalestURLs(t, 2)
 	if len(candidates) != 2 || candidates[0] != stale || candidates[1] != middle {
@@ -123,8 +124,8 @@ func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
 	h := openOrder(t)
 	dated := urlHash("dated")
 	undated := urlHash("undated")
-	h.store(t, dated, dayIn(2020))
-	h.store(t, undated, yacymodel.None[yacymodel.CalendarDay]())
+	h.storeUnrooted(t, dated, dayIn(2020))
+	h.storeUnrooted(t, undated, yacymodel.None[yacymodel.CalendarDay]())
 
 	candidates := h.stalestURLs(t, 1)
 	if len(candidates) != 1 || candidates[0] != undated {
@@ -136,8 +137,8 @@ func TestPurgedURLLeavesOrder(t *testing.T) {
 	h := openOrder(t)
 	kept := urlHash("kept")
 	gone := urlHash("gone")
-	h.store(t, kept, dayIn(2025))
-	h.store(t, gone, dayIn(2020))
+	h.storeUnrooted(t, kept, dayIn(2025))
+	h.storeUnrooted(t, gone, dayIn(2020))
 
 	h.purge(t, gone)
 
@@ -150,7 +151,7 @@ func TestPurgedURLLeavesOrder(t *testing.T) {
 func TestPurgeOfAnUnknownURLLeavesTheStoredOnes(t *testing.T) {
 	h := openOrder(t)
 	kept := urlHash("kept")
-	h.store(t, kept, dayIn(2025))
+	h.storeUnrooted(t, kept, dayIn(2025))
 
 	h.purge(t, urlHash("absent"))
 
@@ -172,13 +173,65 @@ func TestAURLStoredAgainOnAnotherDayKeepsOnlyItsNewPlace(t *testing.T) {
 	h := openOrder(t)
 	moved := urlHash("moved")
 	kept := urlHash("kept")
-	h.store(t, moved, dayIn(2020))
-	h.store(t, kept, dayIn(2023))
+	h.storeUnrooted(t, moved, dayIn(2020))
+	h.storeUnrooted(t, kept, dayIn(2023))
 
-	h.store(t, moved, dayIn(2026))
+	h.storeUnrooted(t, moved, dayIn(2026))
 
 	candidates := h.stalestURLs(t, 10)
 	if len(candidates) != 2 || candidates[0] != kept || candidates[1] != moved {
 		t.Fatalf("candidates = %v, want [kept moved]", candidates)
+	}
+}
+
+const crawlerRingExponent = 2
+
+func postingsRootFrom(hash yacymodel.URLHash) yacymodel.Optional[yacymodel.PostingsRoot] {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(crawlerRingExponent)
+	if err != nil {
+		panic(err)
+	}
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		[]yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("word"), URLHash: hash}},
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return crawled.Root()
+}
+
+func (h harness) storeRooted(
+	t *testing.T,
+	hash yacymodel.URLHash,
+	loaded yacymodel.Optional[yacymodel.CalendarDay],
+) {
+	t.Helper()
+
+	h.write(t, func(tx *vault.Txn) error {
+		return h.writer.Write(
+			tx,
+			yacymodel.URLMetadata{Hash: hash, Loaded: loaded, PostingsRoot: postingsRootFrom(hash)},
+			pageversion.SourceThisNode(),
+		)
+	})
+}
+
+func TestStalestURLsTakeEveryUnrootedURLFirst(t *testing.T) {
+	h := openOrder(t)
+	staleRooted := urlHash("staleRooted")
+	freshRooted := urlHash("freshRooted")
+	staleUnrooted := urlHash("staleUnrooted")
+	freshUnrooted := urlHash("freshUnrooted")
+	h.storeRooted(t, staleRooted, dayIn(2020))
+	h.storeRooted(t, freshRooted, dayIn(2026))
+	h.storeUnrooted(t, freshUnrooted, dayIn(2026))
+	h.storeUnrooted(t, staleUnrooted, dayIn(2023))
+
+	candidates := h.stalestURLs(t, 4)
+	want := []yacymodel.URLHash{staleUnrooted, freshUnrooted, staleRooted, freshRooted}
+	if !slices.Equal(candidates, want) {
+		t.Fatalf("candidates = %v, want %v", candidates, want)
 	}
 }
