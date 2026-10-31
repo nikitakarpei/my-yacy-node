@@ -14,7 +14,7 @@ type postingPlacer struct {
 	writer   rwipostings.PostingWriter
 }
 
-func (p postingPlacer) place(
+func (p postingPlacer) placementOf(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 	arrivedVersion pageversion.Version,
@@ -35,7 +35,7 @@ func (p postingPlacer) place(
 		return PostingDroppedAlreadyIndexed, nil
 	}
 
-	return p.write(tx, posting)
+	return PostingIndexed, nil
 }
 
 func (p postingPlacer) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (bool, error) {
@@ -47,13 +47,18 @@ func (p postingPlacer) isIndexed(tx *vault.Txn, posting yacymodel.RWIPosting) (b
 	return indexed, nil
 }
 
-func (p postingPlacer) write(
+func (p postingPlacer) index(
 	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
-) (PostingOutcome, error) {
-	if err := p.writer.Write(tx, posting); err != nil {
-		return "", fmt.Errorf("write posting: %w", err)
+	pagePostings yacymodel.PagePostings,
+	postingsToIndex []yacymodel.RWIPosting,
+) error {
+	pagePostingsToIndex, present := pagePostings.NarrowedTo(postingsToIndex).Get()
+	if !present {
+		return nil
+	}
+	if err := p.writer.Write(tx, pagePostingsToIndex); err != nil {
+		return fmt.Errorf("write postings: %w", err)
 	}
 
-	return PostingIndexed, nil
+	return nil
 }

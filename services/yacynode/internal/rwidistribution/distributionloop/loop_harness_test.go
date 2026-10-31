@@ -91,7 +91,7 @@ func openLoop(t *testing.T, clk *clock, opts loopOptions) *loopHarness {
 	if err != nil {
 		t.Fatalf("undeliveredpostings.Open: %v", err)
 	}
-	index, writer, purger, err := rwipostings.Open(
+	index, writer, purger, _, err := rwipostings.Open(
 		context.Background(),
 		v,
 		partitions(),
@@ -264,13 +264,30 @@ func (h *loopHarness) admit(
 
 	h.write(t, func(tx *vault.Txn) error {
 		for _, url := range urls {
-			if err := h.writer.Write(tx, postingOf(wordPartition, url)); err != nil {
+			if err := h.writer.Write(
+				tx,
+				unprovenPagePostingsOf(t, postingOf(wordPartition, url)),
+			); err != nil {
 				return err
 			}
 		}
 
 		return nil
 	})
+}
+
+func unprovenPagePostingsOf(
+	t *testing.T,
+	postings ...yacymodel.RWIPosting,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return pagePostings
 }
 
 func (h *loopHarness) scheduleAdmissions(t *testing.T) {

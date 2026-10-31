@@ -14,7 +14,12 @@ func (h harness) writeAtOnce(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return h.writer.Write(tx, postings...)
+		pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+		if err != nil {
+			return err
+		}
+
+		return h.writer.Write(tx, pagePostings)
 	}); err != nil {
 		t.Fatalf("Write: %v", err)
 	}
@@ -93,7 +98,7 @@ func TestPurgingThePostingsOfAURLReachesRankedAndUnrankedWords(t *testing.T) {
 func TestARankingThatListsAWordTwiceIsRefused(t *testing.T) {
 	word := yacymodel.WordHash("the")
 
-	_, _, _, err := rwipostings.Open(
+	_, _, _, _, err := rwipostings.Open(
 		context.Background(),
 		openVault(t),
 		ringPartitions(t),
@@ -113,7 +118,7 @@ func TestAPageWrittenAtOnceHoldsEachPostingOnce(t *testing.T) {
 	words := numberedWordsOf(12)
 	h.writeEach(t, postingsOfWordsOn(words[:3], url)...)
 
-	h.writeAtOnce(t, append(postingsOfWordsOn(words, url), postingOfWordOn(words[5], url))...)
+	h.writeAtOnce(t, postingsOfWordsOn(words, url)...)
 
 	for _, word := range words {
 		if _, found := h.postingOf(t, word, url); !found {

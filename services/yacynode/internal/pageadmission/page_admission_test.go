@@ -3,9 +3,13 @@ package pageadmission_test
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
@@ -25,6 +29,16 @@ const (
 
 var errWriteRefused = errors.New("write refused")
 
+func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
+	t.Helper()
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return partitions
+}
+
 type discardedPurges struct{}
 
 func (discardedPurges) ObservePostingsPurgedWithURL(*vault.Txn, yacymodel.URLHash, int) {}
@@ -34,20 +48,20 @@ type refusedWriter struct {
 	word   yacymodel.Hash
 }
 
-func (r refusedWriter) Write(tx *vault.Txn, postings ...yacymodel.RWIPosting) error {
-	for _, posting := range postings {
+func (r refusedWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostings) error {
+	for _, posting := range pagePostings.Postings() {
 		if posting.WordHash == r.word {
 			return errWriteRefused
 		}
 	}
 
-	return r.writer.Write(tx, postings...)
+	return r.writer.Write(tx, pagePostings)
 }
 
 type stopwordThe struct{}
 
-func (stopwordThe) Contains(word yacymodel.Hash, language yacymodel.Language) bool {
-	return word == yacymodel.WordHash("the") && language == yacymodel.LanguageOfUndeclaredDocument
+func (stopwordThe) Contains(word yacymodel.Hash, _ yacymodel.Language) bool {
+	return word == yacymodel.WordHash("the")
 }
 
 type harness struct {
@@ -80,10 +94,10 @@ func openHarnessWithWriter(
 		}
 	})
 
-	index, writer, purger, err := rwipostings.Open(
+	index, writer, purger, _, err := rwipostings.Open(
 		context.Background(),
 		v,
-		yacymodel.DHTRingPartitions{},
+		ringPartitions(t),
 		nil,
 		nil,
 		nil,
@@ -113,7 +127,6 @@ func openHarnessWithWriter(
 			evictor,
 			metadataWriter,
 			writer,
-			stopwordThe{},
 			pageadmission.Config{Pause: busyPause},
 		),
 	}
@@ -124,31 +137,49 @@ type pageWord struct {
 	hits uint8
 }
 
-func pageTitled(t *testing.T, title string, words ...pageWord) pagerwi.PageRWI {
+func pageTitled(
+	t *testing.T,
+	title string,
+	words ...pageWord,
+) yacymodel.Optional[pagerwi.PageRWI] {
 	t.Helper()
 
-	hash := urlhashtest.URLHashOf(t, pageAddress)
-
-	postings := make([]yacymodel.RWIPosting, 0, len(words))
+	textWords := []string{}
 	for _, word := range words {
-		postings = append(postings, yacymodel.RWIPosting{
-			WordHash: yacymodel.WordHash(word.word),
-			URLHash:  hash,
-			Language: yacymodel.LanguageOfUndeclaredDocument,
-			Hits:     word.hits,
-		})
+		for range word.hits {
+			textWords = append(textWords, word.word)
+		}
+	}
+	text := strings.Join(textWords, " ")
+	scrapedPage := pagescrapecontract.OfferedPage{
+		PageURL:     canonicalurltest.CanonicalURLOf(t, pageAddress),
+		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageAddress),
+		ContentType: "text/plain",
+		Body:        []byte(text),
 	}
 
-	return pagerwi.PageRWI{
-		Metadata: yacymodel.URLMetadata{Hash: hash, Address: pageAddress, Title: title},
-		Postings: postings,
-	}
+	return pagerwi.NewIndexBuilder(stopwordThe{}, ringPartitions(t)).RWIFrom(
+		t.Context(),
+		scrapedPage,
+		documentextraction.Document{Title: title},
+		[]byte(text),
+		time.Unix(1_700_000_000, 0),
+	)
 }
 
-func (h harness) receive(t *testing.T, page pagerwi.PageRWI) pageadmission.Receipt {
+func pageURLHash(t *testing.T) yacymodel.URLHash {
 	t.Helper()
 
-	receipt, err := h.receiver.Receive(context.Background(), page)
+	return urlhashtest.URLHashOf(t, pageAddress)
+}
+
+func (h harness) receive(
+	t *testing.T,
+	page yacymodel.Optional[pagerwi.PageRWI],
+) pageadmission.Receipt {
+	t.Helper()
+
+	receipt, err := h.receiver.Receive(context.Background(), pageURLHash(t), page)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -156,11 +187,7 @@ func (h harness) receive(t *testing.T, page pagerwi.PageRWI) pageadmission.Recei
 	return receipt
 }
 
-func (h harness) storedPosting(
-	t *testing.T,
-	word string,
-	page pagerwi.PageRWI,
-) (yacymodel.RWIPosting, bool) {
+func (h harness) storedPosting(t *testing.T, word string) (yacymodel.RWIPosting, bool) {
 	t.Helper()
 
 	var (
@@ -171,7 +198,7 @@ func (h harness) storedPosting(
 		posting, indexed, err := h.index.PostingOf(
 			tx,
 			yacymodel.WordHash(word),
-			page.Metadata.Hash,
+			pageURLHash(t),
 		)
 		stored, found = posting, indexed
 
@@ -183,14 +210,21 @@ func (h harness) storedPosting(
 	return stored, found
 }
 
-func (h harness) storedTitle(t *testing.T, page pagerwi.PageRWI) string {
+func (h harness) storedTitle(t *testing.T) string {
+	t.Helper()
+	metadata, _ := h.storedMetadata(t)
+
+	return metadata.Title
+}
+
+func (h harness) storedMetadata(t *testing.T) (yacymodel.URLMetadata, bool) {
 	t.Helper()
 
 	var rows map[yacymodel.URLHash]yacymodel.URLMetadata
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
 		stored, err := h.directory.MetadataPerHash(
 			tx,
-			[]yacymodel.URLHash{page.Metadata.Hash},
+			[]yacymodel.URLHash{pageURLHash(t)},
 		)
 		rows = stored
 
@@ -198,8 +232,9 @@ func (h harness) storedTitle(t *testing.T, page pagerwi.PageRWI) string {
 	}); err != nil {
 		t.Fatalf("MetadataPerHash: %v", err)
 	}
+	metadata, stored := rows[pageURLHash(t)]
 
-	return rows[page.Metadata.Hash].Title
+	return metadata, stored
 }
 
 func TestRecrawledPageReplacesEveryPostingItHeld(t *testing.T) {
@@ -210,49 +245,57 @@ func TestRecrawledPageReplacesEveryPostingItHeld(t *testing.T) {
 	recrawled := pageTitled(t, "after", pageWord{"w2", 7}, pageWord{"w3", 2})
 	h.receive(t, recrawled)
 
-	if _, found := h.storedPosting(t, "w1", recrawled); found {
+	if _, found := h.storedPosting(t, "w1"); found {
 		t.Error("a word the recrawled page no longer has kept its posting")
 	}
-	if _, found := h.storedPosting(t, "w3", recrawled); !found {
+	if _, found := h.storedPosting(t, "w3"); !found {
 		t.Error("a word the recrawled page gained has no posting")
 	}
-	kept, found := h.storedPosting(t, "w2", recrawled)
+	kept, found := h.storedPosting(t, "w2")
 	if !found || kept.Hits != 7 {
 		t.Errorf("posting of the kept word = %+v (found %t), want the recrawled 7 hits",
 			kept, found)
 	}
-	if got := h.storedTitle(t, recrawled); got != "after" {
+	if got := h.storedTitle(t); got != "after" {
 		t.Errorf("stored title = %q, want the recrawled title", got)
 	}
 }
 
-func TestPageKeepsNoPostingOfAStopword(t *testing.T) {
+func TestCrawledPageMetadataIsStoredWithTheRootOfItsPostings(t *testing.T) {
 	h := openHarness(t, 0)
-	crawled := pageTitled(t, "page", pageWord{"the", 9}, pageWord{"kernel", 2})
+	crawled := pageTitled(t, "page", pageWord{"kernel", 2}, pageWord{"module", 1})
 
 	h.receive(t, crawled)
 
-	if _, found := h.storedPosting(t, "the", crawled); found {
-		t.Error("the stopword of the page has a posting, want none")
-	}
-	if _, found := h.storedPosting(t, "kernel", crawled); !found {
-		t.Error("a word that carries meaning has no posting")
+	page, _ := crawled.Get()
+	want := page.Metadata().PostingsRoot
+	if stored, _ := h.storedMetadata(t); !want.Present() || stored.PostingsRoot != want {
+		t.Fatalf("stored postings root = %+v, want the root %+v of the page",
+			stored.PostingsRoot, want)
 	}
 }
 
-func TestRecrawledPageWithoutWordsLeavesNoPostingBehind(t *testing.T) {
+func TestRecrawledPageWithoutWordsLeavesNothingOfThePageBehind(t *testing.T) {
 	h := openHarness(t, 0)
-	crawled := pageTitled(t, "before", pageWord{"w1", 1})
-	h.receive(t, crawled)
+	h.receive(t, pageTitled(t, "before", pageWord{"w1", 1}))
 
-	wordless := pageTitled(t, "after")
-	h.receive(t, wordless)
+	h.receive(t, pageTitled(t, "after"))
 
-	if _, found := h.storedPosting(t, "w1", wordless); found {
+	if _, found := h.storedPosting(t, "w1"); found {
 		t.Error("a page with no words left the posting of a word it had before")
 	}
-	if got := h.storedTitle(t, wordless); got != "after" {
-		t.Errorf("stored title = %q, want the recrawled title", got)
+	if metadata, stored := h.storedMetadata(t); stored {
+		t.Errorf("stored metadata = %+v, want none for a page without words", metadata)
+	}
+}
+
+func TestPageOfOnlyStopwordsStoresNoMetadata(t *testing.T) {
+	h := openHarness(t, 0)
+
+	h.receive(t, pageTitled(t, "stopwords", pageWord{"the", 3}))
+
+	if metadata, stored := h.storedMetadata(t); stored {
+		t.Errorf("stored metadata = %+v, want none for a page of only stopwords", metadata)
 	}
 }
 
@@ -267,20 +310,21 @@ func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
 	recrawled := pageTitled(t, "after", pageWord{"w2", 7}, pageWord{"w3", 1})
 	if _, err := h.receiver.Receive(
 		context.Background(),
+		pageURLHash(t),
 		recrawled,
 	); !errors.Is(err, errWriteRefused) {
 		t.Fatalf("Receive error = %v, want the refused write", err)
 	}
 
-	if _, found := h.storedPosting(t, "w1", crawled); !found {
+	if _, found := h.storedPosting(t, "w1"); !found {
 		t.Error("a refused recrawl purged the posting of a word the page had before")
 	}
-	kept, found := h.storedPosting(t, "w2", crawled)
+	kept, found := h.storedPosting(t, "w2")
 	if !found || kept.Hits != 3 {
 		t.Errorf("posting of the kept word = %+v (found %t), want the 3 hits stored before",
 			kept, found)
 	}
-	if got := h.storedTitle(t, crawled); got != "before" {
+	if got := h.storedTitle(t); got != "before" {
 		t.Errorf("stored title = %q, want the title stored before the refusal", got)
 	}
 }
@@ -296,13 +340,13 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if !receipt.Busy || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
-	if _, found := h.storedPosting(t, "w1", crawled); !found {
+	if _, found := h.storedPosting(t, "w1"); !found {
 		t.Error("a refused page purged the postings of the page the node held")
 	}
-	if _, found := h.storedPosting(t, "w2", recrawled); found {
+	if _, found := h.storedPosting(t, "w2"); found {
 		t.Error("a refused page left a posting behind")
 	}
-	if got := h.storedTitle(t, crawled); got != "before" {
+	if got := h.storedTitle(t); got != "before" {
 		t.Errorf("stored title = %q, want the title stored before the refusal", got)
 	}
 }

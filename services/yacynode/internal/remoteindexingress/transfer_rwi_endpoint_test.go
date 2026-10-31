@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -33,17 +34,21 @@ func localIdentity() nodeidentity.Identity {
 }
 
 type recordingReceiver struct {
-	received []yacymodel.RWIPosting
-	origins  []rwiorigin.Origin
-	answer   remoteindexadmission.PostingReceipt
+	received             []yacymodel.RWIPosting
+	receivedPagePostings []yacymodel.PagePostings
+	origins              []rwiorigin.Origin
+	answer               remoteindexadmission.PostingReceipt
 }
 
 func (r *recordingReceiver) Receive(
 	_ context.Context,
 	origin rwiorigin.Origin,
-	postings []yacymodel.RWIPosting,
+	receivedPagePostings []yacymodel.PagePostings,
 ) (remoteindexadmission.PostingReceipt, error) {
-	r.received = append(r.received, postings...)
+	for _, pagePostings := range receivedPagePostings {
+		r.received = append(r.received, pagePostings.Postings()...)
+	}
+	r.receivedPagePostings = append(r.receivedPagePostings, receivedPagePostings...)
 	r.origins = append(r.origins, origin)
 
 	return r.answer, nil
@@ -195,6 +200,57 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	}
 	if want := rwiorigin.Of("192.0.2.1"); receiver.origins[0] != want {
 		t.Fatalf("origin = %+v, want %+v", receiver.origins[0], want)
+	}
+}
+
+func TestTransferRWIHandsOverThePostingsOfEachURLTogether(t *testing.T) {
+	receiver := &recordingReceiver{}
+	mux := muxWith(receiver)
+
+	transferRWI(t, mux, yacyproto.TransferRWIRequest{
+		NetworkName: "freeworld",
+		YouAre:      localIdentity().Hash,
+		WordCount:   2,
+		EntryCount:  3,
+		Indexes: []yacymodel.RWIPosting{
+			posting(t, "w1", "u1"),
+			posting(t, "w1", "u2"),
+			posting(t, "w2", "u1"),
+		},
+	})
+
+	if len(receiver.receivedPagePostings) != 2 {
+		t.Fatalf("page postings = %d, want one for each url", len(receiver.receivedPagePostings))
+	}
+	if got := receiver.receivedPagePostings[0]; got.URL() != urlHashFromWord(t, "u1") ||
+		got.AmountOfPostings() != 2 {
+		t.Errorf("first page postings = %+v, want both postings of u1", got)
+	}
+}
+
+func TestTransferRWIHandsOverTheFirstPostingOfARepeatedWord(t *testing.T) {
+	receiver := &recordingReceiver{}
+	mux := muxWith(receiver)
+	repeated := posting(t, "w1", "u1")
+	repeated.Hits = 2
+
+	transferRWI(t, mux, yacyproto.TransferRWIRequest{
+		NetworkName: "freeworld",
+		YouAre:      localIdentity().Hash,
+		WordCount:   2,
+		EntryCount:  3,
+		Indexes: []yacymodel.RWIPosting{
+			posting(t, "w1", "u1"),
+			posting(t, "w2", "u1"),
+			repeated,
+		},
+	})
+
+	want := []yacymodel.RWIPosting{posting(t, "w1", "u1"), posting(t, "w2", "u1")}
+	if len(receiver.receivedPagePostings) != 1 ||
+		!slices.Equal(receiver.receivedPagePostings[0].Postings(), want) {
+		t.Fatalf("page postings = %+v, want the first posting of each word together",
+			receiver.receivedPagePostings)
 	}
 }
 

@@ -23,6 +23,7 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
+	var postingsToIndex []yacymodel.RWIPosting
 	for _, waitingPosting := range waitingPostings {
 		arrivedVersion := pageversion.FromPosting(
 			waitingPosting.Posting,
@@ -31,33 +32,47 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 		if storedVersion.IsReplacedBy(arrivedVersion) {
 			continue
 		}
-		if err := r.placeReleased(
-			tx,
-			waitingPosting.Posting,
-			arrivedVersion,
-			storedVersion,
-		); err != nil {
+		outcome, err := r.release(tx, waitingPosting.Posting, arrivedVersion, storedVersion)
+		if err != nil {
 			return err
+		}
+		if outcome == PostingIndexed {
+			postingsToIndex = append(postingsToIndex, waitingPosting.Posting)
 		}
 	}
 
-	return nil
+	return r.indexReleased(tx, postingsToIndex)
 }
 
-func (r waitingPostingReleaser) placeReleased(
+func (r waitingPostingReleaser) release(
 	tx *vault.Txn,
 	posting yacymodel.RWIPosting,
 	arrivedVersion pageversion.Version,
 	storedVersion pageversion.Version,
-) error {
+) (PostingOutcome, error) {
 	if err := r.escrow.Release(tx, posting); err != nil {
-		return fmt.Errorf("release posting: %w", err)
+		return "", fmt.Errorf("release posting: %w", err)
 	}
-	outcome, err := r.placer.place(tx, posting, arrivedVersion, storedVersion)
+	outcome, err := r.placer.placementOf(tx, posting, arrivedVersion, storedVersion)
 	if err != nil {
-		return err
+		return "", err
 	}
 	tx.RunAfterCommit(func() { r.observer.ObserveReleasedPostings(outcome, 1) })
 
-	return nil
+	return outcome, nil
+}
+
+func (r waitingPostingReleaser) indexReleased(
+	tx *vault.Txn,
+	postingsToIndex []yacymodel.RWIPosting,
+) error {
+	if len(postingsToIndex) == 0 {
+		return nil
+	}
+	released, err := yacymodel.UnprovenPagePostingsFrom(postingsToIndex)
+	if err != nil {
+		return fmt.Errorf("released postings: %w", err)
+	}
+
+	return r.placer.index(tx, released, postingsToIndex)
 }
