@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta/urlmetarecord"
 )
@@ -19,7 +20,10 @@ func samplePostingsRoot(t *testing.T) yacymodel.PostingsRoot {
 		t.Fatalf("partitions: %v", err)
 	}
 	crawled, err := yacymodel.ProvenPagePostingsFrom(
-		[]yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("sample")}},
+		[]yacymodel.RWIPosting{{
+			WordHash: yacymodel.WordHash("sample"),
+			URLHash:  urlhashtest.URLHashOf(t, "https://example.org/sample"),
+		}},
 		yacymodel.EmptyPostingsProof(partitions),
 	)
 	if err != nil {
