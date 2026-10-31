@@ -1,5 +1,7 @@
 // Package postingcourier sends stored postings to a peer over the transferRWI
 // protocol endpoint and reports how the peer responded and how long it took.
+// An identified peer (signed seed) also gets the proofs that lead the postings
+// to their postings roots.
 package postingcourier
 
 import (
@@ -40,27 +42,38 @@ type PeerRecords interface {
 	RecordOf(ctx context.Context, peer yacymodel.Hash) (peerroster.PeerRecord, bool)
 }
 
-type Courier struct {
-	formPoster  FormPoster
-	peerRecords PeerRecords
-	networkName string
-	self        yacymodel.Hash
-	observer    Observer
+type PostingsProofs interface {
+	ProofsFor(
+		ctx context.Context,
+		postings []yacymodel.RWIPosting,
+	) map[yacymodel.URLHash]yacymodel.PostingsProof
 }
 
+type Courier struct {
+	formPoster     FormPoster
+	peerRecords    PeerRecords
+	postingsProofs PostingsProofs
+	networkName    string
+	self           yacymodel.Hash
+	observer       Observer
+}
+
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	formPoster FormPoster,
 	peerRecords PeerRecords,
+	postingsProofs PostingsProofs,
 	networkName string,
 	self yacymodel.Hash,
 	observer Observer,
 ) Courier {
 	return Courier{
-		formPoster:  formPoster,
-		peerRecords: peerRecords,
-		networkName: networkName,
-		self:        self,
-		observer:    observer,
+		formPoster:     formPoster,
+		peerRecords:    peerRecords,
+		postingsProofs: postingsProofs,
+		networkName:    networkName,
+		self:           self,
+		observer:       observer,
 	}
 }
 
@@ -126,13 +139,14 @@ func (c Courier) postTransferRWI(
 	postings []yacymodel.RWIPosting,
 ) (yacyproto.TransferRWIResponse, bool) {
 	req := yacyproto.TransferRWIRequest{
-		NetworkName: c.networkName,
-		Iam:         c.self,
-		YouAre:      callee.Hash(),
-		WordCount:   distinctWordCount(postings),
-		EntryCount:  len(postings),
-		Indexes:     postings,
-		Key:         yacyproto.TransferRWIKey(len(postings)),
+		NetworkName:    c.networkName,
+		Iam:            c.self,
+		YouAre:         callee.Hash(),
+		WordCount:      distinctWordCount(postings),
+		EntryCount:     len(postings),
+		Indexes:        postings,
+		PostingsProofs: c.proofsForPostingsTo(ctx, postings, callee),
+		Key:            yacyproto.TransferRWIKey(len(postings)),
 	}
 
 	answer, answered := c.formPoster.TryAt(
@@ -155,12 +169,6 @@ func (c Courier) postTransferRWI(
 	return resp, true
 }
 
-func isTransferRWIReply(fields yacyproto.ResponseFields) bool {
-	_, err := yacyproto.ParseTransferRWIResponse(fields)
-
-	return err == nil
-}
-
 func distinctWordCount(postings []yacymodel.RWIPosting) int {
 	words := make(map[yacymodel.Hash]struct{}, len(postings))
 	for _, posting := range postings {
@@ -168,4 +176,22 @@ func distinctWordCount(postings []yacymodel.RWIPosting) int {
 	}
 
 	return len(words)
+}
+
+func (c Courier) proofsForPostingsTo(
+	ctx context.Context,
+	postings []yacymodel.RWIPosting,
+	callee peerwire.Callee,
+) map[yacymodel.URLHash]yacymodel.PostingsProof {
+	if !callee.IsIdentified() {
+		return nil
+	}
+
+	return c.postingsProofs.ProofsFor(ctx, postings)
+}
+
+func isTransferRWIReply(fields yacyproto.ResponseFields) bool {
+	_, err := yacyproto.ParseTransferRWIResponse(fields)
+
+	return err == nil
 }

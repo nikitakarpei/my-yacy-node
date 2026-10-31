@@ -35,7 +35,11 @@ func urlHash(raw string) yacymodel.URLHash {
 }
 
 func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
+	return yacymodel.RWIPosting{
+		WordHash: word,
+		URLHash:  url,
+		Language: yacymodel.LanguageOfUndeclaredDocument,
+	}
 }
 
 type stubPeerWire struct {
@@ -86,6 +90,20 @@ func (r *answerTimeRecorder) ObservePostingOfferAnswerTime(answerTime time.Durat
 	r.answerTimes = append(r.answerTimes, answerTime)
 }
 
+type postingsProofsRecorder struct {
+	proofs        map[yacymodel.URLHash]yacymodel.PostingsProof
+	askedPostings [][]yacymodel.RWIPosting
+}
+
+func (r *postingsProofsRecorder) ProofsFor(
+	_ context.Context,
+	postings []yacymodel.RWIPosting,
+) map[yacymodel.URLHash]yacymodel.PostingsProof {
+	r.askedPostings = append(r.askedPostings, postings)
+
+	return r.proofs
+}
+
 func courierOver(wire *stubPeerWire) postingcourier.Courier {
 	return timedCourierOver(wire, &answerTimeRecorder{})
 }
@@ -94,7 +112,15 @@ func timedCourierOver(
 	wire *stubPeerWire,
 	recorder *answerTimeRecorder,
 ) postingcourier.Courier {
-	return postingcourier.New(wire, wire, "freeworld", courierHash("self"), recorder)
+	return provingCourierOver(wire, &postingsProofsRecorder{}, recorder)
+}
+
+func provingCourierOver(
+	wire *stubPeerWire,
+	proofs *postingsProofsRecorder,
+	recorder *answerTimeRecorder,
+) postingcourier.Courier {
+	return postingcourier.New(wire, wire, proofs, "freeworld", courierHash("self"), recorder)
 }
 
 func singlePosting() []yacymodel.RWIPosting {
@@ -267,4 +293,76 @@ func TestOfferReportsHowLongThePeerTookToAnswer(t *testing.T) {
 	if len(recorder.answerTimes) != 1 || recorder.answerTimes[0] != time.Second {
 		t.Fatalf("answer times = %v, want one of 1s", recorder.answerTimes)
 	}
+}
+
+func TestOfferSendsPostingsProofsToAnIdentifiedPeer(t *testing.T) {
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	wire.identity = yacymodel.Some(peerkeytest.Key(0).Identity())
+	offeredPostings := singlePosting()
+	proofs := &postingsProofsRecorder{proofs: wholePageProofsOf(t, offeredPostings)}
+
+	provingCourierOver(wire, proofs, &answerTimeRecorder{}).Offer(
+		context.Background(),
+		courierHash("peer"),
+		offeredPostings,
+	)
+
+	if len(proofs.askedPostings) != 1 || len(proofs.askedPostings[0]) != len(offeredPostings) {
+		t.Fatalf("asked proofs for %v, want once for %v", proofs.askedPostings, offeredPostings)
+	}
+	if sent := sentPostingsProofsOf(t, wire); len(sent) != 1 {
+		t.Fatalf("sent postings proofs = %v, want the one for %v", sent, offeredPostings)
+	}
+}
+
+func TestOfferSendsNoPostingsProofsToAnUnidentifiedPeer(t *testing.T) {
+	wire := answeringPeerWire(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
+	offeredPostings := singlePosting()
+	proofs := &postingsProofsRecorder{proofs: wholePageProofsOf(t, offeredPostings)}
+
+	provingCourierOver(wire, proofs, &answerTimeRecorder{}).Offer(
+		context.Background(),
+		courierHash("peer"),
+		offeredPostings,
+	)
+
+	if len(proofs.askedPostings) != 0 {
+		t.Fatalf("asked proofs for %v, want no read for an unidentified peer",
+			proofs.askedPostings)
+	}
+	if sent := sentPostingsProofsOf(t, wire); len(sent) != 0 {
+		t.Fatalf("sent postings proofs = %v, want none", sent)
+	}
+}
+
+func wholePageProofsOf(
+	t *testing.T,
+	postings []yacymodel.RWIPosting,
+) map[yacymodel.URLHash]yacymodel.PostingsProof {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatalf("partitions: %v", err)
+	}
+	return map[yacymodel.URLHash]yacymodel.PostingsProof{
+		postings[0].URLHash: yacymodel.EmptyPostingsProof(partitions),
+	}
+}
+
+func sentPostingsProofsOf(
+	t *testing.T,
+	wire *stubPeerWire,
+) map[yacymodel.URLHash]yacymodel.PostingsProof {
+	t.Helper()
+
+	if len(wire.requests) != 1 {
+		t.Fatalf("requests = %d, want 1", len(wire.requests))
+	}
+	sent, err := yacyproto.ParseTransferRWIRequest(t.Context(), wire.requests[0].Form)
+	if err != nil {
+		t.Fatalf("ParseTransferRWIRequest: %v", err)
+	}
+
+	return sent.PostingsProofs
 }

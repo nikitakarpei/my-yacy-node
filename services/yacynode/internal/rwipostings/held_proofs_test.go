@@ -152,6 +152,41 @@ func TestARecrawlAfterAHandoffHoldsOnlyTheProofOfTheNewPage(t *testing.T) {
 	}
 }
 
+func TestProofsForGivesNoProofForPostingsTheRecrawlReplaced(t *testing.T) {
+	h := openHarness(t)
+	crawled := pagePostingsFrom(t, "w1", "w2")
+	h.write(t, crawled)
+	recrawledPostings := pagePostingsFrom(t, "w1", "w2").Postings()
+	recrawledPostings[0].Hits = 5
+	recrawled := wholePagePostingsOf(t, recrawledPostings)
+
+	h.update(t, func(tx *vault.Txn) error {
+		if _, err := h.purger.PurgePostingsOf(tx, urlHash("page")); err != nil {
+			return err
+		}
+
+		return h.writer.Write(tx, recrawled)
+	})
+
+	if proofs := h.proofs.ProofsFor(t.Context(), crawled.Postings()); len(proofs) > 0 {
+		t.Fatalf("ProofsFor proved postings the recrawl replaced: %v", proofs)
+	}
+}
+
+func TestProofsForGivesNoProofForAPostingReplacedInPlace(t *testing.T) {
+	h := openHarness(t)
+	crawled := pagePostingsFrom(t, "w1", "w2")
+	h.write(t, crawled)
+	replaced := crawled.Postings()[0]
+	replaced.Hits = 5
+
+	h.writeEach(t, replaced)
+
+	if proofs := h.proofs.ProofsFor(t.Context(), crawled.Postings()); len(proofs) > 0 {
+		t.Fatalf("ProofsFor proved a posting replaced in place: %v", proofs)
+	}
+}
+
 func TestAHandoffOfAWordPartitionNarrowsOnlyTheProvenURL(t *testing.T) {
 	h := openHarness(t)
 	crawled := pagePostingsFrom(t, "w1", "w2")

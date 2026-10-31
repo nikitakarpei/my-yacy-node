@@ -202,7 +202,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, err
 	}
-	postings, postingWriter, postingPurger, _, err := rwipostings.Open(
+	postings, postingWriter, postingPurger, postingsProofs, err := rwipostings.Open(
 		ctx,
 		storage,
 		dhtRingPartitions,
@@ -438,6 +438,7 @@ func assembleNode(
 				postingcourier.New(
 					peerWalker,
 					peerRoster,
+					postingsProofs,
 					identity.NetworkName,
 					identity.Hash,
 					distributionObserver,

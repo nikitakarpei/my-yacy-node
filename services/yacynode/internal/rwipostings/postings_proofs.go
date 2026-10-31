@@ -8,12 +8,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type postingProofs struct {
+type postingsProofs struct {
 	vault      *vault.Vault
 	heldProofs heldProofs
 }
 
-func (p postingProofs) ProofsFor(
+func (p postingsProofs) ProofsFor(
 	ctx context.Context,
 	offeredPostings []yacymodel.RWIPosting,
 ) map[yacymodel.URLHash]yacymodel.PostingsProof {
