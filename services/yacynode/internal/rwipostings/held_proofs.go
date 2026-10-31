@@ -85,9 +85,9 @@ func (h heldProofs) delete(tx *vault.Txn, url yacymodel.URLHash) error {
 func (h heldProofs) proofFor(
 	ctx context.Context,
 	tx *vault.Txn,
-	offered yacymodel.PagePostings,
+	offeredPostings []yacymodel.RWIPosting,
 ) (yacymodel.PostingsProof, bool, error) {
-	url := offered.URL()
+	url := offeredPostings[0].URLHash
 	heldProof, found, err := h.proofOf(tx, url)
 	if err != nil || !found {
 		return yacymodel.PostingsProof{}, false, err
@@ -102,7 +102,7 @@ func (h heldProofs) proofFor(
 
 		return yacymodel.PostingsProof{}, false, nil
 	}
-	given, stillHeld := held.NarrowedTo(offered.Postings()).Get()
+	given, stillHeld := held.NarrowedTo(offeredPostings).Get()
 	if !stillHeld {
 		reportOfferedPostingsNoLongerHeld(ctx, url)
 

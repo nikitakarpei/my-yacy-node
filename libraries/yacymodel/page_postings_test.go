@@ -674,24 +674,21 @@ func goldenPagePostings(t *testing.T) []yacymodel.RWIPosting {
 	}
 }
 
-func TestPagePostingsPerURLGroupThePostingsOfEachURLAndDropRepeats(t *testing.T) {
+func TestPostingsPerURLGroupThePostingsOfEachURLAndDropRepeats(t *testing.T) {
 	random := seededRandom(24)
 	firstPage := randomPagePostings(random, 3)
 	secondPage := randomPagePostings(random, 2)
 	repeated := firstPage[1]
 	repeated.Hits++
 
-	perURL, repeatedPostings := yacymodel.PagePostingsPerURLFrom([]yacymodel.RWIPosting{
+	perURL, repeatedPostings := yacymodel.PostingsPerURLFrom([]yacymodel.RWIPosting{
 		firstPage[0], secondPage[0], firstPage[1], repeated, firstPage[2], secondPage[1],
 	})
 
 	if len(perURL) != 2 ||
-		!slices.Equal(perURL[0].Postings(), firstPage) ||
-		!slices.Equal(perURL[1].Postings(), secondPage) {
-		t.Errorf("page postings per url = %+v, want the first page, then the second", perURL)
-	}
-	if perURL[0].Proof().Present() || perURL[1].Proof().Present() {
-		t.Error("page postings per url carry a proof")
+		!slices.Equal(perURL[0], firstPage) ||
+		!slices.Equal(perURL[1], secondPage) {
+		t.Errorf("postings per url = %+v, want the first page, then the second", perURL)
 	}
 	if !slices.Equal(repeatedPostings, []yacymodel.RWIPosting{repeated}) {
 		t.Errorf("repeated postings = %+v, want %+v", repeatedPostings, repeated)

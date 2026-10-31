@@ -17,7 +17,7 @@ func (p postingProofs) ProofsFor(
 	ctx context.Context,
 	postings []yacymodel.RWIPosting,
 ) map[yacymodel.URLHash]yacymodel.PostingsProof {
-	offeredPerURL, _ := yacymodel.PagePostingsPerURLFrom(postings)
+	offeredPerURL, _ := yacymodel.PostingsPerURLFrom(postings)
 	proofs := make(map[yacymodel.URLHash]yacymodel.PostingsProof)
 	err := p.vault.View(ctx, func(tx *vault.Txn) error {
 		for _, offered := range offeredPerURL {
@@ -26,7 +26,7 @@ func (p postingProofs) ProofsFor(
 				return err
 			}
 			if present {
-				proofs[offered.URL()] = proof
+				proofs[offered[0].URLHash] = proof
 			}
 		}
 
