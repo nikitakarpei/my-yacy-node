@@ -3,6 +3,7 @@ package yacyproto
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"strconv"
 	"strings"
 
@@ -36,6 +37,7 @@ const (
 	urlMetadataColAppLinks      = "lapp"
 	urlMetadataColSnippet       = "snippet"
 	urlMetadataColFavicon       = "favicon"
+	urlMetadataColPostingsRoot  = "postingsroot"
 )
 
 const unknownByteSize = -1
@@ -56,16 +58,21 @@ func (urlMetadataWireCodec) decode(
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
 
-	metadata, err := urlMetadataWireForm{properties: properties}.domain(ctx)
+	form := urlMetadataWireForm{properties: properties}
+	metadata, err := form.domain(ctx)
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
+	metadata.PostingsRoot = form.postingsRoot(ctx, metadata.Hash)
 
 	return metadata, nil
 }
 
 func (urlMetadataWireCodec) encode(metadata yacymodel.URLMetadata) string {
-	return urlMetadataWireFormOf(metadata).row()
+	form := urlMetadataWireFormOf(metadata)
+	form.putPostingsRoot(metadata.PostingsRoot)
+
+	return form.row()
 }
 
 // urlMetadataWireForm is the url metadata in its property-form wire
@@ -261,6 +268,40 @@ func (f urlMetadataWireForm) referrer() (yacymodel.Optional[yacymodel.URLHash], 
 	return yacymodel.Some(referrer), nil
 }
 
+func (f urlMetadataWireForm) postingsRoot(
+	ctx context.Context,
+	hash yacymodel.URLHash,
+) yacymodel.Optional[yacymodel.PostingsRoot] {
+	value := f.properties[urlMetadataColPostingsRoot]
+	if value == "" {
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+	raw, err := yacymodel.Decode(value)
+	if err != nil {
+		reportDiscardedPostingsRoot(ctx, hash, err)
+
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+	root, err := yacymodel.ParsePostingsRootBytes(raw)
+	if err != nil {
+		reportDiscardedPostingsRoot(ctx, hash, err)
+
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+
+	return yacymodel.Some(root)
+}
+
+func reportDiscardedPostingsRoot(ctx context.Context, hash yacymodel.URLHash, err error) {
+	slog.WarnContext(
+		ctx,
+		"url metadata postings root discarded",
+		slog.String("reason", "parse failed"),
+		slog.String("hash", hash.String()),
+		slog.Any("error", err),
+	)
+}
+
 func splitTags(joined string) []string {
 	if joined == "" {
 		return nil
@@ -307,6 +348,14 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	}
 
 	return f
+}
+
+func (f *urlMetadataWireForm) putPostingsRoot(
+	postingsRoot yacymodel.Optional[yacymodel.PostingsRoot],
+) {
+	if root, ok := postingsRoot.Get(); ok {
+		f.put(urlMetadataColPostingsRoot, yacymodel.Encode(root.Bytes()))
+	}
 }
 
 func byteSizeTextFrom(byteSize yacymodel.Optional[uint32]) string {
