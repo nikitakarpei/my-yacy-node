@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
@@ -104,16 +104,13 @@ func (i URLMetadataIntake) admitEach(
 func (i URLMetadataIntake) storedVersionOf(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-) (yacymodel.Optional[urlmeta.CurrentVersion], error) {
-	currentVersions, err := i.urls.CurrentVersionsOf(tx, []yacymodel.URLHash{url})
+) (yacymodel.Optional[pageversion.Version], error) {
+	storedVersions, err := i.urls.VersionsOf(tx, []yacymodel.URLHash{url})
 	if err != nil {
-		return yacymodel.None[urlmeta.CurrentVersion](), fmt.Errorf(
-			"current version of url: %w",
-			err,
-		)
+		return yacymodel.None[pageversion.Version](), fmt.Errorf("stored version of url: %w", err)
 	}
 
-	return storedVersionOf(currentVersions, url), nil
+	return storedVersionOf(storedVersions, url), nil
 }
 
 //nolint:revive // argument-limit: each input is one fact the decision reads
@@ -122,19 +119,19 @@ func (i URLMetadataIntake) admit(
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
-	storedVersion yacymodel.Optional[urlmeta.CurrentVersion],
+	storedVersion yacymodel.Optional[pageversion.Version],
 	hourlySwapLimit int,
 ) (URLMetadataOutcome, error) {
-	arrivedFingerprint := pagefingerprint.FromMetadata(arrived)
-	currentVersion, metadataStored := storedVersion.Get()
+	arrivedVersion := pageversion.FromMetadata(arrived, pageversion.SourcePeer(sender))
+	version, metadataStored := storedVersion.Get()
 	switch {
-	case arrivedFingerprint.IsDatedAfter(i.now()):
+	case arrivedVersion.IsDatedAfter(i.now()):
 		return URLMetadataDroppedFutureDate, nil
 	case !metadataStored:
-		return i.store(tx, sender, arrived)
-	case currentVersion.Describes(arrivedFingerprint):
+		return i.store(tx, sender, arrived, arrivedVersion)
+	case version.Is(arrivedVersion):
 		return URLMetadataDroppedAlreadyStored, nil
-	case !currentVersion.IsOlderThan(arrivedFingerprint):
+	case !version.IsReplacedBy(arrivedVersion):
 		return URLMetadataDroppedNotNewerVersion, nil
 	}
 	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network, hourlySwapLimit)
@@ -145,15 +142,16 @@ func (i URLMetadataIntake) admit(
 		return URLMetadataDroppedTooManyReplacements, nil
 	}
 
-	return i.replaceWith(ctx, tx, sender, arrived)
+	return i.replaceWith(ctx, tx, sender, arrived, arrivedVersion)
 }
 
 func (i URLMetadataIntake) store(
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
+	arrivedVersion pageversion.Version,
 ) (URLMetadataOutcome, error) {
-	if err := i.write(tx, sender, arrived); err != nil {
+	if err := i.write(tx, sender, arrived, arrivedVersion); err != nil {
 		return "", err
 	}
 
@@ -164,13 +162,13 @@ func (i URLMetadataIntake) write(
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
+	arrivedVersion pageversion.Version,
 ) error {
-	currentVersion, err := i.urlWriter.Write(tx, arrived, urlmeta.SourcePeer(sender))
-	if err != nil {
+	if err := i.urlWriter.Write(tx, arrived, pageversion.SourcePeer(sender)); err != nil {
 		return err
 	}
 
-	return i.releaser.releaseWaitingFor(tx, arrived.Hash, currentVersion)
+	return i.releaser.releaseWaitingFor(tx, arrived.Hash, arrivedVersion)
 }
 
 func (i URLMetadataIntake) replaceWith(
@@ -178,6 +176,7 @@ func (i URLMetadataIntake) replaceWith(
 	tx *vault.Txn,
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
+	arrivedVersion pageversion.Version,
 ) (URLMetadataOutcome, error) {
 	if err := i.swapAllowance.spend(tx, sender.Network); err != nil {
 		return "", err
@@ -185,7 +184,7 @@ func (i URLMetadataIntake) replaceWith(
 	if _, err := i.evictor.Purge(ctx, tx, []yacymodel.URLHash{arrived.Hash}); err != nil {
 		return "", fmt.Errorf("purge the replaced version: %w", err)
 	}
-	if err := i.write(tx, sender, arrived); err != nil {
+	if err := i.write(tx, sender, arrived, arrivedVersion); err != nil {
 		return "", err
 	}
 

@@ -7,13 +7,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 )
 
 const bucketName vault.Name = "urlmeta"
 
 type storedURLMetadata struct {
 	metadata yacymodel.URLMetadata
-	source   Source
+	source   pageversion.Source
 }
 
 func registerCollection(

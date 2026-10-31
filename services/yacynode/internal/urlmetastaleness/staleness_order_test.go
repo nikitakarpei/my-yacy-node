@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 )
@@ -57,13 +58,11 @@ func (h harness) store(
 	t.Helper()
 
 	h.write(t, func(tx *vault.Txn) error {
-		_, err := h.writer.Write(
+		return h.writer.Write(
 			tx,
 			yacymodel.URLMetadata{Hash: hash, Loaded: loaded},
-			urlmeta.SourceThisNode(),
+			pageversion.SourceThisNode(),
 		)
-
-		return err
 	})
 }
 

@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
@@ -486,9 +487,7 @@ func (h harness) writeCrawledMetadata(t *testing.T, metadata yacymodel.URLMetada
 	t.Helper()
 
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := h.crawled.Write(tx, metadata, urlmeta.SourceThisNode())
-
-		return err
+		return h.crawled.Write(tx, metadata, pageversion.SourceThisNode())
 	}); err != nil {
 		t.Fatalf("Write: %v", err)
 	}
@@ -602,7 +601,7 @@ func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
 	}
 }
 
-func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadata(t *testing.T) {
+func TestMissingWordsOfTheStoredVersionComeOnlyFromTheNetworkThatSentItsMetadata(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
 	h.storeMetadataModifiedOn(t, today)
@@ -697,6 +696,31 @@ func TestWaitingPostingOfAnotherVersionLeavesTheEscrowUnindexed(t *testing.T) {
 	}
 	if h.observed.released[remoteindexadmission.PostingDroppedNotNewerVersion] != 1 {
 		t.Fatalf("outcomes = %v, want one other version", h.observed.released)
+	}
+}
+
+func TestWaitingPostingFromAnotherNetworkLeavesTheEscrowUnindexed(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	today := harnessToday()
+	waiting := postingOn("w1", today)
+	if _, err := h.receiver.Receive(
+		context.Background(),
+		otherPeer,
+		[]yacymodel.RWIPosting{waiting},
+	); err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+
+	h.storeMetadataModifiedOn(t, today)
+
+	if h.heldCount(t) != 0 || h.indexed(t, waiting) {
+		t.Fatalf(
+			"held = %d, want the posting from another network released unindexed",
+			h.heldCount(t),
+		)
+	}
+	if h.observed.released[remoteindexadmission.PostingDroppedPageFromOtherSource] != 1 {
+		t.Fatalf("outcomes = %v, want one posting from another source", h.observed.released)
 	}
 }
 

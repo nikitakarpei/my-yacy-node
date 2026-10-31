@@ -105,25 +105,3 @@ func TestMetadataWithoutLanguageMatchesAnUndeclaredDocument(t *testing.T) {
 		t.Fatalf("language = %v, want the language of an undeclared document", fingerprint.Language)
 	}
 }
-
-func TestFingerprintIsDatedAfterTheDayOfNow(t *testing.T) {
-	lateOnCrawlDay := crawlDay.Time().Add(23 * time.Hour)
-
-	for name, c := range map[string]struct {
-		modified yacymodel.CalendarDay
-		want     bool
-	}{
-		"same day":           {modified: crawlDay, want: false},
-		"day before":         {modified: yacymodel.NewCalendarDay(2019, time.December, 31), want: false},
-		"next day":           {modified: yacymodel.NewCalendarDay(2020, time.January, 2), want: true},
-		"before the epoch":   {modified: dayBeforeTheEpoch, want: false},
-		"past the two bytes": {modified: dayPastTheTwoBytes, want: false},
-	} {
-		fingerprint := pagefingerprint.FromMetadata(
-			yacymodel.URLMetadata{Modified: yacymodel.Some(c.modified)},
-		)
-		if got := fingerprint.IsDatedAfter(lateOnCrawlDay); got != c.want {
-			t.Errorf("%s: dated after = %t, want %t", name, got, c.want)
-		}
-	}
-}
