@@ -47,6 +47,11 @@ func (p DHTRingPartitions) shiftLength() uint {
 	return 63 - p.exponent
 }
 
+func (p DHTRingPartitions) exponentByte() byte {
+	//nolint:gosec // G115: the exponent fits in a byte.
+	return byte(p.exponent)
+}
+
 const dhtRingPositionSymbols = 10
 
 // DHTRingPositionOf puts a hash on the ring in base64 order. Words and peers
