@@ -7,26 +7,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta/urlmetarecord"
 )
 
-const bucketName vault.Name = "urlmeta"
-
-type storedURLMetadata struct {
-	metadata yacymodel.URLMetadata
-	source   pageversion.Source
-}
+const urlMetadataBucket vault.Name = "urlmeta"
 
 func registerCollection(
 	ctx context.Context,
 	v *vault.Vault,
 	projections []vault.Projection[yacymodel.URLMetadata],
-) (*vault.Collection[yacymodel.URLHash, storedURLMetadata], error) {
+) (*vault.Collection[yacymodel.URLHash, urlmetarecord.Record], error) {
 	collection, err := v.RegisterProjectedCollection(
 		ctx,
-		bucketName,
+		urlMetadataBucket,
 		urlMetadataKeyLayout,
-		urlMetadataValueCodec{},
+		urlmetarecord.Codec{},
 		vault.ProjectedAs(metadataWithHash, projections...),
 	)
 	if err != nil {
@@ -38,9 +33,9 @@ func registerCollection(
 
 func metadataWithHash(
 	hash yacymodel.URLHash,
-	stored storedURLMetadata,
+	stored urlmetarecord.Record,
 ) yacymodel.URLMetadata {
-	metadata := stored.metadata
+	metadata := stored.Metadata
 	metadata.Hash = hash
 
 	return metadata
