@@ -64,6 +64,8 @@ components:
     in: internal/rwipostingamount/**
   rwiringoccupancy:
     in: internal/rwiringoccupancy/**
+  postingcollectiontest:
+    in: internal/postingcollectiontest/**
   rwiescrow:
     in: internal/rwiescrow/**
   remoteindexadmission:
@@ -274,23 +276,20 @@ deps:
       - storedfields
   rwipostingimpactorder:
     mayDependOn:
-      - rwipostings
       - hashkeypart
     canUse:
       - vault
   rwipostingamount:
     mayDependOn:
-      - rwipostings
       - hashkeypart
     canUse:
       - vault
-      - storedfields
   rwiringoccupancy:
-    mayDependOn:
-      - rwipostings
     canUse:
       - vault
-      - storedfields
+  postingcollectiontest:
+    canUse:
+      - vault
   rwiescrow:
     mayDependOn:
       - rwipostings
