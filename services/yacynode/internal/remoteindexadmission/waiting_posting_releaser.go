@@ -5,9 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 )
 
 type waitingPostingReleaser struct {
@@ -19,17 +17,26 @@ type waitingPostingReleaser struct {
 func (r waitingPostingReleaser) releaseWaitingFor(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-	currentVersion urlmeta.CurrentVersion,
+	storedVersion pageversion.Version,
 ) error {
 	waitingPostings, err := r.escrow.PostingsWaitingFor(tx, url)
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
 	for _, waitingPosting := range waitingPostings {
-		if currentVersion.IsOlderThan(pagefingerprint.FromPosting(waitingPosting.Posting)) {
+		arrivedVersion := pageversion.FromPosting(
+			waitingPosting.Posting,
+			pageversion.SourcePeer(waitingPosting.Origin),
+		)
+		if storedVersion.IsReplacedBy(arrivedVersion) {
 			continue
 		}
-		if err := r.placeReleased(tx, waitingPosting, currentVersion); err != nil {
+		if err := r.placeReleased(
+			tx,
+			waitingPosting.Posting,
+			arrivedVersion,
+			storedVersion,
+		); err != nil {
 			return err
 		}
 	}
@@ -39,18 +46,14 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 
 func (r waitingPostingReleaser) placeReleased(
 	tx *vault.Txn,
-	waitingPosting rwiescrow.WaitingPosting,
-	currentVersion urlmeta.CurrentVersion,
+	posting yacymodel.RWIPosting,
+	arrivedVersion pageversion.Version,
+	storedVersion pageversion.Version,
 ) error {
-	if err := r.escrow.Release(tx, waitingPosting.Posting); err != nil {
+	if err := r.escrow.Release(tx, posting); err != nil {
 		return fmt.Errorf("release posting: %w", err)
 	}
-	outcome, err := r.placer.place(
-		tx,
-		waitingPosting.Origin,
-		waitingPosting.Posting,
-		currentVersion,
-	)
+	outcome, err := r.placer.place(tx, posting, arrivedVersion, storedVersion)
 	if err != nil {
 		return err
 	}

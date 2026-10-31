@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
@@ -109,9 +109,9 @@ func (a PostingAdmission) admitEach(
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
 ) ([]yacymodel.URLHash, error) {
-	currentVersions, err := a.urls.CurrentVersionsOf(tx, referencedURLsOf(postings))
+	storedVersions, err := a.urls.VersionsOf(tx, referencedURLsOf(postings))
 	if err != nil {
-		return nil, fmt.Errorf("current versions of urls: %w", err)
+		return nil, fmt.Errorf("stored versions of urls: %w", err)
 	}
 	var urlsOfHeldPostings []yacymodel.URLHash
 	for _, posting := range postings {
@@ -122,7 +122,7 @@ func (a PostingAdmission) admitEach(
 			tx,
 			origin,
 			posting,
-			storedVersionOf(currentVersions, posting.URLHash),
+			storedVersionOf(storedVersions, posting.URLHash),
 		)
 		if err != nil {
 			return nil, err
@@ -149,12 +149,12 @@ func referencedURLsOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
 }
 
 func storedVersionOf(
-	currentVersions map[yacymodel.URLHash]urlmeta.CurrentVersion,
+	storedVersions map[yacymodel.URLHash]pageversion.Version,
 	url yacymodel.URLHash,
-) yacymodel.Optional[urlmeta.CurrentVersion] {
-	version, found := currentVersions[url]
-	if !found {
-		return yacymodel.None[urlmeta.CurrentVersion]()
+) yacymodel.Optional[pageversion.Version] {
+	version, metadataStored := storedVersions[url]
+	if !metadataStored {
+		return yacymodel.None[pageversion.Version]()
 	}
 
 	return yacymodel.Some(version)
@@ -164,20 +164,20 @@ func (a PostingAdmission) admit(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	storedVersion yacymodel.Optional[urlmeta.CurrentVersion],
+	storedVersion yacymodel.Optional[pageversion.Version],
 ) (PostingOutcome, error) {
-	postingFingerprint := pagefingerprint.FromPosting(posting)
-	currentVersion, metadataStored := storedVersion.Get()
+	arrivedVersion := pageversion.FromPosting(posting, pageversion.SourcePeer(origin))
+	version, metadataStored := storedVersion.Get()
 	switch {
 	case a.stopwords.Contains(posting.WordHash, posting.Language):
 		return PostingDroppedStopword, nil
-	case postingFingerprint.IsDatedAfter(a.now()):
+	case arrivedVersion.IsDatedAfter(a.now()):
 		return PostingDroppedFutureDate, nil
-	case !metadataStored || currentVersion.IsOlderThan(postingFingerprint):
+	case !metadataStored || version.IsReplacedBy(arrivedVersion):
 		return a.hold(tx, origin, posting)
 	}
 
-	return a.placer.place(tx, origin, posting, currentVersion)
+	return a.placer.place(tx, posting, arrivedVersion, version)
 }
 
 func (a PostingAdmission) hold(

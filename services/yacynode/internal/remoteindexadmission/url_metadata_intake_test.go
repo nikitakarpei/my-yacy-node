@@ -59,6 +59,18 @@ func TestURLMetadataIntakeReportsOneOutcomePerRecord(t *testing.T) {
 	}
 }
 
+func TestTheSameMetadataFromAnotherNetworkIsAlreadyStored(t *testing.T) {
+	h := openHarness(t, 0, 100)
+	stored := metadataOn(t, "u1", harnessToday())
+	h.receiveMetadata(t, sendingPeer, stored)
+
+	h.receiveMetadata(t, otherPeer, stored)
+
+	if h.observed.urlMetadata[remoteindexadmission.URLMetadataDroppedAlreadyStored] != 1 {
+		t.Fatalf("outcomes = %v, want the same metadata already stored", h.observed.urlMetadata)
+	}
+}
+
 func TestURLMetadataIntakeBusyAtCapacity(t *testing.T) {
 	h := openHarness(t, usedBytesOfAnEmptyNode(t)+1, 100)
 	h.receiveMetadata(t, sendingPeer, metadataOfPostingsTo("u1"))

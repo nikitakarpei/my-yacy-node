@@ -1,8 +1,7 @@
 // Package urlmeta owns URL metadata storage and lookup, and the urls.xml
 // endpoint. Its published ports speak the yacymodel vocabulary and never leak
 // the schema. A port that reads or writes stored metadata takes the transaction
-// its caller opened, so the caller decides and writes in one transaction. Each
-// record knows its source: this node or the network of the peer that sent it.
+// its caller opened, so the caller decides and writes in one transaction.
 package urlmeta
 
 import (
@@ -12,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -20,15 +20,15 @@ type URLDirectory interface {
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
-	CurrentVersionsOf(
+	VersionsOf(
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
-	) (map[yacymodel.URLHash]CurrentVersion, error)
+	) (map[yacymodel.URLHash]pageversion.Version, error)
 	Count(tx *vault.Txn) (int, error)
 }
 
 type URLMetadataWriter interface {
-	Write(tx *vault.Txn, metadata yacymodel.URLMetadata, source Source) (CurrentVersion, error)
+	Write(tx *vault.Txn, metadata yacymodel.URLMetadata, source pageversion.Source) error
 }
 
 type URLEvictor interface {
