@@ -141,7 +141,7 @@ func pageTitled(
 	t *testing.T,
 	title string,
 	words ...pageWord,
-) yacymodel.Optional[pagerwi.PageRWI] {
+) pagerwi.PageRWI {
 	t.Helper()
 
 	textWords := []string{}
@@ -175,11 +175,11 @@ func pageURLHash(t *testing.T) yacymodel.URLHash {
 
 func (h harness) receive(
 	t *testing.T,
-	pageRWI yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI pagerwi.PageRWI,
 ) pageadmission.Receipt {
 	t.Helper()
 
-	receipt, err := h.receiver.Receive(context.Background(), pageURLHash(t), pageRWI)
+	receipt, err := h.receiver.Receive(context.Background(), pageRWI)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -284,11 +284,10 @@ func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
 	h.receive(t, crawled)
 
 	recrawled := pageTitled(t, "after", pageWord{"w2", 7}, pageWord{"w3", 1})
-	if _, err := h.receiver.Receive(
-		context.Background(),
-		pageURLHash(t),
-		recrawled,
-	); !errors.Is(err, errWriteRefused) {
+	if _, err := h.receiver.Receive(context.Background(), recrawled); !errors.Is(
+		err,
+		errWriteRefused,
+	) {
 		t.Fatalf("Receive error = %v, want the refused write", err)
 	}
 

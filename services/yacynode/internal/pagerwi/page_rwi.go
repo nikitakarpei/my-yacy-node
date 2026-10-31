@@ -1,7 +1,7 @@
 // Package pagerwi turns a scraped page and the document it holds into the reverse word index
 // the node stores: one posting per distinct word of the page's text that is no stopword of its
 // language, and one URL metadata row that carries the postings root of those postings. A page
-// without such a word has no reverse word index.
+// without such a word has URL metadata but no page postings and no postings root.
 package pagerwi
 
 import (
@@ -29,7 +29,7 @@ func NewIndexBuilder(stopwords Stopwords, partitions yacymodel.DHTRingPartitions
 }
 
 type PageRWI struct {
-	pagePostings yacymodel.PagePostings
+	pagePostings yacymodel.Optional[yacymodel.PagePostings]
 	metadata     yacymodel.URLMetadata
 }
 
@@ -39,7 +39,7 @@ func (b IndexBuilder) RWIFrom(
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
-) yacymodel.Optional[PageRWI] {
+) PageRWI {
 	urlHash := yacymodel.URLHashOf(scrapedPage.PageURL.WebAddress())
 	modifiedAt := recordedModifiedAtOf(scrapedPage, reachedAt)
 	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
@@ -50,22 +50,20 @@ func (b IndexBuilder) RWIFrom(
 		textWordOccurrences,
 		titleWordOccurrences,
 	)
-	pagePostings, built := b.pagePostingsFrom(ctx, postings).Get()
-	if !built {
-		return yacymodel.None[PageRWI]()
-	}
+	pagePostings := b.pagePostingsFrom(ctx, postings)
 
-	return yacymodel.Some(PageRWI{
+	return PageRWI{
 		metadata: metadataOf(
 			scrapedPage,
 			document,
 			reachedAt,
 			modifiedAt,
 			textStats.Words,
-			pagePostings,
+			urlHash,
+			postingsRootOf(pagePostings),
 		),
 		pagePostings: pagePostings,
-	})
+	}
 }
 
 func recordedModifiedAtOf(
@@ -181,6 +179,17 @@ func (b IndexBuilder) pagePostingsFrom(
 	return yacymodel.Some(pagePostings)
 }
 
+func postingsRootOf(
+	pagePostings yacymodel.Optional[yacymodel.PagePostings],
+) yacymodel.Optional[yacymodel.PostingsRoot] {
+	indexed, present := pagePostings.Get()
+	if !present {
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+
+	return indexed.Root()
+}
+
 //nolint:revive // argument-limit: each argument is a distinct source of one metadata row
 func metadataOf(
 	scrapedPage pagescrapecontract.OfferedPage,
@@ -188,17 +197,18 @@ func metadataOf(
 	reachedAt time.Time,
 	modifiedAt time.Time,
 	wordCount int,
-	pagePostings yacymodel.PagePostings,
+	urlHash yacymodel.URLHash,
+	postingsRoot yacymodel.Optional[yacymodel.PostingsRoot],
 ) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{
-		Hash:         pagePostings.URL(),
+		Hash:         urlHash,
 		Address:      scrapedPage.PageURL.String(),
 		Title:        document.Title,
 		Modified:     yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
 		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType: yacymodel.DocumentTypeText,
 		Language:     declaredLanguageOf(document),
-		PostingsRoot: pagePostings.Root(),
+		PostingsRoot: postingsRoot,
 		ByteSize: yacymodel.Some(
 			yacymodel.SaturatedCardinalFrom[uint32](len(scrapedPage.Body)),
 		),
@@ -212,10 +222,6 @@ func (r PageRWI) Metadata() yacymodel.URLMetadata {
 	return r.metadata
 }
 
-func (r PageRWI) PagePostings() yacymodel.PagePostings {
+func (r PageRWI) PagePostings() yacymodel.Optional[yacymodel.PagePostings] {
 	return r.pagePostings
-}
-
-func (r PageRWI) AmountOfPostings() int {
-	return r.pagePostings.AmountOfPostings()
 }

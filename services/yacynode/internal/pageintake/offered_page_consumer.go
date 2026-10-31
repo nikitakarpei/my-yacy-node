@@ -13,7 +13,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
@@ -142,7 +141,7 @@ func (c *OfferedPageConsumer) store(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
-	pageRWI yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI pagerwi.PageRWI,
 ) {
 	if !c.admitPage(ctx, message, pageURL, pageRWI) {
 		return
@@ -156,10 +155,10 @@ func (c *OfferedPageConsumer) admitPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
-	pageRWI yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI pagerwi.PageRWI,
 ) bool {
 	amountOfPostings := amountOfPostingsOf(pageRWI)
-	receipt, err := c.pageReceiver.Receive(ctx, yacymodel.URLHashOf(pageURL.WebAddress()), pageRWI)
+	receipt, err := c.pageReceiver.Receive(ctx, pageRWI)
 	if err != nil {
 		c.pageIntakeObserver.PageAdmissionFailed(
 			ctx,
@@ -193,13 +192,13 @@ func (c *OfferedPageConsumer) admitPage(
 	return true
 }
 
-func amountOfPostingsOf(pageRWI yacymodel.Optional[pagerwi.PageRWI]) int {
-	rwi, indexed := pageRWI.Get()
+func amountOfPostingsOf(pageRWI pagerwi.PageRWI) int {
+	pagePostings, indexed := pageRWI.PagePostings().Get()
 	if !indexed {
 		return 0
 	}
 
-	return rwi.AmountOfPostings()
+	return pagePostings.AmountOfPostings()
 }
 
 func (c *OfferedPageConsumer) reject(
