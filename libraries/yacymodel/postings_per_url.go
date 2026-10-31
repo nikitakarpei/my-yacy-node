@@ -4,9 +4,9 @@ func PostingsPerURLFrom(
 	postings []RWIPosting,
 ) (postingsPerURL [][]RWIPosting, repeatedPostings []RWIPosting) {
 	groupOfURL := make(map[URLHash]int)
-	seenPostings := make(map[wordOfURL]struct{}, len(postings))
+	seenPostings := make(map[postingIdentity]struct{}, len(postings))
 	for _, posting := range postings {
-		identity := wordOfURL{word: posting.WordHash, url: posting.URLHash}
+		identity := postingIdentity{word: posting.WordHash, url: posting.URLHash}
 		if _, seen := seenPostings[identity]; seen {
 			repeatedPostings = append(repeatedPostings, posting)
 
@@ -25,7 +25,7 @@ func PostingsPerURLFrom(
 	return postingsPerURL, repeatedPostings
 }
 
-type wordOfURL struct {
+type postingIdentity struct {
 	word Hash
 	url  URLHash
 }

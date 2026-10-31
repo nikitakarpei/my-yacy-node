@@ -26,7 +26,7 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
-	var postingsToIndex []yacymodel.RWIPosting
+	var passedPostings []yacymodel.RWIPosting
 	for _, waitingPosting := range waitingPostings {
 		arrivedVersion := pageversion.FromPosting(
 			waitingPosting.Posting,
@@ -40,11 +40,11 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 			return err
 		}
 		if outcome == PostingIndexed {
-			postingsToIndex = append(postingsToIndex, waitingPosting.Posting)
+			passedPostings = append(passedPostings, waitingPosting.Posting)
 		}
 	}
 
-	return r.indexReleased(ctx, tx, postingsToIndex)
+	return r.indexReleased(ctx, tx, passedPostings)
 }
 
 func (r waitingPostingReleaser) release(
@@ -68,14 +68,14 @@ func (r waitingPostingReleaser) release(
 func (r waitingPostingReleaser) indexReleased(
 	ctx context.Context,
 	tx *vault.Txn,
-	postingsToIndex []yacymodel.RWIPosting,
+	passedPostings []yacymodel.RWIPosting,
 ) error {
-	if len(postingsToIndex) == 0 {
+	if len(passedPostings) == 0 {
 		return nil
 	}
-	released, err := yacymodel.UnprovenPagePostingsFrom(postingsToIndex)
+	released, err := yacymodel.UnprovenPagePostingsFrom(passedPostings)
 	if err != nil {
-		reportReleasedPostingsFormingNoPagePostings(ctx, postingsToIndex[0].URLHash, err)
+		reportUnjoinedReleasedPostings(ctx, passedPostings[0].URLHash, err)
 
 		return nil
 	}
@@ -83,7 +83,7 @@ func (r waitingPostingReleaser) indexReleased(
 	return r.placer.index(tx, released)
 }
 
-func reportReleasedPostingsFormingNoPagePostings(
+func reportUnjoinedReleasedPostings(
 	ctx context.Context,
 	url yacymodel.URLHash,
 	err error,

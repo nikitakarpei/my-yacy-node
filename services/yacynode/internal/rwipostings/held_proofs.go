@@ -10,9 +10,9 @@ import (
 )
 
 type heldProofs struct {
-	proofs   *vault.Collection[yacymodel.URLHash, yacymodel.PostingsProof]
-	urlWords *vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity]
-	postings *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
+	proofs      *vault.Collection[yacymodel.URLHash, yacymodel.PostingsProof]
+	wordsPerURL wordsPerURL
+	postings    *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
 }
 
 func (h heldProofs) mergeWith(tx *vault.Txn, pagePostings yacymodel.PagePostings) error {
@@ -62,7 +62,7 @@ func (h heldProofs) narrowWithout(tx *vault.Txn, purgedPosting yacymodel.RWIPost
 	if err != nil || !found {
 		return err
 	}
-	remainingWords, err := wordsOfURL(tx, h.urlWords, url)
+	remainingWords, err := h.wordsPerURL.wordsOf(tx, url)
 	if err != nil {
 		return err
 	}
@@ -98,17 +98,17 @@ func (h heldProofs) proofFor(
 	}
 	held, err := yacymodel.ProvenPagePostingsFrom(heldPostings, heldProof)
 	if err != nil {
-		reportHeldProofBesideItsPostings(ctx, url, err)
+		reportMismatchedHeldProof(ctx, url, err)
 
 		return yacymodel.PostingsProof{}, false, nil
 	}
-	given, stillHeld := held.NarrowedTo(offeredPostings).Get()
+	offeredPagePostings, stillHeld := held.NarrowedTo(offeredPostings).Get()
 	if !stillHeld {
-		reportOfferedPostingsNoLongerHeld(ctx, url)
+		reportUnheldOfferedPostings(ctx, url)
 
 		return yacymodel.PostingsProof{}, false, nil
 	}
-	proof, present := given.Proof().Get()
+	proof, present := offeredPagePostings.Proof().Get()
 
 	return proof, present, nil
 }
@@ -117,7 +117,7 @@ func (h heldProofs) postingsOf(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 ) ([]yacymodel.RWIPosting, error) {
-	words, err := wordsOfURL(tx, h.urlWords, url)
+	words, err := h.wordsPerURL.wordsOf(tx, url)
 	if err != nil {
 		return nil, err
 	}
@@ -136,14 +136,14 @@ func (h heldProofs) postingsOf(
 	return postings, nil
 }
 
-func reportHeldProofBesideItsPostings(ctx context.Context, url yacymodel.URLHash, err error) {
-	slog.ErrorContext(ctx, "held postings of a url form no page postings",
+func reportMismatchedHeldProof(ctx context.Context, url yacymodel.URLHash, err error) {
+	slog.ErrorContext(ctx, "held proof of a url does not match its postings",
 		slog.String("url", url.String()),
 		slog.Any("error", err),
 	)
 }
 
-func reportOfferedPostingsNoLongerHeld(ctx context.Context, url yacymodel.URLHash) {
+func reportUnheldOfferedPostings(ctx context.Context, url yacymodel.URLHash) {
 	slog.WarnContext(ctx, "offered postings of a url are no longer held",
 		slog.String("url", url.String()),
 	)

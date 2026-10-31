@@ -80,7 +80,7 @@ func pagePostingsFrom(
 	for _, postingsOfURL := range postingsPerURL {
 		unproven, err := yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
 		if err != nil {
-			reportRefusedPostingsOfURL(ctx, postingsOfURL[0].URLHash, err)
+			reportDroppedPostings(ctx, postingsOfURL[0].URLHash, err)
 
 			continue
 		}
@@ -97,7 +97,7 @@ func reportRepeatedPosting(ctx context.Context, posting yacymodel.RWIPosting) {
 	)
 }
 
-func reportRefusedPostingsOfURL(ctx context.Context, url yacymodel.URLHash, err error) {
+func reportDroppedPostings(ctx context.Context, url yacymodel.URLHash, err error) {
 	slog.WarnContext(ctx, "transfer rwi postings of a url dropped",
 		slog.String("url", url.String()),
 		slog.Any("error", err),
