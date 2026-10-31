@@ -141,3 +141,12 @@ func (p PagePostings) proofNarrowedTo(keptPostings []RWIPosting) Optional[Postin
 
 	return Some(proof.narrowedFrom(p.postings, keptPostings))
 }
+
+func (p PagePostings) EachProvenPosting() []ProvenPosting {
+	proof, proven := p.proof.Get()
+	if !proven {
+		return nil
+	}
+
+	return proof.provenPostingsFrom(p.postings)
+}

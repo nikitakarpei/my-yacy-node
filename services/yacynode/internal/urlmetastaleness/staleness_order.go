@@ -18,12 +18,17 @@ func rankOf(day yacymodel.Optional[yacymodel.CalendarDay]) freshnessRank {
 }
 
 type rankedURL struct {
-	rank freshnessRank
-	hash yacymodel.URLHash
+	rooted    bool
+	freshness freshnessRank
+	hash      yacymodel.URLHash
 }
 
 func rankedURLOf(metadata yacymodel.URLMetadata) rankedURL {
-	return rankedURL{rank: rankOf(metadata.Freshness()), hash: metadata.Hash}
+	return rankedURL{
+		rooted:    metadata.PostingsRoot.Present(),
+		freshness: rankOf(metadata.Freshness()),
+		hash:      metadata.Hash,
+	}
 }
 
 type stalenessRanking struct {

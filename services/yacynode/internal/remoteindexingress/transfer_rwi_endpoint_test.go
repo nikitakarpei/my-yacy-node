@@ -97,24 +97,24 @@ func mountedMux(
 	return mux
 }
 
-func posting(t *testing.T, word, urlSeed string) yacymodel.RWIPosting {
+func posting(t *testing.T, word string) yacymodel.RWIPosting {
 	t.Helper()
 
 	return yacymodel.RWIPosting{
 		WordHash:   yacymodel.WordHash(word),
-		URLHash:    urlHashFromWord(t, urlSeed),
+		URLHash:    pageURLHash(t),
 		Language:   yacymodel.LanguageOfUndeclaredDocument,
 		LocalLinks: 1,
 		Hits:       1,
 	}
 }
 
-func urlHashFromWord(t *testing.T, word string) yacymodel.URLHash {
+func pageURLHash(t *testing.T) yacymodel.URLHash {
 	t.Helper()
 
-	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(word).String())
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash("page").String())
 	if err != nil {
-		t.Fatalf("url hash for %q: %v", word, err)
+		t.Fatalf("page url hash: %v", err)
 	}
 
 	return hash
@@ -165,7 +165,7 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
+		Indexes:     []yacymodel.RWIPosting{posting(t, "w1")},
 	}
 
 	resp := transferRWI(t, mux, req)
@@ -188,7 +188,7 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
+		Indexes:     []yacymodel.RWIPosting{posting(t, "w1")},
 	}
 
 	resp := transferRWI(t, mux, req)
@@ -203,35 +203,120 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	}
 }
 
+func TestTransferRWIHandsThePostingsProofsToTheReceiver(t *testing.T) {
+	receiver := &recordingReceiver{}
+	mux := muxWith(receiver)
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		[]yacymodel.RWIPosting{posting(t, "w1"), posting(t, "w2")},
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	sent, _ := crawled.NarrowedTo(crawled.Postings()[:1]).Get()
+	proof, _ := sent.Proof().Get()
+
+	transferRWI(t, mux, yacyproto.TransferRWIRequest{
+		NetworkName: "freeworld",
+		YouAre:      localIdentity().Hash,
+		WordCount:   1,
+		EntryCount:  1,
+		Indexes:     sent.Postings(),
+		PostingsProofs: map[yacymodel.URLHash]yacymodel.PostingsProof{
+			pageURLHash(t): proof,
+		},
+	})
+
+	if len(receiver.receivedPagePostings) != 1 || !crawled.Root().Present() ||
+		receiver.receivedPagePostings[0].Root() != crawled.Root() {
+		t.Fatalf(
+			"received page postings = %+v, want the root %+v",
+			receiver.receivedPagePostings,
+			crawled.Root(),
+		)
+	}
+}
+
+func TestTransferRWIHandsOverThePostingsOfAURLWithoutAProofBesideNoPathOfThem(
+	t *testing.T,
+) {
+	receiver := &recordingReceiver{}
+	mux := muxWith(receiver)
+	junkProof, err := yacymodel.ParsePostingsProofBytes(
+		append([]byte{1, 2, 0}, make([]byte, 32)...),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	transferRWI(t, mux, yacyproto.TransferRWIRequest{
+		NetworkName: "freeworld",
+		YouAre:      localIdentity().Hash,
+		WordCount:   2,
+		EntryCount:  2,
+		Indexes:     []yacymodel.RWIPosting{posting(t, "w1"), posting(t, "w2")},
+		PostingsProofs: map[yacymodel.URLHash]yacymodel.PostingsProof{
+			pageURLHash(t): junkProof,
+		},
+	})
+
+	if len(receiver.receivedPagePostings) != 1 ||
+		receiver.receivedPagePostings[0].AmountOfPostings() != 2 ||
+		receiver.receivedPagePostings[0].Proof().Present() {
+		t.Fatalf(
+			"received page postings = %+v, want both postings together without proof",
+			receiver.receivedPagePostings,
+		)
+	}
+}
+
 func TestTransferRWIHandsOverThePostingsOfEachURLTogether(t *testing.T) {
 	receiver := &recordingReceiver{}
 	mux := muxWith(receiver)
+	onOtherPage := posting(t, "w1")
+	otherURL, err := yacymodel.ParseURLHash(yacymodel.WordHash("other page").String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	onOtherPage.URLHash = otherURL
 
 	transferRWI(t, mux, yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
 		YouAre:      localIdentity().Hash,
 		WordCount:   2,
 		EntryCount:  3,
-		Indexes: []yacymodel.RWIPosting{
-			posting(t, "w1", "u1"),
-			posting(t, "w1", "u2"),
-			posting(t, "w2", "u1"),
-		},
+		Indexes:     []yacymodel.RWIPosting{posting(t, "w1"), onOtherPage, posting(t, "w2")},
 	})
 
 	if len(receiver.receivedPagePostings) != 2 {
 		t.Fatalf("page postings = %d, want one for each url", len(receiver.receivedPagePostings))
 	}
-	if got := receiver.receivedPagePostings[0]; got.URL() != urlHashFromWord(t, "u1") ||
+	if got := receiver.receivedPagePostings[0]; got.URL() != pageURLHash(t) ||
 		got.AmountOfPostings() != 2 {
-		t.Errorf("first page postings = %+v, want both postings of u1", got)
+		t.Errorf("first page postings = %+v, want both postings of the page", got)
 	}
 }
 
-func TestTransferRWIHandsOverTheFirstPostingOfARepeatedWord(t *testing.T) {
+func TestTransferRWIHandsOverTheFirstPostingOfARepeatedWordWithTheProofOfItsURL(t *testing.T) {
 	receiver := &recordingReceiver{}
 	mux := muxWith(receiver)
-	repeated := posting(t, "w1", "u1")
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		[]yacymodel.RWIPosting{posting(t, "w1"), posting(t, "w2")},
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	proof, _ := crawled.Proof().Get()
+	repeated := posting(t, "w1")
 	repeated.Hits = 2
 
 	transferRWI(t, mux, yacyproto.TransferRWIRequest{
@@ -239,17 +324,16 @@ func TestTransferRWIHandsOverTheFirstPostingOfARepeatedWord(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   2,
 		EntryCount:  3,
-		Indexes: []yacymodel.RWIPosting{
-			posting(t, "w1", "u1"),
-			posting(t, "w2", "u1"),
-			repeated,
+		Indexes:     append(crawled.Postings(), repeated),
+		PostingsProofs: map[yacymodel.URLHash]yacymodel.PostingsProof{
+			pageURLHash(t): proof,
 		},
 	})
 
-	want := []yacymodel.RWIPosting{posting(t, "w1", "u1"), posting(t, "w2", "u1")}
 	if len(receiver.receivedPagePostings) != 1 ||
-		!slices.Equal(receiver.receivedPagePostings[0].Postings(), want) {
-		t.Fatalf("page postings = %+v, want the first posting of each word together",
+		!slices.Equal(receiver.receivedPagePostings[0].Postings(), crawled.Postings()) ||
+		receiver.receivedPagePostings[0].Root() != crawled.Root() {
+		t.Fatalf("page postings = %+v, want the first posting of each word under the root",
 			receiver.receivedPagePostings)
 	}
 }
@@ -276,7 +360,7 @@ func TestTransferRWIRefusesWhenRemoteIndexIsNotAccepted(t *testing.T) {
 		YouAre:      identity.Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
+		Indexes:     []yacymodel.RWIPosting{posting(t, "w1")},
 	})
 
 	if resp.Result != yacyproto.ResultNotGranted {

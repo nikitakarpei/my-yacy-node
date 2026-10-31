@@ -49,10 +49,11 @@ func (p PostingsProof) liesBesidePathsOf(postings []RWIPosting) bool {
 }
 
 func (p PostingsProof) rootOver(postings []RWIPosting) PostingsRoot {
-	return PostingsRoot{
-		digest:            p.subtreeOver(postings).Hash(),
-		partitionExponent: p.partitionExponent,
-	}
+	return p.rootOf(p.subtreeOver(postings))
+}
+
+func (p PostingsProof) rootOf(subtree postingstree.Subtree) PostingsRoot {
+	return PostingsRoot{digest: subtree.Hash(), partitionExponent: p.partitionExponent}
 }
 
 func (p PostingsProof) subtreeOver(postings []RWIPosting) postingstree.Subtree {
@@ -63,6 +64,22 @@ func (p PostingsProof) narrowedFrom(postings, keptPostings []RWIPosting) Posting
 	return p.withEntries(p.subtreeOver(postings).EntriesAround(
 		leafPositionsOfPostings(keptPostings, p.partitionExponent),
 	))
+}
+
+func (p PostingsProof) provenPostingsFrom(postings []RWIPosting) []ProvenPosting {
+	subtree := p.subtreeOver(postings)
+	root := p.rootOf(subtree)
+	eachEntries := subtree.EntriesAroundEach(leafPositionsOfPostings(postings, p.partitionExponent))
+	provenPostings := make([]ProvenPosting, 0, len(eachEntries))
+	for index, entries := range eachEntries {
+		provenPostings = append(provenPostings, ProvenPosting{
+			posting: postings[index],
+			proof:   p.withEntries(entries),
+			root:    root,
+		})
+	}
+
+	return provenPostings
 }
 
 func (p PostingsProof) Bytes() []byte {

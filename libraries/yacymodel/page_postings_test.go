@@ -131,6 +131,34 @@ func TestNarrowedPagePostingsLeadToTheRoot(t *testing.T) {
 	}
 }
 
+func TestEachProvenPostingTakesTheProofOfItsNarrowing(t *testing.T) {
+	random := seededRandom(12)
+	for _, exponent := range partitionExponents {
+		partitions := partitionsFrom(t, exponent)
+		postings := randomPagePostings(random, 1+random.IntN(300))
+		whole := wholePagePostingsOf(t, postings, partitions)
+
+		for range 5 {
+			source := narrowedTo(t, whole, randomSubsetOf(random, postings))
+			provenPostings := source.EachProvenPosting()
+			if len(provenPostings) != len(source.Postings()) {
+				t.Fatalf("%d proven postings, want %d", len(provenPostings), len(source.Postings()))
+			}
+			for index, provenPosting := range provenPostings {
+				narrowed := narrowedTo(t, source, source.Postings()[index:index+1])
+				if provenPosting.Posting() != narrowed.Postings()[0] ||
+					!bytes.Equal(provenPosting.Proof().Bytes(), proofOf(t, narrowed).Bytes()) {
+					t.Fatalf(
+						"proven posting = %+v, want its narrowing %+v",
+						provenPosting,
+						narrowed,
+					)
+				}
+			}
+		}
+	}
+}
+
 func narrowedTo(
 	t *testing.T,
 	pagePostings yacymodel.PagePostings,
@@ -419,6 +447,9 @@ func TestPagePostingsWithoutProofHaveNoRootAndNarrowWithoutProof(t *testing.T) {
 	}
 	if narrowedTo(t, unproven, postings[:1]).Proof().Present() {
 		t.Error("narrowed proof is present without a proof")
+	}
+	if len(unproven.EachProvenPosting()) > 0 {
+		t.Error("page postings without a proof give proven postings")
 	}
 }
 

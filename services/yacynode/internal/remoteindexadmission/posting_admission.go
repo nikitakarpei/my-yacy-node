@@ -28,6 +28,7 @@ const (
 	PostingDroppedAlreadyIndexed      PostingOutcome = "dropped_already_indexed"
 	PostingDroppedNotNewerVersion     PostingOutcome = "dropped_not_newer_version"
 	PostingDroppedPageFromOtherSource PostingOutcome = "dropped_page_from_other_source"
+	PostingDroppedUnrootedVersion     PostingOutcome = "dropped_unrooted_version"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -178,20 +179,118 @@ func (a PostingAdmission) admitPage(
 	pagePostings yacymodel.PagePostings,
 	storedVersion yacymodel.Optional[pageversion.Version],
 ) (somePostingsHeld bool, err error) {
-	var passedPostings []yacymodel.RWIPosting
-	for _, posting := range pagePostings.Postings() {
-		outcome, err := a.admit(tx, origin, posting, storedVersion)
+	outcomes, err := a.admitEachPosting(tx, origin, pagePostings, storedVersion)
+	if err != nil {
+		return false, err
+	}
+	tx.RunAfterCommit(func() { a.observeReceived(outcomes) })
+	passedPostings := passedPostingsOf(pagePostings.Postings(), outcomes)
+
+	return slices.Contains(outcomes, PostingHeldForURLMetadata),
+		a.indexPassedPostings(ctx, tx, pagePostings, passedPostings)
+}
+
+func (a PostingAdmission) admitEachPosting(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	pagePostings yacymodel.PagePostings,
+	storedVersion yacymodel.Optional[pageversion.Version],
+) ([]PostingOutcome, error) {
+	if pagePostings.Proof().Present() {
+		return a.admitProven(tx, origin, pagePostings.EachProvenPosting(), storedVersion)
+	}
+
+	return a.admitUnproven(tx, origin, pagePostings.Postings(), storedVersion)
+}
+
+func (a PostingAdmission) admitProven(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	provenPostings []yacymodel.ProvenPosting,
+	storedVersion yacymodel.Optional[pageversion.Version],
+) ([]PostingOutcome, error) {
+	outcomes := make([]PostingOutcome, 0, len(provenPostings))
+	for _, provenPosting := range provenPostings {
+		arrivedVersion := pageversion.FromProvenPosting(
+			provenPosting,
+			pageversion.SourcePeer(origin),
+		)
+		outcome, err := a.admit(tx, provenPosting.Posting(), arrivedVersion, storedVersion)
 		if err != nil {
-			return false, err
+			return nil, err
 		}
-		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
-		somePostingsHeld = somePostingsHeld || outcome == PostingHeldForURLMetadata
+		if outcome == PostingHeldForURLMetadata {
+			if err := a.escrow.HoldProven(tx, origin, provenPosting, arrivedVersion); err != nil {
+				return nil, fmt.Errorf("hold proven posting: %w", err)
+			}
+		}
+		outcomes = append(outcomes, outcome)
+	}
+
+	return outcomes, nil
+}
+
+func (a PostingAdmission) admit(
+	tx *vault.Txn,
+	posting yacymodel.RWIPosting,
+	arrivedVersion pageversion.Version,
+	storedVersion yacymodel.Optional[pageversion.Version],
+) (PostingOutcome, error) {
+	version, metadataStored := storedVersion.Get()
+	switch {
+	case a.stopwords.Contains(posting.WordHash, posting.Language):
+		return PostingDroppedStopword, nil
+	case arrivedVersion.IsDatedAfter(a.now()):
+		return PostingDroppedFutureDate, nil
+	case !metadataStored || version.IsReplacedBy(arrivedVersion):
+		return PostingHeldForURLMetadata, nil
+	}
+
+	return a.placer.placementOf(tx, posting, arrivedVersion, version)
+}
+
+func (a PostingAdmission) admitUnproven(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	postings []yacymodel.RWIPosting,
+	storedVersion yacymodel.Optional[pageversion.Version],
+) ([]PostingOutcome, error) {
+	outcomes := make([]PostingOutcome, 0, len(postings))
+	for _, posting := range postings {
+		arrivedVersion := pageversion.FromPosting(posting, pageversion.SourcePeer(origin))
+		outcome, err := a.admit(tx, posting, arrivedVersion, storedVersion)
+		if err != nil {
+			return nil, err
+		}
+		if outcome == PostingHeldForURLMetadata {
+			if err := a.escrow.HoldUnproven(tx, origin, posting, arrivedVersion); err != nil {
+				return nil, fmt.Errorf("hold unproven posting: %w", err)
+			}
+		}
+		outcomes = append(outcomes, outcome)
+	}
+
+	return outcomes, nil
+}
+
+func (a PostingAdmission) observeReceived(outcomes []PostingOutcome) {
+	for _, outcome := range outcomes {
+		a.observer.ObserveReceivedPostings(outcome, 1)
+	}
+}
+
+func passedPostingsOf(
+	postings []yacymodel.RWIPosting,
+	outcomes []PostingOutcome,
+) []yacymodel.RWIPosting {
+	var passedPostings []yacymodel.RWIPosting
+	for index, outcome := range outcomes {
 		if outcome == PostingIndexed {
-			passedPostings = append(passedPostings, posting)
+			passedPostings = append(passedPostings, postings[index])
 		}
 	}
 
-	return somePostingsHeld, a.indexPassedPostings(ctx, tx, pagePostings, passedPostings)
+	return passedPostings
 }
 
 func (a PostingAdmission) indexPassedPostings(
@@ -217,36 +316,4 @@ func reportUnnarrowedPassedPostings(ctx context.Context, url yacymodel.URLHash) 
 	slog.ErrorContext(ctx, "postings of a url passed admission outside their page postings",
 		slog.String("url", url.String()),
 	)
-}
-
-func (a PostingAdmission) admit(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-	storedVersion yacymodel.Optional[pageversion.Version],
-) (PostingOutcome, error) {
-	arrivedVersion := pageversion.FromPosting(posting, pageversion.SourcePeer(origin))
-	version, metadataStored := storedVersion.Get()
-	switch {
-	case a.stopwords.Contains(posting.WordHash, posting.Language):
-		return PostingDroppedStopword, nil
-	case arrivedVersion.IsDatedAfter(a.now()):
-		return PostingDroppedFutureDate, nil
-	case !metadataStored || version.IsReplacedBy(arrivedVersion):
-		return a.hold(tx, origin, posting)
-	}
-
-	return a.placer.placementOf(tx, posting, arrivedVersion, version)
-}
-
-func (a PostingAdmission) hold(
-	tx *vault.Txn,
-	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
-) (PostingOutcome, error) {
-	if err := a.escrow.Hold(tx, origin, posting); err != nil {
-		return "", fmt.Errorf("hold posting: %w", err)
-	}
-
-	return PostingHeldForURLMetadata, nil
 }

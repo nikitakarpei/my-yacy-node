@@ -1,8 +1,8 @@
 // Package remoteindexingress is the YaCy DHT ingress for this node's remote
 // index: it accepts transferRWI and transferURL requests, checks that each
 // addresses this node and that this node accepts a remote index, and hands the
-// postings or the URL metadata to remote index admission with the sender's
-// network.
+// postings with their proofs, or the URL metadata, to remote index admission
+// with the sender's network.
 package remoteindexingress
 
 import (
@@ -51,7 +51,11 @@ func (e transferRWIEndpoint) Serve(
 	)
 
 	origin := rwiorigin.Of(httpguard.RemoteAddr(ctx))
-	receipt, err := e.receiver.Receive(ctx, origin, pagePostingsFrom(ctx, req.Indexes))
+	receipt, err := e.receiver.Receive(
+		ctx,
+		origin,
+		pagePostingsFrom(ctx, req.Indexes, req.PostingsProofs),
+	)
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)
 	}
@@ -71,6 +75,7 @@ func (e transferRWIEndpoint) Serve(
 func pagePostingsFrom(
 	ctx context.Context,
 	postings []yacymodel.RWIPosting,
+	proofs map[yacymodel.URLHash]yacymodel.PostingsProof,
 ) []yacymodel.PagePostings {
 	postingsPerURL, repeatedPostings := yacymodel.PostingsPerURLFrom(postings)
 	for _, posting := range repeatedPostings {
@@ -78,13 +83,13 @@ func pagePostingsFrom(
 	}
 	receivedPagePostings := make([]yacymodel.PagePostings, 0, len(postingsPerURL))
 	for _, postingsOfURL := range postingsPerURL {
-		unproven, err := yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
+		pagePostings, err := pagePostingsOfURL(ctx, postingsOfURL, proofs)
 		if err != nil {
 			reportDroppedPostings(ctx, postingsOfURL[0].URLHash, err)
 
 			continue
 		}
-		receivedPagePostings = append(receivedPagePostings, unproven)
+		receivedPagePostings = append(receivedPagePostings, pagePostings)
 	}
 
 	return receivedPagePostings
@@ -94,6 +99,33 @@ func reportRepeatedPosting(ctx context.Context, posting yacymodel.RWIPosting) {
 	slog.WarnContext(ctx, "transfer rwi repeated posting dropped",
 		slog.String("url", posting.URLHash.String()),
 		slog.String("word", posting.WordHash.String()),
+	)
+}
+
+func pagePostingsOfURL(
+	ctx context.Context,
+	postingsOfURL []yacymodel.RWIPosting,
+	proofs map[yacymodel.URLHash]yacymodel.PostingsProof,
+) (yacymodel.PagePostings, error) {
+	url := postingsOfURL[0].URLHash
+	proof, sent := proofs[url]
+	if !sent {
+		return yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
+	}
+	proven, err := yacymodel.ProvenPagePostingsFrom(postingsOfURL, proof)
+	if err != nil {
+		reportDroppedProof(ctx, url, err)
+
+		return yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
+	}
+
+	return proven, nil
+}
+
+func reportDroppedProof(ctx context.Context, url yacymodel.URLHash, err error) {
+	slog.WarnContext(ctx, "transfer rwi postings proof of a url dropped",
+		slog.String("url", url.String()),
+		slog.Any("error", err),
 	)
 }
 

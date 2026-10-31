@@ -1052,6 +1052,21 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "dropped_unrooted_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "refused_too_many_postings"
             },
             "properties": [
@@ -1113,7 +1128,7 @@
     {
       "id": 144,
       "title": "Peer URL metadata by outcome",
-      "description": "What the node decided for each URL metadata record a peer sent. A later version replaces the stored metadata and every posting of its URL at once.",
+      "description": "What the node decided for each URL metadata record a peer sent.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1173,6 +1188,21 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "replaced_unrooted_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "semi-dark-green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "dropped_already_stored"
             },
             "properties": [
@@ -1196,6 +1226,21 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_unrooted_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-purple"
                 }
               }
             ]
@@ -1332,6 +1377,21 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dropped_unrooted_version"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-purple"
                 }
               }
             ]
