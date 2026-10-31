@@ -99,3 +99,7 @@ func (l Language) String() string {
 
 	return everyLanguageCode[letterNumberOf(l.code[0])*lowercaseLetters+letterNumberOf(l.code[1])]
 }
+
+func (l Language) AppendBytes(buffer []byte) []byte {
+	return append(buffer, l.code[:]...)
+}

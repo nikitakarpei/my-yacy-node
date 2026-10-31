@@ -9,6 +9,9 @@ components:
   yacymodel:
     in:
       - .
+  postingstree:
+    in:
+      - internal/postingstree/**
   peerkeytest:
     in:
       - peerkeytest/**
@@ -23,6 +26,8 @@ vendors:
 
 deps:
   yacymodel:
+    mayDependOn:
+      - postingstree
     canUse:
       - circl
   peerkeytest:
