@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -255,22 +256,11 @@ func readingCutOffBy(
 	)
 }
 
-func documentOfTheAddress(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	document, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return document
-}
-
 func pageToReadOfTheAddress(t *testing.T, address string) pagereading.PageToRead {
 	t.Helper()
 
 	return pagereading.PageToRead{
-		Document: documentOfTheAddress(t, address),
+		Document: urlhashtest.URLHashOf(t, address),
 		Address:  address,
 	}
 }
@@ -301,7 +291,7 @@ func pageContentsOfTheAddressRead(
 ) pagecontents.PageContents {
 	t.Helper()
 
-	pageContents, read := pageContentsPerDocument[documentOfTheAddress(t, address)]
+	pageContents, read := pageContentsPerDocument[urlhashtest.URLHashOf(t, address)]
 	if !read {
 		t.Fatalf("the reading gives %+v, want the contents of the page", pageContentsPerDocument)
 	}
@@ -549,7 +539,7 @@ func TestAPageTheSiteSaysIsGoneGivesItsDocumentAsWithdrawn(t *testing.T) {
 		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	if _, withdrawn := pagesRead.WithdrawnDocuments[documentOfTheAddress(t, addressOfTheDocument)]; !withdrawn ||
+	if _, withdrawn := pagesRead.WithdrawnDocuments[urlhashtest.URLHashOf(t, addressOfTheDocument)]; !withdrawn ||
 		len(pagesRead.PageContentsPerDocument) != 0 {
 		t.Fatalf("the reading gives %+v, want the document as withdrawn and no text", pagesRead)
 	}
@@ -604,7 +594,7 @@ func TestAPageThatRefusesIndexingGivesItsDocumentAsWithdrawn(t *testing.T) {
 				[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 			)
 
-			document := documentOfTheAddress(t, addressOfTheDocument)
+			document := urlhashtest.URLHashOf(t, addressOfTheDocument)
 			if _, withdrawn := pagesRead.WithdrawnDocuments[document]; !withdrawn ||
 				len(pagesRead.PageContentsPerDocument) != 0 {
 				t.Fatalf(
@@ -680,7 +670,7 @@ func TestAReadPageGivesTheSpamVerdictOfItsHeader(t *testing.T) {
 				[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 			)
 
-			document := documentOfTheAddress(t, addressOfTheDocument)
+			document := urlhashtest.URLHashOf(t, addressOfTheDocument)
 			if verdict := pagesRead.SpamVerdictPerDocument[document]; verdict != wantedVerdict {
 				t.Fatalf("the reading gives the verdict %v, want %v", verdict, wantedVerdict)
 			}
@@ -740,7 +730,7 @@ func TestAPageAtAnAddressThatIsNoWebAddressIsUnreachable(t *testing.T) {
 		t, reading,
 		[]string{"berlin"},
 		[]pagereading.PageToRead{
-			{Document: documentOfTheAddress(t, addressOfTheDocument), Address: "berlin"},
+			{Document: urlhashtest.URLHashOf(t, addressOfTheDocument), Address: "berlin"},
 		},
 	)
 

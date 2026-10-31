@@ -4,6 +4,7 @@ import (
 	"cmp"
 	"context"
 	"fmt"
+	"net/url"
 	"slices"
 	"sync"
 	"testing"
@@ -592,8 +593,11 @@ func (calls *replicaCallsOfTheTests) Put(
 func documentsListedAs(amountOfDocuments int) yacymodel.URLHashes {
 	var documents yacymodel.URLHashesBuilder
 	for document := range amountOfDocuments {
-		hash, _ := yacymodel.URLHashOf(fmt.Sprintf("https://%d.example/", document))
-		documents.Add(hash)
+		webAddress, err := url.Parse(fmt.Sprintf("https://%d.example/", document))
+		if err != nil {
+			panic(err)
+		}
+		documents.Add(yacymodel.URLHashOf(webAddress))
 	}
 
 	return documents.URLHashes()

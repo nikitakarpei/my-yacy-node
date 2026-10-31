@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 var timeThePeersAnswered = time.Date(2026, time.September, 21, 0, 15, 42, 0, time.UTC)
@@ -14,7 +15,7 @@ var timeThePeersAnswered = time.Date(2026, time.September, 21, 0, 15, 42, 0, tim
 func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 	t.Parallel()
 
-	document := hashOfWeatherDocument(t)
+	document := urlhashtest.URLHashOf(t, weatherDocumentAddress)
 	word := yacymodel.WordHash("berlin")
 	readFindings := findingsWrittenAndReadBack(t, findingsAndPageContentsOf(
 		queryfindings.Findings{
@@ -58,7 +59,7 @@ func TestTheContentsOfTheReadPageOfADocumentSurviveTheRecording(t *testing.T) {
 func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) {
 	t.Parallel()
 
-	document := hashOfWeatherDocument(t)
+	document := urlhashtest.URLHashOf(t, weatherDocumentAddress)
 	word := yacymodel.WordHash("berlin")
 	readFindings := findingsWrittenAndReadBack(t, findingsAndPageContentsOf(
 		queryfindings.Findings{
@@ -97,7 +98,7 @@ func TestADocumentOfWhichNoPageWasReadCountsTheFactsOfItsPostings(t *testing.T) 
 func TestReadingThePagesAgainKeepsTheTimeThePeersAnswered(t *testing.T) {
 	t.Parallel()
 
-	document := hashOfWeatherDocument(t)
+	document := urlhashtest.URLHashOf(t, weatherDocumentAddress)
 	recorded := recordedFindingsOf("berlin", yacymodel.Language{}, findingsAndPageContentsOf(
 		queryfindings.Findings{
 			FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(

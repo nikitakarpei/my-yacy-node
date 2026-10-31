@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/replicacalls/yacysearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const matchedDocumentsCeiling = 10
@@ -25,7 +26,7 @@ func TestTheAskToTheReplicaCarriesTheWordPartitionAskAndTheWants(t *testing.T) {
 		ReplicasInOrder:  []peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
 		ExcludedWords:    []yacymodel.Hash{yacymodel.WordHash("rain")},
 		Language:         languageFrom(t, "de"),
-		DocumentsToMatch: []yacymodel.URLHash{documentAt(t, "https://a.example/")},
+		DocumentsToMatch: []yacymodel.URLHash{urlhashtest.URLHashOf(t, "https://a.example/")},
 	}
 
 	replicaCallsOf(peers).Put(t.Context(), ask, peerAt("second"))
@@ -48,9 +49,9 @@ func TestTheAskToTheReplicaCarriesTheWordPartitionAskAndTheWants(t *testing.T) {
 func TestTheAnswerListsEachDocumentOfTheAbstractAndTheMatchedDocumentsOnce(t *testing.T) {
 	t.Parallel()
 
-	inBoth := documentAt(t, "https://both.example/")
-	onlyListed := documentAt(t, "https://listed.example/")
-	onlyMatched := documentAt(t, "https://matched.example/")
+	inBoth := urlhashtest.URLHashOf(t, "https://both.example/")
+	onlyListed := urlhashtest.URLHashOf(t, "https://listed.example/")
+	onlyMatched := urlhashtest.URLHashOf(t, "https://matched.example/")
 	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
 		Abstract: yacymodel.URLHashesFrom(onlyListed, inBoth),
 		MatchedDocuments: []peerasks.MatchedDocument{
@@ -72,8 +73,8 @@ func TestTheAnswerListsEachDocumentOfTheAbstractAndTheMatchedDocumentsOnce(t *te
 func TestADocumentMatchedTwiceKeepsItsLastMatch(t *testing.T) {
 	t.Parallel()
 
-	document := documentAt(t, "https://document.example/")
-	other := documentAt(t, "https://other.example/")
+	document := urlhashtest.URLHashOf(t, "https://document.example/")
+	other := urlhashtest.URLHashOf(t, "https://other.example/")
 	posting := yacymodel.RWIPosting{Hits: 3}
 	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
 		MatchedDocuments: []peerasks.MatchedDocument{
@@ -99,8 +100,8 @@ func TestAnAnswerThatOnlyMatchesDocumentsListsThem(t *testing.T) {
 
 	peers := &peersOfTheTests{answer: peerasks.AnsweredSearchDocumentsAsk{
 		MatchedDocuments: []peerasks.MatchedDocument{
-			{Metadata: yacymodel.URLMetadata{Hash: documentAt(t, "https://a.example/")}},
-			{Metadata: yacymodel.URLMetadata{Hash: documentAt(t, "https://b.example/")}},
+			{Metadata: yacymodel.URLMetadata{Hash: urlhashtest.URLHashOf(t, "https://a.example/")}},
+			{Metadata: yacymodel.URLMetadata{Hash: urlhashtest.URLHashOf(t, "https://b.example/")}},
 		},
 	}}
 
@@ -181,17 +182,6 @@ func askForBerlin() wordpartitionasks.Ask {
 
 func peerAt(address string) peerdirectory.AskablePeer {
 	return peerdirectory.AskablePeer{Hash: yacymodel.WordHash(address), Address: address}
-}
-
-func documentAt(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	document, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return document
 }
 
 func languageFrom(t *testing.T, code string) yacymodel.Language {

@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -377,10 +378,7 @@ func searchAnswerHolding(t *testing.T, addresses ...string) string {
 
 	resources := make([]yacyproto.SearchResource, 0, len(addresses))
 	for _, address := range addresses {
-		hash, err := yacymodel.URLHashOf(address)
-		if err != nil {
-			t.Fatalf("URLHashOf(%q): %v", address, err)
-		}
+		hash := urlhashtest.URLHashOf(t, address)
 		resources = append(resources, yacyproto.SearchResource{
 			Metadata: yacymodel.URLMetadata{Hash: hash, Address: address, Title: "Weather"},
 		})
@@ -644,10 +642,7 @@ func searchResourceWithAPosting(
 ) yacyproto.SearchResource {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return yacyproto.SearchResource{
 		Metadata: yacymodel.URLMetadata{Hash: hash, Address: address, Title: "Berlin"},

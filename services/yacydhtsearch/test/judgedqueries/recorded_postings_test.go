@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const weatherDocumentAddress = "https://example.org/weather"
@@ -19,7 +20,7 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 			Holder: firstHolder,
 			Word:   yacymodel.WordHash("berlin"),
 			Posting: postingOfDocument(
-				hashOfWeatherDocument(t),
+				urlhashtest.URLHashOf(t, weatherDocumentAddress),
 				yacymodel.RWIPosting{Hits: 7, TextWords: 1200, TitleWords: 4, Phrases: 90},
 			),
 		},
@@ -27,7 +28,11 @@ func TestThePostingOfEveryHolderSurvivesTheRecording(t *testing.T) {
 			Holder: secondHolder,
 			Word:   yacymodel.WordHash("weather"),
 			Posting: postingOfDocument(
-				hashOfWeatherDocument(t), yacymodel.RWIPosting{Hits: 3, TextWords: 800},
+				urlhashtest.URLHashOf(
+					t,
+					weatherDocumentAddress,
+				),
+				yacymodel.RWIPosting{Hits: 3, TextWords: 800},
 			),
 		},
 	}, metadata)
@@ -55,10 +60,7 @@ func findingsOfOneDocumentHolding(
 ) queryfindings.Findings {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(metadata.Address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", metadata.Address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, metadata.Address)
 	metadata.Hash = hash
 
 	return queryfindings.Findings{
@@ -74,17 +76,6 @@ func postingOfDocument(
 	posting.URLHash = document
 
 	return posting
-}
-
-func hashOfWeatherDocument(t *testing.T) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(weatherDocumentAddress)
-	if err != nil {
-		t.Fatalf("URLHashOf: %v", err)
-	}
-
-	return hash
 }
 
 func TestTheMetadataAPeerReportedSurvivesTheRecording(t *testing.T) {

@@ -134,7 +134,7 @@ func documentHashOf(seed string) yacymodel.URLHash {
 		panic(err)
 	}
 
-	return yacymodel.URLNormalformOf(address).Hash()
+	return yacymodel.URLHashOf(address)
 }
 
 func postingOf(word, document string, hits int) yacymodel.RWIPosting {

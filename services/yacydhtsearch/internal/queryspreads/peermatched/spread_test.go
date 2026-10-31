@@ -3,6 +3,7 @@ package peermatched_test
 import (
 	"context"
 	"maps"
+	"net/url"
 	"slices"
 	"testing"
 
@@ -70,10 +71,11 @@ func (network *peerNetwork) answerOf(
 	answer := wordpartitionasks.ReplicaAnswer{Holder: peer}
 	var listedDocuments yacymodel.URLHashesBuilder
 	for _, address := range addresses {
-		hash, err := yacymodel.URLHashOf(address)
+		webAddress, err := url.Parse(address)
 		if err != nil {
-			continue
+			panic(err)
 		}
+		hash := yacymodel.URLHashOf(webAddress)
 		listedDocuments.Add(hash)
 		if listsOnlyHashes {
 			continue

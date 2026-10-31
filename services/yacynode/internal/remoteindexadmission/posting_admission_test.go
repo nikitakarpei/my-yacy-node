@@ -182,7 +182,7 @@ func urlHash(seed string) yacymodel.URLHash {
 		panic(err)
 	}
 
-	return yacymodel.URLNormalformOf(address).Hash()
+	return yacymodel.URLHashOf(address)
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {
@@ -196,16 +196,8 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 	}
 }
 
-func metadataOfPostingsTo(t *testing.T, seed string) yacymodel.URLMetadata {
-	t.Helper()
-
-	address := urlAddress(seed)
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return yacymodel.URLMetadata{Hash: hash, Address: address, LocalLinks: 1}
+func metadataOfPostingsTo(seed string) yacymodel.URLMetadata {
+	return yacymodel.URLMetadata{Hash: urlHash(seed), Address: urlAddress(seed), LocalLinks: 1}
 }
 
 func (h harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
@@ -245,7 +237,7 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 
 	metadata := make([]yacymodel.URLMetadata, 0, len(seeds))
 	for _, seed := range seeds {
-		metadata = append(metadata, metadataOfPostingsTo(t, seed))
+		metadata = append(metadata, metadataOfPostingsTo(seed))
 	}
 	if _, err := h.urls.Receive(context.Background(), sendingPeer, metadata); err != nil {
 		t.Fatalf("urls.Receive: %v", err)
@@ -484,7 +476,7 @@ func TestPeerPostingsLeaveEveryOtherPostingOfTheirURLInPlace(t *testing.T) {
 func (h harness) storeMetadataModifiedOn(t *testing.T, version yacymodel.MicroDate) {
 	t.Helper()
 
-	metadata := metadataOfPostingsTo(t, "u1")
+	metadata := metadataOfPostingsTo("u1")
 	metadata.Modified = yacymodel.Some(yacymodel.CalendarDayOf(version.Time()))
 	if _, err := h.urls.Receive(
 		context.Background(), sendingPeer,
@@ -660,7 +652,7 @@ func TestMissingWordsOfTheCurrentVersionComeOnlyFromTheNetworkThatSentItsMetadat
 func TestPeerPostingsAddNoWordToAPageThisNodeCrawled(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	today := harnessToday()
-	crawled := metadataOfPostingsTo(t, "u1")
+	crawled := metadataOfPostingsTo("u1")
 	crawled.Modified = yacymodel.Some(yacymodel.CalendarDayOf(today.Time()))
 	h.writeCrawledMetadata(t, crawled)
 

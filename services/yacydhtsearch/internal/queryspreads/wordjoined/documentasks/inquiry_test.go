@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -155,10 +156,7 @@ func documentsIn(t *testing.T, partition uint, amount int) []yacymodel.URLHash {
 
 	documents := make([]yacymodel.URLHash, 0, amount)
 	for place := 0; len(documents) < amount; place++ {
-		document, err := yacymodel.URLHashOf(fmt.Sprintf("https://document-%d.example/", place))
-		if err != nil {
-			t.Fatalf("document %d has no hash: %v", place, err)
-		}
+		document := urlhashtest.URLHashOf(t, fmt.Sprintf("https://document-%d.example/", place))
 		if twoPartitionsOfTheRing(t).PartitionOf(document) != partition {
 			continue
 		}

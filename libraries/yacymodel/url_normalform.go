@@ -38,7 +38,7 @@ func URLNormalformOf(address *url.URL) URLNormalform {
 	return URLNormalform{address: *address}
 }
 
-func (n URLNormalform) Hash() URLHash {
+func (n URLNormalform) hash() URLHash {
 	dom, subdom := n.domSubdom()
 	port := strconv.Itoa(n.port())
 	flag := domainID(n.host())<<2 | int(domLengthKey(len(dom)))
@@ -53,10 +53,6 @@ func (n URLNormalform) Hash() URLHash {
 	symbols.WriteByte(Alphabet[flag&0x3f])
 
 	return URLHash{hash: hashOfSymbols(symbols.String())}
-}
-
-func (n URLNormalform) HostHash() HostHash {
-	return n.Hash().HostHash()
 }
 
 func (n URLNormalform) domSubdom() (dom, subdom string) {

@@ -5,12 +5,17 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 func metadataOfDocumentAt(t *testing.T, address string, title string) yacymodel.URLMetadata {
 	t.Helper()
 
-	return yacymodel.URLMetadata{Hash: documentOf(t, address), Address: address, Title: title}
+	return yacymodel.URLMetadata{
+		Hash:    urlhashtest.URLHashOf(t, address),
+		Address: address,
+		Title:   title,
+	}
 }
 
 func TestDocumentsThePeersSentComeBackInOrderTheyWereSentIn(t *testing.T) {

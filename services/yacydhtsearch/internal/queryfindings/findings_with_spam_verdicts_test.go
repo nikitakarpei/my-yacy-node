@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/spamassessment"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 func TestEachAssessedDocumentCarriesItsSpamVerdict(t *testing.T) {
@@ -16,8 +17,8 @@ func TestEachAssessedDocumentCarriesItsSpamVerdict(t *testing.T) {
 	)
 
 	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
-		documentOf(t, "https://spam.example/"):  spamassessment.Spam,
-		documentOf(t, "https://clean.example/"): spamassessment.Clean,
+		urlhashtest.URLHashOf(t, "https://spam.example/"):  spamassessment.Spam,
+		urlhashtest.URLHashOf(t, "https://clean.example/"): spamassessment.Clean,
 	})
 
 	verdicts := make([]spamassessment.Verdict, 0, len(assessed.FoundDocuments))
@@ -38,8 +39,8 @@ func TestOnlyADocumentWhosePageIsCalledSpamIsSpam(t *testing.T) {
 	)
 
 	assessed := findings.WithSpamVerdicts(map[yacymodel.URLHash]spamassessment.Verdict{
-		documentOf(t, "https://spam.example/"):  spamassessment.Spam,
-		documentOf(t, "https://clean.example/"): spamassessment.Clean,
+		urlhashtest.URLHashOf(t, "https://spam.example/"):  spamassessment.Spam,
+		urlhashtest.URLHashOf(t, "https://clean.example/"): spamassessment.Clean,
 	})
 
 	spam := make([]bool, 0, len(assessed.FoundDocuments))

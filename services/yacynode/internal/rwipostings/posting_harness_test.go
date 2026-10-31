@@ -149,7 +149,7 @@ func urlHash(seed string) yacymodel.URLHash {
 		panic(err)
 	}
 
-	return yacymodel.URLNormalformOf(address).Hash()
+	return yacymodel.URLHashOf(address)
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {

@@ -5,11 +5,12 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 func TestURLHashesContainEachHashOnce(t *testing.T) {
-	first := hashOfAddress(t, "https://first.example/")
-	second := hashOfAddress(t, "https://second.example/")
+	first := urlhashtest.URLHashOf(t, "https://first.example/")
+	second := urlhashtest.URLHashOf(t, "https://second.example/")
 
 	hashes := yacymodel.URLHashesFrom(first, second, first)
 
@@ -19,9 +20,9 @@ func TestURLHashesContainEachHashOnce(t *testing.T) {
 }
 
 func TestURLHashesDoNotContainAHashNeverAdded(t *testing.T) {
-	hashes := yacymodel.URLHashesFrom(hashOfAddress(t, "https://first.example/"))
+	hashes := yacymodel.URLHashesFrom(urlhashtest.URLHashOf(t, "https://first.example/"))
 
-	if hashes.Contains(hashOfAddress(t, "https://second.example/")) {
+	if hashes.Contains(urlhashtest.URLHashOf(t, "https://second.example/")) {
 		t.Fatal("the hashes contain a hash never added")
 	}
 }

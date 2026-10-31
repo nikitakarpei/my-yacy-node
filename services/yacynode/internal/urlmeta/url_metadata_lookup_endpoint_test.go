@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -83,7 +84,7 @@ func TestURLMetadataLookupServesTheStoredURLsInTheAskedOrder(t *testing.T) {
 			NetworkName: "freeworld",
 			URLs: []yacymodel.URLHash{
 				second.Hash,
-				urlHashOf(t, "http://absent/"),
+				urlhashtest.URLHashOf(t, "http://absent/"),
 				first.Hash,
 			},
 		},

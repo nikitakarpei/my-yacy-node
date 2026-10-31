@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -126,10 +127,7 @@ type pageWord struct {
 func pageTitled(t *testing.T, title string, words ...pageWord) pagerwi.PageRWI {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(pageAddress)
-	if err != nil {
-		t.Fatalf("URLHashOf: %v", err)
-	}
+	hash := urlhashtest.URLHashOf(t, pageAddress)
 
 	postings := make([]yacymodel.RWIPosting, 0, len(words))
 	for _, word := range words {

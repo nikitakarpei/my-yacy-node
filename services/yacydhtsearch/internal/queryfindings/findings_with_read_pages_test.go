@@ -6,20 +6,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagecontents"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const addressOfReadDocument = "https://berlin.example/"
-
-func documentOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return hash
-}
 
 func findingsOfDocumentAPeerMatchedForWord(
 	t *testing.T, address string, word string,
@@ -29,7 +19,7 @@ func findingsOfDocumentAPeerMatchedForWord(
 	return queryfindings.Findings{
 		QueryWords: []yacymodel.Hash{yacymodel.WordHash(word)},
 		FoundDocuments: []queryfindings.FoundDocument{queryfindings.FoundDocumentOf(
-			documentOf(t, address),
+			urlhashtest.URLHashOf(t, address),
 			[]queryfindings.MetadataReplica{{Metadata: yacymodel.URLMetadata{
 				Address: address, Title: "The title a peer sent",
 			}}},
@@ -52,7 +42,7 @@ func pageContentsOfReadDocument(t *testing.T) map[yacymodel.URLHash]pagecontents
 	t.Helper()
 
 	return map[yacymodel.URLHash]pagecontents.PageContents{
-		documentOf(t, addressOfReadDocument): {
+		urlhashtest.URLHashOf(t, addressOfReadDocument): {
 			Title:            "Berlin",
 			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
 			AmountOfWords:    400,
@@ -87,9 +77,9 @@ func TestTextOfDocumentCountsQueryWordNoPeerMatchedItFor(t *testing.T) {
 	findings := findingsOfReadDocument(t)
 	findings.QueryWords = append(findings.QueryWords, yacymodel.WordHash("weather"))
 	pageContentsOfDocument := pageContentsOfReadDocument(t)
-	pageContents := pageContentsOfDocument[documentOf(t, addressOfReadDocument)]
+	pageContents := pageContentsOfDocument[urlhashtest.URLHashOf(t, addressOfReadDocument)]
 	pageContents.HitsPerQueryWord[yacymodel.WordHash("weather")] = 2
-	pageContentsOfDocument[documentOf(t, addressOfReadDocument)] = pageContents
+	pageContentsOfDocument[urlhashtest.URLHashOf(t, addressOfReadDocument)] = pageContents
 
 	read := findings.WithReadPages(pageContentsOfDocument)
 
@@ -109,9 +99,9 @@ func TestReadPageWithoutTitleKeepsTitleAPeerSent(t *testing.T) {
 
 	findings := findingsOfReadDocument(t)
 	pageContentsWithoutTitle := pageContentsOfReadDocument(t)
-	pageContents := pageContentsWithoutTitle[documentOf(t, addressOfReadDocument)]
+	pageContents := pageContentsWithoutTitle[urlhashtest.URLHashOf(t, addressOfReadDocument)]
 	pageContents.Title = ""
-	pageContentsWithoutTitle[documentOf(t, addressOfReadDocument)] = pageContents
+	pageContentsWithoutTitle[urlhashtest.URLHashOf(t, addressOfReadDocument)] = pageContents
 
 	read := findings.WithReadPages(pageContentsWithoutTitle)
 
@@ -158,15 +148,15 @@ func TestReadPageThatMovedGivesItsDocumentAddressItMovedTo(t *testing.T) {
 
 	findings := findingsOfReadDocument(t)
 	pageContentsOfMovedPage := pageContentsOfReadDocument(t)
-	pageContents := pageContentsOfMovedPage[documentOf(t, addressOfReadDocument)]
+	pageContents := pageContentsOfMovedPage[urlhashtest.URLHashOf(t, addressOfReadDocument)]
 	pageContents.Address = "https://berlin.example/moved"
-	pageContentsOfMovedPage[documentOf(t, addressOfReadDocument)] = pageContents
+	pageContentsOfMovedPage[urlhashtest.URLHashOf(t, addressOfReadDocument)] = pageContents
 
 	read := findings.WithReadPages(pageContentsOfMovedPage)
 
 	foundDocument := read.FoundDocuments[0]
 	if foundDocument.Address != "https://berlin.example/moved" ||
-		foundDocument.Hash != documentOf(t, addressOfReadDocument) {
+		foundDocument.Hash != urlhashtest.URLHashOf(t, addressOfReadDocument) {
 		t.Fatalf(
 			"the found document reads %+v, want the address the page moved to under its own hash",
 			foundDocument,
@@ -228,9 +218,9 @@ func TestOnlyAReadPageCountsQueryPhrases(t *testing.T) {
 	unread := findingsOfDocumentAPeerMatchedForWord(t, "https://unread.example/", "berlin")
 	findings.FoundDocuments = append(findings.FoundDocuments, unread.FoundDocuments[0])
 	pageContentsOfDocument := pageContentsOfReadDocument(t)
-	pageContents := pageContentsOfDocument[documentOf(t, addressOfReadDocument)]
+	pageContents := pageContentsOfDocument[urlhashtest.URLHashOf(t, addressOfReadDocument)]
 	pageContents.QueryPhraseHits = 3
-	pageContentsOfDocument[documentOf(t, addressOfReadDocument)] = pageContents
+	pageContentsOfDocument[urlhashtest.URLHashOf(t, addressOfReadDocument)] = pageContents
 
 	read := findings.WithReadPages(pageContentsOfDocument)
 

@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -17,10 +18,7 @@ func urlMetadata(t *testing.T, seed string) yacymodel.URLMetadata {
 	t.Helper()
 
 	address := "http://example.com/" + seed
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return yacymodel.URLMetadata{Hash: hash, Address: address}
 }

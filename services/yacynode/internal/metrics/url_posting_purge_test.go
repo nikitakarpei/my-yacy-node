@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
 
@@ -68,10 +69,5 @@ func assertPurgedPostings(t *testing.T, registry *prometheus.Registry, postings 
 func urlHash(t *testing.T, seed string) yacymodel.URLHash {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf("http://example.com/" + seed)
-	if err != nil {
-		t.Fatalf("URLHashOf: %v", err)
-	}
-
-	return hash
+	return urlhashtest.URLHashOf(t, "http://example.com/"+seed)
 }
