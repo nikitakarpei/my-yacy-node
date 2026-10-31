@@ -77,6 +77,7 @@ func (stopwordThe) Contains(word yacymodel.Hash, language yacymodel.Language) bo
 }
 
 type transferReceiver struct {
+	t         *testing.T
 	admission remoteindexadmission.PostingAdmission
 }
 
@@ -85,11 +86,24 @@ func (r transferReceiver) Receive(
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
 ) (remoteindexadmission.PostingReceipt, error) {
-	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(postings))
+	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(r.t, postings))
 }
 
-func receivedPagePostingsOf(postings []yacymodel.RWIPosting) []yacymodel.PagePostings {
-	receivedPagePostings, _ := yacymodel.PagePostingsPerURLFrom(postings)
+func receivedPagePostingsOf(
+	t *testing.T,
+	postings []yacymodel.RWIPosting,
+) []yacymodel.PagePostings {
+	t.Helper()
+
+	postingsPerURL, _ := yacymodel.PostingsPerURLFrom(postings)
+	receivedPagePostings := make([]yacymodel.PagePostings, 0, len(postingsPerURL))
+	for _, postingsOfURL := range postingsPerURL {
+		unproven, err := yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
+		if err != nil {
+			t.Fatal(err)
+		}
+		receivedPagePostings = append(receivedPagePostings, unproven)
+	}
 
 	return receivedPagePostings
 }
@@ -190,7 +204,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 		escrow:   escrow,
 		urls:     urlMetadataIntake,
 		crawled:  urlWriter,
-		receiver: transferReceiver{admission: postingAdmission},
+		receiver: transferReceiver{t: t, admission: postingAdmission},
 		written:  written,
 		observed: observed,
 		clock:    &clock,

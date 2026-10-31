@@ -1,8 +1,8 @@
 package yacymodel
 
-func PagePostingsPerURLFrom(
+func PostingsPerURLFrom(
 	postings []RWIPosting,
-) (pagePostingsPerURL []PagePostings, repeatedPostings []RWIPosting) {
+) (postingsPerURL [][]RWIPosting, repeatedPostings []RWIPosting) {
 	groupOfURL := make(map[URLHash]int)
 	seenPostings := make(map[wordOfURL]struct{}, len(postings))
 	for _, posting := range postings {
@@ -15,14 +15,14 @@ func PagePostingsPerURLFrom(
 		seenPostings[identity] = struct{}{}
 		group, seen := groupOfURL[posting.URLHash]
 		if !seen {
-			group = len(pagePostingsPerURL)
+			group = len(postingsPerURL)
 			groupOfURL[posting.URLHash] = group
-			pagePostingsPerURL = append(pagePostingsPerURL, PagePostings{})
+			postingsPerURL = append(postingsPerURL, nil)
 		}
-		pagePostingsPerURL[group].postings = append(pagePostingsPerURL[group].postings, posting)
+		postingsPerURL[group] = append(postingsPerURL[group], posting)
 	}
 
-	return pagePostingsPerURL, repeatedPostings
+	return postingsPerURL, repeatedPostings
 }
 
 type wordOfURL struct {
