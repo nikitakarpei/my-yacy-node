@@ -76,5 +76,5 @@ the next boot constructs the dispatcher.
 
 ## Postings roots and proofs
 
-URL metadata with a postings root carries it in `postingsroot`. YaCy ignores it.
+A `transferURL` row carries the postings root in `postingsroot`. YaCy ignores it.
 Go peers send `postingsproofs` in `transferRWI` only to peers with a signed seed.

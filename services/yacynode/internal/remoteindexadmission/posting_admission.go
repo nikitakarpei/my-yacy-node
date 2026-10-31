@@ -235,7 +235,7 @@ func (a PostingAdmission) admit(
 	case arrivedVersion.IsDatedAfter(a.now()):
 		return PostingDroppedFutureDate, nil
 	case !metadataStored || version.IsReplacedBy(arrivedVersion):
-		return a.hold(tx, origin, postingAlone)
+		return a.hold(tx, origin, postingAlone, arrivedVersion)
 	}
 
 	return a.placer.placementOf(tx, posting, arrivedVersion, version)
@@ -245,8 +245,9 @@ func (a PostingAdmission) hold(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
 	postingAlone yacymodel.PostingAlone,
+	arrivedVersion pageversion.Version,
 ) (PostingOutcome, error) {
-	if err := a.escrow.Hold(tx, origin, postingAlone); err != nil {
+	if err := a.escrow.Hold(tx, origin, postingAlone, arrivedVersion); err != nil {
 		return "", fmt.Errorf("hold posting: %w", err)
 	}
 
