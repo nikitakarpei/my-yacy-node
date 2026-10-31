@@ -22,7 +22,7 @@ func registerPostings(
 	v *vault.Vault,
 	rankedWords []yacymodel.Hash,
 	urlWordsObserver vault.MemberSetObserver,
-	projections []vault.Projection[yacymodel.RWIPosting],
+	projectionsOfConsumers []vault.Projection[yacymodel.RWIPosting],
 ) (
 	*vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting],
 	*vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
@@ -53,7 +53,7 @@ func registerPostings(
 		postingsBucket,
 		urlWordsIndex,
 		postingValueCodec{},
-		vault.ProjectedAs(postingWithIdentity, projections...),
+		vault.ProjectedAs(postingWithIdentity, projectionsOfConsumers...),
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register rwi posting collection: %w", err)

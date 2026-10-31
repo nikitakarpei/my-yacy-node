@@ -1,8 +1,8 @@
 // Package rwipostings owns the RWI postings of this node and their held proofs,
-// and is their only writer: callers read through PostingIndex and PostingProofs,
-// add page postings through PostingWriter, and drop through PostingPurger. A
-// held proof leads the postings held for a url to its postings root. Vault keeps
-// the projections handed to Open in step; each url keeps its words as one set.
+// and is their only writer: callers read through PostingIndex and PostingsProofs,
+// add page postings through PostingWriter, and drop through PostingPurger. A held
+// proof leads a url's postings to its postings root. Vault keeps the projections
+// handed to Open in step; each url keeps its words as one set.
 package rwipostings
 
 import (
@@ -44,7 +44,7 @@ type PostingWriter interface {
 	Write(tx *vault.Txn, pagePostings yacymodel.PagePostings) error
 }
 
-type PostingProofs interface {
+type PostingsProofs interface {
 	ProofsFor(
 		ctx context.Context,
 		offeredPostings []yacymodel.RWIPosting,
@@ -58,14 +58,14 @@ func Open(
 	partitions yacymodel.DHTRingPartitions,
 	rankedWords []yacymodel.Hash,
 	urlWordsObserver vault.MemberSetObserver,
-	projections []vault.Projection[yacymodel.RWIPosting],
-) (PostingIndex, PostingWriter, PostingPurger, PostingProofs, error) {
+	projectionsOfConsumers []vault.Projection[yacymodel.RWIPosting],
+) (PostingIndex, PostingWriter, PostingPurger, PostingsProofs, error) {
 	postings, urlWordsIndex, err := registerPostings(
 		ctx,
 		vault,
 		rankedWords,
 		urlWordsObserver,
-		projections,
+		projectionsOfConsumers,
 	)
 	if err != nil {
 		return nil, nil, nil, nil, err
@@ -84,7 +84,10 @@ func Open(
 		partitions:  partitions,
 	}
 
-	return directory, directory, directory, postingProofs{vault: vault, heldProofs: heldProofs}, nil
+	return directory, directory, directory, postingsProofs{
+		vault:      vault,
+		heldProofs: heldProofs,
+	}, nil
 }
 
 func PostingCodec() vault.ValueCodec[yacymodel.RWIPosting] {
