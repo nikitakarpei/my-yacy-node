@@ -19,6 +19,28 @@ const yacyURLMetadataRow = "{hash=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8
 	"dt=t,flags=AAAAAA,lang=en,llocal=3,lother=4,limage=0,laudio=0," +
 	"lvideo=0,lapp=0}"
 
+func samplePostingsRoot(t *testing.T) yacymodel.PostingsRoot {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatalf("partitions: %v", err)
+	}
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		[]yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("sample")}},
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatalf("crawled page postings: %v", err)
+	}
+	root, rooted := crawled.Root().Get()
+	if !rooted {
+		t.Fatal("the crawled page postings have no root")
+	}
+
+	return root
+}
+
 func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	t.Helper()
 
@@ -47,6 +69,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		ApplicationLinks: 8,
 		Snippet:          "an example",
 		FaviconAddress:   "https://example.org/favicon.ico",
+		PostingsRoot:     yacymodel.Some(samplePostingsRoot(t)),
 	}
 }
 
@@ -217,5 +240,33 @@ func TestTransferURLRequestWritesAnAbsentSizeAsYaCyDoes(t *testing.T) {
 
 	if row := sampleURLMetadataWireForm(t, metadata); !strings.Contains(row, "size=-1,") {
 		t.Errorf("row does not carry the unknown size as -1: %s", row)
+	}
+}
+
+func TestTransferURLRequestWritesNoPostingsRootForMetadataWithoutOne(t *testing.T) {
+	t.Parallel()
+
+	metadata := fullURLMetadata(t)
+	metadata.PostingsRoot = yacymodel.None[yacymodel.PostingsRoot]()
+
+	row := sampleURLMetadataWireForm(t, metadata)
+	if strings.Contains(row, "postingsroot=") {
+		t.Errorf("row carries a postings root the metadata does not have: %s", row)
+	}
+	if got := metadataFromRow(t, row); !reflect.DeepEqual(got, metadata) {
+		t.Errorf("round trip =\n %+v\nwant\n %+v", got, metadata)
+	}
+}
+
+func TestTransferURLRequestReadsABadPostingsRootAsAbsent(t *testing.T) {
+	t.Parallel()
+
+	want := metadataFromRow(t, yacyURLMetadataRow)
+	shortRoot := yacymodel.Encode(samplePostingsRoot(t).Bytes()[:10])
+	for _, value := range []string{"not*base64", shortRoot} {
+		row := strings.Replace(yacyURLMetadataRow, "}", ",postingsroot="+value+"}", 1)
+		if got := metadataFromRow(t, row); !reflect.DeepEqual(got, want) {
+			t.Errorf("row with postings root %q =\n %+v\nwant\n %+v", value, got, want)
+		}
 	}
 }

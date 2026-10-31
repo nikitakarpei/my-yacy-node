@@ -3,6 +3,7 @@ package yacyproto
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"strconv"
 	"strings"
 
@@ -36,6 +37,7 @@ const (
 	urlMetadataColAppLinks      = "lapp"
 	urlMetadataColSnippet       = "snippet"
 	urlMetadataColFavicon       = "favicon"
+	urlMetadataColPostingsRoot  = "postingsroot"
 )
 
 const unknownByteSize = -1
@@ -141,6 +143,7 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 		ApplicationLinks: f.cardinal(urlMetadataColAppLinks),
 		Snippet:          texts[urlMetadataColSnippet],
 		FaviconAddress:   texts[urlMetadataColFavicon],
+		PostingsRoot:     f.postingsRoot(ctx, hash),
 	}, nil
 }
 
@@ -261,6 +264,40 @@ func (f urlMetadataWireForm) referrer() (yacymodel.Optional[yacymodel.URLHash], 
 	return yacymodel.Some(referrer), nil
 }
 
+func (f urlMetadataWireForm) postingsRoot(
+	ctx context.Context,
+	hash yacymodel.URLHash,
+) yacymodel.Optional[yacymodel.PostingsRoot] {
+	value := f.properties[urlMetadataColPostingsRoot]
+	if value == "" {
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+	raw, err := yacymodel.Decode(value)
+	if err != nil {
+		reportDiscardedPostingsRoot(ctx, hash, err)
+
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+	root, err := yacymodel.ParsePostingsRootBytes(raw)
+	if err != nil {
+		reportDiscardedPostingsRoot(ctx, hash, err)
+
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+
+	return yacymodel.Some(root)
+}
+
+func reportDiscardedPostingsRoot(ctx context.Context, hash yacymodel.URLHash, err error) {
+	slog.WarnContext(
+		ctx,
+		"url metadata postings root discarded",
+		slog.String("reason", "parse failed"),
+		slog.String("hash", hash.String()),
+		slog.Any("error", err),
+	)
+}
+
 func splitTags(joined string) []string {
 	if joined == "" {
 		return nil
@@ -304,6 +341,9 @@ func urlMetadataWireFormOf(m yacymodel.URLMetadata) urlMetadataWireForm {
 	}
 	if m.FaviconAddress != "" {
 		f.putEncoded(urlMetadataColFavicon, m.FaviconAddress)
+	}
+	if root, ok := m.PostingsRoot.Get(); ok {
+		f.put(urlMetadataColPostingsRoot, yacymodel.Encode(root.Bytes()))
 	}
 
 	return f

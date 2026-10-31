@@ -7,10 +7,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta/urlmetarecord"
 )
 
 type urlDirectory struct {
-	collection *vault.Collection[yacymodel.URLHash, storedURLMetadata]
+	collection *vault.Collection[yacymodel.URLHash, urlmetarecord.Record]
 	observers  observers
 }
 
@@ -27,8 +28,8 @@ func (d urlDirectory) MetadataPerHash(
 		if !ok {
 			continue
 		}
-		stored.metadata.Hash = hash
-		metadata[hash] = stored.metadata
+		stored.Metadata.Hash = hash
+		metadata[hash] = stored.Metadata
 	}
 
 	return metadata, nil
@@ -45,7 +46,7 @@ func (d urlDirectory) VersionsOf(
 			return nil, fmt.Errorf("read url metadata: %w", err)
 		}
 		if ok {
-			versions[hash] = pageversion.FromMetadata(stored.metadata, stored.source)
+			versions[hash] = pageversion.FromMetadata(stored.Metadata, stored.Source)
 		}
 	}
 
@@ -89,7 +90,7 @@ func (d urlDirectory) Write(
 	metadata yacymodel.URLMetadata,
 	source pageversion.Source,
 ) error {
-	stored := storedURLMetadata{metadata: metadata, source: source}
+	stored := urlmetarecord.Record{Metadata: metadata, Source: source}
 	if _, err := d.collection.Put(tx, metadata.Hash, stored); err != nil {
 		return fmt.Errorf("write url metadata: %w", err)
 	}

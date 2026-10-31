@@ -48,6 +48,8 @@ components:
     in: internal/landing/**
   urlmeta:
     in: internal/urlmeta/**
+  urlmetarecord:
+    in: internal/urlmeta/urlmetarecord/**
   urlmetastaleness:
     in: internal/urlmetastaleness/**
   urlpostingpurge:
@@ -259,16 +261,21 @@ deps:
   bootstrap:
     canUse:
       - yacyproto
+  urlmetarecord:
+    mayDependOn:
+      - pageversion
+    canUse:
+      - storedfields
   urlmeta:
     mayDependOn:
       - hashkeypart
       - httpguard
       - nodeidentity
       - pageversion
+      - urlmetarecord
     canUse:
       - yacyproto
       - vault
-      - storedfields
   urlmetastaleness:
     mayDependOn:
       - urlmeta

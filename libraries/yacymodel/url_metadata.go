@@ -23,6 +23,7 @@ type URLMetadata struct {
 	Referrer         Optional[URLHash]
 	DocumentType     DocumentType
 	Language         Optional[Language]
+	PostingsRoot     Optional[PostingsRoot]
 	ByteSize         Optional[uint32]
 	WordCount        uint32
 	LocalLinks       uint32

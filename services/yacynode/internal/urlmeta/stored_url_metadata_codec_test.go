@@ -32,6 +32,28 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Languag
 	return yacymodel.Some(language)
 }
 
+func samplePostingsRoot(t *testing.T) yacymodel.PostingsRoot {
+	t.Helper()
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatalf("partitions: %v", err)
+	}
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		[]yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("sample")}},
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatalf("crawled page postings: %v", err)
+	}
+	root, rooted := crawled.Root().Get()
+	if !rooted {
+		t.Fatal("the crawled page postings have no root")
+	}
+
+	return root
+}
+
 func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	t.Helper()
 
@@ -59,6 +81,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		ApplicationLinks: 8,
 		Snippet:          "an example",
 		FaviconAddress:   "https://example.org/favicon.ico",
+		PostingsRoot:     yacymodel.Some(samplePostingsRoot(t)),
 	}
 	metadata.Hash = urlhashtest.URLHashOf(t, metadata.Address)
 
