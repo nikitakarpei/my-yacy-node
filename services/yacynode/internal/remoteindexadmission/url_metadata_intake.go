@@ -18,6 +18,7 @@ type URLMetadataOutcome string
 const (
 	URLMetadataStoredNewURL               URLMetadataOutcome = "stored_new_url"
 	URLMetadataReplacedOlderVersion       URLMetadataOutcome = "replaced_older_version"
+	URLMetadataReplacedUnrootedVersion    URLMetadataOutcome = "replaced_unrooted_version"
 	URLMetadataDroppedAlreadyStored       URLMetadataOutcome = "dropped_already_stored"
 	URLMetadataDroppedNotNewerVersion     URLMetadataOutcome = "dropped_not_newer_version"
 	URLMetadataDroppedFutureDate          URLMetadataOutcome = "dropped_future_date"
@@ -131,7 +132,9 @@ func (i URLMetadataIntake) admit(
 		return i.store(ctx, tx, sender, arrived, arrivedVersion)
 	case version.Is(arrivedVersion):
 		return URLMetadataDroppedAlreadyStored, nil
-	case !version.IsReplacedBy(arrivedVersion):
+	}
+	replacement := version.ReplacementBy(arrivedVersion)
+	if replacement == pageversion.ReplacementRefused {
 		return URLMetadataDroppedNotNewerVersion, nil
 	}
 	swapAllowed, err := i.swapAllowance.allows(tx, sender.Network, hourlySwapLimit)
@@ -141,8 +144,11 @@ func (i URLMetadataIntake) admit(
 	if !swapAllowed {
 		return URLMetadataDroppedTooManyReplacements, nil
 	}
+	if err := i.replaceWith(ctx, tx, sender, arrived, arrivedVersion); err != nil {
+		return "", err
+	}
 
-	return i.replaceWith(ctx, tx, sender, arrived, arrivedVersion)
+	return replacedOutcomeOf(replacement), nil
 }
 
 func (i URLMetadataIntake) store(
@@ -179,16 +185,21 @@ func (i URLMetadataIntake) replaceWith(
 	sender rwiorigin.Origin,
 	arrived yacymodel.URLMetadata,
 	arrivedVersion pageversion.Version,
-) (URLMetadataOutcome, error) {
+) error {
 	if err := i.swapAllowance.spend(tx, sender.Network); err != nil {
-		return "", err
+		return err
 	}
 	if _, err := i.evictor.Purge(ctx, tx, []yacymodel.URLHash{arrived.Hash}); err != nil {
-		return "", fmt.Errorf("purge the replaced version: %w", err)
-	}
-	if err := i.write(ctx, tx, sender, arrived, arrivedVersion); err != nil {
-		return "", err
+		return fmt.Errorf("purge the replaced version: %w", err)
 	}
 
-	return URLMetadataReplacedOlderVersion, nil
+	return i.write(ctx, tx, sender, arrived, arrivedVersion)
+}
+
+func replacedOutcomeOf(replacement pageversion.Replacement) URLMetadataOutcome {
+	if replacement == pageversion.ReplacementAllowedUnrootedVersion {
+		return URLMetadataReplacedUnrootedVersion
+	}
+
+	return URLMetadataReplacedOlderVersion
 }

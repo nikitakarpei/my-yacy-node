@@ -308,7 +308,7 @@ deps:
     mayDependOn:
       - rwipostings
       - rwiorigin
-      - pagefingerprint
+      - pageversion
       - hashkeypart
     canUse:
       - vault

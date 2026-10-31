@@ -74,21 +74,27 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 func (h *harness) hold(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
-	if err := h.holding(postings...); err != nil {
-		t.Fatalf("Hold: %v", err)
+	unproven := make([]yacymodel.PostingAlone, 0, len(postings))
+	for _, entry := range postings {
+		unproven = append(unproven, yacymodel.UnprovenPostingAloneFrom(entry))
 	}
+	h.holdWaiting(t, unproven...)
 }
 
-func (h *harness) holding(postings ...yacymodel.RWIPosting) error {
-	return h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		for _, entry := range postings {
-			if err := h.escrow.Hold(tx, holdingOrigin, entry); err != nil {
+func (h *harness) holdWaiting(t *testing.T, postingsAlone ...yacymodel.PostingAlone) {
+	t.Helper()
+
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		for _, postingAlone := range postingsAlone {
+			if err := h.escrow.Hold(tx, holdingOrigin, postingAlone); err != nil {
 				return fmt.Errorf("hold: %w", err)
 			}
 		}
 
 		return nil
-	})
+	}); err != nil {
+		t.Fatalf("Hold: %v", err)
+	}
 }
 
 func (h *harness) waitingFor(t *testing.T, url yacymodel.URLHash) []rwiescrow.WaitingPosting {
@@ -96,7 +102,7 @@ func (h *harness) waitingFor(t *testing.T, url yacymodel.URLHash) []rwiescrow.Wa
 
 	var waiting []rwiescrow.WaitingPosting
 	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
-		postings, err := h.escrow.PostingsWaitingFor(tx, url)
+		postings, err := h.escrow.PostingsWaitingFor(context.Background(), tx, url)
 		waiting = postings
 
 		return err
@@ -110,9 +116,23 @@ func (h *harness) waitingFor(t *testing.T, url yacymodel.URLHash) []rwiescrow.Wa
 func (h *harness) release(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
+	var released []rwiescrow.WaitingPosting
+	for _, entry := range postings {
+		for _, waiting := range h.waitingFor(t, entry.URLHash) {
+			if holdsOnly(waiting, entry) {
+				released = append(released, waiting)
+			}
+		}
+	}
+	h.releaseWaiting(t, released...)
+}
+
+func (h *harness) releaseWaiting(t *testing.T, waiting ...rwiescrow.WaitingPosting) {
+	t.Helper()
+
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		for _, entry := range postings {
-			if err := h.escrow.Release(tx, entry); err != nil {
+		for _, waitingPosting := range waiting {
+			if err := h.escrow.Release(tx, waitingPosting); err != nil {
 				return err
 			}
 		}
@@ -176,7 +196,8 @@ func TestHeldPostingWaitsForItsURLWithItsOrigin(t *testing.T) {
 	h.hold(t, entry)
 
 	waiting := h.waitingFor(t, entry.URLHash)
-	if len(waiting) != 1 || waiting[0].Posting != entry || waiting[0].Origin != holdingOrigin {
+	if len(waiting) != 1 || !holdsOnly(waiting[0], entry) || waiting[0].Origin() != holdingOrigin ||
+		waiting[0].PostingAlone().Proof().Present() {
 		t.Fatalf("waiting = %+v, want the held posting with its origin", waiting)
 	}
 }
@@ -198,7 +219,7 @@ func TestReleasedPostingStopsWaiting(t *testing.T) {
 	h.release(t, released)
 
 	waiting := h.waitingFor(t, urlHash("u1"))
-	if len(waiting) != 1 || waiting[0].Posting != kept {
+	if len(waiting) != 1 || !holdsOnly(waiting[0], kept) {
 		t.Fatalf("waiting = %+v, want only the kept posting", waiting)
 	}
 }
@@ -373,7 +394,70 @@ func TestEscrowHoldsEachVersionOfAWordApart(t *testing.T) {
 	h.release(t, older)
 
 	waiting := h.waitingFor(t, newer.URLHash)
-	if len(waiting) != 1 || waiting[0].Posting != newer {
+	if len(waiting) != 1 || !holdsOnly(waiting[0], newer) {
 		t.Fatalf("waiting = %+v, want the newer version still waiting", waiting)
+	}
+}
+
+func holdsOnly(waiting rwiescrow.WaitingPosting, posting yacymodel.RWIPosting) bool {
+	return waiting.Posting() == posting
+}
+
+const crawlerRingExponent = 2
+
+func crawledPostingsAloneFrom(postings ...yacymodel.RWIPosting) []yacymodel.PostingAlone {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(crawlerRingExponent)
+	if err != nil {
+		panic(err)
+	}
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		postings,
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return crawled.EachPostingAlone()
+}
+
+func TestHeldPostingWaitsWithTheProofItArrivedWith(t *testing.T) {
+	h := openHarness(t)
+	proven := crawledPostingsAloneFrom(posting("w1", "u1"), posting("w2", "u1"))[0]
+
+	h.holdWaiting(t, proven)
+
+	waiting := h.waitingFor(t, urlHash("u1"))
+	if len(waiting) != 1 || !holdsOnly(waiting[0], proven.Posting()) ||
+		waiting[0].Origin() != holdingOrigin {
+		t.Fatalf("waiting = %+v, want the proven posting with its origin", waiting)
+	}
+	if waiting[0].PostingAlone().Root() != proven.Root() {
+		t.Fatalf("root of the waiting posting = %+v, want the root it arrived under %+v",
+			waiting[0].PostingAlone().Root(), proven.Root())
+	}
+}
+
+func TestEscrowHoldsEachRootOfAWordApart(t *testing.T) {
+	h := openHarness(t)
+	entry := posting("w1", "u1")
+	underOneRoot := crawledPostingsAloneFrom(entry)[0]
+	underAnotherRoot := crawledPostingsAloneFrom(entry, posting("w2", "u1"))[0]
+
+	h.holdWaiting(t, underOneRoot, underAnotherRoot, yacymodel.UnprovenPostingAloneFrom(entry))
+	for _, waiting := range h.waitingFor(t, entry.URLHash) {
+		if waiting.PostingAlone().Root() == underAnotherRoot.Root() {
+			h.releaseWaiting(t, waiting)
+		}
+	}
+
+	waiting := h.waitingFor(t, entry.URLHash)
+	if len(waiting) != 2 || h.escrowedCount(t) != 2 {
+		t.Fatalf("waiting = %+v, want the posting under one root and the unproven one", waiting)
+	}
+	for _, waitingPosting := range waiting {
+		if waitingPosting.PostingAlone().Root() == underAnotherRoot.Root() {
+			t.Fatalf("waiting = %+v, want the released root gone", waiting)
+		}
 	}
 }

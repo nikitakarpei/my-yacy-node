@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 )
 
 type waitingPostingReleaser struct {
@@ -22,41 +23,46 @@ func (r waitingPostingReleaser) releaseWaitingFor(
 	url yacymodel.URLHash,
 	storedVersion pageversion.Version,
 ) error {
-	waitingPostings, err := r.escrow.PostingsWaitingFor(tx, url)
+	waitingPostings, err := r.escrow.PostingsWaitingFor(ctx, tx, url)
 	if err != nil {
 		return fmt.Errorf("postings waiting for url: %w", err)
 	}
-	var passedPostings []yacymodel.RWIPosting
+	var postingsAloneToIndex []yacymodel.PostingAlone
 	for _, waitingPosting := range waitingPostings {
-		arrivedVersion := pageversion.FromPosting(
-			waitingPosting.Posting,
-			pageversion.SourcePeer(waitingPosting.Origin),
+		arrivedVersion := pageversion.FromPostingAlone(
+			waitingPosting.PostingAlone(),
+			pageversion.SourcePeer(waitingPosting.Origin()),
 		)
 		if storedVersion.IsReplacedBy(arrivedVersion) {
 			continue
 		}
-		outcome, err := r.release(tx, waitingPosting.Posting, arrivedVersion, storedVersion)
+		outcome, err := r.release(tx, waitingPosting, arrivedVersion, storedVersion)
 		if err != nil {
 			return err
 		}
 		if outcome == PostingIndexed {
-			passedPostings = append(passedPostings, waitingPosting.Posting)
+			postingsAloneToIndex = append(postingsAloneToIndex, waitingPosting.PostingAlone())
 		}
 	}
 
-	return r.indexReleased(ctx, tx, passedPostings)
+	return r.indexReleased(ctx, tx, postingsAloneToIndex)
 }
 
 func (r waitingPostingReleaser) release(
 	tx *vault.Txn,
-	posting yacymodel.RWIPosting,
+	waitingPosting rwiescrow.WaitingPosting,
 	arrivedVersion pageversion.Version,
 	storedVersion pageversion.Version,
 ) (PostingOutcome, error) {
-	if err := r.escrow.Release(tx, posting); err != nil {
+	if err := r.escrow.Release(tx, waitingPosting); err != nil {
 		return "", fmt.Errorf("release posting: %w", err)
 	}
-	outcome, err := r.placer.placementOf(tx, posting, arrivedVersion, storedVersion)
+	outcome, err := r.placer.placementOf(
+		tx,
+		waitingPosting.Posting(),
+		arrivedVersion,
+		storedVersion,
+	)
 	if err != nil {
 		return "", err
 	}
@@ -68,14 +74,14 @@ func (r waitingPostingReleaser) release(
 func (r waitingPostingReleaser) indexReleased(
 	ctx context.Context,
 	tx *vault.Txn,
-	passedPostings []yacymodel.RWIPosting,
+	postingsAloneToIndex []yacymodel.PostingAlone,
 ) error {
-	if len(passedPostings) == 0 {
+	if len(postingsAloneToIndex) == 0 {
 		return nil
 	}
-	released, err := yacymodel.UnprovenPagePostingsFrom(passedPostings)
-	if err != nil {
-		reportUnjoinedReleasedPostings(ctx, passedPostings[0].URLHash, err)
+	released, joined := yacymodel.PagePostingsJoinedFrom(postingsAloneToIndex).Get()
+	if !joined {
+		reportUnjoinedReleasedPostings(ctx, postingsAloneToIndex[0].Posting().URLHash)
 
 		return nil
 	}
@@ -83,13 +89,8 @@ func (r waitingPostingReleaser) indexReleased(
 	return r.placer.index(tx, released)
 }
 
-func reportUnjoinedReleasedPostings(
-	ctx context.Context,
-	url yacymodel.URLHash,
-	err error,
-) {
+func reportUnjoinedReleasedPostings(ctx context.Context, url yacymodel.URLHash) {
 	slog.ErrorContext(ctx, "released postings of a url form no page postings",
 		slog.String("url", url.String()),
-		slog.Any("error", err),
 	)
 }

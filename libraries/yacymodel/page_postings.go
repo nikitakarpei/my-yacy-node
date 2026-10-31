@@ -141,3 +141,29 @@ func (p PagePostings) proofNarrowedTo(keptPostings []RWIPosting) Optional[Postin
 
 	return Some(proof.narrowedFrom(p.postings, keptPostings))
 }
+
+func (p PagePostings) EachPostingAlone() []PostingAlone {
+	proofs := p.proofOfEachPosting()
+	eachAlone := make([]PostingAlone, 0, len(p.postings))
+	for i, posting := range p.postings {
+		eachAlone = append(eachAlone, PostingAlone{
+			pagePostings: PagePostings{postings: []RWIPosting{posting}, proof: proofs[i]},
+		})
+	}
+
+	return eachAlone
+}
+
+func (p PagePostings) proofOfEachPosting() []Optional[PostingsProof] {
+	proofs := make([]Optional[PostingsProof], len(p.postings))
+	proof, proven := p.proof.Get()
+	if !proven {
+		return proofs
+	}
+	positions := leafPositionsOfPostings(p.postings, proof.partitionExponent)
+	for i, entries := range proof.subtreeOver(p.postings).EntriesAroundEach(positions) {
+		proofs[i] = Some(proof.withEntries(entries))
+	}
+
+	return proofs
+}

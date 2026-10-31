@@ -1,11 +1,8 @@
 // Package remoteindexadmission admits what peers send to this node's remote
-// index: postings over transferRWI and their URL metadata over transferURL.
-// URL metadata of a later version replaces the stored metadata and every
-// posting of its URL in one transaction, within an hourly limit per sender
-// network. A posting of the version the stored metadata describes joins the
-// index when the network that sent the metadata sends its missing word; a
-// posting of a later version waits in escrow for its metadata, and any other
-// posting is dropped.
+// index: postings over transferRWI and their URL metadata over transferURL. A
+// later version replaces the stored one and its postings, within an hourly limit
+// per sender network. A posting joins a rooted version by proof, an unrooted one
+// from the network that sent its metadata, and waits in escrow for a later one.
 package remoteindexadmission
 
 import (
@@ -38,9 +35,13 @@ type URLMetadataReceiver interface {
 
 type Escrow interface {
 	IsFull(ctx context.Context) (bool, error)
-	Hold(tx *vault.Txn, origin rwiorigin.Origin, posting yacymodel.RWIPosting) error
-	PostingsWaitingFor(tx *vault.Txn, url yacymodel.URLHash) ([]rwiescrow.WaitingPosting, error)
-	Release(tx *vault.Txn, posting yacymodel.RWIPosting) error
+	Hold(tx *vault.Txn, origin rwiorigin.Origin, postingAlone yacymodel.PostingAlone) error
+	PostingsWaitingFor(
+		ctx context.Context,
+		tx *vault.Txn,
+		url yacymodel.URLHash,
+	) ([]rwiescrow.WaitingPosting, error)
+	Release(tx *vault.Txn, waiting rwiescrow.WaitingPosting) error
 }
 
 type Stopwords interface {

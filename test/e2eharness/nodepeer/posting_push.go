@@ -127,3 +127,65 @@ func modifiedDayOf(document yacymodel.URLMetadata) yacymodel.MicroDate {
 
 	return 0
 }
+
+func CrawledPagePostingsFrom(
+	t *testing.T,
+	document yacymodel.URLMetadata,
+	words []yacymodel.Hash,
+	partitions yacymodel.DHTRingPartitions,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	postings := make([]yacymodel.RWIPosting, 0, len(words))
+	for _, word := range words {
+		postings = append(postings, postingOf(word, document))
+	}
+
+	crawled, err := yacymodel.ProvenPagePostingsFrom(
+		postings,
+		yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatalf("crawled page postings: %v", err)
+	}
+
+	return crawled
+}
+
+func PushPagePostings(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	nodeURL string,
+	nodeHash yacymodel.Hash,
+	pagePostings yacymodel.PagePostings,
+) {
+	t.Helper()
+
+	req := yacyproto.TransferRWIRequest{
+		NetworkName:    yacyproto.DefaultNetwork,
+		Iam:            pushSenderHash,
+		YouAre:         nodeHash,
+		WordCount:      pagePostings.AmountOfPostings(),
+		EntryCount:     pagePostings.AmountOfPostings(),
+		Indexes:        pagePostings.Postings(),
+		PostingsProofs: map[yacymodel.URLHash]yacymodel.PostingsProof{},
+	}
+	if proof, proven := pagePostings.Proof().Get(); proven {
+		req.PostingsProofs[pagePostings.URL()] = proof
+	}
+
+	result := probe.PostRaw(
+		ctx,
+		nodeURL+yacyproto.PathTransferRWI,
+		req.Form().Encode(),
+		"Content-Type: application/x-www-form-urlencoded",
+	)
+	if !result.OK {
+		t.Fatalf(
+			"push %d page postings to node failed: %s",
+			pagePostings.AmountOfPostings(),
+			result.Diag(),
+		)
+	}
+}

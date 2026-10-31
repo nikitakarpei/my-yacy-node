@@ -10,7 +10,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
@@ -57,30 +56,30 @@ func postingHoldOf(identity postingIdentity, escrowed escrowedPosting) postingHo
 	return postingHold{HeldAt: escrowed.HeldAt, Posting: identity}
 }
 
-var fingerprintKeyPart = vault.BytesKeyPartFrom(pagefingerprint.AppendBytes, fingerprintFrom)
+var versionKeyPart = vault.BytesKeyPartFrom(appendVersion, versionFrom)
 
-func fingerprintFrom(stored vault.StoredBytes) (pagefingerprint.Fingerprint, error) {
-	return pagefingerprint.ParseBytes(stored.AppendTo(nil))
+func appendVersion(version, buffer []byte) []byte {
+	return append(buffer, version...)
+}
+
+func versionFrom(stored vault.StoredBytes) ([]byte, error) {
+	return stored.AppendTo(nil), nil
 }
 
 var escrowedPostingKeyParts = vault.TripleKey(
 	hashkeypart.URLHash,
 	hashkeypart.Hash,
-	fingerprintKeyPart,
+	versionKeyPart,
 )
 
 var escrowedPostingKeyLayout = escrowedPostingKeyParts.KeyLayoutFor(
 	func(
 		posting postingIdentity,
-	) (yacymodel.URLHash, yacymodel.Hash, pagefingerprint.Fingerprint) {
-		return posting.URL, posting.Word, posting.Fingerprint
+	) (yacymodel.URLHash, yacymodel.Hash, []byte) {
+		return posting.URL, posting.Word, posting.Version
 	},
-	func(
-		url yacymodel.URLHash,
-		word yacymodel.Hash,
-		fingerprint pagefingerprint.Fingerprint,
-	) postingIdentity {
-		return postingIdentity{Word: word, URL: url, Fingerprint: fingerprint}
+	func(url yacymodel.URLHash, word yacymodel.Hash, version []byte) postingIdentity {
+		return postingIdentity{Word: word, URL: url, Version: version}
 	},
 )
 
@@ -102,8 +101,17 @@ func (escrowedPostingValueCodec) Encode(escrowed escrowedPosting) ([]byte, error
 	stored.Time(escrowed.HeldAt)
 	stored.Bytes(posting)
 	rwiorigin.Write(&stored, escrowed.Origin)
+	writeProof(&stored, escrowed.Proof)
 
 	return stored.Record(), nil
+}
+
+func writeProof(stored *storedfields.Writer, proof yacymodel.Optional[yacymodel.PostingsProof]) {
+	escrowedProof, proven := proof.Get()
+	stored.Presence(proven)
+	if proven {
+		stored.Bytes(escrowedProof.Bytes())
+	}
 }
 
 func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
@@ -111,6 +119,7 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	heldAt := stored.Time("held at")
 	encodedPosting := stored.Bytes("posting")
 	origin := rwiorigin.From(stored)
+	proof := proofFrom(stored)
 	if err := stored.Err(); err != nil {
 		return escrowedPosting{}, err
 	}
@@ -120,31 +129,45 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 		return escrowedPosting{}, fmt.Errorf("decode escrowed posting: %w", err)
 	}
 
-	return escrowedPosting{HeldAt: heldAt, Origin: origin, Posting: posting}, nil
+	return escrowedPosting{HeldAt: heldAt, Origin: origin, Posting: posting, Proof: proof}, nil
+}
+
+func proofFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.PostingsProof] {
+	if !stored.Presence("proof") {
+		return yacymodel.None[yacymodel.PostingsProof]()
+	}
+	proof, err := yacymodel.ParsePostingsProofBytes(stored.Bytes("proof"))
+	if err != nil {
+		stored.Reject("proof", err)
+
+		return yacymodel.None[yacymodel.PostingsProof]()
+	}
+
+	return yacymodel.Some(proof)
 }
 
 var postingHoldKeyParts = vault.QuadKey(
 	vault.TimeKeyPart,
 	hashkeypart.Hash,
 	hashkeypart.URLHash,
-	fingerprintKeyPart,
+	versionKeyPart,
 )
 
 var postingHoldKeyLayout = postingHoldKeyParts.KeyLayoutFor(
 	func(
 		hold postingHold,
-	) (time.Time, yacymodel.Hash, yacymodel.URLHash, pagefingerprint.Fingerprint) {
-		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL, hold.Posting.Fingerprint
+	) (time.Time, yacymodel.Hash, yacymodel.URLHash, []byte) {
+		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL, hold.Posting.Version
 	},
 	func(
 		heldAt time.Time,
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
-		fingerprint pagefingerprint.Fingerprint,
+		version []byte,
 	) postingHold {
 		return postingHold{
 			HeldAt:  heldAt,
-			Posting: postingIdentity{Word: word, URL: url, Fingerprint: fingerprint},
+			Posting: postingIdentity{Word: word, URL: url, Version: version},
 		}
 	},
 )
