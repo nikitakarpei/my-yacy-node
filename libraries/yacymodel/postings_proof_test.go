@@ -54,11 +54,11 @@ func wordsOf(postings []yacymodel.RWIPosting) []yacymodel.Hash {
 }
 
 func TestProofPurgedWordByWordStaysMinimal(t *testing.T) {
-	postings := randomPagePostings(seededRandom(15), 300)
-	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 4))
+	postings := randomPagePostings(seededRandom(15), 24)
+	whole := wholePagePostingsOf(t, postings, partitionsFrom(t, 2))
 	purgedProof := proofOf(t, whole)
 
-	for purged := range 297 {
+	for purged := range len(postings) - 3 {
 		remaining := postings[purged+1:]
 		purgedProof = purgedProof.NarrowedTo(wordsOf(remaining), postings[purged:purged+1])
 

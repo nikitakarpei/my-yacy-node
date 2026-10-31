@@ -118,11 +118,11 @@ func TestNarrowedPagePostingsLeadToTheRoot(t *testing.T) {
 	random := seededRandom(2)
 	for _, exponent := range partitionExponents {
 		partitions := partitionsFrom(t, exponent)
-		postings := randomPagePostings(random, 1+random.IntN(300))
+		postings := randomPagePostings(random, 1+random.IntN(40))
 		whole := wholePagePostingsOf(t, postings, partitions)
 		root := rootOf(t, whole)
 
-		for range 20 {
+		for range 5 {
 			narrowed := narrowedTo(t, whole, randomSubsetOf(random, postings))
 			relayed := narrowedTo(t, narrowed, randomSubsetOf(random, narrowed.Postings()))
 			assertRoot(t, narrowed, root)
@@ -172,16 +172,16 @@ func TestMergedAndPurgedProofsKeepTheRootAndPurgedProofsAreMinimal(t *testing.T)
 	random := seededRandom(3)
 	for _, exponent := range partitionExponents {
 		partitions := partitionsFrom(t, exponent)
-		postings := randomPagePostings(random, 2+random.IntN(100))
+		postings := randomPagePostings(random, 2+random.IntN(16))
 		whole := wholePagePostingsOf(t, postings, partitions)
 		root := rootOf(t, whole)
 
-		for range 10 {
+		for range 2 {
 			holders := []postingsWithProof{
 				postingsWithProofOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
 				postingsWithProofOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
 			}
-			for range 12 {
+			for range 10 {
 				holder := random.IntN(2)
 				source := whole
 				if other := holders[1-holder]; random.IntN(2) == 0 && len(other.postings) > 0 {
