@@ -178,7 +178,7 @@ func (a PostingAdmission) admitPage(
 	pagePostings yacymodel.PagePostings,
 	storedVersion yacymodel.Optional[pageversion.Version],
 ) (somePostingsHeld bool, err error) {
-	var postingsToIndex []yacymodel.RWIPosting
+	var passedPostings []yacymodel.RWIPosting
 	for _, posting := range pagePostings.Postings() {
 		outcome, err := a.admit(tx, origin, posting, storedVersion)
 		if err != nil {
@@ -187,14 +187,14 @@ func (a PostingAdmission) admitPage(
 		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
 		somePostingsHeld = somePostingsHeld || outcome == PostingHeldForURLMetadata
 		if outcome == PostingIndexed {
-			postingsToIndex = append(postingsToIndex, posting)
+			passedPostings = append(passedPostings, posting)
 		}
 	}
 
-	return somePostingsHeld, a.indexPassed(ctx, tx, pagePostings, postingsToIndex)
+	return somePostingsHeld, a.indexPassedPostings(ctx, tx, pagePostings, passedPostings)
 }
 
-func (a PostingAdmission) indexPassed(
+func (a PostingAdmission) indexPassedPostings(
 	ctx context.Context,
 	tx *vault.Txn,
 	pagePostings yacymodel.PagePostings,
@@ -203,17 +203,17 @@ func (a PostingAdmission) indexPassed(
 	if len(passedPostings) == 0 {
 		return nil
 	}
-	pagePostingsToIndex, present := pagePostings.NarrowedTo(passedPostings).Get()
+	passedPagePostings, present := pagePostings.NarrowedTo(passedPostings).Get()
 	if !present {
-		reportPassedPostingsOutsideTheirPagePostings(ctx, pagePostings.URL())
+		reportUnnarrowedPassedPostings(ctx, pagePostings.URL())
 
 		return nil
 	}
 
-	return a.placer.index(tx, pagePostingsToIndex)
+	return a.placer.index(tx, passedPagePostings)
 }
 
-func reportPassedPostingsOutsideTheirPagePostings(ctx context.Context, url yacymodel.URLHash) {
+func reportUnnarrowedPassedPostings(ctx context.Context, url yacymodel.URLHash) {
 	slog.ErrorContext(ctx, "postings of a url passed admission outside their page postings",
 		slog.String("url", url.String()),
 	)

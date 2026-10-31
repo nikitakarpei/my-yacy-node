@@ -13,10 +13,10 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	postings   *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
-	urlWords   *vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity]
-	heldProofs heldProofs
-	partitions yacymodel.DHTRingPartitions
+	postings    *vault.IndexedCollection[postingIdentity, yacymodel.RWIPosting]
+	wordsPerURL wordsPerURL
+	heldProofs  heldProofs
+	partitions  yacymodel.DHTRingPartitions
 }
 
 func (d postingDirectory) PostingOf(
@@ -156,7 +156,7 @@ func (d postingDirectory) PurgePostingsOf(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 ) (amountOfPurgedPostings int, err error) {
-	words, err := wordsOfURL(tx, d.urlWords, url)
+	words, err := d.wordsPerURL.wordsOf(tx, url)
 	if err != nil {
 		return 0, err
 	}
@@ -174,17 +174,4 @@ func (d postingDirectory) PurgePostingsOf(
 	}
 
 	return amountOfPurgedPostings, nil
-}
-
-func wordsOfURL(
-	tx *vault.Txn,
-	urlWords *vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
-	url yacymodel.URLHash,
-) ([]yacymodel.Hash, error) {
-	words, err := urlWords.MembersOf(tx, url)
-	if err != nil {
-		return nil, fmt.Errorf("read words of a url: %w", err)
-	}
-
-	return words, nil
 }

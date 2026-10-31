@@ -157,7 +157,7 @@ func (c *OfferedPageConsumer) admitPage(
 	pageURL canonicalurl.CanonicalURL,
 	pageRWI pagerwi.PageRWI,
 ) bool {
-	amountOfPostings := amountOfPostingsOf(pageRWI)
+	amountOfPostings := amountOfPostingsIn(pageRWI)
 	receipt, err := c.pageReceiver.Receive(ctx, pageRWI)
 	if err != nil {
 		c.pageIntakeObserver.PageAdmissionFailed(
@@ -192,7 +192,7 @@ func (c *OfferedPageConsumer) admitPage(
 	return true
 }
 
-func amountOfPostingsOf(pageRWI pagerwi.PageRWI) int {
+func amountOfPostingsIn(pageRWI pagerwi.PageRWI) int {
 	pagePostings, indexed := pageRWI.PagePostings().Get()
 	if !indexed {
 		return 0

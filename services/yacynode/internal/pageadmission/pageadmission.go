@@ -2,7 +2,7 @@
 // crawled. The RWI of the page is everything the node knows about that URL, so
 // it replaces everything the node held for it: one transaction purges the URL,
 // then stores the metadata the crawl found and writes the page postings, when
-// the page has an RWI.
+// the page has page postings.
 package pageadmission
 
 import (

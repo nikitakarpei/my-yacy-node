@@ -1,7 +1,7 @@
 // Package pagerwi turns a scraped page and the document it holds into the reverse word index
 // the node stores: one posting per distinct word of the page's text that is no stopword of its
 // language, and one URL metadata row that carries the postings root of those postings. A page
-// without such a word has URL metadata but no page postings and no postings root.
+// without such a word has no page postings and no postings root.
 package pagerwi
 
 import (
@@ -168,7 +168,7 @@ func (b IndexBuilder) pagePostingsFrom(
 	// A crawl holds every posting of the page, so no hash is missing from its proof.
 	pagePostings, err := yacymodel.ProvenPagePostingsFrom(postings, b.emptyProof)
 	if err != nil {
-		slog.WarnContext(ctx, "page rwi not built",
+		slog.WarnContext(ctx, "page postings not built",
 			slog.String("url", postings[0].URLHash.String()),
 			slog.Any("error", err),
 		)
@@ -182,12 +182,11 @@ func (b IndexBuilder) pagePostingsFrom(
 func postingsRootOf(
 	pagePostings yacymodel.Optional[yacymodel.PagePostings],
 ) yacymodel.Optional[yacymodel.PostingsRoot] {
-	indexed, present := pagePostings.Get()
-	if !present {
-		return yacymodel.None[yacymodel.PostingsRoot]()
+	if pagePostings, present := pagePostings.Get(); present {
+		return pagePostings.Root()
 	}
 
-	return indexed.Root()
+	return yacymodel.None[yacymodel.PostingsRoot]()
 }
 
 //nolint:revive // argument-limit: each argument is a distinct source of one metadata row

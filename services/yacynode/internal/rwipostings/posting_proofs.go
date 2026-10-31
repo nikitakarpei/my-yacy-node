@@ -15,18 +15,18 @@ type postingProofs struct {
 
 func (p postingProofs) ProofsFor(
 	ctx context.Context,
-	postings []yacymodel.RWIPosting,
+	offeredPostings []yacymodel.RWIPosting,
 ) map[yacymodel.URLHash]yacymodel.PostingsProof {
-	offeredPerURL, _ := yacymodel.PostingsPerURLFrom(postings)
+	offeredPerURL, _ := yacymodel.PostingsPerURLFrom(offeredPostings)
 	proofs := make(map[yacymodel.URLHash]yacymodel.PostingsProof)
 	err := p.vault.View(ctx, func(tx *vault.Txn) error {
-		for _, offered := range offeredPerURL {
-			proof, present, err := p.heldProofs.proofFor(ctx, tx, offered)
+		for _, offeredPostingsOfURL := range offeredPerURL {
+			proof, present, err := p.heldProofs.proofFor(ctx, tx, offeredPostingsOfURL)
 			if err != nil {
 				return err
 			}
 			if present {
-				proofs[offered[0].URLHash] = proof
+				proofs[offeredPostingsOfURL[0].URLHash] = proof
 			}
 		}
 

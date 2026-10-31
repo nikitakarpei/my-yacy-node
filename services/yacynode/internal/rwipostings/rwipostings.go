@@ -47,7 +47,7 @@ type PostingWriter interface {
 type PostingProofs interface {
 	ProofsFor(
 		ctx context.Context,
-		postings []yacymodel.RWIPosting,
+		offeredPostings []yacymodel.RWIPosting,
 	) map[yacymodel.URLHash]yacymodel.PostingsProof
 }
 
@@ -60,7 +60,7 @@ func Open(
 	urlWordsObserver vault.MemberSetObserver,
 	projections []vault.Projection[yacymodel.RWIPosting],
 ) (PostingIndex, PostingWriter, PostingPurger, PostingProofs, error) {
-	postings, urlWords, err := registerPostings(
+	postings, urlWordsIndex, err := registerPostings(
 		ctx,
 		vault,
 		rankedWords,
@@ -75,15 +75,16 @@ func Open(
 		return nil, nil, nil, nil, err
 	}
 
-	held := heldProofs{proofs: proofs, urlWords: urlWords, postings: postings}
+	wordsPerURL := wordsPerURL{index: urlWordsIndex}
+	heldProofs := heldProofs{proofs: proofs, wordsPerURL: wordsPerURL, postings: postings}
 	directory := postingDirectory{
-		postings:   postings,
-		urlWords:   urlWords,
-		heldProofs: held,
-		partitions: partitions,
+		postings:    postings,
+		wordsPerURL: wordsPerURL,
+		heldProofs:  heldProofs,
+		partitions:  partitions,
 	}
 
-	return directory, directory, directory, postingProofs{vault: vault, heldProofs: held}, nil
+	return directory, directory, directory, postingProofs{vault: vault, heldProofs: heldProofs}, nil
 }
 
 func PostingCodec() vault.ValueCodec[yacymodel.RWIPosting] {
