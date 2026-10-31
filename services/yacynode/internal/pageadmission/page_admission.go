@@ -25,7 +25,7 @@ type pageAdmission struct {
 func (a pageAdmission) Receive(
 	ctx context.Context,
 	url yacymodel.URLHash,
-	page yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI yacymodel.Optional[pagerwi.PageRWI],
 ) (Receipt, error) {
 	atCapacity, err := a.vault.AtCapacity(ctx)
 	if err != nil {
@@ -36,7 +36,7 @@ func (a pageAdmission) Receive(
 	}
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		return a.replaceEverythingHeldForPage(ctx, tx, url, page)
+		return a.replaceEverythingHeldForPage(ctx, tx, url, pageRWI)
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
 		return Receipt{Busy: true, Pause: a.pause}, nil
@@ -52,20 +52,20 @@ func (a pageAdmission) replaceEverythingHeldForPage(
 	ctx context.Context,
 	tx *vault.Txn,
 	url yacymodel.URLHash,
-	page yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI yacymodel.Optional[pagerwi.PageRWI],
 ) error {
 	if err := a.purge(ctx, tx, url); err != nil {
 		return err
 	}
-	index, indexed := page.Get()
+	rwi, indexed := pageRWI.Get()
 	if !indexed {
 		return nil
 	}
-	if err := a.writeMetadata(tx, index.Metadata()); err != nil {
+	if err := a.writeMetadata(tx, rwi.Metadata()); err != nil {
 		return err
 	}
 
-	return a.writePostings(tx, index.PagePostings())
+	return a.writePostings(tx, rwi.PagePostings())
 }
 
 func (a pageAdmission) purge(ctx context.Context, tx *vault.Txn, url yacymodel.URLHash) error {

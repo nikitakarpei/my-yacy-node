@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
@@ -26,17 +27,19 @@ const (
 )
 
 type recordingPages struct {
-	receipt  pageadmission.Receipt
-	err      error
-	received []pagerwi.PageRWI
+	receipt      pageadmission.Receipt
+	err          error
+	receivedURLs []yacymodel.URLHash
+	received     []pagerwi.PageRWI
 }
 
 func (r *recordingPages) Receive(
 	_ context.Context,
-	_ yacymodel.URLHash,
-	page yacymodel.Optional[pagerwi.PageRWI],
+	url yacymodel.URLHash,
+	pageRWI yacymodel.Optional[pagerwi.PageRWI],
 ) (pageadmission.Receipt, error) {
-	if received, present := page.Get(); present {
+	r.receivedURLs = append(r.receivedURLs, url)
+	if received, present := pageRWI.Get(); present {
 		r.received = append(r.received, received)
 	}
 
@@ -253,6 +256,39 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 		t.Errorf("kept receipts = %v, want one for the offered page", receipts.kept)
 	}
 	assertWordsAdmitted(t, pages, "alpha", "beta")
+}
+
+func TestPageWithoutWordsReachesAdmissionWithoutRWIAndIsReportedAsKept(t *testing.T) {
+	receipts := &recordingIntakeReceipts{}
+	pages := &recordingPages{}
+	message := offeredPage(t, pagescrapecontract.OfferedPage{
+		PageURL:     canonicalurltest.CanonicalURLOf(t, offeredPageURL),
+		LandedURL:   canonicalurltest.CanonicalURLOf(t, offeredPageURL),
+		ContentType: "text/html",
+		Body:        []byte(`<html lang="en"><body><p>!!! ...</p></body></html>`),
+	})
+
+	if err := runWith(t, message, intakeCollaborators{
+		pageReceiver:       pages,
+		intakeReceipts:     receipts,
+		pageIntakeObserver: pageintake.PageIntakeObservers{},
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := message.Settlement(t); action != pullintaketest.Acknowledged {
+		t.Errorf("action = %q, want ack", action)
+	}
+	wantURL := urlhashtest.URLHashOf(t, offeredPageURL)
+	if len(pages.receivedURLs) != 1 || pages.receivedURLs[0] != wantURL {
+		t.Fatalf("received urls = %v, want only %v", pages.receivedURLs, wantURL)
+	}
+	if len(pages.received) != 0 {
+		t.Errorf("received %d page rwis, want none for a page without words", len(pages.received))
+	}
+	if len(receipts.kept) != 1 || receipts.kept[0].String() != offeredPageURL {
+		t.Errorf("kept receipts = %v, want one for the offered page", receipts.kept)
+	}
 }
 
 func TestPageThatLandedElsewhereIsIndexedUnderTheOfferedURL(t *testing.T) {

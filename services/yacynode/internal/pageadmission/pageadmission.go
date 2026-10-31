@@ -20,7 +20,7 @@ type PageReceiver interface {
 	Receive(
 		ctx context.Context,
 		url yacymodel.URLHash,
-		page yacymodel.Optional[pagerwi.PageRWI],
+		pageRWI yacymodel.Optional[pagerwi.PageRWI],
 	) (Receipt, error)
 }
 

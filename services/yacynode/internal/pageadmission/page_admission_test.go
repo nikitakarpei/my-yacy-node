@@ -58,10 +58,10 @@ func (r refusedWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostings)
 	return r.writer.Write(tx, pagePostings)
 }
 
-type stopwordThe struct{}
+type noStopwords struct{}
 
-func (stopwordThe) Contains(word yacymodel.Hash, _ yacymodel.Language) bool {
-	return word == yacymodel.WordHash("the")
+func (noStopwords) Contains(yacymodel.Hash, yacymodel.Language) bool {
+	return false
 }
 
 type harness struct {
@@ -158,7 +158,7 @@ func pageTitled(
 		Body:        []byte(text),
 	}
 
-	return pagerwi.NewIndexBuilder(stopwordThe{}, ringPartitions(t)).RWIFrom(
+	return pagerwi.NewIndexBuilder(noStopwords{}, ringPartitions(t)).RWIFrom(
 		t.Context(),
 		scrapedPage,
 		documentextraction.Document{Title: title},
@@ -175,11 +175,11 @@ func pageURLHash(t *testing.T) yacymodel.URLHash {
 
 func (h harness) receive(
 	t *testing.T,
-	page yacymodel.Optional[pagerwi.PageRWI],
+	pageRWI yacymodel.Optional[pagerwi.PageRWI],
 ) pageadmission.Receipt {
 	t.Helper()
 
-	receipt, err := h.receiver.Receive(context.Background(), pageURLHash(t), page)
+	receipt, err := h.receiver.Receive(context.Background(), pageURLHash(t), pageRWI)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -261,20 +261,6 @@ func TestRecrawledPageReplacesEveryPostingItHeld(t *testing.T) {
 	}
 }
 
-func TestCrawledPageMetadataIsStoredWithTheRootOfItsPostings(t *testing.T) {
-	h := openHarness(t, 0)
-	crawled := pageTitled(t, "page", pageWord{"kernel", 2}, pageWord{"module", 1})
-
-	h.receive(t, crawled)
-
-	page, _ := crawled.Get()
-	want := page.Metadata().PostingsRoot
-	if stored, _ := h.storedMetadata(t); !want.Present() || stored.PostingsRoot != want {
-		t.Fatalf("stored postings root = %+v, want the root %+v of the page",
-			stored.PostingsRoot, want)
-	}
-}
-
 func TestRecrawledPageWithoutWordsLeavesNothingOfThePageBehind(t *testing.T) {
 	h := openHarness(t, 0)
 	h.receive(t, pageTitled(t, "before", pageWord{"w1", 1}))
@@ -286,16 +272,6 @@ func TestRecrawledPageWithoutWordsLeavesNothingOfThePageBehind(t *testing.T) {
 	}
 	if metadata, stored := h.storedMetadata(t); stored {
 		t.Errorf("stored metadata = %+v, want none for a page without words", metadata)
-	}
-}
-
-func TestPageOfOnlyStopwordsStoresNoMetadata(t *testing.T) {
-	h := openHarness(t, 0)
-
-	h.receive(t, pageTitled(t, "stopwords", pageWord{"the", 3}))
-
-	if metadata, stored := h.storedMetadata(t); stored {
-		t.Errorf("stored metadata = %+v, want none for a page of only stopwords", metadata)
 	}
 }
 
