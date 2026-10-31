@@ -70,19 +70,20 @@ func Open(
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
-	heldProofs, err := registerHeldProofs(vault)
+	proofs, err := registerHeldProofs(vault)
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
 
+	held := heldProofs{proofs: proofs, urlWords: urlWords, postings: postings}
 	directory := postingDirectory{
 		postings:   postings,
 		urlWords:   urlWords,
-		heldProofs: heldProofs,
+		heldProofs: held,
 		partitions: partitions,
 	}
 
-	return directory, directory, directory, postingProofs{vault: vault, directory: directory}, nil
+	return directory, directory, directory, postingProofs{vault: vault, heldProofs: held}, nil
 }
 
 func PostingCodec() vault.ValueCodec[yacymodel.RWIPosting] {

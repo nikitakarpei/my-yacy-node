@@ -10,17 +10,19 @@ import (
 
 const heldProofsBucket vault.Name = "rwi_held_proofs"
 
-func registerHeldProofs(v *vault.Vault) (heldProofs, error) {
+func registerHeldProofs(
+	v *vault.Vault,
+) (*vault.Collection[yacymodel.URLHash, yacymodel.PostingsProof], error) {
 	proofs, err := v.RegisterCollection(
 		heldProofsBucket,
 		vault.SingleKey(hashkeypart.URLHash).KeyLayout(),
 		heldProofValueCodec{},
 	)
 	if err != nil {
-		return heldProofs{}, fmt.Errorf("register held proofs: %w", err)
+		return nil, fmt.Errorf("register held proofs: %w", err)
 	}
 
-	return heldProofs{proofs: proofs}, nil
+	return proofs, nil
 }
 
 type heldProofValueCodec struct{}

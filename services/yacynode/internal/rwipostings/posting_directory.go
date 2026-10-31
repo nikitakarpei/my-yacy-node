@@ -1,9 +1,7 @@
 package rwipostings
 
 import (
-	"context"
 	"fmt"
-	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -114,7 +112,7 @@ func (d postingDirectory) PurgePosting(
 	if err != nil || !wasDeleted {
 		return false, err
 	}
-	if err := d.heldProofs.narrowTo(tx, d.wordsOf, purgedPosting); err != nil {
+	if err := d.heldProofs.narrowWithout(tx, purgedPosting); err != nil {
 		return false, err
 	}
 
@@ -144,11 +142,7 @@ func (d postingDirectory) PurgePostingsOfWordIn(
 		func(identity postingIdentity, storedPosting yacymodel.RWIPosting) error {
 			amountOfPurgedPostings++
 
-			return d.heldProofs.narrowTo(
-				tx,
-				d.wordsOf,
-				postingWithIdentity(identity, storedPosting),
-			)
+			return d.heldProofs.narrowWithout(tx, postingWithIdentity(identity, storedPosting))
 		},
 	)
 	if err != nil {
@@ -162,7 +156,7 @@ func (d postingDirectory) PurgePostingsOf(
 	tx *vault.Txn,
 	url yacymodel.URLHash,
 ) (amountOfPurgedPostings int, err error) {
-	words, err := d.wordsOf(tx, url)
+	words, err := wordsOfURL(tx, d.urlWords, url)
 	if err != nil {
 		return 0, err
 	}
@@ -182,85 +176,15 @@ func (d postingDirectory) PurgePostingsOf(
 	return amountOfPurgedPostings, nil
 }
 
-func (d postingDirectory) wordsOf(tx *vault.Txn, url yacymodel.URLHash) ([]yacymodel.Hash, error) {
-	words, err := d.urlWords.MembersOf(tx, url)
+func wordsOfURL(
+	tx *vault.Txn,
+	urlWords *vault.MemberSetIndex[yacymodel.Hash, yacymodel.URLHash, postingIdentity],
+	url yacymodel.URLHash,
+) ([]yacymodel.Hash, error) {
+	words, err := urlWords.MembersOf(tx, url)
 	if err != nil {
 		return nil, fmt.Errorf("read words of a url: %w", err)
 	}
 
 	return words, nil
 }
-
-func (d postingDirectory) proofFor(
-	ctx context.Context,
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-	givenPostings []yacymodel.RWIPosting,
-) (yacymodel.PostingsProof, bool, error) {
-	heldProof, found, err := d.heldProofs.heldProofOf(tx, url)
-	if err != nil || !found {
-		return yacymodel.PostingsProof{}, false, err
-	}
-	heldPostings, err := d.postingsOf(tx, url)
-	if err != nil {
-		return yacymodel.PostingsProof{}, false, err
-	}
-	held, formed := heldPagePostingsOf(ctx, url, heldPostings, heldProof)
-	if !formed {
-		return yacymodel.PostingsProof{}, false, nil
-	}
-	given, valid := held.NarrowedTo(givenPostings).Get()
-	if !valid {
-		return yacymodel.PostingsProof{}, false, nil
-	}
-	proof, present := given.Proof().Get()
-
-	return proof, present, nil
-}
-
-func heldPagePostingsOf(
-	ctx context.Context,
-	url yacymodel.URLHash,
-	heldPostings []yacymodel.RWIPosting,
-	heldProof yacymodel.PostingsProof,
-) (yacymodel.PagePostings, bool) {
-	held, err := yacymodel.ProvenPagePostingsFrom(heldPostings, heldProof)
-	if err != nil {
-		slog.WarnContext(ctx, "held postings of a url form no page postings",
-			slog.String("url", url.String()),
-			slog.Any("error", err),
-		)
-
-		return yacymodel.PagePostings{}, false
-	}
-
-	return held, true
-}
-
-func (d postingDirectory) postingsOf(
-	tx *vault.Txn,
-	url yacymodel.URLHash,
-) ([]yacymodel.RWIPosting, error) {
-	words, err := d.wordsOf(tx, url)
-	if err != nil {
-		return nil, err
-	}
-	postings := make([]yacymodel.RWIPosting, 0, len(words))
-	for _, word := range words {
-		posting, found, err := d.PostingOf(tx, word, url)
-		if err != nil {
-			return nil, err
-		}
-		if found {
-			postings = append(postings, posting)
-		}
-	}
-
-	return postings, nil
-}
-
-var (
-	_ PostingIndex  = postingDirectory{}
-	_ PostingWriter = postingDirectory{}
-	_ PostingPurger = postingDirectory{}
-)
