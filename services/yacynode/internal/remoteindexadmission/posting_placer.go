@@ -5,10 +5,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagefingerprint"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type postingPlacer struct {
@@ -18,15 +16,16 @@ type postingPlacer struct {
 
 func (p postingPlacer) place(
 	tx *vault.Txn,
-	origin rwiorigin.Origin,
 	posting yacymodel.RWIPosting,
-	currentVersion urlmeta.CurrentVersion,
+	arrivedVersion pageversion.Version,
+	storedVersion pageversion.Version,
 ) (PostingOutcome, error) {
-	switch {
-	case !currentVersion.Describes(pagefingerprint.FromPosting(posting)):
+	switch storedVersion.JoiningOf(arrivedVersion) {
+	case pageversion.JoiningRefusedOtherVersion:
 		return PostingDroppedNotNewerVersion, nil
-	case !currentVersion.CameFrom(origin):
+	case pageversion.JoiningRefusedOtherSource:
 		return PostingDroppedPageFromOtherSource, nil
+	case pageversion.JoiningAllowed:
 	}
 	postingIndexed, err := p.isIndexed(tx, posting)
 	if err != nil {

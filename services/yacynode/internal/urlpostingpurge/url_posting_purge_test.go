@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
@@ -94,13 +95,11 @@ func (h harness) storeMetadata(t *testing.T, seed string) yacymodel.URLHash {
 	address := "http://example.com/" + seed
 	hash := urlHash(t, seed)
 	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := h.urls.Write(
+		return h.urls.Write(
 			tx,
 			yacymodel.URLMetadata{Hash: hash, Address: address},
-			urlmeta.SourceThisNode(),
+			pageversion.SourceThisNode(),
 		)
-
-		return err
 	}); err != nil {
 		t.Fatalf("urls.Write: %v", err)
 	}

@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
@@ -56,7 +57,7 @@ func (a pageAdmission) replaceEverythingHeldForPage(
 	); err != nil {
 		return fmt.Errorf("purge page url: %w", err)
 	}
-	if _, err := a.metadata.Write(tx, page.Metadata, urlmeta.SourceThisNode()); err != nil {
+	if err := a.metadata.Write(tx, page.Metadata, pageversion.SourceThisNode()); err != nil {
 		return fmt.Errorf("write page url metadata: %w", err)
 	}
 

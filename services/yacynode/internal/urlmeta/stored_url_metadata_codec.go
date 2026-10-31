@@ -6,7 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 )
 
 type urlMetadataValueCodec struct{}
@@ -40,16 +40,9 @@ func (urlMetadataValueCodec) Encode(record storedURLMetadata) ([]byte, error) {
 	stored.Count(int(metadata.ApplicationLinks))
 	stored.Text(metadata.Snippet)
 	stored.Text(metadata.FaviconAddress)
-	writeSource(&stored, record.source)
+	pageversion.WriteSource(&stored, record.source)
 
 	return stored.Record(), nil
-}
-
-func writeSource(stored *storedfields.Writer, source Source) {
-	stored.Byte(byte(source.kind))
-	if source.kind == sourcePeer {
-		rwiorigin.Write(stored, source.peer)
-	}
 }
 
 func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
@@ -87,21 +80,12 @@ func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
 		Snippet:        stored.Text("snippet"),
 		FaviconAddress: stored.Text("favicon address"),
 	}
-	source := sourceFrom(stored)
+	source := pageversion.SourceFrom(stored)
 	if err := stored.Err(); err != nil {
 		return storedURLMetadata{}, err
 	}
 
 	return storedURLMetadata{metadata: metadata, source: source}, nil
-}
-
-func sourceFrom(stored *storedfields.Reader) Source {
-	source := Source{kind: sourceKind(stored.Byte("source"))}
-	if source.kind == sourcePeer {
-		source.peer = rwiorigin.From(stored)
-	}
-
-	return source
 }
 
 func writeReferrer(stored *storedfields.Writer, referrer yacymodel.Optional[yacymodel.URLHash]) {

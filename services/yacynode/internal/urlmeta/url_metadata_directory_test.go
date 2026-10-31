@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
@@ -41,10 +42,10 @@ func writeAll(t *testing.T, v *vault.Vault, module urlPorts, metadata ...yacymod
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, written := range metadata {
-			if _, err := module.Writer.Write(
+			if err := module.Writer.Write(
 				tx,
 				written,
-				urlmeta.SourcePeer(sendingNetwork),
+				pageversion.SourcePeer(sendingNetwork),
 			); err != nil {
 				return err
 			}
@@ -56,22 +57,22 @@ func writeAll(t *testing.T, v *vault.Vault, module urlPorts, metadata ...yacymod
 	}
 }
 
-func currentVersionsOf(
+func versionsOf(
 	t *testing.T,
 	v *vault.Vault,
 	directory urlmeta.URLDirectory,
 	hashes ...yacymodel.URLHash,
-) map[yacymodel.URLHash]urlmeta.CurrentVersion {
+) map[yacymodel.URLHash]pageversion.Version {
 	t.Helper()
 
-	var versions map[yacymodel.URLHash]urlmeta.CurrentVersion
+	var versions map[yacymodel.URLHash]pageversion.Version
 	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		read, err := directory.CurrentVersionsOf(tx, hashes)
+		read, err := directory.VersionsOf(tx, hashes)
 		versions = read
 
 		return err
 	}); err != nil {
-		t.Fatalf("CurrentVersionsOf: %v", err)
+		t.Fatalf("VersionsOf: %v", err)
 	}
 
 	return versions
@@ -95,21 +96,23 @@ func TestWrittenMetadataReadsBackByItsHash(t *testing.T) {
 	}
 }
 
-func TestStoredMetadataKnowsItsSource(t *testing.T) {
+func TestStoredMetadataKnowsItsVersionAndSource(t *testing.T) {
 	v, module := openObservedModule(t)
 	sent, crawled := urlMetadata(t, "a"), urlMetadata(t, "b")
+	sent.Title = "Hello World"
 	writeAll(t, v, module, sent)
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		_, err := module.Writer.Write(tx, crawled, urlmeta.SourceThisNode())
-
-		return err
+		return module.Writer.Write(tx, crawled, pageversion.SourceThisNode())
 	}); err != nil {
 		t.Fatalf("Write: %v", err)
 	}
 
-	versions := currentVersionsOf(t, v, module.Directory, sent.Hash, crawled.Hash)
-	if versions[sent.Hash].Source != urlmeta.SourcePeer(sendingNetwork) ||
-		versions[crawled.Hash].Source != urlmeta.SourceThisNode() {
+	versions := versionsOf(t, v, module.Directory, sent.Hash, crawled.Hash)
+	if versions[sent.Hash] != pageversion.FromMetadata(
+		sent,
+		pageversion.SourcePeer(sendingNetwork),
+	) ||
+		versions[crawled.Hash] != pageversion.FromMetadata(crawled, pageversion.SourceThisNode()) {
 		t.Fatalf("versions = %+v, want the peer network and this node", versions)
 	}
 }

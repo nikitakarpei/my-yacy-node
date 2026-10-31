@@ -54,6 +54,8 @@ components:
     in: internal/urlpostingpurge/**
   pagefingerprint:
     in: internal/pagefingerprint/**
+  pageversion:
+    in: internal/pageversion/**
   rwiorigin:
     in: internal/rwiorigin/**
   rwipostings:
@@ -198,6 +200,12 @@ deps:
   pagefingerprint:
     canUse:
       - storedfields
+  pageversion:
+    mayDependOn:
+      - pagefingerprint
+      - rwiorigin
+    canUse:
+      - storedfields
   httpguard:
     canUse:
       - yacyproto
@@ -256,8 +264,7 @@ deps:
       - hashkeypart
       - httpguard
       - nodeidentity
-      - pagefingerprint
-      - rwiorigin
+      - pageversion
     canUse:
       - yacyproto
       - vault
@@ -305,7 +312,7 @@ deps:
       - rwiescrow
       - rwiorigin
       - urlmeta
-      - pagefingerprint
+      - pageversion
     canUse:
       - vault
       - storedfields
@@ -407,6 +414,7 @@ deps:
   pageadmission:
     mayDependOn:
       - pagerwi
+      - pageversion
       - urlmeta
       - rwipostings
     canUse:

@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -20,15 +21,15 @@ type URLDirectory interface {
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
 	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
-	CurrentVersionsOf(
+	VersionsOf(
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
-	) (map[yacymodel.URLHash]CurrentVersion, error)
+	) (map[yacymodel.URLHash]pageversion.Version, error)
 	Count(tx *vault.Txn) (int, error)
 }
 
 type URLMetadataWriter interface {
-	Write(tx *vault.Txn, metadata yacymodel.URLMetadata, source Source) (CurrentVersion, error)
+	Write(tx *vault.Txn, metadata yacymodel.URLMetadata, source pageversion.Source) error
 }
 
 type URLEvictor interface {

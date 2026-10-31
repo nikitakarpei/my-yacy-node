@@ -1,12 +1,8 @@
-// Package pagefingerprint tells versions of a page apart: a crawl writes the
-// same fingerprint into its postings and its URL metadata, so equal
-// fingerprints mean the same version. Two versions can share a fingerprint;
-// only the modified day says which version is newer.
+// Package pagefingerprint holds the page fields that a crawl writes into both
+// its postings and its URL metadata, and the key bytes that store them.
 package pagefingerprint
 
 import (
-	"time"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -39,12 +35,6 @@ func FromMetadata(metadata yacymodel.URLMetadata) Fingerprint {
 		Language:      declaredLanguageOf(metadata),
 		DocumentType:  metadata.DocumentType,
 	}
-}
-
-func (f Fingerprint) IsDatedAfter(now time.Time) bool {
-	today, inRange := yacymodel.MicroDateOf(now).Get()
-
-	return inRange && f.Modified > today
 }
 
 func modifiedDayOf(metadata yacymodel.URLMetadata) yacymodel.MicroDate {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 )
 
 type urlDirectory struct {
@@ -33,18 +34,18 @@ func (d urlDirectory) MetadataPerHash(
 	return metadata, nil
 }
 
-func (d urlDirectory) CurrentVersionsOf(
+func (d urlDirectory) VersionsOf(
 	tx *vault.Txn,
 	hashes []yacymodel.URLHash,
-) (map[yacymodel.URLHash]CurrentVersion, error) {
-	versions := make(map[yacymodel.URLHash]CurrentVersion, len(hashes))
+) (map[yacymodel.URLHash]pageversion.Version, error) {
+	versions := make(map[yacymodel.URLHash]pageversion.Version, len(hashes))
 	for _, hash := range hashes {
 		stored, ok, err := d.collection.Get(tx, hash)
 		if err != nil {
 			return nil, fmt.Errorf("read url metadata: %w", err)
 		}
 		if ok {
-			versions[hash] = currentVersionOf(stored)
+			versions[hash] = pageversion.FromMetadata(stored.metadata, stored.source)
 		}
 	}
 
@@ -86,14 +87,14 @@ func (d urlDirectory) Purge(
 func (d urlDirectory) Write(
 	tx *vault.Txn,
 	metadata yacymodel.URLMetadata,
-	source Source,
-) (CurrentVersion, error) {
+	source pageversion.Source,
+) error {
 	stored := storedURLMetadata{metadata: metadata, source: source}
 	if _, err := d.collection.Put(tx, metadata.Hash, stored); err != nil {
-		return CurrentVersion{}, fmt.Errorf("write url metadata: %w", err)
+		return fmt.Errorf("write url metadata: %w", err)
 	}
 
-	return currentVersionOf(stored), nil
+	return nil
 }
 
 var (
