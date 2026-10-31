@@ -18,7 +18,7 @@ type Position struct {
 	depth  uint8
 }
 
-func LeafAt(key [KeyByteLength]byte) Position {
+func LeafPositionAt(key [KeyByteLength]byte) Position {
 	return Position{prefix: key, depth: Depth}
 }
 

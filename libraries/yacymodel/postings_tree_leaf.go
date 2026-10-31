@@ -68,7 +68,10 @@ func appearanceBitsOf(appearance Appearance) uint16 {
 	return appearanceBits
 }
 
-func leafPositionsOf(postings []RWIPosting, partitionExponent uint8) []postingstree.Position {
+func leafPositionsOfPostings(
+	postings []RWIPosting,
+	partitionExponent uint8,
+) []postingstree.Position {
 	positions := make([]postingstree.Position, 0, len(postings))
 	for _, posting := range postings {
 		positions = append(positions, leafPositionOf(posting.WordHash, partitionExponent))
@@ -77,7 +80,7 @@ func leafPositionsOf(postings []RWIPosting, partitionExponent uint8) []postingst
 	return positions
 }
 
-func wordPositionsOf(words []Hash, partitionExponent uint8) []postingstree.Position {
+func leafPositionsOfWords(words []Hash, partitionExponent uint8) []postingstree.Position {
 	positions := make([]postingstree.Position, 0, len(words))
 	for _, word := range words {
 		positions = append(positions, leafPositionOf(word, partitionExponent))
@@ -87,12 +90,11 @@ func wordPositionsOf(words []Hash, partitionExponent uint8) []postingstree.Posit
 }
 
 func leafPositionOf(word Hash, partitionExponent uint8) postingstree.Position {
-	const wordBits = HashByteLength * 8
 	var key [HashByteLength]byte
-	for bit := range uint(wordBits) {
-		wordBit := (bit + uint(partitionExponent)) % wordBits
+	for bit := range uint(postingstree.Depth) {
+		wordBit := (bit + uint(partitionExponent)) % postingstree.Depth
 		key[bit/8] |= (word.raw[wordBit/8] >> (7 - wordBit%8) & 1) << (7 - bit%8)
 	}
 
-	return postingstree.LeafAt(key)
+	return postingstree.LeafPositionAt(key)
 }

@@ -177,9 +177,9 @@ func TestMergedAndPurgedProofsKeepTheRootAndPurgedProofsAreMinimal(t *testing.T)
 		root := rootOf(t, whole)
 
 		for range 10 {
-			holders := []provenPostings{
-				provenPostingsOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
-				provenPostingsOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
+			holders := []postingsWithProof{
+				postingsWithProofOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
+				postingsWithProofOf(t, narrowedTo(t, whole, randomSubsetOf(random, postings))),
 			}
 			for range 12 {
 				holder := random.IntN(2)
@@ -205,15 +205,15 @@ func TestMergedAndPurgedProofsKeepTheRootAndPurgedProofsAreMinimal(t *testing.T)
 	}
 }
 
-type provenPostings struct {
+type postingsWithProof struct {
 	postings []yacymodel.RWIPosting
 	proof    yacymodel.PostingsProof
 }
 
-func provenPostingsOf(t *testing.T, pagePostings yacymodel.PagePostings) provenPostings {
+func postingsWithProofOf(t *testing.T, pagePostings yacymodel.PagePostings) postingsWithProof {
 	t.Helper()
 
-	return provenPostings{postings: pagePostings.Postings(), proof: proofOf(t, pagePostings)}
+	return postingsWithProof{postings: pagePostings.Postings(), proof: proofOf(t, pagePostings)}
 }
 
 func proofOf(t *testing.T, pagePostings yacymodel.PagePostings) yacymodel.PostingsProof {
@@ -243,10 +243,10 @@ func provenPagePostingsOf(
 func mergedOrPurged(
 	t *testing.T,
 	random *rand.Rand,
-	proven provenPostings,
+	proven postingsWithProof,
 	source yacymodel.PagePostings,
 	whole yacymodel.PagePostings,
-) provenPostings {
+) postingsWithProof {
 	t.Helper()
 	if random.IntN(2) == 0 {
 		written := narrowedTo(t, source, randomSubsetOf(random, source.Postings()))
@@ -255,7 +255,7 @@ func mergedOrPurged(
 			mergedProof = proven.proof.MergedWith(mergedProof)
 		}
 
-		return provenPostings{
+		return postingsWithProof{
 			postings: postingsUnionOf(proven.postings, written.Postings()),
 			proof:    mergedProof,
 		}
@@ -266,7 +266,7 @@ func mergedOrPurged(
 	purged := randomSubsetOf(random, proven.postings)
 	remaining := postingsWithout(proven.postings, purged)
 	if len(remaining) == 0 {
-		return provenPostings{}
+		return postingsWithProof{}
 	}
 	narrowedProof := proven.proof.NarrowedTo(wordsOf(remaining), purged)
 	minimalProof := proofOf(t, narrowedTo(t, whole, remaining))
@@ -275,7 +275,7 @@ func mergedOrPurged(
 			narrowedProof.Bytes(), minimalProof.Bytes())
 	}
 
-	return provenPostings{postings: remaining, proof: narrowedProof}
+	return postingsWithProof{postings: remaining, proof: narrowedProof}
 }
 
 func postingsUnionOf(proven, written []yacymodel.RWIPosting) []yacymodel.RWIPosting {
@@ -337,11 +337,19 @@ func TestPagePostingsRejectMalformedPostings(t *testing.T) {
 	otherPage := randomPagePostings(random, 1)
 	sameWordTwice := postings[0]
 	sameWordTwice.Hits++
+	withoutWord := postings[0]
+	withoutWord.WordHash = yacymodel.Hash{}
+	withoutURL := slices.Clone(postings)
+	for index := range withoutURL {
+		withoutURL[index].URLHash = yacymodel.URLHash{}
+	}
 
 	for name, malformed := range map[string][]yacymodel.RWIPosting{
 		"no postings":     nil,
 		"two pages":       slices.Concat(postings, otherPage),
 		"same word twice": append(slices.Clone(postings), sameWordTwice),
+		"no word hash":    {withoutWord},
+		"no url hash":     withoutURL,
 	} {
 		if _, err := yacymodel.UnprovenPagePostingsFrom(malformed); !errors.Is(
 			err,

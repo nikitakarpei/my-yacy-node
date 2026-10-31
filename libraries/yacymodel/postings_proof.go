@@ -32,9 +32,9 @@ func (p PostingsProof) NarrowedTo(
 	remainingWords []Hash,
 	purgedPostings []RWIPosting,
 ) PostingsProof {
-	remainingPositions := wordPositionsOf(remainingWords, p.partitionExponent)
+	remainingPositions := leafPositionsOfWords(remainingWords, p.partitionExponent)
 	knownSubtrees := postingstree.SubtreeOf(nil, postingstree.OutermostNodesOf(
-		postingstree.EntriesBesides(p.entries, remainingPositions),
+		postingstree.EntriesOutside(p.entries, remainingPositions),
 		leavesOf(purgedPostings, p.partitionExponent),
 	))
 
@@ -44,7 +44,7 @@ func (p PostingsProof) NarrowedTo(
 func (p PostingsProof) liesBesidePathsOf(postings []RWIPosting) bool {
 	return postingstree.LieBesidePathsOf(
 		p.entries,
-		leafPositionsOf(postings, p.partitionExponent),
+		leafPositionsOfPostings(postings, p.partitionExponent),
 	)
 }
 
@@ -61,7 +61,7 @@ func (p PostingsProof) subtreeOver(postings []RWIPosting) postingstree.Subtree {
 
 func (p PostingsProof) narrowedFrom(postings, keptPostings []RWIPosting) PostingsProof {
 	return p.withEntries(p.subtreeOver(postings).EntriesAround(
-		leafPositionsOf(keptPostings, p.partitionExponent),
+		leafPositionsOfPostings(keptPostings, p.partitionExponent),
 	))
 }
 

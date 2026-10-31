@@ -18,7 +18,7 @@ func UnionOf(entries, addedEntries []Node) []Node {
 	})
 }
 
-func EntriesBesides(entries []Node, positions []Position) []Node {
+func EntriesOutside(entries []Node, positions []Position) []Node {
 	sortedPositions := sortedPositionsOf(positions)
 
 	return slices.DeleteFunc(slices.Clone(entries), func(entry Node) bool {

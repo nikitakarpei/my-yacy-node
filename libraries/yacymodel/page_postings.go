@@ -21,24 +21,12 @@ func UnprovenPagePostingsFrom(postings []RWIPosting) (PagePostings, error) {
 	return PagePostings{postings: slices.Clone(postings)}, nil
 }
 
-func ProvenPagePostingsFrom(postings []RWIPosting, proof PostingsProof) (PagePostings, error) {
-	if err := failureOf(postings); err != nil {
-		return PagePostings{}, err
-	}
-	if !proof.liesBesidePathsOf(postings) {
-		return PagePostings{}, fmt.Errorf(
-			"%w: a proof entry lies beside no path of the postings",
-			ErrBadPagePostings,
-		)
-	}
-
-	return PagePostings{postings: slices.Clone(postings), proof: Some(proof)}, nil
-}
-
 func failureOf(postings []RWIPosting) error {
 	switch {
 	case len(postings) == 0:
 		return fmt.Errorf("%w: no postings", ErrBadPagePostings)
+	case !holdsHashesOfEach(postings):
+		return fmt.Errorf("%w: a posting without its word or url hash", ErrBadPagePostings)
 	case !holdsOneURL(postings):
 		return fmt.Errorf("%w: postings of more than one url", ErrBadPagePostings)
 	case !holdsEachWordOnce(postings):
@@ -46,6 +34,16 @@ func failureOf(postings []RWIPosting) error {
 	default:
 		return nil
 	}
+}
+
+func holdsHashesOfEach(postings []RWIPosting) bool {
+	for _, posting := range postings {
+		if posting.WordHash.IsZero() || posting.URLHash.IsZero() {
+			return false
+		}
+	}
+
+	return true
 }
 
 func holdsOneURL(postings []RWIPosting) bool {
@@ -65,6 +63,20 @@ func holdsEachWordOnce(postings []RWIPosting) bool {
 	}
 
 	return len(words) == len(postings)
+}
+
+func ProvenPagePostingsFrom(postings []RWIPosting, proof PostingsProof) (PagePostings, error) {
+	if err := failureOf(postings); err != nil {
+		return PagePostings{}, err
+	}
+	if !proof.liesBesidePathsOf(postings) {
+		return PagePostings{}, fmt.Errorf(
+			"%w: a proof entry lies beside no path of the postings",
+			ErrBadPagePostings,
+		)
+	}
+
+	return PagePostings{postings: slices.Clone(postings), proof: Some(proof)}, nil
 }
 
 func (p PagePostings) Postings() []RWIPosting {

@@ -73,6 +73,28 @@ func positionOfNode(node Node) Position {
 	return node.position
 }
 
+func innerNodeHashOf(left, right [sha256.Size]byte, height uint8) [sha256.Size]byte {
+	if left == emptySubtreeHashes[height-1] && right == emptySubtreeHashes[height-1] {
+		return emptySubtreeHashes[height]
+	}
+	encoding := make([]byte, 0, 1+2*sha256.Size)
+	encoding = append(encoding, innerNodeDomain)
+	encoding = append(encoding, left[:]...)
+
+	return sha256.Sum256(append(encoding, right[:]...))
+}
+
+var emptySubtreeHashes = emptySubtreeHashesByHeight()
+
+func emptySubtreeHashesByHeight() [Depth + 1][sha256.Size]byte {
+	var hashes [Depth + 1][sha256.Size]byte
+	for height := range hashes {
+		hashes[height] = sha256.Sum256([]byte{emptySubtreeDomain, byte(height)})
+	}
+
+	return hashes
+}
+
 func (s Subtree) EntriesAround(keptPositions []Position) []Node {
 	return s.entriesAround(sortedPositionsOf(keptPositions))
 }
@@ -90,10 +112,6 @@ func (s Subtree) entriesAround(keptPositions []Position) []Node {
 	return append(left.entriesAround(keptLeft), right.entriesAround(keptRight)...)
 }
 
-func positionItself(position Position) Position {
-	return position
-}
-
 func (s Subtree) summaryEntries() []Node {
 	hash := s.Hash()
 	if hash == emptySubtreeHashes[s.position.height()] {
@@ -101,4 +119,8 @@ func (s Subtree) summaryEntries() []Node {
 	}
 
 	return []Node{{hash: hash, position: s.position}}
+}
+
+func positionItself(position Position) Position {
+	return position
 }
