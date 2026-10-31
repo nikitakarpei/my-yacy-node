@@ -43,10 +43,18 @@ func FromMetadata(metadata yacymodel.URLMetadata, source Source) Version {
 	}
 }
 
-func FromPostingAlone(postingAlone yacymodel.PostingAlone, source Source) Version {
+func FromPosting(posting yacymodel.RWIPosting, source Source) Version {
 	return Version{
-		fingerprint: pagefingerprint.FromPosting(postingAlone.Posting()),
-		root:        postingAlone.Root(),
+		fingerprint: pagefingerprint.FromPosting(posting),
+		root:        yacymodel.None[yacymodel.PostingsRoot](),
+		source:      source,
+	}
+}
+
+func FromProvenPosting(provenPosting yacymodel.ProvenPosting, source Source) Version {
+	return Version{
+		fingerprint: pagefingerprint.FromPosting(provenPosting.Posting()),
+		root:        yacymodel.Some(provenPosting.Root()),
 		source:      source,
 	}
 }

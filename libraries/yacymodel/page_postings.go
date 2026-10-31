@@ -142,24 +142,11 @@ func (p PagePostings) proofNarrowedTo(keptPostings []RWIPosting) Optional[Postin
 	return Some(proof.narrowedFrom(p.postings, keptPostings))
 }
 
-func (p PagePostings) EachPostingAlone() []PostingAlone {
-	eachAlone := make([]PostingAlone, 0, len(p.postings))
+func (p PagePostings) EachProvenPosting() []ProvenPosting {
 	proof, proven := p.proof.Get()
 	if !proven {
-		for _, posting := range p.postings {
-			eachAlone = append(eachAlone, UnprovenPostingAloneFrom(posting))
-		}
-
-		return eachAlone
-	}
-	root := Some(proof.rootOver(p.postings))
-	for i, postingProof := range proof.proofsPerPostingIn(p.postings) {
-		eachAlone = append(eachAlone, PostingAlone{
-			posting: p.postings[i],
-			proof:   Some(postingProof),
-			root:    root,
-		})
+		return nil
 	}
 
-	return eachAlone
+	return proof.provenPostingsOf(p.postings)
 }

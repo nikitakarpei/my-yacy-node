@@ -26,21 +26,22 @@ type escrowedPosting struct {
 }
 
 type WaitingPosting struct {
-	origin       rwiorigin.Origin
-	postingAlone yacymodel.PostingAlone
-	identity     postingIdentity
+	origin   rwiorigin.Origin
+	posting  yacymodel.RWIPosting
+	proven   yacymodel.Optional[yacymodel.ProvenPosting]
+	identity postingIdentity
 }
 
 func (w WaitingPosting) Origin() rwiorigin.Origin {
 	return w.origin
 }
 
-func (w WaitingPosting) PostingAlone() yacymodel.PostingAlone {
-	return w.postingAlone
+func (w WaitingPosting) Posting() yacymodel.RWIPosting {
+	return w.posting
 }
 
-func (w WaitingPosting) Posting() yacymodel.RWIPosting {
-	return w.postingAlone.Posting()
+func (w WaitingPosting) Proven() yacymodel.Optional[yacymodel.ProvenPosting] {
+	return w.proven
 }
 
 type postingHold struct {
@@ -56,13 +57,33 @@ type PostingEscrow struct {
 	now      func() time.Time
 }
 
-func (e *PostingEscrow) Hold(
+func (e *PostingEscrow) HoldProven(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
-	postingAlone yacymodel.PostingAlone,
+	provenPosting yacymodel.ProvenPosting,
 	version pageversion.Version,
 ) error {
-	posting := postingAlone.Posting()
+	proof := yacymodel.Some(provenPosting.Proof())
+
+	return e.hold(tx, origin, provenPosting.Posting(), proof, version)
+}
+
+func (e *PostingEscrow) HoldUnproven(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+	version pageversion.Version,
+) error {
+	return e.hold(tx, origin, posting, yacymodel.None[yacymodel.PostingsProof](), version)
+}
+
+func (e *PostingEscrow) hold(
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	posting yacymodel.RWIPosting,
+	proof yacymodel.Optional[yacymodel.PostingsProof],
+	version pageversion.Version,
+) error {
 	identity := postingIdentity{
 		Word:    posting.WordHash,
 		URL:     posting.URLHash,
@@ -72,7 +93,7 @@ func (e *PostingEscrow) Hold(
 		HeldAt:  e.now(),
 		Origin:  origin,
 		Posting: posting,
-		Proof:   postingAlone.Proof(),
+		Proof:   proof,
 	})
 	if err != nil {
 		return fmt.Errorf("escrow posting: %w", err)
@@ -113,32 +134,33 @@ func waitingPostingOf(
 	posting.URLHash = identity.URL
 
 	return WaitingPosting{
-		origin:       escrowed.Origin,
-		postingAlone: postingAloneOf(ctx, posting, escrowed.Proof),
-		identity:     identity,
+		origin:   escrowed.Origin,
+		posting:  posting,
+		proven:   provenPostingOf(ctx, posting, escrowed.Proof),
+		identity: identity,
 	}
 }
 
-func postingAloneOf(
+func provenPostingOf(
 	ctx context.Context,
 	posting yacymodel.RWIPosting,
 	proof yacymodel.Optional[yacymodel.PostingsProof],
-) yacymodel.PostingAlone {
+) yacymodel.Optional[yacymodel.ProvenPosting] {
 	escrowedProof, proven := proof.Get()
 	if !proven {
-		return yacymodel.UnprovenPostingAloneFrom(posting)
+		return yacymodel.None[yacymodel.ProvenPosting]()
 	}
-	postingAlone, err := yacymodel.ProvenPostingAloneFrom(posting, escrowedProof)
+	provenPosting, err := yacymodel.ProvenPostingFrom(posting, escrowedProof)
 	if err != nil {
 		slog.WarnContext(ctx, "escrowed proof refused, posting waits without it",
 			slog.String("url", posting.URLHash.String()),
 			slog.Any("error", err),
 		)
 
-		return yacymodel.UnprovenPostingAloneFrom(posting)
+		return yacymodel.None[yacymodel.ProvenPosting]()
 	}
 
-	return postingAlone
+	return yacymodel.Some(provenPosting)
 }
 
 func (e *PostingEscrow) Release(tx *vault.Txn, waiting WaitingPosting) error {
