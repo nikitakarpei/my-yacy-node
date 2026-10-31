@@ -16,13 +16,14 @@ func TransferRWIKey(entryCount int) string {
 }
 
 type TransferRWIRequest struct {
-	NetworkName string
-	Iam         yacymodel.Hash
-	YouAre      yacymodel.Hash
-	WordCount   int
-	EntryCount  int
-	Indexes     []yacymodel.RWIPosting
-	Key         string
+	NetworkName    string
+	Iam            yacymodel.Hash
+	YouAre         yacymodel.Hash
+	WordCount      int
+	EntryCount     int
+	Indexes        []yacymodel.RWIPosting
+	PostingsProofs map[yacymodel.URLHash]yacymodel.PostingsProof
+	Key            string
 }
 
 type TransferRWIResponse struct {
@@ -41,6 +42,11 @@ func (r TransferRWIRequest) Form() url.Values {
 	putInt(form, FieldWordCount, r.WordCount)
 	putInt(form, FieldEntryCount, r.EntryCount)
 	putString(form, FieldIndexes, rwiPostingWireCodec{}.encodeLines(r.Indexes))
+	putString(
+		form,
+		FieldPostingsProofs,
+		postingsProofWireCodec{}.encodeLines(r.PostingsProofs),
+	)
 	putString(form, FieldKey, r.Key)
 
 	return form
@@ -75,6 +81,11 @@ func ParseTransferRWIRequest(ctx context.Context, form url.Values) (TransferRWIR
 	}
 
 	req.Indexes = rwiPostingWireCodec{}.decodeLines(ctx, form.Get(FieldIndexes))
+	req.PostingsProofs = postingsProofWireCodec{}.decodeLinesFor(
+		ctx,
+		form.Get(FieldPostingsProofs),
+		req.Indexes,
+	)
 
 	return req, nil
 }
