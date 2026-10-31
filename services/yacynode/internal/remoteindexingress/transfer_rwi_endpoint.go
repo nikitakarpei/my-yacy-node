@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/remoteindexadmission"
@@ -50,7 +51,7 @@ func (e transferRWIEndpoint) Serve(
 	)
 
 	origin := rwiorigin.Of(httpguard.RemoteAddr(ctx))
-	receipt, err := e.receiver.Receive(ctx, origin, req.Indexes)
+	receipt, err := e.receiver.Receive(ctx, origin, pagePostingsFrom(ctx, req.Indexes))
 	if err != nil {
 		return yacyproto.TransferRWIResponse{}, fmt.Errorf("receive rwi: %w", err)
 	}
@@ -65,6 +66,42 @@ func (e transferRWIEndpoint) Serve(
 	)
 
 	return resp, nil
+}
+
+func pagePostingsFrom(
+	ctx context.Context,
+	postings []yacymodel.RWIPosting,
+) []yacymodel.PagePostings {
+	postingsPerURL, repeatedPostings := yacymodel.PostingsPerURLFrom(postings)
+	for _, posting := range repeatedPostings {
+		reportRepeatedPosting(ctx, posting)
+	}
+	receivedPagePostings := make([]yacymodel.PagePostings, 0, len(postingsPerURL))
+	for _, postingsOfURL := range postingsPerURL {
+		unproven, err := yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
+		if err != nil {
+			reportDroppedPostings(ctx, postingsOfURL[0].URLHash, err)
+
+			continue
+		}
+		receivedPagePostings = append(receivedPagePostings, unproven)
+	}
+
+	return receivedPagePostings
+}
+
+func reportRepeatedPosting(ctx context.Context, posting yacymodel.RWIPosting) {
+	slog.WarnContext(ctx, "transfer rwi repeated posting dropped",
+		slog.String("url", posting.URLHash.String()),
+		slog.String("word", posting.WordHash.String()),
+	)
+}
+
+func reportDroppedPostings(ctx context.Context, url yacymodel.URLHash, err error) {
+	slog.WarnContext(ctx, "transfer rwi postings of a url dropped",
+		slog.String("url", url.String()),
+		slog.Any("error", err),
+	)
 }
 
 func transferRWIResultFrom(

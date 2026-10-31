@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"slices"
 	"time"
 
@@ -49,10 +50,11 @@ type PostingAdmission struct {
 func (a PostingAdmission) Receive(
 	ctx context.Context,
 	origin rwiorigin.Origin,
-	postings []yacymodel.RWIPosting,
+	receivedPagePostings []yacymodel.PagePostings,
 ) (PostingReceipt, error) {
-	if len(postings) > a.postingCap {
-		return a.busyReceiptRefusing(PostingRefusedTooManyPostings, postings), nil
+	amountOfPostings := amountOfPostingsIn(receivedPagePostings)
+	if amountOfPostings > a.postingCap {
+		return a.busyReceiptRefusing(PostingRefusedTooManyPostings, amountOfPostings), nil
 	}
 
 	atCapacity, err := a.vault.AtCapacity(ctx)
@@ -60,7 +62,7 @@ func (a PostingAdmission) Receive(
 		return PostingReceipt{}, fmt.Errorf("check capacity: %w", err)
 	}
 	if atCapacity {
-		return a.busyReceiptRefusing(PostingRefusedStorageFull, postings), nil
+		return a.busyReceiptRefusing(PostingRefusedStorageFull, amountOfPostings), nil
 	}
 	escrowFull, err := a.escrow.IsFull(ctx)
 	if err != nil {
@@ -70,7 +72,7 @@ func (a PostingAdmission) Receive(
 	var awaitedURLs []yacymodel.URLHash
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		urlsOfHeldPostings, err := a.admitEach(ctx, tx, origin, postings)
+		urlsOfHeldPostings, err := a.admitEachPage(ctx, tx, origin, receivedPagePostings)
 		if err != nil {
 			return err
 		}
@@ -82,10 +84,10 @@ func (a PostingAdmission) Receive(
 		return nil
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
-		return a.busyReceiptRefusing(PostingRefusedStorageFull, postings), nil
+		return a.busyReceiptRefusing(PostingRefusedStorageFull, amountOfPostings), nil
 	}
 	if errors.Is(err, errEscrowFull) {
-		return a.busyReceiptRefusing(PostingRefusedEscrowFull, postings), nil
+		return a.busyReceiptRefusing(PostingRefusedEscrowFull, amountOfPostings), nil
 	}
 	if err != nil {
 		return PostingReceipt{}, fmt.Errorf("receive rwi: %w", err)
@@ -94,54 +96,63 @@ func (a PostingAdmission) Receive(
 	return PostingReceipt{UnknownURL: awaitedURLs}, nil
 }
 
+func amountOfPostingsIn(receivedPagePostings []yacymodel.PagePostings) int {
+	amountOfPostings := 0
+	for _, pagePostings := range receivedPagePostings {
+		amountOfPostings += pagePostings.AmountOfPostings()
+	}
+
+	return amountOfPostings
+}
+
 func (a PostingAdmission) busyReceiptRefusing(
 	outcome PostingOutcome,
-	postings []yacymodel.RWIPosting,
+	amountOfPostings int,
 ) PostingReceipt {
-	a.observer.ObserveReceivedPostings(outcome, len(postings))
+	a.observer.ObserveReceivedPostings(outcome, amountOfPostings)
 
 	return PostingReceipt{Busy: true, Pause: a.pause}
 }
 
-func (a PostingAdmission) admitEach(
+func (a PostingAdmission) admitEachPage(
 	ctx context.Context,
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
-	postings []yacymodel.RWIPosting,
+	receivedPagePostings []yacymodel.PagePostings,
 ) ([]yacymodel.URLHash, error) {
-	storedVersions, err := a.urls.VersionsOf(tx, referencedURLsOf(postings))
+	storedVersions, err := a.urls.VersionsOf(tx, urlsOf(receivedPagePostings))
 	if err != nil {
 		return nil, fmt.Errorf("stored versions of urls: %w", err)
 	}
 	var urlsOfHeldPostings []yacymodel.URLHash
-	for _, posting := range postings {
+	for _, pagePostings := range receivedPagePostings {
 		if err := ctx.Err(); err != nil {
 			return nil, fmt.Errorf("context: %w", err)
 		}
-		outcome, err := a.admit(
+		url := pagePostings.URL()
+		somePostingsHeld, err := a.admitPage(
+			ctx,
 			tx,
 			origin,
-			posting,
-			storedVersionOf(storedVersions, posting.URLHash),
+			pagePostings,
+			storedVersionOf(storedVersions, url),
 		)
 		if err != nil {
 			return nil, err
 		}
-		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
-		if outcome == PostingHeldForURLMetadata &&
-			!slices.Contains(urlsOfHeldPostings, posting.URLHash) {
-			urlsOfHeldPostings = append(urlsOfHeldPostings, posting.URLHash)
+		if somePostingsHeld && !slices.Contains(urlsOfHeldPostings, url) {
+			urlsOfHeldPostings = append(urlsOfHeldPostings, url)
 		}
 	}
 
 	return urlsOfHeldPostings, nil
 }
 
-func referencedURLsOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
-	urls := make([]yacymodel.URLHash, 0, len(postings))
-	for _, posting := range postings {
-		if !slices.Contains(urls, posting.URLHash) {
-			urls = append(urls, posting.URLHash)
+func urlsOf(receivedPagePostings []yacymodel.PagePostings) []yacymodel.URLHash {
+	urls := make([]yacymodel.URLHash, 0, len(receivedPagePostings))
+	for _, pagePostings := range receivedPagePostings {
+		if !slices.Contains(urls, pagePostings.URL()) {
+			urls = append(urls, pagePostings.URL())
 		}
 	}
 
@@ -158,6 +169,54 @@ func storedVersionOf(
 	}
 
 	return yacymodel.Some(version)
+}
+
+func (a PostingAdmission) admitPage(
+	ctx context.Context,
+	tx *vault.Txn,
+	origin rwiorigin.Origin,
+	pagePostings yacymodel.PagePostings,
+	storedVersion yacymodel.Optional[pageversion.Version],
+) (somePostingsHeld bool, err error) {
+	var passedPostings []yacymodel.RWIPosting
+	for _, posting := range pagePostings.Postings() {
+		outcome, err := a.admit(tx, origin, posting, storedVersion)
+		if err != nil {
+			return false, err
+		}
+		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
+		somePostingsHeld = somePostingsHeld || outcome == PostingHeldForURLMetadata
+		if outcome == PostingIndexed {
+			passedPostings = append(passedPostings, posting)
+		}
+	}
+
+	return somePostingsHeld, a.indexPassedPostings(ctx, tx, pagePostings, passedPostings)
+}
+
+func (a PostingAdmission) indexPassedPostings(
+	ctx context.Context,
+	tx *vault.Txn,
+	pagePostings yacymodel.PagePostings,
+	passedPostings []yacymodel.RWIPosting,
+) error {
+	if len(passedPostings) == 0 {
+		return nil
+	}
+	passedPagePostings, present := pagePostings.NarrowedTo(passedPostings).Get()
+	if !present {
+		reportUnnarrowedPassedPostings(ctx, pagePostings.URL())
+
+		return nil
+	}
+
+	return a.placer.index(tx, passedPagePostings)
+}
+
+func reportUnnarrowedPassedPostings(ctx context.Context, url yacymodel.URLHash) {
+	slog.ErrorContext(ctx, "postings of a url passed admission outside their page postings",
+		slog.String("url", url.String()),
+	)
 }
 
 func (a PostingAdmission) admit(
@@ -177,7 +236,7 @@ func (a PostingAdmission) admit(
 		return a.hold(tx, origin, posting)
 	}
 
-	return a.placer.place(tx, posting, arrivedVersion, version)
+	return a.placer.placementOf(tx, posting, arrivedVersion, version)
 }
 
 func (a PostingAdmission) hold(

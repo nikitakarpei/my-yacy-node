@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 type fakeWriter struct {
@@ -14,11 +15,11 @@ type fakeWriter struct {
 	err     error
 }
 
-func (f *fakeWriter) Write(_ *vault.Txn, postings ...yacymodel.RWIPosting) error {
+func (f *fakeWriter) Write(_ *vault.Txn, pagePostings yacymodel.PagePostings) error {
 	if f.err != nil {
 		return f.err
 	}
-	f.written = append(f.written, postings...)
+	f.written = append(f.written, pagePostings.Postings()...)
 
 	return nil
 }
@@ -27,9 +28,11 @@ func TestSchedulingWriterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	h := openHarness(t)
 	wrapped := &fakeWriter{}
 	writer := h.schedule.WriterFrom(wrapped, &recordingAdmissionObserver{})
-	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
+	posting := postingOfWord(t, "word")
 
-	h.write(t, func(tx *vault.Txn) error { return writer.Write(tx, posting) })
+	h.write(t, func(tx *vault.Txn) error {
+		return writer.Write(tx, unprovenPagePostingsOf(t, posting))
+	})
 	h.scheduleAdmissionsWithin(t, wholeRing)
 
 	if len(wrapped.written) != 1 || wrapped.written[0] != posting {
@@ -41,16 +44,35 @@ func TestSchedulingWriterStoresThePostingAndCountsItsAdmission(t *testing.T) {
 	}
 }
 
+func postingOfWord(t *testing.T, word string) yacymodel.RWIPosting {
+	t.Helper()
+
+	return yacymodel.RWIPosting{
+		WordHash: yacymodel.WordHash(word),
+		URLHash:  urlhashtest.URLHashOf(t, "https://example.org/"),
+	}
+}
+
 func TestSchedulingWriterCountsEachPostingWrittenAtOnce(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
 	postings := []yacymodel.RWIPosting{
-		{WordHash: yacymodel.WordHash("first")},
-		{WordHash: yacymodel.WordHash("second")},
+		postingOfWord(t, "first"),
+		postingOfWord(t, "second"),
 	}
 
-	h.write(t, func(tx *vault.Txn) error { return writer.Write(tx, postings...) })
+	h.write(
+		t,
+		func(tx *vault.Txn) error {
+			pagePostings, err := yacymodel.UnprovenPagePostingsFrom(postings)
+			if err != nil {
+				return err
+			}
+
+			return writer.Write(tx, pagePostings)
+		},
+	)
 	h.scheduleAdmissionsWithin(t, wholeRing)
 
 	if len(observer.positions) != len(postings) {
@@ -70,7 +92,10 @@ func TestSchedulingWriterReturnsWrappedErrorAndCountsNothing(t *testing.T) {
 	)
 
 	err := h.vault.Update(t.Context(), func(tx *vault.Txn) error {
-		return writer.Write(tx, yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")})
+		return writer.Write(
+			tx,
+			unprovenPagePostingsOf(t, postingOfWord(t, "word")),
+		)
 	})
 	h.scheduleAdmissionsWithin(t, wholeRing)
 
@@ -94,11 +119,14 @@ func TestSchedulingWriterReportsThePositionOnlyAfterCommit(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
-	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
+	posting := postingOfWord(t, "word")
 	var reportedInside int
 
 	h.write(t, func(tx *vault.Txn) error {
-		if err := writer.Write(tx, posting); err != nil {
+		if err := writer.Write(
+			tx,
+			unprovenPagePostingsOf(t, posting),
+		); err != nil {
 			return err
 		}
 		reportedInside = len(observer.positions)
@@ -122,10 +150,14 @@ func TestSchedulingWriterReportsEveryWrittenPosting(t *testing.T) {
 	h := openHarness(t)
 	observer := &recordingAdmissionObserver{}
 	writer := h.schedule.WriterFrom(&fakeWriter{}, observer)
-	posting := yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")}
-	h.write(t, func(tx *vault.Txn) error { return writer.Write(tx, posting) })
+	posting := postingOfWord(t, "word")
+	h.write(t, func(tx *vault.Txn) error {
+		return writer.Write(tx, unprovenPagePostingsOf(t, posting))
+	})
 
-	h.write(t, func(tx *vault.Txn) error { return writer.Write(tx, posting) })
+	h.write(t, func(tx *vault.Txn) error {
+		return writer.Write(tx, unprovenPagePostingsOf(t, posting))
+	})
 
 	if len(observer.positions) != 2 {
 		t.Fatalf("reported positions = %v, want two", observer.positions)
@@ -141,7 +173,7 @@ func TestSchedulingWriterReportsNothingWhenTheTransactionFails(t *testing.T) {
 	err := h.vault.Update(t.Context(), func(tx *vault.Txn) error {
 		if err := writer.Write(
 			tx,
-			yacymodel.RWIPosting{WordHash: yacymodel.WordHash("word")},
+			unprovenPagePostingsOf(t, postingOfWord(t, "word")),
 		); err != nil {
 			return err
 		}

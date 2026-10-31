@@ -218,22 +218,64 @@ func (c *Collection[K, V]) DeleteReturning(
 }
 
 func (c *Collection[K, V]) DeleteWithin(tx *Txn, keys KeyRange) (amountOfDeleted int, err error) {
+	err = c.deleteRecordsWithin(tx, keys, func(key K, record []byte) error {
+		amountOfDeleted++
+		if err := c.projections.recordRemoved(tx, key, record); err != nil {
+			return fmt.Errorf("delete %s: %w", c.name, err)
+		}
+
+		return nil
+	})
+	if err != nil {
+		return 0, err
+	}
+
+	return amountOfDeleted, nil
+}
+
+func (c *Collection[K, V]) DeleteWithinVisiting(
+	tx *Txn,
+	keys KeyRange,
+	visit func(K, V) error,
+) error {
+	return c.deleteRecordsWithin(tx, keys, func(key K, record []byte) error {
+		removed, err := c.codec.storedValueFrom(record)
+		if err != nil {
+			return fmt.Errorf("delete %s: %w", c.name, err)
+		}
+		if err := c.projections.valueRemoved(tx, key, removed); err != nil {
+			return fmt.Errorf("delete %s: %w", c.name, err)
+		}
+
+		return visit(key, removed.value)
+	})
+}
+
+func (c *Collection[K, V]) deleteRecordsWithin(
+	tx *Txn,
+	keys KeyRange,
+	deleted func(key K, record []byte) error,
+) error {
 	if !tx.etx.Writable() {
-		return 0, errReadOnly
+		return errReadOnly
 	}
 	tx.calledWriteOperation = true
 
 	storedRecords, err := c.storedRecordsWithin(tx, keys)
 	if err != nil {
-		return 0, err
+		return err
 	}
 	for _, stored := range storedRecords {
-		if err := c.deleteStored(tx, stored); err != nil {
-			return 0, err
+		key, err := c.deleteStored(tx, stored)
+		if err != nil {
+			return err
+		}
+		if err := deleted(key, stored.record); err != nil {
+			return err
 		}
 	}
 
-	return len(storedRecords), nil
+	return nil
 }
 
 type storedRecord struct {
@@ -257,19 +299,18 @@ func (c *Collection[K, V]) storedRecordsWithin(tx *Txn, keys KeyRange) ([]stored
 	return storedRecords, nil
 }
 
-func (c *Collection[K, V]) deleteStored(tx *Txn, stored storedRecord) error {
+func (c *Collection[K, V]) deleteStored(tx *Txn, stored storedRecord) (K, error) {
+	var zero K
+
 	key, err := c.codec.keyFrom(stored.key)
 	if err != nil {
-		return fmt.Errorf("delete %s: %w", c.name, err)
+		return zero, fmt.Errorf("delete %s: %w", c.name, err)
 	}
 	if err := tx.etx.Records(c.name).DeleteHeld(stored.key, stored.record); err != nil {
-		return fmt.Errorf("delete %s: %w", c.name, err)
-	}
-	if err := c.projections.recordRemoved(tx, key, stored.record); err != nil {
-		return fmt.Errorf("delete %s: %w", c.name, err)
+		return zero, fmt.Errorf("delete %s: %w", c.name, err)
 	}
 
-	return nil
+	return key, nil
 }
 
 func (c *Collection[K, V]) Scan(
