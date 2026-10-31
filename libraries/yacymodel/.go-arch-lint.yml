@@ -12,6 +12,9 @@ components:
   peerkeytest:
     in:
       - peerkeytest/**
+  urlhashtest:
+    in:
+      - urlhashtest/**
 
 vendors:
   circl:
@@ -23,6 +26,9 @@ deps:
     canUse:
       - circl
   peerkeytest:
+    mayDependOn:
+      - yacymodel
+  urlhashtest:
     mayDependOn:
       - yacymodel
 

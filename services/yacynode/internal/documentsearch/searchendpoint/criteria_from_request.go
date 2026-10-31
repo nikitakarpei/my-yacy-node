@@ -118,7 +118,7 @@ func hostHashOfSite(site string) (yacymodel.HostHash, error) {
 		return yacymodel.HostHash{}, fmt.Errorf("site %q names no host", site)
 	}
 
-	return yacymodel.URLNormalformOf(address).HostHash(), nil
+	return yacymodel.URLHashOf(address).HostHash(), nil
 }
 
 func resultCountFromRequest(req yacyproto.SearchRequest) int {

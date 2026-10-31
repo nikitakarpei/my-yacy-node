@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 func findingsOfDocumentsAt(t *testing.T, addresses ...string) queryfindings.Findings {
@@ -13,7 +14,7 @@ func findingsOfDocumentsAt(t *testing.T, addresses ...string) queryfindings.Find
 	findings := queryfindings.Findings{}
 	for _, address := range addresses {
 		findings.FoundDocuments = append(findings.FoundDocuments, queryfindings.FoundDocumentOf(
-			documentOf(t, address),
+			urlhashtest.URLHashOf(t, address),
 			[]queryfindings.MetadataReplica{{Metadata: yacymodel.URLMetadata{Address: address}}},
 			[]queryfindings.PostingReplica{replicaOfCountedWord(1, 1, 0)},
 		))
@@ -30,7 +31,7 @@ func TestFindingsWithoutDocumentKeepEveryOtherDocumentInOrder(t *testing.T) {
 	)
 
 	left := findings.WithoutDocuments(
-		map[yacymodel.URLHash]struct{}{documentOf(t, "https://gone.example/"): {}},
+		map[yacymodel.URLHash]struct{}{urlhashtest.URLHashOf(t, "https://gone.example/"): {}},
 	)
 
 	if len(left.FoundDocuments) != 2 ||
@@ -49,8 +50,8 @@ func TestFindingsWithoutEveryDocumentNamedHoldNone(t *testing.T) {
 	findings := findingsOfDocumentsAt(t, "https://first.example/", "https://gone.example/")
 
 	left := findings.WithoutDocuments(map[yacymodel.URLHash]struct{}{
-		documentOf(t, "https://first.example/"): {},
-		documentOf(t, "https://gone.example/"):  {},
+		urlhashtest.URLHashOf(t, "https://first.example/"): {},
+		urlhashtest.URLHashOf(t, "https://gone.example/"):  {},
 	})
 
 	if len(left.FoundDocuments) != 0 {

@@ -32,6 +32,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -154,10 +155,7 @@ func peerHolding(t *testing.T, addresses ...string) string {
 
 	metadataOfEachDocument := make([]yacymodel.URLMetadata, 0, len(addresses))
 	for _, address := range addresses {
-		hash, err := yacymodel.URLHashOf(address)
-		if err != nil {
-			t.Fatalf("URLHashOf(%q): %v", address, err)
-		}
+		hash := urlhashtest.URLHashOf(t, address)
 		metadataOfEachDocument = append(
 			metadataOfEachDocument,
 			yacymodel.URLMetadata{Hash: hash, Address: address, Title: "Weather"},
@@ -414,10 +412,7 @@ func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 func TestARankedItemCarriesWhatThePeerReportedOfItsDocument(t *testing.T) {
 	t.Parallel()
 
-	hash, err := yacymodel.URLHashOf("https://a.example/weather")
-	if err != nil {
-		t.Fatalf("URLHashOf: %v", err)
-	}
+	hash := urlhashtest.URLHashOf(t, "https://a.example/weather")
 	modified := yacymodel.NewCalendarDay(2026, time.March, 4)
 	directory := directoryAnsweringAt(t, peerHoldingTheMetadata(t, yacymodel.URLMetadata{
 		Hash:           hash,
@@ -567,8 +562,8 @@ func (s spreadFinding) SpreadOverPeers(
 func findingsOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadFinding {
 	t.Helper()
 
-	commonWordDocument := documentOf(t, commonWordAddress)
-	rareWordDocument := documentOf(t, rareWordAddress)
+	commonWordDocument := urlhashtest.URLHashOf(t, commonWordAddress)
+	rareWordDocument := urlhashtest.URLHashOf(t, rareWordAddress)
 
 	return spreadFinding{findings: queryfindings.Findings{
 		QueryWords: []yacymodel.Hash{
@@ -591,17 +586,6 @@ func findingsOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string)
 			yacymodel.WordHash("kelondro"): 10,
 		},
 	}}
-}
-
-func documentOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return hash
 }
 
 func oneHitOfTheWord(word string) queryfindings.DocumentFacts {
@@ -775,7 +759,7 @@ func TestNoMorePagesOfOneSiteAreReadThanItsShare(t *testing.T) {
 	foundDocuments := make([]queryfindings.FoundDocument, 0, len(addresses))
 	for _, address := range addresses {
 		foundDocuments = append(foundDocuments, queryfindings.FoundDocument{
-			Hash:    documentOf(t, address),
+			Hash:    urlhashtest.URLHashOf(t, address),
 			Address: address,
 			Facts:   oneHitOfTheWord("berlin"),
 		})
@@ -969,10 +953,7 @@ func TestTheQuerySpreadAndThePagesShareTheWholeQueryBudget(t *testing.T) {
 func peerListingTheAddressForEachWord(t *testing.T, address string, words ...string) string {
 	t.Helper()
 
-	documentHash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	documentHash := urlhashtest.URLHashOf(t, address)
 	documentsPerWord := make(map[yacymodel.Hash]yacymodel.URLHashes, len(words))
 	documentsHeldPerWord := make(map[yacymodel.Hash]int, len(words))
 	for _, word := range words {

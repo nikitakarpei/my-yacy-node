@@ -78,7 +78,7 @@ func metadataOf(
 	pageURL := scrapedPage.PageURL
 
 	return yacymodel.URLMetadata{
-		Hash:          yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash(),
+		Hash:          yacymodel.URLHashOf(pageURL.WebAddress()),
 		Address:       pageURL.String(),
 		Title:         document.Title,
 		Modified:      yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),

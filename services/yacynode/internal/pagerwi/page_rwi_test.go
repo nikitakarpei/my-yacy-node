@@ -1,7 +1,6 @@
 package pagerwi_test
 
 import (
-	"net/url"
 	"strings"
 	"testing"
 	"time"
@@ -10,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
 
@@ -67,7 +67,7 @@ func TestOfProducesPostingsCarryingTheURLHash(t *testing.T) {
 	if len(index.Postings) == 0 {
 		t.Fatal("no postings")
 	}
-	urlHash := hashOfPageURL(t)
+	urlHash := urlhashtest.URLHashOf(t, pageURL)
 	for _, posting := range index.Postings {
 		if posting.URLHash != urlHash {
 			t.Fatalf("posting url hash = %q, want %q", posting.URLHash, urlHash)
@@ -100,7 +100,7 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	document := extractedDocument()
 	metadata := indexOf(t, sampleText).Metadata
 
-	if want := hashOfPageURL(t); metadata.Hash != want {
+	if want := urlhashtest.URLHashOf(t, pageURL); metadata.Hash != want {
 		t.Fatalf("metadata url hash = %q, want %q", metadata.Hash, want)
 	}
 	if metadata.Title != document.Title {
@@ -313,17 +313,6 @@ func assertWordIndexed(t *testing.T, text string, word string) {
 		}
 	}
 	t.Fatalf("word %q should be indexed", word)
-}
-
-func hashOfPageURL(t *testing.T) yacymodel.URLHash {
-	t.Helper()
-
-	pageAddress, err := url.Parse(pageURL)
-	if err != nil {
-		t.Fatalf("parse page url: %v", err)
-	}
-
-	return yacymodel.URLNormalformOf(pageAddress).Hash()
 }
 
 func indexOfPageModifiedAt(t *testing.T, modifiedAt time.Time) pagerwi.PageRWI {

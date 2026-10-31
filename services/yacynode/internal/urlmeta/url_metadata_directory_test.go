@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiorigin"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -32,18 +33,7 @@ func urlMetadata(t *testing.T, seed string) yacymodel.URLMetadata {
 
 	address := "http://example.com/" + seed
 
-	return yacymodel.URLMetadata{Hash: urlHashOf(t, address), Address: address}
-}
-
-func urlHashOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return hash
+	return yacymodel.URLMetadata{Hash: urlhashtest.URLHashOf(t, address), Address: address}
 }
 
 func writeAll(t *testing.T, v *vault.Vault, module urlPorts, metadata ...yacymodel.URLMetadata) {
@@ -97,7 +87,7 @@ func TestWrittenMetadataReadsBackByItsHash(t *testing.T) {
 		t,
 		v,
 		module.Directory,
-		[]yacymodel.URLHash{row.Hash, urlHashOf(t, "http://example.com/absent")},
+		[]yacymodel.URLHash{row.Hash, urlhashtest.URLHashOf(t, "http://example.com/absent")},
 	)
 	if len(rows) != 1 || rows[row.Hash].Hash != row.Hash ||
 		storedURLCount(t, v, module.Directory) != 1 {

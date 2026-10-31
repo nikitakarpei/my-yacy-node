@@ -8,18 +8,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined/documentholders"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordpartitionasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
-
-func documentHashOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("%q has no document hash: %v", address, err)
-	}
-
-	return hash
-}
 
 func answerOf(peerAddress string, documents ...yacymodel.URLHash) wordpartitionasks.ReplicaAnswer {
 	answer := wordpartitionasks.ReplicaAnswer{
@@ -43,8 +33,8 @@ func listingsAnswered(answers ...wordpartitionasks.ReplicaAnswer) *documentholde
 func TestTheDocumentFewerPeersHoldComesFirst(t *testing.T) {
 	t.Parallel()
 
-	heldByOne := documentHashOf(t, "https://held-by-one.example/")
-	heldByTwo := documentHashOf(t, "https://held-by-two.example/")
+	heldByOne := urlhashtest.URLHashOf(t, "https://held-by-one.example/")
+	heldByTwo := urlhashtest.URLHashOf(t, "https://held-by-two.example/")
 	holders := listingsAnswered(
 		answerOf("first", heldByTwo, heldByOne),
 		answerOf("second", heldByTwo),
@@ -60,8 +50,8 @@ func TestTheDocumentFewerPeersHoldComesFirst(t *testing.T) {
 func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 	t.Parallel()
 
-	first := documentHashOf(t, "https://first.example/")
-	second := documentHashOf(t, "https://second.example/")
+	first := urlhashtest.URLHashOf(t, "https://first.example/")
+	second := urlhashtest.URLHashOf(t, "https://second.example/")
 	holders := listingsAnswered(answerOf("peer", first, second)).
 		HoldersOf(yacymodel.URLHashesFrom(first, second))
 
@@ -78,8 +68,8 @@ func TestDocumentsAsManyPeersHoldComeInTheirHashOrder(t *testing.T) {
 func TestThePeersHoldingADocumentAreThePeersThatListedIt(t *testing.T) {
 	t.Parallel()
 
-	listed := documentHashOf(t, "https://listed.example/")
-	other := documentHashOf(t, "https://other.example/")
+	listed := urlhashtest.URLHashOf(t, "https://listed.example/")
+	other := urlhashtest.URLHashOf(t, "https://other.example/")
 	holders := listingsAnswered(
 		answerOf("first", listed),
 		answerOf("second", other),
@@ -107,9 +97,9 @@ func sortedAddressesOf(peers []peerdirectory.AskablePeer) []string {
 func TestThePeersOfSomeDocumentsAreThePeersThatListedOneOfThem(t *testing.T) {
 	t.Parallel()
 
-	listed := documentHashOf(t, "https://listed.example/")
-	unlisted := documentHashOf(t, "https://unlisted.example/")
-	other := documentHashOf(t, "https://other.example/")
+	listed := urlhashtest.URLHashOf(t, "https://listed.example/")
+	unlisted := urlhashtest.URLHashOf(t, "https://unlisted.example/")
+	other := urlhashtest.URLHashOf(t, "https://other.example/")
 	holders := listingsAnswered(
 		answerOf("first", listed, other),
 		answerOf("second", listed),

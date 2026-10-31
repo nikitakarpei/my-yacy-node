@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"net/url"
 	"slices"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
@@ -55,7 +55,7 @@ func searchFixtureFor(
 	postings := make([]yacymodel.RWIPosting, 0, len(documents))
 	stored := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(documents))
 	for _, document := range documents {
-		hash := urlHashOf(t, document.Address)
+		hash := urlhashtest.URLHashOf(t, document.Address)
 		postings = append(postings, yacymodel.RWIPosting{
 			WordHash:   word,
 			URLHash:    hash,
@@ -70,23 +70,6 @@ func searchFixtureFor(
 			Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{word: postings},
 		},
 		searchtest.URLDirectory{Documents: stored}
-}
-
-func urlHashOf(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	return yacymodel.URLNormalformOf(parsedAddress(t, address)).Hash()
-}
-
-func parsedAddress(t *testing.T, address string) *url.URL {
-	t.Helper()
-
-	parsed, err := url.Parse(address)
-	if err != nil {
-		t.Fatalf("parse %q: %v", address, err)
-	}
-
-	return parsed
 }
 
 func languageIn(t *testing.T, document searchDocument) yacymodel.Language {
@@ -147,7 +130,7 @@ func TestSiteFilterFollowsTheFieldPrecedence(t *testing.T) {
 		options yacyproto.SearchRequest
 	}{
 		{"site hash before the operator and the host", yacyproto.SearchRequest{
-			SiteHash: hostHashOf(t, chosenSite).String(),
+			SiteHash: urlhashtest.URLHashOf(t, chosenSite).HostHash().String(),
 			Modifier: "site:other.example",
 			SiteHost: "other.example",
 		}},
@@ -163,12 +146,6 @@ func TestSiteFilterFollowsTheFieldPrecedence(t *testing.T) {
 			assertDocuments(t, resp, chosenSite)
 		})
 	}
-}
-
-func hostHashOf(t *testing.T, address string) yacymodel.HostHash {
-	t.Helper()
-
-	return yacymodel.URLNormalformOf(parsedAddress(t, address)).HostHash()
 }
 
 func TestSiteHostIsNormalizedBeforeItIsHashed(t *testing.T) {

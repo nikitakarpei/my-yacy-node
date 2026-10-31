@@ -2,13 +2,13 @@ package urlpostingpurge_test
 
 import (
 	"context"
-	"net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
@@ -85,12 +85,7 @@ func openHarness(t *testing.T) harness {
 func urlHash(t *testing.T, seed string) yacymodel.URLHash {
 	t.Helper()
 
-	address, err := url.Parse("http://example.com/" + seed)
-	if err != nil {
-		t.Fatalf("url.Parse: %v", err)
-	}
-
-	return yacymodel.URLNormalformOf(address).Hash()
+	return urlhashtest.URLHashOf(t, "http://example.com/"+seed)
 }
 
 func (h harness) storeMetadata(t *testing.T, seed string) yacymodel.URLHash {

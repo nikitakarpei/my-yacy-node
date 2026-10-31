@@ -4,6 +4,7 @@ package e2e
 
 import (
 	"context"
+	"net/url"
 	"testing"
 	"time"
 
@@ -31,12 +32,12 @@ var (
 )
 
 func mustURLHash(address string) yacymodel.URLHash {
-	hash, err := yacymodel.URLHashOf(address)
+	webAddress, err := url.Parse(address)
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLHashOf(webAddress)
 }
 
 func mustHash(raw string) yacymodel.Hash {

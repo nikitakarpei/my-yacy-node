@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const countedWord = "berlin"
@@ -23,7 +24,7 @@ func foundDocumentOfMetadata(
 	}
 
 	return queryfindings.FoundDocumentOf(
-		documentOf(t, "https://example.org/"),
+		urlhashtest.URLHashOf(t, "https://example.org/"),
 		metadataReplicas,
 		nil,
 	)
@@ -50,7 +51,7 @@ func factsOfDocumentOf(
 	t.Helper()
 
 	return queryfindings.FoundDocumentOf(
-		documentOf(t, "https://berlin.example/"), nil, replicas,
+		urlhashtest.URLHashOf(t, "https://berlin.example/"), nil, replicas,
 	).Facts
 }
 
@@ -131,7 +132,7 @@ func TestFoundDocumentLeavesPublicationDayUnsetWhenThePeerNamedNone(t *testing.T
 func TestFoundDocumentKeepsNameItWasFoundUnder(t *testing.T) {
 	t.Parallel()
 
-	named := documentOf(t, "https://example.org/")
+	named := urlhashtest.URLHashOf(t, "https://example.org/")
 	foundDocument := foundDocumentOfMetadata(
 		t, yacymodel.URLMetadata{Address: "https://example.org/somewhere-else"},
 	)

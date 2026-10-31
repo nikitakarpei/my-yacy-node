@@ -5,10 +5,11 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 func TestURLHashIsAParseableTwelveSymbolHash(t *testing.T) {
-	hash := hashOfAddress(t, "http://example.com/path?q=1")
+	hash := urlhashtest.URLHashOf(t, "http://example.com/path?q=1")
 	if len(hash.String()) != yacymodel.HashLength {
 		t.Fatalf("url hash length = %d, want %d", len(hash.String()), yacymodel.HashLength)
 	}
@@ -18,7 +19,7 @@ func TestURLHashIsAParseableTwelveSymbolHash(t *testing.T) {
 }
 
 func TestURLHashBytesRoundTripThroughParseURLHashBytes(t *testing.T) {
-	hash := hashOfAddress(t, "http://example.com/path?q=1")
+	hash := urlhashtest.URLHashOf(t, "http://example.com/path?q=1")
 
 	parsed, err := yacymodel.ParseURLHashBytes(hash.Bytes())
 	if err != nil {
@@ -37,15 +38,9 @@ func TestParseURLHashBytesRejectsAnotherLength(t *testing.T) {
 	}
 }
 
-func TestURLHashOfRefusesAnAddressThatIsNotOne(t *testing.T) {
-	if _, err := yacymodel.URLHashOf("://"); err == nil {
-		t.Error("URLHashOf accepted an address that is not a URL")
-	}
-}
-
 func TestURLHashIsDeterministic(t *testing.T) {
-	first := hashOfAddress(t, "http://example.com/")
-	second := hashOfAddress(t, "http://example.com/")
+	first := urlhashtest.URLHashOf(t, "http://example.com/")
+	second := urlhashtest.URLHashOf(t, "http://example.com/")
 	if first != second {
 		t.Errorf("url hash must be deterministic: %q then %q", first, second)
 	}
@@ -56,7 +51,7 @@ func TestURLHashMatchesRealYaCyForSpecialUseTLD(t *testing.T) {
 		address = "http://transfer.example.invalid/doc-150.txt"
 		want    = "TULSZfg4-80c"
 	)
-	if got := hashOfAddress(t, address); got.String() != want {
+	if got := urlhashtest.URLHashOf(t, address); got.String() != want {
 		t.Errorf("hash of %q = %q, want %q", address, got, want)
 	}
 }
@@ -87,54 +82,48 @@ func TestURLHashEncodingIsFrozen(t *testing.T) {
 		"http://bücher.de/":             "0Vuap7fMfOoC",
 	}
 	for address, want := range cases {
-		if got := hashOfAddress(t, address); got.String() != want {
+		if got := urlhashtest.URLHashOf(t, address); got.String() != want {
 			t.Errorf("hash of %q = %q, want %q", address, got, want)
 		}
 	}
 }
 
 func TestURLHashIgnoresTheHostCase(t *testing.T) {
-	lower := hashOfAddress(t, "http://example.com/Path")
-	mixed := hashOfAddress(t, "http://Example.COM/Path")
+	lower := urlhashtest.URLHashOf(t, "http://example.com/Path")
+	mixed := urlhashtest.URLHashOf(t, "http://Example.COM/Path")
 	if lower != mixed {
 		t.Errorf("a mixed-case host must not change the url hash: %q vs %q", mixed, lower)
 	}
 }
 
 func TestURLHashDistinguishesPathsOnOneHost(t *testing.T) {
-	first := hashOfAddress(t, "http://example.com/one")
-	second := hashOfAddress(t, "http://example.com/two")
+	first := urlhashtest.URLHashOf(t, "http://example.com/one")
+	second := urlhashtest.URLHashOf(t, "http://example.com/two")
 	if first == second {
 		t.Errorf("different paths must yield different url hashes, both %q", first)
 	}
 }
 
 func TestURLHashDistinguishesASubdomain(t *testing.T) {
-	bare := hashOfAddress(t, "http://example.com/")
-	sub := hashOfAddress(t, "http://www.example.com/")
+	bare := urlhashtest.URLHashOf(t, "http://example.com/")
+	sub := urlhashtest.URLHashOf(t, "http://www.example.com/")
 	if bare == sub {
 		t.Errorf("a subdomain must change the url hash, both %q", bare)
 	}
 }
 
 func TestURLHashIgnoresDotSegments(t *testing.T) {
-	dotted := hashOfAddress(t, "http://example.com/a/b/../c")
-	resolved := hashOfAddress(t, "http://example.com/a/c")
+	dotted := urlhashtest.URLHashOf(t, "http://example.com/a/b/../c")
+	resolved := urlhashtest.URLHashOf(t, "http://example.com/a/c")
 	if dotted != resolved {
 		t.Errorf("dot-segment url hash %q must equal resolved %q", dotted, resolved)
 	}
 }
 
 func TestURLHashUsesThePunycodeHost(t *testing.T) {
-	unicode := hashOfAddress(t, "http://bücher.example/")
-	ascii := hashOfAddress(t, "http://xn--bcher-kva.example/")
+	unicode := urlhashtest.URLHashOf(t, "http://bücher.example/")
+	ascii := urlhashtest.URLHashOf(t, "http://xn--bcher-kva.example/")
 	if unicode != ascii {
 		t.Errorf("idn url hash %q must equal punycode form %q", unicode, ascii)
 	}
-}
-
-func hashOfAddress(t *testing.T, raw string) yacymodel.URLHash {
-	t.Helper()
-
-	return normalformOfAddress(t, raw).Hash()
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 const (
@@ -96,7 +97,7 @@ func findingsOfTheAddress(t *testing.T, address string) queryfindings.Findings {
 	return queryfindings.Findings{
 		QueryWords: []yacymodel.Hash{yacymodel.WordHash("berlin")},
 		FoundDocuments: []queryfindings.FoundDocument{{
-			Hash:    documentOf(t, address),
+			Hash:    urlhashtest.URLHashOf(t, address),
 			Address: address,
 			Facts:   oneHitOfTheWord("berlin"),
 		}},

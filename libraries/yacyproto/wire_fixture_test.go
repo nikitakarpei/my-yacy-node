@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -99,10 +100,7 @@ func sampleURLMetadata(tb testing.TB, urlWord string) yacymodel.URLMetadata {
 	tb.Helper()
 
 	address := "https://example.org/" + urlWord
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		tb.Fatalf("url hash: %v", err)
-	}
+	hash := urlhashtest.URLHashOf(tb, address)
 
 	return yacymodel.URLMetadata{
 		Hash:         hash,

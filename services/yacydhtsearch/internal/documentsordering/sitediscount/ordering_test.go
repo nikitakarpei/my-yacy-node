@@ -7,6 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documentsordering/sitediscount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryfindings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 )
 
 type relevanceOfTheGivenDocuments struct {
@@ -34,10 +35,7 @@ func addressesOrderedWithTheSiteDiscount(
 	)
 	relevancePerDocument := map[yacymodel.URLHash]float64{}
 	for _, addressAndItsRelevance := range addressesInFallingOrderOfRelevance {
-		hash, err := yacymodel.URLHashOf(addressAndItsRelevance.address)
-		if err != nil {
-			t.Fatalf("URLHashOf(%q): %v", addressAndItsRelevance.address, err)
-		}
+		hash := urlhashtest.URLHashOf(t, addressAndItsRelevance.address)
 		foundDocuments = append(foundDocuments, queryfindings.FoundDocument{
 			Hash:    hash,
 			Address: addressAndItsRelevance.address,
@@ -233,10 +231,7 @@ func TestOrderingLeavesTheFoundDocumentsOfTheFindingsInTheirOrder(t *testing.T) 
 func foundDocumentAt(t *testing.T, address string) queryfindings.FoundDocument {
 	t.Helper()
 
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
+	hash := urlhashtest.URLHashOf(t, address)
 
 	return queryfindings.FoundDocument{Hash: hash, Address: address}
 }

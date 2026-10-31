@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -17,22 +18,11 @@ const yacyURLMetadataRow = "{hash=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8
 	"dt=t,flags=AAAAAA,lang=en,llocal=3,lother=4,limage=0,laudio=0," +
 	"lvideo=0,lapp=0}"
 
-func urlHashOfAddress(t *testing.T, address string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.URLHashOf(address)
-	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", address, err)
-	}
-
-	return hash
-}
-
 func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	t.Helper()
 
 	return yacymodel.URLMetadata{
-		Hash:             urlHashOfAddress(t, "https://example.org/"),
+		Hash:             urlhashtest.URLHashOf(t, "https://example.org/"),
 		Address:          "https://example.org/",
 		Referrer:         yacymodel.Some(sampleURLHash(t, "referrer")),
 		Title:            "Example, Inc.",
@@ -117,7 +107,7 @@ func TestTransferURLRequestCarriesCommasInText(t *testing.T) {
 	const address = "http://example.com/article?ids=1,2,3"
 
 	want := yacymodel.URLMetadata{
-		Hash:    urlHashOfAddress(t, address),
+		Hash:    urlhashtest.URLHashOf(t, address),
 		Address: address,
 		Title:   "Fourth of July fireworks, 1986 - Example",
 	}
