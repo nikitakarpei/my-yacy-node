@@ -111,15 +111,17 @@ func postingOf(word yacymodel.Hash, document yacymodel.URLMetadata) yacymodel.RW
 		DocumentType:  document.DocumentType,
 		LastModified:  modifiedDayOf(document),
 		TitleWords:    yacymodel.TitleWordsOf(document.Title),
-		LocalLinks:    document.LocalLinks,
-		ExternalLinks: document.ExternalLinks,
+		LocalLinks:    yacymodel.WrappedCardinalFrom(document.LocalLinks),
+		ExternalLinks: yacymodel.WrappedCardinalFrom(document.ExternalLinks),
 	}
 }
 
 func modifiedDayOf(document yacymodel.URLMetadata) yacymodel.MicroDate {
 	for _, day := range []yacymodel.Optional[yacymodel.CalendarDay]{document.Modified, document.Loaded} {
 		if present, ok := day.Get(); ok {
-			return yacymodel.MicroDateFromTime(present.Time())
+			if date, inRange := yacymodel.MicroDateOf(present.Time()).Get(); inRange {
+				return date
+			}
 		}
 	}
 

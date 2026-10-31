@@ -76,20 +76,20 @@ type postingValueCodec struct{}
 func (postingValueCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
 	var stored storedfields.Writer
 	stored.Varint(int64(posting.LastModified))
-	stored.Count(posting.TitleWords)
-	stored.Count(posting.TextWords)
-	stored.Count(posting.Phrases)
+	stored.Count(int(posting.TitleWords))
+	stored.Count(int(posting.TextWords))
+	stored.Count(int(posting.Phrases))
 	stored.Byte(byte(posting.DocumentType))
 	stored.Text(posting.Language.String())
-	stored.Count(posting.LocalLinks)
-	stored.Count(posting.ExternalLinks)
-	stored.Count(posting.URLLength)
-	stored.Count(posting.URLComponents)
+	stored.Count(int(posting.LocalLinks))
+	stored.Count(int(posting.ExternalLinks))
+	stored.Count(int(posting.URLLength))
+	stored.Count(int(posting.URLComponents))
 	stored.Uint16(packAppearance(posting.Appearance))
-	stored.Count(posting.Hits)
-	stored.Count(posting.TextPosition)
-	stored.Count(posting.PhraseRelativePosition)
-	stored.Count(posting.PhrasePosition)
+	stored.Count(int(posting.Hits))
+	stored.Count(int(posting.TextPosition))
+	stored.Count(int(posting.PhraseRelativePosition))
+	stored.Count(int(posting.PhrasePosition))
 
 	return stored.Record(), nil
 }
@@ -103,21 +103,23 @@ func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 	}
 	stored := storedfields.ReaderOf(data, yacymodel.ErrBadRWIPosting)
 	posting := yacymodel.RWIPosting{
-		LastModified:           yacymodel.MicroDate(stored.Varint("last modified")),
-		TitleWords:             stored.Count("title words"),
-		TextWords:              stored.Count("text words"),
-		Phrases:                stored.Count("phrases"),
-		DocumentType:           yacymodel.DocumentType(stored.Byte("document type")),
-		Language:               languageFrom(stored),
-		LocalLinks:             stored.Count("local links"),
-		ExternalLinks:          stored.Count("external links"),
-		URLLength:              stored.Count("url length"),
-		URLComponents:          stored.Count("url components"),
-		Appearance:             unpackAppearance(stored.Uint16("appearance")),
-		Hits:                   stored.Count("hits"),
-		TextPosition:           stored.Count("text position"),
-		PhraseRelativePosition: stored.Count("phrase relative position"),
-		PhrasePosition:         stored.Count("phrase position"),
+		LastModified:  yacymodel.MicroDateFromDays(stored.Varint("last modified")).OrElse(0),
+		TitleWords:    yacymodel.WrappedCardinalFrom(stored.Count("title words")),
+		TextWords:     yacymodel.SaturatedCardinalFrom[uint16](stored.Count("text words")),
+		Phrases:       yacymodel.SaturatedCardinalFrom[uint16](stored.Count("phrases")),
+		DocumentType:  yacymodel.DocumentType(stored.Byte("document type")),
+		Language:      languageFrom(stored),
+		LocalLinks:    yacymodel.WrappedCardinalFrom(stored.Count("local links")),
+		ExternalLinks: yacymodel.WrappedCardinalFrom(stored.Count("external links")),
+		URLLength:     yacymodel.WrappedCardinalFrom(stored.Count("url length")),
+		URLComponents: yacymodel.WrappedCardinalFrom(stored.Count("url components")),
+		Appearance:    unpackAppearance(stored.Uint16("appearance")),
+		Hits:          yacymodel.WrappedCardinalFrom(stored.Count("hits")),
+		TextPosition:  yacymodel.SaturatedCardinalFrom[uint16](stored.Count("text position")),
+		PhraseRelativePosition: yacymodel.WrappedCardinalFrom(
+			stored.Count("phrase relative position"),
+		),
+		PhrasePosition: yacymodel.WrappedCardinalFrom(stored.Count("phrase position")),
 	}
 	if err := stored.Err(); err != nil {
 		return yacymodel.RWIPosting{}, err

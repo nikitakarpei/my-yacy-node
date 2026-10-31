@@ -1,15 +1,24 @@
 package yacymodel
 
-import "time"
+import (
+	"math"
+	"time"
+)
 
 const microDateDay = 24 * time.Hour
 
-// MicroDate is a day-resolution point in time, counted in whole days since
-// the Unix epoch.
-type MicroDate int
+type MicroDate uint16
 
-func MicroDateFromTime(t time.Time) MicroDate {
-	return MicroDate(t.Unix() / int64(microDateDay/time.Second))
+func MicroDateOf(t time.Time) Optional[MicroDate] {
+	return MicroDateFromDays(t.Unix() / int64(microDateDay/time.Second))
+}
+
+func MicroDateFromDays(days int64) Optional[MicroDate] {
+	if days < 0 || days > math.MaxUint16 {
+		return None[MicroDate]()
+	}
+
+	return Some(MicroDate(days))
 }
 
 func (d MicroDate) Time() time.Time {

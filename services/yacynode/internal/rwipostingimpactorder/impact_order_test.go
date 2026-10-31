@@ -2,6 +2,7 @@ package rwipostingimpactorder_test
 
 import (
 	"context"
+	"math"
 	"net/url"
 	"testing"
 
@@ -116,7 +117,7 @@ func documentHashOf(seed string) yacymodel.URLHash {
 	return yacymodel.URLHashOf(address)
 }
 
-func postingOf(word, document string, hits int) yacymodel.RWIPosting {
+func postingOf(word, document string, hits uint8) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: yacymodel.WordHash(word),
 		URLHash:  documentHashOf(document),
@@ -158,7 +159,7 @@ func TestAPostingOfATitleOutweighsAnyAmountOfHits(t *testing.T) {
 	h := openHarness(t)
 
 	h.store(t,
-		postingOf("w1", "u1", 1000),
+		postingOf("w1", "u1", math.MaxUint8),
 		titlePostingOf("w1", "u2"),
 	)
 

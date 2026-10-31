@@ -31,13 +31,13 @@ func (urlMetadataValueCodec) Encode(record storedURLMetadata) ([]byte, error) {
 	stored.Text(metadata.MediaType)
 	writeLanguage(&stored, metadata.Language)
 	writeByteSize(&stored, metadata.ByteSize)
-	stored.Count(metadata.WordCount)
-	stored.Count(metadata.LocalLinks)
-	stored.Count(metadata.ExternalLinks)
-	stored.Count(metadata.ImageLinks)
-	stored.Count(metadata.AudioLinks)
-	stored.Count(metadata.VideoLinks)
-	stored.Count(metadata.ApplicationLinks)
+	stored.Count(int(metadata.WordCount))
+	stored.Count(int(metadata.LocalLinks))
+	stored.Count(int(metadata.ExternalLinks))
+	stored.Count(int(metadata.ImageLinks))
+	stored.Count(int(metadata.AudioLinks))
+	stored.Count(int(metadata.VideoLinks))
+	stored.Count(int(metadata.ApplicationLinks))
 	stored.Text(metadata.Snippet)
 	stored.Text(metadata.FaviconAddress)
 	writeSource(&stored, record.source)
@@ -61,29 +61,31 @@ func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
 	}
 	stored := storedfields.ReaderOf(data, yacymodel.ErrBadURLMetadata)
 	metadata := yacymodel.URLMetadata{
-		Address:          stored.Text("address"),
-		Referrer:         referrerFrom(stored),
-		Title:            stored.Text("title"),
-		Author:           stored.Text("author"),
-		Tags:             tagsFrom(stored),
-		Publisher:        stored.Text("publisher"),
-		Location:         locationFrom(stored),
-		Modified:         dayFrom(stored, "modified"),
-		Loaded:           dayFrom(stored, "loaded"),
-		FreshUntil:       dayFrom(stored, "fresh until"),
-		DocumentType:     yacymodel.DocumentType(stored.Byte("content type")),
-		MediaType:        stored.Text("media type"),
-		Language:         languageFrom(stored),
-		ByteSize:         byteSizeFrom(stored),
-		WordCount:        stored.Count("word count"),
-		LocalLinks:       stored.Count("local links"),
-		ExternalLinks:    stored.Count("external links"),
-		ImageLinks:       stored.Count("image links"),
-		AudioLinks:       stored.Count("audio links"),
-		VideoLinks:       stored.Count("video links"),
-		ApplicationLinks: stored.Count("application links"),
-		Snippet:          stored.Text("snippet"),
-		FaviconAddress:   stored.Text("favicon address"),
+		Address:       stored.Text("address"),
+		Referrer:      referrerFrom(stored),
+		Title:         stored.Text("title"),
+		Author:        stored.Text("author"),
+		Tags:          tagsFrom(stored),
+		Publisher:     stored.Text("publisher"),
+		Location:      locationFrom(stored),
+		Modified:      dayFrom(stored, "modified"),
+		Loaded:        dayFrom(stored, "loaded"),
+		FreshUntil:    dayFrom(stored, "fresh until"),
+		DocumentType:  yacymodel.DocumentType(stored.Byte("content type")),
+		MediaType:     stored.Text("media type"),
+		Language:      languageFrom(stored),
+		ByteSize:      byteSizeFrom(stored),
+		WordCount:     yacymodel.SaturatedCardinalFrom[uint32](stored.Count("word count")),
+		LocalLinks:    yacymodel.SaturatedCardinalFrom[uint32](stored.Count("local links")),
+		ExternalLinks: yacymodel.SaturatedCardinalFrom[uint32](stored.Count("external links")),
+		ImageLinks:    yacymodel.SaturatedCardinalFrom[uint32](stored.Count("image links")),
+		AudioLinks:    yacymodel.SaturatedCardinalFrom[uint32](stored.Count("audio links")),
+		VideoLinks:    yacymodel.SaturatedCardinalFrom[uint32](stored.Count("video links")),
+		ApplicationLinks: yacymodel.SaturatedCardinalFrom[uint32](
+			stored.Count("application links"),
+		),
+		Snippet:        stored.Text("snippet"),
+		FaviconAddress: stored.Text("favicon address"),
 	}
 	source := sourceFrom(stored)
 	if err := stored.Err(); err != nil {
@@ -152,23 +154,23 @@ func languageFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Lang
 	return yacymodel.Some(language)
 }
 
-func writeByteSize(stored *storedfields.Writer, byteSize yacymodel.Optional[int]) {
+func writeByteSize(stored *storedfields.Writer, byteSize yacymodel.Optional[uint32]) {
 	size, known := byteSize.Get()
 	if !known {
 		stored.UnknownCount()
 
 		return
 	}
-	stored.Count(size)
+	stored.Count(int(size))
 }
 
-func byteSizeFrom(stored *storedfields.Reader) yacymodel.Optional[int] {
+func byteSizeFrom(stored *storedfields.Reader) yacymodel.Optional[uint32] {
 	size, known := stored.KnownCount("byte size")
 	if !known {
-		return yacymodel.None[int]()
+		return yacymodel.None[uint32]()
 	}
 
-	return yacymodel.Some(size)
+	return yacymodel.Some(yacymodel.SaturatedCardinalFrom[uint32](size))
 }
 
 func writeLocation(

@@ -162,7 +162,7 @@ func TestIndexAbstractsSurfaceIndexFailures(t *testing.T) {
 
 var errIndexBroken = errors.New("index broken")
 
-func postingOf(word yacymodel.Hash, document string, hits int) yacymodel.RWIPosting {
+func postingOf(word yacymodel.Hash, document string, hits uint8) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: word,
 		URLHash:  searchtest.URLHashFor(document),

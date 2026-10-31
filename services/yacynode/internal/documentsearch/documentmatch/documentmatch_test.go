@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostingimpactorder"
 )
 
-func postingOf(term yacymodel.Hash, document string, hits int) yacymodel.RWIPosting {
+func postingOf(term yacymodel.Hash, document string, hits uint8) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: term,
 		URLHash:  searchtest.URLHashFor(document),
@@ -33,7 +33,7 @@ func titlePostingOf(term yacymodel.Hash, document string) yacymodel.RWIPosting {
 func postingAtPosition(
 	term yacymodel.Hash,
 	document string,
-	textPosition int,
+	textPosition uint16,
 ) yacymodel.RWIPosting {
 	posting := postingOf(term, document, 1)
 	posting.TextPosition = textPosition

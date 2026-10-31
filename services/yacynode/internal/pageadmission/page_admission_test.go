@@ -121,7 +121,7 @@ func openHarnessWithWriter(
 
 type pageWord struct {
 	word string
-	hits int
+	hits uint8
 }
 
 func pageTitled(t *testing.T, title string, words ...pageWord) pagerwi.PageRWI {

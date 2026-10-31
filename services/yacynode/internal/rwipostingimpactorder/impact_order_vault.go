@@ -10,7 +10,7 @@ import (
 
 const impactOrderBucket vault.Name = "rwi_impact"
 
-const impactOrderVersion = "1"
+const impactOrderVersion = "2"
 
 func registerImpactOrder(
 	v *vault.Vault,

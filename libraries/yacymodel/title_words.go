@@ -1,6 +1,6 @@
 package yacymodel
 
-func TitleWordsOf(title string) int {
+func TitleWordsOf(title string) uint8 {
 	if title == "" {
 		return 1
 	}
@@ -21,5 +21,5 @@ func TitleWordsOf(title string) int {
 		words++
 	}
 
-	return words
+	return WrappedCardinalFrom(words)
 }

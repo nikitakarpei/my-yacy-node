@@ -35,6 +35,6 @@ func ImpactOf(posting yacymodel.RWIPosting) Impact {
 	return Impact(impact * impactScale)
 }
 
-func diminishedTextHitsOf(hits int) float64 {
-	return math.Log1p(float64(max(hits, 0)))
+func diminishedTextHitsOf(hits uint8) float64 {
+	return math.Log1p(float64(hits))
 }
