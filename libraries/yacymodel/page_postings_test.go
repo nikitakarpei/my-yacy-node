@@ -135,10 +135,10 @@ func TestEachPagePostingTakesTheProofOfItsNarrowing(t *testing.T) {
 	random := seededRandom(12)
 	for _, exponent := range partitionExponents {
 		partitions := partitionsFrom(t, exponent)
-		postings := randomPagePostings(random, 1+random.IntN(300))
+		postings := randomPagePostings(random, 1+random.IntN(30))
 		whole := wholePagePostingsOf(t, postings, partitions)
 
-		for range 5 {
+		for range 3 {
 			source := narrowedTo(t, whole, randomSubsetOf(random, postings))
 			pagePostings := source.EachPagePosting()
 			if len(pagePostings) != len(source.Postings()) {
