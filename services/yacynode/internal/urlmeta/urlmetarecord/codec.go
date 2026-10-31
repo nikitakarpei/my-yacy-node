@@ -1,4 +1,7 @@
-package urlmeta
+// Package urlmetarecord turns the URL metadata of one URL and its source into
+// the bytes stored for it, and reads them back. A record stored before a field
+// was added reads back with that field absent.
+package urlmetarecord
 
 import (
 	"fmt"
@@ -9,10 +12,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 )
 
-type urlMetadataValueCodec struct{}
+type Record struct {
+	Metadata yacymodel.URLMetadata
+	Source   pageversion.Source
+}
 
-func (urlMetadataValueCodec) Encode(record storedURLMetadata) ([]byte, error) {
-	metadata := record.metadata
+type Codec struct{}
+
+func (Codec) Encode(record Record) ([]byte, error) {
+	metadata := record.Metadata
 	var stored storedfields.Writer
 	stored.Text(metadata.Address)
 	writeReferrer(&stored, metadata.Referrer)
@@ -40,14 +48,15 @@ func (urlMetadataValueCodec) Encode(record storedURLMetadata) ([]byte, error) {
 	stored.Count(int(metadata.ApplicationLinks))
 	stored.Text(metadata.Snippet)
 	stored.Text(metadata.FaviconAddress)
-	pageversion.WriteSource(&stored, record.source)
+	pageversion.WriteSource(&stored, record.Source)
+	writePostingsRoot(&stored, metadata.PostingsRoot)
 
 	return stored.Record(), nil
 }
 
-func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
+func (Codec) Decode(data []byte) (Record, error) {
 	if len(data) == 0 {
-		return storedURLMetadata{}, fmt.Errorf(
+		return Record{}, fmt.Errorf(
 			"%w: empty url metadata value",
 			yacymodel.ErrBadURLMetadata,
 		)
@@ -81,11 +90,12 @@ func (urlMetadataValueCodec) Decode(data []byte) (storedURLMetadata, error) {
 		FaviconAddress: stored.Text("favicon address"),
 	}
 	source := pageversion.SourceFrom(stored)
+	metadata.PostingsRoot = postingsRootFrom(stored)
 	if err := stored.Err(); err != nil {
-		return storedURLMetadata{}, err
+		return Record{}, err
 	}
 
-	return storedURLMetadata{metadata: metadata, source: source}, nil
+	return Record{Metadata: metadata, Source: source}, nil
 }
 
 func writeReferrer(stored *storedfields.Writer, referrer yacymodel.Optional[yacymodel.URLHash]) {
@@ -228,4 +238,29 @@ func tagsFrom(stored *storedfields.Reader) []string {
 	}
 
 	return tags
+}
+
+func writePostingsRoot(
+	stored *storedfields.Writer,
+	postingsRoot yacymodel.Optional[yacymodel.PostingsRoot],
+) {
+	root, committed := postingsRoot.Get()
+	stored.Presence(committed)
+	if committed {
+		stored.Bytes(root.Bytes())
+	}
+}
+
+func postingsRootFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.PostingsRoot] {
+	if !stored.Presence("postings root") {
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+	root, err := yacymodel.ParsePostingsRootBytes(stored.Bytes("postings root"))
+	if err != nil {
+		stored.Reject("postings root", err)
+
+		return yacymodel.None[yacymodel.PostingsRoot]()
+	}
+
+	return yacymodel.Some(root)
 }
