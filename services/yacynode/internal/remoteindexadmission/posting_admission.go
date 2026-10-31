@@ -28,6 +28,7 @@ const (
 	PostingDroppedAlreadyIndexed      PostingOutcome = "dropped_already_indexed"
 	PostingDroppedNotNewerVersion     PostingOutcome = "dropped_not_newer_version"
 	PostingDroppedPageFromOtherSource PostingOutcome = "dropped_page_from_other_source"
+	PostingDroppedUnrootedVersion     PostingOutcome = "dropped_unrooted_version"
 )
 
 var errEscrowFull = errors.New("escrow holds as many postings as it can")
@@ -179,15 +180,15 @@ func (a PostingAdmission) admitPage(
 	storedVersion yacymodel.Optional[pageversion.Version],
 ) (somePostingsHeld bool, err error) {
 	var passedPostings []yacymodel.RWIPosting
-	for _, posting := range pagePostings.Postings() {
-		outcome, err := a.admit(tx, origin, posting, storedVersion)
+	for _, postingAlone := range pagePostings.EachPostingAlone() {
+		outcome, err := a.admit(tx, origin, postingAlone, storedVersion)
 		if err != nil {
 			return false, err
 		}
 		tx.RunAfterCommit(func() { a.observer.ObserveReceivedPostings(outcome, 1) })
 		somePostingsHeld = somePostingsHeld || outcome == PostingHeldForURLMetadata
 		if outcome == PostingIndexed {
-			passedPostings = append(passedPostings, posting)
+			passedPostings = append(passedPostings, postingAlone.Posting())
 		}
 	}
 
@@ -222,10 +223,11 @@ func reportUnnarrowedPassedPostings(ctx context.Context, url yacymodel.URLHash) 
 func (a PostingAdmission) admit(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
+	postingAlone yacymodel.PostingAlone,
 	storedVersion yacymodel.Optional[pageversion.Version],
 ) (PostingOutcome, error) {
-	arrivedVersion := pageversion.FromPosting(posting, pageversion.SourcePeer(origin))
+	posting := postingAlone.Posting()
+	arrivedVersion := pageversion.FromPostingAlone(postingAlone, pageversion.SourcePeer(origin))
 	version, metadataStored := storedVersion.Get()
 	switch {
 	case a.stopwords.Contains(posting.WordHash, posting.Language):
@@ -233,7 +235,7 @@ func (a PostingAdmission) admit(
 	case arrivedVersion.IsDatedAfter(a.now()):
 		return PostingDroppedFutureDate, nil
 	case !metadataStored || version.IsReplacedBy(arrivedVersion):
-		return a.hold(tx, origin, posting)
+		return a.hold(tx, origin, postingAlone)
 	}
 
 	return a.placer.placementOf(tx, posting, arrivedVersion, version)
@@ -242,9 +244,9 @@ func (a PostingAdmission) admit(
 func (a PostingAdmission) hold(
 	tx *vault.Txn,
 	origin rwiorigin.Origin,
-	posting yacymodel.RWIPosting,
+	postingAlone yacymodel.PostingAlone,
 ) (PostingOutcome, error) {
-	if err := a.escrow.Hold(tx, origin, posting); err != nil {
+	if err := a.escrow.Hold(tx, origin, postingAlone); err != nil {
 		return "", fmt.Errorf("hold posting: %w", err)
 	}
 

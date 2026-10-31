@@ -13,4 +13,6 @@ var (
 	boundNodeKey            = nodepeer.KeyAfterFleet(5)
 	callingNodeKey          = nodepeer.KeyAfterFleet(6)
 	secureNodeKey           = nodepeer.KeyAfterFleet(7)
+	offeringNodeKey         = nodepeer.KeyAfterFleet(8)
+	receivingNodeKey        = nodepeer.KeyAfterFleet(9)
 )

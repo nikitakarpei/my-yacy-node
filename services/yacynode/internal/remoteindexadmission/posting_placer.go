@@ -25,6 +25,8 @@ func (p postingPlacer) placementOf(
 		return PostingDroppedNotNewerVersion, nil
 	case pageversion.JoiningRefusedOtherSource:
 		return PostingDroppedPageFromOtherSource, nil
+	case pageversion.JoiningRefusedUnrootedVersion:
+		return PostingDroppedUnrootedVersion, nil
 	case pageversion.JoiningAllowed:
 	}
 	postingIndexed, err := p.isIndexed(tx, posting)

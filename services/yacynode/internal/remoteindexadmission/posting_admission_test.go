@@ -85,27 +85,52 @@ func (r transferReceiver) Receive(
 	ctx context.Context,
 	origin rwiorigin.Origin,
 	postings []yacymodel.RWIPosting,
+	proofs map[yacymodel.URLHash]yacymodel.PostingsProof,
 ) (remoteindexadmission.PostingReceipt, error) {
-	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(r.t, postings))
+	return r.admission.Receive(ctx, origin, receivedPagePostingsOf(r.t, postings, proofs))
 }
 
 func receivedPagePostingsOf(
 	t *testing.T,
 	postings []yacymodel.RWIPosting,
+	proofs map[yacymodel.URLHash]yacymodel.PostingsProof,
 ) []yacymodel.PagePostings {
 	t.Helper()
 
 	postingsPerURL, _ := yacymodel.PostingsPerURLFrom(postings)
 	receivedPagePostings := make([]yacymodel.PagePostings, 0, len(postingsPerURL))
 	for _, postingsOfURL := range postingsPerURL {
+		receivedPagePostings = append(
+			receivedPagePostings,
+			pagePostingsOfURL(t, postingsOfURL, proofs),
+		)
+	}
+
+	return receivedPagePostings
+}
+
+func pagePostingsOfURL(
+	t *testing.T,
+	postingsOfURL []yacymodel.RWIPosting,
+	proofs map[yacymodel.URLHash]yacymodel.PostingsProof,
+) yacymodel.PagePostings {
+	t.Helper()
+
+	proof, sent := proofs[postingsOfURL[0].URLHash]
+	if !sent {
 		unproven, err := yacymodel.UnprovenPagePostingsFrom(postingsOfURL)
 		if err != nil {
 			t.Fatal(err)
 		}
-		receivedPagePostings = append(receivedPagePostings, unproven)
+
+		return unproven
+	}
+	proven, err := yacymodel.ProvenPagePostingsFrom(postingsOfURL, proof)
+	if err != nil {
+		t.Fatal(err)
 	}
 
-	return receivedPagePostings
+	return proven
 }
 
 type recordingWriter struct {
@@ -122,6 +147,7 @@ func (w *recordingWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostin
 type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
+	proofs   rwipostings.PostingsProofs
 	escrow   *rwiescrow.PostingEscrow
 	urls     remoteindexadmission.URLMetadataIntake
 	crawled  urlmeta.URLMetadataWriter
@@ -151,7 +177,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	clock := harnessStart
 	now := func() time.Time { return clock }
 
-	index, writer, purger, _, err := rwipostings.Open(
+	index, writer, purger, proofs, err := rwipostings.Open(
 		context.Background(),
 		v,
 		yacymodel.DHTRingPartitions{},
@@ -201,6 +227,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	return harness{
 		vault:    v,
 		index:    index,
+		proofs:   proofs,
 		escrow:   escrow,
 		urls:     urlMetadataIntake,
 		crawled:  urlWriter,
@@ -294,7 +321,7 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 func (h harness) receive(t *testing.T, entries []yacymodel.RWIPosting) {
 	t.Helper()
 
-	if _, err := h.receiver.Receive(context.Background(), sendingPeer, entries); err != nil {
+	if _, err := h.receiver.Receive(context.Background(), sendingPeer, entries, nil); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
 }
@@ -309,6 +336,7 @@ func TestStopwordPostingNeitherJoinsTheIndexNorWaits(t *testing.T) {
 		context.Background(),
 		sendingPeer,
 		[]yacymodel.RWIPosting{known, unknown},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
@@ -333,6 +361,7 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 
 	if _, err := h.receiver.Receive(context.Background(), sendingPeer,
 		[]yacymodel.RWIPosting{entry},
+		nil,
 	); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -367,6 +396,7 @@ func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
 
 	receipt, err := h.receiver.Receive(context.Background(), sendingPeer,
 		[]yacymodel.RWIPosting{known, unknown},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
@@ -387,12 +417,14 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 
 	if _, err := h.receiver.Receive(context.Background(), sendingPeer,
 		[]yacymodel.RWIPosting{posting("w1", "u1")},
+		nil,
 	); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
 
 	receipt, err := h.receiver.Receive(context.Background(), sendingPeer,
 		[]yacymodel.RWIPosting{posting("w2", "u2")},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("Receive over capacity: %v", err)
@@ -421,12 +453,13 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 
 	if _, err := h.receiver.Receive(context.Background(), sendingPeer,
 		[]yacymodel.RWIPosting{posting("w1", "u1")},
+		nil,
 	); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
 
 	refused := []yacymodel.RWIPosting{posting("w2", "u2"), posting("w3", "u3")}
-	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, refused)
+	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, refused, nil)
 	if err != nil {
 		t.Fatalf("Receive over the escrow capacity: %v", err)
 	}
@@ -448,7 +481,7 @@ func TestReceiveHoldsAWholeTransferThatStartsBelowTheEscrowCapacity(t *testing.T
 	h := openHarness(t, 0, 1)
 
 	held := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u2")}
-	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, held)
+	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, held, nil)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -468,7 +501,7 @@ func TestReceiveBusyWithMorePostingsThanTheCap(t *testing.T) {
 		oversized = append(oversized, posting("w"+strconv.Itoa(seed), "u1"))
 	}
 
-	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, oversized)
+	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, oversized, nil)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -491,7 +524,7 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	receipt, err := h.receiver.Receive(context.Background(), sendingPeer, []yacymodel.RWIPosting{
 		posting("w1", "u1"),
 		posting("w2", "u1"),
-	})
+	}, nil)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -604,6 +637,7 @@ func TestNewerPostingWaitsForNewerMetadataThenReplacesTheOlderVersion(t *testing
 		context.Background(),
 		sendingPeer,
 		[]yacymodel.RWIPosting{newer},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
@@ -654,6 +688,7 @@ func TestPostingOfAnotherVersionOfTheSameDayIsDropped(t *testing.T) {
 		context.Background(),
 		sendingPeer,
 		[]yacymodel.RWIPosting{other},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
@@ -678,6 +713,7 @@ func TestPostingDatedAfterTodayIsDropped(t *testing.T) {
 		context.Background(),
 		sendingPeer,
 		[]yacymodel.RWIPosting{tomorrow, current},
+		nil,
 	)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
@@ -720,6 +756,7 @@ func TestMissingWordsOfTheStoredVersionComeOnlyFromTheNetworkThatSentItsMetadata
 				context.Background(),
 				c.origin,
 				[]yacymodel.RWIPosting{c.posting},
+				nil,
 			); err != nil {
 				t.Fatalf("Receive: %v", err)
 			}
@@ -800,6 +837,7 @@ func TestWaitingPostingFromAnotherNetworkLeavesTheEscrowUnindexed(t *testing.T) 
 		context.Background(),
 		otherPeer,
 		[]yacymodel.RWIPosting{waiting},
+		nil,
 	); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
