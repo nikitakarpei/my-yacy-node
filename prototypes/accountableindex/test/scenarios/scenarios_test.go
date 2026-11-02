@@ -89,16 +89,6 @@ func (n network) resealed(peer *accountablepeer.Peer) indexhead.SignedHead {
 	return peer.Seal()
 }
 
-func dayOf(t *testing.T, leaf indextree.Leaf) uint16 {
-	t.Helper()
-	posting, isPosting := provensearch.PostingFrom(leaf.Value)
-	if !isPosting {
-		t.Fatal("leaf holds no posting")
-	}
-
-	return posting.Day
-}
-
 func TestAnHonestAnswerVerifiesAsComplete(t *testing.T) {
 	network := networkOf(t)
 	peer := network.peer()
@@ -167,8 +157,9 @@ func TestAPromiseIsKeptByADisclosedRemoval(t *testing.T) {
 	peer := network.peer()
 	leaves := network.postings(5, 20)
 	promise := peer.Admit(leaves)
-	peer.RemoveURL(leaves[0].Key.URL(), provensearch.RemovedByNewerVersion, dayOf(t, leaves[0]))
-	peer.HandOff(leaves[len(leaves)-1].Key.Word(), []string{"peer-b", "peer-c"})
+	handedOff := leaves[len(leaves)-1].Key
+	peer.RemoveURL(leaves[0].Key.URL(), provensearch.RemovedByNewerVersion)
+	peer.HandOff(handedOff.Word(), provensearch.PartitionOf(handedOff.URL()), []string{"peer-b", "peer-c"})
 	network.clock.advance()
 	peer.Seal()
 	if _, broken := indexevidence.BrokenPromiseOf(promise, peer.Lookup(promise.Keys), peer.PublicKey()); broken {
@@ -176,23 +167,50 @@ func TestAPromiseIsKeptByADisclosedRemoval(t *testing.T) {
 	}
 }
 
-func TestAnEvictionByThePublishedCutoffLeavesNoEvidence(t *testing.T) {
+func TestAnEvictionLeavesATombstoneAndNoEvidence(t *testing.T) {
 	network := networkOf(t)
 	peer := network.peer()
 	leaves := network.postings(6, 50)
 	network.sealed(peer, leaves)
 	before := peer.Lookup([]indextree.Key{leaves[0].Key})
-	peer.Evict(dayOf(t, leaves[0]))
-	head := network.resealed(peer)
+	peer.RemoveURL(leaves[0].Key.URL(), provensearch.RemovedByEviction)
+	network.resealed(peer)
 	after := peer.Lookup([]indextree.Key{leaves[0].Key})
 	if _, undisclosed := indexevidence.UndisclosedRemovalOf(before, after, leaves[0].Key, peer.PublicKey()); undisclosed {
 		t.Fatal("a disclosed eviction counts as undisclosed")
 	}
-	if _, unjustified := indexevidence.UnjustifiedEvictionOf(before, after, leaves[0].Key, peer.PublicKey()); unjustified {
-		t.Fatal("an eviction by the cutoff counts as unjustified")
+}
+
+func TestAResetDisclosesEveryEarlierRemoval(t *testing.T) {
+	network := networkOf(t)
+	peer := network.peer()
+	leaves := network.postings(13, 30)
+	promise := peer.Admit(leaves)
+	network.clock.advance()
+	peer.Seal()
+	before := peer.Lookup([]indextree.Key{leaves[0].Key})
+	peer.Reset()
+	network.resealed(peer)
+	after := peer.Lookup([]indextree.Key{leaves[0].Key})
+	if _, undisclosed := indexevidence.UndisclosedRemovalOf(before, after, leaves[0].Key, peer.PublicKey()); undisclosed {
+		t.Fatal("a removal by reset counts as undisclosed")
 	}
-	if _, stale := indexevidence.StaleKeptOf(head, peer.PublicKey()); stale {
-		t.Fatal("a head after eviction keeps postings staler than its cutoff")
+	if _, broken := indexevidence.BrokenPromiseOf(promise, after, peer.PublicKey()); broken {
+		t.Fatal("a reset breaks an earlier promise")
+	}
+}
+
+func TestATombstoneOutlivesAPauseInSealing(t *testing.T) {
+	network := networkOf(t)
+	peer := network.peer()
+	leaves := network.postings(14, 30)
+	network.sealed(peer, leaves)
+	peer.RemoveURL(leaves[0].Key.URL(), provensearch.RemovedByOperator)
+	network.clock.moment = network.clock.moment.Add((indexevidence.TombstoneEpochs + 10) * period)
+	peer.Seal()
+	shown := peer.Lookup([]indextree.Key{leaves[0].Key})
+	if _, presence := shown.Proof.Lookup(provensearch.RemovedURLKeyOf(leaves[0].Key.URL())); presence != indextree.Present {
+		t.Fatal("a tombstone was dropped before any head showed it")
 	}
 }
 
@@ -210,43 +228,12 @@ func TestARemovalWithoutATombstoneIsEvidence(t *testing.T) {
 	}
 }
 
-func TestAnEvictionOfAFresherPostingIsEvidence(t *testing.T) {
-	network := networkOf(t)
-	leaves := network.postings(8, 50)
-	tree, _ := indextree.EmptyTree(provensearch.SummaryOf).Updated(indextree.Changes{Stored: leaves})
-	earlier := censorObservationOf(network, tree, indexhead.Head{Epoch: 100}, leaves[0].Key)
-	censored, _ := tree.Updated(indextree.Changes{
-		Stored: []indextree.Leaf{{
-			Key: provensearch.RemovedURLKeyOf(leaves[0].Key.URL()),
-			Value: provensearch.URLTombstoneOf(provensearch.URLTombstone{
-				Reason: provensearch.RemovedByEviction, Epoch: 101, EvictionCutoff: dayOf(t, leaves[0]) - 1,
-			}),
-		}},
-		Removed: []indextree.Key{leaves[0].Key},
-	})
-	later := censorObservationOf(network, censored, indexhead.Head{
-		Epoch: 101, PredecessorEpoch: 100, Predecessor: earlier.Head.Head.Hash(),
-	}, leaves[0].Key)
-	if _, unjustified := indexevidence.UnjustifiedEvictionOf(earlier, later, leaves[0].Key, publicKeyOf(network)); !unjustified {
-		t.Fatal("evicting a posting fresher than the cutoff is not evidence")
-	}
-}
-
-func TestAHeadThatKeepsPostingsStalerThanItsCutoffIsEvidence(t *testing.T) {
-	network := networkOf(t)
-	leaves := network.postings(9, 50)
-	tree, _ := indextree.EmptyTree(provensearch.SummaryOf).Updated(indextree.Changes{Stored: leaves})
-	head := censorObservationOf(network, tree, indexhead.Head{Epoch: 100, EvictionCutoff: 19500}, leaves[0].Key).Head
-	if _, stale := indexevidence.StaleKeptOf(head, publicKeyOf(network)); !stale {
-		t.Fatal("a head keeping postings staler than its cutoff is not evidence")
-	}
-}
-
 func censorObservationOf(network network, tree indextree.Tree, head indexhead.Head, key indextree.Key) indexevidence.Observation {
 	prover := tree.Prover()
 	prover.RevealLookupOf(key)
-	prover.RevealLookupOf(provensearch.RemovedURLKeyOf(key.URL()))
-	prover.RevealLookupOf(provensearch.HandedOffWordKeyOf(key.Word()))
+	for _, tombstoneKey := range indexevidence.TombstoneKeysOf(key) {
+		prover.RevealLookupOf(tombstoneKey)
+	}
 	head.Network, head.Peer = network.identity.Network, network.identity.Name
 	head.Root, head.Summary = tree.Root(), tree.Summary()
 

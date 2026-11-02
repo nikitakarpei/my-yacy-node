@@ -2,7 +2,6 @@ package provensearch
 
 import (
 	"encoding/binary"
-	"math"
 	"math/bits"
 
 	"github.com/nikitakarpei/yacy-rwi-node/accountableindex/indextree"
@@ -13,24 +12,25 @@ const (
 	urlTombstoneKind     = 2
 	wordTombstoneKind    = 3
 	postingLength        = 6
-	urlTombstoneLength   = 14
+	urlTombstoneLength   = 10
 	titleFlag            = 1
 	impactPerHitBit      = 32
 	impactOfTitle        = 256
 	wordTombstoneMinimum = 9
 )
 
-var (
-	RemovedURLsWord    = indextree.Word{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}
-	HandedOffWordsWord = indextree.Word{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe}
-)
-
 func RemovedURLKeyOf(url indextree.URL) indextree.Key {
-	return indextree.KeyOf(RemovedURLsWord, url)
+	return indextree.KeyOfKind(indextree.URLTombstoneKind, indextree.Word{}, url)
 }
 
-func HandedOffWordKeyOf(word indextree.Word) indextree.Key {
-	return indextree.KeyOf(HandedOffWordsWord, indextree.URL(word))
+const amountOfPartitionBits = 4
+
+func PartitionOf(url indextree.URL) byte {
+	return url[0] >> (8 - amountOfPartitionBits)
+}
+
+func HandedOffPartitionKeyOf(word indextree.Word, partition byte) indextree.Key {
+	return indextree.KeyOfKind(indextree.HandoffTombstoneKind, word, indextree.URL{partition})
 }
 
 type RemovalReason byte
@@ -39,6 +39,7 @@ const (
 	RemovedByEviction RemovalReason = iota + 1
 	RemovedByNewerVersion
 	RemovedByOperator
+	RemovedByReset
 )
 
 type Posting struct {
@@ -70,17 +71,12 @@ func PostingFrom(value []byte) (Posting, bool) {
 }
 
 type URLTombstone struct {
-	Epoch          uint64
-	VersionDay     uint16
-	EvictionCutoff uint16
-	Reason         RemovalReason
+	Epoch  uint64
+	Reason RemovalReason
 }
 
 func URLTombstoneOf(tombstone URLTombstone) []byte {
-	value := binary.BigEndian.AppendUint64([]byte{urlTombstoneKind, byte(tombstone.Reason)}, tombstone.Epoch)
-	value = binary.BigEndian.AppendUint16(value, tombstone.VersionDay)
-
-	return binary.BigEndian.AppendUint16(value, tombstone.EvictionCutoff)
+	return binary.BigEndian.AppendUint64([]byte{urlTombstoneKind, byte(tombstone.Reason)}, tombstone.Epoch)
 }
 
 func URLTombstoneFrom(value []byte) (URLTombstone, bool) {
@@ -88,12 +84,7 @@ func URLTombstoneFrom(value []byte) (URLTombstone, bool) {
 		return URLTombstone{}, false
 	}
 
-	return URLTombstone{
-		Reason:         RemovalReason(value[1]),
-		Epoch:          binary.BigEndian.Uint64(value[2:10]),
-		VersionDay:     binary.BigEndian.Uint16(value[10:12]),
-		EvictionCutoff: binary.BigEndian.Uint16(value[12:14]),
-	}, true
+	return URLTombstone{Reason: RemovalReason(value[1]), Epoch: binary.BigEndian.Uint64(value[2:10])}, true
 }
 
 type WordTombstone struct {
@@ -130,7 +121,7 @@ func WordTombstoneFrom(value []byte) (WordTombstone, bool) {
 
 func SummaryOf(value []byte) indextree.Summary {
 	if posting, isPosting := PostingFrom(value); isPosting {
-		return indextree.Summary{Live: 1, TopImpact: ImpactOf(posting), TopStaleness: StalenessOf(posting.Day)}
+		return indextree.Summary{Live: 1, TopImpact: ImpactOf(posting)}
 	}
 	if _, isTombstone := URLTombstoneFrom(value); isTombstone {
 		return indextree.Summary{Removed: 1}
@@ -149,12 +140,4 @@ func ImpactOf(posting Posting) uint16 {
 	}
 
 	return impact
-}
-
-func StalenessOf(day uint16) uint16 {
-	return math.MaxUint16 - day
-}
-
-func StalestDayOf(summary indextree.Summary) uint16 {
-	return math.MaxUint16 - summary.TopStaleness
 }

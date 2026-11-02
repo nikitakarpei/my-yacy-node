@@ -1,6 +1,7 @@
 // Package indexevidence turns signed heads, promises and proofs into evidence that a peer
 // broke the accountable index contract. Evidence needs nothing but the peer's public key to
-// check, and every rule only fires on facts the peer itself committed to.
+// check, and every rule only fires on facts the peer itself committed to. A reset head
+// discloses the removal of every key the peer held before it.
 package indexevidence
 
 import (
@@ -41,14 +42,11 @@ func (o Observation) coverageOf(key indextree.Key, removedAfter uint64) coverage
 	switch {
 	case presence == indextree.Unproven:
 		return unproven
-	case presence == indextree.Present && held.Summary.Live == 1:
+	case presence == indextree.Present && held.Summary.Live == 1, o.Head.Head.LastReset > removedAfter:
 		return covered
 	}
 	result := uncovered
-	for _, tombstoneKey := range []indextree.Key{
-		provensearch.RemovedURLKeyOf(key.URL()),
-		provensearch.HandedOffWordKeyOf(key.Word()),
-	} {
+	for _, tombstoneKey := range TombstoneKeysOf(key) {
 		switch o.tombstoneCoverageOf(tombstoneKey, removedAfter) {
 		case covered:
 			return covered
@@ -77,6 +75,13 @@ func (o Observation) tombstoneCoverageOf(tombstoneKey indextree.Key, removedAfte
 	}
 
 	return uncovered
+}
+
+func TombstoneKeysOf(key indextree.Key) []indextree.Key {
+	return []indextree.Key{
+		provensearch.RemovedURLKeyOf(key.URL()),
+		provensearch.HandedOffPartitionKeyOf(key.Word(), provensearch.PartitionOf(key.URL())),
+	}
 }
 
 type BrokenPromise struct {
@@ -124,41 +129,4 @@ func areOrderedObservations(earlier, later Observation, key ed25519.PublicKey) b
 	return earlier.isProvenBy(key) && later.isProvenBy(key) &&
 		earlier.Head.Head.Peer == later.Head.Head.Peer &&
 		later.epoch() > earlier.epoch() && later.epoch() <= earlier.epoch()+TombstoneEpochs
-}
-
-type StaleKept struct {
-	Head indexhead.SignedHead
-}
-
-func StaleKeptOf(head indexhead.SignedHead, key ed25519.PublicKey) (StaleKept, bool) {
-	summary := head.Head.Summary
-
-	return StaleKept{Head: head}, head.IsSignedBy(key) && summary.Live > 0 &&
-		provensearch.StalestDayOf(summary) <= head.Head.EvictionCutoff
-}
-
-type UnjustifiedEviction struct {
-	Earlier Observation
-	Later   Observation
-	Key     indextree.Key
-}
-
-func UnjustifiedEvictionOf(earlier, later Observation, evicted indextree.Key, key ed25519.PublicKey) (UnjustifiedEviction, bool) {
-	if !areOrderedObservations(earlier, later, key) {
-		return UnjustifiedEviction{}, false
-	}
-	held, presence := earlier.Proof.Lookup(evicted)
-	if presence != indextree.Present || held.Leaf == nil {
-		return UnjustifiedEviction{}, false
-	}
-	posting, isPosting := provensearch.PostingFrom(held.Leaf.Value)
-	tombstone, tombstonePresence := later.Proof.Lookup(provensearch.RemovedURLKeyOf(evicted.URL()))
-	if !isPosting || tombstonePresence != indextree.Present || tombstone.Leaf == nil {
-		return UnjustifiedEviction{}, false
-	}
-	removal, isRemoval := provensearch.URLTombstoneFrom(tombstone.Leaf.Value)
-
-	return UnjustifiedEviction{Earlier: earlier, Later: later, Key: evicted},
-		isRemoval && removal.Reason == provensearch.RemovedByEviction && removal.Epoch > earlier.epoch() &&
-			removal.EvictionCutoff < posting.Day
 }

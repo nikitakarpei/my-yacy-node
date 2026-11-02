@@ -27,7 +27,7 @@ type Head struct {
 	Summary          indextree.Summary
 	Predecessor      indextree.Hash
 	Root             indextree.Hash
-	EvictionCutoff   uint16
+	LastReset        uint64
 }
 
 func (h Head) Bytes() []byte {
@@ -43,9 +43,8 @@ func (h Head) Bytes() []byte {
 	out = binary.BigEndian.AppendUint64(out, h.Summary.Live)
 	out = binary.BigEndian.AppendUint64(out, h.Summary.Removed)
 	out = binary.BigEndian.AppendUint16(out, h.Summary.TopImpact)
-	out = binary.BigEndian.AppendUint16(out, h.Summary.TopStaleness)
 
-	return binary.BigEndian.AppendUint16(out, h.EvictionCutoff)
+	return binary.BigEndian.AppendUint64(out, h.LastReset)
 }
 
 func appendText(out []byte, text string) []byte {
