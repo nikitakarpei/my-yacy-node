@@ -505,7 +505,9 @@
       showNotice(panel, "No data");
       return;
     }
-    if (isStat) {
+    if (panel.spec.type === "bargauge") {
+      drawBars(panel, drawn);
+    } else if (isStat) {
       drawStat(panel, drawn);
     } else if (panel.spec.type === "heatmap") {
       drawHeatmap(panel, drawn, span);
@@ -628,6 +630,55 @@
       container.append(entry);
     }
     panel.body.replaceChildren(container);
+  }
+
+  function drawBars(panel, drawn) {
+    destroyChart(panel);
+    const defaults = fieldDefaultsOf(panel.spec);
+    const bars = drawn
+      .map(({ name, metric, values }) => ({ name, metric, latest: [...values.values()].pop() }))
+      .sort((first, second) => second.latest - first.latest);
+    const longest = Math.max(defaults.max || 0, ...bars.map(({ latest }) => latest));
+    const container = document.createElement("div");
+    container.className = "bars";
+    const [link] = defaults.links || [];
+    for (const { name, metric, latest } of bars) {
+      const label = link ? linkedLabelOf(link, metric) : document.createElement("div");
+      label.className = "name";
+      label.textContent = name;
+      const track = document.createElement("div");
+      track.className = "track";
+      const fill = document.createElement("div");
+      fill.className = "fill";
+      fill.style.width = `${longest > 0 ? (latest / longest) * 100 : 0}%`;
+      fill.style.background = barColorOf(defaults, latest);
+      track.append(fill);
+      const value = document.createElement("div");
+      value.className = "value";
+      value.textContent = valueTextOf(latest, defaults.unit, defaults.decimals);
+      container.append(label, track, value);
+    }
+    panel.body.replaceChildren(container);
+  }
+
+  function linkedLabelOf(link, metric) {
+    const anchor = document.createElement("a");
+    anchor.href = link.url.replace(/\$\{__field\.labels\.(\w+)\}/g, (match, label) =>
+      encodeURIComponent(metric[label] || ""),
+    );
+    anchor.title = link.title || "";
+    if (link.targetBlank) {
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+    }
+    return anchor;
+  }
+
+  function barColorOf(defaults, value) {
+    if (defaults.color && defaults.color.fixedColor) {
+      return colorOf(defaults.color.fixedColor);
+    }
+    return defaults.thresholds ? thresholdColorOf(defaults.thresholds, value) : palette[0];
   }
 
   function thresholdColorOf(thresholds, value) {

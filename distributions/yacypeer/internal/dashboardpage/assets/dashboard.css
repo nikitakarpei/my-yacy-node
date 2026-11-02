@@ -171,6 +171,38 @@ body {
   color: var(--webui-muted);
 }
 
+.bars {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  gap: 2px 8px;
+  align-content: start;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px 4px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+.bars .name {
+  color: var(--webui-muted);
+}
+.bars a.name {
+  text-decoration: none;
+}
+.bars a.name:hover {
+  color: var(--webui-ink);
+  text-decoration: underline;
+}
+.bars .track {
+  height: 12px;
+}
+.bars .fill {
+  height: 100%;
+}
+.bars .value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
 .u-legend {
   font-size: 11px;
   text-align: left;
