@@ -185,6 +185,13 @@ body {
 .bars .name {
   color: var(--webui-muted);
 }
+.bars a.name {
+  text-decoration: none;
+}
+.bars a.name:hover {
+  color: var(--webui-ink);
+  text-decoration: underline;
+}
 .bars .track {
   height: 12px;
 }

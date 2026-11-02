@@ -589,7 +589,14 @@
           "color": {
             "mode": "fixed",
             "fixedColor": "blue"
-          }
+          },
+          "links": [
+            {
+              "title": "Autonomous system on bgp.he.net",
+              "url": "https://bgp.he.net/${__field.labels.asn}",
+              "targetBlank": true
+            }
+          ]
         },
         "overrides": []
       },

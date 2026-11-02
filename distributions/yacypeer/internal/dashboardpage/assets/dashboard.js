@@ -636,13 +636,14 @@
     destroyChart(panel);
     const defaults = fieldDefaultsOf(panel.spec);
     const bars = drawn
-      .map(({ name, values }) => ({ name, latest: [...values.values()].pop() }))
+      .map(({ name, metric, values }) => ({ name, metric, latest: [...values.values()].pop() }))
       .sort((first, second) => second.latest - first.latest);
     const longest = Math.max(defaults.max || 0, ...bars.map(({ latest }) => latest));
     const container = document.createElement("div");
     container.className = "bars";
-    for (const { name, latest } of bars) {
-      const label = document.createElement("div");
+    const [link] = defaults.links || [];
+    for (const { name, metric, latest } of bars) {
+      const label = link ? linkedLabelOf(link, metric) : document.createElement("div");
       label.className = "name";
       label.textContent = name;
       const track = document.createElement("div");
@@ -658,6 +659,19 @@
       container.append(label, track, value);
     }
     panel.body.replaceChildren(container);
+  }
+
+  function linkedLabelOf(link, metric) {
+    const anchor = document.createElement("a");
+    anchor.href = link.url.replace(/\$\{__field\.labels\.(\w+)\}/g, (match, label) =>
+      encodeURIComponent(metric[label] || ""),
+    );
+    anchor.title = link.title || "";
+    if (link.targetBlank) {
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+    }
+    return anchor;
   }
 
   function barColorOf(defaults, value) {
