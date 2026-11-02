@@ -40,8 +40,8 @@ func (n *ProofNode) verify(summaryOf SummaryRule) error {
 	}
 	switch {
 	case !n.Revealed:
-		if n.Length == keyBits && n.Summary.Live+n.Summary.Removed != 1 {
-			return fmt.Errorf("%w: a leaf stub holds %d keys", ErrBadProof, n.Summary.Live+n.Summary.Removed)
+		if n.Length == keyBits && n.Summary.Postings != 1 {
+			return fmt.Errorf("%w: a leaf stub holds %d postings", ErrBadProof, n.Summary.Postings)
 		}
 
 		return nil

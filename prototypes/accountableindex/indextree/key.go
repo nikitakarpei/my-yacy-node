@@ -5,17 +5,9 @@ import "bytes"
 const (
 	WordLength = 9
 	URLLength  = 9
-	KeyLength  = 1 + WordLength + URLLength
+	KeyLength  = WordLength + URLLength
 	keyBits    = KeyLength * 8
-	wordBits   = (1 + WordLength) * 8
-)
-
-type Kind byte
-
-const (
-	PostingKind Kind = iota
-	URLTombstoneKind
-	HandoffTombstoneKind
+	wordBits   = WordLength * 8
 )
 
 type (
@@ -25,31 +17,23 @@ type (
 )
 
 func KeyOf(word Word, url URL) Key {
-	return KeyOfKind(PostingKind, word, url)
-}
-
-func KeyOfKind(kind Kind, word Word, url URL) Key {
-	key := Key{byte(kind)}
-	copy(key[1:1+WordLength], word[:])
-	copy(key[1+WordLength:], url[:])
+	var key Key
+	copy(key[:WordLength], word[:])
+	copy(key[WordLength:], url[:])
 
 	return key
 }
 
-func (k Key) Kind() Kind {
-	return Kind(k[0])
-}
-
 func (k Key) Word() Word {
 	var word Word
-	copy(word[:], k[1:1+WordLength])
+	copy(word[:], k[:WordLength])
 
 	return word
 }
 
 func (k Key) URL() URL {
 	var url URL
-	copy(url[:], k[1+WordLength:])
+	copy(url[:], k[WordLength:])
 
 	return url
 }

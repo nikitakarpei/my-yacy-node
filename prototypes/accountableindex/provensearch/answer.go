@@ -17,7 +17,7 @@ func AnswerFrom(tree indextree.Tree, query Query, amountOfRounds int) Answer {
 	for _, word := range query.Words {
 		prover.RevealRegionOf(word)
 	}
-	amountOfPostings := tree.Summary().Live
+	amountOfPostings := tree.Summary().Postings
 	proof := prover.Proof()
 	verdict := VerdictOf(proof, query, amountOfPostings)
 	for range amountOfRounds {
@@ -63,7 +63,7 @@ func (e examination) drivingStubsInOrder() []*indextree.ProofNode {
 	}
 	var stubs []*indextree.ProofNode
 	for _, stub := range driving.region.Stubs() {
-		if stub.Summary.Live > 0 {
+		if stub.Summary.Postings > 0 {
 			stubs = append(stubs, stub)
 		}
 	}

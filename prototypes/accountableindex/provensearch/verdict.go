@@ -17,6 +17,7 @@ type Query struct {
 	Words    []indextree.Word
 	Excluded []indextree.Word
 	Amount   int
+	Language Language
 }
 
 type Result struct {
@@ -53,7 +54,7 @@ func VerifiedVerdictOf(
 		return Verdict{}, err
 	}
 
-	return VerdictOf(proof, query, summary.Live), nil
+	return VerdictOf(proof, query, summary.Postings), nil
 }
 
 func VerdictOf(proof indextree.Proof, query Query, amountOfPostings uint64) Verdict {
@@ -96,7 +97,7 @@ func (e examination) outranks(last Result, bound uint64) bool {
 func (w wordExamination) tiesOnlyAfter(url indextree.URL) bool {
 	for _, stub := range w.region.Stubs() {
 		lowest := stub.LowestURL()
-		if stub.Summary.Live > 0 && stub.Summary.TopImpact == w.frontierTop && bytes.Compare(lowest[:], url[:]) <= 0 {
+		if stub.Summary.Postings > 0 && stub.Summary.TopImpact == w.frontierTop && bytes.Compare(lowest[:], url[:]) <= 0 {
 			return false
 		}
 	}
@@ -137,7 +138,7 @@ func examinationOf(proof indextree.Proof, query Query, amountOfPostings uint64) 
 		switch {
 		case presence == indextree.Unproven:
 			result.hasUnprovenWord = true
-		case presence == indextree.Absent || region.Summary.Live == 0:
+		case presence == indextree.Absent || region.Summary.Postings == 0:
 			result.hasAbsentWord = true
 		default:
 			result.examined[index] = wordExaminationOf(region, amountOfPostings)
@@ -148,9 +149,9 @@ func examinationOf(proof indextree.Proof, query Query, amountOfPostings uint64) 
 }
 
 func wordExaminationOf(region *indextree.ProofNode, amountOfPostings uint64) wordExamination {
-	examined := wordExamination{region: region, weight: weightOf(region.Summary.Live, amountOfPostings)}
+	examined := wordExamination{region: region, weight: weightOf(region.Summary.Postings, amountOfPostings)}
 	for _, stub := range region.Stubs() {
-		if stub.Summary.Live > 0 {
+		if stub.Summary.Postings > 0 {
 			examined.hasFrontier = true
 			examined.frontierTop = max(examined.frontierTop, stub.Summary.TopImpact)
 		}
@@ -201,13 +202,22 @@ func (e examination) boundOfUnseen() (uint64, bool) {
 	return bound, true
 }
 
+func (e examination) passesFilters(leaf *indextree.Leaf) bool {
+	if leaf == nil || e.query.Language == AnyLanguage {
+		return true
+	}
+	posting, isPosting := PostingFrom(leaf.Value)
+
+	return isPosting && posting.Language == e.query.Language
+}
+
 func (e examination) candidateURLs() []indextree.URL {
 	seen := map[indextree.URL]bool{}
 	var urls []indextree.URL
 	for _, examined := range e.examined {
 		for _, leaf := range examined.region.RevealedLeaves() {
 			url := leaf.Leaf.Key.URL()
-			if leaf.Summary.Live == 1 && !seen[url] {
+			if leaf.Summary.Postings == 1 && !seen[url] {
 				seen[url] = true
 				urls = append(urls, url)
 			}
@@ -225,7 +235,12 @@ func (e examination) scoreOf(url indextree.URL) (score, upperBound uint64, resol
 		case presence == indextree.Unproven:
 			resolved = false
 			upperBound += e.examined[index].weight * uint64(found.Summary.TopImpact)
-		case presence == indextree.Absent || found.Summary.Live == 0:
+		case presence == indextree.Absent || found.Summary.Postings == 0:
+			return 0, 0, true, false
+		case found.Leaf == nil && e.query.Language != AnyLanguage:
+			resolved = false
+			upperBound += e.examined[index].weight * uint64(found.Summary.TopImpact)
+		case !e.passesFilters(found.Leaf):
 			return 0, 0, true, false
 		default:
 			contribution := e.examined[index].weight * uint64(found.Summary.TopImpact)
@@ -238,7 +253,7 @@ func (e examination) scoreOf(url indextree.URL) (score, upperBound uint64, resol
 		switch {
 		case presence == indextree.Unproven:
 			resolved = false
-		case presence == indextree.Present && found.Summary.Live == 1:
+		case presence == indextree.Present && found.Summary.Postings == 1:
 			return 0, 0, true, false
 		}
 	}

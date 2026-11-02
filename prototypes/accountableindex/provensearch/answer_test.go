@@ -73,7 +73,7 @@ func (c corpus) expectedResults(query provensearch.Query) []provensearch.Result 
 
 func (c corpus) scoreOf(url indextree.URL, words []indextree.Word) (uint64, bool) {
 	var score uint64
-	total := c.tree.Summary().Live
+	total := c.tree.Summary().Postings
 	for _, word := range words {
 		posting, found := c.hits[indextree.KeyOf(word, url)]
 		if !found {

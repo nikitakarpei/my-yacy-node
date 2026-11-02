@@ -8,7 +8,7 @@ import (
 )
 
 func impactOfFirstByte(value []byte) indextree.Summary {
-	return indextree.Summary{Live: 1, TopImpact: uint16(value[0])}
+	return indextree.Summary{Postings: 1, TopImpact: uint16(value[0])}
 }
 
 func randomLeaves(seed uint64, amount, amountOfWords int) []indextree.Leaf {
@@ -63,8 +63,8 @@ func TestRemovingLeavesRestoresTheEarlierRoot(t *testing.T) {
 	if restored.Root() != earlier.Root() {
 		t.Fatal("removing the added leaves did not restore the root")
 	}
-	if earlier.Summary().Live != 200 {
-		t.Fatalf("summary counts %d leaves, want 200", earlier.Summary().Live)
+	if earlier.Summary().Postings != 200 {
+		t.Fatalf("summary counts %d leaves, want 200", earlier.Summary().Postings)
 	}
 }
 

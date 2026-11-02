@@ -61,7 +61,7 @@ func main() {
 		tree, _ = tree.Updated(indextree.Changes{Stored: postingsOf(1000 * wordsPerDocument)})
 	}
 	fmt.Fprintf(os.Stdout, "tree: %d postings, %d documents of %d words drawn from %d words (Zipf 1.1)\n\n",
-		tree.Summary().Live, amountOfDocuments, wordsPerDocument, amountOfWords)
+		tree.Summary().Postings, amountOfDocuments, wordsPerDocument, amountOfWords)
 	fmt.Fprintln(os.Stdout, "| postings per seal | nodes written per posting | bytes written per posting |")
 	fmt.Fprintln(os.Stdout, "|---|---|---|")
 	for _, batchSize := range []int{10, 100, 1000, 10000} {
