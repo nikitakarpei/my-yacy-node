@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+asmap="$root/services/yacynode/internal/asmap"
+tag=$(cat "$asmap/bitcoin-core-tag")
+release="https://raw.githubusercontent.com/bitcoin/bitcoin/$tag"
+
+download=$(mktemp -d)
+trap 'rm -rf "$download"' EXIT
+
+curl -fsSL -o "$download/ip_asn.dat" "$release/src/node/data/ip_asn.dat"
+curl -fsSL -o "$download/COPYING" "$release/COPYING"
+mv "$download/ip_asn.dat" "$asmap/ip_asn.dat"
+mv "$download/COPYING" "$asmap/COPYING"
+echo "==> AS map of Bitcoin Core $tag"

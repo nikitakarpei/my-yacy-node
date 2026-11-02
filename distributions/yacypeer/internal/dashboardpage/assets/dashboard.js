@@ -505,7 +505,9 @@
       showNotice(panel, "No data");
       return;
     }
-    if (isStat) {
+    if (panel.spec.type === "bargauge") {
+      drawBars(panel, drawn);
+    } else if (isStat) {
       drawStat(panel, drawn);
     } else if (panel.spec.type === "heatmap") {
       drawHeatmap(panel, drawn, span);
@@ -628,6 +630,41 @@
       container.append(entry);
     }
     panel.body.replaceChildren(container);
+  }
+
+  function drawBars(panel, drawn) {
+    destroyChart(panel);
+    const defaults = fieldDefaultsOf(panel.spec);
+    const bars = drawn
+      .map(({ name, values }) => ({ name, latest: [...values.values()].pop() }))
+      .sort((first, second) => second.latest - first.latest);
+    const longest = Math.max(defaults.max || 0, ...bars.map(({ latest }) => latest));
+    const container = document.createElement("div");
+    container.className = "bars";
+    for (const { name, latest } of bars) {
+      const label = document.createElement("div");
+      label.className = "name";
+      label.textContent = name;
+      const track = document.createElement("div");
+      track.className = "track";
+      const fill = document.createElement("div");
+      fill.className = "fill";
+      fill.style.width = `${longest > 0 ? (latest / longest) * 100 : 0}%`;
+      fill.style.background = barColorOf(defaults, latest);
+      track.append(fill);
+      const value = document.createElement("div");
+      value.className = "value";
+      value.textContent = valueTextOf(latest, defaults.unit, defaults.decimals);
+      container.append(label, track, value);
+    }
+    panel.body.replaceChildren(container);
+  }
+
+  function barColorOf(defaults, value) {
+    if (defaults.color && defaults.color.fixedColor) {
+      return colorOf(defaults.color.fixedColor);
+    }
+    return defaults.thresholds ? thresholdColorOf(defaults.thresholds, value) : palette[0];
   }
 
   function thresholdColorOf(thresholds, value) {

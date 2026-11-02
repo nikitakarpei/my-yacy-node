@@ -18,6 +18,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/asmap"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
@@ -344,6 +345,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
+	metrics.NewReachablePeerASNMetrics(registry, peerRoster, asmap.BitcoinCore())
 
 	peerWalker := peerwire.NewWalker(
 		egressClient,

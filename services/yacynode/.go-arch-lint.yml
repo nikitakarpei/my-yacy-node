@@ -12,6 +12,8 @@ commonVendors:
 components:
   yacynodedoc:
     in: doc/**
+  asmap:
+    in: internal/asmap/**
   hashkeypart:
     in: internal/hashkeypart/**
   httpguard:
@@ -403,6 +405,7 @@ deps:
       - vault
   metrics:
     mayDependOn:
+      - asmap
       - eviction
       - peerannouncement
       - peerport

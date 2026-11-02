@@ -79,7 +79,7 @@ endef
 	test test-go test-py \
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
-	build build-go verify peer-key \
+	build build-go verify peer-key refresh-asmap \
 	e2e e2e-images
 
 fmt:         fmt-go fmt-go-e2e fmt-py fmt-web
@@ -234,6 +234,9 @@ workspace: $(TOOLS_STAMP)
 
 peer-key: $(TOOLS_STAMP)
 	cd services/yacynode && $(GO) run ./cmd/yacy-peer-key
+
+refresh-asmap:
+	./tools/refresh-asmap
 
 # ---- e2e ----
 
