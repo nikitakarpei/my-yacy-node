@@ -31,7 +31,7 @@ func corpusOf(seed uint64, amountOfURLs, amountOfWords int) corpus {
 		}
 		for index, word := range words {
 			if random.Float64() < 1/float64(index+1) {
-				posting := provensearch.PostingOf(uint16(random.IntN(400)), random.IntN(8) == 0)
+				posting := provensearch.PostingOf(provensearch.Posting{Hits: uint16(random.IntN(400)), InTitle: random.IntN(8) == 0, Day: 20000})
 				key := indextree.KeyOf(word, url)
 				postings[key] = posting
 				leaves = append(leaves, indextree.Leaf{Key: key, Value: posting})

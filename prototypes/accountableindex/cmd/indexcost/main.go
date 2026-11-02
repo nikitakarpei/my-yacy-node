@@ -42,7 +42,7 @@ func main() {
 			chosen[word] = true
 			leaves = append(leaves, indextree.Leaf{
 				Key:   indextree.KeyOf(words[word], url),
-				Value: provensearch.PostingOf(uint16(random.ExpFloat64()*4), random.IntN(8) == 0),
+				Value: provensearch.PostingOf(provensearch.Posting{Hits: uint16(random.ExpFloat64() * 4), InTitle: random.IntN(8) == 0, Day: uint16(19000 + random.IntN(1000))}),
 			})
 		}
 
@@ -95,7 +95,4 @@ func main() {
 	lookup := tree.Prover()
 	lookup.RevealLookupOf(postingsOf(1)[0].Key)
 	fmt.Fprintf(os.Stdout, "| lookup of one key | - | %d | - |\n", len(lookup.Proof().Bytes()))
-	count := tree.Prover()
-	count.RevealRankOf(words[0], 1234)
-	fmt.Fprintf(os.Stdout, "| count check of the most common word | - | %d | - |\n", len(count.Proof().Bytes()))
 }

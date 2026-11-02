@@ -1,6 +1,7 @@
-// Package indexhead holds the signed head of a peer's index tree for one epoch and the
-// rules that turn two heads into fork evidence. The epoch is the index of a fixed period
-// of UTC time, so two chains of one peer must use the same epoch numbers.
+// Package indexhead holds the signed head of a peer's posting tree for one epoch and the
+// rule that turns two heads into fork evidence. The epoch is the index of a fixed period of
+// UTC time, and each head names the epoch of its predecessor, so two chains of one peer
+// cannot both pass an observer that holds a head of each.
 package indexhead
 
 import (
@@ -12,31 +13,39 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/accountableindex/indextree"
 )
 
-const headDomain = "yacy-index-head/1"
+const (
+	headDomain    = "yacy-index-head"
+	FormatVersion = 1
+)
 
 type Head struct {
-	Network   string
-	Peer      string
-	Epoch     uint64
-	LastReset uint64
-	Summary   indextree.Summary
-	Previous  indextree.Hash
-	Root      indextree.Hash
+	Network          string
+	Peer             string
+	CertificateSeq   uint64
+	Epoch            uint64
+	PredecessorEpoch uint64
+	Summary          indextree.Summary
+	Predecessor      indextree.Hash
+	Root             indextree.Hash
+	EvictionCutoff   uint16
 }
 
 func (h Head) Bytes() []byte {
 	out := appendText(nil, headDomain)
+	out = binary.BigEndian.AppendUint16(out, FormatVersion)
 	out = appendText(out, h.Network)
 	out = appendText(out, h.Peer)
+	out = binary.BigEndian.AppendUint64(out, h.CertificateSeq)
 	out = binary.BigEndian.AppendUint64(out, h.Epoch)
-	out = binary.BigEndian.AppendUint64(out, h.LastReset)
-	out = append(out, h.Previous[:]...)
+	out = binary.BigEndian.AppendUint64(out, h.PredecessorEpoch)
+	out = append(out, h.Predecessor[:]...)
 	out = append(out, h.Root[:]...)
 	out = binary.BigEndian.AppendUint64(out, h.Summary.Live)
 	out = binary.BigEndian.AppendUint64(out, h.Summary.Removed)
 	out = binary.BigEndian.AppendUint16(out, h.Summary.TopImpact)
+	out = binary.BigEndian.AppendUint16(out, h.Summary.TopStaleness)
 
-	return out
+	return binary.BigEndian.AppendUint16(out, h.EvictionCutoff)
 }
 
 func appendText(out []byte, text string) []byte {
@@ -66,23 +75,23 @@ func EpochAt(moment time.Time, period time.Duration) uint64 {
 	return uint64(moment.UTC().UnixNano() / int64(period))
 }
 
-func (s SignedHead) IsCurrentAt(moment time.Time, period time.Duration) bool {
-	current := EpochAt(moment, period)
-
-	return s.Head.Epoch+1 >= current && s.Head.Epoch <= current+1
-}
-
 type Fork struct {
 	Earlier SignedHead
 	Later   SignedHead
 }
 
 func ForkOf(earlier, later SignedHead, key ed25519.PublicKey) (Fork, bool) {
-	if !earlier.IsSignedBy(key) || !later.IsSignedBy(key) || earlier.Head.Peer != later.Head.Peer {
+	if !earlier.IsSignedBy(key) || !later.IsSignedBy(key) || earlier.Head.Peer != later.Head.Peer ||
+		earlier.Head.Epoch > later.Head.Epoch {
 		return Fork{}, false
 	}
-	sameEpoch := earlier.Head.Epoch == later.Head.Epoch && earlier.Head.Hash() != later.Head.Hash()
-	brokenChain := later.Head.Epoch == earlier.Head.Epoch+1 && later.Head.Previous != earlier.Head.Hash()
+	fork := Fork{Earlier: earlier, Later: later}
+	if earlier.Head.Epoch == later.Head.Epoch {
+		return fork, earlier.Head.Hash() != later.Head.Hash()
+	}
+	if later.Head.PredecessorEpoch < earlier.Head.Epoch {
+		return fork, true
+	}
 
-	return Fork{Earlier: earlier, Later: later}, sameEpoch || brokenChain
+	return fork, later.Head.PredecessorEpoch == earlier.Head.Epoch && later.Head.Predecessor != earlier.Head.Hash()
 }

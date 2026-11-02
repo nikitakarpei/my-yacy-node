@@ -176,24 +176,6 @@ func (n *ProofNode) appendBytes(out []byte) []byte {
 	}
 }
 
-func (p Proof) ReachesRankOf(word Word, rank uint64) bool {
-	region, presence := p.RegionOf(word)
-	if presence != Present || rank >= region.Summary.Live {
-		return false
-	}
-	current := region
-	for current.Revealed && current.Leaf == nil {
-		if rank < current.Left.Summary.Live {
-			current = current.Left
-		} else {
-			rank -= current.Left.Summary.Live
-			current = current.Right
-		}
-	}
-
-	return current.Revealed && current.Summary.Live == 1 && rank == 0
-}
-
 func (n *ProofNode) LowestURL() URL {
 	return n.Prefix.URL()
 }

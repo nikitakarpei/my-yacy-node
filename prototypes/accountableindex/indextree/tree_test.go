@@ -109,18 +109,3 @@ func TestAnUpdateWritesOnlyTheChangedPaths(t *testing.T) {
 		t.Fatalf("one stored leaf wrote %d nodes", amountOfWrittenNodes)
 	}
 }
-
-func TestARankDescentReachesALivePosting(t *testing.T) {
-	leaves := randomLeaves(6, 600, 4)
-	tree, _ := indextree.EmptyTree(impactOfFirstByte).Updated(indextree.Changes{Stored: leaves})
-	word := leaves[0].Key.Word()
-	prover := tree.Prover()
-	prover.RevealRankOf(word, 17)
-	proof := prover.Proof()
-	if _, _, err := proof.VerifiedRoot(impactOfFirstByte); err != nil || !proof.ReachesRankOf(word, 17) {
-		t.Fatalf("rank descent does not reach a live posting: %v", err)
-	}
-	if proof.ReachesRankOf(word, 1<<40) {
-		t.Fatal("a rank above the count is reached")
-	}
-}

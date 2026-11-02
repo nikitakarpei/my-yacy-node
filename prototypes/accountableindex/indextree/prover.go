@@ -71,29 +71,3 @@ func (p *Prover) proofNodeOf(current *node) *ProofNode {
 
 	return proofNode
 }
-
-func (p *Prover) RevealRankOf(word Word, rank uint64) {
-	current := p.tree.root
-	prefix := wordPrefixOf(word)
-	for current != nil {
-		nodePrefix, length := current.keyRange()
-		if !prefix.sharesPrefixWith(nodePrefix, min(length, wordBits)) {
-			return
-		}
-		p.revealed[current] = true
-		if current.leaf != nil {
-			return
-		}
-		if length < wordBits {
-			current = current.childToward(prefix)
-
-			continue
-		}
-		if rank < current.left.summary.Live {
-			current = current.left
-		} else {
-			rank -= current.left.summary.Live
-			current = current.right
-		}
-	}
-}

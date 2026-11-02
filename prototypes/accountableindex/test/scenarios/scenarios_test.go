@@ -65,8 +65,10 @@ func (n network) postings(seed uint64, amountPerWord int) []indextree.Leaf {
 				url[position] = byte(random.Uint32())
 			}
 			leaves = append(leaves, indextree.Leaf{
-				Key:   indextree.KeyOf(word, url),
-				Value: provensearch.PostingOf(uint16(random.IntN(500)), random.IntN(6) == 0),
+				Key: indextree.KeyOf(word, url),
+				Value: provensearch.PostingOf(provensearch.Posting{
+					Hits: uint16(random.IntN(500)), InTitle: random.IntN(6) == 0, Day: uint16(19000 + random.IntN(1000)),
+				}),
 			})
 		}
 	}
@@ -75,32 +77,47 @@ func (n network) postings(seed uint64, amountPerWord int) []indextree.Leaf {
 }
 
 func (n network) sealed(peer *accountablepeer.Peer, leaves []indextree.Leaf) indexhead.SignedHead {
-	peer.Accept(leaves)
+	peer.Admit(leaves)
 	n.clock.advance()
 
 	return peer.Seal()
+}
+
+func (n network) resealed(peer *accountablepeer.Peer) indexhead.SignedHead {
+	n.clock.advance()
+
+	return peer.Seal()
+}
+
+func dayOf(t *testing.T, leaf indextree.Leaf) uint16 {
+	t.Helper()
+	posting, isPosting := provensearch.PostingFrom(leaf.Value)
+	if !isPosting {
+		t.Fatal("leaf holds no posting")
+	}
+
+	return posting.Day
 }
 
 func TestAnHonestAnswerVerifiesAsComplete(t *testing.T) {
 	network := networkOf(t)
 	peer := network.peer()
 	network.sealed(peer, network.postings(1, 400))
-	query := provensearch.Query{Words: network.words[:2], Amount: 10}
-	head, answer := peer.Search(query, 10000)
+	query := provensearch.Query{Words: network.words[:1], Amount: 10}
+	head, answer := peer.Search(query, 400)
 	verdict, err := provensearch.VerifiedVerdictOf(answer.Proof, query, head.Head.Root, head.Head.Summary)
 	if err != nil || !head.IsSignedBy(peer.PublicKey()) || !verdict.Complete {
 		t.Fatalf("honest answer does not verify as complete: %v", err)
 	}
 }
 
-func TestAnAnswerThatDropsAResultNoLongerLeadsToTheHead(t *testing.T) {
+func TestAnAnswerThatLowersAResultNoLongerLeadsToTheHead(t *testing.T) {
 	network := networkOf(t)
 	peer := network.peer()
 	network.sealed(peer, network.postings(2, 300))
 	query := provensearch.Query{Words: network.words[:1], Amount: 5}
-	head, answer := peer.Search(query, 10000)
-	top := answer.Verdict.Results[0]
-	hidden, _ := answer.Proof.Lookup(indextree.KeyOf(network.words[0], top.URL))
+	head, answer := peer.Search(query, 400)
+	hidden, _ := answer.Proof.Lookup(indextree.KeyOf(network.words[0], answer.Verdict.Results[0].URL))
 	hidden.Revealed, hidden.Leaf, hidden.Summary = false, nil, indextree.Summary{Live: 1}
 	if _, err := provensearch.VerifiedVerdictOf(answer.Proof, query, head.Head.Root, head.Head.Summary); err == nil {
 		t.Fatal("an answer that lowers its top result still verifies")
@@ -111,9 +128,9 @@ func TestAnAnswerThatStopsEarlyIsPartialWithABoundAboveTheMissingResults(t *test
 	network := networkOf(t)
 	peer := network.peer()
 	network.sealed(peer, network.postings(3, 300))
-	query := provensearch.Query{Words: network.words[:2], Amount: 10}
-	head, full := peer.Search(query, 10000)
-	_, early := peer.Search(query, 3)
+	query := provensearch.Query{Words: network.words[:1], Amount: 10}
+	head, full := peer.Search(query, 400)
+	_, early := peer.Search(query, 1)
 	verdict, err := provensearch.VerifiedVerdictOf(early.Proof, query, head.Head.Root, head.Head.Summary)
 	if err != nil || verdict.Complete {
 		t.Fatalf("an early stop verifies as complete: %v", err)
@@ -129,103 +146,154 @@ func TestAnAnswerThatStopsEarlyIsPartialWithABoundAboveTheMissingResults(t *test
 	}
 }
 
-func TestAPeerThatDropsAcceptedPostingsBreaksItsPromise(t *testing.T) {
+func TestAPeerThatDropsAdmittedPostingsBreaksItsPromise(t *testing.T) {
 	network := networkOf(t)
 	honest := network.peer()
-	leaves := network.postings(4, 20)
-	promise := honest.Accept(leaves)
+	promise := honest.Admit(network.postings(4, 20))
 	blackHole := network.peer()
 	network.clock.advance()
 	blackHole.Seal()
-	observation := blackHole.Lookup(promise.Keys[:1])
-	if _, broken := indexevidence.BrokenPromiseOf(promise, observation, honest.PublicKey()); !broken {
+	if _, broken := indexevidence.BrokenPromiseOf(promise, blackHole.Lookup(promise.Keys[:1]), honest.PublicKey()); !broken {
 		t.Fatal("a dropped posting does not break the promise")
 	}
-	if _, broken := indexevidence.BrokenPromiseOf(promise, func() indexevidence.Observation {
-		honest.Seal()
-
-		return honest.Lookup(promise.Keys[:1])
-	}(), honest.PublicKey()); broken {
+	honest.Seal()
+	if _, broken := indexevidence.BrokenPromiseOf(promise, honest.Lookup(promise.Keys), honest.PublicKey()); broken {
 		t.Fatal("a kept promise counts as broken")
 	}
 }
 
-func TestAnEvictionLeavesATombstoneAndNoEvidence(t *testing.T) {
+func TestAPromiseIsKeptByADisclosedRemoval(t *testing.T) {
 	network := networkOf(t)
 	peer := network.peer()
-	leaves := network.postings(5, 50)
-	network.sealed(peer, leaves)
-	before := peer.Lookup([]indextree.Key{leaves[0].Key})
-	peer.Remove([]indextree.Key{leaves[0].Key}, provensearch.RemovedByEviction)
+	leaves := network.postings(5, 20)
+	promise := peer.Admit(leaves)
+	peer.RemoveURL(leaves[0].Key.URL(), provensearch.RemovedByNewerVersion, dayOf(t, leaves[0]))
+	peer.HandOff(leaves[len(leaves)-1].Key.Word(), []string{"peer-b", "peer-c"})
 	network.clock.advance()
 	peer.Seal()
+	if _, broken := indexevidence.BrokenPromiseOf(promise, peer.Lookup(promise.Keys), peer.PublicKey()); broken {
+		t.Fatal("a disclosed removal breaks the promise")
+	}
+}
+
+func TestAnEvictionByThePublishedCutoffLeavesNoEvidence(t *testing.T) {
+	network := networkOf(t)
+	peer := network.peer()
+	leaves := network.postings(6, 50)
+	network.sealed(peer, leaves)
+	before := peer.Lookup([]indextree.Key{leaves[0].Key})
+	peer.Evict(dayOf(t, leaves[0]))
+	head := network.resealed(peer)
 	after := peer.Lookup([]indextree.Key{leaves[0].Key})
 	if _, undisclosed := indexevidence.UndisclosedRemovalOf(before, after, leaves[0].Key, peer.PublicKey()); undisclosed {
 		t.Fatal("a disclosed eviction counts as undisclosed")
 	}
-	tombstone, _ := after.Proof.Lookup(leaves[0].Key)
-	if _, isTombstone := provensearch.TombstoneEpochOf(tombstone.Leaf.Value); !isTombstone {
-		t.Fatal("the evicted key holds no tombstone")
+	if _, unjustified := indexevidence.UnjustifiedEvictionOf(before, after, leaves[0].Key, peer.PublicKey()); unjustified {
+		t.Fatal("an eviction by the cutoff counts as unjustified")
+	}
+	if _, stale := indexevidence.StaleKeptOf(head, peer.PublicKey()); stale {
+		t.Fatal("a head after eviction keeps postings staler than its cutoff")
 	}
 }
 
 func TestARemovalWithoutATombstoneIsEvidence(t *testing.T) {
 	network := networkOf(t)
-	leaves := network.postings(6, 50)
+	leaves := network.postings(7, 50)
 	tree, _ := indextree.EmptyTree(provensearch.SummaryOf).Updated(indextree.Changes{Stored: leaves})
-	earlier := censorObservationOf(network, tree, 100, indextree.Hash{}, leaves[0].Key)
+	earlier := censorObservationOf(network, tree, indexhead.Head{Epoch: 100}, leaves[0].Key)
 	censored, _ := tree.Updated(indextree.Changes{Removed: []indextree.Key{leaves[0].Key}})
-	later := censorObservationOf(network, censored, 101, earlier.Head.Head.Hash(), leaves[0].Key)
-	public, _ := network.identity.Key.Public().(ed25519.PublicKey)
-	if _, undisclosed := indexevidence.UndisclosedRemovalOf(earlier, later, leaves[0].Key, public); !undisclosed {
+	later := censorObservationOf(network, censored, indexhead.Head{
+		Epoch: 101, PredecessorEpoch: 100, Predecessor: earlier.Head.Head.Hash(),
+	}, leaves[0].Key)
+	if _, undisclosed := indexevidence.UndisclosedRemovalOf(earlier, later, leaves[0].Key, publicKeyOf(network)); !undisclosed {
 		t.Fatal("a silent removal is not evidence")
 	}
 }
 
-func censorObservationOf(
-	network network,
-	tree indextree.Tree,
-	epoch uint64,
-	previous indextree.Hash,
-	key indextree.Key,
-) indexevidence.Observation {
+func TestAnEvictionOfAFresherPostingIsEvidence(t *testing.T) {
+	network := networkOf(t)
+	leaves := network.postings(8, 50)
+	tree, _ := indextree.EmptyTree(provensearch.SummaryOf).Updated(indextree.Changes{Stored: leaves})
+	earlier := censorObservationOf(network, tree, indexhead.Head{Epoch: 100}, leaves[0].Key)
+	censored, _ := tree.Updated(indextree.Changes{
+		Stored: []indextree.Leaf{{
+			Key: provensearch.RemovedURLKeyOf(leaves[0].Key.URL()),
+			Value: provensearch.URLTombstoneOf(provensearch.URLTombstone{
+				Reason: provensearch.RemovedByEviction, Epoch: 101, EvictionCutoff: dayOf(t, leaves[0]) - 1,
+			}),
+		}},
+		Removed: []indextree.Key{leaves[0].Key},
+	})
+	later := censorObservationOf(network, censored, indexhead.Head{
+		Epoch: 101, PredecessorEpoch: 100, Predecessor: earlier.Head.Head.Hash(),
+	}, leaves[0].Key)
+	if _, unjustified := indexevidence.UnjustifiedEvictionOf(earlier, later, leaves[0].Key, publicKeyOf(network)); !unjustified {
+		t.Fatal("evicting a posting fresher than the cutoff is not evidence")
+	}
+}
+
+func TestAHeadThatKeepsPostingsStalerThanItsCutoffIsEvidence(t *testing.T) {
+	network := networkOf(t)
+	leaves := network.postings(9, 50)
+	tree, _ := indextree.EmptyTree(provensearch.SummaryOf).Updated(indextree.Changes{Stored: leaves})
+	head := censorObservationOf(network, tree, indexhead.Head{Epoch: 100, EvictionCutoff: 19500}, leaves[0].Key).Head
+	if _, stale := indexevidence.StaleKeptOf(head, publicKeyOf(network)); !stale {
+		t.Fatal("a head keeping postings staler than its cutoff is not evidence")
+	}
+}
+
+func censorObservationOf(network network, tree indextree.Tree, head indexhead.Head, key indextree.Key) indexevidence.Observation {
 	prover := tree.Prover()
 	prover.RevealLookupOf(key)
-	head := indexhead.SignedHeadOf(indexhead.Head{
-		Network: network.identity.Network, Peer: network.identity.Name, Epoch: epoch,
-		Previous: previous, Root: tree.Root(), Summary: tree.Summary(),
-	}, network.identity.Key)
+	prover.RevealLookupOf(provensearch.RemovedURLKeyOf(key.URL()))
+	prover.RevealLookupOf(provensearch.HandedOffWordKeyOf(key.Word()))
+	head.Network, head.Peer = network.identity.Network, network.identity.Name
+	head.Root, head.Summary = tree.Root(), tree.Summary()
 
-	return indexevidence.Observation{Head: head, Proof: prover.Proof()}
+	return indexevidence.Observation{Head: indexhead.SignedHeadOf(head, network.identity.Key), Proof: prover.Proof()}
+}
+
+func publicKeyOf(network network) ed25519.PublicKey {
+	public, _ := network.identity.Key.Public().(ed25519.PublicKey)
+
+	return public
 }
 
 func TestTwoStatesForOneEpochAreAFork(t *testing.T) {
 	network := networkOf(t)
 	first, second := network.peer(), network.peer()
-	first.Accept(network.postings(7, 10))
+	first.Admit(network.postings(10, 10))
 	network.clock.advance()
 	if _, isFork := indexhead.ForkOf(first.Seal(), second.Seal(), first.PublicKey()); !isFork {
 		t.Fatal("two states for one epoch are not a fork")
 	}
 }
 
-func TestACountIsCheckedByARandomRank(t *testing.T) {
+func TestAChainThatSkipsAnotherHeadIsAFork(t *testing.T) {
 	network := networkOf(t)
-	peer := network.peer()
-	head := network.sealed(peer, network.postings(8, 120))
-	observation := peer.CountProof(network.words[1], 77)
-	err := provensearch.VerifiedProof(observation.Proof, head.Head.Root, head.Head.Summary)
-	if err != nil || !observation.Proof.ReachesRankOf(network.words[1], 77) {
-		t.Fatalf("a random rank does not check the count: %v", err)
+	first, second := network.peer(), network.peer()
+	network.clock.advance()
+	first.Seal()
+	network.clock.advance()
+	shown := first.Seal()
+	network.clock.advance()
+	network.clock.advance()
+	hidden := second.Seal()
+	if _, isFork := indexhead.ForkOf(shown, hidden, first.PublicKey()); !isFork {
+		t.Fatal("a second chain that skips a shown head is not a fork")
+	}
+	following := network.resealed(first)
+	if _, isFork := indexhead.ForkOf(shown, following, first.PublicKey()); isFork {
+		t.Fatal("one honest chain counts as a fork")
 	}
 }
 
 func TestAClockRunningBackSealsNoSecondHead(t *testing.T) {
 	network := networkOf(t)
 	peer := network.peer()
-	head := network.sealed(peer, network.postings(9, 10))
+	head := network.sealed(peer, network.postings(11, 10))
 	network.clock.moment = network.clock.moment.Add(-3 * period)
-	peer.Accept(network.postings(10, 10))
+	peer.Admit(network.postings(12, 10))
 	if again := peer.Seal(); again.Head.Hash() != head.Head.Hash() {
 		t.Fatal("a clock running back sealed a second head")
 	}

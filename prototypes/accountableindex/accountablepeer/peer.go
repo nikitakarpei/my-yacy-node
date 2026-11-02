@@ -1,7 +1,7 @@
 // Package accountablepeer is the smallest peer that keeps an accountable index: it
-// promises what it accepts, turns every removal into a tombstone, seals the epoch's
-// changes into one signed head, and answers searches and lookups from its last sealed tree
-// with proofs against that head.
+// promises what it admits, discloses every removal with a tombstone per URL or per handed-off
+// word, evicts by a published cutoff day, seals the epoch's changes into one signed head,
+// and answers searches and lookups from its last sealed tree with proofs against that head.
 package accountablepeer
 
 import (
@@ -24,24 +24,25 @@ type Identity struct {
 }
 
 type Peer struct {
-	clock             Clock
-	tombstonesByEpoch map[uint64][]indextree.Key
-	latest            indexhead.SignedHead
-	identity          Identity
-	pending           indextree.Changes
-	tree              indextree.Tree
-	period            time.Duration
-	lastReset         uint64
-	amountOfWrites    int
+	clock           Clock
+	keysByURL       map[indextree.URL][]indextree.Key
+	tombstoneEpochs map[indextree.Key]uint64
+	latest          indexhead.SignedHead
+	identity        Identity
+	pending         indextree.Changes
+	tree            indextree.Tree
+	period          time.Duration
+	evictionCutoff  uint16
 }
 
 func New(identity Identity, period time.Duration, clock Clock) *Peer {
 	return &Peer{
-		clock:             clock,
-		tombstonesByEpoch: map[uint64][]indextree.Key{},
-		identity:          identity,
-		tree:              indextree.EmptyTree(provensearch.SummaryOf),
-		period:            period,
+		clock:           clock,
+		keysByURL:       map[indextree.URL][]indextree.Key{},
+		tombstoneEpochs: map[indextree.Key]uint64{},
+		identity:        identity,
+		tree:            indextree.EmptyTree(provensearch.SummaryOf),
+		period:          period,
 	}
 }
 
@@ -51,29 +52,69 @@ func (p *Peer) PublicKey() ed25519.PublicKey {
 	return public
 }
 
-func (p *Peer) Accept(leaves []indextree.Leaf) intakepromise.Promise {
+func (p *Peer) Admit(leaves []indextree.Leaf) intakepromise.Promise {
 	keys := make([]indextree.Key, 0, len(leaves))
 	for _, leaf := range leaves {
 		keys = append(keys, leaf.Key)
+		p.keysByURL[leaf.Key.URL()] = append(p.keysByURL[leaf.Key.URL()], leaf.Key)
 	}
 	p.pending.Stored = append(p.pending.Stored, leaves...)
 
-	return intakepromise.PromiseOf(p.identity.Name, p.currentEpoch()+1, keys, p.identity.Key)
+	return intakepromise.PromiseOf(p.identity.Name, p.disclosingEpoch(), keys, p.identity.Key)
 }
 
-func (p *Peer) Remove(keys []indextree.Key, reason provensearch.RemovalReason) {
-	epoch := p.currentEpoch()
-	for _, key := range keys {
-		p.pending.Stored = append(p.pending.Stored, indextree.Leaf{Key: key, Value: provensearch.TombstoneOf(reason, epoch)})
+func (p *Peer) RemoveURL(url indextree.URL, reason provensearch.RemovalReason, versionDay uint16) {
+	p.pending.Removed = append(p.pending.Removed, p.keysByURL[url]...)
+	delete(p.keysByURL, url)
+	p.storeTombstone(provensearch.RemovedURLKeyOf(url), provensearch.URLTombstoneOf(provensearch.URLTombstone{
+		Reason: reason, Epoch: p.disclosingEpoch(), VersionDay: versionDay, EvictionCutoff: p.evictionCutoff,
+	}))
+}
+
+func (p *Peer) Evict(cutoffDay uint16) {
+	p.evictionCutoff = cutoffDay
+	for url, keys := range p.keysByURL {
+		value, _ := p.valueOf(keys[0])
+		if posting, isPosting := provensearch.PostingFrom(value); isPosting && posting.Day <= cutoffDay {
+			p.RemoveURL(url, provensearch.RemovedByEviction, posting.Day)
+		}
 	}
-	p.tombstonesByEpoch[epoch] = append(p.tombstonesByEpoch[epoch], keys...)
 }
 
-func (p *Peer) Reset() {
-	p.tree = indextree.EmptyTree(provensearch.SummaryOf)
-	p.pending = indextree.Changes{}
-	clear(p.tombstonesByEpoch)
-	p.lastReset = p.currentEpoch()
+func (p *Peer) HandOff(word indextree.Word, receivers []string) {
+	for url, keys := range p.keysByURL {
+		kept := keys[:0]
+		for _, key := range keys {
+			if key.Word() == word {
+				p.pending.Removed = append(p.pending.Removed, key)
+			} else {
+				kept = append(kept, key)
+			}
+		}
+		p.keysByURL[url] = kept
+	}
+	p.storeTombstone(provensearch.HandedOffWordKeyOf(word), provensearch.WordTombstoneOf(provensearch.WordTombstone{
+		Epoch: p.disclosingEpoch(), Receivers: receivers,
+	}))
+}
+
+func (p *Peer) storeTombstone(key indextree.Key, value []byte) {
+	p.pending.Stored = append(p.pending.Stored, indextree.Leaf{Key: key, Value: value})
+	p.tombstoneEpochs[key] = p.disclosingEpoch()
+}
+
+func (p *Peer) disclosingEpoch() uint64 {
+	return p.currentEpoch() + 1
+}
+
+func (p *Peer) valueOf(key indextree.Key) ([]byte, bool) {
+	for index := len(p.pending.Stored) - 1; index >= 0; index-- {
+		if p.pending.Stored[index].Key == key {
+			return p.pending.Stored[index].Value, true
+		}
+	}
+
+	return p.tree.Value(key)
 }
 
 func (p *Peer) Seal() indexhead.SignedHead {
@@ -82,18 +123,17 @@ func (p *Peer) Seal() indexhead.SignedHead {
 		return p.latest
 	}
 	p.pending.Removed = append(p.pending.Removed, p.expiredTombstonesAt(epoch)...)
-	var written int
-	p.tree, written = p.tree.Updated(p.pending)
-	p.amountOfWrites += written
+	p.tree, _ = p.tree.Updated(p.pending)
 	p.pending = indextree.Changes{}
 	p.latest = indexhead.SignedHeadOf(indexhead.Head{
-		Network:   p.identity.Network,
-		Peer:      p.identity.Name,
-		Epoch:     epoch,
-		LastReset: p.lastReset,
-		Previous:  p.previousHeadHash(),
-		Root:      p.tree.Root(),
-		Summary:   p.tree.Summary(),
+		Network:          p.identity.Network,
+		Peer:             p.identity.Name,
+		Epoch:            epoch,
+		PredecessorEpoch: p.latest.Head.Epoch,
+		Predecessor:      p.predecessorHash(),
+		Root:             p.tree.Root(),
+		Summary:          p.tree.Summary(),
+		EvictionCutoff:   p.evictionCutoff,
 	}, p.identity.Key)
 
 	return p.latest
@@ -101,23 +141,17 @@ func (p *Peer) Seal() indexhead.SignedHead {
 
 func (p *Peer) expiredTombstonesAt(epoch uint64) []indextree.Key {
 	var expired []indextree.Key
-	for removalEpoch, keys := range p.tombstonesByEpoch {
-		if removalEpoch+indexevidence.TombstoneEpochs >= epoch {
-			continue
+	for key, removalEpoch := range p.tombstoneEpochs {
+		if removalEpoch+indexevidence.TombstoneEpochs < epoch {
+			expired = append(expired, key)
+			delete(p.tombstoneEpochs, key)
 		}
-		for _, key := range keys {
-			value, _ := p.tree.Value(key)
-			if tombstoneEpoch, isTombstone := provensearch.TombstoneEpochOf(value); isTombstone && tombstoneEpoch == removalEpoch {
-				expired = append(expired, key)
-			}
-		}
-		delete(p.tombstonesByEpoch, removalEpoch)
 	}
 
 	return expired
 }
 
-func (p *Peer) previousHeadHash() indextree.Hash {
+func (p *Peer) predecessorHash() indextree.Hash {
 	if p.latest.Signature == nil {
 		return indextree.Hash{}
 	}
@@ -129,26 +163,17 @@ func (p *Peer) currentEpoch() uint64 {
 	return indexhead.EpochAt(p.clock(), p.period)
 }
 
-func (p *Peer) AmountOfWrittenNodes() int {
-	return p.amountOfWrites
-}
-
-func (p *Peer) Search(query provensearch.Query, amountOfExpansions int) (indexhead.SignedHead, provensearch.Answer) {
-	return p.latest, provensearch.AnswerFrom(p.tree, query, amountOfExpansions)
+func (p *Peer) Search(query provensearch.Query, amountOfRounds int) (indexhead.SignedHead, provensearch.Answer) {
+	return p.latest, provensearch.AnswerFrom(p.tree, query, amountOfRounds)
 }
 
 func (p *Peer) Lookup(keys []indextree.Key) indexevidence.Observation {
 	prover := p.tree.Prover()
 	for _, key := range keys {
 		prover.RevealLookupOf(key)
+		prover.RevealLookupOf(provensearch.RemovedURLKeyOf(key.URL()))
+		prover.RevealLookupOf(provensearch.HandedOffWordKeyOf(key.Word()))
 	}
-
-	return indexevidence.Observation{Head: p.latest, Proof: prover.Proof()}
-}
-
-func (p *Peer) CountProof(word indextree.Word, rank uint64) indexevidence.Observation {
-	prover := p.tree.Prover()
-	prover.RevealRankOf(word, rank)
 
 	return indexevidence.Observation{Head: p.latest, Proof: prover.Proof()}
 }
