@@ -6,22 +6,26 @@ import (
 	"fmt"
 )
 
+// TECHDEBT: comments — an explanatory comment on DHTRingPosition is not an allowed comment form
 // DHTRingPosition is where something sits on the DHT ring. The ring is 63 bits
 // wide and ends at MaxDHTRingPosition.
 type DHTRingPosition uint64
 
 const MaxDHTRingPosition = DHTRingPosition(1)<<63 - 1
 
+// TECHDEBT: comments — an explanatory comment on DHTRingDistance is not an allowed comment form
 // DHTRingDistance is how far apart two positions are. You always measure it
 // forward around the ring.
 type DHTRingDistance uint64
 
+// TECHDEBT: comments — an explanatory comment on DHTRingPartitions is not an allowed comment form
 // DHTRingPartitions is how many equal parts the ring is cut into. The amount is
 // always a power of two. The zero value is the whole ring.
 type DHTRingPartitions struct {
 	exponent uint
 }
 
+// TECHDEBT: comments — an explanatory comment on DHTRingPartitionsFromExponent is not an allowed comment form
 // DHTRingPartitionsFromExponent makes 1<<exponent partitions. The exponent is
 // how many of the high bits of a posting's position come from its url hash
 // (Distribution.java:49-52).
@@ -54,6 +58,7 @@ func (p DHTRingPartitions) exponentByte() byte {
 
 const dhtRingPositionSymbols = 10
 
+// TECHDEBT: comments — an explanatory comment on DHTRingPositionOf is not an allowed comment form
 // DHTRingPositionOf puts a hash on the ring in base64 order. Words and peers
 // go on the same ring, so you can compare them (Distribution.java:74-78,
 // horizontalDHTPosition).
@@ -63,6 +68,7 @@ func DHTRingPositionOf(hash Hash) DHTRingPosition {
 	return DHTRingPosition(firstSymbols<<3 | 7)
 }
 
+// TECHDEBT: comments — an explanatory comment on HashFromDHTRingPosition is not an allowed comment form
 // HashFromDHTRingPosition turns a position back into a hash that sits there. It
 // reverses DHTRingPositionOf, but it can only recover the first ten symbols
 // (Distribution.java:111-116, positionToHash).
@@ -80,6 +86,7 @@ func HashFromDHTRingPosition(position DHTRingPosition) Hash {
 	return hashOfSymbols(symbols)
 }
 
+// TECHDEBT: comments — an explanatory comment on DistanceTo is not an allowed comment form
 // DistanceTo is how far you go forward around the ring to reach another
 // position. The ring wraps at MaxDHTRingPosition (Distribution.java:101-103,
 // horizontalDHTDistance).
@@ -91,11 +98,13 @@ func (p DHTRingPosition) DistanceTo(other DHTRingPosition) DHTRingDistance {
 	return DHTRingDistance((MaxDHTRingPosition - p) + other + 1)
 }
 
+// TECHDEBT: comments — an explanatory comment on FractionOfDHTRing is not an allowed comment form
 // FractionOfDHTRing is this distance as a part of the whole ring, from 0 to 1.
 func (d DHTRingDistance) FractionOfDHTRing() float64 {
 	return float64(d) / float64(uint64(MaxDHTRingPosition)+1)
 }
 
+// TECHDEBT: comments — an explanatory comment on DHTRingPositionOfPosting is not an allowed comment form
 // DHTRingPositionOfPosting puts one posting on the ring. The low bits come from
 // the word hash and the high bits from the url hash. This spreads the postings
 // of one word over the partitions, so they do not all go to the peer nearest
@@ -107,6 +116,7 @@ func DHTRingPositionOfPosting(
 	return DHTRingPositionOfWordAndURL(posting.WordHash, posting.URLHash, partitions)
 }
 
+// TECHDEBT: comments — an explanatory comment on DHTRingPositionOfWordAndURL is not an allowed comment form
 // DHTRingPositionOfWordAndURL puts the posting of a word on a url on the ring.
 func DHTRingPositionOfWordAndURL(
 	word Hash,
@@ -120,6 +130,7 @@ func DHTRingPositionOfWordAndURL(
 	return wordPosition&mask | urlPosition&^mask
 }
 
+// TECHDEBT: comments — an explanatory comment on DistanceFromPostingsOfWord is not an allowed comment form
 // DistanceFromPostingsOfWord is how far this position is past the postings of a
 // word. In each partition there is one position where the postings of a word go.
 // This position is inside one partition. The distance goes forward from the

@@ -44,6 +44,7 @@ func New(
 	}
 }
 
+// TECHDEBT: abstraction — HandOffIfHeldByResponsiblePeers orchestrates the hand-off and also assembles log attributes
 func (h *Handoff) HandOffIfHeldByResponsiblePeers(
 	ctx context.Context,
 	tx *vault.Txn,
