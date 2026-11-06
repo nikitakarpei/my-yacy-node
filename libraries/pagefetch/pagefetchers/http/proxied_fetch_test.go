@@ -375,6 +375,61 @@ func TestFetchReportsTheRedirectTargetWithoutFollowingIt(t *testing.T) {
 	}
 }
 
+func TestFetchKeepsTheResponseStatusAndHeaders(t *testing.T) {
+	for _, dialMode := range []httppkg.ProxyDialMode{
+		httppkg.ProxyDialTunnel,
+		httppkg.ProxyDialAbsoluteURL,
+	} {
+		proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Type", "text/html")
+			w.Header().Add("Attested-Version", "v0.1")
+			_, _ = w.Write([]byte("<html>hi</html>"))
+		})
+
+		outcome, err := httppkg.New(proxy, dialMode, testUserAgent, 1<<20, time.Second).
+			Fetch(
+				context.Background(),
+				canonicalurltest.CanonicalURLOf(t, "http://target.example/page"),
+				pagefetch.PageVersion{})
+		closeFn()
+		if err != nil {
+			t.Fatalf("dial %v: Fetch: %v", dialMode, err)
+		}
+		if outcome.Response.StatusCode != http.StatusOK {
+			t.Errorf("dial %v: status = %d, want 200", dialMode, outcome.Response.StatusCode)
+		}
+		if got := outcome.Response.Header.Get("Attested-Version"); got != "v0.1" {
+			t.Errorf(
+				"dial %v: Attested-Version = %q, want the header as the proxy sent it",
+				dialMode,
+				got,
+			)
+		}
+	}
+}
+
+func TestFetchKeepsTheResponseOfARedirect(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "http://target.example/b", http.StatusMovedPermanently)
+	})
+	defer closeFn()
+
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/a"),
+			pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if outcome.Response.StatusCode != http.StatusMovedPermanently {
+		t.Errorf("status = %d, want 301", outcome.Response.StatusCode)
+	}
+	if got := outcome.Response.Header.Get("Location"); got != "http://target.example/b" {
+		t.Errorf("Location = %q", got)
+	}
+}
+
 func TestFetchResolvesARelativeRedirectTarget(t *testing.T) {
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "../elsewhere/", http.StatusFound)

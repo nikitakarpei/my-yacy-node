@@ -3,6 +3,7 @@ package redirectfollowingfetch_test
 import (
 	"context"
 	"errors"
+	"net/http"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -40,13 +41,18 @@ func redirectTo(t *testing.T, targetURL string) pagefetch.FetchOutcome {
 	return pagefetch.FetchOutcome{
 		Status:         pagefetch.FetchRedirected,
 		RedirectTarget: canonicalurltest.CanonicalURLOf(t, targetURL),
+		Response: pagefetch.Response{
+			StatusCode: http.StatusFound,
+			Header:     http.Header{"Location": {targetURL}},
+		},
 	}
 }
 
 func servedPage(body string) pagefetch.FetchOutcome {
 	return pagefetch.FetchOutcome{
-		Status: pagefetch.FetchSucceeded,
-		Page:   pagefetch.FetchedPage{ContentType: "text/html", Body: []byte(body)},
+		Status:   pagefetch.FetchSucceeded,
+		Page:     pagefetch.FetchedPage{ContentType: "text/html", Body: []byte(body)},
+		Response: pagefetch.Response{StatusCode: http.StatusOK},
 	}
 }
 
@@ -84,6 +90,61 @@ func TestFetchLandsOnThePageTheRedirectsLeadTo(t *testing.T) {
 	}
 	if string(landed.Outcome.Page.Body) != "<html>landed</html>" {
 		t.Errorf("body = %q", landed.Outcome.Page.Body)
+	}
+}
+
+func TestFetchKeepsTheResponseOfEachHopInOrder(t *testing.T) {
+	origin := &originPageFetches{outcomeByURL: map[string]pagefetch.FetchOutcome{
+		"http://host/a": redirectTo(t, "http://host/b"),
+		"http://host/b": redirectTo(t, "http://host/c"),
+		"http://host/c": servedPage("<html>landed</html>"),
+	}}
+
+	landed := fetchFollowingRedirects(t, origin, 10)
+
+	want := []struct {
+		url        string
+		statusCode int
+		location   string
+	}{
+		{"http://host/a", http.StatusFound, "http://host/b"},
+		{"http://host/b", http.StatusFound, "http://host/c"},
+		{"http://host/c", http.StatusOK, ""},
+	}
+	if len(landed.Hops) != len(want) {
+		t.Fatalf("hops = %+v, want %d hops", landed.Hops, len(want))
+	}
+	for i, hop := range landed.Hops {
+		if hop.URL != canonicalurltest.CanonicalURLOf(t, want[i].url) {
+			t.Errorf("hop %d URL = %s, want %s", i, hop.URL, want[i].url)
+		}
+		if hop.Response.StatusCode != want[i].statusCode {
+			t.Errorf("hop %d status = %d, want %d", i, hop.Response.StatusCode, want[i].statusCode)
+		}
+		if got := hop.Response.Header.Get("Location"); got != want[i].location {
+			t.Errorf("hop %d Location = %q, want %q", i, got, want[i].location)
+		}
+	}
+}
+
+func TestFetchKeepsTheHopsUpToTheHopLimit(t *testing.T) {
+	origin := &originPageFetches{outcomeByURL: map[string]pagefetch.FetchOutcome{
+		"http://host/a": redirectTo(t, "http://host/b"),
+		"http://host/b": redirectTo(t, "http://host/c"),
+		"http://host/c": servedPage("<html>landed</html>"),
+	}}
+
+	landed := fetchFollowingRedirects(t, origin, 1)
+
+	if len(landed.Hops) != 2 {
+		t.Fatalf("hops = %+v, want the two hops the limit allows", landed.Hops)
+	}
+	if landed.Hops[1].URL != landed.URL {
+		t.Errorf(
+			"last hop %s, want the URL the fetch stopped at, %s",
+			landed.Hops[1].URL,
+			landed.URL,
+		)
 	}
 }
 

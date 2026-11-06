@@ -77,7 +77,7 @@ func (f *ProxiedFetch) Fetch(
 	}
 	defer func() { _ = response.Body.Close() }()
 
-	return f.classify(fetchCtx, response, knownVersion), nil
+	return withResponse(f.classify(fetchCtx, response, knownVersion), response), nil
 }
 
 func outcomeOfAnUnfinishedFetch(
@@ -100,6 +100,14 @@ func deadlinePassed(fetchCtx context.Context, cause error) bool {
 	return errors.Is(fetchCtx.Err(), context.DeadlineExceeded) ||
 		errors.Is(cause, context.DeadlineExceeded) ||
 		errors.Is(cause, os.ErrDeadlineExceeded)
+}
+
+func withResponse(outcome pagefetch.FetchOutcome, response *http.Response) pagefetch.FetchOutcome {
+	outcome.Response = pagefetch.Response{
+		StatusCode: response.StatusCode,
+		Header:     response.Header.Clone(),
+	}
+	return outcome
 }
 
 func (f *ProxiedFetch) classify(
