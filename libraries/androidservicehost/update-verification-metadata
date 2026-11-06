@@ -1,0 +1,17 @@
+#!/bin/sh
+# Writes gradle/verification-metadata.xml of an app again from an empty Gradle cache, so
+# that it lists every file that the build uses, each trusted as it downloads now. Review
+# the diff.
+# Usage: update-verification-metadata <app directory>
+set -eu
+gradlew="$(cd "$(dirname "$0")" && pwd)/gradlew"
+app="$1"
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+home=${GRADLE_USER_HOME:-$HOME/.gradle}
+mkdir -p "$tmp/wrapper"
+if [ -d "$home/wrapper/dists" ]; then cp -r "$home/wrapper/dists" "$tmp/wrapper/"; fi
+if [ -f "$home/gradle.properties" ]; then cp "$home/gradle.properties" "$tmp/"; fi
+rm -f "$app/gradle/verification-metadata.xml"
+GRADLE_USER_HOME="$tmp" "$gradlew" -p "$app" --write-verification-metadata sha256 --rerun-tasks \
+	--console=plain assembleRelease lintRelease ktlintCheck

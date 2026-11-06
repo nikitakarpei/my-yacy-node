@@ -22,3 +22,9 @@ go.work.sum
 
 # Local clone of the private judged-query-pages repo for the opt-in judged query tests.
 services/yacydhtsearch/test/judgedqueries/testdata/pages/
+
+# Gradle output of the Android apps and of their shared build.
+.gradle/
+.kotlin/
+distributions/*android/build/
+libraries/androidservicehost/build/

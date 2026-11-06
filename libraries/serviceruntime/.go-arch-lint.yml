@@ -40,6 +40,10 @@ components:
     in: processenvironmentleaseclient/**
   processentrypoint:
     in: processentrypoint/**
+  environmenttext:
+    in: environmenttext/**
+  servicehost:
+    in: servicehost/**
 
 vendors:
   errgroup:
@@ -94,6 +98,13 @@ deps:
     mayDependOn:
       - foregroundprocess
       - processenvironmentleaseclient
+
+  servicehost:
+    mayDependOn:
+      - opsmetrics
+      - servergroup
+    canUse:
+      - prometheus
 
 excludeFiles:
   - "_test\\.go"
