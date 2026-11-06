@@ -47,6 +47,8 @@ Additional YaCy-related capabilities can be provided by separate services when n
   messages when no webhook is set.
 * The node SHALL send a message to a webhook at a public address only over HTTPS through the
   outbound proxy.
+* The node SHALL take in the RWIs of pages that `pagerwi` publishes.
+* The node SHALL NOT store an RWI built for another partition exponent.
 * The node SHALL store accepted RWI postings and the URL metadata those postings reference.
 * The node SHALL NOT store a posting whose word is a stopword of the posting language.
 * The node SHALL allow operators to configure its storage quota.

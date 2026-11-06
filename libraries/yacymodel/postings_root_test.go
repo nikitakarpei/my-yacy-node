@@ -32,3 +32,32 @@ func TestParsePostingsRootBytesRejectsMalformedBytes(t *testing.T) {
 		}
 	}
 }
+
+func TestRootTextRoundTrip(t *testing.T) {
+	postings := randomPagePostings(seededRandom(8), 5)
+	root := rootOf(t, wholePagePostingsOf(t, postings, partitionsFrom(t, 4)))
+
+	text, err := root.MarshalText()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var parsed yacymodel.PostingsRoot
+	if err := parsed.UnmarshalText(text); err != nil {
+		t.Fatalf("UnmarshalText(%q): %v", text, err)
+	}
+	if parsed != root {
+		t.Errorf("parsed root = %+v, want %+v", parsed, root)
+	}
+}
+
+func TestUnmarshalTextRejectsAMalformedRoot(t *testing.T) {
+	for name, text := range map[string]string{
+		"not base64": "!!!",
+		"too short":  "AAAA",
+	} {
+		var parsed yacymodel.PostingsRoot
+		if err := parsed.UnmarshalText([]byte(text)); err == nil {
+			t.Errorf("%s: unmarshal accepted %q", name, text)
+		}
+	}
+}

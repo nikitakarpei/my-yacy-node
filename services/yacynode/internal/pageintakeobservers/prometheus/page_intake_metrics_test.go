@@ -21,11 +21,9 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.test/page")
 	cause := errors.New("intake failed")
 
-	metrics.OfferedPageInvalid(ctx)
-	metrics.PageOffered(ctx, "message", pageURL)
-	metrics.DocumentExtractionFailed(ctx, "message", pageURL, cause)
-	metrics.MediaTypeUnsupported(ctx, "message", pageURL, "application/pdf")
-	metrics.NoIndexDerived(ctx, "message", pageURL)
+	metrics.PageRWIInvalid(ctx)
+	metrics.PageRWIReceived(ctx, "message", pageURL)
+	metrics.PostingsRootMismatched(ctx, "message", pageURL)
 	metrics.PageAdmissionBusy(ctx, "message", pageURL, 11)
 	metrics.PageAdmissionFailed(ctx, "message", pageURL, 13, cause)
 	metrics.PageAdmitted(ctx, "message", pageURL, 17)
@@ -34,12 +32,10 @@ func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 	body := exposition(t, registry)
 	for _, disposal := range []string{
 		"indexed",
-		"document_extraction_failed",
-		"media_type_unsupported",
-		"no_index_derived",
 		"invalid_message",
+		"postings_root_mismatch",
 	} {
-		want := `yacynode_pageintake_offered_pages_disposed_total{disposal="` + disposal + `"} 1`
+		want := `yacynode_pageintake_page_rwis_disposed_total{disposal="` + disposal + `"} 1`
 		if !strings.Contains(body, want) {
 			t.Errorf("metrics output missing %q", want)
 		}
@@ -89,12 +85,12 @@ func TestPageIntakeMetricsKeepRetriedPagesOutOfDisposals(t *testing.T) {
 	metrics.PageIndexed(ctx, "message", pageURL)
 
 	body := exposition(t, registry)
-	want := `yacynode_pageintake_offered_pages_disposed_total{disposal="indexed"} 1`
+	want := `yacynode_pageintake_page_rwis_disposed_total{disposal="indexed"} 1`
 	if !strings.Contains(body, want) {
 		t.Errorf("metrics output missing %q", want)
 	}
 	for _, cause := range []string{"page_admission_busy"} {
-		unwanted := `yacynode_pageintake_offered_pages_disposed_total{disposal="` + cause + `"}`
+		unwanted := `yacynode_pageintake_page_rwis_disposed_total{disposal="` + cause + `"}`
 		if strings.Contains(body, unwanted) {
 			t.Errorf("metrics output contains %q", unwanted)
 		}

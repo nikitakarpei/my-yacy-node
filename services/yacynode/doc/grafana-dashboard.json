@@ -1696,7 +1696,7 @@
     },
     {
       "id": 90,
-      "title": "Pages offered for indexing",
+      "title": "Intake of crawled pages",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -1709,8 +1709,8 @@
     },
     {
       "id": 91,
-      "title": "Offered pages, by disposal",
-      "description": "An undecodable message counts as invalid_message and stops intake until an operator resolves it.",
+      "title": "RWIs of pages, by disposal",
+      "description": "An undecodable RWI counts as invalid_message. An RWI under a postings root the node does not compute counts as postings_root_mismatch. Both stop intake until an operator resolves it.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1740,7 +1740,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (disposal) (clamp_min(yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} - (yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "expr": "sum by (disposal) (clamp_min(yacynode_pageintake_page_rwis_disposed_total{instance=~\"$service_instance\"} - (yacynode_pageintake_page_rwis_disposed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{disposal}}"
         }
       ],

@@ -3,20 +3,15 @@ package pageadmission_test
 import (
 	"context"
 	"errors"
-	"strings"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlpostingpurge"
@@ -56,12 +51,6 @@ func (r refusedWriter) Write(tx *vault.Txn, pagePostings yacymodel.PagePostings)
 	}
 
 	return r.writer.Write(tx, pagePostings)
-}
-
-type noStopwords struct{}
-
-func (noStopwords) Contains(yacymodel.Hash, yacymodel.Language) bool {
-	return false
 }
 
 type harness struct {
@@ -137,34 +126,47 @@ type pageWord struct {
 	hits uint8
 }
 
+type crawledPage struct {
+	metadata     yacymodel.URLMetadata
+	pagePostings yacymodel.Optional[yacymodel.PagePostings]
+}
+
 func pageTitled(
 	t *testing.T,
 	title string,
 	words ...pageWord,
-) pagerwi.PageRWI {
+) crawledPage {
 	t.Helper()
 
-	textWords := []string{}
+	metadata := yacymodel.URLMetadata{
+		Hash:         pageURLHash(t),
+		Address:      pageAddress,
+		Title:        title,
+		DocumentType: yacymodel.DocumentTypeText,
+		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(time.Unix(1_700_000_000, 0))),
+	}
+	if len(words) == 0 {
+		return crawledPage{metadata: metadata}
+	}
+	postings := make([]yacymodel.RWIPosting, 0, len(words))
 	for _, word := range words {
-		for range word.hits {
-			textWords = append(textWords, word.word)
-		}
+		postings = append(postings, yacymodel.RWIPosting{
+			WordHash:     yacymodel.WordHash(word.word),
+			URLHash:      pageURLHash(t),
+			DocumentType: yacymodel.DocumentTypeText,
+			Language:     yacymodel.LanguageOfUndeclaredDocument,
+			Hits:         word.hits,
+		})
 	}
-	text := strings.Join(textWords, " ")
-	scrapedPage := pagescrapecontract.OfferedPage{
-		PageURL:     canonicalurltest.CanonicalURLOf(t, pageAddress),
-		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageAddress),
-		ContentType: "text/plain",
-		Body:        []byte(text),
-	}
-
-	return pagerwi.NewIndexBuilder(noStopwords{}, ringPartitions(t)).RWIFrom(
-		t.Context(),
-		scrapedPage,
-		documentextraction.Document{Title: title},
-		[]byte(text),
-		time.Unix(1_700_000_000, 0),
+	pagePostings, err := yacymodel.ProvenPagePostingsFrom(
+		postings, yacymodel.EmptyPostingsProof(ringPartitions(t)),
 	)
+	if err != nil {
+		t.Fatalf("page postings: %v", err)
+	}
+	metadata.PostingsRoot = pagePostings.Root()
+
+	return crawledPage{metadata: metadata, pagePostings: yacymodel.Some(pagePostings)}
 }
 
 func pageURLHash(t *testing.T) yacymodel.URLHash {
@@ -175,11 +177,11 @@ func pageURLHash(t *testing.T) yacymodel.URLHash {
 
 func (h harness) receive(
 	t *testing.T,
-	pageRWI pagerwi.PageRWI,
+	page crawledPage,
 ) pageadmission.Receipt {
 	t.Helper()
 
-	receipt, err := h.receiver.Receive(context.Background(), pageRWI)
+	receipt, err := h.receiver.Receive(context.Background(), page.metadata, page.pagePostings)
 	if err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
@@ -284,7 +286,9 @@ func TestRefusedPostingLeavesThePageTheNodeAlreadyHeld(t *testing.T) {
 	h.receive(t, crawled)
 
 	recrawled := pageTitled(t, "after", pageWord{"w2", 7}, pageWord{"w3", 1})
-	if _, err := h.receiver.Receive(context.Background(), recrawled); !errors.Is(
+	if _, err := h.receiver.Receive(
+		context.Background(), recrawled.metadata, recrawled.pagePostings,
+	); !errors.Is(
 		err,
 		errWriteRefused,
 	) {

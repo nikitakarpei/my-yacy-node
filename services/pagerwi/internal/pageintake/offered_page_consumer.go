@@ -1,0 +1,175 @@
+// Package pageintake builds the reverse word index of each page the scrape service offers,
+// publishes it for the nodes, and sends a receipt back for the caller waiting on that page.
+// It takes the next page only while the nodes keep up with the RWIs published.
+package pageintake
+
+import (
+	"context"
+	"errors"
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
+	"github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwi"
+	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+)
+
+type PageRWIs interface {
+	Publish(ctx context.Context, pageRWI pagerwicontract.PageRWI) bool
+}
+
+type IntakeReceipts interface {
+	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+}
+
+type OfferedPageConsumer struct {
+	offeredPageSource          pullintake.MessageSource
+	formatDerivations          pageformats.FormatDerivationCatalog
+	pageIndexBuilder           pagerwi.IndexBuilder
+	pageRWIs                   PageRWIs
+	pageRWIBacklog             pullintake.Admission
+	intakeReceipts             IntakeReceipts
+	pageIntakeObserver         PageIntakeObserver
+	pageOfferIntakeConcurrency int
+}
+
+type OfferedPageConsumerConfig struct {
+	OfferedPageSource          pullintake.MessageSource
+	FormatDerivations          pageformats.FormatDerivationCatalog
+	PageIndexBuilder           pagerwi.IndexBuilder
+	PageRWIs                   PageRWIs
+	PageRWIBacklog             pullintake.Admission
+	IntakeReceipts             IntakeReceipts
+	PageIntakeObserver         PageIntakeObserver
+	PageOfferIntakeConcurrency int
+}
+
+func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsumer {
+	return &OfferedPageConsumer{
+		offeredPageSource:          config.OfferedPageSource,
+		formatDerivations:          config.FormatDerivations,
+		pageIndexBuilder:           config.PageIndexBuilder,
+		pageRWIs:                   config.PageRWIs,
+		pageRWIBacklog:             config.PageRWIBacklog,
+		intakeReceipts:             config.IntakeReceipts,
+		pageIntakeObserver:         config.PageIntakeObserver,
+		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
+	}
+}
+
+func (c *OfferedPageConsumer) Run(ctx context.Context) error {
+	return pullintake.RunAdmittedBy(
+		ctx,
+		pullintake.MessageQueueOf(c.offeredPageSource),
+		c.pageOfferIntakeConcurrency,
+		c.pageRWIBacklog,
+		c.takeIn,
+	)
+}
+
+func (c *OfferedPageConsumer) takeIn(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+) error {
+	page, err := pagescrapecontract.UnmarshalOfferedPage(message.Body())
+	if err != nil {
+		c.pageIntakeObserver.OfferedPageInvalid(ctx)
+
+		return poisonhalt.Halt(ctx, message.Identity(), err)
+	}
+	reachedAt := time.Now()
+	c.pageIntakeObserver.PageOffered(ctx, message.Identity(), page.PageURL)
+	document, extracted := c.documentOf(ctx, message, page)
+	if !extracted {
+		return c.reject(ctx, message, page.PageURL)
+	}
+	text, derived := c.fullTextOf(ctx, document, page.LandedURL)
+	if !derived {
+		c.pageIntakeObserver.NoIndexDerived(ctx, message.Identity(), page.PageURL)
+
+		return c.reject(ctx, message, page.PageURL)
+	}
+	c.publish(
+		ctx,
+		message,
+		page.PageURL,
+		c.pageIndexBuilder.RWIFrom(ctx, page, document, text, reachedAt),
+	)
+
+	return nil
+}
+
+func (c *OfferedPageConsumer) documentOf(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	page pagescrapecontract.OfferedPage,
+) (documentextraction.Document, bool) {
+	document, err := documentextraction.DocumentFrom(
+		ctx, page.Body, page.ContentType, page.LandedURL,
+	)
+	if errors.Is(err, documentextraction.ErrUnsupportedMediaType) {
+		c.pageIntakeObserver.MediaTypeUnsupported(
+			ctx,
+			message.Identity(),
+			page.LandedURL,
+			page.ContentType,
+		)
+
+		return documentextraction.Document{}, false
+	}
+	if err != nil {
+		c.pageIntakeObserver.DocumentExtractionFailed(
+			ctx,
+			message.Identity(),
+			page.LandedURL,
+			err,
+		)
+
+		return documentextraction.Document{}, false
+	}
+
+	return document, true
+}
+
+func (c *OfferedPageConsumer) fullTextOf(
+	ctx context.Context,
+	document documentextraction.Document,
+	landedURL canonicalurl.CanonicalURL,
+) ([]byte, bool) {
+	return c.formatDerivations.BytesIn(
+		ctx, documentextraction.FormatFullText, document, landedURL,
+	)
+}
+
+func (c *OfferedPageConsumer) publish(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	pageURL canonicalurl.CanonicalURL,
+	pageRWI pagerwicontract.PageRWI,
+) {
+	if !c.pageRWIs.Publish(ctx, pageRWI) {
+		c.pageIntakeObserver.PageRWINotPublished(ctx, message.Identity(), pageURL)
+		message.Return(ctx)
+
+		return
+	}
+	c.intakeReceipts.ReportKeptPage(ctx, pageURL)
+	message.Acknowledge(ctx)
+	c.pageIntakeObserver.PageRWIBuilt(ctx, message.Identity(), pageURL, len(pageRWI.Postings))
+}
+
+func (c *OfferedPageConsumer) reject(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	pageURL canonicalurl.CanonicalURL,
+) error {
+	c.intakeReceipts.ReportRejectedPage(ctx, pageURL)
+	message.Acknowledge(ctx)
+
+	return nil
+}

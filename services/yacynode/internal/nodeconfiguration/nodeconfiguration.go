@@ -4,15 +4,15 @@
 package nodeconfiguration
 
 type Settings struct {
-	Identity        IdentityConfig
-	Serving         ServingConfig
-	Storage         StorageConfig
-	Escrow          EscrowConfig
-	PeerExchange    PeerExchangeConfig
-	Distribution    DistributionConfig
-	PageOfferIntake PageOfferIntakeConfig
-	Egress          EgressConfig
-	MessageInbox    MessageInboxConfig
+	Identity      IdentityConfig
+	Serving       ServingConfig
+	Storage       StorageConfig
+	Escrow        EscrowConfig
+	PeerExchange  PeerExchangeConfig
+	Distribution  DistributionConfig
+	PageRWIIntake PageRWIIntakeConfig
+	Egress        EgressConfig
+	MessageInbox  MessageInboxConfig
 }
 
 func Load(getenv func(string) string) (Settings, error) {
@@ -51,7 +51,7 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
-	pageOfferIntake, err := loadPageOfferIntakeConfig(getenv)
+	pageRWIIntake, err := loadPageRWIIntakeConfig(getenv)
 	if err != nil {
 		return Settings{}, err
 	}
@@ -61,19 +61,19 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
-	if err := requireOnePostingSource(identity, pageOfferIntake); err != nil {
+	if err := requireOnePostingSource(identity, pageRWIIntake); err != nil {
 		return Settings{}, err
 	}
 
 	return Settings{
-		Identity:        identity,
-		Serving:         serving,
-		Storage:         storage,
-		Escrow:          escrow,
-		PeerExchange:    peerExchange,
-		Distribution:    distribution,
-		PageOfferIntake: pageOfferIntake,
-		Egress:          egress,
-		MessageInbox:    messageInbox,
+		Identity:      identity,
+		Serving:       serving,
+		Storage:       storage,
+		Escrow:        escrow,
+		PeerExchange:  peerExchange,
+		Distribution:  distribution,
+		PageRWIIntake: pageRWIIntake,
+		Egress:        egress,
+		MessageInbox:  messageInbox,
 	}, nil
 }

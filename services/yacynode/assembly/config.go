@@ -4,8 +4,8 @@ import "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguratio
 
 const (
 	EnvPeerKey                  = nodeconfiguration.EnvPeerKey
-	EnvPageOfferNATSURL         = nodeconfiguration.EnvPageOfferNATSURL
-	EnvPageOfferDurable         = nodeconfiguration.EnvPageOfferDurable
+	EnvPageRWINATSURL           = nodeconfiguration.EnvPageRWINATSURL
+	EnvPageRWIDurable           = nodeconfiguration.EnvPageRWIDurable
 	EnvAcceptRemoteIndex        = nodeconfiguration.EnvAcceptRemoteIndex
 	EnvDataDir                  = nodeconfiguration.EnvDataDir
 	EnvNetworkName              = nodeconfiguration.EnvNetworkName

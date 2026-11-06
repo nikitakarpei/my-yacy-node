@@ -8,7 +8,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageversion"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -24,7 +23,8 @@ type pageAdmission struct {
 
 func (a pageAdmission) Receive(
 	ctx context.Context,
-	pageRWI pagerwi.PageRWI,
+	metadata yacymodel.URLMetadata,
+	pagePostings yacymodel.Optional[yacymodel.PagePostings],
 ) (Receipt, error) {
 	atCapacity, err := a.vault.AtCapacity(ctx)
 	if err != nil {
@@ -35,13 +35,13 @@ func (a pageAdmission) Receive(
 	}
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		return a.replaceEverythingHeldForPage(ctx, tx, pageRWI)
+		return a.replaceEverythingHeldForPage(ctx, tx, metadata, pagePostings)
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
 		return Receipt{Busy: true, Pause: a.pause}, nil
 	}
 	if err != nil {
-		return Receipt{}, fmt.Errorf("receive page rwi: %w", err)
+		return Receipt{}, fmt.Errorf("receive rwi of page: %w", err)
 	}
 
 	return Receipt{}, nil
@@ -50,13 +50,13 @@ func (a pageAdmission) Receive(
 func (a pageAdmission) replaceEverythingHeldForPage(
 	ctx context.Context,
 	tx *vault.Txn,
-	pageRWI pagerwi.PageRWI,
+	metadata yacymodel.URLMetadata,
+	pagePostings yacymodel.Optional[yacymodel.PagePostings],
 ) error {
-	metadata := pageRWI.Metadata()
 	if err := a.purge(ctx, tx, metadata.Hash); err != nil {
 		return err
 	}
-	pagePostings, indexed := pageRWI.PagePostings().Get()
+	indexedPostings, indexed := pagePostings.Get()
 	if !indexed {
 		return nil
 	}
@@ -64,7 +64,7 @@ func (a pageAdmission) replaceEverythingHeldForPage(
 		return err
 	}
 
-	return a.writePostings(tx, pagePostings)
+	return a.writePostings(tx, indexedPostings)
 }
 
 func (a pageAdmission) purge(ctx context.Context, tx *vault.Txn, url yacymodel.URLHash) error {

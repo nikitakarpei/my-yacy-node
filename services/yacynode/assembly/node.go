@@ -33,7 +33,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageadmission"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
@@ -72,7 +71,7 @@ type node struct {
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
 	distributionLoop      *distributionloop.Loop
-	pageOfferIntake       *pageOfferIntake
+	pageRWIIntake         *pageRWIIntake
 }
 
 const advertisedYaCyRelease = 1.83
@@ -99,7 +98,6 @@ const servedURLMetadataPerRequest = 1000
 // (200000-byte YaCy answer limit − about 40000 bytes for 10 resources and other fields) / 14 bytes per document on a distinct host
 const indexAbstractDocumentsPerAnswer = 10000
 
-//nolint:gocognit // composition root: one error check per opened unit, no branching logic
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
@@ -282,7 +280,6 @@ func assembleNode(
 		postingWriter,
 		pageadmission.Config{Pause: postingAdmissionBusyPause},
 	)
-	pageIndexBuilder := pagerwi.NewIndexBuilder(stopwordHashes, dhtRingPartitions)
 
 	publicAddressSource := publicaddress.For(config.Identity.AdvertiseHost)
 	runtimeStatus := nodestatus.NewRuntimeStatus(
@@ -376,16 +373,12 @@ func assembleNode(
 		metrics.NewPeerAnnouncementMetrics(registry),
 	)
 
-	var pageOffers *pageOfferIntake
+	var pageRWIs *pageRWIIntake
 
-	if config.PageOfferIntake.Enabled() {
-		intake, intakeErr := openPageOfferIntake(
-			ctx, config.PageOfferIntake, pageIndexBuilder, pageReceiver, registry,
+	if config.PageRWIIntake.Enabled() {
+		pageRWIs = openPageRWIIntake(
+			ctx, config.PageRWIIntake, dhtRingPartitions, pageReceiver, registry,
 		)
-		if intakeErr != nil {
-			return node{}, intakeErr
-		}
-		pageOffers = intake
 	}
 
 	var distributionLoop *distributionloop.Loop
@@ -495,7 +488,7 @@ func assembleNode(
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
 		distributionLoop:      distributionLoop,
-		pageOfferIntake:       pageOffers,
+		pageRWIIntake:         pageRWIs,
 	}, nil
 }
 

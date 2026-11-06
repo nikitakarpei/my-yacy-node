@@ -23,7 +23,7 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | `YACY_ADVERTISE_HOST` | _(learned from peers)_ | Public IP or DNS name other peers use to reach you. Leave it empty to use the IP address that most peers saw the node connect from. Set it when `EGRESS_PROXY_URL` names a proxy on a different host. |
 | `YACY_ADVERTISE_ADDITIONAL_HOSTS` | _(empty)_ | Comma-separated more IPs or DNS names other peers can use to reach you. Peers try them after the advertised host. |
 | `YACY_ADVERTISE_PORT` | _(the `YACY_PEER_ADDR` port)_ | Port other peers use to reach you. |
-| `YACY_ACCEPT_REMOTE_INDEX` | `true` | Accept the postings that other peers transfer to you. Set it to `false` when `SCRAPE_PAGE_OFFER_NATS_URL` is set: the node does not start with both sources of postings or with no source. |
+| `YACY_ACCEPT_REMOTE_INDEX` | `true` | Accept the postings that other peers transfer to you. Set it to `false` when `PAGE_RWI_NATS_URL` is set: the node does not start with both sources of postings or with no source. |
 
 ## Peer exchange
 
@@ -49,15 +49,17 @@ For the webhook that gets messages from other peers, see [Peer messages](peer-me
 | `YACY_WORD_RANKING_FILE` | _(empty)_ | File of word hashes, one per line, most common first. The node keeps the words of each URL, and a listed word takes fewer bytes there. When the file changes, the next start takes longer: the node builds the words of each URL again from its postings. The node does not start when it cannot read the file or when the file lists a word two times. Leave it empty to keep each word as its full hash. |
 | `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for URL metadata of their version. When the escrow holds this many, the node refuses transfers with postings that must wait until held postings expire. A transfer that starts below this number is held whole. |
 
-## Page offer intake
+## Intake of crawled pages
 
-A separate scrape service reads pages and offers them. The node stores the words of each offered page as postings. Without a page offer server it is a pure peer. While the page offers are unavailable, the node serves peers, logs a warning, and tries again after 1 second, doubling the pause up to 30 seconds.
+The separate `pagerwi` service builds the RWI of each crawled page: its postings and its URL metadata. The node stores the RWI of each page. Without an RWI server it is a pure peer. While the RWIs are unavailable, the node serves peers, logs a warning, and tries again after 1 second, doubling the pause up to 30 seconds.
+
+`pagerwi` must use the partition exponent of the node (`YACY_DISTRIBUTION_PARTITION_EXPONENT`). When the postings root of an RWI is not the root the node computes, the node logs an error and stops. The RWI stays in the stream.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `SCRAPE_PAGE_OFFER_NATS_URL` | _(empty)_ | NATS server offered pages arrive from (e.g. `nats://nats:4222`). Empty disables intake. |
-| `SCRAPE_PAGE_OFFER_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
-| `SCRAPE_PAGE_OFFER_INTAKE_CONCURRENCY` | `4` | Offered pages the node works on at once. |
+| `PAGE_RWI_NATS_URL` | _(empty)_ | NATS server the RWIs of pages arrive from (e.g. `nats://nats:4222`). Empty disables intake. |
+| `PAGE_RWI_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
+| `PAGE_RWI_INTAKE_CONCURRENCY` | `4` | RWIs the node works on at once. |
 
 ## Distribution
 
