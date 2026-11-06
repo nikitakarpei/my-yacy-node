@@ -15,7 +15,7 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SCRAPE_PROXY_URL` | required | HTTP or HTTPS proxy used for every page fetch. |
+| `SCRAPE_PROXY_URL` | required | HTTP or HTTPS proxy used for every page fetch. The user and the password in the URL are the proxy credentials. |
 | `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | Proxy mode: `tunnel` or `absolute-url`. |
 | `SCRAPE_USER_AGENT` | `pagescrape (+https://yacy.net)` | HTTP user agent sent with every page fetch. |
 | `SCRAPE_MAX_BODY_BYTES` | `2097152` | Largest response body offered; a larger body fails the scrape. |

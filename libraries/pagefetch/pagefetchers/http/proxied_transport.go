@@ -3,6 +3,7 @@ package http
 import (
 	"bufio"
 	"context"
+	"encoding/base64"
 	"fmt"
 	"io"
 	"net"
@@ -13,15 +14,27 @@ import (
 
 func transportForDialMode(proxyURL *url.URL, dialMode ProxyDialMode) http.RoundTripper {
 	if dialMode == ProxyDialAbsoluteURL {
-		return &absoluteURLTransport{proxyAddr: proxyURL.Host}
+		return &absoluteURLTransport{
+			proxyAddr:          proxyURL.Host,
+			proxyAuthorization: proxyAuthorizationOf(proxyURL.User),
+		}
 	}
 	return &http.Transport{Proxy: http.ProxyURL(proxyURL)}
+}
+
+func proxyAuthorizationOf(credentials *url.Userinfo) string {
+	if credentials == nil {
+		return ""
+	}
+	password, _ := credentials.Password()
+	return "Basic " + base64.StdEncoding.EncodeToString([]byte(credentials.Username()+":"+password))
 }
 
 // absoluteURLTransport sends the target as an absolute-URI request line to the
 // proxy over a plain connection, for proxies that refuse to tunnel via CONNECT.
 type absoluteURLTransport struct {
-	proxyAddr string
+	proxyAddr          string
+	proxyAuthorization string
 }
 
 func (t *absoluteURLTransport) RoundTrip(request *http.Request) (*http.Response, error) {
@@ -35,7 +48,7 @@ func (t *absoluteURLTransport) RoundTrip(request *http.Request) (*http.Response,
 	}
 	releaseConn := connClosedWhenTheContextEnds(ctx, conn)
 
-	if err := request.WriteProxy(conn); err != nil {
+	if err := t.authorized(request).WriteProxy(conn); err != nil {
 		releaseConn()
 		_ = conn.Close()
 		return nil, failureOf(ctx, "write request to proxy", t.proxyAddr, err)
@@ -69,6 +82,15 @@ func connClosedWhenTheContextEnds(ctx context.Context, conn net.Conn) func() {
 	var releaseOnce sync.Once
 
 	return func() { releaseOnce.Do(func() { close(released) }) }
+}
+
+func (t *absoluteURLTransport) authorized(request *http.Request) *http.Request {
+	if t.proxyAuthorization == "" {
+		return request
+	}
+	authorized := request.Clone(request.Context())
+	authorized.Header.Set("Proxy-Authorization", t.proxyAuthorization)
+	return authorized
 }
 
 func failureOf(ctx context.Context, attempt string, proxyAddr string, cause error) error {
