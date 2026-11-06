@@ -10,24 +10,20 @@ import (
 )
 
 const (
-	labelOfferedPageDisposal = "disposal"
-	labelRetryCause          = "cause"
+	labelPageRWIDisposal = "disposal"
+	labelRetryCause      = "cause"
 )
 
 const (
-	disposalIndexed                  = "indexed"
-	disposalDocumentExtractionFailed = "document_extraction_failed"
-	disposalMediaTypeUnsupported     = "media_type_unsupported"
-	disposalNoIndexDerived           = "no_index_derived"
-	disposalInvalidMessage           = "invalid_message"
+	disposalIndexed              = "indexed"
+	disposalInvalidMessage       = "invalid_message"
+	disposalPostingsRootMismatch = "postings_root_mismatch"
 )
 
-var offeredPageDisposals = []string{
+var pageRWIDisposals = []string{
 	disposalIndexed,
-	disposalDocumentExtractionFailed,
-	disposalMediaTypeUnsupported,
-	disposalNoIndexDerived,
 	disposalInvalidMessage,
+	disposalPostingsRootMismatch,
 }
 
 const (
@@ -41,27 +37,27 @@ var retryCauses = []string{
 }
 
 type PageIntakeMetrics struct {
-	offeredPagesDisposed *prometheusclient.CounterVec
-	pagesLeftForRetry    *prometheusclient.CounterVec
-	pagesAdmitted        prometheusclient.Counter
-	postingsAdmitted     prometheusclient.Counter
+	pageRWIsDisposed  *prometheusclient.CounterVec
+	pagesLeftForRetry *prometheusclient.CounterVec
+	pagesAdmitted     prometheusclient.Counter
+	postingsAdmitted  prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *PageIntakeMetrics {
-	offeredPagesDisposed := prometheusclient.NewCounterVec(
+	pageRWIsDisposed := prometheusclient.NewCounterVec(
 		prometheusclient.CounterOpts{
-			Name: "yacynode_pageintake_offered_pages_disposed_total",
-			Help: "Offered pages, by the disposal that ended their intake.",
+			Name: "yacynode_pageintake_page_rwis_disposed_total",
+			Help: "RWIs of pages, by the disposal that ended their intake.",
 		},
-		[]string{labelOfferedPageDisposal},
+		[]string{labelPageRWIDisposal},
 	)
-	for _, disposal := range offeredPageDisposals {
-		offeredPagesDisposed.WithLabelValues(disposal)
+	for _, disposal := range pageRWIDisposals {
+		pageRWIsDisposed.WithLabelValues(disposal)
 	}
 	pagesLeftForRetry := prometheusclient.NewCounterVec(
 		prometheusclient.CounterOpts{
 			Name: "yacynode_pageintake_pages_left_for_retry_total",
-			Help: "Offered pages the node could not take in yet, by cause.",
+			Help: "RWIs of pages the node could not take in yet, by cause.",
 		},
 		[]string{labelRetryCause},
 	)
@@ -70,62 +66,44 @@ func New(registry prometheusclient.Registerer) *PageIntakeMetrics {
 	}
 	pagesAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
 		Name: "yacynode_pageintake_pages_admitted_total",
-		Help: "Offered pages the node admitted as one replacement of what it held.",
+		Help: "RWIs of pages the node admitted as one replacement of what it held.",
 	})
 	postingsAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
 		Name: "yacynode_pageintake_postings_admitted_total",
-		Help: "Posting admissions accepted while taking in offered pages.",
+		Help: "Posting admissions accepted while taking in RWIs of pages.",
 	})
 	registry.MustRegister(
-		offeredPagesDisposed,
+		pageRWIsDisposed,
 		pagesLeftForRetry,
 		pagesAdmitted,
 		postingsAdmitted,
 	)
 
 	return &PageIntakeMetrics{
-		offeredPagesDisposed: offeredPagesDisposed,
-		pagesLeftForRetry:    pagesLeftForRetry,
-		pagesAdmitted:        pagesAdmitted,
-		postingsAdmitted:     postingsAdmitted,
+		pageRWIsDisposed:  pageRWIsDisposed,
+		pagesLeftForRetry: pagesLeftForRetry,
+		pagesAdmitted:     pagesAdmitted,
+		postingsAdmitted:  postingsAdmitted,
 	}
 }
 
-func (m *PageIntakeMetrics) OfferedPageInvalid(context.Context) {
+func (m *PageIntakeMetrics) PageRWIInvalid(context.Context) {
 	m.dispose(disposalInvalidMessage)
 }
 
-func (m *PageIntakeMetrics) PageOffered(
+func (m *PageIntakeMetrics) PageRWIReceived(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
 ) {
 }
 
-func (m *PageIntakeMetrics) DocumentExtractionFailed(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-	error,
-) {
-	m.dispose(disposalDocumentExtractionFailed)
-}
-
-func (m *PageIntakeMetrics) MediaTypeUnsupported(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-	string,
-) {
-	m.dispose(disposalMediaTypeUnsupported)
-}
-
-func (m *PageIntakeMetrics) NoIndexDerived(
+func (m *PageIntakeMetrics) PostingsRootMismatched(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
 ) {
-	m.dispose(disposalNoIndexDerived)
+	m.dispose(disposalPostingsRootMismatch)
 }
 
 func (m *PageIntakeMetrics) PageAdmitted(
@@ -166,7 +144,7 @@ func (m *PageIntakeMetrics) PageIndexed(
 }
 
 func (m *PageIntakeMetrics) dispose(disposal string) {
-	m.offeredPagesDisposed.WithLabelValues(disposal).Inc()
+	m.pageRWIsDisposed.WithLabelValues(disposal).Inc()
 }
 
 func (m *PageIntakeMetrics) leaveForRetry(cause string) {

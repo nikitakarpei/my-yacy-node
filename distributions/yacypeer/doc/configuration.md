@@ -29,6 +29,7 @@ yacypeer runs [yacynode](../../../services/yacynode/doc/configuration.md),
 [corpustext](../../../services/corpustext/doc/configuration.md),
 [yacycrawler](../../../services/yacycrawler/doc/configuration.md),
 [pagescrape](../../../services/pagescrape/doc/configuration.md),
+[pagerwi](../../../services/pagerwi/doc/configuration.md),
 [crawlconsole](../../../services/crawlconsole/doc/configuration.md),
 [crawlscrapebridge](../../../services/crawlscrapebridge/doc/configuration.md),
 [visitcrawl](../../../services/visitcrawl/doc/configuration.md), and

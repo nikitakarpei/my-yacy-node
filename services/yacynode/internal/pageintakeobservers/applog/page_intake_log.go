@@ -9,66 +9,39 @@ import (
 )
 
 const (
-	msgPageOffered              = "offered page received"
-	msgOfferedPageInvalid       = "offered page invalid, nothing stored"
-	msgDocumentExtractionFailed = "offered page document extraction failed, nothing stored"
-	msgMediaTypeUnsupported     = "offered page has a media type the node does not read, nothing stored"
-	msgNoIndexDerived           = "offered page derives no index, nothing stored"
-	msgPageAdmitted             = "offered page admitted"
-	msgPageAdmissionBusy        = "offered page admission deferred because storage is busy"
-	msgPageAdmissionFailed      = "offered page admission failed"
-	msgPageIndexed              = "offered page indexed"
+	msgPageRWIReceived        = "rwi of page received"
+	msgPageRWIInvalid         = "rwi of page invalid, nothing stored"
+	msgPostingsRootMismatched = "rwi of page has a postings root other than the root of this node, " +
+		"intake halted until the partition exponents of the pagerwi service and the node match"
+	msgPageAdmitted        = "rwi of page admitted"
+	msgPageAdmissionBusy   = "rwi of page admission deferred because storage is busy"
+	msgPageAdmissionFailed = "rwi of page admission failed"
+	msgPageIndexed         = "rwi of page indexed"
 )
 
 type PageIntakeLog struct{}
 
-func (PageIntakeLog) OfferedPageInvalid(ctx context.Context) {
-	slog.WarnContext(ctx, msgOfferedPageInvalid)
+func (PageIntakeLog) PageRWIInvalid(ctx context.Context) {
+	slog.WarnContext(ctx, msgPageRWIInvalid)
 }
 
-func (PageIntakeLog) PageOffered(
+func (PageIntakeLog) PageRWIReceived(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
 ) {
-	slog.DebugContext(ctx, msgPageOffered,
+	slog.DebugContext(ctx, msgPageRWIReceived,
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
 	)
 }
 
-func (PageIntakeLog) DocumentExtractionFailed(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgDocumentExtractionFailed,
-		slog.String("message", messageIdentity),
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
-	)
-}
-
-func (PageIntakeLog) MediaTypeUnsupported(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	contentType string,
-) {
-	slog.DebugContext(ctx, msgMediaTypeUnsupported,
-		slog.String("message", messageIdentity),
-		slog.String("pageUrl", pageURL.String()),
-		slog.String("contentType", contentType),
-	)
-}
-
-func (PageIntakeLog) NoIndexDerived(
+func (PageIntakeLog) PostingsRootMismatched(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
 ) {
-	slog.DebugContext(ctx, msgNoIndexDerived,
+	slog.ErrorContext(ctx, msgPostingsRootMismatched,
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
 	)

@@ -40,12 +40,12 @@ func TestRunServiceStopsWhenItsContextIsCanceled(t *testing.T) {
 	}
 }
 
-func TestRunServiceServesPeersWhileThePageOffersAreUnavailable(t *testing.T) {
+func TestRunServiceServesPeersWhileThePageRWIsAreUnavailable(t *testing.T) {
 	config := nodeConfigFor(t)
-	config.PageOfferIntake = nodeconfiguration.PageOfferIntakeConfig{
-		PageOfferNATSURL:           "nats://127.0.0.1:1",
-		PageOfferDurable:           nodeconfiguration.DefaultPageOfferDurable,
-		PageOfferIntakeConcurrency: nodeconfiguration.DefaultPageOfferIntakeConcurrency,
+	config.PageRWIIntake = nodeconfiguration.PageRWIIntakeConfig{
+		PageRWINATSURL:           "nats://127.0.0.1:1",
+		PageRWIDurable:           nodeconfiguration.DefaultPageRWIDurable,
+		PageRWIIntakeConcurrency: nodeconfiguration.DefaultPageRWIIntakeConcurrency,
 	}
 	node := startNode(t, config)
 

@@ -97,6 +97,12 @@ jobs:
     uses: ./.github/workflows/build-pagescrape.yml
     secrets: inherit
 
+  build-pagerwi:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-pagerwi.yml
+    secrets: inherit
+
   build-corpusmarkdown:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'

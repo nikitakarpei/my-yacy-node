@@ -40,3 +40,21 @@ func ParsePostingsRootBytes(raw []byte) (PostingsRoot, error) {
 
 	return root, nil
 }
+
+func (r PostingsRoot) MarshalText() ([]byte, error) {
+	return []byte(Encode(r.Bytes())), nil
+}
+
+func (r *PostingsRoot) UnmarshalText(text []byte) error {
+	raw, err := Decode(string(text))
+	if err != nil {
+		return fmt.Errorf("%w: %w", ErrBadPostingsRoot, err)
+	}
+	parsed, err := ParsePostingsRootBytes(raw)
+	if err != nil {
+		return err
+	}
+	*r = parsed
+
+	return nil
+}

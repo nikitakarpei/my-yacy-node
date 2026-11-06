@@ -17,6 +17,7 @@ import (
 	crawlconsoleassembly "github.com/nikitakarpei/yacy-rwi-node/crawlconsole/assembly"
 	crawlscrapebridgeassembly "github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge/assembly"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	searchpageassembly "github.com/nikitakarpei/yacy-rwi-node/searchpage/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
@@ -37,6 +38,7 @@ var unreadSettings = []string{
 	corpustextassembly.EnvOpsAddr,
 	yacycrawlerassembly.EnvOpsAddr,
 	pagescrapeassembly.EnvOpsAddr,
+	pagerwiassembly.EnvOpsAddr,
 	crawlconsoleassembly.EnvOpsAddr,
 	crawlscrapebridgeassembly.EnvOpsAddr,
 	visitcrawlassembly.EnvOpsAddr,
@@ -49,6 +51,7 @@ const (
 	corpustextService        = "corpustext"
 	yacycrawlerService       = "yacycrawler"
 	pagescrapeService        = "pagescrape"
+	pagerwiService           = "pagerwi"
 	crawlconsoleService      = "crawlconsole"
 	crawlscrapebridgeService = "crawlscrapebridge"
 	visitcrawlService        = "visitcrawl"
@@ -196,8 +199,8 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			yacynodeService,
 			serviceenvironment.Wiring{
 				yacynodeassembly.EnvPeerKey:           secretTextOf(p.peerKey),
-				yacynodeassembly.EnvPageOfferNATSURL:  p.natsURL,
-				yacynodeassembly.EnvPageOfferDurable:  yacynodeService,
+				yacynodeassembly.EnvPageRWINATSURL:    p.natsURL,
+				yacynodeassembly.EnvPageRWIDurable:    yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),
 				yacynodeassembly.EnvDataDir:           p.cfg.directoryOf(yacynodeService),
 				yacynodeassembly.EnvNetworkName:       p.cfg.NetworkName,
@@ -219,6 +222,17 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
 			pagescrapeassembly.RunService,
+		),
+		streamOnlyServiceAssemblyFrom(
+			pagerwiService,
+			serviceenvironment.Wiring{
+				pagerwiassembly.EnvPageOfferNATSURL: p.natsURL,
+				pagerwiassembly.EnvPageOfferDurable: pagerwiService,
+				pagerwiassembly.EnvPageRWINATSURL:   p.natsURL,
+			},
+			pagerwiassembly.LoadServiceConfig,
+			pagerwiassembly.ListenersFor,
+			pagerwiassembly.RunService,
 		),
 		streamOnlyServiceAssemblyFrom(
 			crawlscrapebridgeService,

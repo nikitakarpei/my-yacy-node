@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
+// TECHDEBT: Failure rule — OfferPage and ReportScrapeFailure return the publish error to their consumer instead of reporting it to an observer of their own.
 type PageOfferPublisher struct {
 	pageOffers jetstream.JetStream
 }

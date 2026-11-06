@@ -1,0 +1,118 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  pagerwi:
+    in: internal/pagerwi/**
+  pageintake:
+    in: internal/pageintake/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
+  pageofferopeningobserversapplog:
+    in: internal/pageofferopeningobservers/applog/**
+  pagerwistreamsjetstream:
+    in: internal/pagerwistreams/jetstream/**
+  pagerwipublishersjetstream:
+    in: internal/pagerwipublishers/jetstream/**
+  pagerwipublicationobserversapplog:
+    in: internal/pagerwipublicationobservers/applog/**
+  intakereceiptsnats:
+    in: internal/intakereceipts/nats/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
+  pagerwiassembly:
+    in: assembly/**
+  pagerwicmd:
+    in: cmd/pagerwi/**
+
+vendors:
+  pagerwicontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
+  pageformats:
+    in: github.com/nikitakarpei/yacy-rwi-node/pageformats
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  documentextraction:
+    in: github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  stopwords:
+    in: github.com/nikitakarpei/yacy-rwi-node/stopwords
+  yacymodel:
+    in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+
+deps:
+  pagerwi:
+    canUse:
+      - documentextraction
+      - pagerwicontract
+      - pagescrapecontract
+      - stopwords
+      - yacymodel
+  pageintake:
+    mayDependOn:
+      - pagerwi
+    canUse:
+      - documentextraction
+      - pageformats
+      - pagerwicontract
+      - pagescrapecontract
+      - serviceruntime
+  pageintakeobserversprometheus:
+    canUse:
+      - prometheus
+  pagerwistreamsjetstream:
+    canUse:
+      - nats
+      - pagerwicontract
+  pagerwipublishersjetstream:
+    canUse:
+      - nats
+      - pagerwicontract
+  intakereceiptsnats:
+    canUse:
+      - nats
+      - pagescrapecontract
+  intakereceiptpublicationobserversprometheus:
+    canUse:
+      - prometheus
+  pagerwiassembly:
+    anyProjectDeps: true
+    anyVendorDeps: true
+  pagerwicmd:
+    mayDependOn:
+      - pagerwiassembly
+    canUse:
+      - serviceruntime
+
+excludeFiles:
+  - "_test\\.go"
+  - "test/e2e"
+  - "contract"

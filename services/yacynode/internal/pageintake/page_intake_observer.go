@@ -7,25 +7,13 @@ import (
 )
 
 type PageIntakeObserver interface {
-	OfferedPageInvalid(ctx context.Context)
-	PageOffered(
+	PageRWIInvalid(ctx context.Context)
+	PageRWIReceived(
 		ctx context.Context,
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
 	)
-	DocumentExtractionFailed(
-		ctx context.Context,
-		messageIdentity string,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
-	MediaTypeUnsupported(
-		ctx context.Context,
-		messageIdentity string,
-		pageURL canonicalurl.CanonicalURL,
-		contentType string,
-	)
-	NoIndexDerived(
+	PostingsRootMismatched(
 		ctx context.Context,
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
@@ -58,51 +46,29 @@ type PageIntakeObserver interface {
 
 type PageIntakeObservers []PageIntakeObserver
 
-func (observers PageIntakeObservers) OfferedPageInvalid(ctx context.Context) {
+func (observers PageIntakeObservers) PageRWIInvalid(ctx context.Context) {
 	for _, observer := range observers {
-		observer.OfferedPageInvalid(ctx)
+		observer.PageRWIInvalid(ctx)
 	}
 }
 
-func (observers PageIntakeObservers) PageOffered(
+func (observers PageIntakeObservers) PageRWIReceived(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
 ) {
 	for _, observer := range observers {
-		observer.PageOffered(ctx, messageIdentity, pageURL)
+		observer.PageRWIReceived(ctx, messageIdentity, pageURL)
 	}
 }
 
-func (observers PageIntakeObservers) DocumentExtractionFailed(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.DocumentExtractionFailed(ctx, messageIdentity, pageURL, cause)
-	}
-}
-
-func (observers PageIntakeObservers) MediaTypeUnsupported(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	contentType string,
-) {
-	for _, observer := range observers {
-		observer.MediaTypeUnsupported(ctx, messageIdentity, pageURL, contentType)
-	}
-}
-
-func (observers PageIntakeObservers) NoIndexDerived(
+func (observers PageIntakeObservers) PostingsRootMismatched(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
 ) {
 	for _, observer := range observers {
-		observer.NoIndexDerived(ctx, messageIdentity, pageURL)
+		observer.PostingsRootMismatched(ctx, messageIdentity, pageURL)
 	}
 }
 

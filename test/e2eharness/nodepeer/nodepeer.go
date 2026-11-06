@@ -47,6 +47,7 @@ type Config struct {
 	SeedlistURL       string
 	MessageWebhookURL string
 	AnnounceInterval  time.Duration
+	PageRWINATSURL    string
 	Distribution      DistributionConfig
 }
 
@@ -87,6 +88,10 @@ func Start(
 	}
 	if cfg.MessageWebhookURL != "" {
 		env["YACY_MESSAGE_WEBHOOK_URL"] = cfg.MessageWebhookURL
+	}
+	if cfg.PageRWINATSURL != "" {
+		env["PAGE_RWI_NATS_URL"] = cfg.PageRWINATSURL
+		env["YACY_ACCEPT_REMOTE_INDEX"] = "false"
 	}
 	if cfg.Distribution.Enabled {
 		env["YACY_DISTRIBUTION_ENABLED"] = "true"

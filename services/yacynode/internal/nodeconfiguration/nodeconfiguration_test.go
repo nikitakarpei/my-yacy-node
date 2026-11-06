@@ -85,38 +85,38 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if !config.Distribution.HandoffEnabled {
 		t.Errorf("HandoffEnabled = false, want the default")
 	}
-	if config.PageOfferIntake.Enabled() {
+	if config.PageRWIIntake.Enabled() {
 		t.Errorf(
-			"PageOfferIntake = %+v, want disabled without a broker",
-			config.PageOfferIntake,
+			"PageRWIIntake = %+v, want disabled without a broker",
+			config.PageRWIIntake,
 		)
 	}
 }
 
-func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
+func TestLoadDefaultsThePageRWIIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvPeerKey:           peerKeyText,
 		nodeconfiguration.EnvPeerName:          "node",
 		nodeconfiguration.EnvEgressProxyURL:    "http://proxy:4750",
-		nodeconfiguration.EnvPageOfferNATSURL:  "nats://localhost:4222",
+		nodeconfiguration.EnvPageRWINATSURL:    "nats://localhost:4222",
 		nodeconfiguration.EnvAcceptRemoteIndex: "false",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if !config.PageOfferIntake.Enabled() {
+	if !config.PageRWIIntake.Enabled() {
 		t.Fatalf(
-			"PageOfferIntake = %+v, want enabled by the broker url",
-			config.PageOfferIntake,
+			"PageRWIIntake = %+v, want enabled by the broker url",
+			config.PageRWIIntake,
 		)
 	}
-	if config.PageOfferIntake.PageOfferDurable != nodeconfiguration.DefaultPageOfferDurable ||
-		config.PageOfferIntake.PageOfferIntakeConcurrency !=
-			nodeconfiguration.DefaultPageOfferIntakeConcurrency {
+	if config.PageRWIIntake.PageRWIDurable != nodeconfiguration.DefaultPageRWIDurable ||
+		config.PageRWIIntake.PageRWIIntakeConcurrency !=
+			nodeconfiguration.DefaultPageRWIIntakeConcurrency {
 		t.Errorf(
-			"PageOfferIntake = %+v, want the default durable and intake concurrency",
-			config.PageOfferIntake,
+			"PageRWIIntake = %+v, want the default durable and intake concurrency",
+			config.PageRWIIntake,
 		)
 	}
 }
@@ -140,9 +140,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvTrustedProxies:              "10.0.0.0/8",
 		nodeconfiguration.EnvSeedlistURLs:                " http://a , http://b ,",
 		nodeconfiguration.EnvAnnounceInterval:            "30s",
-		nodeconfiguration.EnvPageOfferNATSURL:            "nats://broker:4222",
-		nodeconfiguration.EnvPageOfferDurable:            "reached-durable",
-		nodeconfiguration.EnvPageOfferIntakeConcurrency:  "9",
+		nodeconfiguration.EnvPageRWINATSURL:              "nats://broker:4222",
+		nodeconfiguration.EnvPageRWIDurable:              "reached-durable",
+		nodeconfiguration.EnvPageRWIIntakeConcurrency:    "9",
 		nodeconfiguration.EnvAcceptRemoteIndex:           "false",
 		nodeconfiguration.EnvDistributionHandoffEnabled:  "false",
 	}))
@@ -193,11 +193,11 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.Distribution.HandoffEnabled {
 		t.Errorf("HandoffEnabled = true, want false")
 	}
-	if config.PageOfferIntake.PageOfferDurable != "reached-durable" ||
-		config.PageOfferIntake.PageOfferIntakeConcurrency != 9 {
+	if config.PageRWIIntake.PageRWIDurable != "reached-durable" ||
+		config.PageRWIIntake.PageRWIIntakeConcurrency != 9 {
 		t.Errorf(
-			"PageOfferIntake = %+v, want the named durable and intake concurrency",
-			config.PageOfferIntake,
+			"PageRWIIntake = %+v, want the named durable and intake concurrency",
+			config.PageRWIIntake,
 		)
 	}
 }
@@ -449,10 +449,10 @@ func TestLoadReadsTheMessageWebhook(t *testing.T) {
 func TestLoadRejectsAnythingButOneSourceOfPostings(t *testing.T) {
 	cases := map[string]map[string]string{
 		"remote index and page offers": {
-			nodeconfiguration.EnvPeerKey:          peerKeyText,
-			nodeconfiguration.EnvPeerName:         "n",
-			nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
-			nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
+			nodeconfiguration.EnvPeerKey:        peerKeyText,
+			nodeconfiguration.EnvPeerName:       "n",
+			nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
+			nodeconfiguration.EnvPageRWINATSURL: "nats://localhost:4222",
 		},
 		"neither remote index nor page offers": {
 			nodeconfiguration.EnvPeerKey:           peerKeyText,

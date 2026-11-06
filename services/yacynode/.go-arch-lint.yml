@@ -102,8 +102,6 @@ components:
     in: internal/eviction/**
   metrics:
     in: internal/metrics/**
-  pagerwi:
-    in: internal/pagerwi/**
   pageadmission:
     in: internal/pageadmission/**
   stopwordhashes:
@@ -116,16 +114,10 @@ components:
     in: internal/pageintakeobservers/applog/**
   pageintakeobserversprometheus:
     in: internal/pageintakeobservers/prometheus/**
-  pageofferbroker:
-    in: internal/pageofferbroker/**
-  pageofferopeningobserversapplog:
-    in: internal/pageofferopeningobservers/applog/**
-  intakereceiptsnats:
-    in: internal/intakereceipts/nats/**
-  intakereceiptpublicationobserversapplog:
-    in: internal/intakereceiptpublicationobservers/applog/**
-  intakereceiptpublicationobserversprometheus:
-    in: internal/intakereceiptpublicationobservers/prometheus/**
+  pagerwibroker:
+    in: internal/pagerwibroker/**
+  pagerwiopeningobserversapplog:
+    in: internal/pagerwiopeningobservers/applog/**
   yacynodeassembly:
     in: assembly/**
   cmd:
@@ -148,8 +140,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  pagescrapecontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
+  pagerwicontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
   storedfields:
     in: github.com/nikitakarpei/yacy-rwi-node/storedfields
   stopwords:
@@ -167,12 +159,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  documentextraction:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pageformats:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pageformats
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -218,8 +204,6 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
-      - pagescrapecontract
-      - pageformats
   nodeidentity:
     canUse:
       - yacyproto
@@ -416,14 +400,8 @@ deps:
     canUse:
       - prometheus
       - vault
-  pagerwi:
-    canUse:
-      - canonicalurl
-      - documentextraction
-      - pagescrapecontract
   pageadmission:
     mayDependOn:
-      - pagerwi
       - pageversion
       - urlmeta
       - rwipostings
@@ -434,26 +412,16 @@ deps:
       - stopwords
   pageintake:
     mayDependOn:
-      - pagerwi
       - pageadmission
     canUse:
-      - pagescrapecontract
-      - pageformats
+      - pagerwicontract
       - serviceruntime
-      - documentextraction
-  pageofferbroker:
+  pagerwibroker:
     canUse:
-      - pagescrapecontract
+      - pagerwicontract
       - nats
       - serviceruntime
-  intakereceiptsnats:
-    canUse:
-      - pagescrapecontract
-      - nats
   pageintakeobserversprometheus:
-    canUse:
-      - prometheus
-  intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
   yacynodeassembly:

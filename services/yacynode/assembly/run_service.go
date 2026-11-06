@@ -170,10 +170,10 @@ func runNode(
 	if assembledNode.distributionLoop != nil {
 		loops = append(loops, neverFailingLoop(assembledNode.distributionLoop.Run))
 	}
-	if assembledNode.pageOfferIntake != nil {
-		defer assembledNode.pageOfferIntake.Close()
+	if assembledNode.pageRWIIntake != nil {
+		defer assembledNode.pageRWIIntake.Close()
 
-		loops = append(loops, assembledNode.pageOfferIntake.Run)
+		loops = append(loops, assembledNode.pageRWIIntake.Run)
 	}
 
 	return servergroup.Run(ctx, shutdownTimeout, servers, loops...)

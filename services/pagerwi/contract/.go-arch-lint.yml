@@ -1,0 +1,25 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagerwicontract:
+    in: .
+
+deps:
+  pagerwicontract:
+    canUse:
+      - canonicalurl
+      - yacymodel
+
+vendors:
+  canonicalurl:
+    in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  yacymodel:
+    in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+
+excludeFiles:
+  - "_test\\.go"

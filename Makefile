@@ -250,7 +250,7 @@ E2E_DOCKER_ENV := DOCKER_HOST=$(E2E_DOCKER_HOST) TESTCONTAINERS_RYUK_DISABLED=tr
 E2E_SEARXNG_ENV := SEARXNG_IMAGE=$(shell cat plugins/searxng/supported-image)
 
 # Modules that build a docker image for e2e testing, and the tag each produces.
-E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown visitcrawl renderproxy webarchivescrape webresearchmcp pagescrape yacydhtsearch crawlscrapebridge
+E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown visitcrawl renderproxy webarchivescrape webresearchmcp pagescrape pagerwi yacydhtsearch crawlscrapebridge
 
 E2E_PATH_yacynode        := services/yacynode
 E2E_PATH_yacycrawler     := services/yacycrawler
@@ -261,6 +261,7 @@ E2E_PATH_renderproxy     := services/renderproxy
 E2E_PATH_webarchivescrape := services/webarchivescrape
 E2E_PATH_webresearchmcp   := services/webresearchmcp
 E2E_PATH_pagescrape       := services/pagescrape
+E2E_PATH_pagerwi          := services/pagerwi
 E2E_PATH_yacydhtsearch    := services/yacydhtsearch
 E2E_PATH_crawlscrapebridge := services/crawlscrapebridge
 
@@ -273,6 +274,7 @@ E2E_IMAGE_ENV_renderproxy     := RENDERPROXY_IMAGE
 E2E_IMAGE_ENV_webarchivescrape := WEBARCHIVESCRAPE_IMAGE
 E2E_IMAGE_ENV_webresearchmcp   := WEBRESEARCHMCP_IMAGE
 E2E_IMAGE_ENV_pagescrape       := PAGESCRAPE_IMAGE
+E2E_IMAGE_ENV_pagerwi          := PAGERWI_IMAGE
 E2E_IMAGE_ENV_yacydhtsearch    := YACYDHTSEARCH_IMAGE
 E2E_IMAGE_ENV_crawlscrapebridge := CRAWLSCRAPEBRIDGE_IMAGE
 
@@ -285,6 +287,7 @@ E2E_IMAGE_renderproxy     := renderproxy:e2e
 E2E_IMAGE_webarchivescrape := webarchivescrape:e2e
 E2E_IMAGE_webresearchmcp   := webresearchmcp:e2e
 E2E_IMAGE_pagescrape       := pagescrape:e2e
+E2E_IMAGE_pagerwi          := pagerwi:e2e
 E2E_IMAGE_yacydhtsearch    := yacydhtsearch:e2e
 E2E_IMAGE_crawlscrapebridge := crawlscrapebridge:e2e
 
@@ -298,11 +301,12 @@ $(foreach m,$(E2E_IMAGE_MODULES),$(eval $(call e2e_image_rule,$(m))))
 e2e-images: $(foreach m,$(E2E_IMAGE_MODULES),e2e-$(m)-image)
 
 # Every e2e suite, where it lives, and the images it needs.
-E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxnglocalindex renderproxy webarchivescrape webresearchmcp pageofferfanout pagescrape yacydhtsearch
+E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxnglocalindex renderproxy webarchivescrape webresearchmcp pageofferfanout pagerwiintake pagescrape yacydhtsearch
 
 E2E_PATH_searxng-result-router         := plugins/searxng/searxng-result-router
 E2E_SUITE_DIR_pageofferfanout          := test/pageofferfanout
 E2E_SUITE_DIR_searxnglocalindex        := test/searxnglocalindex
+E2E_SUITE_DIR_pagerwiintake            := test/pagerwiintake
 
 E2E_SUITE_IMAGES_yacynode                    := yacynode
 E2E_SUITE_IMAGES_yacycrawler                 := yacycrawler crawlscrapebridge
@@ -314,6 +318,7 @@ E2E_SUITE_IMAGES_renderproxy                 := renderproxy
 E2E_SUITE_IMAGES_webarchivescrape             := webarchivescrape corpustext pagescrape
 E2E_SUITE_IMAGES_webresearchmcp              := corpusmarkdown webresearchmcp pagescrape
 E2E_SUITE_IMAGES_pageofferfanout             := corpustext corpusmarkdown pagescrape
+E2E_SUITE_IMAGES_pagerwiintake               := pagescrape pagerwi yacynode
 E2E_SUITE_IMAGES_pagescrape                  := pagescrape
 E2E_SUITE_IMAGES_yacydhtsearch               := yacydhtsearch yacynode
 

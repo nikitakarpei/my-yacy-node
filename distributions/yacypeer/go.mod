@@ -3,7 +3,7 @@ module github.com/nikitakarpei/yacy-rwi-node/yacypeer
 go 1.27
 
 require (
-	github.com/klauspost/compress v1.20.0
+	github.com/klauspost/compress v1.20.1
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/corpustext v0.0.0
@@ -11,6 +11,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -25,7 +26,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/yacynode v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.24.1
-	github.com/prometheus/common v0.71.0
+	github.com/prometheus/common v0.72.0
 	github.com/prometheus/prometheus v0.315.1
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stripe/smokescreen v0.0.5-0.20260706062719-a3294a6cc4e4
@@ -108,6 +109,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
@@ -119,7 +121,7 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
-	github.com/prometheus/procfs v0.21.1 // indirect
+	github.com/prometheus/procfs v0.22.0 // indirect
 	github.com/redis/go-redis/v9 v9.22.0 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/rs/xid v1.2.1 // indirect
@@ -135,7 +137,7 @@ require (
 	golang.org/x/crypto v0.57.0 // indirect
 	golang.org/x/exp v0.0.0-20260709172345-9ea1abe57597 // indirect
 	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/oauth2 v0.36.0 // indirect
+	golang.org/x/oauth2 v0.37.0 // indirect
 	golang.org/x/sync v0.23.0 // indirect
 	golang.org/x/sys v0.48.0 // indirect
 	golang.org/x/term v0.46.0 // indirect
@@ -173,6 +175,10 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagef
 replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../services/pagescrape
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagerwi => ../../services/pagerwi
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagerwicontract => ../../services/pagerwi/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 

@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
@@ -18,7 +18,8 @@ import (
 type PageReceiver interface {
 	Receive(
 		ctx context.Context,
-		pageRWI pagerwi.PageRWI,
+		metadata yacymodel.URLMetadata,
+		pagePostings yacymodel.Optional[yacymodel.PagePostings],
 	) (Receipt, error)
 }
 
