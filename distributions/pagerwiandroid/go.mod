@@ -1,0 +1,88 @@
+module github.com/nikitakarpei/yacy-rwi-node/pagerwiandroid
+
+go 1.27
+
+require (
+	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/prometheus/client_golang v1.23.2
+)
+
+require (
+	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
+	github.com/JohannesKaufmann/dom v0.3.1 // indirect
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
+	github.com/andybalholm/cascadia v1.3.4 // indirect
+	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
+	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/cloudflare/circl v1.6.5 // indirect
+	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
+	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
+	github.com/google/go-tpm v0.9.8 // indirect
+	github.com/itlightning/dateparse v0.2.1 // indirect
+	github.com/klauspost/compress v1.20.1 // indirect
+	github.com/minio/highwayhash v1.0.4 // indirect
+	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
+	github.com/nats-io/jwt/v2 v2.8.2 // indirect
+	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
+	github.com/nats-io/nats.go v1.52.0 // indirect
+	github.com/nats-io/nkeys v0.4.16 // indirect
+	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
+	github.com/prometheus/client_model v0.6.3 // indirect
+	github.com/prometheus/common v0.72.0 // indirect
+	github.com/prometheus/procfs v0.22.0 // indirect
+	golang.org/x/crypto v0.58.0 // indirect
+	golang.org/x/mobile v0.0.0-20261011034528-197770444867 // indirect
+	golang.org/x/mod v0.42.0 // indirect
+	golang.org/x/net v0.61.0 // indirect
+	golang.org/x/sync v0.24.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
+	golang.org/x/time v0.15.0 // indirect
+	golang.org/x/tools v0.52.0 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
+)
+
+tool (
+	golang.org/x/mobile/cmd/gobind
+	golang.org/x/mobile/cmd/gomobile
+)
+
+replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
+
+replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
+
+replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/spamassessment
+
+replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
+
+replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../libraries/processenvironmentlease
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagerwicontract => ../../services/pagerwi/contract
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagerwi => ../../services/pagerwi
+
+replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
+
+replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
+
+replace github.com/nikitakarpei/yacy-rwi-node/stopwords => ../../libraries/stopwords
+
+replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel

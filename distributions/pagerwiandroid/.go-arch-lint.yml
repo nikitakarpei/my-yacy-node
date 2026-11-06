@@ -1,0 +1,17 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagerwiapp:
+    in: pagerwi/**
+
+deps:
+  pagerwiapp:
+    anyProjectDeps: true
+    anyVendorDeps: true
+excludeFiles:
+  - "_test\\.go"
