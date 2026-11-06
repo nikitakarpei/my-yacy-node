@@ -13,6 +13,7 @@ import (
 	pagerwi "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -41,10 +42,11 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 	defer cancel()
 	createPageOffersStream(t, ctx, broker)
 
+	health := &servicehealth.Health{}
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
-			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, prometheus.NewRegistry(),
+			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, prometheus.NewRegistry(), health,
 		)
 	}()
 	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
@@ -71,6 +73,9 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 	if !hasPostingOf(pageRWI, "alpha") || !pageRWI.Metadata.PostingsRoot.Present() {
 		t.Errorf("rwi = %+v, want a posting of alpha under a postings root", pageRWI)
 	}
+	if !health.Started() {
+		t.Error("health not started while the service publishes RWIs")
+	}
 
 	cancel()
 	select {
@@ -85,10 +90,14 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 
 func TestRunServiceReturnsWhenThePageRWIBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1")
+	health := &servicehealth.Health{}
 	if err := pagerwi.RunService(
-		context.Background(), cfg, pagerwi.Listeners{}, prometheus.NewRegistry(),
+		context.Background(), cfg, pagerwi.Listeners{}, prometheus.NewRegistry(), health,
 	); err == nil {
 		t.Fatal("expected an error when the broker is unreachable")
+	}
+	if health.Started() {
+		t.Error("health started although the broker is unreachable")
 	}
 }
 
@@ -96,7 +105,11 @@ func TestRunServiceReturnsOnAPartitionExponentOutOfRange(t *testing.T) {
 	cfg := serviceConfig(natstestserver.Start(t))
 	cfg.PageRWIPartitionExponent = 63
 	if err := pagerwi.RunService(
-		context.Background(), cfg, pagerwi.Listeners{}, prometheus.NewRegistry(),
+		context.Background(),
+		cfg,
+		pagerwi.Listeners{},
+		prometheus.NewRegistry(),
+		&servicehealth.Health{},
 	); err == nil {
 		t.Fatal("expected an error for a partition exponent out of range")
 	}

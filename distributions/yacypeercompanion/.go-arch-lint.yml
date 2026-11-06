@@ -1,0 +1,28 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  connectlink:
+    in: connectlink/**
+  pageservices:
+    in: pageservices/**
+
+vendors:
+  yacymodel:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacymodel
+
+deps:
+  connectlink:
+    canUse:
+      - yacymodel
+  pageservices:
+    mayDependOn:
+      - connectlink
+    anyVendorDeps: true
+excludeFiles:
+  - "_test\\.go"

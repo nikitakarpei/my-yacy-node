@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	pagescrape "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 )
 
 const (
@@ -63,9 +64,10 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	health := &servicehealth.Health{}
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, prometheus.NewRegistry())
+		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, prometheus.NewRegistry(), health)
 	}()
 
 	offers := pageOfferConsumer(t, ctx, broker)
@@ -82,6 +84,9 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	if offered.PageURL != canonicalurltest.CanonicalURLOf(t, originPageURL) {
 		t.Errorf("offered page = %q", offered.PageURL)
 	}
+	if !health.Started() {
+		t.Error("health not started while the service offers pages")
+	}
 
 	cancel()
 	select {
@@ -96,10 +101,14 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 
 func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1", originServing(t, "<html></html>"))
+	health := &servicehealth.Health{}
 	if err := pagescrape.RunService(
-		context.Background(), cfg, pagescrape.Listeners{}, prometheus.NewRegistry(),
+		context.Background(), cfg, pagescrape.Listeners{}, prometheus.NewRegistry(), health,
 	); err == nil {
 		t.Fatal("expected an error when the broker is unreachable")
+	}
+	if health.Started() {
+		t.Error("health started although the broker is unreachable")
 	}
 }
 

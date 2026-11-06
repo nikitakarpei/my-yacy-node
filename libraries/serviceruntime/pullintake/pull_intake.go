@@ -10,9 +10,12 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"golang.org/x/sync/errgroup"
 )
+
+var ErrBrokerGone = errors.New("broker shut down or closed the connection for good")
 
 var errAdmissionEnded = errors.New("admission ended")
 
@@ -74,6 +77,9 @@ func nextAdmittedItems[Item any](
 	}
 	takenWorkers := 1 + takeFreeWorkers(busyWorkers)
 	nextItems, err := queue.NextUpTo(ctx, takenWorkers)
+	if errors.Is(err, nats.ErrConnectionClosed) || errors.Is(err, jetstream.ErrServerShutdown) {
+		return nil, fmt.Errorf("next items: %w: %w", ErrBrokerGone, err)
+	}
 	if err != nil {
 		return nil, fmt.Errorf("next items: %w", err)
 	}

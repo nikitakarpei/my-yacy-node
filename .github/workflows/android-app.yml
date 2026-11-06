@@ -1,0 +1,74 @@
+name: android-app
+
+on:
+  workflow_call:
+
+jobs:
+  android-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Restore pinned toolchain
+        id: toolchain-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .toolchain/bin
+            .toolchain/go
+            .toolchain/jdk
+            .toolchain/android-sdk
+            .toolchain/activate
+            .toolchain/installed-verify.lock
+            .toolchain/installed-android.lock
+          key: android-toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
+
+      - name: Restore Gradle and Go caches
+        id: build-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .toolchain/gradle/caches
+            .toolchain/gradle/wrapper
+            .toolchain/gradle/gradle.properties
+            .toolchain/gomodcache
+            .toolchain/gocache
+          key: android-build-${{ runner.os }}-${{ hashFiles('distributions/yacypeercompanion/gradle/verification-metadata.xml', 'distributions/yacypeercompanion/go.sum') }}
+          restore-keys: android-build-${{ runner.os }}-
+
+      - name: Install the pinned tools
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: ./tools/install verify && ./tools/install android
+
+      - name: Build, lint and check the app
+        run: . .toolchain/activate && make android-app
+
+      - name: Check that two builds give the same APK
+        run: . .toolchain/activate && make android-app-reproducible
+
+      - name: Save pinned toolchain
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.toolchain-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .toolchain/bin
+            .toolchain/go
+            .toolchain/jdk
+            .toolchain/android-sdk
+            .toolchain/activate
+            .toolchain/installed-verify.lock
+            .toolchain/installed-android.lock
+          key: ${{ steps.toolchain-cache.outputs.cache-primary-key }}
+
+      - name: Save Gradle and Go caches
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.build-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .toolchain/gradle/caches
+            .toolchain/gradle/wrapper
+            .toolchain/gradle/gradle.properties
+            .toolchain/gomodcache
+            .toolchain/gocache
+          key: ${{ steps.build-cache.outputs.cache-primary-key }}

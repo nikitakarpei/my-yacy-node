@@ -57,6 +57,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth
 
 deps:
   scrapeintake:

@@ -1,0 +1,36 @@
+package io.github.nikitakarpei.yacypeercompanion.model
+
+sealed interface CompanionState {
+    data object Stopped : CompanionState
+
+    data object Pairing : CompanionState
+
+    data class PairingFailed(val problem: PairingProblem) : CompanionState
+
+    data object Connecting : CompanionState
+
+    data object Connected : CompanionState
+
+    sealed interface Disconnected : CompanionState
+
+    data object WaitingForUnmeteredNetwork : Disconnected
+
+    sealed interface Recovering : Disconnected {
+        val reason: DisconnectReason
+        val failedAttempts: Int
+    }
+
+    data class Reconnecting(override val reason: DisconnectReason, override val failedAttempts: Int) : Recovering
+
+    data class RetryingAt(override val reason: DisconnectReason, val retryAtMs: Long, override val failedAttempts: Int) : Recovering
+
+    data class WaitingForNetwork(override val reason: DisconnectReason, override val failedAttempts: Int) : Recovering
+}
+
+enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
+
+enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, SERVICES_FAILED }
+
+enum class PairingProblem { PEER_UNREACHABLE, SIGNING_KEY, SERVICES_FAILED }
+
+class PairingCode(val linkText: String)

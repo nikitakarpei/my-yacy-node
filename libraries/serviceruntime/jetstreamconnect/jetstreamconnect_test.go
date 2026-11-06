@@ -1,11 +1,18 @@
 package jetstreamconnect_test
 
 import (
+	"errors"
+	"net"
 	"testing"
+	"time"
+
+	natsserver "github.com/nats-io/nats-server/v2/server"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
+
+const callbackWait = 5 * time.Second
 
 func TestOpenConnectsAndCloses(t *testing.T) {
 	url := natstestserver.Start(t)
@@ -20,7 +27,62 @@ func TestOpenConnectsAndCloses(t *testing.T) {
 }
 
 func TestOpenRejectsUnreachable(t *testing.T) {
-	if _, _, err := jetstreamconnect.Open("nats://127.0.0.1:1"); err == nil {
-		t.Fatal("expected error for unreachable server")
+	_, _, err := jetstreamconnect.Open("nats://127.0.0.1:1")
+	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
+		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
+	}
+}
+
+type connectionEvents chan string
+
+func (events connectionEvents) ConnectionLost()     { events <- "lost" }
+func (events connectionEvents) ConnectionRestored() { events <- "restored" }
+
+func brokerOn(t *testing.T, port int) *natsserver.Server {
+	t.Helper()
+	broker, err := natsserver.NewServer(&natsserver.Options{Host: "127.0.0.1", Port: port})
+	if err != nil {
+		t.Fatalf("new broker: %v", err)
+	}
+	go broker.Start()
+	if !broker.ReadyForConnections(callbackWait) {
+		t.Fatal("broker not ready")
+	}
+	t.Cleanup(broker.Shutdown)
+	return broker
+}
+
+func awaitEvent(t *testing.T, events connectionEvents, want string) {
+	t.Helper()
+	select {
+	case event := <-events:
+		if event != want {
+			t.Fatalf("event = %q, want %q", event, want)
+		}
+	case <-time.After(callbackWait):
+		t.Fatalf("no %s event", want)
+	}
+}
+
+func TestOpenObservedReportsALostAndARestoredConnection(t *testing.T) {
+	broker := brokerOn(t, -1)
+	port := broker.Addr().(*net.TCPAddr).Port
+	events := make(connectionEvents, 2)
+	_, connection, err := jetstreamconnect.OpenObserved(broker.ClientURL(), events)
+	if err != nil {
+		t.Fatalf("OpenObserved: %v", err)
+	}
+	defer connection.Close()
+
+	broker.Shutdown()
+	awaitEvent(t, events, "lost")
+	brokerOn(t, port)
+	awaitEvent(t, events, "restored")
+}
+
+func TestOpenObservedRejectsUnreachable(t *testing.T) {
+	_, _, err := jetstreamconnect.OpenObserved("nats://127.0.0.1:1", make(connectionEvents, 1))
+	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
+		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
 	}
 }

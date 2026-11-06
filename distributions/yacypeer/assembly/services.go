@@ -21,6 +21,7 @@ import (
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	searchpageassembly "github.com/nikitakarpei/yacy-rwi-node/searchpage/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
 	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
@@ -221,7 +222,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			},
 			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
-			pagescrapeassembly.RunService,
+			withUnreadHealth(pagescrapeassembly.RunService),
 		),
 		streamOnlyServiceAssemblyFrom(
 			pagerwiService,
@@ -232,7 +233,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			},
 			pagerwiassembly.LoadServiceConfig,
 			pagerwiassembly.ListenersFor,
-			pagerwiassembly.RunService,
+			withUnreadHealth(pagerwiassembly.RunService),
 		),
 		streamOnlyServiceAssemblyFrom(
 			crawlscrapebridgeService,
@@ -287,6 +288,14 @@ func streamOnlyServiceAssemblyFrom[C any, L io.Closer](
 			return service{}, err
 		}
 		return assembledService.service(), nil
+	}
+}
+
+func withUnreadHealth[C any, L io.Closer](
+	runService func(context.Context, C, L, *prometheus.Registry, *servicehealth.Health) error,
+) func(context.Context, C, L, *prometheus.Registry) error {
+	return func(ctx context.Context, cfg C, listeners L, registry *prometheus.Registry) error {
+		return runService(ctx, cfg, listeners, registry, &servicehealth.Health{})
 	}
 }
 

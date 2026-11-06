@@ -17,6 +17,8 @@ jobs:
           path: |
             .toolchain/bin
             .toolchain/go
+            .toolchain/activate
+            .toolchain/installed-verify.lock
           key: toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
 
       - name: Restore Go modules, build output and lint results
@@ -24,9 +26,9 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: |
-            ~/go/pkg/mod
-            ~/.cache/go-build
-            ~/.cache/golangci-lint
+            .toolchain/gomodcache
+            .toolchain/gocache
+            .toolchain/golangci-lint-cache
           key: go-verify-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-${{ github.sha }}
           restore-keys: |
             go-verify-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
@@ -42,8 +44,12 @@ jobs:
           key: uv-${{ runner.os }}-${{ hashFiles('tools/tools.lock', '.python-version', 'uv.lock') }}
           restore-keys: uv-${{ runner.os }}-
 
+      - name: Install the pinned tools
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: ./tools/install verify
+
       - name: Run make verify
-        run: make verify RACE_FLAG=-race
+        run: . .toolchain/activate && make verify RACE_FLAG=-race
 
       - name: Save pinned toolchain
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.toolchain-cache.outputs.cache-hit != 'true'
@@ -52,6 +58,8 @@ jobs:
           path: |
             .toolchain/bin
             .toolchain/go
+            .toolchain/activate
+            .toolchain/installed-verify.lock
           key: ${{ steps.toolchain-cache.outputs.cache-primary-key }}
 
       - name: Save Go modules, build output and lint results
@@ -59,9 +67,9 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: |
-            ~/go/pkg/mod
-            ~/.cache/go-build
-            ~/.cache/golangci-lint
+            .toolchain/gomodcache
+            .toolchain/gocache
+            .toolchain/golangci-lint-cache
           key: ${{ steps.go-cache.outputs.cache-primary-key }}
 
       - name: Save pinned Python and its packages
