@@ -38,6 +38,10 @@ scrape_configs:
     static_configs:
       - targets: ["webresearchmcp:9090"]
 
+  - job_name: pagerwi
+    static_configs:
+      - targets: ["pagerwi:9090"]
+
   - job_name: crawlscrapebridge
     static_configs:
       - targets: ["crawlscrapebridge:9090"]

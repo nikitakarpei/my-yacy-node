@@ -4,7 +4,7 @@
 
 `yacycrawler` fetches a page to discover links. `pagescrape` reads each
 requested page once and offers the same content to `corpustext` and
-`yacy-rwi-node`. A shared cache lets link discovery and the scrape reuse one
+`pagerwi`. A shared cache lets link discovery and the scrape reuse one
 fetch from the origin.
 
 ## What this chapter adds
