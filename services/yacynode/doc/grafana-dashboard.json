@@ -1696,7 +1696,7 @@
     },
     {
       "id": 90,
-      "title": "Intake of crawled pages from pagerwi",
+      "title": "Intake of crawled pages",
       "type": "row",
       "collapsed": false,
       "gridPos": {
