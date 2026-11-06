@@ -114,8 +114,6 @@ components:
     in: internal/pageintakeobservers/applog/**
   pageintakeobserversprometheus:
     in: internal/pageintakeobservers/prometheus/**
-  pagerwibroker:
-    in: internal/pagerwibroker/**
   pagerwiopeningobserversapplog:
     in: internal/pagerwiopeningobservers/applog/**
   yacynodeassembly:
@@ -415,11 +413,6 @@ deps:
       - pageadmission
     canUse:
       - pagerwicontract
-      - serviceruntime
-  pagerwibroker:
-    canUse:
-      - pagerwicontract
-      - nats
       - serviceruntime
   pageintakeobserversprometheus:
     canUse:

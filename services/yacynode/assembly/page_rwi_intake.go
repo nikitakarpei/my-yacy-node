@@ -4,8 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/nats-io/nats.go"
+	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -14,12 +18,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwibroker"
 	pagerwiopeningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwiopeningobservers/applog"
 )
 
 type pageRWIIntake struct {
-	brokerOpening  *streamopening.Opening[*pagerwibroker.PageRWIBroker]
+	streamOpening  *streamopening.Opening[pageRWIs]
 	consumerConfig pageintake.PageRWIConsumerConfig
 }
 
@@ -31,9 +34,9 @@ func openPageRWIIntake(
 	registry prometheus.Registerer,
 ) *pageRWIIntake {
 	return &pageRWIIntake{
-		brokerOpening: streamopening.Start(
+		streamOpening: streamopening.Start(
 			ctx,
-			pageRWIBrokerOpenerFor(config),
+			pageRWIOpenerFor(config),
 			wallclock.Clock{},
 			pagerwiopeningobserversapplog.PageRWIOpeningLog{},
 		),
@@ -49,33 +52,64 @@ func openPageRWIIntake(
 	}
 }
 
-func pageRWIBrokerOpenerFor(
-	config nodeconfiguration.PageRWIIntakeConfig,
-) func(ctx context.Context) (*pagerwibroker.PageRWIBroker, error) {
-	return func(ctx context.Context) (*pagerwibroker.PageRWIBroker, error) {
-		broker, err := pagerwibroker.Open(ctx, pagerwibroker.Config{
-			PageRWINATSURL:           config.PageRWINATSURL,
-			PageRWIDurable:           config.PageRWIDurable,
-			PageRWIIntakeConcurrency: config.PageRWIIntakeConcurrency,
-		})
-		if err != nil {
-			return nil, fmt.Errorf("open rwi broker: %w", err)
-		}
-		return broker, nil
-	}
-}
-
 func (i *pageRWIIntake) Run(ctx context.Context) error {
-	broker, opened := i.brokerOpening.Opened(ctx)
-	if !opened {
+	opened, isOpen := i.streamOpening.Opened(ctx)
+	if !isOpen {
 		return nil
 	}
-	defer broker.Close()
+	defer opened.Close()
 	consumerConfig := i.consumerConfig
-	consumerConfig.PageRWISource = broker.PageRWIs
+	consumerConfig.PageRWISource = opened.consumer
 	return pageintake.NewPageRWIConsumer(consumerConfig).Run(ctx)
 }
 
 func (i *pageRWIIntake) Close() {
-	i.brokerOpening.Close()
+	i.streamOpening.Close()
+}
+
+type pageRWIs struct {
+	consumer   jetstream.Consumer
+	connection *nats.Conn
+}
+
+func (rwis pageRWIs) Close() {
+	rwis.connection.Close()
+}
+
+func pageRWIOpenerFor(
+	config nodeconfiguration.PageRWIIntakeConfig,
+) func(ctx context.Context) (pageRWIs, error) {
+	return func(ctx context.Context) (pageRWIs, error) {
+		js, connection, err := jetstreamconnect.Open(config.PageRWINATSURL)
+		if err != nil {
+			return pageRWIs{}, err
+		}
+		consumer, err := pageRWIConsumerFor(ctx, js, config)
+		if err != nil {
+			connection.Close()
+			return pageRWIs{}, err
+		}
+		return pageRWIs{consumer: consumer, connection: connection}, nil
+	}
+}
+
+func pageRWIConsumerFor(
+	ctx context.Context,
+	js jetstream.JetStream,
+	config nodeconfiguration.PageRWIIntakeConfig,
+) (jetstream.Consumer, error) {
+	stream, err := js.Stream(ctx, pagerwicontract.PageRWIsStreamName)
+	if err != nil {
+		return nil, fmt.Errorf("open rwi stream: %w", err)
+	}
+	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
+		Durable:       config.PageRWIDurable,
+		AckPolicy:     jetstream.AckExplicitPolicy,
+		FilterSubject: pagerwicontract.PageRWISubject,
+		MaxAckPending: config.PageRWIIntakeConcurrency,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("create rwi consumer: %w", err)
+	}
+	return consumer, nil
 }
