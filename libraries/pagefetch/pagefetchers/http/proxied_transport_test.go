@@ -126,3 +126,49 @@ func TestFetchAbsoluteURLModeGivesUpWhenTheReaderStopsWaiting(t *testing.T) {
 		t.Fatalf("Fetch took %v, want it to stop when the context was cancelled", spent)
 	}
 }
+
+func TestFetchAbsoluteURLModeSendsTheProxyCredentials(t *testing.T) {
+	var gotAuthorization string
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+		gotAuthorization = r.Header.Get("Proxy-Authorization")
+		_, _ = w.Write([]byte("plain"))
+	})
+	defer closeFn()
+	proxy.User = url.UserPassword("", "s3cret")
+
+	_, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
+			pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if gotAuthorization != "Basic OnMzY3JldA==" {
+		t.Fatalf(
+			"Proxy-Authorization = %q, want the credentials of the proxy URL",
+			gotAuthorization,
+		)
+	}
+}
+
+func TestFetchAbsoluteURLModeSendsNoProxyCredentialsWhenTheProxyURLHasNone(t *testing.T) {
+	var gotAuthorization []string
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+		gotAuthorization = r.Header.Values("Proxy-Authorization")
+		_, _ = w.Write([]byte("plain"))
+	})
+	defer closeFn()
+
+	_, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
+			pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if len(gotAuthorization) != 0 {
+		t.Fatalf("Proxy-Authorization = %q, want none", gotAuthorization)
+	}
+}
