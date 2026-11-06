@@ -14,6 +14,7 @@ and sends them to the network.
 - `yacycrawler` visits the pages you name and follows links within the limits
   you set.
 - `pagescrape` reads each requested page once and offers it to the indexes.
+- `pagerwi` builds the reverse word index of each offered page for the node.
 - `crawlscrapebridge` makes a scrape request from each crawled page that
   allows indexing.
 - `nats` carries work from one service to the next: crawl orders, pages to
@@ -53,4 +54,5 @@ the crawl.
 
 - [Crawler configuration](../../../../services/yacycrawler/doc/configuration.md)
 - [Crawl behavior](../../../../services/yacycrawler/doc/specification.md)
+- [Reverse word index configuration](../../../../services/pagerwi/doc/configuration.md)
 - [Node configuration](../../../../services/yacynode/doc/configuration.md)
