@@ -9,7 +9,10 @@ import (
 	"strings"
 )
 
-const envLogLevel = "LOG_LEVEL"
+const (
+	EnvLogLevel  = "LOG_LEVEL"
+	DefaultLevel = slog.LevelInfo
+)
 
 func Configure(getenv func(string) string) error {
 	handler, err := HandlerFor(getenv)
@@ -21,10 +24,10 @@ func Configure(getenv func(string) string) error {
 }
 
 func HandlerFor(getenv func(string) string) (slog.Handler, error) {
-	level := slog.LevelInfo
-	if raw := strings.TrimSpace(getenv(envLogLevel)); raw != "" {
+	level := DefaultLevel
+	if raw := strings.TrimSpace(getenv(EnvLogLevel)); raw != "" {
 		if err := level.UnmarshalText([]byte(strings.ToUpper(raw))); err != nil {
-			return nil, fmt.Errorf("%s: %w", envLogLevel, err)
+			return nil, fmt.Errorf("%s: %w", EnvLogLevel, err)
 		}
 	}
 	return slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{Level: level}), nil

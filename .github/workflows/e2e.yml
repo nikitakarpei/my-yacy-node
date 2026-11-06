@@ -19,6 +19,8 @@ jobs:
           path: |
             .toolchain/bin
             .toolchain/go
+            .toolchain/activate
+            .toolchain/installed-verify.lock
           key: toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
 
       - name: Restore Go modules and build output
@@ -26,16 +28,21 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: |
-            ~/go/pkg/mod
-            ~/.cache/go-build
+            .toolchain/gomodcache
+            .toolchain/gocache
           key: go-e2e-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
           restore-keys: go-e2e-${{ runner.os }}-
+
+      - name: Install the pinned tools
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: ./tools/install verify
 
       - name: Run e2e suites
         env:
           E2E_CONTAINER_LOG_DIR: ${{ github.workspace }}/e2e-container-logs
         run: |
           mkdir -p "$E2E_CONTAINER_LOG_DIR"
+          . .toolchain/activate
           make e2e
 
       - name: Save pinned toolchain
@@ -45,6 +52,8 @@ jobs:
           path: |
             .toolchain/bin
             .toolchain/go
+            .toolchain/activate
+            .toolchain/installed-verify.lock
           key: ${{ steps.toolchain-cache.outputs.cache-primary-key }}
 
       - name: Save Go modules and build output
@@ -52,8 +61,8 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: |
-            ~/go/pkg/mod
-            ~/.cache/go-build
+            .toolchain/gomodcache
+            .toolchain/gocache
           key: ${{ steps.go-cache.outputs.cache-primary-key }}
 
       - name: Upload container logs of failed suites

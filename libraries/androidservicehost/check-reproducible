@@ -1,0 +1,31 @@
+#!/bin/sh
+# Builds the apps of HEAD in two clean clones at different paths, then checks that each
+# APK of the first build is the same, byte for byte, as the APK of the second build.
+# Usage: check-reproducible <app directory>...
+set -eu
+repo=$(cd "$(dirname "$0")/../.." && pwd)
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+for build in first second-build; do
+	git clone --quiet --no-hardlinks "$repo" "$tmp/$build"
+	ln -s "$repo/.toolchain" "$tmp/$build/.toolchain"
+	for app in "$@"; do
+		"$tmp/$build/libraries/androidservicehost/gradlew" -p "$tmp/$build/$app" \
+			assembleRelease --console=plain --quiet --no-build-cache
+	done
+done
+
+different=0
+cd "$tmp/first"
+for app in "$@"; do
+	for apk in "$app"/build/outputs/apk/release/*.apk; do
+		if cmp -s "$apk" "$tmp/second-build/$apk"; then
+			echo "same in both builds: $apk"
+		else
+			echo "differs between the builds: $apk" >&2
+			different=1
+		fi
+	done
+done
+exit "$different"

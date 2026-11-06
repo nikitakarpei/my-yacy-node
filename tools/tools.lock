@@ -1,6 +1,7 @@
 # Pinned third-party tools fetched from official releases.
 # Format: <tool> <version> <os>-<arch> <sha256>
-# Edit a version here, refresh its checksums, then run `make tools`.
+# Android SDK packages add the name of their archive in Google's repository.
+# Edit a version here, refresh its checksums, then run `tools/install`.
 
 go 1.27.0 linux-amd64  675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
 go 1.27.0 linux-arm64  51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
@@ -46,3 +47,23 @@ zig 0.17.0 linux-amd64  1cbe9df9f27e6b78d14ccbca43b6703a404ef79ef1c463de901d7f08
 zig 0.17.0 linux-arm64  9e8d11661d4ae3bd57702a3832781e23ad151dde5798e16a5ccd503f65234ff8
 zig 0.17.0 darwin-amd64 4f9a1c5269aa17ebda5e6d3c2b89d6cbf36f7d2b22a0306e9ab98f25f95529c6
 zig 0.17.0 darwin-arm64 b607e9b9234790a008116ae5bdb71c6243b84b9fb42a53a9e70fde41c06c536a
+
+jdk 21.0.13+9 linux-amd64  d7f5d5cf865a2902b70ff549b97586a7d3f234e016f041ab447ea740c7d66d1c
+jdk 21.0.13+9 darwin-amd64 9aa1d1c17ae5467a022679e7e0af5c00797d94ac462ed1a46f4db07a8a34a6dd
+jdk 21.0.13+9 darwin-arm64 bf036b35b071bfb2f54f2c0af8ee8d88afa95ee6eb3dce02c0f94cfc2524d04a
+
+android-platform 37.0 linux-amd64  840b23e827f96e64aea4c89a1194aac3dc5f6bad37edb231c5c795d890330e8d platform-37.0_r02.zip
+android-platform 37.0 darwin-amd64 840b23e827f96e64aea4c89a1194aac3dc5f6bad37edb231c5c795d890330e8d platform-37.0_r02.zip
+android-platform 37.0 darwin-arm64 840b23e827f96e64aea4c89a1194aac3dc5f6bad37edb231c5c795d890330e8d platform-37.0_r02.zip
+
+android-build-tools 37.0.0 linux-amd64  01af179347cbcd9c208b7f8171f7b21f6dd1d2f85bcd15e88caa51d5d7b86060 build-tools_r37_linux.zip
+android-build-tools 37.0.0 darwin-amd64 b5b1ac529028a49f11b596b89d9b34252e0f39388ee7dbd16ae3110f1c9c5722 build-tools_r37_macosx.zip
+android-build-tools 37.0.0 darwin-arm64 b5b1ac529028a49f11b596b89d9b34252e0f39388ee7dbd16ae3110f1c9c5722 build-tools_r37_macosx.zip
+
+android-platform-tools 37.0.1 linux-amd64  d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1 platform-tools_r37.0.1-linux.zip
+android-platform-tools 37.0.1 darwin-amd64 ee39ad5967e95c2a07f04dbcbde96b1a0c916ba376096db5d2f498b7727a5d1d platform-tools_r37.0.1-darwin.zip
+android-platform-tools 37.0.1 darwin-arm64 ee39ad5967e95c2a07f04dbcbde96b1a0c916ba376096db5d2f498b7727a5d1d platform-tools_r37.0.1-darwin.zip
+
+android-ndk 29.0.14206865 linux-amd64  4abbbcdc842f3d4879206e9695d52709603e52dd68d3c1fff04b3b5e7a308ecf android-ndk-r29-linux.zip
+android-ndk 29.0.14206865 darwin-amd64 ce5e4b100ec5fe5be4eb3edcb2c02528824ff9cda3860f5304619be6c3da34d3 android-ndk-r29-darwin.zip
+android-ndk 29.0.14206865 darwin-arm64 ce5e4b100ec5fe5be4eb3edcb2c02528824ff9cda3860f5304619be6c3da34d3 android-ndk-r29-darwin.zip

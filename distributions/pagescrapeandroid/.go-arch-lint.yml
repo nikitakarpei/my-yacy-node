@@ -1,0 +1,17 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagescrapeapp:
+    in: pagescrape/**
+
+deps:
+  pagescrapeapp:
+    anyProjectDeps: true
+    anyVendorDeps: true
+excludeFiles:
+  - "_test\\.go"
