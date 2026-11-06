@@ -10,7 +10,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/nats-io/nats.go"
+	"github.com/nats-io/nats.go/jetstream"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -100,8 +100,8 @@ func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
 		return processErr
 	}
 	if ctx.Err() != nil || errors.Is(intakeErr, errAdmissionEnded) ||
-		errors.Is(intakeErr, nats.ErrConnectionClosed) {
-		return nil //nolint:nilerr // an ended context, admission or connection ends intake cleanly
+		errors.Is(intakeErr, jetstream.ErrMsgIteratorClosed) {
+		return nil //nolint:nilerr // an ended context, admission or message iterator ends intake cleanly
 	}
 	return intakeErr
 }

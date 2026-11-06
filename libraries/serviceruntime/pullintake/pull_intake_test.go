@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
@@ -97,6 +98,21 @@ func TestRunFailsWhenTheSourceFails(t *testing.T) {
 	)
 	if !errors.Is(err, want) {
 		t.Fatalf("run error = %v, want %v", err, want)
+	}
+}
+
+func TestRunFailsWhenTheBrokerConnectionClosesForGood(t *testing.T) {
+	source := pullintaketest.MessageSourceThatFails(nats.ErrConnectionClosed)
+
+	err := pullintake.Run(
+		context.Background(),
+		pullintake.MessageQueueOf(source),
+		2,
+		func(context.Context, pullintake.PendingMessage) error { return nil },
+	)
+
+	if !errors.Is(err, nats.ErrConnectionClosed) {
+		t.Errorf("run = %v, want the closed connection reported", err)
 	}
 }
 

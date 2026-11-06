@@ -3,7 +3,6 @@ package pullintaketest
 import (
 	"sync"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 )
 
@@ -13,7 +12,7 @@ type MessageSource struct {
 
 func MessageSourceOf(messages ...jetstream.Msg) MessageSource {
 	return MessageSource{
-		queue: &messageQueue{messages: messages, endError: nats.ErrConnectionClosed},
+		queue: &messageQueue{messages: messages, endError: jetstream.ErrMsgIteratorClosed},
 	}
 }
 
@@ -28,7 +27,7 @@ func MessageSourceHeldOnItsFirstMessage(
 	return MessageSource{queue: &messageQueue{
 		messages:  messages,
 		heldUntil: release,
-		endError:  nats.ErrConnectionClosed,
+		endError:  jetstream.ErrMsgIteratorClosed,
 	}}
 }
 
