@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
@@ -330,5 +331,46 @@ func TestARequestTheAdmissionHoldsBackStaysUnsettled(t *testing.T) {
 	}
 	if settled := message.Settlements(); len(settled) != 0 {
 		t.Errorf("the held back request was settled %v, want it untouched", settled)
+	}
+}
+
+type fetchFailureRecorder struct {
+	silentScrapeIntakeObserver
+	causes *[]error
+}
+
+func (r fetchFailureRecorder) OriginFetchFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	cause error,
+) {
+	*r.causes = append(*r.causes, cause)
+}
+
+func TestTheCauseOfAFailedFetchIsReported(t *testing.T) {
+	cause := errors.New("origin response: 502 Bad Gateway")
+	var causes []error
+	consumer := scrapeintake.NewScrapeRequestConsumer(
+		pullintaketest.MessageSourceOf(
+			scrapeRequestMessage(t, scrapeRequestForThePage(t), time.Now()),
+		),
+		pageFetches{
+			outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchFailed, FailureCause: cause},
+		},
+		&pageOffers{},
+		&scrapeOutcomeFeed{},
+		scrapeintake.ScrapeIntakeObservers{fetchFailureRecorder{causes: &causes}},
+		everyRequestAdmitted{},
+		deferralWindow,
+		1,
+		fixedClock{now: time.Now()},
+	)
+
+	if err := consumer.Run(context.Background()); err != nil {
+		t.Fatalf("run intake: %v", err)
+	}
+
+	if len(causes) != 1 || !errors.Is(causes[0], cause) {
+		t.Errorf("reported causes = %v, want %v", causes, cause)
 	}
 }
