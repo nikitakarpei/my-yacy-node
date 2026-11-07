@@ -6,15 +6,21 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/nats-io/nats.go"
+
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionrequests"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 )
 
 const (
@@ -80,6 +86,49 @@ func pageServicesPermissions() natspermissions.Permissions {
 			PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
 		}.BrokerPermissions(),
 	)
+}
+
+func (c *companions) brokerKeyHash() string {
+	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
+}
+
+func (c *companions) servers(
+	broker *natsbroker.Broker,
+	natsURL string,
+	network *processnetwork.Network,
+) []func(context.Context) error {
+	if c == nil {
+		return nil
+	}
+	pairingRequests := companionrequests.NewPairingRequests(
+		c.offers, c.devices, wallclock.Clock{}, c.brokerKeyHash(),
+	)
+	deviceRequests := companionrequests.NewDeviceRequests(
+		c.devices,
+		companionaccess.NewUnpairing(c.devices, broker),
+		companionprotocol.Settings{
+			PartitionExponent: pagerwiassembly.DefaultPageRWIPartitionExponent,
+		},
+	)
+	return []func(context.Context) error{
+		servedOn(natsURL, network, pairingRequests.Serve),
+		servedOn(natsURL, network, deviceRequests.Serve),
+	}
+}
+
+func servedOn(
+	natsURL string,
+	network *processnetwork.Network,
+	serve func(context.Context, *nats.Conn) error,
+) func(context.Context) error {
+	return func(ctx context.Context) error {
+		_, connection, err := jetstreamconnect.Open(natsURL, network.DialContext)
+		if err != nil {
+			return err
+		}
+		defer connection.Close()
+		return serve(ctx, connection)
+	}
 }
 
 func closeCompanions(ctx context.Context, parts *companions) {
