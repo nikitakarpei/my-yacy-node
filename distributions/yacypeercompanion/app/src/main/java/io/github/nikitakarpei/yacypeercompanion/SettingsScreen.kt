@@ -65,7 +65,7 @@ class SettingsScreen : Activity() {
 
     private fun confirmUnpair() {
         showDialog(
-            "Unpair this phone?",
+            "Unpair this device?",
             listOf(DialogAction("Cancel"), DialogAction("Unpair", R.color.error) { unpair() }),
         )
     }

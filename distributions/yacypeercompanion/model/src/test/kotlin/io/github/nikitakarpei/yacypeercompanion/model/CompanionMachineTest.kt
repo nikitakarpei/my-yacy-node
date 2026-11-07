@@ -11,12 +11,15 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.PostFailur
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.RestartServices
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.SchedulePairingTimeout
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.ScheduleRetry
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.SendPairingRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StartServices
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StopServices
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.BrokerConnectionLost
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.CancelPairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.NetworkChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTimedOut
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesConnected
@@ -27,6 +30,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.NotAccepted
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
@@ -39,7 +43,7 @@ import org.junit.Test
 
 class CompanionMachineTest {
     private val now = 1_000_000L
-    private val code = PairingCode("yacypeer-companion://connect?nats=nats%3A%2F%2Fpeer%3A4222&partition-exponent=4")
+    private val code = PairingCode("yacypeer-companion://pair?address=192.168.1.20%3A4223&brokerKeyHash=hash&secret=secret")
     private val unreachable = ServicesEnded(ServicesEnding.BROKER_UNREACHABLE)
     private val lostPeer = DisconnectReason.PEER_UNREACHABLE
 
@@ -55,32 +59,56 @@ class CompanionMachineTest {
     }
 
     @Test
-    fun pairingStartsTheServicesWithATimeLimit() {
-        assertStep(stepOf(Stopped, PairWith(code)), Pairing, BeginPairing(code), StartServices, SchedulePairingTimeout(PAIRING_LIMIT_MS))
+    fun pairingSendsThePairingRequestWithATimeLimit() {
+        assertStep(
+            stepOf(Stopped, PairWith(code)),
+            Pairing,
+            BeginPairing(code),
+            SendPairingRequest,
+            SchedulePairingTimeout(PAIRING_LIMIT_MS),
+        )
     }
 
     @Test
-    fun pairingCompletesWhenTheServicesConnect() {
-        assertStep(stepOf(Pairing, ServicesConnected), Connected, CancelPairingTimeout, CompletePairing)
+    fun anAcceptedPairingStartsTheServices() {
+        assertStep(stepOf(Pairing, PairingAccepted), Connecting, CancelPairingTimeout, CompletePairing, StartServices)
     }
 
     @Test
     fun pairingFailsWithoutRetriesAndEndsTheHost() {
         assertStep(
-            stepOf(Pairing, unreachable),
-            PairingFailed(PairingProblem.PEER_UNREACHABLE),
-            StopServices,
+            stepOf(Pairing, PairingRefused(PairingProblem.APP_OUTDATED)),
+            PairingFailed(PairingProblem.APP_OUTDATED),
             CancelPairingTimeout,
             EndHost,
         )
         assertStep(
             stepOf(Pairing, SigningKeyUnavailable),
             PairingFailed(PairingProblem.SIGNING_KEY),
-            StopServices,
             CancelPairingTimeout,
             EndHost,
         )
-        assertStep(stepOf(Pairing, PairingTimedOut), PairingFailed(PairingProblem.SERVICES_FAILED), StopServices, EndHost)
+        assertStep(stepOf(Pairing, PairingTimedOut), PairingFailed(PairingProblem.PEER_UNREACHABLE), EndHost)
+    }
+
+    @Test
+    fun anOutcomeOutsideAPairingChangesNothing() {
+        assertStep(stepOf(Connected, PairingAccepted), Connected)
+        assertStep(stepOf(Stopped, PairingRefused(PairingProblem.REFUSED)), Stopped)
+    }
+
+    @Test
+    fun aDeviceThatThePeerUnpairedStaysDisconnectedAndTellsWhy() {
+        assertStep(
+            stepOf(Connected, ServicesEnded(ServicesEnding.UNPAIRED)),
+            NotAccepted,
+            StopServices,
+            CancelRetry,
+            PostFailureNotification(DisconnectReason.UNPAIRED),
+            EndHost,
+        )
+        assertStep(stepOf(NotAccepted, StartRequested), NotAccepted)
+        assertStep(stepOf(Stopped, ServicesEnded(ServicesEnding.UNPAIRED)), Stopped)
     }
 
     @Test
@@ -152,11 +180,10 @@ class CompanionMachineTest {
     @Test
     fun pairingOverAMeteredNetworkCompletesAndThenWaits() {
         assertStep(
-            stepOf(Pairing, ServicesConnected, NetworkAccess.METERED_ONLY),
+            stepOf(Pairing, PairingAccepted, NetworkAccess.METERED_ONLY),
             WaitingForUnmeteredNetwork,
             CancelPairingTimeout,
             CompletePairing,
-            StopServices,
         )
     }
 
