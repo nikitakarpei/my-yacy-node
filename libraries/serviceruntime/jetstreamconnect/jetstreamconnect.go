@@ -1,7 +1,7 @@
 // Package jetstreamconnect opens a NATS connection through the dialer it is given and derives its
 // JetStream context, returning both, so a caller that also publishes on a core subject holds the
 // one connection they share. A caller can observe when the broker drops the connection and when
-// it returns; closing the connection is no loss.
+// it returns, and can add NATS options such as TLS; closing the connection is no loss.
 package jetstreamconnect
 
 import (
@@ -31,16 +31,19 @@ func OpenObserved(
 	url string,
 	dial Dial,
 	observer ConnectionObserver,
+	options ...nats.Option,
 ) (jetstream.JetStream, *nats.Conn, error) {
 	return openWith(
 		url,
 		dial,
-		nats.DisconnectErrHandler(func(_ *nats.Conn, err error) {
-			if err != nil {
-				observer.ConnectionLost()
-			}
-		}),
-		nats.ReconnectHandler(func(*nats.Conn) { observer.ConnectionRestored() }),
+		append(options,
+			nats.DisconnectErrHandler(func(_ *nats.Conn, err error) {
+				if err != nil {
+					observer.ConnectionLost()
+				}
+			}),
+			nats.ReconnectHandler(func(*nats.Conn) { observer.ConnectionRestored() }),
+		)...,
 	)
 }
 

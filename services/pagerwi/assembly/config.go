@@ -1,7 +1,10 @@
 package pagerwiassembly
 
 import (
+	"github.com/nats-io/nats.go"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
 
 const (
@@ -23,6 +26,8 @@ const (
 )
 
 type ServiceConfig struct {
+	BrokerOptions              []nats.Option
+	IntakeAdmission            pullintake.Admission
 	PageOfferNATSURL           string
 	PageOfferDurable           string
 	PageOfferIntakeConcurrency int

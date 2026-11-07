@@ -22,6 +22,7 @@ import (
 	scrapestreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapestreams/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
@@ -54,7 +55,9 @@ func RunService(
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
-	broker, connection, err := jetstreamconnect.OpenObserved(cfg.ScrapeNATSURL, dial, health)
+	broker, connection, err := jetstreamconnect.OpenObserved(
+		cfg.ScrapeNATSURL, dial, health, cfg.BrokerOptions...,
+	)
 	if err != nil {
 		return err
 	}
@@ -85,8 +88,15 @@ func RunService(
 			scrapeintakeobserversapplog.ScrapeIntakeLog{},
 			scrapeintakeobserversprometheus.New(registry),
 		},
-		consumerbacklog.New(
-			streams.pageOffers, pageOfferBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+		pullintake.AdmissionOfEach(
+			consumerbacklog.New(
+				streams.pageOffers,
+				pageOfferBacklogLimit,
+				wallclock.Clock{},
+				registry,
+				metricNamespace,
+			),
+			cfg.IntakeAdmission,
 		),
 		cfg.ScrapeDeferralWindow,
 		cfg.ScrapeIntakeConcurrency,

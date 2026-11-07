@@ -1,5 +1,6 @@
 // Package webuitabs gives each web UI of the peer the tab bar that links the search page, the
-// crawl console and the dashboards, with the tab of that web UI marked.
+// crawl console, the Companions pages when the peer has them, and the dashboards, with the tab
+// of that web UI marked.
 package webuitabs
 
 import (
@@ -11,26 +12,34 @@ import (
 const issueTrackerURL = "https://github.com/nikitakarpei/my-yacy-node/issues"
 
 const (
-	Search  = "Search"
-	Crawls  = "Crawls"
-	Metrics = "Metrics"
+	Search     = "Search"
+	Crawls     = "Crawls"
+	Companions = "Companions"
+	Metrics    = "Metrics"
 )
 
 type URLs struct {
-	Search  string
-	Crawls  string
-	Metrics string
+	Search     string
+	Crawls     string
+	Companions string
+	Metrics    string
 }
 
 func (urls URLs) TabBarFor(current string) webuistyle.TabBar {
-	return webuistyle.TabBar{
-		IssueTrackerURL: issueTrackerURL,
-		Tabs: []webuistyle.Tab{
-			{Title: Search, URL: urls.Search, Current: current == Search},
-			{Title: Crawls, URL: urls.Crawls, Current: current == Crawls},
-			{Title: Metrics, URL: urls.Metrics, Current: current == Metrics},
-		},
+	tabs := []webuistyle.Tab{
+		{Title: Search, URL: urls.Search, Current: current == Search},
+		{Title: Crawls, URL: urls.Crawls, Current: current == Crawls},
 	}
+	if urls.Companions != "" {
+		tabs = append(tabs, webuistyle.Tab{
+			Title: Companions, URL: urls.Companions, Current: current == Companions,
+		})
+	}
+	tabs = append(
+		tabs,
+		webuistyle.Tab{Title: Metrics, URL: urls.Metrics, Current: current == Metrics},
+	)
+	return webuistyle.TabBar{IssueTrackerURL: issueTrackerURL, Tabs: tabs}
 }
 
 func (urls URLs) SettingFor(current string) string {

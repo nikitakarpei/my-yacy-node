@@ -222,6 +222,57 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 	awaitShutdown(t, runDone)
 }
 
+func TestRunPeerShowsTheCompanionsTabWhenItPairsCompanions(t *testing.T) {
+	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
+	cfg, web := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
+	}()
+	awaitEveryService(t, env, web)
+	const companionsTab = `href="/companions"`
+
+	for _, path := range []string{"/", "/crawlconsole/", "/dashboards"} {
+		awaitAnswer(t, "http://"+web.Addr().String()+path, companionsTab)
+	}
+	awaitAnswer(t, "http://"+web.Addr().String()+"/companions",
+		companionsTab+` aria-current="page"`, "No companions are paired.")
+	if connection, err := (&net.Dialer{}).DialContext(
+		t.Context(), "tcp", env[yacypeerassembly.EnvCompanionAddr],
+	); err != nil {
+		t.Errorf("the broker does not listen for companions: %v", err)
+	} else {
+		_ = connection.Close()
+	}
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+func TestRunPeerHasNoCompanionsTabWithoutTheCompanionAddress(t *testing.T) {
+	env := peerEnvironment(t)
+	cfg, web := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
+	}()
+	awaitEveryService(t, env, web)
+
+	if body, _ := scraped("http://" + web.Addr().String() + "/"); strings.Contains(
+		body, "/companions",
+	) {
+		t.Error("the search page links the Companions pages")
+	}
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
 func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecretSigns(
 	t *testing.T,
 ) {
@@ -254,6 +305,7 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 
 func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
 	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
 	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -263,7 +315,10 @@ func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
 	}()
 	awaitEveryService(t, env, web)
 
-	for _, page := range []string{"/", "/search?q=yacy", "/crawlconsole/", "/crawlconsole/crawls/new", "/dashboards"} {
+	for _, page := range []string{
+		"/", "/search?q=yacy", "/crawlconsole/", "/crawlconsole/crawls/new", "/dashboards",
+		"/companions", "/companions/pair",
+	} {
 		body, _ := scraped("http://" + web.Addr().String() + page)
 		links := localLinksOf(body)
 		if len(links) == 0 {

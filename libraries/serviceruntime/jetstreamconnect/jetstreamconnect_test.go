@@ -8,6 +8,7 @@ import (
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
+	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
@@ -119,5 +120,27 @@ func TestOpenObservedRejectsUnreachable(t *testing.T) {
 	)
 	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
 		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
+	}
+}
+
+func TestOpenObservedConnectsWithTheOptionsOfTheCaller(t *testing.T) {
+	broker := brokerOn(t, -1)
+	_, connection, err := jetstreamconnect.OpenObserved(
+		broker.ClientURL(),
+		(&net.Dialer{}).DialContext,
+		make(connectionEvents, 1),
+		nats.Name("companion"),
+	)
+	if err != nil {
+		t.Fatalf("OpenObserved: %v", err)
+	}
+	defer connection.Close()
+
+	connections, err := broker.Connz(&natsserver.ConnzOptions{})
+	if err != nil {
+		t.Fatalf("Connz: %v", err)
+	}
+	if len(connections.Conns) != 1 || connections.Conns[0].Name != "companion" {
+		t.Errorf("connections = %+v, want one named companion", connections.Conns)
 	}
 }

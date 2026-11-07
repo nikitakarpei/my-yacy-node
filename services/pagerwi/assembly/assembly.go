@@ -25,6 +25,7 @@ import (
 	pagerwistreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwistreams/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
@@ -72,6 +73,7 @@ func RunService(
 		cfg.PageRWINATSURL,
 		dial,
 		health,
+		cfg.BrokerOptions...,
 	)
 	if err != nil {
 		return err
@@ -99,8 +101,11 @@ func RunService(
 		PageRWIs: pagerwipublishersjetstream.NewPageRWIPublisher(
 			pageRWIBroker, pagerwipublicationobserversapplog.PageRWIPublicationLog{},
 		),
-		PageRWIBacklog: consumerbacklog.New(
-			pageRWIs, pageRWIBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+		PageRWIBacklog: pullintake.AdmissionOfEach(
+			consumerbacklog.New(
+				pageRWIs, pageRWIBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+			),
+			cfg.IntakeAdmission,
 		),
 		PageIntakeObserver: pageintake.PageIntakeObservers{
 			pageintakeobserversapplog.PageIntakeLog{},
@@ -182,7 +187,9 @@ func pageOfferOpenerFor(
 	health *servicehealth.Health,
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.OpenObserved(cfg.PageOfferNATSURL, dial, health)
+		js, connection, err := jetstreamconnect.OpenObserved(
+			cfg.PageOfferNATSURL, dial, health, cfg.BrokerOptions...,
+		)
 		if err != nil {
 			return pageOffers{}, err
 		}

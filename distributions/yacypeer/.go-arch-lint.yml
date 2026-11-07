@@ -32,6 +32,22 @@ components:
     in: internal/dashboardpage/**
   webuiproxy:
     in: internal/webuiproxy/**
+  brokerkey:
+    in: internal/brokerkey/**
+  paireddevices:
+    in: internal/paireddevices/**
+  pairingoffers:
+    in: internal/pairingoffers/**
+  companionaccess:
+    in: internal/companionaccess/**
+  companionrequests:
+    in: internal/companionrequests/**
+  companionspage:
+    in: internal/companionspage/**
+  lanaddress:
+    in: internal/lanaddress/**
+  companionpresence:
+    in: internal/companionpresence/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -69,6 +85,19 @@ vendors:
   webuistyle:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/webuistyle
+  companionprotocol:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/companionprotocol
+  natsclient:
+    in:
+      - github.com/nats-io/nats.go
+  pagecontracts:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
+      - github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
+  qr:
+    in:
+      - rsc.io/qr
   zstd:
     in:
       - github.com/klauspost/compress/zstd
@@ -113,6 +142,33 @@ deps:
     canUse:
       - prometheusclient
       - prometheusquery
+      - webuistyle
+  pairingoffers:
+    canUse:
+      - companionprotocol
+  companionaccess:
+    canUse:
+      - companionprotocol
+      - natsserver
+      - pagecontracts
+  companionrequests:
+    mayDependOn:
+      - paireddevices
+      - pairingoffers
+    canUse:
+      - companionprotocol
+      - natsclient
+  companionpresence:
+    mayDependOn:
+      - companionaccess
+  companionspage:
+    mayDependOn:
+      - companionaccess
+      - paireddevices
+      - pairingoffers
+    canUse:
+      - companionprotocol
+      - qr
       - webuistyle
   yacypeerassembly:
     anyProjectDeps: true
