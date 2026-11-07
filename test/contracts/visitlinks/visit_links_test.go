@@ -4,6 +4,7 @@ import (
 	"context"
 	"html"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -53,7 +54,13 @@ func runVisitCrawl(t *testing.T) string {
 		t.Fatalf("listen for visitcrawl: %v", err)
 	}
 	runUntilCleanup(t, func(ctx context.Context) error {
-		return visitcrawl.RunService(ctx, cfg, listeners, prometheus.NewRegistry())
+		return visitcrawl.RunService(
+			ctx,
+			cfg,
+			listeners,
+			(&net.Dialer{}).DialContext,
+			prometheus.NewRegistry(),
+		)
 	})
 	return listeners.Intake.Addr().String()
 }
@@ -80,7 +87,13 @@ func runSearchPage(t *testing.T, visitCrawlAddress string) string {
 		t.Fatalf("listen for searchpage: %v", err)
 	}
 	runUntilCleanup(t, func(ctx context.Context) error {
-		return searchpage.RunService(ctx, cfg, listeners, prometheus.NewRegistry())
+		return searchpage.RunService(
+			ctx,
+			cfg,
+			listeners,
+			(&net.Dialer{}).DialContext,
+			prometheus.NewRegistry(),
+		)
 	})
 	return listeners.Page.Addr().String()
 }

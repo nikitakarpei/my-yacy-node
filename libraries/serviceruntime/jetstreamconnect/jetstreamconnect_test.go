@@ -1,6 +1,7 @@
 package jetstreamconnect_test
 
 import (
+	"context"
 	"errors"
 	"net"
 	"testing"
@@ -16,7 +17,7 @@ const callbackWait = 5 * time.Second
 
 func TestOpenConnectsAndCloses(t *testing.T) {
 	url := natstestserver.Start(t)
-	js, connection, err := jetstreamconnect.Open(url)
+	js, connection, err := jetstreamconnect.Open(url, (&net.Dialer{}).DialContext)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -26,8 +27,34 @@ func TestOpenConnectsAndCloses(t *testing.T) {
 	connection.Close()
 }
 
+func TestOpenConnectsThroughTheDialer(t *testing.T) {
+	broker, err := natsserver.NewServer(
+		&natsserver.Options{DontListen: true, JetStream: true, StoreDir: t.TempDir()},
+	)
+	if err != nil {
+		t.Fatalf("new broker: %v", err)
+	}
+	go broker.Start()
+	if !broker.ReadyForConnections(callbackWait) {
+		t.Fatal("broker not ready")
+	}
+	t.Cleanup(broker.Shutdown)
+
+	js, connection, err := jetstreamconnect.Open(
+		"nats://broker.internal:4222",
+		func(context.Context, string, string) (net.Conn, error) { return broker.InProcessConn() },
+	)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	defer connection.Close()
+	if _, err := js.AccountInfo(context.Background()); err != nil {
+		t.Errorf("account info through the dialer: %v", err)
+	}
+}
+
 func TestOpenRejectsUnreachable(t *testing.T) {
-	_, _, err := jetstreamconnect.Open("nats://127.0.0.1:1")
+	_, _, err := jetstreamconnect.Open("nats://127.0.0.1:1", (&net.Dialer{}).DialContext)
 	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
 		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
 	}
@@ -68,7 +95,11 @@ func TestOpenObservedReportsALostAndARestoredConnection(t *testing.T) {
 	broker := brokerOn(t, -1)
 	port := broker.Addr().(*net.TCPAddr).Port
 	events := make(connectionEvents, 2)
-	_, connection, err := jetstreamconnect.OpenObserved(broker.ClientURL(), events)
+	_, connection, err := jetstreamconnect.OpenObserved(
+		broker.ClientURL(),
+		(&net.Dialer{}).DialContext,
+		events,
+	)
 	if err != nil {
 		t.Fatalf("OpenObserved: %v", err)
 	}
@@ -81,7 +112,11 @@ func TestOpenObservedReportsALostAndARestoredConnection(t *testing.T) {
 }
 
 func TestOpenObservedRejectsUnreachable(t *testing.T) {
-	_, _, err := jetstreamconnect.OpenObserved("nats://127.0.0.1:1", make(connectionEvents, 1))
+	_, _, err := jetstreamconnect.OpenObserved(
+		"nats://127.0.0.1:1",
+		(&net.Dialer{}).DialContext,
+		make(connectionEvents, 1),
+	)
 	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
 		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
 	}

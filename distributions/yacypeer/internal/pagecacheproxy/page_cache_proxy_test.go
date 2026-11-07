@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -15,6 +16,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 )
@@ -104,16 +106,13 @@ func runningProxyCountingInto(
 	if err != nil {
 		t.Fatalf("open page cachedPages: %v", err)
 	}
-	proxy, err := pagecacheproxy.Listen(
-		t.Context(),
+	proxy := pagecacheproxy.New(
+		loopbackListener(t),
 		cachedPages,
-		egressProxyURL,
+		&http.Transport{Proxy: http.ProxyURL(egressProxyURL)},
 		maxBodyBytesInTest,
 		registry,
 	)
-	if err != nil {
-		t.Fatalf("Listen: %v", err)
-	}
 	ctx, cancel := context.WithCancel(context.Background())
 	runDone := make(chan error, 1)
 	go func() { runDone <- proxy.Run(ctx) }()
@@ -129,6 +128,15 @@ func runningProxyCountingInto(
 		}
 	})
 	return proxy
+}
+
+func loopbackListener(t *testing.T) net.Listener {
+	t.Helper()
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
+	if err != nil {
+		t.Fatalf("listen: %v", err)
+	}
+	return listener
 }
 
 type fetchedPage struct {
@@ -368,16 +376,13 @@ func TestCloseReleasesTheListener(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open page cachedPages: %v", err)
 	}
-	proxy, err := pagecacheproxy.Listen(
-		t.Context(),
+	proxy := pagecacheproxy.New(
+		loopbackListener(t),
 		cachedPages,
-		urlOf(t, "http://127.0.0.1:1"),
+		&http.Transport{Proxy: http.ProxyURL(urlOf(t, "http://127.0.0.1:1"))},
 		maxBodyBytesInTest,
 		prometheus.NewRegistry(),
 	)
-	if err != nil {
-		t.Fatalf("Listen: %v", err)
-	}
 
 	if err := proxy.Close(); err != nil {
 		t.Fatalf("Close: %v", err)

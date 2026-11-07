@@ -3,6 +3,7 @@ package yacysearch_test
 import (
 	"context"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -37,7 +38,12 @@ func TestThePageHoldsTheItemsOfTheSearch(t *testing.T) {
 	}))
 	t.Cleanup(server.Close)
 	observer := &recordingObserver{}
-	source := yacysearch.New(urlOf(t, server.URL), callDeadline, observer)
+	source := yacysearch.New(
+		urlOf(t, server.URL),
+		(&net.Dialer{}).DialContext,
+		callDeadline,
+		observer,
+	)
 
 	page, answered := source.PageFor(
 		t.Context(),
@@ -69,7 +75,12 @@ func TestASearchInAllLanguagesNamesNoLanguage(t *testing.T) {
 		_, _ = io.WriteString(w, `{"channels":[]}`)
 	}))
 	t.Cleanup(server.Close)
-	source := yacysearch.New(urlOf(t, server.URL), callDeadline, &recordingObserver{})
+	source := yacysearch.New(
+		urlOf(t, server.URL),
+		(&net.Dialer{}).DialContext,
+		callDeadline,
+		&recordingObserver{},
+	)
 
 	page, answered := source.PageFor(
 		t.Context(),
@@ -112,7 +123,12 @@ func TestASearchThatCannotReachTheServerGivesNoPage(t *testing.T) {
 func assertNoPage(t *testing.T, serverURL string) {
 	t.Helper()
 	observer := &recordingObserver{}
-	source := yacysearch.New(urlOf(t, serverURL), callDeadline, observer)
+	source := yacysearch.New(
+		urlOf(t, serverURL),
+		(&net.Dialer{}).DialContext,
+		callDeadline,
+		observer,
+	)
 
 	page, answered := source.PageFor(
 		t.Context(),

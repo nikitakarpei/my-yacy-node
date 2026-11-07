@@ -101,6 +101,7 @@ const indexAbstractDocumentsPerAnswer = 10000
 func assembleNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
+	dial Dial,
 	storage *vault.Vault,
 	registry *prometheus.Registry,
 ) (node, error) {
@@ -146,7 +147,7 @@ func assembleNode(
 
 	egressClient := &http.Client{
 		Timeout:   egressRequestTimeout,
-		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL)},
+		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL), DialContext: dial},
 	}
 
 	vaultmetrics.NewCapacityMetrics(registry, metricNamespace, storage)
@@ -312,7 +313,7 @@ func assembleNode(
 	)
 	remoteindexingress.Mount(router, identity, postingAdmission, urlMetadataIntake)
 	nodestatus.MountQuery(router, identity, now, storage, wordAmounts, postingAmounts, urlDirectory)
-	mountMessageAdmission(router, identity, now, config.MessageInbox, config.Egress.ProxyURL)
+	mountMessageAdmission(router, identity, now, config.MessageInbox, config.Egress.ProxyURL, dial)
 	documentsearch.MountSearch(
 		storage,
 		router,
@@ -346,7 +347,7 @@ func assembleNode(
 
 	peerWalker := peerwire.NewWalker(
 		egressClient,
-		peertls.NewTransports(config.Egress.ProxyURL, identity.NetworkName),
+		peertls.NewTransports(config.Egress.ProxyURL, dial, identity.NetworkName),
 		wallclock.Clock{},
 	)
 	peeradmission.MountHello(
@@ -377,7 +378,7 @@ func assembleNode(
 
 	if config.PageRWIIntake.Enabled() {
 		pageRWIs = openPageRWIIntake(
-			ctx, config.PageRWIIntake, dhtRingPartitions, pageReceiver, registry,
+			ctx, config.PageRWIIntake, dial, dhtRingPartitions, pageReceiver, registry,
 		)
 	}
 
@@ -534,6 +535,7 @@ func mountMessageAdmission(
 	now func() time.Time,
 	inbox nodeconfiguration.MessageInboxConfig,
 	egressProxy *url.URL,
+	dial Dial,
 ) {
 	if !inbox.Enabled() {
 		messageadmission.MountRefusing(router)
@@ -545,6 +547,6 @@ func mountMessageAdmission(
 		router,
 		identity,
 		now,
-		webhook.New(inbox.WebhookURL, egressProxy, net.DefaultResolver),
+		webhook.New(inbox.WebhookURL, egressProxy, dial, net.DefaultResolver),
 	)
 }

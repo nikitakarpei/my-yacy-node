@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -38,16 +39,16 @@ type ProxiedFetch struct {
 	deadline     time.Duration
 }
 
-func New(
-	proxyURL *url.URL,
-	dialMode ProxyDialMode,
-	userAgent string,
-	maxBodyBytes int64,
-	deadline time.Duration,
-) *ProxiedFetch {
+type Proxy struct {
+	URL      *url.URL
+	DialMode ProxyDialMode
+	Dial     func(ctx context.Context, network, address string) (net.Conn, error)
+}
+
+func New(proxy Proxy, userAgent string, maxBodyBytes int64, deadline time.Duration) *ProxiedFetch {
 	return &ProxiedFetch{
 		client: &http.Client{
-			Transport:     transportForDialMode(proxyURL, dialMode),
+			Transport:     transportForProxy(proxy),
 			CheckRedirect: relayRedirect,
 		},
 		userAgent:    userAgent,

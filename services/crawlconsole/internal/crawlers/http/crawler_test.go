@@ -3,6 +3,7 @@ package http_test
 import (
 	"encoding/json"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -49,7 +50,7 @@ func crawlerOver(t *testing.T, api *crawlerAPI) *crawlershttp.Crawler {
 	if err != nil {
 		t.Fatalf("parse %q: %v", server.URL, err)
 	}
-	return crawlershttp.New(apiURL, callDeadline)
+	return crawlershttp.New(apiURL, (&net.Dialer{}).DialContext, callDeadline)
 }
 
 func unansweringCrawler(t *testing.T) *crawlershttp.Crawler {
@@ -60,7 +61,7 @@ func unansweringCrawler(t *testing.T) *crawlershttp.Crawler {
 		t.Fatalf("parse %q: %v", server.URL, err)
 	}
 	server.Close()
-	return crawlershttp.New(apiURL, callDeadline)
+	return crawlershttp.New(apiURL, (&net.Dialer{}).DialContext, callDeadline)
 }
 
 func orderOf(t *testing.T) yacycrawlcontract.CrawlOrder {

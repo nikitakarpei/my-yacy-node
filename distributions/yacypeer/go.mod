@@ -9,7 +9,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/corpustext v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlconsole v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0

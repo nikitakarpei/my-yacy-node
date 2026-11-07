@@ -28,6 +28,8 @@ const (
 	msgServiceStopped = "crawlconsole stopped"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	Console net.Listener
 }
@@ -51,13 +53,14 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
 		Name: "crawlconsole_info",
 		Help: "Crawl console application identity.",
 	}, func() float64 { return 1 }))
-	crawler := crawlershttp.New(cfg.CrawlerAPIURL, cfg.CrawlerCallDeadline())
+	crawler := crawlershttp.New(cfg.CrawlerAPIURL, dial, cfg.CrawlerCallDeadline())
 	consoleServer := &http.Server{
 		Handler: httpobservation.NewHandler(
 			consolepages.New(

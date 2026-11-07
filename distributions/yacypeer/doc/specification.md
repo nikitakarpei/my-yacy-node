@@ -14,9 +14,8 @@ one program.
 * The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `yacycrawler`,
   `pagescrape`, `pagerwi`, `crawlconsole`, `crawlscrapebridge`, `visitcrawl`, and
   `searchpage`.
-* The program SHALL run a NATS server that only the local host can reach.
-* The program SHALL let only the local host reach its endpoints, except the peer endpoint
-  of `yacynode`, until the operator sets their addresses.
+* The program SHALL run a NATS server that only its services can reach.
+* The program SHALL let only the local host reach its web address until the operator sets it.
 * The program SHALL NOT send outbound requests to loopback or private addresses, other than
   to a proxy that the operator names.
 * The program SHALL send page fetches through the page fetch proxy that the operator names.
@@ -44,8 +43,8 @@ one program.
 * The program SHALL show the dashboard of each service that has one on the web address, and
   SHALL draw it from the metric history.
 * The program SHALL serve the search page and the crawl console on the web address.
-* The services SHALL listen only on free ports of the local host, except yacynode on its
-  peer address.
+* The services SHALL open no port, except `yacynode` on its peer address.
+* The services SHALL reach each other, the NATS server and the proxies inside the program.
 * The search page, the crawl console and the dashboards SHALL link each other in a tab bar.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.

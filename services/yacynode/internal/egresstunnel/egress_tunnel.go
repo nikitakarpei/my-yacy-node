@@ -22,8 +22,15 @@ var (
 
 var proxyDefaultPorts = map[string]string{"http": "80", "https": "443"}
 
-func ConnectionThrough(ctx context.Context, proxyURL *url.URL, address string) (net.Conn, error) {
-	proxyConnection, err := proxyConnectionTo(ctx, proxyURL)
+type dial func(ctx context.Context, network, address string) (net.Conn, error)
+
+func ConnectionThrough(
+	ctx context.Context,
+	proxyURL *url.URL,
+	dialProxy func(ctx context.Context, network, address string) (net.Conn, error),
+	address string,
+) (net.Conn, error) {
+	proxyConnection, err := proxyConnectionTo(ctx, proxyURL, dialProxy)
 	if err != nil {
 		return nil, err
 	}
@@ -34,9 +41,8 @@ func ConnectionThrough(ctx context.Context, proxyURL *url.URL, address string) (
 	return proxyConnection, nil
 }
 
-func proxyConnectionTo(ctx context.Context, proxyURL *url.URL) (net.Conn, error) {
-	var dialer net.Dialer
-	connection, err := dialer.DialContext(ctx, "tcp", proxyAddressOf(proxyURL))
+func proxyConnectionTo(ctx context.Context, proxyURL *url.URL, dialProxy dial) (net.Conn, error) {
+	connection, err := dialProxy(ctx, "tcp", proxyAddressOf(proxyURL))
 	if err != nil {
 		return nil, fmt.Errorf("dial the proxy: %w", err)
 	}

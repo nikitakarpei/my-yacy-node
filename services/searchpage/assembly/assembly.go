@@ -35,6 +35,8 @@ const (
 	msgServiceStopped = "searchpage stopped"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	Page net.Listener
 }
@@ -58,6 +60,7 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -65,9 +68,9 @@ func RunService(
 		Help: "Search page application identity.",
 	}, func() float64 { return 1 }))
 	mux := http.NewServeMux()
-	mountVisitRelay(mux, cfg.VisitCrawl)
+	mountVisitRelay(mux, cfg.VisitCrawl, dial)
 	mux.Handle("/", searchpages.New(
-		resultSourcesFor(cfg),
+		resultSourcesFor(cfg, dial),
 		resultLinksFor(cfg.VisitCrawl),
 		cfg.TabBar,
 		searchpageobserversapplog.SearchPageLog{},
@@ -95,21 +98,26 @@ func RunService(
 	return err
 }
 
-func mountVisitRelay(mux *http.ServeMux, visitCrawl *VisitCrawlConfig) {
+func mountVisitRelay(mux *http.ServeMux, visitCrawl *VisitCrawlConfig, dial Dial) {
 	if visitCrawl == nil {
 		return
 	}
 	mux.Handle("GET "+resultlinksvisitcrawl.Path, visitrelay.New(
 		visitCrawl.URL,
+		dial,
 		visitrelayobserversapplog.VisitRelayLog{},
 	))
 }
 
-func resultSourcesFor(cfg ServiceConfig) map[searchqueries.Source]searchpages.ResultSource {
+func resultSourcesFor(
+	cfg ServiceConfig,
+	dial Dial,
+) map[searchqueries.Source]searchpages.ResultSource {
 	sources := map[searchqueries.Source]searchpages.ResultSource{}
 	if cfg.CorpusTextURL != nil {
 		sources[searchqueries.CrawledPages] = resultsourcescorpustext.New(
 			cfg.CorpusTextURL,
+			dial,
 			cfg.CorpusTextCallDeadline(),
 			resultsourceobserversapplog.CorpusTextLog{},
 		)
@@ -117,6 +125,7 @@ func resultSourcesFor(cfg ServiceConfig) map[searchqueries.Source]searchpages.Re
 	if cfg.YaCySearchURL != nil {
 		sources[searchqueries.YaCyNetwork] = resultsourcesyacysearch.New(
 			cfg.YaCySearchURL,
+			dial,
 			cfg.YaCySearchCallDeadline,
 			resultsourceobserversapplog.YaCySearchLog{},
 		)

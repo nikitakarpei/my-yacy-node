@@ -1,6 +1,6 @@
-// Package egressproxy runs the smokescreen proxy built into the peer. It listens on the
-// loopback interface only and refuses requests to loopback and private addresses. It sends the
-// requests it allows through the upstream proxy that it is given, else to their destination.
+// Package egressproxy runs the smokescreen proxy built into the peer, on the listener it is given.
+// It refuses requests to loopback and private addresses. It sends the requests it allows through
+// the upstream proxy that it is given, else to their destination.
 package egressproxy
 
 import (
@@ -17,7 +17,6 @@ import (
 	"github.com/stripe/smokescreen/pkg/smokescreen/conntrack"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 )
 
 const (
@@ -32,12 +31,8 @@ type EgressProxy struct {
 	upstreamProxyURL *url.URL
 }
 
-func Listen(ctx context.Context, upstreamProxyURL *url.URL) (*EgressProxy, error) {
-	listener, err := loopback.Listen(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("built-in egress proxy: %w", err)
-	}
-	return &EgressProxy{listener: listener, upstreamProxyURL: upstreamProxyURL}, nil
+func New(listener net.Listener, upstreamProxyURL *url.URL) *EgressProxy {
+	return &EgressProxy{listener: listener, upstreamProxyURL: upstreamProxyURL}
 }
 
 func (p *EgressProxy) URL() *url.URL {

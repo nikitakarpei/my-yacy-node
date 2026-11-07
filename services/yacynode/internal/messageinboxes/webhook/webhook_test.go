@@ -125,6 +125,7 @@ func TestPrivateWebhookGetsTheMessageDirectly(t *testing.T) {
 	delivered := webhook.New(
 		target,
 		mustParseURL(t, proxy.URL),
+		(&net.Dialer{}).DialContext,
 		resolverStub{"inbox.test": {"127.0.0.1"}},
 	).Deliver(context.Background(), sampleMessage())
 
@@ -179,6 +180,7 @@ func TestPrivateWebhookTriesEachResolvedAddress(t *testing.T) {
 	delivered := webhook.New(
 		target,
 		mustParseURL(t, "http://127.0.0.1:1"),
+		(&net.Dialer{}).DialContext,
 		resolverStub{"inbox.test": {"127.0.0.2", "127.0.0.1"}},
 	).Deliver(context.Background(), sampleMessage())
 
@@ -201,6 +203,7 @@ func TestWebhookAnswerOutsideSuccessFailsTheDelivery(t *testing.T) {
 		delivered := webhook.New(
 			target,
 			mustParseURL(t, "http://127.0.0.1:1"),
+			(&net.Dialer{}).DialContext,
 			resolverStub{"inbox.test": {"127.0.0.1"}},
 		).Deliver(context.Background(), sampleMessage())
 
@@ -225,6 +228,7 @@ func TestWebhookRedirectIsNotFollowed(t *testing.T) {
 	delivered := webhook.New(
 		mustParseURL(t, redirecting.URL),
 		mustParseURL(t, "http://127.0.0.1:1"),
+		(&net.Dialer{}).DialContext,
 		resolverStub{"127.0.0.1": {"127.0.0.1"}},
 	).Deliver(context.Background(), sampleMessage())
 
@@ -245,6 +249,7 @@ func TestPublicWebhookGoesThroughTheEgressProxy(t *testing.T) {
 	delivered := webhook.New(
 		mustParseURL(t, "https://inbox.example/hook"),
 		mustParseURL(t, proxy.URL),
+		(&net.Dialer{}).DialContext,
 		resolverStub{"inbox.example": {"203.0.113.5"}},
 	).Deliver(context.Background(), sampleMessage())
 
@@ -276,6 +281,7 @@ func TestPublicWebhookWithoutHTTPSIsNotCalled(t *testing.T) {
 			delivered := webhook.New(
 				target,
 				mustParseURL(t, proxy.URL),
+				(&net.Dialer{}).DialContext,
 				resolverStub{"inbox.test": addresses},
 			).Deliver(context.Background(), sampleMessage())
 
@@ -293,6 +299,7 @@ func TestUnresolvedWebhookFailsTheDelivery(t *testing.T) {
 	delivered := webhook.New(
 		mustParseURL(t, "https://inbox.example/hook"),
 		mustParseURL(t, "http://127.0.0.1:1"),
+		(&net.Dialer{}).DialContext,
 		resolverStub{},
 	).Deliver(context.Background(), sampleMessage())
 
@@ -307,6 +314,7 @@ func TestPrivateWebhookWithoutAnAnsweringAddressFailsTheDelivery(t *testing.T) {
 	delivered := webhook.New(
 		mustParseURL(t, "http://inbox.test:1/hook"),
 		mustParseURL(t, "http://127.0.0.1:1"),
+		(&net.Dialer{}).DialContext,
 		resolverStub{"inbox.test": {"127.0.0.2", "127.0.0.3"}},
 	).Deliver(context.Background(), sampleMessage())
 

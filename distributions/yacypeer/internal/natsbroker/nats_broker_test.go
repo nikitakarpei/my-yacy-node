@@ -2,13 +2,14 @@ package natsbroker_test
 
 import (
 	"context"
+	"net"
 	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
@@ -20,7 +21,7 @@ func TestStartServesJetStreamFromTheStoreDirectory(t *testing.T) {
 	}
 	defer broker.Shutdown()
 
-	js := natstestserver.ConnectJetStream(t, broker.ClientURL())
+	js := jetStreamOf(t, broker)
 	if _, err := js.CreateStream(context.Background(), jetstream.StreamConfig{
 		Name:     "PAGES",
 		Subjects: []string{"page"},
@@ -32,6 +33,19 @@ func TestStartServesJetStreamFromTheStoreDirectory(t *testing.T) {
 	}
 }
 
+func jetStreamOf(t *testing.T, broker *natsbroker.Broker) jetstream.JetStream {
+	t.Helper()
+	js, connection, err := jetstreamconnect.Open(
+		"nats://broker.internal",
+		func(context.Context, string, string) (net.Conn, error) { return broker.Connection() },
+	)
+	if err != nil {
+		t.Fatalf("connect: %v", err)
+	}
+	t.Cleanup(connection.Close)
+	return js
+}
+
 func TestStartAcceptsAMessageOverTheDefaultNATSPayloadCeiling(t *testing.T) {
 	broker, err := natsbroker.Start(t.TempDir())
 	if err != nil {
@@ -39,7 +53,7 @@ func TestStartAcceptsAMessageOverTheDefaultNATSPayloadCeiling(t *testing.T) {
 	}
 	defer broker.Shutdown()
 
-	js := natstestserver.ConnectJetStream(t, broker.ClientURL())
+	js := jetStreamOf(t, broker)
 	if _, err := js.CreateStream(context.Background(), jetstream.StreamConfig{
 		Name:     "PAGES",
 		Subjects: []string{"page"},

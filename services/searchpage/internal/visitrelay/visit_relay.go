@@ -5,6 +5,7 @@ package visitrelay
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -14,8 +15,13 @@ type Observer interface {
 	RelayFailed(ctx context.Context, err error)
 }
 
-func New(visitCrawlURL *url.URL, observer Observer) http.Handler {
+func New(
+	visitCrawlURL *url.URL,
+	dial func(ctx context.Context, network, address string) (net.Conn, error),
+	observer Observer,
+) http.Handler {
 	return &httputil.ReverseProxy{
+		Transport: &http.Transport{DialContext: dial},
 		Rewrite: func(request *httputil.ProxyRequest) {
 			request.SetURL(visitCrawlURL)
 		},

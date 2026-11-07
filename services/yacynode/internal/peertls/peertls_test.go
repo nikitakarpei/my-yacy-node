@@ -9,6 +9,7 @@ import (
 	"crypto/x509/pkix"
 	"fmt"
 	"math/big"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -88,7 +89,11 @@ func TestServerConfigMakesANewTLSKeyAtEachStart(t *testing.T) {
 func transportsFor(t *testing.T, network string) peertls.Transports {
 	t.Helper()
 
-	return peertls.NewTransports(egresstunneltest.StartedProxy(t, nil), network)
+	return peertls.NewTransports(
+		egresstunneltest.StartedProxy(t, nil),
+		(&net.Dialer{}).DialContext,
+		network,
+	)
 }
 
 func serverConfigOf(t *testing.T, key yacymodel.PeerKey) *tls.Config {

@@ -2,6 +2,7 @@ package visitrelay_test
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -26,7 +27,7 @@ func TestTheRelayGivesThePersonTheRedirectOfVisitCrawl(t *testing.T) {
 	}))
 	t.Cleanup(visitCrawl.Close)
 	observer := &recordingObserver{}
-	relay := visitrelay.New(urlOf(t, visitCrawl.URL), observer)
+	relay := visitrelay.New(urlOf(t, visitCrawl.URL), (&net.Dialer{}).DialContext, observer)
 
 	answer := httptest.NewRecorder()
 	relay.ServeHTTP(
@@ -57,7 +58,7 @@ func TestAVisitThatCannotReachVisitCrawlIsABadGateway(t *testing.T) {
 	visitCrawl := httptest.NewServer(http.NotFoundHandler())
 	visitCrawl.Close()
 	observer := &recordingObserver{}
-	relay := visitrelay.New(urlOf(t, visitCrawl.URL), observer)
+	relay := visitrelay.New(urlOf(t, visitCrawl.URL), (&net.Dialer{}).DialContext, observer)
 
 	answer := httptest.NewRecorder()
 	relay.ServeHTTP(

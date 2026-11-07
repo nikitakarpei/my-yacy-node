@@ -2,6 +2,7 @@ package crawlorderbroker_test
 
 import (
 	"context"
+	"net"
 	"testing"
 	"time"
 
@@ -72,7 +73,7 @@ func TestPublishedCrawlOrderReachesOrdersStream(t *testing.T) {
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            url,
 		CrawlOrdersSubject: crawlOrdersSubject,
-	}, observer)
+	}, (&net.Dialer{}).DialContext, observer)
 	if err != nil {
 		t.Fatalf("open broker: %v", err)
 	}
@@ -125,7 +126,7 @@ func TestOpenRejectsUnreachableNATS(t *testing.T) {
 	if _, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            "nats://127.0.0.1:1",
 		CrawlOrdersSubject: crawlOrdersSubject,
-	}, &recordingCrawlOrderPublicationObserver{}); err == nil {
+	}, (&net.Dialer{}).DialContext, &recordingCrawlOrderPublicationObserver{}); err == nil {
 		t.Fatal("unreachable nats should fail to open")
 	}
 }

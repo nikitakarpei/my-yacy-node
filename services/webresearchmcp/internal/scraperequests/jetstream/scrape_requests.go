@@ -7,6 +7,7 @@ package jetstream
 
 import (
 	"context"
+	"net"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
@@ -26,7 +27,7 @@ func OpenScrapeRequests(
 	natsURL string,
 	observer ScrapeRequestPublicationObserver,
 ) (*ScrapeRequests, error) {
-	stream, connection, err := jetstreamconnect.Open(natsURL)
+	stream, connection, err := jetstreamconnect.Open(natsURL, (&net.Dialer{}).DialContext)
 	if err != nil {
 		return nil, err
 	}

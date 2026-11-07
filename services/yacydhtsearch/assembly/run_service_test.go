@@ -27,7 +27,9 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 
 	ctx, stop := context.WithCancel(t.Context())
 	stopped := make(chan error, 1)
-	go func() { stopped <- yacydhtsearch.RunService(ctx, cfg, listeners, registry) }()
+	go func() {
+		stopped <- yacydhtsearch.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
+	}()
 
 	answer := bodyOnceServed(t, "http://"+searchAddr+"/yacysearch.json?query=berlin")
 	if !strings.Contains(answer, `"channels"`) {
@@ -57,7 +59,7 @@ func TestTheOpsAddressServesMetricsButNoProfilerByDefault(t *testing.T) {
 	go func() {
 		stopped <- opsmetrics.ServeAlongside(ctx, ops, yacydhtsearch.OpsMuxFor(cfg, registry),
 			func(ctx context.Context) error {
-				return yacydhtsearch.RunService(ctx, cfg, listeners, registry)
+				return yacydhtsearch.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
 			})
 	}()
 
@@ -215,7 +217,7 @@ func TestTheOpsAddressServesTheProfilerWhenTheOperatorOptsIn(t *testing.T) {
 	go func() {
 		stopped <- opsmetrics.ServeAlongside(ctx, ops, yacydhtsearch.OpsMuxFor(cfg, registry),
 			func(ctx context.Context) error {
-				return yacydhtsearch.RunService(ctx, cfg, listeners, registry)
+				return yacydhtsearch.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
 			})
 	}()
 
@@ -242,6 +244,7 @@ func TestTheServiceRefusesToStartWhenItsStateServerDoesNotAnswer(t *testing.T) {
 		t.Context(),
 		cfg,
 		listeners,
+		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
 	); err == nil {
 		t.Fatal("RunService started with a Redis address that does not answer")

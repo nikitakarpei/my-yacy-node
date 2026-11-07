@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -50,6 +51,12 @@ func serve(ctx context.Context, config yacynodeassembly.ServiceConfig) error {
 	registry := opsmetrics.ProcessRegistry()
 	opsMux := opsmetrics.MuxFor(registry)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return yacynodeassembly.RunService(ctx, config, listeners, registry)
+		return yacynodeassembly.RunService(
+			ctx,
+			config,
+			listeners,
+			(&net.Dialer{}).DialContext,
+			registry,
+		)
 	})
 }

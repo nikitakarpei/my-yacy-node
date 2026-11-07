@@ -40,7 +40,7 @@ To set a value for one service only, put the service name and `__` before the se
 such as `CORPUSTEXT__CORPUSTEXT_LANGUAGES`. This value has priority over the setting
 without a prefix.
 
-yacypeer wires the settings that connect the services, and gives each service a free port
-of the local host. It serves their metrics itself, so
-it does not read their ops settings. If you set one of these settings, yacypeer does not
-start and names the setting.
+yacypeer wires the settings that connect the services, and connects them inside the program,
+so they open no port. It serves their metrics itself. Thus it does not read their ops
+settings or listen addresses. If you set one of these settings, yacypeer does not start and
+names the setting.

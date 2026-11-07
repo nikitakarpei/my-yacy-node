@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -51,10 +52,18 @@ type searchPageWireForm struct {
 	} `json:"channels"`
 }
 
-func New(serverURL *url.URL, callDeadline time.Duration, observer Observer) *YaCySearch {
+func New(
+	serverURL *url.URL,
+	dial func(ctx context.Context, network, address string) (net.Conn, error),
+	callDeadline time.Duration,
+	observer Observer,
+) *YaCySearch {
 	return &YaCySearch{
-		observer:  observer,
-		client:    &http.Client{Timeout: callDeadline},
+		observer: observer,
+		client: &http.Client{
+			Timeout:   callDeadline,
+			Transport: &http.Transport{DialContext: dial},
+		},
 		searchURL: strings.TrimSuffix(serverURL.String(), "/") + searchPath,
 	}
 }

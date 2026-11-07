@@ -3,6 +3,7 @@ package corpustext_test
 import (
 	"context"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -37,7 +38,12 @@ func TestThePageHoldsTheMatchesOfTheSearch(t *testing.T) {
 	}))
 	t.Cleanup(server.Close)
 	observer := &recordingObserver{}
-	source := corpustext.New(urlOf(t, server.URL), callDeadline, observer)
+	source := corpustext.New(
+		urlOf(t, server.URL),
+		(&net.Dialer{}).DialContext,
+		callDeadline,
+		observer,
+	)
 
 	page, answered := source.PageFor(
 		t.Context(),
@@ -90,7 +96,12 @@ func TestASearchThatCannotReachCorpusTextGivesNoPage(t *testing.T) {
 func assertNoPage(t *testing.T, serverURL string) {
 	t.Helper()
 	observer := &recordingObserver{}
-	source := corpustext.New(urlOf(t, serverURL), callDeadline, observer)
+	source := corpustext.New(
+		urlOf(t, serverURL),
+		(&net.Dialer{}).DialContext,
+		callDeadline,
+		observer,
+	)
 
 	page, answered := source.PageFor(
 		t.Context(),

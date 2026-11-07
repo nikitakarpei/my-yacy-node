@@ -90,7 +90,7 @@ func runService(
 	ctx, cancel := context.WithCancel(context.Background())
 	serviceDone := make(chan error, 1)
 	go func() {
-		serviceDone <- searchpage.RunService(ctx, cfg, listeners, registry)
+		serviceDone <- searchpage.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
 	}()
 	t.Cleanup(func() {
 		cancel()

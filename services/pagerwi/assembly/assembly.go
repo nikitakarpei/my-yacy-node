@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -39,6 +40,8 @@ const (
 	pageRWIBacklogLimit = 1000
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct{}
 
 func ListenersFor(context.Context, ServiceConfig) (Listeners, error) {
@@ -53,6 +56,7 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	_ Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
@@ -66,6 +70,7 @@ func RunService(
 	}
 	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.OpenObserved(
 		cfg.PageRWINATSURL,
+		dial,
 		health,
 	)
 	if err != nil {
@@ -82,7 +87,7 @@ func RunService(
 	}
 	pageOfferOpening := streamopening.Start(
 		ctx,
-		pageOfferOpenerFor(cfg, health),
+		pageOfferOpenerFor(cfg, dial, health),
 		wallclock.Clock{},
 		pageofferopeningobserversapplog.PageOfferOpeningLog{},
 	)
@@ -162,10 +167,11 @@ func (offers pageOffers) Close() {
 
 func pageOfferOpenerFor(
 	cfg ServiceConfig,
+	dial Dial,
 	health *servicehealth.Health,
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.OpenObserved(cfg.PageOfferNATSURL, health)
+		js, connection, err := jetstreamconnect.OpenObserved(cfg.PageOfferNATSURL, dial, health)
 		if err != nil {
 			return pageOffers{}, err
 		}

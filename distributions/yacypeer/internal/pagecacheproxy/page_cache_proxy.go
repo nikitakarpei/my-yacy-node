@@ -1,6 +1,6 @@
-// Package pagecacheproxy runs an HTTP forward proxy for page fetches on the loopback interface.
+// Package pagecacheproxy runs an HTTP forward proxy for page fetches on the listener it is given.
 // It answers a page fetch from a cached page when one exists. Else it fetches the page through
-// the proxy it is given, relays the answer, and caches it.
+// the transport it is given, relays the answer, and caches it.
 package pagecacheproxy
 
 import (
@@ -18,7 +18,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 )
 
 const (
@@ -50,33 +49,29 @@ type PageCacheProxy struct {
 	pageFetchMetrics *pageFetchMetrics
 }
 
-func Listen(
-	ctx context.Context,
+func New(
+	listener net.Listener,
 	cachedPages *cachedpages.Pages,
-	originProxyURL *url.URL,
+	originTransport http.RoundTripper,
 	maxBodyBytes int64,
 	registry prometheus.Registerer,
-) (*PageCacheProxy, error) {
-	listener, err := loopback.Listen(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("page cache proxy: %w", err)
-	}
+) *PageCacheProxy {
 	return &PageCacheProxy{
 		listener:    listener,
 		cachedPages: cachedPages,
 		originClient: &http.Client{
-			Transport: &http.Transport{Proxy: http.ProxyURL(originProxyURL)},
+			Transport: originTransport,
 			CheckRedirect: func(*http.Request, []*http.Request) error {
 				return http.ErrUseLastResponse
 			},
 		},
 		maxBodyBytes:     maxBodyBytes,
 		pageFetchMetrics: pageFetchMetricsFor(registry),
-	}, nil
+	}
 }
 
 func (p *PageCacheProxy) URL() string {
-	return loopback.URLOf(p.listener).String()
+	return (&url.URL{Scheme: "http", Host: p.listener.Addr().String()}).String()
 }
 
 func (p *PageCacheProxy) Close() error {

@@ -47,7 +47,7 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	serviceErr := make(chan error, 1)
 	registry := prometheus.NewRegistry()
 	go func() {
-		serviceErr <- visitcrawl.RunService(ctx, cfg, listeners, registry)
+		serviceErr <- visitcrawl.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
 	}()
 
 	consumer := ordersConsumer(t, ctx, crawlNATSURL)
@@ -101,7 +101,7 @@ func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 	registry := prometheus.NewRegistry()
-	err := visitcrawl.RunService(ctx, cfg, listeners, registry)
+	err := visitcrawl.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
 	if err == nil {
 		t.Fatal("unreachable nats should fail")
 	}

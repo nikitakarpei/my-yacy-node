@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -24,7 +23,7 @@ const (
 	EnvPeerKeySearchTime      = "YACYPEER_PEER_KEY_SEARCH_TIME"
 
 	DefaultDataDirectory          = "data"
-	DefaultWebAddr                = loopback.Host + ":9090"
+	DefaultWebAddr                = "127.0.0.1:9090"
 	DefaultMetricHistoryRetention = 7 * 24 * time.Hour
 	DefaultPeerKeySearchTime      = time.Minute
 	DefaultSeedlistURLs           = "http://sixcooler.de/yacy/seed.txt," +

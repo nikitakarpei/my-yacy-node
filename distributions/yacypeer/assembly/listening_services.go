@@ -8,7 +8,7 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/serviceenvironment"
 )
 
@@ -43,20 +43,29 @@ func listeningServiceAssemblyFrom[C any, L io.Closer](
 	name string,
 	wiring serviceenvironment.Wiring,
 	loadServiceConfig func(func(string) string) (C, error),
-	listenersFor func(context.Context, C) (L, error),
-	runService func(context.Context, C, L, *prometheus.Registry) error,
-	listenerOf func(L) net.Listener,
+	runService func(context.Context, C, L, dial, *prometheus.Registry) error,
+	listenersOf func(net.Listener) L,
+	network *processnetwork.Network,
 ) serviceAssembly[listeningService] {
 	return func(ctx context.Context, getenv func(string) string) (listeningService, error) {
 		assembledService, err := assembledServiceFrom(
-			ctx, name, wiring, loadServiceConfig, listenersFor, runService, getenv,
+			ctx,
+			name,
+			wiring,
+			loadServiceConfig,
+			func(context.Context, C) (L, error) {
+				return listenersOf(network.ListenerAt(hostOf(name))), nil
+			},
+			runService,
+			network.DialContext,
+			getenv,
 		)
 		if err != nil {
 			return listeningService{}, err
 		}
 		return listeningService{
 			service: assembledService.service(),
-			url:     loopback.URLOf(listenerOf(assembledService.listeners)),
+			url:     &url.URL{Scheme: "http", Host: hostOf(name)},
 		}, nil
 	}
 }

@@ -94,7 +94,9 @@ func TestRunServiceIndexesTheTextOfAnOfferedPage(t *testing.T) {
 	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
 
 	runDone := make(chan error, 1)
-	go func() { runDone <- corpustext.RunService(ctx, cfg, listenersFor(t), prometheus.NewRegistry()) }()
+	go func() {
+		runDone <- corpustext.RunService(ctx, cfg, listenersFor(t), (&net.Dialer{}).DialContext, prometheus.NewRegistry())
+	}()
 
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
@@ -120,7 +122,9 @@ func TestRunServiceAnswersASearchForAnOfferedPageFromBleve(t *testing.T) {
 	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
 
 	runDone := make(chan error, 1)
-	go func() { runDone <- corpustext.RunService(ctx, cfg, listeners, prometheus.NewRegistry()) }()
+	go func() {
+		runDone <- corpustext.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, prometheus.NewRegistry())
+	}()
 
 	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
 	publishOfferedPage(ctx, t, pageOfferJetStream)
@@ -144,7 +148,9 @@ func TestRunServiceAnswersSearchesWhileThePageOffersAreUnavailable(t *testing.T)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
-	go func() { runDone <- corpustext.RunService(ctx, cfg, listeners, prometheus.NewRegistry()) }()
+	go func() {
+		runDone <- corpustext.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, prometheus.NewRegistry())
+	}()
 
 	matches := matchesFrom(t, "http://"+listeners.Search.Addr().String())
 	want := searchdocument.PageMatch{
@@ -168,7 +174,11 @@ func TestRunServiceFailsWhenTheSearchIndexCannotBeOpened(t *testing.T) {
 	cfg := serviceConfig(natstestserver.Start(t), failingElasticsearch.URL)
 
 	if err := corpustext.RunService(
-		context.Background(), cfg, listenersFor(t), prometheus.NewRegistry(),
+		context.Background(),
+		cfg,
+		listenersFor(t),
+		(&net.Dialer{}).DialContext,
+		prometheus.NewRegistry(),
 	); err == nil {
 		t.Fatal("expected error when the search index cannot be opened")
 	}
