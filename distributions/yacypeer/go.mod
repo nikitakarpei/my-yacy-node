@@ -34,6 +34,7 @@ require (
 	github.com/prometheus/prometheus v0.315.1
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stripe/smokescreen v0.0.5-0.20260706062719-a3294a6cc4e4
+	rsc.io/qr v0.2.0
 )
 
 require (

@@ -5,6 +5,8 @@ import (
 	"crypto/tls"
 	"errors"
 	"log/slog"
+	"net"
+	"net/http"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -14,9 +16,12 @@ import (
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/hostaddresses"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
@@ -83,6 +88,30 @@ func openCompanions(directory string) (*companions, error) {
 	}, nil
 }
 
+func (c *companions) register(
+	mux *http.ServeMux,
+	broker *natsbroker.Broker,
+	tabBar webuistyle.TabBar,
+) {
+	if c == nil {
+		return
+	}
+	companionspage.Register(mux, companionspage.Collaborators{
+		Devices:   c.devices,
+		Unpairing: companionaccess.NewUnpairing(c.devices, broker),
+		Offers:    offerOpening{offers: c.offers},
+		Broker:    broker,
+	}, c.pairLinkFor(broker), tabBar)
+}
+
+func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
+	address, _ := broker.CompanionAddress().(*net.TCPAddr)
+	return companionprotocol.PairLink{
+		Addresses:     hostaddresses.ThisHost().AddressesFor(address),
+		BrokerKeyHash: c.brokerKeyHash(),
+	}
+}
+
 func (c *companions) brokerKeyHash() string {
 	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
@@ -133,4 +162,12 @@ func closeCompanions(ctx context.Context, parts *companions) {
 	if err := parts.devices.Close(); err != nil {
 		slog.WarnContext(ctx, "paired devices did not close", slog.Any("error", err))
 	}
+}
+
+type offerOpening struct {
+	offers *pairingoffers.Offers
+}
+
+func (o offerOpening) Open() companionspage.PairingOffer {
+	return o.offers.Open()
 }

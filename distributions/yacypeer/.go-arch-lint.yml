@@ -42,6 +42,10 @@ components:
     in: internal/companionaccess/**
   companionrequests:
     in: internal/companionrequests/**
+  companionspage:
+    in: internal/companionspage/**
+  hostaddresses:
+    in: internal/hostaddresses/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -89,6 +93,9 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
       - github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
+  qr:
+    in:
+      - rsc.io/qr
   zstd:
     in:
       - github.com/klauspost/compress/zstd
@@ -149,6 +156,15 @@ deps:
     canUse:
       - companionprotocol
       - natsclient
+  companionspage:
+    mayDependOn:
+      - companionaccess
+      - paireddevices
+      - pairingoffers
+    canUse:
+      - companionprotocol
+      - qr
+      - webuistyle
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

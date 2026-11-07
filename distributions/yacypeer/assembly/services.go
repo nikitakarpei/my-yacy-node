@@ -333,7 +333,9 @@ func (p peer) downstreamServiceAssembliesWith(
 			serviceenvironment.Wiring{
 				crawlconsoleassembly.EnvPathPrefix:    crawlConsolePathPrefix,
 				crawlconsoleassembly.EnvCrawlerAPIURL: upstreamURLs[yacycrawlerService].String(),
-				crawlconsoleassembly.EnvTabBar:        webUIURLs.SettingFor(webuitabs.Crawls),
+				crawlconsoleassembly.EnvTabBar: webUIURLsFor(
+					p.cfg,
+				).SettingFor(webuitabs.Crawls),
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.RunService,
@@ -349,7 +351,9 @@ func (p peer) downstreamServiceAssembliesWith(
 				searchpageassembly.EnvCorpusTextURL:   upstreamURLs[corpustextService].String(),
 				searchpageassembly.EnvVisitCrawlURL:   upstreamURLs[visitcrawlService].String(),
 				searchpageassembly.EnvVisitLinkSecret: p.visitLinkSecret,
-				searchpageassembly.EnvTabBar:          webUIURLs.SettingFor(webuitabs.Search),
+				searchpageassembly.EnvTabBar: webUIURLsFor(
+					p.cfg,
+				).SettingFor(webuitabs.Search),
 			},
 			searchpageassembly.LoadServiceConfig,
 			searchpageassembly.RunService,
