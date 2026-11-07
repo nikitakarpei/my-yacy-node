@@ -1,6 +1,6 @@
 import org.gradle.api.Project
 
-const val APP_MIN_SDK = 28
+const val APP_MIN_SDK = 34
 
 fun Project.pinnedVersionOf(tool: String): String = rootProject
     .file("../../tools/tools.lock")

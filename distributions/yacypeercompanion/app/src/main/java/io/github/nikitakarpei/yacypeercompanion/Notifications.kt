@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
-import android.os.Build
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
 import io.github.nikitakarpei.yacypeercompanion.model.DisconnectReason
@@ -34,9 +33,8 @@ fun statusNotification(ctx: Context, state: CompanionState): Notification {
         .setOngoing(true)
         .setOnlyAlertOnce(true)
         .setShowWhen(false)
-        .apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE)
-        }.build()
+        .setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE)
+        .build()
 }
 
 fun postFailureNotification(ctx: Context, reason: DisconnectReason) {
