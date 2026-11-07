@@ -102,6 +102,8 @@ const (
 	msgServiceStopped     = "yacydhtsearch stopped"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	Search net.Listener
 }
@@ -125,13 +127,14 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
 		Name: "yacydhtsearch_info",
 		Help: "YaCy DHT search application identity.",
 	}, func() float64 { return 1 }))
-	outbound := outboundClient(cfg)
+	outbound := outboundClient(cfg, dial)
 	redisClient, err := openRedisClient(ctx, cfg)
 	if err != nil {
 		return err
@@ -195,7 +198,7 @@ func RunService(
 			peerchoiceobserversprometheus.New(registry),
 		},
 	)
-	pageReading, err := pageReadingFor(cfg, registry)
+	pageReading, err := pageReadingFor(cfg, dial, registry)
 	if err != nil {
 		return err
 	}
@@ -392,6 +395,7 @@ func queryWordDocumentAmountsFor(
 
 func pageReadingFor(
 	cfg ServiceConfig,
+	dial Dial,
 	registry *prometheus.Registry,
 ) (networksearch.PageReading, error) {
 	formatDerivations, err := pageformats.New()
@@ -402,8 +406,11 @@ func pageReadingFor(
 	return networkSearchPageReading{reading: pagereading.New(
 		redirectfollowingfetch.New(
 			pagefetchershttp.New(
-				cfg.PageReadProxyURL,
-				cfg.PageReadProxyDialMode,
+				pagefetchershttp.Proxy{
+					URL:      cfg.PageReadProxyURL,
+					DialMode: cfg.PageReadProxyDialMode,
+					Dial:     dial,
+				},
 				cfg.PageReadUserAgent,
 				cfg.PageByteCeiling,
 				cfg.PageReadBudget,
@@ -512,8 +519,8 @@ func cachedRankingsFor(
 	)
 }
 
-func outboundClient(cfg ServiceConfig) *http.Client {
+func outboundClient(cfg ServiceConfig, dial Dial) *http.Client {
 	return &http.Client{
-		Transport: &http.Transport{Proxy: http.ProxyURL(cfg.EgressProxyURL)},
+		Transport: &http.Transport{Proxy: http.ProxyURL(cfg.EgressProxyURL), DialContext: dial},
 	}
 }

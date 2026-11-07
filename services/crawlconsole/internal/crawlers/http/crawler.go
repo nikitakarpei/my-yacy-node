@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -35,10 +36,14 @@ type Crawler struct {
 	client *http.Client
 }
 
-func New(apiURL *url.URL, callDeadline time.Duration) *Crawler {
+func New(
+	apiURL *url.URL,
+	dial func(ctx context.Context, network, address string) (net.Conn, error),
+	callDeadline time.Duration,
+) *Crawler {
 	return &Crawler{
 		apiURL: strings.TrimSuffix(apiURL.String(), "/"),
-		client: &http.Client{Timeout: callDeadline},
+		client: &http.Client{Timeout: callDeadline, Transport: &http.Transport{DialContext: dial}},
 	}
 }
 

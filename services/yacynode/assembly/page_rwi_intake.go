@@ -29,6 +29,7 @@ type pageRWIIntake struct {
 func openPageRWIIntake(
 	ctx context.Context,
 	config nodeconfiguration.PageRWIIntakeConfig,
+	dial Dial,
 	partitions yacymodel.DHTRingPartitions,
 	pages pageadmission.PageReceiver,
 	registry prometheus.Registerer,
@@ -36,7 +37,7 @@ func openPageRWIIntake(
 	return &pageRWIIntake{
 		streamOpening: streamopening.Start(
 			ctx,
-			pageRWIOpenerFor(config),
+			pageRWIOpenerFor(config, dial),
 			wallclock.Clock{},
 			pagerwiopeningobserversapplog.PageRWIOpeningLog{},
 		),
@@ -78,9 +79,10 @@ func (rwis pageRWIs) Close() {
 
 func pageRWIOpenerFor(
 	config nodeconfiguration.PageRWIIntakeConfig,
+	dial Dial,
 ) func(ctx context.Context) (pageRWIs, error) {
 	return func(ctx context.Context) (pageRWIs, error) {
-		js, connection, err := jetstreamconnect.Open(config.PageRWINATSURL)
+		js, connection, err := jetstreamconnect.Open(config.PageRWINATSURL, dial)
 		if err != nil {
 			return pageRWIs{}, err
 		}

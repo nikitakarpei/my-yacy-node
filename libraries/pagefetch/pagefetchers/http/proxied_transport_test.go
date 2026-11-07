@@ -2,6 +2,7 @@ package http_test
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/url"
 	"testing"
@@ -22,7 +23,7 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
@@ -43,7 +44,7 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 
 func TestFetchAbsoluteURLModeTransientOnDialFailure(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/x"),
@@ -62,7 +63,7 @@ func TestFetchAbsoluteURLModeHandlesHTTPTarget(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/page"),
@@ -83,7 +84,7 @@ func TestFetchAbsoluteURLModeGivesUpWhenTheDeadlinePasses(t *testing.T) {
 	defer closeFn()
 
 	startedAt := time.Now()
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, 200*time.Millisecond).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, 200*time.Millisecond).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/slow"),
@@ -115,7 +116,7 @@ func TestFetchAbsoluteURLModeGivesUpWhenTheReaderStopsWaiting(t *testing.T) {
 	}()
 
 	startedAt := time.Now()
-	_, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Minute).
+	_, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Minute).
 		Fetch(ctx, canonicalurltest.CanonicalURLOf(t, "https://target.example/slow"), pagefetch.PageVersion{})
 	spent := time.Since(startedAt)
 
@@ -136,7 +137,7 @@ func TestFetchAbsoluteURLModeSendsTheProxyCredentials(t *testing.T) {
 	defer closeFn()
 	proxy.User = url.UserPassword("", "s3cret")
 
-	_, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+	_, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
@@ -160,7 +161,7 @@ func TestFetchAbsoluteURLModeSendsNoProxyCredentialsWhenTheProxyURLHasNone(t *te
 	})
 	defer closeFn()
 
-	_, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
+	_, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialAbsoluteURL, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
@@ -170,5 +171,36 @@ func TestFetchAbsoluteURLModeSendsNoProxyCredentialsWhenTheProxyURLHasNone(t *te
 	}
 	if len(gotAuthorization) != 0 {
 		t.Fatalf("Proxy-Authorization = %q, want none", gotAuthorization)
+	}
+}
+
+func TestFetchDialsTheProxyThroughTheGivenDial(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		_, _ = w.Write([]byte("<html>hi</html>"))
+	})
+	defer closeFn()
+	namedProxy := &url.URL{Scheme: "http", Host: "proxy.internal:80"}
+	dialProxy := func(ctx context.Context, network, _ string) (net.Conn, error) {
+		return (&net.Dialer{}).DialContext(ctx, network, proxy.Host)
+	}
+
+	for _, dialMode := range []httppkg.ProxyDialMode{httppkg.ProxyDialTunnel, httppkg.ProxyDialAbsoluteURL} {
+		outcome, err := httppkg.New(httppkg.Proxy{URL: namedProxy, DialMode: dialMode, Dial: dialProxy}, testUserAgent, 1<<20, time.Second).
+			Fetch(
+				context.Background(),
+				canonicalurltest.CanonicalURLOf(t, "http://target.example/page"),
+				pagefetch.PageVersion{})
+		if err != nil {
+			t.Fatalf("Fetch in mode %v: %v", dialMode, err)
+		}
+		if outcome.Status != pagefetch.FetchSucceeded {
+			t.Errorf(
+				"status in mode %v = %v, want %v",
+				dialMode,
+				outcome.Status,
+				pagefetch.FetchSucceeded,
+			)
+		}
 	}
 }

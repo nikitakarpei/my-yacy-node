@@ -38,6 +38,8 @@ const (
 	escrowExpiryInterval  = time.Minute
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	PeerPort net.Listener
 }
@@ -61,6 +63,7 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -73,7 +76,7 @@ func RunService(
 	}
 	defer closeVault(storage)
 
-	return runNode(ctx, cfg, listeners, storage, registry)
+	return runNode(ctx, cfg, listeners, dial, storage, registry)
 }
 
 func storageFor(
@@ -120,10 +123,11 @@ func runNode(
 	ctx context.Context,
 	config nodeconfiguration.Settings,
 	listeners Listeners,
+	dial Dial,
 	vault *vault.Vault,
 	registry *prometheus.Registry,
 ) error {
-	assembledNode, err := assembleNode(ctx, config, vault, registry)
+	assembledNode, err := assembleNode(ctx, config, dial, vault, registry)
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)
 	}

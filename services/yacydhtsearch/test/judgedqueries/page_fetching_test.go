@@ -2,6 +2,7 @@ package judgedqueries_test
 
 import (
 	"context"
+	"net"
 	"sync"
 	"time"
 
@@ -29,8 +30,10 @@ func pageFetchingWithin(pagesBudget time.Duration) pageFetching {
 	return pageFetching{
 		fetcher: redirectfollowingfetch.New(
 			pagefetchershttp.New(
-				nil,
-				pagefetchershttp.ProxyDialTunnel,
+				pagefetchershttp.Proxy{
+					DialMode: pagefetchershttp.ProxyDialTunnel,
+					Dial:     (&net.Dialer{}).DialContext,
+				},
 				pageFetchUserAgent,
 				pageByteCeiling,
 				budgetPerPage,

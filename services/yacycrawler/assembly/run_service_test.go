@@ -44,7 +44,13 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	defer cancel()
 	listeners := yacycrawler.Listeners{}
 	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(ctx, cfg, listeners, registry); err != nil &&
+	if err := yacycrawler.RunService(
+		ctx,
+		cfg,
+		listeners,
+		(&net.Dialer{}).DialContext,
+		registry,
+	); err != nil &&
 		!errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("yacycrawler.RunService: %v", err)
 	}
@@ -67,6 +73,7 @@ func TestRunServiceServesTheOperatorAPIOnItsListener(t *testing.T) {
 	stopped := make(chan error, 1)
 	go func() {
 		stopped <- yacycrawler.RunService(ctx, cfg, yacycrawler.Listeners{API: api},
+			(&net.Dialer{}).DialContext,
 			prometheus.NewRegistry())
 	}()
 	defer func() {
@@ -99,6 +106,7 @@ func TestRunServiceFinishesACancelledCrawlOnceItsVisitsDrain(t *testing.T) {
 	stopped := make(chan error, 1)
 	go func() {
 		stopped <- yacycrawler.RunService(ctx, cfg, yacycrawler.Listeners{API: api},
+			(&net.Dialer{}).DialContext,
 			prometheus.NewRegistry())
 	}()
 	defer func() {
@@ -158,7 +166,13 @@ func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	}
 	listeners := yacycrawler.Listeners{}
 	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(context.Background(), cfg, listeners, registry); err == nil {
+	if err := yacycrawler.RunService(
+		context.Background(),
+		cfg,
+		listeners,
+		(&net.Dialer{}).DialContext,
+		registry,
+	); err == nil {
 		t.Fatal("unreachable nats should fail")
 	}
 }
@@ -177,7 +191,13 @@ func TestRunServiceRejectsACrawlStateDirectoryItCannotOpen(t *testing.T) {
 	}
 	listeners := yacycrawler.Listeners{}
 	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(context.Background(), cfg, listeners, registry); err == nil {
+	if err := yacycrawler.RunService(
+		context.Background(),
+		cfg,
+		listeners,
+		(&net.Dialer{}).DialContext,
+		registry,
+	); err == nil {
 		t.Fatal("a crawl state directory the crawler cannot open should fail")
 	}
 }

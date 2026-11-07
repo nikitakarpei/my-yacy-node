@@ -12,14 +12,15 @@ import (
 	"sync"
 )
 
-func transportForDialMode(proxyURL *url.URL, dialMode ProxyDialMode) http.RoundTripper {
-	if dialMode == ProxyDialAbsoluteURL {
+func transportForProxy(proxy Proxy) http.RoundTripper {
+	if proxy.DialMode == ProxyDialAbsoluteURL {
 		return &absoluteURLTransport{
-			proxyAddr:          proxyURL.Host,
-			proxyAuthorization: proxyAuthorizationOf(proxyURL.User),
+			proxyAddr:          proxy.URL.Host,
+			proxyAuthorization: proxyAuthorizationOf(proxy.URL.User),
+			dialProxy:          proxy.Dial,
 		}
 	}
-	return &http.Transport{Proxy: http.ProxyURL(proxyURL)}
+	return &http.Transport{Proxy: http.ProxyURL(proxy.URL), DialContext: proxy.Dial}
 }
 
 func proxyAuthorizationOf(credentials *url.Userinfo) string {
@@ -35,11 +36,12 @@ func proxyAuthorizationOf(credentials *url.Userinfo) string {
 type absoluteURLTransport struct {
 	proxyAddr          string
 	proxyAuthorization string
+	dialProxy          func(ctx context.Context, network, address string) (net.Conn, error)
 }
 
 func (t *absoluteURLTransport) RoundTrip(request *http.Request) (*http.Response, error) {
 	ctx := request.Context()
-	conn, err := (&net.Dialer{}).DialContext(ctx, "tcp", t.proxyAddr)
+	conn, err := t.dialProxy(ctx, "tcp", t.proxyAddr)
 	if err != nil {
 		return nil, fmt.Errorf("dial proxy %s: %w", t.proxyAddr, err)
 	}

@@ -6,6 +6,7 @@ package jetstream
 import (
 	"context"
 	"fmt"
+	"net"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
@@ -21,7 +22,7 @@ type Publisher struct {
 }
 
 func Open(natsURL string) (*Publisher, error) {
-	stream, conn, err := jetstreamconnect.Open(natsURL)
+	stream, conn, err := jetstreamconnect.Open(natsURL, (&net.Dialer{}).DialContext)
 	if err != nil {
 		return nil, err
 	}

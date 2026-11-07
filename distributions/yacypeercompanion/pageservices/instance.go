@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"net"
 	"strconv"
 	"sync"
 	"time"
@@ -109,6 +110,7 @@ func (i *Instance) runPagescrape(ctx context.Context, health *servicehealth.Heal
 		ctx,
 		i.pagescrapeConfig,
 		listeners,
+		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
 		health,
 	)
@@ -123,6 +125,7 @@ func (i *Instance) runPagerwi(ctx context.Context, health *servicehealth.Health)
 		ctx,
 		i.pagerwiConfig,
 		listeners,
+		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
 		health,
 	)

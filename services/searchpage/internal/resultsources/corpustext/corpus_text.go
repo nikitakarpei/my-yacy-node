@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -34,10 +35,18 @@ type CorpusText struct {
 	searchURL string
 }
 
-func New(serviceURL *url.URL, callDeadline time.Duration, observer Observer) *CorpusText {
+func New(
+	serviceURL *url.URL,
+	dial func(ctx context.Context, network, address string) (net.Conn, error),
+	callDeadline time.Duration,
+	observer Observer,
+) *CorpusText {
 	return &CorpusText{
-		observer:  observer,
-		client:    &http.Client{Timeout: callDeadline},
+		observer: observer,
+		client: &http.Client{
+			Timeout:   callDeadline,
+			Transport: &http.Transport{DialContext: dial},
+		},
 		searchURL: strings.TrimSuffix(serviceURL.String(), "/") + searchdocument.SearchPath,
 	}
 }

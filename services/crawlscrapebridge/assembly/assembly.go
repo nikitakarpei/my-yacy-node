@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
@@ -21,6 +22,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct{}
 
 func ListenersFor(context.Context, ServiceConfig) (Listeners, error) {
@@ -35,10 +38,12 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	_ Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	scrapeRequestBroker, scrapeRequestConnection, err := jetstreamconnect.Open(
 		cfg.ScrapeRequestNATSURL,
+		dial,
 	)
 	if err != nil {
 		return err
@@ -46,7 +51,7 @@ func RunService(
 	defer scrapeRequestConnection.Close()
 	crawledPageOpening := streamopening.Start(
 		ctx,
-		crawledPageOpenerFor(cfg),
+		crawledPageOpenerFor(cfg, dial),
 		wallclock.Clock{},
 		crawledpageopeningobserversapplog.CrawledPageOpeningLog{},
 	)
@@ -101,9 +106,12 @@ func (pages crawledPages) Close() {
 	pages.connection.Close()
 }
 
-func crawledPageOpenerFor(cfg ServiceConfig) func(ctx context.Context) (crawledPages, error) {
+func crawledPageOpenerFor(
+	cfg ServiceConfig,
+	dial Dial,
+) func(ctx context.Context) (crawledPages, error) {
 	return func(ctx context.Context) (crawledPages, error) {
-		js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
+		js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL, dial)
 		if err != nil {
 			return crawledPages{}, err
 		}

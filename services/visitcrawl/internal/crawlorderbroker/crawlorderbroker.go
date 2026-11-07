@@ -8,6 +8,7 @@ package crawlorderbroker
 
 import (
 	"context"
+	"net"
 
 	"github.com/nats-io/nats.go"
 
@@ -27,9 +28,10 @@ type CrawlOrderBroker struct {
 func Open(
 	_ context.Context,
 	cfg Config,
+	dial func(ctx context.Context, network, address string) (net.Conn, error),
 	observer CrawlOrderPublicationObserver,
 ) (*CrawlOrderBroker, error) {
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.NATSURL, dial)
 	if err != nil {
 		return nil, err
 	}

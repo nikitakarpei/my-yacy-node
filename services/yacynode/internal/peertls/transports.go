@@ -21,11 +21,16 @@ var (
 
 type Transports struct {
 	proxyURL    *url.URL
+	dialProxy   func(ctx context.Context, network, address string) (net.Conn, error)
 	networkName string
 }
 
-func NewTransports(proxyURL *url.URL, networkName string) Transports {
-	return Transports{proxyURL: proxyURL, networkName: networkName}
+func NewTransports(
+	proxyURL *url.URL,
+	dialProxy func(ctx context.Context, network, address string) (net.Conn, error),
+	networkName string,
+) Transports {
+	return Transports{proxyURL: proxyURL, dialProxy: dialProxy, networkName: networkName}
 }
 
 func (t Transports) TransportFor(identity yacymodel.PeerIdentity) http.RoundTripper {
@@ -42,7 +47,7 @@ func (t Transports) verifiedConnectionTo(
 	address string,
 	identity yacymodel.PeerIdentity,
 ) (net.Conn, error) {
-	tunnel, err := egresstunnel.ConnectionThrough(ctx, t.proxyURL, address)
+	tunnel, err := egresstunnel.ConnectionThrough(ctx, t.proxyURL, t.dialProxy, address)
 	if err != nil {
 		return nil, err
 	}

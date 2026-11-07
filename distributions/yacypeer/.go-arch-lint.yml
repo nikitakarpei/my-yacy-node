@@ -18,8 +18,8 @@ components:
     in: internal/cachedpages/**
   pagecacheproxy:
     in: internal/pagecacheproxy/**
-  loopback:
-    in: internal/loopback/**
+  processnetwork:
+    in: internal/processnetwork/**
   visitlinksecret:
     in: internal/visitlinksecret/**
   peerkey:
@@ -81,16 +81,9 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault
 deps:
   natsbroker:
-    mayDependOn:
-      - loopback
     canUse:
       - natsserver
-  loopback:
-    canUse:
-      - serviceruntime
   egressproxy:
-    mayDependOn:
-      - loopback
     canUse:
       - smokescreen
       - logrus
@@ -101,7 +94,6 @@ deps:
       - zstd
   pagecacheproxy:
     mayDependOn:
-      - loopback
       - cachedpages
     canUse:
       - prometheusclient

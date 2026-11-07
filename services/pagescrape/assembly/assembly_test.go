@@ -2,6 +2,7 @@ package pagescrapeassembly_test
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -67,7 +68,7 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	health := &servicehealth.Health{}
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, prometheus.NewRegistry(), health)
+		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext, prometheus.NewRegistry(), health)
 	}()
 
 	offers := pageOfferConsumer(t, ctx, broker)
@@ -103,7 +104,12 @@ func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1", originServing(t, "<html></html>"))
 	health := &servicehealth.Health{}
 	if err := pagescrape.RunService(
-		context.Background(), cfg, pagescrape.Listeners{}, prometheus.NewRegistry(), health,
+		context.Background(),
+		cfg,
+		pagescrape.Listeners{},
+		(&net.Dialer{}).DialContext,
+		prometheus.NewRegistry(),
+		health,
 	); err == nil {
 		t.Fatal("expected an error when the broker is unreachable")
 	}

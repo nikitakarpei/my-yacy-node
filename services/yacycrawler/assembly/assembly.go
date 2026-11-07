@@ -70,6 +70,8 @@ const (
 	msgServiceStopped     = "crawler stopped"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	API net.Listener
 }
@@ -99,6 +101,7 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -137,7 +140,7 @@ func RunService(
 		crawlobserverspagevisitapplog.PageVisitRecordLog{},
 		crawlobserverspagevisitprometheus.New(registry),
 	}
-	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
+	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL, dial)
 	if err != nil {
 		return err
 	}
@@ -177,6 +180,7 @@ func RunService(
 		js,
 		crawlState,
 		cfg,
+		pageFetchFor(cfg, dial),
 		crawledPageAdmission,
 		pendingPageVisitObservers,
 		pageFetchObservers,
@@ -404,10 +408,20 @@ func openCrawledPageAdmission(
 	), nil
 }
 
+func pageFetchFor(cfg ServiceConfig, dial Dial) *pagefetchershttp.ProxiedFetch {
+	return pagefetchershttp.New(
+		pagefetchershttp.Proxy{URL: cfg.ProxyURL, DialMode: cfg.ProxyDialMode, Dial: dial},
+		cfg.UserAgent,
+		cfg.MaxBodyBytes,
+		cfg.FetchDeadline,
+	)
+}
+
 func buildPageVisitConsumer(
 	js jetstream.JetStream,
 	crawlState crawlStateStores,
 	cfg ServiceConfig,
+	fetch *pagefetchershttp.ProxiedFetch,
 	crawledPageAdmission *consumerbacklog.Admission,
 	pendingPageVisitObserver pagevisitintake.PendingPageVisitObserver,
 	pageFetchObserver observedfetch.PageFetchObserver,
@@ -419,7 +433,7 @@ func buildPageVisitConsumer(
 	pageVisitor := buildPageVisitor(
 		js,
 		crawlState,
-		cfg,
+		fetch,
 		pageFetchObserver,
 		pageVisitRecordObserver,
 		pageReader,
@@ -446,20 +460,13 @@ func buildPageVisitConsumer(
 func buildPageVisitor(
 	js jetstream.JetStream,
 	crawlState crawlStateStores,
-	cfg ServiceConfig,
+	fetch *pagefetchershttp.ProxiedFetch,
 	pageFetchObserver observedfetch.PageFetchObserver,
 	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 	pageReader pagevisit.PageReader,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	linkObserver pagevisit.LinkAdmissionObserver,
 ) pagevisit.PageVisitor {
-	fetch := pagefetchershttp.New(
-		cfg.ProxyURL,
-		cfg.ProxyDialMode,
-		cfg.UserAgent,
-		cfg.MaxBodyBytes,
-		cfg.FetchDeadline,
-	)
 	return pagevisit.New(
 		crawlState.storage,
 		observedfetch.New(fetch, wallclock.Clock{}, pageFetchObserver),

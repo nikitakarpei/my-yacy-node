@@ -38,6 +38,8 @@ const (
 	corpus = "corpustext"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	Search net.Listener
 }
@@ -61,11 +63,12 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	pageOfferOpening := streamopening.Start(
 		ctx,
-		pageOfferOpenerFor(cfg),
+		pageOfferOpenerFor(cfg, dial),
 		wallclock.Clock{},
 		pageofferopeningobserversapplog.PageOfferOpeningLog{},
 	)
@@ -158,9 +161,12 @@ func (offers pageOffers) Close() {
 	offers.connection.Close()
 }
 
-func pageOfferOpenerFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, error) {
+func pageOfferOpenerFor(
+	cfg ServiceConfig,
+	dial Dial,
+) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
+		js, connection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL, dial)
 		if err != nil {
 			return pageOffers{}, err
 		}

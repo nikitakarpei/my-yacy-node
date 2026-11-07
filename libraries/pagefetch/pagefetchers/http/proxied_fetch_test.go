@@ -2,6 +2,7 @@ package http_test
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -35,7 +36,7 @@ func TestFetchSuccess(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/page"),
@@ -65,7 +66,7 @@ func TestFetchReadsPageVersionFromSuccess(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -92,7 +93,7 @@ func TestFetchSendsConditionalHeadersWhenPageVersionKnown(t *testing.T) {
 	defer closeFn()
 
 	known := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: modified}
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -122,7 +123,7 @@ func TestFetchOmitsConditionalHeadersWithoutAPageVersion(t *testing.T) {
 	})
 	defer closeFn()
 
-	_, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	_, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -146,7 +147,7 @@ func TestFetchNotModifiedKeepsTheSentPageVersion(t *testing.T) {
 	defer closeFn()
 
 	sent := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: modified}
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -168,7 +169,7 @@ func TestFetchReportsAnOversizedBody(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 4, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 4, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/big"),
@@ -201,7 +202,7 @@ func TestFetchStatusMapping(t *testing.T) {
 		proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
 			w.WriteHeader(status)
 		})
-		outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 			Fetch(
 				context.Background(),
 				canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -226,7 +227,7 @@ func TestFetchDeferHonorsRetryAfter(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, _ := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -243,7 +244,7 @@ func TestFetchDeferHonorsRetryAfterDate(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, _ := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -260,7 +261,7 @@ func TestFetchDeferFallsBackWhenRetryAfterIsPast(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, _ := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -279,7 +280,7 @@ func TestFetchForwardsXRobotsTag(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, _ := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -299,7 +300,7 @@ func TestFetchForwardsSpamAssessment(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, _ := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -311,7 +312,7 @@ func TestFetchForwardsSpamAssessment(t *testing.T) {
 
 func TestFetchTransientOnProxyFailure(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -331,7 +332,7 @@ func TestFetchCancelledContext(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	_, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			ctx,
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
@@ -352,7 +353,7 @@ func TestFetchReportsTheRedirectTargetWithoutFollowingIt(t *testing.T) {
 			http.Redirect(w, r, "http://target.example/b", http.StatusMovedPermanently)
 		})
 
-		outcome, err := httppkg.New(proxy, dialMode, testUserAgent, 1<<20, time.Second).
+		outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: dialMode, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 			Fetch(
 				context.Background(),
 				canonicalurltest.CanonicalURLOf(t, "http://target.example/a"),
@@ -381,7 +382,7 @@ func TestFetchResolvesARelativeRedirectTarget(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/here/page"),
@@ -402,7 +403,7 @@ func TestFetchReadsPageVersionFromRedirect(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/a"),
@@ -421,7 +422,7 @@ func TestFetchFailsOnARedirectWithoutALocation(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/a"),
@@ -440,12 +441,14 @@ func TestFetchReportsThatTheDeadlinePassedBeforeTheOriginAnswered(t *testing.T) 
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(
-		proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, 200*time.Millisecond,
-	).Fetch(
-		context.Background(),
-		canonicalurltest.CanonicalURLOf(t, "http://target.example/slow"),
-		pagefetch.PageVersion{})
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent,
+		1<<20,
+		200*time.Millisecond,
+	).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/slow"),
+			pagefetch.PageVersion{})
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}
@@ -464,12 +467,14 @@ func TestFetchReportsThatTheDeadlinePassedWhileTheBodyArrived(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(
-		proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, 200*time.Millisecond,
-	).Fetch(
-		context.Background(),
-		canonicalurltest.CanonicalURLOf(t, "http://target.example/dribble"),
-		pagefetch.PageVersion{})
+	outcome, err := httppkg.New(httppkg.Proxy{URL: proxy, DialMode: httppkg.ProxyDialTunnel, Dial: (&net.Dialer{}).DialContext}, testUserAgent,
+		1<<20,
+		200*time.Millisecond,
+	).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/dribble"),
+			pagefetch.PageVersion{})
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}

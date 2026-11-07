@@ -2,6 +2,7 @@ package webuiproxy_test
 
 import (
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -32,7 +33,7 @@ func TestToForwardsThePathTheQueryAndTheHostTheBrowserAskedFor(t *testing.T) {
 	request.Header.Set("X-Forwarded-Proto", "https")
 	answer := httptest.NewRecorder()
 
-	webuiproxy.To(webUIURLOf(t, webUI)).ServeHTTP(answer, request)
+	webuiproxy.To(webUIURLOf(t, webUI), (&net.Dialer{}).DialContext).ServeHTTP(answer, request)
 
 	if body := answer.Body.String(); body != "peer.example /crawlconsole/crawls/c1?hosts=h1 https" {
 		t.Errorf("web UI saw %q, want the host, path, query and scheme of the browser", body)
@@ -45,7 +46,7 @@ func TestToAnswersBadGatewayWhenTheWebUIDoesNotAnswer(t *testing.T) {
 	webUI.Close()
 	answer := httptest.NewRecorder()
 
-	webuiproxy.To(webUIURL).ServeHTTP(answer,
+	webuiproxy.To(webUIURL, (&net.Dialer{}).DialContext).ServeHTTP(answer,
 		httptest.NewRequestWithContext(t.Context(), http.MethodGet, "http://peer.example/", nil))
 
 	if answer.Code != http.StatusBadGateway {

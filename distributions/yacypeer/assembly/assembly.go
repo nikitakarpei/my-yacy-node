@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -22,6 +23,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/servicelog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuiproxy"
@@ -29,7 +31,8 @@ import (
 )
 
 const (
-	brokerDirectoryName        = "nats"
+	brokerName                 = "nats"
+	brokerDirectoryName        = brokerName
 	metricHistoryDirectoryName = "metric-history"
 	peerEgressProxyName        = "peeregressproxy"
 	pageFetchEgressProxyName   = "pagefetchegressproxy"
@@ -37,6 +40,7 @@ const (
 	cachedPageRetention        = 30 * time.Minute
 	cachedPagesMaxBytes        = 512 << 20
 	pageMaxBodyBytes           = 4 << 20
+	processHostSuffix          = ".internal"
 )
 
 func RunPeer(
@@ -53,10 +57,12 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
+	network := processnetwork.New()
 	broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
+	network.Attach(hostOf(brokerName), broker.Connection)
 	defer broker.Shutdown()
 	history, err := metrichistory.Open(
 		ctx,
@@ -68,14 +74,11 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	defer closeHistory(ctx, history)
-	peerEgress, err := egressproxy.Listen(ctx, cfg.PeerProxyURL)
-	if err != nil {
-		return errors.Join(err, web.Close())
-	}
-	pageFetchEgress, err := egressproxy.Listen(ctx, cfg.PageFetchProxyURL)
-	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{web, peerEgress}))
-	}
+	peerEgress := egressproxy.New(network.ListenerAt(hostOf(peerEgressProxyName)), cfg.PeerProxyURL)
+	pageFetchEgress := egressproxy.New(
+		network.ListenerAt(hostOf(pageFetchEgressProxyName)),
+		cfg.PageFetchProxyURL,
+	)
 	processRegistry := opsmetrics.ProcessRegistry()
 	cachedPages, err := cachedpages.Open(
 		servicelog.ContextFor(ctx, cachedpages.Name),
@@ -87,21 +90,22 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, closeEvery([]io.Closer{web, peerEgress, pageFetchEgress}))
 	}
-	cacheProxy, err := pagecacheproxy.Listen(
-		ctx,
+	cacheProxy := pagecacheproxy.New(
+		network.ListenerAt(hostOf(pagecacheproxy.Name)),
 		cachedPages,
-		pageFetchEgress.URL(),
+		&http.Transport{
+			Proxy:       http.ProxyURL(pageFetchEgress.URL()),
+			DialContext: network.DialContext,
+		},
 		pageMaxBodyBytes,
 		processRegistry,
 	)
-	if err != nil {
-		return errors.Join(err, closeEvery([]io.Closer{web, peerEgress, pageFetchEgress}))
-	}
 	peer := peer{
 		peerEgressProxyURL: peerEgress.URL(),
 		pageCacheProxyURL:  cacheProxy.URL(),
 		cfg:                cfg,
-		natsURL:            broker.ClientURL(),
+		natsURL:            (&url.URL{Scheme: "nats", Host: hostOf(brokerName)}).String(),
+		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
 	}
@@ -113,7 +117,7 @@ func RunPeer(
 		)
 	}
 	logStarted(ctx, peer, web)
-	webMux := webMuxFor(processRegistry, services, history, urls)
+	webMux := webMuxFor(processRegistry, services, history, urls, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
 		return runEvery(ctx, services,
 			func(ctx context.Context) error {
@@ -137,6 +141,10 @@ func RunPeer(
 
 func newPeerKey(ctx context.Context, searchTime time.Duration) (yacymodel.PeerKey, error) {
 	return yacymodel.NewPeerKey(ctx, searchTime, wallclock.Clock{})
+}
+
+func hostOf(part string) string {
+	return part + processHostSuffix
 }
 
 func closeHistory(ctx context.Context, history *metrichistory.History) {
@@ -170,6 +178,7 @@ func webMuxFor(
 	services []service,
 	history *metrichistory.History,
 	urls serviceURLs,
+	network *processnetwork.Network,
 ) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
@@ -182,8 +191,11 @@ func webMuxFor(
 		serviceDashboards,
 		webUIURLs.TabBarFor(webuitabs.Metrics),
 	)
-	mux.Handle(crawlConsolePathPrefix+"/", webuiproxy.To(urls[crawlconsoleService]))
-	mux.Handle("/", webuiproxy.To(urls[searchpageService]))
+	mux.Handle(
+		crawlConsolePathPrefix+"/",
+		webuiproxy.To(urls[crawlconsoleService], network.DialContext),
+	)
+	mux.Handle("/", webuiproxy.To(urls[searchpageService], network.DialContext))
 	return mux
 }
 

@@ -1,19 +1,17 @@
-// Package natsbroker runs the NATS JetStream server built into the peer, listening on the
-// loopback interface only.
+// Package natsbroker runs the NATS JetStream server built into the peer. It listens on no port:
+// the parts of the peer connect to it inside the process.
 package natsbroker
 
 import (
 	"errors"
 	"fmt"
+	"net"
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/loopback"
 )
 
 const (
-	anyFreePort    = -1
 	readyWait      = 10 * time.Second
 	payloadCeiling = 8 << 20
 )
@@ -26,8 +24,7 @@ type Broker struct {
 
 func Start(storeDirectory string) (*Broker, error) {
 	server, err := natsserver.NewServer(&natsserver.Options{
-		Host:       loopback.Host,
-		Port:       anyFreePort,
+		DontListen: true,
 		MaxPayload: payloadCeiling,
 		JetStream:  true,
 		StoreDir:   storeDirectory,
@@ -43,8 +40,12 @@ func Start(storeDirectory string) (*Broker, error) {
 	return &Broker{server: server}, nil
 }
 
-func (b *Broker) ClientURL() string {
-	return b.server.ClientURL()
+func (b *Broker) Connection() (net.Conn, error) {
+	connection, err := b.server.InProcessConn()
+	if err != nil {
+		return nil, fmt.Errorf("built-in nats: %w", err)
+	}
+	return connection, nil
 }
 
 func (b *Broker) Shutdown() {

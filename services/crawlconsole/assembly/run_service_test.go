@@ -41,7 +41,7 @@ func TestRunServiceServesTheConsoleOverTheCrawlerAPI(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	serviceDone := make(chan error, 1)
 	go func() {
-		serviceDone <- crawlconsole.RunService(ctx, cfg, listeners, registry)
+		serviceDone <- crawlconsole.RunService(ctx, cfg, listeners, (&net.Dialer{}).DialContext, registry)
 	}()
 
 	page := bodyAt(t, "http://"+listeners.Console.Addr().String()+"/")

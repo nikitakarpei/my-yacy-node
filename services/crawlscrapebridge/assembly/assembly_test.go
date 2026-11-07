@@ -2,6 +2,7 @@ package crawlscrapebridgeassembly_test
 
 import (
 	"context"
+	"net"
 	"testing"
 	"time"
 
@@ -45,7 +46,7 @@ func TestRunServiceAsksToScrapeEveryIndexableCrawledPage(t *testing.T) {
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- crawlscrapebridge.RunService(
-			ctx, serviceConfig(natsURL), crawlscrapebridge.Listeners{}, prometheus.NewRegistry(),
+			ctx, serviceConfig(natsURL), crawlscrapebridge.Listeners{}, (&net.Dialer{}).DialContext, prometheus.NewRegistry(),
 		)
 	}()
 
@@ -67,6 +68,7 @@ func TestRunServiceStopsCleanlyWhileTheCrawledPagesAreUnavailable(t *testing.T) 
 			ctx,
 			serviceConfig(natstestserver.Start(t)),
 			crawlscrapebridge.Listeners{},
+			(&net.Dialer{}).DialContext,
 			prometheus.NewRegistry(),
 		)
 	}()
@@ -80,7 +82,11 @@ func TestRunServiceFailsWhenTheScrapeRequestNATSIsAway(t *testing.T) {
 	cfg.ScrapeRequestNATSURL = "nats://127.0.0.1:1"
 
 	if err := crawlscrapebridge.RunService(
-		context.Background(), cfg, crawlscrapebridge.Listeners{}, prometheus.NewRegistry(),
+		context.Background(),
+		cfg,
+		crawlscrapebridge.Listeners{},
+		(&net.Dialer{}).DialContext,
+		prometheus.NewRegistry(),
 	); err == nil {
 		t.Fatal("RunService ran while the scrape request nats is away, want an error")
 	}

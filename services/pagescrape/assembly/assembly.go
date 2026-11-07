@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net"
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
@@ -33,6 +34,8 @@ const (
 	pageOfferBacklogLimit = 1000
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct{}
 
 func ListenersFor(context.Context, ServiceConfig) (Listeners, error) {
@@ -47,10 +50,11 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	_ Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
-	broker, connection, err := jetstreamconnect.OpenObserved(cfg.ScrapeNATSURL, health)
+	broker, connection, err := jetstreamconnect.OpenObserved(cfg.ScrapeNATSURL, dial, health)
 	if err != nil {
 		return err
 	}
@@ -90,7 +94,7 @@ func RunService(
 	)
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(
 		consumer,
-		pageFetchFor(cfg),
+		pageFetchFor(cfg, dial),
 		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
 		outcomeFeed,
 		scrapeintakepkg.ScrapeIntakeObservers{
@@ -141,11 +145,10 @@ func scrapeRequestConsumerFor(
 	return consumer, nil
 }
 
-func pageFetchFor(cfg ServiceConfig) *redirectfollowingfetch.RedirectFollowingPageFetch {
+func pageFetchFor(cfg ServiceConfig, dial Dial) *redirectfollowingfetch.RedirectFollowingPageFetch {
 	return redirectfollowingfetch.New(
 		pagefetchershttp.New(
-			cfg.ProxyURL,
-			cfg.ProxyDialMode,
+			pagefetchershttp.Proxy{URL: cfg.ProxyURL, DialMode: cfg.ProxyDialMode, Dial: dial},
 			cfg.UserAgent,
 			cfg.MaxBodyBytes,
 			cfg.FetchDeadline,

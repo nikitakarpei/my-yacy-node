@@ -2,6 +2,7 @@ package pagerwiassembly_test
 
 import (
 	"context"
+	"net"
 	"testing"
 	"time"
 
@@ -46,7 +47,7 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
-			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, prometheus.NewRegistry(), health,
+			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, (&net.Dialer{}).DialContext, prometheus.NewRegistry(), health,
 		)
 	}()
 	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
@@ -92,7 +93,12 @@ func TestRunServiceReturnsWhenThePageRWIBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1")
 	health := &servicehealth.Health{}
 	if err := pagerwi.RunService(
-		context.Background(), cfg, pagerwi.Listeners{}, prometheus.NewRegistry(), health,
+		context.Background(),
+		cfg,
+		pagerwi.Listeners{},
+		(&net.Dialer{}).DialContext,
+		prometheus.NewRegistry(),
+		health,
 	); err == nil {
 		t.Fatal("expected an error when the broker is unreachable")
 	}
@@ -108,6 +114,7 @@ func TestRunServiceReturnsOnAPartitionExponentOutOfRange(t *testing.T) {
 		context.Background(),
 		cfg,
 		pagerwi.Listeners{},
+		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
 		&servicehealth.Health{},
 	); err == nil {

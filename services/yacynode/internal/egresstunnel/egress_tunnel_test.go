@@ -51,7 +51,12 @@ func TestConnectionThroughAnHTTPProxyReachesTheAddressWithTheProxyCredentials(t 
 	proxyURL := egresstunneltest.StartedProxy(t, authorizations)
 	proxyURL.User = url.UserPassword("operator", "secret")
 
-	connection, err := egresstunnel.ConnectionThrough(t.Context(), proxyURL, target)
+	connection, err := egresstunnel.ConnectionThrough(
+		t.Context(),
+		proxyURL,
+		(&net.Dialer{}).DialContext,
+		target,
+	)
 	if err != nil {
 		t.Fatalf("ConnectionThrough = %v, want a tunnel", err)
 	}
@@ -70,6 +75,7 @@ func TestConnectionThroughAnHTTPSProxyThatItTrustsReachesTheAddress(t *testing.T
 	connection, err := egresstunnel.ConnectionThrough(
 		t.Context(),
 		egresstunneltest.ProxyURLOf(t, proxy),
+		(&net.Dialer{}).DialContext,
 		target,
 	)
 	if err != nil {
@@ -91,6 +97,7 @@ func TestConnectionThroughFailsWhenTheProxyDoesNotOpenAPlainTunnel(t *testing.T)
 			if _, err := egresstunnel.ConnectionThrough(
 				t.Context(),
 				proxyURL,
+				(&net.Dialer{}).DialContext,
 				"192.0.2.1:8443",
 			); err == nil {
 				t.Fatal("ConnectionThrough opened a tunnel, want it refused")
@@ -104,7 +111,12 @@ func TestConnectionThroughStopsWhenItsContextEnds(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	cancel()
 
-	if _, err := egresstunnel.ConnectionThrough(ctx, proxyURL, "192.0.2.1:8443"); err == nil {
+	if _, err := egresstunnel.ConnectionThrough(
+		ctx,
+		proxyURL,
+		(&net.Dialer{}).DialContext,
+		"192.0.2.1:8443",
+	); err == nil {
 		t.Fatal("ConnectionThrough opened a tunnel after its context ended")
 	}
 }

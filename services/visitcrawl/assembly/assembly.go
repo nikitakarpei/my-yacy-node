@@ -30,6 +30,8 @@ const (
 	msgServiceStopped = "visitcrawl stopped"
 )
 
+type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
+
 type Listeners struct {
 	Intake net.Listener
 }
@@ -53,6 +55,7 @@ func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
 	listeners Listeners,
+	dial Dial,
 	registry *prometheus.Registry,
 ) error {
 	registry.MustRegister(prometheus.NewGaugeFunc(prometheus.GaugeOpts{
@@ -62,7 +65,7 @@ func RunService(
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            cfg.CrawlNATSURL,
 		CrawlOrdersSubject: cfg.CrawlOrdersSubject,
-	}, crawlorderbroker.CrawlOrderPublicationObservers{
+	}, dial, crawlorderbroker.CrawlOrderPublicationObservers{
 		crawlorderpublicationobserversapplog.CrawlOrderPublicationLog{},
 		crawlorderpublicationobserversprometheus.New(registry),
 	})

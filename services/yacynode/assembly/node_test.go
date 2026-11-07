@@ -119,7 +119,7 @@ func TestRunServiceServesThePeerProtocolOverTLSThatItsPeerKeyEndorses(t *testing
 	defer node.stop()
 
 	client := &http.Client{
-		Transport: peertls.NewTransports(egresstunneltest.StartedProxy(t, nil), nodeNetwork).
+		Transport: peertls.NewTransports(egresstunneltest.StartedProxy(t, nil), (&net.Dialer{}).DialContext, nodeNetwork).
 			TransportFor(peerkeytest.Key(0).Identity()),
 	}
 	request, err := http.NewRequestWithContext(
@@ -196,6 +196,7 @@ func TestRunServiceFailsWhenStorageCannotBeOpened(t *testing.T) {
 		t.Context(),
 		config,
 		yacynode.Listeners{PeerPort: listenerFor(t)},
+		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
 	)
 	if err == nil {
@@ -307,7 +308,7 @@ func startNode(t *testing.T, config yacynode.ServiceConfig) runningNode {
 	}
 	go func() {
 		defer close(node.finished)
-		node.stopped <- yacynode.RunService(ctx, config, listeners, node.registry)
+		node.stopped <- yacynode.RunService(ctx, config, listeners, (&net.Dialer{}).DialContext, node.registry)
 	}()
 	t.Cleanup(func() { node.stopAndAwait(t) })
 

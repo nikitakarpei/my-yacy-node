@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -47,6 +48,12 @@ func serve(ctx context.Context, cfg crawlconsoleassembly.ServiceConfig) error {
 	registry := opsmetrics.ProcessRegistry()
 	opsMux := opsmetrics.MuxFor(registry)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return crawlconsoleassembly.RunService(ctx, cfg, listeners, registry)
+		return crawlconsoleassembly.RunService(
+			ctx,
+			cfg,
+			listeners,
+			(&net.Dialer{}).DialContext,
+			registry,
+		)
 	})
 }

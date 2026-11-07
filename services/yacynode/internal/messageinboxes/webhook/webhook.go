@@ -41,12 +41,19 @@ type Inbox struct {
 	proxied  *http.Client
 }
 
-func New(target, egressProxy *url.URL, resolver Resolver) Inbox {
+func New(
+	target, egressProxy *url.URL,
+	dialProxy func(ctx context.Context, network, address string) (net.Conn, error),
+	resolver Resolver,
+) Inbox {
 	return Inbox{
 		target:   target,
 		resolver: resolver,
 		proxied: &http.Client{
-			Transport:     &http.Transport{Proxy: http.ProxyURL(egressProxy)},
+			Transport: &http.Transport{
+				Proxy:       http.ProxyURL(egressProxy),
+				DialContext: dialProxy,
+			},
 			CheckRedirect: refuseRedirect,
 		},
 	}

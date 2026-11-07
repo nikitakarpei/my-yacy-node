@@ -44,10 +44,7 @@ func (b *logBuffer) String() string {
 
 func runningProxy(t *testing.T, upstreamProxyURL *url.URL) *egressproxy.EgressProxy {
 	t.Helper()
-	proxy, err := egressproxy.Listen(t.Context(), upstreamProxyURL)
-	if err != nil {
-		t.Fatalf("Listen: %v", err)
-	}
+	proxy := egressproxy.New(loopbackListener(t), upstreamProxyURL)
 	ctx, cancel := context.WithCancel(context.Background())
 	runDone := make(chan error, 1)
 	go func() { runDone <- proxy.Run(ctx) }()
@@ -63,6 +60,15 @@ func runningProxy(t *testing.T, upstreamProxyURL *url.URL) *egressproxy.EgressPr
 		}
 	})
 	return proxy
+}
+
+func loopbackListener(t *testing.T) net.Listener {
+	t.Helper()
+	listener, err := servergroup.Listen(t.Context(), "127.0.0.1:0")
+	if err != nil {
+		t.Fatalf("listen: %v", err)
+	}
+	return listener
 }
 
 func clientThrough(t *testing.T, proxy *egressproxy.EgressProxy) *http.Client {
@@ -129,14 +135,12 @@ func awaitUpstreamRequest(t *testing.T, requests <-chan string, want string) {
 	}
 }
 
-func TestURLNamesTheLoopbackInterface(t *testing.T) {
-	proxy, err := egressproxy.Listen(t.Context(), nil)
-	if err != nil {
-		t.Fatalf("Listen: %v", err)
-	}
+func TestURLNamesTheListenerAddress(t *testing.T) {
+	listener := loopbackListener(t)
+	proxy := egressproxy.New(listener, nil)
 
-	if got := proxy.URL().String(); !strings.HasPrefix(got, "http://127.0.0.1:") {
-		t.Errorf("URL = %q, want a loopback URL", got)
+	if got, want := proxy.URL().String(), "http://"+listener.Addr().String(); got != want {
+		t.Errorf("URL = %q, want %q", got, want)
 	}
 }
 
@@ -213,10 +217,7 @@ func TestRunRefusesARequestToAPrivateAddressBeforeTheUpstreamProxy(t *testing.T)
 }
 
 func TestCloseReleasesTheProxyAddress(t *testing.T) {
-	proxy, err := egressproxy.Listen(t.Context(), nil)
-	if err != nil {
-		t.Fatalf("Listen: %v", err)
-	}
+	proxy := egressproxy.New(loopbackListener(t), nil)
 
 	if err := proxy.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
