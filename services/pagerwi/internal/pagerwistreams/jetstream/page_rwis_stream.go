@@ -30,3 +30,11 @@ func CreatePageRWIsStream(
 	}
 	return stream, nil
 }
+
+func OpenPageRWIsStream(ctx context.Context, broker jetstream.JetStream) (jetstream.Stream, error) {
+	stream, err := broker.Stream(ctx, pagerwicontract.PageRWIsStreamName)
+	if err != nil {
+		return nil, fmt.Errorf("open the %s stream: %w", pagerwicontract.PageRWIsStreamName, err)
+	}
+	return stream, nil
+}

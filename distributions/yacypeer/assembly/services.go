@@ -227,10 +227,11 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 		streamOnlyServiceAssemblyFrom(
 			pagescrapeService,
 			serviceenvironment.Wiring{
-				pagescrapeassembly.EnvScrapeNATSURL: p.natsURL,
-				pagescrapeassembly.EnvProxyURL:      p.pageCacheProxyURL,
-				pagescrapeassembly.EnvProxyDialMode: pagefetchershttp.ProxyDialAbsoluteURLName,
-				pagescrapeassembly.EnvUserAgent:     pageFetchUserAgent,
+				pagescrapeassembly.EnvScrapeNATSURL:    p.natsURL,
+				pagescrapeassembly.EnvProxyURL:         p.pageCacheProxyURL,
+				pagescrapeassembly.EnvProxyDialMode:    pagefetchershttp.ProxyDialAbsoluteURLName,
+				pagescrapeassembly.EnvUserAgent:        pageFetchUserAgent,
+				pagescrapeassembly.EnvProvisionStreams: strconv.FormatBool(true),
 			},
 			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
@@ -243,6 +244,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 				pagerwiassembly.EnvPageOfferNATSURL: p.natsURL,
 				pagerwiassembly.EnvPageOfferDurable: pagerwiService,
 				pagerwiassembly.EnvPageRWINATSURL:   p.natsURL,
+				pagerwiassembly.EnvProvisionStreams: strconv.FormatBool(true),
 			},
 			pagerwiassembly.LoadServiceConfig,
 			pagerwiassembly.ListenersFor,

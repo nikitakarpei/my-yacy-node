@@ -51,6 +51,7 @@ func serviceConfig(natsURL string, proxy *url.URL) pagescrape.ServiceConfig {
 		ScrapeRequestsKept:      pagescrape.DefaultScrapeRequestsKept,
 		ScrapeDeferralWindow:    pagescrape.DefaultScrapeDeferralWindow,
 		PageOfferMaxBytes:       8 << 20,
+		ProvisionsStreams:       true,
 	}
 }
 
@@ -115,6 +116,89 @@ func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 	}
 	if health.Started() {
 		t.Error("health started although the broker is unreachable")
+	}
+}
+
+func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t *testing.T) {
+	natsURL := natstestserver.Start(t)
+	origin := originServing(t, "<html lang=\"en\"><body>words here</body></html>")
+	broker := natstestserver.ConnectJetStream(t, natsURL)
+	provisioning := serviceConfig(natsURL, origin)
+	provisioning.ScrapeRequestsKept = 7
+	runUntilStarted(t, provisioning)
+
+	bound := serviceConfig(natsURL, origin)
+	bound.ProvisionsStreams = false
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- pagescrape.RunService(
+			ctx, bound, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			prometheus.NewRegistry(), &servicehealth.Health{},
+		)
+	}()
+	offers := pageOfferConsumer(t, ctx, broker)
+	publishScrapeRequest(t, ctx, broker, originPageURL)
+
+	if _, err := offers.Next(jetstream.FetchMaxWait(offerWait)); err != nil {
+		t.Fatalf("await page offer: %v", err)
+	}
+	scrapeRequests, err := broker.Stream(ctx, pagescrapecontract.ScrapeRequestsStreamName)
+	if err != nil {
+		t.Fatalf("open scrape requests: %v", err)
+	}
+	if kept := scrapeRequests.CachedInfo().Config.MaxMsgs; kept != 7 {
+		t.Errorf("scrape requests kept = %d, want the provisioned 7", kept)
+	}
+	consumer, err := scrapeRequests.Consumer(ctx, pagescrape.DefaultScrapeRequestDurable)
+	if err != nil {
+		t.Fatalf("open scrape request consumer: %v", err)
+	}
+	if pending := consumer.CachedInfo().Config.MaxAckPending; pending != 7 {
+		t.Errorf("scrape requests pending = %d, want the provisioned 7", pending)
+	}
+	cancel()
+	<-runDone
+}
+
+func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
+	t.Helper()
+	ctx, cancel := context.WithCancel(context.Background())
+	health := &servicehealth.Health{}
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- pagescrape.RunService(
+			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			prometheus.NewRegistry(), health,
+		)
+	}()
+	deadline := time.Now().Add(offerWait)
+	for !health.Started() {
+		if time.Now().After(deadline) {
+			t.Fatal("service never started")
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+	cancel()
+	if err := <-runDone; err != nil {
+		t.Fatalf("run: %v", err)
+	}
+}
+
+func TestRunServiceWithoutProvisioningFailsWithoutTheStreams(t *testing.T) {
+	cfg := serviceConfig(natstestserver.Start(t), originServing(t, "<html></html>"))
+	cfg.ProvisionsStreams = false
+	health := &servicehealth.Health{}
+
+	if err := pagescrape.RunService(
+		context.Background(), cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+		prometheus.NewRegistry(), health,
+	); err == nil {
+		t.Fatal("RunService = nil, want the missing streams refused")
+	}
+	if health.Started() {
+		t.Error("health started without the streams")
 	}
 }
 

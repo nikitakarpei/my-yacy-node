@@ -53,6 +53,9 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.ScrapeDeferralWindow != pagescrape.DefaultScrapeDeferralWindow {
 		t.Errorf("deferral window = %s", cfg.ScrapeDeferralWindow)
 	}
+	if !cfg.ProvisionsStreams {
+		t.Error("streams not provisioned by default")
+	}
 	if cfg.OpsAddr != pagescrape.DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
 	}
@@ -69,6 +72,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env[pagescrape.EnvScrapeRequestsKept] = "9"
 	env[pagescrape.EnvScrapeDeferralWindow] = "2h"
 	env[pagescrape.EnvScrapePageOfferMaxBytes] = "8MB"
+	env[pagescrape.EnvProvisionStreams] = "false"
 	env[pagescrape.EnvOpsAddr] = "127.0.0.1:9099"
 
 	cfg, err := pagescrape.LoadServiceConfig(envFrom(env))
@@ -98,6 +102,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 			cfg.PageOfferMaxBytes,
 		)
 	}
+	if cfg.ProvisionsStreams {
+		t.Error("streams provisioned although turned off")
+	}
 	if cfg.OpsAddr != "127.0.0.1:9099" {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
 	}
@@ -113,6 +120,7 @@ func TestLoadServiceConfigRejectsWhatItCannotRead(t *testing.T) {
 		"offer max bytes":    {pagescrape.EnvScrapePageOfferMaxBytes: "a lot"},
 		"proxy dial mode":    {pagescrape.EnvProxyDialMode: "carrier-pigeon"},
 		"proxy url":          {pagescrape.EnvProxyURL: "ftp://egress:3128"},
+		"provision streams":  {pagescrape.EnvProvisionStreams: "sometimes"},
 	}
 	for name, overrides := range rejected {
 		env := requiredEnv()

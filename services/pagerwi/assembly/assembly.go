@@ -77,11 +77,7 @@ func RunService(
 		return err
 	}
 	defer pageRWIConnection.Close()
-	pageRWIs, err := pagerwistreamsjetstream.CreatePageRWIsStream(
-		ctx, pageRWIBroker, pagerwistreamsjetstream.PageRWIsStreamLimits{
-			MaxBytes: cfg.PageRWIMaxBytes,
-		},
-	)
+	pageRWIs, err := attachPageRWIsStream(ctx, pageRWIBroker, cfg)
 	if err != nil {
 		return err
 	}
@@ -133,6 +129,21 @@ func RunService(
 	return err
 }
 
+func attachPageRWIsStream(
+	ctx context.Context,
+	broker jetstream.JetStream,
+	cfg ServiceConfig,
+) (jetstream.Stream, error) {
+	if cfg.ProvisionsStreams {
+		return pagerwistreamsjetstream.CreatePageRWIsStream(
+			ctx,
+			broker,
+			pagerwistreamsjetstream.PageRWIsStreamLimits{MaxBytes: cfg.PageRWIMaxBytes},
+		)
+	}
+	return pagerwistreamsjetstream.OpenPageRWIsStream(ctx, broker)
+}
+
 func takeInPageOffers(
 	ctx context.Context,
 	pageOfferOpening *streamopening.Opening[pageOffers],
@@ -175,7 +186,7 @@ func pageOfferOpenerFor(
 		if err != nil {
 			return pageOffers{}, err
 		}
-		consumer, err := pageOfferConsumerFor(ctx, js, cfg)
+		consumer, err := attachPageOfferConsumer(ctx, js, cfg)
 		if err != nil {
 			connection.Close()
 			return pageOffers{}, err
@@ -184,7 +195,7 @@ func pageOfferOpenerFor(
 	}
 }
 
-func pageOfferConsumerFor(
+func attachPageOfferConsumer(
 	ctx context.Context,
 	jetStream jetstream.JetStream,
 	cfg ServiceConfig,
@@ -193,6 +204,17 @@ func pageOfferConsumerFor(
 	if err != nil {
 		return nil, fmt.Errorf("open page offers stream: %w", err)
 	}
+	if cfg.ProvisionsStreams {
+		return createPageOfferConsumer(ctx, stream, cfg)
+	}
+	return openPageOfferConsumer(ctx, stream, cfg.PageOfferDurable)
+}
+
+func createPageOfferConsumer(
+	ctx context.Context,
+	stream jetstream.Stream,
+	cfg ServiceConfig,
+) (jetstream.Consumer, error) {
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		Durable:       cfg.PageOfferDurable,
 		FilterSubject: pagescrapecontract.OfferedPageSubject,
@@ -201,6 +223,18 @@ func pageOfferConsumerFor(
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create page offer consumer: %w", err)
+	}
+	return consumer, nil
+}
+
+func openPageOfferConsumer(
+	ctx context.Context,
+	stream jetstream.Stream,
+	pageOfferDurable string,
+) (jetstream.Consumer, error) {
+	consumer, err := stream.Consumer(ctx, pageOfferDurable)
+	if err != nil {
+		return nil, fmt.Errorf("open page offer consumer: %w", err)
 	}
 	return consumer, nil
 }

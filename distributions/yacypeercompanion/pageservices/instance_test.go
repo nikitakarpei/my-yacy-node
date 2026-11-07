@@ -11,7 +11,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
+	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/connectlink"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
@@ -70,6 +72,7 @@ func TestInstanceForRefusesTextThatIsNotAConnectLink(t *testing.T) {
 
 func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	natsURL := natstestserver.Start(t)
+	provisionPeerStreams(t, natsURL)
 	instance, err := pageservices.InstanceFor(
 		linkTo(natsURL),
 		captureProxyServing(t, "<html lang=\"en\"><body><p>alpha beta</p></body></html>"),
@@ -81,6 +84,61 @@ func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
 
+	if pageRWI := askForRWIOfPage(t, natsURL); pageRWI.Metadata.Address != pageURL {
+		t.Errorf("RWI address = %q, want %q", pageRWI.Metadata.Address, pageURL)
+	}
+
+	instance.Stop()
+	awaitEvent(t, events, "stopped")
+}
+
+func provisionPeerStreams(t *testing.T, natsURL string) {
+	t.Helper()
+	broker := natstestserver.ConnectJetStream(t, natsURL)
+	for _, stream := range []jetstream.StreamConfig{
+		{
+			Name:      pagescrapecontract.ScrapeRequestsStreamName,
+			Subjects:  []string{pagescrapecontract.ScrapeRequestSubject},
+			Retention: jetstream.WorkQueuePolicy,
+		},
+		{
+			Name: pagescrapecontract.ScrapePageOffersStreamName,
+			Subjects: []string{
+				pagescrapecontract.OfferedPageSubject,
+				pagescrapecontract.ScrapeFailureSubject,
+			},
+			Retention: jetstream.InterestPolicy,
+		},
+		{
+			Name:      pagerwicontract.PageRWIsStreamName,
+			Subjects:  []string{pagerwicontract.PageRWISubject},
+			Retention: jetstream.InterestPolicy,
+		},
+	} {
+		if _, err := broker.CreateStream(t.Context(), stream); err != nil {
+			t.Fatalf("create the %s stream: %v", stream.Name, err)
+		}
+	}
+	for stream, consumer := range map[string]jetstream.ConsumerConfig{
+		pagescrapecontract.ScrapeRequestsStreamName: {
+			Durable:       pagescrapeassembly.DefaultScrapeRequestDurable,
+			FilterSubject: pagescrapecontract.ScrapeRequestSubject,
+			AckPolicy:     jetstream.AckExplicitPolicy,
+		},
+		pagescrapecontract.ScrapePageOffersStreamName: {
+			Durable:       pagerwiassembly.DefaultPageOfferDurable,
+			FilterSubject: pagescrapecontract.OfferedPageSubject,
+			AckPolicy:     jetstream.AckExplicitPolicy,
+		},
+	} {
+		if _, err := broker.CreateConsumer(t.Context(), stream, consumer); err != nil {
+			t.Fatalf("create the %s consumer: %v", consumer.Durable, err)
+		}
+	}
+}
+
+func askForRWIOfPage(t *testing.T, natsURL string) pagerwicontract.PageRWI {
+	t.Helper()
 	broker := natstestserver.ConnectJetStream(t, natsURL)
 	pageRWIs, err := broker.CreateOrUpdateConsumer(t.Context(), pagerwicontract.PageRWIsStreamName,
 		jetstream.ConsumerConfig{Durable: "node", AckPolicy: jetstream.AckExplicitPolicy})
@@ -96,12 +154,17 @@ func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unmarshal the RWI: %v", err)
 	}
-	if pageRWI.Metadata.Address != pageURL {
-		t.Errorf("RWI address = %q, want %q", pageRWI.Metadata.Address, pageURL)
-	}
+	return pageRWI
+}
 
-	instance.Stop()
-	awaitEvent(t, events, "stopped")
+func TestInstanceRunReportsStreamsThatThePeerHasNotCreated(t *testing.T) {
+	instance, err := pageservices.InstanceFor(linkTo(natstestserver.Start(t)), "http://127.0.0.1:1")
+	if err != nil {
+		t.Fatalf("InstanceFor: %v", err)
+	}
+	events := make(observedEvents, 4)
+	instance.Run(events)
+	awaitEvent(t, events, "failed")
 }
 
 func TestInstanceRunReportsAnUnreachableBroker(t *testing.T) {
@@ -116,13 +179,18 @@ func TestInstanceRunReportsAnUnreachableBroker(t *testing.T) {
 
 func TestInstanceRunReportsABrokerThatShutsDown(t *testing.T) {
 	broker := natstestserver.StartedServer(t)
-	instance, err := pageservices.InstanceFor(linkTo(broker.ClientURL()), "http://127.0.0.1:1")
+	provisionPeerStreams(t, broker.ClientURL())
+	instance, err := pageservices.InstanceFor(
+		linkTo(broker.ClientURL()),
+		captureProxyServing(t, "<html lang=\"en\"><body><p>alpha beta</p></body></html>"),
+	)
 	if err != nil {
 		t.Fatalf("InstanceFor: %v", err)
 	}
 	events := make(observedEvents, 4)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
+	askForRWIOfPage(t, broker.ClientURL())
 
 	broker.Shutdown()
 	for {

@@ -40,8 +40,10 @@ Scrape requests and page offers pass through NATS JetStream.
   deferral.
 * The service SHALL NOT discard a request it cannot decode.
 * The outcome feed SHALL tell which corpus kept the page and which corpus rejected it.
-* At startup, the service SHALL create the scrape request stream and the page offer stream
-  with the configured retention limits.
+* At startup, the service SHALL create the scrape request stream, the page offer stream and its
+  durable consumer with the configured limits, unless stream provisioning is off.
+* With stream provisioning off, the service SHALL use the streams and the consumer that exist,
+  and SHALL NOT change them.
 * The scrape request stream SHALL keep a request, deferred or not, until the service
   finishes it, and SHALL refuse a new request while it is full.
 * The page offer stream SHALL keep an offer until every corpus took it, and SHALL refuse a

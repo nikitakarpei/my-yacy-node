@@ -25,6 +25,7 @@ other peers can check what the phone did.
 * After pairing, the app SHALL fetch pages and build RWIs until the user stops it or unpairs the
   phone.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the phone.
+* The app SHALL NOT create or change the streams and consumers of the peer.
 * The app SHALL show whether it is connecting, connected, or disconnected, and why it is
   disconnected.
 * Unless the user allows mobile data, the app SHALL fetch pages only over unmetered networks.
@@ -50,7 +51,6 @@ other peers can check what the phone did.
 * The app writes the logs of its fetches and RWIs to logcat, under the tag `GoLog`.
 * A debug build cannot sign, so each page fetch of a debug build fails.
 * Each start of the app after a stop creates a new signing key.
-* The app uses the default stream limits. A peer with other limits gets its streams changed.
 * The app holds a wake lock while it runs, so the phone uses more power.
 * Two builds give the same APK only when they use the toolchain that `tools/install android`
   installs.

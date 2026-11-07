@@ -60,23 +60,7 @@ func RunService(
 	}
 	defer connection.Close()
 
-	scrapeRequests, err := scrapestreamsjetstream.CreateScrapeRequestsStream(
-		ctx, broker, scrapestreamsjetstream.ScrapeRequestsStreamLimits{
-			MaxMsgs: cfg.ScrapeRequestsKept,
-		},
-	)
-	if err != nil {
-		return err
-	}
-	pageOffers, err := scrapestreamsjetstream.CreateScrapePageOffersStream(
-		ctx, broker, scrapestreamsjetstream.ScrapePageOffersStreamLimits{
-			MaxBytes: cfg.PageOfferMaxBytes,
-		},
-	)
-	if err != nil {
-		return err
-	}
-	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequests, cfg)
+	streams, err := attachScrapeStreams(ctx, broker, cfg)
 	if err != nil {
 		return err
 	}
@@ -93,7 +77,7 @@ func RunService(
 		},
 	)
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(
-		consumer,
+		streams.scrapeRequestConsumer,
 		pageFetchFor(cfg, dial),
 		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
 		outcomeFeed,
@@ -102,7 +86,7 @@ func RunService(
 			scrapeintakeobserversprometheus.New(registry),
 		},
 		consumerbacklog.New(
-			pageOffers, pageOfferBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+			streams.pageOffers, pageOfferBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
 		),
 		cfg.ScrapeDeferralWindow,
 		cfg.ScrapeIntakeConcurrency,
@@ -128,7 +112,51 @@ func RunService(
 	return err
 }
 
-func scrapeRequestConsumerFor(
+type scrapeStreams struct {
+	scrapeRequestConsumer jetstream.Consumer
+	pageOffers            jetstream.Stream
+}
+
+func attachScrapeStreams(
+	ctx context.Context,
+	broker jetstream.JetStream,
+	cfg ServiceConfig,
+) (scrapeStreams, error) {
+	if cfg.ProvisionsStreams {
+		return provisionScrapeStreams(ctx, broker, cfg)
+	}
+	return openScrapeStreams(ctx, broker, cfg.ScrapeRequestDurable)
+}
+
+func provisionScrapeStreams(
+	ctx context.Context,
+	broker jetstream.JetStream,
+	cfg ServiceConfig,
+) (scrapeStreams, error) {
+	scrapeRequests, err := scrapestreamsjetstream.CreateScrapeRequestsStream(
+		ctx, broker, scrapestreamsjetstream.ScrapeRequestsStreamLimits{
+			MaxMsgs: cfg.ScrapeRequestsKept,
+		},
+	)
+	if err != nil {
+		return scrapeStreams{}, err
+	}
+	pageOffers, err := scrapestreamsjetstream.CreateScrapePageOffersStream(
+		ctx, broker, scrapestreamsjetstream.ScrapePageOffersStreamLimits{
+			MaxBytes: cfg.PageOfferMaxBytes,
+		},
+	)
+	if err != nil {
+		return scrapeStreams{}, err
+	}
+	consumer, err := createScrapeRequestConsumer(ctx, scrapeRequests, cfg)
+	if err != nil {
+		return scrapeStreams{}, err
+	}
+	return scrapeStreams{scrapeRequestConsumer: consumer, pageOffers: pageOffers}, nil
+}
+
+func createScrapeRequestConsumer(
 	ctx context.Context,
 	scrapeRequests jetstream.Stream,
 	cfg ServiceConfig,
@@ -143,6 +171,26 @@ func scrapeRequestConsumerFor(
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)
 	}
 	return consumer, nil
+}
+
+func openScrapeStreams(
+	ctx context.Context,
+	broker jetstream.JetStream,
+	scrapeRequestDurable string,
+) (scrapeStreams, error) {
+	scrapeRequests, err := scrapestreamsjetstream.OpenScrapeRequestsStream(ctx, broker)
+	if err != nil {
+		return scrapeStreams{}, err
+	}
+	pageOffers, err := scrapestreamsjetstream.OpenScrapePageOffersStream(ctx, broker)
+	if err != nil {
+		return scrapeStreams{}, err
+	}
+	consumer, err := scrapeRequests.Consumer(ctx, scrapeRequestDurable)
+	if err != nil {
+		return scrapeStreams{}, fmt.Errorf("open scrape request consumer: %w", err)
+	}
+	return scrapeStreams{scrapeRequestConsumer: consumer, pageOffers: pageOffers}, nil
 }
 
 func pageFetchFor(cfg ServiceConfig, dial Dial) *redirectfollowingfetch.RedirectFollowingPageFetch {

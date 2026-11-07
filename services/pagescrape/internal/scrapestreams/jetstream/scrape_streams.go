@@ -37,6 +37,19 @@ func CreateScrapeRequestsStream(
 	return stream, nil
 }
 
+func OpenScrapeRequestsStream(
+	ctx context.Context,
+	broker jetstream.JetStream,
+) (jetstream.Stream, error) {
+	stream, err := broker.Stream(ctx, pagescrapecontract.ScrapeRequestsStreamName)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"open the %s stream: %w", pagescrapecontract.ScrapeRequestsStreamName, err,
+		)
+	}
+	return stream, nil
+}
+
 func CreateScrapePageOffersStream(
 	ctx context.Context,
 	broker jetstream.JetStream,
@@ -55,6 +68,19 @@ func CreateScrapePageOffersStream(
 	if err != nil {
 		return nil, fmt.Errorf(
 			"create the %s stream: %w", pagescrapecontract.ScrapePageOffersStreamName, err,
+		)
+	}
+	return stream, nil
+}
+
+func OpenScrapePageOffersStream(
+	ctx context.Context,
+	broker jetstream.JetStream,
+) (jetstream.Stream, error) {
+	stream, err := broker.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"open the %s stream: %w", pagescrapecontract.ScrapePageOffersStreamName, err,
 		)
 	}
 	return stream, nil

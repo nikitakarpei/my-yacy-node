@@ -30,7 +30,10 @@ pass through NATS JetStream.
   the service does not read, or gives no text.
 * An offered page SHALL stay pending when the stream does not take its RWI.
 * The service SHALL NOT discard an offered page it cannot decode.
-* At startup, the service SHALL create the RWI stream with the configured size limit.
+* At startup, the service SHALL create the RWI stream with the configured size limit and its
+  page offer consumer, unless stream provisioning is off.
+* With stream provisioning off, the service SHALL use the stream and the consumer that exist, and
+  SHALL NOT change them.
 * The RWI stream SHALL keep an RWI until every node consumer took it, and SHALL refuse a new
   RWI while it is full.
 * The service SHALL take no new offered page while a durable consumer of the RWI stream has
