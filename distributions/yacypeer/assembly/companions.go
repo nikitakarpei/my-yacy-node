@@ -4,6 +4,8 @@ import (
 	"context"
 	"crypto/tls"
 	"log/slog"
+	"net"
+	"net/http"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -14,11 +16,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/hostaddresses"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 )
@@ -88,6 +93,30 @@ func pageServicesPermissions() natspermissions.Permissions {
 	)
 }
 
+func (c *companions) register(
+	mux *http.ServeMux,
+	broker *natsbroker.Broker,
+	tabBar webuistyle.TabBar,
+) {
+	if c == nil {
+		return
+	}
+	companionspage.Register(mux, companionspage.Collaborators{
+		Devices:   c.devices,
+		Unpairing: companionaccess.NewUnpairing(c.devices, broker),
+		Offers:    offerOpening{offers: c.offers},
+		Broker:    broker,
+	}, c.pairLinkFor(broker), tabBar)
+}
+
+func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
+	address, _ := broker.CompanionAddress().(*net.TCPAddr)
+	return companionprotocol.PairLink{
+		Addresses:     hostaddresses.ThisHost().AddressesFor(address),
+		BrokerKeyHash: c.brokerKeyHash(),
+	}
+}
+
 func (c *companions) brokerKeyHash() string {
 	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
@@ -138,4 +167,12 @@ func closeCompanions(ctx context.Context, parts *companions) {
 	if err := parts.devices.Close(); err != nil {
 		slog.WarnContext(ctx, "paired devices did not close", slog.Any("error", err))
 	}
+}
+
+type offerOpening struct {
+	offers *pairingoffers.Offers
+}
+
+func (o offerOpening) Open() companionspage.PairingOffer {
+	return o.offers.Open()
 }

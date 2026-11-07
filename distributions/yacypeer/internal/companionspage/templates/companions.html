@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Companions</title>
+<link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
+<link rel="stylesheet" href="{{.CompanionPath}}/assets/companions.css">
+<script src="{{.CompanionPath}}/assets/companions.js" defer></script>
+</head>
+<body>
+{{.Frame.TabBar}}
+<main data-connections="{{.ConnectionsPath}}" data-path="{{.CompanionPath}}">
+  <div class="heading">
+    <h1>Companions</h1>
+    <a class="button primary" href="{{.PairPath}}">Pair a companion</a>
+  </div>
+  <p class="description">Companions are Android devices that fetch pages for this peer and sign them, so other peers can trust its index. <a href="{{.Frame.AppGuideURL}}">Learn more</a></p>
+  {{if .JustPaired}}<div class="banner" role="status">{{.JustPaired}} is paired.</div>{{end}}
+  {{if .Devices}}
+  <div class="card table">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Device</th>
+          <th scope="col">App version</th>
+          <th scope="col">Last connected</th>
+          <th scope="col"><span class="hidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Devices}}
+        <tr data-device="{{.ID}}">
+          <td class="device">{{.Name}}</td>
+          <td class="app-version">{{.AppVersion}}</td>
+          <td class="last-connected">{{if .Connected}}<span class="connected">Connected</span>{{else}}{{.LastConnected}}{{end}}</td>
+          <td class="action"><a class="button danger" href="{{$.CompanionPath}}?unpair={{.ID}}">Unpair</a></td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+  {{else}}
+  <div class="card empty">No companions are paired.</div>
+  {{end}}
+</main>
+{{with .Unpairing}}
+<div class="scrim">
+  <form class="dialog" role="dialog" aria-labelledby="unpair-title" method="post" action="{{$.UnpairPath}}">
+    <h2 id="unpair-title">Unpair {{.Name}}?</h2>
+    <input type="hidden" name="device" value="{{.ID}}">
+    <div class="actions">
+      <a class="button" href="{{$.CompanionPath}}">Cancel</a>
+      <button class="danger" type="submit">Unpair</button>
+    </div>
+  </form>
+</div>
+{{end}}
+</body>
+</html>
