@@ -44,3 +44,15 @@ func TestTheSettingReadsBackAsTheSameTabBar(t *testing.T) {
 		t.Errorf("tab bar = %+v, want the search tab current", bar)
 	}
 }
+
+func TestTheCompanionsTabStandsBeforeMetricsWhenThePeerHasCompanions(t *testing.T) {
+	withCompanions := urls
+	withCompanions.Companions = "/companions"
+
+	bar := withCompanions.TabBarFor(webuitabs.Companions)
+
+	if len(bar.Tabs) != 4 || bar.Tabs[2].Title != "Companions" || !bar.Tabs[2].Current ||
+		bar.Tabs[3].Title != "Metrics" {
+		t.Errorf("tabs = %+v, want Companions current before Metrics", bar.Tabs)
+	}
+}

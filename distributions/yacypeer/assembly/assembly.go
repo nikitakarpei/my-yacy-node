@@ -117,7 +117,8 @@ func RunPeer(
 		)
 	}
 	logStarted(ctx, peer, web)
-	webMux := webMuxFor(processRegistry, services, history, urls, network)
+	webMux := webMuxFor(processRegistry, services, history, urls, network, cfg)
+	companionParts.register(webMux, broker, webUIURLsFor(cfg).TabBarFor(webuitabs.Companions))
 	companionServers := companionParts.servers(broker, peer.natsURL, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
 		return runEvery(ctx, services, append(companionServers,
@@ -180,6 +181,7 @@ func webMuxFor(
 	history *metrichistory.History,
 	urls serviceURLs,
 	network *processnetwork.Network,
+	cfg PeerConfig,
 ) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
@@ -190,7 +192,7 @@ func webMuxFor(
 		history,
 		metrichistory.SampleInterval,
 		serviceDashboards,
-		webUIURLs.TabBarFor(webuitabs.Metrics),
+		webUIURLsFor(cfg).TabBarFor(webuitabs.Metrics),
 	)
 	mux.Handle(
 		crawlConsolePathPrefix+"/",
