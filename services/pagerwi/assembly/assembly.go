@@ -77,7 +77,7 @@ func RunService(
 		return err
 	}
 	defer pageRWIConnection.Close()
-	pageRWIs, err := pageRWIsStreamFor(ctx, pageRWIBroker, cfg)
+	pageRWIs, err := attachPageRWIsStream(ctx, pageRWIBroker, cfg)
 	if err != nil {
 		return err
 	}
@@ -129,7 +129,7 @@ func RunService(
 	return err
 }
 
-func pageRWIsStreamFor(
+func attachPageRWIsStream(
 	ctx context.Context,
 	broker jetstream.JetStream,
 	cfg ServiceConfig,
@@ -186,7 +186,7 @@ func pageOfferOpenerFor(
 		if err != nil {
 			return pageOffers{}, err
 		}
-		consumer, err := pageOfferConsumerFor(ctx, js, cfg)
+		consumer, err := attachPageOfferConsumer(ctx, js, cfg)
 		if err != nil {
 			connection.Close()
 			return pageOffers{}, err
@@ -195,7 +195,7 @@ func pageOfferOpenerFor(
 	}
 }
 
-func pageOfferConsumerFor(
+func attachPageOfferConsumer(
 	ctx context.Context,
 	jetStream jetstream.JetStream,
 	cfg ServiceConfig,
@@ -205,12 +205,12 @@ func pageOfferConsumerFor(
 		return nil, fmt.Errorf("open page offers stream: %w", err)
 	}
 	if cfg.ProvisionsStreams {
-		return provisionedPageOfferConsumer(ctx, stream, cfg)
+		return createPageOfferConsumer(ctx, stream, cfg)
 	}
-	return openedPageOfferConsumer(ctx, stream, cfg.PageOfferDurable)
+	return openPageOfferConsumer(ctx, stream, cfg.PageOfferDurable)
 }
 
-func provisionedPageOfferConsumer(
+func createPageOfferConsumer(
 	ctx context.Context,
 	stream jetstream.Stream,
 	cfg ServiceConfig,
@@ -227,7 +227,7 @@ func provisionedPageOfferConsumer(
 	return consumer, nil
 }
 
-func openedPageOfferConsumer(
+func openPageOfferConsumer(
 	ctx context.Context,
 	stream jetstream.Stream,
 	pageOfferDurable string,

@@ -84,7 +84,7 @@ func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
 
-	if pageRWI := rwiOfAskedPage(t, natsURL); pageRWI.Metadata.Address != pageURL {
+	if pageRWI := askForRWIOfPage(t, natsURL); pageRWI.Metadata.Address != pageURL {
 		t.Errorf("RWI address = %q, want %q", pageRWI.Metadata.Address, pageURL)
 	}
 
@@ -137,7 +137,7 @@ func provisionPeerStreams(t *testing.T, natsURL string) {
 	}
 }
 
-func rwiOfAskedPage(t *testing.T, natsURL string) pagerwicontract.PageRWI {
+func askForRWIOfPage(t *testing.T, natsURL string) pagerwicontract.PageRWI {
 	t.Helper()
 	broker := natstestserver.ConnectJetStream(t, natsURL)
 	pageRWIs, err := broker.CreateOrUpdateConsumer(t.Context(), pagerwicontract.PageRWIsStreamName,
@@ -190,7 +190,7 @@ func TestInstanceRunReportsABrokerThatShutsDown(t *testing.T) {
 	events := make(observedEvents, 4)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
-	rwiOfAskedPage(t, broker.ClientURL())
+	askForRWIOfPage(t, broker.ClientURL())
 
 	broker.Shutdown()
 	for {

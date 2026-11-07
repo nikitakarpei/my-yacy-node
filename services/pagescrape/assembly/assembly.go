@@ -60,7 +60,7 @@ func RunService(
 	}
 	defer connection.Close()
 
-	streams, err := scrapeStreamsFor(ctx, broker, cfg)
+	streams, err := attachScrapeStreams(ctx, broker, cfg)
 	if err != nil {
 		return err
 	}
@@ -117,18 +117,18 @@ type scrapeStreams struct {
 	pageOffers            jetstream.Stream
 }
 
-func scrapeStreamsFor(
+func attachScrapeStreams(
 	ctx context.Context,
 	broker jetstream.JetStream,
 	cfg ServiceConfig,
 ) (scrapeStreams, error) {
 	if cfg.ProvisionsStreams {
-		return provisionedScrapeStreams(ctx, broker, cfg)
+		return provisionScrapeStreams(ctx, broker, cfg)
 	}
-	return openedScrapeStreams(ctx, broker, cfg.ScrapeRequestDurable)
+	return openScrapeStreams(ctx, broker, cfg.ScrapeRequestDurable)
 }
 
-func provisionedScrapeStreams(
+func provisionScrapeStreams(
 	ctx context.Context,
 	broker jetstream.JetStream,
 	cfg ServiceConfig,
@@ -149,14 +149,14 @@ func provisionedScrapeStreams(
 	if err != nil {
 		return scrapeStreams{}, err
 	}
-	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequests, cfg)
+	consumer, err := createScrapeRequestConsumer(ctx, scrapeRequests, cfg)
 	if err != nil {
 		return scrapeStreams{}, err
 	}
 	return scrapeStreams{scrapeRequestConsumer: consumer, pageOffers: pageOffers}, nil
 }
 
-func scrapeRequestConsumerFor(
+func createScrapeRequestConsumer(
 	ctx context.Context,
 	scrapeRequests jetstream.Stream,
 	cfg ServiceConfig,
@@ -173,7 +173,7 @@ func scrapeRequestConsumerFor(
 	return consumer, nil
 }
 
-func openedScrapeStreams(
+func openScrapeStreams(
 	ctx context.Context,
 	broker jetstream.JetStream,
 	scrapeRequestDurable string,
