@@ -1,6 +1,6 @@
 // Package companionspage serves the Companions pages of the web UI: the list of the paired
-// devices, where the operator unpairs a device, and the page that pairs a device with a QR code
-// and shows how the pairing goes while it happens.
+// devices, where the operator unpairs a device, the settings of who fetches pages, and the page
+// that pairs a device with a QR code and shows how the pairing goes while it happens.
 package companionspage
 
 import (
@@ -20,11 +20,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/fetchsettings"
 )
 
 const (
 	Path              = "/companions"
 	pathUnpair        = Path + "/unpair"
+	pathSettings      = Path + "/settings"
 	pathConnections   = Path + "/connections"
 	pathPair          = Path + "/pair"
 	pathPairingEvents = pathPair + "/events"
@@ -40,8 +42,11 @@ var (
 	//go:embed assets
 	assets embed.FS
 
-	companionsPage = template.Must(template.ParseFS(templateFiles, "templates/companions.html"))
-	pairPage       = template.Must(template.ParseFS(templateFiles, "templates/pair.html"))
+	companionsPage = template.Must(template.ParseFS(templateFiles,
+		"templates/companions.html", "templates/heading.html"))
+	settingsPage = template.Must(template.ParseFS(templateFiles,
+		"templates/settings.html", "templates/heading.html"))
+	pairPage = template.Must(template.ParseFS(templateFiles, "templates/pair.html"))
 )
 
 type PairedDevices interface {
@@ -65,11 +70,17 @@ type Broker interface {
 	ConnectedUsers() map[string]bool
 }
 
+type FetchSettings interface {
+	Choice() fetchsettings.Choice
+	Choose(ctx context.Context, choice fetchsettings.Choice)
+}
+
 type Collaborators struct {
 	Devices  PairedDevices
 	Unpairer Unpairer
 	Offers   PairingOffers
 	Broker   Broker
+	Settings FetchSettings
 }
 
 type pages struct {
@@ -102,6 +113,8 @@ func Register(
 	mux.HandleFunc("GET "+Path, served.companions)
 	mux.HandleFunc("GET "+pathConnections, served.connections)
 	mux.HandleFunc("POST "+pathUnpair, served.unpair)
+	mux.HandleFunc("GET "+pathSettings, served.settings)
+	mux.HandleFunc("POST "+pathSettings, served.choose)
 	mux.HandleFunc("GET "+pathPair, served.pair)
 	mux.HandleFunc("GET "+pathPairingEvents, served.pairingEvents)
 	mux.Handle("GET "+pathAssets, http.StripPrefix(Path, http.FileServerFS(assets)))
@@ -109,6 +122,7 @@ func Register(
 
 type companionsView struct {
 	Frame           pageFrame
+	Heading         headingView
 	ConnectionsPath string
 	JustPaired      companionprotocol.DeviceName
 	DeviceToUnpair  *deviceRow
@@ -130,6 +144,7 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
 	view := companionsView{
 		Frame:           p.frame,
+		Heading:         p.headingFor(rows, devicesTab),
 		ConnectionsPath: pathConnections,
 		Devices:         rows,
 		PairPath:        pathPair,

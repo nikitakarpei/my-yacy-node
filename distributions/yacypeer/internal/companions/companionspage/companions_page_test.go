@@ -19,6 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/fetchsettings"
 )
 
 const eventWait = 5 * time.Second
@@ -30,6 +31,7 @@ type fixture struct {
 	connected map[string]bool
 	unpaired  []companionprotocol.DeviceID
 	offer     *fakeOffer
+	choice    fetchsettings.Choice
 	mu        sync.Mutex
 }
 
@@ -45,6 +47,18 @@ func (f *fixture) Unpair(_ context.Context, device companionprotocol.DeviceID) {
 
 func (f *fixture) Open() companionspage.PairingOffer { return f.offer }
 
+func (f *fixture) Choice() fetchsettings.Choice {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	return f.choice
+}
+
+func (f *fixture) Choose(_ context.Context, choice fetchsettings.Choice) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.choice = choice
+}
+
 type fakeOffer struct {
 	events chan pairingoffers.Event
 	closed chan struct{}
@@ -58,7 +72,7 @@ func serve(t *testing.T, f *fixture) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices: f, Unpairer: f, Offers: f, Broker: f,
+		Devices: f, Unpairer: f, Offers: f, Broker: f, Settings: f,
 	}, companionprotocol.PairLink{
 		Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
 	}, webuistyle.TabBar{})

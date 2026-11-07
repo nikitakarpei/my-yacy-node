@@ -57,7 +57,7 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	companionParts, err := openCompanions(cfg)
+	companionParts, err := openCompanions(ctx, cfg)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -112,6 +112,7 @@ func RunPeer(
 		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
+		intakeAdmission:    companionParts.intakeAdmission(),
 	}
 	services, urls, err := peer.services(ctx, getenv)
 	if err != nil {
