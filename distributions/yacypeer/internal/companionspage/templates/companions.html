@@ -13,7 +13,7 @@
 <main data-connections="{{.ConnectionsPath}}" data-path="{{.CompanionPath}}" data-list="true" data-pauses="{{.Heading.PauseRule}}">
   {{template "heading" .Heading}}
   {{if .Devices}}
-  <div class="card table">
+  <div class="webui-table">
     <table>
       <thead>
         <tr>
@@ -29,7 +29,7 @@
           <td class="device">{{.Name}}</td>
           <td class="app-version">{{.AppVersion}}</td>
           <td class="last-connected">{{if .Connected}}<span class="connected">Connected</span>{{else}}{{.LastConnected}}{{end}}</td>
-          <td class="action"><a class="button danger" href="{{$.CompanionPath}}?unpair={{.ID}}">Unpair</a></td>
+          <td class="actions"><a class="button danger" href="{{$.CompanionPath}}?unpair={{.ID}}">Unpair</a></td>
         </tr>
         {{end}}
       </tbody>

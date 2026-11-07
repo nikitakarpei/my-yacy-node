@@ -168,6 +168,44 @@
     background-color: var(--webui-accent);
     border-color: var(--webui-accent);
   }
+  .webui-table {
+    overflow-x: auto;
+    background: var(--webui-surface);
+    border: 1px solid var(--webui-line);
+    border-radius: var(--webui-radius);
+  }
+  .webui-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--webui-text-sm);
+  }
+  .webui-table tr {
+    border-bottom: 1px solid var(--webui-line);
+  }
+  .webui-table table > :last-child > tr:last-child {
+    border-bottom: 0;
+  }
+  .webui-table :is(th, td) {
+    padding: var(--webui-space-2) var(--webui-space-3);
+    text-align: left;
+    vertical-align: baseline;
+  }
+  .webui-table th {
+    font-weight: 500;
+    color: var(--webui-muted);
+    white-space: nowrap;
+  }
+  .webui-table tr:not(:has(> td)) {
+    background: var(--webui-subtle-surface);
+  }
+  .webui-table .number {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .webui-table .actions {
+    text-align: right;
+    white-space: nowrap;
+  }
   .webui-switch {
     appearance: none;
     flex-shrink: 0;
