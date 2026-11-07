@@ -40,6 +40,8 @@ components:
     in: internal/pairingoffers/**
   companionaccess:
     in: internal/companionaccess/**
+  companionrequests:
+    in: internal/companionrequests/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -80,6 +82,9 @@ vendors:
   companionprotocol:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/companionprotocol
+  natsclient:
+    in:
+      - github.com/nats-io/nats.go
   pagecontracts:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
@@ -137,6 +142,13 @@ deps:
       - companionprotocol
       - natsserver
       - pagecontracts
+  companionrequests:
+    mayDependOn:
+      - paireddevices
+      - pairingoffers
+    canUse:
+      - companionprotocol
+      - natsclient
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true
