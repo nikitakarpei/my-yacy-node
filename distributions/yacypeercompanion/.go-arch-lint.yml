@@ -6,23 +6,46 @@ allow:
   deepScan: false
 
 components:
-  connectlink:
-    in: connectlink/**
+  brokeraccess:
+    in: brokeraccess
+  brokeraccesstest:
+    in: brokeraccess/brokeraccesstest/**
+  pairing:
+    in: pairing/**
   pageservices:
     in: pageservices/**
 
 vendors:
-  yacymodel:
+  companionprotocol:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/yacymodel
+      - github.com/nikitakarpei/yacy-rwi-node/companionprotocol
+  natsclient:
+    in:
+      - github.com/nats-io/nats.go
+  natsserver:
+    in:
+      - github.com/nats-io/nats-server/v2/**
 
 deps:
-  connectlink:
+  brokeraccess:
     canUse:
-      - yacymodel
+      - companionprotocol
+      - natsclient
+  brokeraccesstest:
+    canUse:
+      - companionprotocol
+      - natsclient
+      - natsserver
+  pairing:
+    mayDependOn:
+      - brokeraccess
+    canUse:
+      - companionprotocol
+      - natsclient
   pageservices:
     mayDependOn:
-      - connectlink
+      - brokeraccess
+      - pairing
     anyVendorDeps: true
 excludeFiles:
   - "_test\\.go"

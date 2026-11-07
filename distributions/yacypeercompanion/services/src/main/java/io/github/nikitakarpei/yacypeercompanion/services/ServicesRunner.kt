@@ -23,8 +23,9 @@ class ServicesRunner(private val ctx: Context, private val events: (CompanionEve
         stop()
         val run = ++currentRun
         val proxy = proxy ?: openProxy() ?: return events(CompanionEvent.SigningKeyUnavailable)
+        val key = PairingKey.current() ?: return events(CompanionEvent.SigningKeyUnavailable)
         val instance =
-            runCatching { Pageservices.instanceFor(linkText, proxy.url) }.getOrElse {
+            runCatching { Pageservices.instanceFor(linkText, proxy.url, key, appVersionOf(ctx)) }.getOrElse {
                 Log.w(LOG_TAG, "page services", it)
                 return events(CompanionEvent.ServicesEnded(ServicesEnding.FAILED))
             }
@@ -53,6 +54,8 @@ class ServicesRunner(private val ctx: Context, private val events: (CompanionEve
         override fun brokerUnreachable() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.BROKER_UNREACHABLE))
 
         override fun servicesFailed() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.FAILED))
+
+        override fun deviceUnpaired() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.UNPAIRED))
     }
 
     private fun report(run: Int, event: CompanionEvent) {

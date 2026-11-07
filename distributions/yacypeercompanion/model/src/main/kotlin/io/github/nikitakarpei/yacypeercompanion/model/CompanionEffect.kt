@@ -3,6 +3,8 @@ package io.github.nikitakarpei.yacypeercompanion.model
 sealed interface CompanionEffect {
     data class BeginPairing(val code: PairingCode) : CompanionEffect
 
+    data object SendPairingRequest : CompanionEffect
+
     data object CompletePairing : CompanionEffect
 
     data object ForgetPairing : CompanionEffect

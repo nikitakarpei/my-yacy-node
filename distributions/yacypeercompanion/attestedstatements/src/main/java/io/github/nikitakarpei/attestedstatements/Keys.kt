@@ -18,6 +18,8 @@ const val KEY_CHALLENGE = "hardware-attested-statement/v0.1/android/key"
 
 const val DAY_MS = 24 * 3600 * 1000L
 
+private const val SIGNING_ALIAS_PREFIX = "signing-"
+
 class SigningKey(val privateKey: PrivateKey, val chain: List<X509Certificate>, val storage: String) {
     fun sign(data: ByteArray): ByteArray = lowS(
         Signature.getInstance("SHA256withECDSA").run {
@@ -47,7 +49,7 @@ object Keys {
 
     @Synchronized fun get(): SigningKey {
         current?.let { k -> if (k.chain.all { it.notAfter.time - System.currentTimeMillis() > DAY_MS }) return k }
-        val alias = "signing-" + System.currentTimeMillis()
+        val alias = SIGNING_ALIAS_PREFIX + System.currentTimeMillis()
         val storage = try {
             generate(alias, strongBox = true)
             "StrongBox"
@@ -67,7 +69,7 @@ object Keys {
 
     @Synchronized fun reset() {
         current = null
-        ks.aliases().toList().forEach { ks.deleteEntry(it) }
+        ks.aliases().toList().filter { it.startsWith(SIGNING_ALIAS_PREFIX) }.forEach { ks.deleteEntry(it) }
     }
 
     private fun generate(alias: String, strongBox: Boolean) {

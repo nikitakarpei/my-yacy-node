@@ -5,6 +5,10 @@ sealed interface CompanionEvent {
 
     data object CancelPairing : CompanionEvent
 
+    data object PairingAccepted : CompanionEvent
+
+    data class PairingRefused(val problem: PairingProblem) : CompanionEvent
+
     data object StartRequested : CompanionEvent
 
     data object StopRequested : CompanionEvent
@@ -26,4 +30,4 @@ sealed interface CompanionEvent {
     data object PairingTimedOut : CompanionEvent
 }
 
-enum class ServicesEnding { STOPPED, BROKER_UNREACHABLE, FAILED }
+enum class ServicesEnding { STOPPED, BROKER_UNREACHABLE, FAILED, UNPAIRED }

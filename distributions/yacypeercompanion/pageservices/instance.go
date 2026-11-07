@@ -1,7 +1,7 @@
-// Package pageservices runs pagescrape and pagerwi for one yacypeer in the companion app,
-// and tells an observer when they connect, lose the broker, and end. Both use the broker
-// that the connect link names, and pagescrape fetches each page through the capture proxy
-// of the app.
+// Package pageservices runs pagescrape and pagerwi for one paired peer in the companion app,
+// and tells an observer when they connect, lose the broker, and end, and when the peer no longer
+// accepts the device. Both connect to the broker of the peer with the device key, and pagescrape
+// fetches each page through the capture proxy of the app.
 package pageservices
 
 import (
@@ -11,10 +11,13 @@ import (
 	"net"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
@@ -23,7 +26,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/connectlink"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pairing"
 )
 
 const shutdownLimit = 15 * time.Second
@@ -34,21 +38,32 @@ type Observer interface {
 	ServicesStopped()
 	BrokerUnreachable()
 	ServicesFailed()
+	DeviceUnpaired()
 }
 
 type Instance struct {
+	membership       membershipTerms
 	pagescrapeConfig pagescrapeassembly.ServiceConfig
 	pagerwiConfig    pagerwiassembly.ServiceConfig
 	stopped          chan struct{}
 	stopOnce         sync.Once
 }
 
-func InstanceFor(linkText string, captureProxyURL string) (*Instance, error) {
-	link, err := connectlink.LinkFrom(linkText)
+func InstanceFor(
+	linkText string,
+	captureProxyURL string,
+	key pairing.DeviceKey,
+	appVersion string,
+) (*Instance, error) {
+	link, err := companionprotocol.PairLinkFrom(linkText)
 	if err != nil {
 		return nil, err
 	}
-	environment := environmentFor(link, captureProxyURL)
+	brokerOptions, err := brokeraccess.DeviceOptions(link, key)
+	if err != nil {
+		return nil, err
+	}
+	environment := environmentFor("tls://"+link.Addresses[0], captureProxyURL)
 	lookup := func(name string) string { return environment[name] }
 	if err := applog.Configure(lookup); err != nil {
 		return nil, err
@@ -61,23 +76,30 @@ func InstanceFor(linkText string, captureProxyURL string) (*Instance, error) {
 	if err != nil {
 		return nil, err
 	}
+	pagescrapeConfig.BrokerOptions = brokerOptions
+	pagerwiConfig.BrokerOptions = brokerOptions
 	return &Instance{
+		membership: membershipTerms{
+			link:          link,
+			brokerOptions: brokerOptions,
+			device:        companionprotocol.DeviceIDOf(key.PublicKeyInfo()),
+			appVersion:    appVersion,
+		},
 		pagescrapeConfig: pagescrapeConfig,
 		pagerwiConfig:    pagerwiConfig,
 		stopped:          make(chan struct{}),
 	}, nil
 }
 
-func environmentFor(link *connectlink.Link, captureProxyURL string) map[string]string {
+func environmentFor(brokerURL string, captureProxyURL string) map[string]string {
 	return map[string]string{
-		pagescrapeassembly.EnvScrapeNATSURL:         link.NATSURL,
-		pagescrapeassembly.EnvProxyURL:              captureProxyURL,
-		pagescrapeassembly.EnvProxyDialMode:         pagefetchershttp.ProxyDialAbsoluteURLName,
-		pagescrapeassembly.EnvProvisionStreams:      strconv.FormatBool(false),
-		pagerwiassembly.EnvPageOfferNATSURL:         link.NATSURL,
-		pagerwiassembly.EnvPageRWINATSURL:           link.NATSURL,
-		pagerwiassembly.EnvPageRWIPartitionExponent: strconv.Itoa(link.PartitionExponent),
-		pagerwiassembly.EnvProvisionStreams:         strconv.FormatBool(false),
+		pagescrapeassembly.EnvScrapeNATSURL:    brokerURL,
+		pagescrapeassembly.EnvProxyURL:         captureProxyURL,
+		pagescrapeassembly.EnvProxyDialMode:    pagefetchershttp.ProxyDialAbsoluteURLName,
+		pagescrapeassembly.EnvProvisionStreams: strconv.FormatBool(false),
+		pagerwiassembly.EnvPageOfferNATSURL:    brokerURL,
+		pagerwiassembly.EnvPageRWINATSURL:      brokerURL,
+		pagerwiassembly.EnvProvisionStreams:    strconv.FormatBool(false),
 	}
 }
 
@@ -91,26 +113,63 @@ func (i *Instance) Run(observer Observer) {
 		case <-ctx.Done():
 		}
 	}()
+	var unpaired atomic.Bool
+	member, err := i.membership.joined(func() {
+		unpaired.Store(true)
+		cancel()
+	})
+	if err != nil {
+		reportRefusedJoin(err, observer)
+		return
+	}
+	defer member.leave()
+	pagescrapeConfig := i.pagescrapeConfig
+	pagescrapeConfig.ScrapeNATSURL = member.brokerURL()
+	pagerwiConfig := i.pagerwiConfig
+	pagerwiConfig.PageOfferNATSURL = member.brokerURL()
+	pagerwiConfig.PageRWINATSURL = member.brokerURL()
+	pagerwiConfig.PageRWIPartitionExponent = member.settings.PartitionExponent
 	connection := newConnectionWatch(observer)
-	err := servergroup.Run(
+	err = servergroup.Run(
 		ctx,
 		shutdownLimit,
 		nil,
-		func(ctx context.Context) error { return i.runPagescrape(ctx, connection.pagescrapeHealth) },
-		func(ctx context.Context) error { return i.runPagerwi(ctx, connection.pagerwiHealth) },
+		func(ctx context.Context) error {
+			return runPagescrape(ctx, pagescrapeConfig, connection.pagescrapeHealth)
+		},
+		func(ctx context.Context) error {
+			return runPagerwi(ctx, pagerwiConfig, connection.pagerwiHealth)
+		},
 	)
 	connection.end()
+	if unpaired.Load() || err != nil && i.membership.refused() {
+		observer.DeviceUnpaired()
+		return
+	}
 	reportEnding(err, observer)
 }
 
-func (i *Instance) runPagescrape(ctx context.Context, health *servicehealth.Health) error {
-	listeners, err := pagescrapeassembly.ListenersFor(ctx, i.pagescrapeConfig)
+func reportRefusedJoin(err error, observer Observer) {
+	slog.WarnContext(context.Background(), "peer not joined", slog.Any("error", err))
+	if errors.Is(err, nats.ErrAuthorization) {
+		observer.DeviceUnpaired()
+		return
+	}
+	observer.BrokerUnreachable()
+}
+
+func runPagescrape(
+	ctx context.Context,
+	cfg pagescrapeassembly.ServiceConfig,
+	health *servicehealth.Health,
+) error {
+	listeners, err := pagescrapeassembly.ListenersFor(ctx, cfg)
 	if err != nil {
 		return err
 	}
 	return pagescrapeassembly.RunService(
 		ctx,
-		i.pagescrapeConfig,
+		cfg,
 		listeners,
 		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
@@ -118,14 +177,18 @@ func (i *Instance) runPagescrape(ctx context.Context, health *servicehealth.Heal
 	)
 }
 
-func (i *Instance) runPagerwi(ctx context.Context, health *servicehealth.Health) error {
-	listeners, err := pagerwiassembly.ListenersFor(ctx, i.pagerwiConfig)
+func runPagerwi(
+	ctx context.Context,
+	cfg pagerwiassembly.ServiceConfig,
+	health *servicehealth.Health,
+) error {
+	listeners, err := pagerwiassembly.ListenersFor(ctx, cfg)
 	if err != nil {
 		return err
 	}
 	return pagerwiassembly.RunService(
 		ctx,
-		i.pagerwiConfig,
+		cfg,
 		listeners,
 		(&net.Dialer{}).DialContext,
 		prometheus.NewRegistry(),
