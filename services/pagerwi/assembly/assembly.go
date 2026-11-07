@@ -77,11 +77,7 @@ func RunService(
 		return err
 	}
 	defer pageRWIConnection.Close()
-	pageRWIs, err := pagerwistreamsjetstream.CreatePageRWIsStream(
-		ctx, pageRWIBroker, pagerwistreamsjetstream.PageRWIsStreamLimits{
-			MaxBytes: cfg.PageRWIMaxBytes,
-		},
-	)
+	pageRWIs, err := pageRWIsStreamFor(ctx, pageRWIBroker, cfg)
 	if err != nil {
 		return err
 	}
@@ -131,6 +127,21 @@ func RunService(
 	)
 	slog.InfoContext(ctx, "pagerwi stopped")
 	return err
+}
+
+func pageRWIsStreamFor(
+	ctx context.Context,
+	broker jetstream.JetStream,
+	cfg ServiceConfig,
+) (jetstream.Stream, error) {
+	if cfg.ProvisionsStreams {
+		return pagerwistreamsjetstream.CreatePageRWIsStream(
+			ctx,
+			broker,
+			pagerwistreamsjetstream.PageRWIsStreamLimits{MaxBytes: cfg.PageRWIMaxBytes},
+		)
+	}
+	return pagerwistreamsjetstream.OpenPageRWIsStream(ctx, broker)
 }
 
 func takeInPageOffers(
@@ -193,6 +204,17 @@ func pageOfferConsumerFor(
 	if err != nil {
 		return nil, fmt.Errorf("open page offers stream: %w", err)
 	}
+	if cfg.ProvisionsStreams {
+		return provisionedPageOfferConsumer(ctx, stream, cfg)
+	}
+	return openedPageOfferConsumer(ctx, stream, cfg.PageOfferDurable)
+}
+
+func provisionedPageOfferConsumer(
+	ctx context.Context,
+	stream jetstream.Stream,
+	cfg ServiceConfig,
+) (jetstream.Consumer, error) {
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		Durable:       cfg.PageOfferDurable,
 		FilterSubject: pagescrapecontract.OfferedPageSubject,
@@ -201,6 +223,18 @@ func pageOfferConsumerFor(
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create page offer consumer: %w", err)
+	}
+	return consumer, nil
+}
+
+func openedPageOfferConsumer(
+	ctx context.Context,
+	stream jetstream.Stream,
+	pageOfferDurable string,
+) (jetstream.Consumer, error) {
+	consumer, err := stream.Consumer(ctx, pageOfferDurable)
+	if err != nil {
+		return nil, fmt.Errorf("open page offer consumer: %w", err)
 	}
 	return consumer, nil
 }

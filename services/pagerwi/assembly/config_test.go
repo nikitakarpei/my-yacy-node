@@ -39,6 +39,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		PageRWINATSURL:             "nats://index:4222",
 		PageRWIMaxBytes:            1 << 30,
 		PageRWIPartitionExponent:   pagerwi.DefaultPageRWIPartitionExponent,
+		ProvisionsStreams:          true,
 		OpsAddr:                    pagerwi.DefaultOpsAddr,
 	}
 	if cfg != want {
@@ -52,6 +53,7 @@ func TestLoadServiceConfigReadsEverySetting(t *testing.T) {
 	env[pagerwi.EnvPageOfferIntakeConcurrency] = "8"
 	env[pagerwi.EnvPageRWIMaxBytes] = "2MB"
 	env[pagerwi.EnvPageRWIPartitionExponent] = "6"
+	env[pagerwi.EnvProvisionStreams] = "false"
 	env[pagerwi.EnvOpsAddr] = ":9191"
 
 	cfg, err := pagerwi.LoadServiceConfig(envFrom(env))
@@ -60,7 +62,7 @@ func TestLoadServiceConfigReadsEverySetting(t *testing.T) {
 	}
 	if cfg.PageOfferDurable != "builders" || cfg.PageOfferIntakeConcurrency != 8 ||
 		cfg.PageRWIMaxBytes != 2<<20 || cfg.PageRWIPartitionExponent != 6 ||
-		cfg.OpsAddr != ":9191" {
+		cfg.ProvisionsStreams || cfg.OpsAddr != ":9191" {
 		t.Errorf("config = %+v, want every setting read", cfg)
 	}
 }
@@ -70,6 +72,7 @@ func TestLoadServiceConfigRejectsAnInvalidSetting(t *testing.T) {
 		pagerwi.EnvPageOfferIntakeConcurrency: "0",
 		pagerwi.EnvPageRWIMaxBytes:            "lots",
 		pagerwi.EnvPageRWIPartitionExponent:   "-1",
+		pagerwi.EnvProvisionStreams:           "sometimes",
 	} {
 		env := requiredEnv()
 		env[key] = value

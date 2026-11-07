@@ -73,9 +73,11 @@ func environmentFor(link *connectlink.Link, captureProxyURL string) map[string]s
 		pagescrapeassembly.EnvScrapeNATSURL:         link.NATSURL,
 		pagescrapeassembly.EnvProxyURL:              captureProxyURL,
 		pagescrapeassembly.EnvProxyDialMode:         pagefetchershttp.ProxyDialAbsoluteURLName,
+		pagescrapeassembly.EnvProvisionStreams:      strconv.FormatBool(false),
 		pagerwiassembly.EnvPageOfferNATSURL:         link.NATSURL,
 		pagerwiassembly.EnvPageRWINATSURL:           link.NATSURL,
 		pagerwiassembly.EnvPageRWIPartitionExponent: strconv.Itoa(link.PartitionExponent),
+		pagerwiassembly.EnvProvisionStreams:         strconv.FormatBool(false),
 	}
 }
 

@@ -22,6 +22,7 @@ const (
 	EnvScrapeRequestsKept      = "SCRAPE_REQUESTS_KEPT"
 	EnvScrapeDeferralWindow    = "SCRAPE_DEFERRAL_WINDOW"
 	EnvScrapePageOfferMaxBytes = "SCRAPE_PAGE_OFFER_MAX_BYTES"
+	EnvProvisionStreams        = "PAGESCRAPE_PROVISION_STREAMS"
 	EnvOpsAddr                 = "PAGESCRAPE_OPS_ADDR"
 
 	DefaultProxyDialMode           = http.ProxyDialTunnelName
@@ -34,6 +35,7 @@ const (
 	DefaultScrapeRequestsKept      = 100_000
 	DefaultScrapeDeferralWindow    = 6 * time.Hour
 	DefaultScrapePageOfferMaxBytes = "1GB"
+	DefaultProvisionStreams        = true
 	DefaultOpsAddr                 = ":9090"
 )
 
@@ -50,6 +52,7 @@ type ServiceConfig struct {
 	ScrapeRequestsKept      int64
 	ScrapeDeferralWindow    time.Duration
 	PageOfferMaxBytes       int64
+	ProvisionsStreams       bool
 	OpsAddr                 string
 }
 
@@ -64,6 +67,7 @@ type fetchSettings struct {
 type streamSettings struct {
 	scrapeRequestsKept int64
 	pageOfferMaxBytes  int64
+	provisionsStreams  bool
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -106,6 +110,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		ScrapeRequestsKept:      streams.scrapeRequestsKept,
 		ScrapeDeferralWindow:    scrapeDeferralWindow,
 		PageOfferMaxBytes:       streams.pageOfferMaxBytes,
+		ProvisionsStreams:       streams.provisionsStreams,
 		OpsAddr:                 envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
 }
@@ -161,8 +166,13 @@ func loadStreamSettings(getenv func(string) string) (streamSettings, error) {
 	if err != nil {
 		return streamSettings{}, err
 	}
+	provisionsStreams, err := envconfig.Bool(getenv, EnvProvisionStreams, DefaultProvisionStreams)
+	if err != nil {
+		return streamSettings{}, err
+	}
 	return streamSettings{
 		scrapeRequestsKept: scrapeRequestsKept,
 		pageOfferMaxBytes:  pageOfferMaxBytes,
+		provisionsStreams:  provisionsStreams,
 	}, nil
 }

@@ -22,5 +22,6 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
+| `PAGERWI_PROVISION_STREAMS` | `true` | Create the RWI stream and the page offer consumer, or set `false` to use those that exist. |
 | `PAGERWI_OPS_ADDR` | `:9090` | Address serving `/metrics`. |
 | `LOG_LEVEL` | `INFO` | Minimum structured log level. |

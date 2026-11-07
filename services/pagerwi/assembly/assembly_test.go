@@ -33,6 +33,7 @@ func serviceConfig(natsURL string) pagerwi.ServiceConfig {
 		PageRWINATSURL:             natsURL,
 		PageRWIMaxBytes:            8 << 20,
 		PageRWIPartitionExponent:   pagerwi.DefaultPageRWIPartitionExponent,
+		ProvisionsStreams:          true,
 	}
 }
 
@@ -119,6 +120,83 @@ func TestRunServiceReturnsOnAPartitionExponentOutOfRange(t *testing.T) {
 		&servicehealth.Health{},
 	); err == nil {
 		t.Fatal("expected an error for a partition exponent out of range")
+	}
+}
+
+func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThem(t *testing.T) {
+	natsURL := natstestserver.Start(t)
+	broker := natstestserver.ConnectJetStream(t, natsURL)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	createPageOffersStream(t, ctx, broker)
+	const provisionedMaxBytes, provisionedPending = 1 << 20, 2
+	if _, err := broker.CreateStream(ctx, jetstream.StreamConfig{
+		Name:      pagerwicontract.PageRWIsStreamName,
+		Subjects:  []string{pagerwicontract.PageRWISubject},
+		Retention: jetstream.InterestPolicy,
+		MaxBytes:  provisionedMaxBytes,
+	}); err != nil {
+		t.Fatalf("create page RWIs stream: %v", err)
+	}
+	if _, err := broker.CreateConsumer(
+		ctx,
+		pagescrapecontract.ScrapePageOffersStreamName,
+		jetstream.ConsumerConfig{
+			Durable:       pagerwi.DefaultPageOfferDurable,
+			FilterSubject: pagescrapecontract.OfferedPageSubject,
+			AckPolicy:     jetstream.AckExplicitPolicy,
+			MaxAckPending: provisionedPending,
+		},
+	); err != nil {
+		t.Fatalf("create page offer consumer: %v", err)
+	}
+	cfg := serviceConfig(natsURL)
+	cfg.ProvisionsStreams = false
+
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- pagerwi.RunService(
+			ctx, cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			prometheus.NewRegistry(), &servicehealth.Health{},
+		)
+	}()
+	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+
+	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
+		t.Fatalf("await rwi: %v", err)
+	}
+	stream, err := broker.Stream(ctx, pagerwicontract.PageRWIsStreamName)
+	if err != nil {
+		t.Fatalf("open page RWIs stream: %v", err)
+	}
+	if maxBytes := stream.CachedInfo().Config.MaxBytes; maxBytes != provisionedMaxBytes {
+		t.Errorf("page RWIs max bytes = %d, want the provisioned %d", maxBytes, provisionedMaxBytes)
+	}
+	consumer, err := broker.Consumer(
+		ctx,
+		pagescrapecontract.ScrapePageOffersStreamName,
+		pagerwi.DefaultPageOfferDurable,
+	)
+	if err != nil {
+		t.Fatalf("open page offer consumer: %v", err)
+	}
+	if pending := consumer.CachedInfo().Config.MaxAckPending; pending != provisionedPending {
+		t.Errorf("page offers pending = %d, want the provisioned %d", pending, provisionedPending)
+	}
+	cancel()
+	<-runDone
+}
+
+func TestRunServiceWithoutProvisioningFailsWithoutThePageRWIsStream(t *testing.T) {
+	cfg := serviceConfig(natstestserver.Start(t))
+	cfg.ProvisionsStreams = false
+
+	if err := pagerwi.RunService(
+		context.Background(), cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+		prometheus.NewRegistry(), &servicehealth.Health{},
+	); err == nil {
+		t.Fatal("RunService = nil, want the missing page RWIs stream refused")
 	}
 }
 

@@ -11,12 +11,14 @@ const (
 	EnvPageRWINATSURL             = "PAGE_RWI_NATS_URL"
 	EnvPageRWIMaxBytes            = "PAGE_RWI_MAX_BYTES"
 	EnvPageRWIPartitionExponent   = "PAGE_RWI_PARTITION_EXPONENT"
+	EnvProvisionStreams           = "PAGERWI_PROVISION_STREAMS"
 	EnvOpsAddr                    = "PAGERWI_OPS_ADDR"
 
 	DefaultPageOfferDurable           = "pagerwi"
 	DefaultPageOfferIntakeConcurrency = 4
 	DefaultPageRWIMaxBytes            = "1GB"
 	DefaultPageRWIPartitionExponent   = 4
+	DefaultProvisionStreams           = true
 	DefaultOpsAddr                    = ":9090"
 )
 
@@ -27,6 +29,7 @@ type ServiceConfig struct {
 	PageRWINATSURL             string
 	PageRWIMaxBytes            int64
 	PageRWIPartitionExponent   uint
+	ProvisionsStreams          bool
 	OpsAddr                    string
 }
 
@@ -55,6 +58,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	provisionsStreams, err := envconfig.Bool(getenv, EnvProvisionStreams, DefaultProvisionStreams)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 	return ServiceConfig{
 		PageOfferNATSURL: pageOfferNATSURL,
 		PageOfferDurable: envconfig.String(
@@ -64,6 +71,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PageRWINATSURL:             pageRWINATSURL,
 		PageRWIMaxBytes:            pageRWIMaxBytes,
 		PageRWIPartitionExponent:   uint(pageRWIPartitionExponent),
+		ProvisionsStreams:          provisionsStreams,
 		OpsAddr:                    envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
 }
