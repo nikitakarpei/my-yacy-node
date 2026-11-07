@@ -10,12 +10,8 @@
 </head>
 <body>
 {{.Frame.TabBar}}
-<main data-connections="{{.ConnectionsPath}}" data-path="{{.CompanionPath}}">
-  <div class="heading">
-    <h1>Companions</h1>
-    <a class="button primary" href="{{.PairPath}}">Pair a companion</a>
-  </div>
-  <p class="description">Companions are Android devices that fetch pages for this peer and sign them, so other peers can trust its index. <a href="{{.Frame.AppGuideURL}}">Learn more</a></p>
+<main data-connections="{{.ConnectionsPath}}" data-path="{{.CompanionPath}}" data-list="true" data-pauses="{{.Heading.PauseRule}}">
+  {{template "heading" .Heading}}
   {{if .JustPaired}}<div class="banner" role="status">{{.JustPaired}} is paired.</div>{{end}}
   {{if .Devices}}
   <div class="card table">

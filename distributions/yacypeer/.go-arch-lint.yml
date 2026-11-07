@@ -46,6 +46,12 @@ components:
     in: internal/companions/companionspage/**
   hostaddresses:
     in: internal/hostaddresses/**
+  companionpresence:
+    in: internal/companionpresence/**
+  fetchsettings:
+    in: internal/fetchsettings/**
+  peerintake:
+    in: internal/peerintake/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -158,9 +164,16 @@ deps:
     canUse:
       - companionprotocol
       - natsclient
+  companionpresence:
+    mayDependOn:
+      - companionaccess
+  peerintake:
+    mayDependOn:
+      - fetchsettings
   companionspage:
     mayDependOn:
       - companionaccess
+      - fetchsettings
       - paireddevices
       - pairingoffers
     canUse:

@@ -1,0 +1,15 @@
+{{define "heading"}}
+  <div class="heading">
+    <h1>Companions</h1>
+    <a class="button primary" href="{{.PairPath}}">Pair a companion</a>
+  </div>
+  <p class="description">Companions are Android devices that fetch pages for this peer and sign them, so other peers can trust its index. <a href="{{.AppGuideURL}}">Learn more</a></p>
+  <div id="paused" class="paused" role="status"{{if not .Paused}} hidden{{end}}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+    Page fetching is paused: no companion is connected.
+  </div>
+  <nav class="tabs" aria-label="Companions">
+    <a href="{{.DevicesPath}}"{{if not .SettingsTab}} aria-current="page"{{end}}>Devices</a>
+    <a href="{{.SettingsPath}}"{{if .SettingsTab}} aria-current="page"{{end}}>Settings</a>
+  </nav>
+{{end}}
