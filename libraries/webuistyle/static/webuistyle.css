@@ -37,6 +37,7 @@
     --webui-focus-ring: 0 0 0 2px color-mix(in srgb, var(--webui-accent) 25%, transparent);
     --webui-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     --webui-scrim: rgba(0, 0, 0, 0.32);
+    --webui-switch-knob: #fff;
     --webui-edge: clamp(1rem, 6vw, 5rem);
     --webui-gutter: var(--webui-edge);
   }
@@ -166,6 +167,42 @@
     color: var(--webui-on-accent);
     background-color: var(--webui-accent);
     border-color: var(--webui-accent);
+  }
+  .webui-switch {
+    appearance: none;
+    flex-shrink: 0;
+    position: relative;
+    width: 36px;
+    height: 20px;
+    margin: 0;
+    border-radius: 10px;
+    background: var(--webui-input-line);
+    cursor: pointer;
+  }
+  .webui-switch::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--webui-switch-knob);
+    transition: transform 0.15s;
+  }
+  .webui-switch:checked {
+    background: var(--webui-accent);
+  }
+  .webui-switch:checked::before {
+    transform: translateX(16px);
+  }
+  .webui-switch:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .webui-switch:focus-visible {
+    outline: 0;
+    box-shadow: var(--webui-focus-ring);
   }
   .webui-tabs {
     display: flex;

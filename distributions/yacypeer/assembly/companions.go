@@ -15,16 +15,20 @@ import (
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionpresence"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionrequests"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/fetchsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/hostaddresses"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 )
 
@@ -37,15 +41,17 @@ const (
 type companions struct {
 	devices     *paireddevices.Devices
 	offers      *pairingoffers.Offers
+	settings    *fetchsettings.Settings
+	intakeHold  *peerintake.IntakeHold
 	certificate tls.Certificate
 }
 
-func startBroker(cfg PeerConfig) (*natsbroker.Broker, *companions, error) {
+func startBroker(ctx context.Context, cfg PeerConfig) (*natsbroker.Broker, *companions, error) {
 	if !cfg.pairsCompanions() {
 		broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
 		return broker, nil, err
 	}
-	parts, err := openCompanions(cfg.directoryOf(companionsDirectoryName))
+	parts, err := openCompanions(ctx, cfg.directoryOf(companionsDirectoryName))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -67,25 +73,47 @@ func startBroker(cfg PeerConfig) (*natsbroker.Broker, *companions, error) {
 		},
 	)
 	if err != nil {
-		return nil, nil, errors.Join(err, parts.devices.Close())
+		return nil, nil, errors.Join(err, parts.close())
 	}
 	return broker, parts, nil
 }
 
-func openCompanions(directory string) (*companions, error) {
+func openCompanions(ctx context.Context, directory string) (*companions, error) {
 	certificate, err := brokerkey.Settle(directory)
 	if err != nil {
 		return nil, err
 	}
-	devices, err := paireddevices.Open(directory)
+	intakeHold := peerintake.NewIntakeHold()
+	devices, err := paireddevices.Open(ctx, directory, intakeHold)
 	if err != nil {
 		return nil, err
+	}
+	settings, err := fetchsettings.Open(ctx, directory, intakeHold)
+	if err != nil {
+		return nil, errors.Join(err, devices.Close())
 	}
 	return &companions{
 		devices:     devices,
 		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
+		settings:    settings,
+		intakeHold:  intakeHold,
 		certificate: certificate,
 	}, nil
+}
+
+func (c *companions) close() error {
+	return errors.Join(c.devices.Close(), c.settings.Close())
+}
+
+func (c *companions) unpairingWith(broker *natsbroker.Broker) companionaccess.Unpairing {
+	return companionaccess.NewUnpairing(c.devices, broker)
+}
+
+func (c *companions) intakeAdmission() pullintake.Admission {
+	if c == nil {
+		return nil
+	}
+	return c.intakeHold
 }
 
 func (c *companions) register(
@@ -98,9 +126,10 @@ func (c *companions) register(
 	}
 	companionspage.Register(mux, companionspage.Collaborators{
 		Devices:   c.devices,
-		Unpairing: companionaccess.NewUnpairing(c.devices, broker),
+		Unpairing: c.unpairingWith(broker),
 		Offers:    offerOpening{offers: c.offers},
 		Broker:    broker,
+		Settings:  c.settings,
 	}, c.pairLinkFor(broker), tabBar)
 }
 
@@ -129,7 +158,7 @@ func (c *companions) servers(
 	)
 	deviceRequests := companionrequests.NewDeviceRequests(
 		c.devices,
-		companionaccess.NewUnpairing(c.devices, broker),
+		c.unpairingWith(broker),
 		companionprotocol.Settings{
 			PartitionExponent: pagerwiassembly.DefaultPageRWIPartitionExponent,
 		},
@@ -137,6 +166,7 @@ func (c *companions) servers(
 	return []func(context.Context) error{
 		servedOn(natsURL, network, pairingRequests.Serve),
 		servedOn(natsURL, network, deviceRequests.Serve),
+		companionpresence.New(broker, wallclock.Clock{}, c.intakeHold).Run,
 	}
 }
 
@@ -159,8 +189,8 @@ func closeCompanions(ctx context.Context, parts *companions) {
 	if parts == nil {
 		return
 	}
-	if err := parts.devices.Close(); err != nil {
-		slog.WarnContext(ctx, "paired devices did not close", slog.Any("error", err))
+	if err := parts.close(); err != nil {
+		slog.WarnContext(ctx, "companion files did not close", slog.Any("error", err))
 	}
 }
 

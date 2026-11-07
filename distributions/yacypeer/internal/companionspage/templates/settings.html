@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Companions settings</title>
+<link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
+<link rel="stylesheet" href="{{.CompanionPath}}/assets/companions.css">
+<script src="{{.CompanionPath}}/assets/companions.js" defer></script>
+</head>
+<body>
+{{.Frame.TabBar}}
+<main data-connections="{{.ConnectionsPath}}" data-path="{{.SettingsPath}}" data-pauses="{{.Heading.PauseRule}}">
+  {{template "heading" .Heading}}
+  <form class="settings" method="post" action="{{.SettingsPath}}">
+    <label class="setting">
+      <input class="webui-switch" type="checkbox" role="switch" name="companionsFetch" value="on"{{if .Choice.CompanionsFetch}} checked{{end}}{{if not .AnyPaired}} disabled{{end}}>
+      Fetch pages with paired companions
+    </label>
+    <label class="setting dependent">
+      <input class="webui-switch" type="checkbox" role="switch" name="peerFillsIn" value="on"{{if .Choice.PeerFillsIn}} checked{{end}}{{if or (not .AnyPaired) (not .Choice.CompanionsFetch)}} disabled{{end}}>
+      Let this peer fetch pages while no companion is connected
+    </label>
+    {{if not .AnyPaired}}<p class="setting-hint">No companions are paired.</p>{{end}}
+    <noscript><div class="setting"><button type="submit">Save</button></div></noscript>
+  </form>
+</main>
+</body>
+</html>
