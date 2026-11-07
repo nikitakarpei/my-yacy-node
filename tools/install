@@ -139,6 +139,7 @@ export GOPATH="$TOOLCHAIN_DIR/gopath"
 export GOCACHE="$TOOLCHAIN_DIR/gocache"
 export GOMODCACHE="$TOOLCHAIN_DIR/gomodcache"
 export GOTMPDIR="$TOOLCHAIN_DIR/gotmp"
+mkdir -p "$GOTMPDIR"
 export GOLANGCI_LINT_CACHE="$TOOLCHAIN_DIR/golangci-lint-cache"
 export GOTOOLCHAIN=local
 export UV_PYTHON_INSTALL_DIR="$TOOLCHAIN_DIR/python"
@@ -163,7 +164,7 @@ for tool in $requested; do
 	fi
 done
 
-mkdir -p "$bin" "$toolchain/gotmp"
+mkdir -p "$bin"
 write_activate
 
 if wanted go; then
