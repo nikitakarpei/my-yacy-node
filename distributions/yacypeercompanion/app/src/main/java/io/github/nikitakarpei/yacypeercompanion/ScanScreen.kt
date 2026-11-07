@@ -17,12 +17,13 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
 import io.github.nikitakarpei.yacypeercompanion.model.PairingCode
 import io.github.nikitakarpei.yacypeercompanion.model.PairingProblem
+import io.github.nikitakarpei.yacypeercompanion.services.needsNewerApp
 import io.github.nikitakarpei.yacypeercompanion.services.pairingCodeOf
 
 private const val MESSAGE_MS = 3_000L
 private const val RESCAN_PAUSE_MS = 1_500L
 private const val SCAN_HINT_START = "The pairing code is on the "
-private const val SCAN_HINT_PAGE = "Pair a phone"
+private const val SCAN_HINT_PAGE = "Pair a companion"
 private const val SCAN_HINT_END = " page of the YaCy peer."
 
 class ScanScreen : Activity() {
@@ -151,7 +152,7 @@ class ScanScreen : Activity() {
     private fun draw(state: CompanionState) {
         when (state) {
             CompanionState.Pairing -> pairingView.visibility = View.VISIBLE
-            CompanionState.Connected -> openHome()
+            CompanionState.Connecting, CompanionState.Connected, is CompanionState.Disconnected -> openHome()
             is CompanionState.PairingFailed -> if (pairingCode != null) showPairingFailure(state.problem) else scan()
             else -> scan()
         }
@@ -209,7 +210,7 @@ class ScanScreen : Activity() {
     private fun pairWithPeerOf(text: String) {
         val code = pairingCodeOf(text)
         if (code == null) {
-            show("Not a pairing code of a YaCy peer.")
+            show(if (needsNewerApp(text)) "This pairing code needs a newer version of the app." else "Not a pairing code of a YaCy peer.")
             preview.postDelayed({ scanner?.resume() }, RESCAN_PAUSE_MS)
             return
         }
