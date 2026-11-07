@@ -23,26 +23,6 @@ main > h1 {
   font-size: var(--webui-text-sm);
   font-weight: 500;
 }
-.table {
-  overflow-x: auto;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--webui-text-sm);
-}
-th {
-  text-align: left;
-  font-weight: 500;
-  color: var(--webui-muted);
-}
-th,
-td {
-  padding: 10px var(--webui-space-4);
-}
-tbody tr {
-  border-top: 1px solid var(--webui-line);
-}
 .paused {
   display: flex;
   align-items: center;
@@ -111,9 +91,6 @@ tbody tr {
 }
 .device {
   font-weight: 500;
-}
-.action {
-  text-align: right;
 }
 .hidden {
   position: absolute;
