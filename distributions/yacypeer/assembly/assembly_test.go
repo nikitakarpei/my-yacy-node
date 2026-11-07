@@ -222,6 +222,31 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 	awaitShutdown(t, runDone)
 }
 
+func TestRunPeerListensForCompanionsAtTheCompanionAddress(t *testing.T) {
+	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
+	cfg, web := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
+	}()
+	awaitEveryService(t, env, web)
+
+	connection, err := (&net.Dialer{}).DialContext(
+		t.Context(), "tcp", env[yacypeerassembly.EnvCompanionAddr],
+	)
+	if err != nil {
+		t.Errorf("the broker does not listen for companions: %v", err)
+	} else {
+		_ = connection.Close()
+	}
+
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
 func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecretSigns(
 	t *testing.T,
 ) {

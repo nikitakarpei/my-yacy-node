@@ -20,7 +20,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
@@ -58,11 +57,12 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
+	broker, companionParts, err := startBroker(cfg)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
 	network.Attach(hostOf(brokerName), broker.Connection)
+	defer closeCompanions(ctx, companionParts)
 	defer broker.Shutdown()
 	history, err := metrichistory.Open(
 		ctx,
