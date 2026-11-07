@@ -16,7 +16,7 @@ your own key and install it with `adb`:
 "$ANDROID_HOME"/platform-tools/adb install yacypeercompanion.apk
 ```
 
-The app runs on 64-bit ARM phones with Android 9 or later.
+The app runs on 64-bit ARM phones with Android 14 or later.
 
 ## Use
 

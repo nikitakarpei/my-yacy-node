@@ -43,7 +43,7 @@ other peers can check what the phone did.
 
 ## Known Limitations
 
-* The app runs only on 64-bit ARM phones with Android 9 or later.
+* The app runs only on 64-bit ARM phones with Android 14 or later.
 * The release APK is not signed. The operator signs it with an own key.
 * The peer does not check yet that it accepts the signatures of the phone.
 * pagescrape and pagerwi do not sign their page offers and RWIs yet.
