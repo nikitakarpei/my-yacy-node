@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 )
 
 func main() {
@@ -57,8 +58,9 @@ func serve(ctx context.Context, cfg pagerwiassembly.ServiceConfig) error {
 		return errors.Join(err, ops.Close())
 	}
 	registry := opsmetrics.ProcessRegistry()
+	health := &servicehealth.Health{}
 	opsMux := opsmetrics.MuxFor(registry)
 	return opsmetrics.ServeAlongside(ctx, ops, opsMux, func(ctx context.Context) error {
-		return pagerwiassembly.RunService(ctx, cfg, listeners, registry)
+		return pagerwiassembly.RunService(ctx, cfg, listeners, registry, health)
 	})
 }

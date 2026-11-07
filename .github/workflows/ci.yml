@@ -19,6 +19,9 @@ jobs:
   e2e:
     uses: ./.github/workflows/e2e.yml
 
+  android-app:
+    uses: ./.github/workflows/android-app.yml
+
   build-yacynode:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'

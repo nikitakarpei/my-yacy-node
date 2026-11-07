@@ -26,6 +26,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/streamopening"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -53,6 +54,7 @@ func RunService(
 	cfg ServiceConfig,
 	_ Listeners,
 	registry *prometheus.Registry,
+	health *servicehealth.Health,
 ) error {
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(cfg.PageRWIPartitionExponent)
 	if err != nil {
@@ -62,7 +64,10 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.Open(cfg.PageRWINATSURL)
+	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.OpenObserved(
+		cfg.PageRWINATSURL,
+		health,
+	)
 	if err != nil {
 		return err
 	}
@@ -77,7 +82,7 @@ func RunService(
 	}
 	pageOfferOpening := streamopening.Start(
 		ctx,
-		pageOfferOpenerFor(cfg),
+		pageOfferOpenerFor(cfg, health),
 		wallclock.Clock{},
 		pageofferopeningobserversapplog.PageOfferOpeningLog{},
 	)
@@ -115,7 +120,7 @@ func RunService(
 	err = servergroup.Run(ctx, shutdownLimit, nil,
 		func(runCtx context.Context) error {
 			return takeInPageOffers(
-				runCtx, pageOfferOpening, intakeConfig, intakeReceiptPublicationObservers,
+				runCtx, pageOfferOpening, intakeConfig, intakeReceiptPublicationObservers, health,
 			)
 		},
 	)
@@ -128,12 +133,14 @@ func takeInPageOffers(
 	pageOfferOpening *streamopening.Opening[pageOffers],
 	intakeConfig pageintake.OfferedPageConsumerConfig,
 	intakeReceiptPublicationObservers intakereceiptsnats.IntakeReceiptPublicationObservers,
+	health *servicehealth.Health,
 ) error {
 	offers, opened := pageOfferOpening.Opened(ctx)
 	if !opened {
 		return nil
 	}
 	defer offers.Close()
+	health.MarkStarted()
 	intakeConfig.OfferedPageSource = offers.consumer
 	intakeConfig.IntakeReceipts = intakereceiptsnats.NewIntakeReceipts(
 		offers.connection, corpus, intakeReceiptPublicationObservers,
@@ -153,9 +160,12 @@ func (offers pageOffers) Close() {
 	offers.connection.Close()
 }
 
-func pageOfferOpenerFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers, error) {
+func pageOfferOpenerFor(
+	cfg ServiceConfig,
+	health *servicehealth.Health,
+) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL)
+		js, connection, err := jetstreamconnect.OpenObserved(cfg.PageOfferNATSURL, health)
 		if err != nil {
 			return pageOffers{}, err
 		}

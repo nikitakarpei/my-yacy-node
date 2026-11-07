@@ -20,6 +20,11 @@ const (
 
 func Start(t *testing.T) string {
 	t.Helper()
+	return StartedServer(t).ClientURL()
+}
+
+func StartedServer(t *testing.T) *natsserver.Server {
+	t.Helper()
 	srv, err := natsserver.NewServer(&natsserver.Options{
 		Port:      -1,
 		JetStream: true,
@@ -36,7 +41,7 @@ func Start(t *testing.T) string {
 		srv.Shutdown()
 		srv.WaitForShutdown()
 	})
-	return srv.ClientURL()
+	return srv
 }
 
 func storeDirectoryFor(t *testing.T) string {

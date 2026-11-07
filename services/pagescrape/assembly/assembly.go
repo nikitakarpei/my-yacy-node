@@ -23,6 +23,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
@@ -47,8 +48,9 @@ func RunService(
 	cfg ServiceConfig,
 	_ Listeners,
 	registry *prometheus.Registry,
+	health *servicehealth.Health,
 ) error {
-	broker, connection, err := jetstreamconnect.Open(cfg.ScrapeNATSURL)
+	broker, connection, err := jetstreamconnect.OpenObserved(cfg.ScrapeNATSURL, health)
 	if err != nil {
 		return err
 	}
@@ -103,6 +105,7 @@ func RunService(
 		wallclock.Clock{},
 	)
 
+	health.MarkStarted()
 	slog.InfoContext(ctx, "pagescrape started",
 		slog.String("durable", cfg.ScrapeRequestDurable),
 		slog.Int("scrapeIntakeConcurrency", cfg.ScrapeIntakeConcurrency),

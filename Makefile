@@ -1,4 +1,11 @@
-GO ?= $(CURDIR)/.toolchain/go/bin/go
+ifneq ($(realpath $(dir $(TOOLCHAIN_DIR))),$(CURDIR))
+$(error No toolchain of this checkout is active. Run ./tools/install, then . .toolchain/activate)
+endif
+VERIFY_TOOLS_STATE := $(shell ./tools/install --check verify)
+ifneq ($(VERIFY_TOOLS_STATE),)
+$(error $(VERIFY_TOOLS_STATE))
+endif
+
 COVERAGE_MIN ?= 80
 
 # make workspace writes go.work for the editor; every target here builds each module as a standalone consumer sees it.
@@ -14,25 +21,13 @@ COVER_GATE := $(CURDIR)/tools/gate-coverage
 COVER_PACKAGES := $(CURDIR)/tools/coverage-packages
 RACE_FLAG ?=
 
-export GO COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_PACKAGES RACE_FLAG
+export COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_PACKAGES RACE_FLAG
 
 JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
 ARCH_DIAGRAM_DIR := $(CURDIR)/arch-diagrams
 
-TOOLS_BIN := $(CURDIR)/.toolchain/bin
-TOOLS_STAMP := $(TOOLS_BIN)/.installed
-GOLANGCI_LINT := $(TOOLS_BIN)/golangci-lint
-GO_ARCH_LINT := $(TOOLS_BIN)/go-arch-lint
-RUFF := $(TOOLS_BIN)/ruff
-MADO := $(TOOLS_BIN)/mado
-ESBUILD := $(TOOLS_BIN)/esbuild
-BIOME := $(TOOLS_BIN)/biome
-UV := $(TOOLS_BIN)/uv
-
-export UV_PYTHON_INSTALL_DIR := $(CURDIR)/.toolchain/python
-export UV_CACHE_DIR := $(CURDIR)/.toolchain/uvcache
-export UV_PYTHON_PREFERENCE := only-managed
+ANDROID_APP := distributions/yacypeercompanion
 
 PY_VENV := $(CURDIR)/.venv
 PY_VENV_STAMP := $(PY_VENV)/.installed
@@ -68,7 +63,7 @@ for m in $(PY_MODULES); do \
 done
 endef
 
-.PHONY: tools \
+.PHONY: \
 	fmt fmt-go fmt-go-e2e fmt-py fmt-web \
 	fmt-check fmt-check-go fmt-check-go-e2e fmt-check-py fmt-check-web \
 	tidy tidy-go tidy-go-e2e tidy-py \
@@ -80,7 +75,7 @@ endef
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
 	build build-go verify peer-key refresh-asmap \
-	e2e e2e-images
+	e2e e2e-images android-app android-app-verification-metadata android-app-reproducible
 
 fmt:         fmt-go fmt-go-e2e fmt-py fmt-web
 fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py fmt-check-web
@@ -95,92 +90,98 @@ build:       build-go
 verify:      fmt-check tidy-check lint arch cover-check build
 	@echo "==> verify SUCCESS"
 
-$(TOOLS_STAMP): tools/install tools/tools.lock
-	./tools/install
-	@touch $@
+android-app:
+	@./tools/install --check android
+	$(ANDROID_APP)/gradlew -p $(ANDROID_APP) assembleRelease test lintRelease ktlintCheck --console=plain
 
-tools: $(TOOLS_STAMP)
+android-app-verification-metadata:
+	@./tools/install --check android
+	$(ANDROID_APP)/update-verification-metadata
 
-$(PY_VENV_STAMP): $(TOOLS_STAMP) .python-version pyproject.toml uv.lock $(PY_MODULES:%=%/pyproject.toml)
-	$(UV) sync --locked --all-packages --quiet
+android-app-reproducible:
+	@./tools/install --check android
+	$(ANDROID_APP)/check-reproducible
+
+$(PY_VENV_STAMP): .python-version pyproject.toml uv.lock $(PY_MODULES:%=%/pyproject.toml)
+	uv sync --locked --all-packages --quiet
 	@touch $@
 
 # ---- Go stack ----
 
-fmt-go: $(TOOLS_STAMP)
-	@$(call for_each_go,fmt-go,$(GOLANGCI_LINT) fmt)
+fmt-go:
+	@$(call for_each_go,fmt-go,golangci-lint fmt)
 
-fmt-check-go: $(TOOLS_STAMP)
-	@$(call for_each_go,fmt-check-go,$(GOLANGCI_LINT) fmt --diff)
+fmt-check-go:
+	@$(call for_each_go,fmt-check-go,golangci-lint fmt --diff)
 
-fmt-go-e2e: $(TOOLS_STAMP)
-	@$(call for_each_go_e2e,fmt-go-e2e,$(GOLANGCI_LINT) fmt)
+fmt-go-e2e:
+	@$(call for_each_go_e2e,fmt-go-e2e,golangci-lint fmt)
 
-fmt-check-go-e2e: $(TOOLS_STAMP)
-	@$(call for_each_go_e2e,fmt-check-go-e2e,$(GOLANGCI_LINT) fmt --diff)
+fmt-check-go-e2e:
+	@$(call for_each_go_e2e,fmt-check-go-e2e,golangci-lint fmt --diff)
 
-tidy-go: $(TOOLS_STAMP)
-	@$(call for_each_go,tidy-go,$(GO) mod tidy)
+tidy-go:
+	@$(call for_each_go,tidy-go,go mod tidy)
 
-tidy-go-e2e: $(TOOLS_STAMP)
-	@$(call for_each_go_e2e,tidy-go-e2e,$(GO) mod tidy)
+tidy-go-e2e:
+	@$(call for_each_go_e2e,tidy-go-e2e,go mod tidy)
 
-tidy-check-go: $(TOOLS_STAMP)
-	@$(call for_each_go,tidy-check-go,$(GO) mod tidy -diff)
+tidy-check-go:
+	@$(call for_each_go,tidy-check-go,go mod tidy -diff)
 
-tidy-check-go-e2e: $(TOOLS_STAMP)
-	@$(call for_each_go_e2e,tidy-check-go-e2e,$(GO) mod tidy -diff)
+tidy-check-go-e2e:
+	@$(call for_each_go_e2e,tidy-check-go-e2e,go mod tidy -diff)
 
-lint-go: $(TOOLS_STAMP)
-	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run --allow-parallel-runners ./...)
+lint-go:
+	@$(call for_each_go,lint-go,golangci-lint run --allow-parallel-runners ./...)
 
-lint-go-e2e: $(TOOLS_STAMP)
-	@$(call for_each_go_e2e,lint-go-e2e,$(GOLANGCI_LINT) run --build-tags e2e ./...)
+lint-go-e2e:
+	@$(call for_each_go_e2e,lint-go-e2e,golangci-lint run --build-tags e2e ./...)
 
-arch-go: $(TOOLS_STAMP)
-	@$(call for_each_go,arch-go,$(GO_ARCH_LINT) check)
+arch-go:
+	@$(call for_each_go,arch-go,go-arch-lint check)
 
-arch-diagram: $(TOOLS_STAMP)
+arch-diagram:
 	@mkdir -p $(ARCH_DIAGRAM_DIR)
-	@$(call for_each_go,arch-diagram,$(GO_ARCH_LINT) graph \
+	@$(call for_each_go,arch-diagram,go-arch-lint graph \
 		--out $(ARCH_DIAGRAM_DIR)/$$(echo {} | tr / -).svg)
 	@echo "    written to $(ARCH_DIAGRAM_DIR)/"
 
-test-go: $(TOOLS_STAMP)
-	@$(call for_each_go,test-go,$(GO) test -race ./...)
+test-go:
+	@$(call for_each_go,test-go,go test -race ./...)
 
-build-go: $(TOOLS_STAMP)
-	@$(call for_each_go,build-go,$(GO) build ./...)
+build-go:
+	@$(call for_each_go,build-go,go build ./...)
 
-cover-go: $(TOOLS_STAMP)
+cover-go:
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
-		( cd $$m && $(GO) test -coverpkg=$$($(COVER_PACKAGES)) -coverprofile=$(COVER_PROFILE) ./... && \
+		( cd $$m && go test -coverpkg=$$($(COVER_PACKAGES)) -coverprofile=$(COVER_PROFILE) ./... && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
-			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
+			go tool cover -func=$(COVER_PROFILE).gated ); \
 	done
 
-cover-check-go: $(TOOLS_STAMP)
+cover-check-go:
 	@$(call for_each_go,cover-check-go,$(COVER_GATE))
 
 # ---- Python stack ----
 
-fmt-py: $(TOOLS_STAMP)
-	@$(call for_each_py,fmt-py,$(RUFF) format .)
+fmt-py:
+	@$(call for_each_py,fmt-py,ruff format .)
 
-fmt-check-py: $(TOOLS_STAMP)
-	@$(call for_each_py,fmt-check-py,$(RUFF) format --check .)
+fmt-check-py:
+	@$(call for_each_py,fmt-check-py,ruff format --check .)
 
-tidy-py: $(TOOLS_STAMP)
+tidy-py:
 	@echo "==> tidy-py"
-	@$(UV) lock --quiet
+	@uv lock --quiet
 
-tidy-check-py: $(TOOLS_STAMP)
+tidy-check-py:
 	@echo "==> tidy-check-py"
-	@$(UV) lock --check --quiet
+	@uv lock --check --quiet
 
-lint-py: $(TOOLS_STAMP) $(PY_VENV_STAMP)
-	@$(call for_each_py,lint-py,$(RUFF) check . && $(PY_VENV)/bin/mypy --config-file $(PY_CONFIG) .)
+lint-py: $(PY_VENV_STAMP)
+	@$(call for_each_py,lint-py,ruff check . && $(PY_VENV)/bin/mypy --config-file $(PY_CONFIG) .)
 
 arch-py: $(PY_VENV_STAMP)
 	@$(call for_each_py,arch-py,$(PY_VENV)/bin/tach check && $(PY_VENV)/bin/tach check-external)
@@ -196,27 +197,27 @@ cover-check-py: $(PY_VENV_STAMP)
 
 # ---- Markdown ----
 
-lint-md: $(TOOLS_STAMP)
+lint-md:
 	@echo "==> lint-md"
-	@if ! out=$$(git ls-files -z '*.md' | xargs -0 $(MADO) check 2>&1); then \
+	@if ! out=$$(git ls-files -z '*.md' | xargs -0 mado check 2>&1); then \
 		echo "$$out"; exit 1; \
 	fi
 
 # ---- Web assets ----
 
-fmt-web: $(TOOLS_STAMP)
+fmt-web:
 	@echo "==> fmt-web"
-	@$(WEB_FILES) | xargs -0 $(BIOME) format --write --no-errors-on-unmatched
+	@$(WEB_FILES) | xargs -0 biome format --write --no-errors-on-unmatched
 
-fmt-check-web: $(TOOLS_STAMP)
+fmt-check-web:
 	@echo "==> fmt-check-web"
-	@if ! out=$$($(WEB_FILES) | xargs -0 $(BIOME) format --no-errors-on-unmatched 2>&1); then \
+	@if ! out=$$($(WEB_FILES) | xargs -0 biome format --no-errors-on-unmatched 2>&1); then \
 		echo "$$out"; exit 1; \
 	fi
 
-lint-js: $(TOOLS_STAMP)
+lint-js:
 	@echo "==> lint-js"
-	@out=$$($(JS_FILES) | xargs -0 -I{} $(ESBUILD) {} --target=es2022 --log-level=warning 2>&1 >/dev/null); \
+	@out=$$($(JS_FILES) | xargs -0 -I{} esbuild {} --target=es2022 --log-level=warning 2>&1 >/dev/null); \
 	if [ -n "$$out" ]; then echo "$$out"; exit 1; fi
 
 lint-css:
@@ -227,13 +228,13 @@ lint-css:
 
 # ---- misc ----
 
-workspace: $(TOOLS_STAMP)
+workspace:
 	@echo "==> workspace"
 	@rm -f go.work go.work.sum
-	@GOWORK= $(GO) work init $(GO_MODULES)
+	@GOWORK= go work init $(GO_MODULES)
 
-peer-key: $(TOOLS_STAMP)
-	cd services/yacynode && $(GO) run ./cmd/yacy-peer-key
+peer-key:
+	cd services/yacynode && go run ./cmd/yacy-peer-key
 
 refresh-asmap:
 	./tools/refresh-asmap
@@ -328,10 +329,10 @@ e2e_suite_image_targets = $(foreach i,$(E2E_SUITE_IMAGES_$(1)),e2e-$(i)-image)
 
 define e2e_suite_rule
 .PHONY: e2e-$(1)
-e2e-$(1): $$(TOOLS_STAMP) $$(call e2e_suite_image_targets,$(1))
+e2e-$(1): $$(call e2e_suite_image_targets,$(1))
 	@echo "==> e2e-$(1)"; \
 	if ! out=$$$$(cd $$(or $$(E2E_SUITE_DIR_$(1)),$$(E2E_PATH_$(1))/test/e2e) && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_SEARXNG_ENV) $$(call e2e_suite_image_env,$(1)) \
-		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \
+		go test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \
 		echo "==> e2e-$(1) FAILED"; echo "$$$$out"; exit 1; \
 	fi
 endef

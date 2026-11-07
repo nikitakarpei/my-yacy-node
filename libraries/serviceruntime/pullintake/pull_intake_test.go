@@ -101,18 +101,20 @@ func TestRunFailsWhenTheSourceFails(t *testing.T) {
 	}
 }
 
-func TestRunFailsWhenTheBrokerConnectionClosesForGood(t *testing.T) {
-	source := pullintaketest.MessageSourceThatFails(nats.ErrConnectionClosed)
+func TestRunReportsABrokerThatIsGone(t *testing.T) {
+	for _, ending := range []error{nats.ErrConnectionClosed, jetstream.ErrServerShutdown} {
+		source := pullintaketest.MessageSourceThatFails(ending)
 
-	err := pullintake.Run(
-		context.Background(),
-		pullintake.MessageQueueOf(source),
-		2,
-		func(context.Context, pullintake.PendingMessage) error { return nil },
-	)
+		err := pullintake.Run(
+			context.Background(),
+			pullintake.MessageQueueOf(source),
+			2,
+			func(context.Context, pullintake.PendingMessage) error { return nil },
+		)
 
-	if !errors.Is(err, nats.ErrConnectionClosed) {
-		t.Errorf("run = %v, want the closed connection reported", err)
+		if !errors.Is(err, pullintake.ErrBrokerGone) || !errors.Is(err, ending) {
+			t.Errorf("run after %v = %v, want the broker reported gone", ending, err)
+		}
 	}
 }
 

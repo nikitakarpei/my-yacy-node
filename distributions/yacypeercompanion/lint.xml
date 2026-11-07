@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Bouncy Castle's EST client (org.bouncycastle.est.jcajce.JcaJceUtils) has a trust-all trust manager for
+         callers who ask for one. The app never uses the EST client; its TLS goes through OkHttp with the system CAs. -->
+    <issue id="TrustAllX509TrustManager">
+        <ignore path="**/bcpkix-jdk18on-*.jar" />
+    </issue>
+    <!-- The app speaks English only. -->
+    <issue id="SetTextI18n" severity="ignore" />
+</lint>

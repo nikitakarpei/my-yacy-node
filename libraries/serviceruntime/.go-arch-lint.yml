@@ -40,6 +40,8 @@ components:
     in: processenvironmentleaseclient/**
   processentrypoint:
     in: processentrypoint/**
+  servicehealth:
+    in: servicehealth/**
 
 vendors:
   errgroup:
