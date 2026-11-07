@@ -96,7 +96,7 @@ tbody tr {
   align-items: flex-start;
   justify-content: center;
   padding: 120px var(--webui-space-4) var(--webui-space-4);
-  background: rgba(0, 0, 0, 0.32);
+  background: var(--webui-scrim);
 }
 .dialog {
   display: flex;
