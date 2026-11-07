@@ -6,12 +6,16 @@ require (
 	github.com/klauspost/compress v1.20.1
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/corpustext v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlconsole v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/crawlscrapebridge v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
@@ -105,11 +109,8 @@ require (
 	github.com/nats-io/jwt/v2 v2.8.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
@@ -222,3 +223,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/visitcrawl => ../../services/visit
 replace github.com/nikitakarpei/yacy-rwi-node/searchpage => ../../services/searchpage
 
 replace github.com/nikitakarpei/yacy-rwi-node/webuistyle => ../../libraries/webuistyle
+
+replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../libraries/companionprotocol
