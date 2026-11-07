@@ -5,8 +5,11 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/nats-io/nats.go"
+
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
 
 const (
@@ -40,6 +43,8 @@ const (
 )
 
 type ServiceConfig struct {
+	BrokerOptions           []nats.Option
+	IntakeAdmission         pullintake.Admission
 	ScrapeNATSURL           string
 	ProxyURL                *url.URL
 	ProxyDialMode           http.ProxyDialMode
