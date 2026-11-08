@@ -14,51 +14,63 @@ import (
 
 type deviceRecords struct {
 	appVersions map[companionprotocol.DeviceID]string
-	unpaired    []companionprotocol.DeviceID
+	recorded    chan companionprotocol.DeviceID
+	unpaired    chan companionprotocol.DeviceID
 	mu          sync.Mutex
 }
 
 func (d *deviceRecords) RecordAppVersion(
 	_ context.Context,
-	id companionprotocol.DeviceID,
+	deviceID companionprotocol.DeviceID,
 	appVersion string,
 ) {
 	d.mu.Lock()
-	defer d.mu.Unlock()
-	d.appVersions[id] = appVersion
+	d.appVersions[deviceID] = appVersion
+	d.mu.Unlock()
+	d.recorded <- deviceID
 }
 
-func (d *deviceRecords) Unpair(_ context.Context, device companionprotocol.DeviceID) {
+func (d *deviceRecords) Unpair(_ context.Context, deviceID companionprotocol.DeviceID) {
+	d.unpaired <- deviceID
+}
+
+func (d *deviceRecords) appVersionOf(deviceID companionprotocol.DeviceID) string {
 	d.mu.Lock()
 	defer d.mu.Unlock()
-	d.unpaired = append(d.unpaired, device)
+	return d.appVersions[deviceID]
 }
 
-func (d *deviceRecords) appVersionOf(id companionprotocol.DeviceID) string {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	return d.appVersions[id]
-}
-
-func (d *deviceRecords) unpairedDevices() []companionprotocol.DeviceID {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	return append([]companionprotocol.DeviceID{}, d.unpaired...)
-}
-
-func startDeviceRequests(t *testing.T) (*deviceRecords, string) {
+func startDeviceAnswerer(t *testing.T) (*deviceRecords, string) {
 	t.Helper()
 	url := natstestserver.Start(t)
-	records := &deviceRecords{appVersions: map[companionprotocol.DeviceID]string{}}
-	requests := companionrequests.NewDeviceAnswerer(
+	records := &deviceRecords{
+		appVersions: map[companionprotocol.DeviceID]string{},
+		recorded:    make(chan companionprotocol.DeviceID, 4),
+		unpaired:    make(chan companionprotocol.DeviceID, 4),
+	}
+	answerer := companionrequests.NewDeviceAnswerer(
 		records, records, companionprotocol.DeviceSettings{PartitionExponent: 4},
 	)
-	serve(t, requests.Serve, url, 3)
+	subscribe(t, answerer.Subscribe, url)
 	return records, url
 }
 
+func awaitDevice(
+	t *testing.T,
+	deviceIDs <-chan companionprotocol.DeviceID,
+) companionprotocol.DeviceID {
+	t.Helper()
+	select {
+	case deviceID := <-deviceIDs:
+		return deviceID
+	case <-time.After(replyWait):
+		t.Fatal("no device was reached")
+		return ""
+	}
+}
+
 func TestADeviceGetsTheSettingsOfThePeer(t *testing.T) {
-	_, url := startDeviceRequests(t)
+	_, url := startDeviceAnswerer(t)
 
 	reply, err := connectTo(t, url).Request(
 		companionprotocol.SettingsSubjectOf("device-a"), nil, replyWait,
@@ -75,9 +87,12 @@ func TestADeviceGetsTheSettingsOfThePeer(t *testing.T) {
 }
 
 func TestTheAppVersionThatADeviceReportsIsRecorded(t *testing.T) {
-	records, url := startDeviceRequests(t)
+	records, url := startDeviceAnswerer(t)
 	connection := connectTo(t, url)
-	data, _ := json.Marshal(companionprotocol.AppReport{AppVersion: "1.3.0"})
+	data, err := json.Marshal(companionprotocol.AppReport{AppVersion: "1.3.0"})
+	if err != nil {
+		t.Fatalf("Marshal: %v", err)
+	}
 
 	if err := connection.Publish(
 		companionprotocol.AppReportSubjectOf("device-b"),
@@ -92,12 +107,13 @@ func TestTheAppVersionThatADeviceReportsIsRecorded(t *testing.T) {
 		t.Fatalf("Publish: %v", err)
 	}
 
-	deadline := time.Now().Add(replyWait)
-	for records.appVersionOf("device-a") != "1.3.0" {
-		if time.Now().After(deadline) {
-			t.Fatal("the app version is not recorded")
-		}
-		time.Sleep(10 * time.Millisecond)
+	if recorded := awaitDevice(t, records.recorded); recorded != "device-a" ||
+		records.appVersionOf("device-a") != "1.3.0" {
+		t.Errorf(
+			"recorded %s at %q, want device-a at 1.3.0",
+			recorded,
+			records.appVersionOf(recorded),
+		)
 	}
 	if records.appVersionOf("device-b") != "" {
 		t.Error("an unreadable report is recorded")
@@ -105,7 +121,7 @@ func TestTheAppVersionThatADeviceReportsIsRecorded(t *testing.T) {
 }
 
 func TestADeviceThatAsksToUnpairIsUnpaired(t *testing.T) {
-	records, url := startDeviceRequests(t)
+	records, url := startDeviceAnswerer(t)
 
 	if _, err := connectTo(t, url).Request(
 		companionprotocol.UnpairingRequestSubjectOf("device-a"), nil, replyWait,
@@ -113,11 +129,7 @@ func TestADeviceThatAsksToUnpairIsUnpaired(t *testing.T) {
 		t.Fatalf("Request: %v", err)
 	}
 
-	deadline := time.Now().Add(replyWait)
-	for len(records.unpairedDevices()) == 0 && time.Now().Before(deadline) {
-		time.Sleep(10 * time.Millisecond)
-	}
-	if unpaired := records.unpairedDevices(); len(unpaired) != 1 || unpaired[0] != "device-a" {
-		t.Errorf("unpaired = %v, want device-a", unpaired)
+	if unpaired := awaitDevice(t, records.unpaired); unpaired != "device-a" {
+		t.Errorf("unpaired = %s, want device-a", unpaired)
 	}
 }

@@ -29,7 +29,7 @@ const (
 
 type companions interface {
 	startBroker(directory string) (*natsbroker.Broker, error)
-	servers(
+	runners(
 		broker *natsbroker.Broker,
 		natsURL string,
 		network *processnetwork.Network,
@@ -71,7 +71,7 @@ func (noCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
 	return natsbroker.Start(directory)
 }
 
-func (noCompanions) servers(
+func (noCompanions) runners(
 	*natsbroker.Broker,
 	string,
 	*processnetwork.Network,
@@ -103,15 +103,15 @@ func (c *servedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashFrom(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
-func (c *servedCompanions) servers(
+func (c *servedCompanions) runners(
 	broker *natsbroker.Broker,
 	natsURL string,
 	network *processnetwork.Network,
 ) []func(context.Context) error {
-	pairingRequests := companionrequests.NewPairingAnswerer(
+	pairingAnswerer := companionrequests.NewPairingAnswerer(
 		c.offers, c.devices, wallclock.Clock{}, c.brokerKeyHash(),
 	)
-	deviceRequests := companionrequests.NewDeviceAnswerer(
+	deviceAnswerer := companionrequests.NewDeviceAnswerer(
 		c.devices,
 		companionaccess.NewUnpairer(c.devices, broker),
 		companionprotocol.DeviceSettings{
@@ -119,15 +119,19 @@ func (c *servedCompanions) servers(
 		},
 	)
 	return []func(context.Context) error{
-		servedOn(natsURL, network, pairingRequests.Serve),
-		servedOn(natsURL, network, deviceRequests.Serve),
+		runnerFor(pairingAnswerer, natsURL, network),
+		runnerFor(deviceAnswerer, natsURL, network),
 	}
 }
 
-func servedOn(
+type answerer interface {
+	Subscribe(ctx context.Context, connection *nats.Conn) (*companionrequests.Subscriptions, error)
+}
+
+func runnerFor(
+	answerer answerer,
 	natsURL string,
 	network *processnetwork.Network,
-	serve func(context.Context, *nats.Conn) error,
 ) func(context.Context) error {
 	return func(ctx context.Context) error {
 		_, connection, err := jetstreamconnect.Open(natsURL, network.DialContext)
@@ -135,7 +139,12 @@ func servedOn(
 			return err
 		}
 		defer connection.Close()
-		return serve(ctx, connection)
+		subscriptions, err := answerer.Subscribe(ctx, connection)
+		if err != nil {
+			return err
+		}
+		subscriptions.EndWhenDone(ctx)
+		return nil
 	}
 }
 

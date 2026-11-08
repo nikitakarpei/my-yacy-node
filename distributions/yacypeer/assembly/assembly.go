@@ -122,9 +122,9 @@ func RunPeer(
 	}
 	logStarted(ctx, peer, web)
 	webMux := webMuxFor(processRegistry, services, history, urls, network)
-	companionServers := companions.servers(broker, peer.natsURL, network)
+	companionRunners := companions.runners(broker, peer.natsURL, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
-		return runEvery(ctx, services, append(companionServers,
+		return runEvery(ctx, services, append(companionRunners,
 			func(ctx context.Context) error {
 				return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
 			},

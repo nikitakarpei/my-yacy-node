@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
-type DeviceRecords interface {
+type RecordableDevices interface {
 	RecordAppVersion(ctx context.Context, deviceID companionprotocol.DeviceID, appVersion string)
 }
 
@@ -19,21 +19,24 @@ type Unpairer interface {
 }
 
 type DeviceAnswerer struct {
-	devices  DeviceRecords
+	devices  RecordableDevices
 	unpairer Unpairer
 	settings companionprotocol.DeviceSettings
 }
 
 func NewDeviceAnswerer(
-	devices DeviceRecords,
+	devices RecordableDevices,
 	unpairer Unpairer,
 	settings companionprotocol.DeviceSettings,
 ) *DeviceAnswerer {
 	return &DeviceAnswerer{devices: devices, unpairer: unpairer, settings: settings}
 }
 
-func (d *DeviceAnswerer) Serve(ctx context.Context, connection *nats.Conn) error {
-	return answerUntilDone(ctx, connection, map[string]nats.MsgHandler{
+func (d *DeviceAnswerer) Subscribe(
+	ctx context.Context,
+	connection *nats.Conn,
+) (*Subscriptions, error) {
+	return subscribeTo(connection, map[string]nats.MsgHandler{
 		companionprotocol.SettingsSubjects: func(message *nats.Msg) {
 			respond(ctx, message, d.settings)
 		},
@@ -54,15 +57,18 @@ func (d *DeviceAnswerer) recordAppReport(ctx context.Context, message *nats.Msg)
 		)
 		return
 	}
-	d.devices.RecordAppVersion(ctx, companionprotocol.DeviceIDIn(message.Subject),
-		report.AppVersion)
+	d.devices.RecordAppVersion(
+		ctx,
+		companionprotocol.DeviceIDIn(message.Subject),
+		report.AppVersion,
+	)
 }
 
 func (d *DeviceAnswerer) unpair(ctx context.Context, message *nats.Msg, connection *nats.Conn) {
 	deviceID := companionprotocol.DeviceIDIn(message.Subject)
 	confirmUnpairing(ctx, deviceID, message, connection)
 	d.unpairer.Unpair(ctx, deviceID)
-	slog.DebugContext(ctx, "deviceID unpaired itself", slog.String("device", string(deviceID)))
+	reportUnpairedItself(ctx, deviceID)
 }
 
 func confirmUnpairing(
@@ -76,8 +82,12 @@ func confirmUnpairing(
 		err = connection.Flush()
 	}
 	if err != nil {
-		slog.WarnContext(ctx, "unpairing not confirmed to the deviceID",
+		slog.WarnContext(ctx, "unpairing not confirmed to the device",
 			slog.String("device", string(deviceID)), slog.Any("error", err),
 		)
 	}
+}
+
+func reportUnpairedItself(ctx context.Context, deviceID companionprotocol.DeviceID) {
+	slog.DebugContext(ctx, "device unpaired itself", slog.String("device", string(deviceID)))
 }
