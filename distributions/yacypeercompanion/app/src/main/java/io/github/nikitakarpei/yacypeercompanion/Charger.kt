@@ -3,10 +3,10 @@ package io.github.nikitakarpei.yacypeercompanion
 import android.content.Context
 import android.content.SharedPreferences
 
-private const val PREFERENCES = "charging-only"
+private const val PREFERENCES = "charger"
 private const val REQUIRED_KEY = "required"
 
-object ChargingOnly {
+object Charger {
     fun required(ctx: Context): Boolean = preferencesOf(ctx).getBoolean(REQUIRED_KEY, true)
 
     fun require(ctx: Context, required: Boolean) {

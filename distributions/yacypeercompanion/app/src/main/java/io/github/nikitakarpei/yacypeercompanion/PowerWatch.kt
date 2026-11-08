@@ -13,23 +13,23 @@ private const val LOG_TAG = "PowerWatch"
 
 class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -> Unit) : AutoCloseable {
     @Volatile
-    private var pluggedIn = pluggedInNow()
+    private var onCharger = onChargerNow()
 
     @Volatile
     private var reportedAccess: PowerAccess? = null
 
     val access: PowerAccess
-        get() = if (!ChargingOnly.required(ctx) || pluggedIn) PowerAccess.USABLE else PowerAccess.CHARGER_NEEDED
+        get() = if (!Charger.required(ctx) || onCharger) PowerAccess.USABLE else PowerAccess.BATTERY_ONLY
 
-    private val charger =
+    private val chargerReceiver =
         object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                pluggedIn = intent.action == Intent.ACTION_POWER_CONNECTED
+                onCharger = intent.action == Intent.ACTION_POWER_CONNECTED
                 report(intent.action.orEmpty())
             }
         }
 
-    private val chargingOnlySetting = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> report("charging only setting") }
+    private val settingListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> report("charger setting") }
 
     init {
         val chargerChanges =
@@ -37,12 +37,12 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
                 addAction(Intent.ACTION_POWER_CONNECTED)
                 addAction(Intent.ACTION_POWER_DISCONNECTED)
             }
-        ctx.registerReceiver(charger, chargerChanges, Context.RECEIVER_NOT_EXPORTED)
-        ChargingOnly.follow(ctx, chargingOnlySetting)
+        ctx.registerReceiver(chargerReceiver, chargerChanges, Context.RECEIVER_NOT_EXPORTED)
+        Charger.follow(ctx, settingListener)
         reportedAccess = access
     }
 
-    private fun pluggedInNow(): Boolean {
+    private fun onChargerNow(): Boolean {
         val battery = ctx.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         if (battery == null) {
             Log.w(LOG_TAG, "battery state unknown, so the device counts as off the charger")
@@ -60,7 +60,7 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
     }
 
     override fun close() {
-        ChargingOnly.unfollow(ctx, chargingOnlySetting)
-        ctx.unregisterReceiver(charger)
+        Charger.unfollow(ctx, settingListener)
+        ctx.unregisterReceiver(chargerReceiver)
     }
 }
