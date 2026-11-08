@@ -28,17 +28,17 @@ func (p *pages) settings(w http.ResponseWriter, r *http.Request) {
 		ConnectionsPath: pathConnections,
 		CompanionPath:   Path,
 		SettingsPath:    pathSettings,
-		Choice:          p.collaborators.Settings.Choice(),
+		Choice:          p.fetchSettings.Choice(),
 	})
 }
 
 func (p *pages) choose(w http.ResponseWriter, r *http.Request) {
-	p.collaborators.Settings.Choose(r.Context(), p.choiceFrom(r))
+	p.fetchSettings.Choose(r.Context(), p.choiceFrom(r))
 	http.Redirect(w, r, pathSettings, http.StatusSeeOther)
 }
 
 func (p *pages) choiceFrom(r *http.Request) fetchsettings.Choice {
-	choice := p.collaborators.Settings.Choice()
+	choice := p.fetchSettings.Choice()
 	if choice.CompanionsFetch {
 		choice.PeerFillsIn = r.PostFormValue(fieldPeerFillsIn) != ""
 	}

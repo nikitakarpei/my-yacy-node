@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
@@ -57,12 +58,12 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	companionParts, err := openCompanions(ctx, cfg)
+	companions, err := openCompanions(ctx, cfg)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
-	defer closeCompanions(ctx, companionParts)
-	broker, err := startBroker(cfg, companionParts)
+	defer companions.close(ctx)
+	broker, err := companions.startBroker(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -112,7 +113,7 @@ func RunPeer(
 		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
-		intakeAdmission:    companionParts.intakeAdmission(),
+		intakeAdmission:    companions.intakeAdmission(),
 	}
 	services, urls, err := peer.services(ctx, getenv)
 	if err != nil {
@@ -122,9 +123,12 @@ func RunPeer(
 		)
 	}
 	logStarted(ctx, peer, web)
-	webMux := webMuxFor(processRegistry, services, history, urls, network, cfg)
-	companionParts.register(webMux, broker, webUIURLsFor(cfg).TabBarFor(webuitabs.Companions))
-	companionServers := companionParts.servers(broker, peer.natsURL, network)
+	webUIURLs := webUIURLsFor(cfg)
+	webMux := webMuxFor(
+		processRegistry, services, history, urls, network, webUIURLs.TabBarFor(webuitabs.Metrics),
+	)
+	companions.register(webMux, broker, webUIURLs.TabBarFor(webuitabs.Companions))
+	companionServers := companions.servers(broker, peer.natsURL, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
 		return runEvery(ctx, services, append(companionServers,
 			func(ctx context.Context) error {
@@ -186,7 +190,7 @@ func webMuxFor(
 	history *metrichistory.History,
 	urls serviceURLs,
 	network *processnetwork.Network,
-	cfg PeerConfig,
+	metricsTabBar webuistyle.TabBar,
 ) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
@@ -197,7 +201,7 @@ func webMuxFor(
 		history,
 		metrichistory.SampleInterval,
 		serviceDashboards,
-		webUIURLsFor(cfg).TabBarFor(webuitabs.Metrics),
+		metricsTabBar,
 	)
 	mux.Handle(
 		crawlConsolePathPrefix+"/",

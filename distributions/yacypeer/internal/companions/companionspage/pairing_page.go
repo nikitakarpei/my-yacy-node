@@ -35,7 +35,7 @@ func (p *pages) pairingEvents(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-store")
 	flusher.Flush()
-	offer := p.collaborators.Offers.Open()
+	offer := p.offers.Open()
 	defer offer.Close()
 	for {
 		select {
@@ -54,10 +54,18 @@ func (p *pages) pairingEvents(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type deviceEvent struct {
+type pairingBegunMessage struct {
 	DeviceName companionprotocol.DeviceName `json:"deviceName"`
-	Cause      string                       `json:"cause,omitempty"`
-	URL        string                       `json:"url,omitempty"`
+}
+
+type devicePairedMessage struct {
+	DeviceName companionprotocol.DeviceName `json:"deviceName"`
+	URL        string                       `json:"url"`
+}
+
+type deviceRefusedMessage struct {
+	DeviceName companionprotocol.DeviceName `json:"deviceName"`
+	Cause      string                       `json:"cause"`
 }
 
 func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
@@ -67,14 +75,14 @@ func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
 		link.Secret = event.Secret
 		return writeServerEvent(w, "code", string(pairingCodeOf(link.String())))
 	case pairingoffers.PairingBegun:
-		return writeDeviceEvent(w, "started", deviceEvent{DeviceName: event.DeviceName})
+		return writeMessage(w, "started", pairingBegunMessage{DeviceName: event.DeviceName})
 	case pairingoffers.DevicePaired:
-		return writeDeviceEvent(w, "paired", deviceEvent{
+		return writeMessage(w, "paired", devicePairedMessage{
 			DeviceName: event.DeviceName,
 			URL:        Path + "?" + url.Values{"paired": {string(event.Device)}}.Encode(),
 		})
 	case pairingoffers.DeviceRefused:
-		return writeDeviceEvent(w, "refused", deviceEvent{
+		return writeMessage(w, "refused", deviceRefusedMessage{
 			DeviceName: event.DeviceName, Cause: causeOf(event.Reason),
 		})
 	}
@@ -97,8 +105,8 @@ func causeOf(reason companionprotocol.Reason) string {
 	return ""
 }
 
-func writeDeviceEvent(w io.Writer, name string, event deviceEvent) error {
-	data, err := json.Marshal(event)
+func writeMessage(w io.Writer, name string, message any) error {
+	data, err := json.Marshal(message)
 	if err != nil {
 		return fmt.Errorf("encode %s event: %w", name, err)
 	}

@@ -23,7 +23,7 @@ type headingView struct {
 }
 
 func (p *pages) headingFor(rows []deviceRow, current tab) headingView {
-	choice := p.collaborators.Settings.Choice()
+	choice := p.fetchSettings.Choice()
 	pauseRule := len(rows) > 0 && choice.CompanionsFetch && !choice.PeerFillsIn
 	return headingView{
 		DevicesPath:  Path,

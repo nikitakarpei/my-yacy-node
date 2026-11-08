@@ -172,7 +172,6 @@ deps:
       - fetchsettings
   companionspage:
     mayDependOn:
-      - companionaccess
       - fetchsettings
       - paireddevices
       - pairingoffers
