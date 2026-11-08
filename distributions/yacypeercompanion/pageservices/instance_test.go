@@ -36,7 +36,7 @@ func (events observedEvents) BrokerConnectionLost() { events <- "connection lost
 func (events observedEvents) ServicesStopped()      { events <- "stopped" }
 func (events observedEvents) BrokerUnreachable()    { events <- "broker unreachable" }
 func (events observedEvents) ServicesFailed()       { events <- "failed" }
-func (events observedEvents) DeviceUnpaired()       { events <- "unpaired" }
+func (events observedEvents) DeviceRefused()        { events <- "refused" }
 
 type deviceCheck struct {
 	refused atomic.Bool
@@ -173,10 +173,10 @@ func TestInstanceRunReportsADeviceThatThePeerRefuses(t *testing.T) {
 
 	instance.Run(events)
 
-	awaitEvent(t, events, "unpaired")
+	awaitEvent(t, events, "refused")
 }
 
-func TestInstanceRunReportsADeviceThatThePeerUnpairsWhileItWorks(t *testing.T) {
+func TestInstanceRunReportsADeviceThatThePeerRefusesWhileItWorks(t *testing.T) {
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
 	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
@@ -192,10 +192,10 @@ func TestInstanceRunReportsADeviceThatThePeerUnpairsWhileItWorks(t *testing.T) {
 			switch event {
 			case "connection lost":
 				continue
-			case "unpaired":
+			case "refused":
 				return
 			default:
-				t.Fatalf("event = %q, want the device reported unpaired", event)
+				t.Fatalf("event = %q, want the device reported refused", event)
 			}
 		case <-time.After(runWait):
 			t.Fatal("the run did not end after the peer unpaired the device")

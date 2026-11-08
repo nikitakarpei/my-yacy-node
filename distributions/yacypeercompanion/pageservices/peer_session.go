@@ -16,24 +16,24 @@ import (
 
 const settingsWait = 10 * time.Second
 
-type membershipTerms struct {
+type sessionTerms struct {
 	link         companionprotocol.PairLink
 	brokerAccess jetstreamconnect.BrokerAccess
 	device       companionprotocol.DeviceID
 	appVersion   string
 }
 
-type membership struct {
+type deviceSession struct {
 	connection *nats.Conn
 	settings   companionprotocol.DeviceSettings
 }
 
-func (t membershipTerms) joined(unpaired func()) (*membership, error) {
+func (t sessionTerms) opened(refused func()) (*deviceSession, error) {
 	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).
 		Connect(t.link, append(t.brokerAccess.Options(),
 			nats.ClosedHandler(func(closed *nats.Conn) {
 				if errors.Is(closed.LastError(), nats.ErrAuthorization) {
-					unpaired()
+					refused()
 				}
 			}),
 		))
@@ -48,10 +48,10 @@ func (t membershipTerms) joined(unpaired func()) (*membership, error) {
 		connection.Close()
 		return nil, err
 	}
-	return &membership{connection: connection, settings: settings}, nil
+	return &deviceSession{connection: connection, settings: settings}, nil
 }
 
-func (t membershipTerms) refused() bool {
+func (t sessionTerms) refused() bool {
 	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).Connect(
 		t.link,
 		append(t.brokerAccess.Options(), nats.NoReconnect()),
@@ -63,7 +63,7 @@ func (t membershipTerms) refused() bool {
 	return false
 }
 
-func (t membershipTerms) settingsOver(
+func (t sessionTerms) settingsOver(
 	connection *nats.Conn,
 ) (companionprotocol.DeviceSettings, error) {
 	reply, err := connection.Request(
@@ -79,7 +79,7 @@ func (t membershipTerms) settingsOver(
 	return settings, nil
 }
 
-func (t membershipTerms) reportAppOver(connection *nats.Conn) error {
+func (t sessionTerms) reportAppOver(connection *nats.Conn) error {
 	report, _ := json.Marshal( //nolint:errchkjson // one string field.
 		companionprotocol.AppReport{AppVersion: t.appVersion},
 	)
@@ -89,10 +89,10 @@ func (t membershipTerms) reportAppOver(connection *nats.Conn) error {
 	return nil
 }
 
-func (m *membership) brokerURL() string {
-	return m.connection.ConnectedUrl()
+func (s *deviceSession) brokerURL() string {
+	return s.connection.ConnectedUrl()
 }
 
-func (m *membership) leave() {
-	m.connection.Close()
+func (s *deviceSession) close() {
+	s.connection.Close()
 }

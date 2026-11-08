@@ -38,11 +38,11 @@ type Observer interface {
 	ServicesStopped()
 	BrokerUnreachable()
 	ServicesFailed()
-	DeviceUnpaired()
+	DeviceRefused()
 }
 
 type Instance struct {
-	membership       membershipTerms
+	session          sessionTerms
 	pagescrapeConfig pagescrapeassembly.ServiceConfig
 	pagerwiConfig    pagerwiassembly.ServiceConfig
 	stopped          chan struct{}
@@ -79,7 +79,7 @@ func InstanceFor(
 	pagescrapeConfig.BrokerAccess = brokerAccess
 	pagerwiConfig.BrokerAccess = brokerAccess
 	return &Instance{
-		membership: membershipTerms{
+		session: sessionTerms{
 			link:         link,
 			brokerAccess: brokerAccess,
 			device:       companionprotocol.DeviceIDOf(key.PublicKeyInfo()),
@@ -113,22 +113,22 @@ func (i *Instance) Run(observer Observer) {
 		case <-ctx.Done():
 		}
 	}()
-	var unpaired atomic.Bool
-	member, err := i.membership.joined(func() {
-		unpaired.Store(true)
+	var refused atomic.Bool
+	session, err := i.session.opened(func() {
+		refused.Store(true)
 		cancel()
 	})
 	if err != nil {
-		reportRefusedJoin(err, observer)
+		reportFailedSession(err, observer)
 		return
 	}
-	defer member.leave()
+	defer session.close()
 	pagescrapeConfig := i.pagescrapeConfig
-	pagescrapeConfig.ScrapeNATSURL = member.brokerURL()
+	pagescrapeConfig.ScrapeNATSURL = session.brokerURL()
 	pagerwiConfig := i.pagerwiConfig
-	pagerwiConfig.PageOfferNATSURL = member.brokerURL()
-	pagerwiConfig.PageRWINATSURL = member.brokerURL()
-	pagerwiConfig.PageRWIPartitionExponent = member.settings.PartitionExponent
+	pagerwiConfig.PageOfferNATSURL = session.brokerURL()
+	pagerwiConfig.PageRWINATSURL = session.brokerURL()
+	pagerwiConfig.PageRWIPartitionExponent = session.settings.PartitionExponent
 	connection := newConnectionWatch(observer)
 	err = servergroup.Run(
 		ctx,
@@ -142,22 +142,22 @@ func (i *Instance) Run(observer Observer) {
 		},
 	)
 	connection.end()
-	if unpaired.Load() || err != nil && i.membership.refused() {
+	if refused.Load() || err != nil && i.session.refused() {
 		if err != nil {
 			slog.WarnContext(ctx, "page services ended as the peer refused the device",
 				slog.Any("error", err),
 			)
 		}
-		observer.DeviceUnpaired()
+		observer.DeviceRefused()
 		return
 	}
 	reportEnding(err, observer)
 }
 
-func reportRefusedJoin(err error, observer Observer) {
-	slog.WarnContext(context.Background(), "peer not joined", slog.Any("error", err))
+func reportFailedSession(err error, observer Observer) {
+	slog.WarnContext(context.Background(), "peer session not opened", slog.Any("error", err))
 	if errors.Is(err, nats.ErrAuthorization) {
-		observer.DeviceUnpaired()
+		observer.DeviceRefused()
 		return
 	}
 	observer.BrokerUnreachable()

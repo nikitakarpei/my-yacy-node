@@ -125,18 +125,18 @@ func connectFailureFrom(err error) error {
 	return fmt.Errorf("connect to the broker of the peer: %w", err)
 }
 
-func PairingOptions(
+func PairingAccess(link companionprotocol.PairLink) jetstreamconnect.BrokerAccess {
+	return jetstreamconnect.BrokerAccess{
+		TLS:         pinnedTLSFor(link.BrokerKeyHash, nil),
+		InboxPrefix: companionprotocol.PairingInboxPrefixFor(link.Secret),
+	}
+}
+
+func PairingIdentity(
 	link companionprotocol.PairLink,
 	deviceName companionprotocol.DeviceName,
 ) []nats.Option {
-	return append(jetstreamconnect.BrokerAccess{
-		TLS:         pinnedTLSFor(link.BrokerKeyHash, nil),
-		InboxPrefix: companionprotocol.PairingInboxPrefixFor(link.Secret),
-	}.Options(),
-		nats.Name(string(deviceName)),
-		nats.UserInfo("", string(link.Secret)),
-		nats.NoReconnect(),
-	)
+	return []nats.Option{nats.Name(string(deviceName)), nats.UserInfo("", string(link.Secret))}
 }
 
 func DeviceAccess(

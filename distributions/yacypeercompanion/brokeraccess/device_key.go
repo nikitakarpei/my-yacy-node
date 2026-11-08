@@ -26,7 +26,7 @@ type DeviceKey interface {
 	SignDigest(digest []byte) ([]byte, error)
 }
 
-type keystoreSigner struct {
+type deviceKeySigner struct {
 	key       DeviceKey
 	publicKey *ecdsa.PublicKey
 }
@@ -40,14 +40,14 @@ func SignerOf(key DeviceKey) (crypto.Signer, error) {
 	if !isEC {
 		return nil, errNotAnECKey
 	}
-	return keystoreSigner{key: key, publicKey: ecKey}, nil
+	return deviceKeySigner{key: key, publicKey: ecKey}, nil
 }
 
-func (s keystoreSigner) Public() crypto.PublicKey {
+func (s deviceKeySigner) Public() crypto.PublicKey {
 	return s.publicKey
 }
 
-func (s keystoreSigner) Sign(_ io.Reader, digest []byte, _ crypto.SignerOpts) ([]byte, error) {
+func (s deviceKeySigner) Sign(_ io.Reader, digest []byte, _ crypto.SignerOpts) ([]byte, error) {
 	signature, err := s.key.SignDigest(digest)
 	if err != nil {
 		return nil, fmt.Errorf("sign with the device key: %w", err)

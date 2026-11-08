@@ -188,7 +188,7 @@ func TestABrokerWithAnotherKeyGivesNoAnswer(t *testing.T) {
 	outcome := pairing.NewRequest(link.String(), "Pixel 8", "1.2.0").
 		Send(brokeraccesstest.NewDeviceKey(t))
 
-	if outcome.Result != pairing.ResultNoAnswer {
+	if outcome.Result != pairing.ResultPeerUnreachable {
 		t.Errorf("outcome = %+v, want no answer", outcome)
 	}
 }

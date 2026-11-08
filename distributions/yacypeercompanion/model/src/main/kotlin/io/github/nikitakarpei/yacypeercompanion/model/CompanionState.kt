@@ -15,7 +15,7 @@ sealed interface CompanionState {
 
     data object WaitingForUnmeteredNetwork : Disconnected
 
-    data object NotAccepted : Disconnected
+    data object DeviceRefused : Disconnected
 
     sealed interface Recovering : Disconnected {
         val reason: DisconnectReason
@@ -31,11 +31,12 @@ sealed interface CompanionState {
 
 enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
 
-enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, SERVICES_FAILED, UNPAIRED }
+enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, DEVICE_KEY, SERVICES_FAILED, DEVICE_REFUSED }
 
 enum class PairingProblem {
     PEER_UNREACHABLE,
     SIGNING_KEY,
+    DEVICE_KEY,
     SECRET_EXPIRED,
     APP_NOT_OFFICIAL,
     APP_OUTDATED,
