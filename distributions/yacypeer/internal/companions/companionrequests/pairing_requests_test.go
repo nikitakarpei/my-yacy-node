@@ -360,7 +360,11 @@ func TestAPairingRequestWithoutABegunPairingGetsNoReply(t *testing.T) {
 		t.Fatalf("PublishRequest: %v", err)
 	}
 
-	if message, err := subscription.NextMsg(200 * time.Millisecond); err == nil {
-		t.Errorf("reply = %s, want none", message.Data)
+	begunSecret := companionprotocol.NewSecret()
+	fixture.begin(begunSecret)
+	fixture.ask(t, begunSecret, requestOf(t, device, begunSecret))
+
+	if pending, _, err := subscription.Pending(); err != nil || pending != 0 {
+		t.Errorf("replies = %d (%v), want none", pending, err)
 	}
 }

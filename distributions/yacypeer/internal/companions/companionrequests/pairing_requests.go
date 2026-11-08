@@ -200,7 +200,11 @@ func serve(
 	}
 	<-ctx.Done()
 	for _, subscription := range subscriptions {
-		_ = subscription.Unsubscribe()
+		if err := subscription.Unsubscribe(); err != nil {
+			slog.WarnContext(ctx, "companion requests not unsubscribed",
+				slog.String("subject", subscription.Subject), slog.Any("error", err),
+			)
+		}
 	}
 	return nil
 }
