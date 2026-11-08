@@ -70,7 +70,7 @@ func (o *Offers) Begin(
 ) bool {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	offer := o.bySecretID[companionprotocol.SecretIDOf(secret)]
+	offer := o.bySecretID[companionprotocol.SecretIDFrom(secret)]
 	switch {
 	case offer == nil || offer.secret != secret:
 		slog.WarnContext(ctx, "no open pairing page offers the secret of the device",
@@ -166,12 +166,12 @@ func (o *Offers) Refuse(
 }
 
 func (o *Offers) renew(ctx context.Context, offer *Offer) {
-	delete(o.bySecretID, companionprotocol.SecretIDOf(offer.secret))
+	delete(o.bySecretID, companionprotocol.SecretIDFrom(offer.secret))
 	offer.secret = companionprotocol.RandomSecret()
 	offer.pairingBegun = false
 	offer.heldForVerdict = false
 	offer.deviceName = ""
-	o.bySecretID[companionprotocol.SecretIDOf(offer.secret)] = offer
+	o.bySecretID[companionprotocol.SecretIDFrom(offer.secret)] = offer
 	o.restartTimerOf(offer, o.secretLifetime)
 	offer.tell(ctx, SecretRenewed{Secret: offer.secret})
 }
@@ -188,7 +188,7 @@ func (o *Offers) expire(offer *Offer, secret companionprotocol.Secret) {
 func (o *Offers) end(offer *Offer) {
 	offer.closed = true
 	offer.stopTimer()
-	delete(o.bySecretID, companionprotocol.SecretIDOf(offer.secret))
+	delete(o.bySecretID, companionprotocol.SecretIDFrom(offer.secret))
 }
 
 func (o *Offers) restartTimerOf(offer *Offer, timeout time.Duration) {

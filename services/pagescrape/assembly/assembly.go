@@ -52,11 +52,13 @@ func RunService(
 	cfg ServiceConfig,
 	_ Listeners,
 	dial Dial,
+	brokerAccess jetstreamconnect.BrokerAccess,
+	intakeAdmission pullintake.Admission,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
 	broker, connection, err := jetstreamconnect.OpenObserved(
-		cfg.ScrapeNATSURL, dial, health, cfg.BrokerAccess,
+		cfg.ScrapeNATSURL, dial, health, brokerAccess,
 	)
 	if err != nil {
 		return err
@@ -96,7 +98,7 @@ func RunService(
 				registry,
 				metricNamespace,
 			),
-			cfg.IntakeAdmission,
+			intakeAdmission,
 		),
 		cfg.ScrapeDeferralWindow,
 		cfg.ScrapeIntakeConcurrency,

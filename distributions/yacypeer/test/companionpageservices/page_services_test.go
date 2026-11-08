@@ -27,6 +27,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
@@ -96,7 +97,7 @@ func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceI
 		t.Fatalf("ParseCertificate: %v", err)
 	}
 	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
-		companionprotocol.DeviceIDOf(leaf.RawSubjectPublicKeyInfo)
+		companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo)
 }
 
 func brokerPairedWith(t *testing.T, device companionprotocol.DeviceID) *natsbroker.Broker {
@@ -240,10 +241,10 @@ func runPagescrape(
 	if err != nil {
 		t.Fatalf("pagescrape config: %v", err)
 	}
-	cfg.BrokerAccess = access
 	runService(t, func(ctx context.Context, health *servicehealth.Health) error {
 		return pagescrapeassembly.RunService(ctx, cfg, pagescrapeassembly.Listeners{},
-			(&net.Dialer{}).DialContext, prometheus.NewRegistry(), health)
+			(&net.Dialer{}).DialContext, access, pullintake.EveryItemAdmitted{},
+			prometheus.NewRegistry(), health)
 	})
 }
 
@@ -260,10 +261,10 @@ func runPagerwi(t *testing.T, brokerURL string, access jetstreamconnect.BrokerAc
 	if err != nil {
 		t.Fatalf("pagerwi config: %v", err)
 	}
-	cfg.BrokerAccess = access
 	runService(t, func(ctx context.Context, health *servicehealth.Health) error {
 		return pagerwiassembly.RunService(ctx, cfg, pagerwiassembly.Listeners{},
-			(&net.Dialer{}).DialContext, prometheus.NewRegistry(), health)
+			(&net.Dialer{}).DialContext, access, access, pullintake.EveryItemAdmitted{},
+			prometheus.NewRegistry(), health)
 	})
 }
 

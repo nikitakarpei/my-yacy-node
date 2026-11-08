@@ -92,7 +92,7 @@ func (a *Gatekeeper) admitPairedDevice(
 	certificate *x509.Certificate,
 ) bool {
 	ctx := context.Background()
-	device := companionprotocol.DeviceIDOf(certificate.RawSubjectPublicKeyInfo)
+	device := companionprotocol.DeviceIDFrom(certificate.RawSubjectPublicKeyInfo)
 	if !a.devices.Holds(device) {
 		slog.WarnContext(ctx, "unpaired device refused",
 			slog.String("device", string(device)),
@@ -147,7 +147,7 @@ func (a *Gatekeeper) admitPairingDevice(client natsserver.ClientAuthentication) 
 }
 
 func pairingUserOf(secret companionprotocol.Secret) string {
-	return pairingUserStart + string(companionprotocol.SecretIDOf(secret))
+	return pairingUserStart + string(companionprotocol.SecretIDFrom(secret))
 }
 
 func pairingPermissionsFor(secret companionprotocol.Secret) *natsserver.Permissions {

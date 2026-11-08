@@ -10,9 +10,6 @@ func AdmissionOfEach(admissions ...Admission) Admission {
 
 func (a admissionsInTurn) AwaitAdmission(ctx context.Context) error {
 	for _, admission := range a {
-		if admission == nil {
-			continue
-		}
 		if err := admission.AwaitAdmission(ctx); err != nil {
 			return err
 		}

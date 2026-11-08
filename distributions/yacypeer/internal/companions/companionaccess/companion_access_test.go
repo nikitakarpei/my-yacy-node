@@ -139,7 +139,7 @@ func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceI
 		t.Fatalf("ParseCertificate: %v", err)
 	}
 	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
-		companionprotocol.DeviceIDOf(leaf.RawSubjectPublicKeyInfo)
+		companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo)
 }
 
 type violations chan error
