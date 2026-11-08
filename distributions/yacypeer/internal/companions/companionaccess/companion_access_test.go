@@ -89,7 +89,7 @@ func startBroker(t *testing.T) fixture {
 	return startBrokerFor(t, natspermissions.PublishingOn(workSubject))
 }
 
-func startBrokerFor(t *testing.T, pageServicePermissions natspermissions.Permissions) fixture {
+func startBrokerFor(t *testing.T, pageServicesPermissions natspermissions.Permissions) fixture {
 	t.Helper()
 	devices := &knownDevices{
 		paired:    map[companionprotocol.DeviceID]bool{},
@@ -103,15 +103,15 @@ func startBrokerFor(t *testing.T, pageServicePermissions natspermissions.Permiss
 	if err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	broker, err := natsbroker.StartListening(t.TempDir(), natsbroker.Listening{
+	broker, err := natsbroker.StartWithEndpoint(t.TempDir(), natsbroker.Endpoint{
 		Authentication: companionaccess.New(
-			devices, secrets, fixedClock{}, pageServicePermissions, pairingWait,
+			devices, secrets, fixedClock{}, pageServicesPermissions, pairingWait,
 		),
 		Address:     "127.0.0.1:0",
 		Certificate: certificate,
 	})
 	if err != nil {
-		t.Fatalf("StartListening: %v", err)
+		t.Fatalf("StartWithEndpoint: %v", err)
 	}
 	t.Cleanup(broker.Shutdown)
 	return fixture{broker: broker, devices: devices, secrets: secrets}
@@ -151,7 +151,7 @@ func connect(
 	t.Helper()
 	seen := make(violations, 8)
 	connection, err := nats.Connect(
-		"tls://"+broker.ListeningAddress().String(),
+		"tls://"+broker.EndpointAddress().String(),
 		append(options,
 			nats.Secure(&tls.Config{
 				InsecureSkipVerify: true, //nolint:gosec // the test pins nothing.
@@ -275,7 +275,7 @@ func TestAConnectionWithoutTLSIsRefused(t *testing.T) {
 	broker := startBroker(t)
 
 	if _, err := nats.Connect(
-		"nats://"+broker.broker.ListeningAddress().String(),
+		"nats://"+broker.broker.EndpointAddress().String(),
 		nats.MaxReconnects(0),
 	); err == nil {
 		t.Error("a connection without TLS connected")

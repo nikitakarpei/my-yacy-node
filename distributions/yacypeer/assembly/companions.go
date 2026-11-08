@@ -3,7 +3,6 @@ package yacypeerassembly
 import (
 	"context"
 	"crypto/tls"
-	"errors"
 	"log/slog"
 	"time"
 
@@ -30,36 +29,11 @@ type companions struct {
 	certificate tls.Certificate
 }
 
-func startBroker(cfg PeerConfig) (*natsbroker.Broker, *companions, error) {
+func openCompanions(cfg PeerConfig) (*companions, error) {
 	if !cfg.pairsCompanions() {
-		broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
-		return broker, nil, err
+		return nil, nil
 	}
-	parts, err := openCompanions(cfg.directoryOf(companionsDirectoryName))
-	if err != nil {
-		return nil, nil, err
-	}
-	broker, err := natsbroker.StartListening(
-		cfg.directoryOf(brokerDirectoryName),
-		natsbroker.Listening{
-			Authentication: companionaccess.New(
-				parts.devices,
-				parts.offers,
-				wallclock.Clock{},
-				pageServicePermissions(),
-				pairingWait,
-			),
-			Address:     cfg.CompanionAddr,
-			Certificate: parts.certificate,
-		},
-	)
-	if err != nil {
-		return nil, nil, errors.Join(err, parts.devices.Close())
-	}
-	return broker, parts, nil
-}
-
-func openCompanions(directory string) (*companions, error) {
+	directory := cfg.directoryOf(companionsDirectoryName)
 	certificate, err := brokerkey.Settle(directory)
 	if err != nil {
 		return nil, err
@@ -75,7 +49,29 @@ func openCompanions(directory string) (*companions, error) {
 	}, nil
 }
 
-func pageServicePermissions() natspermissions.Permissions {
+func startBroker(cfg PeerConfig, parts *companions) (*natsbroker.Broker, error) {
+	directory := cfg.directoryOf(brokerDirectoryName)
+	if parts == nil {
+		return natsbroker.Start(directory)
+	}
+	return natsbroker.StartWithEndpoint(directory, parts.endpointAt(cfg.CompanionAddr))
+}
+
+func (c *companions) endpointAt(address string) natsbroker.Endpoint {
+	return natsbroker.Endpoint{
+		Authentication: companionaccess.New(
+			c.devices,
+			c.offers,
+			wallclock.Clock{},
+			pageServicesPermissions(),
+			pairingWait,
+		),
+		Address:     address,
+		Certificate: c.certificate,
+	}
+}
+
+func pageServicesPermissions() natspermissions.Permissions {
 	return natspermissions.JoinedFrom(
 		pagescrapeassembly.ServiceConfig{
 			ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,

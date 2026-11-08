@@ -24,7 +24,7 @@ func (r *unpairedRecords) DisconnectUser(user string) {
 func TestUnpairingForgetsTheDeviceAndEndsItsConnections(t *testing.T) {
 	records := &unpairedRecords{}
 
-	companionaccess.NewUnpairing(records, records).Unpair(context.Background(), "device-a")
+	companionaccess.NewUnpairer(records, records).Unpair(context.Background(), "device-a")
 
 	if len(records.removed) != 1 || records.removed[0] != "device-a" {
 		t.Errorf("removed = %v, want device-a", records.removed)

@@ -1,7 +1,9 @@
 // Package natspermissions names what a service may publish and receive at a NATS broker that
 // it does not own, built from the actions it takes there: pulling messages from a durable
 // consumer, watching the backlog of a stream, publishing on subjects, and receiving on subjects.
-// The broker enforces them as the permissions of the user that the service connects as.
+// The broker enforces them as the permissions of the user that the service connects as. Each
+// JetStream call, a read included, is a request that the service publishes; its answer arrives on
+// the inbox of the service, which these permissions leave to the caller.
 package natspermissions
 
 import "slices"

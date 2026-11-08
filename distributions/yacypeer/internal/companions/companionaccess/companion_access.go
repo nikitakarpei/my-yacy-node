@@ -42,26 +42,26 @@ type Clock interface {
 }
 
 type Access struct {
-	devices                PairedDevices
-	offers                 PairingOffers
-	clock                  Clock
-	pageServicePermissions natspermissions.Permissions
-	pairingWait            time.Duration
+	devices                 PairedDevices
+	offers                  PairingOffers
+	clock                   Clock
+	pageServicesPermissions natspermissions.Permissions
+	pairingWait             time.Duration
 }
 
 func New(
 	devices PairedDevices,
 	offers PairingOffers,
 	clock Clock,
-	pageServicePermissions natspermissions.Permissions,
+	pageServicesPermissions natspermissions.Permissions,
 	pairingWait time.Duration,
 ) *Access {
 	return &Access{
-		devices:                devices,
-		offers:                 offers,
-		clock:                  clock,
-		pageServicePermissions: pageServicePermissions,
-		pairingWait:            pairingWait,
+		devices:                 devices,
+		offers:                  offers,
+		clock:                   clock,
+		pageServicesPermissions: pageServicesPermissions,
+		pairingWait:             pairingWait,
 	}
 }
 
@@ -110,13 +110,13 @@ func (a *Access) permissionsOf(device companionprotocol.DeviceID) *natsserver.Pe
 	return &natsserver.Permissions{
 		Publish: &natsserver.SubjectPermission{
 			Allow: append(
-				append([]string{}, a.pageServicePermissions.Publish...),
+				append([]string{}, a.pageServicesPermissions.Publish...),
 				companionprotocol.DeviceSubjectsOf(device),
 			),
 		},
 		Subscribe: &natsserver.SubjectPermission{
 			Allow: append(
-				append([]string{}, a.pageServicePermissions.Subscribe...),
+				append([]string{}, a.pageServicesPermissions.Subscribe...),
 				companionprotocol.DeviceRepliesOf(device),
 			),
 		},

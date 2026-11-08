@@ -14,16 +14,16 @@ type Disconnector interface {
 	DisconnectUser(user string)
 }
 
-type Unpairing struct {
+type Unpairer struct {
 	devices RemovableDevices
 	broker  Disconnector
 }
 
-func NewUnpairing(devices RemovableDevices, broker Disconnector) Unpairing {
-	return Unpairing{devices: devices, broker: broker}
+func NewUnpairer(devices RemovableDevices, broker Disconnector) Unpairer {
+	return Unpairer{devices: devices, broker: broker}
 }
 
-func (u Unpairing) Unpair(ctx context.Context, device companionprotocol.DeviceID) {
+func (u Unpairer) Unpair(ctx context.Context, device companionprotocol.DeviceID) {
 	u.devices.Remove(ctx, device)
 	u.broker.DisconnectUser(UserOf(device))
 }

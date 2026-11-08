@@ -57,12 +57,16 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	broker, companionParts, err := startBroker(cfg)
+	companionParts, err := openCompanions(cfg)
+	if err != nil {
+		return errors.Join(err, web.Close())
+	}
+	defer closeCompanions(ctx, companionParts)
+	broker, err := startBroker(cfg, companionParts)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
 	network.Attach(hostOf(brokerName), broker.Connection)
-	defer closeCompanions(ctx, companionParts)
 	defer broker.Shutdown()
 	history, err := metrichistory.Open(
 		ctx,

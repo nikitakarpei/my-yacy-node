@@ -51,7 +51,7 @@ func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicePermissionsOnly(t *te
 		},
 		InboxPrefix: companionprotocol.DeviceInboxPrefixOf(device),
 	}
-	brokerURL := "tls://" + broker.broker.ListeningAddress().String()
+	brokerURL := "tls://" + broker.broker.EndpointAddress().String()
 
 	runPagescrape(t, brokerURL, access, pageServing(t))
 	runPagerwi(t, brokerURL, access)

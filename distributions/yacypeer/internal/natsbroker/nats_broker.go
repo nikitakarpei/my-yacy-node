@@ -1,6 +1,6 @@
 // Package natsbroker runs the NATS JetStream server built into the peer. The parts of the peer
-// connect to it inside the process. It can also listen on a TCP address with TLS, where an
-// authentication that the caller gives decides who connects and what each one may do.
+// connect to it inside the process. It can also serve an endpoint: a TCP address with TLS, where
+// an authentication that the caller gives decides who connects and what each one may do.
 package natsbroker
 
 import (
@@ -25,7 +25,7 @@ type Broker struct {
 	server *natsserver.Server
 }
 
-type Listening struct {
+type Endpoint struct {
 	Authentication natsserver.Authentication
 	Address        string
 	Certificate    tls.Certificate
@@ -40,8 +40,8 @@ func Start(storeDirectory string) (*Broker, error) {
 	})
 }
 
-func StartListening(storeDirectory string, listening Listening) (*Broker, error) {
-	host, port, err := hostAndPortOf(listening.Address)
+func StartWithEndpoint(storeDirectory string, endpoint Endpoint) (*Broker, error) {
+	host, port, err := hostAndPortOf(endpoint.Address)
 	if err != nil {
 		return nil, err
 	}
@@ -53,22 +53,22 @@ func StartListening(storeDirectory string, listening Listening) (*Broker, error)
 		StoreDir:   storeDirectory,
 		TLS:        true,
 		TLSConfig: &tls.Config{
-			Certificates: []tls.Certificate{listening.Certificate},
+			Certificates: []tls.Certificate{endpoint.Certificate},
 			ClientAuth:   tls.RequestClientCert,
 			MinVersion:   tls.VersionTLS13,
 		},
-		CustomClientAuthentication: listening.Authentication,
+		CustomClientAuthentication: endpoint.Authentication,
 	})
 }
 
 func hostAndPortOf(address string) (string, int, error) {
 	host, portText, err := net.SplitHostPort(address)
 	if err != nil {
-		return "", 0, fmt.Errorf("listening address: %w", err)
+		return "", 0, fmt.Errorf("endpoint address: %w", err)
 	}
 	port, err := strconv.Atoi(portText)
 	if err != nil {
-		return "", 0, fmt.Errorf("listening address: %w", err)
+		return "", 0, fmt.Errorf("endpoint address: %w", err)
 	}
 	if port == 0 {
 		return host, natsserver.RANDOM_PORT, nil
@@ -97,7 +97,7 @@ func (b *Broker) Connection() (net.Conn, error) {
 	return connection, nil
 }
 
-func (b *Broker) ListeningAddress() net.Addr {
+func (b *Broker) EndpointAddress() net.Addr {
 	return b.server.Addr()
 }
 

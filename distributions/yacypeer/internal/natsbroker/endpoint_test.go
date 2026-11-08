@@ -28,19 +28,19 @@ func (passwordAuthentication) Check(client natsserver.ClientAuthentication) bool
 	return true
 }
 
-func startListening(t *testing.T) *natsbroker.Broker {
+func startWithEndpoint(t *testing.T) *natsbroker.Broker {
 	t.Helper()
 	certificate, err := brokerkey.Settle(t.TempDir())
 	if err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	broker, err := natsbroker.StartListening(t.TempDir(), natsbroker.Listening{
+	broker, err := natsbroker.StartWithEndpoint(t.TempDir(), natsbroker.Endpoint{
 		Authentication: passwordAuthentication{},
 		Address:        "127.0.0.1:0",
 		Certificate:    certificate,
 	})
 	if err != nil {
-		t.Fatalf("StartListening: %v", err)
+		t.Fatalf("StartWithEndpoint: %v", err)
 	}
 	t.Cleanup(broker.Shutdown)
 	return broker
@@ -51,7 +51,7 @@ func clientConnection(
 	options ...nats.Option,
 ) (*nats.Conn, error) {
 	connection, err := nats.Connect(
-		"tls://"+broker.ListeningAddress().String(),
+		"tls://"+broker.EndpointAddress().String(),
 		append(options, nats.MaxReconnects(0))...,
 	)
 	if err != nil {
@@ -61,7 +61,7 @@ func clientConnection(
 }
 
 func TestAClientThatTheAuthenticationAcceptsConnectsWithTLS(t *testing.T) {
-	broker := startListening(t)
+	broker := startWithEndpoint(t)
 
 	connection, err := clientConnection(broker,
 		nats.Secure(&tls.Config{InsecureSkipVerify: true}), //nolint:gosec // test broker.
@@ -78,7 +78,7 @@ func TestAClientThatTheAuthenticationAcceptsConnectsWithTLS(t *testing.T) {
 }
 
 func TestAClientThatTheAuthenticationRefusesCannotConnect(t *testing.T) {
-	broker := startListening(t)
+	broker := startWithEndpoint(t)
 
 	connection, err := clientConnection(broker,
 		nats.Secure(&tls.Config{InsecureSkipVerify: true}), //nolint:gosec // test broker.
@@ -91,7 +91,7 @@ func TestAClientThatTheAuthenticationRefusesCannotConnect(t *testing.T) {
 }
 
 func TestDisconnectUserClosesTheConnectionsOfTheUser(t *testing.T) {
-	broker := startListening(t)
+	broker := startWithEndpoint(t)
 	closed := make(chan struct{})
 	connection, err := clientConnection(broker,
 		nats.Secure(&tls.Config{InsecureSkipVerify: true}), //nolint:gosec // test broker.
@@ -113,7 +113,7 @@ func TestDisconnectUserClosesTheConnectionsOfTheUser(t *testing.T) {
 }
 
 func TestThePartsOfThePeerStillConnectInsideTheProcess(t *testing.T) {
-	broker := startListening(t)
+	broker := startWithEndpoint(t)
 
 	jetStreamOf(t, broker)
 }
