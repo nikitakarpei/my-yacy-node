@@ -92,7 +92,7 @@ func TestAnAcceptedDeviceLearnsItsID(t *testing.T) {
 
 	outcome := request.Send(key)
 
-	if outcome.Result != pairing.ResultAccepted || outcome.Device != key.ID() {
+	if outcome.Result != pairing.ResultAccepted || outcome.Device != string(key.ID()) {
 		t.Fatalf("outcome = %+v, want accepted as %s", outcome, key.ID())
 	}
 	sent := <-peer.requests

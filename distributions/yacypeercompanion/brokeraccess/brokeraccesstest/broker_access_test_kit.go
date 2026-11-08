@@ -82,7 +82,7 @@ func (b Broker) Address() string {
 	return b.Server.Addr().String()
 }
 
-func (b Broker) LinkWith(secret string) string {
+func (b Broker) LinkWith(secret companionprotocol.Secret) string {
 	return companionprotocol.PairLink{
 		Addresses:     []string{b.Address()},
 		BrokerKeyHash: b.KeyHash,
@@ -124,6 +124,6 @@ func (k DeviceKey) SignDigest(digest []byte) ([]byte, error) {
 	return ecdsa.SignASN1(rand.Reader, k.key, digest) //nolint:wrapcheck // test key.
 }
 
-func (k DeviceKey) ID() string {
+func (k DeviceKey) ID() companionprotocol.DeviceID {
 	return companionprotocol.DeviceIDOf(k.PublicKeyInfo())
 }

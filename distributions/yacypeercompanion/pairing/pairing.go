@@ -84,7 +84,10 @@ func (r *Request) Send(key DeviceKey) *Outcome {
 	if err != nil {
 		return &Outcome{Result: ResultRefused}
 	}
-	connection, err := brokeraccess.Connect(link, brokeraccess.PairingOptions(link, r.deviceName))
+	connection, err := brokeraccess.Connect(
+		link,
+		brokeraccess.PairingOptions(link, companionprotocol.DeviceName(r.deviceName)),
+	)
 	if errors.Is(err, nats.ErrAuthorization) {
 		return &Outcome{Result: ResultSecretExpired}
 	}
@@ -134,7 +137,7 @@ func outcomeOf(data []byte) *Outcome {
 		return &Outcome{Result: ResultRefused}
 	}
 	if reply.Outcome == companionprotocol.OutcomeAccepted {
-		return &Outcome{Result: ResultAccepted, Device: reply.Device}
+		return &Outcome{Result: ResultAccepted, Device: string(reply.Device)}
 	}
 	return &Outcome{Result: resultOf(reply.Reason)}
 }

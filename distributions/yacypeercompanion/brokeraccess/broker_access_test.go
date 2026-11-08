@@ -23,7 +23,7 @@ func (secretCheck) Check(client natsserver.ClientAuthentication) bool {
 
 func linkTo(
 	broker brokeraccesstest.Broker,
-	linkSecret string,
+	linkSecret companionprotocol.Secret,
 	addresses ...string,
 ) companionprotocol.PairLink {
 	return companionprotocol.PairLink{

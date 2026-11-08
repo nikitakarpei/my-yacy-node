@@ -22,6 +22,9 @@ vendors:
   natsclient:
     in:
       - github.com/nats-io/nats.go
+  jetstreamconnect:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
@@ -30,6 +33,7 @@ deps:
   brokeraccess:
     canUse:
       - companionprotocol
+      - jetstreamconnect
       - natsclient
   brokeraccesstest:
     canUse:
