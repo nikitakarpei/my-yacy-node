@@ -23,22 +23,17 @@ main > h1 {
   font-size: var(--webui-text-sm);
   font-weight: 500;
 }
-.paused {
+.banner.paused {
   display: flex;
   align-items: center;
   gap: var(--webui-space-2);
-  margin-bottom: var(--webui-space-4);
-  padding: var(--webui-space-3) var(--webui-space-4);
-  border-radius: var(--webui-radius);
   background: var(--webui-warning-surface);
   color: var(--webui-warning-ink);
-  font-size: var(--webui-text-sm);
-  font-weight: 500;
 }
-.paused[hidden] {
+.banner.paused[hidden] {
   display: none;
 }
-.paused svg {
+.banner.paused svg {
   flex-shrink: 0;
 }
 .tabs {
@@ -48,28 +43,7 @@ main > h1 {
   border-bottom: 1px solid var(--webui-line);
   font-size: var(--webui-text-sm);
 }
-.tabs a {
-  padding: var(--webui-space-2) var(--webui-space-3);
-  margin-bottom: -1px;
-  border-bottom: 2px solid transparent;
-  color: var(--webui-muted);
-  text-decoration: none;
-}
-.tabs > a:first-child {
-  margin-left: calc(-1 * var(--webui-space-3));
-}
-.tabs a:hover {
-  color: var(--webui-ink);
-}
-.tabs a[aria-current="page"] {
-  color: var(--webui-ink);
-  font-weight: 500;
-  border-bottom-color: var(--webui-accent);
-}
 .settings {
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-  border-radius: var(--webui-radius);
   overflow: hidden;
 }
 .setting {
@@ -92,7 +66,7 @@ main > h1 {
 .device {
   font-weight: 500;
 }
-.hidden {
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -166,7 +140,7 @@ main > h1 {
   justify-content: flex-end;
   gap: 10px;
 }
-.alert {
+.refusal {
   max-width: 46rem;
   margin-bottom: var(--webui-space-4);
   padding: var(--webui-space-3) var(--webui-space-4);
@@ -174,14 +148,14 @@ main > h1 {
   border: 1px solid var(--webui-danger-line);
   border-radius: var(--webui-radius);
 }
-.alert p {
+.refusal p {
   margin: 0;
 }
-.alert-title {
+.refusal-title {
   font-weight: 600;
   color: var(--webui-danger-ink);
 }
-.alert-cause {
+.refusal-reason {
   font-size: var(--webui-text-sm);
 }
 .pairing {

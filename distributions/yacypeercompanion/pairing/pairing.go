@@ -1,6 +1,6 @@
-// Package pairing pairs the app with a peer from the text of a pairing code, and unpairs it. It
+// Package pairing pairs the app with a peer from the text of a pair link, and unpairs it. It
 // tells which kind of link a text is, gives the challenge for the attestation of the device key,
-// sends the pairing request with the secret of the link, and reads the outcome.
+// sends the pairing request with the secret of the link, and reads the result.
 package pairing
 
 import (
@@ -31,6 +31,8 @@ const (
 	ResultAppNotOfficial   = "app-not-official"
 	ResultDeviceNotTrusted = "device-not-trusted"
 	ResultRefused          = "refused"
+	ResultNotSent          = "not-sent"
+	ResultReplyUnreadable  = "reply-unreadable"
 
 	replyWait = 15 * time.Second
 )
@@ -38,11 +40,6 @@ const (
 type DeviceKey interface {
 	PublicKeyInfo() []byte
 	SignDigest(digest []byte) ([]byte, error)
-}
-
-type Outcome struct {
-	Result string
-	Device string
 }
 
 func LinkKindOf(text string) string {
@@ -57,7 +54,7 @@ func LinkKindOf(text string) string {
 	}
 }
 
-func ChallengeOf(linkText string) []byte {
+func ChallengeFrom(linkText string) []byte {
 	link, err := companionprotocol.PairLinkFrom(linkText)
 	if err != nil {
 		slog.WarnContext(context.Background(), "pairing challenge not made", slog.Any("error", err))
@@ -81,23 +78,16 @@ func (r *Request) AddCertificate(der []byte) {
 	r.attestation = append(r.attestation, bytes.Clone(der))
 }
 
-func (r *Request) Send(key DeviceKey) *Outcome {
+func (r *Request) Send(key DeviceKey) string {
 	link, err := companionprotocol.PairLinkFrom(r.linkText)
 	if err != nil {
-		slog.WarnContext(context.Background(), "pairing link unreadable", slog.Any("error", err))
-		return &Outcome{Result: ResultRefused}
+		slog.WarnContext(context.Background(), "pair link unreadable", slog.Any("error", err))
+		return ResultNotSent
 	}
-	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).Connect(
-		link,
-		append(
-			append(
-				brokeraccess.PairingAccess(link).Options(),
-				brokeraccess.PairingIdentity(link, companionprotocol.DeviceName(r.deviceName))...),
-			nats.NoReconnect(),
-		),
-	)
+	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).
+		ConnectToPair(link, companionprotocol.DeviceName(r.deviceName))
 	if errors.Is(err, nats.ErrAuthorization) {
-		return &Outcome{Result: ResultSecretExpired}
+		return ResultSecretExpired
 	}
 	if err != nil {
 		slog.WarnContext(
@@ -105,20 +95,20 @@ func (r *Request) Send(key DeviceKey) *Outcome {
 			"peer unreachable for pairing",
 			slog.Any("error", err),
 		)
-		return &Outcome{Result: ResultPeerUnreachable}
+		return ResultPeerUnreachable
 	}
 	defer connection.Close()
 	data, err := r.requestDataFor(link, key)
 	if err != nil {
 		slog.WarnContext(context.Background(), "pairing request not made", slog.Any("error", err))
-		return &Outcome{Result: ResultRefused}
+		return ResultNotSent
 	}
 	reply, err := connection.Request(companionprotocol.PairingRequestSubject, data, replyWait)
 	if err != nil {
 		slog.WarnContext(context.Background(), "no pairing reply", slog.Any("error", err))
-		return &Outcome{Result: ResultPeerUnreachable}
+		return ResultPeerUnreachable
 	}
-	return outcomeOf(reply.Data)
+	return resultFrom(reply.Data)
 }
 
 func (r *Request) requestDataFor(link companionprotocol.PairLink, key DeviceKey) ([]byte, error) {
@@ -140,19 +130,19 @@ func (r *Request) requestDataFor(link companionprotocol.PairLink, key DeviceKey)
 	})
 }
 
-func outcomeOf(data []byte) *Outcome {
+func resultFrom(data []byte) string {
 	var reply companionprotocol.PairingReply
 	if err := json.Unmarshal(data, &reply); err != nil {
 		slog.WarnContext(context.Background(), "pairing reply unreadable", slog.Any("error", err))
-		return &Outcome{Result: ResultRefused}
+		return ResultReplyUnreadable
 	}
 	if reply.Outcome == companionprotocol.OutcomeAccepted {
-		return &Outcome{Result: ResultAccepted, Device: string(reply.DeviceID)}
+		return ResultAccepted
 	}
-	return &Outcome{Result: resultOf(reply.Reason)}
+	return refusalResultFrom(reply.Reason)
 }
 
-func resultOf(reason companionprotocol.RefusalReason) string {
+func refusalResultFrom(reason companionprotocol.RefusalReason) string {
 	switch reason {
 	case companionprotocol.ReasonAppOutdated:
 		return ResultAppOutdated

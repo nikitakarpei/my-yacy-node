@@ -73,7 +73,7 @@ func (b TabBar) HTML() template.HTML {
 		return ""
 	}
 	var html strings.Builder
-	html.WriteString(`<nav class="webui-tabs" aria-label="Main">`)
+	html.WriteString(`<nav class="webui-tabs webui-tab-links" aria-label="Main">`)
 	for _, tab := range b.Tabs {
 		html.WriteString(`<a href="` + template.HTMLEscapeString(tab.URL) + `"`)
 		if tab.Current {

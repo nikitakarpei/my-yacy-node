@@ -2,8 +2,7 @@
 // JetStream context, returning both, so a caller that also publishes on a core subject holds the
 // one connection they share. A caller can observe when the broker drops the connection and when
 // it returns, and can give the TLS and the inbox prefix that the broker expects of it; closing the
-// connection is no loss. Errors that the broker reports while the connection is open, such as a
-// refused publish or subscription, are logged as warnings.
+// connection is no loss. Errors on the open connection, such as a refused publish, are reported.
 package jetstreamconnect
 
 import (
@@ -60,7 +59,7 @@ func openWith(
 		append(options,
 			nats.SetCustomDialer(timedDialer{dial: dial}),
 			nats.SkipHostLookup(),
-			nats.ErrorHandler(reportBrokerError),
+			nats.ErrorHandler(reportConnectionError),
 		)...,
 	)
 	if err != nil {
@@ -84,10 +83,10 @@ func (d timedDialer) Dial(network, address string) (net.Conn, error) {
 	return d.dial(ctx, network, address)
 }
 
-func reportBrokerError(_ *nats.Conn, subscription *nats.Subscription, err error) {
+func reportConnectionError(_ *nats.Conn, subscription *nats.Subscription, err error) {
 	attributes := []any{slog.Any("error", err)}
 	if subscription != nil {
 		attributes = append(attributes, slog.String("subject", subscription.Subject))
 	}
-	slog.WarnContext(context.Background(), "the broker reported an error", attributes...)
+	slog.WarnContext(context.Background(), "the NATS connection reported an error", attributes...)
 }

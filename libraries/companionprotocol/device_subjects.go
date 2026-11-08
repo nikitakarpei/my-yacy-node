@@ -3,46 +3,42 @@ package companionprotocol
 import "strings"
 
 const (
-	deviceSubjectPrefix = "devices."
-	deviceInboxPrefix   = "_INBOX."
-	settingsSuffix      = ".settings"
-	appSuffix           = ".app"
-	unpairSuffix        = ".unpair"
+	deviceSubjectPrefix    = "devices."
+	deviceInboxesPrefix    = "_INBOX."
+	settingsSuffix         = ".settings"
+	appReportSuffix        = ".app-report"
+	unpairingRequestSuffix = ".unpairing-request"
 
-	SettingsSubjects = deviceSubjectPrefix + "*" + settingsSuffix
-	AppSubjects      = deviceSubjectPrefix + "*" + appSuffix
-	UnpairSubjects   = deviceSubjectPrefix + "*" + unpairSuffix
+	SettingsSubjects         = deviceSubjectPrefix + "*" + settingsSuffix
+	AppReportSubjects        = deviceSubjectPrefix + "*" + appReportSuffix
+	UnpairingRequestSubjects = deviceSubjectPrefix + "*" + unpairingRequestSuffix
 )
 
-func SettingsSubjectOf(device DeviceID) string {
-	return deviceSubjectPrefix + string(device) + settingsSuffix
+func SettingsSubjectOf(deviceID DeviceID) string {
+	return deviceSubjectPrefix + string(deviceID) + settingsSuffix
 }
 
-func AppSubjectOf(device DeviceID) string {
-	return deviceSubjectPrefix + string(device) + appSuffix
+func AppReportSubjectOf(deviceID DeviceID) string {
+	return deviceSubjectPrefix + string(deviceID) + appReportSuffix
 }
 
-func UnpairSubjectOf(device DeviceID) string {
-	return deviceSubjectPrefix + string(device) + unpairSuffix
+func UnpairingRequestSubjectOf(deviceID DeviceID) string {
+	return deviceSubjectPrefix + string(deviceID) + unpairingRequestSuffix
 }
 
-func DeviceSubjectsOf(device DeviceID) string {
-	return deviceSubjectPrefix + string(device) + ".>"
+func DeviceSubjectsOf(deviceID DeviceID) string {
+	return deviceSubjectPrefix + string(deviceID) + ".>"
 }
 
-func DeviceInboxPrefixOf(device DeviceID) string {
-	return deviceInboxPrefix + string(device)
+func DeviceInboxPrefixOf(deviceID DeviceID) string {
+	return deviceInboxesPrefix + string(deviceID)
 }
 
-func DeviceInboxSubjectsOf(device DeviceID) string {
-	return DeviceInboxPrefixOf(device) + ".>"
+func DeviceInboxSubjectsOf(deviceID DeviceID) string {
+	return DeviceInboxPrefixOf(deviceID) + ".>"
 }
 
-func DeviceIDFrom(subject string) DeviceID {
-	rest, deviceSubject := strings.CutPrefix(subject, deviceSubjectPrefix)
-	device, _, found := strings.Cut(rest, ".")
-	if !deviceSubject || !found {
-		return ""
-	}
-	return DeviceID(device)
+func DeviceIDIn(subject string) DeviceID {
+	deviceID, _, _ := strings.Cut(strings.TrimPrefix(subject, deviceSubjectPrefix), ".")
+	return DeviceID(deviceID)
 }

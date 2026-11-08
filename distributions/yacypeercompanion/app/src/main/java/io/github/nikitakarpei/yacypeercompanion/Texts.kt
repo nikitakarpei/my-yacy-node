@@ -7,7 +7,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.PairingProblem
 
 fun titleOf(state: CompanionState): String = when (state) {
     CompanionState.Stopped -> "Stopped"
-    CompanionState.Pairing, is CompanionState.PairingFailed -> "Pairing"
+    CompanionState.Pairing, is CompanionState.PairingFailure -> "Pairing"
     CompanionState.Connecting -> "Connecting"
     CompanionState.Connected -> "Connected"
     is CompanionState.Disconnected -> "Disconnected"
@@ -38,7 +38,6 @@ fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
 
 fun textOf(problem: PairingProblem): String = when (problem) {
     PairingProblem.PEER_UNREACHABLE -> "The peer doesn’t answer. Make sure this device and the peer are on the same network."
-    PairingProblem.SIGNING_KEY -> "This device has no secure hardware for a signing key, so it can’t pair."
     PairingProblem.DEVICE_KEY -> "Couldn’t create a key for pairing on this device."
     PairingProblem.SECRET_EXPIRED -> "The QR code has expired. Scan a new one."
     PairingProblem.APP_NOT_OFFICIAL -> "The peer accepts only official builds of the app."
@@ -46,6 +45,8 @@ fun textOf(problem: PairingProblem): String = when (problem) {
     PairingProblem.PEER_OUTDATED -> "This app requires a newer YaCy peer. Please update the YaCy peer."
     PairingProblem.DEVICE_NOT_TRUSTED -> "The peer doesn’t accept this device."
     PairingProblem.REFUSED -> "The peer refused the pairing."
+    PairingProblem.NOT_SENT -> "The app couldn’t send the pairing request."
+    PairingProblem.REPLY_UNREADABLE -> "The app couldn’t read the reply of the peer."
 }
 
-fun retriesWithSameCode(problem: PairingProblem): Boolean = problem == PairingProblem.PEER_UNREACHABLE
+fun retriesWithSameLink(problem: PairingProblem): Boolean = problem == PairingProblem.PEER_UNREACHABLE

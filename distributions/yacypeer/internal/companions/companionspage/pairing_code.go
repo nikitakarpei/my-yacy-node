@@ -12,7 +12,7 @@ import (
 
 const quietZone = 4
 
-func pairingCodeOf(link string) template.HTML {
+func pairingCodeFrom(link string) template.HTML {
 	code, err := qr.Encode(link, qr.M)
 	if err != nil {
 		slog.ErrorContext(context.Background(), "pairing code not drawn", slog.Any("error", err))

@@ -32,7 +32,7 @@ type OfferedPageConsumer struct {
 	formatDerivations          pageformats.FormatDerivationCatalog
 	pageIndexBuilder           pagerwi.IndexBuilder
 	pageRWIs                   PageRWIs
-	pageRWIBacklog             pullintake.Admission
+	admission                  pullintake.Admission
 	intakeReceipts             IntakeReceipts
 	pageIntakeObserver         PageIntakeObserver
 	pageOfferIntakeConcurrency int
@@ -43,7 +43,7 @@ type OfferedPageConsumerConfig struct {
 	FormatDerivations          pageformats.FormatDerivationCatalog
 	PageIndexBuilder           pagerwi.IndexBuilder
 	PageRWIs                   PageRWIs
-	PageRWIBacklog             pullintake.Admission
+	Admission                  pullintake.Admission
 	IntakeReceipts             IntakeReceipts
 	PageIntakeObserver         PageIntakeObserver
 	PageOfferIntakeConcurrency int
@@ -55,7 +55,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 		formatDerivations:          config.FormatDerivations,
 		pageIndexBuilder:           config.PageIndexBuilder,
 		pageRWIs:                   config.PageRWIs,
-		pageRWIBacklog:             config.PageRWIBacklog,
+		admission:                  config.Admission,
 		intakeReceipts:             config.IntakeReceipts,
 		pageIntakeObserver:         config.PageIntakeObserver,
 		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
@@ -67,7 +67,7 @@ func (c *OfferedPageConsumer) Run(ctx context.Context) error {
 		ctx,
 		pullintake.MessageQueueOf(c.offeredPageSource),
 		c.pageOfferIntakeConcurrency,
-		c.pageRWIBacklog,
+		c.admission,
 		c.takeIn,
 	)
 }

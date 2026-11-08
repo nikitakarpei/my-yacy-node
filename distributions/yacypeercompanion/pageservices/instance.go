@@ -42,11 +42,10 @@ type Observer interface {
 }
 
 type Instance struct {
-	session          sessionTerms
-	pagescrapeConfig pagescrapeassembly.ServiceConfig
-	pagerwiConfig    pagerwiassembly.ServiceConfig
-	stopped          chan struct{}
-	stopOnce         sync.Once
+	terms           sessionTerms
+	captureProxyURL string
+	stopped         chan struct{}
+	stopOnce        sync.Once
 }
 
 func InstanceFor(
@@ -63,35 +62,126 @@ func InstanceFor(
 	if err != nil {
 		return nil, err
 	}
-	environment := environmentFor("tls://"+link.Addresses[0], captureProxyURL)
-	lookup := func(name string) string { return environment[name] }
-	if err := applog.Configure(lookup); err != nil {
+	if err := applog.Configure(func(string) string { return "" }); err != nil {
 		return nil, err
 	}
-	pagescrapeConfig, err := pagescrapeassembly.LoadServiceConfig(lookup)
-	if err != nil {
-		return nil, err
-	}
-	pagerwiConfig, err := pagerwiassembly.LoadServiceConfig(lookup)
-	if err != nil {
-		return nil, err
-	}
-	pagescrapeConfig.BrokerAccess = brokerAccess
-	pagerwiConfig.BrokerAccess = brokerAccess
 	return &Instance{
-		session: sessionTerms{
+		terms: sessionTerms{
 			link:         link,
 			brokerAccess: brokerAccess,
-			device:       companionprotocol.DeviceIDOf(key.PublicKeyInfo()),
+			deviceID:     companionprotocol.DeviceIDFrom(key.PublicKeyInfo()),
 			appVersion:   appVersion,
 		},
-		pagescrapeConfig: pagescrapeConfig,
-		pagerwiConfig:    pagerwiConfig,
-		stopped:          make(chan struct{}),
+		captureProxyURL: captureProxyURL,
+		stopped:         make(chan struct{}),
 	}, nil
 }
 
-func environmentFor(brokerURL string, captureProxyURL string) map[string]string {
+func (i *Instance) Run(observer Observer) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	go i.cancelOnStop(ctx, cancel)
+	var deviceRefused atomic.Bool
+	session, err := i.terms.openSession(func() {
+		deviceRefused.Store(true)
+		cancel()
+	})
+	if err != nil {
+		reportUnopenedSession(err, observer)
+		return
+	}
+	defer session.close()
+	err = session.reportApp(i.terms.appVersion)
+	if err == nil {
+		err = i.runPageServicesOver(ctx, session, observer)
+	}
+	if deviceRefused.Load() || err != nil && i.terms.probeRefusal() {
+		reportRefusal(err, observer)
+		return
+	}
+	reportEnding(err, observer)
+}
+
+func (i *Instance) cancelOnStop(ctx context.Context, cancel context.CancelFunc) {
+	select {
+	case <-i.stopped:
+		cancel()
+	case <-ctx.Done():
+	}
+}
+
+func reportUnopenedSession(err error, observer Observer) {
+	slog.WarnContext(context.Background(), "peer session not opened", slog.Any("error", err))
+	switch {
+	case errors.Is(err, nats.ErrAuthorization):
+		observer.DeviceRefused()
+	case errors.Is(err, brokeraccess.ErrNoConnection):
+		observer.BrokerUnreachable()
+	default:
+		observer.ServicesFailed()
+	}
+}
+
+func (i *Instance) runPageServicesOver(
+	ctx context.Context,
+	session *peerSession,
+	observer Observer,
+) error {
+	configs, err := pageServiceConfigsFor(
+		session.brokerURL(), i.captureProxyURL, session.partitionExponent(),
+	)
+	if err != nil {
+		return err
+	}
+	connection := newConnectionWatch(observer)
+	err = servergroup.Run(
+		ctx,
+		shutdownLimit,
+		nil,
+		func(ctx context.Context) error {
+			return runPagescrape(
+				ctx,
+				configs.pagescrape,
+				i.terms.brokerAccess,
+				connection.pagescrapeHealth,
+			)
+		},
+		func(ctx context.Context) error {
+			return runPagerwi(ctx, configs.pagerwi, i.terms.brokerAccess, connection.pagerwiHealth)
+		},
+	)
+	connection.end()
+	return err
+}
+
+type pageServiceConfigs struct {
+	pagescrape pagescrapeassembly.ServiceConfig
+	pagerwi    pagerwiassembly.ServiceConfig
+}
+
+func pageServiceConfigsFor(
+	brokerURL string,
+	captureProxyURL string,
+	partitionExponent uint,
+) (pageServiceConfigs, error) {
+	environment := environmentFor(brokerURL, captureProxyURL, partitionExponent)
+	lookup := func(name string) string { return environment[name] }
+	pagescrapeConfig, err := pagescrapeassembly.LoadServiceConfig(lookup)
+	if err != nil {
+		return pageServiceConfigs{}, err
+	}
+	pagerwiConfig, err := pagerwiassembly.LoadServiceConfig(lookup)
+	if err != nil {
+		return pageServiceConfigs{}, err
+	}
+	return pageServiceConfigs{pagescrape: pagescrapeConfig, pagerwi: pagerwiConfig}, nil
+}
+
+func environmentFor(
+	brokerURL string,
+	captureProxyURL string,
+	partitionExponent uint,
+) map[string]string {
 	return map[string]string{
 		pagescrapeassembly.EnvScrapeNATSURL:    brokerURL,
 		pagescrapeassembly.EnvProxyURL:         captureProxyURL,
@@ -99,73 +189,18 @@ func environmentFor(brokerURL string, captureProxyURL string) map[string]string 
 		pagescrapeassembly.EnvProvisionStreams: strconv.FormatBool(false),
 		pagerwiassembly.EnvPageOfferNATSURL:    brokerURL,
 		pagerwiassembly.EnvPageRWINATSURL:      brokerURL,
-		pagerwiassembly.EnvProvisionStreams:    strconv.FormatBool(false),
+		pagerwiassembly.EnvPageRWIPartitionExponent: strconv.FormatUint(
+			uint64(partitionExponent),
+			10,
+		),
+		pagerwiassembly.EnvProvisionStreams: strconv.FormatBool(false),
 	}
-}
-
-func (i *Instance) Run(observer Observer) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	go func() {
-		select {
-		case <-i.stopped:
-			cancel()
-		case <-ctx.Done():
-		}
-	}()
-	var refused atomic.Bool
-	session, err := i.session.opened(func() {
-		refused.Store(true)
-		cancel()
-	})
-	if err != nil {
-		reportFailedSession(err, observer)
-		return
-	}
-	defer session.close()
-	pagescrapeConfig := i.pagescrapeConfig
-	pagescrapeConfig.ScrapeNATSURL = session.brokerURL()
-	pagerwiConfig := i.pagerwiConfig
-	pagerwiConfig.PageOfferNATSURL = session.brokerURL()
-	pagerwiConfig.PageRWINATSURL = session.brokerURL()
-	pagerwiConfig.PageRWIPartitionExponent = session.settings.PartitionExponent
-	connection := newConnectionWatch(observer)
-	err = servergroup.Run(
-		ctx,
-		shutdownLimit,
-		nil,
-		func(ctx context.Context) error {
-			return runPagescrape(ctx, pagescrapeConfig, connection.pagescrapeHealth)
-		},
-		func(ctx context.Context) error {
-			return runPagerwi(ctx, pagerwiConfig, connection.pagerwiHealth)
-		},
-	)
-	connection.end()
-	if refused.Load() || err != nil && i.session.refused() {
-		if err != nil {
-			slog.WarnContext(ctx, "page services ended as the peer refused the device",
-				slog.Any("error", err),
-			)
-		}
-		observer.DeviceRefused()
-		return
-	}
-	reportEnding(err, observer)
-}
-
-func reportFailedSession(err error, observer Observer) {
-	slog.WarnContext(context.Background(), "peer session not opened", slog.Any("error", err))
-	if errors.Is(err, nats.ErrAuthorization) {
-		observer.DeviceRefused()
-		return
-	}
-	observer.BrokerUnreachable()
 }
 
 func runPagescrape(
 	ctx context.Context,
 	cfg pagescrapeassembly.ServiceConfig,
+	brokerAccess jetstreamconnect.BrokerAccess,
 	health *servicehealth.Health,
 ) error {
 	listeners, err := pagescrapeassembly.ListenersFor(ctx, cfg)
@@ -177,6 +212,8 @@ func runPagescrape(
 		cfg,
 		listeners,
 		(&net.Dialer{}).DialContext,
+		brokerAccess,
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	)
@@ -185,6 +222,7 @@ func runPagescrape(
 func runPagerwi(
 	ctx context.Context,
 	cfg pagerwiassembly.ServiceConfig,
+	brokerAccess jetstreamconnect.BrokerAccess,
 	health *servicehealth.Health,
 ) error {
 	listeners, err := pagerwiassembly.ListenersFor(ctx, cfg)
@@ -196,9 +234,21 @@ func runPagerwi(
 		cfg,
 		listeners,
 		(&net.Dialer{}).DialContext,
+		brokerAccess,
+		brokerAccess,
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	)
+}
+
+func reportRefusal(err error, observer Observer) {
+	if err != nil {
+		slog.WarnContext(context.Background(), "page services ended as the peer refused the device",
+			slog.Any("error", err),
+		)
+	}
+	observer.DeviceRefused()
 }
 
 func reportEnding(err error, observer Observer) {

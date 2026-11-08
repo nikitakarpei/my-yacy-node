@@ -7,73 +7,71 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 )
 
-type toldChoices struct {
-	choices []companionsettings.Choice
+type toldFetchings struct {
+	fetchings []companionsettings.Fetching
 }
 
-func (t *toldChoices) ChoiceMade(_ context.Context, choice companionsettings.Choice) {
-	t.choices = append(t.choices, choice)
+func (t *toldFetchings) FetchingChanged(_ context.Context, fetching companionsettings.Fetching) {
+	t.fetchings = append(t.fetchings, fetching)
 }
 
 func opened(
 	t *testing.T,
 	directory string,
 	observers ...companionsettings.Observer,
-) *companionsettings.Settings {
+) *companionsettings.Keeper {
 	t.Helper()
-	settings, err := companionsettings.Open(context.Background(), directory, observers...)
+	keeper, err := companionsettings.Open(context.Background(), directory, observers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	t.Cleanup(func() { _ = settings.Close() })
-	return settings
+	t.Cleanup(keeper.Close)
+	return keeper
 }
 
-func TestCompanionsFetchUntilAChoiceIsMade(t *testing.T) {
-	told := &toldChoices{}
-	want := companionsettings.Choice{CompanionsFetch: true}
+func TestCompanionsFetchUntilTheOperatorChangesTheFetching(t *testing.T) {
+	told := &toldFetchings{}
+	want := companionsettings.Fetching{CompanionsFetch: true}
 
-	settings := opened(t, t.TempDir(), told)
+	keeper := opened(t, t.TempDir(), told)
 
-	if settings.Choice() != want {
-		t.Errorf("Choice = %+v, want %+v", settings.Choice(), want)
+	if keeper.Fetching() != want {
+		t.Errorf("Fetching = %+v, want %+v", keeper.Fetching(), want)
 	}
-	if len(told.choices) != 1 || told.choices[0] != want {
-		t.Errorf("told %+v, want the default choice once", told.choices)
+	if len(told.fetchings) != 1 || told.fetchings[0] != want {
+		t.Errorf("told %+v, want the default fetching once", told.fetchings)
 	}
 }
 
-func TestTheSettingsKeepTheChoiceAcrossARestart(t *testing.T) {
+func TestTheKeeperKeepsTheFetchingAcrossARestart(t *testing.T) {
 	directory := t.TempDir()
-	choice := companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+	fetching := companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}
 	first, err := companionsettings.Open(context.Background(), directory)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	first.Choose(context.Background(), choice)
-	if err := first.Close(); err != nil {
-		t.Fatalf("Close: %v", err)
-	}
-	told := &toldChoices{}
+	first.ChangeFetching(context.Background(), fetching)
+	first.Close()
+	told := &toldFetchings{}
 
-	settings := opened(t, directory, told)
+	keeper := opened(t, directory, told)
 
-	if settings.Choice() != choice {
-		t.Errorf("Choice = %+v, want %+v", settings.Choice(), choice)
+	if keeper.Fetching() != fetching {
+		t.Errorf("Fetching = %+v, want %+v", keeper.Fetching(), fetching)
 	}
-	if len(told.choices) != 1 || told.choices[0] != choice {
-		t.Errorf("told %+v, want the kept choice", told.choices)
+	if len(told.fetchings) != 1 || told.fetchings[0] != fetching {
+		t.Errorf("told %+v, want the kept fetching", told.fetchings)
 	}
 }
 
-func TestTheSettingsTellEachChoice(t *testing.T) {
-	told := &toldChoices{}
-	settings := opened(t, t.TempDir(), told)
-	choice := companionsettings.Choice{PeerFillsIn: true}
+func TestTheKeeperTellsEachChange(t *testing.T) {
+	told := &toldFetchings{}
+	keeper := opened(t, t.TempDir(), told)
+	fetching := companionsettings.Fetching{PeerFillsIn: true}
 
-	settings.Choose(context.Background(), choice)
+	keeper.ChangeFetching(context.Background(), fetching)
 
-	if len(told.choices) != 2 || told.choices[1] != choice {
-		t.Errorf("told %+v, want %+v last", told.choices, choice)
+	if len(told.fetchings) != 2 || told.fetchings[1] != fetching {
+		t.Errorf("told %+v, want %+v last", told.fetchings, fetching)
 	}
 }

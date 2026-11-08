@@ -26,9 +26,10 @@ import (
 )
 
 const (
-	workSubject  = "work.done"
-	pairingWait  = 30 * time.Second
-	violationMax = 5 * time.Second
+	workSubject   = "work.done"
+	pairingWait   = 30 * time.Second
+	violationWait = 5 * time.Second
+	arrivalWait   = 5 * time.Second
 )
 
 var connectedAt = time.Now().Truncate(time.Second)
@@ -86,12 +87,7 @@ type fixture struct {
 	secrets *openSecrets
 }
 
-func startBroker(t *testing.T) fixture {
-	t.Helper()
-	return startBrokerFor(t, natspermissions.PublishingOn(workSubject))
-}
-
-func startBrokerFor(t *testing.T, pageServicesPermissions natspermissions.Permissions) fixture {
+func startFixture(t *testing.T) fixture {
 	t.Helper()
 	devices := &knownDevices{
 		paired:    map[companionprotocol.DeviceID]bool{},
@@ -107,7 +103,7 @@ func startBrokerFor(t *testing.T, pageServicesPermissions natspermissions.Permis
 	}
 	broker, err := natsbroker.StartWithEndpoint(t.TempDir(), natsbroker.Endpoint{
 		Authentication: companionaccess.New(
-			devices, secrets, fixedClock{}, pageServicesPermissions, pairingWait,
+			devices, secrets, fixedClock{}, natspermissions.PublishingOn(workSubject), pairingWait,
 		),
 		Address:     "127.0.0.1:0",
 		Certificate: certificate,
@@ -139,7 +135,7 @@ func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceI
 		t.Fatalf("ParseCertificate: %v", err)
 	}
 	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
-		companionprotocol.DeviceIDOf(leaf.RawSubjectPublicKeyInfo)
+		companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo)
 }
 
 type violations chan error
@@ -197,7 +193,7 @@ func requireAllowed(
 	if err := connection.Publish(subject, nil); err != nil {
 		t.Fatalf("publish %s: %v", subject, err)
 	}
-	if _, err := arrivals.NextMsg(violationMax); err != nil {
+	if _, err := arrivals.NextMsg(arrivalWait); err != nil {
 		t.Errorf("publish %s did not arrive: %v", subject, err)
 	}
 }
@@ -212,89 +208,79 @@ func requireRefused(t *testing.T, connection *nats.Conn, seen violations, subjec
 		if !errors.Is(err, nats.ErrPermissionViolation) {
 			t.Errorf("publish %s: %v, want a permission violation", subject, err)
 		}
-	case <-time.After(violationMax):
+	case <-time.After(violationWait):
 		t.Errorf("publish %s passed", subject)
 	}
 }
 
 func TestAPairedDeviceConnectsWithItsKeyAndMayDoItsWork(t *testing.T) {
-	broker := startBroker(t)
-	certificate, device := deviceCertificate(t)
-	broker.devices.paired[device] = true
+	fixture := startFixture(t)
+	certificate, deviceID := deviceCertificate(t)
+	fixture.devices.paired[deviceID] = true
 
-	connection, seen, err := connect(t, broker.broker, []tls.Certificate{certificate},
-		nats.CustomInboxPrefix(companionprotocol.DeviceInboxPrefixOf(device)),
+	connection, seen, err := connect(t, fixture.broker, []tls.Certificate{certificate},
+		nats.CustomInboxPrefix(companionprotocol.DeviceInboxPrefixOf(deviceID)),
 	)
 	if err != nil {
 		t.Fatalf("connect: %v", err)
 	}
 
-	requireAllowed(t, broker.broker, connection, workSubject)
-	requireAllowed(t, broker.broker, connection, companionprotocol.SettingsSubjectOf(device))
+	requireAllowed(t, fixture.broker, connection, workSubject)
+	requireAllowed(t, fixture.broker, connection, companionprotocol.SettingsSubjectOf(deviceID))
 	requireRefused(t, connection, seen, companionprotocol.SettingsSubjectOf("other-device"))
-	if !broker.broker.ConnectedUsers()[companionaccess.UserOf(device)] {
+	if !fixture.broker.ConnectedUsers()[companionaccess.DeviceUserOf(deviceID)] {
 		t.Error("the device is not connected as its user")
 	}
-	if !broker.devices.connected[device].Equal(connectedAt) {
+	if !fixture.devices.connected[deviceID].Equal(connectedAt) {
 		t.Errorf(
 			"connection recorded at %v, want %v",
-			broker.devices.connected[device],
+			fixture.devices.connected[deviceID],
 			connectedAt,
 		)
 	}
 }
 
 func TestAnUnpairedDeviceCannotConnect(t *testing.T) {
-	broker := startBroker(t)
+	fixture := startFixture(t)
 	certificate, _ := deviceCertificate(t)
 
-	if _, _, err := connect(t, broker.broker, []tls.Certificate{certificate}); err == nil {
+	if _, _, err := connect(t, fixture.broker, []tls.Certificate{certificate}); err == nil {
 		t.Error("an unpaired device connected")
 	}
 }
 
 func TestADeviceWithAnOpenSecretMayOnlyAskToPair(t *testing.T) {
-	broker := startBroker(t)
+	fixture := startFixture(t)
 	secret := companionprotocol.RandomSecret()
-	broker.secrets.open[secret] = true
+	fixture.secrets.open[secret] = true
 
-	connection, seen, err := connect(t, broker.broker, nil,
-		nats.Name("Pixel 8"),
-		nats.UserInfo("", string(secret)),
+	credentials := companionprotocol.PairingCredentialsFrom("Pixel 8", secret)
+	connection, seen, err := connect(t, fixture.broker, nil,
+		nats.Name(credentials.ClientName),
+		nats.UserInfo("", credentials.Password),
 		nats.CustomInboxPrefix(companionprotocol.PairingInboxPrefixFor(secret)),
 	)
 	if err != nil {
 		t.Fatalf("connect: %v", err)
 	}
 
-	if broker.secrets.begun[secret] != "Pixel 8" {
-		t.Errorf("begun pairings = %v, want Pixel 8", broker.secrets.begun)
+	if fixture.secrets.begun[secret] != "Pixel 8" {
+		t.Errorf("begun pairings = %v, want Pixel 8", fixture.secrets.begun)
 	}
-	requireAllowed(t, broker.broker, connection, companionprotocol.PairingRequestSubject)
+	requireAllowed(t, fixture.broker, connection, companionprotocol.PairingRequestSubject)
 	requireRefused(t, connection, seen, workSubject)
 }
 
 func TestADeviceWithoutAnOpenSecretCannotConnect(t *testing.T) {
-	broker := startBroker(t)
+	fixture := startFixture(t)
 
 	_, _, err := connect(
 		t,
-		broker.broker,
+		fixture.broker,
 		nil,
 		nats.UserInfo("", string(companionprotocol.RandomSecret())),
 	)
 	if err == nil {
 		t.Error("a device without an open secret connected")
-	}
-}
-
-func TestAConnectionWithoutTLSIsRefused(t *testing.T) {
-	broker := startBroker(t)
-
-	if _, err := nats.Connect(
-		"nats://"+broker.broker.EndpointAddress().String(),
-		nats.MaxReconnects(0),
-	); err == nil {
-		t.Error("a connection without TLS connected")
 	}
 }

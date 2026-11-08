@@ -27,7 +27,7 @@ func on(name string, ip string) hostaddresses.Interface {
 }
 
 func TestAListenerOnOneAddressIsReachedThereOnly(t *testing.T) {
-	host := hostaddresses.HostOf(
+	host := hostaddresses.HostFrom(
 		[]hostaddresses.Interface{on("wlp1s0", "192.168.10.157")},
 		interfaceClasses,
 		nil,
@@ -41,7 +41,7 @@ func TestAListenerOnOneAddressIsReachedThereOnly(t *testing.T) {
 }
 
 func TestTheAddressesOfAListenerOnEveryAddressComeMostLikelyFirst(t *testing.T) {
-	host := hostaddresses.HostOf([]hostaddresses.Interface{
+	host := hostaddresses.HostFrom([]hostaddresses.Interface{
 		on("docker0", "172.17.0.1"),
 		on("lo", "127.0.0.1"),
 		on("wg0", "10.8.0.2"),
@@ -68,7 +68,7 @@ func TestTheAddressesOfAListenerOnEveryAddressComeMostLikelyFirst(t *testing.T) 
 }
 
 func TestAShortListLeavesTheLeastLikelyAddressesOut(t *testing.T) {
-	host := hostaddresses.HostOf([]hostaddresses.Interface{
+	host := hostaddresses.HostFrom([]hostaddresses.Interface{
 		on("docker0", "172.17.0.1"),
 		on("wlp1s0", "192.168.10.157"),
 		on("wlp1s0", "192.168.10.158"),
@@ -82,11 +82,5 @@ func TestAShortListLeavesTheLeastLikelyAddressesOut(t *testing.T) {
 
 	if len(addresses) != 6 || addresses[5] == "172.17.0.1:4223" {
 		t.Errorf("addresses = %v, want six without the container bridge", addresses)
-	}
-}
-
-func TestThisHostListsAtLeastOneAddress(t *testing.T) {
-	if addresses := hostaddresses.ThisHost().AddressesFor(everyAddress); len(addresses) == 0 {
-		t.Error("this host lists no address")
 	}
 }

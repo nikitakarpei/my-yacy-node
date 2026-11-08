@@ -9,108 +9,124 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/peerintake"
 )
 
-func admits(hold *peerintake.Admission) bool {
+var (
+	onlyCompanionsFetch = companionsettings.Fetching{CompanionsFetch: true}
+	peerFillsIn         = companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}
+)
+
+func admits(admission *peerintake.Admission) bool {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	return !errors.Is(hold.AwaitAdmission(ctx), context.Canceled)
+	return !errors.Is(admission.AwaitAdmission(ctx), context.Canceled)
 }
 
-func pairedHold() *peerintake.Admission {
-	hold := peerintake.New()
-	hold.FirstDevicePaired(context.Background())
-	return hold
+func pairedAdmission() *peerintake.Admission {
+	admission := peerintake.New()
+	admission.FirstDevicePaired(context.Background())
+	return admission
 }
 
-func TestTheIntakeHoldAdmitsWhileNoDeviceIsPaired(t *testing.T) {
-	hold := peerintake.New()
+func TestTheAdmissionAdmitsWhileNoDeviceIsPaired(t *testing.T) {
+	admission := peerintake.New()
 
-	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
+	admission.FetchingChanged(context.Background(), onlyCompanionsFetch)
 
-	if !admits(hold) {
+	if !admits(admission) {
 		t.Error("the intake is held back although no device is paired")
 	}
 }
 
-func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheLastDeviceIsUnpaired(t *testing.T) {
-	hold := pairedHold()
-	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
-	if admits(hold) {
+func TestTheAdmissionAdmitsOnceTheLastDeviceIsUnpaired(t *testing.T) {
+	admission := pairedAdmission()
+	admission.FetchingChanged(context.Background(), onlyCompanionsFetch)
+	if admits(admission) {
 		t.Fatal("the intake is admitted before the last device is unpaired")
 	}
-	admitted := make(chan error, 1)
-	go func() { admitted <- hold.AwaitAdmission(context.Background()) }()
 
-	hold.LastDeviceUnpaired(context.Background())
+	admission.LastDeviceUnpaired(context.Background())
 
-	if err := <-admitted; err != nil {
-		t.Errorf("AwaitAdmission = %v, want admitted", err)
+	if !admits(admission) {
+		t.Error("the intake is held back after the last device is unpaired")
 	}
 }
 
-func TestTheIntakeHoldAdmitsWhileCompanionsDoNotFetch(t *testing.T) {
-	hold := pairedHold()
-	hold.FirstCompanionConnected(context.Background())
+func TestTheAdmissionAdmitsWhileCompanionsDoNotFetch(t *testing.T) {
+	admission := pairedAdmission()
+	admission.FirstCompanionConnected(context.Background())
 
-	hold.ChoiceMade(context.Background(), companionsettings.Choice{PeerFillsIn: true})
+	admission.FetchingChanged(context.Background(), companionsettings.Fetching{PeerFillsIn: true})
 
-	if !admits(hold) {
+	if !admits(admission) {
 		t.Error("the intake is held back while companions do not fetch")
 	}
 }
 
-func TestTheIntakeHoldHoldsBackWhileOnlyCompanionsFetch(t *testing.T) {
-	hold := pairedHold()
+func TestTheAdmissionHoldsBackWhileOnlyCompanionsFetch(t *testing.T) {
+	admission := pairedAdmission()
 
-	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
+	admission.FetchingChanged(context.Background(), onlyCompanionsFetch)
 
-	if admits(hold) {
+	if admits(admission) {
 		t.Error("the intake is admitted while only companions fetch and none is connected")
 	}
 }
 
-func TestTheIntakeHoldAdmitsWhileThePeerFillsInForAbsentCompanions(t *testing.T) {
-	hold := pairedHold()
+func TestTheAdmissionAdmitsWhileThePeerFillsInForAbsentCompanions(t *testing.T) {
+	admission := pairedAdmission()
 
-	hold.ChoiceMade(
-		context.Background(),
-		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
-	)
+	admission.FetchingChanged(context.Background(), peerFillsIn)
 
-	if !admits(hold) {
+	if !admits(admission) {
 		t.Error("the intake is held back although no companion is connected")
 	}
 }
 
-func TestTheIntakeHoldHoldsBackOnceACompanionConnects(t *testing.T) {
-	hold := pairedHold()
-	hold.ChoiceMade(
-		context.Background(),
-		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
-	)
+func TestTheAdmissionHoldsBackOnceACompanionConnects(t *testing.T) {
+	admission := pairedAdmission()
+	admission.FetchingChanged(context.Background(), peerFillsIn)
 
-	hold.FirstCompanionConnected(context.Background())
+	admission.FirstCompanionConnected(context.Background())
 
-	if admits(hold) {
+	if admits(admission) {
 		t.Error("the intake is admitted while a companion is connected")
 	}
 }
 
-func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheCompanionsLeft(t *testing.T) {
-	hold := pairedHold()
-	hold.ChoiceMade(
-		context.Background(),
-		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
-	)
-	hold.FirstCompanionConnected(context.Background())
-	if admits(hold) {
-		t.Fatal("the intake is admitted before the companions left")
+func TestTheAdmissionAdmitsOnceTheLastCompanionDisconnects(t *testing.T) {
+	admission := pairedAdmission()
+	admission.FetchingChanged(context.Background(), peerFillsIn)
+	admission.FirstCompanionConnected(context.Background())
+	if admits(admission) {
+		t.Fatal("the intake is admitted before the last companion disconnects")
 	}
-	admitted := make(chan error, 1)
-	go func() { admitted <- hold.AwaitAdmission(context.Background()) }()
 
-	hold.LastCompanionDisconnected(context.Background())
+	admission.LastCompanionDisconnected(context.Background())
 
-	if err := <-admitted; err != nil {
-		t.Errorf("AwaitAdmission = %v, want admitted", err)
+	if !admits(admission) {
+		t.Error("the intake is held back after the last companion disconnects")
+	}
+}
+
+func TestFetchingIsPausedOnlyWhileOnlyAbsentCompanionsFetchForAPairedDevice(t *testing.T) {
+	admission := peerintake.New()
+	admission.FetchingChanged(context.Background(), onlyCompanionsFetch)
+	if admission.FetchingPaused() {
+		t.Error("fetching is paused although no device is paired")
+	}
+
+	admission.FirstDevicePaired(context.Background())
+	if !admission.FetchingPaused() {
+		t.Error("fetching is not paused while only absent companions fetch")
+	}
+
+	admission.FirstCompanionConnected(context.Background())
+	if admission.FetchingPaused() {
+		t.Error("fetching is paused while a companion is connected")
+	}
+
+	admission.LastCompanionDisconnected(context.Background())
+	admission.FetchingChanged(context.Background(), peerFillsIn)
+	if admission.FetchingPaused() {
+		t.Error("fetching is paused while the peer fills in")
 	}
 }

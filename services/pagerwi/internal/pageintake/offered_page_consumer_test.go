@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/urlhashtest"
@@ -39,10 +40,6 @@ func (r *recordingPageRWIs) Publish(_ context.Context, pageRWI pagerwicontract.P
 
 	return true
 }
-
-type admittedPageRWIBacklog struct{}
-
-func (admittedPageRWIBacklog) AwaitAdmission(context.Context) error { return nil }
 
 type recordingIntakeReceipts struct {
 	kept     []canonicalurl.CanonicalURL
@@ -186,7 +183,7 @@ func runWith(
 			FormatDerivations:          formatDerivations,
 			PageIndexBuilder:           indexBuilder(t),
 			PageRWIs:                   collaborators.pageRWIs,
-			PageRWIBacklog:             admittedPageRWIBacklog{},
+			Admission:                  pullintake.EveryItemAdmitted{},
 			IntakeReceipts:             collaborators.intakeReceipts,
 			PageIntakeObserver:         collaborators.pageIntakeObserver,
 			PageOfferIntakeConcurrency: 1,

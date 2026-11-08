@@ -13,14 +13,17 @@ You configure yacypeer through environment variables.
 | `YACYPEER_WEB_ADDR` | `127.0.0.1:9090` | Address that serves the search page at `/`, the crawl console at `/crawlconsole/`, the dashboards at `/dashboards`, `/metrics`, and `/metrics/<service>`. |
 | `YACYPEER_METRIC_HISTORY_RETENTION` | `168h` | How long yacypeer keeps the metric history that the dashboards show. |
 | `YACYPEER_PEER_KEY_SEARCH_TIME` | `1m` | How long the first start searches the peer key. A longer search can give a stronger key. |
+| `YACYPEER_PARTITION_EXPONENT` | `4` | Partition exponent of the DHT of the YaCy network. yacynode, yacydhtsearch, pagerwi, and the companion devices use it. |
 | `YACYPEER_PEER_PROXY_URL` | none | HTTP proxy with `CONNECT` for peers and seedlists. Name a loopback or private proxy by its IP address. |
 | `YACYPEER_PAGE_FETCH_PROXY_URL` | none | Proxy like `YACYPEER_PEER_PROXY_URL`, for page fetches. |
+| `YACYPEER_COMPANION_ADDR` | none | Address where companion devices connect to the NATS server of the peer with TLS. When you do not set it, no device can connect. |
 | `LOG_LEVEL` | `INFO` | Log level. The `service` field names the service. |
 
 yacypeer does not start when `HTTP_PROXY`, `HTTPS_PROXY`, or `NO_PROXY` is set, in any case.
 
-Only the local host can reach yacypeer, except on the peer address of yacynode. To let
-other hosts reach the web address, set it, such as `YACYPEER_WEB_ADDR=:9090`.
+Only the local host can reach yacypeer, except on the peer address of yacynode and on the
+companion address. To let other hosts reach the web address, set it, such as
+`YACYPEER_WEB_ADDR=:9090`.
 
 ## Services
 
