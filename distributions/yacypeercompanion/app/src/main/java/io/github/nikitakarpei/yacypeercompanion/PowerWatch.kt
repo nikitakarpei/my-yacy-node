@@ -16,14 +16,14 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
     private val powerManager = ctx.getSystemService(PowerManager::class.java)
 
     @Volatile
-    private var pluggedIn = pluggedInNow()
+    private var onCharger = onChargerNow()
 
     @Volatile
     private var reportedAccess: PowerAccess? = null
 
     val access: PowerAccess
         get() = when {
-            ChargingOnly.required(ctx) && !pluggedIn -> PowerAccess.CHARGER_NEEDED
+            Charger.required(ctx) && !onCharger -> PowerAccess.BATTERY_ONLY
             BatterySaverPause.wanted(ctx) && powerManager.isPowerSaveMode -> PowerAccess.BATTERY_SAVER_ON
             else -> PowerAccess.USABLE
         }
@@ -32,8 +32,8 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
         object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.action) {
-                    Intent.ACTION_POWER_CONNECTED -> pluggedIn = true
-                    Intent.ACTION_POWER_DISCONNECTED -> pluggedIn = false
+                    Intent.ACTION_POWER_CONNECTED -> onCharger = true
+                    Intent.ACTION_POWER_DISCONNECTED -> onCharger = false
                 }
                 report(intent.action.orEmpty())
             }
@@ -49,12 +49,12 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
                 addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
             }
         ctx.registerReceiver(powerChanges, changes, Context.RECEIVER_NOT_EXPORTED)
-        ChargingOnly.follow(ctx, powerSettings)
+        Charger.follow(ctx, powerSettings)
         BatterySaverPause.follow(ctx, powerSettings)
         reportedAccess = access
     }
 
-    private fun pluggedInNow(): Boolean {
+    private fun onChargerNow(): Boolean {
         val battery = ctx.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         if (battery == null) {
             Log.w(LOG_TAG, "battery state unknown, so the device counts as off the charger")
@@ -73,7 +73,7 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
 
     override fun close() {
         BatterySaverPause.unfollow(ctx, powerSettings)
-        ChargingOnly.unfollow(ctx, powerSettings)
+        Charger.unfollow(ctx, powerSettings)
         ctx.unregisterReceiver(powerChanges)
     }
 }

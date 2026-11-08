@@ -34,12 +34,12 @@ sealed interface CompanionState {
 
     data class RetryingAt(override val reason: DisconnectReason, val retryAtMs: Long, override val failedAttempts: Int) : Recovering
 
-    data class WaitingForNetwork(override val reason: DisconnectReason, override val failedAttempts: Int) : Recovering
+    data class Offline(override val reason: DisconnectReason, override val failedAttempts: Int) : Recovering
 }
 
 enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
 
-enum class PowerAccess { USABLE, CHARGER_NEEDED, BATTERY_SAVER_ON }
+enum class PowerAccess { USABLE, BATTERY_ONLY, BATTERY_SAVER_ON }
 
 enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, DEVICE_KEY, SERVICES_FAILED, DEVICE_REFUSED }
 

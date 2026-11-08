@@ -14,7 +14,7 @@ class SettingsScreen : Activity() {
         val column = column().apply { setPadding(0, dp(12), 0, dp(24)) }
         column.addView(topBar("Settings", R.color.on_surface) { finish() })
         column.addView(
-            switchRow(CHARGING_ONLY_TEXT, null, ChargingOnly.required(this)) { ChargingOnly.require(this, it) },
+            switchRow(CHARGING_ONLY_TEXT, null, Charger.required(this)) { Charger.require(this, it) },
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp(16)
             },
