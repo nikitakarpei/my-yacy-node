@@ -16,35 +16,39 @@ const (
 	PairingRequestSubject = "pairing.request"
 )
 
-func NewSecret() string {
+type Secret string
+
+type SecretID string
+
+func NewSecret() Secret {
 	secret := make([]byte, secretByteLength)
 	_, _ = rand.Read(secret)
-	return base64.RawURLEncoding.EncodeToString(secret)
+	return Secret(base64.RawURLEncoding.EncodeToString(secret))
 }
 
-func SecretIDOf(secret string) string {
-	return shortHashOf([]byte(secret))
+func SecretIDOf(secret Secret) SecretID {
+	return SecretID(shortHashOf([]byte(secret)))
 }
 
-func ChallengeFor(secret string, brokerKeyHash string) []byte {
-	challenge := sha256.Sum256([]byte(challengeLabel + secret + brokerKeyHash))
+func ChallengeFor(secret Secret, brokerKeyHash string) []byte {
+	challenge := sha256.Sum256([]byte(challengeLabel + string(secret) + brokerKeyHash))
 	return challenge[:]
 }
 
-func PairingInboxPrefixFor(secret string) string {
-	return pairingInboxStart + SecretIDOf(secret)
+func PairingInboxPrefixFor(secret Secret) string {
+	return pairingInboxStart + string(SecretIDOf(secret))
 }
 
-func PairingRepliesFor(secret string) string {
+func PairingRepliesFor(secret Secret) string {
 	return PairingInboxPrefixFor(secret) + ".>"
 }
 
-func SecretIDFromReply(replySubject string) string {
+func SecretIDFromReply(replySubject string) SecretID {
 	secretID, _, found := strings.Cut(strings.TrimPrefix(replySubject, pairingInboxStart), ".")
 	if !found || !strings.HasPrefix(replySubject, pairingInboxStart) {
 		return ""
 	}
-	return secretID
+	return SecretID(secretID)
 }
 
 func shortHashOf(data []byte) string {

@@ -14,31 +14,31 @@ const (
 	UnpairSubjects   = deviceSubjectStart + "*" + unpairEnd
 )
 
-func SettingsSubjectOf(device string) string {
-	return deviceSubjectStart + device + settingsEnd
+func SettingsSubjectOf(device DeviceID) string {
+	return deviceSubjectStart + string(device) + settingsEnd
 }
 
-func AppSubjectOf(device string) string {
-	return deviceSubjectStart + device + appEnd
+func AppSubjectOf(device DeviceID) string {
+	return deviceSubjectStart + string(device) + appEnd
 }
 
-func UnpairSubjectOf(device string) string {
-	return deviceSubjectStart + device + unpairEnd
+func UnpairSubjectOf(device DeviceID) string {
+	return deviceSubjectStart + string(device) + unpairEnd
 }
 
-func DeviceSubjectsOf(device string) string {
-	return deviceSubjectStart + device + ".>"
+func DeviceSubjectsOf(device DeviceID) string {
+	return deviceSubjectStart + string(device) + ".>"
 }
 
-func DeviceInboxPrefixOf(device string) string {
-	return deviceInboxStart + device
+func DeviceInboxPrefixOf(device DeviceID) string {
+	return deviceInboxStart + string(device)
 }
 
-func DeviceRepliesOf(device string) string {
+func DeviceRepliesOf(device DeviceID) string {
 	return DeviceInboxPrefixOf(device) + ".>"
 }
 
-func DeviceFromSubject(subject string) string {
+func DeviceFromSubject(subject string) DeviceID {
 	device, _, _ := strings.Cut(strings.TrimPrefix(subject, deviceSubjectStart), ".")
-	return device
+	return DeviceID(device)
 }

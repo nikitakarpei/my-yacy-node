@@ -27,7 +27,7 @@ var (
 type PairLink struct {
 	Addresses     []string
 	BrokerKeyHash string
-	Secret        string
+	Secret        Secret
 }
 
 func (l PairLink) String() string {
@@ -37,7 +37,7 @@ func (l PairLink) String() string {
 		RawQuery: url.Values{
 			parameterAddress:       l.Addresses,
 			parameterBrokerKeyHash: {l.BrokerKeyHash},
-			parameterSecret:        {l.Secret},
+			parameterSecret:        {string(l.Secret)},
 		}.Encode(),
 	}).String()
 }
@@ -51,7 +51,7 @@ func PairLinkFrom(text string) (PairLink, error) {
 	pairLink := PairLink{
 		Addresses:     slices.DeleteFunc(parameters[parameterAddress], isEmpty),
 		BrokerKeyHash: parameters.Get(parameterBrokerKeyHash),
-		Secret:        parameters.Get(parameterSecret),
+		Secret:        Secret(parameters.Get(parameterSecret)),
 	}
 	if link.Host != pairHost || len(pairLink.Addresses) == 0 || pairLink.BrokerKeyHash == "" ||
 		pairLink.Secret == "" {

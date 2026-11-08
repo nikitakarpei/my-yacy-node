@@ -27,9 +27,9 @@ type PairingRequest struct {
 }
 
 type PairingReply struct {
-	Outcome Outcome `json:"outcome"`
-	Device  string  `json:"device,omitempty"`
-	Reason  Reason  `json:"reason,omitempty"`
+	Outcome Outcome  `json:"outcome"`
+	Device  DeviceID `json:"device,omitempty"`
+	Reason  Reason   `json:"reason,omitempty"`
 }
 
 type Settings struct {

@@ -14,8 +14,10 @@ func BrokerKeyHashOf(publicKeyInfo []byte) string {
 	return base64.RawURLEncoding.EncodeToString(hash[:])
 }
 
-func DeviceIDOf(publicKeyInfo []byte) string {
-	return shortHashOf(publicKeyInfo)
+type DeviceID string
+
+func DeviceIDOf(publicKeyInfo []byte) DeviceID {
+	return DeviceID(shortHashOf(publicKeyInfo))
 }
 
 func ProofOf(key crypto.Signer, challenge []byte) ([]byte, error) {
