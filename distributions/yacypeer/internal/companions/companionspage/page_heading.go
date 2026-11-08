@@ -1,6 +1,10 @@
 package companionspage
 
-import "slices"
+import (
+	"slices"
+
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+)
 
 type tab int
 

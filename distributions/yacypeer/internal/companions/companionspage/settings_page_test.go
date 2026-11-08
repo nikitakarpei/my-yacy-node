@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/fetchsettings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
 )
 
 const pausedText = "Page fetching is paused: no companion is connected."

@@ -47,11 +47,11 @@ components:
   hostaddresses:
     in: internal/hostaddresses/**
   companionpresence:
-    in: internal/companionpresence/**
+    in: internal/companions/companionpresence/**
   fetchsettings:
-    in: internal/fetchsettings/**
+    in: internal/companions/fetchsettings/**
   peerintake:
-    in: internal/peerintake/**
+    in: internal/companions/peerintake/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
