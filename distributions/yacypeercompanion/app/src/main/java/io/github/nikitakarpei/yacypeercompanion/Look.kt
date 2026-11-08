@@ -121,7 +121,15 @@ fun Context.icon(drawableId: Int, colorId: Int, size: Int = 26): ImageView = Ima
     layoutParams = LinearLayout.LayoutParams(dp(size), dp(size))
 }
 
-fun Context.row(drawableId: Int, title: String, detail: String?, end: View? = null): LinearLayout = LinearLayout(this).apply {
+fun Context.row(drawableId: Int, title: String, detail: String, end: View? = null): LinearLayout = rowWith(drawableId, end) { texts ->
+    texts.addView(heading(title, 18f))
+    texts.addView(bodyText(detail, 14f).apply { isSingleLine = true })
+}
+
+fun Context.titleRow(drawableId: Int, title: String, end: View? = null): LinearLayout =
+    rowWith(drawableId, end) { texts -> texts.addView(heading(title, 18f)) }
+
+private fun Context.rowWith(drawableId: Int, end: View?, addTexts: (LinearLayout) -> Unit): LinearLayout = LinearLayout(this).apply {
     orientation = LinearLayout.HORIZONTAL
     gravity = Gravity.CENTER_VERTICAL
     minimumHeight = dp(64)
@@ -130,8 +138,7 @@ fun Context.row(drawableId: Int, title: String, detail: String?, end: View? = nu
     addView(
         LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            addView(heading(title, 18f))
-            detail?.let { addView(bodyText(it, 14f).apply { isSingleLine = true }) }
+            addTexts(this)
         },
         LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply { marginStart = dp(20) },
     )

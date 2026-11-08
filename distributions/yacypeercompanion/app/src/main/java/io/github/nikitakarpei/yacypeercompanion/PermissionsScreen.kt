@@ -1,7 +1,6 @@
 package io.github.nikitakarpei.yacypeercompanion
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -55,17 +54,21 @@ class PermissionsScreen : Activity() {
             val end = if (permission.granted(this)) doneMark("Allowed") else tonalButton("Allow") { permission.ask(this) }
             rows.addView(rowOf(permission, end))
         }
-        val consentEnd = if (DataSharingConsent.given(this)) {
+        rows.addView(dataSharingRow())
+        next.isEnabled = PairingPrerequisites.met(this)
+    }
+
+    private fun dataSharingRow(): LinearLayout {
+        val end = if (DataSharing.agreed(this)) {
             doneMark("Agreed")
         } else {
-            tonalButton("Review") { showDataSharing { agreeToDataSharing() } }
+            tonalButton("Review") { showDataSharingTerms { agreeToDataSharing() } }
         }
-        rows.addView(row(R.drawable.ic_shield, DATA_SHARING_TITLE, null, consentEnd))
-        next.isEnabled = pairingAllowed(this)
+        return titleRow(R.drawable.ic_shield, DATA_SHARING_TITLE, end)
     }
 
     private fun agreeToDataSharing() {
-        DataSharingConsent.give(this)
+        DataSharing.agree(this)
         refresh()
     }
 
@@ -81,5 +84,3 @@ class PermissionsScreen : Activity() {
         addView(bodyText(text, 14f, R.color.primary).apply { setPadding(dp(4), 0, 0, 0) })
     }
 }
-
-fun pairingAllowed(ctx: Context): Boolean = Permission.lastingGranted(ctx) && DataSharingConsent.given(ctx)
