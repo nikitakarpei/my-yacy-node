@@ -32,13 +32,13 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForNetwork
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -52,13 +52,13 @@ class CompanionMachineTest {
     private val usable = NetworkChanged(NetworkAccess.USABLE)
     private val meteredOnly = NetworkChanged(NetworkAccess.METERED_ONLY)
     private val onCharger = PowerChanged(PowerAccess.USABLE)
-    private val offCharger = PowerChanged(PowerAccess.CHARGER_NEEDED)
+    private val offCharger = PowerChanged(PowerAccess.BATTERY_ONLY)
 
     private fun stepOf(state: CompanionState, event: CompanionEvent, networkAccess: NetworkAccess = NetworkAccess.USABLE) =
         CompanionModel(state, networkAccess).after(event, now)
 
     private fun offChargerStepOf(state: CompanionState, event: CompanionEvent) =
-        CompanionModel(state, powerAccess = PowerAccess.CHARGER_NEEDED).after(event, now)
+        CompanionModel(state, powerAccess = PowerAccess.BATTERY_ONLY).after(event, now)
 
     private fun assertStep(step: Step, state: CompanionState, vararg effects: CompanionEffect) {
         assertEquals(state, step.model.state)
@@ -164,9 +164,9 @@ class CompanionMachineTest {
 
     @Test
     fun withoutANetworkTheCompanionWaitsForOne() {
-        assertStep(stepOf(Reconnecting(lostPeer, 1), unreachable, NetworkAccess.NONE), WaitingForNetwork(lostPeer, 2))
-        assertStep(stepOf(RetryingAt(lostPeer, now, 2), NetworkChanged(NetworkAccess.NONE)), WaitingForNetwork(lostPeer, 2), CancelRetry)
-        assertStep(stepOf(WaitingForNetwork(lostPeer, 2), usable, NetworkAccess.NONE), Reconnecting(lostPeer, 0), StartServices)
+        assertStep(stepOf(Reconnecting(lostPeer, 1), unreachable, NetworkAccess.NONE), Offline(lostPeer, 2))
+        assertStep(stepOf(RetryingAt(lostPeer, now, 2), NetworkChanged(NetworkAccess.NONE)), Offline(lostPeer, 2), CancelRetry)
+        assertStep(stepOf(Offline(lostPeer, 2), usable, NetworkAccess.NONE), Reconnecting(lostPeer, 0), StartServices)
     }
 
     @Test

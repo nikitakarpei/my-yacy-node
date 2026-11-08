@@ -25,7 +25,7 @@ fun textOf(reason: DisconnectReason): String = when (reason) {
 
 fun reasonTextOf(state: CompanionState.Disconnected): String = when (state) {
     CompanionState.DeviceRefused -> textOf(DisconnectReason.DEVICE_REFUSED)
-    is CompanionState.WaitingForNetwork -> "No network connection"
+    is CompanionState.Offline -> "No network connection"
     is CompanionState.Recovering -> textOf(state.reason)
 }
 
@@ -36,7 +36,7 @@ const val CHARGING_ONLY_TEXT = "Run only when charging"
 fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
     is CompanionState.Reconnecting -> RECONNECTING_TEXT
     is CompanionState.RetryingAt -> "Retrying in ${((state.retryAtMs - SystemClock.elapsedRealtime()) / 1_000).coerceAtLeast(0)} s"
-    is CompanionState.WaitingForNetwork, CompanionState.DeviceRefused -> null
+    is CompanionState.Offline, CompanionState.DeviceRefused -> null
 }
 
 fun textOf(problem: PairingProblem): String = when (problem) {

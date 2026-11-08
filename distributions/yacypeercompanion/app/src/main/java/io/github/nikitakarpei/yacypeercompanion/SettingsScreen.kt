@@ -50,8 +50,8 @@ class SettingsScreen : Activity() {
         setPadding(dp(24), dp(8), dp(24), dp(8))
         val toggle =
             ToggleSwitch(context).apply {
-                isChecked = ChargingOnly.required(context)
-                setOnCheckedChangeListener { _, checked -> ChargingOnly.require(context, checked) }
+                isChecked = Charger.required(context)
+                setOnCheckedChangeListener { _, checked -> Charger.require(context, checked) }
             }
         addView(heading(CHARGING_ONLY_TEXT, 16f), LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         addView(toggle)
