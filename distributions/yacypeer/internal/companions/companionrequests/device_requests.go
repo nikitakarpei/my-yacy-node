@@ -11,11 +11,11 @@ import (
 )
 
 type ReportingDevices interface {
-	RecordAppVersion(ctx context.Context, id string, appVersion string)
+	RecordAppVersion(ctx context.Context, id companionprotocol.DeviceID, appVersion string)
 }
 
 type Unpairing interface {
-	Unpair(ctx context.Context, device string)
+	Unpair(ctx context.Context, device companionprotocol.DeviceID)
 }
 
 type DeviceRequests struct {
@@ -60,9 +60,24 @@ func (d *DeviceRequests) recordApp(ctx context.Context, report *nats.Msg) {
 
 func (d *DeviceRequests) unpair(ctx context.Context, request *nats.Msg, connection *nats.Conn) {
 	device := companionprotocol.DeviceFromSubject(request.Subject)
-	if err := request.Respond(nil); err == nil {
-		_ = connection.Flush()
-	}
+	confirmUnpairing(ctx, device, request, connection)
 	d.unpairing.Unpair(ctx, device)
-	slog.DebugContext(ctx, "device unpaired itself", slog.String("device", device))
+	slog.DebugContext(ctx, "device unpaired itself", slog.String("device", string(device)))
+}
+
+func confirmUnpairing(
+	ctx context.Context,
+	device companionprotocol.DeviceID,
+	request *nats.Msg,
+	connection *nats.Conn,
+) {
+	err := request.Respond(nil)
+	if err == nil {
+		err = connection.Flush()
+	}
+	if err != nil {
+		slog.WarnContext(ctx, "unpairing not confirmed to the device",
+			slog.String("device", string(device)), slog.Any("error", err),
+		)
+	}
 }
