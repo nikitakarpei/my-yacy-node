@@ -1,7 +1,7 @@
 package yacypeerassembly
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
 )

@@ -20,9 +20,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/hostaddresses"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
@@ -110,7 +110,7 @@ func (c *companions) register(
 }
 
 func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
-	address, _ := broker.CompanionAddress().(*net.TCPAddr)
+	address, _ := broker.ListeningAddress().(*net.TCPAddr)
 	return companionprotocol.PairLink{
 		Addresses:     hostaddresses.ThisHost().AddressesFor(address),
 		BrokerKeyHash: c.brokerKeyHash(),

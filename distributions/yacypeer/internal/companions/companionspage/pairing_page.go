@@ -9,7 +9,7 @@ import (
 	"net/url"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
 
 type pairView struct {
@@ -47,7 +47,7 @@ func (p *pages) pairingEvents(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			flusher.Flush()
-			if event.Kind == pairingoffers.DevicePaired {
+			if _, isPaired := event.(pairingoffers.DevicePaired); isPaired {
 				return
 			}
 		}
@@ -55,13 +55,13 @@ func (p *pages) pairingEvents(w http.ResponseWriter, r *http.Request) {
 }
 
 type deviceEvent struct {
-	DeviceName string `json:"deviceName"`
-	Cause      string `json:"cause,omitempty"`
-	URL        string `json:"url,omitempty"`
+	DeviceName companionprotocol.DeviceName `json:"deviceName"`
+	Cause      string                       `json:"cause,omitempty"`
+	URL        string                       `json:"url,omitempty"`
 }
 
 func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
-	switch event.Kind {
+	switch event := event.(type) {
 	case pairingoffers.SecretRenewed:
 		link := p.link
 		link.Secret = event.Secret
@@ -71,7 +71,7 @@ func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
 	case pairingoffers.DevicePaired:
 		return writeDeviceEvent(w, "paired", deviceEvent{
 			DeviceName: event.DeviceName,
-			URL:        Path + "?" + url.Values{"paired": {event.Device}}.Encode(),
+			URL:        Path + "?" + url.Values{"paired": {string(event.Device)}}.Encode(),
 		})
 	case pairingoffers.DeviceRefused:
 		return writeDeviceEvent(w, "refused", deviceEvent{
