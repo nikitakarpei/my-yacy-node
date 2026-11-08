@@ -14,14 +14,13 @@
   {{template "heading" .Heading}}
   <form class="settings" method="post" action="{{.SettingsPath}}">
     <label class="setting">
-      <input class="webui-switch" type="checkbox" role="switch" name="companionsFetch" value="on"{{if .Choice.CompanionsFetch}} checked{{end}}{{if not .AnyPaired}} disabled{{end}}>
+      <input class="webui-switch" type="checkbox" role="switch" name="companionsFetch" value="on"{{if .Choice.CompanionsFetch}} checked{{end}}>
       Fetch pages with paired companions
     </label>
     <label class="setting dependent">
-      <input class="webui-switch" type="checkbox" role="switch" name="peerFillsIn" value="on"{{if .Choice.PeerFillsIn}} checked{{end}}{{if or (not .AnyPaired) (not .Choice.CompanionsFetch)}} disabled{{end}}>
+      <input class="webui-switch" type="checkbox" role="switch" name="peerFillsIn" value="on"{{if .Choice.PeerFillsIn}} checked{{end}}{{if not .Choice.CompanionsFetch}} disabled{{end}}>
       Let this peer fetch pages while no companion is connected
     </label>
-    {{if not .AnyPaired}}<p class="setting-hint">No companions are paired.</p>{{end}}
     <noscript><div class="setting"><button type="submit">Save</button></div></noscript>
   </form>
 </main>

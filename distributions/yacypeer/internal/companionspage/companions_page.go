@@ -123,7 +123,6 @@ type companionsView struct {
 	Frame           pageFrame
 	Heading         headingView
 	ConnectionsPath string
-	JustPaired      string
 	Unpairing       *deviceRow
 	Devices         []deviceRow
 	PairPath        string
@@ -151,7 +150,7 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 		CompanionPath:   Path,
 	}
 	if paired := rowOf(rows, r.URL.Query().Get("paired")); paired != nil {
-		view.JustPaired = paired.Name
+		view.Heading.JustPaired = paired.Name
 	}
 	view.Unpairing = rowOf(rows, r.URL.Query().Get("unpair"))
 	render(w, r, companionsPage, view)
