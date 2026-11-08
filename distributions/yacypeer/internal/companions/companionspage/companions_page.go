@@ -31,8 +31,8 @@ const (
 	pathPair          = Path + "/pair"
 	pathPairingEvents = pathPair + "/events"
 	pathAssets        = Path + "/assets/"
-	appGuideURL       = "https://github.com/nikitakarpei/my-yacy-node/tree/main/" +
-		"distributions/yacypeercompanion"
+	appGuideURL       = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
+		"distributions/yacypeercompanion/README.md"
 	connectionTimeLayout = "2 Jan 2006, 15:04"
 )
 

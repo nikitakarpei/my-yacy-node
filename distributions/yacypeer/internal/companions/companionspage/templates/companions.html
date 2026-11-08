@@ -35,8 +35,16 @@
       </tbody>
     </table>
   </div>
+  <a class="button primary pair" href="{{.PairPath}}">Pair new device</a>
   {{else}}
-  <div class="card empty">No companions are paired.</div>
+  <div class="card empty">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2"></rect><path d="M11 18.5h2"></path></svg>
+    <h2>No devices are paired</h2>
+    <div class="empty-actions">
+      <a class="button primary" href="{{.PairPath}}">Pair new device</a>
+      <a class="button" href="{{.Frame.AppGuideURL}}" target="_blank" rel="noopener">Learn more <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
   {{end}}
 </main>
 {{with .DeviceToUnpair}}
