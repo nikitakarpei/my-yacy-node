@@ -14,17 +14,17 @@ class SettingsScreen : Activity() {
         val column = column().apply { setPadding(0, dp(12), 0, dp(24)) }
         column.addView(topBar("Settings", R.color.on_surface) { finish() })
         column.addView(
-            switchRow("Run only when charging", null, Charger.required(this)) { Charger.require(this, it) },
+            switchRow("Run only when charging", chargerRequired),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp(16)
             },
         )
         column.addView(
-            switchRow("Pause while Battery Saver is on", null, BatterySaverPause.wanted(this)) { BatterySaverPause.want(this, it) },
+            switchRow("Pause while Battery Saver is on", batterySaverRespected),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
         )
         column.addView(
-            switchRow("Use mobile data", "Includes metered Wi-Fi", MeteredNetworks.allowed(this)) { MeteredNetworks.allow(this, it) },
+            switchRowWithDetail("Use mobile data", "Includes metered Wi-Fi", meteredNetworksAllowed),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
         )
         column.spacer()
@@ -47,21 +47,27 @@ class SettingsScreen : Activity() {
         super.onPause()
     }
 
-    private fun switchRow(title: String, detail: String?, checked: Boolean, onCheckedChange: (Boolean) -> Unit) = LinearLayout(this).apply {
+    private fun switchRow(title: String, setting: SwitchSetting) = switchRowWith(setting) { texts -> texts.addView(heading(title, 16f)) }
+
+    private fun switchRowWithDetail(title: String, detail: String, setting: SwitchSetting) = switchRowWith(setting) { texts ->
+        texts.addView(heading(title, 16f))
+        texts.addView(bodyText(detail, 14f))
+    }
+
+    private fun switchRowWith(setting: SwitchSetting, addTexts: (LinearLayout) -> Unit) = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         minimumHeight = dp(72)
         setPadding(dp(24), dp(8), dp(24), dp(8))
         val toggle =
             ToggleSwitch(context).apply {
-                isChecked = checked
-                setOnCheckedChangeListener { _, isChecked -> onCheckedChange(isChecked) }
+                isChecked = setting.isOn(context)
+                setOnCheckedChangeListener { _, on -> setting.set(context, on) }
             }
         addView(
             LinearLayout(context).apply {
                 orientation = LinearLayout.VERTICAL
-                addView(heading(title, 16f))
-                if (detail != null) addView(bodyText(detail, 14f))
+                addTexts(this)
             },
             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f),
         )

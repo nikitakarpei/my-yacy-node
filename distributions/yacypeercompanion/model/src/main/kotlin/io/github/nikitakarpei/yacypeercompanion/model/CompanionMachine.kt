@@ -41,7 +41,6 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnectin
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Recovering
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Waiting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForBatterySaverOff
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForPower
@@ -188,11 +187,11 @@ private fun CompanionModel.powerChanged(): Step? = when (powerAccess) {
     PowerAccess.BATTERY_SAVER_ON -> paused(WaitingForBatterySaverOff)
 }
 
-private fun CompanionModel.paused(waiting: Waiting): Step? = when (state) {
+private fun CompanionModel.paused(powerWait: WaitingForPower): Step? = when (state) {
     Connecting, Connected, is Recovering, WaitingForUnmeteredNetwork ->
-        to(waiting, StopServices, CancelRetry, CancelFailureNotification)
+        to(powerWait, StopServices, CancelRetry, CancelFailureNotification)
 
-    is WaitingForPower -> to(waiting)
+    is WaitingForPower -> to(powerWait)
 
     else -> null
 }

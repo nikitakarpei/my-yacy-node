@@ -26,7 +26,7 @@ class NetworkWatch(private val ctx: Context, private val onChange: (NetworkAcces
             val traits = networks.values.ifEmpty { listOfNotNull(activeNetworkTraits()) }
             return when {
                 traits.isEmpty() -> NetworkAccess.NONE
-                MeteredNetworks.allowed(ctx) || traits.any { it.unmetered } -> NetworkAccess.USABLE
+                meteredNetworksAllowed.isOn(ctx) || traits.any { it.unmetered } -> NetworkAccess.USABLE
                 else -> NetworkAccess.METERED_ONLY
             }
         }
@@ -63,7 +63,7 @@ class NetworkWatch(private val ctx: Context, private val onChange: (NetworkAcces
                 .removeCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)
                 .build()
         connectivity.registerNetworkCallback(everyNetwork, callback)
-        MeteredNetworks.follow(ctx, meteredNetworksSetting)
+        meteredNetworksAllowed.follow(ctx, meteredNetworksSetting)
     }
 
     private fun report(change: String) {
@@ -83,7 +83,7 @@ class NetworkWatch(private val ctx: Context, private val onChange: (NetworkAcces
     )
 
     override fun close() {
-        MeteredNetworks.unfollow(ctx, meteredNetworksSetting)
+        meteredNetworksAllowed.unfollow(ctx, meteredNetworksSetting)
         connectivity.unregisterNetworkCallback(callback)
     }
 }
