@@ -22,9 +22,11 @@ import io.github.nikitakarpei.yacypeercompanion.services.pairingCodeOf
 
 private const val MESSAGE_MS = 3_000L
 private const val RESCAN_PAUSE_MS = 1_500L
-private const val SCAN_HINT_START = "The pairing code is on the "
-private const val SCAN_HINT_PAGE = "Pair new device"
-private const val SCAN_HINT_END = " page of the YaCy peer."
+private const val SCAN_HINT_START = "Go to the "
+private const val SCAN_HINT_TAB = "Companions"
+private const val SCAN_HINT_END = " tab in the peer's web UI to get a QR code."
+private const val INCOMPATIBLE_CODE_MESSAGE = "This QR code is not compatible with your app version. Please update the app."
+private const val INVALID_CODE_MESSAGE = "This QR code is invalid."
 
 class ScanScreen : Activity() {
     private lateinit var preview: TextureView
@@ -63,7 +65,7 @@ class ScanScreen : Activity() {
     private fun cameraOverlay(): View = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL
         fitsSystemWindows = true
-        addView(topBar("Scan pairing code", R.color.on_camera) { finish() })
+        addView(topBar("Scan QR code", R.color.on_camera) { finish() })
         spacer()
         addView(
             bodyText("", 16f).apply {
@@ -112,7 +114,7 @@ class ScanScreen : Activity() {
 
     private fun scanHint(): CharSequence = android.text.SpannableStringBuilder(SCAN_HINT_START).apply {
         val start = length
-        append(SCAN_HINT_PAGE)
+        append(SCAN_HINT_TAB)
         setSpan(android.text.style.StyleSpan(Typeface.BOLD), start, length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         append(SCAN_HINT_END)
     }
@@ -210,7 +212,7 @@ class ScanScreen : Activity() {
     private fun pairWithPeerOf(text: String) {
         val code = pairingCodeOf(text)
         if (code == null) {
-            show(if (needsNewerApp(text)) "This pairing code needs a newer version of the app." else "Not a pairing code of a YaCy peer.")
+            show(if (needsNewerApp(text)) INCOMPATIBLE_CODE_MESSAGE else INVALID_CODE_MESSAGE)
             preview.postDelayed({ scanner?.resume() }, RESCAN_PAUSE_MS)
             return
         }
