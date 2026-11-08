@@ -9,20 +9,20 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/peerintake"
 )
 
-func admits(hold *peerintake.IntakeHold) bool {
+func admits(hold *peerintake.Admission) bool {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 	return !errors.Is(hold.AwaitAdmission(ctx), context.Canceled)
 }
 
-func pairedHold() *peerintake.IntakeHold {
-	hold := peerintake.NewIntakeHold()
+func pairedHold() *peerintake.Admission {
+	hold := peerintake.New()
 	hold.FirstDevicePaired(context.Background())
 	return hold
 }
 
 func TestTheIntakeHoldAdmitsWhileNoDeviceIsPaired(t *testing.T) {
-	hold := peerintake.NewIntakeHold()
+	hold := peerintake.New()
 
 	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
 
@@ -49,7 +49,7 @@ func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheLastDeviceIsUnpaired(t *testi
 
 func TestTheIntakeHoldAdmitsWhileCompanionsDoNotFetch(t *testing.T) {
 	hold := pairedHold()
-	hold.CompanionsConnected(context.Background())
+	hold.FirstCompanionConnected(context.Background())
 
 	hold.ChoiceMade(context.Background(), companionsettings.Choice{PeerFillsIn: true})
 
@@ -88,7 +88,7 @@ func TestTheIntakeHoldHoldsBackOnceACompanionConnects(t *testing.T) {
 		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
 	)
 
-	hold.CompanionsConnected(context.Background())
+	hold.FirstCompanionConnected(context.Background())
 
 	if admits(hold) {
 		t.Error("the intake is admitted while a companion is connected")
@@ -101,14 +101,14 @@ func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheCompanionsLeft(t *testing.T) 
 		context.Background(),
 		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
 	)
-	hold.CompanionsConnected(context.Background())
+	hold.FirstCompanionConnected(context.Background())
 	if admits(hold) {
 		t.Fatal("the intake is admitted before the companions left")
 	}
 	admitted := make(chan error, 1)
 	go func() { admitted <- hold.AwaitAdmission(context.Background()) }()
 
-	hold.CompanionsLeft(context.Background())
+	hold.LastCompanionDisconnected(context.Background())
 
 	if err := <-admitted; err != nil {
 		t.Errorf("AwaitAdmission = %v, want admitted", err)

@@ -57,20 +57,20 @@ func ThisHost() Host {
 }
 
 func interfacesOfThisHost() []Interface {
-	found, err := net.Interfaces()
+	systemInterfaces, err := net.Interfaces()
 	if err != nil {
 		slog.WarnContext(context.Background(), "network interfaces unread", slog.Any("error", err))
 		return nil
 	}
-	interfaces := make([]Interface, 0, len(found))
-	for _, each := range found {
-		if each.Flags&net.FlagUp == 0 {
+	interfaces := make([]Interface, 0, len(systemInterfaces))
+	for _, networkInterface := range systemInterfaces {
+		if networkInterface.Flags&net.FlagUp == 0 {
 			continue
 		}
-		addresses, err := each.Addrs()
+		addresses, err := networkInterface.Addrs()
 		if err != nil {
 			slog.WarnContext(context.Background(), "addresses of a network interface unread",
-				slog.String("interface", each.Name), slog.Any("error", err),
+				slog.String("interface", networkInterface.Name), slog.Any("error", err),
 			)
 			continue
 		}
@@ -80,7 +80,7 @@ func interfacesOfThisHost() []Interface {
 				ips = append(ips, network.IP)
 			}
 		}
-		interfaces = append(interfaces, Interface{Name: each.Name, IPs: ips})
+		interfaces = append(interfaces, Interface{Name: networkInterface.Name, IPs: ips})
 	}
 	return interfaces
 }
@@ -118,17 +118,17 @@ func (h Host) AddressesFor(listener *net.TCPAddr) []string {
 		)
 	})
 	addresses := make([]string, 0, min(len(candidates), maxAddresses))
-	for _, each := range candidates[:min(len(candidates), maxAddresses)] {
-		addresses = append(addresses, net.JoinHostPort(each.ip.String(), port))
+	for _, likely := range candidates[:min(len(candidates), maxAddresses)] {
+		addresses = append(addresses, net.JoinHostPort(likely.ip.String(), port))
 	}
 	return addresses
 }
 
 func (h Host) candidates() []candidate {
 	var candidates []candidate
-	for _, each := range h.interfaces {
-		kind := h.likelihoodOf(each.Name)
-		for _, ip := range each.IPs {
+	for _, networkInterface := range h.interfaces {
+		likelihood := h.likelihoodOf(networkInterface.Name)
+		for _, ip := range networkInterface.IPs {
 			if ip.IsLoopback() || ip.IsLinkLocalUnicast() || ip.IsMulticast() ||
 				ip.IsUnspecified() {
 				continue
@@ -137,7 +137,7 @@ func (h Host) candidates() []candidate {
 				candidates = append(candidates, candidate{ip: ip, likelihood: defaultRoute})
 				continue
 			}
-			candidates = append(candidates, candidate{ip: ip, likelihood: kind})
+			candidates = append(candidates, candidate{ip: ip, likelihood: likelihood})
 		}
 	}
 	return candidates

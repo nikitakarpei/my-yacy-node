@@ -36,7 +36,7 @@ func (events observedEvents) BrokerConnectionLost() { events <- "connection lost
 func (events observedEvents) ServicesStopped()      { events <- "stopped" }
 func (events observedEvents) BrokerUnreachable()    { events <- "broker unreachable" }
 func (events observedEvents) ServicesFailed()       { events <- "failed" }
-func (events observedEvents) DeviceUnpaired()       { events <- "unpaired" }
+func (events observedEvents) DeviceRefused()        { events <- "refused" }
 
 type deviceCheck struct {
 	refused atomic.Bool
@@ -61,7 +61,7 @@ func startPeer(t *testing.T) peer {
 	broker := brokeraccesstest.Start(t, check)
 	appVersions := make(chan string, 4)
 	connection := broker.Connect(t)
-	settings, _ := json.Marshal(companionprotocol.Settings{PartitionExponent: 4})
+	settings, _ := json.Marshal(companionprotocol.DeviceSettings{PartitionExponent: 4})
 	for subject, handler := range map[string]nats.MsgHandler{
 		companionprotocol.SettingsSubjects: func(msg *nats.Msg) { _ = msg.Respond(settings) },
 		companionprotocol.AppSubjects: func(msg *nats.Msg) {
@@ -173,10 +173,10 @@ func TestInstanceRunReportsADeviceThatThePeerRefuses(t *testing.T) {
 
 	instance.Run(events)
 
-	awaitEvent(t, events, "unpaired")
+	awaitEvent(t, events, "refused")
 }
 
-func TestInstanceRunReportsADeviceThatThePeerUnpairsWhileItWorks(t *testing.T) {
+func TestInstanceRunReportsADeviceThatThePeerRefusesWhileItWorks(t *testing.T) {
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
 	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
@@ -192,10 +192,10 @@ func TestInstanceRunReportsADeviceThatThePeerUnpairsWhileItWorks(t *testing.T) {
 			switch event {
 			case "connection lost":
 				continue
-			case "unpaired":
+			case "refused":
 				return
 			default:
-				t.Fatalf("event = %q, want the device reported unpaired", event)
+				t.Fatalf("event = %q, want the device reported refused", event)
 			}
 		case <-time.After(runWait):
 			t.Fatal("the run did not end after the peer unpaired the device")

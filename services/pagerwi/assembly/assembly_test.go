@@ -191,9 +191,10 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 
 func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *testing.T) {
 	permissions := serviceConfig("").BrokerPermissions()
-	unlimitedURL, limitedURL := natstestserver.StartWithLimitedUser(
-		t, permissions.Publish, append(permissions.Subscribe, everyInbox),
-	)
+	urls := natstestserver.StartWithLimitedUser(t, natstestserver.Allowed{
+		Publish: permissions.Publish, Subscribe: append(permissions.Subscribe, everyInbox),
+	})
+	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
 	broker := natstestserver.ConnectJetStream(t, unlimitedURL)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

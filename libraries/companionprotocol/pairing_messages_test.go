@@ -13,7 +13,7 @@ func TestAnAcceptedReplyNamesTheDeviceAndNoReason(t *testing.T) {
 		t.Fatalf("Marshal: %v", err)
 	}
 
-	if want := `{"outcome":"accepted","device":"device-a"}`; string(encoded) != want {
+	if want := `{"outcome":"accepted","deviceID":"device-a"}`; string(encoded) != want {
 		t.Errorf("reply = %s, want %s", encoded, want)
 	}
 }

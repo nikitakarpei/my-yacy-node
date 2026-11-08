@@ -71,9 +71,9 @@ func (c ServiceConfig) BrokerPermissions() natspermissions.Permissions {
 		natspermissions.PublishingOn(
 			pagescrapecontract.OfferedPageSubject,
 			pagescrapecontract.ScrapeFailureSubject,
-			pagescrapecontract.ScrapeOutcomeSubjectPrefix+".>",
+			pagescrapecontract.EveryScrapeOutcomeSubject,
 		),
-		natspermissions.ReceivingOn(pagescrapecontract.EveryIntakeReceiptSubject),
+		natspermissions.SubscribingTo(pagescrapecontract.EveryIntakeReceiptSubject),
 	)
 }
 

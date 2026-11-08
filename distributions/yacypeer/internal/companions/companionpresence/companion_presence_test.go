@@ -68,9 +68,9 @@ func (c steppedClock) nextCheck(t *testing.T) {
 
 type presenceEvents chan string
 
-func (e presenceEvents) CompanionsConnected(context.Context) { e <- "connected" }
+func (e presenceEvents) FirstCompanionConnected(context.Context) { e <- "connected" }
 
-func (e presenceEvents) CompanionsLeft(context.Context) { e <- "left" }
+func (e presenceEvents) LastCompanionDisconnected(context.Context) { e <- "left" }
 
 func (e presenceEvents) none(t *testing.T) {
 	t.Helper()
@@ -81,7 +81,7 @@ func (e presenceEvents) none(t *testing.T) {
 	}
 }
 
-func TestPresenceTellsWhenTheFirstCompanionConnectsAndTheLastOneLeaves(t *testing.T) {
+func TestTheWatcherTellsWhenTheFirstCompanionConnectsAndTheLastOneLeaves(t *testing.T) {
 	connections := &changingConnections{devices: map[companionprotocol.DeviceID]bool{}}
 	clock := steppedClock{sleeps: make(chan chan struct{})}
 	events := make(presenceEvents, 4)

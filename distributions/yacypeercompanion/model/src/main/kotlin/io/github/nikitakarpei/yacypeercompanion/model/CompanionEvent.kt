@@ -23,6 +23,8 @@ sealed interface CompanionEvent {
 
     data object SigningKeyUnavailable : CompanionEvent
 
+    data object DeviceKeyUnavailable : CompanionEvent
+
     data class NetworkChanged(val access: NetworkAccess) : CompanionEvent
 
     data object RetryDue : CompanionEvent
@@ -30,4 +32,4 @@ sealed interface CompanionEvent {
     data object PairingTimedOut : CompanionEvent
 }
 
-enum class ServicesEnding { STOPPED, BROKER_UNREACHABLE, FAILED, UNPAIRED }
+enum class ServicesEnding { STOPPED, BROKER_UNREACHABLE, FAILED, DEVICE_REFUSED }
