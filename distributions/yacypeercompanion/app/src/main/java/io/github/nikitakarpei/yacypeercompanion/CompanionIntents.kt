@@ -3,7 +3,7 @@ package io.github.nikitakarpei.yacypeercompanion
 import android.content.Context
 import android.content.Intent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
-import io.github.nikitakarpei.yacypeercompanion.model.PairingCode
+import io.github.nikitakarpei.yacypeercompanion.model.PairLink
 
 private const val ACTION_PREFIX = "io.github.nikitakarpei.yacypeercompanion."
 private const val PAIR_WITH = ACTION_PREFIX + "PAIR_WITH"
@@ -17,7 +17,7 @@ object CompanionIntents {
     fun intentOf(ctx: Context, event: CompanionEvent): Intent {
         val intent = Intent(ctx, CompanionHost::class.java)
         return when (event) {
-            is CompanionEvent.PairWith -> intent.setAction(PAIR_WITH).putExtra(LINK_EXTRA, event.code.linkText)
+            is CompanionEvent.PairWith -> intent.setAction(PAIR_WITH).putExtra(LINK_EXTRA, event.link.text)
             CompanionEvent.CancelPairing -> intent.setAction(CANCEL_PAIRING)
             CompanionEvent.StartRequested -> intent.setAction(START)
             CompanionEvent.StopRequested -> intent.setAction(STOP)
@@ -27,7 +27,7 @@ object CompanionIntents {
     }
 
     fun eventOf(intent: Intent): CompanionEvent? = when (intent.action) {
-        PAIR_WITH -> intent.getStringExtra(LINK_EXTRA)?.let { CompanionEvent.PairWith(PairingCode(it)) }
+        PAIR_WITH -> intent.getStringExtra(LINK_EXTRA)?.let { CompanionEvent.PairWith(PairLink(it)) }
         CANCEL_PAIRING -> CompanionEvent.CancelPairing
         START -> CompanionEvent.StartRequested
         STOP -> CompanionEvent.StopRequested

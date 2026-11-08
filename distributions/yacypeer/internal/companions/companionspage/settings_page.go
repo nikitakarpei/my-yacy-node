@@ -1,7 +1,9 @@
 package companionspage
 
 import (
+	"log/slog"
 	"net/http"
+	"net/url"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 )
@@ -11,15 +13,20 @@ const (
 	fieldPeerFillsIn     = "peerFillsIn"
 )
 
+type settingsPage struct {
+	settings      CompanionSettings
+	fetchingPause FetchingPause
+	frame         pageFrame
+}
+
 type settingsView struct {
-	Frame            pageFrame
-	Header           headerView
-	DeviceStatesPath string
-	CompanionsPath   string
-	AssetsPath       string
-	SettingsPath     string
-	Choice           companionsettings.Choice
-	FieldNames       settingsFieldNames
+	Frame        pageFrame
+	Header       headerView
+	StatesPath   string
+	AssetsPath   string
+	SettingsPath string
+	Fetching     companionsettings.Fetching
+	FieldNames   settingsFieldNames
 }
 
 type settingsFieldNames struct {
@@ -27,16 +34,14 @@ type settingsFieldNames struct {
 	PeerFillsIn     string
 }
 
-func (p *pages) settings(w http.ResponseWriter, r *http.Request) {
-	rows := p.deviceRows()
-	render(w, r, settingsPage, settingsView{
-		Frame:            p.frame,
-		Header:           p.headerFor(rows, settingsTab),
-		DeviceStatesPath: pathDeviceStates,
-		CompanionsPath:   Path,
-		AssetsPath:       pathAssets,
-		SettingsPath:     pathSettings,
-		Choice:           p.companionSettings.Choice(),
+func (s *settingsPage) show(w http.ResponseWriter, r *http.Request) {
+	render(w, r, settingsTemplate, settingsView{
+		Frame:        s.frame,
+		Header:       headerFor(s.fetchingPause.FetchingPaused(), settingsTab),
+		StatesPath:   pathStates,
+		AssetsPath:   pathAssets,
+		SettingsPath: pathSettings,
+		Fetching:     s.settings.Fetching(),
 		FieldNames: settingsFieldNames{
 			CompanionsFetch: fieldCompanionsFetch,
 			PeerFillsIn:     fieldPeerFillsIn,
@@ -44,16 +49,21 @@ func (p *pages) settings(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (p *pages) choose(w http.ResponseWriter, r *http.Request) {
-	p.companionSettings.Choose(r.Context(), p.choiceFrom(r))
+func (s *settingsPage) change(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		slog.WarnContext(r.Context(), "companion settings form unreadable", slog.Any("error", err))
+		http.Error(w, "companion settings form unreadable", http.StatusBadRequest)
+		return
+	}
+	s.settings.ChangeFetching(r.Context(), s.fetchingFrom(r.PostForm))
 	http.Redirect(w, r, pathSettings, http.StatusSeeOther)
 }
 
-func (p *pages) choiceFrom(r *http.Request) companionsettings.Choice {
-	choice := p.companionSettings.Choice()
-	if choice.CompanionsFetch {
-		choice.PeerFillsIn = r.PostFormValue(fieldPeerFillsIn) != ""
+func (s *settingsPage) fetchingFrom(form url.Values) companionsettings.Fetching {
+	fetching := s.settings.Fetching()
+	if fetching.CompanionsFetch {
+		fetching.PeerFillsIn = form.Get(fieldPeerFillsIn) != ""
 	}
-	choice.CompanionsFetch = r.PostFormValue(fieldCompanionsFetch) != ""
-	return choice
+	fetching.CompanionsFetch = form.Get(fieldCompanionsFetch) != ""
+	return fetching
 }

@@ -90,9 +90,9 @@ class CompanionHost : Service() {
 
     private fun carryOut(effect: CompanionEffect) {
         when (effect) {
-            is CompanionEffect.BeginPairing -> Pairing.begin(this, effect.code.linkText)
+            is CompanionEffect.BeginPairing -> Pairing.begin(this, effect.link.text)
             CompanionEffect.SendPairingRequest -> pairer.send(Pairing.linkText(this).orEmpty())
-            CompanionEffect.CompletePairing -> Pairing.complete(this)
+            CompanionEffect.CompletePairing -> completePairing()
             CompanionEffect.ForgetPairing -> forgetPairing()
             CompanionEffect.StartServices, CompanionEffect.RestartServices -> services.start(Pairing.linkText(this).orEmpty())
             CompanionEffect.StopServices -> services.stop()
@@ -106,11 +106,16 @@ class CompanionHost : Service() {
         }
     }
 
+    private fun completePairing() {
+        Pairing.complete(this)
+        pairer.complete()
+    }
+
     private fun forgetPairing() {
         val linkText = Pairing.linkText(this)
         val paired = Pairing.paired(this)
         Pairing.forget(this)
-        if (paired && linkText != null) pairer.unpair(linkText) else pairer.discardKey()
+        if (paired && linkText != null) pairer.unpair(linkText) else pairer.giveUp()
     }
 
     private fun after(delayMs: Long, event: CompanionEvent): ScheduledFuture<*> =
@@ -121,7 +126,7 @@ class CompanionHost : Service() {
         stopSelf()
     }
 
-    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailed || state == CompanionState.DeviceRefused
+    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailure || state == CompanionState.DeviceRefused
 
     override fun onDestroy() {
         ended = true

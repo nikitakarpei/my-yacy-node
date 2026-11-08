@@ -16,12 +16,12 @@ other peers can check what the device did.
 * Before pairing, the app SHALL show what it is and the permissions that it needs.
 * The app SHALL NOT start pairing before the user allows notifications and running in the
   background.
-* The app SHALL ask for the camera only to read a pairing code.
-* The app SHALL pair with the peer whose pairing code it reads with the camera.
+* The app SHALL ask for the camera only to read the QR code of a pair link.
+* The app SHALL pair with the peer whose pair link it reads with the camera.
 * Pairing SHALL succeed only when the peer accepts the device.
 * When pairing fails, the app SHALL tell why.
 * The app SHALL connect to the broker of the peer only when the broker has the key that the
-  pairing code names.
+  pair link names.
 * When the peer no longer accepts the device, the app SHALL stop its work and show why, and SHALL
   stay open until the user closes it.
 * Until the user stops it or unpairs the device, the paired app SHALL fetch pages and build RWIs

@@ -4,7 +4,7 @@
 {{define "content"}}
 {{if not .Found}}
 <h1>{{.CrawlID}}</h1>
-{{if .Answered}}<div class="card">{{text "crawl-detail.unknown-crawl"}}</div>{{end}}
+{{if .Answered}}<div class="webui-card card">{{text "crawl-detail.unknown-crawl"}}</div>{{end}}
 {{else}}
 {{with .Crawl}}
 <div class="toolbar">
@@ -30,7 +30,7 @@
 <div class="columns">
 <div>
 <h2>{{text "crawl-detail.overview"}}</h2>
-<div class="card">
+<div class="webui-card card">
 <dl>
   <dt>{{text "crawl.crawl-id"}}</dt><dd class="url">{{.CrawlID}}</dd>
   <dt>{{text "crawl.started-at"}}</dt><dd>{{moment .Crawl.StartedAt}}</dd>
@@ -42,7 +42,7 @@
 {{with .Order}}
 <div>
 <h2>{{text "crawl-detail.settings"}}</h2>
-<div class="card">
+<div class="webui-card card">
 <dl>
   <dt>{{text "order.seed-urls"}}</dt><dd>{{range .SeedURLs}}<div class="url">{{.}}</div>{{end}}</dd>
   <dt>{{text "order.scope"}}</dt><dd>{{text (print "crawl-scope." .Profile.Scope)}}</dd>
@@ -58,7 +58,7 @@
 {{end}}
 </div>
 <h2>{{text "host-table.title"}}</h2>
-<div class="webui-table"><table>
+<div class="webui-card webui-table-frame"><table>
   <colgroup><col>{{if not .Crawl.IsFinished}}<col class="column-group">{{end}}<col span="3" class="column-group"><col span="4" class="column-group"></colgroup>
   <tr><th{{if not .Crawl.IsFinished}} colspan="2"{{end}}></th><th colspan="3" class="group">{{text "host-table.fetched"}}</th><th colspan="4" class="group">{{text "visit-outcome.not-fetched"}}</th></tr>
   <tr>

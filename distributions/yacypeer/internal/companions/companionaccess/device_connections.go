@@ -6,24 +6,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
-type ConnectedUsers interface {
+type ConnectionLister interface {
 	ConnectedUsers() map[string]bool
 }
 
 type DeviceConnections struct {
-	users ConnectedUsers
+	broker ConnectionLister
 }
 
-func NewDeviceConnections(users ConnectedUsers) DeviceConnections {
-	return DeviceConnections{users: users}
+func NewDeviceConnections(broker ConnectionLister) DeviceConnections {
+	return DeviceConnections{broker: broker}
 }
 
 func (c DeviceConnections) ConnectedDevices() map[companionprotocol.DeviceID]bool {
-	devices := map[companionprotocol.DeviceID]bool{}
-	for user, connected := range c.users.ConnectedUsers() {
-		if device, isDevice := strings.CutPrefix(user, deviceUserStart); isDevice && connected {
-			devices[companionprotocol.DeviceID(device)] = true
+	connectedDevices := map[companionprotocol.DeviceID]bool{}
+	for user := range c.broker.ConnectedUsers() {
+		if deviceID, isDevice := strings.CutPrefix(user, deviceUserStart); isDevice {
+			connectedDevices[companionprotocol.DeviceID(deviceID)] = true
 		}
 	}
-	return devices
+	return connectedDevices
 }

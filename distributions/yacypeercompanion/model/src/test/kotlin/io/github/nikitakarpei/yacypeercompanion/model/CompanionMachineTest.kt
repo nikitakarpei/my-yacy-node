@@ -16,16 +16,16 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StartServi
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StopServices
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.BrokerConnectionLost
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.CancelPairing
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.DeviceKeyUnavailable
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.NetworkChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingRefused
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTimedOut
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PowerChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesConnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesEnded
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.SigningKeyUnavailable
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StartRequested
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequested
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
@@ -34,7 +34,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
@@ -45,7 +45,7 @@ import org.junit.Test
 
 class CompanionMachineTest {
     private val now = 1_000_000L
-    private val code = PairingCode("yacypeer-companion://pair?address=192.168.1.20%3A4223&brokerKeyHash=hash&secret=secret")
+    private val link = PairLink("yacypeer-companion://pair?address=192.168.1.20%3A4223&brokerKeyHash=hash&secret=secret")
     private val unreachable = ServicesEnded(ServicesEnding.BROKER_UNREACHABLE)
     private val lostPeer = DisconnectReason.PEER_UNREACHABLE
 
@@ -68,9 +68,9 @@ class CompanionMachineTest {
     @Test
     fun pairingSendsThePairingRequestWithATimeLimit() {
         assertStep(
-            stepOf(Stopped, PairWith(code)),
+            stepOf(Stopped, PairWith(link)),
             Pairing,
-            BeginPairing(code),
+            BeginPairing(link),
             SendPairingRequest,
             SchedulePairingTimeout(PAIRING_LIMIT_MS),
         )
@@ -84,28 +84,32 @@ class CompanionMachineTest {
     @Test
     fun pairingFailsWithoutRetriesAndEndsTheHost() {
         assertStep(
-            stepOf(Pairing, PairingRefused(PairingProblem.APP_OUTDATED)),
-            PairingFailed(PairingProblem.APP_OUTDATED),
+            stepOf(Pairing, PairingFailed(PairingProblem.APP_OUTDATED)),
+            PairingFailure(PairingProblem.APP_OUTDATED),
             CancelPairingTimeout,
             EndHost,
         )
         assertStep(
-            stepOf(Pairing, SigningKeyUnavailable),
-            PairingFailed(PairingProblem.SIGNING_KEY),
+            stepOf(Pairing, DeviceKeyUnavailable),
+            PairingFailure(PairingProblem.DEVICE_KEY),
             CancelPairingTimeout,
             EndHost,
         )
-        assertStep(stepOf(Pairing, PairingTimedOut), PairingFailed(PairingProblem.PEER_UNREACHABLE), EndHost)
+    }
+
+    @Test
+    fun aPairingThatTimesOutGivesUpTheAttemptAndEndsTheHost() {
+        assertStep(stepOf(Pairing, PairingTimedOut), PairingFailure(PairingProblem.PEER_UNREACHABLE), ForgetPairing, EndHost)
     }
 
     @Test
     fun anOutcomeOutsideAPairingChangesNothing() {
         assertStep(stepOf(Connected, PairingAccepted), Connected)
-        assertStep(stepOf(Stopped, PairingRefused(PairingProblem.REFUSED)), Stopped)
+        assertStep(stepOf(Stopped, PairingFailed(PairingProblem.REFUSED)), Stopped)
     }
 
     @Test
-    fun aDeviceThatThePeerUnpairedStaysDisconnectedAndTellsWhy() {
+    fun aDeviceThatThePeerRefusesStaysDisconnectedAndTellsWhy() {
         assertStep(
             stepOf(Connected, ServicesEnded(ServicesEnding.DEVICE_REFUSED)),
             DeviceRefused,
@@ -120,11 +124,11 @@ class CompanionMachineTest {
 
     @Test
     fun pairingAgainAfterAFailureStartsOver() {
-        assertEquals(Pairing, stepOf(PairingFailed(PairingProblem.PEER_UNREACHABLE), PairWith(code)).model.state)
+        assertEquals(Pairing, stepOf(PairingFailure(PairingProblem.PEER_UNREACHABLE), PairWith(link)).model.state)
     }
 
     @Test
-    fun cancellingPairingForgetsTheCode() {
+    fun cancellingPairingForgetsThePairLink() {
         assertStep(stepOf(Pairing, CancelPairing), Stopped, StopServices, CancelPairingTimeout, ForgetPairing, EndHost)
     }
 

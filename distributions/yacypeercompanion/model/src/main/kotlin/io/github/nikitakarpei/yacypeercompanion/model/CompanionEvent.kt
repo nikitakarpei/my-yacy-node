@@ -1,13 +1,13 @@
 package io.github.nikitakarpei.yacypeercompanion.model
 
 sealed interface CompanionEvent {
-    data class PairWith(val code: PairingCode) : CompanionEvent
+    data class PairWith(val link: PairLink) : CompanionEvent
 
     data object CancelPairing : CompanionEvent
 
     data object PairingAccepted : CompanionEvent
 
-    data class PairingRefused(val problem: PairingProblem) : CompanionEvent
+    data class PairingFailed(val problem: PairingProblem) : CompanionEvent
 
     data object StartRequested : CompanionEvent
 

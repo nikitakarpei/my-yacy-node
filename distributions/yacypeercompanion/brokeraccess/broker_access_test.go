@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net"
 	"slices"
+	"strings"
 	"testing"
 	"time"
 
@@ -15,7 +16,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess/brokeraccesstest"
 )
 
-const secret = "pairing-secret"
+const (
+	secret      = "pairing-secret"
+	connectWait = 10 * time.Second
+)
 
 type secretCheck struct{}
 
@@ -50,8 +54,16 @@ func (c startingClock) After(timeout time.Duration, expire func()) func() {
 
 func connect(link companionprotocol.PairLink) (*nats.Conn, error) {
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
-	return brokeraccess.NewConnector(clock).
-		Connect(link, pairingOptionsFor(link))
+	return brokeraccess.NewConnector(clock).ConnectToPair(link, "Pixel 8")
+}
+
+type firstAddressClock struct{}
+
+func (firstAddressClock) After(timeout time.Duration, expire func()) func() {
+	if timeout == 0 {
+		expire()
+	}
+	return func() {}
 }
 
 func TestConnectReachesTheBrokerAtALaterAddressWhenAnEarlierOneDoesNotAnswer(t *testing.T) {
@@ -76,20 +88,28 @@ func TestConnectPassesOverAnAddressWhereAnotherBrokerAnswers(t *testing.T) {
 	}
 	defer connection.Close()
 
-	if connection.ConnectedUrl() != "tls://"+broker.Address() {
+	if !strings.HasSuffix(connection.ConnectedUrl(), "://"+broker.Address()) {
 		t.Errorf("connected to %s, want %s", connection.ConnectedUrl(), broker.Address())
 	}
 }
 
-func TestConnectReportsARefusedSecretAlthoughOtherAddressesRemain(t *testing.T) {
+func TestConnectStopsAtTheFirstRefusalWithoutWaitingForTheOtherAddresses(t *testing.T) {
 	broker := brokeraccesstest.Start(t, secretCheck{})
+	link := linkTo(broker, "another secret", broker.Address(), unansweredAddressOf(broker))
+	connectErrors := make(chan error, 1)
 
-	_, err := connect(
-		linkTo(broker, "another secret", broker.Address(), unansweredAddressOf(broker)),
-	)
+	go func() {
+		_, err := brokeraccess.NewConnector(firstAddressClock{}).ConnectToPair(link, "Pixel 8")
+		connectErrors <- err
+	}()
 
-	if !errors.Is(err, nats.ErrAuthorization) {
-		t.Errorf("error = %v, want an authorization error", err)
+	select {
+	case err := <-connectErrors:
+		if !errors.Is(err, nats.ErrAuthorization) {
+			t.Errorf("error = %v, want an authorization error", err)
+		}
+	case <-time.After(connectWait):
+		t.Error("Connect waits for the addresses after a refusal")
 	}
 }
 
@@ -112,9 +132,7 @@ func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T
 	link := linkTo(broker, secret, broker.Address(), broker.Address(), broker.Address())
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
 
-	connection, err := brokeraccess.NewConnector(clock).Connect(
-		link, pairingOptionsFor(link),
-	)
+	connection, err := brokeraccess.NewConnector(clock).ConnectToPair(link, "Pixel 8")
 	if err != nil {
 		t.Fatalf("Connect: %v", err)
 	}
@@ -135,11 +153,4 @@ func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T
 	) {
 		t.Errorf("start delays = %v, want %v", timeouts, want)
 	}
-}
-
-func pairingOptionsFor(link companionprotocol.PairLink) []nats.Option {
-	return append(
-		brokeraccess.PairingAccess(link).Options(),
-		append(brokeraccess.PairingIdentity(link, "Pixel 8"), nats.NoReconnect())...,
-	)
 }

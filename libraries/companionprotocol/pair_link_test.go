@@ -25,19 +25,26 @@ func TestAPairLinkReadsBackAsTheSameLink(t *testing.T) {
 	}
 }
 
-func TestPairLinkFromRefusesTextOfAnotherScheme(t *testing.T) {
+func TestPairLinkFromRefusesTextOfAnotherSchemeAsNoUnreadableLink(t *testing.T) {
 	_, err := companionprotocol.PairLinkFrom("https://example.org/")
 
-	if !errors.Is(err, companionprotocol.ErrNotACompanionLink) {
-		t.Errorf("error = %v, want ErrNotACompanionLink", err)
+	if err == nil || errors.Is(err, companionprotocol.ErrUnreadableLink) {
+		t.Errorf("error = %v, want one that is not ErrUnreadableLink", err)
 	}
 }
 
 func TestPairLinkFromCallsALinkOfAnUnknownKindUnreadable(t *testing.T) {
+	_, err := companionprotocol.PairLinkFrom("yacypeer-companion://connect?nats=nats://peer:4222")
+
+	if !errors.Is(err, companionprotocol.ErrUnreadableLink) {
+		t.Errorf("error = %v, want ErrUnreadableLink", err)
+	}
+}
+
+func TestPairLinkFromCallsAPairLinkWithoutAFieldUnreadable(t *testing.T) {
 	for _, text := range []string{
-		companionprotocol.Scheme + "://connect?nats=nats://peer:4222",
-		companionprotocol.Scheme + "://pair?address=192.168.1.20:4223&brokerKeyHash=h",
-		companionprotocol.Scheme + "://pair?address=&brokerKeyHash=h&secret=s",
+		"yacypeer-companion://pair?address=192.168.1.20:4223&brokerKeyHash=h",
+		"yacypeer-companion://pair?address=&brokerKeyHash=h&secret=s",
 	} {
 		_, err := companionprotocol.PairLinkFrom(text)
 

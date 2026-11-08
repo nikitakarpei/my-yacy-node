@@ -30,7 +30,7 @@ func TestUnpairingForgetsTheDeviceAndEndsItsConnections(t *testing.T) {
 		t.Errorf("removed = %v, want device-a", records.removed)
 	}
 	if len(records.disconnected) != 1 ||
-		records.disconnected[0] != companionaccess.UserOf("device-a") {
+		records.disconnected[0] != companionaccess.DeviceUserOf("device-a") {
 		t.Errorf("disconnected = %v, want the user of device-a", records.disconnected)
 	}
 }

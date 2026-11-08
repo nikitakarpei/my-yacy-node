@@ -1,6 +1,7 @@
 package companionprotocol_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
@@ -9,35 +10,71 @@ import (
 func TestEachSubjectOfADeviceNamesTheDevice(t *testing.T) {
 	for _, subject := range []string{
 		companionprotocol.SettingsSubjectOf("device-a"),
-		companionprotocol.AppSubjectOf("device-a"),
-		companionprotocol.UnpairSubjectOf("device-a"),
+		companionprotocol.AppReportSubjectOf("device-a"),
+		companionprotocol.UnpairingRequestSubjectOf("device-a"),
 	} {
-		if got := companionprotocol.DeviceIDFrom(subject); got != "device-a" {
-			t.Errorf("device of %q = %q, want device-a", subject, got)
+		if got := companionprotocol.DeviceIDIn(subject); got != "device-a" {
+			t.Errorf("device id in %q = %q, want device-a", subject, got)
 		}
 	}
 }
 
-func TestTheInboxOfADeviceIsItsOwn(t *testing.T) {
-	if companionprotocol.DeviceInboxPrefixOf("a") == companionprotocol.DeviceInboxPrefixOf("b") {
-		t.Error("two devices share an inbox")
+func TestEachFilterCoversItsOwnKindOfSubjectForEveryDevice(t *testing.T) {
+	subjectOfEachFilter := map[string]func(companionprotocol.DeviceID) string{
+		companionprotocol.SettingsSubjects:         companionprotocol.SettingsSubjectOf,
+		companionprotocol.AppReportSubjects:        companionprotocol.AppReportSubjectOf,
+		companionprotocol.UnpairingRequestSubjects: companionprotocol.UnpairingRequestSubjectOf,
 	}
-	if companionprotocol.DeviceInboxSubjectsOf(
-		"a",
-	) != companionprotocol.DeviceInboxPrefixOf(
-		"a",
-	)+".>" {
-		t.Errorf("inbox subjects = %q", companionprotocol.DeviceInboxSubjectsOf("a"))
-	}
-	if companionprotocol.DeviceSubjectsOf("a") != "devices.a.>" {
-		t.Errorf("device subjects = %q", companionprotocol.DeviceSubjectsOf("a"))
+	for filter, subjectOf := range subjectOfEachFilter {
+		for otherFilter, otherSubjectOf := range subjectOfEachFilter {
+			subject := otherSubjectOf("device-a")
+			if covers(filter, subject) != (filter == otherFilter) {
+				t.Errorf("%q covers %q = %v", filter, subject, covers(filter, subject))
+			}
+		}
+		if !covers(filter, subjectOf("device-b")) {
+			t.Errorf("%q does not cover the subject of device-b", filter)
+		}
 	}
 }
 
-func TestASubjectOutsideTheDeviceSubjectsNamesNoDevice(t *testing.T) {
-	for _, subject := range []string{"pairing.request", "devices.only-id", ""} {
-		if got := companionprotocol.DeviceIDFrom(subject); got != "" {
-			t.Errorf("device of %q = %q, want none", subject, got)
+func TestTheDeviceSubjectsCoverEachSubjectOfTheDeviceOnly(t *testing.T) {
+	for _, subject := range []string{
+		companionprotocol.SettingsSubjectOf("device-a"),
+		companionprotocol.AppReportSubjectOf("device-a"),
+		companionprotocol.UnpairingRequestSubjectOf("device-a"),
+	} {
+		if !covers(companionprotocol.DeviceSubjectsOf("device-a"), subject) {
+			t.Errorf("the subjects of device-a do not cover %q", subject)
+		}
+		if covers(companionprotocol.DeviceSubjectsOf("device-b"), subject) {
+			t.Errorf("the subjects of device-b cover %q", subject)
 		}
 	}
+}
+
+func TestTheInboxSubjectsOfADeviceCoverItsInboxesOnly(t *testing.T) {
+	inbox := companionprotocol.DeviceInboxPrefixOf("device-a") + ".reply-1"
+
+	if !covers(companionprotocol.DeviceInboxSubjectsOf("device-a"), inbox) {
+		t.Errorf("the inbox subjects of device-a do not cover %q", inbox)
+	}
+	if covers(companionprotocol.DeviceInboxSubjectsOf("device-b"), inbox) {
+		t.Errorf("the inbox subjects of device-b cover %q", inbox)
+	}
+}
+
+func covers(filter string, subject string) bool {
+	filterTokens := strings.Split(filter, ".")
+	subjectTokens := strings.Split(subject, ".")
+	for index, filterToken := range filterTokens {
+		if filterToken == ">" {
+			return len(subjectTokens) > index
+		}
+		if index >= len(subjectTokens) ||
+			filterToken != "*" && filterToken != subjectTokens[index] {
+			return false
+		}
+	}
+	return len(filterTokens) == len(subjectTokens)
 }

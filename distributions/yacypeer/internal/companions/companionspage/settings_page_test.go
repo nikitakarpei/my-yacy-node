@@ -17,13 +17,13 @@ type redirect struct {
 	location string
 }
 
-func choose(t *testing.T, server string, form url.Values) redirect {
+func changeFetching(t *testing.T, server string, form string) redirect {
 	t.Helper()
 	client := &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error {
 		return http.ErrUseLastResponse
 	}}
 	request, err := http.NewRequestWithContext(t.Context(), http.MethodPost,
-		server+companionspage.Path+"/settings", strings.NewReader(form.Encode()))
+		server+companionspage.Path+"/settings", strings.NewReader(form))
 	if err != nil {
 		t.Fatalf("request: %v", err)
 	}
@@ -44,9 +44,9 @@ func switchOf(page, name string) string {
 	return page[start : start+strings.Index(page[start:], ">")]
 }
 
-func TestTheSettingsPageShowsTheChoice(t *testing.T) {
+func TestTheSettingsPageShowsTheFetching(t *testing.T) {
 	f := pairedFixture()
-	f.choice = companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+	f.fetching = companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
@@ -60,7 +60,7 @@ func TestTheSettingsPageShowsTheChoice(t *testing.T) {
 
 func TestTheFillInWaitsForCompanionsAndKeepsItsValue(t *testing.T) {
 	f := pairedFixture()
-	f.choice = companionsettings.Choice{PeerFillsIn: true}
+	f.fetching = companionsettings.Fetching{PeerFillsIn: true}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
@@ -70,22 +70,22 @@ func TestTheFillInWaitsForCompanionsAndKeepsItsValue(t *testing.T) {
 	}
 }
 
-func TestTheSettingsCanChangeBeforeACompanionIsPaired(t *testing.T) {
-	f := &fixture{choice: companionsettings.Choice{CompanionsFetch: true}}
+func TestTheSettingsCanChangeBeforeADeviceIsPaired(t *testing.T) {
+	f := &fixture{fetching: companionsettings.Fetching{CompanionsFetch: true}}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
 	for _, name := range []string{"companionsFetch", "peerFillsIn"} {
 		if strings.Contains(switchOf(page, name), "disabled") {
-			t.Errorf("switch %s cannot change while no companion is paired", name)
+			t.Errorf("switch %s cannot change while no device is paired", name)
 		}
 	}
 }
 
-func TestChoosingCompanionsKeepsTheChoiceAndGoesBackToTheSettings(t *testing.T) {
+func TestTurningCompanionsOnKeepsTheFetchingAndGoesBackToTheSettings(t *testing.T) {
 	f := pairedFixture()
 
-	response := choose(t, serve(t, f).URL, url.Values{"companionsFetch": {"on"}})
+	response := changeFetching(t, serve(t, f).URL, url.Values{"companionsFetch": {"on"}}.Encode())
 
 	if response.status != http.StatusSeeOther ||
 		response.location != companionspage.Path+"/settings" {
@@ -95,88 +95,85 @@ func TestChoosingCompanionsKeepsTheChoiceAndGoesBackToTheSettings(t *testing.T) 
 			response.location,
 		)
 	}
-	if f.Choice() != (companionsettings.Choice{CompanionsFetch: true}) {
-		t.Errorf("choice = %+v, want companions fetching", f.Choice())
+	if f.Fetching() != (companionsettings.Fetching{CompanionsFetch: true}) {
+		t.Errorf("fetching = %+v, want companions fetching", f.Fetching())
 	}
 }
 
 func TestTurningCompanionsOffKeepsTheFillIn(t *testing.T) {
 	f := pairedFixture()
-	f.choice = companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+	f.fetching = companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}
 
-	choose(t, serve(t, f).URL, url.Values{"peerFillsIn": {"on"}})
+	changeFetching(t, serve(t, f).URL, url.Values{"peerFillsIn": {"on"}}.Encode())
 
-	if f.Choice() != (companionsettings.Choice{PeerFillsIn: true}) {
-		t.Errorf("choice = %+v, want only the fill-in kept", f.Choice())
+	if f.Fetching() != (companionsettings.Fetching{PeerFillsIn: true}) {
+		t.Errorf("fetching = %+v, want only the fill-in kept", f.Fetching())
 	}
 }
 
 func TestTheFillInStaysWhileCompanionsAreOff(t *testing.T) {
 	f := pairedFixture()
-	f.choice = companionsettings.Choice{PeerFillsIn: true}
+	f.fetching = companionsettings.Fetching{PeerFillsIn: true}
 
-	choose(t, serve(t, f).URL, url.Values{"companionsFetch": {"on"}})
+	changeFetching(t, serve(t, f).URL, url.Values{"companionsFetch": {"on"}}.Encode())
 
-	if f.Choice() != (companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}) {
-		t.Errorf("choice = %+v, want companions fetching with the kept fill-in", f.Choice())
+	if f.Fetching() != (companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}) {
+		t.Errorf("fetching = %+v, want companions fetching with the kept fill-in", f.Fetching())
 	}
 }
 
 func TestTheSettingsChangeWhileNoDeviceIsPaired(t *testing.T) {
-	f := &fixture{choice: companionsettings.Choice{CompanionsFetch: true}}
+	f := &fixture{fetching: companionsettings.Fetching{CompanionsFetch: true}}
 
-	choose(t, serve(t, f).URL, url.Values{})
+	changeFetching(t, serve(t, f).URL, url.Values{}.Encode())
 
-	if f.Choice() != (companionsettings.Choice{}) {
-		t.Errorf("choice = %+v, want companions off", f.Choice())
+	if f.Fetching() != (companionsettings.Fetching{}) {
+		t.Errorf("fetching = %+v, want companions off", f.Fetching())
 	}
 }
 
-func TestPageFetchingIsNotPausedWhileNoDeviceIsPaired(t *testing.T) {
-	f := &fixture{choice: companionsettings.Choice{CompanionsFetch: true}}
+func TestAnUnreadableSettingsFormChangesNothing(t *testing.T) {
+	f := pairedFixture()
+	f.fetching = companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}
 
-	page := pageOf(t, serve(t, f).URL+companionspage.Path)
+	response := changeFetching(t, serve(t, f).URL, "companionsFetch=%zz")
 
-	start := strings.Index(page, `id="paused-banner"`)
-	if !strings.Contains(page[start:start+strings.Index(page[start:], ">")], "hidden") {
-		t.Error("the page says that page fetching is paused although no device is paired")
+	if response.status != http.StatusBadRequest {
+		t.Errorf("status = %d, want 400", response.status)
 	}
+	if f.Fetching() != (companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}) {
+		t.Errorf("fetching = %+v, want it unchanged", f.Fetching())
+	}
+}
+
+func pausedBannerOf(page string) string {
+	start := strings.Index(page, `id="paused-banner"`)
+	if start < 0 {
+		return ""
+	}
+	return page[start : start+strings.Index(page[start:], ">")]
 }
 
 func TestBothTabsSayWhenPageFetchingIsPaused(t *testing.T) {
 	f := pairedFixture()
-	f.connected = nil
-	f.choice = companionsettings.Choice{CompanionsFetch: true}
+	f.fetchingPaused = true
 	server := serve(t, f).URL
 
 	for _, path := range []string{companionspage.Path, companionspage.Path + "/settings"} {
 		page := pageOf(t, server+path)
-		start := strings.Index(page, `id="paused-banner"`)
-		if start < 0 || !strings.Contains(page, pausedText) ||
-			strings.Contains(page[start:start+strings.Index(page[start:], ">")], "hidden") {
+		if banner := pausedBannerOf(page); banner == "" || strings.Contains(banner, "hidden") ||
+			!strings.Contains(page, pausedText) {
 			t.Errorf("%s does not say that page fetching is paused", path)
 		}
 	}
 }
 
-func TestPageFetchingIsNotPausedWhileThePeerFillsIn(t *testing.T) {
-	for name, f := range map[string]*fixture{
-		"companion connected": func() *fixture {
-			f := pairedFixture()
-			f.choice = companionsettings.Choice{CompanionsFetch: true}
-			return f
-		}(),
-		"peer fills in": func() *fixture {
-			f := pairedFixture()
-			f.connected = nil
-			f.choice = companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
-			return f
-		}(),
-	} {
-		page := pageOf(t, serve(t, f).URL+companionspage.Path)
-		start := strings.Index(page, `id="paused-banner"`)
-		if !strings.Contains(page[start:start+strings.Index(page[start:], ">")], "hidden") {
-			t.Errorf("%s: the page says that page fetching is paused", name)
+func TestNeitherTabSaysPausedWhilePagesAreFetched(t *testing.T) {
+	server := serve(t, pairedFixture()).URL
+
+	for _, path := range []string{companionspage.Path, companionspage.Path + "/settings"} {
+		if banner := pausedBannerOf(pageOf(t, server+path)); !strings.Contains(banner, "hidden") {
+			t.Errorf("%s says that page fetching is paused", path)
 		}
 	}
 }
