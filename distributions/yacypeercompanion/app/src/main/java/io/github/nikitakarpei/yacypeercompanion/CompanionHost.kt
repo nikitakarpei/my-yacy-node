@@ -71,20 +71,22 @@ class CompanionHost : Service() {
     }
 
     private fun publish(state: CompanionState) {
-        holdWakeLockFor(state)
+        fitWakeLockTo(state)
         CompanionStore.publish(state)
         getSystemService(NotificationManager::class.java).notify(STATUS_NOTIFICATION_ID, statusNotification(this, state))
     }
 
     @SuppressLint("WakelockTimeout")
-    private fun holdWakeLockFor(state: CompanionState) {
-        val works = state == CompanionState.Pairing || state == CompanionState.Connecting || state == CompanionState.Connected ||
-            state is CompanionState.Recovering
+    private fun fitWakeLockTo(state: CompanionState) {
+        val awake = keepsDeviceAwake(state)
         when {
-            works && !wakeLock.isHeld -> wakeLock.acquire()
-            !works && wakeLock.isHeld -> wakeLock.release()
+            awake && !wakeLock.isHeld -> wakeLock.acquire()
+            !awake && wakeLock.isHeld -> wakeLock.release()
         }
     }
+
+    private fun keepsDeviceAwake(state: CompanionState) = state == CompanionState.Pairing || state == CompanionState.Connecting ||
+        state == CompanionState.Connected || state is CompanionState.Recovering
 
     private fun carryOut(effect: CompanionEffect) {
         when (effect) {
