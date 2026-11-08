@@ -165,14 +165,14 @@ func newAttestedDevice(t *testing.T) attestedDevice {
 	return attestedDevice{
 		key:         key,
 		attestation: [][]byte{der},
-		id:          companionprotocol.DeviceIDOf(leaf.RawSubjectPublicKeyInfo),
+		id:          companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo),
 	}
 }
 
 func (f pairingFixture) begin(secret companionprotocol.Secret) {
 	f.offers.mu.Lock()
 	defer f.offers.mu.Unlock()
-	f.offers.pairings[companionprotocol.SecretIDOf(secret)] = pairingoffers.OngoingPairing{
+	f.offers.pairings[companionprotocol.SecretIDFrom(secret)] = pairingoffers.OngoingPairing{
 		Secret: secret, DeviceName: "Pixel 8",
 	}
 }
@@ -180,13 +180,13 @@ func (f pairingFixture) begin(secret companionprotocol.Secret) {
 func (o *begunOffers) acceptedAs(secret companionprotocol.Secret) companionprotocol.DeviceID {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	return o.accepted[companionprotocol.SecretIDOf(secret)]
+	return o.accepted[companionprotocol.SecretIDFrom(secret)]
 }
 
 func (o *begunOffers) refusedFor(secret companionprotocol.Secret) companionprotocol.RefusalReason {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	return o.refused[companionprotocol.SecretIDOf(secret)]
+	return o.refused[companionprotocol.SecretIDFrom(secret)]
 }
 
 func (d *addedDevices) all() []paireddevices.Device {

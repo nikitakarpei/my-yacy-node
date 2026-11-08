@@ -3,20 +3,18 @@ package yacypeerassembly
 import (
 	"context"
 	"crypto/tls"
-	"log/slog"
 	"time"
 
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
-	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
@@ -36,12 +34,12 @@ type companions interface {
 		natsURL string,
 		network *processnetwork.Network,
 	) []func(context.Context) error
-	close(ctx context.Context)
+	close()
 }
 
 type noCompanions struct{}
 
-type pairedCompanions struct {
+type servedCompanions struct {
 	devices     *paireddevices.Devices
 	offers      *pairingoffers.Offers
 	certificate tls.Certificate
@@ -61,7 +59,7 @@ func openCompanions(cfg PeerConfig) (companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &pairedCompanions{
+	return &servedCompanions{
 		devices:     devices,
 		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		certificate: certificate,
@@ -81,19 +79,19 @@ func (noCompanions) servers(
 	return nil
 }
 
-func (noCompanions) close(context.Context) {}
+func (noCompanions) close() {}
 
-func (c *pairedCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
+func (c *servedCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
 	return natsbroker.StartWithEndpoint(directory, c.endpoint())
 }
 
-func (c *pairedCompanions) endpoint() natsbroker.Endpoint {
+func (c *servedCompanions) endpoint() natsbroker.Endpoint {
 	return natsbroker.Endpoint{
 		Authentication: companionaccess.New(
 			c.devices,
 			c.offers,
 			wallclock.Clock{},
-			pageServicesPermissions(),
+			devicepermissions.ForPageServices(),
 			pairingWait,
 		),
 		Address:     c.address,
@@ -101,22 +99,11 @@ func (c *pairedCompanions) endpoint() natsbroker.Endpoint {
 	}
 }
 
-func pageServicesPermissions() natspermissions.Permissions {
-	return natspermissions.JoinedFrom(
-		pagescrapeassembly.ServiceConfig{
-			ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,
-		}.BrokerPermissions(),
-		pagerwiassembly.ServiceConfig{
-			PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
-		}.BrokerPermissions(),
-	)
+func (c *servedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
+	return companionprotocol.BrokerKeyHashFrom(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
-func (c *pairedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
-	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
-}
-
-func (c *pairedCompanions) servers(
+func (c *servedCompanions) servers(
 	broker *natsbroker.Broker,
 	natsURL string,
 	network *processnetwork.Network,
@@ -152,8 +139,6 @@ func servedOn(
 	}
 }
 
-func (c *pairedCompanions) close(ctx context.Context) {
-	if err := c.devices.Close(); err != nil {
-		slog.WarnContext(ctx, "paired devices did not close", slog.Any("error", err))
-	}
+func (c *servedCompanions) close() {
+	c.devices.Close()
 }

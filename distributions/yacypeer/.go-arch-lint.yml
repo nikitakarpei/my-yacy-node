@@ -42,6 +42,8 @@ components:
     in: internal/companions/companionaccess/**
   companionrequests:
     in: internal/companions/companionrequests/**
+  devicepermissions:
+    in: internal/companions/devicepermissions/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -54,6 +56,10 @@ vendors:
   natspermissions:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions
+  pageserviceassemblies:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly
+      - github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
@@ -151,6 +157,10 @@ deps:
     canUse:
       - companionprotocol
       - natsclient
+  devicepermissions:
+    canUse:
+      - natspermissions
+      - pageserviceassemblies
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

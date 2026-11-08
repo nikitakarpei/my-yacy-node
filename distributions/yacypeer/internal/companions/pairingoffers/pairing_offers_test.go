@@ -163,7 +163,7 @@ func TestAPairingWithoutARequestGivesWayToANewSecret(t *testing.T) {
 func TestAPairingThatWaitsForAVerdictDoesNotExpire(t *testing.T) {
 	offers, clock := newOffers()
 	offer, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDOf(secret)
+	secretID := companionprotocol.SecretIDFrom(secret)
 	if _, held := offers.HoldForVerdict(t.Context(), secretID); !held {
 		t.Fatal("the begun pairing is not held for a verdict")
 	}
@@ -179,7 +179,7 @@ func TestAPairingThatWaitsForAVerdictDoesNotExpire(t *testing.T) {
 func TestAnAcceptedDeviceEndsTheOffer(t *testing.T) {
 	offers, _ := newOffers()
 	offer, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDOf(secret)
+	secretID := companionprotocol.SecretIDFrom(secret)
 	pairing, held := offers.HoldForVerdict(t.Context(), secretID)
 	if !held || pairing != (pairingoffers.OngoingPairing{Secret: secret, DeviceName: "Pixel 8"}) {
 		t.Fatalf("pairing = %+v (%v), want Pixel 8 with the secret", pairing, held)
@@ -199,7 +199,7 @@ func TestAnAcceptedDeviceEndsTheOffer(t *testing.T) {
 func TestARefusedDeviceGivesWayToANewSecret(t *testing.T) {
 	offers, _ := newOffers()
 	offer, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDOf(secret)
+	secretID := companionprotocol.SecretIDFrom(secret)
 	offers.HoldForVerdict(t.Context(), secretID)
 
 	offers.Refuse(t.Context(), secretID, companionprotocol.ReasonAppOutdated)
@@ -219,7 +219,7 @@ func TestARefusedDeviceGivesWayToANewSecret(t *testing.T) {
 func TestAPairingRequestIsHeldForOneVerdictOnly(t *testing.T) {
 	offers, _ := newOffers()
 	_, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDOf(secret)
+	secretID := companionprotocol.SecretIDFrom(secret)
 
 	offers.HoldForVerdict(t.Context(), secretID)
 
@@ -231,7 +231,7 @@ func TestAPairingRequestIsHeldForOneVerdictOnly(t *testing.T) {
 func TestAVerdictOnAPairingThatWaitsForNoneChangesNothing(t *testing.T) {
 	offers, _ := newOffers()
 	offer, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDOf(secret)
+	secretID := companionprotocol.SecretIDFrom(secret)
 
 	offers.Accept(t.Context(), secretID, "device-a")
 	offers.Refuse(t.Context(), secretID, companionprotocol.ReasonRequestInvalid)
@@ -247,7 +247,7 @@ func TestAPairingThatNeverBeganIsNotHeld(t *testing.T) {
 	offers, _ := newOffers()
 	_, secret := openedSecret(t, offers)
 
-	if _, held := offers.HoldForVerdict(t.Context(), companionprotocol.SecretIDOf(secret)); held {
+	if _, held := offers.HoldForVerdict(t.Context(), companionprotocol.SecretIDFrom(secret)); held {
 		t.Error("a pairing that never began is held")
 	}
 }
@@ -266,7 +266,7 @@ func TestAClosedPageOffersItsSecretNoMore(t *testing.T) {
 func TestAVerdictAfterThePageClosedTellsNothing(t *testing.T) {
 	offers, _ := newOffers()
 	offer, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDOf(secret)
+	secretID := companionprotocol.SecretIDFrom(secret)
 	offers.HoldForVerdict(t.Context(), secretID)
 
 	offer.Close()

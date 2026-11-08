@@ -37,10 +37,10 @@ func (d *DeviceAnswerer) Serve(ctx context.Context, connection *nats.Conn) error
 		companionprotocol.SettingsSubjects: func(message *nats.Msg) {
 			respond(ctx, message, d.settings)
 		},
-		companionprotocol.AppSubjects: func(message *nats.Msg) {
+		companionprotocol.AppReportSubjects: func(message *nats.Msg) {
 			d.recordAppReport(ctx, message)
 		},
-		companionprotocol.UnpairSubjects: func(message *nats.Msg) {
+		companionprotocol.UnpairingRequestSubjects: func(message *nats.Msg) {
 			d.unpair(ctx, message, connection)
 		},
 	})
@@ -54,12 +54,12 @@ func (d *DeviceAnswerer) recordAppReport(ctx context.Context, message *nats.Msg)
 		)
 		return
 	}
-	d.devices.RecordAppVersion(ctx, companionprotocol.DeviceIDFrom(message.Subject),
+	d.devices.RecordAppVersion(ctx, companionprotocol.DeviceIDIn(message.Subject),
 		report.AppVersion)
 }
 
 func (d *DeviceAnswerer) unpair(ctx context.Context, message *nats.Msg, connection *nats.Conn) {
-	deviceID := companionprotocol.DeviceIDFrom(message.Subject)
+	deviceID := companionprotocol.DeviceIDIn(message.Subject)
 	confirmUnpairing(ctx, deviceID, message, connection)
 	d.unpairer.Unpair(ctx, deviceID)
 	slog.DebugContext(ctx, "deviceID unpaired itself", slog.String("device", string(deviceID)))

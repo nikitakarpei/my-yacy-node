@@ -58,6 +58,9 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth
+  jetstreamconnect:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
 
 deps:
   scrapeintake:
@@ -100,6 +103,7 @@ deps:
       - pagescrapeassembly
     canUse:
       - serviceruntime
+      - jetstreamconnect
 
 excludeFiles:
   - "_test\\.go"

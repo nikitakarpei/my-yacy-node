@@ -32,8 +32,8 @@ type PairingReply struct {
 	Reason   RefusalReason  `json:"reason,omitempty"`
 }
 
-func AcceptedReply(device DeviceID) PairingReply {
-	return PairingReply{Outcome: OutcomeAccepted, DeviceID: device}
+func AcceptedReply(deviceID DeviceID) PairingReply {
+	return PairingReply{Outcome: OutcomeAccepted, DeviceID: deviceID}
 }
 
 func RefusedReply(reason RefusalReason) PairingReply {

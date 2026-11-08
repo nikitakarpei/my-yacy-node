@@ -80,12 +80,15 @@ func TestTheAppVersionThatADeviceReportsIsRecorded(t *testing.T) {
 	data, _ := json.Marshal(companionprotocol.AppReport{AppVersion: "1.3.0"})
 
 	if err := connection.Publish(
-		companionprotocol.AppSubjectOf("device-b"),
+		companionprotocol.AppReportSubjectOf("device-b"),
 		[]byte("{"),
 	); err != nil {
 		t.Fatalf("Publish: %v", err)
 	}
-	if err := connection.Publish(companionprotocol.AppSubjectOf("device-a"), data); err != nil {
+	if err := connection.Publish(
+		companionprotocol.AppReportSubjectOf("device-a"),
+		data,
+	); err != nil {
 		t.Fatalf("Publish: %v", err)
 	}
 
@@ -105,7 +108,7 @@ func TestADeviceThatAsksToUnpairIsUnpaired(t *testing.T) {
 	records, url := startDeviceRequests(t)
 
 	if _, err := connectTo(t, url).Request(
-		companionprotocol.UnpairSubjectOf("device-a"), nil, replyWait,
+		companionprotocol.UnpairingRequestSubjectOf("device-a"), nil, replyWait,
 	); err != nil {
 		t.Fatalf("Request: %v", err)
 	}

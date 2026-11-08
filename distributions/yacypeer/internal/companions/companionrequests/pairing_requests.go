@@ -85,7 +85,7 @@ func (p *PairingAnswerer) Serve(ctx context.Context, connection *nats.Conn) erro
 func (p *PairingAnswerer) answer(ctx context.Context, message *nats.Msg) {
 	pairing, held := p.offers.HoldForVerdict(
 		ctx,
-		companionprotocol.SecretIDFrom(message.Reply),
+		companionprotocol.SecretIDIn(message.Reply),
 	)
 	if !held {
 		slog.WarnContext(ctx, "pairing request left unanswered",
@@ -133,7 +133,7 @@ func (p *PairingAnswerer) refuse(
 		slog.String("reason", string(refused.reason)),
 		slog.Any("cause", refused.cause),
 	)
-	p.offers.Refuse(ctx, companionprotocol.SecretIDOf(pairing.Secret), refused.reason)
+	p.offers.Refuse(ctx, companionprotocol.SecretIDFrom(pairing.Secret), refused.reason)
 	respond(ctx, message, companionprotocol.RefusedReply(refused.reason))
 }
 
@@ -158,7 +158,7 @@ func (p *PairingAnswerer) provenKeyOf(
 		return attestedKey{}, &refusal{reason: companionprotocol.ReasonRequestInvalid, cause: err}
 	}
 	challenge := companionprotocol.ChallengeFrom(pairing.Secret, p.brokerKeyHash)
-	if !companionprotocol.IsProofOf(key.publicKey, challenge, request.Proof) {
+	if !request.Proof.HoldsFor(key.publicKey, challenge) {
 		return attestedKey{}, &refusal{
 			reason: companionprotocol.ReasonRequestInvalid,
 			cause:  errProofInvalid,
@@ -194,7 +194,7 @@ func pairedDeviceFrom(
 	now time.Time,
 ) paireddevices.Device {
 	return paireddevices.Device{
-		ID:         companionprotocol.DeviceIDOf(key.publicKeyInfo),
+		ID:         companionprotocol.DeviceIDFrom(key.publicKeyInfo),
 		Name:       pairing.DeviceName,
 		PairedAt:   now,
 		AppVersion: request.AppVersion,
@@ -208,6 +208,6 @@ func (p *PairingAnswerer) accept(
 	device paireddevices.Device,
 ) {
 	p.devices.Add(ctx, device)
-	p.offers.Accept(ctx, companionprotocol.SecretIDOf(pairing.Secret), device.ID)
+	p.offers.Accept(ctx, companionprotocol.SecretIDFrom(pairing.Secret), device.ID)
 	respond(ctx, message, companionprotocol.AcceptedReply(device.ID))
 }
