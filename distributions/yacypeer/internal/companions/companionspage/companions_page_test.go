@@ -58,7 +58,7 @@ func serve(t *testing.T, f *fixture) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices: f, Unpairing: f, Offers: f, Broker: f,
+		Devices: f, Unpairer: f, Offers: f, Broker: f,
 	}, companionprotocol.PairLink{
 		Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
 	}, webuistyle.TabBar{})

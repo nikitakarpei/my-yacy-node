@@ -44,7 +44,7 @@
   <div class="card empty">No companions are paired.</div>
   {{end}}
 </main>
-{{with .Unpairing}}
+{{with .DeviceToUnpair}}
 <div class="scrim">
   <form class="dialog" role="dialog" aria-labelledby="unpair-title" method="post" action="{{$.UnpairPath}}">
     <h2 id="unpair-title">Unpair {{.Name}}?</h2>

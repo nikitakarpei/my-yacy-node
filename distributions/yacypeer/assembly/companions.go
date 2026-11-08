@@ -102,15 +102,15 @@ func (c *companions) register(
 		return
 	}
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices:   c.devices,
-		Unpairing: companionaccess.NewUnpairing(c.devices, broker),
-		Offers:    offerOpening{offers: c.offers},
-		Broker:    broker,
+		Devices:  c.devices,
+		Unpairer: companionaccess.NewUnpairer(c.devices, broker),
+		Offers:   offerOpener{offers: c.offers},
+		Broker:   broker,
 	}, c.pairLinkFor(broker), tabBar)
 }
 
 func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
-	address, _ := broker.ListeningAddress().(*net.TCPAddr)
+	address, _ := broker.EndpointAddress().(*net.TCPAddr)
 	return companionprotocol.PairLink{
 		Addresses:     hostaddresses.ThisHost().AddressesFor(address),
 		BrokerKeyHash: c.brokerKeyHash(),
@@ -169,10 +169,10 @@ func closeCompanions(ctx context.Context, parts *companions) {
 	}
 }
 
-type offerOpening struct {
+type offerOpener struct {
 	offers *pairingoffers.Offers
 }
 
-func (o offerOpening) Open() companionspage.PairingOffer {
+func (o offerOpener) Open() companionspage.PairingOffer {
 	return o.offers.Open()
 }

@@ -47,7 +47,7 @@ type PairedDevices interface {
 	List() []paireddevices.Device
 }
 
-type Unpairing interface {
+type Unpairer interface {
 	Unpair(ctx context.Context, device companionprotocol.DeviceID)
 }
 
@@ -65,10 +65,10 @@ type Broker interface {
 }
 
 type Collaborators struct {
-	Devices   PairedDevices
-	Unpairing Unpairing
-	Offers    PairingOffers
-	Broker    Broker
+	Devices  PairedDevices
+	Unpairer Unpairer
+	Offers   PairingOffers
+	Broker   Broker
 }
 
 type pages struct {
@@ -110,7 +110,7 @@ type companionsView struct {
 	Frame           pageFrame
 	ConnectionsPath string
 	JustPaired      companionprotocol.DeviceName
-	Unpairing       *deviceRow
+	DeviceToUnpair  *deviceRow
 	Devices         []deviceRow
 	PairPath        string
 	UnpairPath      string
@@ -141,7 +141,7 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 	); paired != nil {
 		view.JustPaired = paired.Name
 	}
-	view.Unpairing = rowOf(rows, companionprotocol.DeviceID(r.URL.Query().Get("unpair")))
+	view.DeviceToUnpair = rowOf(rows, companionprotocol.DeviceID(r.URL.Query().Get("unpair")))
 	render(w, r, companionsPage, view)
 }
 
@@ -190,7 +190,7 @@ func rowOf(rows []deviceRow, id companionprotocol.DeviceID) *deviceRow {
 func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
 	device := companionprotocol.DeviceID(r.PostFormValue("device"))
 	if device != "" {
-		p.collaborators.Unpairing.Unpair(r.Context(), device)
+		p.collaborators.Unpairer.Unpair(r.Context(), device)
 	}
 	http.Redirect(w, r, Path, http.StatusSeeOther)
 }
