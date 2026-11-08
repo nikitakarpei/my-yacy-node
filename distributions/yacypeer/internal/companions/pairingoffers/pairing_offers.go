@@ -118,7 +118,7 @@ func (o *Offers) HoldForVerdict(
 func (o *Offers) Accept(
 	ctx context.Context,
 	secretID companionprotocol.SecretID,
-	device companionprotocol.DeviceID,
+	deviceID companionprotocol.DeviceID,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -126,7 +126,7 @@ func (o *Offers) Accept(
 	if offer == nil {
 		return
 	}
-	offer.tell(ctx, DevicePaired{DeviceName: offer.deviceName, Device: device})
+	offer.tell(ctx, DevicePaired{DeviceName: offer.deviceName, DeviceID: deviceID})
 	o.end(offer)
 }
 
