@@ -1,9 +1,9 @@
 // Package brokeraccess connects the app to the broker of a peer. It tries each address of the
-// pairing link side by side, keeps the first connection that the broker accepts, and stops at the
-// first refusal, since every address leads to the same broker. Its broker access gives TLS that
-// accepts only the broker key that the link names, and the secret, key and inbox of the app.
-// Errors that the broker reports while a connection is open, such as a refused publish or
-// subscription, are logged as warnings.
+// pair link side by side, keeps the first connection that the broker accepts, and stops at the
+// first refusal, since every address leads to the same broker. It connects to pair, once, or with
+// reconnects, with TLS that accepts only the broker key of the link and with the pairing
+// credentials or the device key. Errors on an open connection, such as a refused publish, are
+// reported.
 package brokeraccess
 
 import (
@@ -27,8 +27,10 @@ const (
 )
 
 var (
-	errBrokerKeyMismatch = errors.New("the broker key is not the key of the pairing link")
-	errNoAddress         = errors.New("the pairing link names no address")
+	ErrNoConnection = errors.New("no connection to the broker of the peer")
+
+	errBrokerKeyMismatch = errors.New("the broker key is not the key of the pair link")
+	errNoAddress         = errors.New("the pair link names no address")
 	errSettled           = errors.New("another address answered first")
 )
 
@@ -44,7 +46,39 @@ func NewConnector(clock Clock) Connector {
 	return Connector{clock: clock}
 }
 
-func (c Connector) Connect(
+func (c Connector) ConnectToPair(
+	link companionprotocol.PairLink,
+	deviceName companionprotocol.DeviceName,
+) (*nats.Conn, error) {
+	credentials := companionprotocol.PairingCredentialsFrom(deviceName, link.Secret)
+	return c.connect(link, append(
+		pairingAccessFor(link).Options(),
+		nats.Name(credentials.ClientName),
+		nats.UserInfo("", credentials.Password),
+		nats.NoReconnect(),
+	))
+}
+
+func (c Connector) ConnectOnce(
+	link companionprotocol.PairLink,
+	access jetstreamconnect.BrokerAccess,
+) (*nats.Conn, error) {
+	return c.connect(link, append(access.Options(), nats.NoReconnect()))
+}
+
+func (c Connector) ConnectWithReconnects(
+	link companionprotocol.PairLink,
+	access jetstreamconnect.BrokerAccess,
+	onRefused func(),
+) (*nats.Conn, error) {
+	return c.connect(link, append(access.Options(), nats.ClosedHandler(func(closed *nats.Conn) {
+		if errors.Is(closed.LastError(), nats.ErrAuthorization) {
+			onRefused()
+		}
+	})))
+}
+
+func (c Connector) connect(
 	link companionprotocol.PairLink,
 	options []nats.Option,
 ) (*nats.Conn, error) {
@@ -54,7 +88,7 @@ func (c Connector) Connect(
 	connectOptions := append(
 		slices.Clip(options),
 		nats.Timeout(connectTimeout),
-		nats.ErrorHandler(reportBrokerError),
+		nats.ErrorHandler(reportConnectionError),
 	)
 	attempts := make(chan attempt, len(link.Addresses))
 	settled := make(chan struct{})
@@ -72,18 +106,22 @@ func attemptAt(address string, options []nats.Option, settled <-chan struct{}) a
 		return attempt{err: errSettled}
 	default:
 	}
-	connection, err := nats.Connect("tls://"+address, options...)
+	connection, err := nats.Connect(brokerURLOf(address), options...)
 	return attempt{connection: connection, err: err}
 }
 
-func reportBrokerError(_ *nats.Conn, subscription *nats.Subscription, err error) {
+func brokerURLOf(address string) string {
+	return "tls://" + address
+}
+
+func reportConnectionError(_ *nats.Conn, subscription *nats.Subscription, err error) {
 	attributes := []any{slog.Any("error", err)}
 	if subscription != nil {
 		attributes = append(attributes, slog.String("subject", subscription.Subject))
 	}
 	slog.WarnContext(
 		context.Background(),
-		"the broker of the peer reported an error",
+		"the connection to the broker of the peer reported an error",
 		attributes...)
 }
 
@@ -122,21 +160,14 @@ func connectFailureFrom(err error) error {
 	if err == nil {
 		return nil
 	}
-	return fmt.Errorf("connect to the broker of the peer: %w", err)
+	return fmt.Errorf("%w: %w", ErrNoConnection, err)
 }
 
-func PairingAccess(link companionprotocol.PairLink) jetstreamconnect.BrokerAccess {
+func pairingAccessFor(link companionprotocol.PairLink) jetstreamconnect.BrokerAccess {
 	return jetstreamconnect.BrokerAccess{
 		TLS:         pinnedTLSFor(link.BrokerKeyHash, nil),
 		InboxPrefix: companionprotocol.PairingInboxPrefixFor(link.Secret),
 	}
-}
-
-func PairingIdentity(
-	link companionprotocol.PairLink,
-	deviceName companionprotocol.DeviceName,
-) []nats.Option {
-	return []nats.Option{nats.Name(string(deviceName)), nats.UserInfo("", string(link.Secret))}
 }
 
 func DeviceAccess(
@@ -147,10 +178,10 @@ func DeviceAccess(
 	if err != nil {
 		return jetstreamconnect.BrokerAccess{}, err
 	}
-	device := companionprotocol.DeviceIDOf(key.PublicKeyInfo())
+	deviceID := companionprotocol.DeviceIDFrom(key.PublicKeyInfo())
 	return jetstreamconnect.BrokerAccess{
 		TLS:         pinnedTLSFor(link.BrokerKeyHash, []tls.Certificate{certificate}),
-		InboxPrefix: companionprotocol.DeviceInboxPrefixOf(device),
+		InboxPrefix: companionprotocol.DeviceInboxPrefixOf(deviceID),
 	}, nil
 }
 
@@ -163,7 +194,7 @@ func pinnedTLSFor(
 		MinVersion:         tls.VersionTLS13,
 		Certificates:       certificates,
 		VerifyConnection: func(state tls.ConnectionState) error {
-			if len(state.PeerCertificates) == 0 || companionprotocol.BrokerKeyHashOf(
+			if len(state.PeerCertificates) == 0 || companionprotocol.BrokerKeyHashFrom(
 				state.PeerCertificates[0].RawSubjectPublicKeyInfo,
 			) != brokerKeyHash {
 				return errBrokerKeyMismatch
