@@ -33,7 +33,7 @@ const (
 	fieldDevice       = "device"
 	appGuideURL       = "https://github.com/nikitakarpei/my-yacy-node/tree/main/" +
 		"distributions/yacypeercompanion"
-	connectionTimeLayout = "2 Jan 2006, 15:04"
+	lastConnectedLayout = "2 Jan 2006, 15:04"
 )
 
 var (
@@ -51,7 +51,7 @@ type PairedDevices interface {
 }
 
 type Unpairer interface {
-	Unpair(ctx context.Context, device companionprotocol.DeviceID)
+	Unpair(ctx context.Context, deviceID companionprotocol.DeviceID)
 }
 
 type PairingOffer interface {
@@ -68,10 +68,10 @@ type DeviceConnections interface {
 }
 
 type Collaborators struct {
-	Devices     PairedDevices
-	Unpairer    Unpairer
-	Offers      PairingOffers
-	Connections DeviceConnections
+	Devices           PairedDevices
+	Unpairer          Unpairer
+	Offers            PairingOffers
+	DeviceConnections DeviceConnections
 }
 
 type pages struct {
@@ -99,7 +99,7 @@ func Register(
 		devices:           collaborators.Devices,
 		unpairer:          collaborators.Unpairer,
 		offers:            collaborators.Offers,
-		deviceConnections: collaborators.Connections,
+		deviceConnections: collaborators.DeviceConnections,
 		linkWithoutSecret: linkWithoutSecret,
 		frame: pageFrame{
 			WebUIStylesheet: webuistyle.StylesheetPath,
@@ -120,7 +120,7 @@ type companionsView struct {
 	DeviceStatesPath string
 	PairedDeviceName companionprotocol.DeviceName
 	DeviceToUnpair   *deviceRow
-	Devices          []deviceRow
+	Devices          deviceRows
 	PairPath         string
 	UnpairPath       string
 	CompanionsPath   string
@@ -131,12 +131,14 @@ type companionsView struct {
 }
 
 type deviceRow struct {
-	ID                 companionprotocol.DeviceID   `json:"device"`
-	Name               companionprotocol.DeviceName `json:"-"`
-	AppVersion         string                       `json:"appVersion"`
-	LastConnectionTime string                       `json:"lastConnectionTime"`
-	Connected          bool                         `json:"connected"`
+	ID            companionprotocol.DeviceID   `json:"id"`
+	Name          companionprotocol.DeviceName `json:"-"`
+	AppVersion    string                       `json:"appVersion"`
+	LastConnected string                       `json:"lastConnected"`
+	Connected     bool                         `json:"connected"`
 }
+
+type deviceRows []deviceRow
 
 func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
@@ -152,73 +154,47 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 		UnpairParameter:  parameterUnpair,
 		DeviceField:      fieldDevice,
 	}
-	if pairedRow := rowOf(
-		rows,
+	if pairedRow := rows.with(
 		companionprotocol.DeviceID(r.URL.Query().Get(parameterPaired)),
 	); pairedRow != nil {
 		view.PairedDeviceName = pairedRow.Name
 	}
-	view.DeviceToUnpair = rowOf(
-		rows,
-		companionprotocol.DeviceID(r.URL.Query().Get(parameterUnpair)),
-	)
+	view.DeviceToUnpair = rows.with(companionprotocol.DeviceID(r.URL.Query().Get(parameterUnpair)))
 	render(w, r, companionsPage, view)
 }
 
-func (p *pages) deviceRows() []deviceRow {
+func (p *pages) deviceRows() deviceRows {
 	connectedDevices := p.deviceConnections.ConnectedDevices()
 	devices := p.devices.List()
 	slices.SortFunc(devices, func(a, b paireddevices.Device) int {
 		return cmp.Compare(a.Name, b.Name)
 	})
-	rows := make([]deviceRow, 0, len(devices))
+	rows := make(deviceRows, 0, len(devices))
 	for _, device := range devices {
 		rows = append(rows, deviceRow{
-			ID:                 device.ID,
-			Name:               device.Name,
-			AppVersion:         device.AppVersion,
-			LastConnectionTime: connectionTimeOf(device.LastConnectedAt),
-			Connected:          connectedDevices[device.ID],
+			ID:            device.ID,
+			Name:          device.Name,
+			AppVersion:    device.AppVersion,
+			LastConnected: lastConnectedFrom(device.LastConnectedAt),
+			Connected:     connectedDevices[device.ID],
 		})
 	}
 	return rows
 }
 
-func (p *pages) deviceStates(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Cache-Control", "no-store")
-	encoded, err := json.Marshal(p.deviceRows())
-	if err != nil {
-		slog.ErrorContext(r.Context(), "device connections not encoded", slog.Any("error", err))
-		http.Error(w, "device connections not encoded", http.StatusInternalServerError)
-		return
-	}
-	if _, err := w.Write(encoded); err != nil {
-		slog.DebugContext(r.Context(), "companions page reader left", slog.Any("error", err))
-	}
-}
-
-func connectionTimeOf(at time.Time) string {
-	if at.IsZero() {
+func lastConnectedFrom(lastConnectedAt time.Time) string {
+	if lastConnectedAt.IsZero() {
 		return ""
 	}
-	return at.Local().Format(connectionTimeLayout)
+	return lastConnectedAt.Local().Format(lastConnectedLayout)
 }
 
-func rowOf(rows []deviceRow, id companionprotocol.DeviceID) *deviceRow {
-	position := slices.IndexFunc(rows, func(row deviceRow) bool { return row.ID == id })
-	if id == "" || position < 0 {
+func (rows deviceRows) with(deviceID companionprotocol.DeviceID) *deviceRow {
+	position := slices.IndexFunc(rows, func(row deviceRow) bool { return row.ID == deviceID })
+	if position < 0 {
 		return nil
 	}
 	return &rows[position]
-}
-
-func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
-	deviceID := companionprotocol.DeviceID(r.PostFormValue(fieldDevice))
-	if deviceID != "" {
-		p.unpairer.Unpair(r.Context(), deviceID)
-	}
-	http.Redirect(w, r, Path, http.StatusSeeOther)
 }
 
 func render(w http.ResponseWriter, r *http.Request, page *template.Template, view any) {
@@ -234,4 +210,17 @@ func render(w http.ResponseWriter, r *http.Request, page *template.Template, vie
 	if _, err := rendered.WriteTo(w); err != nil {
 		slog.DebugContext(r.Context(), "companions page reader left", slog.Any("error", err))
 	}
+}
+
+func (p *pages) deviceStates(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
+	if err := json.NewEncoder(w).Encode(p.deviceRows()); err != nil {
+		slog.DebugContext(r.Context(), "device states reader left", slog.Any("error", err))
+	}
+}
+
+func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
+	p.unpairer.Unpair(r.Context(), companionprotocol.DeviceID(r.PostFormValue(fieldDevice)))
+	http.Redirect(w, r, Path, http.StatusSeeOther)
 }

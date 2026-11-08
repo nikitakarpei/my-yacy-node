@@ -10,7 +10,7 @@
 </head>
 <body>
 {{.Frame.TabBar}}
-<main data-device-states="{{.DeviceStatesPath}}" data-path="{{.CompanionsPath}}" data-paired-parameter="{{.PairedParameter}}">
+<main data-device-states="{{.DeviceStatesPath}}" data-companions-path="{{.CompanionsPath}}" data-paired-parameter="{{.PairedParameter}}">
   <div class="heading">
     <h1>Companions</h1>
     <a class="button primary" href="{{.PairPath}}">Pair a companion</a>
@@ -25,15 +25,15 @@
           <th scope="col">Device</th>
           <th scope="col">App version</th>
           <th scope="col">Last connected</th>
-          <th scope="col"><span class="hidden">Actions</span></th>
+          <th scope="col"><span class="visually-hidden">Actions</span></th>
         </tr>
       </thead>
       <tbody>
         {{range .Devices}}
-        <tr data-device="{{.ID}}">
+        <tr data-device-id="{{.ID}}">
           <td class="device">{{.Name}}</td>
           <td class="app-version">{{.AppVersion}}</td>
-          <td class="last-connected">{{if .Connected}}<span class="connected">Connected</span>{{else}}{{.LastConnectionTime}}{{end}}</td>
+          <td class="last-connected">{{if .Connected}}<span class="connected">Connected</span>{{else}}{{.LastConnected}}{{end}}</td>
           <td class="action"><a class="button danger" href="{{$.CompanionsPath}}?{{$.UnpairParameter}}={{.ID}}">Unpair</a></td>
         </tr>
         {{end}}

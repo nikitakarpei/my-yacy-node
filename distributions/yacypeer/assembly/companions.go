@@ -20,9 +20,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/hostaddresses"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/thishost"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
 )
 
 const (
@@ -38,6 +39,7 @@ type companions interface {
 		natsURL string,
 		network *processnetwork.Network,
 	) []func(context.Context) error
+	tabLinks() webuitabs.Links
 	register(mux *http.ServeMux, broker *natsbroker.Broker, tabBar webuistyle.TabBar)
 	close()
 }
@@ -86,6 +88,10 @@ func (noCompanions) runners(
 	return nil
 }
 
+func (noCompanions) tabLinks() webuitabs.Links {
+	return nil
+}
+
 func (noCompanions) register(*http.ServeMux, *natsbroker.Broker, webuistyle.TabBar) {}
 
 func (noCompanions) close() {}
@@ -112,23 +118,27 @@ func (c *servedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashFrom(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
+func (c *servedCompanions) tabLinks() webuitabs.Links {
+	return webuitabs.Links{{Title: webuitabs.Companions, URL: companionspage.Path}}
+}
+
 func (c *servedCompanions) register(
 	mux *http.ServeMux,
 	broker *natsbroker.Broker,
 	tabBar webuistyle.TabBar,
 ) {
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices:     c.devices,
-		Unpairer:    companionaccess.NewUnpairer(c.devices, broker),
-		Offers:      offerOpener{offers: c.offers},
-		Connections: companionaccess.NewDeviceConnections(broker),
+		Devices:           c.devices,
+		Unpairer:          companionaccess.NewUnpairer(c.devices, broker),
+		Offers:            offerOpener{offers: c.offers},
+		DeviceConnections: companionaccess.NewDeviceConnections(broker),
 	}, c.pairLinkFor(broker), tabBar)
 }
 
 func (c *servedCompanions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
 	address := broker.EndpointAddress().(*net.TCPAddr) //nolint:forcetypeassert // the endpoint listens on TCP.
 	return companionprotocol.PairLink{
-		Addresses:     hostaddresses.ThisHost().AddressesFor(address),
+		Addresses:     thishost.Host().AddressesFor(address),
 		BrokerKeyHash: c.brokerKeyHash(),
 	}
 }

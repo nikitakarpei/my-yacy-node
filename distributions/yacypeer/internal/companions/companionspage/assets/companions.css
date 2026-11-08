@@ -63,7 +63,7 @@ tbody tr {
 .action {
   text-align: right;
 }
-.hidden {
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -118,7 +118,7 @@ tbody tr {
   justify-content: flex-end;
   gap: 10px;
 }
-.alert {
+.refusal {
   max-width: 46rem;
   margin-bottom: var(--webui-space-4);
   padding: var(--webui-space-3) var(--webui-space-4);
@@ -126,14 +126,14 @@ tbody tr {
   border: 1px solid var(--webui-danger-line);
   border-radius: var(--webui-radius);
 }
-.alert p {
+.refusal p {
   margin: 0;
 }
-.alert-title {
+.refusal-title {
   font-weight: 600;
   color: var(--webui-danger-ink);
 }
-.alert-cause {
+.refusal-reason {
   font-size: var(--webui-text-sm);
 }
 .pairing {

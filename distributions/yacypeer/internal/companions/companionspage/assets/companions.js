@@ -4,15 +4,15 @@ const page = document.querySelector("main");
 const refreshPause = 3000;
 
 if (new URLSearchParams(window.location.search).has(page.dataset.pairedParameter)) {
-  window.history.replaceState(null, "", page.dataset.path);
+  window.history.replaceState(null, "", page.dataset.companionsPath);
 }
 
 const rows = new Map(
-  [...page.querySelectorAll("tr[data-device]")].map((row) => [row.dataset.device, row]),
+  [...page.querySelectorAll("tr[data-device-id]")].map((row) => [row.dataset.deviceId, row]),
 );
 
 function show(device) {
-  const row = rows.get(device.device);
+  const row = rows.get(device.id);
   row.querySelector(".app-version").textContent = device.appVersion;
   const cell = row.querySelector(".last-connected");
   if (device.connected) {
@@ -21,7 +21,7 @@ function show(device) {
     badge.textContent = "Connected";
     cell.replaceChildren(badge);
   } else {
-    cell.textContent = device.lastConnectionTime;
+    cell.textContent = device.lastConnected;
   }
 }
 
@@ -29,7 +29,7 @@ async function refresh() {
   try {
     const response = await fetch(page.dataset.deviceStates, { cache: "no-store" });
     const devices = await response.json();
-    if (devices.length !== rows.size || devices.some((device) => !rows.has(device.device))) {
+    if (devices.length !== rows.size || devices.some((device) => !rows.has(device.id))) {
       window.location.reload();
       return;
     }

@@ -46,6 +46,8 @@ components:
     in: internal/companions/companionspage/**
   hostaddresses:
     in: internal/hostaddresses/**
+  thishost:
+    in: internal/thishost/**
   devicepermissions:
     in: internal/companions/devicepermissions/**
   yacypeerassembly:
@@ -176,6 +178,9 @@ deps:
     canUse:
       - natspermissions
       - pageserviceassemblies
+  thishost:
+    mayDependOn:
+      - hostaddresses
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

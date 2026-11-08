@@ -4,9 +4,9 @@ const page = document.querySelector("main");
 const codeImage = page.querySelector(".code-image");
 const codeState = page.querySelector(".code-state");
 const codeStateText = page.querySelector(".code-state-text");
-const refusal = page.querySelector(".alert");
+const refusal = page.querySelector(".refusal");
 
-const events = new EventSource(page.dataset.events);
+const events = new EventSource(page.dataset.pairingEvents);
 
 events.addEventListener("code", (event) => {
   codeImage.innerHTML = event.data;
@@ -23,13 +23,13 @@ events.addEventListener("begun", (event) => {
 });
 
 events.addEventListener("refused", (event) => {
-  const { deviceName, cause } = JSON.parse(event.data);
-  refusal.querySelector(".alert-title").textContent = `Couldn’t pair ${deviceName}`;
-  refusal.querySelector(".alert-cause").textContent = cause;
+  const { deviceName, reason } = JSON.parse(event.data);
+  refusal.querySelector(".refusal-title").textContent = `Couldn’t pair ${deviceName}`;
+  refusal.querySelector(".refusal-reason").textContent = reason;
   refusal.hidden = false;
 });
 
 events.addEventListener("paired", (event) => {
   events.close();
-  window.location.assign(JSON.parse(event.data).url);
+  window.location.assign(JSON.parse(event.data).companionsURL);
 });

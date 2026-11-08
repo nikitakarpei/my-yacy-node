@@ -113,6 +113,7 @@ func RunPeer(
 		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
+		webUILinks:         webUILinksWith(companions.tabLinks()),
 	}
 	services, urls, err := peer.services(ctx, getenv)
 	if err != nil {
@@ -122,11 +123,15 @@ func RunPeer(
 		)
 	}
 	logStarted(ctx, peer, web)
-	webUIURLs := webUIURLsFor(cfg)
 	webMux := webMuxFor(
-		processRegistry, services, history, urls, network, webUIURLs.TabBarFor(webuitabs.Metrics),
+		processRegistry,
+		services,
+		history,
+		urls,
+		network,
+		peer.webUILinks.TabBarFor(webuitabs.Metrics),
 	)
-	companions.register(webMux, broker, webUIURLs.TabBarFor(webuitabs.Companions))
+	companions.register(webMux, broker, peer.webUILinks.TabBarFor(webuitabs.Companions))
 	companionRunners := companions.runners(broker, peer.natsURL, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
 		return runEvery(ctx, services, append(companionRunners,

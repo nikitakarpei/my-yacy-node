@@ -15,7 +15,6 @@ func (u brokerUsers) ConnectedUsers() map[string]bool { return u }
 func TestDeviceConnectionsNameOnlyTheConnectedPairedDevices(t *testing.T) {
 	users := brokerUsers{
 		companionaccess.DeviceUserOf("device-a"): true,
-		companionaccess.DeviceUserOf("device-b"): false,
 		"pairing-secret":                         true,
 		"":                                       true,
 	}

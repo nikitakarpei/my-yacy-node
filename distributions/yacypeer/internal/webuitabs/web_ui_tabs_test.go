@@ -7,19 +7,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/webuitabs"
 )
 
-var urls = webuitabs.URLs{
-	Search:  "http://127.0.0.1:8097",
-	Crawls:  "http://127.0.0.1:8093",
-	Metrics: "http://127.0.0.1:9090/dashboards",
+var links = webuitabs.Links{
+	{Title: webuitabs.Search, URL: "http://127.0.0.1:8097"},
+	{Title: webuitabs.Crawls, URL: "http://127.0.0.1:8093"},
+	{Title: webuitabs.Metrics, URL: "http://127.0.0.1:9090/dashboards"},
 }
 
-func TestTheTabBarLinksEveryWebUIAndMarksTheCurrentOne(t *testing.T) {
-	bar := urls.TabBarFor(webuitabs.Crawls)
+func TestTheTabBarLinksEveryWebUIInOrderAndMarksTheCurrentOne(t *testing.T) {
+	bar := links.TabBarFor(webuitabs.Crawls)
 
 	want := []webuistyle.Tab{
-		{Title: "Search", URL: urls.Search},
-		{Title: "Crawls", URL: urls.Crawls, Current: true},
-		{Title: "Metrics", URL: urls.Metrics},
+		{Title: "Search", URL: links[0].URL},
+		{Title: "Crawls", URL: links[1].URL, Current: true},
+		{Title: "Metrics", URL: links[2].URL},
 	}
 	if len(bar.Tabs) != len(want) {
 		t.Fatalf("tabs = %+v, want %+v", bar.Tabs, want)
@@ -35,24 +35,12 @@ func TestTheTabBarLinksEveryWebUIAndMarksTheCurrentOne(t *testing.T) {
 }
 
 func TestTheSettingReadsBackAsTheSameTabBar(t *testing.T) {
-	bar, err := webuistyle.TabBarFrom(urls.SettingFor(webuitabs.Search))
+	bar, err := webuistyle.TabBarFrom(links.SettingFor(webuitabs.Search))
 	if err != nil {
 		t.Fatalf("TabBarFrom: %v", err)
 	}
 
-	if !bar.Tabs[0].Current || bar.Tabs[2].URL != urls.Metrics {
+	if !bar.Tabs[0].Current || bar.Tabs[2].URL != links[2].URL {
 		t.Errorf("tab bar = %+v, want the search tab current", bar)
-	}
-}
-
-func TestTheCompanionsTabStandsBeforeMetricsWhenThePeerHasCompanions(t *testing.T) {
-	withCompanions := urls
-	withCompanions.Companions = "/companions"
-
-	bar := withCompanions.TabBarFor(webuitabs.Companions)
-
-	if len(bar.Tabs) != 4 || bar.Tabs[2].Title != "Companions" || !bar.Tabs[2].Current ||
-		bar.Tabs[3].Title != "Metrics" {
-		t.Errorf("tabs = %+v, want Companions current before Metrics", bar.Tabs)
 	}
 }

@@ -36,10 +36,10 @@ func (f *fixture) List() []paireddevices.Device { return f.devices }
 
 func (f *fixture) ConnectedDevices() map[companionprotocol.DeviceID]bool { return f.connected }
 
-func (f *fixture) Unpair(_ context.Context, device companionprotocol.DeviceID) {
+func (f *fixture) Unpair(_ context.Context, deviceID companionprotocol.DeviceID) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.unpaired = append(f.unpaired, device)
+	f.unpaired = append(f.unpaired, deviceID)
 }
 
 func (f *fixture) Open() companionspage.PairingOffer { return f.offer }
@@ -57,7 +57,7 @@ func serve(t *testing.T, f *fixture) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices: f, Unpairer: f, Offers: f, Connections: f,
+		Devices: f, Unpairer: f, Offers: f, DeviceConnections: f,
 	}, companionprotocol.PairLink{
 		Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
 	}, webuistyle.TabBar{})
@@ -255,7 +255,7 @@ func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
 	}
 }
 
-func TestEachRefusalHasACause(t *testing.T) {
+func TestEachRefusalHasAReason(t *testing.T) {
 	for _, reason := range []companionprotocol.RefusalReason{
 		companionprotocol.ReasonAppOutdated,
 		companionprotocol.ReasonPeerOutdated,
@@ -269,8 +269,12 @@ func TestEachRefusalHasACause(t *testing.T) {
 
 		offer.events <- pairingoffers.DeviceRefused{DeviceName: "Pixel 8", Reason: reason}
 
-		if _, data := events.next(t); !strings.Contains(data, `"cause":"`) {
-			t.Errorf("refusal for %s = %q, want a cause", reason, data)
+		_, data := events.next(t)
+		var refusal struct {
+			Reason string `json:"reason"`
+		}
+		if err := json.Unmarshal([]byte(data), &refusal); err != nil || refusal.Reason == "" {
+			t.Errorf("refusal for %s = %q (%v), want a reason", reason, data, err)
 		}
 	}
 }
@@ -279,17 +283,17 @@ func TestTheStatesOfThePairedDevicesReadAsJSON(t *testing.T) {
 	body := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path+"/device-states")
 
 	var devices []struct {
-		Device             string `json:"device"`
-		AppVersion         string `json:"appVersion"`
-		LastConnectionTime string `json:"lastConnectionTime"`
-		Connected          bool   `json:"connected"`
+		ID            string `json:"id"`
+		AppVersion    string `json:"appVersion"`
+		LastConnected string `json:"lastConnected"`
+		Connected     bool   `json:"connected"`
 	}
 	if err := json.Unmarshal([]byte(body), &devices); err != nil {
 		t.Fatalf("Unmarshal %s: %v", body, err)
 	}
-	if len(devices) != 2 || devices[0].Device != "device-a" ||
-		devices[0].LastConnectionTime != "5 Nov 2026, 22:14" || devices[0].Connected ||
-		devices[1].Device != "device-b" || !devices[1].Connected || devices[1].AppVersion != "1.2.0" {
+	if len(devices) != 2 || devices[0].ID != "device-a" ||
+		devices[0].LastConnected != "5 Nov 2026, 22:14" || devices[0].Connected ||
+		devices[1].ID != "device-b" || !devices[1].Connected || devices[1].AppVersion != "1.2.0" {
 		t.Errorf("devices = %+v, want both devices with their states", devices)
 	}
 }

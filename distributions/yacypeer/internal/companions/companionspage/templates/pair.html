@@ -10,11 +10,11 @@
 </head>
 <body>
 {{.Frame.TabBar}}
-<main data-events="{{.PairingEventsPath}}">
+<main data-pairing-events="{{.PairingEventsPath}}">
   <h1>Pair a companion</h1>
-  <div class="alert" role="alert" hidden>
-    <p class="alert-title"></p>
-    <p class="alert-cause"></p>
+  <div class="refusal" role="alert" hidden>
+    <p class="refusal-title"></p>
+    <p class="refusal-reason"></p>
   </div>
   <div class="card pairing">
     <div class="code">
