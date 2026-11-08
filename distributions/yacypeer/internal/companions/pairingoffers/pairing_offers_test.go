@@ -187,7 +187,7 @@ func TestAnAcceptedDeviceEndsTheOffer(t *testing.T) {
 
 	offers.Accept(t.Context(), secretID, "device-a")
 
-	want := pairingoffers.DevicePaired{DeviceName: "Pixel 8", Device: "device-a"}
+	want := pairingoffers.DevicePaired{DeviceName: "Pixel 8", DeviceID: "device-a"}
 	if event := nextEvent(t, offer); event != want {
 		t.Errorf("event = %+v, want Pixel 8 paired", event)
 	}
