@@ -14,13 +14,17 @@ class SettingsScreen : Activity() {
         val column = column().apply { setPadding(0, dp(12), 0, dp(24)) }
         column.addView(topBar("Settings", R.color.on_surface) { finish() })
         column.addView(
-            chargingOnlyRow(),
+            switchRow(CHARGING_ONLY_TEXT, null, ChargingOnly.required(this)) { ChargingOnly.require(this, it) },
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp(16)
             },
         )
         column.addView(
-            mobileDataRow(),
+            switchRow(BATTERY_SAVER_PAUSE_TEXT, null, BatterySaverPause.wanted(this)) { BatterySaverPause.want(this, it) },
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
+        )
+        column.addView(
+            switchRow("Use mobile data", "Includes metered Wi-Fi", MeteredNetworks.allowed(this)) { MeteredNetworks.allow(this, it) },
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
         )
         column.spacer()
@@ -43,38 +47,21 @@ class SettingsScreen : Activity() {
         super.onPause()
     }
 
-    private fun chargingOnlyRow() = LinearLayout(this).apply {
+    private fun switchRow(title: String, detail: String?, checked: Boolean, onCheckedChange: (Boolean) -> Unit) = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         minimumHeight = dp(72)
         setPadding(dp(24), dp(8), dp(24), dp(8))
         val toggle =
             ToggleSwitch(context).apply {
-                isChecked = ChargingOnly.required(context)
-                setOnCheckedChangeListener { _, checked -> ChargingOnly.require(context, checked) }
-            }
-        addView(heading(CHARGING_ONLY_TEXT, 16f), LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-        addView(toggle)
-        isClickable = true
-        foreground = rowRipple()
-        setOnClickListener { toggle.toggle() }
-    }
-
-    private fun mobileDataRow() = LinearLayout(this).apply {
-        orientation = LinearLayout.HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-        minimumHeight = dp(72)
-        setPadding(dp(24), dp(8), dp(24), dp(8))
-        val toggle =
-            ToggleSwitch(context).apply {
-                isChecked = MeteredNetworks.allowed(context)
-                setOnCheckedChangeListener { _, checked -> MeteredNetworks.allow(context, checked) }
+                isChecked = checked
+                setOnCheckedChangeListener { _, isChecked -> onCheckedChange(isChecked) }
             }
         addView(
             LinearLayout(context).apply {
                 orientation = LinearLayout.VERTICAL
-                addView(heading("Use mobile data", 16f))
-                addView(bodyText("Includes metered Wi-Fi", 14f))
+                addView(heading(title, 16f))
+                if (detail != null) addView(bodyText(detail, 14f))
             },
             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f),
         )

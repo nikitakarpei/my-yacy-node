@@ -39,8 +39,11 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnectin
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Recovering
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Waiting
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForBatterySaverOff
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForNetwork
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForPower
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
 
 const val PAIRING_LIMIT_MS = 30_000L
@@ -96,6 +99,7 @@ private fun CompanionModel.pairingCancelled(): Step? = to(Stopped, StopServices,
 
 private fun CompanionModel.started(): Step = when {
     powerAccess == PowerAccess.CHARGER_NEEDED -> to(WaitingForCharger)
+    powerAccess == PowerAccess.BATTERY_SAVER_ON -> to(WaitingForBatterySaverOff)
     networkAccess == NetworkAccess.METERED_ONLY -> to(WaitingForUnmeteredNetwork)
     else -> to(Connecting, StartServices)
 }
@@ -177,13 +181,16 @@ private fun CompanionModel.meteredOnly(): Step? = when (state) {
 }
 
 private fun CompanionModel.powerChanged(): Step? = when (powerAccess) {
-    PowerAccess.USABLE -> started().takeIf { state == WaitingForCharger }
-    PowerAccess.CHARGER_NEEDED -> chargerNeeded()
+    PowerAccess.USABLE -> started().takeIf { state is WaitingForPower }
+    PowerAccess.CHARGER_NEEDED -> paused(WaitingForCharger)
+    PowerAccess.BATTERY_SAVER_ON -> paused(WaitingForBatterySaverOff)
 }
 
-private fun CompanionModel.chargerNeeded(): Step? = when (state) {
+private fun CompanionModel.paused(waiting: Waiting): Step? = when (state) {
     Connecting, Connected, is Recovering, WaitingForUnmeteredNetwork ->
-        to(WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+        to(waiting, StopServices, CancelRetry, CancelFailureNotification)
+
+    is WaitingForPower -> to(waiting)
 
     else -> null
 }

@@ -37,6 +37,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFail
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForBatterySaverOff
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForNetwork
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
@@ -53,12 +54,17 @@ class CompanionMachineTest {
     private val meteredOnly = NetworkChanged(NetworkAccess.METERED_ONLY)
     private val onCharger = PowerChanged(PowerAccess.USABLE)
     private val offCharger = PowerChanged(PowerAccess.CHARGER_NEEDED)
+    private val batterySaverOn = PowerChanged(PowerAccess.BATTERY_SAVER_ON)
+    private val batterySaverOff = PowerChanged(PowerAccess.USABLE)
 
     private fun stepOf(state: CompanionState, event: CompanionEvent, networkAccess: NetworkAccess = NetworkAccess.USABLE) =
         CompanionModel(state, networkAccess).after(event, now)
 
     private fun offChargerStepOf(state: CompanionState, event: CompanionEvent) =
         CompanionModel(state, powerAccess = PowerAccess.CHARGER_NEEDED).after(event, now)
+
+    private fun batterySaverStepOf(state: CompanionState, event: CompanionEvent) =
+        CompanionModel(state, powerAccess = PowerAccess.BATTERY_SAVER_ON).after(event, now)
 
     private fun assertStep(step: Step, state: CompanionState, vararg effects: CompanionEffect) {
         assertEquals(state, step.model.state)
@@ -261,5 +267,34 @@ class CompanionMachineTest {
     @Test
     fun pairingWithoutAChargerCompletesAndThenWaits() {
         assertStep(offChargerStepOf(Pairing, PairingAccepted), WaitingForCharger, CancelPairingTimeout, CompletePairing)
+    }
+
+    @Test
+    fun inBatterySaverTheCompanionStopsAndWaitsForItToTurnOff() {
+        assertStep(
+            stepOf(Connected, batterySaverOn),
+            WaitingForBatterySaverOff,
+            StopServices,
+            CancelRetry,
+            CancelFailureNotification,
+        )
+        assertStep(batterySaverStepOf(Stopped, StartRequested), WaitingForBatterySaverOff)
+        assertStep(
+            batterySaverStepOf(Pairing, PairingAccepted),
+            WaitingForBatterySaverOff,
+            CancelPairingTimeout,
+            CompletePairing,
+        )
+    }
+
+    @Test
+    fun turningBatterySaverOffStartsAWaitingCompanion() {
+        assertStep(batterySaverStepOf(WaitingForBatterySaverOff, batterySaverOff), Connecting, StartServices)
+    }
+
+    @Test
+    fun aWaitingCompanionShowsThePowerConditionThatHoldsItBack() {
+        assertStep(batterySaverStepOf(WaitingForBatterySaverOff, offCharger), WaitingForCharger)
+        assertStep(offChargerStepOf(WaitingForCharger, batterySaverOn), WaitingForBatterySaverOff)
     }
 }

@@ -11,6 +11,7 @@ fun titleOf(state: CompanionState): String = when (state) {
     CompanionState.Connecting -> "Connecting"
     CompanionState.Connected -> "Connected"
     CompanionState.WaitingForCharger -> "Waiting for a charger"
+    CompanionState.WaitingForBatterySaverOff -> "Waiting for Battery Saver to turn off"
     CompanionState.WaitingForUnmeteredNetwork -> "Waiting for Wi-Fi"
     is CompanionState.Disconnected -> "Disconnected"
 }
@@ -31,6 +32,7 @@ fun reasonTextOf(state: CompanionState.Disconnected): String = when (state) {
 const val RECONNECTING_TEXT = "Reconnecting"
 
 const val CHARGING_ONLY_TEXT = "Run only when charging"
+const val BATTERY_SAVER_PAUSE_TEXT = "Pause while Battery Saver is on"
 const val DATA_SHARING_TEXT = "Data sharing"
 
 fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
