@@ -58,7 +58,7 @@ other peers can check what the device did.
 * The app writes the logs of its fetches and RWIs to logcat, under the tag `GoLog`.
 * A debug build cannot sign, so each page fetch of a debug build fails.
 * Each start of the app after a stop creates a new signing key.
-* The app holds a wake lock while it connects to the peer or works for it, so the device uses
-  more power.
+* The app holds a wake lock while it pairs, connects to the peer, works for it, or waits to
+  connect again, so the device uses more power.
 * Two builds give the same APK only when they use the toolchain that `tools/install android`
   installs.

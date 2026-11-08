@@ -8,6 +8,7 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 )
 
@@ -24,7 +25,8 @@ func Unpair(linkText string, key DeviceKey) {
 		slog.WarnContext(context.Background(), "unpair request not sent", slog.Any("error", err))
 		return
 	}
-	connection, err := brokeraccess.Connect(link, append(access.Options(), nats.NoReconnect()))
+	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).
+		Connect(link, append(access.Options(), nats.NoReconnect()))
 	if err != nil {
 		slog.WarnContext(
 			context.Background(),

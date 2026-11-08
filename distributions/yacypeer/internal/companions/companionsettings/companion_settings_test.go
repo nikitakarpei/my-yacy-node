@@ -1,27 +1,27 @@
-package fetchsettings_test
+package companionsettings_test
 
 import (
 	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 )
 
 type toldChoices struct {
-	choices []fetchsettings.Choice
+	choices []companionsettings.Choice
 }
 
-func (t *toldChoices) ChoiceMade(_ context.Context, choice fetchsettings.Choice) {
+func (t *toldChoices) ChoiceMade(_ context.Context, choice companionsettings.Choice) {
 	t.choices = append(t.choices, choice)
 }
 
 func opened(
 	t *testing.T,
 	directory string,
-	observers ...fetchsettings.Observer,
-) *fetchsettings.Settings {
+	observers ...companionsettings.Observer,
+) *companionsettings.Settings {
 	t.Helper()
-	settings, err := fetchsettings.Open(context.Background(), directory, observers...)
+	settings, err := companionsettings.Open(context.Background(), directory, observers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -31,7 +31,7 @@ func opened(
 
 func TestCompanionsFetchUntilAChoiceIsMade(t *testing.T) {
 	told := &toldChoices{}
-	want := fetchsettings.Choice{CompanionsFetch: true}
+	want := companionsettings.Choice{CompanionsFetch: true}
 
 	settings := opened(t, t.TempDir(), told)
 
@@ -45,8 +45,8 @@ func TestCompanionsFetchUntilAChoiceIsMade(t *testing.T) {
 
 func TestTheSettingsKeepTheChoiceAcrossARestart(t *testing.T) {
 	directory := t.TempDir()
-	choice := fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
-	first, err := fetchsettings.Open(context.Background(), directory)
+	choice := companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+	first, err := companionsettings.Open(context.Background(), directory)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -69,7 +69,7 @@ func TestTheSettingsKeepTheChoiceAcrossARestart(t *testing.T) {
 func TestTheSettingsTellEachChoice(t *testing.T) {
 	told := &toldChoices{}
 	settings := opened(t, t.TempDir(), told)
-	choice := fetchsettings.Choice{PeerFillsIn: true}
+	choice := companionsettings.Choice{PeerFillsIn: true}
 
 	settings.Choose(context.Background(), choice)
 
