@@ -13,9 +13,10 @@ other peers can check what the device did.
 
 ## Functional Requirements
 
-* Before pairing, the app SHALL show what it is and the permissions that it needs.
+* Before pairing, the app SHALL show what it is, the permissions that it needs, and the data
+  that it shares.
 * The app SHALL NOT start pairing before the user allows notifications and running in the
-  background.
+  background, and agrees to the data sharing.
 * The app SHALL ask for the camera only to read a pairing code.
 * The app SHALL pair with the peer whose pairing code it reads with the camera.
 * Pairing SHALL succeed only when the peer accepts the device.

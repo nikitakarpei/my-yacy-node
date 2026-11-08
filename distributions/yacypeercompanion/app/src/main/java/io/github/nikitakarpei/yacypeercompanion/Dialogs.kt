@@ -6,8 +6,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.view.View
 import android.view.Window
 import android.widget.LinearLayout
+import android.widget.ScrollView
 
 private const val SCRIM_ALPHA = 0.32f
 
@@ -18,6 +20,7 @@ fun Activity.showDialog(
     actions: List<DialogAction>,
     message: String? = null,
     iconId: Int? = null,
+    content: View? = null,
     onCancel: () -> Unit = {},
 ) {
     val dialog = Dialog(this)
@@ -44,6 +47,14 @@ fun Activity.showDialog(
         box.addView(
             bodyText(it, 14f),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                topMargin = dp(16)
+            },
+        )
+    }
+    content?.let {
+        box.addView(
+            ScrollView(this).apply { addView(it) },
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
                 topMargin = dp(16)
             },
         )
