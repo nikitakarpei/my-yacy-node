@@ -14,13 +14,13 @@ class SettingsScreen : Activity() {
         val column = column().apply { setPadding(0, dp(12), 0, dp(24)) }
         column.addView(topBar("Settings", R.color.on_surface) { finish() })
         column.addView(
-            chargingOnlyRow(),
+            chargerRow(),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp(16)
             },
         )
         column.addView(
-            mobileDataRow(),
+            meteredNetworksRow(),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
         )
         column.spacer()
@@ -43,7 +43,7 @@ class SettingsScreen : Activity() {
         super.onPause()
     }
 
-    private fun chargingOnlyRow() = LinearLayout(this).apply {
+    private fun chargerRow() = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         minimumHeight = dp(72)
@@ -53,14 +53,14 @@ class SettingsScreen : Activity() {
                 isChecked = Charger.required(context)
                 setOnCheckedChangeListener { _, checked -> Charger.require(context, checked) }
             }
-        addView(heading(CHARGING_ONLY_TEXT, 16f), LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        addView(heading("Run only when charging", 16f), LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         addView(toggle)
         isClickable = true
         foreground = rowRipple()
         setOnClickListener { toggle.toggle() }
     }
 
-    private fun mobileDataRow() = LinearLayout(this).apply {
+    private fun meteredNetworksRow() = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         minimumHeight = dp(72)

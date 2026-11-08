@@ -1,7 +1,7 @@
 // Package companionsettings keeps the settings of the companions of the peer in one file of a
 // directory: whether paired companions fetch pages, on until the operator turns it off, and
 // whether the peer fetches pages itself while no companion is connected. It tells its observers
-// each choice, the kept one first.
+// each change, the kept fetching first.
 package companionsettings
 
 import (
@@ -22,94 +22,95 @@ const (
 	fileMode          = 0o600
 )
 
-type Choice struct {
+type Fetching struct {
 	CompanionsFetch bool `json:"companionsFetch"`
 	PeerFillsIn     bool `json:"peerFillsIn"`
 }
 
-func (c Choice) OnlyCompanionsFetch() bool {
-	return c.CompanionsFetch && !c.PeerFillsIn
+func (f Fetching) OnlyCompanionsFetch() bool {
+	return f.CompanionsFetch && !f.PeerFillsIn
 }
 
 type Observer interface {
-	ChoiceMade(ctx context.Context, choice Choice)
+	FetchingChanged(ctx context.Context, fetching Fetching)
 }
 
-type Settings struct {
+type Keeper struct {
 	root      *os.Root
 	observers []Observer
-	choice    Choice
+	fetching  Fetching
 	mu        sync.Mutex
 }
 
-func Open(ctx context.Context, directory string, observers ...Observer) (*Settings, error) {
+func Open(ctx context.Context, directory string, observers ...Observer) (*Keeper, error) {
 	if err := os.MkdirAll(directory, directoryFileMode); err != nil {
-		return nil, fmt.Errorf("make the fetch settings directory: %w", err)
+		return nil, fmt.Errorf("make the companion settings directory: %w", err)
 	}
 	root, err := os.OpenRoot(directory)
 	if err != nil {
-		return nil, fmt.Errorf("open the fetch settings directory: %w", err)
+		return nil, fmt.Errorf("open the companion settings directory: %w", err)
 	}
-	choice, err := keptChoiceIn(root)
+	fetching, err := keptFetchingIn(root)
 	if err != nil {
 		return nil, errors.Join(err, root.Close())
 	}
-	settings := &Settings{root: root, observers: observers, choice: choice}
-	settings.tell(ctx)
-	return settings, nil
+	keeper := &Keeper{root: root, observers: observers, fetching: fetching}
+	keeper.tell(ctx)
+	return keeper, nil
 }
 
-func keptChoiceIn(root *os.Root) (Choice, error) {
+func keptFetchingIn(root *os.Root) (Fetching, error) {
 	kept, err := root.ReadFile(fileName)
 	if errors.Is(err, fs.ErrNotExist) {
-		return Choice{CompanionsFetch: true}, nil
+		return Fetching{CompanionsFetch: true}, nil
 	}
 	if err != nil {
-		return Choice{}, fmt.Errorf("read the fetch settings: %w", err)
+		return Fetching{}, fmt.Errorf("read the companion settings: %w", err)
 	}
-	var choice Choice
-	if err := json.Unmarshal(kept, &choice); err != nil {
-		return Choice{}, fmt.Errorf("read the fetch settings: %w", err)
+	var fetching Fetching
+	if err := json.Unmarshal(kept, &fetching); err != nil {
+		return Fetching{}, fmt.Errorf("read the companion settings: %w", err)
 	}
-	return choice, nil
+	return fetching, nil
 }
 
-func (s *Settings) Choice() Choice {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	return s.choice
+func (k *Keeper) Fetching() Fetching {
+	k.mu.Lock()
+	defer k.mu.Unlock()
+	return k.fetching
 }
 
-func (s *Settings) Choose(ctx context.Context, choice Choice) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.choice = choice
-	s.keep(ctx)
-	s.tell(ctx)
+func (k *Keeper) ChangeFetching(ctx context.Context, fetching Fetching) {
+	k.mu.Lock()
+	defer k.mu.Unlock()
+	k.fetching = fetching
+	k.keep(ctx)
+	k.tell(ctx)
 }
 
-func (s *Settings) keep(ctx context.Context) {
-	encoded, err := json.MarshalIndent(s.choice, "", "  ")
+func (k *Keeper) keep(ctx context.Context) {
+	encoded, err := json.MarshalIndent(k.fetching, "", "  ")
 	if err == nil {
-		err = s.root.WriteFile(draftFileName, append(encoded, '\n'), fileMode)
+		err = k.root.WriteFile(draftFileName, append(encoded, '\n'), fileMode)
 	}
 	if err == nil {
-		err = s.root.Rename(draftFileName, fileName)
+		err = k.root.Rename(draftFileName, fileName)
 	}
 	if err != nil {
-		slog.ErrorContext(ctx, "fetch settings not kept", slog.Any("error", err))
+		slog.ErrorContext(ctx, "companion settings not kept", slog.Any("error", err))
 	}
 }
 
-func (s *Settings) tell(ctx context.Context) {
-	for _, observer := range s.observers {
-		observer.ChoiceMade(ctx, s.choice)
+func (k *Keeper) tell(ctx context.Context) {
+	for _, observer := range k.observers {
+		observer.FetchingChanged(ctx, k.fetching)
 	}
 }
 
-func (s *Settings) Close() error {
-	if err := s.root.Close(); err != nil {
-		return fmt.Errorf("close the fetch settings directory: %w", err)
+func (k *Keeper) Close() {
+	if err := k.root.Close(); err != nil {
+		slog.WarnContext(context.Background(), "companion settings directory not closed",
+			slog.Any("error", err),
+		)
 	}
-	return nil
 }

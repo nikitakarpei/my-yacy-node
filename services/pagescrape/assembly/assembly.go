@@ -52,11 +52,13 @@ func RunService(
 	cfg ServiceConfig,
 	_ Listeners,
 	dial Dial,
+	brokerAccess jetstreamconnect.BrokerAccess,
+	intakeAdmission pullintake.Admission,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
 	broker, connection, err := jetstreamconnect.OpenObserved(
-		cfg.ScrapeNATSURL, dial, health, cfg.BrokerAccess,
+		cfg.ScrapeNATSURL, dial, health, brokerAccess,
 	)
 	if err != nil {
 		return err
@@ -96,13 +98,17 @@ func RunService(
 				registry,
 				metricNamespace,
 			),
-			cfg.IntakeAdmission,
+			intakeAdmission,
 		),
 		cfg.ScrapeDeferralWindow,
 		cfg.ScrapeIntakeConcurrency,
 		wallclock.Clock{},
 	)
 
+	receiptCarrier, err := outcomeFeed.StartCarryingIntakeReceipts(ctx)
+	if err != nil {
+		return err
+	}
 	health.MarkStarted()
 	slog.InfoContext(ctx, "pagescrape started",
 		slog.String("durable", cfg.ScrapeRequestDurable),
@@ -116,7 +122,7 @@ func RunService(
 			}
 			return nil
 		},
-		outcomeFeed.CarryIntakeReceipts,
+		receiptCarrier.Run,
 	)
 	slog.InfoContext(ctx, "pagescrape stopped")
 	return err

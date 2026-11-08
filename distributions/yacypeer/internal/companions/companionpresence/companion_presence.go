@@ -1,5 +1,5 @@
 // Package companionpresence watches whether a paired companion is connected to the broker of the
-// peer. It tells its observers when the first companion connects and when the last one leaves.
+// peer. It tells its observers when the first companion connects and when the last one disconnects.
 package companionpresence
 
 import (

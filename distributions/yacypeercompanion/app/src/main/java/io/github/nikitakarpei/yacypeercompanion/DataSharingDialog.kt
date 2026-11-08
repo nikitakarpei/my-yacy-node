@@ -45,7 +45,7 @@ private const val THIRD_PARTIES =
 
 fun Activity.showDataSharing(onAgree: () -> Unit) {
     showDialog(
-        DATA_SHARING_TEXT,
+        DATA_SHARING_TITLE,
         listOf(DialogAction("Decline"), DialogAction("Agree", onClick = onAgree)),
         content = dataSharingText(),
     )

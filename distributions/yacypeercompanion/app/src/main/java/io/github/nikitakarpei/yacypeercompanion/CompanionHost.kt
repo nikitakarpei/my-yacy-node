@@ -12,6 +12,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionModel
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
 import io.github.nikitakarpei.yacypeercompanion.model.after
+import io.github.nikitakarpei.yacypeercompanion.model.keepsDeviceAwake
 import io.github.nikitakarpei.yacypeercompanion.services.Pairer
 import io.github.nikitakarpei.yacypeercompanion.services.ServicesRunner
 import java.util.concurrent.Executors
@@ -36,6 +37,7 @@ class CompanionHost : Service() {
 
     @Volatile
     private var ended = false
+    private val wakeLockGuard = Any()
 
     override fun onBind(intent: Intent?) = null
 
@@ -65,34 +67,35 @@ class CompanionHost : Service() {
             Log.d(LOG_TAG, "$event: ${model.state} -> ${step.model.state}, effects ${step.effects}")
             val changed = step.model.state != model.state
             model = step.model
-            if (changed) publish(model.state)
+            if (changed) {
+                publish(model.state)
+                fitWakeLockTo(model.state)
+            }
             step.effects.forEach { carryOut(it) }
         }
     }
 
     private fun publish(state: CompanionState) {
-        fitWakeLockTo(state)
         CompanionStore.publish(state)
         getSystemService(NotificationManager::class.java).notify(STATUS_NOTIFICATION_ID, statusNotification(this, state))
     }
 
     @SuppressLint("WakelockTimeout")
     private fun fitWakeLockTo(state: CompanionState) {
-        val awake = keepsDeviceAwake(state)
-        when {
-            awake && !wakeLock.isHeld -> wakeLock.acquire()
-            !awake && wakeLock.isHeld -> wakeLock.release()
+        synchronized(wakeLockGuard) {
+            when {
+                ended -> return
+                state.keepsDeviceAwake() && !wakeLock.isHeld -> wakeLock.acquire()
+                !state.keepsDeviceAwake() && wakeLock.isHeld -> wakeLock.release()
+            }
         }
     }
 
-    private fun keepsDeviceAwake(state: CompanionState) = state == CompanionState.Pairing || state == CompanionState.Connecting ||
-        state == CompanionState.Connected || state is CompanionState.Recovering
-
     private fun carryOut(effect: CompanionEffect) {
         when (effect) {
-            is CompanionEffect.BeginPairing -> Pairing.begin(this, effect.code.linkText)
+            is CompanionEffect.BeginPairing -> Pairing.begin(this, effect.link.text)
             CompanionEffect.SendPairingRequest -> pairer.send(Pairing.linkText(this).orEmpty())
-            CompanionEffect.CompletePairing -> Pairing.complete(this)
+            CompanionEffect.CompletePairing -> completePairing()
             CompanionEffect.ForgetPairing -> forgetPairing()
             CompanionEffect.StartServices, CompanionEffect.RestartServices -> services.start(Pairing.linkText(this).orEmpty())
             CompanionEffect.StopServices -> services.stop()
@@ -106,11 +109,16 @@ class CompanionHost : Service() {
         }
     }
 
+    private fun completePairing() {
+        Pairing.complete(this)
+        pairer.complete()
+    }
+
     private fun forgetPairing() {
         val linkText = Pairing.linkText(this)
         val paired = Pairing.paired(this)
         Pairing.forget(this)
-        if (paired && linkText != null) pairer.unpair(linkText) else pairer.discardKey()
+        if (paired && linkText != null) pairer.unpair(linkText) else pairer.giveUp()
     }
 
     private fun after(delayMs: Long, event: CompanionEvent): ScheduledFuture<*> =
@@ -121,16 +129,18 @@ class CompanionHost : Service() {
         stopSelf()
     }
 
-    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailed || state == CompanionState.DeviceRefused
+    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailure || state == CompanionState.DeviceRefused
 
     override fun onDestroy() {
-        ended = true
+        synchronized(wakeLockGuard) {
+            ended = true
+            if (wakeLock.isHeld) wakeLock.release()
+        }
         events.put(CompanionEvent.StopRequested)
         timers.shutdownNow()
         services.close()
         network.close()
         power.close()
-        if (wakeLock.isHeld) wakeLock.release()
         if (!keepsShowing(CompanionStore.state)) CompanionStore.publish(CompanionState.Stopped)
         super.onDestroy()
     }

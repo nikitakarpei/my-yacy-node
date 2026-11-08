@@ -52,11 +52,11 @@ func (o *begunOffers) HoldForVerdict(
 func (o *begunOffers) Accept(
 	_ context.Context,
 	secretID companionprotocol.SecretID,
-	device companionprotocol.DeviceID,
+	deviceID companionprotocol.DeviceID,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.accepted[secretID] = device
+	o.accepted[secretID] = deviceID
 }
 
 func (o *begunOffers) Refuse(
@@ -96,34 +96,29 @@ func connectTo(t *testing.T, url string) *nats.Conn {
 	return connection
 }
 
-func serve(
+func subscribe(
 	t *testing.T,
-	server func(context.Context, *nats.Conn) error,
+	subscribeOn func(context.Context, *nats.Conn) (*companionrequests.Subscriptions, error),
 	url string,
-	subjects int,
 ) {
 	t.Helper()
 	ctx, cancel := context.WithCancel(context.Background())
-	ready := connectTo(t, url)
-	done := make(chan error, 1)
-	go func() { done <- server(ctx, ready) }()
+	subscriptions, err := subscribeOn(ctx, connectTo(t, url))
+	if err != nil {
+		t.Fatalf("subscribe: %v", err)
+	}
+	ended := make(chan struct{})
+	go func() {
+		subscriptions.EndWhenDone(ctx)
+		close(ended)
+	}()
 	t.Cleanup(func() {
 		cancel()
-		<-done
+		<-ended
 	})
-	deadline := time.Now().Add(replyWait)
-	for ready.NumSubscriptions() < subjects {
-		if time.Now().After(deadline) {
-			t.Fatal("the requests are not served")
-		}
-		time.Sleep(time.Millisecond)
-	}
-	if err := ready.Flush(); err != nil {
-		t.Fatalf("flush: %v", err)
-	}
 }
 
-func startPairing(t *testing.T) pairingFixture {
+func startPairingAnswerer(t *testing.T) pairingFixture {
 	t.Helper()
 	url := natstestserver.Start(t)
 	offers := &begunOffers{
@@ -132,8 +127,8 @@ func startPairing(t *testing.T) pairingFixture {
 		refused:  map[companionprotocol.SecretID]companionprotocol.RefusalReason{},
 	}
 	devices := &addedDevices{}
-	requests := companionrequests.NewPairingAnswerer(offers, devices, fixedClock{}, brokerKeyHash)
-	serve(t, requests.Serve, url, 1)
+	answerer := companionrequests.NewPairingAnswerer(offers, devices, fixedClock{}, brokerKeyHash)
+	subscribe(t, answerer.Subscribe, url)
 	return pairingFixture{connection: connectTo(t, url), offers: offers, devices: devices}
 }
 
@@ -154,25 +149,31 @@ func newAttestedDevice(t *testing.T) attestedDevice {
 		NotBefore:    pairedAt,
 		NotAfter:     pairedAt.Add(time.Hour),
 	}
-	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
+	certificateDER, err := x509.CreateCertificate(
+		rand.Reader,
+		template,
+		template,
+		&key.PublicKey,
+		key,
+	)
 	if err != nil {
 		t.Fatalf("CreateCertificate: %v", err)
 	}
-	leaf, err := x509.ParseCertificate(der)
+	leaf, err := x509.ParseCertificate(certificateDER)
 	if err != nil {
 		t.Fatalf("ParseCertificate: %v", err)
 	}
 	return attestedDevice{
 		key:         key,
-		attestation: [][]byte{der},
-		id:          companionprotocol.DeviceIDOf(leaf.RawSubjectPublicKeyInfo),
+		attestation: [][]byte{certificateDER},
+		id:          companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo),
 	}
 }
 
 func (f pairingFixture) begin(secret companionprotocol.Secret) {
 	f.offers.mu.Lock()
 	defer f.offers.mu.Unlock()
-	f.offers.pairings[companionprotocol.SecretIDOf(secret)] = pairingoffers.OngoingPairing{
+	f.offers.pairings[companionprotocol.SecretIDFrom(secret)] = pairingoffers.OngoingPairing{
 		Secret: secret, DeviceName: "Pixel 8",
 	}
 }
@@ -180,13 +181,13 @@ func (f pairingFixture) begin(secret companionprotocol.Secret) {
 func (o *begunOffers) acceptedAs(secret companionprotocol.Secret) companionprotocol.DeviceID {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	return o.accepted[companionprotocol.SecretIDOf(secret)]
+	return o.accepted[companionprotocol.SecretIDFrom(secret)]
 }
 
 func (o *begunOffers) refusedFor(secret companionprotocol.Secret) companionprotocol.RefusalReason {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	return o.refused[companionprotocol.SecretIDOf(secret)]
+	return o.refused[companionprotocol.SecretIDFrom(secret)]
 }
 
 func (d *addedDevices) all() []paireddevices.Device {
@@ -247,7 +248,7 @@ func requestOf(
 }
 
 func TestADeviceThatProvesItsKeyPairs(t *testing.T) {
-	fixture := startPairing(t)
+	fixture := startPairingAnswerer(t)
 	device := newAttestedDevice(t)
 	secret := companionprotocol.RandomSecret()
 	fixture.begin(secret)
@@ -276,11 +277,15 @@ func TestAPairingRequestIsRefusedForEachFlaw(t *testing.T) {
 		want   companionprotocol.RefusalReason
 	}{
 		{
-			"older protocol", func(r *companionprotocol.PairingRequest) { r.ProtocolVersion = 0 },
+			"older protocol", func(r *companionprotocol.PairingRequest) {
+				r.ProtocolVersion = companionprotocol.ProtocolVersion - 1
+			},
 			companionprotocol.ReasonAppOutdated,
 		},
 		{
-			"newer protocol", func(r *companionprotocol.PairingRequest) { r.ProtocolVersion = 2 },
+			"newer protocol", func(r *companionprotocol.PairingRequest) {
+				r.ProtocolVersion = companionprotocol.ProtocolVersion + 1
+			},
 			companionprotocol.ReasonPeerOutdated,
 		},
 		{"proof of another challenge", func(r *companionprotocol.PairingRequest) {
@@ -295,7 +300,7 @@ func TestAPairingRequestIsRefusedForEachFlaw(t *testing.T) {
 		}, companionprotocol.ReasonRequestInvalid},
 	} {
 		t.Run(flaw.name, func(t *testing.T) {
-			fixture := startPairing(t)
+			fixture := startPairingAnswerer(t)
 			secret := companionprotocol.RandomSecret()
 			fixture.begin(secret)
 			request := requestOf(t, device, secret)
@@ -317,7 +322,7 @@ func TestAPairingRequestIsRefusedForEachFlaw(t *testing.T) {
 }
 
 func TestAnUnreadablePairingRequestIsRefused(t *testing.T) {
-	fixture := startPairing(t)
+	fixture := startPairingAnswerer(t)
 	secret := companionprotocol.RandomSecret()
 	fixture.begin(secret)
 	inbox := companionprotocol.PairingInboxPrefixFor(secret) + ".reply"
@@ -344,7 +349,7 @@ func TestAnUnreadablePairingRequestIsRefused(t *testing.T) {
 }
 
 func TestAPairingRequestWithoutABegunPairingGetsNoReply(t *testing.T) {
-	fixture := startPairing(t)
+	fixture := startPairingAnswerer(t)
 	secret := companionprotocol.RandomSecret()
 	device := newAttestedDevice(t)
 	inbox := companionprotocol.PairingInboxPrefixFor(secret) + ".reply"
@@ -352,7 +357,10 @@ func TestAPairingRequestWithoutABegunPairingGetsNoReply(t *testing.T) {
 	if err != nil {
 		t.Fatalf("SubscribeSync: %v", err)
 	}
-	data, _ := json.Marshal(requestOf(t, device, secret))
+	data, err := json.Marshal(requestOf(t, device, secret))
+	if err != nil {
+		t.Fatalf("Marshal: %v", err)
+	}
 
 	if err := fixture.connection.PublishRequest(
 		companionprotocol.PairingRequestSubject, inbox, data,

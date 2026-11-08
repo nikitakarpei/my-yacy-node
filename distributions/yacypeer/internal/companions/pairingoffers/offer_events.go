@@ -16,7 +16,7 @@ type PairingBegun struct {
 
 type DevicePaired struct {
 	DeviceName companionprotocol.DeviceName
-	Device     companionprotocol.DeviceID
+	DeviceID   companionprotocol.DeviceID
 }
 
 type DeviceRefused struct {

@@ -23,6 +23,7 @@ import (
 
 const (
 	fileName          = "broker-key.pem"
+	draftFileName     = fileName + ".draft"
 	pemType           = "EC PRIVATE KEY"
 	directoryFileMode = 0o700
 	keyFileMode       = 0o600
@@ -39,7 +40,7 @@ func Settle(directory string) (tls.Certificate, error) {
 	}
 	defer closeDirectory(root)
 	if !holdsKey(root) {
-		key, err := newKey()
+		key, err := randomKey()
 		if err != nil {
 			return tls.Certificate{}, err
 		}
@@ -80,7 +81,7 @@ func holdsKey(root *os.Root) bool {
 	return !errors.Is(err, fs.ErrNotExist)
 }
 
-func newKey() (*ecdsa.PrivateKey, error) {
+func randomKey() (*ecdsa.PrivateKey, error) {
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
 		return nil, fmt.Errorf("make the broker key: %w", err)
@@ -94,7 +95,10 @@ func keep(root *os.Root, key *ecdsa.PrivateKey) error {
 		return fmt.Errorf("encode the broker key: %w", err)
 	}
 	block := pem.EncodeToMemory(&pem.Block{Type: pemType, Bytes: encoded})
-	if err := root.WriteFile(fileName, block, keyFileMode); err != nil {
+	if err := root.WriteFile(draftFileName, block, keyFileMode); err != nil {
+		return fmt.Errorf("keep the broker key: %w", err)
+	}
+	if err := root.Rename(draftFileName, fileName); err != nil {
 		return fmt.Errorf("keep the broker key: %w", err)
 	}
 	return nil
@@ -126,13 +130,19 @@ func certificateFor(key *ecdsa.PrivateKey) (tls.Certificate, error) {
 		KeyUsage:     x509.KeyUsageDigitalSignature,
 		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
 	}
-	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
+	certificateDER, err := x509.CreateCertificate(
+		rand.Reader,
+		template,
+		template,
+		&key.PublicKey,
+		key,
+	)
 	if err != nil {
 		return tls.Certificate{}, fmt.Errorf("make the broker certificate: %w", err)
 	}
-	leaf, err := x509.ParseCertificate(der)
+	leaf, err := x509.ParseCertificate(certificateDER)
 	if err != nil {
 		return tls.Certificate{}, fmt.Errorf("read the broker certificate: %w", err)
 	}
-	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key, Leaf: leaf}, nil
+	return tls.Certificate{Certificate: [][]byte{certificateDER}, PrivateKey: key, Leaf: leaf}, nil
 }

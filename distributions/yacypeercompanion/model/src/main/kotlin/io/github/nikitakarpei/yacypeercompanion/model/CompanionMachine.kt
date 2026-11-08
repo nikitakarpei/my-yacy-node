@@ -20,7 +20,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.DeviceKeyUn
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.NetworkChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingRefused
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTimedOut
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PowerChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
@@ -36,7 +36,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefus
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Disconnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Recovering
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
@@ -49,11 +49,7 @@ const val FIRST_RETRY_MS = 5_000L
 const val LONGEST_RETRY_MS = 60_000L
 private const val RETRY_DOUBLINGS = 4
 
-data class CompanionModel(
-    val state: CompanionState = Stopped,
-    val networkAccess: NetworkAccess = NetworkAccess.USABLE,
-    val powerAccess: PowerAccess = PowerAccess.USABLE,
-)
+data class CompanionModel(val state: CompanionState, val networkAccess: NetworkAccess, val powerAccess: PowerAccess)
 
 data class Step(val model: CompanionModel, val effects: List<CompanionEffect>)
 
@@ -71,30 +67,30 @@ fun retryPauseAfter(failedAttempts: Int): Long =
     (FIRST_RETRY_MS shl failedAttempts.coerceAtMost(RETRY_DOUBLINGS)).coerceAtMost(LONGEST_RETRY_MS)
 
 private fun CompanionModel.stateAfter(event: CompanionEvent, nowMs: Long): Step? = when (event) {
-    is PairWith -> pairingWith(event.code)
+    is PairWith -> pairingWith(event.link)
     CancelPairing -> pairingCancelled()
     PairingAccepted -> paired().takeIf { state == Pairing }
-    is PairingRefused -> to(PairingFailed(event.problem), CancelPairingTimeout, EndHost).takeIf { state == Pairing }
+    is PairingFailed -> to(PairingFailure(event.problem), CancelPairingTimeout, EndHost).takeIf { state == Pairing }
     StartRequested -> started().takeIf { state == Stopped }
     StopRequested -> to(Stopped, StopServices, CancelRetry, CancelPairingTimeout, EndHost)
     Unpair -> to(Stopped, StopServices, CancelRetry, CancelPairingTimeout, CancelFailureNotification, ForgetPairing, EndHost)
     ServicesConnected -> servicesConnected()
     BrokerConnectionLost -> connectionLost()
     is ServicesEnded -> servicesEnded(event.ending, nowMs)
-    SigningKeyUnavailable -> failed(DisconnectReason.SIGNING_KEY, PairingProblem.SIGNING_KEY, nowMs)
-    DeviceKeyUnavailable -> failed(DisconnectReason.DEVICE_KEY, PairingProblem.DEVICE_KEY, nowMs)
+    SigningKeyUnavailable -> failed(DisconnectReason.SIGNING_KEY, nowMs)
+    DeviceKeyUnavailable -> deviceKeyUnavailable(nowMs)
     is NetworkChanged -> networkChanged()
     is PowerChanged -> powerChanged()
     RetryDue -> (state as? RetryingAt)?.let { to(Reconnecting(it.reason, it.failedAttempts), StartServices) }
-    PairingTimedOut -> to(PairingFailed(PairingProblem.PEER_UNREACHABLE), EndHost).takeIf { state == Pairing }
+    PairingTimedOut -> to(PairingFailure(PairingProblem.PEER_UNREACHABLE), ForgetPairing, EndHost).takeIf { state == Pairing }
 }
 
-private fun CompanionModel.pairingWith(code: PairingCode): Step? =
-    to(Pairing, BeginPairing(code), SendPairingRequest, SchedulePairingTimeout(PAIRING_LIMIT_MS))
-        .takeIf { state == Stopped || state is PairingFailed }
+private fun CompanionModel.pairingWith(link: PairLink): Step? =
+    to(Pairing, BeginPairing(link), SendPairingRequest, SchedulePairingTimeout(PAIRING_LIMIT_MS))
+        .takeIf { state == Stopped || state is PairingFailure }
 
 private fun CompanionModel.pairingCancelled(): Step? = to(Stopped, StopServices, CancelPairingTimeout, ForgetPairing, EndHost)
-    .takeIf { state == Stopped || state == Pairing || state is PairingFailed }
+    .takeIf { state == Stopped || state == Pairing || state is PairingFailure }
 
 private fun CompanionModel.started(): Step = when {
     powerAccess == PowerAccess.BATTERY_ONLY -> to(WaitingForCharger)
@@ -109,8 +105,8 @@ private fun CompanionModel.servicesConnected(): Step? = when (state) {
 }
 
 private fun CompanionModel.paired(): Step {
-    val start = started()
-    return Step(start.model, listOf(CancelPairingTimeout, CompletePairing) + start.effects)
+    val startStep = started()
+    return Step(startStep.model, listOf(CancelPairingTimeout, CompletePairing) + startStep.effects)
 }
 
 private fun CompanionModel.connectionLost(): Step? = when (state) {
@@ -124,8 +120,8 @@ private fun CompanionModel.connectionLost(): Step? = when (state) {
 
 private fun CompanionModel.servicesEnded(ending: ServicesEnding, nowMs: Long): Step? = when (ending) {
     ServicesEnding.STOPPED -> null
-    ServicesEnding.BROKER_UNREACHABLE -> failed(DisconnectReason.PEER_UNREACHABLE, PairingProblem.PEER_UNREACHABLE, nowMs)
-    ServicesEnding.FAILED -> failed(DisconnectReason.SERVICES_FAILED, PairingProblem.REFUSED, nowMs)
+    ServicesEnding.BROKER_UNREACHABLE -> failed(DisconnectReason.PEER_UNREACHABLE, nowMs)
+    ServicesEnding.FAILED -> failed(DisconnectReason.SERVICES_FAILED, nowMs)
     ServicesEnding.DEVICE_REFUSED -> deviceRefused()
 }
 
@@ -141,9 +137,13 @@ private fun CompanionModel.deviceRefused(): Step? = when (state) {
     else -> null
 }
 
-private fun CompanionModel.failed(reason: DisconnectReason, pairingProblem: PairingProblem, nowMs: Long): Step? {
+private fun CompanionModel.deviceKeyUnavailable(nowMs: Long): Step? {
+    if (state == Pairing) return to(PairingFailure(PairingProblem.DEVICE_KEY), CancelPairingTimeout, EndHost)
+    return failed(DisconnectReason.DEVICE_KEY, nowMs)
+}
+
+private fun CompanionModel.failed(reason: DisconnectReason, nowMs: Long): Step? {
     val current = state
-    if (current == Pairing) return to(PairingFailed(pairingProblem), CancelPairingTimeout, EndHost)
     if (current != Connecting && current != Connected && current !is Recovering) return null
     val failedAttempts = (current as? Recovering)?.failedAttempts ?: 0
     val notice = if (current is Recovering) emptyList() else listOf(PostFailureNotification(reason))
@@ -161,7 +161,7 @@ private fun CompanionModel.networkChanged(): Step? = when (networkAccess) {
 
 private fun CompanionModel.usableNetworkChanged(): Step? = when (val current = state) {
     Connected -> to(Connected, RestartServices)
-    WaitingForUnmeteredNetwork -> to(Connecting, StartServices)
+    WaitingForUnmeteredNetwork -> started()
     is Reconnecting -> to(Reconnecting(current.reason, 0), RestartServices)
     is RetryingAt -> to(Reconnecting(current.reason, 0), CancelRetry, StartServices)
     is Offline -> to(Reconnecting(current.reason, 0), StartServices)

@@ -13,7 +13,7 @@ private const val LOG_TAG = "PowerWatch"
 
 class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -> Unit) : AutoCloseable {
     @Volatile
-    private var onCharger = onChargerNow()
+    private var onCharger = false
 
     @Volatile
     private var reportedAccess: PowerAccess? = null
@@ -29,7 +29,7 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
             }
         }
 
-    private val settingListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> report("charger setting") }
+    private val chargerSetting = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> report("charger setting") }
 
     init {
         val chargerChanges =
@@ -38,7 +38,8 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
                 addAction(Intent.ACTION_POWER_DISCONNECTED)
             }
         ctx.registerReceiver(chargerReceiver, chargerChanges, Context.RECEIVER_NOT_EXPORTED)
-        Charger.follow(ctx, settingListener)
+        Charger.follow(ctx, chargerSetting)
+        onCharger = onChargerNow()
         reportedAccess = access
     }
 
@@ -60,7 +61,7 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
     }
 
     override fun close() {
-        Charger.unfollow(ctx, settingListener)
+        Charger.unfollow(ctx, chargerSetting)
         ctx.unregisterReceiver(chargerReceiver)
     }
 }

@@ -60,7 +60,7 @@ func startPeer(
 func TestLinkKindOfTellsPairLinksFromOtherText(t *testing.T) {
 	for text, want := range map[string]string{
 		companionprotocol.PairLink{Addresses: []string{"a:1"}, BrokerKeyHash: "h", Secret: "s"}.String(): pairing.LinkPair,
-		companionprotocol.Scheme + "://connect?nats=nats://peer":                                         pairing.LinkUnreadable,
+		"yacypeer-companion://connect?nats=nats://peer":                                                  pairing.LinkUnreadable,
 		"https://example.org/": pairing.LinkForeign,
 	} {
 		if got := pairing.LinkKindOf(text); got != want {
@@ -72,26 +72,27 @@ func TestLinkKindOfTellsPairLinksFromOtherText(t *testing.T) {
 func TestTheChallengeOfALinkBindsItsSecretAndBrokerKey(t *testing.T) {
 	link := companionprotocol.PairLink{Addresses: []string{"a:1"}, BrokerKeyHash: "h", Secret: "s"}
 
-	if !bytes.Equal(pairing.ChallengeOf(link.String()), companionprotocol.ChallengeFrom("s", "h")) {
+	if !bytes.Equal(
+		pairing.ChallengeFrom(link.String()),
+		companionprotocol.ChallengeFrom("s", "h"),
+	) {
 		t.Error("the challenge does not bind the secret and the broker key")
 	}
-	if pairing.ChallengeOf("https://example.org/") != nil {
+	if pairing.ChallengeFrom("https://example.org/") != nil {
 		t.Error("text that is not a pair link has a challenge")
 	}
 }
 
-func TestAnAcceptedDeviceLearnsItsID(t *testing.T) {
-	key := brokeraccesstest.NewDeviceKey(t)
+func TestAnAcceptedRequestProvesTheKeyOfTheDevice(t *testing.T) {
+	key := brokeraccesstest.RandomDeviceKey(t)
 	peer := startPeer(t, func(companionprotocol.PairingRequest) any {
 		return companionprotocol.AcceptedReply(key.ID())
 	})
 	request := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0")
 	request.AddCertificate([]byte("leaf"))
 
-	outcome := request.Send(key)
-
-	if outcome.Result != pairing.ResultAccepted || outcome.Device != string(key.ID()) {
-		t.Fatalf("outcome = %+v, want accepted as %s", outcome, key.ID())
+	if result := request.Send(key); result != pairing.ResultAccepted {
+		t.Fatalf("result = %q, want accepted", result)
 	}
 	sent := <-peer.requests
 	var got companionprotocol.PairingRequest
@@ -100,14 +101,14 @@ func TestAnAcceptedDeviceLearnsItsID(t *testing.T) {
 	}
 	publicKey, _ := x509.ParsePKIXPublicKey(key.PublicKeyInfo())
 	challenge := companionprotocol.ChallengeFrom(secret, peer.broker.KeyHash)
-	if !companionprotocol.IsProofOf(publicKey.(*ecdsa.PublicKey), challenge, got.Proof) {
+	if !got.Proof.HoldsFor(publicKey.(*ecdsa.PublicKey), challenge) {
 		t.Error("the request proves no key")
 	}
 	if got.ProtocolVersion != companionprotocol.ProtocolVersion || got.AppVersion != "1.2.0" ||
 		len(got.Attestation) != 1 {
 		t.Errorf("request = %+v, want protocol, app version and attestation", got)
 	}
-	if companionprotocol.SecretIDFrom(sent.Reply) != companionprotocol.SecretIDOf(secret) {
+	if companionprotocol.SecretIDIn(sent.Reply) != companionprotocol.SecretIDFrom(secret) {
 		t.Errorf("reply subject = %q, want the pairing inbox of the secret", sent.Reply)
 	}
 }
@@ -123,7 +124,7 @@ func TestARequestKeepsACertificateThatTheCallerReuses(t *testing.T) {
 	request.AddCertificate(certificate)
 	copy(certificate, "used")
 
-	request.Send(brokeraccesstest.NewDeviceKey(t))
+	request.Send(brokeraccesstest.RandomDeviceKey(t))
 
 	if attestation := <-sent; len(attestation) != 1 || string(attestation[0]) != "leaf" {
 		t.Errorf("attestation = %q, want the certificate as it was added", attestation)
@@ -137,11 +138,11 @@ func TestARefusedDeviceLearnsTheReason(t *testing.T) {
 		}
 	})
 
-	outcome := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0").
-		Send(brokeraccesstest.NewDeviceKey(t))
+	result := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0").
+		Send(brokeraccesstest.RandomDeviceKey(t))
 
-	if outcome.Result != pairing.ResultAppOutdated {
-		t.Errorf("outcome = %+v, want refused as outdated", outcome)
+	if result != pairing.ResultAppOutdated {
+		t.Errorf("result = %q, want refused as outdated", result)
 	}
 }
 
@@ -159,23 +160,43 @@ func TestEachRefusalReasonHasItsResult(t *testing.T) {
 			}
 		})
 
-		outcome := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0").
-			Send(brokeraccesstest.NewDeviceKey(t))
+		result := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0").
+			Send(brokeraccesstest.RandomDeviceKey(t))
 
-		if outcome.Result != want {
-			t.Errorf("result for %s = %q, want %q", reason, outcome.Result, want)
+		if result != want {
+			t.Errorf("result for %s = %q, want %q", reason, result, want)
 		}
+	}
+}
+
+func TestARequestWithoutAPairLinkIsNotSent(t *testing.T) {
+	result := pairing.NewRequest("https://example.org/", "Pixel 8", "1.2.0").
+		Send(brokeraccesstest.RandomDeviceKey(t))
+
+	if result != pairing.ResultNotSent {
+		t.Errorf("result = %q, want not sent", result)
+	}
+}
+
+func TestAReplyThatIsNoPairingReplyIsUnreadable(t *testing.T) {
+	peer := startPeer(t, func(companionprotocol.PairingRequest) any { return "not a reply" })
+
+	result := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0").
+		Send(brokeraccesstest.RandomDeviceKey(t))
+
+	if result != pairing.ResultReplyUnreadable {
+		t.Errorf("result = %q, want the reply unreadable", result)
 	}
 }
 
 func TestAnUnknownSecretHasExpired(t *testing.T) {
 	peer := startPeer(t, func(companionprotocol.PairingRequest) any { return nil })
 
-	outcome := pairing.NewRequest(peer.broker.LinkWith("another secret"), "Pixel 8", "1.2.0").
-		Send(brokeraccesstest.NewDeviceKey(t))
+	result := pairing.NewRequest(peer.broker.LinkWith("another secret"), "Pixel 8", "1.2.0").
+		Send(brokeraccesstest.RandomDeviceKey(t))
 
-	if outcome.Result != pairing.ResultSecretExpired {
-		t.Errorf("outcome = %+v, want the secret expired", outcome)
+	if result != pairing.ResultSecretExpired {
+		t.Errorf("result = %q, want the secret expired", result)
 	}
 }
 
@@ -185,23 +206,23 @@ func TestABrokerWithAnotherKeyGivesNoAnswer(t *testing.T) {
 		Addresses: []string{peer.broker.Address()}, BrokerKeyHash: "another key", Secret: secret,
 	}
 
-	outcome := pairing.NewRequest(link.String(), "Pixel 8", "1.2.0").
-		Send(brokeraccesstest.NewDeviceKey(t))
+	result := pairing.NewRequest(link.String(), "Pixel 8", "1.2.0").
+		Send(brokeraccesstest.RandomDeviceKey(t))
 
-	if outcome.Result != pairing.ResultPeerUnreachable {
-		t.Errorf("outcome = %+v, want no answer", outcome)
+	if result != pairing.ResultPeerUnreachable {
+		t.Errorf("result = %q, want no answer", result)
 	}
 }
 
 func TestAPairedDeviceAsksThePeerToUnpairIt(t *testing.T) {
 	broker := brokeraccesstest.Start(t, secretCheck{})
-	key := brokeraccesstest.NewDeviceKey(t)
-	unpairRequests := make(chan *nats.Msg, 1)
+	key := brokeraccesstest.RandomDeviceKey(t)
+	unpairingRequests := make(chan *nats.Msg, 1)
 	responder := broker.Connect(t)
 	if _, err := responder.Subscribe(
-		companionprotocol.UnpairSubjectOf(key.ID()),
+		companionprotocol.UnpairingRequestSubjectOf(key.ID()),
 		func(msg *nats.Msg) {
-			unpairRequests <- msg
+			unpairingRequests <- msg
 			_ = msg.Respond(nil)
 		},
 	); err != nil {
@@ -214,8 +235,8 @@ func TestAPairedDeviceAsksThePeerToUnpairIt(t *testing.T) {
 	pairing.Unpair(broker.LinkWith(secret), key)
 
 	select {
-	case <-unpairRequests:
+	case <-unpairingRequests:
 	case <-time.After(replyWait):
-		t.Error("the peer got no unpair request")
+		t.Error("the peer got no unpairing request")
 	}
 }

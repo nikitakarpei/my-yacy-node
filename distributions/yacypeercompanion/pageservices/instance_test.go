@@ -64,7 +64,7 @@ func startPeer(t *testing.T) peer {
 	settings, _ := json.Marshal(companionprotocol.DeviceSettings{PartitionExponent: 4})
 	for subject, handler := range map[string]nats.MsgHandler{
 		companionprotocol.SettingsSubjects: func(msg *nats.Msg) { _ = msg.Respond(settings) },
-		companionprotocol.AppSubjects: func(msg *nats.Msg) {
+		companionprotocol.AppReportSubjects: func(msg *nats.Msg) {
 			var report companionprotocol.AppReport
 			_ = json.Unmarshal(msg.Data, &report)
 			appVersions <- report.AppVersion
@@ -106,7 +106,7 @@ func (p peer) kickEveryDevice(t *testing.T) {
 func instanceFor(t *testing.T, linkText string, captureProxyURL string) *pageservices.Instance {
 	t.Helper()
 	instance, err := pageservices.InstanceFor(
-		linkText, captureProxyURL, brokeraccesstest.NewDeviceKey(t), appVersion,
+		linkText, captureProxyURL, brokeraccesstest.RandomDeviceKey(t), appVersion,
 	)
 	if err != nil {
 		t.Fatalf("InstanceFor: %v", err)
@@ -140,7 +140,10 @@ const pageBody = "<html lang=\"en\"><body><p>alpha beta</p></body></html>"
 
 func TestInstanceForRefusesTextThatIsNotAPairLink(t *testing.T) {
 	if _, err := pageservices.InstanceFor(
-		"https://example.org/", "http://127.0.0.1:1", brokeraccesstest.NewDeviceKey(t), appVersion,
+		"https://example.org/",
+		"http://127.0.0.1:1",
+		brokeraccesstest.RandomDeviceKey(t),
+		appVersion,
 	); err == nil {
 		t.Fatal("want an error for text that is not a pair link")
 	}
@@ -198,7 +201,7 @@ func TestInstanceRunReportsADeviceThatThePeerRefusesWhileItWorks(t *testing.T) {
 				t.Fatalf("event = %q, want the device reported refused", event)
 			}
 		case <-time.After(runWait):
-			t.Fatal("the run did not end after the peer unpaired the device")
+			t.Fatal("the run did not end after the peer refused the device")
 		}
 	}
 }
@@ -269,6 +272,14 @@ func askForRWIOfPage(t *testing.T, broker jetstream.JetStream) pagerwicontract.P
 func TestInstanceRunReportsStreamsThatThePeerHasNotCreated(t *testing.T) {
 	peer := startPeer(t)
 	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
+	events := make(observedEvents, 4)
+	instance.Run(events)
+	awaitEvent(t, events, "failed")
+}
+
+func TestInstanceRunReportsAPeerThatAnswersNoSettingsAsFailed(t *testing.T) {
+	broker := brokeraccesstest.Start(t, &deviceCheck{})
+	instance := instanceFor(t, broker.LinkWith(usedSecret), "http://127.0.0.1:1")
 	events := make(observedEvents, 4)
 	instance.Run(events)
 	awaitEvent(t, events, "failed")

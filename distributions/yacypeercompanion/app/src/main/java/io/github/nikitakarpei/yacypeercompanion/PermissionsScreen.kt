@@ -60,7 +60,7 @@ class PermissionsScreen : Activity() {
         } else {
             tonalButton("Review") { showDataSharing { agreeToDataSharing() } }
         }
-        rows.addView(row(R.drawable.ic_shield, DATA_SHARING_TEXT, null, consentEnd))
+        rows.addView(row(R.drawable.ic_shield, DATA_SHARING_TITLE, null, consentEnd))
         next.isEnabled = pairingAllowed(this)
     }
 
