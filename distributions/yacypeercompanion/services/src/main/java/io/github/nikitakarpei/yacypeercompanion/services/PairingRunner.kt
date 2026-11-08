@@ -2,9 +2,11 @@ package io.github.nikitakarpei.yacypeercompanion.services
 
 import android.content.Context
 import android.os.Build
+import android.os.SystemClock
 import android.provider.Settings
 import android.util.Log
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
+import io.github.nikitakarpei.yacypeercompanion.model.PAIRING_LIMIT_MS
 import io.github.nikitakarpei.yacypeercompanion.model.PairingProblem
 import pairing.Outcome
 import pairing.Pairing
@@ -14,32 +16,41 @@ private const val LOG_TAG = "PairingRunner"
 
 class PairingRunner(private val ctx: Context, private val events: (CompanionEvent) -> Unit) {
     fun send(linkText: String) {
-        thread(name = "pairing") { events(eventFor(linkText)) }
+        val givenUpAt = SystemClock.elapsedRealtime() + PAIRING_LIMIT_MS
+        thread(name = "pairing") { pair(linkText, givenUpAt)?.let(events) }
     }
 
-    fun forget(linkText: String?, paired: Boolean) {
+    fun unpair(linkText: String) {
         thread(name = "unpairing") {
-            val key = PairingKey.current()
-            if (paired && linkText != null && key != null) Pairing.unpair(linkText, key)
+            PairingKey.current()?.let { Pairing.unpair(linkText, it) }
             PairingKey.delete()
         }
     }
 
-    private fun eventFor(linkText: String): CompanionEvent {
+    fun discardKey() {
+        thread(name = "key discarding") { PairingKey.delete() }
+    }
+
+    private fun pair(linkText: String, givenUpAt: Long): CompanionEvent? {
         val challenge = Pairing.challengeOf(linkText) ?: return CompanionEvent.PairingRefused(PairingProblem.REFUSED)
-        val attestation =
-            runCatching { PairingKey.madeFor(challenge) }.getOrElse {
-                Log.w(LOG_TAG, "pairing key", it)
-                return CompanionEvent.SigningKeyUnavailable
-            }
+        runCatching { PairingKey.generate(challenge) }.onFailure {
+            Log.w(LOG_TAG, "pairing key", it)
+            return CompanionEvent.SigningKeyUnavailable
+        }
         val key = PairingKey.current() ?: return CompanionEvent.SigningKeyUnavailable
         val request = Pairing.newRequest(linkText, deviceNameOf(ctx), appVersionOf(ctx))
-        attestation.forEach { request.addCertificate(it) }
-        return eventOf(request.send(key))
+        PairingKey.attestationChain().forEach { request.addCertificate(it) }
+        val outcome = request.send(key)
+        if (outcome.result == Pairing.ResultAccepted && SystemClock.elapsedRealtime() >= givenUpAt) {
+            Log.w(LOG_TAG, "the peer accepted the device after the app gave up, so the app unpairs it")
+            Pairing.unpair(linkText, key)
+            return null
+        }
+        return eventFrom(outcome)
     }
 }
 
-fun eventOf(outcome: Outcome): CompanionEvent = when (outcome.result) {
+fun eventFrom(outcome: Outcome): CompanionEvent = when (outcome.result) {
     Pairing.ResultAccepted -> CompanionEvent.PairingAccepted
     Pairing.ResultNoAnswer -> CompanionEvent.PairingRefused(PairingProblem.PEER_UNREACHABLE)
     Pairing.ResultSecretExpired -> CompanionEvent.PairingRefused(PairingProblem.SECRET_EXPIRED)

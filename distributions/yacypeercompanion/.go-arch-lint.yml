@@ -28,6 +28,9 @@ vendors:
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
+  wallclock:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/wallclock
 
 deps:
   brokeraccess:
@@ -46,6 +49,7 @@ deps:
     canUse:
       - companionprotocol
       - natsclient
+      - wallclock
   pageservices:
     mayDependOn:
       - brokeraccess

@@ -32,7 +32,22 @@ var (
 	errSettled           = errors.New("another address answered first")
 )
 
-func Connect(link companionprotocol.PairLink, options []nats.Option) (*nats.Conn, error) {
+type Clock interface {
+	After(timeout time.Duration, expire func()) (stop func())
+}
+
+type Connector struct {
+	clock Clock
+}
+
+func NewConnector(clock Clock) Connector {
+	return Connector{clock: clock}
+}
+
+func (c Connector) Connect(
+	link companionprotocol.PairLink,
+	options []nats.Option,
+) (*nats.Conn, error) {
 	if len(link.Addresses) == 0 {
 		return nil, errNoAddress
 	}
@@ -44,18 +59,21 @@ func Connect(link companionprotocol.PairLink, options []nats.Option) (*nats.Conn
 	attempts := make(chan attempt, len(link.Addresses))
 	settled := make(chan struct{})
 	for position, address := range link.Addresses {
-		go func() {
-			select {
-			case <-time.After(time.Duration(position) * attemptStagger):
-			case <-settled:
-				attempts <- attempt{err: errSettled}
-				return
-			}
-			connection, err := nats.Connect("tls://"+address, connectOptions...)
-			attempts <- attempt{connection: connection, err: err}
-		}()
+		c.clock.After(time.Duration(position)*attemptStagger, func() {
+			go func() { attempts <- attemptAt(address, connectOptions, settled) }()
+		})
 	}
-	return firstConnectionOf(attempts, len(link.Addresses), settled)
+	return awaitFirstConnection(attempts, len(link.Addresses), settled)
+}
+
+func attemptAt(address string, options []nats.Option, settled <-chan struct{}) attempt {
+	select {
+	case <-settled:
+		return attempt{err: errSettled}
+	default:
+	}
+	connection, err := nats.Connect("tls://"+address, options...)
+	return attempt{connection: connection, err: err}
 }
 
 func reportBrokerError(_ *nats.Conn, subscription *nats.Subscription, err error) {
@@ -74,33 +92,33 @@ type attempt struct {
 	err        error
 }
 
-func firstConnectionOf(
+func awaitFirstConnection(
 	attempts <-chan attempt,
 	count int,
 	settled chan struct{},
 ) (*nats.Conn, error) {
 	var lastFailure error
 	for received := 1; received <= count; received++ {
-		each := <-attempts
-		if each.err == nil || errors.Is(each.err, nats.ErrAuthorization) {
+		result := <-attempts
+		if result.err == nil || errors.Is(result.err, nats.ErrAuthorization) {
 			close(settled)
-			go closeEach(attempts, count-received)
-			return each.connection, wrapped(each.err)
+			go closeLateConnections(attempts, count-received)
+			return result.connection, connectFailureFrom(result.err)
 		}
-		lastFailure = each.err
+		lastFailure = result.err
 	}
-	return nil, wrapped(lastFailure)
+	return nil, connectFailureFrom(lastFailure)
 }
 
-func closeEach(attempts <-chan attempt, count int) {
+func closeLateConnections(attempts <-chan attempt, count int) {
 	for range count {
-		if each := <-attempts; each.connection != nil {
-			each.connection.Close()
+		if result := <-attempts; result.connection != nil {
+			result.connection.Close()
 		}
 	}
 }
 
-func wrapped(err error) error {
+func connectFailureFrom(err error) error {
 	if err == nil {
 		return nil
 	}

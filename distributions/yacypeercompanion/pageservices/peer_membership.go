@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 )
 
@@ -28,17 +29,21 @@ type membership struct {
 }
 
 func (t membershipTerms) joined(unpaired func()) (*membership, error) {
-	connection, err := brokeraccess.Connect(t.link, append(t.brokerAccess.Options(),
-		nats.ClosedHandler(func(closed *nats.Conn) {
-			if errors.Is(closed.LastError(), nats.ErrAuthorization) {
-				unpaired()
-			}
-		}),
-	))
+	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).
+		Connect(t.link, append(t.brokerAccess.Options(),
+			nats.ClosedHandler(func(closed *nats.Conn) {
+				if errors.Is(closed.LastError(), nats.ErrAuthorization) {
+					unpaired()
+				}
+			}),
+		))
 	if err != nil {
 		return nil, err
 	}
 	settings, err := t.settingsOver(connection)
+	if err == nil {
+		err = t.reportAppOver(connection)
+	}
 	if err != nil {
 		connection.Close()
 		return nil, err
@@ -47,7 +52,7 @@ func (t membershipTerms) joined(unpaired func()) (*membership, error) {
 }
 
 func (t membershipTerms) refused() bool {
-	connection, err := brokeraccess.Connect(
+	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).Connect(
 		t.link,
 		append(t.brokerAccess.Options(), nats.NoReconnect()),
 	)
@@ -69,13 +74,17 @@ func (t membershipTerms) settingsOver(connection *nats.Conn) (companionprotocol.
 	if err := json.Unmarshal(reply.Data, &settings); err != nil {
 		return companionprotocol.Settings{}, fmt.Errorf("read the settings: %w", err)
 	}
+	return settings, nil
+}
+
+func (t membershipTerms) reportAppOver(connection *nats.Conn) error {
 	report, _ := json.Marshal( //nolint:errchkjson // one string field.
 		companionprotocol.AppReport{AppVersion: t.appVersion},
 	)
 	if err := connection.Publish(companionprotocol.AppSubjectOf(t.device), report); err != nil {
-		return companionprotocol.Settings{}, fmt.Errorf("report the app: %w", err)
+		return fmt.Errorf("report the app: %w", err)
 	}
-	return settings, nil
+	return nil
 }
 
 func (m *membership) brokerURL() string {
