@@ -12,7 +12,7 @@ func webUIURLsFor(cfg PeerConfig) webuitabs.URLs {
 		Crawls:  crawlConsolePathPrefix + "/",
 		Metrics: dashboardpage.Path,
 	}
-	if cfg.pairsCompanions() {
+	if cfg.servesCompanions() {
 		urls.Companions = companionspage.Path
 	}
 	return urls

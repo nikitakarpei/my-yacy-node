@@ -20,44 +20,44 @@ type Clock interface {
 }
 
 type Observer interface {
-	CompanionsConnected(ctx context.Context)
-	CompanionsLeft(ctx context.Context)
+	FirstCompanionConnected(ctx context.Context)
+	LastCompanionDisconnected(ctx context.Context)
 }
 
-type Presence struct {
-	connections DeviceConnections
-	clock       Clock
-	observers   []Observer
-	present     bool
+type Watcher struct {
+	connections        DeviceConnections
+	clock              Clock
+	observers          []Observer
+	companionConnected bool
 }
 
-func New(connections DeviceConnections, clock Clock, observers ...Observer) *Presence {
-	return &Presence{connections: connections, clock: clock, observers: observers}
+func New(connections DeviceConnections, clock Clock, observers ...Observer) *Watcher {
+	return &Watcher{connections: connections, clock: clock, observers: observers}
 }
 
-func (p *Presence) Run(ctx context.Context) error {
-	p.check(ctx)
-	for p.clock.Sleep(ctx, checkInterval) == nil {
-		p.check(ctx)
+func (w *Watcher) Run(ctx context.Context) error {
+	w.check(ctx)
+	for w.clock.Sleep(ctx, checkInterval) == nil {
+		w.check(ctx)
 	}
 	return nil
 }
 
-func (p *Presence) check(ctx context.Context) {
-	present := p.companionConnected()
-	if present == p.present {
+func (w *Watcher) check(ctx context.Context) {
+	connected := w.anyCompanionConnected()
+	if connected == w.companionConnected {
 		return
 	}
-	p.present = present
-	for _, observer := range p.observers {
-		if present {
-			observer.CompanionsConnected(ctx)
+	w.companionConnected = connected
+	for _, observer := range w.observers {
+		if connected {
+			observer.FirstCompanionConnected(ctx)
 		} else {
-			observer.CompanionsLeft(ctx)
+			observer.LastCompanionDisconnected(ctx)
 		}
 	}
 }
 
-func (p *Presence) companionConnected() bool {
-	return len(p.connections.ConnectedDevices()) > 0
+func (w *Watcher) anyCompanionConnected() bool {
+	return len(w.connections.ConnectedDevices()) > 0
 }

@@ -10,18 +10,18 @@ import java.security.PrivateKey
 import java.security.Signature
 import java.security.spec.ECGenParameterSpec
 
-private const val ALIAS = "pairing"
+private const val ALIAS = "device"
 private const val KEYSTORE = "AndroidKeyStore"
-private const val LOG_TAG = "PairingKey"
+private const val LOG_TAG = "DeviceKeyEntry"
 
-object PairingKey {
+object DeviceKeyEntry {
     private val keyStore by lazy { KeyStore.getInstance(KEYSTORE).apply { load(null) } }
 
     @Synchronized fun generate(challenge: ByteArray) {
         try {
             generateKey(challenge, strongBox = true)
         } catch (failure: Exception) {
-            Log.w(LOG_TAG, "pairing key not in StrongBox", failure)
+            Log.w(LOG_TAG, "device key not in StrongBox", failure)
             keyStore.deleteEntry(ALIAS)
             generateKey(challenge, strongBox = false)
         }

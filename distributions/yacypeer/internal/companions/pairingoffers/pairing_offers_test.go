@@ -129,7 +129,7 @@ func TestADeviceBeginsPairingWithASecretOnlyOnce(t *testing.T) {
 	if offers.Begin(t.Context(), secret, "Galaxy Tab S9") {
 		t.Error("the secret begins a second pairing")
 	}
-	if offers.Begin(t.Context(), companionprotocol.NewSecret(), "Galaxy Tab S9") {
+	if offers.Begin(t.Context(), companionprotocol.RandomSecret(), "Galaxy Tab S9") {
 		t.Error("a secret that no page offers begins a pairing")
 	}
 }

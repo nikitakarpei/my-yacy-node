@@ -12,9 +12,9 @@ import pairing.Outcome
 import pairing.Pairing
 import kotlin.concurrent.thread
 
-private const val LOG_TAG = "PairingRunner"
+private const val LOG_TAG = "Pairer"
 
-class PairingRunner(private val ctx: Context, private val events: (CompanionEvent) -> Unit) {
+class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> Unit) {
     fun send(linkText: String) {
         val givenUpAt = SystemClock.elapsedRealtime() + PAIRING_LIMIT_MS
         thread(name = "pairing") { pair(linkText, givenUpAt)?.let(events) }
@@ -22,24 +22,24 @@ class PairingRunner(private val ctx: Context, private val events: (CompanionEven
 
     fun unpair(linkText: String) {
         thread(name = "unpairing") {
-            PairingKey.current()?.let { Pairing.unpair(linkText, it) }
-            PairingKey.delete()
+            DeviceKeyEntry.current()?.let { Pairing.unpair(linkText, it) }
+            DeviceKeyEntry.delete()
         }
     }
 
     fun discardKey() {
-        thread(name = "key discarding") { PairingKey.delete() }
+        thread(name = "key discarding") { DeviceKeyEntry.delete() }
     }
 
     private fun pair(linkText: String, givenUpAt: Long): CompanionEvent? {
         val challenge = Pairing.challengeOf(linkText) ?: return CompanionEvent.PairingRefused(PairingProblem.REFUSED)
-        runCatching { PairingKey.generate(challenge) }.onFailure {
-            Log.w(LOG_TAG, "pairing key", it)
-            return CompanionEvent.SigningKeyUnavailable
+        runCatching { DeviceKeyEntry.generate(challenge) }.onFailure {
+            Log.w(LOG_TAG, "device key", it)
+            return CompanionEvent.DeviceKeyUnavailable
         }
-        val key = PairingKey.current() ?: return CompanionEvent.SigningKeyUnavailable
+        val key = DeviceKeyEntry.current() ?: return CompanionEvent.DeviceKeyUnavailable
         val request = Pairing.newRequest(linkText, deviceNameOf(ctx), appVersionOf(ctx))
-        PairingKey.attestationChain().forEach { request.addCertificate(it) }
+        DeviceKeyEntry.attestationChain().forEach { request.addCertificate(it) }
         val outcome = request.send(key)
         if (outcome.result == Pairing.ResultAccepted && SystemClock.elapsedRealtime() >= givenUpAt) {
             Log.w(LOG_TAG, "the peer accepted the device after the app gave up, so the app unpairs it")
@@ -52,7 +52,7 @@ class PairingRunner(private val ctx: Context, private val events: (CompanionEven
 
 fun eventFrom(outcome: Outcome): CompanionEvent = when (outcome.result) {
     Pairing.ResultAccepted -> CompanionEvent.PairingAccepted
-    Pairing.ResultNoAnswer -> CompanionEvent.PairingRefused(PairingProblem.PEER_UNREACHABLE)
+    Pairing.ResultPeerUnreachable -> CompanionEvent.PairingRefused(PairingProblem.PEER_UNREACHABLE)
     Pairing.ResultSecretExpired -> CompanionEvent.PairingRefused(PairingProblem.SECRET_EXPIRED)
     Pairing.ResultAppOutdated -> CompanionEvent.PairingRefused(PairingProblem.APP_OUTDATED)
     Pairing.ResultPeerOutdated -> CompanionEvent.PairingRefused(PairingProblem.PEER_OUTDATED)
