@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"net"
 	"sync"
 	"testing"
 	"time"
@@ -17,6 +18,7 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
@@ -170,18 +172,33 @@ func connect(
 	return connection, seen, nil
 }
 
-func requireAllowed(t *testing.T, connection *nats.Conn, seen violations, subject string) {
+func requireAllowed(
+	t *testing.T,
+	broker *natsbroker.Broker,
+	connection *nats.Conn,
+	subject string,
+) {
 	t.Helper()
+	_, peer, err := jetstreamconnect.Open(
+		"nats://broker.internal",
+		func(context.Context, string, string) (net.Conn, error) { return broker.Connection() },
+	)
+	if err != nil {
+		t.Fatalf("connect in the process: %v", err)
+	}
+	defer peer.Close()
+	arrivals, err := peer.SubscribeSync(subject)
+	if err != nil {
+		t.Fatalf("subscribe %s: %v", subject, err)
+	}
+	if err := peer.Flush(); err != nil {
+		t.Fatalf("flush the subscription: %v", err)
+	}
 	if err := connection.Publish(subject, nil); err != nil {
 		t.Fatalf("publish %s: %v", subject, err)
 	}
-	if err := connection.Flush(); err != nil {
-		t.Fatalf("flush: %v", err)
-	}
-	select {
-	case err := <-seen:
-		t.Errorf("publish %s: %v", subject, err)
-	case <-time.After(100 * time.Millisecond):
+	if _, err := arrivals.NextMsg(violationMax); err != nil {
+		t.Errorf("publish %s did not arrive: %v", subject, err)
 	}
 }
 
@@ -212,8 +229,8 @@ func TestAPairedDeviceConnectsWithItsKeyAndMayDoItsWork(t *testing.T) {
 		t.Fatalf("connect: %v", err)
 	}
 
-	requireAllowed(t, connection, seen, workSubject)
-	requireAllowed(t, connection, seen, companionprotocol.SettingsSubjectOf(device))
+	requireAllowed(t, broker.broker, connection, workSubject)
+	requireAllowed(t, broker.broker, connection, companionprotocol.SettingsSubjectOf(device))
 	requireRefused(t, connection, seen, companionprotocol.SettingsSubjectOf("other-device"))
 	if !broker.broker.ConnectedUsers()[companionaccess.UserOf(device)] {
 		t.Error("the device is not connected as its user")
@@ -253,7 +270,7 @@ func TestADeviceWithAnOpenSecretMayOnlyAskToPair(t *testing.T) {
 	if broker.secrets.begun[secret] != "Pixel 8" {
 		t.Errorf("begun pairings = %v, want Pixel 8", broker.secrets.begun)
 	}
-	requireAllowed(t, connection, seen, companionprotocol.PairingRequestSubject)
+	requireAllowed(t, broker.broker, connection, companionprotocol.PairingRequestSubject)
 	requireRefused(t, connection, seen, workSubject)
 }
 

@@ -76,6 +76,9 @@ func (a *Access) Check(client natsserver.ClientAuthentication) bool {
 	}
 	state := client.GetTLSConnectionState()
 	if state == nil {
+		slog.WarnContext(context.Background(), "connection without TLS refused",
+			slog.String("remoteAddress", client.RemoteAddress().String()),
+		)
 		return false
 	}
 	if len(state.PeerCertificates) > 0 {

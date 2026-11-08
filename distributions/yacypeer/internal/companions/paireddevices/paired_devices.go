@@ -101,6 +101,7 @@ func (d *Devices) Remove(ctx context.Context, id companionprotocol.DeviceID) {
 	defer d.mu.Unlock()
 	position := d.positionOf(id)
 	if position < 0 {
+		slog.DebugContext(ctx, "device to remove is not paired", slog.String("device", string(id)))
 		return
 	}
 	d.devices = slices.Delete(d.devices, position, position+1)
@@ -128,6 +129,7 @@ func (d *Devices) change(ctx context.Context, id companionprotocol.DeviceID, app
 	defer d.mu.Unlock()
 	position := d.positionOf(id)
 	if position < 0 {
+		slog.DebugContext(ctx, "device to change is not paired", slog.String("device", string(id)))
 		return
 	}
 	apply(&d.devices[position])

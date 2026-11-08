@@ -4,6 +4,7 @@
 package brokerkey
 
 import (
+	"context"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
@@ -14,6 +15,7 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"math/big"
 	"os"
 	"time"
@@ -46,7 +48,7 @@ func keptKeyIn(directory string) (*ecdsa.PrivateKey, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open the broker key directory: %w", err)
 	}
-	defer func() { _ = root.Close() }()
+	defer closeDirectory(root)
 	kept, err := root.ReadFile(fileName)
 	if errors.Is(err, fs.ErrNotExist) {
 		return madeIn(root)
@@ -55,6 +57,16 @@ func keptKeyIn(directory string) (*ecdsa.PrivateKey, error) {
 		return nil, fmt.Errorf("read the broker key: %w", err)
 	}
 	return keyFrom(kept)
+}
+
+func closeDirectory(root *os.Root) {
+	if err := root.Close(); err != nil {
+		slog.WarnContext(
+			context.Background(),
+			"broker key directory not closed",
+			slog.Any("error", err),
+		)
+	}
 }
 
 func madeIn(root *os.Root) (*ecdsa.PrivateKey, error) {

@@ -4,9 +4,11 @@
 package natsbroker
 
 import (
+	"context"
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net"
 	"strconv"
 	"time"
@@ -104,6 +106,7 @@ func (b *Broker) EndpointAddress() net.Addr {
 func (b *Broker) ConnectedUsers() map[string]bool {
 	connections, err := b.server.Connz(&natsserver.ConnzOptions{Username: true})
 	if err != nil {
+		slog.WarnContext(context.Background(), "connected users unread", slog.Any("error", err))
 		return map[string]bool{}
 	}
 	users := make(map[string]bool, len(connections.Conns))
@@ -116,10 +119,17 @@ func (b *Broker) ConnectedUsers() map[string]bool {
 func (b *Broker) DisconnectUser(user string) {
 	connections, err := b.server.Connz(&natsserver.ConnzOptions{User: user})
 	if err != nil {
+		slog.WarnContext(context.Background(), "connections of a user unread",
+			slog.String("user", user), slog.Any("error", err),
+		)
 		return
 	}
 	for _, connection := range connections.Conns {
-		_ = b.server.DisconnectClientByID(connection.Cid)
+		if err := b.server.DisconnectClientByID(connection.Cid); err != nil {
+			slog.WarnContext(context.Background(), "connection of a user not closed",
+				slog.String("user", user), slog.Any("error", err),
+			)
+		}
 	}
 }
 
