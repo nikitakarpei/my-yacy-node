@@ -214,20 +214,20 @@
     background: var(--webui-surface);
     border-bottom: 1px solid var(--webui-line);
   }
-  .webui-tabs a {
+  .webui-tab-links a {
     padding: var(--webui-space-2) var(--webui-space-3);
     margin-bottom: -1px;
     border-bottom: 2px solid transparent;
     color: var(--webui-muted);
     text-decoration: none;
   }
-  .webui-tabs > a:first-child {
+  .webui-tab-links > a:first-child {
     margin-left: calc(-1 * var(--webui-space-3));
   }
-  .webui-tabs a:hover {
+  .webui-tab-links a:hover {
     color: var(--webui-ink);
   }
-  .webui-tabs a[aria-current="page"] {
+  .webui-tab-links a[aria-current="page"] {
     color: var(--webui-ink);
     font-weight: 500;
     border-bottom-color: var(--webui-accent);

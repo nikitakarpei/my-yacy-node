@@ -63,7 +63,10 @@ func TestSettleRefusesAFileThatHoldsNoKey(t *testing.T) {
 	if _, err := brokerkey.Settle(directory); err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	entries, _ := os.ReadDir(directory)
+	entries, err := os.ReadDir(directory)
+	if err != nil || len(entries) != 1 {
+		t.Fatalf("directory holds %v (%v), want one file", entries, err)
+	}
 	keyFile := filepath.Join(directory, entries[0].Name())
 	if err := os.WriteFile(keyFile, []byte("not a key"), 0o600); err != nil {
 		t.Fatalf("WriteFile: %v", err)

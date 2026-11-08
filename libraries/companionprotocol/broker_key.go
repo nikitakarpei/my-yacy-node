@@ -7,7 +7,7 @@ import (
 
 type BrokerKeyHash string
 
-func BrokerKeyHashOf(publicKeyInfo []byte) BrokerKeyHash {
+func BrokerKeyHashFrom(publicKeyInfo []byte) BrokerKeyHash {
 	hash := sha256.Sum256(publicKeyInfo)
 	return BrokerKeyHash(base64.RawURLEncoding.EncodeToString(hash[:]))
 }

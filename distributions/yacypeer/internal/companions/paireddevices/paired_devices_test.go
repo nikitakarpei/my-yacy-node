@@ -18,7 +18,7 @@ func openDevices(t *testing.T, directory string) *paireddevices.Devices {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	t.Cleanup(func() { _ = devices.Close() })
+	t.Cleanup(devices.Close)
 	return devices
 }
 
@@ -69,7 +69,7 @@ func TestTheObserversHearOfTheFirstAndTheLastDevice(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	t.Cleanup(func() { _ = devices.Close() })
+	t.Cleanup(devices.Close)
 	tablet := paireddevices.Device{ID: "device-b", Name: "Galaxy Tab S9"}
 
 	devices.Add(context.Background(), pixel())
@@ -91,7 +91,7 @@ func TestTheObserversHearOfKeptDevicesAtStart(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	t.Cleanup(func() { _ = devices.Close() })
+	t.Cleanup(devices.Close)
 
 	if told.first != 1 {
 		t.Errorf("told first %d times, want once", told.first)

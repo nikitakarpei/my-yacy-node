@@ -18,9 +18,6 @@ const clientUser = "device-a"
 type passwordAuthentication struct{}
 
 func (passwordAuthentication) Check(client natsserver.ClientAuthentication) bool {
-	if client.GetTLSConnectionState() == nil {
-		return true
-	}
 	if client.GetOpts().Password != "letmein" {
 		return false
 	}

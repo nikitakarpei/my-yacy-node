@@ -177,6 +177,8 @@ func runPagescrape(
 		cfg,
 		listeners,
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	)
@@ -196,6 +198,9 @@ func runPagerwi(
 		cfg,
 		listeners,
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	)

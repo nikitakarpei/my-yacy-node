@@ -28,7 +28,7 @@ func ProofOf(signer crypto.Signer, challenge Challenge) (Proof, error) {
 	return proof, nil
 }
 
-func IsProofOf(publicKey *ecdsa.PublicKey, challenge Challenge, proof Proof) bool {
+func (p Proof) HoldsFor(publicKey *ecdsa.PublicKey, challenge Challenge) bool {
 	digest := sha256.Sum256(challenge)
-	return ecdsa.VerifyASN1(publicKey, digest[:], proof)
+	return ecdsa.VerifyASN1(publicKey, digest[:], p)
 }

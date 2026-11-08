@@ -10,15 +10,15 @@
 </head>
 <body>
 {{.Frame.TabBar}}
-<main data-device-states="{{.DeviceStatesPath}}" data-path="{{.SettingsPath}}" data-only-companions-fetch="{{.Header.OnlyCompanionsFetch}}">
+<main data-states="{{.StatesPath}}">
   {{template "header" .Header}}
-  <form class="settings" method="post" action="{{.SettingsPath}}">
+  <form class="card settings" method="post" action="{{.SettingsPath}}">
     <label class="setting">
-      <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.CompanionsFetch}}" value="on"{{if .Choice.CompanionsFetch}} checked{{end}}>
+      <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.CompanionsFetch}}" value="on"{{if .Fetching.CompanionsFetch}} checked{{end}}>
       Fetch pages with paired companions
     </label>
     <label class="setting dependent">
-      <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.PeerFillsIn}}" value="on"{{if .Choice.PeerFillsIn}} checked{{end}}{{if not .Choice.CompanionsFetch}} disabled{{end}}>
+      <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.PeerFillsIn}}" value="on"{{if .Fetching.PeerFillsIn}} checked{{end}}{{if not .Fetching.CompanionsFetch}} disabled{{end}}>
       Let this peer fetch pages while no companion is connected
     </label>
     <noscript><div class="setting"><button type="submit">Save</button></div></noscript>

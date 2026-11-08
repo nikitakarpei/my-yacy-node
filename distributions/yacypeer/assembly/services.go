@@ -21,6 +21,7 @@ import (
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	searchpageassembly "github.com/nikitakarpei/yacy-rwi-node/searchpage/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
@@ -91,6 +92,7 @@ type peer struct {
 	visitLinkSecret    string
 	peerKey            yacymodel.PeerKey
 	intakeAdmission    pullintake.Admission
+	webUILinks         webuitabs.Links
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -148,6 +150,7 @@ func (p peer) upstreamServiceAssemblies() []serviceAssembly[listeningService] {
 			yacydhtsearchService,
 			serviceenvironment.Wiring{
 				yacydhtsearchassembly.EnvNetworkName:           p.cfg.NetworkName,
+				yacydhtsearchassembly.EnvPartitionExponent:     p.cfg.partitionExponentSetting(),
 				yacydhtsearchassembly.EnvSeedlistURLs:          p.cfg.SeedlistURLs,
 				yacydhtsearchassembly.EnvEgressProxyURL:        p.peerEgressProxyURL.String(),
 				yacydhtsearchassembly.EnvPageReadProxyURL:      p.pageCacheProxyURL,
@@ -216,10 +219,13 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 				yacynodeassembly.EnvPageRWINATSURL:    p.natsURL,
 				yacynodeassembly.EnvPageRWIDurable:    yacynodeService,
 				yacynodeassembly.EnvAcceptRemoteIndex: strconv.FormatBool(false),
-				yacynodeassembly.EnvDataDir:           p.cfg.directoryOf(yacynodeService),
-				yacynodeassembly.EnvNetworkName:       p.cfg.NetworkName,
-				yacynodeassembly.EnvSeedlistURLs:      p.cfg.SeedlistURLs,
-				yacynodeassembly.EnvEgressProxyURL:    p.peerEgressProxyURL.String(),
+				yacynodeassembly.EnvDataDir: p.cfg.directoryOf(
+					yacynodeService,
+				),
+				yacynodeassembly.EnvNetworkName:                   p.cfg.NetworkName,
+				yacynodeassembly.EnvDistributionPartitionExponent: p.cfg.partitionExponentSetting(),
+				yacynodeassembly.EnvSeedlistURLs:                  p.cfg.SeedlistURLs,
+				yacynodeassembly.EnvEgressProxyURL:                p.peerEgressProxyURL.String(),
 			},
 			yacynodeConfigLoaderFor(p.cfg),
 			yacynodeassembly.ListenersFor,
@@ -235,30 +241,23 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 				pagescrapeassembly.EnvUserAgent:        pageFetchUserAgent,
 				pagescrapeassembly.EnvProvisionStreams: strconv.FormatBool(true),
 			},
-			func(getenv func(string) string) (pagescrapeassembly.ServiceConfig, error) {
-				cfg, err := pagescrapeassembly.LoadServiceConfig(getenv)
-				cfg.IntakeAdmission = p.intakeAdmission
-				return cfg, err
-			},
+			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
-			withUnreadHealth(pagescrapeassembly.RunService),
+			p.runPagescrape,
 			p.network,
 		),
 		streamOnlyServiceAssemblyFrom(
 			pagerwiService,
 			serviceenvironment.Wiring{
-				pagerwiassembly.EnvPageOfferNATSURL: p.natsURL,
-				pagerwiassembly.EnvPageOfferDurable: pagerwiService,
-				pagerwiassembly.EnvPageRWINATSURL:   p.natsURL,
-				pagerwiassembly.EnvProvisionStreams: strconv.FormatBool(true),
+				pagerwiassembly.EnvPageOfferNATSURL:         p.natsURL,
+				pagerwiassembly.EnvPageOfferDurable:         pagerwiService,
+				pagerwiassembly.EnvPageRWINATSURL:           p.natsURL,
+				pagerwiassembly.EnvPageRWIPartitionExponent: p.cfg.partitionExponentSetting(),
+				pagerwiassembly.EnvProvisionStreams:         strconv.FormatBool(true),
 			},
-			func(getenv func(string) string) (pagerwiassembly.ServiceConfig, error) {
-				cfg, err := pagerwiassembly.LoadServiceConfig(getenv)
-				cfg.IntakeAdmission = p.intakeAdmission
-				return cfg, err
-			},
+			pagerwiassembly.LoadServiceConfig,
 			pagerwiassembly.ListenersFor,
-			withUnreadHealth(pagerwiassembly.RunService),
+			p.runPagerwi,
 			p.network,
 		),
 		streamOnlyServiceAssemblyFrom(
@@ -326,12 +325,38 @@ func streamOnlyServiceAssemblyFrom[C any, L io.Closer](
 	}
 }
 
-func withUnreadHealth[C any, L io.Closer](
-	runService func(context.Context, C, L, dial, *prometheus.Registry, *servicehealth.Health) error,
-) func(context.Context, C, L, dial, *prometheus.Registry) error {
-	return func(ctx context.Context, cfg C, listeners L, dial dial, registry *prometheus.Registry) error {
-		return runService(ctx, cfg, listeners, dial, registry, &servicehealth.Health{})
-	}
+func (p peer) runPagescrape(
+	ctx context.Context,
+	cfg pagescrapeassembly.ServiceConfig,
+	listeners pagescrapeassembly.Listeners,
+	dial dial,
+	registry *prometheus.Registry,
+) error {
+	return pagescrapeassembly.RunService(
+		ctx, cfg, listeners, dial,
+		jetstreamconnect.BrokerAccess{}, p.intakeAdmission,
+		registry, &servicehealth.Health{},
+	)
+}
+
+func (p peer) runPagerwi(
+	ctx context.Context,
+	cfg pagerwiassembly.ServiceConfig,
+	listeners pagerwiassembly.Listeners,
+	dial dial,
+	registry *prometheus.Registry,
+) error {
+	return pagerwiassembly.RunService(
+		ctx,
+		cfg,
+		listeners,
+		dial,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
+		registry,
+		&servicehealth.Health{},
+	)
 }
 
 func (p peer) downstreamServiceAssembliesWith(
@@ -343,9 +368,7 @@ func (p peer) downstreamServiceAssembliesWith(
 			serviceenvironment.Wiring{
 				crawlconsoleassembly.EnvPathPrefix:    crawlConsolePathPrefix,
 				crawlconsoleassembly.EnvCrawlerAPIURL: upstreamURLs[yacycrawlerService].String(),
-				crawlconsoleassembly.EnvTabBar: webUIURLsFor(
-					p.cfg,
-				).SettingFor(webuitabs.Crawls),
+				crawlconsoleassembly.EnvTabBar:        p.webUILinks.SettingFor(webuitabs.Crawls),
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.RunService,
@@ -361,9 +384,7 @@ func (p peer) downstreamServiceAssembliesWith(
 				searchpageassembly.EnvCorpusTextURL:   upstreamURLs[corpustextService].String(),
 				searchpageassembly.EnvVisitCrawlURL:   upstreamURLs[visitcrawlService].String(),
 				searchpageassembly.EnvVisitLinkSecret: p.visitLinkSecret,
-				searchpageassembly.EnvTabBar: webUIURLsFor(
-					p.cfg,
-				).SettingFor(webuitabs.Search),
+				searchpageassembly.EnvTabBar:          p.webUILinks.SettingFor(webuitabs.Search),
 			},
 			searchpageassembly.LoadServiceConfig,
 			searchpageassembly.RunService,
