@@ -3,42 +3,46 @@ package companionprotocol
 import "strings"
 
 const (
-	deviceSubjectStart = "companions."
-	deviceInboxStart   = "_INBOX."
-	settingsEnd        = ".settings"
-	appEnd             = ".app"
-	unpairEnd          = ".unpair"
+	deviceSubjectPrefix = "devices."
+	deviceInboxPrefix   = "_INBOX."
+	settingsSuffix      = ".settings"
+	appSuffix           = ".app"
+	unpairSuffix        = ".unpair"
 
-	SettingsSubjects = deviceSubjectStart + "*" + settingsEnd
-	AppSubjects      = deviceSubjectStart + "*" + appEnd
-	UnpairSubjects   = deviceSubjectStart + "*" + unpairEnd
+	SettingsSubjects = deviceSubjectPrefix + "*" + settingsSuffix
+	AppSubjects      = deviceSubjectPrefix + "*" + appSuffix
+	UnpairSubjects   = deviceSubjectPrefix + "*" + unpairSuffix
 )
 
 func SettingsSubjectOf(device DeviceID) string {
-	return deviceSubjectStart + string(device) + settingsEnd
+	return deviceSubjectPrefix + string(device) + settingsSuffix
 }
 
 func AppSubjectOf(device DeviceID) string {
-	return deviceSubjectStart + string(device) + appEnd
+	return deviceSubjectPrefix + string(device) + appSuffix
 }
 
 func UnpairSubjectOf(device DeviceID) string {
-	return deviceSubjectStart + string(device) + unpairEnd
+	return deviceSubjectPrefix + string(device) + unpairSuffix
 }
 
 func DeviceSubjectsOf(device DeviceID) string {
-	return deviceSubjectStart + string(device) + ".>"
+	return deviceSubjectPrefix + string(device) + ".>"
 }
 
 func DeviceInboxPrefixOf(device DeviceID) string {
-	return deviceInboxStart + string(device)
+	return deviceInboxPrefix + string(device)
 }
 
-func DeviceRepliesOf(device DeviceID) string {
+func DeviceInboxSubjectsOf(device DeviceID) string {
 	return DeviceInboxPrefixOf(device) + ".>"
 }
 
-func DeviceFromSubject(subject string) DeviceID {
-	device, _, _ := strings.Cut(strings.TrimPrefix(subject, deviceSubjectStart), ".")
+func DeviceIDFrom(subject string) DeviceID {
+	rest, deviceSubject := strings.CutPrefix(subject, deviceSubjectPrefix)
+	device, _, found := strings.Cut(rest, ".")
+	if !deviceSubject || !found {
+		return ""
+	}
 	return DeviceID(device)
 }
