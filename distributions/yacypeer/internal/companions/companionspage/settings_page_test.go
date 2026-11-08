@@ -70,18 +70,15 @@ func TestTheFillInWaitsForCompanionsAndKeepsItsValue(t *testing.T) {
 	}
 }
 
-func TestTheSettingsNeedAPairedCompanion(t *testing.T) {
+func TestTheSettingsCanChangeBeforeACompanionIsPaired(t *testing.T) {
 	f := &fixture{choice: fetchsettings.Choice{CompanionsFetch: true}}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
 	for _, name := range []string{"companionsFetch", "peerFillsIn"} {
-		if !strings.Contains(switchOf(page, name), "disabled") {
-			t.Errorf("switch %s can change although no companion is paired", name)
+		if strings.Contains(switchOf(page, name), "disabled") {
+			t.Errorf("switch %s cannot change while no companion is paired", name)
 		}
-	}
-	if !strings.Contains(page, "No companions are paired.") {
-		t.Error("the settings do not say that no companions are paired")
 	}
 }
 
@@ -125,13 +122,13 @@ func TestTheFillInStaysWhileCompanionsAreOff(t *testing.T) {
 	}
 }
 
-func TestTheSettingsStayWhileNoDeviceIsPaired(t *testing.T) {
+func TestTheSettingsChangeWhileNoDeviceIsPaired(t *testing.T) {
 	f := &fixture{choice: fetchsettings.Choice{CompanionsFetch: true}}
 
 	choose(t, serve(t, f).URL, url.Values{})
 
-	if f.Choice() != (fetchsettings.Choice{CompanionsFetch: true}) {
-		t.Errorf("choice = %+v, want the kept choice", f.Choice())
+	if f.Choice() != (fetchsettings.Choice{}) {
+		t.Errorf("choice = %+v, want companions off", f.Choice())
 	}
 }
 

@@ -123,13 +123,6 @@ tbody tr {
   background: var(--webui-subtle-surface);
   border-top: 1px solid var(--webui-line);
 }
-.setting-hint {
-  margin: 0;
-  padding: 10px var(--webui-space-4);
-  border-top: 1px solid var(--webui-line);
-  font-size: var(--webui-text-sm);
-  color: var(--webui-muted);
-}
 .device {
   font-weight: 500;
 }

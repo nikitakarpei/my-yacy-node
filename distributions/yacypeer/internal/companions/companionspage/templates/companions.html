@@ -12,7 +12,6 @@
 {{.Frame.TabBar}}
 <main data-connections="{{.ConnectionsPath}}" data-path="{{.CompanionPath}}" data-list="true" data-pauses="{{.Heading.PauseRule}}">
   {{template "heading" .Heading}}
-  {{if .JustPaired}}<div class="banner" role="status">{{.JustPaired}} is paired.</div>{{end}}
   {{if .Devices}}
   <div class="card table">
     <table>
