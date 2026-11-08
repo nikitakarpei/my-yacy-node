@@ -80,7 +80,7 @@ func removeStoreDirectory(t *testing.T, directory string) {
 	}
 }
 
-type Allowed struct {
+type AllowedSubjects struct {
 	Publish   []string
 	Subscribe []string
 }
@@ -90,13 +90,13 @@ type UserURLs struct {
 	Limited   string
 }
 
-func StartWithLimitedUser(t *testing.T, allowed Allowed) UserURLs {
+func StartWithLimitedUser(t *testing.T, allowedSubjects AllowedSubjects) UserURLs {
 	t.Helper()
 	srv := startedServerWith(t, &natsserver.Options{Users: []*natsserver.User{
 		{Username: unlimitedUser, Password: userPassword},
 		{Username: limitedUser, Password: userPassword, Permissions: &natsserver.Permissions{
-			Publish:   &natsserver.SubjectPermission{Allow: allowed.Publish},
-			Subscribe: &natsserver.SubjectPermission{Allow: allowed.Subscribe},
+			Publish:   &natsserver.SubjectPermission{Allow: allowedSubjects.Publish},
+			Subscribe: &natsserver.SubjectPermission{Allow: allowedSubjects.Subscribe},
 		}},
 	}})
 	return UserURLs{Unlimited: userURLOf(srv, unlimitedUser), Limited: userURLOf(srv, limitedUser)}

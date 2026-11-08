@@ -81,7 +81,7 @@ func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
 	case pairingoffers.DevicePaired:
 		return writeMessage(w, "paired", devicePairedMessage{
 			DeviceName: event.DeviceName,
-			URL:        Path + "?" + url.Values{parameterPaired: {string(event.Device)}}.Encode(),
+			URL:        Path + "?" + url.Values{parameterPaired: {string(event.DeviceID)}}.Encode(),
 		})
 	case pairingoffers.DeviceRefused:
 		return writeMessage(w, "refused", deviceRefusedMessage{

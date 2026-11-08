@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"net/url"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	yacydhtsearchassembly "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -22,11 +24,13 @@ const (
 	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
 	EnvPeerKeySearchTime      = "YACYPEER_PEER_KEY_SEARCH_TIME"
 	EnvCompanionAddr          = "YACYPEER_COMPANION_ADDR"
+	EnvPartitionExponent      = "YACYPEER_PARTITION_EXPONENT"
 
 	DefaultDataDirectory          = "data"
 	DefaultWebAddr                = "127.0.0.1:9090"
 	DefaultMetricHistoryRetention = 7 * 24 * time.Hour
 	DefaultPeerKeySearchTime      = time.Minute
+	DefaultPartitionExponent      = yacydhtsearchassembly.DefaultPartitionExponent
 	DefaultSeedlistURLs           = "http://sixcooler.de/yacy/seed.txt," +
 		"https://sonst.mifritscher.de/yacy/seed.txt," +
 		"http://5.45.105.16/yacyseed," +
@@ -53,6 +57,7 @@ type PeerConfig struct {
 	CompanionAddr          string
 	MetricHistoryRetention time.Duration
 	PeerKeySearchTime      time.Duration
+	PartitionExponent      uint
 }
 
 func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
@@ -88,6 +93,14 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 	if err != nil {
 		return PeerConfig{}, err
 	}
+	partitionExponent, err := envconfig.PositiveInt(
+		getenv,
+		EnvPartitionExponent,
+		DefaultPartitionExponent,
+	)
+	if err != nil {
+		return PeerConfig{}, err
+	}
 	return PeerConfig{
 		PeerProxyURL:           peerProxyURL,
 		PageFetchProxyURL:      pageFetchProxyURL,
@@ -98,6 +111,7 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		CompanionAddr:          envconfig.String(getenv, EnvCompanionAddr, ""),
 		MetricHistoryRetention: metricHistoryRetention,
 		PeerKeySearchTime:      peerKeySearchTime,
+		PartitionExponent:      uint(partitionExponent),
 	}, nil
 }
 
@@ -131,6 +145,10 @@ func (cfg PeerConfig) namesAPeerProxy() bool {
 
 func (cfg PeerConfig) servesCompanions() bool {
 	return cfg.CompanionAddr != ""
+}
+
+func (cfg PeerConfig) partitionExponentSetting() string {
+	return strconv.FormatUint(uint64(cfg.PartitionExponent), 10)
 }
 
 func (cfg PeerConfig) directoryOf(serviceName string) string {

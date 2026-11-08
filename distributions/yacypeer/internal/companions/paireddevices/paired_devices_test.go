@@ -18,7 +18,7 @@ func openDevices(t *testing.T, directory string) *paireddevices.Devices {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	t.Cleanup(func() { _ = devices.Close() })
+	t.Cleanup(devices.Close)
 	return devices
 }
 

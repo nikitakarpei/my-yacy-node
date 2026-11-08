@@ -242,7 +242,7 @@ func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
 		!strings.Contains(data, "Please update the app.") {
 		t.Errorf("event = %s %q, want refused as outdated", name, data)
 	}
-	offer.events <- pairingoffers.DevicePaired{DeviceName: "Pixel 8", Device: "device-b"}
+	offer.events <- pairingoffers.DevicePaired{DeviceName: "Pixel 8", DeviceID: "device-b"}
 	if name, data := events.next(t); name != "paired" ||
 		!strings.Contains(data, companionspage.Path+"?paired=device-b") {
 		t.Errorf("event = %s %q, want paired with the list address", name, data)

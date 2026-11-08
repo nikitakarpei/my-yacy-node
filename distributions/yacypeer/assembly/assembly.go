@@ -62,7 +62,7 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
-	defer companions.close(ctx)
+	defer companions.close()
 	broker, err := companions.startBroker(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
 		return errors.Join(err, web.Close())
@@ -127,9 +127,9 @@ func RunPeer(
 		processRegistry, services, history, urls, network, webUIURLs.TabBarFor(webuitabs.Metrics),
 	)
 	companions.register(webMux, broker, webUIURLs.TabBarFor(webuitabs.Companions))
-	companionServers := companions.servers(broker, peer.natsURL, network)
+	companionRunners := companions.runners(broker, peer.natsURL, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
-		return runEvery(ctx, services, append(companionServers,
+		return runEvery(ctx, services, append(companionRunners,
 			func(ctx context.Context) error {
 				return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
 			},
