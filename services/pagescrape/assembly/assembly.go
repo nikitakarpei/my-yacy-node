@@ -105,6 +105,10 @@ func RunService(
 		wallclock.Clock{},
 	)
 
+	receiptCarrier, err := outcomeFeed.StartCarryingIntakeReceipts(ctx)
+	if err != nil {
+		return err
+	}
 	health.MarkStarted()
 	slog.InfoContext(ctx, "pagescrape started",
 		slog.String("durable", cfg.ScrapeRequestDurable),
@@ -118,7 +122,7 @@ func RunService(
 			}
 			return nil
 		},
-		outcomeFeed.CarryIntakeReceipts,
+		receiptCarrier.Run,
 	)
 	slog.InfoContext(ctx, "pagescrape stopped")
 	return err

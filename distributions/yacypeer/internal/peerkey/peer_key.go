@@ -128,6 +128,7 @@ func keyFileWriterFor(key yacymodel.PeerKey) func(io.Writer) error {
 	}
 }
 
+// TECHDEBT: Failure — writeDurably drops the close error after a failed write or sync.
 func writeDurably(root *os.Root, name string, writeContent func(io.Writer) error) error {
 	file, err := root.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, keyFileMode)
 	if err != nil {

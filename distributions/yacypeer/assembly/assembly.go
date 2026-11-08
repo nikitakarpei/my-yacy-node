@@ -61,7 +61,7 @@ func RunPeer(
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
-	defer companions.close(ctx)
+	defer companions.close()
 	broker, err := companions.startBroker(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
 		return errors.Join(err, web.Close())

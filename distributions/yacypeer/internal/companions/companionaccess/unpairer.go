@@ -23,7 +23,7 @@ func NewUnpairer(devices RemovableDevices, broker Disconnector) Unpairer {
 	return Unpairer{devices: devices, broker: broker}
 }
 
-func (u Unpairer) Unpair(ctx context.Context, device companionprotocol.DeviceID) {
-	u.devices.Remove(ctx, device)
-	u.broker.DisconnectUser(UserOf(device))
+func (u Unpairer) Unpair(ctx context.Context, deviceID companionprotocol.DeviceID) {
+	u.devices.Remove(ctx, deviceID)
+	u.broker.DisconnectUser(DeviceUserOf(deviceID))
 }

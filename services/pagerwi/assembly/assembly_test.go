@@ -25,6 +25,7 @@ const (
 	brokerWait   = 10 * time.Second
 	shutdownWait = 10 * time.Second
 	pageURL      = "https://example.org/page"
+	pageBody     = "<html lang=\"en\"><body><p>alpha beta</p></body></html>"
 	nodeDurable  = "assemblytest"
 	everyInbox   = "_INBOX.>"
 )
@@ -56,7 +57,7 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{}, prometheus.NewRegistry(), health,
 		)
 	}()
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
 	awaitConsumer(
 		t,
 		ctx,
@@ -64,7 +65,7 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 		pagescrapecontract.ScrapePageOffersStreamName,
 		pagerwi.DefaultPageOfferDurable,
 	)
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	offerPage(t, ctx, broker)
 
 	message, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait))
 	if err != nil {
@@ -110,9 +111,9 @@ func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
 	admission.awaitAsked(t)
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	offerPage(t, ctx, broker)
 
 	pageOffers, err := broker.Consumer(
 		ctx, pagescrapecontract.ScrapePageOffersStreamName, pagerwi.DefaultPageOfferDurable,
@@ -242,8 +243,8 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
+	offerPage(t, ctx, broker)
 
 	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
 		t.Fatalf("await rwi: %v", err)
@@ -272,7 +273,7 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 
 func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *testing.T) {
 	permissions := serviceConfig("").BrokerPermissions()
-	urls := natstestserver.StartWithLimitedUser(t, natstestserver.Allowed{
+	urls := natstestserver.StartWithLimitedUser(t, natstestserver.AllowedSubjects{
 		Publish: permissions.Publish, Subscribe: append(permissions.Subscribe, everyInbox),
 	})
 	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
@@ -296,24 +297,24 @@ func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *tes
 	); err != nil {
 		t.Fatalf("create page offer consumer: %v", err)
 	}
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
 	intakeReceipts, err := natstestserver.Connect(t, unlimitedURL).SubscribeSync(
 		pagescrapecontract.EveryIntakeReceiptSubject,
 	)
 	if err != nil {
 		t.Fatalf("subscribe to intake receipts: %v", err)
 	}
-	limited := serviceConfig(limitedURL)
-	limited.ProvisionsStreams = false
+	limitedConfig := serviceConfig(limitedURL)
+	limitedConfig.ProvisionsStreams = false
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
-			ctx, limited, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			ctx, limitedConfig, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	offerPage(t, ctx, broker)
 
 	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
 		t.Fatalf("await rwi: %v", err)
@@ -370,25 +371,25 @@ func createPageOffersStream(t *testing.T, ctx context.Context, broker jetstream.
 	}
 }
 
-func consumerOnceOpen(
+func pageRWIConsumerOnceOpen(
 	t *testing.T,
 	ctx context.Context,
 	broker jetstream.JetStream,
-	streamName string,
-	durable string,
 ) jetstream.Consumer {
 	t.Helper()
 	deadline := time.Now().Add(brokerWait)
 	for {
-		consumer, err := broker.CreateOrUpdateConsumer(ctx, streamName, jetstream.ConsumerConfig{
-			Durable:   durable,
-			AckPolicy: jetstream.AckExplicitPolicy,
-		})
+		consumer, err := broker.CreateOrUpdateConsumer(
+			ctx, pagerwicontract.PageRWIsStreamName, jetstream.ConsumerConfig{
+				Durable:   nodeDurable,
+				AckPolicy: jetstream.AckExplicitPolicy,
+			},
+		)
 		if err == nil {
 			return consumer
 		}
 		if time.Now().After(deadline) {
-			t.Fatalf("open the %s consumer on %s: %v", durable, streamName, err)
+			t.Fatalf("open the page RWI consumer: %v", err)
 		}
 		time.Sleep(50 * time.Millisecond)
 	}
@@ -415,13 +416,13 @@ func awaitConsumer(
 	}
 }
 
-func offerPage(t *testing.T, ctx context.Context, broker jetstream.JetStream, body string) {
+func offerPage(t *testing.T, ctx context.Context, broker jetstream.JetStream) {
 	t.Helper()
 	data, err := pagescrapecontract.MarshalOfferedPage(pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, pageURL),
 		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
 		ContentType: "text/html",
-		Body:        []byte(body),
+		Body:        []byte(pageBody),
 	})
 	if err != nil {
 		t.Fatalf("marshal offered page: %v", err)

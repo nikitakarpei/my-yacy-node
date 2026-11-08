@@ -1,8 +1,7 @@
-// Package companionaccess decides who connects to the broker of the peer and what each
-// connection may do. The parts of the peer connect inside the process and may do anything. A
-// paired device connects with the key that it paired with and may run the page services and use
-// its own subjects. A device that pairs connects with the secret of an open pairing page and may
-// only ask to pair.
+// Package companionaccess decides which devices connect to the endpoint of the broker of the peer
+// and what each connection may do. A paired device connects with the key that it paired with and
+// may run the page services and use its own subjects. A device that pairs connects with the
+// secret of an open pairing page and may only ask to pair.
 package companionaccess
 
 import (
@@ -19,7 +18,6 @@ import (
 )
 
 const (
-	inProcessNetwork = "pipe"
 	deviceUserStart  = "device-"
 	pairingUserStart = "pairing-"
 )
@@ -65,84 +63,80 @@ func New(
 	}
 }
 
-func UserOf(device companionprotocol.DeviceID) string {
-	return deviceUserStart + string(device)
+func DeviceUserOf(deviceID companionprotocol.DeviceID) string {
+	return deviceUserStart + string(deviceID)
 }
 
-func (a *Gatekeeper) Check(client natsserver.ClientAuthentication) bool {
-	if address := client.RemoteAddress(); address != nil &&
-		address.Network() == inProcessNetwork {
-		return true
+func (g *Gatekeeper) Check(client natsserver.ClientAuthentication) bool {
+	if certificates := client.GetTLSConnectionState().PeerCertificates; len(certificates) > 0 {
+		return g.admitPairedDevice(client, certificates[0])
 	}
-	state := client.GetTLSConnectionState()
-	if state == nil {
-		slog.WarnContext(context.Background(), "connection without TLS refused",
-			slog.String("remoteAddress", client.RemoteAddress().String()),
-		)
-		return false
-	}
-	if len(state.PeerCertificates) > 0 {
-		return a.admitPairedDevice(client, state.PeerCertificates[0])
-	}
-	return a.admitPairingDevice(client)
+	return g.admitPairingDevice(client)
 }
 
-func (a *Gatekeeper) admitPairedDevice(
+func (g *Gatekeeper) admitPairedDevice(
 	client natsserver.ClientAuthentication,
 	certificate *x509.Certificate,
 ) bool {
 	ctx := context.Background()
-	device := companionprotocol.DeviceIDFrom(certificate.RawSubjectPublicKeyInfo)
-	if !a.devices.Holds(device) {
+	deviceID := companionprotocol.DeviceIDFrom(certificate.RawSubjectPublicKeyInfo)
+	if !g.devices.Holds(deviceID) {
 		slog.WarnContext(ctx, "unpaired device refused",
-			slog.String("device", string(device)),
+			slog.String("device", string(deviceID)),
 			slog.String("remoteAddress", client.RemoteAddress().String()),
 		)
 		return false
 	}
 	client.RegisterUser(&natsserver.User{
-		Username:    UserOf(device),
-		Permissions: a.permissionsOf(device),
+		Username:    DeviceUserOf(deviceID),
+		Permissions: g.devicePermissionsFor(deviceID),
 	})
-	a.devices.RecordConnection(ctx, device, a.clock.Now())
-	slog.DebugContext(ctx, "paired device connected", slog.String("device", string(device)))
+	g.devices.RecordConnection(ctx, deviceID, g.clock.Now())
+	slog.DebugContext(ctx, "paired device connected", slog.String("device", string(deviceID)))
 	return true
 }
 
-func (a *Gatekeeper) permissionsOf(device companionprotocol.DeviceID) *natsserver.Permissions {
+func (g *Gatekeeper) devicePermissionsFor(
+	deviceID companionprotocol.DeviceID,
+) *natsserver.Permissions {
 	return &natsserver.Permissions{
 		Publish: &natsserver.SubjectPermission{
 			Allow: append(
-				append([]string{}, a.pageServicesPermissions.Publish...),
-				companionprotocol.DeviceSubjectsOf(device),
+				append([]string{}, g.pageServicesPermissions.Publish...),
+				companionprotocol.DeviceSubjectsOf(deviceID),
 			),
 		},
 		Subscribe: &natsserver.SubjectPermission{
 			Allow: append(
-				append([]string{}, a.pageServicesPermissions.Subscribe...),
-				companionprotocol.DeviceInboxSubjectsOf(device),
+				append([]string{}, g.pageServicesPermissions.Subscribe...),
+				companionprotocol.DeviceInboxSubjectsOf(deviceID),
 			),
 		},
 	}
 }
 
-func (a *Gatekeeper) admitPairingDevice(client natsserver.ClientAuthentication) bool {
+func (g *Gatekeeper) admitPairingDevice(client natsserver.ClientAuthentication) bool {
 	ctx := context.Background()
 	options := client.GetOpts()
-	secret := companionprotocol.Secret(options.Password)
-	if !a.offers.Begin(ctx, secret, companionprotocol.DeviceName(options.Name)) {
+	credentials := companionprotocol.PairingCredentials{
+		ClientName: options.Name,
+		Password:   options.Password,
+	}
+	if !g.offers.Begin(ctx, credentials.Secret(), credentials.DeviceName()) {
 		slog.WarnContext(ctx, "pairing device refused",
-			slog.String("deviceName", options.Name),
+			slog.String("deviceName", string(credentials.DeviceName())),
 			slog.String("remoteAddress", client.RemoteAddress().String()),
 		)
 		return false
 	}
 	client.RegisterUser(&natsserver.User{
-		Username:           pairingUserOf(secret),
-		Permissions:        pairingPermissionsFor(secret),
-		ConnectionDeadline: a.clock.Now().Add(a.pairingWait),
+		Username:           pairingUserOf(credentials.Secret()),
+		Permissions:        pairingPermissionsFor(credentials.Secret()),
+		ConnectionDeadline: g.clock.Now().Add(g.pairingWait),
 	})
-	slog.DebugContext(ctx, "device began pairing", slog.String("deviceName", options.Name))
+	slog.DebugContext(ctx, "device began pairing",
+		slog.String("deviceName", string(credentials.DeviceName())),
+	)
 	return true
 }
 

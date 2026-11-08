@@ -17,8 +17,9 @@ import (
 )
 
 const (
-	readyWait      = 10 * time.Second
-	payloadCeiling = 8 << 20
+	readyWait        = 10 * time.Second
+	payloadCeiling   = 8 << 20
+	inProcessNetwork = "pipe"
 )
 
 var errNotReady = errors.New("built-in nats not ready for connections")
@@ -34,7 +35,7 @@ type Endpoint struct {
 }
 
 func Start(storeDirectory string) (*Broker, error) {
-	return started(&natsserver.Options{
+	return startWith(&natsserver.Options{
 		DontListen: true,
 		MaxPayload: payloadCeiling,
 		JetStream:  true,
@@ -42,12 +43,25 @@ func Start(storeDirectory string) (*Broker, error) {
 	})
 }
 
+func startWith(options *natsserver.Options) (*Broker, error) {
+	server, err := natsserver.NewServer(options)
+	if err != nil {
+		return nil, fmt.Errorf("built-in nats: %w", err)
+	}
+	server.Start()
+	if !server.ReadyForConnections(readyWait) {
+		server.Shutdown()
+		return nil, errNotReady
+	}
+	return &Broker{server: server}, nil
+}
+
 func StartWithEndpoint(storeDirectory string, endpoint Endpoint) (*Broker, error) {
 	host, port, err := hostAndPortOf(endpoint.Address)
 	if err != nil {
 		return nil, err
 	}
-	return started(&natsserver.Options{
+	return startWith(&natsserver.Options{
 		Host:       host,
 		Port:       port,
 		MaxPayload: payloadCeiling,
@@ -59,7 +73,7 @@ func StartWithEndpoint(storeDirectory string, endpoint Endpoint) (*Broker, error
 			ClientAuth:   tls.RequestClientCert,
 			MinVersion:   tls.VersionTLS13,
 		},
-		CustomClientAuthentication: endpoint.Authentication,
+		CustomClientAuthentication: endpointAuthentication{endpoint: endpoint.Authentication},
 	})
 }
 
@@ -78,17 +92,15 @@ func hostAndPortOf(address string) (string, int, error) {
 	return host, port, nil
 }
 
-func started(options *natsserver.Options) (*Broker, error) {
-	server, err := natsserver.NewServer(options)
-	if err != nil {
-		return nil, fmt.Errorf("built-in nats: %w", err)
+type endpointAuthentication struct {
+	endpoint natsserver.Authentication
+}
+
+func (a endpointAuthentication) Check(client natsserver.ClientAuthentication) bool {
+	if address := client.RemoteAddress(); address != nil && address.Network() == inProcessNetwork {
+		return true
 	}
-	server.Start()
-	if !server.ReadyForConnections(readyWait) {
-		server.Shutdown()
-		return nil, errNotReady
-	}
-	return &Broker{server: server}, nil
+	return a.endpoint.Check(client)
 }
 
 func (b *Broker) Connection() (net.Conn, error) {

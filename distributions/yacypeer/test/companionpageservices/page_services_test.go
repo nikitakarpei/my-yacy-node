@@ -26,12 +26,12 @@ import (
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
@@ -111,7 +111,7 @@ func brokerPairedWith(t *testing.T, device companionprotocol.DeviceID) *natsbrok
 	if err != nil {
 		t.Fatalf("open the paired devices: %v", err)
 	}
-	t.Cleanup(func() { _ = devices.Close() })
+	t.Cleanup(devices.Close)
 	devices.Add(
 		t.Context(),
 		paireddevices.Device{ID: device, Name: "Pixel 8", PairedAt: time.Now()},
@@ -121,14 +121,7 @@ func brokerPairedWith(t *testing.T, device companionprotocol.DeviceID) *natsbrok
 			devices,
 			pairingoffers.New(wallclock.Clock{}, secretLifetime, pairingWait),
 			wallclock.Clock{},
-			natspermissions.JoinedFrom(
-				pagescrapeassembly.ServiceConfig{
-					ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,
-				}.BrokerPermissions(),
-				pagerwiassembly.ServiceConfig{
-					PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
-				}.BrokerPermissions(),
-			),
+			devicepermissions.ForPageServices(),
 			pairingWait,
 		),
 		Address:     "127.0.0.1:0",
