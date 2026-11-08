@@ -11,9 +11,13 @@ sealed interface CompanionState {
 
     data object Connected : CompanionState
 
-    sealed interface Disconnected : CompanionState
+    sealed interface Waiting : CompanionState
 
-    data object WaitingForUnmeteredNetwork : Disconnected
+    data object WaitingForCharger : Waiting
+
+    data object WaitingForUnmeteredNetwork : Waiting
+
+    sealed interface Disconnected : CompanionState
 
     data object NotAccepted : Disconnected
 
@@ -30,6 +34,8 @@ sealed interface CompanionState {
 }
 
 enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
+
+enum class PowerAccess { USABLE, CHARGER_NEEDED }
 
 enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, SERVICES_FAILED, UNPAIRED }
 

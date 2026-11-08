@@ -28,9 +28,11 @@ other peers can check what the device did.
   device.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the device.
 * The app SHALL NOT create or change the streams and consumers of the peer.
-* The app SHALL show whether it is connecting, connected, or disconnected, and why it is
-  disconnected.
+* The app SHALL show whether it is connecting, connected, waiting for a charger or Wi-Fi, or
+  disconnected, and why it is disconnected.
 * Unless the user allows mobile data, the app SHALL fetch pages only over unmetered networks.
+* Unless the user turns off "Run only when charging", the app SHALL fetch pages only while the
+  device is on a charger.
 * The app SHALL notify the user once when it loses the peer, and remove the notice when it
   connects again.
 * Stop in the notification of the app SHALL stop its work and close the app.
@@ -53,6 +55,7 @@ other peers can check what the device did.
 * The app writes the logs of its fetches and RWIs to logcat, under the tag `GoLog`.
 * A debug build cannot sign, so each page fetch of a debug build fails.
 * Each start of the app after a stop creates a new signing key.
-* The app holds a wake lock while it runs, so the device uses more power.
+* The app holds a wake lock while it connects to the peer or works for it, so the device uses
+  more power.
 * Two builds give the same APK only when they use the toolchain that `tools/install android`
   installs.

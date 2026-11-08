@@ -152,8 +152,12 @@ class ScanScreen : Activity() {
     private fun draw(state: CompanionState) {
         when (state) {
             CompanionState.Pairing -> pairingView.visibility = View.VISIBLE
-            CompanionState.Connecting, CompanionState.Connected, is CompanionState.Disconnected -> openHome()
+
+            CompanionState.Connecting, CompanionState.Connected, is CompanionState.Waiting, is CompanionState.Disconnected ->
+                openHome()
+
             is CompanionState.PairingFailed -> if (pairingCode != null) showPairingFailure(state.problem) else scan()
+
             else -> scan()
         }
     }

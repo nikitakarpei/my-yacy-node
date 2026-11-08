@@ -31,6 +31,7 @@ class CompanionHost : Service() {
     private lateinit var services: ServicesRunner
     private lateinit var pairing: PairingRunner
     private lateinit var network: NetworkWatch
+    private lateinit var power: PowerWatch
     private lateinit var wakeLock: PowerManager.WakeLock
 
     @Volatile
@@ -38,16 +39,15 @@ class CompanionHost : Service() {
 
     override fun onBind(intent: Intent?) = null
 
-    @SuppressLint("WakelockTimeout")
     override fun onCreate() {
         super.onCreate()
         startForeground(STATUS_NOTIFICATION_ID, statusNotification(this, CompanionStore.state))
         wakeLock = getSystemService(PowerManager::class.java).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "$APP_NAME:services")
-        wakeLock.acquire()
         services = ServicesRunner(this) { events.put(it) }
         pairing = PairingRunner(this) { events.put(it) }
         network = NetworkWatch(this) { access -> events.put(CompanionEvent.NetworkChanged(access)) }
-        model = CompanionModel(CompanionState.Stopped, network.access)
+        power = PowerWatch(this) { access -> events.put(CompanionEvent.PowerChanged(access)) }
+        model = CompanionModel(CompanionState.Stopped, network.access, power.access)
         thread(name = "companion-events") { takeEvents() }
     }
 
@@ -71,8 +71,19 @@ class CompanionHost : Service() {
     }
 
     private fun publish(state: CompanionState) {
+        holdWakeLockFor(state)
         CompanionStore.publish(state)
         getSystemService(NotificationManager::class.java).notify(STATUS_NOTIFICATION_ID, statusNotification(this, state))
+    }
+
+    @SuppressLint("WakelockTimeout")
+    private fun holdWakeLockFor(state: CompanionState) {
+        val works = state == CompanionState.Pairing || state == CompanionState.Connecting || state == CompanionState.Connected ||
+            state is CompanionState.Recovering
+        when {
+            works && !wakeLock.isHeld -> wakeLock.acquire()
+            !works && wakeLock.isHeld -> wakeLock.release()
+        }
     }
 
     private fun carryOut(effect: CompanionEffect) {
@@ -116,6 +127,7 @@ class CompanionHost : Service() {
         timers.shutdownNow()
         services.close()
         network.close()
+        power.close()
         if (wakeLock.isHeld) wakeLock.release()
         if (!keepsShowing(CompanionStore.state)) CompanionStore.publish(CompanionState.Stopped)
         super.onDestroy()
