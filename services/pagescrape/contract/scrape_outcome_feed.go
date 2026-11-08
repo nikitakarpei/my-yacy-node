@@ -7,7 +7,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-const ScrapeOutcomeSubjectPrefix = "scrape.outcome"
+const (
+	ScrapeOutcomeSubjectPrefix = "scrape.outcome"
+	EveryScrapeOutcomeSubject  = ScrapeOutcomeSubjectPrefix + ".>"
+)
 
 type ScrapeOutcome string
 

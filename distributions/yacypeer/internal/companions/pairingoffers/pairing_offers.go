@@ -27,30 +27,30 @@ type OngoingPairing struct {
 }
 
 type Offers struct {
-	clock       Clock
-	bySecretID  map[companionprotocol.SecretID]*Offer
-	lifetime    time.Duration
-	pairingWait time.Duration
-	mu          sync.Mutex
+	clock          Clock
+	bySecretID     map[companionprotocol.SecretID]*Offer
+	secretLifetime time.Duration
+	pairingWait    time.Duration
+	mu             sync.Mutex
 }
 
 type Offer struct {
-	events     chan Event
-	stopTimer  func()
-	close      func()
-	secret     companionprotocol.Secret
-	deviceName companionprotocol.DeviceName
-	begun      bool
-	held       bool
-	ended      bool
+	events         chan Event
+	stopTimer      func()
+	close          func()
+	secret         companionprotocol.Secret
+	deviceName     companionprotocol.DeviceName
+	pairingBegun   bool
+	heldForVerdict bool
+	closed         bool
 }
 
-func New(clock Clock, lifetime time.Duration, pairingWait time.Duration) *Offers {
+func New(clock Clock, secretLifetime time.Duration, pairingWait time.Duration) *Offers {
 	return &Offers{
-		clock:       clock,
-		bySecretID:  map[companionprotocol.SecretID]*Offer{},
-		lifetime:    lifetime,
-		pairingWait: pairingWait,
+		clock:          clock,
+		bySecretID:     map[companionprotocol.SecretID]*Offer{},
+		secretLifetime: secretLifetime,
+		pairingWait:    pairingWait,
 	}
 }
 
@@ -77,14 +77,14 @@ func (o *Offers) Begin(
 			slog.String("deviceName", string(deviceName)),
 		)
 		return false
-	case offer.begun:
+	case offer.pairingBegun:
 		slog.WarnContext(ctx, "another device already pairs with the secret of the device",
 			slog.String("deviceName", string(deviceName)),
 			slog.String("pairingDeviceName", string(offer.deviceName)),
 		)
 		return false
 	}
-	offer.begun = true
+	offer.pairingBegun = true
 	offer.deviceName = deviceName
 	o.restartTimerOf(offer, o.pairingWait)
 	offer.tell(ctx, PairingBegun{DeviceName: deviceName})
@@ -99,18 +99,18 @@ func (o *Offers) HoldForVerdict(
 	defer o.mu.Unlock()
 	offer := o.bySecretID[secretID]
 	switch {
-	case offer == nil || !offer.begun:
+	case offer == nil || !offer.pairingBegun:
 		slog.WarnContext(ctx, "no pairing waits for the pairing request",
 			slog.String("secretId", string(secretID)),
 		)
 		return OngoingPairing{}, false
-	case offer.held:
+	case offer.heldForVerdict:
 		slog.WarnContext(ctx, "the pairing already waits for a verdict",
 			slog.String("deviceName", string(offer.deviceName)),
 		)
 		return OngoingPairing{}, false
 	}
-	offer.held = true
+	offer.heldForVerdict = true
 	offer.stopTimer()
 	return OngoingPairing{Secret: offer.secret, DeviceName: offer.deviceName}, true
 }
@@ -141,7 +141,7 @@ func (o *Offers) heldOfferWith(
 			slog.String("secretId", string(secretID)),
 		)
 		return nil
-	case !offer.held:
+	case !offer.heldForVerdict:
 		slog.WarnContext(ctx, "a verdict on a pairing that waits for none",
 			slog.String("secretId", string(secretID)),
 		)
@@ -168,25 +168,25 @@ func (o *Offers) Refuse(
 func (o *Offers) renew(ctx context.Context, offer *Offer) {
 	delete(o.bySecretID, companionprotocol.SecretIDOf(offer.secret))
 	offer.secret = companionprotocol.RandomSecret()
-	offer.begun = false
-	offer.held = false
+	offer.pairingBegun = false
+	offer.heldForVerdict = false
 	offer.deviceName = ""
 	o.bySecretID[companionprotocol.SecretIDOf(offer.secret)] = offer
-	o.restartTimerOf(offer, o.lifetime)
+	o.restartTimerOf(offer, o.secretLifetime)
 	offer.tell(ctx, SecretRenewed{Secret: offer.secret})
 }
 
 func (o *Offers) expire(offer *Offer, secret companionprotocol.Secret) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	if offer.ended || offer.held || offer.secret != secret {
+	if offer.closed || offer.heldForVerdict || offer.secret != secret {
 		return
 	}
 	o.renew(context.Background(), offer)
 }
 
 func (o *Offers) end(offer *Offer) {
-	offer.ended = true
+	offer.closed = true
 	offer.stopTimer()
 	delete(o.bySecretID, companionprotocol.SecretIDOf(offer.secret))
 }

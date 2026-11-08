@@ -38,7 +38,7 @@ type pairedCompanions struct {
 }
 
 func openCompanions(cfg PeerConfig) (companions, error) {
-	if !cfg.pairsCompanions() {
+	if !cfg.servesCompanions() {
 		return noCompanions{}, nil
 	}
 	directory := cfg.directoryOf(companionsDirectoryName)
