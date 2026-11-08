@@ -35,7 +35,7 @@ func Run[Item any](
 	concurrency int,
 	process func(ctx context.Context, item Item) error,
 ) error {
-	return RunAdmittedBy(ctx, queue, concurrency, everyItemAdmitted{}, process)
+	return RunAdmittedBy(ctx, queue, concurrency, EveryItemAdmitted{}, process)
 }
 
 func RunAdmittedBy[Item any](
@@ -112,8 +112,8 @@ func endOfIntake(ctx context.Context, processErr error, intakeErr error) error {
 	return intakeErr
 }
 
-type everyItemAdmitted struct{}
+type EveryItemAdmitted struct{}
 
-func (everyItemAdmitted) AwaitAdmission(context.Context) error {
+func (EveryItemAdmitted) AwaitAdmission(context.Context) error {
 	return nil
 }

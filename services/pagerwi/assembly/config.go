@@ -2,8 +2,6 @@ package pagerwiassembly
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
 
 const (
@@ -25,8 +23,6 @@ const (
 )
 
 type ServiceConfig struct {
-	BrokerAccess               jetstreamconnect.BrokerAccess
-	IntakeAdmission            pullintake.Admission
 	PageOfferNATSURL           string
 	PageOfferDurable           string
 	PageOfferIntakeConcurrency int

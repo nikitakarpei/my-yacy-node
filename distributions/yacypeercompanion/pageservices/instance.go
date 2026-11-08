@@ -113,6 +113,8 @@ func (i *Instance) runPagescrape(ctx context.Context, health *servicehealth.Heal
 		i.pagescrapeConfig,
 		listeners,
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	)
@@ -128,6 +130,9 @@ func (i *Instance) runPagerwi(ctx context.Context, health *servicehealth.Health)
 		i.pagerwiConfig,
 		listeners,
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	)
