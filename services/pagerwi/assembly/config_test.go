@@ -1,7 +1,6 @@
 package pagerwiassembly_test
 
 import (
-	"reflect"
 	"testing"
 
 	pagerwi "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
@@ -43,7 +42,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		ProvisionsStreams:          true,
 		OpsAddr:                    pagerwi.DefaultOpsAddr,
 	}
-	if !reflect.DeepEqual(cfg, want) {
+	if cfg != want {
 		t.Errorf("config = %+v, want %+v", cfg, want)
 	}
 }

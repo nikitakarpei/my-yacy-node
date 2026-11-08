@@ -11,7 +11,9 @@ import (
 
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 )
@@ -67,6 +69,8 @@ func serve(ctx context.Context, cfg pagescrapeassembly.ServiceConfig) error {
 			cfg,
 			listeners,
 			(&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{},
+			pullintake.EveryItemAdmitted{},
 			registry,
 			health,
 		)
