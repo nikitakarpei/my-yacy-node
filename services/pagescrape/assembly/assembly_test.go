@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -23,6 +24,8 @@ const (
 	offerWait     = 10 * time.Second
 	shutdownWait  = 10 * time.Second
 	originPageURL = "http://origin.example/"
+	everyInbox    = "_INBOX.>"
+	receiptRetry  = 100 * time.Millisecond
 )
 
 func originServing(t *testing.T, body string) *url.URL {
@@ -30,6 +33,19 @@ func originServing(t *testing.T, body string) *url.URL {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 		_, _ = w.Write([]byte(body))
+	}))
+	t.Cleanup(server.Close)
+	proxy, err := url.Parse(server.URL)
+	if err != nil {
+		t.Fatalf("parse origin url: %v", err)
+	}
+	return proxy
+}
+
+func originAnswering(t *testing.T, status int) *url.URL {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(status)
 	}))
 	t.Cleanup(server.Close)
 	proxy, err := url.Parse(server.URL)
@@ -73,7 +89,7 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	}()
 
 	offers := pageOfferConsumer(t, ctx, broker)
-	publishScrapeRequest(t, ctx, broker, originPageURL)
+	publishScrapeRequest(t, ctx, broker)
 
 	message, err := offers.Next(jetstream.FetchMaxWait(offerWait))
 	if err != nil {
@@ -139,7 +155,7 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 		)
 	}()
 	offers := pageOfferConsumer(t, ctx, broker)
-	publishScrapeRequest(t, ctx, broker, originPageURL)
+	publishScrapeRequest(t, ctx, broker)
 
 	if _, err := offers.Next(jetstream.FetchMaxWait(offerWait)); err != nil {
 		t.Fatalf("await page offer: %v", err)
@@ -160,6 +176,114 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 	}
 	cancel()
 	<-runDone
+}
+
+func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsOffersThePage(t *testing.T) {
+	origin := originServing(t, "<html lang=\"en\"><body>words here</body></html>")
+	broker := runAsLimitedUser(t, origin)
+	offers := pageOfferConsumer(t, t.Context(), broker.jetStream)
+
+	publishScrapeRequest(t, t.Context(), broker.jetStream)
+
+	message, err := offers.Next(jetstream.FetchMaxWait(offerWait))
+	if err != nil {
+		t.Fatalf("await page offer: %v", err)
+	}
+	if message.Subject() != pagescrapecontract.OfferedPageSubject {
+		t.Errorf("subject = %q, want an offered page", message.Subject())
+	}
+}
+
+func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsReportsAFailedScrape(t *testing.T) {
+	broker := runAsLimitedUser(t, originAnswering(t, http.StatusNotFound))
+	offers := pageOfferConsumer(t, t.Context(), broker.jetStream)
+	outcomes := subscribed(t, broker.connection, pagescrapecontract.ScrapeOutcomeSubjectsOf(
+		canonicalurltest.CanonicalURLOf(t, originPageURL),
+	))
+
+	publishScrapeRequest(t, t.Context(), broker.jetStream)
+
+	message, err := offers.Next(jetstream.FetchMaxWait(offerWait))
+	if err != nil {
+		t.Fatalf("await the failure: %v", err)
+	}
+	if message.Subject() != pagescrapecontract.ScrapeFailureSubject {
+		t.Errorf("subject = %q, want a scrape failure", message.Subject())
+	}
+	if _, err := outcomes.NextMsg(offerWait); err != nil {
+		t.Errorf("await the failed scrape outcome: %v", err)
+	}
+}
+
+func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsCarriesIntakeReceipts(t *testing.T) {
+	broker := runAsLimitedUser(t, originServing(t, "<html></html>"))
+	pageURL := canonicalurltest.CanonicalURLOf(t, originPageURL)
+	outcomes := subscribed(
+		t,
+		broker.connection,
+		pagescrapecontract.ScrapeOutcomeSubjectsOf(pageURL),
+	)
+
+	deadline := time.Now().Add(offerWait)
+	for {
+		if err := broker.connection.Publish(
+			pagescrapecontract.KeptPageSubjectOf(pageURL), nil,
+		); err != nil {
+			t.Fatalf("publish an intake receipt: %v", err)
+		}
+		if _, err := outcomes.NextMsg(receiptRetry); err == nil {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Fatal("the intake receipt was never carried")
+		}
+	}
+}
+
+type unlimitedBroker struct {
+	connection *nats.Conn
+	jetStream  jetstream.JetStream
+}
+
+func runAsLimitedUser(t *testing.T, origin *url.URL) unlimitedBroker {
+	t.Helper()
+	permissions := serviceConfig("", origin).BrokerPermissions()
+	unlimitedURL, limitedURL := natstestserver.StartWithLimitedUser(
+		t, permissions.Publish, append(permissions.Subscribe, everyInbox),
+	)
+	runUntilStarted(t, serviceConfig(unlimitedURL, origin))
+	limited := serviceConfig(limitedURL, origin)
+	limited.ProvisionsStreams = false
+	ctx, cancel := context.WithCancel(context.Background())
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- pagescrape.RunService(
+			ctx, limited, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			prometheus.NewRegistry(), &servicehealth.Health{},
+		)
+	}()
+	t.Cleanup(func() {
+		cancel()
+		if err := <-runDone; err != nil {
+			t.Errorf("run: %v", err)
+		}
+	})
+	connection := natstestserver.Connect(t, unlimitedURL)
+	js, err := jetstream.New(connection)
+	if err != nil {
+		t.Fatalf("jetstream: %v", err)
+	}
+	return unlimitedBroker{connection: connection, jetStream: js}
+}
+
+func subscribed(t *testing.T, connection *nats.Conn, subject string) *nats.Subscription {
+	t.Helper()
+	subscription, err := connection.SubscribeSync(subject)
+	if err != nil {
+		t.Fatalf("subscribe to %s: %v", subject, err)
+	}
+	t.Cleanup(func() { _ = subscription.Unsubscribe() })
+	return subscription
 }
 
 func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
@@ -241,15 +365,10 @@ func pageOfferConsumer(
 	}
 }
 
-func publishScrapeRequest(
-	t *testing.T,
-	ctx context.Context,
-	broker jetstream.JetStream,
-	pageURL string,
-) {
+func publishScrapeRequest(t *testing.T, ctx context.Context, broker jetstream.JetStream) {
 	t.Helper()
 	data, err := pagescrapecontract.MarshalScrapeRequest(pagescrapecontract.ScrapeRequest{
-		PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
+		PageURL: canonicalurltest.CanonicalURLOf(t, originPageURL),
 	})
 	if err != nil {
 		t.Fatalf("marshal scrape request: %v", err)

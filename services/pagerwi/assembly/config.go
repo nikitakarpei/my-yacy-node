@@ -1,8 +1,11 @@
 package pagerwiassembly
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
 
@@ -35,6 +38,19 @@ type ServiceConfig struct {
 	PageRWIPartitionExponent   uint
 	ProvisionsStreams          bool
 	OpsAddr                    string
+}
+
+func (c ServiceConfig) BrokerPermissions() natspermissions.Permissions {
+	return natspermissions.JoinedFrom(
+		natspermissions.PullingFrom(
+			pagescrapecontract.ScrapePageOffersStreamName, c.PageOfferDurable,
+		),
+		natspermissions.WatchingBacklogOf(pagerwicontract.PageRWIsStreamName),
+		natspermissions.PublishingOn(
+			pagerwicontract.PageRWISubject,
+			pagescrapecontract.EveryIntakeReceiptSubject,
+		),
+	)
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {

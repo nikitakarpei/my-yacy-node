@@ -9,11 +9,11 @@ import (
 	natsserver "github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/brokerkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
-const companionUser = "device-a"
+const clientUser = "device-a"
 
 type passwordAuthentication struct{}
 
@@ -24,34 +24,34 @@ func (passwordAuthentication) Check(client natsserver.ClientAuthentication) bool
 	if client.GetOpts().Password != "letmein" {
 		return false
 	}
-	client.RegisterUser(&natsserver.User{Username: companionUser})
+	client.RegisterUser(&natsserver.User{Username: clientUser})
 	return true
 }
 
-func startForCompanions(t *testing.T) *natsbroker.Broker {
+func startListening(t *testing.T) *natsbroker.Broker {
 	t.Helper()
 	certificate, err := brokerkey.Settle(t.TempDir())
 	if err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	broker, err := natsbroker.StartForCompanions(t.TempDir(), natsbroker.CompanionListening{
+	broker, err := natsbroker.StartListening(t.TempDir(), natsbroker.Listening{
 		Authentication: passwordAuthentication{},
 		Address:        "127.0.0.1:0",
 		Certificate:    certificate,
 	})
 	if err != nil {
-		t.Fatalf("StartForCompanions: %v", err)
+		t.Fatalf("StartListening: %v", err)
 	}
 	t.Cleanup(broker.Shutdown)
 	return broker
 }
 
-func companionConnection(
+func clientConnection(
 	broker *natsbroker.Broker,
 	options ...nats.Option,
 ) (*nats.Conn, error) {
 	connection, err := nats.Connect(
-		"tls://"+broker.CompanionAddress().String(),
+		"tls://"+broker.ListeningAddress().String(),
 		append(options, nats.MaxReconnects(0))...,
 	)
 	if err != nil {
@@ -60,10 +60,10 @@ func companionConnection(
 	return connection, nil
 }
 
-func TestACompanionThatTheAuthenticationAcceptsConnectsWithTLS(t *testing.T) {
-	broker := startForCompanions(t)
+func TestAClientThatTheAuthenticationAcceptsConnectsWithTLS(t *testing.T) {
+	broker := startListening(t)
 
-	connection, err := companionConnection(broker,
+	connection, err := clientConnection(broker,
 		nats.Secure(&tls.Config{InsecureSkipVerify: true}), //nolint:gosec // test broker.
 		nats.UserInfo("", "letmein"),
 	)
@@ -72,28 +72,28 @@ func TestACompanionThatTheAuthenticationAcceptsConnectsWithTLS(t *testing.T) {
 	}
 	defer connection.Close()
 
-	if !broker.ConnectedUsers()[companionUser] {
-		t.Errorf("connected users = %v, want %s", broker.ConnectedUsers(), companionUser)
+	if !broker.ConnectedUsers()[clientUser] {
+		t.Errorf("connected users = %v, want %s", broker.ConnectedUsers(), clientUser)
 	}
 }
 
-func TestACompanionThatTheAuthenticationRefusesCannotConnect(t *testing.T) {
-	broker := startForCompanions(t)
+func TestAClientThatTheAuthenticationRefusesCannotConnect(t *testing.T) {
+	broker := startListening(t)
 
-	connection, err := companionConnection(broker,
+	connection, err := clientConnection(broker,
 		nats.Secure(&tls.Config{InsecureSkipVerify: true}), //nolint:gosec // test broker.
 		nats.UserInfo("", "wrong"),
 	)
 	if err == nil {
 		connection.Close()
-		t.Fatal("a refused companion connected")
+		t.Fatal("a refused client connected")
 	}
 }
 
 func TestDisconnectUserClosesTheConnectionsOfTheUser(t *testing.T) {
-	broker := startForCompanions(t)
+	broker := startListening(t)
 	closed := make(chan struct{})
-	connection, err := companionConnection(broker,
+	connection, err := clientConnection(broker,
 		nats.Secure(&tls.Config{InsecureSkipVerify: true}), //nolint:gosec // test broker.
 		nats.UserInfo("", "letmein"),
 		nats.ClosedHandler(func(*nats.Conn) { close(closed) }),
@@ -103,7 +103,7 @@ func TestDisconnectUserClosesTheConnectionsOfTheUser(t *testing.T) {
 	}
 	defer connection.Close()
 
-	broker.DisconnectUser(companionUser)
+	broker.DisconnectUser(clientUser)
 
 	select {
 	case <-closed:
@@ -113,7 +113,7 @@ func TestDisconnectUserClosesTheConnectionsOfTheUser(t *testing.T) {
 }
 
 func TestThePartsOfThePeerStillConnectInsideTheProcess(t *testing.T) {
-	broker := startForCompanions(t)
+	broker := startListening(t)
 
 	jetStreamOf(t, broker)
 }

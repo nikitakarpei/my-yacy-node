@@ -14,6 +14,8 @@ import (
 	"slices"
 	"sync"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
 const (
@@ -24,11 +26,11 @@ const (
 )
 
 type Device struct {
-	PairedAt        time.Time `json:"pairedAt"`
-	LastConnectedAt time.Time `json:"lastConnectedAt"`
-	ID              string    `json:"device"`
-	Name            string    `json:"deviceName"`
-	AppVersion      string    `json:"appVersion"`
+	PairedAt        time.Time                    `json:"pairedAt"`
+	LastConnectedAt time.Time                    `json:"lastConnectedAt"`
+	ID              companionprotocol.DeviceID   `json:"device"`
+	Name            companionprotocol.DeviceName `json:"deviceName"`
+	AppVersion      string                       `json:"appVersion"`
 }
 
 type keptFile struct {
@@ -77,7 +79,7 @@ func (d *Devices) List() []Device {
 	return slices.Clone(d.devices)
 }
 
-func (d *Devices) Holds(id string) bool {
+func (d *Devices) Holds(id companionprotocol.DeviceID) bool {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	return d.positionOf(id) >= 0
@@ -94,7 +96,7 @@ func (d *Devices) Add(ctx context.Context, device Device) {
 	d.keep(ctx)
 }
 
-func (d *Devices) Remove(ctx context.Context, id string) {
+func (d *Devices) Remove(ctx context.Context, id companionprotocol.DeviceID) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	position := d.positionOf(id)
@@ -105,15 +107,23 @@ func (d *Devices) Remove(ctx context.Context, id string) {
 	d.keep(ctx)
 }
 
-func (d *Devices) RecordConnection(ctx context.Context, id string, at time.Time) {
+func (d *Devices) RecordConnection(
+	ctx context.Context,
+	id companionprotocol.DeviceID,
+	at time.Time,
+) {
 	d.change(ctx, id, func(device *Device) { device.LastConnectedAt = at })
 }
 
-func (d *Devices) RecordAppVersion(ctx context.Context, id string, appVersion string) {
+func (d *Devices) RecordAppVersion(
+	ctx context.Context,
+	id companionprotocol.DeviceID,
+	appVersion string,
+) {
 	d.change(ctx, id, func(device *Device) { device.AppVersion = appVersion })
 }
 
-func (d *Devices) change(ctx context.Context, id string, apply func(*Device)) {
+func (d *Devices) change(ctx context.Context, id companionprotocol.DeviceID, apply func(*Device)) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	position := d.positionOf(id)
@@ -124,7 +134,7 @@ func (d *Devices) change(ctx context.Context, id string, apply func(*Device)) {
 	d.keep(ctx)
 }
 
-func (d *Devices) positionOf(id string) int {
+func (d *Devices) positionOf(id companionprotocol.DeviceID) int {
 	return slices.IndexFunc(d.devices, func(device Device) bool { return device.ID == id })
 }
 

@@ -1,7 +1,9 @@
-// Package natstestserver starts an embedded NATS JetStream server for tests.
+// Package natstestserver starts an embedded NATS JetStream server for tests. A test can also start
+// one with two users: one that may do anything, and one limited to the subjects the test allows.
 package natstestserver
 
 import (
+	"net/url"
 	"os"
 	"testing"
 	"time"
@@ -16,6 +18,10 @@ const (
 
 	storeRemovalWait       = 5 * time.Second
 	storeRemovalRetryDelay = 10 * time.Millisecond
+
+	unlimitedUser = "unlimited"
+	limitedUser   = "limited"
+	userPassword  = "test"
 )
 
 func Start(t *testing.T) string {
@@ -25,11 +31,15 @@ func Start(t *testing.T) string {
 
 func StartedServer(t *testing.T) *natsserver.Server {
 	t.Helper()
-	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port:      -1,
-		JetStream: true,
-		StoreDir:  storeDirectoryFor(t),
-	})
+	return startedServerWith(t, &natsserver.Options{})
+}
+
+func startedServerWith(t *testing.T, options *natsserver.Options) *natsserver.Server {
+	t.Helper()
+	options.Port = -1
+	options.JetStream = true
+	options.StoreDir = storeDirectoryFor(t)
+	srv, err := natsserver.NewServer(options)
 	if err != nil {
 		t.Fatalf("new nats server: %v", err)
 	}
@@ -68,6 +78,23 @@ func removeStoreDirectory(t *testing.T, directory string) {
 		}
 		time.Sleep(storeRemovalRetryDelay)
 	}
+}
+
+func StartWithLimitedUser(t *testing.T, publish []string, subscribe []string) (string, string) {
+	t.Helper()
+	srv := startedServerWith(t, &natsserver.Options{Users: []*natsserver.User{
+		{Username: unlimitedUser, Password: userPassword},
+		{Username: limitedUser, Password: userPassword, Permissions: &natsserver.Permissions{
+			Publish:   &natsserver.SubjectPermission{Allow: publish},
+			Subscribe: &natsserver.SubjectPermission{Allow: subscribe},
+		}},
+	}})
+	return userURLOf(srv, unlimitedUser), userURLOf(srv, limitedUser)
+}
+
+func userURLOf(srv *natsserver.Server, user string) string {
+	address := srv.Addr().String()
+	return (&url.URL{Scheme: "nats", User: url.UserPassword(user, userPassword), Host: address}).String()
 }
 
 func ConnectWithoutServer(t *testing.T) *nats.Conn {

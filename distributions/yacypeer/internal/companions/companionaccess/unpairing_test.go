@@ -4,15 +4,16 @@ import (
 	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 )
 
 type unpairedRecords struct {
-	removed      []string
+	removed      []companionprotocol.DeviceID
 	disconnected []string
 }
 
-func (r *unpairedRecords) Remove(_ context.Context, id string) {
+func (r *unpairedRecords) Remove(_ context.Context, id companionprotocol.DeviceID) {
 	r.removed = append(r.removed, id)
 }
 

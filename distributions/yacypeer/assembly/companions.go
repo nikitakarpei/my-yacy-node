@@ -9,12 +9,13 @@ import (
 
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/brokerkey"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
 )
 
 const (
@@ -38,17 +39,14 @@ func startBroker(cfg PeerConfig) (*natsbroker.Broker, *companions, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	broker, err := natsbroker.StartForCompanions(
+	broker, err := natsbroker.StartListening(
 		cfg.directoryOf(brokerDirectoryName),
-		natsbroker.CompanionListening{
+		natsbroker.Listening{
 			Authentication: companionaccess.New(
 				parts.devices,
 				parts.offers,
 				wallclock.Clock{},
-				companionaccess.DeviceWorkFor(
-					pagescrapeassembly.DefaultScrapeRequestDurable,
-					pagerwiassembly.DefaultPageOfferDurable,
-				),
+				pageServicePermissions(),
 				pairingWait,
 			),
 			Address:     cfg.CompanionAddr,
@@ -75,6 +73,17 @@ func openCompanions(directory string) (*companions, error) {
 		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		certificate: certificate,
 	}, nil
+}
+
+func pageServicePermissions() natspermissions.Permissions {
+	return natspermissions.JoinedFrom(
+		pagescrapeassembly.ServiceConfig{
+			ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,
+		}.BrokerPermissions(),
+		pagerwiassembly.ServiceConfig{
+			PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
+		}.BrokerPermissions(),
+	)
 }
 
 func closeCompanions(ctx context.Context, parts *companions) {

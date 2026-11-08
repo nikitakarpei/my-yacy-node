@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/brokerkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 )
 
 func TestSettleKeepsTheKeyAcrossStarts(t *testing.T) {
