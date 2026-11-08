@@ -125,16 +125,44 @@ func TestTheCompanionsPageListsEachPairedDevice(t *testing.T) {
 	if strings.Index(page, "Galaxy Tab S9") > strings.Index(page, "Pixel 8") {
 		t.Error("the devices are not in the order of their names")
 	}
-	if strings.Contains(page, "No companions are paired.") {
-		t.Error("the page says no companions are paired")
+	if strings.Contains(page, "No devices are paired") {
+		t.Error("the page says no devices are paired")
 	}
 }
 
 func TestTheCompanionsPageSaysWhenNoDeviceIsPaired(t *testing.T) {
 	page := pageOf(t, serve(t, &fixture{}).URL+companionspage.Path)
 
-	if !strings.Contains(page, "No companions are paired.") {
-		t.Error("the page does not say that no companions are paired")
+	if !strings.Contains(page, "No devices are paired") {
+		t.Error("the page does not say that no devices are paired")
+	}
+}
+
+func TestTheCompanionsPageOpensTheAppGuideInANewTabWhileNoDeviceIsPaired(t *testing.T) {
+	page := pageOf(t, serve(t, &fixture{}).URL+companionspage.Path)
+
+	link := `href="https://github.com/nikitakarpei/my-yacy-node/blob/main/distributions/yacypeercompanion/README.md" ` +
+		`target="_blank" rel="noopener"`
+	if !strings.Contains(page, link) {
+		t.Error("the page does not open the guide of the app in a new tab")
+	}
+}
+
+func TestTheCompanionsPageOffersToPairADeviceOnce(t *testing.T) {
+	for name, devices := range map[string]*fixture{"no device": {}, "a paired device": pairedFixture()} {
+		page := pageOf(t, serve(t, devices).URL+companionspage.Path)
+
+		if count := strings.Count(page, ">Pair new device</a>"); count != 1 {
+			t.Errorf("with %s the page offers to pair a device %d times", name, count)
+		}
+	}
+}
+
+func TestThePairButtonFollowsTheDeviceList(t *testing.T) {
+	page := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path)
+
+	if strings.Index(page, ">Pair new device</a>") < strings.Index(page, "</table>") {
+		t.Error("the pair button is not below the device list")
 	}
 }
 
@@ -193,7 +221,7 @@ func TestThePairPageShowsTheSteps(t *testing.T) {
 
 	for _, want := range []string{
 		"Connect the Android device to the same network as the peer.",
-		"YaCy Companion app",
+		`target="_blank" rel="noopener">YaCy Companion app</a>`,
 	} {
 		if !strings.Contains(page, want) {
 			t.Errorf("page lacks %q", want)

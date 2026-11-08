@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pair a companion</title>
+<title>Pair new device</title>
 <link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
 <link rel="stylesheet" href="{{.CompanionPath}}/assets/companions.css">
 <script src="{{.CompanionPath}}/assets/pairing.js" defer></script>
@@ -11,7 +11,7 @@
 <body>
 {{.Frame.TabBar}}
 <main data-events="{{.EventsPath}}">
-  <h1>Pair a companion</h1>
+  <h1>Pair new device</h1>
   <div class="alert" role="alert" hidden>
     <p class="alert-title"></p>
     <p class="alert-cause"></p>
@@ -27,7 +27,7 @@
     <div class="steps">
       <ol>
         <li>Connect the Android device to the same network as the peer.</li>
-        <li>Scan this code with the <a href="{{.Frame.AppGuideURL}}">YaCy Companion app</a>.</li>
+        <li>Scan this code with the <a href="{{.Frame.AppGuideURL}}" target="_blank" rel="noopener">YaCy Companion app</a>.</li>
       </ol>
       <div><a class="button" href="{{.CompanionPath}}">Cancel</a></div>
     </div>

@@ -239,7 +239,7 @@ func TestRunPeerShowsTheCompanionsTabWhenItPairsCompanions(t *testing.T) {
 		awaitAnswer(t, "http://"+web.Addr().String()+path, companionsTab)
 	}
 	awaitAnswer(t, "http://"+web.Addr().String()+"/companions",
-		companionsTab+` aria-current="page"`, "No companions are paired.")
+		companionsTab+` aria-current="page"`, "No devices are paired")
 	if connection, err := (&net.Dialer{}).DialContext(
 		t.Context(), "tcp", env[yacypeerassembly.EnvCompanionAddr],
 	); err != nil {
