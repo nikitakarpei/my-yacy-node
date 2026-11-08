@@ -45,6 +45,7 @@ private fun statusIconOf(state: CompanionState): Int = when (state) {
 
 fun waitingIconOf(state: CompanionState.Waiting): Int = when (state) {
     CompanionState.WaitingForCharger -> R.drawable.ic_plug
+    CompanionState.WaitingForBatterySaverOff -> R.drawable.ic_battery_saver
     CompanionState.WaitingForUnmeteredNetwork -> R.drawable.ic_wifi
 }
 
