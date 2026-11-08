@@ -16,9 +16,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
 
 const (
@@ -48,7 +48,7 @@ type PairedDevices interface {
 }
 
 type Unpairing interface {
-	Unpair(ctx context.Context, device string)
+	Unpair(ctx context.Context, device companionprotocol.DeviceID)
 }
 
 type PairingOffer interface {
@@ -109,7 +109,7 @@ func Register(
 type companionsView struct {
 	Frame           pageFrame
 	ConnectionsPath string
-	JustPaired      string
+	JustPaired      companionprotocol.DeviceName
 	Unpairing       *deviceRow
 	Devices         []deviceRow
 	PairPath        string
@@ -118,11 +118,11 @@ type companionsView struct {
 }
 
 type deviceRow struct {
-	ID            string `json:"device"`
-	Name          string `json:"-"`
-	AppVersion    string `json:"appVersion"`
-	LastConnected string `json:"lastConnected"`
-	Connected     bool   `json:"connected"`
+	ID            companionprotocol.DeviceID   `json:"device"`
+	Name          companionprotocol.DeviceName `json:"-"`
+	AppVersion    string                       `json:"appVersion"`
+	LastConnected string                       `json:"lastConnected"`
+	Connected     bool                         `json:"connected"`
 }
 
 func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
@@ -135,10 +135,13 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 		UnpairPath:      pathUnpair,
 		CompanionPath:   Path,
 	}
-	if paired := rowOf(rows, r.URL.Query().Get("paired")); paired != nil {
+	if paired := rowOf(
+		rows,
+		companionprotocol.DeviceID(r.URL.Query().Get("paired")),
+	); paired != nil {
 		view.JustPaired = paired.Name
 	}
-	view.Unpairing = rowOf(rows, r.URL.Query().Get("unpair"))
+	view.Unpairing = rowOf(rows, companionprotocol.DeviceID(r.URL.Query().Get("unpair")))
 	render(w, r, companionsPage, view)
 }
 
@@ -176,7 +179,7 @@ func connectionTimeOf(at time.Time) string {
 	return at.Local().Format(connectionTimeLayout)
 }
 
-func rowOf(rows []deviceRow, id string) *deviceRow {
+func rowOf(rows []deviceRow, id companionprotocol.DeviceID) *deviceRow {
 	position := slices.IndexFunc(rows, func(row deviceRow) bool { return row.ID == id })
 	if id == "" || position < 0 {
 		return nil
@@ -185,7 +188,7 @@ func rowOf(rows []deviceRow, id string) *deviceRow {
 }
 
 func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
-	device := r.PostFormValue("device")
+	device := companionprotocol.DeviceID(r.PostFormValue("device"))
 	if device != "" {
 		p.collaborators.Unpairing.Unpair(r.Context(), device)
 	}

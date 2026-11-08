@@ -43,7 +43,7 @@ components:
   companionrequests:
     in: internal/companions/companionrequests/**
   companionspage:
-    in: internal/companionspage/**
+    in: internal/companions/companionspage/**
   hostaddresses:
     in: internal/hostaddresses/**
   yacypeerassembly:

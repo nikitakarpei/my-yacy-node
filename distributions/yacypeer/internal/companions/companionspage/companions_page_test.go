@@ -15,10 +15,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionspage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
 
 const eventWait = 5 * time.Second
@@ -28,7 +28,7 @@ var lastConnectedAt = time.Date(2026, 11, 5, 22, 14, 0, 0, time.Local)
 type fixture struct {
 	devices   []paireddevices.Device
 	connected map[string]bool
-	unpaired  []string
+	unpaired  []companionprotocol.DeviceID
 	offer     *fakeOffer
 	mu        sync.Mutex
 }
@@ -37,7 +37,7 @@ func (f *fixture) List() []paireddevices.Device { return f.devices }
 
 func (f *fixture) ConnectedUsers() map[string]bool { return f.connected }
 
-func (f *fixture) Unpair(_ context.Context, device string) {
+func (f *fixture) Unpair(_ context.Context, device companionprotocol.DeviceID) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.unpaired = append(f.unpaired, device)
@@ -228,25 +228,22 @@ func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
 	server := serve(t, &fixture{offer: offer})
 	events := openEvents(t, server.URL+companionspage.Path+"/pair/events")
 
-	offer.events <- pairingoffers.Event{Kind: pairingoffers.SecretRenewed, Secret: "secret"}
+	offer.events <- pairingoffers.SecretRenewed{Secret: "secret"}
 	if name, data := events.next(t); name != "code" || !strings.HasPrefix(data, "<svg") {
 		t.Errorf("event = %s %q, want a code as SVG", name, data)
 	}
-	offer.events <- pairingoffers.Event{Kind: pairingoffers.PairingBegun, DeviceName: "Pixel 8"}
+	offer.events <- pairingoffers.PairingBegun{DeviceName: "Pixel 8"}
 	if name, data := events.next(t); name != "started" || !strings.Contains(data, "Pixel 8") {
 		t.Errorf("event = %s %q, want started by Pixel 8", name, data)
 	}
-	offer.events <- pairingoffers.Event{
-		Kind: pairingoffers.DeviceRefused, DeviceName: "Pixel 8",
-		Reason: companionprotocol.ReasonAppOutdated,
+	offer.events <- pairingoffers.DeviceRefused{
+		DeviceName: "Pixel 8", Reason: companionprotocol.ReasonAppOutdated,
 	}
 	if name, data := events.next(t); name != "refused" ||
 		!strings.Contains(data, "Please update the app.") {
 		t.Errorf("event = %s %q, want refused as outdated", name, data)
 	}
-	offer.events <- pairingoffers.Event{
-		Kind: pairingoffers.DevicePaired, DeviceName: "Pixel 8", Device: "device-b",
-	}
+	offer.events <- pairingoffers.DevicePaired{DeviceName: "Pixel 8", Device: "device-b"}
 	if name, data := events.next(t); name != "paired" ||
 		!strings.Contains(data, companionspage.Path+"?paired=device-b") {
 		t.Errorf("event = %s %q, want paired with the list address", name, data)
@@ -271,9 +268,7 @@ func TestEachRefusalHasACause(t *testing.T) {
 		events := openEvents(t, serve(t, &fixture{offer: offer}).URL+companionspage.Path+
 			"/pair/events")
 
-		offer.events <- pairingoffers.Event{
-			Kind: pairingoffers.DeviceRefused, DeviceName: "Pixel 8", Reason: reason,
-		}
+		offer.events <- pairingoffers.DeviceRefused{DeviceName: "Pixel 8", Reason: reason}
 
 		if _, data := events.next(t); !strings.Contains(data, `"cause":"`) {
 			t.Errorf("refusal for %s = %q, want a cause", reason, data)
