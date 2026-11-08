@@ -17,8 +17,9 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/brokerkey"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
@@ -35,30 +36,38 @@ type fixedClock struct{}
 func (fixedClock) Now() time.Time { return connectedAt }
 
 type knownDevices struct {
-	paired    map[string]bool
-	connected map[string]time.Time
+	paired    map[companionprotocol.DeviceID]bool
+	connected map[companionprotocol.DeviceID]time.Time
 	mu        sync.Mutex
 }
 
-func (d *knownDevices) Holds(id string) bool {
+func (d *knownDevices) Holds(id companionprotocol.DeviceID) bool {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	return d.paired[id]
 }
 
-func (d *knownDevices) RecordConnection(_ context.Context, id string, at time.Time) {
+func (d *knownDevices) RecordConnection(
+	_ context.Context,
+	id companionprotocol.DeviceID,
+	at time.Time,
+) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	d.connected[id] = at
 }
 
 type openSecrets struct {
-	begun map[string]string
-	open  map[string]bool
+	begun map[companionprotocol.Secret]companionprotocol.DeviceName
+	open  map[companionprotocol.Secret]bool
 	mu    sync.Mutex
 }
 
-func (s *openSecrets) Begin(secret string, deviceName string) bool {
+func (s *openSecrets) Begin(
+	_ context.Context,
+	secret companionprotocol.Secret,
+	deviceName companionprotocol.DeviceName,
+) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if !s.open[secret] {
@@ -77,32 +86,38 @@ type fixture struct {
 
 func startBroker(t *testing.T) fixture {
 	t.Helper()
-	return startBrokerFor(t, companionaccess.WorkSubjects{Publish: []string{workSubject}})
+	return startBrokerFor(t, natspermissions.PublishingOn(workSubject))
 }
 
-func startBrokerFor(t *testing.T, work companionaccess.WorkSubjects) fixture {
+func startBrokerFor(t *testing.T, pageServicePermissions natspermissions.Permissions) fixture {
 	t.Helper()
-	devices := &knownDevices{paired: map[string]bool{}, connected: map[string]time.Time{}}
-	secrets := &openSecrets{begun: map[string]string{}, open: map[string]bool{}}
+	devices := &knownDevices{
+		paired:    map[companionprotocol.DeviceID]bool{},
+		connected: map[companionprotocol.DeviceID]time.Time{},
+	}
+	secrets := &openSecrets{
+		begun: map[companionprotocol.Secret]companionprotocol.DeviceName{},
+		open:  map[companionprotocol.Secret]bool{},
+	}
 	certificate, err := brokerkey.Settle(t.TempDir())
 	if err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	broker, err := natsbroker.StartForCompanions(t.TempDir(), natsbroker.CompanionListening{
+	broker, err := natsbroker.StartListening(t.TempDir(), natsbroker.Listening{
 		Authentication: companionaccess.New(
-			devices, secrets, fixedClock{}, work, pairingWait,
+			devices, secrets, fixedClock{}, pageServicePermissions, pairingWait,
 		),
 		Address:     "127.0.0.1:0",
 		Certificate: certificate,
 	})
 	if err != nil {
-		t.Fatalf("StartForCompanions: %v", err)
+		t.Fatalf("StartListening: %v", err)
 	}
 	t.Cleanup(broker.Shutdown)
 	return fixture{broker: broker, devices: devices, secrets: secrets}
 }
 
-func deviceCertificate(t *testing.T) (tls.Certificate, string) {
+func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceID) {
 	t.Helper()
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
@@ -136,7 +151,7 @@ func connect(
 	t.Helper()
 	seen := make(violations, 8)
 	connection, err := nats.Connect(
-		"tls://"+broker.CompanionAddress().String(),
+		"tls://"+broker.ListeningAddress().String(),
 		append(options,
 			nats.Secure(&tls.Config{
 				InsecureSkipVerify: true, //nolint:gosec // the test pins nothing.
@@ -228,7 +243,7 @@ func TestADeviceWithAnOpenSecretMayOnlyAskToPair(t *testing.T) {
 
 	connection, seen, err := connect(t, broker.broker, nil,
 		nats.Name("Pixel 8"),
-		nats.UserInfo("", secret),
+		nats.UserInfo("", string(secret)),
 		nats.CustomInboxPrefix(companionprotocol.PairingInboxPrefixFor(secret)),
 	)
 	if err != nil {
@@ -245,7 +260,12 @@ func TestADeviceWithAnOpenSecretMayOnlyAskToPair(t *testing.T) {
 func TestADeviceWithoutAnOpenSecretCannotConnect(t *testing.T) {
 	broker := startBroker(t)
 
-	_, _, err := connect(t, broker.broker, nil, nats.UserInfo("", companionprotocol.NewSecret()))
+	_, _, err := connect(
+		t,
+		broker.broker,
+		nil,
+		nats.UserInfo("", string(companionprotocol.NewSecret())),
+	)
 	if err == nil {
 		t.Error("a device without an open secret connected")
 	}
@@ -255,7 +275,7 @@ func TestAConnectionWithoutTLSIsRefused(t *testing.T) {
 	broker := startBroker(t)
 
 	if _, err := nats.Connect(
-		"nats://"+broker.broker.CompanionAddress().String(),
+		"nats://"+broker.broker.ListeningAddress().String(),
 		nats.MaxReconnects(0),
 	); err == nil {
 		t.Error("a connection without TLS connected")

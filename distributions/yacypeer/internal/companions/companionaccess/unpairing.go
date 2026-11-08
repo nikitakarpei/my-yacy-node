@@ -1,9 +1,13 @@
 package companionaccess
 
-import "context"
+import (
+	"context"
+
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+)
 
 type RemovableDevices interface {
-	Remove(ctx context.Context, id string)
+	Remove(ctx context.Context, id companionprotocol.DeviceID)
 }
 
 type Disconnector interface {
@@ -19,7 +23,7 @@ func NewUnpairing(devices RemovableDevices, broker Disconnector) Unpairing {
 	return Unpairing{devices: devices, broker: broker}
 }
 
-func (u Unpairing) Unpair(ctx context.Context, device string) {
+func (u Unpairing) Unpair(ctx context.Context, device companionprotocol.DeviceID) {
 	u.devices.Remove(ctx, device)
 	u.broker.DisconnectUser(UserOf(device))
 }

@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 )
 
 var pairedAt = time.Date(2026, 11, 7, 14, 2, 11, 0, time.UTC)

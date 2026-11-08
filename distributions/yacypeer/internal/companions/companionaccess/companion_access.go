@@ -1,7 +1,8 @@
 // Package companionaccess decides who connects to the broker of the peer and what each
 // connection may do. The parts of the peer connect inside the process and may do anything. A
-// paired device connects with the key that it paired with and may do its work. A device that
-// pairs connects with the secret of an open pairing page and may only ask to pair.
+// paired device connects with the key that it paired with and may run the page services and use
+// its own subjects. A device that pairs connects with the secret of an open pairing page and may
+// only ask to pair.
 package companionaccess
 
 import (
@@ -14,6 +15,7 @@ import (
 	natsserver "github.com/nats-io/nats-server/v2/server"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 )
 
 const (
@@ -23,49 +25,48 @@ const (
 )
 
 type PairedDevices interface {
-	Holds(id string) bool
-	RecordConnection(ctx context.Context, id string, at time.Time)
+	Holds(id companionprotocol.DeviceID) bool
+	RecordConnection(ctx context.Context, id companionprotocol.DeviceID, at time.Time)
 }
 
 type PairingOffers interface {
-	Begin(secret string, deviceName string) bool
+	Begin(
+		ctx context.Context,
+		secret companionprotocol.Secret,
+		deviceName companionprotocol.DeviceName,
+	) bool
 }
 
 type Clock interface {
 	Now() time.Time
 }
 
-type WorkSubjects struct {
-	Publish   []string
-	Subscribe []string
-}
-
 type Access struct {
-	devices     PairedDevices
-	offers      PairingOffers
-	clock       Clock
-	work        WorkSubjects
-	pairingWait time.Duration
+	devices                PairedDevices
+	offers                 PairingOffers
+	clock                  Clock
+	pageServicePermissions natspermissions.Permissions
+	pairingWait            time.Duration
 }
 
 func New(
 	devices PairedDevices,
 	offers PairingOffers,
 	clock Clock,
-	work WorkSubjects,
+	pageServicePermissions natspermissions.Permissions,
 	pairingWait time.Duration,
 ) *Access {
 	return &Access{
-		devices:     devices,
-		offers:      offers,
-		clock:       clock,
-		work:        work,
-		pairingWait: pairingWait,
+		devices:                devices,
+		offers:                 offers,
+		clock:                  clock,
+		pageServicePermissions: pageServicePermissions,
+		pairingWait:            pairingWait,
 	}
 }
 
-func UserOf(device string) string {
-	return deviceUserStart + device
+func UserOf(device companionprotocol.DeviceID) string {
+	return deviceUserStart + string(device)
 }
 
 func (a *Access) Check(client natsserver.ClientAuthentication) bool {
@@ -91,7 +92,7 @@ func (a *Access) checkDevice(
 	device := companionprotocol.DeviceIDOf(certificate.RawSubjectPublicKeyInfo)
 	if !a.devices.Holds(device) {
 		slog.WarnContext(ctx, "unpaired device refused",
-			slog.String("device", device),
+			slog.String("device", string(device)),
 			slog.String("remoteAddress", client.RemoteAddress().String()),
 		)
 		return false
@@ -101,21 +102,21 @@ func (a *Access) checkDevice(
 		Permissions: a.permissionsOf(device),
 	})
 	a.devices.RecordConnection(ctx, device, a.clock.Now())
-	slog.DebugContext(ctx, "paired device connected", slog.String("device", device))
+	slog.DebugContext(ctx, "paired device connected", slog.String("device", string(device)))
 	return true
 }
 
-func (a *Access) permissionsOf(device string) *natsserver.Permissions {
+func (a *Access) permissionsOf(device companionprotocol.DeviceID) *natsserver.Permissions {
 	return &natsserver.Permissions{
 		Publish: &natsserver.SubjectPermission{
 			Allow: append(
-				append([]string{}, a.work.Publish...),
+				append([]string{}, a.pageServicePermissions.Publish...),
 				companionprotocol.DeviceSubjectsOf(device),
 			),
 		},
 		Subscribe: &natsserver.SubjectPermission{
 			Allow: append(
-				append([]string{}, a.work.Subscribe...),
+				append([]string{}, a.pageServicePermissions.Subscribe...),
 				companionprotocol.DeviceRepliesOf(device),
 			),
 		},
@@ -125,23 +126,24 @@ func (a *Access) permissionsOf(device string) *natsserver.Permissions {
 func (a *Access) checkPairing(client natsserver.ClientAuthentication) bool {
 	ctx := context.Background()
 	options := client.GetOpts()
-	if !a.offers.Begin(options.Password, options.Name) {
-		slog.WarnContext(ctx, "pairing with an unknown secret refused",
+	secret := companionprotocol.Secret(options.Password)
+	if !a.offers.Begin(ctx, secret, companionprotocol.DeviceName(options.Name)) {
+		slog.WarnContext(ctx, "pairing device refused",
 			slog.String("deviceName", options.Name),
 			slog.String("remoteAddress", client.RemoteAddress().String()),
 		)
 		return false
 	}
 	client.RegisterUser(&natsserver.User{
-		Username:           pairingUserStart + companionprotocol.SecretIDOf(options.Password),
-		Permissions:        pairingPermissionsFor(options.Password),
+		Username:           pairingUserStart + string(companionprotocol.SecretIDOf(secret)),
+		Permissions:        pairingPermissionsFor(secret),
 		ConnectionDeadline: a.clock.Now().Add(a.pairingWait),
 	})
 	slog.DebugContext(ctx, "device began pairing", slog.String("deviceName", options.Name))
 	return true
 }
 
-func pairingPermissionsFor(secret string) *natsserver.Permissions {
+func pairingPermissionsFor(secret companionprotocol.Secret) *natsserver.Permissions {
 	return &natsserver.Permissions{
 		Publish: &natsserver.SubjectPermission{
 			Allow: []string{companionprotocol.PairingRequestSubject},

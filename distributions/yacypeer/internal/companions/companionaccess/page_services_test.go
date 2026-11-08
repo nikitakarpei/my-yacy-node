@@ -10,7 +10,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -22,8 +21,8 @@ import (
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
@@ -32,29 +31,30 @@ const (
 	pageWait = 20 * time.Second
 )
 
-func TestAPairedDeviceBuildsTheRWIOfAPageWithItsWorkSubjectsOnly(t *testing.T) {
-	broker := startBrokerFor(t, companionaccess.DeviceWorkFor(
-		pagescrapeassembly.DefaultScrapeRequestDurable, pagerwiassembly.DefaultPageOfferDurable,
+func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicePermissionsOnly(t *testing.T) {
+	broker := startBrokerFor(t, natspermissions.JoinedFrom(
+		pagescrapeassembly.ServiceConfig{
+			ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,
+		}.BrokerPermissions(),
+		pagerwiassembly.ServiceConfig{
+			PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
+		}.BrokerPermissions(),
 	))
 	peer := inProcessJetStream(t, broker.broker)
 	provisionPeerStreams(t, peer)
 	certificate, device := deviceCertificate(t)
 	broker.devices.paired[device] = true
-	refusals := make(violations, 64)
-	brokerOptions := []nats.Option{
-		nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
-			refusals <- err
-		}),
-		nats.Secure(&tls.Config{
+	access := jetstreamconnect.BrokerAccess{
+		TLS: &tls.Config{
 			InsecureSkipVerify: true, //nolint:gosec // the test pins nothing.
 			Certificates:       []tls.Certificate{certificate},
-		}),
-		nats.CustomInboxPrefix(companionprotocol.DeviceInboxPrefixOf(device)),
+		},
+		InboxPrefix: companionprotocol.DeviceInboxPrefixOf(device),
 	}
-	brokerURL := "tls://" + broker.broker.CompanionAddress().String()
+	brokerURL := "tls://" + broker.broker.ListeningAddress().String()
 
-	runPagescrape(t, brokerURL, brokerOptions, pageServing(t))
-	runPagerwi(t, brokerURL, brokerOptions)
+	runPagescrape(t, brokerURL, access, pageServing(t))
+	runPagerwi(t, brokerURL, access)
 
 	pageRWIs, err := peer.CreateOrUpdateConsumer(t.Context(), pagerwicontract.PageRWIsStreamName,
 		jetstream.ConsumerConfig{Durable: "node", AckPolicy: jetstream.AckExplicitPolicy})
@@ -69,11 +69,6 @@ func TestAPairedDeviceBuildsTheRWIOfAPageWithItsWorkSubjectsOnly(t *testing.T) {
 	pageRWI, err := pagerwicontract.UnmarshalPageRWI(message.Data())
 	if err != nil || pageRWI.Metadata.Address != pageURL {
 		t.Errorf("RWI = %+v (%v), want the RWI of %s", pageRWI.Metadata, err, pageURL)
-	}
-	select {
-	case refusal := <-refusals:
-		t.Errorf("the broker refused the device: %v", refusal)
-	default:
 	}
 }
 
@@ -158,7 +153,12 @@ func runService(t *testing.T, run func(ctx context.Context, health *servicehealt
 	})
 }
 
-func runPagescrape(t *testing.T, brokerURL string, options []nats.Option, proxyURL string) {
+func runPagescrape(
+	t *testing.T,
+	brokerURL string,
+	access jetstreamconnect.BrokerAccess,
+	proxyURL string,
+) {
 	t.Helper()
 	environment := map[string]string{
 		pagescrapeassembly.EnvScrapeNATSURL:    brokerURL,
@@ -172,14 +172,14 @@ func runPagescrape(t *testing.T, brokerURL string, options []nats.Option, proxyU
 	if err != nil {
 		t.Fatalf("pagescrape config: %v", err)
 	}
-	cfg.BrokerOptions = options
+	cfg.BrokerAccess = access
 	runService(t, func(ctx context.Context, health *servicehealth.Health) error {
 		return pagescrapeassembly.RunService(ctx, cfg, pagescrapeassembly.Listeners{},
 			(&net.Dialer{}).DialContext, prometheus.NewRegistry(), health)
 	})
 }
 
-func runPagerwi(t *testing.T, brokerURL string, options []nats.Option) {
+func runPagerwi(t *testing.T, brokerURL string, access jetstreamconnect.BrokerAccess) {
 	t.Helper()
 	environment := map[string]string{
 		pagerwiassembly.EnvPageOfferNATSURL: brokerURL,
@@ -192,7 +192,7 @@ func runPagerwi(t *testing.T, brokerURL string, options []nats.Option) {
 	if err != nil {
 		t.Fatalf("pagerwi config: %v", err)
 	}
-	cfg.BrokerOptions = options
+	cfg.BrokerAccess = access
 	runService(t, func(ctx context.Context, health *servicehealth.Health) error {
 		return pagerwiassembly.RunService(ctx, cfg, pagerwiassembly.Listeners{},
 			(&net.Dialer{}).DialContext, prometheus.NewRegistry(), health)
