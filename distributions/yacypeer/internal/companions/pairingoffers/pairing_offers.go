@@ -153,7 +153,7 @@ func (o *Offers) heldOfferWith(
 func (o *Offers) Refuse(
 	ctx context.Context,
 	secretID companionprotocol.SecretID,
-	reason companionprotocol.Reason,
+	reason companionprotocol.RefusalReason,
 ) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -167,7 +167,7 @@ func (o *Offers) Refuse(
 
 func (o *Offers) renew(ctx context.Context, offer *Offer) {
 	delete(o.bySecretID, companionprotocol.SecretIDOf(offer.secret))
-	offer.secret = companionprotocol.NewSecret()
+	offer.secret = companionprotocol.RandomSecret()
 	offer.begun = false
 	offer.held = false
 	offer.deviceName = ""

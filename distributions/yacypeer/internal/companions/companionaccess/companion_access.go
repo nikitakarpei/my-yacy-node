@@ -120,7 +120,7 @@ func (a *Access) permissionsOf(device companionprotocol.DeviceID) *natsserver.Pe
 		Subscribe: &natsserver.SubjectPermission{
 			Allow: append(
 				append([]string{}, a.pageServicesPermissions.Subscribe...),
-				companionprotocol.DeviceRepliesOf(device),
+				companionprotocol.DeviceInboxSubjectsOf(device),
 			),
 		},
 	}
@@ -152,7 +152,7 @@ func pairingPermissionsFor(secret companionprotocol.Secret) *natsserver.Permissi
 			Allow: []string{companionprotocol.PairingRequestSubject},
 		},
 		Subscribe: &natsserver.SubjectPermission{
-			Allow: []string{companionprotocol.PairingRepliesFor(secret)},
+			Allow: []string{companionprotocol.PairingInboxSubjectsFor(secret)},
 		},
 	}
 }
