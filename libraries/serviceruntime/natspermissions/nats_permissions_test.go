@@ -28,7 +28,7 @@ const (
 func TestPullingFromLetsAServiceTakeAndAcknowledgeTheMessagesOfItsConsumer(t *testing.T) {
 	limited, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
 		natspermissions.PullingFrom(ordersStream, workerDurable),
-		natspermissions.ReceivingOn(everyInbox),
+		natspermissions.SubscribingTo(everyInbox),
 	))
 
 	consumer := consumerOf(t, limited, workerDurable)
@@ -44,7 +44,7 @@ func TestPullingFromLetsAServiceTakeAndAcknowledgeTheMessagesOfItsConsumer(t *te
 func TestPullingFromRefusesTheMessagesOfAnotherConsumer(t *testing.T) {
 	limited, violations := limitedJetStreamWith(t, natspermissions.JoinedFrom(
 		natspermissions.PullingFrom(ordersStream, workerDurable),
-		natspermissions.ReceivingOn(everyInbox),
+		natspermissions.SubscribingTo(everyInbox),
 	))
 	stream, err := limited.Stream(t.Context(), ordersStream)
 	if err != nil {
@@ -59,7 +59,7 @@ func TestPullingFromRefusesTheMessagesOfAnotherConsumer(t *testing.T) {
 func TestWatchingBacklogOfLetsAServiceListTheConsumersOfAStream(t *testing.T) {
 	limited, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
 		natspermissions.WatchingBacklogOf(ordersStream),
-		natspermissions.ReceivingOn(everyInbox),
+		natspermissions.SubscribingTo(everyInbox),
 	))
 	stream, err := limited.Stream(t.Context(), ordersStream)
 	if err != nil {
@@ -82,7 +82,7 @@ func TestWatchingBacklogOfLetsAServiceListTheConsumersOfAStream(t *testing.T) {
 func TestPublishingOnLetsAServiceAddMessagesToAStream(t *testing.T) {
 	limited, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
 		natspermissions.PublishingOn(newOrder),
-		natspermissions.ReceivingOn(everyInbox),
+		natspermissions.SubscribingTo(everyInbox),
 	))
 
 	if _, err := limited.Publish(t.Context(), newOrder, []byte("second order")); err != nil {
@@ -94,8 +94,8 @@ func TestJoinedFromKeepsEachSubjectOnce(t *testing.T) {
 	joined := natspermissions.JoinedFrom(
 		natspermissions.PullingFrom(ordersStream, workerDurable),
 		natspermissions.WatchingBacklogOf(ordersStream),
-		natspermissions.ReceivingOn(everyInbox),
-		natspermissions.ReceivingOn(everyInbox),
+		natspermissions.SubscribingTo(everyInbox),
+		natspermissions.SubscribingTo(everyInbox),
 	)
 
 	for _, subjects := range [][]string{joined.Publish, joined.Subscribe} {
@@ -110,9 +110,10 @@ func limitedJetStreamWith(
 	permissions natspermissions.Permissions,
 ) (jetstream.JetStream, <-chan error) {
 	t.Helper()
-	unlimitedURL, limitedURL := natstestserver.StartWithLimitedUser(
-		t, permissions.Publish, permissions.Subscribe,
-	)
+	urls := natstestserver.StartWithLimitedUser(t, natstestserver.Allowed{
+		Publish: permissions.Publish, Subscribe: permissions.Subscribe,
+	})
+	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
 	provisionOrders(t, natstestserver.ConnectJetStream(t, unlimitedURL))
 	violations := make(chan error, 8)
 	connection, err := nats.Connect(limitedURL,

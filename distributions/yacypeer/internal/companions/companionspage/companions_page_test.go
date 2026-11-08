@@ -256,7 +256,7 @@ func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
 }
 
 func TestEachRefusalHasACause(t *testing.T) {
-	for _, reason := range []companionprotocol.Reason{
+	for _, reason := range []companionprotocol.RefusalReason{
 		companionprotocol.ReasonAppOutdated,
 		companionprotocol.ReasonPeerOutdated,
 		companionprotocol.ReasonAppNotOfficial,

@@ -1,5 +1,5 @@
 // Package companionprotocol holds the wire protocol between the YaCy companion app and a peer:
-// the pairing link that the peer shows as a QR code, the pairing request and its reply, and
+// the pair link that the peer shows as a QR code, the pairing request and its reply, and
 // the subjects that a paired device uses on the broker of the peer. The link names each address
 // of the broker that a device can try, most likely first.
 package companionprotocol
@@ -26,7 +26,7 @@ var (
 
 type PairLink struct {
 	Addresses     []string
-	BrokerKeyHash string
+	BrokerKeyHash BrokerKeyHash
 	Secret        Secret
 }
 
@@ -36,28 +36,28 @@ func (l PairLink) String() string {
 		Host:   pairHost,
 		RawQuery: url.Values{
 			parameterAddress:       l.Addresses,
-			parameterBrokerKeyHash: {l.BrokerKeyHash},
+			parameterBrokerKeyHash: {string(l.BrokerKeyHash)},
 			parameterSecret:        {string(l.Secret)},
 		}.Encode(),
 	}).String()
 }
 
 func PairLinkFrom(text string) (PairLink, error) {
-	link, err := url.Parse(text)
-	if err != nil || link.Scheme != Scheme {
+	linkURL, err := url.Parse(text)
+	if err != nil || linkURL.Scheme != Scheme {
 		return PairLink{}, ErrNotACompanionLink
 	}
-	parameters := link.Query()
-	pairLink := PairLink{
+	parameters := linkURL.Query()
+	link := PairLink{
 		Addresses:     slices.DeleteFunc(parameters[parameterAddress], isEmpty),
-		BrokerKeyHash: parameters.Get(parameterBrokerKeyHash),
+		BrokerKeyHash: BrokerKeyHash(parameters.Get(parameterBrokerKeyHash)),
 		Secret:        Secret(parameters.Get(parameterSecret)),
 	}
-	if link.Host != pairHost || len(pairLink.Addresses) == 0 || pairLink.BrokerKeyHash == "" ||
-		pairLink.Secret == "" {
+	if linkURL.Host != pairHost || len(link.Addresses) == 0 || link.BrokerKeyHash == "" ||
+		link.Secret == "" {
 		return PairLink{}, ErrUnreadableLink
 	}
-	return pairLink, nil
+	return link, nil
 }
 
 func isEmpty(address string) bool {

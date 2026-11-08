@@ -41,11 +41,11 @@ type PairingOffers interface {
 	Refuse(
 		ctx context.Context,
 		secretID companionprotocol.SecretID,
-		reason companionprotocol.Reason,
+		reason companionprotocol.RefusalReason,
 	)
 }
 
-type NewDevices interface {
+type PairedDevices interface {
 	Add(ctx context.Context, device paireddevices.Device)
 }
 
@@ -53,20 +53,20 @@ type Clock interface {
 	Now() time.Time
 }
 
-type PairingRequests struct {
+type PairingAnswerer struct {
 	offers        PairingOffers
-	devices       NewDevices
+	devices       PairedDevices
 	clock         Clock
-	brokerKeyHash string
+	brokerKeyHash companionprotocol.BrokerKeyHash
 }
 
-func NewPairingRequests(
+func NewPairingAnswerer(
 	offers PairingOffers,
-	devices NewDevices,
+	devices PairedDevices,
 	clock Clock,
-	brokerKeyHash string,
-) *PairingRequests {
-	return &PairingRequests{
+	brokerKeyHash companionprotocol.BrokerKeyHash,
+) *PairingAnswerer {
+	return &PairingAnswerer{
 		offers:        offers,
 		devices:       devices,
 		clock:         clock,
@@ -74,7 +74,7 @@ func NewPairingRequests(
 	}
 }
 
-func (p *PairingRequests) Serve(ctx context.Context, connection *nats.Conn) error {
+func (p *PairingAnswerer) Serve(ctx context.Context, connection *nats.Conn) error {
 	return answerUntilDone(ctx, connection, map[string]nats.MsgHandler{
 		companionprotocol.PairingRequestSubject: func(message *nats.Msg) {
 			p.answer(ctx, message)
@@ -82,10 +82,10 @@ func (p *PairingRequests) Serve(ctx context.Context, connection *nats.Conn) erro
 	})
 }
 
-func (p *PairingRequests) answer(ctx context.Context, message *nats.Msg) {
+func (p *PairingAnswerer) answer(ctx context.Context, message *nats.Msg) {
 	pairing, held := p.offers.HoldForVerdict(
 		ctx,
-		companionprotocol.SecretIDFromReply(message.Reply),
+		companionprotocol.SecretIDFrom(message.Reply),
 	)
 	if !held {
 		slog.WarnContext(ctx, "pairing request left unanswered",
@@ -107,7 +107,7 @@ func (p *PairingRequests) answer(ctx context.Context, message *nats.Msg) {
 }
 
 type refusal struct {
-	reason companionprotocol.Reason
+	reason companionprotocol.RefusalReason
 	cause  error
 }
 
@@ -122,7 +122,7 @@ func pairingRequestFrom(data []byte) (companionprotocol.PairingRequest, *refusal
 	return request, nil
 }
 
-func (p *PairingRequests) refuse(
+func (p *PairingAnswerer) refuse(
 	ctx context.Context,
 	message *nats.Msg,
 	pairing pairingoffers.OngoingPairing,
@@ -137,17 +137,17 @@ func (p *PairingRequests) refuse(
 	respond(ctx, message, companionprotocol.RefusedReply(refused.reason))
 }
 
-func (p *PairingRequests) provenKeyOf(
+func (p *PairingAnswerer) provenKeyOf(
 	pairing pairingoffers.OngoingPairing,
 	request companionprotocol.PairingRequest,
 ) (attestedKey, *refusal) {
 	switch {
-	case request.Protocol < companionprotocol.ProtocolVersion:
+	case request.ProtocolVersion < companionprotocol.ProtocolVersion:
 		return attestedKey{}, &refusal{
 			reason: companionprotocol.ReasonAppOutdated,
 			cause:  errOlderProtocol,
 		}
-	case request.Protocol > companionprotocol.ProtocolVersion:
+	case request.ProtocolVersion > companionprotocol.ProtocolVersion:
 		return attestedKey{}, &refusal{
 			reason: companionprotocol.ReasonPeerOutdated,
 			cause:  errNewerProtocol,
@@ -157,7 +157,7 @@ func (p *PairingRequests) provenKeyOf(
 	if err != nil {
 		return attestedKey{}, &refusal{reason: companionprotocol.ReasonRequestInvalid, cause: err}
 	}
-	challenge := companionprotocol.ChallengeFor(pairing.Secret, p.brokerKeyHash)
+	challenge := companionprotocol.ChallengeFrom(pairing.Secret, p.brokerKeyHash)
 	if !companionprotocol.IsProofOf(key.publicKey, challenge, request.Proof) {
 		return attestedKey{}, &refusal{
 			reason: companionprotocol.ReasonRequestInvalid,
@@ -168,8 +168,8 @@ func (p *PairingRequests) provenKeyOf(
 }
 
 type attestedKey struct {
-	publicKey *ecdsa.PublicKey
-	keyInfo   []byte
+	publicKey     *ecdsa.PublicKey
+	publicKeyInfo []byte
 }
 
 func attestedKeyOf(attestation [][]byte) (attestedKey, error) {
@@ -180,11 +180,11 @@ func attestedKeyOf(attestation [][]byte) (attestedKey, error) {
 	if err != nil {
 		return attestedKey{}, fmt.Errorf("read the attested key: %w", err)
 	}
-	publicKey, isECDSA := leaf.PublicKey.(*ecdsa.PublicKey)
-	if !isECDSA {
+	publicKey, isECKey := leaf.PublicKey.(*ecdsa.PublicKey)
+	if !isECKey {
 		return attestedKey{}, errNotAnECKey
 	}
-	return attestedKey{publicKey: publicKey, keyInfo: leaf.RawSubjectPublicKeyInfo}, nil
+	return attestedKey{publicKey: publicKey, publicKeyInfo: leaf.RawSubjectPublicKeyInfo}, nil
 }
 
 func pairedDeviceFrom(
@@ -194,14 +194,14 @@ func pairedDeviceFrom(
 	now time.Time,
 ) paireddevices.Device {
 	return paireddevices.Device{
-		ID:         companionprotocol.DeviceIDOf(key.keyInfo),
+		ID:         companionprotocol.DeviceIDOf(key.publicKeyInfo),
 		Name:       pairing.DeviceName,
 		PairedAt:   now,
 		AppVersion: request.AppVersion,
 	}
 }
 
-func (p *PairingRequests) accept(
+func (p *PairingAnswerer) accept(
 	ctx context.Context,
 	message *nats.Msg,
 	pairing pairingoffers.OngoingPairing,

@@ -89,7 +89,7 @@ func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
 	return nil
 }
 
-func causeOf(reason companionprotocol.Reason) string {
+func causeOf(reason companionprotocol.RefusalReason) string {
 	switch reason {
 	case companionprotocol.ReasonAppOutdated:
 		return "The app on the device is outdated. Please update the app."
