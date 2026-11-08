@@ -6,13 +6,13 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
 const checkInterval = 2 * time.Second
 
-type Broker interface {
-	ConnectedUsers() map[string]bool
+type DeviceConnections interface {
+	ConnectedDevices() map[companionprotocol.DeviceID]bool
 }
 
 type Clock interface {
@@ -25,14 +25,14 @@ type Observer interface {
 }
 
 type Presence struct {
-	broker    Broker
-	clock     Clock
-	observers []Observer
-	present   bool
+	connections DeviceConnections
+	clock       Clock
+	observers   []Observer
+	present     bool
 }
 
-func New(broker Broker, clock Clock, observers ...Observer) *Presence {
-	return &Presence{broker: broker, clock: clock, observers: observers}
+func New(connections DeviceConnections, clock Clock, observers ...Observer) *Presence {
+	return &Presence{connections: connections, clock: clock, observers: observers}
 }
 
 func (p *Presence) Run(ctx context.Context) error {
@@ -59,10 +59,5 @@ func (p *Presence) check(ctx context.Context) {
 }
 
 func (p *Presence) companionConnected() bool {
-	for user := range p.broker.ConnectedUsers() {
-		if companionaccess.IsDeviceUser(user) {
-			return true
-		}
-	}
-	return false
+	return len(p.connections.ConnectedDevices()) > 0
 }

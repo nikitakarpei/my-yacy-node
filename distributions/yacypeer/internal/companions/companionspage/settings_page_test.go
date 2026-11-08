@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
 )
 
 const pausedText = "Page fetching is paused: no companion is connected."
@@ -46,7 +46,7 @@ func switchOf(page, name string) string {
 
 func TestTheSettingsPageShowsTheChoice(t *testing.T) {
 	f := pairedFixture()
-	f.choice = fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+	f.choice = companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
@@ -60,7 +60,7 @@ func TestTheSettingsPageShowsTheChoice(t *testing.T) {
 
 func TestTheFillInWaitsForCompanionsAndKeepsItsValue(t *testing.T) {
 	f := pairedFixture()
-	f.choice = fetchsettings.Choice{PeerFillsIn: true}
+	f.choice = companionsettings.Choice{PeerFillsIn: true}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
@@ -71,7 +71,7 @@ func TestTheFillInWaitsForCompanionsAndKeepsItsValue(t *testing.T) {
 }
 
 func TestTheSettingsCanChangeBeforeACompanionIsPaired(t *testing.T) {
-	f := &fixture{choice: fetchsettings.Choice{CompanionsFetch: true}}
+	f := &fixture{choice: companionsettings.Choice{CompanionsFetch: true}}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
 
@@ -95,45 +95,45 @@ func TestChoosingCompanionsKeepsTheChoiceAndGoesBackToTheSettings(t *testing.T) 
 			response.location,
 		)
 	}
-	if f.Choice() != (fetchsettings.Choice{CompanionsFetch: true}) {
+	if f.Choice() != (companionsettings.Choice{CompanionsFetch: true}) {
 		t.Errorf("choice = %+v, want companions fetching", f.Choice())
 	}
 }
 
 func TestTurningCompanionsOffKeepsTheFillIn(t *testing.T) {
 	f := pairedFixture()
-	f.choice = fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+	f.choice = companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
 
 	choose(t, serve(t, f).URL, url.Values{"peerFillsIn": {"on"}})
 
-	if f.Choice() != (fetchsettings.Choice{PeerFillsIn: true}) {
+	if f.Choice() != (companionsettings.Choice{PeerFillsIn: true}) {
 		t.Errorf("choice = %+v, want only the fill-in kept", f.Choice())
 	}
 }
 
 func TestTheFillInStaysWhileCompanionsAreOff(t *testing.T) {
 	f := pairedFixture()
-	f.choice = fetchsettings.Choice{PeerFillsIn: true}
+	f.choice = companionsettings.Choice{PeerFillsIn: true}
 
 	choose(t, serve(t, f).URL, url.Values{"companionsFetch": {"on"}})
 
-	if f.Choice() != (fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}) {
+	if f.Choice() != (companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}) {
 		t.Errorf("choice = %+v, want companions fetching with the kept fill-in", f.Choice())
 	}
 }
 
 func TestTheSettingsChangeWhileNoDeviceIsPaired(t *testing.T) {
-	f := &fixture{choice: fetchsettings.Choice{CompanionsFetch: true}}
+	f := &fixture{choice: companionsettings.Choice{CompanionsFetch: true}}
 
 	choose(t, serve(t, f).URL, url.Values{})
 
-	if f.Choice() != (fetchsettings.Choice{}) {
+	if f.Choice() != (companionsettings.Choice{}) {
 		t.Errorf("choice = %+v, want companions off", f.Choice())
 	}
 }
 
 func TestPageFetchingIsNotPausedWhileNoDeviceIsPaired(t *testing.T) {
-	f := &fixture{choice: fetchsettings.Choice{CompanionsFetch: true}}
+	f := &fixture{choice: companionsettings.Choice{CompanionsFetch: true}}
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path)
 
@@ -146,7 +146,7 @@ func TestPageFetchingIsNotPausedWhileNoDeviceIsPaired(t *testing.T) {
 func TestBothTabsSayWhenPageFetchingIsPaused(t *testing.T) {
 	f := pairedFixture()
 	f.connected = nil
-	f.choice = fetchsettings.Choice{CompanionsFetch: true}
+	f.choice = companionsettings.Choice{CompanionsFetch: true}
 	server := serve(t, f).URL
 
 	for _, path := range []string{companionspage.Path, companionspage.Path + "/settings"} {
@@ -163,13 +163,13 @@ func TestPageFetchingIsNotPausedWhileThePeerFillsIn(t *testing.T) {
 	for name, f := range map[string]*fixture{
 		"companion connected": func() *fixture {
 			f := pairedFixture()
-			f.choice = fetchsettings.Choice{CompanionsFetch: true}
+			f.choice = companionsettings.Choice{CompanionsFetch: true}
 			return f
 		}(),
 		"peer fills in": func() *fixture {
 			f := pairedFixture()
 			f.connected = nil
-			f.choice = fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
+			f.choice = companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true}
 			return f
 		}(),
 	} {

@@ -3,41 +3,38 @@ package companionpresence_test
 import (
 	"context"
 	"fmt"
+	"maps"
 	"sync"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionpresence"
 )
 
 const stepWait = 5 * time.Second
 
-type changingBroker struct {
-	users map[string]bool
-	mu    sync.Mutex
+type changingConnections struct {
+	devices map[companionprotocol.DeviceID]bool
+	mu      sync.Mutex
 }
 
-func (b *changingBroker) ConnectedUsers() map[string]bool {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	users := make(map[string]bool, len(b.users))
-	for user := range b.users {
-		users[user] = true
-	}
-	return users
+func (c *changingConnections) ConnectedDevices() map[companionprotocol.DeviceID]bool {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return maps.Clone(c.devices)
 }
 
-func (b *changingBroker) connect(user string) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	b.users[user] = true
+func (c *changingConnections) connect(device companionprotocol.DeviceID) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.devices[device] = true
 }
 
-func (b *changingBroker) disconnect(user string) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	delete(b.users, user)
+func (c *changingConnections) disconnect(device companionprotocol.DeviceID) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	delete(c.devices, device)
 }
 
 type steppedClock struct {
@@ -85,12 +82,12 @@ func (e presenceEvents) none(t *testing.T) {
 }
 
 func TestPresenceTellsWhenTheFirstCompanionConnectsAndTheLastOneLeaves(t *testing.T) {
-	broker := &changingBroker{users: map[string]bool{"peer-service": true}}
+	connections := &changingConnections{devices: map[companionprotocol.DeviceID]bool{}}
 	clock := steppedClock{sleeps: make(chan chan struct{})}
 	events := make(presenceEvents, 4)
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
-	go func() { done <- companionpresence.New(broker, clock, events).Run(ctx) }()
+	go func() { done <- companionpresence.New(connections, clock, events).Run(ctx) }()
 	defer func() {
 		cancel()
 		<-done
@@ -99,20 +96,20 @@ func TestPresenceTellsWhenTheFirstCompanionConnectsAndTheLastOneLeaves(t *testin
 	clock.nextCheck(t)
 	events.none(t)
 
-	broker.connect(companionaccess.UserOf("device-a"))
-	broker.connect(companionaccess.UserOf("device-b"))
+	connections.connect("device-a")
+	connections.connect("device-b")
 	clock.nextCheck(t)
 	clock.nextCheck(t)
 	if event := <-events; event != "connected" {
 		t.Fatalf("event = %q, want connected", event)
 	}
 
-	broker.disconnect(companionaccess.UserOf("device-a"))
+	connections.disconnect("device-a")
 	clock.nextCheck(t)
 	clock.nextCheck(t)
 	events.none(t)
 
-	broker.disconnect(companionaccess.UserOf("device-b"))
+	connections.disconnect("device-b")
 	clock.nextCheck(t)
 	clock.nextCheck(t)
 	if event := <-events; event != "left" {

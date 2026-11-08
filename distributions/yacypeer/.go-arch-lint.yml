@@ -48,8 +48,8 @@ components:
     in: internal/hostaddresses/**
   companionpresence:
     in: internal/companions/companionpresence/**
-  fetchsettings:
-    in: internal/companions/fetchsettings/**
+  companionsettings:
+    in: internal/companions/companionsettings/**
   peerintake:
     in: internal/companions/peerintake/**
   yacypeerassembly:
@@ -165,15 +165,14 @@ deps:
       - companionprotocol
       - natsclient
   companionpresence:
-    mayDependOn:
-      - companionaccess
+    canUse:
+      - companionprotocol
   peerintake:
     mayDependOn:
-      - fetchsettings
+      - companionsettings
   companionspage:
     mayDependOn:
-      - companionaccess
-      - fetchsettings
+      - companionsettings
       - paireddevices
       - pairingoffers
     canUse:
