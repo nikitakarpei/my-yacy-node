@@ -3,15 +3,14 @@
 const page = document.querySelector("main");
 const refreshPause = 3000;
 const pausedBanner = document.getElementById("paused-banner");
-const onlyCompanionsFetch = page.dataset.onlyCompanionsFetch === "true";
-const settings = document.querySelector("form.settings");
+const settingsForm = document.querySelector("form.settings");
 
 if (new URLSearchParams(window.location.search).has(page.dataset.pairedParameter)) {
   window.history.replaceState(null, "", page.dataset.companionsPath);
 }
 
-if (settings) {
-  settings.addEventListener("change", () => settings.requestSubmit());
+if (settingsForm) {
+  settingsForm.addEventListener("change", () => settingsForm.requestSubmit());
 }
 
 const rows = new Map(
@@ -41,20 +40,18 @@ function listChanged(devices) {
 
 async function refresh() {
   try {
-    const response = await fetch(page.dataset.deviceStates, { cache: "no-store" });
-    const devices = await response.json();
-    if (listChanged(devices)) {
+    const response = await fetch(page.dataset.states, { cache: "no-store" });
+    const states = await response.json();
+    if (listChanged(states.devices)) {
       window.location.reload();
       return;
     }
-    devices.filter((device) => rows.has(device.id)).forEach(show);
-    pausedBanner.hidden = !onlyCompanionsFetch || devices.some((device) => device.connected);
+    states.devices.filter((device) => rows.has(device.id)).forEach(show);
+    pausedBanner.hidden = !states.fetchingPaused;
   } catch (error) {
-    console.warn("device states not read", error);
+    console.warn("companions page states not read", error);
     return;
   }
 }
 
-if (rows.size > 0 || onlyCompanionsFetch) {
-  window.setInterval(refresh, refreshPause);
-}
+window.setInterval(refresh, refreshPause);

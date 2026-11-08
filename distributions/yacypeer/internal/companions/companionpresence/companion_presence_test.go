@@ -62,17 +62,17 @@ func (c steppedClock) nextCheck(t *testing.T) {
 	case woken := <-c.sleeps:
 		close(woken)
 	case <-time.After(stepWait):
-		t.Fatal("the presence did not wait for its next check")
+		t.Fatal("the watcher did not wait for its next check")
 	}
 }
 
-type presenceEvents chan string
+type watcherEvents chan string
 
-func (e presenceEvents) FirstCompanionConnected(context.Context) { e <- "connected" }
+func (e watcherEvents) FirstCompanionConnected(context.Context) { e <- "connected" }
 
-func (e presenceEvents) LastCompanionDisconnected(context.Context) { e <- "left" }
+func (e watcherEvents) LastCompanionDisconnected(context.Context) { e <- "disconnected" }
 
-func (e presenceEvents) none(t *testing.T) {
+func (e watcherEvents) none(t *testing.T) {
 	t.Helper()
 	select {
 	case event := <-e:
@@ -81,10 +81,10 @@ func (e presenceEvents) none(t *testing.T) {
 	}
 }
 
-func TestTheWatcherTellsWhenTheFirstCompanionConnectsAndTheLastOneLeaves(t *testing.T) {
+func TestTheWatcherTellsWhenTheFirstCompanionConnectsAndTheLastOneDisconnects(t *testing.T) {
 	connections := &changingConnections{devices: map[companionprotocol.DeviceID]bool{}}
 	clock := steppedClock{sleeps: make(chan chan struct{})}
-	events := make(presenceEvents, 4)
+	events := make(watcherEvents, 4)
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
 	go func() { done <- companionpresence.New(connections, clock, events).Run(ctx) }()
@@ -112,7 +112,7 @@ func TestTheWatcherTellsWhenTheFirstCompanionConnectsAndTheLastOneLeaves(t *test
 	connections.disconnect("device-b")
 	clock.nextCheck(t)
 	clock.nextCheck(t)
-	if event := <-events; event != "left" {
-		t.Fatalf("event = %q, want left", event)
+	if event := <-events; event != "disconnected" {
+		t.Fatalf("event = %q, want disconnected", event)
 	}
 }

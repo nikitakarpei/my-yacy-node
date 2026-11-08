@@ -54,8 +54,8 @@ type noCompanions struct{}
 type servedCompanions struct {
 	devices           *paireddevices.Devices
 	offers            *pairingoffers.Offers
-	settings          *companionsettings.Settings
-	peerAdmission     *peerintake.Admission
+	settings          *companionsettings.Keeper
+	admission         *peerintake.Admission
 	certificate       tls.Certificate
 	address           string
 	partitionExponent uint
@@ -70,12 +70,12 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	peerAdmission := peerintake.New()
-	devices, err := paireddevices.Open(ctx, directory, peerAdmission)
+	admission := peerintake.New()
+	devices, err := paireddevices.Open(ctx, directory, admission)
 	if err != nil {
 		return nil, err
 	}
-	settings, err := companionsettings.Open(ctx, directory, peerAdmission)
+	settings, err := companionsettings.Open(ctx, directory, admission)
 	if err != nil {
 		devices.Close()
 		return nil, err
@@ -84,7 +84,7 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
 		devices:           devices,
 		offers:            pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		settings:          settings,
-		peerAdmission:     peerAdmission,
+		admission:         admission,
 		certificate:       certificate,
 		address:           cfg.CompanionAddr,
 		partitionExponent: cfg.PartitionExponent,
@@ -134,7 +134,7 @@ func (c *servedCompanions) endpoint() natsbroker.Endpoint {
 }
 
 func (c *servedCompanions) intakeAdmission() pullintake.Admission {
-	return c.peerAdmission
+	return c.admission
 }
 
 func (c *servedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
@@ -156,6 +156,7 @@ func (c *servedCompanions) register(
 		Offers:            offerOpener{offers: c.offers},
 		DeviceConnections: companionaccess.NewDeviceConnections(broker),
 		Settings:          c.settings,
+		FetchingPause:     c.admission,
 	}, c.pairLinkFor(broker), tabBar)
 }
 
@@ -186,7 +187,7 @@ func (c *servedCompanions) runners(
 		runnerFor(pairingAnswerer, natsURL, network),
 		runnerFor(deviceAnswerer, natsURL, network),
 		companionpresence.New(
-			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.peerAdmission,
+			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.admission,
 		).Run,
 	}
 }

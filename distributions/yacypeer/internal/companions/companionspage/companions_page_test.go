@@ -26,12 +26,13 @@ const eventWait = 5 * time.Second
 var lastConnectedAt = time.Date(2026, 11, 5, 22, 14, 0, 0, time.Local)
 
 type fixture struct {
-	devices   []paireddevices.Device
-	connected map[companionprotocol.DeviceID]bool
-	unpaired  []companionprotocol.DeviceID
-	offer     *fakeOffer
-	choice    companionsettings.Choice
-	mu        sync.Mutex
+	devices        []paireddevices.Device
+	connected      map[companionprotocol.DeviceID]bool
+	unpaired       []companionprotocol.DeviceID
+	offer          *fakeOffer
+	fetching       companionsettings.Fetching
+	fetchingPaused bool
+	mu             sync.Mutex
 }
 
 func (f *fixture) List() []paireddevices.Device { return f.devices }
@@ -46,17 +47,19 @@ func (f *fixture) Unpair(_ context.Context, deviceID companionprotocol.DeviceID)
 
 func (f *fixture) Open() companionspage.PairingOffer { return f.offer }
 
-func (f *fixture) Choice() companionsettings.Choice {
+func (f *fixture) Fetching() companionsettings.Fetching {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	return f.choice
+	return f.fetching
 }
 
-func (f *fixture) Choose(_ context.Context, choice companionsettings.Choice) {
+func (f *fixture) ChangeFetching(_ context.Context, fetching companionsettings.Fetching) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.choice = choice
+	f.fetching = fetching
 }
+
+func (f *fixture) FetchingPaused() bool { return f.fetchingPaused }
 
 type fakeOffer struct {
 	events chan pairingoffers.Event
@@ -71,7 +74,7 @@ func serve(t *testing.T, f *fixture) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices: f, Unpairer: f, Offers: f, DeviceConnections: f, Settings: f,
+		Devices: f, Unpairer: f, Offers: f, DeviceConnections: f, Settings: f, FetchingPause: f,
 	}, companionprotocol.PairLink{
 		Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
 	}, webuistyle.TabBar{})
@@ -172,7 +175,7 @@ func TestTheCompanionsPageNamesTheDeviceThatJustPaired(t *testing.T) {
 	if banner < 0 {
 		t.Fatal("the page does not name the device that just paired")
 	}
-	if tabs := strings.Index(page, `class="tabs"`); banner > tabs {
+	if tabs := strings.Index(page, `aria-label="Companions"`); banner > tabs {
 		t.Error("the page names the device that just paired below the tabs")
 	}
 }
@@ -325,21 +328,30 @@ func TestEachRefusalHasAReason(t *testing.T) {
 	}
 }
 
-func TestTheStatesOfThePairedDevicesReadAsJSON(t *testing.T) {
-	body := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path+"/device-states")
+func TestTheStatesOfThePageReadAsJSON(t *testing.T) {
+	f := pairedFixture()
+	f.fetchingPaused = true
+	body := pageOf(t, serve(t, f).URL+companionspage.Path+"/states")
 
-	var devices []struct {
-		ID            string `json:"id"`
-		AppVersion    string `json:"appVersion"`
-		LastConnected string `json:"lastConnected"`
-		Connected     bool   `json:"connected"`
+	var states struct {
+		Devices []struct {
+			ID            string `json:"id"`
+			AppVersion    string `json:"appVersion"`
+			LastConnected string `json:"lastConnected"`
+			Connected     bool   `json:"connected"`
+		} `json:"devices"`
+		FetchingPaused bool `json:"fetchingPaused"`
 	}
-	if err := json.Unmarshal([]byte(body), &devices); err != nil {
+	if err := json.Unmarshal([]byte(body), &states); err != nil {
 		t.Fatalf("Unmarshal %s: %v", body, err)
 	}
+	devices := states.Devices
 	if len(devices) != 2 || devices[0].ID != "device-a" ||
 		devices[0].LastConnected != "5 Nov 2026, 22:14" || devices[0].Connected ||
 		devices[1].ID != "device-b" || !devices[1].Connected || devices[1].AppVersion != "1.2.0" {
 		t.Errorf("devices = %+v, want both devices with their states", devices)
+	}
+	if !states.FetchingPaused {
+		t.Error("the states do not say that page fetching is paused")
 	}
 }
