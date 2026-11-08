@@ -28,8 +28,8 @@ other peers can check what the device did.
   when the rules below allow it.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the device.
 * The app SHALL NOT create or change the streams and consumers of the peer.
-* The app SHALL show whether it is connecting, connected, waiting for a charger or Wi-Fi, or
-  disconnected, and why it is disconnected.
+* The app SHALL show whether it is connecting, connected, waiting for a charger or an unmetered
+  network, or disconnected, and why it is disconnected.
 * Unless the user allows mobile data, the app SHALL fetch pages only over unmetered networks.
 * Unless the user turns off "Run only when charging", the app SHALL fetch pages only while the
   device is on a charger.

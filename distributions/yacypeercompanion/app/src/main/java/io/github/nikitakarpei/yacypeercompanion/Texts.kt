@@ -31,8 +31,6 @@ fun reasonTextOf(state: CompanionState.Disconnected): String = when (state) {
 
 const val RECONNECTING_TEXT = "Reconnecting"
 
-const val CHARGING_ONLY_TEXT = "Run only when charging"
-
 fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
     is CompanionState.Reconnecting -> RECONNECTING_TEXT
     is CompanionState.RetryingAt -> "Retrying in ${((state.retryAtMs - SystemClock.elapsedRealtime()) / 1_000).coerceAtLeast(0)} s"

@@ -49,11 +49,7 @@ const val FIRST_RETRY_MS = 5_000L
 const val LONGEST_RETRY_MS = 60_000L
 private const val RETRY_DOUBLINGS = 4
 
-data class CompanionModel(
-    val state: CompanionState = Stopped,
-    val networkAccess: NetworkAccess = NetworkAccess.USABLE,
-    val powerAccess: PowerAccess = PowerAccess.USABLE,
-)
+data class CompanionModel(val state: CompanionState, val networkAccess: NetworkAccess, val powerAccess: PowerAccess)
 
 data class Step(val model: CompanionModel, val effects: List<CompanionEffect>)
 
@@ -109,8 +105,8 @@ private fun CompanionModel.servicesConnected(): Step? = when (state) {
 }
 
 private fun CompanionModel.paired(): Step {
-    val start = started()
-    return Step(start.model, listOf(CancelPairingTimeout, CompletePairing) + start.effects)
+    val startStep = started()
+    return Step(startStep.model, listOf(CancelPairingTimeout, CompletePairing) + startStep.effects)
 }
 
 private fun CompanionModel.connectionLost(): Step? = when (state) {
@@ -165,7 +161,7 @@ private fun CompanionModel.networkChanged(): Step? = when (networkAccess) {
 
 private fun CompanionModel.usableNetworkChanged(): Step? = when (val current = state) {
     Connected -> to(Connected, RestartServices)
-    WaitingForUnmeteredNetwork -> to(Connecting, StartServices)
+    WaitingForUnmeteredNetwork -> started()
     is Reconnecting -> to(Reconnecting(current.reason, 0), RestartServices)
     is RetryingAt -> to(Reconnecting(current.reason, 0), CancelRetry, StartServices)
     is Offline -> to(Reconnecting(current.reason, 0), StartServices)

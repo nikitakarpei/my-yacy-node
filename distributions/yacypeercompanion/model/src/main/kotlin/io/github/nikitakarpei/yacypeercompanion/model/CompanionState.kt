@@ -53,3 +53,6 @@ enum class PairingProblem {
 }
 
 class PairLink(val text: String)
+
+fun CompanionState.keepsDeviceAwake(): Boolean = this == CompanionState.Pairing || this == CompanionState.Connecting ||
+    this == CompanionState.Connected || this is CompanionState.Recovering

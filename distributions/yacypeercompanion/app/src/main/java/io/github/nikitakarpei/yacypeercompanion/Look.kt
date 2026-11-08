@@ -15,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
 import io.github.nikitakarpei.yacypeercompanion.model.Step
 import kotlin.math.roundToInt
 
@@ -192,3 +193,8 @@ fun Activity.firstRunColumn(step: Int, title: String): LinearLayout = column().a
 }
 
 const val FIRST_RUN_STEPS = 3
+
+fun waitingIconOf(state: CompanionState.Waiting): Int = when (state) {
+    CompanionState.WaitingForCharger -> R.drawable.ic_plug
+    CompanionState.WaitingForUnmeteredNetwork -> R.drawable.ic_wifi
+}
