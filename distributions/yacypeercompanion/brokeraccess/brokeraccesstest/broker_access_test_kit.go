@@ -1,5 +1,5 @@
 // Package brokeraccesstest starts a NATS broker with TLS for the tests of the app, makes device
-// keys that sign in software, and writes pairing links to the broker.
+// keys that sign in software, and writes pair links to the broker.
 package brokeraccesstest
 
 import (
@@ -66,16 +66,22 @@ func brokerCertificate(t *testing.T) (tls.Certificate, companionprotocol.BrokerK
 		NotBefore:    time.Now().Add(-time.Hour),
 		NotAfter:     time.Now().Add(time.Hour),
 	}
-	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
+	certificateDER, err := x509.CreateCertificate(
+		rand.Reader,
+		template,
+		template,
+		&key.PublicKey,
+		key,
+	)
 	if err != nil {
 		t.Fatalf("CreateCertificate: %v", err)
 	}
-	leaf, err := x509.ParseCertificate(der)
+	leaf, err := x509.ParseCertificate(certificateDER)
 	if err != nil {
 		t.Fatalf("ParseCertificate: %v", err)
 	}
-	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
-		companionprotocol.BrokerKeyHashOf(leaf.RawSubjectPublicKeyInfo)
+	return tls.Certificate{Certificate: [][]byte{certificateDER}, PrivateKey: key},
+		companionprotocol.BrokerKeyHashFrom(leaf.RawSubjectPublicKeyInfo)
 }
 
 func (b Broker) Address() string {
@@ -106,7 +112,7 @@ type DeviceKey struct {
 	key *ecdsa.PrivateKey
 }
 
-func NewDeviceKey(t *testing.T) DeviceKey {
+func RandomDeviceKey(t *testing.T) DeviceKey {
 	t.Helper()
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
@@ -125,5 +131,5 @@ func (k DeviceKey) SignDigest(digest []byte) ([]byte, error) {
 }
 
 func (k DeviceKey) ID() companionprotocol.DeviceID {
-	return companionprotocol.DeviceIDOf(k.PublicKeyInfo())
+	return companionprotocol.DeviceIDFrom(k.PublicKeyInfo())
 }

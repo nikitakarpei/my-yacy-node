@@ -16,7 +16,7 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
     private val powerManager = ctx.getSystemService(PowerManager::class.java)
 
     @Volatile
-    private var onCharger = onChargerNow()
+    private var onCharger = false
 
     @Volatile
     private var reportedAccess: PowerAccess? = null
@@ -51,6 +51,7 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
         ctx.registerReceiver(powerChanges, changes, Context.RECEIVER_NOT_EXPORTED)
         Charger.follow(ctx, powerSettings)
         BatterySaverPause.follow(ctx, powerSettings)
+        onCharger = onChargerNow()
         reportedAccess = access
     }
 

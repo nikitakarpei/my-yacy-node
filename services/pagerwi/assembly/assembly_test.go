@@ -2,6 +2,7 @@ package pagerwiassembly_test
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"testing"
 	"time"
@@ -14,6 +15,8 @@ import (
 	pagerwi "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -22,6 +25,7 @@ const (
 	brokerWait   = 10 * time.Second
 	shutdownWait = 10 * time.Second
 	pageURL      = "https://example.org/page"
+	pageBody     = "<html lang=\"en\"><body><p>alpha beta</p></body></html>"
 	nodeDurable  = "assemblytest"
 	everyInbox   = "_INBOX.>"
 )
@@ -49,10 +53,11 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
-			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, (&net.Dialer{}).DialContext, prometheus.NewRegistry(), health,
+			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{}, prometheus.NewRegistry(), health,
 		)
 	}()
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
 	awaitConsumer(
 		t,
 		ctx,
@@ -60,7 +65,7 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 		pagescrapecontract.ScrapePageOffersStreamName,
 		pagerwi.DefaultPageOfferDurable,
 	)
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	offerPage(t, ctx, broker)
 
 	message, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait))
 	if err != nil {
@@ -91,6 +96,76 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
 	}
 }
 
+func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
+	natsURL := natstestserver.Start(t)
+	broker := natstestserver.ConnectJetStream(t, natsURL)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	createPageOffersStream(t, ctx, broker)
+	admission := heldAdmission{asked: make(chan struct{}, 1), released: make(chan struct{})}
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- pagerwi.RunService(
+			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, admission,
+			prometheus.NewRegistry(), &servicehealth.Health{},
+		)
+	}()
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
+	admission.awaitAsked(t)
+	offerPage(t, ctx, broker)
+
+	pageOffers, err := broker.Consumer(
+		ctx, pagescrapecontract.ScrapePageOffersStreamName, pagerwi.DefaultPageOfferDurable,
+	)
+	if err != nil {
+		t.Fatalf("open page offer consumer: %v", err)
+	}
+	info, err := pageOffers.Info(ctx)
+	if err != nil {
+		t.Fatalf("page offer consumer info: %v", err)
+	}
+	if info.NumPending != 1 || info.NumAckPending != 0 {
+		t.Errorf("pending = %d, taken = %d, want the page offer left in the stream",
+			info.NumPending, info.NumAckPending)
+	}
+	close(admission.released)
+	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
+		t.Fatalf("await rwi after admission: %v", err)
+	}
+	cancel()
+	if err := <-runDone; err != nil {
+		t.Errorf("run: %v", err)
+	}
+}
+
+type heldAdmission struct {
+	asked    chan struct{}
+	released chan struct{}
+}
+
+func (a heldAdmission) AwaitAdmission(ctx context.Context) error {
+	select {
+	case a.asked <- struct{}{}:
+	default:
+	}
+	select {
+	case <-a.released:
+		return nil
+	case <-ctx.Done():
+		return fmt.Errorf("await admission: %w", ctx.Err())
+	}
+}
+
+func (a heldAdmission) awaitAsked(t *testing.T) {
+	t.Helper()
+	select {
+	case <-a.asked:
+	case <-time.After(brokerWait):
+		t.Fatal("the service never asked the intake admission")
+	}
+}
+
 func TestRunServiceReturnsWhenThePageRWIBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1")
 	health := &servicehealth.Health{}
@@ -99,6 +174,9 @@ func TestRunServiceReturnsWhenThePageRWIBrokerIsUnreachable(t *testing.T) {
 		cfg,
 		pagerwi.Listeners{},
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	); err == nil {
@@ -117,6 +195,9 @@ func TestRunServiceReturnsOnAPartitionExponentOutOfRange(t *testing.T) {
 		cfg,
 		pagerwi.Listeners{},
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		&servicehealth.Health{},
 	); err == nil {
@@ -158,11 +239,12 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 	go func() {
 		runDone <- pagerwi.RunService(
 			ctx, cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
+	offerPage(t, ctx, broker)
 
 	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
 		t.Fatalf("await rwi: %v", err)
@@ -191,7 +273,7 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 
 func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *testing.T) {
 	permissions := serviceConfig("").BrokerPermissions()
-	urls := natstestserver.StartWithLimitedUser(t, natstestserver.Allowed{
+	urls := natstestserver.StartWithLimitedUser(t, natstestserver.AllowedSubjects{
 		Publish: permissions.Publish, Subscribe: append(permissions.Subscribe, everyInbox),
 	})
 	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
@@ -215,23 +297,24 @@ func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *tes
 	); err != nil {
 		t.Fatalf("create page offer consumer: %v", err)
 	}
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, broker)
 	intakeReceipts, err := natstestserver.Connect(t, unlimitedURL).SubscribeSync(
 		pagescrapecontract.EveryIntakeReceiptSubject,
 	)
 	if err != nil {
 		t.Fatalf("subscribe to intake receipts: %v", err)
 	}
-	limited := serviceConfig(limitedURL)
-	limited.ProvisionsStreams = false
+	limitedConfig := serviceConfig(limitedURL)
+	limitedConfig.ProvisionsStreams = false
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
-			ctx, limited, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			ctx, limitedConfig, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	offerPage(t, ctx, broker)
 
 	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
 		t.Fatalf("await rwi: %v", err)
@@ -250,8 +333,15 @@ func TestRunServiceWithoutProvisioningFailsWithoutThePageRWIsStream(t *testing.T
 	cfg.ProvisionsStreams = false
 
 	if err := pagerwi.RunService(
-		context.Background(), cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
-		prometheus.NewRegistry(), &servicehealth.Health{},
+		context.Background(),
+		cfg,
+		pagerwi.Listeners{},
+		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
+		prometheus.NewRegistry(),
+		&servicehealth.Health{},
 	); err == nil {
 		t.Fatal("RunService = nil, want the missing page RWIs stream refused")
 	}
@@ -281,25 +371,25 @@ func createPageOffersStream(t *testing.T, ctx context.Context, broker jetstream.
 	}
 }
 
-func consumerOnceOpen(
+func pageRWIConsumerOnceOpen(
 	t *testing.T,
 	ctx context.Context,
 	broker jetstream.JetStream,
-	streamName string,
-	durable string,
 ) jetstream.Consumer {
 	t.Helper()
 	deadline := time.Now().Add(brokerWait)
 	for {
-		consumer, err := broker.CreateOrUpdateConsumer(ctx, streamName, jetstream.ConsumerConfig{
-			Durable:   durable,
-			AckPolicy: jetstream.AckExplicitPolicy,
-		})
+		consumer, err := broker.CreateOrUpdateConsumer(
+			ctx, pagerwicontract.PageRWIsStreamName, jetstream.ConsumerConfig{
+				Durable:   nodeDurable,
+				AckPolicy: jetstream.AckExplicitPolicy,
+			},
+		)
 		if err == nil {
 			return consumer
 		}
 		if time.Now().After(deadline) {
-			t.Fatalf("open the %s consumer on %s: %v", durable, streamName, err)
+			t.Fatalf("open the page RWI consumer: %v", err)
 		}
 		time.Sleep(50 * time.Millisecond)
 	}
@@ -326,13 +416,13 @@ func awaitConsumer(
 	}
 }
 
-func offerPage(t *testing.T, ctx context.Context, broker jetstream.JetStream, body string) {
+func offerPage(t *testing.T, ctx context.Context, broker jetstream.JetStream) {
 	t.Helper()
 	data, err := pagescrapecontract.MarshalOfferedPage(pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, pageURL),
 		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
 		ContentType: "text/html",
-		Body:        []byte(body),
+		Body:        []byte(pageBody),
 	})
 	if err != nil {
 		t.Fatalf("marshal offered page: %v", err)

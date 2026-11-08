@@ -1,7 +1,7 @@
 // Package peerintake decides when the page services of the peer itself take work: always while
 // no device is paired or companions do not fetch pages, and while no companion is connected if
 // the peer fills in for them. Otherwise it holds their intake back, so only companions fetch
-// pages.
+// pages. It also tells when nobody fetches pages because no companion is connected.
 package peerintake
 
 import (
@@ -14,7 +14,7 @@ import (
 
 type Admission struct {
 	released           chan struct{}
-	choice             companionsettings.Choice
+	fetching           companionsettings.Fetching
 	devicePaired       bool
 	companionConnected bool
 	mu                 sync.Mutex
@@ -26,10 +26,10 @@ func New() *Admission {
 	return &Admission{released: released}
 }
 
-func (a *Admission) ChoiceMade(ctx context.Context, choice companionsettings.Choice) {
+func (a *Admission) FetchingChanged(ctx context.Context, fetching companionsettings.Fetching) {
 	a.mu.Lock()
 	defer a.mu.Unlock()
-	a.choice = choice
+	a.fetching = fetching
 	a.settle(ctx)
 }
 
@@ -62,8 +62,8 @@ func (a *Admission) LastCompanionDisconnected(ctx context.Context) {
 }
 
 func (a *Admission) settle(ctx context.Context) {
-	companionsCover := a.choice.OnlyCompanionsFetch() ||
-		a.choice.CompanionsFetch && a.companionConnected
+	companionsCover := a.fetching.OnlyCompanionsFetch() ||
+		a.fetching.CompanionsFetch && a.companionConnected
 	admits := !a.devicePaired || !companionsCover
 	if admits == isClosed(a.released) {
 		return
@@ -99,4 +99,10 @@ func (a *Admission) AwaitAdmission(ctx context.Context) error {
 	case <-ctx.Done():
 		return ctx.Err() //nolint:wrapcheck // the caller names the wait.
 	}
+}
+
+func (a *Admission) FetchingPaused() bool {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	return a.devicePaired && a.fetching.OnlyCompanionsFetch() && !a.companionConnected
 }

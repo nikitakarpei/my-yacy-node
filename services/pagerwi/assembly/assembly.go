@@ -58,6 +58,9 @@ func RunService(
 	cfg ServiceConfig,
 	_ Listeners,
 	dial Dial,
+	pageOfferBrokerAccess jetstreamconnect.BrokerAccess,
+	pageRWIBrokerAccess jetstreamconnect.BrokerAccess,
+	intakeAdmission pullintake.Admission,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
@@ -73,7 +76,7 @@ func RunService(
 		cfg.PageRWINATSURL,
 		dial,
 		health,
-		cfg.BrokerAccess,
+		pageRWIBrokerAccess,
 	)
 	if err != nil {
 		return err
@@ -85,7 +88,7 @@ func RunService(
 	}
 	pageOfferOpening := streamopening.Start(
 		ctx,
-		pageOfferOpenerFor(cfg, dial, health),
+		pageOfferOpenerFor(cfg, dial, pageOfferBrokerAccess, health),
 		wallclock.Clock{},
 		pageofferopeningobserversapplog.PageOfferOpeningLog{},
 	)
@@ -101,11 +104,11 @@ func RunService(
 		PageRWIs: pagerwipublishersjetstream.NewPageRWIPublisher(
 			pageRWIBroker, pagerwipublicationobserversapplog.PageRWIPublicationLog{},
 		),
-		PageRWIBacklog: pullintake.AdmissionOfEach(
+		Admission: pullintake.AdmissionOfEach(
 			consumerbacklog.New(
 				pageRWIs, pageRWIBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
 			),
-			cfg.IntakeAdmission,
+			intakeAdmission,
 		),
 		PageIntakeObserver: pageintake.PageIntakeObservers{
 			pageintakeobserversapplog.PageIntakeLog{},
@@ -184,11 +187,12 @@ func (offers pageOffers) Close() {
 func pageOfferOpenerFor(
 	cfg ServiceConfig,
 	dial Dial,
+	brokerAccess jetstreamconnect.BrokerAccess,
 	health *servicehealth.Health,
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
 		js, connection, err := jetstreamconnect.OpenObserved(
-			cfg.PageOfferNATSURL, dial, health, cfg.BrokerAccess,
+			cfg.PageOfferNATSURL, dial, health, brokerAccess,
 		)
 		if err != nil {
 			return pageOffers{}, err

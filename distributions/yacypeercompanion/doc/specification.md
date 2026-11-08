@@ -17,20 +17,20 @@ other peers can check what the device did.
   that it shares.
 * The app SHALL NOT start pairing before the user allows notifications and running in the
   background, and agrees to the data sharing.
-* The app SHALL ask for the camera only to read a pairing code.
-* The app SHALL pair with the peer whose pairing code it reads with the camera.
+* The app SHALL ask for the camera only to read the QR code of a pair link.
+* The app SHALL pair with the peer whose pair link it reads with the camera.
 * Pairing SHALL succeed only when the peer accepts the device.
 * When pairing fails, the app SHALL tell why.
 * The app SHALL connect to the broker of the peer only when the broker has the key that the
-  pairing code names.
+  pair link names.
 * When the peer no longer accepts the device, the app SHALL stop its work and show why, and SHALL
   stay open until the user closes it.
 * Until the user stops it or unpairs the device, the paired app SHALL fetch pages and build RWIs
   when the rules below allow it.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the device.
 * The app SHALL NOT create or change the streams and consumers of the peer.
-* The app SHALL show whether it is connecting, connected, waiting for a charger, Battery Saver
-  or Wi-Fi, or disconnected, and why it is disconnected.
+* The app SHALL show whether it is connecting, connected, waiting for a charger, for Battery Saver
+  to turn off, or for an unmetered network, or disconnected, and why it is disconnected.
 * Unless the user allows mobile data, the app SHALL fetch pages only over unmetered networks.
 * Unless the user turns off "Run only when charging", the app SHALL fetch pages only while the
   device is on a charger.

@@ -15,9 +15,8 @@ import (
 )
 
 const (
-	pageURL      = "https://example.org/a"
-	outcomeWait  = 5 * time.Second
-	carrierStart = 100 * time.Millisecond
+	pageURL     = "https://example.org/a"
+	outcomeWait = 5 * time.Second
 )
 
 type recordingScrapeOutcomeFeedObserver struct {
@@ -139,11 +138,19 @@ func TestIntakeReceiptIsCarriedOntoThePageFeedAsItStands(t *testing.T) {
 	ctx, stop := context.WithCancel(context.Background())
 	defer stop()
 	observer := &recordingScrapeOutcomeFeedObserver{carried: make(chan string, 1)}
-	go func() {
-		_ = scrapeoutcomefeeds.NewScrapeOutcomeFeed(connection, observer).
-			CarryIntakeReceipts(ctx)
+	carrier, err := scrapeoutcomefeeds.NewScrapeOutcomeFeed(connection, observer).
+		StartCarryingIntakeReceipts(ctx)
+	if err != nil {
+		t.Fatalf("start carrying intake receipts: %v", err)
+	}
+	carrierEnded := make(chan error, 1)
+	go func() { carrierEnded <- carrier.Run(ctx) }()
+	defer func() {
+		stop()
+		if err := <-carrierEnded; err != nil {
+			t.Errorf("carry intake receipts: %v", err)
+		}
 	}()
-	time.Sleep(carrierStart)
 
 	pageCanonicalURL := canonicalurltest.CanonicalURLOf(t, pageURL)
 	receipt, err := pagescrapecontract.MarshalKeptPage(pagescrapecontract.KeptPage{

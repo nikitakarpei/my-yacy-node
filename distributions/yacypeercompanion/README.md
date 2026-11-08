@@ -20,8 +20,8 @@ The app runs on 64-bit ARM devices with Android 14 or later.
 
 ## Use
 
-Open the app and follow its screens: allow the permissions, then scan the QR code from the
-Companions tab in the web UI of your peer.
+Open the app and follow its screens: allow the permissions, agree to the data sharing, then
+scan the QR code from the Companions tab in the web UI of your peer.
 
 ## Build from source
 

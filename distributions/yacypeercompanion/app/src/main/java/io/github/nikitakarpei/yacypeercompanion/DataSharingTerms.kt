@@ -7,6 +7,9 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.BulletSpan
 import android.widget.LinearLayout
+import io.github.nikitakarpei.attestedstatements.DRAND_MIRRORS
+import io.github.nikitakarpei.attestedstatements.TSA_URL
+import java.net.URI
 
 private const val INTRO =
     "The developers of the app do not collect, receive or keep personal data from the app. The app sends data only to the " +
@@ -19,7 +22,7 @@ private val DEVICE_DATA = listOf(
     "Whether the bootloader is locked.",
     "The certificates of the security hardware of the device.",
     "The app ID, the app version number and the fingerprint of the certificate that signs the app.",
-    "A signing certificate that is the same on all index entries that the device signs until the app restarts.",
+    "A signing certificate that is the same on all index entries that the device signs until the app makes a new one.",
     "The time when the app made that certificate.",
 )
 private const val DEVICE_DATA_LIMITS =
@@ -28,10 +31,10 @@ private const val DEVICE_DATA_LIMITS =
 private const val SERVICES_INTRO = "The app sends the IP address of the device to:"
 private val SERVICES = listOf(
     "The websites that it fetches.",
-    "The drand time service (api.drand.sh, api2.drand.sh, drand.cloudflare.com).",
-    "The FreeTSA time service (freetsa.org).",
+    "The drand time service (${DRAND_MIRRORS.joinToString { URI(it).host }}).",
+    "The FreeTSA time service (${URI(TSA_URL).host}).",
 )
-private const val TIME_STAMP_DATA = "FreeTSA also gets a hash of each signed page."
+private const val TIME_STAMP_DATA = "FreeTSA also gets a hash that covers each signed page."
 private const val PURPOSE =
     "The app shares this data to prove that the pages it fetches and their index entries are not modified. The app does not " +
         "use the data for advertising, analytics or profiling."
@@ -43,44 +46,49 @@ private const val THIRD_PARTIES =
     "The operators of YaCy peers, drand, FreeTSA and the fetched websites process the data under their own policies. App " +
         "stores can record installs and use of the app under their own policies."
 
-fun Activity.showDataSharing(onAgree: () -> Unit) {
-    showDialog(
-        DATA_SHARING_TEXT,
+fun Activity.showDataSharingTerms(onAgree: () -> Unit) {
+    showTermsDialog(
+        DATA_SHARING_TITLE,
         listOf(DialogAction("Decline"), DialogAction("Agree", onClick = onAgree)),
-        content = dataSharingText(),
+        dataSharingTerms(),
     )
 }
 
-private fun Context.dataSharingText(): LinearLayout = LinearLayout(this).apply {
+private fun Context.dataSharingTerms(): LinearLayout = LinearLayout(this).apply {
     orientation = LinearLayout.VERTICAL
-    paragraph(INTRO)
-    section("Shared with Other YaCy Peers")
-    paragraph(PEERS_INTRO)
-    bullets(DEVICE_DATA)
-    paragraph(DEVICE_DATA_LIMITS)
-    section("Shared with Other Services")
-    paragraph(SERVICES_INTRO)
-    bullets(SERVICES)
-    paragraph(TIME_STAMP_DATA)
-    section("Purpose")
-    paragraph(PURPOSE)
-    section("Consent")
-    paragraph(CONSENT)
-    section("Retention")
-    paragraph(RETENTION)
-    section("Third Parties")
-    paragraph(THIRD_PARTIES)
+    addParagraph(INTRO)
+    addSection("Shared with Other YaCy Peers")
+    addParagraph(PEERS_INTRO)
+    addBullets(DEVICE_DATA)
+    addParagraph(DEVICE_DATA_LIMITS)
+    addSection("Shared with Other Services")
+    addParagraph(SERVICES_INTRO)
+    addBullets(SERVICES)
+    addParagraph(TIME_STAMP_DATA)
+    addSection("Purpose")
+    addParagraph(PURPOSE)
+    addSection("Consent")
+    addParagraph(CONSENT)
+    addSection("Retention")
+    addParagraph(RETENTION)
+    addSection("Third Parties")
+    addParagraph(THIRD_PARTIES)
 }
 
-private fun LinearLayout.paragraph(text: String) {
+private fun LinearLayout.addParagraph(text: String) {
     addView(context.bodyText(text, 14f), blockLayout(if (childCount == 0) 0 else 8))
 }
 
-private fun LinearLayout.section(title: String) {
+private fun LinearLayout.blockLayout(topMargin: Int) =
+    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+        this.topMargin = context.dp(topMargin)
+    }
+
+private fun LinearLayout.addSection(title: String) {
     addView(context.heading(title, 14f).apply { setTypeface(typeface, Typeface.BOLD) }, blockLayout(16))
 }
 
-private fun LinearLayout.bullets(items: List<String>) {
+private fun LinearLayout.addBullets(items: List<String>) {
     val text = SpannableStringBuilder()
     for ((index, item) in items.withIndex()) {
         val start = text.length
@@ -95,8 +103,3 @@ private fun LinearLayout.bullets(items: List<String>) {
     }
     addView(context.bodyText("", 14f).apply { setText(text) }, blockLayout(4))
 }
-
-private fun LinearLayout.blockLayout(topMargin: Int) =
-    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-        this.topMargin = context.dp(topMargin)
-    }

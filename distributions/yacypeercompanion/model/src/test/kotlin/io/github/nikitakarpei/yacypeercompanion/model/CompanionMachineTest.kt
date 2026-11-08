@@ -16,16 +16,16 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StartServi
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StopServices
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.BrokerConnectionLost
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.CancelPairing
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.DeviceKeyUnavailable
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.NetworkChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingRefused
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTimedOut
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PowerChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesConnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesEnded
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.SigningKeyUnavailable
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StartRequested
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequested
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
@@ -34,7 +34,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
@@ -46,25 +46,22 @@ import org.junit.Test
 
 class CompanionMachineTest {
     private val now = 1_000_000L
-    private val code = PairingCode("yacypeer-companion://pair?address=192.168.1.20%3A4223&brokerKeyHash=hash&secret=secret")
+    private val link = PairLink("yacypeer-companion://pair?address=192.168.1.20%3A4223&brokerKeyHash=hash&secret=secret")
     private val unreachable = ServicesEnded(ServicesEnding.BROKER_UNREACHABLE)
     private val lostPeer = DisconnectReason.PEER_UNREACHABLE
 
-    private val usable = NetworkChanged(NetworkAccess.USABLE)
-    private val meteredOnly = NetworkChanged(NetworkAccess.METERED_ONLY)
-    private val onCharger = PowerChanged(PowerAccess.USABLE)
-    private val offCharger = PowerChanged(PowerAccess.BATTERY_ONLY)
+    private val usableNetwork = NetworkChanged(NetworkAccess.USABLE)
+    private val meteredNetworkOnly = NetworkChanged(NetworkAccess.METERED_ONLY)
+    private val usablePower = PowerChanged(PowerAccess.USABLE)
+    private val batteryOnly = PowerChanged(PowerAccess.BATTERY_ONLY)
     private val batterySaverOn = PowerChanged(PowerAccess.BATTERY_SAVER_ON)
-    private val batterySaverOff = PowerChanged(PowerAccess.USABLE)
 
-    private fun stepOf(state: CompanionState, event: CompanionEvent, networkAccess: NetworkAccess = NetworkAccess.USABLE) =
-        CompanionModel(state, networkAccess).after(event, now)
-
-    private fun offChargerStepOf(state: CompanionState, event: CompanionEvent) =
-        CompanionModel(state, powerAccess = PowerAccess.BATTERY_ONLY).after(event, now)
-
-    private fun batterySaverStepOf(state: CompanionState, event: CompanionEvent) =
-        CompanionModel(state, powerAccess = PowerAccess.BATTERY_SAVER_ON).after(event, now)
+    private fun stepOf(
+        state: CompanionState,
+        event: CompanionEvent,
+        networkAccess: NetworkAccess = NetworkAccess.USABLE,
+        powerAccess: PowerAccess = PowerAccess.USABLE,
+    ) = CompanionModel(state, networkAccess, powerAccess).after(event, now)
 
     private fun assertStep(step: Step, state: CompanionState, vararg effects: CompanionEffect) {
         assertEquals(state, step.model.state)
@@ -74,9 +71,9 @@ class CompanionMachineTest {
     @Test
     fun pairingSendsThePairingRequestWithATimeLimit() {
         assertStep(
-            stepOf(Stopped, PairWith(code)),
+            stepOf(Stopped, PairWith(link)),
             Pairing,
-            BeginPairing(code),
+            BeginPairing(link),
             SendPairingRequest,
             SchedulePairingTimeout(PAIRING_LIMIT_MS),
         )
@@ -90,28 +87,32 @@ class CompanionMachineTest {
     @Test
     fun pairingFailsWithoutRetriesAndEndsTheHost() {
         assertStep(
-            stepOf(Pairing, PairingRefused(PairingProblem.APP_OUTDATED)),
-            PairingFailed(PairingProblem.APP_OUTDATED),
+            stepOf(Pairing, PairingFailed(PairingProblem.APP_OUTDATED)),
+            PairingFailure(PairingProblem.APP_OUTDATED),
             CancelPairingTimeout,
             EndHost,
         )
         assertStep(
-            stepOf(Pairing, SigningKeyUnavailable),
-            PairingFailed(PairingProblem.SIGNING_KEY),
+            stepOf(Pairing, DeviceKeyUnavailable),
+            PairingFailure(PairingProblem.DEVICE_KEY),
             CancelPairingTimeout,
             EndHost,
         )
-        assertStep(stepOf(Pairing, PairingTimedOut), PairingFailed(PairingProblem.PEER_UNREACHABLE), EndHost)
+    }
+
+    @Test
+    fun aPairingThatTimesOutGivesUpTheAttemptAndEndsTheHost() {
+        assertStep(stepOf(Pairing, PairingTimedOut), PairingFailure(PairingProblem.PEER_UNREACHABLE), ForgetPairing, EndHost)
     }
 
     @Test
     fun anOutcomeOutsideAPairingChangesNothing() {
         assertStep(stepOf(Connected, PairingAccepted), Connected)
-        assertStep(stepOf(Stopped, PairingRefused(PairingProblem.REFUSED)), Stopped)
+        assertStep(stepOf(Stopped, PairingFailed(PairingProblem.REFUSED)), Stopped)
     }
 
     @Test
-    fun aDeviceThatThePeerUnpairedStaysDisconnectedAndTellsWhy() {
+    fun aDeviceThatThePeerRefusesStaysDisconnectedAndTellsWhy() {
         assertStep(
             stepOf(Connected, ServicesEnded(ServicesEnding.DEVICE_REFUSED)),
             DeviceRefused,
@@ -126,11 +127,11 @@ class CompanionMachineTest {
 
     @Test
     fun pairingAgainAfterAFailureStartsOver() {
-        assertEquals(Pairing, stepOf(PairingFailed(PairingProblem.PEER_UNREACHABLE), PairWith(code)).model.state)
+        assertEquals(Pairing, stepOf(PairingFailure(PairingProblem.PEER_UNREACHABLE), PairWith(link)).model.state)
     }
 
     @Test
-    fun cancellingPairingForgetsTheCode() {
+    fun cancellingPairingForgetsThePairLink() {
         assertStep(stepOf(Pairing, CancelPairing), Stopped, StopServices, CancelPairingTimeout, ForgetPairing, EndHost)
     }
 
@@ -172,14 +173,14 @@ class CompanionMachineTest {
     fun withoutANetworkTheCompanionWaitsForOne() {
         assertStep(stepOf(Reconnecting(lostPeer, 1), unreachable, NetworkAccess.NONE), Offline(lostPeer, 2))
         assertStep(stepOf(RetryingAt(lostPeer, now, 2), NetworkChanged(NetworkAccess.NONE)), Offline(lostPeer, 2), CancelRetry)
-        assertStep(stepOf(Offline(lostPeer, 2), usable, NetworkAccess.NONE), Reconnecting(lostPeer, 0), StartServices)
+        assertStep(stepOf(Offline(lostPeer, 2), usableNetwork, NetworkAccess.NONE), Reconnecting(lostPeer, 0), StartServices)
     }
 
     @Test
     fun withOnlyMeteredNetworksTheCompanionStopsAndWaitsForAnUnmeteredOne() {
-        assertStep(stepOf(Connected, meteredOnly), WaitingForUnmeteredNetwork, StopServices, CancelRetry, CancelFailureNotification)
+        assertStep(stepOf(Connected, meteredNetworkOnly), WaitingForUnmeteredNetwork, StopServices, CancelRetry, CancelFailureNotification)
         assertStep(
-            stepOf(RetryingAt(lostPeer, now, 2), meteredOnly),
+            stepOf(RetryingAt(lostPeer, now, 2), meteredNetworkOnly),
             WaitingForUnmeteredNetwork,
             StopServices,
             CancelRetry,
@@ -187,7 +188,7 @@ class CompanionMachineTest {
         )
         assertStep(stepOf(Stopped, StartRequested, NetworkAccess.METERED_ONLY), WaitingForUnmeteredNetwork)
         assertStep(stepOf(Reconnecting(lostPeer, 1), unreachable, NetworkAccess.METERED_ONLY), WaitingForUnmeteredNetwork)
-        assertStep(stepOf(WaitingForUnmeteredNetwork, usable, NetworkAccess.METERED_ONLY), Connecting, StartServices)
+        assertStep(stepOf(WaitingForUnmeteredNetwork, usableNetwork, NetworkAccess.METERED_ONLY), Connecting, StartServices)
     }
 
     @Test
@@ -202,9 +203,9 @@ class CompanionMachineTest {
 
     @Test
     fun aNetworkChangeTriesAtOnceAndStartsThePauseAgain() {
-        assertStep(stepOf(RetryingAt(lostPeer, now + 40_000L, 4), usable), Reconnecting(lostPeer, 0), CancelRetry, StartServices)
-        assertStep(stepOf(Reconnecting(lostPeer, 4), usable), Reconnecting(lostPeer, 0), RestartServices)
-        assertStep(stepOf(Connected, usable), Connected, RestartServices)
+        assertStep(stepOf(RetryingAt(lostPeer, now + 40_000L, 4), usableNetwork), Reconnecting(lostPeer, 0), CancelRetry, StartServices)
+        assertStep(stepOf(Reconnecting(lostPeer, 4), usableNetwork), Reconnecting(lostPeer, 0), RestartServices)
+        assertStep(stepOf(Connected, usableNetwork), Connected, RestartServices)
     }
 
     @Test
@@ -235,17 +236,17 @@ class CompanionMachineTest {
 
     @Test
     fun withoutAChargerTheCompanionStopsAndWaitsForOne() {
-        assertStep(stepOf(Connected, offCharger), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+        assertStep(stepOf(Connected, batteryOnly), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
         assertStep(
-            stepOf(RetryingAt(lostPeer, now, 2), offCharger),
+            stepOf(RetryingAt(lostPeer, now, 2), batteryOnly),
             WaitingForCharger,
             StopServices,
             CancelRetry,
             CancelFailureNotification,
         )
-        assertStep(offChargerStepOf(Stopped, StartRequested), WaitingForCharger)
+        assertStep(stepOf(Stopped, StartRequested, powerAccess = PowerAccess.BATTERY_ONLY), WaitingForCharger)
         assertStep(
-            stepOf(WaitingForUnmeteredNetwork, offCharger),
+            stepOf(WaitingForUnmeteredNetwork, batteryOnly),
             WaitingForCharger,
             StopServices,
             CancelRetry,
@@ -255,18 +256,54 @@ class CompanionMachineTest {
 
     @Test
     fun aChargerStartsAWaitingCompanion() {
-        assertStep(offChargerStepOf(WaitingForCharger, onCharger), Connecting, StartServices)
-        assertStep(stepOf(WaitingForCharger, onCharger, NetworkAccess.METERED_ONLY), WaitingForUnmeteredNetwork)
+        assertStep(stepOf(WaitingForCharger, usablePower, powerAccess = PowerAccess.BATTERY_ONLY), Connecting, StartServices)
+        assertStep(stepOf(WaitingForCharger, usablePower, NetworkAccess.METERED_ONLY), WaitingForUnmeteredNetwork)
     }
 
     @Test
     fun aNetworkChangeLeavesACompanionWaitingForACharger() {
-        assertStep(offChargerStepOf(WaitingForCharger, usable), WaitingForCharger)
+        assertStep(stepOf(WaitingForCharger, usableNetwork, powerAccess = PowerAccess.BATTERY_ONLY), WaitingForCharger)
     }
 
     @Test
     fun pairingWithoutAChargerCompletesAndThenWaits() {
-        assertStep(offChargerStepOf(Pairing, PairingAccepted), WaitingForCharger, CancelPairingTimeout, CompletePairing)
+        assertStep(
+            stepOf(Pairing, PairingAccepted, powerAccess = PowerAccess.BATTERY_ONLY),
+            WaitingForCharger,
+            CancelPairingTimeout,
+            CompletePairing,
+        )
+    }
+
+    @Test
+    fun withoutAChargerEachRunningCompanionWaitsForOne() {
+        for (running in listOf(Connecting, Reconnecting(lostPeer, 1), Offline(lostPeer, 2))) {
+            assertStep(stepOf(running, batteryOnly), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+        }
+    }
+
+    @Test
+    fun aChargerChangeLeavesACompanionAloneThatDoesNotRun() {
+        for (resting in listOf(Pairing, Stopped, DeviceRefused, PairingFailure(PairingProblem.REFUSED))) {
+            assertStep(stepOf(resting, batteryOnly), resting)
+        }
+        assertStep(stepOf(Connected, usablePower), Connected)
+    }
+
+    @Test
+    fun anUnmeteredNetworkWithoutAChargerLeadsToTheChargerWait() {
+        assertStep(
+            stepOf(WaitingForUnmeteredNetwork, usableNetwork, NetworkAccess.METERED_ONLY, PowerAccess.BATTERY_ONLY),
+            WaitingForCharger,
+        )
+    }
+
+    @Test
+    fun theDeviceStaysAwakeOnlyWhileTheCompanionPairsOrRuns() {
+        val awake = listOf(Pairing, Connecting, Connected, Reconnecting(lostPeer, 0), Offline(lostPeer, 1))
+        val asleep = listOf(Stopped, WaitingForCharger, WaitingForUnmeteredNetwork, DeviceRefused)
+        awake.forEach { assertEquals("$it keeps the device awake", true, it.keepsDeviceAwake()) }
+        asleep.forEach { assertEquals("$it lets the device sleep", false, it.keepsDeviceAwake()) }
     }
 
     @Test
@@ -278,9 +315,9 @@ class CompanionMachineTest {
             CancelRetry,
             CancelFailureNotification,
         )
-        assertStep(batterySaverStepOf(Stopped, StartRequested), WaitingForBatterySaverOff)
+        assertStep(stepOf(Stopped, StartRequested, powerAccess = PowerAccess.BATTERY_SAVER_ON), WaitingForBatterySaverOff)
         assertStep(
-            batterySaverStepOf(Pairing, PairingAccepted),
+            stepOf(Pairing, PairingAccepted, powerAccess = PowerAccess.BATTERY_SAVER_ON),
             WaitingForBatterySaverOff,
             CancelPairingTimeout,
             CompletePairing,
@@ -289,12 +326,12 @@ class CompanionMachineTest {
 
     @Test
     fun turningBatterySaverOffStartsAWaitingCompanion() {
-        assertStep(batterySaverStepOf(WaitingForBatterySaverOff, batterySaverOff), Connecting, StartServices)
+        assertStep(stepOf(WaitingForBatterySaverOff, usablePower, powerAccess = PowerAccess.BATTERY_SAVER_ON), Connecting, StartServices)
     }
 
     @Test
     fun aWaitingCompanionShowsThePowerConditionThatHoldsItBack() {
-        assertStep(batterySaverStepOf(WaitingForBatterySaverOff, offCharger), WaitingForCharger)
-        assertStep(offChargerStepOf(WaitingForCharger, batterySaverOn), WaitingForBatterySaverOff)
+        assertStep(stepOf(WaitingForBatterySaverOff, batteryOnly, powerAccess = PowerAccess.BATTERY_SAVER_ON), WaitingForCharger)
+        assertStep(stepOf(WaitingForCharger, batterySaverOn, powerAccess = PowerAccess.BATTERY_ONLY), WaitingForBatterySaverOff)
     }
 }

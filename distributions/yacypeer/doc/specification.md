@@ -14,7 +14,12 @@ one program.
 * The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `yacycrawler`,
   `pagescrape`, `pagerwi`, `crawlconsole`, `crawlscrapebridge`, `visitcrawl`, and
   `searchpage`.
-* The program SHALL run a NATS server that only its services can reach.
+* The program SHALL run a NATS server that only its services and the devices it admits can
+  reach.
+* The NATS server SHALL admit devices only on the companion address that the operator sets,
+  and only over TLS.
+* The NATS server SHALL let a paired device run the page services and use only its own
+  subjects, and a pairing device only ask to pair.
 * The program SHALL let only the local host reach its web address until the operator sets it.
 * The program SHALL NOT send outbound requests to loopback or private addresses, other than
   to a proxy that the operator names.
@@ -37,6 +42,8 @@ one program.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.
+* The services and the companion devices SHALL use the one partition exponent that the operator
+  sets.
 * The program SHALL serve the metrics of the process and of each service on the web address.
 * The program SHALL keep a metric history of the process and of each service in the data
   directory for the retention period that the operator sets.
@@ -45,7 +52,8 @@ one program.
 * The program SHALL serve the search page and the crawl console on the web address.
 * The services SHALL open no port, except `yacynode` on its peer address.
 * The services SHALL reach each other, the NATS server and the proxies inside the program.
-* The search page, the crawl console and the dashboards SHALL link each other in a tab bar.
+* The search page, the crawl console, the dashboards, and the Companions pages when the peer
+  serves companions SHALL link each other in a tab bar.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.
 

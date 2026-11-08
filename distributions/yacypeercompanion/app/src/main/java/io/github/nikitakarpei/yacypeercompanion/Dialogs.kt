@@ -20,8 +20,37 @@ fun Activity.showDialog(
     actions: List<DialogAction>,
     message: String? = null,
     iconId: Int? = null,
-    content: View? = null,
     onCancel: () -> Unit = {},
+) {
+    showDialogWith(title, actions, iconId, onCancel) { box ->
+        message?.let {
+            box.addView(
+                bodyText(it, 14f),
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                    topMargin = dp(16)
+                },
+            )
+        }
+    }
+}
+
+fun Activity.showTermsDialog(title: String, actions: List<DialogAction>, terms: View) {
+    showDialogWith(title, actions, null, {}) { box ->
+        box.addView(
+            ScrollView(this).apply { addView(terms) },
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                topMargin = dp(16)
+            },
+        )
+    }
+}
+
+private fun Activity.showDialogWith(
+    title: String,
+    actions: List<DialogAction>,
+    iconId: Int?,
+    onCancel: () -> Unit,
+    addBody: (LinearLayout) -> Unit,
 ) {
     val dialog = Dialog(this)
     val box =
@@ -43,22 +72,7 @@ fun Activity.showDialog(
             topMargin = if (iconId != null) dp(16) else 0
         },
     )
-    message?.let {
-        box.addView(
-            bodyText(it, 14f),
-            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                topMargin = dp(16)
-            },
-        )
-    }
-    content?.let {
-        box.addView(
-            ScrollView(this).apply { addView(it) },
-            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
-                topMargin = dp(16)
-            },
-        )
-    }
+    addBody(box)
     val buttons = LinearLayout(this).apply { gravity = Gravity.END }
     for ((index, action) in actions.withIndex()) {
         buttons.addView(

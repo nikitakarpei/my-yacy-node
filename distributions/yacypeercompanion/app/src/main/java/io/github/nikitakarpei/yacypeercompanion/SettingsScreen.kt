@@ -14,13 +14,13 @@ class SettingsScreen : Activity() {
         val column = column().apply { setPadding(0, dp(12), 0, dp(24)) }
         column.addView(topBar("Settings", R.color.on_surface) { finish() })
         column.addView(
-            switchRow(CHARGING_ONLY_TEXT, null, Charger.required(this)) { Charger.require(this, it) },
+            switchRow("Run only when charging", null, Charger.required(this)) { Charger.require(this, it) },
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp(16)
             },
         )
         column.addView(
-            switchRow(BATTERY_SAVER_PAUSE_TEXT, null, BatterySaverPause.wanted(this)) { BatterySaverPause.want(this, it) },
+            switchRow("Pause while Battery Saver is on", null, BatterySaverPause.wanted(this)) { BatterySaverPause.want(this, it) },
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
         )
         column.addView(

@@ -399,6 +399,9 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 		"CRAWLCONSOLE_PATH_PREFIX":               "/crawls",
 		"CRAWLCONSOLE_TAB_BAR":                   `{"tabs":[]}`,
 		"SEARCHPAGE__SEARCHPAGE_TAB_BAR":         `{"tabs":[]}`,
+		"PAGE_RWI_PARTITION_EXPONENT":            "5",
+		"YACYDHTSEARCH_PARTITION_EXPONENT":       "5",
+		"YACY_DISTRIBUTION_PARTITION_EXPONENT":   "5",
 	} {
 		t.Run(name, func(t *testing.T) {
 			env := peerEnvironment(t)

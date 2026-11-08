@@ -43,12 +43,6 @@ private fun statusIconOf(state: CompanionState): Int = when (state) {
     else -> R.drawable.ic_check
 }
 
-fun waitingIconOf(state: CompanionState.Waiting): Int = when (state) {
-    CompanionState.WaitingForCharger -> R.drawable.ic_plug
-    CompanionState.WaitingForBatterySaverOff -> R.drawable.ic_battery_saver
-    CompanionState.WaitingForUnmeteredNetwork -> R.drawable.ic_wifi
-}
-
 fun postFailureNotification(ctx: Context, reason: DisconnectReason) {
     val notifications = ctx.getSystemService(NotificationManager::class.java)
     notifications.createNotificationChannel(NotificationChannel(FAILURE_CHANNEL, "Failures", NotificationManager.IMPORTANCE_DEFAULT))

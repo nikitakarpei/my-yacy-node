@@ -14,5 +14,6 @@ android {
 
 dependencies {
     implementation(project(":services"))
+    implementation(project(":attestedstatements"))
     implementation("com.google.zxing:core:3.5.4")
 }

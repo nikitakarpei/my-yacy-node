@@ -168,41 +168,43 @@
     background-color: var(--webui-accent);
     border-color: var(--webui-accent);
   }
-  .webui-table {
-    overflow-x: auto;
+  .webui-card {
     background: var(--webui-surface);
     border: 1px solid var(--webui-line);
     border-radius: var(--webui-radius);
   }
-  .webui-table table {
+  .webui-table-frame {
+    overflow-x: auto;
+  }
+  .webui-table-frame table {
     width: 100%;
     border-collapse: collapse;
     font-size: var(--webui-text-sm);
   }
-  .webui-table tr {
+  .webui-table-frame tr {
     border-bottom: 1px solid var(--webui-line);
   }
-  .webui-table table > :last-child > tr:last-child {
+  .webui-table-frame table > :last-child > tr:last-child {
     border-bottom: 0;
   }
-  .webui-table :is(th, td) {
+  .webui-table-frame :is(th, td) {
     padding: var(--webui-space-2) var(--webui-space-3);
     text-align: left;
     vertical-align: baseline;
   }
-  .webui-table th {
+  .webui-table-frame th {
     font-weight: 500;
     color: var(--webui-muted);
     white-space: nowrap;
   }
-  .webui-table tr:not(:has(> td)) {
+  .webui-table-frame tr:not(:has(> td)) {
     background: var(--webui-subtle-surface);
   }
-  .webui-table .number {
+  .webui-table-frame .number {
     text-align: right;
     font-variant-numeric: tabular-nums;
   }
-  .webui-table .actions {
+  .webui-table-frame .actions {
     text-align: right;
     white-space: nowrap;
   }
@@ -252,20 +254,20 @@
     background: var(--webui-surface);
     border-bottom: 1px solid var(--webui-line);
   }
-  .webui-tabs a {
+  .webui-tab-links a {
     padding: var(--webui-space-2) var(--webui-space-3);
     margin-bottom: -1px;
     border-bottom: 2px solid transparent;
     color: var(--webui-muted);
     text-decoration: none;
   }
-  .webui-tabs > a:first-child {
+  .webui-tab-links > a:first-child {
     margin-left: calc(-1 * var(--webui-space-3));
   }
-  .webui-tabs a:hover {
+  .webui-tab-links a:hover {
     color: var(--webui-ink);
   }
-  .webui-tabs a[aria-current="page"] {
+  .webui-tab-links a[aria-current="page"] {
     color: var(--webui-ink);
     font-weight: 500;
     border-bottom-color: var(--webui-accent);

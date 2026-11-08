@@ -189,11 +189,17 @@ func selfSignedCertificate(t *testing.T) tls.Certificate {
 
 		BasicConstraintsValid: true,
 	}
-	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
+	certificateDER, err := x509.CreateCertificate(
+		rand.Reader,
+		template,
+		template,
+		&key.PublicKey,
+		key,
+	)
 	if err != nil {
 		t.Fatalf("create certificate: %v", err)
 	}
-	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key}
+	return tls.Certificate{Certificate: [][]byte{certificateDER}, PrivateKey: key}
 }
 
 func tlsBrokerWith(t *testing.T, certificate tls.Certificate) *natsserver.Server {
@@ -220,11 +226,11 @@ func tlsBrokerWith(t *testing.T, certificate tls.Certificate) *natsserver.Server
 
 func certificatePoolOf(t *testing.T, certificate tls.Certificate) *x509.CertPool {
 	t.Helper()
-	parsed, err := x509.ParseCertificate(certificate.Certificate[0])
+	parsedCertificate, err := x509.ParseCertificate(certificate.Certificate[0])
 	if err != nil {
 		t.Fatalf("parse certificate: %v", err)
 	}
 	pool := x509.NewCertPool()
-	pool.AddCert(parsed)
+	pool.AddCert(parsedCertificate)
 	return pool
 }
