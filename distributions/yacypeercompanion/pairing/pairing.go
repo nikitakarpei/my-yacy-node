@@ -59,6 +59,7 @@ func LinkKindOf(text string) string {
 func ChallengeOf(linkText string) []byte {
 	link, err := companionprotocol.PairLinkFrom(linkText)
 	if err != nil {
+		slog.WarnContext(context.Background(), "pairing challenge not made", slog.Any("error", err))
 		return nil
 	}
 	return companionprotocol.ChallengeFor(link.Secret, link.BrokerKeyHash)
@@ -82,6 +83,7 @@ func (r *Request) AddCertificate(der []byte) {
 func (r *Request) Send(key DeviceKey) *Outcome {
 	link, err := companionprotocol.PairLinkFrom(r.linkText)
 	if err != nil {
+		slog.WarnContext(context.Background(), "pairing link unreadable", slog.Any("error", err))
 		return &Outcome{Result: ResultRefused}
 	}
 	connection, err := brokeraccess.Connect(
@@ -102,6 +104,7 @@ func (r *Request) Send(key DeviceKey) *Outcome {
 	defer connection.Close()
 	data, err := r.requestDataFor(link, key)
 	if err != nil {
+		slog.WarnContext(context.Background(), "pairing request not made", slog.Any("error", err))
 		return &Outcome{Result: ResultRefused}
 	}
 	reply, err := connection.Request(companionprotocol.PairingRequestSubject, data, replyWait)
@@ -134,6 +137,7 @@ func (r *Request) requestDataFor(link companionprotocol.PairLink, key DeviceKey)
 func outcomeOf(data []byte) *Outcome {
 	var reply companionprotocol.PairingReply
 	if err := json.Unmarshal(data, &reply); err != nil {
+		slog.WarnContext(context.Background(), "pairing reply unreadable", slog.Any("error", err))
 		return &Outcome{Result: ResultRefused}
 	}
 	if reply.Outcome == companionprotocol.OutcomeAccepted {

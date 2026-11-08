@@ -2,6 +2,7 @@ package io.github.nikitakarpei.yacypeercompanion.services
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import pairing.DeviceKey
 import java.security.KeyPairGenerator
 import java.security.KeyStore
@@ -11,6 +12,7 @@ import java.security.spec.ECGenParameterSpec
 
 private const val ALIAS = "pairing"
 private const val KEYSTORE = "AndroidKeyStore"
+private const val LOG_TAG = "PairingKey"
 
 object PairingKey {
     private val keyStore by lazy { KeyStore.getInstance(KEYSTORE).apply { load(null) } }
@@ -18,7 +20,8 @@ object PairingKey {
     @Synchronized fun madeFor(challenge: ByteArray): List<ByteArray> {
         try {
             generate(challenge, strongBox = true)
-        } catch (_: Exception) {
+        } catch (failure: Exception) {
+            Log.w(LOG_TAG, "pairing key not in StrongBox", failure)
             keyStore.deleteEntry(ALIAS)
             generate(challenge, strongBox = false)
         }

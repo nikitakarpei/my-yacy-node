@@ -143,6 +143,11 @@ func (i *Instance) Run(observer Observer) {
 	)
 	connection.end()
 	if unpaired.Load() || err != nil && i.membership.refused() {
+		if err != nil {
+			slog.WarnContext(ctx, "page services ended as the peer refused the device",
+				slog.Any("error", err),
+			)
+		}
 		observer.DeviceUnpaired()
 		return
 	}

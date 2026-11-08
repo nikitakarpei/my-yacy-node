@@ -16,6 +16,7 @@ const unpairWait = 5 * time.Second
 func Unpair(linkText string, key DeviceKey) {
 	link, err := companionprotocol.PairLinkFrom(linkText)
 	if err != nil {
+		slog.WarnContext(context.Background(), "unpair request not sent", slog.Any("error", err))
 		return
 	}
 	access, err := brokeraccess.DeviceAccess(link, key)
