@@ -9,11 +9,6 @@ h1 {
 main > h1 {
   margin-bottom: var(--webui-space-4);
 }
-.card {
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-  border-radius: var(--webui-radius);
-}
 .banner {
   margin-bottom: var(--webui-space-4);
   padding: var(--webui-space-3) var(--webui-space-4);
@@ -135,7 +130,7 @@ main > h1 {
 .dialog h2 {
   margin: 0;
 }
-.actions {
+.dialog-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;

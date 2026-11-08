@@ -54,9 +54,6 @@ h2 {
   border-radius: var(--webui-radius);
 }
 .card {
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-  border-radius: var(--webui-radius);
   padding: var(--webui-space-4) 1.25rem;
 }
 dl {
