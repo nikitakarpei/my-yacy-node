@@ -17,6 +17,7 @@ type headingView struct {
 	SettingsTab  bool
 	PauseRule    bool
 	Paused       bool
+	JustPaired   companionprotocol.DeviceName
 }
 
 func (p *pages) headingFor(rows []deviceRow, current tab) headingView {

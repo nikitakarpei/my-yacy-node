@@ -141,8 +141,12 @@ func TestTheCompanionsPageSaysWhenNoDeviceIsPaired(t *testing.T) {
 func TestTheCompanionsPageNamesTheDeviceThatJustPaired(t *testing.T) {
 	page := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path+"?paired=device-b")
 
-	if !strings.Contains(page, "Pixel 8 is paired.") {
-		t.Error("the page does not name the device that just paired")
+	banner := strings.Index(page, "Pixel 8 is paired.")
+	if banner < 0 {
+		t.Fatal("the page does not name the device that just paired")
+	}
+	if tabs := strings.Index(page, `class="tabs"`); banner > tabs {
+		t.Error("the page names the device that just paired below the tabs")
 	}
 }
 
