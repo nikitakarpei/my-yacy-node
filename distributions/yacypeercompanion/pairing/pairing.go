@@ -14,6 +14,7 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 )
 
@@ -86,7 +87,7 @@ func (r *Request) Send(key DeviceKey) *Outcome {
 		slog.WarnContext(context.Background(), "pairing link unreadable", slog.Any("error", err))
 		return &Outcome{Result: ResultRefused}
 	}
-	connection, err := brokeraccess.Connect(
+	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).Connect(
 		link,
 		brokeraccess.PairingOptions(link, companionprotocol.DeviceName(r.deviceName)),
 	)

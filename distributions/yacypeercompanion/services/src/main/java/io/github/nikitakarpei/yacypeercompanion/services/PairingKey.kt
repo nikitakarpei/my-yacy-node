@@ -17,16 +17,17 @@ private const val LOG_TAG = "PairingKey"
 object PairingKey {
     private val keyStore by lazy { KeyStore.getInstance(KEYSTORE).apply { load(null) } }
 
-    @Synchronized fun madeFor(challenge: ByteArray): List<ByteArray> {
+    @Synchronized fun generate(challenge: ByteArray) {
         try {
-            generate(challenge, strongBox = true)
+            generateKey(challenge, strongBox = true)
         } catch (failure: Exception) {
             Log.w(LOG_TAG, "pairing key not in StrongBox", failure)
             keyStore.deleteEntry(ALIAS)
-            generate(challenge, strongBox = false)
+            generateKey(challenge, strongBox = false)
         }
-        return keyStore.getCertificateChain(ALIAS).map { it.encoded }
     }
+
+    @Synchronized fun attestationChain(): List<ByteArray> = keyStore.getCertificateChain(ALIAS).map { it.encoded }
 
     @Synchronized fun current(): DeviceKey? {
         val privateKey = keyStore.getKey(ALIAS, null) as? PrivateKey ?: return null
@@ -38,7 +39,7 @@ object PairingKey {
         keyStore.deleteEntry(ALIAS)
     }
 
-    private fun generate(challenge: ByteArray, strongBox: Boolean) {
+    private fun generateKey(challenge: ByteArray, strongBox: Boolean) {
         val spec = KeyGenParameterSpec.Builder(ALIAS, KeyProperties.PURPOSE_SIGN)
             .setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1"))
             .setDigests(KeyProperties.DIGEST_NONE, KeyProperties.DIGEST_SHA256)
