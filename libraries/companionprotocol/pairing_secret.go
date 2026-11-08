@@ -16,11 +16,11 @@ func RandomSecret() Secret {
 	return Secret(rand.Text())
 }
 
-func SecretIDOf(secret Secret) SecretID {
-	return SecretID(shortHashOf([]byte(secret)))
+func SecretIDFrom(secret Secret) SecretID {
+	return SecretID(shortHashFrom([]byte(secret)))
 }
 
-func shortHashOf(data []byte) string {
+func shortHashFrom(data []byte) string {
 	hash := sha256.Sum256(data)
 	return base64.RawURLEncoding.EncodeToString(hash[:idByteLength])
 }
