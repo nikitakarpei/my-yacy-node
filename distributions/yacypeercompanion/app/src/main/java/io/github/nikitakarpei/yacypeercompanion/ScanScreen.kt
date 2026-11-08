@@ -23,7 +23,7 @@ import io.github.nikitakarpei.yacypeercompanion.services.pairingCodeOf
 private const val MESSAGE_MS = 3_000L
 private const val RESCAN_PAUSE_MS = 1_500L
 private const val SCAN_HINT_START = "The pairing code is on the "
-private const val SCAN_HINT_PAGE = "Pair a companion"
+private const val SCAN_HINT_PAGE = "Pair new device"
 private const val SCAN_HINT_END = " page of the YaCy peer."
 
 class ScanScreen : Activity() {
