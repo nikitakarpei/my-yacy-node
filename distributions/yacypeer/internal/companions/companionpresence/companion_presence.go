@@ -6,7 +6,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 )
 
 const checkInterval = 2 * time.Second

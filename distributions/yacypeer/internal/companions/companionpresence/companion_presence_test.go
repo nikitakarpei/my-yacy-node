@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionaccess"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionpresence"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionpresence"
 )
 
 const stepWait = 5 * time.Second

@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/fetchsettings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/peerintake"
 )
 
 func admits(hold *peerintake.IntakeHold) bool {
