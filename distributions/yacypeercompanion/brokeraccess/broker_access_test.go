@@ -51,7 +51,7 @@ func (c startingClock) After(timeout time.Duration, expire func()) func() {
 func connect(link companionprotocol.PairLink) (*nats.Conn, error) {
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
 	return brokeraccess.NewConnector(clock).
-		Connect(link, brokeraccess.PairingOptions(link, "Pixel 8"))
+		Connect(link, pairingOptionsFor(link))
 }
 
 func TestConnectReachesTheBrokerAtALaterAddressWhenAnEarlierOneDoesNotAnswer(t *testing.T) {
@@ -113,7 +113,7 @@ func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
 
 	connection, err := brokeraccess.NewConnector(clock).Connect(
-		link, brokeraccess.PairingOptions(link, "Pixel 8"),
+		link, pairingOptionsFor(link),
 	)
 	if err != nil {
 		t.Fatalf("Connect: %v", err)
@@ -135,4 +135,11 @@ func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T
 	) {
 		t.Errorf("start delays = %v, want %v", timeouts, want)
 	}
+}
+
+func pairingOptionsFor(link companionprotocol.PairLink) []nats.Option {
+	return append(
+		brokeraccess.PairingAccess(link).Options(),
+		append(brokeraccess.PairingIdentity(link, "Pixel 8"), nats.NoReconnect())...,
+	)
 }

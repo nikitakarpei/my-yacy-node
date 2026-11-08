@@ -16,6 +16,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StartServi
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEffect.StopServices
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.BrokerConnectionLost
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.CancelPairing
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.DeviceKeyUnavailable
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.NetworkChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
@@ -31,8 +32,8 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Disconnected
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.NotAccepted
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
@@ -84,6 +85,7 @@ private fun CompanionModel.stateAfter(event: CompanionEvent, nowMs: Long): Step?
     BrokerConnectionLost -> connectionLost()
     is ServicesEnded -> servicesEnded(event.ending, nowMs)
     SigningKeyUnavailable -> failed(DisconnectReason.SIGNING_KEY, PairingProblem.SIGNING_KEY, nowMs)
+    DeviceKeyUnavailable -> failed(DisconnectReason.DEVICE_KEY, PairingProblem.DEVICE_KEY, nowMs)
     is NetworkChanged -> networkChanged()
     is PowerChanged -> powerChanged()
     RetryDue -> (state as? RetryingAt)?.let { to(Reconnecting(it.reason, it.failedAttempts), StartServices) }
@@ -128,15 +130,15 @@ private fun CompanionModel.servicesEnded(ending: ServicesEnding, nowMs: Long): S
     ServicesEnding.STOPPED -> null
     ServicesEnding.BROKER_UNREACHABLE -> failed(DisconnectReason.PEER_UNREACHABLE, PairingProblem.PEER_UNREACHABLE, nowMs)
     ServicesEnding.FAILED -> failed(DisconnectReason.SERVICES_FAILED, PairingProblem.REFUSED, nowMs)
-    ServicesEnding.UNPAIRED -> unpairedByPeer()
+    ServicesEnding.DEVICE_REFUSED -> deviceRefused()
 }
 
-private fun CompanionModel.unpairedByPeer(): Step? = when (state) {
+private fun CompanionModel.deviceRefused(): Step? = when (state) {
     Connecting, Connected, is Recovering -> to(
-        NotAccepted,
+        DeviceRefused,
         StopServices,
         CancelRetry,
-        PostFailureNotification(DisconnectReason.UNPAIRED),
+        PostFailureNotification(DisconnectReason.DEVICE_REFUSED),
         EndHost,
     )
 

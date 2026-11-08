@@ -10,74 +10,74 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
-type ReportingDevices interface {
-	RecordAppVersion(ctx context.Context, id companionprotocol.DeviceID, appVersion string)
+type DeviceRecords interface {
+	RecordAppVersion(ctx context.Context, deviceID companionprotocol.DeviceID, appVersion string)
 }
 
 type Unpairer interface {
-	Unpair(ctx context.Context, device companionprotocol.DeviceID)
+	Unpair(ctx context.Context, deviceID companionprotocol.DeviceID)
 }
 
-type DeviceRequests struct {
-	devices  ReportingDevices
+type DeviceAnswerer struct {
+	devices  DeviceRecords
 	unpairer Unpairer
-	settings companionprotocol.Settings
+	settings companionprotocol.DeviceSettings
 }
 
-func NewDeviceRequests(
-	devices ReportingDevices,
+func NewDeviceAnswerer(
+	devices DeviceRecords,
 	unpairer Unpairer,
-	settings companionprotocol.Settings,
-) *DeviceRequests {
-	return &DeviceRequests{devices: devices, unpairer: unpairer, settings: settings}
+	settings companionprotocol.DeviceSettings,
+) *DeviceAnswerer {
+	return &DeviceAnswerer{devices: devices, unpairer: unpairer, settings: settings}
 }
 
-func (d *DeviceRequests) Serve(ctx context.Context, connection *nats.Conn) error {
+func (d *DeviceAnswerer) Serve(ctx context.Context, connection *nats.Conn) error {
 	return answerUntilDone(ctx, connection, map[string]nats.MsgHandler{
-		companionprotocol.SettingsSubjects: func(request *nats.Msg) {
-			respond(ctx, request, d.settings)
+		companionprotocol.SettingsSubjects: func(message *nats.Msg) {
+			respond(ctx, message, d.settings)
 		},
-		companionprotocol.AppSubjects: func(report *nats.Msg) {
-			d.recordApp(ctx, report)
+		companionprotocol.AppSubjects: func(message *nats.Msg) {
+			d.recordAppReport(ctx, message)
 		},
-		companionprotocol.UnpairSubjects: func(request *nats.Msg) {
-			d.unpair(ctx, request, connection)
+		companionprotocol.UnpairSubjects: func(message *nats.Msg) {
+			d.unpair(ctx, message, connection)
 		},
 	})
 }
 
-func (d *DeviceRequests) recordApp(ctx context.Context, report *nats.Msg) {
-	var app companionprotocol.AppReport
-	if err := json.Unmarshal(report.Data, &app); err != nil {
+func (d *DeviceAnswerer) recordAppReport(ctx context.Context, message *nats.Msg) {
+	var report companionprotocol.AppReport
+	if err := json.Unmarshal(message.Data, &report); err != nil {
 		slog.WarnContext(ctx, "unreadable app report",
-			slog.String("subject", report.Subject), slog.Any("error", err),
+			slog.String("subject", message.Subject), slog.Any("error", err),
 		)
 		return
 	}
-	d.devices.RecordAppVersion(ctx, companionprotocol.DeviceFromSubject(report.Subject),
-		app.AppVersion)
+	d.devices.RecordAppVersion(ctx, companionprotocol.DeviceIDFrom(message.Subject),
+		report.AppVersion)
 }
 
-func (d *DeviceRequests) unpair(ctx context.Context, request *nats.Msg, connection *nats.Conn) {
-	device := companionprotocol.DeviceFromSubject(request.Subject)
-	confirmUnpairing(ctx, device, request, connection)
-	d.unpairer.Unpair(ctx, device)
-	slog.DebugContext(ctx, "device unpaired itself", slog.String("device", string(device)))
+func (d *DeviceAnswerer) unpair(ctx context.Context, message *nats.Msg, connection *nats.Conn) {
+	deviceID := companionprotocol.DeviceIDFrom(message.Subject)
+	confirmUnpairing(ctx, deviceID, message, connection)
+	d.unpairer.Unpair(ctx, deviceID)
+	slog.DebugContext(ctx, "deviceID unpaired itself", slog.String("device", string(deviceID)))
 }
 
 func confirmUnpairing(
 	ctx context.Context,
-	device companionprotocol.DeviceID,
-	request *nats.Msg,
+	deviceID companionprotocol.DeviceID,
+	message *nats.Msg,
 	connection *nats.Conn,
 ) {
-	err := request.Respond(nil)
+	err := message.Respond(nil)
 	if err == nil {
 		err = connection.Flush()
 	}
 	if err != nil {
-		slog.WarnContext(ctx, "unpairing not confirmed to the device",
-			slog.String("device", string(device)), slog.Any("error", err),
+		slog.WarnContext(ctx, "unpairing not confirmed to the deviceID",
+			slog.String("device", string(deviceID)), slog.Any("error", err),
 		)
 	}
 }

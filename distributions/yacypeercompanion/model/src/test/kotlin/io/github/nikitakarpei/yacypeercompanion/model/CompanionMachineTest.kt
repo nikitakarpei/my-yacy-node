@@ -31,7 +31,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.NotAccepted
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
@@ -113,15 +113,15 @@ class CompanionMachineTest {
     @Test
     fun aDeviceThatThePeerUnpairedStaysDisconnectedAndTellsWhy() {
         assertStep(
-            stepOf(Connected, ServicesEnded(ServicesEnding.UNPAIRED)),
-            NotAccepted,
+            stepOf(Connected, ServicesEnded(ServicesEnding.DEVICE_REFUSED)),
+            DeviceRefused,
             StopServices,
             CancelRetry,
-            PostFailureNotification(DisconnectReason.UNPAIRED),
+            PostFailureNotification(DisconnectReason.DEVICE_REFUSED),
             EndHost,
         )
-        assertStep(stepOf(NotAccepted, StartRequested), NotAccepted)
-        assertStep(stepOf(Stopped, ServicesEnded(ServicesEnding.UNPAIRED)), Stopped)
+        assertStep(stepOf(DeviceRefused, StartRequested), DeviceRefused)
+        assertStep(stepOf(Stopped, ServicesEnded(ServicesEnding.DEVICE_REFUSED)), Stopped)
     }
 
     @Test

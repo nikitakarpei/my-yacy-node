@@ -255,7 +255,7 @@ func TestAnUnpairedDeviceCannotConnect(t *testing.T) {
 
 func TestADeviceWithAnOpenSecretMayOnlyAskToPair(t *testing.T) {
 	broker := startBroker(t)
-	secret := companionprotocol.NewSecret()
+	secret := companionprotocol.RandomSecret()
 	broker.secrets.open[secret] = true
 
 	connection, seen, err := connect(t, broker.broker, nil,
@@ -281,7 +281,7 @@ func TestADeviceWithoutAnOpenSecretCannotConnect(t *testing.T) {
 		t,
 		broker.broker,
 		nil,
-		nats.UserInfo("", string(companionprotocol.NewSecret())),
+		nats.UserInfo("", string(companionprotocol.RandomSecret())),
 	)
 	if err == nil {
 		t.Error("a device without an open secret connected")

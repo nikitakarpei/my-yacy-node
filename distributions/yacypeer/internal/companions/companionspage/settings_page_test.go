@@ -137,7 +137,7 @@ func TestPageFetchingIsNotPausedWhileNoDeviceIsPaired(t *testing.T) {
 
 	page := pageOf(t, serve(t, f).URL+companionspage.Path)
 
-	start := strings.Index(page, `id="paused"`)
+	start := strings.Index(page, `id="paused-banner"`)
 	if !strings.Contains(page[start:start+strings.Index(page[start:], ">")], "hidden") {
 		t.Error("the page says that page fetching is paused although no device is paired")
 	}
@@ -151,7 +151,7 @@ func TestBothTabsSayWhenPageFetchingIsPaused(t *testing.T) {
 
 	for _, path := range []string{companionspage.Path, companionspage.Path + "/settings"} {
 		page := pageOf(t, server+path)
-		start := strings.Index(page, `id="paused"`)
+		start := strings.Index(page, `id="paused-banner"`)
 		if start < 0 || !strings.Contains(page, pausedText) ||
 			strings.Contains(page[start:start+strings.Index(page[start:], ">")], "hidden") {
 			t.Errorf("%s does not say that page fetching is paused", path)
@@ -174,7 +174,7 @@ func TestPageFetchingIsNotPausedWhileThePeerFillsIn(t *testing.T) {
 		}(),
 	} {
 		page := pageOf(t, serve(t, f).URL+companionspage.Path)
-		start := strings.Index(page, `id="paused"`)
+		start := strings.Index(page, `id="paused-banner"`)
 		if !strings.Contains(page[start:start+strings.Index(page[start:], ">")], "hidden") {
 			t.Errorf("%s: the page says that page fetching is paused", name)
 		}

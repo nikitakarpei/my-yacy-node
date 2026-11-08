@@ -14,7 +14,7 @@ events.addEventListener("code", (event) => {
   codeState.hidden = true;
 });
 
-events.addEventListener("started", (event) => {
+events.addEventListener("begun", (event) => {
   const { deviceName } = JSON.parse(event.data);
   codeStateText.textContent = `Pairing with ${deviceName}…`;
   codeImage.classList.add("waiting");

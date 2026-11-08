@@ -129,7 +129,7 @@ func (cfg PeerConfig) namesAPeerProxy() bool {
 	return cfg.PeerProxyURL != nil
 }
 
-func (cfg PeerConfig) pairsCompanions() bool {
+func (cfg PeerConfig) servesCompanions() bool {
 	return cfg.CompanionAddr != ""
 }
 
