@@ -14,22 +14,22 @@ type ReportingDevices interface {
 	RecordAppVersion(ctx context.Context, id companionprotocol.DeviceID, appVersion string)
 }
 
-type Unpairing interface {
+type Unpairer interface {
 	Unpair(ctx context.Context, device companionprotocol.DeviceID)
 }
 
 type DeviceRequests struct {
-	devices   ReportingDevices
-	unpairing Unpairing
-	settings  companionprotocol.Settings
+	devices  ReportingDevices
+	unpairer Unpairer
+	settings companionprotocol.Settings
 }
 
 func NewDeviceRequests(
 	devices ReportingDevices,
-	unpairing Unpairing,
+	unpairer Unpairer,
 	settings companionprotocol.Settings,
 ) *DeviceRequests {
-	return &DeviceRequests{devices: devices, unpairing: unpairing, settings: settings}
+	return &DeviceRequests{devices: devices, unpairer: unpairer, settings: settings}
 }
 
 func (d *DeviceRequests) Serve(ctx context.Context, connection *nats.Conn) error {
@@ -61,7 +61,7 @@ func (d *DeviceRequests) recordApp(ctx context.Context, report *nats.Msg) {
 func (d *DeviceRequests) unpair(ctx context.Context, request *nats.Msg, connection *nats.Conn) {
 	device := companionprotocol.DeviceFromSubject(request.Subject)
 	confirmUnpairing(ctx, device, request, connection)
-	d.unpairing.Unpair(ctx, device)
+	d.unpairer.Unpair(ctx, device)
 	slog.DebugContext(ctx, "device unpaired itself", slog.String("device", string(device)))
 }
 

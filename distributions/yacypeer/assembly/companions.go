@@ -105,7 +105,7 @@ func (c *companions) servers(
 	)
 	deviceRequests := companionrequests.NewDeviceRequests(
 		c.devices,
-		companionaccess.NewUnpairing(c.devices, broker),
+		companionaccess.NewUnpairer(c.devices, broker),
 		companionprotocol.Settings{
 			PartitionExponent: pagerwiassembly.DefaultPageRWIPartitionExponent,
 		},
