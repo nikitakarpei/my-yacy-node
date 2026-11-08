@@ -8,7 +8,6 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
-	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
@@ -40,10 +39,11 @@ type companions interface {
 type noCompanions struct{}
 
 type servedCompanions struct {
-	devices     *paireddevices.Devices
-	offers      *pairingoffers.Offers
-	certificate tls.Certificate
-	address     string
+	devices           *paireddevices.Devices
+	offers            *pairingoffers.Offers
+	certificate       tls.Certificate
+	address           string
+	partitionExponent uint
 }
 
 func openCompanions(cfg PeerConfig) (companions, error) {
@@ -60,10 +60,11 @@ func openCompanions(cfg PeerConfig) (companions, error) {
 		return nil, err
 	}
 	return &servedCompanions{
-		devices:     devices,
-		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
-		certificate: certificate,
-		address:     cfg.CompanionAddr,
+		devices:           devices,
+		offers:            pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
+		certificate:       certificate,
+		address:           cfg.CompanionAddr,
+		partitionExponent: cfg.PartitionExponent,
 	}, nil
 }
 
@@ -115,7 +116,7 @@ func (c *servedCompanions) runners(
 		c.devices,
 		companionaccess.NewUnpairer(c.devices, broker),
 		companionprotocol.DeviceSettings{
-			PartitionExponent: pagerwiassembly.DefaultPageRWIPartitionExponent,
+			PartitionExponent: c.partitionExponent,
 		},
 	)
 	return []func(context.Context) error{

@@ -42,6 +42,8 @@ one program.
 * The program SHALL wire the settings that connect the services, and SHALL NOT start when
   the operator sets one of them or an ops setting of a service.
 * The program SHALL give a setting with a service prefix priority for that service.
+* The services and the companion devices SHALL use the one partition exponent that the operator
+  sets.
 * The program SHALL serve the metrics of the process and of each service on the web address.
 * The program SHALL keep a metric history of the process and of each service in the data
   directory for the retention period that the operator sets.
