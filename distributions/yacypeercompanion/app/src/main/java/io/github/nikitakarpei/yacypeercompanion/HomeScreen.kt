@@ -16,7 +16,7 @@ class HomeScreen : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!Pairing.paired(this)) {
-            val firstScreen = if (Permission.lastingGranted(this)) ScanScreen::class.java else WelcomeScreen::class.java
+            val firstScreen = if (pairingAllowed(this)) ScanScreen::class.java else WelcomeScreen::class.java
             startActivity(Intent(this, firstScreen))
             finish()
             return

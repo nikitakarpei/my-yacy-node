@@ -1,6 +1,7 @@
 package io.github.nikitakarpei.yacypeercompanion
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -51,10 +52,21 @@ class PermissionsScreen : Activity() {
     private fun refresh() {
         rows.removeAllViews()
         for (permission in Permission.lasting) {
-            val end = if (permission.granted(this)) allowedMark() else tonalButton("Allow") { permission.ask(this) }
+            val end = if (permission.granted(this)) doneMark("Allowed") else tonalButton("Allow") { permission.ask(this) }
             rows.addView(rowOf(permission, end))
         }
-        next.isEnabled = Permission.lastingGranted(this)
+        val consentEnd = if (DataSharingConsent.given(this)) {
+            doneMark("Agreed")
+        } else {
+            tonalButton("Review") { showDataSharing { agreeToDataSharing() } }
+        }
+        rows.addView(row(R.drawable.ic_shield, DATA_SHARING_TEXT, null, consentEnd))
+        next.isEnabled = pairingAllowed(this)
+    }
+
+    private fun agreeToDataSharing() {
+        DataSharingConsent.give(this)
+        refresh()
     }
 
     private fun rowOf(permission: Permission, end: android.view.View) = when (permission) {
@@ -62,10 +74,12 @@ class PermissionsScreen : Activity() {
         else -> row(R.drawable.ic_battery, "Run in background", "For working with the screen off", end)
     }
 
-    private fun allowedMark() = LinearLayout(this).apply {
+    private fun doneMark(text: String) = LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         addView(icon(R.drawable.ic_check, R.color.primary, 20))
-        addView(bodyText("Allowed", 14f, R.color.primary).apply { setPadding(dp(4), 0, 0, 0) })
+        addView(bodyText(text, 14f, R.color.primary).apply { setPadding(dp(4), 0, 0, 0) })
     }
 }
+
+fun pairingAllowed(ctx: Context): Boolean = Permission.lastingGranted(ctx) && DataSharingConsent.given(ctx)
