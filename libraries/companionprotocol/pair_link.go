@@ -1,7 +1,7 @@
 // Package companionprotocol holds the wire protocol between the YaCy companion app and a peer:
-// the pair link that the peer shows as a QR code, the pairing request and its reply, and
-// the subjects that a paired device uses on the broker of the peer. The link names each address
-// of the broker that a device can try, most likely first.
+// the pair link that the peer shows as a QR code, the credentials, request and reply of pairing,
+// and the subjects that a paired device uses on the broker of the peer. The link names each
+// address of the broker that a device can try, most likely first.
 package companionprotocol
 
 import (
@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	Scheme = "yacypeer-companion"
+	linkScheme = "yacypeer-companion"
 
 	pairHost               = "pair"
 	parameterAddress       = "address"
@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	ErrNotACompanionLink = errors.New("not a link for the YaCy companion app")
+	errNotACompanionLink = errors.New("not a link for the YaCy companion app")
 	ErrUnreadableLink    = errors.New("a companion link that this app cannot read")
 )
 
@@ -32,7 +32,7 @@ type PairLink struct {
 
 func (l PairLink) String() string {
 	return (&url.URL{
-		Scheme: Scheme,
+		Scheme: linkScheme,
 		Host:   pairHost,
 		RawQuery: url.Values{
 			parameterAddress:       l.Addresses,
@@ -44,8 +44,8 @@ func (l PairLink) String() string {
 
 func PairLinkFrom(text string) (PairLink, error) {
 	linkURL, err := url.Parse(text)
-	if err != nil || linkURL.Scheme != Scheme {
-		return PairLink{}, ErrNotACompanionLink
+	if err != nil || linkURL.Scheme != linkScheme {
+		return PairLink{}, errNotACompanionLink
 	}
 	parameters := linkURL.Query()
 	link := PairLink{

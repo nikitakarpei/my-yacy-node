@@ -183,9 +183,10 @@ func (d *Devices) keep(ctx context.Context) {
 	}
 }
 
-func (d *Devices) Close() error {
+func (d *Devices) Close() {
 	if err := d.root.Close(); err != nil {
-		return fmt.Errorf("close the paired devices directory: %w", err)
+		slog.WarnContext(context.Background(), "paired devices directory not closed",
+			slog.Any("error", err),
+		)
 	}
-	return nil
 }

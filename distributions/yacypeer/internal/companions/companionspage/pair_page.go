@@ -29,14 +29,13 @@ func (p *pages) pair(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *pages) pairingEvents(w http.ResponseWriter, r *http.Request) {
-	flusher, canFlush := w.(http.Flusher)
-	if !canFlush {
-		http.Error(w, "streaming unsupported", http.StatusInternalServerError)
-		return
-	}
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-store")
-	flusher.Flush()
+	stream := http.NewResponseController(w)
+	if err := stream.Flush(); err != nil {
+		slog.DebugContext(r.Context(), "pairing page left", slog.Any("error", err))
+		return
+	}
 	offer := p.offers.Open()
 	defer offer.Close()
 	for {
@@ -44,11 +43,14 @@ func (p *pages) pairingEvents(w http.ResponseWriter, r *http.Request) {
 		case <-r.Context().Done():
 			return
 		case event := <-offer.Events():
-			if err := p.writeEvent(w, event); err != nil {
+			err := p.writeEvent(w, event)
+			if err == nil {
+				err = stream.Flush()
+			}
+			if err != nil {
 				slog.DebugContext(r.Context(), "pairing page left", slog.Any("error", err))
 				return
 			}
-			flusher.Flush()
 			if _, isPaired := event.(pairingoffers.DevicePaired); isPaired {
 				return
 			}
@@ -61,13 +63,13 @@ type pairingBegunMessage struct {
 }
 
 type devicePairedMessage struct {
-	DeviceName companionprotocol.DeviceName `json:"deviceName"`
-	URL        string                       `json:"url"`
+	DeviceName    companionprotocol.DeviceName `json:"deviceName"`
+	CompanionsURL string                       `json:"companionsURL"`
 }
 
 type deviceRefusedMessage struct {
 	DeviceName companionprotocol.DeviceName `json:"deviceName"`
-	Cause      string                       `json:"cause"`
+	Reason     string                       `json:"reason"`
 }
 
 func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
@@ -75,23 +77,25 @@ func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
 	case pairingoffers.SecretRenewed:
 		link := p.linkWithoutSecret
 		link.Secret = event.Secret
-		return writeServerEvent(w, "code", string(pairingCodeOf(link.String())))
+		return writeServerEvent(w, "code", string(pairingCodeFrom(link.String())))
 	case pairingoffers.PairingBegun:
 		return writeMessage(w, "begun", pairingBegunMessage{DeviceName: event.DeviceName})
 	case pairingoffers.DevicePaired:
 		return writeMessage(w, "paired", devicePairedMessage{
 			DeviceName: event.DeviceName,
-			URL:        Path + "?" + url.Values{parameterPaired: {string(event.Device)}}.Encode(),
+			CompanionsURL: Path + "?" + url.Values{
+				parameterPaired: {string(event.DeviceID)},
+			}.Encode(),
 		})
 	case pairingoffers.DeviceRefused:
 		return writeMessage(w, "refused", deviceRefusedMessage{
-			DeviceName: event.DeviceName, Cause: causeOf(event.Reason),
+			DeviceName: event.DeviceName, Reason: reasonTextOf(event.Reason),
 		})
 	}
 	return nil
 }
 
-func causeOf(reason companionprotocol.RefusalReason) string {
+func reasonTextOf(reason companionprotocol.RefusalReason) string {
 	switch reason {
 	case companionprotocol.ReasonAppOutdated:
 		return "The app on the device is outdated. Please update the app."
@@ -108,10 +112,7 @@ func causeOf(reason companionprotocol.RefusalReason) string {
 }
 
 func writeMessage(w io.Writer, name string, message any) error {
-	data, err := json.Marshal(message)
-	if err != nil {
-		return fmt.Errorf("encode %s event: %w", name, err)
-	}
+	data, _ := json.Marshal(message) //nolint:errchkjson // only strings.
 	return writeServerEvent(w, name, string(data))
 }
 

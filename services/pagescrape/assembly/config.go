@@ -8,9 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
 
 const (
@@ -44,8 +42,6 @@ const (
 )
 
 type ServiceConfig struct {
-	BrokerAccess            jetstreamconnect.BrokerAccess
-	IntakeAdmission         pullintake.Admission
 	ScrapeNATSURL           string
 	ProxyURL                *url.URL
 	ProxyDialMode           http.ProxyDialMode

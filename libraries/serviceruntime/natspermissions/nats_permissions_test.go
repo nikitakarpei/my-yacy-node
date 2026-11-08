@@ -15,23 +15,23 @@ import (
 )
 
 const (
-	ordersStream   = "orders"
-	newOrder       = "orders.new"
-	workerDurable  = "worker"
-	otherDurable   = "other"
-	everyInbox     = "_INBOX.>"
-	violationWait  = 5 * time.Second
-	messageWait    = 5 * time.Second
-	unlimitedSetup = 5 * time.Second
+	ordersStream    = "orders"
+	newOrderSubject = "orders.new"
+	workerConsumer  = "worker"
+	otherConsumer   = "other"
+	everyInbox      = "_INBOX.>"
+	violationWait   = 5 * time.Second
+	messageWait     = 5 * time.Second
+	setupTimeout    = 5 * time.Second
 )
 
 func TestPullingFromLetsAServiceTakeAndAcknowledgeTheMessagesOfItsConsumer(t *testing.T) {
-	limited, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
-		natspermissions.PullingFrom(ordersStream, workerDurable),
+	limitedJetStream, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
+		natspermissions.PullingFrom(ordersStream, workerConsumer),
 		natspermissions.SubscribingTo(everyInbox),
 	))
 
-	consumer := consumerOf(t, limited, workerDurable)
+	consumer := consumerOf(t, limitedJetStream, workerConsumer)
 	message, err := consumer.Next(jetstream.FetchMaxWait(messageWait))
 	if err != nil {
 		t.Fatalf("next message: %v", err)
@@ -42,57 +42,70 @@ func TestPullingFromLetsAServiceTakeAndAcknowledgeTheMessagesOfItsConsumer(t *te
 }
 
 func TestPullingFromRefusesTheMessagesOfAnotherConsumer(t *testing.T) {
-	limited, violations := limitedJetStreamWith(t, natspermissions.JoinedFrom(
-		natspermissions.PullingFrom(ordersStream, workerDurable),
+	limitedJetStream, violations := limitedJetStreamWith(t, natspermissions.JoinedFrom(
+		natspermissions.PullingFrom(ordersStream, workerConsumer),
 		natspermissions.SubscribingTo(everyInbox),
 	))
-	stream, err := limited.Stream(t.Context(), ordersStream)
+	stream, err := limitedJetStream.Stream(t.Context(), ordersStream)
 	if err != nil {
 		t.Fatalf("open the stream: %v", err)
 	}
 
-	go func() { _, _ = stream.Consumer(context.Background(), otherDurable) }()
+	ctx, cancel := context.WithCancel(t.Context())
+	consumerErrors := make(chan error, 1)
+	go func() {
+		_, err := stream.Consumer(ctx, otherConsumer)
+		consumerErrors <- err
+	}()
 
 	requireViolation(t, violations)
+	cancel()
+	if err := <-consumerErrors; err == nil {
+		t.Error("the consumer of another service opened")
+	}
 }
 
 func TestWatchingBacklogOfLetsAServiceListTheConsumersOfAStream(t *testing.T) {
-	limited, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
+	limitedJetStream, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
 		natspermissions.WatchingBacklogOf(ordersStream),
 		natspermissions.SubscribingTo(everyInbox),
 	))
-	stream, err := limited.Stream(t.Context(), ordersStream)
+	stream, err := limitedJetStream.Stream(t.Context(), ordersStream)
 	if err != nil {
 		t.Fatalf("open the stream: %v", err)
 	}
 
-	var durables []string
+	var consumerNames []string
 	consumers := stream.ListConsumers(t.Context())
 	for info := range consumers.Info() {
-		durables = append(durables, info.Config.Durable)
+		consumerNames = append(consumerNames, info.Config.Durable)
 	}
 	if err := consumers.Err(); err != nil {
 		t.Fatalf("list consumers: %v", err)
 	}
-	if !slices.Contains(durables, workerDurable) {
-		t.Errorf("consumers = %v, want %s among them", durables, workerDurable)
+	if !slices.Contains(consumerNames, workerConsumer) {
+		t.Errorf("consumers = %v, want %s among them", consumerNames, workerConsumer)
 	}
 }
 
 func TestPublishingOnLetsAServiceAddMessagesToAStream(t *testing.T) {
-	limited, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
-		natspermissions.PublishingOn(newOrder),
+	limitedJetStream, _ := limitedJetStreamWith(t, natspermissions.JoinedFrom(
+		natspermissions.PublishingOn(newOrderSubject),
 		natspermissions.SubscribingTo(everyInbox),
 	))
 
-	if _, err := limited.Publish(t.Context(), newOrder, []byte("second order")); err != nil {
+	if _, err := limitedJetStream.Publish(
+		t.Context(),
+		newOrderSubject,
+		[]byte("second order"),
+	); err != nil {
 		t.Errorf("publish: %v", err)
 	}
 }
 
 func TestJoinedFromKeepsEachSubjectOnce(t *testing.T) {
 	joined := natspermissions.JoinedFrom(
-		natspermissions.PullingFrom(ordersStream, workerDurable),
+		natspermissions.PullingFrom(ordersStream, workerConsumer),
 		natspermissions.WatchingBacklogOf(ordersStream),
 		natspermissions.SubscribingTo(everyInbox),
 		natspermissions.SubscribingTo(everyInbox),
@@ -110,7 +123,7 @@ func limitedJetStreamWith(
 	permissions natspermissions.Permissions,
 ) (jetstream.JetStream, <-chan error) {
 	t.Helper()
-	urls := natstestserver.StartWithLimitedUser(t, natstestserver.Allowed{
+	urls := natstestserver.StartWithLimitedUser(t, natstestserver.AllowedSubjects{
 		Publish: permissions.Publish, Subscribe: permissions.Subscribe,
 	})
 	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
@@ -125,16 +138,16 @@ func limitedJetStreamWith(
 		t.Fatalf("connect as the limited user: %v", err)
 	}
 	t.Cleanup(connection.Close)
-	limited, err := jetstream.New(connection)
+	limitedJetStream, err := jetstream.New(connection)
 	if err != nil {
 		t.Fatalf("jetstream of the limited user: %v", err)
 	}
-	return limited, violations
+	return limitedJetStream, violations
 }
 
 func provisionOrders(t *testing.T, unlimited jetstream.JetStream) {
 	t.Helper()
-	ctx, cancel := context.WithTimeout(t.Context(), unlimitedSetup)
+	ctx, cancel := context.WithTimeout(t.Context(), setupTimeout)
 	defer cancel()
 	stream, err := unlimited.CreateStream(ctx, jetstream.StreamConfig{
 		Name: ordersStream, Subjects: []string{ordersStream + ".>"},
@@ -142,27 +155,31 @@ func provisionOrders(t *testing.T, unlimited jetstream.JetStream) {
 	if err != nil {
 		t.Fatalf("create the stream: %v", err)
 	}
-	for _, durable := range []string{workerDurable, otherDurable} {
+	for _, durable := range []string{workerConsumer, otherConsumer} {
 		if _, err := stream.CreateConsumer(ctx, jetstream.ConsumerConfig{
 			Durable: durable, AckPolicy: jetstream.AckExplicitPolicy,
 		}); err != nil {
 			t.Fatalf("create consumer %s: %v", durable, err)
 		}
 	}
-	if _, err := unlimited.Publish(ctx, newOrder, []byte("first order")); err != nil {
+	if _, err := unlimited.Publish(ctx, newOrderSubject, []byte("first order")); err != nil {
 		t.Fatalf("publish an order: %v", err)
 	}
 }
 
-func consumerOf(t *testing.T, limited jetstream.JetStream, durable string) jetstream.Consumer {
+func consumerOf(
+	t *testing.T,
+	limitedJetStream jetstream.JetStream,
+	consumerName string,
+) jetstream.Consumer {
 	t.Helper()
-	stream, err := limited.Stream(t.Context(), ordersStream)
+	stream, err := limitedJetStream.Stream(t.Context(), ordersStream)
 	if err != nil {
 		t.Fatalf("open the stream: %v", err)
 	}
-	consumer, err := stream.Consumer(t.Context(), durable)
+	consumer, err := stream.Consumer(t.Context(), consumerName)
 	if err != nil {
-		t.Fatalf("open consumer %s: %v", durable, err)
+		t.Fatalf("open consumer %s: %v", consumerName, err)
 	}
 	return consumer
 }
