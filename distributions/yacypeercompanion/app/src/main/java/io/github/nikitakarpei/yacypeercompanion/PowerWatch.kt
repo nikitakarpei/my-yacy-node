@@ -44,7 +44,11 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
 
     private fun pluggedInNow(): Boolean {
         val battery = ctx.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        return (battery?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) ?: 0) != 0
+        if (battery == null) {
+            Log.w(LOG_TAG, "battery state unknown, so the device counts as off the charger")
+            return false
+        }
+        return battery.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0
     }
 
     private fun report(change: String) {

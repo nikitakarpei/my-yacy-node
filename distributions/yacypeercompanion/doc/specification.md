@@ -24,8 +24,8 @@ other peers can check what the device did.
   pairing code names.
 * When the peer no longer accepts the device, the app SHALL stop its work and show why, and SHALL
   stay open until the user closes it.
-* After pairing, the app SHALL fetch pages and build RWIs until the user stops it or unpairs the
-  device.
+* Until the user stops it or unpairs the device, the paired app SHALL fetch pages and build RWIs
+  when the rules below allow it.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the device.
 * The app SHALL NOT create or change the streams and consumers of the peer.
 * The app SHALL show whether it is connecting, connected, waiting for a charger or Wi-Fi, or
