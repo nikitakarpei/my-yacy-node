@@ -15,8 +15,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
@@ -30,7 +30,7 @@ type fixture struct {
 	connected map[companionprotocol.DeviceID]bool
 	unpaired  []companionprotocol.DeviceID
 	offer     *fakeOffer
-	choice    fetchsettings.Choice
+	choice    companionsettings.Choice
 	mu        sync.Mutex
 }
 
@@ -46,13 +46,13 @@ func (f *fixture) Unpair(_ context.Context, device companionprotocol.DeviceID) {
 
 func (f *fixture) Open() companionspage.PairingOffer { return f.offer }
 
-func (f *fixture) Choice() fetchsettings.Choice {
+func (f *fixture) Choice() companionsettings.Choice {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	return f.choice
 }
 
-func (f *fixture) Choose(_ context.Context, choice fetchsettings.Choice) {
+func (f *fixture) Choose(_ context.Context, choice companionsettings.Choice) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.choice = choice

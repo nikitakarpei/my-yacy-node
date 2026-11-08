@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/peerintake"
 )
 
@@ -24,7 +24,7 @@ func pairedHold() *peerintake.IntakeHold {
 func TestTheIntakeHoldAdmitsWhileNoDeviceIsPaired(t *testing.T) {
 	hold := peerintake.NewIntakeHold()
 
-	hold.ChoiceMade(context.Background(), fetchsettings.Choice{CompanionsFetch: true})
+	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
 
 	if !admits(hold) {
 		t.Error("the intake is held back although no device is paired")
@@ -33,7 +33,7 @@ func TestTheIntakeHoldAdmitsWhileNoDeviceIsPaired(t *testing.T) {
 
 func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheLastDeviceIsUnpaired(t *testing.T) {
 	hold := pairedHold()
-	hold.ChoiceMade(context.Background(), fetchsettings.Choice{CompanionsFetch: true})
+	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
 	if admits(hold) {
 		t.Fatal("the intake is admitted before the last device is unpaired")
 	}
@@ -51,7 +51,7 @@ func TestTheIntakeHoldAdmitsWhileCompanionsDoNotFetch(t *testing.T) {
 	hold := pairedHold()
 	hold.CompanionsConnected(context.Background())
 
-	hold.ChoiceMade(context.Background(), fetchsettings.Choice{PeerFillsIn: true})
+	hold.ChoiceMade(context.Background(), companionsettings.Choice{PeerFillsIn: true})
 
 	if !admits(hold) {
 		t.Error("the intake is held back while companions do not fetch")
@@ -61,7 +61,7 @@ func TestTheIntakeHoldAdmitsWhileCompanionsDoNotFetch(t *testing.T) {
 func TestTheIntakeHoldHoldsBackWhileOnlyCompanionsFetch(t *testing.T) {
 	hold := pairedHold()
 
-	hold.ChoiceMade(context.Background(), fetchsettings.Choice{CompanionsFetch: true})
+	hold.ChoiceMade(context.Background(), companionsettings.Choice{CompanionsFetch: true})
 
 	if admits(hold) {
 		t.Error("the intake is admitted while only companions fetch and none is connected")
@@ -73,7 +73,7 @@ func TestTheIntakeHoldAdmitsWhileThePeerFillsInForAbsentCompanions(t *testing.T)
 
 	hold.ChoiceMade(
 		context.Background(),
-		fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
+		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
 	)
 
 	if !admits(hold) {
@@ -85,7 +85,7 @@ func TestTheIntakeHoldHoldsBackOnceACompanionConnects(t *testing.T) {
 	hold := pairedHold()
 	hold.ChoiceMade(
 		context.Background(),
-		fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
+		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
 	)
 
 	hold.CompanionsConnected(context.Background())
@@ -99,7 +99,7 @@ func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheCompanionsLeft(t *testing.T) 
 	hold := pairedHold()
 	hold.ChoiceMade(
 		context.Background(),
-		fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
+		companionsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
 	)
 	hold.CompanionsConnected(context.Background())
 	if admits(hold) {

@@ -17,7 +17,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
@@ -69,9 +69,9 @@ type DeviceConnections interface {
 	ConnectedDevices() map[companionprotocol.DeviceID]bool
 }
 
-type FetchSettings interface {
-	Choice() fetchsettings.Choice
-	Choose(ctx context.Context, choice fetchsettings.Choice)
+type CompanionSettings interface {
+	Choice() companionsettings.Choice
+	Choose(ctx context.Context, choice companionsettings.Choice)
 }
 
 type Collaborators struct {
@@ -79,7 +79,7 @@ type Collaborators struct {
 	Unpairer    Unpairer
 	Offers      PairingOffers
 	Connections DeviceConnections
-	Settings    FetchSettings
+	Settings    CompanionSettings
 }
 
 type pages struct {
@@ -87,7 +87,7 @@ type pages struct {
 	unpairer          Unpairer
 	offers            PairingOffers
 	deviceConnections DeviceConnections
-	fetchSettings     FetchSettings
+	companionSettings CompanionSettings
 	link              companionprotocol.PairLink
 	frame             pageFrame
 }
@@ -109,7 +109,7 @@ func Register(
 		unpairer:          collaborators.Unpairer,
 		offers:            collaborators.Offers,
 		deviceConnections: collaborators.Connections,
-		fetchSettings:     collaborators.Settings,
+		companionSettings: collaborators.Settings,
 		link:              link,
 		frame: pageFrame{
 			WebUIStylesheet: webuistyle.StylesheetPath,

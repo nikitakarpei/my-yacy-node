@@ -23,8 +23,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionpresence"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/peerintake"
@@ -56,7 +56,7 @@ type noCompanions struct{}
 type pairedCompanions struct {
 	devices     *paireddevices.Devices
 	offers      *pairingoffers.Offers
-	settings    *fetchsettings.Settings
+	settings    *companionsettings.Settings
 	intakeHold  *peerintake.IntakeHold
 	certificate tls.Certificate
 	address     string
@@ -76,7 +76,7 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	settings, err := fetchsettings.Open(ctx, directory, intakeHold)
+	settings, err := companionsettings.Open(ctx, directory, intakeHold)
 	if err != nil {
 		return nil, errors.Join(err, devices.Close())
 	}
@@ -191,7 +191,9 @@ func (c *pairedCompanions) servers(
 	return []func(context.Context) error{
 		servedOn(natsURL, network, pairingRequests.Serve),
 		servedOn(natsURL, network, deviceRequests.Serve),
-		companionpresence.New(broker, wallclock.Clock{}, c.intakeHold).Run,
+		companionpresence.New(
+			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.intakeHold,
+		).Run,
 	}
 }
 
