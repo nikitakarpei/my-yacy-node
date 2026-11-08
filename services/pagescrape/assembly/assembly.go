@@ -56,7 +56,7 @@ func RunService(
 	health *servicehealth.Health,
 ) error {
 	broker, connection, err := jetstreamconnect.OpenObserved(
-		cfg.ScrapeNATSURL, dial, health, cfg.BrokerOptions...,
+		cfg.ScrapeNATSURL, dial, health, cfg.BrokerAccess,
 	)
 	if err != nil {
 		return err

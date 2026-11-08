@@ -5,10 +5,9 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/nats-io/nats.go"
-
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
 
@@ -43,7 +42,7 @@ const (
 )
 
 type ServiceConfig struct {
-	BrokerOptions           []nats.Option
+	BrokerAccess            jetstreamconnect.BrokerAccess
 	IntakeAdmission         pullintake.Admission
 	ScrapeNATSURL           string
 	ProxyURL                *url.URL

@@ -2,13 +2,19 @@ package jetstreamconnect_test
 
 import (
 	"context"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/tls"
+	"crypto/x509"
 	"errors"
+	"math/big"
 	"net"
+	"strings"
 	"testing"
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
@@ -100,6 +106,7 @@ func TestOpenObservedReportsALostAndARestoredConnection(t *testing.T) {
 		broker.ClientURL(),
 		(&net.Dialer{}).DialContext,
 		events,
+		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
 		t.Fatalf("OpenObserved: %v", err)
@@ -117,30 +124,107 @@ func TestOpenObservedRejectsUnreachable(t *testing.T) {
 		"nats://127.0.0.1:1",
 		(&net.Dialer{}).DialContext,
 		make(connectionEvents, 1),
+		jetstreamconnect.BrokerAccess{},
 	)
 	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
 		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
 	}
 }
 
-func TestOpenObservedConnectsWithTheOptionsOfTheCaller(t *testing.T) {
+func TestOpenObservedTakesRepliesUnderTheInboxPrefixOfTheAccess(t *testing.T) {
 	broker := brokerOn(t, -1)
 	_, connection, err := jetstreamconnect.OpenObserved(
 		broker.ClientURL(),
 		(&net.Dialer{}).DialContext,
 		make(connectionEvents, 1),
-		nats.Name("companion"),
+		jetstreamconnect.BrokerAccess{InboxPrefix: "_INBOX.d7f3"},
 	)
 	if err != nil {
 		t.Fatalf("OpenObserved: %v", err)
 	}
 	defer connection.Close()
 
-	connections, err := broker.Connz(&natsserver.ConnzOptions{})
+	if inbox := connection.NewRespInbox(); !strings.HasPrefix(inbox, "_INBOX.d7f3.") {
+		t.Errorf("reply inbox = %q, want one under _INBOX.d7f3", inbox)
+	}
+}
+
+func TestOpenObservedConnectsOverTheTLSOfTheAccess(t *testing.T) {
+	certificate := selfSignedCertificate(t)
+	broker := tlsBrokerWith(t, certificate)
+	_, connection, err := jetstreamconnect.OpenObserved(
+		"tls://"+broker.Addr().String(),
+		(&net.Dialer{}).DialContext,
+		make(connectionEvents, 1),
+		jetstreamconnect.BrokerAccess{TLS: &tls.Config{
+			RootCAs:    certificatePoolOf(t, certificate),
+			ServerName: "127.0.0.1",
+			MinVersion: tls.VersionTLS13,
+		}},
+	)
 	if err != nil {
-		t.Fatalf("Connz: %v", err)
+		t.Fatalf("OpenObserved: %v", err)
 	}
-	if len(connections.Conns) != 1 || connections.Conns[0].Name != "companion" {
-		t.Errorf("connections = %+v, want one named companion", connections.Conns)
+	defer connection.Close()
+
+	if _, err := connection.TLSConnectionState(); err != nil {
+		t.Errorf("TLS state: %v, want a TLS connection", err)
 	}
+}
+
+func selfSignedCertificate(t *testing.T) tls.Certificate {
+	t.Helper()
+	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		t.Fatalf("generate key: %v", err)
+	}
+	template := &x509.Certificate{
+		SerialNumber: big.NewInt(1),
+		NotBefore:    time.Now().Add(-time.Hour),
+		NotAfter:     time.Now().Add(time.Hour),
+		IPAddresses:  []net.IP{net.ParseIP("127.0.0.1")},
+		IsCA:         true,
+		KeyUsage:     x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
+		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+
+		BasicConstraintsValid: true,
+	}
+	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
+	if err != nil {
+		t.Fatalf("create certificate: %v", err)
+	}
+	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key}
+}
+
+func tlsBrokerWith(t *testing.T, certificate tls.Certificate) *natsserver.Server {
+	t.Helper()
+	broker, err := natsserver.NewServer(&natsserver.Options{
+		Host: "127.0.0.1",
+		Port: -1,
+		TLS:  true,
+		TLSConfig: &tls.Config{
+			Certificates: []tls.Certificate{certificate},
+			MinVersion:   tls.VersionTLS13,
+		},
+	})
+	if err != nil {
+		t.Fatalf("new broker: %v", err)
+	}
+	go broker.Start()
+	if !broker.ReadyForConnections(callbackWait) {
+		t.Fatal("broker not ready")
+	}
+	t.Cleanup(broker.Shutdown)
+	return broker
+}
+
+func certificatePoolOf(t *testing.T, certificate tls.Certificate) *x509.CertPool {
+	t.Helper()
+	parsed, err := x509.ParseCertificate(certificate.Certificate[0])
+	if err != nil {
+		t.Fatalf("parse certificate: %v", err)
+	}
+	pool := x509.NewCertPool()
+	pool.AddCert(parsed)
+	return pool
 }

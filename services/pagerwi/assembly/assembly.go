@@ -73,7 +73,7 @@ func RunService(
 		cfg.PageRWINATSURL,
 		dial,
 		health,
-		cfg.BrokerOptions...,
+		cfg.BrokerAccess,
 	)
 	if err != nil {
 		return err
@@ -188,7 +188,7 @@ func pageOfferOpenerFor(
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
 		js, connection, err := jetstreamconnect.OpenObserved(
-			cfg.PageOfferNATSURL, dial, health, cfg.BrokerOptions...,
+			cfg.PageOfferNATSURL, dial, health, cfg.BrokerAccess,
 		)
 		if err != nil {
 			return pageOffers{}, err
