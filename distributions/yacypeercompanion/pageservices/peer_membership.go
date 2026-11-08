@@ -9,16 +9,17 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 )
 
 const settingsWait = 10 * time.Second
 
 type membershipTerms struct {
-	link          companionprotocol.PairLink
-	brokerOptions []nats.Option
-	device        string
-	appVersion    string
+	link         companionprotocol.PairLink
+	brokerAccess jetstreamconnect.BrokerAccess
+	device       companionprotocol.DeviceID
+	appVersion   string
 }
 
 type membership struct {
@@ -27,7 +28,7 @@ type membership struct {
 }
 
 func (t membershipTerms) joined(unpaired func()) (*membership, error) {
-	connection, err := brokeraccess.Connect(t.link, append(t.brokerOptions,
+	connection, err := brokeraccess.Connect(t.link, append(t.brokerAccess.Options(),
 		nats.ClosedHandler(func(closed *nats.Conn) {
 			if errors.Is(closed.LastError(), nats.ErrAuthorization) {
 				unpaired()
@@ -46,7 +47,10 @@ func (t membershipTerms) joined(unpaired func()) (*membership, error) {
 }
 
 func (t membershipTerms) refused() bool {
-	connection, err := brokeraccess.Connect(t.link, append(t.brokerOptions, nats.NoReconnect()))
+	connection, err := brokeraccess.Connect(
+		t.link,
+		append(t.brokerAccess.Options(), nats.NoReconnect()),
+	)
 	if err != nil {
 		return errors.Is(err, nats.ErrAuthorization)
 	}

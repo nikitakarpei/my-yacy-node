@@ -59,7 +59,7 @@ func InstanceFor(
 	if err != nil {
 		return nil, err
 	}
-	brokerOptions, err := brokeraccess.DeviceOptions(link, key)
+	brokerAccess, err := brokeraccess.DeviceAccess(link, key)
 	if err != nil {
 		return nil, err
 	}
@@ -76,14 +76,14 @@ func InstanceFor(
 	if err != nil {
 		return nil, err
 	}
-	pagescrapeConfig.BrokerOptions = brokerOptions
-	pagerwiConfig.BrokerOptions = brokerOptions
+	pagescrapeConfig.BrokerAccess = brokerAccess
+	pagerwiConfig.BrokerAccess = brokerAccess
 	return &Instance{
 		membership: membershipTerms{
-			link:          link,
-			brokerOptions: brokerOptions,
-			device:        companionprotocol.DeviceIDOf(key.PublicKeyInfo()),
-			appVersion:    appVersion,
+			link:         link,
+			brokerAccess: brokerAccess,
+			device:       companionprotocol.DeviceIDOf(key.PublicKeyInfo()),
+			appVersion:   appVersion,
 		},
 		pagescrapeConfig: pagescrapeConfig,
 		pagerwiConfig:    pagerwiConfig,

@@ -18,12 +18,12 @@ func Unpair(linkText string, key DeviceKey) {
 	if err != nil {
 		return
 	}
-	options, err := brokeraccess.DeviceOptions(link, key)
+	access, err := brokeraccess.DeviceAccess(link, key)
 	if err != nil {
 		slog.WarnContext(context.Background(), "unpair request not sent", slog.Any("error", err))
 		return
 	}
-	connection, err := brokeraccess.Connect(link, append(options, nats.NoReconnect()))
+	connection, err := brokeraccess.Connect(link, append(access.Options(), nats.NoReconnect()))
 	if err != nil {
 		slog.WarnContext(
 			context.Background(),

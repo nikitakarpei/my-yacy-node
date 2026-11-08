@@ -1,18 +1,23 @@
 // Package brokeraccess connects the app to the broker of a peer. It tries each address of the
 // pairing link side by side, keeps the first connection that the broker accepts, and stops at the
-// first refusal, since every address leads to the same broker. Its NATS options give TLS that
+// first refusal, since every address leads to the same broker. Its broker access gives TLS that
 // accepts only the broker key that the link names, and the secret, key and inbox of the app.
+// Errors that the broker reports while a connection is open, such as a refused publish or
+// subscription, are logged as warnings.
 package brokeraccess
 
 import (
+	"context"
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
 
 const (
@@ -40,11 +45,29 @@ func Connect(link companionprotocol.PairLink, options []nats.Option) (*nats.Conn
 				attempts <- attempt{err: errSettled}
 				return
 			}
-			connection, err := nats.Connect("tls://"+address, options...)
+			connection, err := nats.Connect(
+				"tls://"+address,
+				append(
+					options,
+					nats.Timeout(connectTimeout),
+					nats.ErrorHandler(reportBrokerError),
+				)...,
+			)
 			attempts <- attempt{connection: connection, err: err}
 		}()
 	}
 	return firstConnectionOf(attempts, len(link.Addresses), settled)
+}
+
+func reportBrokerError(_ *nats.Conn, subscription *nats.Subscription, err error) {
+	attributes := []any{slog.Any("error", err)}
+	if subscription != nil {
+		attributes = append(attributes, slog.String("subject", subscription.Subject))
+	}
+	slog.WarnContext(
+		context.Background(),
+		"the broker of the peer reported an error",
+		attributes...)
 }
 
 type attempt struct {
@@ -85,27 +108,32 @@ func wrapped(err error) error {
 	return fmt.Errorf("connect to the broker of the peer: %w", err)
 }
 
-func PairingOptions(link companionprotocol.PairLink, deviceName string) []nats.Option {
-	return []nats.Option{
-		nats.Secure(pinnedTLSFor(link.BrokerKeyHash, nil)),
-		nats.Name(deviceName),
-		nats.UserInfo("", link.Secret),
-		nats.CustomInboxPrefix(companionprotocol.PairingInboxPrefixFor(link.Secret)),
+func PairingOptions(
+	link companionprotocol.PairLink,
+	deviceName companionprotocol.DeviceName,
+) []nats.Option {
+	return append(jetstreamconnect.BrokerAccess{
+		TLS:         pinnedTLSFor(link.BrokerKeyHash, nil),
+		InboxPrefix: companionprotocol.PairingInboxPrefixFor(link.Secret),
+	}.Options(),
+		nats.Name(string(deviceName)),
+		nats.UserInfo("", string(link.Secret)),
 		nats.NoReconnect(),
-		nats.Timeout(connectTimeout),
-	}
+	)
 }
 
-func DeviceOptions(link companionprotocol.PairLink, key DeviceKey) ([]nats.Option, error) {
+func DeviceAccess(
+	link companionprotocol.PairLink,
+	key DeviceKey,
+) (jetstreamconnect.BrokerAccess, error) {
 	certificate, err := certificateOf(key)
 	if err != nil {
-		return nil, err
+		return jetstreamconnect.BrokerAccess{}, err
 	}
 	device := companionprotocol.DeviceIDOf(key.PublicKeyInfo())
-	return []nats.Option{
-		nats.Secure(pinnedTLSFor(link.BrokerKeyHash, []tls.Certificate{certificate})),
-		nats.CustomInboxPrefix(companionprotocol.DeviceInboxPrefixOf(device)),
-		nats.Timeout(connectTimeout),
+	return jetstreamconnect.BrokerAccess{
+		TLS:         pinnedTLSFor(link.BrokerKeyHash, []tls.Certificate{certificate}),
+		InboxPrefix: companionprotocol.DeviceInboxPrefixOf(device),
 	}, nil
 }
 
