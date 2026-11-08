@@ -160,7 +160,6 @@ deps:
       - natsclient
   companionspage:
     mayDependOn:
-      - companionaccess
       - paireddevices
       - pairingoffers
     canUse:

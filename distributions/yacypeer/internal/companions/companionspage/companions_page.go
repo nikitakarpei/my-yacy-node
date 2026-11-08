@@ -17,7 +17,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
@@ -61,21 +60,24 @@ type PairingOffers interface {
 	Open() PairingOffer
 }
 
-type Broker interface {
-	ConnectedUsers() map[string]bool
+type DeviceConnections interface {
+	ConnectedDevices() map[companionprotocol.DeviceID]bool
 }
 
 type Collaborators struct {
-	Devices  PairedDevices
-	Unpairer Unpairer
-	Offers   PairingOffers
-	Broker   Broker
+	Devices     PairedDevices
+	Unpairer    Unpairer
+	Offers      PairingOffers
+	Connections DeviceConnections
 }
 
 type pages struct {
-	collaborators Collaborators
-	link          companionprotocol.PairLink
-	frame         pageFrame
+	devices           PairedDevices
+	unpairer          Unpairer
+	offers            PairingOffers
+	deviceConnections DeviceConnections
+	link              companionprotocol.PairLink
+	frame             pageFrame
 }
 
 type pageFrame struct {
@@ -91,8 +93,11 @@ func Register(
 	tabBar webuistyle.TabBar,
 ) {
 	served := &pages{
-		collaborators: collaborators,
-		link:          link,
+		devices:           collaborators.Devices,
+		unpairer:          collaborators.Unpairer,
+		offers:            collaborators.Offers,
+		deviceConnections: collaborators.Connections,
+		link:              link,
 		frame: pageFrame{
 			WebUIStylesheet: webuistyle.StylesheetPath,
 			TabBar:          tabBar.HTML(),
@@ -147,8 +152,8 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *pages) deviceRows() []deviceRow {
-	connectedUsers := p.collaborators.Broker.ConnectedUsers()
-	devices := p.collaborators.Devices.List()
+	connectedDevices := p.deviceConnections.ConnectedDevices()
+	devices := p.devices.List()
 	slices.SortFunc(devices, func(a, b paireddevices.Device) int {
 		return cmp.Compare(a.Name, b.Name)
 	})
@@ -159,7 +164,7 @@ func (p *pages) deviceRows() []deviceRow {
 			Name:          device.Name,
 			AppVersion:    device.AppVersion,
 			LastConnected: connectionTimeOf(device.LastConnectedAt),
-			Connected:     connectedUsers[companionaccess.UserOf(device.ID)],
+			Connected:     connectedDevices[device.ID],
 		})
 	}
 	return rows
@@ -197,7 +202,7 @@ func rowOf(rows []deviceRow, id companionprotocol.DeviceID) *deviceRow {
 func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
 	device := companionprotocol.DeviceID(r.PostFormValue("device"))
 	if device != "" {
-		p.collaborators.Unpairer.Unpair(r.Context(), device)
+		p.unpairer.Unpair(r.Context(), device)
 	}
 	http.Redirect(w, r, Path, http.StatusSeeOther)
 }

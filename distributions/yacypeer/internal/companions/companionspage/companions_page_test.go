@@ -15,7 +15,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
@@ -27,7 +26,7 @@ var lastConnectedAt = time.Date(2026, 11, 5, 22, 14, 0, 0, time.Local)
 
 type fixture struct {
 	devices   []paireddevices.Device
-	connected map[string]bool
+	connected map[companionprotocol.DeviceID]bool
 	unpaired  []companionprotocol.DeviceID
 	offer     *fakeOffer
 	mu        sync.Mutex
@@ -35,7 +34,7 @@ type fixture struct {
 
 func (f *fixture) List() []paireddevices.Device { return f.devices }
 
-func (f *fixture) ConnectedUsers() map[string]bool { return f.connected }
+func (f *fixture) ConnectedDevices() map[companionprotocol.DeviceID]bool { return f.connected }
 
 func (f *fixture) Unpair(_ context.Context, device companionprotocol.DeviceID) {
 	f.mu.Lock()
@@ -58,7 +57,7 @@ func serve(t *testing.T, f *fixture) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices: f, Unpairer: f, Offers: f, Broker: f,
+		Devices: f, Unpairer: f, Offers: f, Connections: f,
 	}, companionprotocol.PairLink{
 		Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
 	}, webuistyle.TabBar{})
@@ -94,7 +93,7 @@ func pairedFixture() *fixture {
 				LastConnectedAt: lastConnectedAt,
 			},
 		},
-		connected: map[string]bool{companionaccess.UserOf("device-b"): true},
+		connected: map[companionprotocol.DeviceID]bool{"device-b": true},
 	}
 }
 

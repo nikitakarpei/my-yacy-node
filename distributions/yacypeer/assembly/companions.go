@@ -126,10 +126,10 @@ func (c *pairedCompanions) register(
 	tabBar webuistyle.TabBar,
 ) {
 	companionspage.Register(mux, companionspage.Collaborators{
-		Devices:  c.devices,
-		Unpairer: companionaccess.NewUnpairer(c.devices, broker),
-		Offers:   offerOpener{offers: c.offers},
-		Broker:   broker,
+		Devices:     c.devices,
+		Unpairer:    companionaccess.NewUnpairer(c.devices, broker),
+		Offers:      offerOpener{offers: c.offers},
+		Connections: companionaccess.NewDeviceConnections(broker),
 	}, c.pairLinkFor(broker), tabBar)
 }
 
