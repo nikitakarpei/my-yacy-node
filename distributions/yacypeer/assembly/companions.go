@@ -112,7 +112,7 @@ func pageServicesPermissions() natspermissions.Permissions {
 	)
 }
 
-func (c *pairedCompanions) brokerKeyHash() string {
+func (c *pairedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
@@ -121,13 +121,13 @@ func (c *pairedCompanions) servers(
 	natsURL string,
 	network *processnetwork.Network,
 ) []func(context.Context) error {
-	pairingRequests := companionrequests.NewPairingRequests(
+	pairingRequests := companionrequests.NewPairingAnswerer(
 		c.offers, c.devices, wallclock.Clock{}, c.brokerKeyHash(),
 	)
-	deviceRequests := companionrequests.NewDeviceRequests(
+	deviceRequests := companionrequests.NewDeviceAnswerer(
 		c.devices,
 		companionaccess.NewUnpairer(c.devices, broker),
-		companionprotocol.Settings{
+		companionprotocol.DeviceSettings{
 			PartitionExponent: pagerwiassembly.DefaultPageRWIPartitionExponent,
 		},
 	)
