@@ -8,7 +8,6 @@ import (
 )
 
 const (
-	secretByteLength  = 16
 	idByteLength      = 16
 	challengeLabel    = "yacypeer pairing 1"
 	pairingInboxStart = "pairing.replies."
@@ -21,9 +20,7 @@ type Secret string
 type SecretID string
 
 func NewSecret() Secret {
-	secret := make([]byte, secretByteLength)
-	_, _ = rand.Read(secret)
-	return Secret(base64.RawURLEncoding.EncodeToString(secret))
+	return Secret(rand.Text())
 }
 
 func SecretIDOf(secret Secret) SecretID {
