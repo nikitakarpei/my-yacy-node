@@ -75,82 +75,96 @@ func NewPairingRequests(
 }
 
 func (p *PairingRequests) Serve(ctx context.Context, connection *nats.Conn) error {
-	return serve(ctx, connection, map[string]nats.MsgHandler{
-		companionprotocol.PairingRequestSubject: func(request *nats.Msg) {
-			p.answer(ctx, request)
+	return answerUntilDone(ctx, connection, map[string]nats.MsgHandler{
+		companionprotocol.PairingRequestSubject: func(message *nats.Msg) {
+			p.answer(ctx, message)
 		},
 	})
 }
 
-func (p *PairingRequests) answer(ctx context.Context, request *nats.Msg) {
-	secretID := companionprotocol.SecretIDFromReply(request.Reply)
-	pairing, held := p.offers.HoldForVerdict(ctx, secretID)
+func (p *PairingRequests) answer(ctx context.Context, message *nats.Msg) {
+	pairing, held := p.offers.HoldForVerdict(
+		ctx,
+		companionprotocol.SecretIDFromReply(message.Reply),
+	)
 	if !held {
 		slog.WarnContext(ctx, "pairing request left unanswered",
-			slog.String("reply", request.Reply),
+			slog.String("replySubject", message.Reply),
 		)
 		return
 	}
-	device, reason := p.verdictOn(ctx, pairing, request.Data)
-	if reason != "" {
-		p.offers.Refuse(ctx, secretID, reason)
-		respond(ctx, request, companionprotocol.PairingReply{
-			Outcome: companionprotocol.OutcomeRefused, Reason: reason,
-		})
+	request, refused := pairingRequestFrom(message.Data)
+	if refused != nil {
+		p.refuse(ctx, message, pairing, refused)
 		return
 	}
-	p.devices.Add(ctx, device)
-	p.offers.Accept(ctx, secretID, device.ID)
-	respond(ctx, request, companionprotocol.PairingReply{
-		Outcome: companionprotocol.OutcomeAccepted, Device: device.ID,
-	})
-}
-
-func (p *PairingRequests) verdictOn(
-	ctx context.Context,
-	pairing pairingoffers.OngoingPairing,
-	data []byte,
-) (paireddevices.Device, companionprotocol.Reason) {
-	device, reason, cause := p.checked(pairing, data)
-	if reason != "" {
-		slog.WarnContext(ctx, "pairing request refused",
-			slog.String("deviceName", string(pairing.DeviceName)),
-			slog.String("reason", string(reason)),
-			slog.Any("cause", cause),
-		)
+	key, refused := p.provenKeyOf(pairing, request)
+	if refused != nil {
+		p.refuse(ctx, message, pairing, refused)
+		return
 	}
-	return device, reason
+	p.accept(ctx, message, pairing, pairedDeviceFrom(pairing, request, key, p.clock.Now()))
 }
 
-func (p *PairingRequests) checked(
-	pairing pairingoffers.OngoingPairing,
-	data []byte,
-) (paireddevices.Device, companionprotocol.Reason, error) {
+type refusal struct {
+	reason companionprotocol.Reason
+	cause  error
+}
+
+func pairingRequestFrom(data []byte) (companionprotocol.PairingRequest, *refusal) {
 	var request companionprotocol.PairingRequest
 	if err := json.Unmarshal(data, &request); err != nil {
-		return paireddevices.Device{}, companionprotocol.ReasonRequestInvalid,
-			fmt.Errorf("read the pairing request: %w", err)
+		return request, &refusal{
+			reason: companionprotocol.ReasonRequestInvalid,
+			cause:  fmt.Errorf("read the pairing request: %w", err),
+		}
 	}
+	return request, nil
+}
+
+func (p *PairingRequests) refuse(
+	ctx context.Context,
+	message *nats.Msg,
+	pairing pairingoffers.OngoingPairing,
+	refused *refusal,
+) {
+	slog.WarnContext(ctx, "pairing request refused",
+		slog.String("deviceName", string(pairing.DeviceName)),
+		slog.String("reason", string(refused.reason)),
+		slog.Any("cause", refused.cause),
+	)
+	p.offers.Refuse(ctx, companionprotocol.SecretIDOf(pairing.Secret), refused.reason)
+	respond(ctx, message, companionprotocol.RefusedReply(refused.reason))
+}
+
+func (p *PairingRequests) provenKeyOf(
+	pairing pairingoffers.OngoingPairing,
+	request companionprotocol.PairingRequest,
+) (attestedKey, *refusal) {
 	switch {
 	case request.Protocol < companionprotocol.ProtocolVersion:
-		return paireddevices.Device{}, companionprotocol.ReasonAppOutdated, errOlderProtocol
+		return attestedKey{}, &refusal{
+			reason: companionprotocol.ReasonAppOutdated,
+			cause:  errOlderProtocol,
+		}
 	case request.Protocol > companionprotocol.ProtocolVersion:
-		return paireddevices.Device{}, companionprotocol.ReasonPeerOutdated, errNewerProtocol
+		return attestedKey{}, &refusal{
+			reason: companionprotocol.ReasonPeerOutdated,
+			cause:  errNewerProtocol,
+		}
 	}
-	attested, err := attestedKeyOf(request.Attestation)
+	key, err := attestedKeyOf(request.Attestation)
 	if err != nil {
-		return paireddevices.Device{}, companionprotocol.ReasonRequestInvalid, err
+		return attestedKey{}, &refusal{reason: companionprotocol.ReasonRequestInvalid, cause: err}
 	}
 	challenge := companionprotocol.ChallengeFor(pairing.Secret, p.brokerKeyHash)
-	if !companionprotocol.IsProofOf(attested.publicKey, challenge, request.Proof) {
-		return paireddevices.Device{}, companionprotocol.ReasonRequestInvalid, errProofInvalid
+	if !companionprotocol.IsProofOf(key.publicKey, challenge, request.Proof) {
+		return attestedKey{}, &refusal{
+			reason: companionprotocol.ReasonRequestInvalid,
+			cause:  errProofInvalid,
+		}
 	}
-	return paireddevices.Device{
-		ID:         companionprotocol.DeviceIDOf(attested.keyInfo),
-		Name:       pairing.DeviceName,
-		PairedAt:   p.clock.Now(),
-		AppVersion: request.AppVersion,
-	}, "", nil
+	return key, nil
 }
 
 type attestedKey struct {
@@ -173,38 +187,27 @@ func attestedKeyOf(attestation [][]byte) (attestedKey, error) {
 	return attestedKey{publicKey: publicKey, keyInfo: leaf.RawSubjectPublicKeyInfo}, nil
 }
 
-func respond(ctx context.Context, request *nats.Msg, reply any) {
-	data, err := json.Marshal(reply)
-	if err == nil {
-		err = request.Respond(data)
-	}
-	if err != nil {
-		slog.WarnContext(ctx, "companion reply not sent",
-			slog.String("subject", request.Subject), slog.Any("error", err),
-		)
+func pairedDeviceFrom(
+	pairing pairingoffers.OngoingPairing,
+	request companionprotocol.PairingRequest,
+	key attestedKey,
+	now time.Time,
+) paireddevices.Device {
+	return paireddevices.Device{
+		ID:         companionprotocol.DeviceIDOf(key.keyInfo),
+		Name:       pairing.DeviceName,
+		PairedAt:   now,
+		AppVersion: request.AppVersion,
 	}
 }
 
-func serve(
+func (p *PairingRequests) accept(
 	ctx context.Context,
-	connection *nats.Conn,
-	handlers map[string]nats.MsgHandler,
-) error {
-	subscriptions := make([]*nats.Subscription, 0, len(handlers))
-	for subject, handler := range handlers {
-		subscription, err := connection.Subscribe(subject, handler)
-		if err != nil {
-			return fmt.Errorf("subscribe to %q: %w", subject, err)
-		}
-		subscriptions = append(subscriptions, subscription)
-	}
-	<-ctx.Done()
-	for _, subscription := range subscriptions {
-		if err := subscription.Unsubscribe(); err != nil {
-			slog.WarnContext(ctx, "companion requests not unsubscribed",
-				slog.String("subject", subscription.Subject), slog.Any("error", err),
-			)
-		}
-	}
-	return nil
+	message *nats.Msg,
+	pairing pairingoffers.OngoingPairing,
+	device paireddevices.Device,
+) {
+	p.devices.Add(ctx, device)
+	p.offers.Accept(ctx, companionprotocol.SecretIDOf(pairing.Secret), device.ID)
+	respond(ctx, message, companionprotocol.AcceptedReply(device.ID))
 }
