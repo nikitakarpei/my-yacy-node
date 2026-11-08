@@ -12,7 +12,7 @@ func TestAPairLinkReadsBackAsTheSameLink(t *testing.T) {
 	link := companionprotocol.PairLink{
 		Addresses:     []string{"192.168.1.20:4223", "100.101.102.103:4223", "[2001:db8::7]:4223"},
 		BrokerKeyHash: "key-hash",
-		Secret:        companionprotocol.NewSecret(),
+		Secret:        companionprotocol.RandomSecret(),
 	}
 
 	read, err := companionprotocol.PairLinkFrom(link.String())
