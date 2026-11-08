@@ -57,12 +57,12 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	companionParts, err := openCompanions(cfg)
+	companions, err := openCompanions(cfg)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
-	defer closeCompanions(ctx, companionParts)
-	broker, err := startBroker(cfg, companionParts)
+	defer companions.close(ctx)
+	broker, err := companions.startBroker(cfg.directoryOf(brokerDirectoryName))
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -122,7 +122,7 @@ func RunPeer(
 	}
 	logStarted(ctx, peer, web)
 	webMux := webMuxFor(processRegistry, services, history, urls, network)
-	companionServers := companionParts.servers(broker, peer.natsURL, network)
+	companionServers := companions.servers(broker, peer.natsURL, network)
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
 		return runEvery(ctx, services, append(companionServers,
 			func(ctx context.Context) error {

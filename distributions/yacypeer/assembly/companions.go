@@ -29,15 +29,28 @@ const (
 	pairingWait             = 30 * time.Second
 )
 
-type companions struct {
+type companions interface {
+	startBroker(directory string) (*natsbroker.Broker, error)
+	servers(
+		broker *natsbroker.Broker,
+		natsURL string,
+		network *processnetwork.Network,
+	) []func(context.Context) error
+	close(ctx context.Context)
+}
+
+type noCompanions struct{}
+
+type pairedCompanions struct {
 	devices     *paireddevices.Devices
 	offers      *pairingoffers.Offers
 	certificate tls.Certificate
+	address     string
 }
 
-func openCompanions(cfg PeerConfig) (*companions, error) {
+func openCompanions(cfg PeerConfig) (companions, error) {
 	if !cfg.pairsCompanions() {
-		return nil, nil
+		return noCompanions{}, nil
 	}
 	directory := cfg.directoryOf(companionsDirectoryName)
 	certificate, err := brokerkey.Settle(directory)
@@ -48,22 +61,33 @@ func openCompanions(cfg PeerConfig) (*companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &companions{
+	return &pairedCompanions{
 		devices:     devices,
 		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		certificate: certificate,
+		address:     cfg.CompanionAddr,
 	}, nil
 }
 
-func startBroker(cfg PeerConfig, parts *companions) (*natsbroker.Broker, error) {
-	directory := cfg.directoryOf(brokerDirectoryName)
-	if parts == nil {
-		return natsbroker.Start(directory)
-	}
-	return natsbroker.StartWithEndpoint(directory, parts.endpointAt(cfg.CompanionAddr))
+func (noCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
+	return natsbroker.Start(directory)
 }
 
-func (c *companions) endpointAt(address string) natsbroker.Endpoint {
+func (noCompanions) servers(
+	*natsbroker.Broker,
+	string,
+	*processnetwork.Network,
+) []func(context.Context) error {
+	return nil
+}
+
+func (noCompanions) close(context.Context) {}
+
+func (c *pairedCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
+	return natsbroker.StartWithEndpoint(directory, c.endpoint())
+}
+
+func (c *pairedCompanions) endpoint() natsbroker.Endpoint {
 	return natsbroker.Endpoint{
 		Authentication: companionaccess.New(
 			c.devices,
@@ -72,7 +96,7 @@ func (c *companions) endpointAt(address string) natsbroker.Endpoint {
 			pageServicesPermissions(),
 			pairingWait,
 		),
-		Address:     address,
+		Address:     c.address,
 		Certificate: c.certificate,
 	}
 }
@@ -88,18 +112,15 @@ func pageServicesPermissions() natspermissions.Permissions {
 	)
 }
 
-func (c *companions) brokerKeyHash() string {
+func (c *pairedCompanions) brokerKeyHash() string {
 	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
-func (c *companions) servers(
+func (c *pairedCompanions) servers(
 	broker *natsbroker.Broker,
 	natsURL string,
 	network *processnetwork.Network,
 ) []func(context.Context) error {
-	if c == nil {
-		return nil
-	}
 	pairingRequests := companionrequests.NewPairingRequests(
 		c.offers, c.devices, wallclock.Clock{}, c.brokerKeyHash(),
 	)
@@ -131,11 +152,8 @@ func servedOn(
 	}
 }
 
-func closeCompanions(ctx context.Context, parts *companions) {
-	if parts == nil {
-		return
-	}
-	if err := parts.devices.Close(); err != nil {
+func (c *pairedCompanions) close(ctx context.Context) {
+	if err := c.devices.Close(); err != nil {
 		slog.WarnContext(ctx, "paired devices did not close", slog.Any("error", err))
 	}
 }

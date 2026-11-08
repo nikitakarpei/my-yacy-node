@@ -1,8 +1,13 @@
-package companionaccess_test
+package companionpageservices_test
 
 import (
 	"context"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
 	"crypto/tls"
+	"crypto/x509"
+	"math/big"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -23,27 +28,26 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
 const (
-	pageURL  = "http://origin.example/"
-	pageWait = 20 * time.Second
+	secretLifetime = time.Minute
+	pairingWait    = 30 * time.Second
+	pageURL        = "http://origin.example/"
+	pageWait       = 20 * time.Second
 )
 
-func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicePermissionsOnly(t *testing.T) {
-	broker := startBrokerFor(t, natspermissions.JoinedFrom(
-		pagescrapeassembly.ServiceConfig{
-			ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,
-		}.BrokerPermissions(),
-		pagerwiassembly.ServiceConfig{
-			PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
-		}.BrokerPermissions(),
-	))
-	peer := inProcessJetStream(t, broker.broker)
-	provisionPeerStreams(t, peer)
+func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicesPermissionsOnly(t *testing.T) {
 	certificate, device := deviceCertificate(t)
-	broker.devices.paired[device] = true
+	broker := brokerPairedWith(t, device)
+	peer := inProcessJetStream(t, broker)
+	provisionPeerStreams(t, peer)
 	access := jetstreamconnect.BrokerAccess{
 		TLS: &tls.Config{
 			InsecureSkipVerify: true, //nolint:gosec // the test pins nothing.
@@ -51,7 +55,7 @@ func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicePermissionsOnly(t *te
 		},
 		InboxPrefix: companionprotocol.DeviceInboxPrefixOf(device),
 	}
-	brokerURL := "tls://" + broker.broker.EndpointAddress().String()
+	brokerURL := "tls://" + broker.EndpointAddress().String()
 
 	runPagescrape(t, brokerURL, access, pageServing(t))
 	runPagerwi(t, brokerURL, access)
@@ -70,6 +74,70 @@ func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicePermissionsOnly(t *te
 	if err != nil || pageRWI.Metadata.Address != pageURL {
 		t.Errorf("RWI = %+v (%v), want the RWI of %s", pageRWI.Metadata, err, pageURL)
 	}
+}
+
+func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceID) {
+	t.Helper()
+	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		t.Fatalf("GenerateKey: %v", err)
+	}
+	template := &x509.Certificate{
+		SerialNumber: big.NewInt(1),
+		NotBefore:    time.Now().Add(-time.Hour),
+		NotAfter:     time.Now().Add(time.Hour),
+	}
+	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
+	if err != nil {
+		t.Fatalf("CreateCertificate: %v", err)
+	}
+	leaf, err := x509.ParseCertificate(der)
+	if err != nil {
+		t.Fatalf("ParseCertificate: %v", err)
+	}
+	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
+		companionprotocol.DeviceIDOf(leaf.RawSubjectPublicKeyInfo)
+}
+
+func brokerPairedWith(t *testing.T, device companionprotocol.DeviceID) *natsbroker.Broker {
+	t.Helper()
+	directory := t.TempDir()
+	certificate, err := brokerkey.Settle(directory)
+	if err != nil {
+		t.Fatalf("Settle: %v", err)
+	}
+	devices, err := paireddevices.Open(directory)
+	if err != nil {
+		t.Fatalf("open the paired devices: %v", err)
+	}
+	t.Cleanup(func() { _ = devices.Close() })
+	devices.Add(
+		t.Context(),
+		paireddevices.Device{ID: device, Name: "Pixel 8", PairedAt: time.Now()},
+	)
+	broker, err := natsbroker.StartWithEndpoint(t.TempDir(), natsbroker.Endpoint{
+		Authentication: companionaccess.New(
+			devices,
+			pairingoffers.New(wallclock.Clock{}, secretLifetime, pairingWait),
+			wallclock.Clock{},
+			natspermissions.JoinedFrom(
+				pagescrapeassembly.ServiceConfig{
+					ScrapeRequestDurable: pagescrapeassembly.DefaultScrapeRequestDurable,
+				}.BrokerPermissions(),
+				pagerwiassembly.ServiceConfig{
+					PageOfferDurable: pagerwiassembly.DefaultPageOfferDurable,
+				}.BrokerPermissions(),
+			),
+			pairingWait,
+		),
+		Address:     "127.0.0.1:0",
+		Certificate: certificate,
+	})
+	if err != nil {
+		t.Fatalf("StartWithEndpoint: %v", err)
+	}
+	t.Cleanup(broker.Shutdown)
+	return broker
 }
 
 func inProcessJetStream(t *testing.T, broker *natsbroker.Broker) jetstream.JetStream {

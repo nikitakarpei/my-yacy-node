@@ -32,6 +32,14 @@ type PairingReply struct {
 	Reason  Reason   `json:"reason,omitempty"`
 }
 
+func AcceptedReply(device DeviceID) PairingReply {
+	return PairingReply{Outcome: OutcomeAccepted, Device: device}
+}
+
+func RefusedReply(reason Reason) PairingReply {
+	return PairingReply{Outcome: OutcomeRefused, Reason: reason}
+}
+
 type Settings struct {
 	PartitionExponent uint `json:"partitionExponent"`
 }
