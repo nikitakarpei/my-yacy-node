@@ -13,16 +13,18 @@ import (
 )
 
 type pairView struct {
-	Frame         pageFrame
-	EventsPath    string
-	CompanionPath string
+	Frame             pageFrame
+	PairingEventsPath string
+	CompanionsPath    string
+	AssetsPath        string
 }
 
 func (p *pages) pair(w http.ResponseWriter, r *http.Request) {
 	render(w, r, pairPage, pairView{
-		Frame:         p.frame,
-		EventsPath:    pathPairingEvents,
-		CompanionPath: Path,
+		Frame:             p.frame,
+		PairingEventsPath: pathPairingEvents,
+		CompanionsPath:    Path,
+		AssetsPath:        pathAssets,
 	})
 }
 
@@ -71,15 +73,15 @@ type deviceRefusedMessage struct {
 func (p *pages) writeEvent(w io.Writer, event pairingoffers.Event) error {
 	switch event := event.(type) {
 	case pairingoffers.SecretRenewed:
-		link := p.link
+		link := p.linkWithoutSecret
 		link.Secret = event.Secret
 		return writeServerEvent(w, "code", string(pairingCodeOf(link.String())))
 	case pairingoffers.PairingBegun:
-		return writeMessage(w, "started", pairingBegunMessage{DeviceName: event.DeviceName})
+		return writeMessage(w, "begun", pairingBegunMessage{DeviceName: event.DeviceName})
 	case pairingoffers.DevicePaired:
 		return writeMessage(w, "paired", devicePairedMessage{
 			DeviceName: event.DeviceName,
-			URL:        Path + "?" + url.Values{"paired": {string(event.Device)}}.Encode(),
+			URL:        Path + "?" + url.Values{parameterPaired: {string(event.Device)}}.Encode(),
 		})
 	case pairingoffers.DeviceRefused:
 		return writeMessage(w, "refused", deviceRefusedMessage{

@@ -24,10 +24,13 @@ import (
 const (
 	Path              = "/companions"
 	pathUnpair        = Path + "/unpair"
-	pathConnections   = Path + "/connections"
+	pathDeviceStates  = Path + "/device-states"
 	pathPair          = Path + "/pair"
 	pathPairingEvents = pathPair + "/events"
 	pathAssets        = Path + "/assets/"
+	parameterPaired   = "paired"
+	parameterUnpair   = "unpair"
+	fieldDevice       = "device"
 	appGuideURL       = "https://github.com/nikitakarpei/my-yacy-node/tree/main/" +
 		"distributions/yacypeercompanion"
 	connectionTimeLayout = "2 Jan 2006, 15:04"
@@ -76,7 +79,7 @@ type pages struct {
 	unpairer          Unpairer
 	offers            PairingOffers
 	deviceConnections DeviceConnections
-	link              companionprotocol.PairLink
+	linkWithoutSecret companionprotocol.PairLink
 	frame             pageFrame
 }
 
@@ -89,65 +92,76 @@ type pageFrame struct {
 func Register(
 	mux *http.ServeMux,
 	collaborators Collaborators,
-	link companionprotocol.PairLink,
+	linkWithoutSecret companionprotocol.PairLink,
 	tabBar webuistyle.TabBar,
 ) {
-	served := &pages{
+	companionPages := &pages{
 		devices:           collaborators.Devices,
 		unpairer:          collaborators.Unpairer,
 		offers:            collaborators.Offers,
 		deviceConnections: collaborators.Connections,
-		link:              link,
+		linkWithoutSecret: linkWithoutSecret,
 		frame: pageFrame{
 			WebUIStylesheet: webuistyle.StylesheetPath,
 			TabBar:          tabBar.HTML(),
 			AppGuideURL:     appGuideURL,
 		},
 	}
-	mux.HandleFunc("GET "+Path, served.companions)
-	mux.HandleFunc("GET "+pathConnections, served.connections)
-	mux.HandleFunc("POST "+pathUnpair, served.unpair)
-	mux.HandleFunc("GET "+pathPair, served.pair)
-	mux.HandleFunc("GET "+pathPairingEvents, served.pairingEvents)
+	mux.HandleFunc("GET "+Path, companionPages.companions)
+	mux.HandleFunc("GET "+pathDeviceStates, companionPages.deviceStates)
+	mux.HandleFunc("POST "+pathUnpair, companionPages.unpair)
+	mux.HandleFunc("GET "+pathPair, companionPages.pair)
+	mux.HandleFunc("GET "+pathPairingEvents, companionPages.pairingEvents)
 	mux.Handle("GET "+pathAssets, http.StripPrefix(Path, http.FileServerFS(assets)))
 }
 
 type companionsView struct {
-	Frame           pageFrame
-	ConnectionsPath string
-	JustPaired      companionprotocol.DeviceName
-	DeviceToUnpair  *deviceRow
-	Devices         []deviceRow
-	PairPath        string
-	UnpairPath      string
-	CompanionPath   string
+	Frame            pageFrame
+	DeviceStatesPath string
+	PairedDeviceName companionprotocol.DeviceName
+	DeviceToUnpair   *deviceRow
+	Devices          []deviceRow
+	PairPath         string
+	UnpairPath       string
+	CompanionsPath   string
+	AssetsPath       string
+	PairedParameter  string
+	UnpairParameter  string
+	DeviceField      string
 }
 
 type deviceRow struct {
-	ID            companionprotocol.DeviceID   `json:"device"`
-	Name          companionprotocol.DeviceName `json:"-"`
-	AppVersion    string                       `json:"appVersion"`
-	LastConnected string                       `json:"lastConnected"`
-	Connected     bool                         `json:"connected"`
+	ID                 companionprotocol.DeviceID   `json:"device"`
+	Name               companionprotocol.DeviceName `json:"-"`
+	AppVersion         string                       `json:"appVersion"`
+	LastConnectionTime string                       `json:"lastConnectionTime"`
+	Connected          bool                         `json:"connected"`
 }
 
 func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
 	view := companionsView{
-		Frame:           p.frame,
-		ConnectionsPath: pathConnections,
-		Devices:         rows,
-		PairPath:        pathPair,
-		UnpairPath:      pathUnpair,
-		CompanionPath:   Path,
+		Frame:            p.frame,
+		DeviceStatesPath: pathDeviceStates,
+		Devices:          rows,
+		PairPath:         pathPair,
+		UnpairPath:       pathUnpair,
+		CompanionsPath:   Path,
+		AssetsPath:       pathAssets,
+		PairedParameter:  parameterPaired,
+		UnpairParameter:  parameterUnpair,
+		DeviceField:      fieldDevice,
 	}
-	if paired := rowOf(
+	if pairedRow := rowOf(
 		rows,
-		companionprotocol.DeviceID(r.URL.Query().Get("paired")),
-	); paired != nil {
-		view.JustPaired = paired.Name
+		companionprotocol.DeviceID(r.URL.Query().Get(parameterPaired)),
+	); pairedRow != nil {
+		view.PairedDeviceName = pairedRow.Name
 	}
-	view.DeviceToUnpair = rowOf(rows, companionprotocol.DeviceID(r.URL.Query().Get("unpair")))
+	view.DeviceToUnpair = rowOf(
+		rows,
+		companionprotocol.DeviceID(r.URL.Query().Get(parameterUnpair)),
+	)
 	render(w, r, companionsPage, view)
 }
 
@@ -160,17 +174,17 @@ func (p *pages) deviceRows() []deviceRow {
 	rows := make([]deviceRow, 0, len(devices))
 	for _, device := range devices {
 		rows = append(rows, deviceRow{
-			ID:            device.ID,
-			Name:          device.Name,
-			AppVersion:    device.AppVersion,
-			LastConnected: connectionTimeOf(device.LastConnectedAt),
-			Connected:     connectedDevices[device.ID],
+			ID:                 device.ID,
+			Name:               device.Name,
+			AppVersion:         device.AppVersion,
+			LastConnectionTime: connectionTimeOf(device.LastConnectedAt),
+			Connected:          connectedDevices[device.ID],
 		})
 	}
 	return rows
 }
 
-func (p *pages) connections(w http.ResponseWriter, r *http.Request) {
+func (p *pages) deviceStates(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	encoded, err := json.Marshal(p.deviceRows())
@@ -200,9 +214,9 @@ func rowOf(rows []deviceRow, id companionprotocol.DeviceID) *deviceRow {
 }
 
 func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
-	device := companionprotocol.DeviceID(r.PostFormValue("device"))
-	if device != "" {
-		p.unpairer.Unpair(r.Context(), device)
+	deviceID := companionprotocol.DeviceID(r.PostFormValue(fieldDevice))
+	if deviceID != "" {
+		p.unpairer.Unpair(r.Context(), deviceID)
 	}
 	http.Redirect(w, r, Path, http.StatusSeeOther)
 }

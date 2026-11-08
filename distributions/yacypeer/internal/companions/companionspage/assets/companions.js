@@ -3,7 +3,7 @@
 const page = document.querySelector("main");
 const refreshPause = 3000;
 
-if (new URLSearchParams(window.location.search).has("paired")) {
+if (new URLSearchParams(window.location.search).has(page.dataset.pairedParameter)) {
   window.history.replaceState(null, "", page.dataset.path);
 }
 
@@ -21,13 +21,13 @@ function show(device) {
     badge.textContent = "Connected";
     cell.replaceChildren(badge);
   } else {
-    cell.textContent = device.lastConnected;
+    cell.textContent = device.lastConnectionTime;
   }
 }
 
 async function refresh() {
   try {
-    const response = await fetch(page.dataset.connections, { cache: "no-store" });
+    const response = await fetch(page.dataset.deviceStates, { cache: "no-store" });
     const devices = await response.json();
     if (devices.length !== rows.size || devices.some((device) => !rows.has(device.device))) {
       window.location.reload();
@@ -35,7 +35,7 @@ async function refresh() {
     }
     devices.forEach(show);
   } catch (error) {
-    console.warn("device connections not read", error);
+    console.warn("device states not read", error);
     return;
   }
 }

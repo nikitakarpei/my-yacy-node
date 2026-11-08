@@ -232,7 +232,7 @@ func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
 		t.Errorf("event = %s %q, want a code as SVG", name, data)
 	}
 	offer.events <- pairingoffers.PairingBegun{DeviceName: "Pixel 8"}
-	if name, data := events.next(t); name != "started" || !strings.Contains(data, "Pixel 8") {
+	if name, data := events.next(t); name != "begun" || !strings.Contains(data, "Pixel 8") {
 		t.Errorf("event = %s %q, want started by Pixel 8", name, data)
 	}
 	offer.events <- pairingoffers.DeviceRefused{
@@ -275,21 +275,21 @@ func TestEachRefusalHasACause(t *testing.T) {
 	}
 }
 
-func TestTheConnectionsOfThePairedDevicesReadAsJSON(t *testing.T) {
-	body := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path+"/connections")
+func TestTheStatesOfThePairedDevicesReadAsJSON(t *testing.T) {
+	body := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path+"/device-states")
 
 	var devices []struct {
-		Device        string `json:"device"`
-		AppVersion    string `json:"appVersion"`
-		LastConnected string `json:"lastConnected"`
-		Connected     bool   `json:"connected"`
+		Device             string `json:"device"`
+		AppVersion         string `json:"appVersion"`
+		LastConnectionTime string `json:"lastConnectionTime"`
+		Connected          bool   `json:"connected"`
 	}
 	if err := json.Unmarshal([]byte(body), &devices); err != nil {
 		t.Fatalf("Unmarshal %s: %v", body, err)
 	}
 	if len(devices) != 2 || devices[0].Device != "device-a" ||
-		devices[0].LastConnected != "5 Nov 2026, 22:14" || devices[0].Connected ||
+		devices[0].LastConnectionTime != "5 Nov 2026, 22:14" || devices[0].Connected ||
 		devices[1].Device != "device-b" || !devices[1].Connected || devices[1].AppVersion != "1.2.0" {
-		t.Errorf("devices = %+v, want both devices with their connections", devices)
+		t.Errorf("devices = %+v, want both devices with their states", devices)
 	}
 }
