@@ -8,6 +8,7 @@ import (
 	"cmp"
 	"context"
 	"io/fs"
+	"log/slog"
 	"net"
 	"os"
 	"slices"
@@ -58,6 +59,7 @@ func ThisHost() Host {
 func interfacesOfThisHost() []Interface {
 	found, err := net.Interfaces()
 	if err != nil {
+		slog.WarnContext(context.Background(), "network interfaces unread", slog.Any("error", err))
 		return nil
 	}
 	interfaces := make([]Interface, 0, len(found))
@@ -67,6 +69,9 @@ func interfacesOfThisHost() []Interface {
 		}
 		addresses, err := each.Addrs()
 		if err != nil {
+			slog.WarnContext(context.Background(), "addresses of a network interface unread",
+				slog.String("interface", each.Name), slog.Any("error", err),
+			)
 			continue
 		}
 		ips := make([]net.IP, 0, len(addresses))
@@ -83,10 +88,21 @@ func interfacesOfThisHost() []Interface {
 func outgoingIP() net.IP {
 	probe, err := (&net.Dialer{}).DialContext(context.Background(), "udp", probeAddr)
 	if err != nil {
+		slog.DebugContext(context.Background(), "no default route", slog.Any("error", err))
 		return nil
 	}
-	defer func() { _ = probe.Close() }()
+	defer closeProbe(probe)
 	return probe.LocalAddr().(*net.UDPAddr).IP
+}
+
+func closeProbe(probe net.Conn) {
+	if err := probe.Close(); err != nil {
+		slog.DebugContext(
+			context.Background(),
+			"default route probe not closed",
+			slog.Any("error", err),
+		)
+	}
 }
 
 func (h Host) AddressesFor(listener *net.TCPAddr) []string {

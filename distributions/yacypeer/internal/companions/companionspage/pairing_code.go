@@ -1,8 +1,10 @@
 package companionspage
 
 import (
+	"context"
 	"fmt"
 	"html/template"
+	"log/slog"
 	"strings"
 
 	"rsc.io/qr"
@@ -13,6 +15,7 @@ const quietZone = 4
 func pairingCodeOf(link string) template.HTML {
 	code, err := qr.Encode(link, qr.M)
 	if err != nil {
+		slog.ErrorContext(context.Background(), "pairing code not drawn", slog.Any("error", err))
 		return ""
 	}
 	side := code.Size + 2*quietZone

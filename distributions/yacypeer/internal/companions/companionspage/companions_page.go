@@ -4,6 +4,7 @@
 package companionspage
 
 import (
+	"bytes"
 	"cmp"
 	"context"
 	"embed"
@@ -167,7 +168,13 @@ func (p *pages) deviceRows() []deviceRow {
 func (p *pages) connections(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
-	if err := json.NewEncoder(w).Encode(p.deviceRows()); err != nil {
+	encoded, err := json.Marshal(p.deviceRows())
+	if err != nil {
+		slog.ErrorContext(r.Context(), "device connections not encoded", slog.Any("error", err))
+		http.Error(w, "device connections not encoded", http.StatusInternalServerError)
+		return
+	}
+	if _, err := w.Write(encoded); err != nil {
 		slog.DebugContext(r.Context(), "companions page reader left", slog.Any("error", err))
 	}
 }
@@ -196,8 +203,16 @@ func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
 }
 
 func render(w http.ResponseWriter, r *http.Request, page *template.Template, view any) {
+	var rendered bytes.Buffer
+	if err := page.Execute(&rendered, view); err != nil {
+		slog.ErrorContext(r.Context(), "companions page not rendered",
+			slog.String("page", page.Name()), slog.Any("error", err),
+		)
+		http.Error(w, "page not rendered", http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := page.Execute(w, view); err != nil {
+	if _, err := rendered.WriteTo(w); err != nil {
 		slog.DebugContext(r.Context(), "companions page reader left", slog.Any("error", err))
 	}
 }

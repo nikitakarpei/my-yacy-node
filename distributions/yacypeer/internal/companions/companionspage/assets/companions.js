@@ -34,7 +34,8 @@ async function refresh() {
       return;
     }
     devices.forEach(show);
-  } catch {
+  } catch (error) {
+    console.warn("device connections not read", error);
     return;
   }
 }

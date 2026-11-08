@@ -263,9 +263,11 @@ func TestRunPeerHasNoCompanionsTabWithoutTheCompanionAddress(t *testing.T) {
 	}()
 	awaitEveryService(t, env, web)
 
-	if body, _ := scraped("http://" + web.Addr().String() + "/"); strings.Contains(
-		body, "/companions",
-	) {
+	body, ok := scraped("http://" + web.Addr().String() + "/")
+	if !ok {
+		t.Fatal("the search page did not answer")
+	}
+	if strings.Contains(body, "/companions") {
 		t.Error("the search page links the Companions pages")
 	}
 

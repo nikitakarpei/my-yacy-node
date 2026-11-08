@@ -110,7 +110,7 @@ func (c *companions) register(
 }
 
 func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
-	address, _ := broker.EndpointAddress().(*net.TCPAddr)
+	address := broker.EndpointAddress().(*net.TCPAddr) //nolint:forcetypeassert // the endpoint listens on TCP.
 	return companionprotocol.PairLink{
 		Addresses:     hostaddresses.ThisHost().AddressesFor(address),
 		BrokerKeyHash: c.brokerKeyHash(),
