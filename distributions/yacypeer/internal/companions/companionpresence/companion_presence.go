@@ -36,9 +36,9 @@ func New(broker Broker, clock Clock, observers ...Observer) *Presence {
 }
 
 func (p *Presence) Run(ctx context.Context) error {
-	for ctx.Err() == nil {
+	p.check(ctx)
+	for p.clock.Sleep(ctx, checkInterval) == nil {
 		p.check(ctx)
-		_ = p.clock.Sleep(ctx, checkInterval)
 	}
 	return nil
 }

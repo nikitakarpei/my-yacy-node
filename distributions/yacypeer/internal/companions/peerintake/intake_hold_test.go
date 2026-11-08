@@ -34,6 +34,9 @@ func TestTheIntakeHoldAdmitsWhileNoDeviceIsPaired(t *testing.T) {
 func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheLastDeviceIsUnpaired(t *testing.T) {
 	hold := pairedHold()
 	hold.ChoiceMade(context.Background(), fetchsettings.Choice{CompanionsFetch: true})
+	if admits(hold) {
+		t.Fatal("the intake is admitted before the last device is unpaired")
+	}
 	admitted := make(chan error, 1)
 	go func() { admitted <- hold.AwaitAdmission(context.Background()) }()
 
@@ -99,6 +102,9 @@ func TestTheIntakeHoldReleasesAWaitingIntakeOnceTheCompanionsLeft(t *testing.T) 
 		fetchsettings.Choice{CompanionsFetch: true, PeerFillsIn: true},
 	)
 	hold.CompanionsConnected(context.Background())
+	if admits(hold) {
+		t.Fatal("the intake is admitted before the companions left")
+	}
 	admitted := make(chan error, 1)
 	go func() { admitted <- hold.AwaitAdmission(context.Background()) }()
 
