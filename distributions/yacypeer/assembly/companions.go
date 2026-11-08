@@ -63,7 +63,7 @@ type pairedCompanions struct {
 }
 
 func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
-	if !cfg.pairsCompanions() {
+	if !cfg.servesCompanions() {
 		return noCompanions{}, nil
 	}
 	directory := cfg.directoryOf(companionsDirectoryName)
@@ -169,7 +169,7 @@ func (c *pairedCompanions) pairLinkFor(broker *natsbroker.Broker) companionproto
 	}
 }
 
-func (c *pairedCompanions) brokerKeyHash() string {
+func (c *pairedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
@@ -178,13 +178,13 @@ func (c *pairedCompanions) servers(
 	natsURL string,
 	network *processnetwork.Network,
 ) []func(context.Context) error {
-	pairingRequests := companionrequests.NewPairingRequests(
+	pairingRequests := companionrequests.NewPairingAnswerer(
 		c.offers, c.devices, wallclock.Clock{}, c.brokerKeyHash(),
 	)
-	deviceRequests := companionrequests.NewDeviceRequests(
+	deviceRequests := companionrequests.NewDeviceAnswerer(
 		c.devices,
 		c.unpairerFor(broker),
-		companionprotocol.Settings{
+		companionprotocol.DeviceSettings{
 			PartitionExponent: pagerwiassembly.DefaultPageRWIPartitionExponent,
 		},
 	)

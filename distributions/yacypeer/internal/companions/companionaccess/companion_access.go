@@ -40,7 +40,7 @@ type Clock interface {
 	Now() time.Time
 }
 
-type Access struct {
+type Gatekeeper struct {
 	devices                 PairedDevices
 	offers                  PairingOffers
 	clock                   Clock
@@ -54,8 +54,8 @@ func New(
 	clock Clock,
 	pageServicesPermissions natspermissions.Permissions,
 	pairingWait time.Duration,
-) *Access {
-	return &Access{
+) *Gatekeeper {
+	return &Gatekeeper{
 		devices:                 devices,
 		offers:                  offers,
 		clock:                   clock,
@@ -68,7 +68,7 @@ func UserOf(device companionprotocol.DeviceID) string {
 	return deviceUserStart + string(device)
 }
 
-func (a *Access) Check(client natsserver.ClientAuthentication) bool {
+func (a *Gatekeeper) Check(client natsserver.ClientAuthentication) bool {
 	if address := client.RemoteAddress(); address != nil &&
 		address.Network() == inProcessNetwork {
 		return true
@@ -81,12 +81,12 @@ func (a *Access) Check(client natsserver.ClientAuthentication) bool {
 		return false
 	}
 	if len(state.PeerCertificates) > 0 {
-		return a.checkDevice(client, state.PeerCertificates[0])
+		return a.admitPairedDevice(client, state.PeerCertificates[0])
 	}
-	return a.checkPairing(client)
+	return a.admitPairingDevice(client)
 }
 
-func (a *Access) checkDevice(
+func (a *Gatekeeper) admitPairedDevice(
 	client natsserver.ClientAuthentication,
 	certificate *x509.Certificate,
 ) bool {
@@ -108,7 +108,7 @@ func (a *Access) checkDevice(
 	return true
 }
 
-func (a *Access) permissionsOf(device companionprotocol.DeviceID) *natsserver.Permissions {
+func (a *Gatekeeper) permissionsOf(device companionprotocol.DeviceID) *natsserver.Permissions {
 	return &natsserver.Permissions{
 		Publish: &natsserver.SubjectPermission{
 			Allow: append(
@@ -119,13 +119,13 @@ func (a *Access) permissionsOf(device companionprotocol.DeviceID) *natsserver.Pe
 		Subscribe: &natsserver.SubjectPermission{
 			Allow: append(
 				append([]string{}, a.pageServicesPermissions.Subscribe...),
-				companionprotocol.DeviceRepliesOf(device),
+				companionprotocol.DeviceInboxSubjectsOf(device),
 			),
 		},
 	}
 }
 
-func (a *Access) checkPairing(client natsserver.ClientAuthentication) bool {
+func (a *Gatekeeper) admitPairingDevice(client natsserver.ClientAuthentication) bool {
 	ctx := context.Background()
 	options := client.GetOpts()
 	secret := companionprotocol.Secret(options.Password)
@@ -137,12 +137,16 @@ func (a *Access) checkPairing(client natsserver.ClientAuthentication) bool {
 		return false
 	}
 	client.RegisterUser(&natsserver.User{
-		Username:           pairingUserStart + string(companionprotocol.SecretIDOf(secret)),
+		Username:           pairingUserOf(secret),
 		Permissions:        pairingPermissionsFor(secret),
 		ConnectionDeadline: a.clock.Now().Add(a.pairingWait),
 	})
 	slog.DebugContext(ctx, "device began pairing", slog.String("deviceName", options.Name))
 	return true
+}
+
+func pairingUserOf(secret companionprotocol.Secret) string {
+	return pairingUserStart + string(companionprotocol.SecretIDOf(secret))
 }
 
 func pairingPermissionsFor(secret companionprotocol.Secret) *natsserver.Permissions {
@@ -151,7 +155,7 @@ func pairingPermissionsFor(secret companionprotocol.Secret) *natsserver.Permissi
 			Allow: []string{companionprotocol.PairingRequestSubject},
 		},
 		Subscribe: &natsserver.SubjectPermission{
-			Allow: []string{companionprotocol.PairingRepliesFor(secret)},
+			Allow: []string{companionprotocol.PairingInboxSubjectsFor(secret)},
 		},
 	}
 }

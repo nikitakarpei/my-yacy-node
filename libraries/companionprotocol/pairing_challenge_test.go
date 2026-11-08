@@ -21,7 +21,7 @@ func newDeviceKey(t *testing.T) *ecdsa.PrivateKey {
 
 func TestAProofHoldsForItsKeyAndChallengeOnly(t *testing.T) {
 	key := newDeviceKey(t)
-	challenge := companionprotocol.ChallengeFor("secret", "key-hash")
+	challenge := companionprotocol.ChallengeFrom("secret", "key-hash")
 
 	proof, err := companionprotocol.ProofOf(key, challenge)
 	if err != nil {
@@ -31,7 +31,7 @@ func TestAProofHoldsForItsKeyAndChallengeOnly(t *testing.T) {
 	if !companionprotocol.IsProofOf(&key.PublicKey, challenge, proof) {
 		t.Error("the proof does not hold for its key and challenge")
 	}
-	other := companionprotocol.ChallengeFor("other secret", "key-hash")
+	other := companionprotocol.ChallengeFrom("other secret", "key-hash")
 	if companionprotocol.IsProofOf(&key.PublicKey, other, proof) {
 		t.Error("the proof holds for another challenge")
 	}

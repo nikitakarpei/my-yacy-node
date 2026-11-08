@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Companions settings</title>
 <link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
-<link rel="stylesheet" href="{{.CompanionPath}}/assets/companions.css">
-<script src="{{.CompanionPath}}/assets/companions.js" defer></script>
+<link rel="stylesheet" href="{{.AssetsPath}}companions.css">
+<script src="{{.AssetsPath}}companions.js" defer></script>
 </head>
 <body>
 {{.Frame.TabBar}}
-<main data-connections="{{.ConnectionsPath}}" data-path="{{.SettingsPath}}" data-pauses="{{.Heading.PauseRule}}">
+<main data-device-states="{{.DeviceStatesPath}}" data-path="{{.SettingsPath}}" data-pauses="{{.Heading.PauseRule}}">
   {{template "heading" .Heading}}
   <form class="settings" method="post" action="{{.SettingsPath}}">
     <label class="setting">

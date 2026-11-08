@@ -12,13 +12,14 @@ const (
 )
 
 type settingsView struct {
-	Frame           pageFrame
-	Heading         headingView
-	ConnectionsPath string
-	CompanionPath   string
-	SettingsPath    string
-	Choice          companionsettings.Choice
-	FieldNames      settingsFieldNames
+	Frame            pageFrame
+	Heading          headingView
+	DeviceStatesPath string
+	CompanionsPath   string
+	AssetsPath       string
+	SettingsPath     string
+	Choice           companionsettings.Choice
+	FieldNames       settingsFieldNames
 }
 
 type settingsFieldNames struct {
@@ -29,12 +30,13 @@ type settingsFieldNames struct {
 func (p *pages) settings(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
 	render(w, r, settingsPage, settingsView{
-		Frame:           p.frame,
-		Heading:         p.headingFor(rows, settingsTab),
-		ConnectionsPath: pathConnections,
-		CompanionPath:   Path,
-		SettingsPath:    pathSettings,
-		Choice:          p.companionSettings.Choice(),
+		Frame:            p.frame,
+		Heading:          p.headingFor(rows, settingsTab),
+		DeviceStatesPath: pathDeviceStates,
+		CompanionsPath:   Path,
+		AssetsPath:       pathAssets,
+		SettingsPath:     pathSettings,
+		Choice:           p.companionSettings.Choice(),
 		FieldNames: settingsFieldNames{
 			CompanionsFetch: fieldCompanionsFetch,
 			PeerFillsIn:     fieldPeerFillsIn,

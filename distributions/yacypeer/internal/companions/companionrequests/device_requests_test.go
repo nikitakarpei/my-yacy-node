@@ -50,8 +50,8 @@ func startDeviceRequests(t *testing.T) (*deviceRecords, string) {
 	t.Helper()
 	url := natstestserver.Start(t)
 	records := &deviceRecords{appVersions: map[companionprotocol.DeviceID]string{}}
-	requests := companionrequests.NewDeviceRequests(
-		records, records, companionprotocol.Settings{PartitionExponent: 4},
+	requests := companionrequests.NewDeviceAnswerer(
+		records, records, companionprotocol.DeviceSettings{PartitionExponent: 4},
 	)
 	serve(t, requests.Serve, url, 3)
 	return records, url
@@ -67,7 +67,7 @@ func TestADeviceGetsTheSettingsOfThePeer(t *testing.T) {
 		t.Fatalf("Request: %v", err)
 	}
 
-	var settings companionprotocol.Settings
+	var settings companionprotocol.DeviceSettings
 	if err := json.Unmarshal(reply.Data, &settings); err != nil ||
 		settings.PartitionExponent != 4 {
 		t.Errorf("settings = %s, want partition exponent 4", reply.Data)

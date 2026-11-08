@@ -14,12 +14,12 @@ const (
 )
 
 type headingView struct {
-	DevicesPath  string
-	SettingsPath string
-	SettingsTab  bool
-	PauseRule    bool
-	Paused       bool
-	JustPaired   companionprotocol.DeviceName
+	DevicesPath      string
+	SettingsPath     string
+	SettingsTab      bool
+	PauseRule        bool
+	Paused           bool
+	PairedDeviceName companionprotocol.DeviceName
 }
 
 func (p *pages) headingFor(rows []deviceRow, current tab) headingView {
