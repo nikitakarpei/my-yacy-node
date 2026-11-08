@@ -61,7 +61,7 @@ func startPeer(t *testing.T) peer {
 	broker := brokeraccesstest.Start(t, check)
 	appVersions := make(chan string, 4)
 	connection := broker.Connect(t)
-	settings, _ := json.Marshal(companionprotocol.Settings{PartitionExponent: 4})
+	settings, _ := json.Marshal(companionprotocol.DeviceSettings{PartitionExponent: 4})
 	for subject, handler := range map[string]nats.MsgHandler{
 		companionprotocol.SettingsSubjects: func(msg *nats.Msg) { _ = msg.Respond(settings) },
 		companionprotocol.AppSubjects: func(msg *nats.Msg) {

@@ -72,7 +72,7 @@ func TestLinkKindOfTellsPairLinksFromOtherText(t *testing.T) {
 func TestTheChallengeOfALinkBindsItsSecretAndBrokerKey(t *testing.T) {
 	link := companionprotocol.PairLink{Addresses: []string{"a:1"}, BrokerKeyHash: "h", Secret: "s"}
 
-	if !bytes.Equal(pairing.ChallengeOf(link.String()), companionprotocol.ChallengeFor("s", "h")) {
+	if !bytes.Equal(pairing.ChallengeOf(link.String()), companionprotocol.ChallengeFrom("s", "h")) {
 		t.Error("the challenge does not bind the secret and the broker key")
 	}
 	if pairing.ChallengeOf("https://example.org/") != nil {
@@ -83,9 +83,7 @@ func TestTheChallengeOfALinkBindsItsSecretAndBrokerKey(t *testing.T) {
 func TestAnAcceptedDeviceLearnsItsID(t *testing.T) {
 	key := brokeraccesstest.NewDeviceKey(t)
 	peer := startPeer(t, func(companionprotocol.PairingRequest) any {
-		return companionprotocol.PairingReply{
-			Outcome: companionprotocol.OutcomeAccepted, Device: key.ID(),
-		}
+		return companionprotocol.AcceptedReply(key.ID())
 	})
 	request := pairing.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0")
 	request.AddCertificate([]byte("leaf"))
@@ -101,15 +99,15 @@ func TestAnAcceptedDeviceLearnsItsID(t *testing.T) {
 		t.Fatalf("Unmarshal: %v", err)
 	}
 	publicKey, _ := x509.ParsePKIXPublicKey(key.PublicKeyInfo())
-	challenge := companionprotocol.ChallengeFor(secret, peer.broker.KeyHash)
+	challenge := companionprotocol.ChallengeFrom(secret, peer.broker.KeyHash)
 	if !companionprotocol.IsProofOf(publicKey.(*ecdsa.PublicKey), challenge, got.Proof) {
 		t.Error("the request proves no key")
 	}
-	if got.Protocol != companionprotocol.ProtocolVersion || got.AppVersion != "1.2.0" ||
+	if got.ProtocolVersion != companionprotocol.ProtocolVersion || got.AppVersion != "1.2.0" ||
 		len(got.Attestation) != 1 {
 		t.Errorf("request = %+v, want protocol, app version and attestation", got)
 	}
-	if companionprotocol.SecretIDFromReply(sent.Reply) != companionprotocol.SecretIDOf(secret) {
+	if companionprotocol.SecretIDFrom(sent.Reply) != companionprotocol.SecretIDOf(secret) {
 		t.Errorf("reply subject = %q, want the pairing inbox of the secret", sent.Reply)
 	}
 }
@@ -148,7 +146,7 @@ func TestARefusedDeviceLearnsTheReason(t *testing.T) {
 }
 
 func TestEachRefusalReasonHasItsResult(t *testing.T) {
-	for reason, want := range map[companionprotocol.Reason]string{
+	for reason, want := range map[companionprotocol.RefusalReason]string{
 		companionprotocol.ReasonPeerOutdated:     pairing.ResultPeerOutdated,
 		companionprotocol.ReasonAppNotOfficial:   pairing.ResultAppNotOfficial,
 		companionprotocol.ReasonDeviceNotTrusted: pairing.ResultDeviceNotTrusted,

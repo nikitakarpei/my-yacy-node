@@ -154,7 +154,10 @@ func DeviceAccess(
 	}, nil
 }
 
-func pinnedTLSFor(brokerKeyHash string, certificates []tls.Certificate) *tls.Config {
+func pinnedTLSFor(
+	brokerKeyHash companionprotocol.BrokerKeyHash,
+	certificates []tls.Certificate,
+) *tls.Config {
 	return &tls.Config{
 		InsecureSkipVerify: true, //nolint:gosec // VerifyConnection pins the broker key.
 		MinVersion:         tls.VersionTLS13,

@@ -63,7 +63,7 @@ func ChallengeOf(linkText string) []byte {
 		slog.WarnContext(context.Background(), "pairing challenge not made", slog.Any("error", err))
 		return nil
 	}
-	return companionprotocol.ChallengeFor(link.Secret, link.BrokerKeyHash)
+	return companionprotocol.ChallengeFrom(link.Secret, link.BrokerKeyHash)
 }
 
 type Request struct {
@@ -122,16 +122,16 @@ func (r *Request) requestDataFor(link companionprotocol.PairLink, key DeviceKey)
 		return nil, err
 	}
 	proof, err := companionprotocol.ProofOf(
-		signer, companionprotocol.ChallengeFor(link.Secret, link.BrokerKeyHash),
+		signer, companionprotocol.ChallengeFrom(link.Secret, link.BrokerKeyHash),
 	)
 	if err != nil {
 		return nil, err
 	}
 	return json.Marshal(companionprotocol.PairingRequest{ //nolint:wrapcheck // plain types.
-		Protocol:    companionprotocol.ProtocolVersion,
-		AppVersion:  r.appVersion,
-		Attestation: r.attestation,
-		Proof:       proof,
+		ProtocolVersion: companionprotocol.ProtocolVersion,
+		AppVersion:      r.appVersion,
+		Attestation:     r.attestation,
+		Proof:           proof,
 	})
 }
 
@@ -142,12 +142,12 @@ func outcomeOf(data []byte) *Outcome {
 		return &Outcome{Result: ResultRefused}
 	}
 	if reply.Outcome == companionprotocol.OutcomeAccepted {
-		return &Outcome{Result: ResultAccepted, Device: string(reply.Device)}
+		return &Outcome{Result: ResultAccepted, Device: string(reply.DeviceID)}
 	}
 	return &Outcome{Result: resultOf(reply.Reason)}
 }
 
-func resultOf(reason companionprotocol.Reason) string {
+func resultOf(reason companionprotocol.RefusalReason) string {
 	switch reason {
 	case companionprotocol.ReasonAppOutdated:
 		return ResultAppOutdated

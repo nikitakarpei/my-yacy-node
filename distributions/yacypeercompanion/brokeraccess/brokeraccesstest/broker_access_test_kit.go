@@ -25,7 +25,7 @@ const (
 
 type Broker struct {
 	Server  *natsserver.Server
-	KeyHash string
+	KeyHash companionprotocol.BrokerKeyHash
 }
 
 func Start(t *testing.T, authentication natsserver.Authentication) Broker {
@@ -55,7 +55,7 @@ func Start(t *testing.T, authentication natsserver.Authentication) Broker {
 	return Broker{Server: server, KeyHash: keyHash}
 }
 
-func brokerCertificate(t *testing.T) (tls.Certificate, string) {
+func brokerCertificate(t *testing.T) (tls.Certificate, companionprotocol.BrokerKeyHash) {
 	t.Helper()
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {

@@ -25,7 +25,7 @@ type membershipTerms struct {
 
 type membership struct {
 	connection *nats.Conn
-	settings   companionprotocol.Settings
+	settings   companionprotocol.DeviceSettings
 }
 
 func (t membershipTerms) joined(unpaired func()) (*membership, error) {
@@ -63,16 +63,18 @@ func (t membershipTerms) refused() bool {
 	return false
 }
 
-func (t membershipTerms) settingsOver(connection *nats.Conn) (companionprotocol.Settings, error) {
+func (t membershipTerms) settingsOver(
+	connection *nats.Conn,
+) (companionprotocol.DeviceSettings, error) {
 	reply, err := connection.Request(
 		companionprotocol.SettingsSubjectOf(t.device), nil, settingsWait,
 	)
 	if err != nil {
-		return companionprotocol.Settings{}, fmt.Errorf("ask for the settings: %w", err)
+		return companionprotocol.DeviceSettings{}, fmt.Errorf("ask for the settings: %w", err)
 	}
-	var settings companionprotocol.Settings
+	var settings companionprotocol.DeviceSettings
 	if err := json.Unmarshal(reply.Data, &settings); err != nil {
-		return companionprotocol.Settings{}, fmt.Errorf("read the settings: %w", err)
+		return companionprotocol.DeviceSettings{}, fmt.Errorf("read the settings: %w", err)
 	}
 	return settings, nil
 }
