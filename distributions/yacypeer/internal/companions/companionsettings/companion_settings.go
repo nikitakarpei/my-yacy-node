@@ -1,8 +1,8 @@
-// Package fetchsettings keeps who fetches pages for the peer in one file of a directory: whether
-// paired companions fetch pages, on until the operator turns it off, and whether the peer fetches
-// pages itself while no companion is connected. It tells its observers each choice, the kept one
-// first.
-package fetchsettings
+// Package companionsettings keeps the settings of the companions of the peer in one file of a
+// directory: whether paired companions fetch pages, on until the operator turns it off, and
+// whether the peer fetches pages itself while no companion is connected. It tells its observers
+// each choice, the kept one first.
+package companionsettings
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	fileName          = "fetch-settings.json"
+	fileName          = "companion-settings.json"
 	draftFileName     = fileName + ".draft"
 	directoryFileMode = 0o700
 	fileMode          = 0o600
@@ -25,6 +25,10 @@ const (
 type Choice struct {
 	CompanionsFetch bool `json:"companionsFetch"`
 	PeerFillsIn     bool `json:"peerFillsIn"`
+}
+
+func (c Choice) OnlyCompanionsFetch() bool {
+	return c.CompanionsFetch && !c.PeerFillsIn
 }
 
 type Observer interface {
