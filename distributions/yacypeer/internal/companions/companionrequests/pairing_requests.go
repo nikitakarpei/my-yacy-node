@@ -16,8 +16,8 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
 
 var (
@@ -29,9 +29,20 @@ var (
 )
 
 type PairingOffers interface {
-	PairingWith(secretID string) (pairingoffers.Pairing, bool)
-	Accept(secretID string, device string)
-	Refuse(secretID string, reason companionprotocol.Reason)
+	HoldForVerdict(
+		ctx context.Context,
+		secretID companionprotocol.SecretID,
+	) (pairingoffers.OngoingPairing, bool)
+	Accept(
+		ctx context.Context,
+		secretID companionprotocol.SecretID,
+		device companionprotocol.DeviceID,
+	)
+	Refuse(
+		ctx context.Context,
+		secretID companionprotocol.SecretID,
+		reason companionprotocol.Reason,
+	)
 }
 
 type NewDevices interface {
@@ -73,23 +84,23 @@ func (p *PairingRequests) Serve(ctx context.Context, connection *nats.Conn) erro
 
 func (p *PairingRequests) answer(ctx context.Context, request *nats.Msg) {
 	secretID := companionprotocol.SecretIDFromReply(request.Reply)
-	pairing, found := p.offers.PairingWith(secretID)
-	if !found {
-		slog.WarnContext(ctx, "pairing request without a begun pairing",
+	pairing, held := p.offers.HoldForVerdict(ctx, secretID)
+	if !held {
+		slog.WarnContext(ctx, "pairing request left unanswered",
 			slog.String("reply", request.Reply),
 		)
 		return
 	}
 	device, reason := p.verdictOn(ctx, pairing, request.Data)
 	if reason != "" {
-		p.offers.Refuse(secretID, reason)
+		p.offers.Refuse(ctx, secretID, reason)
 		respond(ctx, request, companionprotocol.PairingReply{
 			Outcome: companionprotocol.OutcomeRefused, Reason: reason,
 		})
 		return
 	}
 	p.devices.Add(ctx, device)
-	p.offers.Accept(secretID, device.ID)
+	p.offers.Accept(ctx, secretID, device.ID)
 	respond(ctx, request, companionprotocol.PairingReply{
 		Outcome: companionprotocol.OutcomeAccepted, Device: device.ID,
 	})
@@ -97,13 +108,13 @@ func (p *PairingRequests) answer(ctx context.Context, request *nats.Msg) {
 
 func (p *PairingRequests) verdictOn(
 	ctx context.Context,
-	pairing pairingoffers.Pairing,
+	pairing pairingoffers.OngoingPairing,
 	data []byte,
 ) (paireddevices.Device, companionprotocol.Reason) {
 	device, reason, cause := p.checked(pairing, data)
 	if reason != "" {
 		slog.WarnContext(ctx, "pairing request refused",
-			slog.String("deviceName", pairing.DeviceName),
+			slog.String("deviceName", string(pairing.DeviceName)),
 			slog.String("reason", string(reason)),
 			slog.Any("cause", cause),
 		)
@@ -112,7 +123,7 @@ func (p *PairingRequests) verdictOn(
 }
 
 func (p *PairingRequests) checked(
-	pairing pairingoffers.Pairing,
+	pairing pairingoffers.OngoingPairing,
 	data []byte,
 ) (paireddevices.Device, companionprotocol.Reason, error) {
 	var request companionprotocol.PairingRequest

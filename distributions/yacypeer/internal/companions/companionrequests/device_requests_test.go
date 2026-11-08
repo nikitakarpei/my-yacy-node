@@ -9,43 +9,47 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
 )
 
 type deviceRecords struct {
-	appVersions map[string]string
-	unpaired    []string
+	appVersions map[companionprotocol.DeviceID]string
+	unpaired    []companionprotocol.DeviceID
 	mu          sync.Mutex
 }
 
-func (d *deviceRecords) RecordAppVersion(_ context.Context, id string, appVersion string) {
+func (d *deviceRecords) RecordAppVersion(
+	_ context.Context,
+	id companionprotocol.DeviceID,
+	appVersion string,
+) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	d.appVersions[id] = appVersion
 }
 
-func (d *deviceRecords) Unpair(_ context.Context, device string) {
+func (d *deviceRecords) Unpair(_ context.Context, device companionprotocol.DeviceID) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	d.unpaired = append(d.unpaired, device)
 }
 
-func (d *deviceRecords) appVersionOf(id string) string {
+func (d *deviceRecords) appVersionOf(id companionprotocol.DeviceID) string {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	return d.appVersions[id]
 }
 
-func (d *deviceRecords) unpairedDevices() []string {
+func (d *deviceRecords) unpairedDevices() []companionprotocol.DeviceID {
 	d.mu.Lock()
 	defer d.mu.Unlock()
-	return append([]string{}, d.unpaired...)
+	return append([]companionprotocol.DeviceID{}, d.unpaired...)
 }
 
 func startDeviceRequests(t *testing.T) (*deviceRecords, string) {
 	t.Helper()
 	url := natstestserver.Start(t)
-	records := &deviceRecords{appVersions: map[string]string{}}
+	records := &deviceRecords{appVersions: map[companionprotocol.DeviceID]string{}}
 	requests := companionrequests.NewDeviceRequests(
 		records, records, companionprotocol.Settings{PartitionExponent: 4},
 	)

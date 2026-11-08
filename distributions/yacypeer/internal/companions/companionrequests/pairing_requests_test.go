@@ -16,9 +16,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companionrequests"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/paireddevices"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pairingoffers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
 
 const (
@@ -33,26 +33,37 @@ type fixedClock struct{}
 func (fixedClock) Now() time.Time { return pairedAt }
 
 type begunOffers struct {
-	pairings map[string]pairingoffers.Pairing
-	accepted map[string]string
-	refused  map[string]companionprotocol.Reason
+	pairings map[companionprotocol.SecretID]pairingoffers.OngoingPairing
+	accepted map[companionprotocol.SecretID]companionprotocol.DeviceID
+	refused  map[companionprotocol.SecretID]companionprotocol.Reason
 	mu       sync.Mutex
 }
 
-func (o *begunOffers) PairingWith(secretID string) (pairingoffers.Pairing, bool) {
+func (o *begunOffers) HoldForVerdict(
+	_ context.Context,
+	secretID companionprotocol.SecretID,
+) (pairingoffers.OngoingPairing, bool) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	pairing, found := o.pairings[secretID]
 	return pairing, found
 }
 
-func (o *begunOffers) Accept(secretID string, device string) {
+func (o *begunOffers) Accept(
+	_ context.Context,
+	secretID companionprotocol.SecretID,
+	device companionprotocol.DeviceID,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.accepted[secretID] = device
 }
 
-func (o *begunOffers) Refuse(secretID string, reason companionprotocol.Reason) {
+func (o *begunOffers) Refuse(
+	_ context.Context,
+	secretID companionprotocol.SecretID,
+	reason companionprotocol.Reason,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.refused[secretID] = reason
@@ -116,9 +127,9 @@ func startPairing(t *testing.T) pairingFixture {
 	t.Helper()
 	url := natstestserver.Start(t)
 	offers := &begunOffers{
-		pairings: map[string]pairingoffers.Pairing{},
-		accepted: map[string]string{},
-		refused:  map[string]companionprotocol.Reason{},
+		pairings: map[companionprotocol.SecretID]pairingoffers.OngoingPairing{},
+		accepted: map[companionprotocol.SecretID]companionprotocol.DeviceID{},
+		refused:  map[companionprotocol.SecretID]companionprotocol.Reason{},
 	}
 	devices := &addedDevices{}
 	requests := companionrequests.NewPairingRequests(offers, devices, fixedClock{}, brokerKeyHash)
@@ -129,7 +140,7 @@ func startPairing(t *testing.T) pairingFixture {
 type attestedDevice struct {
 	key         *ecdsa.PrivateKey
 	attestation [][]byte
-	id          string
+	id          companionprotocol.DeviceID
 }
 
 func newAttestedDevice(t *testing.T) attestedDevice {
@@ -158,21 +169,21 @@ func newAttestedDevice(t *testing.T) attestedDevice {
 	}
 }
 
-func (f pairingFixture) begin(secret string) {
+func (f pairingFixture) begin(secret companionprotocol.Secret) {
 	f.offers.mu.Lock()
 	defer f.offers.mu.Unlock()
-	f.offers.pairings[companionprotocol.SecretIDOf(secret)] = pairingoffers.Pairing{
+	f.offers.pairings[companionprotocol.SecretIDOf(secret)] = pairingoffers.OngoingPairing{
 		Secret: secret, DeviceName: "Pixel 8",
 	}
 }
 
-func (o *begunOffers) acceptedAs(secret string) string {
+func (o *begunOffers) acceptedAs(secret companionprotocol.Secret) companionprotocol.DeviceID {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	return o.accepted[companionprotocol.SecretIDOf(secret)]
 }
 
-func (o *begunOffers) refusedFor(secret string) companionprotocol.Reason {
+func (o *begunOffers) refusedFor(secret companionprotocol.Secret) companionprotocol.Reason {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	return o.refused[companionprotocol.SecretIDOf(secret)]
@@ -186,7 +197,7 @@ func (d *addedDevices) all() []paireddevices.Device {
 
 func (f pairingFixture) ask(
 	t *testing.T,
-	secret string,
+	secret companionprotocol.Secret,
 	request companionprotocol.PairingRequest,
 ) companionprotocol.PairingReply {
 	t.Helper()
@@ -218,7 +229,7 @@ func (f pairingFixture) ask(
 func requestOf(
 	t *testing.T,
 	device attestedDevice,
-	secret string,
+	secret companionprotocol.Secret,
 ) companionprotocol.PairingRequest {
 	t.Helper()
 	proof, err := companionprotocol.ProofOf(

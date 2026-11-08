@@ -41,7 +41,7 @@ components:
   companionaccess:
     in: internal/companions/companionaccess/**
   companionrequests:
-    in: internal/companionrequests/**
+    in: internal/companions/companionrequests/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
