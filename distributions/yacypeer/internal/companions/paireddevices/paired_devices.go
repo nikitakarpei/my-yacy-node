@@ -28,8 +28,8 @@ const (
 type Device struct {
 	PairedAt        time.Time                    `json:"pairedAt"`
 	LastConnectedAt time.Time                    `json:"lastConnectedAt"`
-	ID              companionprotocol.DeviceID   `json:"device"`
-	Name            companionprotocol.DeviceName `json:"deviceName"`
+	ID              companionprotocol.DeviceID   `json:"id"`
+	Name            companionprotocol.DeviceName `json:"name"`
 	AppVersion      string                       `json:"appVersion"`
 }
 

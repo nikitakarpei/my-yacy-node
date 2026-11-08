@@ -2,48 +2,40 @@ package companionprotocol
 
 const ProtocolVersion = 1
 
-type Outcome string
+type PairingOutcome string
 
 const (
-	OutcomeAccepted Outcome = "accepted"
-	OutcomeRefused  Outcome = "refused"
+	OutcomeAccepted PairingOutcome = "accepted"
+	OutcomeRefused  PairingOutcome = "refused"
 )
 
-type Reason string
+type RefusalReason string
 
 const (
-	ReasonAppOutdated      Reason = "app-outdated"
-	ReasonPeerOutdated     Reason = "peer-outdated"
-	ReasonAppNotOfficial   Reason = "app-not-official"
-	ReasonDeviceNotTrusted Reason = "device-not-trusted"
-	ReasonRequestInvalid   Reason = "request-invalid"
+	ReasonAppOutdated      RefusalReason = "app-outdated"
+	ReasonPeerOutdated     RefusalReason = "peer-outdated"
+	ReasonAppNotOfficial   RefusalReason = "app-not-official"
+	ReasonDeviceNotTrusted RefusalReason = "device-not-trusted"
+	ReasonRequestInvalid   RefusalReason = "request-invalid"
 )
 
 type PairingRequest struct {
-	AppVersion  string   `json:"appVersion"`
-	Attestation [][]byte `json:"attestation"`
-	Proof       []byte   `json:"proof"`
-	Protocol    int      `json:"protocol"`
+	AppVersion      string   `json:"appVersion"`
+	Attestation     [][]byte `json:"attestation"`
+	Proof           Proof    `json:"proof"`
+	ProtocolVersion int      `json:"protocolVersion"`
 }
 
 type PairingReply struct {
-	Outcome Outcome  `json:"outcome"`
-	Device  DeviceID `json:"device,omitempty"`
-	Reason  Reason   `json:"reason,omitempty"`
+	Outcome  PairingOutcome `json:"outcome"`
+	DeviceID DeviceID       `json:"deviceID,omitempty"`
+	Reason   RefusalReason  `json:"reason,omitempty"`
 }
 
 func AcceptedReply(device DeviceID) PairingReply {
-	return PairingReply{Outcome: OutcomeAccepted, Device: device}
+	return PairingReply{Outcome: OutcomeAccepted, DeviceID: device}
 }
 
-func RefusedReply(reason Reason) PairingReply {
+func RefusedReply(reason RefusalReason) PairingReply {
 	return PairingReply{Outcome: OutcomeRefused, Reason: reason}
-}
-
-type Settings struct {
-	PartitionExponent uint `json:"partitionExponent"`
-}
-
-type AppReport struct {
-	AppVersion string `json:"appVersion"`
 }

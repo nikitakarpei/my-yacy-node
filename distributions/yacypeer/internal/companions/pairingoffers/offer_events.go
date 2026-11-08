@@ -21,7 +21,7 @@ type DevicePaired struct {
 
 type DeviceRefused struct {
 	DeviceName companionprotocol.DeviceName
-	Reason     companionprotocol.Reason
+	Reason     companionprotocol.RefusalReason
 }
 
 func (SecretRenewed) offerEvent() {}
