@@ -35,9 +35,9 @@ type Offers struct {
 }
 
 type Offer struct {
-	offers     *Offers
 	events     chan Event
 	stopTimer  func()
+	close      func()
 	secret     companionprotocol.Secret
 	deviceName companionprotocol.DeviceName
 	begun      bool
@@ -57,7 +57,8 @@ func New(clock Clock, lifetime time.Duration, pairingWait time.Duration) *Offers
 func (o *Offers) Open() *Offer {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	offer := &Offer{offers: o, events: make(chan Event, eventBuffer), stopTimer: func() {}}
+	offer := &Offer{events: make(chan Event, eventBuffer), stopTimer: func() {}}
+	offer.close = func() { o.close(offer) }
 	o.renew(context.Background(), offer)
 	return offer
 }
@@ -85,7 +86,7 @@ func (o *Offers) Begin(
 	}
 	offer.begun = true
 	offer.deviceName = deviceName
-	offer.restartTimer(o.pairingWait)
+	o.restartTimerOf(offer, o.pairingWait)
 	offer.tell(ctx, PairingBegun{DeviceName: deviceName})
 	return true
 }
@@ -171,7 +172,7 @@ func (o *Offers) renew(ctx context.Context, offer *Offer) {
 	offer.held = false
 	offer.deviceName = ""
 	o.bySecretID[companionprotocol.SecretIDOf(offer.secret)] = offer
-	offer.restartTimer(o.lifetime)
+	o.restartTimerOf(offer, o.lifetime)
 	offer.tell(ctx, SecretRenewed{Secret: offer.secret})
 }
 
@@ -190,12 +191,18 @@ func (o *Offers) end(offer *Offer) {
 	delete(o.bySecretID, companionprotocol.SecretIDOf(offer.secret))
 }
 
-func (offer *Offer) restartTimer(timeout time.Duration) {
+func (o *Offers) restartTimerOf(offer *Offer, timeout time.Duration) {
 	offer.stopTimer()
 	secret := offer.secret
-	offer.stopTimer = offer.offers.clock.After(timeout, func() {
-		offer.offers.expire(offer, secret)
+	offer.stopTimer = o.clock.After(timeout, func() {
+		o.expire(offer, secret)
 	})
+}
+
+func (o *Offers) close(offer *Offer) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.end(offer)
 }
 
 func (offer *Offer) tell(ctx context.Context, event Event) {
@@ -213,7 +220,5 @@ func (offer *Offer) Events() <-chan Event {
 }
 
 func (offer *Offer) Close() {
-	offer.offers.mu.Lock()
-	defer offer.offers.mu.Unlock()
-	offer.offers.end(offer)
+	offer.close()
 }
