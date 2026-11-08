@@ -62,11 +62,11 @@ func Open(ctx context.Context, directory string, observers ...Observer) (*Device
 	if err != nil {
 		return nil, errors.Join(err, root.Close())
 	}
-	kept := &Devices{root: root, observers: observers, devices: devices}
+	keptDevices := &Devices{root: root, observers: observers, devices: devices}
 	if len(devices) > 0 {
-		kept.tellFirstPaired(ctx)
+		keptDevices.tellFirstDevicePaired(ctx)
 	}
-	return kept, nil
+	return keptDevices, nil
 }
 
 func keptDevicesIn(root *os.Root) ([]Device, error) {
@@ -107,7 +107,7 @@ func (d *Devices) Add(ctx context.Context, device Device) {
 	d.devices = append(d.devices, device)
 	d.keep(ctx)
 	if len(d.devices) == 1 {
-		d.tellFirstPaired(ctx)
+		d.tellFirstDevicePaired(ctx)
 	}
 }
 
@@ -122,15 +122,19 @@ func (d *Devices) Remove(ctx context.Context, id companionprotocol.DeviceID) {
 	d.devices = slices.Delete(d.devices, position, position+1)
 	d.keep(ctx)
 	if len(d.devices) == 0 {
-		for _, observer := range d.observers {
-			observer.LastDeviceUnpaired(ctx)
-		}
+		d.tellLastDeviceUnpaired(ctx)
 	}
 }
 
-func (d *Devices) tellFirstPaired(ctx context.Context) {
+func (d *Devices) tellFirstDevicePaired(ctx context.Context) {
 	for _, observer := range d.observers {
 		observer.FirstDevicePaired(ctx)
+	}
+}
+
+func (d *Devices) tellLastDeviceUnpaired(ctx context.Context) {
+	for _, observer := range d.observers {
+		observer.LastDeviceUnpaired(ctx)
 	}
 }
 

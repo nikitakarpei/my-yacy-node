@@ -43,7 +43,7 @@ type companions interface {
 	startBroker(directory string) (*natsbroker.Broker, error)
 	intakeAdmission() pullintake.Admission
 	register(mux *http.ServeMux, broker *natsbroker.Broker, tabBar webuistyle.TabBar)
-	servers(
+	runners(
 		broker *natsbroker.Broker,
 		natsURL string,
 		network *processnetwork.Network,
@@ -54,12 +54,12 @@ type companions interface {
 type noCompanions struct{}
 
 type pairedCompanions struct {
-	devices     *paireddevices.Devices
-	offers      *pairingoffers.Offers
-	settings    *companionsettings.Settings
-	intakeHold  *peerintake.IntakeHold
-	certificate tls.Certificate
-	address     string
+	devices       *paireddevices.Devices
+	offers        *pairingoffers.Offers
+	settings      *companionsettings.Settings
+	peerAdmission *peerintake.Admission
+	certificate   tls.Certificate
+	address       string
 }
 
 func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
@@ -71,22 +71,22 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	intakeHold := peerintake.NewIntakeHold()
-	devices, err := paireddevices.Open(ctx, directory, intakeHold)
+	peerAdmission := peerintake.New()
+	devices, err := paireddevices.Open(ctx, directory, peerAdmission)
 	if err != nil {
 		return nil, err
 	}
-	settings, err := companionsettings.Open(ctx, directory, intakeHold)
+	settings, err := companionsettings.Open(ctx, directory, peerAdmission)
 	if err != nil {
 		return nil, errors.Join(err, devices.Close())
 	}
 	return &pairedCompanions{
-		devices:     devices,
-		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
-		settings:    settings,
-		intakeHold:  intakeHold,
-		certificate: certificate,
-		address:     cfg.CompanionAddr,
+		devices:       devices,
+		offers:        pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
+		settings:      settings,
+		peerAdmission: peerAdmission,
+		certificate:   certificate,
+		address:       cfg.CompanionAddr,
 	}, nil
 }
 
@@ -100,7 +100,7 @@ func (noCompanions) intakeAdmission() pullintake.Admission {
 
 func (noCompanions) register(*http.ServeMux, *natsbroker.Broker, webuistyle.TabBar) {}
 
-func (noCompanions) servers(
+func (noCompanions) runners(
 	*natsbroker.Broker,
 	string,
 	*processnetwork.Network,
@@ -140,7 +140,7 @@ func pageServicesPermissions() natspermissions.Permissions {
 }
 
 func (c *pairedCompanions) intakeAdmission() pullintake.Admission {
-	return c.intakeHold
+	return c.peerAdmission
 }
 
 func (c *pairedCompanions) register(
@@ -173,7 +173,7 @@ func (c *pairedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashOf(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
 
-func (c *pairedCompanions) servers(
+func (c *pairedCompanions) runners(
 	broker *natsbroker.Broker,
 	natsURL string,
 	network *processnetwork.Network,
@@ -192,7 +192,7 @@ func (c *pairedCompanions) servers(
 		servedOn(natsURL, network, pairingRequests.Serve),
 		servedOn(natsURL, network, deviceRequests.Serve),
 		companionpresence.New(
-			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.intakeHold,
+			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.peerAdmission,
 		).Run,
 	}
 }

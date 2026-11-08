@@ -45,9 +45,9 @@ var (
 	assets embed.FS
 
 	companionsPage = template.Must(template.ParseFS(templateFiles,
-		"templates/companions.html", "templates/heading.html"))
+		"templates/companions.html", "templates/header.html"))
 	settingsPage = template.Must(template.ParseFS(templateFiles,
-		"templates/settings.html", "templates/heading.html"))
+		"templates/settings.html", "templates/header.html"))
 	pairPage = template.Must(template.ParseFS(templateFiles, "templates/pair.html"))
 )
 
@@ -132,7 +132,7 @@ func Register(
 
 type companionsView struct {
 	Frame            pageFrame
-	Heading          headingView
+	Header           headerView
 	DeviceStatesPath string
 	DeviceToUnpair   *deviceRow
 	Devices          []deviceRow
@@ -157,7 +157,7 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
 	view := companionsView{
 		Frame:            p.frame,
-		Heading:          p.headingFor(rows, devicesTab),
+		Header:           p.headerFor(rows, devicesTab),
 		DeviceStatesPath: pathDeviceStates,
 		Devices:          rows,
 		PairPath:         pathPair,
@@ -172,7 +172,7 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 		rows,
 		companionprotocol.DeviceID(r.URL.Query().Get(parameterPaired)),
 	); pairedRow != nil {
-		view.Heading.PairedDeviceName = pairedRow.Name
+		view.Header.PairedDeviceName = pairedRow.Name
 	}
 	view.DeviceToUnpair = rowOf(
 		rows,

@@ -10,8 +10,8 @@
 </head>
 <body>
 {{.Frame.TabBar}}
-<main data-device-states="{{.DeviceStatesPath}}" data-path="{{.CompanionsPath}}" data-paired-parameter="{{.PairedParameter}}" data-list="true" data-pauses="{{.Heading.PauseRule}}">
-  {{template "heading" .Heading}}
+<main data-device-states="{{.DeviceStatesPath}}" data-path="{{.CompanionsPath}}" data-paired-parameter="{{.PairedParameter}}" data-lists-devices="true" data-only-companions-fetch="{{.Header.OnlyCompanionsFetch}}">
+  {{template "header" .Header}}
   {{if .Devices}}
   <div class="card table">
     <table>

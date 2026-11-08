@@ -13,7 +13,7 @@ const (
 
 type settingsView struct {
 	Frame            pageFrame
-	Heading          headingView
+	Header           headerView
 	DeviceStatesPath string
 	CompanionsPath   string
 	AssetsPath       string
@@ -31,7 +31,7 @@ func (p *pages) settings(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
 	render(w, r, settingsPage, settingsView{
 		Frame:            p.frame,
-		Heading:          p.headingFor(rows, settingsTab),
+		Header:           p.headerFor(rows, settingsTab),
 		DeviceStatesPath: pathDeviceStates,
 		CompanionsPath:   Path,
 		AssetsPath:       pathAssets,
