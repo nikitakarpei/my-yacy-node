@@ -248,9 +248,10 @@ type unlimitedBroker struct {
 func runAsLimitedUser(t *testing.T, origin *url.URL) unlimitedBroker {
 	t.Helper()
 	permissions := serviceConfig("", origin).BrokerPermissions()
-	unlimitedURL, limitedURL := natstestserver.StartWithLimitedUser(
-		t, permissions.Publish, append(permissions.Subscribe, everyInbox),
-	)
+	urls := natstestserver.StartWithLimitedUser(t, natstestserver.Allowed{
+		Publish: permissions.Publish, Subscribe: append(permissions.Subscribe, everyInbox),
+	})
+	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
 	runUntilStarted(t, serviceConfig(unlimitedURL, origin))
 	limited := serviceConfig(limitedURL, origin)
 	limited.ProvisionsStreams = false
