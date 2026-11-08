@@ -33,7 +33,7 @@ func NewDeviceRequests(
 }
 
 func (d *DeviceRequests) Serve(ctx context.Context, connection *nats.Conn) error {
-	return serve(ctx, connection, map[string]nats.MsgHandler{
+	return answerUntilDone(ctx, connection, map[string]nats.MsgHandler{
 		companionprotocol.SettingsSubjects: func(request *nats.Msg) {
 			respond(ctx, request, d.settings)
 		},

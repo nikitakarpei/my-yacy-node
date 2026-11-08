@@ -108,7 +108,7 @@ class CompanionHost : Service() {
         val linkText = Pairing.linkText(this)
         val paired = Pairing.paired(this)
         Pairing.forget(this)
-        pairing.forget(linkText, paired)
+        if (paired && linkText != null) pairing.unpair(linkText) else pairing.discardKey()
     }
 
     private fun after(delayMs: Long, event: CompanionEvent): ScheduledFuture<*> =

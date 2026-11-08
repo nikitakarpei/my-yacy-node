@@ -3,7 +3,9 @@ package brokeraccess_test
 import (
 	"errors"
 	"net"
+	"slices"
 	"testing"
+	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
@@ -36,8 +38,20 @@ func unansweredAddressOf(broker brokeraccesstest.Broker) string {
 	return net.JoinHostPort("127.0.0.2", port)
 }
 
+type startingClock struct {
+	timeouts chan time.Duration
+}
+
+func (c startingClock) After(timeout time.Duration, expire func()) func() {
+	c.timeouts <- timeout
+	expire()
+	return func() {}
+}
+
 func connect(link companionprotocol.PairLink) (*nats.Conn, error) {
-	return brokeraccess.Connect(link, brokeraccess.PairingOptions(link, "Pixel 8"))
+	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
+	return brokeraccess.NewConnector(clock).
+		Connect(link, brokeraccess.PairingOptions(link, "Pixel 8"))
 }
 
 func TestConnectReachesTheBrokerAtALaterAddressWhenAnEarlierOneDoesNotAnswer(t *testing.T) {
@@ -90,5 +104,35 @@ func TestConnectFailsWhenNoAddressHasTheBrokerOfTheLink(t *testing.T) {
 	}
 	if _, err := connect(linkTo(broker, secret)); err == nil {
 		t.Error("a link without addresses connected")
+	}
+}
+
+func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T) {
+	broker := brokeraccesstest.Start(t, secretCheck{})
+	link := linkTo(broker, secret, broker.Address(), broker.Address(), broker.Address())
+	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
+
+	connection, err := brokeraccess.NewConnector(clock).Connect(
+		link, brokeraccess.PairingOptions(link, "Pixel 8"),
+	)
+	if err != nil {
+		t.Fatalf("Connect: %v", err)
+	}
+	defer connection.Close()
+
+	close(clock.timeouts)
+	var timeouts []time.Duration
+	for timeout := range clock.timeouts {
+		timeouts = append(timeouts, timeout)
+	}
+	if want := []time.Duration{
+		0,
+		250 * time.Millisecond,
+		500 * time.Millisecond,
+	}; !slices.Equal(
+		timeouts,
+		want,
+	) {
+		t.Errorf("start delays = %v, want %v", timeouts, want)
 	}
 }

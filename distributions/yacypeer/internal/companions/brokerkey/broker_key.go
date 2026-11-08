@@ -33,14 +33,28 @@ const (
 var errUnreadableKey = errors.New("the broker key file holds no key")
 
 func Settle(directory string) (tls.Certificate, error) {
-	key, err := keptKeyIn(directory)
+	root, err := openedDirectory(directory)
+	if err != nil {
+		return tls.Certificate{}, err
+	}
+	defer closeDirectory(root)
+	if !holdsKey(root) {
+		key, err := newKey()
+		if err != nil {
+			return tls.Certificate{}, err
+		}
+		if err := keep(root, key); err != nil {
+			return tls.Certificate{}, err
+		}
+	}
+	key, err := keptKeyIn(root)
 	if err != nil {
 		return tls.Certificate{}, err
 	}
 	return certificateFor(key)
 }
 
-func keptKeyIn(directory string) (*ecdsa.PrivateKey, error) {
+func openedDirectory(directory string) (*os.Root, error) {
 	if err := os.MkdirAll(directory, directoryFileMode); err != nil {
 		return nil, fmt.Errorf("make the broker key directory: %w", err)
 	}
@@ -48,15 +62,7 @@ func keptKeyIn(directory string) (*ecdsa.PrivateKey, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open the broker key directory: %w", err)
 	}
-	defer closeDirectory(root)
-	kept, err := root.ReadFile(fileName)
-	if errors.Is(err, fs.ErrNotExist) {
-		return madeIn(root)
-	}
-	if err != nil {
-		return nil, fmt.Errorf("read the broker key: %w", err)
-	}
-	return keyFrom(kept)
+	return root, nil
 }
 
 func closeDirectory(root *os.Root) {
@@ -69,23 +75,36 @@ func closeDirectory(root *os.Root) {
 	}
 }
 
-func madeIn(root *os.Root) (*ecdsa.PrivateKey, error) {
+func holdsKey(root *os.Root) bool {
+	_, err := root.Stat(fileName)
+	return !errors.Is(err, fs.ErrNotExist)
+}
+
+func newKey() (*ecdsa.PrivateKey, error) {
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
 		return nil, fmt.Errorf("make the broker key: %w", err)
 	}
-	encoded, err := x509.MarshalECPrivateKey(key)
-	if err != nil {
-		return nil, fmt.Errorf("encode the broker key: %w", err)
-	}
-	block := pem.EncodeToMemory(&pem.Block{Type: pemType, Bytes: encoded})
-	if err := root.WriteFile(fileName, block, keyFileMode); err != nil {
-		return nil, fmt.Errorf("keep the broker key: %w", err)
-	}
 	return key, nil
 }
 
-func keyFrom(kept []byte) (*ecdsa.PrivateKey, error) {
+func keep(root *os.Root, key *ecdsa.PrivateKey) error {
+	encoded, err := x509.MarshalECPrivateKey(key)
+	if err != nil {
+		return fmt.Errorf("encode the broker key: %w", err)
+	}
+	block := pem.EncodeToMemory(&pem.Block{Type: pemType, Bytes: encoded})
+	if err := root.WriteFile(fileName, block, keyFileMode); err != nil {
+		return fmt.Errorf("keep the broker key: %w", err)
+	}
+	return nil
+}
+
+func keptKeyIn(root *os.Root) (*ecdsa.PrivateKey, error) {
+	kept, err := root.ReadFile(fileName)
+	if err != nil {
+		return nil, fmt.Errorf("read the broker key: %w", err)
+	}
 	block, _ := pem.Decode(kept)
 	if block == nil || block.Type != pemType {
 		return nil, errUnreadableKey

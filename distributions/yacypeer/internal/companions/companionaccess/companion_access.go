@@ -9,7 +9,6 @@ import (
 	"context"
 	"crypto/x509"
 	"log/slog"
-	"strings"
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
@@ -155,8 +154,4 @@ func pairingPermissionsFor(secret companionprotocol.Secret) *natsserver.Permissi
 			Allow: []string{companionprotocol.PairingRepliesFor(secret)},
 		},
 	}
-}
-
-func IsDeviceUser(user string) bool {
-	return strings.HasPrefix(user, deviceUserStart)
 }

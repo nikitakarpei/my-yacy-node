@@ -9,12 +9,12 @@ import (
 	"log/slog"
 	"sync"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchsettings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 )
 
 type IntakeHold struct {
 	released           chan struct{}
-	choice             fetchsettings.Choice
+	choice             companionsettings.Choice
 	devicePaired       bool
 	companionConnected bool
 	mu                 sync.Mutex
@@ -26,7 +26,7 @@ func NewIntakeHold() *IntakeHold {
 	return &IntakeHold{released: released}
 }
 
-func (h *IntakeHold) ChoiceMade(ctx context.Context, choice fetchsettings.Choice) {
+func (h *IntakeHold) ChoiceMade(ctx context.Context, choice companionsettings.Choice) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
 	h.choice = choice
@@ -62,8 +62,9 @@ func (h *IntakeHold) CompanionsLeft(ctx context.Context) {
 }
 
 func (h *IntakeHold) settle(ctx context.Context) {
-	admits := !h.devicePaired || !h.choice.CompanionsFetch ||
-		(h.choice.PeerFillsIn && !h.companionConnected)
+	companionsCover := h.choice.OnlyCompanionsFetch() ||
+		h.choice.CompanionsFetch && h.companionConnected
+	admits := !h.devicePaired || !companionsCover
 	if admits == isClosed(h.released) {
 		return
 	}
