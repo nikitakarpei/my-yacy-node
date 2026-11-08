@@ -14,10 +14,14 @@ class SettingsScreen : Activity() {
         val column = column().apply { setPadding(0, dp(12), 0, dp(24)) }
         column.addView(topBar("Settings", R.color.on_surface) { finish() })
         column.addView(
-            mobileDataRow(),
+            chargingOnlyRow(),
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp(16)
             },
+        )
+        column.addView(
+            mobileDataRow(),
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT),
         )
         column.spacer()
         column.addView(
@@ -37,6 +41,23 @@ class SettingsScreen : Activity() {
     override fun onPause() {
         CompanionStore.listener = null
         super.onPause()
+    }
+
+    private fun chargingOnlyRow() = LinearLayout(this).apply {
+        orientation = LinearLayout.HORIZONTAL
+        gravity = Gravity.CENTER_VERTICAL
+        minimumHeight = dp(72)
+        setPadding(dp(24), dp(8), dp(24), dp(8))
+        val toggle =
+            ToggleSwitch(context).apply {
+                isChecked = ChargingOnly.required(context)
+                setOnCheckedChangeListener { _, checked -> ChargingOnly.require(context, checked) }
+            }
+        addView(heading(CHARGING_ONLY_TEXT, 16f), LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        addView(toggle)
+        isClickable = true
+        foreground = rowRipple()
+        setOnClickListener { toggle.toggle() }
     }
 
     private fun mobileDataRow() = LinearLayout(this).apply {

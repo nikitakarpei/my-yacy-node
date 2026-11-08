@@ -21,6 +21,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTimedOut
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PowerChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesConnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesEnded
@@ -36,6 +37,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFail
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForNetwork
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
 import org.junit.Assert.assertEquals
@@ -49,9 +51,14 @@ class CompanionMachineTest {
 
     private val usable = NetworkChanged(NetworkAccess.USABLE)
     private val meteredOnly = NetworkChanged(NetworkAccess.METERED_ONLY)
+    private val onCharger = PowerChanged(PowerAccess.USABLE)
+    private val offCharger = PowerChanged(PowerAccess.CHARGER_NEEDED)
 
     private fun stepOf(state: CompanionState, event: CompanionEvent, networkAccess: NetworkAccess = NetworkAccess.USABLE) =
         CompanionModel(state, networkAccess).after(event, now)
+
+    private fun offChargerStepOf(state: CompanionState, event: CompanionEvent) =
+        CompanionModel(state, powerAccess = PowerAccess.CHARGER_NEEDED).after(event, now)
 
     private fun assertStep(step: Step, state: CompanionState, vararg effects: CompanionEffect) {
         assertEquals(state, step.model.state)
@@ -218,5 +225,41 @@ class CompanionMachineTest {
     fun openingTheAppStartsAStoppedCompanion() {
         assertStep(stepOf(Stopped, StartRequested), Connecting, StartServices)
         assertStep(stepOf(Connected, StartRequested), Connected)
+    }
+
+    @Test
+    fun withoutAChargerTheCompanionStopsAndWaitsForOne() {
+        assertStep(stepOf(Connected, offCharger), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+        assertStep(
+            stepOf(RetryingAt(lostPeer, now, 2), offCharger),
+            WaitingForCharger,
+            StopServices,
+            CancelRetry,
+            CancelFailureNotification,
+        )
+        assertStep(offChargerStepOf(Stopped, StartRequested), WaitingForCharger)
+        assertStep(
+            stepOf(WaitingForUnmeteredNetwork, offCharger),
+            WaitingForCharger,
+            StopServices,
+            CancelRetry,
+            CancelFailureNotification,
+        )
+    }
+
+    @Test
+    fun aChargerStartsAWaitingCompanion() {
+        assertStep(offChargerStepOf(WaitingForCharger, onCharger), Connecting, StartServices)
+        assertStep(stepOf(WaitingForCharger, onCharger, NetworkAccess.METERED_ONLY), WaitingForUnmeteredNetwork)
+    }
+
+    @Test
+    fun aNetworkChangeLeavesACompanionWaitingForACharger() {
+        assertStep(offChargerStepOf(WaitingForCharger, usable), WaitingForCharger)
+    }
+
+    @Test
+    fun pairingWithoutAChargerCompletesAndThenWaits() {
+        assertStep(offChargerStepOf(Pairing, PairingAccepted), WaitingForCharger, CancelPairingTimeout, CompletePairing)
     }
 }
