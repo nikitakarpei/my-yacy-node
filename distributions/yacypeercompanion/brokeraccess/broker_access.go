@@ -12,6 +12,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"slices"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -35,6 +36,11 @@ func Connect(link companionprotocol.PairLink, options []nats.Option) (*nats.Conn
 	if len(link.Addresses) == 0 {
 		return nil, errNoAddress
 	}
+	connectOptions := append(
+		slices.Clip(options),
+		nats.Timeout(connectTimeout),
+		nats.ErrorHandler(reportBrokerError),
+	)
 	attempts := make(chan attempt, len(link.Addresses))
 	settled := make(chan struct{})
 	for position, address := range link.Addresses {
@@ -45,14 +51,7 @@ func Connect(link companionprotocol.PairLink, options []nats.Option) (*nats.Conn
 				attempts <- attempt{err: errSettled}
 				return
 			}
-			connection, err := nats.Connect(
-				"tls://"+address,
-				append(
-					options,
-					nats.Timeout(connectTimeout),
-					nats.ErrorHandler(reportBrokerError),
-				)...,
-			)
+			connection, err := nats.Connect("tls://"+address, connectOptions...)
 			attempts <- attempt{connection: connection, err: err}
 		}()
 	}
