@@ -16,39 +16,16 @@ import (
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
 
 const callbackWait = 5 * time.Second
 
-func TestOpenConnectsAndCloses(t *testing.T) {
-	url := natstestserver.Start(t)
-	js, connection, err := jetstreamconnect.Open(
-		url, (&net.Dialer{}).DialContext,
-		jetstreamconnect.UnobservedConnection{}, jetstreamconnect.BrokerAccess{},
-	)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	if js == nil {
-		t.Fatal("Open returned nil jetstream")
-	}
-	connection.Close()
-}
-
 func TestOpenConnectsThroughTheDialer(t *testing.T) {
-	broker, err := natsserver.NewServer(
+	broker := brokerWith(
+		t,
 		&natsserver.Options{DontListen: true, JetStream: true, StoreDir: t.TempDir()},
 	)
-	if err != nil {
-		t.Fatalf("new broker: %v", err)
-	}
-	go broker.Start()
-	if !broker.ReadyForConnections(callbackWait) {
-		t.Fatal("broker not ready")
-	}
-	t.Cleanup(broker.Shutdown)
 
 	js, connection, err := jetstreamconnect.Open(
 		"nats://broker.internal:4222",
@@ -82,7 +59,12 @@ func (events connectionEvents) ConnectionRestored() { events <- "restored" }
 
 func brokerOn(t *testing.T, port int) *natsserver.Server {
 	t.Helper()
-	broker, err := natsserver.NewServer(&natsserver.Options{Host: "127.0.0.1", Port: port})
+	return brokerWith(t, &natsserver.Options{Host: "127.0.0.1", Port: port})
+}
+
+func brokerWith(t *testing.T, options *natsserver.Options) *natsserver.Server {
+	t.Helper()
+	broker, err := natsserver.NewServer(options)
 	if err != nil {
 		t.Fatalf("new broker: %v", err)
 	}
@@ -137,19 +119,11 @@ func (c namedClientCheck) Check(client natsserver.ClientAuthentication) bool {
 	return options.Password == "secret"
 }
 
-func TestOpenGivesTheCredentialsOfTheAccess(t *testing.T) {
+func TestOpenGivesTheClientNameAndThePasswordOfTheAccess(t *testing.T) {
 	check := namedClientCheck{names: make(chan string, 1)}
-	broker, err := natsserver.NewServer(&natsserver.Options{
+	broker := brokerWith(t, &natsserver.Options{
 		Host: "127.0.0.1", Port: -1, CustomClientAuthentication: check,
 	})
-	if err != nil {
-		t.Fatalf("new broker: %v", err)
-	}
-	go broker.Start()
-	if !broker.ReadyForConnections(callbackWait) {
-		t.Fatal("broker not ready")
-	}
-	t.Cleanup(broker.Shutdown)
 
 	_, connection, err := jetstreamconnect.Open(
 		broker.ClientURL(),
@@ -172,7 +146,7 @@ func TestOpenTakesRepliesUnderTheInboxPrefixOfTheAccess(t *testing.T) {
 	_, connection, err := jetstreamconnect.Open(
 		broker.ClientURL(),
 		(&net.Dialer{}).DialContext,
-		make(connectionEvents, 1),
+		jetstreamconnect.UnobservedConnection{},
 		jetstreamconnect.BrokerAccess{InboxPrefix: "_INBOX.d7f3"},
 	)
 	if err != nil {
@@ -191,7 +165,7 @@ func TestOpenConnectsOverTheTLSOfTheAccess(t *testing.T) {
 	_, connection, err := jetstreamconnect.Open(
 		"tls://"+broker.Addr().String(),
 		(&net.Dialer{}).DialContext,
-		make(connectionEvents, 1),
+		jetstreamconnect.UnobservedConnection{},
 		jetstreamconnect.BrokerAccess{TLS: &tls.Config{
 			RootCAs:    certificatePoolOf(t, certificate),
 			ServerName: "127.0.0.1",
@@ -240,7 +214,7 @@ func selfSignedCertificate(t *testing.T) tls.Certificate {
 
 func tlsBrokerWith(t *testing.T, certificate tls.Certificate) *natsserver.Server {
 	t.Helper()
-	broker, err := natsserver.NewServer(&natsserver.Options{
+	return brokerWith(t, &natsserver.Options{
 		Host: "127.0.0.1",
 		Port: -1,
 		TLS:  true,
@@ -249,15 +223,6 @@ func tlsBrokerWith(t *testing.T, certificate tls.Certificate) *natsserver.Server
 			MinVersion:   tls.VersionTLS13,
 		},
 	})
-	if err != nil {
-		t.Fatalf("new broker: %v", err)
-	}
-	go broker.Start()
-	if !broker.ReadyForConnections(callbackWait) {
-		t.Fatal("broker not ready")
-	}
-	t.Cleanup(broker.Shutdown)
-	return broker
 }
 
 func certificatePoolOf(t *testing.T, certificate tls.Certificate) *x509.CertPool {
