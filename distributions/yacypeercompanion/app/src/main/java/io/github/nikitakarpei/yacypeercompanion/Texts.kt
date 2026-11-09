@@ -33,6 +33,8 @@ fun reasonTextOf(state: CompanionState.Disconnected): String = when (state) {
 
 const val RECONNECTING_TEXT = "Reconnecting"
 
+const val DATA_SHARING_TITLE = "Data sharing"
+
 fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
     is CompanionState.Reconnecting -> RECONNECTING_TEXT
     is CompanionState.RetryingAt -> "Retrying in ${((state.retryAtMs - SystemClock.elapsedRealtime()) / 1_000).coerceAtLeast(0)} s"

@@ -40,7 +40,7 @@ class ScanScreen : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!Permission.lastingGranted(this)) {
+        if (!PairingPrerequisites.met(this)) {
             startActivity(Intent(this, PermissionsScreen::class.java))
             finish()
             return
