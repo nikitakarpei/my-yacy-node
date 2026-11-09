@@ -152,14 +152,7 @@ func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.
 	if err != nil {
 		t.Fatalf("open scrape request consumer: %v", err)
 	}
-	info, err := scrapeRequests.Info(ctx)
-	if err != nil {
-		t.Fatalf("scrape request consumer info: %v", err)
-	}
-	if info.NumPending != 1 || info.NumAckPending != 0 {
-		t.Errorf("pending = %d, taken = %d, want the scrape request left in the stream",
-			info.NumPending, info.NumAckPending)
-	}
+	pullintaketest.RequireItemLeftInStream(t, ctx, scrapeRequests, offerWait)
 	close(release)
 	if _, err := offers.Next(jetstream.FetchMaxWait(offerWait)); err != nil {
 		t.Fatalf("await page offer after admission: %v", err)
