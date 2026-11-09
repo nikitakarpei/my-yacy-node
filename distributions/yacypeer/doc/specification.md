@@ -52,7 +52,8 @@ one program.
 * The program SHALL serve the search page and the crawl console on the web address.
 * The services SHALL open no port, except `yacynode` on its peer address.
 * The services SHALL reach each other, the NATS server and the proxies inside the program.
-* The search page, the crawl console and the dashboards SHALL link each other in a tab bar.
+* The search page, the crawl console, the dashboards, and the Companions pages when the peer
+  serves companions SHALL link each other in a tab bar.
 * The program SHALL name the service in each log line that the service writes.
 * The program SHALL stop when one of its services stops.
 

@@ -1,0 +1,199 @@
+main {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: var(--webui-space-5) var(--webui-edge);
+}
+h1 {
+  margin: 0;
+}
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--webui-space-3) var(--webui-space-4);
+  margin-bottom: var(--webui-space-2);
+}
+main > h1 {
+  margin-bottom: var(--webui-space-4);
+}
+.description {
+  margin: 0 0 var(--webui-space-5);
+  max-width: 46rem;
+  font-size: var(--webui-text-sm);
+  color: var(--webui-muted);
+}
+.card {
+  background: var(--webui-surface);
+  border: 1px solid var(--webui-line);
+  border-radius: var(--webui-radius);
+}
+.banner {
+  margin-bottom: var(--webui-space-4);
+  padding: var(--webui-space-3) var(--webui-space-4);
+  border-radius: var(--webui-radius);
+  background: var(--webui-positive-surface);
+  color: var(--webui-positive-ink);
+  font-size: var(--webui-text-sm);
+  font-weight: 500;
+}
+.table {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--webui-text-sm);
+}
+th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--webui-muted);
+}
+th,
+td {
+  padding: 10px var(--webui-space-4);
+}
+tbody tr {
+  border-top: 1px solid var(--webui-line);
+}
+.device {
+  font-weight: 500;
+}
+.action {
+  text-align: right;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.connected {
+  display: inline-block;
+  padding: 2px var(--webui-space-2);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--webui-positive-surface);
+  color: var(--webui-positive-ink);
+}
+.danger {
+  color: var(--webui-danger-ink);
+  border-color: var(--webui-danger-line);
+}
+.empty {
+  padding: var(--webui-space-6) var(--webui-space-4);
+  text-align: center;
+  font-size: var(--webui-text-sm);
+  color: var(--webui-muted);
+}
+.scrim {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 120px var(--webui-space-4) var(--webui-space-4);
+  background: var(--webui-scrim);
+}
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--webui-space-4);
+  width: 100%;
+  max-width: 24rem;
+  padding: 20px;
+  background: var(--webui-surface);
+  border: 1px solid var(--webui-line);
+  border-radius: var(--webui-radius);
+  box-shadow: var(--webui-shadow);
+}
+.dialog h2 {
+  margin: 0;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.refusal {
+  max-width: 46rem;
+  margin-bottom: var(--webui-space-4);
+  padding: var(--webui-space-3) var(--webui-space-4);
+  background: var(--webui-danger-surface);
+  border: 1px solid var(--webui-danger-line);
+  border-radius: var(--webui-radius);
+}
+.refusal p {
+  margin: 0;
+}
+.refusal-title {
+  font-weight: 600;
+  color: var(--webui-danger-ink);
+}
+.refusal-reason {
+  font-size: var(--webui-text-sm);
+}
+.pairing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--webui-space-5);
+  max-width: 46rem;
+  padding: 20px;
+}
+.code {
+  position: relative;
+  flex-shrink: 0;
+  width: 232px;
+  height: 232px;
+}
+.code-image svg {
+  display: block;
+  width: 232px;
+  height: 232px;
+}
+.code-image.waiting {
+  opacity: 0.08;
+}
+.code-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--webui-space-3);
+  font-weight: 500;
+}
+.code-state[hidden] {
+  display: none;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--webui-info-surface);
+  border-top-color: var(--webui-accent);
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.steps {
+  display: flex;
+  flex: 1 1 18rem;
+  flex-direction: column;
+  gap: var(--webui-space-4);
+}
+.steps ol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+}

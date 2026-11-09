@@ -3,6 +3,8 @@ package yacypeerassembly
 import (
 	"context"
 	"crypto/tls"
+	"net"
+	"net/http"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -10,14 +12,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/thishost"
 )
 
 const (
@@ -69,6 +74,31 @@ func (c *companions) endpoint() natsbroker.Endpoint {
 
 func (c *companions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashFrom(c.certificate.Leaf.RawSubjectPublicKeyInfo)
+}
+
+func (c *companions) register(
+	mux *http.ServeMux,
+	broker *natsbroker.Broker,
+	tabBar webuistyle.TabBar,
+) {
+	companionspage.Register(
+		mux,
+		companionspage.NewDevicesPage(
+			c.devices,
+			companionaccess.NewUnpairer(c.devices, broker),
+			companionaccess.NewDeviceConnections(broker),
+			tabBar,
+		),
+		companionspage.NewPairPage(offerOpener{offers: c.offers}, c.pairLinkFor(broker), tabBar),
+	)
+}
+
+func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
+	address := broker.EndpointAddress().(*net.TCPAddr) //nolint:forcetypeassert // the endpoint listens on TCP.
+	return companionprotocol.PairLink{
+		Addresses:     thishost.Host().AddressesFor(address),
+		BrokerKeyHash: c.brokerKeyHash(),
+	}
 }
 
 func (c *companions) runners(
@@ -123,4 +153,12 @@ func runnerFor(
 
 func (c *companions) close() {
 	c.devices.Close()
+}
+
+type offerOpener struct {
+	offers *pairingoffers.Offers
+}
+
+func (o offerOpener) Open() companionspage.PairingOffer {
+	return o.offers.Open()
 }

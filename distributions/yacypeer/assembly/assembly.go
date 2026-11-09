@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/cachedpages"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
@@ -116,6 +117,7 @@ func RunPeer(
 		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
+		webUILinks:         webUILinksFor(cfg),
 	}
 	services, urls, err := peer.services(ctx, getenv)
 	if err != nil {
@@ -125,7 +127,14 @@ func RunPeer(
 		)
 	}
 	logStarted(ctx, peer, web)
-	webMux := webMuxFor(processRegistry, services, history, urls, network)
+	webMux := webMuxFor(
+		processRegistry,
+		services,
+		history,
+		urls,
+		network,
+		peer.webUILinks.TabBarFor(webuitabs.Metrics),
+	)
 	workers := []func(context.Context) error{
 		func(ctx context.Context) error {
 			return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
@@ -144,6 +153,7 @@ func RunPeer(
 		},
 	}
 	if companions != nil {
+		companions.register(webMux, broker, peer.webUILinks.TabBarFor(webuitabs.Companions))
 		workers = append(workers, companions.runners(broker, peer.natsURL, network)...)
 	}
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
@@ -198,6 +208,7 @@ func webMuxFor(
 	history *metrichistory.History,
 	urls serviceURLs,
 	network *processnetwork.Network,
+	metricsTabBar webuistyle.TabBar,
 ) *http.ServeMux {
 	mux := opsmetrics.MuxFor(processRegistry)
 	for _, service := range services {
@@ -208,7 +219,7 @@ func webMuxFor(
 		history,
 		metrichistory.SampleInterval,
 		serviceDashboards,
-		webUIURLs.TabBarFor(webuitabs.Metrics),
+		metricsTabBar,
 	)
 	mux.Handle(
 		crawlConsolePathPrefix+"/",

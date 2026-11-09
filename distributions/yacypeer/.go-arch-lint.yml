@@ -42,6 +42,12 @@ components:
     in: internal/companions/companionaccess/**
   companionrequests:
     in: internal/companions/companionrequests/**
+  companionspage:
+    in: internal/companions/companionspage/**
+  hostaddresses:
+    in: internal/hostaddresses/**
+  thishost:
+    in: internal/thishost/**
   devicepermissions:
     in: internal/companions/devicepermissions/**
   yacypeerassembly:
@@ -94,6 +100,9 @@ vendors:
   natsclient:
     in:
       - github.com/nats-io/nats.go
+  qr:
+    in:
+      - rsc.io/qr
   zstd:
     in:
       - github.com/klauspost/compress/zstd
@@ -157,10 +166,21 @@ deps:
     canUse:
       - companionprotocol
       - natsclient
+  companionspage:
+    mayDependOn:
+      - paireddevices
+      - pairingoffers
+    canUse:
+      - companionprotocol
+      - qr
+      - webuistyle
   devicepermissions:
     canUse:
       - natspermissions
       - pageserviceassemblies
+  thishost:
+    mayDependOn:
+      - hostaddresses
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

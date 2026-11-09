@@ -36,6 +36,7 @@
     --webui-radius: 6px;
     --webui-focus-ring: 0 0 0 2px color-mix(in srgb, var(--webui-accent) 25%, transparent);
     --webui-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --webui-scrim: rgba(0, 0, 0, 0.32);
     --webui-edge: clamp(1rem, 6vw, 5rem);
     --webui-gutter: var(--webui-edge);
   }
@@ -62,6 +63,7 @@
       --webui-danger-line: #7a2e2e;
       --webui-danger-surface: #3b1d1d;
       --webui-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      --webui-scrim: rgba(0, 0, 0, 0.6);
     }
   }
   :where(body.webui-centered) {

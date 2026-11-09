@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pair a companion</title>
+<link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
+<link rel="stylesheet" href="{{.AssetsPath}}companions.css">
+<script src="{{.AssetsPath}}pair.js" defer></script>
+</head>
+<body>
+{{.Frame.TabBar}}
+<main data-pairing-events="{{.PairingEventsPath}}">
+  <h1>Pair a companion</h1>
+  <div class="refusal" role="alert" hidden>
+    <p class="refusal-title"></p>
+    <p class="refusal-reason"></p>
+  </div>
+  <div class="card pairing">
+    <div class="code">
+      <div class="code-image"></div>
+      <div class="code-state" role="status" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <span class="code-state-text"></span>
+      </div>
+    </div>
+    <div class="steps">
+      <ol>
+        <li>Connect the Android device to the same network as the peer.</li>
+        <li>Scan this code with the <a href="{{.Frame.AppGuideURL}}">YaCy Companion app</a>.</li>
+      </ol>
+      <div><a class="button" href="{{.CompanionsPath}}">Cancel</a></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

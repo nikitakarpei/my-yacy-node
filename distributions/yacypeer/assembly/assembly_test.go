@@ -215,13 +215,20 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 	} {
 		awaitAnswer(t, runDone, "http://"+web.Addr().String()+path,
 			searchTab, crawlsTab, metricsTab, currentTab+` aria-current="page"`)
+		if body, _ := scraped("http://" + web.Addr().String() + path); strings.Contains(
+			body, `href="/companions"`,
+		) {
+			t.Errorf("%s links the Companions pages of a peer without a companion address", path)
+		}
 	}
 
 	cancel()
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerRefusesAnUnknownCompanionOverTLSAtTheCompanionAddress(t *testing.T) {
+func TestRunPeerWithACompanionAddressShowsTheCompanionsTabAndRefusesUnknownCompanions(
+	t *testing.T,
+) {
 	env := peerEnvironment(t)
 	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
 	cfg, web := peerFrom(t, env)
@@ -232,7 +239,13 @@ func TestRunPeerRefusesAnUnknownCompanionOverTLSAtTheCompanionAddress(t *testing
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
 	awaitEveryService(t, env, web, runDone)
+	const companionsTab = `href="/companions"`
 
+	for _, path := range []string{"/", "/crawlconsole/", "/dashboards"} {
+		awaitAnswer(t, runDone, "http://"+web.Addr().String()+path, companionsTab)
+	}
+	awaitAnswer(t, runDone, "http://"+web.Addr().String()+"/companions",
+		companionsTab+` aria-current="page"`, "No companions are paired.")
 	requireUnknownCompanionRefused(t, env[yacypeerassembly.EnvCompanionAddr])
 
 	cancel()
@@ -365,6 +378,7 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 
 func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
 	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
 	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -374,7 +388,10 @@ func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
 	}()
 	awaitEveryService(t, env, web, runDone)
 
-	for _, page := range []string{"/", "/search?q=yacy", "/crawlconsole/", "/crawlconsole/crawls/new", "/dashboards"} {
+	for _, page := range []string{
+		"/", "/search?q=yacy", "/crawlconsole/", "/crawlconsole/crawls/new", "/dashboards",
+		"/companions", "/companions/pair",
+	} {
 		body, _ := scraped("http://" + web.Addr().String() + page)
 		links := localLinksOf(body)
 		if len(links) == 0 {

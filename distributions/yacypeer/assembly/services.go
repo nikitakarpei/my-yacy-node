@@ -91,6 +91,7 @@ type peer struct {
 	network            *processnetwork.Network
 	visitLinkSecret    string
 	peerKey            yacymodel.PeerKey
+	webUILinks         webuitabs.Links
 }
 
 type serviceAssembly[S io.Closer] func(ctx context.Context, getenv func(string) string) (S, error)
@@ -366,7 +367,7 @@ func (p peer) downstreamServiceAssembliesWith(
 			serviceenvironment.Wiring{
 				crawlconsoleassembly.EnvPathPrefix:    crawlConsolePathPrefix,
 				crawlconsoleassembly.EnvCrawlerAPIURL: upstreamURLs[yacycrawlerService].String(),
-				crawlconsoleassembly.EnvTabBar:        webUIURLs.SettingFor(webuitabs.Crawls),
+				crawlconsoleassembly.EnvTabBar:        p.webUILinks.SettingFor(webuitabs.Crawls),
 			},
 			crawlconsoleassembly.LoadServiceConfig,
 			crawlconsoleassembly.RunService,
@@ -382,7 +383,7 @@ func (p peer) downstreamServiceAssembliesWith(
 				searchpageassembly.EnvCorpusTextURL:   upstreamURLs[corpustextService].String(),
 				searchpageassembly.EnvVisitCrawlURL:   upstreamURLs[visitcrawlService].String(),
 				searchpageassembly.EnvVisitLinkSecret: p.visitLinkSecret,
-				searchpageassembly.EnvTabBar:          webUIURLs.SettingFor(webuitabs.Search),
+				searchpageassembly.EnvTabBar:          p.webUILinks.SettingFor(webuitabs.Search),
 			},
 			searchpageassembly.LoadServiceConfig,
 			searchpageassembly.RunService,

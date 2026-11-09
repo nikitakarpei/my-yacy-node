@@ -1,5 +1,5 @@
-// Package webuitabs gives each web UI of the peer the tab bar that links the search page, the
-// crawl console and the dashboards, with the tab of that web UI marked.
+// Package webuitabs gives each web UI of the peer the tab bar that links the web UIs of the peer
+// in the order given, with the tab of that web UI marked.
 package webuitabs
 
 import (
@@ -11,31 +11,32 @@ import (
 const issueTrackerURL = "https://github.com/nikitakarpei/my-yacy-node/issues"
 
 const (
-	Search  = "Search"
-	Crawls  = "Crawls"
-	Metrics = "Metrics"
+	Search     = "Search"
+	Crawls     = "Crawls"
+	Companions = "Companions"
+	Metrics    = "Metrics"
 )
 
-type URLs struct {
-	Search  string
-	Crawls  string
-	Metrics string
+type Link struct {
+	Title string
+	URL   string
 }
 
-func (urls URLs) TabBarFor(current string) webuistyle.TabBar {
-	return webuistyle.TabBar{
-		IssueTrackerURL: issueTrackerURL,
-		Tabs: []webuistyle.Tab{
-			{Title: Search, URL: urls.Search, Current: current == Search},
-			{Title: Crawls, URL: urls.Crawls, Current: current == Crawls},
-			{Title: Metrics, URL: urls.Metrics, Current: current == Metrics},
-		},
+type Links []Link
+
+func (links Links) TabBarFor(current string) webuistyle.TabBar {
+	tabs := make([]webuistyle.Tab, 0, len(links))
+	for _, link := range links {
+		tabs = append(tabs, webuistyle.Tab{
+			Title: link.Title, URL: link.URL, Current: link.Title == current,
+		})
 	}
+	return webuistyle.TabBar{IssueTrackerURL: issueTrackerURL, Tabs: tabs}
 }
 
-func (urls URLs) SettingFor(current string) string {
+func (links Links) SettingFor(current string) string {
 	setting, _ := json.Marshal(
-		urls.TabBarFor(current),
+		links.TabBarFor(current),
 	) //nolint:errchkjson // only strings and bools.
 	return string(setting)
 }
