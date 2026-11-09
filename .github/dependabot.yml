@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directories:
+      - "/**"
+    schedule:
+      interval: weekly
+    groups:
+      go:
+        group-by: dependency-name
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: gradle
+    directory: /distributions/yacypeercompanion
+    schedule:
+      interval: weekly
+    groups:
+      gradle:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: docker
+    directories:
+      - "/**"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        update-types: ["minor", "patch"]
