@@ -20,6 +20,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/dashboardpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/metrichistory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/pagecacheproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/peerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
@@ -57,12 +58,15 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	companions, err := openCompanions(cfg)
-	if err != nil {
-		return errors.Join(err, web.Close())
+	var companions *companions
+	if cfg.servesCompanions() {
+		companions, err = openCompanions(cfg)
+		if err != nil {
+			return errors.Join(err, web.Close())
+		}
+		defer companions.close()
 	}
-	defer companions.close()
-	broker, err := companions.startBroker(cfg.directoryOf(brokerDirectoryName))
+	broker, err := startBroker(cfg.directoryOf(brokerDirectoryName), companions)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -145,6 +149,13 @@ func RunPeer(
 
 func newPeerKey(ctx context.Context, searchTime time.Duration) (yacymodel.PeerKey, error) {
 	return yacymodel.NewPeerKey(ctx, searchTime, wallclock.Clock{})
+}
+
+func startBroker(directory string, companions *companions) (*natsbroker.Broker, error) {
+	if companions == nil {
+		return natsbroker.Start(directory)
+	}
+	return natsbroker.StartWithEndpoint(directory, companions.endpoint())
 }
 
 func hostOf(part string) string {

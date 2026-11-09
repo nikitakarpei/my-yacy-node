@@ -19,24 +19,14 @@ const (
 	pairingWait             = 30 * time.Second
 )
 
-type companions interface {
-	startBroker(directory string) (*natsbroker.Broker, error)
-	close()
-}
-
-type noCompanions struct{}
-
-type servedCompanions struct {
+type companions struct {
 	devices     *paireddevices.Devices
 	offers      *pairingoffers.Offers
 	certificate tls.Certificate
 	address     string
 }
 
-func openCompanions(cfg PeerConfig) (companions, error) {
-	if !cfg.servesCompanions() {
-		return noCompanions{}, nil
-	}
+func openCompanions(cfg PeerConfig) (*companions, error) {
 	directory := cfg.directoryOf(companionsDirectoryName)
 	certificate, err := brokerkey.Settle(directory)
 	if err != nil {
@@ -46,7 +36,7 @@ func openCompanions(cfg PeerConfig) (companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &servedCompanions{
+	return &companions{
 		devices:     devices,
 		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		certificate: certificate,
@@ -54,17 +44,7 @@ func openCompanions(cfg PeerConfig) (companions, error) {
 	}, nil
 }
 
-func (noCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
-	return natsbroker.Start(directory)
-}
-
-func (noCompanions) close() {}
-
-func (c *servedCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
-	return natsbroker.StartWithEndpoint(directory, c.endpoint())
-}
-
-func (c *servedCompanions) endpoint() natsbroker.Endpoint {
+func (c *companions) endpoint() natsbroker.Endpoint {
 	return natsbroker.Endpoint{
 		Authentication: companionaccess.New(
 			c.devices,
@@ -78,6 +58,6 @@ func (c *servedCompanions) endpoint() natsbroker.Endpoint {
 	}
 }
 
-func (c *servedCompanions) close() {
+func (c *companions) close() {
 	c.devices.Close()
 }
