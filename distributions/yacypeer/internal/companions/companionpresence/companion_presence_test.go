@@ -90,7 +90,9 @@ func TestTheWatcherTellsWhenTheFirstCompanionConnectsAndTheLastOneDisconnects(t 
 	go func() { done <- companionpresence.New(connections, clock, events).Run(ctx) }()
 	defer func() {
 		cancel()
-		<-done
+		if err := <-done; err != nil {
+			t.Errorf("run: %v", err)
+		}
 	}()
 
 	clock.nextCheck(t)

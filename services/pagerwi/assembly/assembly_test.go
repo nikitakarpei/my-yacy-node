@@ -251,7 +251,9 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 		t.Errorf("page offers pending = %d, want the provisioned %d", pending, provisionedPending)
 	}
 	cancel()
-	<-runDone
+	if err := <-runDone; err != nil {
+		t.Errorf("run: %v", err)
+	}
 }
 
 func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *testing.T) {
