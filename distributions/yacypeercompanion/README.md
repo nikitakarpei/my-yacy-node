@@ -1,6 +1,6 @@
 # YaCy Companion
 
-YaCy Companion turns an Android phone into a trusted helper of your YaCy peer. The phone fetches
+YaCy Companion turns an Android device into a trusted helper of your YaCy peer. The device fetches
 web pages for the peer and signs each one with a key in its secure hardware, so other peers can
 check that the pages are genuine.
 
@@ -16,12 +16,12 @@ your own key and install it with `adb`:
 "$ANDROID_HOME"/platform-tools/adb install yacypeercompanion.apk
 ```
 
-The app runs on 64-bit ARM phones with Android 14 or later.
+The app runs on 64-bit ARM devices with Android 14 or later.
 
 ## Use
 
-Open the app and follow its screens: allow the permissions, then scan the pairing code that your
-peer shows.
+Open the app and follow its screens: allow the permissions, then scan the QR code from the
+Companions tab in the web UI of your peer.
 
 ## Build from source
 

@@ -1,7 +1,9 @@
 package io.github.nikitakarpei.yacypeercompanion.model
 
 sealed interface CompanionEffect {
-    data class BeginPairing(val code: PairingCode) : CompanionEffect
+    data class BeginPairing(val link: PairLink) : CompanionEffect
+
+    data object SendPairingRequest : CompanionEffect
 
     data object CompletePairing : CompanionEffect
 

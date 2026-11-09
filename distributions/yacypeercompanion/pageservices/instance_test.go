@@ -1,27 +1,35 @@
 package pageservices_test
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
+	"sync/atomic"
 	"testing"
 	"time"
 
+	natsserver "github.com/nats-io/nats-server/v2/server"
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/connectlink"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess/brokeraccesstest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
 )
 
 const (
-	runWait = 10 * time.Second
-	pageURL = "http://origin.example/"
+	runWait    = 10 * time.Second
+	pageURL    = "http://origin.example/"
+	appVersion = "1.2.0"
+	usedSecret = "used-secret"
+
+	peerPartitionExponent = 6
 )
 
 type observedEvents chan string
@@ -31,19 +39,106 @@ func (events observedEvents) BrokerConnectionLost() { events <- "connection lost
 func (events observedEvents) ServicesStopped()      { events <- "stopped" }
 func (events observedEvents) BrokerUnreachable()    { events <- "broker unreachable" }
 func (events observedEvents) ServicesFailed()       { events <- "failed" }
+func (events observedEvents) DeviceRefused()        { events <- "refused" }
+func (events observedEvents) AppOutdated()          { events <- "app outdated" }
+func (events observedEvents) PeerOutdated()         { events <- "peer outdated" }
 
-func linkTo(natsURL string) string {
-	return connectlink.Scheme + "://" + connectlink.Host + "?" + url.Values{
-		connectlink.ParameterNATSURL:           {natsURL},
-		connectlink.ParameterPartitionExponent: {"4"},
-	}.Encode()
+type deviceCheck struct {
+	refused                 atomic.Bool
+	refusesOnceItHasSettled atomic.Bool
 }
 
-func captureProxyServing(t *testing.T, body string) string {
+func (c *deviceCheck) Check(client natsserver.ClientAuthentication) bool {
+	if client.GetOpts().Username == brokeraccesstest.PeerUser {
+		return true
+	}
+	return !c.refused.Load() && len(client.GetTLSConnectionState().PeerCertificates) > 0
+}
+
+type peer struct {
+	broker      brokeraccesstest.Broker
+	check       *deviceCheck
+	appVersions chan string
+}
+
+func startPeer(t *testing.T) peer {
+	t.Helper()
+	return startPeerReplyingToHello(t, companionprotocol.AcceptedHelloReply())
+}
+
+func startPeerReplyingToHello(t *testing.T, helloReply companionprotocol.HelloReply) peer {
+	t.Helper()
+	check := &deviceCheck{}
+	broker := brokeraccesstest.Start(t, check)
+	appVersions := make(chan string, 4)
+	connection := broker.Connect(t)
+	settings, _ := json.Marshal(
+		companionprotocol.DeviceSettings{PartitionExponent: peerPartitionExponent},
+	)
+	reply, _ := json.Marshal(helloReply)
+	for subject, handler := range map[string]nats.MsgHandler{
+		companionprotocol.HelloSubjects: func(msg *nats.Msg) {
+			var hello companionprotocol.Hello
+			_ = json.Unmarshal(msg.Data, &hello)
+			appVersions <- hello.AppVersion
+			_ = msg.Respond(reply)
+		},
+		companionprotocol.SettingsSubjects: func(msg *nats.Msg) {
+			if check.refusesOnceItHasSettled.Load() {
+				check.refused.Store(true)
+			}
+			_ = msg.Respond(settings)
+		},
+	} {
+		if _, err := connection.Subscribe(subject, handler); err != nil {
+			t.Fatalf("Subscribe: %v", err)
+		}
+	}
+	if err := connection.Flush(); err != nil {
+		t.Fatalf("Flush: %v", err)
+	}
+	return peer{broker: broker, check: check, appVersions: appVersions}
+}
+
+func (p peer) jetStream(t *testing.T) jetstream.JetStream {
+	t.Helper()
+	js, err := jetstream.New(p.broker.Connect(t))
+	if err != nil {
+		t.Fatalf("init jetstream: %v", err)
+	}
+	return js
+}
+
+func (p peer) kickEveryDevice(t *testing.T) {
+	t.Helper()
+	p.check.refused.Store(true)
+	connections, err := p.broker.Server.Connz(&natsserver.ConnzOptions{Username: true})
+	if err != nil {
+		t.Fatalf("Connz: %v", err)
+	}
+	for _, connection := range connections.Conns {
+		if connection.AuthorizedUser != brokeraccesstest.PeerUser {
+			_ = p.broker.Server.DisconnectClientByID(connection.Cid)
+		}
+	}
+}
+
+func instanceFor(t *testing.T, linkText string, captureProxyURL string) *pageservices.Instance {
+	t.Helper()
+	instance, err := pageservices.InstanceFor(
+		linkText, captureProxyURL, brokeraccesstest.RandomDeviceKey(t), appVersion,
+	)
+	if err != nil {
+		t.Fatalf("InstanceFor: %v", err)
+	}
+	return instance
+}
+
+func captureProxyServingThePage(t *testing.T) string {
 	t.Helper()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		_, _ = w.Write([]byte(body))
+		_, _ = w.Write([]byte(pageBody))
 	}))
 	t.Cleanup(server.Close)
 	return server.URL
@@ -61,40 +156,113 @@ func awaitEvent(t *testing.T, events observedEvents, want string) {
 	}
 }
 
-func TestInstanceForRefusesTextThatIsNotAConnectLink(t *testing.T) {
+const pageBody = "<html lang=\"en\"><body><p>alpha beta</p></body></html>"
+
+func TestInstanceForRefusesTextThatIsNotAPairLink(t *testing.T) {
 	if _, err := pageservices.InstanceFor(
 		"https://example.org/",
 		"http://127.0.0.1:1",
+		brokeraccesstest.RandomDeviceKey(t),
+		appVersion,
 	); err == nil {
-		t.Fatal("want an error for text that is not a connect link")
+		t.Fatal("want an error for text that is not a pair link")
 	}
 }
 
 func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
-	natsURL := natstestserver.Start(t)
-	provisionPeerStreams(t, natsURL)
-	instance, err := pageservices.InstanceFor(
-		linkTo(natsURL),
-		captureProxyServing(t, "<html lang=\"en\"><body><p>alpha beta</p></body></html>"),
-	)
-	if err != nil {
-		t.Fatalf("InstanceFor: %v", err)
-	}
+	peer := startPeer(t)
+	provisionPeerStreams(t, peer.jetStream(t))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
 	events := make(observedEvents, 4)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
 
-	if pageRWI := askForRWIOfPage(t, natsURL); pageRWI.Metadata.Address != pageURL {
+	pageRWI := askForRWIOfPage(t, peer.jetStream(t))
+	if pageRWI.Metadata.Address != pageURL {
 		t.Errorf("RWI address = %q, want %q", pageRWI.Metadata.Address, pageURL)
+	}
+	if pageRWI.Metadata.PostingsRoot != postingsRootIn(t, peerPartitionExponent, pageRWI) {
+		t.Error("the RWI is built for another partition exponent than the one of the peer")
+	}
+	if reported := <-peer.appVersions; reported != appVersion {
+		t.Errorf("reported app version = %q, want %q", reported, appVersion)
 	}
 
 	instance.Stop()
 	awaitEvent(t, events, "stopped")
 }
 
-func provisionPeerStreams(t *testing.T, natsURL string) {
+func postingsRootIn(
+	t *testing.T,
+	partitionExponent uint,
+	pageRWI pagerwicontract.PageRWI,
+) yacymodel.Optional[yacymodel.PostingsRoot] {
 	t.Helper()
-	broker := natstestserver.ConnectJetStream(t, natsURL)
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(partitionExponent)
+	if err != nil {
+		t.Fatalf("partitions: %v", err)
+	}
+	pagePostings, err := yacymodel.ProvenPagePostingsFrom(
+		pageRWI.Postings, yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatalf("postings of the RWI: %v", err)
+	}
+	return pagePostings.Root()
+}
+
+func TestInstanceRunReportsADeviceThatThePeerRefuses(t *testing.T) {
+	peer := startPeer(t)
+	peer.check.refused.Store(true)
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
+	events := make(observedEvents, 4)
+
+	instance.Run(events)
+
+	awaitEvent(t, events, "refused")
+}
+
+func TestInstanceRunReportsADeviceThatThePeerRefusesOnceItHasSettled(t *testing.T) {
+	peer := startPeer(t)
+	provisionPeerStreams(t, peer.jetStream(t))
+	peer.check.refusesOnceItHasSettled.Store(true)
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
+	events := make(observedEvents, 4)
+
+	instance.Run(events)
+
+	awaitEvent(t, events, "refused")
+}
+
+func TestInstanceRunReportsADeviceThatThePeerRefusesWhileItWorks(t *testing.T) {
+	peer := startPeer(t)
+	provisionPeerStreams(t, peer.jetStream(t))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
+	events := make(observedEvents, 8)
+	go instance.Run(events)
+	awaitEvent(t, events, "connected")
+
+	peer.kickEveryDevice(t)
+
+	for {
+		select {
+		case event := <-events:
+			switch event {
+			case "connection lost":
+				continue
+			case "refused":
+				return
+			default:
+				t.Fatalf("event = %q, want the device reported refused", event)
+			}
+		case <-time.After(runWait):
+			t.Fatal("the run did not end after the peer refused the device")
+		}
+	}
+}
+
+func provisionPeerStreams(t *testing.T, broker jetstream.JetStream) {
+	t.Helper()
 	for _, stream := range []jetstream.StreamConfig{
 		{
 			Name:      pagescrapecontract.ScrapeRequestsStreamName,
@@ -137,9 +305,8 @@ func provisionPeerStreams(t *testing.T, natsURL string) {
 	}
 }
 
-func askForRWIOfPage(t *testing.T, natsURL string) pagerwicontract.PageRWI {
+func askForRWIOfPage(t *testing.T, broker jetstream.JetStream) pagerwicontract.PageRWI {
 	t.Helper()
-	broker := natstestserver.ConnectJetStream(t, natsURL)
 	pageRWIs, err := broker.CreateOrUpdateConsumer(t.Context(), pagerwicontract.PageRWIsStreamName,
 		jetstream.ConsumerConfig{Durable: "node", AckPolicy: jetstream.AckExplicitPolicy})
 	if err != nil {
@@ -158,41 +325,59 @@ func askForRWIOfPage(t *testing.T, natsURL string) pagerwicontract.PageRWI {
 }
 
 func TestInstanceRunReportsStreamsThatThePeerHasNotCreated(t *testing.T) {
-	instance, err := pageservices.InstanceFor(linkTo(natstestserver.Start(t)), "http://127.0.0.1:1")
-	if err != nil {
-		t.Fatalf("InstanceFor: %v", err)
+	peer := startPeer(t)
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
+	events := make(observedEvents, 4)
+	instance.Run(events)
+	awaitEvent(t, events, "failed")
+}
+
+func TestInstanceRunReportsAnAppOrPeerThatIsOutdatedForTheOther(t *testing.T) {
+	for reason, want := range map[companionprotocol.RefusalReason]string{
+		companionprotocol.ReasonAppOutdated:    "app outdated",
+		companionprotocol.ReasonPeerOutdated:   "peer outdated",
+		companionprotocol.ReasonRequestInvalid: "failed",
+	} {
+		t.Run(string(reason), func(t *testing.T) {
+			peer := startPeerReplyingToHello(t, companionprotocol.RefusedHelloReply(reason))
+			instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
+			events := make(observedEvents, 4)
+
+			instance.Run(events)
+
+			awaitEvent(t, events, want)
+		})
 	}
+}
+
+func TestInstanceRunReportsAPeerThatAnswersNothingAsFailed(t *testing.T) {
+	broker := brokeraccesstest.Start(t, &deviceCheck{})
+	instance := instanceFor(t, broker.LinkWith(usedSecret), "http://127.0.0.1:1")
 	events := make(observedEvents, 4)
 	instance.Run(events)
 	awaitEvent(t, events, "failed")
 }
 
 func TestInstanceRunReportsAnUnreachableBroker(t *testing.T) {
-	instance, err := pageservices.InstanceFor(linkTo("nats://127.0.0.1:1"), "http://127.0.0.1:1")
-	if err != nil {
-		t.Fatalf("InstanceFor: %v", err)
+	link := companionprotocol.PairLink{
+		Addresses: []string{"127.0.0.1:1"}, BrokerKeyHash: "hash", Secret: usedSecret,
 	}
+	instance := instanceFor(t, link.String(), "http://127.0.0.1:1")
 	events := make(observedEvents, 4)
 	instance.Run(events)
 	awaitEvent(t, events, "broker unreachable")
 }
 
 func TestInstanceRunReportsABrokerThatShutsDown(t *testing.T) {
-	broker := natstestserver.StartedServer(t)
-	provisionPeerStreams(t, broker.ClientURL())
-	instance, err := pageservices.InstanceFor(
-		linkTo(broker.ClientURL()),
-		captureProxyServing(t, "<html lang=\"en\"><body><p>alpha beta</p></body></html>"),
-	)
-	if err != nil {
-		t.Fatalf("InstanceFor: %v", err)
-	}
+	peer := startPeer(t)
+	provisionPeerStreams(t, peer.jetStream(t))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
 	events := make(observedEvents, 4)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
-	askForRWIOfPage(t, broker.ClientURL())
+	askForRWIOfPage(t, peer.jetStream(t))
 
-	broker.Shutdown()
+	peer.broker.Server.Shutdown()
 	for {
 		select {
 		case event := <-events:
@@ -211,10 +396,8 @@ func TestInstanceRunReportsABrokerThatShutsDown(t *testing.T) {
 }
 
 func TestInstanceRunReportsAStopBeforeItStarted(t *testing.T) {
-	instance, err := pageservices.InstanceFor(linkTo(natstestserver.Start(t)), "http://127.0.0.1:1")
-	if err != nil {
-		t.Fatalf("InstanceFor: %v", err)
-	}
+	peer := startPeer(t)
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
 	instance.Stop()
 	events := make(observedEvents, 4)
 	instance.Run(events)

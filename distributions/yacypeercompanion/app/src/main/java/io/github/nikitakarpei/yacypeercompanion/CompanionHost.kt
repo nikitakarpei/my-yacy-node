@@ -12,6 +12,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionModel
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
 import io.github.nikitakarpei.yacypeercompanion.model.after
+import io.github.nikitakarpei.yacypeercompanion.services.Pairer
 import io.github.nikitakarpei.yacypeercompanion.services.ServicesRunner
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
@@ -28,6 +29,7 @@ class CompanionHost : Service() {
     private var pairingTimeout: ScheduledFuture<*>? = null
     private lateinit var model: CompanionModel
     private lateinit var services: ServicesRunner
+    private lateinit var pairer: Pairer
     private lateinit var network: NetworkWatch
     private lateinit var wakeLock: PowerManager.WakeLock
 
@@ -43,6 +45,7 @@ class CompanionHost : Service() {
         wakeLock = getSystemService(PowerManager::class.java).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "$APP_NAME:services")
         wakeLock.acquire()
         services = ServicesRunner(this) { events.put(it) }
+        pairer = Pairer(this) { events.put(it) }
         network = NetworkWatch(this) { access -> events.put(CompanionEvent.NetworkChanged(access)) }
         model = CompanionModel(CompanionState.Stopped, network.access)
         thread(name = "companion-events") { takeEvents() }
@@ -74,9 +77,10 @@ class CompanionHost : Service() {
 
     private fun carryOut(effect: CompanionEffect) {
         when (effect) {
-            is CompanionEffect.BeginPairing -> Pairing.begin(this, effect.code.linkText)
-            CompanionEffect.CompletePairing -> Pairing.complete(this)
-            CompanionEffect.ForgetPairing -> Pairing.forget(this)
+            is CompanionEffect.BeginPairing -> Pairing.begin(this, effect.link.text)
+            CompanionEffect.SendPairingRequest -> pairer.send(Pairing.linkText(this).orEmpty())
+            CompanionEffect.CompletePairing -> completePairing()
+            CompanionEffect.ForgetPairing -> forgetPairing()
             CompanionEffect.StartServices, CompanionEffect.RestartServices -> services.start(Pairing.linkText(this).orEmpty())
             CompanionEffect.StopServices -> services.stop()
             is CompanionEffect.ScheduleRetry -> retry = after(effect.afterMs, CompanionEvent.RetryDue)
@@ -89,6 +93,18 @@ class CompanionHost : Service() {
         }
     }
 
+    private fun completePairing() {
+        Pairing.complete(this)
+        pairer.complete()
+    }
+
+    private fun forgetPairing() {
+        val linkText = Pairing.linkText(this)
+        val paired = Pairing.paired(this)
+        Pairing.forget(this)
+        if (paired && linkText != null) pairer.unpair(linkText) else pairer.giveUp()
+    }
+
     private fun after(delayMs: Long, event: CompanionEvent): ScheduledFuture<*> =
         timers.schedule({ events.put(event) }, delayMs, TimeUnit.MILLISECONDS)
 
@@ -97,6 +113,8 @@ class CompanionHost : Service() {
         stopSelf()
     }
 
+    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailure || state is CompanionState.Refused
+
     override fun onDestroy() {
         ended = true
         events.put(CompanionEvent.StopRequested)
@@ -104,7 +122,7 @@ class CompanionHost : Service() {
         services.close()
         network.close()
         if (wakeLock.isHeld) wakeLock.release()
-        if (CompanionStore.state !is CompanionState.PairingFailed) CompanionStore.publish(CompanionState.Stopped)
+        if (!keepsShowing(CompanionStore.state)) CompanionStore.publish(CompanionState.Stopped)
         super.onDestroy()
     }
 }

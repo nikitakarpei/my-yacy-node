@@ -15,15 +15,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
-import io.github.nikitakarpei.yacypeercompanion.model.PairingCode
+import io.github.nikitakarpei.yacypeercompanion.model.PairLink
 import io.github.nikitakarpei.yacypeercompanion.model.PairingProblem
-import io.github.nikitakarpei.yacypeercompanion.services.pairingCodeOf
+import io.github.nikitakarpei.yacypeercompanion.services.needsNewerApp
+import io.github.nikitakarpei.yacypeercompanion.services.pairLinkFrom
 
 private const val MESSAGE_MS = 3_000L
 private const val RESCAN_PAUSE_MS = 1_500L
-private const val SCAN_HINT_START = "The pairing code is on the "
-private const val SCAN_HINT_PAGE = "Pair a phone"
-private const val SCAN_HINT_END = " page of the YaCy peer."
+private const val SCAN_HINT_START = "Go to the "
+private const val SCAN_HINT_TAB = "Companions"
+private const val SCAN_HINT_END = " tab in the peer's web UI to get a QR code."
+private const val INCOMPATIBLE_CODE_MESSAGE = "This QR code is not compatible with your app version. Please update the app."
+private const val INVALID_CODE_MESSAGE = "This QR code is invalid."
 
 class ScanScreen : Activity() {
     private lateinit var preview: TextureView
@@ -33,7 +36,7 @@ class ScanScreen : Activity() {
     private lateinit var cameraRefusedView: View
     private var cameraAsked = false
     private var scanner: QrScanner? = null
-    private var pairingCode: PairingCode? = null
+    private var pairLink: PairLink? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +65,7 @@ class ScanScreen : Activity() {
     private fun cameraOverlay(): View = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL
         fitsSystemWindows = true
-        addView(topBar("Scan pairing code", R.color.on_camera) { finish() })
+        addView(topBar("Scan QR code", R.color.on_camera) { finish() })
         spacer()
         addView(
             bodyText("", 16f).apply {
@@ -111,7 +114,7 @@ class ScanScreen : Activity() {
 
     private fun scanHint(): CharSequence = android.text.SpannableStringBuilder(SCAN_HINT_START).apply {
         val start = length
-        append(SCAN_HINT_PAGE)
+        append(SCAN_HINT_TAB)
         setSpan(android.text.style.StyleSpan(Typeface.BOLD), start, length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         append(SCAN_HINT_END)
     }
@@ -151,8 +154,8 @@ class ScanScreen : Activity() {
     private fun draw(state: CompanionState) {
         when (state) {
             CompanionState.Pairing -> pairingView.visibility = View.VISIBLE
-            CompanionState.Connected -> openHome()
-            is CompanionState.PairingFailed -> if (pairingCode != null) showPairingFailure(state.problem) else scan()
+            CompanionState.Connecting, CompanionState.Connected, is CompanionState.Disconnected -> openHome()
+            is CompanionState.PairingFailure -> if (pairLink != null) showPairingFailure(state.problem) else scan()
             else -> scan()
         }
     }
@@ -207,31 +210,31 @@ class ScanScreen : Activity() {
     }
 
     private fun pairWithPeerOf(text: String) {
-        val code = pairingCodeOf(text)
-        if (code == null) {
-            show("Not a pairing code of a YaCy peer.")
+        val link = pairLinkFrom(text)
+        if (link == null) {
+            show(if (needsNewerApp(text)) INCOMPATIBLE_CODE_MESSAGE else INVALID_CODE_MESSAGE)
             preview.postDelayed({ scanner?.resume() }, RESCAN_PAUSE_MS)
             return
         }
-        pair(code)
+        pair(link)
     }
 
-    private fun pair(code: PairingCode) {
+    private fun pair(link: PairLink) {
         scanner?.pause()
-        pairingCode = code
+        pairLink = link
         pairingView.visibility = View.VISIBLE
-        send(CompanionEvent.PairWith(code))
+        send(CompanionEvent.PairWith(link))
     }
 
     private fun showPairingFailure(problem: PairingProblem) {
-        val code = pairingCode ?: return
-        pairingCode = null
-        val action = if (retriesWithSameCode(problem)) DialogAction("Try again") { pair(code) } else DialogAction("OK") { cancelPairing() }
+        val link = pairLink ?: return
+        pairLink = null
+        val action = if (retriesWithSameLink(problem)) DialogAction("Try again") { pair(link) } else DialogAction("OK") { cancelPairing() }
         showDialog("Couldn’t pair", listOf(action), textOf(problem), R.drawable.ic_alert) { cancelPairing() }
     }
 
     private fun cancelPairing() {
-        pairingCode = null
+        pairLink = null
         send(CompanionEvent.CancelPairing)
         scan()
     }

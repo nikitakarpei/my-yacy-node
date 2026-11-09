@@ -5,7 +5,7 @@ sealed interface CompanionState {
 
     data object Pairing : CompanionState
 
-    data class PairingFailed(val problem: PairingProblem) : CompanionState
+    data class PairingFailure(val problem: PairingProblem) : CompanionState
 
     data object Connecting : CompanionState
 
@@ -14,6 +14,8 @@ sealed interface CompanionState {
     sealed interface Disconnected : CompanionState
 
     data object WaitingForUnmeteredNetwork : Disconnected
+
+    data class Refused(val reason: DisconnectReason) : Disconnected
 
     sealed interface Recovering : Disconnected {
         val reason: DisconnectReason
@@ -29,8 +31,19 @@ sealed interface CompanionState {
 
 enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
 
-enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, SERVICES_FAILED }
+enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, DEVICE_KEY, SERVICES_FAILED, DEVICE_REFUSED, APP_OUTDATED, PEER_OUTDATED }
 
-enum class PairingProblem { PEER_UNREACHABLE, SIGNING_KEY, SERVICES_FAILED }
+enum class PairingProblem {
+    PEER_UNREACHABLE,
+    DEVICE_KEY,
+    SECRET_EXPIRED,
+    APP_NOT_OFFICIAL,
+    APP_OUTDATED,
+    PEER_OUTDATED,
+    DEVICE_NOT_TRUSTED,
+    REFUSED,
+    NOT_SENT,
+    REPLY_UNREADABLE,
+}
 
-class PairingCode(val linkText: String)
+class PairLink(val text: String)

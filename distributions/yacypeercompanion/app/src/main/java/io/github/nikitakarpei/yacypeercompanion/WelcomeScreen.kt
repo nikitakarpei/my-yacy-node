@@ -12,7 +12,7 @@ private const val SOURCE_URL = "https://github.com/nikitakarpei/my-yacy-node"
 private const val LICENSE_URL = "https://www.gnu.org/licenses/agpl-3.0.html"
 private const val ABOUT_TEXT =
     "YaCy Companion fetches web pages for a YaCy peer and builds their index entries. A key in the secure " +
-        "hardware of this phone signs each fetched page, so other peers can check that the page is genuine."
+        "hardware of this device signs each fetched page, so other peers can check that the page is genuine."
 
 class WelcomeScreen : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
