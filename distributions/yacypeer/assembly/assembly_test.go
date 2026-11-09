@@ -53,7 +53,7 @@ func peerEnvironment(t *testing.T) map[string]string {
 		yacypeerassembly.EnvDataDirectory: dataDirectoryWithSolvedPeerKey(t),
 		yacypeerassembly.EnvSeedlistURLs:  "http://127.0.0.1:1/seed.txt",
 		"YACY_ADVERTISE_HOST":             "127.0.0.1",
-		"YACYNODE__YACY_PEER_ADDR":        addressesBelowEphemeralPorts(t, 1)[0],
+		"YACYNODE__YACY_PEER_ADDR":        addressBelowEphemeralPorts(t),
 	}
 }
 
@@ -67,30 +67,21 @@ func dataDirectoryWithSolvedPeerKey(t *testing.T) string {
 	return dataDirectory
 }
 
-func addressesBelowEphemeralPorts(t *testing.T, count int) []string {
+func addressBelowEphemeralPorts(t *testing.T) string {
 	t.Helper()
-	listeners := make([]net.Listener, 0, count)
-	defer func() {
-		for _, listener := range listeners {
-			_ = listener.Close()
-		}
-	}()
-	for attempt := 0; len(listeners) < count; attempt++ {
-		if attempt == portAttempts {
-			t.Fatalf("no %d free ports below %d", count, firstEphemeralPort)
-		}
+	for range portAttempts {
 		port := firstListenPort + rand.IntN(listenPortSpan) //nolint:gosec // G404: no secrecy.
-		address := net.JoinHostPort(loopbackHost, strconv.Itoa(port))
-		listener, err := servergroup.Listen(t.Context(), address)
+		listener, err := servergroup.Listen(
+			t.Context(), net.JoinHostPort(loopbackHost, strconv.Itoa(port)),
+		)
 		if err == nil {
-			listeners = append(listeners, listener)
+			address := listener.Addr().String()
+			_ = listener.Close()
+			return address
 		}
 	}
-	addresses := make([]string, 0, count)
-	for _, listener := range listeners {
-		addresses = append(addresses, listener.Addr().String())
-	}
-	return addresses
+	t.Fatalf("no free port below %d", firstEphemeralPort)
+	return ""
 }
 
 func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.PeerConfig, net.Listener) {
@@ -239,7 +230,7 @@ func TestRunPeerWithACompanionAddressShowsTheCompanionsTabAndRefusesUnknownCompa
 	t *testing.T,
 ) {
 	env := peerEnvironment(t)
-	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
+	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
 	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -282,7 +273,7 @@ func requireUnknownCompanionRefused(t *testing.T, companionAddress string) {
 
 func TestRunPeerTellsAPairedDeviceThePartitionExponentThatTheOperatorSets(t *testing.T) {
 	env := peerEnvironment(t)
-	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
+	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
 	env[yacypeerassembly.EnvPartitionExponent] = "6"
 	certificate, deviceID := companionaccesstest.DeviceCertificate(t)
 	keepPairedDevice(t, env[yacypeerassembly.EnvDataDirectory], deviceID)
