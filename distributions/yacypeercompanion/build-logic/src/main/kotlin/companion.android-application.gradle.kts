@@ -1,3 +1,4 @@
+import com.android.build.api.artifact.SingleArtifact
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -48,6 +49,19 @@ android {
         abortOnError = true
         checkReleaseBuilds = true
         disable += listOf("GradleDependency", "NewerVersionAvailable", "AndroidGradlePluginVersion", "OldTargetApi")
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType("release")) { variant ->
+        tasks.register<AttackSurfaceCheck>("check${variant.name.replaceFirstChar(Char::titlecase)}AttackSurface") {
+            description = "Checks that the libraries widen no attack surface of the APK and that its platform protections stay on."
+            group = "verification"
+            appManifest.set(layout.projectDirectory.file("src/main/AndroidManifest.xml"))
+            apkManifest.set(variant.artifacts.get(SingleArtifact.MERGED_MANIFEST))
+            apkDirectory.set(variant.artifacts.get(SingleArtifact.APK))
+            namespace.set(variant.namespace)
+        }
     }
 }
 

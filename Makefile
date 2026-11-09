@@ -92,7 +92,7 @@ verify:      fmt-check tidy-check lint arch cover-check build
 
 android-app:
 	@./tools/install --check android
-	$(ANDROID_APP)/gradlew -p $(ANDROID_APP) assembleRelease test lintRelease ktlintCheck --console=plain
+	$(ANDROID_APP)/gradlew -p $(ANDROID_APP) assembleRelease checkReleaseAttackSurface test lintRelease ktlintCheck --console=plain
 
 android-app-verification-metadata:
 	@./tools/install --check android

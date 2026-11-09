@@ -52,6 +52,11 @@ other peers can check what the device did.
 * Without a network, the app SHALL wait until the device has one.
 * An RWI that the app builds SHALL be the same as the RWI that pagerwi builds from the same page.
 * Two builds of one commit SHALL give the same unsigned APK, byte for byte.
+* The app SHALL fetch pages and connect to the peer only with TLS.
+* The app SHALL NOT put its data in backups or in transfers to another device.
+* Other apps SHALL NOT start or call the app, except to open its home screen.
+* The app SHALL NOT show web pages, and SHALL open each link in the browser of the device.
+* A release build SHALL NOT let a debugger connect.
 
 ## Known Limitations
 
