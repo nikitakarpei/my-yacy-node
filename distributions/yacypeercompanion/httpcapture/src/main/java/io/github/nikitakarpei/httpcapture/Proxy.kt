@@ -37,6 +37,8 @@ const val MAX_QUEUED_CONNECTIONS = 64
 
 const val RETRY_AFTER_SECONDS = 10
 
+private const val LOG_TAG = "CaptureProxy"
+
 fun statusFor(e: Exception) = when (e) {
     is IllegalArgumentException, is Refused -> 400
     is Retryable -> 503
@@ -161,6 +163,7 @@ fun handle(socket: Socket, token: String, key: () -> SigningKey, client: OkHttpC
             r.body,
         )
     } catch (e: Exception) {
+        android.util.Log.w(LOG_TAG, "capture failed", e)
         val retry = if (e is Retryable) listOf("Retry-After" to "$RETRY_AFTER_SECONDS") else emptyList()
         runCatching { error(statusFor(e), "capture failed: ${e.message}", retry) }
     }
