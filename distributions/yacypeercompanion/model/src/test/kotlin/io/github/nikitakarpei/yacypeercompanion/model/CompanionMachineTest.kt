@@ -30,10 +30,10 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Refused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForNetwork
@@ -102,17 +102,23 @@ class CompanionMachineTest {
     }
 
     @Test
-    fun aDeviceThatThePeerRefusesStaysDisconnectedAndTellsWhy() {
-        assertStep(
-            stepOf(Connected, ServicesEnded(ServicesEnding.DEVICE_REFUSED)),
-            DeviceRefused,
-            StopServices,
-            CancelRetry,
-            PostFailureNotification(DisconnectReason.DEVICE_REFUSED),
-            EndHost,
-        )
-        assertStep(stepOf(DeviceRefused, StartRequested), DeviceRefused)
-        assertStep(stepOf(Stopped, ServicesEnded(ServicesEnding.DEVICE_REFUSED)), Stopped)
+    fun aRefusalOfThePeerStaysDisconnectedAndTellsWhy() {
+        for ((ending, reason) in mapOf(
+            ServicesEnding.DEVICE_REFUSED to DisconnectReason.DEVICE_REFUSED,
+            ServicesEnding.APP_OUTDATED to DisconnectReason.APP_OUTDATED,
+            ServicesEnding.PEER_OUTDATED to DisconnectReason.PEER_OUTDATED,
+        )) {
+            assertStep(
+                stepOf(Connected, ServicesEnded(ending)),
+                Refused(reason),
+                StopServices,
+                CancelRetry,
+                PostFailureNotification(reason),
+                EndHost,
+            )
+            assertStep(stepOf(Refused(reason), StartRequested), Refused(reason))
+            assertStep(stepOf(Stopped, ServicesEnded(ending)), Stopped)
+        }
     }
 
     @Test
