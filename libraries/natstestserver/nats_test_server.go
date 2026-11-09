@@ -29,6 +29,20 @@ func Start(t *testing.T) string {
 	return StartedServer(t).ClientURL()
 }
 
+func StartWithPassword(t *testing.T, password string) string {
+	t.Helper()
+	return startedServerWith(
+		t,
+		&natsserver.Options{CustomClientAuthentication: passwordCheck(password)},
+	).ClientURL()
+}
+
+type passwordCheck string
+
+func (password passwordCheck) Check(client natsserver.ClientAuthentication) bool {
+	return client.GetOpts().Password == string(password)
+}
+
 func StartedServer(t *testing.T) *natsserver.Server {
 	t.Helper()
 	return startedServerWith(t, &natsserver.Options{})
@@ -123,18 +137,18 @@ func ConnectWithoutServer(t *testing.T) *nats.Conn {
 	return connection
 }
 
-func ConnectJetStream(t *testing.T, url string) jetstream.JetStream {
+func ConnectJetStream(t *testing.T, url string, options ...nats.Option) jetstream.JetStream {
 	t.Helper()
-	js, err := jetstream.New(Connect(t, url))
+	js, err := jetstream.New(Connect(t, url, options...))
 	if err != nil {
 		t.Fatalf("init jetstream: %v", err)
 	}
 	return js
 }
 
-func Connect(t *testing.T, url string) *nats.Conn {
+func Connect(t *testing.T, url string, options ...nats.Option) *nats.Conn {
 	t.Helper()
-	connection, err := nats.Connect(url)
+	connection, err := nats.Connect(url, options...)
 	if err != nil {
 		t.Fatalf("connect nats: %v", err)
 	}
