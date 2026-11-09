@@ -1,13 +1,15 @@
 // Package jetstreamconnect opens a NATS connection through the dialer it is given and derives its
 // JetStream context, returning both, so a caller that also publishes on a core subject holds the
-// one connection they share. A caller can observe when the broker drops the connection and when
-// it returns; closing the connection is no loss.
+// one connection they share. The caller tells who observes when the broker drops the connection
+// and when it returns, and gives the access that the broker expects: TLS, credentials and the
+// inbox prefix. Errors on the open connection, such as a refused publish, are reported.
 package jetstreamconnect
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net"
 
 	"github.com/nats-io/nats.go"
@@ -23,35 +25,31 @@ type ConnectionObserver interface {
 	ConnectionRestored()
 }
 
-func Open(url string, dial Dial) (jetstream.JetStream, *nats.Conn, error) {
-	return openWith(url, dial)
-}
+type UnobservedConnection struct{}
 
-func OpenObserved(
+func (UnobservedConnection) ConnectionLost() {}
+
+func (UnobservedConnection) ConnectionRestored() {}
+
+func Open(
 	url string,
 	dial Dial,
 	observer ConnectionObserver,
-) (jetstream.JetStream, *nats.Conn, error) {
-	return openWith(
-		url,
-		dial,
-		nats.DisconnectErrHandler(func(_ *nats.Conn, err error) {
-			if err != nil {
-				observer.ConnectionLost()
-			}
-		}),
-		nats.ReconnectHandler(func(*nats.Conn) { observer.ConnectionRestored() }),
-	)
-}
-
-func openWith(
-	url string,
-	dial Dial,
-	options ...nats.Option,
+	access BrokerAccess,
 ) (jetstream.JetStream, *nats.Conn, error) {
 	conn, err := nats.Connect(
 		url,
-		append(options, nats.SetCustomDialer(timedDialer{dial: dial}), nats.SkipHostLookup())...,
+		append(access.Options(),
+			nats.DisconnectErrHandler(func(_ *nats.Conn, err error) {
+				if err != nil {
+					observer.ConnectionLost()
+				}
+			}),
+			nats.ReconnectHandler(func(*nats.Conn) { observer.ConnectionRestored() }),
+			nats.SetCustomDialer(timedDialer{dial: dial}),
+			nats.SkipHostLookup(),
+			nats.ErrorHandler(reportConnectionError),
+		)...,
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("%w: %w", ErrBrokerUnreachable, err)
@@ -72,4 +70,12 @@ func (d timedDialer) Dial(network, address string) (net.Conn, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), nats.GetDefaultOptions().Timeout)
 	defer cancel()
 	return d.dial(ctx, network, address)
+}
+
+func reportConnectionError(_ *nats.Conn, subscription *nats.Subscription, err error) {
+	attributes := []any{slog.Any("error", err)}
+	if subscription != nil {
+		attributes = append(attributes, slog.String("subject", subscription.Subject))
+	}
+	slog.WarnContext(context.Background(), "the NATS connection reported an error", attributes...)
 }

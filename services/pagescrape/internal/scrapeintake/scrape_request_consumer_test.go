@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
@@ -68,7 +69,7 @@ func runScrapeIntakeAgainst(
 		offers,
 		feed,
 		scrapeintake.ScrapeIntakeObservers{fetchFailures},
-		everyRequestAdmitted{},
+		pullintake.EveryItemAdmitted{},
 		deferralWindow,
 		1,
 		fixedClock{now: fetchTime},
@@ -279,7 +280,7 @@ func TestScrapeRequestNoOneCanTakeHaltsIntake(t *testing.T) {
 		&pageOffers{},
 		&scrapeOutcomeFeed{},
 		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
-		everyRequestAdmitted{},
+		pullintake.EveryItemAdmitted{},
 		deferralWindow,
 		1,
 		wallclock.Clock{},
@@ -288,12 +289,6 @@ func TestScrapeRequestNoOneCanTakeHaltsIntake(t *testing.T) {
 	if err := consumer.Run(context.Background()); err == nil {
 		t.Fatal("want intake to halt on a request it cannot take")
 	}
-}
-
-type everyRequestAdmitted struct{}
-
-func (everyRequestAdmitted) AwaitAdmission(context.Context) error {
-	return nil
 }
 
 type noRequestAdmitted struct{}

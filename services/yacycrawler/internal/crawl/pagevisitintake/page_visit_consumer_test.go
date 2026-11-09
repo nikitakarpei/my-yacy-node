@@ -268,12 +268,6 @@ func (f *fakeFrontier) Return(
 	f.returnedAfter = delay
 }
 
-type everyVisitAdmitted struct{}
-
-func (everyVisitAdmitted) AwaitAdmission(context.Context) error {
-	return nil
-}
-
 type noVisitAdmitted struct{}
 
 func (noVisitAdmitted) AwaitAdmission(context.Context) error {
@@ -302,7 +296,7 @@ func newWorker() *crawlWorker {
 
 func (w *crawlWorker) consume(t *testing.T, visits ...pendingpagevisit.LeasedPageVisit) error {
 	t.Helper()
-	return w.consumeAdmittedBy(t, everyVisitAdmitted{}, visits...)
+	return w.consumeAdmittedBy(t, pullintake.EveryItemAdmitted{}, visits...)
 }
 
 func (w *crawlWorker) consumeAdmittedBy(

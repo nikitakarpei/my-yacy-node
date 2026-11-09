@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -16,6 +17,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	pagescrape "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 )
 
@@ -23,6 +27,8 @@ const (
 	offerWait     = 10 * time.Second
 	shutdownWait  = 10 * time.Second
 	originPageURL = "http://origin.example/"
+
+	brokerPassword = "broker-password"
 )
 
 func originServing(t *testing.T, body string) *url.URL {
@@ -55,13 +61,13 @@ func serviceConfig(natsURL string, proxy *url.URL) pagescrape.ServiceConfig {
 	}
 }
 
-func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
-	natsURL := natstestserver.Start(t)
+func TestRunServiceOffersThePageAScrapeRequestNamesWithTheAccessOfTheBroker(t *testing.T) {
+	natsURL := natstestserver.StartWithPassword(t, brokerPassword)
 	cfg := serviceConfig(
 		natsURL,
 		originServing(t, "<html lang=\"en\"><body>words here</body></html>"),
 	)
-	broker := natstestserver.ConnectJetStream(t, natsURL)
+	broker := natstestserver.ConnectJetStream(t, natsURL, nats.UserInfo("", brokerPassword))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -69,7 +75,9 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	health := &servicehealth.Health{}
 	runDone := make(chan error, 1)
 	go func() {
-		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext, prometheus.NewRegistry(), health)
+		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{Password: brokerPassword}, pullintake.EveryItemAdmitted{},
+			prometheus.NewRegistry(), health)
 	}()
 
 	offers := pageOfferConsumer(t, ctx, broker)
@@ -101,6 +109,45 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	}
 }
 
+func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.T) {
+	natsURL := natstestserver.Start(t)
+	cfg := serviceConfig(
+		natsURL,
+		originServing(t, "<html lang=\"en\"><body>words here</body></html>"),
+	)
+	broker := natstestserver.ConnectJetStream(t, natsURL)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	release := make(chan struct{})
+	admission := pullintaketest.AdmissionHeldUntil(release)
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- pagescrape.RunService(
+			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, admission, prometheus.NewRegistry(), &servicehealth.Health{},
+		)
+	}()
+	offers := pageOfferConsumer(t, ctx, broker)
+	publishScrapeRequest(t, ctx, broker, originPageURL)
+	admission.AwaitAsked(t, offerWait)
+
+	scrapeRequests, err := broker.Consumer(
+		ctx, pagescrapecontract.ScrapeRequestsStreamName, pagescrape.DefaultScrapeRequestDurable,
+	)
+	if err != nil {
+		t.Fatalf("open scrape request consumer: %v", err)
+	}
+	pullintaketest.RequireItemLeftInStream(t, ctx, scrapeRequests, offerWait)
+	close(release)
+	if _, err := offers.Next(jetstream.FetchMaxWait(offerWait)); err != nil {
+		t.Fatalf("await page offer after admission: %v", err)
+	}
+	cancel()
+	if err := <-runDone; err != nil {
+		t.Errorf("run: %v", err)
+	}
+}
+
 func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 	cfg := serviceConfig("nats://127.0.0.1:1", originServing(t, "<html></html>"))
 	health := &servicehealth.Health{}
@@ -109,6 +156,7 @@ func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 		cfg,
 		pagescrape.Listeners{},
 		(&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(),
 		health,
 	); err == nil {
@@ -135,6 +183,7 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 	go func() {
 		runDone <- pagescrape.RunService(
 			ctx, bound, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
@@ -170,6 +219,7 @@ func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
 	go func() {
 		runDone <- pagescrape.RunService(
 			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 			prometheus.NewRegistry(), health,
 		)
 	}()
@@ -193,6 +243,7 @@ func TestRunServiceWithoutProvisioningFailsWithoutTheStreams(t *testing.T) {
 
 	if err := pagescrape.RunService(
 		context.Background(), cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
+		jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
 		prometheus.NewRegistry(), health,
 	); err == nil {
 		t.Fatal("RunService = nil, want the missing streams refused")

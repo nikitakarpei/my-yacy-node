@@ -153,6 +153,8 @@ func pageOfferOpenerFor(cfg ServiceConfig) func(ctx context.Context) (pageOffers
 		js, connection, err := jetstreamconnect.Open(
 			cfg.PageOfferNATSURL,
 			(&net.Dialer{}).DialContext,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
 		)
 		if err != nil {
 			return pageOffers{}, err

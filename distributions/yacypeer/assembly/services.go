@@ -21,6 +21,8 @@ import (
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	searchpageassembly "github.com/nikitakarpei/yacy-rwi-node/searchpage/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	visitcrawlassembly "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/assembly"
 	yacycrawlerassembly "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/assembly"
@@ -235,7 +237,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			},
 			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
-			withUnreadHealth(pagescrapeassembly.RunService),
+			runPagescrape,
 			p.network,
 		),
 		streamOnlyServiceAssemblyFrom(
@@ -248,7 +250,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			},
 			pagerwiassembly.LoadServiceConfig,
 			pagerwiassembly.ListenersFor,
-			withUnreadHealth(pagerwiassembly.RunService),
+			runPagerwi,
 			p.network,
 		),
 		streamOnlyServiceAssemblyFrom(
@@ -316,12 +318,38 @@ func streamOnlyServiceAssemblyFrom[C any, L io.Closer](
 	}
 }
 
-func withUnreadHealth[C any, L io.Closer](
-	runService func(context.Context, C, L, dial, *prometheus.Registry, *servicehealth.Health) error,
-) func(context.Context, C, L, dial, *prometheus.Registry) error {
-	return func(ctx context.Context, cfg C, listeners L, dial dial, registry *prometheus.Registry) error {
-		return runService(ctx, cfg, listeners, dial, registry, &servicehealth.Health{})
-	}
+func runPagescrape(
+	ctx context.Context,
+	cfg pagescrapeassembly.ServiceConfig,
+	listeners pagescrapeassembly.Listeners,
+	dial dial,
+	registry *prometheus.Registry,
+) error {
+	return pagescrapeassembly.RunService(
+		ctx, cfg, listeners, dial,
+		jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+		registry, &servicehealth.Health{},
+	)
+}
+
+func runPagerwi(
+	ctx context.Context,
+	cfg pagerwiassembly.ServiceConfig,
+	listeners pagerwiassembly.Listeners,
+	dial dial,
+	registry *prometheus.Registry,
+) error {
+	return pagerwiassembly.RunService(
+		ctx,
+		cfg,
+		listeners,
+		dial,
+		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.BrokerAccess{},
+		pullintake.EveryItemAdmitted{},
+		registry,
+		&servicehealth.Health{},
+	)
 }
 
 func (p peer) downstreamServiceAssembliesWith(

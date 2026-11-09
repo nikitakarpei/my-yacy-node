@@ -25,6 +25,7 @@ import (
 	pagerwistreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwistreams/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/admissions/consumerbacklog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
@@ -57,6 +58,9 @@ func RunService(
 	cfg ServiceConfig,
 	_ Listeners,
 	dial Dial,
+	pageOfferBrokerAccess jetstreamconnect.BrokerAccess,
+	pageRWIBrokerAccess jetstreamconnect.BrokerAccess,
+	intakeAdmission pullintake.Admission,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
@@ -68,10 +72,11 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.OpenObserved(
+	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.Open(
 		cfg.PageRWINATSURL,
 		dial,
 		health,
+		pageRWIBrokerAccess,
 	)
 	if err != nil {
 		return err
@@ -83,7 +88,7 @@ func RunService(
 	}
 	pageOfferOpening := streamopening.Start(
 		ctx,
-		pageOfferOpenerFor(cfg, dial, health),
+		pageOfferOpenerFor(cfg, dial, pageOfferBrokerAccess, health),
 		wallclock.Clock{},
 		pageofferopeningobserversapplog.PageOfferOpeningLog{},
 	)
@@ -99,8 +104,11 @@ func RunService(
 		PageRWIs: pagerwipublishersjetstream.NewPageRWIPublisher(
 			pageRWIBroker, pagerwipublicationobserversapplog.PageRWIPublicationLog{},
 		),
-		PageRWIBacklog: consumerbacklog.New(
-			pageRWIs, pageRWIBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+		Admission: pullintake.AdmissionOfEach(
+			consumerbacklog.New(
+				pageRWIs, pageRWIBacklogLimit, wallclock.Clock{}, registry, metricNamespace,
+			),
+			intakeAdmission,
 		),
 		PageIntakeObserver: pageintake.PageIntakeObservers{
 			pageintakeobserversapplog.PageIntakeLog{},
@@ -179,10 +187,13 @@ func (offers pageOffers) Close() {
 func pageOfferOpenerFor(
 	cfg ServiceConfig,
 	dial Dial,
+	brokerAccess jetstreamconnect.BrokerAccess,
 	health *servicehealth.Health,
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.OpenObserved(cfg.PageOfferNATSURL, dial, health)
+		js, connection, err := jetstreamconnect.Open(
+			cfg.PageOfferNATSURL, dial, health, brokerAccess,
+		)
 		if err != nil {
 			return pageOffers{}, err
 		}
