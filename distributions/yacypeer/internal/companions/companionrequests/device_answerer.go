@@ -3,6 +3,7 @@ package companionrequests
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 
 	"github.com/nats-io/nats.go"
@@ -37,11 +38,11 @@ func (d *DeviceAnswerer) Subscribe(
 	connection *nats.Conn,
 ) (*Subscriptions, error) {
 	return subscribeTo(connection, map[string]nats.MsgHandler{
+		companionprotocol.HelloSubjects: func(message *nats.Msg) {
+			d.answerHello(ctx, message)
+		},
 		companionprotocol.SettingsSubjects: func(message *nats.Msg) {
 			respond(ctx, message, d.settings)
-		},
-		companionprotocol.AppReportSubjects: func(message *nats.Msg) {
-			d.recordAppReport(ctx, message)
 		},
 		companionprotocol.UnpairingRequestSubjects: func(message *nats.Msg) {
 			d.unpair(ctx, message, connection)
@@ -49,19 +50,40 @@ func (d *DeviceAnswerer) Subscribe(
 	})
 }
 
-func (d *DeviceAnswerer) recordAppReport(ctx context.Context, message *nats.Msg) {
-	var report companionprotocol.AppReport
-	if err := json.Unmarshal(message.Data, &report); err != nil {
-		slog.WarnContext(ctx, "unreadable app report",
-			slog.String("subject", message.Subject), slog.Any("error", err),
-		)
+func (d *DeviceAnswerer) answerHello(ctx context.Context, message *nats.Msg) {
+	deviceID := companionprotocol.DeviceIDIn(message.Subject)
+	hello, refusal := helloFrom(message.Data)
+	if refusal != nil {
+		refuseHello(ctx, message, deviceID, refusal)
 		return
 	}
-	d.devices.RecordAppVersion(
-		ctx,
-		companionprotocol.DeviceIDIn(message.Subject),
-		report.AppVersion,
+	d.devices.RecordAppVersion(ctx, deviceID, hello.AppVersion)
+	respond(ctx, message, companionprotocol.AcceptedHelloReply())
+}
+
+func helloFrom(data []byte) (companionprotocol.Hello, *requestRefusal) {
+	var hello companionprotocol.Hello
+	if err := json.Unmarshal(data, &hello); err != nil {
+		return hello, &requestRefusal{
+			reason: companionprotocol.ReasonRequestInvalid,
+			cause:  fmt.Errorf("read the hello: %w", err),
+		}
+	}
+	return hello, protocolRefusalOf(hello.ProtocolVersion)
+}
+
+func refuseHello(
+	ctx context.Context,
+	message *nats.Msg,
+	deviceID companionprotocol.DeviceID,
+	refusal *requestRefusal,
+) {
+	slog.WarnContext(ctx, "hello of a device refused",
+		slog.String("device", string(deviceID)),
+		slog.String("reason", string(refusal.reason)),
+		slog.Any("cause", refusal.cause),
 	)
+	respond(ctx, message, companionprotocol.RefusedHelloReply(refusal.reason))
 }
 
 func (d *DeviceAnswerer) unpair(ctx context.Context, message *nats.Msg, connection *nats.Conn) {

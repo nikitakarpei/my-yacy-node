@@ -1,9 +1,23 @@
 package companionprotocol
 
-type DeviceSettings struct {
-	PartitionExponent uint `json:"partitionExponent"`
+type Hello struct {
+	AppVersion      string `json:"appVersion"`
+	ProtocolVersion int    `json:"protocolVersion"`
 }
 
-type AppReport struct {
-	AppVersion string `json:"appVersion"`
+type HelloReply struct {
+	Outcome Outcome       `json:"outcome"`
+	Reason  RefusalReason `json:"reason,omitempty"`
+}
+
+func AcceptedHelloReply() HelloReply {
+	return HelloReply{Outcome: OutcomeAccepted}
+}
+
+func RefusedHelloReply(reason RefusalReason) HelloReply {
+	return HelloReply{Outcome: OutcomeRefused, Reason: reason}
+}
+
+type DeviceSettings struct {
+	PartitionExponent uint `json:"partitionExponent"`
 }
