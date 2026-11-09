@@ -25,6 +25,24 @@ func TestAPairLinkReadsBackAsTheSameLink(t *testing.T) {
 	}
 }
 
+func TestAPairLinkReadsFromItsWireForm(t *testing.T) {
+	read, err := companionprotocol.PairLinkFrom(
+		"yacypeer-companion://pair?address=192.168.1.20%3A4223&brokerKeyHash=h&secret=s",
+	)
+	if err != nil {
+		t.Fatalf("PairLinkFrom: %v", err)
+	}
+
+	want := companionprotocol.PairLink{
+		Addresses:     []string{"192.168.1.20:4223"},
+		BrokerKeyHash: "h",
+		Secret:        "s",
+	}
+	if !reflect.DeepEqual(read, want) {
+		t.Errorf("read link = %+v, want %+v", read, want)
+	}
+}
+
 func TestPairLinkFromRefusesTextOfAnotherSchemeAsNoCompanionLink(t *testing.T) {
 	_, err := companionprotocol.PairLinkFrom("https://example.org/")
 
@@ -45,6 +63,7 @@ func TestPairLinkFromTellsALinkOfAnUnknownKind(t *testing.T) {
 func TestPairLinkFromCallsAPairLinkWithoutAFieldUnreadable(t *testing.T) {
 	for _, text := range []string{
 		"yacypeer-companion://pair?address=192.168.1.20:4223&brokerKeyHash=h",
+		"yacypeer-companion://pair?address=192.168.1.20:4223&secret=s",
 		"yacypeer-companion://pair?address=&brokerKeyHash=h&secret=s",
 	} {
 		_, err := companionprotocol.PairLinkFrom(text)

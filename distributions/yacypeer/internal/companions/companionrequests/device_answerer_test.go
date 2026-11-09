@@ -49,7 +49,7 @@ func startDeviceAnswerer(t *testing.T) (*deviceRecords, string) {
 		unpaired:    make(chan companionprotocol.DeviceID, 4),
 	}
 	answerer := companionrequests.NewDeviceAnswerer(
-		records, records, companionprotocol.DeviceSettings{PartitionExponent: 4},
+		records, records, companionprotocol.DeviceSettings{PartitionExponent: 6},
 	)
 	subscribe(t, answerer.Subscribe, url)
 	return records, url
@@ -81,7 +81,7 @@ func TestADeviceGetsTheSettingsOfThePeer(t *testing.T) {
 
 	var settings companionprotocol.DeviceSettings
 	if err := json.Unmarshal(reply.Data, &settings); err != nil ||
-		settings.PartitionExponent != 4 {
+		settings.PartitionExponent != 6 {
 		t.Errorf("settings = %s, want partition exponent 4", reply.Data)
 	}
 }

@@ -14,6 +14,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 )
 
@@ -40,7 +41,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0-00010101000000-000000000000 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
 	github.com/prometheus/common v0.72.0 // indirect
 	github.com/prometheus/procfs v0.22.0 // indirect

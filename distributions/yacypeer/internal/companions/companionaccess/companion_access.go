@@ -62,7 +62,7 @@ func New(
 	}
 }
 
-func DeviceUserOf(deviceID companionprotocol.DeviceID) string {
+func deviceUserOf(deviceID companionprotocol.DeviceID) string {
 	return deviceUserStart + string(deviceID)
 }
 
@@ -87,7 +87,7 @@ func (g *Gatekeeper) admitPairedDevice(
 		return false
 	}
 	client.RegisterUser(&natsserver.User{
-		Username:    DeviceUserOf(deviceID),
+		Username:    deviceUserOf(deviceID),
 		Permissions: g.devicePermissionsFor(deviceID),
 	})
 	g.devices.RecordConnection(ctx, deviceID, g.clock.Now())

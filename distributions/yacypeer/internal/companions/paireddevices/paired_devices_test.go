@@ -131,7 +131,7 @@ func TestOnlyTheOwnerCanReadThePairedDevices(t *testing.T) {
 	directory := t.TempDir()
 	openDevices(t, directory).Add(context.Background(), pixel())
 
-	info, err := os.Stat(filepath.Join(directory, "paired-devices.json"))
+	info, err := os.Stat(theOnlyFileIn(t, directory))
 	if err != nil {
 		t.Fatalf("Stat: %v", err)
 	}
@@ -140,11 +140,27 @@ func TestOnlyTheOwnerCanReadThePairedDevices(t *testing.T) {
 	}
 }
 
+func theOnlyFileIn(t *testing.T, directory string) string {
+	t.Helper()
+	entries, err := os.ReadDir(directory)
+	if err != nil {
+		t.Fatalf("ReadDir: %v", err)
+	}
+	if len(entries) != 1 {
+		t.Fatalf("files = %v, want the paired devices only", entries)
+	}
+	return filepath.Join(directory, entries[0].Name())
+}
+
 func TestOpenRefusesAnUnreadableFile(t *testing.T) {
 	directory := t.TempDir()
-	if err := os.WriteFile(
-		filepath.Join(directory, "paired-devices.json"), []byte("{"), 0o600,
-	); err != nil {
+	devices, err := paireddevices.Open(context.Background(), directory)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	devices.Add(context.Background(), pixel())
+	devices.Close()
+	if err := os.WriteFile(theOnlyFileIn(t, directory), []byte("{"), 0o600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 

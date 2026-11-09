@@ -27,6 +27,8 @@ other peers can check what the device did.
   stay open until the user closes it.
 * When the app and the peer speak different protocols, the app SHALL stop its work and tell which
   of the two to update.
+* When the device no longer has the key that it paired with, the app SHALL stop its work and show
+  why.
 * Until the user stops it or unpairs the device, the paired app SHALL fetch pages and build RWIs
   when the rules below allow it.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the device.
