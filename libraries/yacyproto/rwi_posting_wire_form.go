@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"math"
 	"slices"
 	"strconv"
 	"strings"
@@ -203,11 +204,11 @@ func (e rwiPostingWireForm) cardinal(column string) uint64 {
 }
 
 func (e rwiPostingWireForm) byteCardinal(column string) byte {
-	return byte(e.cardinal(column)) //nolint:gosec // YaCy reads the column modulo its width.
+	return byte(e.cardinal(column) & math.MaxUint8)
 }
 
 func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
-	return uint16(e.cardinal(column)) //nolint:gosec // YaCy reads the column modulo its width.
+	return uint16(e.cardinal(column) & math.MaxUint16)
 }
 
 // language keeps only the leading ISO 639-1 code: YaCy peers are known to send
