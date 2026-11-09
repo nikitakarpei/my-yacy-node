@@ -78,7 +78,7 @@ private fun CompanionModel.stateAfter(event: CompanionEvent, nowMs: Long): Step?
     BrokerConnectionLost -> connectionLost()
     is ServicesEnded -> servicesEnded(event.ending, nowMs)
     SigningKeyUnavailable -> failed(DisconnectReason.SIGNING_KEY, nowMs)
-    DeviceKeyUnavailable -> deviceKeyUnavailable(nowMs)
+    DeviceKeyUnavailable -> deviceKeyUnavailable()
     is NetworkChanged -> networkChanged()
     is PowerChanged -> powerChanged()
     RetryDue -> (state as? RetryingAt)?.let { to(Reconnecting(it.reason, it.failedAttempts), StartServices) }
@@ -139,9 +139,9 @@ private fun CompanionModel.refused(reason: DisconnectReason): Step? = when (stat
     else -> null
 }
 
-private fun CompanionModel.deviceKeyUnavailable(nowMs: Long): Step? {
+private fun CompanionModel.deviceKeyUnavailable(): Step? {
     if (state == Pairing) return to(PairingFailure(PairingProblem.DEVICE_KEY), CancelPairingTimeout, EndHost)
-    return failed(DisconnectReason.DEVICE_KEY, nowMs)
+    return refused(DisconnectReason.DEVICE_KEY)
 }
 
 private fun CompanionModel.failed(reason: DisconnectReason, nowMs: Long): Step? {

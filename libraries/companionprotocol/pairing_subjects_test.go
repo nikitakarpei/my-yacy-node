@@ -6,6 +6,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
+func TestThePairingRequestSubjectKeepsItsWireForm(t *testing.T) {
+	if want := "pairing.request"; companionprotocol.PairingRequestSubject != want {
+		t.Errorf("subject = %q, want %q", companionprotocol.PairingRequestSubject, want)
+	}
+}
+
 func TestASubjectInThePairingInboxNamesTheSecret(t *testing.T) {
 	secret := companionprotocol.RandomSecret()
 	inboxSubject := companionprotocol.PairingInboxPrefixFor(secret) + ".token"
