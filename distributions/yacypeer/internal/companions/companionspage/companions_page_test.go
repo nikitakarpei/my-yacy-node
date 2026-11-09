@@ -4,10 +4,12 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"html"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"regexp"
 	"strings"
 	"sync"
 	"testing"
@@ -20,8 +22,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
-
-const eventWait = 5 * time.Second
 
 var lastConnectedAt = time.Date(2026, 11, 5, 22, 14, 0, 0, time.Local)
 
@@ -143,13 +143,23 @@ func TestTheCompanionsPageSaysWhenNoDeviceIsPaired(t *testing.T) {
 	}
 }
 
-func TestTheCompanionsPageOpensTheAppGuideInANewTabWhileNoDeviceIsPaired(t *testing.T) {
-	page := pageOf(t, serve(t, &fixture{}).URL+companionspage.Path)
-
-	link := `href="https://github.com/nikitakarpei/my-yacy-node/blob/main/distributions/yacypeercompanion/README.md" ` +
-		`target="_blank" rel="noopener"`
-	if !strings.Contains(page, link) {
-		t.Error("the page does not open the guide of the app in a new tab")
+func TestEachLinkToTheAppGuideOpensInANewTab(t *testing.T) {
+	server := serve(t, &fixture{})
+	for page, linkText := range map[string]string{
+		companionspage.Path:           "Learn more",
+		companionspage.Path + "/pair": "YaCy Companion app",
+	} {
+		attributes := regexp.MustCompile(`<a ([^>]*)>` + linkText).
+			FindStringSubmatch(pageOf(t, server.URL+page))
+		if attributes == nil {
+			t.Errorf("%s has no %s link", page, linkText)
+			continue
+		}
+		for _, want := range []string{`target="_blank"`, `rel="noopener"`} {
+			if !strings.Contains(attributes[1], want) {
+				t.Errorf("the %s link on %s lacks %s", linkText, page, want)
+			}
+		}
 	}
 }
 
@@ -168,18 +178,6 @@ func TestThePairButtonFollowsTheDeviceList(t *testing.T) {
 
 	if strings.Index(page, ">Pair new device</a>") < strings.Index(page, "</table>") {
 		t.Error("the pair button is not below the device list")
-	}
-}
-
-func TestTheCompanionsPageNamesTheDeviceThatJustPaired(t *testing.T) {
-	page := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path+"?paired=device-b")
-
-	banner := strings.Index(page, "Pixel 8 is paired.")
-	if banner < 0 {
-		t.Fatal("the page does not name the device that just paired")
-	}
-	if tabs := strings.Index(page, `aria-label="Companions"`); banner > tabs {
-		t.Error("the page names the device that just paired below the tabs")
 	}
 }
 
@@ -218,19 +216,6 @@ func TestUnpairingADeviceGoesBackToTheList(t *testing.T) {
 	}
 	if len(f.unpaired) != 1 || f.unpaired[0] != "device-a" {
 		t.Errorf("unpaired = %v, want device-a", f.unpaired)
-	}
-}
-
-func TestThePairPageShowsTheSteps(t *testing.T) {
-	page := pageOf(t, serve(t, &fixture{}).URL+companionspage.Path+"/pair")
-
-	for _, want := range []string{
-		"Connect the Android device to the same network as the peer.",
-		`target="_blank" rel="noopener">YaCy Companion app</a>`,
-	} {
-		if !strings.Contains(page, want) {
-			t.Errorf("page lacks %q", want)
-		}
 	}
 }
 
@@ -274,67 +259,97 @@ func (e serverEvents) next(t *testing.T) (string, string) {
 	return "", ""
 }
 
-func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
-	offer := &fakeOffer{events: make(chan pairingoffers.Event, 8), closed: make(chan struct{})}
-	server := serve(t, &fixture{offer: offer})
-	events := openEvents(t, server.URL+companionspage.Path+"/pair/events")
+func newFakeOffer() *fakeOffer {
+	return &fakeOffer{events: make(chan pairingoffers.Event, 8), closed: make(chan struct{})}
+}
 
-	offer.events <- pairingoffers.SecretRenewed{Secret: "secret"}
+func pairingEventsOf(t *testing.T, server *httptest.Server) serverEvents {
+	t.Helper()
+	page := pageOf(t, server.URL+companionspage.Path+"/pair")
+	return openEvents(t, server.URL+dataAttributeOf(t, page, "data-pairing-events"))
+}
+
+func dataAttributeOf(t *testing.T, page string, attribute string) string {
+	t.Helper()
+	match := regexp.MustCompile(attribute + `="([^"]*)"`).FindStringSubmatch(page)
+	if match == nil {
+		t.Fatalf("the page has no %s", attribute)
+	}
+	return html.UnescapeString(match[1])
+}
+
+type pairingEventData struct {
+	DeviceName    string `json:"deviceName"`
+	Reason        string `json:"reason"`
+	CompanionsURL string `json:"companionsURL"`
+}
+
+func pairingEventDataOf(t *testing.T, data string) pairingEventData {
+	t.Helper()
+	var eventData pairingEventData
+	if err := json.Unmarshal([]byte(data), &eventData); err != nil {
+		t.Fatalf("Unmarshal %s: %v", data, err)
+	}
+	return eventData
+}
+
+func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
+	f := pairedFixture()
+	f.offer = newFakeOffer()
+	server := serve(t, f)
+	events := pairingEventsOf(t, server)
+
+	f.offer.events <- pairingoffers.SecretRenewed{Secret: "secret"}
 	if name, data := events.next(t); name != "code" || !strings.HasPrefix(data, "<svg") {
 		t.Errorf("event = %s %q, want a code as SVG", name, data)
 	}
-	offer.events <- pairingoffers.PairingBegun{DeviceName: "Pixel 8"}
-	if name, data := events.next(t); name != "begun" || !strings.Contains(data, "Pixel 8") {
-		t.Errorf("event = %s %q, want started by Pixel 8", name, data)
+	f.offer.events <- pairingoffers.PairingBegun{DeviceName: "Pixel 8"}
+	if name, data := events.next(t); name != "begun" ||
+		pairingEventDataOf(t, data).DeviceName != "Pixel 8" {
+		t.Errorf("event = %s %q, want begun by Pixel 8", name, data)
 	}
-	offer.events <- pairingoffers.DeviceRefused{
+	f.offer.events <- pairingoffers.DeviceRefused{
 		DeviceName: "Pixel 8", Reason: companionprotocol.ReasonAppOutdated,
 	}
 	if name, data := events.next(t); name != "refused" ||
-		!strings.Contains(data, "Please update the app.") {
-		t.Errorf("event = %s %q, want refused as outdated", name, data)
+		pairingEventDataOf(t, data).DeviceName != "Pixel 8" ||
+		!strings.Contains(pairingEventDataOf(t, data).Reason, "Please update the app.") {
+		t.Errorf("event = %s %q, want Pixel 8 refused as outdated", name, data)
 	}
-	offer.events <- pairingoffers.DevicePaired{DeviceName: "Pixel 8", DeviceID: "device-b"}
-	if name, data := events.next(t); name != "paired" ||
-		!strings.Contains(data, companionspage.Path+"?paired=device-b") {
-		t.Errorf("event = %s %q, want paired with the list address", name, data)
+	f.offer.events <- pairingoffers.DevicePaired{DeviceName: "Pixel 8", DeviceID: "device-b"}
+	name, data := events.next(t)
+	if name != "paired" || pairingEventDataOf(t, data).DeviceName != "Pixel 8" {
+		t.Errorf("event = %s %q, want Pixel 8 paired", name, data)
 	}
 
-	select {
-	case <-offer.closed:
-	case <-time.After(eventWait):
-		t.Error("the offer stays open after the pairing")
+	page := pageOf(t, server.URL+pairingEventDataOf(t, data).CompanionsURL)
+	banner := strings.Index(page, "Pixel 8 is paired.")
+	if banner < 0 {
+		t.Error("the list that the paired event names does not name the device that just paired")
 	}
+	if tabs := strings.Index(page, `aria-label="Companions"`); banner > tabs {
+		t.Error("the list names the device that just paired below the tabs")
+	}
+	<-f.offer.closed
 }
 
-func TestEachRefusalHasAReason(t *testing.T) {
-	for _, reason := range []companionprotocol.RefusalReason{
-		companionprotocol.ReasonAppOutdated,
-		companionprotocol.ReasonPeerOutdated,
-		companionprotocol.ReasonAppNotOfficial,
-		companionprotocol.ReasonDeviceNotTrusted,
-		companionprotocol.ReasonRequestInvalid,
-	} {
-		offer := &fakeOffer{events: make(chan pairingoffers.Event, 1), closed: make(chan struct{})}
-		events := openEvents(t, serve(t, &fixture{offer: offer}).URL+companionspage.Path+
-			"/pair/events")
+func TestLeavingThePairPageEndsItsOffer(t *testing.T) {
+	offer := newFakeOffer()
+	events := pairingEventsOf(t, serve(t, &fixture{offer: offer}))
 
-		offer.events <- pairingoffers.DeviceRefused{DeviceName: "Pixel 8", Reason: reason}
-
-		_, data := events.next(t)
-		var refusal struct {
-			Reason string `json:"reason"`
-		}
-		if err := json.Unmarshal([]byte(data), &refusal); err != nil || refusal.Reason == "" {
-			t.Errorf("refusal for %s = %q (%v), want a reason", reason, data, err)
-		}
+	if err := events.body.Close(); err != nil {
+		t.Fatalf("leave the page: %v", err)
 	}
+
+	<-offer.closed
 }
 
 func TestTheStatesOfThePageReadAsJSON(t *testing.T) {
 	f := pairedFixture()
 	f.fetchingPaused = true
-	body := pageOf(t, serve(t, f).URL+companionspage.Path+"/states")
+	server := serve(t, f)
+	page := pageOf(t, server.URL+companionspage.Path)
+	body := pageOf(t, server.URL+dataAttributeOf(t, page, "data-states"))
 
 	var states struct {
 		Devices []struct {

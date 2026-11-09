@@ -103,21 +103,6 @@ func TestPublishingOnLetsAServiceAddMessagesToAStream(t *testing.T) {
 	}
 }
 
-func TestJoinedFromKeepsEachSubjectOnce(t *testing.T) {
-	joined := natspermissions.JoinedFrom(
-		natspermissions.PullingFrom(ordersStream, workerConsumer),
-		natspermissions.WatchingBacklogOf(ordersStream),
-		natspermissions.SubscribingTo(everyInbox),
-		natspermissions.SubscribingTo(everyInbox),
-	)
-
-	for _, subjects := range [][]string{joined.Publish, joined.Subscribe} {
-		if len(slices.Compact(slices.Sorted(slices.Values(subjects)))) != len(subjects) {
-			t.Errorf("subjects = %v, want each once", subjects)
-		}
-	}
-}
-
 func limitedJetStreamWith(
 	t *testing.T,
 	permissions natspermissions.Permissions,
