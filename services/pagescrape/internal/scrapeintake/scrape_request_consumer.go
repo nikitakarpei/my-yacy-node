@@ -100,6 +100,13 @@ func (c *ScrapeRequestConsumer) processOne(
 	case pagefetch.FetchDeferred:
 		c.deferScrape(ctx, message, request, landed.Outcome.DeferFor)
 	default:
+		if landed.Outcome.FailureCause != nil {
+			c.scrapeIntakeObserver.OriginFetchFailed(
+				ctx,
+				request.FetchURL,
+				landed.Outcome.FailureCause,
+			)
+		}
 		c.reportFailure(ctx, message, request, scrapeFailureReasonOf(landed.Outcome.Status))
 	}
 	return nil
