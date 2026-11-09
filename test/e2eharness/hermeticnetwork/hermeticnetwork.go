@@ -13,13 +13,15 @@ import (
 
 func New(t *testing.T, ctx context.Context) *testcontainers.DockerNetwork {
 	t.Helper()
-	noMasquerade := tcnetwork.CustomizeNetworkOption(func(req *dockerclient.NetworkCreateOptions) error {
-		if req.Options == nil {
-			req.Options = map[string]string{}
-		}
-		req.Options["com.docker.network.bridge.enable_ip_masquerade"] = "false"
-		return nil
-	})
+	noMasquerade := tcnetwork.CustomizeNetworkOption(
+		func(req *dockerclient.NetworkCreateOptions) error {
+			if req.Options == nil {
+				req.Options = map[string]string{}
+			}
+			req.Options["com.docker.network.bridge.enable_ip_masquerade"] = "false"
+			return nil
+		},
+	)
 	network, err := tcnetwork.New(ctx, tcnetwork.WithDriver("bridge"), noMasquerade)
 	if err != nil {
 		t.Fatalf("create hermetic docker network: %v", err)
