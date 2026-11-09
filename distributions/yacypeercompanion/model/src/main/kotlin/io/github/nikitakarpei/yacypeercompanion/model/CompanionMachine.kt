@@ -163,7 +163,7 @@ private fun CompanionModel.networkChanged(): Step? = when (networkAccess) {
 
 private fun CompanionModel.usableNetworkChanged(): Step? = when (val current = state) {
     Connected -> to(Connected, RestartServices)
-    WaitingForUnmeteredNetwork -> started()
+    WaitingForUnmeteredNetwork -> to(Connecting, StartServices)
     is Reconnecting -> to(Reconnecting(current.reason, 0), RestartServices)
     is RetryingAt -> to(Reconnecting(current.reason, 0), CancelRetry, StartServices)
     is Offline -> to(Reconnecting(current.reason, 0), StartServices)

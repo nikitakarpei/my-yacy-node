@@ -254,22 +254,17 @@ class CompanionMachineTest {
 
     @Test
     fun withoutAChargerTheCompanionStopsAndWaitsForOne() {
-        assertStep(stepOf(Connected, batteryOnly), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
-        assertStep(
-            stepOf(RetryingAt(lostPeer, now, 2), batteryOnly),
-            WaitingForCharger,
-            StopServices,
-            CancelRetry,
-            CancelFailureNotification,
-        )
+        for (running in listOf(
+            Connecting,
+            Connected,
+            Reconnecting(lostPeer, 1),
+            RetryingAt(lostPeer, now, 2),
+            Offline(lostPeer, 2),
+            WaitingForUnmeteredNetwork,
+        )) {
+            assertStep(stepOf(running, batteryOnly), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+        }
         assertStep(stepOf(Stopped, StartRequested, powerAccess = PowerAccess.BATTERY_ONLY), WaitingForCharger)
-        assertStep(
-            stepOf(WaitingForUnmeteredNetwork, batteryOnly),
-            WaitingForCharger,
-            StopServices,
-            CancelRetry,
-            CancelFailureNotification,
-        )
     }
 
     @Test
@@ -280,7 +275,12 @@ class CompanionMachineTest {
 
     @Test
     fun aNetworkChangeLeavesACompanionWaitingForACharger() {
-        assertStep(stepOf(WaitingForCharger, usableNetwork, powerAccess = PowerAccess.BATTERY_ONLY), WaitingForCharger)
+        for (networkAccess in NetworkAccess.entries) {
+            assertStep(
+                stepOf(WaitingForCharger, NetworkChanged(networkAccess), networkAccess, PowerAccess.BATTERY_ONLY),
+                WaitingForCharger,
+            )
+        }
     }
 
     @Test
@@ -294,26 +294,11 @@ class CompanionMachineTest {
     }
 
     @Test
-    fun withoutAChargerEachRunningCompanionWaitsForOne() {
-        for (running in listOf(Connecting, Reconnecting(lostPeer, 1), Offline(lostPeer, 2))) {
-            assertStep(stepOf(running, batteryOnly), WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
-        }
-    }
-
-    @Test
     fun aChargerChangeLeavesACompanionAloneThatDoesNotRun() {
         for (resting in listOf(Pairing, Stopped, Refused(DisconnectReason.DEVICE_REFUSED), PairingFailure(PairingProblem.REFUSED))) {
             assertStep(stepOf(resting, batteryOnly), resting)
         }
         assertStep(stepOf(Connected, usablePower), Connected)
-    }
-
-    @Test
-    fun anUnmeteredNetworkWithoutAChargerLeadsToTheChargerWait() {
-        assertStep(
-            stepOf(WaitingForUnmeteredNetwork, usableNetwork, NetworkAccess.METERED_ONLY, PowerAccess.BATTERY_ONLY),
-            WaitingForCharger,
-        )
     }
 
     @Test
