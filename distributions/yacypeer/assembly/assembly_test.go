@@ -112,8 +112,8 @@ func TestRunPeerServesTheMetricsOfEveryServiceUntilCancelled(t *testing.T) {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
 
-	awaitEveryService(t, env, web)
-	awaitAnswer(t, "http://"+web.Addr().String()+"/metrics", "go_goroutines")
+	awaitEveryService(t, env, web, runDone)
+	awaitAnswer(t, runDone, "http://"+web.Addr().String()+"/metrics", "go_goroutines")
 
 	cancel()
 	awaitShutdown(t, runDone)
@@ -128,12 +128,12 @@ func TestRunPeerShowsTheDashboardsOfItsServicesFromTheirMetricHistory(t *testing
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 
-	awaitAnswer(t, "http://"+web.Addr().String()+"/dashboards",
+	awaitAnswer(t, runDone, "http://"+web.Addr().String()+"/dashboards",
 		"/dashboards/yacynode", "/dashboards/yacycrawler", "/dashboards/yacydhtsearch")
 	since := time.Now().Add(-time.Hour).Unix()
-	awaitAnswer(t, fmt.Sprintf(
+	awaitAnswer(t, runDone, fmt.Sprintf(
 		"http://%s/dashboards/api/v1/query_range?query=go_goroutines%%20and%%20yacynode_info&start=%d&end=%d&step=15",
 		web.Addr(),
 		since,
@@ -174,7 +174,7 @@ func TestRunPeerSendsOutboundRequestsOnThroughTheEgressProxyTheOperatorNames(t *
 		t.Error("no request reached the egress proxy the operator names")
 	}
 
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 	cancel()
 	awaitShutdown(t, runDone)
 }
@@ -188,9 +188,9 @@ func TestRunPeerSearchesTheYaCyNetworkAndTheCrawledPagesOnTheSearchPage(t *testi
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 
-	awaitAnswer(t, "http://"+web.Addr().String()+"/search?q=yacy",
+	awaitAnswer(t, runDone, "http://"+web.Addr().String()+"/search?q=yacy",
 		"<dt>!ct</dt>", "<dt>!ya</dt>", "No results.")
 
 	cancel()
@@ -206,7 +206,7 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 	const (
 		searchTab  = `href="/"`
 		crawlsTab  = `href="/crawlconsole/"`
@@ -218,7 +218,7 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 		"/crawlconsole/": crawlsTab,
 		"/dashboards":    metricsTab,
 	} {
-		awaitAnswer(t, "http://"+web.Addr().String()+path,
+		awaitAnswer(t, runDone, "http://"+web.Addr().String()+path,
 			searchTab, crawlsTab, metricsTab, currentTab+` aria-current="page"`)
 	}
 
@@ -236,7 +236,7 @@ func TestRunPeerRefusesAnUnknownCompanionOverTLSAtTheCompanionAddress(t *testing
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 
 	requireUnknownCompanionRefused(t, env[yacypeerassembly.EnvCompanionAddr])
 
@@ -274,7 +274,7 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 
 	secret, err := visitlinksecret.Settle(
 		filepath.Join(env[yacypeerassembly.EnvDataDirectory], "visitcrawl"),
@@ -302,7 +302,7 @@ func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 
 	for _, page := range []string{"/", "/search?q=yacy", "/crawlconsole/", "/crawlconsole/crawls/new", "/dashboards"} {
 		body, _ := scraped("http://" + web.Addr().String() + page)
@@ -450,27 +450,41 @@ func TestRunPeerReleasesItsListenAddressesWhenAServiceCannotListen(t *testing.T)
 	_ = reopened.Close()
 }
 
-func awaitEveryService(t *testing.T, env map[string]string, web net.Listener) {
+func awaitEveryService(
+	t *testing.T,
+	env map[string]string,
+	web net.Listener,
+	runDone <-chan error,
+) {
 	t.Helper()
-	awaitAnswer(t, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
-	awaitAnswer(t, "http://"+web.Addr().String()+"/crawlconsole/", "No running crawls.")
+	awaitAnswer(t, runDone, "http://"+env["YACYNODE__YACY_PEER_ADDR"]+"/")
+	awaitAnswer(t, runDone, "http://"+web.Addr().String()+"/crawlconsole/", "No running crawls.")
 	for _, service := range []string{
 		"yacynode", "yacydhtsearch", "corpustext",
 		"yacycrawler", "pagescrape", "crawlconsole", "crawlscrapebridge", "visitcrawl",
 		"searchpage",
 	} {
-		awaitAnswer(t, "http://"+web.Addr().String()+"/metrics/"+service, service+"_info 1")
+		awaitAnswer(
+			t,
+			runDone,
+			"http://"+web.Addr().String()+"/metrics/"+service,
+			service+"_info 1",
+		)
 	}
 }
 
-func awaitAnswer(t *testing.T, url string, wantedText ...string) {
+func awaitAnswer(t *testing.T, runDone <-chan error, url string, wantedText ...string) {
 	t.Helper()
 	deadline := time.Now().Add(startDeadline)
 	for time.Now().Before(deadline) {
 		if body, ok := scraped(url); ok && containsEvery(body, wantedText) {
 			return
 		}
-		time.Sleep(startPollPause)
+		select {
+		case err := <-runDone:
+			t.Fatalf("RunPeer stopped before %s answered: %v", url, err)
+		case <-time.After(startPollPause):
+		}
 	}
 	t.Fatalf("%s never answered with %q", url, wantedText)
 }
@@ -486,7 +500,7 @@ func scraped(url string) (string, bool) {
 	}
 	defer func() { _ = response.Body.Close() }()
 	body, err := io.ReadAll(response.Body)
-	return string(body), err == nil
+	return string(body), err == nil && response.StatusCode == http.StatusOK
 }
 
 func containsEvery(body string, wantedText []string) bool {
