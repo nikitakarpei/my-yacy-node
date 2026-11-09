@@ -1,20 +1,35 @@
 package companionprotocol_test
 
 import (
+	"crypto/x509"
 	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
-func TestEachSubjectOfADeviceNamesTheDevice(t *testing.T) {
-	for _, subject := range []string{
-		companionprotocol.HelloSubjectOf("device-a"),
-		companionprotocol.SettingsSubjectOf("device-a"),
-		companionprotocol.UnpairingRequestSubjectOf("device-a"),
+func TestEachSubjectOfADeviceKeepsItsWireForm(t *testing.T) {
+	for _, subject := range []struct{ got, want string }{
+		{companionprotocol.HelloSubjectOf("d"), "devices.d.hello"},
+		{companionprotocol.SettingsSubjectOf("d"), "devices.d.settings"},
+		{companionprotocol.UnpairingRequestSubjectOf("d"), "devices.d.unpairing-request"},
+		{companionprotocol.DeviceInboxPrefixOf("d"), "_INBOX.d"},
 	} {
-		if got := companionprotocol.DeviceIDIn(subject); got != "device-a" {
-			t.Errorf("device id in %q = %q, want device-a", subject, got)
+		if subject.got != subject.want {
+			t.Errorf("subject = %q, want %q", subject.got, subject.want)
+		}
+	}
+}
+
+func TestEachSubjectOfADeviceNamesTheDeviceOfItsKey(t *testing.T) {
+	deviceID := deviceIDOfARandomKey(t)
+	for _, subject := range []string{
+		companionprotocol.HelloSubjectOf(deviceID),
+		companionprotocol.SettingsSubjectOf(deviceID),
+		companionprotocol.UnpairingRequestSubjectOf(deviceID),
+	} {
+		if got := companionprotocol.DeviceIDIn(subject); got != deviceID {
+			t.Errorf("device id in %q = %q, want %q", subject, got, deviceID)
 		}
 	}
 }
@@ -38,30 +53,47 @@ func TestEachFilterCoversItsOwnKindOfSubjectForEveryDevice(t *testing.T) {
 	}
 }
 
-func TestTheDeviceSubjectsCoverEachSubjectOfTheDeviceOnly(t *testing.T) {
+func TestTheDeviceSubjectsCoverEachSubjectOfTheDeviceOfTheKeyOnly(t *testing.T) {
+	deviceID := deviceIDOfARandomKey(t)
+	otherDeviceID := deviceIDOfARandomKey(t)
 	for _, subject := range []string{
-		companionprotocol.HelloSubjectOf("device-a"),
-		companionprotocol.SettingsSubjectOf("device-a"),
-		companionprotocol.UnpairingRequestSubjectOf("device-a"),
+		companionprotocol.HelloSubjectOf(deviceID),
+		companionprotocol.SettingsSubjectOf(deviceID),
+		companionprotocol.UnpairingRequestSubjectOf(deviceID),
 	} {
-		if !covers(companionprotocol.DeviceSubjectsOf("device-a"), subject) {
-			t.Errorf("the subjects of device-a do not cover %q", subject)
+		if !covers(companionprotocol.DeviceSubjectsOf(deviceID), subject) {
+			t.Errorf("the subjects of the device do not cover %q", subject)
 		}
-		if covers(companionprotocol.DeviceSubjectsOf("device-b"), subject) {
-			t.Errorf("the subjects of device-b cover %q", subject)
+		if covers(companionprotocol.DeviceSubjectsOf(otherDeviceID), subject) {
+			t.Errorf("the subjects of another device cover %q", subject)
 		}
 	}
 }
 
 func TestTheInboxSubjectsOfADeviceCoverItsInboxesOnly(t *testing.T) {
-	inbox := companionprotocol.DeviceInboxPrefixOf("device-a") + ".reply-1"
+	deviceID := deviceIDOfARandomKey(t)
+	inbox := companionprotocol.DeviceInboxPrefixOf(deviceID) + ".reply-1"
 
-	if !covers(companionprotocol.DeviceInboxSubjectsOf("device-a"), inbox) {
-		t.Errorf("the inbox subjects of device-a do not cover %q", inbox)
+	if !covers(companionprotocol.DeviceInboxSubjectsOf(deviceID), inbox) {
+		t.Errorf("the inbox subjects of the device do not cover %q", inbox)
 	}
-	if covers(companionprotocol.DeviceInboxSubjectsOf("device-b"), inbox) {
-		t.Errorf("the inbox subjects of device-b cover %q", inbox)
+	if covers(companionprotocol.DeviceInboxSubjectsOf(deviceIDOfARandomKey(t)), inbox) {
+		t.Errorf("the inbox subjects of another device cover %q", inbox)
 	}
+}
+
+func deviceIDOfARandomKey(t *testing.T) companionprotocol.DeviceID {
+	t.Helper()
+	return companionprotocol.DeviceIDFrom(randomPublicKeyInfo(t))
+}
+
+func randomPublicKeyInfo(t *testing.T) []byte {
+	t.Helper()
+	publicKeyInfo, err := x509.MarshalPKIXPublicKey(&randomDeviceKey(t).PublicKey)
+	if err != nil {
+		t.Fatalf("MarshalPKIXPublicKey: %v", err)
+	}
+	return publicKeyInfo
 }
 
 func covers(filter string, subject string) bool {

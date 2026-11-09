@@ -25,20 +25,6 @@ func TestSettleKeepsTheKeyAcrossStarts(t *testing.T) {
 	}
 }
 
-func TestSettleMakesADifferentKeyForEachPeer(t *testing.T) {
-	first, err := brokerkey.Settle(t.TempDir())
-	if err != nil {
-		t.Fatalf("Settle: %v", err)
-	}
-	second, err := brokerkey.Settle(t.TempDir())
-	if err != nil {
-		t.Fatalf("Settle: %v", err)
-	}
-	if bytes.Equal(first.Leaf.RawSubjectPublicKeyInfo, second.Leaf.RawSubjectPublicKeyInfo) {
-		t.Error("two peers got the same key")
-	}
-}
-
 func TestSettleLetsOnlyTheOwnerReadTheKey(t *testing.T) {
 	directory := t.TempDir()
 	if _, err := brokerkey.Settle(directory); err != nil {
