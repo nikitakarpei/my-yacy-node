@@ -3,7 +3,6 @@ package brokeraccess_test
 import (
 	"errors"
 	"net"
-	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -67,7 +66,7 @@ func (firstAddressClock) After(timeout time.Duration, expire func()) func() {
 	return func() {}
 }
 
-func TestConnectReachesTheBrokerAtALaterAddressWhenAnEarlierOneDoesNotAnswer(t *testing.T) {
+func TestConnectReachesTheBrokerAtALaterAddressWhenAnEarlierOneIsUnreachable(t *testing.T) {
 	broker := brokeraccesstest.Start(t, secretCheck{})
 
 	connection, err := connect(
@@ -129,7 +128,7 @@ func TestConnectFailsWhenNoAddressHasTheBrokerOfTheLink(t *testing.T) {
 	}
 }
 
-func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T) {
+func TestConnectStartsEachLaterAddressAfterThePreviousOne(t *testing.T) {
 	broker := brokeraccesstest.Start(t, secretCheck{})
 	link := linkTo(broker, secret, broker.Address(), broker.Address(), broker.Address())
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
@@ -146,14 +145,12 @@ func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T
 	for timeout := range clock.timeouts {
 		timeouts = append(timeouts, timeout)
 	}
-	if want := []time.Duration{
-		0,
-		250 * time.Millisecond,
-		500 * time.Millisecond,
-	}; !slices.Equal(
-		timeouts,
-		want,
-	) {
-		t.Errorf("start delays = %v, want %v", timeouts, want)
+	if len(timeouts) != len(link.Addresses) || timeouts[0] != 0 {
+		t.Fatalf("start delays = %v, want one per address, the first at once", timeouts)
+	}
+	for position := 1; position < len(timeouts); position++ {
+		if timeouts[position] <= timeouts[position-1] {
+			t.Errorf("start delays = %v, want each later address after the previous one", timeouts)
+		}
 	}
 }

@@ -132,23 +132,9 @@ func TestARequestKeepsACertificateThatTheCallerReuses(t *testing.T) {
 	}
 }
 
-func TestARefusedDeviceLearnsTheReason(t *testing.T) {
-	peer := startPeer(t, func(companionprotocol.PairingRequest) any {
-		return companionprotocol.PairingReply{
-			Outcome: companionprotocol.OutcomeRefused, Reason: companionprotocol.ReasonAppOutdated,
-		}
-	})
-
-	result := pairingrequests.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0").
-		Send(brokeraccesstest.RandomDeviceKey(t))
-
-	if result != pairingrequests.ResultAppOutdated {
-		t.Errorf("result = %q, want refused as outdated", result)
-	}
-}
-
 func TestEachRefusalReasonHasItsResult(t *testing.T) {
 	for reason, want := range map[companionprotocol.RefusalReason]string{
+		companionprotocol.ReasonAppOutdated:      pairingrequests.ResultAppOutdated,
 		companionprotocol.ReasonPeerOutdated:     pairingrequests.ResultPeerOutdated,
 		companionprotocol.ReasonAppNotOfficial:   pairingrequests.ResultAppNotOfficial,
 		companionprotocol.ReasonDeviceNotTrusted: pairingrequests.ResultDeviceNotTrusted,

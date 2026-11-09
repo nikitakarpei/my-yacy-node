@@ -25,6 +25,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTime
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesConnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesEnded
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.SigningKeyUnavailable
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StartRequested
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequested
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
@@ -102,23 +103,36 @@ class CompanionMachineTest {
     }
 
     @Test
-    fun aRefusalOfThePeerStaysDisconnectedAndTellsWhy() {
-        for ((ending, reason) in mapOf(
-            ServicesEnding.DEVICE_REFUSED to DisconnectReason.DEVICE_REFUSED,
-            ServicesEnding.APP_OUTDATED to DisconnectReason.APP_OUTDATED,
-            ServicesEnding.PEER_OUTDATED to DisconnectReason.PEER_OUTDATED,
+    fun aRefusalOfThePeerOrAMissingDeviceKeyStaysDisconnectedAndTellsWhy() {
+        for ((event, reason) in mapOf(
+            ServicesEnded(ServicesEnding.DEVICE_REFUSED) to DisconnectReason.DEVICE_REFUSED,
+            ServicesEnded(ServicesEnding.APP_OUTDATED) to DisconnectReason.APP_OUTDATED,
+            ServicesEnded(ServicesEnding.PEER_OUTDATED) to DisconnectReason.PEER_OUTDATED,
+            DeviceKeyUnavailable to DisconnectReason.DEVICE_KEY,
         )) {
-            assertStep(
-                stepOf(Connected, ServicesEnded(ending)),
-                Refused(reason),
-                StopServices,
-                CancelRetry,
-                PostFailureNotification(reason),
-                EndHost,
-            )
+            for (working in listOf(Connected, Reconnecting(lostPeer, 0), RetryingAt(lostPeer, now + FIRST_RETRY_MS, 1))) {
+                assertStep(
+                    stepOf(working, event),
+                    Refused(reason),
+                    StopServices,
+                    CancelRetry,
+                    PostFailureNotification(reason),
+                    EndHost,
+                )
+            }
             assertStep(stepOf(Refused(reason), StartRequested), Refused(reason))
-            assertStep(stepOf(Stopped, ServicesEnded(ending)), Stopped)
+            assertStep(stepOf(Stopped, event), Stopped)
         }
+    }
+
+    @Test
+    fun aMissingSigningKeyTriesAgainAfterAPause() {
+        assertStep(
+            stepOf(Connecting, SigningKeyUnavailable),
+            RetryingAt(DisconnectReason.SIGNING_KEY, now + FIRST_RETRY_MS, 1),
+            PostFailureNotification(DisconnectReason.SIGNING_KEY),
+            ScheduleRetry(FIRST_RETRY_MS),
+        )
     }
 
     @Test
