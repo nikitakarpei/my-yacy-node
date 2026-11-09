@@ -32,13 +32,13 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Disconnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Recovering
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Refused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForBatterySaverOff
@@ -125,15 +125,17 @@ private fun CompanionModel.servicesEnded(ending: ServicesEnding, nowMs: Long): S
     ServicesEnding.STOPPED -> null
     ServicesEnding.BROKER_UNREACHABLE -> failed(DisconnectReason.PEER_UNREACHABLE, nowMs)
     ServicesEnding.FAILED -> failed(DisconnectReason.SERVICES_FAILED, nowMs)
-    ServicesEnding.DEVICE_REFUSED -> deviceRefused()
+    ServicesEnding.DEVICE_REFUSED -> refused(DisconnectReason.DEVICE_REFUSED)
+    ServicesEnding.APP_OUTDATED -> refused(DisconnectReason.APP_OUTDATED)
+    ServicesEnding.PEER_OUTDATED -> refused(DisconnectReason.PEER_OUTDATED)
 }
 
-private fun CompanionModel.deviceRefused(): Step? = when (state) {
+private fun CompanionModel.refused(reason: DisconnectReason): Step? = when (state) {
     Connecting, Connected, is Recovering -> to(
-        DeviceRefused,
+        Refused(reason),
         StopServices,
         CancelRetry,
-        PostFailureNotification(DisconnectReason.DEVICE_REFUSED),
+        PostFailureNotification(reason),
         EndHost,
     )
 

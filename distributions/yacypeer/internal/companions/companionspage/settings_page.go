@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 )
 
@@ -13,10 +14,18 @@ const (
 	fieldPeerFillsIn     = "peerFillsIn"
 )
 
-type settingsPage struct {
+type SettingsPage struct {
 	settings      CompanionSettings
 	fetchingPause FetchingPause
 	frame         pageFrame
+}
+
+func NewSettingsPage(
+	settings CompanionSettings,
+	fetchingPause FetchingPause,
+	tabBar webuistyle.TabBar,
+) *SettingsPage {
+	return &SettingsPage{settings: settings, fetchingPause: fetchingPause, frame: frameWith(tabBar)}
 }
 
 type settingsView struct {
@@ -34,7 +43,7 @@ type settingsFieldNames struct {
 	PeerFillsIn     string
 }
 
-func (s *settingsPage) show(w http.ResponseWriter, r *http.Request) {
+func (s *SettingsPage) show(w http.ResponseWriter, r *http.Request) {
 	render(w, r, settingsTemplate, settingsView{
 		Frame:        s.frame,
 		Header:       headerFor(s.fetchingPause.FetchingPaused(), settingsTab),
@@ -49,7 +58,7 @@ func (s *settingsPage) show(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (s *settingsPage) change(w http.ResponseWriter, r *http.Request) {
+func (s *SettingsPage) change(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		slog.WarnContext(r.Context(), "companion settings form unreadable", slog.Any("error", err))
 		http.Error(w, "companion settings form unreadable", http.StatusBadRequest)
@@ -59,7 +68,7 @@ func (s *settingsPage) change(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, pathSettings, http.StatusSeeOther)
 }
 
-func (s *settingsPage) fetchingFrom(form url.Values) companionsettings.Fetching {
+func (s *SettingsPage) fetchingFrom(form url.Values) companionsettings.Fetching {
 	fetching := s.settings.Fetching()
 	if fetching.CompanionsFetch {
 		fetching.PeerFillsIn = form.Get(fieldPeerFillsIn) != ""
