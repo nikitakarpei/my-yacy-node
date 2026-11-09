@@ -4,7 +4,9 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
+	"crypto/tls"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"html"
 	"io"
@@ -20,6 +22,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
@@ -222,7 +226,7 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 	awaitShutdown(t, runDone)
 }
 
-func TestRunPeerListensForCompanionsAtTheCompanionAddress(t *testing.T) {
+func TestRunPeerRefusesAnUnknownCompanionOverTLSAtTheCompanionAddress(t *testing.T) {
 	env := peerEnvironment(t)
 	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
 	cfg, web := peerFrom(t, env)
@@ -234,17 +238,29 @@ func TestRunPeerListensForCompanionsAtTheCompanionAddress(t *testing.T) {
 	}()
 	awaitEveryService(t, env, web)
 
-	connection, err := (&net.Dialer{}).DialContext(
-		t.Context(), "tcp", env[yacypeerassembly.EnvCompanionAddr],
-	)
-	if err != nil {
-		t.Errorf("the broker does not listen for companions: %v", err)
-	} else {
-		_ = connection.Close()
-	}
+	requireUnknownCompanionRefused(t, env[yacypeerassembly.EnvCompanionAddr])
 
 	cancel()
 	awaitShutdown(t, runDone)
+}
+
+func requireUnknownCompanionRefused(t *testing.T, companionAddress string) {
+	t.Helper()
+	connection, err := nats.Connect(
+		"tls://"+companionAddress,
+		nats.Secure(&tls.Config{
+			InsecureSkipVerify: true, //nolint:gosec // the test pins no broker key.
+			MinVersion:         tls.VersionTLS13,
+		}),
+		nats.MaxReconnects(0),
+	)
+	if err == nil {
+		connection.Close()
+		t.Fatal("a companion without a key or a secret connected")
+	}
+	if !errors.Is(err, nats.ErrAuthorization) {
+		t.Errorf("connect: %v, want the companion refused over TLS", err)
+	}
 }
 
 func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecretSigns(

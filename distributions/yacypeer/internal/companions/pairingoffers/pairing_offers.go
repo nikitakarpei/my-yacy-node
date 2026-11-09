@@ -135,17 +135,10 @@ func (o *Offers) heldOfferWith(
 	secretID companionprotocol.SecretID,
 ) *Offer {
 	offer := o.bySecretID[secretID]
-	switch {
-	case offer == nil:
+	if offer == nil {
 		slog.DebugContext(ctx, "the pairing page closed before the verdict",
 			slog.String("secretId", string(secretID)),
 		)
-		return nil
-	case !offer.heldForVerdict:
-		slog.WarnContext(ctx, "a verdict on a pairing that waits for none",
-			slog.String("secretId", string(secretID)),
-		)
-		return nil
 	}
 	return offer
 }
