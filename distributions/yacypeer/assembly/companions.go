@@ -38,7 +38,7 @@ const (
 
 type companions interface {
 	startBroker(directory string) (*natsbroker.Broker, error)
-	intakeAdmission() pullintake.Admission
+	IntakeAdmission() pullintake.Admission
 	runners(
 		broker *natsbroker.Broker,
 		natsURL string,
@@ -55,7 +55,7 @@ type servedCompanions struct {
 	devices           *paireddevices.Devices
 	offers            *pairingoffers.Offers
 	settings          *companionsettings.Keeper
-	admission         *peerintake.Admission
+	intakeAdmission   *peerintake.Admission
 	certificate       tls.Certificate
 	address           string
 	partitionExponent uint
@@ -70,12 +70,12 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	admission := peerintake.New()
-	devices, err := paireddevices.Open(ctx, directory, admission)
+	intakeAdmission := peerintake.New()
+	devices, err := paireddevices.Open(ctx, directory, intakeAdmission)
 	if err != nil {
 		return nil, err
 	}
-	settings, err := companionsettings.Open(ctx, directory, admission)
+	settings, err := companionsettings.Open(ctx, directory, intakeAdmission)
 	if err != nil {
 		devices.Close()
 		return nil, err
@@ -84,7 +84,7 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (companions, error) {
 		devices:           devices,
 		offers:            pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		settings:          settings,
-		admission:         admission,
+		intakeAdmission:   intakeAdmission,
 		certificate:       certificate,
 		address:           cfg.CompanionAddr,
 		partitionExponent: cfg.PartitionExponent,
@@ -95,7 +95,7 @@ func (noCompanions) startBroker(directory string) (*natsbroker.Broker, error) {
 	return natsbroker.Start(directory)
 }
 
-func (noCompanions) intakeAdmission() pullintake.Admission {
+func (noCompanions) IntakeAdmission() pullintake.Admission {
 	return pullintake.EveryItemAdmitted{}
 }
 
@@ -133,8 +133,8 @@ func (c *servedCompanions) endpoint() natsbroker.Endpoint {
 	}
 }
 
-func (c *servedCompanions) intakeAdmission() pullintake.Admission {
-	return c.admission
+func (c *servedCompanions) IntakeAdmission() pullintake.Admission {
+	return c.intakeAdmission
 }
 
 func (c *servedCompanions) brokerKeyHash() companionprotocol.BrokerKeyHash {
@@ -156,7 +156,7 @@ func (c *servedCompanions) register(
 		Offers:            offerOpener{offers: c.offers},
 		DeviceConnections: companionaccess.NewDeviceConnections(broker),
 		Settings:          c.settings,
-		FetchingPause:     c.admission,
+		FetchingPause:     c.intakeAdmission,
 	}, c.pairLinkFor(broker), tabBar)
 }
 
@@ -187,7 +187,7 @@ func (c *servedCompanions) runners(
 		runnerFor(pairingAnswerer, natsURL, network),
 		runnerFor(deviceAnswerer, natsURL, network),
 		companionpresence.New(
-			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.admission,
+			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.intakeAdmission,
 		).Run,
 	}
 }
@@ -202,7 +202,12 @@ func runnerFor(
 	network *processnetwork.Network,
 ) func(context.Context) error {
 	return func(ctx context.Context) error {
-		_, connection, err := jetstreamconnect.Open(natsURL, network.DialContext)
+		_, connection, err := jetstreamconnect.Open(
+			natsURL,
+			network.DialContext,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
+		)
 		if err != nil {
 			return err
 		}

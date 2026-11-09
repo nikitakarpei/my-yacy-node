@@ -140,7 +140,12 @@ func RunService(
 		crawlobserverspagevisitapplog.PageVisitRecordLog{},
 		crawlobserverspagevisitprometheus.New(registry),
 	}
-	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL, dial)
+	js, connection, err := jetstreamconnect.Open(
+		cfg.CrawlNATSURL,
+		dial,
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
+	)
 	if err != nil {
 		return err
 	}
