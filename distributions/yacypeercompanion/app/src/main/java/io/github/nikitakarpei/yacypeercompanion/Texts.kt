@@ -18,7 +18,7 @@ fun titleOf(state: CompanionState): String = when (state) {
 fun textOf(reason: DisconnectReason): String = when (reason) {
     DisconnectReason.PEER_UNREACHABLE -> "Lost connection to the peer"
     DisconnectReason.SIGNING_KEY -> "Couldn’t create a signing key on this device"
-    DisconnectReason.DEVICE_KEY -> "Couldn’t find the key that paired this device"
+    DisconnectReason.DEVICE_KEY -> "Couldn’t find the key that paired this device. Pair the device again."
     DisconnectReason.SERVICES_FAILED -> "Something went wrong"
     DisconnectReason.DEVICE_REFUSED -> "The peer no longer accepts this device"
     DisconnectReason.APP_OUTDATED -> textOf(PairingProblem.APP_OUTDATED)
