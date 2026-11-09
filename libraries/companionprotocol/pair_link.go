@@ -1,7 +1,8 @@
 // Package companionprotocol holds the wire protocol between the YaCy companion app and a peer:
 // the pair link that the peer shows as a QR code, the credentials, request and reply of pairing,
-// and the subjects that a paired device uses on the broker of the peer. The link names each
-// address of the broker that a device can try, most likely first.
+// the hello that a paired device sends on each connect to learn whether the peer speaks its
+// protocol, and the subjects that a paired device uses on the broker of the peer. The link names
+// each address of the broker that a device can try, most likely first.
 package companionprotocol
 
 import (

@@ -37,6 +37,8 @@ func (events observedEvents) ServicesStopped()      { events <- "stopped" }
 func (events observedEvents) BrokerUnreachable()    { events <- "broker unreachable" }
 func (events observedEvents) ServicesFailed()       { events <- "failed" }
 func (events observedEvents) DeviceRefused()        { events <- "refused" }
+func (events observedEvents) AppOutdated()          { events <- "app outdated" }
+func (events observedEvents) PeerOutdated()         { events <- "peer outdated" }
 
 type deviceCheck struct {
 	refused atomic.Bool
@@ -57,18 +59,25 @@ type peer struct {
 
 func startPeer(t *testing.T) peer {
 	t.Helper()
+	return startPeerReplyingToHello(t, companionprotocol.AcceptedHelloReply())
+}
+
+func startPeerReplyingToHello(t *testing.T, helloReply companionprotocol.HelloReply) peer {
+	t.Helper()
 	check := &deviceCheck{}
 	broker := brokeraccesstest.Start(t, check)
 	appVersions := make(chan string, 4)
 	connection := broker.Connect(t)
 	settings, _ := json.Marshal(companionprotocol.DeviceSettings{PartitionExponent: 4})
+	reply, _ := json.Marshal(helloReply)
 	for subject, handler := range map[string]nats.MsgHandler{
-		companionprotocol.SettingsSubjects: func(msg *nats.Msg) { _ = msg.Respond(settings) },
-		companionprotocol.AppReportSubjects: func(msg *nats.Msg) {
-			var report companionprotocol.AppReport
-			_ = json.Unmarshal(msg.Data, &report)
-			appVersions <- report.AppVersion
+		companionprotocol.HelloSubjects: func(msg *nats.Msg) {
+			var hello companionprotocol.Hello
+			_ = json.Unmarshal(msg.Data, &hello)
+			appVersions <- hello.AppVersion
+			_ = msg.Respond(reply)
 		},
+		companionprotocol.SettingsSubjects: func(msg *nats.Msg) { _ = msg.Respond(settings) },
 	} {
 		if _, err := connection.Subscribe(subject, handler); err != nil {
 			t.Fatalf("Subscribe: %v", err)
@@ -277,7 +286,25 @@ func TestInstanceRunReportsStreamsThatThePeerHasNotCreated(t *testing.T) {
 	awaitEvent(t, events, "failed")
 }
 
-func TestInstanceRunReportsAPeerThatAnswersNoSettingsAsFailed(t *testing.T) {
+func TestInstanceRunReportsAnAppOrPeerThatIsOutdatedForTheOther(t *testing.T) {
+	for reason, want := range map[companionprotocol.RefusalReason]string{
+		companionprotocol.ReasonAppOutdated:    "app outdated",
+		companionprotocol.ReasonPeerOutdated:   "peer outdated",
+		companionprotocol.ReasonRequestInvalid: "failed",
+	} {
+		t.Run(string(reason), func(t *testing.T) {
+			peer := startPeerReplyingToHello(t, companionprotocol.RefusedHelloReply(reason))
+			instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
+			events := make(observedEvents, 4)
+
+			instance.Run(events)
+
+			awaitEvent(t, events, want)
+		})
+	}
+}
+
+func TestInstanceRunReportsAPeerThatAnswersNothingAsFailed(t *testing.T) {
 	broker := brokeraccesstest.Start(t, &deviceCheck{})
 	instance := instanceFor(t, broker.LinkWith(usedSecret), "http://127.0.0.1:1")
 	events := make(observedEvents, 4)

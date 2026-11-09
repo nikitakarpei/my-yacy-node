@@ -87,7 +87,7 @@ func TestTheChallengeOfALinkBindsItsSecretAndBrokerKey(t *testing.T) {
 func TestAnAcceptedRequestProvesTheKeyOfTheDevice(t *testing.T) {
 	key := brokeraccesstest.RandomDeviceKey(t)
 	peer := startPeer(t, func(companionprotocol.PairingRequest) any {
-		return companionprotocol.AcceptedReply(key.ID())
+		return companionprotocol.AcceptedPairingReply(key.ID())
 	})
 	request := pairingrequests.NewRequest(peer.broker.LinkWith(secret), "Pixel 8", "1.2.0")
 	request.AddCertificate([]byte("leaf"))

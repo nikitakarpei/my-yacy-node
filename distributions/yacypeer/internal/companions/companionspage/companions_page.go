@@ -81,49 +81,7 @@ type FetchingPause interface {
 	FetchingPaused() bool
 }
 
-type Collaborators struct {
-	Devices           PairedDevices
-	Unpairer          Unpairer
-	Offers            PairingOffers
-	DeviceConnections DeviceConnections
-	Settings          CompanionSettings
-	FetchingPause     FetchingPause
-}
-
-type pageFrame struct {
-	WebUIStylesheet string
-	TabBar          template.HTML
-	AppGuideURL     string
-}
-
-func Register(
-	mux *http.ServeMux,
-	collaborators Collaborators,
-	linkWithoutSecret companionprotocol.PairLink,
-	tabBar webuistyle.TabBar,
-) {
-	frame := pageFrame{
-		WebUIStylesheet: webuistyle.StylesheetPath,
-		TabBar:          tabBar.HTML(),
-		AppGuideURL:     appGuideURL,
-	}
-	devices := &devicesPage{
-		devices:           collaborators.Devices,
-		unpairer:          collaborators.Unpairer,
-		deviceConnections: collaborators.DeviceConnections,
-		fetchingPause:     collaborators.FetchingPause,
-		frame:             frame,
-	}
-	settings := &settingsPage{
-		settings:      collaborators.Settings,
-		fetchingPause: collaborators.FetchingPause,
-		frame:         frame,
-	}
-	pair := &pairPage{
-		offers:            collaborators.Offers,
-		linkWithoutSecret: linkWithoutSecret,
-		frame:             frame,
-	}
+func Register(mux *http.ServeMux, devices *DevicesPage, settings *SettingsPage, pair *PairPage) {
 	mux.HandleFunc("GET "+Path, devices.show)
 	mux.HandleFunc("GET "+pathStates, devices.states)
 	mux.HandleFunc("POST "+pathUnpair, devices.unpair)
@@ -134,12 +92,42 @@ func Register(
 	mux.Handle("GET "+pathAssets, http.StripPrefix(Path, http.FileServerFS(assets)))
 }
 
-type devicesPage struct {
+type pageFrame struct {
+	WebUIStylesheet string
+	TabBar          template.HTML
+	AppGuideURL     string
+}
+
+func frameWith(tabBar webuistyle.TabBar) pageFrame {
+	return pageFrame{
+		WebUIStylesheet: webuistyle.StylesheetPath,
+		TabBar:          tabBar.HTML(),
+		AppGuideURL:     appGuideURL,
+	}
+}
+
+type DevicesPage struct {
 	devices           PairedDevices
 	unpairer          Unpairer
 	deviceConnections DeviceConnections
 	fetchingPause     FetchingPause
 	frame             pageFrame
+}
+
+func NewDevicesPage(
+	devices PairedDevices,
+	unpairer Unpairer,
+	deviceConnections DeviceConnections,
+	fetchingPause FetchingPause,
+	tabBar webuistyle.TabBar,
+) *DevicesPage {
+	return &DevicesPage{
+		devices:           devices,
+		unpairer:          unpairer,
+		deviceConnections: deviceConnections,
+		fetchingPause:     fetchingPause,
+		frame:             frameWith(tabBar),
+	}
 }
 
 type devicesView struct {
@@ -167,7 +155,7 @@ type deviceRow struct {
 
 type deviceRows []deviceRow
 
-func (d *devicesPage) show(w http.ResponseWriter, r *http.Request) {
+func (d *DevicesPage) show(w http.ResponseWriter, r *http.Request) {
 	rows := d.deviceRows()
 	view := devicesView{
 		Frame:           d.frame,
@@ -191,7 +179,7 @@ func (d *devicesPage) show(w http.ResponseWriter, r *http.Request) {
 	render(w, r, devicesTemplate, view)
 }
 
-func (d *devicesPage) deviceRows() deviceRows {
+func (d *DevicesPage) deviceRows() deviceRows {
 	connectedDevices := d.deviceConnections.ConnectedDevices()
 	devices := d.devices.List()
 	slices.SortFunc(devices, func(a, b paireddevices.Device) int {
@@ -245,7 +233,7 @@ type pageStates struct {
 	FetchingPaused bool       `json:"fetchingPaused"`
 }
 
-func (d *devicesPage) states(w http.ResponseWriter, r *http.Request) {
+func (d *DevicesPage) states(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	if err := json.NewEncoder(w).Encode(pageStates{
@@ -256,7 +244,7 @@ func (d *devicesPage) states(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (d *devicesPage) unpair(w http.ResponseWriter, r *http.Request) {
+func (d *DevicesPage) unpair(w http.ResponseWriter, r *http.Request) {
 	d.unpairer.Unpair(r.Context(), companionprotocol.DeviceID(r.PostFormValue(fieldDevice)))
 	http.Redirect(w, r, Path, http.StatusSeeOther)
 }

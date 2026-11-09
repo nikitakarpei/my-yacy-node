@@ -34,4 +34,4 @@ sealed interface CompanionEvent {
     data object PairingTimedOut : CompanionEvent
 }
 
-enum class ServicesEnding { STOPPED, BROKER_UNREACHABLE, FAILED, DEVICE_REFUSED }
+enum class ServicesEnding { STOPPED, BROKER_UNREACHABLE, FAILED, DEVICE_REFUSED, APP_OUTDATED, PEER_OUTDATED }
