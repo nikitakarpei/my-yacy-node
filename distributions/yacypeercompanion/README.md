@@ -34,7 +34,8 @@ make android-app
 ```
 
 `./tools/install` installs the pinned tools, the JDK, the Android SDK, the NDK and Gradle into
-`.toolchain`. `make android-app` builds the app, runs its tests, and lints it. The unsigned
+`.toolchain`. `make android-app` builds the app, runs its tests, lints it, and checks the
+attack surface of the release APK. The unsigned
 release APK is `app/build/outputs/apk/release/app-release-unsigned.apk`.
 
 Two clean builds of one commit give the same APK, byte for byte. `make android-app-reproducible`
