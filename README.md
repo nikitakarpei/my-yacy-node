@@ -4,6 +4,7 @@
 [![go](https://img.shields.io/github/go-mod/go-version/nikitakarpei/my-yacy-node?filename=services%2Fyacynode%2Fgo.mod)](https://github.com/nikitakarpei/my-yacy-node/blob/main/services/yacynode/go.mod)
 [![license](https://img.shields.io/github/license/nikitakarpei/my-yacy-node)](LICENSE)
 [![images](https://img.shields.io/badge/ghcr.io-amd64%20%7C%20arm64-blue)](https://github.com/nikitakarpei?tab=packages)
+[![openssf scorecard](https://api.scorecard.dev/projects/github.com/nikitakarpei/my-yacy-node/badge)](https://scorecard.dev/viewer/?uri=github.com/nikitakarpei/my-yacy-node)
 
 A lightweight reimplementation of a [YaCy](https://yacy.net) peer, built as
 small, single-purpose Go services.
