@@ -13,11 +13,11 @@ jobs:
       DOCKER_HOST: unix:///var/run/docker.sock
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Restore pinned toolchain
         id: toolchain-cache
-        uses: actions/cache/restore@v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             .toolchain/bin
@@ -28,7 +28,7 @@ jobs:
 
       - name: Restore Go modules and build output
         id: go-cache
-        uses: actions/cache/restore@v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             .toolchain/gomodcache
@@ -50,7 +50,7 @@ jobs:
 
       - name: Save pinned toolchain
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.toolchain-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             .toolchain/bin
@@ -61,7 +61,7 @@ jobs:
 
       - name: Save Go modules and build output
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.go-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             .toolchain/gomodcache
@@ -70,7 +70,7 @@ jobs:
 
       - name: Upload container logs of failed suites
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: e2e-container-logs
           path: e2e-container-logs/
