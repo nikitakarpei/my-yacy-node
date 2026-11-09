@@ -6,14 +6,14 @@ import (
 	"context"
 	"testing"
 
-	dockernetwork "github.com/docker/docker/api/types/network"
+	dockerclient "github.com/moby/moby/client"
 	"github.com/testcontainers/testcontainers-go"
 	tcnetwork "github.com/testcontainers/testcontainers-go/network"
 )
 
 func New(t *testing.T, ctx context.Context) *testcontainers.DockerNetwork {
 	t.Helper()
-	noMasquerade := tcnetwork.CustomizeNetworkOption(func(req *dockernetwork.CreateOptions) error {
+	noMasquerade := tcnetwork.CustomizeNetworkOption(func(req *dockerclient.NetworkCreateOptions) error {
 		if req.Options == nil {
 			req.Options = map[string]string{}
 		}

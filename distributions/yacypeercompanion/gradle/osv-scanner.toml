@@ -1,0 +1,4 @@
+[[PackageOverrides]]
+ecosystem = "Maven"
+ignore = true
+reason = "verification-metadata.xml lists every file of the Gradle build, build tools included; the vulnerabilities workflow checks the libraries of the release APK."
