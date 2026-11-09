@@ -113,7 +113,7 @@ class CompanionHost : Service() {
         stopSelf()
     }
 
-    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailure || state == CompanionState.DeviceRefused
+    private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailure || state is CompanionState.Refused
 
     override fun onDestroy() {
         ended = true

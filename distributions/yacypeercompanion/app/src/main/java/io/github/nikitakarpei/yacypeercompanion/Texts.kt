@@ -19,11 +19,13 @@ fun textOf(reason: DisconnectReason): String = when (reason) {
     DisconnectReason.DEVICE_KEY -> "Couldn’t find the key that paired this device"
     DisconnectReason.SERVICES_FAILED -> "Something went wrong"
     DisconnectReason.DEVICE_REFUSED -> "The peer no longer accepts this device"
+    DisconnectReason.APP_OUTDATED -> textOf(PairingProblem.APP_OUTDATED)
+    DisconnectReason.PEER_OUTDATED -> textOf(PairingProblem.PEER_OUTDATED)
 }
 
 fun reasonTextOf(state: CompanionState.Disconnected): String = when (state) {
     CompanionState.WaitingForUnmeteredNetwork -> "No Wi-Fi connection"
-    CompanionState.DeviceRefused -> textOf(DisconnectReason.DEVICE_REFUSED)
+    is CompanionState.Refused -> textOf(state.reason)
     is CompanionState.WaitingForNetwork -> "No network connection"
     is CompanionState.Recovering -> textOf(state.reason)
 }
@@ -33,7 +35,7 @@ const val RECONNECTING_TEXT = "Reconnecting"
 fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
     is CompanionState.Reconnecting -> RECONNECTING_TEXT
     is CompanionState.RetryingAt -> "Retrying in ${((state.retryAtMs - SystemClock.elapsedRealtime()) / 1_000).coerceAtLeast(0)} s"
-    is CompanionState.WaitingForNetwork, CompanionState.WaitingForUnmeteredNetwork, CompanionState.DeviceRefused -> null
+    is CompanionState.WaitingForNetwork, CompanionState.WaitingForUnmeteredNetwork, is CompanionState.Refused -> null
 }
 
 fun textOf(problem: PairingProblem): String = when (problem) {
