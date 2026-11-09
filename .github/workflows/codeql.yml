@@ -1,0 +1,98 @@
+name: codeql
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: actions
+            build-mode: none
+          - language: go
+            build-mode: autobuild
+          - language: javascript-typescript
+            build-mode: none
+          - language: python
+            build-mode: none
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Start CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
+
+  analyze-java-kotlin:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Restore pinned toolchain
+        id: toolchain-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .toolchain/bin
+            .toolchain/go
+            .toolchain/jdk
+            .toolchain/android-sdk
+            .toolchain/activate
+            .toolchain/installed-verify.lock
+            .toolchain/installed-android.lock
+          key: android-toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
+
+      - name: Restore Gradle and Go caches
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .toolchain/gradle/caches
+            .toolchain/gradle/wrapper
+            .toolchain/gradle/gradle.properties
+            .toolchain/gomodcache
+            .toolchain/gocache
+          key: android-build-${{ runner.os }}-${{ hashFiles('distributions/yacypeercompanion/gradle/verification-metadata.xml', 'distributions/yacypeercompanion/go.sum') }}
+          restore-keys: android-build-${{ runner.os }}-
+
+      - name: Install the pinned tools
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: ./tools/install verify && ./tools/install android
+
+      - name: Start CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: java-kotlin
+          build-mode: manual
+
+      - name: Compile the Kotlin code of the app and its tests
+        run: >-
+          . .toolchain/activate &&
+          distributions/yacypeercompanion/gradlew -p distributions/yacypeercompanion --no-daemon --rerun-tasks --console=plain
+          compileReleaseKotlin compileReleaseUnitTestKotlin compileTestKotlin
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
