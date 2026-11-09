@@ -5,21 +5,21 @@ import "strings"
 const (
 	deviceSubjectPrefix    = "devices."
 	deviceInboxesPrefix    = "_INBOX."
+	helloSuffix            = ".hello"
 	settingsSuffix         = ".settings"
-	appReportSuffix        = ".app-report"
 	unpairingRequestSuffix = ".unpairing-request"
 
+	HelloSubjects            = deviceSubjectPrefix + "*" + helloSuffix
 	SettingsSubjects         = deviceSubjectPrefix + "*" + settingsSuffix
-	AppReportSubjects        = deviceSubjectPrefix + "*" + appReportSuffix
 	UnpairingRequestSubjects = deviceSubjectPrefix + "*" + unpairingRequestSuffix
 )
 
-func SettingsSubjectOf(deviceID DeviceID) string {
-	return deviceSubjectPrefix + string(deviceID) + settingsSuffix
+func HelloSubjectOf(deviceID DeviceID) string {
+	return deviceSubjectPrefix + string(deviceID) + helloSuffix
 }
 
-func AppReportSubjectOf(deviceID DeviceID) string {
-	return deviceSubjectPrefix + string(deviceID) + appReportSuffix
+func SettingsSubjectOf(deviceID DeviceID) string {
+	return deviceSubjectPrefix + string(deviceID) + settingsSuffix
 }
 
 func UnpairingRequestSubjectOf(deviceID DeviceID) string {
