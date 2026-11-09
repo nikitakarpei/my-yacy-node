@@ -56,6 +56,10 @@ class ServicesRunner(private val ctx: Context, private val events: (CompanionEve
         override fun servicesFailed() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.FAILED))
 
         override fun deviceRefused() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.DEVICE_REFUSED))
+
+        override fun appOutdated() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.APP_OUTDATED))
+
+        override fun peerOutdated() = report(run, CompanionEvent.ServicesEnded(ServicesEnding.PEER_OUTDATED))
     }
 
     private fun report(run: Int, event: CompanionEvent) {

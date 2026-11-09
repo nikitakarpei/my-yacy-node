@@ -9,13 +9,26 @@ import (
 	"net/url"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
 
-type pairPage struct {
+type PairPage struct {
 	offers            PairingOffers
 	linkWithoutSecret companionprotocol.PairLink
 	frame             pageFrame
+}
+
+func NewPairPage(
+	offers PairingOffers,
+	linkWithoutSecret companionprotocol.PairLink,
+	tabBar webuistyle.TabBar,
+) *PairPage {
+	return &PairPage{
+		offers:            offers,
+		linkWithoutSecret: linkWithoutSecret,
+		frame:             frameWith(tabBar),
+	}
 }
 
 type pairView struct {
@@ -25,7 +38,7 @@ type pairView struct {
 	AssetsPath        string
 }
 
-func (p *pairPage) show(w http.ResponseWriter, r *http.Request) {
+func (p *PairPage) show(w http.ResponseWriter, r *http.Request) {
 	render(w, r, pairTemplate, pairView{
 		Frame:             p.frame,
 		PairingEventsPath: pathPairingEvents,
@@ -34,7 +47,7 @@ func (p *pairPage) show(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (p *pairPage) pairingEvents(w http.ResponseWriter, r *http.Request) {
+func (p *PairPage) pairingEvents(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-store")
 	stream := http.NewResponseController(w)
@@ -78,7 +91,7 @@ type deviceRefusedMessage struct {
 	Reason     string                       `json:"reason"`
 }
 
-func (p *pairPage) writeEvent(w io.Writer, event pairingoffers.Event) error {
+func (p *PairPage) writeEvent(w io.Writer, event pairingoffers.Event) error {
 	switch event := event.(type) {
 	case pairingoffers.SecretRenewed:
 		link := p.linkWithoutSecret

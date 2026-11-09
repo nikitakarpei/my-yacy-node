@@ -14,7 +14,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 )
 
-const settingsWait = 10 * time.Second
+const peerAnswerWait = 10 * time.Second
+
+var (
+	errAppOutdated  = errors.New("the peer finds the app outdated")
+	errPeerOutdated = errors.New("the peer is outdated for the app")
+	errHelloRefused = errors.New("the peer refused the hello")
+)
 
 type sessionTerms struct {
 	link         companionprotocol.PairLink
@@ -35,6 +41,10 @@ func (t sessionTerms) openSession(onRefused func()) (*peerSession, error) {
 	if err != nil {
 		return nil, err
 	}
+	if err := t.sayHelloOver(connection); err != nil {
+		connection.Close()
+		return nil, err
+	}
 	settings, err := settingsOver(connection, t.deviceID)
 	if err != nil {
 		connection.Close()
@@ -43,12 +53,42 @@ func (t sessionTerms) openSession(onRefused func()) (*peerSession, error) {
 	return &peerSession{connection: connection, deviceID: t.deviceID, settings: settings}, nil
 }
 
+func (t sessionTerms) sayHelloOver(connection *nats.Conn) error {
+	hello, _ := json.Marshal(companionprotocol.Hello{ //nolint:errchkjson // a string and an int.
+		AppVersion:      t.appVersion,
+		ProtocolVersion: companionprotocol.ProtocolVersion,
+	})
+	reply, err := connection.Request(
+		companionprotocol.HelloSubjectOf(t.deviceID), hello, peerAnswerWait,
+	)
+	if err != nil {
+		return fmt.Errorf("say hello: %w", err)
+	}
+	var helloReply companionprotocol.HelloReply
+	if err := json.Unmarshal(reply.Data, &helloReply); err != nil {
+		return fmt.Errorf("read the hello reply: %w", err)
+	}
+	return refusalOf(helloReply)
+}
+
+func refusalOf(reply companionprotocol.HelloReply) error {
+	switch {
+	case reply.Outcome == companionprotocol.OutcomeAccepted:
+		return nil
+	case reply.Reason == companionprotocol.ReasonAppOutdated:
+		return errAppOutdated
+	case reply.Reason == companionprotocol.ReasonPeerOutdated:
+		return errPeerOutdated
+	}
+	return fmt.Errorf("%w: %s", errHelloRefused, reply.Reason)
+}
+
 func settingsOver(
 	connection *nats.Conn,
 	deviceID companionprotocol.DeviceID,
 ) (companionprotocol.DeviceSettings, error) {
 	reply, err := connection.Request(
-		companionprotocol.SettingsSubjectOf(deviceID), nil, settingsWait,
+		companionprotocol.SettingsSubjectOf(deviceID), nil, peerAnswerWait,
 	)
 	if err != nil {
 		return companionprotocol.DeviceSettings{}, fmt.Errorf("ask for the settings: %w", err)
@@ -68,19 +108,6 @@ func (t sessionTerms) probeRefusal() bool {
 	}
 	connection.Close()
 	return false
-}
-
-func (s *peerSession) reportApp(appVersion string) error {
-	report, _ := json.Marshal( //nolint:errchkjson // one string field.
-		companionprotocol.AppReport{AppVersion: appVersion},
-	)
-	if err := s.connection.Publish(
-		companionprotocol.AppReportSubjectOf(s.deviceID),
-		report,
-	); err != nil {
-		return fmt.Errorf("report the app: %w", err)
-	}
-	return nil
 }
 
 func (s *peerSession) brokerURL() string {

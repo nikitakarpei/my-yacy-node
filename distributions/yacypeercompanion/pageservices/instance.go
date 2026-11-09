@@ -1,6 +1,6 @@
 // Package pageservices runs pagescrape and pagerwi for one paired peer in the companion app,
-// and tells an observer when they connect, lose the broker, and end, and when the peer no longer
-// accepts the device. Both connect to the broker of the peer with the device key, and pagescrape
+// and tells an observer when they connect, lose the broker, and end, when the peer no longer
+// accepts the device, and when the app or the peer is outdated for the other. Both connect to the broker of the peer with the device key, and pagescrape
 // fetches each page through the capture proxy of the app.
 package pageservices
 
@@ -39,6 +39,8 @@ type Observer interface {
 	BrokerUnreachable()
 	ServicesFailed()
 	DeviceRefused()
+	AppOutdated()
+	PeerOutdated()
 }
 
 type Instance struct {
@@ -91,10 +93,7 @@ func (i *Instance) Run(observer Observer) {
 		return
 	}
 	defer session.close()
-	err = session.reportApp(i.terms.appVersion)
-	if err == nil {
-		err = i.runPageServicesOver(ctx, session, observer)
-	}
+	err = i.runPageServicesOver(ctx, session, observer)
 	if deviceRefused.Load() || err != nil && i.terms.probeRefusal() {
 		reportRefusal(err, observer)
 		return
@@ -117,6 +116,10 @@ func reportUnopenedSession(err error, observer Observer) {
 		observer.DeviceRefused()
 	case errors.Is(err, brokeraccess.ErrNoConnection):
 		observer.BrokerUnreachable()
+	case errors.Is(err, errAppOutdated):
+		observer.AppOutdated()
+	case errors.Is(err, errPeerOutdated):
+		observer.PeerOutdated()
 	default:
 		observer.ServicesFailed()
 	}

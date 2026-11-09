@@ -31,11 +31,11 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.StopRequest
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.DeviceRefused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Refused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
@@ -110,17 +110,23 @@ class CompanionMachineTest {
     }
 
     @Test
-    fun aDeviceThatThePeerRefusesStaysDisconnectedAndTellsWhy() {
-        assertStep(
-            stepOf(Connected, ServicesEnded(ServicesEnding.DEVICE_REFUSED)),
-            DeviceRefused,
-            StopServices,
-            CancelRetry,
-            PostFailureNotification(DisconnectReason.DEVICE_REFUSED),
-            EndHost,
-        )
-        assertStep(stepOf(DeviceRefused, StartRequested), DeviceRefused)
-        assertStep(stepOf(Stopped, ServicesEnded(ServicesEnding.DEVICE_REFUSED)), Stopped)
+    fun aRefusalOfThePeerStaysDisconnectedAndTellsWhy() {
+        for ((ending, reason) in mapOf(
+            ServicesEnding.DEVICE_REFUSED to DisconnectReason.DEVICE_REFUSED,
+            ServicesEnding.APP_OUTDATED to DisconnectReason.APP_OUTDATED,
+            ServicesEnding.PEER_OUTDATED to DisconnectReason.PEER_OUTDATED,
+        )) {
+            assertStep(
+                stepOf(Connected, ServicesEnded(ending)),
+                Refused(reason),
+                StopServices,
+                CancelRetry,
+                PostFailureNotification(reason),
+                EndHost,
+            )
+            assertStep(stepOf(Refused(reason), StartRequested), Refused(reason))
+            assertStep(stepOf(Stopped, ServicesEnded(ending)), Stopped)
+        }
     }
 
     @Test
@@ -282,7 +288,7 @@ class CompanionMachineTest {
 
     @Test
     fun aChargerChangeLeavesACompanionAloneThatDoesNotRun() {
-        for (resting in listOf(Pairing, Stopped, DeviceRefused, PairingFailure(PairingProblem.REFUSED))) {
+        for (resting in listOf(Pairing, Stopped, Refused(DisconnectReason.DEVICE_REFUSED), PairingFailure(PairingProblem.REFUSED))) {
             assertStep(stepOf(resting, batteryOnly), resting)
         }
         assertStep(stepOf(Connected, usablePower), Connected)
@@ -299,7 +305,7 @@ class CompanionMachineTest {
     @Test
     fun theDeviceStaysAwakeOnlyWhileTheCompanionPairsOrRuns() {
         val awake = listOf(Pairing, Connecting, Connected, Reconnecting(lostPeer, 0), Offline(lostPeer, 1))
-        val asleep = listOf(Stopped, WaitingForCharger, WaitingForUnmeteredNetwork, DeviceRefused)
+        val asleep = listOf(Stopped, WaitingForCharger, WaitingForUnmeteredNetwork, Refused(DisconnectReason.DEVICE_REFUSED))
         awake.forEach { assertEquals("$it keeps the device awake", true, it.keepsDeviceAwake()) }
         asleep.forEach { assertEquals("$it lets the device sleep", false, it.keepsDeviceAwake()) }
     }
