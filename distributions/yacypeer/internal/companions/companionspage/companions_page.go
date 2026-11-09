@@ -67,20 +67,13 @@ type DeviceConnections interface {
 	ConnectedDevices() map[companionprotocol.DeviceID]bool
 }
 
-type Collaborators struct {
-	Devices           PairedDevices
-	Unpairer          Unpairer
-	Offers            PairingOffers
-	DeviceConnections DeviceConnections
-}
-
-type pages struct {
-	devices           PairedDevices
-	unpairer          Unpairer
-	offers            PairingOffers
-	deviceConnections DeviceConnections
-	linkWithoutSecret companionprotocol.PairLink
-	frame             pageFrame
+func Register(mux *http.ServeMux, devices *DevicesPage, pair *PairPage) {
+	mux.HandleFunc("GET "+Path, devices.show)
+	mux.HandleFunc("GET "+pathDeviceStates, devices.states)
+	mux.HandleFunc("POST "+pathUnpair, devices.unpair)
+	mux.HandleFunc("GET "+pathPair, pair.show)
+	mux.HandleFunc("GET "+pathPairingEvents, pair.pairingEvents)
+	mux.Handle("GET "+pathAssets, http.StripPrefix(Path, http.FileServerFS(assets)))
 }
 
 type pageFrame struct {
@@ -89,30 +82,33 @@ type pageFrame struct {
 	AppGuideURL     string
 }
 
-func Register(
-	mux *http.ServeMux,
-	collaborators Collaborators,
-	linkWithoutSecret companionprotocol.PairLink,
-	tabBar webuistyle.TabBar,
-) {
-	companionPages := &pages{
-		devices:           collaborators.Devices,
-		unpairer:          collaborators.Unpairer,
-		offers:            collaborators.Offers,
-		deviceConnections: collaborators.DeviceConnections,
-		linkWithoutSecret: linkWithoutSecret,
-		frame: pageFrame{
-			WebUIStylesheet: webuistyle.StylesheetPath,
-			TabBar:          tabBar.HTML(),
-			AppGuideURL:     appGuideURL,
-		},
+func frameWith(tabBar webuistyle.TabBar) pageFrame {
+	return pageFrame{
+		WebUIStylesheet: webuistyle.StylesheetPath,
+		TabBar:          tabBar.HTML(),
+		AppGuideURL:     appGuideURL,
 	}
-	mux.HandleFunc("GET "+Path, companionPages.companions)
-	mux.HandleFunc("GET "+pathDeviceStates, companionPages.deviceStates)
-	mux.HandleFunc("POST "+pathUnpair, companionPages.unpair)
-	mux.HandleFunc("GET "+pathPair, companionPages.pair)
-	mux.HandleFunc("GET "+pathPairingEvents, companionPages.pairingEvents)
-	mux.Handle("GET "+pathAssets, http.StripPrefix(Path, http.FileServerFS(assets)))
+}
+
+type DevicesPage struct {
+	devices           PairedDevices
+	unpairer          Unpairer
+	deviceConnections DeviceConnections
+	frame             pageFrame
+}
+
+func NewDevicesPage(
+	devices PairedDevices,
+	unpairer Unpairer,
+	deviceConnections DeviceConnections,
+	tabBar webuistyle.TabBar,
+) *DevicesPage {
+	return &DevicesPage{
+		devices:           devices,
+		unpairer:          unpairer,
+		deviceConnections: deviceConnections,
+		frame:             frameWith(tabBar),
+	}
 }
 
 type companionsView struct {
@@ -140,7 +136,7 @@ type deviceRow struct {
 
 type deviceRows []deviceRow
 
-func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
+func (p *DevicesPage) show(w http.ResponseWriter, r *http.Request) {
 	rows := p.deviceRows()
 	view := companionsView{
 		Frame:            p.frame,
@@ -163,7 +159,7 @@ func (p *pages) companions(w http.ResponseWriter, r *http.Request) {
 	render(w, r, companionsPage, view)
 }
 
-func (p *pages) deviceRows() deviceRows {
+func (p *DevicesPage) deviceRows() deviceRows {
 	connectedDevices := p.deviceConnections.ConnectedDevices()
 	devices := p.devices.List()
 	slices.SortFunc(devices, func(a, b paireddevices.Device) int {
@@ -212,7 +208,7 @@ func render(w http.ResponseWriter, r *http.Request, page *template.Template, vie
 	}
 }
 
-func (p *pages) deviceStates(w http.ResponseWriter, r *http.Request) {
+func (p *DevicesPage) states(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	if err := json.NewEncoder(w).Encode(p.deviceRows()); err != nil {
@@ -220,7 +216,7 @@ func (p *pages) deviceStates(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (p *pages) unpair(w http.ResponseWriter, r *http.Request) {
+func (p *DevicesPage) unpair(w http.ResponseWriter, r *http.Request) {
 	p.unpairer.Unpair(r.Context(), companionprotocol.DeviceID(r.PostFormValue(fieldDevice)))
 	http.Redirect(w, r, Path, http.StatusSeeOther)
 }

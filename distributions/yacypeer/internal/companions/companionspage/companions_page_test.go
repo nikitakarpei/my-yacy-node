@@ -56,11 +56,13 @@ func (o *fakeOffer) Close() { close(o.closed) }
 func serve(t *testing.T, f *fixture) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
-	companionspage.Register(mux, companionspage.Collaborators{
-		Devices: f, Unpairer: f, Offers: f, DeviceConnections: f,
-	}, companionprotocol.PairLink{
-		Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
-	}, webuistyle.TabBar{})
+	companionspage.Register(
+		mux,
+		companionspage.NewDevicesPage(f, f, f, webuistyle.TabBar{}),
+		companionspage.NewPairPage(f, companionprotocol.PairLink{
+			Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
+		}, webuistyle.TabBar{}),
+	)
 	server := httptest.NewServer(mux)
 	t.Cleanup(server.Close)
 	return server

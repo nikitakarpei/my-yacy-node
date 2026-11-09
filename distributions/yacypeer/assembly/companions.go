@@ -81,12 +81,16 @@ func (c *companions) register(
 	broker *natsbroker.Broker,
 	tabBar webuistyle.TabBar,
 ) {
-	companionspage.Register(mux, companionspage.Collaborators{
-		Devices:           c.devices,
-		Unpairer:          companionaccess.NewUnpairer(c.devices, broker),
-		Offers:            offerOpener{offers: c.offers},
-		DeviceConnections: companionaccess.NewDeviceConnections(broker),
-	}, c.pairLinkFor(broker), tabBar)
+	companionspage.Register(
+		mux,
+		companionspage.NewDevicesPage(
+			c.devices,
+			companionaccess.NewUnpairer(c.devices, broker),
+			companionaccess.NewDeviceConnections(broker),
+			tabBar,
+		),
+		companionspage.NewPairPage(offerOpener{offers: c.offers}, c.pairLinkFor(broker), tabBar),
+	)
 }
 
 func (c *companions) pairLinkFor(broker *natsbroker.Broker) companionprotocol.PairLink {
