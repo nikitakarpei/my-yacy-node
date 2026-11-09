@@ -383,7 +383,8 @@ func TestAFailedFetchReportsWhatCausedItAndFailsTheScrape(t *testing.T) {
 			if got := intake.offers.failures[0].Reason; got != fetchCase.wantReason {
 				t.Errorf("failure reason = %s, want %s", got, fetchCase.wantReason)
 			}
-			if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
+			settlement := intake.message.Settlement(t)
+			if settlement != pullintaketest.Acknowledged {
 				t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
 			}
 		})
