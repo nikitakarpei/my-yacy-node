@@ -62,9 +62,7 @@ func (a *Admission) LastCompanionDisconnected(ctx context.Context) {
 }
 
 func (a *Admission) settle(ctx context.Context) {
-	companionsCover := a.fetching.OnlyCompanionsFetch() ||
-		a.fetching.CompanionsFetch && a.companionConnected
-	admits := !a.devicePaired || !companionsCover
+	admits := a.peerTakesWork()
 	if admits == isClosed(a.released) {
 		return
 	}
@@ -75,6 +73,14 @@ func (a *Admission) settle(ctx context.Context) {
 	}
 	a.released = make(chan struct{})
 	slog.DebugContext(ctx, "page services of the peer hold their intake for the companions")
+}
+
+func (a *Admission) peerTakesWork() bool {
+	return !a.devicePaired || !a.companionsCover()
+}
+
+func (a *Admission) companionsCover() bool {
+	return a.fetching.CompanionsFetch && (!a.fetching.PeerFillsIn || a.companionConnected)
 }
 
 func isClosed(released chan struct{}) bool {
@@ -104,5 +110,5 @@ func (a *Admission) AwaitAdmission(ctx context.Context) error {
 func (a *Admission) FetchingPaused() bool {
 	a.mu.Lock()
 	defer a.mu.Unlock()
-	return a.devicePaired && a.fetching.OnlyCompanionsFetch() && !a.companionConnected
+	return !a.peerTakesWork() && !a.companionConnected
 }
