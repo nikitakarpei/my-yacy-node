@@ -1,5 +1,5 @@
 // Package companionrequests answers the requests that companions send to the broker of the peer:
-// the pairing request of a device that pairs, and the settings requests, app reports and unpairing
+// the pairing request of a device that pairs, and the hellos, settings requests and unpairing
 // requests of paired devices.
 package companionrequests
 
@@ -21,8 +21,6 @@ import (
 )
 
 var (
-	errOlderProtocol = errors.New("the app speaks an older protocol")
-	errNewerProtocol = errors.New("the app speaks a newer protocol")
 	errNoAttestation = errors.New("the request holds no attestation")
 	errNotAnECKey    = errors.New("the attested key is not an EC key")
 	errProofInvalid  = errors.New("the proof does not hold for the attested key")
@@ -116,15 +114,10 @@ type provenRequest struct {
 	deviceID   companionprotocol.DeviceID
 }
 
-type pairingRefusal struct {
-	reason companionprotocol.RefusalReason
-	cause  error
-}
-
 func (p *PairingAnswerer) provenRequestFrom(
 	data []byte,
 	secret companionprotocol.Secret,
-) (provenRequest, *pairingRefusal) {
+) (provenRequest, *requestRefusal) {
 	request, refusal := pairingRequestFrom(data)
 	if refusal != nil {
 		return provenRequest{}, refusal
@@ -142,10 +135,10 @@ func (p *PairingAnswerer) provenRequestFrom(
 	}, nil
 }
 
-func pairingRequestFrom(data []byte) (companionprotocol.PairingRequest, *pairingRefusal) {
+func pairingRequestFrom(data []byte) (companionprotocol.PairingRequest, *requestRefusal) {
 	var request companionprotocol.PairingRequest
 	if err := json.Unmarshal(data, &request); err != nil {
-		return request, &pairingRefusal{
+		return request, &requestRefusal{
 			reason: companionprotocol.ReasonRequestInvalid,
 			cause:  fmt.Errorf("read the pairing request: %w", err),
 		}
@@ -153,33 +146,20 @@ func pairingRequestFrom(data []byte) (companionprotocol.PairingRequest, *pairing
 	return request, nil
 }
 
-func protocolRefusalOf(protocolVersion int) *pairingRefusal {
-	switch {
-	case protocolVersion < companionprotocol.ProtocolVersion:
-		return &pairingRefusal{reason: companionprotocol.ReasonAppOutdated, cause: errOlderProtocol}
-	case protocolVersion > companionprotocol.ProtocolVersion:
-		return &pairingRefusal{
-			reason: companionprotocol.ReasonPeerOutdated,
-			cause:  errNewerProtocol,
-		}
-	}
-	return nil
-}
-
 func (p *PairingAnswerer) provenKeyFrom(
 	request companionprotocol.PairingRequest,
 	secret companionprotocol.Secret,
-) (attestedKey, *pairingRefusal) {
+) (attestedKey, *requestRefusal) {
 	key, err := attestedKeyFrom(request.Attestation)
 	if err != nil {
-		return attestedKey{}, &pairingRefusal{
+		return attestedKey{}, &requestRefusal{
 			reason: companionprotocol.ReasonRequestInvalid,
 			cause:  err,
 		}
 	}
 	challenge := companionprotocol.ChallengeFrom(secret, p.brokerKeyHash)
 	if !request.Proof.HoldsFor(key.publicKey, challenge) {
-		return attestedKey{}, &pairingRefusal{
+		return attestedKey{}, &requestRefusal{
 			reason: companionprotocol.ReasonRequestInvalid,
 			cause:  errProofInvalid,
 		}
@@ -211,7 +191,7 @@ func (p *PairingAnswerer) refuse(
 	ctx context.Context,
 	message *nats.Msg,
 	pairing pairingoffers.OngoingPairing,
-	refusal *pairingRefusal,
+	refusal *requestRefusal,
 ) {
 	slog.WarnContext(ctx, "pairing request refused",
 		slog.String("deviceName", string(pairing.DeviceName)),
@@ -219,7 +199,7 @@ func (p *PairingAnswerer) refuse(
 		slog.Any("cause", refusal.cause),
 	)
 	p.offers.Refuse(ctx, companionprotocol.SecretIDFrom(pairing.Secret), refusal.reason)
-	respond(ctx, message, companionprotocol.RefusedReply(refusal.reason))
+	respond(ctx, message, companionprotocol.RefusedPairingReply(refusal.reason))
 }
 
 func respond(ctx context.Context, message *nats.Msg, reply any) {
@@ -242,7 +222,7 @@ func (p *PairingAnswerer) accept(
 ) {
 	p.devices.Add(ctx, pairedDeviceFrom(pairing.DeviceName, request, p.clock.Now()))
 	p.offers.Accept(ctx, companionprotocol.SecretIDFrom(pairing.Secret), request.deviceID)
-	respond(ctx, message, companionprotocol.AcceptedReply(request.deviceID))
+	respond(ctx, message, companionprotocol.AcceptedPairingReply(request.deviceID))
 }
 
 func pairedDeviceFrom(
