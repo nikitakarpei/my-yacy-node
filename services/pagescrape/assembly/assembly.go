@@ -57,7 +57,7 @@ func RunService(
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
-	broker, connection, err := jetstreamconnect.OpenObserved(
+	broker, connection, err := jetstreamconnect.Open(
 		cfg.ScrapeNATSURL, dial, health, brokerAccess,
 	)
 	if err != nil {

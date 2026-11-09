@@ -25,19 +25,20 @@ func TestAPairLinkReadsBackAsTheSameLink(t *testing.T) {
 	}
 }
 
-func TestPairLinkFromRefusesTextOfAnotherSchemeAsNoUnreadableLink(t *testing.T) {
+func TestPairLinkFromRefusesTextOfAnotherSchemeAsNoCompanionLink(t *testing.T) {
 	_, err := companionprotocol.PairLinkFrom("https://example.org/")
 
-	if err == nil || errors.Is(err, companionprotocol.ErrUnreadableLink) {
-		t.Errorf("error = %v, want one that is not ErrUnreadableLink", err)
+	if err == nil || errors.Is(err, companionprotocol.ErrUnreadableLink) ||
+		errors.Is(err, companionprotocol.ErrUnknownLinkKind) {
+		t.Errorf("error = %v, want one that names no companion link", err)
 	}
 }
 
-func TestPairLinkFromCallsALinkOfAnUnknownKindUnreadable(t *testing.T) {
+func TestPairLinkFromTellsALinkOfAnUnknownKind(t *testing.T) {
 	_, err := companionprotocol.PairLinkFrom("yacypeer-companion://connect?nats=nats://peer:4222")
 
-	if !errors.Is(err, companionprotocol.ErrUnreadableLink) {
-		t.Errorf("error = %v, want ErrUnreadableLink", err)
+	if !errors.Is(err, companionprotocol.ErrUnknownLinkKind) {
+		t.Errorf("error = %v, want ErrUnknownLinkKind", err)
 	}
 }
 

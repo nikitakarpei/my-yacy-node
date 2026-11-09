@@ -31,7 +31,12 @@ func Open(
 	dial func(ctx context.Context, network, address string) (net.Conn, error),
 	observer CrawlOrderPublicationObserver,
 ) (*CrawlOrderBroker, error) {
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL, dial)
+	js, conn, err := jetstreamconnect.Open(
+		cfg.NATSURL,
+		dial,
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
+	)
 	if err != nil {
 		return nil, err
 	}

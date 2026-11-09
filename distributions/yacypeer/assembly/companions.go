@@ -174,7 +174,12 @@ func runnerFor(
 	network *processnetwork.Network,
 ) func(context.Context) error {
 	return func(ctx context.Context) error {
-		_, connection, err := jetstreamconnect.Open(natsURL, network.DialContext)
+		_, connection, err := jetstreamconnect.Open(
+			natsURL,
+			network.DialContext,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
+		)
 		if err != nil {
 			return err
 		}
