@@ -134,11 +134,11 @@ func instanceFor(t *testing.T, linkText string, captureProxyURL string) *pageser
 	return instance
 }
 
-func captureProxyServing(t *testing.T, body string) string {
+func captureProxyServingThePage(t *testing.T) string {
 	t.Helper()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		_, _ = w.Write([]byte(body))
+		_, _ = w.Write([]byte(pageBody))
 	}))
 	t.Cleanup(server.Close)
 	return server.URL
@@ -172,7 +172,7 @@ func TestInstanceForRefusesTextThatIsNotAPairLink(t *testing.T) {
 func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
-	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
 	events := make(observedEvents, 4)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
@@ -226,7 +226,7 @@ func TestInstanceRunReportsADeviceThatThePeerRefusesOnceItHasSettled(t *testing.
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
 	peer.check.refusesOnceItHasSettled.Store(true)
-	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
 	events := make(observedEvents, 4)
 
 	instance.Run(events)
@@ -237,7 +237,7 @@ func TestInstanceRunReportsADeviceThatThePeerRefusesOnceItHasSettled(t *testing.
 func TestInstanceRunReportsADeviceThatThePeerRefusesWhileItWorks(t *testing.T) {
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
-	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
 	events := make(observedEvents, 8)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
@@ -371,7 +371,7 @@ func TestInstanceRunReportsAnUnreachableBroker(t *testing.T) {
 func TestInstanceRunReportsABrokerThatShutsDown(t *testing.T) {
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
-	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServingThePage(t))
 	events := make(observedEvents, 4)
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
