@@ -271,7 +271,7 @@ func TestRunPeerTellsAPairedDeviceThePartitionExponentThatTheOperatorSets(t *tes
 	go func() {
 		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
 	}()
-	awaitEveryService(t, env, web)
+	awaitEveryService(t, env, web, runDone)
 
 	settings := settingsAskedBy(t, env[yacypeerassembly.EnvCompanionAddr], certificate, deviceID)
 
