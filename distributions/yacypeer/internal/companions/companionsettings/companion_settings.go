@@ -27,10 +27,6 @@ type Fetching struct {
 	PeerFillsIn     bool `json:"peerFillsIn"`
 }
 
-func (f Fetching) OnlyCompanionsFetch() bool {
-	return f.CompanionsFetch && !f.PeerFillsIn
-}
-
 type Observer interface {
 	FetchingChanged(ctx context.Context, fetching Fetching)
 }
