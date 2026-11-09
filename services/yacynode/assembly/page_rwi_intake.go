@@ -82,7 +82,12 @@ func pageRWIOpenerFor(
 	dial Dial,
 ) func(ctx context.Context) (pageRWIs, error) {
 	return func(ctx context.Context) (pageRWIs, error) {
-		js, connection, err := jetstreamconnect.Open(config.PageRWINATSURL, dial)
+		js, connection, err := jetstreamconnect.Open(
+			config.PageRWINATSURL,
+			dial,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
+		)
 		if err != nil {
 			return pageRWIs{}, err
 		}

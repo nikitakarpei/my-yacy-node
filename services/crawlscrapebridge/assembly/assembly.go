@@ -44,6 +44,8 @@ func RunService(
 	scrapeRequestBroker, scrapeRequestConnection, err := jetstreamconnect.Open(
 		cfg.ScrapeRequestNATSURL,
 		dial,
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
 		return err
@@ -111,7 +113,12 @@ func crawledPageOpenerFor(
 	dial Dial,
 ) func(ctx context.Context) (crawledPages, error) {
 	return func(ctx context.Context) (crawledPages, error) {
-		js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL, dial)
+		js, connection, err := jetstreamconnect.Open(
+			cfg.CrawlNATSURL,
+			dial,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
+		)
 		if err != nil {
 			return crawledPages{}, err
 		}
