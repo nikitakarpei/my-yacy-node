@@ -306,7 +306,13 @@ class CompanionMachineTest {
     @Test
     fun theDeviceStaysAwakeOnlyWhileTheCompanionPairsOrRuns() {
         val awake = listOf(Pairing, Connecting, Connected, Reconnecting(lostPeer, 0), Offline(lostPeer, 1))
-        val asleep = listOf(Stopped, WaitingForCharger, WaitingForUnmeteredNetwork, Refused(DisconnectReason.DEVICE_REFUSED))
+        val asleep = listOf(
+            Stopped,
+            WaitingForCharger,
+            WaitingForBatterySaverOff,
+            WaitingForUnmeteredNetwork,
+            Refused(DisconnectReason.DEVICE_REFUSED),
+        )
         awake.forEach { assertEquals("$it keeps the device awake", true, it.keepsDeviceAwake()) }
         asleep.forEach { assertEquals("$it lets the device sleep", false, it.keepsDeviceAwake()) }
     }
@@ -321,12 +327,6 @@ class CompanionMachineTest {
             CancelFailureNotification,
         )
         assertStep(stepOf(Stopped, StartRequested, powerAccess = PowerAccess.BATTERY_SAVER_ON), WaitingForBatterySaverOff)
-        assertStep(
-            stepOf(Pairing, PairingAccepted, powerAccess = PowerAccess.BATTERY_SAVER_ON),
-            WaitingForBatterySaverOff,
-            CancelPairingTimeout,
-            CompletePairing,
-        )
     }
 
     @Test

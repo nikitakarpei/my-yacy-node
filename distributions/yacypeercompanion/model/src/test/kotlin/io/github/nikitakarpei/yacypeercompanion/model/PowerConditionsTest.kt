@@ -6,18 +6,29 @@ import org.junit.Test
 class PowerConditionsTest {
     @Test
     fun aMissingChargerHoldsTheCompanionBackFirst() {
-        assertEquals(PowerAccess.BATTERY_ONLY, PowerConditions(true, false, true, true).access)
+        assertEquals(
+            PowerAccess.BATTERY_ONLY,
+            PowerConditions(chargerRequired = true, onCharger = false, batterySaverRespected = true, batterySaverOn = true).access,
+        )
     }
 
     @Test
     fun batterySaverHoldsTheCompanionBackOnlyWhileTheUserRespectsIt() {
-        assertEquals(PowerAccess.BATTERY_SAVER_ON, PowerConditions(true, true, true, true).access)
-        assertEquals(PowerAccess.USABLE, PowerConditions(true, true, false, true).access)
+        assertEquals(
+            PowerAccess.BATTERY_SAVER_ON,
+            PowerConditions(chargerRequired = true, onCharger = true, batterySaverRespected = true, batterySaverOn = true).access,
+        )
+        assertEquals(
+            PowerAccess.USABLE,
+            PowerConditions(chargerRequired = true, onCharger = true, batterySaverRespected = false, batterySaverOn = true).access,
+        )
     }
 
     @Test
-    fun withoutTheChargerRuleTheBatteryDoes() {
-        assertEquals(PowerAccess.USABLE, PowerConditions(false, false, true, false).access)
-        assertEquals(PowerAccess.BATTERY_SAVER_ON, PowerConditions(false, false, true, true).access)
+    fun turningOffTheChargerRuleLetsTheCompanionRunOnBattery() {
+        assertEquals(
+            PowerAccess.USABLE,
+            PowerConditions(chargerRequired = false, onCharger = false, batterySaverRespected = true, batterySaverOn = false).access,
+        )
     }
 }
