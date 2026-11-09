@@ -7,7 +7,7 @@ require (
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
-	golang.org/x/net v0.55.0
+	golang.org/x/net v0.62.0
 )
 
 require (
@@ -17,7 +17,7 @@ require (
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
-	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl

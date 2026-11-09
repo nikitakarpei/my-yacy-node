@@ -3,15 +3,15 @@
 # Android SDK packages add the name of their archive in Google's repository.
 # Edit a version here, refresh its checksums, then run `tools/install`.
 
-go 1.27.0 linux-amd64  675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
-go 1.27.0 linux-arm64  51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
-go 1.27.0 darwin-amd64 d3314e25496e4381d71a5c51d2907e7af655d199f6780b549f015bd85fef4986
-go 1.27.0 darwin-arm64 90493b3bbd5e10f91d12153198bf1994fd756399b4fec93b49b0c6e2acdeeb3e
+go 1.27.3 linux-amd64  65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40
+go 1.27.3 linux-arm64  a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49
+go 1.27.3 darwin-amd64 b6f8e931e4ab497fcde6da8ae4499a58f9d258e55c8a80824a516eae5950a750
+go 1.27.3 darwin-arm64 dd3908cf20959d798c1e06ebe5b72213f0505ce01373b40ce3110975a6cd99c2
 
-golangci-lint 2.13.2 linux-amd64  2277d43b98ec0054280f2ac26b53268bae97682444678a59a657dd565da021d6
-golangci-lint 2.13.2 linux-arm64  a2a4e0065aa41be71f7c5ac90f271b61751331e5d04314e62afe4027855f0893
-golangci-lint 2.13.2 darwin-amd64 8a13aaf9cbbb1dee52824e862cf0d0720e5bb97c1f4260d1e51623a09492b57b
-golangci-lint 2.13.2 darwin-arm64 f4bf83f0b64f055c42b28fc9a38861839f69c096e61c788e72dfaae412011789
+golangci-lint 2.15.0 linux-amd64  9b7fe6a6bf6334b98decf8d86b11415ea7889afdabdd1959fdce23af2a9ebcea
+golangci-lint 2.15.0 linux-arm64  b4d8f17068b35ee6060cc2f69a16fb48740d706fbba81661c318649c114a6998
+golangci-lint 2.15.0 darwin-amd64 767b899a28285e88ded2823d5dcc4bc5ef681173eb2d80f029a7b17ee4ece3b8
+golangci-lint 2.15.0 darwin-arm64 d1e409481a8ca846c4bc97e781eb5cb1bd5c23353a0b3977a1cbda1b1b6447d5
 
 go-arch-lint 1.15.0 linux-amd64  b694a40d4b880b7665b164da6023775ba7461ac2110de09f0b2dddd1c58d4176
 go-arch-lint 1.15.0 linux-arm64  b806132ca67f98e932f84228e2bed14ee1a99abe0226dab352c63e63c2ded976
