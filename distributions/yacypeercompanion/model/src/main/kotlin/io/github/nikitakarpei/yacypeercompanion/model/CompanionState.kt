@@ -11,9 +11,13 @@ sealed interface CompanionState {
 
     data object Connected : CompanionState
 
-    sealed interface Disconnected : CompanionState
+    sealed interface Waiting : CompanionState
 
-    data object WaitingForUnmeteredNetwork : Disconnected
+    data object WaitingForCharger : Waiting
+
+    data object WaitingForUnmeteredNetwork : Waiting
+
+    sealed interface Disconnected : CompanionState
 
     data class Refused(val reason: DisconnectReason) : Disconnected
 
@@ -26,10 +30,12 @@ sealed interface CompanionState {
 
     data class RetryingAt(override val reason: DisconnectReason, val retryAtMs: Long, override val failedAttempts: Int) : Recovering
 
-    data class WaitingForNetwork(override val reason: DisconnectReason, override val failedAttempts: Int) : Recovering
+    data class Offline(override val reason: DisconnectReason, override val failedAttempts: Int) : Recovering
 }
 
 enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
+
+enum class PowerAccess { USABLE, BATTERY_ONLY }
 
 enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, DEVICE_KEY, SERVICES_FAILED, DEVICE_REFUSED, APP_OUTDATED, PEER_OUTDATED }
 
@@ -47,3 +53,6 @@ enum class PairingProblem {
 }
 
 class PairLink(val text: String)
+
+fun CompanionState.keepsDeviceAwake(): Boolean = this == CompanionState.Pairing || this == CompanionState.Connecting ||
+    this == CompanionState.Connected || this is CompanionState.Recovering

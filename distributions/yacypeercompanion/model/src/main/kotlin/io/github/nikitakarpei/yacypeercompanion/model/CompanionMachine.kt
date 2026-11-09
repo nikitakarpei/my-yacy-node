@@ -22,6 +22,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairWith
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingAccepted
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingFailed
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PairingTimedOut
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.PowerChanged
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.RetryDue
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesConnected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.ServicesEnded
@@ -32,6 +33,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent.Unpair
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connected
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Connecting
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Disconnected
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Offline
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Pairing
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.PairingFailure
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnecting
@@ -39,7 +41,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Recovering
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Refused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
-import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForNetwork
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
 
 const val PAIRING_LIMIT_MS = 30_000L
@@ -47,12 +49,17 @@ const val FIRST_RETRY_MS = 5_000L
 const val LONGEST_RETRY_MS = 60_000L
 private const val RETRY_DOUBLINGS = 4
 
-data class CompanionModel(val state: CompanionState = Stopped, val networkAccess: NetworkAccess = NetworkAccess.USABLE)
+data class CompanionModel(val state: CompanionState, val networkAccess: NetworkAccess, val powerAccess: PowerAccess)
 
 data class Step(val model: CompanionModel, val effects: List<CompanionEffect>)
 
 fun CompanionModel.after(event: CompanionEvent, nowMs: Long): Step {
-    val model = if (event is NetworkChanged) copy(networkAccess = event.access) else this
+    val model =
+        when (event) {
+            is NetworkChanged -> copy(networkAccess = event.access)
+            is PowerChanged -> copy(powerAccess = event.access)
+            else -> this
+        }
     return model.stateAfter(event, nowMs) ?: Step(model, emptyList())
 }
 
@@ -73,6 +80,7 @@ private fun CompanionModel.stateAfter(event: CompanionEvent, nowMs: Long): Step?
     SigningKeyUnavailable -> failed(DisconnectReason.SIGNING_KEY, nowMs)
     DeviceKeyUnavailable -> deviceKeyUnavailable()
     is NetworkChanged -> networkChanged()
+    is PowerChanged -> powerChanged()
     RetryDue -> (state as? RetryingAt)?.let { to(Reconnecting(it.reason, it.failedAttempts), StartServices) }
     PairingTimedOut -> to(PairingFailure(PairingProblem.PEER_UNREACHABLE), ForgetPairing, EndHost).takeIf { state == Pairing }
 }
@@ -84,8 +92,11 @@ private fun CompanionModel.pairingWith(link: PairLink): Step? =
 private fun CompanionModel.pairingCancelled(): Step? = to(Stopped, StopServices, CancelPairingTimeout, ForgetPairing, EndHost)
     .takeIf { state == Stopped || state == Pairing || state is PairingFailure }
 
-private fun CompanionModel.started(): Step =
-    if (networkAccess == NetworkAccess.METERED_ONLY) to(WaitingForUnmeteredNetwork) else to(Connecting, StartServices)
+private fun CompanionModel.started(): Step = when {
+    powerAccess == PowerAccess.BATTERY_ONLY -> to(WaitingForCharger)
+    networkAccess == NetworkAccess.METERED_ONLY -> to(WaitingForUnmeteredNetwork)
+    else -> to(Connecting, StartServices)
+}
 
 private fun CompanionModel.servicesConnected(): Step? = when (state) {
     Connecting -> to(Connected)
@@ -94,8 +105,8 @@ private fun CompanionModel.servicesConnected(): Step? = when (state) {
 }
 
 private fun CompanionModel.paired(): Step {
-    if (networkAccess != NetworkAccess.METERED_ONLY) return to(Connecting, CancelPairingTimeout, CompletePairing, StartServices)
-    return to(WaitingForUnmeteredNetwork, CancelPairingTimeout, CompletePairing)
+    val startStep = started()
+    return Step(startStep.model, listOf(CancelPairingTimeout, CompletePairing) + startStep.effects)
 }
 
 private fun CompanionModel.connectionLost(): Step? = when (state) {
@@ -139,7 +150,7 @@ private fun CompanionModel.failed(reason: DisconnectReason, nowMs: Long): Step? 
     val failedAttempts = (current as? Recovering)?.failedAttempts ?: 0
     val notice = if (current is Recovering) emptyList() else listOf(PostFailureNotification(reason))
     if (networkAccess == NetworkAccess.METERED_ONLY) return to(WaitingForUnmeteredNetwork, notice)
-    if (networkAccess == NetworkAccess.NONE) return to(WaitingForNetwork(reason, failedAttempts + 1), notice)
+    if (networkAccess == NetworkAccess.NONE) return to(Offline(reason, failedAttempts + 1), notice)
     val pause = retryPauseAfter(failedAttempts)
     return to(RetryingAt(reason, nowMs + pause, failedAttempts + 1), notice + ScheduleRetry(pause))
 }
@@ -155,17 +166,29 @@ private fun CompanionModel.usableNetworkChanged(): Step? = when (val current = s
     WaitingForUnmeteredNetwork -> to(Connecting, StartServices)
     is Reconnecting -> to(Reconnecting(current.reason, 0), RestartServices)
     is RetryingAt -> to(Reconnecting(current.reason, 0), CancelRetry, StartServices)
-    is WaitingForNetwork -> to(Reconnecting(current.reason, 0), StartServices)
+    is Offline -> to(Reconnecting(current.reason, 0), StartServices)
     else -> null
 }
 
 private fun CompanionModel.networkLost(): Step? = when (val current = state) {
-    is RetryingAt -> to(WaitingForNetwork(current.reason, current.failedAttempts), CancelRetry)
+    is RetryingAt -> to(Offline(current.reason, current.failedAttempts), CancelRetry)
     else -> null
 }
 
 private fun CompanionModel.meteredOnly(): Step? = when (state) {
     Connecting, Connected, is Recovering -> to(WaitingForUnmeteredNetwork, StopServices, CancelRetry, CancelFailureNotification)
+    else -> null
+}
+
+private fun CompanionModel.powerChanged(): Step? = when (powerAccess) {
+    PowerAccess.USABLE -> started().takeIf { state == WaitingForCharger }
+    PowerAccess.BATTERY_ONLY -> batteryOnly()
+}
+
+private fun CompanionModel.batteryOnly(): Step? = when (state) {
+    Connecting, Connected, is Recovering, WaitingForUnmeteredNetwork ->
+        to(WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+
     else -> null
 }
 

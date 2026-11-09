@@ -27,7 +27,7 @@ fun statusNotification(ctx: Context, state: CompanionState): Notification {
         .Builder(ctx, STATUS_CHANNEL)
         .setContentTitle(APP_NAME)
         .setContentText(titleOf(state))
-        .setSmallIcon(if (state is CompanionState.Disconnected) R.drawable.ic_alert else R.drawable.ic_check)
+        .setSmallIcon(statusIconOf(state))
         .setContentIntent(homeScreenIntent(ctx))
         .addAction(Notification.Action.Builder(Icon.createWithResource(ctx, R.drawable.ic_alert), "Stop", stop).build())
         .setOngoing(true)
@@ -35,6 +35,12 @@ fun statusNotification(ctx: Context, state: CompanionState): Notification {
         .setShowWhen(false)
         .setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE)
         .build()
+}
+
+private fun statusIconOf(state: CompanionState): Int = when (state) {
+    is CompanionState.Disconnected -> R.drawable.ic_alert
+    is CompanionState.Waiting -> waitingIconOf(state)
+    else -> R.drawable.ic_check
 }
 
 fun postFailureNotification(ctx: Context, reason: DisconnectReason) {

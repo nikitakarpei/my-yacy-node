@@ -27,6 +27,8 @@ sealed interface CompanionEvent {
 
     data class NetworkChanged(val access: NetworkAccess) : CompanionEvent
 
+    data class PowerChanged(val access: PowerAccess) : CompanionEvent
+
     data object RetryDue : CompanionEvent
 
     data object PairingTimedOut : CompanionEvent

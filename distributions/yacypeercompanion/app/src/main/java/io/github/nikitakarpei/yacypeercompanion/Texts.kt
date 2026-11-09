@@ -10,6 +10,8 @@ fun titleOf(state: CompanionState): String = when (state) {
     CompanionState.Pairing, is CompanionState.PairingFailure -> "Pairing"
     CompanionState.Connecting -> "Connecting"
     CompanionState.Connected -> "Connected"
+    CompanionState.WaitingForCharger -> "Waiting for a charger"
+    CompanionState.WaitingForUnmeteredNetwork -> "Waiting for Wi-Fi"
     is CompanionState.Disconnected -> "Disconnected"
 }
 
@@ -24,9 +26,8 @@ fun textOf(reason: DisconnectReason): String = when (reason) {
 }
 
 fun reasonTextOf(state: CompanionState.Disconnected): String = when (state) {
-    CompanionState.WaitingForUnmeteredNetwork -> "No Wi-Fi connection"
     is CompanionState.Refused -> textOf(state.reason)
-    is CompanionState.WaitingForNetwork -> "No network connection"
+    is CompanionState.Offline -> "No network connection"
     is CompanionState.Recovering -> textOf(state.reason)
 }
 
@@ -35,7 +36,7 @@ const val RECONNECTING_TEXT = "Reconnecting"
 fun attemptTextOf(state: CompanionState.Disconnected): String? = when (state) {
     is CompanionState.Reconnecting -> RECONNECTING_TEXT
     is CompanionState.RetryingAt -> "Retrying in ${((state.retryAtMs - SystemClock.elapsedRealtime()) / 1_000).coerceAtLeast(0)} s"
-    is CompanionState.WaitingForNetwork, CompanionState.WaitingForUnmeteredNetwork, is CompanionState.Refused -> null
+    is CompanionState.Offline, is CompanionState.Refused -> null
 }
 
 fun textOf(problem: PairingProblem): String = when (problem) {

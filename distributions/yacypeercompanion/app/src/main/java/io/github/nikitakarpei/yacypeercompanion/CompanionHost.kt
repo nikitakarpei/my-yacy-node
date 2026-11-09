@@ -12,6 +12,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionModel
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState
 import io.github.nikitakarpei.yacypeercompanion.model.after
+import io.github.nikitakarpei.yacypeercompanion.model.keepsDeviceAwake
 import io.github.nikitakarpei.yacypeercompanion.services.Pairer
 import io.github.nikitakarpei.yacypeercompanion.services.ServicesRunner
 import java.util.concurrent.Executors
@@ -31,23 +32,24 @@ class CompanionHost : Service() {
     private lateinit var services: ServicesRunner
     private lateinit var pairer: Pairer
     private lateinit var network: NetworkWatch
+    private lateinit var power: PowerWatch
     private lateinit var wakeLock: PowerManager.WakeLock
 
     @Volatile
     private var ended = false
+    private val wakeLockGuard = Any()
 
     override fun onBind(intent: Intent?) = null
 
-    @SuppressLint("WakelockTimeout")
     override fun onCreate() {
         super.onCreate()
         startForeground(STATUS_NOTIFICATION_ID, statusNotification(this, CompanionStore.state))
         wakeLock = getSystemService(PowerManager::class.java).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "$APP_NAME:services")
-        wakeLock.acquire()
         services = ServicesRunner(this) { events.put(it) }
         pairer = Pairer(this) { events.put(it) }
         network = NetworkWatch(this) { access -> events.put(CompanionEvent.NetworkChanged(access)) }
-        model = CompanionModel(CompanionState.Stopped, network.access)
+        power = PowerWatch(this) { access -> events.put(CompanionEvent.PowerChanged(access)) }
+        model = CompanionModel(CompanionState.Stopped, network.access, power.access)
         thread(name = "companion-events") { takeEvents() }
     }
 
@@ -65,7 +67,10 @@ class CompanionHost : Service() {
             Log.d(LOG_TAG, "$event: ${model.state} -> ${step.model.state}, effects ${step.effects}")
             val changed = step.model.state != model.state
             model = step.model
-            if (changed) publish(model.state)
+            if (changed) {
+                publish(model.state)
+                fitWakeLockTo(model.state)
+            }
             step.effects.forEach { carryOut(it) }
         }
     }
@@ -73,6 +78,17 @@ class CompanionHost : Service() {
     private fun publish(state: CompanionState) {
         CompanionStore.publish(state)
         getSystemService(NotificationManager::class.java).notify(STATUS_NOTIFICATION_ID, statusNotification(this, state))
+    }
+
+    @SuppressLint("WakelockTimeout")
+    private fun fitWakeLockTo(state: CompanionState) {
+        synchronized(wakeLockGuard) {
+            when {
+                ended -> return
+                state.keepsDeviceAwake() && !wakeLock.isHeld -> wakeLock.acquire()
+                !state.keepsDeviceAwake() && wakeLock.isHeld -> wakeLock.release()
+            }
+        }
     }
 
     private fun carryOut(effect: CompanionEffect) {
@@ -116,12 +132,15 @@ class CompanionHost : Service() {
     private fun keepsShowing(state: CompanionState) = state is CompanionState.PairingFailure || state is CompanionState.Refused
 
     override fun onDestroy() {
-        ended = true
+        synchronized(wakeLockGuard) {
+            ended = true
+            if (wakeLock.isHeld) wakeLock.release()
+        }
         events.put(CompanionEvent.StopRequested)
         timers.shutdownNow()
         services.close()
         network.close()
-        if (wakeLock.isHeld) wakeLock.release()
+        power.close()
         if (!keepsShowing(CompanionStore.state)) CompanionStore.publish(CompanionState.Stopped)
         super.onDestroy()
     }

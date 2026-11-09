@@ -76,7 +76,15 @@ class HomeScreen : Activity() {
         val badge =
             when (state) {
                 is CompanionState.Disconnected -> statusBadge(R.drawable.ic_alert, R.color.error_container, R.color.on_error_container)
+
                 CompanionState.Connected -> statusBadge(R.drawable.ic_check, R.color.primary_container, R.color.on_primary_container)
+
+                is CompanionState.Waiting -> statusBadge(
+                    waitingIconOf(state),
+                    R.color.surface_container_highest,
+                    R.color.on_surface_variant,
+                )
+
                 else -> ProgressRing(this)
             }
         column.addView(badge, LinearLayout.LayoutParams(dp(120), dp(120)).apply { gravity = Gravity.CENTER_HORIZONTAL })
