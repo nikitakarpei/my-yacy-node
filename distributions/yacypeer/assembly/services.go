@@ -91,6 +91,7 @@ type peer struct {
 	network            *processnetwork.Network
 	visitLinkSecret    string
 	peerKey            yacymodel.PeerKey
+	intakeAdmission    pullintake.Admission
 	webUILinks         webuitabs.Links
 }
 
@@ -242,7 +243,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			},
 			pagescrapeassembly.LoadServiceConfig,
 			pagescrapeassembly.ListenersFor,
-			runPagescrape,
+			p.runPagescrape,
 			p.network,
 		),
 		streamOnlyServiceAssemblyFrom(
@@ -256,7 +257,7 @@ func (p peer) streamOnlyServiceAssemblies() []serviceAssembly[service] {
 			},
 			pagerwiassembly.LoadServiceConfig,
 			pagerwiassembly.ListenersFor,
-			runPagerwi,
+			p.runPagerwi,
 			p.network,
 		),
 		streamOnlyServiceAssemblyFrom(
@@ -324,7 +325,7 @@ func streamOnlyServiceAssemblyFrom[C any, L io.Closer](
 	}
 }
 
-func runPagescrape(
+func (p peer) runPagescrape(
 	ctx context.Context,
 	cfg pagescrapeassembly.ServiceConfig,
 	listeners pagescrapeassembly.Listeners,
@@ -333,12 +334,12 @@ func runPagescrape(
 ) error {
 	return pagescrapeassembly.RunService(
 		ctx, cfg, listeners, dial,
-		jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+		jetstreamconnect.BrokerAccess{}, p.intakeAdmission,
 		registry, &servicehealth.Health{},
 	)
 }
 
-func runPagerwi(
+func (p peer) runPagerwi(
 	ctx context.Context,
 	cfg pagerwiassembly.ServiceConfig,
 	listeners pagerwiassembly.Listeners,

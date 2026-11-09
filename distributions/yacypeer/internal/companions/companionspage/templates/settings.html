@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Companions settings</title>
+<link rel="stylesheet" href="{{.Frame.WebUIStylesheet}}">
+<link rel="stylesheet" href="{{.AssetsPath}}companions.css">
+<script src="{{.AssetsPath}}companions.js" defer></script>
+</head>
+<body>
+{{.Frame.TabBar}}
+<main data-states="{{.StatesPath}}">
+  {{template "header" .Header}}
+  <form class="card settings" method="post" action="{{.SettingsPath}}">
+    <label class="setting">
+      <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.CompanionsFetch}}" value="on"{{if .Fetching.CompanionsFetch}} checked{{end}}>
+      Fetch pages with paired companions
+    </label>
+    <label class="setting dependent">
+      <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.PeerFillsIn}}" value="on"{{if .Fetching.PeerFillsIn}} checked{{end}}{{if not .Fetching.CompanionsFetch}} disabled{{end}}>
+      Let this peer fetch pages while no companion is connected
+    </label>
+    <noscript><div class="setting"><button type="submit">Save</button></div></noscript>
+  </form>
+</main>
+</body>
+</html>

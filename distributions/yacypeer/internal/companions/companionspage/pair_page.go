@@ -39,7 +39,7 @@ type pairView struct {
 }
 
 func (p *PairPage) show(w http.ResponseWriter, r *http.Request) {
-	render(w, r, pairPage, pairView{
+	render(w, r, pairTemplate, pairView{
 		Frame:             p.frame,
 		PairingEventsPath: pathPairingEvents,
 		CompanionsPath:    Path,

@@ -46,6 +46,12 @@ components:
     in: internal/companions/companionspage/**
   hostaddresses:
     in: internal/hostaddresses/**
+  companionpresence:
+    in: internal/companions/companionpresence/**
+  companionsettings:
+    in: internal/companions/companionsettings/**
+  fetchingduty:
+    in: internal/companions/fetchingduty/**
   thishost:
     in: internal/thishost/**
   devicepermissions:
@@ -166,8 +172,15 @@ deps:
     canUse:
       - companionprotocol
       - natsclient
+  companionpresence:
+    canUse:
+      - companionprotocol
+  fetchingduty:
+    mayDependOn:
+      - companionsettings
   companionspage:
     mayDependOn:
+      - companionsettings
       - paireddevices
       - pairingoffers
     canUse:

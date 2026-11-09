@@ -245,7 +245,7 @@ func TestRunPeerWithACompanionAddressShowsTheCompanionsTabAndRefusesUnknownCompa
 		awaitAnswer(t, runDone, "http://"+web.Addr().String()+path, companionsTab)
 	}
 	awaitAnswer(t, runDone, "http://"+web.Addr().String()+"/companions",
-		companionsTab+` aria-current="page"`, "No companions are paired.")
+		companionsTab+` aria-current="page"`, "No devices are paired")
 	requireUnknownCompanionRefused(t, env[yacypeerassembly.EnvCompanionAddr])
 
 	cancel()
@@ -297,7 +297,7 @@ func TestRunPeerTellsAPairedDeviceThePartitionExponentThatTheOperatorSets(t *tes
 
 func keepPairedDevice(t *testing.T, dataDirectory string, deviceID companionprotocol.DeviceID) {
 	t.Helper()
-	devices, err := paireddevices.Open(filepath.Join(dataDirectory, "companions"))
+	devices, err := paireddevices.Open(t.Context(), filepath.Join(dataDirectory, "companions"))
 	if err != nil {
 		t.Fatalf("open the paired devices: %v", err)
 	}

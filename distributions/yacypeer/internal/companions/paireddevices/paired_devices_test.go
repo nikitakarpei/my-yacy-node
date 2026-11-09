@@ -14,7 +14,7 @@ var pairedAt = time.Date(2026, 11, 7, 14, 2, 11, 0, time.UTC)
 
 func openDevices(t *testing.T, directory string) *paireddevices.Devices {
 	t.Helper()
-	devices, err := paireddevices.Open(directory)
+	devices, err := paireddevices.Open(context.Background(), directory)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -51,6 +51,50 @@ func TestAnUnpairedDeviceIsGoneAcrossStarts(t *testing.T) {
 
 	if devices.Holds("device-a") || openDevices(t, directory).Holds("device-a") {
 		t.Error("the unpaired device is still paired")
+	}
+}
+
+type toldPairings struct {
+	first int
+	last  int
+}
+
+func (t *toldPairings) FirstDevicePaired(context.Context) { t.first++ }
+
+func (t *toldPairings) LastDeviceUnpaired(context.Context) { t.last++ }
+
+func TestTheObserversHearOfTheFirstAndTheLastDevice(t *testing.T) {
+	told := &toldPairings{}
+	devices, err := paireddevices.Open(context.Background(), t.TempDir(), told)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(devices.Close)
+	tablet := paireddevices.Device{ID: "device-b", Name: "Galaxy Tab S9"}
+
+	devices.Add(context.Background(), pixel())
+	devices.Add(context.Background(), tablet)
+	devices.Remove(context.Background(), "device-a")
+	devices.Remove(context.Background(), "device-b")
+
+	if told.first != 1 || told.last != 1 {
+		t.Errorf("told first %d and last %d times, want once each", told.first, told.last)
+	}
+}
+
+func TestTheObserversHearOfKeptDevicesAtStart(t *testing.T) {
+	directory := t.TempDir()
+	openDevices(t, directory).Add(context.Background(), pixel())
+	told := &toldPairings{}
+
+	devices, err := paireddevices.Open(context.Background(), directory, told)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(devices.Close)
+
+	if told.first != 1 {
+		t.Errorf("told first %d times, want once", told.first)
 	}
 }
 
@@ -110,7 +154,7 @@ func theOnlyFileIn(t *testing.T, directory string) string {
 
 func TestOpenRefusesAnUnreadableFile(t *testing.T) {
 	directory := t.TempDir()
-	devices, err := paireddevices.Open(directory)
+	devices, err := paireddevices.Open(context.Background(), directory)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -120,7 +164,7 @@ func TestOpenRefusesAnUnreadableFile(t *testing.T) {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
-	if _, err := paireddevices.Open(directory); err == nil {
+	if _, err := paireddevices.Open(context.Background(), directory); err == nil {
 		t.Error("want an error for an unreadable file")
 	}
 }

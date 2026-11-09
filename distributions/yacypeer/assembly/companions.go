@@ -11,13 +11,17 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionpresence"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchingduty"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
@@ -34,24 +38,34 @@ const (
 type companions struct {
 	devices           *paireddevices.Devices
 	offers            *pairingoffers.Offers
+	settings          *companionsettings.Keeper
+	fetchingDuty      *fetchingduty.Duty
 	certificate       tls.Certificate
 	address           string
 	partitionExponent uint
 }
 
-func openCompanions(cfg PeerConfig) (*companions, error) {
+func openCompanions(ctx context.Context, cfg PeerConfig) (*companions, error) {
 	directory := cfg.directoryOf(companionsDirectoryName)
 	certificate, err := brokerkey.Settle(directory)
 	if err != nil {
 		return nil, err
 	}
-	devices, err := paireddevices.Open(directory)
+	fetchingDuty := fetchingduty.New()
+	devices, err := paireddevices.Open(ctx, directory, fetchingDuty)
 	if err != nil {
+		return nil, err
+	}
+	settings, err := companionsettings.Open(ctx, directory, fetchingDuty)
+	if err != nil {
+		devices.Close()
 		return nil, err
 	}
 	return &companions{
 		devices:           devices,
 		offers:            pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
+		settings:          settings,
+		fetchingDuty:      fetchingDuty,
 		certificate:       certificate,
 		address:           cfg.CompanionAddr,
 		partitionExponent: cfg.PartitionExponent,
@@ -72,6 +86,10 @@ func (c *companions) endpoint() natsbroker.Endpoint {
 	}
 }
 
+func (c *companions) IntakeAdmission() pullintake.Admission {
+	return c.fetchingDuty
+}
+
 func (c *companions) brokerKeyHash() companionprotocol.BrokerKeyHash {
 	return companionprotocol.BrokerKeyHashFrom(c.certificate.Leaf.RawSubjectPublicKeyInfo)
 }
@@ -87,8 +105,10 @@ func (c *companions) register(
 			c.devices,
 			companionaccess.NewUnpairer(c.devices, broker),
 			companionaccess.NewDeviceConnections(broker),
+			c.fetchingDuty,
 			tabBar,
 		),
+		companionspage.NewSettingsPage(c.settings, c.fetchingDuty, tabBar),
 		companionspage.NewPairPage(offerOpener{offers: c.offers}, c.pairLinkFor(broker), tabBar),
 	)
 }
@@ -119,6 +139,9 @@ func (c *companions) runners(
 	return []func(context.Context) error{
 		runnerFor(pairingAnswerer, natsURL, network),
 		runnerFor(deviceAnswerer, natsURL, network),
+		companionpresence.New(
+			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.fetchingDuty,
+		).Run,
 	}
 }
 
@@ -153,6 +176,7 @@ func runnerFor(
 
 func (c *companions) close() {
 	c.devices.Close()
+	c.settings.Close()
 }
 
 type offerOpener struct {

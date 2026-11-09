@@ -80,7 +80,7 @@ func brokerPairedWith(t *testing.T, device companionprotocol.DeviceID) *natsbrok
 	if err != nil {
 		t.Fatalf("Settle: %v", err)
 	}
-	devices, err := paireddevices.Open(directory)
+	devices, err := paireddevices.Open(t.Context(), directory)
 	if err != nil {
 		t.Fatalf("open the paired devices: %v", err)
 	}

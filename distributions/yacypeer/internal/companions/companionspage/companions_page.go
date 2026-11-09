@@ -1,6 +1,6 @@
 // Package companionspage serves the Companions pages of the web UI: the list of the paired
-// devices, where the operator unpairs a device, and the page that pairs a device with a QR code
-// and shows how the pairing goes while it happens.
+// devices, where the operator unpairs a device, the settings of who fetches pages, and the page
+// that pairs a device with a QR code and shows how the pairing goes while it happens.
 package companionspage
 
 import (
@@ -17,6 +17,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 )
@@ -24,15 +25,16 @@ import (
 const (
 	Path              = "/companions"
 	pathUnpair        = Path + "/unpair"
-	pathDeviceStates  = Path + "/device-states"
+	pathSettings      = Path + "/settings"
+	pathStates        = Path + "/states"
 	pathPair          = Path + "/pair"
 	pathPairingEvents = pathPair + "/events"
 	pathAssets        = Path + "/assets/"
 	parameterPaired   = "paired"
 	parameterUnpair   = "unpair"
 	fieldDevice       = "device"
-	appGuideURL       = "https://github.com/nikitakarpei/my-yacy-node/tree/main/" +
-		"distributions/yacypeercompanion"
+	appGuideURL       = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
+		"distributions/yacypeercompanion/README.md"
 	lastConnectedLayout = "2 Jan 2006, 15:04"
 )
 
@@ -42,8 +44,11 @@ var (
 	//go:embed assets
 	assets embed.FS
 
-	companionsPage = template.Must(template.ParseFS(templateFiles, "templates/companions.html"))
-	pairPage       = template.Must(template.ParseFS(templateFiles, "templates/pair.html"))
+	devicesTemplate = template.Must(template.ParseFS(templateFiles,
+		"templates/companions.html", "templates/header.html"))
+	settingsTemplate = template.Must(template.ParseFS(templateFiles,
+		"templates/settings.html", "templates/header.html"))
+	pairTemplate = template.Must(template.ParseFS(templateFiles, "templates/pair.html"))
 )
 
 type PairedDevices interface {
@@ -67,10 +72,21 @@ type DeviceConnections interface {
 	ConnectedDevices() map[companionprotocol.DeviceID]bool
 }
 
-func Register(mux *http.ServeMux, devices *DevicesPage, pair *PairPage) {
+type CompanionSettings interface {
+	Fetching() companionsettings.Fetching
+	ChangeFetching(ctx context.Context, fetching companionsettings.Fetching)
+}
+
+type FetchingPause interface {
+	FetchingPaused() bool
+}
+
+func Register(mux *http.ServeMux, devices *DevicesPage, settings *SettingsPage, pair *PairPage) {
 	mux.HandleFunc("GET "+Path, devices.show)
-	mux.HandleFunc("GET "+pathDeviceStates, devices.states)
+	mux.HandleFunc("GET "+pathStates, devices.states)
 	mux.HandleFunc("POST "+pathUnpair, devices.unpair)
+	mux.HandleFunc("GET "+pathSettings, settings.show)
+	mux.HandleFunc("POST "+pathSettings, settings.change)
 	mux.HandleFunc("GET "+pathPair, pair.show)
 	mux.HandleFunc("GET "+pathPairingEvents, pair.pairingEvents)
 	mux.Handle("GET "+pathAssets, http.StripPrefix(Path, http.FileServerFS(assets)))
@@ -94,6 +110,7 @@ type DevicesPage struct {
 	devices           PairedDevices
 	unpairer          Unpairer
 	deviceConnections DeviceConnections
+	fetchingPause     FetchingPause
 	frame             pageFrame
 }
 
@@ -101,29 +118,31 @@ func NewDevicesPage(
 	devices PairedDevices,
 	unpairer Unpairer,
 	deviceConnections DeviceConnections,
+	fetchingPause FetchingPause,
 	tabBar webuistyle.TabBar,
 ) *DevicesPage {
 	return &DevicesPage{
 		devices:           devices,
 		unpairer:          unpairer,
 		deviceConnections: deviceConnections,
+		fetchingPause:     fetchingPause,
 		frame:             frameWith(tabBar),
 	}
 }
 
-type companionsView struct {
-	Frame            pageFrame
-	DeviceStatesPath string
-	PairedDeviceName companionprotocol.DeviceName
-	DeviceToUnpair   *deviceRow
-	Devices          deviceRows
-	PairPath         string
-	UnpairPath       string
-	CompanionsPath   string
-	AssetsPath       string
-	PairedParameter  string
-	UnpairParameter  string
-	DeviceField      string
+type devicesView struct {
+	Frame           pageFrame
+	Header          headerView
+	StatesPath      string
+	DeviceToUnpair  *deviceRow
+	Devices         deviceRows
+	PairPath        string
+	UnpairPath      string
+	CompanionsPath  string
+	AssetsPath      string
+	PairedParameter string
+	UnpairParameter string
+	DeviceField     string
 }
 
 type deviceRow struct {
@@ -136,32 +155,33 @@ type deviceRow struct {
 
 type deviceRows []deviceRow
 
-func (p *DevicesPage) show(w http.ResponseWriter, r *http.Request) {
-	rows := p.deviceRows()
-	view := companionsView{
-		Frame:            p.frame,
-		DeviceStatesPath: pathDeviceStates,
-		Devices:          rows,
-		PairPath:         pathPair,
-		UnpairPath:       pathUnpair,
-		CompanionsPath:   Path,
-		AssetsPath:       pathAssets,
-		PairedParameter:  parameterPaired,
-		UnpairParameter:  parameterUnpair,
-		DeviceField:      fieldDevice,
+func (d *DevicesPage) show(w http.ResponseWriter, r *http.Request) {
+	rows := d.deviceRows()
+	view := devicesView{
+		Frame:           d.frame,
+		Header:          headerFor(d.fetchingPause.FetchingPaused(), devicesTab),
+		StatesPath:      pathStates,
+		Devices:         rows,
+		PairPath:        pathPair,
+		UnpairPath:      pathUnpair,
+		CompanionsPath:  Path,
+		AssetsPath:      pathAssets,
+		PairedParameter: parameterPaired,
+		UnpairParameter: parameterUnpair,
+		DeviceField:     fieldDevice,
 	}
 	if pairedRow := rows.with(
 		companionprotocol.DeviceID(r.URL.Query().Get(parameterPaired)),
 	); pairedRow != nil {
-		view.PairedDeviceName = pairedRow.Name
+		view.Header.PairedDeviceName = pairedRow.Name
 	}
 	view.DeviceToUnpair = rows.with(companionprotocol.DeviceID(r.URL.Query().Get(parameterUnpair)))
-	render(w, r, companionsPage, view)
+	render(w, r, devicesTemplate, view)
 }
 
-func (p *DevicesPage) deviceRows() deviceRows {
-	connectedDevices := p.deviceConnections.ConnectedDevices()
-	devices := p.devices.List()
+func (d *DevicesPage) deviceRows() deviceRows {
+	connectedDevices := d.deviceConnections.ConnectedDevices()
+	devices := d.devices.List()
 	slices.SortFunc(devices, func(a, b paireddevices.Device) int {
 		return cmp.Compare(a.Name, b.Name)
 	})
@@ -208,15 +228,23 @@ func render(w http.ResponseWriter, r *http.Request, page *template.Template, vie
 	}
 }
 
-func (p *DevicesPage) states(w http.ResponseWriter, r *http.Request) {
+type pageStates struct {
+	Devices        deviceRows `json:"devices"`
+	FetchingPaused bool       `json:"fetchingPaused"`
+}
+
+func (d *DevicesPage) states(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
-	if err := json.NewEncoder(w).Encode(p.deviceRows()); err != nil {
-		slog.DebugContext(r.Context(), "device states reader left", slog.Any("error", err))
+	if err := json.NewEncoder(w).Encode(pageStates{
+		Devices:        d.deviceRows(),
+		FetchingPaused: d.fetchingPause.FetchingPaused(),
+	}); err != nil {
+		slog.DebugContext(r.Context(), "companions page states reader left", slog.Any("error", err))
 	}
 }
 
-func (p *DevicesPage) unpair(w http.ResponseWriter, r *http.Request) {
-	p.unpairer.Unpair(r.Context(), companionprotocol.DeviceID(r.PostFormValue(fieldDevice)))
+func (d *DevicesPage) unpair(w http.ResponseWriter, r *http.Request) {
+	d.unpairer.Unpair(r.Context(), companionprotocol.DeviceID(r.PostFormValue(fieldDevice)))
 	http.Redirect(w, r, Path, http.StatusSeeOther)
 }

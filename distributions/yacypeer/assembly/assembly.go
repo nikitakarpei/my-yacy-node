@@ -13,6 +13,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
@@ -61,7 +62,7 @@ func RunPeer(
 	network := processnetwork.New()
 	var companions *companions
 	if cfg.servesCompanions() {
-		companions, err = openCompanions(cfg)
+		companions, err = openCompanions(ctx, cfg)
 		if err != nil {
 			return errors.Join(err, web.Close())
 		}
@@ -117,6 +118,7 @@ func RunPeer(
 		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
+		intakeAdmission:    intakeAdmissionFor(companions),
 		webUILinks:         webUILinksFor(cfg),
 	}
 	services, urls, err := peer.services(ctx, getenv)
@@ -170,6 +172,14 @@ func startBroker(directory string, companions *companions) (*natsbroker.Broker, 
 		return natsbroker.Start(directory)
 	}
 	return natsbroker.StartWithEndpoint(directory, companions.endpoint())
+}
+
+func intakeAdmissionFor(companions *companions) pullintake.Admission {
+	var admissions []pullintake.Admission
+	if companions != nil {
+		admissions = append(admissions, companions.IntakeAdmission())
+	}
+	return pullintake.AdmissionOfEach(admissions...)
 }
 
 func hostOf(part string) string {

@@ -6,22 +6,8 @@ main {
 h1 {
   margin: 0;
 }
-.heading {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--webui-space-3) var(--webui-space-4);
-  margin-bottom: var(--webui-space-2);
-}
 main > h1 {
   margin-bottom: var(--webui-space-4);
-}
-.description {
-  margin: 0 0 var(--webui-space-5);
-  max-width: 46rem;
-  font-size: var(--webui-text-sm);
-  color: var(--webui-muted);
 }
 .card {
   background: var(--webui-surface);
@@ -57,6 +43,46 @@ td {
 tbody tr {
   border-top: 1px solid var(--webui-line);
 }
+.banner.paused {
+  display: flex;
+  align-items: center;
+  gap: var(--webui-space-2);
+  background: var(--webui-warning-surface);
+  color: var(--webui-warning-ink);
+}
+.banner.paused[hidden] {
+  display: none;
+}
+.banner.paused svg {
+  flex-shrink: 0;
+}
+.tabs {
+  display: flex;
+  gap: var(--webui-space-1);
+  margin-bottom: var(--webui-space-4);
+  border-bottom: 1px solid var(--webui-line);
+  font-size: var(--webui-text-sm);
+}
+.settings {
+  overflow: hidden;
+}
+.setting {
+  display: flex;
+  align-items: center;
+  gap: var(--webui-space-3);
+  padding: 14px var(--webui-space-4);
+  font-size: var(--webui-text-sm);
+  cursor: pointer;
+}
+.setting:has(:disabled) {
+  color: var(--webui-muted);
+  cursor: default;
+}
+.dependent {
+  padding-left: calc(var(--webui-space-4) + 24px);
+  background: var(--webui-subtle-surface);
+  border-top: 1px solid var(--webui-line);
+}
 .device {
   font-weight: 500;
 }
@@ -83,11 +109,30 @@ tbody tr {
   color: var(--webui-danger-ink);
   border-color: var(--webui-danger-line);
 }
+.pair {
+  display: inline-block;
+  margin-top: var(--webui-space-3);
+}
 .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--webui-space-3);
   padding: var(--webui-space-6) var(--webui-space-4);
   text-align: center;
-  font-size: var(--webui-text-sm);
-  color: var(--webui-muted);
+  color: var(--webui-accent);
+}
+.empty h2 {
+  margin: 0;
+  font-size: var(--webui-text-lg);
+  color: var(--webui-ink);
+}
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--webui-space-2);
+  margin-top: var(--webui-space-1);
 }
 .scrim {
   position: fixed;

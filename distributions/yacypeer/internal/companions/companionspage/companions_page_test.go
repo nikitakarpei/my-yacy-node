@@ -17,6 +17,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/webuistyle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
@@ -25,11 +26,13 @@ import (
 var lastConnectedAt = time.Date(2026, 11, 5, 22, 14, 0, 0, time.Local)
 
 type fixture struct {
-	devices   []paireddevices.Device
-	connected map[companionprotocol.DeviceID]bool
-	unpaired  []companionprotocol.DeviceID
-	offer     *fakeOffer
-	mu        sync.Mutex
+	devices        []paireddevices.Device
+	connected      map[companionprotocol.DeviceID]bool
+	unpaired       []companionprotocol.DeviceID
+	offer          *fakeOffer
+	fetching       companionsettings.Fetching
+	fetchingPaused bool
+	mu             sync.Mutex
 }
 
 func (f *fixture) List() []paireddevices.Device { return f.devices }
@@ -43,6 +46,20 @@ func (f *fixture) Unpair(_ context.Context, deviceID companionprotocol.DeviceID)
 }
 
 func (f *fixture) Open() companionspage.PairingOffer { return f.offer }
+
+func (f *fixture) Fetching() companionsettings.Fetching {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	return f.fetching
+}
+
+func (f *fixture) ChangeFetching(_ context.Context, fetching companionsettings.Fetching) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.fetching = fetching
+}
+
+func (f *fixture) FetchingPaused() bool { return f.fetchingPaused }
 
 type fakeOffer struct {
 	events chan pairingoffers.Event
@@ -58,7 +75,8 @@ func serve(t *testing.T, f *fixture) *httptest.Server {
 	mux := http.NewServeMux()
 	companionspage.Register(
 		mux,
-		companionspage.NewDevicesPage(f, f, f, webuistyle.TabBar{}),
+		companionspage.NewDevicesPage(f, f, f, f, webuistyle.TabBar{}),
+		companionspage.NewSettingsPage(f, f, webuistyle.TabBar{}),
 		companionspage.NewPairPage(f, companionprotocol.PairLink{
 			Addresses: []string{"192.168.1.20:4223"}, BrokerKeyHash: "hash",
 		}, webuistyle.TabBar{}),
@@ -112,16 +130,54 @@ func TestTheCompanionsPageListsEachPairedDevice(t *testing.T) {
 	if strings.Index(page, "Galaxy Tab S9") > strings.Index(page, "Pixel 8") {
 		t.Error("the devices are not in the order of their names")
 	}
-	if strings.Contains(page, "No companions are paired.") {
-		t.Error("the page says no companions are paired")
+	if strings.Contains(page, "No devices are paired") {
+		t.Error("the page says no devices are paired")
 	}
 }
 
 func TestTheCompanionsPageSaysWhenNoDeviceIsPaired(t *testing.T) {
 	page := pageOf(t, serve(t, &fixture{}).URL+companionspage.Path)
 
-	if !strings.Contains(page, "No companions are paired.") {
-		t.Error("the page does not say that no companions are paired")
+	if !strings.Contains(page, "No devices are paired") {
+		t.Error("the page does not say that no devices are paired")
+	}
+}
+
+func TestEachLinkToTheAppGuideOpensInANewTab(t *testing.T) {
+	server := serve(t, &fixture{})
+	for page, linkText := range map[string]string{
+		companionspage.Path:           "Learn more",
+		companionspage.Path + "/pair": "YaCy Companion app",
+	} {
+		attributes := regexp.MustCompile(`<a ([^>]*)>` + linkText).
+			FindStringSubmatch(pageOf(t, server.URL+page))
+		if attributes == nil {
+			t.Errorf("%s has no %s link", page, linkText)
+			continue
+		}
+		for _, want := range []string{`target="_blank"`, `rel="noopener"`} {
+			if !strings.Contains(attributes[1], want) {
+				t.Errorf("the %s link on %s lacks %s", linkText, page, want)
+			}
+		}
+	}
+}
+
+func TestTheCompanionsPageOffersToPairADeviceOnce(t *testing.T) {
+	for name, devices := range map[string]*fixture{"no device": {}, "a paired device": pairedFixture()} {
+		page := pageOf(t, serve(t, devices).URL+companionspage.Path)
+
+		if count := strings.Count(page, ">Pair new device</a>"); count != 1 {
+			t.Errorf("with %s the page offers to pair a device %d times", name, count)
+		}
+	}
+}
+
+func TestThePairButtonFollowsTheDeviceList(t *testing.T) {
+	page := pageOf(t, serve(t, pairedFixture()).URL+companionspage.Path)
+
+	if strings.Index(page, ">Pair new device</a>") < strings.Index(page, "</table>") {
+		t.Error("the pair button is not below the device list")
 	}
 }
 
@@ -266,10 +322,13 @@ func TestThePairPageHearsEachStepOfAPairing(t *testing.T) {
 		t.Errorf("event = %s %q, want Pixel 8 paired", name, data)
 	}
 
-	if page := pageOf(t, server.URL+pairingEventDataOf(t, data).CompanionsURL); !strings.Contains(
-		page, "Pixel 8 is paired.",
-	) {
+	page := pageOf(t, server.URL+pairingEventDataOf(t, data).CompanionsURL)
+	banner := strings.Index(page, "Pixel 8 is paired.")
+	if banner < 0 {
 		t.Error("the list that the paired event names does not name the device that just paired")
+	}
+	if tabs := strings.Index(page, `aria-label="Companions"`); banner > tabs {
+		t.Error("the list names the device that just paired below the tabs")
 	}
 	<-f.offer.closed
 }
@@ -285,23 +344,32 @@ func TestLeavingThePairPageEndsItsOffer(t *testing.T) {
 	<-offer.closed
 }
 
-func TestTheStatesOfThePairedDevicesReadAsJSON(t *testing.T) {
-	server := serve(t, pairedFixture())
+func TestTheStatesOfThePageReadAsJSON(t *testing.T) {
+	f := pairedFixture()
+	f.fetchingPaused = true
+	server := serve(t, f)
 	page := pageOf(t, server.URL+companionspage.Path)
-	body := pageOf(t, server.URL+dataAttributeOf(t, page, "data-device-states"))
+	body := pageOf(t, server.URL+dataAttributeOf(t, page, "data-states"))
 
-	var devices []struct {
-		ID            string `json:"id"`
-		AppVersion    string `json:"appVersion"`
-		LastConnected string `json:"lastConnected"`
-		Connected     bool   `json:"connected"`
+	var states struct {
+		Devices []struct {
+			ID            string `json:"id"`
+			AppVersion    string `json:"appVersion"`
+			LastConnected string `json:"lastConnected"`
+			Connected     bool   `json:"connected"`
+		} `json:"devices"`
+		FetchingPaused bool `json:"fetchingPaused"`
 	}
-	if err := json.Unmarshal([]byte(body), &devices); err != nil {
+	if err := json.Unmarshal([]byte(body), &states); err != nil {
 		t.Fatalf("Unmarshal %s: %v", body, err)
 	}
+	devices := states.Devices
 	if len(devices) != 2 || devices[0].ID != "device-a" ||
 		devices[0].LastConnected != "5 Nov 2026, 22:14" || devices[0].Connected ||
 		devices[1].ID != "device-b" || !devices[1].Connected || devices[1].AppVersion != "1.2.0" {
 		t.Errorf("devices = %+v, want both devices with their states", devices)
+	}
+	if !states.FetchingPaused {
+		t.Error("the states do not say that page fetching is paused")
 	}
 }
