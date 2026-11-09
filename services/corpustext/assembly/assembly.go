@@ -166,7 +166,12 @@ func pageOfferOpenerFor(
 	dial Dial,
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.Open(cfg.PageOfferNATSURL, dial)
+		js, connection, err := jetstreamconnect.Open(
+			cfg.PageOfferNATSURL,
+			dial,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
+		)
 		if err != nil {
 			return pageOffers{}, err
 		}

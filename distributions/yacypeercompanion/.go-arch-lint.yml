@@ -10,8 +10,8 @@ components:
     in: brokeraccess
   brokeraccesstest:
     in: brokeraccess/brokeraccesstest/**
-  pairing:
-    in: pairing/**
+  pairingrequests:
+    in: pairingrequests/**
   pageservices:
     in: pageservices/**
 
@@ -43,7 +43,7 @@ deps:
       - companionprotocol
       - natsclient
       - natsserver
-  pairing:
+  pairingrequests:
     mayDependOn:
       - brokeraccess
     canUse:
@@ -53,7 +53,7 @@ deps:
   pageservices:
     mayDependOn:
       - brokeraccess
-      - pairing
+      - pairingrequests
     anyVendorDeps: true
 excludeFiles:
   - "_test\\.go"

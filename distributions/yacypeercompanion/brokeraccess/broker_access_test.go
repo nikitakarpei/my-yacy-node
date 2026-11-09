@@ -54,7 +54,8 @@ func (c startingClock) After(timeout time.Duration, expire func()) func() {
 
 func connect(link companionprotocol.PairLink) (*nats.Conn, error) {
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
-	return brokeraccess.NewConnector(clock).ConnectToPair(link, "Pixel 8")
+	return brokeraccess.NewConnector(clock).
+		ConnectOnce(link, brokeraccess.PairingAccess(link, "Pixel 8"))
 }
 
 type firstAddressClock struct{}
@@ -99,7 +100,8 @@ func TestConnectStopsAtTheFirstRefusalWithoutWaitingForTheOtherAddresses(t *test
 	connectErrors := make(chan error, 1)
 
 	go func() {
-		_, err := brokeraccess.NewConnector(firstAddressClock{}).ConnectToPair(link, "Pixel 8")
+		_, err := brokeraccess.NewConnector(firstAddressClock{}).
+			ConnectOnce(link, brokeraccess.PairingAccess(link, "Pixel 8"))
 		connectErrors <- err
 	}()
 
@@ -132,7 +134,8 @@ func TestConnectStartsEachLaterAddressOneStaggerAfterThePreviousOne(t *testing.T
 	link := linkTo(broker, secret, broker.Address(), broker.Address(), broker.Address())
 	clock := startingClock{timeouts: make(chan time.Duration, len(link.Addresses))}
 
-	connection, err := brokeraccess.NewConnector(clock).ConnectToPair(link, "Pixel 8")
+	connection, err := brokeraccess.NewConnector(clock).
+		ConnectOnce(link, brokeraccess.PairingAccess(link, "Pixel 8"))
 	if err != nil {
 		t.Fatalf("Connect: %v", err)
 	}

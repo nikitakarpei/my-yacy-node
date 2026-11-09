@@ -3,7 +3,7 @@ package io.github.nikitakarpei.yacypeercompanion.services
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Log
-import pairing.DeviceKey
+import pairingrequests.DeviceKey
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.PrivateKey

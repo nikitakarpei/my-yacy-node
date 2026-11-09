@@ -19,7 +19,7 @@ val bindGo =
             goLibrary.get().asFile.absolutePath,
             APP_MIN_SDK.toString(),
             pinnedVersionOf("android-ndk"),
-            "pairing",
+            "pairingrequests",
             "pageservices",
         )
         outputs.file(goLibrary)
