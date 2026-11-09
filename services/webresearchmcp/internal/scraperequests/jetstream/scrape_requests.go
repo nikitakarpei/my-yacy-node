@@ -27,7 +27,12 @@ func OpenScrapeRequests(
 	natsURL string,
 	observer ScrapeRequestPublicationObserver,
 ) (*ScrapeRequests, error) {
-	stream, connection, err := jetstreamconnect.Open(natsURL, (&net.Dialer{}).DialContext)
+	stream, connection, err := jetstreamconnect.Open(
+		natsURL,
+		(&net.Dialer{}).DialContext,
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
+	)
 	if err != nil {
 		return nil, err
 	}

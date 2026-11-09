@@ -27,7 +27,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pairing"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pairingrequests"
 )
 
 const shutdownLimit = 15 * time.Second
@@ -51,7 +51,7 @@ type Instance struct {
 func InstanceFor(
 	linkText string,
 	captureProxyURL string,
-	key pairing.DeviceKey,
+	key pairingrequests.DeviceKey,
 	appVersion string,
 ) (*Instance, error) {
 	link, err := companionprotocol.PairLinkFrom(linkText)

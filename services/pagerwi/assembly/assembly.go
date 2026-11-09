@@ -72,7 +72,7 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.OpenObserved(
+	pageRWIBroker, pageRWIConnection, err := jetstreamconnect.Open(
 		cfg.PageRWINATSURL,
 		dial,
 		health,
@@ -191,7 +191,7 @@ func pageOfferOpenerFor(
 	health *servicehealth.Health,
 ) func(ctx context.Context) (pageOffers, error) {
 	return func(ctx context.Context) (pageOffers, error) {
-		js, connection, err := jetstreamconnect.OpenObserved(
+		js, connection, err := jetstreamconnect.Open(
 			cfg.PageOfferNATSURL, dial, health, brokerAccess,
 		)
 		if err != nil {
