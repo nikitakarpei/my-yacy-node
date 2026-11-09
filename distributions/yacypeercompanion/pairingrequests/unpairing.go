@@ -1,4 +1,4 @@
-package pairing
+package pairingrequests
 
 import (
 	"context"

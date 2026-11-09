@@ -1,8 +1,8 @@
 // Package brokeraccess connects the app to the broker of a peer. It tries each address of the
 // pair link side by side, keeps the first connection that the broker accepts, and stops at the
-// first refusal, since every address leads to the same broker. It connects to pair, once, or with
-// reconnects, with TLS that accepts only the broker key of the link and with the pairing
-// credentials or the device key. Errors on an open connection, such as a refused publish, are
+// first refusal, since every address leads to the same broker. It connects once or with
+// reconnects, with the access of a pairing device or of a paired device, both with TLS that accepts
+// only the broker key of the link. Errors on an open connection, such as a refused publish, are
 // reported.
 package brokeraccess
 
@@ -46,19 +46,6 @@ func NewConnector(clock Clock) Connector {
 	return Connector{clock: clock}
 }
 
-func (c Connector) ConnectToPair(
-	link companionprotocol.PairLink,
-	deviceName companionprotocol.DeviceName,
-) (*nats.Conn, error) {
-	credentials := companionprotocol.PairingCredentialsFrom(deviceName, link.Secret)
-	return c.connect(link, append(
-		pairingAccessFor(link).Options(),
-		nats.Name(credentials.ClientName),
-		nats.UserInfo("", credentials.Password),
-		nats.NoReconnect(),
-	))
-}
-
 func (c Connector) ConnectOnce(
 	link companionprotocol.PairLink,
 	access jetstreamconnect.BrokerAccess,
@@ -82,9 +69,6 @@ func (c Connector) connect(
 	link companionprotocol.PairLink,
 	options []nats.Option,
 ) (*nats.Conn, error) {
-	if len(link.Addresses) == 0 {
-		return nil, errNoAddress
-	}
 	connectOptions := append(
 		slices.Clip(options),
 		nats.Timeout(connectTimeout),
@@ -135,7 +119,7 @@ func awaitFirstConnection(
 	count int,
 	settled chan struct{},
 ) (*nats.Conn, error) {
-	var lastFailure error
+	lastFailure := errNoAddress
 	for received := 1; received <= count; received++ {
 		result := <-attempts
 		if result.err == nil || errors.Is(result.err, nats.ErrAuthorization) {
@@ -163,9 +147,15 @@ func connectFailureFrom(err error) error {
 	return fmt.Errorf("%w: %w", ErrNoConnection, err)
 }
 
-func pairingAccessFor(link companionprotocol.PairLink) jetstreamconnect.BrokerAccess {
+func PairingAccess(
+	link companionprotocol.PairLink,
+	deviceName companionprotocol.DeviceName,
+) jetstreamconnect.BrokerAccess {
+	credentials := companionprotocol.PairingCredentialsFrom(deviceName, link.Secret)
 	return jetstreamconnect.BrokerAccess{
 		TLS:         pinnedTLSFor(link.BrokerKeyHash, nil),
+		ClientName:  credentials.ClientName,
+		Password:    credentials.Password,
 		InboxPrefix: companionprotocol.PairingInboxPrefixFor(link.Secret),
 	}
 }
