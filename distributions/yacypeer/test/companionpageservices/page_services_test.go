@@ -2,12 +2,7 @@ package companionpageservices_test
 
 import (
 	"context"
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
 	"crypto/tls"
-	"crypto/x509"
-	"math/big"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -31,6 +26,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess/companionaccesstest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
@@ -45,7 +41,7 @@ const (
 )
 
 func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicesPermissionsOnly(t *testing.T) {
-	certificate, device := deviceCertificate(t)
+	certificate, device := companionaccesstest.DeviceCertificate(t)
 	broker := brokerPairedWith(t, device)
 	peer := inProcessJetStream(t, broker)
 	provisionPeerStreams(t, peer)
@@ -75,29 +71,6 @@ func TestAPairedDeviceBuildsTheRWIOfAPageWithThePageServicesPermissionsOnly(t *t
 	if err != nil || pageRWI.Metadata.Address != pageURL {
 		t.Errorf("RWI = %+v (%v), want the RWI of %s", pageRWI.Metadata, err, pageURL)
 	}
-}
-
-func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceID) {
-	t.Helper()
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		t.Fatalf("GenerateKey: %v", err)
-	}
-	template := &x509.Certificate{
-		SerialNumber: big.NewInt(1),
-		NotBefore:    time.Now().Add(-time.Hour),
-		NotAfter:     time.Now().Add(time.Hour),
-	}
-	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
-	if err != nil {
-		t.Fatalf("CreateCertificate: %v", err)
-	}
-	leaf, err := x509.ParseCertificate(der)
-	if err != nil {
-		t.Fatalf("ParseCertificate: %v", err)
-	}
-	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
-		companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo)
 }
 
 func brokerPairedWith(t *testing.T, device companionprotocol.DeviceID) *natsbroker.Broker {
@@ -139,6 +112,8 @@ func inProcessJetStream(t *testing.T, broker *natsbroker.Broker) jetstream.JetSt
 	js, connection, err := jetstreamconnect.Open(
 		"nats://broker.internal",
 		func(context.Context, string, string) (net.Conn, error) { return broker.Connection() },
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
 		t.Fatalf("connect in the process: %v", err)
