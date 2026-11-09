@@ -38,6 +38,8 @@ func jetStreamOf(t *testing.T, broker *natsbroker.Broker) jetstream.JetStream {
 	js, connection, err := jetstreamconnect.Open(
 		"nats://broker.internal",
 		func(context.Context, string, string) (net.Conn, error) { return broker.Connection() },
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
 		t.Fatalf("connect: %v", err)
