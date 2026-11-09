@@ -22,6 +22,9 @@ const (
 	backlogLimit = 2
 	namespace    = "service"
 	heldBack     = namespace + "_intake_held_back"
+
+	backlogWait      = 5 * time.Second
+	backlogPollPause = 10 * time.Millisecond
 )
 
 type clock struct {
@@ -100,6 +103,36 @@ func (p pages) readerOf(t *testing.T, durable string) jetstream.Consumer {
 	return consumer
 }
 
+func awaitBacklogOf(t *testing.T, consumer jetstream.Consumer, amount uint64) {
+	t.Helper()
+	deadline := time.Now().Add(backlogWait)
+	for {
+		info, err := consumer.Info(t.Context())
+		if err == nil &&
+			info.NumPending+uint64(info.NumAckPending) == amount { //nolint:gosec // never negative
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Fatalf(
+				"the backlog of the consumer never reached %d (info %+v, error %v)",
+				amount,
+				info,
+				err,
+			)
+		}
+		time.Sleep(backlogPollPause)
+	}
+}
+
+func awaitHoldBack(t *testing.T, c *clock, admitted <-chan error) {
+	t.Helper()
+	select {
+	case <-c.sleeping:
+	case err := <-admitted:
+		t.Fatalf("await admission returned %v before it held the intake back", err)
+	}
+}
+
 func takeAll(t *testing.T, consumer jetstream.Consumer, amount int) {
 	t.Helper()
 	batch, err := consumer.Fetch(amount, jetstream.FetchMaxWait(5*time.Second))
@@ -165,12 +198,13 @@ func TestHoldsBackUntilTheConsumerCatchesUp(t *testing.T) {
 	pages := pagesStream(t)
 	consumer := pages.readerOf(t, reader)
 	pages.offer(t, backlogLimit+1)
+	awaitBacklogOf(t, consumer, backlogLimit+1)
 	c := clockFiredByTheTest()
 	admission, registry := admissionOf(pages.stream, c)
 	admitted := make(chan error, 1)
 
 	go func() { admitted <- admission.AwaitAdmission(t.Context()) }()
-	<-c.sleeping
+	awaitHoldBack(t, c, admitted)
 	if got := heldBackBy(t, registry, reader); got != 1 {
 		t.Errorf("%s{consumer=%q} = %v while held back, want 1", heldBack, reader, got)
 	}
@@ -190,6 +224,7 @@ func TestHoldsBackWhileTakenMessagesAreNotFinished(t *testing.T) {
 	consumer := pages.readerOf(t, reader)
 	pages.offer(t, backlogLimit+1)
 	takeWithoutAcknowledging(t, consumer, backlogLimit+1)
+	awaitBacklogOf(t, consumer, backlogLimit+1)
 	admission, _ := admissionOf(pages.stream, clockThatNeverSleeps())
 
 	if err := admission.AwaitAdmission(t.Context()); err == nil {
@@ -210,15 +245,16 @@ func TestIgnoresConsumersWithoutADurableName(t *testing.T) {
 
 func TestStopsAwaitingWhenTheContextEnds(t *testing.T) {
 	pages := pagesStream(t)
-	pages.readerOf(t, reader)
+	consumer := pages.readerOf(t, reader)
 	pages.offer(t, backlogLimit+1)
+	awaitBacklogOf(t, consumer, backlogLimit+1)
 	c := clockFiredByTheTest()
 	admission, _ := admissionOf(pages.stream, c)
 	ctx, cancel := context.WithCancel(t.Context())
 	admitted := make(chan error, 1)
 
 	go func() { admitted <- admission.AwaitAdmission(ctx) }()
-	<-c.sleeping
+	awaitHoldBack(t, c, admitted)
 	cancel()
 
 	if err := <-admitted; !errors.Is(err, context.Canceled) {
