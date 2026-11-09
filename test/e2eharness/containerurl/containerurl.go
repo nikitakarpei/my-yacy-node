@@ -7,7 +7,6 @@ import (
 	"net"
 	"testing"
 
-	"github.com/docker/go-connections/nat"
 	"github.com/testcontainers/testcontainers-go"
 )
 
@@ -22,7 +21,7 @@ func HostURL(
 	if err != nil {
 		t.Fatalf("resolve container host: %v", err)
 	}
-	mappedPort, err := container.MappedPort(ctx, nat.Port(port))
+	mappedPort, err := container.MappedPort(ctx, port)
 	if err != nil {
 		t.Fatalf("resolve mapped port: %v", err)
 	}
