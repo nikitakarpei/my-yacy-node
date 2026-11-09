@@ -22,9 +22,10 @@ const (
 )
 
 type scrapeIntake struct {
-	message *pullintaketest.Message
-	offers  *pageOffers
-	feed    *scrapeOutcomeFeed
+	message       *pullintaketest.Message
+	offers        *pageOffers
+	feed          *scrapeOutcomeFeed
+	fetchFailures *fetchFailureRecorder
 }
 
 func runScrapeIntake(
@@ -60,12 +61,13 @@ func runScrapeIntakeAgainst(
 ) scrapeIntake {
 	t.Helper()
 	feed := &scrapeOutcomeFeed{}
+	fetchFailures := &fetchFailureRecorder{}
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		fetches,
 		offers,
 		feed,
-		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
+		scrapeintake.ScrapeIntakeObservers{fetchFailures},
 		everyRequestAdmitted{},
 		deferralWindow,
 		1,
@@ -75,9 +77,10 @@ func runScrapeIntakeAgainst(
 		t.Fatalf("run intake: %v", err)
 	}
 	return scrapeIntake{
-		message: message,
-		offers:  offers,
-		feed:    feed,
+		message:       message,
+		offers:        offers,
+		feed:          feed,
+		fetchFailures: fetchFailures,
 	}
 }
 
@@ -194,19 +197,6 @@ func TestPageBehindAnInvalidRedirectTargetFails(t *testing.T) {
 	}
 	if got := intake.offers.failures[0].Reason; got != pagescrapecontract.RedirectTargetInvalid {
 		t.Errorf("failure reason = %s, want %s", got, pagescrapecontract.RedirectTargetInvalid)
-	}
-}
-
-func TestFetchThatFailsWithoutAnAnswerNamesNoReason(t *testing.T) {
-	fetch := pageFetches{err: errBrokerRefused}
-
-	intake := runScrapeIntake(t, scrapeRequestForThePage(t), fetch, time.Now())
-
-	if len(intake.offers.failures) != 1 {
-		t.Fatalf("reported %d failures, want exactly one", len(intake.offers.failures))
-	}
-	if got := intake.offers.failures[0].Reason; got != pagescrapecontract.NoReasonGiven {
-		t.Errorf("failure reason = %s, want %s", got, pagescrapecontract.NoReasonGiven)
 	}
 }
 
@@ -336,41 +326,66 @@ func TestARequestTheAdmissionHoldsBackStaysUnsettled(t *testing.T) {
 
 type fetchFailureRecorder struct {
 	silentScrapeIntakeObserver
-	causes *[]error
+	causes []error
 }
 
-func (r fetchFailureRecorder) OriginFetchFailed(
+func (r *fetchFailureRecorder) OriginFetchFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	cause error,
 ) {
-	*r.causes = append(*r.causes, cause)
+	r.causes = append(r.causes, cause)
 }
 
-func TestTheCauseOfAFailedFetchIsReported(t *testing.T) {
+func TestAFailedFetchReportsWhatCausedItAndFailsTheScrape(t *testing.T) {
 	cause := errors.New("origin response: 502 Bad Gateway")
-	var causes []error
-	consumer := scrapeintake.NewScrapeRequestConsumer(
-		pullintaketest.MessageSourceOf(
-			scrapeRequestMessage(t, scrapeRequestForThePage(t), time.Now()),
-		),
-		pageFetches{
-			outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchFailed, FailureCause: cause},
+	for _, fetchCase := range []struct {
+		name       string
+		fetch      pageFetches
+		wantCauses []error
+		wantReason pagescrapecontract.ScrapeFailureReason
+	}{
+		{
+			name: "a failed fetch reports its cause",
+			fetch: pageFetches{
+				outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchFailed, FailureCause: cause},
+			},
+			wantCauses: []error{cause},
+			wantReason: pagescrapecontract.NoReasonGiven,
 		},
-		&pageOffers{},
-		&scrapeOutcomeFeed{},
-		scrapeintake.ScrapeIntakeObservers{fetchFailureRecorder{causes: &causes}},
-		everyRequestAdmitted{},
-		deferralWindow,
-		1,
-		fixedClock{now: time.Now()},
-	)
+		{
+			name:       "a fetch without an answer reports its error and names no reason",
+			fetch:      pageFetches{err: errBrokerRefused},
+			wantCauses: []error{errBrokerRefused},
+			wantReason: pagescrapecontract.NoReasonGiven,
+		},
+		{
+			name:       "a page that is gone reports no cause",
+			fetch:      pageFetches{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchGone}},
+			wantReason: pagescrapecontract.AccessRefused,
+		},
+	} {
+		t.Run(fetchCase.name, func(t *testing.T) {
+			intake := runScrapeIntake(t, scrapeRequestForThePage(t), fetchCase.fetch, time.Now())
 
-	if err := consumer.Run(context.Background()); err != nil {
-		t.Fatalf("run intake: %v", err)
-	}
-
-	if len(causes) != 1 || !errors.Is(causes[0], cause) {
-		t.Errorf("reported causes = %v, want %v", causes, cause)
+			causes := intake.fetchFailures.causes
+			if len(causes) != len(fetchCase.wantCauses) {
+				t.Fatalf("reported causes = %v, want %v", causes, fetchCase.wantCauses)
+			}
+			for i, want := range fetchCase.wantCauses {
+				if !errors.Is(causes[i], want) {
+					t.Errorf("reported cause = %v, want %v", causes[i], want)
+				}
+			}
+			if len(intake.offers.failures) != 1 {
+				t.Fatalf("reported %d failures, want exactly one", len(intake.offers.failures))
+			}
+			if got := intake.offers.failures[0].Reason; got != fetchCase.wantReason {
+				t.Errorf("failure reason = %s, want %s", got, fetchCase.wantReason)
+			}
+			if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
+				t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
+			}
+		})
 	}
 }
