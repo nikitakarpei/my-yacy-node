@@ -9,8 +9,8 @@ type PairingRequest struct {
 
 type PairingReply struct {
 	Outcome  Outcome       `json:"outcome"`
-	DeviceID DeviceID       `json:"deviceID,omitempty"`
-	Reason   RefusalReason  `json:"reason,omitempty"`
+	DeviceID DeviceID      `json:"deviceID,omitempty"`
+	Reason   RefusalReason `json:"reason,omitempty"`
 }
 
 func AcceptedPairingReply(deviceID DeviceID) PairingReply {
