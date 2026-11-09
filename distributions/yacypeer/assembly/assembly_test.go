@@ -378,7 +378,7 @@ func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecre
 
 func TestRunPeerServesEveryLinkOfItsWebUIsOnTheWebAddress(t *testing.T) {
 	env := peerEnvironment(t)
-	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
+	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
 	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
