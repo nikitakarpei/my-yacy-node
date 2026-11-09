@@ -9,8 +9,8 @@ import (
 
 func TestEachSubjectOfADeviceNamesTheDevice(t *testing.T) {
 	for _, subject := range []string{
+		companionprotocol.HelloSubjectOf("device-a"),
 		companionprotocol.SettingsSubjectOf("device-a"),
-		companionprotocol.AppReportSubjectOf("device-a"),
 		companionprotocol.UnpairingRequestSubjectOf("device-a"),
 	} {
 		if got := companionprotocol.DeviceIDIn(subject); got != "device-a" {
@@ -21,8 +21,8 @@ func TestEachSubjectOfADeviceNamesTheDevice(t *testing.T) {
 
 func TestEachFilterCoversItsOwnKindOfSubjectForEveryDevice(t *testing.T) {
 	subjectOfEachFilter := map[string]func(companionprotocol.DeviceID) string{
+		companionprotocol.HelloSubjects:            companionprotocol.HelloSubjectOf,
 		companionprotocol.SettingsSubjects:         companionprotocol.SettingsSubjectOf,
-		companionprotocol.AppReportSubjects:        companionprotocol.AppReportSubjectOf,
 		companionprotocol.UnpairingRequestSubjects: companionprotocol.UnpairingRequestSubjectOf,
 	}
 	for filter, subjectOf := range subjectOfEachFilter {
@@ -40,8 +40,8 @@ func TestEachFilterCoversItsOwnKindOfSubjectForEveryDevice(t *testing.T) {
 
 func TestTheDeviceSubjectsCoverEachSubjectOfTheDeviceOnly(t *testing.T) {
 	for _, subject := range []string{
+		companionprotocol.HelloSubjectOf("device-a"),
 		companionprotocol.SettingsSubjectOf("device-a"),
-		companionprotocol.AppReportSubjectOf("device-a"),
 		companionprotocol.UnpairingRequestSubjectOf("device-a"),
 	} {
 		if !covers(companionprotocol.DeviceSubjectsOf("device-a"), subject) {
