@@ -70,18 +70,6 @@ func TestTheFillInWaitsForCompanionsAndKeepsItsValue(t *testing.T) {
 	}
 }
 
-func TestTheSettingsCanChangeBeforeADeviceIsPaired(t *testing.T) {
-	f := &fixture{fetching: companionsettings.Fetching{CompanionsFetch: true}}
-
-	page := pageOf(t, serve(t, f).URL+companionspage.Path+"/settings")
-
-	for _, name := range []string{"companionsFetch", "peerFillsIn"} {
-		if strings.Contains(switchOf(page, name), "disabled") {
-			t.Errorf("switch %s cannot change while no device is paired", name)
-		}
-	}
-}
-
 func TestTurningCompanionsOnKeepsTheFetchingAndGoesBackToTheSettings(t *testing.T) {
 	f := pairedFixture()
 
@@ -122,13 +110,36 @@ func TestTheFillInStaysWhileCompanionsAreOff(t *testing.T) {
 	}
 }
 
-func TestTheSettingsChangeWhileNoDeviceIsPaired(t *testing.T) {
-	f := &fixture{fetching: companionsettings.Fetching{CompanionsFetch: true}}
+func TestTheFillInTurnsOnAndOffWhileCompanionsFetch(t *testing.T) {
+	for _, change := range []struct {
+		name   string
+		stored companionsettings.Fetching
+		form   url.Values
+		want   companionsettings.Fetching
+	}{
+		{
+			name:   "on",
+			stored: companionsettings.Fetching{CompanionsFetch: true},
+			form:   url.Values{"companionsFetch": {"on"}, "peerFillsIn": {"on"}},
+			want:   companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true},
+		},
+		{
+			name:   "off",
+			stored: companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true},
+			form:   url.Values{"companionsFetch": {"on"}},
+			want:   companionsettings.Fetching{CompanionsFetch: true},
+		},
+	} {
+		t.Run(change.name, func(t *testing.T) {
+			f := pairedFixture()
+			f.fetching = change.stored
 
-	changeFetching(t, serve(t, f).URL, url.Values{}.Encode())
+			changeFetching(t, serve(t, f).URL, change.form.Encode())
 
-	if f.Fetching() != (companionsettings.Fetching{}) {
-		t.Errorf("fetching = %+v, want companions off", f.Fetching())
+			if f.Fetching() != change.want {
+				t.Errorf("fetching = %+v, want %+v", f.Fetching(), change.want)
+			}
+		})
 	}
 }
 

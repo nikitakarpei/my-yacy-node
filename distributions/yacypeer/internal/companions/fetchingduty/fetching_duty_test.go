@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchingduty"
@@ -14,10 +15,38 @@ var (
 	peerFillsIn         = companionsettings.Fetching{CompanionsFetch: true, PeerFillsIn: true}
 )
 
-func peerFetches(duty *fetchingduty.Duty) bool {
+const admissionWait = 5 * time.Second
+
+func peerFetches(t *testing.T, duty *fetchingduty.Duty) bool {
+	t.Helper()
+	admission := make(chan error, 1)
+	go func() { admission <- duty.AwaitAdmission(t.Context()) }()
+	select {
+	case err := <-admission:
+		return err == nil
+	case <-time.After(admissionWait):
+		return false
+	}
+}
+
+func peerHoldsBack(duty *fetchingduty.Duty) bool {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	return !errors.Is(duty.AwaitAdmission(ctx), context.Canceled)
+	return errors.Is(duty.AwaitAdmission(ctx), context.Canceled)
+}
+
+type waitingContext struct {
+	context.Context
+
+	waiting chan struct{}
+}
+
+func (c waitingContext) Done() <-chan struct{} {
+	select {
+	case c.waiting <- struct{}{}:
+	default:
+	}
+	return c.Context.Done()
 }
 
 func pairedDuty() *fetchingduty.Duty {
@@ -31,7 +60,7 @@ func TestThePeerFetchesWhileNoDeviceIsPaired(t *testing.T) {
 
 	duty.FetchingChanged(context.Background(), onlyCompanionsFetch)
 
-	if !peerFetches(duty) {
+	if !peerFetches(t, duty) {
 		t.Error("the intake is held back although no device is paired")
 	}
 }
@@ -39,13 +68,13 @@ func TestThePeerFetchesWhileNoDeviceIsPaired(t *testing.T) {
 func TestThePeerFetchesOnceTheLastDeviceIsUnpaired(t *testing.T) {
 	duty := pairedDuty()
 	duty.FetchingChanged(context.Background(), onlyCompanionsFetch)
-	if peerFetches(duty) {
+	if !peerHoldsBack(duty) {
 		t.Fatal("the intake is admitted before the last device is unpaired")
 	}
 
 	duty.LastDeviceUnpaired(context.Background())
 
-	if !peerFetches(duty) {
+	if !peerFetches(t, duty) {
 		t.Error("the intake is held back after the last device is unpaired")
 	}
 }
@@ -56,18 +85,8 @@ func TestThePeerFetchesWhileCompanionsDoNotFetch(t *testing.T) {
 
 	duty.FetchingChanged(context.Background(), companionsettings.Fetching{PeerFillsIn: true})
 
-	if !peerFetches(duty) {
+	if !peerFetches(t, duty) {
 		t.Error("the intake is held back while companions do not fetch")
-	}
-}
-
-func TestThePeerHoldsBackWhileOnlyCompanionsFetch(t *testing.T) {
-	duty := pairedDuty()
-
-	duty.FetchingChanged(context.Background(), onlyCompanionsFetch)
-
-	if peerFetches(duty) {
-		t.Error("the intake is admitted while only companions fetch and none is connected")
 	}
 }
 
@@ -76,19 +95,8 @@ func TestThePeerFetchesWhileItFillsInForAbsentCompanions(t *testing.T) {
 
 	duty.FetchingChanged(context.Background(), peerFillsIn)
 
-	if !peerFetches(duty) {
+	if !peerFetches(t, duty) {
 		t.Error("the intake is held back although no companion is connected")
-	}
-}
-
-func TestThePeerHoldsBackOnceACompanionConnects(t *testing.T) {
-	duty := pairedDuty()
-	duty.FetchingChanged(context.Background(), peerFillsIn)
-
-	duty.FirstCompanionConnected(context.Background())
-
-	if peerFetches(duty) {
-		t.Error("the intake is admitted while a companion is connected")
 	}
 }
 
@@ -96,14 +104,25 @@ func TestThePeerFetchesOnceTheLastCompanionDisconnects(t *testing.T) {
 	duty := pairedDuty()
 	duty.FetchingChanged(context.Background(), peerFillsIn)
 	duty.FirstCompanionConnected(context.Background())
-	if peerFetches(duty) {
+	if !peerHoldsBack(duty) {
 		t.Fatal("the intake is admitted before the last companion disconnects")
 	}
+	waiting := make(chan struct{}, 1)
+	admission := make(chan error, 1)
+	go func() {
+		admission <- duty.AwaitAdmission(waitingContext{Context: t.Context(), waiting: waiting})
+	}()
+	<-waiting
 
 	duty.LastCompanionDisconnected(context.Background())
 
-	if !peerFetches(duty) {
-		t.Error("the intake is held back after the last companion disconnects")
+	select {
+	case err := <-admission:
+		if err != nil {
+			t.Errorf("the held intake ended with %v, want it admitted", err)
+		}
+	case <-time.After(admissionWait):
+		t.Error("the held intake stays held after the last companion disconnects")
 	}
 }
 
