@@ -75,7 +75,8 @@ endef
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
 	build build-go verify peer-key refresh-asmap \
-	e2e e2e-images android-app android-app-verification-metadata android-app-reproducible
+	e2e e2e-images android-app android-app-verification-metadata android-app-reproducible \
+	vulnerabilities-go android-app-vulnerabilities
 
 fmt:         fmt-go fmt-go-e2e fmt-py fmt-web
 fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py fmt-check-web
@@ -101,6 +102,20 @@ android-app-verification-metadata:
 android-app-reproducible:
 	@./tools/install --check android
 	$(ANDROID_APP)/check-reproducible
+
+android-app-vulnerabilities:
+	@./tools/install --check android
+	$(ANDROID_APP)/gradlew -p $(ANDROID_APP) findReleaseLibraryVulnerabilities --console=plain
+
+vulnerabilities-go:
+	@echo "==> vulnerabilities-go"; \
+	found=0; \
+	for m in $(GO_MODULES); do \
+		if ! out=$$(go -C tools tool govulncheck -C $(CURDIR)/$$m ./... 2>&1); then \
+			echo "==> vulnerabilities-go $$m FAILED"; echo "$$out"; found=1; \
+		fi; \
+	done; \
+	exit $$found
 
 $(PY_VENV_STAMP): .python-version pyproject.toml uv.lock $(PY_MODULES:%=%/pyproject.toml)
 	uv sync --locked --all-packages --quiet

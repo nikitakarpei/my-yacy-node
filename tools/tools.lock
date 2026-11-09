@@ -67,3 +67,7 @@ android-platform-tools 37.0.1 darwin-arm64 ee39ad5967e95c2a07f04dbcbde96b1a0c916
 android-ndk 29.0.14206865 linux-amd64  4abbbcdc842f3d4879206e9695d52709603e52dd68d3c1fff04b3b5e7a308ecf android-ndk-r29-linux.zip
 android-ndk 29.0.14206865 darwin-amd64 ce5e4b100ec5fe5be4eb3edcb2c02528824ff9cda3860f5304619be6c3da34d3 android-ndk-r29-darwin.zip
 android-ndk 29.0.14206865 darwin-arm64 ce5e4b100ec5fe5be4eb3edcb2c02528824ff9cda3860f5304619be6c3da34d3 android-ndk-r29-darwin.zip
+
+osv-scanner 2.7.0 linux-amd64  160c6253e2922e9e0a6a9771c5c4c40a4b3c6090b34a3cdd5e80c96cc2e4218b
+osv-scanner 2.7.0 darwin-amd64 e82c5df7ab0a42dff29a1cd0660711447b56b4c0483ff66ad8634df10fd81a45
+osv-scanner 2.7.0 darwin-arm64 d4926ef8da134332543be276dff157e4c170f99ad91fc48e89448a8816bdf70b

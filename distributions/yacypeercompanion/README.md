@@ -42,3 +42,6 @@ Two clean builds of one commit give the same APK, byte for byte. `make android-a
 checks this. Gradle checks each file that the build downloads against
 `gradle/verification-metadata.xml`. After you change a build dependency, run
 `make android-app-verification-metadata` and examine the change to this file.
+
+`make android-app-vulnerabilities` finds known vulnerabilities in the libraries of the release
+APK, and `make vulnerabilities-go` in the Go modules. A CI workflow runs both each week.

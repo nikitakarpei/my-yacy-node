@@ -62,6 +62,26 @@ androidComponents {
             apkDirectory.set(variant.artifacts.get(SingleArtifact.APK))
             namespace.set(variant.namespace)
         }
+        val libraryLockfile = layout.buildDirectory.file("${variant.name}-libraries/gradle.lockfile")
+        val writeLibraryLockfile =
+            tasks.register<LibraryLockfileWriter>("write${variant.name.replaceFirstChar(Char::titlecase)}LibraryLockfile") {
+                description = "Writes the libraries of the APK as a Gradle lockfile."
+                rootComponent.set(variant.runtimeConfiguration.incoming.resolutionResult.rootComponent)
+                configurationName.set(variant.runtimeConfiguration.name)
+                lockfile.set(libraryLockfile)
+            }
+        tasks.register<Exec>("find${variant.name.replaceFirstChar(Char::titlecase)}LibraryVulnerabilities") {
+            description = "Finds known vulnerabilities in the libraries of the APK with OSV-Scanner."
+            group = "verification"
+            dependsOn(writeLibraryLockfile)
+            commandLine(
+                rootProject.file("../../.toolchain/bin/osv-scanner").path,
+                "scan",
+                "source",
+                "--lockfile",
+                libraryLockfile.get().asFile.path,
+            )
+        }
     }
 }
 
