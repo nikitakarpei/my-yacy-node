@@ -13,7 +13,11 @@ sealed interface CompanionState {
 
     sealed interface Waiting : CompanionState
 
-    data object WaitingForCharger : Waiting
+    sealed interface WaitingForPower : Waiting
+
+    data object WaitingForCharger : WaitingForPower
+
+    data object WaitingForBatterySaverOff : WaitingForPower
 
     data object WaitingForUnmeteredNetwork : Waiting
 
@@ -35,7 +39,7 @@ sealed interface CompanionState {
 
 enum class NetworkAccess { USABLE, NONE, METERED_ONLY }
 
-enum class PowerAccess { USABLE, BATTERY_ONLY }
+enum class PowerAccess { USABLE, BATTERY_ONLY, BATTERY_SAVER_ON }
 
 enum class DisconnectReason { PEER_UNREACHABLE, SIGNING_KEY, DEVICE_KEY, SERVICES_FAILED, DEVICE_REFUSED, APP_OUTDATED, PEER_OUTDATED }
 

@@ -11,6 +11,7 @@ fun titleOf(state: CompanionState): String = when (state) {
     CompanionState.Connecting -> "Connecting"
     CompanionState.Connected -> "Connected"
     CompanionState.WaitingForCharger -> "Waiting for a charger"
+    CompanionState.WaitingForBatterySaverOff -> "Waiting for Battery Saver to turn off"
     CompanionState.WaitingForUnmeteredNetwork -> "Waiting for Wi-Fi"
     is CompanionState.Disconnected -> "Disconnected"
 }

@@ -41,7 +41,9 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Recovering
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Refused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForBatterySaverOff
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForPower
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
 
 const val PAIRING_LIMIT_MS = 30_000L
@@ -94,6 +96,7 @@ private fun CompanionModel.pairingCancelled(): Step? = to(Stopped, StopServices,
 
 private fun CompanionModel.started(): Step = when {
     powerAccess == PowerAccess.BATTERY_ONLY -> to(WaitingForCharger)
+    powerAccess == PowerAccess.BATTERY_SAVER_ON -> to(WaitingForBatterySaverOff)
     networkAccess == NetworkAccess.METERED_ONLY -> to(WaitingForUnmeteredNetwork)
     else -> to(Connecting, StartServices)
 }
@@ -181,13 +184,16 @@ private fun CompanionModel.meteredOnly(): Step? = when (state) {
 }
 
 private fun CompanionModel.powerChanged(): Step? = when (powerAccess) {
-    PowerAccess.USABLE -> started().takeIf { state == WaitingForCharger }
-    PowerAccess.BATTERY_ONLY -> batteryOnly()
+    PowerAccess.USABLE -> started().takeIf { state is WaitingForPower }
+    PowerAccess.BATTERY_ONLY -> paused(WaitingForCharger)
+    PowerAccess.BATTERY_SAVER_ON -> paused(WaitingForBatterySaverOff)
 }
 
-private fun CompanionModel.batteryOnly(): Step? = when (state) {
+private fun CompanionModel.paused(powerWait: WaitingForPower): Step? = when (state) {
     Connecting, Connected, is Recovering, WaitingForUnmeteredNetwork ->
-        to(WaitingForCharger, StopServices, CancelRetry, CancelFailureNotification)
+        to(powerWait, StopServices, CancelRetry, CancelFailureNotification)
+
+    is WaitingForPower -> to(powerWait)
 
     else -> null
 }

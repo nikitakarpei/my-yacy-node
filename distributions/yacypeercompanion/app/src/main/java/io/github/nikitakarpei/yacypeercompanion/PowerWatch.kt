@@ -6,12 +6,16 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.BatteryManager
+import android.os.PowerManager
 import android.util.Log
 import io.github.nikitakarpei.yacypeercompanion.model.PowerAccess
+import io.github.nikitakarpei.yacypeercompanion.model.PowerConditions
 
 private const val LOG_TAG = "PowerWatch"
 
 class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -> Unit) : AutoCloseable {
+    private val power = ctx.getSystemService(PowerManager::class.java)
+
     @Volatile
     private var onCharger = false
 
@@ -19,26 +23,36 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
     private var reportedAccess: PowerAccess? = null
 
     val access: PowerAccess
-        get() = if (!Charger.required(ctx) || onCharger) PowerAccess.USABLE else PowerAccess.BATTERY_ONLY
+        get() = PowerConditions(
+            chargerRequired = chargerRequired.isOn(ctx),
+            onCharger = onCharger,
+            batterySaverRespected = batterySaverRespected.isOn(ctx),
+            batterySaverOn = power.isPowerSaveMode,
+        ).access
 
-    private val chargerReceiver =
+    private val powerReceiver =
         object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                onCharger = intent.action == Intent.ACTION_POWER_CONNECTED
+                when (intent.action) {
+                    Intent.ACTION_POWER_CONNECTED -> onCharger = true
+                    Intent.ACTION_POWER_DISCONNECTED -> onCharger = false
+                }
                 report(intent.action.orEmpty())
             }
         }
 
-    private val chargerSetting = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> report("charger setting") }
+    private val powerSettingListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> report("setting") }
 
     init {
-        val chargerChanges =
+        val powerChangeFilter =
             IntentFilter().apply {
                 addAction(Intent.ACTION_POWER_CONNECTED)
                 addAction(Intent.ACTION_POWER_DISCONNECTED)
+                addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
             }
-        ctx.registerReceiver(chargerReceiver, chargerChanges, Context.RECEIVER_NOT_EXPORTED)
-        Charger.follow(ctx, chargerSetting)
+        ctx.registerReceiver(powerReceiver, powerChangeFilter, Context.RECEIVER_NOT_EXPORTED)
+        chargerRequired.follow(ctx, powerSettingListener)
+        batterySaverRespected.follow(ctx, powerSettingListener)
         onCharger = onChargerNow()
         reportedAccess = access
     }
@@ -61,7 +75,8 @@ class PowerWatch(private val ctx: Context, private val onChange: (PowerAccess) -
     }
 
     override fun close() {
-        Charger.unfollow(ctx, chargerSetting)
-        ctx.unregisterReceiver(chargerReceiver)
+        batterySaverRespected.unfollow(ctx, powerSettingListener)
+        chargerRequired.unfollow(ctx, powerSettingListener)
+        ctx.unregisterReceiver(powerReceiver)
     }
 }

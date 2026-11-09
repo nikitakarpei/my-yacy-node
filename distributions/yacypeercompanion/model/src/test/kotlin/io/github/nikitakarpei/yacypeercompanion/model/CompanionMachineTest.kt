@@ -39,6 +39,7 @@ import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Reconnectin
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Refused
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.RetryingAt
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.Stopped
+import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForBatterySaverOff
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForCharger
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionState.WaitingForUnmeteredNetwork
 import org.junit.Assert.assertEquals
@@ -54,6 +55,7 @@ class CompanionMachineTest {
     private val meteredNetworkOnly = NetworkChanged(NetworkAccess.METERED_ONLY)
     private val usablePower = PowerChanged(PowerAccess.USABLE)
     private val batteryOnly = PowerChanged(PowerAccess.BATTERY_ONLY)
+    private val batterySaverOn = PowerChanged(PowerAccess.BATTERY_SAVER_ON)
 
     private fun stepOf(
         state: CompanionState,
@@ -304,8 +306,37 @@ class CompanionMachineTest {
     @Test
     fun theDeviceStaysAwakeOnlyWhileTheCompanionPairsOrRuns() {
         val awake = listOf(Pairing, Connecting, Connected, Reconnecting(lostPeer, 0), Offline(lostPeer, 1))
-        val asleep = listOf(Stopped, WaitingForCharger, WaitingForUnmeteredNetwork, Refused(DisconnectReason.DEVICE_REFUSED))
+        val asleep = listOf(
+            Stopped,
+            WaitingForCharger,
+            WaitingForBatterySaverOff,
+            WaitingForUnmeteredNetwork,
+            Refused(DisconnectReason.DEVICE_REFUSED),
+        )
         awake.forEach { assertEquals("$it keeps the device awake", true, it.keepsDeviceAwake()) }
         asleep.forEach { assertEquals("$it lets the device sleep", false, it.keepsDeviceAwake()) }
+    }
+
+    @Test
+    fun inBatterySaverTheCompanionStopsAndWaitsForItToTurnOff() {
+        assertStep(
+            stepOf(Connected, batterySaverOn),
+            WaitingForBatterySaverOff,
+            StopServices,
+            CancelRetry,
+            CancelFailureNotification,
+        )
+        assertStep(stepOf(Stopped, StartRequested, powerAccess = PowerAccess.BATTERY_SAVER_ON), WaitingForBatterySaverOff)
+    }
+
+    @Test
+    fun turningBatterySaverOffStartsAWaitingCompanion() {
+        assertStep(stepOf(WaitingForBatterySaverOff, usablePower, powerAccess = PowerAccess.BATTERY_SAVER_ON), Connecting, StartServices)
+    }
+
+    @Test
+    fun aWaitingCompanionShowsThePowerConditionThatHoldsItBack() {
+        assertStep(stepOf(WaitingForBatterySaverOff, batteryOnly, powerAccess = PowerAccess.BATTERY_SAVER_ON), WaitingForCharger)
+        assertStep(stepOf(WaitingForCharger, batterySaverOn, powerAccess = PowerAccess.BATTERY_ONLY), WaitingForBatterySaverOff)
     }
 }
