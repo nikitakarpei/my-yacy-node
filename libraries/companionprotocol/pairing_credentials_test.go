@@ -6,17 +6,25 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 )
 
-func TestPairingCredentialsCarryTheDeviceNameAndTheSecret(t *testing.T) {
-	secret := companionprotocol.RandomSecret()
-	credentials := companionprotocol.PairingCredentialsFrom("Pixel 9", secret)
+func TestPairingCredentialsSendTheDeviceNameAsTheClientNameAndTheSecretAsThePassword(t *testing.T) {
+	credentials := companionprotocol.PairingCredentialsFrom("Pixel 9", "the-secret")
 
-	read := companionprotocol.PairingCredentials{
-		ClientName: credentials.ClientName,
-		Password:   credentials.Password,
+	if credentials.ClientName != "Pixel 9" || credentials.Password != "the-secret" {
+		t.Errorf("client name = %q, password = %q, want Pixel 9 and the secret",
+			credentials.ClientName, credentials.Password)
+	}
+}
+
+func TestPairingCredentialsReadTheDeviceNameFromTheClientNameAndTheSecretFromThePassword(
+	t *testing.T,
+) {
+	credentials := companionprotocol.PairingCredentials{
+		ClientName: "Pixel 9",
+		Password:   "the-secret",
 	}
 
-	if read.DeviceName() != "Pixel 9" || read.Secret() != secret {
+	if credentials.DeviceName() != "Pixel 9" || credentials.Secret() != "the-secret" {
 		t.Errorf("credentials carry %q and %q, want Pixel 9 and the secret",
-			read.DeviceName(), read.Secret())
+			credentials.DeviceName(), credentials.Secret())
 	}
 }

@@ -5,8 +5,6 @@
 // permissions leave to the caller.
 package natspermissions
 
-import "slices"
-
 const (
 	jetStreamAPIStart  = "$JS.API."
 	streamInfoStart    = jetStreamAPIStart + "STREAM.INFO."
@@ -50,17 +48,8 @@ func SubscribingTo(subjects ...string) Permissions {
 func JoinedFrom(each ...Permissions) Permissions {
 	var joined Permissions
 	for _, permissions := range each {
-		joined.Publish = appendedNew(joined.Publish, permissions.Publish)
-		joined.Subscribe = appendedNew(joined.Subscribe, permissions.Subscribe)
+		joined.Publish = append(joined.Publish, permissions.Publish...)
+		joined.Subscribe = append(joined.Subscribe, permissions.Subscribe...)
 	}
 	return joined
-}
-
-func appendedNew(subjects []string, more []string) []string {
-	for _, subject := range more {
-		if !slices.Contains(subjects, subject) {
-			subjects = append(subjects, subject)
-		}
-	}
-	return subjects
 }

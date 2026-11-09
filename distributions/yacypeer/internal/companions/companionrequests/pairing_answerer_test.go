@@ -3,6 +3,7 @@ package companionrequests_test
 import (
 	"context"
 	"crypto/ecdsa"
+	"crypto/ed25519"
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/x509"
@@ -202,10 +203,24 @@ func (f pairingFixture) ask(
 	request companionprotocol.PairingRequest,
 ) companionprotocol.PairingReply {
 	t.Helper()
+	return f.askWith(t, secret, dataOf(t, request))
+}
+
+func dataOf(t *testing.T, request companionprotocol.PairingRequest) []byte {
+	t.Helper()
 	data, err := json.Marshal(request)
 	if err != nil {
 		t.Fatalf("Marshal: %v", err)
 	}
+	return data
+}
+
+func (f pairingFixture) askWith(
+	t *testing.T,
+	secret companionprotocol.Secret,
+	data []byte,
+) companionprotocol.PairingReply {
+	t.Helper()
 	inbox := companionprotocol.PairingInboxPrefixFor(secret) + "." + nats.NewInbox()
 	subscription, err := f.connection.SubscribeSync(inbox)
 	if err != nil {
@@ -273,43 +288,49 @@ func TestAPairingRequestIsRefusedForEachFlaw(t *testing.T) {
 	device := newAttestedDevice(t)
 	for _, flaw := range []struct {
 		name   string
-		change func(request *companionprotocol.PairingRequest)
+		dataOf func(t *testing.T, request companionprotocol.PairingRequest) []byte
 		want   companionprotocol.RefusalReason
 	}{
 		{
-			"older protocol", func(r *companionprotocol.PairingRequest) {
+			"older protocol", changed(func(r *companionprotocol.PairingRequest) {
 				r.ProtocolVersion = companionprotocol.ProtocolVersion - 1
-			},
+			}),
 			companionprotocol.ReasonAppOutdated,
 		},
 		{
-			"newer protocol", func(r *companionprotocol.PairingRequest) {
+			"newer protocol", changed(func(r *companionprotocol.PairingRequest) {
 				r.ProtocolVersion = companionprotocol.ProtocolVersion + 1
-			},
+			}),
 			companionprotocol.ReasonPeerOutdated,
 		},
-		{"proof of another challenge", func(r *companionprotocol.PairingRequest) {
+		{"proof of another challenge", changed(func(r *companionprotocol.PairingRequest) {
 			r.Proof = requestOf(t, device, "another secret").Proof
-		}, companionprotocol.ReasonRequestInvalid},
+		}), companionprotocol.ReasonRequestInvalid},
 		{
-			"no attestation", func(r *companionprotocol.PairingRequest) { r.Attestation = nil },
+			"no attestation", changed(func(r *companionprotocol.PairingRequest) { r.Attestation = nil }),
 			companionprotocol.ReasonRequestInvalid,
 		},
-		{"unreadable attestation", func(r *companionprotocol.PairingRequest) {
+		{"unreadable attestation", changed(func(r *companionprotocol.PairingRequest) {
 			r.Attestation = [][]byte{[]byte("not a certificate")}
-		}, companionprotocol.ReasonRequestInvalid},
+		}), companionprotocol.ReasonRequestInvalid},
+		{"attested key that is not an EC key", changed(func(r *companionprotocol.PairingRequest) {
+			r.Attestation = [][]byte{ed25519CertificateDER(t)}
+		}), companionprotocol.ReasonRequestInvalid},
+		{
+			"unreadable request",
+			func(*testing.T, companionprotocol.PairingRequest) []byte { return []byte("{") },
+			companionprotocol.ReasonRequestInvalid,
+		},
 	} {
 		t.Run(flaw.name, func(t *testing.T) {
 			fixture := startPairingAnswerer(t)
 			secret := companionprotocol.RandomSecret()
 			fixture.begin(secret)
-			request := requestOf(t, device, secret)
-			flaw.change(&request)
 
-			reply := fixture.ask(t, secret, request)
+			reply := fixture.askWith(t, secret, flaw.dataOf(t, requestOf(t, device, secret)))
 
-			if reply.Outcome != companionprotocol.OutcomeRefused || reply.Reason != flaw.want {
-				t.Errorf("reply = %+v, want refused for %s", reply, flaw.want)
+			if want := companionprotocol.RefusedPairingReply(flaw.want); reply != want {
+				t.Errorf("reply = %+v, want %+v", reply, want)
 			}
 			if refused := fixture.offers.refusedFor(secret); refused != flaw.want {
 				t.Errorf("refused for %q, want %s", refused, flaw.want)
@@ -321,31 +342,34 @@ func TestAPairingRequestIsRefusedForEachFlaw(t *testing.T) {
 	}
 }
 
-func TestAnUnreadablePairingRequestIsRefused(t *testing.T) {
-	fixture := startPairingAnswerer(t)
-	secret := companionprotocol.RandomSecret()
-	fixture.begin(secret)
-	inbox := companionprotocol.PairingInboxPrefixFor(secret) + ".reply"
-	subscription, err := fixture.connection.SubscribeSync(inbox)
-	if err != nil {
-		t.Fatalf("SubscribeSync: %v", err)
+func changed(
+	change func(request *companionprotocol.PairingRequest),
+) func(t *testing.T, request companionprotocol.PairingRequest) []byte {
+	return func(t *testing.T, request companionprotocol.PairingRequest) []byte {
+		t.Helper()
+		change(&request)
+		return dataOf(t, request)
 	}
+}
 
-	if err := fixture.connection.PublishRequest(
-		companionprotocol.PairingRequestSubject, inbox, []byte("{"),
-	); err != nil {
-		t.Fatalf("PublishRequest: %v", err)
-	}
-
-	message, err := subscription.NextMsg(replyWait)
+func ed25519CertificateDER(t *testing.T) []byte {
+	t.Helper()
+	publicKey, privateKey, err := ed25519.GenerateKey(rand.Reader)
 	if err != nil {
-		t.Fatalf("no reply: %v", err)
+		t.Fatalf("GenerateKey: %v", err)
 	}
-	var reply companionprotocol.PairingReply
-	if err := json.Unmarshal(message.Data, &reply); err != nil ||
-		reply.Reason != companionprotocol.ReasonRequestInvalid {
-		t.Errorf("reply = %s, want refused as invalid", message.Data)
+	template := &x509.Certificate{
+		SerialNumber: big.NewInt(1),
+		NotBefore:    pairedAt,
+		NotAfter:     pairedAt.Add(time.Hour),
 	}
+	certificateDER, err := x509.CreateCertificate(
+		rand.Reader, template, template, publicKey, privateKey,
+	)
+	if err != nil {
+		t.Fatalf("CreateCertificate: %v", err)
+	}
+	return certificateDER
 }
 
 func TestAPairingRequestWithoutABegunPairingGetsNoReply(t *testing.T) {
@@ -357,13 +381,8 @@ func TestAPairingRequestWithoutABegunPairingGetsNoReply(t *testing.T) {
 	if err != nil {
 		t.Fatalf("SubscribeSync: %v", err)
 	}
-	data, err := json.Marshal(requestOf(t, device, secret))
-	if err != nil {
-		t.Fatalf("Marshal: %v", err)
-	}
-
 	if err := fixture.connection.PublishRequest(
-		companionprotocol.PairingRequestSubject, inbox, data,
+		companionprotocol.PairingRequestSubject, inbox, dataOf(t, requestOf(t, device, secret)),
 	); err != nil {
 		t.Fatalf("PublishRequest: %v", err)
 	}

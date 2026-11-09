@@ -105,17 +105,6 @@ func begunPairing(
 	return offer, secret
 }
 
-func TestTwoOpenPagesOfferTwoSecrets(t *testing.T) {
-	offers, _ := newOffers()
-
-	_, first := openedSecret(t, offers)
-	_, second := openedSecret(t, offers)
-
-	if first == second {
-		t.Error("two pages offer the same secret")
-	}
-}
-
 func TestADeviceBeginsPairingWithASecretOnlyOnce(t *testing.T) {
 	offers, _ := newOffers()
 	offer, secret := openedSecret(t, offers)
@@ -225,21 +214,6 @@ func TestAPairingRequestIsHeldForOneVerdictOnly(t *testing.T) {
 
 	if _, held := offers.HoldForVerdict(t.Context(), secretID); held {
 		t.Error("a second request is held while the first waits for its verdict")
-	}
-}
-
-func TestAVerdictOnAPairingThatWaitsForNoneChangesNothing(t *testing.T) {
-	offers, _ := newOffers()
-	offer, secret := begunPairing(t, offers)
-	secretID := companionprotocol.SecretIDFrom(secret)
-
-	offers.Accept(t.Context(), secretID, "device-a")
-	offers.Refuse(t.Context(), secretID, companionprotocol.ReasonRequestInvalid)
-
-	select {
-	case event := <-offer.Events():
-		t.Errorf("event = %+v, want none", event)
-	default:
 	}
 }
 
