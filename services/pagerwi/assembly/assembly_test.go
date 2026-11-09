@@ -138,14 +138,7 @@ func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open page offer consumer: %v", err)
 	}
-	info, err := pageOffers.Info(ctx)
-	if err != nil {
-		t.Fatalf("page offer consumer info: %v", err)
-	}
-	if info.NumPending != 1 || info.NumAckPending != 0 {
-		t.Errorf("pending = %d, taken = %d, want the page offer left in the stream",
-			info.NumPending, info.NumAckPending)
-	}
+	pullintaketest.RequireItemLeftInStream(t, ctx, pageOffers, brokerWait)
 	close(release)
 	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
 		t.Fatalf("await rwi after admission: %v", err)
