@@ -126,24 +126,28 @@ func RunPeer(
 	}
 	logStarted(ctx, peer, web)
 	webMux := webMuxFor(processRegistry, services, history, urls, network)
+	workers := []func(context.Context) error{
+		func(ctx context.Context) error {
+			return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
+		},
+		func(ctx context.Context) error {
+			return pageFetchEgress.Run(servicelog.ContextFor(ctx, pageFetchEgressProxyName))
+		},
+		func(ctx context.Context) error {
+			return cacheProxy.Run(servicelog.ContextFor(ctx, pagecacheproxy.Name))
+		},
+		func(ctx context.Context) error {
+			return cachedPages.Run(servicelog.ContextFor(ctx, cachedpages.Name))
+		},
+		func(ctx context.Context) error {
+			return history.Run(ctx, metricSourcesOf(processRegistry, services))
+		},
+	}
+	if companions != nil {
+		workers = append(workers, companions.runners(broker, peer.natsURL, network)...)
+	}
 	return opsmetrics.ServeAlongside(ctx, web, webMux, func(ctx context.Context) error {
-		return runEvery(ctx, services,
-			func(ctx context.Context) error {
-				return peerEgress.Run(servicelog.ContextFor(ctx, peerEgressProxyName))
-			},
-			func(ctx context.Context) error {
-				return pageFetchEgress.Run(servicelog.ContextFor(ctx, pageFetchEgressProxyName))
-			},
-			func(ctx context.Context) error {
-				return cacheProxy.Run(servicelog.ContextFor(ctx, pagecacheproxy.Name))
-			},
-			func(ctx context.Context) error {
-				return cachedPages.Run(servicelog.ContextFor(ctx, cachedpages.Name))
-			},
-			func(ctx context.Context) error {
-				return history.Run(ctx, metricSourcesOf(processRegistry, services))
-			},
-		)
+		return runEvery(ctx, services, workers...)
 	})
 }
 

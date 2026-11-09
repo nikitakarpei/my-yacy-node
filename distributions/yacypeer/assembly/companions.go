@@ -1,16 +1,23 @@
 package yacypeerassembly
 
 import (
+	"context"
 	"crypto/tls"
 	"time"
 
+	"github.com/nats-io/nats.go"
+
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionrequests"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 )
 
 const (
@@ -20,10 +27,11 @@ const (
 )
 
 type companions struct {
-	devices     *paireddevices.Devices
-	offers      *pairingoffers.Offers
-	certificate tls.Certificate
-	address     string
+	devices           *paireddevices.Devices
+	offers            *pairingoffers.Offers
+	certificate       tls.Certificate
+	address           string
+	partitionExponent uint
 }
 
 func openCompanions(cfg PeerConfig) (*companions, error) {
@@ -37,10 +45,11 @@ func openCompanions(cfg PeerConfig) (*companions, error) {
 		return nil, err
 	}
 	return &companions{
-		devices:     devices,
-		offers:      pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
-		certificate: certificate,
-		address:     cfg.CompanionAddr,
+		devices:           devices,
+		offers:            pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
+		certificate:       certificate,
+		address:           cfg.CompanionAddr,
+		partitionExponent: cfg.PartitionExponent,
 	}, nil
 }
 
@@ -55,6 +64,60 @@ func (c *companions) endpoint() natsbroker.Endpoint {
 		),
 		Address:     c.address,
 		Certificate: c.certificate,
+	}
+}
+
+func (c *companions) brokerKeyHash() companionprotocol.BrokerKeyHash {
+	return companionprotocol.BrokerKeyHashFrom(c.certificate.Leaf.RawSubjectPublicKeyInfo)
+}
+
+func (c *companions) runners(
+	broker *natsbroker.Broker,
+	natsURL string,
+	network *processnetwork.Network,
+) []func(context.Context) error {
+	pairingAnswerer := companionrequests.NewPairingAnswerer(
+		c.offers, c.devices, wallclock.Clock{}, c.brokerKeyHash(),
+	)
+	deviceAnswerer := companionrequests.NewDeviceAnswerer(
+		c.devices,
+		companionaccess.NewUnpairer(c.devices, broker),
+		companionprotocol.DeviceSettings{
+			PartitionExponent: c.partitionExponent,
+		},
+	)
+	return []func(context.Context) error{
+		runnerFor(pairingAnswerer, natsURL, network),
+		runnerFor(deviceAnswerer, natsURL, network),
+	}
+}
+
+type answerer interface {
+	Subscribe(ctx context.Context, connection *nats.Conn) (*companionrequests.Subscriptions, error)
+}
+
+func runnerFor(
+	answerer answerer,
+	natsURL string,
+	network *processnetwork.Network,
+) func(context.Context) error {
+	return func(ctx context.Context) error {
+		_, connection, err := jetstreamconnect.Open(
+			natsURL,
+			network.DialContext,
+			jetstreamconnect.UnobservedConnection{},
+			jetstreamconnect.BrokerAccess{},
+		)
+		if err != nil {
+			return err
+		}
+		defer connection.Close()
+		subscriptions, err := answerer.Subscribe(ctx, connection)
+		if err != nil {
+			return err
+		}
+		subscriptions.EndWhenDone(ctx)
+		return nil
 	}
 }
 

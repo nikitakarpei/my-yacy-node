@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"crypto/tls"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html"
@@ -25,9 +26,12 @@ import (
 
 	"github.com/nats-io/nats.go"
 
+	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel/peerkeytest"
 	yacypeerassembly "github.com/nikitakarpei/yacy-rwi-node/yacypeer/assembly"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess/companionaccesstest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/visitlinksecret"
 )
 
@@ -49,7 +53,7 @@ func peerEnvironment(t *testing.T) map[string]string {
 		yacypeerassembly.EnvDataDirectory: dataDirectoryWithSolvedPeerKey(t),
 		yacypeerassembly.EnvSeedlistURLs:  "http://127.0.0.1:1/seed.txt",
 		"YACY_ADVERTISE_HOST":             "127.0.0.1",
-		"YACYNODE__YACY_PEER_ADDR":        addressesBelowEphemeralPorts(t, 1)[0],
+		"YACYNODE__YACY_PEER_ADDR":        addressBelowEphemeralPorts(t),
 	}
 }
 
@@ -63,30 +67,21 @@ func dataDirectoryWithSolvedPeerKey(t *testing.T) string {
 	return dataDirectory
 }
 
-func addressesBelowEphemeralPorts(t *testing.T, count int) []string {
+func addressBelowEphemeralPorts(t *testing.T) string {
 	t.Helper()
-	listeners := make([]net.Listener, 0, count)
-	defer func() {
-		for _, listener := range listeners {
-			_ = listener.Close()
-		}
-	}()
-	for attempt := 0; len(listeners) < count; attempt++ {
-		if attempt == portAttempts {
-			t.Fatalf("no %d free ports below %d", count, firstEphemeralPort)
-		}
+	for range portAttempts {
 		port := firstListenPort + rand.IntN(listenPortSpan) //nolint:gosec // G404: no secrecy.
-		address := net.JoinHostPort(loopbackHost, strconv.Itoa(port))
-		listener, err := servergroup.Listen(t.Context(), address)
+		listener, err := servergroup.Listen(
+			t.Context(), net.JoinHostPort(loopbackHost, strconv.Itoa(port)),
+		)
 		if err == nil {
-			listeners = append(listeners, listener)
+			address := listener.Addr().String()
+			_ = listener.Close()
+			return address
 		}
 	}
-	addresses := make([]string, 0, count)
-	for _, listener := range listeners {
-		addresses = append(addresses, listener.Addr().String())
-	}
-	return addresses
+	t.Fatalf("no free port below %d", firstEphemeralPort)
+	return ""
 }
 
 func peerFrom(t *testing.T, env map[string]string) (yacypeerassembly.PeerConfig, net.Listener) {
@@ -228,7 +223,7 @@ func TestRunPeerLinksTheSearchPageTheCrawlConsoleAndTheDashboardsInATabBar(t *te
 
 func TestRunPeerRefusesAnUnknownCompanionOverTLSAtTheCompanionAddress(t *testing.T) {
 	env := peerEnvironment(t)
-	env[yacypeerassembly.EnvCompanionAddr] = addressesBelowEphemeralPorts(t, 1)[0]
+	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
 	cfg, web := peerFrom(t, env)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -261,6 +256,81 @@ func requireUnknownCompanionRefused(t *testing.T, companionAddress string) {
 	if !errors.Is(err, nats.ErrAuthorization) {
 		t.Errorf("connect: %v, want the companion refused over TLS", err)
 	}
+}
+
+func TestRunPeerTellsAPairedDeviceThePartitionExponentThatTheOperatorSets(t *testing.T) {
+	env := peerEnvironment(t)
+	env[yacypeerassembly.EnvCompanionAddr] = addressBelowEphemeralPorts(t)
+	env[yacypeerassembly.EnvPartitionExponent] = "6"
+	certificate, deviceID := companionaccesstest.DeviceCertificate(t)
+	keepPairedDevice(t, env[yacypeerassembly.EnvDataDirectory], deviceID)
+	cfg, web := peerFrom(t, env)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	runDone := make(chan error, 1)
+	go func() {
+		runDone <- yacypeerassembly.RunPeer(ctx, cfg, web, envFrom(env))
+	}()
+	awaitEveryService(t, env, web, runDone)
+
+	settings := settingsAskedBy(t, env[yacypeerassembly.EnvCompanionAddr], certificate, deviceID)
+
+	if settings.PartitionExponent != 6 {
+		t.Errorf("partition exponent = %d, want 6", settings.PartitionExponent)
+	}
+	cancel()
+	awaitShutdown(t, runDone)
+}
+
+func keepPairedDevice(t *testing.T, dataDirectory string, deviceID companionprotocol.DeviceID) {
+	t.Helper()
+	devices, err := paireddevices.Open(filepath.Join(dataDirectory, "companions"))
+	if err != nil {
+		t.Fatalf("open the paired devices: %v", err)
+	}
+	defer devices.Close()
+	devices.Add(t.Context(), paireddevices.Device{ID: deviceID, Name: "Pixel 8"})
+}
+
+func settingsAskedBy(
+	t *testing.T,
+	companionAddress string,
+	certificate tls.Certificate,
+	deviceID companionprotocol.DeviceID,
+) companionprotocol.DeviceSettings {
+	t.Helper()
+	connection, err := nats.Connect(
+		"tls://"+companionAddress,
+		nats.Secure(&tls.Config{
+			InsecureSkipVerify: true, //nolint:gosec // the test pins no broker key.
+			Certificates:       []tls.Certificate{certificate},
+			MinVersion:         tls.VersionTLS13,
+		}),
+		nats.CustomInboxPrefix(companionprotocol.DeviceInboxPrefixOf(deviceID)),
+		nats.MaxReconnects(0),
+	)
+	if err != nil {
+		t.Fatalf("connect as the paired device: %v", err)
+	}
+	defer connection.Close()
+	reply, err := connection.Request(
+		companionprotocol.SettingsSubjectOf(deviceID), nil, startDeadline,
+	)
+	for deadline := time.Now().Add(startDeadline); errors.Is(err, nats.ErrNoResponders) &&
+		time.Now().Before(deadline); {
+		time.Sleep(startPollPause)
+		reply, err = connection.Request(
+			companionprotocol.SettingsSubjectOf(deviceID), nil, startDeadline,
+		)
+	}
+	if err != nil {
+		t.Fatalf("ask for the settings: %v", err)
+	}
+	var settings companionprotocol.DeviceSettings
+	if err := json.Unmarshal(reply.Data, &settings); err != nil {
+		t.Fatalf("read the settings: %v", err)
+	}
+	return settings
 }
 
 func TestRunPeerSendsAVisitFromTheSearchPageOnToThePageWithALinkThatThePeerSecretSigns(
@@ -383,6 +453,9 @@ func TestRunPeerRefusesWiringTheOperatorSets(t *testing.T) {
 		"CRAWLCONSOLE_PATH_PREFIX":               "/crawls",
 		"CRAWLCONSOLE_TAB_BAR":                   `{"tabs":[]}`,
 		"SEARCHPAGE__SEARCHPAGE_TAB_BAR":         `{"tabs":[]}`,
+		"PAGE_RWI_PARTITION_EXPONENT":            "5",
+		"YACYDHTSEARCH_PARTITION_EXPONENT":       "5",
+		"YACY_DISTRIBUTION_PARTITION_EXPONENT":   "5",
 	} {
 		t.Run(name, func(t *testing.T) {
 			env := peerEnvironment(t)

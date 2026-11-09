@@ -40,6 +40,8 @@ components:
     in: internal/companions/pairingoffers/**
   companionaccess:
     in: internal/companions/companionaccess/**
+  companionrequests:
+    in: internal/companions/companionrequests/**
   devicepermissions:
     in: internal/companions/devicepermissions/**
   yacypeerassembly:
@@ -89,6 +91,9 @@ vendors:
   companionprotocol:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/companionprotocol
+  natsclient:
+    in:
+      - github.com/nats-io/nats.go
   zstd:
     in:
       - github.com/klauspost/compress/zstd
@@ -145,6 +150,13 @@ deps:
       - companionprotocol
       - natspermissions
       - natsserver
+  companionrequests:
+    mayDependOn:
+      - paireddevices
+      - pairingoffers
+    canUse:
+      - companionprotocol
+      - natsclient
   devicepermissions:
     canUse:
       - natspermissions
