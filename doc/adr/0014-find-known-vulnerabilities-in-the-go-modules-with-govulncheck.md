@@ -1,4 +1,4 @@
-# 15. Find known vulnerabilities in the Go modules with govulncheck
+# 14. Find known vulnerabilities in the Go modules with govulncheck
 
 Date: 2026-11-09
 
@@ -9,8 +9,7 @@ Accepted
 ## Context
 
 The services, the libraries and the Android app are Go modules. Their dependencies and the Go
-standard library can have known vulnerabilities. MASVS-CODE-3 asks that the Android app uses no
-component with a known vulnerability (ADR 0014).
+standard library can have known vulnerabilities.
 
 ## Decision
 
