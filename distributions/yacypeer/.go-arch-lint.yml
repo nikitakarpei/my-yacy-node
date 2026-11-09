@@ -50,8 +50,8 @@ components:
     in: internal/companions/companionpresence/**
   companionsettings:
     in: internal/companions/companionsettings/**
-  peerintake:
-    in: internal/companions/peerintake/**
+  fetchingduty:
+    in: internal/companions/fetchingduty/**
   thishost:
     in: internal/thishost/**
   devicepermissions:
@@ -175,7 +175,7 @@ deps:
   companionpresence:
     canUse:
       - companionprotocol
-  peerintake:
+  fetchingduty:
     mayDependOn:
       - companionsettings
   companionspage:
