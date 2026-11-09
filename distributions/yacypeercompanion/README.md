@@ -34,10 +34,14 @@ make android-app
 ```
 
 `./tools/install` installs the pinned tools, the JDK, the Android SDK, the NDK and Gradle into
-`.toolchain`. `make android-app` builds the app, runs its tests, and lints it. The unsigned
+`.toolchain`. `make android-app` builds the app, runs its tests, lints it, and checks the
+attack surface of the release APK. The unsigned
 release APK is `app/build/outputs/apk/release/app-release-unsigned.apk`.
 
 Two clean builds of one commit give the same APK, byte for byte. `make android-app-reproducible`
 checks this. Gradle checks each file that the build downloads against
 `gradle/verification-metadata.xml`. After you change a build dependency, run
 `make android-app-verification-metadata` and examine the change to this file.
+
+`make android-app-vulnerabilities` finds known vulnerabilities in the libraries of the release
+APK, and `make vulnerabilities-go` in the Go modules. A CI workflow runs both each week.

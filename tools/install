@@ -45,7 +45,7 @@ case "$(uname -m)" in
 esac
 platform="$os-$arch"
 verify_tools="go golangci-lint go-arch-lint ruff uv mado esbuild biome zig"
-android_tools="jdk android-platform android-build-tools android-platform-tools android-ndk"
+android_tools="jdk android-platform android-build-tools android-platform-tools android-ndk osv-scanner"
 groups=
 case "$*" in
 	"")
@@ -102,6 +102,23 @@ fetch() {
 	fi
 	tar -xzf "$tmp/archive.tar.gz" -C "$tmp"
 	install -m 0755 "$tmp/$member" "$bin/$tool"
+	rm -rf "$tmp"
+	trap - EXIT
+}
+
+# OSV-Scanner ships one binary, not an archive.
+fetch_binary() {
+	tool="$1"; url="$2"; want="$3"
+	tmp=$(mktemp -d)
+	trap 'rm -rf "$tmp"' EXIT
+	echo "==> $tool $platform"
+	curl -fsSL "$url" -o "$tmp/binary"
+	got=$(sha256 "$tmp/binary")
+	if [ "$got" != "$want" ]; then
+		echo "checksum mismatch for $tool: expected $want, got $got" >&2
+		exit 1
+	fi
+	install -m 0755 "$tmp/binary" "$bin/$tool"
 	rm -rf "$tmp"
 	trap - EXIT
 }
@@ -274,6 +291,13 @@ if wanted jdk; then
 	fetch_tree jdk \
 		"https://github.com/adoptium/temurin$major-binaries/releases/download/jdk-$release/OpenJDK${major}U-jdk_${jdk_platform}_hotspot_$file_version.tar.gz" \
 		"$sum" "$toolchain/jdk"
+fi
+
+if wanted osv-scanner; then
+	set -- $(lookup osv-scanner)
+	ver="$1"; sum="$2"
+	fetch_binary osv-scanner \
+		"https://github.com/google/osv-scanner/releases/download/v$ver/osv-scanner_${os}_${arch}" "$sum"
 fi
 
 # Each Android SDK package is one archive from Google's repository, pinned by its

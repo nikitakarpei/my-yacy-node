@@ -223,7 +223,9 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 		t.Errorf("scrape requests pending = %d, want the provisioned 7", pending)
 	}
 	cancel()
-	<-runDone
+	if err := <-runDone; err != nil {
+		t.Errorf("run: %v", err)
+	}
 }
 
 func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsOffersThePage(t *testing.T) {

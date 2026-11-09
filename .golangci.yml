@@ -34,10 +34,10 @@ linters:
     exhaustive:
       check:
         - switch
-        - map
-      explicit-exhaustive-map: true
+        - mapliteral
+      explicit-exhaustive: true
       default-signifies-exhaustive: true
-      ignore-enum-types: golang.org/x/net/html/atom.Atom
+      ignore-types: golang.org/x/net/html/atom.Atom
     funlen:
       lines: 80
       statements: 50

@@ -78,7 +78,9 @@ func TestRunServiceServesTheOperatorAPIOnItsListener(t *testing.T) {
 	}()
 	defer func() {
 		cancel()
-		<-stopped
+		if err := <-stopped; err != nil {
+			t.Errorf("run: %v", err)
+		}
 	}()
 
 	apiURL := "http://" + api.Addr().String()
@@ -111,7 +113,9 @@ func TestRunServiceFinishesACancelledCrawlOnceItsVisitsDrain(t *testing.T) {
 	}()
 	defer func() {
 		cancel()
-		<-stopped
+		if err := <-stopped; err != nil {
+			t.Errorf("run: %v", err)
+		}
 	}()
 	apiURL := "http://" + api.Addr().String()
 	answerAt[yacycrawlcontract.Pause](t, http.MethodPut, apiURL+"/crawler-pause", `{"Paused":true}`)
