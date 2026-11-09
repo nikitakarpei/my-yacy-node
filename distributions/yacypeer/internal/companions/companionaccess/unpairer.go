@@ -25,5 +25,5 @@ func NewUnpairer(devices RemovableDevices, broker Disconnector) Unpairer {
 
 func (u Unpairer) Unpair(ctx context.Context, deviceID companionprotocol.DeviceID) {
 	u.devices.Remove(ctx, deviceID)
-	u.broker.DisconnectUser(DeviceUserOf(deviceID))
+	u.broker.DisconnectUser(deviceUserOf(deviceID))
 }

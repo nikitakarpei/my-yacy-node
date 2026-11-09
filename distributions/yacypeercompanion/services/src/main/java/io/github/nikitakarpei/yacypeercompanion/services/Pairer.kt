@@ -5,6 +5,8 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
+import io.github.nikitakarpei.yacypeercompanion.model.KeyDisposal
+import io.github.nikitakarpei.yacypeercompanion.model.PairingAttempts
 import io.github.nikitakarpei.yacypeercompanion.model.PairingProblem
 import pairingrequests.Pairingrequests
 import kotlin.concurrent.thread
@@ -12,32 +14,24 @@ import kotlin.concurrent.thread
 private const val LOG_TAG = "Pairer"
 
 class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> Unit) {
-    private val lock = Any()
-    private var attempt: Attempt? = null
+    private val attempts = PairingAttempts()
 
     fun send(linkText: String) {
-        val started = Attempt(linkText)
-        synchronized(lock) { attempt = started }
-        thread(name = "pairing") { finish(started, pair(linkText)) }
+        val attempt = attempts.started(linkText)
+        thread(name = "pairing") {
+            val outcome = pair(linkText)
+            when (val disposal = attempts.ended(attempt, outcome)) {
+                null -> events(outcome)
+                else -> dispose(disposal)
+            }
+        }
     }
 
-    fun complete() {
-        synchronized(lock) { attempt = null }
-    }
+    fun complete() = attempts.completed()
 
     fun giveUp() {
-        var running = false
-        val ended = synchronized(lock) {
-            val current = attempt
-            attempt = null
-            current?.givenUp = true
-            running = current != null && current.event == null
-            current?.takeIf { it.event != null }
-        }
-        when {
-            ended != null -> thread(name = "pairing end") { dispose(ended) }
-            !running -> thread(name = "key discarding") { DeviceKeyEntry.delete() }
-        }
+        val disposal = attempts.givenUp() ?: return
+        thread(name = "pairing end") { dispose(disposal) }
     }
 
     fun unpair(linkText: String) {
@@ -56,26 +50,17 @@ class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> U
         return eventFrom(request.send(key))
     }
 
-    private fun finish(started: Attempt, event: CompanionEvent) {
-        val givenUp = synchronized(lock) {
-            started.event = event
-            if (!started.givenUp) events(event)
-            started.givenUp
-        }
-        if (givenUp) dispose(started)
-    }
+    private fun dispose(disposal: KeyDisposal) {
+        when (disposal) {
+            KeyDisposal.KeepKey -> Log.w(LOG_TAG, "a newer pairing holds the device key, so the app keeps it")
 
-    private fun dispose(ended: Attempt) {
-        if (synchronized(lock) { attempt != null }) {
-            Log.w(LOG_TAG, "a newer pairing holds the device key, so the app keeps it")
-            return
+            KeyDisposal.DeleteKey -> DeviceKeyEntry.delete()
+
+            is KeyDisposal.UnpairAndDeleteKey -> {
+                Log.w(LOG_TAG, "the peer accepted the device after the app gave up, so the app unpairs it")
+                unpairWithKey(disposal.linkText)
+            }
         }
-        if (ended.event == CompanionEvent.PairingAccepted) {
-            Log.w(LOG_TAG, "the peer accepted the device after the app gave up, so the app unpairs it")
-            unpairWithKey(ended.linkText)
-            return
-        }
-        DeviceKeyEntry.delete()
     }
 
     private fun unpairWithKey(linkText: String) {
@@ -86,11 +71,6 @@ class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> U
             Pairingrequests.unpair(linkText, key)
         }
         DeviceKeyEntry.delete()
-    }
-
-    private class Attempt(val linkText: String) {
-        var givenUp = false
-        var event: CompanionEvent? = null
     }
 }
 

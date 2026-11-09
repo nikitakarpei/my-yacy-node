@@ -18,6 +18,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	pagescrapeassembly "github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess/brokeraccesstest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
 )
@@ -27,6 +28,8 @@ const (
 	pageURL    = "http://origin.example/"
 	appVersion = "1.2.0"
 	usedSecret = "used-secret"
+
+	peerPartitionExponent = 6
 )
 
 type observedEvents chan string
@@ -41,7 +44,8 @@ func (events observedEvents) AppOutdated()          { events <- "app outdated" }
 func (events observedEvents) PeerOutdated()         { events <- "peer outdated" }
 
 type deviceCheck struct {
-	refused atomic.Bool
+	refused                 atomic.Bool
+	refusesOnceItHasSettled atomic.Bool
 }
 
 func (c *deviceCheck) Check(client natsserver.ClientAuthentication) bool {
@@ -68,7 +72,9 @@ func startPeerReplyingToHello(t *testing.T, helloReply companionprotocol.HelloRe
 	broker := brokeraccesstest.Start(t, check)
 	appVersions := make(chan string, 4)
 	connection := broker.Connect(t)
-	settings, _ := json.Marshal(companionprotocol.DeviceSettings{PartitionExponent: 4})
+	settings, _ := json.Marshal(
+		companionprotocol.DeviceSettings{PartitionExponent: peerPartitionExponent},
+	)
 	reply, _ := json.Marshal(helloReply)
 	for subject, handler := range map[string]nats.MsgHandler{
 		companionprotocol.HelloSubjects: func(msg *nats.Msg) {
@@ -77,7 +83,12 @@ func startPeerReplyingToHello(t *testing.T, helloReply companionprotocol.HelloRe
 			appVersions <- hello.AppVersion
 			_ = msg.Respond(reply)
 		},
-		companionprotocol.SettingsSubjects: func(msg *nats.Msg) { _ = msg.Respond(settings) },
+		companionprotocol.SettingsSubjects: func(msg *nats.Msg) {
+			if check.refusesOnceItHasSettled.Load() {
+				check.refused.Store(true)
+			}
+			_ = msg.Respond(settings)
+		},
 	} {
 		if _, err := connection.Subscribe(subject, handler); err != nil {
 			t.Fatalf("Subscribe: %v", err)
@@ -166,8 +177,12 @@ func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	go instance.Run(events)
 	awaitEvent(t, events, "connected")
 
-	if pageRWI := askForRWIOfPage(t, peer.jetStream(t)); pageRWI.Metadata.Address != pageURL {
+	pageRWI := askForRWIOfPage(t, peer.jetStream(t))
+	if pageRWI.Metadata.Address != pageURL {
 		t.Errorf("RWI address = %q, want %q", pageRWI.Metadata.Address, pageURL)
+	}
+	if pageRWI.Metadata.PostingsRoot != postingsRootIn(t, peerPartitionExponent, pageRWI) {
+		t.Error("the RWI is built for another partition exponent than the one of the peer")
 	}
 	if reported := <-peer.appVersions; reported != appVersion {
 		t.Errorf("reported app version = %q, want %q", reported, appVersion)
@@ -177,10 +192,41 @@ func TestInstanceBuildsTheRWIOfAPageThatTheBrokerAsksFor(t *testing.T) {
 	awaitEvent(t, events, "stopped")
 }
 
+func postingsRootIn(
+	t *testing.T,
+	partitionExponent uint,
+	pageRWI pagerwicontract.PageRWI,
+) yacymodel.Optional[yacymodel.PostingsRoot] {
+	t.Helper()
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(partitionExponent)
+	if err != nil {
+		t.Fatalf("partitions: %v", err)
+	}
+	pagePostings, err := yacymodel.ProvenPagePostingsFrom(
+		pageRWI.Postings, yacymodel.EmptyPostingsProof(partitions),
+	)
+	if err != nil {
+		t.Fatalf("postings of the RWI: %v", err)
+	}
+	return pagePostings.Root()
+}
+
 func TestInstanceRunReportsADeviceThatThePeerRefuses(t *testing.T) {
 	peer := startPeer(t)
 	peer.check.refused.Store(true)
 	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), "http://127.0.0.1:1")
+	events := make(observedEvents, 4)
+
+	instance.Run(events)
+
+	awaitEvent(t, events, "refused")
+}
+
+func TestInstanceRunReportsADeviceThatThePeerRefusesOnceItHasSettled(t *testing.T) {
+	peer := startPeer(t)
+	provisionPeerStreams(t, peer.jetStream(t))
+	peer.check.refusesOnceItHasSettled.Store(true)
+	instance := instanceFor(t, peer.broker.LinkWith(usedSecret), captureProxyServing(t, pageBody))
 	events := make(observedEvents, 4)
 
 	instance.Run(events)

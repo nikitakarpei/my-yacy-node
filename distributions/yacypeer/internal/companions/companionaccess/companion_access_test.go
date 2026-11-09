@@ -28,7 +28,7 @@ const (
 	arrivalWait   = 5 * time.Second
 )
 
-var connectedAt = time.Now().Truncate(time.Second)
+var connectedAt = time.Date(2100, time.January, 1, 0, 0, 0, 0, time.UTC)
 
 type fixedClock struct{}
 
@@ -54,6 +54,12 @@ func (d *knownDevices) RecordConnection(
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	d.connected[id] = at
+}
+
+func (d *knownDevices) Remove(_ context.Context, id companionprotocol.DeviceID) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	delete(d.paired, id)
 }
 
 type openSecrets struct {
@@ -203,15 +209,41 @@ func TestAPairedDeviceConnectsWithItsKeyAndMayDoItsWork(t *testing.T) {
 	requireAllowed(t, fixture.broker, connection, workSubject)
 	requireAllowed(t, fixture.broker, connection, companionprotocol.SettingsSubjectOf(deviceID))
 	requireRefused(t, connection, seen, companionprotocol.SettingsSubjectOf("other-device"))
-	if !fixture.broker.ConnectedUsers()[companionaccess.DeviceUserOf(deviceID)] {
-		t.Error("the device is not connected as its user")
-	}
 	if !fixture.devices.connected[deviceID].Equal(connectedAt) {
 		t.Errorf(
 			"connection recorded at %v, want %v",
 			fixture.devices.connected[deviceID],
 			connectedAt,
 		)
+	}
+}
+
+func TestUnpairingADeviceEndsItsConnectionAndRefusesItsReturn(t *testing.T) {
+	fixture := startFixture(t)
+	certificate, deviceID := companionaccesstest.DeviceCertificate(t)
+	fixture.devices.paired[deviceID] = true
+	closed := make(chan struct{}, 1)
+	_, _, err := connect(t, fixture.broker, []tls.Certificate{certificate},
+		nats.ClosedHandler(func(*nats.Conn) {
+			select {
+			case closed <- struct{}{}:
+			default:
+			}
+		}),
+	)
+	if err != nil {
+		t.Fatalf("connect: %v", err)
+	}
+
+	companionaccess.NewUnpairer(fixture.devices, fixture.broker).Unpair(t.Context(), deviceID)
+
+	select {
+	case <-closed:
+	case <-time.After(arrivalWait):
+		t.Fatal("the connection of the unpaired device stays open")
+	}
+	if _, _, err := connect(t, fixture.broker, []tls.Certificate{certificate}); err == nil {
+		t.Error("the unpaired device connected again")
 	}
 }
 
