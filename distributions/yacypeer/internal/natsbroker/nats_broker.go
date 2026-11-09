@@ -1,19 +1,25 @@
-// Package natsbroker runs the NATS JetStream server built into the peer. It listens on no port:
-// the parts of the peer connect to it inside the process.
+// Package natsbroker runs the NATS JetStream server built into the peer. The parts of the peer
+// connect to it inside the process. It can also serve an endpoint: a TCP address with TLS, where
+// an authentication that the caller gives decides who connects and what each one may do.
 package natsbroker
 
 import (
+	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net"
+	"strconv"
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
 )
 
 const (
-	readyWait      = 10 * time.Second
-	payloadCeiling = 8 << 20
+	readyWait        = 10 * time.Second
+	payloadCeiling   = 8 << 20
+	inProcessNetwork = "pipe"
 )
 
 var errNotReady = errors.New("built-in nats not ready for connections")
@@ -22,13 +28,23 @@ type Broker struct {
 	server *natsserver.Server
 }
 
+type Endpoint struct {
+	Authentication natsserver.Authentication
+	Address        string
+	Certificate    tls.Certificate
+}
+
 func Start(storeDirectory string) (*Broker, error) {
-	server, err := natsserver.NewServer(&natsserver.Options{
+	return startWith(&natsserver.Options{
 		DontListen: true,
 		MaxPayload: payloadCeiling,
 		JetStream:  true,
 		StoreDir:   storeDirectory,
 	})
+}
+
+func startWith(options *natsserver.Options) (*Broker, error) {
+	server, err := natsserver.NewServer(options)
 	if err != nil {
 		return nil, fmt.Errorf("built-in nats: %w", err)
 	}
@@ -40,12 +56,93 @@ func Start(storeDirectory string) (*Broker, error) {
 	return &Broker{server: server}, nil
 }
 
+func StartWithEndpoint(storeDirectory string, endpoint Endpoint) (*Broker, error) {
+	host, port, err := hostAndPortOf(endpoint.Address)
+	if err != nil {
+		return nil, err
+	}
+	return startWith(&natsserver.Options{
+		Host:       host,
+		Port:       port,
+		MaxPayload: payloadCeiling,
+		JetStream:  true,
+		StoreDir:   storeDirectory,
+		TLS:        true,
+		TLSConfig: &tls.Config{
+			Certificates: []tls.Certificate{endpoint.Certificate},
+			ClientAuth:   tls.RequestClientCert,
+			MinVersion:   tls.VersionTLS13,
+		},
+		CustomClientAuthentication: endpointAuthentication{endpoint: endpoint.Authentication},
+	})
+}
+
+func hostAndPortOf(address string) (string, int, error) {
+	host, portText, err := net.SplitHostPort(address)
+	if err != nil {
+		return "", 0, fmt.Errorf("endpoint address: %w", err)
+	}
+	port, err := strconv.Atoi(portText)
+	if err != nil {
+		return "", 0, fmt.Errorf("endpoint address: %w", err)
+	}
+	if port == 0 {
+		return host, natsserver.RANDOM_PORT, nil
+	}
+	return host, port, nil
+}
+
+type endpointAuthentication struct {
+	endpoint natsserver.Authentication
+}
+
+func (a endpointAuthentication) Check(client natsserver.ClientAuthentication) bool {
+	if address := client.RemoteAddress(); address != nil && address.Network() == inProcessNetwork {
+		return true
+	}
+	return a.endpoint.Check(client)
+}
+
 func (b *Broker) Connection() (net.Conn, error) {
 	connection, err := b.server.InProcessConn()
 	if err != nil {
 		return nil, fmt.Errorf("built-in nats: %w", err)
 	}
 	return connection, nil
+}
+
+func (b *Broker) EndpointAddress() net.Addr {
+	return b.server.Addr()
+}
+
+func (b *Broker) ConnectedUsers() map[string]bool {
+	connections, err := b.server.Connz(&natsserver.ConnzOptions{Username: true})
+	if err != nil {
+		slog.WarnContext(context.Background(), "connected users unread", slog.Any("error", err))
+		return map[string]bool{}
+	}
+	users := make(map[string]bool, len(connections.Conns))
+	for _, connection := range connections.Conns {
+		users[connection.AuthorizedUser] = true
+	}
+	return users
+}
+
+func (b *Broker) DisconnectUser(user string) {
+	connections, err := b.server.Connz(&natsserver.ConnzOptions{User: user})
+	if err != nil {
+		slog.WarnContext(context.Background(), "connections of a user unread",
+			slog.String("user", user), slog.Any("error", err),
+		)
+		return
+	}
+	for _, connection := range connections.Conns {
+		if err := b.server.DisconnectClientByID(connection.Cid); err != nil {
+			slog.WarnContext(context.Background(), "connection of a user not closed",
+				slog.String("user", user), slog.Any("error", err),
+			)
+		}
+	}
 }
 
 func (b *Broker) Shutdown() {

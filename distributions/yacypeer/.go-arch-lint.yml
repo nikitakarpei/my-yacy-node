@@ -32,6 +32,16 @@ components:
     in: internal/dashboardpage/**
   webuiproxy:
     in: internal/webuiproxy/**
+  brokerkey:
+    in: internal/companions/brokerkey/**
+  paireddevices:
+    in: internal/companions/paireddevices/**
+  pairingoffers:
+    in: internal/companions/pairingoffers/**
+  companionaccess:
+    in: internal/companions/companionaccess/**
+  devicepermissions:
+    in: internal/companions/devicepermissions/**
   yacypeerassembly:
     in: assembly/**
   yacypeercmd:
@@ -41,6 +51,13 @@ vendors:
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+  natspermissions:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions
+  pageserviceassemblies:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/assembly
+      - github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly
   natsserver:
     in:
       - github.com/nats-io/nats-server/v2/**
@@ -69,6 +86,9 @@ vendors:
   webuistyle:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/webuistyle
+  companionprotocol:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/companionprotocol
   zstd:
     in:
       - github.com/klauspost/compress/zstd
@@ -114,6 +134,21 @@ deps:
       - prometheusclient
       - prometheusquery
       - webuistyle
+  paireddevices:
+    canUse:
+      - companionprotocol
+  pairingoffers:
+    canUse:
+      - companionprotocol
+  companionaccess:
+    canUse:
+      - companionprotocol
+      - natspermissions
+      - natsserver
+  devicepermissions:
+    canUse:
+      - natspermissions
+      - pageserviceassemblies
   yacypeerassembly:
     anyProjectDeps: true
     anyVendorDeps: true

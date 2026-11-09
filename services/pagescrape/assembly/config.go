@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 )
 
 const (
@@ -54,6 +56,21 @@ type ServiceConfig struct {
 	PageOfferMaxBytes       int64
 	ProvisionsStreams       bool
 	OpsAddr                 string
+}
+
+func (c ServiceConfig) BrokerPermissions() natspermissions.Permissions {
+	return natspermissions.JoinedFrom(
+		natspermissions.PullingFrom(
+			pagescrapecontract.ScrapeRequestsStreamName, c.ScrapeRequestDurable,
+		),
+		natspermissions.WatchingBacklogOf(pagescrapecontract.ScrapePageOffersStreamName),
+		natspermissions.PublishingOn(
+			pagescrapecontract.OfferedPageSubject,
+			pagescrapecontract.ScrapeFailureSubject,
+			pagescrapecontract.EveryScrapeOutcomeSubject,
+		),
+		natspermissions.SubscribingTo(pagescrapecontract.EveryIntakeReceiptSubject),
+	)
 }
 
 type fetchSettings struct {

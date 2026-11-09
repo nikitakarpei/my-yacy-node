@@ -58,7 +58,15 @@ func RunPeer(
 		return errors.Join(err, web.Close())
 	}
 	network := processnetwork.New()
-	broker, err := natsbroker.Start(cfg.directoryOf(brokerDirectoryName))
+	var companions *companions
+	if cfg.servesCompanions() {
+		companions, err = openCompanions(cfg)
+		if err != nil {
+			return errors.Join(err, web.Close())
+		}
+		defer companions.close()
+	}
+	broker, err := startBroker(cfg.directoryOf(brokerDirectoryName), companions)
 	if err != nil {
 		return errors.Join(err, web.Close())
 	}
@@ -141,6 +149,13 @@ func RunPeer(
 
 func newPeerKey(ctx context.Context, searchTime time.Duration) (yacymodel.PeerKey, error) {
 	return yacymodel.NewPeerKey(ctx, searchTime, wallclock.Clock{})
+}
+
+func startBroker(directory string, companions *companions) (*natsbroker.Broker, error) {
+	if companions == nil {
+		return natsbroker.Start(directory)
+	}
+	return natsbroker.StartWithEndpoint(directory, companions.endpoint())
 }
 
 func hostOf(part string) string {

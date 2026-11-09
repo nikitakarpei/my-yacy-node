@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-const publicationConfirmationLimit = 10 * time.Second
+const brokerConfirmationLimit = 10 * time.Second
 
 type ScrapeOutcomeFeed struct {
 	connection *nats.Conn
@@ -47,7 +47,7 @@ func (f *ScrapeOutcomeFeed) confirm(
 	pageURL canonicalurl.CanonicalURL,
 	subject string,
 ) {
-	confirmationCtx, cancel := context.WithTimeout(ctx, publicationConfirmationLimit)
+	confirmationCtx, cancel := context.WithTimeout(ctx, brokerConfirmationLimit)
 	defer cancel()
 	if err := f.connection.FlushWithContext(confirmationCtx); err != nil {
 		f.observer.ScrapeFailureConfirmationFailed(ctx, pageURL, subject, err)
@@ -56,23 +56,24 @@ func (f *ScrapeOutcomeFeed) confirm(
 	f.observer.ScrapeFailureAnnounced(ctx, pageURL, subject)
 }
 
-func (f *ScrapeOutcomeFeed) CarryIntakeReceipts(ctx context.Context) error {
+func (f *ScrapeOutcomeFeed) StartCarryingIntakeReceipts(
+	ctx context.Context,
+) (*IntakeReceiptCarrier, error) {
 	subscription, err := f.connection.Subscribe(
 		pagescrapecontract.EveryIntakeReceiptSubject,
 		func(receipt *nats.Msg) { f.carry(ctx, receipt) },
 	)
 	if err != nil {
-		return fmt.Errorf(
+		return nil, fmt.Errorf(
 			"subscribe to %q: %w", pagescrapecontract.EveryIntakeReceiptSubject, err,
 		)
 	}
-	<-ctx.Done()
-	if err := subscription.Unsubscribe(); err != nil {
-		return fmt.Errorf(
-			"unsubscribe from %q: %w", pagescrapecontract.EveryIntakeReceiptSubject, err,
+	if err := f.connection.FlushTimeout(brokerConfirmationLimit); err != nil {
+		return nil, fmt.Errorf(
+			"confirm the subscription to %q: %w", pagescrapecontract.EveryIntakeReceiptSubject, err,
 		)
 	}
-	return nil
+	return &IntakeReceiptCarrier{subscription: subscription}, nil
 }
 
 func (f *ScrapeOutcomeFeed) carry(ctx context.Context, receipt *nats.Msg) {
@@ -86,4 +87,18 @@ func (f *ScrapeOutcomeFeed) carry(ctx context.Context, receipt *nats.Msg) {
 		return
 	}
 	f.observer.IntakeReceiptCarried(ctx, receipt.Subject, subject)
+}
+
+type IntakeReceiptCarrier struct {
+	subscription *nats.Subscription
+}
+
+func (c *IntakeReceiptCarrier) Run(ctx context.Context) error {
+	<-ctx.Done()
+	if err := c.subscription.Unsubscribe(); err != nil {
+		return fmt.Errorf(
+			"unsubscribe from %q: %w", pagescrapecontract.EveryIntakeReceiptSubject, err,
+		)
+	}
+	return nil
 }

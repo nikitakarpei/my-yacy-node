@@ -14,7 +14,12 @@ one program.
 * The program SHALL run `yacynode`, `yacydhtsearch`, `corpustext`, `yacycrawler`,
   `pagescrape`, `pagerwi`, `crawlconsole`, `crawlscrapebridge`, `visitcrawl`, and
   `searchpage`.
-* The program SHALL run a NATS server that only its services can reach.
+* The program SHALL run a NATS server that only its services and the devices it admits can
+  reach.
+* The NATS server SHALL admit devices only on the companion address that the operator sets,
+  and only over TLS.
+* The NATS server SHALL let a paired device run the page services and use only its own
+  subjects, and a pairing device only ask to pair.
 * The program SHALL let only the local host reach its web address until the operator sets it.
 * The program SHALL NOT send outbound requests to loopback or private addresses, other than
   to a proxy that the operator names.

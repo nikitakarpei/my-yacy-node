@@ -21,6 +21,7 @@ const (
 	EnvPageFetchProxyURL      = "YACYPEER_PAGE_FETCH_PROXY_URL"
 	EnvMetricHistoryRetention = "YACYPEER_METRIC_HISTORY_RETENTION"
 	EnvPeerKeySearchTime      = "YACYPEER_PEER_KEY_SEARCH_TIME"
+	EnvCompanionAddr          = "YACYPEER_COMPANION_ADDR"
 
 	DefaultDataDirectory          = "data"
 	DefaultWebAddr                = "127.0.0.1:9090"
@@ -49,6 +50,7 @@ type PeerConfig struct {
 	NetworkName            string
 	SeedlistURLs           string
 	WebAddr                string
+	CompanionAddr          string
 	MetricHistoryRetention time.Duration
 	PeerKeySearchTime      time.Duration
 }
@@ -93,6 +95,7 @@ func LoadPeerConfig(getenv func(string) string) (PeerConfig, error) {
 		NetworkName:            networkName,
 		SeedlistURLs:           seedlistURLs,
 		WebAddr:                envconfig.String(getenv, EnvWebAddr, DefaultWebAddr),
+		CompanionAddr:          envconfig.String(getenv, EnvCompanionAddr, ""),
 		MetricHistoryRetention: metricHistoryRetention,
 		PeerKeySearchTime:      peerKeySearchTime,
 	}, nil
@@ -124,6 +127,10 @@ func proxyURLFrom(getenv func(string) string, key string) (*url.URL, error) {
 
 func (cfg PeerConfig) namesAPeerProxy() bool {
 	return cfg.PeerProxyURL != nil
+}
+
+func (cfg PeerConfig) servesCompanions() bool {
+	return cfg.CompanionAddr != ""
 }
 
 func (cfg PeerConfig) directoryOf(serviceName string) string {
