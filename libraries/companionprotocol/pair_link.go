@@ -21,7 +21,8 @@ const (
 
 var (
 	errNotACompanionLink = errors.New("not a link for the YaCy companion app")
-	ErrUnreadableLink    = errors.New("a companion link that this app cannot read")
+	ErrUnknownLinkKind   = errors.New("a companion link of a kind that this app does not know")
+	ErrUnreadableLink    = errors.New("a pair link that this app cannot read")
 )
 
 type PairLink struct {
@@ -47,14 +48,16 @@ func PairLinkFrom(text string) (PairLink, error) {
 	if err != nil || linkURL.Scheme != linkScheme {
 		return PairLink{}, errNotACompanionLink
 	}
+	if linkURL.Host != pairHost {
+		return PairLink{}, ErrUnknownLinkKind
+	}
 	parameters := linkURL.Query()
 	link := PairLink{
 		Addresses:     slices.DeleteFunc(parameters[parameterAddress], isEmpty),
 		BrokerKeyHash: BrokerKeyHash(parameters.Get(parameterBrokerKeyHash)),
 		Secret:        Secret(parameters.Get(parameterSecret)),
 	}
-	if linkURL.Host != pairHost || len(link.Addresses) == 0 || link.BrokerKeyHash == "" ||
-		link.Secret == "" {
+	if len(link.Addresses) == 0 || link.BrokerKeyHash == "" || link.Secret == "" {
 		return PairLink{}, ErrUnreadableLink
 	}
 	return link, nil

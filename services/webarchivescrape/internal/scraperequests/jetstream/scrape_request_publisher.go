@@ -22,7 +22,12 @@ type Publisher struct {
 }
 
 func Open(natsURL string) (*Publisher, error) {
-	stream, conn, err := jetstreamconnect.Open(natsURL, (&net.Dialer{}).DialContext)
+	stream, conn, err := jetstreamconnect.Open(
+		natsURL,
+		(&net.Dialer{}).DialContext,
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
+	)
 	if err != nil {
 		return nil, err
 	}

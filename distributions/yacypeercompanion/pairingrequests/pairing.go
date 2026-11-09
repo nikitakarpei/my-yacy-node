@@ -1,7 +1,7 @@
-// Package pairing pairs the app with a peer from the text of a pair link, and unpairs it. It
-// tells which kind of link a text is, gives the challenge for the attestation of the device key,
-// sends the pairing request with the secret of the link, and reads the result.
-package pairing
+// Package pairingrequests sends the pairing request of the app to a peer from the text of a pair
+// link, and its unpairing request. It tells which kind of link a text is, gives the challenge for
+// the attestation of the device key, and reads the result of the pairing request.
+package pairingrequests
 
 import (
 	"bytes"
@@ -19,9 +19,10 @@ import (
 )
 
 const (
-	LinkPair       = "pair"
-	LinkUnreadable = "unreadable"
-	LinkForeign    = "foreign"
+	LinkPair        = "pair"
+	LinkUnknownKind = "unknown-kind"
+	LinkUnreadable  = "unreadable"
+	LinkForeign     = "foreign"
 
 	ResultAccepted         = "accepted"
 	ResultPeerUnreachable  = "peer-unreachable"
@@ -47,6 +48,8 @@ func LinkKindOf(text string) string {
 	switch {
 	case err == nil:
 		return LinkPair
+	case errors.Is(err, companionprotocol.ErrUnknownLinkKind):
+		return LinkUnknownKind
 	case errors.Is(err, companionprotocol.ErrUnreadableLink):
 		return LinkUnreadable
 	default:
@@ -85,7 +88,7 @@ func (r *Request) Send(key DeviceKey) string {
 		return ResultNotSent
 	}
 	connection, err := brokeraccess.NewConnector(wallclock.Clock{}).
-		ConnectToPair(link, companionprotocol.DeviceName(r.deviceName))
+		ConnectOnce(link, brokeraccess.PairingAccess(link, companionprotocol.DeviceName(r.deviceName)))
 	if errors.Is(err, nats.ErrAuthorization) {
 		return ResultSecretExpired
 	}

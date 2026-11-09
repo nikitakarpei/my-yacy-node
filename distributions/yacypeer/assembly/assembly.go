@@ -113,7 +113,7 @@ func RunPeer(
 		network:            network,
 		visitLinkSecret:    visitLinkSecret,
 		peerKey:            peerKey,
-		intakeAdmission:    companions.intakeAdmission(),
+		intakeAdmission:    companions.IntakeAdmission(),
 		webUILinks:         webUILinksWith(companions.tabLinks()),
 	}
 	services, urls, err := peer.services(ctx, getenv)

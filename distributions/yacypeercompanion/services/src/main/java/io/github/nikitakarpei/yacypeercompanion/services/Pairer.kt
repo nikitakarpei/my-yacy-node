@@ -6,7 +6,7 @@ import android.provider.Settings
 import android.util.Log
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.PairingProblem
-import pairing.Pairing
+import pairingrequests.Pairingrequests
 import kotlin.concurrent.thread
 
 private const val LOG_TAG = "Pairer"
@@ -45,13 +45,13 @@ class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> U
     }
 
     private fun pair(linkText: String): CompanionEvent {
-        val challenge = Pairing.challengeFrom(linkText) ?: return CompanionEvent.PairingFailed(PairingProblem.NOT_SENT)
+        val challenge = Pairingrequests.challengeFrom(linkText) ?: return CompanionEvent.PairingFailed(PairingProblem.NOT_SENT)
         runCatching { DeviceKeyEntry.generate(challenge) }.onFailure {
             Log.w(LOG_TAG, "device key", it)
             return CompanionEvent.DeviceKeyUnavailable
         }
         val key = DeviceKeyEntry.current() ?: return CompanionEvent.DeviceKeyUnavailable
-        val request = Pairing.newRequest(linkText, deviceNameOf(ctx), appVersionOf(ctx))
+        val request = Pairingrequests.newRequest(linkText, deviceNameOf(ctx), appVersionOf(ctx))
         DeviceKeyEntry.attestationChain().forEach { request.addCertificate(it) }
         return eventFrom(request.send(key))
     }
@@ -83,7 +83,7 @@ class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> U
         if (key == null) {
             Log.w(LOG_TAG, "no device key to send the unpairing request with")
         } else {
-            Pairing.unpair(linkText, key)
+            Pairingrequests.unpair(linkText, key)
         }
         DeviceKeyEntry.delete()
     }
@@ -95,15 +95,15 @@ class Pairer(private val ctx: Context, private val events: (CompanionEvent) -> U
 }
 
 fun eventFrom(result: String): CompanionEvent = when (result) {
-    Pairing.ResultAccepted -> CompanionEvent.PairingAccepted
-    Pairing.ResultPeerUnreachable -> CompanionEvent.PairingFailed(PairingProblem.PEER_UNREACHABLE)
-    Pairing.ResultSecretExpired -> CompanionEvent.PairingFailed(PairingProblem.SECRET_EXPIRED)
-    Pairing.ResultAppOutdated -> CompanionEvent.PairingFailed(PairingProblem.APP_OUTDATED)
-    Pairing.ResultPeerOutdated -> CompanionEvent.PairingFailed(PairingProblem.PEER_OUTDATED)
-    Pairing.ResultAppNotOfficial -> CompanionEvent.PairingFailed(PairingProblem.APP_NOT_OFFICIAL)
-    Pairing.ResultDeviceNotTrusted -> CompanionEvent.PairingFailed(PairingProblem.DEVICE_NOT_TRUSTED)
-    Pairing.ResultNotSent -> CompanionEvent.PairingFailed(PairingProblem.NOT_SENT)
-    Pairing.ResultReplyUnreadable -> CompanionEvent.PairingFailed(PairingProblem.REPLY_UNREADABLE)
+    Pairingrequests.ResultAccepted -> CompanionEvent.PairingAccepted
+    Pairingrequests.ResultPeerUnreachable -> CompanionEvent.PairingFailed(PairingProblem.PEER_UNREACHABLE)
+    Pairingrequests.ResultSecretExpired -> CompanionEvent.PairingFailed(PairingProblem.SECRET_EXPIRED)
+    Pairingrequests.ResultAppOutdated -> CompanionEvent.PairingFailed(PairingProblem.APP_OUTDATED)
+    Pairingrequests.ResultPeerOutdated -> CompanionEvent.PairingFailed(PairingProblem.PEER_OUTDATED)
+    Pairingrequests.ResultAppNotOfficial -> CompanionEvent.PairingFailed(PairingProblem.APP_NOT_OFFICIAL)
+    Pairingrequests.ResultDeviceNotTrusted -> CompanionEvent.PairingFailed(PairingProblem.DEVICE_NOT_TRUSTED)
+    Pairingrequests.ResultNotSent -> CompanionEvent.PairingFailed(PairingProblem.NOT_SENT)
+    Pairingrequests.ResultReplyUnreadable -> CompanionEvent.PairingFailed(PairingProblem.REPLY_UNREADABLE)
     else -> CompanionEvent.PairingFailed(PairingProblem.REFUSED)
 }
 
