@@ -2,7 +2,6 @@ package pagescrapeassembly_test
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -10,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -19,6 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 )
 
@@ -26,6 +27,8 @@ const (
 	offerWait     = 10 * time.Second
 	shutdownWait  = 10 * time.Second
 	originPageURL = "http://origin.example/"
+
+	brokerPassword = "broker-password"
 )
 
 func originServing(t *testing.T, body string) *url.URL {
@@ -58,13 +61,13 @@ func serviceConfig(natsURL string, proxy *url.URL) pagescrape.ServiceConfig {
 	}
 }
 
-func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
-	natsURL := natstestserver.Start(t)
+func TestRunServiceOffersThePageAScrapeRequestNamesWithTheAccessOfTheBroker(t *testing.T) {
+	natsURL := natstestserver.StartWithPassword(t, brokerPassword)
 	cfg := serviceConfig(
 		natsURL,
 		originServing(t, "<html lang=\"en\"><body>words here</body></html>"),
 	)
-	broker := natstestserver.ConnectJetStream(t, natsURL)
+	broker := natstestserver.ConnectJetStream(t, natsURL, nats.UserInfo("", brokerPassword))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -73,7 +76,8 @@ func TestRunServiceOffersThePageAScrapeRequestNames(t *testing.T) {
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
-			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{}, prometheus.NewRegistry(), health)
+			jetstreamconnect.BrokerAccess{Password: brokerPassword}, pullintake.EveryItemAdmitted{},
+			prometheus.NewRegistry(), health)
 	}()
 
 	offers := pageOfferConsumer(t, ctx, broker)
@@ -114,7 +118,8 @@ func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.
 	broker := natstestserver.ConnectJetStream(t, natsURL)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	admission := heldAdmission{asked: make(chan struct{}, 1), released: make(chan struct{})}
+	release := make(chan struct{})
+	admission := pullintaketest.AdmissionHeldUntil(release)
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagescrape.RunService(
@@ -124,7 +129,7 @@ func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.
 	}()
 	offers := pageOfferConsumer(t, ctx, broker)
 	publishScrapeRequest(t, ctx, broker, originPageURL)
-	admission.awaitAsked(t)
+	admission.AwaitAsked(t, offerWait)
 
 	scrapeRequests, err := broker.Consumer(
 		ctx, pagescrapecontract.ScrapeRequestsStreamName, pagescrape.DefaultScrapeRequestDurable,
@@ -140,40 +145,13 @@ func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.
 		t.Errorf("pending = %d, taken = %d, want the scrape request left in the stream",
 			info.NumPending, info.NumAckPending)
 	}
-	close(admission.released)
+	close(release)
 	if _, err := offers.Next(jetstream.FetchMaxWait(offerWait)); err != nil {
 		t.Fatalf("await page offer after admission: %v", err)
 	}
 	cancel()
 	if err := <-runDone; err != nil {
 		t.Errorf("run: %v", err)
-	}
-}
-
-type heldAdmission struct {
-	asked    chan struct{}
-	released chan struct{}
-}
-
-func (a heldAdmission) AwaitAdmission(ctx context.Context) error {
-	select {
-	case a.asked <- struct{}{}:
-	default:
-	}
-	select {
-	case <-a.released:
-		return nil
-	case <-ctx.Done():
-		return fmt.Errorf("await admission: %w", ctx.Err())
-	}
-}
-
-func (a heldAdmission) awaitAsked(t *testing.T) {
-	t.Helper()
-	select {
-	case <-a.asked:
-	case <-time.After(offerWait):
-		t.Fatal("the service never asked the intake admission")
 	}
 }
 

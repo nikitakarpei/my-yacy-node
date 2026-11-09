@@ -2,11 +2,11 @@ package pagerwiassembly_test
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -17,6 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -26,6 +27,9 @@ const (
 	shutdownWait = 10 * time.Second
 	pageURL      = "https://example.org/page"
 	nodeDurable  = "assemblytest"
+
+	pageOfferPassword = "page-offer-password"
+	pageRWIPassword   = "page-rwi-password"
 )
 
 func serviceConfig(natsURL string) pagerwi.ServiceConfig {
@@ -40,30 +44,44 @@ func serviceConfig(natsURL string) pagerwi.ServiceConfig {
 	}
 }
 
-func TestRunServicePublishesThePageRWIOfAnOfferedPage(t *testing.T) {
-	natsURL := natstestserver.Start(t)
-	broker := natstestserver.ConnectJetStream(t, natsURL)
+func TestRunServicePublishesThePageRWIOfAnOfferedPageWithTheAccessOfEachBroker(t *testing.T) {
+	pageOfferURL := natstestserver.StartWithPassword(t, pageOfferPassword)
+	pageRWIURL := natstestserver.StartWithPassword(t, pageRWIPassword)
+	pageOfferBroker := natstestserver.ConnectJetStream(
+		t, pageOfferURL, nats.UserInfo("", pageOfferPassword),
+	)
+	pageRWIBroker := natstestserver.ConnectJetStream(
+		t,
+		pageRWIURL,
+		nats.UserInfo("", pageRWIPassword),
+	)
+	cfg := serviceConfig(pageOfferURL)
+	cfg.PageRWINATSURL = pageRWIURL
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	createPageOffersStream(t, ctx, broker)
+	createPageOffersStream(t, ctx, pageOfferBroker)
 
 	health := &servicehealth.Health{}
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
-			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
-			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{}, prometheus.NewRegistry(), health,
+			ctx, cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
+			jetstreamconnect.BrokerAccess{Password: pageOfferPassword},
+			jetstreamconnect.BrokerAccess{Password: pageRWIPassword},
+			pullintake.EveryItemAdmitted{}, prometheus.NewRegistry(), health,
 		)
 	}()
-	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
+	pageRWIs := consumerOnceOpen(
+		t, ctx, pageRWIBroker, pagerwicontract.PageRWIsStreamName, nodeDurable,
+	)
 	awaitConsumer(
 		t,
 		ctx,
-		broker,
+		pageOfferBroker,
 		pagescrapecontract.ScrapePageOffersStreamName,
 		pagerwi.DefaultPageOfferDurable,
 	)
-	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
+	offerPage(t, ctx, pageOfferBroker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
 
 	message, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait))
 	if err != nil {
@@ -100,7 +118,8 @@ func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	createPageOffersStream(t, ctx, broker)
-	admission := heldAdmission{asked: make(chan struct{}, 1), released: make(chan struct{})}
+	release := make(chan struct{})
+	admission := pullintaketest.AdmissionHeldUntil(release)
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagerwi.RunService(
@@ -110,7 +129,7 @@ func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
 		)
 	}()
 	pageRWIs := consumerOnceOpen(t, ctx, broker, pagerwicontract.PageRWIsStreamName, nodeDurable)
-	admission.awaitAsked(t)
+	admission.AwaitAsked(t, brokerWait)
 	offerPage(t, ctx, broker, "<html lang=\"en\"><body><p>alpha beta</p></body></html>")
 
 	pageOffers, err := broker.Consumer(
@@ -127,40 +146,13 @@ func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
 		t.Errorf("pending = %d, taken = %d, want the page offer left in the stream",
 			info.NumPending, info.NumAckPending)
 	}
-	close(admission.released)
+	close(release)
 	if _, err := pageRWIs.Next(jetstream.FetchMaxWait(brokerWait)); err != nil {
 		t.Fatalf("await rwi after admission: %v", err)
 	}
 	cancel()
 	if err := <-runDone; err != nil {
 		t.Errorf("run: %v", err)
-	}
-}
-
-type heldAdmission struct {
-	asked    chan struct{}
-	released chan struct{}
-}
-
-func (a heldAdmission) AwaitAdmission(ctx context.Context) error {
-	select {
-	case a.asked <- struct{}{}:
-	default:
-	}
-	select {
-	case <-a.released:
-		return nil
-	case <-ctx.Done():
-		return fmt.Errorf("await admission: %w", ctx.Err())
-	}
-}
-
-func (a heldAdmission) awaitAsked(t *testing.T) {
-	t.Helper()
-	select {
-	case <-a.asked:
-	case <-time.After(brokerWait):
-		t.Fatal("the service never asked the intake admission")
 	}
 }
 

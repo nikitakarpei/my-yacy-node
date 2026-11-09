@@ -23,12 +23,26 @@ func Start(t *testing.T) string {
 	return StartedServer(t).ClientURL()
 }
 
+func StartWithPassword(t *testing.T, password string) string {
+	t.Helper()
+	return startedServerWith(t, passwordCheck(password)).ClientURL()
+}
+
 func StartedServer(t *testing.T) *natsserver.Server {
 	t.Helper()
+	return startedServerWith(t, nil)
+}
+
+func startedServerWith(
+	t *testing.T,
+	authentication natsserver.Authentication,
+) *natsserver.Server {
+	t.Helper()
 	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port:      -1,
-		JetStream: true,
-		StoreDir:  storeDirectoryFor(t),
+		Port:                       -1,
+		JetStream:                  true,
+		StoreDir:                   storeDirectoryFor(t),
+		CustomClientAuthentication: authentication,
 	})
 	if err != nil {
 		t.Fatalf("new nats server: %v", err)
@@ -42,6 +56,12 @@ func StartedServer(t *testing.T) *natsserver.Server {
 		srv.WaitForShutdown()
 	})
 	return srv
+}
+
+type passwordCheck string
+
+func (password passwordCheck) Check(client natsserver.ClientAuthentication) bool {
+	return client.GetOpts().Password == string(password)
 }
 
 func storeDirectoryFor(t *testing.T) string {
@@ -86,18 +106,18 @@ func ConnectWithoutServer(t *testing.T) *nats.Conn {
 	return connection
 }
 
-func ConnectJetStream(t *testing.T, url string) jetstream.JetStream {
+func ConnectJetStream(t *testing.T, url string, options ...nats.Option) jetstream.JetStream {
 	t.Helper()
-	js, err := jetstream.New(Connect(t, url))
+	js, err := jetstream.New(Connect(t, url, options...))
 	if err != nil {
 		t.Fatalf("init jetstream: %v", err)
 	}
 	return js
 }
 
-func Connect(t *testing.T, url string) *nats.Conn {
+func Connect(t *testing.T, url string, options ...nats.Option) *nats.Conn {
 	t.Helper()
-	connection, err := nats.Connect(url)
+	connection, err := nats.Connect(url, options...)
 	if err != nil {
 		t.Fatalf("connect nats: %v", err)
 	}
