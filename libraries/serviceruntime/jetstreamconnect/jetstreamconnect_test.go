@@ -24,7 +24,10 @@ const callbackWait = 5 * time.Second
 
 func TestOpenConnectsAndCloses(t *testing.T) {
 	url := natstestserver.Start(t)
-	js, connection, err := jetstreamconnect.Open(url, (&net.Dialer{}).DialContext)
+	js, connection, err := jetstreamconnect.Open(
+		url, (&net.Dialer{}).DialContext,
+		jetstreamconnect.UnobservedConnection{}, jetstreamconnect.BrokerAccess{},
+	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -50,6 +53,8 @@ func TestOpenConnectsThroughTheDialer(t *testing.T) {
 	js, connection, err := jetstreamconnect.Open(
 		"nats://broker.internal:4222",
 		func(context.Context, string, string) (net.Conn, error) { return broker.InProcessConn() },
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
@@ -61,7 +66,10 @@ func TestOpenConnectsThroughTheDialer(t *testing.T) {
 }
 
 func TestOpenRejectsUnreachable(t *testing.T) {
-	_, _, err := jetstreamconnect.Open("nats://127.0.0.1:1", (&net.Dialer{}).DialContext)
+	_, _, err := jetstreamconnect.Open(
+		"nats://127.0.0.1:1", (&net.Dialer{}).DialContext,
+		jetstreamconnect.UnobservedConnection{}, jetstreamconnect.BrokerAccess{},
+	)
 	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
 		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
 	}
@@ -98,18 +106,18 @@ func awaitEvent(t *testing.T, events connectionEvents, want string) {
 	}
 }
 
-func TestOpenObservedReportsALostAndARestoredConnection(t *testing.T) {
+func TestOpenReportsALostAndARestoredConnection(t *testing.T) {
 	broker := brokerOn(t, -1)
 	port := broker.Addr().(*net.TCPAddr).Port
 	events := make(connectionEvents, 2)
-	_, connection, err := jetstreamconnect.OpenObserved(
+	_, connection, err := jetstreamconnect.Open(
 		broker.ClientURL(),
 		(&net.Dialer{}).DialContext,
 		events,
 		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
-		t.Fatalf("OpenObserved: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
 	defer connection.Close()
 
@@ -119,28 +127,56 @@ func TestOpenObservedReportsALostAndARestoredConnection(t *testing.T) {
 	awaitEvent(t, events, "restored")
 }
 
-func TestOpenObservedRejectsUnreachable(t *testing.T) {
-	_, _, err := jetstreamconnect.OpenObserved(
-		"nats://127.0.0.1:1",
+type namedClientCheck struct {
+	names chan string
+}
+
+func (c namedClientCheck) Check(client natsserver.ClientAuthentication) bool {
+	options := client.GetOpts()
+	c.names <- options.Name
+	return options.Password == "secret"
+}
+
+func TestOpenGivesTheCredentialsOfTheAccess(t *testing.T) {
+	check := namedClientCheck{names: make(chan string, 1)}
+	broker, err := natsserver.NewServer(&natsserver.Options{
+		Host: "127.0.0.1", Port: -1, CustomClientAuthentication: check,
+	})
+	if err != nil {
+		t.Fatalf("new broker: %v", err)
+	}
+	go broker.Start()
+	if !broker.ReadyForConnections(callbackWait) {
+		t.Fatal("broker not ready")
+	}
+	t.Cleanup(broker.Shutdown)
+
+	_, connection, err := jetstreamconnect.Open(
+		broker.ClientURL(),
 		(&net.Dialer{}).DialContext,
-		make(connectionEvents, 1),
-		jetstreamconnect.BrokerAccess{},
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{ClientName: "Pixel 8", Password: "secret"},
 	)
-	if !errors.Is(err, jetstreamconnect.ErrBrokerUnreachable) {
-		t.Fatalf("err = %v, want ErrBrokerUnreachable", err)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	defer connection.Close()
+
+	if name := <-check.names; name != "Pixel 8" {
+		t.Errorf("client name = %q, want Pixel 8", name)
 	}
 }
 
-func TestOpenObservedTakesRepliesUnderTheInboxPrefixOfTheAccess(t *testing.T) {
+func TestOpenTakesRepliesUnderTheInboxPrefixOfTheAccess(t *testing.T) {
 	broker := brokerOn(t, -1)
-	_, connection, err := jetstreamconnect.OpenObserved(
+	_, connection, err := jetstreamconnect.Open(
 		broker.ClientURL(),
 		(&net.Dialer{}).DialContext,
 		make(connectionEvents, 1),
 		jetstreamconnect.BrokerAccess{InboxPrefix: "_INBOX.d7f3"},
 	)
 	if err != nil {
-		t.Fatalf("OpenObserved: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
 	defer connection.Close()
 
@@ -149,10 +185,10 @@ func TestOpenObservedTakesRepliesUnderTheInboxPrefixOfTheAccess(t *testing.T) {
 	}
 }
 
-func TestOpenObservedConnectsOverTheTLSOfTheAccess(t *testing.T) {
+func TestOpenConnectsOverTheTLSOfTheAccess(t *testing.T) {
 	certificate := selfSignedCertificate(t)
 	broker := tlsBrokerWith(t, certificate)
-	_, connection, err := jetstreamconnect.OpenObserved(
+	_, connection, err := jetstreamconnect.Open(
 		"tls://"+broker.Addr().String(),
 		(&net.Dialer{}).DialContext,
 		make(connectionEvents, 1),
@@ -163,7 +199,7 @@ func TestOpenObservedConnectsOverTheTLSOfTheAccess(t *testing.T) {
 		}},
 	)
 	if err != nil {
-		t.Fatalf("OpenObserved: %v", err)
+		t.Fatalf("Open: %v", err)
 	}
 	defer connection.Close()
 
