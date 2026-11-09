@@ -2,14 +2,9 @@ package companionaccess_test
 
 import (
 	"context"
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
 	"crypto/tls"
-	"crypto/x509"
 	"errors"
 	"fmt"
-	"math/big"
 	"net"
 	"sync"
 	"testing"
@@ -22,6 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/natspermissions"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/brokerkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionaccess/companionaccesstest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 )
 
@@ -115,29 +111,6 @@ func startFixture(t *testing.T) fixture {
 	return fixture{broker: broker, devices: devices, secrets: secrets}
 }
 
-func deviceCertificate(t *testing.T) (tls.Certificate, companionprotocol.DeviceID) {
-	t.Helper()
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		t.Fatalf("GenerateKey: %v", err)
-	}
-	template := &x509.Certificate{
-		SerialNumber: big.NewInt(1),
-		NotBefore:    connectedAt.Add(-time.Hour),
-		NotAfter:     time.Now().Add(time.Hour),
-	}
-	der, err := x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)
-	if err != nil {
-		t.Fatalf("CreateCertificate: %v", err)
-	}
-	leaf, err := x509.ParseCertificate(der)
-	if err != nil {
-		t.Fatalf("ParseCertificate: %v", err)
-	}
-	return tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key},
-		companionprotocol.DeviceIDFrom(leaf.RawSubjectPublicKeyInfo)
-}
-
 type violations chan error
 
 func connect(
@@ -178,6 +151,8 @@ func requireAllowed(
 	_, peer, err := jetstreamconnect.Open(
 		"nats://broker.internal",
 		func(context.Context, string, string) (net.Conn, error) { return broker.Connection() },
+		jetstreamconnect.UnobservedConnection{},
+		jetstreamconnect.BrokerAccess{},
 	)
 	if err != nil {
 		t.Fatalf("connect in the process: %v", err)
@@ -215,7 +190,7 @@ func requireRefused(t *testing.T, connection *nats.Conn, seen violations, subjec
 
 func TestAPairedDeviceConnectsWithItsKeyAndMayDoItsWork(t *testing.T) {
 	fixture := startFixture(t)
-	certificate, deviceID := deviceCertificate(t)
+	certificate, deviceID := companionaccesstest.DeviceCertificate(t)
 	fixture.devices.paired[deviceID] = true
 
 	connection, seen, err := connect(t, fixture.broker, []tls.Certificate{certificate},
@@ -242,7 +217,7 @@ func TestAPairedDeviceConnectsWithItsKeyAndMayDoItsWork(t *testing.T) {
 
 func TestAnUnpairedDeviceCannotConnect(t *testing.T) {
 	fixture := startFixture(t)
-	certificate, _ := deviceCertificate(t)
+	certificate, _ := companionaccesstest.DeviceCertificate(t)
 
 	if _, _, err := connect(t, fixture.broker, []tls.Certificate{certificate}); err == nil {
 		t.Error("an unpaired device connected")
