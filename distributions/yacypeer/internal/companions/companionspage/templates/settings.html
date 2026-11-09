@@ -12,7 +12,7 @@
 {{.Frame.TabBar}}
 <main data-states="{{.StatesPath}}">
   {{template "header" .Header}}
-  <form class="card settings" method="post" action="{{.SettingsPath}}">
+  <form class="webui-card settings" method="post" action="{{.SettingsPath}}">
     <label class="setting">
       <input class="webui-switch" type="checkbox" role="switch" name="{{.FieldNames.CompanionsFetch}}" value="on"{{if .Fetching.CompanionsFetch}} checked{{end}}>
       Fetch pages with paired companions

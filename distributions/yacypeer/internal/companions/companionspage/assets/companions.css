@@ -9,11 +9,6 @@ h1 {
 main > h1 {
   margin-bottom: var(--webui-space-4);
 }
-.card {
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-  border-radius: var(--webui-radius);
-}
 .banner {
   margin-bottom: var(--webui-space-4);
   padding: var(--webui-space-3) var(--webui-space-4);
@@ -22,26 +17,6 @@ main > h1 {
   color: var(--webui-positive-ink);
   font-size: var(--webui-text-sm);
   font-weight: 500;
-}
-.table {
-  overflow-x: auto;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--webui-text-sm);
-}
-th {
-  text-align: left;
-  font-weight: 500;
-  color: var(--webui-muted);
-}
-th,
-td {
-  padding: 10px var(--webui-space-4);
-}
-tbody tr {
-  border-top: 1px solid var(--webui-line);
 }
 .banner.paused {
   display: flex;
@@ -85,9 +60,6 @@ tbody tr {
 }
 .device {
   font-weight: 500;
-}
-.action {
-  text-align: right;
 }
 .visually-hidden {
   position: absolute;
@@ -158,7 +130,7 @@ tbody tr {
 .dialog h2 {
   margin: 0;
 }
-.actions {
+.dialog-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;

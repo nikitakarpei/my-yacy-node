@@ -8,36 +8,6 @@ h1 {
 h2 {
   margin: var(--webui-space-5) 0 var(--webui-space-2);
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-}
-th,
-td {
-  text-align: left;
-  padding: var(--webui-space-2) var(--webui-space-3);
-  border-bottom: 1px solid var(--webui-line);
-  vertical-align: top;
-}
-th {
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: var(--webui-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: var(--webui-subtle-surface);
-}
-td.number,
-th.number {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-td.actions {
-  text-align: right;
-  white-space: nowrap;
-}
 .muted {
   color: var(--webui-muted);
 }
@@ -84,9 +54,6 @@ td.actions {
   border-radius: var(--webui-radius);
 }
 .card {
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-  border-radius: var(--webui-radius);
   padding: var(--webui-space-4) 1.25rem;
 }
 dl {
@@ -210,17 +177,6 @@ textarea {
   display: flex;
   gap: var(--webui-space-3);
 }
-.table-scroll {
-  overflow-x: auto;
-  background: var(--webui-surface);
-  border: 1px solid var(--webui-line);
-}
-.table-scroll table {
-  border: 0;
-}
-.table-scroll th {
-  white-space: nowrap;
-}
 col.column-group {
   border-left: 1px solid var(--webui-line);
 }
@@ -234,7 +190,6 @@ td.host {
 }
 tr.totals td {
   font-weight: 600;
-  background: var(--webui-subtle-surface);
 }
 td.crawl {
   min-width: 14rem;

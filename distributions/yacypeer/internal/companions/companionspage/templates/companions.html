@@ -13,7 +13,7 @@
 <main data-states="{{.StatesPath}}" data-companions-path="{{.CompanionsPath}}" data-paired-parameter="{{.PairedParameter}}" data-lists-devices="true">
   {{template "header" .Header}}
   {{if .Devices}}
-  <div class="card table">
+  <div class="webui-card webui-table-frame">
     <table>
       <thead>
         <tr>
@@ -29,7 +29,7 @@
           <td class="device">{{.Name}}</td>
           <td class="app-version">{{.AppVersion}}</td>
           <td class="last-connected">{{if .Connected}}<span class="connected">Connected</span>{{else}}{{.LastConnected}}{{end}}</td>
-          <td class="action"><a class="button danger" href="{{$.CompanionsPath}}?{{$.UnpairParameter}}={{.ID}}">Unpair</a></td>
+          <td class="actions"><a class="button danger" href="{{$.CompanionsPath}}?{{$.UnpairParameter}}={{.ID}}">Unpair</a></td>
         </tr>
         {{end}}
       </tbody>
@@ -37,7 +37,7 @@
   </div>
   <a class="button primary pair" href="{{.PairPath}}">Pair new device</a>
   {{else}}
-  <div class="card empty">
+  <div class="webui-card empty">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2"></rect><path d="M11 18.5h2"></path></svg>
     <h2>No devices are paired</h2>
     <div class="empty-actions">
@@ -52,7 +52,7 @@
   <form class="dialog" role="dialog" aria-labelledby="unpair-title" method="post" action="{{$.UnpairPath}}">
     <h2 id="unpair-title">Unpair {{.Name}}?</h2>
     <input type="hidden" name="{{$.DeviceField}}" value="{{.ID}}">
-    <div class="actions">
+    <div class="dialog-actions">
       <a class="button" href="{{$.CompanionsPath}}">Cancel</a>
       <button class="danger" type="submit">Unpair</button>
     </div>
