@@ -21,9 +21,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionsettings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/companionspage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/devicepermissions"
+	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/fetchingduty"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/paireddevices"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/pairingoffers"
-	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/companions/peerintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/natsbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/processnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeer/internal/thishost"
@@ -39,7 +39,7 @@ type companions struct {
 	devices           *paireddevices.Devices
 	offers            *pairingoffers.Offers
 	settings          *companionsettings.Keeper
-	intakeAdmission   *peerintake.Admission
+	fetchingDuty      *fetchingduty.Duty
 	certificate       tls.Certificate
 	address           string
 	partitionExponent uint
@@ -51,12 +51,12 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (*companions, error) {
 	if err != nil {
 		return nil, err
 	}
-	intakeAdmission := peerintake.New()
-	devices, err := paireddevices.Open(ctx, directory, intakeAdmission)
+	fetchingDuty := fetchingduty.New()
+	devices, err := paireddevices.Open(ctx, directory, fetchingDuty)
 	if err != nil {
 		return nil, err
 	}
-	settings, err := companionsettings.Open(ctx, directory, intakeAdmission)
+	settings, err := companionsettings.Open(ctx, directory, fetchingDuty)
 	if err != nil {
 		devices.Close()
 		return nil, err
@@ -65,7 +65,7 @@ func openCompanions(ctx context.Context, cfg PeerConfig) (*companions, error) {
 		devices:           devices,
 		offers:            pairingoffers.New(wallclock.Clock{}, pairingSecretLifetime, pairingWait),
 		settings:          settings,
-		intakeAdmission:   intakeAdmission,
+		fetchingDuty:      fetchingDuty,
 		certificate:       certificate,
 		address:           cfg.CompanionAddr,
 		partitionExponent: cfg.PartitionExponent,
@@ -87,7 +87,7 @@ func (c *companions) endpoint() natsbroker.Endpoint {
 }
 
 func (c *companions) IntakeAdmission() pullintake.Admission {
-	return c.intakeAdmission
+	return c.fetchingDuty
 }
 
 func (c *companions) brokerKeyHash() companionprotocol.BrokerKeyHash {
@@ -105,10 +105,10 @@ func (c *companions) register(
 			c.devices,
 			companionaccess.NewUnpairer(c.devices, broker),
 			companionaccess.NewDeviceConnections(broker),
-			c.intakeAdmission,
+			c.fetchingDuty,
 			tabBar,
 		),
-		companionspage.NewSettingsPage(c.settings, c.intakeAdmission, tabBar),
+		companionspage.NewSettingsPage(c.settings, c.fetchingDuty, tabBar),
 		companionspage.NewPairPage(offerOpener{offers: c.offers}, c.pairLinkFor(broker), tabBar),
 	)
 }
@@ -140,7 +140,7 @@ func (c *companions) runners(
 		runnerFor(pairingAnswerer, natsURL, network),
 		runnerFor(deviceAnswerer, natsURL, network),
 		companionpresence.New(
-			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.intakeAdmission,
+			companionaccess.NewDeviceConnections(broker), wallclock.Clock{}, c.fetchingDuty,
 		).Run,
 	}
 }
