@@ -64,6 +64,7 @@ func (a assembledService[C, L]) service() service {
 		registry:  registry,
 		listeners: a.listeners,
 		run: func(ctx context.Context) error {
+			defer func() { _ = a.listeners.Close() }()
 			return a.runService(
 				servicelog.ContextFor(ctx, a.name),
 				a.cfg,
