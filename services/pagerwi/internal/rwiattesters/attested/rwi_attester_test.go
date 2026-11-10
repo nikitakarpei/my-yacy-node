@@ -34,11 +34,11 @@ func TestAnRWIOfAVouchedOfferGetsAStampedStatementOverItsPageRWIRoot(t *testing.
 	signer := &fakeSigner{}
 	pageRWI := pageRWIWithPostings(t, page)
 
-	attestation, ready := attested.New(signer, drandChain, &reasons{}).
+	attestation, issued := attested.New(signer, drandChain, &reasons{}).
 		Attest(context.Background(), offer, page, pageRWI)
 
-	if !ready || string(attestation) != pageRWIBundle {
-		t.Fatalf("attestation = %s, ready = %v", attestation, ready)
+	if !issued || string(attestation) != pageRWIBundle {
+		t.Fatalf("attestation = %s, issued = %v", attestation, issued)
 	}
 	statement, err := pagerwicontract.UnmarshalPageRWIStatement(signer.stampedStatement)
 	if err != nil {
@@ -68,11 +68,11 @@ func TestAnRWIOfAnOfferThatDoesNotHoldGoesWithoutAttestation(t *testing.T) {
 		offer, page := attestedOffer(t, drandChain, change)
 		observed := &reasons{}
 
-		attestation, ready := attested.New(&fakeSigner{}, drandChain, observed).
+		attestation, issued := attested.New(&fakeSigner{}, drandChain, observed).
 			Attest(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
-		if !ready || attestation != nil {
-			t.Errorf("%s: attestation = %s, ready = %v", reason, attestation, ready)
+		if !issued || attestation != nil {
+			t.Errorf("%s: attestation = %s, issued = %v", reason, attestation, issued)
 		}
 		if len(observed.reported) != 1 || observed.reported[0] != reason {
 			t.Errorf("%s: reported %v", reason, observed.reported)
@@ -98,11 +98,11 @@ func TestAnRWIWhoseStatementTheKeyDoesNotSignIsNotReady(t *testing.T) {
 	drandChain := quicknet(t)
 	offer, page := attestedOffer(t, drandChain, offerChange{})
 
-	_, ready := attested.New(&fakeSigner{refuses: true}, drandChain, &reasons{}).
+	_, issued := attested.New(&fakeSigner{refuses: true}, drandChain, &reasons{}).
 		Attest(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
-	if ready {
-		t.Error("an RWI whose statement the key did not sign is ready to publish")
+	if issued {
+		t.Error("an RWI whose statement the key did not sign is issued")
 	}
 }
 

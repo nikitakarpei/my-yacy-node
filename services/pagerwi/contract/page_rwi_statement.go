@@ -84,7 +84,10 @@ func UnmarshalPageRWIStatement(data []byte) (PageRWIStatement, error) {
 	if err := json.Unmarshal(data, &wire); err != nil {
 		return PageRWIStatement{}, fmt.Errorf("unmarshal page RWI statement: %w", err)
 	}
-	root, err := pageRWIRootOf(wire)
+	if !wire.isPageRWIStatement() {
+		return PageRWIStatement{}, ErrNotAPageRWIStatement
+	}
+	root, err := pageRWIRootFrom(wire.Subject[0])
 	if err != nil {
 		return PageRWIStatement{}, err
 	}
@@ -101,12 +104,13 @@ func UnmarshalPageRWIStatement(data []byte) (PageRWIStatement, error) {
 	}, nil
 }
 
-func pageRWIRootOf(wire pageRWIStatementWire) (yacymodel.PageRWIRoot, error) {
-	if wire.Type != inTotoStatementType || wire.PredicateType != PageRWIPredicateType ||
-		len(wire.Subject) != 1 || wire.Subject[0].Name != pageRWIRootSubject {
-		return yacymodel.PageRWIRoot{}, ErrNotAPageRWIStatement
-	}
-	raw, err := hex.DecodeString(wire.Subject[0].Digest["sha256"])
+func (w pageRWIStatementWire) isPageRWIStatement() bool {
+	return w.Type == inTotoStatementType && w.PredicateType == PageRWIPredicateType &&
+		len(w.Subject) == 1 && w.Subject[0].Name == pageRWIRootSubject
+}
+
+func pageRWIRootFrom(subject statementSubjectWire) (yacymodel.PageRWIRoot, error) {
+	raw, err := hex.DecodeString(subject.Digest["sha256"])
 	if err != nil {
 		return yacymodel.PageRWIRoot{}, fmt.Errorf("%w: %w", ErrNotAPageRWIStatement, err)
 	}
