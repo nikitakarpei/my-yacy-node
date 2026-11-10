@@ -150,3 +150,18 @@ func partitionsOf(t *testing.T, exponent uint) yacymodel.DHTRingPartitions {
 
 	return partitions
 }
+
+func TestAttestedByKeepsTheRWIAndAddsItsAttestation(t *testing.T) {
+	unattested := pageRWIWithEveryFact(t)
+	unattested.Attestation = nil
+
+	attested := unattested.AttestedBy([]byte(`{"mediaType":"bundle"}`))
+
+	if string(attested.Attestation) != `{"mediaType":"bundle"}` {
+		t.Errorf("attestation = %s", attested.Attestation)
+	}
+	attested.Attestation = nil
+	if !reflect.DeepEqual(attested, unattested) {
+		t.Errorf("attested rwi = %+v, want %+v", attested, unattested)
+	}
+}
