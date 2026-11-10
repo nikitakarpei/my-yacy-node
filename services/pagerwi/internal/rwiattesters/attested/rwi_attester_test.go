@@ -10,9 +10,10 @@ import (
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageattestations/attested"
+	"github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/rwiattesters/attested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -34,7 +35,7 @@ func TestAnRWIOfAVouchedOfferGetsAStampedStatementOverItsPageRWIRoot(t *testing.
 	pageRWI := pageRWIWithPostings(t, page)
 
 	attestation, ready := attested.New(signer, drandChain, &reasons{}).
-		AttestationOf(context.Background(), offer, page, pageRWI)
+		Attest(context.Background(), offer, page, pageRWI)
 
 	if !ready || string(attestation) != pageRWIBundle {
 		t.Fatalf("attestation = %s, ready = %v", attestation, ready)
@@ -68,7 +69,7 @@ func TestAnRWIOfAnOfferThatDoesNotHoldGoesWithoutAttestation(t *testing.T) {
 		observed := &reasons{}
 
 		attestation, ready := attested.New(&fakeSigner{}, drandChain, observed).
-			AttestationOf(context.Background(), offer, page, pageRWIWithPostings(t, page))
+			Attest(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
 		if !ready || attestation != nil {
 			t.Errorf("%s: attestation = %s, ready = %v", reason, attestation, ready)
@@ -85,7 +86,7 @@ func TestAnRWIWithoutPostingsGoesWithoutAttestation(t *testing.T) {
 	observed := &reasons{}
 
 	attestation, _ := attested.New(&fakeSigner{}, drandChain, observed).
-		AttestationOf(context.Background(), offer, page, pagerwicontract.PageRWI{PageURL: page.PageURL})
+		Attest(context.Background(), offer, page, pagerwicontract.PageRWI{PageURL: page.PageURL})
 
 	if attestation != nil || len(observed.reported) != 1 ||
 		observed.reported[0] != attested.ReasonPageWithoutPostings {
@@ -98,7 +99,7 @@ func TestAnRWIWhoseStatementTheKeyDoesNotSignIsNotReady(t *testing.T) {
 	offer, page := attestedOffer(t, drandChain, offerChange{})
 
 	_, ready := attested.New(&fakeSigner{refuses: true}, drandChain, &reasons{}).
-		AttestationOf(context.Background(), offer, page, pageRWIWithPostings(t, page))
+		Attest(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
 	if ready {
 		t.Error("an RWI whose statement the key did not sign is ready to publish")
@@ -238,12 +239,16 @@ type fakeSigner struct {
 	stampedStatement []byte
 }
 
-func (s *fakeSigner) HasSigned(_ context.Context, _, signature []byte) bool {
+func (s *fakeSigner) IsOwnSignature(_ context.Context, _, signature []byte) bool {
 	return string(signature) == ownSignature
 }
 
-func (s *fakeSigner) StampedBundleOf(_ context.Context, statement []byte) ([]byte, bool) {
-	if s.refuses {
+func (s *fakeSigner) Sign(
+	_ context.Context,
+	statement []byte,
+	stamping attestedstatements.TimeStamping,
+) ([]byte, bool) {
+	if s.refuses || stamping != attestedstatements.TimeStamped {
 		return nil, false
 	}
 	s.stampedStatement = statement

@@ -9,9 +9,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-type PageAttestations struct{}
+type RWIAttester struct{}
 
-func (PageAttestations) AttestationOf(
+func (RWIAttester) Attest(
 	context.Context,
 	pagescrapecontract.PageOfferMessage,
 	pagescrapecontract.OfferedPage,

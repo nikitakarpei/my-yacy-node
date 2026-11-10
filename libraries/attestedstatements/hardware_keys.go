@@ -2,7 +2,6 @@ package attestedstatements
 
 type HardwareKeys interface {
 	CurrentKey() (HardwareKey, error)
-	TimeStampOf(signedStatementID []byte) ([]byte, error)
 }
 
 type HardwareKey interface {

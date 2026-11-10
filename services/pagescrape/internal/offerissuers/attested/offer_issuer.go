@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -31,8 +32,12 @@ const (
 )
 
 type StatementSigner interface {
-	HasSigned(ctx context.Context, statement, signature []byte) bool
-	BundleOf(ctx context.Context, statement []byte) ([]byte, bool)
+	IsOwnSignature(ctx context.Context, statement, signature []byte) bool
+	Sign(
+		ctx context.Context,
+		statement []byte,
+		stamping attestedstatements.TimeStamping,
+	) ([]byte, bool)
 }
 
 type Clock interface {
@@ -43,7 +48,7 @@ type AttestationObserver interface {
 	OfferNotAttested(ctx context.Context, pageURL canonicalurl.CanonicalURL, reason string)
 }
 
-type OfferedPages struct {
+type OfferIssuer struct {
 	signer     StatementSigner
 	drandChain verifier.DrandChain
 	clock      Clock
@@ -55,8 +60,8 @@ func New(
 	drandChain verifier.DrandChain,
 	clock Clock,
 	observer AttestationObserver,
-) OfferedPages {
-	return OfferedPages{signer: signer, drandChain: drandChain, clock: clock, observer: observer}
+) OfferIssuer {
+	return OfferIssuer{signer: signer, drandChain: drandChain, clock: clock, observer: observer}
 }
 
 type captureStart struct {
@@ -64,7 +69,7 @@ type captureStart struct {
 	fetchedAt    time.Time
 }
 
-func (p OfferedPages) OfferMessageFrom(
+func (p OfferIssuer) Issue(
 	ctx context.Context,
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
@@ -76,9 +81,9 @@ func (p OfferedPages) OfferMessageFrom(
 		return offerMessageFetchedAt(request, landed, p.clock.Now()), true
 	}
 	offer := offerMessageFetchedAt(request, landed, start.fetchedAt)
-	attestation, signed := p.signer.BundleOf(ctx, pagescrapecontract.MarshalPageOfferStatement(
+	attestation, signed := p.signer.Sign(ctx, pagescrapecontract.MarshalPageOfferStatement(
 		pagescrapecontract.PageOfferStatementOf(offer.Body, request.FetchURL, start.startedAfter),
-	))
+	), attestedstatements.NotTimeStamped)
 	if !signed {
 		return offer, false
 	}
@@ -86,7 +91,7 @@ func (p OfferedPages) OfferMessageFrom(
 	return offer.AttestedBy(attestation), true
 }
 
-func (p OfferedPages) vouchedStartOf(
+func (p OfferIssuer) vouchedStartOf(
 	ctx context.Context,
 	landed redirectfollowingfetch.LandedFetch,
 ) (captureStart, string) {
@@ -108,7 +113,7 @@ func (p OfferedPages) vouchedStartOf(
 	return p.startOf(lastStatement)
 }
 
-func (p OfferedPages) vouchedStatementOf(
+func (p OfferIssuer) vouchedStatementOf(
 	ctx context.Context,
 	hop redirectfollowingfetch.Hop,
 ) (*verifier.Statement, string) {
@@ -116,7 +121,7 @@ func (p OfferedPages) vouchedStatementOf(
 	if !attested {
 		return nil, ReasonAttestationMissing
 	}
-	if !p.signer.HasSigned(ctx, attestation.Statement, attestation.Signature) {
+	if !p.signer.IsOwnSignature(ctx, attestation.Statement, attestation.Signature) {
 		return nil, ReasonAttestationOfOtherSigner
 	}
 	statement, err := verifier.ParseStatement(attestation.Statement)
@@ -152,7 +157,7 @@ func namesBody(statement *verifier.Statement, body []byte) bool {
 	return named && digest == hex.EncodeToString(bodyDigest[:])
 }
 
-func (p OfferedPages) startOf(statement *verifier.Statement) (captureStart, string) {
+func (p OfferIssuer) startOf(statement *verifier.Statement) (captureStart, string) {
 	startedAfter, err := statement.StartedAfter()
 	if err != nil || startedAfter == nil || startedAfter.Drand.Chain != p.drandChain.Hash {
 		return captureStart{}, ReasonAttestationWithoutTime

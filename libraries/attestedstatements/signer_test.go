@@ -30,11 +30,15 @@ var (
 	stampEncoding = []byte(`{"token":"AQID","tree":{"size":1,"index":0,"path":[]}}`)
 )
 
-func TestBundleOfHoldsTheStatementSignedByTheCurrentKey(t *testing.T) {
+func TestSignGivesTheStatementSignedByTheCurrentKey(t *testing.T) {
 	keys := newFakeKeys(t)
 	signer := signerOver(keys)
 
-	encoding, signed := signer.BundleOf(context.Background(), statement)
+	encoding, signed := signer.Sign(
+		context.Background(),
+		statement,
+		attestedstatements.NotTimeStamped,
+	)
 	if !signed {
 		t.Fatal("statement not signed")
 	}
@@ -46,15 +50,21 @@ func TestBundleOfHoldsTheStatementSignedByTheCurrentKey(t *testing.T) {
 	if bundle.VerificationMaterial.Timestamp != nil {
 		t.Error("an unstamped bundle holds a time-stamp")
 	}
-	if !signer.HasSigned(context.Background(), statement, bundle.DSSEEnvelope.Signatures[0].Sig) {
+	if !signer.IsOwnSignature(
+		context.Background(),
+		statement,
+		bundle.DSSEEnvelope.Signatures[0].Sig,
+	) {
 		t.Error("the signer does not recognize its own bundle")
 	}
 }
 
-func TestStampedBundleOfHoldsTheTimeStampOfItsSignedStatementID(t *testing.T) {
+func TestSignTimeStampsTheSignedStatementID(t *testing.T) {
 	keys := newFakeKeys(t)
 
-	encoding, signed := signerOver(keys).StampedBundleOf(context.Background(), statement)
+	encoding, signed := signerOver(
+		keys,
+	).Sign(context.Background(), statement, attestedstatements.TimeStamped)
 	if !signed {
 		t.Fatal("statement not signed")
 	}
@@ -63,7 +73,7 @@ func TestStampedBundleOfHoldsTheTimeStampOfItsSignedStatementID(t *testing.T) {
 	if bundle.VerificationMaterial.Timestamp == nil ||
 		string(bundle.VerificationMaterial.Timestamp.Token) != "\x01\x02\x03" {
 		t.Errorf(
-			"time-stamp = %+v, want the one the keys gave",
+			"time-stamp = %+v, want the one the authority gave",
 			bundle.VerificationMaterial.Timestamp,
 		)
 	}
@@ -78,21 +88,25 @@ func TestStampedBundleOfHoldsTheTimeStampOfItsSignedStatementID(t *testing.T) {
 	}
 }
 
-func TestHasSignedRefusesTheSignatureOfAnotherKey(t *testing.T) {
-	encoding, _ := signerOver(newFakeKeys(t)).BundleOf(context.Background(), statement)
+func TestIsOwnSignatureRefusesTheSignatureOfAnotherKey(t *testing.T) {
+	encoding, _ := signerOver(
+		newFakeKeys(t),
+	).Sign(context.Background(), statement, attestedstatements.NotTimeStamped)
 	signature := parsedBundle(t, encoding).DSSEEnvelope.Signatures[0].Sig
 
-	if signerOver(newFakeKeys(t)).HasSigned(context.Background(), statement, signature) {
+	if signerOver(newFakeKeys(t)).IsOwnSignature(context.Background(), statement, signature) {
 		t.Error("a signer recognizes the signature of another key")
 	}
 }
 
-func TestHasSignedRefusesAnotherStatement(t *testing.T) {
+func TestIsOwnSignatureRefusesAnotherStatement(t *testing.T) {
 	keys := newFakeKeys(t)
-	encoding, _ := signerOver(keys).BundleOf(context.Background(), statement)
+	encoding, _ := signerOver(
+		keys,
+	).Sign(context.Background(), statement, attestedstatements.NotTimeStamped)
 	signature := parsedBundle(t, encoding).DSSEEnvelope.Signatures[0].Sig
 
-	if signerOver(keys).HasSigned(context.Background(), []byte("{}"), signature) {
+	if signerOver(keys).IsOwnSignature(context.Background(), []byte("{}"), signature) {
 		t.Error("a signature of one statement is recognized for another")
 	}
 }
@@ -107,15 +121,19 @@ func TestNothingIsSignedWhenTheKeysFail(t *testing.T) {
 	} {
 		keys := newFakeKeys(t)
 		breakKeys(keys)
-		if _, signed := signerOver(keys).StampedBundleOf(context.Background(), statement); signed {
+		if _, signed := signerOver(
+			keys,
+		).Sign(context.Background(), statement, attestedstatements.TimeStamped); signed {
 			t.Errorf("%s: statement signed", name)
 		}
 	}
 }
 
-func TestHasSignedRefusesWhenTheCurrentKeyIsUnknown(t *testing.T) {
+func TestIsOwnSignatureRefusesWhenTheCurrentKeyIsUnknown(t *testing.T) {
 	keys := newFakeKeys(t)
-	encoding, _ := signerOver(keys).BundleOf(context.Background(), statement)
+	encoding, _ := signerOver(
+		keys,
+	).Sign(context.Background(), statement, attestedstatements.NotTimeStamped)
 	signature := parsedBundle(t, encoding).DSSEEnvelope.Signatures[0].Sig
 	for name, breakKeys := range map[string]func(*fakeKeys){
 		"no current key":        func(k *fakeKeys) { k.currentKeyErr = errNoKey },
@@ -124,7 +142,7 @@ func TestHasSignedRefusesWhenTheCurrentKeyIsUnknown(t *testing.T) {
 	} {
 		broken := *keys
 		breakKeys(&broken)
-		if signerOver(&broken).HasSigned(context.Background(), statement, signature) {
+		if signerOver(&broken).IsOwnSignature(context.Background(), statement, signature) {
 			t.Errorf("%s: the bundle is recognized", name)
 		}
 	}
@@ -193,7 +211,7 @@ func (k *fakeKeys) CurrentKey() (attestedstatements.HardwareKey, error) {
 	return k, nil
 }
 
-func (k *fakeKeys) TimeStampOf(signedStatementID []byte) ([]byte, error) {
+func (k *fakeKeys) Stamp(signedStatementID []byte) ([]byte, error) {
 	k.stampedID = signedStatementID
 
 	return k.stamp, k.stampErr
@@ -234,7 +252,7 @@ func ed25519KeyInfo(t *testing.T) []byte {
 }
 
 func signerOver(keys *fakeKeys) attestedstatements.Signer {
-	return attestedstatements.New(keys, android.New(nil), quietObserver{})
+	return attestedstatements.New(keys, keys, android.New(nil), quietObserver{})
 }
 
 func parsedBundle(t *testing.T, encoding []byte) *verifier.Bundle {
