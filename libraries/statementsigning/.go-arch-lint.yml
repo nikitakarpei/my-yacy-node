@@ -1,0 +1,25 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  statementsigning:
+    in: .
+  statementsigningobserversapplog:
+    in: statementsigningobservers/applog/**
+
+vendors:
+  verifier:
+    in:
+      - github.com/nikitakarpei/hardware-attested-statements/verifier
+
+deps:
+  statementsigning:
+    canUse:
+      - verifier
+
+excludeFiles:
+  - "_test\\.go"
