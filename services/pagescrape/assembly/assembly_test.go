@@ -30,6 +30,8 @@ const (
 	originPageURL = "http://origin.example/"
 	everyInbox    = "_INBOX.>"
 
+	pullRequestPollPause = 10 * time.Millisecond
+
 	brokerPassword = "broker-password"
 )
 
@@ -187,7 +189,7 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 	broker := natstestserver.ConnectJetStream(t, natsURL)
 	provisioning := serviceConfig(natsURL, origin)
 	provisioning.ScrapeRequestsKept = 7
-	runUntilStarted(t, provisioning)
+	provisionStreams(t, provisioning)
 
 	bound := serviceConfig(natsURL, origin)
 	bound.ProvisionsStreams = false
@@ -299,7 +301,7 @@ func runAsLimitedUser(t *testing.T, origin *url.URL) unlimitedClient {
 		Publish: permissions.Publish, Subscribe: append(permissions.Subscribe, everyInbox),
 	})
 	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
-	runUntilStarted(t, serviceConfig(unlimitedURL, origin))
+	provisionStreams(t, serviceConfig(unlimitedURL, origin))
 	limitedConfig := serviceConfig(limitedURL, origin)
 	limitedConfig.ProvisionsStreams = false
 	ctx, cancel := context.WithCancel(context.Background())
@@ -334,6 +336,14 @@ func subscriptionTo(t *testing.T, connection *nats.Conn, subject string) *nats.S
 		t.Fatalf("subscribe to %s: %v", subject, err)
 	}
 	return subscription
+}
+
+func provisionStreams(t *testing.T, cfg pagescrape.ServiceConfig) {
+	t.Helper()
+	runUntilStarted(t, cfg)
+	awaitPullRequestsDropped(
+		t, natstestserver.ConnectJetStream(t, cfg.ScrapeNATSURL), cfg.ScrapeRequestDurable,
+	)
 }
 
 func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
@@ -373,6 +383,28 @@ func awaitStart(t *testing.T, started <-chan struct{}, runDone <-chan error) {
 	case <-started:
 	case err := <-runDone:
 		t.Fatalf("run ended before the start: %v", err)
+	}
+}
+
+func awaitPullRequestsDropped(t *testing.T, broker jetstream.JetStream, durable string) {
+	t.Helper()
+	consumer, err := broker.Consumer(
+		t.Context(),
+		pagescrapecontract.ScrapeRequestsStreamName,
+		durable,
+	)
+	if err != nil {
+		t.Fatalf("open scrape request consumer: %v", err)
+	}
+	for {
+		info, err := consumer.Info(t.Context())
+		if err != nil {
+			t.Fatalf("scrape request consumer info: %v", err)
+		}
+		if info.NumWaiting == 0 {
+			return
+		}
+		time.Sleep(pullRequestPollPause)
 	}
 }
 
