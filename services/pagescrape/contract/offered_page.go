@@ -17,7 +17,6 @@ type OfferedPage struct {
 	RobotsTagValues []string                  `json:"RobotsTagValues,omitzero"`
 	PageModifiedAt  time.Time                 `json:"PageModifiedAt,omitzero"`
 	FetchedAt       time.Time                 `json:"FetchedAt"`
-	Attestation     json.RawMessage           `json:"Attestation,omitzero"`
 }
 
 func OfferedPageFrom(

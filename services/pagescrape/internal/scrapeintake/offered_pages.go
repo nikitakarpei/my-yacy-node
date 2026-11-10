@@ -8,9 +8,9 @@ import (
 )
 
 type OfferedPages interface {
-	OfferedPageFrom(
+	OfferMessageFrom(
 		ctx context.Context,
 		request pagescrapecontract.ScrapeRequest,
 		landed redirectfollowingfetch.LandedFetch,
-	) (pagescrapecontract.OfferedPage, bool)
+	) (pagescrapecontract.PageOfferMessage, bool)
 }

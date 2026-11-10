@@ -11,7 +11,10 @@ import (
 
 func TestEveryRWIGoesWithoutAttestationAndIsReady(t *testing.T) {
 	attestation, ready := unattested.PageAttestations{}.AttestationOf(
-		context.Background(), pagescrapecontract.OfferedPage{}, pagerwicontract.PageRWI{},
+		context.Background(),
+		pagescrapecontract.PageOfferMessage{},
+		pagescrapecontract.OfferedPage{},
+		pagerwicontract.PageRWI{},
 	)
 
 	if !ready || attestation != nil {

@@ -22,12 +22,12 @@ func New(clock Clock) OfferedPages {
 	return OfferedPages{clock: clock}
 }
 
-func (p OfferedPages) OfferedPageFrom(
+func (p OfferedPages) OfferMessageFrom(
 	_ context.Context,
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
-) (pagescrapecontract.OfferedPage, bool) {
-	return pagescrapecontract.OfferedPageFrom(
+) (pagescrapecontract.PageOfferMessage, bool) {
+	return pagescrapecontract.PageOfferMessageOf(pagescrapecontract.OfferedPageFrom(
 		request, landed.Outcome.Page, landed.Outcome.Version, landed.URL, p.clock.Now(),
-	), true
+	)), true
 }

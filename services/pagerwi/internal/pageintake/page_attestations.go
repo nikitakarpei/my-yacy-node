@@ -11,6 +11,7 @@ import (
 type PageAttestations interface {
 	AttestationOf(
 		ctx context.Context,
+		offer pagescrapecontract.PageOfferMessage,
 		page pagescrapecontract.OfferedPage,
 		pageRWI pagerwicontract.PageRWI,
 	) (json.RawMessage, bool)

@@ -13,6 +13,7 @@ type PageAttestations struct{}
 
 func (PageAttestations) AttestationOf(
 	context.Context,
+	pagescrapecontract.PageOfferMessage,
 	pagescrapecontract.OfferedPage,
 	pagerwicontract.PageRWI,
 ) (json.RawMessage, bool) {

@@ -36,11 +36,13 @@ func TestAPageEveryHopOfWhichThisKeyCapturedIsOfferedWithItsAttestation(t *testi
 	request, landed := redirectedFetch(t, drandChain)
 	signer := &fakeSigner{}
 
-	page, ready := offeredPagesOver(signer, drandChain, &reasons{}).
-		OfferedPageFrom(context.Background(), request, landed)
+	offer, ready := offeredPagesOver(signer, drandChain, &reasons{}).
+		OfferMessageFrom(context.Background(), request, landed)
+	page := offeredPageIn(t, offer)
 
-	if !ready || string(page.Attestation) != attestationBundle {
-		t.Fatalf("page = %+v, ready = %v, want it ready with its attestation", page, ready)
+	if attestation, _ := offer.Attestation.Get(); !ready ||
+		string(attestation) != attestationBundle {
+		t.Fatalf("offer = %+v, ready = %v, want it ready with its attestation", offer, ready)
 	}
 	if want := drandChain.RoundTime(captureRound); !page.FetchedAt.Equal(want) {
 		t.Errorf("fetched at = %v, want the time of the capture round %v", page.FetchedAt, want)
@@ -49,20 +51,9 @@ func TestAPageEveryHopOfWhichThisKeyCapturedIsOfferedWithItsAttestation(t *testi
 	if err != nil {
 		t.Fatal(err)
 	}
-	unattested := page
-	unattested.Attestation = nil
-	wantStatement := pagescrapecontract.PageOfferStatementOf(
-		unattested,
-		request.FetchURL,
-		statement.StartedAfter,
-	)
-	if string(
-		signer.signedStatement,
-	) != string(
-		pagescrapecontract.MarshalPageOfferStatement(wantStatement),
-	) {
+	if !statement.Covers(offer.Body) || statement.FetchURL != request.FetchURL {
 		t.Errorf(
-			"signed statement = %s, want the statement of the offered page",
+			"signed statement = %s, want the statement of the offer body",
 			signer.signedStatement,
 		)
 	}
@@ -99,10 +90,11 @@ func TestAPageWhoseCapturesDoNotHoldIsOfferedWithoutAttestation(t *testing.T) {
 		breakFetch(&landed)
 		observed := &reasons{}
 
-		page, ready := offeredPagesOver(&fakeSigner{}, drandChain, observed).
-			OfferedPageFrom(context.Background(), request, landed)
+		offer, ready := offeredPagesOver(&fakeSigner{}, drandChain, observed).
+			OfferMessageFrom(context.Background(), request, landed)
+		page := offeredPageIn(t, offer)
 
-		if !ready || page.Attestation != nil || !page.FetchedAt.Equal(clockTime) {
+		if !ready || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) {
 			t.Errorf("%s: page = %+v, ready = %v, want it ready, unattested, at the clock time",
 				reason, page, ready)
 		}
@@ -118,12 +110,12 @@ func TestAPageWithoutAnyHopIsOfferedWithoutAttestation(t *testing.T) {
 	landed.Hops = nil
 	observed := &reasons{}
 
-	page, _ := offeredPagesOver(&fakeSigner{}, drandChain, observed).
-		OfferedPageFrom(context.Background(), request, landed)
+	offer, _ := offeredPagesOver(&fakeSigner{}, drandChain, observed).
+		OfferMessageFrom(context.Background(), request, landed)
 
-	if page.Attestation != nil || len(observed.reported) != 1 ||
+	if offer.Attestation.Present() || len(observed.reported) != 1 ||
 		observed.reported[0] != attested.ReasonAttestationMissing {
-		t.Errorf("page = %+v, reported %v", page, observed.reported)
+		t.Errorf("offer = %+v, reported %v", offer, observed.reported)
 	}
 }
 
@@ -132,11 +124,24 @@ func TestAPageTheKeyDoesNotSignIsNotReady(t *testing.T) {
 	request, landed := redirectedFetch(t, drandChain)
 
 	_, ready := offeredPagesOver(&fakeSigner{refuses: true}, drandChain, &reasons{}).
-		OfferedPageFrom(context.Background(), request, landed)
+		OfferMessageFrom(context.Background(), request, landed)
 
 	if ready {
 		t.Error("a page whose statement the key did not sign is ready to offer")
 	}
+}
+
+func offeredPageIn(
+	t *testing.T,
+	offer pagescrapecontract.PageOfferMessage,
+) pagescrapecontract.OfferedPage {
+	t.Helper()
+	page, err := pagescrapecontract.UnmarshalOfferedPage(offer.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return page
 }
 
 func redirectedFetch(

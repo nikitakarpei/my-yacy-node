@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
@@ -15,37 +14,31 @@ const (
 	PageOfferPredicateType = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
 		"services/pagescrape/doc/page-offer-statement.md"
 	inTotoStatementType = "https://in-toto.io/Statement/v1"
-	bodySubjectName     = "body"
+	offerSubjectName    = "pageOffer"
 )
 
 var ErrNotAPageOfferStatement = errors.New("not a page offer statement")
 
 type PageOfferStatement struct {
-	BodyDigest      [sha256.Size]byte
-	PageURL         canonicalurl.CanonicalURL
-	FetchURL        canonicalurl.CanonicalURL
-	LandedURL       canonicalurl.CanonicalURL
-	ContentType     string
-	RobotsTagValues []string
-	PageModifiedAt  time.Time
-	StartedAfter    json.RawMessage
+	OfferDigest  [sha256.Size]byte
+	FetchURL     canonicalurl.CanonicalURL
+	StartedAfter json.RawMessage
 }
 
 func PageOfferStatementOf(
-	page OfferedPage,
+	offerBody []byte,
 	fetchURL canonicalurl.CanonicalURL,
 	startedAfter json.RawMessage,
 ) PageOfferStatement {
 	return PageOfferStatement{
-		BodyDigest:      sha256.Sum256(page.Body),
-		PageURL:         page.PageURL,
-		FetchURL:        fetchURL,
-		LandedURL:       page.LandedURL,
-		ContentType:     page.ContentType,
-		RobotsTagValues: page.RobotsTagValues,
-		PageModifiedAt:  page.PageModifiedAt,
-		StartedAfter:    startedAfter,
+		OfferDigest:  sha256.Sum256(offerBody),
+		FetchURL:     fetchURL,
+		StartedAfter: startedAfter,
 	}
+}
+
+func (s PageOfferStatement) Covers(offerBody []byte) bool {
+	return s.OfferDigest == sha256.Sum256(offerBody)
 }
 
 type pageOfferStatementWire struct {
@@ -61,32 +54,22 @@ type statementSubjectWire struct {
 }
 
 type pageOfferPredicateWire struct {
-	PageURL         canonicalurl.CanonicalURL `json:"pageURL"`
-	FetchURL        canonicalurl.CanonicalURL `json:"fetchURL"`
-	LandedURL       canonicalurl.CanonicalURL `json:"landedURL"`
-	ContentType     string                    `json:"contentType"`
-	RobotsTagValues []string                  `json:"robotsTagValues,omitzero"`
-	PageModifiedAt  time.Time                 `json:"pageModifiedAt,omitzero"`
-	StartedAfter    json.RawMessage           `json:"startedAfter"`
+	FetchURL     canonicalurl.CanonicalURL `json:"fetchURL"`
+	StartedAfter json.RawMessage           `json:"startedAfter"`
 }
 
 func MarshalPageOfferStatement(statement PageOfferStatement) []byte {
 	data, _ := json.Marshal(
-		pageOfferStatementWire{ //nolint:errchkjson // strings, URLs and raw JSON.
+		pageOfferStatementWire{ //nolint:errchkjson // strings, a URL and raw JSON.
 			Type: inTotoStatementType,
 			Subject: []statementSubjectWire{{
-				Name:   bodySubjectName,
-				Digest: map[string]string{"sha256": hex.EncodeToString(statement.BodyDigest[:])},
+				Name:   offerSubjectName,
+				Digest: map[string]string{"sha256": hex.EncodeToString(statement.OfferDigest[:])},
 			}},
 			PredicateType: PageOfferPredicateType,
 			Predicate: pageOfferPredicateWire{
-				PageURL:         statement.PageURL,
-				FetchURL:        statement.FetchURL,
-				LandedURL:       statement.LandedURL,
-				ContentType:     statement.ContentType,
-				RobotsTagValues: statement.RobotsTagValues,
-				PageModifiedAt:  statement.PageModifiedAt,
-				StartedAfter:    statement.StartedAfter,
+				FetchURL:     statement.FetchURL,
+				StartedAfter: statement.StartedAfter,
 			},
 		},
 	)
@@ -99,32 +82,27 @@ func UnmarshalPageOfferStatement(data []byte) (PageOfferStatement, error) {
 	if err := json.Unmarshal(data, &wire); err != nil {
 		return PageOfferStatement{}, fmt.Errorf("unmarshal page offer statement: %w", err)
 	}
-	bodyDigest, err := bodyDigestOf(wire)
+	offerDigest, err := offerDigestOf(wire)
 	if err != nil {
 		return PageOfferStatement{}, err
 	}
 
 	return PageOfferStatement{
-		BodyDigest:      bodyDigest,
-		PageURL:         wire.Predicate.PageURL,
-		FetchURL:        wire.Predicate.FetchURL,
-		LandedURL:       wire.Predicate.LandedURL,
-		ContentType:     wire.Predicate.ContentType,
-		RobotsTagValues: wire.Predicate.RobotsTagValues,
-		PageModifiedAt:  wire.Predicate.PageModifiedAt,
-		StartedAfter:    wire.Predicate.StartedAfter,
+		OfferDigest:  offerDigest,
+		FetchURL:     wire.Predicate.FetchURL,
+		StartedAfter: wire.Predicate.StartedAfter,
 	}, nil
 }
 
-func bodyDigestOf(wire pageOfferStatementWire) ([sha256.Size]byte, error) {
+func offerDigestOf(wire pageOfferStatementWire) ([sha256.Size]byte, error) {
 	var digest [sha256.Size]byte
 	if wire.Type != inTotoStatementType || wire.PredicateType != PageOfferPredicateType ||
-		len(wire.Subject) != 1 || wire.Subject[0].Name != bodySubjectName {
+		len(wire.Subject) != 1 || wire.Subject[0].Name != offerSubjectName {
 		return digest, ErrNotAPageOfferStatement
 	}
 	raw, err := hex.DecodeString(wire.Subject[0].Digest["sha256"])
 	if err != nil || len(raw) != sha256.Size {
-		return digest, fmt.Errorf("%w: body digest", ErrNotAPageOfferStatement)
+		return digest, fmt.Errorf("%w: offer digest", ErrNotAPageOfferStatement)
 	}
 	copy(digest[:], raw)
 

@@ -21,13 +21,17 @@ func TestAPageIsOfferedWithoutAttestationAtTheClockTime(t *testing.T) {
 		Outcome: pagefetch.FetchOutcome{Page: pagefetch.FetchedPage{Body: []byte("page")}},
 	}
 
-	page, ready := unattested.New(fixedClock{}).OfferedPageFrom(
+	offer, ready := unattested.New(fixedClock{}).OfferMessageFrom(
 		context.Background(),
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
 		landed,
 	)
+	page, err := pagescrapecontract.UnmarshalOfferedPage(offer.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	if !ready || page.Attestation != nil || !page.FetchedAt.Equal(clockTime) ||
+	if !ready || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) ||
 		string(page.Body) != "page" {
 		t.Errorf("page = %+v, ready = %v", page, ready)
 	}

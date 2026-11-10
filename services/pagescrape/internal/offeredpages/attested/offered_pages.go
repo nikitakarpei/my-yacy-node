@@ -64,26 +64,26 @@ type captureStart struct {
 	fetchedAt    time.Time
 }
 
-func (p OfferedPages) OfferedPageFrom(
+func (p OfferedPages) OfferMessageFrom(
 	ctx context.Context,
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
-) (pagescrapecontract.OfferedPage, bool) {
+) (pagescrapecontract.PageOfferMessage, bool) {
 	start, reason := p.vouchedStartOf(ctx, landed)
 	if reason != "" {
 		p.observer.OfferNotAttested(ctx, request.PageURL, reason)
 
-		return offeredPageFetchedAt(request, landed, p.clock.Now()), true
+		return offerMessageFetchedAt(request, landed, p.clock.Now()), true
 	}
-	page := offeredPageFetchedAt(request, landed, start.fetchedAt)
+	offer := offerMessageFetchedAt(request, landed, start.fetchedAt)
 	attestation, signed := p.signer.BundleOf(ctx, pagescrapecontract.MarshalPageOfferStatement(
-		pagescrapecontract.PageOfferStatementOf(page, request.FetchURL, start.startedAfter),
+		pagescrapecontract.PageOfferStatementOf(offer.Body, request.FetchURL, start.startedAfter),
 	))
 	if !signed {
-		return page, false
+		return offer, false
 	}
 
-	return attestedBy(page, attestation), true
+	return offer.AttestedBy(attestation), true
 }
 
 func (p OfferedPages) vouchedStartOf(
@@ -165,21 +165,12 @@ func (p OfferedPages) startOf(statement *verifier.Statement) (captureStart, stri
 	}, ""
 }
 
-func offeredPageFetchedAt(
+func offerMessageFetchedAt(
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
 	fetchedAt time.Time,
-) pagescrapecontract.OfferedPage {
-	return pagescrapecontract.OfferedPageFrom(
+) pagescrapecontract.PageOfferMessage {
+	return pagescrapecontract.PageOfferMessageOf(pagescrapecontract.OfferedPageFrom(
 		request, landed.Outcome.Page, landed.Outcome.Version, landed.URL, fetchedAt,
-	)
-}
-
-func attestedBy(
-	page pagescrapecontract.OfferedPage,
-	attestation []byte,
-) pagescrapecontract.OfferedPage {
-	page.Attestation = attestation
-
-	return page
+	))
 }

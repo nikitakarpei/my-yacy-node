@@ -6,6 +6,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -166,6 +167,7 @@ type fixedPageAttestations struct {
 
 func (a fixedPageAttestations) AttestationOf(
 	context.Context,
+	pagescrapecontract.PageOfferMessage,
 	pagescrapecontract.OfferedPage,
 	pagerwicontract.PageRWI,
 ) (json.RawMessage, bool) {
@@ -231,6 +233,45 @@ func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
 		string(pageRWIs.published[0].Attestation) != string(attestation) {
 		t.Errorf("published %+v, want one rwi with the page attestation", pageRWIs.published)
 	}
+}
+
+func TestTheOfferAsReceivedReachesThePageAttestation(t *testing.T) {
+	message := offeredPageMessage(t, "alpha beta")
+	message.Header = nats.Header{pagescrapecontract.PageOfferAttestationHeader: []string{"bundle"}}
+	attestations := &recordingPageAttestations{}
+
+	if err := runWith(t, message, intakeCollaborators{
+		pageRWIs:           &recordingPageRWIs{},
+		pageAttestations:   attestations,
+		intakeReceipts:     &recordingIntakeReceipts{},
+		pageIntakeObserver: pageintake.PageIntakeObservers{},
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	bundle, attested := attestations.offer.Attestation.Get()
+	if string(attestations.offer.Body) != string(message.Body) || !attested ||
+		string(bundle) != "bundle" {
+		t.Errorf(
+			"the attestation got the offer %+v, want the body and header as received",
+			attestations.offer,
+		)
+	}
+}
+
+type recordingPageAttestations struct {
+	offer pagescrapecontract.PageOfferMessage
+}
+
+func (a *recordingPageAttestations) AttestationOf(
+	_ context.Context,
+	offer pagescrapecontract.PageOfferMessage,
+	_ pagescrapecontract.OfferedPage,
+	_ pagerwicontract.PageRWI,
+) (json.RawMessage, bool) {
+	a.offer = offer
+
+	return nil, true
 }
 
 func TestOfferedPageWaitsWhenItsAttestationIsNotReady(t *testing.T) {

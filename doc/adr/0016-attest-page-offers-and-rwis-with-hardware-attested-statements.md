@@ -20,7 +20,7 @@ Each step signs a HAS statement about its output:
 | Step | Statement | Subject |
 | --- | --- | --- |
 | Capture proxy | `http-response` | the body of the response |
-| pagescrape | `page-offer` | the body of the offered page |
+| pagescrape | `page-offer` | the page offer message as sent |
 | pagerwi | `page-rwi` | the page RWI root |
 
 The page RWI root is SHA-256 over a domain byte, the digest of the URL metadata row, and the
@@ -30,7 +30,7 @@ the page URL, and the drand round of the capture. One RFC 3161 time-stamp covers
 is the page attestation.
 
 A step signs only when its input data matches the subject of the input statement. For the
-signer of the input, the step does one of two things, and its statement tells which:
+signer of the input, the step does one of two things:
 
 - It vouches and lists no input. Today a step vouches only for its own key.
 - It lists the input statement and nests the input bundle.
@@ -40,6 +40,9 @@ the default port. Every other page gets an RWI without attestation.
 
 pagerwi takes the `Loaded` day from the fetch time that the page offer carries. The fetch time
 is the time of the drand round of the capture, or the clock of pagescrape without a capture.
+
+pagescrape sends the bundle of the `page-offer` statement in a header of the page offer
+message, beside the offer, so the digest covers the body exactly as sent.
 
 The program that embeds pagescrape and pagerwi gives them a statement signer. Without one,
 they publish no attestation. The capture proxy of the app does not time-stamp captures.

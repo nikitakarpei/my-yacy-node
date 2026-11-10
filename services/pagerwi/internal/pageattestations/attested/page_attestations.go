@@ -1,7 +1,6 @@
 package attested
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 
@@ -56,10 +55,11 @@ func New(
 
 func (a PageAttestations) AttestationOf(
 	ctx context.Context,
+	offer pagescrapecontract.PageOfferMessage,
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) (json.RawMessage, bool) {
-	attestable, reason := a.attestableOf(ctx, page, pageRWI)
+	attestable, reason := a.attestableOf(ctx, offer, page, pageRWI)
 	if reason != "" {
 		a.observer.RWINotAttested(ctx, page.PageURL, reason)
 
@@ -80,10 +80,11 @@ type attestableRWI struct {
 
 func (a PageAttestations) attestableOf(
 	ctx context.Context,
+	offer pagescrapecontract.PageOfferMessage,
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) (attestableRWI, string) {
-	offerStatement, reason := a.vouchedOfferStatementOf(ctx, page)
+	offerStatement, reason := a.vouchedOfferStatementOf(ctx, offer)
 	if reason == "" {
 		reason = addressReasonOf(page, offerStatement)
 	}
@@ -100,12 +101,13 @@ func (a PageAttestations) attestableOf(
 
 func (a PageAttestations) vouchedOfferStatementOf(
 	ctx context.Context,
-	page pagescrapecontract.OfferedPage,
+	offer pagescrapecontract.PageOfferMessage,
 ) (pagescrapecontract.PageOfferStatement, string) {
-	if len(page.Attestation) == 0 {
+	attestation, attested := offer.Attestation.Get()
+	if !attested {
 		return pagescrapecontract.PageOfferStatement{}, ReasonOfferUnattested
 	}
-	bundle, err := verifier.ParseBundle(page.Attestation)
+	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil || len(bundle.DSSEEnvelope.Signatures) != 1 {
 		return pagescrapecontract.PageOfferStatement{}, ReasonOfferUnreadable
 	}
@@ -117,11 +119,7 @@ func (a PageAttestations) vouchedOfferStatementOf(
 	if err != nil {
 		return pagescrapecontract.PageOfferStatement{}, ReasonOfferUnreadable
 	}
-	if !bytes.Equal(statement, pagescrapecontract.MarshalPageOfferStatement(
-		pagescrapecontract.PageOfferStatementOf(
-			page, offerStatement.FetchURL, offerStatement.StartedAfter,
-		),
-	)) {
+	if !offerStatement.Covers(offer.Body) {
 		return pagescrapecontract.PageOfferStatement{}, ReasonOfferUnlikeItsStatement
 	}
 

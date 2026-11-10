@@ -21,7 +21,7 @@ type PageFetcher interface {
 }
 
 type PageOffers interface {
-	OfferPage(ctx context.Context, page pagescrapecontract.OfferedPage) error
+	OfferPage(ctx context.Context, offer pagescrapecontract.PageOfferMessage) error
 	ReportScrapeFailure(ctx context.Context, failure pagescrapecontract.ScrapeFailure) error
 }
 
@@ -119,26 +119,19 @@ func (c *ScrapeRequestConsumer) offerPageFrom(
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
 ) {
-	page, ready := c.offeredPages.OfferedPageFrom(ctx, request, landed)
+	offer, ready := c.offeredPages.OfferMessageFrom(ctx, request, landed)
 	if !ready {
 		message.Return(ctx)
 
 		return
 	}
-	c.offerPage(ctx, message, page)
-}
-
-func (c *ScrapeRequestConsumer) offerPage(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	page pagescrapecontract.OfferedPage,
-) {
-	if err := c.pageOffers.OfferPage(ctx, page); err != nil {
-		c.scrapeIntakeObserver.PageNotOffered(ctx, page.PageURL, err)
+	if err := c.pageOffers.OfferPage(ctx, offer); err != nil {
+		c.scrapeIntakeObserver.PageNotOffered(ctx, request.PageURL, err)
 		message.Return(ctx)
+
 		return
 	}
-	c.scrapeIntakeObserver.PageOffered(ctx, page.PageURL, page.LandedURL)
+	c.scrapeIntakeObserver.PageOffered(ctx, request.PageURL, landed.URL)
 	message.Acknowledge(ctx)
 }
 

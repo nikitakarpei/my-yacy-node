@@ -29,12 +29,12 @@ const (
 
 func TestAnRWIOfAVouchedOfferGetsAStampedStatementOverItsPageRWIRoot(t *testing.T) {
 	drandChain := quicknet(t)
-	page := attestedOffer(t, drandChain, offerChange{})
+	offer, page := attestedOffer(t, drandChain, offerChange{})
 	signer := &fakeSigner{}
 	pageRWI := pageRWIWithPostings(t, page)
 
 	attestation, ready := attested.New(signer, drandChain, &reasons{}).
-		AttestationOf(context.Background(), page, pageRWI)
+		AttestationOf(context.Background(), offer, page, pageRWI)
 
 	if !ready || string(attestation) != pageRWIBundle {
 		t.Fatalf("attestation = %s, ready = %v", attestation, ready)
@@ -64,11 +64,11 @@ func TestAnRWIOfAnOfferThatDoesNotHoldGoesWithoutAttestation(t *testing.T) {
 		attested.ReasonRoundOfOtherChain:       {roundChain: strings.Repeat("0", 64)},
 		attested.ReasonFetchTimeNotRoundTime:   {fetchedAt: time.Unix(1, 0)},
 	} {
-		page := attestedOffer(t, drandChain, change)
+		offer, page := attestedOffer(t, drandChain, change)
 		observed := &reasons{}
 
 		attestation, ready := attested.New(&fakeSigner{}, drandChain, observed).
-			AttestationOf(context.Background(), page, pageRWIWithPostings(t, page))
+			AttestationOf(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
 		if !ready || attestation != nil {
 			t.Errorf("%s: attestation = %s, ready = %v", reason, attestation, ready)
@@ -81,11 +81,11 @@ func TestAnRWIOfAnOfferThatDoesNotHoldGoesWithoutAttestation(t *testing.T) {
 
 func TestAnRWIWithoutPostingsGoesWithoutAttestation(t *testing.T) {
 	drandChain := quicknet(t)
-	page := attestedOffer(t, drandChain, offerChange{})
+	offer, page := attestedOffer(t, drandChain, offerChange{})
 	observed := &reasons{}
 
 	attestation, _ := attested.New(&fakeSigner{}, drandChain, observed).
-		AttestationOf(context.Background(), page, pagerwicontract.PageRWI{PageURL: page.PageURL})
+		AttestationOf(context.Background(), offer, page, pagerwicontract.PageRWI{PageURL: page.PageURL})
 
 	if attestation != nil || len(observed.reported) != 1 ||
 		observed.reported[0] != attested.ReasonPageWithoutPostings {
@@ -95,10 +95,10 @@ func TestAnRWIWithoutPostingsGoesWithoutAttestation(t *testing.T) {
 
 func TestAnRWIWhoseStatementTheKeyDoesNotSignIsNotReady(t *testing.T) {
 	drandChain := quicknet(t)
-	page := attestedOffer(t, drandChain, offerChange{})
+	offer, page := attestedOffer(t, drandChain, offerChange{})
 
 	_, ready := attested.New(&fakeSigner{refuses: true}, drandChain, &reasons{}).
-		AttestationOf(context.Background(), page, pageRWIWithPostings(t, page))
+		AttestationOf(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
 	if ready {
 		t.Error("an RWI whose statement the key did not sign is ready to publish")
@@ -121,7 +121,7 @@ func attestedOffer(
 	t *testing.T,
 	drandChain verifier.DrandChain,
 	change offerChange,
-) pagescrapecontract.OfferedPage {
+) (pagescrapecontract.PageOfferMessage, pagescrapecontract.OfferedPage) {
 	t.Helper()
 	pageURL := canonicalurltest.CanonicalURLOf(t, orElse(change.pageURL, pageAddress))
 	page := pagescrapecontract.OfferedPage{
@@ -141,23 +141,24 @@ func attestedOffer(
 	if change.fetchURL != "" {
 		fetchURL = canonicalurltest.CanonicalURLOf(t, change.fetchURL)
 	}
+	offer := pagescrapecontract.PageOfferMessageOf(page)
 	statement := pagescrapecontract.MarshalPageOfferStatement(
 		pagescrapecontract.PageOfferStatementOf(
-			page, fetchURL, startedAfter(orElse(change.roundChain, drandChain.Hash)),
+			offer.Body, fetchURL, startedAfter(orElse(change.roundChain, drandChain.Hash)),
 		),
 	)
-	page.Attestation = json.RawMessage(orElse(
-		change.attestation,
-		bundleOf(t, statement, orElse(change.signature, ownSignature)),
-	))
-	if change.noAttestation {
-		page.Attestation = nil
-	}
 	if change.bodyAfterSigning != "" {
 		page.Body = []byte(change.bodyAfterSigning)
+		offer = pagescrapecontract.PageOfferMessageOf(page)
+	}
+	if change.noAttestation {
+		return offer, page
 	}
 
-	return page
+	return offer.AttestedBy([]byte(orElse(
+		change.attestation,
+		bundleOf(t, statement, orElse(change.signature, ownSignature)),
+	))), page
 }
 
 func startedAfter(chain string) json.RawMessage {

@@ -149,13 +149,24 @@ func (c *OfferedPageConsumer) publishAttested(
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) {
-	attestation, ready := c.pageAttestations.AttestationOf(ctx, page, pageRWI)
+	attestation, ready := c.pageAttestations.AttestationOf(
+		ctx,
+		offerMessageOf(message),
+		page,
+		pageRWI,
+	)
 	if !ready {
 		message.Return(ctx)
 
 		return
 	}
 	c.publish(ctx, message, page.PageURL, attestedBy(pageRWI, attestation))
+}
+
+func offerMessageOf(message pullintake.PendingMessage) pagescrapecontract.PageOfferMessage {
+	return pagescrapecontract.PageOfferMessageFrom(
+		message.Body(), message.Header(pagescrapecontract.PageOfferAttestationHeader),
+	)
 }
 
 func attestedBy(

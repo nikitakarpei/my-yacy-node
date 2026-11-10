@@ -37,7 +37,7 @@ the day the page was loaded. A verifier computes the root from the row that it h
 pagerwi signs a statement only when all of these are true:
 
 - the key of the signer signed the [page offer statement](../../pagescrape/doc/page-offer-statement.md)
-  of the offer, and the offer is equal to that statement;
+  of the offer, and that statement covers the offer message as received;
 - the fetch URL is the page URL, and the page URL is https on the default port;
 - the landed URL has 2048 characters or fewer;
 - the drand round of the offer is of the chain quicknet, and the fetch time of the offer is its

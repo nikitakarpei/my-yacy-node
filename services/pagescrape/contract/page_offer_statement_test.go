@@ -6,49 +6,30 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-var startedAfter = json.RawMessage(`{"drand":{"chain":"c","round":1,"signature":"s"}}`)
+var (
+	startedAfter = json.RawMessage(`{"drand":{"chain":"c","round":1,"signature":"s"}}`)
+	offerBody    = []byte(`{"PageURL":"https://example.org/a"}`)
+)
 
-func TestPageOfferStatementOfStatesTheOfferedPage(t *testing.T) {
-	page := offeredPageWithEveryFact(t)
-	fetchURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
+func TestPageOfferStatementCoversTheOfferBodyItWasMadeOf(t *testing.T) {
+	statement := pagescrapecontract.PageOfferStatementOf(offerBody, fetchURLOf(t), startedAfter)
 
-	statement := pagescrapecontract.PageOfferStatementOf(page, fetchURL, startedAfter)
-
-	if statement.PageURL != page.PageURL || statement.LandedURL != page.LandedURL ||
-		statement.FetchURL != fetchURL || statement.ContentType != page.ContentType ||
-		!statement.PageModifiedAt.Equal(page.PageModifiedAt) ||
-		string(statement.StartedAfter) != string(startedAfter) {
-		t.Errorf("statement = %+v, for page %+v", statement, page)
+	if !statement.Covers(offerBody) {
+		t.Error("the statement does not cover the offer body it was made of")
 	}
-	if !reflect.DeepEqual(
-		statement,
-		pagescrapecontract.PageOfferStatementOf(page, fetchURL, startedAfter),
-	) {
-		t.Error("one page gives two statements")
-	}
-}
-
-func TestPageOfferStatementCommitsToTheBody(t *testing.T) {
-	page := offeredPageWithEveryFact(t)
-	changed := offeredPageWithEveryFact(t)
-	changed.Body = append(changed.Body, '!')
-	fetchURL := page.PageURL
-
-	if pagescrapecontract.PageOfferStatementOf(page, fetchURL, startedAfter).BodyDigest ==
-		pagescrapecontract.PageOfferStatementOf(changed, fetchURL, startedAfter).BodyDigest {
-		t.Error("two bodies give one body digest")
+	if statement.Covers(append([]byte(" "), offerBody...)) {
+		t.Error("the statement covers another offer body")
 	}
 }
 
 func TestPageOfferStatementRoundTripsEveryFact(t *testing.T) {
-	page := offeredPageWithEveryFact(t)
-	statement := pagescrapecontract.PageOfferStatementOf(page, page.PageURL, startedAfter)
+	statement := pagescrapecontract.PageOfferStatementOf(offerBody, fetchURLOf(t), startedAfter)
 
 	read, err := pagescrapecontract.UnmarshalPageOfferStatement(
 		pagescrapecontract.MarshalPageOfferStatement(statement),
@@ -63,31 +44,29 @@ func TestPageOfferStatementRoundTripsEveryFact(t *testing.T) {
 }
 
 func TestPageOfferStatementIsAnInTotoStatementOfItsPredicateType(t *testing.T) {
-	page := offeredPageWithEveryFact(t)
-	data := pagescrapecontract.MarshalPageOfferStatement(
-		pagescrapecontract.PageOfferStatementOf(page, page.PageURL, startedAfter),
-	)
+	data := string(pagescrapecontract.MarshalPageOfferStatement(
+		pagescrapecontract.PageOfferStatementOf(offerBody, fetchURLOf(t), startedAfter),
+	))
 
 	for _, part := range []string{
 		`"_type":"https://in-toto.io/Statement/v1"`,
 		`"predicateType":"` + pagescrapecontract.PageOfferPredicateType + `"`,
-		`"name":"body"`,
+		`"name":"pageOffer"`,
 	} {
-		if !strings.Contains(string(data), part) {
+		if !strings.Contains(data, part) {
 			t.Errorf("statement %s holds no %s", data, part)
 		}
 	}
 }
 
 func TestUnmarshalPageOfferStatementRefusesOtherStatements(t *testing.T) {
-	page := offeredPageWithEveryFact(t)
 	statement := string(pagescrapecontract.MarshalPageOfferStatement(
-		pagescrapecontract.PageOfferStatementOf(page, page.PageURL, startedAfter),
+		pagescrapecontract.PageOfferStatementOf(offerBody, fetchURLOf(t), startedAfter),
 	))
 	for name, data := range map[string]string{
 		"no json":        "not a statement",
 		"other type":     strings.Replace(statement, "page-offer-statement", "other", 1),
-		"other subject":  strings.Replace(statement, `"name":"body"`, `"name":"other"`, 1),
+		"other subject":  strings.Replace(statement, `"name":"pageOffer"`, `"name":"body"`, 1),
 		"short digest":   strings.Replace(statement, `"sha256":"`, `"sha256":"00`, 1),
 		"other envelope": strings.Replace(statement, "Statement/v1", "Statement/v9", 1),
 	} {
@@ -99,16 +78,8 @@ func TestUnmarshalPageOfferStatementRefusesOtherStatements(t *testing.T) {
 	}
 }
 
-func offeredPageWithEveryFact(t *testing.T) pagescrapecontract.OfferedPage {
+func fetchURLOf(t *testing.T) canonicalurl.CanonicalURL {
 	t.Helper()
 
-	return pagescrapecontract.OfferedPage{
-		PageURL:         canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
-		LandedURL:       canonicalurltest.CanonicalURLOf(t, "https://example.org/b"),
-		ContentType:     "text/html",
-		Body:            []byte("<html>hi</html>"),
-		RobotsTagValues: []string{"noarchive"},
-		PageModifiedAt:  time.Date(2026, time.October, 30, 1, 2, 3, 0, time.UTC),
-		FetchedAt:       fetchedAt,
-	}
+	return canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
 }
