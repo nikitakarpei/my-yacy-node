@@ -23,6 +23,9 @@ vendors:
   circl:
     in:
       - github.com/cloudflare/circl/sign/slhdsa
+  storedfields:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/storedfields
 
 deps:
   yacymodel:
@@ -30,6 +33,7 @@ deps:
       - postingstree
     canUse:
       - circl
+      - storedfields
   peerkeytest:
     mayDependOn:
       - yacymodel
