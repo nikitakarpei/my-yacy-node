@@ -19,8 +19,8 @@ components:
     in: internal/pageintakeobservers/prometheus/**
   pageofferopeningobserversapplog:
     in: internal/pageofferopeningobservers/applog/**
-  pageattestationsunattested:
-    in: internal/pageattestations/unattested/**
+  rwiattestersunattested:
+    in: internal/rwiattesters/unattested/**
   pagerwistreamsjetstream:
     in: internal/pagerwistreams/jetstream/**
   pagerwipublishersjetstream:
@@ -91,7 +91,7 @@ deps:
       - pagerwicontract
       - pagescrapecontract
       - serviceruntime
-  pageattestationsunattested:
+  rwiattestersunattested:
     canUse:
       - pagerwicontract
       - pagescrapecontract

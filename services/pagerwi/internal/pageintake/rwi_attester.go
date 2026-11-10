@@ -8,8 +8,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-type PageAttestations interface {
-	AttestationOf(
+type RWIAttester interface {
+	Attest(
 		ctx context.Context,
 		offer pagescrapecontract.PageOfferMessage,
 		page pagescrapecontract.OfferedPage,

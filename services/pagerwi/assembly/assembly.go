@@ -15,7 +15,6 @@ import (
 	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/intakereceiptpublicationobservers/applog"
 	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/intakereceipts/nats"
-	pageattestationsunattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageattestations/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageintakeobservers/prometheus"
@@ -24,6 +23,7 @@ import (
 	pagerwipublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwipublicationobservers/applog"
 	pagerwipublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwipublishers/jetstream"
 	pagerwistreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwistreams/jetstream"
+	rwiattestersunattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/rwiattesters/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -102,7 +102,7 @@ func RunService(
 	intakeConfig := pageintake.OfferedPageConsumerConfig{
 		FormatDerivations: formatDerivations,
 		PageIndexBuilder:  pagerwi.NewIndexBuilder(partitions),
-		PageAttestations:  pageattestationsunattested.PageAttestations{},
+		RWIAttester:       rwiattestersunattested.RWIAttester{},
 		PageRWIs: pagerwipublishersjetstream.NewPageRWIPublisher(
 			pageRWIBroker, pagerwipublicationobserversapplog.PageRWIPublicationLog{},
 		),

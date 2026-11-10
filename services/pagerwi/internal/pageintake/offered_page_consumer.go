@@ -32,7 +32,7 @@ type OfferedPageConsumer struct {
 	formatDerivations          pageformats.FormatDerivationCatalog
 	pageIndexBuilder           pagerwi.IndexBuilder
 	pageRWIs                   PageRWIs
-	pageAttestations           PageAttestations
+	rwiAttester                RWIAttester
 	admission                  pullintake.Admission
 	intakeReceipts             IntakeReceipts
 	pageIntakeObserver         PageIntakeObserver
@@ -44,7 +44,7 @@ type OfferedPageConsumerConfig struct {
 	FormatDerivations          pageformats.FormatDerivationCatalog
 	PageIndexBuilder           pagerwi.IndexBuilder
 	PageRWIs                   PageRWIs
-	PageAttestations           PageAttestations
+	RWIAttester                RWIAttester
 	Admission                  pullintake.Admission
 	IntakeReceipts             IntakeReceipts
 	PageIntakeObserver         PageIntakeObserver
@@ -57,7 +57,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 		formatDerivations:          config.FormatDerivations,
 		pageIndexBuilder:           config.PageIndexBuilder,
 		pageRWIs:                   config.PageRWIs,
-		pageAttestations:           config.PageAttestations,
+		rwiAttester:                config.RWIAttester,
 		admission:                  config.Admission,
 		intakeReceipts:             config.IntakeReceipts,
 		pageIntakeObserver:         config.PageIntakeObserver,
@@ -149,7 +149,7 @@ func (c *OfferedPageConsumer) publishAttested(
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) {
-	attestation, ready := c.pageAttestations.AttestationOf(
+	attestation, ready := c.rwiAttester.Attest(
 		ctx,
 		offerMessageOf(message),
 		page,
