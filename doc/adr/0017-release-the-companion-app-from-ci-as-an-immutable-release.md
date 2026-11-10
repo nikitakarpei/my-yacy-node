@@ -10,7 +10,7 @@ Accepted
 
 Android key attestation names an app by its package and its signing certificate. Peers can
 trust the page attestations of an app only when they know which certificate signs the official
-app. Before this decision, each operator signed the APK with an own key.
+app. The app has no release yet.
 
 ## Decision
 
