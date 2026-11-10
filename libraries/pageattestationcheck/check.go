@@ -21,13 +21,10 @@ var (
 	ErrOtherPageRWIRoot   = errors.New("the attestation is of another page RWI root")
 	ErrOtherAddress       = errors.New("the attestation is of another address")
 	ErrHashOfOtherAddress = errors.New("the URL hash of the row is not the hash of its address")
-	ErrVersionNotAccepted = errors.New("the policy does not accept the app version at that time")
-	errNoAndroidSigner    = errors.New("the signer is no Android app")
 )
 
 type Check struct {
-	verifier         *verifier.Verifier
-	acceptedVersions map[int64]time.Time
+	verifier *verifier.Verifier
 }
 
 type Verdict struct {
@@ -46,16 +43,29 @@ func New(policy Policy, trust *android.Trust) (Check, error) {
 		return Check{}, fmt.Errorf("page attestation verifier: %w", err)
 	}
 
-	return Check{
-		verifier:         statementVerifier,
-		acceptedVersions: endsOf(policy.AcceptedVersions),
-	}, nil
+	return Check{verifier: statementVerifier}, nil
 }
 
 func hasPolicyOf(policy Policy) []byte {
 	versionCodes := make([]int64, 0, len(policy.AcceptedVersions))
+	versionEndTimes := []map[string]int64{}
 	for _, version := range policy.AcceptedVersions {
 		versionCodes = append(versionCodes, version.VersionCode)
+		if !version.EndTime.IsZero() {
+			versionEndTimes = append(versionEndTimes, map[string]int64{
+				"versionCode": version.VersionCode,
+				"endTime":     version.EndTime.Unix(),
+			})
+		}
+	}
+	signer := map[string]any{
+		"profile":             android.Name,
+		"package":             policy.Package,
+		"signingCertificates": policy.SigningCertificates,
+		"versionCodes":        versionCodes,
+	}
+	if len(versionEndTimes) > 0 {
+		signer["versionEndTimes"] = versionEndTimes
 	}
 	encoding, _ := json.Marshal(
 		map[string]any{ //nolint:errchkjson // strings, numbers and raw JSON.
@@ -64,12 +74,7 @@ func hasPolicyOf(policy Policy) []byte {
 			"drandChains":          []string{"quicknet"},
 			"predicateTypes": map[string]any{
 				pagerwicontract.PageRWIPredicateType: map[string]any{
-					"trustedSigners": []map[string]any{{
-						"profile":             android.Name,
-						"package":             policy.Package,
-						"signingCertificates": policy.SigningCertificates,
-						"versionCodes":        versionCodes,
-					}},
+					"trustedSigners":      []map[string]any{signer},
 					"requireTimestamp":    true,
 					"requireStartedAfter": true,
 				},
@@ -78,15 +83,6 @@ func hasPolicyOf(policy Policy) []byte {
 	)
 
 	return encoding
-}
-
-func endsOf(versions []AcceptedVersion) map[int64]time.Time {
-	ends := make(map[int64]time.Time, len(versions))
-	for _, version := range versions {
-		ends[version.VersionCode] = version.Until
-	}
-
-	return ends
 }
 
 func (c Check) VerdictOn(metadata yacymodel.URLMetadata, attestation json.RawMessage) Verdict {
@@ -104,9 +100,6 @@ func (c Check) VerdictOn(metadata yacymodel.URLMetadata, attestation json.RawMes
 	result, err := c.verifier.Verify(bundle)
 	if err != nil {
 		return notAttested(fmt.Errorf("verify the attestation: %w", err))
-	}
-	if err := c.failureOfVersion(result); err != nil {
-		return notAttested(err)
 	}
 
 	return Verdict{Attested: true, FetchedAt: *result.StartedAfter}
@@ -134,17 +127,4 @@ func failureOfRow(
 	default:
 		return nil
 	}
-}
-
-func (c Check) failureOfVersion(result *verifier.Result) error {
-	app, isApp := result.Key.Signer.(*android.App)
-	if !isApp {
-		return errNoAndroidSigner
-	}
-	until := c.acceptedVersions[app.VersionCode]
-	if !until.IsZero() && !result.NotAfter.Before(until) {
-		return fmt.Errorf("%w: version %d until %v", ErrVersionNotAccepted, app.VersionCode, until)
-	}
-
-	return nil
 }
