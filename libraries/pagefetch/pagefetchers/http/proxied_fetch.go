@@ -78,7 +78,13 @@ func (f *ProxiedFetch) Fetch(
 	}
 	defer func() { _ = response.Body.Close() }()
 
-	return f.classify(fetchCtx, response, knownVersion), nil
+	return capturedBy(f.classify(fetchCtx, response, knownVersion), captureOf(response.Header)), nil
+}
+
+func capturedBy(outcome pagefetch.FetchOutcome, capture pagefetch.Capture) pagefetch.FetchOutcome {
+	outcome.Capture = capture
+
+	return outcome
 }
 
 func outcomeOfAnUnfinishedFetch(

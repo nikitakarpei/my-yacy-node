@@ -13,4 +13,5 @@ type FetchOutcome struct {
 	RedirectTarget canonicalurl.CanonicalURL
 	Version        PageVersion
 	FailureCause   error
+	Capture        Capture
 }

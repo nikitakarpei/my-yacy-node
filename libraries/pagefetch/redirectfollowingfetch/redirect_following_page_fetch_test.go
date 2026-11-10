@@ -172,3 +172,24 @@ func TestFetchReportsWhatTheOriginFetchFailedWith(t *testing.T) {
 		t.Errorf("error = %v, want %v", err, errOriginUnreachable)
 	}
 }
+
+func TestFetchKeepsTheCaptureOfEachHopInOrder(t *testing.T) {
+	redirect := redirectTo(t, "http://host/b")
+	redirect.Capture = pagefetch.Capture{Statement: []byte("first")}
+	page := servedPage("<html>landed</html>")
+	page.Capture = pagefetch.Capture{Statement: []byte("second")}
+	origin := &originPageFetches{outcomeByURL: map[string]pagefetch.FetchOutcome{
+		"http://host/a": redirect,
+		"http://host/b": page,
+	}}
+
+	landed := fetchFollowingRedirects(t, origin, 10)
+
+	if len(landed.Hops) != 2 ||
+		landed.Hops[0].URL != canonicalurltest.CanonicalURLOf(t, "http://host/a") ||
+		string(landed.Hops[0].Capture.Statement) != "first" ||
+		landed.Hops[1].URL != canonicalurltest.CanonicalURLOf(t, "http://host/b") ||
+		string(landed.Hops[1].Capture.Statement) != "second" {
+		t.Errorf("hops = %+v", landed.Hops)
+	}
+}
