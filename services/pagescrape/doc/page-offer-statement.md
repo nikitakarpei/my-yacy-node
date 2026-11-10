@@ -1,8 +1,7 @@
 # Page offer statement
 
-The page offer statement is a predicate type of the Hardware-Attested Statements format. A
-program that embeds pagescrape gives it a statement signer. pagescrape then signs a statement
-for each page offer it can attest.
+The page offer statement is a predicate type of the Hardware-Attested Statements format. With a
+statement signer, pagescrape signs a statement for each page offer it can attest.
 
 Predicate type:
 `https://github.com/nikitakarpei/my-yacy-node/blob/main/services/pagescrape/doc/page-offer-statement.md`
@@ -24,8 +23,8 @@ origin served the offered body, and the drand round in `startedAfter` came befor
 ```
 
 - The digest covers the body of the page offer message exactly as pagescrape sends it.
-- The statement lists no inputs: the key that signs it also signed the response attestation of
-  each hop.
+- The statement lists no inputs. pagescrape signs only when its own key signed the response
+  attestation of each hop.
 - `startedAfter` is the drand round of the response attestation of the last hop.
 
 ## Where the bundle goes
