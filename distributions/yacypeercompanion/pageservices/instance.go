@@ -241,6 +241,7 @@ func runPagerwi(
 		brokerAccess,
 		brokerAccess,
 		pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(),
 		health,
 	)

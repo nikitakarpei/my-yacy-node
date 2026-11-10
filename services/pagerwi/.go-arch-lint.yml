@@ -19,8 +19,12 @@ components:
     in: internal/pageintakeobservers/prometheus/**
   pageofferopeningobserversapplog:
     in: internal/pageofferopeningobservers/applog/**
+  pageattestationsattested:
+    in: internal/pageattestations/attested/**
   pageattestationsunattested:
     in: internal/pageattestations/unattested/**
+  rwiattestationobserversapplog:
+    in: internal/rwiattestationobservers/applog/**
   pagerwistreamsjetstream:
     in: internal/pagerwistreams/jetstream/**
   pagerwipublishersjetstream:
@@ -55,6 +59,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/stopwords
   yacymodel:
     in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+  verifier:
+    in: github.com/nikitakarpei/hardware-attested-statements/verifier
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -91,6 +97,12 @@ deps:
       - pagerwicontract
       - pagescrapecontract
       - serviceruntime
+  pageattestationsattested:
+    canUse:
+      - pagerwicontract
+      - pagescrapecontract
+      - verifier
+      - yacymodel
   pageattestationsunattested:
     canUse:
       - pagerwicontract

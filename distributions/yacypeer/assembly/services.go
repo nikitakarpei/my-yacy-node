@@ -355,6 +355,7 @@ func (p peer) runPagerwi(
 		jetstreamconnect.BrokerAccess{},
 		jetstreamconnect.BrokerAccess{},
 		pullintake.EveryItemAdmitted{},
+		nil,
 		registry,
 		&servicehealth.Health{},
 	)
