@@ -1,0 +1,83 @@
+name: release-companion-app
+
+on:
+  push:
+    tags:
+      - "yacypeercompanion-v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-companion-app
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: companion-release
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      APP: distributions/yacypeercompanion
+      TAG: ${{ github.ref_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check that the Gradle wrapper is an official release
+        uses: gradle/actions/wrapper-validation@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+
+      - name: Check that the tag names the version of the app
+        run: |
+          version=$(sed -n 's/^ *versionName = "\(.*\)"$/\1/p' "$APP/app/build.gradle.kts")
+          if [ "$TAG" != "yacypeercompanion-v$version" ]; then
+            echo "tag $TAG does not name the app version $version" >&2
+            exit 1
+          fi
+
+      - name: Install the pinned tools
+        run: ./tools/install verify && ./tools/install android
+
+      - name: Build, lint and check the app
+        run: . .toolchain/activate && make android-app
+
+      - name: Check that two builds give the same APK
+        run: . .toolchain/activate && make android-app-reproducible
+
+      - name: Sign the APK with the release key
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.COMPANION_RELEASE_KEYSTORE }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.COMPANION_RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.COMPANION_RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.COMPANION_RELEASE_KEY_PASSWORD }}
+        run: |
+          . .toolchain/activate
+          keystore="$RUNNER_TEMP/release.jks"
+          trap 'rm -f "$keystore"' EXIT
+          printf '%s' "$RELEASE_KEYSTORE" | base64 --decode > "$keystore"
+          mkdir -p release
+          cp "$APP/app/build/outputs/apk/release/app-release-unsigned.apk" "release/$TAG-unsigned.apk"
+          apksigner=$(ls "$ANDROID_HOME"/build-tools/*/apksigner)
+          "$apksigner" sign --ks "$keystore" --ks-pass env:RELEASE_KEYSTORE_PASSWORD \
+            --ks-key-alias "$RELEASE_KEY_ALIAS" --key-pass env:RELEASE_KEY_PASSWORD \
+            --out "release/$TAG.apk" "release/$TAG-unsigned.apk"
+          "$apksigner" verify --print-certs "release/$TAG.apk"
+
+      - name: Attest the build provenance of the APKs
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: release/*.apk
+
+      - name: Publish the immutable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$TAG" --draft --verify-tag --title "$TAG" \
+            --notes "YaCy Companion, built and signed by the release workflow from the tagged commit." \
+            "release/$TAG.apk" "release/$TAG-unsigned.apk"
+          gh release edit "$TAG" --draft=false
