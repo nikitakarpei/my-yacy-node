@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/pagerwi
 
-go 1.27
+go 1.27.3
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagerwicontract => ./contract
 
@@ -28,6 +28,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacym
 
 require (
 	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.2.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
@@ -50,6 +51,8 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudflare/circl v1.6.5 // indirect
+	github.com/digitorus/pkcs7 v0.0.0-20260914070511-d678ea5ea03f // indirect
+	github.com/digitorus/timestamp v0.0.0-20260914073129-b4b58b92aa51 // indirect
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
@@ -65,6 +68,7 @@ require (
 	github.com/prometheus/client_model v0.6.3 // indirect
 	github.com/prometheus/common v0.72.0 // indirect
 	github.com/prometheus/procfs v0.22.0 // indirect
+	github.com/transparency-dev/merkle v0.0.2 // indirect
 	golang.org/x/crypto v0.58.1-0.20261009181718-2f1f834330b2 // indirect
 	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sync v0.24.0 // indirect

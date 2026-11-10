@@ -22,13 +22,17 @@ pass through NATS JetStream.
 
 * The service SHALL build one RWI for each offered page that holds a document it reads.
 * The RWI SHALL identify the page by the page URL of the offer, not by the landed URL.
+* The RWI SHALL give the fetch time of the offer as the day the page was loaded.
+* With a statement signer, the service SHALL attest RWIs as the
+  [page RWI statement](page-rwi-statement.md) states.
 * The service SHALL NOT make a posting for a stopword of the page language.
 * The service SHALL build each RWI for the configured partition exponent.
 * The service SHALL publish the RWI of each page one time, on the RWI stream.
 * The service SHALL report a page as kept when the stream takes its RWI.
 * The service SHALL report a page as rejected when it holds no document, has a media type
   the service does not read, or gives no text.
-* An offered page SHALL stay pending when the stream does not take its RWI.
+* An offered page SHALL stay pending when the stream does not take its RWI, or when the signer
+  does not sign its page RWI statement.
 * The service SHALL NOT discard an offered page it cannot decode.
 * At startup, the service SHALL create the RWI stream with the configured size limit and its
   page offer consumer, unless stream provisioning is off.

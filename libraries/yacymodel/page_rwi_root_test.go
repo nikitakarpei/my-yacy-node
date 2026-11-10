@@ -195,3 +195,21 @@ func languageOf(t *testing.T, code string) yacymodel.Language {
 
 	return language
 }
+
+func TestPageRWIRootBytesRoundTrip(t *testing.T) {
+	root := pageRWIRootOf(t, metadataWithEveryField(t))
+
+	parsed, err := yacymodel.ParsePageRWIRootBytes(root.Bytes())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if parsed != root {
+		t.Errorf("parsed root = %x, want %x", parsed.Bytes(), root.Bytes())
+	}
+}
+
+func TestParsePageRWIRootBytesRefusesAnotherLength(t *testing.T) {
+	if _, err := yacymodel.ParsePageRWIRootBytes(make([]byte, 31)); err == nil {
+		t.Error("31 bytes parse as a page RWI root")
+	}
+}

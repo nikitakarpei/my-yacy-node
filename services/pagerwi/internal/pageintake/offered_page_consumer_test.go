@@ -2,6 +2,7 @@ package pageintake_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"testing"
 
@@ -153,8 +154,22 @@ func offeredPage(
 
 type intakeCollaborators struct {
 	pageRWIs           pageintake.PageRWIs
+	pageAttestations   pageintake.PageAttestations
 	intakeReceipts     pageintake.IntakeReceipts
 	pageIntakeObserver pageintake.PageIntakeObserver
+}
+
+type fixedPageAttestations struct {
+	attestation json.RawMessage
+	notReady    bool
+}
+
+func (a fixedPageAttestations) AttestationOf(
+	context.Context,
+	pagescrapecontract.OfferedPage,
+	pagerwicontract.PageRWI,
+) (json.RawMessage, bool) {
+	return a.attestation, !a.notReady
 }
 
 func run(t *testing.T, msg jetstream.Msg, pageRWIs pageintake.PageRWIs) error {
@@ -183,11 +198,60 @@ func runWith(
 			FormatDerivations:          formatDerivations,
 			PageIndexBuilder:           indexBuilder(t),
 			PageRWIs:                   collaborators.pageRWIs,
+			PageAttestations:           pageAttestationsOf(collaborators),
 			Admission:                  pullintake.EveryItemAdmitted{},
 			IntakeReceipts:             collaborators.intakeReceipts,
 			PageIntakeObserver:         collaborators.pageIntakeObserver,
 			PageOfferIntakeConcurrency: 1,
 		}).Run(context.Background())
+}
+
+func pageAttestationsOf(collaborators intakeCollaborators) pageintake.PageAttestations {
+	if collaborators.pageAttestations == nil {
+		return fixedPageAttestations{}
+	}
+
+	return collaborators.pageAttestations
+}
+
+func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
+	pageRWIs := &recordingPageRWIs{}
+	attestation := json.RawMessage(`{"bundle":"of the rwi"}`)
+
+	if err := runWith(t, offeredPageMessage(t, "alpha beta"), intakeCollaborators{
+		pageRWIs:           pageRWIs,
+		pageAttestations:   fixedPageAttestations{attestation: attestation},
+		intakeReceipts:     &recordingIntakeReceipts{},
+		pageIntakeObserver: pageintake.PageIntakeObservers{},
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(pageRWIs.published) != 1 ||
+		string(pageRWIs.published[0].Attestation) != string(attestation) {
+		t.Errorf("published %+v, want one rwi with the page attestation", pageRWIs.published)
+	}
+}
+
+func TestOfferedPageWaitsWhenItsAttestationIsNotReady(t *testing.T) {
+	pageRWIs := &recordingPageRWIs{}
+	message := offeredPageMessage(t, "alpha beta")
+
+	if err := runWith(t, message, intakeCollaborators{
+		pageRWIs:           pageRWIs,
+		pageAttestations:   fixedPageAttestations{notReady: true},
+		intakeReceipts:     &recordingIntakeReceipts{},
+		pageIntakeObserver: pageintake.PageIntakeObservers{},
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(pageRWIs.published) != 0 {
+		t.Errorf("published %d rwis, want none", len(pageRWIs.published))
+	}
+	if action := message.Settlement(t); action != pullintaketest.HeldBack {
+		t.Errorf("action = %q, want %q", action, pullintaketest.HeldBack)
+	}
 }
 
 func TestOfferedPageIsBuiltPublishedAndReportedAsKept(t *testing.T) {

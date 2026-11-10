@@ -70,7 +70,7 @@ func TestRunServicePublishesThePageRWIOfAnOfferedPageWithTheAccessOfEachBroker(t
 			ctx, cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{Password: pageOfferPassword},
 			jetstreamconnect.BrokerAccess{Password: pageRWIPassword},
-			pullintake.EveryItemAdmitted{}, prometheus.NewRegistry(), health,
+			pullintake.EveryItemAdmitted{}, nil, prometheus.NewRegistry(), health,
 		)
 	}()
 	pageRWIs := pageRWIConsumerOnceOpen(t, ctx, pageRWIBroker)
@@ -125,6 +125,7 @@ func TestRunServiceTakesNoPageOfferUntilTheIntakeAdmissionAdmits(t *testing.T) {
 		runDone <- pagerwi.RunService(
 			ctx, serviceConfig(natsURL), pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, admission,
+			nil,
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
@@ -160,6 +161,7 @@ func TestRunServiceReturnsWhenThePageRWIBrokerIsUnreachable(t *testing.T) {
 		jetstreamconnect.BrokerAccess{},
 		jetstreamconnect.BrokerAccess{},
 		pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(),
 		health,
 	); err == nil {
@@ -181,6 +183,7 @@ func TestRunServiceReturnsOnAPartitionExponentOutOfRange(t *testing.T) {
 		jetstreamconnect.BrokerAccess{},
 		jetstreamconnect.BrokerAccess{},
 		pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(),
 		&servicehealth.Health{},
 	); err == nil {
@@ -223,6 +226,7 @@ func TestRunServiceWithoutProvisioningBuildsRWIsOnTheStreamsThatExistAndKeepsThe
 		runDone <- pagerwi.RunService(
 			ctx, cfg, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
@@ -296,6 +300,7 @@ func TestRunServiceAsAUserWithOnlyItsBrokerPermissionsPublishesThePageRWI(t *tes
 		runDone <- pagerwi.RunService(
 			ctx, limitedConfig, pagerwi.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
@@ -325,6 +330,7 @@ func TestRunServiceWithoutProvisioningFailsWithoutThePageRWIsStream(t *testing.T
 		jetstreamconnect.BrokerAccess{},
 		jetstreamconnect.BrokerAccess{},
 		pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(),
 		&servicehealth.Health{},
 	); err == nil {

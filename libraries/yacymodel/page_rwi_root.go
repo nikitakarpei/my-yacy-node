@@ -3,6 +3,8 @@ package yacymodel
 import (
 	"crypto/sha256"
 	"encoding/binary"
+	"errors"
+	"fmt"
 	"math"
 )
 
@@ -13,6 +15,8 @@ const (
 	absentOptionalFieldMark  byte = 0
 	presentOptionalFieldMark byte = 1
 )
+
+var ErrBadPageRWIRoot = errors.New("bad page RWI root")
 
 type PageRWIRoot struct {
 	digest [pageRWIRootByteLength]byte
@@ -107,4 +111,16 @@ func appendCalendarDay(encoding []byte, day CalendarDay) []byte {
 
 func (r PageRWIRoot) Bytes() []byte {
 	return r.digest[:]
+}
+
+func ParsePageRWIRootBytes(raw []byte) (PageRWIRoot, error) {
+	if len(raw) != pageRWIRootByteLength {
+		return PageRWIRoot{}, fmt.Errorf(
+			"%w: %d bytes, want %d", ErrBadPageRWIRoot, len(raw), pageRWIRootByteLength,
+		)
+	}
+	var root PageRWIRoot
+	copy(root.digest[:], raw)
+
+	return root, nil
 }

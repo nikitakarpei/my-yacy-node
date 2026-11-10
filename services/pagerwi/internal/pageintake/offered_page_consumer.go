@@ -5,8 +5,8 @@ package pageintake
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
@@ -32,6 +32,7 @@ type OfferedPageConsumer struct {
 	formatDerivations          pageformats.FormatDerivationCatalog
 	pageIndexBuilder           pagerwi.IndexBuilder
 	pageRWIs                   PageRWIs
+	pageAttestations           PageAttestations
 	admission                  pullintake.Admission
 	intakeReceipts             IntakeReceipts
 	pageIntakeObserver         PageIntakeObserver
@@ -43,6 +44,7 @@ type OfferedPageConsumerConfig struct {
 	FormatDerivations          pageformats.FormatDerivationCatalog
 	PageIndexBuilder           pagerwi.IndexBuilder
 	PageRWIs                   PageRWIs
+	PageAttestations           PageAttestations
 	Admission                  pullintake.Admission
 	IntakeReceipts             IntakeReceipts
 	PageIntakeObserver         PageIntakeObserver
@@ -55,6 +57,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 		formatDerivations:          config.FormatDerivations,
 		pageIndexBuilder:           config.PageIndexBuilder,
 		pageRWIs:                   config.PageRWIs,
+		pageAttestations:           config.PageAttestations,
 		admission:                  config.Admission,
 		intakeReceipts:             config.IntakeReceipts,
 		pageIntakeObserver:         config.PageIntakeObserver,
@@ -82,7 +85,6 @@ func (c *OfferedPageConsumer) takeIn(
 
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	reachedAt := time.Now()
 	c.pageIntakeObserver.PageOffered(ctx, message.Identity(), page.PageURL)
 	document, extracted := c.documentOf(ctx, message, page)
 	if !extracted {
@@ -94,12 +96,7 @@ func (c *OfferedPageConsumer) takeIn(
 
 		return c.reject(ctx, message, page.PageURL)
 	}
-	c.publish(
-		ctx,
-		message,
-		page.PageURL,
-		c.pageIndexBuilder.RWIFrom(ctx, page, document, text, reachedAt),
-	)
+	c.publishAttested(ctx, message, page, c.pageIndexBuilder.RWIFrom(ctx, page, document, text))
 
 	return nil
 }
@@ -144,6 +141,30 @@ func (c *OfferedPageConsumer) fullTextOf(
 	return c.formatDerivations.BytesIn(
 		ctx, documentextraction.FormatFullText, document, landedURL,
 	)
+}
+
+func (c *OfferedPageConsumer) publishAttested(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	page pagescrapecontract.OfferedPage,
+	pageRWI pagerwicontract.PageRWI,
+) {
+	attestation, ready := c.pageAttestations.AttestationOf(ctx, page, pageRWI)
+	if !ready {
+		message.Return(ctx)
+
+		return
+	}
+	c.publish(ctx, message, page.PageURL, attestedBy(pageRWI, attestation))
+}
+
+func attestedBy(
+	pageRWI pagerwicontract.PageRWI,
+	attestation json.RawMessage,
+) pagerwicontract.PageRWI {
+	pageRWI.Attestation = attestation
+
+	return pageRWI
 }
 
 func (c *OfferedPageConsumer) publish(
