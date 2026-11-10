@@ -87,13 +87,14 @@ func TestRunServiceOffersThePageAScrapeRequestNamesWithTheAccessOfTheBroker(t *t
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	health := &servicehealth.Health{}
+	health, started := healthReportingStart()
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{Password: brokerPassword}, pullintake.EveryItemAdmitted{},
 			prometheus.NewRegistry(), health)
 	}()
+	awaitStart(t, started, runDone)
 
 	offers := pageOfferConsumer(t, ctx, broker)
 	publishScrapeRequest(t, ctx, broker)
@@ -109,10 +110,6 @@ func TestRunServiceOffersThePageAScrapeRequestNamesWithTheAccessOfTheBroker(t *t
 	if offered.PageURL != canonicalurltest.CanonicalURLOf(t, originPageURL) {
 		t.Errorf("offered page = %q", offered.PageURL)
 	}
-	if !health.Started() {
-		t.Error("health not started while the service offers pages")
-	}
-
 	cancel()
 	select {
 	case err := <-runDone:
@@ -135,13 +132,15 @@ func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.
 	defer cancel()
 	release := make(chan struct{})
 	admission := pullintaketest.AdmissionHeldUntil(release)
+	health, started := healthReportingStart()
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagescrape.RunService(
 			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
-			jetstreamconnect.BrokerAccess{}, admission, prometheus.NewRegistry(), &servicehealth.Health{},
+			jetstreamconnect.BrokerAccess{}, admission, prometheus.NewRegistry(), health,
 		)
 	}()
+	awaitStart(t, started, runDone)
 	offers := pageOfferConsumer(t, ctx, broker)
 	publishScrapeRequest(t, ctx, broker)
 	admission.AwaitAsked(t, offerWait)
@@ -313,7 +312,7 @@ func runAsLimitedUser(t *testing.T, origin *url.URL) unlimitedClient {
 			prometheus.NewRegistry(), health,
 		)
 	}()
-	awaitStart(t, started)
+	awaitStart(t, started, runDone)
 	t.Cleanup(func() {
 		cancel()
 		if err := <-runDone; err != nil {
@@ -349,7 +348,7 @@ func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
 			prometheus.NewRegistry(), health,
 		)
 	}()
-	awaitStart(t, started)
+	awaitStart(t, started, runDone)
 	cancel()
 	if err := <-runDone; err != nil {
 		t.Fatalf("run: %v", err)
@@ -368,12 +367,12 @@ func healthReportingStart() (*servicehealth.Health, <-chan struct{}) {
 	return health, started
 }
 
-func awaitStart(t *testing.T, started <-chan struct{}) {
+func awaitStart(t *testing.T, started <-chan struct{}, runDone <-chan error) {
 	t.Helper()
 	select {
 	case <-started:
-	case <-time.After(offerWait):
-		t.Fatal("service never started")
+	case err := <-runDone:
+		t.Fatalf("run ended before the start: %v", err)
 	}
 }
 
@@ -413,24 +412,18 @@ func pageOfferConsumer(
 	broker jetstream.JetStream,
 ) jetstream.Consumer {
 	t.Helper()
-	deadline := time.Now().Add(offerWait)
-	for {
-		consumer, err := broker.CreateOrUpdateConsumer(
-			ctx,
-			pagescrapecontract.ScrapePageOffersStreamName,
-			jetstream.ConsumerConfig{
-				Durable:   "assemblytest",
-				AckPolicy: jetstream.AckExplicitPolicy,
-			},
-		)
-		if err == nil {
-			return consumer
-		}
-		if time.Now().After(deadline) {
-			t.Fatalf("open page offer consumer: %v", err)
-		}
-		time.Sleep(50 * time.Millisecond)
+	consumer, err := broker.CreateOrUpdateConsumer(
+		ctx,
+		pagescrapecontract.ScrapePageOffersStreamName,
+		jetstream.ConsumerConfig{
+			Durable:   "assemblytest",
+			AckPolicy: jetstream.AckExplicitPolicy,
+		},
+	)
+	if err != nil {
+		t.Fatalf("open page offer consumer: %v", err)
 	}
+	return consumer
 }
 
 func publishScrapeRequest(t *testing.T, ctx context.Context, broker jetstream.JetStream) {
