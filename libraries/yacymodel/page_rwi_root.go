@@ -2,18 +2,16 @@ package yacymodel
 
 import (
 	"crypto/sha256"
-	"encoding/binary"
 	"errors"
 	"fmt"
-	"math"
+
+	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 )
 
 const (
-	pageRWIRootDomain        byte = 1
-	attestedMetadataFormat   byte = 1
-	pageRWIRootByteLength         = sha256.Size
-	absentOptionalFieldMark  byte = 0
-	presentOptionalFieldMark byte = 1
+	pageRWIRootDomain      byte = 1
+	attestedMetadataFormat byte = 1
+	pageRWIRootByteLength       = sha256.Size
 )
 
 var ErrBadPageRWIRoot = errors.New("bad page RWI root")
@@ -23,23 +21,33 @@ type PageRWIRoot struct {
 }
 
 func PageRWIRootFrom(metadata URLMetadata) Optional[PageRWIRoot] {
-	postingsRoot, rooted := metadata.PostingsRoot.Get()
-	if !rooted {
+	if !metadata.PostingsRoot.Present() {
 		return None[PageRWIRoot]()
 	}
-	metadataDigest := sha256.Sum256(attestedMetadataOf(metadata))
-	committed := append([]byte{pageRWIRootDomain}, metadataDigest[:]...)
 
-	return Some(PageRWIRoot{digest: sha256.Sum256(append(committed, postingsRoot.Bytes()...))})
+	return Some(PageRWIRoot{digest: sha256.Sum256(attestedMetadataOf(metadata))})
 }
 
 func attestedMetadataOf(metadata URLMetadata) []byte {
-	encoding := []byte{attestedMetadataFormat}
-	encoding = metadata.Hash.AppendBytes(encoding)
-	encoding = appendOptional(encoding, metadata.Referrer, appendURLHash)
-	encoding = append(encoding, byte(metadata.DocumentType))
-	encoding = appendOptional(encoding, metadata.Language, appendLanguage)
-	encoding = appendOptional(encoding, metadata.ByteSize, binary.BigEndian.AppendUint32)
+	var fields storedfields.Writer
+	fields.Byte(pageRWIRootDomain)
+	fields.Byte(attestedMetadataFormat)
+	fields.Fixed(metadata.Hash.AppendBytes(nil))
+	writeOptional(
+		&fields,
+		metadata.Referrer,
+		func(hash URLHash) { fields.Fixed(hash.AppendBytes(nil)) },
+	)
+	fields.Byte(byte(metadata.DocumentType))
+	writeOptional(&fields, metadata.Language, func(language Language) {
+		fields.Fixed(language.AppendBytes(nil))
+	})
+	writeOptional(
+		&fields,
+		metadata.PostingsRoot,
+		func(root PostingsRoot) { fields.Fixed(root.Bytes()) },
+	)
+	writeOptional(&fields, metadata.ByteSize, func(size uint32) { fields.Count(int(size)) })
 	for _, count := range []uint32{
 		metadata.WordCount,
 		metadata.LocalLinks,
@@ -49,64 +57,36 @@ func attestedMetadataOf(metadata URLMetadata) []byte {
 		metadata.VideoLinks,
 		metadata.ApplicationLinks,
 	} {
-		encoding = binary.BigEndian.AppendUint32(encoding, count)
+		fields.Count(int(count))
 	}
-	encoding = appendText(encoding, metadata.Address)
-	encoding = appendText(encoding, metadata.Title)
-	encoding = appendText(encoding, metadata.Author)
-	encoding = appendTexts(encoding, metadata.Tags)
-	encoding = appendText(encoding, metadata.Publisher)
-	encoding = appendOptional(encoding, metadata.Location, appendCoordinates)
-	encoding = appendOptional(encoding, metadata.Modified, appendCalendarDay)
-	encoding = appendOptional(encoding, metadata.FreshUntil, appendCalendarDay)
-	encoding = appendText(encoding, metadata.MediaType)
-	encoding = appendText(encoding, metadata.Snippet)
+	fields.Text(metadata.Address)
+	fields.Text(metadata.Title)
+	fields.Text(metadata.Author)
+	fields.Count(len(metadata.Tags))
+	for _, tag := range metadata.Tags {
+		fields.Text(tag)
+	}
+	fields.Text(metadata.Publisher)
+	writeOptional(&fields, metadata.Location, func(location Coordinates) {
+		fields.Float(location.Latitude)
+		fields.Float(location.Longitude)
+	})
+	writeOptional(&fields, metadata.Modified, func(day CalendarDay) { fields.Time(day.Time()) })
+	// Loaded is left out: a crawl of an unchanged page gives the same root, and the statement holds the fetch time.
+	writeOptional(&fields, metadata.FreshUntil, func(day CalendarDay) { fields.Time(day.Time()) })
+	fields.Text(metadata.MediaType)
+	fields.Text(metadata.Snippet)
+	fields.Text(metadata.FaviconAddress)
 
-	return appendText(encoding, metadata.FaviconAddress)
+	return fields.Record()
 }
 
-func appendOptional[T any](
-	encoding []byte,
-	field Optional[T],
-	appendValue func([]byte, T) []byte,
-) []byte {
+func writeOptional[T any](fields *storedfields.Writer, field Optional[T], writeValue func(T)) {
 	value, present := field.Get()
-	if !present {
-		return append(encoding, absentOptionalFieldMark)
+	fields.Presence(present)
+	if present {
+		writeValue(value)
 	}
-
-	return appendValue(append(encoding, presentOptionalFieldMark), value)
-}
-
-func appendURLHash(encoding []byte, hash URLHash) []byte {
-	return hash.AppendBytes(encoding)
-}
-
-func appendLanguage(encoding []byte, language Language) []byte {
-	return language.AppendBytes(encoding)
-}
-
-func appendText(encoding []byte, text string) []byte {
-	return append(binary.AppendUvarint(encoding, uint64(len(text))), text...)
-}
-
-func appendTexts(encoding []byte, texts []string) []byte {
-	encoding = binary.AppendUvarint(encoding, uint64(len(texts)))
-	for _, text := range texts {
-		encoding = appendText(encoding, text)
-	}
-
-	return encoding
-}
-
-func appendCoordinates(encoding []byte, location Coordinates) []byte {
-	encoding = binary.BigEndian.AppendUint64(encoding, math.Float64bits(location.Latitude))
-
-	return binary.BigEndian.AppendUint64(encoding, math.Float64bits(location.Longitude))
-}
-
-func appendCalendarDay(encoding []byte, day CalendarDay) []byte {
-	return binary.AppendVarint(encoding, day.Time().Unix())
 }
 
 func (r PageRWIRoot) Bytes() []byte {
