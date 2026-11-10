@@ -12,12 +12,13 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/attested"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/attested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
@@ -37,7 +38,7 @@ func TestAPageEveryHopOfWhichThisKeyCapturedIsOfferedWithItsAttestation(t *testi
 	signer := &fakeSigner{}
 
 	offer, ready := offeredPagesOver(signer, drandChain, &reasons{}).
-		OfferMessageFrom(context.Background(), request, landed)
+		Issue(context.Background(), request, landed)
 	page := offeredPageIn(t, offer)
 
 	if attestation, _ := offer.Attestation.Get(); !ready ||
@@ -91,7 +92,7 @@ func TestAPageWhoseCapturesDoNotHoldIsOfferedWithoutAttestation(t *testing.T) {
 		observed := &reasons{}
 
 		offer, ready := offeredPagesOver(&fakeSigner{}, drandChain, observed).
-			OfferMessageFrom(context.Background(), request, landed)
+			Issue(context.Background(), request, landed)
 		page := offeredPageIn(t, offer)
 
 		if !ready || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) {
@@ -111,7 +112,7 @@ func TestAPageWithoutAnyHopIsOfferedWithoutAttestation(t *testing.T) {
 	observed := &reasons{}
 
 	offer, _ := offeredPagesOver(&fakeSigner{}, drandChain, observed).
-		OfferMessageFrom(context.Background(), request, landed)
+		Issue(context.Background(), request, landed)
 
 	if offer.Attestation.Present() || len(observed.reported) != 1 ||
 		observed.reported[0] != attested.ReasonAttestationMissing {
@@ -124,7 +125,7 @@ func TestAPageTheKeyDoesNotSignIsNotReady(t *testing.T) {
 	request, landed := redirectedFetch(t, drandChain)
 
 	_, ready := offeredPagesOver(&fakeSigner{refuses: true}, drandChain, &reasons{}).
-		OfferMessageFrom(context.Background(), request, landed)
+		Issue(context.Background(), request, landed)
 
 	if ready {
 		t.Error("a page whose statement the key did not sign is ready to offer")
@@ -248,7 +249,7 @@ func offeredPagesOver(
 	signer *fakeSigner,
 	drandChain verifier.DrandChain,
 	observer *reasons,
-) attested.OfferedPages {
+) attested.OfferIssuer {
 	return attested.New(signer, drandChain, fixedClock{}, observer)
 }
 
@@ -257,12 +258,16 @@ type fakeSigner struct {
 	signedStatement []byte
 }
 
-func (s *fakeSigner) HasSigned(_ context.Context, _, signature []byte) bool {
+func (s *fakeSigner) IsOwnSignature(_ context.Context, _, signature []byte) bool {
 	return string(signature) == ownSignature
 }
 
-func (s *fakeSigner) BundleOf(_ context.Context, statement []byte) ([]byte, bool) {
-	if s.refuses {
+func (s *fakeSigner) Sign(
+	_ context.Context,
+	statement []byte,
+	stamping attestedstatements.TimeStamping,
+) ([]byte, bool) {
+	if s.refuses || stamping != attestedstatements.NotTimeStamped {
 		return nil, false
 	}
 	s.signedStatement = statement

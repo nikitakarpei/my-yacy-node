@@ -128,7 +128,7 @@ func (silentScrapeIntakeObserver) ScrapeFailed(
 
 type pagesNotReadyToOffer struct{}
 
-func (pagesNotReadyToOffer) OfferMessageFrom(
+func (pagesNotReadyToOffer) Issue(
 	context.Context,
 	pagescrapecontract.ScrapeRequest,
 	redirectfollowingfetch.LandedFetch,

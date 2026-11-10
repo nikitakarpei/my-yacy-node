@@ -1,4 +1,4 @@
-# 17. Release the companion app from CI as an immutable release
+# 1. Release the companion app from CI as an immutable release
 
 Date: 2026-11-10
 
@@ -10,7 +10,7 @@ Accepted
 
 Android key attestation names an app by its package and its signing certificate. Peers can
 trust the page attestations of an app only when they know which certificate signs the official
-app. Before this decision, each operator signed the APK with an own key.
+app. The app has no release yet.
 
 ## Decision
 
@@ -25,7 +25,7 @@ The release key is a secret of a GitHub environment that only the owner can appr
 
 ## Consequences
 
-- A policy of the attestation check (ADR 0016) names the certificate of the release key for the
+- A policy of the attestation check names the certificate of the release key for the
   official app.
 - Whoever holds the release key can sign any build, also one that is not published.
 - Anyone can rebuild the unsigned APK from the tagged commit and compare it with the released

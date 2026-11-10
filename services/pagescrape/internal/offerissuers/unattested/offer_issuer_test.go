@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/unattested"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
@@ -21,7 +21,7 @@ func TestAPageIsOfferedWithoutAttestationAtTheClockTime(t *testing.T) {
 		Outcome: pagefetch.FetchOutcome{Page: pagefetch.FetchedPage{Body: []byte("page")}},
 	}
 
-	offer, ready := unattested.New(fixedClock{}).OfferMessageFrom(
+	offer, ready := unattested.New(fixedClock{}).Issue(
 		context.Background(),
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
 		landed,

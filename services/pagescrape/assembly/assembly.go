@@ -14,8 +14,8 @@ import (
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	offerattestationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerattestationobservers/applog"
-	offeredpagesattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/attested"
-	offeredpagesunattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/unattested"
+	offerissuersattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/attested"
+	offerissuersunattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/unattested"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	scrapeintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/applog"
@@ -41,7 +41,7 @@ const (
 
 type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
 
-type StatementSigner = offeredpagesattested.StatementSigner
+type StatementSigner = offerissuersattested.StatementSigner
 
 type Listeners struct{}
 
@@ -64,7 +64,7 @@ func RunService(
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
-	offeredPages, err := offeredPagesFor(statementSigner)
+	offerIssuer, err := offerIssuerFor(statementSigner)
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func RunService(
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(
 		streams.scrapeRequestConsumer,
 		pageFetchFor(cfg, dial),
-		offeredPages,
+		offerIssuer,
 		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
 		outcomeFeed,
 		scrapeintakepkg.ScrapeIntakeObservers{
@@ -233,16 +233,16 @@ func pageFetchFor(cfg ServiceConfig, dial Dial) *redirectfollowingfetch.Redirect
 	)
 }
 
-func offeredPagesFor(statementSigner StatementSigner) (scrapeintakepkg.OfferedPages, error) {
+func offerIssuerFor(statementSigner StatementSigner) (scrapeintakepkg.OfferIssuer, error) {
 	if statementSigner == nil {
-		return offeredpagesunattested.New(wallclock.Clock{}), nil
+		return offerissuersunattested.New(wallclock.Clock{}), nil
 	}
 	drandChain, err := verifier.DrandQuicknet()
 	if err != nil {
 		return nil, fmt.Errorf("read the pinned drand chain: %w", err)
 	}
 
-	return offeredpagesattested.New(
+	return offerissuersattested.New(
 		statementSigner,
 		drandChain,
 		wallclock.Clock{},

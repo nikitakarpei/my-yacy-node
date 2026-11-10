@@ -49,6 +49,7 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
@@ -89,3 +90,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../libraries/
 replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../services/corpustext/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
