@@ -3,6 +3,8 @@ package yacymodel_test
 import (
 	"bytes"
 	"encoding/hex"
+	"reflect"
+	"slices"
 	"testing"
 	"time"
 
@@ -21,7 +23,7 @@ func TestPageRWIRootIsAbsentWithoutAPostingsRoot(t *testing.T) {
 func TestPageRWIRootOfAKnownRow(t *testing.T) {
 	root := pageRWIRootOf(t, metadataWithEveryField(t))
 
-	const want = "3a7bf26a8eefd7258747a48f6721015bccc101a36b59673660dd92268127231b"
+	const want = "cc19a541dd990c3f197f173f58c1db1cf86ad068397d3222bce6bddae9ba40c8"
 	if got := hex.EncodeToString(root.Bytes()); got != want {
 		t.Errorf("page RWI root = %s, want %s", got, want)
 	}
@@ -77,6 +79,20 @@ func TestPageRWIRootTellsWhereTextEnds(t *testing.T) {
 	}
 }
 
+func TestPageRWIRootTestsNameEveryField(t *testing.T) {
+	fieldsOutsideTheRoot := []string{"Loaded"}
+	changedFields := fieldChanges(t)
+	for field := range reflect.TypeFor[yacymodel.URLMetadata]().Fields() {
+		_, changed := changedFields[field.Name]
+		if !changed && !slices.Contains(fieldsOutsideTheRoot, field.Name) {
+			t.Errorf(
+				"field %s is neither in the page RWI root tests nor left out of the root",
+				field.Name,
+			)
+		}
+	}
+}
+
 func fieldChanges(t *testing.T) map[string]func(*yacymodel.URLMetadata) {
 	t.Helper()
 	otherHash := urlHashOfByte(t, 'B')
@@ -88,30 +104,30 @@ func fieldChanges(t *testing.T) map[string]func(*yacymodel.URLMetadata) {
 	otherDay := yacymodel.Some(yacymodel.NewCalendarDay(2020, time.March, 4))
 
 	return map[string]func(*yacymodel.URLMetadata){
-		"hash":              func(m *yacymodel.URLMetadata) { m.Hash = otherHash },
-		"referrer":          func(m *yacymodel.URLMetadata) { m.Referrer = yacymodel.None[yacymodel.URLHash]() },
-		"document type":     func(m *yacymodel.URLMetadata) { m.DocumentType = yacymodel.DocumentTypeImage },
-		"language":          func(m *yacymodel.URLMetadata) { m.Language = yacymodel.Some(otherLanguage) },
-		"postings root":     func(m *yacymodel.URLMetadata) { m.PostingsRoot = otherPostingsRoot(t) },
-		"byte size":         func(m *yacymodel.URLMetadata) { m.ByteSize = yacymodel.Some(uint32(1)) },
-		"word count":        func(m *yacymodel.URLMetadata) { m.WordCount++ },
-		"local links":       func(m *yacymodel.URLMetadata) { m.LocalLinks++ },
-		"external links":    func(m *yacymodel.URLMetadata) { m.ExternalLinks++ },
-		"image links":       func(m *yacymodel.URLMetadata) { m.ImageLinks++ },
-		"audio links":       func(m *yacymodel.URLMetadata) { m.AudioLinks++ },
-		"video links":       func(m *yacymodel.URLMetadata) { m.VideoLinks++ },
-		"application links": func(m *yacymodel.URLMetadata) { m.ApplicationLinks++ },
-		"address":           func(m *yacymodel.URLMetadata) { m.Address += "x" },
-		"title":             func(m *yacymodel.URLMetadata) { m.Title += "x" },
-		"author":            func(m *yacymodel.URLMetadata) { m.Author += "x" },
-		"tags":              func(m *yacymodel.URLMetadata) { m.Tags = append(m.Tags, "x") },
-		"publisher":         func(m *yacymodel.URLMetadata) { m.Publisher += "x" },
-		"location":          func(m *yacymodel.URLMetadata) { m.Location = yacymodel.Some(otherLocation) },
-		"modified":          func(m *yacymodel.URLMetadata) { m.Modified = otherDay },
-		"fresh until":       func(m *yacymodel.URLMetadata) { m.FreshUntil = otherDay },
-		"media type":        func(m *yacymodel.URLMetadata) { m.MediaType += "x" },
-		"snippet":           func(m *yacymodel.URLMetadata) { m.Snippet += "x" },
-		"favicon address":   func(m *yacymodel.URLMetadata) { m.FaviconAddress += "x" },
+		"Hash":             func(m *yacymodel.URLMetadata) { m.Hash = otherHash },
+		"Referrer":         func(m *yacymodel.URLMetadata) { m.Referrer = yacymodel.None[yacymodel.URLHash]() },
+		"DocumentType":     func(m *yacymodel.URLMetadata) { m.DocumentType = yacymodel.DocumentTypeImage },
+		"Language":         func(m *yacymodel.URLMetadata) { m.Language = yacymodel.Some(otherLanguage) },
+		"PostingsRoot":     func(m *yacymodel.URLMetadata) { m.PostingsRoot = otherPostingsRoot(t) },
+		"ByteSize":         func(m *yacymodel.URLMetadata) { m.ByteSize = yacymodel.Some(uint32(1)) },
+		"WordCount":        func(m *yacymodel.URLMetadata) { m.WordCount++ },
+		"LocalLinks":       func(m *yacymodel.URLMetadata) { m.LocalLinks++ },
+		"ExternalLinks":    func(m *yacymodel.URLMetadata) { m.ExternalLinks++ },
+		"ImageLinks":       func(m *yacymodel.URLMetadata) { m.ImageLinks++ },
+		"AudioLinks":       func(m *yacymodel.URLMetadata) { m.AudioLinks++ },
+		"VideoLinks":       func(m *yacymodel.URLMetadata) { m.VideoLinks++ },
+		"ApplicationLinks": func(m *yacymodel.URLMetadata) { m.ApplicationLinks++ },
+		"Address":          func(m *yacymodel.URLMetadata) { m.Address += "x" },
+		"Title":            func(m *yacymodel.URLMetadata) { m.Title += "x" },
+		"Author":           func(m *yacymodel.URLMetadata) { m.Author += "x" },
+		"Tags":             func(m *yacymodel.URLMetadata) { m.Tags = append(m.Tags, "x") },
+		"Publisher":        func(m *yacymodel.URLMetadata) { m.Publisher += "x" },
+		"Location":         func(m *yacymodel.URLMetadata) { m.Location = yacymodel.Some(otherLocation) },
+		"Modified":         func(m *yacymodel.URLMetadata) { m.Modified = otherDay },
+		"FreshUntil":       func(m *yacymodel.URLMetadata) { m.FreshUntil = otherDay },
+		"MediaType":        func(m *yacymodel.URLMetadata) { m.MediaType += "x" },
+		"Snippet":          func(m *yacymodel.URLMetadata) { m.Snippet += "x" },
+		"FaviconAddress":   func(m *yacymodel.URLMetadata) { m.FaviconAddress += "x" },
 	}
 }
 

@@ -155,17 +155,17 @@ func offeredPage(
 
 type intakeCollaborators struct {
 	pageRWIs           pageintake.PageRWIs
-	pageAttestations   pageintake.PageAttestations
+	rwiAttester        pageintake.RWIAttester
 	intakeReceipts     pageintake.IntakeReceipts
 	pageIntakeObserver pageintake.PageIntakeObserver
 }
 
-type fixedPageAttestations struct {
+type fixedRWIAttester struct {
 	attestation json.RawMessage
 	notReady    bool
 }
 
-func (a fixedPageAttestations) AttestationOf(
+func (a fixedRWIAttester) Attest(
 	context.Context,
 	pagescrapecontract.PageOfferMessage,
 	pagescrapecontract.OfferedPage,
@@ -200,7 +200,7 @@ func runWith(
 			FormatDerivations:          formatDerivations,
 			PageIndexBuilder:           indexBuilder(t),
 			PageRWIs:                   collaborators.pageRWIs,
-			PageAttestations:           pageAttestationsOf(collaborators),
+			RWIAttester:                rwiAttesterOf(collaborators),
 			Admission:                  pullintake.EveryItemAdmitted{},
 			IntakeReceipts:             collaborators.intakeReceipts,
 			PageIntakeObserver:         collaborators.pageIntakeObserver,
@@ -208,12 +208,12 @@ func runWith(
 		}).Run(context.Background())
 }
 
-func pageAttestationsOf(collaborators intakeCollaborators) pageintake.PageAttestations {
-	if collaborators.pageAttestations == nil {
-		return fixedPageAttestations{}
+func rwiAttesterOf(collaborators intakeCollaborators) pageintake.RWIAttester {
+	if collaborators.rwiAttester == nil {
+		return fixedRWIAttester{}
 	}
 
-	return collaborators.pageAttestations
+	return collaborators.rwiAttester
 }
 
 func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
@@ -222,7 +222,7 @@ func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
 
 	if err := runWith(t, offeredPageMessage(t, "alpha beta"), intakeCollaborators{
 		pageRWIs:           pageRWIs,
-		pageAttestations:   fixedPageAttestations{attestation: attestation},
+		rwiAttester:        fixedRWIAttester{attestation: attestation},
 		intakeReceipts:     &recordingIntakeReceipts{},
 		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	}); err != nil {
@@ -238,11 +238,11 @@ func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
 func TestTheOfferAsReceivedReachesThePageAttestation(t *testing.T) {
 	message := offeredPageMessage(t, "alpha beta")
 	message.Header = nats.Header{pagescrapecontract.PageOfferAttestationHeader: []string{"bundle"}}
-	attestations := &recordingPageAttestations{}
+	attestations := &recordingRWIAttester{}
 
 	if err := runWith(t, message, intakeCollaborators{
 		pageRWIs:           &recordingPageRWIs{},
-		pageAttestations:   attestations,
+		rwiAttester:        attestations,
 		intakeReceipts:     &recordingIntakeReceipts{},
 		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	}); err != nil {
@@ -259,11 +259,11 @@ func TestTheOfferAsReceivedReachesThePageAttestation(t *testing.T) {
 	}
 }
 
-type recordingPageAttestations struct {
+type recordingRWIAttester struct {
 	offer pagescrapecontract.PageOfferMessage
 }
 
-func (a *recordingPageAttestations) AttestationOf(
+func (a *recordingRWIAttester) Attest(
 	_ context.Context,
 	offer pagescrapecontract.PageOfferMessage,
 	_ pagescrapecontract.OfferedPage,
@@ -280,7 +280,7 @@ func TestOfferedPageWaitsWhenItsAttestationIsNotReady(t *testing.T) {
 
 	if err := runWith(t, message, intakeCollaborators{
 		pageRWIs:           pageRWIs,
-		pageAttestations:   fixedPageAttestations{notReady: true},
+		rwiAttester:        fixedRWIAttester{notReady: true},
 		intakeReceipts:     &recordingIntakeReceipts{},
 		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	}); err != nil {

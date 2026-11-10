@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/unattested"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -66,16 +66,16 @@ func runScrapeIntakeAgainst(
 	clock := fixedClock{now: fetchTime}
 
 	return runScrapeIntakeOffering(t, message, fetches, intakeSetup{
-		clock:        clock,
-		offeredPages: unattested.New(clock),
-		offers:       offers,
+		clock:       clock,
+		offerIssuer: unattested.New(clock),
+		offers:      offers,
 	})
 }
 
 type intakeSetup struct {
-	clock        fixedClock
-	offeredPages scrapeintake.OfferedPages
-	offers       *pageOffers
+	clock       fixedClock
+	offerIssuer scrapeintake.OfferIssuer
+	offers      *pageOffers
 }
 
 func runScrapeIntakeOffering(
@@ -90,7 +90,7 @@ func runScrapeIntakeOffering(
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		fetches,
-		setup.offeredPages,
+		setup.offerIssuer,
 		setup.offers,
 		feed,
 		scrapeintake.ScrapeIntakeObservers{fetchFailures},
@@ -424,9 +424,9 @@ func TestRequestComesBackWhenItsPageIsNotReadyToOffer(t *testing.T) {
 	message := scrapeRequestMessage(t, request, time.Now())
 
 	intake := runScrapeIntakeOffering(t, message, fetch, intakeSetup{
-		clock:        fixedClock{now: time.Now()},
-		offeredPages: pagesNotReadyToOffer{},
-		offers:       &pageOffers{},
+		clock:       fixedClock{now: time.Now()},
+		offerIssuer: pagesNotReadyToOffer{},
+		offers:      &pageOffers{},
 	})
 
 	if len(intake.offers.offered) != 0 {

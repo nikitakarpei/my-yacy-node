@@ -16,8 +16,6 @@ import (
 	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/intakereceiptpublicationobservers/applog"
 	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/intakereceipts/nats"
-	pageattestationsattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageattestations/attested"
-	pageattestationsunattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageattestations/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pageintakeobservers/prometheus"
@@ -27,6 +25,8 @@ import (
 	pagerwipublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwipublishers/jetstream"
 	pagerwistreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwistreams/jetstream"
 	rwiattestationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/rwiattestationobservers/applog"
+	rwiattestersattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/rwiattesters/attested"
+	rwiattestersunattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/rwiattesters/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -77,7 +77,7 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	pageAttestations, err := pageAttestationsFor(statementSigner)
+	rwiAttester, err := rwiAttesterFor(statementSigner)
 	if err != nil {
 		return err
 	}
@@ -110,7 +110,7 @@ func RunService(
 	intakeConfig := pageintake.OfferedPageConsumerConfig{
 		FormatDerivations: formatDerivations,
 		PageIndexBuilder:  pagerwi.NewIndexBuilder(partitions),
-		PageAttestations:  pageAttestations,
+		RWIAttester:       rwiAttester,
 		PageRWIs: pagerwipublishersjetstream.NewPageRWIPublisher(
 			pageRWIBroker, pagerwipublicationobserversapplog.PageRWIPublicationLog{},
 		),
@@ -260,18 +260,18 @@ func openPageOfferConsumer(
 	return consumer, nil
 }
 
-type StatementSigner = pageattestationsattested.StatementSigner
+type StatementSigner = rwiattestersattested.StatementSigner
 
-func pageAttestationsFor(statementSigner StatementSigner) (pageintake.PageAttestations, error) {
+func rwiAttesterFor(statementSigner StatementSigner) (pageintake.RWIAttester, error) {
 	if statementSigner == nil {
-		return pageattestationsunattested.PageAttestations{}, nil
+		return rwiattestersunattested.RWIAttester{}, nil
 	}
 	drandChain, err := verifier.DrandQuicknet()
 	if err != nil {
 		return nil, fmt.Errorf("read the pinned drand chain: %w", err)
 	}
 
-	return pageattestationsattested.New(
+	return rwiattestersattested.New(
 		statementSigner, drandChain, rwiattestationobserversapplog.RWIAttestationLog{},
 	), nil
 }
