@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -20,20 +21,21 @@ func NewPageOfferPublisher(pageOffers jetstream.JetStream) *PageOfferPublisher {
 
 func (p *PageOfferPublisher) OfferPage(
 	ctx context.Context,
-	page pagescrapecontract.OfferedPage,
+	offer pagescrapecontract.PageOfferMessage,
 ) error {
-	data, err := pagescrapecontract.MarshalOfferedPage(page)
-	if err != nil {
-		return err
-	}
-	if _, err := p.pageOffers.Publish(
-		ctx,
-		pagescrapecontract.OfferedPageSubject,
-		data,
-	); err != nil {
-		return fmt.Errorf("offer the page %q: %w", page.PageURL, err)
+	if _, err := p.pageOffers.PublishMsg(ctx, natsMessageOf(offer)); err != nil {
+		return fmt.Errorf("offer a page: %w", err)
 	}
 	return nil
+}
+
+func natsMessageOf(offer pagescrapecontract.PageOfferMessage) *nats.Msg {
+	message := nats.NewMsg(pagescrapecontract.OfferedPageSubject)
+	message.Data = offer.Body
+	if attestation, attested := offer.Attestation.Get(); attested {
+		message.Header.Set(pagescrapecontract.PageOfferAttestationHeader, string(attestation))
+	}
+	return message
 }
 
 func (p *PageOfferPublisher) ReportScrapeFailure(

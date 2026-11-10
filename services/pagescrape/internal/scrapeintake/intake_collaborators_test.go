@@ -41,15 +41,21 @@ func (f pageFetches) Fetch(
 
 type pageOffers struct {
 	offered  []pagescrapecontract.OfferedPage
+	messages []pagescrapecontract.PageOfferMessage
 	failures []pagescrapecontract.ScrapeFailure
 	err      error
 }
 
-func (o *pageOffers) OfferPage(_ context.Context, page pagescrapecontract.OfferedPage) error {
+func (o *pageOffers) OfferPage(_ context.Context, offer pagescrapecontract.PageOfferMessage) error {
 	if o.err != nil {
 		return o.err
 	}
+	page, err := pagescrapecontract.UnmarshalOfferedPage(offer.Body)
+	if err != nil {
+		return err
+	}
 	o.offered = append(o.offered, page)
+	o.messages = append(o.messages, offer)
 	return nil
 }
 
@@ -118,4 +124,14 @@ func (silentScrapeIntakeObserver) ScrapeFailed(
 	_ canonicalurl.CanonicalURL,
 	_ pagescrapecontract.ScrapeFailureReason,
 ) {
+}
+
+type pagesNotReadyToOffer struct{}
+
+func (pagesNotReadyToOffer) OfferMessageFrom(
+	context.Context,
+	pagescrapecontract.ScrapeRequest,
+	redirectfollowingfetch.LandedFetch,
+) (pagescrapecontract.PageOfferMessage, bool) {
+	return pagescrapecontract.PageOfferMessage{}, false
 }
