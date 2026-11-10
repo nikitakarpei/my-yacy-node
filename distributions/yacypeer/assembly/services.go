@@ -335,6 +335,7 @@ func (p peer) runPagescrape(
 	return pagescrapeassembly.RunService(
 		ctx, cfg, listeners, dial,
 		jetstreamconnect.BrokerAccess{}, p.intakeAdmission,
+		nil,
 		registry, &servicehealth.Health{},
 	)
 }

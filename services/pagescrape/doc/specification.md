@@ -29,7 +29,9 @@ Scrape requests and page offers pass through NATS JetStream.
 * A fetch SHALL follow redirects, but no more hops than the configuration permits.
 * A redirect SHALL NOT change the page URL that identifies the offered page.
 * A fetch that succeeds SHALL offer the page one time. The offer carries the page URL, the
-  landed URL, the content type, the content, and all `X-Robots-Tag` values.
+  landed URL, the content type, the content, all `X-Robots-Tag` values, and the fetch time.
+* With a statement signer, the service SHALL attest offers as the
+  [page offer statement](page-offer-statement.md) states.
 * A fetch that does not succeed SHALL put one last failure on the outcome feed for the page.
 * The service SHALL defer the scrape when the origin answers `429` or `503`. It SHALL wait
   for the time in `Retry-After`, or one minute when that time is absent or unreadable.

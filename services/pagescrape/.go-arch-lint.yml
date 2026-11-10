@@ -11,6 +11,12 @@ commonVendors:
 components:
   scrapeintake:
     in: internal/scrapeintake/**
+  offeredpagesattested:
+    in: internal/offeredpages/attested/**
+  offeredpagesunattested:
+    in: internal/offeredpages/unattested/**
+  offerattestationobserversapplog:
+    in: internal/offerattestationobservers/applog/**
   scrapestreamsjetstream:
     in: internal/scrapestreams/jetstream/**
   pageofferpublishersjetstream:
@@ -43,6 +49,10 @@ vendors:
   redirectfollowingfetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch
+  verifier:
+    in:
+      - github.com/nikitakarpei/hardware-attested-statements/verifier
+      - github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -69,6 +79,15 @@ deps:
       - pagefetch
       - redirectfollowingfetch
       - serviceruntime
+  offeredpagesattested:
+    canUse:
+      - pagescrapecontract
+      - redirectfollowingfetch
+      - verifier
+  offeredpagesunattested:
+    canUse:
+      - pagescrapecontract
+      - redirectfollowingfetch
   scrapestreamsjetstream:
     canUse:
       - pagescrapecontract

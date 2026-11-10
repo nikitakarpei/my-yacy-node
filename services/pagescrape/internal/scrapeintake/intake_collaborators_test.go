@@ -119,3 +119,13 @@ func (silentScrapeIntakeObserver) ScrapeFailed(
 	_ pagescrapecontract.ScrapeFailureReason,
 ) {
 }
+
+type pagesNotReadyToOffer struct{}
+
+func (pagesNotReadyToOffer) OfferedPageFrom(
+	context.Context,
+	pagescrapecontract.ScrapeRequest,
+	redirectfollowingfetch.LandedFetch,
+) (pagescrapecontract.OfferedPage, bool) {
+	return pagescrapecontract.OfferedPage{}, false
+}

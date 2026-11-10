@@ -212,6 +212,7 @@ func runPagescrape(
 	runService(t, func(ctx context.Context, health *servicehealth.Health) error {
 		return pagescrapeassembly.RunService(ctx, cfg, pagescrapeassembly.Listeners{},
 			(&net.Dialer{}).DialContext, access, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), health)
 	})
 }

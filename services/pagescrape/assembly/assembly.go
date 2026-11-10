@@ -8,10 +8,14 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/prometheus/client_golang/prometheus"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
+	offerattestationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerattestationobservers/applog"
+	offeredpagesattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/attested"
+	offeredpagesunattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/unattested"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	scrapeintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/applog"
@@ -37,6 +41,8 @@ const (
 
 type Dial = func(ctx context.Context, network, address string) (net.Conn, error)
 
+type StatementSigner = offeredpagesattested.StatementSigner
+
 type Listeners struct{}
 
 func ListenersFor(context.Context, ServiceConfig) (Listeners, error) {
@@ -54,9 +60,14 @@ func RunService(
 	dial Dial,
 	brokerAccess jetstreamconnect.BrokerAccess,
 	intakeAdmission pullintake.Admission,
+	statementSigner StatementSigner,
 	registry *prometheus.Registry,
 	health *servicehealth.Health,
 ) error {
+	offeredPages, err := offeredPagesFor(statementSigner)
+	if err != nil {
+		return err
+	}
 	broker, connection, err := jetstreamconnect.Open(
 		cfg.ScrapeNATSURL, dial, health, brokerAccess,
 	)
@@ -84,6 +95,7 @@ func RunService(
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(
 		streams.scrapeRequestConsumer,
 		pageFetchFor(cfg, dial),
+		offeredPages,
 		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
 		outcomeFeed,
 		scrapeintakepkg.ScrapeIntakeObservers{
@@ -219,4 +231,21 @@ func pageFetchFor(cfg ServiceConfig, dial Dial) *redirectfollowingfetch.Redirect
 		),
 		cfg.MaxRedirectHops,
 	)
+}
+
+func offeredPagesFor(statementSigner StatementSigner) (scrapeintakepkg.OfferedPages, error) {
+	if statementSigner == nil {
+		return offeredpagesunattested.New(wallclock.Clock{}), nil
+	}
+	drandChain, err := verifier.DrandQuicknet()
+	if err != nil {
+		return nil, fmt.Errorf("read the pinned drand chain: %w", err)
+	}
+
+	return offeredpagesattested.New(
+		statementSigner,
+		drandChain,
+		wallclock.Clock{},
+		offerattestationobserversapplog.OfferAttestationLog{},
+	), nil
 }
