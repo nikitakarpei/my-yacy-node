@@ -13,10 +13,13 @@ deps:
   pagescrapecontract:
     canUse:
       - canonicalurl
+      - intotostatements
       - optional
       - pagefetch
 
 vendors:
+  intotostatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/intotostatements
   canonicalurl:
     in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
   pagefetch:

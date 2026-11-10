@@ -44,6 +44,7 @@ require (
 	github.com/nats-io/nkeys v0.4.15 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0 // indirect
@@ -80,3 +81,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libr
 replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../corpustext/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../../../libraries/intotostatements

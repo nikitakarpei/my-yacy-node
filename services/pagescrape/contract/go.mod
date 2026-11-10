@@ -4,6 +4,7 @@ go 1.27
 
 require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 )
@@ -15,3 +16,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../libraries/pa
 replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../libraries/spamassessment
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../../libraries/intotostatements

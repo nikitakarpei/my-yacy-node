@@ -1,0 +1,15 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  intotostatements:
+    in: .
+
+deps: {}
+
+excludeFiles:
+  - "_test\\.go"

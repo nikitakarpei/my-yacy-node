@@ -116,6 +116,7 @@ require (
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0 // indirect
@@ -238,3 +239,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../librari
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
+
+replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
