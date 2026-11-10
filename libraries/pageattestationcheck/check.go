@@ -34,11 +34,11 @@ type Verdict struct {
 }
 
 func New(policy Policy, trust *android.Trust) (Check, error) {
-	hasPolicy, err := verifier.ParsePolicy(hasPolicyOf(policy))
+	statementPolicy, err := verifier.ParsePolicy(statementPolicyFrom(policy))
 	if err != nil {
 		return Check{}, fmt.Errorf("page attestation policy: %w", err)
 	}
-	statementVerifier, err := verifier.New(hasPolicy, android.New(trust))
+	statementVerifier, err := verifier.New(statementPolicy, android.New(trust))
 	if err != nil {
 		return Check{}, fmt.Errorf("page attestation verifier: %w", err)
 	}
@@ -46,7 +46,7 @@ func New(policy Policy, trust *android.Trust) (Check, error) {
 	return Check{verifier: statementVerifier}, nil
 }
 
-func hasPolicyOf(policy Policy) []byte {
+func statementPolicyFrom(policy Policy) []byte {
 	versionCodes := make([]int64, 0, len(policy.AcceptedVersions))
 	versionEndTimes := []map[string]int64{}
 	for _, version := range policy.AcceptedVersions {
