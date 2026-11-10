@@ -8,6 +8,8 @@ allow:
 components:
   pageattestationcheck:
     in: .
+  pageattestationchecktest:
+    in: pageattestationchecktest/**
 
 vendors:
   verifier:
@@ -18,6 +20,10 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
   yacymodel:
     in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+  timestamp:
+    in:
+      - github.com/digitorus/timestamp
+      - github.com/transparency-dev/merkle/rfc6962
 
 deps:
   pageattestationcheck:
@@ -25,6 +31,10 @@ deps:
       - verifier
       - pagerwicontract
       - yacymodel
+  pageattestationchecktest:
+    canUse:
+      - verifier
+      - timestamp
 
 excludeFiles:
   - "_test\\.go"

@@ -1,7 +1,6 @@
 package pageattestationcheck_test
 
 import (
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"net/url"
@@ -12,6 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -102,7 +102,9 @@ func TestAnAttestationThatDoesNotVerifyIsNotAttested(t *testing.T) {
 func TestAnAppVersionThePolicyDoesNotListIsNotAttested(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
-	versions := []pageattestationcheck.AcceptedVersion{{VersionCode: appVersionCode + 1}}
+	versions := []pageattestationcheck.AcceptedVersion{
+		{VersionCode: pageattestationchecktest.AppVersionCode + 1},
+	}
 
 	verdict := setup.check(t, versions).VerdictOn(row, setup.attestationOf(t, row))
 
@@ -122,7 +124,7 @@ func TestAnAppVersionIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 		"ended before": {setup.stampedAt.Add(-time.Hour), false},
 	} {
 		versions := []pageattestationcheck.AcceptedVersion{
-			{VersionCode: appVersionCode, Until: test.until},
+			{VersionCode: pageattestationchecktest.AppVersionCode, Until: test.until},
 		}
 
 		verdict := setup.check(t, versions).VerdictOn(row, setup.attestationOf(t, row))
@@ -142,14 +144,14 @@ func TestNewRefusesAPolicyWithoutATimestampAuthority(t *testing.T) {
 	policy := setup.policy(setup.acceptedVersions())
 	policy.TimestampAuthorities = []json.RawMessage{json.RawMessage(`"unknown"`)}
 
-	if _, err := pageattestationcheck.New(policy, setup.device.trust()); err == nil {
+	if _, err := pageattestationcheck.New(policy, setup.device.Trust()); err == nil {
 		t.Error("a policy with an unknown time-stamp authority is accepted")
 	}
 }
 
 type setup struct {
-	device    *attestingDevice
-	authority *timestampAuthority
+	device    *pageattestationchecktest.AttestingDevice
+	authority *pageattestationchecktest.TimestampAuthority
 	stampedAt time.Time
 }
 
@@ -157,22 +159,27 @@ func newSetup(t *testing.T) setup {
 	t.Helper()
 
 	return setup{
-		device:    newAttestingDevice(t, appVersionCode),
-		authority: newTimestampAuthority(t),
+		device: pageattestationchecktest.NewAttestingDevice(
+			t,
+			pageattestationchecktest.AppVersionCode,
+		),
+		authority: pageattestationchecktest.NewTimestampAuthority(t),
 		stampedAt: time.Now().Add(-time.Minute).Truncate(time.Second),
 	}
 }
 
 func (s setup) acceptedVersions() []pageattestationcheck.AcceptedVersion {
-	return []pageattestationcheck.AcceptedVersion{{VersionCode: appVersionCode}}
+	return []pageattestationcheck.AcceptedVersion{
+		{VersionCode: pageattestationchecktest.AppVersionCode},
+	}
 }
 
 func (s setup) policy(versions []pageattestationcheck.AcceptedVersion) pageattestationcheck.Policy {
 	return pageattestationcheck.Policy{
-		Package:              appPackage,
-		SigningCertificates:  []string{appSigner},
+		Package:              pageattestationchecktest.AppPackage,
+		SigningCertificates:  []string{pageattestationchecktest.AppSigner},
 		AcceptedVersions:     versions,
-		TimestampAuthorities: []json.RawMessage{s.authority.policyEntry()},
+		TimestampAuthorities: []json.RawMessage{s.authority.PolicyEntry()},
 	}
 }
 
@@ -181,7 +188,7 @@ func (s setup) check(
 	versions []pageattestationcheck.AcceptedVersion,
 ) pageattestationcheck.Check {
 	t.Helper()
-	check, err := pageattestationcheck.New(s.policy(versions), s.device.trust())
+	check, err := pageattestationcheck.New(s.policy(versions), s.device.Trust())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -207,8 +214,8 @@ func (s setup) attestationFor(
 
 func (s setup) attestationOfStatement(t *testing.T, statement []byte) json.RawMessage {
 	t.Helper()
-	bundle := s.device.bundleOf(t, statement)
-	s.authority.stamp(t, bundle, s.stampedAt)
+	bundle := s.device.BundleOf(t, statement)
+	s.authority.Stamp(t, bundle, s.stampedAt)
 
 	return encodingOf(t, bundle)
 }
@@ -216,7 +223,7 @@ func (s setup) attestationOfStatement(t *testing.T, statement []byte) json.RawMe
 func (s setup) unstampedAttestationOf(t *testing.T, row yacymodel.URLMetadata) json.RawMessage {
 	t.Helper()
 
-	return encodingOf(t, s.device.bundleOf(t, statementOf(t, row, row.Address)))
+	return encodingOf(t, s.device.BundleOf(t, statementOf(t, row, row.Address)))
 }
 
 func statementOf(t *testing.T, row yacymodel.URLMetadata, address string) []byte {
@@ -279,14 +286,4 @@ func quicknet(t *testing.T) verifier.DrandChain {
 	}
 
 	return chain
-}
-
-func mustHex(t *testing.T, encoded string) []byte {
-	t.Helper()
-	decoded, err := hex.DecodeString(encoded)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return decoded
 }

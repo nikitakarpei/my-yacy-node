@@ -1,4 +1,6 @@
-package pageattestationcheck_test
+// Package pageattestationchecktest makes a fake attesting Android device and a fake time-stamp
+// authority, so that tests can sign page attestations that the check accepts.
+package pageattestationchecktest
 
 import (
 	"crypto"
@@ -9,8 +11,10 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
+	"encoding/hex"
 	"encoding/json"
 	"encoding/pem"
+	"fmt"
 	"math/big"
 	"testing"
 	"time"
@@ -22,9 +26,9 @@ import (
 )
 
 const (
-	appPackage         = "io.github.nikitakarpei.yacypeercompanion"
-	appSigner          = "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
-	appVersionCode     = 7
+	AppPackage         = "io.github.nikitakarpei.yacypeercompanion"
+	AppSigner          = "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
+	AppVersionCode     = 7
 	deviceOSVersion    = 160000
 	signDigestPurpose  = 2
 	keyStorageVersion  = 300
@@ -32,17 +36,17 @@ const (
 	extendedKeyUsageID = 37
 )
 
-type attestingDevice struct {
+type AttestingDevice struct {
 	key   *ecdsa.PrivateKey
 	chain [][]byte
 	root  *x509.Certificate
 }
 
-func newAttestingDevice(t *testing.T, versionCode int64) *attestingDevice {
+func NewAttestingDevice(t testing.TB, versionCode int64) *AttestingDevice {
 	t.Helper()
 	now := time.Now()
-	signer := mustHex(t, appSigner)
-	extension := keyDescriptionOf(appPackage, versionCode, signer)
+	signer := mustHex(t, AppSigner)
+	extension := keyDescriptionOf(AppPackage, versionCode, signer)
 	serial := int64(0)
 	certificate := func(
 		subject pkix.Name,
@@ -100,14 +104,14 @@ func newAttestingDevice(t *testing.T, versionCode int64) *attestingDevice {
 		[]pkix.Extension{{Id: android.OIDKeyAttestation, Value: extension}}, false,
 	)
 
-	return &attestingDevice{
+	return &AttestingDevice{
 		key:   leafKey,
 		chain: [][]byte{leaf.Raw, attestation.Raw, top.Raw},
 		root:  root,
 	}
 }
 
-func (d *attestingDevice) trust() *android.Trust {
+func (d *AttestingDevice) Trust() *android.Trust {
 	return &android.Trust{
 		Roots:              []*x509.Certificate{d.root},
 		Revoked:            map[string]string{},
@@ -118,19 +122,38 @@ func (d *attestingDevice) trust() *android.Trust {
 	}
 }
 
-func (d *attestingDevice) bundleOf(t *testing.T, statement []byte) *verifier.Bundle {
-	t.Helper()
-	digest := sha256.Sum256(verifier.PAE(verifier.InTotoPayload, statement))
+func (d *AttestingDevice) KeyEvidence() []byte {
+	evidence, _ := json.Marshal(map[string]any{ //nolint:errchkjson // a name and bytes.
+		"profile": android.Name, "certificates": d.chain,
+	})
+
+	return evidence
+}
+
+func (d *AttestingDevice) PublicKeyInfo() []byte {
+	certificate, _ := x509.ParseCertificate(d.chain[0])
+
+	return certificate.RawSubjectPublicKeyInfo
+}
+
+func (d *AttestingDevice) Sign(message []byte) ([]byte, error) {
+	digest := sha256.Sum256(message)
 	signature, err := ecdsa.SignASN1(rand.Reader, d.key, digest[:])
 	if err != nil {
-		t.Fatal(err)
+		return nil, fmt.Errorf("sign: %w", err)
 	}
-	evidence, err := json.Marshal(map[string]any{"profile": android.Name, "certificates": d.chain})
+
+	return lowS(signature), nil
+}
+
+func (d *AttestingDevice) BundleOf(t testing.TB, statement []byte) *verifier.Bundle {
+	t.Helper()
+	signature, err := d.Sign(verifier.PAE(verifier.InTotoPayload, statement))
 	if err != nil {
 		t.Fatal(err)
 	}
 	var key verifier.KeyEvidence
-	if err := key.UnmarshalJSON(evidence); err != nil {
+	if err := key.UnmarshalJSON(d.KeyEvidence()); err != nil {
 		t.Fatal(err)
 	}
 
@@ -139,26 +162,20 @@ func (d *attestingDevice) bundleOf(t *testing.T, statement []byte) *verifier.Bun
 		DSSEEnvelope: verifier.DSSEEnvelope{
 			PayloadType: verifier.InTotoPayload,
 			Payload:     statement,
-			Signatures:  []verifier.DSSESignature{{Sig: lowS(t, signature)}},
+			Signatures:  []verifier.DSSESignature{{Sig: signature}},
 		},
 		VerificationMaterial: verifier.VerificationMaterial{Key: key},
 	}
 }
 
-func lowS(t *testing.T, signature []byte) []byte {
-	t.Helper()
+func lowS(signature []byte) []byte {
 	var parts struct{ R, S *big.Int }
-	if _, err := asn1.Unmarshal(signature, &parts); err != nil {
-		t.Fatal(err)
-	}
+	_, _ = asn1.Unmarshal(signature, &parts)
 	order := elliptic.P256().Params().N
 	if parts.S.Cmp(new(big.Int).Rsh(order, 1)) > 0 {
 		parts.S = new(big.Int).Sub(order, parts.S)
 	}
-	low, err := asn1.Marshal(parts)
-	if err != nil {
-		t.Fatal(err)
-	}
+	low, _ := asn1.Marshal(parts)
 
 	return low
 }
@@ -255,13 +272,13 @@ func integer(value int64) []byte {
 	return tagged(0, 2, false, encoding)
 }
 
-type timestampAuthority struct {
+type TimestampAuthority struct {
 	certificate *x509.Certificate
 	key         *ecdsa.PrivateKey
 	root        *x509.Certificate
 }
 
-func newTimestampAuthority(t *testing.T) *timestampAuthority {
+func NewTimestampAuthority(t testing.TB) *TimestampAuthority {
 	t.Helper()
 	now := time.Now()
 	rootKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -312,10 +329,10 @@ func newTimestampAuthority(t *testing.T) *timestampAuthority {
 		t.Fatal(err)
 	}
 
-	return &timestampAuthority{certificate: certificate, key: key, root: root}
+	return &TimestampAuthority{certificate: certificate, key: key, root: root}
 }
 
-func (a *timestampAuthority) policyEntry() json.RawMessage {
+func (a *TimestampAuthority) PolicyEntry() json.RawMessage {
 	pemOf := func(certificate *x509.Certificate) string {
 		return string(pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: certificate.Raw}))
 	}
@@ -328,7 +345,7 @@ func (a *timestampAuthority) policyEntry() json.RawMessage {
 	return entry
 }
 
-func (a *timestampAuthority) stamp(t *testing.T, bundle *verifier.Bundle, at time.Time) {
+func (a *TimestampAuthority) Stamp(t testing.TB, bundle *verifier.Bundle, at time.Time) {
 	t.Helper()
 	binding, err := android.New(nil).Binding(bundle.VerificationMaterial.Key.Raw)
 	if err != nil {
@@ -338,16 +355,51 @@ func (a *timestampAuthority) stamp(t *testing.T, bundle *verifier.Bundle, at tim
 		android.Name, verifier.StatementID(bundle.DSSEEnvelope.Payload), binding,
 		bundle.DSSEEnvelope.Signatures[0].Sig,
 	)
+	bundle.VerificationMaterial.Timestamp = a.timestampOf(t, signedStatementID[:], at)
+}
+
+func (a *TimestampAuthority) TimestampEncodingOf(
+	t testing.TB,
+	signedStatementID []byte,
+	at time.Time,
+) []byte {
+	t.Helper()
+	encoding, err := json.Marshal(a.timestampOf(t, signedStatementID, at))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return encoding
+}
+
+func (a *TimestampAuthority) timestampOf(
+	t testing.TB,
+	signedStatementID []byte,
+	at time.Time,
+) *verifier.Timestamp {
+	t.Helper()
 	token, err := (&timestamp.Timestamp{
 		HashAlgorithm: crypto.SHA256,
-		HashedMessage: rfc6962.DefaultHasher.HashLeaf(signedStatementID[:]),
+		HashedMessage: rfc6962.DefaultHasher.HashLeaf(signedStatementID),
 		Time:          at,
 		Policy:        asn1.ObjectIdentifier{1, 2, 3, 4},
 	}).CreateResponseWithOpts(a.certificate, a.key, crypto.SHA256)
 	if err != nil {
 		t.Fatal(err)
 	}
-	bundle.VerificationMaterial.Timestamp = &verifier.Timestamp{
-		Token: token, Tree: verifier.Tree{Size: 1, Index: 0, Path: []verifier.Bytes{}},
+
+	return &verifier.Timestamp{
+		Token: token,
+		Tree:  verifier.Tree{Size: 1, Index: 0, Path: []verifier.Bytes{}},
 	}
+}
+
+func mustHex(t testing.TB, encoded string) []byte {
+	t.Helper()
+	decoded, err := hex.DecodeString(encoded)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return decoded
 }
