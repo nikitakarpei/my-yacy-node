@@ -16,6 +16,8 @@ type OfferedPage struct {
 	Body            []byte                    `json:"Body"`
 	RobotsTagValues []string                  `json:"RobotsTagValues,omitzero"`
 	PageModifiedAt  time.Time                 `json:"PageModifiedAt,omitzero"`
+	FetchedAt       time.Time                 `json:"FetchedAt"`
+	Attestation     json.RawMessage           `json:"Attestation,omitzero"`
 }
 
 func OfferedPageFrom(
@@ -23,6 +25,7 @@ func OfferedPageFrom(
 	fetchedPage pagefetch.FetchedPage,
 	pageVersion pagefetch.PageVersion,
 	landedURL canonicalurl.CanonicalURL,
+	fetchedAt time.Time,
 ) OfferedPage {
 	return OfferedPage{
 		PageURL:         request.PageURL,
@@ -31,6 +34,7 @@ func OfferedPageFrom(
 		Body:            fetchedPage.Body,
 		RobotsTagValues: fetchedPage.RobotsTagValues,
 		PageModifiedAt:  pageVersion.ModifiedAt,
+		FetchedAt:       fetchedAt,
 	}
 }
 
