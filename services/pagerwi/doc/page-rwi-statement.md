@@ -13,9 +13,9 @@ Predicate type:
 The signer fetched the page at `pageURL` over TLS, after the drand round in `startedAfter`. It
 derived the URL metadata row and the postings of the page RWI root from the response.
 
-The page RWI root is SHA-256 over the byte 1, the digest of the URL metadata row, and the
-postings root of the row. The digest covers every field of the row except the postings root and
-the day the page was loaded. A verifier computes the root from the row that it has.
+The page RWI root is SHA-256 over the byte 1 and every field of the URL metadata row, the postings
+root included, except the day the page was loaded. A verifier computes the root from the row
+that it has.
 
 ## Statement
 
