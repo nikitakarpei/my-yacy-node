@@ -105,7 +105,7 @@ func fieldChanges(t *testing.T) map[string]func(*yacymodel.URLMetadata) {
 
 	return map[string]func(*yacymodel.URLMetadata){
 		"Hash":             func(m *yacymodel.URLMetadata) { m.Hash = otherHash },
-		"Referrer":         func(m *yacymodel.URLMetadata) { m.Referrer = yacymodel.None[yacymodel.URLHash]() },
+		"Referrer":         func(m *yacymodel.URLMetadata) { m.Referrer = yacymodel.Some(otherHash) },
 		"DocumentType":     func(m *yacymodel.URLMetadata) { m.DocumentType = yacymodel.DocumentTypeImage },
 		"Language":         func(m *yacymodel.URLMetadata) { m.Language = yacymodel.Some(otherLanguage) },
 		"PostingsRoot":     func(m *yacymodel.URLMetadata) { m.PostingsRoot = otherPostingsRoot(t) },
