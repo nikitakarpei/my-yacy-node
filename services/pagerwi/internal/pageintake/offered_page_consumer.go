@@ -5,7 +5,6 @@ package pageintake
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -149,33 +148,24 @@ func (c *OfferedPageConsumer) publishAttested(
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) {
-	attestation, ready := c.rwiAttester.Attest(
+	attestation, issued := c.rwiAttester.Attest(
 		ctx,
 		offerMessageOf(message),
 		page,
 		pageRWI,
 	)
-	if !ready {
+	if !issued {
 		message.Return(ctx)
 
 		return
 	}
-	c.publish(ctx, message, page.PageURL, attestedBy(pageRWI, attestation))
+	c.publish(ctx, message, page.PageURL, pageRWI.AttestedBy(attestation))
 }
 
 func offerMessageOf(message pullintake.PendingMessage) pagescrapecontract.PageOfferMessage {
 	return pagescrapecontract.PageOfferMessageFrom(
 		message.Body(), message.Header(pagescrapecontract.PageOfferAttestationHeader),
 	)
-}
-
-func attestedBy(
-	pageRWI pagerwicontract.PageRWI,
-	attestation json.RawMessage,
-) pagerwicontract.PageRWI {
-	pageRWI.Attestation = attestation
-
-	return pageRWI
 }
 
 func (c *OfferedPageConsumer) publish(
