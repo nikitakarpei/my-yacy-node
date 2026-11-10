@@ -10,14 +10,14 @@ import (
 )
 
 func TestEveryRWIGoesWithoutAttestationAndIsReady(t *testing.T) {
-	attestation, ready := unattested.RWIAttester{}.Attest(
+	attestation, issued := unattested.RWIAttester{}.Attest(
 		context.Background(),
 		pagescrapecontract.PageOfferMessage{},
 		pagescrapecontract.OfferedPage{},
 		pagerwicontract.PageRWI{},
 	)
 
-	if !ready || attestation != nil {
-		t.Errorf("attestation = %s, ready = %v", attestation, ready)
+	if !issued || attestation != nil {
+		t.Errorf("attestation = %s, issued = %v", attestation, issued)
 	}
 }
