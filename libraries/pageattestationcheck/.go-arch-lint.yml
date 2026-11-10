@@ -1,0 +1,40 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pageattestationcheck:
+    in: .
+  pageattestationchecktest:
+    in: pageattestationchecktest/**
+
+vendors:
+  verifier:
+    in:
+      - github.com/nikitakarpei/hardware-attested-statements/verifier
+      - github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android
+  pagerwicontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
+  yacymodel:
+    in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+  timestamp:
+    in:
+      - github.com/digitorus/timestamp
+      - github.com/transparency-dev/merkle/rfc6962
+
+deps:
+  pageattestationcheck:
+    canUse:
+      - verifier
+      - pagerwicontract
+      - yacymodel
+  pageattestationchecktest:
+    canUse:
+      - verifier
+      - timestamp
+
+excludeFiles:
+  - "_test\\.go"
