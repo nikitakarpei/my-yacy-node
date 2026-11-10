@@ -360,6 +360,18 @@ func TestPendingMessageCarriesTheMessageBody(t *testing.T) {
 	}
 }
 
+func TestPendingMessageCarriesItsHeaders(t *testing.T) {
+	var value, absent string
+	deliver(t, &pullintaketest.Message{Header: nats.Header{"Name": []string{"value"}}},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			value, absent = message.Header("Name"), message.Header("Other")
+		})
+
+	if value != "value" || absent != "" {
+		t.Errorf("headers = %q and %q, want the value and nothing", value, absent)
+	}
+}
+
 func TestPendingMessageIdentityNamesWhereTheMessageSits(t *testing.T) {
 	var identity string
 	deliver(t, &pullintaketest.Message{Stream: "YACY_SCRAPE_REQUEST", Sequence: 7},
