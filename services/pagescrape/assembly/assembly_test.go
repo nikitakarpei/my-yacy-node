@@ -30,8 +30,6 @@ const (
 	originPageURL = "http://origin.example/"
 	everyInbox    = "_INBOX.>"
 
-	pullRequestPollPause = 10 * time.Millisecond
-
 	brokerPassword = "broker-password"
 )
 
@@ -340,21 +338,14 @@ func subscriptionTo(t *testing.T, connection *nats.Conn, subject string) *nats.S
 
 func provisionStreams(t *testing.T, cfg pagescrape.ServiceConfig) {
 	t.Helper()
-	runUntilStarted(t, cfg)
-	awaitPullRequestsDropped(
-		t, natstestserver.ConnectJetStream(t, cfg.ScrapeNATSURL), cfg.ScrapeRequestDurable,
-	)
-}
-
-func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
-	t.Helper()
 	ctx, cancel := context.WithCancel(context.Background())
 	health, started := healthReportingStart()
+	neverReleased := make(chan struct{})
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagescrape.RunService(
 			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
-			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+			jetstreamconnect.BrokerAccess{}, pullintaketest.AdmissionHeldUntil(neverReleased),
 			prometheus.NewRegistry(), health,
 		)
 	}()
@@ -383,28 +374,6 @@ func awaitStart(t *testing.T, started <-chan struct{}, runDone <-chan error) {
 	case <-started:
 	case err := <-runDone:
 		t.Fatalf("run ended before the start: %v", err)
-	}
-}
-
-func awaitPullRequestsDropped(t *testing.T, broker jetstream.JetStream, durable string) {
-	t.Helper()
-	consumer, err := broker.Consumer(
-		t.Context(),
-		pagescrapecontract.ScrapeRequestsStreamName,
-		durable,
-	)
-	if err != nil {
-		t.Fatalf("open scrape request consumer: %v", err)
-	}
-	for {
-		info, err := consumer.Info(t.Context())
-		if err != nil {
-			t.Fatalf("scrape request consumer info: %v", err)
-		}
-		if info.NumWaiting == 0 {
-			return
-		}
-		time.Sleep(pullRequestPollPause)
 	}
 }
 
