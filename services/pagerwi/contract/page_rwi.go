@@ -9,9 +9,10 @@ import (
 )
 
 type PageRWI struct {
-	PageURL  canonicalurl.CanonicalURL `json:"PageURL"`
-	Metadata yacymodel.URLMetadata     `json:"Metadata"`
-	Postings []yacymodel.RWIPosting    `json:"Postings,omitempty"`
+	PageURL     canonicalurl.CanonicalURL `json:"PageURL"`
+	Metadata    yacymodel.URLMetadata     `json:"Metadata"`
+	Postings    []yacymodel.RWIPosting    `json:"Postings,omitempty"`
+	Attestation json.RawMessage           `json:"Attestation,omitzero"`
 }
 
 func MarshalPageRWI(pageRWI PageRWI) ([]byte, error) {

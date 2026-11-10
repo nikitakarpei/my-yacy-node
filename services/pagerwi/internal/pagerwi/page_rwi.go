@@ -30,10 +30,9 @@ func (b IndexBuilder) RWIFrom(
 	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
 	text []byte,
-	reachedAt time.Time,
 ) pagerwicontract.PageRWI {
 	urlHash := yacymodel.URLHashOf(scrapedPage.PageURL.WebAddress())
-	modifiedAt := recordedModifiedAtOf(scrapedPage, reachedAt)
+	modifiedAt := recordedModifiedAtOf(scrapedPage)
 	textWordsInOrder, textWordOccurrences, textStats := tokenize(string(text))
 	_, titleWordOccurrences, _ := tokenize(document.Title)
 	postings := b.postingsFrom(
@@ -49,7 +48,6 @@ func (b IndexBuilder) RWIFrom(
 		Metadata: metadataOf(
 			scrapedPage,
 			document,
-			reachedAt,
 			modifiedAt,
 			textStats.Words,
 			urlHash,
@@ -59,14 +57,11 @@ func (b IndexBuilder) RWIFrom(
 	}
 }
 
-func recordedModifiedAtOf(
-	scrapedPage pagescrapecontract.OfferedPage,
-	reachedAt time.Time,
-) time.Time {
+func recordedModifiedAtOf(scrapedPage pagescrapecontract.OfferedPage) time.Time {
 	declared := scrapedPage.PageModifiedAt
-	if declared.IsZero() || declared.After(reachedAt) ||
+	if declared.IsZero() || declared.After(scrapedPage.FetchedAt) ||
 		!yacymodel.MicroDateOf(declared).Present() {
-		return reachedAt
+		return scrapedPage.FetchedAt
 	}
 
 	return declared
@@ -196,7 +191,6 @@ func postingsOf(
 func metadataOf(
 	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
-	reachedAt time.Time,
 	modifiedAt time.Time,
 	wordCount int,
 	urlHash yacymodel.URLHash,
@@ -207,7 +201,7 @@ func metadataOf(
 		Address:      scrapedPage.PageURL.String(),
 		Title:        document.Title,
 		Modified:     yacymodel.Some(yacymodel.CalendarDayOf(modifiedAt)),
-		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
+		Loaded:       yacymodel.Some(yacymodel.CalendarDayOf(scrapedPage.FetchedAt)),
 		DocumentType: yacymodel.DocumentTypeText,
 		Language:     declaredLanguageOf(document),
 		PostingsRoot: postingsRoot,

@@ -22,6 +22,7 @@ pass through NATS JetStream.
 
 * The service SHALL build one RWI for each offered page that holds a document it reads.
 * The RWI SHALL identify the page by the page URL of the offer, not by the landed URL.
+* The RWI SHALL give the fetch time of the offer as the day the page was loaded.
 * The service SHALL NOT make a posting for a stopword of the page language.
 * The service SHALL build each RWI for the configured partition exponent.
 * The service SHALL publish the RWI of each page one time, on the RWI stream.
