@@ -32,6 +32,8 @@ other peers can check what the device did.
 * Until the user stops it or unpairs the device, the paired app SHALL fetch pages and build RWIs
   when the rules below allow it.
 * The app SHALL sign each page that it fetches with a hardware-attested key of the device.
+* pagescrape and pagerwi in the app SHALL sign their page offers and RWIs with the same key, as
+  their page offer statement and page RWI statement state, and time-stamp each RWI statement.
 * The app SHALL NOT create or change the streams and consumers of the peer.
 * The app SHALL show whether it is connecting, connected, waiting for a charger, for Battery Saver
   to turn off, or for an unmetered network, or disconnected, and why it is disconnected.
@@ -61,9 +63,10 @@ other peers can check what the device did.
 ## Known Limitations
 
 * The app runs only on 64-bit ARM devices with Android 14 or later.
-* The release APK is not signed. The operator signs it with an own key.
+* An APK that the operator builds is not signed. Only the release workflow signs with the release
+  key.
 * The peer does not check the key attestation of the device yet.
-* pagescrape and pagerwi do not sign their page offers and RWIs yet.
+* The nodes of the peer do not keep page attestations or send them to other peers yet.
 * The app writes the logs of its fetches and RWIs to logcat, under the tag `GoLog`.
 * A debug build cannot sign, so each page fetch of a debug build fails.
 * Each start of the app after a stop creates a new signing key.

@@ -25,7 +25,15 @@ class ServicesRunner(private val ctx: Context, private val events: (CompanionEve
         val proxy = proxy ?: openProxy() ?: return events(CompanionEvent.SigningKeyUnavailable)
         val key = DeviceKeyEntry.current() ?: return events(CompanionEvent.DeviceKeyUnavailable)
         val instance =
-            runCatching { Pageservices.instanceFor(linkText, proxy.url, key, appVersionOf(ctx)) }.getOrElse {
+            runCatching {
+                Pageservices.instanceFor(
+                    linkText,
+                    proxy.url,
+                    key,
+                    appVersionOf(ctx),
+                    StatementKeys(proxy.signingKey, proxy.stamper),
+                )
+            }.getOrElse {
                 Log.w(LOG_TAG, "page services", it)
                 return events(CompanionEvent.ServicesEnded(ServicesEnding.FAILED))
             }
