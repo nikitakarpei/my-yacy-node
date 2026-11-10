@@ -15,25 +15,47 @@ import (
 var errNotAnECKey = errors.New("the hardware key is not an EC key")
 
 type Signer struct {
-	keys     HardwareKeys
-	profile  verifier.Profile
-	observer SigningObserver
+	keys               HardwareKeys
+	timeStampAuthority TimeStampAuthority
+	profile            verifier.Profile
+	observer           SigningObserver
 }
 
-func New(keys HardwareKeys, profile verifier.Profile, observer SigningObserver) Signer {
-	return Signer{keys: keys, profile: profile, observer: observer}
+func New(
+	keys HardwareKeys,
+	timeStampAuthority TimeStampAuthority,
+	profile verifier.Profile,
+	observer SigningObserver,
+) Signer {
+	return Signer{
+		keys:               keys,
+		timeStampAuthority: timeStampAuthority,
+		profile:            profile,
+		observer:           observer,
+	}
 }
 
-func (s Signer) BundleOf(ctx context.Context, statement []byte) ([]byte, bool) {
-	bundle, signed := s.signedBundleOf(ctx, statement)
+func (s Signer) Sign(ctx context.Context, statement []byte, stamping TimeStamping) ([]byte, bool) {
+	bundle, signed := s.sign(ctx, statement)
 	if !signed {
 		return nil, false
 	}
-
+	if stamping == TimeStamped {
+		bundle, signed = s.stamp(ctx, bundle)
+		if !signed {
+			return nil, false
+		}
+	}
 	return encodingOf(bundle), true
 }
 
-func (s Signer) signedBundleOf(ctx context.Context, statement []byte) (verifier.Bundle, bool) {
+func encodingOf(bundle verifier.Bundle) []byte {
+	encoding, _ := json.Marshal(bundle) //nolint:errchkjson // bytes, strings and raw JSON only.
+
+	return encoding
+}
+
+func (s Signer) sign(ctx context.Context, statement []byte) (verifier.Bundle, bool) {
 	key, err := s.keys.CurrentKey()
 	if err != nil {
 		s.observer.KeyUnavailable(ctx, err)
@@ -53,10 +75,10 @@ func (s Signer) signedBundleOf(ctx context.Context, statement []byte) (verifier.
 		return verifier.Bundle{}, false
 	}
 
-	return bundleOf(statement, signature, evidence), true
+	return bundleFrom(statement, signature, evidence), true
 }
 
-func bundleOf(statement, signature []byte, evidence verifier.KeyEvidence) verifier.Bundle {
+func bundleFrom(statement, signature []byte, evidence verifier.KeyEvidence) verifier.Bundle {
 	return verifier.Bundle{
 		MediaType: verifier.BundleMediaType,
 		DSSEEnvelope: verifier.DSSEEnvelope{
@@ -68,34 +90,12 @@ func bundleOf(statement, signature []byte, evidence verifier.KeyEvidence) verifi
 	}
 }
 
-func encodingOf(bundle verifier.Bundle) []byte {
-	encoding, _ := json.Marshal(bundle) //nolint:errchkjson // bytes, strings and raw JSON only.
-
-	return encoding
-}
-
-func (s Signer) StampedBundleOf(ctx context.Context, statement []byte) ([]byte, bool) {
-	bundle, signed := s.signedBundleOf(ctx, statement)
-	if !signed {
-		return nil, false
-	}
-	timestamp, stamped := s.timestampOf(ctx, bundle)
-	if !stamped {
-		return nil, false
-	}
-
-	return encodingOf(stampedWith(bundle, timestamp)), true
-}
-
-func (s Signer) timestampOf(
-	ctx context.Context,
-	bundle verifier.Bundle,
-) (verifier.Timestamp, bool) {
+func (s Signer) stamp(ctx context.Context, bundle verifier.Bundle) (verifier.Bundle, bool) {
 	binding, err := s.profile.Binding(bundle.VerificationMaterial.Key.Raw)
 	if err != nil {
 		s.observer.KeyEvidenceUnreadable(ctx, err)
 
-		return verifier.Timestamp{}, false
+		return verifier.Bundle{}, false
 	}
 	signedStatementID := verifier.SignedStatementID(
 		s.profile.Name(),
@@ -103,29 +103,24 @@ func (s Signer) timestampOf(
 		binding,
 		bundle.DSSEEnvelope.Signatures[0].Sig,
 	)
-	encoding, err := s.keys.TimeStampOf(signedStatementID[:])
+	encoding, err := s.timeStampAuthority.Stamp(signedStatementID[:])
 	if err != nil {
 		s.observer.TimeStampUnavailable(ctx, err)
 
-		return verifier.Timestamp{}, false
+		return verifier.Bundle{}, false
 	}
 	var timestamp verifier.Timestamp
 	if err := verifier.UnmarshalStrict(encoding, &timestamp); err != nil {
 		s.observer.TimeStampUnavailable(ctx, fmt.Errorf("read time-stamp: %w", err))
 
-		return verifier.Timestamp{}, false
+		return verifier.Bundle{}, false
 	}
-
-	return timestamp, true
-}
-
-func stampedWith(bundle verifier.Bundle, timestamp verifier.Timestamp) verifier.Bundle {
 	bundle.VerificationMaterial.Timestamp = &timestamp
 
-	return bundle
+	return bundle, true
 }
 
-func (s Signer) HasSigned(ctx context.Context, statement, signature []byte) bool {
+func (s Signer) IsOwnSignature(ctx context.Context, statement, signature []byte) bool {
 	publicKey, available := s.currentPublicKey(ctx)
 	if !available {
 		return false

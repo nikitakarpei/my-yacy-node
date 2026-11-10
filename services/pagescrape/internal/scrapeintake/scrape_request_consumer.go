@@ -32,7 +32,7 @@ type ScrapeOutcomeFeed interface {
 type ScrapeRequestConsumer struct {
 	scrapeRequests       pullintake.MessageSource
 	pageFetcher          PageFetcher
-	offeredPages         OfferedPages
+	offerIssuer          OfferIssuer
 	pageOffers           PageOffers
 	scrapeOutcomeFeed    ScrapeOutcomeFeed
 	scrapeIntakeObserver ScrapeIntakeObserver
@@ -46,7 +46,7 @@ type ScrapeRequestConsumer struct {
 func NewScrapeRequestConsumer(
 	scrapeRequests pullintake.MessageSource,
 	pageFetcher PageFetcher,
-	offeredPages OfferedPages,
+	offerIssuer OfferIssuer,
 	pageOffers PageOffers,
 	scrapeOutcomeFeed ScrapeOutcomeFeed,
 	scrapeIntakeObserver ScrapeIntakeObserver,
@@ -58,7 +58,7 @@ func NewScrapeRequestConsumer(
 	return &ScrapeRequestConsumer{
 		scrapeRequests:       scrapeRequests,
 		pageFetcher:          pageFetcher,
-		offeredPages:         offeredPages,
+		offerIssuer:          offerIssuer,
 		pageOffers:           pageOffers,
 		scrapeOutcomeFeed:    scrapeOutcomeFeed,
 		scrapeIntakeObserver: scrapeIntakeObserver,
@@ -119,7 +119,7 @@ func (c *ScrapeRequestConsumer) offerPageFrom(
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
 ) {
-	offer, ready := c.offeredPages.OfferMessageFrom(ctx, request, landed)
+	offer, ready := c.offerIssuer.Issue(ctx, request, landed)
 	if !ready {
 		message.Return(ctx)
 
