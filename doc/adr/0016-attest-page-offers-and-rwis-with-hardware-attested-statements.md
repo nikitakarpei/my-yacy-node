@@ -25,8 +25,8 @@ signer of the input, the step does one of two things:
 - It vouches and lists no input. Today a step vouches only for its own key.
 - It lists the input statement and nests the input bundle.
 
-The program that embeds pagescrape and pagerwi gives them a statement signer. Without one,
-they publish no attestation.
+pagescrape and pagerwi sign only when they have a statement signer. Without one, they publish
+no attestation.
 
 The attestation check is a library. It takes a URL metadata row, a page attestation and a
 policy in the HAS format, and gives "attested" with the fetch time, or "not attested" with the

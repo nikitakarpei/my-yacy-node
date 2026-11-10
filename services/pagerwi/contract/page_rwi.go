@@ -15,6 +15,12 @@ type PageRWI struct {
 	Attestation json.RawMessage           `json:"Attestation,omitzero"`
 }
 
+func (r PageRWI) AttestedBy(attestation json.RawMessage) PageRWI {
+	r.Attestation = attestation
+
+	return r
+}
+
 func MarshalPageRWI(pageRWI PageRWI) ([]byte, error) {
 	data, err := json.Marshal(pageRWI)
 	if err != nil {

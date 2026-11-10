@@ -21,7 +21,7 @@ func TestAPageIsOfferedWithoutAttestationAtTheClockTime(t *testing.T) {
 		Outcome: pagefetch.FetchOutcome{Page: pagefetch.FetchedPage{Body: []byte("page")}},
 	}
 
-	offer, ready := unattested.New(fixedClock{}).Issue(
+	offer, issued := unattested.New(fixedClock{}).Issue(
 		context.Background(),
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
 		landed,
@@ -31,9 +31,9 @@ func TestAPageIsOfferedWithoutAttestationAtTheClockTime(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if !ready || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) ||
+	if !issued || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) ||
 		string(page.Body) != "page" {
-		t.Errorf("page = %+v, ready = %v", page, ready)
+		t.Errorf("page = %+v, issued = %v", page, issued)
 	}
 }
 
