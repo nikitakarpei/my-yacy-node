@@ -21,7 +21,7 @@ func TestPageRWIRootIsAbsentWithoutAPostingsRoot(t *testing.T) {
 func TestPageRWIRootOfAKnownRow(t *testing.T) {
 	root := pageRWIRootOf(t, metadataWithEveryField(t))
 
-	const want = "3a7bf26a8eefd7258747a48f6721015bccc101a36b59673660dd92268127231b"
+	const want = "38a19db28d3d536b79f330bb792fb63abb14a838f1df2cdd98511d21247d3328"
 	if got := hex.EncodeToString(root.Bytes()); got != want {
 		t.Errorf("page RWI root = %s, want %s", got, want)
 	}

@@ -23,22 +23,20 @@ type PageRWIRoot struct {
 }
 
 func PageRWIRootFrom(metadata URLMetadata) Optional[PageRWIRoot] {
-	postingsRoot, rooted := metadata.PostingsRoot.Get()
-	if !rooted {
+	if !metadata.PostingsRoot.Present() {
 		return None[PageRWIRoot]()
 	}
-	metadataDigest := sha256.Sum256(attestedMetadataOf(metadata))
-	committed := append([]byte{pageRWIRootDomain}, metadataDigest[:]...)
 
-	return Some(PageRWIRoot{digest: sha256.Sum256(append(committed, postingsRoot.Bytes()...))})
+	return Some(PageRWIRoot{digest: sha256.Sum256(attestedMetadataOf(metadata))})
 }
 
 func attestedMetadataOf(metadata URLMetadata) []byte {
-	encoding := []byte{attestedMetadataFormat}
+	encoding := []byte{pageRWIRootDomain, attestedMetadataFormat}
 	encoding = metadata.Hash.AppendBytes(encoding)
 	encoding = appendOptional(encoding, metadata.Referrer, appendURLHash)
 	encoding = append(encoding, byte(metadata.DocumentType))
 	encoding = appendOptional(encoding, metadata.Language, appendLanguage)
+	encoding = appendOptional(encoding, metadata.PostingsRoot, appendPostingsRoot)
 	encoding = appendOptional(encoding, metadata.ByteSize, binary.BigEndian.AppendUint32)
 	for _, count := range []uint32{
 		metadata.WordCount,
@@ -84,6 +82,10 @@ func appendURLHash(encoding []byte, hash URLHash) []byte {
 
 func appendLanguage(encoding []byte, language Language) []byte {
 	return language.AppendBytes(encoding)
+}
+
+func appendPostingsRoot(encoding []byte, root PostingsRoot) []byte {
+	return append(encoding, root.Bytes()...)
 }
 
 func appendText(encoding []byte, text string) []byte {
