@@ -7,8 +7,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-type OfferedPages interface {
-	OfferMessageFrom(
+type OfferIssuer interface {
+	Issue(
 		ctx context.Context,
 		request pagescrapecontract.ScrapeRequest,
 		landed redirectfollowingfetch.LandedFetch,

@@ -2,7 +2,7 @@ module github.com/nikitakarpei/yacy-rwi-node/attestedstatements
 
 go 1.27.3
 
-require github.com/nikitakarpei/hardware-attested-statements/verifier v0.2.0
+require github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0
 
 require (
 	github.com/cloudflare/circl v1.6.5 // indirect

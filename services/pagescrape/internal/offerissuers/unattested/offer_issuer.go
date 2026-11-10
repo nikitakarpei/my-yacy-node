@@ -14,15 +14,15 @@ type Clock interface {
 	Now() time.Time
 }
 
-type OfferedPages struct {
+type OfferIssuer struct {
 	clock Clock
 }
 
-func New(clock Clock) OfferedPages {
-	return OfferedPages{clock: clock}
+func New(clock Clock) OfferIssuer {
+	return OfferIssuer{clock: clock}
 }
 
-func (p OfferedPages) OfferMessageFrom(
+func (p OfferIssuer) Issue(
 	_ context.Context,
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,

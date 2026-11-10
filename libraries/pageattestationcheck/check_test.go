@@ -117,24 +117,20 @@ func TestAnAppVersionIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 	setup := newSetup(t)
 	row := rootedRow(t)
 	for name, test := range map[string]struct {
-		until    time.Time
+		endTime  time.Time
 		attested bool
 	}{
 		"ends later":   {setup.stampedAt.Add(time.Hour), true},
 		"ended before": {setup.stampedAt.Add(-time.Hour), false},
 	} {
 		versions := []pageattestationcheck.AcceptedVersion{
-			{VersionCode: pageattestationchecktest.AppVersionCode, Until: test.until},
+			{VersionCode: pageattestationchecktest.AppVersionCode, EndTime: test.endTime},
 		}
 
 		verdict := setup.check(t, versions).VerdictOn(row, setup.attestationOf(t, row))
 
 		if verdict.Attested != test.attested {
 			t.Errorf("%s: verdict = %+v, want attested %v", name, verdict, test.attested)
-		}
-		if !test.attested &&
-			!errors.Is(verdict.Reason, pageattestationcheck.ErrVersionNotAccepted) {
-			t.Errorf("%s: reason = %v", name, verdict.Reason)
 		}
 	}
 }

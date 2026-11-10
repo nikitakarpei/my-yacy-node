@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -31,15 +32,19 @@ const (
 )
 
 type StatementSigner interface {
-	HasSigned(ctx context.Context, statement, signature []byte) bool
-	StampedBundleOf(ctx context.Context, statement []byte) ([]byte, bool)
+	IsOwnSignature(ctx context.Context, statement, signature []byte) bool
+	Sign(
+		ctx context.Context,
+		statement []byte,
+		stamping attestedstatements.TimeStamping,
+	) ([]byte, bool)
 }
 
 type AttestationObserver interface {
 	RWINotAttested(ctx context.Context, pageURL canonicalurl.CanonicalURL, reason string)
 }
 
-type PageAttestations struct {
+type RWIAttester struct {
 	signer     StatementSigner
 	drandChain verifier.DrandChain
 	observer   AttestationObserver
@@ -49,11 +54,11 @@ func New(
 	signer StatementSigner,
 	drandChain verifier.DrandChain,
 	observer AttestationObserver,
-) PageAttestations {
-	return PageAttestations{signer: signer, drandChain: drandChain, observer: observer}
+) RWIAttester {
+	return RWIAttester{signer: signer, drandChain: drandChain, observer: observer}
 }
 
-func (a PageAttestations) AttestationOf(
+func (a RWIAttester) Attest(
 	ctx context.Context,
 	offer pagescrapecontract.PageOfferMessage,
 	page pagescrapecontract.OfferedPage,
@@ -66,11 +71,11 @@ func (a PageAttestations) AttestationOf(
 		return nil, true
 	}
 
-	return a.signer.StampedBundleOf(ctx, pagerwicontract.MarshalPageRWIStatement(
+	return a.signer.Sign(ctx, pagerwicontract.MarshalPageRWIStatement(
 		pagerwicontract.PageRWIStatementOf(
 			attestable.root, pageRWI.PageURL, page.LandedURL, attestable.startedAfter,
 		),
-	))
+	), attestedstatements.TimeStamped)
 }
 
 type attestableRWI struct {
@@ -78,7 +83,7 @@ type attestableRWI struct {
 	startedAfter json.RawMessage
 }
 
-func (a PageAttestations) attestableOf(
+func (a RWIAttester) attestableOf(
 	ctx context.Context,
 	offer pagescrapecontract.PageOfferMessage,
 	page pagescrapecontract.OfferedPage,
@@ -99,7 +104,7 @@ func (a PageAttestations) attestableOf(
 	return attestableRWI{root: root, startedAfter: offerStatement.StartedAfter}, reason
 }
 
-func (a PageAttestations) vouchedOfferStatementOf(
+func (a RWIAttester) vouchedOfferStatementOf(
 	ctx context.Context,
 	offer pagescrapecontract.PageOfferMessage,
 ) (pagescrapecontract.PageOfferStatement, string) {
@@ -112,7 +117,7 @@ func (a PageAttestations) vouchedOfferStatementOf(
 		return pagescrapecontract.PageOfferStatement{}, ReasonOfferUnreadable
 	}
 	statement := bundle.DSSEEnvelope.Payload
-	if !a.signer.HasSigned(ctx, statement, bundle.DSSEEnvelope.Signatures[0].Sig) {
+	if !a.signer.IsOwnSignature(ctx, statement, bundle.DSSEEnvelope.Signatures[0].Sig) {
 		return pagescrapecontract.PageOfferStatement{}, ReasonOfferOfOtherSigner
 	}
 	offerStatement, err := pagescrapecontract.UnmarshalPageOfferStatement(statement)
@@ -143,7 +148,7 @@ func addressReasonOf(
 	}
 }
 
-func (a PageAttestations) roundReasonOf(
+func (a RWIAttester) roundReasonOf(
 	page pagescrapecontract.OfferedPage,
 	offerStatement pagescrapecontract.PageOfferStatement,
 ) string {

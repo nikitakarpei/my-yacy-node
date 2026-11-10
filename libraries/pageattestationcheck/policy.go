@@ -14,7 +14,7 @@ type Policy struct {
 
 type AcceptedVersion struct {
 	VersionCode int64
-	Until       time.Time
+	EndTime     time.Time
 }
 
 var FreeTSA = json.RawMessage(`"freetsa"`)

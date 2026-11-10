@@ -126,7 +126,13 @@ func (p peer) kickEveryDevice(t *testing.T) {
 func instanceFor(t *testing.T, linkText string, captureProxyURL string) *pageservices.Instance {
 	t.Helper()
 
-	return instanceWithKeys(t, linkText, captureProxyURL, unavailableHardwareKeys{})
+	return instanceWithKeys(
+		t,
+		linkText,
+		captureProxyURL,
+		unavailableHardwareKeys{},
+		unavailableHardwareKeys{},
+	)
 }
 
 func instanceWithKeys(
@@ -134,10 +140,16 @@ func instanceWithKeys(
 	linkText string,
 	captureProxyURL string,
 	hardwareKeys pageservices.HardwareKeys,
+	timeStampAuthority pageservices.TimeStampAuthority,
 ) *pageservices.Instance {
 	t.Helper()
 	instance, err := pageservices.InstanceFor(
-		linkText, captureProxyURL, brokeraccesstest.RandomDeviceKey(t), appVersion, hardwareKeys,
+		linkText,
+		captureProxyURL,
+		brokeraccesstest.RandomDeviceKey(t),
+		appVersion,
+		hardwareKeys,
+		timeStampAuthority,
 	)
 	if err != nil {
 		t.Fatalf("InstanceFor: %v", err)
@@ -175,6 +187,7 @@ func TestInstanceForRefusesTextThatIsNotAPairLink(t *testing.T) {
 		"http://127.0.0.1:1",
 		brokeraccesstest.RandomDeviceKey(t),
 		appVersion,
+		unavailableHardwareKeys{},
 		unavailableHardwareKeys{},
 	); err == nil {
 		t.Fatal("want an error for text that is not a pair link")

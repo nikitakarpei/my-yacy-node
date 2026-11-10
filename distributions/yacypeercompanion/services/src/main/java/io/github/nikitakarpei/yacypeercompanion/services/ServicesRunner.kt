@@ -31,7 +31,8 @@ class ServicesRunner(private val ctx: Context, private val events: (CompanionEve
                     proxy.url,
                     key,
                     appVersionOf(ctx),
-                    StatementKeys(proxy.signingKey, proxy.stamper),
+                    StatementKeys(proxy.signingKey),
+                    StatementTimeStampAuthority(proxy.stamper),
                 )
             }.getOrElse {
                 Log.w(LOG_TAG, "page services", it)

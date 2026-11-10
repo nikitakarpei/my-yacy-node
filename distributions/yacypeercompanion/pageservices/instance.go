@@ -55,12 +55,13 @@ type Instance struct {
 	stopOnce        sync.Once
 }
 
-func InstanceFor(
+func InstanceFor( //nolint:revive // Kotlin calls this through gomobile, which binds flat arguments.
 	linkText string,
 	captureProxyURL string,
 	key pairingrequests.DeviceKey,
 	appVersion string,
 	hardwareKeys HardwareKeys,
+	timeStampAuthority TimeStampAuthority,
 ) (*Instance, error) {
 	link, err := companionprotocol.PairLinkFrom(linkText)
 	if err != nil {
@@ -83,6 +84,7 @@ func InstanceFor(
 		captureProxyURL: captureProxyURL,
 		statementSigner: attestedstatements.New(
 			statementKeys{hardwareKeys: hardwareKeys},
+			timeStampAuthority,
 			android.New(nil),
 			attestedstatementsobserversapplog.SigningLog{},
 		),

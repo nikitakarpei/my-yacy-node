@@ -38,6 +38,7 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 	instance := instanceWithKeys(
 		t, peer.broker.LinkWith(usedSecret), captureProxySigningWith(t, device),
 		deviceKeys{t: t, device: device, authority: authority},
+		deviceKeys{t: t, device: device, authority: authority},
 	)
 	events := make(observedEvents, 4)
 	go instance.Run(events)
@@ -152,7 +153,7 @@ func (k deviceKeys) CurrentKey() (pageservices.HardwareKey, error) {
 	return k.device, nil
 }
 
-func (k deviceKeys) TimeStampOf(signedStatementID []byte) ([]byte, error) {
+func (k deviceKeys) Stamp(signedStatementID []byte) ([]byte, error) {
 	return k.authority.TimestampEncodingOf(k.t, signedStatementID, time.Now()), nil
 }
 
@@ -162,6 +163,6 @@ func (unavailableHardwareKeys) CurrentKey() (pageservices.HardwareKey, error) {
 	return nil, errNoHardwareKey
 }
 
-func (unavailableHardwareKeys) TimeStampOf([]byte) ([]byte, error) {
+func (unavailableHardwareKeys) Stamp([]byte) ([]byte, error) {
 	return nil, errNoHardwareKey
 }

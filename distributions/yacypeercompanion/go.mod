@@ -5,7 +5,7 @@ go 1.27.3
 require (
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/hardware-attested-statements/verifier v0.2.0
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0
 	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
@@ -47,6 +47,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/stopwords v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.3 // indirect
 	github.com/prometheus/common v0.72.0 // indirect
 	github.com/prometheus/procfs v0.22.0 // indirect
@@ -105,3 +106,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../librar
 replace github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck => ../../libraries/pageattestationcheck
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
