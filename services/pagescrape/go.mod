@@ -1,11 +1,13 @@
 module github.com/nikitakarpei/yacy-rwi-node/pagescrape
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.2.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -17,6 +19,9 @@ require (
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/cloudflare/circl v1.6.5 // indirect
+	github.com/digitorus/pkcs7 v0.0.0-20260914070511-d678ea5ea03f // indirect
+	github.com/digitorus/timestamp v0.0.0-20260914073129-b4b58b92aa51 // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
 	github.com/klauspost/compress v1.20.2 // indirect
 	github.com/minio/highwayhash v1.0.4 // indirect
@@ -25,11 +30,11 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
+	github.com/transparency-dev/merkle v0.0.2 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.58.1-0.20261009181718-2f1f834330b2 // indirect
 	golang.org/x/sync v0.21.0 // indirect

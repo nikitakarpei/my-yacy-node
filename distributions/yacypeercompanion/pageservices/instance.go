@@ -217,6 +217,7 @@ func runPagescrape(
 		(&net.Dialer{}).DialContext,
 		brokerAccess,
 		pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(),
 		health,
 	)
