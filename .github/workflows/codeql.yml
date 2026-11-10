@@ -88,15 +88,15 @@ jobs:
         with:
           languages: java-kotlin
           build-mode: manual
+          config: |
+            paths-ignore:
+              - .toolchain
 
       - name: Compile the Kotlin code of the app and its tests
         run: >-
           . .toolchain/activate &&
           distributions/yacypeercompanion/gradlew -p distributions/yacypeercompanion --no-daemon --rerun-tasks --console=plain
           compileReleaseKotlin compileReleaseUnitTestKotlin compileTestKotlin
-
-      - name: Move the toolchain out of the scanned files
-        run: mv .toolchain "$RUNNER_TEMP/toolchain"
 
       - name: Analyze
         uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
