@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// TECHDEBT: single source of truth: Optional duplicates optional.Value.
 type Optional[T any] struct {
 	value   T
 	present bool

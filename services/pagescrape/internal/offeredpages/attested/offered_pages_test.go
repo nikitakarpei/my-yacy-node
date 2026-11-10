@@ -14,6 +14,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offeredpages/attested"
@@ -73,25 +74,25 @@ func TestAPageEveryHopOfWhichThisKeyCapturedIsOfferedWithItsAttestation(t *testi
 func TestAPageWhoseCapturesDoNotHoldIsOfferedWithoutAttestation(t *testing.T) {
 	drandChain := quicknet(t)
 	for reason, breakFetch := range map[string]func(*redirectfollowingfetch.LandedFetch){
-		attested.ReasonCaptureMissing: func(l *redirectfollowingfetch.LandedFetch) {
-			l.Hops[0].Capture = pagefetch.Capture{}
+		attested.ReasonAttestationMissing: func(l *redirectfollowingfetch.LandedFetch) {
+			l.Hops[0].Attestation = optional.None[pagefetch.ResponseAttestation]()
 		},
-		attested.ReasonCaptureOfOtherSigner: func(l *redirectfollowingfetch.LandedFetch) {
-			l.Hops[1].Capture.Signature = []byte("signed by another key")
+		attested.ReasonAttestationOfOtherSigner: func(l *redirectfollowingfetch.LandedFetch) {
+			l.Hops[1].Attestation = withSignature(t, l.Hops[1], []byte("signed by another key"))
 		},
-		attested.ReasonCaptureUnreadable: func(l *redirectfollowingfetch.LandedFetch) {
-			l.Hops[1].Capture.Statement = []byte("no statement")
+		attested.ReasonAttestationUnreadable: func(l *redirectfollowingfetch.LandedFetch) {
+			l.Hops[1].Attestation = withStatement(t, l.Hops[1], []byte("no statement"))
 		},
-		attested.ReasonCaptureOfOtherURL: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonAttestationOfOtherURL: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Hops[0].URL = canonicalurltest.CanonicalURLOf(t, "https://example.org/other")
 		},
-		attested.ReasonCaptureOfOtherBody: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonAttestationOfOtherBody: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Outcome.Page.Body = []byte("other body")
 		},
-		attested.ReasonCaptureWithoutTime: func(l *redirectfollowingfetch.LandedFetch) {
-			l.Hops[1].Capture.Statement = captureStatement(
+		attested.ReasonAttestationWithoutTime: func(l *redirectfollowingfetch.LandedFetch) {
+			l.Hops[1].Attestation = withStatement(t, l.Hops[1], captureStatement(
 				t, "https://example.org/b", pageBody, "0000000000000000000000000000000000000000000000000000000000000000",
-			)
+			))
 		},
 	} {
 		request, landed := redirectedFetch(t, drandChain)
@@ -121,7 +122,7 @@ func TestAPageWithoutAnyHopIsOfferedWithoutAttestation(t *testing.T) {
 		OfferedPageFrom(context.Background(), request, landed)
 
 	if page.Attestation != nil || len(observed.reported) != 1 ||
-		observed.reported[0] != attested.ReasonCaptureMissing {
+		observed.reported[0] != attested.ReasonAttestationMissing {
 		t.Errorf("page = %+v, reported %v", page, observed.reported)
 	}
 }
@@ -171,12 +172,36 @@ func hopCaptured(
 
 	return redirectfollowingfetch.Hop{
 		URL: hopURL,
-		Capture: pagefetch.Capture{
+		Attestation: optional.Some(pagefetch.ResponseAttestation{
 			Statement:   captureStatement(t, httpsURL, body, chain),
 			Signature:   []byte(ownSignature),
 			KeyEvidence: []byte(`{"profile":"android"}`),
-		},
+		}),
 	}
+}
+
+func withStatement(
+	t *testing.T,
+	hop redirectfollowingfetch.Hop,
+	statement []byte,
+) optional.Value[pagefetch.ResponseAttestation] {
+	t.Helper()
+	attestation, _ := hop.Attestation.Get()
+	attestation.Statement = statement
+
+	return optional.Some(attestation)
+}
+
+func withSignature(
+	t *testing.T,
+	hop redirectfollowingfetch.Hop,
+	signature []byte,
+) optional.Value[pagefetch.ResponseAttestation] {
+	t.Helper()
+	attestation, _ := hop.Attestation.Get()
+	attestation.Signature = signature
+
+	return optional.Some(attestation)
 }
 
 func captureStatement(t *testing.T, requestURL, body, chain string) []byte {

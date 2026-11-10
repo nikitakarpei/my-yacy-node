@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
@@ -17,19 +18,21 @@ const (
 	byteSequenceDelimiter   = ":"
 )
 
-func captureOf(header http.Header) pagefetch.Capture {
+func attestationOf(header http.Header) optional.Value[pagefetch.ResponseAttestation] {
 	if version, given := soleValueOf(header, headerAttestedVersion); !given ||
 		version != attestedFormatVersion {
-		return pagefetch.Capture{}
+		return optional.None[pagefetch.ResponseAttestation]()
 	}
 	statement, statementGiven := byteSequenceOf(header, headerAttestedStatement)
 	signature, signatureGiven := byteSequenceOf(header, headerAttestedSignature)
 	keyEvidence, keyEvidenceGiven := byteSequenceOf(header, headerAttestedKey)
 	if !statementGiven || !signatureGiven || !keyEvidenceGiven {
-		return pagefetch.Capture{}
+		return optional.None[pagefetch.ResponseAttestation]()
 	}
 
-	return pagefetch.Capture{Statement: statement, Signature: signature, KeyEvidence: keyEvidence}
+	return optional.Some(pagefetch.ResponseAttestation{
+		Statement: statement, Signature: signature, KeyEvidence: keyEvidence,
+	})
 }
 
 func soleValueOf(header http.Header, name string) (string, bool) {

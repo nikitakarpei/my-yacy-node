@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 )
 
 type FetchOutcome struct {
@@ -13,5 +14,5 @@ type FetchOutcome struct {
 	RedirectTarget canonicalurl.CanonicalURL
 	Version        PageVersion
 	FailureCause   error
-	Capture        Capture
+	Attestation    optional.Value[ResponseAttestation]
 }

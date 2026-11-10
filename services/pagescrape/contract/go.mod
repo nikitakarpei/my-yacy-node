@@ -7,8 +7,12 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 )
 
+require github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
+
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../../libraries/canonicalurl
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../libraries/pagefetch
 
 replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../libraries/spamassessment
+
+replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../libraries/optional

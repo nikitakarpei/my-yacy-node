@@ -7,6 +7,7 @@ require (
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.2.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -55,3 +56,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ./contract
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
+
+replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional

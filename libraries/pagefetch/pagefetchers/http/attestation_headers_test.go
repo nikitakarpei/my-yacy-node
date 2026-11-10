@@ -9,33 +9,34 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 )
 
-var capturedHeaders = map[string]string{
+var attestedHeaders = map[string]string{
 	"Attested-Version":   "v0.1",
 	"Attested-Statement": ":c3RhdGVtZW50:",
 	"Attested-Signature": ":c2lnbmF0dXJl:",
 	"Attested-Key":       ":a2V5:",
 }
 
-func TestFetchKeepsTheCaptureOfTheResponse(t *testing.T) {
+func TestFetchKeepsTheAttestationOfTheResponse(t *testing.T) {
 	for name, status := range map[string]int{
 		"page":     http.StatusOK,
 		"redirect": http.StatusFound,
 	} {
-		capture := captureServedWith(t, status, capturedHeaders, nil)
+		attestation, attested := attestationServedWith(t, status, attestedHeaders, nil).Get()
 
-		if string(capture.Statement) != "statement" ||
-			string(capture.Signature) != "signature" ||
-			string(capture.KeyEvidence) != "key" {
-			t.Errorf("%s: capture = %+v", name, capture)
+		if !attested || string(attestation.Statement) != "statement" ||
+			string(attestation.Signature) != "signature" ||
+			string(attestation.KeyEvidence) != "key" {
+			t.Errorf("%s: attestation = %+v, %v", name, attestation, attested)
 		}
 	}
 }
 
-func TestFetchKeepsNoCaptureOfAResponseWithBrokenAttestedHeaders(t *testing.T) {
+func TestFetchKeepsNoAttestationOfAResponseWithBrokenAttestedHeaders(t *testing.T) {
 	for name, change := range map[string]func(map[string]string){
 		"no headers":        func(h map[string]string) { clear(h) },
 		"other version":     func(h map[string]string) { h["Attested-Version"] = "v9" },
@@ -45,31 +46,31 @@ func TestFetchKeepsNoCaptureOfAResponseWithBrokenAttestedHeaders(t *testing.T) {
 		"empty sequence":    func(h map[string]string) { h["Attested-Statement"] = "::" },
 	} {
 		headers := map[string]string{}
-		for header, value := range capturedHeaders {
+		for header, value := range attestedHeaders {
 			headers[header] = value
 		}
 		change(headers)
 
-		if captureServedWith(t, http.StatusOK, headers, nil).Present() {
-			t.Errorf("%s: a capture is kept", name)
+		if attestationServedWith(t, http.StatusOK, headers, nil).Present() {
+			t.Errorf("%s: an attestation is kept", name)
 		}
 	}
 }
 
-func TestFetchKeepsNoCaptureOfAResponseWithAnAttestedHeaderTwice(t *testing.T) {
+func TestFetchKeepsNoAttestationOfAResponseWithAnAttestedHeaderTwice(t *testing.T) {
 	repeated := map[string]string{"Attested-Statement": ":b3RoZXI=:"}
 
-	if captureServedWith(t, http.StatusOK, capturedHeaders, repeated).Present() {
-		t.Error("a capture is kept although its statement header comes twice")
+	if attestationServedWith(t, http.StatusOK, attestedHeaders, repeated).Present() {
+		t.Error("an attestation is kept although its statement header comes twice")
 	}
 }
 
-func captureServedWith(
+func attestationServedWith(
 	t *testing.T,
 	status int,
 	headers map[string]string,
 	addedHeaders map[string]string,
-) pagefetch.Capture {
+) optional.Value[pagefetch.ResponseAttestation] {
 	t.Helper()
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
 		for header, value := range headers {
@@ -104,5 +105,5 @@ func captureServedWith(
 		t.Fatal(err)
 	}
 
-	return outcome.Capture
+	return outcome.Attestation
 }

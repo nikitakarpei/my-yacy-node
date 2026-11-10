@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
@@ -17,8 +18,8 @@ type LandedFetch struct {
 }
 
 type Hop struct {
-	URL     canonicalurl.CanonicalURL
-	Capture pagefetch.Capture
+	URL         canonicalurl.CanonicalURL
+	Attestation optional.Value[pagefetch.ResponseAttestation]
 }
 
 type RedirectFollowingPageFetch struct {
@@ -46,7 +47,7 @@ func (f *RedirectFollowingPageFetch) Fetch(
 		if err != nil {
 			return LandedFetch{}, err
 		}
-		hops = append(hops, Hop{URL: fetchURL, Capture: outcome.Capture})
+		hops = append(hops, Hop{URL: fetchURL, Attestation: outcome.Attestation})
 		landed := LandedFetch{URL: fetchURL, Outcome: outcome, Hops: hops}
 		if outcome.Status != pagefetch.FetchRedirected {
 			return landed, nil

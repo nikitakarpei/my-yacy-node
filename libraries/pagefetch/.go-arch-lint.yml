@@ -14,6 +14,9 @@ components:
     in: redirectfollowingfetch/**
 
 vendors:
+  optional:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/optional
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -26,17 +29,20 @@ deps:
   pagefetch:
     canUse:
       - canonicalurl
+      - optional
   pagefetchershttp:
     mayDependOn:
       - pagefetch
     canUse:
       - canonicalurl
+      - optional
       - spamassessmenthttpheader
   redirectfollowingfetch:
     mayDependOn:
       - pagefetch
     canUse:
       - canonicalurl
+      - optional
 
 excludeFiles:
   - "_test\\.go"

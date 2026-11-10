@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	spamassessmenthttpheader "github.com/nikitakarpei/yacy-rwi-node/spamassessment/httpheader"
 )
@@ -78,11 +79,17 @@ func (f *ProxiedFetch) Fetch(
 	}
 	defer func() { _ = response.Body.Close() }()
 
-	return capturedBy(f.classify(fetchCtx, response, knownVersion), captureOf(response.Header)), nil
+	return attestedBy(
+		f.classify(fetchCtx, response, knownVersion),
+		attestationOf(response.Header),
+	), nil
 }
 
-func capturedBy(outcome pagefetch.FetchOutcome, capture pagefetch.Capture) pagefetch.FetchOutcome {
-	outcome.Capture = capture
+func attestedBy(
+	outcome pagefetch.FetchOutcome,
+	attestation optional.Value[pagefetch.ResponseAttestation],
+) pagefetch.FetchOutcome {
+	outcome.Attestation = attestation
 
 	return outcome
 }

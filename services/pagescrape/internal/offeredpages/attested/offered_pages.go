@@ -17,12 +17,12 @@ import (
 )
 
 const (
-	ReasonCaptureMissing       = "a hop has no capture"
-	ReasonCaptureOfOtherSigner = "another key signed a capture"
-	ReasonCaptureUnreadable    = "a capture is unreadable"
-	ReasonCaptureOfOtherURL    = "a capture names another URL"
-	ReasonCaptureOfOtherBody   = "the last capture names another body"
-	ReasonCaptureWithoutTime   = "the last capture has no round of the pinned drand chain"
+	ReasonAttestationMissing       = "a hop has no response attestation"
+	ReasonAttestationOfOtherSigner = "another key signed a response attestation"
+	ReasonAttestationUnreadable    = "a response attestation is unreadable"
+	ReasonAttestationOfOtherURL    = "a response attestation names another URL"
+	ReasonAttestationOfOtherBody   = "the last response attestation names another body"
+	ReasonAttestationWithoutTime   = "the last response attestation has no round of the pinned drand chain"
 )
 
 const (
@@ -99,10 +99,10 @@ func (p OfferedPages) vouchedStartOf(
 		lastStatement = statement
 	}
 	if lastStatement == nil {
-		return captureStart{}, ReasonCaptureMissing
+		return captureStart{}, ReasonAttestationMissing
 	}
 	if !namesBody(lastStatement, landed.Outcome.Page.Body) {
-		return captureStart{}, ReasonCaptureOfOtherBody
+		return captureStart{}, ReasonAttestationOfOtherBody
 	}
 
 	return p.startOf(lastStatement)
@@ -112,22 +112,23 @@ func (p OfferedPages) vouchedStatementOf(
 	ctx context.Context,
 	hop redirectfollowingfetch.Hop,
 ) (*verifier.Statement, string) {
-	if !hop.Capture.Present() {
-		return nil, ReasonCaptureMissing
+	attestation, attested := hop.Attestation.Get()
+	if !attested {
+		return nil, ReasonAttestationMissing
 	}
-	if !p.signer.HasSigned(ctx, hop.Capture.Statement, hop.Capture.Signature) {
-		return nil, ReasonCaptureOfOtherSigner
+	if !p.signer.HasSigned(ctx, attestation.Statement, attestation.Signature) {
+		return nil, ReasonAttestationOfOtherSigner
 	}
-	statement, err := verifier.ParseStatement(hop.Capture.Statement)
+	statement, err := verifier.ParseStatement(attestation.Statement)
 	if err != nil {
-		return nil, ReasonCaptureUnreadable
+		return nil, ReasonAttestationUnreadable
 	}
 	predicate, err := httpresponse.Parse(statement)
 	if err != nil {
-		return nil, ReasonCaptureUnreadable
+		return nil, ReasonAttestationUnreadable
 	}
 	if predicate.Request.URL != httpsFormOf(hop.URL) {
-		return nil, ReasonCaptureOfOtherURL
+		return nil, ReasonAttestationOfOtherURL
 	}
 
 	return statement, ""
@@ -154,7 +155,7 @@ func namesBody(statement *verifier.Statement, body []byte) bool {
 func (p OfferedPages) startOf(statement *verifier.Statement) (captureStart, string) {
 	startedAfter, err := statement.StartedAfter()
 	if err != nil || startedAfter == nil || startedAfter.Drand.Chain != p.drandChain.Hash {
-		return captureStart{}, ReasonCaptureWithoutTime
+		return captureStart{}, ReasonAttestationWithoutTime
 	}
 	encoding, _ := json.Marshal(startedAfter) //nolint:errchkjson // strings and a number.
 
