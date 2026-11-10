@@ -37,13 +37,13 @@ func TestAPageEveryHopOfWhichThisKeyCapturedIsOfferedWithItsAttestation(t *testi
 	request, landed := redirectedFetch(t, drandChain)
 	signer := &fakeSigner{}
 
-	offer, ready := offeredPagesOver(signer, drandChain, &reasons{}).
+	offer, issued := offeredPagesOver(signer, drandChain, &reasons{}).
 		Issue(context.Background(), request, landed)
 	page := offeredPageIn(t, offer)
 
-	if attestation, _ := offer.Attestation.Get(); !ready ||
+	if attestation, _ := offer.Attestation.Get(); !issued ||
 		string(attestation) != attestationBundle {
-		t.Fatalf("offer = %+v, ready = %v, want it ready with its attestation", offer, ready)
+		t.Fatalf("offer = %+v, issued = %v, want it issued with its attestation", offer, issued)
 	}
 	if want := drandChain.RoundTime(captureRound); !page.FetchedAt.Equal(want) {
 		t.Errorf("fetched at = %v, want the time of the capture round %v", page.FetchedAt, want)
@@ -91,13 +91,13 @@ func TestAPageWhoseCapturesDoNotHoldIsOfferedWithoutAttestation(t *testing.T) {
 		breakFetch(&landed)
 		observed := &reasons{}
 
-		offer, ready := offeredPagesOver(&fakeSigner{}, drandChain, observed).
+		offer, issued := offeredPagesOver(&fakeSigner{}, drandChain, observed).
 			Issue(context.Background(), request, landed)
 		page := offeredPageIn(t, offer)
 
-		if !ready || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) {
-			t.Errorf("%s: page = %+v, ready = %v, want it ready, unattested, at the clock time",
-				reason, page, ready)
+		if !issued || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) {
+			t.Errorf("%s: page = %+v, issued = %v, want it issued, unattested, at the clock time",
+				reason, page, issued)
 		}
 		if len(observed.reported) != 1 || observed.reported[0] != reason {
 			t.Errorf("%s: reported %v", reason, observed.reported)
@@ -124,11 +124,11 @@ func TestAPageTheKeyDoesNotSignIsNotReady(t *testing.T) {
 	drandChain := quicknet(t)
 	request, landed := redirectedFetch(t, drandChain)
 
-	_, ready := offeredPagesOver(&fakeSigner{refuses: true}, drandChain, &reasons{}).
+	_, issued := offeredPagesOver(&fakeSigner{refuses: true}, drandChain, &reasons{}).
 		Issue(context.Background(), request, landed)
 
-	if ready {
-		t.Error("a page whose statement the key did not sign is ready to offer")
+	if issued {
+		t.Error("a page whose statement the key did not sign is issued")
 	}
 }
 

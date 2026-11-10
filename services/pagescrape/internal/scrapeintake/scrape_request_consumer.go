@@ -119,8 +119,8 @@ func (c *ScrapeRequestConsumer) offerPageFrom(
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
 ) {
-	offer, ready := c.offerIssuer.Issue(ctx, request, landed)
-	if !ready {
+	offer, issued := c.offerIssuer.Issue(ctx, request, landed)
+	if !issued {
 		message.Return(ctx)
 
 		return

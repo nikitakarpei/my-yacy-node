@@ -82,7 +82,10 @@ func UnmarshalPageOfferStatement(data []byte) (PageOfferStatement, error) {
 	if err := json.Unmarshal(data, &wire); err != nil {
 		return PageOfferStatement{}, fmt.Errorf("unmarshal page offer statement: %w", err)
 	}
-	offerDigest, err := offerDigestOf(wire)
+	if !wire.isPageOfferStatement() {
+		return PageOfferStatement{}, ErrNotAPageOfferStatement
+	}
+	offerDigest, err := offerDigestFrom(wire.Subject[0])
 	if err != nil {
 		return PageOfferStatement{}, err
 	}
@@ -94,13 +97,14 @@ func UnmarshalPageOfferStatement(data []byte) (PageOfferStatement, error) {
 	}, nil
 }
 
-func offerDigestOf(wire pageOfferStatementWire) ([sha256.Size]byte, error) {
+func (w pageOfferStatementWire) isPageOfferStatement() bool {
+	return w.Type == inTotoStatementType && w.PredicateType == PageOfferPredicateType &&
+		len(w.Subject) == 1 && w.Subject[0].Name == offerSubjectName
+}
+
+func offerDigestFrom(subject statementSubjectWire) ([sha256.Size]byte, error) {
 	var digest [sha256.Size]byte
-	if wire.Type != inTotoStatementType || wire.PredicateType != PageOfferPredicateType ||
-		len(wire.Subject) != 1 || wire.Subject[0].Name != offerSubjectName {
-		return digest, ErrNotAPageOfferStatement
-	}
-	raw, err := hex.DecodeString(wire.Subject[0].Digest["sha256"])
+	raw, err := hex.DecodeString(subject.Digest["sha256"])
 	if err != nil || len(raw) != sha256.Size {
 		return digest, fmt.Errorf("%w: offer digest", ErrNotAPageOfferStatement)
 	}
