@@ -74,7 +74,7 @@ func (p OfferIssuer) Issue(
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
 ) (pagescrapecontract.PageOfferMessage, bool) {
-	start, reason := p.vouchedStartOf(ctx, landed)
+	start, reason := p.checkHops(ctx, landed)
 	if reason != "" {
 		p.observer.OfferNotAttested(ctx, request.PageURL, reason)
 
@@ -91,13 +91,13 @@ func (p OfferIssuer) Issue(
 	return offer.AttestedBy(attestation), true
 }
 
-func (p OfferIssuer) vouchedStartOf(
+func (p OfferIssuer) checkHops(
 	ctx context.Context,
 	landed redirectfollowingfetch.LandedFetch,
 ) (captureStart, string) {
 	var lastStatement *verifier.Statement
 	for _, hop := range landed.Hops {
-		statement, reason := p.vouchedStatementOf(ctx, hop)
+		statement, reason := p.checkHop(ctx, hop)
 		if reason != "" {
 			return captureStart{}, reason
 		}
@@ -110,10 +110,10 @@ func (p OfferIssuer) vouchedStartOf(
 		return captureStart{}, ReasonAttestationOfOtherBody
 	}
 
-	return p.startOf(lastStatement)
+	return p.checkStart(lastStatement)
 }
 
-func (p OfferIssuer) vouchedStatementOf(
+func (p OfferIssuer) checkHop(
 	ctx context.Context,
 	hop redirectfollowingfetch.Hop,
 ) (*verifier.Statement, string) {
@@ -157,7 +157,7 @@ func namesBody(statement *verifier.Statement, body []byte) bool {
 	return named && digest == hex.EncodeToString(bodyDigest[:])
 }
 
-func (p OfferIssuer) startOf(statement *verifier.Statement) (captureStart, string) {
+func (p OfferIssuer) checkStart(statement *verifier.Statement) (captureStart, string) {
 	startedAfter, err := statement.StartedAfter()
 	if err != nil || startedAfter == nil || startedAfter.Drand.Chain != p.drandChain.Hash {
 		return captureStart{}, ReasonAttestationWithoutTime

@@ -418,14 +418,14 @@ func TestAFailedFetchReportsWhatCausedItAndFailsTheScrape(t *testing.T) {
 	}
 }
 
-func TestRequestComesBackWhenItsPageIsNotReadyToOffer(t *testing.T) {
+func TestRequestComesBackWhenItsOfferIsNotIssued(t *testing.T) {
 	request := scrapeRequestForThePage(t)
 	fetch := pageFetches{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded}}
 	message := scrapeRequestMessage(t, request, time.Now())
 
 	intake := runScrapeIntakeOffering(t, message, fetch, intakeSetup{
 		clock:       fixedClock{now: time.Now()},
-		offerIssuer: pagesNotReadyToOffer{},
+		offerIssuer: offerNotIssued{},
 		offers:      &pageOffers{},
 	})
 

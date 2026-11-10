@@ -1,9 +1,9 @@
 # Page RWI statement
 
-The page RWI statement is a predicate type of the Hardware-Attested Statements format. A
-program that embeds pagerwi gives it a statement signer. pagerwi then signs a statement for each
-RWI it can attest, and puts the bundle, the page attestation, in the `Attestation` member of the
-RWI.
+The page RWI statement is a predicate type of the Hardware-Attested Statements format. With a
+statement signer, pagerwi signs a statement for each RWI it can attest, and puts the bundle, the
+page attestation, in the `Attestation` member of the RWI. The subject comes from the URL
+metadata row, not from the message bytes, so the bundle can travel inside the RWI.
 
 Predicate type:
 `https://github.com/nikitakarpei/my-yacy-node/blob/main/services/pagerwi/doc/page-rwi-statement.md`
@@ -29,7 +29,8 @@ that it has.
 ```
 
 - `landedURL` is absent when the fetch landed at the page URL.
-- The statement lists no inputs: the key that signs it also signed the page offer statement.
+- The statement lists no inputs. pagerwi signs only when its own key signed the page offer
+  statement.
 - The bundle has an RFC 3161 time-stamp.
 
 ## When pagerwi signs
@@ -38,7 +39,8 @@ pagerwi signs a statement only when all of these are true:
 
 - the key of the signer signed the [page offer statement](../../pagescrape/doc/page-offer-statement.md)
   of the offer, and that statement covers the offer message as received;
-- the fetch URL is the page URL, and the page URL is https on the default port;
+- the fetch started at the page URL, and the page URL is https on the default port. The fetch
+  can follow redirects: the statement then names the landed URL;
 - the landed URL has 2048 characters or fewer;
 - the drand round of the offer is of the chain quicknet, and the fetch time of the offer is its
   time;
