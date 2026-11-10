@@ -24,9 +24,10 @@ Each step signs a HAS statement about its output:
 | pagerwi | `page-rwi` | the page RWI root |
 
 The page RWI root is SHA-256 over a domain byte, the digest of the URL metadata row, and the
-postings root. The digest covers every field of the row except the `Loaded` day. The `page-rwi`
-statement also holds the page URL, the landed URL when it is not the page URL, and the drand
-round of the capture. One RFC 3161 time-stamp covers it. Its bundle is the page attestation.
+postings root. The digest covers every field of the row except the postings root and the
+`Loaded` day. The `page-rwi` statement also holds the page URL, the landed URL when it is not
+the page URL, and the drand round of the capture. One RFC 3161 time-stamp covers it. Its bundle
+is the page attestation.
 
 A step signs only when its input data matches the subject of the input statement. For the
 signer of the input, the step does one of two things, and its statement tells which:
@@ -56,7 +57,7 @@ The page attestation goes on the RWI stream. Nodes do not keep it or send it to 
 - The release key of the app can sign any page. ADR 0017 makes the official app.
 - An attestation shows that the origin served the page to the device over TLS. It does not
   show that the page is true, the same for each visitor, or not spam.
-- Pages through renderproxy, spamproxy or the web archive, pages with an http page URL, and
-  offers signed by an earlier key of the app get no attestation.
+- Pages without postings, pages through renderproxy, spamproxy or the web archive, pages with
+  an http page URL, and offers signed by an earlier key of the app get no attestation.
 - A page attestation is about 5 KB.
 - The attestation needs the time-stamp authority, drand, and the revocation list of Google.
