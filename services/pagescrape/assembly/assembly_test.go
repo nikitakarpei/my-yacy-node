@@ -187,7 +187,7 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 	broker := natstestserver.ConnectJetStream(t, natsURL)
 	provisioning := serviceConfig(natsURL, origin)
 	provisioning.ScrapeRequestsKept = 7
-	runUntilStarted(t, provisioning)
+	provisionStreams(t, provisioning)
 
 	bound := serviceConfig(natsURL, origin)
 	bound.ProvisionsStreams = false
@@ -299,7 +299,7 @@ func runAsLimitedUser(t *testing.T, origin *url.URL) unlimitedClient {
 		Publish: permissions.Publish, Subscribe: append(permissions.Subscribe, everyInbox),
 	})
 	unlimitedURL, limitedURL := urls.Unlimited, urls.Limited
-	runUntilStarted(t, serviceConfig(unlimitedURL, origin))
+	provisionStreams(t, serviceConfig(unlimitedURL, origin))
 	limitedConfig := serviceConfig(limitedURL, origin)
 	limitedConfig.ProvisionsStreams = false
 	ctx, cancel := context.WithCancel(context.Background())
@@ -336,15 +336,16 @@ func subscriptionTo(t *testing.T, connection *nats.Conn, subject string) *nats.S
 	return subscription
 }
 
-func runUntilStarted(t *testing.T, cfg pagescrape.ServiceConfig) {
+func provisionStreams(t *testing.T, cfg pagescrape.ServiceConfig) {
 	t.Helper()
 	ctx, cancel := context.WithCancel(context.Background())
 	health, started := healthReportingStart()
+	neverReleased := make(chan struct{})
 	runDone := make(chan error, 1)
 	go func() {
 		runDone <- pagescrape.RunService(
 			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
-			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+			jetstreamconnect.BrokerAccess{}, pullintaketest.AdmissionHeldUntil(neverReleased),
 			prometheus.NewRegistry(), health,
 		)
 	}()
