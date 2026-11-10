@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
 )
@@ -171,4 +172,31 @@ func TestFetchReportsWhatTheOriginFetchFailedWith(t *testing.T) {
 	if !errors.Is(err, errOriginUnreachable) {
 		t.Errorf("error = %v, want %v", err, errOriginUnreachable)
 	}
+}
+
+func TestFetchKeepsTheAttestationOfEachHopInOrder(t *testing.T) {
+	redirect := redirectTo(t, "http://host/b")
+	redirect.Attestation = optional.Some(pagefetch.ResponseAttestation{Statement: []byte("first")})
+	page := servedPage("<html>landed</html>")
+	page.Attestation = optional.Some(pagefetch.ResponseAttestation{Statement: []byte("second")})
+	origin := &originPageFetches{outcomeByURL: map[string]pagefetch.FetchOutcome{
+		"http://host/a": redirect,
+		"http://host/b": page,
+	}}
+
+	landed := fetchFollowingRedirects(t, origin, 10)
+
+	if len(landed.Hops) != 2 ||
+		landed.Hops[0].URL != canonicalurltest.CanonicalURLOf(t, "http://host/a") ||
+		statementOf(landed.Hops[0]) != "first" ||
+		landed.Hops[1].URL != canonicalurltest.CanonicalURLOf(t, "http://host/b") ||
+		statementOf(landed.Hops[1]) != "second" {
+		t.Errorf("hops = %+v", landed.Hops)
+	}
+}
+
+func statementOf(hop redirectfollowingfetch.Hop) string {
+	attestation, _ := hop.Attestation.Get()
+
+	return string(attestation.Statement)
 }

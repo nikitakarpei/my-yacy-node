@@ -1,17 +1,25 @@
 // Package redirectfollowingfetch fetches a page, follows the redirects the origin
-// answers with up to a hop limit, and reports the URL the fetch landed on.
+// answers with up to a hop limit, and reports the URL the fetch landed on and the
+// capture of each hop.
 package redirectfollowingfetch
 
 import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 type LandedFetch struct {
 	URL     canonicalurl.CanonicalURL
 	Outcome pagefetch.FetchOutcome
+	Hops    []Hop
+}
+
+type Hop struct {
+	URL         canonicalurl.CanonicalURL
+	Attestation optional.Value[pagefetch.ResponseAttestation]
 }
 
 type RedirectFollowingPageFetch struct {
@@ -33,12 +41,14 @@ func (f *RedirectFollowingPageFetch) Fetch(
 ) (LandedFetch, error) {
 	fetchURL, version := pageURL, knownVersion
 	followedURLs := map[canonicalurl.CanonicalURL]struct{}{}
+	var hops []Hop
 	for hop := 0; ; hop++ {
 		outcome, err := f.originPageFetch.Fetch(ctx, fetchURL, version)
 		if err != nil {
 			return LandedFetch{}, err
 		}
-		landed := LandedFetch{URL: fetchURL, Outcome: outcome}
+		hops = append(hops, Hop{URL: fetchURL, Attestation: outcome.Attestation})
+		landed := LandedFetch{URL: fetchURL, Outcome: outcome, Hops: hops}
 		if outcome.Status != pagefetch.FetchRedirected {
 			return landed, nil
 		}
