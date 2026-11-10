@@ -151,7 +151,7 @@ func provisionScrapeStreams(
 ) (scrapeStreams, error) {
 	scrapeRequests, err := scrapestreamsjetstream.CreateScrapeRequestsStream(
 		ctx, broker, scrapestreamsjetstream.ScrapeRequestsStreamLimits{
-			MaxMsgs: cfg.ScrapeRequestsKept,
+			MaxMsgs: int64(cfg.ScrapeRequestsKept),
 		},
 	)
 	if err != nil {
@@ -181,7 +181,7 @@ func createScrapeRequestConsumer(
 		Durable:       cfg.ScrapeRequestDurable,
 		FilterSubject: pagescrapecontract.ScrapeRequestSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: int(cfg.ScrapeRequestsKept),
+		MaxAckPending: cfg.ScrapeRequestsKept,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)

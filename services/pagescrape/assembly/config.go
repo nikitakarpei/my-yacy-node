@@ -51,7 +51,7 @@ type ServiceConfig struct {
 	MaxRedirectHops         int
 	ScrapeRequestDurable    string
 	ScrapeIntakeConcurrency int
-	ScrapeRequestsKept      int64
+	ScrapeRequestsKept      int
 	ScrapeDeferralWindow    time.Duration
 	PageOfferMaxBytes       int64
 	ProvisionsStreams       bool
@@ -82,7 +82,7 @@ type fetchSettings struct {
 }
 
 type streamSettings struct {
-	scrapeRequestsKept int64
+	scrapeRequestsKept int
 	pageOfferMaxBytes  int64
 	provisionsStreams  bool
 }
@@ -171,7 +171,7 @@ func loadFetchSettings(getenv func(string) string) (fetchSettings, error) {
 }
 
 func loadStreamSettings(getenv func(string) string) (streamSettings, error) {
-	scrapeRequestsKept, err := envconfig.PositiveInt64(
+	scrapeRequestsKept, err := envconfig.PositiveInt(
 		getenv, EnvScrapeRequestsKept, DefaultScrapeRequestsKept,
 	)
 	if err != nil {

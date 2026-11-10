@@ -88,6 +88,9 @@ jobs:
         with:
           languages: java-kotlin
           build-mode: manual
+          config: |
+            paths-ignore:
+              - .toolchain
 
       - name: Compile the Kotlin code of the app and its tests
         run: >-

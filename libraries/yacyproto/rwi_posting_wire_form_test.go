@@ -158,6 +158,16 @@ func TestTransferRWIRequestFoldsALastModifiedDateWiderThanItsColumn(t *testing.T
 	}
 }
 
+func TestTransferRWIRequestFoldsCardinalsWiderThanTheirColumns(t *testing.T) {
+	t.Parallel()
+
+	line := postingWordHash + "{c=257,h=" + postingURLHash + ",l=en,r=-1,t=65538}"
+	got := postingFromLine(t, line)
+	if got.Hits != 1 || got.TextPosition != 2 || got.PhraseRelativePosition != math.MaxUint8 {
+		t.Fatalf("cardinals = %+v", got)
+	}
+}
+
 func TestTransferRWIRequestReadsASparseLine(t *testing.T) {
 	t.Parallel()
 
