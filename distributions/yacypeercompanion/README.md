@@ -18,9 +18,6 @@ gh attestation verify yacypeercompanion-v0.1.0.apk -R nikitakarpei/my-yacy-node
 "$ANDROID_HOME"/platform-tools/adb install yacypeercompanion-v0.1.0.apk
 ```
 
-You can also build the app and sign it with an own key. It then works with your peer, but a
-policy that names the certificate of the release key does not accept its page attestations.
-
 The app runs on 64-bit ARM devices with Android 14 or later.
 
 ## Use
