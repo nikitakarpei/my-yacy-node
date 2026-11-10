@@ -6,15 +6,20 @@ check that the pages are genuine.
 
 ## Install
 
-No release of the app is published yet. Build it from source, as below, then sign the APK with
-your own key and install it with `adb`:
+The release workflow of this repository builds, signs and publishes each release of the app.
+It runs for a tag `yacypeercompanion-v<version>`. Each release holds the signed APK and the
+unsigned APK. No release is published yet.
+
+Check a downloaded APK before you install it. Use these commands in a clone of this repository:
 
 ```sh
-. .toolchain/activate
-"$ANDROID_HOME"/build-tools/*/apksigner sign --ks release.jks --out yacypeercompanion.apk \
-  distributions/yacypeercompanion/app/build/outputs/apk/release/app-release-unsigned.apk
-"$ANDROID_HOME"/platform-tools/adb install yacypeercompanion.apk
+gh release verify-asset yacypeercompanion-v0.1.0 yacypeercompanion-v0.1.0.apk
+gh attestation verify yacypeercompanion-v0.1.0.apk -R nikitakarpei/my-yacy-node
+"$ANDROID_HOME"/platform-tools/adb install yacypeercompanion-v0.1.0.apk
 ```
+
+You can also build the app and sign it with an own key. It then works with your peer, but a
+policy that names the certificate of the release key does not accept its page attestations.
 
 The app runs on 64-bit ARM devices with Android 14 or later.
 
@@ -36,7 +41,14 @@ make android-app
 `./tools/install` installs the pinned tools, the JDK, the Android SDK, the NDK and Gradle into
 `.toolchain`. `make android-app` builds the app, runs its tests, lints it, and checks the
 attack surface of the release APK. The unsigned
-release APK is `app/build/outputs/apk/release/app-release-unsigned.apk`.
+release APK is `app/build/outputs/apk/release/app-release-unsigned.apk`. Sign it with an own key
+and install it:
+
+```sh
+"$ANDROID_HOME"/build-tools/*/apksigner sign --ks release.jks --out yacypeercompanion.apk \
+  distributions/yacypeercompanion/app/build/outputs/apk/release/app-release-unsigned.apk
+"$ANDROID_HOME"/platform-tools/adb install yacypeercompanion.apk
+```
 
 Two clean builds of one commit give the same APK, byte for byte. `make android-app-reproducible`
 checks this. Gradle checks each file that the build downloads against

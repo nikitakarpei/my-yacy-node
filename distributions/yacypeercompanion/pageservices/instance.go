@@ -1,7 +1,8 @@
 // Package pageservices runs pagescrape and pagerwi for one paired peer in the companion app,
 // and tells an observer when they connect, lose the broker, and end, when the peer no longer
 // accepts the device, and when the app or the peer is outdated for the other. Both connect to the broker of the peer with the device key, and pagescrape
-// fetches each page through the capture proxy of the app.
+// fetches each page through the capture proxy of the app. Both sign their statements with the
+// hardware keys of the app.
 package pageservices
 
 import (
@@ -15,6 +16,7 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go"
+	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
@@ -26,6 +28,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
+	"github.com/nikitakarpei/yacy-rwi-node/statementsigning"
+	statementsigningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/statementsigning/statementsigningobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pairingrequests"
 )
@@ -46,6 +50,7 @@ type Observer interface {
 type Instance struct {
 	terms           sessionTerms
 	captureProxyURL string
+	statementSigner statementsigning.Signer
 	stopped         chan struct{}
 	stopOnce        sync.Once
 }
@@ -55,6 +60,7 @@ func InstanceFor(
 	captureProxyURL string,
 	key pairingrequests.DeviceKey,
 	appVersion string,
+	hardwareKeys HardwareKeys,
 ) (*Instance, error) {
 	link, err := companionprotocol.PairLinkFrom(linkText)
 	if err != nil {
@@ -75,7 +81,12 @@ func InstanceFor(
 			appVersion:   appVersion,
 		},
 		captureProxyURL: captureProxyURL,
-		stopped:         make(chan struct{}),
+		statementSigner: statementsigning.New(
+			statementKeys{hardwareKeys: hardwareKeys},
+			android.New(nil),
+			statementsigningobserversapplog.SigningLog{},
+		),
+		stopped: make(chan struct{}),
 	}, nil
 }
 
@@ -146,11 +157,18 @@ func (i *Instance) runPageServicesOver(
 				ctx,
 				configs.pagescrape,
 				i.terms.brokerAccess,
+				i.statementSigner,
 				connection.pagescrapeHealth,
 			)
 		},
 		func(ctx context.Context) error {
-			return runPagerwi(ctx, configs.pagerwi, i.terms.brokerAccess, connection.pagerwiHealth)
+			return runPagerwi(
+				ctx,
+				configs.pagerwi,
+				i.terms.brokerAccess,
+				i.statementSigner,
+				connection.pagerwiHealth,
+			)
 		},
 	)
 	connection.end()
@@ -204,6 +222,7 @@ func runPagescrape(
 	ctx context.Context,
 	cfg pagescrapeassembly.ServiceConfig,
 	brokerAccess jetstreamconnect.BrokerAccess,
+	statementSigner statementsigning.Signer,
 	health *servicehealth.Health,
 ) error {
 	listeners, err := pagescrapeassembly.ListenersFor(ctx, cfg)
@@ -217,7 +236,7 @@ func runPagescrape(
 		(&net.Dialer{}).DialContext,
 		brokerAccess,
 		pullintake.EveryItemAdmitted{},
-		nil,
+		statementSigner,
 		prometheus.NewRegistry(),
 		health,
 	)
@@ -227,6 +246,7 @@ func runPagerwi(
 	ctx context.Context,
 	cfg pagerwiassembly.ServiceConfig,
 	brokerAccess jetstreamconnect.BrokerAccess,
+	statementSigner statementsigning.Signer,
 	health *servicehealth.Health,
 ) error {
 	listeners, err := pagerwiassembly.ListenersFor(ctx, cfg)
@@ -241,7 +261,7 @@ func runPagerwi(
 		brokerAccess,
 		brokerAccess,
 		pullintake.EveryItemAdmitted{},
-		nil,
+		statementSigner,
 		prometheus.NewRegistry(),
 		health,
 	)

@@ -4,7 +4,6 @@ package io.github.nikitakarpei.httpcapture
 import io.github.nikitakarpei.attestedstatements.Drand
 import io.github.nikitakarpei.attestedstatements.Retryable
 import io.github.nikitakarpei.attestedstatements.SigningKey
-import io.github.nikitakarpei.attestedstatements.Stamper
 import io.github.nikitakarpei.attestedstatements.keyEvidence
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
@@ -72,7 +71,6 @@ fun serve(
         TimeUnit.MILLISECONDS,
         ArrayBlockingQueue(MAX_QUEUED_CONNECTIONS),
     )
-    val stamper = Stamper(client)
     val drand = Drand(client, clock)
     try {
         while (true) {
@@ -86,18 +84,17 @@ fun serve(
                 continue
             }
             try {
-                pool.execute { socket.use { handle(it, token, key, client, stamper, drand) } }
+                pool.execute { socket.use { handle(it, token, key, client, drand) } }
             } catch (e: RejectedExecutionException) {
                 socket.close()
             }
         }
     } finally {
         pool.shutdownNow()
-        stamper.close()
     }
 }
 
-fun handle(socket: Socket, token: String, key: () -> SigningKey, client: OkHttpClient, stamper: Stamper, drand: Drand) {
+fun handle(socket: Socket, token: String, key: () -> SigningKey, client: OkHttpClient, drand: Drand) {
     socket.soTimeout = 5_000
     val out = socket.getOutputStream()
     fun send(status: Int, reason: String, headers: List<Pair<String, String>>, body: ByteArray) {
@@ -147,7 +144,7 @@ fun handle(socket: Socket, token: String, key: () -> SigningKey, client: OkHttpC
         } catch (e: Exception) {
             throw Retryable("signing key unavailable: ${e.message}", e)
         }
-        val r = capture(https, userAgent, k, drand.latest(), client, stamper)
+        val r = capture(https, userAgent, k, drand.latest(), client)
         send(
             r.status,
             r.reason,
@@ -156,9 +153,6 @@ fun handle(socket: Socket, token: String, key: () -> SigningKey, client: OkHttpC
                 "Attested-Statement" to sfBytes(r.statement),
                 "Attested-Signature" to sfBytes(r.signature),
                 "Attested-Key" to sfBytes(keyEvidence(r.chain)),
-                "Attested-Timestamp" to sfBytes(r.stamp.token),
-                "Attested-Timestamp-Tree" to
-                    "size=${r.stamp.size}, index=${r.stamp.index}, path=(${r.stamp.path.joinToString(" ") { sfBytes(it) }})",
             ),
             r.body,
         )
