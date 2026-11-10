@@ -19,6 +19,8 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
+	attestedstatementsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/attestedstatements/attestedstatementsobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/companionprotocol"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pagerwiassembly "github.com/nikitakarpei/yacy-rwi-node/pagerwi/assembly"
@@ -28,8 +30,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
-	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
-	attestedstatementsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/attestedstatements/attestedstatementsobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pairingrequests"
 )
