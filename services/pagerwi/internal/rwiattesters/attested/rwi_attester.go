@@ -64,7 +64,7 @@ func (a RWIAttester) Attest(
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) (json.RawMessage, bool) {
-	attestable, reason := a.attestableOf(ctx, offer, page, pageRWI)
+	attestable, reason := a.checkAttestable(ctx, offer, page, pageRWI)
 	if reason != "" {
 		a.observer.RWINotAttested(ctx, page.PageURL, reason)
 
@@ -83,28 +83,31 @@ type attestableRWI struct {
 	startedAfter json.RawMessage
 }
 
-func (a RWIAttester) attestableOf(
+func (a RWIAttester) checkAttestable(
 	ctx context.Context,
 	offer pagescrapecontract.PageOfferMessage,
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) (attestableRWI, string) {
-	offerStatement, reason := a.vouchedOfferStatementOf(ctx, offer)
-	if reason == "" {
-		reason = addressReasonOf(page, offerStatement)
+	offerStatement, reason := a.checkOffer(ctx, offer)
+	if reason != "" {
+		return attestableRWI{}, reason
 	}
-	if reason == "" {
-		reason = a.roundReasonOf(page, offerStatement)
+	if reason := checkAddresses(page, offerStatement); reason != "" {
+		return attestableRWI{}, reason
+	}
+	if reason := a.checkRound(page, offerStatement); reason != "" {
+		return attestableRWI{}, reason
 	}
 	root, rooted := yacymodel.PageRWIRootFrom(pageRWI.Metadata).Get()
-	if reason == "" && !rooted {
-		reason = ReasonPageWithoutPostings
+	if !rooted {
+		return attestableRWI{}, ReasonPageWithoutPostings
 	}
 
-	return attestableRWI{root: root, startedAfter: offerStatement.StartedAfter}, reason
+	return attestableRWI{root: root, startedAfter: offerStatement.StartedAfter}, ""
 }
 
-func (a RWIAttester) vouchedOfferStatementOf(
+func (a RWIAttester) checkOffer(
 	ctx context.Context,
 	offer pagescrapecontract.PageOfferMessage,
 ) (pagescrapecontract.PageOfferStatement, string) {
@@ -131,7 +134,7 @@ func (a RWIAttester) vouchedOfferStatementOf(
 	return offerStatement, ""
 }
 
-func addressReasonOf(
+func checkAddresses(
 	page pagescrapecontract.OfferedPage,
 	offerStatement pagescrapecontract.PageOfferStatement,
 ) string {
@@ -148,7 +151,7 @@ func addressReasonOf(
 	}
 }
 
-func (a RWIAttester) roundReasonOf(
+func (a RWIAttester) checkRound(
 	page pagescrapecontract.OfferedPage,
 	offerStatement pagescrapecontract.PageOfferStatement,
 ) string {
