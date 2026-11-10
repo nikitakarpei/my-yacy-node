@@ -1,0 +1,159 @@
+package attestedstatements
+
+import (
+	"context"
+	"crypto/ecdsa"
+	"crypto/sha256"
+	"crypto/x509"
+	"encoding/json/v2"
+	"errors"
+	"fmt"
+
+	"github.com/nikitakarpei/hardware-attested-statements/verifier"
+)
+
+var errNotAnECKey = errors.New("the hardware key is not an EC key")
+
+type Signer struct {
+	keys     HardwareKeys
+	profile  verifier.Profile
+	observer SigningObserver
+}
+
+func New(keys HardwareKeys, profile verifier.Profile, observer SigningObserver) Signer {
+	return Signer{keys: keys, profile: profile, observer: observer}
+}
+
+func (s Signer) BundleOf(ctx context.Context, statement []byte) ([]byte, bool) {
+	bundle, signed := s.signedBundleOf(ctx, statement)
+	if !signed {
+		return nil, false
+	}
+
+	return encodingOf(bundle), true
+}
+
+func (s Signer) signedBundleOf(ctx context.Context, statement []byte) (verifier.Bundle, bool) {
+	key, err := s.keys.CurrentKey()
+	if err != nil {
+		s.observer.KeyUnavailable(ctx, err)
+
+		return verifier.Bundle{}, false
+	}
+	signature, err := key.Sign(verifier.PAE(verifier.InTotoPayload, statement))
+	if err != nil {
+		s.observer.SignatureRefused(ctx, err)
+
+		return verifier.Bundle{}, false
+	}
+	var evidence verifier.KeyEvidence
+	if err := evidence.UnmarshalJSON(key.KeyEvidence()); err != nil {
+		s.observer.KeyEvidenceUnreadable(ctx, err)
+
+		return verifier.Bundle{}, false
+	}
+
+	return bundleOf(statement, signature, evidence), true
+}
+
+func bundleOf(statement, signature []byte, evidence verifier.KeyEvidence) verifier.Bundle {
+	return verifier.Bundle{
+		MediaType: verifier.BundleMediaType,
+		DSSEEnvelope: verifier.DSSEEnvelope{
+			PayloadType: verifier.InTotoPayload,
+			Payload:     statement,
+			Signatures:  []verifier.DSSESignature{{Sig: signature}},
+		},
+		VerificationMaterial: verifier.VerificationMaterial{Key: evidence},
+	}
+}
+
+func encodingOf(bundle verifier.Bundle) []byte {
+	encoding, _ := json.Marshal(bundle) //nolint:errchkjson // bytes, strings and raw JSON only.
+
+	return encoding
+}
+
+func (s Signer) StampedBundleOf(ctx context.Context, statement []byte) ([]byte, bool) {
+	bundle, signed := s.signedBundleOf(ctx, statement)
+	if !signed {
+		return nil, false
+	}
+	timestamp, stamped := s.timestampOf(ctx, bundle)
+	if !stamped {
+		return nil, false
+	}
+
+	return encodingOf(stampedWith(bundle, timestamp)), true
+}
+
+func (s Signer) timestampOf(
+	ctx context.Context,
+	bundle verifier.Bundle,
+) (verifier.Timestamp, bool) {
+	binding, err := s.profile.Binding(bundle.VerificationMaterial.Key.Raw)
+	if err != nil {
+		s.observer.KeyEvidenceUnreadable(ctx, err)
+
+		return verifier.Timestamp{}, false
+	}
+	signedStatementID := verifier.SignedStatementID(
+		s.profile.Name(),
+		verifier.StatementID(bundle.DSSEEnvelope.Payload),
+		binding,
+		bundle.DSSEEnvelope.Signatures[0].Sig,
+	)
+	encoding, err := s.keys.TimeStampOf(signedStatementID[:])
+	if err != nil {
+		s.observer.TimeStampUnavailable(ctx, err)
+
+		return verifier.Timestamp{}, false
+	}
+	var timestamp verifier.Timestamp
+	if err := verifier.UnmarshalStrict(encoding, &timestamp); err != nil {
+		s.observer.TimeStampUnavailable(ctx, fmt.Errorf("read time-stamp: %w", err))
+
+		return verifier.Timestamp{}, false
+	}
+
+	return timestamp, true
+}
+
+func stampedWith(bundle verifier.Bundle, timestamp verifier.Timestamp) verifier.Bundle {
+	bundle.VerificationMaterial.Timestamp = &timestamp
+
+	return bundle
+}
+
+func (s Signer) HasSigned(ctx context.Context, statement, signature []byte) bool {
+	publicKey, available := s.currentPublicKey(ctx)
+	if !available {
+		return false
+	}
+	digest := sha256.Sum256(verifier.PAE(verifier.InTotoPayload, statement))
+
+	return ecdsa.VerifyASN1(publicKey, digest[:], signature)
+}
+
+func (s Signer) currentPublicKey(ctx context.Context) (*ecdsa.PublicKey, bool) {
+	key, err := s.keys.CurrentKey()
+	if err != nil {
+		s.observer.KeyUnavailable(ctx, err)
+
+		return nil, false
+	}
+	publicKey, err := x509.ParsePKIXPublicKey(key.PublicKeyInfo())
+	if err != nil {
+		s.observer.KeyEvidenceUnreadable(ctx, err)
+
+		return nil, false
+	}
+	ecKey, isEC := publicKey.(*ecdsa.PublicKey)
+	if !isEC {
+		s.observer.KeyEvidenceUnreadable(ctx, errNotAnECKey)
+
+		return nil, false
+	}
+
+	return ecKey, true
+}
