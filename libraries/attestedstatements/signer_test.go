@@ -1,4 +1,4 @@
-package statementsigning_test
+package attestedstatements_test
 
 import (
 	"context"
@@ -19,7 +19,7 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 
-	"github.com/nikitakarpei/yacy-rwi-node/statementsigning"
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 )
 
 var (
@@ -185,7 +185,7 @@ func newFakeKeys(t *testing.T) *fakeKeys {
 	}
 }
 
-func (k *fakeKeys) CurrentKey() (statementsigning.HardwareKey, error) {
+func (k *fakeKeys) CurrentKey() (attestedstatements.HardwareKey, error) {
 	if k.currentKeyErr != nil {
 		return nil, k.currentKeyErr
 	}
@@ -233,8 +233,8 @@ func ed25519KeyInfo(t *testing.T) []byte {
 	return keyInfo
 }
 
-func signerOver(keys *fakeKeys) statementsigning.Signer {
-	return statementsigning.New(keys, android.New(nil), quietObserver{})
+func signerOver(keys *fakeKeys) attestedstatements.Signer {
+	return attestedstatements.New(keys, android.New(nil), quietObserver{})
 }
 
 func parsedBundle(t *testing.T, encoding []byte) *verifier.Bundle {

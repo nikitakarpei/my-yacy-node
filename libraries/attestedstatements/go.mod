@@ -1,4 +1,4 @@
-module github.com/nikitakarpei/yacy-rwi-node/statementsigning
+module github.com/nikitakarpei/yacy-rwi-node/attestedstatements
 
 go 1.27.3
 

@@ -6,6 +6,7 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.2.0
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck v0.0.0
@@ -15,7 +16,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/statementsigning v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -100,7 +100,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacym
 
 replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../libraries/companionprotocol
 
-replace github.com/nikitakarpei/yacy-rwi-node/statementsigning => ../../libraries/statementsigning
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
 
 replace github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck => ../../libraries/pageattestationcheck
 

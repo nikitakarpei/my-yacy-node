@@ -1,4 +1,4 @@
-package statementsigning
+package attestedstatements
 
 import (
 	"context"

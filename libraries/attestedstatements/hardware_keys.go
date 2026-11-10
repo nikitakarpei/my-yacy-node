@@ -1,4 +1,4 @@
-package statementsigning
+package attestedstatements
 
 type HardwareKeys interface {
 	CurrentKey() (HardwareKey, error)

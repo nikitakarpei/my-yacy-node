@@ -6,10 +6,10 @@ allow:
   deepScan: false
 
 components:
-  statementsigning:
+  attestedstatements:
     in: .
-  statementsigningobserversapplog:
-    in: statementsigningobservers/applog/**
+  attestedstatementsobserversapplog:
+    in: attestedstatementsobservers/applog/**
 
 vendors:
   verifier:
@@ -17,7 +17,7 @@ vendors:
       - github.com/nikitakarpei/hardware-attested-statements/verifier
 
 deps:
-  statementsigning:
+  attestedstatements:
     canUse:
       - verifier
 

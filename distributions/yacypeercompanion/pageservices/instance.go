@@ -28,8 +28,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servicehealth"
-	"github.com/nikitakarpei/yacy-rwi-node/statementsigning"
-	statementsigningobserversapplog "github.com/nikitakarpei/yacy-rwi-node/statementsigning/statementsigningobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
+	attestedstatementsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/attestedstatements/attestedstatementsobservers/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/brokeraccess"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pairingrequests"
 )
@@ -50,7 +50,7 @@ type Observer interface {
 type Instance struct {
 	terms           sessionTerms
 	captureProxyURL string
-	statementSigner statementsigning.Signer
+	statementSigner attestedstatements.Signer
 	stopped         chan struct{}
 	stopOnce        sync.Once
 }
@@ -81,10 +81,10 @@ func InstanceFor(
 			appVersion:   appVersion,
 		},
 		captureProxyURL: captureProxyURL,
-		statementSigner: statementsigning.New(
+		statementSigner: attestedstatements.New(
 			statementKeys{hardwareKeys: hardwareKeys},
 			android.New(nil),
-			statementsigningobserversapplog.SigningLog{},
+			attestedstatementsobserversapplog.SigningLog{},
 		),
 		stopped: make(chan struct{}),
 	}, nil
@@ -222,7 +222,7 @@ func runPagescrape(
 	ctx context.Context,
 	cfg pagescrapeassembly.ServiceConfig,
 	brokerAccess jetstreamconnect.BrokerAccess,
-	statementSigner statementsigning.Signer,
+	statementSigner attestedstatements.Signer,
 	health *servicehealth.Health,
 ) error {
 	listeners, err := pagescrapeassembly.ListenersFor(ctx, cfg)
@@ -246,7 +246,7 @@ func runPagerwi(
 	ctx context.Context,
 	cfg pagerwiassembly.ServiceConfig,
 	brokerAccess jetstreamconnect.BrokerAccess,
-	statementSigner statementsigning.Signer,
+	statementSigner attestedstatements.Signer,
 	health *servicehealth.Health,
 ) error {
 	listeners, err := pagerwiassembly.ListenersFor(ctx, cfg)
