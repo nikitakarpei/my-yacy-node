@@ -1,4 +1,4 @@
-# 17. Release the companion app from CI as an immutable release
+# 1. Release the companion app from CI as an immutable release
 
 Date: 2026-11-10
 
@@ -25,7 +25,7 @@ The release key is a secret of a GitHub environment that only the owner can appr
 
 ## Consequences
 
-- A policy of the attestation check (ADR 0016) names the certificate of the release key for the
+- A policy of the attestation check names the certificate of the release key for the
   official app.
 - Whoever holds the release key can sign any build, also one that is not published.
 - Anyone can rebuild the unsigned APK from the tagged commit and compare it with the released
