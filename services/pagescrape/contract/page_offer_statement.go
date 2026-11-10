@@ -14,9 +14,8 @@ import (
 const (
 	PageOfferPredicateType = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
 		"services/pagescrape/doc/page-offer-statement.md"
-	InputVouchedBySameKey = "sameKey"
-	inTotoStatementType   = "https://in-toto.io/Statement/v1"
-	bodySubjectName       = "body"
+	inTotoStatementType = "https://in-toto.io/Statement/v1"
+	bodySubjectName     = "body"
 )
 
 var ErrNotAPageOfferStatement = errors.New("not a page offer statement")
@@ -29,7 +28,6 @@ type PageOfferStatement struct {
 	ContentType     string
 	RobotsTagValues []string
 	PageModifiedAt  time.Time
-	InputVouching   string
 	StartedAfter    json.RawMessage
 }
 
@@ -46,7 +44,6 @@ func PageOfferStatementOf(
 		ContentType:     page.ContentType,
 		RobotsTagValues: page.RobotsTagValues,
 		PageModifiedAt:  page.PageModifiedAt,
-		InputVouching:   InputVouchedBySameKey,
 		StartedAfter:    startedAfter,
 	}
 }
@@ -70,7 +67,6 @@ type pageOfferPredicateWire struct {
 	ContentType     string                    `json:"contentType"`
 	RobotsTagValues []string                  `json:"robotsTagValues,omitzero"`
 	PageModifiedAt  time.Time                 `json:"pageModifiedAt,omitzero"`
-	InputVouching   string                    `json:"inputVouching"`
 	StartedAfter    json.RawMessage           `json:"startedAfter"`
 }
 
@@ -90,7 +86,6 @@ func MarshalPageOfferStatement(statement PageOfferStatement) []byte {
 				ContentType:     statement.ContentType,
 				RobotsTagValues: statement.RobotsTagValues,
 				PageModifiedAt:  statement.PageModifiedAt,
-				InputVouching:   statement.InputVouching,
 				StartedAfter:    statement.StartedAfter,
 			},
 		},
@@ -117,7 +112,6 @@ func UnmarshalPageOfferStatement(data []byte) (PageOfferStatement, error) {
 		ContentType:     wire.Predicate.ContentType,
 		RobotsTagValues: wire.Predicate.RobotsTagValues,
 		PageModifiedAt:  wire.Predicate.PageModifiedAt,
-		InputVouching:   wire.Predicate.InputVouching,
 		StartedAfter:    wire.Predicate.StartedAfter,
 	}, nil
 }

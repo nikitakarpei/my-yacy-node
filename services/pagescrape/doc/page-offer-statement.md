@@ -22,13 +22,11 @@ The page offer of pagescrape is the fetch of `fetchURL` for `pageURL`. The fetch
     "pageURL": "https://example.org/a", "fetchURL": "https://example.org/a",
     "landedURL": "https://example.org/b", "contentType": "text/html",
     "robotsTagValues": ["noarchive"], "pageModifiedAt": "2026-10-30T01:02:03Z",
-    "inputVouching": "sameKey",
     "startedAfter": { "drand": { "chain": "…", "round": 1, "signature": "…" } } } }
 ```
 
 - `robotsTagValues` and `pageModifiedAt` are absent when the offer has none.
-- `inputVouching` is `sameKey`: the key that signs the statement also signed the capture of each
-  hop. The statement lists no inputs.
+- The statement lists no inputs: the key that signs it also signed the capture of each hop.
 - `startedAfter` is the drand round of the capture of the last hop.
 
 ## When pagescrape signs

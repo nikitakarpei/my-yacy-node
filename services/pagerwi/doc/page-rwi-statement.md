@@ -25,13 +25,11 @@ the day the page was loaded. A verifier computes the root from the row that it h
   "predicateType": "<the predicate type>",
   "predicate": {
     "pageURL": "https://example.org/a", "landedURL": "https://example.org/b",
-    "inputVouching": "sameKey",
     "startedAfter": { "drand": { "chain": "…", "round": 1, "signature": "…" } } } }
 ```
 
 - `landedURL` is absent when the fetch landed at the page URL.
-- `inputVouching` is `sameKey`: the key that signs the statement also signed the page offer
-  statement. The statement lists no inputs.
+- The statement lists no inputs: the key that signs it also signed the page offer statement.
 - The bundle has an RFC 3161 time-stamp.
 
 ## When pagerwi signs
@@ -42,7 +40,8 @@ pagerwi signs a statement only when all of these are true:
   of the offer, and the offer is equal to that statement;
 - the fetch URL is the page URL, and the page URL is https on the default port;
 - the landed URL has 2048 characters or fewer;
-- the drand round of the offer verifies, and the fetch time of the offer is its time;
+- the drand round of the offer is of the chain quicknet, and the fetch time of the offer is its
+  time;
 - the page has postings.
 
 Any other RWI goes without a page attestation. The service writes a log line with the reason.

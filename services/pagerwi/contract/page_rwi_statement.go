@@ -13,19 +13,17 @@ import (
 const (
 	PageRWIPredicateType = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
 		"services/pagerwi/doc/page-rwi-statement.md"
-	InputVouchedBySameKey = "sameKey"
-	inTotoStatementType   = "https://in-toto.io/Statement/v1"
-	pageRWIRootSubject    = "pageRWIRoot"
+	inTotoStatementType = "https://in-toto.io/Statement/v1"
+	pageRWIRootSubject  = "pageRWIRoot"
 )
 
 var ErrNotAPageRWIStatement = errors.New("not a page RWI statement")
 
 type PageRWIStatement struct {
-	PageRWIRoot   yacymodel.PageRWIRoot
-	PageURL       canonicalurl.CanonicalURL
-	LandedURL     canonicalurl.CanonicalURL
-	InputVouching string
-	StartedAfter  json.RawMessage
+	PageRWIRoot  yacymodel.PageRWIRoot
+	PageURL      canonicalurl.CanonicalURL
+	LandedURL    canonicalurl.CanonicalURL
+	StartedAfter json.RawMessage
 }
 
 func PageRWIStatementOf(
@@ -35,11 +33,10 @@ func PageRWIStatementOf(
 	startedAfter json.RawMessage,
 ) PageRWIStatement {
 	return PageRWIStatement{
-		PageRWIRoot:   root,
-		PageURL:       pageURL,
-		LandedURL:     landedURL,
-		InputVouching: InputVouchedBySameKey,
-		StartedAfter:  startedAfter,
+		PageRWIRoot:  root,
+		PageURL:      pageURL,
+		LandedURL:    landedURL,
+		StartedAfter: startedAfter,
 	}
 }
 
@@ -56,17 +53,15 @@ type statementSubjectWire struct {
 }
 
 type pageRWIPredicateWire struct {
-	PageURL       canonicalurl.CanonicalURL `json:"pageURL"`
-	LandedURL     canonicalurl.CanonicalURL `json:"landedURL,omitzero"`
-	InputVouching string                    `json:"inputVouching"`
-	StartedAfter  json.RawMessage           `json:"startedAfter"`
+	PageURL      canonicalurl.CanonicalURL `json:"pageURL"`
+	LandedURL    canonicalurl.CanonicalURL `json:"landedURL,omitzero"`
+	StartedAfter json.RawMessage           `json:"startedAfter"`
 }
 
 func MarshalPageRWIStatement(statement PageRWIStatement) []byte {
 	predicate := pageRWIPredicateWire{
-		PageURL:       statement.PageURL,
-		InputVouching: statement.InputVouching,
-		StartedAfter:  statement.StartedAfter,
+		PageURL:      statement.PageURL,
+		StartedAfter: statement.StartedAfter,
 	}
 	if statement.LandedURL != statement.PageURL {
 		predicate.LandedURL = statement.LandedURL
@@ -99,11 +94,10 @@ func UnmarshalPageRWIStatement(data []byte) (PageRWIStatement, error) {
 	}
 
 	return PageRWIStatement{
-		PageRWIRoot:   root,
-		PageURL:       wire.Predicate.PageURL,
-		LandedURL:     landedURL,
-		InputVouching: wire.Predicate.InputVouching,
-		StartedAfter:  wire.Predicate.StartedAfter,
+		PageRWIRoot:  root,
+		PageURL:      wire.Predicate.PageURL,
+		LandedURL:    landedURL,
+		StartedAfter: wire.Predicate.StartedAfter,
 	}, nil
 }
 

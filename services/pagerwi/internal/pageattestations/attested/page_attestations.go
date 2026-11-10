@@ -3,7 +3,6 @@ package attested
 import (
 	"bytes"
 	"context"
-	"encoding/hex"
 	"encoding/json"
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
@@ -22,7 +21,7 @@ const (
 	ReasonFetchedElsewhere        = "the fetch URL is not the page URL"
 	ReasonPageURLNotHTTPS         = "the page URL is not https on the default port"
 	ReasonLandedURLTooLong        = "the landed URL is too long"
-	ReasonRoundInvalid            = "the drand round of the offer does not verify"
+	ReasonRoundOfOtherChain       = "the offer has no round of the pinned drand chain"
 	ReasonFetchTimeNotRoundTime   = "the fetch time is not the time of the drand round"
 	ReasonPageWithoutPostings     = "the page has no postings"
 )
@@ -153,11 +152,7 @@ func (a PageAttestations) roundReasonOf(
 	var startedAfter verifier.StartedAfter
 	if err := json.Unmarshal(offerStatement.StartedAfter, &startedAfter); err != nil ||
 		startedAfter.Drand == nil || startedAfter.Drand.Chain != a.drandChain.Hash {
-		return ReasonRoundInvalid
-	}
-	signature, err := hex.DecodeString(startedAfter.Drand.Signature)
-	if err != nil || a.drandChain.Verify(startedAfter.Drand.Round, signature) != nil {
-		return ReasonRoundInvalid
+		return ReasonRoundOfOtherChain
 	}
 	if !page.FetchedAt.Equal(a.drandChain.RoundTime(startedAfter.Drand.Round)) {
 		return ReasonFetchTimeNotRoundTime

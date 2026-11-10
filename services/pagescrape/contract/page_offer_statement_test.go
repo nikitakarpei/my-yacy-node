@@ -23,7 +23,6 @@ func TestPageOfferStatementOfStatesTheOfferedPage(t *testing.T) {
 	if statement.PageURL != page.PageURL || statement.LandedURL != page.LandedURL ||
 		statement.FetchURL != fetchURL || statement.ContentType != page.ContentType ||
 		!statement.PageModifiedAt.Equal(page.PageModifiedAt) ||
-		statement.InputVouching != pagescrapecontract.InputVouchedBySameKey ||
 		string(statement.StartedAfter) != string(startedAfter) {
 		t.Errorf("statement = %+v, for page %+v", statement, page)
 	}

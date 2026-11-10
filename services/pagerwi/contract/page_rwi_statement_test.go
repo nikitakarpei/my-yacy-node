@@ -32,9 +32,6 @@ func TestPageRWIStatementRoundTripsEveryFact(t *testing.T) {
 	if !reflect.DeepEqual(read, statement) {
 		t.Errorf("read statement = %+v, want %+v", read, statement)
 	}
-	if read.InputVouching != pagerwicontract.InputVouchedBySameKey {
-		t.Errorf("input vouching = %q", read.InputVouching)
-	}
 }
 
 func TestPageRWIStatementLeavesOutALandedURLThatIsThePageURL(t *testing.T) {

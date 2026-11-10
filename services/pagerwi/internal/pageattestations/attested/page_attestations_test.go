@@ -19,13 +19,12 @@ import (
 )
 
 const (
-	pageAddress     = "https://example.org/a"
-	ownSignature    = "signed by this key"
-	quicknetRound   = 33667957
-	roundSignature  = "ace44ad88121ed26163c00acaa4c89522295c4fb066a8e9712138c63644e43cadac17e3f29aa8056f8f4ef5449d6e16e"
-	pageRWIBundle   = `{"bundle":"of the rwi"}`
-	otherSignature  = "signed by another key"
-	otherRoundValue = "bce44ad88121ed26163c00acaa4c89522295c4fb066a8e9712138c63644e43cadac17e3f29aa8056f8f4ef5449d6e16e"
+	pageAddress    = "https://example.org/a"
+	ownSignature   = "signed by this key"
+	quicknetRound  = 33667957
+	roundSignature = "ace44ad88121ed26163c00acaa4c89522295c4fb066a8e9712138c63644e43cadac17e3f29aa8056f8f4ef5449d6e16e"
+	pageRWIBundle  = `{"bundle":"of the rwi"}`
+	otherSignature = "signed by another key"
 )
 
 func TestAnRWIOfAVouchedOfferGetsAStampedStatementOverItsPageRWIRoot(t *testing.T) {
@@ -62,7 +61,7 @@ func TestAnRWIOfAnOfferThatDoesNotHoldGoesWithoutAttestation(t *testing.T) {
 		attested.ReasonFetchedElsewhere:        {fetchURL: "https://archive.example/a"},
 		attested.ReasonPageURLNotHTTPS:         {pageURL: "http://example.org/a"},
 		attested.ReasonLandedURLTooLong:        {landedURL: pageAddress + "?" + strings.Repeat("x", 2048)},
-		attested.ReasonRoundInvalid:            {roundSignature: otherRoundValue},
+		attested.ReasonRoundOfOtherChain:       {roundChain: strings.Repeat("0", 64)},
 		attested.ReasonFetchTimeNotRoundTime:   {fetchedAt: time.Unix(1, 0)},
 	} {
 		page := attestedOffer(t, drandChain, change)
@@ -114,7 +113,7 @@ type offerChange struct {
 	fetchURL         string
 	pageURL          string
 	landedURL        string
-	roundSignature   string
+	roundChain       string
 	fetchedAt        time.Time
 }
 
@@ -144,7 +143,7 @@ func attestedOffer(
 	}
 	statement := pagescrapecontract.MarshalPageOfferStatement(
 		pagescrapecontract.PageOfferStatementOf(
-			page, fetchURL, startedAfter(drandChain, orElse(change.roundSignature, roundSignature)),
+			page, fetchURL, startedAfter(orElse(change.roundChain, drandChain.Hash)),
 		),
 	)
 	page.Attestation = json.RawMessage(orElse(
@@ -161,9 +160,9 @@ func attestedOffer(
 	return page
 }
 
-func startedAfter(drandChain verifier.DrandChain, signature string) json.RawMessage {
-	return json.RawMessage(`{"drand":{"chain":"` + drandChain.Hash + `","round":` +
-		"33667957" + `,"signature":"` + signature + `"}}`)
+func startedAfter(chain string) json.RawMessage {
+	return json.RawMessage(`{"drand":{"chain":"` + chain + `","round":` +
+		"33667957" + `,"signature":"` + roundSignature + `"}}`)
 }
 
 func bundleOf(t *testing.T, statement []byte, signature string) string {
