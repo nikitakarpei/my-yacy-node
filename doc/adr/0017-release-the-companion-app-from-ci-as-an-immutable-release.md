@@ -25,8 +25,8 @@ The release key is a secret of a GitHub environment that only the owner can appr
 
 ## Consequences
 
-- The default policy of the attestation check (ADR 0016) names the certificate of the release
-  key.
+- A policy of the attestation check (ADR 0016) names the certificate of the release key for the
+  official app.
 - Whoever holds the release key can sign any build, also one that is not published.
 - Anyone can rebuild the unsigned APK from the tagged commit and compare it with the released
   one. The provenance, not a rebuild, shows that the signed APK holds the same build.
