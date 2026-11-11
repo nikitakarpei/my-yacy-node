@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	pageRWIRootDomain      byte = 1
-	attestedMetadataFormat byte = 1
-	pageRWIRootByteLength       = sha256.Size
+	pageRWIRootDomainSeparator byte = 1
+	attestedMetadataFormat     byte = 1
+	pageRWIRootByteLength           = sha256.Size
 )
 
 var ErrBadPageRWIRoot = errors.New("bad page RWI root")
@@ -30,7 +30,7 @@ func PageRWIRootFrom(metadata URLMetadata) Optional[PageRWIRoot] {
 
 func attestedMetadataOf(metadata URLMetadata) []byte {
 	var fields storedfields.Writer
-	fields.Byte(pageRWIRootDomain)
+	fields.Byte(pageRWIRootDomainSeparator)
 	fields.Byte(attestedMetadataFormat)
 	fields.Fixed(metadata.Hash.AppendBytes(nil))
 	writeOptional(
