@@ -39,6 +39,8 @@ components:
     in: cmd/pagerwi/**
 
 vendors:
+  attestedstatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   pagerwicontract:
     in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
   pagescrapecontract:
@@ -86,6 +88,7 @@ deps:
     mayDependOn:
       - pagerwi
     canUse:
+      - attestedstatements
       - documentextraction
       - pageformats
       - pagerwicontract
@@ -93,6 +96,7 @@ deps:
       - serviceruntime
   rwiattestersunattested:
     canUse:
+      - attestedstatements
       - pagerwicontract
       - pagescrapecontract
   pageintakeobserversprometheus:

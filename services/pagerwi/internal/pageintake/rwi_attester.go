@@ -2,8 +2,8 @@ package pageintake
 
 import (
 	"context"
-	"encoding/json"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
@@ -14,5 +14,5 @@ type RWIAttester interface {
 		offer pagescrapecontract.PageOfferMessage,
 		page pagescrapecontract.OfferedPage,
 		pageRWI pagerwicontract.PageRWI,
-	) (json.RawMessage, bool)
+	) (attestedstatements.Bundle, bool)
 }

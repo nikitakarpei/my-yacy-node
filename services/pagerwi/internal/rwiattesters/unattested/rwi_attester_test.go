@@ -9,15 +9,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-func TestEveryRWIGoesWithoutAttestationAndIsReady(t *testing.T) {
-	attestation, issued := unattested.RWIAttester{}.Attest(
+func TestEveryRWIGoesWithoutAttestationAndIsDecided(t *testing.T) {
+	bundle, decided := unattested.RWIAttester{}.Attest(
 		context.Background(),
 		pagescrapecontract.PageOfferMessage{},
 		pagescrapecontract.OfferedPage{},
 		pagerwicontract.PageRWI{},
 	)
 
-	if !issued || attestation != nil {
-		t.Errorf("attestation = %s, issued = %v", attestation, issued)
+	if !decided || bundle != nil {
+		t.Errorf("bundle = %s, decided = %v", bundle, decided)
 	}
 }
