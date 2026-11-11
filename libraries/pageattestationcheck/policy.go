@@ -9,7 +9,7 @@ type Policy struct {
 	Package              string
 	SigningCertificates  []string
 	AcceptedVersions     []AcceptedVersion
-	TimestampAuthorities []json.RawMessage
+	TimeStampAuthorities []json.RawMessage
 }
 
 type AcceptedVersion struct {

@@ -12,6 +12,8 @@ components:
     in: pageattestationchecktest/**
 
 vendors:
+  attestedstatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   verifier:
     in:
       - github.com/nikitakarpei/hardware-attested-statements/verifier
@@ -28,6 +30,7 @@ vendors:
 deps:
   pageattestationcheck:
     canUse:
+      - attestedstatements
       - verifier
       - pagerwicontract
       - yacymodel

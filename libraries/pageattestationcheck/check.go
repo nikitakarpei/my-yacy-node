@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -70,7 +71,7 @@ func statementPolicyFrom(policy Policy) []byte {
 	encoding, _ := json.Marshal(
 		map[string]any{ //nolint:errchkjson // strings, numbers and raw JSON.
 			"policy":               policyFormat,
-			"timestampAuthorities": policy.TimestampAuthorities,
+			"timestampAuthorities": policy.TimeStampAuthorities,
 			"drandChains":          []string{"quicknet"},
 			"predicateTypes": map[string]any{
 				pagerwicontract.PageRWIPredicateType: map[string]any{
@@ -85,7 +86,10 @@ func statementPolicyFrom(policy Policy) []byte {
 	return encoding
 }
 
-func (c Check) VerdictOn(metadata yacymodel.URLMetadata, attestation json.RawMessage) Verdict {
+func (c Check) VerdictOn(
+	row yacymodel.URLMetadata,
+	attestation attestedstatements.Bundle,
+) Verdict {
 	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil {
 		return notAttested(fmt.Errorf("read the attestation: %w", err))
@@ -94,7 +98,7 @@ func (c Check) VerdictOn(metadata yacymodel.URLMetadata, attestation json.RawMes
 	if err != nil {
 		return notAttested(err)
 	}
-	if err := failureOfRow(metadata, statement); err != nil {
+	if err := reasonAgainstRow(row, statement); err != nil {
 		return notAttested(err)
 	}
 	result, err := c.verifier.Verify(bundle)
@@ -109,20 +113,20 @@ func notAttested(reason error) Verdict {
 	return Verdict{Reason: reason}
 }
 
-func failureOfRow(
-	metadata yacymodel.URLMetadata,
+func reasonAgainstRow(
+	row yacymodel.URLMetadata,
 	statement pagerwicontract.PageRWIStatement,
 ) error {
-	root, rooted := yacymodel.PageRWIRootFrom(metadata).Get()
-	address, err := url.Parse(metadata.Address)
+	root, rooted := yacymodel.PageRWIRootFrom(row).Get()
+	address, err := url.Parse(row.Address)
 	switch {
 	case !rooted:
 		return ErrNoPageRWIRoot
 	case root != statement.PageRWIRoot:
 		return ErrOtherPageRWIRoot
-	case statement.PageURL.String() != metadata.Address:
+	case statement.PageURL.String() != row.Address:
 		return ErrOtherAddress
-	case err != nil || yacymodel.URLHashOf(address) != metadata.Hash:
+	case err != nil || yacymodel.URLHashOf(address) != row.Hash:
 		return ErrHashOfOtherAddress
 	default:
 		return nil
