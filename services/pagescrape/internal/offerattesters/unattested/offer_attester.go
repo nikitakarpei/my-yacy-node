@@ -22,7 +22,10 @@ func New(clock Clock) OfferAttester {
 	return OfferAttester{clock: clock}
 }
 
-func (a OfferAttester) FetchTimeOf(_ context.Context, _ redirectfollowingfetch.LandedFetch) time.Time {
+func (a OfferAttester) FetchTimeOf(
+	_ context.Context,
+	_ redirectfollowingfetch.LandedFetch,
+) time.Time {
 	return a.clock.Now()
 }
 
