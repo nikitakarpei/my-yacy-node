@@ -16,7 +16,7 @@ type AcceptedVersion struct {
 }
 
 func PolicyFor(authority *TimeStampAuthority, versions ...AcceptedVersion) []byte {
-	versionCodes := []int64{}
+	versionCodes := make([]int64, 0, len(versions))
 	versionEndTimes := []map[string]int64{}
 	for _, version := range versions {
 		versionCodes = append(versionCodes, version.VersionCode)
