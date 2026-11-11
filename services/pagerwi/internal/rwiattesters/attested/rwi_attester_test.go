@@ -89,7 +89,7 @@ func TestAnRWIWithoutPostingsGoesWithoutAttestation(t *testing.T) {
 		Attest(context.Background(), offer, page, pagerwicontract.PageRWI{PageURL: page.PageURL})
 
 	if bundle != nil || len(observed.reported) != 1 ||
-		observed.reported[0] != attested.ReasonPageWithoutPostings {
+		observed.reported[0] != attested.ReasonRowWithoutPostingsRoot {
 		t.Errorf("bundle = %s, reported %v", bundle, observed.reported)
 	}
 }

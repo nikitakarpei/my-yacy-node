@@ -64,14 +64,12 @@ func checkFor(
 	authority *pageattestationchecktest.TimeStampAuthority,
 ) pageattestationcheck.Check {
 	t.Helper()
-	check, err := pageattestationcheck.New(pageattestationcheck.Policy{
-		Package:             pageattestationchecktest.AppPackage,
-		SigningCertificates: []string{pageattestationchecktest.AppSigningCertificate},
-		AcceptedVersions: []pageattestationcheck.AcceptedVersion{
-			{VersionCode: pageattestationchecktest.AppVersionCode},
+	check, err := pageattestationcheck.New(pageattestationchecktest.PolicyFor(
+		authority,
+		pageattestationchecktest.AcceptedVersion{
+			VersionCode: pageattestationchecktest.AppVersionCode,
 		},
-		TimeStampAuthorities: []json.RawMessage{authority.PolicyEntry()},
-	}, device.Trust())
+	), device.Trust())
 	if err != nil {
 		t.Fatal(err)
 	}

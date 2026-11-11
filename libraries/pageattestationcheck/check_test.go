@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/url"
+	"strings"
 	"testing"
 	"time"
 
@@ -103,7 +104,7 @@ func TestAnAttestationThatDoesNotVerifyIsNotAttested(t *testing.T) {
 func TestAnAppVersionThePolicyDoesNotListIsNotAttested(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
-	versions := []pageattestationcheck.AcceptedVersion{
+	versions := []pageattestationchecktest.AcceptedVersion{
 		{VersionCode: pageattestationchecktest.AppVersionCode + 1},
 	}
 
@@ -124,7 +125,7 @@ func TestAnAppVersionIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 		"ends later":   {setup.stampedAt.Add(time.Hour), true},
 		"ended before": {setup.stampedAt.Add(-time.Hour), false},
 	} {
-		versions := []pageattestationcheck.AcceptedVersion{
+		versions := []pageattestationchecktest.AcceptedVersion{
 			{VersionCode: pageattestationchecktest.AppVersionCode, EndTime: test.endTime},
 		}
 
@@ -136,12 +137,43 @@ func TestAnAppVersionIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 	}
 }
 
-func TestNewRefusesAPolicyWithoutATimeStampAuthority(t *testing.T) {
+func TestNewRefusesAPolicyThatDoesNotParse(t *testing.T) {
 	setup := newSetup(t)
-	policy := setup.policy(setup.acceptedVersions())
-	policy.TimeStampAuthorities = []json.RawMessage{json.RawMessage(`"unknown"`)}
 
-	if _, err := pageattestationcheck.New(policy, setup.device.Trust()); err == nil {
+	if _, err := pageattestationcheck.New([]byte(`{}`), setup.device.Trust()); err == nil {
+		t.Error("a policy that does not parse is accepted")
+	}
+}
+
+func TestNewRefusesAPolicyWithoutBoundsOnTheFetchTime(t *testing.T) {
+	setup := newSetup(t)
+	for _, requirement := range []string{`"requireTimestamp":`, `"requireStartedAfter":`} {
+		policy := strings.Replace(
+			string(
+				setup.policy(setup.acceptedVersions()),
+			),
+			requirement+"true",
+			requirement+"false",
+			1,
+		)
+
+		_, err := pageattestationcheck.New([]byte(policy), setup.device.Trust())
+
+		if !errors.Is(err, pageattestationcheck.ErrPolicyWithoutFetchTimeBounds) {
+			t.Errorf("without %s: err = %v, want %v",
+				requirement, err, pageattestationcheck.ErrPolicyWithoutFetchTimeBounds)
+		}
+	}
+}
+
+func TestNewRefusesAPolicyWithAnUnknownTimeStampAuthority(t *testing.T) {
+	setup := newSetup(t)
+	policy := strings.Replace(
+		string(setup.policy(setup.acceptedVersions())),
+		`"timestampAuthorities":[{`, `"timestampAuthorities":["unknown",{`, 1,
+	)
+
+	if _, err := pageattestationcheck.New([]byte(policy), setup.device.Trust()); err == nil {
 		t.Error("a policy with an unknown time-stamp authority is accepted")
 	}
 }
@@ -165,24 +197,19 @@ func newSetup(t *testing.T) setup {
 	}
 }
 
-func (s setup) acceptedVersions() []pageattestationcheck.AcceptedVersion {
-	return []pageattestationcheck.AcceptedVersion{
+func (s setup) acceptedVersions() []pageattestationchecktest.AcceptedVersion {
+	return []pageattestationchecktest.AcceptedVersion{
 		{VersionCode: pageattestationchecktest.AppVersionCode},
 	}
 }
 
-func (s setup) policy(versions []pageattestationcheck.AcceptedVersion) pageattestationcheck.Policy {
-	return pageattestationcheck.Policy{
-		Package:              pageattestationchecktest.AppPackage,
-		SigningCertificates:  []string{pageattestationchecktest.AppSigningCertificate},
-		AcceptedVersions:     versions,
-		TimeStampAuthorities: []json.RawMessage{s.authority.PolicyEntry()},
-	}
+func (s setup) policy(versions []pageattestationchecktest.AcceptedVersion) []byte {
+	return pageattestationchecktest.PolicyFor(s.authority, versions...)
 }
 
 func (s setup) check(
 	t *testing.T,
-	versions []pageattestationcheck.AcceptedVersion,
+	versions []pageattestationchecktest.AcceptedVersion,
 ) pageattestationcheck.Check {
 	t.Helper()
 	check, err := pageattestationcheck.New(s.policy(versions), s.device.Trust())

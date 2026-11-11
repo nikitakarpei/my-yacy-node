@@ -1,7 +1,6 @@
 package pageattestationcheck
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -15,13 +14,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const policyFormat = "hardware-attested-statement/policy/v0.1"
-
 var (
 	ErrNoPageRWIRoot      = errors.New("the row has no page RWI root")
 	ErrOtherPageRWIRoot   = errors.New("the attestation is of another page RWI root")
 	ErrOtherAddress       = errors.New("the attestation is of another address")
-	ErrHashOfOtherAddress = errors.New("the URL hash of the row is not the hash of its address")
+	ErrHashOfOtherAddress = errors.New(
+		"the URL hash of the row is not the hash of its address",
+	)
+	ErrPolicyWithoutFetchTimeBounds = errors.New(
+		"the policy does not require a time-stamp and a drand round of page RWI statements",
+	)
 )
 
 type Check struct {
@@ -34,10 +36,13 @@ type Verdict struct {
 	Reason    error
 }
 
-func New(policy Policy, trust *android.Trust) (Check, error) {
-	statementPolicy, err := verifier.ParsePolicy(statementPolicyFrom(policy))
+func New(policy []byte, trust *android.Trust) (Check, error) {
+	statementPolicy, err := verifier.ParsePolicy(policy)
 	if err != nil {
 		return Check{}, fmt.Errorf("page attestation policy: %w", err)
+	}
+	if !requiresFetchTimeBounds(statementPolicy) {
+		return Check{}, ErrPolicyWithoutFetchTimeBounds
 	}
 	statementVerifier, err := verifier.New(statementPolicy, android.New(trust))
 	if err != nil {
@@ -47,43 +52,10 @@ func New(policy Policy, trust *android.Trust) (Check, error) {
 	return Check{verifier: statementVerifier}, nil
 }
 
-func statementPolicyFrom(policy Policy) []byte {
-	versionCodes := make([]int64, 0, len(policy.AcceptedVersions))
-	versionEndTimes := []map[string]int64{}
-	for _, version := range policy.AcceptedVersions {
-		versionCodes = append(versionCodes, version.VersionCode)
-		if !version.EndTime.IsZero() {
-			versionEndTimes = append(versionEndTimes, map[string]int64{
-				"versionCode": version.VersionCode,
-				"endTime":     version.EndTime.Unix(),
-			})
-		}
-	}
-	signer := map[string]any{
-		"profile":             android.Name,
-		"package":             policy.Package,
-		"signingCertificates": policy.SigningCertificates,
-		"versionCodes":        versionCodes,
-	}
-	if len(versionEndTimes) > 0 {
-		signer["versionEndTimes"] = versionEndTimes
-	}
-	encoding, _ := json.Marshal(
-		map[string]any{ //nolint:errchkjson // strings, numbers and raw JSON.
-			"policy":               policyFormat,
-			"timestampAuthorities": policy.TimeStampAuthorities,
-			"drandChains":          []string{"quicknet"},
-			"predicateTypes": map[string]any{
-				pagerwicontract.PageRWIPredicateType: map[string]any{
-					"trustedSigners":      []map[string]any{signer},
-					"requireTimestamp":    true,
-					"requireStartedAfter": true,
-				},
-			},
-		},
-	)
+func requiresFetchTimeBounds(policy *verifier.Policy) bool {
+	pageRWIPolicy, listed := policy.PredicateTypes[pagerwicontract.PageRWIPredicateType]
 
-	return encoding
+	return listed && pageRWIPolicy.RequireTimestamp && pageRWIPolicy.RequireStartedAfter
 }
 
 func (c Check) VerdictOn(
