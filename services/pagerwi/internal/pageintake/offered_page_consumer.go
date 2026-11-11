@@ -6,7 +6,6 @@ package pageintake
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
@@ -82,7 +81,6 @@ func (c *OfferedPageConsumer) takeIn(
 
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	reachedAt := time.Now()
 	c.pageIntakeObserver.PageOffered(ctx, message.Identity(), page.PageURL)
 	document, extracted := c.documentOf(ctx, message, page)
 	if !extracted {
@@ -98,7 +96,7 @@ func (c *OfferedPageConsumer) takeIn(
 		ctx,
 		message,
 		page.PageURL,
-		c.pageIndexBuilder.RWIFrom(ctx, page, document, text, reachedAt),
+		c.pageIndexBuilder.RWIFrom(ctx, page, document, text),
 	)
 
 	return nil

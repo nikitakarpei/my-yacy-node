@@ -23,7 +23,7 @@ const (
 	ringPartitionExponent = 4
 )
 
-var reachedAt = time.Unix(1_700_000_000, 0)
+var fetchedAt = time.Unix(1_700_000_000, 0)
 
 func scrapedPage(t *testing.T, text string) pagescrapecontract.OfferedPage {
 	t.Helper()
@@ -32,6 +32,7 @@ func scrapedPage(t *testing.T, text string) pagescrapecontract.OfferedPage {
 		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
 		ContentType: "text/html",
 		Body:        []byte("<html><body>" + text + "</body></html>"),
+		FetchedAt:   fetchedAt,
 	}
 }
 
@@ -76,7 +77,7 @@ func pageRWIOf(t *testing.T, text string) pagerwicontract.PageRWI {
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scrapedPage(t, text), extractedDocument(), []byte(text), reachedAt),
+		).RWIFrom(t.Context(), scrapedPage(t, text), extractedDocument(), []byte(text)),
 	)
 }
 
@@ -89,7 +90,7 @@ func TestRWIFromIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testin
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText), reachedAt),
+		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText)),
 	)
 
 	if pageRWI.Metadata.Address != pageURL {
@@ -152,7 +153,7 @@ func TestRWIFromCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 		int(metadata.ExternalLinks) != document.ExternalLinks {
 		t.Fatalf("links = %d local, %d external", metadata.LocalLinks, metadata.ExternalLinks)
 	}
-	if loaded, ok := metadata.Loaded.Get(); !ok || loaded != yacymodel.CalendarDayOf(reachedAt) {
+	if loaded, ok := metadata.Loaded.Get(); !ok || loaded != yacymodel.CalendarDayOf(fetchedAt) {
 		t.Fatalf("loaded = %+v", metadata.Loaded)
 	}
 }
@@ -165,7 +166,7 @@ func TestRWIFromRecordsTheUndeclaredLanguageInEveryPosting(t *testing.T) {
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText)),
 	)
 
 	for _, posting := range pageRWI.Postings {
@@ -184,7 +185,7 @@ func TestRWIFromLeavesMetadataLanguageAbsentWhenThePageDeclaresNone(t *testing.T
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText)),
 	)
 
 	if language, ok := pageRWI.Metadata.Language.Get(); ok {
@@ -234,7 +235,7 @@ func TestRWIFromMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), page, extractedDocument(), []byte("the quick fox"), reachedAt),
+		).RWIFrom(t.Context(), page, extractedDocument(), []byte("the quick fox")),
 	)
 
 	if size, known := pageRWI.Metadata.ByteSize.Get(); !known || int(size) != len(page.Body) {
@@ -312,7 +313,7 @@ func TestRWIFromCountsTitleWordsBetweenSpacesAsYaCyDoes(t *testing.T) {
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText)),
 	)
 
 	if got := pageRWI.Postings[0].TitleWords; got != 3 {
@@ -357,7 +358,7 @@ func TestRWIFromMarksNoWordAsAppearingInAnAbsentTitle(t *testing.T) {
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt),
+		).RWIFrom(t.Context(), scrapedPage(t, sampleText), document, []byte(sampleText)),
 	)
 
 	for _, posting := range pageRWI.Postings {
@@ -388,7 +389,7 @@ func pageRWIOfPageModifiedAt(t *testing.T, modifiedAt time.Time) pagerwicontract
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText), reachedAt),
+		).RWIFrom(t.Context(), scraped, extractedDocument(), []byte(sampleText)),
 	)
 }
 
@@ -404,7 +405,7 @@ func microDateOf(t *testing.T, instant time.Time) yacymodel.MicroDate {
 }
 
 func TestRWIFromRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
-	modifiedAt := reachedAt.Add(-72 * time.Hour)
+	modifiedAt := fetchedAt.Add(-72 * time.Hour)
 
 	pageRWI := pageRWIOfPageModifiedAt(t, modifiedAt)
 
@@ -421,11 +422,11 @@ func TestRWIFromRecordsTheDateTheOriginSaidThePageWasModified(t *testing.T) {
 }
 
 func TestRWIFromKeepsTheTimeThePageWasFetchedAsTheLoadedDate(t *testing.T) {
-	pageRWI := pageRWIOfPageModifiedAt(t, reachedAt.Add(-72*time.Hour))
+	pageRWI := pageRWIOfPageModifiedAt(t, fetchedAt.Add(-72*time.Hour))
 
 	if loaded, ok := pageRWI.Metadata.Loaded.Get(); !ok ||
-		loaded != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata loaded = %+v, want %v", pageRWI.Metadata.Loaded, reachedAt)
+		loaded != yacymodel.CalendarDayOf(fetchedAt) {
+		t.Fatalf("metadata loaded = %+v, want %v", pageRWI.Metadata.Loaded, fetchedAt)
 	}
 }
 
@@ -433,28 +434,28 @@ func TestRWIFromFallsBackToTheTimeThePageWasReachedWhenTheOriginSaidNothing(t *t
 	pageRWI := pageRWIOfPageModifiedAt(t, time.Time{})
 
 	if modified, ok := pageRWI.Metadata.Modified.Get(); !ok ||
-		modified != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata.Modified, reachedAt)
+		modified != yacymodel.CalendarDayOf(fetchedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata.Modified, fetchedAt)
 	}
 	for _, posting := range pageRWI.Postings {
-		if posting.LastModified != microDateOf(t, reachedAt) {
+		if posting.LastModified != microDateOf(t, fetchedAt) {
 			t.Fatalf("posting last modified = %v, want %v",
-				posting.LastModified, microDateOf(t, reachedAt))
+				posting.LastModified, microDateOf(t, fetchedAt))
 		}
 	}
 }
 
 func TestRWIFromHoldsBackAModifiedDateLaterThanTheTimeThePageWasReached(t *testing.T) {
-	pageRWI := pageRWIOfPageModifiedAt(t, reachedAt.Add(240*time.Hour))
+	pageRWI := pageRWIOfPageModifiedAt(t, fetchedAt.Add(240*time.Hour))
 
 	if modified, ok := pageRWI.Metadata.Modified.Get(); !ok ||
-		modified != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata.Modified, reachedAt)
+		modified != yacymodel.CalendarDayOf(fetchedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata.Modified, fetchedAt)
 	}
 	for _, posting := range pageRWI.Postings {
-		if posting.LastModified > microDateOf(t, reachedAt) {
+		if posting.LastModified > microDateOf(t, fetchedAt) {
 			t.Fatalf("posting last modified = %v, want no later than %v",
-				posting.LastModified, microDateOf(t, reachedAt))
+				posting.LastModified, microDateOf(t, fetchedAt))
 		}
 	}
 }
@@ -463,11 +464,11 @@ func TestRWIFromFallsBackToTheTimeThePageWasReachedForAModifiedDateBeforeTheEpoc
 	pageRWI := pageRWIOfPageModifiedAt(t, time.Date(1965, time.March, 4, 0, 0, 0, 0, time.UTC))
 
 	if modified, ok := pageRWI.Metadata.Modified.Get(); !ok ||
-		modified != yacymodel.CalendarDayOf(reachedAt) {
-		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata.Modified, reachedAt)
+		modified != yacymodel.CalendarDayOf(fetchedAt) {
+		t.Fatalf("metadata modified = %+v, want %v", pageRWI.Metadata.Modified, fetchedAt)
 	}
-	if got := pageRWI.Postings[0].LastModified; got != microDateOf(t, reachedAt) {
-		t.Fatalf("posting last modified = %v, want %v", got, microDateOf(t, reachedAt))
+	if got := pageRWI.Postings[0].LastModified; got != microDateOf(t, fetchedAt) {
+		t.Fatalf("posting last modified = %v, want %v", got, microDateOf(t, fetchedAt))
 	}
 }
 
@@ -484,7 +485,7 @@ func pageRWIOfOversizedPage(t *testing.T) pagerwicontract.PageRWI {
 		t,
 		indexBuilder(
 			t,
-		).RWIFrom(t.Context(), scrapedPage(t, text), document, []byte(text), reachedAt),
+		).RWIFrom(t.Context(), scrapedPage(t, text), document, []byte(text)),
 	)
 }
 
@@ -527,7 +528,6 @@ func TestRWIFromBuildsNoPostingOfAStopword(t *testing.T) {
 		scrapedPage(t, sampleText),
 		extractedDocument(),
 		[]byte(sampleText),
-		reachedAt,
 	))
 
 	for _, posting := range pageRWI.Postings {
@@ -552,7 +552,6 @@ func TestRWIFromRootsTheMetadataAtThePostingsWithoutStopwords(t *testing.T) {
 		scrapedPage(t, sampleText),
 		extractedDocument(),
 		[]byte(sampleText),
-		reachedAt,
 	))
 
 	kept, err := yacymodel.ProvenPagePostingsFrom(
@@ -576,7 +575,6 @@ func TestRWIFromAPageOfStopwordsOnlyHasMetadataWithoutPostingsOrRoot(t *testing.
 		scrapedPage(t, "the the"),
 		extractedDocument(),
 		[]byte("the the"),
-		reachedAt,
 	)
 
 	if len(pageRWI.Postings) != 0 {
