@@ -1,12 +1,15 @@
 package pagescrapecontract
 
-import "github.com/nikitakarpei/yacy-rwi-node/optional"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
+	"github.com/nikitakarpei/yacy-rwi-node/optional"
+)
 
 const PageOfferAttestationHeader = "Page-Offer-Attestation"
 
 type PageOfferMessage struct {
 	Body        []byte
-	Attestation optional.Value[[]byte]
+	Attestation optional.Value[attestedstatements.Bundle]
 }
 
 func PageOfferMessageOf(page OfferedPage) PageOfferMessage {
@@ -20,10 +23,13 @@ func PageOfferMessageFrom(body []byte, attestationHeader string) PageOfferMessag
 		return PageOfferMessage{Body: body}
 	}
 
-	return PageOfferMessage{Body: body, Attestation: optional.Some([]byte(attestationHeader))}
+	return PageOfferMessage{
+		Body:        body,
+		Attestation: optional.Some(attestedstatements.Bundle(attestationHeader)),
+	}
 }
 
-func (m PageOfferMessage) AttestedBy(bundle []byte) PageOfferMessage {
+func (m PageOfferMessage) AttestedBy(bundle attestedstatements.Bundle) PageOfferMessage {
 	m.Attestation = optional.Some(bundle)
 
 	return m
