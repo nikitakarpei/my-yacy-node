@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
