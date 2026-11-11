@@ -14,7 +14,6 @@ deps:
     canUse:
       - attestedstatements
       - canonicalurl
-      - optional
       - pagefetch
 
 vendors:
@@ -24,8 +23,6 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
   pagefetch:
     in: github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  optional:
-    in: github.com/nikitakarpei/yacy-rwi-node/optional
 
 excludeFiles:
   - "_test\\.go"
