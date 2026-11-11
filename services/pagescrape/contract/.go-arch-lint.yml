@@ -12,10 +12,13 @@ components:
 deps:
   pagescrapecontract:
     canUse:
+      - attestedstatements
       - canonicalurl
       - pagefetch
 
 vendors:
+  attestedstatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   canonicalurl:
     in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
   pagefetch:

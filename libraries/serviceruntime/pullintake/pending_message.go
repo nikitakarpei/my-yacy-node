@@ -18,6 +18,7 @@ const (
 
 type PendingMessage interface {
 	Body() []byte
+	Header(name string) string
 	Identity() string
 	Arrival() time.Time
 	Acknowledge(ctx context.Context)
@@ -31,6 +32,10 @@ type pendingMessage struct {
 
 func (m pendingMessage) Body() []byte {
 	return m.message.Data()
+}
+
+func (m pendingMessage) Header(name string) string {
+	return m.message.Headers().Get(name)
 }
 
 func (m pendingMessage) Identity() string {

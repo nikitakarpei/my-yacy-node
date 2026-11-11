@@ -23,6 +23,7 @@ const (
 
 type Message struct {
 	Body          []byte
+	Header        nats.Header
 	Stream        string
 	Sequence      uint64
 	Arrival       time.Time
@@ -36,7 +37,7 @@ type Message struct {
 func (m *Message) Subject() string      { return Subject }
 func (m *Message) Reply() string        { return "" }
 func (m *Message) Data() []byte         { return m.Body }
-func (m *Message) Headers() nats.Header { return nil }
+func (m *Message) Headers() nats.Header { return m.Header }
 func (m *Message) InProgress() error    { return nil }
 
 func (m *Message) Ack() error                      { return m.settle(Acknowledged) }

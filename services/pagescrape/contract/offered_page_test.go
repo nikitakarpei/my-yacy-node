@@ -10,6 +10,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
+var fetchedAt = time.Date(2026, time.November, 10, 8, 0, 0, 0, time.UTC)
+
+func TestOfferedPageFromCarriesTheFetchTime(t *testing.T) {
+	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
+
+	offered := pagescrapecontract.OfferedPageFrom(
+		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
+		pagefetch.FetchedPage{},
+		pagefetch.PageVersion{},
+		pageURL,
+		fetchedAt,
+	)
+
+	if !offered.FetchedAt.Equal(fetchedAt) {
+		t.Errorf("fetched at = %v, want %v", offered.FetchedAt, fetchedAt)
+	}
+}
+
 func TestOfferedPageFromCarriesTheBytesTheFetchReturned(t *testing.T) {
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
 
@@ -21,6 +39,7 @@ func TestOfferedPageFromCarriesTheBytesTheFetchReturned(t *testing.T) {
 		},
 		pagefetch.PageVersion{},
 		pageURL,
+		fetchedAt,
 	)
 
 	if offered.ContentType != "text/html" || string(offered.Body) != "hello" {
@@ -37,6 +56,7 @@ func TestOfferedPageFromKeepsThePageURLTheRequestNamed(t *testing.T) {
 		pagefetch.FetchedPage{},
 		pagefetch.PageVersion{},
 		landedURL,
+		fetchedAt,
 	)
 
 	if offered.PageURL != pageURL {
@@ -59,6 +79,7 @@ func TestOfferedPageFromKeepsThePageURLWhenTheFetchURLNamesAnotherAddress(t *tes
 		pagefetch.FetchedPage{},
 		pagefetch.PageVersion{},
 		landedURL,
+		fetchedAt,
 	)
 
 	if offered.PageURL != pageURL {
@@ -78,6 +99,7 @@ func TestOfferedPageFromCarriesTheDateTheOriginSaidThePageWasModified(t *testing
 		pagefetch.FetchedPage{},
 		pagefetch.PageVersion{EntityTag: "\"v1\"", ModifiedAt: modifiedAt},
 		pageURL,
+		fetchedAt,
 	)
 
 	if !offered.PageModifiedAt.Equal(modifiedAt) {
@@ -93,6 +115,7 @@ func TestOfferedPageFromLeavesThePageModifiedAtZeroWhenTheOriginSaidNothing(t *t
 		pagefetch.FetchedPage{},
 		pagefetch.PageVersion{EntityTag: "\"v1\""},
 		pageURL,
+		fetchedAt,
 	)
 
 	if !offered.PageModifiedAt.IsZero() {

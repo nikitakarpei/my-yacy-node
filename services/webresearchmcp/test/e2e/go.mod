@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/test/e2e
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/modelcontextprotocol/go-sdk v1.7.0
@@ -82,3 +82,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../../libraries
 replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libraries/spamassessment
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../../../libraries/attestedstatements

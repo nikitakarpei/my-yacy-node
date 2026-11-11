@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/test/e2e
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
@@ -82,3 +82,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libr
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../../libraries/optional
 
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../../../libraries/storedfields
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../../../libraries/attestedstatements

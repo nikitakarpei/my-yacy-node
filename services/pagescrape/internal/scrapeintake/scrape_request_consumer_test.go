@@ -101,13 +101,18 @@ func TestPageFetchedFromTheOriginIsOfferedToTheCorpora(t *testing.T) {
 		},
 	}}
 
-	intake := runScrapeIntake(t, request, fetch, time.Now())
+	fetchTime := time.Date(2026, time.November, 10, 8, 0, 0, 0, time.UTC)
+
+	intake := runScrapeIntake(t, request, fetch, fetchTime)
 
 	if len(intake.offers.offered) != 1 {
 		t.Fatalf("offered %d pages, want exactly one", len(intake.offers.offered))
 	}
 	if got := intake.offers.offered[0].PageURL; got != request.PageURL {
 		t.Errorf("offered the page %s, want %s", got, request.PageURL)
+	}
+	if got := intake.offers.offered[0].FetchedAt; !got.Equal(fetchTime) {
+		t.Errorf("offered the page as fetched at %v, want %v", got, fetchTime)
 	}
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
 		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)

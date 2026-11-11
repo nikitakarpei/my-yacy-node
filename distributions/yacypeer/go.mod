@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacypeer
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/klauspost/compress v1.20.2
@@ -83,6 +83,8 @@ require (
 	github.com/cockroachdb/tokenbucket v0.0.0-20230807174530-cc333fc44b06 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dennwc/varint v1.0.0 // indirect
+	github.com/digitorus/pkcs7 v0.0.0-20260914070511-d678ea5ea03f // indirect
+	github.com/digitorus/timestamp v0.0.0-20260914073129-b4b58b92aa51 // indirect
 	github.com/edsrzf/mmap-go v1.2.1-0.20241212181136-fad1cd13edbd // indirect
 	github.com/facette/natsort v0.0.0-20181210072756-2cd4dd1e2dcb // indirect
 	github.com/fxamacker/cbor/v2 v2.9.1 // indirect
@@ -111,6 +113,8 @@ require (
 	github.com/nats-io/jwt/v2 v2.8.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0 // indirect
@@ -129,6 +133,7 @@ require (
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/rs/xid v1.2.1 // indirect
 	github.com/stripe/goproxy v0.0.0-20260615103414-176e55e4af3b // indirect
+	github.com/transparency-dev/merkle v0.0.2 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.etcd.io/bbolt v1.4.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
@@ -231,3 +236,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/webuistyle => ../../libraries/webu
 replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../libraries/companionprotocol
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
