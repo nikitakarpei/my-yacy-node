@@ -32,7 +32,9 @@ const (
 
 var (
 	clockTime = time.Date(2026, time.November, 10, 9, 0, 0, 0, time.UTC)
-	offerBody = pagescrapecontract.PageOfferMessage{Body: []byte(`{"PageURL":"http://example.org/a"}`)}
+	offerBody = pagescrapecontract.PageOfferMessage{
+		Body: []byte(`{"PageURL":"http://example.org/a"}`),
+	}
 )
 
 func TestAPageEveryHopOfWhichThisKeyAttestedIsFetchedAtTheRoundTime(t *testing.T) {
@@ -106,8 +108,13 @@ func TestAPageWhoseResponseAttestationsDoNotHoldIsFetchedAtTheClockTimeAndUnatte
 		bundle, decided := offerAttester.Attest(context.Background(), offerBody, landed)
 
 		if !fetchedAt.Equal(clockTime) || !decided || len(bundle) != 0 {
-			t.Errorf("%s: fetched at %v, bundle = %s, decided = %v, want the clock time and no bundle",
-				reason, fetchedAt, bundle, decided)
+			t.Errorf(
+				"%s: fetched at %v, bundle = %s, decided = %v, want the clock time and no bundle",
+				reason,
+				fetchedAt,
+				bundle,
+				decided,
+			)
 		}
 		if len(observed.reported) != 1 || observed.reported[0] != reason {
 			t.Errorf("%s: reported %v", reason, observed.reported)
