@@ -233,6 +233,7 @@ func runPagerwi(t *testing.T, brokerURL string, access jetstreamconnect.BrokerAc
 	runService(t, func(ctx context.Context, health *servicehealth.Health) error {
 		return pagerwiassembly.RunService(ctx, cfg, pagerwiassembly.Listeners{},
 			(&net.Dialer{}).DialContext, access, access, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), health)
 	})
 }

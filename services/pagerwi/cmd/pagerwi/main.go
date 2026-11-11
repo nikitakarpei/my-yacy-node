@@ -72,6 +72,7 @@ func serve(ctx context.Context, cfg pagerwiassembly.ServiceConfig) error {
 			jetstreamconnect.BrokerAccess{},
 			jetstreamconnect.BrokerAccess{},
 			pullintake.EveryItemAdmitted{},
+			nil,
 			registry,
 			health,
 		)
