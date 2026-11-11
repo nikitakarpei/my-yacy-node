@@ -71,6 +71,7 @@ func serve(ctx context.Context, cfg pagescrapeassembly.ServiceConfig) error {
 			(&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{},
 			pullintake.EveryItemAdmitted{},
+			nil,
 			registry,
 			health,
 		)

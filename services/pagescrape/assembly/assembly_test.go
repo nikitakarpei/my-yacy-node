@@ -92,6 +92,7 @@ func TestRunServiceOffersThePageAScrapeRequestNamesWithTheAccessOfTheBroker(t *t
 	go func() {
 		runDone <- pagescrape.RunService(ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{Password: brokerPassword}, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), health)
 	}()
 	awaitStart(t, started, runDone)
@@ -137,7 +138,7 @@ func TestRunServiceTakesNoScrapeRequestUntilTheIntakeAdmissionAdmits(t *testing.
 	go func() {
 		runDone <- pagescrape.RunService(
 			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
-			jetstreamconnect.BrokerAccess{}, admission, prometheus.NewRegistry(), health,
+			jetstreamconnect.BrokerAccess{}, admission, nil, prometheus.NewRegistry(), health,
 		)
 	}()
 	awaitStart(t, started, runDone)
@@ -171,6 +172,7 @@ func TestRunServiceReturnsWhenTheBrokerIsUnreachable(t *testing.T) {
 		pagescrape.Listeners{},
 		(&net.Dialer{}).DialContext,
 		jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(),
 		health,
 	); err == nil {
@@ -198,6 +200,7 @@ func TestRunServiceWithoutProvisioningScrapesOnTheStreamsThatExistAndKeepsThem(t
 		runDone <- pagescrape.RunService(
 			ctx, bound, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), &servicehealth.Health{},
 		)
 	}()
@@ -309,6 +312,7 @@ func runAsLimitedUser(t *testing.T, origin *url.URL) unlimitedClient {
 		runDone <- pagescrape.RunService(
 			ctx, limitedConfig, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+			nil,
 			prometheus.NewRegistry(), health,
 		)
 	}()
@@ -346,6 +350,7 @@ func provisionStreams(t *testing.T, cfg pagescrape.ServiceConfig) {
 		runDone <- pagescrape.RunService(
 			ctx, cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
 			jetstreamconnect.BrokerAccess{}, pullintaketest.AdmissionHeldUntil(neverReleased),
+			nil,
 			prometheus.NewRegistry(), health,
 		)
 	}()
@@ -385,6 +390,7 @@ func TestRunServiceWithoutProvisioningFailsWithoutTheStreams(t *testing.T) {
 	if err := pagescrape.RunService(
 		context.Background(), cfg, pagescrape.Listeners{}, (&net.Dialer{}).DialContext,
 		jetstreamconnect.BrokerAccess{}, pullintake.EveryItemAdmitted{},
+		nil,
 		prometheus.NewRegistry(), health,
 	); err == nil {
 		t.Fatal("RunService = nil, want the missing streams refused")

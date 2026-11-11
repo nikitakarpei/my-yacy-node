@@ -11,8 +11,12 @@ commonVendors:
 components:
   scrapeintake:
     in: internal/scrapeintake/**
+  offerattestersattested:
+    in: internal/offerattesters/attested/**
   offerattestersunattested:
     in: internal/offerattesters/unattested/**
+  offerattestationobserversapplog:
+    in: internal/offerattestationobservers/applog/**
   scrapestreamsjetstream:
     in: internal/scrapestreams/jetstream/**
   pageofferpublishersjetstream:
@@ -33,8 +37,6 @@ components:
     in: cmd/pagescrape/**
 
 vendors:
-  attestedstatements:
-    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   pagescrapecontract:
     in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   canonicalurl:
@@ -47,6 +49,13 @@ vendors:
   redirectfollowingfetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch
+  attestedstatements:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/attestedstatements
+  verifier:
+    in:
+      - github.com/nikitakarpei/hardware-attested-statements/verifier
+      - github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -74,6 +83,12 @@ deps:
       - pagefetch
       - redirectfollowingfetch
       - serviceruntime
+  offerattestersattested:
+    canUse:
+      - attestedstatements
+      - pagescrapecontract
+      - redirectfollowingfetch
+      - verifier
   offerattestersunattested:
     canUse:
       - attestedstatements
