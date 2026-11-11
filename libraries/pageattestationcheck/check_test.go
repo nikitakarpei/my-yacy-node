@@ -136,7 +136,7 @@ func TestAnAppVersionIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 	}
 }
 
-func TestNewRefusesAPolicyWithoutATimestampAuthority(t *testing.T) {
+func TestNewRefusesAPolicyWithoutATimeStampAuthority(t *testing.T) {
 	setup := newSetup(t)
 	policy := setup.policy(setup.acceptedVersions())
 	policy.TimeStampAuthorities = []json.RawMessage{json.RawMessage(`"unknown"`)}
