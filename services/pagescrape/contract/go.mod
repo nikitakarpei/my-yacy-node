@@ -3,7 +3,7 @@ module github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
 go 1.27.3
 
 require (
-	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 )
