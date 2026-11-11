@@ -5,7 +5,7 @@ go 1.27
 require (
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 	golang.org/x/sync v0.21.0

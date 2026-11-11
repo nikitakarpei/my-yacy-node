@@ -29,7 +29,7 @@ require (
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect

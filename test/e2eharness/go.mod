@@ -9,7 +9,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/testcontainers/testcontainers-go v0.45.0
 )
 
@@ -49,7 +49,7 @@ require (
 	github.com/nats-io/nkeys v0.4.15 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
