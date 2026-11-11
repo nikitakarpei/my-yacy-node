@@ -5,11 +5,14 @@ go 1.27.3
 require (
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0-00010101000000-000000000000
-	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -39,8 +42,6 @@ require (
 	github.com/nats-io/jwt/v2 v2.8.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000 // indirect
@@ -100,8 +101,10 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacym
 
 replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../libraries/companionprotocol
 
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
+
+replace github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck => ../../libraries/pageattestationcheck
+
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
 
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
-
-replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements

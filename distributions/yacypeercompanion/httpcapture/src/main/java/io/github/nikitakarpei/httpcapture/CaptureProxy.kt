@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.os.SystemClock
 import io.github.nikitakarpei.attestedstatements.Keys
 import io.github.nikitakarpei.attestedstatements.SigningKey
+import io.github.nikitakarpei.attestedstatements.Stamper
 import io.github.nikitakarpei.attestedstatements.hex
 import java.net.InetAddress
 import java.net.Proxy
@@ -18,11 +19,17 @@ import kotlin.concurrent.thread
  */
 private const val LOOPBACK_HOST = "127.0.0.1"
 
-class CaptureProxy private constructor(private val server: ServerSocket, private val password: String) : AutoCloseable {
+class CaptureProxy private constructor(
+    private val server: ServerSocket,
+    private val password: String,
+    val signingKey: () -> SigningKey,
+    val stamper: Stamper,
+) : AutoCloseable {
     val url: String get() = "http://:$password@$LOOPBACK_HOST:${server.localPort}"
 
     override fun close() {
         runCatching { server.close() }
+        stamper.close()
     }
 
     companion object {
@@ -34,10 +41,11 @@ class CaptureProxy private constructor(private val server: ServerSocket, private
             val key: () -> SigningKey = if (debuggable) { -> error("debuggable build: refusing to sign") } else Keys::get
             val server = ServerSocket(0, MAX_QUEUED_CONNECTIONS, InetAddress.getByName(LOOPBACK_HOST))
             val password = hex(ByteArray(16).also { SecureRandom().nextBytes(it) })
+            val client = httpClient(Proxy.NO_PROXY)
             thread(name = "capture-proxy") {
-                serve(server, password, key, httpClient(Proxy.NO_PROXY), { it.isLoopbackAddress }, SystemClock::elapsedRealtime)
+                serve(server, password, key, client, { it.isLoopbackAddress }, SystemClock::elapsedRealtime)
             }
-            return CaptureProxy(server, password)
+            return CaptureProxy(server, password, key, Stamper(client))
         }
     }
 }

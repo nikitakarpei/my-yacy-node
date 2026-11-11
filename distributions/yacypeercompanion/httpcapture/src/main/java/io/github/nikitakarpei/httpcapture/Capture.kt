@@ -3,13 +3,10 @@ package io.github.nikitakarpei.httpcapture
 
 import io.github.nikitakarpei.attestedstatements.Beacon
 import io.github.nikitakarpei.attestedstatements.DRAND_CHAIN
-import io.github.nikitakarpei.attestedstatements.Retryable
 import io.github.nikitakarpei.attestedstatements.SigningKey
-import io.github.nikitakarpei.attestedstatements.Stamper
 import io.github.nikitakarpei.attestedstatements.hex
 import io.github.nikitakarpei.attestedstatements.pae
 import io.github.nikitakarpei.attestedstatements.sha256
-import io.github.nikitakarpei.attestedstatements.signedStatementId
 import okhttp3.ConnectionPool
 import okhttp3.CookieJar
 import okhttp3.Dns
@@ -53,12 +50,11 @@ class Capture(
     val statement: ByteArray,
     val signature: ByteArray,
     val chain: List<X509Certificate>,
-    val stamp: Stamper.Stamp,
 )
 
 /** [startedAfter] is the latest drand round when the capture starts: the statement includes it, which proves the
  *  capture can't have been made before that round's time. */
-fun capture(url: HttpUrl, userAgent: String, key: SigningKey, startedAfter: Beacon, client: OkHttpClient, stamper: Stamper): Capture {
+fun capture(url: HttpUrl, userAgent: String, key: SigningKey, startedAfter: Beacon, client: OkHttpClient): Capture {
     require(url.isHttps && url.port == 443) { "only HTTPS on port 443 is fetched" }
     // OkHttp doesn't look up IP-address hosts, so the DNS filter never sees them.
     requireAllowed(url.host, InetAddress.getAllByName(url.host).toList())
@@ -127,13 +123,7 @@ fun capture(url: HttpUrl, userAgent: String, key: SigningKey, startedAfter: Beac
         .put("predicate", predicate)
         .toString().toByteArray()
     val signature = key.sign(pae(statement))
-    val stamp = try {
-        stamper.stamp(signedStatementId(statement, key.chain[0].tbsCertificate, signature))
-    } catch (e: Exception) {
-        val cause = (e as? java.util.concurrent.ExecutionException)?.cause ?: e
-        throw Retryable("time-stamp failed: ${cause.message}", cause)
-    }
-    return Capture(response.code, response.message, headers, body, statement, signature, key.chain, stamp)
+    return Capture(response.code, response.message, headers, body, statement, signature, key.chain)
 }
 
 fun readBody(body: ResponseBody): ByteArray {

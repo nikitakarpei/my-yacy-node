@@ -125,8 +125,31 @@ func (p peer) kickEveryDevice(t *testing.T) {
 
 func instanceFor(t *testing.T, linkText string, captureProxyURL string) *pageservices.Instance {
 	t.Helper()
+
+	return instanceWithKeys(
+		t,
+		linkText,
+		captureProxyURL,
+		unavailableHardwareKeys{},
+		unavailableHardwareKeys{},
+	)
+}
+
+func instanceWithKeys(
+	t *testing.T,
+	linkText string,
+	captureProxyURL string,
+	hardwareKeys pageservices.HardwareKeys,
+	timeStampAuthority pageservices.TimeStampAuthority,
+) *pageservices.Instance {
+	t.Helper()
 	instance, err := pageservices.InstanceFor(
-		linkText, captureProxyURL, brokeraccesstest.RandomDeviceKey(t), appVersion,
+		linkText,
+		captureProxyURL,
+		brokeraccesstest.RandomDeviceKey(t),
+		appVersion,
+		hardwareKeys,
+		timeStampAuthority,
 	)
 	if err != nil {
 		t.Fatalf("InstanceFor: %v", err)
@@ -164,6 +187,8 @@ func TestInstanceForRefusesTextThatIsNotAPairLink(t *testing.T) {
 		"http://127.0.0.1:1",
 		brokeraccesstest.RandomDeviceKey(t),
 		appVersion,
+		unavailableHardwareKeys{},
+		unavailableHardwareKeys{},
 	); err == nil {
 		t.Fatal("want an error for text that is not a pair link")
 	}
@@ -307,12 +332,18 @@ func provisionPeerStreams(t *testing.T, broker jetstream.JetStream) {
 
 func askForRWIOfPage(t *testing.T, broker jetstream.JetStream) pagerwicontract.PageRWI {
 	t.Helper()
+
+	return askForRWIOf(t, broker, pageURL)
+}
+
+func askForRWIOf(t *testing.T, broker jetstream.JetStream, address string) pagerwicontract.PageRWI {
+	t.Helper()
 	pageRWIs, err := broker.CreateOrUpdateConsumer(t.Context(), pagerwicontract.PageRWIsStreamName,
 		jetstream.ConsumerConfig{Durable: "node", AckPolicy: jetstream.AckExplicitPolicy})
 	if err != nil {
 		t.Fatalf("open the RWI consumer: %v", err)
 	}
-	askForPage(t, broker)
+	askForPageAt(t, broker, address)
 	message, err := pageRWIs.Next(jetstream.FetchMaxWait(runWait))
 	if err != nil {
 		t.Fatalf("await the RWI: %v", err)
@@ -404,10 +435,10 @@ func TestInstanceRunReportsAStopBeforeItStarted(t *testing.T) {
 	awaitEvent(t, events, "stopped")
 }
 
-func askForPage(t *testing.T, broker jetstream.JetStream) {
+func askForPageAt(t *testing.T, broker jetstream.JetStream, address string) {
 	t.Helper()
 	data, err := pagescrapecontract.MarshalScrapeRequest(pagescrapecontract.ScrapeRequest{
-		PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
+		PageURL: canonicalurltest.CanonicalURLOf(t, address),
 	})
 	if err != nil {
 		t.Fatalf("marshal the scrape request: %v", err)
