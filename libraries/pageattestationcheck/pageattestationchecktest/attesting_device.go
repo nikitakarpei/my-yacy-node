@@ -332,7 +332,7 @@ func NewTimeStampAuthority(t testing.TB) *TimeStampAuthority {
 	return &TimeStampAuthority{certificate: certificate, key: key, root: root}
 }
 
-func (a *TimeStampAuthority) PolicyEntry() json.RawMessage {
+func (a *TimeStampAuthority) policyEntry() json.RawMessage {
 	pemOf := func(certificate *x509.Certificate) string {
 		return string(pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: certificate.Raw}))
 	}
