@@ -14,9 +14,12 @@ deps:
     canUse:
       - attestedstatements
       - canonicalurl
+      - intotostatements
       - yacymodel
 
 vendors:
+  intotostatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/intotostatements
   attestedstatements:
     in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   canonicalurl:

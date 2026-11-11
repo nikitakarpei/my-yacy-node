@@ -30,7 +30,8 @@ require (
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease v0.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
@@ -98,5 +99,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../l
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements

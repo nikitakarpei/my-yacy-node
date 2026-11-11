@@ -3,8 +3,9 @@ module github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
 go 1.27.3
 
 require (
-	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 )
 
@@ -24,5 +25,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../../libraries
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../../libraries/yacymodel
 
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../../libraries/storedfields
+
+replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../../libraries/intotostatements
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../../libraries/attestedstatements

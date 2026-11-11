@@ -24,7 +24,7 @@ func TestPageRWIRootOfAKnownRow(t *testing.T) {
 	root := pageRWIRootOf(t, metadataWithEveryField(t))
 
 	const want = "cc19a541dd990c3f197f173f58c1db1cf86ad068397d3222bce6bddae9ba40c8"
-	if got := hex.EncodeToString(root.Bytes()); got != want {
+	if got := hex.EncodeToString(digestOf(root)); got != want {
 		t.Errorf("page RWI root = %s, want %s", got, want)
 	}
 }
@@ -212,20 +212,16 @@ func languageOf(t *testing.T, code string) yacymodel.Language {
 	return language
 }
 
-func TestPageRWIRootBytesRoundTrip(t *testing.T) {
+func TestPageRWIRootFromItsDigestIsTheSameRoot(t *testing.T) {
 	root := pageRWIRootOf(t, metadataWithEveryField(t))
 
-	parsed, err := yacymodel.ParsePageRWIRootBytes(root.Bytes())
-	if err != nil {
-		t.Fatal(err)
-	}
-	if parsed != root {
-		t.Errorf("parsed root = %x, want %x", parsed.Bytes(), root.Bytes())
+	if yacymodel.PageRWIRootFromDigest(root.Digest()) != root {
+		t.Error("the root from its digest is another root")
 	}
 }
 
-func TestParsePageRWIRootBytesRefusesAnotherLength(t *testing.T) {
-	if _, err := yacymodel.ParsePageRWIRootBytes(make([]byte, 31)); err == nil {
-		t.Error("31 bytes parse as a page RWI root")
-	}
+func digestOf(root yacymodel.PageRWIRoot) []byte {
+	digest := root.Digest()
+
+	return digest[:]
 }

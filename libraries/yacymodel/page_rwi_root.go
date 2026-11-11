@@ -2,22 +2,17 @@ package yacymodel
 
 import (
 	"crypto/sha256"
-	"errors"
-	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 )
 
 const (
-	pageRWIRootDomainSeparator byte = 1
-	attestedMetadataFormat     byte = 1
-	pageRWIRootByteLength           = sha256.Size
+	pageRWIRootDomain      byte = 1
+	attestedMetadataFormat byte = 1
 )
 
-var ErrBadPageRWIRoot = errors.New("bad page RWI root")
-
 type PageRWIRoot struct {
-	digest [pageRWIRootByteLength]byte
+	digest [sha256.Size]byte
 }
 
 func PageRWIRootFrom(metadata URLMetadata) Optional[PageRWIRoot] {
@@ -30,7 +25,7 @@ func PageRWIRootFrom(metadata URLMetadata) Optional[PageRWIRoot] {
 
 func attestedMetadataOf(metadata URLMetadata) []byte {
 	var fields storedfields.Writer
-	fields.Byte(pageRWIRootDomainSeparator)
+	fields.Byte(pageRWIRootDomain)
 	fields.Byte(attestedMetadataFormat)
 	fields.Fixed(metadata.Hash.AppendBytes(nil))
 	writeOptional(
@@ -89,18 +84,10 @@ func writeOptional[T any](fields *storedfields.Writer, field Optional[T], writeV
 	}
 }
 
-func (r PageRWIRoot) Bytes() []byte {
-	return r.digest[:]
+func PageRWIRootFromDigest(digest [sha256.Size]byte) PageRWIRoot {
+	return PageRWIRoot{digest: digest}
 }
 
-func ParsePageRWIRootBytes(raw []byte) (PageRWIRoot, error) {
-	if len(raw) != pageRWIRootByteLength {
-		return PageRWIRoot{}, fmt.Errorf(
-			"%w: %d bytes, want %d", ErrBadPageRWIRoot, len(raw), pageRWIRootByteLength,
-		)
-	}
-	var root PageRWIRoot
-	copy(root.digest[:], raw)
-
-	return root, nil
+func (r PageRWIRoot) Digest() [sha256.Size]byte {
+	return r.digest
 }

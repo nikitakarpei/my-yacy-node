@@ -35,6 +35,7 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
@@ -96,5 +97,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../librar
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
