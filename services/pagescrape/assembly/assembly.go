@@ -12,7 +12,7 @@ import (
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
-	offerissuersunattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/unattested"
+	offerattestersunattested "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerattesters/unattested"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	scrapeintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/applog"
@@ -85,7 +85,7 @@ func RunService(
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(
 		streams.scrapeRequestConsumer,
 		pageFetchFor(cfg, dial),
-		offerissuersunattested.New(wallclock.Clock{}),
+		offerattestersunattested.New(wallclock.Clock{}),
 		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
 		outcomeFeed,
 		scrapeintakepkg.ScrapeIntakeObservers{

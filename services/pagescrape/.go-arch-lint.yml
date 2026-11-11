@@ -11,8 +11,8 @@ commonVendors:
 components:
   scrapeintake:
     in: internal/scrapeintake/**
-  offerissuersunattested:
-    in: internal/offerissuers/unattested/**
+  offerattestersunattested:
+    in: internal/offerattesters/unattested/**
   scrapestreamsjetstream:
     in: internal/scrapestreams/jetstream/**
   pageofferpublishersjetstream:
@@ -33,6 +33,8 @@ components:
     in: cmd/pagescrape/**
 
 vendors:
+  attestedstatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   pagescrapecontract:
     in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   canonicalurl:
@@ -67,12 +69,14 @@ vendors:
 deps:
   scrapeintake:
     canUse:
+      - attestedstatements
       - pagescrapecontract
       - pagefetch
       - redirectfollowingfetch
       - serviceruntime
-  offerissuersunattested:
+  offerattestersunattested:
     canUse:
+      - attestedstatements
       - pagescrapecontract
       - redirectfollowingfetch
   scrapestreamsjetstream:
