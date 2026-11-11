@@ -1,21 +1,21 @@
 # Page RWI statement
 
-The page RWI statement is a predicate type of the Hardware-Attested Statements format. With a
-statement signer, pagerwi signs a statement for each RWI it can attest, and puts the bundle, the
-page attestation, in the `Attestation` member of the RWI. The subject comes from the URL
-metadata row, not from the message bytes, so the bundle can travel inside the RWI.
+The page RWI statement is a predicate type of the Hardware-Attested Statements format. pagerwi
+signs one for each RWI of a page it can attest, when it has a statement signer. The bundle
+travels inside the RWI, so the subject comes from the URL metadata row, not from the bytes of
+the RWI.
 
 Predicate type:
 `https://github.com/nikitakarpei/my-yacy-node/blob/main/services/pagerwi/doc/page-rwi-statement.md`
 
 ## Meaning
 
-The signer fetched the page at `pageURL` over TLS, after the drand round in `startedAfter`. It
-derived the URL metadata row and the postings of the page RWI root from the response.
+The signer fetched the page at the page URL over TLS, after the drand round in the statement. It
+made the URL metadata row and the postings of the page from the response.
 
-The page RWI root is SHA-256 over the byte 1 and every field of the URL metadata row, the postings
-root included, except the day the page was loaded. A verifier computes the root from the row
-that it has.
+The page RWI root is a digest of the URL metadata row, except the day that the page was loaded.
+The row holds the postings root, so the root covers the postings too. A verifier computes the
+root from the row that it has.
 
 ## Statement
 
@@ -28,23 +28,24 @@ that it has.
     "startedAfter": { "drand": { "chain": "…", "round": 1, "signature": "…" } } } }
 ```
 
-- `landedURL` is absent when the fetch landed at the page URL.
-- The statement lists no inputs. pagerwi signs only when its own key signed the page offer
-  statement.
+- `pageURL` is the page URL of the RWI.
+- `landedURL` is the URL that the fetch landed at. It is absent when that is the page URL.
+- `startedAfter` is the drand round of the page offer.
 - The bundle has an RFC 3161 time-stamp.
+- The statement lists no inputs. pagerwi signs only the page offers that its own device key
+  attested.
 
 ## When pagerwi signs
 
 pagerwi signs a statement only when all of these are true:
 
-- the key of the signer signed the [page offer statement](../../pagescrape/doc/page-offer-statement.md)
-  of the offer, and that statement covers the offer message as received;
+- the same device key signed the [page offer statement](../../pagescrape/doc/page-offer-statement.md),
+  and the statement covers the page offer as received;
 - the fetch started at the page URL, and the page URL is https on the default port. The fetch
-  can follow redirects: the statement then names the landed URL;
+  can follow redirects;
 - the landed URL has 2048 characters or fewer;
-- the drand round of the offer is of the chain quicknet, and the fetch time of the offer is its
-  time;
-- the page has postings.
+- the drand round of the page offer is of the chain quicknet, and the fetch time of the page offer
+  is the time of that round;
+- the page has at least one word that is not a stopword.
 
-Any other RWI goes without a page attestation. The service writes a log line with the reason.
-When the signer does not sign, the offered page stays pending.
+Other RWIs have no attestation.
