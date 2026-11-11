@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
@@ -41,15 +42,21 @@ func (f pageFetches) Fetch(
 
 type pageOffers struct {
 	offered  []pagescrapecontract.OfferedPage
+	messages []pagescrapecontract.PageOfferMessage
 	failures []pagescrapecontract.ScrapeFailure
 	err      error
 }
 
-func (o *pageOffers) OfferPage(_ context.Context, page pagescrapecontract.OfferedPage) error {
+func (o *pageOffers) OfferPage(_ context.Context, offer pagescrapecontract.PageOfferMessage) error {
 	if o.err != nil {
 		return o.err
 	}
+	page, err := pagescrapecontract.UnmarshalOfferedPage(offer.Body)
+	if err != nil {
+		return err
+	}
 	o.offered = append(o.offered, page)
+	o.messages = append(o.messages, offer)
 	return nil
 }
 
@@ -118,4 +125,21 @@ func (silentScrapeIntakeObserver) ScrapeFailed(
 	_ canonicalurl.CanonicalURL,
 	_ pagescrapecontract.ScrapeFailureReason,
 ) {
+}
+
+type attestationNotDecided struct{}
+
+func (attestationNotDecided) FetchTimeOf(
+	context.Context,
+	redirectfollowingfetch.LandedFetch,
+) time.Time {
+	return time.Time{}
+}
+
+func (attestationNotDecided) Attest(
+	context.Context,
+	pagescrapecontract.PageOfferMessage,
+	redirectfollowingfetch.LandedFetch,
+) (attestedstatements.Bundle, bool) {
+	return nil, false
 }

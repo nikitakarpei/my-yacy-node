@@ -58,7 +58,7 @@ func TestOfferedPageReachesTheCorpora(t *testing.T) {
 	}
 
 	if err := pageofferpublishers.NewPageOfferPublisher(broker).
-		OfferPage(ctx, page); err != nil {
+		OfferPage(ctx, pagescrapecontract.PageOfferMessageOf(page)); err != nil {
 		t.Fatalf("offer the page: %v", err)
 	}
 
@@ -73,6 +73,27 @@ func TestOfferedPageReachesTheCorpora(t *testing.T) {
 	}
 	if offered.PageURL != page.PageURL {
 		t.Errorf("offered the page %s, want %s", offered.PageURL, page.PageURL)
+	}
+	if attestation := message.Headers().
+		Get(pagescrapecontract.PageOfferAttestationHeader); attestation != "" {
+		t.Errorf("an unattested offer carries the attestation %q", attestation)
+	}
+}
+
+func TestAnAttestedOfferCarriesItsAttestationBesideItsBody(t *testing.T) {
+	ctx := context.Background()
+	broker, consumer := offerStream(t, ctx)
+	offer := pagescrapecontract.PageOfferMessage{Body: []byte(`{"page":"body"}`)}.
+		AttestedBy([]byte(`{"bundle":1}`))
+
+	if err := pageofferpublishers.NewPageOfferPublisher(broker).OfferPage(ctx, offer); err != nil {
+		t.Fatalf("offer the page: %v", err)
+	}
+
+	message := nextOffer(t, consumer)
+	if string(message.Data()) != `{"page":"body"}` ||
+		message.Headers().Get(pagescrapecontract.PageOfferAttestationHeader) != `{"bundle":1}` {
+		t.Errorf("offered %s with headers %v", message.Data(), message.Headers())
 	}
 }
 
@@ -109,7 +130,7 @@ func TestOfferWithoutAStreamFails(t *testing.T) {
 	broker := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	publisher := pageofferpublishers.NewPageOfferPublisher(broker)
 
-	if err := publisher.OfferPage(ctx, pagescrapecontract.OfferedPage{}); err == nil {
+	if err := publisher.OfferPage(ctx, pagescrapecontract.PageOfferMessage{}); err == nil {
 		t.Error("want an error offering a page no stream takes")
 	}
 	if err := publisher.ReportScrapeFailure(

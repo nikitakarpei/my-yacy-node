@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerattesters/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -61,25 +62,49 @@ func runScrapeIntakeAgainst(
 	offers *pageOffers,
 ) scrapeIntake {
 	t.Helper()
+
+	clock := fixedClock{now: fetchTime}
+
+	return runScrapeIntakeOffering(t, message, fetches, intakeSetup{
+		clock:         clock,
+		offerAttester: unattested.New(clock),
+		offers:        offers,
+	})
+}
+
+type intakeSetup struct {
+	clock         fixedClock
+	offerAttester scrapeintake.OfferAttester
+	offers        *pageOffers
+}
+
+func runScrapeIntakeOffering(
+	t *testing.T,
+	message *pullintaketest.Message,
+	fetches pageFetches,
+	setup intakeSetup,
+) scrapeIntake {
+	t.Helper()
 	feed := &scrapeOutcomeFeed{}
 	fetchFailures := &fetchFailureRecorder{}
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		fetches,
-		offers,
+		setup.offerAttester,
+		setup.offers,
 		feed,
 		scrapeintake.ScrapeIntakeObservers{fetchFailures},
 		pullintake.EveryItemAdmitted{},
 		deferralWindow,
 		1,
-		fixedClock{now: fetchTime},
+		setup.clock,
 	)
 	if err := consumer.Run(context.Background()); err != nil {
 		t.Fatalf("run intake: %v", err)
 	}
 	return scrapeIntake{
 		message:       message,
-		offers:        offers,
+		offers:        setup.offers,
 		feed:          feed,
 		fetchFailures: fetchFailures,
 	}
@@ -282,6 +307,7 @@ func TestScrapeRequestNoOneCanTakeHaltsIntake(t *testing.T) {
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		pageFetches{},
+		unattested.New(wallclock.Clock{}),
 		&pageOffers{},
 		&scrapeOutcomeFeed{},
 		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
@@ -307,6 +333,7 @@ func TestARequestTheAdmissionHoldsBackStaysUnsettled(t *testing.T) {
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		pageFetches{},
+		unattested.New(wallclock.Clock{}),
 		&pageOffers{},
 		&scrapeOutcomeFeed{},
 		scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
@@ -388,5 +415,24 @@ func TestAFailedFetchReportsWhatCausedItAndFailsTheScrape(t *testing.T) {
 				t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
 			}
 		})
+	}
+}
+
+func TestRequestComesBackWhenItsAttestationIsNotDecided(t *testing.T) {
+	request := scrapeRequestForThePage(t)
+	fetch := pageFetches{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded}}
+	message := scrapeRequestMessage(t, request, time.Now())
+
+	intake := runScrapeIntakeOffering(t, message, fetch, intakeSetup{
+		clock:         fixedClock{now: time.Now()},
+		offerAttester: attestationNotDecided{},
+		offers:        &pageOffers{},
+	})
+
+	if len(intake.offers.offered) != 0 {
+		t.Errorf("offered %d pages, want none", len(intake.offers.offered))
+	}
+	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
+		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.HeldBack)
 	}
 }
