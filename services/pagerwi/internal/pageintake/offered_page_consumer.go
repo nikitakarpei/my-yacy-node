@@ -148,21 +148,21 @@ func (c *OfferedPageConsumer) publishAttested(
 	page pagescrapecontract.OfferedPage,
 	pageRWI pagerwicontract.PageRWI,
 ) {
-	attestation, issued := c.rwiAttester.Attest(
+	bundle, decided := c.rwiAttester.Attest(
 		ctx,
-		offerMessageOf(message),
+		offerMessageFrom(message),
 		page,
 		pageRWI,
 	)
-	if !issued {
+	if !decided {
 		message.Return(ctx)
 
 		return
 	}
-	c.publish(ctx, message, page.PageURL, pageRWI.AttestedBy(attestation))
+	c.publish(ctx, message, page.PageURL, pageRWI.AttestedBy(bundle))
 }
 
-func offerMessageOf(message pullintake.PendingMessage) pagescrapecontract.PageOfferMessage {
+func offerMessageFrom(message pullintake.PendingMessage) pagescrapecontract.PageOfferMessage {
 	return pagescrapecontract.PageOfferMessageFrom(
 		message.Body(), message.Header(pagescrapecontract.PageOfferAttestationHeader),
 	)

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -12,11 +13,11 @@ type PageRWI struct {
 	PageURL     canonicalurl.CanonicalURL `json:"PageURL"`
 	Metadata    yacymodel.URLMetadata     `json:"Metadata"`
 	Postings    []yacymodel.RWIPosting    `json:"Postings,omitempty"`
-	Attestation json.RawMessage           `json:"Attestation,omitzero"`
+	Attestation attestedstatements.Bundle `json:"Attestation,omitzero"`
 }
 
-func (r PageRWI) AttestedBy(attestation json.RawMessage) PageRWI {
-	r.Attestation = attestation
+func (r PageRWI) AttestedBy(bundle attestedstatements.Bundle) PageRWI {
+	r.Attestation = bundle
 
 	return r
 }

@@ -12,10 +12,13 @@ components:
 deps:
   pagerwicontract:
     canUse:
+      - attestedstatements
       - canonicalurl
       - yacymodel
 
 vendors:
+  attestedstatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   canonicalurl:
     in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
   yacymodel:

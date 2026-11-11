@@ -3,6 +3,7 @@ package scrapeintake_test
 import (
 	"context"
 	"errors"
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -126,12 +127,16 @@ func (silentScrapeIntakeObserver) ScrapeFailed(
 ) {
 }
 
-type offerNotIssued struct{}
+type attestationNotDecided struct{}
 
-func (offerNotIssued) Issue(
+func (attestationNotDecided) FetchTimeOf(context.Context, redirectfollowingfetch.LandedFetch) time.Time {
+	return time.Time{}
+}
+
+func (attestationNotDecided) Attest(
 	context.Context,
-	pagescrapecontract.ScrapeRequest,
+	pagescrapecontract.PageOfferMessage,
 	redirectfollowingfetch.LandedFetch,
-) (pagescrapecontract.PageOfferMessage, bool) {
-	return pagescrapecontract.PageOfferMessage{}, false
+) (attestedstatements.Bundle, bool) {
+	return nil, false
 }

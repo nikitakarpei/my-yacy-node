@@ -26,14 +26,14 @@ import (
 )
 
 const (
-	AppPackage         = "io.github.nikitakarpei.yacypeercompanion"
-	AppSigner          = "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
-	AppVersionCode     = 7
-	deviceOSVersion    = 160000
-	signDigestPurpose  = 2
-	keyStorageVersion  = 300
-	strongBoxLevel     = 2
-	extendedKeyUsageID = 37
+	AppPackage            = "io.github.nikitakarpei.yacypeercompanion"
+	AppSigningCertificate = "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
+	AppVersionCode        = 7
+	deviceOSVersion       = 160000
+	signDigestPurpose     = 2
+	keyStorageVersion     = 300
+	strongBoxLevel        = 2
+	extendedKeyUsageID    = 37
 )
 
 type AttestingDevice struct {
@@ -45,7 +45,7 @@ type AttestingDevice struct {
 func NewAttestingDevice(t testing.TB, versionCode int64) *AttestingDevice {
 	t.Helper()
 	now := time.Now()
-	signer := mustHex(t, AppSigner)
+	signer := mustHex(t, AppSigningCertificate)
 	extension := keyDescriptionOf(AppPackage, versionCode, signer)
 	serial := int64(0)
 	certificate := func(
@@ -272,13 +272,13 @@ func integer(value int64) []byte {
 	return tagged(0, 2, false, encoding)
 }
 
-type TimestampAuthority struct {
+type TimeStampAuthority struct {
 	certificate *x509.Certificate
 	key         *ecdsa.PrivateKey
 	root        *x509.Certificate
 }
 
-func NewTimestampAuthority(t testing.TB) *TimestampAuthority {
+func NewTimeStampAuthority(t testing.TB) *TimeStampAuthority {
 	t.Helper()
 	now := time.Now()
 	rootKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -329,10 +329,10 @@ func NewTimestampAuthority(t testing.TB) *TimestampAuthority {
 		t.Fatal(err)
 	}
 
-	return &TimestampAuthority{certificate: certificate, key: key, root: root}
+	return &TimeStampAuthority{certificate: certificate, key: key, root: root}
 }
 
-func (a *TimestampAuthority) PolicyEntry() json.RawMessage {
+func (a *TimeStampAuthority) PolicyEntry() json.RawMessage {
 	pemOf := func(certificate *x509.Certificate) string {
 		return string(pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: certificate.Raw}))
 	}
@@ -345,7 +345,7 @@ func (a *TimestampAuthority) PolicyEntry() json.RawMessage {
 	return entry
 }
 
-func (a *TimestampAuthority) Stamp(t testing.TB, bundle *verifier.Bundle, at time.Time) {
+func (a *TimeStampAuthority) Stamp(t testing.TB, bundle *verifier.Bundle, at time.Time) {
 	t.Helper()
 	binding, err := android.New(nil).Binding(bundle.VerificationMaterial.Key.Raw)
 	if err != nil {
@@ -358,7 +358,7 @@ func (a *TimestampAuthority) Stamp(t testing.TB, bundle *verifier.Bundle, at tim
 	bundle.VerificationMaterial.Timestamp = a.timestampOf(t, signedStatementID[:], at)
 }
 
-func (a *TimestampAuthority) TimestampEncodingOf(
+func (a *TimeStampAuthority) TimeStampEncodingOf(
 	t testing.TB,
 	signedStatementID []byte,
 	at time.Time,
@@ -372,7 +372,7 @@ func (a *TimestampAuthority) TimestampEncodingOf(
 	return encoding
 }
 
-func (a *TimestampAuthority) timestampOf(
+func (a *TimeStampAuthority) timestampOf(
 	t testing.TB,
 	signedStatementID []byte,
 	at time.Time,
