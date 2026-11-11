@@ -36,6 +36,7 @@ deps:
       - yacymodel
   pageattestationchecktest:
     canUse:
+      - pagerwicontract
       - verifier
       - timestamp
 

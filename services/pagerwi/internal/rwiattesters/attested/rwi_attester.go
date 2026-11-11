@@ -23,7 +23,7 @@ const (
 	ReasonLandedURLTooLong       = "the landed URL is too long"
 	ReasonOfferRoundOfOtherChain = "the offer has no round of the pinned drand chain"
 	ReasonFetchTimeNotRoundTime  = "the fetch time is not the time of the drand round"
-	ReasonPageWithoutPostings    = "the page has no postings"
+	ReasonRowWithoutPostingsRoot = "the URL metadata row has no postings root"
 )
 
 const (
@@ -101,7 +101,7 @@ func (a RWIAttester) checkAttestable(
 	}
 	root, rooted := yacymodel.PageRWIRootFrom(pageRWI.Metadata).Get()
 	if !rooted {
-		return attestableRWI{}, ReasonPageWithoutPostings
+		return attestableRWI{}, ReasonRowWithoutPostingsRoot
 	}
 
 	return attestableRWI{root: root, startedAfter: offerStatement.StartedAfter}, ""
