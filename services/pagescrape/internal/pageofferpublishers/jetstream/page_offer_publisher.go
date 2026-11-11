@@ -32,8 +32,8 @@ func (p *PageOfferPublisher) OfferPage(
 func natsMessageOf(offer pagescrapecontract.PageOfferMessage) *nats.Msg {
 	message := nats.NewMsg(pagescrapecontract.OfferedPageSubject)
 	message.Data = offer.Body
-	if attestation, attested := offer.Attestation.Get(); attested {
-		message.Header.Set(pagescrapecontract.PageOfferAttestationHeader, string(attestation))
+	if len(offer.Attestation) != 0 {
+		message.Header.Set(pagescrapecontract.PageOfferAttestationHeader, string(offer.Attestation))
 	}
 	return message
 }

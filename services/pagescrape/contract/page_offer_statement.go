@@ -13,8 +13,8 @@ import (
 const (
 	PageOfferPredicateType = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
 		"services/pagescrape/doc/page-offer-statement.md"
-	inTotoStatementType = "https://in-toto.io/Statement/v1"
-	offerSubjectName    = "pageOffer"
+	inTotoStatementType  = "https://in-toto.io/Statement/v1"
+	pageOfferSubjectName = "pageOffer"
 )
 
 var ErrNotAPageOfferStatement = errors.New("not a page offer statement")
@@ -63,7 +63,7 @@ func MarshalPageOfferStatement(statement PageOfferStatement) []byte {
 		pageOfferStatementWire{ //nolint:errchkjson // strings, a URL and raw JSON.
 			Type: inTotoStatementType,
 			Subject: []statementSubjectWire{{
-				Name:   offerSubjectName,
+				Name:   pageOfferSubjectName,
 				Digest: map[string]string{"sha256": hex.EncodeToString(statement.OfferDigest[:])},
 			}},
 			PredicateType: PageOfferPredicateType,
@@ -99,7 +99,7 @@ func UnmarshalPageOfferStatement(data []byte) (PageOfferStatement, error) {
 
 func (w pageOfferStatementWire) isPageOfferStatement() bool {
 	return w.Type == inTotoStatementType && w.PredicateType == PageOfferPredicateType &&
-		len(w.Subject) == 1 && w.Subject[0].Name == offerSubjectName
+		len(w.Subject) == 1 && w.Subject[0].Name == pageOfferSubjectName
 }
 
 func offerDigestFrom(subject statementSubjectWire) ([sha256.Size]byte, error) {
