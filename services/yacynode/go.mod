@@ -91,3 +91,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagerwicontract => ../pagerwi/cont
 replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../libraries/processenvironmentlease
 
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
+
+replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional

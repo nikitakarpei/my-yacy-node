@@ -36,6 +36,7 @@ require (
 	github.com/moby/term v0.5.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
@@ -79,3 +80,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../../../
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../../../libraries/pagefetch
 
 replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libraries/spamassessment
+
+replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../../libraries/optional
