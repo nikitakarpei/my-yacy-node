@@ -9,7 +9,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/robotsmeta v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/spamassessment v0.0.0

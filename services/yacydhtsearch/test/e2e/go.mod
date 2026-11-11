@@ -42,7 +42,7 @@ require (
 	github.com/moby/term v0.5.2 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0-00010101000000-000000000000 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
