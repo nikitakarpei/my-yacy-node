@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/test/e2e
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/nats-io/nats.go v1.52.0
