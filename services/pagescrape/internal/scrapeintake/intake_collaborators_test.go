@@ -3,9 +3,9 @@ package scrapeintake_test
 import (
 	"context"
 	"errors"
-	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
@@ -129,7 +129,10 @@ func (silentScrapeIntakeObserver) ScrapeFailed(
 
 type attestationNotDecided struct{}
 
-func (attestationNotDecided) FetchTimeOf(context.Context, redirectfollowingfetch.LandedFetch) time.Time {
+func (attestationNotDecided) FetchTimeOf(
+	context.Context,
+	redirectfollowingfetch.LandedFetch,
+) time.Time {
 	return time.Time{}
 }
 
