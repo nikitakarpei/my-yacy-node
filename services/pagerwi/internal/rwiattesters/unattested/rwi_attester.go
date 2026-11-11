@@ -3,8 +3,8 @@ package unattested
 
 import (
 	"context"
-	"encoding/json"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
@@ -16,6 +16,6 @@ func (RWIAttester) Attest(
 	pagescrapecontract.PageOfferMessage,
 	pagescrapecontract.OfferedPage,
 	pagerwicontract.PageRWI,
-) (json.RawMessage, bool) {
+) (attestedstatements.Bundle, bool) {
 	return nil, true
 }

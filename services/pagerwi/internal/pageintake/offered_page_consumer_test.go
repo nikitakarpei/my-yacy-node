@@ -2,13 +2,13 @@ package pageintake_test
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"testing"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
@@ -161,8 +161,8 @@ type intakeCollaborators struct {
 }
 
 type fixedRWIAttester struct {
-	attestation json.RawMessage
-	notReady    bool
+	bundle     attestedstatements.Bundle
+	notDecided bool
 }
 
 func (a fixedRWIAttester) Attest(
@@ -170,8 +170,8 @@ func (a fixedRWIAttester) Attest(
 	pagescrapecontract.PageOfferMessage,
 	pagescrapecontract.OfferedPage,
 	pagerwicontract.PageRWI,
-) (json.RawMessage, bool) {
-	return a.attestation, !a.notReady
+) (attestedstatements.Bundle, bool) {
+	return a.bundle, !a.notDecided
 }
 
 func run(t *testing.T, msg jetstream.Msg, pageRWIs pageintake.PageRWIs) error {
@@ -218,11 +218,11 @@ func rwiAttesterOf(collaborators intakeCollaborators) pageintake.RWIAttester {
 
 func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
 	pageRWIs := &recordingPageRWIs{}
-	attestation := json.RawMessage(`{"bundle":"of the rwi"}`)
+	bundle := attestedstatements.Bundle(`{"bundle":"of the rwi"}`)
 
 	if err := runWith(t, offeredPageMessage(t, "alpha beta"), intakeCollaborators{
 		pageRWIs:           pageRWIs,
-		rwiAttester:        fixedRWIAttester{attestation: attestation},
+		rwiAttester:        fixedRWIAttester{bundle: bundle},
 		intakeReceipts:     &recordingIntakeReceipts{},
 		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	}); err != nil {
@@ -230,7 +230,7 @@ func TestRWIIsPublishedWithThePageAttestation(t *testing.T) {
 	}
 
 	if len(pageRWIs.published) != 1 ||
-		string(pageRWIs.published[0].Attestation) != string(attestation) {
+		string(pageRWIs.published[0].Attestation) != string(bundle) {
 		t.Errorf("published %+v, want one rwi with the page attestation", pageRWIs.published)
 	}
 }
@@ -249,9 +249,8 @@ func TestTheOfferAsReceivedReachesThePageAttestation(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	bundle, attested := attestations.offer.Attestation.Get()
-	if string(attestations.offer.Body) != string(message.Body) || !attested ||
-		string(bundle) != "bundle" {
+	if string(attestations.offer.Body) != string(message.Body) ||
+		string(attestations.offer.Attestation) != "bundle" {
 		t.Errorf(
 			"the attestation got the offer %+v, want the body and header as received",
 			attestations.offer,
@@ -268,19 +267,19 @@ func (a *recordingRWIAttester) Attest(
 	offer pagescrapecontract.PageOfferMessage,
 	_ pagescrapecontract.OfferedPage,
 	_ pagerwicontract.PageRWI,
-) (json.RawMessage, bool) {
+) (attestedstatements.Bundle, bool) {
 	a.offer = offer
 
 	return nil, true
 }
 
-func TestOfferedPageWaitsWhenItsAttestationIsNotReady(t *testing.T) {
+func TestOfferedPageWaitsWhenItsAttestationIsNotDecided(t *testing.T) {
 	pageRWIs := &recordingPageRWIs{}
 	message := offeredPageMessage(t, "alpha beta")
 
 	if err := runWith(t, message, intakeCollaborators{
 		pageRWIs:           pageRWIs,
-		rwiAttester:        fixedRWIAttester{notReady: true},
+		rwiAttester:        fixedRWIAttester{notDecided: true},
 		intakeReceipts:     &recordingIntakeReceipts{},
 		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	}); err != nil {

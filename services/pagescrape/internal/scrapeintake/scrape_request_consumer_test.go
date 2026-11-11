@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/unattested"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerattesters/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -66,16 +66,16 @@ func runScrapeIntakeAgainst(
 	clock := fixedClock{now: fetchTime}
 
 	return runScrapeIntakeOffering(t, message, fetches, intakeSetup{
-		clock:       clock,
-		offerIssuer: unattested.New(clock),
-		offers:      offers,
+		clock:         clock,
+		offerAttester: unattested.New(clock),
+		offers:        offers,
 	})
 }
 
 type intakeSetup struct {
-	clock       fixedClock
-	offerIssuer scrapeintake.OfferIssuer
-	offers      *pageOffers
+	clock         fixedClock
+	offerAttester scrapeintake.OfferAttester
+	offers        *pageOffers
 }
 
 func runScrapeIntakeOffering(
@@ -90,7 +90,7 @@ func runScrapeIntakeOffering(
 	consumer := scrapeintake.NewScrapeRequestConsumer(
 		pullintaketest.MessageSourceOf(message),
 		fetches,
-		setup.offerIssuer,
+		setup.offerAttester,
 		setup.offers,
 		feed,
 		scrapeintake.ScrapeIntakeObservers{fetchFailures},
@@ -418,15 +418,15 @@ func TestAFailedFetchReportsWhatCausedItAndFailsTheScrape(t *testing.T) {
 	}
 }
 
-func TestRequestComesBackWhenItsOfferIsNotIssued(t *testing.T) {
+func TestRequestComesBackWhenItsAttestationIsNotDecided(t *testing.T) {
 	request := scrapeRequestForThePage(t)
 	fetch := pageFetches{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded}}
 	message := scrapeRequestMessage(t, request, time.Now())
 
 	intake := runScrapeIntakeOffering(t, message, fetch, intakeSetup{
-		clock:       fixedClock{now: time.Now()},
-		offerIssuer: offerNotIssued{},
-		offers:      &pageOffers{},
+		clock:         fixedClock{now: time.Now()},
+		offerAttester: attestationNotDecided{},
+		offers:        &pageOffers{},
 	})
 
 	if len(intake.offers.offered) != 0 {
