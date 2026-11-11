@@ -13,8 +13,8 @@ import (
 const (
 	PageRWIPredicateType = "https://github.com/nikitakarpei/my-yacy-node/blob/main/" +
 		"services/pagerwi/doc/page-rwi-statement.md"
-	inTotoStatementType = "https://in-toto.io/Statement/v1"
-	pageRWIRootSubject  = "pageRWIRoot"
+	inTotoStatementType    = "https://in-toto.io/Statement/v1"
+	pageRWIRootSubjectName = "pageRWIRoot"
 )
 
 var ErrNotAPageRWIStatement = errors.New("not a page RWI statement")
@@ -69,7 +69,7 @@ func MarshalPageRWIStatement(statement PageRWIStatement) []byte {
 	data, _ := json.Marshal(pageRWIStatementWire{ //nolint:errchkjson // strings, URLs and raw JSON.
 		Type: inTotoStatementType,
 		Subject: []statementSubjectWire{{
-			Name:   pageRWIRootSubject,
+			Name:   pageRWIRootSubjectName,
 			Digest: map[string]string{"sha256": hex.EncodeToString(statement.PageRWIRoot.Bytes())},
 		}},
 		PredicateType: PageRWIPredicateType,
@@ -106,7 +106,7 @@ func UnmarshalPageRWIStatement(data []byte) (PageRWIStatement, error) {
 
 func (w pageRWIStatementWire) isPageRWIStatement() bool {
 	return w.Type == inTotoStatementType && w.PredicateType == PageRWIPredicateType &&
-		len(w.Subject) == 1 && w.Subject[0].Name == pageRWIRootSubject
+		len(w.Subject) == 1 && w.Subject[0].Name == pageRWIRootSubjectName
 }
 
 func pageRWIRootFrom(subject statementSubjectWire) (yacymodel.PageRWIRoot, error) {

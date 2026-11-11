@@ -11,10 +11,10 @@ commonVendors:
 components:
   scrapeintake:
     in: internal/scrapeintake/**
-  offerissuersattested:
-    in: internal/offerissuers/attested/**
-  offerissuersunattested:
-    in: internal/offerissuers/unattested/**
+  offerattestersattested:
+    in: internal/offerattesters/attested/**
+  offerattestersunattested:
+    in: internal/offerattesters/unattested/**
   offerattestationobserversapplog:
     in: internal/offerattestationobservers/applog/**
   scrapestreamsjetstream:
@@ -78,18 +78,20 @@ vendors:
 deps:
   scrapeintake:
     canUse:
+      - attestedstatements
       - pagescrapecontract
       - pagefetch
       - redirectfollowingfetch
       - serviceruntime
-  offerissuersattested:
+  offerattestersattested:
     canUse:
       - attestedstatements
       - pagescrapecontract
       - redirectfollowingfetch
       - verifier
-  offerissuersunattested:
+  offerattestersunattested:
     canUse:
+      - attestedstatements
       - pagescrapecontract
       - redirectfollowingfetch
   scrapestreamsjetstream:
