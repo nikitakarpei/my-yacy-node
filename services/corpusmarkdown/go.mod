@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown
 
-go 1.27
+go 1.27.3
 
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
@@ -19,6 +19,9 @@ require (
 	github.com/aws/smithy-go v1.28.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/cloudflare/circl v1.6.5 // indirect
+	github.com/digitorus/pkcs7 v0.0.0-20260914070511-d678ea5ea03f // indirect
+	github.com/digitorus/timestamp v0.0.0-20260914073129-b4b58b92aa51 // indirect
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
@@ -30,6 +33,8 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
@@ -38,6 +43,7 @@ require (
 	github.com/prometheus/procfs v0.16.1 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/ryszard/goskiplist v0.0.0-20150312221310-2dfbae5fcf46 // indirect
+	github.com/transparency-dev/merkle v0.0.2 // indirect
 	go.shabbyrobe.org/gocovmerge v0.0.0-20230507111327-fa4f82cfbf4d // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.58.1-0.20261009181718-2f1f834330b2 // indirect
@@ -93,3 +99,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallc
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
 
 replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements

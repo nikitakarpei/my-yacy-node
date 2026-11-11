@@ -32,7 +32,7 @@ type ScrapeOutcomeFeed interface {
 type ScrapeRequestConsumer struct {
 	scrapeRequests       pullintake.MessageSource
 	pageFetcher          PageFetcher
-	offerIssuer          OfferIssuer
+	offerAttester        OfferAttester
 	pageOffers           PageOffers
 	scrapeOutcomeFeed    ScrapeOutcomeFeed
 	scrapeIntakeObserver ScrapeIntakeObserver
@@ -46,7 +46,7 @@ type ScrapeRequestConsumer struct {
 func NewScrapeRequestConsumer(
 	scrapeRequests pullintake.MessageSource,
 	pageFetcher PageFetcher,
-	offerIssuer OfferIssuer,
+	offerAttester OfferAttester,
 	pageOffers PageOffers,
 	scrapeOutcomeFeed ScrapeOutcomeFeed,
 	scrapeIntakeObserver ScrapeIntakeObserver,
@@ -58,7 +58,7 @@ func NewScrapeRequestConsumer(
 	return &ScrapeRequestConsumer{
 		scrapeRequests:       scrapeRequests,
 		pageFetcher:          pageFetcher,
-		offerIssuer:          offerIssuer,
+		offerAttester:        offerAttester,
 		pageOffers:           pageOffers,
 		scrapeOutcomeFeed:    scrapeOutcomeFeed,
 		scrapeIntakeObserver: scrapeIntakeObserver,
@@ -119,13 +119,14 @@ func (c *ScrapeRequestConsumer) offerPageFrom(
 	request pagescrapecontract.ScrapeRequest,
 	landed redirectfollowingfetch.LandedFetch,
 ) {
-	offer, issued := c.offerIssuer.Issue(ctx, request, landed)
-	if !issued {
+	offer := offerMessageFrom(request, landed, c.offerAttester.FetchTimeOf(ctx, landed))
+	bundle, decided := c.offerAttester.Attest(ctx, offer, landed)
+	if !decided {
 		message.Return(ctx)
 
 		return
 	}
-	if err := c.pageOffers.OfferPage(ctx, offer); err != nil {
+	if err := c.pageOffers.OfferPage(ctx, offer.AttestedBy(bundle)); err != nil {
 		c.scrapeIntakeObserver.PageNotOffered(ctx, request.PageURL, err)
 		message.Return(ctx)
 
@@ -133,6 +134,16 @@ func (c *ScrapeRequestConsumer) offerPageFrom(
 	}
 	c.scrapeIntakeObserver.PageOffered(ctx, request.PageURL, landed.URL)
 	message.Acknowledge(ctx)
+}
+
+func offerMessageFrom(
+	request pagescrapecontract.ScrapeRequest,
+	landed redirectfollowingfetch.LandedFetch,
+	fetchedAt time.Time,
+) pagescrapecontract.PageOfferMessage {
+	return pagescrapecontract.PageOfferMessageOf(pagescrapecontract.OfferedPageFrom(
+		request, landed.Outcome.Page, landed.Outcome.Version, landed.URL, fetchedAt,
+	))
 }
 
 func (c *ScrapeRequestConsumer) deferScrape(

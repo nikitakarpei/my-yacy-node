@@ -34,11 +34,11 @@ func TestAnRWIOfAVouchedOfferGetsAStampedStatementOverItsPageRWIRoot(t *testing.
 	signer := &fakeSigner{}
 	pageRWI := pageRWIWithPostings(t, page)
 
-	attestation, issued := attested.New(signer, drandChain, &reasons{}).
+	bundle, decided := attested.New(signer, drandChain, &reasons{}).
 		Attest(context.Background(), offer, page, pageRWI)
 
-	if !issued || string(attestation) != pageRWIBundle {
-		t.Fatalf("attestation = %s, issued = %v", attestation, issued)
+	if !decided || string(bundle) != pageRWIBundle {
+		t.Fatalf("bundle = %s, decided = %v", bundle, decided)
 	}
 	statement, err := pagerwicontract.UnmarshalPageRWIStatement(signer.stampedStatement)
 	if err != nil {
@@ -55,24 +55,24 @@ func TestAnRWIOfAVouchedOfferGetsAStampedStatementOverItsPageRWIRoot(t *testing.
 func TestAnRWIOfAnOfferThatDoesNotHoldGoesWithoutAttestation(t *testing.T) {
 	drandChain := quicknet(t)
 	for reason, change := range map[string]offerChange{
-		attested.ReasonOfferUnattested:         {noAttestation: true},
-		attested.ReasonOfferUnreadable:         {attestation: `{"no":"bundle"}`},
-		attested.ReasonOfferOfOtherSigner:      {signature: otherSignature},
-		attested.ReasonOfferUnlikeItsStatement: {bodyAfterSigning: "other body"},
-		attested.ReasonFetchedElsewhere:        {fetchURL: "https://archive.example/a"},
-		attested.ReasonPageURLNotHTTPS:         {pageURL: "http://example.org/a"},
-		attested.ReasonLandedURLTooLong:        {landedURL: pageAddress + "?" + strings.Repeat("x", 2048)},
-		attested.ReasonRoundOfOtherChain:       {roundChain: strings.Repeat("0", 64)},
-		attested.ReasonFetchTimeNotRoundTime:   {fetchedAt: time.Unix(1, 0)},
+		attested.ReasonOfferUnattested:        {noAttestation: true},
+		attested.ReasonOfferUnreadable:        {offerAttestation: `{"no":"bundle"}`},
+		attested.ReasonOfferOfOtherSigner:     {signature: otherSignature},
+		attested.ReasonOfferNotCovered:        {bodyAfterSigning: "other body"},
+		attested.ReasonFetchURLNotPageURL:     {fetchURL: "https://archive.example/a"},
+		attested.ReasonPageURLNotHTTPS:        {pageURL: "http://example.org/a"},
+		attested.ReasonLandedURLTooLong:       {landedURL: pageAddress + "?" + strings.Repeat("x", 2048)},
+		attested.ReasonOfferRoundOfOtherChain: {roundChain: strings.Repeat("0", 64)},
+		attested.ReasonFetchTimeNotRoundTime:  {fetchedAt: time.Unix(1, 0)},
 	} {
 		offer, page := attestedOffer(t, drandChain, change)
 		observed := &reasons{}
 
-		attestation, issued := attested.New(&fakeSigner{}, drandChain, observed).
+		bundle, decided := attested.New(&fakeSigner{}, drandChain, observed).
 			Attest(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
-		if !issued || attestation != nil {
-			t.Errorf("%s: attestation = %s, issued = %v", reason, attestation, issued)
+		if !decided || bundle != nil {
+			t.Errorf("%s: bundle = %s, decided = %v", reason, bundle, decided)
 		}
 		if len(observed.reported) != 1 || observed.reported[0] != reason {
 			t.Errorf("%s: reported %v", reason, observed.reported)
@@ -85,30 +85,30 @@ func TestAnRWIWithoutPostingsGoesWithoutAttestation(t *testing.T) {
 	offer, page := attestedOffer(t, drandChain, offerChange{})
 	observed := &reasons{}
 
-	attestation, _ := attested.New(&fakeSigner{}, drandChain, observed).
+	bundle, _ := attested.New(&fakeSigner{}, drandChain, observed).
 		Attest(context.Background(), offer, page, pagerwicontract.PageRWI{PageURL: page.PageURL})
 
-	if attestation != nil || len(observed.reported) != 1 ||
+	if bundle != nil || len(observed.reported) != 1 ||
 		observed.reported[0] != attested.ReasonPageWithoutPostings {
-		t.Errorf("attestation = %s, reported %v", attestation, observed.reported)
+		t.Errorf("bundle = %s, reported %v", bundle, observed.reported)
 	}
 }
 
-func TestAnRWIWhoseStatementTheKeyDoesNotSignIsNotReady(t *testing.T) {
+func TestAnRWIWhoseStatementTheKeyDoesNotSignIsNotDecided(t *testing.T) {
 	drandChain := quicknet(t)
 	offer, page := attestedOffer(t, drandChain, offerChange{})
 
-	_, issued := attested.New(&fakeSigner{refuses: true}, drandChain, &reasons{}).
+	_, decided := attested.New(&fakeSigner{refuses: true}, drandChain, &reasons{}).
 		Attest(context.Background(), offer, page, pageRWIWithPostings(t, page))
 
-	if issued {
-		t.Error("an RWI whose statement the key did not sign is issued")
+	if decided {
+		t.Error("an RWI whose statement the key did not sign is decided")
 	}
 }
 
 type offerChange struct {
 	noAttestation    bool
-	attestation      string
+	offerAttestation string
 	signature        string
 	bodyAfterSigning string
 	fetchURL         string
@@ -157,7 +157,7 @@ func attestedOffer(
 	}
 
 	return offer.AttestedBy([]byte(orElse(
-		change.attestation,
+		change.offerAttestation,
 		bundleOf(t, statement, orElse(change.signature, ownSignature)),
 	))), page
 }
@@ -247,7 +247,7 @@ func (s *fakeSigner) Sign(
 	_ context.Context,
 	statement []byte,
 	stamping attestedstatements.TimeStamping,
-) ([]byte, bool) {
+) (attestedstatements.Bundle, bool) {
 	if s.refuses || stamping != attestedstatements.TimeStamped {
 		return nil, false
 	}

@@ -12,20 +12,20 @@ components:
 deps:
   pagescrapecontract:
     canUse:
+      - attestedstatements
       - canonicalurl
       - intotostatements
-      - optional
       - pagefetch
 
 vendors:
   intotostatements:
     in: github.com/nikitakarpei/yacy-rwi-node/intotostatements
+  attestedstatements:
+    in: github.com/nikitakarpei/yacy-rwi-node/attestedstatements
   canonicalurl:
     in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
   pagefetch:
     in: github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  optional:
-    in: github.com/nikitakarpei/yacy-rwi-node/optional
 
 excludeFiles:
   - "_test\\.go"

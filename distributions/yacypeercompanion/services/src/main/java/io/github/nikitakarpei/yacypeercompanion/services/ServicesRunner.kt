@@ -5,9 +5,11 @@ import android.util.Log
 import io.github.nikitakarpei.httpcapture.CaptureProxy
 import io.github.nikitakarpei.yacypeercompanion.model.CompanionEvent
 import io.github.nikitakarpei.yacypeercompanion.model.ServicesEnding
+import pageservices.HardwareKeys
 import pageservices.Instance
 import pageservices.Observer
 import pageservices.Pageservices
+import pageservices.TimeStampAuthority
 import kotlin.concurrent.thread
 
 private const val LOG_TAG = "ServicesRunner"
@@ -31,8 +33,8 @@ class ServicesRunner(private val ctx: Context, private val events: (CompanionEve
                     proxy.url,
                     key,
                     appVersionOf(ctx),
-                    StatementKeys(proxy.signingKey),
-                    StatementTimeStampAuthority(proxy.stamper),
+                    HardwareKeys { proxy.signingKey().asHardwareKey() },
+                    TimeStampAuthority { id -> proxy.stamper.stamp(id).encoded() },
                 )
             }.getOrElse {
                 Log.w(LOG_TAG, "page services", it)

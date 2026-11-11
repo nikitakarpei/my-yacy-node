@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 
+	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
 	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
@@ -86,8 +87,8 @@ func TestARowWhoseHashIsNotOfItsAddressIsNotAttested(t *testing.T) {
 func TestAnAttestationThatDoesNotVerifyIsNotAttested(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
-	for name, attestation := range map[string]json.RawMessage{
-		"no bundle":            json.RawMessage(`{"no":"bundle"}`),
+	for name, attestation := range map[string]attestedstatements.Bundle{
+		"no bundle":            attestedstatements.Bundle(`{"no":"bundle"}`),
 		"no stamp":             setup.unstampedAttestationOf(t, row),
 		"other statement type": setup.attestationOfStatement(t, []byte(`{"_type":"https://in-toto.io/Statement/v1"}`)),
 	} {
@@ -138,7 +139,7 @@ func TestAnAppVersionIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 func TestNewRefusesAPolicyWithoutATimestampAuthority(t *testing.T) {
 	setup := newSetup(t)
 	policy := setup.policy(setup.acceptedVersions())
-	policy.TimestampAuthorities = []json.RawMessage{json.RawMessage(`"unknown"`)}
+	policy.TimeStampAuthorities = []json.RawMessage{json.RawMessage(`"unknown"`)}
 
 	if _, err := pageattestationcheck.New(policy, setup.device.Trust()); err == nil {
 		t.Error("a policy with an unknown time-stamp authority is accepted")
@@ -147,7 +148,7 @@ func TestNewRefusesAPolicyWithoutATimestampAuthority(t *testing.T) {
 
 type setup struct {
 	device    *pageattestationchecktest.AttestingDevice
-	authority *pageattestationchecktest.TimestampAuthority
+	authority *pageattestationchecktest.TimeStampAuthority
 	stampedAt time.Time
 }
 
@@ -159,7 +160,7 @@ func newSetup(t *testing.T) setup {
 			t,
 			pageattestationchecktest.AppVersionCode,
 		),
-		authority: pageattestationchecktest.NewTimestampAuthority(t),
+		authority: pageattestationchecktest.NewTimeStampAuthority(t),
 		stampedAt: time.Now().Add(-time.Minute).Truncate(time.Second),
 	}
 }
@@ -173,9 +174,9 @@ func (s setup) acceptedVersions() []pageattestationcheck.AcceptedVersion {
 func (s setup) policy(versions []pageattestationcheck.AcceptedVersion) pageattestationcheck.Policy {
 	return pageattestationcheck.Policy{
 		Package:              pageattestationchecktest.AppPackage,
-		SigningCertificates:  []string{pageattestationchecktest.AppSigner},
+		SigningCertificates:  []string{pageattestationchecktest.AppSigningCertificate},
 		AcceptedVersions:     versions,
-		TimestampAuthorities: []json.RawMessage{s.authority.PolicyEntry()},
+		TimeStampAuthorities: []json.RawMessage{s.authority.PolicyEntry()},
 	}
 }
 
@@ -192,7 +193,7 @@ func (s setup) check(
 	return check
 }
 
-func (s setup) attestationOf(t *testing.T, row yacymodel.URLMetadata) json.RawMessage {
+func (s setup) attestationOf(t *testing.T, row yacymodel.URLMetadata) attestedstatements.Bundle {
 	t.Helper()
 
 	return s.attestationFor(t, row, row.Address)
@@ -202,13 +203,13 @@ func (s setup) attestationFor(
 	t *testing.T,
 	row yacymodel.URLMetadata,
 	address string,
-) json.RawMessage {
+) attestedstatements.Bundle {
 	t.Helper()
 
 	return s.attestationOfStatement(t, statementOf(t, row, address))
 }
 
-func (s setup) attestationOfStatement(t *testing.T, statement []byte) json.RawMessage {
+func (s setup) attestationOfStatement(t *testing.T, statement []byte) attestedstatements.Bundle {
 	t.Helper()
 	bundle := s.device.BundleOf(t, statement)
 	s.authority.Stamp(t, bundle, s.stampedAt)
@@ -216,7 +217,10 @@ func (s setup) attestationOfStatement(t *testing.T, statement []byte) json.RawMe
 	return encodingOf(t, bundle)
 }
 
-func (s setup) unstampedAttestationOf(t *testing.T, row yacymodel.URLMetadata) json.RawMessage {
+func (s setup) unstampedAttestationOf(
+	t *testing.T,
+	row yacymodel.URLMetadata,
+) attestedstatements.Bundle {
 	t.Helper()
 
 	return encodingOf(t, s.device.BundleOf(t, statementOf(t, row, row.Address)))
@@ -237,7 +241,7 @@ func statementOf(t *testing.T, row yacymodel.URLMetadata, address string) []byte
 	)
 }
 
-func encodingOf(t *testing.T, bundle *verifier.Bundle) json.RawMessage {
+func encodingOf(t *testing.T, bundle *verifier.Bundle) attestedstatements.Bundle {
 	t.Helper()
 	encoding, err := json.Marshal(bundle)
 	if err != nil {

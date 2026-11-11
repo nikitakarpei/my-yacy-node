@@ -82,3 +82,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libr
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../../libraries/optional
 
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../../../libraries/storedfields
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../../../libraries/attestedstatements

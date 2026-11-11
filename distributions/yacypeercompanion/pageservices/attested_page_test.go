@@ -32,7 +32,7 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 		t,
 		pageattestationchecktest.AppVersionCode,
 	)
-	authority := pageattestationchecktest.NewTimestampAuthority(t)
+	authority := pageattestationchecktest.NewTimeStampAuthority(t)
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
 	instance := instanceWithKeys(
@@ -61,16 +61,16 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 func checkFor(
 	t *testing.T,
 	device *pageattestationchecktest.AttestingDevice,
-	authority *pageattestationchecktest.TimestampAuthority,
+	authority *pageattestationchecktest.TimeStampAuthority,
 ) pageattestationcheck.Check {
 	t.Helper()
 	check, err := pageattestationcheck.New(pageattestationcheck.Policy{
 		Package:             pageattestationchecktest.AppPackage,
-		SigningCertificates: []string{pageattestationchecktest.AppSigner},
+		SigningCertificates: []string{pageattestationchecktest.AppSigningCertificate},
 		AcceptedVersions: []pageattestationcheck.AcceptedVersion{
 			{VersionCode: pageattestationchecktest.AppVersionCode},
 		},
-		TimestampAuthorities: []json.RawMessage{authority.PolicyEntry()},
+		TimeStampAuthorities: []json.RawMessage{authority.PolicyEntry()},
 	}, device.Trust())
 	if err != nil {
 		t.Fatal(err)
@@ -84,7 +84,7 @@ func captureProxySigningWith(
 	device *pageattestationchecktest.AttestingDevice,
 ) string {
 	t.Helper()
-	statement := captureStatementOf(t, attestedPageURL, pageBody)
+	statement := responseStatementOf(t, attestedPageURL, pageBody)
 	signature, err := device.Sign(verifier.PAE(verifier.InTotoPayload, statement))
 	if err != nil {
 		t.Fatal(err)
@@ -102,7 +102,7 @@ func captureProxySigningWith(
 	return server.URL
 }
 
-func captureStatementOf(t *testing.T, requestURL, body string) []byte {
+func responseStatementOf(t *testing.T, requestURL, body string) []byte {
 	t.Helper()
 	bodyDigest := sha256.Sum256([]byte(body))
 	contentType := "text/html"
@@ -146,7 +146,7 @@ func quicknet(t *testing.T) verifier.DrandChain {
 type deviceKeys struct {
 	t         *testing.T
 	device    *pageattestationchecktest.AttestingDevice
-	authority *pageattestationchecktest.TimestampAuthority
+	authority *pageattestationchecktest.TimeStampAuthority
 }
 
 func (k deviceKeys) CurrentKey() (pageservices.HardwareKey, error) {
@@ -154,7 +154,7 @@ func (k deviceKeys) CurrentKey() (pageservices.HardwareKey, error) {
 }
 
 func (k deviceKeys) Stamp(signedStatementID []byte) ([]byte, error) {
-	return k.authority.TimestampEncodingOf(k.t, signedStatementID, time.Now()), nil
+	return k.authority.TimeStampEncodingOf(k.t, signedStatementID, time.Now()), nil
 }
 
 type unavailableHardwareKeys struct{}
