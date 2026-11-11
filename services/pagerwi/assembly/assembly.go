@@ -23,6 +23,7 @@ import (
 	pagerwipublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwipublicationobservers/applog"
 	pagerwipublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwipublishers/jetstream"
 	pagerwistreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/pagerwistreams/jetstream"
+	rwiattestersunattested "github.com/nikitakarpei/yacy-rwi-node/pagerwi/internal/rwiattesters/unattested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -101,6 +102,7 @@ func RunService(
 	intakeConfig := pageintake.OfferedPageConsumerConfig{
 		FormatDerivations: formatDerivations,
 		PageIndexBuilder:  pagerwi.NewIndexBuilder(partitions),
+		RWIAttester:       rwiattestersunattested.RWIAttester{},
 		PageRWIs: pagerwipublishersjetstream.NewPageRWIPublisher(
 			pageRWIBroker, pagerwipublicationobserversapplog.PageRWIPublicationLog{},
 		),
