@@ -18,86 +18,96 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/optional"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/redirectfollowingfetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerissuers/attested"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/offerattesters/attested"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const (
 	pageBody          = "<html>page</html>"
 	ownSignature      = "signed by this key"
-	captureRound      = 33667957
+	quicknetRound     = 33667957
 	roundSignature    = "ace44ad88121ed26163c00acaa4c89522295c4fb066a8e9712138c63644e43cadac17e3f29aa8056f8f4ef5449d6e16e"
 	attestationBundle = `{"bundle":"of the offer"}`
 )
 
-var clockTime = time.Date(2026, time.November, 10, 9, 0, 0, 0, time.UTC)
+var (
+	clockTime = time.Date(2026, time.November, 10, 9, 0, 0, 0, time.UTC)
+	offerBody = pagescrapecontract.PageOfferMessage{Body: []byte(`{"PageURL":"http://example.org/a"}`)}
+)
 
-func TestAPageEveryHopOfWhichThisKeyCapturedIsOfferedWithItsAttestation(t *testing.T) {
+func TestAPageEveryHopOfWhichThisKeyAttestedIsFetchedAtTheRoundTime(t *testing.T) {
+	drandChain := quicknet(t)
+	_, landed := redirectedFetch(t, drandChain)
+
+	fetchedAt := offerAttesterOver(&fakeSigner{}, drandChain, &reasons{}).
+		FetchTimeOf(context.Background(), landed)
+
+	if want := drandChain.RoundTime(quicknetRound); !fetchedAt.Equal(want) {
+		t.Errorf("fetched at = %v, want the time of the round %v", fetchedAt, want)
+	}
+}
+
+func TestAnOfferEveryHopOfWhichThisKeyAttestedGetsItsBundle(t *testing.T) {
 	drandChain := quicknet(t)
 	request, landed := redirectedFetch(t, drandChain)
 	signer := &fakeSigner{}
 
-	offer, issued := offeredPagesOver(signer, drandChain, &reasons{}).
-		Issue(context.Background(), request, landed)
-	page := offeredPageIn(t, offer)
+	bundle, decided := offerAttesterOver(signer, drandChain, &reasons{}).
+		Attest(context.Background(), offerBody, landed)
 
-	if attestation, _ := offer.Attestation.Get(); !issued ||
-		string(attestation) != attestationBundle {
-		t.Fatalf("offer = %+v, issued = %v, want it issued with its attestation", offer, issued)
-	}
-	if want := drandChain.RoundTime(captureRound); !page.FetchedAt.Equal(want) {
-		t.Errorf("fetched at = %v, want the time of the capture round %v", page.FetchedAt, want)
+	if !decided || string(bundle) != attestationBundle {
+		t.Fatalf("bundle = %s, decided = %v, want the bundle of the offer", bundle, decided)
 	}
 	statement, err := pagescrapecontract.UnmarshalPageOfferStatement(signer.signedStatement)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !statement.Covers(offer.Body) || statement.FetchURL != request.FetchURL {
+	if !statement.Covers(offerBody.Body) || statement.FetchURL != request.FetchURL {
 		t.Errorf(
 			"signed statement = %s, want the statement of the offer body",
 			signer.signedStatement,
 		)
 	}
 	if !strings.Contains(string(statement.StartedAfter), roundSignature) {
-		t.Errorf("started after = %s, want the round of the capture", statement.StartedAfter)
+		t.Errorf("started after = %s, want the round of the response", statement.StartedAfter)
 	}
 }
 
-func TestAPageWhoseCapturesDoNotHoldIsOfferedWithoutAttestation(t *testing.T) {
+func TestAPageWhoseResponseAttestationsDoNotHoldIsFetchedAtTheClockTimeAndUnattested(t *testing.T) {
 	drandChain := quicknet(t)
 	for reason, breakFetch := range map[string]func(*redirectfollowingfetch.LandedFetch){
-		attested.ReasonAttestationMissing: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonResponseUnattested: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Hops[0].Attestation = optional.None[pagefetch.ResponseAttestation]()
 		},
-		attested.ReasonAttestationOfOtherSigner: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonResponseOfOtherSigner: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Hops[1].Attestation = withSignature(t, l.Hops[1], []byte("signed by another key"))
 		},
-		attested.ReasonAttestationUnreadable: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonResponseUnreadable: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Hops[1].Attestation = withStatement(t, l.Hops[1], []byte("no statement"))
 		},
-		attested.ReasonAttestationOfOtherURL: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonResponseOfOtherURL: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Hops[0].URL = canonicalurltest.CanonicalURLOf(t, "https://example.org/other")
 		},
-		attested.ReasonAttestationOfOtherBody: func(l *redirectfollowingfetch.LandedFetch) {
+		attested.ReasonResponseOfOtherBody: func(l *redirectfollowingfetch.LandedFetch) {
 			l.Outcome.Page.Body = []byte("other body")
 		},
-		attested.ReasonAttestationWithoutTime: func(l *redirectfollowingfetch.LandedFetch) {
-			l.Hops[1].Attestation = withStatement(t, l.Hops[1], captureStatement(
+		attested.ReasonResponseRoundOfOtherChain: func(l *redirectfollowingfetch.LandedFetch) {
+			l.Hops[1].Attestation = withStatement(t, l.Hops[1], responseStatement(
 				t, "https://example.org/b", pageBody, "0000000000000000000000000000000000000000000000000000000000000000",
 			))
 		},
 	} {
-		request, landed := redirectedFetch(t, drandChain)
+		_, landed := redirectedFetch(t, drandChain)
 		breakFetch(&landed)
 		observed := &reasons{}
+		offerAttester := offerAttesterOver(&fakeSigner{}, drandChain, observed)
 
-		offer, issued := offeredPagesOver(&fakeSigner{}, drandChain, observed).
-			Issue(context.Background(), request, landed)
-		page := offeredPageIn(t, offer)
+		fetchedAt := offerAttester.FetchTimeOf(context.Background(), landed)
+		bundle, decided := offerAttester.Attest(context.Background(), offerBody, landed)
 
-		if !issued || offer.Attestation.Present() || !page.FetchedAt.Equal(clockTime) {
-			t.Errorf("%s: page = %+v, issued = %v, want it issued, unattested, at the clock time",
-				reason, page, issued)
+		if !fetchedAt.Equal(clockTime) || !decided || len(bundle) != 0 {
+			t.Errorf("%s: fetched at %v, bundle = %s, decided = %v, want the clock time and no bundle",
+				reason, fetchedAt, bundle, decided)
 		}
 		if len(observed.reported) != 1 || observed.reported[0] != reason {
 			t.Errorf("%s: reported %v", reason, observed.reported)
@@ -105,44 +115,31 @@ func TestAPageWhoseCapturesDoNotHoldIsOfferedWithoutAttestation(t *testing.T) {
 	}
 }
 
-func TestAPageWithoutAnyHopIsOfferedWithoutAttestation(t *testing.T) {
+func TestAPageWithoutAnyHopIsUnattested(t *testing.T) {
 	drandChain := quicknet(t)
-	request, landed := redirectedFetch(t, drandChain)
+	_, landed := redirectedFetch(t, drandChain)
 	landed.Hops = nil
 	observed := &reasons{}
 
-	offer, _ := offeredPagesOver(&fakeSigner{}, drandChain, observed).
-		Issue(context.Background(), request, landed)
+	bundle, _ := offerAttesterOver(&fakeSigner{}, drandChain, observed).
+		Attest(context.Background(), offerBody, landed)
 
-	if offer.Attestation.Present() || len(observed.reported) != 1 ||
-		observed.reported[0] != attested.ReasonAttestationMissing {
-		t.Errorf("offer = %+v, reported %v", offer, observed.reported)
+	if len(bundle) != 0 || len(observed.reported) != 1 ||
+		observed.reported[0] != attested.ReasonResponseUnattested {
+		t.Errorf("bundle = %s, reported %v", bundle, observed.reported)
 	}
 }
 
-func TestAPageTheKeyDoesNotSignIsNotReady(t *testing.T) {
+func TestAnOfferTheKeyDoesNotSignIsNotDecided(t *testing.T) {
 	drandChain := quicknet(t)
-	request, landed := redirectedFetch(t, drandChain)
+	_, landed := redirectedFetch(t, drandChain)
 
-	_, issued := offeredPagesOver(&fakeSigner{refuses: true}, drandChain, &reasons{}).
-		Issue(context.Background(), request, landed)
+	_, decided := offerAttesterOver(&fakeSigner{refuses: true}, drandChain, &reasons{}).
+		Attest(context.Background(), offerBody, landed)
 
-	if issued {
-		t.Error("a page whose statement the key did not sign is issued")
+	if decided {
+		t.Error("an offer whose statement the key did not sign is decided")
 	}
-}
-
-func offeredPageIn(
-	t *testing.T,
-	offer pagescrapecontract.PageOfferMessage,
-) pagescrapecontract.OfferedPage {
-	t.Helper()
-	page, err := pagescrapecontract.UnmarshalOfferedPage(offer.Body)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return page
 }
 
 func redirectedFetch(
@@ -161,13 +158,13 @@ func redirectedFetch(
 				Page:   pagefetch.FetchedPage{ContentType: "text/html", Body: []byte(pageBody)},
 			},
 			Hops: []redirectfollowingfetch.Hop{
-				hopCaptured(t, pageURL, "moved", drandChain.Hash),
-				hopCaptured(t, landedURL, pageBody, drandChain.Hash),
+				hopAttested(t, pageURL, "moved", drandChain.Hash),
+				hopAttested(t, landedURL, pageBody, drandChain.Hash),
 			},
 		}
 }
 
-func hopCaptured(
+func hopAttested(
 	t *testing.T,
 	hopURL canonicalurl.CanonicalURL,
 	body string,
@@ -179,7 +176,7 @@ func hopCaptured(
 	return redirectfollowingfetch.Hop{
 		URL: hopURL,
 		Attestation: optional.Some(pagefetch.ResponseAttestation{
-			Statement:   captureStatement(t, httpsURL, body, chain),
+			Statement:   responseStatement(t, httpsURL, body, chain),
 			Signature:   []byte(ownSignature),
 			KeyEvidence: []byte(`{"profile":"android"}`),
 		}),
@@ -210,7 +207,7 @@ func withSignature(
 	return optional.Some(attestation)
 }
 
-func captureStatement(t *testing.T, requestURL, body, chain string) []byte {
+func responseStatement(t *testing.T, requestURL, body, chain string) []byte {
 	t.Helper()
 	bodyDigest := sha256.Sum256([]byte(body))
 	statement, err := json.Marshal(map[string]any{
@@ -224,7 +221,7 @@ func captureStatement(t *testing.T, requestURL, body, chain string) []byte {
 			"request":  map[string]any{"method": "GET", "url": requestURL, "cookies": "none"},
 			"response": map[string]any{"statusLine": "HTTP/1.1 200 OK", "status": 200},
 			"startedAfter": map[string]any{"drand": map[string]any{
-				"chain": chain, "round": captureRound, "signature": roundSignature,
+				"chain": chain, "round": quicknetRound, "signature": roundSignature,
 			}},
 		},
 	})
@@ -245,11 +242,11 @@ func quicknet(t *testing.T) verifier.DrandChain {
 	return chain
 }
 
-func offeredPagesOver(
+func offerAttesterOver(
 	signer *fakeSigner,
 	drandChain verifier.DrandChain,
 	observer *reasons,
-) attested.OfferIssuer {
+) attested.OfferAttester {
 	return attested.New(signer, drandChain, fixedClock{}, observer)
 }
 
@@ -266,7 +263,7 @@ func (s *fakeSigner) Sign(
 	_ context.Context,
 	statement []byte,
 	stamping attestedstatements.TimeStamping,
-) ([]byte, bool) {
+) (attestedstatements.Bundle, bool) {
 	if s.refuses || stamping != attestedstatements.NotTimeStamped {
 		return nil, false
 	}
