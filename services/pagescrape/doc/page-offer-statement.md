@@ -1,49 +1,41 @@
 # Page offer statement
 
-The page offer statement is a predicate type of the Hardware-Attested Statements format. With a
-statement signer, pagescrape signs a statement for each page offer it can attest.
+The page offer statement is a predicate type of the Hardware-Attested Statements format.
+pagescrape signs one for each page offer it can attest, when it has a statement signer.
 
 Predicate type:
 `https://github.com/nikitakarpei/my-yacy-node/blob/main/services/pagescrape/doc/page-offer-statement.md`
 
 ## Meaning
 
-The page offer with this digest is the fetch of `fetchURL` for the page URL of the offer. The
-origin served the offered body, and the drand round in `startedAfter` came before the fetch.
+The page offer with this digest is a fetch of the fetch URL. The origin served the offered
+content, and the fetch started after the drand round in the statement.
 
 ## Statement
 
 ```json
 { "_type": "https://in-toto.io/Statement/v1",
-  "subject": [{ "name": "pageOffer", "digest": { "sha256": "<SHA-256 of the offer message body>" } }],
+  "subject": [{ "name": "pageOffer", "digest": { "sha256": "<SHA-256 of the page offer>" } }],
   "predicateType": "<the predicate type>",
   "predicate": {
     "fetchURL": "https://example.org/a",
     "startedAfter": { "drand": { "chain": "…", "round": 1, "signature": "…" } } } }
 ```
 
-- The digest covers the body of the page offer message exactly as pagescrape sends it.
-- The statement lists no inputs. pagescrape signs only when its own key signed the response
-  attestation of each hop.
-- `startedAfter` is the drand round of the response attestation of the last hop.
-
-## Where the bundle goes
-
-The bundle travels in the header `Page-Offer-Attestation` of the page offer message. The body of
-the message is the page offer, without the bundle. A corpus that reads only the body sees no
-change.
+- The digest covers the page offer exactly as pagescrape publishes it.
+- `fetchURL` is the URL that the fetch started at.
+- `startedAfter` is the drand round that the response attestation of the last hop names.
+- The statement lists no inputs. pagescrape signs only the fetches that its own device key
+  attested.
 
 ## When pagescrape signs
 
 pagescrape signs a statement only when all of these are true:
 
-- each hop of the fetch has a response attestation, and the key of the signer signed it;
-- each response attestation names the https form of the URL of its hop;
-- the response attestation of the last hop names the offered body and a round of the drand
+- the same device key attested the response of each hop of the fetch;
+- each response attestation names the URL of its hop;
+- the response attestation of the last hop names the offered content and a round of the drand
   chain quicknet.
 
-The fetch time of the offer is then the time of that round. Any other page goes without an
-attestation, with the time of the service clock as its fetch time. The service writes a log
-line with the reason.
-
-When the signer does not sign, the scrape request stays pending.
+The fetch time of an attested page offer is the time of that round. Other page offers have no
+attestation.
