@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacynode
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/DataDog/zstd v1.5.7 // indirect
@@ -16,6 +16,8 @@ require (
 	github.com/cockroachdb/redact v1.1.5 // indirect
 	github.com/cockroachdb/swiss v0.0.0-20260820225851-333444432258 // indirect
 	github.com/cockroachdb/tokenbucket v0.0.0-20230807174530-cc333fc44b06 // indirect
+	github.com/digitorus/pkcs7 v0.0.0-20260914070511-d678ea5ea03f // indirect
+	github.com/digitorus/timestamp v0.0.0-20260914073129-b4b58b92aa51 // indirect
 	github.com/getsentry/sentry-go v0.27.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/snappy v0.0.5-0.20231225225746-43d5d4cd4e0e // indirect
@@ -27,11 +29,14 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease v0.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
+	github.com/transparency-dev/merkle v0.0.2 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.58.1-0.20261009181718-2f1f834330b2 // indirect
 	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
@@ -93,3 +98,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../l
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements

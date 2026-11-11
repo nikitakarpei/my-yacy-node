@@ -21,7 +21,7 @@ func TestPageOfferMessageOfHoldsTheEncodedPageWithoutAttestation(t *testing.T) {
 	}
 
 	if read.PageURL != page.PageURL || string(read.Body) != "page" ||
-		message.Attestation.Present() {
+		len(message.Attestation) != 0 {
 		t.Errorf("message = %+v", message)
 	}
 }
@@ -33,8 +33,7 @@ func TestAnAttestedPageOfferMessageKeepsItsBody(t *testing.T) {
 		[]byte("bundle"),
 	)
 
-	attestation, attested := message.Attestation.Get()
-	if !attested || string(attestation) != "bundle" || string(message.Body) != "body" {
+	if string(message.Attestation) != "bundle" || string(message.Body) != "body" {
 		t.Errorf("message = %+v", message)
 	}
 }
@@ -43,10 +42,10 @@ func TestPageOfferMessageFromAHeaderIsAttestedOnlyWhenTheHeaderIsGiven(t *testin
 	attested := pagescrapecontract.PageOfferMessageFrom([]byte("body"), "bundle")
 	unattested := pagescrapecontract.PageOfferMessageFrom([]byte("body"), "")
 
-	if bundle, present := attested.Attestation.Get(); !present || string(bundle) != "bundle" {
+	if string(attested.Attestation) != "bundle" {
 		t.Errorf("attested message = %+v", attested)
 	}
-	if unattested.Attestation.Present() || string(unattested.Body) != "body" {
+	if len(unattested.Attestation) != 0 || string(unattested.Body) != "body" {
 		t.Errorf("unattested message = %+v", unattested)
 	}
 }

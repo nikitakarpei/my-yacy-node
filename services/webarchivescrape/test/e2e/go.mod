@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/test/e2e
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/nats-io/nats.go v1.52.0
@@ -15,11 +15,14 @@ require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/cloudflare/circl v1.6.5 // indirect
 	github.com/containerd/errdefs v1.0.0 // indirect
 	github.com/containerd/errdefs/pkg v0.3.0 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/platforms v0.2.1 // indirect
 	github.com/cpuguy83/dockercfg v0.3.2 // indirect
+	github.com/digitorus/pkcs7 v0.0.0-20260914070511-d678ea5ea03f // indirect
+	github.com/digitorus/timestamp v0.0.0-20260914073129-b4b58b92aa51 // indirect
 	github.com/distribution/reference v0.6.0 // indirect
 	github.com/docker/go-connections v0.8.2 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
@@ -43,6 +46,8 @@ require (
 	github.com/moby/term v0.5.2 // indirect
 	github.com/nats-io/nkeys v0.4.15 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/hardware-attested-statements/verifier v0.3.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
@@ -55,6 +60,7 @@ require (
 	github.com/stretchr/testify v1.12.1 // indirect
 	github.com/tklauser/go-sysconf v0.4.0 // indirect
 	github.com/tklauser/numcpus v0.12.0 // indirect
+	github.com/transparency-dev/merkle v0.0.2 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.70.0 // indirect
@@ -80,3 +86,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/spamassessment => ../../../../libr
 replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../corpustext/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../../../libraries/attestedstatements

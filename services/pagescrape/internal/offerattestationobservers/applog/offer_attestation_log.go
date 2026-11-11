@@ -14,11 +14,11 @@ type OfferAttestationLog struct{}
 
 func (OfferAttestationLog) OfferNotAttested(
 	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
+	landedURL canonicalurl.CanonicalURL,
 	reason string,
 ) {
 	slog.WarnContext(ctx, msgOfferNotAttested,
-		slog.String("pageUrl", pageURL.String()),
+		slog.String("landedUrl", landedURL.String()),
 		slog.String("reason", reason),
 	)
 }

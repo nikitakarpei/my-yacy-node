@@ -94,3 +94,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault => ../../
 replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault => ../../libraries/vaultengines/memoryvault
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
+
+replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements

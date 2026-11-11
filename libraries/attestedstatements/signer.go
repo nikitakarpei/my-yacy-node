@@ -35,7 +35,7 @@ func New(
 	}
 }
 
-func (s Signer) Sign(ctx context.Context, statement []byte, stamping TimeStamping) ([]byte, bool) {
+func (s Signer) Sign(ctx context.Context, statement []byte, stamping TimeStamping) (Bundle, bool) {
 	bundle, signed := s.sign(ctx, statement)
 	if !signed {
 		return nil, false
@@ -49,7 +49,7 @@ func (s Signer) Sign(ctx context.Context, statement []byte, stamping TimeStampin
 	return encodingOf(bundle), true
 }
 
-func encodingOf(bundle verifier.Bundle) []byte {
+func encodingOf(bundle verifier.Bundle) Bundle {
 	encoding, _ := json.Marshal(bundle) //nolint:errchkjson // bytes, strings and raw JSON only.
 
 	return encoding
@@ -109,13 +109,13 @@ func (s Signer) stamp(ctx context.Context, bundle verifier.Bundle) (verifier.Bun
 
 		return verifier.Bundle{}, false
 	}
-	var timestamp verifier.Timestamp
-	if err := verifier.UnmarshalStrict(encoding, &timestamp); err != nil {
+	var timeStamp verifier.Timestamp
+	if err := verifier.UnmarshalStrict(encoding, &timeStamp); err != nil {
 		s.observer.TimeStampUnavailable(ctx, fmt.Errorf("read time-stamp: %w", err))
 
 		return verifier.Bundle{}, false
 	}
-	bundle.VerificationMaterial.Timestamp = &timestamp
+	bundle.VerificationMaterial.Timestamp = &timeStamp
 
 	return bundle, true
 }
