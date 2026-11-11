@@ -12,12 +12,18 @@ type bundleCarrier struct {
 }
 
 func TestABundleTravelsInJSONAsItIs(t *testing.T) {
-	encoding, err := json.Marshal(bundleCarrier{Bundle: attestedstatements.Bundle(`{"mediaType":"m"}`)})
+	encoding, err := json.Marshal(
+		bundleCarrier{Bundle: attestedstatements.Bundle(`{"mediaType":"m"}`)},
+	)
 	if err != nil || string(encoding) != `{"bundle":{"mediaType":"m"}}` {
 		t.Fatalf("encoding = %s, %v", encoding, err)
 	}
 	var carrier bundleCarrier
-	if err := json.Unmarshal(encoding, &carrier); err != nil || string(carrier.Bundle) != `{"mediaType":"m"}` {
+	if err := json.Unmarshal(
+		encoding,
+		&carrier,
+	); err != nil ||
+		string(carrier.Bundle) != `{"mediaType":"m"}` {
 		t.Fatalf("bundle = %s, %v", carrier.Bundle, err)
 	}
 }
