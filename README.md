@@ -57,14 +57,12 @@ Next, this one will:
 > differently.
 
 You can see it at work on
-[search.my-yacy-node.org](https://search.my-yacy-node.org/). Feel free to play
-around with it.
-
-If you decide to run it yourself, I advise you to try the
-[single-binary deployment](distributions/yacypeer/README.md) first.
-
-Read [Build your own search stack](doc/build-your-own-search-stack/README.md) to
-see how to compose the services into customized deployments.
+[search.my-yacy-node.org](https://search.my-yacy-node.org/). If you then want
+to run it yourself, start with the
+[single-binary deployment](distributions/yacypeer/README.md), and when you need
+more control, read
+[Build your own search stack](doc/build-your-own-search-stack/README.md) to
+compose the services into a custom deployment.
 
 ## Documentation
 
