@@ -17,8 +17,9 @@ small, single-purpose Go services.
 I learned about YaCy from some Hacker News thread and got very passionate about
 the idea of a peer-to-peer search engine. When I ran a peer myself, I found
 issues with memory consumption, quality of search results and security of its
-peer-to-peer protocol. So I started this experimental project to try to fix
-them, and to help make peer-to-peer search useful to more people.
+peer-to-peer protocol. So when I left my job and had some free time, I started
+this experimental project to try to fix them, and to help make peer-to-peer
+search useful to more people.
 
 ## What is achieved so far
 
