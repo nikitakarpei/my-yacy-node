@@ -85,7 +85,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh release delete "$RELEASE_TAG" --cleanup-tag --yes || true
+          if gh release view "$RELEASE_TAG" >/dev/null; then
+            gh release delete "$RELEASE_TAG" --cleanup-tag --yes
+          fi
           gh release create "$RELEASE_TAG" out/* \
             --target "$GITHUB_SHA" \
             --title "yacypeer latest" \
