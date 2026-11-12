@@ -30,7 +30,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      - name: Cache the pinned Go and Zig
+        id: toolchain-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            .toolchain/bin
+            .toolchain/go
+            .toolchain/activate
+          key: toolchain-go-zig-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
+
+      - name: Cache Go modules
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .toolchain/gomodcache
+          key: go-modules-yacypeer-${{ runner.os }}-${{ hashFiles('distributions/yacypeer/go.sum') }}
+          restore-keys: go-modules-yacypeer-${{ runner.os }}-
+
       - name: Install the pinned Go and Zig
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
         run: ./tools/install go zig
 
       - name: Build
