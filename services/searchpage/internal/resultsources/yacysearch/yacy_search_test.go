@@ -25,7 +25,7 @@ func (o *recordingObserver) SearchFailed(_ context.Context, err error) {
 	o.failures = append(o.failures, err)
 }
 
-func TestThePageHoldsTheItemsOfTheSearch(t *testing.T) {
+func TestTheRankingHoldsTheItemsOfTheSearch(t *testing.T) {
 	var asked url.Values
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/yacysearch.json" {
@@ -45,7 +45,7 @@ func TestThePageHoldsTheItemsOfTheSearch(t *testing.T) {
 		observer,
 	)
 
-	page, answered := source.PageFor(
+	ranking, answered := source.RankingFor(
 		t.Context(),
 		searchqueries.SearchFrom("example :de", "2", searchqueries.Sources()),
 	)
@@ -56,11 +56,11 @@ func TestThePageHoldsTheItemsOfTheSearch(t *testing.T) {
 	want := searchresults.Result{
 		Title: "Example", Address: "https://example.org/", Snippet: "An example page",
 	}
-	if len(page) != 1 || page[0] != want {
-		t.Errorf("page = %+v, want %+v", page, want)
+	if len(ranking) != 1 || ranking[0] != want {
+		t.Errorf("ranking = %+v, want %+v", ranking, want)
 	}
 	for name, value := range map[string]string{
-		"query": "example", "startRecord": "10", "maximumRecords": "10", "lr": "lang_de",
+		"query": "example", "startRecord": "", "maximumRecords": "20", "lr": "lang_de",
 	} {
 		if asked.Get(name) != value {
 			t.Errorf("%s = %q, want %q", name, asked.Get(name), value)
@@ -82,45 +82,45 @@ func TestASearchInAllLanguagesNamesNoLanguage(t *testing.T) {
 		&recordingObserver{},
 	)
 
-	page, answered := source.PageFor(
+	ranking, answered := source.RankingFor(
 		t.Context(),
 		searchqueries.SearchFrom("example", "", searchqueries.Sources()),
 	)
 
-	if !answered || len(page) != 0 {
-		t.Errorf("page = %v, answered = %t, want an empty page", page, answered)
+	if !answered || len(ranking) != 0 {
+		t.Errorf("ranking = %v, answered = %t, want an empty ranking", ranking, answered)
 	}
 	if asked.Has("lr") {
 		t.Errorf("lr = %q, want no language", asked.Get("lr"))
 	}
 }
 
-func TestASearchThatTheServerRefusesGivesNoPage(t *testing.T) {
+func TestASearchThatTheServerRefusesGivesNoRanking(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "busy", http.StatusServiceUnavailable)
 	}))
 	t.Cleanup(server.Close)
 
-	assertNoPage(t, server.URL)
+	assertNoRanking(t, server.URL)
 }
 
-func TestAnAnswerThatIsNotJSONGivesNoPage(t *testing.T) {
+func TestAnAnswerThatIsNotJSONGivesNoRanking(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = io.WriteString(w, "<html>")
 	}))
 	t.Cleanup(server.Close)
 
-	assertNoPage(t, server.URL)
+	assertNoRanking(t, server.URL)
 }
 
-func TestASearchThatCannotReachTheServerGivesNoPage(t *testing.T) {
+func TestASearchThatCannotReachTheServerGivesNoRanking(t *testing.T) {
 	server := httptest.NewServer(http.NotFoundHandler())
 	server.Close()
 
-	assertNoPage(t, server.URL)
+	assertNoRanking(t, server.URL)
 }
 
-func assertNoPage(t *testing.T, serverURL string) {
+func assertNoRanking(t *testing.T, serverURL string) {
 	t.Helper()
 	observer := &recordingObserver{}
 	source := yacysearch.New(
@@ -130,13 +130,13 @@ func assertNoPage(t *testing.T, serverURL string) {
 		observer,
 	)
 
-	page, answered := source.PageFor(
+	ranking, answered := source.RankingFor(
 		t.Context(),
 		searchqueries.SearchFrom("example", "", searchqueries.Sources()),
 	)
 
-	if answered || page != nil {
-		t.Errorf("page = %v, answered = %t, want no page", page, answered)
+	if answered || ranking != nil {
+		t.Errorf("ranking = %v, answered = %t, want no ranking", ranking, answered)
 	}
 	if len(observer.failures) != 1 {
 		t.Errorf("failures = %v, want one", observer.failures)

@@ -23,7 +23,7 @@ const (
 )
 
 type ResultSource interface {
-	PageFor(ctx context.Context, search searchqueries.Search) (searchresults.SourcePage, bool)
+	RankingFor(ctx context.Context, search searchqueries.Search) (searchresults.SourceRanking, bool)
 }
 
 type ResultLinks interface {
