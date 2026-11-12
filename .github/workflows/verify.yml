@@ -2,6 +2,10 @@ name: verify
 
 on:
   workflow_call:
+    inputs:
+      markdown-only:
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -25,6 +29,7 @@ jobs:
           key: toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
 
       - name: Restore Go modules, build output and lint results
+        if: ${{ !inputs.markdown-only }}
         id: go-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -38,6 +43,7 @@ jobs:
             go-verify-${{ runner.os }}-
 
       - name: Restore pinned Python and its packages
+        if: ${{ !inputs.markdown-only }}
         id: python-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -52,7 +58,12 @@ jobs:
         run: ./tools/install verify
 
       - name: Run make verify
+        if: ${{ !inputs.markdown-only }}
         run: . .toolchain/activate && make verify RACE_FLAG=-race
+
+      - name: Lint the Markdown files
+        if: ${{ inputs.markdown-only }}
+        run: . .toolchain/activate && make lint-md
 
       - name: Save pinned toolchain
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.toolchain-cache.outputs.cache-hit != 'true'
@@ -66,7 +77,7 @@ jobs:
           key: ${{ steps.toolchain-cache.outputs.cache-primary-key }}
 
       - name: Save Go modules, build output and lint results
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.go-cache.outputs.cache-hit != 'true'
+        if: ${{ !inputs.markdown-only && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.go-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
@@ -76,7 +87,7 @@ jobs:
           key: ${{ steps.go-cache.outputs.cache-primary-key }}
 
       - name: Save pinned Python and its packages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.python-cache.outputs.cache-hit != 'true'
+        if: ${{ !inputs.markdown-only && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.python-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |

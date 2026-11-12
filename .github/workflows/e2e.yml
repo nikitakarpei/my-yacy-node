@@ -2,12 +2,17 @@ name: e2e
 
 on:
   workflow_call:
+    inputs:
+      run:
+        type: boolean
+        default: true
 
 permissions:
   contents: read
 
 jobs:
   e2e:
+    if: inputs.run
     runs-on: ubuntu-latest
     env:
       DOCKER_HOST: unix:///var/run/docker.sock

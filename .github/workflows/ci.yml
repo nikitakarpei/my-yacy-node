@@ -9,19 +9,87 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
+  scope:
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.scope.outputs.code }}
+      markdown-only: ${{ steps.scope.outputs.markdown-only }}
+      android-app: ${{ steps.scope.outputs.android-app }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Find the jobs that the changed files need
+        id: scope
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          set -o pipefail
+          everything() {
+            echo "$1, so every job runs"
+            printf 'code=true\nmarkdown-only=false\nandroid-app=true\n' >>"$GITHUB_OUTPUT"
+            exit 0
+          }
+          case "$EVENT" in
+            pull_request) base=HEAD^1 ;;
+            push)
+              case "$BEFORE" in ""|0000000000000000000000000000000000000000) everything "no previous commit" ;; esac
+              git fetch --quiet --depth=1 origin "$BEFORE" || everything "previous commit not found"
+              base=$BEFORE
+              ;;
+            *) everything "started by $EVENT" ;;
+          esac
+          git diff --name-only "$base" HEAD >"$RUNNER_TEMP/changed"
+          cat "$RUNNER_TEMP/changed"
+          app=distributions/yacypeercompanion
+          {
+            echo "$app/"
+            sed -n 's|^replace .* => \.\./\.\./\(.*\)$|\1/|p' "$app/go.mod"
+            printf '%s\n' tools/ Makefile .github/workflows/android-app.yml .github/workflows/ci.yml
+          } >"$RUNNER_TEMP/android-app-inputs"
+          grep -v '\.md$' "$RUNNER_TEMP/changed" >"$RUNNER_TEMP/not-markdown" || true
+          has() { [ -s "$1" ] && echo true || echo false; }
+          grep -v -e "^$app/" -e '^\.github/workflows/android-app\.yml$' "$RUNNER_TEMP/not-markdown" >"$RUNNER_TEMP/code" || true
+          awk 'NR == FNR { inputs[++n] = $0; next } { for (i = 1; i <= n; i++) if (index($0, inputs[i]) == 1) { print; next } }' \
+            "$RUNNER_TEMP/android-app-inputs" "$RUNNER_TEMP/not-markdown" >"$RUNNER_TEMP/android-app" || true
+          markdown_only=true
+          [ -s "$RUNNER_TEMP/not-markdown" ] && markdown_only=false
+          {
+            echo "code=$(has "$RUNNER_TEMP/code")"
+            echo "markdown-only=$markdown_only"
+            echo "android-app=$(has "$RUNNER_TEMP/android-app")"
+          } | tee -a "$GITHUB_OUTPUT"
+
   verify:
+    needs: scope
     uses: ./.github/workflows/verify.yml
+    with:
+      markdown-only: ${{ needs.scope.outputs.markdown-only == 'true' }}
 
   e2e:
+    needs: scope
     uses: ./.github/workflows/e2e.yml
+    with:
+      run: ${{ needs.scope.outputs.code == 'true' }}
 
   android-app:
+    needs: scope
     uses: ./.github/workflows/android-app.yml
+    with:
+      run: ${{ needs.scope.outputs.android-app == 'true' }}
 
   build-yacynode:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-yacynode.yml
     permissions:
       contents: read
@@ -32,8 +100,8 @@ jobs:
     secrets: inherit
 
   build-yacypeer:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-yacypeer.yml
     permissions:
       contents: write
@@ -43,8 +111,8 @@ jobs:
     secrets: inherit
 
   build-yacycrawler:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-yacycrawler.yml
     permissions:
       contents: read
@@ -55,8 +123,8 @@ jobs:
     secrets: inherit
 
   build-yacydhtsearch:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-yacydhtsearch.yml
     permissions:
       contents: read
@@ -67,8 +135,8 @@ jobs:
     secrets: inherit
 
   build-visitcrawl:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-visitcrawl.yml
     permissions:
       contents: read
@@ -79,8 +147,8 @@ jobs:
     secrets: inherit
 
   build-crawlscrapebridge:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-crawlscrapebridge.yml
     permissions:
       contents: read
@@ -91,8 +159,8 @@ jobs:
     secrets: inherit
 
   build-crawlconsole:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-crawlconsole.yml
     permissions:
       contents: read
@@ -103,8 +171,8 @@ jobs:
     secrets: inherit
 
   build-searchpage:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-searchpage.yml
     permissions:
       contents: read
@@ -115,8 +183,8 @@ jobs:
     secrets: inherit
 
   build-corpustext:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-corpustext.yml
     permissions:
       contents: read
@@ -127,8 +195,8 @@ jobs:
     secrets: inherit
 
   build-searxng-result-router:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-searxng-result-router.yml
     permissions:
       contents: read
@@ -148,8 +216,8 @@ jobs:
     secrets: inherit
 
   build-renderproxy:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-renderproxy.yml
     permissions:
       contents: read
@@ -160,8 +228,8 @@ jobs:
     secrets: inherit
 
   build-pagescrape:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-pagescrape.yml
     permissions:
       contents: read
@@ -172,8 +240,8 @@ jobs:
     secrets: inherit
 
   build-pagerwi:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-pagerwi.yml
     permissions:
       contents: read
@@ -184,8 +252,8 @@ jobs:
     secrets: inherit
 
   build-corpusmarkdown:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-corpusmarkdown.yml
     permissions:
       contents: read
@@ -196,8 +264,8 @@ jobs:
     secrets: inherit
 
   build-webarchivescrape:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-webarchivescrape.yml
     permissions:
       contents: read
@@ -208,8 +276,8 @@ jobs:
     secrets: inherit
 
   build-webresearchmcp:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-webresearchmcp.yml
     permissions:
       contents: read
@@ -220,8 +288,8 @@ jobs:
     secrets: inherit
 
   build-spamproxy:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-spamproxy.yml
     permissions:
       contents: read
@@ -232,8 +300,8 @@ jobs:
     secrets: inherit
 
   build-smokescreen:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-smokescreen.yml
     permissions:
       contents: read
@@ -244,8 +312,8 @@ jobs:
     secrets: inherit
 
   build-warcprox:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
+    needs: [scope, verify, e2e]
+    if: github.ref == 'refs/heads/main' && needs.scope.outputs.code == 'true'
     uses: ./.github/workflows/build-warcprox.yml
     permissions:
       contents: read

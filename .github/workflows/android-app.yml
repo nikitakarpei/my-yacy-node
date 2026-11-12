@@ -2,12 +2,17 @@ name: android-app
 
 on:
   workflow_call:
+    inputs:
+      run:
+        type: boolean
+        default: true
 
 permissions:
   contents: read
 
 jobs:
   android-app:
+    if: inputs.run
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
