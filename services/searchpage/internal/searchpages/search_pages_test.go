@@ -18,18 +18,18 @@ import (
 
 type fakeSource struct {
 	asked    *[]searchqueries.Search
-	page     searchresults.SourcePage
+	ranking  searchresults.SourceRanking
 	answered bool
 }
 
-func (s fakeSource) PageFor(
+func (s fakeSource) RankingFor(
 	_ context.Context,
 	search searchqueries.Search,
-) (searchresults.SourcePage, bool) {
+) (searchresults.SourceRanking, bool) {
 	if s.asked != nil {
 		*s.asked = append(*s.asked, search)
 	}
-	return s.page, s.answered
+	return s.ranking, s.answered
 }
 
 type prefixedResultLinks struct{}
@@ -76,10 +76,10 @@ func TestTheFrontPageShowsOnlyTheSearchBoxAndItsOperators(t *testing.T) {
 
 func TestTheResultsPageMergesTheSourcesThroughTheResultLinks(t *testing.T) {
 	handler := searchPagesWith(
-		fakeSource{answered: true, page: searchresults.SourcePage{{
+		fakeSource{answered: true, ranking: searchresults.SourceRanking{{
 			Title: "Crawled", Address: "https://www.crawled.example/", Snippet: "about yacy",
 		}}},
-		fakeSource{answered: true, page: searchresults.SourcePage{{
+		fakeSource{answered: true, ranking: searchresults.SourceRanking{{
 			Title: "Network", Address: "https://network.example/page", Snippet: "YaCy & peers",
 		}}},
 	)
@@ -123,7 +123,7 @@ func TestASearchWithoutResultsSaysSo(t *testing.T) {
 
 func TestASourceThatFailedHasANoticeAboveTheOtherResults(t *testing.T) {
 	handler := searchPagesWith(
-		fakeSource{answered: true, page: searchresults.SourcePage{{
+		fakeSource{answered: true, ranking: searchresults.SourceRanking{{
 			Title: "Crawled", Address: "https://crawled.example/",
 		}}},
 		fakeSource{answered: false},
@@ -145,14 +145,14 @@ func TestASearchWhoseSourcesAllFailedShowsOnlyTheNotices(t *testing.T) {
 	assertLacks(t, page, "No results.")
 }
 
-func TestAFullSourcePageLinksTheNextPageAndALaterPageThePreviousOne(t *testing.T) {
-	fullPage := make(searchresults.SourcePage, 0, searchresults.ResultsPerSourcePage)
-	for position := range searchresults.ResultsPerSourcePage {
-		fullPage = append(fullPage, searchresults.Result{
+func TestASourceThatFillsThePageLinksTheNextPageAndALaterPageThePreviousOne(t *testing.T) {
+	fullRanking := make(searchresults.SourceRanking, 0, searchresults.DepthOf(3))
+	for position := range searchresults.DepthOf(3) {
+		fullRanking = append(fullRanking, searchresults.Result{
 			Address: fmt.Sprintf("https://example.org/%d", position),
 		})
 	}
-	handler := searchPagesWith(fakeSource{answered: true, page: fullPage}, fakeSource{})
+	handler := searchPagesWith(fakeSource{answered: true, ranking: fullRanking}, fakeSource{})
 
 	firstPage := bodyOf(t, handler, "/search?q=!ct+yacy")
 	secondPage := bodyOf(t, handler, "/search?q=!ct+yacy&page=2")
@@ -169,7 +169,7 @@ func TestAFullSourcePageLinksTheNextPageAndALaterPageThePreviousOne(t *testing.T
 
 func TestAShortWordIsNotHighlighted(t *testing.T) {
 	handler := searchPagesWith(
-		fakeSource{answered: true, page: searchresults.SourcePage{{
+		fakeSource{answered: true, ranking: searchresults.SourceRanking{{
 			Address: "https://example.org/", Snippet: "a yacy peer",
 		}}},
 		fakeSource{answered: true},

@@ -32,6 +32,8 @@ SearXNG.
 * A word that starts with `!` and names no source that the operator sets SHALL stay a query word.
 * The service SHALL show the results of the chosen sources in one list. Without a shared
   address, the list SHALL alternate the sources by position, the crawled pages first.
+* Each page SHALL continue the list of the pages before it, so that a page SHALL NOT repeat
+  an address that an earlier page of the same search shows.
 * The list SHALL show an address that both sources give once, no lower than the higher of its
   two places in the alternating list.
 * The service SHALL show a notice for each chosen source that failed, above the results of the
@@ -39,8 +41,8 @@ SearXNG.
 * The service SHALL say that there are no results only when every chosen source answered and
   none gave a result.
 * The service SHALL show the query words in a snippet in bold.
-* The service SHALL link the next page while a chosen source gave a full page of results, and
-  the previous page after the first page.
+* The service SHALL link the next page while the list or a chosen source has results past
+  the page, up to the last page, and the previous page after the first page.
 * When the operator sets `visitcrawl`, a result that a person opens SHALL go through
   `visitcrawl` to the result page, and a person SHALL need to reach only the search page.
 * When the operator does not set `visitcrawl`, a result SHALL link straight to its page.
@@ -58,5 +60,6 @@ SearXNG.
   make the crawler visit the pages of the results.
 * A search that asks the YaCy network waits for it, up to the time that the operator sets.
 * The YaCy network gives at most the results that one ranking of `yacydhtsearch` holds.
+* A search has a fixed number of pages. A page past the last one shows no results.
 * The page shows the titles that the YaCy network gives as they are.
 * When the operator sets `visitcrawl` and it does not answer, a result link does not open.

@@ -1,6 +1,6 @@
-// Package yacysearch asks a YaCy search server for one result page of a search, over YaCy's
+// Package yacysearch asks a YaCy search server for the ranking of a search down to the depth of its page, over YaCy's
 // public yacysearch.json contract. A search that fails or gets an answer it cannot read is
-// reported to the observer and gives no page.
+// reported to the observer and gives no ranking.
 package yacysearch
 
 import (
@@ -23,7 +23,6 @@ import (
 const (
 	searchPath          = "/yacysearch.json"
 	fieldQuery          = "query"
-	fieldStartRecord    = "startRecord"
 	fieldMaximumRecords = "maximumRecords"
 	fieldLanguage       = "lr"
 	languagePrefix      = "lang_"
@@ -68,16 +67,16 @@ func New(
 	}
 }
 
-func (y *YaCySearch) PageFor(
+func (y *YaCySearch) RankingFor(
 	ctx context.Context,
 	search searchqueries.Search,
-) (searchresults.SourcePage, bool) {
+) (searchresults.SourceRanking, bool) {
 	wireForm, err := y.searchPageFor(ctx, search)
 	if err != nil {
 		y.observer.SearchFailed(ctx, err)
 		return nil, false
 	}
-	return sourcePageOf(wireForm), true
+	return sourceRankingOf(wireForm), true
 }
 
 func (y *YaCySearch) searchPageFor(
@@ -111,8 +110,7 @@ func (y *YaCySearch) searchPageFor(
 func searchFormOf(search searchqueries.Search) url.Values {
 	form := url.Values{
 		fieldQuery:          {search.Text()},
-		fieldStartRecord:    {strconv.Itoa(searchresults.OffsetOf(search.PageNumber))},
-		fieldMaximumRecords: {strconv.Itoa(searchresults.ResultsPerSourcePage)},
+		fieldMaximumRecords: {strconv.Itoa(searchresults.DepthOf(search.PageNumber))},
 	}
 	if search.Language != "" {
 		form.Set(fieldLanguage, languagePrefix+search.Language)
@@ -120,16 +118,16 @@ func searchFormOf(search searchqueries.Search) url.Values {
 	return form
 }
 
-func sourcePageOf(wireForm searchPageWireForm) searchresults.SourcePage {
-	var page searchresults.SourcePage
+func sourceRankingOf(wireForm searchPageWireForm) searchresults.SourceRanking {
+	var ranking searchresults.SourceRanking
 	for _, channel := range wireForm.Channels {
 		for _, item := range channel.Items {
-			page = append(page, searchresults.Result{
+			ranking = append(ranking, searchresults.Result{
 				Title:   item.Title,
 				Address: item.Link,
 				Snippet: item.Description,
 			})
 		}
 	}
-	return page
+	return ranking
 }

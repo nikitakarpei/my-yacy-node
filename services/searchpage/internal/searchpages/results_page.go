@@ -63,7 +63,7 @@ type resultView struct {
 }
 
 type sourceAnswer struct {
-	page     searchresults.SourcePage
+	ranking  searchresults.SourceRanking
 	answered bool
 }
 
@@ -115,8 +115,8 @@ func (p resultsPage) viewFor(
 	if !search.HasWords() {
 		return view
 	}
-	sourcePages, failedSources := p.sourcePagesFor(ctx, search)
-	page := searchresults.PageFrom(sourcePages)
+	sourceRankings, failedSources := p.sourceRankingsFor(ctx, search)
+	page := searchresults.PageFrom(sourceRankings, search.PageNumber)
 	view.Searched = true
 	view.PageNumber = search.PageNumber
 	view.Failures = failuresOf(failedSources)
@@ -136,29 +136,29 @@ func operatorViewsOf(offeredSources []searchqueries.Source) []operatorView {
 	return views
 }
 
-func (p resultsPage) sourcePagesFor(
+func (p resultsPage) sourceRankingsFor(
 	ctx context.Context,
 	search searchqueries.Search,
-) ([]searchresults.SourcePage, []searchqueries.Source) {
+) ([]searchresults.SourceRanking, []searchqueries.Source) {
 	answers := make([]sourceAnswer, len(search.Sources))
 	var asks sync.WaitGroup
 	for index, source := range search.Sources {
 		asks.Go(func() {
-			page, answered := p.sources[source].PageFor(ctx, search)
-			answers[index] = sourceAnswer{page: page, answered: answered}
+			ranking, answered := p.sources[source].RankingFor(ctx, search)
+			answers[index] = sourceAnswer{ranking: ranking, answered: answered}
 		})
 	}
 	asks.Wait()
-	sourcePages := make([]searchresults.SourcePage, 0, len(answers))
+	sourceRankings := make([]searchresults.SourceRanking, 0, len(answers))
 	var failedSources []searchqueries.Source
 	for index, answer := range answers {
 		if !answer.answered {
 			failedSources = append(failedSources, search.Sources[index])
 			continue
 		}
-		sourcePages = append(sourcePages, answer.page)
+		sourceRankings = append(sourceRankings, answer.ranking)
 	}
-	return sourcePages, failedSources
+	return sourceRankings, failedSources
 }
 
 func failuresOf(failedSources []searchqueries.Source) []string {

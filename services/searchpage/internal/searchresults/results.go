@@ -1,6 +1,7 @@
-// Package searchresults merges the result pages that the sources of one search give into the
-// page that a person sees. A result scores one over its position in each source page that holds
-// its address. The page shows each address once, the highest score first.
+// Package searchresults merges the rankings that the sources of one search give into the page
+// that a person sees. Each source ranks from its first result down to the depth of the page. A
+// result scores by reciprocal rank fusion over the sources that hold its address, and the merged
+// list shows each address once, the highest score first. A page is one cut of that list.
 package searchresults
 
 import (
@@ -8,7 +9,11 @@ import (
 	"slices"
 )
 
-const ResultsPerSourcePage = 10
+const (
+	ResultsPerPage = 10
+	lastPageNumber = 5
+	rankConstant   = 60
+)
 
 type Result struct {
 	Title   string
@@ -16,38 +21,56 @@ type Result struct {
 	Snippet string
 }
 
-type SourcePage []Result
+type SourceRanking []Result
 
 type Page struct {
 	Results     []Result
 	HasNextPage bool
 }
 
-func OffsetOf(pageNumber int) int {
-	return (pageNumber - 1) * ResultsPerSourcePage
+func DepthOf(pageNumber int) int {
+	return min(pageNumber, lastPageNumber) * ResultsPerPage
 }
 
-func PageFrom(sourcePages []SourcePage) Page {
+func PageFrom(sourceRankings []SourceRanking, pageNumber int) Page {
+	if pageNumber > lastPageNumber {
+		return Page{}
+	}
+	mergedResults := mergedFrom(sourceRankings)
+	start := min((pageNumber-1)*ResultsPerPage, len(mergedResults))
+	end := min(start+ResultsPerPage, len(mergedResults))
+	return Page{
+		Results: mergedResults[start:end],
+		HasNextPage: pageNumber < lastPageNumber &&
+			(len(mergedResults) > end || anyReaches(sourceRankings, DepthOf(pageNumber))),
+	}
+}
+
+func mergedFrom(sourceRankings []SourceRanking) []Result {
 	scores := map[string]float64{}
 	resultsByAddress := map[string]Result{}
 	var addresses []string
-	hasNextPage := false
-	for _, sourcePage := range sourcePages {
-		hasNextPage = hasNextPage || len(sourcePage) >= ResultsPerSourcePage
-		for index, result := range sourcePage {
+	for _, sourceRanking := range sourceRankings {
+		for index, result := range sourceRanking {
 			if _, seen := resultsByAddress[result.Address]; !seen {
 				resultsByAddress[result.Address] = result
 				addresses = append(addresses, result.Address)
 			}
-			scores[result.Address] += 1 / float64(index+1)
+			scores[result.Address] += 1 / float64(rankConstant+index+1)
 		}
 	}
 	slices.SortStableFunc(addresses, func(first, second string) int {
 		return cmp.Compare(scores[second], scores[first])
 	})
-	results := make([]Result, 0, len(addresses))
+	mergedResults := make([]Result, 0, len(addresses))
 	for _, address := range addresses {
-		results = append(results, resultsByAddress[address])
+		mergedResults = append(mergedResults, resultsByAddress[address])
 	}
-	return Page{Results: results, HasNextPage: hasNextPage}
+	return mergedResults
+}
+
+func anyReaches(sourceRankings []SourceRanking, depth int) bool {
+	return slices.ContainsFunc(sourceRankings, func(sourceRanking SourceRanking) bool {
+		return len(sourceRanking) >= depth
+	})
 }

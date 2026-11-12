@@ -1,6 +1,6 @@
-// Package corpustext asks corpustext for one result page of a search, over the HTTP search of
+// Package corpustext asks corpustext for the ranking of a search down to the depth of its page, over the HTTP search of
 // its contract. A search that fails or gets an answer it cannot read is reported to the
-// observer and gives no page.
+// observer and gives no ranking.
 package corpustext
 
 import (
@@ -51,16 +51,16 @@ func New(
 	}
 }
 
-func (c *CorpusText) PageFor(
+func (c *CorpusText) RankingFor(
 	ctx context.Context,
 	search searchqueries.Search,
-) (searchresults.SourcePage, bool) {
+) (searchresults.SourceRanking, bool) {
 	matches, err := c.matchesFor(ctx, search)
 	if err != nil {
 		c.observer.SearchFailed(ctx, err)
 		return nil, false
 	}
-	return sourcePageOf(matches), true
+	return sourceRankingOf(matches), true
 }
 
 func (c *CorpusText) matchesFor(
@@ -95,19 +95,18 @@ func searchFormOf(search searchqueries.Search) url.Values {
 	return url.Values{
 		searchdocument.SearchQueryParam: {search.Text()},
 		searchdocument.LanguageParam:    {search.Language},
-		searchdocument.OffsetParam:      {strconv.Itoa(searchresults.OffsetOf(search.PageNumber))},
-		searchdocument.LimitParam:       {strconv.Itoa(searchresults.ResultsPerSourcePage)},
+		searchdocument.LimitParam:       {strconv.Itoa(searchresults.DepthOf(search.PageNumber))},
 	}
 }
 
-func sourcePageOf(matches searchdocument.PageMatches) searchresults.SourcePage {
-	page := make(searchresults.SourcePage, 0, len(matches.Matches))
+func sourceRankingOf(matches searchdocument.PageMatches) searchresults.SourceRanking {
+	ranking := make(searchresults.SourceRanking, 0, len(matches.Matches))
 	for _, match := range matches.Matches {
-		page = append(page, searchresults.Result{
+		ranking = append(ranking, searchresults.Result{
 			Title:   match.Title,
 			Address: match.URL,
 			Snippet: match.Snippet,
 		})
 	}
-	return page
+	return ranking
 }
