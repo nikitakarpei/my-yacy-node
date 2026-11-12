@@ -7,7 +7,7 @@ try the peer before you compose its services yourself.
 ## Run
 
 Download the binary for your system from the
-[yacypeer-latest release](https://github.com/nikitakarpei/my-yacy-node/releases/tag/yacypeer-latest).
+[latest release](https://github.com/nikitakarpei/my-yacy-node/releases/latest).
 On Linux and macOS, make it executable. Then start it in the directory that keeps
 the peer data:
 

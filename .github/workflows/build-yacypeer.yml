@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 env:
-  RELEASE_TAG: yacypeer-latest
+  RELEASES_KEPT: 3
 
 jobs:
   build:
@@ -71,6 +71,9 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      group: yacypeer-release
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:
@@ -80,16 +83,27 @@ jobs:
           path: out
           merge-multiple: true
 
-      - name: Replace the release
+      - name: Publish the release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          if gh release view "$RELEASE_TAG" >/dev/null; then
-            gh release delete "$RELEASE_TAG" --cleanup-tag --yes
-          fi
-          gh release create "$RELEASE_TAG" out/* \
+          tag="yacypeer-${GITHUB_SHA:0:12}"
+          gh release create "$tag" out/* \
+            --draft \
             --target "$GITHUB_SHA" \
-            --title "yacypeer latest" \
-            --notes "yacypeer built from $GITHUB_SHA." \
-            --prerelease
+            --title "$tag" \
+            --notes "yacypeer built from $GITHUB_SHA."
+          gh release edit "$tag" --draft=false --latest
+
+      - name: Delete older releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release list --limit 1000 --json tagName,isDraft,createdAt \
+            --jq "[.[] | select((.tagName | startswith(\"yacypeer-\")) and (.isDraft | not))]
+              | sort_by(.createdAt) | reverse | .[$RELEASES_KEPT:][] | .tagName" |
+            while read -r tag; do
+              gh release delete "$tag" --cleanup-tag --yes
+            done
