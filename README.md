@@ -14,45 +14,38 @@ small, single-purpose Go services.
 
 ## Why it exists
 
-I, the author of this project, got very passionate when I learned about the
-existence of a peer-to-peer search engine, but was left unsatisfied when I tried
-it, due to several problems such as high memory consumption, poor quality of
-search results and security weaknesses of the protocol.
-
-In the spring of 2026 I decided to leave my job to take a rest and finally spend
-some time building what *I* want. So I started this experimental project with
-the hope of making something that other people would find useful, and that would
-make peer-to-peer search engines more popular.
+I learned about YaCy from some Hacker News thread and got very passionate about
+the idea of a peer-to-peer search engine. When I ran a peer myself, I found
+issues with memory consumption, quality of search results and security of its
+peer-to-peer protocol. So I started this experimental project to try to fix
+them, and to help make peer-to-peer search useful to more people.
 
 ## What is achieved so far
 
 Compared to the Java implementation, this one:
 
-- prevents peers from claiming the identity of another peer by tying each
-  identity to a
-  [locally generated private key](libraries/yacymodel/doc/adr/0001-derive-the-peer-hash-from-keys-behind-a-work-puzzle.md).
-- enforces [HTTPS](services/yacynode/doc/adr/0024-serve-http-and-tls-on-one-peer-port.md)
-  between peers running this implementation, keeping HTTP for compatibility
-  with Java peers.
-- prevents man-in-the-middle (MITM) attacks by accepting only TLS certificates
-  that are [endorsed by the peer's key](libraries/yacymodel/doc/adr/0005-bind-tls-keys-to-the-peer-identity.md).
-- improves relevance of search results by adopting new relevance signals and
-  by training a [classifier](services/spamproxy/doc/specification.md) that
-  hides spam and harmful pages.
-- improves search time by tracking the response time of peers and by using
-  heuristics like hedged requests and response header timeouts to switch to
-  other peers faster.
+- stops peers from [claiming the identity of another peer][identity].
+- requires encrypted traffic between its own peers and [binds TLS to the
+  peer's key][tls], which blocks man-in-the-middle attacks.
+- hides spam and harmful pages from search results with a [trained
+  classifier][spam].
+- answers searches faster by doing more work in parallel and waiting less
+  for slow peers.
+
+[identity]: libraries/yacymodel/doc/adr/0001-derive-the-peer-hash-from-keys-behind-a-work-puzzle.md
+[tls]: libraries/yacymodel/doc/adr/0005-bind-tls-keys-to-the-peer-identity.md
+[spam]: services/spamproxy/doc/specification.md
 
 ## What is planned
 
 Next, this one will:
 
-- prove to other peers that the index holds what the origin served, unmodified,
-  by building it on an
-  [Android companion app](distributions/yacypeercompanion/README.md) that signs
-  the fetched pages with hardware keys.
+- prove to other peers that its index holds the pages as the origin served
+  them, using pages signed by an [Android companion app][companion].
 - make censorship harder by stopping peers from choosing their own position on
   the DHT ring.
+
+[companion]: distributions/yacypeercompanion/README.md
 
 ## How to get started
 
