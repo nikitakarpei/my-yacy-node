@@ -1,0 +1,11 @@
+--- a/pkg/smokescreen/smokescreen.go
++++ b/pkg/smokescreen/smokescreen.go
+@@ -1134,7 +1134,7 @@
+ 
+ 	graceful := true
+ 	kill := make(chan os.Signal, 1)
+-	signal.Notify(kill, syscall.SIGUSR2, syscall.SIGTERM, syscall.SIGHUP)
++	signal.Notify(kill, syscall.SIGTERM, syscall.SIGHUP)
+ 	go func() {
+ 		select {
+ 		case <-kill:

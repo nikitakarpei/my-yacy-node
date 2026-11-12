@@ -16,9 +16,9 @@ cross-compile for amd64 and arm64.
 ## Decision
 
 - `tools/tools.lock` pins `zig`, and `tools/install zig` fetches only Zig.
-- The images of `yacypeer`, `yacynode`, and `yacycrawler` build their Pebble binary with cgo
-  and `zig cc` for the musl target of the image, as a static binary with the `netgo` and
-  `osusergo` tags.
+- The images of `yacynode` and `yacycrawler`, and the Linux binaries of `yacypeer`, build
+  with cgo and `zig cc` for the musl target, as a static binary with the `netgo` and
+  `osusergo` tags. The macOS and Windows binaries of `yacypeer` build without cgo.
 - The other images keep `CGO_ENABLED=0`.
 
 ## Consequences

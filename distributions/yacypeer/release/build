@@ -1,0 +1,53 @@
+#!/bin/sh
+# Build the yacypeer binary for one platform: release/build <goos> <goarch> <output>.
+# Linux builds a static binary with cgo through the pinned Zig, so Pebble keeps
+# its memory outside the Go heap. Darwin and Windows build without cgo. Windows
+# builds against smokescreen with smokescreen-on-windows.patch applied.
+set -eu
+
+goos=$1
+goarch=$2
+case "$3" in
+	/*) output=$3 ;;
+	*) output=$PWD/$3 ;;
+esac
+
+release=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+distribution=$(dirname -- "$release")
+root=$(CDPATH= cd -- "$distribution/../.." && pwd)
+work=$(mktemp -d)
+trap 'chmod -R u+w "$work"; rm -rf "$work"' EXIT
+
+cd "$distribution"
+export GOWORK=off GOFLAGS=-trimpath GOOS="$goos" GOARCH="$goarch"
+set -- -o "$output"
+
+case "$goos" in
+	linux)
+		case "$goarch" in
+			amd64) zig_target=x86_64-linux-musl ;;
+			arm64) zig_target=aarch64-linux-musl ;;
+			*) echo "no Zig target for linux/$goarch" >&2; exit 1 ;;
+		esac
+		export CGO_ENABLED=1 CC="$root/.toolchain/bin/zig cc -target $zig_target"
+		set -- "$@" -tags netgo,osusergo -ldflags="-s -w -linkmode external -extldflags -static"
+		;;
+	darwin)
+		export CGO_ENABLED=0
+		set -- "$@" -ldflags="-s -w"
+		;;
+	windows)
+		export CGO_ENABLED=0
+		smokescreen=$(go list -m -f '{{.Dir}}' github.com/stripe/smokescreen)
+		cp -R "$smokescreen" "$work/smokescreen"
+		chmod -R u+w "$work/smokescreen"
+		patch -s -d "$work/smokescreen" -p1 <"$release/smokescreen-on-windows.patch"
+		cp go.mod "$work/go.mod"
+		cp go.sum "$work/go.sum"
+		go mod edit -replace "github.com/stripe/smokescreen=$work/smokescreen" "$work/go.mod"
+		set -- "$@" -modfile "$work/go.mod" -ldflags="-s -w"
+		;;
+	*) echo "no build for $goos" >&2; exit 1 ;;
+esac
+
+go build "$@" ./cmd/yacypeer

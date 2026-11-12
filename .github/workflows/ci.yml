@@ -36,8 +36,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-yacypeer.yml
     permissions:
-      contents: read
-      packages: write
+      contents: write
       id-token: write
       attestations: write
       artifact-metadata: write
