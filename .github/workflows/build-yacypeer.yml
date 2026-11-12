@@ -101,6 +101,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
+          set -o pipefail
           gh release list --limit 1000 --json tagName,isDraft,createdAt \
             --jq "[.[] | select((.tagName | startswith(\"yacypeer-\")) and (.isDraft | not))]
               | sort_by(.createdAt) | reverse | .[$RELEASES_KEPT:][] | .tagName" |
