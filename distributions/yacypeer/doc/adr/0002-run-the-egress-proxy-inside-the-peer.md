@@ -21,3 +21,4 @@ unless the operator names an egress proxy.
 * The peer needs no egress proxy outside it, but can use one that the operator names.
 * Nothing outside the host can send requests through the built-in proxy.
 * The binary is larger.
+* smokescreen does not build for Windows. The Windows binary builds with a patch to it.

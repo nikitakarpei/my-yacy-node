@@ -6,22 +6,22 @@ try the peer before you compose its services yourself.
 
 ## Run
 
-Install Docker or Podman. Then run the command below. With Podman, write `podman`
-for `docker`.
+Download the binary for your system from the
+[yacypeer-latest release](https://github.com/nikitakarpei/my-yacy-node/releases/tag/yacypeer-latest).
+On Linux and macOS, make it executable. Then start it in the directory that keeps
+the peer data:
 
 ```sh
-docker run -d --name yacypeer --restart unless-stopped \
-  -p 8090:8090 -p 127.0.0.1:9090:9090 \
-  -v yacypeer:/var/lib/yacypeer \
-  ghcr.io/nikitakarpei/my-yacy-node/yacypeer:latest
+chmod +x yacypeer-linux-amd64
+./yacypeer-linux-amd64
 ```
 
 Other peers must reach port 8090 of the host from the internet. Behind NAT,
 forward this port to the host. The port carries HTTP and TLS between peers.
 
 The first start searches the peer key for one minute. The key is in `peer.key`
-of the volume. Keep a copy of this file: the peer hash and the data of the peer
-belong to the key.
+of the `data` directory. Keep a copy of this file: the peer hash and the data of
+the peer belong to the key.
 
 ## Use
 
