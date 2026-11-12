@@ -38,6 +38,7 @@ case "$goos" in
 		;;
 	windows)
 		export CGO_ENABLED=0
+		go mod download github.com/stripe/smokescreen
 		smokescreen=$(go list -m -f '{{.Dir}}' github.com/stripe/smokescreen)
 		cp -R "$smokescreen" "$work/smokescreen"
 		chmod -R u+w "$work/smokescreen"
