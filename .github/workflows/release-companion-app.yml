@@ -80,4 +80,4 @@ jobs:
           gh release create "$TAG" --draft --verify-tag --title "$TAG" \
             --notes "YaCy Companion, built and signed by the release workflow from the tagged commit." \
             "release/$TAG.apk" "release/$TAG-unsigned.apk"
-          gh release edit "$TAG" --draft=false
+          gh release edit "$TAG" --draft=false --latest=false
