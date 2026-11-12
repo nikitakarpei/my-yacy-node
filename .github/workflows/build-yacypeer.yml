@@ -37,6 +37,7 @@ jobs:
           path: |
             .toolchain/bin
             .toolchain/go
+            .toolchain/zig
             .toolchain/activate
           key: toolchain-go-zig-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
 
