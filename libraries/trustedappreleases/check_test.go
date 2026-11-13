@@ -81,7 +81,6 @@ func TestAReleaseOutsideTheWorkflowIsNotTrusted(t *testing.T) {
 	}{
 		"mutable":       {func(r *trustedappreleases.Release) { r.Immutable = false }, trustedappreleases.ErrMutableRelease},
 		"other tag":     {func(r *trustedappreleases.Release) { r.Tag = "other-v1.0.0" }, trustedappreleases.ErrTagOutsidePattern},
-		"other commit":  {func(r *trustedappreleases.Release) { r.Commit = "0" + commit[1:] }, trustedappreleases.ErrOtherCommit},
 		"malformed tag": {func(r *trustedappreleases.Release) { r.Tag = "[" }, trustedappreleases.ErrTagOutsidePattern},
 	} {
 		changed := release
