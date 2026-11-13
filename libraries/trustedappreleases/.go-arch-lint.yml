@@ -1,0 +1,26 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  trustedappreleases:
+    in: .
+  provenanceverifierssigstore:
+    in: provenanceverifiers/sigstore/**
+
+vendors:
+  sigstore:
+    in: github.com/sigstore/sigstore-go/**
+
+deps:
+  provenanceverifierssigstore:
+    mayDependOn:
+      - trustedappreleases
+    canUse:
+      - sigstore
+
+excludeFiles:
+  - "_test\\.go"
