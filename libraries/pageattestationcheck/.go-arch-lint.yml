@@ -10,8 +10,8 @@ components:
     in: .
   pageattestationchecktest:
     in: pageattestationchecktest/**
-  trustsourceshttp:
-    in: trustsources/http/**
+  androidtrustsourceshttp:
+    in: androidtrustsources/http/**
   renewalobserversapplog:
     in: renewalobservers/applog/**
 
@@ -47,7 +47,7 @@ deps:
       - verifier
       - timestamp
 
-  trustsourceshttp:
+  androidtrustsourceshttp:
     canUse:
       - verifier
 

@@ -3,5 +3,5 @@ package pageattestationcheck
 import "context"
 
 type RenewalObserver interface {
-	TrustUnloaded(ctx context.Context, cause error)
+	AndroidTrustUnloaded(ctx context.Context, cause error)
 }

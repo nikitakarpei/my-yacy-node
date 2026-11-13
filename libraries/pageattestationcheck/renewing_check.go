@@ -15,15 +15,15 @@ import (
 
 const renewalInterval = time.Hour
 
-var ErrNoDeviceTrust = errors.New("the revocation list of attestation keys is not loaded")
+var ErrNoAndroidTrust = errors.New("the Android trust is not loaded")
 
 type Clock interface {
 	Now() time.Time
 	Sleep(ctx context.Context, d time.Duration) error
 }
 
-type TrustSource interface {
-	Trust(ctx context.Context) (*android.Trust, error)
+type AndroidTrustSource interface {
+	Latest(ctx context.Context) (*android.Trust, error)
 }
 
 type TrustedReleases interface {
@@ -32,34 +32,30 @@ type TrustedReleases interface {
 }
 
 type RenewingCheck struct {
-	current     atomic.Pointer[Check]
-	trust       *android.Trust
-	policy      Policy
-	releases    TrustedReleases
-	trustSource TrustSource
-	clock       Clock
-	observer    RenewalObserver
-}
-
-type RenewalSources struct {
-	Releases TrustedReleases
-	Trust    TrustSource
+	current            atomic.Pointer[Check]
+	androidTrust       *android.Trust
+	policy             Policy
+	releases           TrustedReleases
+	androidTrustSource AndroidTrustSource
+	clock              Clock
+	observer           RenewalObserver
 }
 
 func NewRenewingCheck(
 	policy Policy,
-	sources RenewalSources,
+	releases TrustedReleases,
+	androidTrustSource AndroidTrustSource,
 	clock Clock,
 	observer RenewalObserver,
 ) *RenewingCheck {
 	check := &RenewingCheck{
-		policy:      policy,
-		releases:    sources.Releases,
-		trustSource: sources.Trust,
-		clock:       clock,
-		observer:    observer,
+		policy:             policy,
+		releases:           releases,
+		androidTrustSource: androidTrustSource,
+		clock:              clock,
+		observer:           observer,
 	}
-	check.current.Store(&Check{reason: ErrNoDeviceTrust})
+	check.current.Store(&Check{reason: ErrNoAndroidTrust})
 
 	return check
 }
@@ -75,29 +71,29 @@ func (c *RenewingCheck) Run(ctx context.Context) {
 
 func (c *RenewingCheck) renew(ctx context.Context) {
 	now := c.clock.Now()
-	c.loadTrust(ctx)
+	c.loadAndroidTrust(ctx)
 	c.releases.Refresh(ctx, now)
 	renewed := c.checkAt(now)
 	c.current.Store(&renewed)
 }
 
-func (c *RenewingCheck) loadTrust(ctx context.Context) {
-	trust, err := c.trustSource.Trust(ctx)
+func (c *RenewingCheck) loadAndroidTrust(ctx context.Context) {
+	androidTrust, err := c.androidTrustSource.Latest(ctx)
 	if err != nil {
-		c.observer.TrustUnloaded(ctx, err)
+		c.observer.AndroidTrustUnloaded(ctx, err)
 
 		return
 	}
-	c.trust = trust
+	c.androidTrust = androidTrust
 }
 
 func (c *RenewingCheck) checkAt(now time.Time) Check {
-	if c.trust == nil {
-		return Check{reason: ErrNoDeviceTrust}
+	if c.androidTrust == nil {
+		return Check{reason: ErrNoAndroidTrust}
 	}
 	releases, refreshedAt := c.releases.Current()
 
-	return c.policy.CheckFor(releases, refreshedAt, c.trust, now)
+	return c.policy.CheckFor(releases, refreshedAt, c.androidTrust, now)
 }
 
 func (c *RenewingCheck) VerdictOn(

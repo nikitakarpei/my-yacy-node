@@ -6,10 +6,10 @@ import (
 	"log/slog"
 )
 
-const msgTrustUnloaded = "revocation list of attestation keys not loaded"
+const msgAndroidTrustUnloaded = "Android trust not loaded"
 
 type RenewalLog struct{}
 
-func (RenewalLog) TrustUnloaded(ctx context.Context, cause error) {
-	slog.WarnContext(ctx, msgTrustUnloaded, slog.Any("error", cause))
+func (RenewalLog) AndroidTrustUnloaded(ctx context.Context, cause error) {
+	slog.WarnContext(ctx, msgAndroidTrustUnloaded, slog.Any("error", cause))
 }
