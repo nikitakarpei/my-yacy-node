@@ -144,7 +144,7 @@ func (r *TrustedReleases) cachedRefresh() CachedRefresh {
 func (r *TrustedReleases) Releases() []TrustedRelease {
 	releases := make([]TrustedRelease, 0, len(r.trusted))
 	for _, release := range r.trusted {
-		release.EndTime = endTimeOf(release.SigningCertificate, r.denials)
+		release.DeniedFrom = deniedFromOf(release.SigningCertificate, r.denials)
 		releases = append(releases, release)
 	}
 	slices.SortFunc(releases, byTag)
@@ -156,16 +156,16 @@ func byTag(a, b TrustedRelease) int {
 	return cmp.Compare(a.Tag, b.Tag)
 }
 
-func endTimeOf(signingCertificate string, denials []Denial) time.Time {
-	var endTime time.Time
+func deniedFromOf(signingCertificate string, denials []Denial) time.Time {
+	var deniedFrom time.Time
 	for _, denial := range denials {
 		if denial.SigningCertificate == signingCertificate &&
-			(endTime.IsZero() || denial.EndTime.Before(endTime)) {
-			endTime = denial.EndTime
+			(deniedFrom.IsZero() || denial.DeniedFrom.Before(deniedFrom)) {
+			deniedFrom = denial.DeniedFrom
 		}
 	}
 
-	return endTime
+	return deniedFrom
 }
 
 func (r *TrustedReleases) DenialsReadAt() time.Time {
