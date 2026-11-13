@@ -10,6 +10,10 @@ components:
     in: .
   pageattestationchecktest:
     in: pageattestationchecktest/**
+  trustsourceshttp:
+    in: trustsources/http/**
+  renewalobserversapplog:
+    in: renewalobservers/applog/**
 
 vendors:
   attestedstatements:
@@ -42,6 +46,10 @@ deps:
       - pagerwicontract
       - verifier
       - timestamp
+
+  trustsourceshttp:
+    canUse:
+      - verifier
 
 excludeFiles:
   - "_test\\.go"
