@@ -59,17 +59,22 @@ func untrusted(reason error) Verdict {
 }
 
 func (w ReleaseWorkflow) reasonAgainstRelease(release Release) error {
-	matched, err := path.Match(w.TagPattern, release.Tag)
 	switch {
 	case !release.Immutable:
 		return ErrMutableRelease
 	case !release.OnReleaseBranch:
 		return ErrOffReleaseBranch
-	case err != nil || !matched:
+	case !w.Covers(release.Tag):
 		return ErrTagOutsidePattern
 	default:
 		return nil
 	}
+}
+
+func (w ReleaseWorkflow) Covers(tag string) bool {
+	matched, err := path.Match(w.TagPattern, tag)
+
+	return err == nil && matched
 }
 
 func (w ReleaseWorkflow) reasonAgainstProvenance(provenance Provenance, release Release) error {

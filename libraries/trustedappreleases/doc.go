@@ -2,5 +2,6 @@
 // is trusted when it is immutable, its tag matches the release workflow, the commit of its tag
 // is on the release branch, and the verified provenance of its release record names that
 // workflow of that repository at that tag and its commit. A trusted release gives the signing
-// certificate and the versionCode of the app.
+// certificate and the versionCode of the app. No two trusted releases share a signing
+// certificate.
 package trustedappreleases

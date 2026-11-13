@@ -13,6 +13,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 )
@@ -71,7 +72,7 @@ func New(client *http.Client, apiAddress, repositoryID, releaseBranch string) So
 	}
 }
 
-func (s Source) Tags(ctx context.Context) ([]string, error) {
+func (s Source) TagsOldestFirst(ctx context.Context) ([]string, error) {
 	var releases []publishedRelease
 	if err := s.decodeAnswer(
 		ctx,
@@ -81,7 +82,7 @@ func (s Source) Tags(ctx context.Context) ([]string, error) {
 		return nil, err
 	}
 	tags := make([]string, 0, len(releases))
-	for _, release := range releases {
+	for _, release := range slices.Backward(releases) {
 		tags = append(tags, release.TagName)
 	}
 
