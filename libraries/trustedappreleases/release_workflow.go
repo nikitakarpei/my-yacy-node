@@ -13,6 +13,7 @@ const (
 
 var (
 	ErrMutableRelease    = errors.New("the release is not immutable")
+	ErrOffReleaseBranch  = errors.New("the commit of the tag is not on the release branch")
 	ErrTagOutsidePattern = errors.New(
 		"the tag does not match the tag pattern of the release workflow",
 	)
@@ -62,6 +63,8 @@ func (w ReleaseWorkflow) reasonAgainstRelease(release Release) error {
 	switch {
 	case !release.Immutable:
 		return ErrMutableRelease
+	case !release.OnReleaseBranch:
+		return ErrOffReleaseBranch
 	case err != nil || !matched:
 		return ErrTagOutsidePattern
 	default:
