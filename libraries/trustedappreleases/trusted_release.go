@@ -26,10 +26,7 @@ func trustedReleaseFrom(tag string, record []byte) (TrustedRelease, error) {
 	if err := json.Unmarshal(record, &parsed); err != nil {
 		return TrustedRelease{}, fmt.Errorf("%w: %w", ErrMalformedRecord, err)
 	}
-	digest, err := hex.DecodeString(parsed.SigningCertificate)
-	if err != nil || len(digest) != sha256.Size ||
-		hex.EncodeToString(digest) != parsed.SigningCertificate ||
-		parsed.VersionCode <= 0 {
+	if !isSigningCertificate(parsed.SigningCertificate) || parsed.VersionCode <= 0 {
 		return TrustedRelease{}, ErrMalformedRecord
 	}
 
@@ -38,4 +35,11 @@ func trustedReleaseFrom(tag string, record []byte) (TrustedRelease, error) {
 		SigningCertificate: parsed.SigningCertificate,
 		VersionCode:        parsed.VersionCode,
 	}, nil
+}
+
+func isSigningCertificate(signingCertificate string) bool {
+	digest, err := hex.DecodeString(signingCertificate)
+
+	return err == nil && len(digest) == sha256.Size &&
+		hex.EncodeToString(digest) == signingCertificate
 }
