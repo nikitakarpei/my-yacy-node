@@ -19,6 +19,7 @@ const (
 	tag          = "app-v1.0.0"
 	commit       = "ada4d0e13a718d97ee957b8516a5f685d9816061"
 	tagObject    = "5b3ec2f3bd4457d769f7ee6dc8591841e3099c67"
+	branch       = "main"
 	record       = `{"signingCertificate":"aa","versionCode":1}`
 	signedBundle = `{"mediaType":"application/vnd.dev.sigstore.bundle.v0.3+json"}`
 )
@@ -49,8 +50,14 @@ func newRepository(t *testing.T) *repository {
 	repo.answers["/download/release-record.json"] = record
 	repo.answers["/download/release-record.sigstore.json"] = signedBundle
 	repo.pointTagTo("commit", commit)
+	repo.compareWithBranch("behind")
 
 	return repo
+}
+
+func (r *repository) compareWithBranch(status string) {
+	r.answers["/repositories/"+repositoryID+"/compare/"+branch+"..."+commit+"?per_page=1"] =
+		`{"status":"` + status + `"}`
 }
 
 func (r *repository) pointTagTo(objectType, sha string) {
@@ -59,7 +66,7 @@ func (r *repository) pointTagTo(objectType, sha string) {
 }
 
 func (r *repository) source() github.Source {
-	return github.New(r.server.Client(), r.server.URL, repositoryID)
+	return github.New(r.server.Client(), r.server.URL, repositoryID, branch)
 }
 
 func TestTheTagsAreThoseOfTheListedReleasesOldestFirst(t *testing.T) {
@@ -97,6 +104,28 @@ func TestAReleaseOfAnAnnotatedTagHasTheCommitOfTheTagObject(t *testing.T) {
 	}
 
 	assertRelease(t, release)
+}
+
+func TestAReleaseIsOnTheReleaseBranchWhenTheBranchHoldsItsCommit(t *testing.T) {
+	for status, onReleaseBranch := range map[string]bool{
+		"identical": true,
+		"behind":    true,
+		"ahead":     false,
+		"diverged":  false,
+	} {
+		repo := newRepository(t)
+		repo.compareWithBranch(status)
+
+		release, err := repo.source().ReleaseOf(t.Context(), tag)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if release.OnReleaseBranch != onReleaseBranch {
+			t.Errorf("%s: on release branch = %v, want %v",
+				status, release.OnReleaseBranch, onReleaseBranch)
+		}
+	}
 }
 
 func TestATagOfATreeGivesNoRelease(t *testing.T) {
@@ -167,6 +196,7 @@ func TestAnUnreachableGitHubGivesNoTags(t *testing.T) {
 func assertRelease(t *testing.T, release trustedappreleases.Release) {
 	t.Helper()
 	if release.Tag != tag || release.Commit != commit || !release.Immutable ||
+		!release.OnReleaseBranch ||
 		!bytes.Equal(
 			release.Record,
 			[]byte(record),

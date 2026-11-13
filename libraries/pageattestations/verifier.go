@@ -21,9 +21,9 @@ import (
 )
 
 const (
-	drandChain            = "quicknet"
-	maxTrustedReleasesAge = 48 * time.Hour
-	renewalInterval       = time.Hour
+	drandChain           = "quicknet"
+	maxReleaseDenialsAge = 48 * time.Hour
+	renewalInterval      = time.Hour
 )
 
 var (
@@ -33,9 +33,9 @@ var (
 	ErrHashOfOtherAddress = errors.New(
 		"the URL hash of the row is not the hash of its address",
 	)
-	ErrNoTrustedReleases    = errors.New("no app release is trusted")
-	ErrStaleTrustedReleases = errors.New(
-		"the trusted app releases are older than their maximum age",
+	ErrNoTrustedReleases   = errors.New("no app release is trusted")
+	ErrStaleReleaseDenials = errors.New(
+		"the release denials are older than their maximum age",
 	)
 	ErrNoAndroidTrust = errors.New("the Android trust is not loaded")
 )
@@ -52,7 +52,7 @@ type AndroidTrustSource interface {
 type TrustedReleases interface {
 	Refresh(ctx context.Context, now time.Time)
 	Releases() []trustedappreleases.TrustedRelease
-	RefreshedAt() time.Time
+	DenialsReadAt() time.Time
 }
 
 type Verifier struct {
@@ -117,15 +117,15 @@ func (v *Verifier) loadAndroidTrust(ctx context.Context) {
 }
 
 func (v *Verifier) statementVerifierAt(now time.Time) (*verifier.Verifier, error) {
-	releases, refreshedAt := v.trustedReleases.Releases(), v.trustedReleases.RefreshedAt()
+	releases, denialsReadAt := v.trustedReleases.Releases(), v.trustedReleases.DenialsReadAt()
 	switch {
 	case v.androidTrust == nil:
 		return nil, ErrNoAndroidTrust
 	case len(releases) == 0:
 		return nil, ErrNoTrustedReleases
-	case now.Sub(refreshedAt) > maxTrustedReleasesAge:
+	case now.Sub(denialsReadAt) > maxReleaseDenialsAge:
 		return nil, fmt.Errorf(
-			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
+			"%w: read at %s", ErrStaleReleaseDenials, denialsReadAt.Format(time.RFC3339),
 		)
 	}
 	statementVerifier, err := verifier.New(

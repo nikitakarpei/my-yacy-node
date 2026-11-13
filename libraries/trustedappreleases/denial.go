@@ -5,10 +5,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 )
 
-var ErrMalformedDenials = errors.New("the release denials are malformed")
+var (
+	ErrMalformedDenials = errors.New("the release denials are malformed")
+	earliestEndTime     = time.Unix(1, 0)
+)
 
 type DenialSource interface {
 	Denials(ctx context.Context) ([]Denial, error)
@@ -24,11 +28,17 @@ func DenialsFrom(content []byte) ([]Denial, error) {
 	if err := json.Unmarshal(content, &denials); err != nil {
 		return nil, fmt.Errorf("%w: %w", ErrMalformedDenials, err)
 	}
-	for _, denial := range denials {
-		if !isSigningCertificate(denial.SigningCertificate) || denial.EndTime.IsZero() {
+	for i, denial := range denials {
+		denials[i].SigningCertificate = signingCertificateFrom(denial.SigningCertificate)
+		if !isSigningCertificate(denials[i].SigningCertificate) ||
+			denial.EndTime.Before(earliestEndTime) {
 			return nil, fmt.Errorf("%w: %+v", ErrMalformedDenials, denial)
 		}
 	}
 
 	return denials, nil
+}
+
+func signingCertificateFrom(writtenDigest string) string {
+	return strings.ToLower(strings.ReplaceAll(writtenDigest, ":", ""))
 }

@@ -131,11 +131,11 @@ func TestARenewalThatCannotLoadTheAndroidTrustTakesTheRefreshedReleases(t *testi
 	}
 }
 
-func TestReleasesThatFailToRefreshForTwoDaysAttestNoRow(t *testing.T) {
+func TestDenialsUnreadForTwoDaysAttestNoRow(t *testing.T) {
 	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 	renewal.start(t)
-	renewal.trustedReleases.failRefreshes()
+	renewal.trustedReleases.failDenialReads()
 
 	renewal.clock.advanceBy(49 * time.Hour)
 	renewal.clock.wake()
@@ -144,9 +144,9 @@ func TestReleasesThatFailToRefreshForTwoDaysAttestNoRow(t *testing.T) {
 	if verdict := renewal.verdictOn(t, row, renewal.attestationOf(t, row)); verdict.Attested {
 		t.Errorf("verdict = %+v, want not attested", verdict)
 	}
-	if !errors.Is(renewal.observer.noSignerReason(), pageattestations.ErrStaleTrustedReleases) {
+	if !errors.Is(renewal.observer.noSignerReason(), pageattestations.ErrStaleReleaseDenials) {
 		t.Errorf("no signer reason = %v, want %v",
-			renewal.observer.noSignerReason(), pageattestations.ErrStaleTrustedReleases)
+			renewal.observer.noSignerReason(), pageattestations.ErrStaleReleaseDenials)
 	}
 }
 
@@ -272,11 +272,11 @@ func (c *fakeClock) wake() {
 }
 
 type fakeTrustedReleases struct {
-	guard       sync.Mutex
-	releases    []trustedappreleases.TrustedRelease
-	refreshes   []time.Time
-	refreshedAt time.Time
-	failing     bool
+	guard         sync.Mutex
+	releases      []trustedappreleases.TrustedRelease
+	refreshes     []time.Time
+	denialsReadAt time.Time
+	denialsUnread bool
 }
 
 func (r *fakeTrustedReleases) Refresh(_ context.Context, now time.Time) {
@@ -284,8 +284,8 @@ func (r *fakeTrustedReleases) Refresh(_ context.Context, now time.Time) {
 	defer r.guard.Unlock()
 
 	r.refreshes = append(r.refreshes, now)
-	if !r.failing {
-		r.refreshedAt = now
+	if !r.denialsUnread {
+		r.denialsReadAt = now
 	}
 }
 
@@ -296,26 +296,26 @@ func (r *fakeTrustedReleases) Releases() []trustedappreleases.TrustedRelease {
 	return r.releases
 }
 
-func (r *fakeTrustedReleases) RefreshedAt() time.Time {
+func (r *fakeTrustedReleases) DenialsReadAt() time.Time {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 
-	return r.refreshedAt
+	return r.denialsReadAt
 }
 
-func (r *fakeTrustedReleases) failRefreshes() {
+func (r *fakeTrustedReleases) failDenialReads() {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 
-	r.failing = true
+	r.denialsUnread = true
 }
 
-func (r *fakeTrustedReleases) failRefreshesSince(age time.Duration) {
+func (r *fakeTrustedReleases) failDenialReadsSince(age time.Duration) {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 
-	r.failing = true
-	r.refreshedAt = renewalEpoch.Add(-age)
+	r.denialsUnread = true
+	r.denialsReadAt = renewalEpoch.Add(-age)
 }
 
 func (r *fakeTrustedReleases) set(releases []trustedappreleases.TrustedRelease) {

@@ -152,10 +152,10 @@ func (s setup) verifierFor(
 ) *renewingVerifier {
 	t.Helper()
 
-	return s.verifierRefreshedBefore(t, 0, releases...)
+	return s.verifierWithDenialsReadBefore(t, 0, releases...)
 }
 
-func (s setup) verifierRefreshedBefore(
+func (s setup) verifierWithDenialsReadBefore(
 	t *testing.T,
 	age time.Duration,
 	releases ...trustedappreleases.TrustedRelease,
@@ -163,7 +163,7 @@ func (s setup) verifierRefreshedBefore(
 	t.Helper()
 	renewal := s.renewingVerifierOf(t, releases...)
 	if age > 0 {
-		renewal.trustedReleases.failRefreshesSince(age)
+		renewal.trustedReleases.failDenialReadsSince(age)
 	}
 	renewal.start(t)
 

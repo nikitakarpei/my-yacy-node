@@ -61,7 +61,7 @@ func (oneTrustedRelease) Releases() []trustedappreleases.TrustedRelease {
 	}}
 }
 
-func (oneTrustedRelease) RefreshedAt() time.Time {
+func (oneTrustedRelease) DenialsReadAt() time.Time {
 	return time.Now()
 }
 

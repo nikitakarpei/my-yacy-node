@@ -17,9 +17,9 @@ type CacheObserver interface {
 }
 
 type CachedRefresh struct {
-	RefreshedAt time.Time        `json:"refreshedAt"`
-	Releases    []TrustedRelease `json:"releases"`
-	Denials     []Denial         `json:"denials"`
+	DenialsReadAt time.Time        `json:"denialsReadAt"`
+	Releases      []TrustedRelease `json:"releases"`
+	Denials       []Denial         `json:"denials"`
 }
 
 type ReleaseCache struct {
