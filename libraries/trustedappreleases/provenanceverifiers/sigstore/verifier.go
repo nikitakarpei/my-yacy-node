@@ -1,7 +1,7 @@
 // Package sigstore verifies the provenance that GitHub Actions attests through Sigstore. A
 // bundle verifies when its certificate chains to the trusted root, has a certificate timestamp
 // of a log, is in the transparency log, comes from the GitHub Actions token issuer, and its
-// statement has the subject. The trusted root is taken again for each bundle. The provenance is
+// statement has the subject. The trusted root is fetched again for each bundle. The provenance is
 // the claims of the certificate about the run.
 package sigstore
 
@@ -19,16 +19,16 @@ import (
 
 const githubActionsIssuer = "https://token.actions.githubusercontent.com"
 
-type TrustedRoots interface {
+type TrustedRootSource interface {
 	TrustedRoot() (root.TrustedMaterial, error)
 }
 
 type Verifier struct {
-	trustedRoots TrustedRoots
+	trustedRootSource TrustedRootSource
 }
 
-func New(trustedRoots TrustedRoots) Verifier {
-	return Verifier{trustedRoots: trustedRoots}
+func New(trustedRootSource TrustedRootSource) Verifier {
+	return Verifier{trustedRootSource: trustedRootSource}
 }
 
 func (v Verifier) ProvenanceOf(
@@ -51,9 +51,9 @@ func (v Verifier) verifiedCertificateOf(
 	parsedBundle *bundle.Bundle,
 	subject [sha256.Size]byte,
 ) (*certificate.Summary, error) {
-	trustedRoot, err := v.trustedRoots.TrustedRoot()
+	trustedRoot, err := v.trustedRootSource.TrustedRoot()
 	if err != nil {
-		return nil, fmt.Errorf("take the Sigstore trusted root: %w", err)
+		return nil, fmt.Errorf("fetch the Sigstore trusted root: %w", err)
 	}
 	bundleVerifier, err := verify.NewVerifier(trustedRoot,
 		verify.WithSignedCertificateTimestamps(1),

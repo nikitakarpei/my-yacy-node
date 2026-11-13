@@ -1,5 +1,5 @@
-// Package applog writes each refresh of the trusted app releases, and each failure of one, to
-// the application log.
+// Package applog writes each refresh of the trusted app releases, each failure of one, and each
+// failure of their cache to the application log.
 package applog
 
 import (
@@ -9,7 +9,7 @@ import (
 
 const (
 	msgRefreshed        = "trusted app releases refreshed"
-	msgDenialsUnread    = "denied app releases unread, trusted app releases not refreshed"
+	msgDenialsUnread    = "app release denials unread, trusted app releases not refreshed"
 	msgReleasesUnlisted = "app releases not listed, trusted app releases not refreshed"
 	msgReleaseUnread    = "app release unread, not trusted yet"
 	msgReleaseUntrusted = "app release not trusted"
@@ -19,8 +19,12 @@ const (
 
 type RefreshLog struct{}
 
-func (RefreshLog) Refreshed(ctx context.Context, trustedReleases int) {
-	slog.DebugContext(ctx, msgRefreshed, slog.Int("trustedReleases", trustedReleases))
+func (RefreshLog) Refreshed(ctx context.Context, amountOfTrustedReleases int) {
+	slog.DebugContext(
+		ctx,
+		msgRefreshed,
+		slog.Int("amountOfTrustedReleases", amountOfTrustedReleases),
+	)
 }
 
 func (RefreshLog) DenialsUnread(ctx context.Context, cause error) {

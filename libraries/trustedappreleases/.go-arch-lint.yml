@@ -16,8 +16,8 @@ components:
     in: denialsources/http/**
   denialsourcesfile:
     in: denialsources/file/**
-  trustedrootstuf:
-    in: trustedroots/tuf/**
+  trustedrootsourcestuf:
+    in: trustedrootsources/tuf/**
   refreshobserversapplog:
     in: refreshobservers/applog/**
 
@@ -40,7 +40,7 @@ deps:
   denialsourcesfile:
     mayDependOn:
       - trustedappreleases
-  trustedrootstuf:
+  trustedrootsourcestuf:
     canUse:
       - sigstore
 
