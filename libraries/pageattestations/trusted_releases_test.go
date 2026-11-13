@@ -95,7 +95,7 @@ func TestWithoutTrustedReleasesNoRowIsAttested(t *testing.T) {
 	}
 }
 
-func TestTrustedReleasesAttestRowsForTwoDaysAfterTheirRefresh(t *testing.T) {
+func TestTrustedReleasesAttestRowsForTwoDaysAfterTheDenialsAreRead(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 	for name, test := range map[string]struct {
@@ -103,9 +103,13 @@ func TestTrustedReleasesAttestRowsForTwoDaysAfterTheirRefresh(t *testing.T) {
 		reason error
 	}{
 		"47 hours old": {47 * time.Hour, nil},
-		"49 hours old": {49 * time.Hour, pageattestations.ErrStaleTrustedReleases},
+		"49 hours old": {49 * time.Hour, pageattestations.ErrStaleReleaseDenials},
 	} {
-		attestationVerifier := setup.verifierRefreshedBefore(t, test.age, setup.trustedRelease())
+		attestationVerifier := setup.verifierWithDenialsReadBefore(
+			t,
+			test.age,
+			setup.trustedRelease(),
+		)
 
 		verdict := attestationVerifier.VerdictOn(row, setup.attestationOf(t, row))
 

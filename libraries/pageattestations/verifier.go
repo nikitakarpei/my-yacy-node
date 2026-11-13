@@ -19,8 +19,8 @@ import (
 )
 
 const (
-	drandChain            = "quicknet"
-	maxTrustedReleasesAge = 48 * time.Hour
+	drandChain           = "quicknet"
+	maxReleaseDenialsAge = 48 * time.Hour
 )
 
 var (
@@ -30,9 +30,9 @@ var (
 	ErrHashOfOtherAddress = errors.New(
 		"the URL hash of the row is not the hash of its address",
 	)
-	ErrNoTrustedReleases    = errors.New("no app release is trusted")
-	ErrStaleTrustedReleases = errors.New(
-		"the trusted app releases are older than their maximum age",
+	ErrNoTrustedReleases   = errors.New("no app release is trusted")
+	ErrStaleReleaseDenials = errors.New(
+		"the release denials are older than their maximum age",
 	)
 )
 
@@ -50,16 +50,16 @@ type Verdict struct {
 func New(
 	timeStampAuthority verifier.TSAEntry,
 	releases []trustedappreleases.TrustedRelease,
-	refreshedAt time.Time,
+	denialsReadAt time.Time,
 	androidTrust *android.Trust,
 	now time.Time,
 ) Verifier {
 	switch {
 	case len(releases) == 0:
 		return Verifier{reason: ErrNoTrustedReleases}
-	case now.Sub(refreshedAt) > maxTrustedReleasesAge:
+	case now.Sub(denialsReadAt) > maxReleaseDenialsAge:
 		return Verifier{reason: fmt.Errorf(
-			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
+			"%w: read at %s", ErrStaleReleaseDenials, denialsReadAt.Format(time.RFC3339),
 		)}
 	}
 	statementVerifier, err := verifier.New(

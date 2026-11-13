@@ -140,19 +140,19 @@ func (s setup) verifierFor(
 ) pageattestations.Verifier {
 	t.Helper()
 
-	return s.verifierRefreshedBefore(t, 0, releases...)
+	return s.verifierWithDenialsReadBefore(t, 0, releases...)
 }
 
-func (s setup) verifierRefreshedBefore(
+func (s setup) verifierWithDenialsReadBefore(
 	t *testing.T,
 	age time.Duration,
 	releases ...trustedappreleases.TrustedRelease,
 ) pageattestations.Verifier {
 	t.Helper()
-	refreshedAt := time.Now()
+	denialsReadAt := time.Now()
 
 	return pageattestations.New(
-		s.authority.Entry(), releases, refreshedAt, s.device.Trust(), refreshedAt.Add(age),
+		s.authority.Entry(), releases, denialsReadAt, s.device.Trust(), denialsReadAt.Add(age),
 	)
 }
 
