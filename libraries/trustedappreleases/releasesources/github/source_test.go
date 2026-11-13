@@ -62,16 +62,16 @@ func (r *repository) source() github.Source {
 	return github.New(r.server.Client(), r.server.URL, repositoryID)
 }
 
-func TestTheTagsAreThoseOfTheListedReleases(t *testing.T) {
+func TestTheTagsAreThoseOfTheListedReleasesOldestFirst(t *testing.T) {
 	repo := newRepository(t)
 	repo.answers["/repositories/"+repositoryID+"/releases?per_page=100"] = `[{"tag_name":"app-v1.0.1"},{"tag_name":"app-v1.0.0"}]`
 
-	tags, err := repo.source().Tags(t.Context())
+	tags, err := repo.source().TagsOldestFirst(t.Context())
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if want := []string{"app-v1.0.1", "app-v1.0.0"}; !slices.Equal(tags, want) {
+	if want := []string{"app-v1.0.0", "app-v1.0.1"}; !slices.Equal(tags, want) {
 		t.Errorf("tags = %v, want %v", tags, want)
 	}
 }
@@ -122,8 +122,8 @@ func TestAReleaseWithoutItsRecordGivesNoRelease(t *testing.T) {
 	}
 }
 
-func TestAnAnswerThatIsNotFoundGivesNoTags(t *testing.T) {
-	_, err := newRepository(t).source().Tags(t.Context())
+func TestAnUnexpectedStatusGivesNoTags(t *testing.T) {
+	_, err := newRepository(t).source().TagsOldestFirst(t.Context())
 
 	if !errors.Is(err, github.ErrUnexpectedStatus) {
 		t.Errorf("error = %v, want %v", err, github.ErrUnexpectedStatus)
@@ -145,7 +145,7 @@ func TestAnAnswerThatIsNotJSONGivesNoTags(t *testing.T) {
 	repo := newRepository(t)
 	repo.answers["/repositories/"+repositoryID+"/releases?per_page=100"] = "<html>"
 
-	if _, err := repo.source().Tags(t.Context()); err == nil {
+	if _, err := repo.source().TagsOldestFirst(t.Context()); err == nil {
 		t.Error("an answer that is not JSON gave tags")
 	}
 }
@@ -154,7 +154,7 @@ func TestAnUnreachableGitHubGivesNoTags(t *testing.T) {
 	repo := newRepository(t)
 	repo.server.Close()
 
-	if _, err := repo.source().Tags(t.Context()); err == nil {
+	if _, err := repo.source().TagsOldestFirst(t.Context()); err == nil {
 		t.Error("an unreachable GitHub gave tags")
 	}
 }

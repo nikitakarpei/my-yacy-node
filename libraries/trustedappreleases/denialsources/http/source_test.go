@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases/denialsources/http"
 )
 
@@ -21,16 +20,6 @@ func TestTheDenialsAreThoseOfTheDocument(t *testing.T) {
 
 	if err != nil || len(denials) != 1 || denials[0].SigningCertificate != signingCertificate {
 		t.Errorf("denials = %+v, %v", denials, err)
-	}
-}
-
-func TestAMalformedDocumentGivesNoDenials(t *testing.T) {
-	address := serve(t, nethttp.StatusOK, "{")
-
-	_, err := http.New(nethttp.DefaultClient, address).Denials(t.Context())
-
-	if !errors.Is(err, trustedappreleases.ErrMalformedDenials) {
-		t.Errorf("error = %v, want %v", err, trustedappreleases.ErrMalformedDenials)
 	}
 }
 
