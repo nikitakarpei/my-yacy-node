@@ -1,6 +1,6 @@
-// Package pageattestationchecktest makes a fake attesting Android device and a fake time-stamp
+// Package pageattestationstest makes a fake attesting Android device and a fake time-stamp
 // authority, so that tests can sign page attestations that the check accepts.
-package pageattestationchecktest
+package pageattestationstest
 
 import (
 	"crypto"
@@ -23,10 +23,11 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 	"github.com/transparency-dev/merkle/rfc6962"
+
+	"github.com/nikitakarpei/yacy-rwi-node/companionapp"
 )
 
 const (
-	AppPackage            = "io.github.nikitakarpei.yacypeercompanion"
 	AppSigningCertificate = "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
 	AppVersionCode        = 7
 	deviceOSVersion       = 160000
@@ -44,9 +45,15 @@ type AttestingDevice struct {
 
 func NewAttestingDevice(t testing.TB, versionCode int64) *AttestingDevice {
 	t.Helper()
+
+	return NewAttestingDeviceOfApp(t, companionapp.Package, versionCode)
+}
+
+func NewAttestingDeviceOfApp(t testing.TB, appPackage string, versionCode int64) *AttestingDevice {
+	t.Helper()
 	now := time.Now()
 	signer := mustHex(t, AppSigningCertificate)
-	extension := keyDescriptionOf(AppPackage, versionCode, signer)
+	extension := keyDescriptionOf(appPackage, versionCode, signer)
 	serial := int64(0)
 	certificate := func(
 		subject pkix.Name,
@@ -332,17 +339,16 @@ func NewTimeStampAuthority(t testing.TB) *TimeStampAuthority {
 	return &TimeStampAuthority{certificate: certificate, key: key, root: root}
 }
 
-func (a *TimeStampAuthority) policyEntry() json.RawMessage {
+func (a *TimeStampAuthority) Entry() verifier.TSAEntry {
 	pemOf := func(certificate *x509.Certificate) string {
 		return string(pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: certificate.Raw}))
 	}
-	entry, _ := json.Marshal(map[string]any{ //nolint:errchkjson // strings only.
-		"name":                "test TSA",
-		"root":                pemOf(a.root),
-		"signingCertificates": []string{pemOf(a.certificate)},
-	})
 
-	return entry
+	return verifier.TSAEntry{
+		Name:                "test TSA",
+		Root:                pemOf(a.root),
+		SigningCertificates: []string{pemOf(a.certificate)},
+	}
 }
 
 func (a *TimeStampAuthority) Stamp(t testing.TB, bundle *verifier.Bundle, at time.Time) {

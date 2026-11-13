@@ -9,13 +9,14 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageattestations v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/trustedappreleases v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -42,6 +43,7 @@ require (
 	github.com/nats-io/jwt/v2 v2.8.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/companionapp v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
@@ -104,10 +106,14 @@ replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../librari
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
 
-replace github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck => ../../libraries/pageattestationcheck
+replace github.com/nikitakarpei/yacy-rwi-node/pageattestations => ../../libraries/pageattestations
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
 
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
 
 replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
+
+replace github.com/nikitakarpei/yacy-rwi-node/trustedappreleases => ../../libraries/trustedappreleases
+
+replace github.com/nikitakarpei/yacy-rwi-node/companionapp => ../../libraries/companionapp

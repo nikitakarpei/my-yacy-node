@@ -6,10 +6,10 @@ allow:
   deepScan: false
 
 components:
-  pageattestationcheck:
+  pageattestations:
     in: .
-  pageattestationchecktest:
-    in: pageattestationchecktest/**
+  pageattestationstest:
+    in: pageattestationstest/**
 
 vendors:
   attestedstatements:
@@ -22,23 +22,29 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
   yacymodel:
     in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+  trustedappreleases:
+    in: github.com/nikitakarpei/yacy-rwi-node/trustedappreleases
+  companionapp:
+    in: github.com/nikitakarpei/yacy-rwi-node/companionapp
   timestamp:
     in:
       - github.com/digitorus/timestamp
       - github.com/transparency-dev/merkle/rfc6962
 
 deps:
-  pageattestationcheck:
+  pageattestations:
     canUse:
       - attestedstatements
       - verifier
       - pagerwicontract
       - yacymodel
-  pageattestationchecktest:
+      - trustedappreleases
+      - companionapp
+  pageattestationstest:
     canUse:
-      - pagerwicontract
       - verifier
       - timestamp
+      - companionapp
 
 excludeFiles:
   - "_test\\.go"
