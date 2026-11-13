@@ -17,12 +17,12 @@ import (
 )
 
 const (
-	recordAsset      = "release.json"
-	bundleAsset      = "release.sigstore.json"
-	listedReleases   = 100
-	maxResponseBytes = 4 << 20
-	annotatedTagType = "tag"
-	commitType       = "commit"
+	recordAsset            = "release-record.json"
+	bundleAsset            = "release-record.sigstore.json"
+	amountOfListedReleases = 100
+	maxAnswerBytes         = 4 << 20
+	annotatedTagType       = "tag"
+	commitType             = "commit"
 )
 
 var (
@@ -33,8 +33,8 @@ var (
 )
 
 type Source struct {
-	client     *http.Client
-	repository string
+	client            *http.Client
+	repositoryAddress string
 }
 
 type publishedRelease struct {
@@ -57,16 +57,16 @@ type gitObject struct {
 
 func New(client *http.Client, apiAddress, repositoryID string) Source {
 	return Source{
-		client:     client,
-		repository: apiAddress + "/repositories/" + url.PathEscape(repositoryID),
+		client:            client,
+		repositoryAddress: apiAddress + "/repositories/" + url.PathEscape(repositoryID),
 	}
 }
 
 func (s Source) Tags(ctx context.Context) ([]string, error) {
 	var releases []publishedRelease
-	if err := s.decoded(
+	if err := s.decodeAnswer(
 		ctx,
-		s.repository+fmt.Sprintf("/releases?per_page=%d", listedReleases),
+		s.repositoryAddress+fmt.Sprintf("/releases?per_page=%d", amountOfListedReleases),
 		&releases,
 	); err != nil {
 		return nil, err
@@ -81,9 +81,9 @@ func (s Source) Tags(ctx context.Context) ([]string, error) {
 
 func (s Source) ReleaseOf(ctx context.Context, tag string) (trustedappreleases.Release, error) {
 	var release publishedRelease
-	if err := s.decoded(
+	if err := s.decodeAnswer(
 		ctx,
-		s.repository+"/releases/tags/"+url.PathEscape(tag),
+		s.repositoryAddress+"/releases/tags/"+url.PathEscape(tag),
 		&release,
 	); err != nil {
 		return trustedappreleases.Release{}, err
@@ -110,8 +110,8 @@ func (s Source) ReleaseOf(ctx context.Context, tag string) (trustedappreleases.R
 	}, nil
 }
 
-func (s Source) decoded(ctx context.Context, address string, value any) error {
-	body, err := s.bodyOf(ctx, address)
+func (s Source) decodeAnswer(ctx context.Context, address string, value any) error {
+	body, err := s.answerOf(ctx, address)
 	if err != nil {
 		return err
 	}
@@ -122,7 +122,7 @@ func (s Source) decoded(ctx context.Context, address string, value any) error {
 	return nil
 }
 
-func (s Source) bodyOf(ctx context.Context, address string) ([]byte, error) {
+func (s Source) answerOf(ctx context.Context, address string) ([]byte, error) {
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, address, nil)
 	if err != nil {
 		return nil, fmt.Errorf("ask GitHub for %s: %w", address, err)
@@ -137,11 +137,11 @@ func (s Source) bodyOf(ctx context.Context, address string) ([]byte, error) {
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("%w: %d for %s", ErrUnexpectedStatus, response.StatusCode, address)
 	}
-	body, err := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes+1))
+	body, err := io.ReadAll(io.LimitReader(response.Body, maxAnswerBytes+1))
 	if err != nil {
 		return nil, fmt.Errorf("read the GitHub answer of %s: %w", address, err)
 	}
-	if len(body) > maxResponseBytes {
+	if len(body) > maxAnswerBytes {
 		return nil, fmt.Errorf("%w: %s", ErrTooLarge, address)
 	}
 
@@ -150,27 +150,30 @@ func (s Source) bodyOf(ctx context.Context, address string) ([]byte, error) {
 
 func (s Source) commitOf(ctx context.Context, tag string) (string, error) {
 	var reference gitObject
-	if err := s.decoded(
+	if err := s.decodeAnswer(
 		ctx,
-		s.repository+"/git/ref/tags/"+url.PathEscape(tag),
+		s.repositoryAddress+"/git/ref/tags/"+url.PathEscape(tag),
 		&reference,
 	); err != nil {
 		return "", err
 	}
-	if reference.Object.Type == annotatedTagType {
-		if err := s.decoded(
+	target := reference.Object
+	if target.Type == annotatedTagType {
+		var tagObject gitObject
+		if err := s.decodeAnswer(
 			ctx,
-			s.repository+"/git/tags/"+reference.Object.SHA,
-			&reference,
+			s.repositoryAddress+"/git/tags/"+target.SHA,
+			&tagObject,
 		); err != nil {
 			return "", err
 		}
+		target = tagObject.Object
 	}
-	if reference.Object.Type != commitType {
+	if target.Type != commitType {
 		return "", fmt.Errorf("%w: %s", ErrTagWithoutCommit, tag)
 	}
 
-	return reference.Object.SHA, nil
+	return target.SHA, nil
 }
 
 func (s Source) assetOf(
@@ -180,7 +183,7 @@ func (s Source) assetOf(
 ) ([]byte, error) {
 	for _, candidate := range release.Assets {
 		if candidate.Name == name {
-			return s.bodyOf(ctx, candidate.DownloadURL)
+			return s.answerOf(ctx, candidate.DownloadURL)
 		}
 	}
 

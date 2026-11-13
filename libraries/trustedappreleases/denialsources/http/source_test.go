@@ -13,7 +13,7 @@ import (
 const signingCertificate = "72e21ab017f94f81137bb0d983453d02cfb59b31eac7935c31473a3ad2b2c428"
 
 func TestTheDenialsAreThoseOfTheDocument(t *testing.T) {
-	address := serve(t, nethttp.StatusOK,
+	address := addressServing(t, nethttp.StatusOK,
 		`[{"signingCertificate":"`+signingCertificate+`","endTime":"2026-11-13T10:00:00Z"}]`)
 
 	denials, err := http.New(nethttp.DefaultClient, address).Denials(t.Context())
@@ -24,7 +24,7 @@ func TestTheDenialsAreThoseOfTheDocument(t *testing.T) {
 }
 
 func TestAMissingDocumentGivesNoDenials(t *testing.T) {
-	address := serve(t, nethttp.StatusNotFound, "")
+	address := addressServing(t, nethttp.StatusNotFound, "")
 
 	_, err := http.New(nethttp.DefaultClient, address).Denials(t.Context())
 
@@ -34,7 +34,7 @@ func TestAMissingDocumentGivesNoDenials(t *testing.T) {
 }
 
 func TestADocumentThatIsTooLargeGivesNoDenials(t *testing.T) {
-	address := serve(t, nethttp.StatusOK, strings.Repeat(" ", 1<<20+1))
+	address := addressServing(t, nethttp.StatusOK, strings.Repeat(" ", 1<<20+1))
 
 	_, err := http.New(nethttp.DefaultClient, address).Denials(t.Context())
 
@@ -52,7 +52,7 @@ func TestAnUnreachableAddressGivesNoDenials(t *testing.T) {
 	}
 }
 
-func serve(t *testing.T, status int, document string) string {
+func addressServing(t *testing.T, status int, document string) string {
 	t.Helper()
 	server := httptest.NewServer(
 		nethttp.HandlerFunc(func(w nethttp.ResponseWriter, _ *nethttp.Request) {

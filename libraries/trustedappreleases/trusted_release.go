@@ -37,8 +37,9 @@ func trustedReleaseFrom(tag string, record []byte) (TrustedRelease, error) {
 	}, nil
 }
 
-func isSigningCertificate(digestHex string) bool {
-	digest, err := hex.DecodeString(digestHex)
+func isSigningCertificate(signingCertificate string) bool {
+	digest, err := hex.DecodeString(signingCertificate)
 
-	return err == nil && len(digest) == sha256.Size && hex.EncodeToString(digest) == digestHex
+	return err == nil && len(digest) == sha256.Size &&
+		hex.EncodeToString(digest) == signingCertificate
 }
