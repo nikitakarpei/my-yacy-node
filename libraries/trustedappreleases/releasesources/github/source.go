@@ -1,7 +1,8 @@
 // Package github reads the releases of a repository through the GitHub REST API, which it
-// names by repository ID. One call lists the release tags. A release takes three calls at
-// most: the release, the reference of its tag, and the tag object of an annotated tag. Its
-// release record and Sigstore bundle come from their download addresses.
+// names by repository ID. One call lists the release tags. A release takes four calls at most:
+// the release, the reference of its tag, the tag object of an annotated tag, and the comparison
+// of its commit with the release branch. Its release record and Sigstore bundle come from their
+// download addresses.
 package github
 
 import (
@@ -23,6 +24,8 @@ const (
 	maxAnswerBytes         = 4 << 20
 	annotatedTagType       = "tag"
 	commitType             = "commit"
+	identicalStatus        = "identical"
+	behindStatus           = "behind"
 )
 
 var (
@@ -35,6 +38,7 @@ var (
 type Source struct {
 	client            *http.Client
 	repositoryAddress string
+	releaseBranch     string
 }
 
 type publishedRelease struct {
@@ -48,6 +52,10 @@ type asset struct {
 	DownloadURL string `json:"browser_download_url"`
 }
 
+type comparison struct {
+	Status string `json:"status"`
+}
+
 type gitObject struct {
 	Object struct {
 		SHA  string `json:"sha"`
@@ -55,10 +63,11 @@ type gitObject struct {
 	} `json:"object"`
 }
 
-func New(client *http.Client, apiAddress, repositoryID string) Source {
+func New(client *http.Client, apiAddress, repositoryID, releaseBranch string) Source {
 	return Source{
 		client:            client,
 		repositoryAddress: apiAddress + "/repositories/" + url.PathEscape(repositoryID),
+		releaseBranch:     releaseBranch,
 	}
 }
 
@@ -92,6 +101,10 @@ func (s Source) ReleaseOf(ctx context.Context, tag string) (trustedappreleases.R
 	if err != nil {
 		return trustedappreleases.Release{}, err
 	}
+	onReleaseBranch, err := s.onReleaseBranch(ctx, commit)
+	if err != nil {
+		return trustedappreleases.Release{}, err
+	}
 	record, err := s.assetOf(ctx, release, recordAsset)
 	if err != nil {
 		return trustedappreleases.Release{}, err
@@ -102,11 +115,12 @@ func (s Source) ReleaseOf(ctx context.Context, tag string) (trustedappreleases.R
 	}
 
 	return trustedappreleases.Release{
-		Tag:          tag,
-		Commit:       commit,
-		Record:       record,
-		SignedBundle: signedBundle,
-		Immutable:    release.Immutable,
+		Tag:             tag,
+		Commit:          commit,
+		Record:          record,
+		SignedBundle:    signedBundle,
+		Immutable:       release.Immutable,
+		OnReleaseBranch: onReleaseBranch,
 	}, nil
 }
 
@@ -174,6 +188,20 @@ func (s Source) commitOf(ctx context.Context, tag string) (string, error) {
 	}
 
 	return target.SHA, nil
+}
+
+func (s Source) onReleaseBranch(ctx context.Context, commit string) (bool, error) {
+	var answer comparison
+	if err := s.decodeAnswer(
+		ctx,
+		s.repositoryAddress+"/compare/"+url.PathEscape(s.releaseBranch)+"..."+
+			url.PathEscape(commit)+"?per_page=1",
+		&answer,
+	); err != nil {
+		return false, err
+	}
+
+	return answer.Status == identicalStatus || answer.Status == behindStatus, nil
 }
 
 func (s Source) assetOf(
