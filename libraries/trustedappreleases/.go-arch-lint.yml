@@ -14,8 +14,6 @@ components:
     in: releasesources/github/**
   denialsourceshttp:
     in: denialsources/http/**
-  denialsourcesfile:
-    in: denialsources/file/**
 
 vendors:
   sigstore:
@@ -31,9 +29,6 @@ deps:
     mayDependOn:
       - trustedappreleases
   denialsourceshttp:
-    mayDependOn:
-      - trustedappreleases
-  denialsourcesfile:
     mayDependOn:
       - trustedappreleases
 
