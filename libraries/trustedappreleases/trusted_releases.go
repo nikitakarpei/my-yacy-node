@@ -14,6 +14,10 @@ import (
 	"time"
 )
 
+var ErrReusedSigningCertificate = errors.New(
+	"the signing certificate of the release is that of another trusted release",
+)
+
 type Sources struct {
 	Releases ReleaseSource
 	Denials  []DenialSource
@@ -128,12 +132,25 @@ func (r *TrustedReleases) verify(ctx context.Context, tag string) {
 		return
 	}
 	verdict := r.check.VerdictOn(release)
+	if verdict.Trusted && r.trustsCertificate(verdict.Release.SigningCertificate) {
+		verdict = Verdict{Reason: ErrReusedSigningCertificate}
+	}
 	if !verdict.Trusted {
 		r.observer.ReleaseUntrusted(ctx, tag, verdict.Reason)
 
 		return
 	}
 	r.verified[tag] = verdict.Release
+}
+
+func (r *TrustedReleases) trustsCertificate(signingCertificate string) bool {
+	for _, release := range r.verified {
+		if release.SigningCertificate == signingCertificate {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (r *TrustedReleases) keep(ctx context.Context) {

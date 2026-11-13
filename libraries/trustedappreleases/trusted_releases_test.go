@@ -366,3 +366,21 @@ func TestAnUnwritableCacheKeepsTheRefreshInMemory(t *testing.T) {
 		t.Errorf("events = %v, want the cache unwritten", setup.observed.events)
 	}
 }
+
+func TestAReleaseThatReusesTheCertificateOfATrustedReleaseIsNotTrusted(t *testing.T) {
+	setup := newRefreshSetup(t)
+	trusted := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
+	releases := setup.open(t)
+	releases.Refresh(t.Context(), refreshTime)
+	setup.publishAttested("app-v1.1.0", certificateNumbered(1))
+
+	releases.Refresh(t.Context(), refreshTime.Add(time.Hour))
+
+	assertCurrent(t, releases, refreshTime.Add(time.Hour), trusted)
+	if !slices.Contains(setup.observed.events, "untrusted app-v1.1.0") {
+		t.Errorf(
+			"events = %v, want the release that reuses a certificate untrusted",
+			setup.observed.events,
+		)
+	}
+}
