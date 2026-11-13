@@ -10,27 +10,24 @@ import (
 )
 
 func TestDenialsNameASigningCertificateAndAnEndTime(t *testing.T) {
-	denials, err := trustedappreleases.DenialsFrom([]byte(
-		`[{"signingCertificate":"` + signingCertificate + `","endTime":"2026-11-13T10:00:00Z"}]`,
-	))
-	if err != nil {
-		t.Fatal(err)
-	}
+	for name, test := range map[string]struct {
+		content string
+		want    []trustedappreleases.Denial
+	}{
+		"one denial": {
+			`[{"signingCertificate":"` + signingCertificate + `","endTime":"2026-11-13T10:00:00Z"}]`,
+			[]trustedappreleases.Denial{{
+				SigningCertificate: signingCertificate,
+				EndTime:            time.Date(2026, 11, 13, 10, 0, 0, 0, time.UTC),
+			}},
+		},
+		"empty list": {`[]`, []trustedappreleases.Denial{}},
+	} {
+		denials, err := trustedappreleases.DenialsFrom([]byte(test.content))
 
-	want := []trustedappreleases.Denial{{
-		SigningCertificate: signingCertificate,
-		EndTime:            time.Date(2026, 11, 13, 10, 0, 0, 0, time.UTC),
-	}}
-	if !slices.Equal(denials, want) {
-		t.Errorf("denials = %+v, want %+v", denials, want)
-	}
-}
-
-func TestAnEmptyListDeniesNoRelease(t *testing.T) {
-	denials, err := trustedappreleases.DenialsFrom([]byte(`[]`))
-
-	if err != nil || len(denials) != 0 {
-		t.Errorf("denials = %+v, %v, want none", denials, err)
+		if err != nil || !slices.Equal(denials, test.want) {
+			t.Errorf("%s: denials = %+v, %v, want %+v", name, denials, err, test.want)
+		}
 	}
 }
 

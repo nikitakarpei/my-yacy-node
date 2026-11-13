@@ -122,7 +122,7 @@ func TestAReleaseWithoutItsRecordGivesNoRelease(t *testing.T) {
 	}
 }
 
-func TestAnAnswerThatIsNotFoundGivesNoTags(t *testing.T) {
+func TestAnUnexpectedStatusGivesNoTags(t *testing.T) {
 	_, err := newRepository(t).source().Tags(t.Context())
 
 	if !errors.Is(err, github.ErrUnexpectedStatus) {
