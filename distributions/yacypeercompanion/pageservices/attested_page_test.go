@@ -14,7 +14,7 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations/pageattestationstest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
 )
 
@@ -27,11 +27,11 @@ const (
 var errNoHardwareKey = errors.New("no hardware key in this test")
 
 func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
-	device := pageattestationchecktest.NewAttestingDevice(
+	device := pageattestationstest.NewAttestingDevice(
 		t,
-		pageattestationchecktest.AppVersionCode,
+		pageattestationstest.AppVersionCode,
 	)
-	authority := pageattestationchecktest.NewTimeStampAuthority(t)
+	authority := pageattestationstest.NewTimeStampAuthority(t)
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
 	instance := instanceWithKeys(
@@ -44,7 +44,7 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 	awaitEvent(t, events, "connected")
 
 	pageRWI := askForRWIOf(t, peer.jetStream(t), attestedPageURL)
-	verdict := pageattestationchecktest.StartedCheck(t, device, authority).
+	verdict := pageattestationstest.StartedVerifier(t, device, authority).
 		VerdictOn(pageRWI.Metadata, pageRWI.Attestation)
 
 	if !verdict.Attested {
@@ -60,7 +60,7 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 
 func captureProxySigningWith(
 	t *testing.T,
-	device *pageattestationchecktest.AttestingDevice,
+	device *pageattestationstest.AttestingDevice,
 ) string {
 	t.Helper()
 	statement := responseStatementOf(t, attestedPageURL, pageBody)
@@ -124,8 +124,8 @@ func quicknet(t *testing.T) verifier.DrandChain {
 
 type deviceKeys struct {
 	t         *testing.T
-	device    *pageattestationchecktest.AttestingDevice
-	authority *pageattestationchecktest.TimeStampAuthority
+	device    *pageattestationstest.AttestingDevice
+	authority *pageattestationstest.TimeStampAuthority
 }
 
 func (k deviceKeys) CurrentKey() (pageservices.HardwareKey, error) {

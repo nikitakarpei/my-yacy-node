@@ -6,10 +6,10 @@ allow:
   deepScan: false
 
 components:
-  pageattestationcheck:
+  pageattestations:
     in: .
-  pageattestationchecktest:
-    in: pageattestationchecktest/**
+  pageattestationstest:
+    in: pageattestationstest/**
   androidtrustsourceshttp:
     in: androidtrustsources/http/**
   renewalobserversapplog:
@@ -36,7 +36,7 @@ vendors:
       - github.com/transparency-dev/merkle/rfc6962
 
 deps:
-  pageattestationcheck:
+  pageattestations:
     canUse:
       - attestedstatements
       - verifier
@@ -44,15 +44,14 @@ deps:
       - yacymodel
       - trustedappreleases
       - companionapp
-  pageattestationchecktest:
+  pageattestationstest:
     mayDependOn:
-      - pageattestationcheck
+      - pageattestations
     canUse:
       - verifier
       - trustedappreleases
       - timestamp
       - companionapp
-
   androidtrustsourceshttp:
     canUse:
       - verifier

@@ -9,7 +9,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageattestations v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagerwi v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0
@@ -106,7 +106,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/companionprotocol => ../../librari
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../../libraries/attestedstatements
 
-replace github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck => ../../libraries/pageattestationcheck
+replace github.com/nikitakarpei/yacy-rwi-node/pageattestations => ../../libraries/pageattestations
 
 replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/optional
 

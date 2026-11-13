@@ -1,4 +1,4 @@
-package pageattestationchecktest
+package pageattestationstest
 
 import (
 	"context"
@@ -9,24 +9,28 @@ import (
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 )
 
-func StartedCheck(
+func StartedVerifier(
 	t testing.TB,
 	device *AttestingDevice,
 	authority *TimeStampAuthority,
-) *pageattestationcheck.Check {
+) *pageattestations.Verifier {
 	t.Helper()
 	clock := &firstRenewalClock{renewed: make(chan struct{})}
-	check := pageattestationcheck.New(
-		authority.Entry(), appRelease{}, deviceTrust{device: device}, clock, unloadedTrust{t: t},
+	pageVerifier := pageattestations.New(
+		authority.Entry(),
+		oneTrustedRelease{},
+		deviceTrustSource{device: device},
+		clock,
+		unexpectedRenewalEvents{t: t},
 	)
-	go check.Run(t.Context())
+	go pageVerifier.Run(t.Context())
 	<-clock.renewed
 
-	return check
+	return pageVerifier
 }
 
 type firstRenewalClock struct {
@@ -45,30 +49,38 @@ func (c *firstRenewalClock) Sleep(ctx context.Context, _ time.Duration) error {
 	return fmt.Errorf("context: %w", ctx.Err())
 }
 
-type appRelease struct{}
+type oneTrustedRelease struct{}
 
-func (appRelease) Refresh(context.Context, time.Time) {}
+func (oneTrustedRelease) Refresh(context.Context, time.Time) {}
 
-func (appRelease) Current() ([]trustedappreleases.TrustedRelease, time.Time) {
+func (oneTrustedRelease) Releases() []trustedappreleases.TrustedRelease {
 	return []trustedappreleases.TrustedRelease{{
 		Tag:                "yacypeercompanion-v1.0.0",
 		SigningCertificate: AppSigningCertificate,
 		VersionCode:        AppVersionCode,
-	}}, time.Now()
+	}}
 }
 
-type deviceTrust struct {
+func (oneTrustedRelease) RefreshedAt() time.Time {
+	return time.Now()
+}
+
+type deviceTrustSource struct {
 	device *AttestingDevice
 }
 
-func (d deviceTrust) Latest(context.Context) (*android.Trust, error) {
+func (d deviceTrustSource) Load(context.Context) (*android.Trust, error) {
 	return d.device.Trust(), nil
 }
 
-type unloadedTrust struct {
+type unexpectedRenewalEvents struct {
 	t testing.TB
 }
 
-func (u unloadedTrust) AndroidTrustUnloaded(_ context.Context, cause error) {
+func (u unexpectedRenewalEvents) AndroidTrustUnloaded(_ context.Context, cause error) {
 	u.t.Errorf("the Android trust of the device is not loaded: %v", cause)
+}
+
+func (u unexpectedRenewalEvents) RenewalRefused(_ context.Context, reason error) {
+	u.t.Errorf("the page attestation verifier is not renewed: %v", reason)
 }

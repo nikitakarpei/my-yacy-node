@@ -16,8 +16,9 @@ import (
 )
 
 var (
-	refreshTime    = time.Date(2026, 11, 13, 10, 0, 0, 0, time.UTC)
-	errUnreachable = errors.New("unreachable")
+	refreshTime     = time.Date(2026, 11, 13, 10, 0, 0, 0, time.UTC)
+	errUnreachable  = errors.New("unreachable")
+	errOtherSubject = errors.New("the bundle attests another subject")
 )
 
 type publishedReleases struct {
@@ -57,12 +58,12 @@ func (p *publishedReleases) ReleaseOf(
 	return p.releases[tag], nil
 }
 
-type deniedReleases struct {
+type fakeDenials struct {
 	err     error
 	denials []trustedappreleases.Denial
 }
 
-func (d *deniedReleases) Denials(context.Context) ([]trustedappreleases.Denial, error) {
+func (d *fakeDenials) Denials(context.Context) ([]trustedappreleases.Denial, error) {
 	return d.denials, d.err
 }
 
@@ -70,8 +71,8 @@ type refreshEvents struct {
 	events []string
 }
 
-func (r *refreshEvents) Refreshed(_ context.Context, trustedReleases int) {
-	r.events = append(r.events, fmt.Sprintf("refreshed %d", trustedReleases))
+func (r *refreshEvents) Refreshed(_ context.Context, amountOfTrustedReleases int) {
+	r.events = append(r.events, fmt.Sprintf("refreshed %d", amountOfTrustedReleases))
 }
 
 func (r *refreshEvents) DenialsUnread(context.Context, error) {
@@ -114,8 +115,8 @@ func (a attestedRecords) ProvenanceOf(
 
 type refreshSetup struct {
 	published    *publishedReleases
-	denied       *deniedReleases
-	secondDenied *deniedReleases
+	denied       *fakeDenials
+	secondDenied *fakeDenials
 	observed     *refreshEvents
 	attested     attestedRecords
 	cachePath    string
@@ -126,8 +127,8 @@ func newRefreshSetup(t *testing.T) *refreshSetup {
 
 	return &refreshSetup{
 		published:    newPublishedReleases(),
-		denied:       &deniedReleases{},
-		secondDenied: &deniedReleases{},
+		denied:       &fakeDenials{},
+		secondDenied: &fakeDenials{},
 		observed:     &refreshEvents{},
 		attested:     attestedRecords{},
 		cachePath:    filepath.Join(t.TempDir(), "trusted-releases.json"),
@@ -137,14 +138,12 @@ func newRefreshSetup(t *testing.T) *refreshSetup {
 func (s *refreshSetup) open(t *testing.T) *trustedappreleases.TrustedReleases {
 	t.Helper()
 
-	return trustedappreleases.Open(
-		t.Context(),
-		s.cachePath,
-		trustedappreleases.New(workflow, s.attested),
-		trustedappreleases.Sources{
-			Releases: s.published,
-			Denials:  []trustedappreleases.DenialSource{s.denied, s.secondDenied},
-		},
+	return trustedappreleases.New(
+		trustedappreleases.OpenReleaseCache(t.Context(), s.cachePath, s.observed),
+		workflow,
+		s.attested,
+		s.published,
+		[]trustedappreleases.DenialSource{s.denied, s.secondDenied},
 		s.observed,
 	)
 }
@@ -166,14 +165,14 @@ func (s *refreshSetup) publishAttested(tag, certificate string) trustedappreleas
 		},
 	)
 	s.attested[sha256.Sum256(releaseRecord)] = trustedappreleases.Provenance{
-		Workflow:     repository + "/" + workflow.Path + "@refs/tags/" + tag,
-		Repository:   repository,
-		RepositoryID: workflow.RepositoryID,
-		OwnerID:      workflow.OwnerID,
-		Ref:          "refs/tags/" + tag,
-		Commit:       commit,
-		Runner:       "github-hosted",
-		Visibility:   "public",
+		WorkflowAddress:   repository + "/" + workflow.Path + "@refs/tags/" + tag,
+		RepositoryAddress: repository,
+		RepositoryID:      workflow.RepositoryID,
+		OwnerID:           workflow.OwnerID,
+		Ref:               "refs/tags/" + tag,
+		Commit:            commit,
+		Runner:            "github-hosted",
+		Visibility:        "public",
 	}
 
 	return trustedappreleases.TrustedRelease{
@@ -194,7 +193,7 @@ func assertCurrent(
 	want ...trustedappreleases.TrustedRelease,
 ) {
 	t.Helper()
-	current, currentRefreshedAt := releases.Current()
+	current, currentRefreshedAt := releases.Releases(), releases.RefreshedAt()
 	if !slices.Equal(current, want) || !currentRefreshedAt.Equal(refreshedAt) {
 		t.Errorf(
 			"current = %+v at %v, want %+v at %v",

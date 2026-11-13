@@ -1,4 +1,4 @@
-module github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck
+module github.com/nikitakarpei/yacy-rwi-node/pageattestations
 
 go 1.27.3
 

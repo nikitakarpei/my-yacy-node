@@ -3,12 +3,12 @@
 package companionapp
 
 const (
-	Package               = "io.github.nikitakarpei.yacypeercompanion"
-	TimeStampAuthority    = "freetsa"
-	RepositoryID          = "1273925787"
-	OwnerID               = "205461907"
-	ReleaseWorkflowPath   = ".github/workflows/release-companion-app.yml"
-	ReleaseTagPattern     = "yacypeercompanion-v*"
-	DeniedReleasesAddress = "https://raw.githubusercontent.com/nikitakarpei/my-yacy-node/main/" +
-		"distributions/yacypeercompanion/denied-releases.json"
+	Package                = "io.github.nikitakarpei.yacypeercompanion"
+	TimeStampAuthorityName = "freetsa"
+	RepositoryID           = "1273925787"
+	OwnerID                = "205461907"
+	ReleaseWorkflowPath    = ".github/workflows/release-companion-app.yml"
+	ReleaseTagPattern      = "yacypeercompanion-v*"
+	ReleaseDenialsAddress  = "https://raw.githubusercontent.com/nikitakarpei/my-yacy-node/main/" +
+		"distributions/yacypeercompanion/release-denials.json"
 )

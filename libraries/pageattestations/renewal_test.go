@@ -1,4 +1,4 @@
-package pageattestationcheck_test
+package pageattestations_test
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 )
 
@@ -20,38 +20,38 @@ var (
 )
 
 func TestBeforeItsFirstRenewalTheCheckAttestsNoRow(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 
-	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
+	verdict := renewal.pageVerifier.VerdictOn(row, renewal.attestationOf(t, row))
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestationcheck.ErrNoAndroidTrust) {
+	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrNoAndroidTrust) {
 		t.Errorf("verdict = %+v, want not attested for %v",
-			verdict, pageattestationcheck.ErrNoAndroidTrust)
+			verdict, pageattestations.ErrNoAndroidTrust)
 	}
 }
 
 func TestARenewalTrustsTheRefreshedReleases(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 	renewal.start(t)
 
-	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
+	verdict := renewal.pageVerifier.VerdictOn(row, renewal.attestationOf(t, row))
 
 	if !verdict.Attested {
 		t.Errorf("verdict = %+v, want attested", verdict)
 	}
-	if refreshes := renewal.releases.refreshTimes(); len(refreshes) != 1 ||
+	if refreshes := renewal.trustedReleases.refreshTimes(); len(refreshes) != 1 ||
 		!refreshes[0].Equal(renewalEpoch) {
 		t.Errorf("refreshes = %v, want one at %v", refreshes, renewalEpoch)
 	}
 }
 
 func TestTheCheckRenewsAfterAnHour(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 	sleep := renewal.start(t)
-	renewal.releases.set(nil)
+	renewal.trustedReleases.set(nil)
 
 	renewal.clock.advanceBy(sleep)
 	renewal.clock.wake()
@@ -60,27 +60,30 @@ func TestTheCheckRenewsAfterAnHour(t *testing.T) {
 	if sleep != time.Hour {
 		t.Errorf("sleep = %v, want an hour", sleep)
 	}
-	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
-	if !errors.Is(verdict.Reason, pageattestationcheck.ErrNoTrustedReleases) {
+	verdict := renewal.pageVerifier.VerdictOn(row, renewal.attestationOf(t, row))
+	if !errors.Is(verdict.Reason, pageattestations.ErrNoTrustedReleases) {
 		t.Errorf("verdict = %+v, want not attested for %v",
-			verdict, pageattestationcheck.ErrNoTrustedReleases)
+			verdict, pageattestations.ErrNoTrustedReleases)
 	}
-	if refreshes := renewal.releases.refreshTimes(); len(refreshes) != 2 ||
+	if refreshes := renewal.trustedReleases.refreshTimes(); len(refreshes) != 2 ||
 		!refreshes[1].Equal(renewalEpoch.Add(time.Hour)) {
 		t.Errorf("refreshes = %v, want the second an hour after the first", refreshes)
 	}
 }
 
 func TestARenewalThatCannotLoadTheAndroidTrustKeepsThePreviousOne(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 	renewal.start(t)
-	renewal.androidTrust.fail()
+	renewal.androidTrustSource.fail()
 
 	renewal.clock.wake()
 	renewal.clock.sleepAfterRenewal()
 
-	if verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row)); !verdict.Attested {
+	if verdict := renewal.pageVerifier.VerdictOn(
+		row,
+		renewal.attestationOf(t, row),
+	); !verdict.Attested {
 		t.Errorf("verdict = %+v, want attested", verdict)
 	}
 	if !errors.Is(renewal.observer.cause(), errAndroidTrustUnreachable) {
@@ -93,55 +96,59 @@ func TestARenewalThatCannotLoadTheAndroidTrustKeepsThePreviousOne(t *testing.T) 
 }
 
 func TestAFirstRenewalThatCannotLoadTheAndroidTrustAttestsNoRow(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
-	renewal.androidTrust.fail()
+	renewal.androidTrustSource.fail()
 	renewal.start(t)
 
-	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
+	verdict := renewal.pageVerifier.VerdictOn(row, renewal.attestationOf(t, row))
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestationcheck.ErrNoAndroidTrust) {
+	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrNoAndroidTrust) {
 		t.Errorf("verdict = %+v, want not attested for %v",
-			verdict, pageattestationcheck.ErrNoAndroidTrust)
+			verdict, pageattestations.ErrNoAndroidTrust)
 	}
 }
 
 func TestARenewalThatCannotLoadTheAndroidTrustTakesTheRefreshedReleases(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 	renewal.start(t)
-	renewal.androidTrust.fail()
-	renewal.releases.set(nil)
+	renewal.androidTrustSource.fail()
+	renewal.trustedReleases.set(nil)
 
 	renewal.clock.wake()
 	renewal.clock.sleepAfterRenewal()
 
-	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
-	if !errors.Is(verdict.Reason, pageattestationcheck.ErrNoTrustedReleases) {
+	verdict := renewal.pageVerifier.VerdictOn(row, renewal.attestationOf(t, row))
+	if !errors.Is(verdict.Reason, pageattestations.ErrNoTrustedReleases) {
 		t.Errorf("verdict = %+v, want not attested for %v",
-			verdict, pageattestationcheck.ErrNoTrustedReleases)
+			verdict, pageattestations.ErrNoTrustedReleases)
 	}
 }
 
 func TestReleasesThatFailToRefreshForTwoDaysAttestNoRow(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	row := rootedRow(t)
 	renewal.start(t)
-	renewal.releases.failRefreshes()
+	renewal.trustedReleases.failRefreshes()
 
 	renewal.clock.advanceBy(49 * time.Hour)
 	renewal.clock.wake()
 	renewal.clock.sleepAfterRenewal()
 
-	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
-	if !errors.Is(verdict.Reason, pageattestationcheck.ErrStaleTrustedReleases) {
+	verdict := renewal.pageVerifier.VerdictOn(row, renewal.attestationOf(t, row))
+	if !errors.Is(verdict.Reason, pageattestations.ErrStaleTrustedReleases) {
 		t.Errorf("verdict = %+v, want not attested for %v",
-			verdict, pageattestationcheck.ErrStaleTrustedReleases)
+			verdict, pageattestations.ErrStaleTrustedReleases)
+	}
+	if !errors.Is(renewal.observer.refusal(), pageattestations.ErrStaleTrustedReleases) {
+		t.Errorf("refusal = %v, want %v",
+			renewal.observer.refusal(), pageattestations.ErrStaleTrustedReleases)
 	}
 }
 
 func TestTheCheckStopsRenewingWhenItsContextEnds(t *testing.T) {
-	renewal := newRenewal(t)
+	renewal := newRenewingVerifier(t)
 	renewal.start(t)
 
 	renewal.stop()
@@ -149,42 +156,45 @@ func TestTheCheckStopsRenewingWhenItsContextEnds(t *testing.T) {
 	<-renewal.stopped
 }
 
-type renewal struct {
+type renewingVerifier struct {
 	setup
-	check        *pageattestationcheck.Check
-	clock        *fakeClock
-	releases     *fakeTrustedReleases
-	androidTrust *fakeAndroidTrustSource
-	observer     *renewalEvents
-	stop         context.CancelFunc
-	stopped      chan struct{}
+	pageVerifier       *pageattestations.Verifier
+	clock              *fakeClock
+	trustedReleases    *fakeTrustedReleases
+	androidTrustSource *fakeAndroidTrustSource
+	observer           *renewalEvents
+	stop               context.CancelFunc
+	stopped            chan struct{}
 }
 
-func newRenewal(t *testing.T) *renewal {
+func newRenewingVerifier(t *testing.T) *renewingVerifier {
 	t.Helper()
 	setup := newSetup(t)
 
-	return setup.renewalOf(t, setup.trustedRelease())
+	return setup.renewingVerifierOf(t, setup.trustedRelease())
 }
 
-func (s setup) renewalOf(t *testing.T, releases ...trustedappreleases.TrustedRelease) *renewal {
+func (s setup) renewingVerifierOf(
+	t *testing.T,
+	releases ...trustedappreleases.TrustedRelease,
+) *renewingVerifier {
 	t.Helper()
-	renewal := &renewal{
+	renewal := &renewingVerifier{
 		setup: s,
 		clock: &fakeClock{
 			now:    renewalEpoch,
 			sleeps: make(chan time.Duration),
 			wakes:  make(chan struct{}),
 		},
-		releases:     &fakeTrustedReleases{releases: releases},
-		androidTrust: &fakeAndroidTrustSource{androidTrust: s.device.Trust()},
-		observer:     &renewalEvents{},
-		stopped:      make(chan struct{}),
+		trustedReleases:    &fakeTrustedReleases{releases: releases},
+		androidTrustSource: &fakeAndroidTrustSource{androidTrust: s.device.Trust()},
+		observer:           &renewalEvents{},
+		stopped:            make(chan struct{}),
 	}
-	renewal.check = pageattestationcheck.New(
+	renewal.pageVerifier = pageattestations.New(
 		s.authority.Entry(),
-		renewal.releases,
-		renewal.androidTrust,
+		renewal.trustedReleases,
+		renewal.androidTrustSource,
 		renewal.clock,
 		renewal.observer,
 	)
@@ -192,13 +202,13 @@ func (s setup) renewalOf(t *testing.T, releases ...trustedappreleases.TrustedRel
 	return renewal
 }
 
-func (r *renewal) start(t *testing.T) time.Duration {
+func (r *renewingVerifier) start(t *testing.T) time.Duration {
 	t.Helper()
 	ctx, stop := context.WithCancel(t.Context())
 	r.stop = stop
 	t.Cleanup(stop)
 	go func() {
-		r.check.Run(ctx)
+		r.pageVerifier.Run(ctx)
 		close(r.stopped)
 	}()
 
@@ -266,11 +276,18 @@ func (r *fakeTrustedReleases) Refresh(_ context.Context, now time.Time) {
 	}
 }
 
-func (r *fakeTrustedReleases) Current() ([]trustedappreleases.TrustedRelease, time.Time) {
+func (r *fakeTrustedReleases) Releases() []trustedappreleases.TrustedRelease {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 
-	return r.releases, r.refreshedAt
+	return r.releases
+}
+
+func (r *fakeTrustedReleases) RefreshedAt() time.Time {
+	r.guard.Lock()
+	defer r.guard.Unlock()
+
+	return r.refreshedAt
 }
 
 func (r *fakeTrustedReleases) failRefreshes() {
@@ -280,7 +297,7 @@ func (r *fakeTrustedReleases) failRefreshes() {
 	r.failing = true
 }
 
-func (r *fakeTrustedReleases) refreshLastBefore(age time.Duration) {
+func (r *fakeTrustedReleases) failRefreshesSince(age time.Duration) {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 
@@ -307,7 +324,7 @@ type fakeAndroidTrustSource struct {
 	androidTrust *android.Trust
 }
 
-func (s *fakeAndroidTrustSource) Latest(context.Context) (*android.Trust, error) {
+func (s *fakeAndroidTrustSource) Load(context.Context) (*android.Trust, error) {
 	s.guard.Lock()
 	defer s.guard.Unlock()
 	if s.androidTrust == nil {
@@ -327,6 +344,7 @@ func (s *fakeAndroidTrustSource) fail() {
 type renewalEvents struct {
 	guard         sync.Mutex
 	observedCause error
+	refusedReason error
 }
 
 func (e *renewalEvents) AndroidTrustUnloaded(_ context.Context, cause error) {
@@ -341,4 +359,18 @@ func (e *renewalEvents) cause() error {
 	defer e.guard.Unlock()
 
 	return e.observedCause
+}
+
+func (e *renewalEvents) RenewalRefused(_ context.Context, reason error) {
+	e.guard.Lock()
+	defer e.guard.Unlock()
+
+	e.refusedReason = reason
+}
+
+func (e *renewalEvents) refusal() error {
+	e.guard.Lock()
+	defer e.guard.Unlock()
+
+	return e.refusedReason
 }

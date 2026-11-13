@@ -18,7 +18,7 @@ func New(client *http.Client) Source {
 	return Source{client: client}
 }
 
-func (s Source) Latest(ctx context.Context) (*android.Trust, error) {
+func (s Source) Load(ctx context.Context) (*android.Trust, error) {
 	androidTrust, err := android.LoadTrust(ctx, s.client)
 	if err != nil {
 		return nil, fmt.Errorf("load the Android trust: %w", err)

@@ -1,6 +1,6 @@
-// Package pageattestationchecktest makes a fake attesting Android device and a fake time-stamp
+// Package pageattestationstest makes a fake attesting Android device and a fake time-stamp
 // authority, so that tests can sign page attestations, and starts a check that accepts them.
-package pageattestationchecktest
+package pageattestationstest
 
 import (
 	"crypto"

@@ -1,4 +1,4 @@
-package pageattestationcheck
+package pageattestations
 
 import (
 	"context"
@@ -46,19 +46,20 @@ type Clock interface {
 }
 
 type AndroidTrustSource interface {
-	Latest(ctx context.Context) (*android.Trust, error)
+	Load(ctx context.Context) (*android.Trust, error)
 }
 
 type TrustedReleases interface {
 	Refresh(ctx context.Context, now time.Time)
-	Current() ([]trustedappreleases.TrustedRelease, time.Time)
+	Releases() []trustedappreleases.TrustedRelease
+	RefreshedAt() time.Time
 }
 
-type Check struct {
+type Verifier struct {
 	lastRenewal        atomic.Pointer[renewal]
 	androidTrust       *android.Trust
 	timeStampAuthority verifier.TSAEntry
-	releases           TrustedReleases
+	trustedReleases    TrustedReleases
 	androidTrustSource AndroidTrustSource
 	clock              Clock
 	observer           RenewalObserver
@@ -77,54 +78,57 @@ type Verdict struct {
 
 func New(
 	timeStampAuthority verifier.TSAEntry,
-	releases TrustedReleases,
+	trustedReleases TrustedReleases,
 	androidTrustSource AndroidTrustSource,
 	clock Clock,
 	observer RenewalObserver,
-) *Check {
-	check := &Check{
+) *Verifier {
+	pageVerifier := &Verifier{
 		timeStampAuthority: timeStampAuthority,
-		releases:           releases,
+		trustedReleases:    trustedReleases,
 		androidTrustSource: androidTrustSource,
 		clock:              clock,
 		observer:           observer,
 	}
-	check.lastRenewal.Store(&renewal{reason: ErrNoAndroidTrust})
+	pageVerifier.lastRenewal.Store(&renewal{reason: ErrNoAndroidTrust})
 
-	return check
+	return pageVerifier
 }
 
-func (c *Check) Run(ctx context.Context) {
+func (v *Verifier) Run(ctx context.Context) {
 	for {
-		c.renew(ctx)
-		if err := c.clock.Sleep(ctx, renewalInterval); err != nil {
+		v.renew(ctx)
+		if err := v.clock.Sleep(ctx, renewalInterval); err != nil {
 			return
 		}
 	}
 }
 
-func (c *Check) renew(ctx context.Context) {
-	now := c.clock.Now()
-	c.loadAndroidTrust(ctx)
-	c.releases.Refresh(ctx, now)
-	renewed := c.renewalAt(now)
-	c.lastRenewal.Store(&renewed)
+func (v *Verifier) renew(ctx context.Context) {
+	now := v.clock.Now()
+	v.loadAndroidTrust(ctx)
+	v.trustedReleases.Refresh(ctx, now)
+	renewed := v.renewalAt(now)
+	if renewed.reason != nil {
+		v.observer.RenewalRefused(ctx, renewed.reason)
+	}
+	v.lastRenewal.Store(&renewed)
 }
 
-func (c *Check) loadAndroidTrust(ctx context.Context) {
-	androidTrust, err := c.androidTrustSource.Latest(ctx)
+func (v *Verifier) loadAndroidTrust(ctx context.Context) {
+	androidTrust, err := v.androidTrustSource.Load(ctx)
 	if err != nil {
-		c.observer.AndroidTrustUnloaded(ctx, err)
+		v.observer.AndroidTrustUnloaded(ctx, err)
 
 		return
 	}
-	c.androidTrust = androidTrust
+	v.androidTrust = androidTrust
 }
 
-func (c *Check) renewalAt(now time.Time) renewal {
-	releases, refreshedAt := c.releases.Current()
+func (v *Verifier) renewalAt(now time.Time) renewal {
+	releases, refreshedAt := v.trustedReleases.Releases(), v.trustedReleases.RefreshedAt()
 	switch {
-	case c.androidTrust == nil:
+	case v.androidTrust == nil:
 		return renewal{reason: ErrNoAndroidTrust}
 	case len(releases) == 0:
 		return renewal{reason: ErrNoTrustedReleases}
@@ -134,10 +138,10 @@ func (c *Check) renewalAt(now time.Time) renewal {
 		)}
 	}
 	statementVerifier, err := verifier.New(
-		policyFor(c.timeStampAuthority, releases), android.New(c.androidTrust),
+		policyFor(v.timeStampAuthority, releases), android.New(v.androidTrust),
 	)
 	if err != nil {
-		return renewal{reason: fmt.Errorf("page attestation verifier: %w", err)}
+		return renewal{reason: fmt.Errorf("make the statement verifier: %w", err)}
 	}
 
 	return renewal{statementVerifier: statementVerifier}
@@ -183,11 +187,11 @@ func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
 	return signers
 }
 
-func (c *Check) VerdictOn(
+func (v *Verifier) VerdictOn(
 	row yacymodel.URLMetadata,
 	attestation attestedstatements.Bundle,
 ) Verdict {
-	lastRenewal := c.lastRenewal.Load()
+	lastRenewal := v.lastRenewal.Load()
 	if lastRenewal.reason != nil {
 		return notAttested(lastRenewal.reason)
 	}
