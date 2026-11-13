@@ -1,0 +1,2 @@
+Hands one call to the TUF client of sigstore-go, which reaches the Sigstore TUF repository
+over the network. It holds no rule of its own.

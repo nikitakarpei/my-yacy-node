@@ -16,6 +16,10 @@ components:
     in: denialsources/http/**
   denialsourcesfile:
     in: denialsources/file/**
+  trustedrootstuf:
+    in: trustedroots/tuf/**
+  refreshobserversapplog:
+    in: refreshobservers/applog/**
 
 vendors:
   sigstore:
@@ -36,6 +40,9 @@ deps:
   denialsourcesfile:
     mayDependOn:
       - trustedappreleases
+  trustedrootstuf:
+    canUse:
+      - sigstore
 
 excludeFiles:
   - "_test\\.go"

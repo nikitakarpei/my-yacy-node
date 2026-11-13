@@ -3,6 +3,7 @@ package sigstore_test
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"io/fs"
 	"os"
 	"testing"
@@ -13,10 +14,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases/provenanceverifiers/sigstore"
 )
 
+var errNoTrustedRoot = errors.New("no trusted root")
+
+type fixedRoot struct {
+	trustedRoot root.TrustedMaterial
+}
+
+func (f fixedRoot) TrustedRoot() (root.TrustedMaterial, error) {
+	if f.trustedRoot == nil {
+		return nil, errNoTrustedRoot
+	}
+
+	return f.trustedRoot, nil
+}
+
 const yacypeerBinaryDigest = "e9a48e91adbe451cb3c2a01b7529e4c068accc5479287e5bb68e444367343e2a"
 
 func TestAnAttestedSubjectHasTheProvenanceOfItsWorkflowRun(t *testing.T) {
-	provenance, err := verifier(t).ProvenanceOf(attestation(t), digest(t, yacypeerBinaryDigest))
+	provenance, err := verifier(t).ProvenanceOf(attestation(t), yacypeerBinary(t))
 	if err != nil {
 		t.Fatalf("provenance: %v", err)
 	}
@@ -46,7 +61,7 @@ func TestAnotherSubjectHasNoProvenance(t *testing.T) {
 }
 
 func TestAMalformedBundleHasNoProvenance(t *testing.T) {
-	_, err := verifier(t).ProvenanceOf([]byte("{"), digest(t, yacypeerBinaryDigest))
+	_, err := verifier(t).ProvenanceOf([]byte("{"), yacypeerBinary(t))
 	if err == nil {
 		t.Error("a malformed bundle verified")
 	}
@@ -58,7 +73,8 @@ func TestABundleOutsideTheTrustedRootHasNoProvenance(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err = sigstore.New(emptyRoot).ProvenanceOf(attestation(t), digest(t, yacypeerBinaryDigest))
+	_, err = sigstore.New(fixedRoot{trustedRoot: emptyRoot}).
+		ProvenanceOf(attestation(t), yacypeerBinary(t))
 	if err == nil {
 		t.Error("a bundle verified against an empty trusted root")
 	}
@@ -71,7 +87,7 @@ func verifier(t *testing.T) sigstore.Verifier {
 		t.Fatal(err)
 	}
 
-	return sigstore.New(trustedRoot)
+	return sigstore.New(fixedRoot{trustedRoot: trustedRoot})
 }
 
 func attestation(t *testing.T) []byte {
@@ -90,12 +106,21 @@ func testdata(t *testing.T, name string) []byte {
 	return content
 }
 
-func digest(t *testing.T, hexDigest string) [sha256.Size]byte {
+func yacypeerBinary(t *testing.T) [sha256.Size]byte {
 	t.Helper()
-	decoded, err := hex.DecodeString(hexDigest)
+	decoded, err := hex.DecodeString(yacypeerBinaryDigest)
 	if err != nil || len(decoded) != sha256.Size {
-		t.Fatalf("digest %q: %v", hexDigest, err)
+		t.Fatalf("digest %q: %v", yacypeerBinaryDigest, err)
 	}
 
 	return [sha256.Size]byte(decoded)
+}
+
+func TestABundleWithoutATrustedRootHasNoProvenance(t *testing.T) {
+	_, err := sigstore.New(fixedRoot{}).
+		ProvenanceOf(attestation(t), yacypeerBinary(t))
+
+	if !errors.Is(err, errNoTrustedRoot) {
+		t.Errorf("error = %v, want %v", err, errNoTrustedRoot)
+	}
 }

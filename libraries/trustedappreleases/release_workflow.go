@@ -31,12 +31,17 @@ type ReleaseWorkflow struct {
 	TagPattern   string
 }
 
+func (w ReleaseWorkflow) covers(tag string) bool {
+	matched, err := path.Match(w.TagPattern, tag)
+
+	return err == nil && matched
+}
+
 func (w ReleaseWorkflow) reasonAgainstRelease(release Release) error {
-	matched, err := path.Match(w.TagPattern, release.Tag)
 	switch {
 	case !release.Immutable:
 		return ErrMutableRelease
-	case err != nil || !matched:
+	case !w.covers(release.Tag):
 		return ErrTagOutsidePattern
 	default:
 		return nil

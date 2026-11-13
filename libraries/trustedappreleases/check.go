@@ -24,6 +24,10 @@ func New(workflow ReleaseWorkflow, verifier ProvenanceVerifier) Check {
 	return Check{verifier: verifier, workflow: workflow}
 }
 
+func (c Check) Covers(tag string) bool {
+	return c.workflow.covers(tag)
+}
+
 func (c Check) VerdictOn(release Release) Verdict {
 	if reason := c.workflow.reasonAgainstRelease(release); reason != nil {
 		return untrusted(reason)
