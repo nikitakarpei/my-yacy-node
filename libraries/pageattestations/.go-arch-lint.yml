@@ -10,6 +10,10 @@ components:
     in: .
   pageattestationstest:
     in: pageattestationstest/**
+  androidtrustsourceshttp:
+    in: androidtrustsources/http/**
+  verificationobserversapplog:
+    in: verificationobservers/applog/**
 
 vendors:
   attestedstatements:
@@ -41,10 +45,16 @@ deps:
       - trustedappreleases
       - companionapp
   pageattestationstest:
+    mayDependOn:
+      - pageattestations
     canUse:
       - verifier
+      - trustedappreleases
       - timestamp
       - companionapp
+  androidtrustsourceshttp:
+    canUse:
+      - verifier
 
 excludeFiles:
   - "_test\\.go"

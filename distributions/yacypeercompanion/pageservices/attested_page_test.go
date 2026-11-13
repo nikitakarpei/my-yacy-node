@@ -14,9 +14,7 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
 	"github.com/nikitakarpei/yacy-rwi-node/pageattestations/pageattestationstest"
-	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
 )
 
@@ -46,7 +44,8 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 	awaitEvent(t, events, "connected")
 
 	pageRWI := askForRWIOf(t, peer.jetStream(t), attestedPageURL)
-	verdict := verifierFor(t, device, authority).VerdictOn(pageRWI.Metadata, pageRWI.Attestation)
+	verdict := pageattestationstest.StartedVerifier(t, device, authority).
+		VerdictOn(t.Context(), pageRWI.Metadata, pageRWI.Attestation)
 
 	if !verdict.Attested {
 		t.Fatalf("verdict = %+v, want the page attestation accepted", verdict)
@@ -57,24 +56,6 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 
 	instance.Stop()
 	awaitEvent(t, events, "stopped")
-}
-
-func verifierFor(
-	t *testing.T,
-	device *pageattestationstest.AttestingDevice,
-	authority *pageattestationstest.TimeStampAuthority,
-) pageattestations.Verifier {
-	t.Helper()
-	now := time.Now()
-	release := trustedappreleases.TrustedRelease{
-		Tag:                "yacypeercompanion-v1.0.0",
-		SigningCertificate: pageattestationstest.AppSigningCertificate,
-		VersionCode:        pageattestationstest.AppVersionCode,
-	}
-
-	return pageattestations.New(
-		authority.Entry(), []trustedappreleases.TrustedRelease{release}, now, device.Trust(), now,
-	)
 }
 
 func captureProxySigningWith(

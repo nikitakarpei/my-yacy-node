@@ -1,0 +1,94 @@
+package pageattestationstest
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"testing"
+	"time"
+
+	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
+
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
+	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
+)
+
+func StartedVerifier(
+	t testing.TB,
+	device *AttestingDevice,
+	authority *TimeStampAuthority,
+) *pageattestations.Verifier {
+	t.Helper()
+	clock := &firstRenewalClock{renewed: make(chan struct{})}
+	pageVerifier := pageattestations.New(
+		authority.Entry(),
+		oneTrustedRelease{},
+		deviceTrustSource{device: device},
+		clock,
+		unexpectedVerificationEvents{t: t},
+	)
+	go pageVerifier.Run(t.Context())
+	<-clock.renewed
+
+	return pageVerifier
+}
+
+type firstRenewalClock struct {
+	once    sync.Once
+	renewed chan struct{}
+}
+
+func (c *firstRenewalClock) Now() time.Time {
+	return time.Now()
+}
+
+func (c *firstRenewalClock) Sleep(ctx context.Context, _ time.Duration) error {
+	c.once.Do(func() { close(c.renewed) })
+	<-ctx.Done()
+
+	return fmt.Errorf("context: %w", ctx.Err())
+}
+
+type oneTrustedRelease struct{}
+
+func (oneTrustedRelease) Refresh(context.Context, time.Time) {}
+
+func (oneTrustedRelease) Releases() []trustedappreleases.TrustedRelease {
+	return []trustedappreleases.TrustedRelease{{
+		Tag:                "yacypeercompanion-v1.0.0",
+		SigningCertificate: AppSigningCertificate,
+		VersionCode:        AppVersionCode,
+	}}
+}
+
+func (oneTrustedRelease) DenialsReadAt() time.Time {
+	return time.Now()
+}
+
+type deviceTrustSource struct {
+	device *AttestingDevice
+}
+
+func (d deviceTrustSource) Load(context.Context) (*android.Trust, error) {
+	return d.device.Trust(), nil
+}
+
+type unexpectedVerificationEvents struct {
+	t testing.TB
+}
+
+func (u unexpectedVerificationEvents) AndroidTrustUnloaded(_ context.Context, cause error) {
+	u.t.Errorf("the Android trust of the device is not loaded: %v", cause)
+}
+
+func (u unexpectedVerificationEvents) NoSignerTrusted(_ context.Context, reason error) {
+	u.t.Errorf("no app signer is trusted: %v", reason)
+}
+
+func (u unexpectedVerificationEvents) RowNotAttested(
+	_ context.Context,
+	address string,
+	reason error,
+) {
+	u.t.Errorf("the row of %s is not attested: %v", address, reason)
+}

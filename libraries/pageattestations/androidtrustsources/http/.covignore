@@ -1,0 +1,2 @@
+Calls one function of the verifier with the given HTTP client and holds no rule of its own.
+A test could only fetch the published lists from the network.

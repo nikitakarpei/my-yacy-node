@@ -1,11 +1,13 @@
 package pageattestations
 
 import (
+	"context"
 	"encoding/json"
 	"encoding/json/jsontext"
 	"errors"
 	"fmt"
 	"net/url"
+	"sync/atomic"
 	"time"
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
@@ -21,6 +23,7 @@ import (
 const (
 	drandChain           = "quicknet"
 	maxReleaseDenialsAge = 48 * time.Hour
+	renewalInterval      = time.Hour
 )
 
 var (
@@ -34,42 +37,105 @@ var (
 	ErrStaleReleaseDenials = errors.New(
 		"the release denials are older than their maximum age",
 	)
+	ErrNoAndroidTrust = errors.New("the Android trust is not loaded")
 )
 
+type Clock interface {
+	Now() time.Time
+	Sleep(ctx context.Context, d time.Duration) error
+}
+
+type AndroidTrustSource interface {
+	Load(ctx context.Context) (*android.Trust, error)
+}
+
+type TrustedReleases interface {
+	Refresh(ctx context.Context, now time.Time)
+	Releases() []trustedappreleases.TrustedRelease
+	DenialsReadAt() time.Time
+}
+
 type Verifier struct {
-	statementVerifier *verifier.Verifier
-	reason            error
+	statementVerifier  atomic.Pointer[verifier.Verifier]
+	androidTrust       *android.Trust
+	timeStampAuthority verifier.TSAEntry
+	trustedReleases    TrustedReleases
+	androidTrustSource AndroidTrustSource
+	clock              Clock
+	observer           VerificationObserver
 }
 
 type Verdict struct {
 	Attested  bool
 	FetchedAt time.Time
-	Reason    error
 }
 
 func New(
 	timeStampAuthority verifier.TSAEntry,
-	releases []trustedappreleases.TrustedRelease,
-	denialsReadAt time.Time,
-	androidTrust *android.Trust,
-	now time.Time,
-) Verifier {
+	trustedReleases TrustedReleases,
+	androidTrustSource AndroidTrustSource,
+	clock Clock,
+	observer VerificationObserver,
+) *Verifier {
+	return &Verifier{
+		timeStampAuthority: timeStampAuthority,
+		trustedReleases:    trustedReleases,
+		androidTrustSource: androidTrustSource,
+		clock:              clock,
+		observer:           observer,
+	}
+}
+
+func (v *Verifier) Run(ctx context.Context) {
+	for {
+		v.renew(ctx)
+		if err := v.clock.Sleep(ctx, renewalInterval); err != nil {
+			return
+		}
+	}
+}
+
+func (v *Verifier) renew(ctx context.Context) {
+	now := v.clock.Now()
+	v.loadAndroidTrust(ctx)
+	v.trustedReleases.Refresh(ctx, now)
+	statementVerifier, err := v.statementVerifierAt(now)
+	if err != nil {
+		v.observer.NoSignerTrusted(ctx, err)
+	}
+	v.statementVerifier.Store(statementVerifier)
+}
+
+func (v *Verifier) loadAndroidTrust(ctx context.Context) {
+	androidTrust, err := v.androidTrustSource.Load(ctx)
+	if err != nil {
+		v.observer.AndroidTrustUnloaded(ctx, err)
+
+		return
+	}
+	v.androidTrust = androidTrust
+}
+
+func (v *Verifier) statementVerifierAt(now time.Time) (*verifier.Verifier, error) {
+	releases, denialsReadAt := v.trustedReleases.Releases(), v.trustedReleases.DenialsReadAt()
 	switch {
+	case v.androidTrust == nil:
+		return nil, ErrNoAndroidTrust
 	case len(releases) == 0:
-		return Verifier{reason: ErrNoTrustedReleases}
+		return nil, ErrNoTrustedReleases
 	case now.Sub(denialsReadAt) > maxReleaseDenialsAge:
-		return Verifier{reason: fmt.Errorf(
+		return nil, fmt.Errorf(
 			"%w: read at %s", ErrStaleReleaseDenials, denialsReadAt.Format(time.RFC3339),
-		)}
+		)
 	}
 	statementVerifier, err := verifier.New(
-		policyFor(timeStampAuthority, releases), android.New(androidTrust),
+		policyFor(v.timeStampAuthority, releases), android.New(v.androidTrust),
 	)
 	if err != nil {
-		return Verifier{reason: fmt.Errorf("make the statement verifier: %w", err)}
+		return nil, fmt.Errorf("make the statement verifier: %w", err)
 	}
 
-	return Verifier{statementVerifier: statementVerifier}
+	return statementVerifier, nil
 }
 
 func policyFor(
@@ -112,34 +178,47 @@ func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
 	return signers
 }
 
-func (v Verifier) VerdictOn(
+func (v *Verifier) VerdictOn(
+	ctx context.Context,
 	row yacymodel.URLMetadata,
 	attestation attestedstatements.Bundle,
 ) Verdict {
-	if v.reason != nil {
-		return notAttested(v.reason)
+	statementVerifier := v.statementVerifier.Load()
+	if statementVerifier == nil {
+		return Verdict{}
 	}
+	fetchedAt, err := fetchTimeOf(attestation, row, statementVerifier)
+	if err != nil {
+		v.observer.RowNotAttested(ctx, row.Address, err)
+
+		return Verdict{}
+	}
+
+	return Verdict{Attested: true, FetchedAt: fetchedAt}
+}
+
+func fetchTimeOf(
+	attestation attestedstatements.Bundle,
+	row yacymodel.URLMetadata,
+	statementVerifier *verifier.Verifier,
+) (time.Time, error) {
 	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil {
-		return notAttested(fmt.Errorf("read the attestation: %w", err))
+		return time.Time{}, fmt.Errorf("read the attestation: %w", err)
 	}
 	statement, err := pagerwicontract.UnmarshalPageRWIStatement(bundle.DSSEEnvelope.Payload)
 	if err != nil {
-		return notAttested(err)
+		return time.Time{}, fmt.Errorf("read the statement: %w", err)
 	}
 	if err := reasonAgainstRow(row, statement); err != nil {
-		return notAttested(err)
+		return time.Time{}, err
 	}
-	result, err := v.statementVerifier.Verify(bundle)
+	result, err := statementVerifier.Verify(bundle)
 	if err != nil {
-		return notAttested(fmt.Errorf("verify the attestation: %w", err))
+		return time.Time{}, fmt.Errorf("verify the attestation: %w", err)
 	}
 
-	return Verdict{Attested: true, FetchedAt: *result.StartedAfter}
-}
-
-func notAttested(reason error) Verdict {
-	return Verdict{Reason: reason}
+	return result.NotBefore, nil
 }
 
 func reasonAgainstRow(

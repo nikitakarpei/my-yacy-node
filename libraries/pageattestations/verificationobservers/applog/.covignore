@@ -1,0 +1,2 @@
+Writes one log line for each observed fact and holds no rule of its own. A test could
+only restate the message and level this file declares.
