@@ -30,11 +30,11 @@ func (v Verifier) ProvenanceOf(
 	signedBundle []byte,
 	subject [sha256.Size]byte,
 ) (trustedappreleases.Provenance, error) {
-	var entity bundle.Bundle
-	if err := entity.UnmarshalJSON(signedBundle); err != nil {
+	var parsedBundle bundle.Bundle
+	if err := parsedBundle.UnmarshalJSON(signedBundle); err != nil {
 		return trustedappreleases.Provenance{}, fmt.Errorf("read the bundle: %w", err)
 	}
-	summary, err := v.certificateOf(&entity, subject)
+	summary, err := v.verifiedCertificateOf(&parsedBundle, subject)
 	if err != nil {
 		return trustedappreleases.Provenance{}, err
 	}
@@ -42,8 +42,8 @@ func (v Verifier) ProvenanceOf(
 	return provenanceFrom(summary), nil
 }
 
-func (v Verifier) certificateOf(
-	entity *bundle.Bundle,
+func (v Verifier) verifiedCertificateOf(
+	parsedBundle *bundle.Bundle,
 	subject [sha256.Size]byte,
 ) (*certificate.Summary, error) {
 	bundleVerifier, err := verify.NewVerifier(v.trustedRoot,
@@ -54,13 +54,13 @@ func (v Verifier) certificateOf(
 	if err != nil {
 		return nil, fmt.Errorf("make the bundle verifier: %w", err)
 	}
-	issuer, err := verify.NewShortCertificateIdentity(githubActionsIssuer, "", "", ".+")
+	issuerIdentity, err := verify.NewShortCertificateIdentity(githubActionsIssuer, "", "", ".+")
 	if err != nil {
 		return nil, fmt.Errorf("name the certificate issuer: %w", err)
 	}
-	result, err := bundleVerifier.Verify(entity, verify.NewPolicy(
+	result, err := bundleVerifier.Verify(parsedBundle, verify.NewPolicy(
 		verify.WithArtifactDigest("sha256", subject[:]),
-		verify.WithCertificateIdentity(issuer),
+		verify.WithCertificateIdentity(issuerIdentity),
 	))
 	if err != nil {
 		return nil, fmt.Errorf("verify the bundle: %w", err)
@@ -71,13 +71,13 @@ func (v Verifier) certificateOf(
 
 func provenanceFrom(summary *certificate.Summary) trustedappreleases.Provenance {
 	return trustedappreleases.Provenance{
-		Workflow:     summary.BuildSignerURI,
-		Repository:   summary.SourceRepositoryURI,
-		RepositoryID: summary.SourceRepositoryIdentifier,
-		OwnerID:      summary.SourceRepositoryOwnerIdentifier,
-		Ref:          summary.SourceRepositoryRef,
-		Commit:       summary.SourceRepositoryDigest,
-		Runner:       summary.RunnerEnvironment,
-		Visibility:   summary.SourceRepositoryVisibilityAtSigning,
+		WorkflowAddress:   summary.BuildSignerURI,
+		RepositoryAddress: summary.SourceRepositoryURI,
+		RepositoryID:      summary.SourceRepositoryIdentifier,
+		OwnerID:           summary.SourceRepositoryOwnerIdentifier,
+		Ref:               summary.SourceRepositoryRef,
+		Commit:            summary.SourceRepositoryDigest,
+		Runner:            summary.RunnerEnvironment,
+		Visibility:        summary.SourceRepositoryVisibilityAtSigning,
 	}
 }

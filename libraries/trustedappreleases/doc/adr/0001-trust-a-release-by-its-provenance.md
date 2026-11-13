@@ -16,7 +16,7 @@ access to the repository can upload release assets and attestations by hand.
 ## Decision
 
 A release is trusted only from the verified provenance of its release record. The provenance
-is a Sigstore bundle that GitHub Actions attests. Its certificate must name the repository and
+comes from a Sigstore bundle that GitHub Actions attests. Its certificate must name the repository and
 the owner by numeric ID, the release workflow at the tag of the release, the commit of the tag,
 a runner that GitHub hosts, and a public repository.
 

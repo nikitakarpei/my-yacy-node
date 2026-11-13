@@ -1,7 +1,6 @@
 package trustedappreleases_test
 
 import (
-	"crypto/sha256"
 	"errors"
 	"testing"
 
@@ -17,8 +16,7 @@ const (
 )
 
 var (
-	errOtherSubject = errors.New("the bundle attests another subject")
-	workflow        = trustedappreleases.ReleaseWorkflow{
+	workflow = trustedappreleases.ReleaseWorkflow{
 		RepositoryID: "11",
 		OwnerID:      "22",
 		Path:         ".github/workflows/release.yml",
@@ -32,45 +30,16 @@ var (
 	}
 )
 
-type attestedRecord struct {
-	provenance trustedappreleases.Provenance
-	subject    [sha256.Size]byte
-}
-
-func (a attestedRecord) ProvenanceOf(
-	_ []byte,
-	subject [sha256.Size]byte,
-) (trustedappreleases.Provenance, error) {
-	if subject != a.subject {
-		return trustedappreleases.Provenance{}, errOtherSubject
-	}
-
-	return a.provenance, nil
-}
-
 func TestAnImmutableReleaseOfTheWorkflowAtItsTagIsTrusted(t *testing.T) {
-	verdict := checkOf(record, provenanceOfRelease()).VerdictOn(release)
+	verdict := workflow.VerdictOn(release, provenanceOfRelease())
 
 	want := trustedappreleases.TrustedRelease{
 		Tag:                tag,
 		SigningCertificate: signingCertificate,
 		VersionCode:        7,
 	}
-	if !verdict.Trusted || verdict.Reason != nil || verdict.Release != want {
+	if !verdict.Trusted || verdict.Reason != nil || verdict.TrustedRelease != want {
 		t.Errorf("verdict = %+v, want trusted %+v", verdict, want)
-	}
-}
-
-func TestARecordThatTheBundleDoesNotAttestIsNotTrusted(t *testing.T) {
-	otherRecord := `{"signingCertificate":"` + signingCertificate + `","versionCode":8}`
-
-	unattested := release
-	unattested.Record = []byte(otherRecord)
-
-	verdict := checkOf(record, provenanceOfRelease()).VerdictOn(unattested)
-
-	if verdict.Trusted || !errors.Is(verdict.Reason, errOtherSubject) {
-		t.Errorf("verdict = %+v, want not trusted for %v", verdict, errOtherSubject)
 	}
 }
 
@@ -86,7 +55,7 @@ func TestAReleaseOutsideTheWorkflowIsNotTrusted(t *testing.T) {
 		changed := release
 		change.release(&changed)
 
-		verdict := checkOf(record, provenanceOfRelease()).VerdictOn(changed)
+		verdict := workflow.VerdictOn(changed, provenanceOfRelease())
 
 		if verdict.Trusted || !errors.Is(verdict.Reason, change.reason) {
 			t.Errorf("%s: verdict = %+v, want not trusted for %v", name, verdict, change.reason)
@@ -101,12 +70,12 @@ func TestAProvenanceOfAnotherRunIsNotTrusted(t *testing.T) {
 	}{
 		"other repository": {func(p *trustedappreleases.Provenance) { p.RepositoryID = "12" }, trustedappreleases.ErrOtherRepository},
 		"other owner":      {func(p *trustedappreleases.Provenance) { p.OwnerID = "23" }, trustedappreleases.ErrOtherOwner},
-		"other ref":        {func(p *trustedappreleases.Provenance) { p.Ref = "refs/heads/main" }, trustedappreleases.ErrOtherWorkflow},
+		"other ref":        {func(p *trustedappreleases.Provenance) { p.Ref = "refs/heads/main" }, trustedappreleases.ErrOtherRef},
 		"other workflow": {func(p *trustedappreleases.Provenance) {
-			p.Workflow = repository + "/.github/workflows/other.yml@refs/tags/" + tag
+			p.WorkflowAddress = repository + "/.github/workflows/other.yml@refs/tags/" + tag
 		}, trustedappreleases.ErrOtherWorkflow},
 		"workflow of another repository": {func(p *trustedappreleases.Provenance) {
-			p.Workflow = "https://github.com/other/app/" + workflow.Path + "@refs/tags/" + tag
+			p.WorkflowAddress = "https://github.com/other/app/" + workflow.Path + "@refs/tags/" + tag
 		}, trustedappreleases.ErrOtherWorkflow},
 		"other commit":       {func(p *trustedappreleases.Provenance) { p.Commit = "0" + commit[1:] }, trustedappreleases.ErrOtherCommit},
 		"self-hosted":        {func(p *trustedappreleases.Provenance) { p.Runner = "self-hosted" }, trustedappreleases.ErrSelfHostedRunner},
@@ -115,7 +84,7 @@ func TestAProvenanceOfAnotherRunIsNotTrusted(t *testing.T) {
 		provenance := provenanceOfRelease()
 		change.provenance(&provenance)
 
-		verdict := checkOf(record, provenance).VerdictOn(release)
+		verdict := workflow.VerdictOn(release, provenance)
 
 		if verdict.Trusted || !errors.Is(verdict.Reason, change.reason) {
 			t.Errorf("%s: verdict = %+v, want not trusted for %v", name, verdict, change.reason)
@@ -134,7 +103,7 @@ func TestAMalformedRecordIsNotTrusted(t *testing.T) {
 		malformedRelease := release
 		malformedRelease.Record = []byte(malformed)
 
-		verdict := checkOf(malformed, provenanceOfRelease()).VerdictOn(malformedRelease)
+		verdict := workflow.VerdictOn(malformedRelease, provenanceOfRelease())
 
 		if verdict.Trusted || !errors.Is(verdict.Reason, trustedappreleases.ErrMalformedRecord) {
 			t.Errorf("%s: verdict = %+v, want not trusted for a malformed record", name, verdict)
@@ -142,22 +111,15 @@ func TestAMalformedRecordIsNotTrusted(t *testing.T) {
 	}
 }
 
-func checkOf(attested string, provenance trustedappreleases.Provenance) trustedappreleases.Check {
-	return trustedappreleases.New(workflow, attestedRecord{
-		subject:    sha256.Sum256([]byte(attested)),
-		provenance: provenance,
-	})
-}
-
 func provenanceOfRelease() trustedappreleases.Provenance {
 	return trustedappreleases.Provenance{
-		Workflow:     repository + "/" + workflow.Path + "@refs/tags/" + tag,
-		Repository:   repository,
-		RepositoryID: workflow.RepositoryID,
-		OwnerID:      workflow.OwnerID,
-		Ref:          "refs/tags/" + tag,
-		Commit:       commit,
-		Runner:       "github-hosted",
-		Visibility:   "public",
+		WorkflowAddress:   repository + "/" + workflow.Path + "@refs/tags/" + tag,
+		RepositoryAddress: repository,
+		RepositoryID:      workflow.RepositoryID,
+		OwnerID:           workflow.OwnerID,
+		Ref:               "refs/tags/" + tag,
+		Commit:            commit,
+		Runner:            "github-hosted",
+		Visibility:        "public",
 	}
 }
