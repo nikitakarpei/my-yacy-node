@@ -4,7 +4,7 @@ Date: 2026-11-10
 
 ## Status
 
-Accepted
+Partly superseded by [ADR 2](0002-sign-each-release-with-a-new-key.md) — the release key.
 
 ## Context
 

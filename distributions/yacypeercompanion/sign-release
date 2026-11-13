@@ -1,0 +1,36 @@
+#!/bin/sh
+# Signs an unsigned release APK with a new key, which it deletes after the signature, and
+# writes the release record: the SHA-256 digest of the signing certificate and the versionCode.
+# Needs the jdk and android-build-tools of tools/install, with .toolchain/activate sourced.
+# Usage: sign-release <unsigned APK> <tag> <output directory>
+set -eu
+unsigned=$1
+tag=$2
+out=$3
+set -- "$ANDROID_HOME"/build-tools/*
+build_tools=$1
+test -x "$build_tools/apksigner"
+key=$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/release-key.XXXXXX")
+trap 'rm -rf "$key"' EXIT
+KEY_PASSWORD=$(od -An -N32 -tx1 /dev/urandom | tr -d ' \n')
+export KEY_PASSWORD
+
+keytool -genkeypair -keystore "$key/release.p12" -storetype PKCS12 \
+	-storepass:env KEY_PASSWORD -alias release -keyalg EC -groupname secp256r1 \
+	-sigalg SHA256withECDSA -validity 36500 -dname "CN=YaCy Companion $tag"
+mkdir -p "$out"
+"$build_tools/apksigner" sign --ks "$key/release.p12" --ks-pass env:KEY_PASSWORD \
+	--ks-key-alias release --v4-signing-enabled false --out "$out/$tag.apk" "$unsigned"
+rm -rf "$key"
+
+certificates=$("$build_tools/apksigner" verify --print-certs "$out/$tag.apk" |
+	sed -n 's/^.*[Ss]igner.* certificate SHA-256 digest: \([0-9a-f]\{64\}\)$/\1/p' | sort -u)
+if [ "$(printf '%s' "$certificates" | grep -c .)" -ne 1 ]; then
+	echo "the APK must have exactly one signer: $certificates" >&2
+	exit 1
+fi
+version_code=$("$build_tools/aapt2" dump badging "$out/$tag.apk" |
+	sed -n "s/^package: .* versionCode='\([0-9]*\)'.*/\1/p")
+: "${version_code:?the APK has no versionCode}"
+printf '{"signingCertificate":"%s","versionCode":%s}\n' "$certificates" "$version_code" \
+	>"$out/release.json"

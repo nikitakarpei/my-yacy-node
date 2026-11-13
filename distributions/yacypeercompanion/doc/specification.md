@@ -63,8 +63,9 @@ other peers can check what the device did.
 ## Known Limitations
 
 * The app runs only on 64-bit ARM devices with Android 14 or later.
-* An APK that the operator builds is not signed. Only the release workflow signs with the release
-  key.
+* An APK that the operator builds is not signed.
+* Each release has a new signing key, so an update of the app is uninstall, install, and pair
+  again.
 * The peer does not check the key attestation of the device yet.
 * The nodes of the peer do not keep page attestations or send them to other peers yet.
 * The app writes the logs of its fetches and RWIs to logcat, under the tag `GoLog`.

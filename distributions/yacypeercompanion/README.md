@@ -7,8 +7,9 @@ check that the pages are genuine.
 ## Install
 
 The release workflow of this repository builds, signs and publishes each release of the app.
-It runs for a tag `yacypeercompanion-v<version>`. Each release holds the signed APK and the
-unsigned APK. No release is published yet.
+It runs for a tag `yacypeercompanion-v<version>` and signs each release with a new key. Each
+release holds the signed APK, the unsigned APK, the release record `release.json` and its
+Sigstore bundle. No release is published yet.
 
 Check a downloaded APK before you install it. Use these commands in a clone of this repository:
 
@@ -18,7 +19,9 @@ gh attestation verify yacypeercompanion-v0.1.0.apk -R nikitakarpei/my-yacy-node
 "$ANDROID_HOME"/platform-tools/adb install yacypeercompanion-v0.1.0.apk
 ```
 
-The app runs on 64-bit ARM devices with Android 14 or later.
+The app runs on 64-bit ARM devices with Android 14 or later. Android does not update an app
+that another key signed, so to update, uninstall the app, install the new release, and pair
+again.
 
 ## Use
 
