@@ -8,6 +8,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/attestedstatements v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagerwicontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/trustedappreleases v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/transparency-dev/merkle v0.0.2
 )
@@ -32,3 +33,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../storedfields
 replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../intotostatements
 
 replace github.com/nikitakarpei/yacy-rwi-node/attestedstatements => ../attestedstatements
+
+replace github.com/nikitakarpei/yacy-rwi-node/trustedappreleases => ../trustedappreleases

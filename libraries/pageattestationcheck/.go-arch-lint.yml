@@ -22,6 +22,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/pagerwicontract
   yacymodel:
     in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
+  trustedappreleases:
+    in: github.com/nikitakarpei/yacy-rwi-node/trustedappreleases
   timestamp:
     in:
       - github.com/digitorus/timestamp
@@ -34,6 +36,7 @@ deps:
       - verifier
       - pagerwicontract
       - yacymodel
+      - trustedappreleases
   pageattestationchecktest:
     canUse:
       - pagerwicontract

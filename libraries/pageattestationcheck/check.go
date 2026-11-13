@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
-	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 
 	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
@@ -21,13 +20,11 @@ var (
 	ErrHashOfOtherAddress = errors.New(
 		"the URL hash of the row is not the hash of its address",
 	)
-	ErrPolicyWithoutFetchTimeBounds = errors.New(
-		"the policy does not require a time-stamp and a drand round of page RWI statements",
-	)
 )
 
 type Check struct {
 	verifier *verifier.Verifier
+	reason   error
 }
 
 type Verdict struct {
@@ -36,32 +33,13 @@ type Verdict struct {
 	Reason    error
 }
 
-func New(policy []byte, trust *android.Trust) (Check, error) {
-	statementPolicy, err := verifier.ParsePolicy(policy)
-	if err != nil {
-		return Check{}, fmt.Errorf("page attestation policy: %w", err)
-	}
-	if !requiresFetchTimeBounds(statementPolicy) {
-		return Check{}, ErrPolicyWithoutFetchTimeBounds
-	}
-	statementVerifier, err := verifier.New(statementPolicy, android.New(trust))
-	if err != nil {
-		return Check{}, fmt.Errorf("page attestation verifier: %w", err)
-	}
-
-	return Check{verifier: statementVerifier}, nil
-}
-
-func requiresFetchTimeBounds(policy *verifier.Policy) bool {
-	pageRWIPolicy, listed := policy.PredicateTypes[pagerwicontract.PageRWIPredicateType]
-
-	return listed && pageRWIPolicy.RequireTimestamp && pageRWIPolicy.RequireStartedAfter
-}
-
 func (c Check) VerdictOn(
 	row yacymodel.URLMetadata,
 	attestation attestedstatements.Bundle,
 ) Verdict {
+	if c.reason != nil {
+		return notAttested(c.reason)
+	}
 	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil {
 		return notAttested(fmt.Errorf("read the attestation: %w", err))

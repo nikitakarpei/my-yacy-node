@@ -16,6 +16,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/trustedappreleases v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -111,3 +112,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/optional => ../../libraries/option
 replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
 
 replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
+
+replace github.com/nikitakarpei/yacy-rwi-node/trustedappreleases => ../../libraries/trustedappreleases

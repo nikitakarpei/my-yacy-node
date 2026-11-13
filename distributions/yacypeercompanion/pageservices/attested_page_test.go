@@ -16,6 +16,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
 	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
+	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
 )
 
@@ -64,17 +65,21 @@ func checkFor(
 	authority *pageattestationchecktest.TimeStampAuthority,
 ) pageattestationcheck.Check {
 	t.Helper()
-	check, err := pageattestationcheck.New(pageattestationchecktest.PolicyFor(
-		authority,
-		pageattestationchecktest.AcceptedVersion{
-			VersionCode: pageattestationchecktest.AppVersionCode,
-		},
-	), device.Trust())
+	policy, err := pageattestationcheck.PolicyFrom(
+		pageattestationchecktest.PolicyFor(authority),
+		pageattestationchecktest.AppPackage,
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
+	now := time.Now()
+	release := trustedappreleases.TrustedRelease{
+		Tag:                "yacypeercompanion-v1.0.0",
+		SigningCertificate: pageattestationchecktest.AppSigningCertificate,
+		VersionCode:        pageattestationchecktest.AppVersionCode,
+	}
 
-	return check
+	return policy.CheckFor([]trustedappreleases.TrustedRelease{release}, now, device.Trust(), now)
 }
 
 func captureProxySigningWith(
