@@ -4,24 +4,18 @@ YaCy Companion turns an Android device into a trusted helper of your YaCy peer. 
 web pages for the peer and signs each one with a key in its secure hardware, so other peers can
 check that the pages are genuine.
 
+## Requirements
+
+A 64-bit ARM device with Android 14 or later.
+
 ## Install
 
-The release workflow of this repository builds, signs and publishes each release of the app.
-It runs for a tag `yacypeercompanion-v<version>` and signs each release with a new key. Each
-release holds the signed APK, the unsigned APK, the release record `release.json` and its
-Sigstore bundle. No release is published yet.
+Download the APK of the newest `yacypeercompanion-v<version>` release from the
+[releases](https://github.com/nikitakarpei/my-yacy-node/releases) of this repository. No release
+is published yet.
 
-Check a downloaded APK before you install it. Use these commands in a clone of this repository:
-
-```sh
-gh release verify-asset yacypeercompanion-v0.1.0 yacypeercompanion-v0.1.0.apk
-gh attestation verify yacypeercompanion-v0.1.0.apk -R nikitakarpei/my-yacy-node
-"$ANDROID_HOME"/platform-tools/adb install yacypeercompanion-v0.1.0.apk
-```
-
-The app runs on 64-bit ARM devices with Android 14 or later. Android does not update an app
-that another key signed, so to update, uninstall the app, install the new release, and pair
-again.
+To update the app, uninstall it, install the new release, and pair again. Android cannot update
+it in place, because each release has a new signing key.
 
 ## Use
 
