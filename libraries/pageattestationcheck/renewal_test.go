@@ -151,7 +151,7 @@ func TestTheCheckStopsRenewingWhenItsContextEnds(t *testing.T) {
 
 type renewal struct {
 	setup
-	check        *pageattestationcheck.RenewingCheck
+	check        *pageattestationcheck.Check
 	clock        *fakeClock
 	releases     *fakeTrustedReleases
 	androidTrust *fakeAndroidTrustSource
@@ -163,22 +163,26 @@ type renewal struct {
 func newRenewal(t *testing.T) *renewal {
 	t.Helper()
 	setup := newSetup(t)
+
+	return setup.renewalOf(t, setup.trustedRelease())
+}
+
+func (s setup) renewalOf(t *testing.T, releases ...trustedappreleases.TrustedRelease) *renewal {
+	t.Helper()
 	renewal := &renewal{
-		setup: setup,
+		setup: s,
 		clock: &fakeClock{
 			now:    renewalEpoch,
 			sleeps: make(chan time.Duration),
 			wakes:  make(chan struct{}),
 		},
-		releases: &fakeTrustedReleases{
-			releases: []trustedappreleases.TrustedRelease{setup.trustedRelease()},
-		},
-		androidTrust: &fakeAndroidTrustSource{androidTrust: setup.device.Trust()},
+		releases:     &fakeTrustedReleases{releases: releases},
+		androidTrust: &fakeAndroidTrustSource{androidTrust: s.device.Trust()},
 		observer:     &renewalEvents{},
 		stopped:      make(chan struct{}),
 	}
-	renewal.check = pageattestationcheck.NewRenewingCheck(
-		setup.policy(t),
+	renewal.check = pageattestationcheck.New(
+		s.authority.Entry(),
 		renewal.releases,
 		renewal.androidTrust,
 		renewal.clock,
@@ -274,6 +278,14 @@ func (r *fakeTrustedReleases) failRefreshes() {
 	defer r.guard.Unlock()
 
 	r.failing = true
+}
+
+func (r *fakeTrustedReleases) refreshLastBefore(age time.Duration) {
+	r.guard.Lock()
+	defer r.guard.Unlock()
+
+	r.failing = true
+	r.refreshedAt = renewalEpoch.Add(-age)
 }
 
 func (r *fakeTrustedReleases) set(releases []trustedappreleases.TrustedRelease) {

@@ -128,16 +128,16 @@ func (s setup) trustedRelease() trustedappreleases.TrustedRelease {
 	}
 }
 
-func (s setup) check(t *testing.T) pageattestationcheck.Check {
+func (s setup) check(t *testing.T) *pageattestationcheck.Check {
 	t.Helper()
 
-	return s.checkFor(t, s.trustedRelease())
+	return pageattestationchecktest.StartedCheck(t, s.device, s.authority)
 }
 
 func (s setup) checkFor(
 	t *testing.T,
 	releases ...trustedappreleases.TrustedRelease,
-) pageattestationcheck.Check {
+) *pageattestationcheck.Check {
 	t.Helper()
 
 	return s.checkAged(t, 0, releases...)
@@ -147,13 +147,15 @@ func (s setup) checkAged(
 	t *testing.T,
 	age time.Duration,
 	releases ...trustedappreleases.TrustedRelease,
-) pageattestationcheck.Check {
+) *pageattestationcheck.Check {
 	t.Helper()
-	refreshedAt := time.Now()
+	renewal := s.renewalOf(t, releases...)
+	if age > 0 {
+		renewal.releases.refreshLastBefore(age)
+	}
+	renewal.start(t)
 
-	return pageattestationcheck.New(
-		s.authority.Entry(), releases, refreshedAt, s.device.Trust(), refreshedAt.Add(age),
-	)
+	return renewal.check
 }
 
 func (s setup) attestationOf(t *testing.T, row yacymodel.URLMetadata) attestedstatements.Bundle {

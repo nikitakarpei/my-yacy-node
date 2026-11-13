@@ -45,8 +45,11 @@ deps:
       - trustedappreleases
       - companionapp
   pageattestationchecktest:
+    mayDependOn:
+      - pageattestationcheck
     canUse:
       - verifier
+      - trustedappreleases
       - timestamp
       - companionapp
 

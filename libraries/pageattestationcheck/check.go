@@ -1,11 +1,13 @@
 package pageattestationcheck
 
 import (
+	"context"
 	"encoding/json"
 	"encoding/json/jsontext"
 	"errors"
 	"fmt"
 	"net/url"
+	"sync/atomic"
 	"time"
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
@@ -21,6 +23,7 @@ import (
 const (
 	drandChain            = "quicknet"
 	maxTrustedReleasesAge = 48 * time.Hour
+	renewalInterval       = time.Hour
 )
 
 var (
@@ -34,9 +37,34 @@ var (
 	ErrStaleTrustedReleases = errors.New(
 		"the trusted app releases are older than their maximum age",
 	)
+	ErrNoAndroidTrust = errors.New("the Android trust is not loaded")
 )
 
+type Clock interface {
+	Now() time.Time
+	Sleep(ctx context.Context, d time.Duration) error
+}
+
+type AndroidTrustSource interface {
+	Latest(ctx context.Context) (*android.Trust, error)
+}
+
+type TrustedReleases interface {
+	Refresh(ctx context.Context, now time.Time)
+	Current() ([]trustedappreleases.TrustedRelease, time.Time)
+}
+
 type Check struct {
+	lastRenewal        atomic.Pointer[renewal]
+	androidTrust       *android.Trust
+	timeStampAuthority verifier.TSAEntry
+	releases           TrustedReleases
+	androidTrustSource AndroidTrustSource
+	clock              Clock
+	observer           RenewalObserver
+}
+
+type renewal struct {
 	statementVerifier *verifier.Verifier
 	reason            error
 }
@@ -49,27 +77,70 @@ type Verdict struct {
 
 func New(
 	timeStampAuthority verifier.TSAEntry,
-	releases []trustedappreleases.TrustedRelease,
-	refreshedAt time.Time,
-	androidTrust *android.Trust,
-	now time.Time,
-) Check {
+	releases TrustedReleases,
+	androidTrustSource AndroidTrustSource,
+	clock Clock,
+	observer RenewalObserver,
+) *Check {
+	check := &Check{
+		timeStampAuthority: timeStampAuthority,
+		releases:           releases,
+		androidTrustSource: androidTrustSource,
+		clock:              clock,
+		observer:           observer,
+	}
+	check.lastRenewal.Store(&renewal{reason: ErrNoAndroidTrust})
+
+	return check
+}
+
+func (c *Check) Run(ctx context.Context) {
+	for {
+		c.renew(ctx)
+		if err := c.clock.Sleep(ctx, renewalInterval); err != nil {
+			return
+		}
+	}
+}
+
+func (c *Check) renew(ctx context.Context) {
+	now := c.clock.Now()
+	c.loadAndroidTrust(ctx)
+	c.releases.Refresh(ctx, now)
+	renewed := c.renewalAt(now)
+	c.lastRenewal.Store(&renewed)
+}
+
+func (c *Check) loadAndroidTrust(ctx context.Context) {
+	androidTrust, err := c.androidTrustSource.Latest(ctx)
+	if err != nil {
+		c.observer.AndroidTrustUnloaded(ctx, err)
+
+		return
+	}
+	c.androidTrust = androidTrust
+}
+
+func (c *Check) renewalAt(now time.Time) renewal {
+	releases, refreshedAt := c.releases.Current()
 	switch {
+	case c.androidTrust == nil:
+		return renewal{reason: ErrNoAndroidTrust}
 	case len(releases) == 0:
-		return Check{reason: ErrNoTrustedReleases}
+		return renewal{reason: ErrNoTrustedReleases}
 	case now.Sub(refreshedAt) > maxTrustedReleasesAge:
-		return Check{reason: fmt.Errorf(
+		return renewal{reason: fmt.Errorf(
 			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
 		)}
 	}
 	statementVerifier, err := verifier.New(
-		policyFor(timeStampAuthority, releases), android.New(androidTrust),
+		policyFor(c.timeStampAuthority, releases), android.New(c.androidTrust),
 	)
 	if err != nil {
-		return Check{reason: fmt.Errorf("page attestation verifier: %w", err)}
+		return renewal{reason: fmt.Errorf("page attestation verifier: %w", err)}
 	}
 
-	return Check{statementVerifier: statementVerifier}
+	return renewal{statementVerifier: statementVerifier}
 }
 
 func policyFor(
@@ -112,12 +183,13 @@ func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
 	return signers
 }
 
-func (c Check) VerdictOn(
+func (c *Check) VerdictOn(
 	row yacymodel.URLMetadata,
 	attestation attestedstatements.Bundle,
 ) Verdict {
-	if c.reason != nil {
-		return notAttested(c.reason)
+	lastRenewal := c.lastRenewal.Load()
+	if lastRenewal.reason != nil {
+		return notAttested(lastRenewal.reason)
 	}
 	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil {
@@ -130,7 +202,7 @@ func (c Check) VerdictOn(
 	if err := reasonAgainstRow(row, statement); err != nil {
 		return notAttested(err)
 	}
-	result, err := c.statementVerifier.Verify(bundle)
+	result, err := lastRenewal.statementVerifier.Verify(bundle)
 	if err != nil {
 		return notAttested(fmt.Errorf("verify the attestation: %w", err))
 	}
