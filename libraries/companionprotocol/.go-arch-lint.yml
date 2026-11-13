@@ -9,8 +9,6 @@ components:
   companionprotocol:
     in:
       - .
-  companionreleases:
-    in: companionreleases/**
 
 deps: {}
 
