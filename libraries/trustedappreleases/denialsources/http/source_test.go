@@ -13,8 +13,11 @@ import (
 const signingCertificate = "72e21ab017f94f81137bb0d983453d02cfb59b31eac7935c31473a3ad2b2c428"
 
 func TestTheDenialsAreThoseOfTheDocument(t *testing.T) {
-	address := addressServing(t, nethttp.StatusOK,
-		`[{"signingCertificate":"`+signingCertificate+`","endTime":"2026-11-13T10:00:00Z"}]`)
+	address := addressServing(
+		t,
+		nethttp.StatusOK,
+		`{"denials":[{"signingCertificate":"`+signingCertificate+`","deniedFrom":"2026-11-13T10:00:00Z"}]}`,
+	)
 
 	denials, err := http.New(nethttp.DefaultClient, address).Denials(t.Context())
 
