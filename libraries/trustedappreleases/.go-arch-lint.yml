@@ -10,6 +10,12 @@ components:
     in: .
   provenanceverifierssigstore:
     in: provenanceverifiers/sigstore/**
+  releasesourcesgithub:
+    in: releasesources/github/**
+  denialsourceshttp:
+    in: denialsources/http/**
+  denialsourcesfile:
+    in: denialsources/file/**
 
 vendors:
   sigstore:
@@ -21,6 +27,15 @@ deps:
       - trustedappreleases
     canUse:
       - sigstore
+  releasesourcesgithub:
+    mayDependOn:
+      - trustedappreleases
+  denialsourceshttp:
+    mayDependOn:
+      - trustedappreleases
+  denialsourcesfile:
+    mayDependOn:
+      - trustedappreleases
 
 excludeFiles:
   - "_test\\.go"
