@@ -48,18 +48,18 @@ func TestAStatementOfAnotherAppIsNotAttested(t *testing.T) {
 	}
 }
 
-func TestATrustedReleaseAttestsOnlyStatementsStampedBeforeItsEndTime(t *testing.T) {
+func TestATrustedReleaseAttestsOnlyStatementsStampedBeforeItIsDenied(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 	for name, test := range map[string]struct {
-		endTime  time.Time
-		attested bool
+		deniedFrom time.Time
+		attested   bool
 	}{
-		"ends later":   {setup.stampedAt.Add(time.Hour), true},
-		"ended before": {setup.stampedAt.Add(-time.Hour), false},
+		"denied later":  {setup.stampedAt.Add(time.Hour), true},
+		"denied before": {setup.stampedAt.Add(-time.Hour), false},
 	} {
 		release := setup.trustedRelease()
-		release.EndTime = test.endTime
+		release.DeniedFrom = test.deniedFrom
 
 		verdict := setup.verifierFor(t, release).verdictOn(t, row, setup.attestationOf(t, row))
 

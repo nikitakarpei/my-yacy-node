@@ -165,8 +165,8 @@ func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
 			SigningCertificates: []string{release.SigningCertificate},
 			VersionCodes:        []int64{release.VersionCode},
 		}
-		if !release.EndTime.IsZero() {
-			endTime := release.EndTime.Unix()
+		if !release.DeniedFrom.IsZero() {
+			endTime := release.DeniedFrom.Unix()
 			signer.VersionEndTimes = []android.VersionEndTime{
 				{VersionCode: &release.VersionCode, EndTime: &endTime},
 			}

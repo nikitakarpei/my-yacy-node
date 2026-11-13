@@ -245,27 +245,30 @@ func TestAReleaseThatIsNoLongerListedStaysTrusted(t *testing.T) {
 	assertCurrent(t, releases, refreshTime.Add(time.Hour), trusted)
 }
 
-func TestADenialEndsTheReleasesOfItsCertificateAtItsEarliestEndTime(t *testing.T) {
+func TestTheEarliestDenialOfACertificateDeniesItsReleases(t *testing.T) {
 	setup := newRefreshSetup(t)
 	denied := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
 	other := setup.publishAttested("app-v1.1.0", certificateNumbered(2))
 	setup.denied.denials = []trustedappreleases.Denial{
-		{SigningCertificate: denied.SigningCertificate, EndTime: refreshTime.Add(-time.Hour)},
-		{SigningCertificate: denied.SigningCertificate, EndTime: refreshTime.Add(-2 * time.Hour)},
+		{SigningCertificate: denied.SigningCertificate, DeniedFrom: refreshTime.Add(-time.Hour)},
+		{
+			SigningCertificate: denied.SigningCertificate,
+			DeniedFrom:         refreshTime.Add(-2 * time.Hour),
+		},
 	}
 	releases := setup.open(t)
 
 	releases.Refresh(t.Context(), refreshTime)
 
-	denied.EndTime = refreshTime.Add(-2 * time.Hour)
+	denied.DeniedFrom = refreshTime.Add(-2 * time.Hour)
 	assertCurrent(t, releases, refreshTime, denied, other)
 }
 
-func TestARemovedDenialNoLongerEndsTheRelease(t *testing.T) {
+func TestARemovedDenialNoLongerDeniesTheRelease(t *testing.T) {
 	setup := newRefreshSetup(t)
 	trusted := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
 	setup.denied.denials = []trustedappreleases.Denial{
-		{SigningCertificate: trusted.SigningCertificate, EndTime: refreshTime},
+		{SigningCertificate: trusted.SigningCertificate, DeniedFrom: refreshTime},
 	}
 	releases := setup.open(t)
 	releases.Refresh(t.Context(), refreshTime)
@@ -280,7 +283,7 @@ func TestUnreadDenialsKeepTheLastDenialsAndTheirReadTime(t *testing.T) {
 	setup := newRefreshSetup(t)
 	first := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
 	setup.denied.denials = []trustedappreleases.Denial{
-		{SigningCertificate: first.SigningCertificate, EndTime: refreshTime},
+		{SigningCertificate: first.SigningCertificate, DeniedFrom: refreshTime},
 	}
 	releases := setup.open(t)
 	releases.Refresh(t.Context(), refreshTime)
@@ -289,7 +292,7 @@ func TestUnreadDenialsKeepTheLastDenialsAndTheirReadTime(t *testing.T) {
 
 	releases.Refresh(t.Context(), refreshTime.Add(time.Hour))
 
-	first.EndTime = refreshTime
+	first.DeniedFrom = refreshTime
 	assertCurrent(t, releases, refreshTime, first, second)
 	if !slices.Contains(setup.observed.events, "denials unread") {
 		t.Errorf("events = %v, want the denials unread", setup.observed.events)
@@ -303,12 +306,12 @@ func TestDenialsApplyWhileTheReleasesAreUnlisted(t *testing.T) {
 	releases.Refresh(t.Context(), refreshTime)
 	setup.published.listingErr = errUnreachable
 	setup.denied.denials = []trustedappreleases.Denial{
-		{SigningCertificate: trusted.SigningCertificate, EndTime: refreshTime},
+		{SigningCertificate: trusted.SigningCertificate, DeniedFrom: refreshTime},
 	}
 
 	releases.Refresh(t.Context(), refreshTime.Add(time.Hour))
 
-	trusted.EndTime = refreshTime
+	trusted.DeniedFrom = refreshTime
 	assertCurrent(t, releases, refreshTime.Add(time.Hour), trusted)
 	if !slices.Contains(setup.observed.events, "releases unlisted") {
 		t.Errorf("events = %v, want the releases unlisted", setup.observed.events)
@@ -349,14 +352,14 @@ func TestReopenedReleasesAreThoseOfTheLastRefresh(t *testing.T) {
 	setup := newRefreshSetup(t)
 	trusted := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
 	setup.denied.denials = []trustedappreleases.Denial{
-		{SigningCertificate: trusted.SigningCertificate, EndTime: refreshTime},
+		{SigningCertificate: trusted.SigningCertificate, DeniedFrom: refreshTime},
 	}
 	setup.open(t).Refresh(t.Context(), refreshTime)
 	setup.published.tags = nil
 
 	reopened := setup.open(t)
 
-	trusted.EndTime = refreshTime
+	trusted.DeniedFrom = refreshTime
 	assertCurrent(t, reopened, refreshTime, trusted)
 }
 
