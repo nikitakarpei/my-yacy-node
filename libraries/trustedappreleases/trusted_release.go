@@ -12,7 +12,7 @@ import (
 var ErrMalformedRecord = errors.New("the release record is malformed")
 
 type TrustedRelease struct {
-	EndTime            time.Time `json:"endTime,omitzero"`
+	DeniedFrom         time.Time `json:"deniedFrom,omitzero"`
 	Tag                string    `json:"tag"`
 	SigningCertificate string    `json:"signingCertificate"`
 	VersionCode        int64     `json:"versionCode"`
