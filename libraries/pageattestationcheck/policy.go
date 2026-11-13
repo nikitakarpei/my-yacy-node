@@ -49,7 +49,7 @@ func PolicyFrom(encoding []byte, appPackage string) (Policy, error) {
 func (p Policy) CheckFor(
 	releases []trustedappreleases.TrustedRelease,
 	refreshedAt time.Time,
-	trust *android.Trust,
+	androidTrust *android.Trust,
 	now time.Time,
 ) Check {
 	switch {
@@ -60,7 +60,7 @@ func (p Policy) CheckFor(
 			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
 		)}
 	}
-	statementVerifier, err := verifier.New(p.policyFor(releases), android.New(trust))
+	statementVerifier, err := verifier.New(p.policyFor(releases), android.New(androidTrust))
 	if err != nil {
 		return Check{reason: fmt.Errorf("page attestation verifier: %w", err)}
 	}
