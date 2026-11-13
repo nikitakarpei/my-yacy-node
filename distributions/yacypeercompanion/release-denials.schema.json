@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Release denials of the YaCy companion app",
+  "description": "Peers do not trust page attestations of a denied release that are time-stamped from its deniedFrom time on. Attestations time-stamped before it stay trusted. Remove an entry to lift the denial.",
+  "type": "object",
+  "required": ["denials"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "denials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["signingCertificate", "deniedFrom"],
+        "additionalProperties": false,
+        "properties": {
+          "signingCertificate": {
+            "description": "SHA-256 digest of the signing certificate of the release, as in its release-record.json: lowercase hex, or the colon-separated form that keytool writes.",
+            "type": "string",
+            "pattern": "^([0-9a-f]{64}|[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){31})$"
+          },
+          "deniedFrom": {
+            "description": "RFC 3339 time after 1970-01-01T00:00:00Z. Attestations time-stamped from this time on are not trusted.",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
