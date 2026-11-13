@@ -218,7 +218,7 @@ func fetchTimeOf(
 		return time.Time{}, fmt.Errorf("verify the attestation: %w", err)
 	}
 
-	return *result.StartedAfter, nil
+	return result.NotBefore, nil
 }
 
 func reasonAgainstRow(
