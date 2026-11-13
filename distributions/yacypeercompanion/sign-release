@@ -1,0 +1,74 @@
+#!/bin/sh
+# Signs an unsigned release APK with a new key, which it keeps in memory under /dev/shm when
+# that exists and deletes after the signature. Writes the release record: the SHA-256 digest
+# of the signing certificate and the versionCode.
+# Needs the jdk and android-build-tools of tools/install, with .toolchain/activate sourced,
+# and refuses other tools.
+# Usage: sign-release <unsigned APK> <tag> <output directory>
+set -eu
+unsigned=$1
+tag=$2
+output_directory=$3
+for home in "$JAVA_HOME" "$ANDROID_HOME"; do
+	case $home in
+	"$TOOLCHAIN_DIR"/*) ;;
+	*)
+		echo "$home is not in the pinned toolchain $TOOLCHAIN_DIR" >&2
+		exit 1
+		;;
+	esac
+done
+keytool=$JAVA_HOME/bin/keytool
+set -- "$ANDROID_HOME"/build-tools/*
+if [ $# -ne 1 ]; then
+	echo "the toolchain must have one version of the Android build tools: $*" >&2
+	exit 1
+fi
+build_tools=$1
+for tool in "$keytool" "$build_tools/apksigner" "$build_tools/aapt2"; do
+	test -x "$tool"
+done
+
+require_one_line() {
+	if [ "$(printf '%s' "$2" | grep -c .)" -ne 1 ]; then
+		echo "$1: $2" >&2
+		exit 1
+	fi
+}
+
+key_parent_directory=${RUNNER_TEMP:-${TMPDIR:-/tmp}}
+if [ -d /dev/shm ] && [ -w /dev/shm ]; then
+	key_parent_directory=/dev/shm
+fi
+key_directory=$(mktemp -d "$key_parent_directory/release-key.XXXXXX")
+trap 'rm -rf "$key_directory"' EXIT
+trap 'exit 1' HUP INT TERM
+KEY_PASSWORD=$(od -An -N32 -tx1 /dev/urandom | tr -d ' \n')
+export KEY_PASSWORD
+
+"$keytool" -genkeypair -keystore "$key_directory/release.p12" -storetype PKCS12 \
+	-storepass:env KEY_PASSWORD -alias release -keyalg EC -groupname secp256r1 \
+	-sigalg SHA256withECDSA -validity 36500 -dname "CN=YaCy Companion"
+key_signing_certificate=$("$keytool" -exportcert -keystore "$key_directory/release.p12" \
+	-storepass:env KEY_PASSWORD -alias release | sha256sum | cut -d ' ' -f 1)
+mkdir -p "$output_directory"
+"$build_tools/apksigner" sign --ks "$key_directory/release.p12" --ks-pass env:KEY_PASSWORD \
+	--ks-key-alias release --v4-signing-enabled false --out "$output_directory/$tag.apk" "$unsigned"
+rm -rf "$key_directory"
+if [ -e "$key_directory" ]; then
+	echo "the release key is still in $key_directory" >&2
+	exit 1
+fi
+
+signing_certificates=$("$build_tools/apksigner" verify --print-certs "$output_directory/$tag.apk" |
+	sed -n 's/^.*[Ss]igner.* certificate SHA-256 digest: \([0-9a-f]\{64\}\)$/\1/p' | sort -u)
+require_one_line "the APK must have exactly one signer" "$signing_certificates"
+if [ "$signing_certificates" != "$key_signing_certificate" ]; then
+	echo "the APK is not signed by the new key: $signing_certificates, not $key_signing_certificate" >&2
+	exit 1
+fi
+version_code=$("$build_tools/aapt2" dump badging "$output_directory/$tag.apk" |
+	sed -n "s/^package: name='[^']*' versionCode='\([1-9][0-9]*\)'.*/\1/p")
+require_one_line "the APK must have exactly one versionCode" "$version_code"
+printf '{"signingCertificate":"%s","versionCode":%s}\n' "$signing_certificates" "$version_code" \
+	>"$output_directory/release-record.json"

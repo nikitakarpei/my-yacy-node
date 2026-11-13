@@ -104,7 +104,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           gh release list --limit 1000 --json tagName,isDraft,createdAt \
-            --jq "[.[] | select((.tagName | startswith(\"yacypeer-\")) and (.isDraft | not))]
+            --jq "[.[] | select((.tagName | test(\"^yacypeer-[0-9a-f]{12}$\")) and (.isDraft | not))]
               | sort_by(.createdAt) | reverse | .[$RELEASES_KEPT:][] | .tagName" |
             while read -r tag; do
               gh release delete "$tag" --cleanup-tag --yes

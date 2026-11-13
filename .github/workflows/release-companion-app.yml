@@ -1,0 +1,102 @@
+name: release-companion-app
+
+on:
+  push:
+    tags:
+      - "yacypeercompanion-v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-companion-app
+  cancel-in-progress: false
+
+env:
+  APP: distributions/yacypeercompanion
+  TAG: ${{ github.ref_name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check that the Gradle wrapper is an official release
+        uses: gradle/actions/wrapper-validation@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+
+      - name: Check that the tag names the version of the app
+        run: |
+          version=$(sed -n 's/^ *versionName = "\(.*\)"$/\1/p' "$APP/app/build.gradle.kts")
+          if [ "$TAG" != "yacypeercompanion-v$version" ]; then
+            echo "tag $TAG does not name the app version $version" >&2
+            exit 1
+          fi
+
+      - name: Install the pinned tools
+        run: ./tools/install verify && ./tools/install android
+
+      - name: Build, lint and check the app
+        run: . .toolchain/activate && make android-app
+
+      - name: Check that two builds give the same APK
+        run: . .toolchain/activate && make android-app-reproducible
+
+      - name: Keep the unsigned APK for the signing job
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unsigned-apk
+          path: ${{ env.APP }}/app/build/outputs/apk/release/app-release-unsigned.apk
+          if-no-files-found: error
+
+  sign:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install the signing tools
+        run: ./tools/install jdk android-build-tools
+
+      - name: Take the unsigned APK of the build job
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: unsigned-apk
+          path: unsigned
+
+      - name: Sign the APK with a new key and write the release record
+        run: |
+          . .toolchain/activate
+          mkdir -p release
+          cp unsigned/app-release-unsigned.apk "release/$TAG-unsigned.apk"
+          "$APP/sign-release" "release/$TAG-unsigned.apk" "$TAG" release
+
+      - name: Attest the build provenance of the APKs and the release record
+        id: attest
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: |
+            release/*.apk
+            release/release-record.json
+
+      - name: Publish the immutable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUNDLE: ${{ steps.attest.outputs.bundle-path }}
+        run: |
+          cp "$BUNDLE" release/release-record.sigstore.json
+          gh release create "$TAG" --draft --verify-tag --title "$TAG" \
+            --notes "YaCy Companion, built and signed by the release workflow from the tagged commit." \
+            "release/$TAG.apk" "release/$TAG-unsigned.apk" \
+            release/release-record.json release/release-record.sigstore.json
+          gh release edit "$TAG" --draft=false --latest=false

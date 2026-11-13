@@ -37,8 +37,9 @@ The page attestation goes on the RWI stream. Nodes do not keep it or send it to 
 ## Consequences
 
 - No peer verifies an attestation until nodes carry it. That design is open.
-- Peers can trust the attestations only of an app whose signing certificate they know. Whoever
-  holds that key can sign any page.
+- Peers can trust the attestations only of an app whose signing certificate they know. Each
+  release of the companion app has a new key, see
+  [its ADR 2](../../distributions/yacypeercompanion/doc/adr/0002-sign-each-release-with-a-new-key.md).
 - An attestation shows that the origin served the page to the device over TLS. It does not
   show that the page is true, the same for each visitor, or not spam.
 - Pages through renderproxy, spamproxy or the web archive get no attestation.
