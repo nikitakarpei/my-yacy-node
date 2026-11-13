@@ -29,3 +29,5 @@ the subject of the statement.
 - The Sigstore trusted root and GitHub are trust anchors.
 - The library carries the dependencies of sigstore-go, which are many.
 - A release that is not immutable is not trusted, also when its provenance verifies.
+- A release whose tag names a commit that is not on the release branch is not trusted. A tag on
+  another branch cannot skip the review of the release branch.

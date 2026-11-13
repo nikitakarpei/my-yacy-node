@@ -14,8 +14,6 @@ components:
     in: releasesources/github/**
   denialsourceshttp:
     in: denialsources/http/**
-  denialsourcesfile:
-    in: denialsources/file/**
   trustedrootsourcestuf:
     in: trustedrootsources/tuf/**
   refreshobserversapplog:
@@ -35,9 +33,6 @@ deps:
     mayDependOn:
       - trustedappreleases
   denialsourceshttp:
-    mayDependOn:
-      - trustedappreleases
-  denialsourcesfile:
     mayDependOn:
       - trustedappreleases
   trustedrootsourcestuf:

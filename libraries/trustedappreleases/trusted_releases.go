@@ -17,13 +17,13 @@ var ErrReusedSigningCertificate = errors.New(
 
 type TrustedReleases struct {
 	trusted            map[string]TrustedRelease
-	refreshedAt        time.Time
+	denialsReadAt      time.Time
 	denials            []Denial
 	cache              *ReleaseCache
 	workflow           ReleaseWorkflow
 	provenanceVerifier ProvenanceVerifier
 	releaseSource      ReleaseSource
-	denialSources      []DenialSource
+	denialSource       DenialSource
 	observer           RefreshObserver
 }
 
@@ -32,7 +32,7 @@ func New( //nolint:revive // argument-limit: each argument is one collaborator o
 	workflow ReleaseWorkflow,
 	provenanceVerifier ProvenanceVerifier,
 	releaseSource ReleaseSource,
-	denialSources []DenialSource,
+	denialSource DenialSource,
 	observer RefreshObserver,
 ) *TrustedReleases {
 	lastRefresh := cache.LastRefresh()
@@ -43,22 +43,36 @@ func New( //nolint:revive // argument-limit: each argument is one collaborator o
 
 	return &TrustedReleases{
 		trusted:            trusted,
-		refreshedAt:        lastRefresh.RefreshedAt,
+		denialsReadAt:      lastRefresh.DenialsReadAt,
 		denials:            lastRefresh.Denials,
 		cache:              cache,
 		workflow:           workflow,
 		provenanceVerifier: provenanceVerifier,
 		releaseSource:      releaseSource,
-		denialSources:      denialSources,
+		denialSource:       denialSource,
 		observer:           observer,
 	}
 }
 
 func (r *TrustedReleases) Refresh(ctx context.Context, now time.Time) {
-	denials, read := r.denialsFromSources(ctx)
-	if !read {
+	r.readDenials(ctx, now)
+	r.trustListedReleases(ctx)
+	r.cache.Write(ctx, r.cachedRefresh())
+	r.observer.Refreshed(ctx, len(r.trusted))
+}
+
+func (r *TrustedReleases) readDenials(ctx context.Context, now time.Time) {
+	denials, err := r.denialSource.Denials(ctx)
+	if err != nil {
+		r.observer.DenialsUnread(ctx, err)
+
 		return
 	}
+	r.denials = denials
+	r.denialsReadAt = now
+}
+
+func (r *TrustedReleases) trustListedReleases(ctx context.Context) {
 	tags, err := r.releaseSource.TagsOldestFirst(ctx)
 	if err != nil {
 		r.observer.ReleasesUnlisted(ctx, err)
@@ -68,25 +82,6 @@ func (r *TrustedReleases) Refresh(ctx context.Context, now time.Time) {
 	for _, tag := range r.untrustedTagsFrom(tags) {
 		r.trust(ctx, tag)
 	}
-	r.denials = denials
-	r.refreshedAt = now
-	r.cache.Write(ctx, r.cachedRefresh())
-	r.observer.Refreshed(ctx, len(r.trusted))
-}
-
-func (r *TrustedReleases) denialsFromSources(ctx context.Context) ([]Denial, bool) {
-	var denials []Denial
-	for _, source := range r.denialSources {
-		sourceDenials, err := source.Denials(ctx)
-		if err != nil {
-			r.observer.DenialsUnread(ctx, err)
-
-			return nil, false
-		}
-		denials = append(denials, sourceDenials...)
-	}
-
-	return denials, true
 }
 
 func (r *TrustedReleases) untrustedTagsFrom(tags []string) []string {
@@ -140,9 +135,9 @@ func (r *TrustedReleases) trustsSigningCertificate(signingCertificate string) bo
 
 func (r *TrustedReleases) cachedRefresh() CachedRefresh {
 	return CachedRefresh{
-		RefreshedAt: r.refreshedAt,
-		Releases:    slices.SortedFunc(maps.Values(r.trusted), byTag),
-		Denials:     r.denials,
+		DenialsReadAt: r.denialsReadAt,
+		Releases:      slices.SortedFunc(maps.Values(r.trusted), byTag),
+		Denials:       r.denials,
 	}
 }
 
@@ -173,6 +168,6 @@ func endTimeOf(signingCertificate string, denials []Denial) time.Time {
 	return endTime
 }
 
-func (r *TrustedReleases) RefreshedAt() time.Time {
-	return r.refreshedAt
+func (r *TrustedReleases) DenialsReadAt() time.Time {
+	return r.denialsReadAt
 }
