@@ -43,6 +43,7 @@ require (
 	github.com/nats-io/jwt/v2 v2.8.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/companionapp v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/intotostatements v0.0.0 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/optional v0.0.0 // indirect
@@ -114,3 +115,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/st
 replace github.com/nikitakarpei/yacy-rwi-node/intotostatements => ../../libraries/intotostatements
 
 replace github.com/nikitakarpei/yacy-rwi-node/trustedappreleases => ../../libraries/trustedappreleases
+
+replace github.com/nikitakarpei/yacy-rwi-node/companionapp => ../../libraries/companionapp

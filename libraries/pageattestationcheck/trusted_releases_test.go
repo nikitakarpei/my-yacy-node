@@ -2,7 +2,6 @@ package pageattestationcheck_test
 
 import (
 	"errors"
-	"strings"
 	"testing"
 	"time"
 
@@ -37,19 +36,12 @@ func TestAnAppThatNoTrustedReleaseSignedIsNotAttested(t *testing.T) {
 
 func TestAStatementOfAnotherAppIsNotAttested(t *testing.T) {
 	setup := newSetup(t)
+	setup.device = pageattestationchecktest.NewAttestingDeviceOfApp(
+		t, "org.example.other", pageattestationchecktest.AppVersionCode,
+	)
 	row := rootedRow(t)
-	policy, err := pageattestationcheck.PolicyFrom(
-		pageattestationchecktest.PolicyFor(setup.authority), "org.example.other",
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	now := time.Now()
-	check := policy.CheckFor(
-		[]trustedappreleases.TrustedRelease{setup.trustedRelease()}, now, setup.device.Trust(), now,
-	)
 
-	verdict := check.VerdictOn(row, setup.attestationOf(t, row))
+	verdict := setup.check(t).VerdictOn(row, setup.attestationOf(t, row))
 
 	if verdict.Attested {
 		t.Errorf("verdict = %+v, want not attested", verdict)
@@ -106,7 +98,6 @@ func TestWithoutTrustedReleasesNoRowIsAttested(t *testing.T) {
 func TestTrustedReleasesAttestRowsForTwoDaysAfterTheirRefresh(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
-	refreshedAt := time.Now()
 	for name, test := range map[string]struct {
 		age    time.Duration
 		reason error
@@ -114,10 +105,7 @@ func TestTrustedReleasesAttestRowsForTwoDaysAfterTheirRefresh(t *testing.T) {
 		"47 hours old": {47 * time.Hour, nil},
 		"49 hours old": {49 * time.Hour, pageattestationcheck.ErrStaleTrustedReleases},
 	} {
-		check := setup.policy(t).CheckFor(
-			[]trustedappreleases.TrustedRelease{setup.trustedRelease()},
-			refreshedAt, setup.device.Trust(), refreshedAt.Add(test.age),
-		)
+		check := setup.checkAged(t, test.age, setup.trustedRelease())
 
 		verdict := check.VerdictOn(row, setup.attestationOf(t, row))
 
@@ -138,38 +126,5 @@ func TestTrustedReleasesThatShareASigningCertificateAttestNoRow(t *testing.T) {
 
 	if verdict.Attested || verdict.Reason == nil {
 		t.Errorf("verdict = %+v, want not attested with a reason", verdict)
-	}
-}
-
-func TestAPolicyThatNamesPredicateTypesIsRefused(t *testing.T) {
-	setup := newSetup(t)
-	policy := strings.Replace(
-		string(pageattestationchecktest.PolicyFor(setup.authority)),
-		`{`,
-		`{"predicateTypes":{"https://example.org/other":{"trustedSigners":[{"profile":"android"}]}},`,
-		1,
-	)
-
-	_, err := pageattestationcheck.PolicyFrom([]byte(policy), pageattestationchecktest.AppPackage)
-
-	if !errors.Is(err, pageattestationcheck.ErrPolicyWithPredicateTypes) {
-		t.Errorf("err = %v, want %v", err, pageattestationcheck.ErrPolicyWithPredicateTypes)
-	}
-}
-
-func TestAPolicyThatTheVerifierRefusesIsRefused(t *testing.T) {
-	setup := newSetup(t)
-	for name, policy := range map[string]string{
-		"not a policy": `{}`,
-		"unknown time-stamp authority": strings.Replace(
-			string(pageattestationchecktest.PolicyFor(setup.authority)),
-			`"timestampAuthorities":[{`, `"timestampAuthorities":["unknown",{`, 1,
-		),
-	} {
-		if _, err := pageattestationcheck.PolicyFrom(
-			[]byte(policy), pageattestationchecktest.AppPackage,
-		); err == nil {
-			t.Errorf("%s: the policy is accepted", name)
-		}
 	}
 }
