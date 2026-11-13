@@ -24,6 +24,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/yacymodel
   trustedappreleases:
     in: github.com/nikitakarpei/yacy-rwi-node/trustedappreleases
+  companionapp:
+    in: github.com/nikitakarpei/yacy-rwi-node/companionapp
   timestamp:
     in:
       - github.com/digitorus/timestamp
@@ -37,11 +39,12 @@ deps:
       - pagerwicontract
       - yacymodel
       - trustedappreleases
+      - companionapp
   pageattestationchecktest:
     canUse:
-      - pagerwicontract
       - verifier
       - timestamp
+      - companionapp
 
 excludeFiles:
   - "_test\\.go"

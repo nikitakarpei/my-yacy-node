@@ -1,16 +1,26 @@
 package pageattestationcheck
 
 import (
+	"encoding/json"
+	"encoding/json/jsontext"
 	"errors"
 	"fmt"
 	"net/url"
 	"time"
 
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
+	"github.com/nikitakarpei/hardware-attested-statements/verifier/profiles/android"
 
 	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
+	"github.com/nikitakarpei/yacy-rwi-node/companionapp"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
+	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+const (
+	drandChain            = "quicknet"
+	maxTrustedReleasesAge = 48 * time.Hour
 )
 
 var (
@@ -20,17 +30,86 @@ var (
 	ErrHashOfOtherAddress = errors.New(
 		"the URL hash of the row is not the hash of its address",
 	)
+	ErrNoTrustedReleases    = errors.New("no app release is trusted")
+	ErrStaleTrustedReleases = errors.New(
+		"the trusted app releases are older than their maximum age",
+	)
 )
 
 type Check struct {
-	verifier *verifier.Verifier
-	reason   error
+	statementVerifier *verifier.Verifier
+	reason            error
 }
 
 type Verdict struct {
 	Attested  bool
 	FetchedAt time.Time
 	Reason    error
+}
+
+func New(
+	timeStampAuthority verifier.TSAEntry,
+	releases []trustedappreleases.TrustedRelease,
+	refreshedAt time.Time,
+	androidTrust *android.Trust,
+	now time.Time,
+) Check {
+	switch {
+	case len(releases) == 0:
+		return Check{reason: ErrNoTrustedReleases}
+	case now.Sub(refreshedAt) > maxTrustedReleasesAge:
+		return Check{reason: fmt.Errorf(
+			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
+		)}
+	}
+	statementVerifier, err := verifier.New(
+		policyFor(timeStampAuthority, releases), android.New(androidTrust),
+	)
+	if err != nil {
+		return Check{reason: fmt.Errorf("page attestation verifier: %w", err)}
+	}
+
+	return Check{statementVerifier: statementVerifier}
+}
+
+func policyFor(
+	timeStampAuthority verifier.TSAEntry,
+	releases []trustedappreleases.TrustedRelease,
+) *verifier.Policy {
+	return &verifier.Policy{
+		Policy:               verifier.PolicyVersion,
+		TimestampAuthorities: []verifier.TSAEntry{timeStampAuthority},
+		DrandChains:          []string{drandChain},
+		PredicateTypes: map[string]verifier.PredicatePolicy{
+			pagerwicontract.PageRWIPredicateType: {
+				TrustedSigners:      signersFor(releases),
+				RequireTimestamp:    true,
+				RequireStartedAfter: true,
+			},
+		},
+	}
+}
+
+func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
+	signers := make([]jsontext.Value, 0, len(releases))
+	for _, release := range releases {
+		signer := android.Signer{
+			Profile:             android.Name,
+			Package:             companionapp.Package,
+			SigningCertificates: []string{release.SigningCertificate},
+			VersionCodes:        []int64{release.VersionCode},
+		}
+		if !release.EndTime.IsZero() {
+			endTime := release.EndTime.Unix()
+			signer.VersionEndTimes = []android.VersionEndTime{
+				{VersionCode: &release.VersionCode, EndTime: &endTime},
+			}
+		}
+		encoding, _ := json.Marshal(signer) //nolint:errchkjson // strings and numbers.
+		signers = append(signers, encoding)
+	}
+
+	return signers
 }
 
 func (c Check) VerdictOn(
@@ -51,7 +130,7 @@ func (c Check) VerdictOn(
 	if err := reasonAgainstRow(row, statement); err != nil {
 		return notAttested(err)
 	}
-	result, err := c.verifier.Verify(bundle)
+	result, err := c.statementVerifier.Verify(bundle)
 	if err != nil {
 		return notAttested(fmt.Errorf("verify the attestation: %w", err))
 	}

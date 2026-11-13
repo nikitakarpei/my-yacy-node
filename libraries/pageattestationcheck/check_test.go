@@ -128,19 +128,6 @@ func (s setup) trustedRelease() trustedappreleases.TrustedRelease {
 	}
 }
 
-func (s setup) policy(t *testing.T) pageattestationcheck.Policy {
-	t.Helper()
-	policy, err := pageattestationcheck.PolicyFrom(
-		pageattestationchecktest.PolicyFor(s.authority),
-		pageattestationchecktest.AppPackage,
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return policy
-}
-
 func (s setup) check(t *testing.T) pageattestationcheck.Check {
 	t.Helper()
 
@@ -152,9 +139,21 @@ func (s setup) checkFor(
 	releases ...trustedappreleases.TrustedRelease,
 ) pageattestationcheck.Check {
 	t.Helper()
-	now := time.Now()
 
-	return s.policy(t).CheckFor(releases, now, s.device.Trust(), now)
+	return s.checkAged(t, 0, releases...)
+}
+
+func (s setup) checkAged(
+	t *testing.T,
+	age time.Duration,
+	releases ...trustedappreleases.TrustedRelease,
+) pageattestationcheck.Check {
+	t.Helper()
+	refreshedAt := time.Now()
+
+	return pageattestationcheck.New(
+		s.authority.Entry(), releases, refreshedAt, s.device.Trust(), refreshedAt.Add(age),
+	)
 }
 
 func (s setup) attestationOf(t *testing.T, row yacymodel.URLMetadata) attestedstatements.Bundle {
