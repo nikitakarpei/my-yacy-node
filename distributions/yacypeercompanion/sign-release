@@ -1,6 +1,7 @@
 #!/bin/sh
-# Signs an unsigned release APK with a new key, which it deletes after the signature, and
-# writes the release record: the SHA-256 digest of the signing certificate and the versionCode.
+# Signs an unsigned release APK with a new key, which it keeps in memory under /dev/shm when
+# that exists and deletes after the signature. Writes the release record: the SHA-256 digest
+# of the signing certificate and the versionCode.
 # Needs the jdk and android-build-tools of tools/install, with .toolchain/activate sourced.
 # Usage: sign-release <unsigned APK> <tag> <output directory>
 set -eu
@@ -10,7 +11,11 @@ out=$3
 set -- "$ANDROID_HOME"/build-tools/*
 build_tools=$1
 test -x "$build_tools/apksigner"
-key=$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/release-key.XXXXXX")
+key_parent=${RUNNER_TEMP:-${TMPDIR:-/tmp}}
+if [ -d /dev/shm ] && [ -w /dev/shm ]; then
+	key_parent=/dev/shm
+fi
+key=$(mktemp -d "$key_parent/release-key.XXXXXX")
 trap 'rm -rf "$key"' EXIT
 KEY_PASSWORD=$(od -An -N32 -tx1 /dev/urandom | tr -d ' \n')
 export KEY_PASSWORD
@@ -22,6 +27,10 @@ mkdir -p "$out"
 "$build_tools/apksigner" sign --ks "$key/release.p12" --ks-pass env:KEY_PASSWORD \
 	--ks-key-alias release --v4-signing-enabled false --out "$out/$tag.apk" "$unsigned"
 rm -rf "$key"
+if [ -e "$key" ]; then
+	echo "the release key is still in $key" >&2
+	exit 1
+fi
 
 certificates=$("$build_tools/apksigner" verify --print-certs "$out/$tag.apk" |
 	sed -n 's/^.*[Ss]igner.* certificate SHA-256 digest: \([0-9a-f]\{64\}\)$/\1/p' | sort -u)
