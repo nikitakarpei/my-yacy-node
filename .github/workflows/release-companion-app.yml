@@ -87,16 +87,16 @@ jobs:
         with:
           subject-path: |
             release/*.apk
-            release/release.json
+            release/release-record.json
 
       - name: Publish the immutable release
         env:
           GH_TOKEN: ${{ github.token }}
           BUNDLE: ${{ steps.attest.outputs.bundle-path }}
         run: |
-          cp "$BUNDLE" release/release.sigstore.json
+          cp "$BUNDLE" release/release-record.sigstore.json
           gh release create "$TAG" --draft --verify-tag --title "$TAG" \
             --notes "YaCy Companion, built and signed by the release workflow from the tagged commit." \
             "release/$TAG.apk" "release/$TAG-unsigned.apk" \
-            release/release.json release/release.sigstore.json
+            release/release-record.json release/release-record.sigstore.json
           gh release edit "$TAG" --draft=false --latest=false

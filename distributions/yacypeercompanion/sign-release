@@ -8,7 +8,7 @@
 set -eu
 unsigned=$1
 tag=$2
-out=$3
+output_directory=$3
 for home in "$JAVA_HOME" "$ANDROID_HOME"; do
 	case $home in
 	"$TOOLCHAIN_DIR"/*) ;;
@@ -29,46 +29,46 @@ for tool in "$keytool" "$build_tools/apksigner" "$build_tools/aapt2"; do
 	test -x "$tool"
 done
 
-one_line() {
+require_one_line() {
 	if [ "$(printf '%s' "$2" | grep -c .)" -ne 1 ]; then
 		echo "$1: $2" >&2
 		exit 1
 	fi
 }
 
-key_parent=${RUNNER_TEMP:-${TMPDIR:-/tmp}}
+key_parent_directory=${RUNNER_TEMP:-${TMPDIR:-/tmp}}
 if [ -d /dev/shm ] && [ -w /dev/shm ]; then
-	key_parent=/dev/shm
+	key_parent_directory=/dev/shm
 fi
-key=$(mktemp -d "$key_parent/release-key.XXXXXX")
-trap 'rm -rf "$key"' EXIT
+key_directory=$(mktemp -d "$key_parent_directory/release-key.XXXXXX")
+trap 'rm -rf "$key_directory"' EXIT
 trap 'exit 1' HUP INT TERM
 KEY_PASSWORD=$(od -An -N32 -tx1 /dev/urandom | tr -d ' \n')
 export KEY_PASSWORD
 
-"$keytool" -genkeypair -keystore "$key/release.p12" -storetype PKCS12 \
+"$keytool" -genkeypair -keystore "$key_directory/release.p12" -storetype PKCS12 \
 	-storepass:env KEY_PASSWORD -alias release -keyalg EC -groupname secp256r1 \
 	-sigalg SHA256withECDSA -validity 36500 -dname "CN=YaCy Companion"
-key_certificate=$("$keytool" -exportcert -keystore "$key/release.p12" \
+key_signing_certificate=$("$keytool" -exportcert -keystore "$key_directory/release.p12" \
 	-storepass:env KEY_PASSWORD -alias release | sha256sum | cut -d ' ' -f 1)
-mkdir -p "$out"
-"$build_tools/apksigner" sign --ks "$key/release.p12" --ks-pass env:KEY_PASSWORD \
-	--ks-key-alias release --v4-signing-enabled false --out "$out/$tag.apk" "$unsigned"
-rm -rf "$key"
-if [ -e "$key" ]; then
-	echo "the release key is still in $key" >&2
+mkdir -p "$output_directory"
+"$build_tools/apksigner" sign --ks "$key_directory/release.p12" --ks-pass env:KEY_PASSWORD \
+	--ks-key-alias release --v4-signing-enabled false --out "$output_directory/$tag.apk" "$unsigned"
+rm -rf "$key_directory"
+if [ -e "$key_directory" ]; then
+	echo "the release key is still in $key_directory" >&2
 	exit 1
 fi
 
-certificates=$("$build_tools/apksigner" verify --print-certs "$out/$tag.apk" |
+signing_certificates=$("$build_tools/apksigner" verify --print-certs "$output_directory/$tag.apk" |
 	sed -n 's/^.*[Ss]igner.* certificate SHA-256 digest: \([0-9a-f]\{64\}\)$/\1/p' | sort -u)
-one_line "the APK must have exactly one signer" "$certificates"
-if [ "$certificates" != "$key_certificate" ]; then
-	echo "the APK is not signed by the new key: $certificates, not $key_certificate" >&2
+require_one_line "the APK must have exactly one signer" "$signing_certificates"
+if [ "$signing_certificates" != "$key_signing_certificate" ]; then
+	echo "the APK is not signed by the new key: $signing_certificates, not $key_signing_certificate" >&2
 	exit 1
 fi
-version_code=$("$build_tools/aapt2" dump badging "$out/$tag.apk" |
+version_code=$("$build_tools/aapt2" dump badging "$output_directory/$tag.apk" |
 	sed -n "s/^package: name='[^']*' versionCode='\([1-9][0-9]*\)'.*/\1/p")
-one_line "the APK must have exactly one versionCode" "$version_code"
-printf '{"signingCertificate":"%s","versionCode":%s}\n' "$certificates" "$version_code" \
-	>"$out/release.json"
+require_one_line "the APK must have exactly one versionCode" "$version_code"
+printf '{"signingCertificate":"%s","versionCode":%s}\n' "$signing_certificates" "$version_code" \
+	>"$output_directory/release-record.json"
