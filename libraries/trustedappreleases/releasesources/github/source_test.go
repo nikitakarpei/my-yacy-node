@@ -43,11 +43,11 @@ func newRepository(t *testing.T) *repository {
 	t.Cleanup(repo.server.Close)
 	repo.answers["/repositories/"+repositoryID+"/releases/tags/"+tag] = fmt.Sprintf(
 		`{"tag_name":%q,"immutable":true,"assets":[`+
-			`{"name":"release.json","browser_download_url":"%[2]s/download/release.json"},`+
-			`{"name":"release.sigstore.json","browser_download_url":"%[2]s/download/release.sigstore.json"}]}`,
+			`{"name":"release-record.json","browser_download_url":"%[2]s/download/release-record.json"},`+
+			`{"name":"release-record.sigstore.json","browser_download_url":"%[2]s/download/release-record.sigstore.json"}]}`,
 		tag, repo.server.URL)
-	repo.answers["/download/release.json"] = record
-	repo.answers["/download/release.sigstore.json"] = signedBundle
+	repo.answers["/download/release-record.json"] = record
+	repo.answers["/download/release-record.sigstore.json"] = signedBundle
 	repo.pointTagTo("commit", commit)
 
 	return repo
@@ -113,7 +113,12 @@ func TestATagOfATreeGivesNoRelease(t *testing.T) {
 func TestAReleaseWithoutItsRecordGivesNoRelease(t *testing.T) {
 	repo := newRepository(t)
 	key := "/repositories/" + repositoryID + "/releases/tags/" + tag
-	repo.answers[key] = strings.Replace(repo.answers[key], `"release.json"`, `"other.json"`, 1)
+	repo.answers[key] = strings.Replace(
+		repo.answers[key],
+		`"release-record.json"`,
+		`"other.json"`,
+		1,
+	)
 
 	_, err := repo.source().ReleaseOf(t.Context(), tag)
 
@@ -132,7 +137,7 @@ func TestAnUnexpectedStatusGivesNoTags(t *testing.T) {
 
 func TestAnAnswerThatIsTooLargeGivesNoRelease(t *testing.T) {
 	repo := newRepository(t)
-	repo.answers["/download/release.sigstore.json"] = strings.Repeat("a", 4<<20+1)
+	repo.answers["/download/release-record.sigstore.json"] = strings.Repeat("a", 4<<20+1)
 
 	_, err := repo.source().ReleaseOf(t.Context(), tag)
 
