@@ -71,7 +71,7 @@ func TestTheCheckRenewsAfterAnHour(t *testing.T) {
 	}
 }
 
-func TestARenewalThatCannotLoadTheListKeepsThePreviousList(t *testing.T) {
+func TestARenewalThatCannotLoadTheRevocationListKeepsThePreviousOne(t *testing.T) {
 	renewal := newRenewal(t)
 	row := rootedRow(t)
 	renewal.start(t)
@@ -88,7 +88,7 @@ func TestARenewalThatCannotLoadTheListKeepsThePreviousList(t *testing.T) {
 	}
 }
 
-func TestAFirstRenewalThatCannotLoadTheListAttestsNoRow(t *testing.T) {
+func TestAFirstRenewalThatCannotLoadTheRevocationListAttestsNoRow(t *testing.T) {
 	renewal := newRenewal(t)
 	row := rootedRow(t)
 	renewal.trust.fail()
@@ -99,6 +99,40 @@ func TestAFirstRenewalThatCannotLoadTheListAttestsNoRow(t *testing.T) {
 	if verdict.Attested || !errors.Is(verdict.Reason, pageattestationcheck.ErrNoDeviceTrust) {
 		t.Errorf("verdict = %+v, want not attested for %v",
 			verdict, pageattestationcheck.ErrNoDeviceTrust)
+	}
+}
+
+func TestARenewalThatCannotLoadTheRevocationListTakesTheRefreshedReleases(t *testing.T) {
+	renewal := newRenewal(t)
+	row := rootedRow(t)
+	renewal.start(t)
+	renewal.trust.fail()
+	renewal.releases.set(nil)
+
+	renewal.clock.wake()
+	renewal.clock.sleepAfterRenewal()
+
+	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
+	if !errors.Is(verdict.Reason, pageattestationcheck.ErrNoTrustedReleases) {
+		t.Errorf("verdict = %+v, want not attested for %v",
+			verdict, pageattestationcheck.ErrNoTrustedReleases)
+	}
+}
+
+func TestReleasesThatFailToRefreshForTwoDaysAttestNoRow(t *testing.T) {
+	renewal := newRenewal(t)
+	row := rootedRow(t)
+	renewal.start(t)
+	renewal.releases.failRefreshes()
+
+	renewal.clock.advanceBy(49 * time.Hour)
+	renewal.clock.wake()
+	renewal.clock.sleepAfterRenewal()
+
+	verdict := renewal.check.VerdictOn(row, renewal.attestationOf(t, row))
+	if !errors.Is(verdict.Reason, pageattestationcheck.ErrStaleTrustedReleases) {
+		t.Errorf("verdict = %+v, want not attested for %v",
+			verdict, pageattestationcheck.ErrStaleTrustedReleases)
 	}
 }
 
@@ -206,9 +240,11 @@ func (c *fakeClock) wake() {
 }
 
 type fakeTrustedReleases struct {
-	guard     sync.Mutex
-	releases  []trustedappreleases.TrustedRelease
-	refreshes []time.Time
+	guard       sync.Mutex
+	releases    []trustedappreleases.TrustedRelease
+	refreshes   []time.Time
+	refreshedAt time.Time
+	failing     bool
 }
 
 func (r *fakeTrustedReleases) Refresh(_ context.Context, now time.Time) {
@@ -216,13 +252,23 @@ func (r *fakeTrustedReleases) Refresh(_ context.Context, now time.Time) {
 	defer r.guard.Unlock()
 
 	r.refreshes = append(r.refreshes, now)
+	if !r.failing {
+		r.refreshedAt = now
+	}
 }
 
 func (r *fakeTrustedReleases) Current() ([]trustedappreleases.TrustedRelease, time.Time) {
 	r.guard.Lock()
 	defer r.guard.Unlock()
 
-	return r.releases, r.refreshes[len(r.refreshes)-1]
+	return r.releases, r.refreshedAt
+}
+
+func (r *fakeTrustedReleases) failRefreshes() {
+	r.guard.Lock()
+	defer r.guard.Unlock()
+
+	r.failing = true
 }
 
 func (r *fakeTrustedReleases) set(releases []trustedappreleases.TrustedRelease) {
