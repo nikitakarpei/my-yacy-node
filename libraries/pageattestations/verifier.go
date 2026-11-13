@@ -1,4 +1,4 @@
-package pageattestationcheck
+package pageattestations
 
 import (
 	"encoding/json"
@@ -36,7 +36,7 @@ var (
 	)
 )
 
-type Check struct {
+type Verifier struct {
 	statementVerifier *verifier.Verifier
 	reason            error
 }
@@ -53,12 +53,12 @@ func New(
 	refreshedAt time.Time,
 	androidTrust *android.Trust,
 	now time.Time,
-) Check {
+) Verifier {
 	switch {
 	case len(releases) == 0:
-		return Check{reason: ErrNoTrustedReleases}
+		return Verifier{reason: ErrNoTrustedReleases}
 	case now.Sub(refreshedAt) > maxTrustedReleasesAge:
-		return Check{reason: fmt.Errorf(
+		return Verifier{reason: fmt.Errorf(
 			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
 		)}
 	}
@@ -66,10 +66,10 @@ func New(
 		policyFor(timeStampAuthority, releases), android.New(androidTrust),
 	)
 	if err != nil {
-		return Check{reason: fmt.Errorf("page attestation verifier: %w", err)}
+		return Verifier{reason: fmt.Errorf("make the statement verifier: %w", err)}
 	}
 
-	return Check{statementVerifier: statementVerifier}
+	return Verifier{statementVerifier: statementVerifier}
 }
 
 func policyFor(
@@ -112,12 +112,12 @@ func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
 	return signers
 }
 
-func (c Check) VerdictOn(
+func (v Verifier) VerdictOn(
 	row yacymodel.URLMetadata,
 	attestation attestedstatements.Bundle,
 ) Verdict {
-	if c.reason != nil {
-		return notAttested(c.reason)
+	if v.reason != nil {
+		return notAttested(v.reason)
 	}
 	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil {
@@ -130,7 +130,7 @@ func (c Check) VerdictOn(
 	if err := reasonAgainstRow(row, statement); err != nil {
 		return notAttested(err)
 	}
-	result, err := c.statementVerifier.Verify(bundle)
+	result, err := v.statementVerifier.Verify(bundle)
 	if err != nil {
 		return notAttested(fmt.Errorf("verify the attestation: %w", err))
 	}

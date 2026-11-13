@@ -14,8 +14,8 @@ import (
 	"github.com/nikitakarpei/hardware-attested-statements/verifier"
 	"github.com/nikitakarpei/hardware-attested-statements/verifier/predicates/httpresponse"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations/pageattestationstest"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/yacypeercompanion/pageservices"
 )
@@ -29,11 +29,11 @@ const (
 var errNoHardwareKey = errors.New("no hardware key in this test")
 
 func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
-	device := pageattestationchecktest.NewAttestingDevice(
+	device := pageattestationstest.NewAttestingDevice(
 		t,
-		pageattestationchecktest.AppVersionCode,
+		pageattestationstest.AppVersionCode,
 	)
-	authority := pageattestationchecktest.NewTimeStampAuthority(t)
+	authority := pageattestationstest.NewTimeStampAuthority(t)
 	peer := startPeer(t)
 	provisionPeerStreams(t, peer.jetStream(t))
 	instance := instanceWithKeys(
@@ -46,7 +46,7 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 	awaitEvent(t, events, "connected")
 
 	pageRWI := askForRWIOf(t, peer.jetStream(t), attestedPageURL)
-	verdict := checkFor(t, device, authority).VerdictOn(pageRWI.Metadata, pageRWI.Attestation)
+	verdict := verifierFor(t, device, authority).VerdictOn(pageRWI.Metadata, pageRWI.Attestation)
 
 	if !verdict.Attested {
 		t.Fatalf("verdict = %+v, want the page attestation accepted", verdict)
@@ -59,27 +59,27 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 	awaitEvent(t, events, "stopped")
 }
 
-func checkFor(
+func verifierFor(
 	t *testing.T,
-	device *pageattestationchecktest.AttestingDevice,
-	authority *pageattestationchecktest.TimeStampAuthority,
-) pageattestationcheck.Check {
+	device *pageattestationstest.AttestingDevice,
+	authority *pageattestationstest.TimeStampAuthority,
+) pageattestations.Verifier {
 	t.Helper()
 	now := time.Now()
 	release := trustedappreleases.TrustedRelease{
 		Tag:                "yacypeercompanion-v1.0.0",
-		SigningCertificate: pageattestationchecktest.AppSigningCertificate,
-		VersionCode:        pageattestationchecktest.AppVersionCode,
+		SigningCertificate: pageattestationstest.AppSigningCertificate,
+		VersionCode:        pageattestationstest.AppVersionCode,
 	}
 
-	return pageattestationcheck.New(
+	return pageattestations.New(
 		authority.Entry(), []trustedappreleases.TrustedRelease{release}, now, device.Trust(), now,
 	)
 }
 
 func captureProxySigningWith(
 	t *testing.T,
-	device *pageattestationchecktest.AttestingDevice,
+	device *pageattestationstest.AttestingDevice,
 ) string {
 	t.Helper()
 	statement := responseStatementOf(t, attestedPageURL, pageBody)
@@ -143,8 +143,8 @@ func quicknet(t *testing.T) verifier.DrandChain {
 
 type deviceKeys struct {
 	t         *testing.T
-	device    *pageattestationchecktest.AttestingDevice
-	authority *pageattestationchecktest.TimeStampAuthority
+	device    *pageattestationstest.AttestingDevice
+	authority *pageattestationstest.TimeStampAuthority
 }
 
 func (k deviceKeys) CurrentKey() (pageservices.HardwareKey, error) {

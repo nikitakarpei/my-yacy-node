@@ -1,4 +1,4 @@
-package pageattestationcheck_test
+package pageattestations_test
 
 import (
 	"encoding/json"
@@ -11,8 +11,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/attestedstatements"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations/pageattestationstest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagerwicontract"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -28,7 +28,7 @@ func TestARowWithItsPageAttestationIsAttestedAtTheTimeOfItsRound(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 
-	verdict := setup.check(t).VerdictOn(row, setup.attestationOf(t, row))
+	verdict := setup.verifier(t).VerdictOn(row, setup.attestationOf(t, row))
 
 	if !verdict.Attested || verdict.Reason != nil {
 		t.Fatalf("verdict = %+v, want attested", verdict)
@@ -44,15 +44,15 @@ func TestARowThatDiffersFromItsAttestationIsNotAttested(t *testing.T) {
 		row    func(*yacymodel.URLMetadata)
 		reason error
 	}{
-		"changed title": {func(r *yacymodel.URLMetadata) { r.Title = "Other" }, pageattestationcheck.ErrOtherPageRWIRoot},
-		"no root":       {func(r *yacymodel.URLMetadata) { r.PostingsRoot = yacymodel.None[yacymodel.PostingsRoot]() }, pageattestationcheck.ErrNoPageRWIRoot},
-		"other address": {func(r *yacymodel.URLMetadata) { r.Address = "https://example.org/b" }, pageattestationcheck.ErrOtherPageRWIRoot},
+		"changed title": {func(r *yacymodel.URLMetadata) { r.Title = "Other" }, pageattestations.ErrOtherPageRWIRoot},
+		"no root":       {func(r *yacymodel.URLMetadata) { r.PostingsRoot = yacymodel.None[yacymodel.PostingsRoot]() }, pageattestations.ErrNoPageRWIRoot},
+		"other address": {func(r *yacymodel.URLMetadata) { r.Address = "https://example.org/b" }, pageattestations.ErrOtherPageRWIRoot},
 	} {
 		row := rootedRow(t)
 		attestation := setup.attestationOf(t, row)
 		change.row(&row)
 
-		verdict := setup.check(t).VerdictOn(row, attestation)
+		verdict := setup.verifier(t).VerdictOn(row, attestation)
 
 		if verdict.Attested || !errors.Is(verdict.Reason, change.reason) {
 			t.Errorf("%s: verdict = %+v, want not attested for %v", name, verdict, change.reason)
@@ -65,9 +65,9 @@ func TestAnAttestationOfAnotherAddressIsNotAttested(t *testing.T) {
 	row := rootedRow(t)
 	attestation := setup.attestationFor(t, row, "https://example.org/other")
 
-	verdict := setup.check(t).VerdictOn(row, attestation)
+	verdict := setup.verifier(t).VerdictOn(row, attestation)
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestationcheck.ErrOtherAddress) {
+	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrOtherAddress) {
 		t.Errorf("verdict = %+v", verdict)
 	}
 }
@@ -78,9 +78,9 @@ func TestARowWhoseHashIsNotOfItsAddressIsNotAttested(t *testing.T) {
 	other, _ := url.Parse("https://example.org/other")
 	row.Hash = yacymodel.URLHashOf(other)
 
-	verdict := setup.check(t).VerdictOn(row, setup.attestationOf(t, row))
+	verdict := setup.verifier(t).VerdictOn(row, setup.attestationOf(t, row))
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestationcheck.ErrHashOfOtherAddress) {
+	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrHashOfOtherAddress) {
 		t.Errorf("verdict = %+v", verdict)
 	}
 }
@@ -93,7 +93,7 @@ func TestAnAttestationThatDoesNotVerifyIsNotAttested(t *testing.T) {
 		"no stamp":             setup.unstampedAttestationOf(t, row),
 		"other statement type": setup.attestationOfStatement(t, []byte(`{"_type":"https://in-toto.io/Statement/v1"}`)),
 	} {
-		verdict := setup.check(t).VerdictOn(row, attestation)
+		verdict := setup.verifier(t).VerdictOn(row, attestation)
 
 		if verdict.Attested || verdict.Reason == nil {
 			t.Errorf("%s: verdict = %+v, want not attested with a reason", name, verdict)
@@ -102,8 +102,8 @@ func TestAnAttestationThatDoesNotVerifyIsNotAttested(t *testing.T) {
 }
 
 type setup struct {
-	device    *pageattestationchecktest.AttestingDevice
-	authority *pageattestationchecktest.TimeStampAuthority
+	device    *pageattestationstest.AttestingDevice
+	authority *pageattestationstest.TimeStampAuthority
 	stampedAt time.Time
 }
 
@@ -111,11 +111,11 @@ func newSetup(t *testing.T) setup {
 	t.Helper()
 
 	return setup{
-		device: pageattestationchecktest.NewAttestingDevice(
+		device: pageattestationstest.NewAttestingDevice(
 			t,
-			pageattestationchecktest.AppVersionCode,
+			pageattestationstest.AppVersionCode,
 		),
-		authority: pageattestationchecktest.NewTimeStampAuthority(t),
+		authority: pageattestationstest.NewTimeStampAuthority(t),
 		stampedAt: time.Now().Add(-time.Minute).Truncate(time.Second),
 	}
 }
@@ -123,35 +123,35 @@ func newSetup(t *testing.T) setup {
 func (s setup) trustedRelease() trustedappreleases.TrustedRelease {
 	return trustedappreleases.TrustedRelease{
 		Tag:                "yacypeercompanion-v1.0.0",
-		SigningCertificate: pageattestationchecktest.AppSigningCertificate,
-		VersionCode:        pageattestationchecktest.AppVersionCode,
+		SigningCertificate: pageattestationstest.AppSigningCertificate,
+		VersionCode:        pageattestationstest.AppVersionCode,
 	}
 }
 
-func (s setup) check(t *testing.T) pageattestationcheck.Check {
+func (s setup) verifier(t *testing.T) pageattestations.Verifier {
 	t.Helper()
 
-	return s.checkFor(t, s.trustedRelease())
+	return s.verifierFor(t, s.trustedRelease())
 }
 
-func (s setup) checkFor(
+func (s setup) verifierFor(
 	t *testing.T,
 	releases ...trustedappreleases.TrustedRelease,
-) pageattestationcheck.Check {
+) pageattestations.Verifier {
 	t.Helper()
 
-	return s.checkAged(t, 0, releases...)
+	return s.verifierRefreshedBefore(t, 0, releases...)
 }
 
-func (s setup) checkAged(
+func (s setup) verifierRefreshedBefore(
 	t *testing.T,
 	age time.Duration,
 	releases ...trustedappreleases.TrustedRelease,
-) pageattestationcheck.Check {
+) pageattestations.Verifier {
 	t.Helper()
 	refreshedAt := time.Now()
 
-	return pageattestationcheck.New(
+	return pageattestations.New(
 		s.authority.Entry(), releases, refreshedAt, s.device.Trust(), refreshedAt.Add(age),
 	)
 }

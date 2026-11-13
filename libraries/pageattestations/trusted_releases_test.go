@@ -1,23 +1,23 @@
-package pageattestationcheck_test
+package pageattestations_test
 
 import (
 	"errors"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck"
-	"github.com/nikitakarpei/yacy-rwi-node/pageattestationcheck/pageattestationchecktest"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations"
+	"github.com/nikitakarpei/yacy-rwi-node/pageattestations/pageattestationstest"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 )
 
 const otherSigningCertificate = "0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0"
 
-func TestAnAppThatNoTrustedReleaseSignedIsNotAttested(t *testing.T) {
+func TestARowSignedByNoTrustedReleaseIsNotAttested(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 	for name, change := range map[string]func(*trustedappreleases.TrustedRelease){
 		"other version code": func(r *trustedappreleases.TrustedRelease) {
-			r.VersionCode = pageattestationchecktest.AppVersionCode + 1
+			r.VersionCode = pageattestationstest.AppVersionCode + 1
 		},
 		"other signing certificate": func(r *trustedappreleases.TrustedRelease) {
 			r.SigningCertificate = otherSigningCertificate
@@ -26,7 +26,7 @@ func TestAnAppThatNoTrustedReleaseSignedIsNotAttested(t *testing.T) {
 		release := setup.trustedRelease()
 		change(&release)
 
-		verdict := setup.checkFor(t, release).VerdictOn(row, setup.attestationOf(t, row))
+		verdict := setup.verifierFor(t, release).VerdictOn(row, setup.attestationOf(t, row))
 
 		if verdict.Attested {
 			t.Errorf("%s: verdict = %+v, want not attested", name, verdict)
@@ -36,19 +36,19 @@ func TestAnAppThatNoTrustedReleaseSignedIsNotAttested(t *testing.T) {
 
 func TestAStatementOfAnotherAppIsNotAttested(t *testing.T) {
 	setup := newSetup(t)
-	setup.device = pageattestationchecktest.NewAttestingDeviceOfApp(
-		t, "org.example.other", pageattestationchecktest.AppVersionCode,
+	setup.device = pageattestationstest.NewAttestingDeviceOfApp(
+		t, "org.example.other", pageattestationstest.AppVersionCode,
 	)
 	row := rootedRow(t)
 
-	verdict := setup.check(t).VerdictOn(row, setup.attestationOf(t, row))
+	verdict := setup.verifier(t).VerdictOn(row, setup.attestationOf(t, row))
 
 	if verdict.Attested {
 		t.Errorf("verdict = %+v, want not attested", verdict)
 	}
 }
 
-func TestAnAppReleaseIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testing.T) {
+func TestATrustedReleaseAttestsOnlyStatementsStampedBeforeItsEndTime(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 	for name, test := range map[string]struct {
@@ -61,7 +61,7 @@ func TestAnAppReleaseIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testin
 		release := setup.trustedRelease()
 		release.EndTime = test.endTime
 
-		verdict := setup.checkFor(t, release).VerdictOn(row, setup.attestationOf(t, row))
+		verdict := setup.verifierFor(t, release).VerdictOn(row, setup.attestationOf(t, row))
 
 		if verdict.Attested != test.attested {
 			t.Errorf("%s: verdict = %+v, want attested %v", name, verdict, test.attested)
@@ -75,7 +75,7 @@ func TestAnyOfTheTrustedReleasesAttestsARow(t *testing.T) {
 	other := setup.trustedRelease()
 	other.SigningCertificate = otherSigningCertificate
 
-	verdict := setup.checkFor(t, other, setup.trustedRelease()).
+	verdict := setup.verifierFor(t, other, setup.trustedRelease()).
 		VerdictOn(row, setup.attestationOf(t, row))
 
 	if !verdict.Attested {
@@ -87,11 +87,11 @@ func TestWithoutTrustedReleasesNoRowIsAttested(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 
-	verdict := setup.checkFor(t).VerdictOn(row, setup.attestationOf(t, row))
+	verdict := setup.verifierFor(t).VerdictOn(row, setup.attestationOf(t, row))
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestationcheck.ErrNoTrustedReleases) {
+	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrNoTrustedReleases) {
 		t.Errorf("verdict = %+v, want not attested for %v",
-			verdict, pageattestationcheck.ErrNoTrustedReleases)
+			verdict, pageattestations.ErrNoTrustedReleases)
 	}
 }
 
@@ -103,11 +103,11 @@ func TestTrustedReleasesAttestRowsForTwoDaysAfterTheirRefresh(t *testing.T) {
 		reason error
 	}{
 		"47 hours old": {47 * time.Hour, nil},
-		"49 hours old": {49 * time.Hour, pageattestationcheck.ErrStaleTrustedReleases},
+		"49 hours old": {49 * time.Hour, pageattestations.ErrStaleTrustedReleases},
 	} {
-		check := setup.checkAged(t, test.age, setup.trustedRelease())
+		attestationVerifier := setup.verifierRefreshedBefore(t, test.age, setup.trustedRelease())
 
-		verdict := check.VerdictOn(row, setup.attestationOf(t, row))
+		verdict := attestationVerifier.VerdictOn(row, setup.attestationOf(t, row))
 
 		if verdict.Attested != (test.reason == nil) || !errors.Is(verdict.Reason, test.reason) {
 			t.Errorf("%s: verdict = %+v, want reason %v", name, verdict, test.reason)
@@ -121,7 +121,7 @@ func TestTrustedReleasesThatShareASigningCertificateAttestNoRow(t *testing.T) {
 	other := setup.trustedRelease()
 	other.Tag = "yacypeercompanion-v1.0.1"
 
-	verdict := setup.checkFor(t, setup.trustedRelease(), other).
+	verdict := setup.verifierFor(t, setup.trustedRelease(), other).
 		VerdictOn(row, setup.attestationOf(t, row))
 
 	if verdict.Attested || verdict.Reason == nil {

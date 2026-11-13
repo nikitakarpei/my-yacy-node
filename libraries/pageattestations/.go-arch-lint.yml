@@ -6,10 +6,10 @@ allow:
   deepScan: false
 
 components:
-  pageattestationcheck:
+  pageattestations:
     in: .
-  pageattestationchecktest:
-    in: pageattestationchecktest/**
+  pageattestationstest:
+    in: pageattestationstest/**
 
 vendors:
   attestedstatements:
@@ -32,7 +32,7 @@ vendors:
       - github.com/transparency-dev/merkle/rfc6962
 
 deps:
-  pageattestationcheck:
+  pageattestations:
     canUse:
       - attestedstatements
       - verifier
@@ -40,7 +40,7 @@ deps:
       - yacymodel
       - trustedappreleases
       - companionapp
-  pageattestationchecktest:
+  pageattestationstest:
     canUse:
       - verifier
       - timestamp
