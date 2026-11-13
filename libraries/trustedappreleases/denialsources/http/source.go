@@ -1,4 +1,4 @@
-// Package http reads denied releases from a JSON document at an address, such as a file of a
+// Package http reads release denials from a JSON document at an address, such as a file of a
 // repository on its default branch.
 package http
 
@@ -15,8 +15,10 @@ import (
 const maxDenialsBytes = 1 << 20
 
 var (
-	ErrUnexpectedStatus = errors.New("the denied releases answered with an unexpected status")
-	ErrTooLarge         = errors.New("the denied releases are too large")
+	ErrUnexpectedStatus = errors.New(
+		"the server of the release denials answered with an unexpected status",
+	)
+	ErrTooLarge = errors.New("the release denials are too large")
 )
 
 type Source struct {
@@ -40,11 +42,11 @@ func (s Source) Denials(ctx context.Context) ([]trustedappreleases.Denial, error
 func (s Source) content(ctx context.Context) ([]byte, error) {
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, s.address, nil)
 	if err != nil {
-		return nil, fmt.Errorf("ask for the denied releases at %s: %w", s.address, err)
+		return nil, fmt.Errorf("ask for the release denials at %s: %w", s.address, err)
 	}
 	response, err := s.client.Do(request)
 	if err != nil {
-		return nil, fmt.Errorf("ask for the denied releases at %s: %w", s.address, err)
+		return nil, fmt.Errorf("ask for the release denials at %s: %w", s.address, err)
 	}
 	defer func() { _ = response.Body.Close() }()
 	if response.StatusCode != http.StatusOK {
@@ -52,7 +54,7 @@ func (s Source) content(ctx context.Context) ([]byte, error) {
 	}
 	content, err := io.ReadAll(io.LimitReader(response.Body, maxDenialsBytes+1))
 	if err != nil {
-		return nil, fmt.Errorf("read the denied releases at %s: %w", s.address, err)
+		return nil, fmt.Errorf("read the release denials at %s: %w", s.address, err)
 	}
 	if len(content) > maxDenialsBytes {
 		return nil, fmt.Errorf("%w: %s", ErrTooLarge, s.address)

@@ -12,7 +12,7 @@ import (
 const signingCertificate = "72e21ab017f94f81137bb0d983453d02cfb59b31eac7935c31473a3ad2b2c428"
 
 func TestTheDenialsAreThoseOfTheFile(t *testing.T) {
-	path := written(
+	path := writtenPath(
 		t,
 		`[{"signingCertificate":"`+signingCertificate+`","endTime":"2026-11-13T10:00:00Z"}]`,
 	)
@@ -32,9 +32,9 @@ func TestAMissingFileGivesNoDenials(t *testing.T) {
 	}
 }
 
-func written(t *testing.T, content string) string {
+func writtenPath(t *testing.T, content string) string {
 	t.Helper()
-	path := filepath.Join(t.TempDir(), "denied-releases.json")
+	path := filepath.Join(t.TempDir(), "release-denials.json")
 	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
 		t.Fatal(err)
 	}

@@ -18,7 +18,8 @@ var (
 	)
 	ErrOtherRepository   = errors.New("the provenance names another repository")
 	ErrOtherOwner        = errors.New("the provenance names another owner")
-	ErrOtherWorkflow     = errors.New("the provenance names another workflow or ref")
+	ErrOtherRef          = errors.New("the provenance names another ref than the tag")
+	ErrOtherWorkflow     = errors.New("the provenance names another workflow")
 	ErrOtherCommit       = errors.New("the provenance names another commit than the tag")
 	ErrSelfHostedRunner  = errors.New("the provenance names a runner that GitHub does not host")
 	ErrPrivateRepository = errors.New("the provenance names a repository that was not public")
@@ -31,21 +32,46 @@ type ReleaseWorkflow struct {
 	TagPattern   string
 }
 
-func (w ReleaseWorkflow) covers(tag string) bool {
-	matched, err := path.Match(w.TagPattern, tag)
+type Verdict struct {
+	Reason         error
+	TrustedRelease TrustedRelease
+	Trusted        bool
+}
 
-	return err == nil && matched
+func (w ReleaseWorkflow) VerdictOn(release Release, provenance Provenance) Verdict {
+	if reason := w.reasonAgainstRelease(release); reason != nil {
+		return untrusted(reason)
+	}
+	if reason := w.reasonAgainstProvenance(provenance, release); reason != nil {
+		return untrusted(reason)
+	}
+	trustedRelease, err := trustedReleaseFrom(release.Tag, release.Record)
+	if err != nil {
+		return untrusted(err)
+	}
+
+	return Verdict{Trusted: true, TrustedRelease: trustedRelease}
+}
+
+func untrusted(reason error) Verdict {
+	return Verdict{Reason: reason}
 }
 
 func (w ReleaseWorkflow) reasonAgainstRelease(release Release) error {
 	switch {
 	case !release.Immutable:
 		return ErrMutableRelease
-	case !w.covers(release.Tag):
+	case !w.Covers(release.Tag):
 		return ErrTagOutsidePattern
 	default:
 		return nil
 	}
+}
+
+func (w ReleaseWorkflow) Covers(tag string) bool {
+	matched, err := path.Match(w.TagPattern, tag)
+
+	return err == nil && matched
 }
 
 func (w ReleaseWorkflow) reasonAgainstProvenance(provenance Provenance, release Release) error {
@@ -55,7 +81,9 @@ func (w ReleaseWorkflow) reasonAgainstProvenance(provenance Provenance, release 
 		return ErrOtherRepository
 	case provenance.OwnerID != w.OwnerID:
 		return ErrOtherOwner
-	case provenance.Ref != ref || provenance.Workflow != provenance.Repository+"/"+w.Path+"@"+ref:
+	case provenance.Ref != ref:
+		return ErrOtherRef
+	case provenance.WorkflowAddress != provenance.RepositoryAddress+"/"+w.Path+"@"+ref:
 		return ErrOtherWorkflow
 	case provenance.Commit != release.Commit:
 		return ErrOtherCommit

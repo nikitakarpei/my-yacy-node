@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var ErrMalformedDenials = errors.New("the denied releases are malformed")
+var ErrMalformedDenials = errors.New("the release denials are malformed")
 
 type DenialSource interface {
 	Denials(ctx context.Context) ([]Denial, error)

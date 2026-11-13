@@ -37,14 +37,14 @@ func TestAnAttestedSubjectHasTheProvenanceOfItsWorkflowRun(t *testing.T) {
 	}
 
 	want := trustedappreleases.Provenance{
-		Workflow:     "https://github.com/nikitakarpei/my-yacy-node/.github/workflows/build-yacypeer.yml@refs/heads/main",
-		Repository:   "https://github.com/nikitakarpei/my-yacy-node",
-		RepositoryID: "1273925787",
-		OwnerID:      "205461907",
-		Ref:          "refs/heads/main",
-		Commit:       "ada4d0e13a718d97ee957b8516a5f685d9816061",
-		Runner:       "github-hosted",
-		Visibility:   "public",
+		WorkflowAddress:   "https://github.com/nikitakarpei/my-yacy-node/.github/workflows/build-yacypeer.yml@refs/heads/main",
+		RepositoryAddress: "https://github.com/nikitakarpei/my-yacy-node",
+		RepositoryID:      "1273925787",
+		OwnerID:           "205461907",
+		Ref:               "refs/heads/main",
+		Commit:            "ada4d0e13a718d97ee957b8516a5f685d9816061",
+		Runner:            "github-hosted",
+		Visibility:        "public",
 	}
 	if provenance != want {
 		t.Errorf("provenance = %+v, want %+v", provenance, want)

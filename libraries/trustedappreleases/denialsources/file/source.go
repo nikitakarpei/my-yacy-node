@@ -1,4 +1,4 @@
-// Package file reads denied releases from a JSON file of the operator.
+// Package file reads release denials from a JSON file of the operator.
 package file
 
 import (
@@ -20,7 +20,7 @@ func New(path string) Source {
 func (s Source) Denials(_ context.Context) ([]trustedappreleases.Denial, error) {
 	content, err := os.ReadFile(s.path)
 	if err != nil {
-		return nil, fmt.Errorf("read the denied releases: %w", err)
+		return nil, fmt.Errorf("read the release denials: %w", err)
 	}
 
 	return trustedappreleases.DenialsFrom(content)
