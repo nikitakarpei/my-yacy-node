@@ -12,8 +12,8 @@ components:
     in: pageattestationstest/**
   androidtrustsourceshttp:
     in: androidtrustsources/http/**
-  renewalobserversapplog:
-    in: renewalobservers/applog/**
+  verificationobserversapplog:
+    in: verificationobservers/applog/**
 
 vendors:
   attestedstatements:

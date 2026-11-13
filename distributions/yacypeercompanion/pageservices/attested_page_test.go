@@ -45,7 +45,7 @@ func TestInstancePublishesAnRWIWhosePageAttestationAPeerAccepts(t *testing.T) {
 
 	pageRWI := askForRWIOf(t, peer.jetStream(t), attestedPageURL)
 	verdict := pageattestationstest.StartedVerifier(t, device, authority).
-		VerdictOn(pageRWI.Metadata, pageRWI.Attestation)
+		VerdictOn(t.Context(), pageRWI.Metadata, pageRWI.Attestation)
 
 	if !verdict.Attested {
 		t.Fatalf("verdict = %+v, want the page attestation accepted", verdict)

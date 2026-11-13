@@ -28,9 +28,10 @@ func TestARowWithItsPageAttestationIsAttestedAtTheTimeOfItsRound(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
 
-	verdict := setup.verifier(t).VerdictOn(row, setup.attestationOf(t, row))
+	verdict := pageattestationstest.StartedVerifier(t, setup.device, setup.authority).
+		VerdictOn(t.Context(), row, setup.attestationOf(t, row))
 
-	if !verdict.Attested || verdict.Reason != nil {
+	if !verdict.Attested {
 		t.Fatalf("verdict = %+v, want attested", verdict)
 	}
 	if want := quicknet(t).RoundTime(quicknetRound); !verdict.FetchedAt.Equal(want) {
@@ -52,10 +53,13 @@ func TestARowThatDiffersFromItsAttestationIsNotAttested(t *testing.T) {
 		attestation := setup.attestationOf(t, row)
 		change.row(&row)
 
-		verdict := setup.verifier(t).VerdictOn(row, attestation)
+		pageVerifier := setup.verifier(t)
 
-		if verdict.Attested || !errors.Is(verdict.Reason, change.reason) {
-			t.Errorf("%s: verdict = %+v, want not attested for %v", name, verdict, change.reason)
+		verdict := pageVerifier.verdictOn(t, row, attestation)
+
+		if verdict.Attested || !errors.Is(pageVerifier.observer.rowReason(), change.reason) {
+			t.Errorf("%s: verdict = %+v, row reason = %v, want not attested for %v",
+				name, verdict, pageVerifier.observer.rowReason(), change.reason)
 		}
 	}
 }
@@ -65,10 +69,13 @@ func TestAnAttestationOfAnotherAddressIsNotAttested(t *testing.T) {
 	row := rootedRow(t)
 	attestation := setup.attestationFor(t, row, "https://example.org/other")
 
-	verdict := setup.verifier(t).VerdictOn(row, attestation)
+	pageVerifier := setup.verifier(t)
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrOtherAddress) {
-		t.Errorf("verdict = %+v", verdict)
+	verdict := pageVerifier.verdictOn(t, row, attestation)
+
+	if verdict.Attested ||
+		!errors.Is(pageVerifier.observer.rowReason(), pageattestations.ErrOtherAddress) {
+		t.Errorf("verdict = %+v, row reason = %v", verdict, pageVerifier.observer.rowReason())
 	}
 }
 
@@ -78,10 +85,13 @@ func TestARowWhoseHashIsNotOfItsAddressIsNotAttested(t *testing.T) {
 	other, _ := url.Parse("https://example.org/other")
 	row.Hash = yacymodel.URLHashOf(other)
 
-	verdict := setup.verifier(t).VerdictOn(row, setup.attestationOf(t, row))
+	pageVerifier := setup.verifier(t)
 
-	if verdict.Attested || !errors.Is(verdict.Reason, pageattestations.ErrHashOfOtherAddress) {
-		t.Errorf("verdict = %+v", verdict)
+	verdict := pageVerifier.verdictOn(t, row, setup.attestationOf(t, row))
+
+	if verdict.Attested ||
+		!errors.Is(pageVerifier.observer.rowReason(), pageattestations.ErrHashOfOtherAddress) {
+		t.Errorf("verdict = %+v, row reason = %v", verdict, pageVerifier.observer.rowReason())
 	}
 }
 
@@ -93,9 +103,11 @@ func TestAnAttestationThatDoesNotVerifyIsNotAttested(t *testing.T) {
 		"no stamp":             setup.unstampedAttestationOf(t, row),
 		"other statement type": setup.attestationOfStatement(t, []byte(`{"_type":"https://in-toto.io/Statement/v1"}`)),
 	} {
-		verdict := setup.verifier(t).VerdictOn(row, attestation)
+		pageVerifier := setup.verifier(t)
 
-		if verdict.Attested || verdict.Reason == nil {
+		verdict := pageVerifier.verdictOn(t, row, attestation)
+
+		if verdict.Attested || pageVerifier.observer.rowReason() == nil {
 			t.Errorf("%s: verdict = %+v, want not attested with a reason", name, verdict)
 		}
 	}
@@ -128,16 +140,16 @@ func (s setup) trustedRelease() trustedappreleases.TrustedRelease {
 	}
 }
 
-func (s setup) verifier(t *testing.T) *pageattestations.Verifier {
+func (s setup) verifier(t *testing.T) *renewingVerifier {
 	t.Helper()
 
-	return pageattestationstest.StartedVerifier(t, s.device, s.authority)
+	return s.verifierFor(t, s.trustedRelease())
 }
 
 func (s setup) verifierFor(
 	t *testing.T,
 	releases ...trustedappreleases.TrustedRelease,
-) *pageattestations.Verifier {
+) *renewingVerifier {
 	t.Helper()
 
 	return s.verifierRefreshedBefore(t, 0, releases...)
@@ -147,7 +159,7 @@ func (s setup) verifierRefreshedBefore(
 	t *testing.T,
 	age time.Duration,
 	releases ...trustedappreleases.TrustedRelease,
-) *pageattestations.Verifier {
+) *renewingVerifier {
 	t.Helper()
 	renewal := s.renewingVerifierOf(t, releases...)
 	if age > 0 {
@@ -155,7 +167,7 @@ func (s setup) verifierRefreshedBefore(
 	}
 	renewal.start(t)
 
-	return renewal.pageVerifier
+	return renewal
 }
 
 func (s setup) attestationOf(t *testing.T, row yacymodel.URLMetadata) attestedstatements.Bundle {

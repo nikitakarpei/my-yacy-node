@@ -56,24 +56,18 @@ type TrustedReleases interface {
 }
 
 type Verifier struct {
-	lastRenewal        atomic.Pointer[renewal]
+	statementVerifier  atomic.Pointer[verifier.Verifier]
 	androidTrust       *android.Trust
 	timeStampAuthority verifier.TSAEntry
 	trustedReleases    TrustedReleases
 	androidTrustSource AndroidTrustSource
 	clock              Clock
-	observer           RenewalObserver
-}
-
-type renewal struct {
-	statementVerifier *verifier.Verifier
-	reason            error
+	observer           VerificationObserver
 }
 
 type Verdict struct {
 	Attested  bool
 	FetchedAt time.Time
-	Reason    error
 }
 
 func New(
@@ -81,18 +75,15 @@ func New(
 	trustedReleases TrustedReleases,
 	androidTrustSource AndroidTrustSource,
 	clock Clock,
-	observer RenewalObserver,
+	observer VerificationObserver,
 ) *Verifier {
-	pageVerifier := &Verifier{
+	return &Verifier{
 		timeStampAuthority: timeStampAuthority,
 		trustedReleases:    trustedReleases,
 		androidTrustSource: androidTrustSource,
 		clock:              clock,
 		observer:           observer,
 	}
-	pageVerifier.lastRenewal.Store(&renewal{reason: ErrNoAndroidTrust})
-
-	return pageVerifier
 }
 
 func (v *Verifier) Run(ctx context.Context) {
@@ -108,11 +99,11 @@ func (v *Verifier) renew(ctx context.Context) {
 	now := v.clock.Now()
 	v.loadAndroidTrust(ctx)
 	v.trustedReleases.Refresh(ctx, now)
-	renewed := v.renewalAt(now)
-	if renewed.reason != nil {
-		v.observer.RenewalRefused(ctx, renewed.reason)
+	statementVerifier, err := v.statementVerifierAt(now)
+	if err != nil {
+		v.observer.NoSignerTrusted(ctx, err)
 	}
-	v.lastRenewal.Store(&renewed)
+	v.statementVerifier.Store(statementVerifier)
 }
 
 func (v *Verifier) loadAndroidTrust(ctx context.Context) {
@@ -125,26 +116,26 @@ func (v *Verifier) loadAndroidTrust(ctx context.Context) {
 	v.androidTrust = androidTrust
 }
 
-func (v *Verifier) renewalAt(now time.Time) renewal {
+func (v *Verifier) statementVerifierAt(now time.Time) (*verifier.Verifier, error) {
 	releases, refreshedAt := v.trustedReleases.Releases(), v.trustedReleases.RefreshedAt()
 	switch {
 	case v.androidTrust == nil:
-		return renewal{reason: ErrNoAndroidTrust}
+		return nil, ErrNoAndroidTrust
 	case len(releases) == 0:
-		return renewal{reason: ErrNoTrustedReleases}
+		return nil, ErrNoTrustedReleases
 	case now.Sub(refreshedAt) > maxTrustedReleasesAge:
-		return renewal{reason: fmt.Errorf(
+		return nil, fmt.Errorf(
 			"%w: refreshed at %s", ErrStaleTrustedReleases, refreshedAt.Format(time.RFC3339),
-		)}
+		)
 	}
 	statementVerifier, err := verifier.New(
 		policyFor(v.timeStampAuthority, releases), android.New(v.androidTrust),
 	)
 	if err != nil {
-		return renewal{reason: fmt.Errorf("make the statement verifier: %w", err)}
+		return nil, fmt.Errorf("make the statement verifier: %w", err)
 	}
 
-	return renewal{statementVerifier: statementVerifier}
+	return statementVerifier, nil
 }
 
 func policyFor(
@@ -188,34 +179,46 @@ func signersFor(releases []trustedappreleases.TrustedRelease) []jsontext.Value {
 }
 
 func (v *Verifier) VerdictOn(
+	ctx context.Context,
 	row yacymodel.URLMetadata,
 	attestation attestedstatements.Bundle,
 ) Verdict {
-	lastRenewal := v.lastRenewal.Load()
-	if lastRenewal.reason != nil {
-		return notAttested(lastRenewal.reason)
+	statementVerifier := v.statementVerifier.Load()
+	if statementVerifier == nil {
+		return Verdict{}
 	}
+	fetchedAt, err := fetchTimeOf(attestation, row, statementVerifier)
+	if err != nil {
+		v.observer.RowNotAttested(ctx, row.Address, err)
+
+		return Verdict{}
+	}
+
+	return Verdict{Attested: true, FetchedAt: fetchedAt}
+}
+
+func fetchTimeOf(
+	attestation attestedstatements.Bundle,
+	row yacymodel.URLMetadata,
+	statementVerifier *verifier.Verifier,
+) (time.Time, error) {
 	bundle, err := verifier.ParseBundle(attestation)
 	if err != nil {
-		return notAttested(fmt.Errorf("read the attestation: %w", err))
+		return time.Time{}, fmt.Errorf("read the attestation: %w", err)
 	}
 	statement, err := pagerwicontract.UnmarshalPageRWIStatement(bundle.DSSEEnvelope.Payload)
 	if err != nil {
-		return notAttested(err)
+		return time.Time{}, fmt.Errorf("read the statement: %w", err)
 	}
 	if err := reasonAgainstRow(row, statement); err != nil {
-		return notAttested(err)
+		return time.Time{}, err
 	}
-	result, err := lastRenewal.statementVerifier.Verify(bundle)
+	result, err := statementVerifier.Verify(bundle)
 	if err != nil {
-		return notAttested(fmt.Errorf("verify the attestation: %w", err))
+		return time.Time{}, fmt.Errorf("verify the attestation: %w", err)
 	}
 
-	return Verdict{Attested: true, FetchedAt: *result.StartedAfter}
-}
-
-func notAttested(reason error) Verdict {
-	return Verdict{Reason: reason}
+	return *result.StartedAfter, nil
 }
 
 func reasonAgainstRow(

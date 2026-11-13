@@ -25,7 +25,7 @@ func StartedVerifier(
 		oneTrustedRelease{},
 		deviceTrustSource{device: device},
 		clock,
-		unexpectedRenewalEvents{t: t},
+		unexpectedVerificationEvents{t: t},
 	)
 	go pageVerifier.Run(t.Context())
 	<-clock.renewed
@@ -73,14 +73,22 @@ func (d deviceTrustSource) Load(context.Context) (*android.Trust, error) {
 	return d.device.Trust(), nil
 }
 
-type unexpectedRenewalEvents struct {
+type unexpectedVerificationEvents struct {
 	t testing.TB
 }
 
-func (u unexpectedRenewalEvents) AndroidTrustUnloaded(_ context.Context, cause error) {
+func (u unexpectedVerificationEvents) AndroidTrustUnloaded(_ context.Context, cause error) {
 	u.t.Errorf("the Android trust of the device is not loaded: %v", cause)
 }
 
-func (u unexpectedRenewalEvents) RenewalRefused(_ context.Context, reason error) {
-	u.t.Errorf("the page attestation verifier is not renewed: %v", reason)
+func (u unexpectedVerificationEvents) NoSignerTrusted(_ context.Context, reason error) {
+	u.t.Errorf("no app signer is trusted: %v", reason)
+}
+
+func (u unexpectedVerificationEvents) RowNotAttested(
+	_ context.Context,
+	address string,
+	reason error,
+) {
+	u.t.Errorf("the row of %s is not attested: %v", address, reason)
 }
