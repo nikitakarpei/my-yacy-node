@@ -80,6 +80,15 @@ func TestABundleOutsideTheTrustedRootHasNoProvenance(t *testing.T) {
 	}
 }
 
+func TestABundleWithoutATrustedRootHasNoProvenance(t *testing.T) {
+	_, err := sigstore.New(fixedRoot{}).
+		ProvenanceOf(attestation(t), yacypeerBinary(t))
+
+	if !errors.Is(err, errNoTrustedRoot) {
+		t.Errorf("error = %v, want %v", err, errNoTrustedRoot)
+	}
+}
+
 func verifier(t *testing.T) sigstore.Verifier {
 	t.Helper()
 	trustedRoot, err := root.NewTrustedRootFromJSON(testdata(t, "trusted_root.json"))
@@ -114,13 +123,4 @@ func yacypeerBinary(t *testing.T) [sha256.Size]byte {
 	}
 
 	return [sha256.Size]byte(decoded)
-}
-
-func TestABundleWithoutATrustedRootHasNoProvenance(t *testing.T) {
-	_, err := sigstore.New(fixedRoot{}).
-		ProvenanceOf(attestation(t), yacypeerBinary(t))
-
-	if !errors.Is(err, errNoTrustedRoot) {
-		t.Errorf("error = %v, want %v", err, errNoTrustedRoot)
-	}
 }

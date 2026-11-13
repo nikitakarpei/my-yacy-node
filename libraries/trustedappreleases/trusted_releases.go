@@ -86,7 +86,7 @@ func (r *TrustedReleases) Refresh(ctx context.Context, now time.Time) {
 	if !read {
 		return
 	}
-	tags, err := r.source.Tags(ctx)
+	tags, err := r.source.TagsOldestFirst(ctx)
 	if err != nil {
 		r.observer.ReleasesUnlisted(ctx, err)
 

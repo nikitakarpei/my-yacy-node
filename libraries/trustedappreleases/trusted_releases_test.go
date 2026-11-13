@@ -41,7 +41,7 @@ func (p *publishedReleases) publish(release trustedappreleases.Release) {
 	p.releases[release.Tag] = release
 }
 
-func (p *publishedReleases) Tags(context.Context) ([]string, error) {
+func (p *publishedReleases) TagsOldestFirst(context.Context) ([]string, error) {
 	return p.tags, p.listingErr
 }
 
@@ -113,22 +113,24 @@ func (a attestedRecords) ProvenanceOf(
 }
 
 type refreshSetup struct {
-	published *publishedReleases
-	denied    *deniedReleases
-	observed  *refreshEvents
-	attested  attestedRecords
-	cachePath string
+	published    *publishedReleases
+	denied       *deniedReleases
+	secondDenied *deniedReleases
+	observed     *refreshEvents
+	attested     attestedRecords
+	cachePath    string
 }
 
 func newRefreshSetup(t *testing.T) *refreshSetup {
 	t.Helper()
 
 	return &refreshSetup{
-		published: newPublishedReleases(),
-		denied:    &deniedReleases{},
-		observed:  &refreshEvents{},
-		attested:  attestedRecords{},
-		cachePath: filepath.Join(t.TempDir(), "trusted-releases.json"),
+		published:    newPublishedReleases(),
+		denied:       &deniedReleases{},
+		secondDenied: &deniedReleases{},
+		observed:     &refreshEvents{},
+		attested:     attestedRecords{},
+		cachePath:    filepath.Join(t.TempDir(), "trusted-releases.json"),
 	}
 }
 
@@ -141,14 +143,20 @@ func (s *refreshSetup) open(t *testing.T) *trustedappreleases.TrustedReleases {
 		trustedappreleases.New(workflow, s.attested),
 		trustedappreleases.Sources{
 			Releases: s.published,
-			Denials:  []trustedappreleases.DenialSource{s.denied},
+			Denials:  []trustedappreleases.DenialSource{s.denied, s.secondDenied},
 		},
 		s.observed,
 	)
 }
 
 func (s *refreshSetup) publishAttested(tag, certificate string) trustedappreleases.TrustedRelease {
-	releaseRecord := []byte(`{"signingCertificate":"` + certificate + `","versionCode":3}`)
+	versionCode := int64(len(s.published.tags) + 1)
+	releaseRecord := fmt.Appendf(
+		nil,
+		`{"signingCertificate":%q,"versionCode":%d}`,
+		certificate,
+		versionCode,
+	)
 	s.published.publish(
 		trustedappreleases.Release{
 			Tag:       tag,
@@ -171,7 +179,7 @@ func (s *refreshSetup) publishAttested(tag, certificate string) trustedappreleas
 	return trustedappreleases.TrustedRelease{
 		Tag:                tag,
 		SigningCertificate: certificate,
-		VersionCode:        3,
+		VersionCode:        versionCode,
 	}
 }
 
@@ -255,6 +263,24 @@ func TestADenialEndsTheReleasesOfItsCertificateAtItsEarliestEndTime(t *testing.T
 	assertCurrent(t, releases, refreshTime, denied, other)
 }
 
+func TestTheDenialsOfEachSourceEndTheirReleases(t *testing.T) {
+	setup := newRefreshSetup(t)
+	first := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
+	second := setup.publishAttested("app-v1.1.0", certificateNumbered(2))
+	setup.denied.denials = []trustedappreleases.Denial{
+		{SigningCertificate: first.SigningCertificate, EndTime: refreshTime},
+	}
+	setup.secondDenied.denials = []trustedappreleases.Denial{
+		{SigningCertificate: second.SigningCertificate, EndTime: refreshTime},
+	}
+	releases := setup.open(t)
+
+	releases.Refresh(t.Context(), refreshTime)
+
+	first.EndTime, second.EndTime = refreshTime, refreshTime
+	assertCurrent(t, releases, refreshTime, first, second)
+}
+
 func TestARemovedDenialNoLongerEndsTheRelease(t *testing.T) {
 	setup := newRefreshSetup(t)
 	trusted := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
@@ -275,8 +301,9 @@ func TestAFailedRefreshKeepsTheTrustedReleasesAndTheirRefreshTime(t *testing.T) 
 		fail  func(*refreshSetup)
 		event string
 	}{
-		"denials unread":    {func(s *refreshSetup) { s.denied.err = errUnreachable }, "denials unread"},
-		"releases unlisted": {func(s *refreshSetup) { s.published.listingErr = errUnreachable }, "releases unlisted"},
+		"denials unread":        {func(s *refreshSetup) { s.denied.err = errUnreachable }, "denials unread"},
+		"releases unlisted":     {func(s *refreshSetup) { s.published.listingErr = errUnreachable }, "releases unlisted"},
+		"second denials unread": {func(s *refreshSetup) { s.secondDenied.err = errUnreachable }, "denials unread"},
 	} {
 		setup := newRefreshSetup(t)
 		trusted := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
@@ -337,6 +364,19 @@ func TestReopenedReleasesAreThoseOfTheLastRefresh(t *testing.T) {
 	assertCurrent(t, reopened, refreshTime, trusted)
 }
 
+func TestAReopenedReleaseIsNotReadAgain(t *testing.T) {
+	setup := newRefreshSetup(t)
+	setup.publishAttested("app-v1.0.0", certificateNumbered(1))
+	setup.open(t).Refresh(t.Context(), refreshTime)
+	reopened := setup.open(t)
+
+	reopened.Refresh(t.Context(), refreshTime.Add(time.Hour))
+
+	if readings := setup.published.readings["app-v1.0.0"]; readings != 1 {
+		t.Errorf("readings = %d, want the one before the reopening", readings)
+	}
+}
+
 func TestAnUnreadableCacheGivesNoTrustedReleases(t *testing.T) {
 	setup := newRefreshSetup(t)
 	if err := os.WriteFile(setup.cachePath, []byte("{"), 0o600); err != nil {
@@ -383,4 +423,15 @@ func TestAReleaseThatReusesTheCertificateOfATrustedReleaseIsNotTrusted(t *testin
 			setup.observed.events,
 		)
 	}
+}
+
+func TestOfTwoNewReleasesWithOneCertificateOnlyTheOlderIsTrusted(t *testing.T) {
+	setup := newRefreshSetup(t)
+	older := setup.publishAttested("app-v1.0.0", certificateNumbered(1))
+	setup.publishAttested("app-v1.1.0", certificateNumbered(1))
+	releases := setup.open(t)
+
+	releases.Refresh(t.Context(), refreshTime)
+
+	assertCurrent(t, releases, refreshTime, older)
 }

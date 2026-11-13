@@ -35,6 +35,27 @@ func TestAnAppThatNoTrustedReleaseSignedIsNotAttested(t *testing.T) {
 	}
 }
 
+func TestAStatementOfAnotherAppIsNotAttested(t *testing.T) {
+	setup := newSetup(t)
+	row := rootedRow(t)
+	policy, err := pageattestationcheck.PolicyFrom(
+		pageattestationchecktest.PolicyFor(setup.authority), "org.example.other",
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	now := time.Now()
+	check := policy.CheckFor(
+		[]trustedappreleases.TrustedRelease{setup.trustedRelease()}, now, setup.device.Trust(), now,
+	)
+
+	verdict := check.VerdictOn(row, setup.attestationOf(t, row))
+
+	if verdict.Attested {
+		t.Errorf("verdict = %+v, want not attested", verdict)
+	}
+}
+
 func TestAnAppReleaseIsAcceptedOnlyInStatementsStampedBeforeItsEndTime(t *testing.T) {
 	setup := newSetup(t)
 	row := rootedRow(t)
@@ -120,14 +141,6 @@ func TestTrustedReleasesThatShareASigningCertificateAttestNoRow(t *testing.T) {
 	}
 }
 
-func TestAPolicyThatDoesNotParseIsRefused(t *testing.T) {
-	if _, err := pageattestationcheck.PolicyFrom(
-		[]byte(`{}`), pageattestationchecktest.AppPackage,
-	); err == nil {
-		t.Error("a policy that does not parse is accepted")
-	}
-}
-
 func TestAPolicyThatNamesPredicateTypesIsRefused(t *testing.T) {
 	setup := newSetup(t)
 	policy := strings.Replace(
@@ -144,16 +157,19 @@ func TestAPolicyThatNamesPredicateTypesIsRefused(t *testing.T) {
 	}
 }
 
-func TestAPolicyWithAnUnknownTimeStampAuthorityIsRefused(t *testing.T) {
+func TestAPolicyThatTheVerifierRefusesIsRefused(t *testing.T) {
 	setup := newSetup(t)
-	policy := strings.Replace(
-		string(pageattestationchecktest.PolicyFor(setup.authority)),
-		`"timestampAuthorities":[{`, `"timestampAuthorities":["unknown",{`, 1,
-	)
-
-	if _, err := pageattestationcheck.PolicyFrom(
-		[]byte(policy), pageattestationchecktest.AppPackage,
-	); err == nil {
-		t.Error("a policy with an unknown time-stamp authority is accepted")
+	for name, policy := range map[string]string{
+		"not a policy": `{}`,
+		"unknown time-stamp authority": strings.Replace(
+			string(pageattestationchecktest.PolicyFor(setup.authority)),
+			`"timestampAuthorities":[{`, `"timestampAuthorities":["unknown",{`, 1,
+		),
+	} {
+		if _, err := pageattestationcheck.PolicyFrom(
+			[]byte(policy), pageattestationchecktest.AppPackage,
+		); err == nil {
+			t.Errorf("%s: the policy is accepted", name)
+		}
 	}
 }

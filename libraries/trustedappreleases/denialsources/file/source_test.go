@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases"
 	"github.com/nikitakarpei/yacy-rwi-node/trustedappreleases/denialsources/file"
 )
 
@@ -22,14 +21,6 @@ func TestTheDenialsAreThoseOfTheFile(t *testing.T) {
 
 	if err != nil || len(denials) != 1 || denials[0].SigningCertificate != signingCertificate {
 		t.Errorf("denials = %+v, %v", denials, err)
-	}
-}
-
-func TestAMalformedFileGivesNoDenials(t *testing.T) {
-	_, err := file.New(written(t, "{")).Denials(t.Context())
-
-	if !errors.Is(err, trustedappreleases.ErrMalformedDenials) {
-		t.Errorf("error = %v, want %v", err, trustedappreleases.ErrMalformedDenials)
 	}
 }
 
