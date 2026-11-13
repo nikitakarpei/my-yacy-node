@@ -23,10 +23,11 @@ var (
 		TagPattern:   "app-v*",
 	}
 	release = trustedappreleases.Release{
-		Tag:       tag,
-		Commit:    commit,
-		Record:    []byte(record),
-		Immutable: true,
+		Tag:             tag,
+		Commit:          commit,
+		Record:          []byte(record),
+		Immutable:       true,
+		OnReleaseBranch: true,
 	}
 )
 
@@ -49,6 +50,7 @@ func TestAReleaseOutsideTheWorkflowIsNotTrusted(t *testing.T) {
 		reason  error
 	}{
 		"mutable":       {func(r *trustedappreleases.Release) { r.Immutable = false }, trustedappreleases.ErrMutableRelease},
+		"off branch":    {func(r *trustedappreleases.Release) { r.OnReleaseBranch = false }, trustedappreleases.ErrOffReleaseBranch},
 		"other tag":     {func(r *trustedappreleases.Release) { r.Tag = "other-v1.0.0" }, trustedappreleases.ErrTagOutsidePattern},
 		"malformed tag": {func(r *trustedappreleases.Release) { r.Tag = "[" }, trustedappreleases.ErrTagOutsidePattern},
 	} {
