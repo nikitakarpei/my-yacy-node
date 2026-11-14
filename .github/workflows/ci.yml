@@ -31,17 +31,6 @@ jobs:
       artifact-metadata: write
     secrets: inherit
 
-  build-yacypeer:
-    needs: [verify, e2e]
-    if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-yacypeer.yml
-    permissions:
-      contents: write
-      id-token: write
-      attestations: write
-      artifact-metadata: write
-    secrets: inherit
-
   build-yacycrawler:
     needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
