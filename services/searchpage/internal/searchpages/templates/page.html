@@ -35,8 +35,8 @@
   <ol class="results">
     {{range .Results}}
     <li class="result">
-      <h2><a href="{{.Link}}" rel="nofollow">{{.Title}}</a></h2>
-      <a class="address" href="{{.Link}}" rel="nofollow">{{.ShownAddress}}</a>
+      <h2><a href="{{.Link}}" rel="nofollow" target="_blank">{{.Title}}</a></h2>
+      <a class="address" href="{{.Link}}" rel="nofollow" target="_blank">{{.ShownAddress}}</a>
       <p>{{.Snippet}}</p>
     </li>
     {{end}}
