@@ -1,7 +1,9 @@
 name: build-yacypeer
 
 on:
-  workflow_call:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -10,7 +12,38 @@ env:
   RELEASES_KEPT: 3
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      release-due: ${{ steps.check.outputs.release-due }}
+    steps:
+      - name: Check that main has new commits with a green CI run
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          tag="yacypeer-${GITHUB_SHA:0:12}"
+          if gh release view "$tag" > /dev/null 2>&1; then
+            echo "::notice::$tag is already released, no new commits on main"
+            echo "release-due=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          conclusion="$(gh run list --workflow ci.yml --branch main --event push --commit "$GITHUB_SHA" \
+            --limit 1 --json conclusion --jq '.[0].conclusion // ""')"
+          if [ "$conclusion" != success ]; then
+            echo "::warning::ci on $GITHUB_SHA is ${conclusion:-not finished}, no release of $tag"
+            echo "release-due=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "release-due=true" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: check
+    if: needs.check.outputs.release-due == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
