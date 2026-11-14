@@ -74,6 +74,24 @@ func TestTheFrontPageShowsOnlyTheSearchBoxAndItsOperators(t *testing.T) {
 	}
 }
 
+func TestAResultOpensItsPageInANewTab(t *testing.T) {
+	handler := searchPagesWith(
+		fakeSource{answered: true, ranking: searchresults.SourceRanking{{
+			Title: "Crawled", Address: "https://www.crawled.example/", Snippet: "about yacy",
+		}}},
+		fakeSource{answered: true},
+	)
+
+	page := bodyOf(t, handler, "/search?q=yacy")
+
+	if opened := strings.Count(page, `target="_blank"`); opened != 2 {
+		t.Errorf(
+			"page has %d links that open a new tab, want the title and the address of the result",
+			opened,
+		)
+	}
+}
+
 func TestTheResultsPageMergesTheSourcesThroughTheResultLinks(t *testing.T) {
 	handler := searchPagesWith(
 		fakeSource{answered: true, ranking: searchresults.SourceRanking{{

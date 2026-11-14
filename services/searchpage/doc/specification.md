@@ -46,6 +46,7 @@ SearXNG.
 * When the operator sets `visitcrawl`, a result that a person opens SHALL go through
   `visitcrawl` to the result page, and a person SHALL need to reach only the search page.
 * When the operator does not set `visitcrawl`, a result SHALL link straight to its page.
+* A result SHALL open its page in a new tab.
 * The service SHALL serve an OpenSearch description, so that a browser can add the page as a
   search engine.
 
