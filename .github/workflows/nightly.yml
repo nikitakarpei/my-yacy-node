@@ -1,0 +1,282 @@
+name: nightly
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      build-due: ${{ steps.check.outputs.build-due }}
+    steps:
+      - name: Check that main has new commits with a green CI run
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if [ "$GITHUB_REF" != refs/heads/main ]; then
+            echo "::error::nightly builds main only, not $GITHUB_REF"
+            exit 1
+          fi
+          built="$(gh run list --workflow nightly.yml --branch main --status success \
+            --limit 1 --json headSha --jq '.[0].headSha // ""')"
+          if [ "$built" = "$GITHUB_SHA" ]; then
+            echo "::notice::$GITHUB_SHA is already built, no new commits on main"
+            echo "build-due=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          conclusion="$(gh run list --workflow ci.yml --branch main --event push --commit "$GITHUB_SHA" \
+            --limit 1 --json conclusion --jq '.[0].conclusion // ""')"
+          if [ "$conclusion" != success ]; then
+            echo "::error::ci on $GITHUB_SHA is ${conclusion:-not finished}, no nightly build"
+            exit 1
+          fi
+          echo "build-due=true" >> "$GITHUB_OUTPUT"
+
+  build-yacynode:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-yacynode.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-yacypeer:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-yacypeer.yml
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-yacycrawler:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-yacycrawler.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-yacydhtsearch:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-yacydhtsearch.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-visitcrawl:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-visitcrawl.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-crawlscrapebridge:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-crawlscrapebridge.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-crawlconsole:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-crawlconsole.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-searchpage:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-searchpage.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-corpustext:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-corpustext.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-searxng-result-router:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-searxng-result-router.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  publish-supported-searxng:
+    needs: build-searxng-result-router
+    uses: ./.github/workflows/publish-supported-searxng.yml
+    permissions:
+      contents: read
+      packages: write
+    secrets: inherit
+
+  build-renderproxy:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-renderproxy.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-pagescrape:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-pagescrape.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-pagerwi:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-pagerwi.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-corpusmarkdown:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-corpusmarkdown.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-webarchivescrape:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-webarchivescrape.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-webresearchmcp:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-webresearchmcp.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-spamproxy:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-spamproxy.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-smokescreen:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-smokescreen.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
+
+  build-warcprox:
+    needs: check
+    if: needs.check.outputs.build-due == 'true'
+    uses: ./.github/workflows/build-warcprox.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    secrets: inherit
