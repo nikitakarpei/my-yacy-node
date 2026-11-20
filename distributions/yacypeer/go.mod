@@ -4,7 +4,7 @@ go 1.27.3
 
 require (
 	github.com/klauspost/compress v1.20.2
-	github.com/nats-io/nats-server/v2 v2.14.2
+	github.com/nats-io/nats-server/v2 v2.14.3
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/companionprotocol v0.0.0
